@@ -1,3 +1,27 @@
+2004-03-16  Kevin Dalley  <kevind@ssl.berkeley.edu>
+
+	* client/cs_scheduler.C (handle_scheduler_reply): change
+	traikle_ack to trickle_up_ack.
+
+	* client/Makefile.am (EXTRA_DIST): remove win/*.ico, since it
+	doesn't exist there any more.
+
+	* lib/sighandle.h, lib/sighandle.C: signal handling code, new
+	files. 
+
+	* lib/Makefile.am (libboinc_a_SOURCES): add sighandle.[Ch]. 
+
+	* client/Makefile.am (boinc_client_LDADD): add ../lib/libboinc.a.
+	Also add win/update-boinc* to EXTRA_DIST.
+
+	* apps/Makefile.am (LDADD): add ../lib/libboinc.a
+
+	* client/main.C, api/boinc_diagnostics.C, api/boinc_api.C: use
+	boinc_set_signal rather than signal, so that signals are handled
+	only when not already ignored.
+
+	* configure.ac: check for signal type and sigaction.
+
 2004-03-12  Kevin Dalley  <kevind@ssl.berkeley.edu>
 
 	* client/Makefile.am: update-boinc* references are replaced with
