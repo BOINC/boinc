@@ -282,11 +282,13 @@ CProgressListCtrl::~CProgressListCtrl()
 //				nFormat: text alignment
 //				nWidth: width of column
 //				nSubitem: subitem assosciated with column
+//				nSortingType: type of sorting (alpha or numeric)
 // returns:		index of new column if successful,otherwise -1
 // function:	adds a new column to the list control
-int CProgressListCtrl::InsertColumn(int nCol, LPCTSTR lpszColumnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1)
+int CProgressListCtrl::InsertColumn(int nCol, LPCTSTR lpszColumnHeading, int nFormat = LVCFMT_LEFT, int nWidth = -1, int nSubItem = -1,int nSortingType = SORT_ALPHA)
 {
 	m_ColWidths.SetAtGrow(nCol, nWidth);
+	m_ColType.SetAtGrow(nCol,nSortingType);
 	return CListCtrl::InsertColumn(nCol, lpszColumnHeading, nFormat, nWidth, nSubItem);
 }
 
@@ -591,8 +593,17 @@ CString CProgressListCtrl::GetItemTextOrPos(int nItem, int nSubItem)
 	CProgressBarCtrl* pProgCtrl = NULL;
 	strRet.Format("%d:%d", nItem, nSubItem);
 	m_Progs.Lookup(strRet, (CObject*&)pProgCtrl);
-	if(pProgCtrl) strRet.Format("%5.5d", pProgCtrl->GetPos());
-	else strRet = GetItemText(nItem, nSubItem);
+	if(pProgCtrl) strRet.Format("%10.5f", pProgCtrl->GetPos());
+	else {
+		strRet = GetItemText(nItem, nSubItem);
+		int typ = m_ColType.GetAt(nSubItem);
+		if(typ == SORT_NUMERIC) {
+			strRet.Format("%10.5f",atof(strRet));
+			CString msg;
+			msg.Format("value for column  %u is %s\n",nSubItem,strRet);			
+			TRACE(TEXT(msg));
+		}
+	}
 	return strRet;
 }
 

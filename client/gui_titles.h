@@ -27,3 +27,4 @@ extern char g_szTabItems[MAX_TABS][256];
 extern char g_szColumnTitles[MAX_LIST_ID][MAX_COLS][256];
 extern char g_szUsageItems[MAX_USAGE_STR][256];
 extern char g_szMiscItems[MAX_MISC_STR][256];
+extern int g_nColSortTypes[MAX_LIST_ID][MAX_COLS];

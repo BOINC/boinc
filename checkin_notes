@@ -17635,3 +17635,12 @@ David  23 Sept 2004
         app_control.C
         client_state.C,h
         cs_apps.C
+
+David  23 Sept 2004
+	- fix (from Frank Weiler) for GUI column sorting problem
+
+	client/
+		gui_titles.C,h
+		win/
+			wingui_listctrl.cpp,h
+			wingui_mainwindow.cpp

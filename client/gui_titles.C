@@ -19,6 +19,13 @@ char g_szColumnTitles[MAX_LIST_ID][MAX_COLS][256] = {
     {"Project",	"Time",			"Message",		"",				"",					"",					""}
 };
 
+int g_nColSortTypes[MAX_LIST_ID][MAX_COLS] = {
+	{0,0,1,1,1,0,0},
+	{0,0,0,0,0,0,0},
+	{0,0,0,1,0,0,0},
+	{0,0,0,0,0,0,0}
+};
+
 char g_szUsageItems[MAX_USAGE_STR][256] = {
 	"Free space",
 	"Used space: non-BOINC",

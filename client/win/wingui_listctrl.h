@@ -29,6 +29,9 @@
 #define SORT_ASCEND			0			// sorting orders
 #define SORT_DESCEND		1
 
+#define SORT_ALPHA		0 //sorting types
+#define SORT_NUMERIC	1
+
 //////////
 // class:		CProgressBarCtrl
 // parent:		CProgressCtrl
@@ -84,7 +87,7 @@ public:
 	void					SetItemProgress(int, int, double);
 	double					GetItemProgress(int, int);
 	void					RepositionProgress();
-	int						InsertColumn(int, LPCTSTR, int, int, int);
+	int						InsertColumn(int, LPCTSTR, int, int, int, int);
 	int						InsertItem(int, LPCTSTR);
 	void					GetTextRect(int, int, LPRECT);
 	void					GetColumnTitle(int, CString&);
@@ -105,6 +108,7 @@ protected:
 	int						m_nSort;				// column and order of last sort: i = 0: no sort; i > 0: sorted ascending by col i - 1; < 0 sorted descending by col -(i-1)
 	CFont*					m_OldFont;				// old font for setting subitem font
 	CArray<int,int>			m_ColWidths;			// column widths for hiding and unhiding; a[i] > 0: col i shown; a[i] < 0: col i hidden, previous width -(a[i] - 1)
+	CArray<int,int>			m_ColType;				// column type for sorting; a[i] == 0: alpha; a[i]==1 :numeric
 	CArray<COLORREF,COLORREF>	m_ItemColors;		// special colors of items
 	CArray<CString,CString>		m_ProjectURLs;		// urls for project links
 

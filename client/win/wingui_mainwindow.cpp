@@ -1732,7 +1732,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     for (i = 0; i < MAX_COLS; i ++) szTitles[i] = g_szColumnTitles[PROJECT_ID][i];
     m_ProjectListCtrl.SetMenuItems(szTitles, PROJECT_COLS);
     for (i = 0; i < PROJECT_COLS; i ++) {
-        m_ProjectListCtrl.InsertColumn(i, g_szColumnTitles[PROJECT_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH, -1);
+        m_ProjectListCtrl.InsertColumn(i, g_szColumnTitles [PROJECT_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH, -1,g_nColSortTypes[PROJECT_ID][i]);
     }
 
     // create result list control
@@ -1742,7 +1742,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     for(i = 0; i < MAX_COLS; i ++) szTitles[i] = g_szColumnTitles[RESULT_ID][i];
     m_ResultListCtrl.SetMenuItems(szTitles, RESULT_COLS);
     for(i = 0; i < RESULT_COLS; i ++) {
-        m_ResultListCtrl.InsertColumn(i, g_szColumnTitles[RESULT_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH, -1);
+        m_ResultListCtrl.InsertColumn(i, g_szColumnTitles[RESULT_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH, -1,g_nColSortTypes[RESULT_ID][i]);
     }
 
     // create xfer list control
@@ -1752,7 +1752,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     for(i = 0; i < MAX_COLS; i ++) szTitles[i] = g_szColumnTitles[XFER_ID][i];
     m_XferListCtrl.SetMenuItems(szTitles, XFER_COLS);
     for(i = 0; i < XFER_COLS; i ++) {
-        m_XferListCtrl.InsertColumn(i, g_szColumnTitles[XFER_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH, -1);
+        m_XferListCtrl.InsertColumn(i, g_szColumnTitles[XFER_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH, -1,g_nColSortTypes[XFER_ID][i]);
     }
 
     // create message edit control
@@ -1765,7 +1765,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
         int width = DEF_COL_WIDTH;
         if(i == 1) width = (int)(width*1.5);
         if(i == 2) width *= 4;
-        m_MessageListCtrl.InsertColumn(i, g_szColumnTitles[MESSAGE_ID][i], LVCFMT_LEFT, width, -1);
+        m_MessageListCtrl.InsertColumn(i, g_szColumnTitles[MESSAGE_ID][i], LVCFMT_LEFT, width, -1,g_nColSortTypes[MESSAGE_ID][i]);
     }
 
     // create usage pie control
