@@ -170,7 +170,9 @@ list_item("file_delete_state",
     <li> Initially INIT
     <li> Set by transitioner to READY if this is the canonical result,
         and file_delete_state=INIT,
-        and wu.assimilate_state=DONE
+        and wu.assimilate_state=DONE,
+        and all the results have server_state=OVER,
+        and all all the results with outcome=SUCCESS have validate_state<>INIT 
     <li> Set by transitioner to READY if wu.assimilate_state=DONE
         and result.outcome=CLIENT_ERROR
         or result.validate_state!=INIT
