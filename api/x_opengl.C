@@ -163,6 +163,7 @@ static void timer_handler(int) {
 
     if (userclose) {
         close_func();
+        userclose = false;
     }
     int new_mode;
     if (app_client_shm) {
