@@ -100,23 +100,23 @@ void mode_unshaded() {
     glDepthMask(GL_TRUE);
 }
 
-void mode_ortho() {	
+void mode_ortho() {
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
     glLoadIdentity();
     gluOrtho2D(0,1,0,1);
-	//glScalef(1, -1, 1);	
+	//glScalef(1, -1, 1);
 	//glTranslatef(0, -1, 0);
-	
-    glMatrixMode(GL_MODELVIEW);	
+
+    glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
     glLoadIdentity();
     gluLookAt(0.0,0.0,1.0,  // eye position
 			  0,0,0,      // where we're looking
-			  0.0, 1.0, 0.);      // up is in positive Y direction		
+			  0.0, 1.0, 0.);      // up is in positive Y direction
 }
 
-void ortho_done() {	
+void ortho_done() {
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 	glMatrixMode(GL_MODELVIEW);
@@ -126,7 +126,7 @@ void ortho_done() {
 bool get_matrix(double src[16]) {
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glGetDoublev(GL_MODELVIEW_MATRIX,src);	
+	glGetDoublev(GL_MODELVIEW_MATRIX,src);
 	glPopMatrix();
 
 	return true;
@@ -149,16 +149,16 @@ bool get_viewport(int view[4]) {
 void get_2d_positions(float p1,float p2,float p3,
 	double model[16], double proj[16], int viewport[4], double proj_pos[3]
 ) {
-	gluProject(p1,p2,p3,model,proj,viewport,&proj_pos[0],&proj_pos[1],&proj_pos[2]);	
+	gluProject(p1,p2,p3,model,proj,viewport,&proj_pos[0],&proj_pos[1],&proj_pos[2]);
 }
 
 bool get_matrix_invert(float src[16]) {
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
-	glGetFloatv(GL_MODELVIEW_MATRIX,src);	
+	glGetFloatv(GL_MODELVIEW_MATRIX,src);
 	glPopMatrix();
 
-	float tmp[12]; /* temp array for pairs */	
+	float tmp[12]; /* temp array for pairs */
 	float dst[16]; /* array of destination matrix */
 	float det; /* determinant */
 
@@ -331,9 +331,9 @@ extern float get_char_width(unsigned char c);
 
 float text_width_new(char* text) {
 	float sum=0;
-#ifdef _WIN32	
-	char* p;				
-	for(p=text;*p;p++) {		
+#ifdef _WIN32
+	char* p;
+	for(p=text;*p;p++) {
 //		sum += get_char_width(p[0]);
 	}
 #endif
@@ -343,21 +343,21 @@ float text_width_new(char* text) {
 static void draw_text_line_aux(char *text) {
     char *p;
     for (p = text; *p; p++) {
-        glutStrokeCharacter(GLUT_STROKE_ROMAN, *p);		
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, *p);
     }
 }
 
 static void draw_text_start(GLfloat* pos, GLfloat char_height, GLfloat line_width) {
     glLineWidth(line_width);
-    glPushMatrix();	
+    glPushMatrix();
     glTranslatef(pos[0], pos[1], pos[2]);
 	glRasterPos3d(pos[0],pos[1],pos[2]);
     float w = char_height/STROKE_SCALE;
-    glScalef(w, w, w);	
-    
+    glScalef(w, w, w);
+
 }
 
-static void draw_text_end() {	
+static void draw_text_end() {
     glPopMatrix();
 }
 
@@ -367,9 +367,9 @@ static void draw_text_end() {
 
 void draw_text_simple(char* text,float line_width,float char_height)
 {
-    glLineWidth(line_width);    
+    glLineWidth(line_width);
     float w = char_height/STROKE_SCALE;
-    glScalef(w, w, w);	
+    glScalef(w, w, w);
 	draw_text_line_aux(text);
 }
 
@@ -400,8 +400,8 @@ void draw_text_line(
 
 // draw rotated text
 void draw_rotated_text(
-	GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, char *text, 
-	GLfloat rotation, GLfloat* rotation_vector) 
+	GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, char *text,
+	GLfloat rotation, GLfloat* rotation_vector)
 {
 	draw_text_start(pos, height, width);
 	glRotatef(rotation,rotation_vector[0],rotation_vector[1],rotation_vector[2]);
@@ -445,15 +445,15 @@ void draw_text_new_3d(
     strcpy(buf, text);
 
     p = buf;
-	glPushMatrix();	
+	glPushMatrix();
     glTranslatef(pos[0], pos[1], pos[2]);
     while (*p) {
         q = strchr(p, '\n');
         if (q) *q = 0;
-		glRasterPos3d(pos[0],pos[1],pos[2]);    
+		glRasterPos3d(pos[0],pos[1],pos[2]);
 		print_text(p);
         pos[1] -= line_spacing;
-        if (!q) break;		
+        if (!q) break;
         p = q+1;
     }
 	glPopMatrix();
@@ -496,9 +496,9 @@ void draw_text_new_right(
 	float l;
 #if 0
 	strcpy(buf2,text);
-	strcpy(buf3,text);	
+	strcpy(buf3,text);
 	t=buf2;
-	a=buf3;	
+	a=buf3;
 	int lines=0;
 	while(*t)
 	{
@@ -510,7 +510,7 @@ void draw_text_new_right(
 	}
 
 	float* line_ratios;
-	line_ratios = (float*)malloc(sizeof(float)*lines);	
+	line_ratios = (float*)malloc(sizeof(float)*lines);
 	int count=0;
 	float total_length=0;
 	while(*a)
@@ -524,10 +524,10 @@ void draw_text_new_right(
         a = b+1;
 	}
 
-	
+
 	for(int i=0;i<lines;i++)
 	{
-		line_ratios[i]/=total_length;	
+		line_ratios[i]/=total_length;
 	}
 	count=0;
 #endif
@@ -863,7 +863,7 @@ void normalize(float a[3])
 	if(mag!=0)  {
 		a[0]/=mag;
 		a[1]/=mag;
-		a[2]/=mag;	
+		a[2]/=mag;
 	}
 	else {
 		a[0]=0;
@@ -896,9 +896,9 @@ void STARFIELD::build_stars(int size, float speed) {
 	float right[3];
 
     stars = (STAR*)calloc(sizeof(STAR), size);
-	
+
 	if(get_matrix_invert(modelview)==false)
-		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");			
+		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");
 
 	eye[0]=modelview[2];
 	eye[1]=modelview[6];
@@ -913,14 +913,14 @@ void STARFIELD::build_stars(int size, float speed) {
 	camera[1]=modelview[6];
 	camera[2]=modelview[10];
 
-	crossProd(eye,up,right);	
+	crossProd(eye,up,right);
 
-	int i=0;	
+	int i=0;
 	float fov=45.0f;
 	for(i=0;i<size;i++)
-	{		
+	{
 		replace_star(i,false,eye,up,right,camera);
-	}	
+	}
 }
 
 void STARFIELD::update_stars(int size, float speed, float dt)
@@ -932,9 +932,9 @@ void STARFIELD::update_stars(int size, float speed, float dt)
 	float camera[3];
 	float up[3];
 	float right[3];
-	
+
 	if(get_matrix_invert(modelview)==false)
-		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");			
+		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");
 
 	eye[0]=modelview[2];
 	eye[1]=modelview[6];
@@ -944,7 +944,7 @@ void STARFIELD::update_stars(int size, float speed, float dt)
 	up[1]=eye[2];
 	up[2]=-eye[1];
 
-	crossProd(eye,up,right);	
+	crossProd(eye,up,right);
 
 	camera[0]=modelview[2];
 	camera[1]=modelview[6];
@@ -956,7 +956,7 @@ void STARFIELD::update_stars(int size, float speed, float dt)
 	glColor3f(1.0, 1.0, 1.0);
 
 	for(int i=0;i<size;i++)
-	{	
+	{
 		float d[3] = {(camera[0]-stars[i].x),
 					  (camera[1]-stars[i].y),
 				   	  (camera[2]-stars[i].z)};
@@ -967,28 +967,28 @@ void STARFIELD::update_stars(int size, float speed, float dt)
 		if(speed>0 && dotProd(eye[0],eye[1],eye[2],d[0],d[1],d[2])<0)  {
  			replace_star(i,false,eye,up,right,camera);
 			continue;
-		}		
+		}
 		else if(speed <=0 && dist>2000) {
 			replace_star(i,true,eye,up,right,camera);
 			continue;
 		}
-		
+
 		stars[i].x+=(eye[0])*stars[i].v*speed*dt;
 		stars[i].y+=(eye[1])*stars[i].v*speed*dt;
 		stars[i].z+=(eye[2])*stars[i].v*speed*dt;
 
-		
+
 		//grow objects as they approach you
 		if(dist>800) glPointSize(1);
 		else glPointSize(2);
-		
-		glBegin(GL_POINTS);
-		glVertex3f(stars[i].x,stars[i].y,stars[i].z);	
-		glEnd();
-	}	
 
-	GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };	
-	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION, no_mat );		
+		glBegin(GL_POINTS);
+		glVertex3f(stars[i].x,stars[i].y,stars[i].z);
+		glEnd();
+	}
+
+	GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };
+	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION, no_mat );
 }
 
 void STARFIELD::replace_star(int i, bool front,float eye[3], float up[3], float right[3], float camera[3]) {
@@ -1005,17 +1005,17 @@ void STARFIELD::replace_star(int i, bool front,float eye[3], float up[3], float 
 		stars[i].z=eye[2]*z + up[2]*y + right[2]*x;
 	}
 	else {
-		float z = -frand()*2000;		
-		float x = 2.0f*-z*TAN22_5*frand();		
+		float z = -frand()*2000;
+		float x = 2.0f*-z*TAN22_5*frand();
 		float y = 2.0f*-z*TAN22_5*frand();
-		
+
 		x-=-z*TAN22_5;
 		y-=-z*TAN22_5;
 
 		stars[i].x=eye[0]*z + up[0]*y + right[0]*x;
 		stars[i].y=eye[1]*z + up[1]*y + right[1]*x;
 		stars[i].z=eye[2]*z + up[2]*y + right[2]*x;
-	}	
+	}
 	float v = frand();
 	stars[i].v=v;
 }
@@ -1104,7 +1104,7 @@ void TEXTURE_DESC::draw(float* p, float* size, int xalign, int yalign) {
 
 #if 1
     glBegin(GL_QUADS);
-    glTexCoord2f(0., 1.); 
+    glTexCoord2f(0., 1.);
     glVertex3fv(pos);
     pos[0] += size[0];
     glTexCoord2f(1., 1.);
@@ -1124,24 +1124,24 @@ void TEXTURE_DESC::draw(float* p, float* size, int xalign, int yalign) {
     glDisable(GL_TEXTURE_2D);
 }
 
-void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData) {	
+void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData) {
 	jpeg_read_header(cinfo, TRUE);
-	jpeg_start_decompress(cinfo);	
+	jpeg_start_decompress(cinfo);
 	int rem = cinfo->output_width%4;
 	pImageData->rowSpan = cinfo->output_width * cinfo->output_components;
 	pImageData->sizeX   = cinfo->output_width;
 	pImageData->sizeY   = cinfo->output_height;
 
 	pImageData->data = new unsigned char[pImageData->rowSpan * pImageData->sizeY];
-		
+
 	unsigned char** rowPtr = new unsigned char*[pImageData->sizeY];
-	for (int i = 0; i < pImageData->sizeY; i++)	
+	for (int i = 0; i < pImageData->sizeY; i++)
 		rowPtr[i] = &(pImageData->data[i*pImageData->rowSpan]);
-		
+
 	int rowsRead = 0;
 
 	while (cinfo->output_scanline < cinfo->output_height) {
-		rowsRead += jpeg_read_scanlines(cinfo, &rowPtr[rowsRead], cinfo->output_height - rowsRead);		
+		rowsRead += jpeg_read_scanlines(cinfo, &rowPtr[rowsRead], cinfo->output_height - rowsRead);
 	}
 	delete [] rowPtr;
 	jpeg_finish_decompress(cinfo);
@@ -1162,11 +1162,11 @@ my_error_exit (j_common_ptr cinfo)
   longjmp(myerr->setjmp_buffer, 1);
 }
 
-tImageJPG *LoadJPG(const char *filename) {	
+tImageJPG *LoadJPG(const char *filename) {
 	struct jpeg_decompress_struct cinfo;
 	tImageJPG *pImageData = NULL;
 	FILE *pFile;
-	
+
 	if((pFile = fopen(filename, "rb")) == NULL) {
 		fprintf(stderr,"Unable to load JPG File!");
 		return NULL;
@@ -1181,12 +1181,12 @@ tImageJPG *LoadJPG(const char *filename) {
       return NULL;
 	}
 
-	jpeg_create_decompress(&cinfo);	
-	jpeg_stdio_src(&cinfo, pFile);	
-	pImageData = (tImageJPG*)malloc(sizeof(tImageJPG));	
-	DecodeJPG(&cinfo, pImageData);	
-	jpeg_destroy_decompress(&cinfo);	
-	fclose(pFile);	
+	jpeg_create_decompress(&cinfo);
+	jpeg_stdio_src(&cinfo, pFile);
+	pImageData = (tImageJPG*)malloc(sizeof(tImageJPG));
+	DecodeJPG(&cinfo, pImageData);
+	jpeg_destroy_decompress(&cinfo);
+	fclose(pFile);
 	return pImageData;
 }
 
@@ -1203,42 +1203,42 @@ void printdata(char* filename, int x, int y, unsigned char* data) {
 }
 
 int TEXTURE_DESC::CreateTextureJPG(char* strFileName) {
-	if(!strFileName) return -1;	
-	tImageJPG *pImage = LoadJPG(strFileName);			// Load the image and store the data	
-	if(pImage == NULL) return -1;		
+	if(!strFileName) return -1;
+	tImageJPG *pImage = LoadJPG(strFileName);			// Load the image and store the data
+	if(pImage == NULL) return -1;
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-	glGenTextures(1, &id);	
-	glBindTexture(GL_TEXTURE_2D, id);	
-	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, pImage->sizeX, pImage->sizeY, GL_RGB, GL_UNSIGNED_BYTE, pImage->data);	
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, pImage->sizeX, pImage->sizeY, GL_RGB, GL_UNSIGNED_BYTE, pImage->data);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);	
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
     xsize = pImage->sizeX;
     ysize = pImage->sizeY;
-	
+
 	if (pImage) {
 		if (pImage->data) {
-			free(pImage->data);						
+			free(pImage->data);
 		}
-		free(pImage);					
+		free(pImage);
 	}
 	return 0;
 }
 
 int TEXTURE_DESC::CreateTextureBMP(char* strFileName) {
 #ifdef _WIN32
-	DIB_BITMAP image; 
+	DIB_BITMAP image;
     if(image.loadBMP(strFileName) == false) {
 		return -1;
     }
 	glPixelStorei(GL_UNPACK_ALIGNMENT,4);
-	glGenTextures(1, &id);		
+	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_2D, id);
-	gluBuild2DMipmaps(GL_TEXTURE_2D, image.get_channels(), image.get_width(), 
-        image.get_height(), GL_BGR_EXT, GL_UNSIGNED_BYTE, 
+	gluBuild2DMipmaps(GL_TEXTURE_2D, image.get_channels(), image.get_width(),
+        image.get_height(), GL_BGR_EXT, GL_UNSIGNED_BYTE,
         image.getLinePtr(0)
     );
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);		
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
     xsize = image.get_width();
     ysize = image.get_height();
 #endif
@@ -1248,15 +1248,15 @@ int TEXTURE_DESC::CreateTextureBMP(char* strFileName) {
 int TEXTURE_DESC::CreateTexturePPM(char* strFileName) {
 #ifdef _WIN32
 	unsigned char* pixels;
-    int width, height, retval;    
+    int width, height, retval;
     retval = read_ppm_file(strFileName, width, height, &pixels);
-    if (retval) return retval;    
+    if (retval) return retval;
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
     glGenTextures(1, &id);
-    glBindTexture(GL_TEXTURE_2D, id);	
+    glBindTexture(GL_TEXTURE_2D, id);
 	gluBuild2DMipmaps(GL_TEXTURE_2D,3,width,height,GL_RGB,GL_UNSIGNED_BYTE,pixels);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);		
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
     xsize = width;
     ysize = height;
 #endif
@@ -1277,12 +1277,12 @@ int TEXTURE_DESC::CreateTextureTGA(char* strFileName) {
 	glBindTexture(GL_TEXTURE_2D, id);
 	int textureType = GL_RGB;
 	if(pImage->channels == 4) {
-		textureType = GL_RGBA;		
-	}		
-	gluBuild2DMipmaps(GL_TEXTURE_2D, pImage->channels, pImage->sizeX, 
+		textureType = GL_RGBA;
+	}
+	gluBuild2DMipmaps(GL_TEXTURE_2D, pImage->channels, pImage->sizeX,
 	pImage->sizeY, textureType, GL_UNSIGNED_BYTE, pImage->data);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);	
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);
     xsize = pImage->sizeX;
     ysize = pImage->sizeY;
 
@@ -1308,12 +1308,12 @@ int TEXTURE_DESC::load_image_file(char* filename) {
     present = true;
 	retval = CreateTextureJPG(filename);
     if (!retval) return 0;
-    retval = CreateTexturePPM(filename);    
+    retval = CreateTexturePPM(filename);
     if (!retval) return 0;
     retval = CreateTextureBMP(filename);
     if (!retval) return 0;
     retval = CreateTextureTGA(filename);
-    if (!retval) return 0;    
+    if (!retval) return 0;
 
 done:
     present = false;
@@ -1326,9 +1326,11 @@ unsigned int listBase;
 
 void print_text(char* string)
 {
-	if(string==NULL) return;								
+	if(string==NULL) return;
 	glPushAttrib(GL_LIST_BIT);
-	glListBase(listBase);							
+	glListBase(listBase);
 	glCallLists(strlen(string), GL_UNSIGNED_BYTE, string);
-	glPopAttrib();						
+	glPopAttrib();
 }
+
+

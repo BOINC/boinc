@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -92,7 +92,7 @@ extern void get_2d_positions(float p1,float p2,float p3,
 
 // a progress bar represented as an opaque cylinder within a translucent cylinder
 //
-class PROGRESS {    
+class PROGRESS {
     float color[4], inner_color[4];
     float len, rad, inner_rad;
 public:
@@ -128,7 +128,7 @@ class RIBBON_GRAPH {
 public:
     void set_pos(float*);
     RIBBON_GRAPH(float* pos, float* size, float* color, float* tick_color, float tick_yfrac=0.2);
-    void draw(float* data, int len, bool with_ticks=false);	
+    void draw(float* data, int len, bool with_ticks=false);
     void add_tick(float x, int index);
 };
 
@@ -136,17 +136,17 @@ public:
 // a colored panel with some text, that can move cyclically
 //
 class MOVING_TEXT_PANEL {
-    float base_pos[3];    
+    float base_pos[3];
     float theta;
     float dtheta;
     COLOR color;
 	float char_height;
     float line_width;
-    float line_spacing;   		
+    float line_spacing;
 	float size[3];
 	double margin;
 	char text[PANEL_MAX_LINES][256];
-public:	         
+public:
 	float pos[3];
     void init(float* pos, float* size, COLOR& color, double dtheta, double ch, double lw, double ls, double margin);
     void draw();
@@ -160,8 +160,8 @@ public:
 // ----- STUFF RELATED TO STARFIELDS
 //
 
-struct STAR {	
-	float x,y,z,v;		
+struct STAR {
+	float x,y,z,v;
 };
 
 class STARFIELD {
@@ -217,3 +217,5 @@ extern unsigned int MyCreateFont(char *fontName, int Size,int weight);
 extern void print_text(char* string);
 
 #endif
+
+
