@@ -57,9 +57,6 @@ struct HOST_INFO {
     double d_total;
     double d_free;
 
-#ifdef _WIN32
-    HINSTANCE m_hIdleDll;       // handle to DLL for user idle
-#endif
     int parse(MIOFILE&);
     int write(MIOFILE&);
     int parse_cpu_benchmarks(FILE*);
@@ -71,5 +68,8 @@ struct HOST_INFO {
     void clear_host_info();
 };
 
+#ifdef _WIN32
+    extern HINSTANCE m_hIdleDll;       // handle to DLL for user idle
+#endif
 
 #endif

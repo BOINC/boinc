@@ -22,6 +22,7 @@
 #include "client_msgs.h"
 #include "wingui_mainwindow.h"
 #include "diagnostics.h"
+#include "hostinfo.h"
 #include "win_net.h"
 
 CMyApp g_myApp;

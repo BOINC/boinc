@@ -25,6 +25,8 @@
 #include "hostinfo_network.h"
 #include "hostinfo.h"
 
+HINSTANCE m_hIdleDll;
+
 // Returns the number of seconds difference from UTC
 //
 int get_timezone(void) {

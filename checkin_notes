@@ -14279,3 +14279,14 @@ Daniel  29 June 2004
             wingui_mainwindow.cpp,h
     lib/
         hostinfo.h
+
+David  29 June 2004
+	- fix window compile by moving DLL handle out of HOSTINFO class
+
+	client/
+		app.C
+		win/
+			hostinfo_win.cpp
+			wingui_mainwindow.cpp
+	lib/
+		hostinfo.h
