@@ -25493,3 +25493,14 @@ Rom    3 Mar 2005
 
     win_build/installerv2/
         < numerous files and folders >
+
+David  3 Mar 2005
+    - include User-agent: BOINC field in all HTTP requests
+        (POST as well as GET)
+    - user web: missing wild-card char in email address lookup
+        
+    client/
+        cs_scheduler.C
+        http.C
+    html/user/
+        mail_passwd.C

@@ -549,6 +549,9 @@ int CLIENT_STATE::handle_scheduler_reply(
         return ERR_PROJECT_DOWN;
     }
 
+    // The project returns a hostid only if it has created a new host record.
+    // In that case we should reset RPC seqno
+    //
     if (sr.hostid) {
         project->hostid = sr.hostid;
         project->rpc_seqno = 0;

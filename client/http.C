@@ -190,33 +190,39 @@ static void http_head_request_header_proxy(
 static void http_post_request_header(
     char* buf, char* host, int port, char* file, int size
 ) {
+    char user_agent_string[256];
+    get_user_agent_string(user_agent_string);
     sprintf(buf,
         "POST %s HTTP/1.0\015\012"
         "Pragma: no-cache\015\012"
         "Cache-Control: no-cache\015\012"
+        "User-Agent: %s\015\012"
         "Host: %s:%d\015\012"
         "Connection: close\015\012"
         "Content-Type: application/octet-stream\015\012"
         "Content-Length: %d\015\012"
         "\015\012",
-        file, host, port, size
+        file, user_agent_string, host, port, size
     );
 }
 
 static void http_post_request_header_proxy(
     char* buf, char* host, int port, char* file, int size, const char* encstr
 ) {
+    char user_agent_string[256];
+    get_user_agent_string(user_agent_string);
     sprintf(buf,
         "POST %s HTTP/1.0\015\012"
         "Pragma: no-cache\015\012"
         "Cache-Control: no-cache\015\012"
+        "User-Agent: %s\015\012"
         "Host: %s:%d\015\012"
         "Connection: close\015\012"
         "Content-Type: application/octet-stream\015\012"
         "Content-Length: %d\015\012"
         "Proxy-Authorization: Basic %s\015\012"
         "\015\012",
-        file, host, port, size, encstr
+        file, user_agent_string, host, port, size, encstr
     );
 }
 
