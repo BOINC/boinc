@@ -163,7 +163,7 @@ int insert_app_file_tags(APP_VERSION& av, USER& user) {
     for (i=0; i<app_files.size(); i++) {
         af = app_files[i];
         //escape_url_readable(af.url, name);
-        sprintf(name, "%s_%s", af.open_name, af.timestamp);
+        sprintf(name, "%s_%d", af.open_name, af.timestamp);
         sprintf(buf,
             "<file_info>\n"
             "    <name>%s</name>\n"
