@@ -371,11 +371,11 @@ Michael Gary	June 06, 2002
 	cs_scheduler.C
 	client_types.h
     test/
-	max_water_prefs.xml
-	min_water_prefs.xml
-	normal_water_prefs.xml
-	test_max_water_prefs.php
-	test_min_water_prefs.php
-	test_normal_water_prefs.php
+	max_water_prefs.xml (new)
+	min_water_prefs.xml (new)
+	normal_water_prefs.xml (new)
+	test_max_water_prefs.php (new)
+	test_min_water_prefs.php (new)
+	test_normal_water_prefs.php (new)
 
 
