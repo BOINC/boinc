@@ -20,7 +20,7 @@
 
 #if defined(_WIN32) && defined(_CONSOLE)
 
-#include "stdafx.h"
+#include "boinc_win.h"
 
 #include "diagnostics.h"
 #include "util.h"
