@@ -5602,3 +5602,4 @@ Karl 2003/08/08
       checking WU feasibility 
 
     client/*
+    sched/*
