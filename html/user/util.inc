@@ -40,6 +40,11 @@ function get_user_from_auth($auth) {
     return NULL;
 }
 
+function get_user_from_id($id) {
+    if ($id) return lookup_user_id($id);
+    return NULL;
+}
+
 function get_logged_in_user($must_be_logged_in=true) {
     $authenticator = init_session();
     $user = get_user_from_auth($authenticator);
@@ -58,20 +63,58 @@ function show_login($user) {
     }
 }
 
-function page_head($title, $user=null) {
-    echo "<head><title>$title</title><body bgcolor=ffffff>\n";
+// Constructs a combo box with name attribute = $name, from a list of newline-
+// delineated items from the regular text file $filename.  If $selection is
+// provided, and if it matches one of the entries in $filename, it will be
+// selected by default.  
+function show_combo_box($name, $filename, $selection=null) {
+  if (!file_exists($filename)) {
+    echo "ERROR: $filename does not exist!  Cannot create combo box.<br>";
+    exit();
+  }
+  echo "<select name=\"$name\">\n";
+  
+  $file = fopen($filename, "r");
+  
+  while ($line = trim(fgets($file, 1024))) {
+    if ($line == $selection) {
+      echo "<option SELECTED value=\"$line\">$line\n";
+    } else {
+      echo "<option value=\"$line\">$line\n";
+    }
+  }
 
-    project_banner($user);
+  echo "</select>\n";
+  fclose($file);
+}
+
+function page_head($title, $user=null, $fileDescriptor=null) {
+  if ($fileDescriptor) {
+    fwrite($fileDescriptor, "<head><title>$title</title><body bgcolor=ffffff>\n");
+  } else {
+    echo "<head><title>$title</title><body bgcolor=ffffff>\n";
+  }
+  project_banner($user, $fileDescriptor);
 
 }
 
-function page_tail() {
+function page_tail($fileDescriptor=null) {
+    if ($fileDescriptor) {
 
-    echo "<br><hr><center><a href=index.php>Return to ".PROJECT." main page</a><br>\n";
+      fwrite($fileDescriptor, "<br><hr><center><a href=". MASTER_URL . "index.php>Return to ".PROJECT." main page</a><br>\n");
 
-    // put your copyright notice etc. here
+      // put your copyright notice etc. here
 
-    echo "<br><br>Copyright (c) 2003 ".PROJECT."</center>\n";
+      fwrite($fileDescriptor, "<br><br>Copyright (c) 2003 ".PROJECT."</center>\n");
+
+    } else {
+
+      echo "<br><hr><center><a href=" . MASTER_URL . "index.php>Return to ".PROJECT." main page</a><br>\n";
+
+      // put your copyright notice etc. here
+
+      echo "<br><br>Copyright (c) 2003 ".PROJECT."</center>\n";
+    }
 }
 
 function db_error_page() {
@@ -85,6 +128,13 @@ function db_error_page() {
     page_tail();
 }
 
+function profile_error_page($str) {
+  page_head("Profile error");
+  echo "$str<br>\n"; 
+  echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
+  page_tail();
+}
+
 function date_str($when) {
     return date("g:i A, l M j", $when);
 }
@@ -94,8 +144,12 @@ function time_str($x) {
     return strftime("%T %b %e, %Y", $x);
 }
 
-function start_table($width="") {
-    echo "<table $width border=1 cellpadding=5>";
+function start_table() {
+    echo "<table border=1 cellpadding=5>";
+}
+
+function start_table_noborder() {
+    echo "<table border=0 cellpadding=0 width=640>";
 }
 
 function end_table() {
@@ -121,6 +175,10 @@ function row2_plain($x, $y) {
 
 function row3($x, $y, $z) {
     echo "<tr><td width=30% valign=top align=right>$x</td><td>$y</td><td>$z</td></tr>\n";
+}
+
+function rowify($string) {
+    echo "<tr><td>$string</td></tr>";
 }
 
 function random_string() {
@@ -189,7 +247,7 @@ function parse_element($xml, $tag) {
 //
 function parse_config($tag) {
     $element = null;
-    $fp = fopen("../config.xml", "r");
+    $fp = fopen(".htconfig.xml", "r");
     while (1) {
         $buf = fgets($fp, 1024);
         if ($buf == null) break;
@@ -248,6 +306,21 @@ function split_munged_email_addr($addr, $string, &$email) {
     if ($y != $string) return false;
     $email = substr($addr, 1, strlen($addr)-strlen($x)-1);
     return true;
+}
+
+// If the user with id = $userid has uploaded a picture his/herself,
+// delete it and its thumbnail.
+
+function delete_user_pictures($userid) {
+    $filename1 = IMAGE_PATH . $userid . '.jpg';
+    $filename2 = IMAGE_PATH . $userid . '_sm.jpg';
+    
+    if (file_exists($filename1)) {
+      unlink($filename1);
+    }
+    if (file_exists($filename2)) {
+      unlink($filename2);
+    }
 }
 
 ?>
