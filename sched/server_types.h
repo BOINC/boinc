@@ -29,6 +29,7 @@ struct SCHEDULER_REQUEST {
     char authenticator[256];
     char platform_name[256];
     int hostid;                 // zero if first RPC
+    int core_client_version;
     int rpc_seqno;
     int work_req_seconds;
     bool want_prefs;
@@ -65,6 +66,7 @@ struct SCHEDULER_REPLY {
     void insert_result(RESULT&);
 };
 
+#if 0
 // stores the DB tables that don't change much
 //
 class DB_CACHE {
@@ -78,5 +80,6 @@ public:
     APP* lookup_app(int id);
     APP_VERSION* lookup_app_version(int appid, int platformid, int version);
 };
+#endif
 
 #endif

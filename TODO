@@ -14,9 +14,6 @@ HIGH-PRIORITY (must be done to support SETI@home)
 
 - proxy support
 
-- add country, postal code to user
-    collect on login
-
 - implement scheme for distributing scheduling server addresses
     each project provides a URL for file with list of scheduler address,
     and email address of "problems" contact

@@ -5,14 +5,27 @@ CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
 
+PROGS = cgi feeder
+
+all: $(PROGS)
+
 CGI_OBJS = \
     handle_request.o \
     main.o \
     parse.o \
+    sched_shmem.o \
     server_types.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
+    ../lib/shmem.o \
     ../tools/process_result_template.o
+
+FEEDER_OBJS = \
+    feeder.o \
+    sched_shmem.o \
+    ../db/db_mysql.o \
+    ../db/mysql_util.o \
+    ../lib/shmem.o
 
 MYSQL_DIR = /usr/local/mysql/lib
 MYSQL_LIBS = \
@@ -28,10 +41,13 @@ MYSQL_LIBS = \
 cgi: $(CGI_OBJS)
 	$(CC) $(CGI_OBJS) $(MYSQL_LIBS) $(CLIBS) -o cgi
 
+feeder: $(FEEDER_OBJS)
+	$(CC) $(FEEDER_OBJS) $(MYSQL_LIBS) $(CLIBS) -o feeder
+
 dependencies: *.C
 	$(CC) -M *.C > dependencies
 
 include dependencies
 
 clean:
-	rm -f cgi *.o core dependencies config.cache
+	rm -f $(PROGS) *.o core dependencies config.cache

@@ -6,115 +6,32 @@ configure:642: checking whether the C compiler (gcc  ) works
 configure:658: gcc -o conftest    conftest.c  1>&5
 configure:684: checking whether the C compiler (gcc  ) is a cross-compiler
 configure:689: checking whether we are using GNU C
-configure:698: gcc -E conftest.c
 configure:717: checking whether gcc accepts -g
 configure:749: checking whether make sets ${MAKE}
 configure:777: checking for main in -lgen
-configure:792: gcc -o conftest -g -O2   conftest.c -lgen   1>&5
 configure:820: checking for main in -lm
-configure:835: gcc -o conftest -g -O2   conftest.c -lm  -lgen  1>&5
 configure:863: checking for main in -lnsl
-configure:878: gcc -o conftest -g -O2   conftest.c -lnsl  -lm -lgen  1>&5
 configure:906: checking for main in -lsocket
-configure:921: gcc -o conftest -g -O2   conftest.c -lsocket  -lnsl -lm -lgen  1>&5
 configure:949: checking for main in -lstdc
-configure:964: gcc -o conftest -g -O2   conftest.c -lstdc  -lsocket -lnsl -lm -lgen  1>&5
-ld: fatal: library -lstdc: not found
-ld: fatal: File processing errors. No output written to conftest
-collect2: ld returned 1 exit status
-configure: failed program was:
-#line 957 "configure"
-#include "confdefs.h"
-
-int main() {
-main()
-; return 0; }
 configure:992: checking for main in -lz
-configure:1007: gcc -o conftest -g -O2   conftest.c -lz  -lsocket -lnsl -lm -lgen  1>&5
 configure:1040: checking for dirent.h that defines DIR
-configure:1053: gcc -c -g -O2  conftest.c 1>&5
 configure:1078: checking for opendir in -ldir
-configure:1097: gcc -o conftest -g -O2   conftest.c -ldir  -lz -lsocket -lnsl -lm -lgen  1>&5
-ld: fatal: library -ldir: not found
-ld: fatal: File processing errors. No output written to conftest
-collect2: ld returned 1 exit status
-configure: failed program was:
-#line 1086 "configure"
-#include "confdefs.h"
-/* Override any gcc2 internal prototype to avoid an error.  */
-/* We use char because int might match the return type of a gcc2
-    builtin and then its argument prototype would still apply.  */
-char opendir();
-
-int main() {
-opendir()
-; return 0; }
 configure:1161: checking how to run the C preprocessor
-configure:1182: gcc -E  conftest.c >/dev/null 2>conftest.out
 configure:1241: checking for ANSI C header files
-configure:1254: gcc -E  conftest.c >/dev/null 2>conftest.out
-configure:1321: gcc -o conftest -g -O2   conftest.c -lz -lsocket -lnsl -lm -lgen  1>&5
 configure:1345: checking for sys/wait.h that is POSIX.1 compatible
-configure:1366: gcc -c -g -O2  conftest.c 1>&5
 configure:1390: checking for fcntl.h
-configure:1400: gcc -E  conftest.c >/dev/null 2>conftest.out
 configure:1390: checking for strings.h
-configure:1400: gcc -E  conftest.c >/dev/null 2>conftest.out
 configure:1390: checking for sys/time.h
-configure:1400: gcc -E  conftest.c >/dev/null 2>conftest.out
 configure:1390: checking for unistd.h
-configure:1400: gcc -E  conftest.c >/dev/null 2>conftest.out
 configure:1428: checking for working const
-configure:1482: gcc -c -g -O2  conftest.c 1>&5
 configure:1503: checking whether time.h and sys/time.h may both be included
-configure:1517: gcc -c -g -O2  conftest.c 1>&5
 configure:1540: checking whether gcc needs -traditional
 configure:1586: checking for vprintf
-configure:1614: gcc -o conftest -g -O2   conftest.c -lz -lsocket -lnsl -lm -lgen  1>&5
 configure:1691: checking for wait3 that fills in rusage
-configure:1730: gcc -o conftest -g -O2   conftest.c -lz -lsocket -lnsl -lm -lgen  1>&5
-configure: failed program was:
-#line 1699 "configure"
-#include "confdefs.h"
-#include <sys/types.h>
-#include <sys/time.h>
-#include <sys/resource.h>
-#include <stdio.h>
-/* HP-UX has wait3 but does not fill in rusage at all.  */
-main() {
-  struct rusage r;
-  int i;
-  /* Use a field that we can force nonzero --
-     voluntary context switches.
-     For systems like NeXT and OSF/1 that don't set it,
-     also use the system CPU time.  And page faults (I/O) for Linux.  */
-  r.ru_nvcsw = 0;
-  r.ru_stime.tv_sec = 0;
-  r.ru_stime.tv_usec = 0;
-  r.ru_majflt = r.ru_minflt = 0;
-  switch (fork()) {
-  case 0: /* Child.  */
-    sleep(1); /* Give up the CPU.  */
-    _exit(0);
-  case -1: _exit(0); /* What can we do?  */
-  default: /* Parent.  */
-    wait3(&i, 0, &r);
-    sleep(2); /* Avoid "text file busy" from rm on fast HP-UX machines.  */
-    exit(r.ru_nvcsw == 0 && r.ru_majflt == 0 && r.ru_minflt == 0
-	 && r.ru_stime.tv_sec == 0 && r.ru_stime.tv_usec == 0);
-  }
-}
 configure:1755: checking for gethostname
-configure:1783: gcc -o conftest -g -O2   conftest.c -lz -lsocket -lnsl -lm -lgen  1>&5
 configure:1755: checking for gettimeofday
-configure:1783: gcc -o conftest -g -O2   conftest.c -lz -lsocket -lnsl -lm -lgen  1>&5
 configure:1755: checking for mkdir
-configure:1783: gcc -o conftest -g -O2   conftest.c -lz -lsocket -lnsl -lm -lgen  1>&5
 configure:1755: checking for select
-configure:1783: gcc -o conftest -g -O2   conftest.c -lz -lsocket -lnsl -lm -lgen  1>&5
 configure:1755: checking for socket
-configure:1783: gcc -o conftest -g -O2   conftest.c -lz -lsocket -lnsl -lm -lgen  1>&5
 configure:1755: checking for strstr
-configure:1783: gcc -o conftest -g -O2   conftest.c -lz -lsocket -lnsl -lm -lgen  1>&5
 configure:1755: checking for uname
-configure:1783: gcc -o conftest -g -O2   conftest.c -lz -lsocket -lnsl -lm -lgen  1>&5

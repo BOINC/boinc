@@ -9,99 +9,33 @@ configure:750: checking whether the C compiler (gcc  ) works
 configure:766: gcc -o conftest    conftest.c  1>&5
 configure:792: checking whether the C compiler (gcc  ) is a cross-compiler
 configure:797: checking whether we are using GNU C
-configure:806: gcc -E conftest.c
 configure:825: checking whether gcc accepts -g
 configure:857: checking how to run the C preprocessor
-configure:878: gcc -E  conftest.c >/dev/null 2>conftest.out
 configure:939: checking for ranlib
 configure:987: checking for sin in -lm
-configure:1006: gcc -o conftest -g -O2   conftest.c -lm   1>&5
-configure:999: warning: conflicting types for built-in function `sin'
 configure:1034: checking for gethostbyaddr in -lnsl
-configure:1053: gcc -o conftest -g -O2   conftest.c -lnsl  -lm  1>&5
 configure:1081: checking for setservent in -lsocket
-configure:1100: gcc -o conftest -g -O2   conftest.c -lsocket  -lnsl -lm  1>&5
 configure:1128: checking for strfind in -lgen
-configure:1147: gcc -o conftest -g -O2   conftest.c -lgen  -lsocket -lnsl -lm  1>&5
 configure:1175: checking for strfind in -lgen
 configure:1218: checking for cerr in -lstdc++
-configure:1237: gcc -o conftest -g -O2   conftest.c -lstdc++  -lgen -lsocket -lnsl -lm  1>&5
 configure:1270: checking for dirent.h that defines DIR
-configure:1283: gcc -c -g -O2  conftest.c 1>&5
 configure:1308: checking for opendir in -ldir
-configure:1327: gcc -o conftest -g -O2   conftest.c -ldir  -lstdc++ -lgen -lsocket -lnsl -lm  1>&5
-/disks/asimov/a/lang/gnu/H-sparc-sun-solaris2/lib/gcc-lib/sparc-sun-solaris2/2.7-96q3/../../../../sparc-sun-solaris2/bin/ld: cannot open -ldir: No such file or directory
-collect2: ld returned 1 exit status
-configure: failed program was:
-#line 1316 "configure"
-#include "confdefs.h"
-/* Override any gcc2 internal prototype to avoid an error.  */
-/* We use char because int might match the return type of a gcc2
-    builtin and then its argument prototype would still apply.  */
-char opendir();
-
-int main() {
-opendir()
-; return 0; }
 configure:1391: checking for ANSI C header files
-configure:1404: gcc -E  conftest.c >/dev/null 2>conftest.out
-configure:1471: gcc -o conftest -g -O2   conftest.c -lstdc++ -lgen -lsocket -lnsl -lm  1>&5
 configure:1498: checking for fcntl.h
-configure:1508: gcc -E  conftest.c >/dev/null 2>conftest.out
 configure:1498: checking for sys/time.h
-configure:1508: gcc -E  conftest.c >/dev/null 2>conftest.out
 configure:1498: checking for unistd.h
-configure:1508: gcc -E  conftest.c >/dev/null 2>conftest.out
 configure:1498: checking for sys/select.h
-configure:1508: gcc -E  conftest.c >/dev/null 2>conftest.out
 configure:1498: checking for sys/statvfs.h
-configure:1508: gcc -E  conftest.c >/dev/null 2>conftest.out
 configure:1498: checking for sys/swap.h
-configure:1508: gcc -E  conftest.c >/dev/null 2>conftest.out
 configure:1536: checking for working const
-configure:1590: gcc -c -g -O2  conftest.c 1>&5
 configure:1611: checking for size_t
 configure:1644: checking whether time.h and sys/time.h may both be included
-configure:1658: gcc -c -g -O2  conftest.c 1>&5
 configure:1679: checking whether struct tm is in sys/time.h or time.h
-configure:1692: gcc -c -g -O2  conftest.c 1>&5
 configure:1716: checking for select
-configure:1744: gcc -o conftest -g -O2   conftest.c -lstdc++ -lgen -lsocket -lnsl -lm  1>&5
 configure:1716: checking for socket
-configure:1744: gcc -o conftest -g -O2   conftest.c -lstdc++ -lgen -lsocket -lnsl -lm  1>&5
 configure:1716: checking for strstr
-configure:1744: gcc -o conftest -g -O2   conftest.c -lstdc++ -lgen -lsocket -lnsl -lm  1>&5
 configure:1716: checking for lockf
-configure:1744: gcc -o conftest -g -O2   conftest.c -lstdc++ -lgen -lsocket -lnsl -lm  1>&5
 configure:1716: checking for flock
-configure:1744: gcc -o conftest -g -O2   conftest.c -lstdc++ -lgen -lsocket -lnsl -lm  1>&5
-/var/tmp/ccEZaiYq1.o: In function `main':
-/var/tmp/ccEZaiYq1.o(.text+0x4): undefined reference to `flock'
-collect2: ld returned 1 exit status
-configure: failed program was:
-#line 1721 "configure"
-#include "confdefs.h"
-/* System header to define __stub macros and hopefully few prototypes,
-    which can conflict with char flock(); below.  */
-#include <assert.h>
-/* Override any gcc2 internal prototype to avoid an error.  */
-/* We use char because int might match the return type of a gcc2
-    builtin and then its argument prototype would still apply.  */
-char flock();
-
-int main() {
-
-/* The GNU C library defines this for functions which it implements
-    to always fail with ENOSYS.  Some functions are actually named
-    something starting with __ and the normal name is an alias.  */
-#if defined (__stub_flock) || defined (__stub___flock)
-choke me
-#else
-flock();
-#endif
-
-; return 0; }
 configure:1716: checking for strftime
-configure:1744: gcc -o conftest -g -O2   conftest.c -lstdc++ -lgen -lsocket -lnsl -lm  1>&5
 configure:1772: checking for sendmail
 configure:1808: checking for sendmail

@@ -19,6 +19,7 @@
 
 #include <stdio.h>
 
+#include "sched_shmem.h"
 #include "server_types.h"
 
-extern void handle_request(FILE* fin, FILE* fout, DB_CACHE&);
+extern void handle_request(FILE* fin, FILE* fout, SCHED_SHMEM&);

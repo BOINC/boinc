@@ -4,7 +4,7 @@ CFLAGS = -g
 
 CC = @CC@ $(CFLAGS)
 
-PROGS = md5_test
+PROGS = md5_test shmem_test synch_test
 
 MD5_OBJS = \
     md5.o \
@@ -22,6 +22,12 @@ all: $(PROGS) $(MD5_OBJS)
 
 md5_test: md5_test.o $(MD5_OBJS)
 	$(CC) md5_test.o $(MD5_OBJS) -o md5_test
+
+shmem_test: shmem_test.o shmem.o
+	$(CC) shmem_test.o shmem.o -o shmem_test
+
+synch_test: synch_test.o synch.o
+	$(CC) synch_test.o synch.o -o synch_test
 
 clean:
 	rm -f *.o $(PROGS) core dependencies

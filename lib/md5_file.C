@@ -12,7 +12,11 @@ int md5_file(char* path, char* output, double& nbytes) {
 
     nbytes = 0;
     f = fopen(path, "r");
-    if (!f) return -1;
+    if (!f) {
+        fprintf(stderr, "md5_file: can't open %s\n", path);
+        perror("md5_file");
+        return -1;
+    }
     md5_init(&state);
     while (1) {
         n = fread(buf, 1, 4096, f);

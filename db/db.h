@@ -29,7 +29,7 @@
 
 #include <stdio.h>
 
-#define MAX_BLOB_SIZE   32767
+#define MAX_BLOB_SIZE   4096
 
 // A compilation target, i.e. a architecture/OS combination.
 // Currently the core client will be given only applications

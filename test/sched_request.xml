@@ -1,8 +1,9 @@
 <scheduler_request>
     <authenticator>3f7b90793a0175ad0bda68684e8bd136</authenticator>
     <hostid>1</hostid>
-    <rpc_seqno>2</rpc_seqno>
-    <platform_name>linux-intel</platform_name>
+    <rpc_seqno>1</rpc_seqno>
+    <platform_name>i686-pc-linux-gnu</platform_name>
+    <core_client_version>1</core_client_version>
     <work_req_seconds>1000</work_req_seconds>
     <prefs_mod_time>0</prefs_mod_time>
 <time_stats>
@@ -11,8 +12,8 @@
     <active_frac>1.000000</active_frac>
 </time_stats>
 <net_stats>
-    <bwup>44251.516532</bwup>
-    <bwdown>7238011.518940</bwdown>
+    <bwup>53220.549288</bwup>
+    <bwdown>6888091.886915</bwdown>
 </net_stats>
 <host_info>
     <timezone>28800</timezone>
@@ -30,7 +31,7 @@
     <m_cache>131072.000000</m_cache>
     <m_swap>178012160.000000</m_swap>
     <d_total>22108344320.000000</d_total>
-    <d_free>18234867712.000000</d_free>
+    <d_free>18171138048.000000</d_free>
 </host_info>
 <result>
     <name>uc_wu_1</name>
@@ -42,7 +43,7 @@ APP: upper_case ending, wrote 54691 chars
 </stderr_out>
 <file_info>
     <name>uc_wu_1_0</name>
-    <url>http://localhost.localdomain/upload/uc_wu_1_0</url>
+    <url>http://localhost/upload/uc_wu_1_0</url>
     <md5_cksum>b0036fed2e472c34aae8ed05704c42e7</md5_cksum>
     <nbytes>54691.000000</nbytes>
 </file_info>

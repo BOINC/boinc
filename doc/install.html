@@ -16,6 +16,15 @@ by typing "configure" and "make".
 Edit your Apache configuration file (httpd.conf) to
 set the "boinc/sched" directory as CGI,
 and to allow uploads to to the upload directory.
+<p>
+Add the following (with appropriate changes) to your .tcshrc
+<pre>
+setenv BOINC_DOWNLOAD_DIR   /home/david/html/download
+setenv BOINC_UPLOAD_DIR     /home/david/html/upload
+setenv BOINC_PLATFORM       i686-pc-linux-gnu
+setenv BOINC_EMAIL          david@localhost.localdomain
+setenv BOINC_URL_BASE       http://localhost.localdomain/download
+</pre>
 
 <p>
 Go into the boinc/test directory, and type

@@ -55,3 +55,58 @@ David A.        May 15 2002
         init.inc
     tools
         add.C
+David A.        May 23 2002
+    - Change the scheduling server to reduce database accesses.
+        There's now a shared-memory segment that contains
+        1) the platform, app, and app_version tables in their entirety;
+        2) a fixed-size set of results ready to be sent,
+            and their corresponding workunit.
+        This segment is initialized and maintained by a new program
+        called the "feeder" (sched/feeder.C) that should run
+        whenever the scheduling server is up.
+        Note: the scheduler still needs to be converted to fast CGI
+    - Added handy interfaces for dealing with shared memory and semaphores.
+    - Changed to utilities and scripts used for testing so that all
+        server-specific names (paths and URLs) come from environment
+        variables instead of being hardwired in the code.
+        You'll want to add these to your .tcshrc or whatever.
+        See the doc/install.html for details.
+
+    Files:
+    TODO
+    apps/
+        Makefile.in
+    client/
+        app.C
+    db/
+        db.h
+    doc/
+        index.html
+        install.html
+        intro.html
+        tools.html (removed)
+        tools_other.html
+        tools_work.html
+        work.html
+    lib/
+        Makefile.in
+        md5_file.C
+        shmem.C,h (new)
+        shmem_test.C (new)
+        synch.C,h (new)
+        synch_test.C (new)
+    sched/
+        feeder.C (new)
+        Makefile.in
+        handle_request.C,h
+        main.C
+        sched_shmem.C,h (new)
+        server_types.C,h
+    test/
+        account.xml (deleted)
+        account1.xml
+        init.inc
+        test_uc.php
+    tools/
+        add.C
+        create_work.C

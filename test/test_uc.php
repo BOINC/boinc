@@ -6,6 +6,7 @@
 
     include_once("init.inc");
 
+    check_env_vars();
     clear_db();
     clear_data_dirs();
     init_client_dirs("account1.xml");

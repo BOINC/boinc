@@ -44,8 +44,6 @@
 #include "db.h"
 #include "backend_lib.h"
 
-#define INFILE_DIR  "/disks/jill/a/inet_services/boinc_www/share/htdocs/download"
-
 int main(int argc, char** argv) {
     APP app;
     WORKUNIT wu;
@@ -55,7 +53,12 @@ int main(int argc, char** argv) {
     char wu_template_file[256], result_template_file[256];
     char** infiles;
     int i, ninfiles, nresults;
+    char* boinc_download_dir = getenv("BOINC_DOWNLOAD_DIR");
 
+    if (!boinc_download_dir) {
+        printf("must define BOINC_DOWNLOAD_DIR");
+        exit(1);
+    }
     if( db_open("boinc") ) {
         printf( "Error opening database.\n" );
         exit(0);
@@ -131,7 +134,7 @@ int main(int argc, char** argv) {
         wu_template,
         result_template,
         nresults,
-        INFILE_DIR,
+        boinc_download_dir,
         infiles,
         ninfiles
     );

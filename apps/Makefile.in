@@ -32,7 +32,7 @@ uc_slow: uc_slow.o
 	$(CC) 1sec.o $(LIBS) -o 1sec
 
 clean:
-	rm -f *.o $(APPS)
+	rm -f *.o $(APPS) dependencies
 
 dependencies: *.C
 	$(CC) -M *.C > dependencies

@@ -47,6 +47,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
         else if (parse_str(buf, "<platform_name>", platform_name)) continue;
+        else if (parse_int(buf, "<core_client_version>", core_client_version)) continue;
         else if (parse_int(buf, "<work_req_seconds>", work_req_seconds)) continue;
         else if (parse_int(buf, "<prefs_mod_time>", (int)prefs_mod_time)) {
             want_prefs = true;
@@ -291,6 +292,7 @@ int HOST::parse_net_stats(FILE* fin) {
     return 1;
 }
 
+#if 0
 DB_CACHE::DB_CACHE() {
 }
 
@@ -347,3 +349,4 @@ APP_VERSION* DB_CACHE::lookup_app_version(
     }
     return 0;
 }
+#endif

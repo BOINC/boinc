@@ -46,14 +46,14 @@ double estimate_duration(WORKUNIT& wu, HOST& host) {
 // Add the app and app_version to the reply also.
 //
 int add_wu_to_reply(
-    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform, DB_CACHE& db
+    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform, SCHED_SHMEM& ss
 ) {
     APP* app;
     APP_VERSION* app_version;
 
-    app = db.lookup_app(wu.appid);
+    app = ss.lookup_app(wu.appid);
     if (!app) return -1;
-    app_version = db.lookup_app_version(app->id, platform.id, app->prod_vers);
+    app_version = ss.lookup_app_version(app->id, platform.id, app->prod_vers);
     if (!app_version) return -1;
 
     // add the app, app_version, and workunit to the reply,
@@ -248,22 +248,28 @@ int handle_results(
     return 0;
 }
 
-// KLUDGE - query database for WUs.
-// this must replaced for efficiency.
-//
 int send_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    HOST& host, DB_CACHE& db
+    HOST& host, SCHED_SHMEM& ss
 ) {
-    int retval, nresults = 0;
+    int i, retval, nresults = 0;
     WORKUNIT wu;
     RESULT result;
+#if 0
     APP* app;
     char prefix [256];
+#endif
 
-    while (!db_result_enum_to_send(result, 1)) {
-        db_workunit(result.workunitid, wu);
-        retval = add_wu_to_reply(wu, reply, platform, db);
+    for (i=0; i<ss.nwu_results; i++) {
+
+        // the following should be a critical section
+        //
+        if (!ss.wu_results[i].present) continue;
+        wu = ss.wu_results[i].workunit;
+        result = ss.wu_results[i].result;
+        ss.wu_results[i].present = false;
+
+        retval = add_wu_to_reply(wu, reply, platform, ss);
         if (retval) continue;
         reply.insert_result(result);
         nresults++;
@@ -277,6 +283,7 @@ int send_work(
         db_workunit_update(wu);
     }
 
+#if 0
     while (!db_workunit_enum_dynamic_to_send(wu, 1)) {
         retval = add_wu_to_reply(wu, reply, platform, db);
         if (retval) continue;
@@ -306,6 +313,7 @@ int send_work(
         reply.insert_result(result);
         nresults++;
     }
+#endif
 
     if (nresults == 0) {
         strcpy(reply.message, "no work available");
@@ -316,7 +324,7 @@ int send_work(
 }
 
 void process_request(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, DB_CACHE& db
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss
 ) {
     HOST host;
     USER user;
@@ -332,7 +340,7 @@ void process_request(
     // look up the client's platform in the DB
     // the following should be replaced with in-memory equivalents
     //
-    platform = db.lookup_platform(sreq.platform_name);
+    platform = ss.lookup_platform(sreq.platform_name);
     if (!platform) {
         sprintf(buf, "platform %s not found", sreq.platform_name);
         strcpy(reply.message, buf);
@@ -344,17 +352,17 @@ void process_request(
 
     handle_results(sreq, reply, host);
 
-    send_work(sreq, reply, *platform, host, db);
+    send_work(sreq, reply, *platform, host, ss);
 }
 
-void handle_request(FILE* fin, FILE* fout, DB_CACHE& db) {
+void handle_request(FILE* fin, FILE* fout, SCHED_SHMEM& ss) {
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
 
     memset(&sreq, 0, sizeof(sreq));
     sreq.parse(fin);
 
-    process_request(sreq, sreply, db);
+    process_request(sreq, sreply, ss);
 
     sreply.write(fout);
 }

@@ -22,6 +22,7 @@
 
 #include "db.h"
 #include "parse.h"
+#include "shmem.h"
 #include "server_types.h"
 #include "handle_request.h"
 
@@ -44,8 +45,20 @@ int main() {
     FILE* fin, *fout;
     int retval, pid;
     char req_path[256], reply_path[256];
-    DB_CACHE db;
+    SCHED_SHMEM* ssp;
+    void* p;
 
+    retval = attach_shmem(BOINC_KEY, &p);
+    if (retval) {
+        printf("can't attach shmem\n");
+        exit(1);
+    }
+    ssp = (SCHED_SHMEM*)p;
+    retval = ssp->verify();
+    if (retval) {
+        printf("shmem has wrong struct sizes - recompile\n");
+        exit(1);
+    }
     pid = getpid();
     sprintf(req_path, "%s%d", REQ_FILE_PREFIX, pid);
     sprintf(reply_path, "%s%d", REPLY_FILE_PREFIX, pid);
@@ -71,8 +84,7 @@ int main() {
     if (retval) {
         exit(return_error("can't open database"));
     }
-    db.read_db();
-    handle_request(fin, fout, db);
+    handle_request(fin, fout, *ssp);
     db_close();
 
     fclose(fin);

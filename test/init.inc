@@ -1,15 +1,15 @@
 <?php
 
-define("HOME", "home/david");
-define("DOWNLOAD_DIR", "$HOME/html/download");
-define("UPLOAD_DIR", "$HOME/html/upload");
-define("PLATFORM_NAME", "i686-pc-linux-gnu");
+//define("HOME", "home/david");
+//define("DOWNLOAD_DIR", "$HOME/html/download");
+//define("UPLOAD_DIR", "$HOME/html/upload");
+//define("PLATFORM_NAME", "i686-pc-linux-gnu");
 define("VERSION", "1");
-define("CORE_CLIENT", "boinc_".VERSION."_".PLATFORM_NAME);
+define("CORE_CLIENT", "boinc_".VERSION."_$BOINC_PLATFORM");
 define("PROJECTS", "localhost.localdomain zoot");
     // directories to empty
-define("EMAIL_ADDR", "david@localhost.localdomain");
-define("URL_BASE", "http://localhost.localdomain/download");
+//define("EMAIL_ADDR", "david@localhost.localdomain");
+//define("URL_BASE", "http://localhost.localdomain/download");
     // data server URL root
 
 include_once("../html_user/db.inc");
@@ -18,9 +18,53 @@ function clear_db() {
     PassThru("cd ../db; init_db");
 }
 
+$BOINC_DOWNLOAD_DIR = null;
+$BOINC_UPLOAD_DIR = null;
+$BOINC_PLATFORM = null;
+$BOINC_EMAIL = null;
+$BOINC_URL_BASE = null;
+
+function check_env_vars() {
+    global $BOINC_DOWNLOAD_DIR;
+    global $BOINC_UPLOAD_DIR;
+    global $BOINC_PLATFORM;
+    global $BOINC_EMAIL;
+    global $BOINC_URL_BASE;
+
+    $bad = false;
+    $BOINC_DOWNLOAD_DIR = getenv("BOINC_DOWNLOAD_DIR");
+    if ($BOINC_DOWNLOAD_DIR == null) {
+        echo "Must define BOINC_DOWNLOAD_DIR\n";
+        $bad = true;
+    }
+    $BOINC_UPLOAD_DIR = getenv("BOINC_UPLOAD_DIR");
+    if ($BOINC_UPLOAD_DIR == null) {
+        echo "Must define BOINC_UPLOAD_DIR\n";
+        $bad = true;
+    }
+    $BOINC_PLATFORM = getenv("BOINC_PLATFORM");
+    if ($BOINC_PLATFORM == null) {
+        echo "Must define BOINC_PLATFORM\n";
+        $bad = true;
+    }
+    $BOINC_EMAIL = getenv("BOINC_EMAIL");
+    if ($BOINC_EMAIL == null) {
+        echo "Must define BOINC_EMAIL\n";
+        $bad = true;
+    }
+    $BOINC_URL_BASE = getenv("BOINC_URL_BASE");
+    if ($BOINC_URL_BASE == null) {
+        echo "Must define BOINC_URL_BASE\n";
+        $bad = true;
+    }
+    if ($bad) exit();
+}
 function clear_data_dirs() {
-    PassThru("rm -f ".DOWNLOAD_DIR."/*");
-    PassThru("rm -f ".UPLOAD_DIR."/*");
+    global $BOINC_DOWNLOAD_DIR;
+    global $BOINC_UPLOAD_DIR;
+
+    PassThru("rm -f $BOINC_DOWNLOAD_DIR/*");
+    PassThru("rm -f $BOINC_UPLOAD_DIR/*");
 }
 
 function init_client_dirs($account_file) {
@@ -31,25 +75,37 @@ function init_client_dirs($account_file) {
 }
 
 function copy_to_download_dir($f) {
-    PassThru("cp $f ".DOWNLOAD_DIR);
+    global $BOINC_DOWNLOAD_DIR;
+
+    PassThru("cp $f $BOINC_DOWNLOAD_DIR");
 }
 
 function add_user() {
-    PassThru("../tools/add user -email_addr ".EMAIL_ADDR." -user_name David -web_password foobar -authenticator 3f7b90793a0175ad0bda68684e8bd136");
+    global $BOINC_EMAIL;
+
+    PassThru("../tools/add user -email_addr $BOINC_EMAIL -user_name David -web_password foobar -authenticator 3f7b90793a0175ad0bda68684e8bd136");
 }
 
 function add_prefs($file) {
-    PassThru("../tools/add prefs -email_addr ".EMAIL_ADDR." -prefs_file $file");
+    global $BOINC_EMAIL;
+
+    PassThru("../tools/add prefs -email_addr $BOINC_EMAIL -prefs_file $file");
 }
 
 function add_platform() {
-    PassThru("../tools/add platform -platform_name ".PLATFORM_NAME);
+    global $BOINC_PLATFORM;
+
+    PassThru("../tools/add platform -platform_name $BOINC_PLATFORM");
 }
 
 function add_core_client_message($message, $priority) {
+    global $BOINC_DOWNLOAD_DIR;
+    global $BOINC_UPLOAD_DIR;
+    global $BOINC_PLATFORM;
+
     PassThru("../tools/add app -app_name core_client -version ".VERSION);
-    PassThru("../tools/add app_version -app_name core_client -platform_name ".PLATFORM_NAME." -version ".VERSION." -exec_dir ../client -exec_file ".CORE_CLIENT." -download_dir ".DOWNLOAD_DIR." -url_base ".URL_BASE." -message '$message' -message_priority '$priority'");
-    PassThru("cp ../client/".CORE_CLIENT." ".DOWNLOAD_DIR);
+    PassThru("../tools/add app_version -app_name core_client -platform_name $BOINC_PLATFORM -version ".VERSION." -exec_dir ../client -exec_file ".CORE_CLIENT." -download_dir $BOINC_DOWNLOAD_DIR -url_base $BOINC_URL_BASE -message '$message' -message_priority '$priority'");
+    PassThru("cp ../client/".CORE_CLIENT." $BOINC_DOWNLOAD_DIR");
 }
 
 function add_core_client() {
@@ -57,9 +113,13 @@ function add_core_client() {
 }
 
 function add_app($name) {
+    global $BOINC_DOWNLOAD_DIR;
+    global $BOINC_PLATFORM;
+    global $BOINC_URL_BASE;
+
     PassThru("../tools/add app -app_name $name -version ".VERSION);
-    PassThru("../tools/add app_version -app_name $name -platform_name ".PLATFORM_NAME." -version ".VERSION." -exec_dir ../apps -exec_file $name -download_dir ".DOWNLOAD_DIR." -url_base ".URL_BASE);
-    PassThru("cp ../apps/$name ".DOWNLOAD_DIR);
+    PassThru("../tools/add app_version -app_name $name -platform_name $BOINC_PLATFORM -version ".VERSION." -exec_dir ../apps -exec_file $name -download_dir $BOINC_DOWNLOAD_DIR -url_base $BOINC_URL_BASE");
+    PassThru("cp ../apps/$name $BOINC_DOWNLOAD_DIR");
 }
 
 function create_work($x) {
@@ -70,8 +130,15 @@ function run_client() {
     PassThru("../client/".CORE_CLIENT." -exit_when_idle");
 }
 
+// TODO: make this work
+function start_feeder() {
+    PassThru("../sched/feeder &");
+}
+
 function compare_file($out, $correct) {
-    PassThru("diff ".UPLOAD_DIR."/$out $correct", $retval);
+    global $BOINC_UPLOAD_DIR;
+
+    PassThru("diff $BOINC_UPLOAD_DIR/$out $correct", $retval);
     if ($retval) {
         echo "File mismatch: $out $correct\n";
     } else {

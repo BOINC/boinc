@@ -129,6 +129,7 @@ int main(int argc, char** argv) {
         strcpy(app.name, app_name);
         retval = db_app_lookup_name(app);
         if (retval) {
+            fprintf(stderr, "can't find app %s\n", app_name);
             db_print_error("db_app_lookup_name");
             goto done;
         }
@@ -136,6 +137,7 @@ int main(int argc, char** argv) {
         strcpy(platform.name, platform_name);
         retval = db_platform_lookup_name(platform);
         if (retval) {
+            fprintf(stderr, "can't find platform %s\n", platform_name);
             db_print_error("db_platform_lookup_name");
             goto done;
         }
