@@ -123,7 +123,7 @@ function team_table_start() {
     echo "<tr>
         <th>Name</th>
         <th>Members</th>
-        <th><a href=top_teams.php?sort_by=expavg_credit>Average credit</a></th>
+        <th><a href=top_teams.php?sort_by=expavg_credit>Recent average credit</a></th>
         <th><a href=top_teams.php?sort_by=total_credit>Total credit</a></th>
         <th>Country</th>
         </tr>
