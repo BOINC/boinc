@@ -17,6 +17,7 @@
 // Contributor(s):
 //
 
+#include <string>
 #include "exception.h"
 
 #ifndef _BOINC_DIAGNOSTICS_
@@ -24,6 +25,8 @@
 
 
 #ifdef _WIN32
+#include "stdafx.h"
+#undef min
 
 // Define macros for both debug and release builds.
 //
