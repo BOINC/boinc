@@ -484,7 +484,12 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         /*...*/
     }
     if ($fstatus) echo "<br><font size=\"-2\">$fstatus</font>";
-    
+
+    echo "<br><font size=\"-2\">", $user->id, "</font>";                                          // Try and circumvent various forms of
+                                                                                                  // of identity spoofing by displaying the
+                                                                                                  // user id of the poster, its cheep, easy, 
+                                                                                                  // and doesn't require any additional database
+                                                                                                  // calls.
     if (!$filter || !$rated_below_threshold){
         echo "<p><font size=\"-2\">";
         if ($user->has_avatar and $logged_in_user->hide_avatars!=1) 

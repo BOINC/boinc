@@ -21702,3 +21702,10 @@ David  20 Dec 2004
 
     api/
         x_opengl.C
+
+Rom    21 Dec 2004
+    - Circumvent identity spoofing on the boards by displaying the 
+      user id of the poster.
+
+    html/inc
+        forum.inc
