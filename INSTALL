@@ -17,8 +17,7 @@ uninstall tar and client_tar. Currently, BOINC is installed into the
 /usr/local/boinc/ directory structure. To install BOINC into a different
 directory structure, the macro INSTALL_DIR needs to be edited in all 
 Makefile.in files. 
-test
-soii
+
 -------------------------------------------------------------------------------
 Downloading the Source
 
