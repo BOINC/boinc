@@ -9499,3 +9499,22 @@ David  Jan 22 2004
     lib/
         util.C,h
         xml_util.C,h
+
+David  Jan 22 2004
+    - change the GUI RPC protocol so that there's a single
+        <get_state/> request that returns the entire state
+        (same contents as the client state file)
+    - add fraction_done, current_cpu_time to <active_task> output
+    - factored out CLIENT_STATE::write_state(FILE*)
+        (used for both state file write and GUI RPC)
+    - always copy team name from scheduler reply
+        (so that we'll learn if user quits team)
+
+    client/
+        app.C
+        client_state.h
+        cs_scheduler.C
+        cs_statefile.C
+        gui_rpc_client.C,h
+        gui_rpc_server.C
+        gui_test.C

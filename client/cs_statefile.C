@@ -185,7 +185,6 @@ int CLIENT_STATE::parse_venue() {
 // Write the client_state.xml file
 //
 int CLIENT_STATE::write_state_file() {
-    unsigned int i, j;
     FILE* f = boinc_fopen(STATE_FILE_TEMP, "w");
     int retval;
 
@@ -195,6 +194,19 @@ int CLIENT_STATE::write_state_file() {
         msg_printf(0, MSG_ERROR, "Can't open temp state file: %s\n", STATE_FILE_TEMP);
         return ERR_FOPEN;
     }
+    retval = write_state(f);
+    fclose(f);
+    if (retval) return retval;
+    retval = boinc_rename(STATE_FILE_TEMP, STATE_FILE_NAME);
+    scope_messages.printf("CLIENT_STATE::write_state_file(): Done writing state file\n");
+    if (retval) return ERR_RENAME;
+    return 0;
+}
+
+int CLIENT_STATE::write_state(FILE* f) {
+    unsigned int i, j;
+    int retval;
+
     fprintf(f, "<client_state>\n");
     retval = host_info.write(f);
     if (retval) return retval;
@@ -261,10 +273,6 @@ int CLIENT_STATE::write_state_file() {
         fprintf(f, "<host_venue>%s</host_venue>\n", host_venue);
     }
     fprintf(f, "</client_state>\n");
-    fclose(f);
-    retval = boinc_rename(STATE_FILE_TEMP, STATE_FILE_NAME);
-    scope_messages.printf("CLIENT_STATE::write_state_file(): Done writing state file\n");
-    if (retval) return ERR_RENAME;
     return 0;
 }
 

@@ -1,7 +1,5 @@
 #include <stdio.h>
 
-#include "client_types.h"
-
 class RPC_CLIENT {
     int sock;
     FILE* fin;
@@ -9,6 +7,6 @@ class RPC_CLIENT {
 public:
     ~RPC_CLIENT();
     int init(char*);
-    int get_projects(vector<PROJECT>&);
+    int get_state();
 };
 

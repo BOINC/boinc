@@ -1256,12 +1256,16 @@ int ACTIVE_TASK::write(FILE* fout) {
         "    <app_version_num>%d</app_version_num>\n"
         "    <slot>%d</slot>\n"
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
+        "    <fraction_done>%f</fraction_done>\n"
+        "    <current_cpu_time>%f</current_cpu_time>\n"
         "</active_task>\n",
         result->project->master_url,
         result->name,
         app_version->version_num,
         slot,
-        checkpoint_cpu_time
+        checkpoint_cpu_time,
+        fraction_done,
+        current_cpu_time
     );
     return 0;
 }
@@ -1324,6 +1328,8 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
         else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         else if (parse_int(buf, "<slot>", slot)) continue;
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
+        else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
+        else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
         else msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK::parse(): unrecognized %s\n", buf);
     }
     return ERR_XML_PARSE;

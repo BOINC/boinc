@@ -34,19 +34,8 @@ int GUI_RPC_CONN::handle_rpc() {
     if (n <= 0) return -1;
     buf[n] = 0;
     printf("got %s\n", buf);
-    if (match_tag(buf, "<get_projects")) {
-        fprintf(fout, "<projects>\n");
-        for (i=0; i<gstate.projects.size(); i++) {
-            PROJECT* p = gstate.projects[i];
-            p->write_state(fout);
-        }
-        fprintf(fout, "</projects>\n");
-    } else if match_tag(buf, "<get_results">)) {
-        fprintf(fout, "<results>\n");
-        for (i=0; i<gstate.projects.size(); i++) {
-            PROJECT* p = gstate.projects[i];
-            p->write_state(fout);
-        }
+    if (match_tag(buf, "<get_state")) {
+        gstate.write_state(fout);
     } else {
         fprintf(fout, "<unrecognized/>\n");
     }

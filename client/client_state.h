@@ -258,6 +258,7 @@ private:
 public:
     void set_client_state_dirty(char*);
     int parse_state_file();
+    int write_state(FILE*);
     int write_state_file();
     int write_state_file_if_needed();
     int parse_venue();
