@@ -363,6 +363,7 @@ class Project:
             [ '', 'cgi-bin', 'bin', 'upload', 'download', 'apps', self.logdir(),
               'html', 'html/ops', 'html/user', 'html/project',
               'html/inc', 'html/stats', 'html/user_profile', 'html/forum'
+              'html/user_profile/images'
               ])
         map(lambda dir: os.chmod(self.dir(dir), 0777),
             [ 'cgi-bin', 'upload', self.logdir() ])
@@ -392,7 +393,7 @@ class Project:
 
 
         # Copy the sched server in the cgi directory with the cgi names given
-        # source_dir/html_usr/schedulers.txt
+        # source_dir/html/user/schedulers.txt
         #
 
         if scheduler_file:

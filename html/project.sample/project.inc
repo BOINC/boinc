@@ -4,7 +4,7 @@
 // Modify it to suit your project.
 // Put your version in html_user/project_specific/project.inc
 
-require_once("util.inc");
+require_once("../inc/util.inc");
 
 define("PROJECT", "Test Project");
 define("MASTER_URL", "http://boinc.berkeley.edu/");

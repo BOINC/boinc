@@ -9757,3 +9757,6 @@ David  Feb 4 2004
 		windows_opengl.C
 	client/win/
 		resource.rc
+
+Karl 2004-02-03
+    - more misc. make_project fixes
