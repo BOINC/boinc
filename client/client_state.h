@@ -205,6 +205,7 @@ private:
     bool start_apps();
     bool schedule_cpus(bool must_reschedule = false);
     bool handle_finished_apps();
+	void handle_file_xfer_apps();
 
 // --------------- cs_benchmark.C:
 public:
