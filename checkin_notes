@@ -14905,3 +14905,12 @@ Daniel 2004-07-08
     */
         Makefile.in
 
+Brian  8 July 2004
+    - Fixed a small bug in allowed_disk_usage where the global_prefs.disk_max_used_pct
+      was directly multiplied with the total disk, creating a disk value that was a factor
+      of 100 off, effectively never becoming the min value returned by the function.
+
+    client/
+        cs_prefs.C
+      
+
