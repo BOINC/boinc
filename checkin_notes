@@ -10384,3 +10384,9 @@ Rom    Mar 5 2004
 
     doc/
         contact.php
+
+Rom    Mar 6 2004
+    - I am backing out a change by John Keck until a server RPC overload problem is fixed.
+
+    client/
+        cs_scheduler.c
