@@ -738,7 +738,7 @@ PROJECT* CC_STATE::lookup_project(string& str) {
     for (i=0; i<projects.size(); i++) {
         if (projects[i]->master_url == str) return projects[i];
     }
-    printf("CAN'T FIND PROJECT %s\n", str.c_str());
+    BOINCTRACE(_T("CAN'T FIND PROJECT %s\n"), str.c_str());
     return 0;
 }
 
@@ -748,7 +748,7 @@ APP* CC_STATE::lookup_app(string& project_url, string& str) {
         if (apps[i]->project->master_url != project_url) continue;
         if (apps[i]->name == str) return apps[i];
     }
-    printf("CAN'T FIND APP %s\n", str.c_str());
+    BOINCTRACE(_T("CAN'T FIND APP %s\n"), str.c_str());
     return 0;
 }
 
@@ -758,7 +758,7 @@ APP* CC_STATE::lookup_app(PROJECT* project, string& str) {
         if (apps[i]->project != project) continue;
         if (apps[i]->name == str) return apps[i];
     }
-    printf("CAN'T FIND APP %s\n", str.c_str());
+    BOINCTRACE(_T("CAN'T FIND APP %s\n"), str.c_str());
     return 0;
 }
 
@@ -790,7 +790,7 @@ WORKUNIT* CC_STATE::lookup_wu(string& project_url, string& str) {
         if (wus[i]->project->master_url != project_url) continue;
         if (wus[i]->name == str) return wus[i];
     }
-    printf("CAN'T FIND WU %s\n", str.c_str());
+    BOINCTRACE(_T("CAN'T FIND WU %s\n"), str.c_str());
     return 0;
 }
 
@@ -800,7 +800,7 @@ WORKUNIT* CC_STATE::lookup_wu(PROJECT* project, string& str) {
         if (wus[i]->project != project) continue;
         if (wus[i]->name == str) return wus[i];
     }
-    printf("CAN'T FIND WU %s\n", str.c_str());
+    BOINCTRACE(_T("CAN'T FIND WU %s\n"), str.c_str());
     return 0;
 }
 
@@ -810,7 +810,7 @@ RESULT* CC_STATE::lookup_result(string& project_url, string& str) {
         if (results[i]->project->master_url != project_url) continue;
         if (results[i]->name == str) return results[i];
     }
-    printf("CAN'T FIND RESULT %s\n", str.c_str());
+    BOINCTRACE(_T("CAN'T FIND RESULT %s\n"), str.c_str());
     return 0;
 }
 
@@ -820,7 +820,7 @@ RESULT* CC_STATE::lookup_result(PROJECT* project, string& str) {
         if (results[i]->project != project) continue;
         if (results[i]->name == str) return results[i];
     }
-    printf("CAN'T FIND RESULT %s\n", str.c_str());
+    BOINCTRACE(_T("CAN'T FIND RESULT %s\n"), str.c_str());
     return 0;
 }
 
@@ -1416,7 +1416,7 @@ int RPC_CLIENT::get_screensaver_mode(int& status) {
         if (match_tag(buf, "</screensaver_mode>")) break;
         else if (parse_int(buf, "<status>", status)) continue;
     }
-    //BOINCTRACE(_T("Receiving: get_screensaver_mode\nstatus = %d\n"), status);
+    BOINCTRACE(_T("Receiving: get_screensaver_mode\nstatus = %d\n"), status);
     return 0;
 }
 
@@ -1437,7 +1437,7 @@ int RPC_CLIENT::set_screensaver_mode(
     di.print_str(buf);
     strcat(buf, "</set_screensaver_mode>\n");
 
-    //BOINCTRACE(_T("Sending: set_screensaver_mode\n%s\n"), buf);
+    BOINCTRACE(_T("Sending: set_screensaver_mode\n%s\n"), buf);
     return rpc.do_rpc(buf);
 }
 

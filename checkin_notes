@@ -25967,3 +25967,12 @@ David  15 Mar 2005
 
 	clientgui/
 		MainDocument.cpp
+
+Rom    15 Mar 2005
+    - Make the couldn't find messages visible only on debug builds, it
+        freaks people out when they see them in the BOINC Manager log
+        file even though it is normal for it to happen when the daemon
+        shuts down.
+
+    lib/
+        gui_rpc_client.C
