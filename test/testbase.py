@@ -323,7 +323,7 @@ class TestProject(Project):
         time.sleep(5)
     def run_finish_wait(self):
         db = self.db_open()
-        while num_wus_assimilated(db) < num_wu:
+        while (num_wus_assimilated(db) < self.num_wu) or num_wus_to_transition(db):
             time.sleep(.5)
 
     def check(self):

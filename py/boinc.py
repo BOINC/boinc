@@ -238,6 +238,8 @@ def num_wus(db, q=""):
     return db_query(db, "select count(*) from workunit "+q)[0]['count(*)']
 def num_wus_assimilated(db):
     return num_wus(db, "where assimilate_state=%d"%ASSIMILATE_DONE)
+def num_wus_to_transition(db):
+    return num_wus(db, "where transition_time<%d"%(time.time()+30*86400))
 
 def query_yesno(str):
     '''Query user; default Yes'''

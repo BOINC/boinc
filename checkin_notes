@@ -5837,6 +5837,8 @@ Karl 2003/08/18
     sched/
         transitioner.C
         make_work.C
+    lib/
+        backend_lib.C
 
     py/boinc.py
     test/*.py

@@ -229,30 +229,14 @@ int create_work(
     strcpy(wu.result_template, _result_template);
     process_result_template_upload_url_only(wu.result_template, upload_url);
 
+    wu.transition_time = time(0);
     retval = wu.insert();
     if (retval) {
         fprintf(stderr, "create_work: workunit.insert() %d\n", retval);
         return retval;
     }
-    wu.transition_time = time(0);
     wu.id = boinc_db_insert_id();
 
-#if 0
-    char suffix[256];
-    char result_template[MAX_BLOB_SIZE];
-    int i;
-    for (i=0; i<wu.target_nresults; i++) {
-        sprintf(suffix, "%d", i);
-        strcpy(result_template, _result_template);
-        retval = create_result(
-            wu, result_template, suffix, key, upload_url
-        );
-        if (retval) {
-            fprintf(stderr, "create_result: %d\n", retval);
-            break;
-        }
-    }
-#endif
     return 0;
 }
 
