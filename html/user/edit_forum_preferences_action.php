@@ -79,7 +79,11 @@ if ($add_user_to_filter){					//see if we should add any users to the ignorelist
     }
 }
 
-$ignored_users = explode("|",$ignorelist);
+$ignored_users = explode("|",$ignorelist);			//split the list into an array
+$ignored_users = array_unique($ignored_users);			//a user can only be on the list once
+natsort($ignored_users);					//sort the list by userid in natural order
+$ignored_users=array_values($ignored_users);			//reindex
+$real_ignorelist = "";
 for ($i=1;$i<sizeof($ignored_users);$i++){
     if ($ignored_users[$i]!="" and $HTTP_POST_VARS["remove".$ignored_users[$i]]!=""){
 	//this user will be removed
