@@ -31,7 +31,7 @@
 struct PROJECT;
 
 struct FILE_INFO {
-  std::string name;
+    std::string name;
     bool generated_locally;
     bool uploaded;
     bool upload_when_present;
@@ -42,7 +42,7 @@ struct FILE_INFO {
     double bytes_xferred;
     double file_offset;
     double xfer_speed;
-    string hostname;
+    std::string hostname;
     PROJECT* project;
 
     int parse(MIOFILE&);
@@ -50,11 +50,11 @@ struct FILE_INFO {
 };
 
 struct PROJECT {
-    string master_url;
+    std::string master_url;
     double resource_share;
-    string project_name;
-    string user_name;
-    string team_name;
+    std::string project_name;
+    std::string user_name;
+    std::string team_name;
     double user_total_credit;
     double user_expavg_credit;
     double host_total_credit;      // as reported by server
@@ -73,7 +73,7 @@ struct PROJECT {
 };
 
 struct APP {
-    string name;
+    std::string name;
     PROJECT* project;
 
     int parse(MIOFILE&);
@@ -81,7 +81,7 @@ struct APP {
 };
 
 struct APP_VERSION {
-    string app_name;
+    std::string app_name;
     int version_num;
     APP* app;
     PROJECT* project;
@@ -91,8 +91,8 @@ struct APP_VERSION {
 };
 
 struct WORKUNIT {
-    string name;
-    string app_name;
+    std::string name;
+    std::string app_name;
     int version_num;
     double rsc_fpops_est;
     double rsc_fpops_bound;
@@ -107,8 +107,8 @@ struct WORKUNIT {
 };
 
 struct RESULT {
-    string name;
-    string wu_name;
+    std::string name;
+    std::string wu_name;
     int report_deadline;
     bool ready_to_report;
     bool got_server_ack;
@@ -117,7 +117,7 @@ struct RESULT {
     int exit_status;
     int signal;
     int active_task_state;
-    string stderr_out;
+    std::string stderr_out;
     APP* app;
     WORKUNIT* wup;
     PROJECT* project;
@@ -127,7 +127,7 @@ struct RESULT {
 };
 
 struct ACTIVE_TASK {
-    string result_name;
+    std::string result_name;
     int app_version_num;
     double checkpoint_cpu_time;
     double current_cpu_time;
@@ -152,10 +152,10 @@ struct PROXY_INFO {
 };
 
 struct MESSAGE_DESC {
-    string project;
+    std::string project;
     int priority;
     int timestamp;
-    string body;
+    std::string body;
 };
 
 class RPC_CLIENT {
@@ -171,10 +171,10 @@ public:
     std::vector<RESULT*> results;
     std::vector<ACTIVE_TASK*> active_tasks;
 
-    APP* lookup_app(string&);
-    WORKUNIT* lookup_wu(string&);
-    APP_VERSION* lookup_app_version(string&, int);
-    RESULT* lookup_result(string&);
+    APP* lookup_app(std::string&);
+    WORKUNIT* lookup_wu(std::string&);
+    APP_VERSION* lookup_app_version(std::string&, int);
+    RESULT* lookup_result(std::string&);
 
     void link();
 
