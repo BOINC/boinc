@@ -17836,5 +17836,6 @@ David  27 Sept 2004
 
     client/
         client_types.C
+		scheduler_op.C
     lib/
         gui_rpc_client.h
