@@ -74,4 +74,19 @@ struct HOST_INFO {
     extern HINSTANCE g_hIdleDetectionDll;       // handle to DLL for user idle
 #endif
 
+#ifdef __APPLE__
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include <mach/port.h>
+typedef mach_port_t NXEventHandle;
+NXEventHandle NXOpenEventStatus(void);
+extern double NXIdleTime(NXEventHandle handle);
+#ifdef __cplusplus
+}	// extern "C"
+#endif
+
+extern NXEventHandle gEventHandle;
+#endif
+
 #endif

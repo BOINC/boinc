@@ -68,6 +68,26 @@ using std::vector;
 // in this many seconds, error out
 #define NET_XFER_TIMEOUT    600
 
+static void boinc_close_socket(int sock) {
+#ifdef _WIN32
+    closesocket(sock);
+#else
+    close(sock);
+#endif
+}
+
+int get_socket_error(int fd) {
+    socklen_t intsize = sizeof(int);
+    int n;
+#ifdef WIN32
+    getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, &intsize);
+#elif __APPLE__
+    getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
+#else
+    getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, &intsize);
+#endif
+    return n;
+}
 
 int NET_XFER::get_ip_addr(int &ip_addr) {
 

@@ -71,6 +71,10 @@
 
 using std::string;
 
+#ifdef __APPLE__
+NXEventHandle gEventHandle;
+#endif  // __APPLE__
+
 // anyone know how to see if this host has physical network connection?
 //
 int get_connected_state() {
@@ -580,6 +584,10 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
 #ifdef HAVE__DEV_TTY1
         && (check_all_logins || all_tty_idle(idle_time, device_tty, '1', 7))
 #endif
+#ifdef __APPLE__
+        && (NXIdleTime(gEventHandle) > (60 * idle_time_to_run))
+#endif  // __APPLE__
+
         ;
 }
 

@@ -34,6 +34,9 @@ typedef void (CALLBACK* IdleTrackerTerm)();
 typedef DWORD (CALLBACK* IdleTrackerGetIdleTickCount)();
 #endif
 
+#ifdef __WXMAC__
+#include <Carbon/Carbon.h>
+#endif
 
 IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
@@ -304,12 +307,51 @@ void CBOINCGUIApp::StartupBOINCCore()
 
 #endif
 
+#ifdef __WXMAC__
+
+        {
+            wxChar buf[1024];
+            bool success;
+            ProcessSerialNumber ourPSN;
+            FSRef ourFSRef;
+            OSErr err;
+
+            // Set the current directory ahead of the application launch so the core
+            //   client can find its files
+            wxExpandPath(buf, "~/Library/Application Support");
+            strDirectory = wxT(buf);
+            success = ::wxSetWorkingDirectory( strDirectory );
+            if (success)            // If SetWD failed, don't create a directory in wrong place
+                success = wxMkdir( wxT("BOINC Data"), 0777);    // Does nothing if dir exists
+            strDirectory += wxT("/BOINC Data");
+            success = ::wxSetWorkingDirectory( strDirectory );
+//          wxChar *wd = wxGetWorkingDirectory(buf, 1000);  // For debugging
+            // Get the full path to core client inside this application's bundle
+            err = GetCurrentProcess (&ourPSN);
+            if (err == noErr)
+                err = GetProcessBundleLocation(&ourPSN, &ourFSRef);
+            if (err == noErr)
+                err = FSRefMakePath (&ourFSRef, (UInt8*)buf, sizeof(buf));
+            if (err == noErr)
+            {
+                strExecute = wxT("\"");            
+                strExecute += wxT(buf);
+                strExecute += wxT("/Contents/Resources/boinc_client\" -redirectio");
+            }
+            else
+                buf[0] = '\0';
+        }
+
+#else   // ! __WXMAC__
+
         // We are only interested in the path component of the fully qualified path.
         wxFileName::SplitPath( szExecutableDirectory, &strDirectory, NULL, NULL );
 
         // Set the current directory ahead of the application launch so the core
         //   client can find its files
         ::wxSetWorkingDirectory( strDirectory );
+
+#endif  // ! __WXMAC__
 
 #ifdef __WXMSW__
 
@@ -347,11 +389,16 @@ void CBOINCGUIApp::StartupBOINCCore()
 
 #else
 
+#ifndef __WXMAC__
+
         // Append boinc.exe to the end of the strExecute string and get ready to rock
         strExecute += wxT("/boinc");
+        
+#endif  // ! __WXMAC__
+
         m_lBOINCCoreProcessId = ::wxExecute( strExecute );
 
-#endif
+#endif  // ! __WXMSW__
 
         if ( 0 != m_lBOINCCoreProcessId )
             m_bBOINCStartedByManager = true;

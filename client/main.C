@@ -140,6 +140,9 @@ void show_message(PROJECT *p, char* msg, int priority) {
 // and create an account file
 //
 int add_new_project() {
+#if defined(__WXMAC__)    // If we have a GUI BOINC Manager
+    return 0;
+#else
     PROJECT project;
 
     printf("Enter the URL of the project: ");
@@ -158,6 +161,7 @@ int add_new_project() {
 
     project.tentative = true;
     return project.write_account_file();
+#endif
 }
 
 #ifdef WIN32
@@ -418,6 +422,12 @@ int main(int argc, char** argv) {
         retval = boinc_main_loop();
     }
 #else
+
+#ifdef __APPLE__
+        // Initialize Mac OS X idle time measurement / idle detection
+        gEventHandle = NXOpenEventStatus();
+#endif  // __APPLE__
+
     retval = boinc_main_loop();
 #endif
 
