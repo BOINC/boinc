@@ -30,6 +30,7 @@ extern void get_pathname(FILE_INFO* fip, char* path);
 extern void get_slot_dir(int slot, char* path);
 
 extern int make_project_dir(PROJECT&);
+extern int remove_project_dir(PROJECT&);
 extern int make_slot_dir(int);
 extern void get_account_filename(char* master_url, char* path);
 extern bool is_account_file(char*);

@@ -145,6 +145,16 @@ int make_project_dir(PROJECT& p) {
     return 0;
 }
 
+int remove_project_dir(PROJECT& p) {
+    char buf[256],buf2[256];
+
+    escape_project_url(p.master_url, buf);
+    sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
+	clean_out_dir(buf2);
+    RemoveDirectory(buf2);
+    return 0;
+}
+
 // Returns the location of a numbered slot directory
 //
 int make_slot_dir(int slot) {
@@ -170,6 +180,16 @@ int make_project_dir(PROJECT& p) {
     escape_project_url(p.master_url, buf);
     sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
     mkdir(buf2, 0777);
+    return 0;
+}
+
+int remove_project_dir(PROJECT& p) {
+    char buf[256],buf2[256];
+
+    escape_project_url(p.master_url, buf);
+    sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
+	clean_out_dir(buf2);
+    rmdir(buf2);
     return 0;
 }
 
