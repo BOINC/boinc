@@ -7,14 +7,82 @@ VPATH	= @srcdir@
 
 INSTALL_DIR = /usr/local/boinc
 
+ENV_MSG_1 = "The environment variable "
+ENV_MSG_2 = " does not seem to be set. "
+ENV_MSG_3 = "Please be sure to set all environment variables before compiling. "
+ifndef BOINC_DOWNLOAD_DIR
+BOINC_WARN_ENV = 1
+BOINC_DOWNLOAD_DIR_MSG = $(ENV_MSG_1)"BOINC_DOWNLOAD_DIR"$(ENV_MSG_2)
+endif
+ifndef BOINC_UPLOAD_DIR
+BOINC_WARN_ENV = 1
+BOINC_UPLOAD_DIR_MSG = $(ENV_MSG_1)"BOINC_UPLOAD_DIR"$(ENV_MSG_2)
+endif
+ifndef BOINC_PLATFORM
+BOINC_WARN_ENV = 1
+BOINC_PLATFORM_MSG = $(ENV_MSG_1)"BOINC_PLATFORM"$(ENV_MSG_2)
+endif
+ifndef BOINC_EMAIL
+BOINC_WARN_ENV = 1
+BOINC_EMAIL_MSG = $(ENV_MSG_1)"BOINC_EMAIL"$(ENV_MSG_2)
+endif
+ifndef BOINC_URL_BASE
+BOINC_WARN_ENV = 1
+BOINC_URL_BASE_MSG = $(ENV_MSG_1)"BOINC_URL_BASE"$(ENV_MSG_2)
+endif
+ifndef BOINC_KEY_DIR
+BOINC_WARN_ENV = 1
+BOINC_KEY_DIR_MSG = $(ENV_MSG_1)"BOINC_KEY_DIR"$(ENV_MSG_2)
+endif
+ifndef BOINC_KEY
+BOINC_WARN_ENV = 1
+BOINC_KEY_MSG = $(ENV_MSG_1)"BOINC_KEY"$(ENV_MSG_2)
+endif
+ifndef BOINC_DB_NAME
+BOINC_WARN_ENV = 1
+BOINC_DB_NAME_MSG = $(ENV_MSG_1)"BOINC_DB_NAME"$(ENV_MSG_2)
+endif
+ifndef BOINC_USER
+BOINC_WARN_ENV = 1
+BOINC_USER_MSG = $(ENV_MSG_1)"BOINC_USER"$(ENV_MSG_2)
+endif
+ifndef BOINC_UPLOAD_URL
+BOINC_WARN_ENV = 1
+BOINC_UPLOAD_URL_MSG = $(ENV_MSG_1)"BOINC_UPLOAD_URL"$(ENV_MSG_2)
+endif
+ifndef BOINC_DOWNLOAD_UL
+BOINC_WARN_ENV = 1
+BOINC_DOWNLOAD_URL_MSG = $(ENV_MSG_1)"BOINC_DOWNLOAD_URL"$(ENV_MSG_2)
+endif
+ifndef BOINC_MASTER_URL
+BOINC_WARN_ENV = 1
+BOINC_MASTER_URL_MSG = $(ENV_MSG_1)"BOINC_MASTER_URL"$(ENV_MSG_2)
+endif
+ifdef BOINC_WARN_ENV
+ENV_MESSAGES = echo "****************************************"; \
+    echo $(BOINC_DOWNLOAD_DIR_MSG) \
+    $(BOINC_UPLOAD_URL_MSG) \
+    $(BOINC_PLATFORM_MSG) \
+    $(BOINC_EMAIL_MSG) \
+    $(BOINC_URL_BASE_MSG) \
+    $(BOINC_KEY_DIR_MSG) \
+    $(BOINC_KEY_MSG) \
+    $(BOINC_DB_NAME_MSG) \
+    $(BOINC_USER_MSG) \
+    $(BOINC_UPLOAD_URL_MSG) \
+    $(BOINC_DOWNLOAD_URL_MSG) \
+    $(BOINC_MASTER_URL_MSG) \
+    $(ENV_MSG_3); \
+    echo "****************************************";
+endif
+
 #
 #	The ../$(srcdir)/client/configure
 #	only works when the original configure is relative path
 #	it doesn't work when it is an absolute path
 #	This needs to be fixed
 #
-all:
-	echo $(APACHE_MSG)
+all: messages
 	cd RSAEuro/source; ${MAKE}; cd ../..; \
 	cd db; ${MAKE}; cd ..; \
 	cd lib; ${MAKE}; cd ..; \
@@ -23,6 +91,9 @@ all:
 	cd client; ../$(srcdir)/client/configure; ${MAKE}; cd ..; \
 	cd sched; ${MAKE}; cd ..; \
 	cd tools; ${MAKE}; cd ..;
+
+messages:
+	$(ENV_MESSAGES)
 
 clean:
 	rm -f boinc.tar.gz config.cache; \
