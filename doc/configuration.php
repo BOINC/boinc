@@ -166,11 +166,12 @@ list_item("min_sendwork_interval",
     new work."
 );
 list_item("daily_result_quota",
-    "Maximum number of results sent to a given host in a 24-hour
+    "Maximum number of results (per CPU) sent to a given host in a 24-hour
     period. Helps prevent hosts with download or application problems from
     returning lots of error results.  Be sure to set it large enough that
     a host does not go idle in a 24-hour period, and can download enough
-    work to keep it busy if disconnected from the net for a few days."
+    work to keep it busy if disconnected from the net for a few days. The
+    maximum number of CPUS is bounded at four."
 );
 list_item("ignore_delay_bound",
     "By default, results are not sent to hosts too slow to complete them within delay bound.

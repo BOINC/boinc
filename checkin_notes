@@ -24978,4 +24978,6 @@ Bruce 17 Feb 2005
 
     sched/
         sched_send.C
+    doc/
+        configuration.php
 
