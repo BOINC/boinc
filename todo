@@ -106,6 +106,8 @@ Limit frequency of disk writes
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
+more accurate time to completion calculation - perhaps use recent change in percent done?
+
 change show_message to use vsprintf
 
 add an RPC to verify an account ID (returns DB ID for user)
