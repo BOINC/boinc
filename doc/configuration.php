@@ -1,6 +1,11 @@
 <?php
 
+// MORE WORK IS NEEDED ON THIS IMPORTANT FILE.  THE DEPRECATED <FOO/> ELEMENTS SHOULD BE CHANGED TO <FOO> 1 </FOO>.
+// MANY OF THE TAGS BELOW ARE NOT EXPLAINED IN THE DOCUMENTATION, AND THE LIST HERE IS PROBABLY NOT COMPLETE.
+
 require_once("docutil.php");
+
+echo "<-- \$Id$ -->\n";
 
 page_head("The project configuration file");
 
@@ -11,73 +16,130 @@ A config.xml file looks like this:
 <pre>",
 htmlspecialchars("
 <boinc>
+
   <config>
-    <host>main_host</host>
-    <db_name>x</db_name>
-    <db_host>x</db_host>
-    <db_passwd>x</db_passwd>
-    <db_user>x</db_user>
-    <shmem_key>x</shmem_key>
-    <download_url>x</download_url>
-    <download_dir>x</download_dir>
-    <upload_url>x</upload_url>
-    <upload_dir>x</upload_dir>
-    <cgi_url>x</cgi_url>
-    <stripchart_cgi_url>x</stripchart_cgi_url>
-    [ <one_result_per_user_per_wu/> ]
-    [ <disable_account_creation/> ]
-    [ <max_wus_to_send>10</max_wus_to_send ]
-    [ <enforce_delay_bound/> ]
-    [ <show_results/> ]
+    <host>                  project.hostname.ip   </host>
+    <db_name>               databasename          </db_name>
+    <db_host>               database.host.ip      </db_host>
+    <db_user>               database_user_name    </db_user>
+    <db_passwd>             database_password     </db_passwd>
+    <shmem_key>             shared_memory_key     </shmem_key>
+    <download_url>          http://A/URL          </download_url>
+    <download_dir>          /path/to/directory    </download_dir>
+    <upload_url>            http://A/URL          </upload_url>
+    <upload_dir>            /path/to/directory    </upload_dir>
+    <cgi_url>               http://A/URL          </cgi_url>
+    <stripchart_cgi_url>    http://A/URL          </stripchart_cgi_url>
+    <log_dir>               /path/to/directory    </log_dir>
+
+    [ <disable_account_creation/>                                 ]
+    [ <show_results/>                                             ]
+    [ <one_result_per_user_per_wu/>                               ]
+    [ <max_wus_to_send>              N   </max_wus_to_send>       ]
+    [ <min_sendwork_interval>        N   </min_sendwork_interval> ]
+    [ <daily_result_quota>           N   </daily_result_quota>    ]
+    [ <enforce_delay_bound/>                                      ]
+
     <!-- optional; defaults as indicated: -->
-    <project_dir>../</project_dir>     <!-- relative to location of 'start' -->
-    <bin_dir>bin</bin_dir>             <!-- relative to project_dir -->
-    <cgi_bin_dir>cgi-bin</cgi_dir>
-     ...
+    <project_dir>  ../      </project_dir>  <!-- relative to location of 'start' -->
+    <bin_dir>      bin      </bin_dir>      <!-- relative to project_dir -->
+    <cgi_bin_dir>  cgi-bin  </cgi_dir>      <!-- relative to project_dir -->
   </config>
+
   <daemons>
     <daemon>
-      [ <host>foobar</host> ]
-      [ <disabled>1</disabled> ]
-      <cmd>feeder -d 3</cmd>
+      <cmd>          feeder -d 3   </cmd>
+      [ <host>       hostname.ip   </host>     ]
+      [ <disabled>   1             </disabled> ]
+    </daemon>
+    <daemon>
+    ...
     </daemon>
   </daemons>
+
   <tasks>
     <task>
-      [ <host>foobar</host> ]
-      [ <disabled>1</disabled> ]
-      [ <always_run>1</always_run> ]
-      <cmd>get_load</cmd>
-      <output>get_load.out</output>
-      <period>5 min</period>
+      <cmd>          get_load        </cmd>
+      <output>       get_load.out    </output>
+      <period>       5 min           </period>
+      [ <host>       host.ip         </host>       ]
+      [ <disabled>   1               </disabled>   ]
+      [ <always_run> 1               </always_run> ]
     </task>
     <task>
-      <cmd>echo \"HI\" | mail quarl</cmd>
-      <output>/dev/null</output>
-      <period>1 day</period>
+      <cmd>      echo \"HI\" | mail root@example.com     </cmd>
+      <output>   /dev/null                             </output>
+      <period>   1 day                                 </period>
     </task>
+    <tasks>
+    ...
+    </tasks>
   </tasks>
+
 </boinc>
 "),
 "</pre>
-The elements are:
 ";
+
+echo "<b>The general project configuration elements are:</b>";
 list_start();
 list_item("host", "name of project's main host, as given by Python's socket.hostname().  Daemons and tasks run on this host by default.");
-list_item("db_name, etc.", "Database connection info");
+list_item("db_name", "Database name");
+list_item("db_host", "Database host machine");
+list_item("db_user", "Database user name");
+list_item("db_passwd", "Database password");
 list_item("shmem_key", "ID of scheduler shared memory.  Must be unique on host.");
 list_item("download_url", "URL of data server for download");
 list_item("download_dir", "absolute path of download directory");
 list_item("upload_url", "URL of file upload handler");
 list_item("upload_dir", "absolute path of upload directory");
 list_item("cgi_url", "URL of scheduling server");
-list_item("one_result_per_user_per_wu", "If present, send at most one result of a given workunit to a given user");
+list_item("stripchart_cgi_url", "URL of stripchart server");
+list_item("log_dir", "Path to the directory where the assimilator, feeder, transitioner and
+cgi output logs are stored.  This allows you to change the default log
+directory path.  If set explicitly, you can also use the 'grep logs'
+features on the administrative pages.  Note: enabling 'grep logs' with
+very long log files can hang your server, since grepping GB files can
+take a long time.  If you enable this feature, be sure to rotate the
+logs so that they are not too big.");
+list_end();
+
+echo "<b>The following control features that you may or may not want available to users.</b>";
+list_start();
 list_item("disable_account_creation", "If present, disallow account creation");
-list_item("max_wus_to_send", "Maximum results sent per scheduler RPC");
-list_item("enforce_delay_bound", "Don't send results to hosts
-    too slow to complete them within delay bound");
 list_item("show_results", "Enable web site features that show results (per user, host, etc.)");
 list_end();
+
+echo "<b>The following control the way in which results are scheduled, sent, and assigned to users and hosts.</b>";
+list_start();
+list_item("one_result_per_user_per_wu", "If present, send at most one result of a given workunit to a given
+user. This is useful for checking accuracy/validity of results.  It
+ensures that the results for a given workunit are generated by
+<b>different</b> users.  If you have a validator that compares
+different results for a given workunits to ensure that they are
+equivalent, you should probably enable this.  Otherwise you may end up
+validating results from a given user with results from the <b>same</b>
+user.");
+list_item("max_wus_to_send", "Maximum results sent per scheduler RPC. Helps prevent hosts with
+trouble from getting too many results and trashing them.  But you
+should set this large enough so that a host which is only connected to
+the net at intervals has enough work to keep it occupied in between
+connections.");
+list_item("min_sendwork_interval", "Minimum number of seconds to wait after sending results to a given
+host, before new results are sent to the same host.  Helps prevent
+hosts with download or application problems from trashing lots of
+results by returning lots of error results.  But don't set it to be so
+long that a host goes idle after completing its work, before getting
+new work.");
+list_item("daily_result_quota", "Maximum number of results sent to a given host in a 24-hour
+period. Helps prevent hosts with download or application problems from
+returning lots of error results.  Be sure to set it large enough that
+a host does not go idle in a 24-hour period, and can download enough
+work to keep it busy if disconnected from the net for a few days.");
+list_item("enforce_delay_bound", "Don't send results to hosts too slow to complete them within delay bound");
+list_end();
+
+// THE INFORMATION BELOW NEEDS TO BE ORGANIZED AND PUT INTO TABLES OR SOME OTHER LESS CRAMPED FORM
 echo "
 <b>Tasks</b> are periodic, short-running jobs.
 &lt;cmd> and &lt;period> are required.

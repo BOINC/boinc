@@ -19473,3 +19473,8 @@ Rom    14 Nov 2004
     win_build/
         boinc_guirpc_test.vcproj
         boinc_ss.vcproj
+
+Bruce  15 Nov 2004
+    - Work on documentation.  Add explanation, missing material.  More work needed.
+    doc/configuration.php
+
