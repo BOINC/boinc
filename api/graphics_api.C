@@ -64,10 +64,6 @@ static void (*worker_main)();
 
 #ifdef _WIN32
 DWORD WINAPI foobar(LPVOID) {
-    set_worker_timer();
-    worker_main();
-    return 0;
-}
 #else
 void* foobar(void*) {
 #endif

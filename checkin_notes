@@ -19153,3 +19153,12 @@ Bruce Allen 2004-11-07
 
     html/user/
         top_teams.php
+
+David  9 Nov 2004
+    - typo in graphics_api.C
+    - credit.inc is already included in team.inc
+
+    api/
+        graphics_api.C
+    html/user
+        top_teams.php
