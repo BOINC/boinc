@@ -83,7 +83,7 @@ function show_host($host, $private) {
     $results = "$nresults_valid valid / $nresults_success successful / <a href=results_host.php?hostid=$host->id>$nresults</a> total";
     if ($last_result) {
         $time_last_result = time_str($last_result->received_time);
-        $results .= " Last received: $time_last_result";
+        $results .= "<br>Last received: $time_last_result";
     }
     row2("Results", $results);
 
