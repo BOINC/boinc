@@ -51,8 +51,10 @@ function page_tail() {
     echo "<hr><a href=index.php> Main admin page </a>\n";
 }
 
-function date_str($when) {
-    return date("g:i A, l M j", $when);
+function date_str($x) {
+    if ($x == 0) return "---";
+    // return date("g:i A, l M j", $when);
+    return strftime("%Y-%m-%d", $x);
 }
 
 function time_str($x) {
