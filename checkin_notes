@@ -8287,6 +8287,10 @@ Jeff 09 Dec 2003
       across gcc versions (and solaris versions for that matter).  I
       don't like it but it works.
 
+      IMPORTANT NOTE.  After sourcing collect2_line you have to
+      re-"hard link" the executable boinc_client to a proper 
+      name with the correct version.
+
       client/
         collect2_line   (new file)
 
