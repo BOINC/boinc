@@ -26483,3 +26483,10 @@ David  1 April 2005
 
     client/
         main.C
+
+David  1 April 2005
+    - core client: if an app hasn't checkpointed yet,
+        leave it in memory when preempting.
+
+    client/
+        cs_apps.C

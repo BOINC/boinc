@@ -79,6 +79,9 @@ language("German", array(
     site( "http://www.boinc-forum.de/", "www.boinc-forum.de"),
     site( "http://www.emuleatboinc.de/board", "Official eMule @ BOINC Team Page")
 ));
+language("Hungarian", array(
+    site("http://seti.hwsw.hu/", "HWSW SETI@home Team")
+));
 language("Italian", array(
     site("http://it.groups.yahoo.com/group/BOINC-ITALIA/", "BOINC-ITALIA")
 ));
