@@ -72,7 +72,9 @@ private:
     wxTimer*        m_pFrameListPanelRenderTimer;
 
     wxStaticBitmap* m_pbmpConnected;
+    wxStaticText*   m_ptxtConnected;
     wxStaticBitmap* m_pbmpDisconnect;
+    wxStaticText*   m_ptxtDisconnect;
 
     wxString        m_strBaseTitle;
 

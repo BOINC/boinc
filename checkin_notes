@@ -22169,4 +22169,17 @@ Rom    6 Jan 2005
         BOINCTaskBar.cpp, .h
         MainFrame.cpp, .h
 
-    
+Rom    7 Jan 2005
+    - Bug Fix: Provide better visuals during the connect and disconnected
+        states for the BOINC Manager
+    - Bug Fix: Provide written text describing the BOINC Manager state
+    - Bug Fix: Add new strings to language files
+
+    clientgui/
+        MainFrame.cpp, .h
+        stdwx.h
+    clientgui/res/
+        connect.xpm
+        disconnect.xpm
+    clientgui/locale/
+        < All PO files >

@@ -82,6 +82,7 @@
 #include <wx/html/htmlwin.h>    // html window support
 #include <wx/statline.h>        // static line support
 #include <wx/statbmp.h>         // static bitmap support
+#include <wx/stattext.h>        // static text support
 #include <wx/clipbrd.h>         // clipboard support
 #include <wx/datetime.h>        // date/time support
 #include <wx/textdlg.h>

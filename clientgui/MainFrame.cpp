@@ -333,7 +333,7 @@ bool CMainFrame::CreateStatusbar()
     if (m_pStatusbar)
         return true;
 
-    const wxInt32 widths[] = {-1, 20, 20};
+    const wxInt32 widths[] = {-1, 200, 20};
 
     m_pStatusbar = CreateStatusBar(WXSIZEOF(widths), wxST_SIZEGRIP, ID_STATUSBAR);
     wxASSERT(NULL != m_pStatusbar);
@@ -345,8 +345,14 @@ bool CMainFrame::CreateStatusbar()
     m_pbmpConnected = new wxStaticBitmap(m_pStatusbar, -1, wxIcon(connect_xpm));
     m_pbmpConnected->Hide();
 
+    m_ptxtConnected = new wxStaticText(m_pStatusbar, -1, _("Connected to BOINC"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE );
+    m_ptxtConnected->Hide();
+
     m_pbmpDisconnect = new wxStaticBitmap(m_pStatusbar, -1, wxIcon(disconnect_xpm));
     m_pbmpDisconnect->Hide();
+
+    m_ptxtDisconnect = new wxStaticText(m_pStatusbar, -1, _("Disconnected from BOINC"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE );
+    m_ptxtDisconnect->Hide();
 
     SendSizeEvent();
 
@@ -866,15 +872,27 @@ void CMainFrame::OnSize( wxSizeEvent& event )
         if ( m_pbmpConnected )
         {
             size = m_pbmpConnected->GetSize();
-            m_pbmpConnected->Move(rect.x + (rect.width - size.x) / 2,
+            m_pbmpConnected->Move(rect.x + 1,
                                   rect.y + (rect.height - size.y) / 2);
+        }
+
+        if ( m_ptxtConnected )
+        {
+            m_ptxtConnected->Move((rect.x + size.x) + 2,
+                                  (rect.y + (rect.height - size.y) / 2) + 1);
         }
 
         if ( m_pbmpDisconnect )
         {
             size = m_pbmpConnected->GetSize();
-            m_pbmpDisconnect->Move(rect.x + (rect.width - size.x) / 2,
+            m_pbmpDisconnect->Move(rect.x + 1,
                                    rect.y + (rect.height - size.y) / 2);
+        }
+
+        if ( m_ptxtDisconnect )
+        {
+            m_ptxtDisconnect->Move((rect.x + size.x) + 2,
+                                   (rect.y + (rect.height - size.y) / 2) + 1);
         }
     }
 
@@ -954,7 +972,9 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
             if ( pDoc->IsConnected() )
             {
                 m_pbmpConnected->Show();
+                m_ptxtConnected->Show();
                 m_pbmpDisconnect->Hide();
+                m_ptxtDisconnect->Hide();
 
                 pDoc->GetConnectedComputerName( strConnectedMachine );
                 if ( strConnectedMachine.empty() )
@@ -967,9 +987,9 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
             else
             {
                 m_pbmpConnected->Hide();
+                m_ptxtConnected->Hide();
                 m_pbmpDisconnect->Show();
-
-                SetTitle( m_strBaseTitle );
+                m_ptxtDisconnect->Show();
             }
         }
     }
