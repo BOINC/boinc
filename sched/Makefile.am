@@ -13,7 +13,7 @@ EXTRA_PROGRAMS = fcgi
 EXTRA_DIST = wd.php wd_nresults_changing.php
 
 # scripts that 'make install' should put in bindir
-bin_SCRIPTS = watch_tcp start stop
+bin_SCRIPTS = watch_tcp start stop status
 
 LDADD = -L. -lsched $(MYSQL_LIBS)
 
@@ -99,3 +99,6 @@ fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi -lfcgi++ $(MYSQL_LIBS)
 
 stop:
 	ln -s start stop
+
+status:
+	ln -s start status
