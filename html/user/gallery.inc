@@ -30,16 +30,20 @@ function build_picture_pages($width, $height) {
 
   mysql_free_result($result);
 
-  if (count($userIds) == 0) {
-    page_tail();
-    exit();
+  if (count($userIds) > 0) {
+    // Randomize the ordering of users.
+    shuffle($userIds);
   }
 
-  // Randomize the ordering of users.
-  shuffle($userIds);
-
   $numPages = ceil(count($userIds)/($width * $height));
-  
+
+  // Make sure that a page is generated even when no profiles with pictures
+  // exist in order to avoid 404 errors from the profile_menu page.
+
+  if ($numPages == 0) {
+    $numPages = 1;
+  }
+
   echo "Generating $numPages pages.<br>";
 
   $count = 0;
