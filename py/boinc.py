@@ -111,7 +111,7 @@ def my_symlink(src,dest):
     try:
         os.symlink(src,dest)
     except OSError, e:
-        e.filename = dest
+        e.filename = src + ' -> ' + dest
         raise
 
 def my_link(src,dest):
@@ -119,7 +119,7 @@ def my_link(src,dest):
     try:
         os.link(src,dest)
     except OSError, e:
-        e.filename = dest
+        e.filename = src + ' -> ' + dest
         raise
 
 # install = options.install_function

@@ -472,8 +472,12 @@ class ResultMeter:
         if self.pid:
             atexit.register(self.stop)
             return
+        prev_s = None
         while True:
-            verbose_echo(1, apply(func, args))
+            s = apply(func, args)
+            if s != prev_s:
+                verbose_echo(1, s)
+                prev_s = s
             time.sleep(delay)
     def stop(self):
         if self.pid:

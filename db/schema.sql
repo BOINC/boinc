@@ -170,6 +170,7 @@ CREATE TABLE `result` (
   `granted_credit` double NOT NULL default '0',
   `opaque` int(11) NOT NULL default '0',
   `random` int(11) NOT NULL default '0',
+  `client_version_num` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `res_wuid` (`workunitid`),

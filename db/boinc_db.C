@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -570,7 +570,7 @@ void DB_WORKUNIT::db_print(char* buf){
         "workseq_next=%d, opaque=%d",
         id, create_time, appid,
         name, xml_doc, batch,
-        rsc_fpops, rsc_iops, rsc_memory, rsc_disk, 
+        rsc_fpops, rsc_iops, rsc_memory, rsc_disk,
         need_validate,
         canonical_resultid, canonical_credit,
         timeout_check_time, delay_bound,
@@ -607,21 +607,23 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
 void DB_RESULT::db_print(char* buf){
     escape_single_quotes(xml_doc_out);
     escape_single_quotes(stderr_out);
-    sprintf(buf,
+    sprintf(
+        buf,
         "id=%d, create_time=%d, workunitid=%d, "
         "server_state=%d, outcome=%d, client_state=%d, "
         "hostid=%d, report_deadline=%d, sent_time=%d, received_time=%d, "
         "name='%s', cpu_time=%f, "
         "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
         "batch=%d, file_delete_state=%d, validate_state=%d, "
-        "claimed_credit=%f, granted_credit=%f, opaque=%d, random=%d",
+        "claimed_credit=%f, granted_credit=%f, opaque=%d, random=%d, "
+        "client_version_num=%d",
         id, create_time, workunitid,
         server_state, outcome, client_state,
         hostid, report_deadline, sent_time, received_time,
         name, cpu_time,
         xml_doc_in, xml_doc_out, stderr_out,
         batch, file_delete_state, validate_state,
-        claimed_credit, granted_credit, opaque, random
+        claimed_credit, granted_credit, opaque, random, client_version_num
     );
     unescape_single_quotes(xml_doc_out);
     unescape_single_quotes(stderr_out);
@@ -652,6 +654,7 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     granted_credit = atof(r[i++]);
     opaque = atoi(r[i++]);
     random = atoi(r[i++]);
+    client_version_num = atoi(r[i++]);
 }
 
 void DB_WORKSEQ::db_print(char* buf){

@@ -5384,3 +5384,10 @@ Karl 2003/07/24
     release 1.07.
 
     client/*
+
+Karl 2003/07/25
+    added client_version_num (e.g. 105) field to RESULT table
+
+    db/*
+    sched/*
+    py/*

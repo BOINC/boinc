@@ -475,6 +475,8 @@ int handle_results(
 
     for (i=0; i<sreq.results.size(); i++) {
         rp = &sreq.results[i];
+        rp->client_version_num =
+            sreq.core_client_major_version*100 + sreq.core_client_minor_version;
 
         // acknowledge the result even if we couldn't find it --
         // don't want it to keep coming back
