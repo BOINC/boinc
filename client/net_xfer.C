@@ -67,7 +67,9 @@
 #include "client_state.h"
 #include "message.h"
 
-#if !GETSOCKOPT_SOCKLEN_T
+#ifdef _WIN32
+typedef int socklen_t;
+#elif !GETSOCKOPT_SOCKLEN_T
 typedef size_t socklen_t;
 #endif
 
@@ -383,13 +385,13 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
         fd = nxp->socket;
         if (FD_ISSET(fd, &read_fds) || FD_ISSET(fd, &write_fds)) {
             if (!nxp->is_connected) {
-// #ifdef _WIN32
-//                 getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, (int *)&intsize);
-// #elif __APPLE__
-//                 getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
-// #else
+#ifdef _WIN32
+                getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, &intsize);
+#elif __APPLE__
+                getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
+#else
                 getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, &intsize);
-// #endif
+#endif
                 if (n) {
                     scope_messages.printf("NET_XFER_SET::do_select(): socket %d connect failed\n", fd);
                     nxp->error = ERR_CONNECT;
