@@ -246,6 +246,7 @@ int CLIENT_STATE::init() {
         PROJECT* project = lookup_project(reset_project_url);
         if (project) {
             reset_project(project);
+            msg_printf(project, MSG_INFO, "Project has been reset");
         } else {
             printf("project %s not found\n", reset_project_url);
         }
@@ -1434,6 +1435,19 @@ bool CLIENT_STATE::update_results() {
     return action;
 }
 
+static void print_options(char* prog) {
+    printf(
+        "Usage: %s [options]\n"
+        "    -version               show version info\n"
+        "    -show_projects         show attached projects\n"
+        "    -detach_project URL    detach from a project\n"
+        "    -reset_project URL     reset (clear) a project\n"
+        "    -attach_project        attach to a project (will prompt for URL, account key)\n"
+        "    -update_prefs          contact all projects to update preferences\n"
+        "    -run_cpu_benchmarks    run the CPU benchmarks\n",
+        prog
+    );
+}
 
 // Parse the command line arguments passed to the client
 // NOTE: init() has not been called at this point
@@ -1441,6 +1455,7 @@ bool CLIENT_STATE::update_results() {
 //
 void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     int i;
+    bool show_options = false;
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-exit_when_idle")) {
@@ -1450,9 +1465,11 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-skip_cpu_benchmarks")) {
             skip_cpu_benchmarks = true;
         } else if (!strcmp(argv[i], "-exit_after_app_start")) {
-            exit_after_app_start_secs = atoi(argv[++i]);
+            if (i == argc-1) show_options = true;
+            else exit_after_app_start_secs = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-file_xfer_giveup_period")) {
-            file_xfer_giveup_period = atoi(argv[++i]);
+            if (i == argc-1) show_options = true;
+            else file_xfer_giveup_period = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-min")) {
             global_prefs.run_minimized = true;
         } else if (!strcmp(argv[i], "-suspend")) {
@@ -1466,38 +1483,54 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         // The following are only used for testing to alter scheduler/file transfer
         // backoff rates
         } else if (!strcmp(argv[i], "-master_fetch_period")) {
-            master_fetch_period = atoi(argv[++i]);
+            if (i == argc-1) show_options = true;
+            else master_fetch_period = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-retry_base_period")) {
-            retry_base_period = atoi(argv[++i]);
+            if (i == argc-1) show_options = true;
+            else retry_base_period = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-retry_cap")) {
-            retry_cap = atoi(argv[++i]);
+            if (i == argc-1) show_options = true;
+            else retry_cap = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-master_fetch_retry_cap")) {
-            master_fetch_retry_cap = atoi(argv[++i]);
+            if (i == argc-1) show_options = true;
+            else master_fetch_retry_cap = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-master_fetch_interval")) {
-            master_fetch_interval = atoi(argv[++i]);
+            if (i == argc-1) show_options = true;
+            else master_fetch_interval = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-sched_retry_delay_min")) {
-            sched_retry_delay_min = atoi(argv[++i]);
+            if (i == argc-1) show_options = true;
+            else sched_retry_delay_min = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-sched_retry_delay_max")) {
-            sched_retry_delay_max = atoi(argv[++i]);
+            if (i == argc-1) show_options = true;
+            else sched_retry_delay_max = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-pers_retry_delay_min")) {
-            pers_retry_delay_min = atoi(argv[++i]);
+            if (i == argc-1) show_options = true;
+            else pers_retry_delay_min = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-pers_retry_delay_max")) {
-            pers_retry_delay_max = atoi(argv[++i]);
+            if (i == argc-1) show_options = true;
+            else pers_retry_delay_max = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-pers_giveup")) {
-            pers_giveup = atoi(argv[++i]);
+            if (i == argc-1) show_options = true;
+            else pers_giveup = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-debug_fake_exponential_backoff")) {
             debug_fake_exponential_backoff = true;
 
         // the above options are private (i.e. not shown by -help)
+        // Public options follow.
+        // NOTE: if you change or add anything, make the same chane
+        // in show_options() (above) and in doc/client.php
 
         } else if (!strcmp(argv[i], "-show_projects")) {
             show_projects = true;
         } else if (!strcmp(argv[i], "-detach_project")) {
-            strcpy(detach_project_url, argv[++i]);
+            if (i == argc-1) show_options = true;
+            else strcpy(detach_project_url, argv[++i]);
         } else if (!strcmp(argv[i], "-reset_project")) {
-            strcpy(reset_project_url, argv[++i]);
+            if (i == argc-1) show_options = true;
+            else strcpy(reset_project_url, argv[++i]);
         } else if (!strcmp(argv[i], "-update_prefs")) {
-            strcpy(update_prefs_url, argv[++i]);
+            if (i == argc-1) show_options = true;
+            else strcpy(update_prefs_url, argv[++i]);
         } else if (!strcmp(argv[i], "-run_cpu_benchmarks")) {
             run_cpu_benchmarks = true;
         } else if (!strcmp(argv[i], "-attach_project")) {
@@ -1506,19 +1539,16 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             printf( "%.2f %s\n", MAJOR_VERSION+(MINOR_VERSION/100.0), HOSTTYPE );
             exit(0);
         } else if (!strcmp(argv[i], "-help")) {
-            printf(
-                "Usage: %s [options]\n"
-                "    -version                show version info\n"
-                "    -attach_project         attach to a project (will prompt for URL, account key)\n"
-                "    -update_prefs           contact all projects to update preferences\n"
-                "    -run_cpu_benchmarks     run the CPU benchmarks\n",
-                argv[0]
-            );
+            print_options(argv[0]);
             exit(0);
         } else {
             printf("Unknown option: %s\n", argv[i]);
-            exit(1);
+            show_options = true;
         }
+    }
+    if (show_options) {
+        print_options(argv[0]);
+        exit(1);
     }
 }
 

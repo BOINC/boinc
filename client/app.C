@@ -718,9 +718,14 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 // May as well send it a kill signal.
 //
 int ACTIVE_TASK::abort() {
-    state = PROCESS_ABORT_PENDING;
-    result->active_task_state = PROCESS_ABORT_PENDING;
-    return kill_task();
+    if (state == PROCESS_RUNNING) {
+        state = PROCESS_ABORT_PENDING;
+        result->active_task_state = PROCESS_ABORT_PENDING;
+        kill_task();
+    } else {
+        state = PROCESS_ABORTED;
+    }
+    return 0;
 }
 
 // check for the stderr file, copy to result record

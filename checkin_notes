@@ -5967,3 +5967,17 @@ David  Sept 1 2003
         file_xfer.C,h
         net_xfer.C
         pers_file_xfer.C
+
+David  Sept 1 2003
+    - Client: project reset wasn't working in cmdline version
+        if there was an active task
+        (because kill_task() blindly sends a KILL signal,
+        even though no process has been started yet so the PID is zero,
+        which just kills the core client)
+    - Correctly print command-line options
+
+    client/
+        app.C
+        client_state.C
+    doc/
+        client.php

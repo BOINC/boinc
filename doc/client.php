@@ -120,46 +120,42 @@ Otherwise it draws the BOINC logo bouncing around the screen.
 <h3>The BOINC command-line client</h3>
 <p>
 The command line client has several options:
-<dl>
-
-<dt> -attach_project
-<dd> Attach this computer to a new project.
-You must have an account with that project.
-You will be asked for the project URL and the account ID.
-
-<dt> -show_projects
-<dd> Print a list of projects to which this computer is attached.
-
-<dt> -detach_project
-<dd> Detach this computer from a project.
-You will be asked for the project URL.
-
-<dt> -reset_project
-<dd> Clear pending work for a project.
-Use this if there is a problem that is preventing
-your computer from working.
-You will be asked for the project URL.
-
-<dt> -update_prefs
-<dd>
-Contact a project's server to obtain new preferences.
-You will be asked for the project URL.
-
-<dt> -run_cpu_benchmarks
-<dd>
-Run CPU benchmarks.
-Do this if you have modified your computer's hardware.
-
-<dt> -help
-<dd> Show client options.
-
-<dt> -version
-<dd> Show client version.
-</dl>
-<p>
-To remove a project: quit the client.
-Then delete the file 'account_PROJECT-URL.xml'
-where PROJECT-URL is the project's URL.
 ";
+list_start();
+list_item("-attach_project",
+    "Attach this computer to a new project.
+    You must have an account with that project.
+    You will be asked for the project URL and the account ID."
+);
+list_item("-show_projects",
+    "Print a list of projects to which this computer is attached."
+);
+
+list_item("-detach_project project-URL",
+    "Detach this computer from a project."
+);
+
+list_item("-reset_project project-URL",
+    "Clear pending work for a project.
+    Use this if there is a problem that is preventing
+    your computer from working."
+);
+
+list_item("-update_prefs project-URL",
+    "Contact a project's server to obtain new preferences."
+);
+
+list_item("-run_cpu_benchmarks",
+    "Run CPU benchmarks.
+    Do this if you have modified your computer's hardware."
+);
+list_item("-help",
+    "Show client options."
+);
+
+list_item("-version",
+    "Show client version."
+);
+list_end();
 page_tail();
 ?>
