@@ -646,6 +646,36 @@ int GUI_RPC_CONN_SET::init() {
     return 0;
 }
 
+static void show_connect_error(in_addr ia) {
+    static double last_time=0;
+    static int count=0;
+
+    double now = dtime();
+    if (last_time == 0) {
+        last_time = now;
+        count = 1;
+    } else {
+        if (now-last_time < 600) {
+            count++;
+            return;
+        }
+        last_time = now;
+    }
+    msg_printf(
+        NULL, MSG_ERROR,
+        "GUI RPC request from non-allowed address %s\n",
+        inet_ntoa(ia)
+    );
+    if (count > 1) {
+        msg_printf(
+            NULL, MSG_ERROR,
+            "%d connections rejected in last 10 minutes\n",
+            count
+        );
+    }
+    count = 0;
+}
+
 bool GUI_RPC_CONN_SET::poll(double) {
     int n = 0;
     unsigned int i;
@@ -694,11 +724,7 @@ bool GUI_RPC_CONN_SET::poll(double) {
         if ( !(gstate.allow_remote_gui_rpc) && !(allowed)) {
             in_addr ia;
             ia.s_addr = htonl(peer_ip);
-            msg_printf(
-                NULL, MSG_ERROR,
-                "GUI RPC request from non-allowed address %s\n",
-                inet_ntoa(ia)
-            );
+            show_connect_error(ia);
             boinc_close_socket(sock);
         } else {
             GUI_RPC_CONN* gr = new GUI_RPC_CONN(sock);

@@ -24431,3 +24431,9 @@ David  9 Feb 2005
         sched_send.C
     tools/
         backend_lib.C
+
+David  9 Feb 2005
+    - report GUI RPC connection rejected errors at most once every ten minutes
+
+    client/
+        gui_rpc_server.C
