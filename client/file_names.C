@@ -162,21 +162,4 @@ bool is_account_file(const char* filename) {
     return true;
 }
 
-int check_unique_instance() {
-#ifdef _WIN32
-    // on Windows, we also set a mutex so that the screensaver
-    // can find out that the core client is running
-    //
-    HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
-    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
-        return ERR_ALREADY_RUNNING;
-    }
-#else
-    if (lock_file(LOCK_FILE_NAME)) {
-        return ERR_ALREADY_RUNNING;
-    }
-#endif
-    return 0;
-}
-
 const char *BOINC_RCSID_7d362a6a52 = "$Id$";

@@ -30,24 +30,22 @@
 typedef BOOL (CALLBACK* IdleTrackerInit)();
 typedef void (CALLBACK* IdleTrackerTerm)();
 
-#endif
-
-#ifndef _WIN32
+#else
 #include "config.h"
-#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#endif
 #include <csignal>
-#include "synch.h"
+//#include "synch.h"
 #endif
 
 #include "diagnostics.h"
-#include "client_state.h"
 #include "error_numbers.h"
+#include "util.h"
+#include "prefs.h"
+#include "filesys.h"
+
+#include "client_state.h"
 #include "file_names.h"
 #include "log_flags.h"
-#include "prefs.h"
-#include "util.h"
 #include "client_msgs.h"
 #include "main.h"
 
@@ -226,7 +224,26 @@ static void signal_handler(int signum) {
 }
 #endif
 
-void boinc_init(int argc, char** argv) {
+static FILE_LOCK file_lock;
+
+int check_unique_instance() {
+#ifdef _WIN32
+    // on Windows, we set a mutex so that the screensaver
+    // can find out that the core client is running
+    //
+    HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
+    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
+        return ERR_ALREADY_RUNNING;
+    }
+#else
+    if (file_lock.lock(LOCK_FILE_NAME)) {
+        return ERR_ALREADY_RUNNING;
+    }
+#endif
+    return 0;
+}
+
+static void init_core_client(int argc, char** argv) {
     int retval;
 
     setbuf(stdout, 0);
@@ -342,7 +359,7 @@ int boinc_main_loop() {
 int main(int argc, char** argv) {
     int retval = 0;
 
-    boinc_init(argc, argv);
+    init_core_client(argc, argv);
 
 #ifdef _WIN32
     // Initialize WinSock

@@ -32,6 +32,7 @@ libboinc_a_SOURCES =        \
     mfile.C                 \
     miofile.C               \
     msg_log.C               \
+    network.C \
     parse.C                 \
     prefs.C                 \
     proxy_info.C            \
@@ -56,16 +57,16 @@ libboinc_a_SOURCES =        \
 
 include_HEADERS =               \
                 app_ipc.h       \
-                diagnostics.h   \
-                filesys.h       \
                 boinc_win.h     \
-                mfile.h         \
-                util.h          \
-                hostinfo.h      \
-                proxy_info.h    \
-                prefs.h         \
+                diagnostics.h   \
                 exception.h     \
-                miofile.h 
+                filesys.h       \
+                hostinfo.h      \
+                mfile.h         \
+                miofile.h   \
+                prefs.h         \
+                proxy_info.h    \
+                util.h      
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/

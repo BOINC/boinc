@@ -25588,3 +25588,14 @@ Bruce 7 March 2005
         inc/
             db_ops.inc
 
+David  7 Mar 2005
+    - Unix compile fixes and core client code cleanup:
+        - add network.C to Makefile
+        - Move check_unique_instance() from file_names.C to main.C
+
+    client/
+        file_names.C,h
+        main.C
+    lib/
+        Makefile.am
+        network.C,h

@@ -39,7 +39,6 @@ extern int make_slot_dir(int);
 extern void get_account_filename(char* master_url, char* path);
 extern bool is_account_file(const char*);
 extern void escape_project_url(char *in, char* out);
-extern int check_unique_instance();
 extern void get_sched_request_filename(PROJECT&, char*);
 extern void get_sched_reply_filename(PROJECT&, char*);
 
