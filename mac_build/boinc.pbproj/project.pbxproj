@@ -202,7 +202,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				OPTIMIZATION_CFLAGS = "-O0";
-				OTHER_CFLAGS = "-DHOSTTYPE=\\\\\\\"MacOSX\\\\\\\" -DHOST=\\\\\\\"MacOSX\\\\\\\" -DMAJOR_VERSION=1 -DMINOR_VERSION=02 -DHAVE_SYS_SOCKET_H -DHAVE_SYS_RESOURCE_H -DHAVE_NETDB_H -DHAVE_UNISTD_H -DHAVE_SYS_WAIT_H -DHAVE_NETINET_IN_H -DHAVE_SIGNAL_H -DHAVE_ARPA_INET_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_DIRENT_H -DHAVE_FCNTL_H -DHAVE_SYS_STAT_H -DHAVE_SYS_SYSCTL_H -DHAVE_SYS_MOUNT_H -DHAVE_SYS_VMMETER_H -DHAVE_FLOCK -DHAVE_SYS_IPC_H -DHAVE_SYS_SHM_H";
+				OTHER_CFLAGS = "-DHOSTTYPE=\\\\\\\"MacOSX\\\\\\\" -DHOST=\\\\\\\"MacOSX\\\\\\\" -DMAJOR_VERSION=1 -DMINOR_VERSION=03 -DHAVE_SYS_SOCKET_H -DHAVE_SYS_RESOURCE_H -DHAVE_NETDB_H -DHAVE_UNISTD_H -DHAVE_SYS_WAIT_H -DHAVE_NETINET_IN_H -DHAVE_SIGNAL_H -DHAVE_ARPA_INET_H -DHAVE_SYS_TIME_H -DHAVE_SYS_TYPES_H -DHAVE_DIRENT_H -DHAVE_FCNTL_H -DHAVE_SYS_STAT_H -DHAVE_SYS_SYSCTL_H -DHAVE_SYS_MOUNT_H -DHAVE_SYS_VMMETER_H -DHAVE_FLOCK -DHAVE_SYS_IPC_H -DHAVE_SYS_SHM_H -DHAVE_GMTOFF";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = BOINC;
@@ -577,6 +577,30 @@
 		};
 		AACB75CA04858CC000A80164 = {
 			fileRef = F51BDF7F0308775A012012A7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AACB9A61048FCB5F00A80164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = mac_app_opengl.cpp;
+			refType = 4;
+		};
+		AACB9A62048FCB5F00A80164 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = mac_carbon_gl.cpp;
+			refType = 4;
+		};
+		AACB9A65048FCB5F00A80164 = {
+			fileRef = AACB9A61048FCB5F00A80164;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		AACB9A66048FCB5F00A80164 = {
+			fileRef = AACB9A62048FCB5F00A80164;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2013,11 +2037,9 @@
 		F54FF8B6029F2FFC012012A7 = {
 			children = (
 				F579BDAB0357F389012012A7,
-				F579BDAC0357F389012012A7,
-				F5895D8F0359FDD6012012A7,
-				F5895D920359FDD6012012A7,
+				AACB9A61048FCB5F00A80164,
 				F5895D900359FDD6012012A7,
-				F5895D910359FDD6012012A7,
+				AACB9A62048FCB5F00A80164,
 				F59DD6F7032FF0AF01A80164,
 				F59DD6F6032FF0AF01A80164,
 				F5E946F303269BE2012012A7,
@@ -2096,7 +2118,6 @@
 				F5E946FA03269BF0012012A7,
 				F59DD6FA032FF0AF01A80164,
 				F579BDAD0357F389012012A7,
-				F5895D930359FDD6012012A7,
 				F5895D940359FDD6012012A7,
 				F5895D9A035A2BEC012012A7,
 				F5895D9C035A2BEE012012A7,
@@ -2121,13 +2142,12 @@
 				F5E946F503269BE2012012A7,
 				F5E946F903269BF0012012A7,
 				F59DD6FB032FF0AF01A80164,
-				F579BDAE0357F389012012A7,
-				F5895D950359FDD6012012A7,
-				F5895D960359FDD6012012A7,
 				F5895D99035A2BEC012012A7,
 				F5895D9B035A2BEE012012A7,
 				AA8B6B21046C364400A80164,
 				AAE6EE680471AC5800A80164,
+				AACB9A65048FCB5F00A80164,
+				AACB9A66048FCB5F00A80164,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2178,21 +2198,8 @@
 			path = ../api/mac_app_opengl.h;
 			refType = 2;
 		};
-		F579BDAC0357F389012012A7 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = mac_app_opengl.c;
-			path = ../api/mac_app_opengl.c;
-			refType = 2;
-		};
 		F579BDAD0357F389012012A7 = {
 			fileRef = F579BDAB0357F389012012A7;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F579BDAE0357F389012012A7 = {
-			fileRef = F579BDAC0357F389012012A7;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2209,13 +2216,6 @@
 			settings = {
 			};
 		};
-		F5895D8F0359FDD6012012A7 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = mac_carbon_dsp.h;
-			path = ../api/mac_carbon_dsp.h;
-			refType = 2;
-		};
 		F5895D900359FDD6012012A7 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2223,40 +2223,8 @@
 			path = ../api/mac_carbon_gl.h;
 			refType = 2;
 		};
-		F5895D910359FDD6012012A7 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = mac_carbon_gl.c;
-			path = ../api/mac_carbon_gl.c;
-			refType = 2;
-		};
-		F5895D920359FDD6012012A7 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = mac_carbon_dsp.c;
-			path = ../api/mac_carbon_dsp.c;
-			refType = 2;
-		};
-		F5895D930359FDD6012012A7 = {
-			fileRef = F5895D8F0359FDD6012012A7;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		F5895D940359FDD6012012A7 = {
 			fileRef = F5895D900359FDD6012012A7;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F5895D950359FDD6012012A7 = {
-			fileRef = F5895D910359FDD6012012A7;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F5895D960359FDD6012012A7 = {
-			fileRef = F5895D920359FDD6012012A7;
 			isa = PBXBuildFile;
 			settings = {
 			};

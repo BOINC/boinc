@@ -1371,6 +1371,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             global_prefs.run_minimized = true;
         } else if (!strcmp(argv[i], "-saver")) {
             start_saver = true;
+        } else if (!strncmp(argv[i], "-psn_", strlen("-psn_"))) {
+            // ignore -psn argument on Mac OS X
         } else if (!strcmp(argv[i], "-exit_before_upload")) {
             exit_before_upload = true;
 

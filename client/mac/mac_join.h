@@ -19,13 +19,5 @@
 
 #include <Carbon/Carbon.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-    
 pascal OSStatus JoinDialogEventHandler (EventHandlerCallRef myHandler, EventRef event, void *userData);
 OSStatus CreateJoinDialog( char *master_url, char *account_key );
-
-#ifdef __cplusplus
-}
-#endif

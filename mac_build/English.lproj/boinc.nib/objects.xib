@@ -4,7 +4,7 @@
   <object name="rootObject" class="NSCustomObject" id="1">
     <string name="customClass">NSApplication</string>
   </object>
-  <array count="39" name="allObjects">
+  <array count="33" name="allObjects">
     <object class="IBCarbonMenuItem" id="309">
       <string name="title">Edit</string>
       <object name="submenu" class="IBCarbonMenu">
@@ -113,7 +113,7 @@
       <object name="submenu" class="IBCarbonMenu" id="343">
         <string name="title">File</string>
         <int name="menuID">129</int>
-        <array count="6" name="items">
+        <array count="5" name="items">
           <object class="IBCarbonMenuItem" id="333">
             <string name="title">Show Graphics</string>
             <ostype name="command">sgfx</ostype>
@@ -121,10 +121,6 @@
           <object class="IBCarbonMenuItem" id="403">
             <string name="title">Clear Messages</string>
             <ostype name="command">clms</ostype>
-          </object>
-          <object class="IBCarbonMenuItem" id="414">
-            <string name="title">Clear Inactive</string>
-            <ostype name="command">clin</ostype>
           </object>
           <object class="IBCarbonMenuItem" id="416">
             <boolean name="separator">TRUE</boolean>
@@ -145,7 +141,7 @@
     <reference idRef="333"/>
     <object class="IBCarbonMenu" id="337">
       <string name="title">main</string>
-      <array count="4" name="items">
+      <array count="3" name="items">
         <reference idRef="316"/>
         <reference idRef="319"/>
         <object class="IBCarbonMenuItem" id="410">
@@ -167,27 +163,6 @@
               </object>
               <object class="IBCarbonMenuItem" id="409">
                 <string name="title">Proxy Server...</string>
-              </object>
-            </array>
-          </object>
-        </object>
-        <object class="IBCarbonMenuItem" id="430">
-          <string name="title">Connection</string>
-          <object name="submenu" class="IBCarbonMenu" id="431">
-            <string name="title">Connection</string>
-            <int name="menuID">131</int>
-            <array count="4" name="items">
-              <object class="IBCarbonMenuItem" id="427">
-                <string name="title">Connect Now</string>
-              </object>
-              <object class="IBCarbonMenuItem" id="429">
-                <boolean name="separator">TRUE</boolean>
-              </object>
-              <object class="IBCarbonMenuItem" id="428">
-                <string name="title">Hangup Connection if Dialed</string>
-              </object>
-              <object class="IBCarbonMenuItem" id="432">
-                <string name="title">Confirm Before Connecting</string>
               </object>
             </array>
           </object>
@@ -334,18 +309,23 @@
     <reference idRef="411"/>
     <reference idRef="412"/>
     <reference idRef="413"/>
-    <reference idRef="414"/>
     <reference idRef="416"/>
     <reference idRef="424"/>
     <reference idRef="425"/>
-    <reference idRef="427"/>
-    <reference idRef="428"/>
-    <reference idRef="429"/>
-    <reference idRef="430"/>
-    <reference idRef="431"/>
-    <reference idRef="432"/>
+    <object class="IBCarbonMenuItem" id="430">
+      <string name="title">Connection</string>
+      <object name="submenu" class="IBCarbonMenu">
+        <string name="title">Connection</string>
+        <int name="menuID">131</int>
+        <array count="1" name="items">
+          <object class="IBCarbonMenuItem">
+            <string name="title">Connect Now</string>
+          </object>
+        </array>
+      </object>
+    </object>
   </array>
-  <array count="39" name="allParents">
+  <array count="33" name="allParents">
     <reference idRef="337"/>
     <reference idRef="329"/>
     <reference idRef="337"/>
@@ -377,14 +357,8 @@
     <reference idRef="411"/>
     <reference idRef="343"/>
     <reference idRef="343"/>
-    <reference idRef="343"/>
     <reference idRef="411"/>
-    <reference idRef="431"/>
-    <reference idRef="431"/>
-    <reference idRef="431"/>
     <reference idRef="337"/>
-    <reference idRef="430"/>
-    <reference idRef="431"/>
   </array>
   <dictionary count="4" name="nameTable">
     <string>Client Window</string>

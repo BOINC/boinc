@@ -20,16 +20,8 @@
 #include <Carbon/Carbon.h>
 #include <CoreServices/CoreServices.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 pascal void *mac_graphics_event_loop ( void *data );
 pascal void GraphicsLoopProcessor(EventLoopTimerRef inTimer, void* timeData);
 pascal void YieldProcessor(EventLoopTimerRef inTimer, void* timeData);
 pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
 void DisposeGLWindow (WindowPtr pWindow); // Dispose a single window and it's GL context
-
-#ifdef __cplusplus
-}
-#endif

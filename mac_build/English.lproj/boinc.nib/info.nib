@@ -13,11 +13,11 @@
 	<string>291.0</string>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>392</integer>
 		<integer>337</integer>
+		<integer>392</integer>
 	</array>
 	<key>IBSystem Version</key>
-	<string>6I32</string>
+	<string>6L60</string>
 	<key>targetFramework</key>
 	<string>IBCarbonFramework</string>
 </dict>

@@ -31,16 +31,10 @@ int boinc_finish_opengl();
 
 #ifdef BOINC_APP_GRAPHICS
 GLvoid glPrint(GLuint font, const char *fmt, ...);
-#ifdef __cplusplus
-extern "C" {
-#endif
 GLenum InitGL(GLvoid);
 GLenum ReSizeGLScene(GLsizei width, GLsizei height);
 extern bool app_render(int xs, int ys, double time_of_day);
 extern void app_init_gl(void);
-#ifdef __cplusplus
-}
-#endif
 #endif
 
 #endif

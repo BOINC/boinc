@@ -312,8 +312,7 @@ int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
 bool boinc_time_to_checkpoint() {
 #ifdef __APPLE_CC__
     YieldToAnyThread();
-#endif
-#ifdef _WIN32
+#elif _WIN32
     DWORD eventState;
     // Check if core client has requested us to exit
     eventState = WaitForSingleObject(hQuitRequest, 0L);

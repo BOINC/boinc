@@ -30,15 +30,10 @@ enum {
     kBOINCCommandJoin = 'join',
     kBOINCShowGraphics = 'sgfx',
     kBOINCClearMessages = 'clms',
-    kBOINCClearInactive = 'clin',
     kBOINCCommandQuitProject = 'qprj',
     kBOINCCommandSuspend = 'susp',
     kBOINCCommandResume = 'resu'
 };
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 extern OSStatus InitMainWindow(void);
 extern OSStatus AddDockMenu( void );
@@ -50,7 +45,7 @@ extern pascal void BOINCIdleDetect(EventLoopTimerRef inTimer, void* timeData);
 extern void SuspendBOINC( bool suspend );
 extern pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
 extern pascal OSStatus MainWinEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
-extern int mac_setup (void);
+extern OSStatus mac_setup (void);
 extern void mac_cleanup (void);
 extern void SelectItemOfTabControl(ControlRef myTabControl);
 extern pascal OSStatus TabEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void *inUserData);
@@ -68,11 +63,6 @@ extern OSStatus SaveBOINCPreferences( void );
 extern OSStatus ReadBOINCPreferences( void );
 
 //void DisplayBOINCStatusWindow (int left, int top, int width, int height);
-
-#ifdef __cplusplus
-}
-#endif
-
 
 static const EventTypeSpec  appEventList[] = { {kEventClassCommand, kEventCommandProcess} };
 

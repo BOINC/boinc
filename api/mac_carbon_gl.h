@@ -51,10 +51,6 @@
     #include <gl.h>
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 // structures (public) -----------------------------------------------
 
 // structure for creating a fullscreen context
@@ -139,9 +135,5 @@ OSStatus DSpContext_CustomFadeGammaOut (DSpContextReference inContext, long fade
 OSStatus DSpContext_CustomFadeGammaIn (DSpContextReference inContext, long fadeTicks);
 
 extern Boolean gDSpStarted;
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif // SetupGL_h
