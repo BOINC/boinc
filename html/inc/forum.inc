@@ -93,8 +93,12 @@ function getForums($categoryID) {
   return mysql_query($sql);
 }
 
-function getThreads($forumID, $min=-1, $nRec=-1, $sort_style='modified-new') {
+function getThreads($forumID, $min=-1, $nRec=-1, $sort_style='modified-new', $filteron = 1) {
+	/* Calling function:  Set $filteron to 0 if it is a moderator reading */
     $sql = 'SELECT * FROM thread WHERE forum = ' . $forumID;
+    if ($filteron) {
+    	$sql .= ' AND hidden = 0';
+    }
     switch($sort_style) {
         case 'modified-new':
             $sql .= ' ORDER BY timestamp DESC';
@@ -136,17 +140,21 @@ function getThreads($forumID, $min=-1, $nRec=-1, $sort_style='modified-new') {
     return mysql_query($sql);
 }
 
-function getPosts($threadID, $min = -1, $nRec = -1, $sort_style="timestamp") {
+function getPosts($threadID, $min = -1, $nRec = -1, $sort_style="timestamp", $filteron = 1) {
+	/* Calling function: Set $filteron = 0 when it is a moderator reading */ 
     $sql = 'SELECT * FROM post WHERE thread = '. $threadID;
+    if ($filteron = 1) {
+    	$sql .= ' AND hidden = 0';
+    }
     switch($sort_style) {
     case 'timestamp':
-        $sql = $sql . ' ORDER BY timestamp desc';
+        $sql .= ' ORDER BY timestamp desc';
         break;
     case 'timestamp_asc':
-        $sql = $sql . ' ORDER BY timestamp asc';
+        $sql .= ' ORDER BY timestamp asc';
         break;
     case 'score':
-        $sql = $sql . ' ORDER BY score DESC';
+        $sql .= ' ORDER BY score DESC';
         break;
     }
 

@@ -22678,3 +22678,10 @@ David  13 Jan 2005
         schema.sql
     html/ops/
         db_update.php
+
+Rom    13 Jan 2005
+    - Checkin the changes nessassary to hide threads in the forum code.
+      By: Rob Ogilvie
+
+    html/inc/
+        forum.inc
