@@ -16670,3 +16670,10 @@ David  23 Aug 2004
             prefs_edit_form.php
         sched/
             db_dump.C
+
+David  24 Aug 2004
+    - logic error on task start (found by Carl C.)
+
+    client/
+        app_start.C
+        cs_apps.C

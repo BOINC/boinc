@@ -434,11 +434,9 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
             bool preempt_by_quit = !global_prefs.leave_apps_in_memory;
             preempt_by_quit |= active_tasks.vm_limit_exceeded(vm_limit);
             atp->preempt(preempt_by_quit);
-            iter++;
         } else if (atp->scheduler_state != CPU_SCHED_SCHEDULED
             && atp->next_scheduler_state == CPU_SCHED_SCHEDULED
         ) {
-            atp->scheduler_state = CPU_SCHED_SCHEDULED;
             retval = atp->resume_or_start();
             if (retval) {
                 atp->state = PROCESS_COULDNT_START;
@@ -450,13 +448,11 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
                 iter = active_tasks.active_tasks.erase(iter);
                 delete atp;
                 continue;
-            } else {
-                some_app_started = true;
-                iter++;
             }
-        } else {
-            iter++;
+            atp->scheduler_state = CPU_SCHED_SCHEDULED;
+            some_app_started = true;
         }
+        iter++;
         atp->cpu_time_at_last_sched = atp->current_cpu_time;
     }
 

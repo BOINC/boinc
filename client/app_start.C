@@ -427,7 +427,7 @@ int ACTIVE_TASK::start(bool first_time) {
 // Otherwise, start it
 //
 int ACTIVE_TASK::resume_or_start() {
-    static const char process_start_types[3][15] = {
+    static const char* process_start_types[3] = {
         "Resuming",
         "Restarting",
         "Starting"
@@ -462,6 +462,9 @@ int ACTIVE_TASK::resume_or_start() {
         }
         task_start_type = TASK_RESUME;
         break;
+    case PROCESS_EXECUTING:
+        return 0;
+        break;
     default:
         msg_printf(result->project, MSG_ERROR,
             "resume_or_start(): unexpected process state %d", state
@@ -469,7 +472,7 @@ int ACTIVE_TASK::resume_or_start() {
         return 0;
     }
     msg_printf(result->project, MSG_INFO,
-        "%s computation for result %s using %s version %.2f",
+        "%s result %s using %s version %.2f",
         process_start_types[task_start_type],
         result->name,
         app_version->app->name,
