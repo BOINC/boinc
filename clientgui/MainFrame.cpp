@@ -47,6 +47,7 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(ID_HIDE, CMainFrame::OnHide)
     EVT_MENU_RANGE(ID_ACTIVITYRUNALWAYS, ID_ACTIVITYSUSPEND, CMainFrame::OnActivitySelection)
     EVT_MENU_RANGE(ID_NETWORKRUNALWAYS, ID_NETWORKSUSPEND, CMainFrame::OnNetworkSelection)
+    EVT_MENU(ID_RUNBENCHMARKS, CMainFrame::OnRunBenchmarks)
     EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
     EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
@@ -168,6 +169,14 @@ bool CMainFrame::CreateMenu()
         ID_NETWORKSUSPEND,
         _("&Disable BOINC Network Access"),
         _("Disables network activity without suspending BOINC")
+    );
+
+    menuFile->AppendSeparator();
+
+    menuFile->Append(
+        ID_RUNBENCHMARKS, 
+        _("Run &Benchmarks"),
+        _("Runs the CPU Benchmarks for BOINC")
     );
 
     menuFile->AppendSeparator();
@@ -520,6 +529,18 @@ void CMainFrame::OnNetworkSelection( wxCommandEvent& event )
 }
 
    
+void CMainFrame::OnRunBenchmarks( wxCommandEvent& WXUNUSED(event) )
+{
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxASSERT(NULL != m_pNotebook);
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    m_pNotebook->SetSelection( ID_LIST_MESSAGESVIEW - ID_LIST_BASE );
+    pDoc->RunBenchmarks();
+}
+
+
 void CMainFrame::OnExit( wxCommandEvent& WXUNUSED(event) )
 {
     Close(true);

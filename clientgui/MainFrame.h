@@ -45,6 +45,7 @@ public:
     void OnHide( wxCommandEvent& event );
     void OnActivitySelection( wxCommandEvent& event );
     void OnNetworkSelection( wxCommandEvent& event );
+    void OnRunBenchmarks( wxCommandEvent& event );
     void OnExit( wxCommandEvent& event );
 
     void OnToolsOptions( wxCommandEvent& event );

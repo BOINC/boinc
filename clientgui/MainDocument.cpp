@@ -254,6 +254,12 @@ wxInt32 CMainDocument::SetNetworkRunMode( wxInt32 iMode )
 }
 
 
+wxInt32 CMainDocument::RunBenchmarks()
+{
+    return rpc.run_benchmarks();
+}
+
+
 wxInt32 CMainDocument::CachedProjectStatusUpdate()
 {
     wxInt32 retval = 0;

@@ -100,6 +100,9 @@ public:
     wxInt32                     SetNetworkRunMode( wxInt32 iMode );
 
 
+    wxInt32                     RunBenchmarks();
+
+
     //
     // Project Tab
     //
