@@ -582,7 +582,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 &global_prefs_xml
             );
             if (retval) return ERR_XML_PARSE;
-            msg_printf(project, MSG_INFO, "Global preferences have been updated\n");
+            msg_printf(project, MSG_INFO, "General preferences have been updated\n");
         } else if (match_tag(buf, "<project_preferences>")) {
             retval = dup_element_contents(
                 in,

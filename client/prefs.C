@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -173,12 +173,12 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
     }
     if (strlen(host_venue)) {
         if (found_venue) {
-            msg_printf(NULL, MSG_INFO, "Using general preferences for %s\n", host_venue);
+            msg_printf(NULL, MSG_INFO, "General preferences: using preferences for venue %s\n", host_venue);
         } else {
-            msg_printf(NULL, MSG_INFO, "Can't find general preferences for %s; using default preferences\n", host_venue);
+            msg_printf(NULL, MSG_INFO, "General preferences: can't find preferences for %s; using your default preferences\n", host_venue);
         }
     } else {
-        msg_printf(NULL, MSG_INFO, "No host venue given; using default general preferences\n");
+        msg_printf(NULL, MSG_INFO, "General preferences: no venue given; using your default general preferences\n");
     }
     return 0;
 }
