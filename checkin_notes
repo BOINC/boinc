@@ -20821,3 +20821,9 @@ Bruce  7 Dec 2004
     api/
         reduce.C
     
+Rom    7 Dec 2004
+    - Include the STL header that deals with min and max for STL, and then include
+      std_fixes.h just in case it needs fixing.
+
+    api/
+        reduce.C

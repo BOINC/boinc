@@ -26,19 +26,19 @@ static volatile const char *BOINCrcsid="$Id$";
 #include <stdlib.h>
 #include <math.h>
 //#include "GL/gl.h"
-#define max(a,b)  (a>b?a:b)
-#define min(a,b)  (a>b?b:a)
 
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
+#include <algorithm>
 
 #ifdef __APPLE_CC__
 #include <OpenGL/gl.h>
 #endif
 #endif
 
+#include "std_fixes.h"
 #include "boinc_gl.h"
 #include "gutil.h"
 #include "reduce.h"
@@ -141,18 +141,10 @@ void REDUCED_ARRAY::reduce_source_row(float* in, float* out) {
             out[ri] += in[i];
             break;
             case REDUCE_METHOD_MIN:
-#ifdef HAVE_STD_MIN
-            out[ri] = min(out[ri],in[i]);
-#else
             out[ri] = std::min(out[ri],in[i]);
-#endif
             break;
             case REDUCE_METHOD_MAX:
-#ifdef HAVE_STD_MAX
-            out[ri] = max(out[ri],in[i]);
-#else
             out[ri] = std::max(out[ri],in[i]);
-#endif
             break;
         }
     }
@@ -263,11 +255,7 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
         y10 = draw_pos[1] + draw_size[1]*h10;
         y11 = draw_pos[1] + draw_size[1]*h11;
 
-#ifdef HAVE_STD_MAX
-        float h = max(h00, max(h01, max(h10, h11)));
-#else
         float h = std::max(h00, std::max(h01, std::max(h10, h11)));
-#endif
         double hue = hue0 + (dhue*i)/rdimx;
         if (hue > 1) hue -= 1;
         double sat = 1.;
