@@ -343,7 +343,7 @@ int CLIENT_STATE::net_sleep(double x) {
 // (in which case should call this again immediately)
 //
 bool CLIENT_STATE::do_something(double now) {
-    int actions = 0, reason, retval;
+    int actions = 0, suspend_reason, retval;
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_POLL);
     static bool tasks_restarted = false;
 
@@ -352,23 +352,38 @@ bool CLIENT_STATE::do_something(double now) {
 		start_cpu_benchmarks();
     }
 
-    retval = check_suspend_activities(now, reason);
-    if (!retval) {
-        if (reason) {
+    check_suspend_activities(now, suspend_reason);
+
+    // Restart tasks on startup.
+    // Do this here (rather than CLIENT_STATE::init())
+    // so that if we do benchmark on startup,
+    // we don't immediately suspend apps
+    // (this fixes a CPDN problem where quitting the app
+    // right after start kills it)
+    //
+    if (!suspend_reason && !tasks_restarted) {
+        restart_tasks();
+        tasks_restarted = true;
+    }
+
+    // suspend or resume activities (but only if already did startup)
+    //
+    if (tasks_restarted) {
+        if (suspend_reason) {
             if (!activities_suspended) {
-                suspend_activities(reason);
+                suspend_activities(suspend_reason);
             }
         } else {
             if (activities_suspended) {
                 resume_activities();
             }
         }
-        activities_suspended = (reason != 0);
+        activities_suspended = (suspend_reason != 0);
     }
 
     // if we're doing CPU benchmarks, don't do much else
     //
-    if (reason & SUSPEND_REASON_BENCHMARKS) {
+    if (suspend_reason & SUSPEND_REASON_BENCHMARKS) {
         // wait for applications to become suspended
         //
         if (active_tasks.is_task_executing()) {
@@ -379,17 +394,17 @@ bool CLIENT_STATE::do_something(double now) {
         return gui_rpcs.poll(dtime());
     }
 
-    check_suspend_network(now, reason);
-    if (reason) {
+    check_suspend_network(now, suspend_reason);
+    if (suspend_reason) {
         if (!network_suspended) {
-            suspend_network(reason);
+            suspend_network(suspend_reason);
         }
     } else {
         if (network_suspended) {
             resume_network();
         }
     }
-    network_suspended = (reason != 0);
+    network_suspended = (suspend_reason != 0);
 
     scope_messages.printf("CLIENT_STATE::do_something(): Begin poll:\n");
     ++scope_messages;
@@ -403,14 +418,6 @@ bool CLIENT_STATE::do_something(double now) {
     //  schedule_cpus
     // in that order (active_tasks_poll() sets must_schedule_cpus,
     // and handle_finished_apps() must be done before schedule_cpus()
-
-    // restart tasks here so that if we do benchmark on startup,
-    // we don't immediately suspend apps
-    //
-    if (!activities_suspended && !tasks_restarted) {
-        restart_tasks();
-        tasks_restarted = true;
-    }
 
     ss_logic.poll();
     if (activities_suspended) {

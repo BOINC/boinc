@@ -20,18 +20,18 @@ and then for each selected project:
 </ul>
 
 <p>
-If the user chooses N projects,
+If the participant chooses N projects,
 there are N forms to fill out,
 N emails to handle, and N dialog interactions with the BOINC client.
 This is tedious if there are lots of projects.
 Furthermore, it involves cutting and pasting long random strings,
-which is intimidating to some users.
+which is intimidating to some participants.
 
 <p>
 This document describes BOINC's support for <b>account management systems</b>,
 which streamline the process of finding and joining BOINC projects.
 A typical account management system is implemented as a web site.
-The user experience is:
+The participant experience is:
 <ul>
 <li> Visit the account manager site,
 set up a 'meta-account' (name, email, password),
@@ -63,7 +63,7 @@ causing the account to be marked as 'confirmed'.
 with a <b>query account</b> RPC,
 waiting for all accounts to become confirmed.
 <li> When all accounts are confirmed,
-the user downloads and installs the BOINC client software
+the participant downloads and installs the BOINC client software
 from the account manager.
 The install package includes a file
 (specific to this account manager)
@@ -85,9 +85,9 @@ The underlying protocol of both mechanisms is as follows:
 <ul>
 <li> Each RPC is an HTTP POST transaction.
 <li> The request and reply messages are strings of the form
-<pre>
+".html_text("
 param1=val1&param2=val2&...&paramn=valn
-</pre>
+")."
 there param1 ... paramN are the input or output parameter names,
 and val1 ... valn are the values.
 All values are URL-encoded using the PHP urlencode() function.
@@ -120,7 +120,7 @@ To confirm your participation in [project name] please visit the following URL:
 
 If you do not want to participate in [project name], just ignore this message.
         </pre>
-		When the user visits xxx, the account is confirmed.
+		When the participant visits xxx, the account is confirmed.
 ");
 list_end();
 

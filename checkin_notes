@@ -22962,3 +22962,14 @@ David  19 Jan 2005
     html/inc/
         profile.inc
         uotd.inc
+
+David  19 Jan 2005
+    - Change the logic in CLIENT_STATE::do_something to
+        avoid unsuspending activities before starting them
+    - change CLIENT_STATE::check_suspend_activities() from int to void
+
+    Checked these changes into boinc_public also
+
+    client/
+        client_state.C,h
+        cs_prefs.C

@@ -131,7 +131,7 @@ inline bool now_between_two_hours(int start_hour, int end_hour) {
 // See if (on the basis of user run request and prefs)
 // we should suspend activities.
 //
-int CLIENT_STATE::check_suspend_activities(double now, int& reason) {
+void CLIENT_STATE::check_suspend_activities(double now, int& reason) {
     static double last_time = 0;
     reason = 0;
 
@@ -141,14 +141,14 @@ int CLIENT_STATE::check_suspend_activities(double now, int& reason) {
         reason |= SUSPEND_REASON_BENCHMARKS;
     }
 
-    if (user_run_request == USER_RUN_REQUEST_ALWAYS) return 0;
+    if (user_run_request == USER_RUN_REQUEST_ALWAYS) return;
 
     if (user_run_request == USER_RUN_REQUEST_NEVER) {
         reason |= SUSPEND_REASON_USER_REQ;
-        return 0;
+        return;
     }
 
-    if (now - last_time < 5.0) return 1;
+    if (now - last_time < 5.0) return;
     last_time = now;
 
     if (!global_prefs.run_on_batteries
@@ -168,8 +168,6 @@ int CLIENT_STATE::check_suspend_activities(double now, int& reason) {
     if (!now_between_two_hours(global_prefs.start_hour, global_prefs.end_hour)) {
         reason |= SUSPEND_REASON_TIME_OF_DAY;
     }
-    
-    return 0;
 }
 
 int CLIENT_STATE::suspend_activities(int reason) {

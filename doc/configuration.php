@@ -43,6 +43,7 @@ htmlspecialchars("
     [ <enforce_delay_bound/>                                                   ]
     [ <locality_scheduling/>                                                   ]
     [ <locality_scheduling_wait_period> N   </locality_scheduling_wait_period> ]
+    [ <min_core_client_version>         N   </min_core_client_version          ]
 
     <!-- optional; defaults as indicated: -->
     <project_dir>  ../      </project_dir>  <!-- relative to location of 'start' -->
@@ -187,6 +188,11 @@ list_item("locality_scheduling_wait_period",
      additional work. Together with project-specific daemons or
      scripts this can be used for 'just-in-time' workunit
      creation. See <a href=sched_locality.php>Scheduling Locality</a>."
+);
+list_item("min_core_client_version",
+    "If the scheduler gets a request from a client with
+    a version number less than this,
+    it returns an error message and doesn't do any other processing."
 );
 
 list_end();

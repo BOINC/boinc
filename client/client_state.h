@@ -244,7 +244,7 @@ public:
     int allowed_disk_usage(double&);
     int allowed_project_disk_usage(double&);
 private:
-    int check_suspend_activities(double, int&);
+    void check_suspend_activities(double, int&);
     int suspend_activities(int reason);
     int resume_activities();
     void check_suspend_network(double, int&);
