@@ -101,6 +101,7 @@ CLIENT_STATE::CLIENT_STATE() {
     pers_retry_delay_min = PERS_RETRY_DELAY_MIN;
     pers_retry_delay_max = PERS_RETRY_DELAY_MAX;
     pers_giveup = PERS_GIVEUP;
+	executing_as_windows_service = false;
 }
 
 #if 0

@@ -110,6 +110,7 @@ public:
 	bool previous_activities_suspended;
 		// if activities were suspended in the previous check_suspend();
 		// this is needed to update GUI windows after suspension and close transfers/files.
+	bool executing_as_windows_service;
 
 private:
     bool client_state_dirty;

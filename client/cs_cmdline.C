@@ -25,7 +25,11 @@ static void print_options(char* prog) {
     printf(
         "Usage: %s [options]\n"
         "    -version               show version info\n"
-        "    -show_projects         show attached projects\n"
+#if defined(_WIN32) && defined(_CONSOLE)
+        "    -install               install boinc as a Windows Service\n"
+        "    -uninstall             uninstall boinc as a Windows Service\n"
+#endif
+       "    -show_projects         show attached projects\n"
         "    -detach_project URL    detach from a project\n"
         "    -reset_project URL     reset (clear) a project\n"
         "    -attach_project        attach to a project (will prompt for URL, account key)\n"
@@ -39,13 +43,14 @@ static void print_options(char* prog) {
 // NOTE: init() has not been called at this point
 // (i.e. client_state.xml has not been parsed)
 //
+#define ARGX2(s1,s2) (!strcmp(argv[i], s1)||!strcmp(argv[i], s2))
+#define ARG(S) ARGX2("-"#S, "--"#S)
+
 void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     int i;
     bool show_options = false;
 
     for (i=1; i<argc; i++) {
-#define ARGX2(s1,s2) (!strcmp(argv[i], s1)||!strcmp(argv[i], s2))
-#define ARG(S) ARGX2("-"#S, "--"#S)
         if (ARG(exit_when_idle)) {
             exit_when_idle = true;
         } else if (ARG(return_results_immediately)) {
@@ -102,6 +107,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             else pers_giveup = atoi(argv[++i]);
         } else if (ARG(debug_fake_exponential_backoff)) {
             debug_fake_exponential_backoff = true;
+		} else if (ARG(win_service)) {
+			executing_as_windows_service = true;
 
         // the above options are private (i.e. not shown by -help)
         // Public options follow.
@@ -133,14 +140,15 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             printf("Unknown option: %s\n", argv[i]);
             show_options = true;
         }
-#undef ARG
-#undef ARGX2
     }
     if (show_options) {
         print_options(argv[0]);
         exit(1);
     }
 }
+
+#undef ARG
+#undef ARGX2
 
 void CLIENT_STATE::parse_env_vars() {
     char *p, temp[256];

@@ -25,6 +25,7 @@
 #ifdef WIN32
 #include <afxwin.h>
 #include "stackwalker.h"
+#include "win_service.h"
 #endif
 
 #ifdef HAVE_UNISTD_H
@@ -103,6 +104,7 @@ void project_add_failed(PROJECT* project) {
 void show_message(PROJECT *p, char* msg, int priority) {
     char* x;
     char message[1024];
+    char event_message[2048];
 
     strcpy(message, msg);
     if (message[strlen(message)-1] == '\n') {
@@ -117,8 +119,35 @@ void show_message(PROJECT *p, char* msg, int priority) {
     switch (priority) {
     case MSG_ERROR:
         fprintf(stderr, "%s [%s] %s\n", timestamp(), x, message);
-    default:
         printf("%s [%s] %s\n", timestamp(), x, message);
+		if (gstate.executing_as_windows_service)
+		{
+#if defined(_WIN32) && defined(_CONSOLE)
+		    _stprintf(event_message, TEXT("%s [%s] %s\n"), timestamp(), x, message);
+			LogEventErrorMessage(event_message);
+#endif
+		}
+		break;
+    case MSG_WARNING:
+        printf("%s [%s] %s\n", timestamp(), x, message);
+		if (gstate.executing_as_windows_service)
+		{
+#if defined(_WIN32) && defined(_CONSOLE)
+		    _stprintf(event_message, TEXT("%s [%s] %s\n"), timestamp(), x, message);
+			LogEventWarningMessage(event_message);
+#endif
+		}
+		break;
+    case MSG_INFO:
+        printf("%s [%s] %s\n", timestamp(), x, message);
+		if (gstate.executing_as_windows_service)
+		{
+#if defined(_WIN32) && defined(_CONSOLE)
+		    _stprintf(event_message, TEXT("%s [%s] %s\n"), timestamp(), x, message);
+			LogEventInfoMessage(event_message);
+#endif
+		}
+		break;
     }
 }
 
@@ -183,7 +212,7 @@ BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
 }
 #endif
 
-int main(int argc, char** argv) {
+int boinc_execution_engine(int argc, char** argv) {
 
 #ifdef WIN32
 	InitAllocCheck();
@@ -261,3 +290,65 @@ int main(int argc, char** argv) {
 
 	return 0;
 }
+
+
+#if defined(_WIN32) && defined(_CONSOLE)
+
+//
+// On Windows, we support running as a Windows Service which requires
+//     a different startup method
+//
+int main(int argc, char** argv) {
+
+	int iRetVal = 0;
+
+	SERVICE_TABLE_ENTRY dispatchTable[] =
+    {
+		{ TEXT(SZSERVICENAME), (LPSERVICE_MAIN_FUNCTION)service_main },
+		{ NULL, NULL }
+	};
+
+    if ( (argc > 1) &&
+         ((*argv[1] == '-') || (*argv[1] == '/')) )
+    {
+        if ( _stricmp( "install", argv[1]+1 ) == 0 )
+        {
+            CmdInstallService();
+        }
+        else if ( _stricmp( "uninstall", argv[1]+1 ) == 0 )
+        {
+            CmdUninstallService();
+        }
+ 		else if ( _stricmp( "win_service", argv[1]+1 ) == 0 )
+        {
+			printf( "\nStartServiceCtrlDispatcher being called.\n" );
+			printf( "This may take several seconds.  Please wait.\n" );
+
+			if (!StartServiceCtrlDispatcher(dispatchTable))
+				LogEventErrorMessage(TEXT("StartServiceCtrlDispatcher failed."));
+        }
+		else
+		{
+			iRetVal = boinc_execution_engine(argc, argv);
+		}
+    }
+	else
+	{
+		iRetVal = boinc_execution_engine(argc, argv);
+	}
+
+    return iRetVal;
+}
+
+#elif
+
+//
+// For platforms other than windows just treat it as a console application
+//
+int main(int argc, char** argv) {
+	return boinc_execution_engine(argc, argv);
+}
+
+#endif
+
+

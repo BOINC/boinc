@@ -70,7 +70,7 @@ int NetOpen( void )
                 if((double)time(NULL) < net_last_dial_time + CONFIRM_WAIT) {
                     return -1;
                 }
-#ifndef WIN_CLI
+#if !defined(_WIN32) && !defined(_CONSOLE)
                 if(gstate.global_prefs.confirm_before_connecting) {
                     net_last_req_time = (double)time(NULL);
                     if(!RequestNetConnect()) {

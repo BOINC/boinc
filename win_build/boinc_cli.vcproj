@@ -41,7 +41,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="wsock32.lib wininet.lib winmm.lib nafxcwd.lib libcmtd.lib"
 				OutputFile=".\Build\Debug/boinc_cli.exe"
-				LinkIncremental="1"
+				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
 				IgnoreDefaultLibraryNames="libc,nafxcwd,libcmtd,libcmt,libcd"
 				GenerateDebugInformation="TRUE"
@@ -1074,6 +1074,9 @@
 						CompileAs="2"/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\client\win\win_service.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -1164,6 +1167,9 @@
 			</File>
 			<File
 				RelativePath="..\Client\win\Win_net.h">
+			</File>
+			<File
+				RelativePath="..\client\win\win_service.h">
 			</File>
 			<File
 				RelativePath="..\Client\win\windows_cpp.h">

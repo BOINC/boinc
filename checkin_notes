@@ -9380,3 +9380,16 @@ David  Jan 19 2004 (from Rom Walton)
 		win_screensaver.cpp,h
 		win_util.cpp,h
 
+David  Jan 19 2004 (from Rom Walton)
+	- handle BOINC core client as service
+
+	client/
+		client_state.C,h
+		cs_cmdline.C
+		main.C
+		win/
+			win_net.cpp
+			win_service.cpp,h (new)
+	win_build/
+		boinc_cli.vcproj
+		boinc_ss.vcproj
