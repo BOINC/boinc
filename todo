@@ -7,12 +7,12 @@ BUGS (arranged from high to low priority)
     client does not remember window size/pos after close/reopen,
     window closes and does not reopen when workunit finishes
     and new workunit starts
+- Fix file transfer time counter to include suspension/exiting
 - Should include option in Windows client or installer whether to
     run client at startup or not
 - Screensaver "blank screen" functionality not implemented
 - boinc_gui.exe priority should be lower (?),
     launched app priorities should be very low
-- on final panel of install, add checkbox to let user view readme
 - Time to completion isn't too accurate,
     this is more of an Astropulse problem involving fraction_done
 - Multiple CPU support not functional
