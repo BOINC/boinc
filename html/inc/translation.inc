@@ -9,6 +9,36 @@ $lang_project_default = "en";
 $lang_log_level = 0;
 $lang_log_file = $lang_language_dir."translator.log";
 
+
+function getSupportedLanguages(){
+    global $lang_language_dir, $lang_compiled_dir;
+    //echo $lang_language_dir.$lang_compiled_dir;
+    if (is_dir($lang_language_dir.$lang_compiled_dir)) {
+        if ($dh = opendir($lang_language_dir.$lang_compiled_dir)) {			//If dir exists
+            while (($file = readdir($dh)) !== false) {			//read contents
+                if ($file==".." or $file=="."){
+                } else if (substr($file,-7)==".po.inc"){			//only files ending in .po.inc
+		    $list[] = substr($file,0,-7);
+		}
+	    }
+	}
+    } else {echo "uh";}
+    //print_r($list);
+    return $list;
+}
+
+function trSpecific($tokennumber, $language=""){
+    global $lang_language_dir, $lang_compiled_dir;
+    $language= substr($language,0,5);
+    if ($language!="" && file_exists($lang_language_dir.$lang_compiled_dir.$language.".po.inc")){			//If we have the language
+	    //echo "[$language]";
+    	    require($lang_language_dir.$lang_compiled_dir.$language.".po.inc");				//Include it
+	    return stripslashes($language_lookup_array[$tokennumber]);
+    } else {
+	return false;
+    }
+}    
+
 /*************************
  * Parses the language interface file containing the tokens (can parse .po-style files)
  ************************/
@@ -131,8 +161,13 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
  * Have some of the files changed?
  **************************/
 function languagesNeedsRebuild($langdir,$transdir,$prjtransdir, $compdir){
-//    return true;		//Uncomment this to speed up things when you know that you will manually recompile the languages when updated...
-    
+
+    if (!file_exists($langdir.$compdir)){	//This directory does not exist - try to create one
+	mkdir($langdir.$compdir,0733);
+	return true;				//and force an update since we need it
+    }
+
+//    return false;		//Uncomment this to speed up things when you know that you will manually recompile the languages when updated...
     
     $last_compile = filemtime($langdir."last_compile_timer");		//This file gets touched each time a compile finishes
 
@@ -236,20 +271,17 @@ function getPOLineContent($line){
  * Use the token name as a constant - like echo tr(MENU_ABOUT);
  ************************/
 function tr($tokennumber){
-    global $language_lookup_array, $default_language_lookup_array;
+    global $language_lookup_array;
     if (strval(intval($tokennumber))!=$tokennumber){
 	echo "token $tokennumber missing from language interface.";
+	language_log("token $tokennumber missing from language interface.");
     }
     
     if (array_key_exists($tokennumber,$language_lookup_array)){		//If language has got the token
-	return stripslashes($language_lookup_array[$tokennumber]);	//If found in client language, return that
+	//If found in client language, return that
+	return stripslashes($language_lookup_array[$tokennumber]);	
     }
-    
-    if (array_key_exists($tokennumber, $default_language_lookup_array)){	//Fallback to a lookup in the project default language
-        return stripslashes($default_language_lookup_array[$tokennumber]);	//Return from default language
-    }
-    
-    return "[MISSING TEXT]";							//If not found there either, display "MISSING TEXT"
+    return "[MISSING TEXT]";						//If not found there display "MISSING TEXT"
 }
 
 function language_log($message, $loglevel=0){
@@ -266,25 +298,56 @@ function language_log($message, $loglevel=0){
 }
 
 
+
+
 if (languagesNeedsRebuild($lang_language_dir, $lang_translations_dir, $lang_prj_translations_dir, $lang_compiled_dir) || get_str("compile_languages")){
     buildLanguages($lang_language_dir,$lang_translations_dir,$lang_prj_translations_dir, $lang_compiled_dir);
 }
 
-// Define some constants that the language files can use in the translation:
+// Define some variables (from constants) that the language files can use in the translation:
 $PROJECT = PROJECT;
 
 
 if (file_exists($lang_language_dir.$lang_compiled_dir."language_interface.inc")){
     require_once($lang_language_dir.$lang_compiled_dir."language_interface.inc");
-    require_once($lang_language_dir.$lang_compiled_dir.$lang_project_default.".po.inc");
-    $default_language_lookup_array=$language_lookup_array;
-    //Find out which language to use (todo: iterate trough list instead of picking first out:
-    $client_language=strtolower(substr($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"],0,2));
-    if ($client_language!=$lang_project_default){
-	if (file_exists($lang_language_dir.$lang_compiled_dir.$client_language.".po.inc")){	//If we have the language
-            require_once($lang_language_dir.$lang_compiled_dir.$client_language.".po.inc");	//Include it
+
+    //Make a list of languages which the user prefers (by looking at cookies and broser settings)
+    //cookies have highest priority.
+
+    if ($_COOKIE['lang']){
+	$language_string = $_COOKIE['lang'].",";
+    }
+    $language_string .= strtolower($HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"]);
+
+    //Find out which language to use by iterating trough list
+    //The list is commaseperated, so split it into an array of the following type:
+    //	Array ( 
+    //    [0] => da 
+    //    [1] => en-us;q=0.7 
+    //    [2] => en;q=0.3 
+    //  )
+
+    $client_languages=explode(",",$language_string);
+
+    //Now a language is either defined as primary-secondary or merely primary
+    //it can also have a quality attribute set - which orders the languages in a user
+    //preffered ordering. Since this is usally the same order as the array indices
+    //we just ignore this attribute. (TODO: don't ignore this attribute)
+    //A missing quality attribute means q=1
+
+    require_once($lang_language_dir.$lang_compiled_dir.$lang_project_default.".po.inc");		//Always include the project default as fallback
+    for ($i=sizeof($client_languages);$i>=0;$i--){							//Now for each language that the client requests
+	if (substr($client_languages[$i],2,1)=="_" || substr($client_languages[$i],2,1)=="-"){		//If this is defined as primary-secondary
+	    $language = substr($client_languages[$i],0,2)."_".strtoupper(substr($client_languages[$i],3,2)); //represent it as xx_YY
+	} else {
+	    $language = substr($client_languages[$i],0,2);						//else just use xx
+	}
+	if (file_exists($lang_language_dir.$lang_compiled_dir.$language.".po.inc")){			//If we have the language
+	    //echo "[$language]";
+    	    require($lang_language_dir.$lang_compiled_dir.$language.".po.inc");				//Include it
 	}
     }
+
 } else {
     language_log("Could not load language interface.",2);
     echo "ERROR: Could not load language interface. This is a fatal error, exitting."; flush; exit;
