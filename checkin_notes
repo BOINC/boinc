@@ -23931,9 +23931,12 @@ Rom    3 Feb 2005
     - Bug Fix: In the transfers tab, replace upload with transfer.
     - Bug Fix: In the work tab, replace "Quick Tips" with just "Tips"
         to be consistent with the rest of the tabs.
+    - Bug Fix: Additional check to see if any new messages have been added
+        before changing the visible messages in the message tab.
 
     client/win/
         win_screensaver.cpp, .h
     clientgui/
         ViewWork.cpp
         ViewTransfers.cpp
+        ViewMessages.cpp

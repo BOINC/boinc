@@ -182,14 +182,14 @@ void CViewMessages::OnListRender ( wxTimerEvent& event )
         else
         {
             if ( m_iPreviousDocCount != iDocCount )
-            {
                 m_pListPane->SetItemCount( iDocCount );
-                m_iPreviousDocCount = iDocCount;
-            }
         }
 
-        if ( _EnsureLastItemVisible() && iDocCount )
+        if ( (iDocCount) && (_EnsureLastItemVisible()) && (m_iPreviousDocCount != iDocCount) )
             m_pListPane->EnsureVisible( iDocCount - 1 );
+
+        if ( m_iPreviousDocCount != iDocCount )
+            m_iPreviousDocCount = iDocCount;
 
         m_bProcessingListRenderEvent = false;
     }
