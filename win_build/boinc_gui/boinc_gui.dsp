@@ -248,6 +248,10 @@ SOURCE=..\..\client\win\wingui_mainwindow.cpp
 
 SOURCE=..\..\client\win\wingui_piectrl.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\wingui_sswindow.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -395,6 +399,10 @@ SOURCE=..\..\client\win\wingui_mainwindow.h
 # Begin Source File
 
 SOURCE=..\..\client\win\wingui_piectrl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\wingui_sswindow.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
