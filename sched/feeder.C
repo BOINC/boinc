@@ -222,15 +222,15 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (lock_file(LOCKFILE)) {
-        fprintf(stderr, "Another copy of feeder is already running\n");
-        exit(1);
-    }
-
     if (asynch) {
         if (fork()!=0) {
             exit(0);
         }
+    }
+
+    if (lock_file(LOCKFILE)) {
+        fprintf(stderr, "Another copy of feeder is already running\n");
+        exit(1);
     }
 
     retval = destroy_shmem(config.shmem_key);

@@ -224,11 +224,6 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (lock_file(LOCKFILE)) {
-        fprintf(stderr, "Another copy of make_work is already running\n");
-        exit(1);
-    }
-
     if (!strlen(result_template_file)) {
         write_log("missing -result_template\n");
         exit(1);
@@ -239,10 +234,15 @@ int main(int argc, char** argv) {
     }
 
     if (asynch) {
-        if (!fork()) {
-            make_work();
+        if (fork()) {
+            exit(0);
         }
-    } else {
-        make_work();
     }
+
+    if (lock_file(LOCKFILE)) {
+        fprintf(stderr, "Another copy of make_work is already running\n");
+        exit(1);
+    }
+
+    make_work();
 }

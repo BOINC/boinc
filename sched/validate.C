@@ -334,11 +334,6 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (lock_file(LOCKFILE)) {
-        fprintf(stderr, "Another copy of validate is already running\n");
-        exit(1);
-    }
-
     if (min_quorum < 1 || min_quorum > 10) {
         sprintf(buf, "bad min_quorum: %d\n", min_quorum);
         write_log(buf);
@@ -359,5 +354,11 @@ int main(int argc, char** argv) {
             exit(0);
         }
     }
+
+    if (lock_file(LOCKFILE)) {
+        fprintf(stderr, "Another copy of validate is already running\n");
+        exit(1);
+    }
+
     main_loop(one_pass);
 }

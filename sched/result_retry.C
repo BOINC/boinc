@@ -354,11 +354,6 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (lock_file(LOCKFILE)) {
-        fprintf(stderr, "Another copy of result_retry is already running\n");
-        exit(1);
-    }
-
     retval = config.parse_file();
     if (retval) {
         fprintf(stderr, "can't read config file\n");
@@ -377,5 +372,11 @@ int main(int argc, char** argv) {
             exit(0);
         }
     }
+
+    if (lock_file(LOCKFILE)) {
+        fprintf(stderr, "Another copy of result_retry is already running\n");
+        exit(1);
+    }
+
     main_loop(one_pass);
 }

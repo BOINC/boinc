@@ -134,11 +134,6 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (lock_file(ASSIMILATOR_LOCKFILE)) {
-        fprintf(stderr, "Another copy of assimilator is already running\n");
-        exit(1);
-    }
-
     retval = config.parse_file();
     if (retval) {
         write_log("Can't parse config file\n");
@@ -149,6 +144,11 @@ int main(int argc, char** argv) {
         if (fork()) {
             exit(0);
         }
+    }
+
+    if (lock_file(ASSIMILATOR_LOCKFILE)) {
+        fprintf(stderr, "Another copy of assimilator is already running\n");
+        exit(1);
     }
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
