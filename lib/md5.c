@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (C) 1999 Aladdin Enterprises.  All rights reserved.
 

@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 #define DIRREF long
 
 #include "config.h"

@@ -20204,3 +20204,6 @@ David  23 Nov 2004
         start
     tools/
         make_project
+ Bruce  24 Nov 2004 UTC
+    - Added const char RCSID string to all *.c files, so that 'ident' and 'strings' can identify
+      file version numbers.

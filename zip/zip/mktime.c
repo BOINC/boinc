@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 /* free mktime function
    Copyright 1988, 1989 by David MacKenzie <djm@ai.mit.edu>
    and Michael Haertel <mike@ai.mit.edu>

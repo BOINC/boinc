@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 /*
 These Functions were originally part of More Files version 1.4.8
 

@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 /***************************************************************************
  *  HeapCheck - a heap debugging library
  *  Copyright (C) 2001  Thanassis Tsiodras (ttsiod@softlab.ntua.gr)
