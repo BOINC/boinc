@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+#include <time.h>
+
 extern double time_t_to_jd(time_t unix_time);
 extern time_t jd_to_time_t(double jd);
 extern int double_to_ydhms (double x, int smallest_timescale, char *buf);
