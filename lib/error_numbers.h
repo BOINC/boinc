@@ -31,11 +31,15 @@
 #define ERR_OPENDIR     -111
 #define ERR_XML_PARSE   -112
 #define ERR_GETHOSTBYNAME   -113
+// too much time has elapsed without progress on file xfer
 #define ERR_GIVEUP      -114
-    // too much time has elapsed without progress on file xfer
+// unexpected NULL pointer
 #define ERR_NULL	-115
-    // unexpected NULL pointer
+// unexpected negative value
 #define ERR_NEG		-116
-    // unexpected negative value
+// caught buffer overflow
 #define ERR_BUFF_OVERFLOW -117
-    // caught buffer overflow
+// MD5 checksum failed for a file
+#define ERR_MD5_FAILED -118
+// RSA key check failed for a file
+#define ERR_RSA_FAILED -119
