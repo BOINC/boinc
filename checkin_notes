@@ -17116,3 +17116,9 @@ David  7 Sept 2004
 
     tools/
         upgrade
+
+David  7 Sept 2004
+    - recognize CPU type on HP (DEC) alpha (from Duane Krahn)
+
+    client/
+        hostinfo_unix.C

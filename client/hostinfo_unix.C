@@ -217,7 +217,49 @@ void parse_cpuinfo(HOST_INFO& host) {
     fclose(f);
 }
 
-#else   // mips
+#elif __alpha__
+
+void parse_cpuinfo(HOST_INFO& host) {
+    char buf[256];
+    char buf2[256];
+    int system_found=0,model_found=0;
+
+    strcpy(host.p_vendor, "HP (DEC) ");
+
+    FILE* f = fopen("/proc/cpuinfo", "r");
+    if (!f) return;
+
+    while (fgets(buf, 256, f)) {
+        if ((strstr(buf, "cpu\t\t\t: ") == buf) &&
+             (system_found == 0)
+        ) {
+            system_found = 1;
+            strncpy(buf2, strchr(buf, ':') + 2, sizeof(host.p_vendor) - strlen(host.p_vendor) - 1);
+
+            strcat(host.p_vendor, buf2);
+            char * p = strchr(host.p_vendor, '\n');
+            if (p) {
+                *p = '\0';
+            }
+        }
+        if ( (strstr(buf, "cpu model\t\t: ") == buf) &&
+             (model_found == 0) ) {
+            model_found = 1;
+            strncpy(host.p_model, strchr(buf, ':') + 2,
+
+sizeof(host.p_model)-1);
+
+            char * p = strchr(host.p_model, '\n');
+            if (p) {
+                *p = '\0';
+            }
+        }
+    }
+
+    fclose(f);
+}
+
+#else   // not mips or alpha
 
 // Unfortunately the format of /proc/cpuinfo is not standardized.
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
