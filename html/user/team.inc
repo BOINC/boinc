@@ -78,7 +78,7 @@ function display_team_page($team, $user) {
         if (!$user) break;
         $user_total_credit = format_credit($user->total_credit);
         $user_expavg_credit = format_credit($user->expavg_credit);
-        echo "<tr>
+        echo "<tr class=row1>
             <td align=left>$j) <a href=show_user.php?userid=$user->id>$user->name</a>
             <td align=center>$user_total_credit</td>
             <td align=center>$user_expavg_credit</td>
@@ -128,7 +128,7 @@ function team_table_start() {
 function show_team_row($team, $i) {
     $team_expavg_credit = format_credit($team->expavg_credit);
     $team_total_credit = format_credit($team->total_credit);
-    echo"<tr>
+    echo"<tr class=row1>
         <td>$i) <a href=team_display.php?teamid=$team->id>$team->name</a></td>
         <td>$team->nusers</td>
         <td>$team_expavg_credit</td>

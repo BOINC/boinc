@@ -7,12 +7,14 @@ function show_user_stats_private($user) {
     row2(PROJECT." member since", time_str($user->create_time));
     row2("Total credit", format_credit($user->total_credit));
     row2("Recent average credit", format_credit($user->expavg_credit));
+    $team_header = "Team<br>
+<font size=-1><a href=team.php>Change</a></font>";
     if ($user->teamid) {
         $result = mysql_query("select * from team where id = $user->teamid");
         $team = mysql_fetch_object($result);
-        row2("Team", "<a href=team_display.php?teamid=$team->id>$team->name</a>");
+        row2($team_header, "<a href=team_display.php?teamid=$team->id>$team->name</a>");
     } else {
-        row2("Team", "None");
+        row2($team_header, "None");
     }
     row2("Computers", "<a href=hosts_user.php>View</a>");
 }
@@ -110,7 +112,7 @@ function user_table_start() {
 
 function show_user_row($user) {
     printf(
-      "<tr>
+      "<tr class=row1>
         <td><a href=show_user.php?userid=%d>%s</a></td>
         <td>%.4f</td>
         <td>%.4f</td>
