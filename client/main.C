@@ -58,7 +58,7 @@ int get_initial_project() {
     scanf("%s", master_url);
     printf(
         "You should have already registered with the project\n"
-        "and received an account ID by email.\n"
+        "and received an account key by email.\n"
         "Paste this ID here: "
     );
     scanf("%s", authenticator);
