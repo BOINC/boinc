@@ -179,15 +179,76 @@ void CViewTransfers::OnListRender(wxTimerEvent &event)
         }
         else
         {
-            m_pListPane->RefreshItems(m_iCacheFrom, m_iCacheTo);
+            if ( 1 <= m_iCacheTo )
+            {
+                wxInt32         iRowIndex        = 0;
+                wxInt32         iColumnIndex     = 0;
+                wxInt32         iColumnTotal     = 0;
+                wxString        strDocumentText  = wxEmptyString;
+                wxString        strListPaneText  = wxEmptyString;
+                bool            bNeedRefreshData = false;
+                wxListItem      liItem;
+
+                liItem.SetMask(wxLIST_MASK_TEXT);
+                iColumnTotal = m_pListPane->GetColumnCount();
+
+                for ( iRowIndex = m_iCacheFrom; iRowIndex <= m_iCacheTo; iRowIndex++ )
+                {
+                    bNeedRefreshData = false;
+                    liItem.SetId(iRowIndex);
+
+                    for ( iColumnIndex = 0; iColumnIndex < iColumnTotal; iColumnIndex++ )
+                    {
+                        strDocumentText.Empty();
+                        strListPaneText.Empty();
+
+                        switch(iColumnIndex)
+                        {
+                            case COLUMN_PROJECT:
+                                FormatProjectName( iRowIndex, strDocumentText );
+                                break;
+                            case COLUMN_FILE:
+                                FormatFileName( iRowIndex, strDocumentText );
+                                break;
+                            case COLUMN_PROGRESS:
+                                FormatProgress( iRowIndex, strDocumentText );
+                                break;
+                            case COLUMN_SIZE:
+                                FormatSize( iRowIndex, strDocumentText );
+                                break;
+                            case COLUMN_TIME:
+                                FormatTime( iRowIndex, strDocumentText );
+                                break;
+                            case COLUMN_SPEED:
+                                FormatSpeed( iRowIndex, strDocumentText );
+                                break;
+                            case COLUMN_STATUS:
+                                FormatStatus( iRowIndex, strDocumentText );
+                                break;
+                        }
+
+                        liItem.SetColumn(iColumnIndex);
+                        m_pListPane->GetItem(liItem);
+                        strListPaneText = liItem.GetText();
+
+                        if ( !strDocumentText.IsSameAs(strListPaneText) )
+                            bNeedRefreshData = true;
+                    }
+
+                    if ( bNeedRefreshData )
+                    {
+                        m_pListPane->RefreshItem( iRowIndex );
+                    }
+                }
+            }
         }
 
         m_bProcessingListRenderEvent = false;
     }
-    else
-    {
-        event.Skip();
-    }
+
+    m_pListPane->Refresh();
+
+    event.Skip();
 }
 
 
@@ -223,7 +284,8 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    switch(column) {
+    switch(column)
+    {
         case COLUMN_PROJECT:
             if (item == m_iCacheFrom) pDoc->CachedStateLock();
             FormatProjectName( item, strBuffer );
@@ -391,12 +453,97 @@ wxInt32 CViewTransfers::FormatFileName( wxInt32 item, wxString& strBuffer ) cons
 
 wxInt32 CViewTransfers::FormatProgress( wxInt32 item, wxString& strBuffer ) const
 {
+    float          fBytesSent = 0;
+    float          fFileSize = 0;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    if ( pDoc->IsTransferActive(item) )
+        pDoc->GetTransferBytesXfered( item, fBytesSent );
+    else
+        pDoc->GetTransferFileSize( item, fBytesSent );
+
+    pDoc->GetTransferFileSize( item, fFileSize );
+
+    strBuffer.Printf(wxT("%.2f%%"), ( 100 * ( fBytesSent / fFileSize ) ) );
+
     return 0;
 }
 
 
 wxInt32 CViewTransfers::FormatSize( wxInt32 item, wxString& strBuffer ) const
 {
+    float          fBytesSent = 0;
+    float          fFileSize = 0;
+    double         xTera = 1099511627776.0;
+    double         xGiga = 1073741824.0;
+    double         xMega = 1048576.0;
+    double         xKilo = 1024.0;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    if ( pDoc->IsTransferActive(item) )
+        pDoc->GetTransferBytesXfered( item, fBytesSent );
+    else
+        pDoc->GetTransferFileSize( item, fBytesSent );
+
+    pDoc->GetTransferFileSize( item, fFileSize );
+
+    if (fFileSize != 0)
+    {
+        if      ( fFileSize >= xTera )
+        {
+            strBuffer.Printf( wxT("%0.2f/%0.2f TB"), fBytesSent/xTera, fFileSize/xTera);
+        }
+        else if ( fFileSize >= xGiga )
+        {
+            strBuffer.Printf( wxT("%0.2f/%0.2f GB"), fBytesSent/xGiga, fFileSize/xGiga);
+        }
+        else if ( fFileSize >= xMega )
+        {
+            strBuffer.Printf( wxT("%0.2f/%0.2f MB"), fBytesSent/xMega, fFileSize/xMega);
+        }
+        else if ( fFileSize >= xKilo )
+        {
+            strBuffer.Printf( wxT("%0.2f/%0.2f KB"), fBytesSent/xKilo, fFileSize/xKilo);
+        }
+        else
+        {
+            strBuffer.Printf( wxT("%0.0f/%0.0f bytes"), fBytesSent, fFileSize);
+        }
+    }
+    else
+    {
+        if      ( fBytesSent >= xTera )
+        {
+            strBuffer.Printf( wxT("%0.2f TB"), fBytesSent/xTera);
+        }
+        else if ( fBytesSent >= xGiga )
+        {
+            strBuffer.Printf( wxT("%0.2f GB"), fBytesSent/xGiga);
+        }
+        else if ( fBytesSent >= xMega )
+        {
+            strBuffer.Printf( wxT("%0.2f MB"), fBytesSent/xMega);
+        }
+        else if ( fBytesSent >= xKilo )
+        {
+            strBuffer.Printf( wxT("%0.2f KB"), fBytesSent/xKilo);
+        }
+        else
+        {
+            strBuffer.Printf( wxT("%0.0f bytes"), fBytesSent);
+        }
+    }
+
     return 0;
 }
 
@@ -409,6 +556,22 @@ wxInt32 CViewTransfers::FormatTime( wxInt32 item, wxString& strBuffer ) const
 
 wxInt32 CViewTransfers::FormatSpeed( wxInt32 item, wxString& strBuffer ) const
 {
+    float          fTransferSpeed = 0;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    strBuffer.Clear();
+
+    if ( pDoc->IsTransferActive(item) )
+    {
+        pDoc->GetTransferSpeed( item, fTransferSpeed );
+        strBuffer.Printf( wxT("%0.2f KBps"), ( fTransferSpeed / 1024 ) );
+    }
+    else
+        strBuffer = wxT("0.00 KBps");
+
     return 0;
 }
 

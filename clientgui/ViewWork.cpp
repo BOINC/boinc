@@ -202,7 +202,6 @@ void CViewWork::OnListRender(wxTimerEvent &event)
                 wxInt32         iColumnTotal     = 0;
                 wxString        strDocumentText  = wxEmptyString;
                 wxString        strListPaneText  = wxEmptyString;
-                wxString        strBuffer        = wxEmptyString;
                 bool            bNeedRefreshData = false;
                 wxListItem      liItem;
 
@@ -222,28 +221,28 @@ void CViewWork::OnListRender(wxTimerEvent &event)
                         switch(iColumnIndex)
                         {
                             case COLUMN_PROJECT:
-                                FormatProjectName(iRowIndex, strBuffer);
+                                FormatProjectName(iRowIndex, strDocumentText);
                                 break;
                             case COLUMN_APPLICATION:
-                                FormatApplicationName(iRowIndex, strBuffer);
+                                FormatApplicationName(iRowIndex, strDocumentText);
                                 break;
                             case COLUMN_NAME:
-                                FormatName(iRowIndex, strBuffer);
+                                FormatName(iRowIndex, strDocumentText);
                                 break;
                             case COLUMN_CPUTIME:
-                                FormatCPUTime(iRowIndex, strBuffer);
+                                FormatCPUTime(iRowIndex, strDocumentText);
                                 break;
                             case COLUMN_PROGRESS:
-                                FormatProgress(iRowIndex, strBuffer);
+                                FormatProgress(iRowIndex, strDocumentText);
                                 break;
                             case COLUMN_TOCOMPLETETION:
-                                FormatTimeToCompletion(iRowIndex, strBuffer);
+                                FormatTimeToCompletion(iRowIndex, strDocumentText);
                                 break;
                             case COLUMN_REPORTDEADLINE:
-                                FormatReportDeadline(iRowIndex, strBuffer);
+                                FormatReportDeadline(iRowIndex, strDocumentText);
                                 break;
                             case COLUMN_STATUS:
-                                FormatStatus(iRowIndex, strBuffer);
+                                FormatStatus(iRowIndex, strDocumentText);
                                 break;
                         }
 
@@ -251,7 +250,7 @@ void CViewWork::OnListRender(wxTimerEvent &event)
                         m_pListPane->GetItem(liItem);
                         strListPaneText = liItem.GetText();
 
-                        if ( !strBuffer.IsSameAs(strListPaneText) )
+                        if ( !strDocumentText.IsSameAs(strListPaneText) )
                             bNeedRefreshData = true;
                     }
 
@@ -373,19 +372,15 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     else if ( link.GetHref() == LINK_TASKSHOWGRAPHICS )
     {
         iProjectIndex = m_pListPane->GetFirstSelected();
-        pDoc->GetWorkProjectURL(iProjectIndex, strProjectURL);
-        pDoc->GetWorkName(iProjectIndex, strResultName);
 
         pDoc->WorkShowGraphics(
-            strProjectURL,
-            strResultName,
+            iProjectIndex,
             false
         );
     }
     else if ( link.GetHref() == LINK_TASKABORT )
     {
         iProjectIndex = m_pListPane->GetFirstSelected();
-        pDoc->GetWorkProjectURL(iProjectIndex, strProjectURL);
         pDoc->GetWorkName(iProjectIndex, strResultName);
 
         strMessage.Printf(
@@ -402,8 +397,7 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         if ( wxYES == iAnswer )
         {
             pDoc->WorkAbort(
-                strProjectURL,
-                strResultName
+                iProjectIndex
             );
         }
     }

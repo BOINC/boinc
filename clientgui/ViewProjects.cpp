@@ -241,7 +241,6 @@ void CViewProjects::OnListRender(wxTimerEvent &event)
                 wxInt32         iColumnTotal     = 0;
                 wxString        strDocumentText  = wxEmptyString;
                 wxString        strListPaneText  = wxEmptyString;
-                wxString        strBuffer        = wxEmptyString;
                 bool            bNeedRefreshData = false;
                 wxListItem      liItem;
 
@@ -287,7 +286,7 @@ void CViewProjects::OnListRender(wxTimerEvent &event)
                         m_pListPane->GetItem(liItem);
                         strListPaneText = liItem.GetText();
 
-                        if ( !strBuffer.IsSameAs(strListPaneText) )
+                        if ( !strDocumentText.IsSameAs(strListPaneText) )
                             bNeedRefreshData = true;
                     }
 

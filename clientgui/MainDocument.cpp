@@ -178,7 +178,6 @@ wxInt32 CMainDocument::CachedProjectStatusUpdate()
         project_status.clear();
     }
 
-
     m_fProjectTotalResourceShare = 0.0;
     for (i=0; i < (long)project_status.projects.size(); i++) {
         m_fProjectTotalResourceShare += project_status.projects.at( i )->resource_share;
@@ -195,7 +194,7 @@ wxInt32 CMainDocument::GetProjectCount()
     CachedStateUpdate();
     CachedProjectStatusUpdate();
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         iCount = project_status.projects.size();
 
     return iCount;
@@ -206,7 +205,7 @@ wxInt32 CMainDocument::GetProjectProjectName( wxInt32 iIndex, wxString& strBuffe
 {
     PROJECT* pProject = NULL;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -220,7 +219,7 @@ wxInt32 CMainDocument::GetProjectProjectURL( wxInt32 iIndex, wxString& strBuffer
 {
     PROJECT* pProject = NULL;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -234,7 +233,7 @@ wxInt32 CMainDocument::GetProjectAccountName( wxInt32 iIndex, wxString& strBuffe
 {
     PROJECT* pProject = NULL;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -248,7 +247,7 @@ wxInt32 CMainDocument::GetProjectTeamName( wxInt32 iIndex, wxString& strBuffer )
 {
     PROJECT* pProject = NULL;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -262,7 +261,7 @@ wxInt32 CMainDocument::GetProjectTotalCredit( wxInt32 iIndex, float& fBuffer )
 {
     PROJECT* pProject = NULL;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -276,7 +275,7 @@ wxInt32 CMainDocument::GetProjectAvgCredit( wxInt32 iIndex, float& fBuffer )
 {
     PROJECT* pProject = NULL;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -290,7 +289,7 @@ wxInt32 CMainDocument::GetProjectResourceShare( wxInt32 iIndex, float& fBuffer )
 {
     PROJECT* pProject = NULL;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -311,7 +310,7 @@ wxInt32 CMainDocument::GetProjectMinRPCTime( wxInt32 iIndex, wxInt32& iBuffer )
 {
     PROJECT* pProject = NULL;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -415,7 +414,7 @@ bool CMainDocument::IsProjectSuspended( wxInt32 iIndex )
     PROJECT* pProject = NULL;
     bool     bRetVal  = false;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -430,7 +429,7 @@ bool CMainDocument::IsProjectRPCPending( wxInt32 iIndex )
     PROJECT* pProject = NULL;
     bool     bRetVal  = false;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -451,7 +450,7 @@ wxInt32 CMainDocument::ProjectDetach( wxInt32 iIndex )
     PROJECT* pProject = NULL;
     wxInt32 iRetVal = -1;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -466,7 +465,7 @@ wxInt32 CMainDocument::ProjectUpdate( wxInt32 iIndex )
     PROJECT* pProject = NULL;
     wxInt32 iRetVal = -1;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -481,7 +480,7 @@ wxInt32 CMainDocument::ProjectReset( wxInt32 iIndex )
     PROJECT* pProject = NULL;
     wxInt32 iRetVal = -1;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -497,7 +496,7 @@ wxInt32 CMainDocument::ProjectSuspend( wxInt32 iIndex )
     PROJECT* pStateProject = NULL;
     wxInt32 iRetVal = -1;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -522,7 +521,7 @@ wxInt32 CMainDocument::ProjectResume( wxInt32 iIndex )
     PROJECT* pStateProject = NULL;
     wxInt32 iRetVal = -1;
 
-    if ( project_status.projects.size() != 0 )
+    if ( !project_status.projects.empty() )
         pProject = project_status.projects.at( iIndex );
 
     if ( NULL != pProject )
@@ -552,7 +551,6 @@ wxInt32 CMainDocument::CachedResultsStatusUpdate()
         results.clear();
     }
 
-
     return retval;
 }
 
@@ -564,7 +562,7 @@ wxInt32 CMainDocument::GetWorkCount()
     CachedStateUpdate();
     CachedResultsStatusUpdate();
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         iCount = results.results.size();
 
     return iCount;
@@ -577,7 +575,7 @@ wxInt32 CMainDocument::GetWorkProjectName( wxInt32 iIndex, wxString& strBuffer )
     RESULT* pStateResult = NULL;
     PROJECT* pProject = NULL;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -601,7 +599,7 @@ wxInt32 CMainDocument::GetWorkProjectURL( wxInt32 iIndex, wxString& strBuffer )
 {
     RESULT* pResult = NULL;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -618,7 +616,7 @@ wxInt32 CMainDocument::GetWorkApplicationName( wxInt32 iIndex, wxString& strBuff
     WORKUNIT* pWorkunit = NULL;
     APP_VERSION* pAppVersion = NULL;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -649,7 +647,7 @@ wxInt32 CMainDocument::GetWorkApplicationVersion( wxInt32 iIndex, wxInt32& iBuff
     WORKUNIT* pWorkunit = NULL;
     APP_VERSION* pAppVersion = NULL;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -677,7 +675,7 @@ wxInt32 CMainDocument::GetWorkName( wxInt32 iIndex, wxString& strBuffer )
 {
     RESULT* pResult = NULL;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -691,7 +689,7 @@ wxInt32 CMainDocument::GetWorkCurrentCPUTime( wxInt32 iIndex, float& fBuffer )
 {
     RESULT* pResult = NULL;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -705,7 +703,7 @@ wxInt32 CMainDocument::GetWorkEstimatedCPUTime( wxInt32 iIndex, float& fBuffer )
 {
     RESULT* pResult = NULL;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -719,7 +717,7 @@ wxInt32 CMainDocument::GetWorkFinalCPUTime( wxInt32 iIndex, float& fBuffer )
 {
     RESULT* pResult = NULL;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -733,7 +731,7 @@ wxInt32 CMainDocument::GetWorkFractionDone( wxInt32 iIndex, float& fBuffer )
 {
     RESULT* pResult = NULL;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -747,7 +745,7 @@ wxInt32 CMainDocument::GetWorkReportDeadline( wxInt32 iIndex, wxInt32& iBuffer )
 {
     RESULT* pResult = NULL;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -762,7 +760,7 @@ wxInt32 CMainDocument::GetWorkState( wxInt32 iIndex )
     wxInt32 iBuffer = 0;
     RESULT* pResult = NULL;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -777,7 +775,7 @@ wxInt32 CMainDocument::GetWorkSchedulerState( wxInt32 iIndex )
     wxInt32 iBuffer = 0;
     RESULT* pResult = NULL;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -792,7 +790,7 @@ bool CMainDocument::IsWorkAcknowledged( wxInt32 iIndex )
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -807,7 +805,7 @@ bool CMainDocument::IsWorkActive( wxInt32 iIndex )
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -822,7 +820,7 @@ bool CMainDocument::IsWorkReadyToReport( wxInt32 iIndex )
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -837,7 +835,7 @@ bool CMainDocument::IsWorkSuspended( wxInt32 iIndex )
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -853,7 +851,7 @@ wxInt32 CMainDocument::WorkSuspend( wxInt32 iIndex )
     RESULT* pStateResult = NULL;
     wxInt32 iRetVal = 0;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -880,7 +878,7 @@ wxInt32 CMainDocument::WorkResume( wxInt32 iIndex )
     RESULT* pStateResult = NULL;
     wxInt32 iRetVal = 0;
 
-    if ( results.results.size() != 0 )
+    if ( !results.results.empty() )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
@@ -901,27 +899,46 @@ wxInt32 CMainDocument::WorkResume( wxInt32 iIndex )
 }
 
 
-wxInt32 CMainDocument::WorkShowGraphics( wxString& strProjectURL, wxString& strResultName, bool bFullScreen )
+wxInt32 CMainDocument::WorkShowGraphics( wxInt32 iIndex, bool bFullScreen )
 {
-    return rpc.show_graphics( (char*)strProjectURL.c_str(), (char*)strResultName.c_str(), bFullScreen );
+    RESULT* pResult = NULL;
+    wxInt32 iRetVal = 0;
+
+    if ( !results.results.empty() )
+        pResult = results.results.at( iIndex );
+
+    if ( NULL != pResult )
+        iRetVal = rpc.show_graphics( pResult->project_url.c_str(), pResult->name.c_str(), bFullScreen );
+
+    return iRetVal;
 }
 
 
-wxInt32 CMainDocument::WorkAbort( wxString& strProjectURL, wxString& strResultName )
+wxInt32 CMainDocument::WorkAbort( wxInt32 iIndex )
 {
-    PROJECT p;
-    RESULT r;
-    p.master_url = strProjectURL;
-    r.name = strResultName;
-    r.project = &p;
-    return rpc.result_op(r, wxT("abort"));
+    RESULT* pResult = NULL;
+    RESULT* pStateResult = NULL;
+    wxInt32 iRetVal = 0;
+
+    if ( !results.results.empty() )
+        pResult = results.results.at( iIndex );
+
+    if ( NULL != pResult )
+    {
+        pStateResult = state.lookup_result( pResult->project_url, pResult->name );
+        if ( NULL != pStateResult )
+        {
+            iRetVal = rpc.result_op( (*pStateResult), wxT("abort") );
+        }
+    }
+
+    return iRetVal;
 }
 
 
 wxInt32 CMainDocument::CachedMessageUpdate()
 {
     wxInt32 retval = 0;
-    //wxInt32 i = 0;
 
     retval = rpc.get_messages( m_iMessageSequenceNumber, messages );
     if (retval)
@@ -944,7 +961,7 @@ wxInt32 CMainDocument::GetMessageCount()
     CachedStateUpdate();
     CachedMessageUpdate();
 
-    if ( messages.messages.size() != 0 )
+    if ( !messages.messages.empty() )
         iCount = messages.messages.size();
 
     return iCount;
@@ -955,7 +972,7 @@ wxInt32 CMainDocument::GetMessageProjectName( wxInt32 iIndex, wxString& strBuffe
 {
     MESSAGE* pMessage = NULL;
 
-    if ( messages.messages.size() != 0 )
+    if ( !messages.messages.empty() )
         pMessage = messages.messages.at( iIndex );
 
     if ( NULL != pMessage )
@@ -969,7 +986,7 @@ wxInt32 CMainDocument::GetMessageTime( wxInt32 iIndex, wxDateTime& dtBuffer )
 {
     MESSAGE* pMessage = NULL;
 
-    if ( messages.messages.size() != 0 )
+    if ( !messages.messages.empty() )
         pMessage = messages.messages.at( iIndex );
 
     if ( NULL != pMessage )
@@ -986,7 +1003,7 @@ wxInt32 CMainDocument::GetMessagePriority( wxInt32 iIndex, wxInt32& iBuffer )
 {
     MESSAGE* pMessage = NULL;
 
-    if ( messages.messages.size() != 0 )
+    if ( !messages.messages.empty() )
         pMessage = messages.messages.at( iIndex );
 
     if ( NULL != pMessage )
@@ -1000,7 +1017,7 @@ wxInt32 CMainDocument::GetMessageMessage( wxInt32 iIndex, wxString& strBuffer )
 {
     MESSAGE* pMessage = NULL;
 
-    if ( messages.messages.size() != 0 )
+    if ( !messages.messages.empty() )
         pMessage = messages.messages.at( iIndex );
 
     if ( NULL != pMessage )
@@ -1027,49 +1044,125 @@ wxInt32 CMainDocument::CachedFileTransfersUpdate()
 
 wxInt32 CMainDocument::GetTransferCount()
 {
+    wxInt32 iCount = 0;
+
     CachedStateUpdate();
-    return 0;
+    CachedFileTransfersUpdate();
+
+    if ( !ft.file_transfers.empty() )
+        iCount = ft.file_transfers.size();
+
+    return iCount;
 }
 
 
 wxInt32 CMainDocument::GetTransferProjectName( wxInt32 iIndex, wxString& strBuffer )
 {
+    FILE_TRANSFER* pFT = NULL;
+    PROJECT* pProject = NULL;
+
+    if ( !ft.file_transfers.empty() )
+        pFT = ft.file_transfers.at( iIndex );
+
+    if ( NULL != pFT )
+    {
+        pProject = state.lookup_project( pFT->project_url );
+        if ( NULL != pProject )
+        {
+            strBuffer = pProject->project_name.c_str();
+        }
+    }
+
     return 0;
 }
 
 
 wxInt32 CMainDocument::GetTransferFileName( wxInt32 iIndex, wxString& strBuffer )
 {
+    FILE_TRANSFER* pFT = NULL;
+    PROJECT* pProject = NULL;
+
+    if ( !ft.file_transfers.empty() )
+        pFT = ft.file_transfers.at( iIndex );
+
+    if ( NULL != pFT )
+        strBuffer = pFT->name.c_str();
+
     return 0;
 }
 
 
-wxInt32 CMainDocument::GetTransferProgress( wxInt32 iIndex, wxString& strBuffer )
+wxInt32 CMainDocument::GetTransferFileSize( wxInt32 iIndex, float& fBuffer )
 {
+    FILE_TRANSFER* pFT = NULL;
+    PROJECT* pProject = NULL;
+
+    if ( !ft.file_transfers.empty() )
+        pFT = ft.file_transfers.at( iIndex );
+
+    if ( NULL != pFT )
+        fBuffer = pFT->nbytes;
+
     return 0;
 }
 
 
-wxInt32 CMainDocument::GetTransferSize( wxInt32 iIndex, wxString& strBuffer )
+wxInt32 CMainDocument::GetTransferBytesXfered( wxInt32 iIndex, float& fBuffer )
 {
+    FILE_TRANSFER* pFT = NULL;
+    PROJECT* pProject = NULL;
+
+    if ( !ft.file_transfers.empty() )
+        pFT = ft.file_transfers.at( iIndex );
+
+    if ( NULL != pFT )
+        fBuffer = pFT->bytes_xferred;
+
     return 0;
 }
 
 
-wxInt32 CMainDocument::GetTransferSpeed( wxInt32 iIndex, wxString& strBuffer )
+wxInt32 CMainDocument::GetTransferSpeed( wxInt32 iIndex, float& fBuffer )
 {
-    return 0;
-}
+    FILE_TRANSFER* pFT = NULL;
+    PROJECT* pProject = NULL;
 
+    if ( !ft.file_transfers.empty() )
+        pFT = ft.file_transfers.at( iIndex );
 
-wxInt32 CMainDocument::GetTransferStatus( wxInt32 iIndex, wxString& strBuffer )
-{
+    if ( NULL != pFT )
+        fBuffer = pFT->xfer_speed;
+
     return 0;
 }
 
 
 wxInt32 CMainDocument::GetTransferTime( wxInt32 iIndex, wxString& strBuffer )
 {
+    FILE_TRANSFER* pFT = NULL;
+    PROJECT* pProject = NULL;
+
+    if ( !ft.file_transfers.empty() )
+        pFT = ft.file_transfers.at( iIndex );
+
+    //if ( NULL != pFT )
+        //fBuffer = pFT->;
+
     return 0;
+}
+
+
+bool CMainDocument::IsTransferActive( wxInt32 iIndex )
+{
+    FILE_TRANSFER* pFT = NULL;
+    bool bRetVal    = false;
+
+    if ( !ft.file_transfers.empty() )
+        pFT = ft.file_transfers.at( iIndex );
+
+    if ( NULL != pFT )
+        bRetVal = pFT->pers_xfer_active;
+
+    return bRetVal;
 }
 

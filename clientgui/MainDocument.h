@@ -150,8 +150,8 @@ public:
 
     wxInt32                     WorkSuspend( wxInt32 iIndex );
     wxInt32                     WorkResume( wxInt32 iIndex );
-    wxInt32                     WorkShowGraphics( wxString& strProjectURL, wxString& strResultName, bool bFullScreen );
-    wxInt32                     WorkAbort( wxString& strProjectURL, wxString& strResultName );
+    wxInt32                     WorkShowGraphics( wxInt32 iIndex, bool bFullScreen );
+    wxInt32                     WorkAbort( wxInt32 iIndex );
 
 
     //
@@ -186,13 +186,15 @@ public:
 
 
     wxInt32                     GetTransferCount();
-    wxInt32                     GetTransferFileName( wxInt32 iIndex, wxString& strBuffer );
-    wxInt32                     GetTransferProgress( wxInt32 iIndex, wxString& strBuffer );
     wxInt32                     GetTransferProjectName( wxInt32 iIndex, wxString& strBuffer );
-    wxInt32                     GetTransferSize( wxInt32 iIndex, wxString& strBuffer );
-    wxInt32                     GetTransferSpeed( wxInt32 iIndex, wxString& strBuffer );
-    wxInt32                     GetTransferStatus( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetTransferFileName( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetTransferFileSize( wxInt32 iIndex, float& fBuffer );
+    wxInt32                     GetTransferBytesXfered( wxInt32 iIndex, float& fBuffer );
+    wxInt32                     GetTransferSpeed( wxInt32 iIndex, float& fBuffer );
     wxInt32                     GetTransferTime( wxInt32 iIndex, wxString& strBuffer );
+    wxInt32                     GetTransferStatus( wxInt32 iIndex, wxString& strBuffer );
+
+    bool                        IsTransferActive( wxInt32 iIndex );
 
 };
 

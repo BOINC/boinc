@@ -342,7 +342,7 @@ public:
     int get_file_transfers(FILE_TRANSFERS&);
     int get_project_status(PROJECTS&);
     int get_disk_usage(PROJECTS&);
-    int show_graphics(char* project, char* result_name, bool full_screen);
+    int show_graphics(const char* project, const char* result_name, bool full_screen);
     int project_op(PROJECT&, char* op);
     int project_attach(char* url, char* auth);
     int set_run_mode(int mode);
