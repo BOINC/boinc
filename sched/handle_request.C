@@ -626,7 +626,9 @@ int handle_results(
         parse_int(result.stderr_out, "<app_version>", result.app_version_num);
 
 	// look for exit status in stderr_out
-        // TODO: return it separately
+        // exit_status is now returned separately
+	// This line should be unused in older core clients.
+	// This line can be safely deleted later
         //
 	parse_int(result.stderr_out, "<exit_status>", result.exit_status);
 
