@@ -17409,3 +17409,19 @@ Rom    14 Sept 2004
         MainFrame.h
     lib/
         gui_rpc_client.C, .h
+
+David  14 Sept 2004
+    - added a "project status" page showing daemon and DB status
+        The sample has various SETI@home-specific stuff;
+        projects will need to customize it.
+    - added db_init_aux(), which doesn't check stop_web,
+        generate HTML or exit;
+        moved db_init() to util.inc; it calls db_init_aux(),
+        and does the check/HTML/exit stuff
+
+    html/
+        inc/
+            db.inc
+            util.inc
+        user/
+            sample_status.php (new)

@@ -5,11 +5,7 @@ require_once('../inc/util.inc');
 // database-related functions.
 // Presentation code (HTML) shouldn't be here
 
-function db_init() {
-    if (project_is_stopped()) {
-        echo "Project is shut down for maintenance - please try again later\n";
-        exit();
-    }
+function db_init_aux() {
     $config = get_config();
 	$user = parse_config($config, "<db_user>");
 	$pass = parse_config($config, "<db_passwd>");
@@ -19,15 +15,11 @@ function db_init() {
     }
     $retval = mysql_pconnect($host, $user, $pass);
     if (!$retval) {
-        echo "Unable to connect to database - please try again later\n";
-		echo "Error: ", mysql_errno(), mysql_error();
-        exit();
+        return 1;
     }
     $db_name = parse_config($config, "<db_name>");
     if(!mysql_select_db($db_name)) {
-        echo "Unable to select database - please try again later";
-		echo mysql_error();
-        exit();
+        return 2;
     }
 
     return 0;
