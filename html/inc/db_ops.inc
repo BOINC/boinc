@@ -640,8 +640,10 @@ function wu_error_mask_str($s) {
     if ($s) {
         $x = $x."Unrecognized Error: $s<br>";
     }
-    if (strlen($s))
+    if (strlen($x))
         $x="<font color='ff3333'>".$x."</font>";
+    else
+	$x="<br>";
     return $x;
 }
 
