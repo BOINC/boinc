@@ -9232,3 +9232,33 @@ Karl 2004-01-15
 
     py/Boinc/
         Makefile.am
+    lib/
+        base64.C
+        base64.h
+
+Karl 2004-01-15
+    - applied changes by Daniel Sumers Myers <dmyers@umiacs.umd.edu>
+        - setup script creates log_<host>
+        - add support for <db_user> field in config.XML
+        - missing default project.inc.sample fields
+
+    db/
+        db_base.C
+        db_base.h
+    html_ops/
+        db_ops.inc
+        db.inc
+        project.inc.sample
+    py/Boinc/
+        setup_project.py 
+    sched/
+        assimilator.C
+        db_dump.C
+        feeder.C
+        file_deleter.C
+        main.C
+        make_work.C
+        transitioner.C
+        update_stats.C
+        validate.C
+        wu_check.C
