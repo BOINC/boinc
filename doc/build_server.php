@@ -41,7 +41,7 @@ If you get messages such as this:
 Database error: You have an error in your SQL syntax near 'START TRANSACTION' at line 1 query=START TRANSACTION
 </pre>
 then your MySQL server does not support transactions.  Either upgrade to MySQL
-4.x, or remove &lt;use_transactions/&gt; from config.xml
+4.x, or remove <code>&lt;use_transactions/&gt;</code> from config.xml
 
 
 ";
