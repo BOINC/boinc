@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <time.h>
 
 #include "filesys.h"
 #include "boinc_api.h"
