@@ -53,14 +53,13 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
     }
 }
 
-// return an app (if any) with given requested mode
+// return the active task that's currently acting as screensaver
 //
 ACTIVE_TASK* ACTIVE_TASK_SET::get_ss_app() {
     unsigned int i;
-    ACTIVE_TASK* atp;
 
     for (i=0; i<active_tasks.size(); i++) {
-        atp = active_tasks[i];
+        ACTIVE_TASK* atp = active_tasks[i];
         if (atp->is_ss_app) {
             return atp;
         }

@@ -70,17 +70,13 @@ void SS_LOGIC::stop_ss() {
     gstate.active_tasks.restore_apps();
 }
 
-// called to cause poll() to choose a new app to do screensaver graphics
+// If an app is acting as screensaver, tell it to stop.
 //
 void SS_LOGIC::reset() {
-    ACTIVE_TASK* atp;
-    if (do_ss) {
-        atp = gstate.active_tasks.get_ss_app();
-        if (atp) {
-            atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
-            atp->is_ss_app = false;
-        }
-        do_boinc_logo_ss = false;
+    ACTIVE_TASK* atp = gstate.active_tasks.get_ss_app();
+    if (atp) {
+        atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
+        atp->is_ss_app = false;
     }
 }
 
@@ -99,6 +95,7 @@ void SS_LOGIC::poll() {
     if (!do_ss) return;
 
     if (gstate.activities_suspended) {
+        reset();
         do_boinc_logo_ss = true;
         strcpy(ss_msg, "BOINC activities suspended");
         return;
@@ -109,11 +106,7 @@ void SS_LOGIC::poll() {
     //
     if (blank_time && (time(0) > blank_time)) {
         if (!do_blank) {
-            atp = gstate.active_tasks.get_ss_app();
-            if (atp) {
-                atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
-                atp->is_ss_app = false;
-            }
+            reset();
             do_blank = true;
         }
         do_boinc_logo_ss = false;
@@ -128,7 +121,7 @@ void SS_LOGIC::poll() {
                 if (time(0)>ack_deadline) {
                     do_boinc_logo_ss = true;
                     strcpy(ss_msg, "App can't display graphics");
-                    atp->graphics_mode_acked = MODE_UNSUPPORTED;
+                    atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
                     atp->is_ss_app = false;
                 }
             }

@@ -17380,3 +17380,12 @@ David  13 Sept 2004
         user/
             account_created.php
             mail_passwd.php
+
+David  13 Sept 2004
+	- small changes to screensaver logic, try to fix Rom's 2-CPU bug
+
+	client/
+		app_graphics.C
+		ss_logic.C
+
+
