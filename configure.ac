@@ -9,7 +9,7 @@ dnl not sure exactly what the minimum version is (but 2.13 won't work)
 AC_PREREQ(2.57)
 
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(BOINC, 2.27)
+AC_INIT(BOINC, 2.28)
 
 echo "--- Configuring BOINC AC_PACKAGE_VERSION ---"
 
@@ -61,7 +61,6 @@ AC_PROG_CXX
 AC_PROG_CPP
 AC_PROG_MAKE_SET
 AC_PROG_RANLIB
-AC_PROG_LN_S
 
 dnl Checks for libraries.
 AC_CHECK_LIB(gen, main)
@@ -120,11 +119,11 @@ AC_STRUCT_TM
 AC_STRUCT_TIMEZONE
 
 # by default, create static binaries on linux.
-[if [ "$target_os" = "linux-gnu" ]; then
-    STATIC_FLAGS="-static"
-fi
-echo "checking static flags... ${STATIC_FLAGS:-(none)}"]
-AC_SUBST(STATIC_FLAGS)
+#[if [ "$target_os" = "linux-gnu" ]; then
+#    STATIC_FLAGS="-static"
+#fi
+#echo "checking static flags... ${STATIC_FLAGS:-(none)}"]
+#AC_SUBST(STATIC_FLAGS)
 
 AC_CONFIG_FILES([Makefile
                  RSAEuro/source/Makefile
