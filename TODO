@@ -1,32 +1,32 @@
 HIGH-PRIORITY (must be done to support SETI@home)
 
-- Code-signing
+- Code-signing (David)
     research tools for code-signing
 
-- Upload authentication
+- Upload authentication (David)
     Each result contains a "certificate", signed with project key, giving
         - list of: file name, max size
         - min, max times to xfer
     modify put program to decrypt certificate, enforce name/size/time limits
 
-- Network retry policies
+- Network retry policies (Eric?)
     can't download file: when to give up? how to retry?
         exponential backoff
     can't upload file: when to give up/retry?
     can't connect to sched server
     error return from sched server
 
-- proxy support
+- proxy support (Open Source)
     HTTP, Socks
     Look at other open source code
 
-- team system
+- team system (Barry)
     in PHP
 
-- credit display
+- credit display (Barry)
     in PHP
 
-- CPU accounting in the presence of checkpoint/restart
+- CPU accounting in the presence of checkpoint/restart (Michael)
     core client periodically gets CPU time, accumulates in state file
 
 - test versioning mechanisms for core
@@ -41,16 +41,7 @@ HIGH-PRIORITY (must be done to support SETI@home)
 
 - test reporting of app errors
 
-- test checksumming of executables
-
-- Think about making the set of scheduling servers dynamic
-    one approach: allow "redirect" reply from server
-        (requires old address to still work)
-    second approach: "master URL"
-        returns a file with list of scheduler address
-        and email address of "problems" contact
-
-- complete client side and test hi/lo water mark scheme
+- complete client side and test hi/lo water mark scheme (Michael)
     - initialize rsc_fpops and rsc_iops in client WORKUNIT 
     - check server sends correct number of work units
     - check client requests correct number of seconds of work
@@ -60,41 +51,12 @@ HIGH-PRIORITY (must be done to support SETI@home)
     - do this for other platforms
     - Get info periodically rather than always at startup
 
-- core client / app trigger file interface
-    core->app
-        init:
-            app preferences
-            name of graphics shared-mem seg
-            recommended graphics size
-            recommended frame rate
-            recommended checkpoint period
-        dynamic:
-            whether to do graphics
-            exit
-    app->core
-        init:
-            actual graphics size
-        dynamic:
-            % done
-            I just checkpointed
-
 - implement graphics system
-    Basic idea: core client passes shared-memory segment name to app,
-        recommended size and frame rate.
-        App creates pixmap + dirty flag in shared mem,
-        renders to it, sets dirty flag.
-        Core client (or screensaver) maps shared mem.
-        When dirty, blit pixmap to screen
+    Basic idea: core client passes prefs to app,
+        recommended size and frame rate, etc.
     - X11 version
-        It's not clear whether X11 allows you to draw into memory.
-        Does everything have to go through server?
     - Win32-based version
-    - The API by which the app draws into shared-mem pixmap should
-        be platform-independent.
-        In the first pass we can use our own library based on Win32 primitives.
-        In principle we should be able to use any library
-        capable of offscreen drawing.
-        OpenGL version?
+    - Mac OS X version
 
 - GUI and screensaver around core client
     design default (core client) display
@@ -114,7 +76,7 @@ HIGH-PRIORITY (must be done to support SETI@home)
 --------------------------
 MEDIUM-PRIORITY (must be done for CM)
 
-- review and complete documentation
+- review and complete documentation (see end of TODO list)
 
 - test sticky files
 
@@ -180,7 +142,7 @@ LOW-PRIORITY
     For projects with small data.
 
 --------------------------
-DONE (may need test)
+DONE (may need test)  Please document these!
 
 - mechanism for returning app stderr output to server? store in blob?
 
@@ -193,4 +155,28 @@ DONE (may need test)
 - make scheduling server work with fast cgi
 
 - high and low water marks implemented
+
+- Think about making the set of scheduling servers dynamic
+    one approach: allow "redirect" reply from server
+        (requires old address to still work)
+    second approach: "master URL"
+        returns a file with list of scheduler address
+        and email address of "problems" contact
+
+- core client / app trigger file interface
+    core->app
+        init:
+            app preferences
+            recommended graphics size
+            recommended frame rate
+            recommended checkpoint period
+        dynamic:
+            whether to do graphics
+            exit
+    app->core
+        init:
+            actual graphics size
+        dynamic:
+            % done
+            I just checkpointed
 
