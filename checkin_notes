@@ -19278,3 +19278,14 @@ David  11 Nov 2004
 	clientgui/
 		MainDocument.cpp
 		Makefile.old
+
+Rom    12 Nov 2004
+    - New Installer: Set screensaver to the BOINC screensaver
+    - New Installer: Detect the presence of the old BOINC installer and warn the
+      user to uninstall the old BOINC.
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/
+        BOINC.vbs
+ 
