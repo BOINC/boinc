@@ -16132,3 +16132,14 @@ Karl 2004-08-10
     tools/
         add.C (removed - obsolete)
 
+
+David  11 Aug 2004
+	- FILE_INFO::write(): don't write signed_xml if it's not relevant
+		(i.e. if there's no xml_signature)
+		This caused an XML syntax error in client_state.xml
+
+		NOTE: this looks similar to Rom's bug fix yesterday.
+		Two fixes are better than one, hopefully.
+
+	client/
+		client_types.C,h

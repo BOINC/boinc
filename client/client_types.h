@@ -77,8 +77,13 @@ public:
     int start_url;
     int current_url;
     char signed_xml[MAX_BLOB_LEN];
+        // if the file_info is signed (for uploadable files)
+        // this is the text that is signed
     char xml_signature[MAX_BLOB_LEN];
+        // ... and this is the signature
     char file_signature[MAX_BLOB_LEN];
+        // if the file itself is signed (for executable files)
+        // this is the signature
     int priority;
     time_t time_last_used;         // time of last use of FILE_INFO, update during parsing, writing, or application usage
     time_t exp_date;

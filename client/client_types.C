@@ -725,7 +725,7 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (upload_when_present) out.printf("    <upload_when_present/>\n");
         if (sticky) out.printf("    <sticky/>\n");
         if (signature_required) out.printf("    <signature_required/>\n");
-        if (file_signature) out.printf("    <file_signature>\n%s</file_signature>\n", file_signature);
+        if (strlen(file_signature)) out.printf("    <file_signature>\n%s</file_signature>\n", file_signature);
         if (time_last_used) out.printf("    <time_last_used>%d</time_last_used>\n", time_last_used);
         if (priority) out.printf("    <priority>%d</priority>\n", priority);
         if (exp_date) out.printf("    <exp_date>%ld</exp_date>\n", exp_date);
@@ -738,11 +738,12 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (retval) return retval;
     }
     if (!to_server) {
-        if (strlen(signed_xml)) {
-            out.printf("    <signed_xml>\n%s    </signed_xml>\n", signed_xml);
-        }
-        if (strlen(xml_signature)) {
-            out.printf("    <xml_signature>\n%s    </xml_signature>\n", xml_signature);
+        if (strlen(signed_xml) && strlen(xml_signature)) {
+            out.printf(
+                "    <signed_xml>\n%s    </signed_xml>\n"
+                "    <xml_signature>\n%s    </xml_signature>\n",
+                signed_xml, xml_signature
+            );
         }
     }
     if (!error_msg.empty()) {
