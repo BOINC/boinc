@@ -55,18 +55,6 @@ AC_SUBST(TOP_SOURCE_DIR, [`(cd \`dirname "$0"\` && pwd)`])
 
 AM_MAINTAINER_MODE
 
-dnl AC_EGREP_CPP(yes,
-dnl [#ifdef __APPLE__
-dnl   yes
-dnl #endif
-dnl ], AC_DEFINE(unix, 1, [unix]))
-
-dnl AC_EGREP_CPP(yes,
-dnl [#ifdef _AIX
-dnl   yes
-dnl #endif
-dnl ], AC_DEFINE(unix, 1, [unix]))
-
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
