@@ -54,30 +54,23 @@ public:
     long tell() const;
 };
 
-int boinc_init(bool standalone = false);
-int boinc_parse_init_data_file();
-int boinc_get_init_data(APP_INIT_DATA&);
-int boinc_finish(int);
-int boinc_resolve_filename(const char*, char*, int len);
-int boinc_resolve_filename(const char*, string&);
-bool boinc_time_to_checkpoint();
-int boinc_checkpoint_completed();
-int boinc_fraction_done(double);
-int boinc_child_start();
-int boinc_child_done(double);
-bool boinc_is_standalone();
+extern int boinc_init(bool standalone = false);
+extern int boinc_parse_init_data_file();
+extern int boinc_get_init_data(APP_INIT_DATA&);
+extern int boinc_finish(int);
+extern int boinc_resolve_filename(const char*, char*, int len);
+extern int boinc_resolve_filename(const char*, string&);
+extern bool boinc_time_to_checkpoint();
+extern int boinc_checkpoint_completed();
+extern int boinc_fraction_done(double);
+extern int boinc_child_start();
+extern int boinc_child_done(double);
+extern bool boinc_is_standalone();
+extern int boinc_wu_cpu_time(double&);
 
 /////////// API ENDS HERE - IMPLEMENTATION STUFF FOLLOWS
 
-extern int boinc_cpu_time(double&, double&);
-    // CPU time and memory usage for this process
-extern int boinc_install_signal_handlers();
-extern int update_app_progress(double, double, double, double);
-
-extern int set_timer(double period);
-extern void setup_shared_mem();
-extern void cleanup_shared_mem();
-
+extern int boinc_thread_cpu_time(double&, double&);
 extern APP_CLIENT_SHM *app_client_shm;
 
 #endif

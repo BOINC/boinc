@@ -71,10 +71,10 @@ public:
         // Passed from the application via an API call;
         // will be zero if the app doesn't use this call
     double frac_rate_of_change;
-        // How much the percent done changes per second, based
-        // on a recent exponential weighted average
+        // How much the percent done changes per second,
+        // based on a recent exponential weighted average
     double last_frac_done, recent_change;
-    time_t last_frac_update;
+    double last_frac_update;
     double starting_cpu_time;
         // total CPU time at the start of current episode
     double checkpoint_cpu_time;
@@ -118,8 +118,7 @@ public:
     bool check_max_disk_exceeded();
     bool check_max_mem_exceeded();
 
-    int get_cpu_time_via_shmem(time_t);
-    int get_cpu_time_via_os();
+    int get_cpu_time_via_shmem(double);
     double est_time_to_completion();
     bool read_stderr_file();
     bool supports_graphics();

@@ -102,7 +102,7 @@ extern bool throttled_app_render(int, int, double);
 #ifdef _WIN32
 extern HANDLE hQuitEvent;
 extern HANDLE graphics_threadh;
-extern BOOL    win_loop_done;
+extern BOOL   win_loop_done;
 #endif
 
 #endif

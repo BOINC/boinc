@@ -39,14 +39,9 @@ static int			current_graphics_mode = MODE_HIDE_GRAPHICS;
 static POINT		mousePos;
 static UINT			m_uEndSSMsg;
 
-HDC myhDC;
+static HDC myhDC;
 
 BOOL		win_loop_done;
-
-extern bool using_opengl;
-extern bool standalone;
-extern HANDLE hQuitEvent;
-extern unsigned int MyCreateFont(char *fontName, int Size, int weight);
 
 void SetupPixelFormat(HDC hDC);
 
@@ -216,7 +211,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 		}
 		return 0;
 	case WM_CLOSE:
-        if (standalone) {
+        if (boinc_is_standalone()) {
             exit(0);
         } else {
 		    SetMode(MODE_HIDE_GRAPHICS);
@@ -275,13 +270,12 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	// Register window class and graphics mode message
 	reg_win_class();
 
-    if (standalone) {
+    if (boinc_is_standalone()) {
         SetMode(MODE_WINDOW);
     } else {
         SetMode(MODE_HIDE_GRAPHICS);
     }
 	win_loop_done = false;
-	using_opengl = true;
 	while(!win_loop_done) {
 		if (GetMessage(&msg,NULL,0,0)) {
 			TranslateMessage(&msg);

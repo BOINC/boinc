@@ -1107,34 +1107,10 @@ int ACTIVE_TASK_SET::restart_tasks() {
     return 0;
 }
 
-int ACTIVE_TASK::get_cpu_time_via_os() {
-#ifdef _WIN32
-    FILETIME creation_time, exit_time, kernel_time, user_time;
-    ULARGE_INTEGER tKernel, tUser;
-    LONGLONG totTime;
-
-    // Get the elapsed CPU time
-    if (GetProcessTimes(pid_handle, &creation_time, &exit_time, &kernel_time, &user_time)) {
-        tKernel.LowPart = kernel_time.dwLowDateTime;
-        tKernel.HighPart = kernel_time.dwHighDateTime;
-        tUser.LowPart = user_time.dwLowDateTime;
-        tUser.HighPart = user_time.dwHighDateTime;
-
-        // Runtimes in 100 nanosecond units
-        totTime = tKernel.QuadPart + tUser.QuadPart;
-        current_cpu_time = checkpoint_cpu_time = starting_cpu_time + totTime/1.e7;
-        return 0;
-    }
-#else
-    // On UNIX, we can't get CPU time before process has exited for some reason
-#endif
-    return ERR_NOT_IMPLEMENTED;
-}
-
 // See if the app has generated a new fraction-done message in shared mem.
 // If so read it and return true.
 //
-int ACTIVE_TASK::get_cpu_time_via_shmem(time_t now) {
+int ACTIVE_TASK::get_cpu_time_via_shmem(double now) {
     char msg_buf[SHM_SEG_SIZE];
     if (app_client_shm.get_msg(msg_buf, APP_CORE_WORKER_SEG)) {
         last_status_msg_time = now;
@@ -1167,14 +1143,7 @@ int ACTIVE_TASK::get_cpu_time_via_shmem(time_t now) {
 
         return 0;
     }
-
-    // if no message in 5 seconds, get the CPU time by system calls
-    //
-    if (last_status_msg_time+5 < now) {
-        last_status_msg_time = now;
-        return get_cpu_time_via_os();
-    }
-    return ERR_NOT_IMPLEMENTED;
+    return -1;
 }
 
 // get CPU times of active tasks
@@ -1182,7 +1151,7 @@ int ACTIVE_TASK::get_cpu_time_via_shmem(time_t now) {
 void ACTIVE_TASK_SET::get_cpu_times() {
     unsigned int i;
     ACTIVE_TASK *atp;
-    time_t now = time(0);
+    double now = dtime();
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         atp->get_cpu_time_via_shmem(now);

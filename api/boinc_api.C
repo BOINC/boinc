@@ -30,8 +30,6 @@
 #include <afxwin.h>
 #include <winuser.h>
 #include <mmsystem.h>    // for timing
-
-MMRESULT timer_id;
 #endif
 
 #if HAVE_UNISTD_H
@@ -54,8 +52,9 @@ MMRESULT timer_id;
 #include "boinc_api.h"
 
 #ifdef _WIN32
-HANDLE hQuitRequest, hSharedMem;
+HANDLE hQuitRequest, hSharedMem, worker_thread_handle;
 LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
+MMRESULT timer_id;
 #else
 extern void boinc_catch_signal(int signal);
 extern void boinc_quit(int sig);
@@ -68,11 +67,11 @@ static double time_until_fraction_done_update;
 static double fraction_done;
 static double last_checkpoint_cpu_time;
 static bool ready_to_checkpoint = false;
-static bool write_frac_done = false;
 static bool this_process_active;
 static bool time_to_quit = false;
-bool using_opengl = false;
-bool standalone = false;
+static double last_wu_cpu_time;
+static bool standalone = false;
+
 APP_CLIENT_SHM *app_client_shm;
 
 bool boinc_is_standalone() {
@@ -117,37 +116,6 @@ int boinc_parse_init_data_file() {
     return 0;
 }
 
-// read the INIT_DATA and FD_INIT files
-//
-int boinc_init(bool standalone_ /* = false */) {
-    FILE* f;
-    int retval;
-
-#ifdef _WIN32
-    freopen(STDERR_FILE, "a", stderr);
-#endif
-
-    standalone = standalone_;
-
-    retval = boinc_parse_init_data_file();
-    if (retval) return retval;
-
-    f = fopen(FD_INIT_FILE, "r");
-    if (f) {
-        parse_fd_init_file(f);
-        fclose(f);
-    }
-
-    time_until_checkpoint = aid.checkpoint_period;
-    time_until_fraction_done_update = aid.fraction_done_update_period;
-    this_process_active = true;
-
-    boinc_install_signal_handlers();
-    set_timer(timer_period);
-    setup_shared_mem();
-
-    return 0;
-}
 
 // Install signal handlers to aid in debugging
 // TODO: write Windows equivalent error handlers?
@@ -246,18 +214,25 @@ void boinc_quit(int sig) {
 }
 #endif
 
-int boinc_finish(int status) {
-    double cur_mem;
+// communicate to the core client (via shared mem)
+// the current CPU time and fraction done
+//
+static int update_app_progress(
+    double frac_done, double cpu_t, double cp_cpu_t, double ws_t
+) {
+    char msg_buf[SHM_SEG_SIZE];
 
-    boinc_cpu_time(last_checkpoint_cpu_time, cur_mem);
-    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
-#ifdef _WIN32
-    // Stop the timer
-    timeKillEvent(timer_id);
-#endif
-    cleanup_shared_mem();
-    exit(status);
-    return 0;
+    if (!app_client_shm) return 0;
+
+    sprintf(msg_buf,
+        "<fraction_done>%2.8f</fraction_done>\n"
+        "<current_cpu_time>%10.4f</current_cpu_time>\n"
+        "<checkpoint_cpu_time>%10.4f</checkpoint_cpu_time>\n"
+        "<working_set_size>%f</working_set_size>\n",
+        frac_done, cpu_t, cp_cpu_t, ws_t
+    );
+
+    return app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);
 }
 
 int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
@@ -265,104 +240,29 @@ int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
     return 0;
 }
 
-bool boinc_time_to_checkpoint() {
+
+// this can be called from the graphics thread
+//
+int boinc_wu_cpu_time(double& cpu_t) {
+    cpu_t = last_wu_cpu_time;
+    return 0;
+}
+
 #ifdef _WIN32
-    DWORD eventState;
-    // Check if core client has requested us to exit
-    eventState = WaitForSingleObject(hQuitRequest, 0L);
-
-    switch (eventState) {
-    case WAIT_OBJECT_0:
-    case WAIT_ABANDONED:
-        time_to_quit = true;
-        break;
-    }
-#endif
-
-    if (write_frac_done) {
-        double cur_cpu;
-        double cur_mem;
-        boinc_cpu_time(cur_cpu, cur_mem);
-        update_app_progress(fraction_done, cur_cpu, last_checkpoint_cpu_time, cur_mem);
-        time_until_fraction_done_update = aid.fraction_done_update_period;
-        write_frac_done = false;
-    }
-
-    // If the application has received a quit request it should checkpoint
-    //
-    if (time_to_quit) {
-        return true;
-    }
-
-    return ready_to_checkpoint;
-}
-
-int boinc_checkpoint_completed() {
-    double cur_mem;
-    boinc_cpu_time(last_checkpoint_cpu_time, cur_mem);
-    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
-    ready_to_checkpoint = false;
-    time_until_checkpoint = aid.checkpoint_period;
-
-    // If it's time to quit, call boinc_finish which will exit the app properly
-    //
-    if (time_to_quit) {
-        fprintf(stderr, "Received quit request from core client\n");
-        boinc_finish(ERR_QUIT_REQUEST);
-    }
-    return 0;
-}
-
-int boinc_fraction_done(double x) {
-    fraction_done = x;
-    return 0;
-}
-
-int boinc_child_start() {
-    this_process_active = false;
-    return 0;
-}
-
-int boinc_child_done(double cpu) {
-    this_process_active = true;
-    return 0;
-}
-
-int boinc_cpu_time(double &cpu_t, double &ws_t) {
-    double cpu_secs;
-
-    // Start with the CPU time from previous runs,
-    // then add the CPU time of the current run
-    cpu_secs = aid.wu_cpu_time;
-
-#ifdef HAVE_SYS_RESOURCE_H
-    int retval;
-    struct rusage ru;
-    retval = getrusage(RUSAGE_SELF, &ru);
-    if (retval) {
-        fprintf(stderr, "error: could not get CPU time\n");
-    	return ERR_GETRUSAGE;
-	}
-    // Sum the user and system time spent in this process
-    cpu_secs += (double)ru.ru_utime.tv_sec + (((double)ru.ru_utime.tv_usec) / ((double)1000000.0));
-    cpu_secs += (double)ru.ru_stime.tv_sec + (((double)ru.ru_stime.tv_usec) / ((double)1000000.0));
-    cpu_t = cpu_secs;
-    ws_t = ru.ru_idrss;     // TODO: fix this (mult by page size)
-	return 0;
-#else
-#ifdef _WIN32
-    HANDLE hProcess;
+int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu, double& ws) {
     FILETIME creationTime,exitTime,kernelTime,userTime;
+    static bool first = true;
+    static DWORD first_count = 0;
 
-    // TODO: Could we speed this up by retaining the process handle?
-    hProcess = OpenProcess(PROCESS_QUERY_INFORMATION, 0, GetCurrentProcessId());
-    if (GetProcessTimes(
-        hProcess, &creationTime, &exitTime, &kernelTime, &userTime)
+    if (first) {
+        first_count = GetTickCount();
+        first = false;
+    }
+    if (GetThreadTimes(
+        thread_handle, &creationTime, &exitTime, &kernelTime, &userTime)
     ) {
         ULARGE_INTEGER tKernel, tUser;
         LONGLONG totTime;
-
-        CloseHandle(hProcess);
 
         tKernel.LowPart  = kernelTime.dwLowDateTime;
         tKernel.HighPart = kernelTime.dwHighDateTime;
@@ -371,41 +271,47 @@ int boinc_cpu_time(double &cpu_t, double &ws_t) {
         totTime = tKernel.QuadPart + tUser.QuadPart;
 
         // Runtimes in 100-nanosecond units
-        cpu_secs += totTime / 1.e7;
-
-        // Convert to seconds and return
-		cpu_t = cpu_secs;
-		ws_t = 0;
-        return 0;
+        cpu = totTime / 1.e7;
+		ws = 0;
+    } else {
+        // TODO: Handle timer wraparound
+        DWORD cur = GetTickCount();
+	    cpu = ((cur - first_count)/1000.);
+	    ws = 0;
     }
-    CloseHandle(hProcess);
-
-    // TODO: Handle timer wraparound
-    static bool first=true;
-    static DWORD first_count = 0;
-
-    if (first) {
-        first_count = GetTickCount();
-        first = false;
-    }
-    DWORD cur = GetTickCount();
-	cpu_t = cpu_secs + ((cur - first_count)/1000.);
-	ws_t = 0;
     return 0;
-#endif  // _WIN32
-#endif
-
-    fprintf(stderr, "boinc_cpu_time(): not implemented\n");
-	return -1;
 }
 
-// This function should be as fast as possible,
-// and shouldn't make any system calls
-//
-#ifdef _WIN32
-void CALLBACK on_timer(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2) {
+int boinc_worker_thread_cpu_time(double& cpu, double& ws) {
+    return boinc_thread_cpu_time(worker_thread_handle, cpu, ws);
+}
+
+int boinc_thread_cpu_time(double& cpu, double& ws) {
+    return boinc_thread_cpu_time(GetCurrentThread(), cpu, ws);
+}
 #else
-void on_timer(int a) {
+#ifdef HAVE_SYS_RESOURCE_H
+int boinc_worker_thread_cpu_time(double &cpu_t, double &ws_t) {
+    int retval;
+    struct rusage ru;
+    retval = getrusage(RUSAGE_SELF, &ru);
+    if (retval) {
+        fprintf(stderr, "error: could not get CPU time\n");
+    	return ERR_GETRUSAGE;
+	}
+    // Sum the user and system time spent in this process
+    cpu_t = (double)ru.ru_utime.tv_sec + (((double)ru.ru_utime.tv_usec) / ((double)1000000.0));
+    cpu_t += (double)ru.ru_stime.tv_sec + (((double)ru.ru_stime.tv_usec) / ((double)1000000.0));
+    ws_t = ru.ru_idrss;     // TODO: fix this (mult by page size)
+	return 0;
+}
+#endif
+#endif  // _WIN32
+
+#ifdef _WIN32
+static void CALLBACK on_timer(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2) {
+#else
+static void on_timer(int a) {
 #endif
 
     if (!ready_to_checkpoint) {
@@ -415,16 +321,21 @@ void on_timer(int a) {
         }
     }
 
-    if (!write_frac_done && this_process_active) {
+    if (this_process_active) {
         time_until_fraction_done_update -= timer_period;
         if (time_until_fraction_done_update <= 0) {
-            write_frac_done = true;
+            double cur_cpu;
+            double cur_mem;
+            boinc_worker_thread_cpu_time(cur_cpu, cur_mem);
+            last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
+            update_app_progress(fraction_done, last_wu_cpu_time, last_checkpoint_cpu_time, cur_mem);
+            time_until_fraction_done_update = aid.fraction_done_update_period;
         }
     }
 }
 
 
-int set_timer(double period) {
+static int set_timer(double period) {
     int retval=0;
 #ifdef _WIN32
     char buf[256];
@@ -465,7 +376,7 @@ int set_timer(double period) {
     return retval;
 }
 
-void setup_shared_mem() {
+static void setup_shared_mem() {
 	app_client_shm = new APP_CLIENT_SHM;
     if (standalone) {
         app_client_shm->shm = NULL;
@@ -491,7 +402,7 @@ void setup_shared_mem() {
 #endif
 }
 
-void cleanup_shared_mem() {
+static void cleanup_shared_mem() {
     if (!app_client_shm) return;
 
 #ifdef _WIN32
@@ -509,24 +420,115 @@ void cleanup_shared_mem() {
 #endif
 }
 
+int boinc_init(bool standalone_ /* = false */) {
+    FILE* f;
+    int retval;
 
-// communicate to the core client (via shared mem)
-// the current CPU time and fraction done
-//
-int update_app_progress(
-    double frac_done, double cpu_t, double cp_cpu_t, double ws_t
-) {
-    char msg_buf[SHM_SEG_SIZE];
-
-    if (!app_client_shm) return 0;
-
-    sprintf(msg_buf,
-        "<fraction_done>%2.8f</fraction_done>\n"
-        "<current_cpu_time>%10.4f</current_cpu_time>\n"
-        "<checkpoint_cpu_time>%10.4f</checkpoint_cpu_time>\n"
-        "<working_set_size>%f</working_set_size>\n",
-        frac_done, cpu_t, cp_cpu_t, ws_t
+#ifdef _WIN32
+    freopen(STDERR_FILE, "a", stderr);
+    DuplicateHandle(
+        GetCurrentProcess(),
+        GetCurrentThread(),
+        GetCurrentProcess(),
+        &worker_thread_handle,
+        0,
+        FALSE,
+        DUPLICATE_SAME_ACCESS
     );
+#endif
 
-    return app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);
+    standalone = standalone_;
+
+    retval = boinc_parse_init_data_file();
+    if (retval) return retval;
+
+    f = fopen(FD_INIT_FILE, "r");
+    if (f) {
+        parse_fd_init_file(f);
+        fclose(f);
+    }
+
+    time_until_checkpoint = aid.checkpoint_period;
+    time_until_fraction_done_update = aid.fraction_done_update_period;
+    this_process_active = true;
+    last_wu_cpu_time = aid.wu_cpu_time;
+
+    boinc_install_signal_handlers();
+    set_timer(timer_period);
+    setup_shared_mem();
+
+    return 0;
+}
+
+
+int boinc_finish(int status) {
+    double cur_mem;
+
+    boinc_thread_cpu_time(last_checkpoint_cpu_time, cur_mem);
+    last_checkpoint_cpu_time += aid.wu_cpu_time;
+    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
+#ifdef _WIN32
+    // Stop the timer
+    timeKillEvent(timer_id);
+#endif
+    cleanup_shared_mem();
+    exit(status);
+    return 0;
+}
+
+
+bool boinc_time_to_checkpoint() {
+#ifdef _WIN32
+    DWORD eventState;
+    // Check if core client has requested us to exit
+    eventState = WaitForSingleObject(hQuitRequest, 0L);
+
+    switch (eventState) {
+    case WAIT_OBJECT_0:
+    case WAIT_ABANDONED:
+        time_to_quit = true;
+        break;
+    }
+#endif
+
+    // If the application has received a quit request it should checkpoint
+    //
+    if (time_to_quit) {
+        return true;
+    }
+
+    return ready_to_checkpoint;
+}
+
+int boinc_checkpoint_completed() {
+    double cur_cpu, cur_mem;
+    boinc_thread_cpu_time(cur_cpu, cur_mem);
+    last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
+    last_checkpoint_cpu_time = last_wu_cpu_time;
+    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
+    ready_to_checkpoint = false;
+    time_until_checkpoint = aid.checkpoint_period;
+
+    // If it's time to quit, call boinc_finish which will exit the app properly
+    //
+    if (time_to_quit) {
+        fprintf(stderr, "Received quit request from core client\n");
+        boinc_finish(ERR_QUIT_REQUEST);
+    }
+    return 0;
+}
+
+int boinc_fraction_done(double x) {
+    fraction_done = x;
+    return 0;
+}
+
+int boinc_child_start() {
+    this_process_active = false;
+    return 0;
+}
+
+int boinc_child_done(double cpu) {
+    this_process_active = true;
+    return 0;
 }

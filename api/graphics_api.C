@@ -203,11 +203,11 @@ bool throttled_app_render(int x, int y, double t) {
     //
     if (ok_to_render) {
         if (boinc_max_gfx_cpu_frac) {
-            boinc_cpu_time(t0, m);
+            boinc_thread_cpu_time(t0, m);
         }
         app_graphics_render(x, y, t);
         if (boinc_max_gfx_cpu_frac) {
-            boinc_cpu_time(t1, m);
+            boinc_thread_cpu_time(t1, m);
             total_render_time += t1 - t0;
         }
         return true;

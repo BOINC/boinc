@@ -7496,3 +7496,43 @@ David  5 Nov 2003
         client_state.C
         client_types.C
         prefs.C
+
+David  6 Nov 2003
+	- cleaned up CPU time chaos
+		OLD:
+			An app measures and reports its CPU time when it calls
+			boinc_time_to_checkpoint(), which may be infrequent.
+			The reported CPU time is for the whole process
+			(including graphics thread: wrong)
+			If the core client doesn't get a message within 5 seconds,
+			it measures app CPU time externally, with ACTIVE_TASK::get_cpu_time_via_os()
+			(this can cause reported CPU time to jump up and down).
+			Ambiguous function boinc_cpu_time(): does it return time for
+				calling thread only?  time since WU start?
+		NEW:
+			An app measures and reports its CPU time every 1 sec,
+			from the timer interrupt.
+			The reported CPU time is only for the worker thread.
+			Replace boinc_cpu_time() with:
+				boinc_thread_cpu_time(): CPU time of calling thread
+					(also used by graphics_cpi.C to measure rendering time)
+				boinc_wu_cpu_time(): CPU time of WU so far (for graphics thread)
+			Notes:
+			- The app no longer needs to call boinc_time_to_checkpoint()
+				with any regularity
+			- the timer interrupt handler runs on a different thread,
+				so we record the worker thread handle.
+	- use double rather than time_t in calculation of estimated completion
+	- Code cleanup:
+		removed some declarations from boinc_api.h
+			(Don't declare internal functions in a .h file!)
+		removed using_opengl, write_frac_done
+		made things static that should be static
+		removed "externs" from .C files (SHOULD NEVER EXIST)
+
+	api/
+		boinc_api.C,h
+		graphics.C,h
+		windows_opengl.C
+	client/
+		app.C,h
