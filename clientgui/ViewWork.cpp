@@ -538,7 +538,8 @@ wxInt32 CViewWork::GetCacheCount()
 
 wxInt32 CViewWork::RemoveCacheElement()
 {
-    m_WorkCache.erase( m_WorkCache.end() );
+    delete m_WorkCache.back();
+    m_WorkCache.erase( m_WorkCache.end() - 1 );
     return 0;
 }
 

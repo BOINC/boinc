@@ -422,7 +422,8 @@ wxInt32 CViewMessages::GetCacheCount()
 
 wxInt32 CViewMessages::RemoveCacheElement()
 {
-    m_MessageCache.erase( m_MessageCache.end() );
+    delete m_MessageCache.back();
+    m_MessageCache.erase( m_MessageCache.end() - 1 );
     return 0;
 }
 

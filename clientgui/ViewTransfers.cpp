@@ -462,7 +462,8 @@ wxInt32 CViewTransfers::GetCacheCount()
 
 wxInt32 CViewTransfers::RemoveCacheElement()
 {
-    m_TransferCache.erase( m_TransferCache.end() );
+    delete m_TransferCache.back();
+    m_TransferCache.erase( m_TransferCache.end() - 1 );
     return 0;
 }
 

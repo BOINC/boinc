@@ -625,7 +625,8 @@ wxInt32 CViewProjects::GetCacheCount()
 
 wxInt32 CViewProjects::RemoveCacheElement()
 {
-    m_ProjectCache.erase( m_ProjectCache.end() );
+    delete m_ProjectCache.back();
+    m_ProjectCache.erase( m_ProjectCache.end() - 1 );
     return 0;
 }
 

@@ -289,7 +289,8 @@ wxInt32 CViewResources::GetCacheCount()
 
 wxInt32 CViewResources::RemoveCacheElement()
 {
-    m_ResourceCache.erase( m_ResourceCache.end() );
+    delete m_ResourceCache.back();
+    m_ResourceCache.erase( m_ResourceCache.end() - 1 );
     return 0;
 }
 
