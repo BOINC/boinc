@@ -9,7 +9,7 @@ function make_cache_dirs() {
   for ($i=0;$i<256;$i++) {
     $j=sprintf("%02x",$i);
     if (!@filemtime("../cache/$j")) {
-      mkdir("../cache/$j");
+      mkdir("../cache/$j", 0700);
     } 
   }
 }

@@ -16509,3 +16509,14 @@ David  20 Aug 2004
         boinc_db.C,h
     lib/
         util.C
+
+David  20 Aug 2004
+    - PHP fixes
+
+    html/
+        inc/
+            cache.inc
+            util.inc
+        ops/
+            show_log.php
+            white.css (new)

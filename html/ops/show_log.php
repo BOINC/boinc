@@ -4,7 +4,7 @@
 
     require_once("../inc/util_ops.inc");
 
-    $log_dir = parse_config("<log_dir>");
+    $log_dir = parse_config(get_config(), "<log_dir>");
     if (!$log_dir) {
         exit("Error: couldn't get log_dir from config file.");
     }
