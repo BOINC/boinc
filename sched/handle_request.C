@@ -255,7 +255,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (retval) {
             strcpy(reply.message, "Can't find host record");
             strcpy(reply.message_priority, "low");
-            log_messages.printf(SchedMessages::NORMAL, "[HOST#%d] can't find host\n", sreq.hostid);
+            log_messages.printf(SchedMessages::NORMAL, "[HOST#%d?] can't find host\n", sreq.hostid);
             sreq.hostid = 0;
             goto new_host;
         }
@@ -267,7 +267,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
             reply.nucleus_only = true;
-            log_messages.printf(SchedMessages::NORMAL, "[USER#%d] can't find\n", reply.host.userid);
+            log_messages.printf(SchedMessages::NORMAL, "[HOST#%d] [USER#%d?] can't find user record\n", host.id, reply.host.userid);
             return -1;
         }
         reply.user = user;
@@ -279,8 +279,8 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
             reply.nucleus_only = true;
-            log_messages.printf(SchedMessages::CRITICAL, "[USER#%d] Bad authenticator '%s'\n",
-                                reply.host.userid, sreq.authenticator);
+            log_messages.printf(SchedMessages::CRITICAL, "[HOST#%d] [USER#%d] Bad authenticator '%s'\n",
+                                host.id, user.id, sreq.authenticator);
             return -1;
         }
 
@@ -309,7 +309,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
-            log_messages.printf(SchedMessages::CRITICAL, "Bad authenticator [%s]\n", sreq.authenticator);
+            log_messages.printf(SchedMessages::CRITICAL, "[HOST#<none>] Bad authenticator '%s'\n", sreq.authenticator);
             return -1;
         }
         reply.user = user;
@@ -456,21 +456,21 @@ int handle_results(
         reply.result_acks.push_back(*rp);
 
         log_messages.printf(SchedMessages::DEBUG, "[HOST#%d] [%s] got result\n",
-                            sreq.hostid, rp->name);
+                            host.id, rp->name);
 
         strncpy(result.name, rp->name, sizeof(result.name));
         sprintf(buf, "where name='%s'", result.name);
         retval = result.lookup(buf);
         if (retval) {
-            log_messages.printf(SchedMessages::NORMAL, "[HOST#%d] [%s] can't find result\n",
-                                sreq.hostid, rp->name);
+            log_messages.printf(SchedMessages::CRITICAL, "[HOST#%d] [%s] can't find result\n",
+                                host.id, rp->name);
             continue;
         }
 
         if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
-            log_messages.printf(SchedMessages::NORMAL,
-                                "[HOST#%d] [%s] got unexpected result: server state is %d\n",
-                                sreq.hostid, rp->name, result.server_state);
+            log_messages.printf(SchedMessages::CRITICAL,
+                                "[HOST#%d] [RESULT#%d %s] got unexpected result: server state is %d\n",
+                                host.id, result.id, result.name, result.server_state);
             continue;
         }
         if (result.server_state == RESULT_SERVER_STATE_OVER) {
@@ -478,9 +478,9 @@ int handle_results(
         }
 
         if (result.hostid != sreq.hostid) {
-            log_messages.printf(SchedMessages::NORMAL,
-                                "[HOST#%d] [%s] got result from wrong host; expected [HOST#%d]\n",
-                                sreq.hostid, rp->name, result.hostid);
+            log_messages.printf(SchedMessages::CRITICAL,
+                                "[HOST#%d] [RESULT#%d %s] got result from wrong host; expected [HOST#%d]\n",
+                                host.id, result.id, result.name, result.hostid);
             continue;
         }
 
@@ -496,16 +496,16 @@ int handle_results(
             result.outcome = RESULT_OUTCOME_SUCCESS;
             retval = wu.lookup_id(result.workunitid);
             if (retval) {
-                log_messages.printf(SchedMessages::NORMAL,
-                                    "[HOST#%d] [RESULT#%d %s] can't find WU#%d for result\n",
-                                    sreq.hostid, result.id, result.name, result.workunitid);
+                log_messages.printf(SchedMessages::CRITICAL,
+                                    "[HOST#%d] [RESULT#%d %s] Can't find [WU#%d] for result\n",
+                                    host.id, result.id, result.name, result.workunitid);
             } else {
                 wu.need_validate = 1;
                 retval = wu.update();
                 if (retval) {
                     log_messages.printf(SchedMessages::CRITICAL,
-                                        "[HOST#%d] [WU#%d] Can't update WU\n",
-                                        sreq.hostid, wu.id);
+                                        "[HOST#%d] [RESULT#%d %s] Can't update [WU#%d %s]\n",
+                                        host.id, result.id, result.name, wu.id, wu.name);
                 }
             }
         } else {
@@ -518,8 +518,8 @@ int handle_results(
         retval = result.update();
         if (retval) {
             log_messages.printf(SchedMessages::NORMAL,
-                                "[HOST#%d] [RESULT#%d] can't update result: %s\n",
-                                sreq.hostid, result.id, boinc_db_error_string());
+                                "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
+                                host.id, result.id, result.name, boinc_db_error_string());
         }
 
     }
@@ -549,8 +549,8 @@ int send_work(
 
     if (sreq.work_req_seconds <= 0) return 0;
 
-    log_messages.printf(SchedMessages::DEBUG, "[HOST#%d] got request for %d seconds of work\n",
-                        sreq.hostid, sreq.work_req_seconds);
+    log_messages.printf(SchedMessages::NORMAL, "[HOST#%d] got request for %d seconds of work\n",
+                        reply.host.id, sreq.work_req_seconds);
 
     seconds_to_fill = sreq.work_req_seconds;
     if (seconds_to_fill > MAX_SECONDS_TO_SEND) {
@@ -570,7 +570,7 @@ int send_work(
         wu = ss.wu_results[i].workunit;
         if (!wu_is_feasible(wu, reply.host)) {
             log_messages.printf(SchedMessages::DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
-                                sreq.hostid, wu.id, wu.name);
+                                reply.host.id, wu.id, wu.name);
             continue;
         }
 
@@ -582,9 +582,9 @@ int send_work(
         );
         if (retval) continue;
 
-        log_messages.printf(SchedMessages::DEBUG,
-                            "[HOST#%d] [RESULT#%d %s] sending result\n",
-                            sreq.hostid, result.id, result.name);
+        log_messages.printf(SchedMessages::NORMAL,
+                            "[HOST#%d] Sending [RESULT#%d %s]\n",
+                            reply.host.id, result.id, result.name);
 
         // copy the result so we don't overwrite its XML fields
         //
@@ -608,13 +608,16 @@ int send_work(
         if (nresults == MAX_WUS_TO_SEND) break;
     }
 
-    log_messages.printf(SchedMessages::DEBUG, "[HOST#%d] sending %d results\n",
-                        sreq.hostid, nresults);
+    log_messages.printf(SchedMessages::DEBUG, "[HOST#%d] Sent %d results\n",
+                        reply.host.id, nresults);
 
     if (nresults == 0) {
         strcpy(reply.message, "no work available");
         strcpy(reply.message_priority, "low");
         reply.request_delay = 10;
+
+        log_messages.printf(SchedMessages::NORMAL, "[HOST#%d] No work available\n",
+                            reply.host.id);
     }
     return 0;
 }
@@ -683,7 +686,7 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         strcpy(reply.message_priority, "low");
         log_messages.printf(SchedMessages::NORMAL,
                             "[HOST#%d] Wrong major version '%s' from user: wanted %d, got %d\n",
-                            sreq.hostid,
+                            reply.host.id,
                             sreq.authenticator, MAJOR_VERSION, sreq.core_client_major_version);
         return true;
     }
@@ -696,7 +699,6 @@ void process_request(
 ) {
     PLATFORM* platform;
     int retval;
-    char buf[256];
 
     // if different major version of BOINC, just send a message
     //
@@ -711,12 +713,10 @@ void process_request(
     //
     platform = ss.lookup_platform(sreq.platform_name);
     if (!platform) {
-        sprintf(buf, "[HOST#%d] platform [%s] not found\n",
-                sreq.hostid,
-                sreq.platform_name);
-        strcpy(reply.message, buf);
+        sprintf(reply.message, "platform '%s' not found\n", sreq.platform_name);
         strcpy(reply.message_priority, "low");
-        log_messages.printf(SchedMessages::NORMAL, buf);
+        log_messages.printf(SchedMessages::CRITICAL, "[HOST#%d] platform '%s' not found\n",
+                            reply.host.id, sreq.platform_name);
         return;
     }
 
