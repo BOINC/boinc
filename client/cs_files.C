@@ -104,26 +104,22 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
     bool action = false;
     int retval;
 
+    // Look for FILE_INFOs for which we should start a transfer,
+    // and make PERS_FILE_XFERs for them
+    //
     for (i=0; i<file_infos.size(); i++) {
         fip = file_infos[i];
         pfx = fip->pers_file_xfer;
         if (pfx) continue;
         if (!fip->generated_locally && fip->status == FILE_NOT_PRESENT) {
-
-            // Set up the persistent file transfer object.
-            // This will start the download when there is available bandwidth
-            //
             pfx = new PERS_FILE_XFER;
             pfx->init(fip, false);
             fip->pers_file_xfer = pfx;
             retval = pers_xfers->insert(fip->pers_file_xfer);
-            //if (retval) gstate.report_project_error( *fip->result, retval, "" );	// *******
+                // TODO: return error?
             action = true;
         } else if (fip->upload_when_present && fip->status == FILE_PRESENT && !fip->uploaded) {
 
-            // Set up the persistent file transfer object.
-            // This will start the upload when there is available bandwidth
-            //
             pfx = new PERS_FILE_XFER;
             pfx->init(fip, true);
             fip->pers_file_xfer = pfx;
@@ -132,17 +128,21 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
         }
     }
 
-    for (i=0; i<pers_xfers->pers_file_xfers.size(); i++) {
-        pfx = pers_xfers->pers_file_xfers[i];
+    // Scan existing PERS_FILE_XFERs, looking for those that are done,
+    // and deleting them
+    //
+    vector<PERS_FILE_XFER*>::iterator iter;
+    iter = pers_xfers->pers_file_xfers.begin();
+    while (iter != pers_xfers->pers_file_xfers.end()) {
+        pfx = *iter;
 
         // If the transfer finished, remove the PERS_FILE_XFER object
         // from the set and delete it
         //
         if (pfx->xfer_done) {
             pfx->fip->pers_file_xfer = NULL;
-            pers_xfers->remove(pfx);
+            iter = pers_xfers->pers_file_xfers.erase(iter);
             delete pfx;
-            i--;
             action = true;
         }
     }
