@@ -132,22 +132,29 @@ void parse_project_prefs(char* prefs, vector<APP_FILE>& app_files) {
     }
 }
 
+// Handle user-specified app files, e.g. background graphics:
 // if the user's project prefs include elements of the form
 // <app_file>
 //     <url>X</url>
 //     <open_name>Y</open_name>
+//     <timestamp>Z</timestamp>
 // </app_file>
-// then insert appropriate elements in app_version XML doc, namely:
+// then insert corresponding elements in app_version XML doc, namely:
 // <file_info>
-//     <name>X'</name>
+//     <name>Y_Z</name>
 //     <url>X</url>
 // </file_info>
 // ... (in the <app_version> element)
 //     <file_ref>
-//         <file_name>X'</file_name>
+//         <file_name>Y_Z</file_name>
 //         <open_name>Y</open_name>
+//         <optional deadline=300/>
 //     </file_ref>
-// where X' is the escaped version of X
+// Notes:
+// - the timestamp allows you to force a re-download of the file
+//   by updating your prefs;
+// - the <optional/> allows the app to start after 300 secs
+//   even if the file hasn't been successfully downloaded
 //
 int insert_app_file_tags(APP_VERSION& av, USER& user) {
     vector<APP_FILE> app_files;
@@ -159,7 +166,6 @@ int insert_app_file_tags(APP_VERSION& av, USER& user) {
     parse_project_prefs(user.project_prefs, app_files);
     for (i=0; i<app_files.size(); i++) {
         af = app_files[i];
-        //escape_url_readable(af.url, name);
         sprintf(name, "%s_%d", af.open_name, af.timestamp);
         sprintf(buf,
             "<file_info>\n"
@@ -174,6 +180,7 @@ int insert_app_file_tags(APP_VERSION& av, USER& user) {
             "    <file_ref>\n"
             "        <file_name>%s</file_name>\n"
             "        <open_name>%s</open_name>\n"
+            "        <optional deadline=300/>\n"
             "    </file_ref>\n",
             name, af.open_name
         );

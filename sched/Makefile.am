@@ -77,7 +77,7 @@ file_upload_handler_LDADD = $(LDADD) $(RSA_LIBS)
 make_work_SOURCES =				\
         make_work.C				\
         ../tools/backend_lib.C			\
-        ../tools/process_result_template.C	\
+        ../tools/process_result_template.C
 make_work_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 make_work_LDADD = $(LDADD) $(RSA_LIBS)
 

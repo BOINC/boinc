@@ -2,7 +2,7 @@
 
 define("PROJECT", "Astropulse");
 define("MASTER_URL", "http://maggie.ssl.berkeley.edu/ap/");
-define("URL_BASE", "http://koloth.ssl.berkeley.edu/ap");
+define("URL_BASE", "http://setiboinc.ssl.berkeley.edu/ap");
 
 function project_intro() {
     echo"

@@ -146,7 +146,7 @@ EXTRA_DIST = \
 	mac_build win_build						\
 	doc html_ops html_user						\
 	stripchart							\
-        INSTALL LICENSE
+        INSTALL
 
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4

@@ -6,7 +6,8 @@
 The BOINC API is a set of C++ functions.
 Unless otherwise specified,
 the functions return an integer error code; zero indicates success.
-The graphics API is described <a href=graphics.html>separately</a>.
+On an error return, the application should exit with that status.
+The BOINC graphics API is described <a href=graphics.html>separately</a>.
 
 <h3>Initialization and termination</h3>
 The application must call
@@ -20,9 +21,10 @@ It may call
         char project_preferences[4096];
         char user_name[256];
         char team_name[256];
-        double wu_cpu_time;           // cpu time from previous sessions
-        double total_cobblestones;
-        double recent_avg_cobblestones;
+        double user_total_credit;
+        double user_expavg_credit;
+        double team_total_credit;
+        double team_expavg_credit;
     };
 
     int boinc_get_init_data(APP_INIT_DATA&);
@@ -33,17 +35,21 @@ to get the following information:
 the user's project-specific preferences.
 <li> <b>user_name</b>: the user's "screen name" on this project.
 <li> <b>team_name</b>: the user's team name, if any.
-<li> <b>wu_cpu_time</b>: the CPU time spent on this WU so far
-<li> <b>total_cobblestones</b>: the user's total work for this project.
-<li> <b>recent_avg_cobblestones</b>: the recent average work per day.
+<li> <b>user_total_credit</b>: user's total work for this project.
+<li> <b>user_expavg_credit</b>: user's recent average work per day.
+<li> <b>team_total_credit</b>: team's total work for this project.
+<li> <b>team_expavg_credit</b>: team's recent average work per day.
 </ul>
 <p>
 These items might be used by the application in its graphics.
 At any time it may call
 <pre>
-    double boinc_cpu_time();
+    int boinc_cpu_time(double &cpu_time, double& working_set_size);
 </pre>
-to get its current CPU time.
+to get its total CPU time
+(i.e., from the beginning of the work unit,
+not just since the last restart).
+This also returns the virtual memory working set size in bytes.
 <p>
 When the application has completed it must call
 <pre>
