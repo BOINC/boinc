@@ -23,8 +23,11 @@ def sign_executable(executable_path):
                                         'tools','sign_executable')
     if not os.path.exists(sign_executable_path):
         raise SystemExit("tools/sign_executable not found! did you `make' it?")
-    return os.popen('%s %s %s'%(sign_executable_path,
-                                executable_path,code_sign_key)).read()
+    signature_text = os.popen('%s %s %s'%(sign_executable_path,
+                                          executable_path,code_sign_key)).read()
+    if not signature_text:
+        raise SystemExit("Couldn't sign executable %s"%executable_path)
+    return signature_text
 
 def process_executable_file(file, signature_text=None):
     '''Handle a new executable file to be added to the database.
