@@ -125,9 +125,13 @@ function write_fd($fd, $str) {
 function page_head($title, $user=null, $fd=null) {
     $styleSheet = URL_BASE . STYLESHEET;
 
-    write_fd($fd, "<html><head><title>$title</title>\n");
-    write_fd($fd, "<link rel=stylesheet type=text/css href=\"$styleSheet\">");
-    write_fd($fd, "</head>\n<body bgcolor=ffffff>\n");
+    write_fd($fd,
+        "<html><head><title>$title</title>
+        <link rel=stylesheet type=text/css href=\"$styleSheet\">
+        </head>
+        <body bgcolor=ffffff>
+        "
+    );
     project_banner($user, $fd);
 }
 
@@ -445,6 +449,14 @@ function host_link($hostid) {
     } else {
         return "---";
     }
+}
+
+function news_item($date, $text) {
+    echo "<b>$date</b>
+        <br>
+        $text
+        <br><br>
+    ";
 }
 
 ?>
