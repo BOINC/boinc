@@ -41,9 +41,9 @@ Required on the <b>master/scheduler</b> server(s):
     </ul>
 </ul>
 
-The <a href=test.php>test suite</a> simulates all servers on a single machine
-as well as a client, so to run <code>make check</code> you need most of the
-usual server and client software:
+The <a href=test.php>test suite</a> simulates all servers and client on a
+single machine, so to run <code>make check</code> you need most of the usual
+server and client software:
 <ul>
   <li><b>MySQL server</b> with permissions to create databases
   <li><b>MySQL client</b>

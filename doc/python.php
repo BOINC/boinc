@@ -191,7 +191,9 @@ To remove an object, call <code>remove()</code>:
 </pre>
 
 To access objects related by id, access the field name without "id" suffix:
-(the <code>result</code> table has a column '<code>workunitid</code>')
+(the <code>result</code> table has columns '<code>workunitid</code>' and
+'<code>hostid</code>'; the <code>host</code> table has
+column <code>userid</code>)
 <pre>
   wu_1234 = database.Workunits.find(name='1234.wu')[0]
   results_of_wu_1234 = database.Results.find(workunit=wu_1234)
