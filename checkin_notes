@@ -19132,3 +19132,11 @@ David  6 Nov 2004
     html/inc
         team.inc
         host.inc
+
+Rom    7 Nov 2004
+    - Modify the main build environment for Windows to include the new GUI, and remove
+      the old build environment.
+
+    win_build/
+        boinc.sln
+        boincgui.vcproj
