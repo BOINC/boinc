@@ -401,6 +401,9 @@ int handle_results(
         result.exit_status = rp->exit_status;
         result.app_version_num = rp->app_version_num;
         result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
+        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            "cpu %f cpcs %f, cc %f\n", result.cpu_time, host.credit_per_cpu_sec, result.claimed_credit
+        );
         result.server_state = RESULT_SERVER_STATE_OVER;
 
         strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
