@@ -33,6 +33,7 @@
 #include "ViewResources.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
+#include "DlgAttachProject.h"
 #include "DlgAccountManager.h"
 #include "DlgSelectComputer.h"
 
@@ -743,6 +744,48 @@ bool CMainFrame::RestoreState()
 }
 
 
+bool CMainFrame::AttachToProjectPrompt()
+{
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::AttachToProjectPrompt - Function Begin"));
+    
+    CMainDocument*     pDoc = wxGetApp().GetDocument();
+    CDlgAttachProject* pDlg = new CDlgAttachProject(this);
+    wxInt32            iAnswer = 0;
+    long               lProjectCount = 0;
+
+    wxASSERT(NULL != m_pNotebook);
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pDlg);
+
+
+    // Only present the attach to project dialog if no projects are currently
+    //   detected.
+    lProjectCount = pDoc->GetProjectCount();
+    if ( 0 == lProjectCount )
+    {
+
+        iAnswer = pDlg->ShowModal();
+        if ( wxID_OK == iAnswer )
+        {
+            pDoc->ProjectAttach(
+                pDlg->GetProjectAddress(), 
+                pDlg->GetProjectAccountKey()
+            );
+        }
+
+        m_pNotebook->SetSelection( ID_LIST_MESSAGESVIEW - ID_LIST_BASE );
+    }
+
+
+    if (pDlg)
+        pDlg->Destroy();
+   
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::AttachToProjectPrompt - Function End"));
+    return true;
+}
+
+
 void CMainFrame::OnHide( wxCommandEvent& WXUNUSED(event) )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnHide - Function Begin"));
@@ -858,11 +901,19 @@ void CMainFrame::OnSelectComputer( wxCommandEvent& WXUNUSED(event) )
     {
         lRetVal = pDoc->Connect( pDlg->m_ComputerNameCtrl->GetValue(), pDlg->m_ComputerPasswordCtrl->GetValue() );
         if ( !(0 == lRetVal) )
+        {
             ::wxMessageBox(
                 _("Failed to connect to the requested computer, please check the name of the computer and try again."),
                 _("Failed to connect..."),
                 wxICON_ERROR
             );
+        }
+        else
+        {
+            // If we don't detect any attached projects for this BOINC Daemon,
+            //   prompt to add one.
+            AttachToProjectPrompt();
+        }
 
         // Insert a copy of the current combo box value to the head of the
         //   computer names string array
@@ -1129,8 +1180,16 @@ void CMainFrame::OnRefreshState( wxTimerEvent &event )
     {
         bAlreadyRunningLoop = true;
 
-        CMainDocument* pDoc = wxGetApp().GetDocument();
+        // Write a snapshot of the current state to the config
+        //   module, on Win9x systems we don't always shutdown
+        //   in a nice way, if we are terminated by the user
+        //   we still want the UI state to have been stored
+        //   for their next use
+        SaveState();
 
+
+        // Refresh the state data at the document level
+        CMainDocument* pDoc = wxGetApp().GetDocument();
         if ( NULL != pDoc )
         {
             wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -1152,12 +1211,26 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnFrameRender - Function Begin"));
 
     static bool bAlreadyRunningLoop = false;
+    static bool bDoneOnce = false;
 
     if (!bAlreadyRunningLoop)
     {
         bAlreadyRunningLoop = true;
 
         wxGetApp().UpdateSystemIdleDetection();
+
+
+        // Run stuff that we want to display on startup
+        if ( !bDoneOnce )
+        {
+            bDoneOnce = true;
+
+            // If we don't detect any attached projects for this BOINC Daemon,
+            //   prompt to add one.
+            AttachToProjectPrompt();
+
+        }
+
 
         if ( IsShown() )
         {

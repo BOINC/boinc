@@ -107,6 +107,8 @@ private:
     bool            RestoreState();
 
 
+    bool            AttachToProjectPrompt();
+
     DECLARE_EVENT_TABLE()
 
 };

@@ -26436,3 +26436,17 @@ David  31 Mar 2005
         MainDocument.cpp,h
         Makefile.am
         ViewProjects.cpp
+
+Rom    31 Mar 2005
+    - Bug#59  Fixed: SystemTray Icon Does Not Remain Hidden
+    - Bug#79  Fixed: When manager window is in background selecting open
+        boinc manager does not bring it to front
+    - Bug#80  Fixed: Double clicking on system tray icon should open 
+        manager/bring it into focus
+    - Bug#118 Fixed: BOINC Manager needs to prompt for project information
+        when no projects are detected
+    - Bug#143 Fixed: Position and size not saved consistantly
+
+    clientgui/
+        BOINCTaskBar.cpp
+        MainFrame.cpp, .h

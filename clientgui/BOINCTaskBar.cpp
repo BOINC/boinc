@@ -32,6 +32,9 @@
 IMPLEMENT_DYNAMIC_CLASS(CTaskBarIcon, wxTaskBarIconEx)
 
 BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
+    EVT_IDLE(CTaskBarIcon::OnIdle)
+    EVT_CLOSE(CTaskBarIcon::OnClose)
+    EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
     EVT_MENU(wxID_OPEN, CTaskBarIcon::OnOpen)
     EVT_MENU_RANGE(ID_TB_ACTIVITYRUNALWAYS, ID_TB_ACTIVITYSUSPEND, CTaskBarIcon::OnActivitySelection)
     EVT_MENU_RANGE(ID_TB_NETWORKRUNALWAYS, ID_TB_NETWORKSUSPEND, CTaskBarIcon::OnNetworkSelection)
@@ -40,22 +43,11 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
 
 #ifdef __WXMSW__
     EVT_TASKBAR_SHUTDOWN(CTaskBarIcon::OnShutdown)
-#endif
-
-    EVT_IDLE(CTaskBarIcon::OnIdle)
-    EVT_CLOSE(CTaskBarIcon::OnClose)
-#ifdef __WXMSW__
     EVT_TASKBAR_MOVE(CTaskBarIcon::OnMouseMove)
-#endif
-    EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
-
-#ifdef __WXMSW__
     EVT_TASKBAR_CONTEXT_MENU(CTaskBarIcon::OnContextMenu)
-    
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
 #endif
-
 END_EVENT_TABLE ()
 
 
@@ -82,6 +74,44 @@ CTaskBarIcon::~CTaskBarIcon()
 }
 
 
+void CTaskBarIcon::OnIdle( wxIdleEvent& event )
+{
+    wxGetApp().UpdateSystemIdleDetection();
+    event.Skip();
+}
+
+
+void CTaskBarIcon::OnClose( wxCloseEvent& event )
+{
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnClose - Function Begin"));
+
+    ResetTaskBar();
+
+    CMainFrame* pFrame = wxGetApp().GetFrame();
+    if ( NULL != pFrame )
+    {
+        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
+        pFrame->Close(true);
+    }
+
+    event.Skip();
+    
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnClose - Function End"));
+}
+
+
+void CTaskBarIcon::OnLButtonDClick( wxTaskBarIconEvent& event )
+{
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnLButtonDClick - Function Begin"));
+
+    wxCommandEvent eventCommand;
+    OnOpen( eventCommand );
+    if ( eventCommand.GetSkipped() ) event.Skip();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnLButtonDClick - Function End"));
+}
+
+
 void CTaskBarIcon::OnOpen( wxCommandEvent& WXUNUSED(event) )
 {
     ResetTaskBar();
@@ -94,6 +124,10 @@ void CTaskBarIcon::OnOpen( wxCommandEvent& WXUNUSED(event) )
 	{
         pFrame->Show();
         pFrame->SendSizeEvent();
+
+#ifdef __WXMSW__
+        ::SetForegroundWindow( (HWND)pFrame->GetHandle() );
+#endif
 	}
 }
 
@@ -188,45 +222,12 @@ void CTaskBarIcon::OnShutdown( wxTaskBarIconExEvent& event )
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function Begin"));
 
     wxCloseEvent eventClose;
-
     OnClose( eventClose );
-
     if ( eventClose.GetSkipped() ) event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnShutdown - Function End"));
 }
 
-
-#endif
-
-
-void CTaskBarIcon::OnIdle( wxIdleEvent& event )
-{
-    wxGetApp().UpdateSystemIdleDetection();
-    event.Skip();
-}
-
-
-void CTaskBarIcon::OnClose( wxCloseEvent& event )
-{
-    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnClose - Function Begin"));
-
-    ResetTaskBar();
-
-    CMainFrame* pFrame = wxGetApp().GetFrame();
-    if ( NULL != pFrame )
-    {
-        wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-        pFrame->Close(true);
-    }
-
-    event.Skip();
-    
-    wxLogTrace(wxT("Function Start/End"), wxT("CTaskBarIcon::OnClose - Function End"));
-}
-
-
-#ifdef __WXMSW__
 
 void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
 {
@@ -285,22 +286,6 @@ void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
 }
 
 #endif // __WXMSW__
-
-
-void CTaskBarIcon::OnLButtonDClick( wxTaskBarIconEvent& event )
-{
-    ResetTaskBar();
-
-    CMainFrame* pFrame = wxGetApp().GetFrame();
-    wxASSERT(NULL != pFrame);
-    wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-
-    if ( NULL != pFrame )
-	{
-        pFrame->Show();
-        pFrame->SendSizeEvent();
-	}
-}
 
 
 #ifdef __WXMSW__
