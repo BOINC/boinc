@@ -14,7 +14,7 @@
     }
     $private = false;
     $user = get_logged_in_user();
-    if ($user || $user->id == $host->userid) {
+    if ($user && $user->id == $host->userid) {
         $private = true;
     }
 

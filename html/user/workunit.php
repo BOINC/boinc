@@ -24,10 +24,10 @@
     echo "</table>\n";
 
     echo "<br><br><b>Results:</b>\n";
-    result_table_start(false, true, false);
+    result_table_start(false, true, true);
     $result = mysql_query("select * from result where workunitid=$wuid");
     while ($res = mysql_fetch_object($result)) {
-        show_result_row($res, false, true, false);
+        show_result_row($res, false, true, true);
     }
     mysql_free_result($result);
     echo "</table>\n";

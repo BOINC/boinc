@@ -8959,3 +8959,28 @@ David  6 Jan 2004
         forum/
             repair.php (new)
             user_posts.php
+
+David  7 Jan 2004
+    - don't show #results in 1-line host summary (too slow)
+    - totally redid "host merge" mechanism.
+        - show all hosts that are compatible with this one
+            (not just older ones)
+        - show checkboxes with "select all" button
+            so you can easily merge large #s of hosts
+        - merge logic merges into newest host
+    - let anyone look at any result and any host
+        (may want to change this later,
+        but for now it helps with debuggin)
+
+    html_user/
+        host.inc
+        host_edit_action.php
+        host_edit_form.php
+        repair.php
+        result.php
+        results.php
+        show_host_detail.php
+        user.inc
+        workunit.php
+    sched/
+        handle_request.C

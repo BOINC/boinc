@@ -12,10 +12,14 @@
     $r = mysql_query("select * from result where id=$resultid");
     $result = mysql_fetch_object($r);
     mysql_free_result($r);
-    if (!$result || $result->userid != $user->id) {
+    if (!$result) {
         echo "No such result";
         exit();
     }
+    //if ($result->userid != $user->id) {
+    //    echo "No access";
+    //    exit();
+    //}
     show_result($result);
     page_tail();
 ?>

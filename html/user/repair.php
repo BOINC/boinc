@@ -16,7 +16,7 @@ function wu_over($wu) {
 }
 
 function fix_validate_state() {
-    for ($i=0; $i<825637; $i++) {
+    for ($i=458983; $i<825637; $i++) {
         $result = mysql_query("select * from workunit where id=$i");
         $wu = mysql_fetch_object($result);
         if ($wu) {

@@ -329,6 +329,11 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // Make a new host record.
         if (sreq.rpc_seqno < reply.host.rpc_seqno) {
             sreq.hostid = 0;
+            log_messages.printf(
+                SchedMessages::NORMAL,
+                "[HOST#%d] [USER#%d] RPC seqno %d less than expected %d; creating new host\n",
+                reply.host.id, user.id, sreq.rpc_seqno, reply.host.rpc_seqno
+            );
             goto new_host;
         }
         reply.host.rpc_seqno = sreq.rpc_seqno;

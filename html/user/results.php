@@ -17,10 +17,10 @@
 
     if ($hostid) {
         $host = lookup_host($hostid);
-        if (!$host || $host->userid != $user->id) {
-            echo "No access";
-            exit();
-        }
+        // if (!$host || $host->userid != $user->id) {
+        //     echo "No access";
+        //     exit();
+        // }
         $type = "host";
         $clause = "hostid=$hostid";
     } else {

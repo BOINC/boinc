@@ -125,7 +125,6 @@ function host_table_start($title, $private, $show_owner) {
         <th>Total credit</th>
         <th>CPU type</th>
         <th>Operating system</th>
-        <th>Results</th>
         </tr>
     ";
 }
@@ -172,9 +171,9 @@ function show_host_row($host, $i, $private, $show_owner) {
            $host->os_name, $host->os_version
     );
 
-    $nresults = host_nresults($host);
-    echo "<td><a href=results.php?hostid=$host->id>$nresults</a>";
-    echo "</td></tr>\n";
+    //$nresults = host_nresults($host);
+    //echo "<td><a href=results.php?hostid=$host->id>$nresults</a></td>";
+    echo "</tr>\n";
 }
 
 // return true iff it's possible that the hosts are actually

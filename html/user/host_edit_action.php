@@ -4,59 +4,73 @@
     require_once("host.inc");
 
 function fail($msg) {
-    page_head("Host merge failed");
-    echo $msg;
+    echo "Error: $msg";
     page_tail();
     exit();
 }
 
-    db_init();
-    $user = get_logged_in_user();
+function get_host($hostid, $user) {
+    $host = lookup_host($hostid);
+    if (!$host || $host->userid != $user->id) {
+        fail("No such host");
+    }
+    return $host;
+}
 
-    $hostid = $_GET["hostid"];
-    $targetid = $_GET["targetid"];
-
-    if ($hostid == $targetid) {
+function merge_hosts($old_host, $new_host) {
+    if ($old_host->id == $new_host->id) {
         fail("same host");
     }
-
-    $result = mysql_query("select * from host where id=$hostid");
-    $old_host = mysql_fetch_object($result);
-    mysql_free_result($result);
-    if (!$old_host || $old_host->userid != $user->id) {
-        fail("Host not found");
-    }
-
-    $result = mysql_query("select * from host where id=$targetid");
-    $new_host = mysql_fetch_object($result);
-    mysql_free_result($result);
-    if (!$new_host || $new_host->userid != $user->id) {
-        fail("Host not found");
-    }
-
     if (!hosts_compatible($old_host, $new_host)) {
         fail("Can't merge hosts - they're incompatible");
     }
+
+    echo "<br>Merging $old_host->id into $new_host->id\n";
 
     // update the database:
     // - add credit from old to new host
     // - change results to refer to new host
     // - delete old host
-
     $t = $old_host->total_credit + $new_host->total_credit;
-    $a = $old_host->expavg_credit + $new_host->expavg_credit;
-    $result = mysql_query("update host set total_credit=$t, expavg_credit=$a where id=$new_host->id");
+    $result = mysql_query("update host set total_credit=$t where id=$new_host->id");
     if (!result) {
         fail("Couldn't update credit of new host");
     }
-    $result = mysql_query("update result set hostid=$targetid where hostid=$hostid");
+    $result = mysql_query("update result set hostid=$new_host->id where hostid=$old_host->id");
     if (!$result) {
         fail("Couldn't update results");
     }
-    $result = mysql_query("delete from host where id=$hostid");
+    $result = mysql_query("delete from host where id=$old_host->id");
     if (!$result) {
         fail("Couldn't delete host");
     }
-    Header("Location: show_host_detail.php?hostid=$targetid");
+}
+
+    db_init();
+    $user = get_logged_in_user();
+
+    page_head("Host merge");
+
+    $nhosts = $_GET["nhosts"];
+    $hostid = $_GET["id_0"];
+    $latest_host = get_host($hostid, $user);
+    for ($i=1; $i<$nhosts; $i++) {
+        $var = "id_$i";
+        $hostid = $_GET[$var];
+        if (!$hostid) continue;
+        $host = get_host($hostid, $user);
+        if ($host->create_time > $latest_host->create_time) {
+            merge_hosts($latest_host, $host);
+            $latest_host = $host;
+        } else {
+            merge_hosts($host, $latest_host);
+        }
+    }
+    echo "
+        <p><a href=hosts_user.php>Return to list of your computers</a>
+    ";
+    page_tail();
+
+    //Header("Location: show_host_detail.php?hostid=$latest_host->id");
 
 ?>

@@ -74,8 +74,6 @@ function show_user_profile_private($user) {
 
 // show summary of dynamic and static info (public)
 function show_user_summary_public($user) {
-    $result = mysql_query("SELECT * FROM profile WHERE userid = $user->id");
-
     row1("Account data for $user->name");
     row2(PROJECT." member since", time_str($user->create_time));
     row2("Country", $user->country);
@@ -84,10 +82,6 @@ function show_user_summary_public($user) {
     }
     row2("Total credit", format_credit($user->total_credit));
     row2("Recent average credit", format_credit($user->expavg_credit));
-
-    if (mysql_num_rows($result) != 0) {
-        row2("Profile", "<a href=view_profile.php?userid=$user->id>View</a>");
-    }
 
     if ($user->teamid) {
         $result = mysql_query("select * from team where id = $user->teamid");
