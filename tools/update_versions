@@ -15,8 +15,8 @@ file names must be of the form NAME_VERSION_PLATFORM[.ext]:
   astropulse_7.17_i686-pc-linux-gnu.gz
   astropulse_7.17_windows_intelx86.exe
 
-The name and extensions .gz, .exe, .sit are ignored.  Platform strings must
-match the names of platforms in the database.
+The prefix name and extensions .gz, .exe, .sit are ignored.  Platform strings
+must match the names of platforms in the database.
 
 """
 

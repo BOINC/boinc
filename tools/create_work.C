@@ -171,7 +171,7 @@ int main(int argc, char** argv) {
 #undef CHKARG
 #undef CHKARG_STR
 
-    if (boinc_db_open(db_name, db_passwd)) {
+    if (boinc_db.open(db_name, db_passwd)) {
         fprintf(stderr, "create_work: error opening database.\n" );
         exit(0);
     }
@@ -224,5 +224,5 @@ int main(int argc, char** argv) {
         );
         if (retval) fprintf(stderr, "create_work: %d\n", retval);
     }
-    boinc_db_close();
+    boinc_db.close();
 }

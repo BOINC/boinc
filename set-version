@@ -2,7 +2,9 @@
 
 # $Id$
 
-# change boinc version number in configure.ac
+# Change boinc version number in configure.ac and generate files.
+
+# syntax: set-version 7.17
 
 die()
 {

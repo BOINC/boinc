@@ -4,7 +4,9 @@
 # Creates a new BOINC project.
 
 # TODO: use database.py (mainly for setup_project.py)
-# TOOD: don't add app / app version here.
+# TODO: don't add app / app version here.
+# TODO: create 'apps' subdirectory and set it in config.xml
+# TODO: use configxml module
 
 import sys, os, getopt, re
 sys.path.append('../py')

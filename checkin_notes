@@ -6163,3 +6163,20 @@ David  Sept 5 2003
         db_ops.php
     sched/
         *.C
+
+Karl 2003/09/05
+    - restructured application add system; rewrote update_versions:
+        - applications now go in <config.xml:apps_dir>/APPLICATION/
+        - update_versions checks for all versions of core client and all
+          applications, regardless of package version
+
+    py/Boinc/
+        configxml.py
+        database.py
+        db_mid.py
+        tools.py (new)
+
+    tools/
+        add.py
+        update_versions
+

@@ -24,7 +24,9 @@ at <code>configure</code>-time.
       If you modify <code>Makefile.am</code>, you need to
       regenerate <code>Makefile.in</code> using <code>automake</code>, and
       your machine-dependent <code>Makefile</code>
-      using <code>config.status</code>.
+      using <code>config.status</code>.  (The <code>boinc/_autosetup</code>
+      script takes care of all of these; run this script every time you modify
+      a makefile.)
   </td></tr>
   <tr><td nowrap><code>configure --enable-maintainer-mode</code></td>
   <td>Enabled</td><td>

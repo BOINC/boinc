@@ -96,7 +96,7 @@ void add_project() {
     strcpy(project.long_name, project_long_name);
     retval = project.insert();
     if (retval) {
-        boinc_db_print_error("project.insert()");
+        boinc_db.print_error("project.insert()");
     }
 }
 
@@ -114,7 +114,7 @@ void add_app() {
     app.min_version = version;
     retval = app.insert();
     if (retval) {
-        boinc_db_print_error("app.insert()");
+        boinc_db.print_error("app.insert()");
     }
 }
 
@@ -136,7 +136,7 @@ void add_platform() {
     platform.create_time = time(0);
     retval = platform.insert();
     if (retval) {
-        boinc_db_print_error("platform.insert()");
+        boinc_db.print_error("platform.insert()");
     }
 }
 
@@ -221,7 +221,7 @@ void add_core_version() {
     retval = platform.lookup(buf);
     if (retval) {
         fprintf(stderr, "add_core_version(): can't find platform %s\n", platform_name);
-        boinc_db_print_error("platform.lookup()");
+        boinc_db.print_error("platform.lookup()");
         return;
     }
     core_version.platformid = platform.id;
@@ -237,7 +237,7 @@ void add_core_version() {
     core_version.create_time = time(0);
     retval = core_version.insert();
     if (retval) {
-        boinc_db_print_error("core_version.insert()");
+        boinc_db.print_error("core_version.insert()");
     }
 }
 
@@ -260,7 +260,7 @@ void add_app_version() {
     retval = app.lookup(buf);
     if (retval) {
         fprintf(stderr, "add_app_version(): can't find app %s\n", app_name);
-        boinc_db_print_error("app.lookup()");
+        boinc_db.print_error("app.lookup()");
         return;
     }
     app_version.appid = app.id;
@@ -268,7 +268,7 @@ void add_app_version() {
     retval = platform.lookup(buf);
     if (retval) {
         fprintf(stderr, "add_app_version(): can't find platform %s\n", platform_name);
-        boinc_db_print_error("platform.lookup()");
+        boinc_db.print_error("platform.lookup()");
         return;
     }
     app_version.platformid = platform.id;
@@ -318,7 +318,7 @@ void add_app_version() {
     app_version.create_time = time(0);
     retval = app_version.insert();
     if (retval) {
-        boinc_db_print_error("app_version.insert()");
+        boinc_db.print_error("app_version.insert()");
         return;
     }
 }
@@ -342,7 +342,7 @@ void add_user() {
     }
     retval = user.insert();
     if (retval) {
-        boinc_db_print_error("user.insert()");
+        boinc_db.print_error("user.insert()");
         return;
     }
 }
@@ -426,7 +426,7 @@ int main(int argc, char** argv) {
             strcpy(code_sign_keyfile, argv[++i]);
         }
     }
-    retval = boinc_db_open(db_name, db_passwd);
+    retval = boinc_db.open(db_name, db_passwd);
     if (retval) {
     	fprintf(stderr, "can't open DB %s\n", db_name);
         exit(1);
@@ -446,6 +446,6 @@ int main(int argc, char** argv) {
     } else {
         printf("Unrecognized command\n");
     }
-    boinc_db_close();
+    boinc_db.close();
     exit(0);
 }
