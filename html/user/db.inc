@@ -9,7 +9,7 @@ function db_init() {
         echo "Unable to connect to database - please try again later";
         exit();
     }
-    $db_name = parse_config("<db_name>");
+    $db_name = parse_config("<db_name>");  // TODO: Change to a specific db for testing.
     if(!mysql_select_db($db_name)) {
 	    echo "Unable to select database - please try again later";
 	    exit();
