@@ -91,20 +91,20 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
 	$unread = ($thread->timestamp>$logged_in_user->thread_last_visited);
 
         echo "
-            <tr class=row$n style=\"text-align:center\"><td width=\"1%\" align=\"right\"><nobr>";
+            <tr class=row$n style=\"text-align:center\">";
 	
 	//Show thread icons:
 	if (!$category->is_helpdesk){
+	    echo "<td width=\"1%\" align=\"right\"><nobr>";
 	    if (!$user->disable_filtering){
 		$first_post = getFirstPost($thread->id);
 		if ($first_post->score*$first_post->votes>$logged_in_user->high_rating_threshold) echo "<img src=\"".EMPHASIZE_IMAGE."\" alt=\"Emphasized thread\">";
 		if ($first_post->score*$first_post->votes<$logged_in_user->low_rating_threshold) echo "<img src=\"".FILTER_IMAGE."\" alt=\"Filtered thread\">";
 	    }
 	    if ($unread) echo "<img src=\"".NEW_IMAGE."\" alt=\"Unread post(s)\">";
+	    echo "</nobr></td>";
 	}
-	echo "</nobr></td>
-            <td style=\"font-size:10pt; text-align:left\"><a href=\"forum_thread.php?id=", $thread->id, "\"><b>", strip_tags(stripslashes($thread->title)), "</b></a><br>
-        ";
+	echo "<td style=\"font-size:10pt; text-align:left\"><a href=\"forum_thread.php?id=", $thread->id, "\"><b>", strip_tags(stripslashes($thread->title)), "</b></a><br>";
         $n = ($n+1)%2;
 
         if ($category->is_helpdesk) {
