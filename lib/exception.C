@@ -24,6 +24,7 @@
 #ifndef _WIN32
 #include "cstdio"
 #include "cstdlib"
+#include "unistd.h"
 using namespace std;
 #endif
 
@@ -67,7 +68,7 @@ const char * boinc_base_exception::what()
 	m_strErrorBuffer.append("'\n");
 
 	memset(m_szConversionBuffer, '\0', sizeof(m_szConversionBuffer));
-	ltoa(m_lLineNumber, m_szConversionBuffer, 10);
+	itoa(m_lLineNumber, m_szConversionBuffer, 10);
 
 	m_strErrorBuffer.append("Line: '");
 	m_strErrorBuffer.append(m_szConversionBuffer);
