@@ -80,19 +80,11 @@ version: win/win_config.h
 
 ## these source files need to be specified because no rule on unix uses them.
 EXTRA_DIST =					\
-	win/update-boinc-cli-version		\
-	win/update-boinc-dll-version		\
-	win/update-boinc-gui-version		\
-	win/update-boinc-ss-version		\
 	*.h					\
-	win/update-boinc-cli-version		\
-	win/update-boinc-dll-version		\
-	win/update-boinc-gui-version		\
-	win/update-boinc-ss-version		\
 	mac/*.h mac/*.cpp			\
-        win/*.h win/*.cpp win/*.rc		\
-        win/*.def win/res/*.*			\
-        translation/language.* 
+    win/*.h win/*.cpp win/*.rc		\
+    win/*.def win/res/*.*			\
+    translation/language.* 
 
 clean-local:
 	rm -f @CLIENT_BIN_FILENAME@ @CLIENT_BIN_FILENAME@.gz

@@ -231,19 +231,11 @@ cpu_benchmark_SOURCES = cpu_benchmark.C
 cpu_benchmark_CFLAGS = -O6 $(AM_CFLAGS)
 
 EXTRA_DIST = \
-	win/update-boinc-cli-version		\
-	win/update-boinc-dll-version		\
-	win/update-boinc-gui-version		\
-	win/update-boinc-ss-version		\
 	*.h					\
-	win/update-boinc-cli-version		\
-	win/update-boinc-dll-version		\
-	win/update-boinc-gui-version		\
-	win/update-boinc-ss-version		\
 	mac/*.h mac/*.cpp			\
-        win/*.h win/*.cpp win/*.rc		\
-        win/*.def win/res/*.*			\
-        translation/language.* 
+    win/*.h win/*.cpp win/*.rc		\
+    win/*.def win/res/*.*			\
+    translation/language.* 
 
 subdir = client
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
