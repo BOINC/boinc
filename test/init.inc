@@ -179,6 +179,13 @@ function check_results_done() {
     }
 }
 
+function num_wus_left() {
+    db_init();
+    $numwus = mysql_query("select count(*) as nres from result where state<>4");
+    $result = mysql_fetch_object($numwus);
+    return $result->nres;
+}
+
 function compare_files($out, $correct) {
     PassThru("diff $out $correct", $retval);
     if ($retval) {

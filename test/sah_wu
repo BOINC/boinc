@@ -1,0 +1,14 @@
+<file_info>
+    <name><INFILE_0/></name>
+    <url><DOWNLOAD_URL/><INFILE_0/></url>
+    <md5_cksum><MD5_0/></md5_cksum>
+</file_info>
+<workunit>
+    <name><WU_NAME/></name>
+    <app_name>setiathome-3.06</app_name>
+    <input_file>
+        <file_name><INFILE_0/></file_name>
+        <open_name>work_unit.sah</open_name>
+    </input_file>
+    <command_line>work_unit.sah</command_line>
+</workunit>
