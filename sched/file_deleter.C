@@ -56,14 +56,14 @@ int wu_delete_files(WORKUNIT& wu) {
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.download_dir, filename);
-                log_messages.printf(SchedMessages::DEBUG, "[%s] deleting %s\n", wu.name, pathname);
+                log_messages.printf(SchedMessages::NORMAL, "[%s] deleting download/%s\n", wu.name, filename);
                 unlink(pathname);
                 ++count_deleted;
             }
         }
         p = strtok(0, "\n");
     }
-    log_messages.printf(SchedMessages::NORMAL, "[%s] deleted %d file(s)\n", wu.name, count_deleted);
+    log_messages.printf(SchedMessages::DEBUG, "[%s] deleted %d file(s)\n", wu.name, count_deleted);
     return 0;
 }
 
@@ -85,7 +85,7 @@ int result_delete_files(RESULT& result) {
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.upload_dir, filename);
-                log_messages.printf(SchedMessages::DEBUG, "[%s] deleting %s\n", result.name, pathname);
+                log_messages.printf(SchedMessages::NORMAL, "[%s] deleting upload/%s\n", result.name, filename);
                 unlink(pathname);
                 ++count_deleted;
             }
@@ -93,7 +93,7 @@ int result_delete_files(RESULT& result) {
         p = strtok(0, "\n");
     }
 
-    log_messages.printf(SchedMessages::NORMAL, "[%s] deleted %d file(s)\n", result.name, count_deleted);
+    log_messages.printf(SchedMessages::DEBUG, "[%s] deleted %d file(s)\n", result.name, count_deleted);
     return 0;
 }
 
