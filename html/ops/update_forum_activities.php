@@ -21,7 +21,7 @@ while ($thread = mysql_fetch_assoc($result)) {
         $forum = mysql_fetch_assoc($result3);
     }
                        
-    // Helpdesk activiy is scaled linearly by the number of days since the last post.
+    // Helpdesk activity is scaled linearly by the number of days since the last post.
     if ($forum != NULL && $forum['is_helpdesk']) {
         $timeDiff = $currentTime - $thread['timestamp'];
         $dayDiff = floor($timeDiff / 86400);  // 86400 = # of seconds in a day;
