@@ -417,7 +417,7 @@ function prefs_form_global($user, $prefs) {
 
     $x = "How many minutes should ".PROJECT." wait for you to not use the computer?";
     $y = "<input size=5 name=idle_time_to_run value='$prefs->idle_time_to_run'>
-        minutes (ignored unless above is No)";
+        minutes (applies only if above is No)";
     row2($x, $y);
 
     $x = "Use my computer only between the hours of
