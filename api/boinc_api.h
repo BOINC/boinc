@@ -45,6 +45,8 @@ struct BOINC_OPTIONS {
         // if heartbeat fail, or get process control msg, take
         // direction action (exit, suspend, resume).
         // Otherwise just set flag in BOINC status
+
+    void defaults();
 };
 
 struct BOINC_STATUS {
@@ -54,8 +56,8 @@ struct BOINC_STATUS {
 };
 
 extern "C" {
-    extern int boinc_init(void (*worker)()=0);
-    extern int boinc_init_options(BOINC_OPTIONS&, void (*worker)()=0);
+    extern int boinc_init();
+    extern int boinc_init_options(BOINC_OPTIONS&);
     extern int boinc_finish(int status);
     extern int boinc_get_status(BOINC_STATUS&);
     extern bool boinc_is_standalone();

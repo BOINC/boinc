@@ -1,6 +1,11 @@
 #ifndef BOINC_GRAPHICS_API_H
 #define BOINC_GRAPHICS_API_H
 
+extern "C" {
+    extern int boinc_init_graphics(void (*worker)());
+    extern int boinc_init_options_graphics(BOINC_OPTIONS&, void (*worker)());
+}
+
 // Functions that must be supplied by the app
 // application needs to define mouse, keyboard handlers
 //

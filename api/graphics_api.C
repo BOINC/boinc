@@ -62,22 +62,32 @@ bool graphics_inited = false;
 
 static void (*worker_main)();
 
+static BOINC_OPTIONS goptions;
+
 #ifdef _WIN32
 // glue routine for Windows
 DWORD WINAPI foobar(LPVOID) {
+    boinc_init_options(goptions);
     worker_main();
     return 0;
 }
 #endif
 #ifdef _PTHREAD_H
 void* foobar(void*) {
-    set_timer();
+    boinc_init_options(goptions);
     worker_main();
     return 0;
 }
 #endif
 
-int boinc_init_graphics(void (*_worker_main)()) {
+int boinc_init_graphics(void (*worker)()) {
+    BOINC_OPTIONS opt;
+    opt.defaults();
+    boinc_init_options_graphics(opt, worker);
+}
+
+int boinc_init_graphics_options(BOINC_OPTIONS& opt, void (*_worker_main)()) {
+    goptions = opt;
     worker_main = _worker_main;
 #ifdef _WIN32
 

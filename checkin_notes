@@ -18887,13 +18887,10 @@ David  26 Oct 2004
         - there doesn't seem to be a way for one thread to
             get the CPU time of another thread
         Solution: (unfortunately requires a change to the API):
-            - got rid of boinc_init_graphics()
-            - boinc_init() and boinc_init_options() take an
-                optional void(*worker)() argument.
-                This is nonzero only if the app does graphics.
-            This way boinc_init() can set up the timer itself
-            (in the non-graphics case) or wait for the worker
-            thread to do it (in the graphics case)
+            apps that use graphics now call either
+            boinc_init_graphics() or
+            boinc_init_options_graphics()
+            and DON'T call boinc_init()
 
     api/
         boinc_api.C,h

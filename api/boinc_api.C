@@ -53,7 +53,7 @@ using namespace std;
 #include "filesys.h"
 #include "error_numbers.h"
 #include "app_ipc.h"
-#include "graphics_api.h"
+
 #include "boinc_api.h"
 
 // The BOINC API communicates CPU time and fraction done to the core client.
@@ -109,7 +109,7 @@ static int  mem_usage(unsigned long& vm_kb, unsigned long& rs_kb);
 static BOINC_OPTIONS options;
 static BOINC_STATUS boinc_status;
 
-int boinc_init(void (*worker)()) {
+void BOINC_OPTIONS::defaults() {
     options.main_program = true;
     options.check_heartbeat = true;
     options.handle_trickle_ups = true;
@@ -117,10 +117,16 @@ int boinc_init(void (*worker)()) {
     options.handle_process_control = true;
     options.send_status_msgs = true;
     options.direct_process_action = true;
-    return boinc_init_options(options, worker);
 }
 
-int boinc_init_options(BOINC_OPTIONS& opt, void (*worker)()) {
+// this is called ONLY by the worker thread
+//
+int boinc_init() {
+    options.defaults();
+    return boinc_init_options(options);
+}
+
+int boinc_init_options(BOINC_OPTIONS& opt) {
     int retval;
     options = opt;
 
@@ -187,11 +193,7 @@ int boinc_init_options(BOINC_OPTIONS& opt, void (*worker)()) {
     heartbeat_active = !standalone;
     heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
 
-    if (worker) {
-        boinc_init_graphics(worker);
-    } else {
-        set_worker_timer();
-    }
+    set_worker_timer();
 
     return 0;
 }
