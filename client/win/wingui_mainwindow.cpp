@@ -503,43 +503,28 @@ void CMainWindow::ShowTab(int nTab)
 	m_TabCtrl.SetCurSel(nTab);
 
 	// make the selected control visible, all the rest invisible
+	m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
+	m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
+	m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
+	m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
+	m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
 	if(nTab == PROJECT_ID) {
 		m_ProjectListCtrl.ModifyStyle(0, WS_VISIBLE);
-		m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
 		m_ProjectListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 	} else if(nTab == RESULT_ID) {
-		m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
 		m_ResultListCtrl.ModifyStyle(0, WS_VISIBLE);
-		m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
 		m_ResultListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 	} else if(nTab == XFER_ID) {
-		m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
 		m_XferListCtrl.ModifyStyle(0, WS_VISIBLE);
-		m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
 		m_XferListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 	} else if(nTab == MESSAGE_ID) {
-		m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
 		m_MessageListCtrl.ModifyStyle(0, WS_VISIBLE);
-		m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
 		if(m_bMessage) {
 			m_bMessage = false;
 			SetStatusIcon(ICON_NORMAL);
 		}
 		m_MessageListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 	} else if(nTab == USAGE_ID) {
-		m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
 		m_UsagePieCtrl.ModifyStyle(0, WS_VISIBLE);
 		m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 	}
@@ -1089,18 +1074,6 @@ void CMainWindow::OnCommandFileClearMessages()
 {
 	m_MessageListCtrl.DeleteAllItems();
 }
-
-//////////
-// CMainWindow::OnCommandConnectionConnectNow
-// arguments:	void
-// returns:		void
-// function:	causes the client to connect to the network
-/*void CMainWindow::OnCommandConnectionConnectNow()
-{
-	for(int ii = 0; ii < gstate.projects.size(); ii ++) {
-		gstate.projects[ii]->sched_rpc_pending = true;
-	}
-}*/
 
 //////////
 // CMainWindow::GetProjectFromContextMenu
@@ -1684,7 +1657,7 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 		if(IsWindowVisible()) {
 			ShowWindow(SW_HIDE);
 		} else {
-			ShowWindow(SW_SHOW);
+			ShowWindow(SW_SHOWNORMAL);
 		}
 	}
 	return TRUE;

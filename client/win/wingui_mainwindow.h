@@ -143,7 +143,6 @@ protected:
 	afx_msg void			OnCommandWorkShowGraphics();
 	afx_msg void			OnCommandFileClearInactive();
 	afx_msg void			OnCommandFileClearMessages();
-//	afx_msg void			OnCommandConnectionConnectNow();
 	afx_msg void			OnCommandConnectionHangupIfDialed();
 	afx_msg void			OnCommandConnectionConfirmBeforeConnecting();
 	afx_msg void			OnCommandHide();
