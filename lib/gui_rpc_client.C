@@ -740,6 +740,7 @@ int RPC::do_rpc(char* req) {
     retval = rpc_client->get_reply(mbuf);
     if (retval) return retval;
     fin.init_buf(mbuf);
+    return 0;
 }
 
 int RPC_CLIENT::get_state(CC_STATE& state) {
