@@ -69,22 +69,6 @@ int get_initial_project() {
     return 0;
 }
 
-#ifdef __APPLE_CC__
-#include "mac_main.h"
-int main() {
-    signal(SIGPIPE, SIG_IGN);
-    read_log_flags();
-
-    if (gstate.init()) return -1;
-    
-    // mac_setup won't return until the main application loop has quit
-    if (!mac_setup()) return -1;
-    // Afterwards, we clean up and exit
-    mac_cleanup();
-}
-
-#else
-
 int main(int argc, char** argv) {
     int retval;
 
@@ -109,5 +93,3 @@ int main(int argc, char** argv) {
     gstate.exit();
     return 0;
 }
-
-#endif
