@@ -11,6 +11,7 @@
 #define IDR_POPUP                       111
 #define IDI_ICON                        114
 #define IDI_ICONSM                      115
+#define IDI_ICONHIGHLIGHT               115
 #define IDB_PROJ                        117
 #define IDB_RESULT                      118
 #define IDB_USAGE                       119
@@ -29,7 +30,7 @@
 #define ID_POPUP_0                      40008
 #define ID_STATUSICON_QUIT              40014
 #define ID_STATUSICON_HIDE              40015
-#define ID_STATUSICON_SHOW              40016
+#define ID_STATUSICON_SUSPEND           40016
 #define ID_ACCT_QUIT                    40017
 
 // Next default values for new objects

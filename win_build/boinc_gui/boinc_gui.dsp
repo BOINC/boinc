@@ -361,6 +361,14 @@ SOURCE=..\res\CoreClient.ico
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\client\win\res\icon.ico
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\res\iconhigh.ico
+# End Source File
+# Begin Source File
+
 SOURCE=..\RSAEuro\Debug\RSAEuro.lib
 # End Source File
 # End Group

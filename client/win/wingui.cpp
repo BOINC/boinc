@@ -23,7 +23,7 @@
 
 // globals
 
-CMainWindow* myWnd = NULL;
+CMainWindow* g_myWnd = NULL;
 CMyApp myApp;
 
 #define STATUS_ICON_ID		(WM_USER + 1)
@@ -31,31 +31,33 @@ CMyApp myApp;
 #define PROJECT_ID			0
 #define RESULT_ID			1
 #define XFER_ID				2
-#define MAX_ID				4
+#define MAX_LIST_ID			3
+#define USAGE_ID			3
+#define MESSAGE_ID			4
+#define TAB_ID				5
 
 #define PROJECT_COLS		5
 #define RESULT_COLS			7
-#define XFER_COLS			4
+#define XFER_COLS			5
 #define MAX_COLS			7
 
-char* column_titles[MAX_ID][MAX_COLS] = {
+char* column_titles[MAX_LIST_ID][MAX_COLS] = {
         {"Project",	"Account",		"Total Credit",	"Avg. Credit",	"Resource Share",	NULL,				NULL},
         {"Project",	"Application",	"Name",			"CPU time",		"Progress",			"To Completion",	"Status"},
         {"Project",	"File",			"Progress",		"Total",		"Direction",		NULL,				NULL}
 };
 
 void show_message(char* message, char* priority) {
-	if(myWnd) {
-		myWnd->MessageUser(message, priority);
+	if(g_myWnd) {
+		g_myWnd->MessageUser(message, priority);
 	}
 }
 
 int get_initial_project() {
-	CLoginDialog dlg(IDD_LOGIN);
-	int retval = dlg.DoModal();
-	if (retval != IDOK) return -1;
-    write_account_file(dlg.m_url.GetBuffer(0), dlg.m_auth.GetBuffer(0));
-    return 0;
+	if(g_myWnd) {
+		return g_myWnd->GetInitialProject();
+	}
+	return -1;
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -952,8 +954,10 @@ void CPieChartCtrl::OnPaint()
 BOOL CMyApp::InitInstance()
 {
     m_pMainWnd = new CMainWindow();
-    m_pMainWnd->ShowWindow(m_nCmdShow);
-    m_pMainWnd->UpdateWindow();
+	if(gstate.projects.size() != 0) {
+		m_pMainWnd->ShowWindow(m_nCmdShow);
+		m_pMainWnd->UpdateWindow();
+	}
     return TRUE;
 }
 
@@ -968,10 +972,11 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_COMMAND(ID_HELP_ABOUT, OnCommandHelpAbout)
     ON_COMMAND(ID_STATUSICON_HIDE, OnCommandStatusIconHide)
     ON_COMMAND(ID_STATUSICON_QUIT, OnCommandStatusIconQuit)
-    ON_COMMAND(ID_STATUSICON_SHOW, OnCommandStatusIconShow)
+    ON_COMMAND(ID_STATUSICON_SUSPEND, OnCommandStatusIconSuspend)
     ON_WM_CREATE()
     ON_WM_PAINT()
     ON_WM_SIZE()
+    ON_WM_SETFOCUS()
     ON_MESSAGE(STATUS_ICON_ID, OnStatusIcon)
 END_MESSAGE_MAP()
 
@@ -1010,10 +1015,10 @@ void CALLBACK CMainWindow::TimerProc(HWND h, UINT msg, UINT id, DWORD time)
     while(gstate.do_something());
 	fflush(stdout);
 	fflush(stderr);
-	if(myWnd) {
+	if(g_myWnd && !g_myWnd->IsSuspended()) {
 		// check user's idle time for suspension of apps
 		if (gstate.global_prefs.idle_time_to_run > 0) {
-			if (myWnd->GetUserIdleTime() > 1000 * gstate.global_prefs.idle_time_to_run) {
+			if (g_myWnd->GetUserIdleTime() > 1000 * gstate.global_prefs.idle_time_to_run) {
 				gstate.user_idle = true;
 			} else {
 				gstate.user_idle = false;
@@ -1022,7 +1027,7 @@ void CALLBACK CMainWindow::TimerProc(HWND h, UINT msg, UINT id, DWORD time)
 			gstate.user_idle = true;
 		}
 
-		myWnd->UpdateGUI(&gstate);
+		g_myWnd->UpdateGUI(&gstate);
 	}
 }
 
@@ -1050,7 +1055,11 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		}
 
 		// project
-		m_ProjectListCtrl.SetItemText(i, 0, pr->project_name);
+		if(!strcmp(pr->project_name, "")) {
+			m_ProjectListCtrl.SetItemText(i, 0, pr->master_url);
+		} else {
+			m_ProjectListCtrl.SetItemText(i, 0, pr->project_name);
+		}
 
 		// account
 		m_ProjectListCtrl.SetItemText(i, 1, pr->user_name);
@@ -1162,8 +1171,12 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		// progress
 		m_XferListCtrl.SetItemProgress(i, 2, 100 * (fi->nbytes_xfered / fi->fip->nbytes));
 
+		// progress
+		buf.Format("%0.0f/%0.0f", fi->nbytes_xfered, fi->fip->nbytes);
+		m_XferListCtrl.SetItemText(i, 3, buf.GetBuffer(0));
+
 		// direction
-		m_XferListCtrl.SetItemText(i, 3, fi->fip->generated_locally?"Upload":"Download");
+		m_XferListCtrl.SetItemText(i, 4, fi->fip->generated_locally?"Upload":"Download");
 	}
 
 	// update usage
@@ -1176,6 +1189,26 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 	m_UsagePieCtrl.SetPiece(1, 1.0 * (diskused - diskusage) / disktotal);
 	m_UsagePieCtrl.SetPiece(2, 1.0 * diskusage / disktotal);
 	m_UsagePieCtrl.SetPiece(3, 1.0 * (diskallow - diskusage) / disktotal);
+
+	// make icon flash if needed
+	if(m_Message) {
+		if(m_IconState == ICON_NORMAL) {
+			SetStatusIcon(ICON_HIGHLIGHT);
+		} else if(m_IconState == ICON_HIGHLIGHT) {
+			SetStatusIcon(ICON_NORMAL);
+		}
+	}
+}	
+
+int CMainWindow::GetInitialProject()
+{
+    CLoginDialog dlg(IDD_LOGIN);
+    int retval = dlg.DoModal();
+	if(retval == IDOK) {
+	    write_account_file(dlg.m_url.GetBuffer(0), dlg.m_auth.GetBuffer(0));
+		return 0;
+	}
+	return -1;
 }
 
 //////////
@@ -1183,51 +1216,59 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 // arguments:	message: message string to display
 //				priority: string with priority of message
 // returns:		void
-// function:	if message is "high" priority, pops up a message box, otherwise
+// function:	if message is "high" priority, flashes the status icon, then
 //				adds to message edit control.
 void CMainWindow::MessageUser(char* message, char* priority)
 {
 	CTime curTime = CTime::GetCurrentTime();
 	CString timeStr = curTime.Format("(%I:%M%p) ");
 
-	if(!strcmp(priority, "high")) {
+	if(!strcmp(priority, "high") && (m_TabCtrl.GetCurSel() != MESSAGE_ID || GetForegroundWindow() != this)) {
+		m_Message = true;
+	}
 
-		// popup message box
-		AfxMessageBox(message, MB_OK, 0);
-	} else {
-
-		// put message in control, removing older messages if necessary
-		if(m_MessageEditCtrl.GetSafeHwnd()) {
-			CString text;
-			m_MessageEditCtrl.GetWindowText(text);
-			if(m_MessageEditCtrl.GetLineCount() > MAX_MESSAGE_LINES) {
-				text.MakeReverse();
-				int first = text.Find("\n\r", 0);
-				if(first >= 0) {
-					text.Delete(0,first + 2);
-				}
-				text.MakeReverse();
+	// put message in control, removing older messages if necessary
+	if(m_MessageEditCtrl.GetSafeHwnd()) {
+		CString text;
+		m_MessageEditCtrl.GetWindowText(text);
+		if(m_MessageEditCtrl.GetLineCount() > MAX_MESSAGE_LINES) {
+			text.MakeReverse();
+			int first = text.Find("\n\r", 0);
+			if(first >= 0) {
+				text.Delete(0,first + 2);
 			}
-			text.Insert(0, "\r\n");
-			text.Insert(0, message);
-			text.Insert(0, timeStr);
-			m_MessageEditCtrl.SetWindowText(text);
-			m_MessageEditCtrl.RedrawWindow();
+			text.MakeReverse();
 		}
+		text.Insert(0, "\r\n");
+		text.Insert(0, message);
+		text.Insert(0, timeStr);
+		m_MessageEditCtrl.SetWindowText(text);
+		m_MessageEditCtrl.RedrawWindow();
 	}
 }
 
 //////////
-// CMainWindow::StatusIcon
+// CMainWindow::IsSuspended
+// arguments:	void
+// returns:		true if the window is suspended, false otherwise
+// function:	tells if the window is suspended
+BOOL CMainWindow::IsSuspended()
+{
+	return m_Suspend;
+}
+
+//////////
+// CMainWindow::SetStatusIcon
 // arguments:	dwMessage: hide or show the icon
 // returns:		void
 // function:	controls the status icon in the taskbar
-void CMainWindow::StatusIcon(DWORD dwMessage)
+void CMainWindow::SetStatusIcon(DWORD dwMessage)
 {
-	// only handles adding and removing
-	if(dwMessage != NIM_ADD && dwMessage != NIM_DELETE) {
+	if(dwMessage != ICON_OFF && dwMessage != ICON_NORMAL && dwMessage != ICON_HIGHLIGHT) {
 		return;
 	}
+	// if icon is in that state already, there is nothing to do
+	if(dwMessage == m_IconState) return;
 	NOTIFYICONDATA icon_data;
 	icon_data.cbSize = sizeof(icon_data);
     icon_data.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
@@ -1235,13 +1276,25 @@ void CMainWindow::StatusIcon(DWORD dwMessage)
     icon_data.uID = STATUS_ICON_ID;
     strcpy(icon_data.szTip, "BOINC");
     icon_data.uCallbackMessage = STATUS_ICON_ID;
-	if(dwMessage == NIM_ADD) {
-		icon_data.hIcon = myApp.LoadIcon(IDI_ICON);
-		Shell_NotifyIcon(NIM_ADD, &icon_data);
-	} else {
+	if(dwMessage == ICON_OFF) {
 		icon_data.hIcon = NULL;
 		Shell_NotifyIcon(NIM_DELETE, &icon_data);
+	} else if(dwMessage == ICON_NORMAL) {
+		icon_data.hIcon = myApp.LoadIcon(IDI_ICON);
+		if(m_IconState == ICON_OFF) {
+			Shell_NotifyIcon(NIM_ADD, &icon_data);
+		} else {
+			Shell_NotifyIcon(NIM_MODIFY, &icon_data);
+		}
+	} else if(dwMessage == ICON_HIGHLIGHT) {
+		icon_data.hIcon = myApp.LoadIcon(IDI_ICONHIGHLIGHT);
+		if(m_IconState == ICON_OFF) {
+			Shell_NotifyIcon(NIM_ADD, &icon_data);
+		} else {
+			Shell_NotifyIcon(NIM_MODIFY, &icon_data);
+		}
 	}
+	m_IconState = dwMessage;
 }
 
 //////////
@@ -1456,7 +1509,7 @@ void CMainWindow::PostNcDestroy()
 // function:	hides the window, keeps status icon
 void CMainWindow::OnClose()
 {
-	OnCommandStatusIconHide();
+	ShowWindow(SW_HIDE);
 }
 
 //////////
@@ -1466,7 +1519,6 @@ void CMainWindow::OnClose()
 // function:	shows the account quit dialog box
 void CMainWindow::OnCommandAccountQuit()
 {
-	MessageUser("test", "");
     CQuitDialog dlg(IDD_QUIT);
     int retval = dlg.DoModal();
 	if(retval == IDOK) {
@@ -1513,10 +1565,14 @@ void CMainWindow::OnCommandHelpAbout()
 // CMainWindow::OnCommandStatusIconHide
 // arguments:	void
 // returns:		void
-// function:	hides the window
+// function:	hides or shows the window
 void CMainWindow::OnCommandStatusIconHide()
 {
-	ShowWindow(SW_HIDE);
+	if(IsWindowVisible()) {
+		ShowWindow(SW_HIDE);
+	} else {
+		ShowWindow(SW_SHOW);
+	}
 }
 
 //////////
@@ -1531,7 +1587,7 @@ void CMainWindow::OnCommandStatusIconQuit()
 	PostQuitMessage(0);
 
 	// status icon in taskbar
-	StatusIcon(NIM_DELETE);
+	SetStatusIcon(ICON_OFF);
 
 	// clean up and delete objects
 	m_Font.DeleteObject();
@@ -1561,13 +1617,19 @@ void CMainWindow::OnCommandStatusIconQuit()
 }
 
 //////////
-// CMainWindow::OnCommandStatusIconHide
+// CMainWindow::OnCommandStatusIconSuspend
 // arguments:	void
 // returns:		void
-// function:	shows the window
-void CMainWindow::OnCommandStatusIconShow()
+// function:	suspends or unsuspends the window
+void CMainWindow::OnCommandStatusIconSuspend()
 {
-	ShowWindow(SW_SHOW);
+	if(m_Suspend) {
+		gstate.user_idle = false;
+		m_Suspend = false;
+	} else {
+		gstate.user_idle = false;
+		m_Suspend = true;
+	}
 }
 
 //////////
@@ -1582,7 +1644,10 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 		return -1;
 	}
 
-    myWnd = this;
+    g_myWnd = this;
+	m_IconState = ICON_OFF;
+	m_Message = false;
+	m_Suspend = false;
 
 	// load main menu
 	m_MainMenu.LoadMenu(IDR_MAINFRAME);
@@ -1615,7 +1680,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	}
 
 	// create usage pie control
-	m_UsagePieCtrl.Create(WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, 0);
+	m_UsagePieCtrl.Create(WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, USAGE_ID);
 	m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
 	m_UsagePieCtrl.SetTag(" GB");
 	m_UsagePieCtrl.AddPiece("Free not available for BOINC", RGB(192, 192, 192), 0, GetDiskSize() / (1024.0 * 1024.0 * 1024.0));
@@ -1624,7 +1689,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_UsagePieCtrl.AddPiece("Free available for BOINC", RGB(255, 128, 0), 0, 0);
 
 	// create message edit control
-	m_MessageEditCtrl.Create(ES_MULTILINE|ES_READONLY|WS_VSCROLL|WS_CHILD|WS_TABSTOP|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, 0);
+	m_MessageEditCtrl.Create(ES_MULTILINE|ES_READONLY|WS_VSCROLL|WS_CHILD|WS_TABSTOP|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, MESSAGE_ID);
 	m_MessageEditCtrl.ModifyStyle(WS_VISIBLE, 0);
 
 	// set up image list for tab control
@@ -1641,11 +1706,11 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_TabIL.Add(&m_TabBMP[4], RGB(255, 0, 255));
 
 	// create tab control
-	m_TabCtrl.Create(TCS_BUTTONS|WS_CHILD|WS_VISIBLE, CRect(0,0,0,0), this, 0);
+	m_TabCtrl.Create(TCS_BUTTONS|WS_CHILD|WS_VISIBLE, CRect(0,0,0,0), this, TAB_ID);
 	m_TabCtrl.SetImageList(&m_TabIL);
 	m_TabCtrl.InsertItem(1, "Projects", 0);
-	m_TabCtrl.InsertItem(2, "Results", 1);
-	m_TabCtrl.InsertItem(3, "Xfers", 2);
+	m_TabCtrl.InsertItem(2, "Work", 1);
+	m_TabCtrl.InsertItem(3, "Transfers", 2);
 	m_TabCtrl.InsertItem(4, "Usage", 3);
 	m_TabCtrl.InsertItem(5, "Messages", 4);
 
@@ -1660,8 +1725,9 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_UsagePieCtrl.SetFont(&m_Font);
 	m_MessageEditCtrl.SetFont(&m_Font);
 
-	// put status icon in taskbar
-	StatusIcon(NIM_ADD);
+	// remove button from taskbar and add status icon in taskbar
+	ModifyStyleEx(WS_EX_APPWINDOW, WS_EX_TOOLWINDOW);
+	SetStatusIcon(ICON_NORMAL);
 
 	// take care of other things
 	// 
@@ -1672,7 +1738,10 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// Check what (if any) activities should be logged
     read_log_flags();
     int retval = gstate.init();
-    if (retval) exit(retval);
+    if (retval) {
+		OnCommandStatusIconQuit();
+		return 0;
+	}
     SetTimer(ID_TIMER, 1000, TimerProc);
 
 	// load dll and start idle detection
@@ -1718,36 +1787,40 @@ BOOL CMainWindow::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		int newTab = m_TabCtrl.GetCurSel();
 
 		// make the selected control visible, all the rest invisible
-		if(newTab == 0) {
+		if(newTab == PROJECT_ID) {
 			m_ProjectListCtrl.ModifyStyle(0, WS_VISIBLE);
 			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_MessageEditCtrl.ModifyStyle(WS_VISIBLE, 0);
-		} else if(newTab == 1) {
+		} else if(newTab == RESULT_ID) {
 			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_ResultListCtrl.ModifyStyle(0, WS_VISIBLE);
 			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_MessageEditCtrl.ModifyStyle(WS_VISIBLE, 0);
-		} else if(newTab == 2) {
+		} else if(newTab == XFER_ID) {
 			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_XferListCtrl.ModifyStyle(0, WS_VISIBLE);
 			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_MessageEditCtrl.ModifyStyle(WS_VISIBLE, 0);
-		} else if(newTab == 3) {
+		} else if(newTab == USAGE_ID) {
 			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_UsagePieCtrl.ModifyStyle(0, WS_VISIBLE);
 			m_MessageEditCtrl.ModifyStyle(WS_VISIBLE, 0);
-		} else if(newTab == 4) {
+		} else if(newTab == MESSAGE_ID) {
 			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_MessageEditCtrl.ModifyStyle(0, WS_VISIBLE);
+			if(m_Message) {
+				m_Message = false;
+				SetStatusIcon(ICON_NORMAL);
+			}
 		}
 		Invalidate(false);
 	}
@@ -1769,6 +1842,27 @@ void CMainWindow::OnPaint()
 	logoDC.SelectObject(&m_Logo);
 	dc.BitBlt(0,0,166,150,&logoDC,0,0,SRCCOPY);
 	*/
+}
+
+//////////
+// CMainWindow::OnFocus
+// arguments:	pOldWnd: pointer to previous window that had focus
+// returns:		void
+// function:	if there is a message for the user when this window
+//				gets the focus, selects the message tab
+void CMainWindow::OnSetFocus(CWnd* pOldWnd)
+{
+	if(m_TabCtrl.GetSafeHwnd() && m_Message) {
+		m_TabCtrl.SetCurSel(MESSAGE_ID);
+		m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_MessageEditCtrl.ModifyStyle(0, WS_VISIBLE);
+		m_Message = false;
+		SetStatusIcon(ICON_NORMAL);
+		Invalidate(false);
+	}
 }
 
 //////////
@@ -1812,34 +1906,44 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy)
 //				double click: alternates visibility of window
 LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 {
-	if(lParam == WM_RBUTTONDOWN) {
-		CPoint point;
-		SetForegroundWindow();
-		GetCursorPos(&point);
-		CMenu menu, *submenu;
-		if(!menu.LoadMenu(IDR_STATUS_ICON)) {
-			return FALSE;
-		}
-		submenu = menu.GetSubMenu(0);
-		if(!submenu) {
+	if(gstate.projects.size() != 0) {
+		if(lParam == WM_RBUTTONDOWN) {
+			CPoint point;
+			SetForegroundWindow();
+			GetCursorPos(&point);
+			CMenu menu, *submenu;
+			if(!menu.LoadMenu(IDR_STATUS_ICON)) {
+				return FALSE;
+			}
+			submenu = menu.GetSubMenu(0);
+			if(!submenu) {
+				menu.DestroyMenu();
+				return FALSE;
+			}
+			if(IsWindowVisible()) {
+				submenu->CheckMenuItem(ID_STATUSICON_HIDE, MF_UNCHECKED);
+			} else {
+				submenu->CheckMenuItem(ID_STATUSICON_HIDE, MF_CHECKED);
+			}
+			if(m_Suspend) {
+				submenu->CheckMenuItem(ID_STATUSICON_SUSPEND, MF_CHECKED);
+			} else {
+				submenu->CheckMenuItem(ID_STATUSICON_SUSPEND, MF_UNCHECKED);
+			}
+			submenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
 			menu.DestroyMenu();
-			return FALSE;
+		} else if(lParam == WM_LBUTTONDOWN) {
+			SetForegroundWindow();
+		} else if(lParam == WM_LBUTTONDBLCLK) {
+			if(IsWindowVisible()) {
+				ShowWindow(SW_HIDE);
+			} else {
+				ShowWindow(SW_SHOW);
+			}
 		}
-		if(IsWindowVisible()) {
-			submenu->EnableMenuItem(ID_STATUSICON_SHOW, MF_GRAYED);
-		} else {
-			submenu->EnableMenuItem(ID_STATUSICON_HIDE, MF_GRAYED);
-		}
-		submenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
-		menu.DestroyMenu();
-	} else if(lParam == WM_LBUTTONDBLCLK) {
-		if(IsWindowVisible()) {
-			ShowWindow(SW_HIDE);
-		} else {
-			ShowWindow(SW_SHOW);
-		}
+	 	return TRUE;
 	}
- 	return TRUE;
+	return FALSE;
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -1913,9 +2017,6 @@ BOOL CQuitDialog::OnInitDialog()
 		for(int i = 0; i < gstate.projects.size(); i ++) {
 			List->AddString(gstate.projects[i]->project_name);
 		}
-		List->AddString("test1");
-		List->AddString("test2");
-		List->AddString("test3");
 		List->SetFocus();
 	}
     CenterWindow();

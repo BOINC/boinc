@@ -38,6 +38,10 @@
 
 // constants
 
+#define ICON_OFF			0			// remove icon
+#define ICON_NORMAL			1			// normal icon
+#define ICON_HIGHLIGHT		2			// highlighted icon
+
 #define DEF_COL_WIDTH		80			// default width of list columns
 
 #define SORT_ASCEND			0			// sorting orders
@@ -184,6 +188,8 @@ public:
 	static void CALLBACK	TimerProc(HWND, UINT, UINT, DWORD);
 	void					UpdateGUI(CLIENT_STATE*);
 	void					MessageUser(char*,char*);
+	int						GetInitialProject();
+    BOOL					IsSuspended();
 
 protected:
 	CMenu					m_MainMenu;				// window's main menu
@@ -198,8 +204,11 @@ protected:
 	CImageList				m_TabIL;				// image list for tab control
 	CBitmap					m_TabBMP[5];			// bitmaps for tab image list
 	HINSTANCE				m_IdleDll;				// handle to dll for user idle
+	int						m_IconState;			// state of the status icon
+	BOOL					m_Message;				// does the user have a new message?
+	BOOL					m_Suspend;				// should apps be suspended?
 
-    void					StatusIcon(DWORD);
+    void					SetStatusIcon(DWORD);
     void					SaveUserSettings();
     void					LoadUserSettings();
     double					GetDiskSize();
@@ -215,10 +224,11 @@ protected:
 	afx_msg void			OnCommandFileClose();
 	afx_msg void			OnCommandStatusIconHide();
 	afx_msg void			OnCommandStatusIconQuit();
-	afx_msg void			OnCommandStatusIconShow();
+	afx_msg void			OnCommandStatusIconSuspend();
     afx_msg int				OnCreate(LPCREATESTRUCT);
 	afx_msg BOOL			OnNotify(WPARAM, LPARAM, LRESULT*);
     afx_msg void			OnPaint();
+    afx_msg void			OnSetFocus(CWnd*);
     afx_msg void			OnSize(UINT, int, int);
 	afx_msg LRESULT			OnStatusIcon(WPARAM, LPARAM);
     DECLARE_MESSAGE_MAP()
@@ -260,6 +270,6 @@ protected:
 // globals
 
 extern CMyApp myApp;
-extern CMainWindow* myWnd;
+extern CMainWindow* g_myWnd;
 
 #endif

@@ -135,12 +135,12 @@ BEGIN
     END
     POPUP "&Account"
     BEGIN
-        MENUITEM "&Login to Project",           ID_ACCT_LOGIN
-        MENUITEM "&Quit Project",               ID_ACCT_QUIT
+        MENUITEM "&Login to Project...",        ID_ACCT_LOGIN
+        MENUITEM "&Quit Project...",            ID_ACCT_QUIT
     END
     POPUP "&Help"
     BEGIN
-        MENUITEM "&About",                      ID_HELP_ABOUT
+        MENUITEM "&About...",                   ID_HELP_ABOUT
     END
 END
 
@@ -149,7 +149,7 @@ BEGIN
     POPUP "Status Icon"
     BEGIN
         MENUITEM "Hide",                        ID_STATUSICON_HIDE
-        MENUITEM "Show",                        ID_STATUSICON_SHOW
+        MENUITEM "Suspend",                     ID_STATUSICON_SUSPEND
         MENUITEM SEPARATOR
         MENUITEM "Quit",                        ID_STATUSICON_QUIT
     END
@@ -177,6 +177,7 @@ IDB_MESS                BITMAP  DISCARDABLE     "res\\mess.bmp"
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_ICON                ICON    DISCARDABLE     "res\\icon.ico"
+IDI_ICONHIGHLIGHT       ICON    DISCARDABLE     "res\\iconhigh.ico"
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 

@@ -631,6 +631,9 @@ bool ACTIVE_TASK::check_app_status_files() {
 // active task, based on current reported CPU time and fraction done
 //
 double ACTIVE_TASK::est_time_to_completion() {
+	if(fraction_done <= 0 || fraction_done > 1) {
+		return -1;
+	}
     return (current_cpu_time / fraction_done) - current_cpu_time;
 }
 
