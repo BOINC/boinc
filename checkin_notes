@@ -21553,4 +21553,14 @@ Rom    17 Dec 2004
         BOINC.vbs
 
     < Added a bunch of files required for various setup things >
- 
+
+Janus 18 Dec 2004
+    - Added description of the new colored column "Time reported or deadline".
+    - Also added "Done" to the possible client states in "client state"
+      descriptions.
+
+    html/inc
+        result.php
+    html/user
+	    explain_state.php
+	    results.php
