@@ -88,16 +88,29 @@ list_end();
 echo "
 
 </ul>
+
 Workunit invariants:
 <ul>
 <li> eventually either canonical_resultid or error_mask is set
 <li> eventually transition_time = infinity
-<li> WUs are eventually assimilated
-<li> input files are eventually deleted,
+<li> Each WU is assimilated exactly once
+</ul>
+
+<p>
+Notes on file deletion:
+<li> Input files are eventually deleted,
 but only when all results have state=OVER
-(since may need to validate results that arrive after assimilation)
-and wu.assimilate_state = DONE
-(since project may want to do something with WU in error case)
+(so that clients don't get download failures)
+and the WU has been assimilated
+(in case the project wants to examine input files in error case).
+<li>
+All output files (including errors) are retained
+until the WU has been assimilated.
+After that,
+the canonical result output files are retained until
+all other results are over and (if necessary) validated.
+Error output files can be deleted immediately.
+Success output files can be deleted after validation.
 </ul>
 ";
 

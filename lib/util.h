@@ -143,7 +143,10 @@ static inline double rand_range(double rmin, double rmax)
 }
 
 // return a random integer in the range [MIN,min(e^n,MAX))
-int calculate_exponential_backoff(const char* debug_descr, int n, double MIN, double MAX, double factor=1.0);
+int calculate_exponential_backoff(
+    const char* debug_descr, int n, double MIN, double MAX,
+    double factor=1.0
+);
 extern bool debug_fake_exponential_backoff;
 
 #endif

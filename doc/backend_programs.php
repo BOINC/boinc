@@ -4,13 +4,8 @@ page_head("Back end programs");
 echo "
 
 <p>
-A project back end is implemented as a set of programs.
-Some parts of these programs are supplied by BOINC;
-other parts are project- or application-specific:
-
-<br>
-<img vspace=10 src=backend.png>
-<br>
+A project back end consists of a set of programs,
+some of which have project- or application-specific parts.
 
 <p>
 <table border=1 cellpadding=8>
@@ -21,25 +16,23 @@ other parts are project- or application-specific:
 </tr>
 <tr>
 <td valign=top>
-<b>Work generator</b>: generates work units, results,
-and the corresponding input files.
+<b>Work generator</b>: generates work units and the corresponding input files.
 </td>
 <td valign=top>
-Functions and programs that handle the details of
-creating workunit and result database records.
+Interfaces for creating workunits.
 </td>
 <td valign=top>
 Programs or scripts that generate input files,
-install them on data servers, and call the BOINC functions.
+install them on data servers, and call the BOINC interface functions.
 </td></tr>
 <tr>
-<td valign=top><b>Timeout check</b>:
-Checks for various timeout conditions,
-such as result timeout.
-Reissues results for workunits as needed.
+<td valign=top><b>Transitioner</b>:
+Handles various state transitions of workunits and results,
+such as timeouts.
+Generates results for workunits as needed.
 </td>
-<td valign=top>A program <b>timeout_check</b>.</td>
-<td valign=top>Some parameters used by timeout_check.</td>
+<td valign=top>A program <b>transitioner</b>.</td>
+<td valign=top>None</td>
 </tr>
 <tr>
 <td valign=top><b>Result validation and accounting</b>:
@@ -47,22 +40,21 @@ compare redundant results; select a <b>canonical result</b>
 representing the correct output,
 and a <b>canonical credit</b> granted to users and hosts
 that return the correct output.</td>
-<td valign=top>A program, <b>validate</b>, that contains the
-basic logic for validation.</td>
+<td valign=top>A program, <b>validate</b>,
+that contains the basic logic for validation.</td>
 <td valign=top>An application-specific function, linked with <b>validate</b>,
 that compares sets of redundant results.</td>
 </tr>
 <tr>
 <td valign=top><b>Assimilator</b>:
 handles workunits that are 'completed':
-that is, which have a canonical result or for which
+that is, that have a canonical result or for which
 an error condition has occurred.
 Handling a successfully completed result might involve
 record results in a database and perhaps generating more work.</td>
 <td valign=top>
-A main program that enumerates unassimilated workunits,
-calls a project-supplied 'handler' function,
-and updates the database.
+A program <b>assimilator</b> that contains the
+basic logic for assimilation.
 </td>
 <td valign=top>
 A handler function that assimilates a workunit,
@@ -78,56 +70,103 @@ when they are no longer needed.</td>
 </tr>
 </table>
 
-<h3>Timeout checker</h3>
+<h3>Work generator</h3>
 <p>
-The timeout checker is passed the following parameters:
-
-max_errors
-give up on a workunit if it gets this many error results(i.e., there must be a bug in the application).
-
-max_results
-give up on a workunit if it gets this many
-non-error results without finding a canonical result
-
-redundancy
-try to get at least this many non-error results.
-
-application
-which application to handle
-
-use crontab to run timeout_checker continuously.
-
 <pre>
-    for each WU with timeout_check_time < now
+    for each wu created
+        wu.transition_time = now
+</pre>
+
+<h3>scheduler</h3>
+<pre>
+    when send a result
+        result.report_deadline = now + wu.delay_bound
+        wu.transition_time = min(wu.transition_time, result.report_deadline)
+    when receive a result
+        if client error
+            result.outcome = client_error
+            result.validate_state = INVALID
+        else
+            result.outcome = success
+        result.server_state = OVER
+        wu.transition_time = now
+    when a result falls off the bottom of infeasible queue
+        result.server_state = OVER
+        result.outcome = COULDNT_SEND
+        wu.transition_time = now
+</pre>
+
+<h3>Transitioner</h3>
+<p>
+<pre>
+// gets run when either
+// - a result becomes done (via timeout or client reply)
+// - the WU error mask is set (e.g. by validater)
+// - assimilation is finished
+    for each WU with now > transition_time:
+
+        // check for timed-out results
         for each result of WU
-            if result.server_state=IN_PROGRESS and now > result.report_deadline
+            if result.server_state = in_progress and now > result.report_deadline
                 result.server_state = OVER
                 result.outcome = NO_REPLY
-        if any result has outcome COULDNT_SEND
-            wu.error_mask |= COULDNT_SEND
-            got_error = true
-        if too many error results
-            wu.error_mask |= TOO_MANY_ERROR_RESULTS
-            got_error = true
-        if too many results
-            wu.error mask |= TOO_MANY_RESULTS
-            got_error = true
-        else
-            generate new results as needed
 
-        if got_error
-            for all results server_state UNSENT
-                result.server_state = OVER
-                result.outcome = DIDNT_NEED
-            if wu.assimilate_state == INIT
-                wu.assimilate_state = READY
+        // trigger validation if needed
+        K = # of SUCCESS results
+        if K >= M
+            if any result is server_state OVER, outcome SUCCESS, validate_state INIT
+                wu.need_validate = true
 
-    if all results are OVER and wu.assimilate_state = DONE
-        wu.file_delete_state = READY
-        wu.timeout_check_time = 0
-    else
-        wu.timeout_check_time = now + delay_bound
+        // check for WU error conditions
+        if any result has outcome couldnt_send
+            error_mask |= couldnt_send
+        K = # results with outcome = client_error
+        if K > A
+            error_mask |= too_many_error_results
 
+        // Note: check on # of success results is done in validator
+
+        K = total # results
+        if K > B
+            error_mask |= too_many_total_results
+        
+        // if no WU errors, generate new results if needed
+        if error_mask == 0
+            K = # results w/ server_state = unsent or in_progress
+            L = N - K
+            generate L new results
+        
+        // if WU errors, clean up unsent results
+        // and trigger assimilation if needed
+        if error_mask
+            for all results server_state = unsent
+                server_state = over
+                outcome = didnt_need
+            if wu.assimilate_state == init
+                wu.assimilate_state = ready
+        
+        // if WU is assimilated, trigger deletion of files
+        if wu.assimilated_state = DONE
+            // trigger input file deletion if needed
+            if all results are OVER
+                wu.file_delete_state = ready
+
+                // we can delete the canonical result output files
+                // if all successful results have been validated
+                if have canonical result and canonical_result.file_delete_state == INIT:
+                    if all results are != SUCCESS or (VALID or INVALID):
+                        canonical_result.file_delete_state = READY
+
+            // outputs of error results can be deleted immediately;
+            // outputs of successful results can be deleted when validated
+            for results outcome = CLIENT_ERROR or (SUCCESS and (VALID or INVALID))
+                if file_delete_state = INIT
+                    result.file_delete_state = READY
+
+        // get next result timeout if any
+        transition_time = MAX_INT
+        if any results are IN_PROGRESS
+            transition_time = min(result.report_deadline)
 </pre>
 
 <h3>Validator</h3>
@@ -153,58 +192,43 @@ The file <b>validate_test.C</b> contains an example
 implementation of check_set() and check_pair().
 
 <pre>
-    for each WU with need_validate = true
-        if already have canonical result
-            for each result with validate_state = INIT and outcome = SUCCESS
-                if matches canonical, grant credit
-                set result.validate_state to VALID or INVALID
+    for each WU w/ need_validate true
+        if have canonical result
+            for each result w/ validate_state INIT and outcome SUCCESS
+                // possible that we've already deleted canonical output files
+                if canonical_result.file_delete_state = DONE
+                    validate_state = INVALID
+                else
+                    if matches canonical, grant credit
+                    validate_state = VALID or INVALID
+                need_to_handle_over_results = true
         else
-            build set of results with outcome = SUCCESS
-            if find canonical result
+            S = set of results w/ outcome SUCCESS
+            if consensus(S)
+                set canonical_result
+                set success results as VALID or INVALID
+                grant credit
+                need_to_handle_over_results = true
                 wu.assimilate_state = READY
-                for all results server_state = UNSENT
-                    result.server_state = OVER
-                    result.outcome = DIDNT_NEED
+                for all results server_state UNSENT
+                    server_state = OVER
+                    outcome = DIDNT_NEED
+            else
+                if # of successful results > C
+                    wu.error_mask |= too_many_success_result
+                    need_to_handle_over_results = true
+
+        if need_to_handle_over_results:
+            wu.transition_time = now
 </pre>
 
-<h3>scheduler</h3>
-<pre>
-    - when send a result
-        result.server_state = IN_PROGRESS
-        result.report_deadline = now + wu.delay_bound
-        ??? should do lookup before updating?  shmem may be stale
-            doesn't matter; can't be stale
-    - when receive a result
-        switch result.server_state
-        client_state = (from reply msg)
-        case IN_PROGRESS:
-            result.server_state = OVER
-        case OVER:
-            result.file_delete_state = READY;
-
-        if client_state is DONE
-            result.outcome = SUCCESS
-            wu.need_validate = true
-        else
-            result.outcome = CLIENT_ERROR
-            result.validate_state = INVALID
-
-</pre>
 
 <h3>Assimilator</h3>
 <pre>
     for each WU with assimilate_state = READY
         call project-specific handler function
-            NOTE: canonical_resultid and error_mask are not mutually exclusive
-        if all results are OVER with outcomes SUCCESS or CLIENT_ERROR
-            set result.file_delete = READY for all results
-        else
-            for each non-canonical result
-                if state is OVER and outcome is SUCCESS or CLIENT_ERROR
-                    set result.file_delete = READY
-        wu.assimilate_state = DONE
-        if all results are OVER
-            wu.file_delete_state = READY
+        wu.assimilate_state = done
+        wu.transition_time = now
 </pre>
 ";
 page_tail();

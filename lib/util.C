@@ -339,7 +339,6 @@ void escape_url(char *in, char*out) {
 void escape_url_readable(char *in, char* out) {
     int x, y;
     char *temp;
-    char buf[256];
 
     temp = strstr(in,"://");
     if (temp) {
@@ -357,9 +356,10 @@ void escape_url_readable(char *in, char* out) {
     out[y] = 0;
 }
 
-inline void replace_string(string& s, string const& src,
-                           string const& dest, string::size_type start=0)
-{
+inline void replace_string(
+    string& s, string const& src,
+    string const& dest, string::size_type start=0
+) {
     string::size_type p;
     while ( (p=s.find(src, start)) != string::npos ) {
         s.replace(p, src.length(), dest);
@@ -422,8 +422,10 @@ static int count_debug_fake_exponential_backoff = 0;
 static const int max_debug_fake_exponential_backoff = 1000; // safety limit
 
 // return a random integer in the range [MIN,min(e^n,MAX))
-int calculate_exponential_backoff(const char* debug_descr, int n, double MIN, double MAX, double factor /*=1.0*/)
-{
+int calculate_exponential_backoff(
+    const char* debug_descr, int n, double MIN, double MAX,
+    double factor /* = 1.0 */
+) {
     double rmax = min(MAX, factor*exp((double)n));
 
     if (debug_fake_exponential_backoff) {
@@ -431,18 +433,23 @@ int calculate_exponential_backoff(const char* debug_descr, int n, double MIN, do
         // returning 0 seconds; report arguments so we can tell what we would
         // have done (this doesn't test the rand_range() functions but is
         // very useful for testing backoff/retry policies).
+        //
         double expected_backoff = (MIN > rmax) ? MIN : (rmax-MIN)/2.0;
 
         debug_total_exponential_backoff += expected_backoff;
         ++count_debug_fake_exponential_backoff;
-        fprintf(stderr,
-                "## calculate_exponential_backoff(): #%5d descr=\"%s\", n=%d, MIN=%.1f, MAX=%.1f, factor=%.1f; rand_range [%.1f,%.1f); total expected backoff=%.1f\n",
-                count_debug_fake_exponential_backoff,
-                debug_descr, n, MIN, MAX, factor,
-                MIN, rmax, debug_total_exponential_backoff);
+        fprintf(
+            stderr,
+            "## calculate_exponential_backoff(): #%5d descr=\"%s\", n=%d, MIN=%.1f, MAX=%.1f, factor=%.1f; rand_range [%.1f,%.1f); total expected backoff=%.1f\n",
+            count_debug_fake_exponential_backoff,
+            debug_descr, n, MIN, MAX, factor,
+            MIN, rmax, debug_total_exponential_backoff
+        );
         if (count_debug_fake_exponential_backoff >= max_debug_fake_exponential_backoff) {
-            fprintf(stderr,
-                    "## calculate_exponential_backoff(): reached max_debug_fake_exponential_backoff\n");
+            fprintf(
+                stderr,
+                "## calculate_exponential_backoff(): reached max_debug_fake_exponential_backoff\n"
+            );
             exit(1);
         }
         return 0;
@@ -451,8 +458,7 @@ int calculate_exponential_backoff(const char* debug_descr, int n, double MIN, do
     return (int) rand_range(MIN, rmax);
 }
 
-string timediff_format(long tdiff)
-{
+string timediff_format(long tdiff) {
     char buf[256];
 
     int sex = tdiff % 60;
@@ -488,8 +494,7 @@ string timediff_format(long tdiff)
 }
 
 // read entire file into string
-int read_file_string(const char* pathname, string& result)
-{
+int read_file_string(const char* pathname, string& result) {
     result.erase();
     ifstream f(pathname);
     if (!f) return -1;

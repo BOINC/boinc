@@ -39,6 +39,9 @@ You will need your account key to log in to the ".PROJECT." web site.
 
 To finish registration, go to
 $url
+
+Please subscribe to the BOINC beta-test mail list:
+https://lists.sourceforge.net/lists/listinfo/boinc-beta
 "
 );
 
