@@ -26,9 +26,12 @@
         if (split_munged_email_addr($user->email_addr, $authenticator, $email)) {
             mysql_query("update user set email_addr='$email' where id=$user->id");
         }
-        $_SESSION["authenticator"] = $user->authenticator;
+        $_SESSION["authenticator"] = $authenticator;
         $next_url = $_POST["next_url"];
         if (strlen($next_url) == 0) $next_url = "home.php";
+        if ($_GET['send_cookie']) {
+            setcookie('auth', $authenticator, time()+3600*24*365);
+        }
         Header("Location: $next_url");
     }
 ?>

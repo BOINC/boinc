@@ -3,8 +3,9 @@
     require_once("util.inc");
     require_once("project_specific/project.inc");
 
-    init_session();
-    page_head("Home page");
+    db_init();
+    $user = get_logged_in_user(false);
+    page_head("Home page", $user);
 
     project_intro();
 

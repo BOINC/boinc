@@ -136,6 +136,9 @@ function build_sql_query() {
     $q->addeqnz('server_state');
     $q->addeqnz('outcome');
     $q->addeqnz('client_state');
+    if ($_GET['clauses']) {
+        $q->add($_GET['clauses']);
+    }
     $q->addsort('sort_by');
 
     return $q;

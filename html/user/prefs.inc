@@ -5,7 +5,7 @@
 // Preferences are represented in two ways:
 // - As a PHP structure (usually called $prefs)
 //   This has fields run_on_batteries, etc.
-//   The fields "project_specific" is raw XML
+//   The fields "project_specific" is plain XML
 // - As XML (usually called $prefs_xml)
 //
 // This XML has the general structure
@@ -39,6 +39,44 @@
 // and also to/from HTML form elements
 
 include_once("project_specific/project_specific_prefs.inc");
+
+// strings describing various preference fields
+//
+define("RUN_ON_BATTERIES_DESC",
+    "Do work while computer is running on batteries?
+    <br><font size=-2>(matters only for portable computers)</font>"
+);
+define("RUN_IF_USER_ACTIVE_DESC",
+    "Do work while computer is in use?"
+);
+define("IDLE_TIME_TO_RUN_DESC", "Do work only after computer is idle for");
+define("IDLE_TIME_TO_RUN_DESC2", "<br><font size=-2>(applies only if above is 'no')</font>");
+define("START_END_DESC", "Do work only between the hours of");
+define("START_END_DESC2", "<br><font size=-2>(no restriction if equal)</font>");
+define("CONFIRM_BEFORE_CONNECTING_DESC",
+    "Confirm before connecting to Internet?
+    <br><font size=-2>(matters only if you use a modem)</font>"
+);
+define("HANGUP_IF_DIALED_DESC",
+    "Disconnect when done?
+    <br><font size=-2>(matters only if you use a modem)</font>"
+);
+define("CONFIRM_EXECUTABLE_DESC",
+    "Confirm before accepting executable file?
+    <br><font size=-2>(currently implemented only on Unix/Linux)</font>"
+);
+define("WORK_BUF_DESC", "Keep enough work on disk to last between");
+define("MAX_CPUS_DESC", "On multiprocessors, use at most");
+define("MAX_CPUS_DESC2", "processors");
+define("DISK_INTERVAL_DESC", "Write to disk at most every");
+define("DISK_LIMIT_DESC", "Limits on disk space used by BOINC:");
+define("DISK_MAX_USED_GB_DESC", "Use no more than");
+define("DISK_MIN_FREE_GB_DESC", "Leave at least");
+define("DISK_MAX_USED_PCT_DESC", "Use no more than");
+define("DISK_MAX_USED_PCT_DESC2", "% of total space");
+define("NETWORK_LIMIT_DESC", "Limits on network bandwidth used by BOINC:");
+define("MAX_BYTES_SEC_DOWN_DESC", "Maximum bytes/sec download:");
+define("MAX_BYTES_SEC_UP_DESC", "Maximum bytes/sec upload:");
 
 global $text;
 global $parse_result;
@@ -290,32 +328,34 @@ function hour_select($x, $name) {
 // display preference subsets
 //
 function prefs_show_global($prefs) {
-    row2("Do work if running on batteries?", $prefs->run_on_batteries?"Yes":"No");
-    row2("Do work if computer in use?", $prefs->run_if_user_active?"Yes":"No");
+    row2(RUN_ON_BATTERIES_DESC, $prefs->run_on_batteries?"yes":"no");
+    row2(RUN_IF_USER_ACTIVE_DESC, $prefs->run_if_user_active?"yes":"no");
     if (!$prefs->run_if_user_active) {
-        row2("Idle time before running", "$prefs->idle_time_to_run minutes");
+        row2(IDLE_TIME_TO_RUN_DESC, "$prefs->idle_time_to_run minutes");
     }
     if ($prefs->start_hour == $prefs->end_hour) {
-        $x = "no restriction";
+        $x = "(no restriction)";
     } else {
         $s = hour_str($prefs->start_hour);
         $e = hour_str($prefs->end_hour);
         $x = "$s and $e";
     }
-    row2("Use my computer only between", $x);
-    row2("Confirm before connecting to network?", $prefs->confirm_before_connecting?"Yes":"No");
-    row2("Disconnect when done?", $prefs->hangup_if_dialed?"Yes":"No");
-    row2("Confirm before accepting executable?", $prefs->confirm_executable?"Yes":"No");
-    row2("Amount of work to buffer:", "$prefs->work_buf_min_days to $prefs->work_buf_max_days days");
-    row2("On multiprocessors, use at most", "$prefs->max_cpus processors");
-    row2("Write to disk at most every", "$prefs->disk_interval seconds");
-    row2("Maximum disk space to use:", "$prefs->disk_max_used_gb GB");
-    row2("Minimum disk space to leave free:", "$prefs->disk_min_free_gb GB");
-    row2("Maximum % of disk allowed to used:", "$prefs->disk_max_used_pct%");
+    row2(START_END_DESC, $x);
+    row2(CONFIRM_BEFORE_CONNECTING_DESC, $prefs->confirm_before_connecting?"yes":"no");
+    row2(HANGUP_IF_DIALED_DESC, $prefs->hangup_if_dialed?"yes":"no");
+    row2(CONFIRM_EXECUTABLE_DESC, $prefs->confirm_executable?"yes":"no");
+    row2(WORK_BUF_DESC, "$prefs->work_buf_min_days and $prefs->work_buf_max_days days");
+    row2(MAX_CPUS_DESC, "$prefs->max_cpus ".MAX_CPUS_DESC2);
+    row2(DISK_INTERVAL_DESC, "$prefs->disk_interval seconds");
+    row1(DISK_LIMIT_DESC);
+    row2(DISK_MAX_USED_GB_DESC, "$prefs->disk_max_used_gb GB");
+    row2(DISK_MIN_FREE_GB_DESC, "$prefs->disk_min_free_gb GB");
+    row2(DISK_MAX_USED_PCT_DESC, "$prefs->disk_max_used_pct".DISK_MAX_USED_PCT_DESC2);
+    row1(NETWORK_LIMIT_DESC);
     $x = $prefs->max_bytes_sec_down;
-    row2("Maximum bytes/sec download:", $x?"$x":"No limit");
+    row2(MAX_BYTES_SEC_DOWN_DESC, $x?"$x":"no limit");
     $x = $prefs->max_bytes_sec_up;
-    row2("Maximum bytes/sec upload:", $x?"$x":"No limit");
+    row2(MAX_BYTES_SEC_UP_DESC, $x?"$x":"no limit");
 }
 
 function prefs_show_resource($prefs) {
@@ -327,8 +367,8 @@ function prefs_show_resource($prefs) {
 }
 
 function prefs_show_privacy($user) {
-    row2("Should ".PROJECT." send you email newsletters?", $user->send_email?"Yes":"No");
-    row2("Should ".PROJECT." show your computers on its web site?", $user->show_hosts?"Yes":"No");
+    row2("Should ".PROJECT." send you email newsletters?", $user->send_email?"yes":"no");
+    row2("Should ".PROJECT." show your computers on its web site?", $user->show_hosts?"yes":"no");
 }
 
 function prefs_show_project($prefs) {
@@ -351,7 +391,7 @@ function prefs_display_venue($prefs, $venue, $subset) {
             prefs_show_resource($x);
             prefs_show_project($x);
         }
-        row2("<br>", "<a href=prefs_edit_form.php?venue=$venue&subset=$subset>Edit</a> | <a href=prefs_remove.php?venue=$venue&subset=$subset>Remove</a>");
+        row2("<br>", "<a href=prefs_edit_form.php?venue=$venue&subset=$subset>Edit preferences</a> | <a href=prefs_remove.php?venue=$venue&subset=$subset>Remove</a>");
     } else {
         $x = subset_name($subset);
         row1("<a href=add_venue_form.php?venue=$venue&subset=$subset>Add separate $x preferences for $venue</a>");
@@ -384,7 +424,7 @@ function print_prefs_display_global($user) {
         row1("Primary preferences");
     }
     prefs_show_global($global_prefs);
-    row2("<br>", "<a href=prefs_edit_form.php?subset=global>Edit</a>");
+    row2("<br>", "<a href=prefs_edit_form.php?subset=global>Edit preferences</a>");
 
     prefs_display_venue($global_prefs, "home", "global");
     prefs_display_venue($global_prefs, "school", "global");
@@ -403,117 +443,108 @@ function print_prefs_display($user) {
 // Functions to display preference subsets as forms
 //
 function prefs_form_global($user, $prefs) {
-    $x = "Do work while the computer is on battery power?
-        <br><font size=-2>(matters only for portable computers)</font>
-    ";
-    $y = "Yes <input type=radio name=run_on_batteries value=yes "
+    $y = "yes <input type=radio name=run_on_batteries value=yes "
         .($prefs->run_on_batteries?"checked":"")
-        ."> No <input type=radio name=run_on_batteries value=no "
+        ."> no <input type=radio name=run_on_batteries value=no "
         .($prefs->run_on_batteries?"":"checked")
         .">
     ";
-    row2($x, $y);
+    row2(RUN_ON_BATTERIES_DESC, $y);
 
-    $x = "Do work while you're using the computer?";
-    $y = "Yes <input type=radio name=run_if_user_active value=yes "
+    $y = "yes <input type=radio name=run_if_user_active value=yes "
         .($prefs->run_if_user_active?"checked":"")
-        ."> No <input type=radio name=run_if_user_active value=no "
+        ."> no <input type=radio name=run_if_user_active value=no "
         .($prefs->run_if_user_active?"":"checked")
         .">
     ";
-    row2($x, $y);
+    row2(RUN_IF_USER_ACTIVE_DESC, $y);
 
-    $x = "Do work after computer is idle for";
-    $y = "<input size=5 name=idle_time_to_run value='$prefs->idle_time_to_run'>
-        minutes (applies only if above is No)";
-    row2($x, $y);
+    $y = "<input size=5 name=idle_time_to_run value='$prefs->idle_time_to_run'> minutes ";
+    row2(IDLE_TIME_TO_RUN_DESC.IDLE_TIME_TO_RUN_DESC2, $y);
 
-    $x = "Do work only between the hours of
-        <br><font size=-2>(no restriction if same times)</font>";
+    $x = START_END_DESC.START_END_DESC2;
     $y = hour_select($prefs->start_hour, "start_hour")."and".hour_select($prefs->end_hour, "end_hour");
     row2($x, $y);
 
-    $x = "Confirm before connecting to Internet?
-        <br><font size=-2>(matters only if you use a modem)</font>
-    ";
-    $y = "Yes <input type=radio name=confirm_before_connecting value=yes "
+    $x = CONFIRM_BEFORE_CONNECTING_DESC;
+    $y = "yes <input type=radio name=confirm_before_connecting value=yes "
         .($prefs->confirm_before_connecting?"checked":"")
-        ."> No <input type=radio name=confirm_before_connecting value=no "
+        ."> no <input type=radio name=confirm_before_connecting value=no "
         .($prefs->confirm_before_connecting?"":"checked")
         .">
     ";
     row2($x, $y);
 
-    $x = "Disconnect when done?
-        <br><font size=-2>(matters only if you use a modem)</font>
-    ";
-    $y = "Yes <input type=radio name=hangup_if_dialed value=yes "
+    $x = HANGUP_IF_DIALED_DESC;
+    $y = "yes <input type=radio name=hangup_if_dialed value=yes "
         .($prefs->hangup_if_dialed?"checked":"")
-        ."> No <input type=radio name=hangup_if_dialed value=no "
+        ."> no <input type=radio name=hangup_if_dialed value=no "
         .($prefs->hangup_if_dialed?"":"checked")
         .">
     ";
     row2($x, $y);
 
-    $x = "Confirm before accepting executable file?
-        <br><font size=-2>(currently implemented only on Unix/Linux)</font>
-    ";
-    $y = "Yes <input type=radio name=confirm_executable value=yes "
+    $x = CONFIRM_EXECUTABLE_DESC;
+    $y = "yes <input type=radio name=confirm_executable value=yes "
         .($prefs->confirm_executable?"checked":"")
-        ."> No <input type=radio name=confirm_executable value=no "
+        ."> no <input type=radio name=confirm_executable value=no "
         .($prefs->confirm_executable?"":"checked")
         .">
     ";
     row2($x, $y);
 
-    $x = "Keep enough to work on disk to last between";
+    $x = WORK_BUF_DESC;
     $y = "<input size=5 name=work_buf_min_days value='$prefs->work_buf_min_days'>
         and
         <input size=5 name=work_buf_max_days value='$prefs->work_buf_max_days'> days
     ";
     row2($x, $y);
 
-    row2("Use at most", "<input size=4 name=max_cpus value=$prefs->max_cpus> processors");
-    row2("Write to disk at most every", "<input size=6 name=disk_interval value=$prefs->disk_interval> seconds");
+    row2(MAX_CPUS_DESC,
+        "<input size=4 name=max_cpus value=$prefs->max_cpus> ".MAX_CPUS_DESC2
+    );
+    row2(DISK_INTERVAL_DESC,
+        "<input size=6 name=disk_interval value=$prefs->disk_interval> seconds"
+    );
 
-    row1("Limit the disk space used by BOINC:");
+    row1(DISK_LIMIT_DESC);
 
-    row2("Use no more than",
+    row2(DISK_MAX_USED_GB_DESC,
         "<input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'> Gbytes"
     );
 
-    row2("Leave at least",
+    row2(DISK_MIN_FREE_GB_DESC,
         "<input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'> Gbytes free"
     );
-    row2("Use no more than",
-        "<input size=5 name=disk_max_used_pct value='$prefs->disk_max_used_pct'> % of total space"
+    row2(DISK_MAX_USED_PCT_DESC,
+        "<input size=5 name=disk_max_used_pct value='$prefs->disk_max_used_pct'> ".DISK_MAX_USED_PCT_DESC2
     );
 
-    row1("Limit BOINC's network use:");
+    row1(NETWORK_LIMIT_DESC);
     $d = $prefs->max_bytes_sec_down;
     $dt = $d?"$d":"";
     $u = $prefs->max_bytes_sec_up;
     $ut = $u?"$u":"";
-    row2("Maximum bytes/sec download",
+    row2(MAX_BYTES_SEC_DOWN_DESC,
         "<input size=7 name=max_bytes_sec_down value='$dt'>"
     );
-    row2("Maximum bytes/sec upload",
+    row2(MAX_BYTES_SEC_UP_DESC,
         "<input size=7 name=max_bytes_sec_up value='$ut'>"
     );
 }
 
 function prefs_form_privacy($user) {
-    $y = "Yes <input type=radio name=send_email value=yes "
+    $y = "yes <input type=radio name=send_email value=yes "
         .($user->send_email?"checked":"")
-        ."> No <input type=radio name=send_email value=no "
+        ."> no <input type=radio name=send_email value=no "
         .($user->send_email?"":"checked")
         .">
     ";
     row2("Should ".PROJECT." send you email newsletters?", $y);
 
-    $y = "Yes <input type=radio name=show_hosts value=yes "
+    $y = "yes <input type=radio name=show_hosts value=yes "
         .($user->show_hosts?"checked":"")
-        ."> No <input type=radio name=show_hosts value=no "
+        ."> no <input type=radio name=show_hosts value=no "
         .($user->show_hosts?"":"checked")
         .">
     ";

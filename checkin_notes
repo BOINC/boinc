@@ -7563,8 +7563,24 @@ Eric  7 Nov 2003
 David  6 Nov 2003 (note: Eric's on the other side of the Int. Date Line)
 	- Fixed bug that cause CPU time to jump whenever Get Preferences.
 		It's because the app is getting a new aid.wu_cpu_time
-		as part of reread_prefs; this is incorrectly added to the thread's CPU time.
+		as part of reread_prefs;
+        this is incorrectly added to the thread's CPU time.
 		Solution: make a copy of aid.wu_cpu_time at startup and use the copy.
 
 	api/
 		boinc_api.C
+
+David  7 Nov 2003
+    - Added "remember authenticator" checkbox to user login
+        (sends cookie with 1 year expiration)
+    - General preferences use defined symbols so field descriptions
+        are same in both display and edit versions
+    - In admin web interface, make SQL clauses feature work
+    
+    html_ops/
+        db_ops.inc
+    html_user/
+        index.php
+        login_action.php
+        prefs.inc
+        util.inc

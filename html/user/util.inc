@@ -235,11 +235,14 @@ function print_login_form_aux($next_url, $user, $pathMod='') {
     start_table();
     row1("Log in");
     row2("Your account key:
-        <br><font size=-1>
+        <br><font size=-2>
         If you don't know your account key,
         <a href=get_passwd.php>click here</a>.
         </font>",
         "<input name=authenticator size=40>"
+    );
+    row2("Remember account key on this computer",
+        "<input type=checkbox name=send_cookie>"
     );
     row2("",
         "<input type=submit value='Log in'>"
