@@ -49,11 +49,11 @@ int main() {
     SCHED_SHMEM* ssp;
     void* p;
     
-    #ifdef _USING_FCGI_
-    int counter = 0;
-    while(FCGI_Accept >= 0) {
-    counter++;
-    #endif
+#ifdef _USING_FCGI_
+
+    while(FCGI_Accept() >= 0) {
+
+#endif
     retval = attach_shmem(BOINC_KEY, &p);
     if (retval) {
         printf("can't attach shmem\n");
@@ -116,8 +116,8 @@ int main() {
 
     unlink(req_path);
     unlink(reply_path);
-    #ifdef _USING_FCGI_
+#ifdef _USING_FCGI_
+
     }
-    printf("loop cycled %d times\n", counter);
-    #endif
+#endif
 }

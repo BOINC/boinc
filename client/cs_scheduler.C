@@ -63,6 +63,12 @@ double CLIENT_STATE::current_water_days() {
 }
 
 bool CLIENT_STATE::need_work() {
+    double temp;
+    if(prefs->high_water_days < prefs->low_water_days) {
+        temp = prefs->high_water_days;
+        prefs->high_water_days = prefs->low_water_days;
+        prefs->low_water_days = temp;
+    }
     return (current_water_days() <= prefs->low_water_days);
 }
 

@@ -92,6 +92,7 @@ int CLIENT_STATE::time_tests() {
     host_info.p_iops = run_int_test(4);
     host_info.p_membw = run_mem_bandwidth_test(4);
     host_info.p_calculated = (double)time(0); //set time calculated
+    //host_info.m_cache = check_cache_size(CACHE_MAX);
     return 0;
 }
 

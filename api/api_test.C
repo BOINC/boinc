@@ -33,7 +33,7 @@ int main() {
     mf.printf("foo\n");
     for(; i<100000000; i++) {
 	if(time_to_checkpoint()) {
-	    mf.printf("checkpoint\n");
+	    mf.printf("checkpoint: %d\n", temp);
 	    mf.flush();
             ao.percent_done = 1;
 	    checkpoint_completed(ao);

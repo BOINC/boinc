@@ -644,6 +644,26 @@ Michael Gary	6/25/2002
     doc/
         test.html
 
+Michael Gary	6/27/2002
+    - Fixed a bug in add_work and added water level testing to test_uc.php
+
+    test/
+        test_uc.php
+    tools/
+        add_work.C
+
+Michael Gary	6/28/2002
+    - Added an explicit test for water level
+    - Added a -no_time_test argument to the boinc client to stop the time tests
+        from running. 
+
+    client/
+        main.C
+        client_state.h
+        client_state.C
+    test/
+        test_water.php (new)
+
 Eric Heien 7/01/2002
     - Added S@H test scripts, added other testing functionality.
     - Added random WU generation.
@@ -668,3 +688,19 @@ Eric Heien 7/01/2002
     tools/
         create_work.C
 
+Michael Gary	7/01/2002
+    - Fixed fast cgi scheduling server
+    - If low water mark is higher than high water mark, water marks are
+        switched
+    - Updated documentation
+
+    doc/
+        flow.html
+        protocol.html
+    client/
+        client_state.C
+        cs_scheduler.C
+    sched/
+        main.C
+    test/
+        prefs1.xml

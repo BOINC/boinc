@@ -146,8 +146,8 @@ function create_work($x) {
     PassThru("../tools/create_work $x");
 }
 
-function run_client() {
-    PassThru("../client/".CORE_CLIENT." -exit_when_idle");
+function run_client($args) {
+    PassThru("../client/".CORE_CLIENT." $args");
 }
 
 function start_feeder() {
