@@ -335,7 +335,7 @@ bool SCHEDULER_OP::poll() {
     vector<STRING256> urls;
     bool changed, scheduler_op_done;
     bool action = false, err = false;
-    char err_msg[256],*err_url=NULL;
+    char err_msg[256], *err_url=NULL;
 
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
 
@@ -576,11 +576,11 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             // Do nothing
         } else if (match_tag(buf, "</scheduler_reply>")) return 0;
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
-        else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
+		else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
         else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
         else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) continue;
-        else if (parse_str(buf, "<team_name>", team_name, sizeof(team_name))) continue;
+		else if (parse_str(buf, "<team_name>", team_name, sizeof(team_name))) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;

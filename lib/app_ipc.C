@@ -36,6 +36,7 @@ char* xml_graphics_modes[NGRAPHICS_MODES] = {
 #define REREAD_PREFS_MSG "<reread_prefs/>"
 
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
+	string str1, str2;
     if (strlen(ai.app_name)) {
         fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);
     }
@@ -43,10 +44,14 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         fprintf(f, "<app_preferences>\n%s</app_preferences>\n", ai.app_preferences);
     }
     if (strlen(ai.team_name)) {
-        fprintf(f, "<team_name>%s</team_name>\n", ai.team_name);
+		str1 = ai.team_name;
+		xml_escape(str1, str2);
+        fprintf(f, "<team_name>%s</team_name>\n", str2.c_str());
     }
     if (strlen(ai.user_name)) {
-        fprintf(f, "<user_name>%s</user_name>\n", ai.user_name);
+		str1 = ai.user_name;
+		xml_escape(str1, str2);
+        fprintf(f, "<user_name>%s</user_name>\n", str2.c_str());
     }
     if (strlen(ai.comm_obj_name)) {
         fprintf(f, "<comm_obj_name>%s</comm_obj_name>\n", ai.comm_obj_name);
