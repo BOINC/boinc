@@ -11,6 +11,7 @@ libboinc_api_a_SOURCES =			\
 	graphics_api.h				\
 	graphics_data.C				\
 	graphics_data.h				\
+	gutil.C					\
 	gutil.h					\
 	mac_app_opengl.h			\
 	mac_carbon_gl.h				\
