@@ -11,7 +11,7 @@ if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content']))
 	$user = get_logged_in_user(true, '../');
 
 	$threadID = createThread($_GET['id'], $user->id, $_POST['title'], $_POST['content']);
-  
+
 	header('Location: thread.php?id=' . $threadID);
 }
 
@@ -29,9 +29,9 @@ $logged_in_user = get_logged_in_user(true, '../');
 // TODO: Write a function to do this.
 
 if ($category->is_helpdesk) {
-	page_head('Help Desk', $logged_in_user, NULL, '../style.css');
+	page_head('Help Desk', $logged_in_user);
 } else {
-	page_head('Forum', $logged_in_user, NULL, '../style.css');
+	page_head('Forum', $logged_in_user);
 }
 
 show_forum_title($forum, NULL, $category->is_helpdesk);
@@ -43,13 +43,13 @@ if ($category->is_helpdesk) {
 echo "<form action=\"post.php?id=", $_GET['id'], "\" method=\"POST\">";
 
 if ($category->is_helpdesk) {
-	$cell = "Post a New Question";	
+	$cell = "Post a New Question";
 } else {
 	$cell = "Post a New Thread / Question";
 }
 start_forum_table(array($cell), array(NULL), 2);
 
-echo "<tr><td><b>Title</b>";
+echo "<tr><td class=fieldname><b>Title</b>";
 
 if ($category->is_helpdesk) {
 	echo "<p>Try to describe your question as completely (and concisely) as you can in the space provided.</p>A brief, clear summary will help others with the same question (or an answer to your question) find your post.<p></p>";
@@ -60,7 +60,7 @@ echo "
 				<td><input type=\"text\" name=\"title\" size=62></td>
 			</tr>
 			<tr>
-				<td style=\"vertical-align:top\"><b>Message content</b>
+				<td class=fieldname style=\"vertical-align:top\"><b>Message content</b>
 ";
 
 if ($category->is_helpdesk) {

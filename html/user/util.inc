@@ -22,7 +22,11 @@ You will need your account key to log in to the ".PROJECT." web site."
 //
 function init_session() {
     session_start();
-    return $_SESSION["authenticator"];
+    if (key_exists('authenticator', $_SESSION)) {
+        return $_SESSION["authenticator"];
+    } else {
+        return NULL;
+    }
 }
 
 // if not logged in, put up login form and exit
@@ -115,7 +119,11 @@ function page_head($title, $user=null, $fd=null, $styleSheet=null) {
     if ($user == NULL) {
         $user = get_logged_in_user(false);
     }
-    
+
+    if ($styleSheet == NULL) {
+        $styleSheet = URL_BASE . 'black.css';
+    }
+
     write_fd($fd, "<html><head><title>$title</title>\n");
     if ($styleSheet) {
         write_fd($fd, "<link rel=\"stylesheet\" type=\"text/css\" href=\"$styleSheet\">");
@@ -180,16 +188,16 @@ function end_table() {
 }
 
 function row1($x, $ncols=2) {
-    echo "<tr><td bgcolor=cccccc colspan=$ncols><b>$x</b></td></tr>\n";
+    echo "<tr><td class=heading bgcolor=cccccc colspan=$ncols><b>$x</b></td></tr>\n";
 }
 
 function row2($x, $y) {
     if ($x=="") $x="<br>";
     if ($y=="") $y="<br>";
-    echo "<tr><td bgcolor=eeeeee width=50% align=right valign=top>$x</td><td valign=top><b>$y</b></td></tr>\n";
+    echo "<tr><td class=fieldname bgcolor=eeeeee width=50% align=right valign=top>$x</td><td valign=top><b>$y</b></td></tr>\n";
 }
 function row2_init($x, $y) {
-    echo "<tr><td bgcolor=eeeeee width=50% align=right valign=top>$x</td><td valign=top><b>$y\n";
+    echo "<tr><td class=fieldname bgcolor=eeeeee width=50% align=right valign=top>$x</td><td valign=top><b>$y\n";
 }
 
 function row2_plain($x, $y) {

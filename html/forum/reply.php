@@ -7,7 +7,7 @@ require_once('subscribe.inc');
 
 if (!empty($_GET['thread']) && !empty($_POST['content'])) {
 	$_GET['thread'] = stripslashes(strip_tags($_GET['thread']));
-        
+
   if (!empty($_GET['post'])) {
     $parent_post = $_GET['post'];
   } else {
@@ -15,17 +15,14 @@ if (!empty($_GET['thread']) && !empty($_POST['content'])) {
   }
 
 	$user = get_logged_in_user(true, '../');
-	
+
 	replyToThread($_GET['thread'], $user->id, $_POST['content'], $parent_post);
 	notify_subscribers($_GET['thread']);
-        
+
 	header('Location: thread.php?id='.$_GET['thread']);
 }
 
 $logged_in_user = get_logged_in_user(true, '../');
-
-//if (empty($_SESSION['authenticator']))
-//    get_logged_in_user(true, '../');
 
 if (empty($_GET['thread'])) {
 	// TODO: Standard error page.
@@ -50,9 +47,9 @@ $forum = getForum($thread->forum);
 
 // TODO: Write a function for this.
 if ($helpdesk) {
-	page_head('Help Desk', $logged_in_user, NULL, '../style.css');
-} else {	
-	page_head('Forum', $logged_in_user, NULL, '../style.css');
+	page_head('Help Desk', $logged_in_user);
+} else {
+	page_head('Forum', $logged_in_user);
 }
 
 show_forum_title($forum, $thread, $helpdesk);
@@ -70,9 +67,9 @@ page_tail();
 
 function show_message_row($thread, $post=NULL) {
     global $logged_in_user;
-    
+
     echo "
-    <tr class = \"row1\" style=\"vertical-align:top\">
+    <tr class=\"message\" style=\"vertical-align:top\">
         <td>
         <a name=\"input\"></a>
         <p style=\"font-weight:bold\">
@@ -80,16 +77,16 @@ function show_message_row($thread, $post=NULL) {
 
     if ($logged_in_user->has_profile) {
         echo "<a href=\"../view_profile.php?userid=", $logged_in_user->id, "\">", $logged_in_user->name, "</a>";
-    } else { 
+    } else {
         echo $logged_in_user->name;
     }
-    
+
     echo "
 </p>
 <p style=\"font-size:8pt\">
 Joined: ", date('M j, Y', $logged_in_user->create_time), "
 </p>
-</td>	
+</td>
 <td>
 	<p style=\"font-size:8pt\">Your Message";
     if ($post) echo " in response to <a href=#$post->id>Message ID $post->id</a>";
@@ -99,10 +96,10 @@ Joined: ", date('M j, Y', $logged_in_user->create_time), "
     if ($post) {
         echo "&post=", $post->id;
     }
-    
+
     echo "' method=\"post\">
 	    <textarea name=\"content\" rows=\"18\" cols=\"80\">";
-    if ($post) echo quote_text($post->content, 80);
+    if ($post) echo quote_text(stripslashes($post->content), 80);
     echo "</textarea><p>
 	    <input type=\"submit\" value=\"Post reply\"></p>
 	</form>
@@ -113,30 +110,30 @@ Joined: ", date('M j, Y', $logged_in_user->create_time), "
 
 function quote_text($text, $cols) {
     $quoteChar = ">";
-        
+
     $lines = explode("\n", $text);
-    
+
     $lineChars = strlen($quoteChar);
     $final = $quoteChar;
-    
+
     for ($i = 0; $i < count($lines); $i++) {
         $words = explode(" ", $lines[$i]);
-        
-        for ($j = 0; $j < count($words); $j++) {            
+
+        for ($j = 0; $j < count($words); $j++) {
             $wordLen = strlen($words[$j]);
-        
+
             if (($lineChars + $wordLen) >= $cols) {
                 $final = $final . "\n" . $quoteChar;
                 $lineChars = strlen($quoteChar);
             }
-            $final = $final . " " . $words[$j]; 
-            $lineChars += $wordLen + 1;    
+            $final = $final . " " . $words[$j];
+            $lineChars += $wordLen + 1;
         }
-        
+
         $final = $final . "\n" . $quoteChar;
         $lineChars = strlen($quoteChar);
     }
-    
+
     return $final;
 }
 ?>

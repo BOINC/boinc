@@ -21,7 +21,7 @@ if ($_POST['submit']) {
 
 $logged_in_user = get_logged_in_user();
 
-page_head('Forum', $logged_in_user, NULL, '../style.css');
+page_head('Forum', $logged_in_user, NULL, 'forum.css');
 
 if (!empty($_GET['id'])) {
 	$post = getPost($_GET['id']);

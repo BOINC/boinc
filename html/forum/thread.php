@@ -3,7 +3,6 @@
 require_once('forum.inc');
 require_once('../util.inc');
 
-
 /* sanitize variable */
 if (empty($_GET['id'])) {
 	// TODO: Standard error page
@@ -30,10 +29,10 @@ $logged_in_user = get_logged_in_user(false);
 
 // TODO: Make these more specific.
 if ($category->is_helpdesk) {
-	page_head('Help Desk', $logged_in_user, NULL, '../style.css');
+	page_head('Help Desk', $logged_in_user);
 	$sort_style = 'rating-high';
 } else {
-	page_head('Forum', $logged_in_user, NULL, '../style.css');
+	page_head('Forum', $logged_in_user);
 }
 
 // TODO: Constant for default sort style and filter values.
@@ -50,6 +49,8 @@ if ($logged_in_user) {
     }
 }
 
+// TODO: Include this in show_forum_title?
+
 echo "
 <form action=\"thread.php\" method=\"get\">
 	<input type=\"hidden\" name=\"id\" value=", $thread->id, ">
@@ -60,10 +61,10 @@ echo "
 
 show_forum_title($forum, $thread, $category->is_helpdesk);
 
-$link = "<a href=reply.php?thread=" . $thread->id; 
-if ($category->is_helpdesk) { 
-	$link = $link . "&helpdesk=1#input>Answer this question"; 
-} else { 
+$link = "<a href=reply.php?thread=" . $thread->id;
+if ($category->is_helpdesk) {
+	$link = $link . "&helpdesk=1#input>Answer this question";
+} else {
 	$link = $link . "#input>Reply to this thread";
 }
 
@@ -85,7 +86,7 @@ if ($is_subscribed) {
 }
 
 echo "</td>";
-			
+
 if (!$category->is_helpdesk) {
 		echo "<td align=\"right\" style=\"border:0px\">Sort / Filter ";
 		show_combo_from_array("sort", $thread_sort_styles, $sort_style);
@@ -107,10 +108,10 @@ end_forum_table();
 
 echo "<p>";
 
-$link = "<a href=reply.php?thread=" . $thread->id; 
-if ($category->is_helpdesk) { 
-	$link = $link . "&helpdesk=1#input>Answer this question"; 
-} else { 
+$link = "<a href=reply.php?thread=" . $thread->id;
+if ($category->is_helpdesk) {
+	$link = $link . "&helpdesk=1#input>Answer this question";
+} else {
 	$link = $link . "#input>Reply to this thread";
 }
 

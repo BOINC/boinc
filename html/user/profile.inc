@@ -344,36 +344,36 @@ Your profile was successfully entered into our database.<br><br>
 
 function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=null) {
 
-    write_fd($descriptor, "<table border=1 cellpadding=5>\n");
+    write_fd($descriptor, "<table class=bordered border=1 cellpadding=5>\n");
 
     $rows = ceil($numToDisplay / $cols);
     $count = $offset;
     $numMembers = count($members);
-    
+
     for ($row = 0; $row < $rows; $row++) {
         if ($count >= $numMembers) {
             break;
         }
-        
+
         write_fd($descriptor, "<tr>\n");
-        
+
         for ($col = 0; $col < $cols; $col++) {
             if ($count < $numMembers) {
-                write_fd($descriptor, "<td width=7% height=64><center>");
-                
+                write_fd($descriptor, "<td class=bordered width=7% height=64><center>");
+
                 // Only link an image if the user has uploaded one.;
                 $sql = "SELECT * FROM profile WHERE userid = " . $members[$count];
                 $result = mysql_query($sql);
                 $profile = mysql_fetch_assoc($result);
-                
+
                 if ($profile['has_picture']) {
                     write_fd($descriptor, "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . URL_BASE . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>");
-                    
+
                 } else {
                     write_fd($descriptor, "&nbsp;");
                 }
-                
-                write_fd($descriptor, "</center></td><td width=33% height=64>\n". get_profile_summary($profile). "</td>");
+
+                write_fd($descriptor, "</center></td><td class=bordered width=33% height=64>\n". get_profile_summary($profile). "</td>");
                 $count++;
             } else {
                 write_fd($descriptor, "<td width=7% height=64></td><td width=33% height=64></td>");
