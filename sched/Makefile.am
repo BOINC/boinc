@@ -22,7 +22,7 @@ LIB_SCHED = libsched.a
 libsched_a_SOURCES =				\
         sched_shmem.C				\
         sched_util.C				\
-        config.C				\
+        sched_config.C				\
 	sched_messages.C			\
 	../db/boinc_db.C			\
 	../db/db_base.C			\

@@ -44,7 +44,7 @@ using namespace std;
 #define PIDFILE                 "transitioner.pid"
 
 int startup_time;
-CONFIG config;
+SCHED_CONFIG config;
 R_RSA_PRIVATE_KEY key;
 
 void handle_wu(DB_WORKUNIT& wu) {
@@ -333,7 +333,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = config.parse_file();
+    retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "can't read config file\n");
         exit(1);

@@ -56,7 +56,7 @@ using namespace std;
 extern int check_set(vector<RESULT>&, int& canonical, double& credit);
 extern int check_pair(RESULT const&, RESULT const&, bool&);
 
-CONFIG config;
+SCHED_CONFIG config;
 char app_name[256];
 
 // here when a result has been validated;
@@ -371,7 +371,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = config.parse_file();
+    retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
         exit(1);

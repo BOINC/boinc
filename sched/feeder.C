@@ -64,12 +64,11 @@
 #define LOCKFILE                "feeder.out"
 #define PIDFILE                 "feeder.pid"
 
-CONFIG config;
+SCHED_CONFIG config;
 
 SCHED_SHMEM* ssp;
 
-void cleanup_shmem()
-{
+void cleanup_shmem() {
     detach_shmem((void*)ssp);
     destroy_shmem(config.shmem_key);
 }
@@ -222,7 +221,7 @@ int main(int argc, char** argv) {
 
     unlink(REREAD_DB_FILENAME);
 
-    retval = config.parse_file();
+    retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "can't parse config file\n");
         exit(1);

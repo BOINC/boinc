@@ -34,7 +34,7 @@
 #define LOCKFILE "file_deleter.out"
 #define PIDFILE  "file_deleter.pid"
 
-CONFIG config;
+SCHED_CONFIG config;
 
 int wu_delete_files(WORKUNIT& wu) {
     char* p;
@@ -143,7 +143,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = config.parse_file();
+    retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
         exit(1);

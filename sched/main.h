@@ -21,4 +21,4 @@
 #include "sched_config.h"
 
 extern DB_PROJECT gproject;
-extern CONFIG config;
+extern SCHED_CONFIG config;

@@ -20,8 +20,13 @@
 // make_work
 //      -wu_name name
 //      -result_template filename
-//      [ -cushion n ]
-//      [ -max_wus n ]
+//      [ -cushion n ]      // make work if fewer than this many unsent results
+//      [ -max_wus n ]      // don't make work if more than this many WUs
+//      [ -min_quorum n ]
+//      [ -target_nresults n ]
+//      [ -max_error_results n ]
+//      [ -max_total_results n ]
+//      [ -max_success_results n ]
 //
 // Create WU and result records as needed to maintain a pool of work (for
 // testing purposes).
@@ -46,12 +51,12 @@
 #define PIDFILE             "make_work.pid"
 
 int max_wus = 0;
-int cushion = 30;
-// int min_quorum = 0;
-// int target_nresults = 0;
-// int max_error_results = 0;
-// int max_total_results = 0;
-// int max_success_results = 0;
+int cushion = 300;
+int min_quorum = 2;
+int target_nresults = 5;
+int max_error_results = 10;
+int max_total_results = 20;
+int max_success_results = 10;
 
 char wu_name[256], result_template_file[256];
 
@@ -97,8 +102,7 @@ inline const char* get_query_unsent_results()
     return query_unsent_results;
 }
 
-inline int count_results(const char* query="")
-{
+inline int count_results(const char* query="") {
     int n;
     DB_RESULT result;
     int retval = result.count(n, const_cast<char*>(query));
@@ -109,8 +113,7 @@ inline int count_results(const char* query="")
     return n;
 }
 
-inline int count_workunits(const char* query="")
-{
+inline int count_workunits(const char* query="") {
     int n;
     DB_WORKUNIT workunit;
     int retval = workunit.count(n, const_cast<char*>(query));
@@ -122,7 +125,7 @@ inline int count_workunits(const char* query="")
 }
 
 void make_work() {
-    CONFIG config;
+    SCHED_CONFIG config;
     char * p;
     int retval, start_time=time(0);
     char keypath[256], result_template[MAX_BLOB_SIZE];
@@ -133,7 +136,7 @@ void make_work() {
     DB_WORKUNIT wu;
     int seqno = 0;
 
-    retval = config.parse_file();
+    retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "can't read config file\n");
         exit(1);
@@ -213,11 +216,11 @@ void make_work() {
         sprintf(wu.name, "wu_%d_%d", start_time, seqno++);
         wu.id = 0;
         wu.create_time = time(0);
-        // wu.min_quorum = min_quorum;
-        // wu.target_nresults = target_nresults;
-        // wu.max_error_results = max_error_results;
-        // wu.max_total_results = max_total_results;
-        // wu.max_success_results = max_success_results;
+        wu.min_quorum = min_quorum;
+        wu.target_nresults = target_nresults;
+        wu.max_error_results = max_error_results;
+        wu.max_total_results = max_total_results;
+        wu.max_success_results = max_success_results;
         strcpy(wu.result_template, result_template);
         process_result_template_upload_url_only(wu.result_template, config.upload_url);
         wu.transition_time = time(0);
@@ -245,16 +248,16 @@ int main(int argc, char** argv) {
             strcpy(wu_name, argv[++i]);
         } else if (!strcmp(argv[i], "-max_wus")) {
             max_wus = atoi(argv[++i]);
-        // } else if (!strcmp(argv[i], "-min_quorum")) {
-        //     min_quorum = atoi(argv[++i]);
-        // } else if (!strcmp(argv[i], "-target_nresults")) {
-        //     target_nresults = atoi(argv[++i]);
-        // } else if (!strcmp(argv[i], "-max_error_results")) {
-        //     max_error_results = atoi(argv[++i]);
-        // } else if (!strcmp(argv[i], "-max_total_results")) {
-        //     max_total_results = atoi(argv[++i]);
-        // } else if (!strcmp(argv[i], "-max_success_results")) {
-        //     max_success_results = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-min_quorum")) {
+            min_quorum = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-target_nresults")) {
+            target_nresults = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-max_error_results")) {
+            max_error_results = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-max_total_results")) {
+            max_total_results = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-max_success_results")) {
+            max_success_results = atoi(argv[++i]);
         }
     }
 
@@ -262,11 +265,6 @@ int main(int argc, char** argv) {
 #define CHKARG_STR(v,m) CHKARG(strlen(v),m)
     CHKARG_STR(result_template_file , "need -result_template_file");
     CHKARG_STR(wu_name              , "need -wu_name");
-    // CHKARG(min_quorum, "need -min_quorum");
-    // CHKARG(target_nresults, "need -target_nresults");
-    // CHKARG(max_error_results, "need -max_error_results");
-    // CHKARG(max_total_results, "need -max_total_results");
-    // CHKARG(max_success_results, "need -max_success_results");
 #undef CHKARG
 #undef CHKARG_STR
 
@@ -282,9 +280,11 @@ int main(int argc, char** argv) {
     //     exit(1);
     // }
     // write_pid_file(PIDFILE);
-    // log_messages.printf(SchedMessages::NORMAL, "Starting: min_quorum=%d target_nresults=%d max_error_results=%d max_total_results=%d max_success_results=%d\n",
-    //                     min_quorum, target_nresults, max_error_results, max_total_results, max_success_results);
-    log_messages.printf(SchedMessages::NORMAL, "Starting");
+    log_messages.printf(
+        SchedMessages::NORMAL,
+        "Starting: min_quorum=%d target_nresults=%d max_error_results=%d max_total_results=%d max_success_results=%d\n",
+        min_quorum, target_nresults, max_error_results, max_total_results, max_success_results
+    );
     install_sigint_handler();
 
     srand48(getpid() + time(0));

@@ -35,7 +35,7 @@
 #include "sched_util.h"
 #include "crypt.h"
 
-CONFIG config;
+SCHED_CONFIG config;
 
 #define ERR_TRANSIENT   true
 #define ERR_PERMANENT   false
@@ -340,7 +340,7 @@ int main() {
 
     log_messages.set_debug_level(DEBUG_LEVEL);
 
-    retval = config.parse_file();
+    retval = config.parse_file("..");
     if (retval) {
         return_error(ERR_TRANSIENT, "can't read config file");
         exit(1);

@@ -22,23 +22,23 @@
 //  -wu_name name
 //  -wu_template filename
 //  -result_template filename
-//  -db_name x
-//  -db_passwd x
-//  -upload_url x
-//  -download_url x
-//  -download_dir x
+//  [ -db_name x ]          // read the following from config.xml if available
+//  [ -db_passwd x ]
+//  [ -upload_url x ]
+//  [ -download_url x ]
+//  [ -download_dir x ]
+//  [ -keyfile path ]
 //  -rsc_fpops n
 //  -rsc_iops n
 //  -rsc_memory n
 //  -rsc_disk n
-//  -keyfile path
 //  -delay_bound x
-//  -min_quorum x
-//  -target_nresults x
-//  -max_error_results x
-//  -max_total_results x
-//  -max_success_results x
-//  -sequence n
+//  [ -min_quorum x ]
+//  [ -target_nresults x ]
+//  [ -max_error_results x ]
+//  [ -max_total_results x ]
+//  [ -max_success_results x ]
+//  [ -sequence n ]
 //  infile1 infile2 ...
 //
 // Create a workunit and results.
@@ -57,6 +57,7 @@
 #include "boinc_db.h"
 #include "crypt.h"
 #include "backend_lib.h"
+#include "sched_config.h"
 
 int main(int argc, char** argv) {
     DB_APP app;
@@ -66,20 +67,39 @@ int main(int argc, char** argv) {
     char wu_template_file[256], result_template_file[256];
     char keyfile[256];
     char** infiles = NULL;
-    int i, ninfiles, redundancy, sequence=0;
+    int i, ninfiles, sequence=0;
     R_RSA_PRIVATE_KEY key;
     char download_dir[256], db_name[256], db_passwd[256];
     char upload_url[256], download_url[256];
     char buf[256];
+    SCHED_CONFIG config;
 
     strcpy(result_template_file, "");
     strcpy(app.name, "");
     strcpy(db_passwd, "");
     strcpy(keyfile, "");
-    redundancy = 1;
     i = 1;
     ninfiles = 0;
     wu.clear();
+
+    wu.min_quorum = 2;
+    wu.target_nresults = 5;
+    wu.max_error_results = 10;
+    wu.max_total_results = 20;
+    wu.max_success_results = 10;
+
+    retval = config.parse_file();
+    if (retval) {
+        printf("No configure file found\n");
+    } else {
+        strcpy(db_name, config.db_name);
+        strcpy(db_passwd, config.db_passwd);
+        strcpy(download_url, config.download_url);
+        strcpy(download_dir, config.download_dir);
+        strcpy(upload_url, config.upload_url);
+        sprintf(keyfile, "%s/upload_private", config.key_dir);
+    }
+
     while (i < argc) {
         if (!strcmp(argv[i], "-appname")) {
             strcpy(app.name, argv[++i]);

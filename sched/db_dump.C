@@ -455,7 +455,7 @@ int tables_file() {
 }
 
 int main(int argc, char** argv) {
-    CONFIG config;
+    SCHED_CONFIG config;
     int retval, i;
     char dir[256];
 
@@ -493,7 +493,7 @@ int main(int argc, char** argv) {
     }
     log_messages.printf(SchedMessages::NORMAL, "Starting\n");
 
-    retval = config.parse_file();
+    retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SchedMessages::NORMAL, "Can't parse config file\n");
         exit(1);

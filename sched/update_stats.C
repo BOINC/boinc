@@ -117,7 +117,7 @@ int update_teams() {
 }
 
 int main(int argc, char** argv) {
-    CONFIG config;
+    SCHED_CONFIG config;
     int retval, i;
     bool do_update_teams = false, do_update_users = false;
     bool do_update_hosts = false, asynch = false;
@@ -155,7 +155,7 @@ int main(int argc, char** argv) {
     log_messages.printf(SchedMessages::NORMAL, "Starting\n");
 
 
-    retval = config.parse_file();
+    retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
         exit(1);

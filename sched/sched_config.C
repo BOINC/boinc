@@ -27,12 +27,12 @@
 
 #include "sched_config.h"
 
-const char* CONFIG_FILE = "../config.xml";
+const char* CONFIG_FILE = "config.xml";
 
-int CONFIG::parse(FILE* in) {
+int SCHED_CONFIG::parse(FILE* in) {
     char buf[256];
 
-    memset(this, 0, sizeof(CONFIG));
+    memset(this, 0, sizeof(SCHED_CONFIG));
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</config>")) return 0;
         else if (parse_str(buf, "<db_name>", db_name, sizeof(db_name))) continue;
@@ -48,10 +48,15 @@ int CONFIG::parse(FILE* in) {
     return ERR_XML_PARSE;
 }
 
-int CONFIG::parse_file() {
+int SCHED_CONFIG::parse_file(char* dir) {
     FILE* f;
+    char path[256];
+    int retval;
 
-    f = fopen(CONFIG_FILE, "r");
+    sprintf(path, "%s/%s", dir, CONFIG_FILE);
+    f = fopen(path, "r");
     if (!f) return ERR_FOPEN;
-    return parse(f);
+    retval = parse(f);
+    fclose(f);
+    return retval;
 }

@@ -33,7 +33,7 @@
 #define LOCKFILE "assimilator.out"
 #define PIDFILE  "assimilator.pid"
 
-CONFIG config;
+SCHED_CONFIG config;
 
 // assimilate all WUs that need it
 // return nonzero if did anything
@@ -94,7 +94,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = config.parse_file();
+    retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
         exit(1);

@@ -5981,3 +5981,19 @@ David  Sept 1 2003
         client_state.C
     doc/
         client.php
+
+David Sept 2 2003
+    - changed tools (create_work, add) to use config.xml if it's present
+        (reduces number of command-line args)
+    - renamed config.h to sched_config.h
+    - renamed tools/add to add.py (to avoid confusion with binary)
+
+    sched/
+        Makefile.am
+        sched_config.h (renamed from config.h)
+        *.C
+    tools/
+        Makefile.am
+        add.py (renamed from add)
+        add.C
+        create_work.C

@@ -23,7 +23,7 @@
 #include "parse.h"
 #include <cassert>
 
-extern CONFIG config;
+extern SCHED_CONFIG config;
 
 // get the name of a result's (first) output file
 //

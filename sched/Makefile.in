@@ -158,6 +158,7 @@ AM_CPPFLAGS = \
         -I$(top_srcdir)/RSAEuro/source		\
         -I$(top_srcdir)/client			\
         -I$(top_srcdir)/tools			\
+        -I$(top_srcdir)/sched			\
         $(MYSQL_CFLAGS)				\
         -include $(top_builddir)/config.h
 
@@ -187,7 +188,7 @@ LIB_SCHED = libsched.a
 libsched_a_SOURCES = \
         sched_shmem.C				\
         sched_util.C				\
-        config.C				\
+        sched_config.C				\
 	sched_messages.C			\
 	../db/boinc_db.C			\
 	../db/db_base.C			\
@@ -272,9 +273,9 @@ LIBRARIES = $(noinst_LIBRARIES)
 libsched_a_AR = $(AR) cru
 libsched_a_LIBADD =
 am_libsched_a_OBJECTS = sched_shmem.$(OBJEXT) sched_util.$(OBJEXT) \
-	config.$(OBJEXT) sched_messages.$(OBJEXT) boinc_db.$(OBJEXT) \
-	db_base.$(OBJEXT) util.$(OBJEXT) crypt.$(OBJEXT) \
-	parse.$(OBJEXT) shmem.$(OBJEXT) md5.$(OBJEXT) \
+	sched_config.$(OBJEXT) sched_messages.$(OBJEXT) \
+	boinc_db.$(OBJEXT) db_base.$(OBJEXT) util.$(OBJEXT) \
+	crypt.$(OBJEXT) parse.$(OBJEXT) shmem.$(OBJEXT) md5.$(OBJEXT) \
 	md5_file.$(OBJEXT) messages.$(OBJEXT) \
 	process_result_template.$(OBJEXT) backend_lib.$(OBJEXT)
 libsched_a_OBJECTS = $(am_libsched_a_OBJECTS)
@@ -349,8 +350,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/assimilate_handler.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/assimilator.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/backend_lib.Po ./$(DEPDIR)/boinc_db.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/config.Po ./$(DEPDIR)/crypt.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/db_base.Po ./$(DEPDIR)/db_dump.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/crypt.Po ./$(DEPDIR)/db_base.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/db_dump.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/fcgi-handle_request.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/fcgi-main.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/fcgi-server_types.Po \
@@ -361,6 +362,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/messages.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/parse.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/process_result_template.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sched_config.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_messages.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_shmem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_util.Po \
@@ -496,7 +498,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/assimilator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/backend_lib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_db.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/config.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/db_base.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/db_dump.Po@am__quote@
@@ -514,6 +515,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/messages.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/process_result_template.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_config.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_messages.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_util.Po@am__quote@

@@ -51,7 +51,7 @@ static const char* STDERR_FILENAME = "../log/cgi.log";
 bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 
 DB_PROJECT gproject;
-CONFIG config;
+SCHED_CONFIG config;
 
 int main() {
     FILE* fin, *fout;
@@ -70,7 +70,7 @@ int main() {
 
     log_messages.set_debug_level(DEBUG_LEVEL);
 
-    retval = config.parse_file();
+    retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
         exit(1);

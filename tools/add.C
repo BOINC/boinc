@@ -49,6 +49,7 @@
 #include <time.h>
 
 #include "boinc_db.h"
+#include "sched_config.h"
 #include "backend_lib.h"
 #include "md5_file.h"
 #include "crypt.h"
@@ -338,6 +339,18 @@ void add_user() {
 
 int main(int argc, char** argv) {
     int i, retval;
+    SCHED_CONFIG config;
+
+    retval = config.parse_file();
+    if (retval) {
+        printf("no config file found\n");
+    } else {
+        strcpy(db_name, config.db_name);
+        strcpy(db_passwd, config.db_passwd);
+        strcpy(download_url, config.download_url);
+        strcpy(download_dir, config.download_dir);
+        sprintf(code_sign_keyfile, "%s/code_sign_private", config.key_dir);
+    }
 
     for (i=2; i<argc; i++) {
     next_arg:
@@ -407,7 +420,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
     if (!strcmp(argv[1], "project")) {
-	add_project();
+        add_project();
     } else if (!strcmp(argv[1], "app")) {
         add_app();
     } else if (!strcmp(argv[1], "platform")) {

@@ -22,36 +22,35 @@
 // TODO: use md5 hash
 
 // read file into memory
-int init_result_trivial(RESULT const& result, void*& data)
-{
+int init_result_trivial(RESULT const& result, void*& data) {
     return 0;
 }
 
-int check_pair_initialized_trivial(RESULT const& /*r1*/, void* /*data1*/,
-                                   RESULT const& /*r2*/, void* /*data2*/,
-                                   bool& match)
-{
+int check_pair_initialized_trivial(
+    RESULT const& /*r1*/, void* /*data1*/,
+    RESULT const& /*r2*/, void* /*data2*/,
+    bool& match
+) {
     match = true;
     return 0;
 }
 
-int cleanup_result_trivial(RESULT const& /*result*/, void* /*data*/)
-{
+int cleanup_result_trivial(RESULT const& /*result*/, void* /*data*/) {
     return 0;
 }
 
 // Always grant credit to everybody
 //
-int check_set(vector<RESULT>& results, int& canonicalid, double& credit)
-{
-    return generic_check_set_majority(results, canonicalid, credit,
-                                      init_result_trivial,
-                                      check_pair_initialized_trivial,
-                                      cleanup_result_trivial);
+int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
+    return generic_check_set_majority(
+        results, canonicalid, credit,
+        init_result_trivial,
+        check_pair_initialized_trivial,
+        cleanup_result_trivial
+    );
 }
 
-int check_pair(RESULT const& r1, RESULT const& r2, bool& match)
-{
+int check_pair(RESULT const& r1, RESULT const& r2, bool& match) {
     // return generic_check_pair(r1, r2, match,
     //                           init_result_trivial,
     //                           check_pair_initialized_trivial,

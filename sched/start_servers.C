@@ -26,7 +26,7 @@
 #include "sched_util.h"
 
 int main() {
-    CONFIG config;
+    SCHED_CONFIG config;
     int i, retval;
     char* p;
 

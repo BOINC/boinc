@@ -158,6 +158,7 @@ AM_CPPFLAGS = \
         -I$(top_srcdir)/RSAEuro/source		\
         -I$(top_srcdir)/client			\
         -I$(top_srcdir)/tools			\
+        -I$(top_srcdir)/sched			\
         $(MYSQL_CFLAGS)				\
         -include $(top_builddir)/config.h
 
@@ -173,34 +174,36 @@ EXTRA_DIST = make_project
 
 # TODO: use libboinc for these:
 create_work_SOURCES = \
-	create_work.C				\
-        backend_lib.C				\
-        process_result_template.C		\
-        ../lib/md5_file.C			\
-        ../lib/md5.c				\
-        ../lib/parse.C				\
-        ../lib/util.C				\
-	../db/boinc_db.C			\
-	../db/db_base.C			\
-        ../lib/crypt.C				\
-	backend_lib.h
+    create_work.C               \
+    backend_lib.C               \
+    process_result_template.C   \
+    ../lib/md5_file.C           \
+    ../lib/md5.c                \
+    ../lib/parse.C              \
+    ../lib/util.C               \
+    ../db/boinc_db.C            \
+    ../db/db_base.C             \
+    ../lib/crypt.C              \
+    ../sched/sched_config.C     \
+    backend_lib.h
 
 
 create_work_DEPENDENCIES = $(LIBRSA)
 create_work_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 
 add_SOURCES = \
-	add.C					\
-        backend_lib.C				\
-        process_result_template.C		\
-        ../lib/md5_file.C			\
-        ../lib/md5.c				\
-        ../lib/parse.C				\
-        ../lib/util.C				\
-	../db/boinc_db.C			\
-	../db/db_base.C			\
-        ../lib/crypt.C				\
-	backend_lib.h
+    add.C                       \
+    backend_lib.C               \
+    process_result_template.C   \
+    ../lib/md5_file.C           \
+    ../lib/md5.c                \
+    ../lib/parse.C              \
+    ../lib/util.C               \
+    ../db/boinc_db.C            \
+    ../db/db_base.C             \
+    ../lib/crypt.C              \
+    ../sched/sched_config.C     \
+    backend_lib.h
 
 
 add_DEPENDENCIES = $(LIBRSA)
@@ -217,7 +220,7 @@ PROGRAMS = $(bin_PROGRAMS)
 am_add_OBJECTS = add.$(OBJEXT) backend_lib.$(OBJEXT) \
 	process_result_template.$(OBJEXT) md5_file.$(OBJEXT) \
 	md5.$(OBJEXT) parse.$(OBJEXT) util.$(OBJEXT) boinc_db.$(OBJEXT) \
-	db_base.$(OBJEXT) crypt.$(OBJEXT)
+	db_base.$(OBJEXT) crypt.$(OBJEXT) sched_config.$(OBJEXT)
 add_OBJECTS = $(am_add_OBJECTS)
 add_LDFLAGS =
 am_country_select_OBJECTS = country_select.$(OBJEXT) countries.$(OBJEXT)
@@ -228,7 +231,7 @@ country_select_LDFLAGS =
 am_create_work_OBJECTS = create_work.$(OBJEXT) backend_lib.$(OBJEXT) \
 	process_result_template.$(OBJEXT) md5_file.$(OBJEXT) \
 	md5.$(OBJEXT) parse.$(OBJEXT) util.$(OBJEXT) boinc_db.$(OBJEXT) \
-	db_base.$(OBJEXT) crypt.$(OBJEXT)
+	db_base.$(OBJEXT) crypt.$(OBJEXT) sched_config.$(OBJEXT)
 create_work_OBJECTS = $(am_create_work_OBJECTS)
 create_work_LDFLAGS =
 
@@ -242,7 +245,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/db_base.Po ./$(DEPDIR)/md5.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/parse.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/process_result_template.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/util.Po
+@AMDEP_TRUE@	./$(DEPDIR)/sched_config.Po ./$(DEPDIR)/util.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -297,6 +300,7 @@ util.$(OBJEXT): ../lib/util.C
 boinc_db.$(OBJEXT): ../db/boinc_db.C
 db_base.$(OBJEXT): ../db/db_base.C
 crypt.$(OBJEXT): ../lib/crypt.C
+sched_config.$(OBJEXT): ../sched/sched_config.C
 add$(EXEEXT): $(add_OBJECTS) $(add_DEPENDENCIES) 
 	@rm -f add$(EXEEXT)
 	$(CXXLINK) $(add_LDFLAGS) $(add_OBJECTS) $(add_LDADD) $(LIBS)
@@ -326,6 +330,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5_file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/process_result_template.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_config.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@
 
 distclean-depend:
@@ -484,6 +489,28 @@ crypt.obj: ../lib/crypt.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/crypt.Po' tmpdepfile='$(DEPDIR)/crypt.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o crypt.obj `if test -f '../lib/crypt.C'; then $(CYGPATH_W) '../lib/crypt.C'; else $(CYGPATH_W) '$(srcdir)/../lib/crypt.C'`
+
+sched_config.o: ../sched/sched_config.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sched_config.o -MD -MP -MF "$(DEPDIR)/sched_config.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o sched_config.o `test -f '../sched/sched_config.C' || echo '$(srcdir)/'`../sched/sched_config.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/sched_config.Tpo" "$(DEPDIR)/sched_config.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/sched_config.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../sched/sched_config.C' object='sched_config.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/sched_config.Po' tmpdepfile='$(DEPDIR)/sched_config.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sched_config.o `test -f '../sched/sched_config.C' || echo '$(srcdir)/'`../sched/sched_config.C
+
+sched_config.obj: ../sched/sched_config.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT sched_config.obj -MD -MP -MF "$(DEPDIR)/sched_config.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o sched_config.obj `if test -f '../sched/sched_config.C'; then $(CYGPATH_W) '../sched/sched_config.C'; else $(CYGPATH_W) '$(srcdir)/../sched/sched_config.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/sched_config.Tpo" "$(DEPDIR)/sched_config.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/sched_config.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../sched/sched_config.C' object='sched_config.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/sched_config.Po' tmpdepfile='$(DEPDIR)/sched_config.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o sched_config.obj `if test -f '../sched/sched_config.C'; then $(CYGPATH_W) '../sched/sched_config.C'; else $(CYGPATH_W) '$(srcdir)/../sched/sched_config.C'`
 
 countries.o: ../lib/countries.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT countries.o -MD -MP -MF "$(DEPDIR)/countries.Tpo" \

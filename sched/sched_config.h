@@ -17,12 +17,12 @@
 // Contributor(s):
 //
 
-#ifndef _CONFIG_
-#define _CONFIG_
+#ifndef _SCHED_CONFIG_
+#define _SCHED_CONFIG_
 
 // parsed version of server configuration file
 //
-class CONFIG {
+class SCHED_CONFIG {
 public:
     char db_name[256];
     char db_passwd[256];
@@ -33,10 +33,9 @@ public:
     char upload_url[256];
     char upload_dir[256];
     char user_name[256];
-    // char* start_commands[20];
 
     int parse(FILE*);
-    int parse_file();
+    int parse_file(char* dir=".");
 };
 
 #endif
