@@ -211,13 +211,13 @@ void struct_to_str(void* vp, char* q, int type) {
     case TYPE_RESULT:
         rp = (RESULT*)vp;
         sprintf(q,
-            "id=%d, create_time=%d, workunitid=%d, state=%d, "
+            "id=%d, create_time=%d, workunitid=%d, server_state=%d, "
             "hostid=%d, report_deadline=%d, sent_time=%d, received_time=%d, "
             "name='%s', exit_status=%d, cpu_time=%f, "
             "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
             "batch=%d, project_state=%d, validate_state=%d, "
             "claimed_credit=%f, granted_credit=%f",
-            rp->id, rp->create_time, rp->workunitid, rp->state,
+            rp->id, rp->create_time, rp->workunitid, rp->server_state,
             rp->hostid, rp->report_deadline, rp->sent_time, rp->received_time,
             rp->name, rp->exit_status, rp->cpu_time,
             rp->xml_doc_in, rp->xml_doc_out, rp->stderr_out,
@@ -388,7 +388,7 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         rp->id = atoi(r[i++]);
         rp->create_time = atoi(r[i++]);
         rp->workunitid = atoi(r[i++]);
-        rp->state = atoi(r[i++]);
+        rp->server_state = atoi(r[i++]);
         rp->hostid = atoi(r[i++]);
         rp->report_deadline = atoi(r[i++]);
         rp->sent_time = atoi(r[i++]);
@@ -640,11 +640,11 @@ int db_result_lookup_name(RESULT& p) {
     return db_lookup(&p, TYPE_RESULT, buf);
 }
 
-int db_result_enum_state(RESULT& p, int limit) {
+int db_result_enum_server_state(RESULT& p, int limit) {
     static ENUM e;
     char buf[256];
 
-    if (!e.active) sprintf(buf, "where state=%d", p.state);
+    if (!e.active) sprintf(buf, "where server_state=%d", p.server_state);
     return db_enum(e, &p, TYPE_RESULT, buf, limit);
 }
 
@@ -656,10 +656,10 @@ int db_result_enum_wuid(RESULT& p) {
     return db_enum(e, &p, TYPE_RESULT, buf);
 }
 
-int db_result_count_state(int state, int& n) {
+int db_result_count_server_state(int state, int& n) {
     char buf[256];
 
-    sprintf(buf, " where state=%d", state);
+    sprintf(buf, " where server_state=%d", state);
     return db_count(&n, "*", TYPE_RESULT, buf);
 }
 

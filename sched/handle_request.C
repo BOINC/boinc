@@ -315,10 +315,10 @@ int handle_results(
         if (retval) {
             printf("can't find result %s\n", rp->name);
         } else {
-            if (result.state != RESULT_STATE_IN_PROGRESS) {
+            if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
                 fprintf(stderr,
-                    "got unexpected result for %s: state is %d\n",
-                    rp->name, result.state
+                    "got unexpected result for %s: server state is %d\n",
+                    rp->name, result.server_state
                 );
                 continue;
             }
@@ -338,9 +338,9 @@ int handle_results(
             result.exit_status = rp->exit_status;
             result.cpu_time = rp->cpu_time;
             if (rp->exit_status) {
-                result.state = RESULT_STATE_ERROR;
+                result.server_state = RESULT_SERVER_STATE_ERROR;
             } else {
-                result.state = RESULT_STATE_DONE;
+                result.server_state = RESULT_SERVER_STATE_DONE;
             }
             result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
             result.validate_state = VALIDATE_STATE_NEED_CHECK;
@@ -441,7 +441,7 @@ int send_work(
 
         seconds_to_fill -= (int)estimate_duration(wu, reply.host);
 
-        result.state = RESULT_STATE_IN_PROGRESS;
+        result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
         result.hostid = reply.host.id;
         result.sent_time = time(0);
         db_result_update(result);

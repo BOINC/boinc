@@ -150,7 +150,7 @@ void initialize_result(RESULT& result, WORKUNIT& wu) {
     result.id = 0;
     result.create_time = time(0);
     result.workunitid = wu.id;
-    result.state = RESULT_STATE_UNSENT;
+    result.server_state = RESULT_SERVER_STATE_UNSENT;
     result.hostid = 0;
     result.report_deadline = time(0) + wu.delay_bound;
     result.sent_time = 0;

@@ -20,10 +20,13 @@
 // crash and burn
 
 #include <stdio.h>
+#include <ctype.h>
 
 int main() {
-    int c, n=0;
-    fprintf(stderr, "APP: upper_case starting\n");
+  char * hello = (char *) 100;
+  int c, n=0;
+  fprintf(stderr, "APP: upper_case starting\n");
+  printf("%s",hello);
     while (1) {
         c = getchar();
         if (c == EOF) break;

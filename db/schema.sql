@@ -145,7 +145,7 @@ create table result (
     id              integer     not null auto_increment,
     create_time     integer     not null,
     workunitid      integer     not null,
-    state           integer     not null,
+    server_state    integer     not null,
     hostid          integer     not null,
     report_deadline integer     not null,
     sent_time       integer     not null,

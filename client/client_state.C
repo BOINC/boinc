@@ -293,7 +293,10 @@ bool CLIENT_STATE::do_something() {
         x = update_results();
         if (x) {action=true; print_log("update_results\n"); }
 
-        write_state_file_if_needed();
+        if(write_state_file_if_needed())
+	  {
+	     fprintf(stderr, "CLIENT_STATE::do_something(): could not write state file");
+	  }
     }
     if (!action) {
         time_stats.update(true, !activities_suspended);
@@ -857,6 +860,11 @@ bool CLIENT_STATE::update_results() {
                     action = true;
                 }
                 break;
+
+	    case RESULT_ERROR:
+	         rp->state = RESULT_READY_TO_ACK;
+		 action = true;
+
             case RESULT_READY_TO_ACK:
                 // The transition to SERVER_ACK is performed in
                 // handle_scheduler_reply()
@@ -935,6 +943,9 @@ void CLIENT_STATE::set_client_state_dirty(char* source) {
 // 
 int CLIENT_STATE::report_project_error( RESULT &res,int err_num, char *err_msg ) {
     char total_err[500];
+    unsigned int i;
+    FILE_INFO* fip;
+
     res.state = RESULT_READY_TO_ACK;
     scheduler_op->backoff(res.project,"");
     

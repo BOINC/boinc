@@ -93,7 +93,7 @@ void make_work() {
     nresults_left = 0;
     while (true) {
         fflush(stdout);
-        retval = db_result_count_state(RESULT_STATE_UNSENT, n);
+        retval = db_result_count_server_state(RESULT_SERVER_STATE_UNSENT, n);
         if (retval) {
             fprintf(stderr, "make_work: can't counts results\n");
             exit(1);

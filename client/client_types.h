@@ -204,6 +204,7 @@ struct WORKUNIT {
     // Files are uploaded, notify scheduling server
 #define RESULT_SERVER_ACK       4
     // Received ack from server, can delete result
+#define RESULT_ERROR            5
 
 struct RESULT {
     char name[256];
@@ -212,9 +213,9 @@ struct RESULT {
     vector<FILE_REF> output_files;
     bool is_active;         // an app is currently running for this
     double final_cpu_time;
-    int state;              // status of this result
+    int state;              // state of this result
     int exit_status;        // return value from the application
-    int signal; 
+    int signal;             //the signal caught by the active_task, makes sense only if active_task_state is PROCESS_SIGNALED
     int active_task_state; // the state of the active task corresponding to this result
     char stderr_out[STDERR_MAX_LEN];
     APP* app;

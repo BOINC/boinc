@@ -27,4 +27,4 @@ create index wu_retry on workunit(appid, retry_check_time);
 alter table result
     add unique(name);
 create index res_wuid on result(workunitid);
-create index ind_res_st on result(state);
+create index ind_res_st on result(server_state);

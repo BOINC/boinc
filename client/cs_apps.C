@@ -112,7 +112,7 @@ bool CLIENT_STATE::handle_running_apps() {
                 );
             }
             app_finished(*atp);
-            active_tasks.remove(atp);
+            active_tasks.remove(atp);	
             delete atp;
             set_client_state_dirty("handle_running_apps");
             action = true;
@@ -150,6 +150,7 @@ bool CLIENT_STATE::start_apps() {
     ACTIVE_TASK* atp;
     bool action = false;
     int open_slot;
+    int retval;
 
     for (i=0; i<results.size(); i++) {
 
@@ -177,7 +178,14 @@ bool CLIENT_STATE::start_apps() {
             atp = new ACTIVE_TASK;
             atp->slot = open_slot;
             atp->init(rp);
-            active_tasks.insert(atp);
+            retval = active_tasks.insert(atp);
+	    //couldn't start process
+	    if(retval)
+	      {
+		atp->state = PROCESS_COULDNT_START;
+		atp->result->active_task_state = PROCESS_COULDNT_START;
+		report_project_error(*(atp->result),0,"Couldn't start the app for this result.\n");
+	      }
             action = true;
             set_client_state_dirty("start_apps");
             app_started = time(0);

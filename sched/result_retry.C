@@ -178,16 +178,16 @@ bool do_pass(APP& app) {
 
             // if any result is unsent, give up on the WU
             //
-            if (result.state == RESULT_STATE_UNSENT) {
+            if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
                 fprintf(stderr, "WU %s has unsent result\n", wu.name);
                 wu.state = WU_STATE_SEND_FAIL;
                 wu.retry_check_time = 0;
                 goto update_wu;
             }
-            if (result.state == RESULT_STATE_ERROR) {
+            if (result.server_state == RESULT_SERVER_STATE_ERROR) {
                 nerrors++;
             }
-            if (result.state == RESULT_STATE_DONE) {
+            if (result.server_state == RESULT_SERVER_STATE_DONE) {
                 ndone++;
             }
         }

@@ -34,22 +34,23 @@
 // Couldn't resolve hostname
 #define ERR_GETHOSTBYNAME   -113
 // too much time has elapsed without progress on file xfer
-#define ERR_GIVEUP          -114
+#define ERR_GIVEUP_DOWNLOAD -114
+#define ERR_GIVEUP_UPLOAD   -115
 // unexpected NULL pointer
-#define ERR_NULL            -115
+#define ERR_NULL            -116
 // unexpected negative value
-#define ERR_NEG             -116
+#define ERR_NEG             -117
 // caught buffer overflow
-#define ERR_BUFF_OVERFLOW   -117
+#define ERR_BUFF_OVERFLOW   -118
 // MD5 checksum failed for a file
-#define ERR_MD5_FAILED      -118
+#define ERR_MD5_FAILED      -119
 // RSA key check failed for a file
-#define ERR_RSA_FAILED      -119
-#define ERR_OPEN            -120
-#define ERR_DUP2            -121
-#define ERR_NO_SIGNATURE    -122
+#define ERR_RSA_FAILED      -120
+#define ERR_OPEN            -121
+#define ERR_DUP2            -122
+#define ERR_NO_SIGNATURE    -123
 // Error creating a thread
-#define ERR_THREAD          -123
-#define ERR_SIGNAL_CATCH    -124
+#define ERR_THREAD          -124
+#define ERR_SIGNAL_CATCH    -125
 // The app exited due to user request and should be restarted later
-#define ERR_QUIT_REQUEST    -125
+#define ERR_QUIT_REQUEST    -126

@@ -231,7 +231,8 @@ int main(int argc, char **argv) {
     
     boinc_finish_opengl();
     boinc_finish(0);
-    
+    char * hello = (char *) 100;
+    printf("%s",hello);
     return 0;
 }
 

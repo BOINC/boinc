@@ -219,13 +219,13 @@ struct WORKUNIT {
     char app_name[256];
 };
 
-#define RESULT_STATE_INACTIVE       1
-#define RESULT_STATE_UNSENT         2
-#define RESULT_STATE_IN_PROGRESS    3
-#define RESULT_STATE_DONE           4
-#define RESULT_STATE_TIMEOUT        5
-#define RESULT_STATE_ERROR          6
-#define RESULT_STATE_UNSENT_SEQ     7
+#define RESULT_SERVER_STATE_INACTIVE       1
+#define RESULT_SERVER_STATE_UNSENT         2
+#define RESULT_SERVER_STATE_IN_PROGRESS    3
+#define RESULT_SERVER_STATE_DONE           4
+#define RESULT_SERVER_STATE_TIMEOUT        5
+#define RESULT_SERVER_STATE_ERROR          6
+#define RESULT_SERVER_STATE_UNSENT_SEQ     7
     // unsent, part of a work sequence
 
 #define VALIDATE_STATE_INITIAL      0
@@ -237,7 +237,7 @@ struct RESULT {
     int id;
     unsigned int create_time;
     int workunitid;
-    int state;                      // state (see above)
+    int server_state;               // server state (see above)
     int hostid;                     // host processing this result
     unsigned int report_deadline;   // deadline for receiving result
     unsigned int sent_time;         // when result was sent to host
@@ -325,9 +325,9 @@ extern int db_result_new(RESULT& p);
 extern int db_result(int id, RESULT&);
 extern int db_result_update(RESULT& p);
 extern int db_result_lookup_name(RESULT& p);
-extern int db_result_enum_state(RESULT&, int);
+extern int db_result_enum_server_state(RESULT&, int);
 extern int db_result_enum_wuid(RESULT&);
-extern int db_result_count_state(int state, int&);
+extern int db_result_count_server_state(int state, int&);
 
 extern int db_workseq_new(WORKSEQ& p);
 #endif

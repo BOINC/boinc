@@ -190,9 +190,12 @@ void PERS_FILE_XFER::handle_xfer_failure(unsigned int cur_time) {
     // See if it's time to give up on the persistent file xfer
     //
     if ((cur_time - first_request_time) > gstate.giveup_after) {
-        // Set the associated files status to a ERR_GIVEUP failure
-        fip->status = ERR_GIVEUP;
-        xfer_done = true;
+        // Set the associated files status to a ERR_GIVEUP_DOWNLOAD and ERR_GIVEUP_UPLOAD failure
+      if(is_upload)
+        fip->status = ERR_GIVEUP_UPLOAD;
+      else
+	fip->status = ERR_GIVEUP_DOWNLOAD;
+      xfer_done = true;
     }
     if (log_flags.file_xfer_debug) {
         printf("Error: transfer failure for %s: %d\n", fip->name, fip->status);

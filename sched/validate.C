@@ -182,7 +182,7 @@ bool do_validate_scan(APP& app, int min_quorum) {
             vector<RESULT> results;
             result.workunitid = wu.id;
             while (!db_result_enum_wuid(result)) {
-                if (result.state == RESULT_STATE_DONE) {
+                if (result.server_state == RESULT_SERVER_STATE_DONE) {
                     results.push_back(result);
                 }
             }
