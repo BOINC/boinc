@@ -152,7 +152,7 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
 }
 
 #ifdef _WIN32
-DWORD WINAPI CLIENT_STATE::win_cpu_benchmarks(LPVOID p) {
+DWORD WINAPI win_cpu_benchmarks(LPVOID p) {
     return cpu_benchmarks((BENCHMARK_DESC*)p);
 }
 #endif
@@ -194,8 +194,8 @@ void CLIENT_STATE::start_cpu_benchmarks() {
         } else {
             benchmark_descs[i].pid = pid;
         }
-    }
 #endif
+    }
 }
 
 // Returns true if CPU benchmarks should be run:

@@ -1496,7 +1496,7 @@ void CMainWindow::OnCommandRunRequestNever()
 
 void CMainWindow::OnCommandRunBenchmarks()
 {
-    gstate.fork_run_cpu_benchmarks();
+    gstate.start_cpu_benchmarks();
 }
 
 void CMainWindow::OnBenchmarksBegin()

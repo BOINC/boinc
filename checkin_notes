@@ -10639,6 +10639,8 @@ David  Mar 20 2004
         cs_prefs.C
         file_names.h
         gui_rpc_server.C
+		win/
+			wingui_mainwindow.cpp
     doc/
         various
     lib/
