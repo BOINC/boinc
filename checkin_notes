@@ -1845,3 +1845,16 @@ Eric    September 4, 2002
         uc_wu
         ucs_wu
 
+Eric   September 18, 2002
+    - Windows OpenGL based graphics added, graphics API updated
+    - Beginning of Mac Carbon based graphics added
+    - Uppercase application updated to use GL, GLUT graphics
+
+    apps/
+        upper_case.C
+    api/
+        boinc_api.C
+        boinc_api.h
+        graphics_api.C
+        graphics_api.h
+        windows_opengl.cpp

@@ -13,6 +13,20 @@ extern GRAPHICS_INFO gi;
 
 int boinc_init_opengl() {
 #ifdef BOINC_APP_GRAPHICS
+#ifdef _WIN32
+    DWORD threadId;
+    HANDLE hThread;
+
+    // Create the graphics thread, passing it the graphics info
+    hThread = CreateThread( NULL, 0, win_graphics_event_loop, &gi, CREATE_SUSPENDED, &threadId );
+
+    // Set it to idle priority
+    SetThreadPriority (hThread, THREAD_PRIORITY_HIGHEST);
+
+    // Start the graphics thread
+    ResumeThread( hThread );
+#endif
+
 #ifdef __APPLE_CC__
     OSErr     theErr = noErr;
     ThreadID    graphicsThreadID = 0;
@@ -31,7 +45,6 @@ int boinc_init_opengl() {
     SetThreadState( graphicsThreadID, kReadyThreadState, kNoThreadID );
     
     YieldToAnyThread();
-    
 #endif
 #endif
     
@@ -39,6 +52,7 @@ int boinc_init_opengl() {
 }
 
 int boinc_finish_opengl() {
+    return 0;
 }
 
 int write_graphics_file(FILE* f, GRAPHICS_INFO* gi) {

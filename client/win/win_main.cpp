@@ -21,7 +21,7 @@
 
 #include "win_net.h"
 
-#if 0
+#ifdef WIN_CLI
 extern int main(int argc, char** argv);
 
 int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode )

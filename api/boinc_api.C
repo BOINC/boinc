@@ -57,7 +57,7 @@ static bool ready_to_checkpoint = false;
 static bool this_process_active;
 
 #ifdef _WIN32
-DWORD WINAPI graphics_main( LPVOID duff );
+DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 #endif
 
 // read the INIT_DATA and FD_INIT files
@@ -102,24 +102,40 @@ int boinc_init() {
         fclose(f);
     }
 #else
-	strcpy(aid.app_preferences, "");
-	strcpy(aid.user_name, "John Smith");
-	strcpy(aid.team_name, "The A-Team");
+    strcpy(aid.app_preferences, "");
+    strcpy(aid.user_name, "John Smith");
+    strcpy(aid.team_name, "The A-Team");
     aid.wu_cpu_time = 1000;
     aid.total_cobblestones = 1000;
     aid.recent_avg_cobblestones = 500;
     aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
     aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
 
-	gi.graphics_mode = MODE_WINDOW;
-	gi.refresh_period = 0.1; // 1/10th of a second
-	gi.xsize = 640;
-	gi.ysize = 480;
+    gi.graphics_mode = MODE_WINDOW;
+    gi.refresh_period = 0.1; // 1/10th of a second
+    gi.xsize = 640;
+    gi.ysize = 480;
 #endif
     time_until_checkpoint = aid.checkpoint_period;
     time_until_fraction_done_update = aid.fraction_done_update_period;
     this_process_active = true;
     set_timer(timer_period);
+
+#ifdef BOINC_APP_GRAPHICS
+#ifdef _WIN32
+    DWORD threadId;
+    HANDLE hThread;
+
+    // Create the graphics thread, passing it the graphics info
+    hThread = CreateThread( NULL, 0, win_graphics_event_loop, &gi, CREATE_SUSPENDED, &threadId );
+
+    // Set it to idle priority
+    SetThreadPriority (hThread, THREAD_PRIORITY_HIGHEST);
+
+    // Start the graphics thread
+    ResumeThread( hThread );
+#endif
+#endif
 
     return 0;
 }
