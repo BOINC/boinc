@@ -11,8 +11,6 @@ int UtilInitOSVersion( void );
 #define SHOW_WIN_MSG		"BOINC_SHOW_MESSAGE"
 #define RUN_MUTEX			"BOINC_MUTEX"
 #define NET_ACTIVITY_MSG    "BOINC_NET_ACTIVITY"
-#define APP_SET_MSG			"BOINC_APP_SET"
-#define APP_GET_MSG			"BOINC_APP_GET"
 
 #define REG_BLANK_NAME		"Blank"
 #define REG_BLANK_TIME      "Blank Time"

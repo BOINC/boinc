@@ -1,8 +1,15 @@
 #include <stdio.h>
 
+#ifndef BOINC_GRAPHICS_API_H
+#define BOINC_GRAPHICS_API_H
+
+#define MODE_UNSUPPORTED        0
 #define MODE_NO_GRAPHICS        1
 #define MODE_WINDOW             2
 #define MODE_FULLSCREEN         3
+#define MODE_BLANKSCREEN        4
+
+extern char* xml_graphics_modes[5];
 
 struct GRAPHICS_INFO {
     int xsize;
@@ -33,4 +40,6 @@ extern void app_init_gl(void);
 #ifdef __cplusplus
 }
 #endif
+#endif
+
 #endif

@@ -98,4 +98,41 @@ int set_timer(double period);
 void setup_shared_mem();
 void cleanup_shared_mem();
 
+
+#define SHM_SEG_SIZE            1024
+#define NUM_SEGS            4
+#define CORE_APP_WORKER_SEG 0
+#define APP_CORE_WORKER_SEG 1
+#define CORE_APP_GFX_SEG    2
+#define APP_CORE_GFX_SEG    3
+
+/* Shared memory is arranged as follows:
+   4 1K segments
+   First byte of each segment indicates whether
+   segment contains unread data, remaining 1023
+   bytes contain data
+*/
+
+class APP_CLIENT_SHM {
+public:
+    char *shm;
+
+    bool pending_msg(int);    // returns true a message is waiting
+                              // in the specified segment
+	bool get_msg(char *,int);  // returns the message from the specified
+                              // segment and resets the message flag
+	bool send_msg(char *,int); // if there is not already a message in the segment,
+                              // writes specified message and sets message flag
+	void reset_msgs();        // resets all messages and clears their flags
+	void reset_msg(int);      // resets specified message and clears its flag
+};
+
+struct GFX_MSG_INTERFACE {
+    APP_CLIENT_SHM *app_client_shm;
+	int requestedSSMode, actualSSMode;
+	int requestedWinMode, actualWinMode;
+};
+
+typedef struct GFX_MSG_INTERFACE GFX_MSG_INTERFACE;
+
 #endif

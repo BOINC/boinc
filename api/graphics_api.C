@@ -58,6 +58,9 @@ HANDLE graphics_threadh=NULL;
 
 extern GRAPHICS_INFO gi;
 
+char* xml_graphics_modes[5] = {"<mode_unsupported>", "<mode_no_graphics>",
+	"<mode_window>", "<mode_fullscreen>", "<mode_blankscreen>"};
+
 int boinc_init_opengl() {
 #ifdef BOINC_APP_GRAPHICS
 #ifdef _WIN32
