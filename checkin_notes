@@ -23075,11 +23075,19 @@ Rom    20 Jan 2005
 
       NOTE: I need to talk to David about this a little bit, but
         I think it is doable.
+    - Bug Fix: Fix the screensaver load up problem where it was
+        taking 60 seconds before the first text was displayed.
+
+      NOTE: This reintroduces a bug where the screensaver slows to
+        a crawl when boinc isn't running in the background.  I
+        think I've figured out a solution to it, but I didn't get
+        the code written for this release.
 
     client/
          client_state.C
          cs_prefs.C
     client/win
          hostinfo_win.cpp
+         win_screensaver.cpp, .h
     win_build/installerv2/
          BOINC.ism
