@@ -617,10 +617,31 @@ function show_host($host) {
 
 function wu_error_mask_str($s) {
     $x = "";
-    if ($s & 1) $x = $x."Couldn't send result; ";
-    if ($s & 2) $x = $x."Too many errors (may have bug); ";
-    if ($s & 4) $x = $x."Too many results (may be nondeterministic)";
-    $x = $x."<br>";
+    if ($s & 1) {
+        $x = $x."Couldn't send result;<br>";
+        $s -= 1;
+    }
+    if ($s & 2) {
+        $x = $x."Too many errors (may have bug);<br>";
+        $s -= 2;
+    }
+    if ($s & 4) {
+        $x = $x."Too many results (may be nondeterministic)<br>";
+        $s -= 4;
+    }
+    if ($s & 8) {
+        $x = $x."Too many total results<br>";
+        $s -= 8;
+    }
+    if ($s & 16) {
+        $x = $x."WU cancelled<br>";
+        $s -= 16;
+    }
+    if ($s) {
+        $x = $x."Unrecognized Error: $s<br>";
+    }
+    if (strlen($s))
+        $x="<font color='ff3333'>".$x."</font>";
     return $x;
 }
 
@@ -647,6 +668,9 @@ function file_delete_state_str($s) {
 function show_workunit($wu) {
     $_GET = array('workunitid' => $wu->id);
     show_result_summary();
+
+    $currenttime=time();
+    echo "Current unix time is <b>$currenttime</b><br>"; 
 
     start_table();
     row("Created", time_str($wu->create_time));
