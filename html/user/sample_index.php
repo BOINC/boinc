@@ -49,9 +49,9 @@ function show_nav() {
 $stopped = project_is_stopped();
 
 echo "
-    <title>Project name here</title>
+    <title>".PROJECT."</title>
     <link rel=stylesheet type=text/css href=white.css>
-    <h1>Project name here</h1>
+    <h1>".PROJECT."</h1>
     <table cellpadding=8 cellspacing=4>
     <tr><td rowspan=2 valign=top width=40%>
 ";
