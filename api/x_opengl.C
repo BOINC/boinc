@@ -90,6 +90,7 @@ void onIdle(){
   double currentTime = dtime();
   
   if(userclose == 1){
+    fprintf(stderr, "userclose happened, now = 0");
     userclose = 0;
     set_mode(MODE_HIDE_GRAPHICS);
   }
@@ -101,21 +102,9 @@ void onIdle(){
 
 static void make_new_window(int mode){
 
-  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
-  
-  if (mode == MODE_FULLSCREEN){
-    win = glutCreateWindow(aid.app_name);
-    glutKeyboardFunc(keyboardD);
-    glutKeyboardUpFunc(keyboardU); 
-    glutMouseFunc(mouse_click);
-    glutMotionFunc(mouse_click_move);
-    glutDisplayFunc(timer_handler); 
-    glutIdleFunc(onIdle);
-    app_graphics_init();
-    glEnable(GL_DEPTH_TEST);  
-
-    glutFullScreen();
-  } else if(mode == MODE_WINDOW){
+  if(mode == MODE_WINDOW || mode == MODE_FULLSCREEN){
+    fprintf(stderr, "making a new window of mode = %d: xopen\n", mode); fflush(stderr);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
     glutInitWindowPosition(xpos, ypos);
     glutInitWindowSize(gi.xsize, gi.ysize); 
     boinc_get_init_data(aid);
@@ -132,11 +121,15 @@ static void make_new_window(int mode){
     
     app_graphics_init();
     glEnable(GL_DEPTH_TEST);  
+    
+    if(mode == MODE_FULLSCREEN)
+      glutFullScreen();
   }
 }
 
 void set_mode(int mode) {
 
+  fprintf(stderr,"in set_mode, mode= %d\n", mode); fflush(stderr);
   if(current_graphics_mode == MODE_HIDE_GRAPHICS && 
      mode == current_graphics_mode){
     make_new_window(MODE_WINDOW);
@@ -167,13 +160,16 @@ void set_mode(int mode) {
 }
 
 void* xwin_graphics_event_loop(void*){
- 
+
+  fprintf(stderr, "in xwin: x_open\n"); fflush(stderr);
   if (boinc_is_standalone()) {
+    printf("is standalone\n");
     set_mode(MODE_WINDOW);
   } else {
     set_mode(MODE_HIDE_GRAPHICS); 
   }
 
+  fprintf(stderr, "out of setmode, about to enter main loop\n");fflush(stderr);
   glutMainLoop();
   return 0;
 }

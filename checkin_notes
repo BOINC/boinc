@@ -15728,3 +15728,13 @@ Daniel 2004-07-27
     client/
         app.C
 
+Noaa  29 July 2004
+	  - added another glut file to the source tree, updated the
+	  makefile for it
+
+	  boincglut/
+		lib/
+			glut/
+				glut_glxext.c (new)
+				Makefile
+		
