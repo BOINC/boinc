@@ -1265,7 +1265,7 @@ bool CLIENT_STATE::garbage_collect() {
     fi_iter = file_infos.begin();
     while (fi_iter != file_infos.end()) {
         fip = *fi_iter;
-        if (fip->ref_cnt==0 && !fip->sticky) {
+        if (fip->ref_cnt==0 && fip->pers_file_xfer==NULL && !fip->sticky) {
             fip->delete_file();
             scope_messages.printf("CLIENT_STATE::garbage_collect(): deleting file %s\n", fip->name);
             delete fip;
