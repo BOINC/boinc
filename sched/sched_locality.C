@@ -140,7 +140,7 @@ int make_more_work_for_file(char* filename) {
     if (!fp2) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
-            "unable to touch %s to indicate need work for file %s\n", fullpath, filename
+            "unable to touch %s\n", fullpath
         );
         return -1;
     }
@@ -205,6 +205,7 @@ void flag_for_possible_removal(char* filename) {
     char path[256];
     sprintf(path, "../locality_scheduling/working_set_removal/%s", filename);
     FILE *f = fopen(path, "w");
+    if (f) fclose(f);
 }
 
 // The client has (or will soon have) the given file.
