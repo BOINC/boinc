@@ -17252,3 +17252,9 @@ David  9 Sept 2004
     sched/
         sched_send.C,h
         server_types.h
+
+David  10 Sept 2004
+	- compile fix for Win
+
+	lib/
+		util.C

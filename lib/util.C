@@ -766,6 +766,7 @@ int dir_hier_url(
     return 0;
 }
 
+#ifndef _WIN32
 // try to open a file.
 // On failure:
 //   return ERR_FOPEN if the dir is there but not file
@@ -797,3 +798,4 @@ int try_fopen(char* path, FILE*& f, char* mode) {
     }
     return 0;
 }
+#endif
