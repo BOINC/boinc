@@ -263,6 +263,9 @@ VOID CScreensaver::StartupBOINC()
             DWORD dwBlankTime;
             BOOL  bReturnValue;
 
+            memset(szCurrentWindowStation, 0, sizeof(szCurrentWindowStation)/sizeof(TCHAR));
+            memset(szCurrentDesktop, 0, sizeof(szCurrentDesktop)/sizeof(TCHAR));
+
             if (!m_bIs9x)
             {
                 // Retrieve the current window station and desktop names

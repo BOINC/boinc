@@ -20068,3 +20068,18 @@ Bruce 23 Nov 2004 UTC
         config.h.in (shouldn't be here anyway)
     api/
         boinc_gl.h 
+
+Rom    23 Nov 2004
+    - Bug Fix: Fix a crashing condition for both the screensaver and core client on
+        Win9x machines due to the Window Station and Desktop code.
+    - Bug Fix: Setup the core client to redirect stderr and stdout even though it is
+        running as a console.  It's useful to do this in the case of where the core
+        client is launched from the boincmgr and so stderr and stdout cannot be 
+        redirected.
+
+    client/
+        main.C
+    client/win/
+        win_screensaver.cpp
+    clientgui/
+        BOINCGUIApp.cpp
