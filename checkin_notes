@@ -6086,7 +6086,8 @@ quarl 2003/09/03
 
     - configure runs test/test_sanity.py
 
-    - wrote documentation for python framework; revised other documentation
+    - wrote documentation for python framework and tools; revised other
+      documentation
 
     py/Boinc/    (added entire tree)
         Makefile.am
@@ -6113,3 +6114,6 @@ quarl 2003/09/03
         python.php (added)
         software.php    
         test.php
+        tool_add.php (added)
+        tool_start.php (added)
+        tool_update_versions.php (added)
