@@ -269,7 +269,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         }
     }
 
-    wu.transition_time = MAXINT;
+    wu.transition_time = INT_MAX;
     for (unsigned int i=0; i<results.size(); i++) {
         DB_RESULT& result = results[i];
         if (result.server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
