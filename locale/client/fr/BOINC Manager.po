@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-01-24 18:47+0100\n"
+"PO-Revision-Date: 2005-03-20 17:49+0100\n"
 "Last-Translator: Simon Castaing <simon.castaing@ifrance.com>\n"
 "Language-Team: Alliance Francophone <simon.castaing@ifrance.com>\n"
 "MIME-Version: 1.0\n"
@@ -357,7 +357,7 @@ msgstr "<b>Reprendre le projet</b><br>Reprendre le travail pour ce projet"
 
 #: clientgui/ViewProjects.cpp:250
 msgid "<b>Update project</b><br>Report all completed work and refresh your credit and preferences for this project."
-msgstr "<b>Mettre à jour le Projet</b><br>Envoie tout le travail effectué et met à jour votre crédit et vos préférences pour ce projet."
+msgstr "<b>Mettre à jour le Projet</b><br>Envoi tout le travail effectué et met à jour votre crédit et vos préférences pour ce projet."
 
 #: clientgui/ViewProjects.cpp:256
 msgid "<b>BOINC home page</b><br>Open the BOINC home page in a web browser."
@@ -516,7 +516,7 @@ msgstr "Réessayer maintenant"
 
 #: clientgui/ViewTransfers.cpp:550
 msgid "Abort Upload"
-msgstr "Annuler l'envoie"
+msgstr "Annuler l'envoi"
 
 #: clientgui/ViewTransfers.cpp:762
 #: clientgui/ViewWork.cpp:858
@@ -526,12 +526,12 @@ msgstr "Echec de téléchargement"
 #: clientgui/ViewTransfers.cpp:766
 #: clientgui/ViewWork.cpp:900
 msgid "Upload failed"
-msgstr "Echec de l'envoie"
+msgstr "Echec de l'envoi"
 
 #: clientgui/ViewTransfers.cpp:770
 #: clientgui/ViewWork.cpp:904
 msgid "Uploading"
-msgstr "Envoie en cours"
+msgstr "Envoi en cours"
 
 #: clientgui/ViewTransfers.cpp:770
 #: clientgui/ViewWork.cpp:862

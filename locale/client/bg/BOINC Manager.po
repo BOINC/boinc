@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-03-19 08:02+0100\n"
-"Last-Translator: Alejandro Martнn Covarrubias <alex.covarrubias@gmail.com>\n"
-"Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"PO-Revision-Date: 2005-03-22 12:22+0100\n"
+"Last-Translator: Jens Seidler <webmaster@boinc.de>\n"
+"Language-Team: no team, just me <MasterAIP@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,252 +16,252 @@ msgstr ""
 
 #: clientgui/BOINCGUIApp.cpp:199
 msgid "Startup BOINC so only the system tray icon is visible"
-msgstr "Arrancar BOINC de forma que sуlo sea visible el icono en el бrea de notificaciуn"
+msgstr "Стартирай BOINC така, че да се вижда само иконката до часовника"
 
 #: clientgui/BOINCGUIApp.cpp:259
 #: clientgui/DlgOptions.cpp:108
 msgid "(Automatic Detection)"
-msgstr "(Detecciуn Automбtica)"
+msgstr "(Автоматично Откриване)"
 
 #: clientgui/BOINCGUIApp.cpp:260
 msgid "(Unknown)"
-msgstr "(Desconocido)"
+msgstr "(Непознат)"
 
 #: clientgui/BOINCGUIApp.cpp:261
 msgid "(User Defined)"
-msgstr "(Definido por el Usuario)"
+msgstr "(Определен от потребителя)"
 
 #: clientgui/BOINCTaskBar.cpp:355
 #: clientgui/BOINCTaskBar.cpp:362
 msgid "&Open BOINC Manager..."
-msgstr "&Abrir BOINC Manager"
+msgstr "&Отвори BOINC Мениджър..."
 
 #: clientgui/BOINCTaskBar.cpp:366
 #: clientgui/MainFrame.cpp:270
 msgid "&Run always"
-msgstr "&Ejecutar siempre"
+msgstr "&Изчислявай винаги"
 
 #: clientgui/BOINCTaskBar.cpp:367
 #: clientgui/MainFrame.cpp:275
 msgid "Run based on &preferences"
-msgstr "Ejecutar segъn &preferencias"
+msgstr "Изчислявай според &предпочитанията"
 
 #: clientgui/BOINCTaskBar.cpp:368
 #: clientgui/MainFrame.cpp:280
 msgid "&Suspend"
-msgstr "S&uspender"
+msgstr "П&реустанови"
 
 #: clientgui/BOINCTaskBar.cpp:370
 msgid "&Disable BOINC network access"
-msgstr "&Desactivar el acceso a la red de BOINC"
+msgstr "З&абрани достъпа на BOINC до мрежата"
 
 #: clientgui/BOINCTaskBar.cpp:372
 #: clientgui/MainFrame.cpp:328
 msgid "&About BOINC Manager..."
-msgstr "Acerca de &BOINC Manager..."
+msgstr "&За BOINC Мениджър..."
 
 #: clientgui/BOINCTaskBar.cpp:374
 #: clientgui/MainFrame.cpp:312
 msgid "E&xit"
-msgstr "&Salir"
+msgstr "Из&ход"
 
 #: clientgui/DlgAbout.cpp:137
 #: clientgui/DlgAttachProject.cpp:103
 #: clientgui/DlgConnection.cpp:83
 #: clientgui/DlgOptions.cpp:237
 msgid "&OK"
-msgstr "&OK"
+msgstr "&Добре"
 
 #: clientgui/DlgAttachProject.cpp:82
 msgid "URL:"
-msgstr "URL:"
+msgstr "Адрес:"
 
 #: clientgui/DlgAttachProject.cpp:91
 msgid "Account Key:"
-msgstr "Clave de Cuenta:"
+msgstr "Ключ за Акаунта:"
 
 #: clientgui/DlgAttachProject.cpp:108
 #: clientgui/DlgConnection.cpp:88
 #: clientgui/DlgOptions.cpp:242
 msgid "&Cancel"
-msgstr "&Cancelar"
+msgstr "О&ткажи"
 
 #: clientgui/DlgConnection.cpp:76
 msgid ""
 "BOINC needs to connect to the network.\n"
 "May it do so now?"
 msgstr ""
-"BOINC necesitar conectar a la red.\n"
-"їPuede hacerlo ahora?"
+"BOINC се нуждае от свързване с мрежата.\n"
+"Може ли да го направи сега?"
 
 #: clientgui/DlgOptions.cpp:102
 msgid "Language Selection:"
-msgstr "Selecciуn de Idioma:"
+msgstr "Избор на Език:"
 
 #: clientgui/DlgOptions.cpp:111
 msgid "General"
-msgstr "General"
+msgstr "Общи"
 
 #: clientgui/DlgOptions.cpp:118
 msgid "Connect via HTTP proxy server"
-msgstr "Conectar vнa servidor proxy HTTP"
+msgstr "Свързване чрез HTTP прокси сървър"
 
 #: clientgui/DlgOptions.cpp:123
 msgid "HTTP Proxy Server Configuration"
-msgstr "Configuraciуn Servidor Proxy HTTP"
+msgstr "Конфигурация на HTTP Прокси Сървър"
 
 #: clientgui/DlgOptions.cpp:131
 #: clientgui/DlgOptions.cpp:191
 msgid "Address:"
-msgstr "Direcciуn:"
+msgstr "Адрес:"
 
 #: clientgui/DlgOptions.cpp:140
 #: clientgui/DlgOptions.cpp:200
 msgid "Port:"
-msgstr "Puerto:"
+msgstr "Порт:"
 
 #: clientgui/DlgOptions.cpp:148
 #: clientgui/DlgOptions.cpp:208
 msgid "Leave these blank if not needed"
-msgstr "Dejar en blanco si no es necesario"
+msgstr "Оставете тези празни, ако не са необходими"
 
 #: clientgui/DlgOptions.cpp:154
 #: clientgui/DlgOptions.cpp:214
 msgid "User Name:"
-msgstr "Usuario:"
+msgstr "Потр. Име:"
 
 #: clientgui/DlgOptions.cpp:163
 #: clientgui/DlgOptions.cpp:223
 msgid "Password:"
-msgstr "Clave:"
+msgstr "Парола:"
 
 #: clientgui/DlgOptions.cpp:171
 msgid "HTTP Proxy"
-msgstr "Proxy HTTP"
+msgstr "HTTP Прокси"
 
 #: clientgui/DlgOptions.cpp:178
 msgid "Connect via SOCKS proxy server"
-msgstr "Conectar vнa servidor proxy SOCKS"
+msgstr "Свързване чрез SOCKS прокси сървър"
 
 #: clientgui/DlgOptions.cpp:183
 msgid "SOCKS Proxy Server Configuration"
-msgstr "Configuraciуn Servidor Proxy SOCKS"
+msgstr "Конфигурация на SOCKS Прокси Сървър"
 
 #: clientgui/DlgOptions.cpp:231
 msgid "SOCKS Proxy"
-msgstr "Proxy SOCKS"
+msgstr "SOCKS Прокси"
 
 #: clientgui/MainDocument.cpp:96
 msgid "Retrieving system state; please wait..."
-msgstr "Recuperando estado del sistema; por favor espere..."
+msgstr "Установяване състоянието на системата; моля изчакайте..."
 
 #: clientgui/MainDocument.cpp:106
 msgid "Retrieving host information; please wait..."
-msgstr "Recuperando informaciуn del servidor; por favor espere..."
+msgstr "Установяване информацията за домакина; моля изчакайте..."
 
 #: clientgui/MainFrame.cpp:75
 msgid "Connected"
-msgstr "Conectado"
+msgstr "Свързан"
 
 #: clientgui/MainFrame.cpp:83
 msgid "Disconnected"
-msgstr "Desconectado"
+msgstr "Разкачен"
 
 #: clientgui/MainFrame.cpp:262
 msgid "&Hide"
-msgstr "&Ocultar"
+msgstr "&Скрий"
 
 #: clientgui/MainFrame.cpp:263
 msgid "Hides the main BOINC Manager window"
-msgstr "Oculta la ventana principal de BOINC Manager"
+msgstr "Скрива основният прозорец на BOINC Мениджър"
 
 #: clientgui/MainFrame.cpp:271
 msgid "Does work regardless of preferences"
-msgstr "Hace el trabajo sin tener en cuenta las preferencias"
+msgstr "Работи независимо от предпочитанията"
 
 #: clientgui/MainFrame.cpp:276
 msgid "Does work according to your preferences"
-msgstr "Hace el trabajo de acuerdo con sus preferencias"
+msgstr "Работи според предпочитанията"
 
 #: clientgui/MainFrame.cpp:281
 msgid "Stops work regardless of preferences"
-msgstr "Detiene el trabajo sin tener en cuenta sus preferencias"
+msgstr "Спира работа независимо от предпочитанията"
 
 #: clientgui/MainFrame.cpp:288
 msgid "&Disable BOINC Network Access"
-msgstr "&Desactivar el acceso a la red de BOINC"
+msgstr "З&абрани на BOINC достъпа до мрежата"
 
 #: clientgui/MainFrame.cpp:289
 msgid "Stops BOINC network activity"
-msgstr "Detiene la actividad de red de BOINC"
+msgstr "Спира мрежовата активност на BOINC"
 
 #: clientgui/MainFrame.cpp:296
 msgid "Run &Benchmarks"
-msgstr "Ejecutar &Pruebas de rendimiento"
+msgstr "Стартирай &Тестване"
 
 #: clientgui/MainFrame.cpp:297
 msgid "Runs BOINC CPU benchmarks"
-msgstr "Ejecutar las pruebas de rendimiento de BOINC"
+msgstr "Стартира тестването на процесора"
 
 #: clientgui/MainFrame.cpp:304
 msgid "Select Computer..."
-msgstr "Seleccionar Ordenador..."
+msgstr "Избери компютър..."
 
 #: clientgui/MainFrame.cpp:305
 msgid "Connect to another computer running BOINC"
-msgstr "Conectar a otro ordenador ejecutando BOINC"
+msgstr "Свържи се с друг компютър, работещ с BOINC"
 
 #: clientgui/MainFrame.cpp:313
 msgid "Exit the BOINC Manager"
-msgstr "Salir de BOINC Manager"
+msgstr "Излез от BOINC Мениджър"
 
 #: clientgui/MainFrame.cpp:320
 msgid "&Options"
-msgstr "&Opciones"
+msgstr "&Възможности"
 
 #: clientgui/MainFrame.cpp:321
 msgid "Configure GUI options and proxy settings"
-msgstr "Configurar opciones de interfaz de usuario y valores proxy"
+msgstr "Конфигурирай настройките на интерфейса и на прокси-т"
 
 #: clientgui/MainFrame.cpp:329
 msgid "Show information about BOINC and BOINC Manager"
-msgstr "Mostrar informaciуn acerca de BOINC y BOINC Manager"
+msgstr "Покажи информация за BOINC и BOINC Мениджър"
 
 #: clientgui/MainFrame.cpp:336
 msgid "&File"
-msgstr "&Archivo"
+msgstr "&Файл"
 
 #: clientgui/MainFrame.cpp:340
 msgid "&Tools"
-msgstr "&Herramientas"
+msgstr "&Инструменти"
 
 #: clientgui/MainFrame.cpp:344
 msgid "&Help"
-msgstr "A&yuda"
+msgstr "&Помощ"
 
 #: clientgui/MainFrame.cpp:726
 msgid "Which computer do you wish to connect to?"
-msgstr "їA quй ordenador desea conectarse?"
+msgstr "Към кой компютър искате да се свържете?"
 
 #: clientgui/MainFrame.cpp:727
 msgid "Select computer..."
-msgstr "Seleccionar ordenador..."
+msgstr "Избери компютър..."
 
 #: clientgui/MainFrame.cpp:733
 msgid "Failed to connect to the requested computer, please check the name of the computer and try again."
-msgstr "Fallo al conectarse al ordenador indicado, por favor compruebe el nombre e intйntelo de nuevo."
+msgstr "Неуспешно свързване към желания компютър, моля проверете името на компютъра и опитайте отново."
 
 #: clientgui/MainFrame.cpp:734
 msgid "Failed to connect..."
-msgstr "Fallo al conectarse..."
+msgstr "Неуспешно свързване..."
 
 #: clientgui/MainFrame.cpp:836
 msgid "The BOINC Managers default language has been changed, in order for this change to take affect you must restart the manager."
-msgstr "Se ha cambiado el idioma por defecto, para que йste cambio tenga efecto debe reiniciar BOINC Manager."
+msgstr "Езикът по подразбиране на BOINC Мениджър е сменен, рестартирайте го, за да влезе в сила промяната."
 
 #: clientgui/MainFrame.cpp:837
 msgid "Language Selection..."
-msgstr "Selecciуn de Idioma..."
+msgstr "Избор на език..."
 
 #: clientgui/MainFrame.cpp:1049
 #, c-format
@@ -271,47 +271,47 @@ msgstr "%s - (%s)"
 #: clientgui/MainFrame.cpp:1050
 #, c-format
 msgid "Connected to %s (%s)"
-msgstr "Conectado a %s (%s)"
+msgstr "Свързан със %s (%s)"
 
 #: clientgui/ValidateAccountKey.cpp:77
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr "Clave de Cuenta invбlida; por favor introduzca una clave vбlida"
+msgstr "Невалиден Ключ за Акаунта; моля въведете валиден Ключ"
 
 #: clientgui/ValidateAccountKey.cpp:89
 #: clientgui/ValidateURL.cpp:96
 msgid "Validation conflict"
-msgstr "Conflicto de validaciуn"
+msgstr "Конфликт при потвърждаване"
 
 #: clientgui/ValidateURL.cpp:78
 msgid "No URL supplied; please enter a valid project URL."
-msgstr "URL no introducida; por favor introduzca una URL de proyecto vбlida."
+msgstr "Не е въведен Адрес; моля въведете валиден адрес на проект."
 
 #: clientgui/ValidateURL.cpp:80
 #, c-format
 msgid "'%s' does not start with http://"
-msgstr "\"%s' no empieza con http://"
+msgstr "'%s' не започва с http://"
 
 #: clientgui/ValidateURL.cpp:82
 #, c-format
 msgid "'%s' does not contain a valid host name."
-msgstr "'%s' no contiene un nombre vбlido de servidor."
+msgstr "'%s' не съдържа валидно име на домакин."
 
 #: clientgui/ValidateURL.cpp:84
 #, c-format
 msgid "'%s' does not contain a valid path."
-msgstr "'%s' no contiene una direcciуn vбlida."
+msgstr "'%s' не съдържа правилен път."
 
 #: clientgui/ViewMessages.cpp:81
 msgid "Click a message to see additional options."
-msgstr "Haga click en un mensaje para ver opciones adicionales."
+msgstr "Натиснете на съобщение за допълнителни възможности."
 
 #: clientgui/ViewMessages.cpp:85
 msgid "<b>Copy all</b><br>Copy all the messages to the clipboard."
-msgstr "<b>Copiar todo</b><br>Copiar todos los mensajes al portapapeles."
+msgstr "<b>Копирай всички</b><br>Копира всички съобщения в паметта."
 
 #: clientgui/ViewMessages.cpp:90
 msgid "<b>Copy selected messages</b><br>Copy the selected messages to the clipboard. You can select multiple messages by holding down the shift or control key while clicking on messages."
-msgstr "<b>Copiar mensajes seleccionados</b><br>Copiar los mensajes seleccionados al portapapeles. Puede seleccionar mъltiples mensajes manteniendo pulsadas las teclas Shift y/o Control mientras hace click en los mensajes."
+msgstr "<b>Копирай избраните</b><br>Копира избраните съобщения в паметта. Можете да изберете няколко съобщения чрез задържане на shift или control бутон докато натискате на съобщения."
 
 #: clientgui/ViewMessages.cpp:108
 #: clientgui/ViewProjects.cpp:276
@@ -319,7 +319,7 @@ msgstr "<b>Copiar mensajes seleccionados</b><br>Copiar los mensajes seleccionado
 #: clientgui/ViewTransfers.cpp:224
 #: clientgui/ViewWork.cpp:250
 msgid "Tasks"
-msgstr "Tareas"
+msgstr "Задачи"
 
 #: clientgui/ViewMessages.cpp:109
 #: clientgui/ViewProjects.cpp:278
@@ -327,7 +327,7 @@ msgstr "Tareas"
 #: clientgui/ViewTransfers.cpp:225
 #: clientgui/ViewWork.cpp:251
 msgid "Tips"
-msgstr "Pistas"
+msgstr "Съвети"
 
 #: clientgui/ViewMessages.cpp:111
 #: clientgui/ViewProjects.cpp:280
@@ -336,140 +336,140 @@ msgstr "Pistas"
 #: clientgui/ViewTransfers.cpp:227
 #: clientgui/ViewWork.cpp:253
 msgid "Project"
-msgstr "Proyecto"
+msgstr "Проект"
 
 #: clientgui/ViewMessages.cpp:112
 #: clientgui/ViewTransfers.cpp:231
 msgid "Time"
-msgstr "Hora"
+msgstr "Време"
 
 #: clientgui/ViewMessages.cpp:113
 msgid "Message"
-msgstr "Mensaje"
+msgstr "Съобщение"
 
 #: clientgui/ViewMessages.cpp:148
 msgid "Messages"
-msgstr "Mensajes"
+msgstr "Съобщения"
 
 #: clientgui/ViewMessages.cpp:374
 msgid "Copy all messages"
-msgstr "Copiar todos los mensajes"
+msgstr "Копирай всички съобщения"
 
 #: clientgui/ViewMessages.cpp:375
 msgid "Copy selected messages"
-msgstr "Copiar los mensajes seleccionados"
+msgstr "Копирай избраните съобщения"
 
 #: clientgui/ViewProjects.cpp:203
 msgid "Click a project to see additional options."
-msgstr "Haga click en un proyecto para ver opciones adicionales."
+msgstr "Натиснете на проект за допълнителни възможности."
 
 #: clientgui/ViewProjects.cpp:207
 msgid "<b>Attach to new project</b><br>Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
-msgstr "<b>Unirse a un proyecto nuevo</b><br>Unir este ordenador a un proyecto BOINC. Necesitarб la URL del proyecto y una clave de cuenta (visite la pбgina web del proyecto para conseguirlas)."
+msgstr "<b>Добави нов проект</b><br>Присъединява компютъра към BOINC проект.  Ще се нуждаете от Адреса на проекта и Ключ за Акаунта (посетете web-сайта на проекта, за да ги получите)."
 
 #: clientgui/ViewProjects.cpp:214
 msgid "<b>Detach from project</b><br>Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
-msgstr "<b>Separase del proyecto</b><br>Separar este ordenador de este proyecto. El trabajo en progreso se perderб. Puede actualizar antes el proyecto para enviar cualquier trabajo completado."
+msgstr "<b>Откажи проект</b><br>Премахва компютъра от този проект.  Текущо изпълняваната работа ще се загуби. Можете първо да обновите проека, за да отчетете свършената работа."
 
 #: clientgui/ViewProjects.cpp:222
 msgid "<b>Reset project</b><br>Delete all files and work associated with this project, and get new work.  You can update the project first to report any completed work."
-msgstr "<b>Reiniciar proyecto</b><br>Borrar todos los archivos y el trabajo asociados a este proyecto, y conseguir mбs trabajo. Puede actualizar antes el proyecto para enviar cualquier trabajo completado."
+msgstr "<b>Обнови проект</b><br>Изтрива всички файлове и работа, асоциирана с проекта, и получава нова работа.  Можете първо да обновите проека, за да отчетете свършената работа."
 
 #: clientgui/ViewProjects.cpp:230
 msgid "<b>Suspend project</b><br>Stop work for this project (you can resume later)."
-msgstr "<b>Suspender el proyecto</b><br>Detener el trabajo para este proyecto (puede reanudarlo mбs tarde)."
+msgstr "<b>Преустанови проект</b><br>Спира работата за този проект (можете да продължите по-късно)."
 
 #: clientgui/ViewProjects.cpp:236
 msgid "<b>Resume project</b><br>Resume work for this project"
-msgstr "<b>Reanudar proyecto</b><br>Reanudar el trabajo para este proyecto"
+msgstr "<b>Продължи проект</b><br>Продължава работата за проекта."
 
 #: clientgui/ViewProjects.cpp:241
 msgid "<b>Update project</b><br>Report all completed work and refresh your credit and preferences for this project."
-msgstr "<b>Actualizar proyecto</b><br>Enviar todo el trabajo completado y actualizar sus crйditos y preferencias para este proyecto."
+msgstr "<b>Обнови проект</b><br>Отчита всичката свършена работа и обновява кредита и предпочитанията за този проект."
 
 #: clientgui/ViewProjects.cpp:247
 msgid "<b>BOINC home page</b><br>Open the BOINC home page in a web browser."
-msgstr "<b>Pбgina de inicio de BOINC</b><br>Abrir la pбgina de inicio de BOINC en su navegador de internet."
+msgstr "<b>Главна страница на BOINC</b><br>Отваря главната страница на BOINC в web-браузър."
 
 #: clientgui/ViewProjects.cpp:252
 msgid "<b>Project home page</b><br>Open this project's home page in a web browser."
-msgstr "<b>Pбgina de inicio del proyecto</b><br>Abrir esta pбgina de inicio en su navegador de internet."
+msgstr "<b>Главна страница на проекта</b><br>Отваря главната страница на този проект в web-браузър."
 
 #: clientgui/ViewProjects.cpp:277
 msgid "Web sites"
-msgstr "Pбginas web"
+msgstr "Web сайтове"
 
 #: clientgui/ViewProjects.cpp:281
 msgid "Account"
-msgstr "Cuenta"
+msgstr "Акаунт"
 
 #: clientgui/ViewProjects.cpp:282
 msgid "Team"
-msgstr "Equipo"
+msgstr "Отбор"
 
 #: clientgui/ViewProjects.cpp:283
 msgid "Total credit"
-msgstr "Crйdito total"
+msgstr "Общ кредит"
 
 #: clientgui/ViewProjects.cpp:284
 msgid "Avg. credit"
-msgstr "Crйdito promedio"
+msgstr "Среден кредит"
 
 #: clientgui/ViewProjects.cpp:285
 msgid "Resource share"
-msgstr "Distribuciуn de recursos"
+msgstr "Подялба на ресурси"
 
 #: clientgui/ViewProjects.cpp:286
 #: clientgui/ViewTransfers.cpp:233
 #: clientgui/ViewWork.cpp:260
 msgid "Status"
-msgstr "Estado"
+msgstr "Текущо състояние"
 
 #: clientgui/ViewProjects.cpp:308
 msgid "Projects"
-msgstr "Proyectos"
+msgstr "Проекти"
 
 #: clientgui/ViewProjects.cpp:439
 #, c-format
 msgid "Are you sure you want to detach from project '%s'?"
-msgstr "їEstб seguro de que se quiere separar del proyecto '%s'?"
+msgstr "Сигурни ли сте, че искате да се откажете от проекта '%s'?"
 
 #: clientgui/ViewProjects.cpp:444
 msgid "Detach from Project"
-msgstr "Separar del Proyecto"
+msgstr "Откажи проекта"
 
 #: clientgui/ViewProjects.cpp:462
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
-msgstr "їEstб seguro de que quiere reiniciar el proyecto '%s'?"
+msgstr "Сигурни ли сте, че искате да започнете  отначало проекта '%s'?"
 
 #: clientgui/ViewProjects.cpp:467
 msgid "Reset Project"
-msgstr "Reiniciar Proyecto"
+msgstr "Започни отначало проекта"
 
 #: clientgui/ViewProjects.cpp:748
 msgid "Update project"
-msgstr "Actualizar proyecto"
+msgstr "Обнови проекта"
 
 #: clientgui/ViewProjects.cpp:749
 msgid "Suspend project"
-msgstr "Suspender proyecto"
+msgstr "Преустанови проекта"
 
 #: clientgui/ViewProjects.cpp:750
 msgid "Resume project"
-msgstr "Reanudar proyecto"
+msgstr "Продължи проекта"
 
 #: clientgui/ViewProjects.cpp:754
 msgid "Detach from project"
-msgstr "Separarse del proyecto"
+msgstr "Откажи проекта"
 
 #: clientgui/ViewProjects.cpp:755
 msgid "Reset project"
-msgstr "Reiniciar proyecto"
+msgstr "Започни отначало проекта"
 
 #: clientgui/ViewProjects.cpp:759
 msgid "Attach to new project"
-msgstr "Unirse a un proyecto nuevo"
+msgstr "Добави нов проект"
 
 #: clientgui/ViewProjects.cpp:767
 msgid "BOINC"
@@ -477,84 +477,84 @@ msgstr "BOINC"
 
 #: clientgui/ViewProjects.cpp:901
 msgid "Project Suspended"
-msgstr "Proyecto suspendido"
+msgstr "Проекта е преустановен"
 
 #: clientgui/ViewProjects.cpp:913
 #: clientgui/ViewTransfers.cpp:760
 msgid "Retry in "
-msgstr "Reintentar en "
+msgstr "Нов опит след "
 
 #: clientgui/ViewResources.cpp:111
 msgid "No available options currently defined."
-msgstr "Sin opciones definidas actualmente."
+msgstr "Няма дефинирани възможности до този момент."
 
 #: clientgui/ViewResources.cpp:131
 msgid "Disk Space"
-msgstr "Espacio en disco"
+msgstr "Дисково пространство"
 
 #: clientgui/ViewResources.cpp:153
 msgid "Disk"
-msgstr "Disco"
+msgstr "Диск"
 
 #: clientgui/ViewTransfers.cpp:197
 msgid "Click an item to see additional options."
-msgstr "Haga click en un item para ver las opciones adicionales."
+msgstr "Натиснете за допълнителни възможности."
 
 #: clientgui/ViewTransfers.cpp:201
 msgid "<b>Retry now</b><br>Click <b>Retry now</b> to transfer the file now"
-msgstr "<b>Reintentar ahora</b><br>Click <b>Reintentar ahora</b> para enviar el archivo ahora"
+msgstr "<b>Опитай отново</b><br>Натиснете <b>Опитай отново</b> за да прехвърлите файла сега"
 
 #: clientgui/ViewTransfers.cpp:206
 msgid "<b>Abort transfer</b><br>Click <b>Abort transfer</b> to delete the file from the transfer queue. This will prevent you from being granted credit for this result."
-msgstr "<b>Cancelar envнo</b><br>Click <b>Cancelar envнo</b> para borrar el archivo de la cola de envнo. Esto impedirб que usted reciba crйditos por este resultado."
+msgstr "<b>Откажи трансфера</b><br>Натиснете <b>Откажи трансфера</b> за да изтриете файла от списъка с трансфери. Това ще ви предпази от кредитиране за този резултат."
 
 #: clientgui/ViewTransfers.cpp:228
 msgid "File"
-msgstr "Archivo"
+msgstr "Файл"
 
 #: clientgui/ViewTransfers.cpp:229
 #: clientgui/ViewWork.cpp:257
 msgid "Progress"
-msgstr "Progreso"
+msgstr "Прогрес"
 
 #: clientgui/ViewTransfers.cpp:230
 msgid "Size"
-msgstr "Tamaсo"
+msgstr "Размер"
 
 #: clientgui/ViewTransfers.cpp:232
 msgid "Speed"
-msgstr "Velocidad"
+msgstr "Скорост"
 
 #: clientgui/ViewTransfers.cpp:255
 msgid "Transfers"
-msgstr "Transferencias"
+msgstr "Трансфери"
 
 #: clientgui/ViewTransfers.cpp:374
 #, c-format
 msgid "Are you sure you want to abort this file transfer '%s'?"
-msgstr "їEstб seguro de que desea cancelar la transferencia de este archivo '%s'?"
+msgstr "Сигурни ли сте, че искате да откажете този файлов трансфер '%s'?"
 
 #: clientgui/ViewTransfers.cpp:379
 msgid "Abort File Transfer"
-msgstr "Cancelar Transferencia de Archivo"
+msgstr "Откажи трансфера на файла"
 
 #: clientgui/ViewTransfers.cpp:546
 msgid "Retry Now"
-msgstr "Reintentar Ahora"
+msgstr "Опитай отново"
 
 #: clientgui/ViewTransfers.cpp:547
 msgid "Abort Transfer"
-msgstr "Cancelar Transferencia"
+msgstr "Откажи трансфера"
 
 #: clientgui/ViewTransfers.cpp:764
 #: clientgui/ViewWork.cpp:878
 msgid "Download failed"
-msgstr "Fallo en la descarga"
+msgstr "Несполучливо изтегляне"
 
 #: clientgui/ViewTransfers.cpp:768
 #: clientgui/ViewWork.cpp:935
 msgid "Upload failed"
-msgstr "Fallo en el envнo"
+msgstr "Несполучливо отчитане"
 
 #: clientgui/ViewTransfers.cpp:774
 #: clientgui/ViewTransfers.cpp:785
@@ -563,140 +563,140 @@ msgstr "Fallo en el envнo"
 #: clientgui/ViewWork.cpp:912
 #: clientgui/ViewWork.cpp:961
 msgid "Suspended"
-msgstr "Suspendido"
+msgstr "Преустановен"
 
 #: clientgui/ViewTransfers.cpp:778
 #: clientgui/ViewWork.cpp:939
 msgid "Uploading"
-msgstr "Enviando"
+msgstr "Отчитане"
 
 #: clientgui/ViewTransfers.cpp:778
 #: clientgui/ViewWork.cpp:882
 msgid "Downloading"
-msgstr "Descargando"
+msgstr "Изтегляне"
 
 #: clientgui/ViewWork.cpp:213
 msgid "Click a result to see additional options."
-msgstr "Haga click en un resultado para ver opciones adicionales."
+msgstr "Натиснете на резултат за допълнителни възможности."
 
 #: clientgui/ViewWork.cpp:217
 msgid "<b>Suspend</b><br>Suspend the result."
-msgstr "<b>Suspender</b><br>Suspende el resultado."
+msgstr "<b>Преустанови</b><br>Преустановява резултата."
 
 #: clientgui/ViewWork.cpp:222
 msgid "<b>Resume</b><br>Resume a suspended result."
-msgstr "<b>Reanudar</b><br>Reanuda un resultado suspendido."
+msgstr "<b>Поднови</b><br>Подновява преустановен резултат."
 
 #: clientgui/ViewWork.cpp:227
 msgid "<b>Show graphics</b><br>Show application graphics in a window."
-msgstr "<b>Mostrar grбficos</b><br>Muestra los grбficos de la aplicaciуn en una ventana."
+msgstr "<b>Покажи графиката</b><br>Показва графиката от приложението в отделен прозорец."
 
 #: clientgui/ViewWork.cpp:232
 msgid "<b>Abort result</b><br>Delete the result from the work queue. This will prevent you from being granted credit for the result."
-msgstr "<b>Cancelar resultado</b><br>Borra el resultado de la cola de trabajo. Esto impedirб que usted reciba crйditos por el resultado."
+msgstr "<b>Откажи резултата</b><br>Изтрива резултата от списъка с работа. Това ще ви предпази от кредитиране за този резултат."
 
 #: clientgui/ViewWork.cpp:254
 msgid "Application"
-msgstr "Aplicaciуn"
+msgstr "Приложение"
 
 #: clientgui/ViewWork.cpp:255
 msgid "Name"
-msgstr "Nombre"
+msgstr "Име"
 
 #: clientgui/ViewWork.cpp:256
 msgid "CPU time"
-msgstr "Tiempo de CPU"
+msgstr "CPU време"
 
 #: clientgui/ViewWork.cpp:258
 msgid "To completetion"
-msgstr "Tiempo restante"
+msgstr "Време до завършване"
 
 #: clientgui/ViewWork.cpp:259
 msgid "Report deadline"
-msgstr "Lнmite para informar"
+msgstr "Краен срок за резултата"
 
 #: clientgui/ViewWork.cpp:282
 msgid "Work"
-msgstr "Trabajo"
+msgstr "Работа"
 
 #: clientgui/ViewWork.cpp:418
 msgid "Are you sure you wish to display graphics on a remote machine?"
-msgstr "їEstб seguro que desea mostrar los grбficos en una mбquina remota?"
+msgstr "Сигурни ли сте, че искате да се показват графиките на отдалечената машина?"
 
 #: clientgui/ViewWork.cpp:419
 #: clientgui/ViewWork.cpp:664
 msgid "Show graphics"
-msgstr "Mostrar grбficos"
+msgstr "Покажи графиката"
 
 #: clientgui/ViewWork.cpp:447
 #, c-format
 msgid "Are you sure you want to abort this result '%s'?"
-msgstr "їEstб seguro de querer cancelar este resultado '%s'?"
+msgstr "Сигурни ли сте, че искате да откажете резултата '%s'?"
 
 #: clientgui/ViewWork.cpp:452
 #: clientgui/ViewWork.cpp:665
 msgid "Abort result"
-msgstr "Cancelar resultado"
+msgstr "Откажи резултата"
 
 #: clientgui/ViewWork.cpp:662
 msgid "Suspend"
-msgstr "Suspender"
+msgstr "Преустанови"
 
 #: clientgui/ViewWork.cpp:663
 msgid "Resume"
-msgstr "Reanudar"
+msgstr "Продължи"
 
 #: clientgui/ViewWork.cpp:873
 msgid "New"
-msgstr "Nuevo"
+msgstr "Нов"
 
 #: clientgui/ViewWork.cpp:888
 msgid "Aborted"
-msgstr "Abortado"
+msgstr "Спрян"
 
 #: clientgui/ViewWork.cpp:905
 msgid "Running"
-msgstr "Ejecutando"
+msgstr "Изчислява се"
 
 #: clientgui/ViewWork.cpp:916
 msgid "Paused"
-msgstr "Pausado"
+msgstr "Паузиран"
 
 #: clientgui/ViewWork.cpp:921
 #: clientgui/ViewWork.cpp:926
 msgid "Ready to run"
-msgstr "Listo para ejecutar"
+msgstr "Готов за обработка"
 
 #: clientgui/ViewWork.cpp:930
 msgid "Computation error"
-msgstr "Error de cбlculo"
+msgstr "Грешка при изчисляване"
 
 #: clientgui/ViewWork.cpp:945
 msgid "Acknowledged"
-msgstr "Aceptado"
+msgstr "Признат"
 
 #: clientgui/ViewWork.cpp:949
 msgid "Ready to report"
-msgstr "Listo para informar"
+msgstr "Готов за предаване"
 
 #: clientgui/ViewWork.cpp:953
 #, c-format
 msgid "Error: invalid state '%d'"
-msgstr "Error: estado invбlido '%d'"
+msgstr "Грешка: Невалидно състояние '%d'"
 
 #: clientgui/DlgAbout.h:30
 msgid "About BOINC"
-msgstr "Acerca de BOINC"
+msgstr "За BOINC"
 
 #: clientgui/DlgAttachProject.h:30
 msgid "Attach to Project"
-msgstr "Unirse al Proyecto"
+msgstr "Добави Проект"
 
 #: clientgui/DlgConnection.h:31
 msgid "Connection"
-msgstr "Conexiуn"
+msgstr "Връзка"
 
 #: clientgui/DlgOptions.h:30
 msgid "Options"
-msgstr "Opciones"
+msgstr "Настройки"
 
