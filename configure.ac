@@ -76,6 +76,7 @@ SAH_GRX_LIBS
 AC_CHECK_LIB(socket, setservent)
 AC_CHECK_LIB(gen, strfind)
 AC_CHECK_LIB(gen, strfind, [ AC_DEFINE(HAVE_STRFIND, 1, [Have strfind]) ] )
+AC_CHECK_LIB(cygipc, shmget)
 AC_CHECK_MYSQL
 
 dnl Checks for header files.
@@ -83,7 +84,7 @@ AC_HEADER_DIRENT
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
-AC_CHECK_HEADERS(arpa/inet.h dirent.h fcntl.h malloc.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/file.h sys/ipc.h sys/mount.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/statvfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h)
+AC_CHECK_HEADERS(arpa/inet.h dirent.h fcntl.h malloc.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/file.h sys/ipc.h sys/mount.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h)
 SAH_GRX_INCLUDES
 AC_LANG_PUSH(C++)
 AC_CHECK_HEADERS([map])
