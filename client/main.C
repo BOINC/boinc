@@ -136,7 +136,6 @@ int main(int argc, char** argv) {
         }
 
         if (gstate.time_to_exit() || gstate.requested_exit) {
-            printf("time to exit\n");
             break;
         }
     }

@@ -41,7 +41,8 @@ void stop_test(int a);
 #endif
 
 // Speed test global variables
-bool run_test;
+// run_test is volatile so the test loops will notice changes made by stop_test
+volatile bool run_test;
 
 //#define RUN_TEST
 
@@ -323,11 +324,6 @@ double double_flop_test(int iterations, int print_debug) {
                 b[i] *= dp;			// 1 flop
             }
         }
-        // Do an impossible if statement here to prevent stop_test
-        // from being optimized out by the compiler
-#ifndef _WIN32
-        if (i < 0) stop_test(0);
-#endif
         actual_iters++;
     }
     
@@ -426,11 +422,6 @@ double int_op_test(int iterations, int print_debug) {
                 a[k] = 2*a[k-1];    // 9 int ops
             }
         }
-        // Do an impossible if statement here to prevent stop_test
-        // from being optimized out by the compiler
-#ifndef _WIN32
-        if (i < 0) stop_test(0);
-#endif
         actual_iters++;
     }
 
@@ -522,11 +513,6 @@ double bandwidth_test(int iterations, int print_debug) {
                 b[j] = c[j];
             }
         }
-        // Do an impossible if statement here to prevent stop_test
-        // from being optimized out by the compiler
-#ifndef _WIN32
-        if (i < 0) stop_test(0);
-#endif
         actual_iters++;
     }
 
@@ -567,18 +553,12 @@ int set_test_timer(double num_secs) {
     speed_timer_id = timeSetEvent( (int)(num_secs*1000),
         (int)(num_secs*1000), stop_test, NULL, TIME_ONESHOT );
 #else
-    struct sigaction sa;
     itimerval value;
-    int retval;
-    sa.sa_handler = stop_test;
-    sa.sa_flags = SA_RESTART;
-    retval = sigaction(SIGALRM, &sa, NULL);
-    if (retval) return retval;
+    signal(SIGALRM, stop_test);
     value.it_value.tv_sec = (int)num_secs;
     value.it_value.tv_usec = ((int)(num_secs*1000000))%1000000;
     value.it_interval = value.it_value;
-    retval = setitimer(ITIMER_REAL, &value, NULL);
-    if (retval) return retval;
+    setitimer(ITIMER_REAL, &value, NULL);
 #endif
 
     return 0;

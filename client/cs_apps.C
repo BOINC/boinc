@@ -22,6 +22,9 @@
 #ifdef _WIN32
 #include <afxwin.h>
 #endif
+#if HAVE_SIGNAL_H
+#include <signal.h>
+#endif
 
 #include "md5_file.h"
 #include "log_flags.h"
@@ -59,6 +62,16 @@ int CLIENT_STATE::cleanup_and_exit() {
     if (retval) {
         fprintf(stderr, "error: CLIENT_STATE.exit: write_state_file failed\n");
         // don't return here - we'll exit anyway
+    }
+
+    // Stop the CPU benchmark if it's running
+    if (cpu_benchmarks_id) {
+#ifdef _WIN32
+        TerminateThread(cpu_benchmarks_handle, 0);
+        CloseHandle(cpu_benchmarks_handle);
+#else
+        kill(cpu_benchmarks_id, SIGKILL);
+#endif
     }
     show_message(NULL, "Exiting BOINC client", MSG_INFO);
     return 0;

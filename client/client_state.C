@@ -269,8 +269,8 @@ int CLIENT_STATE::init() {
 //
 bool CLIENT_STATE::should_run_cpu_benchmarks() {
     return (
-        run_cpu_benchmarks || 
-        (difftime(time(0), (time_t)host_info.p_calculated) > BENCHMARK_PERIOD)
+        !skip_cpu_benchmarks && (run_cpu_benchmarks || 
+        (difftime(time(0), (time_t)host_info.p_calculated) > BENCHMARK_PERIOD))
     );
 }
 
@@ -713,11 +713,6 @@ int CLIENT_STATE::parse_state_file() {
 done:
     fclose(f);
 
-    // This was for updating CPU benchmarks on the beta
-    // test, it can be taken out eventually, 
-    if (old_major_vers <= 0 && old_minor_vers <= 16) {
-            run_cpu_benchmarks = true;
-    }
     return retval;
 }
 
