@@ -22092,3 +22092,19 @@ Bruce 6 Jan 2005
          make-sea.sh
          Makefile.in
          BOINC/  [THIS DIRECTORY IS SPURIOUS: NO LONGER NEEDED]
+
+Janus 6 Jan 2005
+    - Added support for an "Ignore" function in the forums
+      Users can now ignore a list of other users. The ignored
+      posts will appear as filtered.
+
+      To use this the forum_preferences table needs a new
+      column:
+
+      ALTER TABLE `forum_preferences` ADD `ignorelist` VARCHAR( 254 ) NOT NULL ;
+    /html/user
+        edit_forum_preferences_form.php
+        edit_forum_preferences_action.php
+    /html/inc
+        forum.inc
+
