@@ -4172,3 +4172,10 @@ Erik  May 15 2003
         util.C
     doc/
         client.html
+
+Erik  May 15 2003
+    - change NET_XFER::net_sleep() so that it does up to about .5 sec of I/O,
+        rather than just one block per socket
+
+    client/
+        net_xfer.C

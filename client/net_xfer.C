@@ -225,8 +225,8 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
     return 1;
 }
 
-// Transfer data to/from active streams
-// Nonblocking; keep doing I/O until would block, or we hit rate limits,
+// Transfer data to/from active sockets.
+// Keep doing I/O until would block, or we hit rate limits,
 // or about .5 second goes by
 //
 bool NET_XFER_SET::poll() {
@@ -248,7 +248,7 @@ bool NET_XFER_SET::poll() {
 }
 
 // Wait at most x seconds for network I/O to become possible,
-// then do a limited amount (one block per socket) of it.
+// then do up to about .5 seconds of I/O.
 //
 int NET_XFER_SET::net_sleep(double x) {
     int retval;
@@ -258,11 +258,16 @@ int NET_XFER_SET::net_sleep(double x) {
     timeout.tv_sec = (int)x;
     timeout.tv_usec = (int)(1000000*(x - (int)x));
     retval = do_select(bytes_xferred, timeout);
-    return retval;
+    if (retval) return retval;
+    if (bytes_xferred) {
+        return poll();
+    }
+    return 0;
 }
 
-// do a select and do I/O on as many sockets as possible,
-// subject to rate limits
+// do a select with the given timeout,
+// then do I/O on as many sockets as possible, subject to rate limits
+// Transfer at most one block per socket.
 // 
 int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
     int n, fd, retval;
