@@ -717,7 +717,7 @@ static void scan_work_array(
                 if (n>0) {
                     log_messages.printf(
                         SchedMessages::NORMAL,
-                        "send_work: user %d already has %d result for WU %d\n",
+                        "send_work: user %d already has %d result(s) for WU %d\n",
                         reply.user.id, n, wu_result.workunit.id
                     );
                     continue;
@@ -725,7 +725,7 @@ static void scan_work_array(
             }
         }
 
-        // don't sent if host can't handle it
+        // don't send if host can't handle it
         //
         wu = wu_result.workunit;
         if (!wu_is_feasible(wu, reply.host)) {
