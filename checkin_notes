@@ -16554,3 +16554,27 @@ David  20 Aug 2004
 
     client/
         app_control.C
+
+David  20 Aug 2004
+    - already_sent_to_different_platform():
+        fix concurrency bug by reading WU.workseq_next
+        from database just prior to checking,
+        then updating the field immediately if needed.
+    - scheduler: update_wu_transition_time():
+        use update_field(); more efficient
+    - Added DB_BASE::get_field_int(): get a single integer
+        field from a DB record.
+        A little cheaper than reading the whole record
+    - DB_BASE::lookup(): remove code that sees if record is unique.
+        It's called after mysql_free_result(),
+        so it will never return anything.
+    - DB code: changed "if (db->mysql && is_high_priority) to just
+        "if (is_high_priority)".
+        db->mysql is a pointer, and is always nonzero.
+        It's not a flag saying whether the DB is MySQL.
+        All this code is only for MySQL anyway.
+
+    db/
+        db_base.C,h
+    sched/
+        sched_send.C

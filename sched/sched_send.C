@@ -354,20 +354,13 @@ int insert_deadline_tag(RESULT& result) {
 }
 
 static int update_wu_transition_time(WORKUNIT wu, time_t x) {
-    // TODO: this might be better: a mysql statement such as "update set
-    // transition_time=X where id=ID and transition_time<X".  this avoids
-    // concurrency problems altogether.
     DB_WORKUNIT dbwu;
     int retval;
+    char buf[256];
 
-    retval = dbwu.lookup_id(wu.id);
-    if (retval) return retval;
-    if (x < dbwu.transition_time) {
-        dbwu.transition_time = x;
-        retval = dbwu.update();
-        if (retval) return retval;
-    }
-    return 0;
+    dbwu.id = wu.id;
+    sprintf(buf, "transition_time=%d", x);
+    return dbwu.update_field(buf);
 }
 
 // return true iff a result for same WU is already being sent
@@ -431,15 +424,30 @@ bool same_platform(DB_HOST& host, SCHEDULER_REQUEST& sreq) {
 static bool already_sent_to_different_platform(
     SCHEDULER_REQUEST& sreq, WORKUNIT& workunit, WORK_REQ& wreq
 ) {
+    DB_WORKUNIT db_wu;
+    int wsn;
+    char buf[256];
+
+    // reread workseq_next field from DB in case it's changed
+    //
+    db_wu.id = workunit.id;
+    retval = db_wu.get_field("workseq_next", wsn);
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::ERROR, "can't get workseq_next for %s: %d\n",
+            dbwu.id, retval
+        );
+        return true;
+    }
     wreq.homogeneous_redundancy_reject = false;
-    if (workunit.workseq_next != unspec) {
-        if (OS(sreq) + CPU(sreq) != workunit.workseq_next)
+    if (wsn != unspec) {
+        if (OS(sreq) + CPU(sreq) != wsn) {
             wreq.homogeneous_redundancy_reject = true;
+        }
     } else {
-      workunit.workseq_next = OS(sreq) + CPU(sreq);
-      DB_WORKUNIT db_wu;
-      db_wu = workunit;
-      db_wu.update();
+        wsn = OS(sreq) + CPU(sreq);
+        sprintf(buf, "workseq_next=%d", wsn);
+        db_wu.update_field(buf);
     }
     return wreq.homogeneous_redundancy_reject;
 }
