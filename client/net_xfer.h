@@ -55,6 +55,8 @@ public:
     double xfer_speed,recent_bytes;      // in bytes per second
     clock_t last_speed_update;
     double bytes_xferred;
+    char file_read_buf[MAX_BLOCKSIZE];
+    int file_read_buf_offset, file_read_buf_len;
 
     void init(char* host, int port, int blocksize);
     int get_ip_addr(char *hostname, int &ip_addr);

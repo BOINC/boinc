@@ -176,10 +176,12 @@ void NET_XFER::init(char* host, int p, int b) {
     error = 0;
     safe_strncpy(hostname, host, sizeof(hostname));
     port = p;
-    blocksize = b;
+    blocksize = (b > MAX_BLOCKSIZE ? MAX_BLOCKSIZE : b);
     xfer_speed = 0;
     recent_bytes = 0;
     last_speed_update = 0;
+    file_read_buf_offset = 0;
+    file_read_buf_len = 0;
 }
 
 NET_XFER_SET::NET_XFER_SET() {
@@ -389,8 +391,8 @@ NET_XFER* NET_XFER_SET::lookup_fd(int fd) {
 // transfer up to a block of data; return #bytes transferred
 //
 int NET_XFER::do_xfer(int& nbytes_transferred) {
-    int n, m, nleft, offset;
-	bool would_block;
+    int n, m, nleft;
+    bool would_block;
     char buf[MAX_BLOCKSIZE];
 
     nbytes_transferred = 0;
@@ -421,43 +423,50 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
             }
         }
     } else if (want_upload) {
-        m = fread(buf, 1, blocksize, file);
-        if (m == 0) {
-            want_upload = false;
-            io_done = true;
-            return 0;
-        } else if (m < 0) {
-            io_done = true;
-            error = ERR_FREAD;
-            return 0;
+        // If we've sent the current contents of
+        // the buffer, then read the next block
+        if (file_read_buf_len == file_read_buf_offset) {
+            m = fread(file_read_buf, 1, blocksize, file);
+            if (m == 0) {
+                want_upload = false;
+                io_done = true;
+                return 0;
+            } else if (m < 0) {
+                io_done = true;
+                error = ERR_FREAD;
+                return 0;
+            }
+            file_read_buf_len = m;
+            file_read_buf_offset = 0;
         }
-        nleft = m;
-        offset = 0;
+        nleft = file_read_buf_len - file_read_buf_offset;
         while (nleft) {
 #ifdef _WIN32
-            n = send(socket, buf+offset, nleft, 0);
-			would_block = (WSAGetLastError() == WSAEWOULDBLOCK);
+            n = send(socket, file_read_buf+file_read_buf_offset, nleft, 0);
+            would_block = (WSAGetLastError() == WSAEWOULDBLOCK);
 #else
-            n = write(socket, buf+offset, nleft);
-			would_block = (errno == EAGAIN);
+            n = write(socket, file_read_buf+file_read_buf_offset, nleft);
+            would_block = (errno == EAGAIN);
 #endif
+            if (would_block && n < 0) n = 0;
             if (log_flags.net_xfer_debug) {
-                printf("wrote %d bytes to socket %d\n", n, socket);
+                printf("wrote %d bytes to socket %d%s\n", n, socket,
+                    (would_block?", would have blocked":""));
             }
             if (n < 0 && !would_block) {
                 error = ERR_WRITE;
                 io_done = true;
                 break;
-            } else if (n < nleft || would_block) {
-                fseek( file, n+nbytes_transferred-blocksize, SEEK_CUR );
-                nbytes_transferred += n;
-                bytes_xferred += n;
-                break;
             }
-            nleft -= n;
-            offset += n;
+
+            file_read_buf_offset += n;
             nbytes_transferred += n;
             bytes_xferred += n;
+
+            if (n < nleft || would_block)
+                break;
+
+            nleft -= n;
         }
     }
     return 0;
