@@ -649,10 +649,7 @@ void process_request(
     current_rpc_dayofyear = rpc_time_tm->tm_yday;
 
     if (last_rpc_dayofyear != current_rpc_dayofyear) {
-        log_messages.printf(SCHED_MSG_LOG::DEBUG,
-            "Processing request from [USER#%d] [HOST#%d] [IP %s] [RPC#%d] Resetting nresults_today\n",
-            reply.user.id, reply.host.id, get_remote_addr(), sreq.rpc_seqno
-        );
+        log_messages.printf(SCHED_MSG_LOG::DEBUG, "[HOST#%d] Resetting nresults_today\n", reply.host.id);
         reply.host.nresults_today = 0;
     }
     retval = modify_host_struct(sreq, reply.host);
@@ -730,7 +727,7 @@ void handle_request(
 
     if (sreq.parse(fin) == 0){
         log_messages.printf(
-             SCHED_MSG_LOG::NORMAL, "Handling request: IP %s, auth %s, platform %s, version %d.%d\n",
+             SCHED_MSG_LOG::NORMAL, "Handling request: IP %s, auth %s, platform %s, version %d.%02d\n",
              get_remote_addr(), sreq.authenticator, sreq.platform_name,
              sreq.core_client_major_version, sreq.core_client_minor_version
         );
@@ -738,7 +735,7 @@ void handle_request(
     } else {
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL,
-            "Incomplete request received from IP %s, auth %s, platform %s, version %d.%d\n",
+            "Incomplete request received from IP %s, auth %s, platform %s, version %d.%02d\n",
             get_remote_addr(), sreq.authenticator, sreq.platform_name,
             sreq.core_client_major_version, sreq.core_client_minor_version
         );

@@ -12962,3 +12962,9 @@ Rom    June 1 2004
         client_state.C
     client/win/
         wingui_dialog.cpp
+
+Rom    June 1 2004
+    - Clean-up some server trace output.
+
+    sched/
+        handle_request.C
