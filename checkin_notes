@@ -22125,10 +22125,16 @@ Rom    6 Jan 2005
         populate the regular tooltip field as it will appear before 
         the bubble request and makes the taskbar applet appear
         ugly
+    - Bug Fix: The new gui should enforce closing down the core client
+        when it launches the core client, we were using the wxWidget
+        framework to do this, but the call to wxProcess::Exists causes
+        an assert on Windows if the process doesn't exist.  And sometimes
+        crashes in a release build.
 
     client/win/
         wingui_mainwindow.cpp
     clientgui/
+        BOINCGUIApp.cpp, .h
         BOINCBaseView.cpp
         ViewMessages.cpp
         ViewProjects.cpp

@@ -50,7 +50,8 @@ bool CBOINCGUIApp::OnInit()
     // Setup variables with default values
     m_bBOINCStartedByManager = false;
     m_bFrameVisible = true;
-    m_lBOINCCoreProccessId = 0;
+    m_lBOINCCoreProcessId = 0;
+    m_hBOINCCoreProcess = NULL;
 
     // Enable Trace Masks
     //wxLog::AddTraceMask( wxT("Function Start/End") );
@@ -287,7 +288,8 @@ void CBOINCGUIApp::StartupBOINCCore()
         );
         if (bProcessStarted)
         {
-            m_lBOINCCoreProccessId = pi.dwProcessId;
+            m_lBOINCCoreProcessId = pi.dwProcessId;
+            m_hBOINCCoreProcess = pi.hProcess;
         }
 
 #else
@@ -298,7 +300,7 @@ void CBOINCGUIApp::StartupBOINCCore()
 
 #endif
 
-        if ( 0 != m_lBOINCCoreProccessId )
+        if ( 0 != m_lBOINCCoreProcessId )
             m_bBOINCStartedByManager = true;
     }
 }
@@ -311,23 +313,27 @@ void CBOINCGUIApp::ShutdownBOINCCore()
 
     if ( m_bBOINCStartedByManager )
     {
-        if ( wxProcess::Exists( m_lBOINCCoreProccessId ) )
+        if ( wxProcess::Exists( m_lBOINCCoreProcessId ) )
         {
             m_pDocument->CoreClientQuit();
-/*
             for ( iCount = 0; iCount <= 10; iCount++ )
             {
-                if ( !bClientQuit && !wxProcess::Exists( m_lBOINCCoreProccessId ) )
+#ifdef __WXMSW__
+                DWORD dwExitCode;
+                if ( !bClientQuit && GetExitCodeProcess( m_hBOINCCoreProcess, &dwExitCode ) )
                 {
-                    bClientQuit = true;
-                    continue;
+                    if ( STILL_ACTIVE != dwExitCode )
+                    {
+                        bClientQuit = true;
+                        continue;
+                    }
                 }
+#endif
                 ::wxSleep(1);
             }
 
             if ( !bClientQuit )
-                ::wxKill( m_lBOINCCoreProccessId );
-*/
+                ::wxKill( m_lBOINCCoreProcessId );
         }
     }
 }

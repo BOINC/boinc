@@ -68,9 +68,10 @@ protected:
     bool            m_bBOINCStartedByManager;
     bool            m_bFrameVisible;
 
-    long            m_lBOINCCoreProccessId;
+    long            m_lBOINCCoreProcessId;
 
 #ifdef __WXMSW__
+    HANDLE          m_hBOINCCoreProcess;
     HINSTANCE       m_hIdleDll;
 #endif
 
