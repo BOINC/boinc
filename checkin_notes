@@ -5123,3 +5123,9 @@ Karl    2003/06/30
         boinc_db.py
         BOINC_db.inc
         test_uc.py
+
+John Brian	2003/06/30
+    - Removed stray printf used in debugging background graphics code.
+
+    astropulse/client/
+        ap_graphics.C
