@@ -185,6 +185,7 @@ struct SCHEDULER_REPLY {
     void insert_result(RESULT&);
     void insert_message(USER_MESSAGE&);
     bool work_needed(bool locality_sched=false);
+    void set_delay(int delay);
 };
 
 #endif

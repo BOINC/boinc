@@ -525,6 +525,17 @@ end:
     return 0;
 }
 
+void SCHEDULER_REPLY::set_delay(int delay) {
+    // set delay to the MAX of the existing value or the requested value
+    // never send a delay request longer than two days.
+    if (request_delay < delay)
+        request_delay = delay;
+    if (request_delay > 2*24*3600)
+        request_delay = 2*24*3600;
+    return;
+} 
+
+
 void SCHEDULER_REPLY::insert_app_unique(APP& app) {
     unsigned int i;
     for (i=0; i<apps.size(); i++) {

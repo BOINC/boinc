@@ -24849,3 +24849,21 @@ David  15 Feb 2005
         user/
             forum_post.php
             forum_reply.php
+
+Bruce 15 Feb 2004
+    - More sensible use of request_delay.  If a host contacts the
+      scheduler, and fails to get work because there are N secs
+      of pending work, then send a delay request of min(3600, N/5) secs.
+      Otherwise the same host was coming back every hour, without being able
+      to get additional work.
+    - Implemented by adding a method set_delay() to
+      SCHEDULER_REQUEST. This sets the delay to the maximum of the
+      previous requested delay or the current requested delay. The
+      delay is NEVER set longer than two days.
+
+    sched/
+        server_types.h
+        server_types.C
+        handle_request.C
+        sched_send.C
+

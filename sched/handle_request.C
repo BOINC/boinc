@@ -112,7 +112,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "high"
             );
             reply.insert_message(um);
-            reply.request_delay = 3600;
+            reply.set_delay(3600);
             reply.nucleus_only = true;
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
@@ -131,7 +131,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "high"
             );
             reply.insert_message(um);
-            reply.request_delay = 3600;
+            reply.set_delay(3600);
             reply.nucleus_only = true;
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
@@ -188,7 +188,7 @@ lookup_user_and_make_new_host:
                 "low"
             );
             reply.insert_message(um);
-            reply.request_delay = 3600;
+            reply.set_delay(3600);
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[HOST#<none>] Bad authenticator '%s'\n",
@@ -759,7 +759,7 @@ bool wrong_core_client_version(
         USER_MESSAGE um(msg, "low");
         reply.insert_message(um);
         reply.probable_user_browser = true;
-        reply.request_delay = 3600*24;
+        reply.set_delay(3600*24);
         return true;
     }
     return false;
@@ -877,7 +877,7 @@ void process_request(
     ) {
         USER_MESSAGE um("No work available", "low");
         reply.insert_message(um);
-        reply.request_delay = 3600;
+        reply.set_delay(3600);
         if (!config.msg_to_host) {
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL, "No work - skipping DB access\n"
@@ -936,7 +936,7 @@ void process_request(
             SCHED_MSG_LOG::CRITICAL, "[HOST#%d] platform '%s' not found\n",
             reply.host.id, sreq.platform_name
         );
-        reply.request_delay = 3600*24;
+        reply.set_delay(3600*24);
         goto leave;
     }
     
@@ -975,7 +975,7 @@ void process_request(
                 );
                 USER_MESSAGE um(buf, "low");
                 reply.insert_message(um);
-                reply.request_delay = config.min_sendwork_interval;
+                reply.set_delay(config.min_sendwork_interval);
             }
         }
         if (ok_to_send_work) {
@@ -1030,7 +1030,7 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
         }
         USER_MESSAGE um(buf, "high");
         sreply.insert_message(um);
-        sreply.request_delay = 24*3600;
+        sreply.set_delay(24*3600);
         return 1;
     }
     
@@ -1058,7 +1058,7 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     sprintf(buf, "Removing file %s to free up disk space", fi.name);
     USER_MESSAGE um(buf, "low");
     sreply.insert_message(um);
-    sreply.request_delay = 4*3600;
+    sreply.set_delay(4*3600);
     return 0;
 }   
 
