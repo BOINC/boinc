@@ -221,9 +221,9 @@ int PROJECT::write_state(FILE* out) {
 //
 void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
-    safe_strncpy(project_name, p.project_name, sizeof(project_name));
-    safe_strncpy(user_name, p.user_name, sizeof(user_name));
-    safe_strncpy(team_name, p.team_name, sizeof(team_name));
+    safe_strcpy(project_name, p.project_name);
+    safe_strcpy(user_name, p.user_name);
+    safe_strcpy(team_name, p.team_name);
     user_total_credit = p.user_total_credit;
     user_expavg_credit = p.user_expavg_credit;
     user_create_time = p.user_create_time;
@@ -239,7 +239,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     min_rpc_time = p.min_rpc_time;
     master_url_fetch_pending = p.master_url_fetch_pending;
     sched_rpc_pending = p.sched_rpc_pending;
-    safe_strncpy(code_sign_key, p.code_sign_key, sizeof(code_sign_key));
+    safe_strcpy(code_sign_key, p.code_sign_key);
 }
 
 int APP::parse(FILE* in) {

@@ -34,12 +34,12 @@ using namespace std;
 #include "db.h"
 #include "backend_lib.h"
 #include "parse.h"
+#include "util.h"
 #include "server_types.h"
 #include "main.h"
 #include "handle_request.h"
 
 #define MIN_SECONDS_TO_SEND 0
-#define SECONDS_PER_DAY (3600*24)
 #define MAX_SECONDS_TO_SEND (28*SECONDS_PER_DAY)
 #define MAX_WUS_TO_SEND     10
 
@@ -318,7 +318,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     unsigned int req_mod_time, db_mod_time;
     bool need_update;
     reply.send_global_prefs = false;
-    if (sreq.global_prefs_xml) {
+    if (strlen(sreq.global_prefs_xml)) {
         need_update = false;
         parse_int(sreq.global_prefs_xml, "<mod_time>", (int)req_mod_time);
         if (strlen(reply.user.global_prefs)) {
@@ -332,10 +332,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             need_update = true;
         }
         if (need_update) {
-            strncpy(
-                reply.user.global_prefs, sreq.global_prefs_xml,
-                sizeof(reply.user.global_prefs)
-            );
+            safe_strcpy(reply.user.global_prefs, sreq.global_prefs_xml);
             db_user_update(reply.user);
         }
     } else {
@@ -552,9 +549,10 @@ void send_code_sign_key(
     int i, retval;
     char path[256];
 
-    if (sreq.code_sign_key) {
+    if (strlen(sreq.code_sign_key)) {
         if (strcmp(sreq.code_sign_key, code_sign_key)) {
             write_log("received old code sign key\n");
+
             // look for a signature file
             //
             for (i=0; ; i++) {
@@ -576,8 +574,9 @@ void send_code_sign_key(
                             "Please report this to project."
                         );
                     } else {
-                        reply.code_sign_key = strdup(code_sign_key);
-                        reply.code_sign_key_signature = signature;
+                        safe_strcpy(reply.code_sign_key, code_sign_key);
+                        safe_strcpy(reply.code_sign_key_signature, signature);
+                        free(signature);
                     }
                 }
                 free(oldkey);
@@ -585,7 +584,7 @@ void send_code_sign_key(
             }
         }
     } else {
-        reply.code_sign_key = strdup(code_sign_key);
+        safe_strcpy(reply.code_sign_key, code_sign_key);
     }
 }
 

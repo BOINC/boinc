@@ -40,7 +40,7 @@ int wu_delete_files(WORKUNIT& wu) {
     char filename[256], pathname[256], buf[MAX_BLOB_SIZE], logbuf[256];
     bool no_delete;
 
-    safe_strncpy(buf, wu.xml_doc, sizeof(buf));
+    safe_strcpy(buf, wu.xml_doc);
 
     p = strtok(buf, "\n");
     strcpy(filename, "");
@@ -69,7 +69,7 @@ int result_delete_files(RESULT& result) {
     char filename[256], pathname[256], buf[MAX_BLOB_SIZE], logbuf[256];
     bool no_delete;
 
-    safe_strncpy(buf, result.xml_doc_in, sizeof(buf) );
+    safe_strcpy(buf, result.xml_doc_in);
     p = strtok(buf,"\n");
     while (p) {
         if (parse_str(p, "<name>", filename, sizeof(filename))) {

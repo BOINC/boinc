@@ -187,8 +187,8 @@ void parse_cpuinfo(HOST_INFO& host) {
 void get_osinfo(HOST_INFO& host) {
     struct utsname u;
     uname(&u);
-    safe_strncpy(host.os_name, u.sysname, sizeof(host.os_name));
-    safe_strncpy(host.os_version, u.release, sizeof(host.os_version));
+    safe_strcpy(host.os_name, u.sysname);
+    safe_strcpy(host.os_version, u.release);
 }
 #endif
 

@@ -178,7 +178,7 @@ int SCHEDULER_OP::start_rpc() {
     FILE *f;
     int retval;
 
-    safe_strncpy(scheduler_url, project->scheduler_urls[url_index].text, sizeof(scheduler_url));
+    safe_strcpy(scheduler_url, project->scheduler_urls[url_index].text);
     if (log_flags.sched_ops) {
         printf("Sending request to scheduler: %s\n", scheduler_url);
     }
@@ -191,7 +191,7 @@ int SCHEDULER_OP::start_rpc() {
     }
     if (gstate.use_http_proxy) {
         http_op.use_http_proxy = true;
-        safe_strncpy(http_op.proxy_server_name, gstate.proxy_server_name, sizeof(http_op.proxy_server_name));
+        safe_strcpy(http_op.proxy_server_name, gstate.proxy_server_name);
         http_op.proxy_server_port = gstate.proxy_server_port;
     }
     retval = http_op.init_post(
@@ -217,7 +217,7 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     }
     if (gstate.use_http_proxy) {
         http_op.use_http_proxy = true;
-        safe_strncpy(http_op.proxy_server_name, gstate.proxy_server_name, sizeof(http_op.proxy_server_name));
+        safe_strcpy(http_op.proxy_server_name, gstate.proxy_server_name);
         http_op.proxy_server_port = gstate.proxy_server_port;
     }
     retval = http_op.init_get(project->master_url, MASTER_FILE_NAME, true);

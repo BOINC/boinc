@@ -49,9 +49,9 @@ void parse_url(char* url, char* host, int &port, char* file) {
     char buf[256];
 
     if (strncmp(url, "http://", 7) == 0) {
-        safe_strncpy(buf, url+7, sizeof(buf));
+        safe_strcpy(buf, url+7);
     } else {
-        safe_strncpy(buf, url, sizeof(buf));
+        safe_strcpy(buf, url);
     }
     p = strchr(buf, '/');
     if (p) {
@@ -225,7 +225,7 @@ int HTTP_OP::init_get(char* url, char* out, bool del_old_file, double off) {
     file_offset = off;
     parse_url(url, hostname, port, filename);
     NET_XFER::init(use_http_proxy?proxy_server_name:hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
-    safe_strncpy(outfile, out, sizeof(outfile));
+    safe_strcpy(outfile, out);
     http_op_type = HTTP_OP_GET;
     http_op_state = HTTP_STATE_CONNECTING;
     if (use_http_proxy) {
@@ -246,8 +246,8 @@ int HTTP_OP::init_post(char* url, char* in, char* out) {
 
     parse_url(url, hostname, port, filename);
     NET_XFER::init(use_http_proxy?proxy_server_name:hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
-    safe_strncpy(infile, in, sizeof(infile));
-    safe_strncpy(outfile, out, sizeof(outfile));
+    safe_strcpy(infile, in);
+    safe_strcpy(outfile, out);
     retval = file_size(infile, size);
     if (retval) return retval;
     content_length = (int)size;
@@ -280,7 +280,7 @@ int HTTP_OP::init_post2(
     NET_XFER::init(use_http_proxy?proxy_server_name:hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
     req1 = r1;
     if (in) {
-        safe_strncpy(infile, in, sizeof(infile));
+        safe_strcpy(infile, in);
         file_offset = offset;
         retval = file_size(infile, size);
         if (retval) {

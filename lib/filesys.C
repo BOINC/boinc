@@ -80,7 +80,7 @@ DIRREF dir_open(char* p) {
     if(!is_dir(p)) return NULL;
     dirp = (DIR_DESC*) calloc(sizeof(DIR_DESC), 1);
     dirp->first = true;
-    safe_strncpy(dirp->path, p, sizeof(dirp->path));
+    safe_strcpy(dirp->path, p);
     strcat(dirp->path, "\\*");
     dirp->handle = INVALID_HANDLE_VALUE;
 #endif
@@ -159,7 +159,7 @@ int file_delete(char* path) {
     retval = remove(path);
 #endif
     if (retval) {
-        safe_strncpy(failed_file, path, sizeof(failed_file));
+        safe_strcpy(failed_file, path);
         return ERR_UNLINK;
     }
     return 0;
@@ -201,7 +201,7 @@ int clean_out_dir(char* dirpath) {
     dirp = dir_open(dirpath);
     if (!dirp) return -1;
     while (1) {
-        safe_strncpy(filename,"",sizeof(filename));
+        strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
         sprintf(path, "%s%s%s", dirpath, PATH_SEPARATOR, filename);

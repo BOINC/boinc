@@ -1344,11 +1344,11 @@ void CLIENT_STATE::parse_env_vars() {
     }
 
     if ((p = getenv("SOCKS_USER"))) {
-        safe_strncpy(socks_user_name, p, sizeof(socks_user_name));
+        safe_strcpy(socks_user_name, p);
     }
 
     if ((p = getenv("SOCKS_PASSWD"))) {
-        safe_strncpy(socks_user_passwd, p, sizeof(socks_user_passwd));
+        safe_strcpy(socks_user_passwd, p);
     }
 }
 

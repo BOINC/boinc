@@ -174,7 +174,7 @@ void NET_XFER::init(char* host, int p, int b) {
     file = NULL;
     io_ready = false;
     error = 0;
-    safe_strncpy(hostname, host, sizeof(hostname));
+    safe_strcpy(hostname, host);
     port = p;
     blocksize = (b > MAX_BLOCKSIZE ? MAX_BLOCKSIZE : b);
     xfer_speed = 0;

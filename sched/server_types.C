@@ -26,17 +26,14 @@ using namespace std;
 #include <assert.h>
 
 #include "parse.h"
+#include "util.h"
 #include "main.h"
 #include "server_types.h"
 
 SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
-    global_prefs_xml = 0;
-    code_sign_key = 0;
 }
 
 SCHEDULER_REQUEST::~SCHEDULER_REQUEST() {
-    if (global_prefs_xml) free(global_prefs_xml);
-    if (code_sign_key) free(code_sign_key);
 }
 
 int SCHEDULER_REQUEST::parse(FILE* fin) {
@@ -46,7 +43,8 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     strcpy(authenticator, "");
     hostid = 0;
     work_req_seconds = 0;
-    global_prefs_xml = strdup("");
+    strcpy(global_prefs_xml, "");
+    strcpy(code_sign_key, "");
 
     fgets(buf, 256, fin);
     if (!match_tag(buf, "<scheduler_request>")) return 1;
@@ -60,12 +58,12 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_int(buf, "<core_client_minor_version>", core_client_minor_version)) continue;
         else if (parse_int(buf, "<work_req_seconds>", work_req_seconds)) continue;
         else if (match_tag(buf, "<global_preferences>")) {
-            global_prefs_xml = strdup("<global_preferences>\n");
+            strcpy(global_prefs_xml, "<global_preferences>\n");
             while (fgets(buf, 256, fin)) {
                 if (strstr(buf, "</global_preferences>")) break;
-                strcatdup(global_prefs_xml, buf);
+                safe_strcat(global_prefs_xml, buf);
             }
-            strcatdup(global_prefs_xml, "</global_preferences>\n");
+            safe_strcat(global_prefs_xml, "</global_preferences>\n");
         }
         else if (match_tag(buf, "<host_info>")) {
             host.parse(fin);
@@ -85,7 +83,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             continue;
         }
         else if (match_tag(buf, "<code_sign_key>")) {
-            dup_element_contents(fin, "</code_sign_key>", &code_sign_key);
+            copy_element_contents(fin, "</code_sign_key>", code_sign_key, sizeof(code_sign_key));
         }
         else {
             sprintf(ebuf, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
@@ -102,8 +100,8 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     strcpy(message, "");
     strcpy(message_priority, "");
     send_global_prefs = false;
-    code_sign_key = 0;
-    code_sign_key_signature = 0;
+    strcpy(code_sign_key, "");
+    strcpy(code_sign_key_signature, "");
     memset(&user, 0, sizeof(user));
     memset(&host, 0, sizeof(host));
     memset(&team, 0, sizeof(team));
@@ -111,8 +109,6 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
 }
 
 SCHEDULER_REPLY::~SCHEDULER_REPLY() {
-    if (code_sign_key) free(code_sign_key);
-    if (code_sign_key_signature) free(code_sign_key_signature);
 }
 
 int SCHEDULER_REPLY::write(FILE* fout) {
@@ -210,12 +206,12 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     for (i=0; i<results.size(); i++) {
         fputs(results[i].xml_doc_in, fout);
     }
-    if (code_sign_key) {
+    if (strlen(code_sign_key)) {
         fputs("<code_sign_key>\n", fout);
         fputs(code_sign_key, fout);
         fputs("</code_sign_key>\n", fout);
     }
-    if (code_sign_key_signature) {
+    if (strlen(code_sign_key_signature)) {
         fputs("<code_sign_key_signature>\n", fout);
         fputs(code_sign_key_signature, fout);
         fputs("</code_sign_key_signature>\n", fout);
@@ -280,26 +276,19 @@ int RESULT::parse_from_client(FILE* fin) {
         else if (parse_int(buf, "<state>", client_state)) continue;
         else if (parse_double(buf, "<final_cpu_time>", cpu_time)) continue;
         else if (match_tag(buf, "<file_info>")) {
-            strcat(xml_doc_out, buf);
+            safe_strcat(xml_doc_out, buf);
             while (fgets(buf, 256, fin)) {
-                // protect againt buffer overrun
-                if (strlen(buf) + strlen(xml_doc_out) <= MAX_BLOB_SIZE) {
-                    strcat(xml_doc_out, buf);
-                }
+                safe_strcat(xml_doc_out, buf);
                 if (match_tag(buf, "</file_info>")) break;
             }
             continue;
-        }
-        else if (match_tag(buf, "<stderr_out>" )) {
+        } else if (match_tag(buf, "<stderr_out>" )) {
             while (fgets(buf, 256, fin)) {
                 if (match_tag(buf, "</stderr_out>")) break;
-                if (strlen(stderr_out) + strlen(buf) < MAX_BLOB_SIZE) {
-                    strcat(stderr_out, buf);
-                }
+                safe_strcat(stderr_out, buf);
             }
             continue;
-        }
-        else {
+        } else {
             sprintf(ebuf, "RESULT::parse_from_client(): unrecognized: %s\n", buf);
             write_log(ebuf);
         }

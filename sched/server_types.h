@@ -43,8 +43,8 @@ struct SCHEDULER_REQUEST {
     int core_client_minor_version;
     int rpc_seqno;
     int work_req_seconds;
-    char* global_prefs_xml;
-    char* code_sign_key;
+    char global_prefs_xml[MAX_BLOB_SIZE];
+    char code_sign_key[MAX_BLOB_SIZE];
 
     HOST host;
     vector<RESULT> results;
@@ -73,8 +73,8 @@ struct SCHEDULER_REPLY {
     vector<WORKUNIT>wus;
     vector<RESULT>results;
     vector<RESULT>result_acks;
-    char* code_sign_key;
-    char* code_sign_key_signature;
+    char code_sign_key[MAX_BLOB_SIZE];
+    char code_sign_key_signature[MAX_BLOB_SIZE];
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();

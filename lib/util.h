@@ -28,7 +28,9 @@ extern double drand();
 extern void c2x(char *what);
 extern void unescape_url(char *url);
 extern void escape_url(char *in, char*out);
-extern char* safe_strncpy(char*, char*, int);
+extern void safe_strncpy(char*, char*, int);
+#define safe_strcpy(x, y) safe_strncpy(x, y, sizeof(x))
+#define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)
 extern char* timestamp();
 
 #ifndef max

@@ -36,6 +36,7 @@
 
 CONFIG config;
 
+#define STDERR_FILENAME "file_upload_handler.out"
 //#define DEBUG
 
 #define MAX_FILES 32
@@ -302,6 +303,11 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
 int main() {
     int retval;
     R_RSA_PUBLIC_KEY key;
+
+    if (!freopen(STDERR_FILENAME, "a", stderr)) {
+        fprintf(stderr, "Can't redirect stderr\n");
+        exit(1);
+    }
 
     retval = config.parse_file();
     if (retval) {

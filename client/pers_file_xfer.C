@@ -81,10 +81,7 @@ bool PERS_FILE_XFER::start_xfer() {
     file_xfer = new FILE_XFER;
     if (gstate.use_http_proxy) {
         file_xfer->use_http_proxy = true;
-        safe_strncpy(
-            file_xfer->proxy_server_name, gstate.proxy_server_name,
-            sizeof(file_xfer->proxy_server_name)
-        );
+        safe_strcpy(file_xfer->proxy_server_name, gstate.proxy_server_name);
         file_xfer->proxy_server_port = gstate.proxy_server_port;
     }
     if (is_upload) {

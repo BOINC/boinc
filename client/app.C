@@ -140,8 +140,8 @@ int ACTIVE_TASK::start(bool first_time) {
 
     memset(&aid, 0, sizeof(aid));
 
-    safe_strncpy(aid.user_name, wup->project->user_name, sizeof(aid.user_name));
-    safe_strncpy(aid.team_name, wup->project->team_name, sizeof(aid.team_name));
+    safe_strcpy(aid.user_name, wup->project->user_name);
+    safe_strcpy(aid.team_name, wup->project->team_name);
     sprintf(aid.comm_obj_name, "boinc_%d", slot);
     if (wup->project->project_specific_prefs) {
         extract_venue(
@@ -208,8 +208,8 @@ int ACTIVE_TASK::start(bool first_time) {
         fip = app_version->app_files[i].file_info;
         get_pathname(fip, file_path);
         if (i == 0) {
-            safe_strncpy(exec_name, fip->name, sizeof(exec_name));
-            safe_strncpy(exec_path, file_path, sizeof(exec_path));
+            safe_strcpy(exec_name, fip->name);
+            safe_strcpy(exec_path, file_path);
         }
         if (first_time) {
             sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, fip->name);

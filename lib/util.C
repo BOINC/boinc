@@ -280,12 +280,9 @@ void escape_url(char *in, char*out) {
     out[y] = 0;
 }
 
-char * safe_strncpy(char* dst, char* src, int len) {
-    char *retval;
-
-    retval = strncpy(dst, src, len);
+void safe_strncpy(char* dst, char* src, int len) {
+    strncpy(dst, src, len);
     dst[len-1]=0;
-    return retval;
 }
 
 char* timestamp() {

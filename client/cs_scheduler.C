@@ -342,13 +342,13 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (retval) return retval;
 
     if (strlen(sr.project_name)) {
-        safe_strncpy(project->project_name, sr.project_name, sizeof(project->project_name));
+        safe_strcpy(project->project_name, sr.project_name);
     }
     if (strlen(sr.user_name)) {
-        safe_strncpy(project->user_name, sr.user_name, sizeof(project->user_name));
+        safe_strcpy(project->user_name, sr.user_name);
     }
     if (strlen(sr.team_name)) {
-        safe_strncpy(project->team_name, sr.team_name, sizeof(project->team_name));
+        safe_strcpy(project->team_name, sr.team_name);
     }
     project->user_total_credit = sr.user_total_credit;
     project->user_expavg_credit = sr.user_expavg_credit;
@@ -387,7 +387,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             sr.global_prefs_xml
         );
         fclose(f);
-        safe_strncpy(host_venue, sr.host_venue, sizeof(host_venue));
+        safe_strcpy(host_venue, sr.host_venue);
         retval = global_prefs.parse_file(host_venue);
         if (retval) return retval;
         install_global_prefs();
@@ -416,7 +416,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     if (sr.code_sign_key) {
         if (!strlen(project->code_sign_key)) {
-            safe_strncpy(project->code_sign_key, sr.code_sign_key, sizeof(project->code_sign_key));
+            safe_strcpy(project->code_sign_key, sr.code_sign_key);
         } else {
             if (sr.code_sign_key_signature) {
                 retval = verify_string2(
@@ -424,7 +424,7 @@ int CLIENT_STATE::handle_scheduler_reply(
                     project->code_sign_key, signature_valid
                 );
                 if (!retval && signature_valid) {
-                    safe_strncpy(project->code_sign_key, sr.code_sign_key, sizeof(project->code_sign_key));
+                    safe_strcpy(project->code_sign_key, sr.code_sign_key);
                 } else {
                     fprintf(stdout,
                         "New code signing key from %s doesn't validate\n",

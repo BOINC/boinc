@@ -4003,3 +4003,35 @@ David  Mar 31 2003
         test_uc.php
     tools/
         backend_lib.C
+
+David  Apr 3 2003
+    - added macro "safe_strcpy(x, y)"
+        ** USE THIS INSTEAD OF safe_strncpy(x, y, sizeof(x))
+    - added macro "safe_strcat(x, y)"
+        ** USE THIS INSTEAD OF strcat()
+    - changed dynamically-allocated fields of SCHEDULER_REQUEST,
+        SCHEDULER_REPLY to static
+    
+    That combination of the above fixes a bug where a long
+    stderr_out could overwrite other fields of RESULT
+
+    client/
+        app.C
+        client_state.C
+        client_types.C
+        cs_scheduler.C
+        hostinfo_unix.C
+        http.C
+        net_xfer.C
+        pers_file_xfer.C
+        scheduler_op.C
+    doc/
+        index.html
+    lib/
+        filesys.C
+        util.C,h
+    sched/
+        file_deleter.C
+        file_upload_handler.C
+        handle_request.C
+        server_types.C,h
