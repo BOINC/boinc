@@ -18,7 +18,9 @@ projects to do Alpha and Beta testing of applications.
 Testers can register for these projects, in addition to or instead of the
 organization's public project.
 <p>
-The components of a project are shown below.
+The components of a project are shown below. Those in blue are the ones that
+are provided as part of the BOINC package.  Those in off-white are the parts
+that you must write yourself, in order to BOINC-enable your own application.
 <br>
 <img vspace=10 src=project.png> 
 <p>
