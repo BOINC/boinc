@@ -62,7 +62,8 @@ dist-all: dist-client-all
 ## remove CVS directories.
 ## remove carriage returns in case CVS screwed it up.
 dist-hook:
-	rm -rf `find $(distdir) -name CVS`
+	rm -rf `find $(distdir) -name CVS -prune`
+	rm -rf `find $(distdir) -name .backup -prune -o -name *~`
 	cd $(distdir)/win_build && perl -pi.bak -e 'tr /\r//d' boinc.dsw */*.dsp
 
 .PHONY: distdir-client client-dist-gzip client-dist-gzip2 client-dist-zip \
