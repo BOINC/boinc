@@ -5407,3 +5407,8 @@ Karl 2003/07/25
 Karl 2003/07/27
     fixed bug in timeout_check if WU has no results
     sched/timeout_check.C
+
+Karl 2003/07/28
+    fixed "work between X:00 and Y:00" bug
+    html_user/*
+

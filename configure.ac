@@ -146,7 +146,7 @@ AC_TYPE_SIZE_T
 AC_HEADER_TIME
 AC_STRUCT_TM
 
-AC_SUBST(CLIENT_BIN_FILENAME,[boinc_${MAJOR_VERSION}.${MINOR_VERSION}_$host${EXEEXT}])
+AC_SUBST(CLIENT_BIN_FILENAME,[boinc_]AC_PACKAGE_VERSION[_$host${EXEEXT}])
 
 # by default, create static binaries on linux.
 [if [ "$target_os" = "linux-gnu" ]; then
