@@ -131,7 +131,7 @@ def process_app_version(app, version_num, exec_files, non_exec_files=[], signatu
         open_name = get_kludge_open_name(file_base)
         url_filename = get_kludge_url_filename(file_base)
         xml_doc += '    <file_ref>\n'
-        xml_doc += '       <file_name>%s</filename>\n' % url_filename
+        xml_doc += '       <file_name>%s</file_name>\n' % url_filename
         if first:
             xml_doc += '       <main_program/>\n'
         else:
