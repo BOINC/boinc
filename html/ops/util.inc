@@ -117,7 +117,7 @@ function print_text_field($text,$name,$value) {
 }
 
 function row($x, $y) {
-    echo "<tr>\n<td width=30% colspan=2 valign=top align=right>$x</td>\n<td colspan=2>$y</td>\n</tr>\n";
+    echo "<tr>\n<td valign=top align=right>$x</td>\n<td>$y</td>\n</tr>\n";
 }
 
 function print_page_header($title) {

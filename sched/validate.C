@@ -53,19 +53,34 @@ CONFIG config;
 char app_name[256];
 int min_quorum;
 
-#define SECONDS_IN_DAY (3600*24)
-#define EXP_DECAY_RATE  (1./(SECONDS_IN_DAY*7))
+// "average credit" uses an exponential decay so that recent
+// activity is weighted more heavily.
+// H is the "half-life" period: the average goes down by 1/2
+// if idle for this period.
+// Specifically, the weighting function W(t) is
+// W(t) = exp(t/(H*log(2))*H*log(2).
+// The average credit is the sum of X*W(t(X))
+// over units of credit X that were granted t(X) time ago.
 
-// update an exponential average of credit per second
+#define LOG2 M_LN2
+    // log(2)
+#define SECONDS_IN_DAY (3600*24)
+#define AVG_HALF_LIFE  (SECONDS_IN_DAY*7)
+#define ALPHA (1./(AVG_HALF_LIFE*LOG2))
+
+// update an exponential average of credit per second.
 //
 void update_average(double credit, double& avg, double& avg_time) {
     time_t now = time(0);
 
+    // decrease existing average according to how long it's been
+    // since it was computed
+    //
     if (avg_time) {
         double deltat = now - avg_time;
-        avg *= exp(-deltat*EXP_DECAY_RATE);
+        avg *= exp(-deltat/ALPHA);
     }
-    avg += credit*EXP_DECAY_RATE;
+    avg += credit*ALPHA;
     avg_time = now;
 }
 
@@ -146,7 +161,15 @@ bool do_validate_scan(APP& app, int min_quorum) {
                     }
                 }
                 retval = db_result_update(result);
+                if (retval) {
+                    fprintf(stderr, "Can't update result\n");
+                    continue;
+                }
                 retval = grant_credit(result, result.granted_credit);
+                if (retval) {
+                    fprintf(stderr, "Can't grant credit\n");
+                    continue;
+                }
             }
         } else {
             // Here if WU doesn't have a canonical result yet.

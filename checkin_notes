@@ -2219,3 +2219,23 @@ David  Oct 20, 2002
     sched/
         handle_request.C
         validate.C
+
+David  Oct 21, 2002
+    - floating-point values are passed to/from MySQL using sprintf and atof.
+        The "%f" format, by default, uses 6 decimal places of precision.
+        This is inadequate for small values, e.g. 1e-7.
+        So db_mysql.C should use %.12e instead of %f.
+    - changed all floats to doubles in DB schema
+    - Credit half-life is one week
+
+    db/
+        db_mysql.C
+        schema.sql
+    doc/
+        credit.html
+    html_ops/
+        util.inc
+    sched/
+        validate.C
+    test/
+        test_loop.php

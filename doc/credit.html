@@ -10,20 +10,19 @@ individuals, teams, and categories (countries, CPU types, etc.)
 ranked by credit.
 
 <p>
-BOINC's credit system is based on a unit of computation
-called a <b>Cobblestone</b>, defined as
+BOINC's credit system is based on a "reference computer" that does
 <ul>
-<li>1 billion floating-point multiply/adds
-<li>1 billion integer multiply/adds
-<li>4 billion bytes of traffic to and from main memory
+<li>1 billion floating-point multiply/adds per second
+<li>1 billion integer multiply/adds per second
+<li>4 billion bytes per second of traffic to and from main memory
 (sequential, half reads and half writes)
 </ul>
-
-<p>
-In principle, credit should reflect network transfer and disk storage as well
+BOINC's unit of credit, the <b>Cobblestone</b>,
+is one day of CPU time on the reference computer.
+(Credit should ideally reflect network transfer and disk storage as well
 as computation.
 But it's hard to verify these activities,
-so for now they aren't included.
+so for now they aren't included.)
 
 <p>
 Each project maintains two types of credit:
@@ -31,10 +30,10 @@ Each project maintains two types of credit:
 <li> <b>Total credit</b>:
 The total number of Cobblestones performed.
 <li> <b>Recent average credit</b>:
-The average number of Cobblestones per second performed recently
-("recently" is defined by an exponential function
-that decays by a factor of e every week).
+The average number of Cobblestones per day performed recently.
+This average decreases by a factor of two every week.
 </ul>
 
 <p>
-Both types of credit are maintained for both users and hosts.
+Both types of credit (total and recent average)
+are maintained for each user and host.

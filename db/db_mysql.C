@@ -117,7 +117,7 @@ void struct_to_str(void* vp, char* q, int type) {
             "id=%d, create_time=%d, email_addr='%s', name='%s', "
             "web_password='%s', authenticator='%s', "
             "country='%s', postal_code='%s', "
-            "total_credit=%f, expavg_credit=%f, expavg_time=%f, "
+            "total_credit=%.12e, expavg_credit=%.12e, expavg_time=%f, "
             "global_prefs='%s', project_prefs='%s', "
             "teamid=%d",
             up->id,
@@ -161,7 +161,7 @@ void struct_to_str(void* vp, char* q, int type) {
         sprintf(q,
             "id=%d, create_time=%d, userid=%d, "
             "rpc_seqno=%d, rpc_time=%d, "
-            "total_credit=%f, expavg_credit=%f, expavg_time=%f, "
+            "total_credit=%.12e, expavg_credit=%.12e, expavg_time=%f, "
             "timezone=%d, domain_name='%s', serialnum='%s', "
             "last_ip_addr='%s', nsame_ip_addr=%d, "
             "on_frac=%f, connected_frac=%f, active_frac=%f, "
