@@ -182,7 +182,8 @@ static double estimate_wallclock_duration(
     return ewd;
 }
 
-// return false if the WU can't be executed on the host because either
+// if the WU can't be executed on the host, return a bitmap of reasons why.
+// Reasons include:
 // 1) the host doesn't have enough memory;
 // 2) the host doesn't have enough disk space;
 // 3) based on CPU speed, resource share and estimated delay,
@@ -191,16 +192,13 @@ static double estimate_wallclock_duration(
 // NOTE: This is a "fast" check; no DB access allowed.
 // In particular it doesn't enforce the one-result-per-user-per-wu rule
 //
-bool wu_is_feasible(
+int wu_is_infeasible(
     WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
 ) {
+    int reason = 0;
+
     double m_nbytes = reply.host.m_nbytes;
     if (m_nbytes < MIN_POSSIBLE_RAM) m_nbytes = MIN_POSSIBLE_RAM;
-
-    if (wu.rsc_disk_bound > reply.wreq.disk_available) {
-        reply.wreq.insufficient_disk = true;
-        return false;
-    }
 
     if (wu.rsc_memory_bound > m_nbytes) {
         log_messages.printf(
@@ -208,7 +206,12 @@ bool wu_is_feasible(
             wu.id, wu.name, wu.rsc_memory_bound, reply.host.id, m_nbytes
         );
         reply.wreq.insufficient_mem = true;
-        return false;
+        reason |= INFEASIBLE_MEM;
+    }
+
+    if (wu.rsc_disk_bound > reply.wreq.disk_available) {
+        reply.wreq.insufficient_disk = true;
+        reason |= INFEASIBLE_DISK;
     }
 
 	// TODO: take into account delay due to other results
@@ -228,11 +231,11 @@ bool wu_is_feasible(
                 wu.delay_bound
             );
             reply.wreq.insufficient_speed = true;
-            return false;
+            reason |= INFEASIBLE_CPU;
         }
     }
 
-    return true;
+    return reason;
 }
 
 // insert "text" right after "after" in the given buffer
@@ -876,7 +879,7 @@ static void scan_work_array(
         // don't send if host can't handle it
         //
         wu = wu_result.workunit;
-        if (!wu_is_feasible(wu, sreq, reply)) {
+        if (wu_is_infeasible(wu, sreq, reply)) {
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
                 reply.host.id, wu.id, wu.name

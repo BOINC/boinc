@@ -98,7 +98,7 @@ static int possibly_send_result(
     retval = wu.lookup_id(result.workunitid);
     if (retval) return retval;
 
-    if (!wu_is_feasible(wu, sreq, reply)) {
+    if (wu_is_infeasible(wu, sreq, reply)) {
         return ERR_INSUFFICIENT_RESOURCE;
     }
 
@@ -279,6 +279,13 @@ static int send_results_for_file(
         int query_retval;
 
         if (!reply.work_needed()) break;
+
+        // if we've failed to send a result because of a transient condition,
+        // leave loop to preserve invariant
+        //
+        if (reply.wreq.insufficient_disk || reply.wreq.insufficient_speed) {
+            break;
+        }
     
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
             "in_send_results_for_file(%s, %d) prev_result.id=%d\n", filename, i, prev_result.id
@@ -388,8 +395,8 @@ static int send_results_for_file(
         else {
             int retval_send;
 
-            // we found an unsent result, so try sending it. This
-            // *should* always work.
+            // we found an unsent result, so try sending it.
+            // This *should* always work.
             //
             retval_send = possibly_send_result(
                 result, sreq, reply, platform, ss

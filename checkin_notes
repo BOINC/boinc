@@ -24243,3 +24243,13 @@ David  8 Feb 2005
 
     client/
         app_control.C
+
+David  8 Feb 2005
+    - locality scheduling: in send_results_for_file(),
+        if can't send a result because of a transient reason
+        (too little disk, estimated delay too large) break out of loop.
+        This is an attempt to preserve the "next available result ID" invariant.
+
+    sched/
+        sched_locality.C
+        sched_send.C,h
