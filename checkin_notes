@@ -9204,3 +9204,9 @@ David  Jan 14 2004
 		net_xfer.C
 	win_build/
 		boinc_cli.vcproj
+
+David  Jan 15 2004
+    - factored base64 declarations
+
+    lib/
+        base64.h (new)
