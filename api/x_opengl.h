@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-extern bool xwin_glut_is_initialized();  
+extern int xwin_glut_is_initialized();  
 
 #ifdef __cplusplus
 }
