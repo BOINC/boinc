@@ -6263,3 +6263,13 @@ Karl 2003/09/15
 
     Sched/
         transitioner.C
+
+Eric K. 16-Sep-2003
+    - added "const" qualifiers to prototype for create_work and some others
+      where appropriate.  I didn't fix all the API routines where parameters
+      should be const.  Using C++ makes it important to get these right.
+
+      tools/backend_lib.[Ch]
+      tools/create_work.C
+      tools/process_result_template.C
+      
