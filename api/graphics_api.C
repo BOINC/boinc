@@ -20,6 +20,8 @@
 // The part of the BOINC app lib having to do with graphics.
 // This code is NOT linked into the core client.
 
+#include "config.h"
+
 #ifdef _WIN32
 #include <afxwin.h>
 extern DWORD WINAPI win_graphics_event_loop( LPVOID duff );
@@ -33,8 +35,6 @@ HANDLE graphics_threadh=NULL;
 #ifdef HAVE_PTHREAD
 #include <pthread.h>
 #endif
-
-#define HAVE_GL_LIB 1
 
 #include "parse.h"
 #include "app_ipc.h"
@@ -53,6 +53,7 @@ GRAPHICS_INFO gi;
 bool graphics_inited = false;
 
 int boinc_init_opengl() {
+#ifdef HAVE_GL_LIB
     FILE* f;
     int retval;
 
@@ -137,7 +138,10 @@ int boinc_init_opengl() {
 #endif
     
     graphics_inited = true;
-    return 0;
+#else
+    graphics_inited = false;
+#endif
+    return !graphics_inited;
 }
 
 int boinc_finish_opengl() {
@@ -153,6 +157,7 @@ int boinc_finish_opengl() {
     return 0;
 }
 
+#ifdef HAVE_GL_LIB
 GLvoid glPrint(GLuint font, const char *fmt, ...)    // Custom GL "Print" Routine
 {
 	/*
@@ -226,3 +231,4 @@ GLenum ReSizeGLScene(GLsizei width, GLsizei height) {
     
     return GL_NO_ERROR;
 }
+#endif

@@ -6452,3 +6452,21 @@ David  Sept 30 2003
         client_state.C
         cs_scheduler.C
         win/wingui_mainwindow.cpp
+
+
+Eric   Oct 1 2003  11:15 am
+     - Fixed compile problems on solaris.
+     - redid graphics_api.h entirely.  C'mon people we use automake for a
+       reason. Use the macros in config.h!
+     - Moved OpenGL and header and library finding to a macro file
+       sah_grx.m4 (an identical macro file exists in seti_boinc)
+     - Will verify it works on windows in the next hour or so
+       
+       Makefile.in
+       aclocal.m4
+       config.h.in
+       configure
+       configure.ac
+           graphics_api.C
+	   graphics_api.h
+       m4/sah_grx.m4
