@@ -28,7 +28,7 @@
 #include <afxcoll.h>
 #include <afxext.h>
 #include <math.h>
-#include "heapcheck\swaps.h"
+//#include "heapcheck\swaps.h"
 #include "file_names.h"
 #include "filesys.h"
 #include "log_flags.h"
