@@ -72,6 +72,8 @@ This tells the validator to write an error message and exit.
 </ul>
 
 <p>
+Neither function should delete files.
+<p>
 Two example validators are supplied
 (each implements check_set() and check_pair()):
 <ul>

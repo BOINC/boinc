@@ -4,7 +4,12 @@ page_head("Workunits");
 echo "
 <p>
 A <b>workunit</b> describes a computation to be performed.
-Its attributes include:
+It is represented by a row in the 'workunit' database table.
+BOINC provides a <a href=tools_work.php>utility program and C function</a>
+for creating workunits. 
+<p>
+A workunit has several attributes that are specified
+when the workunit is created:
 ";
 
 list_start();
@@ -31,13 +36,13 @@ list_item(
     "priority",
     "Higher-priority work is dispatched first"
 );
-list_end();
-
-echo "
-A workunit includes estimates of, and bounds on,
-its resource usage.
-";
-list_start();
+list_item(
+    "batch",
+    "An integer; can be used to operate
+    (cancel, change priority etc.)
+    on groups of workunits."
+);
+list_bar("Resource estimates and bounds");
 list_item(
     "rsc_fpops_est",
     "An estimate of the average number of floating-point operations
@@ -66,16 +71,7 @@ list_item(
     at least this much available disk space.
     If this bound is exceeded, the application will be aborted."
 );
-list_end();
-
-echo "
-<p>
-A workunit has several parameters related to redundancy and scheduling.
-Values for these parameters are supplied by the project
-when the workunit is created.
-";
-
-list_start();
+list_bar("Redundancy and scheduling attributes");
 list_item(
     "delay_bound",
     "An upper bound on the time (in seconds) between sending
@@ -101,9 +97,9 @@ list_item(
 );
 list_item(
     "target_nresults",
-    "How many successful results to get.
+    "How many results to create initially.
     This must be at least <b>min_quorum</b>.
-    It may be more to reflect the ratio of result loss,
+    It may be more, to reflect the ratio of result loss,
     or to get a quorum more quickly."
 );
 list_item(
@@ -111,8 +107,7 @@ list_item(
     "If the number of client error results exceeds this,
     the work unit is declared to have an error;
     no further results are issued, and the assimilator is triggered.
-    This safeguards against workunits that cause
-    the application to crash."
+    This safeguards against workunits that cause the application to crash."
 );
 list_item(
     "max_total_results",
@@ -131,11 +126,11 @@ list_item(
 list_end();
 
 echo "
-A workunit that is in the system has the following attribute:
+A workunit has a dynamic attribute:
 ";
 list_start();
 list_item(
-    "error mask",
+    "<nobr>error mask</nobr>",
     "A bit mask of various error conditions:
     <ul>
     <li> <b>WU_ERROR_COULDNT_SEND_RESULT</b>:
@@ -145,6 +140,7 @@ list_item(
         were too large for the hosts,
         or because no application version was available
         for the hosts' platforms.
+        In this case BOINC 'gives up' on the workunit.
     <li> <b>WU_ERROR_TOO_MANY_ERROR_RESULTS</b>:
         Too many results with error conditions
         (upload/download problem, client crashes)
@@ -161,9 +157,9 @@ list_item(
 );
 list_end();
 echo "
-<p>
-BOINC provides a <a href=tools_work.php>utility program and C function</a>
-for creating workunits. 
+If any of these conditions holds,
+BOINC 'gives up' on the workunit and doesn't
+dispatch more results for it.
 ";
 
 page_tail();

@@ -46,7 +46,7 @@ such as sets of finite-state machines.
 When the core client starts up (CLIENT_STATE::init())
 it parses the prefs file, creating a PREFS object.
 (If there is no prefs file, it prompts the user for
-a project and account ID, and creates one.)
+a project and account key, and creates one.)
 It then copies the vector of PROJECT objects to CLIENT_STATE.
 <p>
 Next, it parses the client_state.xml file.

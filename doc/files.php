@@ -12,24 +12,24 @@ The BOINC core client transfers files to and from <b>data servers</b>
 operated by the project, using HTTP.
 <p>
 A file is described by an XML element of the form 
-<pre>
-&lt;file_info>
-    &lt;name>foobar&lt;/name>
-    &lt;url>http://a.b.c/foobar&lt;/url>
-    &lt;url>http://x.y.z/foobar&lt;/url>
+".html_text("
+<file_info>
+    <name>foobar</name>
+    <url>http://a.b.c/foobar</url>
+    <url>http://x.y.z/foobar</url>
     ...
-    &lt;md5_cksum>123123123123&lt;/md5_cksum>
-    &lt;nbytes>134423&lt;/nbytes>
-    &lt;max_nbytes>200000&lt;/max_nbytes>
-    &lt;status>1&lt;/status>
-    [ &lt;generated_locally/> ]
-    [ &lt;executable/> ]
-    [ &lt;upload_when_present/> ]
-    [ &lt;sticky/> ]
-    [ &lt;signature_required/> ]
-    [ &lt;no_delete/> ]
-&lt;/file_info>
-</pre>
+    <md5_cksum>123123123123</md5_cksum>
+    <nbytes>134423</nbytes>
+    <max_nbytes>200000</max_nbytes>
+    <status>1</status>
+    [ <generated_locally/> ]
+    [ <executable/> ]
+    [ <upload_when_present/> ]
+    [ <sticky/> ]
+    [ <signature_required/> ]
+    [ <no_delete/> ]
+</file_info>
+")."
 The elements are as follows:
 ";
 list_start();
@@ -66,9 +66,8 @@ if a particular input file or files are used by more than one
 workunit, or will be used by future, unqueued workunits.");
 list_item("no_delete", "If present for an output (result) file,
 indicates that the file should NOT be removed from the upload/
-directory when the corresponding workunit is completed. This is
-probably a bad idea since your upload/ directory will eventually
-overflow!");
+directory when the corresponding workunit is completed.
+Use with caution - this may cause your upload/ directory to overflow.");
 list_end();
 echo "
 These attributes allow the specification of various types of files: for
@@ -83,13 +82,13 @@ Files may be associated with <a href=work.php>workunits</a>,
 <a href=result.php>results</a> and
 <a href=app.php>application versions</a>.
 Each such association is represented by an XML element of the form 
-<pre>
-&lt;file_ref>
-    &lt;file_name>foobar&lt;/file_name>
-    [ &lt;open_name>input&lt;/open_name> ]
-    [ &lt;main_program/> ]
-&lt;/file_ref>
-</pre>
+".html_text("
+<file_ref>
+    <file_name>foobar</file_name>
+    [ <open_name>input</open_name> ]
+    [ <main_program/> ]
+</file_ref>
+")."
 The elements are as follows: 
 ";
 list_start();

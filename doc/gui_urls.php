@@ -52,7 +52,7 @@ list_item(htmlspecialchars("<user_name/>"), "The user name");
 list_item(htmlspecialchars("<teamid/>"), "The team ID");
 list_item(htmlspecialchars("<team_name/>"), "The team name");
 list_item(htmlspecialchars("<hostid/>"), "The host ID");
-list_item(htmlspecialchars("<authenticator/>"), "The user's account ID");
+list_item(htmlspecialchars("<authenticator/>"), "The user's account key");
 list_end();
 page_tail();
 ?>

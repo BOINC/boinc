@@ -11,10 +11,10 @@ echo "
     Go to the project's web site, click on <b>Create Account</b>,
     and fill out the form.
     You will receive an email containing
-    your <b>account ID</b> (a long random string).
+    your <b>account key</b> (a long random string).
     Save this email.
     <li> <b><a href=download.php>Download</a> and install BOINC.</b>
-    You will be asked to enter the project's URL and your account ID.
+    You will be asked to enter the project's URL and your account key.
     </ul>
     That's it!
     <p>

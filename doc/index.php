@@ -70,7 +70,7 @@ BOINC-based distributed computing projects include:
 <ul>
 <li>
 <a href=http://climateprediction.net>Climateprediction.net</a>:
-Improve the accuracy of long-range climate prediction.
+Improve the accuracy of long-term climate prediction.
 <li>
 <a href=http://www.physics2005.org/events/einsteinathome/index.html>Einstein@home</a>:
 search data from the Laser Interferometer Gravitational wave Observatory (LIGO)
@@ -80,10 +80,9 @@ in the US and from the GEO 600 gravitational wave observatory in Germany for sig
 improve the design of the CERN LHC particle accelerator.
 <li>
 <a href=http://predictor.scripps.edu>Predictor@home</a>:
-Solve biomedical questions of protein-related diseases.
+Solve biomedical questions and investigate protein-related diseases.
 <li><a href=http://setiweb.ssl.berkeley.edu/>SETI@home</a>:
-Analyze radio-telescope data,
-looking for evidence of extraterrestrial life.
+Analyze radio-telescope data, looking for evidence of extraterrestrial life.
 </ul>
 We encourage you to participate in multiple projects,
 so that your computer will be kept busy even

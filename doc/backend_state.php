@@ -9,11 +9,10 @@ can be described in terms of transitions of their state variables.
 
 <h3>Workunit state variables</h3>
 <p>
-Several workunits parameters are described
-<a href=work.php>here</a>.
+Workunits parameters are described <a href=work.php>here</a>.
 
-Other workunit state variables are described in
-the following table:
+<p>
+Workunit state variables are as follows:
 ";
 list_start();
 list_item(
@@ -103,15 +102,7 @@ Notes on deletion of input files:
 but only when all results have state=OVER
 (so that clients don't get download failures)
 and the WU has been assimilated
-(in case the project wants to examine input files in error case).
-<li>
-All output files (including errors) are retained
-until the WU has been assimilated.
-After that,
-the canonical result output files are retained until
-all other results are over and (if necessary) validated.
-Error output files can be deleted immediately.
-Success output files can be deleted after validation.
+(in case the project wants to examine input files in error cases).
 </ul>
 
 <h3>Result state variable</h3>
@@ -203,9 +194,10 @@ Result invariants:
 Notes on deletion of output files:
 <ul>
 <li> Non-canonical results can be deleted as soon as the WU is assimilated.
-<li> Canonical results can be deleted only when all results have server_state=OVER.
+<li> Canonical results can be deleted only when all results have server_state=OVER and all success results are validated.
 <li> If a result reply arrives after its timeout,
 the output files can be immediately deleted.
+
 </ul>
 How do we delete output files that arrive REALLY late?
 (e.g. uploaded after all results have timed out, and never reported)?

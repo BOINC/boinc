@@ -11,16 +11,16 @@ This involves filling out a form with
 <ul>
 <li> An email address.
 <li> A public 'screen name' (real name or nickname).
-<li> other optional information
+<li> Other optional information
 </ul>
 
-<li> You will receive an email containing an <b>account ID</b>
+<li> You will receive an email containing an <b>account key</b>
 (a long random string).
 
 <li> Download, install and run the BOINC client program.
-It will ask for a project URL and an account ID.
+It will ask for a project URL and an account key.
 Enter the project's URL,
-cut and paste the account ID from the email.
+cut and paste the account key from the email.
 
 </ol>
 <p>
@@ -36,7 +36,7 @@ you can add new computers in either of two ways:
 
 <ol>
 <li> Download and install the BOINC client program on each computer,
-and cut and paste the project URL and account ID as above.
+and cut and paste the project URL and account key as above.
 
 <li> If the new computer is the same type as an existing computer,
 create a BOINC directory on the new computer,

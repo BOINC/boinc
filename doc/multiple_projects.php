@@ -10,11 +10,11 @@ You can join a second and subsequent projects as follows.
 You don't have to use the same email address,
 but if you do so the accounts will be 'coupled'
 in terms of preferences and statistics.
-<li> Receive an email containing an account ID.
-<li> Paste the account ID into the project's web site
+<li> Receive an email containing an account key.
+<li> Paste the account key into the project's web site
 to complete the account creation.
 <li> Run the BOINC client, and select the <b>Attach to Project</b> command.
-Enter the project's URL and your account ID.
+Enter the project's URL and your account key.
 
 </ol>
 

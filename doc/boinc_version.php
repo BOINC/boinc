@@ -4,31 +4,29 @@ page_head("Versions of BOINC");
 echo "
 
 <p>
-The BOINC software (core client and all the server components)
-will evolve over time.
+The BOINC software (including client and server components)
+evolve over time.
 There are a number of pairwise interactions
 in which version mismatches could cause problems:
 <ul>
 <li> RPC from core client to scheduling server.
 <li> RPC from core client to file upload handler.
-<li> Interface between core client and application (uses shared memory).
+<li> Interface between core client and application.
 <li> Interface between BOINC DB and all BOINC back-end components.
 <li> The parsing of the core state file by the core client.
 </ul>
 
 <p>
-Each version of the BOINC software has a major and minor version number.
-The client's version number is included in
-scheduler and file upload RPC requests.
-If a server receives a request from a client with a different major version,
-it returns an error.
+Each BOINC software component has a version number
+of the form 100*X + Y,
+where X and Y are the major and minor versions.
 
 <p>
-Some changes to the BOINC server software may involve
-changes to the BOINC database
-(e.g. adding a new table or field).
-Such releases will include SQL script for modifying an
-existing database in-place.
+In general, all the parts of a BOINC system must
+have the same major version.
+A core client can interact with servers,
+and can execute applications,
+only if they have the same major version.
 
 <p>
 Major-version changes to the BOINC software will require
@@ -52,8 +50,12 @@ The core client reads the version number from the old
 client state file, and discards the results.
 
 <p>
-TODO: figure out how this interacts with work sequences.
-Don't want to relocate a sequence needlessly.
+Some changes to the BOINC server software may involve
+changes to the BOINC database
+(e.g. adding a new table or field).
+Such releases will include SQL script for modifying an
+existing database in-place.
+
 ";
 page_tail();
 ?>

@@ -59,16 +59,17 @@ bool do_pass(APP& app) {
     char buf[256];
     int retval;
 
-
     check_stop_daemons();
 
     sprintf(buf, "where appid=%d and assimilate_state=%d limit 1000", app.id, ASSIMILATE_READY);
     while (!wu.enumerate(buf)) {
         vector<RESULT> results;     // must be inside while()!
 
-	// for testing purposes, can pretend we did nothing.
-	if (update_db)
-	    did_something = true;
+        // for testing purposes, pretend we did nothing
+        //
+        if (update_db) {
+            did_something = true;
+        }
 
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
             "[%s] assimilating; state=%d\n", wu.name, wu.assimilate_state
@@ -84,19 +85,19 @@ bool do_pass(APP& app) {
 
         assimilate_handler(wu, results, canonical_result);
 
-	if (did_something) {
-	  sprintf(
-		  buf, "assimilate_state=%d, transition_time=%d", 
-		  ASSIMILATE_DONE, (int)time(0)
-		  );
-	  retval = wu.update_field(buf);
-	  if (retval) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-				"[%s] update failed: %d\n", wu.name, retval
-				);
-            exit(1);
-	  }
-	}
+        if (update_db) {
+            sprintf(
+                buf, "assimilate_state=%d, transition_time=%d", 
+                ASSIMILATE_DONE, (int)time(0)
+            );
+            retval = wu.update_field(buf);
+            if (retval) {
+                log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                    "[%s] update failed: %d\n", wu.name, retval
+                );
+                exit(1);
+            }
+        }
     }
     if (did_something) {
         boinc_db.commit_transaction();
@@ -121,15 +122,15 @@ int main(int argc, char** argv) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-app")) {
             strcpy(app.name, argv[++i]);
-	} else if (!strcmp(argv[i], "-dont_update_db")) {
-	  // This option is for testing your assimilator.  When set,
-	  // it ensures that the assimilator does not actually modify
-	  // the assimilate_state of the workunits, so you can run
-	  // your assimilator over and over again without affecting
-	  // your project.
-	    update_db = false;
+        } else if (!strcmp(argv[i], "-dont_update_db")) {
+          // This option is for testing your assimilator.  When set,
+          // it ensures that the assimilator does not actually modify
+          // the assimilate_state of the workunits, so you can run
+          // your assimilator over and over again without affecting
+          // your project.
+            update_db = false;
         } else {
-	    log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 

@@ -19,11 +19,8 @@ An application version can consist of multiple files: for example, a
 controller script, pre- and post-processing programs, and a primary program.
 
 <p>
-Each application version has an integer <b>version number</b>.
-This number is of the form 100*major + minor;
-for example, 304 represents major version 3 and minor version 4. 
-An application version will only run on a core client
-having the same major version.
+Each application version has an integer
+<a href=boinc_version>version number</a>.
 Version numbers should be used consistently across platforms;
 Windows version 304 should be computationally identical to Mac version 304. 
 
@@ -38,7 +35,7 @@ Application versions are maintained in the <b>app_version</b> table
 in the BOINC DB.
 Each entry includes an XML document describing the
 files that make up the application version: 
-<pre>".htmlspecialchars("
+".html_text("
 <file_info>
    ... 
 </file_info>
@@ -54,7 +51,6 @@ files that make up the application version:
         <file_name>library_12</file_name>
     </file_ref>
 </app_version>")."
-</pre>
 Application versions can be created using
 <a href=tool_update_versions.php>update_versions</a>.
 ";

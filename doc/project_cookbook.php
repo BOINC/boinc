@@ -6,13 +6,21 @@ echo "
 <ul>
 <li> Compile the BOINC software, say into HOME/boinc.
 Make sure MySQL is configured and running.
-<li> run HOME/boinc/tools/make_project
-<li> paste text into httpd.conf
-<li> insert cron job
-<li> xadd project.xml
+<li> Run HOME/boinc/tools/<a href=make_project.php>make_project</a>
+<li> Append the contents of projects/PROJECT/PROJECT.httpd.conf
+to httpd.conf and restart Apache.
+<li> Insert a cron job to run the project's periodic tasks, e.g.
+    <br> 0,5,10,15,20,25,30,35,40,45,50,55 * * * * HOME/projects/PROJECT/bin/start --cron
+    <br> (if cron cannot run 'start', try using a helper script
+    to set PATH and PYTHONPATH)
+
+<li> Copy project.xml from HOME/boinc/tools to HOME/projects/PROJECT,
+edit it to taste,
+and run <a href=tool_xadd.php>bin/xadd</a>.
 <li> Edit html/project/project.inc, changing the
 master URL and copyright holder.
-<li> Add .htaccess and .htpasswd files to html/ops.
+<li> Using <a href=http://httpd.apache.org/docs/programs/htpasswd.html>htpasswd</a>,
+add .htaccess and .htpasswd files to html/ops.
 </ul>
 
 Visible result: the project web site is up.
@@ -57,7 +65,8 @@ html_text(
 "
 </ul>
 
-Visible result: 'status' shows the above daemon processes running.
+Visible result: after a project restart,
+'status' shows the above daemon processes running.
 <p>
 Troubleshooting: check the log files of all daemon processes.
 
@@ -67,7 +76,7 @@ Troubleshooting: check the log files of all daemon processes.
 Copy the core client there.
 <li> Using the web interface, create an account on the project.
 <li> Run the core client;
-enter the project URL and the account ID.
+enter the project URL and the account key.
 </ul>
 
 Visible result: the client does a stream of work;

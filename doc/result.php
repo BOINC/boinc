@@ -5,7 +5,13 @@ echo "
 <p>
 A <b>result</b> describes an instance of a computation, either unstarted,
 in progress, or completed.
-The attributes of a result include:
+Each result is described by an entry in the 'result' database table.
+A project does not explictly create results;
+rather, BOINC creates them automatically for <a href=work.php>workunits</a>,
+based on the redundancy parameters of the workunit.
+
+<p>
+The static attributes of a result include:
 ";
 list_start();
 list_item(
@@ -13,12 +19,17 @@ list_item(
     "A text string, unique across all results in the project."
 );
 list_item(
-    "workunit name", "Identifies the associated workunit"
+    "workunit name", "Identifies the associated <a href=work.php>workunit</a>"
 );
 list_item("output files",
     "A list of the names of the output files,
     and the names by which the application refers to them."
 );
+list_end();
+echo "
+A result has a dynamic attribute:
+";
+list_start();
 list_item("server state",
     "Values include: 
     <ul>

@@ -18,6 +18,10 @@ static volatile const char *BOINCrcsid="$Id$";
 // Contributor(s):
 //
 
+// THIS FILE IS DEPRECATED.
+// ITS ORIGINAL PURPOSE WAS TO TO TEST THE HTTP LAYER IN ISOLATION,
+// BUT THIS IS NO LONGER POSSIBLE
+
 #include "cpp.h"
 
 #ifdef _WIN32

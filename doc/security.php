@@ -107,7 +107,7 @@ public-participation computing in general.
 <p>
 <b>Theft of participant account information by network attack</b>
 <p>
-Attackers sniffing network traffic could get user's account IDs,
+Attackers sniffing network traffic could get user's account keys,
 and use them to get the user's email address,
 or change the user's preferences.
 BOINC does nothing to prevent this.

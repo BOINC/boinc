@@ -431,8 +431,8 @@ int handle_results(
 #endif
         srip->server_state = RESULT_SERVER_STATE_OVER;
 
-        strncpy(srip->stderr_out, rp->stderr_out, sizeof(srip->stderr_out));
-        strncpy(srip->xml_doc_out, rp->xml_doc_out, sizeof(srip->xml_doc_out));
+        safe_strncpy(srip->stderr_out, rp->stderr_out, sizeof(srip->stderr_out));
+        safe_strncpy(srip->xml_doc_out, rp->xml_doc_out, sizeof(srip->xml_doc_out));
 
         // look for exit status and app version in stderr_out
         // (historical - can be deleted at some point)

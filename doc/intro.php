@@ -4,7 +4,7 @@ page_head("Overview of BOINC");
 echo"
 <p>
 BOINC is a software platform for distributed computing
-using volunteer computer resources.
+using volunteered computer resources.
 <p>
 A paper about BOINC's design goals is here:
 <a href=http://boinc.berkeley.edu/talks/madrid_03/madrid.html>HTML</a> |

@@ -94,7 +94,7 @@ The work manager's menu items are as follows:
     <li> <b>Attach to Project</b>:
         Enroll this computer in a project.
         You must have already created an account with the project.
-        You will be asked to enter the project's URL and your account ID.
+        You will be asked to enter the project's URL and your account key.
     <li> <b>Proxy Server</b>
         If you connect to the web through an HTTP or SOCKS proxy,
         use this dialog to enter its address and port.

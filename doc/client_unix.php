@@ -19,7 +19,7 @@ list_start();
 list_item("-attach_project",
     "Attach this computer to a new project.
     You must have an account with that project.
-    You will be asked for the project URL and the account ID."
+    You will be asked for the project URL and the account key."
 );
 list_item("-show_projects",
     "Print a list of projects to which this computer is attached."

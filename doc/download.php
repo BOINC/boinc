@@ -6,7 +6,7 @@ function version_start($num, $date, $xml) {
     if ($xml) return;
     list_start();
     list_bar("Version $num (released $date)");
-    list_heading("Platform", "click to download", "MD5 checksum");
+    list_heading("Platform", "click to download", "MD5 checksum of download file");
 }
 
 function version($platform, $filename, $xml) {
@@ -63,33 +63,29 @@ if ($_GET["xml"]) {
 page_head("Download BOINC client software");
 
 echo "
-<p>
-Learn more about BOINC
-<a href=http://boinc.berkeley.edu/participate.php>here</a>.
-
-
 <h2>System requirements</h2>
-The BOINC core client is available for the following platforms:
-<ul>
-<li> Windows (95 and up)
-<li> Linux/x86
-<li> Solaris/SPARC
-<li> Mac OS X
-</ul>
 <p>
 There are no specific hardware requirements
-(CPU speed, RAM, disk space, etc.).
+(CPU speed, memory, disk space, etc.).
 However, these factors may limit the amount or type
 of work that is sent to your computer.
-Each 'work unit' has minimum RAM and disk requirements,
-and a deadline for completion of its computation.
-A BOINC project won't send a work unit to a computer that can't handle it.
-<p>
-<h2>Stable version (recommended)</h2>
+
+<h2>Current version</h2>
 ";
 show_413();
 
 echo "
+    After the download is finished:
+    <ul>
+    <li><b>Windows</b>:
+        open the downloaded file.
+        This will install BOINC on your computer.
+    <li><b>Macintosh OS X, Unix and Linux</b>:
+        Use gunzip to uncompress if your browser has not done it for you.
+        Then chmod +x the executable and run it.
+    </ul>
+    <p>
+
     If your computer is not one of the above types, you can
     <ul>
     <li> <a href=anonymous_platform.php>download and compile the BOINC software yourself</a> or

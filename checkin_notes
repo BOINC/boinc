@@ -20336,3 +20336,16 @@ Bruce 2004-11-29
     html/inc
       db_ops.inc
       util.inc
+
+David  29 Nov 2004
+    - scheduler: use safe_strncpy instead of strncpy for copying
+        stderr_out and xml_doc_out.
+
+    client/
+        test_http.C
+        test_net_xfer.C
+    doc/
+        various
+    sched/
+        assimilator.C
+        handle_request.C
