@@ -21248,3 +21248,9 @@ Janus  13 Dec 2004
 
     html/user/
         edit_forum_preferences_form.php
+
+David  14 Dec 2004
+	- Win compile fix
+
+	api/
+		windows_opengl.C

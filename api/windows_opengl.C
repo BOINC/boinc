@@ -123,8 +123,8 @@ static void make_new_window() {
 		while(ShowCursor(true) < 0);
 	}
 
-    //APP_INIT_DATA aid;
-    //boinc_get_init_data(aid);
+    APP_INIT_DATA aid;
+    boinc_get_init_data(aid);
     if (!strlen(aid.app_name)) strcpy(aid.app_name, "BOINC Application");
 	hWnd = CreateWindowEx(dwExStyle, BOINC_WINDOW_CLASS_NAME, aid.app_name,
 		dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
