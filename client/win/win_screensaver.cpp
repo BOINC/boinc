@@ -63,12 +63,12 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
         BOINC_DIAG_ARCHIVESTDERR |
-        BOINC_DIAG_REDIRECTSTDERROVERWRITE |
+        BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_TRACETOSTDERR
     );
     if (retval) 
     {
-        BOINCTRACE("WinMain - BOINC Screensaver Diagnostic Error '%d'", retval);
+        BOINCTRACE("WinMain - BOINC Screensaver Diagnostic Error '%d'\n", retval);
         MessageBox(NULL, NULL, "BOINC Screensaver Diagnostic Error", MB_OK);
     }
 #endif
@@ -77,7 +77,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
     if (retval) 
     {
-        BOINCTRACE("WinMain - Winsock Initialization Failure '%d'", retval);
+        BOINCTRACE("WinMain - Winsock Initialization Failure '%d'\n", retval);
         return retval;
     }
 
@@ -169,17 +169,23 @@ HRESULT CScreensaver::Create( HINSTANCE hInstance )
     // Retrieve the blank screen flag so we can determine if we are
     // suppose to actually blank the screen at some point.
 	bReturnValue = UtilGetRegKey( REG_BLANK_NAME, m_dwBlankScreen );
+    BOINCTRACE("CScreensaver::Create - Get Reg Key REG_BLANK_NAME return value '%d'\n", bReturnValue);
 	if ( bReturnValue != 0 ) m_dwBlankScreen = 0;
 
     // Retrieve the blank screen timeout
 	// make sure you check return value of registry queries
 	// in case the item in question doesn't happen to exist.
 	bReturnValue = UtilGetRegKey( REG_BLANK_TIME, m_dwBlankTime );
+    BOINCTRACE("CScreensaver::Create - Get Reg Key REG_BLANK_TIME return value '%d'\n", bReturnValue);
 	if ( bReturnValue != 0 ) m_dwBlankTime = 5;
 
     // Save the value back to the registry in case this is the first
     // execution and so we need the default value later.
-	UtilSetRegKey( REG_BLANK_TIME, m_dwBlankTime );
+	bReturnValue = UtilSetRegKey( REG_BLANK_NAME, m_dwBlankScreen );
+    BOINCTRACE("CScreensaver::Create - Set Reg Key REG_BLANK_NAME return value '%d'\n", bReturnValue);
+
+	bReturnValue = UtilSetRegKey( REG_BLANK_TIME, m_dwBlankTime );
+    BOINCTRACE("CScreensaver::Create - Set Reg Key REG_BLANK_TIME return value '%d'\n", bReturnValue);
 
     // Calculate the estimated blank time by adding the current time
     //   and and the user specified time which is in minutes
