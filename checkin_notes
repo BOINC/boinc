@@ -7762,3 +7762,10 @@ Karl 2003-11-22
 
     lib/
         filesys.C
+
+    - accept command-line options with two dashes or one dash (instead of
+      only with one dash)
+    - if arguments are incorrect, exit after showing help
+
+    client/
+        cs_cmdline.C

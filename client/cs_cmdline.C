@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -44,61 +44,63 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     bool show_options = false;
 
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-exit_when_idle")) {
+#define ARGX2(s1,s2) (!strcmp(argv[i], s1)||!strcmp(argv[i], s2))
+#define ARG(S) ARGX2("-"#S, "--"#S)
+        if (ARG(exit_when_idle)) {
             exit_when_idle = true;
-        } else if (!strcmp(argv[i], "-return_results_immediately")) {
+        } else if (ARG(return_results_immediately)) {
             return_results_immediately = true;
-        } else if (!strcmp(argv[i], "-skip_cpu_benchmarks")) {
+        } else if (ARG(skip_cpu_benchmarks)) {
             skip_cpu_benchmarks = true;
-        } else if (!strcmp(argv[i], "-exit_after_app_start")) {
+        } else if (ARG(exit_after_app_start)) {
             if (i == argc-1) show_options = true;
             else exit_after_app_start_secs = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-file_xfer_giveup_period")) {
+        } else if (ARG(file_xfer_giveup_period)) {
             if (i == argc-1) show_options = true;
             else file_xfer_giveup_period = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-min")) {
+        } else if (ARG(min)) {
             global_prefs.run_minimized = true;
-        } else if (!strcmp(argv[i], "-suspend")) {
+        } else if (ARG(suspend)) {
             user_run_request = USER_RUN_REQUEST_NEVER;
-        } else if (!strcmp(argv[i], "-saver")) {
+        } else if (ARG(saver)) {
             started_by_screensaver = true;
         } else if (!strncmp(argv[i], "-psn_", strlen("-psn_"))) {
             // ignore -psn argument on Mac OS X
-        } else if (!strcmp(argv[i], "-exit_before_upload")) {
+        } else if (ARG(exit_before_upload)) {
             exit_before_upload = true;
         // The following are only used for testing to alter scheduler/file transfer
         // backoff rates
-        } else if (!strcmp(argv[i], "-master_fetch_period")) {
+        } else if (ARG(master_fetch_period)) {
             if (i == argc-1) show_options = true;
             else master_fetch_period = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-retry_base_period")) {
+        } else if (ARG(retry_base_period)) {
             if (i == argc-1) show_options = true;
             else retry_base_period = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-retry_cap")) {
+        } else if (ARG(retry_cap)) {
             if (i == argc-1) show_options = true;
             else retry_cap = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-master_fetch_retry_cap")) {
+        } else if (ARG(master_fetch_retry_cap)) {
             if (i == argc-1) show_options = true;
             else master_fetch_retry_cap = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-master_fetch_interval")) {
+        } else if (ARG(master_fetch_interval)) {
             if (i == argc-1) show_options = true;
             else master_fetch_interval = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-sched_retry_delay_min")) {
+        } else if (ARG(sched_retry_delay_min)) {
             if (i == argc-1) show_options = true;
             else sched_retry_delay_min = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-sched_retry_delay_max")) {
+        } else if (ARG(sched_retry_delay_max)) {
             if (i == argc-1) show_options = true;
             else sched_retry_delay_max = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-pers_retry_delay_min")) {
+        } else if (ARG(pers_retry_delay_min)) {
             if (i == argc-1) show_options = true;
             else pers_retry_delay_min = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-pers_retry_delay_max")) {
+        } else if (ARG(pers_retry_delay_max)) {
             if (i == argc-1) show_options = true;
             else pers_retry_delay_max = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-pers_giveup")) {
+        } else if (ARG(pers_giveup)) {
             if (i == argc-1) show_options = true;
             else pers_giveup = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-debug_fake_exponential_backoff")) {
+        } else if (ARG(debug_fake_exponential_backoff)) {
             debug_fake_exponential_backoff = true;
 
         // the above options are private (i.e. not shown by -help)
@@ -106,34 +108,37 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         // NOTE: if you change or add anything, make the same chane
         // in show_options() (above) and in doc/client.php
 
-        } else if (!strcmp(argv[i], "-show_projects")) {
+        } else if (ARG(show_projects)) {
             show_projects = true;
-        } else if (!strcmp(argv[i], "-detach_project")) {
+        } else if (ARG(detach_project)) {
             if (i == argc-1) show_options = true;
             else strcpy(detach_project_url, argv[++i]);
-        } else if (!strcmp(argv[i], "-reset_project")) {
+        } else if (ARG(reset_project)) {
             if (i == argc-1) show_options = true;
             else strcpy(reset_project_url, argv[++i]);
-        } else if (!strcmp(argv[i], "-update_prefs")) {
+        } else if (ARG(update_prefs)) {
             if (i == argc-1) show_options = true;
             else strcpy(update_prefs_url, argv[++i]);
-        } else if (!strcmp(argv[i], "-run_cpu_benchmarks")) {
+        } else if (ARG(run_cpu_benchmarks)) {
             run_cpu_benchmarks = true;
-        } else if (!strcmp(argv[i], "-attach_project")) {
+        } else if (ARG(attach_project)) {
             add_new_project();
-        } else if (!strcmp(argv[i], "-version")) {
+        } else if (ARG(version)) {
             printf( "%.2f %s\n", MAJOR_VERSION+(MINOR_VERSION/100.0), HOSTTYPE );
             exit(0);
-        } else if (!strcmp(argv[i], "-help")) {
+        } else if (ARG(help)) {
             print_options(argv[0]);
             exit(0);
         } else {
             printf("Unknown option: %s\n", argv[i]);
             show_options = true;
         }
+#undef ARG
+#undef ARGX2
     }
     if (show_options) {
         print_options(argv[0]);
+        exit(1);
     }
 }
 
