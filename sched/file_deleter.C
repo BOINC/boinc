@@ -111,7 +111,7 @@ bool do_pass() {
     bool did_something = false;
     char buf[256];
 
-    check_stop_trigger();
+    check_stop_daemons();
 
     sprintf(buf, "where file_delete_state=%d", FILE_DELETE_READY);
     while (!wu.enumerate(buf)) {
@@ -136,7 +136,7 @@ int main(int argc, char** argv) {
     bool asynch = false, one_pass = false;
     int i;
 
-    check_stop_trigger();
+    check_stop_daemons();
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
             asynch = true;

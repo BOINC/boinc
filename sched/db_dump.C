@@ -631,7 +631,7 @@ int main(int argc, char** argv) {
     SCHED_CONFIG config;
     int retval, i;
 
-    check_stop_trigger();
+    check_stop_daemons();
 
     nrecs_per_file_summary = DEFAULT_NRECS_PER_FILE_SUMMARY;
     nrecs_per_file_detail = DEFAULT_NRECS_PER_FILE_DETAIL;

@@ -352,14 +352,14 @@ bool do_pass() {
     char buf[256];
     bool did_something = false;
 
-    check_stop_trigger();
+    check_stop_daemons();
     // loop over WUs that are due to be checked
     //
     sprintf(buf, "where transition_time<%d", (int)time(0));
     while (!wu.enumerate(buf)) {
         did_something = true;
         handle_wu(wu);
-        check_stop_trigger();
+        check_stop_daemons();
     }
     return did_something;
 }
@@ -387,7 +387,7 @@ int main(int argc, char** argv) {
     bool asynch = false, one_pass=false;
     char path[256];
 
-    check_stop_trigger();
+    check_stop_daemons();
     startup_time = time(0);
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {

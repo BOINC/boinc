@@ -135,7 +135,7 @@ int main(int argc, char** argv) {
 
     update_time_cutoff = time(0) - UPDATE_INTERVAL;
 
-    check_stop_trigger();
+    check_stop_daemons();
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-update_teams")) {

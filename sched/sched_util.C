@@ -23,6 +23,7 @@ using namespace std;
 #include <signal.h>
 #include <unistd.h>
 
+#include "filesys.h"
 #include "sched_msgs.h"
 #include "sched_util.h"
 
@@ -30,10 +31,12 @@ using namespace std;
 #include "fcgi_stdio.h"
 #endif
 
-const char* STOP_TRIGGER_FILENAME = "../stop_servers";
-    // NOTE: this must be the same name as used by the "start" script
+const char* STOP_DAEMONS_FILENAME = "../stop_daemons";
+    // NOTE: this must be same as in the "start" script
+const char* STOP_SCHED_FILENAME = "../stop_sched";
+    // NOTE: this must be same as in the "start" script
 const int STOP_SIGNAL = SIGHUP;
-    // NOTE: this must be the same signal as used by the "start" script
+    // NOTE: this must be same as in the "start" script
 
 void write_pid_file(const char* filename) {
     FILE* fpid = fopen(filename, "w");
@@ -57,23 +60,17 @@ void install_stop_signal_handler() {
     // handler is now default again so hitting ^C again will kill the program.
 }
 
-void check_stop_trigger() {
+void check_stop_daemons() {
     if (caught_stop_signal) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Quitting due to SIGINT\n");
         exit(0);
     }
-    FILE* f = fopen(STOP_TRIGGER_FILENAME, "r");
-    if (f) {
+    if (boinc_file_exists(STOP_DAEMONS_FILENAME)) {
         log_messages.printf(SCHED_MSG_LOG::NORMAL, "Quitting due to stop trigger\n");
         exit(0);
     }
 }
 
-bool is_stopfile_present() {
-    FILE* f = fopen(STOP_TRIGGER_FILENAME, "r");
-    if (f) {
-        fclose(f);
-        return true;
-    }
-    return false;
+bool check_stop_sched() {
+    return boinc_file_exists(STOP_SCHED_FILENAME);
 }

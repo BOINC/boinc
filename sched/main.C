@@ -75,7 +75,6 @@ void send_shut_message() {
 
 int open_database() {
     int retval;
-    bool found;
     static bool db_opened=false;
 
     if (db_opened) return 0;
@@ -107,7 +106,7 @@ int main() {
 
     log_messages.set_debug_level(DEBUG_LEVEL);
 
-    if (is_stopfile_present()) {
+    if (check_stop_sched()) {
         send_shut_message();
         goto done;
     }

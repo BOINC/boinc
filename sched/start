@@ -79,7 +79,7 @@ A daemon or task can be turned off by adding the <disabled/> element.
 
 IMPLEMENTATION:
 
-Uses a file "run_state_HOST.xml" that records the enabled mode
+"Start" uses a file "run_state_HOST.xml" that records the enabled mode
 and the last run time of periodic tasks on that host.
 Looks like this:
 <?xml version="1.0">
@@ -219,15 +219,25 @@ def safe_read_int(filename):
     except:
         return 0
 
-def get_stop_trigger_filename():
-    return os.path.join(project_dir, 'stop_servers')
+def get_stop_daemons_filename():
+    return os.path.join(project_dir, 'stop_daemons')
 
-def write_stop_trigger():
-    print >>open(get_stop_trigger_filename(),'w'), '<stop/>'
+def get_stop_sched_filename():
+    return os.path.join(project_dir, 'stop_sched')
 
-def remove_stop_trigger():
-    if os.path.exists(get_stop_trigger_filename()):
-        os.unlink(get_stop_trigger_filename())
+def write_stop_daemons():
+    print >>open(get_stop_daemons_filename(),'w'), '<stop/>'
+
+def remove_stop_daemons():
+    if os.path.exists(get_stop_daemons_filename()):
+        os.unlink(get_stop_daemons_filename())
+
+def write_stop_sched():
+    print >>open(get_stop_sched_filename(),'w'), '<stop/>'
+
+def remove_stop_sched():
+    if os.path.exists(get_stop_sched_filename()):
+        os.unlink(get_stop_sched_filename())
 
 def safe_unlink(filename):
     try:
@@ -429,7 +439,7 @@ def run_daemon(task):
 def run_daemons():
     if verbose: print "Starting daemons"
     if is_main_host:
-        remove_stop_trigger()
+        remove_stop_daemons()
     for task in config.daemons:
         if task.host != local_hostname:
             continue
@@ -474,7 +484,7 @@ def wait_for_process_to_end(pid):
 
 def stop_daemons():
     if verbose: print "Stopping all daemons"
-    write_stop_trigger()
+    write_stop_daemons()
     pid_files = glob.glob(os.path.join(pid_dir, '*.pid'))
     count = 0
     pids = map(safe_read_int, pid_files)
@@ -499,6 +509,7 @@ def command_enable_start():
     run_state.enabled = True
     run_daemons()
     time.sleep(10)      # give feeder time to start up and create shmem
+    remove_stop_sched()
 
 def command_cron_start():
     if verbose: print "Verbose cron-start: status ==", (run_state.enabled and 'ENABLED' or 'DISABLED')
@@ -516,6 +527,7 @@ def command_disable_stop():
             print "Staying in DISABLED mode"
     run_state.enabled = False
     stop_daemons()
+    write_stop_sched()
 
 def command_status():
     if run_state.enabled:

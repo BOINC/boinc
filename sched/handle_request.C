@@ -597,10 +597,13 @@ void process_request(
     PLATFORM* platform;
     int retval;
     double last_rpc_time;
+    bool ok_to_send = true;
 
     // if different major version of BOINC, just send a message
     //
-    if (wrong_major_version(sreq, reply)) return;
+    if (wrong_major_version(sreq, reply)) {
+        ok_to_send = false;
+    }
 
     // now open the database
     //
@@ -653,7 +656,6 @@ void process_request(
 
     // if last RPC was within config.min_sendwork_interval, don't send work
     //
-    bool ok_to_send = true;
     if (config.min_sendwork_interval) {
         double diff = dtime() - last_rpc_time;
         if (diff < config.min_sendwork_interval) {

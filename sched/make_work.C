@@ -146,7 +146,7 @@ void make_work() {
     }
 
     while (1) {
-        check_stop_trigger();
+        check_stop_daemons();
 
         sprintf(buf,
             "where appid=%d and server_state=%d",
@@ -225,7 +225,7 @@ int main(int argc, char** argv) {
     bool asynch = false;
     int i;
 
-    check_stop_trigger();
+    check_stop_daemons();
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
             asynch = true;

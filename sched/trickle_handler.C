@@ -86,7 +86,7 @@ int main_loop(bool one_pass) {
     }
 
     while (1) {
-        check_stop_trigger();
+        check_stop_daemons();
         did_something = do_trickle_scan(app);
         if (one_pass) break;
         if (!did_something) {
@@ -101,7 +101,7 @@ int main(int argc, char** argv) {
     int i, retval;
     bool asynch = false, one_pass = false;
 
-    check_stop_trigger();
+    check_stop_daemons();
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {

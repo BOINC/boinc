@@ -334,7 +334,7 @@ void feeder_loop() {
             sleep(5);
         }
         fflush(stdout);
-        check_stop_trigger();
+        check_stop_daemons();
         check_reread_trigger();
     }
 }

@@ -47,7 +47,7 @@ bool do_pass(APP& app) {
     bool did_something = false;
     char buf[MEDIUM_BLOB_SIZE];
 
-    check_stop_trigger();
+    check_stop_daemons();
 
     sprintf(buf, "where appid=%d and assimilate_state=%d", app.id, ASSIMILATE_READY);
     while (!wu.enumerate(buf)) {
@@ -82,7 +82,7 @@ int main(int argc, char** argv) {
     int i;
     char buf[256];
 
-    check_stop_trigger();
+    check_stop_daemons();
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
             asynch = true;

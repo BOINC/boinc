@@ -10501,7 +10501,7 @@ David  Mar 16 2004
         They're kept in different tables.
     - added a program trickle_handler.C for handling trickle-up messages.
         This is a framework program: you need to supply a handler function
-    - The scheduler sees if there are and trickle-down messages
+    - The scheduler sees if there are any trickle-down messages
         for the host, and sends them
     
     STILL TO BE DONE:
@@ -11945,3 +11945,23 @@ David  May 2 2004
 
 	client/
 		prefs.C
+
+David  May 3 2004
+    - server: instead of a single "stop" file, we now have two:
+        stop_daemons: tells daemon processes to stop
+        stop_sched: tells scheduler to return "down" message
+
+        This allows us to have the following logic in "start":
+            remove stop_daemons
+            start daemon processes
+            wait 10 seconds
+            remove stop_sched
+        which is necessary to give the feeder a "head start"
+        on deleting and creating the shared memory segment.
+
+    NOTE: there's still a problem when a sched process
+    hangs (e.g. while sending to hung client) while attached to shmem.
+
+    sched/
+        *.C
+        start
