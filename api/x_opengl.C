@@ -3,12 +3,6 @@
 #include <unistd.h> 
 #include "x_opengl.h"
 
-/*
-#ifdef HAVE_GL
-#include "boinc_gl.h"
-#endif
-*/
-
 #include "boinc_gl.h"
 #include "boinc_api.h"
 #include "graphics_api.h"
@@ -32,11 +26,9 @@ void set_mode(int mode);
 void keyboardU(unsigned char key, int x, int y) {
   /* This callback is invoked when a user presses a key.
    */
+
   if (current_graphics_mode == MODE_FULLSCREEN) {
     set_mode(MODE_HIDE_GRAPHICS);
-    // PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0); // WINDOWS DEPENDENT
-    // } else {
-    // boinc_app_key_release((int)wParam, (int)lParam); //CHANGE TO SPECIFICALLY RESPOND TO KEYSTROKE
   }
 }
 
@@ -44,7 +36,6 @@ void mouse_click(int button, int state, int x, int y){
   clicked_button = button;
   if (current_graphics_mode == MODE_FULLSCREEN) {
     set_mode(MODE_HIDE_GRAPHICS);
-    // PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0); // WINDOWS DEPENDENT
   } else {
     if(state)
       boinc_app_mouse_button(x, y, button, false);
@@ -53,17 +44,10 @@ void mouse_click(int button, int state, int x, int y){
   }
 }
 
-void mouse_move(int x, int y){
-  if(current_graphics_mode == MODE_FULLSCREEN) {
-    set_mode(MODE_HIDE_GRAPHICS);
-    // PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
-  } else {
-    boinc_app_mouse_move(x, y, false, false, false);
-  }
-}
-
 void mouse_click_move(int x, int y){
-  if(clicked_button == 2){
+  if(current_graphics_mode == MODE_FULLSCREEN){
+    set_mode(MODE_HIDE_GRAPHICS);
+  } else if(clicked_button == 2){
     boinc_app_mouse_move(x, y, false, false, true);
   }else if (clicked_button == 1){
     boinc_app_mouse_move(x, y, false, true, false);
@@ -79,9 +63,9 @@ void keyboardD(unsigned char key, int x, int y) {
    */
   if (current_graphics_mode == MODE_FULLSCREEN) {
     set_mode(MODE_HIDE_GRAPHICS);
-    // PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0); // WINDOWS DEPENDENT
+ 
   } else {
-    // boinc_app_key_press((int)wParam, (int)lParam); //CHANGE IF WANT TO RESPOND TO KEYSTROKE
+  
   }
 }
 
@@ -90,7 +74,6 @@ void onIdle(){
   double currentTime = dtime();
   
   if(userclose == 1){
-    fprintf(stderr, "userclose happened, now = 0");
     userclose = 0;
     set_mode(MODE_HIDE_GRAPHICS);
   }
@@ -103,7 +86,6 @@ void onIdle(){
 static void make_new_window(int mode){
 
   if(mode == MODE_WINDOW || mode == MODE_FULLSCREEN){
-    fprintf(stderr, "making a new window of mode = %d: xopen\n", mode); fflush(stderr);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
     glutInitWindowPosition(xpos, ypos);
     glutInitWindowSize(gi.xsize, gi.ysize); 
@@ -129,7 +111,6 @@ static void make_new_window(int mode){
 
 void set_mode(int mode) {
 
-  fprintf(stderr,"in set_mode, mode= %d\n", mode); fflush(stderr);
   if(current_graphics_mode == MODE_HIDE_GRAPHICS && 
      mode == current_graphics_mode){
     make_new_window(MODE_WINDOW);
@@ -146,8 +127,8 @@ void set_mode(int mode) {
       }
       glutDestroyWindow(win);
     }
-    make_new_window(mode);
     current_graphics_mode = mode;
+    make_new_window(mode);
   }
   
   // tell the core client that we're entering new mode
@@ -161,15 +142,12 @@ void set_mode(int mode) {
 
 void* xwin_graphics_event_loop(void*){
 
-  fprintf(stderr, "in xwin: x_open\n"); fflush(stderr);
   if (boinc_is_standalone()) {
-    printf("is standalone\n");
     set_mode(MODE_WINDOW);
   } else {
     set_mode(MODE_HIDE_GRAPHICS); 
   }
 
-  fprintf(stderr, "out of setmode, about to enter main loop\n");fflush(stderr);
   glutMainLoop();
   return 0;
 }
