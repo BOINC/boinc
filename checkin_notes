@@ -5134,7 +5134,10 @@ John Brian	2003/06/30
 Karl    2003/06/30
     - schedulers: improved logging facilities. Use a library for common
       object files.
+    - changed timestamp() to be numeric, similar to ISO 8601
 
+    lib/
+        util.C
     sched/
         Makefile.am
         assimilate_handler.C

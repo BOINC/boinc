@@ -407,10 +407,15 @@ void safe_strncpy(char* dst, char* src, int len) {
 // return current time of day as ASCII string, no CR
 //
 char* timestamp() {
+    // time_t now = time(0);
+    // char* p = ctime(&now);
+    // *(strchr(p, '\n')) = 0;
+    // return p;
+    static char buf[100];
     time_t now = time(0);
-    char* p = ctime(&now);
-    *(strchr(p, '\n')) = 0;
-    return p;
+    struct tm* tm = localtime(&now);
+    strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", tm);
+    return buf;
 }
 
 // set by command line
