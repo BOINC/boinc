@@ -55,8 +55,8 @@ Set your PATH variable to include MySQL programs
 <p>
 Required on other server(s):
 <ul>
-  <li><b>Apache</b> or other webserver (package <code>apache2</code> or <code>apache</code>)
-  <li><b>PHP</b> 4.0 (package <code>php4</code>)
+  <li><b>Apache</b> or other webserver, with mod_ssl and PHP (package <code>apache2</code>, <code>apache</code> or <code>apache-ssl</code>)
+  <li><b>PHP</b> 4.0, configured for MySQL (packages <code>php4, php4-mysql</code>)
   <li><b>MySQL client</b> (package <code>mysql-client</code>)
   <li><b>Python</b> 2.2+ (package <code>python2.3</code> or <code>python2.2</code>)
   <li><a href=http://sourceforge.net/projects/mysql-python><b>Python module MySQLdb</b></a>

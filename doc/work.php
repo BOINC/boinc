@@ -24,33 +24,12 @@ list_item(
 );
 list_item(
     "input files",
-    "A list of its input files: their names,
+    "A list of the input files: their names,
     and the names by which the application refers to them."
 );
 list_item(
-    "error mask",
-    "A bit mask of various error conditions:
-    <ul>
-    <li> <b>WU_ERROR_COULDNT_SEND_RESULT</b>:
-        The BOINC scheduler was unable to send the workunit
-        to a large number (~100) of hosts,
-        probably because its resource requirements (disk, memory, CPU)
-        were too large for the hosts,
-        or because no application version was available
-        for the hosts' platforms.
-    <li> <b>WU_ERROR_TOO_MANY_ERROR_RESULTS</b>:
-        Too many results with error conditions
-        (upload/download problem, client crashes)
-        have been returned for this work unit.
-    <li> <b>WU_ERROR_TOO_MANY_SUCCESS_RESULTS</b>:
-        Too many successful results have been returned
-        without consensus.
-        This indicates that the application may
-        be nondeterministic.
-    <li> <b>WU_ERROR_TOO_MANY_TOTAL_RESULTS</b>:
-        Too many total results have been sent for this workunit.
-    </ul>
-    "
+    "priority",
+    "Higher-priority work is dispatched first"
 );
 list_end();
 
@@ -151,6 +130,36 @@ list_item(
 );
 list_end();
 
+echo "
+A workunit that is in the system has the following attribute:
+";
+list_start();
+list_item(
+    "error mask",
+    "A bit mask of various error conditions:
+    <ul>
+    <li> <b>WU_ERROR_COULDNT_SEND_RESULT</b>:
+        The BOINC scheduler was unable to send the workunit
+        to a large number (~100) of hosts,
+        probably because its resource requirements (disk, memory, CPU)
+        were too large for the hosts,
+        or because no application version was available
+        for the hosts' platforms.
+    <li> <b>WU_ERROR_TOO_MANY_ERROR_RESULTS</b>:
+        Too many results with error conditions
+        (upload/download problem, client crashes)
+        have been returned for this work unit.
+    <li> <b>WU_ERROR_TOO_MANY_SUCCESS_RESULTS</b>:
+        Too many successful results have been returned
+        without consensus.
+        This indicates that the application may
+        be nondeterministic.
+    <li> <b>WU_ERROR_TOO_MANY_TOTAL_RESULTS</b>:
+        Too many total results have been sent for this workunit.
+    </ul>
+    "
+);
+list_end();
 echo "
 <p>
 BOINC provides a <a href=tools_work.php>utility program and C function</a>

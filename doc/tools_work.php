@@ -102,6 +102,10 @@ create_work
                                         // relative to project root
     -result_template filename           // result template filename
                                         // relative to project root
+    [ -config_dir path ]                // where 'config.xml' is;
+                                        // default = '.'
+    [ -batch n ]
+    [ -priority n ]
 
     // The following are normally supplied in the WU template:
     [ -rsc_fpops_est x ]
@@ -118,12 +122,13 @@ create_work
     infile_1 ... infile_m           // input files
 </pre>
 The workunit parameters are documented <a href=work.php>here</a>.
-The program must be run in the project root directory;
+If the -config_dir option is not used,
+the program must be run in the project root directory;
 it looks for <b>config.xml</b> there, and uses its contents.
 
 <h3>C++ function interface</h3>
 <p>
-The C++ library (backend_lib.C,h) provides the functions:
+The C++ library (crypt.C, backend_lib.C,h) provides the functions:
 <pre>
 int read_key_file(char* path, R_RSA_PRIVATE_KEY& key);
 
@@ -137,8 +142,7 @@ int create_work(
     const char** infiles,                     // array of input file names
     int ninfiles
     R_RSA_PRIVATE_KEY& key,             // upload authentication key
-    const char* upload_url,
-    const char* download_url
+    SCHED_CONFIG&
 );
 </pre>
 <p>
