@@ -312,7 +312,7 @@ int boinc_worker_thread_cpu_time(double &cpu_t, double &ws_t) {
 }
 
 int boinc_thread_cpu_time(double& cpu, double& ws) {
-    return boinc_thread_cpu_time(cpu, ws);
+    return boinc_worker_thread_cpu_time(cpu, ws);
 }
 #endif
 #endif  // _WIN32

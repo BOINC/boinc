@@ -7747,3 +7747,11 @@ Karl 2003-11-21
     client/translation
         langauge.ini.de
 
+Karl 2003-11-21
+    - fixed recursive boinc_thread_cpu_time typo bug that resulted in loss of
+      client app functionality (bug noticed by Nuno Ferreira
+      <nuno.ferreira@graycell.biz>)
+
+    api/
+        boinc_api.C
+
