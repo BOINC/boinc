@@ -14396,3 +14396,11 @@ Daniel 30 June 2004
         parse.C
         util.C
 
+Daniel 30 June 2004
+    - Minor changes: changed scheduling period from 30 secs to 1 hour.
+    - Got rid of float.h in cs_apps.C.
+
+    client/
+        client_state.C
+        cs_apps.C
+

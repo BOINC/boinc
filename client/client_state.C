@@ -108,7 +108,7 @@ CLIENT_STATE::CLIENT_STATE() {
     pers_giveup = PERS_GIVEUP;
 	executing_as_windows_service = false;
     cpu_sched_last_time = (long) 0;
-    cpu_sched_period = 30;
+    cpu_sched_period = 3600; // 1 hour
     cpu_sched_work_done_this_period = 0;
 }
 

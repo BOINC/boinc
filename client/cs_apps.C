@@ -32,8 +32,6 @@
 #endif
 #endif
 
-#include <float.h>
-
 #include "md5_file.h"
 #include "util.h"
 #include "error_numbers.h"
