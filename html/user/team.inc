@@ -32,7 +32,6 @@ function display_team_page($team, $user) {
             <ul>
             <li><a href=team_edit_form.php?teamid=$team->id>Edit team info</a>
             <li><a href=team_remove_inactive_form.php?teamid=$team->id>Remove inactive members</a>
-            <li><a href=team_disband_form.php?teamid=$team->id>Disband team</a>
             <li><a href=team_email_list.php?teamid=$team->id>View team email addresses</a>
             </ul>
         ";
