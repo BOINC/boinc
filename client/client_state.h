@@ -93,6 +93,7 @@ public:
         // same, just for network
     bool started_by_screensaver;
     bool exit_when_idle;
+    bool check_all_logins;
     bool return_results_immediately;
     bool allow_remote_gui_rpc;
     bool show_projects;
@@ -247,7 +248,7 @@ private:
     bool contacted_sched_server;
     void compute_resource_debts();
 
-    PROJECT* find_project_with_overdue_results();
+    PROJECT* find_project_with_overdue_results(bool& overdue);
     void current_work_buf_days(double& work_buf, int& nactive_results);
     PROJECT* next_project_sched_rpc_pending();
     bool some_project_rpc_ok();

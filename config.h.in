@@ -265,6 +265,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define to 1 if you have the <utmp.h> header file. */
+#undef HAVE_UTMP_H
+
 /* Define to 1 if you have the `vprintf' function. */
 #undef HAVE_VPRINTF
 

@@ -13530,3 +13530,21 @@ Rom    14 June 2004
 
     client/
         client_state.C
+
+Daniel 14 June 2004
+    - client: Returning results due to "-return_results_immediately"
+      no longer tries to fetch work unless it's needed.
+    - client: Added "-check_all_logins" command-line option to force
+      idle checking to look at all users' terminals.
+
+    config.h.in
+    configure
+    configure.ac
+    client/
+        Makefile.in
+        client_state.C
+        client_state.h
+        cs_cmdline.C
+        cs_scheduler.C
+        hostinfo_unix.C
+

@@ -362,7 +362,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
 // find a project with results that are overdue to report,
 // and which we're allowed to contact.
 //
-PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
+PROJECT* CLIENT_STATE::find_project_with_overdue_results(bool& overdue) {
     unsigned int i;
     float fReportDeadlineToReport = 0.0;
     RESULT* r;
@@ -392,9 +392,12 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         // ignore the report deadline when deciding when to report a result
         //
         if (r->ready_to_report &&
-            (return_results_immediately ||
-             r->report_deadline <= (now + fReportDeadlineToReport)))
+             r->report_deadline <= (now + fReportDeadlineToReport))
         {
+            overdue = true;
+            return r->project;
+        } else if (r->ready_to_report && return_results_immediately) {
+            overdue = false;
             return r->project;
         }
     }
@@ -429,13 +432,13 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         if (exit_when_idle && contacted_sched_server) {
             should_get_work = false;
         } else {
-        	// TODO: the following is a kludge to prevent
-        	// repeated work requests, but it defeats the
-        	// work_buf_min concept
-        	//
+            // TODO: the following is a kludge to prevent
+            // repeated work requests, but it defeats the
+            // work_buf_min concept
+            //
             //below_work_buf_min = (current_work_buf_days() <= global_prefs.work_buf_min_days);
-			current_work_buf_days(work_buf_days, nactive_results);
-			below_work_buf_min = nactive_results < host_info.p_ncpus;
+            current_work_buf_days(work_buf_days, nactive_results);
+            below_work_buf_min = nactive_results < host_info.p_ncpus;
             should_get_work = below_work_buf_min && some_project_rpc_ok();
         }
         if (should_get_work) {
@@ -450,10 +453,11 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             scheduler_op->init_return_results(p, 0);
             action = true;
         } else {
-            p = find_project_with_overdue_results();
+            bool overdue = false;
+            p = find_project_with_overdue_results(overdue);
             if (p) {
                 compute_resource_debts();
-                if (p->debt_order == 0) {
+                if (overdue && p->debt_order == 0) {
                     work_secs = work_needed_secs();
                 } else {
                     work_secs = 0;

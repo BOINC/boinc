@@ -55,6 +55,9 @@
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+#if HAVE_UTMP_H
+#include <utmp.h>
+#endif
 #if HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
@@ -420,11 +423,38 @@ inline bool all_tty_idle(time_t t, char *device, char first_char, int num_tty) {
     return true;
 }
 
+inline bool user_idle(time_t t, struct utmp* u) {
+    char tty[5 + sizeof u->ut_line + 1] = "/dev/";
+    unsigned int i;
+
+    for (i=0; i < sizeof(u->ut_line); i++) /* clean up tty if garbled */
+        if (isalnum((int) u->ut_line[i]) || (u->ut_line[i]=='/'))
+            tty[i+5] = u->ut_line[i];
+        else
+            tty[i+5] = '\0';
+    return device_idle(t, tty);
+}
+
+inline bool all_logins_idle(time_t t) {
+    struct utmp* u;
+    setutent();
+
+    while ((u = getutent()) != NULL) {
+        if (!user_idle(t, u)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void CLIENT_STATE::check_idle() {
+#ifdef HAVE__DEV_TTY1
     char device_tty[] = "/dev/tty1";
+#endif
     time_t idle_time =
         time(NULL) - (long) (60 * global_prefs.idle_time_to_run);
     user_idle = true
+        && (!check_all_logins || all_logins_idle(idle_time))
 #ifdef HAVE__DEV_MOUSE
         && device_idle(idle_time, "/dev/mouse") // solaris, linux
 #endif
@@ -432,7 +462,8 @@ void CLIENT_STATE::check_idle() {
         && device_idle(idle_time, "/dev/kbd") // solaris
 #endif
 #ifdef HAVE__DEV_TTY1
-        && all_tty_idle(idle_time, device_tty, '1', 7) // linux
+        && (check_all_logins || all_tty_idle(idle_time, device_tty, '1', 7))
 #endif
         ;
 }
+
