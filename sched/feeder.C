@@ -204,6 +204,12 @@ int main(int argc, char** argv) {
         }
     }
 
+    if (asynch) {
+        if (fork()!=0) {
+            exit(0);
+        }
+    }
+
     retval = destroy_shmem(config.shmem_key);
     if (retval) {
         fprintf(stderr, "feeder: can't destroy shmem\n");
@@ -233,11 +239,5 @@ int main(int argc, char** argv) {
         ssp->napp_versions
     );
 
-    if (asynch) {
-        if (fork()==0) {
-            feeder_loop(ssp);
-        }
-    } else {
-        feeder_loop(ssp);
-    }
+    feeder_loop(ssp);
 }

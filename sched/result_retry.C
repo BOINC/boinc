@@ -7,6 +7,8 @@
 //   [ -nredundancy n ]     try to get at least this many done results
 //   [ -asynch ]            be asynchronous
 
+using namespace std;
+
 #include <vector>
 #include <unistd.h>
 #include <sys/time.h>
