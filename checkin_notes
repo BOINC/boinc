@@ -20026,3 +20026,26 @@ Rom    22 Nov 2004
         gui_rpc_client.C, .h
     win_build/installerv2/
         BOINC.ism
+
+Bruce 23 Nov 2004 UTC
+    - Build boinc zip compression library as part of normal ./configure && make process
+    - make install now installs libboinc_zip.a as part of normal make install
+    - Unix boinc client and boinc gui had the same name, eg boinc_4.56_i686-pc-linux-gnu
+      I have changed this so that it is now boinc_client_4.56_i686-pc-linux-gnu and
+      boinc_gui_4.56_i686-pc-linux-gnu.  If the change from boinc_ to boinc_client_
+      causes any pain, please just modify CLIENT_BIN_FILENAME in configure.ac
+    - Removed -O3 as required compilation flag in building client gui.  Only needed for
+      client (to optimize benchmarking routines).
+    - Removed un-necessary zip/configure.ac and zip/Makefile
+    - Added .cvsignore file for zip/ directory.
+
+    configure.ac
+    Makefile.am
+    clientgui/
+     Makefile.am
+    zip/
+     Makefile.am
+     configure.ac (removed)
+     Makefile (removed)
+     .cvsignore (added)
+     

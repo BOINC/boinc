@@ -6,9 +6,9 @@ include $(top_srcdir)/Makefile.incl
 # by default, "-static -static-libgcc" on linux.
 #STATIC_FLAGS=@STATIC_FLAGS@
 
-bin_PROGRAMS = boincgui
+bin_PROGRAMS = boinc_gui
 
-boincgui_SOURCES = \
+boinc_gui_SOURCES = \
     BOINCBaseView.cpp \
     BOINCGUIApp.cpp \
     BOINCListCtrl.cpp \
@@ -34,12 +34,12 @@ boincgui_SOURCES = \
     ../lib/parse.C \
     ../lib/util.C
 
-boincgui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS) -O3
-boincgui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS) -O3
-boincgui_LDADD = $(PTHREAD_LIBS) $(WX_LIBS) $(CLIENTGUILIBS)
+boinc_gui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS)
+boinc_gui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS)
+boinc_gui_LDADD = $(PTHREAD_LIBS) $(WX_LIBS) $(CLIENTGUILIBS)
 
-all-local: client-bin
-client-bin: @CLIENT_BIN_FILENAME@
+all-local: client_gui-bin
+client_gui-bin: @CLIENT_GUI_BIN_FILENAME@
 
 win_config.h: $(top_srcdir)/config.h
 	grep '#define.*BOINC.*VERSION' $^ > $@
@@ -47,11 +47,11 @@ win_config.h: $(top_srcdir)/config.h
 version: win_config.h
 
 # make a hard link to the client name.
-@CLIENT_BIN_FILENAME@: boincgui
+@CLIENT_GUI_BIN_FILENAME@: boinc_gui
 	rm -f $@
 	ln $? $@
 
 clean-local:
-	rm -f @CLIENT_BIN_FILENAME@
+	rm -f @CLIENT_GUI_BIN_FILENAME@
 
 .PHONY: version

@@ -90,7 +90,8 @@ AC_DEFINE_UNQUOTED([BOINC_VERSION_STRING], "$BOINC_VERSION_STRING", [String repr
 AC_DEFINE_UNQUOTED([BOINC_MAJOR_VERSION], $BOINC_MAJOR_VERSION, [Major part of BOINC version number])
 AC_DEFINE_UNQUOTED([BOINC_MINOR_VERSION], $BOINC_MINOR_VERSION, [Minor part of BOINC version number])
 AC_DEFINE_UNQUOTED([HOSTTYPE], "$host", [Host for this compilation])
-AC_SUBST([CLIENT_BIN_FILENAME],[boinc_]AC_PACKAGE_VERSION[_$host${EXEEXT}])
+AC_SUBST([CLIENT_BIN_FILENAME],[boinc_client_]AC_PACKAGE_VERSION[_$host${EXEEXT}])
+AC_SUBST([CLIENT_GUI_BIN_FILENAME],[boinc_gui_]AC_PACKAGE_VERSION[_$host${EXEEXT}])
 AC_SUBST([TOP_BUILD_DIR], [`pwd`])
 AC_SUBST([TOP_SOURCE_DIR], [`(cd \`dirname "$0"\` && pwd)`])
 
@@ -264,32 +265,34 @@ dnl fi
 dnl echo "checking static flags... ${STATIC_FLAGS:-(none)}"]
 dnl AC_SUBST(STATIC_FLAGS)
 
-AC_CONFIG_FILES([Makefile
-                 RSAEuro/source/Makefile
-                 RSAEuro/Makefile
+AC_CONFIG_FILES([
                  api/Makefile
-                 boincglut/Makefile
-                 boincglut/lib/Makefile
-                 boincglut/lib/glut/Makefile
-                 boincglut/include/Makefile
                  apps/Makefile
-                 client/Makefile
+                 boincglut/include/Makefile
+                 boincglut/lib/glut/Makefile
+                 boincglut/lib/Makefile
+                 boincglut/Makefile
                  clientgui/Makefile
+                 client/Makefile
+                 client/win/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  db/Makefile
                  lib/Makefile
+                 Makefile
+                 py/Boinc/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 py/Boinc/Makefile
+                 py/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 py/Boinc/version.py
+                 py/Makefile
+                 RSAEuro/Makefile
+                 RSAEuro/source/Makefile
+                 sched/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  sched/Makefile
-                 tools/Makefile
+                 test/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  test/Makefile
                  test/version.inc
-                 py/Makefile
-                 py/Boinc/Makefile
-                 py/Boinc/version.py
-                 py/Boinc/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
-                 py/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
-                 client/win/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
-                 sched/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  tools/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
-                 test/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 tools/Makefile
+                 zip/Makefile
                  ])
 
 dnl AC_CONFIG_HEADER([config.h])

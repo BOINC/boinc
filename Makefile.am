@@ -3,7 +3,7 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-API_SUBDIRS = api lib boincglut apps
+API_SUBDIRS = api lib boincglut apps zip
 
 if ENABLE_SERVER
    SERVER_SUBDIRS = db tools test py sched

@@ -9,7 +9,7 @@ AM_CPPFLAGS = -pthread \
  -DUNIX
 
 ##noinst_PROGRAMS = test
-noinst_LIBRARIES = libboinc_zip.a
+lib_LIBRARIES = libboinc_zip.a
 
 libboinc_zip_a_SOURCES = boinc_zip.cpp \
 ./unzip/apihelp.c \
