@@ -4,16 +4,15 @@
     require_once("team.inc");
     require_once("db.inc");
 
-    $authenticator = init_session();
     db_init();
-    $user = get_user_from_auth($authenticator);
+    $user = get_logged_in_user();
 
     $query = sprintf(
         "select * from team where id = %d",
         $HTTP_POST_VARS["id"]
     );
     $result = mysql_query($query);
-    if($result) {
+    if ($result) {
       $team = mysql_fetch_object($result);
       mysql_free_result($result);
     }

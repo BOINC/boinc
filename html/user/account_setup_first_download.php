@@ -5,12 +5,7 @@ require_once("util.inc");
 require_once("download.inc");
 
 db_init();
-$authenticator = init_session();
-$user = get_user_from_auth($authenticator);
-if ($user == NULL) {
-    print_login_form();
-    exit();
-}
+$user = get_logged_in_user();
 
 page_head("Download BOINC software", $user);
 

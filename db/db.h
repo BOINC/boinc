@@ -114,10 +114,10 @@ struct USER {
     double total_credit;
     double expavg_credit;           // credit per second, recent average
     double expavg_time;             // when the above was computed
-    char global_prefs[MAX_BLOB_SIZE];  // global preferences
-        // within <global_preferences> tag
+    char global_prefs[MAX_BLOB_SIZE];
+        // global preferences, within <global_preferences> tag
     char project_prefs[MAX_BLOB_SIZE];
-        // within <project_preferences> tag
+        // project preferences, within <project_preferences> tag
     int teamid;                     // if user is part of a team
     char venue[256];                // home/work/school (default)
 };

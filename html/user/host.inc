@@ -26,6 +26,9 @@ function show_host($host, $private) {
         $x = $host->timezone/3600;
         row2("Time zone", "UTC - $x hours");
     }
+    if ($private) {
+        row2("Name", $host->domain_name);
+    }
     row2("Created", time_str($host->create_time));
     row2("Total Credit", $host->total_credit);
     row2("Recent average credit", $host->expavg_credit);
@@ -85,12 +88,18 @@ function show_host($host, $private) {
 
 }
 
-function host_table_start($title) {
+function host_table_start($title, $private) {
     start_table();
     row1($title, 6);
     echo "<tr>
         <th>Rank<br><font size=-2>Click for more info</font></th>
-        <th>Owner</th>
+    ";
+    if ($private) {
+        echo "<th>Name</th>\n";
+    } else {
+        echo "<th>Owner</th>\n";
+    }
+    echo "
         <th>Total credit</th>
         <th>Recent average credit</th>
         <th>CPU type</th>
@@ -99,13 +108,19 @@ function host_table_start($title) {
     ";
 }
 
-function show_host_row($host, $i) {
+function show_host_row($host, $i, $private) {
     $result = mysql_query("select * from user where id = $host->userid");
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
     echo "<tr>
         <td><a href=show_host_public.php?hostid=$host->id>$i</a></td>
-        <td><a href=show_user.php?userid=$user->id>$user->name</a></td>
+    ";
+    if ($private) {
+        echo"<td>$host->domain_name</td>";
+    } else {
+        echo"<td><a href=show_user.php?userid=$user->id>$user->name</a></td>";
+    }
+    echo"
         <td>$host->total_credit</td>
         <td>$host->expavg_credit</td>
         <td>$host->p_vendor $host->p_model</td>

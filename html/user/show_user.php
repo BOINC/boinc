@@ -14,7 +14,7 @@
     if ($user) {
       	page_head("Account data for $user->name");
         start_table();
-    	show_user_stats($user);
+    	show_user_stats($user, false);
         end_table();
         page_tail();
     } else {

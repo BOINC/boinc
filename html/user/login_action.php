@@ -3,7 +3,7 @@
     require_once("user.inc");
     require_once("db.inc");
 
-    $authenticator = init_session();
+    init_session();
     db_init();
     $authenticator = trim($_POST["authenticator"]);
     if (strlen($authenticator)) {

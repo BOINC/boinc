@@ -3870,3 +3870,10 @@ Eric  March 19, 2003
         win/
             wingui_mainwindow.cpp
 
+David  Mar 19 2003
+    - general cleanup of user web
+
+    html_user/
+        *
+        show_hosts.php (removed)
+

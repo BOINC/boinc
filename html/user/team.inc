@@ -88,7 +88,6 @@ function require_team($team) {
 // requires that the user is logged in as the founder of
 // the team trying to be edited
 function require_founder_login($user, $team) {
-    require_login($user);
     require_team($team);
     if ($user->id != $team->userid) {
         page_head("Permission denied");

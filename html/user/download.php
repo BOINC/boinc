@@ -4,7 +4,7 @@ require_once("db.inc");
 require_once("util.inc");
 require_once("download.inc");
 
-    $authenticator = init_session();
+    init_session();
     db_init();
 
     page_head("Download BOINC software");

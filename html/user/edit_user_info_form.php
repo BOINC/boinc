@@ -1,14 +1,11 @@
 <?php
 
-require_once("edit.inc");
 require_once("util.inc");
 
 db_init();
-$authenticator = init_session();
-$user = get_user_from_auth($authenticator);
-require_login($user);
+$user = get_logged_in_user();
 
-page_head("Edit user information");
+page_head("Edit user information", $user);
 
 echo "<form method=post action=edit_user_info_action.php>";
 start_table();

@@ -4,10 +4,8 @@
     require_once("team.inc");
     require_once("db.inc");
 
-    $authenticator = init_session();
     db_init();
-    $user = get_user_from_auth($authenticator);
-    require_login($user);
+    $user = get_logged_in_user();
 
     $query = sprintf(
         "select * from team where id = %d",

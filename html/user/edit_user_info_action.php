@@ -3,10 +3,8 @@
     require_once("user.inc");
     require_once("db.inc");
 
-    $authenticator = init_session();
     db_init();
-    $user = get_user_from_auth($authenticator);
-    require_login($user);
+    $user = get_logged_in_user();
 
     page_head("User info update");
     $name = $HTTP_POST_VARS["user_name"];

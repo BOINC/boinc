@@ -4,7 +4,7 @@ include_once("db.inc");
 include_once("util.inc");
 include_once("team.inc");
 
-$authenticator = init_session();
+init_session();
 db_init();
 
     page_head("Teams");

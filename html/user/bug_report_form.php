@@ -18,32 +18,28 @@ function print_platform_select() {
     echo "</select>\n";
 }
 
-$authenticator = init_session();
-db_init();
+    db_init();
 
-$user = get_user_from_auth($authenticator);
-if ($user == NULL) {
-    print_login_form();
-    exit();
-}
-page_head("Problem Report Form", $user);
+    $user = get_logged_in_user();
 
-echo "
-    <h3>Problem Report Form</h3>
-    <form method=post action=bug_report_action.php>
-";
-start_table();
-row2_init("Computer type", "");
-print_platform_select();
-echo" </td></tr>\n";
-row2("Problem description",
-    "<textarea name=problem rows=10 cols=80></textarea>"
-);
-row2("",
-    "<input type=submit value=\"Submit problem report\">"
-);
-end_table();
-echo" </form> ";
-page_tail();
+    page_head("Problem Report Form", $user);
+
+    echo "
+        <h3>Problem Report Form</h3>
+        <form method=post action=bug_report_action.php>
+    ";
+    start_table();
+    row2_init("Computer type", "");
+    print_platform_select();
+    echo" </td></tr>\n";
+    row2("Problem description",
+        "<textarea name=problem rows=10 cols=80></textarea>"
+    );
+    row2("",
+        "<input type=submit value=\"Submit problem report\">"
+    );
+    end_table();
+    echo" </form> ";
+    page_tail();
 
 ?>

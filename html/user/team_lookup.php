@@ -4,8 +4,8 @@
     require_once("team.inc");
     require_once("db.inc");
 
-    $authenticator = init_session();
     db_init();
+    init_session();
 
     $team_name = $HTTP_POST_VARS["team_name"];
     $words = preg_split("/[\s,]+/", $team_name);

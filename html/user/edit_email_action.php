@@ -15,10 +15,8 @@ To confirm this change, please visit the following URL:
     );
 }
 
-    $authenticator = init_session();
     db_init();
-    $user = get_user_from_auth($authenticator);
-    require_login($user);
+    $user = get_logged_in_user();
 
     $email_addr = $HTTP_POST_VARS["email_addr"];
 

@@ -32,6 +32,12 @@ THINGS TO TEST (preferably with test scripts)
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
+add to user table:
+    URL field (in XML)
+    "show hosts to others" flag (in XML)
+    move "send email" flag from XML to DB
+    remove "show email" flag
+
 add user control for HD write frequency
 
 decide what to do with invalid result files in upload directory

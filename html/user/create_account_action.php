@@ -11,7 +11,7 @@ function show_error($str) {
     exit();
 }
 
-    $authenticator = init_session();
+    init_session();
     db_init();
 
     $new_name = $HTTP_POST_VARS["new_name"];

@@ -40,6 +40,13 @@ function get_user_from_auth($auth) {
     return NULL;
 }
 
+function get_logged_in_user() {
+    $authenticator = init_session();
+    $user = get_user_from_auth($authenticator);
+    require_login($user);
+    return $user;
+}
+
 function show_login($user) {
     if ($user) {
         echo "Logged in as %s.\n", $user->name;

@@ -5,15 +5,9 @@
 
     // show the home page of whoever's logged in
 
-    $authenticator = init_session();
-
     db_init();
-    $user = get_user_from_auth($authenticator);
-    if ($user) {
-        page_head("User page", $user);
-        show_user_page_private($user);
-        page_tail();
-    } else {
-        print_login_form();
-    }
+    $user = get_logged_in_user();
+    page_head("User page", $user);
+    show_user_page_private($user);
+    page_tail();
 ?>

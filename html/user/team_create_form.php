@@ -3,17 +3,11 @@
 require_once("util.inc");
 require_once("team.inc");
 
-$authenticator = init_session();
 db_init();
 
-$user = get_user_from_auth($authenticator);
+$user = get_logged_in_user();
 
-if ($user == NULL) {
-    print_login_form();
-    exit();
-}
-
-    page_head("Create a team");
+page_head("Create a team");
 
 echo "<form method=post action=team_create_action.php>\n";
 start_table();
@@ -64,5 +58,5 @@ row2("",
 end_table();
 echo "</form>\n";
 
-    page_tail();
+page_tail();
 ?>

@@ -4,20 +4,19 @@ require_once("util.inc");
 require_once("team.inc");
 require_once("db.inc");
 
-$authenticator = init_session();
-db_init();
+    db_init();
 
-$user = get_user_from_auth($authenticator);
+    $user = get_logged_in_user();
 
-$query = sprintf(
-    "select * from team where id=%d",
-    $HTTP_GET_VARS["id"]
-);
-$result = mysql_query($query);
-if ($result) {
-    $team = mysql_fetch_object($result);
-    mysql_free_result($result);
-}
+    $query = sprintf(
+        "select * from team where id=%d",
+        $HTTP_GET_VARS["id"]
+    );
+    $result = mysql_query($query);
+    if ($result) {
+        $team = mysql_fetch_object($result);
+        mysql_free_result($result);
+    }
 
     require_founder_login($user, $team);
 
@@ -42,6 +41,6 @@ if ($result) {
     }
     echo "</table>";
 
-page_tail();
+    page_tail();
 
 ?>

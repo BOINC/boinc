@@ -4,9 +4,8 @@
     require_once("team.inc");
     require_once("db.inc");
 
-    $authenticator = init_session();
     db_init();
-    $user = get_user_from_auth($authenticator);
+    $user = get_logged_in_user();
     $id = $HTTP_POST_VARS["id"];
 
     $query = "select * from team where id = $id";
