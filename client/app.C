@@ -637,6 +637,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
     iter = active_tasks.begin();
     while (iter != active_tasks.end()) {
         atp = *iter;
+        atp->init(atp->result);
         get_slot_dir(atp->slot, atp->slot_dir);
         retval = atp->start(false);
         if (log_flags.task) {
