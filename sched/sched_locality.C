@@ -229,8 +229,20 @@ static int send_results_for_file(
     return 0;
 }
 
-// The client doesn't have any files for which work is available.
+// The host doesn't have any files for which work is available.
 // Pick new file(s) to send.
+// Note: given any file F,
+// it's possible that this user has been issued lots of results under F.
+// We must avoid stepping through lots of disqualified results.
+// So the general logic is:
+//
+// min_filename = ""
+// loop
+//    R = first unsent result where filename>min_filename order by filename
+//        // order by filename implies order by ID
+//    send_results_for_file(R.filename)
+//        //  this skips disqualified results
+//    min_filename = R.filename;
 //
 static void send_new_file_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
@@ -240,58 +252,26 @@ static void send_new_file_work(
     int lastid=0, nsent, last_wuid=0, i;
     unsigned int j;
     DB_RESULT result;
-    char filename[256];
+    char filename[256], min_filename[256];
     char buf[256], query[65000];
 
+    strcpy(min_filename, "");
     for (i=0; i<100; i++) {     // avoid infinite loop
         if (!wreq.work_needed(reply)) break;
-        boinc_db.start_transaction();
         sprintf(query,
-            "where server_state=%d and id>%d order by id limit 1",
-            RESULT_SERVER_STATE_UNSENT, lastid
+            "where server_state=%d and name>'%s' order by name limit 1",
+            RESULT_SERVER_STATE_UNSENT, min_filename
         );
-        lookup_retval = result.lookup(query);
-
-        send_retval=0;
-        if (!lookup_retval) {
-            lastid = result.id;
-            send_retval = possibly_send_result(
-                result,
-                sreq, reply, platform, wreq, ss
-            );
-            log_messages.printf(SCHED_MSG_LOG::DEBUG,
-                "possibly_send_result(): %d\n", send_retval
-            );
-        }
-
-        boinc_db.commit_transaction();
-
-        log_messages.printf(SCHED_MSG_LOG::DEBUG,
-            "lastid=%d last_wuid=%d\n", lastid, last_wuid
-        );
-
-        if (lookup_retval) break;
-        lastid = result.id;
-
-        if (send_retval) continue;
-
-        // try to send more results w/ same file
-        //
-        retval = extract_filename(result.name, filename);
-        if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::DEBUG,
-                "result doesn't contain filename: %s\n", result.name
-            );
-            continue;
-        }
+        retval = result.lookup(query);
+        if (retval) break;
+        extract_filename(result.name, filename);
         send_results_for_file(
             filename, nsent, sreq, reply, platform, wreq, ss
         );
 
         // if no result for that file, ask work generator to make more
         //
-        if (!nsent && config.locality_scheduling_wait_period) {
+        if (nsent==0 && config.locality_scheduling_wait_period) {
             retval = make_more_work_for_file(filename);
             if (!retval) {
                 sleep(config.locality_scheduling_wait_period);
@@ -300,6 +280,7 @@ static void send_new_file_work(
                 );
             }
         }
+        strcpy(min_filename, filename);
     }
 }
 
