@@ -28,6 +28,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cmath>
+#include <cerrno>
 #include <algorithm>
 #include <iterator>
 #include <iostream>

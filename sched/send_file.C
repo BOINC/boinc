@@ -67,11 +67,12 @@ int create_download_result(DB_RESULT& result, int host_id) {
     int retval;
     char result_xml[LARGE_BLOB_SIZE];
     sprintf(result_xml,
-            "<result>\n"
-            "    <wu_name>%s</wu_name>\n"
-            "    <name>%s</name>\n"
-            "</result>\n",
-            result.name, result.name);
+        "<result>\n"
+        "    <wu_name>%s</wu_name>\n"
+        "    <name>%s</name>\n"
+        "</result>\n",
+        result.name, result.name
+    );
     strcpy(result.xml_doc_in, result_xml);
     result.sent_time = time(0);
     result.report_deadline = 0;
@@ -89,8 +90,8 @@ int create_download_message(DB_RESULT& result, int host_id, const char* file_nam
     int retval;
     double nbytes;
     char dirpath[256], urlpath[256], path[256], md5[33];
-    dirpath = config.download_dir;
-    urlpath = config.download_url;
+    strcpy(dirpath, config.download_dir);
+    strcpy(urlpath, config.download_url);
     mth.clear();
     mth.create_time = time(0);
     mth.hostid = host_id;
@@ -103,33 +104,34 @@ int create_download_message(DB_RESULT& result, int host_id, const char* file_nam
         return retval;
     }
     sprintf(mth.xml,
-            "<app>\n"
-            "    <name>%s</name>\n"
-            "</app>\n"
-            "<app_version>\n"
-            "    <app_name>%s</app_name>\n"
-            "    <version_num>%d00</version_num>\n"
-            "</app_version>\n"
-            "%s"
-             "<file_info>\n"
-            "    <name>%s</name>\n"
-            "    <url>%s/%s</url>\n"
-            "    <md5_cksum>%s</md5_cksum>\n"
-            "    <nbytes>%.0f</nbytes>\n"
-            "    <sticky/>\n"
-            "    <priority>%d</priority>\n"
-            "    <exp_days>%ld</exp_days>\n"
-            "</file_info>\n"
-            "<workunit>\n"
-            "    <name>%s</name>\n"
-            "    <app_name>%s</app_name>\n"
-            "    <file_ref>\n"
-            "      <file_name>%s</file_name>\n"
-            "    </file_ref>\n"
-            "</workunit>",
-            FILE_MOVER, FILE_MOVER, BOINC_MAJOR_VERSION, result.xml_doc_in,
-            file_name, urlpath, file_name, md5,
-            nbytes, priority, exp_days, result.name, FILE_MOVER, file_name);
+        "<app>\n"
+        "    <name>%s</name>\n"
+        "</app>\n"
+        "<app_version>\n"
+        "    <app_name>%s</app_name>\n"
+        "    <version_num>%d00</version_num>\n"
+        "</app_version>\n"
+        "%s"
+         "<file_info>\n"
+        "    <name>%s</name>\n"
+        "    <url>%s/%s</url>\n"
+        "    <md5_cksum>%s</md5_cksum>\n"
+        "    <nbytes>%.0f</nbytes>\n"
+        "    <sticky/>\n"
+        "    <priority>%d</priority>\n"
+        "    <exp_days>%ld</exp_days>\n"
+        "</file_info>\n"
+        "<workunit>\n"
+        "    <name>%s</name>\n"
+        "    <app_name>%s</app_name>\n"
+        "    <file_ref>\n"
+        "      <file_name>%s</file_name>\n"
+        "    </file_ref>\n"
+        "</workunit>",
+        FILE_MOVER, FILE_MOVER, BOINC_MAJOR_VERSION, result.xml_doc_in,
+        file_name, urlpath, file_name, md5,
+        nbytes, priority, exp_days, result.name, FILE_MOVER, file_name
+    );
     retval = mth.insert();
     if (retval) {
         fprintf(stderr, "msg_to_host.insert(): %d\n", retval);
@@ -138,7 +140,9 @@ int create_download_message(DB_RESULT& result, int host_id, const char* file_nam
     return 0;
 }
 
-int send_file(int host_id, const char* file_name, int priority, long int exp_days) {
+int send_file(
+    int host_id, const char* file_name, int priority, long int exp_days
+) {
     DB_RESULT result;
     int retval;
     result.clear();
@@ -197,30 +201,24 @@ int main(int argc, char** argv) {
         }
     }
 
-    // if no arguments are given, error and exit
     if (!strlen(file_name)) {
         fprintf(stderr, "send_file: bad command line, requires a valid host_id and file_name\n");
         exit(1);
     }
-    // parse the configuration file to get database information
     retval = config.parse_file("..");
     if (retval) {
         fprintf(stderr, "Can't parse config file: %d\n", retval);
         exit(1);
     }
 
-    // open the database
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
         fprintf(stderr, "boinc_db.open failed: %d\n", retval);
         exit(1);
     }
 
-    // run the get file routine
     retval = send_file(host_id, file_name, priority, exp_days);
 
-    // close the database
     boinc_db.close();
-    // return with error code if any
     return retval;
 }

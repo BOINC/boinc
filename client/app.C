@@ -29,7 +29,6 @@
 
 #ifndef _WIN32
 
-#include <cerrno>
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif

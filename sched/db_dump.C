@@ -508,14 +508,14 @@ void core_versions(char* dir) {
 }
 
 int print_app(FILE* f, APP& app) {
-    DB_RESULT result;
-    char buf[256];
-    int n, retval;
 
     fprintf(f, "        <application>\n");
     fprintf(f, "            <name>%s</name>\n", app.user_friendly_name);
 
 #if 0
+    DB_RESULT result;
+    char buf[256];
+    int n, retval;
     // can't do this stuff because MySQL/InnoDB can't do counts efficiently
     //
     sprintf(buf, "where appid=%d and server_state=%d", app.id, RESULT_SERVER_STATE_UNSENT);
@@ -552,13 +552,8 @@ int print_apps(FILE* f) {
 }
 
 int tables_file(char* dir) {
-    int nusers, nteams, nhosts;
-    int retval;
     char buf[256];
 
-    DB_USER user;
-    DB_TEAM team;
-    DB_HOST host;
     ZFILE f("tables", false);
     sprintf(buf, "%s/tables.xml", dir);
     f.open(buf);
@@ -567,6 +562,11 @@ int tables_file(char* dir) {
         (int)time(0)
     );
 #if 0
+    DB_USER user;
+    DB_TEAM team;
+    DB_HOST host;
+    int nusers, nteams, nhosts;
+    int retval;
     // can't do counts in MySQL/InnoDB
     retval = user.count(nusers);
     if (retval) return retval;

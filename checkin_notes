@@ -16287,3 +16287,15 @@ David  12 Aug 2004
 		cs_scheduler.C
 		cs_statefile.C
 		scheduler_op.C
+
+David  12 Aug 2004
+    - compile fixes from Jakob Pedersen
+
+    client/
+        app.C
+        app_start.C
+    lib/
+        util.C
+    sched/
+        db_dump.C
+        send_file.C

@@ -40,6 +40,7 @@ show_name("Janus Kristensen");
 show_name("Tim Lan");
 show_name("Sebastian Masch");
 show_name("Kenichi Miyoshi");
+show_name("Jakob Pedersen");
 show_name("Stephen Pellicer");
 show_name("Jens Seidler");
 show_name("Christian Soettrup");

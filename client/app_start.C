@@ -34,6 +34,7 @@
 #include <sys/wait.h>
 #endif
 #include <unistd.h>
+#include <cerrno>
 #endif
 
 using std::vector;
