@@ -212,10 +212,10 @@ void CViewMessages::OnListRender(wxTimerEvent &event)
 
         m_bProcessingListRenderEvent = false;
     }
-    else
-    {
-        event.Skip();
-    }
+
+    m_pListPane->Refresh();
+
+    event.Skip();
 }
 
 
