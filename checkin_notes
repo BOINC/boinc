@@ -12664,3 +12664,13 @@ David  May 25 2004
 
     client/
         Makefile.am
+
+David  May 25 2004
+    - setup_project.py:
+        copy sample_index.php to index.php
+        Otherwise tests don't work.
+ 
+    py/Boinc/
+        setup_project.py
+    test/
+        testbase.py

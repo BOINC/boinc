@@ -2,10 +2,10 @@
 
 # testbase.py
 #
-# A set of classes for testing BOINC.  These classes let you create multiple
-# projects and multiple hosts (all running on a single machine), add
-# applications and work units, run the system, and verify that the results are
-# correct.
+# A set of classes for testing BOINC.
+# These classes let you create multiple projects and multiple hosts
+# (all running on a single machine), add applications and work units,
+# run the system, and verify that the results are correct.
 #
 # See doc/test.php for details
 
