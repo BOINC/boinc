@@ -176,7 +176,6 @@ def _select_count_objects(*args, **kwargs):
 
 OBJECT_CACHE_SIZE = 1024
 
-# TODO: use iterators/generators for find()
 class DatabaseTable:
     def __init__(self, table, columns, extra_columns=[],
                  select_args = None, sort_results = False):
