@@ -3410,3 +3410,14 @@ David  Feb 22
         make_project_ap.php
         test.inc
 
+Seth  Feb 24
+    - changed windows graphics handling. client now has a child window in which all graphics
+        are displayed.  when an app is running, this window sends a message to the app telling 
+        it to draw on the window.
+    
+    api/
+        windows_opengl.cpp
+    client/win/
+        wingui.C,h
+        wingui_mainwindow.C,h
+        wingui_sswindow.C,h (new)
