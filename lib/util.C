@@ -412,3 +412,30 @@ char* timestamp() {
     *(strchr(p, '\n')) = 0;
     return p;
 }
+
+// set by command line
+bool debug_fake_exponential_backoff = false;
+double debug_total_exponential_backoff = 0;
+
+// return a random integer in the range [MIN,min(e^n,MAX))
+int calculate_exponential_backoff(const char* debug_descr, int n, double MIN, double MAX, double factor /*=1.0*/)
+{
+    double rmax = min(MAX, factor*exp((double)n));
+
+    if (debug_fake_exponential_backoff) {
+        // For debugging/testing purposes, fake exponential back-off by
+        // returning 0 seconds; report arguments so we can tell what we would
+        // have done (this doesn't test the rand_range() functions but is
+        // very useful for testing backoff/retry policies).
+        double expected_backoff = (MIN > rmax) ? MIN : (rmax-MIN)/2.0;
+
+        debug_total_exponential_backoff += expected_backoff;
+        fprintf(stderr,
+                "## calculate_exponential_backoff(): descr=\"%s\", n=%d, MIN=%.1f, MAX=%.1f, factor=%.1f; rand_range [%.1f,%.1f); total expected backoff=%.1f\n",
+                debug_descr, n, MIN, MAX, factor,
+                MIN, rmax, debug_total_exponential_backoff);
+        return 0;
+    }
+
+    return (int) rand_range(MIN, rmax);
+}

@@ -41,12 +41,12 @@ using namespace std;
 #include "main.h"
 #include "sched_util.h"
 
-#define DEBUG_LEVEL  1
+#define DEBUG_LEVEL  999
 
 #define STDERR_FILENAME "cgi_out"
 #define REQ_FILE_PREFIX "boinc_req_"
 #define REPLY_FILE_PREFIX "boinc_reply_"
-bool use_files = false;     // use disk files for req/reply msgs (for debugging)
+bool use_files = true;     // use disk files for req/reply msgs (for debugging)
 
 DB_PROJECT gproject;
 CONFIG config;

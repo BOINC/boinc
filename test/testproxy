@@ -98,30 +98,30 @@ logmsg "server started on port $listen_port proxy to $target_server";
 
 my $waitedpid = 0;
 my $paddr;
-
 my $server_pid = $$;
 
 use POSIX ":sys_wait_h";
 sub REAPER {
-    my $child;
     while (($waitedpid = waitpid(-1,WNOHANG)) > 0) {
         logmsg "reaped $waitedpid" . ($? ? " with exit $?" : '');
     }
-    $SIG{CHLD} = \&REAPER;      # loathe sysV
+    # $SIG{CHLD} = \&REAPER;      # loathe sysV
 }
 
-$SIG{CHLD} = \&REAPER;
+# $SIG{CHLD} = \&REAPER;
 
 my $time_started = time();
 my $nconnections = 0;
 my $cclient;
 
-for ( $waitedpid = 0;
-      ($cclient = $server->accept()) || $waitedpid;
-      $waitedpid = 0)
+# for ( $waitedpid = 0;
+#       ($cclient = $server->accept()) || $waitedpid;
+#       $waitedpid = 0)
+while (($cclient = $server->accept()))
 {
-    next if $waitedpid and not $cclient;
+    # next if $waitedpid and not $cclient;
     die unless $cclient;
+    REAPER();
     my $paddr = $cclient->peername();
     my($port,$iaddr) = sockaddr_in($paddr);
     my $name = gethostbyaddr($iaddr,AF_INET);
@@ -164,6 +164,9 @@ my $success = 0;
 my $url;
 my $n = 0;
 my $m = 0;
+my $bytes_transferred = 0;
+my $chars;
+my $nchars;
 
 sub if_done_ping()
 {
@@ -195,14 +198,13 @@ my ($client, $target);
 
 sub close_connection {
     my $ok = (shift) ? 1 : 0;
-    unless ($ok) {
-        logmsg "Closing connection"
-    }
+    logmsg "closing connection ok=$ok";
     # $client->close(), $target->close() doesn't always work for some reason
     # (maybe to do with forked processes)
     $client->shutdown(2);
     $target->shutdown(2);
-    exit $ok;
+    logmsg "exiting";
+    exit !$ok;
 }
 
 sub proxy {
@@ -214,11 +216,8 @@ sub proxy {
     $client->autoflush(1);
     $target->autoflush(1);
 
-    my $bytes_transferred = 0;
-    my $chars;
-    my $nchars;
-
     {
+        $bytes_transferred = 0;
         $chars = undef; $nchars = 0;
         $done = 0;
         $success = 0;

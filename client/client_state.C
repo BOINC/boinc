@@ -1419,6 +1419,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             pers_retry_delay_max = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-pers_giveup")) {
             pers_giveup = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-debug_fake_exponential_backoff")) {
+            debug_fake_exponential_backoff = true;
 
         // the above options are private (i.e. not shown by -help)
 

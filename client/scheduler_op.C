@@ -54,6 +54,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
             } else {
                 project->master_fetch_failures++;
                 backoff(project, "Master file fetch failed\n");
+                // fprintf(stderr, "## retval=%d\n", retval);
             }
         }
         return true;
@@ -140,15 +141,15 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
 
     // we've hit the limit on master_url fetches
     //
-    // TODO: after 2 failures of master_url fetch, the next wait is 2 weeks!
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
         if (log_flags.sched_op_debug) {
             printf("we've hit the limit on master_url fetches\n");
         }
-        exp_backoff = calculate_exponential_backoff(
-            p->master_fetch_failures, gstate.master_fetch_interval);
+        exp_backoff = calculate_exponential_backoff("scheduler_op/master_url",
+            p->master_fetch_failures, gstate.sched_retry_delay_min,
+            gstate.master_fetch_interval);
     } else {
-        exp_backoff = calculate_exponential_backoff(
+        exp_backoff = calculate_exponential_backoff("scheduler_op",
             n, gstate.sched_retry_delay_min, gstate.sched_retry_delay_max,
             gstate.retry_base_period);
     }
@@ -348,6 +349,7 @@ bool SCHEDULER_OP::poll() {
                 // master file fetch failed.
                 //
                 project->master_fetch_failures++;
+                // fprintf(stderr, "## http_op_retval=%d",http_op.http_op_retval);
                 backoff(project, "Master file fetch failed\n");
                 err_url = project->master_url;
             }
