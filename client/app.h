@@ -186,7 +186,7 @@ public:
     int remove(ACTIVE_TASK*);
     ACTIVE_TASK* lookup_pid(int);
     ACTIVE_TASK* lookup_result(RESULT*);
-    bool poll();
+    bool poll(double);
     void suspend_all(bool leave_apps_in_memory=true);
     void unsuspend_all();
     bool is_task_executing();

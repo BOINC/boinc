@@ -247,37 +247,31 @@ int boinc_parse_init_data_file() {
     FILE* f;
     int retval;
 
-    // If in standalone mode, use init files if they're there,
-    // but don't demand that they exist
-    //
+    memset(&aid, 0, sizeof(aid));
+    safe_strncpy(aid.user_name, "Unknown user", sizeof(aid.user_name));
+    safe_strncpy(aid.team_name, "Unknown team", sizeof(aid.team_name));
+    aid.wu_cpu_time = 1000;
+    aid.user_total_credit = 1000;
+    aid.user_expavg_credit = 500;
+    aid.host_total_credit = 1000;
+    aid.host_expavg_credit = 500;
+    aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
+    aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
+
     if (!boinc_file_exists(INIT_DATA_FILE)) {
-        if (standalone) {
-            safe_strncpy(aid.project_preferences, "", sizeof(aid.project_preferences));
-            safe_strncpy(aid.user_name, "Unknown user", sizeof(aid.user_name));
-            safe_strncpy(aid.team_name, "Unknown team", sizeof(aid.team_name));
-            aid.wu_cpu_time = 1000;
-            aid.user_total_credit = 1000;
-            aid.user_expavg_credit = 500;
-            aid.host_total_credit = 1000;
-            aid.host_expavg_credit = 500;
-            aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
-            aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
-        } else {
-            fprintf(stderr,
-                "boinc_parse_init_data_file(): can't open init data file\n"
-            );
-            return ERR_FOPEN;
-        }
-    } else {
-        f = boinc_fopen(INIT_DATA_FILE, "r");
-        retval = parse_init_data_file(f, aid);
-        fclose(f);
-        if (retval) {
-            fprintf(stderr,
-                "boinc_parse_init_data_file(): can't parse init data file\n"
-            );
-            return retval;
-        }
+        fprintf(stderr,
+            "Can't open init data file - running in standalone mode\n"
+        );
+        return ERR_FOPEN;
+    }
+    f = boinc_fopen(INIT_DATA_FILE, "r");
+    retval = parse_init_data_file(f, aid);
+    fclose(f);
+    if (retval) {
+        fprintf(stderr,
+            "Can't parse init data file - running in standalone mode\n"
+        );
+        return retval;
     }
     return 0;
 }

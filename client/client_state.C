@@ -322,9 +322,9 @@ int CLIENT_STATE::net_sleep(double x) {
     }
 }
 
-#define POLL_ACTION(name, func)                                                \
-    do { if (func()) {                                                         \
-            ++actions;                                                         \
+#define POLL_ACTION(name, func) \
+    do { if (func(now)) { \
+            ++actions; \
             scope_messages.printf("CLIENT_STATE::do_something(): active task: " #name "\n"); \
         } } while(0)
 
@@ -333,7 +333,7 @@ int CLIENT_STATE::net_sleep(double x) {
 // Returns true if something happened
 // (in which case should call this again immediately)
 //
-bool CLIENT_STATE::do_something() {
+bool CLIENT_STATE::do_something(double now) {
     int actions = 0, reason, retval;
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_POLL);
 
@@ -364,7 +364,7 @@ bool CLIENT_STATE::do_something() {
         } else {
             cpu_benchmarks_poll();
         }
-        return gui_rpcs.poll();
+        return gui_rpcs.poll(dtime());
     }
 
     check_suspend_network(reason);
@@ -707,7 +707,7 @@ void CLIENT_STATE::print_summary() {
 
 // delete unneeded records and files
 //
-bool CLIENT_STATE::garbage_collect() {
+bool CLIENT_STATE::garbage_collect(double now) {
     unsigned int i, j;
     int failnum;
     FILE_INFO* fip;
@@ -722,6 +722,12 @@ bool CLIENT_STATE::garbage_collect() {
     string error_msgs;
     PROJECT* project;
     char buf[1024];
+
+    static double last_time=0;
+    if (now>0) {
+        if (now - last_time < 1.0) return false;
+        last_time = now;
+    }
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
@@ -874,7 +880,12 @@ bool CLIENT_STATE::garbage_collect() {
         fip = *fi_iter;
         // if there was an error with a permanent file, get rid of its file_info
         if (fip->status < 0) fip->sticky = false;
-        if (fip->ref_cnt==0 && fip->pers_file_xfer==NULL && !fip->sticky) {
+        if (fip->ref_cnt==0 && !fip->sticky) {
+            if (fip->pers_file_xfer) {
+                pers_file_xfers->remove(fip->pers_file_xfer);
+                delete fip->pers_file_xfer;
+                fip->pers_file_xfer = 0;
+            }
 #if 0
             fip->project->size -= fip->nbytes;
 #endif
@@ -900,10 +911,14 @@ bool CLIENT_STATE::garbage_collect() {
 
 // update the state of results
 //
-bool CLIENT_STATE::update_results() {
+bool CLIENT_STATE::update_results(double now) {
     RESULT* rp;
     vector<RESULT*>::iterator result_iter;
     bool action = false;
+    static double last_time=0;
+
+    if (now - last_time < 1.0) return false;
+    last_time = 0;
 
     result_iter = results.begin();
     while (result_iter != results.end()) {
@@ -947,8 +962,8 @@ bool CLIENT_STATE::update_results() {
 bool CLIENT_STATE::time_to_exit() {
     if (!exit_when_idle && !exit_after_app_start_secs) return false;
     if (exit_after_app_start_secs
-        && app_started
-        && (difftime(time(0), app_started) >= exit_after_app_start_secs)
+        && (app_started>0)
+        && ((dtime() - app_started) >= exit_after_app_start_secs)
     ) {
         msg_printf(NULL, MSG_INFO, "exiting because time is up: %d\n", exit_after_app_start_secs);
         return true;
@@ -1104,7 +1119,7 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
         }
     }
 
-    garbage_collect();
+    garbage_collect(0);
 
 	// forcibly remove apps and app_versions
 	// (but not if anonymous platform)
@@ -1131,7 +1146,7 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
 				app_iter++;
 			}
 		}
-	    garbage_collect();
+	    garbage_collect(0);
 	}
 
     write_state_file();

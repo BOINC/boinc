@@ -133,19 +133,19 @@ private:
         // if set, run benchmarks on client startup
     int exit_after_app_start_secs;
         // if nonzero, exit this many seconds after starting an app
-    time_t app_started;
+    double app_started;
         // when the most recent app was started
 
     // CPU sched state
     //
-    time_t cpu_sched_last_time;
+    double cpu_sched_last_time;
     double cpu_sched_work_done_this_period;
 
 // --------------- client_state.C:
 public:
     CLIENT_STATE();
     int init();
-    bool do_something();
+    bool do_something(double t);
         // Initiates and completes actions (file transfers, process executions)
         // Never blocks.
         // Returns true if it actually did something,
@@ -172,8 +172,8 @@ private:
     int link_workunit(PROJECT*, WORKUNIT*);
     int link_result(PROJECT*, RESULT*);
     void print_summary();
-    bool garbage_collect();
-    bool update_results();
+    bool garbage_collect(double);
+    bool update_results(double);
     double total_resource_share();
 
 // --------------- cs_account.C:
@@ -202,8 +202,8 @@ private:
     void assign_results_to_projects();
     bool schedule_largest_debt_project(double expected_pay_off);
     bool start_apps();
-    bool schedule_cpus();
-    bool handle_finished_apps();
+    bool schedule_cpus(double);
+    bool handle_finished_apps(double);
     void handle_file_xfer_apps();
     int schedule_result(RESULT*);
 
@@ -227,7 +227,7 @@ public:
     bool start_new_file_xfer(PERS_FILE_XFER&);
 private:
     int make_project_dirs();
-    bool handle_pers_file_xfers();
+    bool handle_pers_file_xfers(double);
 
 // --------------- cs_prefs.C:
 public:
@@ -262,7 +262,7 @@ private:
     PROJECT* find_project_with_overdue_results();
     PROJECT* next_project_sched_rpc_pending();
     bool some_project_rpc_ok();
-    bool scheduler_rpc_poll();
+    bool scheduler_rpc_poll(double);
     double ettprc(PROJECT*, int);
     double avg_proc_rate(PROJECT*);
 

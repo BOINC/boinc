@@ -186,8 +186,11 @@ void ACTIVE_TASK_SET::free_mem() {
 // - check if any has exited, and clean up
 // - see if any has exceeded its CPU or disk space limits, and abort it
 //
-bool ACTIVE_TASK_SET::poll() {
+bool ACTIVE_TASK_SET::poll(double now) {
     bool action;
+    static double last_time = 0;
+    if (now - last_time < 1.0) return false;
+    last_time = now;
 
     action = check_app_exited();
     send_heartbeats();

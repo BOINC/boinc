@@ -349,12 +349,11 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
 
 // Transfer data to/from active sockets.
 // Keep doing I/O until would block, or we hit rate limits,
-// or about .5 second goes by
+// or .5 second goes by
 //
-bool NET_XFER_SET::poll() {
+bool NET_XFER_SET::poll(double now) {
     double bytes_xferred;
     int retval;
-    time_t t = time(0);
     bool action = false;
 
     while (1) {
@@ -362,7 +361,7 @@ bool NET_XFER_SET::poll() {
         if (retval) break;
         if (bytes_xferred == 0) break;
         action = true;
-        if (time(0) != t) break;
+        if ((dtime() - now) > 0.5) break;
     }
     return action;
 }
@@ -382,7 +381,7 @@ int NET_XFER_SET::net_sleep(double x) {
     retval = do_select(bytes_xferred, x);
     if (retval) return retval;
     if (bytes_xferred) {
-        return poll();
+        return poll(dtime());
     }
     return 0;
 }

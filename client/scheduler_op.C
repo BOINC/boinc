@@ -75,7 +75,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
     return false;
 }
 
-// try to get some work, from any project from which we need it
+// try to get work, from any project from which we need it
 // PRECONDITION: compute_work_requests() has been called
 // to fill in PROJECT::work_request
 //
@@ -87,11 +87,8 @@ int SCHEDULER_OP::init_get_work() {
     must_get_work = true;
     project = gstate.next_project_need_work(0);
     if (project) {
-        // for new work fetch policy
         ns = project->work_request;
-        msg_printf(project, MSG_INFO,
-            "Requesting %.0f seconds of work", ns
-        );
+        msg_printf(project, MSG_INFO, "Requesting %.2f seconds of work", ns);
         retval = init_op_project(ns);
         if (retval) {
             sprintf(err_msg, "init_op_project failed, error %d\n", retval);

@@ -136,26 +136,27 @@ const double HOST_ACTIVE_FRAC_MIN = 0.1;
 //
 // TODO: improve this.  take memory bandwidth into account
 //
-inline double estimate_cpu_duration(WORKUNIT& wu, HOST& host) {
+static double estimate_cpu_duration(WORKUNIT& wu, HOST& host) {
     if (host.p_fpops <= 0) host.p_fpops = 1e9;
     if (wu.rsc_fpops_est <= 0) wu.rsc_fpops_est = 1e12;
     return wu.rsc_fpops_est/host.p_fpops;
 }
 
-// estimate the amount of real time for this WU based on active_frac,
-// and resource_share_fraction
-inline double estimate_wallclock_duration(
+// estimate the amount of real time to complete this WU,
+// taking into account active_frac and resource_share_fraction
+//
+static double estimate_wallclock_duration(
     WORKUNIT& wu, HOST& host, double resource_share_fraction
 ) {
     return estimate_cpu_duration(wu, host)
-        / max(HOST_ACTIVE_FRAC_MIN, host.active_frac * resource_share_fraction)
+        / (max(HOST_ACTIVE_FRAC_MIN, host.active_frac)*resource_share_fraction)
     ;
 }
 
 // return false if the WU can't be executed on the host
 // because of insufficient memory, CPU speed, or resource share
 //
-bool wu_is_feasible(
+static bool wu_is_feasible(
     WORKUNIT& wu, HOST& host, WORK_REQ& wreq,
     double resource_share_fraction, double estimated_delay
 ) {

@@ -171,7 +171,7 @@ int PERS_FILE_XFER::start_xfer() {
 // If it's time to start it, then attempt to start it.
 // If it has finished or failed, then deal with it appropriately
 //
-bool PERS_FILE_XFER::poll(time_t now) {
+bool PERS_FILE_XFER::poll(double now) {
     int retval;
     char pathname[256], buf[256];
     double existing_size = 0;
@@ -187,7 +187,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
         // See if it's time to try again.
         //
         if (now >= next_request_time) {
-            last_time = dtime();
+            last_time = now;
             fip->upload_offset = -1;
             retval = start_xfer();
             return (retval == 0);
@@ -198,11 +198,11 @@ bool PERS_FILE_XFER::poll(time_t now) {
 
     // don't count suspended periods in total time
     //
-    double diff = dtime() - last_time;
+    double diff = now - last_time;
     if (diff <= 2) {
         time_so_far += diff;
     }
-    last_time = dtime();
+    last_time = now;
 
     if (fxp->file_xfer_done) {
         if (fip->nbytes) {
@@ -469,10 +469,13 @@ PERS_FILE_XFER_SET::PERS_FILE_XFER_SET(FILE_XFER_SET* p) {
 // Run through the set, starting any transfers that need to be
 // started and deleting any that have finished
 //
-bool PERS_FILE_XFER_SET::poll() {
+bool PERS_FILE_XFER_SET::poll(double now) {
     unsigned int i;
     bool action = false;
-    int now = time(0);
+    static double last_time=0;
+
+    if (now - last_time < 1.0) return false;
+    last_time = now;
 
     for (i=0; i<pers_file_xfers.size(); i++) {
         action |= pers_file_xfers[i]->poll(now);

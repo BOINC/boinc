@@ -272,7 +272,8 @@ int boinc_main_loop(int argc, char** argv) {
 
 
     while (1) {
-        if (!gstate.do_something()) {
+        dt = dtime();
+        if (!gstate.do_something(dt)) {
             dt = dtime();
             gstate.net_sleep(1.);
             dt = dtime() - dt;

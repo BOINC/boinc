@@ -25,13 +25,11 @@ class TIME_STATS {
 public:
 // we maintain an exponentially weighted average of these quantities:
     double on_frac;
-        // the fraction of time this host runs the core client
+        // the fraction of total time this host runs the core client
     double connected_frac;
-        // of the time running the core client,
-        // the fraction the host is connected to the Internet
+        // the fraction of total time the host is connected to the Internet
     double active_frac;
-        // of the time running the core client,
-        // the fraction the core client is able to work
+        // the fraction of total time the core client is able to work
         // (due to preferences, manual suspend/resume, etc.)
 
     void update(bool is_connected, bool is_active);

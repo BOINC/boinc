@@ -343,9 +343,7 @@ bool CLIENT_STATE::some_project_rpc_ok() {
 // for project p in a second of (wall-clock) time
 //
 double CLIENT_STATE::avg_proc_rate(PROJECT *p) {
-    return (p->resource_share / trs)
-        * ncpus
-        * time_stats.on_frac * time_stats.active_frac;
+    return (p->resource_share / trs) * ncpus * time_stats.active_frac;
 }
 
 // "estimated time to project result count"
@@ -411,24 +409,26 @@ int CLIENT_STATE::compute_work_requests() {
         //
         if (estimated_time_to_starvation < work_min_period) {
             if (estimated_time_to_starvation == 0) {
-//                msg_printf(p, MSG_INFO, "Will starve!");
+                msg_printf(p, MSG_INFO, "is starved");
                 urgency = NEED_WORK_IMMEDIATELY;
             } else {
-//                msg_printf(p, MSG_INFO, "Will starve in %.2fs!",
-//                    estimated_time_to_starvation
-//                );
+                msg_printf(p, MSG_INFO, "will starve in %.2f sec",
+                    estimated_time_to_starvation
+                );
                 urgency = max(NEED_WORK, urgency);
             }
         }
 
         // determine work requests for each project
+        // NOTE: don't need to divide by active_frac etc.;
+        // the scheduler does that (see sched/sched_send.C)
         //
-        p->work_request =
-            max(0.0,
-                //(2*work_min_period - estimated_time_to_starvation)
-                (work_min_period - estimated_time_to_starvation)
-                * avg_proc_rate(p)
-            );
+        p->work_request = max(0.0,
+            //(2*work_min_period - estimated_time_to_starvation)
+            (work_min_period - estimated_time_to_starvation)
+            * ncpus
+        );
+        //msg_printf(p, MSG_INFO, "work req: %f sec", p->work_request);
     }
 
     if (urgency == DONT_NEED_WORK) {
@@ -443,10 +443,14 @@ int CLIENT_STATE::compute_work_requests() {
 // called from the client's polling loop.
 // initiate scheduler RPC activity if needed and possible
 //
-bool CLIENT_STATE::scheduler_rpc_poll() {
+bool CLIENT_STATE::scheduler_rpc_poll(double now) {
     int urgency = DONT_NEED_WORK;
     PROJECT *p;
     bool action=false;
+    static double last_time=0;
+
+    if (now - last_time < 1.0) return false;
+    last_time = now;
 
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:

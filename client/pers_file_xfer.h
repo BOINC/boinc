@@ -20,10 +20,6 @@
 #ifndef _PERS_FILE_XFER_H
 #define _PERS_FILE_XFER_H
 
-#ifndef _WIN32
-#include <time.h>
-#endif
-
 #include "client_types.h"
 #include "file_xfer.h"
 
@@ -66,7 +62,7 @@ public:
     PERS_FILE_XFER();
     ~PERS_FILE_XFER();
     int init(FILE_INFO*, bool is_file_upload);
-    bool poll(time_t now);
+    bool poll(double);
     void handle_xfer_failure();
     void retry_or_backoff();
     void check_giveup(char*);
@@ -85,7 +81,7 @@ public:
     PERS_FILE_XFER_SET(FILE_XFER_SET*);
     int insert(PERS_FILE_XFER*);
     int remove(PERS_FILE_XFER*);
-    bool poll();
+    bool poll(double);
     void suspend();
 };
 

@@ -143,10 +143,13 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
 
 // clean up after finished apps
 //
-bool CLIENT_STATE::handle_finished_apps() {
+bool CLIENT_STATE::handle_finished_apps(double now) {
     unsigned int i;
     ACTIVE_TASK* atp;
     bool action = false;
+    static double last_time = 0;
+    if (now - last_time < 1.0) return false;
+    last_time = now;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
@@ -327,15 +330,15 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
 // and whenever all the input files for a result finish downloading
 // (with must_reschedule=true)
 //
-bool CLIENT_STATE::schedule_cpus() {
+bool CLIENT_STATE::schedule_cpus(double now) {
     double expected_pay_off;
     ACTIVE_TASK *atp;
     PROJECT *p;
     bool some_app_started = false, first;
     double total_resource_share;
-    int retval, elapsed_time, j;
+    int retval, j;
     double min_debt=0;
-    double vm_limit;
+    double vm_limit, elapsed_time;
     unsigned int i;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
@@ -350,11 +353,12 @@ bool CLIENT_STATE::schedule_cpus() {
     if (must_schedule_cpus) {
         must_schedule_cpus = false;
     } else {
-        elapsed_time = time(0) - cpu_sched_last_time;
+        elapsed_time = now - cpu_sched_last_time;
         if (elapsed_time < (global_prefs.cpu_scheduling_period_minutes*60)) {
             return false;
         }
     }
+    cpu_sched_last_time = now;
 
     // mark file xfer results as completed;
     // TODO: why do this here??
@@ -503,9 +507,8 @@ bool CLIENT_STATE::schedule_cpus() {
     }
     cpu_sched_work_done_this_period = 0;
 
-    cpu_sched_last_time = time(0);
     if (some_app_started) {
-        app_started = cpu_sched_last_time;
+        app_started = now;
     }
 
     // debts and active_tasks can only change if some project had a runnable result

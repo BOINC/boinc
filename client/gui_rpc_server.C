@@ -558,7 +558,7 @@ int GUI_RPC_CONN_SET::init() {
     return 0;
 }
 
-bool GUI_RPC_CONN_SET::poll() {
+bool GUI_RPC_CONN_SET::poll(double) {
     int n = 0;
     unsigned int i;
     fd_set read_fds, error_fds;

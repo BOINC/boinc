@@ -112,12 +112,12 @@ static void make_new_window(int mode){
             strcpy(aid.app_name, "BOINC Application");
         }
         win = glutCreateWindow(aid.app_name); 
+
         glutReshapeFunc(app_graphics_resize);
         glutKeyboardFunc(keyboardD);
         glutKeyboardUpFunc(keyboardU);
         glutMouseFunc(mouse_click);
         glutMotionFunc(mouse_click_move);
-        //glutCloseFunc(close_func);
         glutDisplayFunc(maybe_render); 
         
         app_graphics_init();
@@ -143,10 +143,18 @@ void set_mode(int mode) {
     if (mode != MODE_HIDE_GRAPHICS) {
         make_new_window(mode);
     }
-    
-    // tell the core client that we're entering new mode
-    //
-    if (app_client_shm) {
+}
+
+static void wait_for_initial_message() {
+    app_client_shm->shm->graphics_reply.send_msg(
+        xml_graphics_modes[MODE_HIDE_GRAPHICS]
+    );
+    acked_graphics_mode = MODE_HIDE_GRAPHICS;
+    while (1) {
+        if (app_client_shm->shm->graphics_request.has_msg()) {
+            break;
+        }
+        sleep(1);
     }
 }
 
@@ -194,7 +202,8 @@ void xwin_graphics_event_loop(){
     if (boinc_is_standalone()) {
         set_mode(MODE_WINDOW);
     } else {
-        set_mode(MODE_HIDE_GRAPHICS); 
+        wait_for_initial_message();
+        timer_handler(0);
     }
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
     glutMainLoop();

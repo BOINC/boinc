@@ -34,7 +34,7 @@ class GUI_RPC_CONN_SET {
     int get_allowed_hosts();
     int insert(GUI_RPC_CONN*);
 public:
-    bool poll();
+    bool poll(double);
     int init();
 };
 

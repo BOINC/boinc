@@ -162,12 +162,16 @@ int FILE_INFO::verify_downloaded_file() {
 // scan all FILE_INFOs and PERS_FILE_XFERs.
 // start and finish downloads and uploads as needed.
 //
-bool CLIENT_STATE::handle_pers_file_xfers() {
+bool CLIENT_STATE::handle_pers_file_xfers(double now) {
     unsigned int i;
     FILE_INFO* fip;
     PERS_FILE_XFER *pfx;
     bool action = false;
     int retval;
+    static double last_time;
+
+    if (now - last_time < 1.0) return false;
+    last_time = now;
 
     // Look for FILE_INFOs for which we should start a transfer,
     // and make PERS_FILE_XFERs for them
