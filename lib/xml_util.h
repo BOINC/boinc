@@ -26,6 +26,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "error_numbers.h"
 
 typedef enum tag_xml_encoding {
   _x_xml_entity=0,
@@ -154,6 +155,11 @@ template <typename T>
 std::vector<T> xml_decode_string(const char *input, size_t length=0, 
     const char *encoding="x_xml_entity");
 
+// do the same thing, but get the length and encoding type from the
+// xml tag properties.
+template <typename T>
+std::vector<T> xml_decode_field(const std::string &input, const char *tag);
+
 // encode an XML character string.  Return the encoded string.
 template <typename T>
 std::string xml_encode_string(const T *input, size_t n_elements=0, 
@@ -164,13 +170,6 @@ inline std::string xml_encode_string(const std::vector<T> &input,
     xml_encoding encoding=_x_xml_entity) {
   return xml_encode_string<T>(&(*(input.begin())),input.size(),encoding);
 }
-
-// encode/decode binary in a CDATA section.  Characters 0x0-0x1f are illegal 
-// in XML, and we can't include ]]> in a cdata section.  We'll encode illegals 
-// in hex // (&#00;-&#31;) and ]]> as "&endcdt;", and & as &amp;.  
-// THIS FUNCTION DOES NOT CREATE THE CDATA START AND END TAGS
-
-
 
 #include <cctype>
 #include <vector>
@@ -746,6 +745,30 @@ std::vector<T> xml_decode_string(const char *input,
   }
 }
 
+template <typename T>
+std::vector<T> xml_decode_field(const std::string &input, const char *tag) {
+   std::string start_tag("<"),end_tag("</");
+   start_tag+=tag;
+   start_tag+=' ';
+   end_tag+=tag;
+   std::string::size_type start,endt,enc,len;
+   if (((start=input.find(start_tag))==std::string::npos) ||
+       ((endt=input.find(end_tag,start))==std::string::npos) ||
+       ((enc=input.find("encoding=\"",start))==std::string::npos))
+          throw ERR_XML_PARSE;
+   unsigned int length=0;
+   if ((len=input.find("length=",start)!=std::string::npos)) 
+      length=atoi(&(input[len+strlen("length=")]));
+   const char *encoding=input.c_str()+enc+strlen("encoding=\"");
+   start=input.find('>',start)+1;
+   if (!length) {
+     length=endt-start;
+   }
+   if (length!=(endt-start)) {
+     throw ERR_XML_PARSE;
+   }
+   return (xml_decode_string<T>(&(input[start]),length,encoding));
+}
 
 
 template <typename T>
@@ -783,6 +806,9 @@ std::string xml_encode_string(const T *input,
 #endif
 //
 // $Log$
+// Revision 1.5  2003/10/22 03:09:55  korpela
+// *** empty log message ***
+//
 // Revision 1.4  2003/10/21 18:14:36  korpela
 // *** empty log message ***
 //
