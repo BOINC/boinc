@@ -34,13 +34,15 @@ htmlspecialchars("
     <stripchart_cgi_url>    http://A/URL          </stripchart_cgi_url>
     <log_dir>               /path/to/directory    </log_dir>
 
-    [ <disable_account_creation/>                                 ]
-    [ <show_results/>                                             ]
-    [ <one_result_per_user_per_wu/>                               ]
-    [ <max_wus_to_send>              N   </max_wus_to_send>       ]
-    [ <min_sendwork_interval>        N   </min_sendwork_interval> ]
-    [ <daily_result_quota>           N   </daily_result_quota>    ]
-    [ <enforce_delay_bound/>                                      ]
+    [ <disable_account_creation/>                                              ]
+    [ <show_results/>                                                          ]
+    [ <one_result_per_user_per_wu/>                                            ]
+    [ <max_wus_to_send>                 N   </max_wus_to_send>                 ]
+    [ <min_sendwork_interval>           N   </min_sendwork_interval>           ]
+    [ <daily_result_quota>              N   </daily_result_quota>              ]
+    [ <enforce_delay_bound/>                                                   ]
+    [ <locality_scheduling/>                                                   ]
+    [ <locality_scheduling_wait_period> N   </locality_scheduling_wait_period> ]
 
     <!-- optional; defaults as indicated: -->
     <project_dir>  ../      </project_dir>  <!-- relative to location of 'start' -->
@@ -165,8 +167,28 @@ list_item("daily_result_quota",
     work to keep it busy if disconnected from the net for a few days."
 );
 list_item("enforce_delay_bound",
-    "Don't send results to hosts too slow to complete them within delay bound"
+    "Don't send results to hosts too slow to complete them within delay bound."
 );
+list_item("locality_scheduling",
+    "When possible, send work that uses the same files that the host
+     already has. This is intended for projects which have large data
+     files, where many different workunits use the same data file. In
+     this case, to reduce download demands on the server, it may be
+     advantageous to retain the data files on the hosts, and send
+     them work for the files that they already have.
+     See <a href=sched_locality.php>Scheduling Locality</a>."
+);
+list_item("locality_scheduling_wait_period",
+    "This element only has an effect when used in conjunction with the
+     previous locality scheduling element. It tells the scheduler to
+     use 'trigger files' to inform the project that more work is
+     needed for specific files. The period is the number of seconds
+     which the scheduler will wait to see if the project can create
+     additional work. Together with project-specific daemons or
+     scripts this can be used for 'just-in-time' workunit
+     creation. See <a href=sched_locality.php>Scheduling Locality</a>."
+);
+
 list_end();
 
 // THE INFORMATION BELOW NEEDS TO BE ORGANIZED AND PUT INTO TABLES OR SOME OTHER LESS CRAMPED FORM
