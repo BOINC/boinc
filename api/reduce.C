@@ -695,7 +695,8 @@ void REDUCED_ARRAY::draw_axis_labels()
 
 void REDUCED_ARRAY::draw_axes() {
 
-	float adj2=-.18f;
+	//float adj2=-.18f;
+	float adj2=-(draw_size[2]*1)/rdimy;
 	float adj=0.0f;
 	// box
 	mode_unshaded();
@@ -704,20 +705,20 @@ void REDUCED_ARRAY::draw_axes() {
 	glBegin(GL_LINES);
 	glColor4d(1,1,1,.5);	
 	
-	//base square
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj2);
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj2);
+	//back square
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
 
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj2);
-	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj2);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
 
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj2);
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj2);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
 
-	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj2);
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj2);
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
 
-	//top square
+	//front square
 	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
 	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
 
@@ -731,16 +732,16 @@ void REDUCED_ARRAY::draw_axes() {
 	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]+adj2);
 	
 	//connecting lines
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj2);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
 	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
 
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj2);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
 	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
 
-	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj2);
+	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
 	glVertex3f(draw_pos[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]+adj2);
 
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj2);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+adj);
 	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]+adj2);
 	glEnd();
 
@@ -753,13 +754,13 @@ void REDUCED_ARRAY::draw_axes() {
 	glColor4d(1,1,1,1);	
 	
 	
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj2);
-    glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj2);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
+    glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
 
-	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj2);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
 	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
 
-	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj2);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
 	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
 
     glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
@@ -875,13 +876,13 @@ void REDUCED_ARRAY::draw_labels()
 	glPushMatrix();
 	glLoadIdentity();
   	
-	glRasterPos3d(zpos[0],zpos[1],-1);//zpos[2]);
+	glRasterPos3d(zpos[0],zpos[1],0);//zpos[2]);
 	print_text(listBase[0], zlabel);
 
-	glRasterPos3d(xpos[0],xpos[1],-1);//xpos[2]);
+	glRasterPos3d(xpos[0],xpos[1],0);//xpos[2]);
 	print_text(listBase[0], xlabel);
 
-	glRasterPos3d(ppos[0],ppos[1],-1);//xpos[2]);
+	glRasterPos3d(ppos[0],ppos[1],0);//xpos[2]);
 	print_text(listBase[0], plabel);
 
 	glPopMatrix();
