@@ -123,6 +123,13 @@ int NET_XFER::open_server() {
     return 0;
 }
 
+void NET_XFER::close_socket( void ) {
+#ifdef _WIN32
+    if (socket) closesocket(socket);
+#else
+    if (socket) close(socket);
+#endif
+}
 
 void NET_XFER::init(char* host, int p, int b) {
     // net_xfer_state = ?
@@ -154,11 +161,8 @@ int NET_XFER_SET::insert(NET_XFER* nxp) {
 int NET_XFER_SET::remove(NET_XFER* nxp) {
     vector<NET_XFER*>::iterator iter;
 
-#ifdef _WIN32
-    if (nxp->socket) closesocket(nxp->socket);
-#else
-    if (nxp->socket) close(nxp->socket);
-#endif
+    // Close the socket
+    nxp->close_socket();
 
     iter = net_xfers.begin();
     while (iter != net_xfers.end()) {

@@ -1370,3 +1370,15 @@ David A.    July 30, 2002
         index.html
     lib/
         parse.C
+
+Eric Heien  August 2, 2002
+    - Implemented HTTP 301 and 302 redirect commands.
+    - These still need to be fully tested.
+
+    TODO
+    client/
+        http.C
+        http.h
+        net_xfer.C
+        net_xfer.h
+

@@ -29,6 +29,7 @@
 struct HTTP_REPLY_HEADER {
     int status;
     int content_length;
+    char redirect_location[256];
 };
 
 #define HTTP_OP_NONE    0

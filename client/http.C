@@ -237,6 +237,18 @@ int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
             if (p) {
                 header.content_length = atoi(p+strlen("Content-Length: "));
             }
+            p = strstr(buf, "Location: ");
+            if (p) {
+                // TODO: Is there a better way to do this?
+                n = 0;
+                p += strlen( "Location: " );
+
+                while (p[n] != '\n' && p[n] != '\r') {
+                    header.redirect_location[n] = p[n];
+                    n++;
+                }
+                p[n] = '\0';
+            }
             return 0;
         }
     }
@@ -427,7 +439,7 @@ HTTP_OP_SET::HTTP_OP_SET(NET_XFER_SET* p) {
     net_xfers = p;
 }
 
-// Inserts an hTTP_OP into the set
+// Inserts an HTTP_OP into the set
 //
 int HTTP_OP_SET::insert(HTTP_OP* ho) {
     int retval;
@@ -534,6 +546,30 @@ bool HTTP_OP_SET::poll() {
                 action = true;
                 if (log_flags.http_debug) printf("got reply header\n");
                 read_http_reply_header(htp->socket, htp->hrh);
+                // TODO: handle all kinds of redirects here
+                if (htp->hrh.status == 301 || htp->hrh.status == 302) {
+                    fprintf( stderr, "Redirect to %s\n", htp->hrh.redirect_location );
+                    // Close the old socket
+                    htp->close_socket();
+                    switch (htp->http_op_type) {
+                        case HTTP_OP_HEAD:
+                            htp->init_head( htp->hrh.redirect_location );
+                            break;
+                        case HTTP_OP_GET:
+                            htp->init_get( htp->hrh.redirect_location, htp->outfile );
+                            break;
+                        case HTTP_OP_POST:
+                            htp->init_post( htp->hrh.redirect_location, htp->infile, htp->outfile );
+                            break;
+                        case HTTP_OP_POST2:
+                            // TODO: Change offset to correct value
+                            htp->init_post2( htp->hrh.redirect_location, htp->req1, htp->infile,0 );
+                            break;
+                    }
+                    // Open connection to the redirected server
+                    htp->open_server();
+                    break;
+                }
                 if (htp->hrh.status/100 != 2) {
                     htp->http_op_state = HTTP_STATE_DONE;
                     htp->http_op_retval = htp->hrh.status;

@@ -51,6 +51,7 @@ public:
 
     void init(char* host, int port, int blocksize);
     int open_server();
+    void close_socket();
     int do_xfer(int&);
     void got_error();
 };

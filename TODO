@@ -160,6 +160,8 @@ LOW-PRIORITY
 --------------------------
 DONE (may need test)  Please document these!
 
+- Test HTTP redirect mechanism for all types of operations (POST, GET, HEAD, etc)
+
 - mechanism for returning app stderr output to server? store in blob?
 
 - add size to FILE_INFO
