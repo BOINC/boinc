@@ -582,7 +582,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
     char                priority[256];
     char                mod[256];
     MYSQL_ROW           row;
-    TRANSITIONER_ITEM new_item;
+    TRANSITIONER_ITEM   new_item;
 
     if (!cursor.active) {
 
@@ -614,6 +614,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   wu.target_nresults, "
             "   wu.result_template_file, "
             "   res.id AS res_id, "
+            "   res.name AS res_name, "
             "   res.report_deadline AS res_report_deadline, "
             "   res.server_state AS res_server_state, "
             "   res.outcome AS res_outcome, "
@@ -627,7 +628,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   wu.transition_time < %d AND "
             "   %s "
             "LIMIT "
-            "  %d ",
+            "   %d ",
             priority, transition_time, mod, nresult_limit);
 
         x = db->do_query(query);
@@ -683,6 +684,7 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     target_nresults = atoi(r[i++]);
     strcpy2(result_template_file, r[i++]);
     res_id = safe_atoi(r[i++]);
+    strcpy2(res_name, r[i++]);
     res_report_deadline = safe_atoi(r[i++]);
     res_server_state = safe_atoi(r[i++]);
     res_outcome = safe_atoi(r[i++]);

@@ -55,9 +55,13 @@ int read_filename(const char* path, char* buf, int len) {
 // process WU template
 //
 static int process_wu_template(
-    WORKUNIT& wu, char* tmplate,
-    const char* dirpath, const char** infiles, int n,
-    const char* upload_url, const char* download_url
+    WORKUNIT& wu, 
+    char* tmplate,
+    const char* dirpath, 
+    const char** infiles, 
+    int n,
+    const char* upload_url, 
+    const char* download_url
 ) {
     char* p;
     char buf[LARGE_BLOB_SIZE], md5[33], path[256];
@@ -177,10 +181,10 @@ static int process_wu_template(
 // This is used to create clones of existing results,
 // so set only the time-varying fields
 //
-void initialize_result(DB_RESULT& result, DB_WORKUNIT& wu) {
+void initialize_result(DB_RESULT& result, int workunit_id, int workunit_appid) {
     result.id = 0;
     result.create_time = time(0);
-    result.workunitid = wu.id;
+    result.workunitid = workunit_id;
     result.server_state = RESULT_SERVER_STATE_UNSENT;
     result.hostid = 0;
     result.report_deadline = 0;
@@ -195,42 +199,53 @@ void initialize_result(DB_RESULT& result, DB_WORKUNIT& wu) {
     result.validate_state = VALIDATE_STATE_INIT;
     result.claimed_credit = 0;
     result.granted_credit = 0;
-    result.appid = wu.appid;
+    result.appid = workunit_appid;
 }
 
 // Create a new result for the given WU.
 // This is called ONLY from the transitioner
 //
 int create_result(
-    DB_WORKUNIT& wu, char* result_template,
-    char* result_name_suffix, R_RSA_PRIVATE_KEY& key,
+    int workunit_id;
+    int workunit_appid;
+    DB_WORKUNIT& wu, 
+    char* result_template_filename,
+    char* result_name_suffix, 
+    R_RSA_PRIVATE_KEY& key,
     char* upload_url
 ) {
     DB_RESULT result;
     char base_outfile_name[256];
-    char result_template_copy[LARGE_BLOB_SIZE];
+    char result_template[LARGE_BLOB_SIZE];
     int retval;
 
     result.clear();
-    initialize_result(result, wu);
+    initialize_result(result, workunit_id, workunit_appid);
     sprintf(result.name, "%s_%s", wu.name, result_name_suffix);
     sprintf(base_outfile_name, "%s_", result.name);
 
+    retval = read_filename(result_template_filename, result_template, sizeof(result_template));
+    if (retval) {
+        fprintf(stderr, "Failed to read result template file '%s': %d\n", 
+            result_template_filename, retval);
+        return retval;
+    }
+
     strcpy(result_template_copy, result_template);
     retval = process_result_template(
-        result_template_copy,
+        result_template,
         key,
         base_outfile_name,
         upload_url
     );
-    if (strlen(result_template_copy) > sizeof(result.xml_doc_in)-1) {
+    if (strlen(result_template) > sizeof(result.xml_doc_in)-1) {
         fprintf(stderr,
             "result XML doc is too long: %d bytes, max is %d\n",
-            strlen(result_template_copy), sizeof(result.xml_doc_in)-1
+            strlen(result_template), sizeof(result.xml_doc_in)-1
         );
         return ERR_BUFFER_OVERFLOW;
     }
-    safe_strncpy(result.xml_doc_in, result_template_copy, sizeof(result.xml_doc_in));
+    safe_strncpy(result.xml_doc_in, result_template, sizeof(result.xml_doc_in));
 
     // NOTE: result::insert() sets random
 

@@ -42,9 +42,13 @@ extern int read_file(FILE*, char* buf);
 extern int read_filename(const char* path, char* buf, int len);
 
 extern void initialize_result(DB_RESULT&, DB_WORKUNIT&);
+
 extern int create_result(
-    DB_WORKUNIT& wu, char* result_template_filename, char* suffix,
-    R_RSA_PRIVATE_KEY& key, char* upload_url
+    DB_WORKUNIT& wu, 
+    char* result_template_filename, 
+    char* suffix,
+    R_RSA_PRIVATE_KEY& key, 
+    char* upload_url
 );
 
 extern int create_work(
