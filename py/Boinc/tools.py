@@ -110,6 +110,7 @@ def process_app_version(app, version_num, exec_files, non_exec_files=[], signatu
     for exec_file in exec_files:
         signature_file = signature_files.get(exec_file)
         if signature_file:
+            if not quiet: print 'Using signature file', signature_file
             signature_text = open(signature_file).read()
         else:
             signature_text = sign_executable(exec_file, quiet=quiet)

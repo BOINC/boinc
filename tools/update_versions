@@ -77,7 +77,7 @@ def xsort(list):
 def xlistdir(dir):
     return map(lambda file: os.path.join(dir, file), os.listdir(dir))
 
-def add_files(app, match, exec_file, non_exec_files=[],
+def add_files(app, match, exec_file, non_exec_files=[], signature_files={},
               min_core_version = 0, max_core_version = 0):
     ''' add files to app/core.
 
@@ -114,7 +114,8 @@ def add_files(app, match, exec_file, non_exec_files=[],
             app = app,
             version_num = version_num,
             exec_files = [exec_file],
-            non_exec_files = non_exec_files
+            non_exec_files = non_exec_files,
+            signature_files = signature_files
             )
 
         object = database.AppVersion(create_time = create_time,
@@ -184,6 +185,7 @@ def find_versions__process_bundle(app, dir):
     exec_file = None
     match = None
     non_exec_files = []
+    signature_files = {}
     for filepath in xlistdir(dir):
         if os.path.isdir(filepath):
             continue
@@ -194,13 +196,21 @@ def find_versions__process_bundle(app, dir):
                 # found an executable matching regexp
                 exec_file = filepath
                 continue
+        # if filename is of format 'EXECFILE.sig' treat it as signature file
+        if filepath.endswith('.sig'):
+            s = filepath[:-4]
+            if re_match_exec_filename(s):
+                signature_files[s] = filepath
+                continue
         non_exec_files.append(filepath)
     if not match:
         print >>sys.stderr, "  Ignoring directory", dir
         return
-    add_files(app=app, match=match,
-              exec_file=exec_file,
-              non_exec_files=non_exec_files,
+    add_files(app              = app,
+              match            = match,
+              exec_file        = exec_file,
+              non_exec_files   = non_exec_files,
+              signature_files  = signature_files,
               min_core_version = min_core_version
               )
 

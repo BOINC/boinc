@@ -12286,7 +12286,7 @@ David  May 12 2004
         user/
             download_network.php
 
-Karl 2004-04-12
+Karl 2004-05-12
     - update_versions: by default only allow most recent core client
 
     tools/
@@ -12855,6 +12855,16 @@ David  May 30 2004
             top_hosts.php
             top_teams.php
             top_users.php
+
+Karl 2004-05-31
+    - update_versions signature files: added feature so that if
+      'exec-file.sig' exists in a directory, treat it as the signature file
+      for exec-file.
+
+    tools/
+        update_versions
+    py/Boinc/
+        tools.py
 
 David  May 31 2004
     - Web: changed project news mechanism to use RSS
