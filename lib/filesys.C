@@ -77,15 +77,15 @@ char failed_file[256];
 int is_file(char* path) {
     struct stat sbuf;
     memset(&sbuf, 0, sizeof(struct stat));
-    stat(path, &sbuf);
-    return sbuf.st_mode & S_IFREG;
+    int retval = stat(path, &sbuf);
+    return (retval==0) && (sbuf.st_mode & S_IFREG);
 }
 
 int is_dir(const char* path) {
     struct stat sbuf;
     memset(&sbuf, 0, sizeof(struct stat));
-    stat(path, &sbuf);
-    return sbuf.st_mode & S_IFDIR;
+    int retval = stat(path, &sbuf);
+    return (retval==0) && (sbuf.st_mode & S_IFDIR);
 }
 
 // Open a directory
@@ -385,11 +385,12 @@ int boinc_rename(const char* old, const char* newf) {
     return rename(old, newf);
 }
 
-int boinc_mkdir(const char* name) {
+int boinc_mkdir(const char* path) {
+    if (is_dir(path)) return 0;
 #ifdef _WIN32
-    return CreateDirectory(name, NULL);
+    return CreateDirectory(path, NULL);
 #else
-    return mkdir(name, 0777);
+    return mkdir(path, 0777);
 #endif
 }
 

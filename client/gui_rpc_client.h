@@ -5,6 +5,8 @@
 using std::string;
 using std::vector;
 
+#define GUI_RPC_PORT 31416
+
 struct PROJECT;
 
 struct FILE_INFO {

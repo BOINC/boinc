@@ -40,6 +40,7 @@ How to develop or port an application program for use with BOINC.
 <ul>
 <li><a href=api.php>The BOINC API</a>
 <li><a href=graphics.php>The BOINC graphics API</a>
+<li><a href=app_dev.php>Application development</a>
 </ul>
 
 <font size=+1><b>

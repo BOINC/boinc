@@ -11619,3 +11619,21 @@ David  April 14 2004
     
     api/
         mfile.h (new)
+
+David  April 15 2004
+    - change GUI RPC so that it uses TCP instead of UNIX-domain socket.
+        Core client accepts connections only from local host (127.0.0.1)
+        We currently use port 31416, since there's been no response
+        to my request for an official port.
+    - changed boinc_mkdir() so that it sees if the path already
+        exists and is a dir, and returns success if so
+    - main.C: print error message if CLIENT_STATE::init() fails
+
+    client/
+        client_state.C
+        file_names.C
+        gui_rpc_client.C,h
+        gui_rpc_server.C,h
+        main.C
+    lib/
+        filesys.C

@@ -256,7 +256,10 @@ int boinc_main_loop(int argc, char** argv) {
     gstate.parse_cmdline(argc, argv);
     gstate.parse_env_vars();
     retval = gstate.init();
-    if (retval) exit(retval);
+    if (retval) {
+        fprintf(stderr, "gstate.init() failed: %d\n", retval);
+        exit(retval);
+    }
 
 
     while (1) {

@@ -28,6 +28,8 @@
 #include <sys/un.h>
 #include <vector>
 #include <string.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
 #endif
 
 #include "util.h"
@@ -276,30 +278,20 @@ int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
     return 0;
 }
 
-void GUI_RPC_CONN_SET::init(char* path) {
-#ifdef _WIN32
-	sockaddr addr;
-#else
-    sockaddr_un addr;
-#endif
+void GUI_RPC_CONN_SET::init() {
+	sockaddr_in addr;
     int retval;
 
-    unlink(path);
-#ifdef _WIN32
-	addr.sa_family = AF_UNIX;
-	strcpy(addr.sa_data, path);
-	WSADATA wsdata;
-	WORD wVersionRequested = MAKEWORD(1, 1);
-	WSAStartup(wVersionRequested, &wsdata);
-#else
-    addr.sun_family = AF_UNIX;
-    strcpy(addr.sun_path, path);
-#endif
-    lsock = socket(AF_UNIX, SOCK_STREAM, 0);
+    lsock = socket(AF_INET, SOCK_STREAM, 0);
     if (lsock < 0) {
         perror("socket");
         exit(1);
     }
+
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(GUI_RPC_PORT);
+    addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
     retval = bind(lsock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
         perror("bind");
@@ -332,9 +324,22 @@ bool GUI_RPC_CONN_SET::poll() {
     memset(&tv, 0, sizeof(tv));
     n = select(FD_SETSIZE, &read_fds, 0, &error_fds, &tv);
     if (FD_ISSET(lsock, &read_fds)) {
-        sock = accept(lsock, 0, 0);
-        GUI_RPC_CONN* gr = new GUI_RPC_CONN(sock);
-        insert(gr);
+        struct sockaddr_in addr;
+        size_t addr_len = sizeof(addr);
+        sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
+        int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
+        printf("peer addr: %x\n", peer_ip);
+        if (peer_ip != 0x7f000001) {
+            msg_printf(
+                NULL, MSG_ERROR,
+                "GUI RPC request from non-local address 0x%x\n",
+                peer_ip
+            );
+
+        } else {
+            GUI_RPC_CONN* gr = new GUI_RPC_CONN(sock);
+            insert(gr);
+        }
     }
     iter = gui_rpcs.begin();
     while (iter != gui_rpcs.end()) {

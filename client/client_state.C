@@ -284,7 +284,7 @@ int CLIENT_STATE::init() {
     set_client_state_dirty("init");
 
 #ifndef _WIN32
-    //gui_rpcs.init("gui_rpc");
+    gui_rpcs.init();
 #endif
     return 0;
 }
@@ -368,7 +368,7 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(garbage_collect        , garbage_collect        );
         POLL_ACTION(update_results         , update_results         );
 #ifndef _WIN32
-        //POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
+        POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
 #endif
     } else if (network_suspended) {
         scope_messages.printf("CLIENT_STATE::do_something(): network suspended\n");
@@ -381,7 +381,7 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(garbage_collect        , garbage_collect        );
         POLL_ACTION(update_results         , update_results         );
 #ifndef _WIN32
-        //POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
+        POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
 #endif
     } else {
         net_stats.poll(*net_xfers);
@@ -400,7 +400,7 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(garbage_collect        , garbage_collect        );
         POLL_ACTION(update_results         , update_results         );
 #ifndef _WIN32
-        //POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
+        POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
 #endif
     }
 
