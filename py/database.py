@@ -201,18 +201,8 @@ class DatabaseTable:
             objects.sort()
         return objects
     def _do_find(self, kwargs, results):
-        ## we want to match course numbers exactly: i.e. "EE 20" should not
-        ## match "EE 120"
-        section = kwargs.get('section') ## KLUDGE
-        # coursenumber = kwargs.get('coursenumber') ## KLUDGE
         objects = []
         for result in results:
-            # if coursenumber and result['coursenumber'].lower() != coursenumber.lower():
-            #     continue # KLUDGE for non-exact sql select
-            if 'section' in result and result['section'] == None:
-                result['section'] = 0 # coerce None -> 0
-                if section != None and section != result['section']:
-                    continue # KLUDGE
             id = result['id']
             try:
                 # object already exists in cache?
