@@ -37,7 +37,10 @@
 #include "scheduler_op.h"
 #include "ss_logic.h"
 #include "time_stats.h"
-#include "file_names.h"
+
+#define USER_RUN_REQUEST_ALWAYS     1
+#define USER_RUN_REQUEST_AUTO       2
+#define USER_RUN_REQUEST_NEVER      3
 
 // CLIENT_STATE is the global variables of the core client
 // Most of the state is saved to and restored from "client_state.xml"
@@ -98,7 +101,7 @@ public:
     int allowed_disk_usage(double&);
     int file_xfer_giveup_period;
     bool user_idle;
-    bool suspend_requested;
+    int user_run_request;
     bool start_saver;
     bool exit_when_idle;
     bool show_projects;

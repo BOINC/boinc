@@ -90,7 +90,7 @@ CLIENT_STATE::CLIENT_STATE() {
     strcpy(socks_user_name, "");
     strcpy(socks_user_passwd, "");
     strcpy(host_venue, "");
-    suspend_requested = false;
+    user_run_request = USER_RUN_REQUEST_AUTO;
     start_saver = false;
     requested_exit = false;
 #ifdef _WIN32
@@ -543,22 +543,27 @@ inline bool now_between_two_hours(int start_hour, int end_hour)
 #define SUSPEND_REASON_USER_REQ     4
 #define SUSPEND_REASON_TIME_OF_DAY  8
 
-// See if (on the basis of user prefs) we should suspend activities.
+// See if (on the basis of user run request and prefs)
+// we should suspend activities.
 //
 int CLIENT_STATE::check_suspend_activities(int& reason) {
     reason = 0;
+
+    if (user_run_request == USER_RUN_REQUEST_ALWAYS) return 0;
+
+    if (user_run_request == USER_RUN_REQUEST_NEVER) {
+        reason = SUSPEND_REASON_USER_REQ;
+        return 0;
+    }
 
     if (!global_prefs.run_on_batteries && host_is_running_on_batteries()) {
         reason |= SUSPEND_REASON_BATTERIES;
     }
 
-    // user_idle and suspend_requested are set in the Mac/Win GUI code
+    // user_idle is set in the Mac/Win GUI code
     //
     if (!global_prefs.run_if_user_active && !user_idle) {
         reason |= SUSPEND_REASON_USER_ACTIVE;
-    }
-    if (suspend_requested) {
-        reason |= SUSPEND_REASON_USER_REQ;
     }
 
     if (!now_between_two_hours(global_prefs.start_hour, global_prefs.end_hour)) {
@@ -808,8 +813,7 @@ int CLIENT_STATE::parse_state_file() {
         } else if (parse_int(buf, "<proxy_server_port>", proxy_server_port)) {
         } else if (parse_str(buf, "<socks_user_name>", socks_user_name, sizeof(socks_user_name))) {
         } else if (parse_str(buf, "<socks_user_passwd>", socks_user_passwd, sizeof(socks_user_passwd))) {
-        } else if (match_tag(buf, "<suspend_requested/>")) {
-            suspend_requested = true;
+        // } else if (parse_int(buf, "<user_run_request/>")) {
         } else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) {
         } else {
             msg_printf(NULL, MSG_ERROR, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
@@ -893,10 +897,9 @@ int CLIENT_STATE::write_state_file() {
         socks_user_name,
         socks_user_passwd
     );
-    // Save user suspend requests
-    if (suspend_requested) {
-        fprintf(f, "<suspend_requested/>\n");
-    }
+#if 0
+    fprintf(f, "<user_run_request>%d</user_run_request>\n", user_run_request);
+#endif
     if (strlen(host_venue)) {
         fprintf(f, "<host_venue>%s</host_venue>\n", host_venue);
     }
