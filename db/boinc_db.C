@@ -853,10 +853,11 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
 
 int DB_VALIDATOR_ITEM_SET::enumerate(
     int appid, int nresult_limit,
+    int wu_id_modulus, int wu_id_remainder,
     std::vector<VALIDATOR_ITEM>& items
 ) {
     int x;
-    char query[MAX_QUERY_LEN];
+    char query[MAX_QUERY_LEN], mod_clause[256];
     char priority[256];
     MYSQL_ROW row;
     VALIDATOR_ITEM new_item;
@@ -864,6 +865,15 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
     if (!cursor.active) {
         strcpy(priority, "");
         if (db->mysql) strcpy(priority, "HIGH_PRIORITY");
+
+        if (wu_id_modulus) {
+            sprintf(mod_clause,
+                " and id %% %d = %d ",
+                wu_id_modulus, wu_id_remainder
+            );
+        } else {
+            strcpy(mod_clause, "");
+        }
 
         sprintf(query,
             "SELECT %s "
@@ -899,10 +909,10 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   workunit AS wu "
             "       LEFT JOIN result AS res ON wu.id = res.workunitid "
             "WHERE "
-            "   wu.appid = %d and wu.need_validate > 0 "
+            "   wu.appid = %d and wu.need_validate > 0 %s "
             "LIMIT "
             "   %d ",
-            priority, appid, nresult_limit
+            priority, appid, mod_clause, nresult_limit
         );
 
         x = db->do_query(query);

@@ -17,13 +17,13 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-//
-// validator - check and validate new results, and grant credit
+// validator - check and validate results, and grant credit
 //  -app appname
 //  [-d debug_level]
-//  [-one_pass_N_WU N]   // Validate only N WU in one pass, then exit
-//  [-one_pass]          // make one pass through WU table, then exit
-//  [-asynch]            // fork, run in separate process
+//  [-one_pass_N_WU N]  // Validate only N WU in one pass, then exit
+//  [-one_pass]         // make one pass through WU table, then exit
+//  [-asynch]           // fork, run in separate process
+//  [-mod n i]          // process only WUs with (id mod n) == i
 //
 // This program must be linked with two project-specific functions:
 // check_set() and check_pair().
@@ -58,6 +58,10 @@ extern int check_pair(
 
 SCHED_CONFIG config;
 char app_name[256];
+int wu_id_modulus=0;
+int wu_id_remainder=0;
+int one_pass_N_WU=0;
+
 
 // here when a result has been validated;
 // grant credit to host, user and team
@@ -466,8 +470,6 @@ void handle_wu(
     }
 }
 
-int one_pass_N_WU=0;
-
 // make one pass through the workunits with need_validate set.
 // return true if there were any
 //
@@ -475,10 +477,17 @@ bool do_validate_scan(APP& app) {
     DB_VALIDATOR_ITEM_SET validator;
     std::vector<VALIDATOR_ITEM> items;
     bool found=false;
+    int retval;
 
     // loop over entries that need to be checked
     //
-    while (!validator.enumerate(app.id, one_pass_N_WU?one_pass_N_WU:SELECT_LIMIT, items)) {
+    while (1) {
+        retval = validator.enumerate(
+            app.id, one_pass_N_WU?one_pass_N_WU:SELECT_LIMIT,
+            wu_id_modulus, wu_id_remainder,
+            items
+        );
+        if (retval) break;
         handle_wu(validator, items);
         found = true;
     }
@@ -538,6 +547,9 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-d")) {
             boinc_validator_debuglevel=atoi(argv[++i]);
             log_messages.set_debug_level(boinc_validator_debuglevel);
+        } else if (!strcmp(argv[i], "-mod")) {
+            wu_id_modulus = atoi(argv[++i]);
+            wu_id_remainder = atoi(argv[++i]);
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "unrecognized arg: %s\n", argv[i]);
             exit(1);
@@ -558,13 +570,12 @@ int main(int argc, char** argv) {
         }
     }
 
-    // // Call lock_file after fork(), because file locks are not always inherited
-    // if (lock_file(LOCKFILE)) {
-    //     log_messages.printf(SCHED_MSG_LOG::NORMAL, "Another copy of validate is already running\n");
-    //     exit(1);
-    // }
-    // write_pid_file(PIDFILE);
     log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting validator\n");
+    if (wu_id_modulus) {
+        log_messages.printf(SCHED_MSG_LOG::NORMAL,
+            "Modulus %d, remainder %d\n", wu_id_modulus, wu_id_remainder
+        );
+    }
 
     install_stop_signal_handler();
 

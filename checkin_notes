@@ -25153,3 +25153,13 @@ David  22 Feb 2005
             create_account_action.php
             edit_user_info_action.php
             team_edit_form.php
+
+David  22 Feb 2005
+    - Validator: added a "-mod n i" cmdline option.
+        Processes only WUs with ID mod n == i.
+        Lets you run multiple copies of validators for greater throughput.
+
+    db/
+        boinc_db.C,h
+    sched/
+        validator.C

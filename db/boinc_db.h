@@ -615,6 +615,8 @@ public:
     int enumerate(
         int appid,
         int nresult_limit,
+        int wu_id_modulus,
+        int wu_id_remainder,
         std::vector<VALIDATOR_ITEM>& items
     );
     int update_result(RESULT&);
