@@ -16,15 +16,19 @@ and extensions .gz, .exe, .sit are ignored.  Platform strings must match the
 names of platforms in the database.
 
 update_versions also handles sub-directories, which contain files to bundle as
-a single app-version.  Sub-directory names are ignored.
+a single app-version.  Sub-directory names are ignored.  Non-executable files
+can be arbitrarily named.
 
 Example setup:
 
   apps/boinc/boinc_7.17_i686-pc-linux-gnu.gz
   apps/Astropulse/astropulse_7.17_windows_intelx86.exe
   apps/SETI@home/sah_4.20_sparc-sun-solaris2.9.gz
+  apps/SETI@home/sah_4.20_i686-pc-linux-gnu.gz
   apps/SETI@Home/sah_4.21_sparc-sun-solaris2.9/sah_4.21_sparc-sun-solaris2.9.gz
-  apps/SETI@Home/sah_4.21_sparc-sun-solaris2.9/sah_logo.jpg
+  apps/SETI@Home/sah_4.21_sparc-sun-solaris2.9/sah_4.21_logo.jpg
+  apps/SETI@Home/sah_4.21_i686-pc-linux-gnu/sah_4.21_i686-pc-linux-gnu.gz
+  apps/SETI@Home/sah_4.21_i686-pc-linux-gnu/sah_4.21_logo.jpg
 
 """
 
