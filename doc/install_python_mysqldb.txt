@@ -9,6 +9,10 @@ INSTALLATION INSTRUCTIONS
 =========================
 
 Lines beginning with "$" indicate example commands to type in shell.
+
+Lines beginning with "#" indicate example commands to type with write access
+to the install location (i.e. su or sudo)
+
 Lines beginning with ">>> " indicate example commands to type in Python.
 
 The `shared module' options build a shared library for the Python-MySQLdb
@@ -18,10 +22,10 @@ shared version of the MySQL client library installed, i.e. libmysqlclient.so.
 Debian Linux: shared module
 ---------------------------
     1. Install
-       $ apt-get install python-mysqldb
+       # apt-get install python-mysqldb
     
     [ 2003/07: if you have both Python 2.1 and 2.2 installed and use python2.2, do
-       $ apt-get install python2.2-mysqldb
+       # apt-get install python2.2-mysqldb
     ]
 
 Red Hat Linux: shared module
@@ -29,7 +33,7 @@ Red Hat Linux: shared module
     1. Download MySQL-python
        $ wget http://easynews.dl.sourceforge.net/sourceforge/mysql-python/MySQL-python-0.9.2-1.i386.rpm
     2. Install
-       $ rpm (arguments?) 
+       # rpm (arguments?) 
 
 Other Unix/Linux: shared module
 -------------------------------
@@ -41,7 +45,7 @@ Other Unix/Linux: shared module
     3. Build
        $ python setup.py build
     4. Install
-       $ python setup.py install
+       # python setup.py install
 
 Unix/Linux: compiled statically into Python
 -------------------------------------------
@@ -78,7 +82,11 @@ Unix/Linux: compiled statically into Python
        >>> MySQLdb.connect(db='databasename', user='username')
 
     9. Install
-       $ make install
+       $ cd ../Python-2.3/
+       # make install
+
+       $ cd ../Python-MySQLdb-0.9.2/
+       # cp -r MySQLdb/ /path/to/python/lib
 
 Windows: pre-built binary
 -------------------------

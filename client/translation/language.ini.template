@@ -72,7 +72,7 @@ Download failed=DOWNLOAD FAILED
 [MENU-File]
 Title=FILE
 Show Graphics=SHOW GRAPHICS
-Force run=FORCE RUN
+Run always=RUN ALWAYS
 Run based on preferences=RUN BASED ON PREFERENCES
 Suspend=SUSPEND
 Run Benchmarks=RUN BENCHMARKS
@@ -91,7 +91,7 @@ About...=ABOUT...
 [MENU-StatusIcon]
 Show=SHOW
 Hide=HIDE
-Force run=FORCE RUN
+Run always=RUN ALWAYS
 Run based on preferences=RUN BASED ON PREFERENCES
 Suspend=SUSPEND
 Exit=EXIT
