@@ -67,7 +67,7 @@ def process_executable_file(file, signature_text=None, quiet=False, executable=T
     xml = '''<file_info>
     <name>%s</name>
     <url>%s</url>
-''' %(source_file_base,target_url)
+''' %(target_file_base,target_url)
     if executable:
         xml += '    <executable/>\n'
     if signature_text:
