@@ -13215,4 +13215,11 @@ Rom    9 June 2004
         parse.h
     win_build/
         *.vcproj
-   
+
+Brian   10 June 2004
+	- changed get_log_path to create log directory dynamically if
+		not already present on server
+
+	sched/
+		main.C
+		file_upload_handler.C
