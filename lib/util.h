@@ -21,6 +21,9 @@
 #include <cstdlib>
 #include <cmath>
 
+#ifndef _UTIL_H_
+#define _UTIL_H_
+
 extern int double_to_ydhms (double x, int smallest_timescale, char *buf);
 extern void get_byte_string(double nbytes, double total_bytes, char* str, int len);
 extern double dtime();
@@ -72,3 +75,5 @@ static inline int calculate_exponential_backoff(int n, double MIN)
 {
     return (int) rand_range(MIN, exp((double)n));
 }
+
+#endif
