@@ -11339,3 +11339,10 @@ David  April 3 2004
         feeder.C
         main.C
         sched_config.C,h
+
+David  April 3 2004
+    - added code (from Rob Ogilvie) to check for battery usage
+        on Linux ACPI hosts
+
+    client/
+        hostinfo_unix.C

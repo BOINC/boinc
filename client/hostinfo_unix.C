@@ -107,35 +107,30 @@ int get_timezone() {
 // TODO: port this to other platforms (Windows, Mac OS X, others?)
 //
 bool HOST_INFO::host_is_running_on_batteries() {
-    bool    retval = false;
-	char    apm_driver_version[10];
-    int     apm_major_version;
-    int     apm_minor_version;
-    int     apm_flags;
-    int     apm_ac_line_status=1;
+#ifdef linux
+    float x1, x2;
+    int i1, i2;
+    bool on_batteries = false;
 
-    if (!strncasecmp(os_name, "Linux", 5)) {
-        // the following only works on Linux APM systems.
+    FILE* fapm = fopen("/proc/apm", "r");
+    FILE* facpi = fopen("/proc/acpi/ac_adapter/ACAD/state", "r");
+    
+    if (fapm) {          // Then we're using APM!  Yay.
+        // Supposedly we're on batteries if the 4th entry is zero.
         //
-        FILE* f = fopen("/proc/apm", "r");
-        if (f) {
-            // Supposedly we're on batteries if the 5th entry is zero.
-            //
-            fscanf(f, "%10s %d.%d %x %x",
-                apm_driver_version,
-                &apm_major_version,
-                &apm_minor_version,
-                &apm_flags,
-                &apm_ac_line_status
-            );
-            fclose(f);
-            retval = (apm_ac_line_status == 0);
-        } else {
-            // Need Linux ACPI check here...
-        }
+        fscanf(fapm, "%f %f %x %x", &x1, &x2, &i1, &i2);
+        fclose(fapm);
+        if (i2 == 0) on_batteries = true;
+    } else if (facpi) {
+        // The 27th letter is f if they're on AC and n if they're on battery
+        fseek(facpi, 26, 0);
+        if (fgetc(facpi) == 'n') on_batteries = true;
+        fclose(facpi);
     }
-
-    return retval;
+    return on_batteries;
+#else
+    return false;
+#endif
 }
 
 #ifdef linux
@@ -177,7 +172,7 @@ void parse_cpuinfo(HOST_INFO& host) {
     fclose(f);
 }
 
-#else
+#else   // mips
 
 // Unfortunately the format of /proc/cpuinfo is not standardized.
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
@@ -224,7 +219,7 @@ void parse_cpuinfo(HOST_INFO& host) {
 
 #endif // MIPS
 
-#endif
+#endif  // linux
 
 // get all relevant host information
 //
@@ -363,5 +358,3 @@ int HOST_INFO::get_host_info() {
 
     return 0;
 }
-
-
