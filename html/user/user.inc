@@ -114,8 +114,8 @@ function show_user_row($user) {
     printf(
       "<tr class=row1>
         <td><a href=show_user.php?userid=%d>%s</a></td>
-        <td>%.4f</td>
-        <td>%.4f</td>
+        <td>%s</td>
+        <td>%s</td>
         <td>%s</td>
         <td>%s</td>
     </tr>\n", $user->id, $user->name, format_credit($user->expavg_credit),

@@ -425,8 +425,8 @@ function doError($msg, $info = '') {
     page_tail();
     exit();
 }
-?>
 
-function credit_format($cobblestones) {
+function format_credit($cobblestones) {
     return sprintf("%.2f", $cobblestones);
 }
+?>

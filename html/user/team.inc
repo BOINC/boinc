@@ -53,7 +53,7 @@ function display_team_page($team, $user) {
         $total_credit = $total_credit + $user->total_credit;
     }
 
-    row2("Total credit", credit_format($total_credit));
+    row2("Total credit", format_credit($total_credit));
     $result = mysql_query("select * from user where id=$team->userid");
     $user = mysql_fetch_object($result);
     row2("Founder", "<a href=show_user.php?userid=$user->id>$user->name</a>");
