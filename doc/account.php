@@ -19,8 +19,7 @@ This involves filling out a form with
 
 <li> Download, install and run the BOINC client program.
 It will ask for a project URL and an account key.
-Enter the project's URL,
-cut and paste the account key from the email.
+Cut and paste them from the email.
 
 </ol>
 <p>
@@ -30,7 +29,7 @@ You can go to the project's web site to set your
 
 <h3>Multiple computers under one account</h3>
 <p>
-You can run BOINC on many computers, all under one account.
+You can run BOINC on several computers under one account.
 Once you have created an account as above,
 you can add new computers in either of two ways:
 
@@ -43,8 +42,8 @@ create a BOINC directory on the new computer,
 and copy the core client executable and all 'account_*' files
 from the existing computer to the new computer.
 Do not copy 'client_state.xml'.
-NOTE: this does not work on Windows,
-because it does not copy registry entries and other information.
+NOTE: this procedure does not work on Windows
+because it does not copy registry entries.
 
 </ol>
 

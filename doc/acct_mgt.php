@@ -5,15 +5,21 @@ page_head("External account management <br>(work in progress)");
 
 echo "
 <p>
-Currently BOINC provides only a web-based interface
-for creating and managing accounts.
-Participants must locate the web sites of BOINC projects,
-read them, decide which to join,
-and fill out a separate registration form at each site.
-This may deter some potential participants.
+Currently the user interface
+for creating and managing BOINC accounts is as follows.
+Participants must:
+<ul>
+<li> locate the web sites of BOINC projects,
+read them, and decide which to join;
+<p>
+and then for each selected project:
+<li> fill out a web registration form;
+<li> handle an email;
+<li> cut and paste a URL and account key into the client GUI.
+</ul>
 
 <p>
-We wish to enable new ways for people to find and join BOINC projects.
+We wish to enable simpler systems by which people can find and join BOINC projects.
 For example, one could have a <b>sharing control panel</b> that shows:
 <ul>
 <li> a list of BOINC projects, with short descriptions and 'join' checkboxes;
@@ -23,11 +29,13 @@ The user can join projects simply by checking boxes, clicking OK,
 and responding to account-verification emails.
 
 <p>
-The sharing control panel is an example of what we will call
-'account management applications'.
+Alternatively, similar functionality could be provided by a web site.
 
 <p>
-This document describes a mechanism that allow account
+These are examples of what we will call 'account management applications'.
+
+<p>
+This document describes a mechanism that allows account
 management applications to interact with BOINC projects.
 
 <h2>RPCs for account management</h2>
