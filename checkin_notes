@@ -3204,3 +3204,23 @@ David  Feb 12 2003
         start_servers.C
     test/
         test.inc
+
+David  Feb 12 2003
+    - changed user HTML so that all project-specific stuff
+        (intro, banner, etc.) is in a separate file.
+        Can specify this file in test scripts.
+    - added test scripts to make dummy SETI@home and Astropulse projects,
+        and made project-specific HTML files for them
+
+    html_user/
+        index.php
+        project.inc  (new)
+        project_ap.inc   (new)
+        project_sah.inc  (new)
+    sched/
+        start_servers.C
+    test/
+        make_project.php
+        make_project_ap.php (new)
+        make_project_sah.php (new)
+        test.inc

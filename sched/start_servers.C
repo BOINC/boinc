@@ -24,7 +24,7 @@
 
 int main() {
     CONFIG config;
-    int retval;
+    int i, retval;
     char* p;
 
     retval = config.parse_file();

@@ -139,6 +139,7 @@ class Project {
     var $start_make_work;
     var $start_result_retry;
     var $start_validate;
+    var $project_php_file;
 
     function Project() {
         $this->name = "test";
@@ -276,6 +277,9 @@ class Project {
         PassThru("cp -f $source_dir/html_user/* $this->project_dir/html_user");
         PassThru("cp -f $source_dir/tools/country_select $this->project_dir/html_user");
         PassThru("cp -f $source_dir/html_ops/* $this->project_dir/html_ops");
+        if ($this->project_php_file) {
+            PassThru("cp -f $source_dir/html_user/$this->project_php_file $this->project_dir/html_user/project.inc");
+        }
 
         // Copy the sched server in the cgi directory with the
         // cgi names given $source_dir/html_usr/schedulers.txt
@@ -327,19 +331,19 @@ class Project {
             fputs($f, "<start>assimilator >> assimilator.out 2>&1</start>\n");
         }
         if ($this->start_feeder) {
-            fputs($f, "<start>feeder >> feeder.out 2>&1</start>\n");
+            fputs($f, "<start>feeder -asynch >> feeder.out 2>&1</start>\n");
         }
         if ($this->start_file_deleter) {
-            fputs($f, "<start>file_deleter >> file_deleter.out 2>&1</start>\n");
+            fputs($f, "<start>file_deleter -asynch >> file_deleter.out 2>&1</start>\n");
         }
         if ($this->start_make_work) {
-            fputs($f, "<start>make_work >> make_work.out 2>&1</start>\n");
+            fputs($f, "<start>make_work -asynch -result_template $result_template_path -wu_name $work->wu_template >> make_work.out 2>&1</start>\n");
         }
         if ($this->start_result_retry) {
-            fputs($f, "<start>result_retry >> result_retry.out 2>&1</start>\n");
+            fputs($f, "<start>result_retry -asynch >> result_retry.out 2>&1</start>\n");
         }
         if ($this->start_validate) {
-            fputs($f, "<start>validate >> validate.out 2>&1</start>\n");
+            fputs($f, "<start>validate -asynch >> validate.out 2>&1</start>\n");
         }
         fputs($f, "</config>\n");
         fclose($f);
@@ -372,7 +376,9 @@ class Project {
         PassThru("rm -f $cgi_dir/$this->name");
         PassThru("ln -s $this->project_dir/cgi $cgi_dir/$this->name");
         PassThru("rm -f $html_dir/$this->name");
-        PassThru("ln -s $this->project_dir $html_dir/$this->name");
+        PassThru("ln -s $this->project_dir/html_user $html_dir/$this->name");
+        $x = "ln -s $this->project_dir/html_ops ".$html_dir."/".$this->name."_admin";
+        PassThru($x);
 
         // show the URLs for user and admin sites
         //
@@ -431,6 +437,10 @@ class Project {
         
     function reinstall_file_upload_handler($handler_num = null) {
         PassThru("cp $this->source_dir/sched/file_upload_handler $this->project_dir/cgi/file_upload_handler$handler_num");
+    }
+
+    function start_server(){
+        PassThru("cd $this->project_dir/cgi; ./start_server >> start_server_out 2>&1");
     }
 
     function start_feeder(){

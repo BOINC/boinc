@@ -1,6 +1,7 @@
 <?php
 
 require_once("db.inc");
+require_once("project.inc");
 
 define("EMAIL_EXISTS", -1);
 define("EMAIL_UPDATED", 1);
@@ -21,8 +22,6 @@ define("BG_COLOR", " bgcolor=ffffff ");
 define("TITLE_COLOR", " bgcolor=000000 ");
 define("TITLE_FONT", " <font color=ffffff> ");
 define("BODY_COLOR", " bgcolor=ffffff ");
-define("PROJECT", "Astropulse");
-define("MASTER_URL", "http://maggie.ssl.berkeley.edu/ap/");
 
 // Sends the authenticator to the given email address
 //
@@ -82,15 +81,8 @@ function show_login($user) {
 function page_head($title, $user=null) {
     echo "<head><title>$title</title><body ".BG_COLOR.">\n";
 
-    // Put your project title and logo here
+    project_banner($user);
 
-    echo "<table width=100%><tr><td><h2>".PROJECT."</h2></td><td align=right>\n";
-    if ($user) {
-        echo "Logged in as $user->name";
-    } else {
-        echo "<br>";
-    }
-    echo "</td></tr></table><hr>\n";
 }
 
 function page_tail() {
