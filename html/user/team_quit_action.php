@@ -40,7 +40,7 @@
             page_head("Quit $team_name");
             echo "<h2>Removed from team</h2>";
             echo "You have been removed from <a href=team_display.php?teamid=$team->id>$team_name</a>";
-            if (!$new_nusers) {
+            if ($new_nusers <= 0) {
                 echo "<p>Since you were the last member of the team, it has been disbanded.";
             }
         } else {

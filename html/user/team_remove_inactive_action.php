@@ -1,4 +1,4 @@
-<?php
+<?php {
 
     require_once("util.inc");
     require_once("team.inc");
@@ -41,10 +41,15 @@
              }
          }
     }
-    $new_nusers = $$team->nusers - $nmembers;
-    $query = "update team set nusers = $new_nusers where id = $team->id";
+    $new_nusers = $team->nusers - $nmembers;
+    if ($new_nusers > 0) {
+        $query = "update team set nusers = $new_nusers where id = $team->id";
+    } else {
+        $query = "remove team where id=$team->id";
+        echo "<p><b>The team has been disbanded because there are no more members.</b>";
+    }
     $result = mysql_query($query);
 
     page_tail();
 
-?>
+} ?>
