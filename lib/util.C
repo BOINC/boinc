@@ -747,3 +747,29 @@ void update_average(
     }
     avg_time = now;
 }
+
+int dir_hier_path(
+    char* filename, char* root, int fanout, char* result, bool create
+) {
+    int sum=0;
+    char dir[256];
+    int retval;
+
+    if (fanout==0) {
+        sprintf(result, "%s/%s", root, filename);
+        return 0;
+    }
+
+    char* p = filename;
+    while (*p) sum += *p++;
+    sum %= fanout;
+    sprintf(dir, "%s/%x", root, sum);
+    if (create) {
+        retval = mkdir(dir, 0777);
+        if (retval && (retval != EEXIST)) {
+            return ERR_MKDIR;
+        }
+    }
+    sprintf(result, "%s/%s", dir, filename);
+    return 0;
+}

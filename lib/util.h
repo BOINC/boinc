@@ -114,4 +114,7 @@ int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu, double& ws);
 
 extern void update_average(double, double, double, double&, double&);
 
+extern int dir_hier_path(
+    char* filename, char* root, int fanout, char* result, bool create=false
+);
 #endif

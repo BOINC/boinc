@@ -15867,3 +15867,24 @@ David  5 Aug 2004
 
 	client/
 		cs_scheduler.C
+
+David  5 Aug 2004
+    - Initial support for hierarchical upload/download directories.
+        With large directories (100,000 - 1,000,000 files)
+        Solaris and NFS burn too much CPU time searching dirs.
+        Our plan is to use a 2-level hierarchy,
+        with the fanout specified in config.xml:
+        <uldl_dir_fanout>x<uldl_dir_fanout>
+        A fanout of 1000 should work OK for up to 1M files.
+        A couple of utility programs in tools/:
+            dir_hier_path shows where a file is
+            dir_hier_move moves existing files into a hierarchy
+    
+    lib/
+        util.C,h
+    sched/
+        sched_config.C,h
+    tools/
+        Makefile.am
+        dir_hier_move.C
+        dir_hier_path.C

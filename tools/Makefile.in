@@ -175,7 +175,7 @@ AM_CPPFLAGS = \
 # programs linking to it:
 LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
 
-bin_PROGRAMS = create_work sign_executable
+bin_PROGRAMS = create_work sign_executable dir_hier_path dir_hier_move
 
 EXTRA_DIST = make_project add xadd update_versions dbcheck_files_exist upgrade
 
@@ -199,23 +199,6 @@ create_work_SOURCES = \
 create_work_DEPENDENCIES = $(LIBRSA)
 create_work_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 
-
-# old_add_SOURCES =				\
-#     add.C					\
-#     backend_lib.C				\
-#     process_result_template.C			\
-#     ../lib/md5_file.C				\
-#     ../lib/md5.c				\
-#     ../lib/parse.C				\
-#     ../lib/util.C				\
-#     ../db/boinc_db.C				\
-#     ../db/db_base.C				\
-#     ../lib/crypt.C				\
-#     ../sched/sched_config.C			\
-#     backend_lib.h
-
-# old_add_DEPENDENCIES = $(LIBRSA)
-# old_add_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 sign_executable_SOURCES = \
         sign_executable.C			\
         ../lib/md5_file.C			\
@@ -225,11 +208,26 @@ sign_executable_SOURCES = \
 
 sign_executable_DEPENDENCIES = $(LIBRSA)
 sign_executable_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
+
+dir_hier_path_SOURCES = \
+    dir_hier_path.C \
+    ../sched/sched_config.C     \
+    ../lib/parse.C \
+    ../lib/util.C
+
+
+dir_hier_move_SOURCES = \
+    dir_hier_move.C \
+    ../sched/sched_config.C     \
+    ../lib/parse.C \
+    ../lib/util.C
+
 subdir = tools
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES = boinc_path_config.py
-bin_PROGRAMS = create_work$(EXEEXT) sign_executable$(EXEEXT)
+bin_PROGRAMS = create_work$(EXEEXT) sign_executable$(EXEEXT) \
+	dir_hier_path$(EXEEXT) dir_hier_move$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
 am_create_work_OBJECTS = create_work.$(OBJEXT) backend_lib.$(OBJEXT) \
@@ -238,6 +236,18 @@ am_create_work_OBJECTS = create_work.$(OBJEXT) backend_lib.$(OBJEXT) \
 	db_base.$(OBJEXT) crypt.$(OBJEXT) sched_config.$(OBJEXT)
 create_work_OBJECTS = $(am_create_work_OBJECTS)
 create_work_LDFLAGS =
+am_dir_hier_move_OBJECTS = dir_hier_move.$(OBJEXT) \
+	sched_config.$(OBJEXT) parse.$(OBJEXT) util.$(OBJEXT)
+dir_hier_move_OBJECTS = $(am_dir_hier_move_OBJECTS)
+dir_hier_move_LDADD = $(LDADD)
+dir_hier_move_DEPENDENCIES =
+dir_hier_move_LDFLAGS =
+am_dir_hier_path_OBJECTS = dir_hier_path.$(OBJEXT) \
+	sched_config.$(OBJEXT) parse.$(OBJEXT) util.$(OBJEXT)
+dir_hier_path_OBJECTS = $(am_dir_hier_path_OBJECTS)
+dir_hier_path_LDADD = $(LDADD)
+dir_hier_path_DEPENDENCIES =
+dir_hier_path_LDFLAGS =
 am_sign_executable_OBJECTS = sign_executable.$(OBJEXT) \
 	md5_file.$(OBJEXT) md5.$(OBJEXT) crypt.$(OBJEXT)
 sign_executable_OBJECTS = $(am_sign_executable_OBJECTS)
@@ -249,8 +259,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/backend_lib.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_db.Po ./$(DEPDIR)/create_work.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/crypt.Po ./$(DEPDIR)/db_base.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/md5.Po ./$(DEPDIR)/md5_file.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/parse.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/dir_hier_move.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/dir_hier_path.Po ./$(DEPDIR)/md5.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/parse.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/process_result_template.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_config.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sign_executable.Po ./$(DEPDIR)/util.Po
@@ -263,9 +274,10 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(create_work_SOURCES) $(sign_executable_SOURCES)
+DIST_SOURCES = $(create_work_SOURCES) $(dir_hier_move_SOURCES) \
+	$(dir_hier_path_SOURCES) $(sign_executable_SOURCES)
 DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in
-SOURCES = $(create_work_SOURCES) $(sign_executable_SOURCES)
+SOURCES = $(create_work_SOURCES) $(dir_hier_move_SOURCES) $(dir_hier_path_SOURCES) $(sign_executable_SOURCES)
 
 all: all-am
 
@@ -313,6 +325,12 @@ sched_config.$(OBJEXT): ../sched/sched_config.C
 create_work$(EXEEXT): $(create_work_OBJECTS) $(create_work_DEPENDENCIES) 
 	@rm -f create_work$(EXEEXT)
 	$(CXXLINK) $(create_work_LDFLAGS) $(create_work_OBJECTS) $(create_work_LDADD) $(LIBS)
+dir_hier_move$(EXEEXT): $(dir_hier_move_OBJECTS) $(dir_hier_move_DEPENDENCIES) 
+	@rm -f dir_hier_move$(EXEEXT)
+	$(CXXLINK) $(dir_hier_move_LDFLAGS) $(dir_hier_move_OBJECTS) $(dir_hier_move_LDADD) $(LIBS)
+dir_hier_path$(EXEEXT): $(dir_hier_path_OBJECTS) $(dir_hier_path_DEPENDENCIES) 
+	@rm -f dir_hier_path$(EXEEXT)
+	$(CXXLINK) $(dir_hier_path_LDFLAGS) $(dir_hier_path_OBJECTS) $(dir_hier_path_LDADD) $(LIBS)
 sign_executable$(EXEEXT): $(sign_executable_OBJECTS) $(sign_executable_DEPENDENCIES) 
 	@rm -f sign_executable$(EXEEXT)
 	$(CXXLINK) $(sign_executable_LDFLAGS) $(sign_executable_OBJECTS) $(sign_executable_LDADD) $(LIBS)
@@ -328,6 +346,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/create_work.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/db_base.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dir_hier_move.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dir_hier_path.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5_file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@

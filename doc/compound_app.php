@@ -40,7 +40,7 @@ struct BOINC_OPTIONS {
 };
 
 int boinc_init_options(BOINC_OPTIONS&);
-<pre>
+</pre>
 ";
 list_start();
 list_item("main_program",
@@ -74,6 +74,8 @@ list_item("direct_process_action",
 	the BOINC_STATUS structure,
 	which can be polled using boinc_get_status()."
 );
+list_end();
+echo "
 <p>
 Typical main program logic is:
 <pre>

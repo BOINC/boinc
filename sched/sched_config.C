@@ -75,6 +75,7 @@ int SCHED_CONFIG::parse(char* buf) {
     parse_int(buf, "<min_sendwork_interval>", min_sendwork_interval);
     parse_int(buf, "<max_wus_to_send>", max_wus_to_send);
     parse_int(buf, "<daily_result_quota>", daily_result_quota);
+    parse_int(buf, "<uldl_dir_fanout>", uldl_dir_fanout);
     if (match_tag(buf, "</config>")) {
         char hostname[256];
         gethostname(hostname, 256);
@@ -92,7 +93,9 @@ int SCHED_CONFIG::parse_file(char* dir) {
     sprintf(path, "%s/%s", dir, CONFIG_FILE);
     retval = read_file_malloc(path, p);
     if (retval) return retval;
-    return parse(p);
+    retval =  parse(p);
+    free(p);
+    return retval;
 }
 
 void get_project_dir(char* p, int len) {

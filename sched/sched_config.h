@@ -45,6 +45,7 @@ public:
     bool enforce_delay_bound;
     bool use_transactions;
     int daily_result_quota;     // max results per host per day
+    int uldl_dir_fanout;        // fanout of ul/dl dirs; 0 if none
 
     int parse(char*);
     int parse_file(char* dir=".");
