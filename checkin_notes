@@ -22521,3 +22521,18 @@ David  11 Jan 2005
         error_numbers.h
     sched/
         sched_locality.C
+
+Janus 12 Jan 2005
+    - Removed check for $user->disabled_filtering which no longer exists.
+    - Added output of CVS version information if available.
+      Someone with time on their hands should add the following line to all
+      the PHP and include files (right after the inital &lt;php :
+
+      $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+
+      (bug and idea found by Bruce Allen)
+
+    html/inc
+        util.inc
+        forum_show.inc
+
