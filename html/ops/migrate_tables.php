@@ -5,8 +5,13 @@
 // isn't stored in the SETI@Home database.  Should we just set them all to
 // the date of migration?
 
-define('SETI_IMAGE_PATH', '/disks/kosh/a/inet_services/www/share/htdocs/SetiAtHome/images/user_profile/');
-//define('BOINC_IMAGE_PATH', '/disks/koloth/a/inet_services/www/share/projects/AstroPulse_Beta/html_user/user_profile/images/');
+//define('SETI_IMAGE_PATH', '/disks/kosh/a/inet_services/www/share/htdocs/SetiAtHome/images/user_profile/');
+//define('BOINC_IMAGE_PATH','/disks/koloth/a/inet_services/www/share/projects/AstroPulse_Beta/html_user/user_profile/images/');
+
+// NOTE: These are only test values!  The commented values above are closer
+// to the real thing.
+
+define('SETI_IMAGE_PATH', '/disks/kodos/a/inet_services/boinc_www/share/projects/tah/html_ops/');
 define('BOINC_IMAGE_PATH', '/disks/kodos/a/inet_services/boinc_www/share/projects/tah/html_user/user_profile/images/');
 
 define('USER_FILE', 'test_user_flat');
@@ -305,8 +310,8 @@ function move_user_pic($img_name, $userid) {
         $ext = strrchr($img_name, ".");
 
         if ($ext == '.jpg' || $ext == '.jpeg') {
-            shell_exec("mv $filename " . BOINC_IMAGE_PATH . $userid . ".jpg");
-            shell_exec("mv $filename_sm " . BOINC_IMAGE_PATH . "$userid . "_sm.jpg");
+            shell_exec("cp $filename " . BOINC_IMAGE_PATH . $userid . ".jpg");
+            shell_exec("cp $filename_sm " . BOINC_IMAGE_PATH . $userid . "_sm.jpg");
             return true;
         } else if ($ext == '.png' || $ext == '.gif') {
             shell_exec("convert $filename jpg:" . BOINC_IMAGE_PATH . $userid . ".jpg");
