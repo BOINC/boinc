@@ -14,8 +14,25 @@ function get_path($params) {
 
 function start_cache($max_age, $params=""){
     $path = get_path($params);
+    $request = getallheaders();
+    // Check to see if this is a conditional fetch.
+    $lastmodified = @filemtime($path);
 
-   if (@filemtime($path)<time()-$max_age){
+    $if_modified_since = isset($request['If-Modified-Since']) ?
+        (explode(';',$request['If-Modified-Since'])) :
+        false;
+
+    if ($if_modified_since) {
+      $if_modified_since=strtotime($if_modified_since[0]);
+    }
+
+    if ($if_modified_since && ($if_modified_since == $lastmodified)) {
+      Header("Last-Modified: " . gmdate("D, d M Y H:i:s",$lastmodified) . " GMT");
+      Header('HTTP/1.0 304 Not Modified');
+      exit;
+    }
+
+    if ($lastmodified<time()-$max_age){
        // If cached version is too old (or non-existent)
        // generate the page and write to cache
        //
@@ -30,8 +47,8 @@ function start_cache($max_age, $params=""){
        if (strstr($params, "format=xml")) {
            header('Content-type: text/xml');
        }
-       Header("Last-Modified: " . gmdate("D, d M Y H:i:s",@filemtime($path)) . " GMT");
-       Header("Expires: " . gmdate("D, d M Y H:i:s",@filemtime($path)+$max_age) . " GMT");
+       Header("Last-Modified: " . gmdate("D, d M Y H:i:s",$lastmodified) . " GMT");
+       Header("Expires: " . gmdate("D, d M Y H:i:s",$lastmodified+$max_age) . " GMT");
        Header("Cache-Control: public, max-age=" . $max_age );
        readfile($path);
        exit;
