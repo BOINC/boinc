@@ -167,10 +167,10 @@ int get_local_domain_name(char* p) {
 //
 int get_local_ip_addr_str(char* p) {
     strcpy( p,"" );
-#if HAVE_NETDB_H
-    char buf[MAXHOSTNAMELEN];
+#if HAVE_NETDB_H || _WIN32
+    char buf[256];
     struct in_addr addr;
-    if (gethostname(buf, MAXHOSTNAMELEN))
+    if (gethostname(buf, 256))
         return -1;
     struct hostent* he = gethostbyname(buf);
     if (!he) return -1;
@@ -185,10 +185,10 @@ int get_local_ip_addr_str(char* p) {
 int get_local_ip_addr(int& p) {
     p = 0;
 
-#if HAVE_NETDB_H
-    char buf[MAXHOSTNAMELEN];
+#if HAVE_NETDB_H || _WIN32
+    char buf[256];
     struct in_addr addr;
-    if (gethostname(buf, MAXHOSTNAMELEN))
+    if (gethostname(buf, 256))
         return -1;
     struct hostent* he = gethostbyname(buf);
     if (!he) return -1;

@@ -141,7 +141,6 @@ int get_host_info(HOST_INFO& host) {
             break;
     }
         
-    memset(&host, 0, sizeof(host));
 	host.d_total = GetDiskSize();
 	host.d_free = GetDiskFree();
       
