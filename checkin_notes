@@ -5633,5 +5633,7 @@ Karl 2003/08/10
 Karl 2003/08/11
     - astropulse: change delay_bound from 2 days to 14 days
     - astropulse: validator fixes
+        - allow broken results (file not found) instead of crashing
+        - misc fixes
 
     astropulse/result/*
