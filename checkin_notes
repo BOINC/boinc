@@ -25095,3 +25095,10 @@ Rom    21 Feb 2005
 
     clientgui/
         ViewTransfers.cpp
+
+Rom    21 Feb 2005
+    - Bug Fix: On platforms other than Windows, really close down the
+        manager, when the user requests the app to close.
+
+    clientgui/
+        MainFrame.cpp

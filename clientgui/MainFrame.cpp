@@ -881,10 +881,14 @@ void CMainFrame::OnClose( wxCloseEvent& event )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnClose - Function Begin"));
 
+#ifdef __WXMSW__
     if ( !event.CanVeto() )
         Destroy();
     else
         Hide();
+#else
+	event.Skip();
+#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnClose - Function End"));
 }
