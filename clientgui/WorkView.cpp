@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/05/24 23:50:14  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/05/21 06:27:15  rwalton
 // *** empty log message ***
 //
@@ -44,12 +47,17 @@ IMPLEMENT_DYNAMIC_CLASS(CWorkView, CBaseListCtrlView)
 
 CWorkView::CWorkView(void)
 {
+    wxLogTrace("CWorkView::CWorkView - Function Begining");
+
+    wxLogTrace("CWorkView::CWorkView - Function Ending");
 }
 
 
 CWorkView::CWorkView(wxNotebook* pNotebook) :
     CBaseListCtrlView(pNotebook)
 {
+    wxLogTrace("CWorkView::CWorkView - Function Begining");
+
     InsertColumn(0, _("Project"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(1, _("Application"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(2, _("Name"), wxLIST_FORMAT_LEFT, -1);
@@ -58,27 +66,38 @@ CWorkView::CWorkView(wxNotebook* pNotebook) :
     InsertColumn(4, _("To Completetion"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(4, _("Report Deadline"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(4, _("Status"), wxLIST_FORMAT_LEFT, -1);
+
+    wxLogTrace("CWorkView::CWorkView - Function Ending");
 }
 
 
 CWorkView::~CWorkView(void)
 {
+    wxLogTrace("CWorkView::~CWorkView - Function Begining");
+
+    wxLogTrace("CWorkView::~CWorkView - Function Ending");
 }
 
 
 wxString CWorkView::GetViewName(void)
 {
+    wxLogTrace("CWorkView::GetViewName - Function Begining");
+
+    wxLogTrace("CWorkView::GetViewName - Function Ending");
     return wxString(_("Work"));
 }
 
 
 char** CWorkView::GetViewIcon(void)
 {
+    wxLogTrace("CWorkView::GetViewIcon - Function Begining");
+
+    wxLogTrace("CWorkView::GetViewIcon - Function Ending");
     return result_xpm;
 }
 
 
-void CWorkView::OnRender (wxTimerEvent &event) {
+void CWorkView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CWorkView::OnRender - Function Begining");
 
     wxLogTrace("CWorkView::OnRender - Function Ending");

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/05/24 23:50:14  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/05/21 06:27:15  rwalton
 // *** empty log message ***
 //
@@ -44,37 +47,53 @@ IMPLEMENT_DYNAMIC_CLASS(CResourceUtilizationView, CBaseWindowView)
 
 CResourceUtilizationView::CResourceUtilizationView(void)
 {
+    wxLogTrace("CResourceUtilizationView::CResourceUtilizationView - Function Begining");
+
+    wxLogTrace("CResourceUtilizationView::CResourceUtilizationView - Function Ending");
 }
 
 
 CResourceUtilizationView::CResourceUtilizationView(wxNotebook* pNotebook) :
     CBaseWindowView(pNotebook)
 {
+    wxLogTrace("CResourceUtilizationView::CResourceUtilizationView - Function Begining");
+
     SetBackgroundColour(wxColor(_T("WHITE")));
 
     (void) new wxStaticText( this, -1,
         wxT("This page intentionally left blank"), wxPoint(10, 10) );
+
+    wxLogTrace("CResourceUtilizationView::CResourceUtilizationView - Function Ending");
 }
 
 
 CResourceUtilizationView::~CResourceUtilizationView(void)
 {
+    wxLogTrace("CResourceUtilizationView::~CResourceUtilizationView - Function Begining");
+
+    wxLogTrace("CResourceUtilizationView::~CResourceUtilizationView - Function Ending");
 }
 
 
 wxString CResourceUtilizationView::GetViewName(void)
 {
+    wxLogTrace("CResourceUtilizationView::GetViewName - Function Begining");
+
+    wxLogTrace("CResourceUtilizationView::GetViewName - Function Ending");
     return wxString(_("Disk"));
 }
 
 
 char** CResourceUtilizationView::GetViewIcon(void)
 {
+    wxLogTrace("CResourceUtilizationView::GetViewIcon - Function Begining");
+
+    wxLogTrace("CResourceUtilizationView::GetViewIcon - Function Ending");
     return usage_xpm;
 }
 
 
-void CResourceUtilizationView::OnRender (wxTimerEvent &event) {
+void CResourceUtilizationView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CResourceUtilizationView::OnRender - Function Begining");
 
     wxLogTrace("CResourceUtilizationView::OnRender - Function Ending");

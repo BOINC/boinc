@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/05/24 23:50:14  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/05/21 06:27:15  rwalton
 // *** empty log message ***
 //
@@ -44,36 +47,52 @@ IMPLEMENT_DYNAMIC_CLASS(CMessagesView, CBaseListCtrlView)
 
 CMessagesView::CMessagesView(void)
 {
+    wxLogTrace("CMessagesView::CMessagesView - Function Begining");
+
+    wxLogTrace("CMessagesView::CMessagesView - Function Ending");
 }
 
 
 CMessagesView::CMessagesView(wxNotebook* pNotebook) :
     CBaseListCtrlView(pNotebook)
 {
+    wxLogTrace("CMessagesView::CMessagesView - Function Begining");
+
     InsertColumn(0, _("Project"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(1, _("Time"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(2, _("Message"), wxLIST_FORMAT_LEFT, -1);
+
+    wxLogTrace("CMessagesView::CMessagesView - Function Ending");
 }
 
 
 CMessagesView::~CMessagesView(void)
 {
+    wxLogTrace("CMessagesView::~CMessagesView - Function Begining");
+
+    wxLogTrace("CMessagesView::~CMessagesView - Function Ending");
 }
 
 
 wxString CMessagesView::GetViewName(void)
 {
+    wxLogTrace("CMessagesView::GetViewName - Function Begining");
+
+    wxLogTrace("CMessagesView::GetViewName - Function Ending");
     return wxString(_("Messages"));
 }
 
 
 char** CMessagesView::GetViewIcon(void)
 {
+    wxLogTrace("CMessagesView::GetViewIcon - Function Begining");
+
+    wxLogTrace("CMessagesView::GetViewIcon - Function Ending");
     return mess_xpm;
 }
 
 
-void CMessagesView::OnRender (wxTimerEvent &event) {
+void CMessagesView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CMessagesView::OnRender - Function Begining");
 
     wxLogTrace("CMessagesView::OnRender - Function Ending");

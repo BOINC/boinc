@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/05/24 23:50:14  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/05/21 06:27:15  rwalton
 // *** empty log message ***
 //
@@ -44,12 +47,17 @@ IMPLEMENT_DYNAMIC_CLASS(CTransfersView, CBaseListCtrlView)
 
 CTransfersView::CTransfersView(void)
 {
+    wxLogTrace("CTransfersView::CTransfersView - Function Begining");
+
+    wxLogTrace("CTransfersView::CTransfersView - Function Ending");
 }
 
 
 CTransfersView::CTransfersView(wxNotebook* pNotebook) :
     CBaseListCtrlView(pNotebook)
 {
+    wxLogTrace("CTransfersView::CTransfersView - Function Begining");
+
     InsertColumn(0, _("Project"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(1, _("File"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(2, _("Progress"), wxLIST_FORMAT_LEFT, -1);
@@ -57,27 +65,38 @@ CTransfersView::CTransfersView(wxNotebook* pNotebook) :
     InsertColumn(4, _("Time"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(4, _("Speed"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(4, _("Status"), wxLIST_FORMAT_LEFT, -1);
+
+    wxLogTrace("CTransfersView::CTransfersView - Function Ending");
 }
 
 
 CTransfersView::~CTransfersView(void)
 {
+    wxLogTrace("CTransfersView::~CTransfersView - Function Begining");
+
+    wxLogTrace("CTransfersView::~CTransfersView - Function Ending");
 }
 
 
 wxString CTransfersView::GetViewName(void)
 {
+    wxLogTrace("CTransfersView::GetViewName - Function Begining");
+
+    wxLogTrace("CTransfersView::GetViewName - Function Ending");
     return wxString(_("Transfers"));
 }
 
 
 char** CTransfersView::GetViewIcon(void)
 {
+    wxLogTrace("CTransfersView::GetViewIcon - Function Begining");
+
+    wxLogTrace("CTransfersView::GetViewIcon - Function Ending");
     return xfer_xpm;
 }
 
 
-void CTransfersView::OnRender (wxTimerEvent &event) {
+void CTransfersView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CTransfersView::OnRender - Function Begining");
 
     wxLogTrace("CTransfersView::OnRender - Function Ending");

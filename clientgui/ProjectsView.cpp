@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/05/24 23:50:14  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/05/21 06:27:15  rwalton
 // *** empty log message ***
 //
@@ -44,38 +47,54 @@ IMPLEMENT_DYNAMIC_CLASS(CProjectsView, CBaseListCtrlView)
 
 CProjectsView::CProjectsView(void)
 {
+    wxLogTrace("CProjectsView::CProjectsView - Function Begining");
+
+    wxLogTrace("CProjectsView::CProjectsView - Function Ending");
 }
 
 
 CProjectsView::CProjectsView(wxNotebook* pNotebook) :
     CBaseListCtrlView(pNotebook)
 {
+    wxLogTrace("CProjectsView::CProjectsView - Function Begining");
+
     InsertColumn(0, _("Project"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(1, _("Account"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(2, _("Total Credit"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(3, _("Avg. Credit"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(4, _("Resource Share"), wxLIST_FORMAT_LEFT, -1);
+
+    wxLogTrace("CProjectsView::CProjectsView - Function Ending");
 }
 
 
 CProjectsView::~CProjectsView(void)
 {
+    wxLogTrace("CProjectsView::~CProjectsView - Function Begining");
+
+    wxLogTrace("CProjectsView::~CProjectsView - Function Ending");
 }
 
 
 wxString CProjectsView::GetViewName(void)
 {
+    wxLogTrace("CProjectsView::GetViewName - Function Begining");
+
+    wxLogTrace("CProjectsView::GetViewName - Function Ending");
     return wxString(_("Projects"));
 }
 
 
 char** CProjectsView::GetViewIcon(void)
 {
+    wxLogTrace("CProjectsView::GetViewIcon - Function Begining");
+
+    wxLogTrace("CProjectsView::GetViewIcon - Function Ending");
     return proj_xpm;
 }
 
 
-void CProjectsView::OnRender (wxTimerEvent &event) {
+void CProjectsView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CProjectsView::OnRender - Function Begining");
 
     wxLogTrace("CProjectsView::OnRender - Function Ending");

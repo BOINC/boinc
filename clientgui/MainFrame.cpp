@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.12  2004/05/24 23:50:14  rwalton
+// *** empty log message ***
+//
 // Revision 1.11  2004/05/22 01:36:36  rwalton
 // *** empty log message ***
 //
@@ -354,7 +357,7 @@ bool CMainFrame::DeleteStatusbar() {
 bool CMainFrame::SaveState() {
     wxLogTrace("CMainFrame::SaveState - Function Begining");
 
-    wxLogTrace("CMainFrame::DeleteStatusbar - Function Ending");
+    wxLogTrace("CMainFrame::SaveState - Function Ending");
     return true;
 }
 
@@ -376,7 +379,7 @@ void CMainFrame::OnExit(wxCommandEvent &WXUNUSED(event)) {
 }
 
 
-void CMainFrame::OnClose(wxCloseEvent &event) {
+void CMainFrame::OnClose(wxCloseEvent &WXUNUSED(event)) {
     wxLogTrace("CMainFrame::OnClose - Function Begining");
 
     Destroy();

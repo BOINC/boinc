@@ -1,6 +1,6 @@
 [TopDir]
-file0=..\Build\Release\boinc.dll
-file1=..\Build\Release\dbghelp.dll
+file0=..\Build\Debug\boinc.dll
+file1=..\Build\Debug\dbghelp.dll
 
 [General]
 Type=FILELIST
