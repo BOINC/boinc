@@ -14467,3 +14467,11 @@ Karl 2004-07-02
 
     sched/
         transitioner.C
+
+Daniel 2004-07-02
+    - fixed bug that caused CPU scheduler to decrease debts of
+      projects that didn't have results running.
+
+    client/
+        cs_apps.C
+
