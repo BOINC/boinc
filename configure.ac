@@ -98,8 +98,9 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_HEADER_TIME
 
+dnl TODO: use compiler to test these; there probably exists an autoconf macro already!
 case "$target" in
-*-linux-*)
+*-linux-* | *-sun-*)
         AC_DEFINE(GETSOCKOPT_SOCKLEN_T, 1, [getsockopt uses socklen_t])
         ;;
 *sysv5OpenUNIX8*)

@@ -264,7 +264,7 @@ int HTTP_OP::init_post(char* url, char* in, char* out) {
     http_post_request_header(
         request_header, hostname, port, proxy_buf, content_length
         );
-    scope_messages.printf("HTTP_OP::init_post(): %x io_done %d\n", (unsigned int)this, io_done);
+    scope_messages.printf("HTTP_OP::init_post(): %p io_done %d\n", this, io_done);
     return 0;
 }
 
@@ -426,7 +426,7 @@ bool HTTP_OP_SET::poll() {
         case HTTP_STATE_REPLY_HEADER:
             if (htp->io_ready) {
                 action = true;
-                scope_messages.printf("HTTP_OP_SET::poll(): got reply header; %x io_done %d\n", (unsigned int)htp, htp->io_done);
+                scope_messages.printf("HTTP_OP_SET::poll(): got reply header; %p io_done %d\n", htp, htp->io_done);
                 read_http_reply_header(htp->socket, htp->hrh);
 
                 // TODO: handle all kinds of redirects here
