@@ -16820,3 +16820,10 @@ David  31 Aug 2004
         main.C
         sched_send.C
         sched_shmem.h
+
+Jeff   31 Aug 2004
+    - limit workunit enumeration in the assimilator to 1000.
+
+    sched/
+        assimilator.C
+

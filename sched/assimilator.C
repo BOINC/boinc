@@ -57,7 +57,7 @@ bool do_pass(APP& app) {
 
     check_stop_daemons();
 
-    sprintf(buf, "where appid=%d and assimilate_state=%d", app.id, ASSIMILATE_READY);
+    sprintf(buf, "where appid=%d and assimilate_state=%d limit 1000", app.id, ASSIMILATE_READY);
     while (!wu.enumerate(buf)) {
         vector<RESULT> results;     // must be inside while()!
         did_something = true;
