@@ -199,6 +199,12 @@ int clean_out_dir(char* dirpath) {
         retval = dir_scan(filename, dirp);
         if (retval) break;
         sprintf(path, "%s/%s", dirpath, filename);
+		clean_out_dir(path);
+#ifdef _WIN32
+		RemoveDirectory(path);
+#else
+		rmdir(path);
+#endif
         retval = file_delete(path);
         if (retval) {
             dir_close(dirp);
