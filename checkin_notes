@@ -25698,3 +25698,16 @@ David  8 Mar 2005
             home.php
             show_user.php
             workunit.php
+
+Rom    9 Mar 2005
+    - Bug Fix: Instead of relying on the wxWidget framework for UI
+        updates for various menu items, move the update code to the
+        OnFrameRender function so we don't eat CPU in what seems
+        to be a busy loop.  It seems for platforms other than Windows
+        the Idle event is fired for each iteration of a message pump
+        check where no other events were processed.  On Windows their
+        is an actual message sent by the OS called WM_IDLE which is
+        used by wxWidgets.
+
+    clientgui/
+        MainFrame.cpp, .h

@@ -63,8 +63,6 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_TIMER(ID_REFRESHSTATETIMER, CMainFrame::OnRefreshState)
     EVT_TIMER(ID_FRAMERENDERTIMER, CMainFrame::OnFrameRender)
     EVT_TIMER(ID_FRAMELISTRENDERTIMER, CMainFrame::OnListPanelRender)
-    EVT_UPDATE_UI_RANGE(ID_ACTIVITYRUNALWAYS, ID_ACTIVITYSUSPEND, CMainFrame::OnUpdateActivitySelection)
-    EVT_UPDATE_UI_RANGE(ID_NETWORKRUNALWAYS, ID_NETWORKSUSPEND, CMainFrame::OnUpdateNetworkSelection)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CMainFrame::OnNotebookSelectionChanged)
 END_EVENT_TABLE ()
 
@@ -593,6 +591,9 @@ void CMainFrame::OnActivitySelection( wxCommandEvent& event )
             break;
     }
 
+    wxTimerEvent eventTimer;
+    OnFrameRender( eventTimer );
+
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnActivitySelection - Function End"));
 }
 
@@ -620,6 +621,9 @@ void CMainFrame::OnNetworkSelection( wxCommandEvent& event )
             pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
             break;
     }
+
+    wxTimerEvent eventTimer;
+    OnFrameRender( eventTimer );
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNetworkSelection - Function End"));
 }
@@ -795,80 +799,6 @@ void CMainFrame::OnAbout( wxCommandEvent& WXUNUSED(event) )
 }
 
 
-void CMainFrame::OnUpdateActivitySelection( wxUpdateUIEvent& event )
-{
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnUpdateActivitySelection - Function Begin"));
-
-    CMainDocument* pDoc          = wxGetApp().GetDocument();
-    wxMenuBar*     pMenuBar      = GetMenuBar();
-    wxInt32        iActivityMode = -1;
-    wxInt32        iEventId      = event.GetId();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pMenuBar);
-    wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
-
-    pMenuBar->Check( event.GetId(), false );
-    pDoc->GetActivityRunMode( iActivityMode );
-
-    switch( iEventId )
-    {
-        case ID_ACTIVITYRUNALWAYS:
-            if ( CMainDocument::MODE_ALWAYS == iActivityMode )
-                pMenuBar->Check( ID_ACTIVITYRUNALWAYS, true );
-            break;
-        case ID_ACTIVITYSUSPEND:
-            if ( CMainDocument::MODE_NEVER == iActivityMode )
-                pMenuBar->Check( ID_ACTIVITYSUSPEND, true );
-            break;
-        case ID_ACTIVITYRUNBASEDONPREPERENCES:
-            if ( CMainDocument::MODE_AUTO == iActivityMode )
-                pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
-            break;
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnUpdateActivitySelection - Function End"));
-}
-
-
-void CMainFrame::OnUpdateNetworkSelection( wxUpdateUIEvent& event )
-{
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnUpdateNetworkSelection - Function Begin"));
-
-    CMainDocument* pDoc          = wxGetApp().GetDocument();
-    wxMenuBar*     pMenuBar      = GetMenuBar();
-    wxInt32        iNetworkMode  = -1;
-    wxInt32        iEventId      = event.GetId();
-
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(NULL != pMenuBar);
-    wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
-
-    pMenuBar->Check( event.GetId(), false );
-    pDoc->GetNetworkRunMode( iNetworkMode );
-
-    switch( iEventId )
-    {
-        case ID_NETWORKRUNALWAYS:
-            if ( CMainDocument::MODE_ALWAYS == iNetworkMode )
-                pMenuBar->Check( ID_NETWORKRUNALWAYS, true );
-            break;
-        case ID_NETWORKSUSPEND:
-            if ( CMainDocument::MODE_NEVER == iNetworkMode )
-                pMenuBar->Check( ID_NETWORKSUSPEND, true );
-            break;
-        case ID_NETWORKRUNBASEDONPREPERENCES:
-            if ( CMainDocument::MODE_AUTO == iNetworkMode )
-                pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, true );
-            break;
-    }
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnUpdateNetworkSelection - Function End"));
-}
-
-   
 void CMainFrame::OnClose( wxCloseEvent& event )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnClose - Function Begin"));
@@ -1010,12 +940,49 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
 
     if ( IsShown() )
     {
-        wxString       strConnectedMachine = wxEmptyString;
         CMainDocument* pDoc = wxGetApp().GetDocument();
         if ( NULL != pDoc )
         {
             wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-            
+
+            // Update the menu bar
+            wxMenuBar*     pMenuBar      = GetMenuBar();
+            wxInt32        iActivityMode = -1;
+            wxInt32        iNetworkMode  = -1;
+
+            wxASSERT(NULL != pMenuBar);
+            wxASSERT(wxDynamicCast(pMenuBar, wxMenuBar));
+
+            pMenuBar->Check( ID_ACTIVITYRUNALWAYS, false );
+            pMenuBar->Check( ID_ACTIVITYSUSPEND, false );
+            pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, false );
+            pDoc->GetActivityRunMode( iActivityMode );
+
+            if ( CMainDocument::MODE_ALWAYS == iActivityMode )
+                pMenuBar->Check( ID_ACTIVITYRUNALWAYS, true );
+
+            if ( CMainDocument::MODE_NEVER == iActivityMode )
+                pMenuBar->Check( ID_ACTIVITYSUSPEND, true );
+
+            if ( CMainDocument::MODE_AUTO == iActivityMode )
+                pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
+
+            pMenuBar->Check( ID_NETWORKRUNALWAYS, false );
+            pMenuBar->Check( ID_NETWORKSUSPEND, false );
+            pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, false );
+            pDoc->GetNetworkRunMode( iNetworkMode );
+
+            if ( CMainDocument::MODE_ALWAYS == iNetworkMode )
+                pMenuBar->Check( ID_NETWORKRUNALWAYS, true );
+
+            if ( CMainDocument::MODE_NEVER == iNetworkMode )
+                pMenuBar->Check( ID_NETWORKSUSPEND, true );
+
+            if ( CMainDocument::MODE_AUTO == iNetworkMode )
+                pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, true );
+
+
+            // Update the statusbar
             wxASSERT(wxDynamicCast(m_pbmpConnected, wxStaticBitmap));
             wxASSERT(wxDynamicCast(m_pbmpDisconnect, wxStaticBitmap));
             if ( pDoc->IsConnected() )
@@ -1026,8 +993,9 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
                 m_ptxtDisconnect->Hide();
 
                 wxString strBuffer = wxEmptyString;
-                wxString strLocale = setlocale(LC_NUMERIC, NULL);
+                wxString strConnectedMachine = wxEmptyString;
                 wxString strTitle = m_strBaseTitle;
+                wxString strLocale = setlocale(LC_NUMERIC, NULL);
                 wxString strStatusText = _("Connected to ");
  
                 pDoc->GetConnectedComputerName( strConnectedMachine );

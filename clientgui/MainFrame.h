@@ -46,9 +46,6 @@ public:
     void OnToolsOptions( wxCommandEvent& event );
     void OnAbout( wxCommandEvent& event );
 
-    void OnUpdateActivitySelection( wxUpdateUIEvent& event );
-    void OnUpdateNetworkSelection( wxUpdateUIEvent& event );
-
     void OnClose( wxCloseEvent& event );
     void OnSize( wxSizeEvent& event );
     void OnChar( wxKeyEvent& event );
