@@ -7,21 +7,12 @@ get benchmark working as separate process
 
 Windows hostinfo: memory, cache, swap
 validate in crontab
-email account ID
-formatting of team, top user page
-top hosts page is screwed up
-make "external user view" page (no private info)
-list hosts 1 per line, linked
 
 Windows client
     "bring up graphics" button/menu item in core client
     make mini-logo
     test uninstall
     fix "unable to calculate"
-    fix disk usage labels, limit size of pie
-    print GB/MB/KB correctly for usage chart
-    get rid of xfers, results eventually
-    messages: prepend project name, include date and time
     xfers: show file size,
     completed xfers: show elapsed time
     completed results: show final CPU time
