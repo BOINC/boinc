@@ -40,7 +40,6 @@ def get_current_core_version():
     cursor = database.get_dbconnection().cursor()
     cursor.execute('select max(version_num) from core_version')
     x = cursor.fetchall()[0].values()[0]
-    print 'len', x
     if x == None:
         return 0
     return int(cursor.fetchall()[0].values()[0])
