@@ -28,8 +28,6 @@ DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 #endif
 
 #ifdef __APPLE_CC__
-#include <Carbon/Carbon.h>
-#include <CoreServices/CoreServices.h>
 #include "mac_app_opengl.h"
 #endif
 
@@ -95,7 +93,7 @@ int write_graphics_file(FILE* f, GRAPHICS_INFO* gi) {
         gi->refresh_period
     );
 
-	return 0;
+    return 0;
 }
 
 int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi) {

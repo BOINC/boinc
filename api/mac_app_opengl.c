@@ -17,13 +17,10 @@
 // Contributor(s):
 //
 
-#include "graphics_api.h"
-
 #include "mac_app_opengl.h"
 #include "mac_carbon_gl.h"
 
 #ifdef __APPLE_CC__
-    #include <Carbon/Carbon.h>
     #include <OpenGL/gl.h>
 #else
     #include <gl.h>
@@ -47,7 +44,7 @@
 
 // project includes ---------------------------------------------------------
 
-#include "mac_main.h"
+#include "graphics_api.h"
 
 static void DisposeGLWindow (WindowPtr pWindow); // Dispose a single window and it's GL context
 
@@ -158,13 +155,7 @@ int InitGLWindow(int xsize, int ysize, int depth)
         aglUpdateContext (boincAGLContext);
         aglReportError ();
 
-        // Set Texture mapping parameters
-        glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-        glClearColor(0.15f, 0.15f, 0.15f, 1.0f);					// Clear color buffer to dark grey
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);					// Clear color buffer to dark grey
         glClear (GL_COLOR_BUFFER_BIT);
         glReportError ();
         aglSwapBuffers (boincAGLContext);
@@ -209,6 +200,7 @@ pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef the
     HICommand	aCommand;
     OSStatus	result;
     Point	mDelta;
+    Rect rectPort;
 
     switch(GetEventClass(theEvent))
     {
@@ -247,17 +239,15 @@ pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef the
                     QuitApplicationEventLoop();
                     result = noErr;
                     break;
+                case kHICommandMaximizeWindow:	// 'mini'
+                case kHICommandZoomWindow:	// 'zoom'
+                    GetWindowPortBounds (appGLWindow, &rectPort);
+                    glViewport (0, 0, rectPort.right - rectPort.left, rectPort.bottom - rectPort.top);
+                    glReportError ();
+                    break;
                 case kHICommandOK:		// 'ok  '
                 case kHICommandCancel:		// 'not!'
-                case kHICommandUndo:		// 'undo'
-                case kHICommandRedo:		// 'redo'
-                case kHICommandCut:		// 'cut '
-                case kHICommandCopy:		// 'copy'
-                case kHICommandPaste:		// 'past'
-                case kHICommandClear:		// 'clea'
-                case kHICommandSelectAll:	// 'sall'
                 case kHICommandHide:		// 'hide'
-                case kHICommandZoomWindow:	// 'zoom'
                 case kHICommandMinimizeWindow:	// 'mini'
                 case kHICommandArrangeInFront:	// 'frnt'
                     break;
@@ -281,7 +271,10 @@ pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef the
 
 // --------------------------------------------------------------------------
 
-pascal void mac_graphics_event_loop ( GRAPHICS_INFO *gi ) {
+pascal void mac_graphics_event_loop ( void *data ) {
+    GRAPHICS_INFO *gi;
+    gi = data;
+    
     InitGLWindow(gi->xsize, gi->ysize, 16);
     RunApplicationEventLoop();
 }

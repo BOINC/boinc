@@ -83,12 +83,6 @@
 
 // includes ---------------------------------------------------------
 
-#ifdef __APPLE_CC__
-    #include <DrawSprocket/DrawSprocket.h>
-#else
-    #include <DrawSprocket.h>
-#endif
-
 #include "mac_carbon_gl.h"
 
 #ifdef __cplusplus

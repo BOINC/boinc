@@ -40,14 +40,8 @@
 
 #ifdef BOINC_APP_GRAPHICS
 #ifdef __APPLE_CC__
-    #include <Carbon/Carbon.h>
-    
-    #include <DrawSprocket/DrawSprocket.h>
-    #include <AGL/agl.h>
-    #include <AGL/aglRenderers.h>
     #include <OpenGL/gl.h>
     #include <OpenGL/glu.h>
-    #include <GLUT/glut.h>
 
     #include "mac_carbon_gl.h"
 #endif
@@ -164,8 +158,8 @@ int main(int argc, char **argv) {
     in = fopen(resolved_name, "r");
     boinc_resolve_filename(CHECKPOINT_FILE, resolved_name, sizeof(resolved_name));
     if (in == NULL) {
-            fprintf( stderr, "Couldn't find input file.\n" );
-            exit(-1);
+        fprintf( stderr, "Couldn't find input file.\n" );
+        exit(-1);
     }
     state = fopen(resolved_name, "r");
     if (state) {
@@ -244,7 +238,7 @@ int DrawGLScene(GLvoid)      // Here's Where We Do All The Drawing
     glLoadIdentity();                                    // Reset The Current Modelview Matrix
     glColor3f(1,1,1);
 
-    glRasterPos3f(xPos, yPos, -3);
+    glRasterPos2f(xPos, yPos);
     glPrint(the_char);
 
     xPos += xDelta;
@@ -252,13 +246,13 @@ int DrawGLScene(GLvoid)      // Here's Where We Do All The Drawing
     if (xPos < -1 || xPos > 1) xDelta *= -1;
     if (yPos < -1 || yPos > 1) yDelta *= -1;
     
-    glRasterPos3f(-1.3, 1.1, -3);
+    glRasterPos2f(-0.9, 0.9);
     glPrint("User: %s", uc_aid.user_name);
 
-    glRasterPos3f(-1.3, 1.0, -3);
+    glRasterPos2f(-0.9, 0.8);
     glPrint("Team: %s", uc_aid.team_name);
 
-    glRasterPos3f(-1.3, 0.9, -3);
+    glRasterPos2f(-0.9, 0.7);
     glPrint("CPU Time: %f", uc_aid.wu_cpu_time);
 
     return TRUE;                                        // Everything Went OK

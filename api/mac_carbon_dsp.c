@@ -60,9 +60,7 @@
 
 // system includes ----------------------------------------------------------
 
-#ifdef __APPLE_CC__
-    #include <Carbon/Carbon.h>
-#else
+#ifndef __APPLE_CC__
     #include <events.h>
     #include <sound.h>
 

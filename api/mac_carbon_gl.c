@@ -65,7 +65,6 @@
 // system includes ----------------------------------------------------------
 
 #ifdef __APPLE_CC__
-    #include <Carbon/Carbon.h>
     #include <AGL/agl.h>
 #else
     #include <Gestalt.h>

@@ -18,15 +18,16 @@
 //
 
 #include <Carbon/Carbon.h>
+#include <CoreServices/CoreServices.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-pascal void mac_graphics_event_loop ( GRAPHICS_INFO *gi );
+pascal void mac_graphics_event_loop ( void *data );
 pascal void GraphicsLoopProcessor(EventLoopTimerRef inTimer, void* timeData);
 pascal void YieldProcessor(EventLoopTimerRef inTimer, void* timeData);
-extern int InitGLWindow(int xsize, int ysize, int depth);
+pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
 
 extern MPQueueID drawQueue;
 extern int ok_to_draw;
