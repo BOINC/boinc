@@ -634,7 +634,7 @@ int FILE_INFO::write_gui(MIOFILE& out) {
         "    <nbytes>%f</nbytes>\n"
         "    <max_nbytes>%f</max_nbytes>\n"
         "    <status>%d</status>\n",
-		project->master_url,
+        project->master_url,
         project->project_name,
         name,
         nbytes,

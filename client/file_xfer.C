@@ -233,8 +233,8 @@ bool FILE_XFER_SET::poll(double now) {
                             fxp->file_xfer_retval = fxp->init_upload(*fxp->fip);
 
                             if (!fxp->file_xfer_retval) {
-								remove(fxp);
-								i--;
+                                remove(fxp);
+                                i--;
                                 fxp->file_xfer_retval = insert(fxp);
                                 if (!fxp->file_xfer_retval) {
                                     fxp->file_xfer_done = false;
@@ -245,9 +245,9 @@ bool FILE_XFER_SET::poll(double now) {
                         }
                     }
                 }
-			} else if (fxp->file_xfer_retval == HTTP_STATUS_RANGE_REQUEST_ERROR) {
-				fxp->fip->error_msg = "Local copy is at least as large as server copy";
-			}
+            } else if (fxp->file_xfer_retval == HTTP_STATUS_RANGE_REQUEST_ERROR) {
+                fxp->fip->error_msg = "Local copy is at least as large as server copy";
+            }
         }
     }
     return action;

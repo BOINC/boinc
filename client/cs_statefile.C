@@ -398,81 +398,81 @@ int CLIENT_STATE::write_state_file_if_needed() {
 // and use "anonymous platform" mechanism for this project
 //
 void CLIENT_STATE::check_anonymous() {
-	unsigned int i;
-	char dir[256], path[256];
-	FILE* f;
-	int retval;
+    unsigned int i;
+    char dir[256], path[256];
+    FILE* f;
+    int retval;
 
-	for (i=0; i<projects.size(); i++) {
-		PROJECT* p = projects[i];
-		get_project_dir(p, dir);
-		sprintf(path, "%s%s%s", dir, PATH_SEPARATOR, APP_INFO_FILE_NAME);
-		f = fopen(path, "r");
-		if (!f) continue;
+    for (i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        get_project_dir(p, dir);
+        sprintf(path, "%s%s%s", dir, PATH_SEPARATOR, APP_INFO_FILE_NAME);
+        f = fopen(path, "r");
+        if (!f) continue;
         msg_printf(p, MSG_INFO,
             "Found %s; using anonymous platform\n", APP_INFO_FILE_NAME
         );
 
-		p->anonymous_platform = true;
-			// flag as anonymous even if can't parse file
-		retval = parse_app_info(p, f);
-		fclose(f);
-	}
+        p->anonymous_platform = true;
+            // flag as anonymous even if can't parse file
+        retval = parse_app_info(p, f);
+        fclose(f);
+    }
 }
 
 int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
-	char buf[256];
+    char buf[256];
     MIOFILE mf;
     mf.init_file(in);
 
-	while (fgets(buf, 256, in)) {
-		if (match_tag(buf, "<app_info>")) continue;
-		if (match_tag(buf, "</app_info>")) return 0;
-		if (match_tag(buf, "<file_info>")) {
-			FILE_INFO* fip = new FILE_INFO;
-			if (fip->parse(mf, false)) {
-				delete fip;
-				continue;
-			}
-			if (link_file_info(p, fip)) {
-				delete fip;
-				continue;
-			}
-			fip->status = FILE_PRESENT;
-			file_infos.push_back(fip);
-			continue;
-		}
-		if (match_tag(buf, "<app>")) {
-			APP* app = new APP;
-			if (app->parse(mf)) {
-				delete app;
-				continue;
-			}
-			if (lookup_app(p, app->name)) {
-				delete app;
-				continue;
-			}
-			link_app(p, app);
-			apps.push_back(app);
-			continue;
-		}
-		if (match_tag(buf, "<app_version>")) {
-			APP_VERSION* avp = new APP_VERSION;
-			if (avp->parse(mf)) {
-				delete avp;
-				continue;
-			}
-			if (gstate.link_app_version(p, avp)) {
-				delete avp;
-				continue;
-			}
-			link_app_version(p, avp);
-			app_versions.push_back(avp);
-			continue;
-		}
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "<app_info>")) continue;
+        if (match_tag(buf, "</app_info>")) return 0;
+        if (match_tag(buf, "<file_info>")) {
+            FILE_INFO* fip = new FILE_INFO;
+            if (fip->parse(mf, false)) {
+                delete fip;
+                continue;
+            }
+            if (link_file_info(p, fip)) {
+                delete fip;
+                continue;
+            }
+            fip->status = FILE_PRESENT;
+            file_infos.push_back(fip);
+            continue;
+        }
+        if (match_tag(buf, "<app>")) {
+            APP* app = new APP;
+            if (app->parse(mf)) {
+                delete app;
+                continue;
+            }
+            if (lookup_app(p, app->name)) {
+                delete app;
+                continue;
+            }
+            link_app(p, app);
+            apps.push_back(app);
+            continue;
+        }
+        if (match_tag(buf, "<app_version>")) {
+            APP_VERSION* avp = new APP_VERSION;
+            if (avp->parse(mf)) {
+                delete avp;
+                continue;
+            }
+            if (gstate.link_app_version(p, avp)) {
+                delete avp;
+                continue;
+            }
+            link_app_version(p, avp);
+            app_versions.push_back(avp);
+            continue;
+        }
         msg_printf(p, MSG_ERROR, "Unparsed line in app_info.xml: %s", buf);
-	}
-	return ERR_XML_PARSE;
+    }
+    return ERR_XML_PARSE;
 }
 
 int CLIENT_STATE::write_state_gui(MIOFILE& f) {
@@ -481,14 +481,14 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
 
     f.printf("<client_state>\n");
 
-	retval = host_info.write(f);
+    retval = host_info.write(f);
     if (retval) return retval;
     retval = time_stats.write(f, false);
     if (retval) return retval;
     retval = net_stats.write(f);
     if (retval) return retval;
 
-	for (j=0; j<projects.size(); j++) {
+    for (j=0; j<projects.size(); j++) {
         PROJECT* p = projects[j];
         retval = p->write_state(f, true);
         if (retval) return retval;
@@ -537,7 +537,7 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
 int CLIENT_STATE::write_tasks_gui(MIOFILE& f) {
     unsigned int i;
     
-	f.printf("<results>\n");
+    f.printf("<results>\n");
     for(i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
         rp->write_gui(f);
@@ -550,14 +550,14 @@ int CLIENT_STATE::write_tasks_gui(MIOFILE& f) {
 int CLIENT_STATE::write_file_transfers_gui(MIOFILE& f) {
     unsigned int i;
 
-	f.printf("<file_transfers>\n");
+    f.printf("<file_transfers>\n");
     for (i=0; i<file_infos.size(); i++) {
         FILE_INFO* fip = file_infos[i];
         if (fip->pers_file_xfer) {
             fip->write_gui(f);
         }
     }
-	f.printf("</file_transfers>\n");
+    f.printf("</file_transfers>\n");
 
     return 0;
 }

@@ -76,7 +76,7 @@ struct SCHEDULER_OP {
     int init_get_work();
     int init_return_results(PROJECT*);
     int init_op_project(double ns);
-    int init_master_fetch(PROJECT*);
+    int init_master_fetch();
     int set_min_rpc_time(PROJECT*);
     bool update_urls(std::vector<std::string> &urls);
     int start_op(PROJECT*);

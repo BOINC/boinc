@@ -83,6 +83,13 @@ void get_sched_reply_filename(PROJECT& project, char* buf) {
     sprintf(buf, "%s%s.xml", SCHED_OP_REPLY_BASE, url);
 }
 
+void get_master_filename(PROJECT& project, char* buf) {
+    char url[256];
+
+    escape_project_url(project.master_url, url);
+    sprintf(buf, "%s%s.xml", MASTER_BASE, url);
+}
+
 // Returns the location of a numbered slot directory
 //
 void get_slot_dir(int slot, char* path) {

@@ -95,16 +95,17 @@ int NET_XFER::get_ip_addr(int &ip_addr) {
     if (retval) return retval;
 #endif
 
-	// Check to see if the hostname is in Internet Standard dotted notation, 
-	// if so, return that address instead of hitting the various
-	// name resolution services.
-	int temp_ip_addr = inet_addr(hostname);
-	if (-1 != temp_ip_addr) {
-		ip_addr = temp_ip_addr;
-		return 0;
-	}
+    // if the hostname is in Internet Standard dotted notation, 
+    // return that address.
+    //
+    int temp_ip_addr = inet_addr(hostname);
+    if (-1 != temp_ip_addr) {
+        ip_addr = temp_ip_addr;
+        return 0;
+    }
 
-	// The hostname is really a name that we must resolve.
+    // else resolve the name
+    //
     hostent* hep;
     hep = gethostbyname(hostname);
     if (!hep) {

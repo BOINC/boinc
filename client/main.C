@@ -252,7 +252,7 @@ static void init_core_client(int argc, char** argv) {
 
     // change the current directory to the boinc install directory
     GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
-		
+
     TCHAR *pszProg = strrchr(szPath, '\\');
     if (pszProg) {
         szPath[pszProg - szPath + 1] = 0;

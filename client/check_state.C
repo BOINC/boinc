@@ -109,7 +109,7 @@ void CLIENT_STATE::check_app_version(APP_VERSION& p) {
     check_app_pointer(p.app);
     check_project_pointer(p.project);
     for (i=0; i<p.app_files.size(); i++) {
-		FILE_REF& fr = p.app_files[i];
+        FILE_REF& fr = p.app_files[i];
         check_file_ref(fr);
     }
 }

@@ -839,11 +839,11 @@ bool HTTP_OP_SET::poll(double) {
                     htp->http_op_retval = 0;
                     if (htp->hrh.content_length) {
                         if ((htp->bytes_xferred - htp->file_offset) != htp->hrh.content_length) {
-							scope_messages.printf(
-								"HTTP_OP_SET::poll(): ERR_IO: bytes_xferred: %d,"
-								"file offset: %d, expected content length: %d\n",
-								(int)htp->bytes_xferred, (int)htp->file_offset, htp->hrh.content_length
-							);
+                            scope_messages.printf(
+                                "HTTP_OP_SET::poll(): ERR_IO: bytes_xferred: %d,"
+                                "file offset: %d, expected content length: %d\n",
+                                (int)htp->bytes_xferred, (int)htp->file_offset, htp->hrh.content_length
+                            );
                             htp->http_op_retval = ERR_IO;
                         }
                     }

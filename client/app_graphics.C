@@ -49,8 +49,8 @@ void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
         sprintf(buf2, "<desktop>%s</desktop>", m.desktop);
         strcat(buf, buf2);
     }
-	if (strlen(m.display)) {
-		sprintf(buf2, "<display>%s</display>", m.display);
+    if (strlen(m.display)) {
+        sprintf(buf2, "<display>%s</display>", m.display);
         strcat(buf, buf2);
     }
 

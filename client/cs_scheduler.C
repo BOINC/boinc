@@ -72,9 +72,9 @@ static int proj_min_results(PROJECT* p, int ncpus) {
     return (int)(ceil(ncpus*p->resource_share/trs));
 }
 void PROJECT::set_min_rpc_time(double future_time) {
-	if (future_time > min_rpc_time) {
-		min_rpc_time = future_time;
-	}
+    if (future_time > min_rpc_time) {
+        min_rpc_time = future_time;
+    }
     min_report_min_rpc_time = 0;
 }
 
@@ -194,22 +194,22 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
-		p->anonymous_platform?"anonymous":platform_name,
+        p->anonymous_platform?"anonymous":platform_name,
         core_client_major_version,
         core_client_minor_version,
         work_req,
         p->resource_share / trs,
         ettprc(p, proj_min_results(p, ncpus)-1)
     );
-	if (p->anonymous_platform) {
-		fprintf(f, "    <app_versions>\n");
-		for (i=0; i<app_versions.size(); i++) {
-			APP_VERSION* avp = app_versions[i];
-			if (avp->project != p) continue;
-			avp->write(mf);
-		}
-		fprintf(f, "    </app_versions>\n");
-	}
+    if (p->anonymous_platform) {
+        fprintf(f, "    <app_versions>\n");
+        for (i=0; i<app_versions.size(); i++) {
+            APP_VERSION* avp = app_versions[i];
+            if (avp->project != p) continue;
+            avp->write(mf);
+        }
+        fprintf(f, "    </app_versions>\n");
+    }
 #if 0
     anything_free(free);
     fprintf(f, "    <project_disk_free>%f</project_disk_free>\n", free);
@@ -559,7 +559,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     // see if we have a new venue from this project
     //
-	if (strlen(sr.host_venue) && strcmp(project->host_venue, sr.host_venue)) {
+    if (strlen(sr.host_venue) && strcmp(project->host_venue, sr.host_venue)) {
         safe_strcpy(project->host_venue, sr.host_venue);
         msg_printf(project, MSG_INFO, "New host venue: %s", sr.host_venue);
         update_project_prefs = true;
@@ -596,10 +596,10 @@ int CLIENT_STATE::handle_scheduler_reply(
             sr.global_prefs_xml
         );
         fclose(f);
-		update_global_prefs = true;
-	}
+        update_global_prefs = true;
+    }
 
-	if (update_global_prefs) {
+    if (update_global_prefs) {
         bool found_venue;
         retval = global_prefs.parse_file(
             GLOBAL_PREFS_FILE_NAME, project->host_venue, found_venue

@@ -25752,3 +25752,28 @@ David  9 Mar 2005
         cs_prefs.C
         cs_scheduler.C
         scheduler_op.C,h
+
+David  9 Mar 2005
+    - When fetch a master URL, put it in a file of the form
+        master_PROJECTURL.html (not just master.html).
+        This will hopefully fix a bug where sometimes
+        one project's scheduler URL show up in another project.
+    - replace tabs with spaces
+
+    client/
+        acct_mgr.C
+        app_graphics.C
+        check_state.C
+        client_state.C
+        client_types.C
+        cs_benchmark.C
+        cs_files.C
+        cs_scheduler.C
+        cs_statefile.C
+        file_names.C,h
+        file_xfer.C
+        gui_rpc_server.C
+        http.C
+        main.C
+        net_xfer.C
+        scheduler_op.C,h

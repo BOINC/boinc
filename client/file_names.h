@@ -41,6 +41,7 @@ extern bool is_account_file(const char*);
 extern void escape_project_url(char *in, char* out);
 extern void get_sched_request_filename(PROJECT&, char*);
 extern void get_sched_reply_filename(PROJECT&, char*);
+extern void get_master_filename(PROJECT&, char*);
 
 #define PROJECTS_DIR                "projects"
 #define SLOTS_DIR                   "slots"
@@ -48,9 +49,9 @@ extern void get_sched_reply_filename(PROJECT&, char*);
 #define STATE_FILE_NAME             "client_state.xml"
 #define STATE_FILE_PREV             "client_state_prev.xml"
 #define GLOBAL_PREFS_FILE_NAME      "global_prefs.xml"
-#define MASTER_FILE_NAME            "master.html"
+#define MASTER_BASE                 "master_"
 #define SCHED_OP_REQUEST_BASE       "sched_request_"
-#define SCHED_OP_REPLY_BASE        "sched_reply_"
+#define SCHED_OP_REPLY_BASE         "sched_reply_"
 #define LOG_FLAGS_FILE              "log_flags.xml"
 #define TEMP_FILE_NAME              "temp.xml"
 #define STDERR_FILE_NAME            "stderr.txt"

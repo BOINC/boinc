@@ -74,16 +74,16 @@ bool ACCT_MGR::poll(double now) {
 }
 
 int ACCOUNT::parse(MIOFILE& in) {
-	char buf[256];
-	while (in.fgets(buf, sizeof(buf))) {
-		if (match_tag(buf, "</account>")) {
-			if (url.length() && authenticator.length()) return 0;
-			return ERR_XML_PARSE;
-		}
-		if (parse_str(buf, "<url>", url)) continue;
-		if (parse_str(buf, "<authenticator>", authenticator)) continue;
-	}
-	return ERR_XML_PARSE;
+    char buf[256];
+    while (in.fgets(buf, sizeof(buf))) {
+        if (match_tag(buf, "</account>")) {
+            if (url.length() && authenticator.length()) return 0;
+            return ERR_XML_PARSE;
+        }
+        if (parse_str(buf, "<url>", url)) continue;
+        if (parse_str(buf, "<authenticator>", authenticator)) continue;
+    }
+    return ERR_XML_PARSE;
 }
 
 ACCOUNT::ACCOUNT() {}
@@ -98,33 +98,33 @@ int ACCT_MGR::parse(MIOFILE& in) {
     int retval;
 
     accounts.clear();
-	while (in.fgets(buf, sizeof(buf))) {
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "<accounts>")) return 0;
-		if (match_tag(buf, "<account>")) {
-			ACCOUNT account;
-			retval = account.parse(in);
-			if (!retval) accounts.push_back(account);
-		}
-	}
+        if (match_tag(buf, "<account>")) {
+            ACCOUNT account;
+            retval = account.parse(in);
+            if (!retval) accounts.push_back(account);
+        }
+    }
     return ERR_XML_PARSE;
 }
 
 void ACCT_MGR::handle_reply() {
-	unsigned int i;
+    unsigned int i;
 
-	for (i=0; i<accounts.size(); i++) {
-		ACCOUNT& acct = accounts[i];
-		PROJECT* pp = gstate.lookup_project(acct.url.c_str());
-		if (pp) {
-			if (strcmp(pp->authenticator, acct.authenticator.c_str())) {
-				msg_printf(NULL, MSG_ERROR,
-					"You're attached to project %s with a different account",
+    for (i=0; i<accounts.size(); i++) {
+        ACCOUNT& acct = accounts[i];
+        PROJECT* pp = gstate.lookup_project(acct.url.c_str());
+        if (pp) {
+            if (strcmp(pp->authenticator, acct.authenticator.c_str())) {
+                msg_printf(NULL, MSG_ERROR,
+                    "You're attached to project %s with a different account",
                     pp->get_project_name()
-				);
-			}
-		} else {
-			gstate.add_project(acct.url.c_str(), acct.authenticator.c_str());
-		}
-	}
+                );
+            }
+        } else {
+            gstate.add_project(acct.url.c_str(), acct.authenticator.c_str());
+        }
+    }
 }
 const char *BOINC_RCSID_8fd9e873bf="$Id$";

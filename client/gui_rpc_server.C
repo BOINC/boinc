@@ -111,7 +111,7 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
 
     parse_str(buf, "<window_station>", gm.window_station, sizeof(gm.window_station));
     parse_str(buf, "<desktop>", gm.desktop, sizeof(gm.desktop));
-	parse_str(buf, "<display>", gm.display, sizeof(gm.display));
+    parse_str(buf, "<display>", gm.display, sizeof(gm.display));
 
     if (parse_str(buf, "<result_name>", result_name)) {
         PROJECT* p = get_project(buf, fout);
@@ -162,11 +162,11 @@ static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
     } else if (!strcmp(op, "update")) {
         p->sched_rpc_pending = true;
         p->min_rpc_time = 0;
-	} else if (!strcmp(op, "nomorework")) {
- 		p->dont_request_more_work = true;
- 	} else if (!strcmp(op, "allowmorework")) {
- 		p->dont_request_more_work = false;
- 	}
+    } else if (!strcmp(op, "nomorework")) {
+         p->dont_request_more_work = true;
+     } else if (!strcmp(op, "allowmorework")) {
+         p->dont_request_more_work = false;
+     }
     gstate.must_schedule_cpus = true;
     gstate.set_client_state_dirty("Project RPC");
     fout.printf("<success/>\n");
@@ -266,12 +266,12 @@ static void handle_get_proxy_settings(char* , MIOFILE& fout) {
 
 static void handle_get_activity_state(char* , MIOFILE& fout) {
     fout.printf("<activity_state>\n");
-	if ( gstate.activities_suspended ) {
-		fout.printf("    <activities_suspended/>\n");
-	}
-	if ( gstate.network_suspended ) {
-		fout.printf("    <network_suspended/>\n");
-	}
+    if ( gstate.activities_suspended ) {
+        fout.printf("    <activities_suspended/>\n");
+    }
+    if ( gstate.network_suspended ) {
+        fout.printf("    <network_suspended/>\n");
+    }
     fout.printf("</activity_state>\n");
 }
 
@@ -424,7 +424,7 @@ static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
     parse_double(buf, "<blank_time>", blank_time);
     parse_str(buf, "<desktop>", gm.desktop, sizeof(gm.desktop));
     parse_str(buf, "<window_station>", gm.window_station, sizeof(gm.window_station));
-	parse_str(buf, "<display>", gm.display, sizeof(gm.display));
+    parse_str(buf, "<display>", gm.display, sizeof(gm.display));
     if (match_tag(buf, "<enabled")) {
         gstate.ss_logic.start_ss(gm, blank_time );
     } else {
@@ -543,10 +543,10 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_project_op(request_msg, mf, "resume");
     } else if (match_tag(request_msg, "<set_run_mode")) {
         handle_set_run_mode(request_msg, mf);
-	} else if (match_tag(request_msg, "<project_nomorework")) {
- 		handle_project_op(request_msg, mf, "nomorework");
- 	} else if (match_tag(request_msg, "<project_allowmorework")) {
- 		handle_project_op(request_msg, mf, "allowmorework");
+    } else if (match_tag(request_msg, "<project_nomorework")) {
+         handle_project_op(request_msg, mf, "nomorework");
+     } else if (match_tag(request_msg, "<project_allowmorework")) {
+         handle_project_op(request_msg, mf, "allowmorework");
     } else if (match_tag(request_msg, "<get_run_mode")) {
         handle_get_run_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<set_network_mode")) {

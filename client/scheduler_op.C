@@ -56,7 +56,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
 
     project = gstate.next_project_master_pending();
     if (project) {
-        retval = init_master_fetch(project);
+        retval = init_master_fetch();
         if (retval) {
             msg_printf(project, MSG_ERROR,
                 "Couldn't read master page for %s: error %d",
@@ -128,7 +128,7 @@ int SCHEDULER_OP::init_op_project(double ns) {
     //
     url_index = 0;
     if (project->scheduler_urls.size() == 0) {
-        retval = init_master_fetch(project);
+        retval = init_master_fetch();
         goto done;
     }
     retval = gstate.make_scheduler_request(project, ns);
@@ -247,15 +247,17 @@ int SCHEDULER_OP::start_rpc() {
 
 // initiate a fetch of a project's master URL file
 //
-int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
+int SCHEDULER_OP::init_master_fetch() {
     int retval;
+    char master_filename[256];
+
+    get_master_filename(*project, master_filename);
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
-    project = p;
     scope_messages.printf("SCHEDULER_OP::init_master_fetch(): Fetching master file for %s\n", project->master_url);
     http_op.set_proxy(&gstate.proxy_info);
-    retval = http_op.init_get(project->master_url, MASTER_FILE_NAME, true);
+    retval = http_op.init_get(project->master_url, master_filename, true);
     if (retval) return retval;
     retval = http_ops->insert(&http_op);
     if (retval) return retval;
@@ -267,12 +269,14 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
 //
 int SCHEDULER_OP::parse_master_file(vector<std::string> &urls) {
     char buf[256];
+    char master_filename[256];
     std::string str;
     FILE* f;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
-    f = fopen(MASTER_FILE_NAME, "r");
+    get_master_filename(*project, master_filename);
+    f = fopen(master_filename, "r");
     if (!f) {
         msg_printf(project, MSG_ERROR, "Can't open master file\n");
         return ERR_FOPEN;
@@ -280,14 +284,14 @@ int SCHEDULER_OP::parse_master_file(vector<std::string> &urls) {
     project->scheduler_urls.clear();
     while (fgets(buf, 256, f)) {
         if (parse_str(buf, "<scheduler>", str)) {
-			strip_whitespace(str);
+            strip_whitespace(str);
             urls.push_back(str);
         }
     }
     fclose(f);
     scope_messages.printf("SCHEDULER_OP::parse_master_file(): got %d scheduler URLs\n", (int)urls.size());
 
-    // couldn't find any urls in the master file?
+    // couldn't find any scheduler URLs in the master file?
     //
     if ((int) urls.size() == 0) {
         return ERR_XML_PARSE;
@@ -520,7 +524,7 @@ bool SCHEDULER_OP::poll() {
         if (scheduler_op_done) {
             project = gstate.next_project_master_pending();
             if (project) {
-                retval = init_master_fetch(project);
+                retval = init_master_fetch();
                 if (retval) {
                     scope_messages.printf("SCHEDULER_OP::poll(): init_master_fetch failed.\n" );
                     backoff(project, "Scheduler op: init_master_fetch failed.\n" );
@@ -591,11 +595,11 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             return 0;
         }
         else if (parse_str(buf, "<project_name>", project->project_name, sizeof(project->project_name))) continue;
-		else if (parse_str(buf, "<user_name>", project->user_name, sizeof(project->user_name))) continue;
+        else if (parse_str(buf, "<user_name>", project->user_name, sizeof(project->user_name))) continue;
         else if (parse_double(buf, "<user_total_credit>", project->user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", project->user_expavg_credit)) continue;
         else if (parse_double(buf, "<user_create_time>", project->user_create_time)) continue;
-		else if (parse_str(buf, "<team_name>", project->team_name, sizeof(project->team_name))) continue;
+        else if (parse_str(buf, "<team_name>", project->team_name, sizeof(project->team_name))) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_double(buf, "<host_total_credit>", project->host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", project->host_expavg_credit)) continue;

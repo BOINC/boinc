@@ -104,7 +104,7 @@ CLIENT_STATE::CLIENT_STATE() {
     pers_retry_delay_min = PERS_RETRY_DELAY_MIN;
     pers_retry_delay_max = PERS_RETRY_DELAY_MAX;
     pers_giveup = PERS_GIVEUP;
-	executing_as_daemon = false;
+    executing_as_daemon = false;
     redirect_io = false;
     cpu_sched_last_time = 0;
     cpu_sched_work_done_this_period = 0;
@@ -232,10 +232,10 @@ int CLIENT_STATE::init() {
     //
     parse_account_files();
 
-	// check for app_info.xml file in project dirs.
-	// If find, read app info from there, set project.anonymous_platform
-	//
-	check_anonymous();
+    // check for app_info.xml file in project dirs.
+    // If find, read app info from there, set project.anonymous_platform
+    //
+    check_anonymous();
 
     // Parse the client state file,
     // ignoring any <project> tags (and associated stuff)
@@ -369,7 +369,7 @@ bool CLIENT_STATE::do_something(double now) {
 
     if (should_run_cpu_benchmarks() && !are_cpu_benchmarks_running()) {
         run_cpu_benchmarks = false;
-		start_cpu_benchmarks();
+        start_cpu_benchmarks();
     }
 
     check_suspend_activities(now, suspend_reason);
@@ -578,13 +578,13 @@ ACTIVE_TASK* CLIENT_STATE::lookup_active_task_by_result(RESULT* rep) {
 // Return nonzero if already in client state.
 //
 int CLIENT_STATE::link_app(PROJECT* p, APP* app) {
-	if (lookup_app(p, app->name)) return ERR_NOT_UNIQUE;
+    if (lookup_app(p, app->name)) return ERR_NOT_UNIQUE;
     app->project = p;
     return 0;
 }
 
 int CLIENT_STATE::link_file_info(PROJECT* p, FILE_INFO* fip) {
-	if (lookup_file_info(p, fip->name)) return ERR_NOT_UNIQUE;
+    if (lookup_file_info(p, fip->name)) return ERR_NOT_UNIQUE;
     fip->project = p;
 #if 0
     // I got rid of the from_server arg
@@ -613,7 +613,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     }
     avp->app = app;
 
-	if (lookup_app_version(app, avp->version_num)) return ERR_NOT_UNIQUE;
+    if (lookup_app_version(app, avp->version_num)) return ERR_NOT_UNIQUE;
 
     for (i=0; i<avp->app_files.size(); i++) {
         FILE_REF& file_ref = avp->app_files[i];
@@ -1143,8 +1143,8 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
     msg_printf(project, MSG_INFO, "Resetting project");
     active_tasks.abort_project(project);
 
-	// TODO: close sockets and open FILEs; delete the various objects
-	//
+    // TODO: close sockets and open FILEs; delete the various objects
+    //
     for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
         pxp = pers_file_xfers->pers_file_xfers[i];
         if (pxp->fip->project == project) {
@@ -1178,33 +1178,33 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
 
     garbage_collect(0);
 
-	// forcibly remove apps and app_versions
-	// (but not if anonymous platform)
-	//
-	if (!project->anonymous_platform) {
-		avp_iter = app_versions.begin();
-		while (avp_iter != app_versions.end()) {
-			avp = *avp_iter;
-			if (avp->project == project) {
-				avp_iter = app_versions.erase(avp_iter);
-				delete avp;
-			} else {
-				avp_iter++;
-			}
-		}
+    // forcibly remove apps and app_versions
+    // (but not if anonymous platform)
+    //
+    if (!project->anonymous_platform) {
+        avp_iter = app_versions.begin();
+        while (avp_iter != app_versions.end()) {
+            avp = *avp_iter;
+            if (avp->project == project) {
+                avp_iter = app_versions.erase(avp_iter);
+                delete avp;
+            } else {
+                avp_iter++;
+            }
+        }
 
-		app_iter = apps.begin();
-		while (app_iter != apps.end()) {
-			app = *app_iter;
-			if (app->project == project) {
-				app_iter = apps.erase(app_iter);
-				delete app;
-			} else {
-				app_iter++;
-			}
-		}
-	    garbage_collect(0);
-	}
+        app_iter = apps.begin();
+        while (app_iter != apps.end()) {
+            app = *app_iter;
+            if (app->project == project) {
+                app_iter = apps.erase(app_iter);
+                delete app;
+            } else {
+                app_iter++;
+            }
+        }
+        garbage_collect(0);
+    }
 
     write_state_file();
     return 0;
@@ -1235,7 +1235,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
         fip = *fi_iter;
         if (fip->project == project) {
             file_infos.erase(fi_iter);
-			delete fip;
+            delete fip;
         } else {
             fi_iter++;
         }

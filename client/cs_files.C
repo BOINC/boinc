@@ -198,8 +198,8 @@ bool CLIENT_STATE::handle_pers_file_xfers(double now) {
                     fip->delete_file();
                 }
                 fip->uploaded = true;
-			} else if (fip->status >= 0) {
-				// file transfer did not fail (non-negative status)
+            } else if (fip->status >= 0) {
+                // file transfer did not fail (non-negative status)
 
                 // verify the file with RSA or MD5, and change permissions
                 //
