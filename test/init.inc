@@ -245,4 +245,16 @@ function clean_api() {
     PassThru("rm -f counter app_to_core.xml core_to_app.xml foobar");
 }
 
+function compare_time() {
+    $db_time=mysql_query("select cpu_time from result where name = ucs_wu_0");
+    $time_file = fopen("time.xml", "r");
+    fscanf($time_file, "%f", $app_time);
+    if($db_time != $app_time) {
+        printf("Time mismatch: app %d server %d\n", $app_time, $db_time);
+    }
+    else printf("Times match\n");
+    fclose($time_file);
+    PassThru("rm -f time.xml");
+}
+
 ?>
