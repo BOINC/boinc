@@ -3732,3 +3732,27 @@ David  Mar 6 2003
         util.C,h
     sched/
         *.C
+
+Eric  March 7, 2003
+    - Moved common functions (write_log, check_trigger, update_average)
+      into sched_util.C
+    - Added stop_server checking to more server programs
+    - Added update_stats program to periodically update exponential average
+      credit for users and hosts, and to update team credit by summing member credit
+    - Added db_sum, db_query_double to retrieve sums of columns (used by update_stats)
+    - Added db_user_sum_team_expavg_credit, db_user_sum_team_total_credit,
+      db_user_count_team for updating team statistics
+    - Confirmed that current exponential average algorithm is correct
+
+    db/
+        mysql_util.C,h
+        db_mysql.C
+        db.h
+    html_user/
+        top_teams.php
+    sched/
+        Makefile.in
+        *.C
+        sched_util.C,h (added)
+        update_stats.C (added)
+

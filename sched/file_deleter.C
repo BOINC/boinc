@@ -29,14 +29,11 @@
 #include "parse.h"
 #include "util.h"
 #include "config.h"
+#include "sched_util.h"
 
 #define LOCKFILE "file_deleter.out"
 
 CONFIG config;
-
-void write_log(char* p) {
-    fprintf(stderr, "%s: %s", timestamp(), p);
-}
 
 int wu_delete_files(WORKUNIT& wu) {
     char* p;
@@ -101,6 +98,8 @@ bool do_pass() {
     RESULT result;
     bool did_something = false;
 
+    check_stop_trigger();
+
     wu.file_delete_state = FILE_DELETE_READY;
     while (!db_workunit_enum_file_delete_state(wu)) {
         did_something = true;
@@ -125,6 +124,7 @@ int main(int argc, char** argv) {
     int i;
     char buf[256];
 
+    check_stop_trigger();
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
             asynch = true;

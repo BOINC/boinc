@@ -18,7 +18,7 @@ CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
 
-PROGS = cgi feeder show_shmem file_upload_handler validate_test make_work result_retry file_deleter assimilator db_dump start_servers
+PROGS = cgi feeder show_shmem file_upload_handler validate_test make_work result_retry file_deleter assimilator db_dump update_stats start_servers
 
 all: $(PROGS)
 
@@ -27,6 +27,7 @@ CGI_OBJS = \
     main.o \
     sched_shmem.o \
     server_types.o \
+    sched_util.o \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
@@ -37,6 +38,7 @@ CGI_OBJS = \
 FEEDER_OBJS = \
     feeder.o \
     sched_shmem.o \
+    sched_util.o \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
@@ -47,6 +49,7 @@ FEEDER_OBJS = \
 SHOW_SHMEM_OBJS = \
     show_shmem.o \
     sched_shmem.o \
+    sched_util.o \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
@@ -67,6 +70,7 @@ FILE_UPLOAD_OBJS = \
 VALIDATE_OBJS = \
     validate.o \
     validate_test.o \
+    sched_util.o \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
@@ -75,6 +79,7 @@ VALIDATE_OBJS = \
 
 FILE_DELETER_OBJS = \
     file_deleter.o \
+    sched_util.o \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
@@ -84,6 +89,7 @@ FILE_DELETER_OBJS = \
 ASSIMILATOR_OBJS = \
     assimilator.o \
     assimilate_handler.o \
+    sched_util.o \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
@@ -92,6 +98,7 @@ ASSIMILATOR_OBJS = \
 
 MAKE_WORK_OBJS = \
     make_work.o \
+    sched_util.o \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
@@ -106,6 +113,7 @@ MAKE_WORK_OBJS = \
 
 RESULT_RETRY_OBJS = \
     result_retry.o \
+    sched_util.o \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
@@ -123,8 +131,18 @@ DB_DUMP_OBJS = \
     ../db/mysql_util.o \
     ../lib/parse.o \
     ../lib/util.o \
+    sched_util.o \
     config.o \
     db_dump.o
+
+UPDATE_STATS_OBJS = \
+    ../db/db_mysql.o \
+    ../db/mysql_util.o \
+    ../lib/parse.o \
+    ../lib/util.o \
+    sched_util.o \
+    config.o \
+    update_stats.o
 
 START_SERVERS_OBJS = \
     ../lib/util.o \
@@ -196,6 +214,9 @@ assimilator: $(ASSIMILATOR_OBJS)
 
 db_dump: $(DB_DUMP_OBJS)
 	$(CC) $(DB_DUMP_OBJS) $(MYSQL_LIBS) $(CLIBS) -o db_dump
+
+update_stats: $(UPDATE_STATS_OBJS)
+	$(CC) $(UPDATE_STATS_OBJS) $(MYSQL_LIBS) $(CLIBS) -o update_stats
 
 start_servers: $(START_SERVERS_OBJS)
 	$(CC) $(START_SERVERS_OBJS) $(CLIBS) -o start_servers

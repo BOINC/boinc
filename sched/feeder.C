@@ -57,22 +57,18 @@
 #include "util.h"
 #include "config.h"
 #include "sched_shmem.h"
+#include "sched_util.h"
 
 #define RESULTS_PER_ENUM    100
-#define STOP_SERVER_FILENAME    "stop_server"
 #define REREAD_DB_FILENAME      "reread_db"
 #define LOCKFILE                "feeder.out"
 
 CONFIG config;
 
-void write_log(char* p) {
-    fprintf(stderr, "%s: %s", timestamp(), p);
-}
-
 int check_triggers(SCHED_SHMEM* ssp) {
     FILE* f;
 
-    f = fopen(STOP_SERVER_FILENAME, "r");
+    f = fopen(STOP_TRIGGER_FILENAME, "r");
     if (f) {
         fclose(f);
         detach_shmem((void*)ssp);
@@ -204,7 +200,6 @@ int main(int argc, char** argv) {
     void* p;
     char buf[256];
 
-    unlink(STOP_SERVER_FILENAME);
     unlink(REREAD_DB_FILENAME);
 
     retval = config.parse_file();

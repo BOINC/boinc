@@ -27,15 +27,12 @@
 #include "parse.h"
 #include "util.h"
 #include "config.h"
+#include "sched_util.h"
 #include "assimilate_handler.h"
 
 #define ASSIMILATOR_LOCKFILE "assimilator.out"
 
 CONFIG config;
-
-void write_log(char* p) {
-    fprintf(stderr, "%s: %s", timestamp(), p);
-}
 
 // assimilate all WUs that need it
 // return nonzero if did anything
@@ -47,6 +44,8 @@ bool do_pass(APP& app) {
     bool did_something = false, delete_inputs, delete_outputs;
     char buf[MAX_BLOB_SIZE];
     unsigned int i;
+
+    check_stop_trigger();
 
     wu.appid = app.id;
     wu.assimilate_state = ASSIMILATE_READY;
@@ -118,6 +117,7 @@ int main(int argc, char** argv) {
     int i;
     char buf[256];
 
+    check_stop_trigger();
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
             asynch = true;

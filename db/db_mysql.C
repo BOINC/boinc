@@ -619,6 +619,13 @@ int db_user_count(int& n) {
     return boinc_db.db_count(&n, "*", TYPE_USER);
 }
 
+int db_user_count_team(TEAM& p, int& n) {
+    char buf[256];
+
+    sprintf(buf, "teamid=%d", p.id);
+    return boinc_db.db_count(&n, "*", TYPE_USER, buf);
+}
+
 int db_user_lookup_email_addr(USER& p) {
     char buf[256];
 
@@ -648,6 +655,20 @@ int db_user_enum_teamid(USER& p) {
         sprintf(buf, "where teamid=%d", p.teamid);
     }
     return boinc_db.db_enum(e, &p, TYPE_USER, buf);
+}
+
+int db_user_sum_team_expavg_credit(TEAM& p, double& n) {
+    char buf[256];
+
+    sprintf(buf, "teamid=%d", p.id);
+    return boinc_db.db_sum(&n, "expavg_credit", TYPE_USER, buf);
+}
+
+int db_user_sum_team_total_credit(TEAM& p, double& n) {
+    char buf[256];
+
+    sprintf(buf, "teamid=%d", p.id);
+    return boinc_db.db_sum(&n, "total_credit", TYPE_USER, buf);
 }
 
 ////////// TEAM /////////

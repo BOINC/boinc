@@ -40,17 +40,13 @@
 #include "backend_lib.h"
 #include "config.h"
 #include "parse.h"
+#include "sched_util.h"
 
-#define TRIGGER_FILENAME    "stop_server"
 #define LOCKFILE            "make_work.out"
 
 int cushion = 10;
 int redundancy = 10;
 char wu_name[256], result_template_file[256];
-
-void write_log(char* p) {
-    fprintf(stderr, "%s: %s", timestamp(), p);
-}
 
 // edit a WU XML doc, replacing one filename by another
 // (should appear twice, within <file_info> and <file_ref>)
@@ -83,12 +79,6 @@ void replace_file_name(
         }
         p = strtok(0, "\n");
     }
-}
-
-void check_trigger() {
-    FILE* f = fopen(TRIGGER_FILENAME, "r");
-    if (!f) return;
-    exit(0);
 }
 
 void make_work() {
@@ -200,7 +190,7 @@ void make_work() {
         sprintf(buf, "added result: %s_%s\n", wu.name, suffix);
         write_log(buf);
         nresults_left--;
-        check_trigger();
+        check_stop_trigger();
     }
 }
 
@@ -208,7 +198,7 @@ int main(int argc, char** argv) {
     bool asynch = false;
     int i;
 
-    unlink(TRIGGER_FILENAME);
+    check_stop_trigger();
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
             asynch = true;

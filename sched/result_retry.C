@@ -39,8 +39,8 @@ using namespace std;
 #include "util.h"
 #include "backend_lib.h"
 #include "config.h"
+#include "sched_util.h"
 
-#define TRIGGER_FILENAME        "stop_server"
 #define LOCKFILE                "result_retry.out"
 
 int max_errors = 999;
@@ -50,16 +50,6 @@ int startup_time;
 CONFIG config;
 R_RSA_PRIVATE_KEY key;
 char app_name[256];
-
-void check_trigger() {
-    FILE* f = fopen(TRIGGER_FILENAME, "r");
-    if (!f) return;
-    exit(0);
-}
-
-void write_log(char* p) {
-    fprintf(stderr, "%s: %s", timestamp(), p);
-}
 
 // The scheme for generating unique output filenames is as follows.
 // If the original filename is of the form x__y,
@@ -325,7 +315,7 @@ void main_loop(bool one_pass) {
         did_something = do_pass(app);
         if (one_pass) break;
         if (!did_something) sleep(1);
-        check_trigger();
+        check_stop_trigger();
     }
 }
 
@@ -334,6 +324,7 @@ int main(int argc, char** argv) {
     bool asynch = false, one_pass=false;
     char path[256];
 
+    check_stop_trigger();
     startup_time = time(0);
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-app")) {

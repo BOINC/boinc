@@ -48,10 +48,6 @@ bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 PROJECT gproject;
 CONFIG config;
 
-void write_log(char* p) {
-    fprintf(stderr, "%s: %s", timestamp(), p);
-}
-
 int main() {
     FILE* fin, *fout;
     int i, retval, pid;

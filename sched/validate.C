@@ -48,6 +48,7 @@ using namespace std;
 #include "db.h"
 #include "util.h"
 #include "config.h"
+#include "sched_util.h"
 
 #define LOCKFILE "validate.out"
 
@@ -57,44 +58,6 @@ extern int check_pair(RESULT&, RESULT&, bool&);
 CONFIG config;
 char app_name[256];
 int min_quorum;
-
-// "average credit" uses an exponential decay so that recent
-// activity is weighted more heavily.
-// H is the "half-life" period: the average goes down by 1/2
-// if idle for this period.
-// Specifically, the weighting function W(t) is
-// W(t) = exp(t/(H*log(2))*H*log(2).
-// The average credit is the sum of X*W(t(X))
-// over units of credit X that were granted t(X) time ago.
-
-#define LOG2 M_LN2
-    // log(2)
-#define SECONDS_IN_DAY (3600*24)
-#define AVG_HALF_LIFE  (SECONDS_IN_DAY*7)
-#define ALPHA (LOG2/AVG_HALF_LIFE)
-
-void write_log(char* p) {
-    fprintf(stderr, "%s: %s", timestamp(), p);
-}
-
-// update an exponential average of credit per second.
-//
-void update_average(double credit_assigned_time, double credit, double& avg, double& avg_time) {
-    time_t now = time(0);
-
-    // decrease existing average according to how long it's been
-    // since it was computed
-    //
-    if (avg_time) {
-        double deltat = now - avg_time;
-        avg *= exp(-deltat*ALPHA);
-    }
-    double deltat = now - credit_assigned_time;
-    // Add (credit)/(number of days to return result) to credit, which
-    // is the average number of cobblestones per day
-    avg += credit/(deltat/86400);
-    avg_time = now;
-}
 
 // here when a result has been validated;
 // grant credit to host and user
@@ -301,6 +264,7 @@ int main_loop(bool one_pass) {
     }
 
     while (1) {
+        check_stop_trigger();
         did_something = do_validate_scan(app, min_quorum);
         if (one_pass) break;
         if (!did_something) {
@@ -315,6 +279,8 @@ int main(int argc, char** argv) {
     int i, retval;
     bool asynch = false, one_pass = false;
     char buf[256];
+
+    check_stop_trigger();
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {

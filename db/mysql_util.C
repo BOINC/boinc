@@ -194,11 +194,29 @@ int MYSQL_DB::db_query_int(int* ip, char* query) {
     return 0;
 }
 
+int MYSQL_DB::db_query_double(double* dp, char* query) {
+    mysql_query(mp, query);
+    rp = mysql_store_result(mp);
+    if (!rp) return -1;
+    row = mysql_fetch_row(rp);
+    if (!row) return -1;
+    *dp = atof(row[0]);
+    mysql_free_result(rp);
+    return 0;
+}
+
 int MYSQL_DB::db_count(int* np, char* what, int type, char* clause) {
     char buf[MAX_QUERY_LEN];
     sprintf(buf, "select count(%s) from %s ", what, table_name[type]);
     if (clause) strcat(buf, clause);
     return db_query_int(np, buf);
+}
+
+int MYSQL_DB::db_sum(double* np, char* what, int type, char* clause) {
+    char buf[MAX_QUERY_LEN];
+    sprintf(buf, "select sum(%s) from %s ", what, table_name[type]);
+    if (clause) strcat(buf, clause);
+    return db_query_double(np, buf);
 }
 
 int MYSQL_DB::db_query(char* p) {

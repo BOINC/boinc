@@ -19,7 +19,7 @@
 
 // db_dump: dump database views in XML format
 //
-// usage: db_dump [-dir path] [-update_teams] [-gzip] [-zip]
+// usage: db_dump [-dir path] [-gzip] [-zip]
 
 // files:
 // NOTE: the goal is to make the full DB available (view *_id files)
@@ -60,6 +60,7 @@
 #include "db.h"
 #include "util.h"
 #include "config.h"
+#include "sched_util.h"
 
 #define LOCKFILE "db_dump.out"
 
@@ -68,31 +69,6 @@
 
 bool zip_files = false;
 char zip_cmd[256];
-
-// fill in the nusers, total_credit and expavg_credit fields
-// of the team table.
-// This may take a while; don't do it often
-//
-int update_teams() {
-    TEAM team;
-    USER user;
-    int retval;
-
-    while (!db_team_enum(team)) {
-        team.nusers = 0;
-        team.total_credit = 0;
-        team.expavg_credit = 0;
-        user.teamid = team.id;
-        while (!db_user_enum_teamid(user)) {
-            team.nusers++;
-            team.total_credit += user.total_credit;
-            team.expavg_credit += user.expavg_credit;
-        }
-        retval = db_team_update(team);
-        if (retval) return retval;
-    }
-    return 0;
-}
 
 void write_host(HOST& host, FILE* f, bool detail, bool show_user) {
     fprintf(f,
@@ -545,15 +521,14 @@ int tables_file() {
 int main(int argc, char** argv) {
     CONFIG config;
     int retval, i;
-    bool do_update_teams = false;
     char dir[256];
+
+    check_stop_trigger();
 
     strcpy(dir, "");
     strcpy(zip_cmd, "");
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-update_teams")) {
-            do_update_teams = true;
-        } else if (!strcmp(argv[i], "-dir")) {
+        if (!strcmp(argv[i], "-dir")) {
             strcpy(dir, argv[++i]);
         } else if (!strcmp(argv[i], "-gzip")) {
             zip_files = true;
@@ -584,13 +559,6 @@ int main(int argc, char** argv) {
         retval = chdir(dir);
         if (retval) {
             fprintf(stderr, "can't chdir to %s\n", dir);
-            exit(1);
-        }
-    }
-    if (do_update_teams) {
-        retval = update_teams();
-        if (retval) {
-            fprintf(stderr, "update_teams failed: %d\n", retval);
             exit(1);
         }
     }

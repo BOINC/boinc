@@ -345,12 +345,15 @@ extern int db_user_new(USER&);
 extern int db_user(int, USER&);
 extern int db_user_update(USER&);
 extern int db_user_count(int&);
+extern int db_user_count_team(TEAM&, int&);
 extern int db_user_lookup_auth(USER&);
 extern int db_user_lookup_email_addr(USER&);
 extern int db_user_enum_id(USER&);
 extern int db_user_enum_total_credit(USER&);
 extern int db_user_enum_expavg_credit(USER&);
 extern int db_user_enum_teamid(USER&);
+extern int db_user_sum_team_expavg_credit(TEAM&,double&);
+extern int db_user_sum_team_total_credit(TEAM&,double&);
 
 extern int db_team(int, TEAM&);
 extern int db_team_new(TEAM&);

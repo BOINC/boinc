@@ -50,6 +50,8 @@ public:
     int db_enum(ENUM&, void*, int, char* clause=0, int limit=0);
     int db_enum_field(ENUM&, int, char*, char*);
     int db_query_int(int*, char*);
+    int db_query_double(double*, char*);
     int db_count(int*, char*, int, char* clause=0);
+    int db_sum(double*, char*, int, char* clause=0);
     int db_query(char*);
 };
