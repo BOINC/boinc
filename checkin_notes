@@ -14411,3 +14411,12 @@ Brian 1 July 2004
 
     client/
 	  gui_rpc_client.h
+
+Rom    1 July 2004
+    - Introduce skeleton of new transitioner queue class that uses a specialized
+      query for its job. NOTE: I don't know if it will even compile, but need another
+      set of eyes looking over it as well.
+
+    db/
+        db_base.C, .h
+        boinc_db.C, .h

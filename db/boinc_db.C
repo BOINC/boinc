@@ -34,19 +34,6 @@ static struct random_init {
     }
 } random_init;
 
-// if SQL columns are not 'not null', you must use these safe_atoi, safe_atof
-// instead of atoi, atof, since the strings returned by MySQL may be NULL.
-//
-inline int safe_atoi(const char* s) {
-    if (!s) return 0;
-    return atoi(s);
-}
-
-inline float safe_atof(const char* s) {
-    if (!s) return 0;
-    return atof(s);
-}
-
 #define ESCAPE(x) escape_string(x, sizeof(x))
 #define UNESCAPE(x) unescape_string(x, sizeof(x))
 
@@ -72,7 +59,7 @@ DB_HOST::DB_HOST() : DB_BASE(boinc_db, "host"){}
 DB_WORKUNIT::DB_WORKUNIT() : DB_BASE(boinc_db, "workunit"){}
 DB_RESULT::DB_RESULT() : DB_BASE(boinc_db, "result"){}
 DB_MSG_FROM_HOST::DB_MSG_FROM_HOST() : DB_BASE(boinc_db, "msg_from_host"){}
-DB_MSG_TO_HOST::DB_MSG_TO_HOST() : DB_BASE(boinc_db, "msg_to_host"){}
+DB_TRANSITIONER_QUEUE::DB_TRANSITIONER_QUEUE() : DB_BASE(boinc_db), current_entry_start_position(0), current_entry_workunit_id(0){}
 
 int DB_PLATFORM::get_id() {return id;}
 int DB_CORE_VERSION::get_id() {return id;}
@@ -583,3 +570,150 @@ void DB_MSG_TO_HOST::db_parse(MYSQL_ROW& r) {
     handled = atol(r[i++]);
     strcpy2(xml, r[i++]);
 }
+
+int DB_TRANSITIONER_QUEUE::enumerate_queue_entries(int transition_time, int ntotal_transitioners, int ntransitioner, int nresult_limit) {
+    int                 x;
+    char                query[MAX_QUERY_LEN];
+    char                priority[16];
+    char                mod[64];
+    MYSQL_ROW           row;
+    int                 temp_workunit_id;
+    MYSQL_ROW_OFFSET    temp_entry_position;
+
+    if (!cursor.active) {
+        cursor.active = true;
+
+        memset(priority, '\0', sizeof(priority));
+        if (db->mysql) { strcpy(priority, "HIGH_PRIORITY"); }
+
+        memset(mod, '\0', sizeof(mod));
+        if (0 < ntotal_transitioners) { sprintf(mod, "MOD(wu.id, %d) = %d", ntotal_transitioners, ntransitioner); }
+
+        sprintf(query,
+            "SELECT %s "
+            "   wu.id, "
+            "   wu.name, "
+            "   wu.appid, "
+            "   wu.min_quorum, "
+            "   wu.need_validate, "
+            "   wu.canonical_resultid, "
+            "   wu.transition_time, "
+            "   wu.delay_bound, "
+            "   wu.error_mask, "
+            "   wu.max_error_results, "
+            "   wu.max_total_results, "
+            "   wu.file_delete_state, "
+            "   wu.assimilate_state, "
+            "   wu.target_nresults, "
+            "   wu.result_template, "
+            "   res.id AS res_id, "
+            "   res.report_deadline AS res_report_deadline, "
+            "   res.server_state AS res_server_state, "
+            "   res.outcome AS res_outcome, "
+            "   res.validate_state AS res_validate_state, "
+            "   res.file_delete_state AS res_file_delete_state, "
+            "   res.sent_time AS res_sent_time "
+            "FROM "
+            "   workunit AS wu "
+            "       LEFT JOIN result AS res ON wu.id = res.workunitid "
+            "WHERE "
+            "   wu.transition_time < %d AND "
+            "   %s "
+            "LIMIT "
+            "  %d ",
+            priority, transition_time, mod, nresult_limit);
+
+        x = db->do_query(query);
+        if (x) return mysql_errno(db->mysql);
+        cursor.rp = mysql_store_result(db->mysql);
+        if (!cursor.rp) return mysql_errno(db->mysql);
+
+        current_entry_start_position = mysql_row_tell(cursor.rp);
+    }
+
+    mysql_row_seek(current_entry_start_position);
+
+    do
+    {
+        temp_entry_position = mysql_row_tell(cursor.rp);
+        row = mysql_fetch_row(cursor.rp);
+        if (!row) {
+            mysql_free_result(cursor.rp);
+            cursor.active = false;
+            return -1;
+        } else {
+            fetch_field_value(cursor.rp, row, "id", temp_workunit_id);
+        }
+    }
+    while ( row && ( temp_workunit_id == current_entry_workunit_id ));
+
+    // New Workunit Detected
+    current_entry_workunit_id    = temp_workunit_id;
+    current_entry_start_position = temp_entry_position;
+
+    parse_entry(cursor.rp, row);
+    
+    return 0;
+}
+
+void DB_TRANSITIONER_QUEUE::parse_entry(MYSQL_RES *result, MYSQL_ROW& row) {
+    int temp_need_validate = 0;
+    fetch_field_value(result, row, "id", id);
+    fetch_field_value(result, row, "name", name, sizeof(name));
+    fetch_field_value(result, row, "appid", appid);
+    fetch_field_value(result, row, "min_quorum", min_quorum);
+    fetch_field_value(result, row, "need_validate", temp_need_validate);
+    if (temp_need_validate) { need_validate = true; } else { need_validate = false; }
+    fetch_field_value(result, row, "canonical_resultid", canonical_resultid);
+    fetch_field_value(result, row, "transition_time", transition_time);
+    fetch_field_value(result, row, "delay_bound", delay_bound);
+    fetch_field_value(result, row, "error_mask", error_mask);
+    fetch_field_value(result, row, "max_error_results", max_error_results);
+    fetch_field_value(result, row, "max_total_results", max_total_results);
+    fetch_field_value(result, row, "file_delete_state", file_delete_state);
+    fetch_field_value(result, row, "assimilate_state", assimilate_state);
+    fetch_field_value(result, row, "target_nresults", target_nresults);
+    parse_result(result, row);
+}
+
+void DB_TRANSITIONER_QUEUE::parse_result(MYSQL_RES *result, MYSQL_ROW& row) {
+    fetch_field_value(result, row, "res_id", res_id);
+    fetch_field_value(result, row, "res_report_deadline", res_report_deadline);
+    fetch_field_value(result, row, "res_server_state", res_server_state);
+    fetch_field_value(result, row, "res_outcome", res_outcome);
+    fetch_field_value(result, row, "res_validate_state", res_validate_state);
+    fetch_field_value(result, row, "res_file_delete_state", res_file_delete_state);
+    fetch_field_value(result, row, "res_sent_time", res_sent_time);
+}
+
+int DB_TRANSITIONER_QUEUE::seek_first_result() {
+    int retval;
+    MYSQL_ROW row;
+
+    mysql_row_seek(current_entry_start_position);
+    row = mysql_fetch_row(cursor.rp);
+    if (!row) {
+        retval = -1;
+    } else {
+        parse_result(cursor.rp, row);
+        retval = 0;
+    }
+
+    return retval;
+}
+
+int DB_TRANSITIONER_QUEUE::seek_next_result() {
+    int retval;
+    MYSQL_ROW row;
+
+    row = mysql_fetch_row(cursor.rp);
+    if (!row) {
+        retval = seek_first_result();
+    } else {
+        parse_result(cursor.rp, row);
+        retval = 0;
+    }
+
+    return retval;
+}
+

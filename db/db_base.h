@@ -22,6 +22,29 @@
 
 #include "mysql.h"
 
+// if SQL columns are not 'not null', you must use these safe_atoi, safe_atof
+// instead of atoi, atof, since the strings returned by MySQL may be NULL.
+//
+inline int safe_atoi(const char* s) {
+    if (!s) return 0;
+    return atoi(s);
+}
+
+inline float safe_atof(const char* s) {
+    if (!s) return 0;
+    return atof(s);
+}
+
+#define strcpy2(x, y) \
+    { \
+        char* z = y; \
+        if (!z) { \
+            x[0]=0; \
+        } else { \
+            strlcpy(x, z, sizeof(x)); \
+        } \
+    }
+
 struct CURSOR {
     bool active;
     MYSQL_RES *rp;
@@ -38,7 +61,6 @@ public:
     int insert_id();
     void print_error(char*);
     const char* error_string();
-    bool is_high_priority;
 
     MYSQL* mysql;
 };
@@ -70,15 +92,21 @@ public:
     virtual void db_parse(MYSQL_ROW&);
 };
 
-#define strcpy2(x, y) \
-    { \
-        char* z = y; \
-        if (!z) { \
-            x[0]=0; \
-        } else { \
-            strlcpy(x, z, sizeof(x)); \
-        } \
-    }
+// Base for derived classes that can access the DB
+// Defines various generic operations on DB tables
+// for specially designed queries
+//
+class DB_BASE_PERF {
+public:
+    DB_BASE_PERF(DB_CONN&);
+
+    int fetch_field_value(MYSQL_RES* result, MYSQL_ROW& row, const char* field_name, int& field_value);
+    int fetch_field_value(MYSQL_RES* result, MYSQL_ROW& row, const char* field_name, float& field_value);
+    int fetch_field_value(MYSQL_RES* result, MYSQL_ROW& row, const char* field_name, char* field_value, int field_size);
+
+    DB_CONN* db;
+    CURSOR cursor;
+};
 
 void escape_string(char* field, int len);
 void unescape_string(char* p, int len);

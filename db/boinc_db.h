@@ -427,6 +427,31 @@ struct MSG_TO_HOST {
     void clear();
 };
 
+struct TRANSITIONER_QUEUE {
+    int  id;
+    char name[256];
+    int  appid;
+    int  min_quorum;
+    bool need_validate;
+    int  canonical_resultid;
+    int  transition_time;
+    int  delay_bound;
+    int  error_mask;
+    int  max_error_results;
+    int  max_total_results;
+    int  file_delete_state;
+    int  assimilate_state;
+    int  target_nresults;
+    int  res_id;
+    int  res_report_deadline;
+    int  res_server_state;
+    int  res_outcome;
+    int  res_validate_state;
+    int  res_file_delete_state;
+    int  res_sent_time;
+    void clear();
+};
+
 #if 0
 #define WORKSEQ_STATE_UNASSIGNED    0
 #define WORKSEQ_STATE_ASSIGNED      1
@@ -535,6 +560,22 @@ public:
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
+};
+
+class DB_TRANSITIONER_QUEUE : public DB_BASE, public TRANSITIONER_QUEUE {
+public:
+    DB_TRANSITIONER_QUEUE();
+
+    MYSQL_ROW_OFFSET current_entry_start_position;
+    int              current_entry_workunit_id;
+
+    int  enumerate_entries(int transition_time, int ntotal_transitioners, int ntransitioner, int nresult_limit);
+    void parse_entry(MYSQL_RES *result, MYSQL_ROW& row);
+    void parse_result(MYSQL_RES *result, MYSQL_ROW& row);
+
+    int  seek_first_result();
+    int  seek_next_result();
+
 };
 
 #if 0
