@@ -8,6 +8,6 @@
     <app_name>upper_case</app_name>
     <file_ref>
         <file_name><INFILE_0/></file_name>
-        <fd>0</fd>
+        <open_name>in</open_name>
     </file_ref>
 </workunit>

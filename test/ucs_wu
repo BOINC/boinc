@@ -5,9 +5,10 @@
 </file_info>
 <workunit>
     <name><WU_NAME/></name>
-    <app_name>uc_slow</app_name>
+    <app_name>upper_case</app_name>
     <file_ref>
         <file_name><INFILE_0/></file_name>
         <open_name>in</open_name>
     </file_ref>
+    <command_line>-run_slow</command_line>
 </workunit>

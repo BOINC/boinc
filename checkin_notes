@@ -1824,3 +1824,20 @@ David   August 30 2002
         error_numbers.h
         filesys.C
         md5_file.C
+
+Eric    September 4, 2002
+    - condensed uc_slow, uc_cpu into upper_case, using command line arguments
+    - changed test_uc to use files rather than stdin/stdout
+
+    apps/
+        uc_slow.C (removed)
+        uc_cpu.C (removed)
+        upper_case.C
+    lib/
+        error_numbers.h
+    test/
+        test_uc_slow.php
+        uc_result
+        uc_wu
+        ucs_wu
+
