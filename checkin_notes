@@ -21878,3 +21878,9 @@ David  27 Dec 2004
         uotd.inc
     sched/
         db_purge.C
+
+David  27 Dec 2004
+    - upgrade --help now works
+
+    tools/
+        upgrade

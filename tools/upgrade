@@ -26,8 +26,8 @@ def syntax_error(str):
     raise SystemExit('%s; See "%s --help" for help\n' % (str, sys.argv[0]))
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], ['help', 'project_root='])
-except getopt.GetopError, e:
+    opts, args = getopt.getopt(sys.argv[1:], '', ['help', 'project_root='])
+except getopt.GetoptError, e:
     syntax_error(e)
 
 home = os.path.expanduser('~')
