@@ -4,7 +4,7 @@
         <user_friendly_name>Linux/x86</user_friendly_name>
     </platform>
     <platform>
-        <name>windows-intelx86</name>
+        <name>windows_intelx86</name>
         <user_friendly_name>Windows/x86</user_friendly_name>
     </platform>
     <platform>
@@ -16,7 +16,7 @@
         <user_friendly_name>anonymous</user_friendly_name>
     </platform>
     <app>
-        <name>upperCASE</name>
+        <name>uppercase</name>
         <user_friendly_name>upperCASE</user_friendly_name>
     </app>
 </boinc>
