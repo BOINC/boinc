@@ -272,8 +272,8 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	m_XferListCtrl.SetRedraw(FALSE);
 	Syncronize(&m_XferListCtrl, (vector<void*>*)(&pcs->pers_xfers->pers_file_xfers));
 	for(i = 0; i < m_XferListCtrl.GetItemCount(); i ++) {
-		PERS_FILE_XFER* fi = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(i);
-		if(!fi) {
+		PERS_FILE_XFER* pfx = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(i);
+		if(!pfx) {
 			m_XferListCtrl.SetItemColor(i, RGB(128, 128, 128));
 			m_XferListCtrl.SetItemProgress(i, 2, 100);
 			m_XferListCtrl.SetItemText(i, 3, g_szMiscItems[7]);
@@ -283,25 +283,25 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		}
 
 		// project
-		m_XferListCtrl.SetItemText(i, 0, fi->fip->project->project_name);
+		m_XferListCtrl.SetItemText(i, 0, pfx->fip->project->project_name);
 
 		// file
-		m_XferListCtrl.SetItemText(i, 1, fi->fip->name);
+		m_XferListCtrl.SetItemText(i, 1, pfx->fip->name);
 
 		// progress
 		double xSent = 0;
-		if (fi->fxp) {
-			xSent = fi->fxp->bytes_xferred;
+		if (pfx->fxp) {
+			xSent = pfx->fxp->bytes_xferred;
 		}
-		m_XferListCtrl.SetItemProgress(i, 2, 100 * xSent / fi->fip->nbytes);
+		m_XferListCtrl.SetItemProgress(i, 2, 100 * xSent / pfx->fip->nbytes);
 
 		// size
-		strBuf.Format("%0.0f/%0.0fKB", xSent / 1024, fi->fip->nbytes / 1024);
+		strBuf.Format("%0.0f/%0.0fKB", xSent / 1024, pfx->fip->nbytes / 1024);
 		m_XferListCtrl.SetItemText(i, 3, strBuf.GetBuffer(0));
 
 		// time
 		double xtime = 0;
-		xtime = fi->time_so_far;
+		xtime = pfx->time_so_far;
 		int xhour = (int)(xtime / (60 * 60));
 		int xmin = (int)(xtime / 60) % 60;
 		int xsec = (int)(xtime) % 60;
@@ -310,27 +310,27 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
 		// speed
 		strBuf.Format("0.00 KBps");
-		if(fi->fxp) {
-			strBuf.Format("%0.2f KBps", fi->fxp->xfer_speed/1024);
+		if(pfx->fxp) {
+			strBuf.Format("%0.2f KBps", pfx->fxp->xfer_speed/1024);
 		}
 		m_XferListCtrl.SetItemText(i, 5, strBuf.GetBuffer(0));
 
 		// status
-		if (fi->next_request_time > time(0)) {
-			double xtime = fi->next_request_time-time(0);
+		if (pfx->next_request_time > time(0)) {
+			double xtime = pfx->next_request_time-time(0);
 			int xhour = (int)(xtime / (60 * 60));
 			int xmin = (int)(xtime / 60) % 60;
 			int xsec = (int)(xtime) % 60;
 			strBuf.Format("%s %0.2d:%0.2d:%0.2d", g_szMiscItems[10], xhour, xmin, xsec);
 			m_XferListCtrl.SetItemText(i, 6, strBuf);
-		} else if (fi->fip->status == ERR_GIVEUP_DOWNLOAD) {
+		} else if (pfx->fip->status == ERR_GIVEUP_DOWNLOAD) {
 			strBuf.Format(g_szMiscItems[11]);
 			m_XferListCtrl.SetItemText(i, 6, strBuf);
-		} else if (fi->fip->status == ERR_GIVEUP_UPLOAD) {
+		} else if (pfx->fip->status == ERR_GIVEUP_UPLOAD) {
 			strBuf.Format(g_szMiscItems[12]);
 			m_XferListCtrl.SetItemText(i, 6, strBuf);
 		} else {
-			m_XferListCtrl.SetItemText(i, 6, fi->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9]);
+			m_XferListCtrl.SetItemText(i, 6, pfx->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9]);
 		}
 	}
 	m_XferListCtrl.SetRedraw(TRUE);
