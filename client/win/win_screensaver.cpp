@@ -1302,12 +1302,8 @@ int CScreensaver::UtilGetRegKey(LPCTSTR name, DWORD &keyval)
 	LONG  error;
 	DWORD type = REG_DWORD;
 	DWORD size = sizeof( DWORD );
-	TCHAR str[2048];
 	DWORD value;
 	HKEY  boinc_key;
-
-    StringCbCat( str, sizeof(str) / sizeof(TCHAR), _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Screensaver\\") );
-    StringCbCat( str, sizeof(str) / sizeof(TCHAR), name );
 
 	if ( m_bIs9x ) {
 		error = RegOpenKeyEx( 
