@@ -103,8 +103,10 @@ PROJECT* CLIENT_STATE::next_project_master_pending() {
 // 
 PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
     unsigned int i;
+    time_t now = time(0);
 
     for (i=0; i<projects.size(); i++) {
+        if (projects[i]->min_rpc_time > now) continue;
         if (projects[i]->sched_rpc_pending) {
             return projects[i];
         }
@@ -278,10 +280,10 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             compute_resource_debts();
             scheduler_op->init_get_work();
             action = true;
-		} else if ((p=next_project_master_pending())) {
+        } else if ((p=next_project_master_pending())) {
             scheduler_op->init_get_work();
             action = true;
-		} else if ((p=next_project_sched_rpc_pending())) {
+        } else if ((p=next_project_sched_rpc_pending())) {
             scheduler_op->init_return_results(p, 0);
             action = true;
         } else {

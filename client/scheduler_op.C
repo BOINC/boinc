@@ -351,6 +351,8 @@ bool SCHEDULER_OP::poll() {
                     err_url
                 );
                 show_message(err_msg, "high");
+                project->master_fetch_failures++;
+                backoff(project, err_msg);
             }
 
             // See if need to read master file for another project
