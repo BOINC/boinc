@@ -19441,3 +19441,10 @@ David  14 Nov 2004
         diagnostics.C
     sched/
         validator.C
+
+David  14 Nov 2004
+    - changed default download page link to point to BOINC site
+
+    html/user/
+        intro.php
+        sample_index.php

@@ -25,7 +25,7 @@ function show_nav() {
         <ul>
         <li><a href=home.php>Your account</a> - view stats, modify preferences
         <li><a href=team.php>Teams</a> - create or join a team
-        <li><a href=download.php>Download BOINC</a>
+        <li><a href=http://boinc.berkeley.edu/download.php>Download BOINC</a>
         <li><a href=download_network.php>Add-ons</a>
         </ul>
         <h3>Community</h3>

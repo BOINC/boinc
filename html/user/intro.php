@@ -15,7 +15,7 @@ echo "
     your <b>account ID</b> (a long random string).
     Save this email.
     <li> <b>Download and install BOINC.</b>
-    Go to the <a href=download.php>download page</a>,
+    Go to the <a href=http://boinc.berkeley.edu/download.php>download page</a>,
     download the BOINC software for your type of computer,
     install it, and run it.
     You will be asked to enter the project URL
