@@ -25547,3 +25547,11 @@ David  5 Mar 2005
         various changed and new
     lib/
         filesys.C,h
+
+Rom    5 Mar 2005
+    - Add some additional log spew to display the daemon configuration
+      option and a note if the detected configuration doesn't support
+      graphics.
+
+    client/
+        client_state.C

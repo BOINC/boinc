@@ -195,11 +195,38 @@ int CLIENT_STATE::init() {
     );
 #endif
 
+
+    // print out any options which may help out during support issues
+    //
     if ( executing_as_daemon ) {
         msg_printf(
             NULL, MSG_INFO, "Option: Executing as a daemon"
         );
     }
+
+
+    // sometimes it helps to remind people of potiential issues related
+    // to their configuration.
+
+    // check to see what username we are executing as, if we are running
+    // as anybody other than localsystem and executing as a daemon then
+    // displaing graphics are going to fail.  we should display a note
+    // at startup reminding them of that.
+#ifdef _WIN32
+    TCHAR  buf[1024];
+    DWORD  buf_size = sizeof(buf);
+    LPTSTR pbuf = buf;
+    
+    GetUserName( pbuf, &buf_size );
+    if ( executing_as_daemon && ( 0 != strcmp( "SYSTEM", pbuf ) ) ) {
+        msg_printf(
+            NULL, MSG_INFO, 
+            "NOTE: A condition has been detected which will keep graphics from "
+            "being displayed.  Please visit the BOINC site to learn more."
+        );
+    }
+#endif
+
 
     // parse account files.
     // If there are none, prompt user for project URL and create file
