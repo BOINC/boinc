@@ -35,6 +35,7 @@ function version_end($xml) {
 function show_462($xml=false) {
     version_start("4.62", "24 Jan 2005", $xml);
     version("Windows", "boinc_4.62_windows_intelx86.exe", $xml);
+    version("Linux/x86", "boinc_4.62_i686-pc-linux-gnu.sh", $xml);
     version_end($xml);
 }
 
