@@ -20,10 +20,11 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include <ctime>
 #include <cstdlib>
-#include <cmath>
 #include <cstdio>
+#include <ctime>
+#include <cmath>
+#include <cstring>
 #include <cstdarg>
 #include <string>
 using std::string;
@@ -56,6 +57,20 @@ inline bool ends_with(string const& s, string const& suffix) {
 inline bool starts_with(string const& s, string const& prefix) {
     return s.substr(0, prefix.size()) == prefix;
 }
+
+// http://lists.debian.org/debian-gcc/2002/debian-gcc-200204/msg00092.html
+inline void downcase_string(string::iterator begin, string::iterator end,
+                            string::iterator src)
+{
+    transform(begin, end, src, (int(*)(int))std::tolower);
+}
+
+inline void downcase_string(string& w)
+{
+    downcase_string(w.begin(), w.end(), w.begin());
+}
+
+
 
 // NOTE: use #include <functional>   to get max,min
 
