@@ -5,7 +5,6 @@ require_once("../inc/util.inc");
 page_head("Getting started");
 
 echo "
-    <h2>Getting started</h2>
     It's easy to participate in ".PROJECT."
     <ul>
     <li> <b>Create an account.</b>
