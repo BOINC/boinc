@@ -362,6 +362,20 @@ void strip_whitespace(string& str) {
     }
 }
 
+bool starts_with(char* str, char* prefix) {
+    if (strstr(str, prefix) == str) return true;
+    return false;
+}
+
+bool ends_with(char* str, char* suffix) {
+    int nsuff = strlen(suffix);
+    int nstr = strlen(str);
+
+    if (nsuff > nstr) return false;
+    if (strcmp(str+nstr-nsuff, suffix)) return false;
+    return true;
+}
+
 void unescape_url(char *url) {
     register int x,y;
 

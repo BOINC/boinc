@@ -26,6 +26,7 @@
 #include "file_names.h"
 #include "filesys.h"
 #include "parse.h"
+#include "util.h"
 #include "client_state.h"
 
 using std::string;
@@ -36,7 +37,7 @@ using std::string;
 //
 int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
     char project_dir[256], *p, *q, result_name[256], fname[256];
-    char* file_contents, path[256];
+    char* file_contents, path[256], newpath[256];
     string fn;
     time_t t;
     int retval;
@@ -44,6 +45,8 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
     get_project_dir(project, project_dir);
     DirScanner ds(project_dir);
 
+    // trickle-up filenames are of the form trickle_up_RESULTNAME_TIME[.sent]
+    //
     while (ds.scan(fn)) {
         strcpy(fname, fn.c_str());
         if (strstr(fname, "trickle_up_") != fname) continue;
@@ -69,11 +72,20 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
             file_contents
         );
         free(file_contents);
+
+        // append .sent to filename, so we'll know which ones to delete later
+        //
+        if (!ends_with(fname, ".sent")) {
+            sprintf(newpath, "%s%s%s.sent", project_dir, PATH_SEPARATOR, fname);
+            boinc_rename(path, newpath);
+        }
     }
     return 0;
 }
 
 // Remove files when ack has been received
+// remove only this ending with ".sent"
+// (others arrived from application while RPC was happening)
 //
 int CLIENT_STATE::remove_trickle_files(PROJECT* project) {
     char project_dir[256], path[256], fname[256];
@@ -84,7 +96,8 @@ int CLIENT_STATE::remove_trickle_files(PROJECT* project) {
 
     while (ds.scan(fn)) {
         strcpy(fname, fn.c_str());
-        if (strstr(fname, "trickle_up") != fname) continue;
+        if (!starts_with(fname, "trickle_up")) continue;
+        if (!ends_with(fname, ".sent")) continue;
         sprintf(path, "%s%s%s", project_dir, PATH_SEPARATOR, fname);
         boinc_delete_file(path);
     }

@@ -67,6 +67,9 @@ inline bool starts_with(std::string const& s, std::string const& prefix) {
     return s.substr(0, prefix.size()) == prefix;
 }
 
+extern bool ends_with(char*, char* suffix);
+extern bool starts_with(char*, char* prefix);
+
 // http://lists.debian.org/debian-gcc/2002/debian-gcc-200204/msg00092.html
 inline void downcase_string(
     std::string::iterator begin, std::string::iterator end, std::string::iterator src
