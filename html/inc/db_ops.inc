@@ -640,7 +640,6 @@ function show_workunit($wu) {
 
     start_table();
     row("Created", time_str($wu->create_time));
-    row("Deadline", time_str($wu->create_time+$wu->delay_bound));
     row("Name", $wu->name);
     row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
     row("Application", "<a href=db_action.php?table=app&id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>");
@@ -654,7 +653,7 @@ function show_workunit($wu) {
             "<a href=db_action.php?table=result&id=$wu->canonical_resultid>".$wu->canonical_resultid."</a>");
     row("Canonical credit", $wu->canonical_credit);
     row("Timeout check time", time_str($wu->timeout_check_time));
-    row("Delay bound", $wu->delay_bound);
+    row("Delay bound", "$wu->delay_bound" . " =  " . time_diff($wu->delay_bound) );
     row("Error mask", wu_error_mask_str($wu->error_mask));
     row("File delete state", file_delete_state_str($wu->file_delete_state));
     row("Assimilation state", assimilate_state_str($wu->assimilate_state));

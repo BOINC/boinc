@@ -162,6 +162,29 @@ function error_page($msg) {
     exit();
 }
 
+// takes argument in second and returns a human formatted time string
+// in the form D days + h Hours + m Min + s sec.
+
+function time_diff($x) {
+	$days    = (int)($x/86400);
+	$hours   = (int)(($x-$days*86400)/3600);
+	$minutes = (int)(($x-$days*86400-$hours*3600)/60);
+	$seconds = (int)($x % 60);
+	
+        $datestring = "";
+	if ($days)
+		$datestring .= "$days days ";
+	if ($hours || strlen($datestring))
+		$datestring .= "$hours hours ";
+	if ($min || strlen($datestring))
+		$datestring .= "$minutes min ";
+	if ($seconds)
+		$datestring .= "$seconds sec";
+
+	return $datestring;
+}
+
+
 function date_str($x) {
     if ($x == 0) return "---";
     // return date("g:i A, l M j", $when);
