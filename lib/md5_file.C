@@ -29,6 +29,10 @@
 #include "md5_file.h"
 #include "error_numbers.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 int md5_file(char* path, char* output, double& nbytes) {
     unsigned char buf[4096];
     unsigned char binout[16];

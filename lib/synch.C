@@ -26,6 +26,10 @@
 #include "error_numbers.h"
 #include "synch.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 union SEMUN {
     int val;
     struct semid_ds *buf;

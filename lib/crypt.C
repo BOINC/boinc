@@ -35,6 +35,10 @@
 
 #include "crypt.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 // NOTE: the fast CGI I/O library doesn't have fscanf(),
 // so some of the following have been modified to use
 // fgets() and sscanf() instead

@@ -43,6 +43,10 @@
 #include "error_numbers.h"
 #include "shmem.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 #ifdef _WIN32
 
 HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp) {
