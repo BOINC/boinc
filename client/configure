@@ -1548,7 +1548,7 @@ EOF
 
 fi
 
-for ac_hdr in fcntl.h malloc.h sys/time.h unistd.h sys/select.h sys/statvfs.h sys/swap.h sys/systeminfo.h sys/socket.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h netinet/tcp.h arpa/inet.h sys/resource.h signal.h sys/wait.h
+for ac_hdr in fcntl.h malloc.h sys/time.h unistd.h sys/select.h sys/statvfs.h sys/swap.h sys/systeminfo.h sys/socket.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h netinet/tcp.h arpa/inet.h sys/resource.h signal.h sys/wait.h sys/mount.h
 do
 ac_safe=`echo "$ac_hdr" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for $ac_hdr""... $ac_c" 1>&6
@@ -1823,93 +1823,8 @@ fi
 done
 
 
-# Extract the first word of "sendmail", so it can be a program name with args.
-set dummy sendmail; ac_word=$2
-echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:1830: checking for $ac_word" >&5
-if eval "test \"`echo '$''{'ac_cv_path_HAVE_SBIN_SENDMAIL'+set}'`\" = set"; then
-  echo $ac_n "(cached) $ac_c" 1>&6
-else
-  case "$HAVE_SBIN_SENDMAIL" in
-  /*)
-  ac_cv_path_HAVE_SBIN_SENDMAIL="$HAVE_SBIN_SENDMAIL" # Let the user override the test with a path.
-  ;;
-  ?:/*)			 
-  ac_cv_path_HAVE_SBIN_SENDMAIL="$HAVE_SBIN_SENDMAIL" # Let the user override the test with a dos path.
-  ;;
-  *)
-  IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS=":"
-  ac_dummy="/usr/sbin"
-  for ac_dir in $ac_dummy; do 
-    test -z "$ac_dir" && ac_dir=.
-    if test -f $ac_dir/$ac_word; then
-      ac_cv_path_HAVE_SBIN_SENDMAIL="$ac_dir/$ac_word"
-      break
-    fi
-  done
-  IFS="$ac_save_ifs"
-  test -z "$ac_cv_path_HAVE_SBIN_SENDMAIL" && ac_cv_path_HAVE_SBIN_SENDMAIL="0"
-  ;;
-esac
-fi
-HAVE_SBIN_SENDMAIL="$ac_cv_path_HAVE_SBIN_SENDMAIL"
-if test -n "$HAVE_SBIN_SENDMAIL"; then
-  echo "$ac_t""$HAVE_SBIN_SENDMAIL" 1>&6
-else
-  echo "$ac_t""no" 1>&6
-fi
- 
-# Extract the first word of "sendmail", so it can be a program name with args.
-set dummy sendmail; ac_word=$2
-echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:1866: checking for $ac_word" >&5
-if eval "test \"`echo '$''{'ac_cv_path_HAVE_LIB_SENDMAIL'+set}'`\" = set"; then
-  echo $ac_n "(cached) $ac_c" 1>&6
-else
-  case "$HAVE_LIB_SENDMAIL" in
-  /*)
-  ac_cv_path_HAVE_LIB_SENDMAIL="$HAVE_LIB_SENDMAIL" # Let the user override the test with a path.
-  ;;
-  ?:/*)			 
-  ac_cv_path_HAVE_LIB_SENDMAIL="$HAVE_LIB_SENDMAIL" # Let the user override the test with a dos path.
-  ;;
-  *)
-  IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS=":"
-  ac_dummy="/usr/lib"
-  for ac_dir in $ac_dummy; do 
-    test -z "$ac_dir" && ac_dir=.
-    if test -f $ac_dir/$ac_word; then
-      ac_cv_path_HAVE_LIB_SENDMAIL="$ac_dir/$ac_word"
-      break
-    fi
-  done
-  IFS="$ac_save_ifs"
-  test -z "$ac_cv_path_HAVE_LIB_SENDMAIL" && ac_cv_path_HAVE_LIB_SENDMAIL="0"
-  ;;
-esac
-fi
-HAVE_LIB_SENDMAIL="$ac_cv_path_HAVE_LIB_SENDMAIL"
-if test -n "$HAVE_LIB_SENDMAIL"; then
-  echo "$ac_t""$HAVE_LIB_SENDMAIL" 1>&6
-else
-  echo "$ac_t""no" 1>&6
-fi
- 
-if test "$ac_cv_path_HAVE_SBIN_SENDMAIL" = /usr/sbin/sendmail; then 
-cat >> confdefs.h <<\EOF
-#define HAVE_SBIN_SENDMAIL 1
-EOF
- 
-fi 
-if test "$ac_cv_path_HAVE_LIB_SENDMAIL" = /usr/lib/sendmail; then 
-cat >> confdefs.h <<\EOF
-#define HAVE_LIB_SENDMAIL 1
-EOF
- 
-fi 
-
 cat > conftest.$ac_ext <<EOF
-#line 1913 "configure"
+#line 1828 "configure"
 #include "confdefs.h"
 #ifdef __APPLE__
   yes
@@ -2089,8 +2004,6 @@ s%@build_os@%$build_os%g
 s%@CC@%$CC%g
 s%@CPP@%$CPP%g
 s%@RANLIB@%$RANLIB%g
-s%@HAVE_SBIN_SENDMAIL@%$HAVE_SBIN_SENDMAIL%g
-s%@HAVE_LIB_SENDMAIL@%$HAVE_LIB_SENDMAIL%g
 
 CEOF
 EOF

@@ -38,7 +38,7 @@ AC_CHECK_LIB(stdc++, main)
 dnl Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STDC
-AC_CHECK_HEADERS(fcntl.h malloc.h sys/time.h unistd.h sys/select.h sys/statvfs.h sys/swap.h sys/systeminfo.h sys/socket.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h netinet/tcp.h arpa/inet.h sys/resource.h signal.h sys/wait.h)
+AC_CHECK_HEADERS(fcntl.h malloc.h sys/time.h unistd.h sys/select.h sys/statvfs.h sys/swap.h sys/systeminfo.h sys/socket.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h netinet/tcp.h arpa/inet.h sys/resource.h signal.h sys/wait.h sys/mount.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -48,15 +48,6 @@ AC_STRUCT_TM
 
 dnl Checks for library functions.
 AC_CHECK_FUNCS(select socket strstr lockf flock strftime)
-
-AC_PATH_PROG(HAVE_SBIN_SENDMAIL, sendmail, 0, /usr/sbin) 
-AC_PATH_PROG(HAVE_LIB_SENDMAIL, sendmail, 0, /usr/lib) 
-if test "$ac_cv_path_HAVE_SBIN_SENDMAIL" = /usr/sbin/sendmail; then 
-AC_DEFINE(HAVE_SBIN_SENDMAIL) 
-fi 
-if test "$ac_cv_path_HAVE_LIB_SENDMAIL" = /usr/lib/sendmail; then 
-AC_DEFINE(HAVE_LIB_SENDMAIL) 
-fi 
 
 AC_EGREP_CPP(yes,
 [#ifdef __APPLE__
