@@ -1,5 +1,4 @@
 ;; -*- tab-width: 4 -*-
-
 David A.        April 10 2002
     Initial checkin of all files.
     The system is fairly feature-complete and
@@ -10548,6 +10547,10 @@ Rom    Mar 16 2004
     client/win/
         wingui_mainwindow.cpp
 
+kevin 17 March 2004
+	checked in signal handling code.  Uses sigaction.  If signal is
+	originally ignored, do not handle signals.
+
 David  Mar 18 2004
     - Remove "confirm executables" preference.
         This is replaced by the anonymous platform mechanism.
@@ -10561,3 +10564,9 @@ David  Mar 18 2004
         prefs.C,h
     html/inc/
         prefs.inc
+
+kevin 18 March 2004
+	* client/app.C:
+	exit status of application set to nonzero value if there is an
+	uncaught signal.
+
