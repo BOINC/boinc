@@ -60,7 +60,8 @@
 #include "filesys.h"
 
 #ifdef HAVE_DIRENT_H
-DIR* dirp;
+DIR **dirp = NULL;
+int cur_dirp = 0;
 #endif
 
 #ifdef _WIN32
@@ -80,8 +81,8 @@ int dir_open(char* p) {
         return ERR_NULL;
     }
 #ifdef HAVE_DIRENT_H
-    dirp = opendir(p);
-    if (!dirp) return ERR_OPENDIR;
+    dirp[cur_dirp] = opendir(p);
+    if (!dirp[cur_dirp]) return ERR_OPENDIR;
 #endif
 #ifdef _WIN32
     strcpy(path, p);
@@ -103,16 +104,18 @@ int dir_scan(char* p) {
         fprintf(stderr, "error: dir_scan: unexpected NULL pointer p\n");
         return ERR_NULL;
     }
+    if( !dirp[cur_dirp] )
+        return -1;
 #ifdef HAVE_DIRENT_H
     while (1) {
-	dirent* dp = readdir(dirp);
+	dirent* dp = readdir(dirp[cur_dirp]);
 	if (dp) {
 	    if (dp->d_name[0] == '.') continue;
 	    if (p) strcpy(p, dp->d_name);
 	    return 0;
 	} else {
-	    closedir(dirp);
-	    dirp = 0;
+	    closedir(dirp[cur_dirp]);
+	    dirp[cur_dirp] = 0;
 	    return -1;
 	}
     }
@@ -153,9 +156,9 @@ int dir_scan(char* p) {
 //
 void dir_close() {
 #ifdef HAVE_DIRENT_H
-    if (dirp) {
-	closedir(dirp);
-	dirp = 0;
+    if (dirp[cur_dirp]) {
+	closedir(dirp[cur_dirp]);
+	dirp[cur_dirp] = 0;
     }
 #endif
 #ifdef _WIN32
@@ -253,4 +256,40 @@ int clean_out_dir(char* dirpath) {
     }
     dir_close();
     return 0;
+}
+
+// Goes recursively through directory specified by dirpath and returns the
+// total size of files in it and its subdirectories
+//
+double dir_size(char* dirpath) {
+    char filename[256], *path;
+    int retval,temp;
+    double cur_size = 0;
+
+    if( dirp == NULL )
+        dirp = (DIR **)malloc( 256*sizeof( DIR * ) );
+
+    if(dirpath==NULL) {
+        fprintf(stderr, "error: dir_size: unexpected NULL pointer dirpath\n");
+        return ERR_NULL;
+    }
+    path = (char *)malloc( 256*sizeof( char ) );
+    retval = dir_open(dirpath);
+    if (retval) return 0;
+    while (1) {
+        retval = dir_scan(filename);
+        if (retval) break;
+        sprintf(path, "%s/%s", dirpath, filename);
+        cur_dirp++;
+        cur_size += dir_size( path );
+        cur_dirp--;
+        retval = file_size(path,temp);
+        if (retval) {
+            dir_close();
+            return cur_size;
+        }
+        cur_size += temp;
+    }
+    dir_close();
+    return cur_size;
 }

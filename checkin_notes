@@ -1335,3 +1335,13 @@ David   July 28 2002
         Makefile.in
         add.C
         backend_lib.C
+
+Eric Heien  July 29 2002
+    - Added code to determine the amount of disk space being
+        used by BOINC, by recursively descending through the
+        root directory.  Still needs to be ported to Windows.
+
+    client/
+        filesys.C
+        filesys.h
+
