@@ -187,7 +187,7 @@ function team_edit_form($team, $label, $url) {
         <br><font size=2>
         You may include HTML formatting, link, and image tags.
         If you don't know HTML, just leave this box blank.",
-        "<input name=name_html type=text size=50 value='$team->name_html'>"
+        "<input name=name_html type=text size=50 value=\"$team->name_html\">"
     );
     row2("URL of team web page, if any:<br><font size=2>(without \"http://\")
         This URL will be linked to from the team's page on this site.",
