@@ -94,8 +94,8 @@ function time_str($x) {
     return strftime("%T %b %e, %Y", $x);
 }
 
-function start_table() {
-    echo "<table border=1 cellpadding=5>";
+function start_table($width="") {
+    echo "<table $width border=1 cellpadding=5>";
 }
 
 function end_table() {

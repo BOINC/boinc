@@ -24,7 +24,7 @@ function project_banner($user) {
     } else {
         echo "<br>";
     }
-    echo "</td></tr></table><hr>\n";
+    echo "</td></tr></table><br>\n";
 }
 
 ?>

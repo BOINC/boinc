@@ -11,14 +11,14 @@ db_init();
 
 echo "<p>".PROJECT." participants may form <b>teams</b>.
     <p>
-    You may belong to at most one team.
+    You may belong to only one team.
     You can join or quit a team at any time.
     <p>
     Each team has a <b>founder</b>, who may
     <ul>
     <li> access team members' email addresses.
-    <li> edit the team's name, description, etc.
-    <li> remove members from the team.
+    <li> edit the team's name and description,
+    <li> remove members from the team, and
     <li> disband a team if it has no members.
     </ul>
     <p>

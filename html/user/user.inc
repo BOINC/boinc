@@ -3,7 +3,7 @@
 // show dynamic user info (private)
 //
 function show_user_stats_private($user) {
-    row1("Your account statistics");
+    row1("Account statistics");
     row2(PROJECT." member since", time_str($user->create_time));
     row2("Total credit", $user->total_credit);
     row2("Recent average credit", $user->expavg_credit);
@@ -25,19 +25,23 @@ function show_user_profile_private($user) {
     } else {
         $email_text = "Verification pending";
     }
-    row1("Your account information");
+    row1("Account information");
     row2("Email address<br>
         <font size=-1><a href=edit_email_form.php>Edit</a></font>",
         $email_text
     );
     row2("Name", $user->name);
-    row2("URL", "http://$user->url");
+    if (strlen($user->url)) {
+        row2("URL", "http://$user->url");
+    } else {
+        row2("URL", "");
+    }
     row2("Country", $user->country);
     row2("Postal code", $user->postal_code);
     row2("", "<a href=edit_user_info_form.php>Edit account info</a>");
-    row1("Your preferences");
-    row2("General", "<a href=prefs.php?subset=global>View/edit</a>");
-    row2(PROJECT, "<a href=prefs.php?subset=project>View/edit</a>");
+    row1("Preferences");
+    row2("General", "<a href=prefs.php?subset=global>View</a>");
+    row2(PROJECT, "<a href=prefs.php?subset=project>View</a>");
 }
 
 // show summary of dynamic and static info (public)
@@ -69,7 +73,7 @@ function show_user_summary_public($user) {
 // it has info that other users aren't supposed to see
 
 function show_user_page_private($user) {
-    start_table();
+    start_table("width=100%");
     show_user_profile_private($user);
     show_user_stats_private($user);
     end_table();
@@ -77,7 +81,7 @@ function show_user_page_private($user) {
 }
 
 function user_table_start() {
-    start_table();
+    start_table("width=100%");
     echo "
         <tr>
         <th>Name</th>
