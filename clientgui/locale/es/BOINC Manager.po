@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2004-12-28 22:16+0100\n"
+"PO-Revision-Date: 2004-12-30 22:22+0100\n"
 "Last-Translator: Alex <alex.covarrubias@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -132,7 +132,7 @@ msgstr "Conectar vía servidor proxy SOCKS"
 
 #: clientgui/DlgOptions.cpp:177
 msgid "SOCKS Proxy Server Configuration"
-msgstr "Configuración servidor proxy SOCKS"
+msgstr "Configuración Servidor Proxy SOCKS"
 
 #: clientgui/DlgOptions.cpp:225
 msgid "SOCKS Proxy"
@@ -168,7 +168,7 @@ msgstr "Detiene el trabajo sin tener en cuenta sus preferencias"
 
 #: clientgui/MainFrame.cpp:195
 msgid "&Disable BOINC Network Access"
-msgstr "&Desactiva el acceso a la red de BOINC"
+msgstr "&Desactivar el acceso a la red de BOINC"
 
 #: clientgui/MainFrame.cpp:196
 msgid "Stops BOINC network activity"
@@ -176,11 +176,11 @@ msgstr "Detiene la actividad de red de BOINC"
 
 #: clientgui/MainFrame.cpp:203
 msgid "Run &Benchmarks"
-msgstr "Ejecuta &Pruebas de rendimiento"
+msgstr "Ejecutar &Pruebas de rendimiento"
 
 #: clientgui/MainFrame.cpp:204
 msgid "Runs BOINC CPU benchmarks"
-msgstr "Ejecuta las pruebas de rendimiento de BOINC"
+msgstr "Ejecutar las pruebas de rendimiento de BOINC"
 
 #: clientgui/MainFrame.cpp:211
 msgid "Select Computer..."
@@ -325,7 +325,7 @@ msgstr "Haga click en un proyecto para ver opciones adicionales."
 
 #: clientgui/ViewProjects.cpp:216
 msgid "<b>Attach to new project</b><br>Attach this computer to a BOINC project.  You'll need a project URL and account key (visit the project's web site to get these)."
-msgstr "<b>Unirse a un nuevo proyecto</b><br>Unir este ordenador a un proyecto BOINC. Necesitará la URL del proyecto y una clave de cuenta (visite la página web del proyecto para conseguirlas)."
+msgstr "<b>Unirse a un proyecto nuevo</b><br>Unir este ordenador a un proyecto BOINC. Necesitará la URL del proyecto y una clave de cuenta (visite la página web del proyecto para conseguirlas)."
 
 #: clientgui/ViewProjects.cpp:223
 msgid "<b>Detach from project</b><br>Detach this computer from this project.  Work in progress will be lost. You can update the project first to report any completed work."
@@ -442,7 +442,7 @@ msgstr "Proyecto suspendido"
 #: clientgui/ViewProjects.cpp:910
 #: clientgui/ViewTransfers.cpp:759
 msgid "Retry in "
-msgstr "Reintentar en"
+msgstr "Reintentar en "
 
 #: clientgui/ViewResources.cpp:120
 msgid "No available options currently defined."
