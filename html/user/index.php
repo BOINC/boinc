@@ -38,7 +38,13 @@ and give it your account key.
 <li><a href=top_teams.php>Top teams</a>
 </ul>
 
+<!--
 <?php
 include 'FILE_NAME';
+?>
+-->
+
+<?php
     page_tail();
 ?>
+
