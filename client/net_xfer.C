@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <string.h>
 
 #include "error_numbers.h"
 #include "log_flags.h"
