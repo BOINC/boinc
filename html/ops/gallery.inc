@@ -238,13 +238,13 @@ function build_country_summary_page($countryMembers) {
 }
 
 function build_alpha_summary_page($characters) {
-    // OK, so it's not quite the alphabet- whatever.
+    // OK, so it's not quite the alphabet- alphanumerabet is a bad variable name.
     $alphabet = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9');
     
     $filename = "../html_user/profile_alpha.html";
     $descriptor = fopen($filename, "w");
     
-    // TODO: Add "other" to handle non-alphanumeric first characters.
+    // TODO: Add "Other" to handle non-alphanumeric first characters.  Will involve removing elements from $characters as we finish them.
     
     foreach ($alphabet as $character) {
         if (in_array($character, $characters)) {
@@ -254,6 +254,7 @@ function build_alpha_summary_page($characters) {
             fwrite($descriptor, "$character ");
         }
     }
+    fclose($descriptor);
 }
 
 
