@@ -48,15 +48,17 @@ using namespace std;
 //
 bool wu_is_feasible(WORKUNIT& wu, HOST& host) {
     if(host.d_free && wu.rsc_disk > host.d_free) {
-        log_messages.printf(SchedMessages::DEBUG, "[WU#%d] needs %f disk; HOST#%d has %f\n",
-                  wu.id, wu.rsc_disk, host.id, host.d_free
-            );
+        log_messages.printf(
+            SchedMessages::DEBUG, "[WU#%d] needs %f disk; HOST#%d has %f\n",
+            wu.id, wu.rsc_disk, host.id, host.d_free
+        );
         return false;
     }
     if (host.m_nbytes && wu.rsc_memory > host.m_nbytes) {
-        log_messages.printf(SchedMessages::DEBUG, "WU#%d needs %f mem; HOST#%d has %f\n",
-                  wu.id, wu.rsc_memory, host.id, host.m_nbytes
-            );
+        log_messages.printf(
+            SchedMessages::DEBUG, "WU#%d needs %f mem; HOST#%d has %f\n",
+            wu.id, wu.rsc_memory, host.id, host.m_nbytes
+        );
         return false;
     }
     return true;
@@ -196,16 +198,18 @@ int add_wu_to_reply(
 
     app = ss.lookup_app(wu.appid);
     if (!app) {
-        log_messages.printf(SchedMessages::CRITICAL, "Can't find APP#%d\n",
-                            wu.appid);
+        log_messages.printf(
+            SchedMessages::CRITICAL, "Can't find APP#%d\n", wu.appid
+        );
         return -1;
     }
     avp = ss.lookup_app_version(app->id, platform.id, app->min_version);
     if (!avp) {
-        log_messages.printf(SchedMessages::CRITICAL,
-                            "Can't find app version: APP#%d PLATFORM#%d min_version %d\n",
-                            app->id, platform.id, app->min_version
-            );
+        log_messages.printf(
+            SchedMessages::CRITICAL,
+            "Can't find app version: APP#%d PLATFORM#%d min_version %d\n",
+            app->id, platform.id, app->min_version
+        );
         return -1;
     }
 
@@ -255,7 +259,11 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (retval) {
             strcpy(reply.message, "Can't find host record");
             strcpy(reply.message_priority, "low");
-            log_messages.printf(SchedMessages::NORMAL, "[HOST#%d?] can't find host\n", sreq.hostid);
+            log_messages.printf(
+                SchedMessages::NORMAL,
+                "[HOST#%d?] can't find host\n",
+                sreq.hostid
+            );
             sreq.hostid = 0;
             goto new_host;
         }
@@ -267,7 +275,11 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
             reply.nucleus_only = true;
-            log_messages.printf(SchedMessages::NORMAL, "[HOST#%d] [USER#%d?] can't find user record\n", host.id, reply.host.userid);
+            log_messages.printf(
+                SchedMessages::NORMAL,
+                "[HOST#%d] [USER#%d?] can't find user record\n",
+                host.id, reply.host.userid
+            );
             return -1;
         }
         reply.user = user;
@@ -279,8 +291,11 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
             reply.nucleus_only = true;
-            log_messages.printf(SchedMessages::CRITICAL, "[HOST#%d] [USER#%d] Bad authenticator '%s'\n",
-                                host.id, user.id, sreq.authenticator);
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "[HOST#%d] [USER#%d] Bad authenticator '%s'\n",
+                host.id, user.id, sreq.authenticator
+            );
             return -1;
         }
 
@@ -309,7 +324,11 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
-            log_messages.printf(SchedMessages::CRITICAL, "[HOST#<none>] Bad authenticator '%s'\n", sreq.authenticator);
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "[HOST#<none>] Bad authenticator '%s'\n",
+                sreq.authenticator
+            );
             return -1;
         }
         reply.user = user;
@@ -455,22 +474,29 @@ int handle_results(
         //
         reply.result_acks.push_back(*rp);
 
-        log_messages.printf(SchedMessages::NORMAL, "[HOST#%d] [RESULT#? %s] got result\n",
-                            host.id, rp->name);
+        log_messages.printf(
+            SchedMessages::NORMAL, "[HOST#%d] [%s] got result\n",
+            host.id, rp->name
+        );
 
         strncpy(result.name, rp->name, sizeof(result.name));
         sprintf(buf, "where name='%s'", result.name);
         retval = result.lookup(buf);
         if (retval) {
-            log_messages.printf(SchedMessages::CRITICAL, "[HOST#%d] [RESULT#? %s] can't find result\n",
-                                host.id, rp->name);
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "[HOST#%d] [RESULT#? %s] can't find result\n",
+                host.id, rp->name
+            );
             continue;
         }
 
         if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
-            log_messages.printf(SchedMessages::CRITICAL,
-                                "[HOST#%d] [RESULT#%d %s] got unexpected result: server state is %d\n",
-                                host.id, result.id, result.name, result.server_state);
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "[HOST#%d] [RESULT#%d %s] got unexpected result: server state is %d\n",
+                host.id, result.id, result.name, result.server_state
+            );
             continue;
         }
         if (result.server_state == RESULT_SERVER_STATE_OVER) {
@@ -478,9 +504,11 @@ int handle_results(
         }
 
         if (result.hostid != sreq.hostid) {
-            log_messages.printf(SchedMessages::CRITICAL,
-                                "[HOST#%d] [RESULT#%d %s] got result from wrong host; expected [HOST#%d]\n",
-                                host.id, result.id, result.name, result.hostid);
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "[HOST#%d] [RESULT#%d %s] got result from wrong host; expected [HOST#%d]\n",
+                host.id, result.id, result.name, result.hostid
+            );
             continue;
         }
 
@@ -496,16 +524,20 @@ int handle_results(
             result.outcome = RESULT_OUTCOME_SUCCESS;
             retval = wu.lookup_id(result.workunitid);
             if (retval) {
-                log_messages.printf(SchedMessages::CRITICAL,
-                                    "[HOST#%d] [RESULT#%d %s] Can't find [WU#%d] for result\n",
-                                    host.id, result.id, result.name, result.workunitid);
+                log_messages.printf(
+                    SchedMessages::CRITICAL,
+                    "[HOST#%d] [RESULT#%d %s] Can't find [WU#%d] for result\n",
+                    host.id, result.id, result.name, result.workunitid
+                );
             } else {
                 wu.need_validate = 1;
                 retval = wu.update();
                 if (retval) {
-                    log_messages.printf(SchedMessages::CRITICAL,
-                                        "[HOST#%d] [RESULT#%d %s] Can't update [WU#%d %s]\n",
-                                        host.id, result.id, result.name, wu.id, wu.name);
+                    log_messages.printf(
+                        SchedMessages::CRITICAL,
+                        "[HOST#%d] [RESULT#%d %s] Can't update [WU#%d %s]\n",
+                        host.id, result.id, result.name, wu.id, wu.name
+                    );
                 }
             }
         } else {
@@ -517,9 +549,11 @@ int handle_results(
         strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
         retval = result.update();
         if (retval) {
-            log_messages.printf(SchedMessages::NORMAL,
-                                "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
-                                host.id, result.id, result.name, boinc_db_error_string());
+            log_messages.printf(
+                SchedMessages::NORMAL,
+                "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
+                host.id, result.id, result.name, boinc_db_error_string()
+            );
         }
 
     }
@@ -569,8 +603,10 @@ int send_work(
         }
         wu = ss.wu_results[i].workunit;
         if (!wu_is_feasible(wu, reply.host)) {
-            log_messages.printf(SchedMessages::DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
-                                reply.host.id, wu.id, wu.name);
+            log_messages.printf(
+                SchedMessages::DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
+                reply.host.id, wu.id, wu.name
+            );
             continue;
         }
 
@@ -582,9 +618,11 @@ int send_work(
         );
         if (retval) continue;
 
-        log_messages.printf(SchedMessages::NORMAL,
-                            "[HOST#%d] Sending [RESULT#%d %s]\n",
-                            reply.host.id, result.id, result.name);
+        log_messages.printf(
+            SchedMessages::NORMAL,
+            "[HOST#%d] Sending [RESULT#%d %s]\n",
+            reply.host.id, result.id, result.name
+        );
 
         // copy the result so we don't overwrite its XML fields
         //
@@ -608,16 +646,20 @@ int send_work(
         if (nresults == MAX_WUS_TO_SEND) break;
     }
 
-    log_messages.printf(SchedMessages::NORMAL, "[HOST#%d] Sent %d results\n",
-                        reply.host.id, nresults);
+    log_messages.printf(
+        SchedMessages::NORMAL, "[HOST#%d] Sent %d results\n",
+        reply.host.id, nresults
+    );
 
     if (nresults == 0) {
         strcpy(reply.message, "no work available");
         strcpy(reply.message_priority, "low");
         reply.request_delay = 10;
 
-        log_messages.printf(SchedMessages::NORMAL, "[HOST#%d] No work available\n",
-                            reply.host.id);
+        log_messages.printf(
+            SchedMessages::NORMAL, "[HOST#%d] No work available\n",
+            reply.host.id
+        );
     }
     return 0;
 }
@@ -684,10 +726,12 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             sreq.core_client_major_version
         );
         strcpy(reply.message_priority, "low");
-        log_messages.printf(SchedMessages::NORMAL,
-                            "[HOST#%d] Wrong major version '%s' from user: wanted %d, got %d\n",
-                            reply.host.id,
-                            sreq.authenticator, MAJOR_VERSION, sreq.core_client_major_version);
+        log_messages.printf(
+            SchedMessages::NORMAL,
+            "[HOST#%d] Wrong major version '%s' from user: wanted %d, got %d\n",
+            reply.host.id,
+            sreq.authenticator, MAJOR_VERSION, sreq.core_client_major_version
+        );
         return true;
     }
     return false;
@@ -715,8 +759,10 @@ void process_request(
     if (!platform) {
         sprintf(reply.message, "platform '%s' not found\n", sreq.platform_name);
         strcpy(reply.message_priority, "low");
-        log_messages.printf(SchedMessages::CRITICAL, "[HOST#%d] platform '%s' not found\n",
-                            reply.host.id, sreq.platform_name);
+        log_messages.printf(
+            SchedMessages::CRITICAL, "[HOST#%d] platform '%s' not found\n",
+            reply.host.id, sreq.platform_name
+        );
         return;
     }
 
@@ -740,8 +786,10 @@ void handle_request(
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
 
-    log_messages.printf(SchedMessages::NORMAL, "Handling request from %s\n",
-                        get_remote_addr());
+    log_messages.printf(
+        SchedMessages::NORMAL, "Handling request from %s\n",
+        get_remote_addr()
+    );
     ++log_messages;
     memset(&sreq, 0, sizeof(sreq));
     sreq.parse(fin);
