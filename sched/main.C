@@ -29,10 +29,13 @@
 #include "handle_request.h"
 #include "main.h"
 
+#if 0
 #define REQ_FILE_PREFIX "/tmp/boinc_req_"
 #define REPLY_FILE_PREFIX "/tmp/boinc_reply_"
-//#define REQ_FILE_PREFIX "/disks/milkyway/a/users/anderson/boinc_cvs/boinc/sched/boinc_req_"
-//#define REPLY_FILE_PREFIX "/disks/milkyway/a/users/anderson/boinc_cvs/boinc/sched/boinc_reply_"
+#else
+#define REQ_FILE_PREFIX "/disks/milkyway/a/users/anderson/boinc_cvs/boinc/sched/boinc_req_"
+#define REPLY_FILE_PREFIX "/disks/milkyway/a/users/anderson/boinc_cvs/boinc/sched/boinc_reply_"
+#endif
 
 PROJECT gproject;
 

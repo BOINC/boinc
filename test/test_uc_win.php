@@ -7,8 +7,13 @@
 
     check_env_vars();
     clear_db();
-    clear_data_dirs();
-    create_keys();
+    if (true) {
+        clear_server_dirs(false);
+    } else {
+        clear_server_dirs(true);
+        create_keys();
+    }
+    clear_client_dirs();
     init_client_dirs("prefs1.xml");
     copy_to_download_dir("input");
     add_project("Test Project");

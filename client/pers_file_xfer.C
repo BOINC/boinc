@@ -86,8 +86,8 @@ bool PERS_FILE_XFER::start_xfer() {
         fxp = file_xfer;
         if (log_flags.file_xfer) {
             printf(
-                "started %s of %s\n",
-                (is_upload ? "upload" : "download"), fip->get_url()
+                "started %s of %s to %s\n",
+                (is_upload ? "upload" : "download"), fip->name, fip->get_url()
             );
         }
         return true;

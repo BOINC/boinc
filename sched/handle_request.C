@@ -31,6 +31,7 @@
 
 #define MIN_SECONDS_TO_SEND 0
 #define MAX_SECONDS_TO_SEND 2419200 //4 weeks
+#define MAX_WUS_TO_SEND     2
 
 // return true if the WU can be executed on the host
 //
@@ -197,7 +198,7 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
     host.n_bwdown = sreq.host.n_bwdown;
     retval = db_host_update(host);
     if (retval) {
-        fprintf(stderr, "db_host_update: %d\n", retval);
+        fprintf(stderr, "sched (%s): db_host_update: %d\n", BOINC_USER, retval);
     }
     return 0;
 }
@@ -237,7 +238,10 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             printf("can't find result %s\n", rp->name);
         } else {
             if (result.state != RESULT_STATE_IN_PROGRESS) {
-                fprintf(stderr, "got unexpected result for %s\n", rp->name);
+                fprintf(stderr,
+                    "got unexpected result for %s: state is %d\n",
+                    rp->name, result.state
+                );
                 continue;
             }
 
@@ -312,7 +316,6 @@ int send_work(
         if (retval) continue;
         reply.insert_result(result);
         seconds_to_fill -= (int)estimate_duration(wu, reply.host);
-        nresults++;
 
         result.state = RESULT_STATE_IN_PROGRESS;
         result.hostid = reply.host.id;
@@ -321,6 +324,9 @@ int send_work(
 
         wu.nresults_unsent--;
         db_workunit_update(wu);
+
+        nresults++;
+        if (nresults == MAX_WUS_TO_SEND) break;
     }
 
 #if 0
@@ -376,6 +382,7 @@ void send_code_sign_key(
 
     if (sreq.code_sign_key) {
         if (strcmp(sreq.code_sign_key, code_sign_key)) {
+            fprintf(stderr, "received old code sign key\n");
             // look for a signature file
             //
             for (i=0; ; i++) {
@@ -406,6 +413,7 @@ void send_code_sign_key(
             }
         }
     } else {
+        fprintf(stderr, "%d: didn't get code sign key, sending one\n", getpid());
         reply.code_sign_key = strdup(code_sign_key);
     }
 }

@@ -5,7 +5,7 @@
 
 int main() {
     SCHED_SHMEM* ssp;
-    int retval;
+    int retval, i;
     void* p;
 
     retval = attach_shmem(BOINC_SHMEM_KEY, &p);
@@ -16,4 +16,7 @@ int main() {
     ssp = (SCHED_SHMEM*)p;
     retval = ssp->verify();
     printf("ready: %d\n", ssp->ready);
+    for (i=0; i<ssp->max_wu_results; i++) {
+        printf("%d. %s\n", i, ssp->wu_results[i].present?"present":"absent");
+    }
 }
