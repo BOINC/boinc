@@ -69,9 +69,12 @@ THINGS TO TEST (preferably with test scripts)
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
+user profiles on web (borrow logic from SETI@home)
+
 Devise system for porting applications
     password-protected web-based interface for
     uploading app versions and adding them to DB
+    XXX should do this manually since need to sign
 
 Figure out how to support people with computers at home/work
     with different preferences.
@@ -182,6 +185,7 @@ prevent file_xfer->req1 from overflowing. This problems seems to be
 test HTTP redirect mechanism for all types of ops
 
 Add batch features to ops web
+
 -----------------------
 LONG-TERM IDEAS AND PROJECTS
 -----------------------

@@ -3029,3 +3029,17 @@ David  Jan 22 2003
     tools/
         backend_lib.C
         create_work.C
+
+David   Jan 29 2003
+    - updated country-name list according to CIA site
+    - added program to generate XML stats files
+    - added classes to assist double-buffered graphics info for applications
+
+    api/
+        graphics_data.C,h (new)
+        Makefile.in
+    lib/
+        countries.C
+    sched/
+        db_dump.C (new)
+        Makefile.in

@@ -18,7 +18,7 @@ CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
 
-PROGS = cgi feeder show_shmem file_upload_handler validate_test make_work result_retry file_deleter assimilator
+PROGS = cgi feeder show_shmem file_upload_handler validate_test make_work result_retry file_deleter assimilator db_dump
 
 all: $(PROGS)
 
@@ -109,6 +109,11 @@ RESULT_RETRY_OBJS = \
     ../tools/process_result_template.o \
     ../RSAEuro/source/rsaeuro.a
 
+DB_DUMP_OBJS = \
+    ../db/db_mysql.fcgi.o \
+    ../db/mysql_util.fcgi.o \
+    db_dump.o
+    
 FCGI_OBJS = \
     handle_request.fcgi.o \
     main.fcgi.o \

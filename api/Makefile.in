@@ -18,7 +18,7 @@ CLIBS = @LIBS@
 PROGS = api_app api_test
 
 #all: $(PROGS)
-all: mfile.o boinc_api.o graphics_api.o
+all: mfile.o boinc_api.o graphics_api.o graphics_data.o
 
 APP_OBJS = \
     api_app.o \
