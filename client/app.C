@@ -266,12 +266,10 @@ int ACTIVE_TASK::start(bool first_time) {
 
     fclose(f);
 
-    sprintf(temp, "%s%s%s", slot_dir, PATH_SEPARATOR, QUIT_FILE);
-    file_delete(temp);
-
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
+    SECURITY_ATTRIBUTES quit_handle_attrs;
     char slotdirpath[256];
     char cmd_line[512];
     int win_error;
@@ -282,6 +280,11 @@ int ACTIVE_TASK::start(bool first_time) {
     startup_info.lpReserved = NULL;
     startup_info.lpDesktop = "";
 
+    quit_handle_attrs.nLength = sizeof(SECURITY_ATTRIBUTES);
+    quit_handle_attrs.lpSecurityDescriptor = NULL;
+    quit_handle_attrs.bInheritHandle = TRUE;
+    quitRequestEvent = CreateEvent( &quit_handle_attrs, FALSE, FALSE, 
+    
     // NOTE: in Windows, stderr is redirected within boinc_init();
 
     sprintf( cmd_line, "%s %s", exec_path, wup->command_line );
@@ -360,23 +363,16 @@ int ACTIVE_TASK::start(bool first_time) {
 // If it doesn't exit within a set time (seconds), the process is terminated
 //
 int ACTIVE_TASK::request_exit() {
-    char quit_file[256];
-    int retval;
-
-    get_slot_dir(slot, slot_dir);
-    sprintf(quit_file, "%s%s%s", slot_dir, PATH_SEPARATOR, QUIT_FILE);
-    FILE *fp = fopen(quit_file, "w");
-    if (!fp) return ERR_FOPEN;
-    retval = write_quit_file(fp);
-    fclose(fp);
-    if (retval) return retval;
-    return 0;
+#ifdef _WIN32
+    return !SetEvent(quitRequestEvent);
+#else
+    return kill(pid, SIGQUIT);
+#endif
 }
 
 int ACTIVE_TASK::kill_task() {
 #ifdef _WIN32
-    TerminateProcess(pid_handle, -1);
-    return 0;
+    return !TerminateProcess(pid_handle, -1);
 #else
     return kill(pid, SIGKILL);
 #endif
@@ -464,6 +460,7 @@ bool ACTIVE_TASK_SET::poll() {
                 }
                 CloseHandle(atp->pid_handle);
                 CloseHandle(atp->thread_handle);
+                CloseHandle(atp->quitRequestEvent);
                 atp->read_stderr_file();
                 clean_out_dir(atp->slot_dir);
             }

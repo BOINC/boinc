@@ -84,15 +84,12 @@ int write_fd_init_file(FILE*, char*, int, int);
 int parse_fd_init_file(FILE*);
 int write_fraction_done_file(double, double, double);
 int parse_fraction_done_file(FILE*, double&, double&, double&);
-int write_quit_file(FILE* f);
-int parse_quit_file(FILE* f, bool& quit);
 
 #define INIT_DATA_FILE    "init_data.xml"
 #define GRAPHICS_DATA_FILE    "graphics.xml"
 #define FD_INIT_FILE    "fd_init.xml"
 #define FRACTION_DONE_FILE  "fraction_done.xml"
 #define FRACTION_DONE_TEMP_FILE  "fraction_done.tmp"
-#define QUIT_FILE  "quit.xml"
 #define STDERR_FILE             "stderr.txt"
 
 int set_timer(double period);

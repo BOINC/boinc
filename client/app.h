@@ -54,7 +54,7 @@ typedef int PROCESS_ID;
 class ACTIVE_TASK {
 public:
 #ifdef _WIN32
-    HANDLE pid_handle,thread_handle;
+    HANDLE pid_handle, thread_handle, quitRequestEvent;
 #endif
     RESULT* result;
     WORKUNIT* wup;

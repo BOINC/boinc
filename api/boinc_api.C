@@ -81,6 +81,7 @@ extern BOOL    win_loop_done;
 LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
 #else
 extern void boinc_catch_signal(int signal);
+extern void boinc_quit(int sig);
 #endif
 
 static APP_INIT_DATA aid;
@@ -88,11 +89,9 @@ GRAPHICS_INFO gi;
 static double timer_period = 1.0/50.0;    // 50 Hz timer
 static double time_until_checkpoint;
 static double time_until_fraction_done_update;
-static double time_until_quit_check;
 static double fraction_done;
 static double last_checkpoint_cpu_time;
 static bool ready_to_checkpoint = false;
-static bool check_quit = false;
 static bool write_frac_done = false;
 static bool this_process_active;
 static bool time_to_quit = false;
@@ -161,7 +160,6 @@ int boinc_init() {
 #endif
     time_until_checkpoint = aid.checkpoint_period;
     time_until_fraction_done_update = aid.fraction_done_update_period;
-    time_until_quit_check = 1;  // check every 1 second for quit request from core client
     this_process_active = true;
     
     boinc_install_signal_handlers();
@@ -177,7 +175,7 @@ int boinc_install_signal_handlers() {
 #ifdef HAVE_SIGNAL_H
     signal( SIGHUP, boinc_catch_signal );  // terminal line hangup
     signal( SIGINT, boinc_catch_signal );  // interrupt program
-    signal( SIGQUIT, boinc_catch_signal ); // quit program
+    signal( SIGQUIT, boinc_quit );         // quit program
     signal( SIGILL, boinc_catch_signal );  // illegal instruction
     signal( SIGABRT, boinc_catch_signal ); // abort(2) call
     signal( SIGBUS, boinc_catch_signal );  // bus error
@@ -244,7 +242,6 @@ void boinc_catch_signal(int signal) {
     switch(signal) {
         case SIGHUP: fprintf( stderr, "SIGHUP: terminal line hangup" ); break;
         case SIGINT: fprintf( stderr, "SIGINT: interrupt program" ); break;
-        case SIGQUIT: fprintf( stderr, "SIGQUIT: quit program" ); break;
         case SIGILL: fprintf( stderr, "SIGILL: illegal instruction" ); break;
         case SIGABRT: fprintf( stderr, "SIGABRT: abort called" ); break;
         case SIGBUS: fprintf( stderr, "SIGBUS: bus error" ); break;
@@ -255,6 +252,11 @@ void boinc_catch_signal(int signal) {
     }
     fprintf( stderr, "\nExiting...\n" );
     exit(ERR_SIGNAL_CATCH);
+}
+
+void boinc_quit(int sig) {
+    signal( SIGQUIT, boinc_quit );	// reset signal
+    time_to_quit = true;
 }
 #endif
 
@@ -306,15 +308,16 @@ int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
 }
 
 bool boinc_time_to_checkpoint() {
-    if (check_quit) {
-        FILE* f = fopen(QUIT_FILE, "r");
-        if(f) {
-            parse_quit_file(f,time_to_quit);
-            fclose(f);
-        }
-        time_until_quit_check = 1;    // reset to 1 second
-        check_quit = false;
+#ifdef _WIN32
+    DWORD eventState;
+    // Check if core client has requested us to exit
+    WaitForSingleObject(quitRequestEvent, 0L);
+    
+    switch (eventState) {
+        case WAIT_OBJECT_0:
+        case WAIT_ABANDONED:
     }
+#endif
 
     if (write_frac_done) {
         write_fraction_done_file(fraction_done, boinc_cpu_time(), last_checkpoint_cpu_time);
@@ -432,13 +435,6 @@ void on_timer(int a) {
         time_until_checkpoint -= timer_period;
         if (time_until_checkpoint <= 0) {
             ready_to_checkpoint = true;
-        }
-    }
-
-    if (!check_quit) {
-        time_until_quit_check -= timer_period;
-        if (time_until_quit_check <= 0) {
-            check_quit = true;
         }
     }
 
@@ -588,21 +584,6 @@ int parse_fraction_done_file(FILE* f, double& pct, double& cpu, double& checkpoi
         else if (parse_double(buf, "<cpu_time>", cpu)) continue;
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu)) continue;
         else fprintf(stderr, "parse_fraction_done_file: unrecognized %s", buf);
-    }
-    return 0;
-}
-
-int write_quit_file(FILE* f) {
-    fprintf(f, "<quit/>\n");
-    return 0;
-}
-
-int parse_quit_file(FILE* f, bool& quit) {
-    char buf[256];
-    
-    while (fgets(buf, 256, f)) {
-        if (match_tag(buf, "<quit/>")) quit = true;
-        else fprintf(stderr, "parse_quit_file: unrecognized %s", buf);
     }
     return 0;
 }

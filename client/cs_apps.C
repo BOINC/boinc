@@ -51,7 +51,7 @@ int CLIENT_STATE::cleanup_and_exit() {
         // don't return here - we'll exit anyway
     }
     retval = write_state_file();
-    if (retval) { 
+    if (retval) {
         fprintf(stderr, "error: CLIENT_STATE.exit: write_state_file failed\n");
         // don't return here - we'll exit anyway
     }
