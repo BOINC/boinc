@@ -46,6 +46,8 @@ using namespace std;
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
+#else
+#define FCGI_ToFILE(x) (x)
 #endif
 
 const int MIN_SECONDS_TO_SEND = 0;
@@ -339,7 +341,6 @@ URLTYPE* read_download_list() {
     
     if (cached) return cached;
     
-#ifndef _USING_FCGI_
     if (!(fp=fopen("../download_servers", "r"))) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
@@ -357,7 +358,7 @@ URLTYPE* read_download_list() {
         }
         // read timezone offset and URL from file, and store in cache
         // list
-        if (2==fscanf(fp, "%d %s", &(cached[count].zone), cached[count].name)) {
+        if (2==fscanf(FCGI_ToFILE(fp), "%d %s", &(cached[count].zone), cached[count].name)) {
             count++;
         } else {
             // provide a null terminator so we don't need to keep
@@ -393,7 +394,6 @@ URLTYPE* read_download_list() {
             SCHED_MSG_LOG::DEBUG, "zone=%+d url=%s\n", cached[i].zone, cached[i].name
         );
     }
-#endif
     return cached;
 }
 

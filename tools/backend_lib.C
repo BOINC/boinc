@@ -39,6 +39,8 @@
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
+#else
+#define FCGI_ToFILE(x) (x)
 #endif
 
 static struct random_init {
@@ -70,7 +72,6 @@ static bool got_md5_info(
     double *nbytes
 ) {
     bool retval=false;
-#ifndef _USING_FCGI_
     // look for file named FILENAME.md5 containing md5sum and length.
     // If found, and newer mod time than file, read md5 sum and file
     // length from it.
@@ -97,9 +98,9 @@ static bool got_md5_info(
     // read two quantities: md5 sum and length.  If we can't read
     // these, or there is MORE stuff in the file' it's not an md5
     // cache file
-    if (3 == fscanf(fp, "%s %lf%c", md5data, nbytes, &endline) &&
+    if (3 == fscanf(FCGI_ToFILE(fp), "%s %lf%c", md5data, nbytes, &endline) &&
         endline=='\n' &&
-        EOF==fgetc(fp)
+        EOF==fgetc(FCGI_ToFILE(fp))
        )
         retval=true; 
     fclose(fp);
@@ -110,7 +111,6 @@ static bool got_md5_info(
         unlink(md5name);
         retval=false;
     }
-#endif
     return retval;
 }
 
