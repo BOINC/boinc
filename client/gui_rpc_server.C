@@ -265,22 +265,22 @@ static void handle_get_proxy_settings(char* , MIOFILE& fout) {
 
 // params:
 // [ <seqno>n</seqno> ]
-//    start at message seqno n; if absent or zero, return all
+//    return only msgs with seqno > n; if absent or zero, return all
 //
 void handle_get_messages(char* buf, MIOFILE& fout) {
-    int seqno=0, j;
-    unsigned int i;
+    int seqno=0, i, j;
+    unsigned int k;
     MESSAGE_DESC* mdp;
     bool found=false;
 
     parse_int(buf, "<seqno>", seqno);
 
     j = message_descs.size()-1;
-    for (i=0; i<message_descs.size(); i++) {
-        mdp = message_descs[i];
+    for (k=0; k<message_descs.size(); k++) {
+        mdp = message_descs[k];
         if (mdp->seqno <= seqno) {
             found = true;
-            j = i;
+            j = k-1;
             break;
         }
     }
