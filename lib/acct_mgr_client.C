@@ -158,7 +158,7 @@ int ACCT_MGR_CLIENT::init() {
     if (acct_mgr_file) fclose(acct_mgr_file);
     if (acct_mgr_login_file) fclose(acct_mgr_login_file);
 
-    return 0;
+    return retval;
 }
 
 

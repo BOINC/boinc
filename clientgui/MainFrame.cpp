@@ -330,7 +330,7 @@ bool CMainFrame::CreateMenu()
             _("Connect to your account manager website and update all of your accounts")
         );
 
-        menuFile->AppendSeparator();
+        menuTools->AppendSeparator();
     }
 
     menuTools->Append( 
