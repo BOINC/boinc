@@ -33,7 +33,7 @@
 				PrecompiledHeaderThrough="stdwx.h"
 				WarningLevel="3"
 				WarnAsError="FALSE"
-				Detect64BitPortabilityProblems="TRUE"
+				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -94,7 +94,7 @@
 				DisableLanguageExtensions="FALSE"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="stdwx.h"
-				WarningLevel="4"
+				WarningLevel="3"
 				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="4"
 				CompileAs="0"/>

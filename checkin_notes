@@ -16432,3 +16432,21 @@ David  16 Aug 2004
         cs_scheduler.C
     sched/
         transitioner.C
+
+Rom    16 Aug 2004
+    - After much gnashing of teeth, head scratching, and other 
+      assorted things, I finally can build the cross platform GUI again.
+
+      The default project builds for the wxWidgets static library, MSVCRT 
+      static library, and STL static library really don’t like each other. 
+      It took a few days to get things to a point they would compile, and we 
+      still throw a few warnings on the release build.
+
+    clientgui/
+        BOINCGUI.sln
+        BOINCGUI.vcproj
+        gui_rpc_client.C, .h (removed)
+        makefile.gui_test (removed)
+    lib/
+        gui_rpc_client.C, .h (added)
+        makefile.gui_test (added)
