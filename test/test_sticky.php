@@ -1,6 +1,6 @@
 #! /usr/local/bin/php
 <?php
-    // test the uc (upper-case) application
+    // test the sticky file capability using the upper_case application
     //
     // You must have done "make" in all source directories
 

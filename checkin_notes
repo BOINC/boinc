@@ -1250,3 +1250,13 @@ Eric Heien   7/18/2002
         Makefile.in (added)
     configure
     configure.in
+
+Michael Gary	7/23/2002
+    - Added a test for sticky files. Required updating escape_url to support
+         RRC1738 (-_. no longer escaped out). 
+    client/
+        file_names.C
+    test/
+        test_sticky.php (added)
+        uc_wu_sticky (added)
+        uc_result_sticky (added)
