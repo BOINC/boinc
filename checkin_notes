@@ -8852,3 +8852,15 @@ David  31 Dec 2003
         sched_messages.py
     sched/
         assimilator.py
+
+Gary	31 Dec 2003
+	- Fixed error in windows client initial startup after a clean
+      install. Default wait time before initial server request was
+      too long (3 minutes).
+	- Fixed initial screensaver blank time setting. Test for existence
+      of registry entries before writing values to dialog box.
+
+    client/
+        Prefs.C
+    client/win
+        win_screensaver.cpp
