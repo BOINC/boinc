@@ -10598,3 +10598,7 @@ David  Mar 19 2004
             index.php
             profile_menu.php
             white.css
+
+kevin	March 19 2004
+	check for result of	status request parse.  Should avoid problem of
+	partial communication from client to server.
