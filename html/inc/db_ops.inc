@@ -1,4 +1,57 @@
 <?php
+echo "<!--\$Id$ -->\n";
+
+// Function prints a description of $table 
+function print_describe_table_onecol($table, $which, $columns) {
+  $result=mysql_query("SELECT * from $table LIMIT 1");
+  $fields=mysql_num_fields($result);
+  
+  $avgnum=(int)($fields/$columns);
+  if ($avgnum*$columns<$fields)
+    $avgnum++;
+
+  $actualcolumns=0;
+  while ($avgnum*$actualcolumns<$fields)
+    $actualcolumns++;
+
+  if ($which>$actualcolumns)
+    return 0;
+
+  $bot=($which-1)*$avgnum;
+  $top=$which*$avgnum;
+
+  $width=100.0/$actualcolumns;
+
+  //  echo "<td><table border='2' width=\"$width%\">\n";
+  echo "<td><table border='1' width=\"100%\">\n";
+  echo "<tr><th align='left'>NAME</th><th align='left'>Type</th><th align='left'>Bytes</th>\n";
+  for ($count=$bot; $count<$top; $count++) {
+    if ($count<$fields) {
+      $name= mysql_field_name($result, $count);
+      $type= mysql_field_type($result, $count);
+      $length=mysql_field_len($result, $count);
+    }
+    else {
+      $name="<br/> ";
+      $type="<br/>";
+      $length="<br/>";
+    }
+    echo "\t<tr><td><b>$name</b></td><td>$type</td><td>$length</td></tr>\n";
+  }
+  echo "</table></td>";
+  return 0;
+}
+
+function print_describe_table($table, $how_many_columns) {
+  // Number of columns for showing table description
+  echo "<h2>Description of <b>$table</b> table fields:</h2>\n";
+  echo "<table border='0' width='100%'>\n\t<tr>";
+  for ($i=1; $i<=$how_many_columns; $i++)
+    print_describe_table_onecol($table, $i, $how_many_columns);
+  echo "\t</tr>\n</table>\n";
+  return 0;
+}
+
 
 function join_query_string($s1, $s2) {
     if ($s1) {
@@ -193,7 +246,9 @@ function show_result_summary() {
     $_GET['sort_by'] = ''; // ignore sort
 
     $query_appid = $_GET['appid'];
-    $query_received_time = time() - $_GET['nsecs'];
+    if ($_GET['nsecs'])
+	$query_received_time = time() - $_GET['nsecs'];
+    $query_wuid = $_GET['workunitid'];
 
     $q = new SqlQueryString();
     $q->process_form_items();
@@ -224,16 +279,26 @@ SELECT COUNT(id) AS nTotal,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '3' then 1 else 0 end) AS clientstate_computedone,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '4' then 1 else 0 end) AS clientstate_uploading,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '5' then 1 else 0 end) AS clientstate_uploaded
-FROM   result
-WHERE  
-       appid=$query_appid and
-       received_time > $query_received_time
+FROM result WHERE 
 ";
+
+if ($query_appid)
+	$main_query .= "appid=$query_appid and ";
+if ($query_received_time)
+	$main_query .= "received_time > $query_received_time and ";
+if ($query_wuid)
+	$main_query .= "workunitid=$query_wuid and ";
+
+        $main_query .= "1=1";
 
     $urlquery = $q->urlquery;
     $result = mysql_query($main_query);
 
-    if ($res = mysql_fetch_object($result)) {
+    // echo "Main query was $main_query<br/>";
+
+    if ($result) {
+
+        $res = mysql_fetch_object($result);
         $ntotal          = $res->nTotal;
 
         $server_state[1] = $res->serverstate_inactive;
@@ -258,8 +323,8 @@ WHERE
         $ninvalid        = $res->validate_invalid;
 
         $nfile_deleted   = $res->filedeletestate_ready + $res->filedeletestate_done;
+        mysql_free_result($result);
     }
-    mysql_free_result($result);
 
 
     echo "<table>";
@@ -274,7 +339,7 @@ WHERE
     echo "<tr><th>Server state</th><th># results</th></tr>\n";
     for ($ss=1; $ss<6; $ss++) {
         row2(server_state_string($ss),
-             link_results($server_state[$ss],  $urlquery,"server_state=$ss", ''));
+             link_results("$server_state[$ss]",  $urlquery,"server_state=$ss", ''));
     }
     echo "</table></td>";
 
@@ -282,26 +347,27 @@ WHERE
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
     for ($ro=0; $ro<6; $ro++) {
         c_row2($outcome[$ro]?outcome_color($ro):'', outcome_string($ro),
-            link_results($outcome[$ro], $urlquery, "outcome=$ro", '')
+            link_results("$outcome[$ro]", $urlquery, "outcome=$ro", '')
         );
     }
     echo "</table></td>";
 
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Validate state</th><th># results</th></tr>\n";
-    row2("Valid", link_results($nvalid, $urlquery, "validate_state=1", "outcome=1"));
-    row2("Invalid", link_results($ninvalid, $urlquery, "validate_state=2", "outcome=1"));
+    // row2("Valid", link_results("$nvalid", $urlquery, "validate_state=1", "outcome=1"));
+    row2("Valid", link_results("$nvalid", $urlquery, "validate_state=1", "outcome=1"));
+    row2("Invalid", link_results("$ninvalid", $urlquery, "validate_state=2", "outcome=1"));
     echo "</table>";
     echo "<table border=2 cellpadding=4\n";
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
-    row2("Files deleted", link_results($nfile_deleted, $urlquery, "outcome=1", "(file_delete_state=1 or file_delete_state=2)"));
+    row2("Files deleted", link_results("$nfile_deleted", $urlquery, "outcome=1", "(file_delete_state=1 or file_delete_state=2)"));
     echo "</table></td>";
 
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Client state</th><th># results</th></tr>\n";
     for ($cs=1; $cs<6; $cs++) {
         row2(client_state_string($cs),
-            link_results($client_state[$cs], $urlquery, "client_state=$cs", "outcome=3")
+            link_results("$client_state[$cs]", $urlquery, "client_state=$cs", "outcome=3")
         );
     }
     echo "</table></td>";

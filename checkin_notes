@@ -19370,11 +19370,13 @@ Rom   13 Nov 2004 (boinc)
 
 Bruce Allen 13 Nov 2004
     - Fixed, modified, tested script to remove workunits.  Linked to main ops page.
+    - Fixed links at bottom of workunits page, showing outcomes of results.
+    - Added tabular description of tables to the database form page, longer clause box
     html/ops/
-     Removed:
-      cancel_wu.php 
-     Added:
+      cancel_wu.php  (removed)
       cancel_wu_form.php
       cancel_wu_action.php
-     Modified: (link added at bottom)
       index.php 
+      db_form.php
+    html/inc/
+      db_ops.inc  

@@ -1,6 +1,7 @@
 <?php
     require_once("../inc/util_ops.inc");
 require_once("../inc/db_ops.inc");
+echo "<!--\$Id$ -->\n";
 
     db_init();
 
@@ -19,7 +20,7 @@ require_once("../inc/db_ops.inc");
         echo "
             <tr>
             <td align=right>Additional clauses</td>
-            <td><input name=clauses></td>
+            <td><input name=clauses size=100></td>
             </tr>
         ";
     }
@@ -38,9 +39,11 @@ require_once("../inc/db_ops.inc");
     } else if ($table=="app") {
     } else if ($table=="app_version") {
         print_detail_field();
+        print_query_field();
     } else if ($table=="host") {
         print_checkbox("Show Aggregate Information", "show_aggregate", $show_aggregate);
         print_detail_field();
+        print_query_field();
     } else if ($table=="workunit") {
         print_detail_field();
         print_query_field();
@@ -64,7 +67,9 @@ require_once("../inc/db_ops.inc");
         print_query_field();
 
     } else if ($table=="team") {
+        print_query_field();
     } else if ($table=="user") {
+        print_query_field();
     } else {
         echo "Unknown table name\n";
         exit();
@@ -75,6 +80,8 @@ require_once("../inc/db_ops.inc");
     row2("", "<input type=submit value=\"OK\">\n");
     end_table();
     echo "</form>\n";
+
+    print_describe_table($table, 4);
 
     page_tail();
 ?>
