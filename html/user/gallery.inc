@@ -79,6 +79,12 @@ function build_picture_pages($width, $height) {
   echo "<br><br><a href=\"" . PROFILE_PATH . "user_gallery_1.html\">Go to the first generated page.</a>";
 }
 
+// Creates pages grouping user profiles by country.  Filenames are of the
+// format "profile_country_<country name>_<page number>.html
+// Also creates a summary page listing all countries which have profiled
+// members, the number of such members, and links to the created pages for
+// each country.
+
 function build_country_pages() {
 
   $query = "SELECT * FROM profile";
@@ -107,6 +113,8 @@ function build_country_pages() {
   $countries = array_keys($countryMembers);
 
   // Build the pages.
+  // TODO: Define a constant for the desired number of rows per page.
+
   foreach ($countries as $country) {
     build_country_page($country, &$countryMembers[$country], 5); 
   }
@@ -119,6 +127,10 @@ function build_country_pages() {
   echo "<br><br>Done";
 
 }
+
+// Helper function for build_country_page.  Creates as many pages as
+// are neccessary to list all user profiles for country $name, given
+// $rows rows per page.  Member IDs are passed in the array $members.
 
 function build_country_page($name, $members, $rows) {
   
@@ -141,46 +153,15 @@ function build_country_page($name, $members, $rows) {
     $filename = PROFILE_PATH . "profile_country_" . $name . "_" . $page . ".html";
     $descriptor = fopen($filename, "w");
 
-    // TODO: Page header.
-    //fwrite($descriptor, "<html><body>\n");
     page_head("User Profiles from $countryName: Page $page of $numPages", null, $descriptor);
 
     fwrite($descriptor, "<h2>$countryName</h2>\n");
     fwrite($descriptor, "Last updated " . gmdate("r") . " UTC<p>\n");
-    fwrite($descriptor, "<table border=1 cellpadding=5>\n");
+    
+    $offset = (($page-1) * $rows * 2);
+    $numPerPage = ($rows * 2);
 
-    for ($row = 0; $row < $rows; $row++) {
-      if ($count >= $numMembers) {
-	break;
-      }
-
-      fwrite($descriptor, "<tr>\n"); 
-
-      // Formatting is a table with two columns of user summaries.
-      for ($col = 0; $col < 2; $col++) {
-	if ($count < $numMembers) {
-	  fwrite($descriptor, "<td width=7% height=64><center>");
-	  
-	  // Only link an image if one exists.
-	  if (file_exists(IMAGE_PATH . $members[$count] . '_sm.jpg')) {
-	    fwrite($descriptor, "<a href=\"" . MASTER_URL . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . '../' . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>");
-	  } else {
-	    fwrite($descriptor, "&nbsp;");
-	  }
-	  
-	  fwrite($descriptor, "</center></td><td width=33% height=64>");
-	  fwrite($descriptor, get_profile_summary($members[$count]));
-	  fwrite($descriptor, "</td>");
-	  $count++;
-	}
-	else {
-	  // Empty entry.
-	  fwrite($descriptor, "<td width=7% height=64></td><td width=33% height=64></td>");
-	}
-      }
-      fwrite($descriptor, "</tr>\n");
-    }
-    fwrite($descriptor, "</table>\n");
+    show_user_table($members, $offset, $numPerPage, 2, $descriptor);
 
     $tempFileName = "profile_country_" . $name;
     write_page_links($tempFileName, $page, $numPages, $descriptor);
@@ -191,10 +172,108 @@ function build_country_page($name, $members, $rows) {
   
 }
 
+// Builds a summary table of user profiles, writing it to $descriptor if it is
+// available, or echoing if it is not.
+//
+//   $members is an array of userIDs;
+//   $offset indicates which entry to begin the table with
+//   $numToDisplay indicates how many profiles to display in this table
+//   $cols indicates how many profile summaries should be written per row
+//   $descriptor is an optional file descriptor to write the table to.
+
+function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=null) {
+
+  // TODO: Would be nice if we could open a stream to stdout to avoid
+  // all the redundant $descriptor checks.  Once the server is running
+  // PHP 5+, might want to try switching over to fprintf(...).
+    
+  if ($descriptor) {
+    fwrite($descriptor, "<table border=1 cellpadding=5>\n");
+  } else {
+    echo "<table border=1 cellpadding=5>";
+  }
+  
+  $rows = ceil($numToDisplay / $cols);
+  $count = $offset;
+  $numMembers = count($members);
+  
+  for ($row = 0; $row < $rows; $row++) {
+    if ($count >= $numMembers) {
+      break;
+    }
+    
+    if ($descriptor) {
+      fwrite($descriptor, "<tr>\n"); 
+    } else {
+      echo "<tr>";
+    }
+    
+    // Formatting is a table with two columns of user summaries.
+    for ($col = 0; $col < $cols; $col++) {
+      if ($count < $numMembers) {
+	if ($descriptor) {
+	  fwrite($descriptor, "<td width=7% height=64><center>");
+	} else {
+	  echo "<td width=7% height=64><center>";
+	}
+	
+	// Only link an image if one exists.
+	if (file_exists(IMAGE_PATH . $members[$count] . '_sm.jpg')) {
+	  if ($descriptor) {
+	    fwrite($descriptor, "<a href=\"" . MASTER_URL . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . '../' . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>");
+	  } else {
+	    echo "<a href=\"" . MASTER_URL . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>";
+	  }
+	  
+	} else {
+	  if ($descriptor) {
+	    fwrite($descriptor, "&nbsp;");
+	  } else {
+	    echo "&nbsp;";
+	  }
+	}
+	if ($descriptor) {
+	  fwrite($descriptor, "</center></td><td width=33% height=64>");
+	  fwrite($descriptor, get_profile_summary($members[$count]));
+	  fwrite($descriptor, "</td>");
+	} else {
+	  echo "</center></td><td width=33% height=64>\n", get_profile_summary($members[$count]), "</td>";
+	}
+	
+	$count++;
+      }
+      else {
+	// Empty entry
+	if ($descriptor) {
+	  fwrite($descriptor, "<td width=7% height=64></td><td width=33% height=64></td>");
+	} else {
+	  echo "<td width=7% height=64></td><td width=33% height=64></td>";
+	}
+      }
+    }
+    if ($descriptor) {
+      fwrite($descriptor, "</tr>\n");
+    } else {
+      echo "</tr>";
+    }
+  }
+  if ($descriptor) {
+    fwrite($descriptor, "</table>\n");
+  } else {
+    echo "</table>";
+  }
+}
+
+// Generates a legal filename from a parameter string.
+
 function get_legal_filename($name) {
   $name = ereg_replace(',', '', $name);
   return ereg_replace(' ', '_', $name);
 }
+
+// Generates a string containing: 
+//   1) the name of the user with ID == $userid, with a link to a view of their profile; 
+//   2) the first MAX_DESC_LENGTH characters from the response1 field of said user's profile.
 
 function get_profile_summary($userid) {
   $result = mysql_query("SELECT * FROM profile WHERE userid = $userid");
@@ -223,6 +302,9 @@ function get_profile_summary($userid) {
   $summary = "<a href=\"" . MASTER_URL . "view_profile.php?userid=" . $userid . "\">" . $row2['name'] . "</a> " . $description;
   return $summary;
 }
+
+// Generates a standard set of links between associated multi-page documents.  All linked
+// files must be of the form "$filename_<page number>.html".
 
 function write_page_links($filename, $currPageNum, $numPages, $descriptor) {
   fwrite($descriptor, "<p>Page $currPageNum of $numPages</p>");
