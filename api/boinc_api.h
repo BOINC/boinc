@@ -66,9 +66,10 @@ extern int boinc_child_done(double);
 
 /////////// API ENDS HERE - IMPLEMENTATION STUFF FOLLOWS
 
-extern int boinc_cpu_time(double &, int &); // CPU time and memory usage for this process
+extern int boinc_cpu_time(double&, double&);
+    // CPU time and memory usage for this process
 extern int boinc_install_signal_handlers();
-extern int update_app_progress(double, double, double, int);
+extern int update_app_progress(double, double, double, double);
 
 extern int set_timer(double period);
 extern void setup_shared_mem();

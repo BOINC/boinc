@@ -11,7 +11,7 @@ EXTRA_DIST =								\
 	mac_build win_build						\
 	doc html_ops html_user						\
 	stripchart							\
-        INSTALL LICENSE
+        INSTALL
 
 # the perl line below gets rid of '\r' characters because MSVC barfs at them.
 

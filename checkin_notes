@@ -5323,3 +5323,11 @@ John Brian	2003/07/11
 	user.inc
 	util.inc
 	view_profile.php (new)
+
+David  July 15 2003
+    - use double for VM working set size
+    - finished replacing license text
+
+    api/
+        boinc_api.C,h
+

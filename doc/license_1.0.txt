@@ -82,7 +82,9 @@
           to create, sell, or distribute commercial products
           based on the Source Code; and
 
-          (b) under patents now or hereafter owned or controlled by Initial
+          (b) Subject to the restrictions on commercial use
+          set forth in subsection 2.1(a),
+          under patents now or hereafter owned or controlled by Initial
           Developer, to make, have made, use and sell (``Utilize'') the
           Original Code (or portions thereof), but solely to the extent that
           any such patent is reasonably necessary to enable You to Utilize
@@ -104,7 +106,9 @@
           to create, sell, or distribute commercial products
           based on the Source Code; and
 
-          (b) under patents now or hereafter owned or controlled by
+          (b) Subject to the restrictions on commercial use
+          set forth in subsection 2.2(a),
+          under patents now or hereafter owned or controlled by
           Contributor, to Utilize the Contributor Version (or portions
           thereof), but solely to the extent that any such patent is
           reasonably necessary to enable You to Utilize the Contributor
@@ -233,21 +237,6 @@
 
      This License applies to code to which the Initial Developer has
      attached the notice in Exhibit A, and to related Covered Code.
-
-6. Versions of the License.
-
-     6.1. New Versions.
-     Netscape Communications Corporation (``Netscape'') may publish revised
-     and/or new versions of the License from time to time. Each version will
-     be given a distinguishing version number.
-
-     6.2. Effect of New Versions.
-     Once Covered Code has been published under a particular version of the
-     License, You may always continue to use it under the terms of that
-     version. You may also choose to use such Covered Code under the terms
-     of any subsequent version of the License published by Netscape. No one
-     other than Netscape has the right to modify the terms applicable to
-     Covered Code created under this License.
 
 7. DISCLAIMER OF WARRANTY.
 

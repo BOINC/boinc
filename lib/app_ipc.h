@@ -65,18 +65,24 @@ public:
     void reset_msg(int);      // resets specified message and clears its flag
 };
 
+// parsed version of main init file
+//
 struct APP_INIT_DATA {
     char app_preferences[4096];
     char user_name[256];
     char team_name[256];
-    char comm_obj_name[256];  // name to identify shared memory segments, signals, etc
-    double wu_cpu_time;       // cpu time from previous sessions
     double user_total_credit;
     double user_expavg_credit;
     double host_total_credit;
     double host_expavg_credit;
+
+    // Items below here are for implementation only
+    // (not used by app writers)
+    //
     double checkpoint_period;     // recommended checkpoint period
     int shm_key;
+    char comm_obj_name[256];  // name to identify shared memory segments, signals, etc
+    double wu_cpu_time;       // cpu time from previous sessions
     double fraction_done_update_period;
 };
 
