@@ -911,7 +911,7 @@ LRESULT CScreensaver::SaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPa
        				                m_bErrorMode = TRUE;
     				                m_hrError = SCRAPPERR_BOINCNOAPPSEXECUTING;
                                     break;
-                                case SS_STATUS_NOAPPSEXECUTINGNOPROJECTSDETECTED:
+                                case SS_STATUS_NOPROJECTSDETECTED:
        				                m_bErrorMode = TRUE;
     				                m_hrError = SCRAPPERR_BOINCNOAPPSEXECUTINGNOPROJECTSDETECTED;
                                     break;

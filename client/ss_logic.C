@@ -32,8 +32,8 @@ SS_LOGIC::SS_LOGIC() {
     ss_status = 0;
 }
 
-// this is called when the core client receives a set_screensaver_mode RPC
-// from the screensaver module.
+// called in response to a set_screensaver_mode RPC with <enabled>.
+// Start providing screensaver graphics
 //
 void SS_LOGIC::start_ss(GRAPHICS_MSG& m, double new_blank_time) {
     ACTIVE_TASK* atp;
@@ -57,6 +57,9 @@ void SS_LOGIC::start_ss(GRAPHICS_MSG& m, double new_blank_time) {
     }
 }
 
+// called in response to a set_screensaver_mode RPC without <enabled>
+// Stop providing screensaver graphics
+//
 void SS_LOGIC::stop_ss() {
     if (!do_ss) return;
     reset();
@@ -66,6 +69,7 @@ void SS_LOGIC::stop_ss() {
 }
 
 // If an app is acting as screensaver, tell it to stop.
+// Called from CLIENT_STATE::schedule_cpus()
 //
 void SS_LOGIC::reset() {
     GRAPHICS_MSG m;
@@ -116,7 +120,6 @@ void SS_LOGIC::poll() {
                     m.mode = MODE_HIDE_GRAPHICS;
                     atp->request_graphics_mode(m);
                     atp->is_ss_app = false;
-                    ss_status = SS_STATUS_NOTGRAPHICSCAPABLE;
                 }
             }
         } else {
@@ -129,7 +132,7 @@ void SS_LOGIC::poll() {
                     if (gstate.projects.size()>0) {
                         ss_status = SS_STATUS_NOAPPSEXECUTING;
                     } else {
-                        ss_status = SS_STATUS_NOAPPSEXECUTINGNOPROJECTSDETECTED;
+                        ss_status = SS_STATUS_NOPROJECTSDETECTED;
                     }
                 } else {
                     ss_status = SS_STATUS_NOGRAPHICSAPPSEXECUTING;

@@ -499,8 +499,7 @@ bool CLIENT_STATE::do_something(double now) {
     if (actions > 0) {
         return true;
     } else {
-        int connected_state = get_connected_state();
-        time_stats.update(now, connected_state, !activities_suspended);
+        time_stats.update(now, !activities_suspended);
         return false;
     }
 }

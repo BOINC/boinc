@@ -26639,3 +26639,18 @@ David  4 April 2005
     cliengui/
         MainFrame.cpp
         Makefile.am
+
+David  4 April 2005
+    - Call get_connected_state() every 10 seconds, not 10X per second
+        (it does a registry lookup on Win)
+    - fix names of SS constants
+
+    client/
+        client_state.C
+        client_types.C
+        ss_logic.C,h
+        time_stats.C,h
+        win/
+            win_screensaver.cpp
+    lib/
+        boinc_cmd.C

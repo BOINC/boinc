@@ -326,7 +326,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
 
 // Write project statistic to project statistics file
 //
-int PROJECT::write_statistics(MIOFILE& out, bool gui_rpc) {
+int PROJECT::write_statistics(MIOFILE& out, bool /*gui_rpc*/) {
     out.printf(
         "<project_statistics>\n"
 		"    <master_url>%s</master_url>\n",

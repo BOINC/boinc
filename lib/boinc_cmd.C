@@ -70,7 +70,7 @@ void usage() {
     exit(1);
 }
 
-void parse_display_args(int argc, char** argv, int& i, DISPLAY_INFO& di) {
+void parse_display_args(char** argv, int& i, DISPLAY_INFO& di) {
     strcpy(di.window_station, "winsta0");
     strcpy(di.desktop, "default");
     strcpy(di.display, "");
@@ -179,11 +179,11 @@ int main(int argc, char** argv) {
             retval = rpc.result_op(result, "abort");
         } else if (!strcmp(op, "graphics_window")) {
             DISPLAY_INFO di;
-            parse_display_args(argc, argv, i, di);
+            parse_display_args(argv, i, di);
             retval = rpc.show_graphics(project_url, name, false, di);
         } else if (!strcmp(op, "graphics_fullscreen")) {
             DISPLAY_INFO di;
-            parse_display_args(argc, argv, i, di);
+            parse_display_args(argv, i, di);
             retval = rpc.show_graphics(project_url, name, true, di);
         } else {
             fprintf(stderr, "Unknown op %s\n", op);
@@ -290,10 +290,10 @@ int main(int argc, char** argv) {
         retval = rpc.get_host_info(hi);
         if (!retval) hi.print();
     } else if (!strcmp(cmd, "--acct_mgr_rpc")) {
-        char* url = next_arg(argc, argv, i);
-        char* name = next_arg(argc, argv, i);
-        char* passwd = next_arg(argc, argv, i);
-        retval = rpc.acct_mgr_rpc(url, name, passwd);
+        char* am_url = next_arg(argc, argv, i);
+        char* am_name = next_arg(argc, argv, i);
+        char* am_passwd = next_arg(argc, argv, i);
+        retval = rpc.acct_mgr_rpc(am_url, am_name, am_passwd);
     } else if (!strcmp(cmd, "--run_benchmarks")) {
         retval = rpc.run_benchmarks();
     } else if (!strcmp(cmd, "--get_screensaver_mode")) {
@@ -308,7 +308,7 @@ int main(int argc, char** argv) {
         char* op = next_arg(argc, argv, i);
         if (!strcmp(op, "on")) enabled = true;
         blank_time = atof(next_arg(argc, argv, i));
-        parse_display_args(argc, argv, i, di);
+        parse_display_args(argv, i, di);
         retval = rpc.set_screensaver_mode(enabled, blank_time, di);
     } else if (!strcmp(cmd, "--quit")) {
         retval = rpc.quit();

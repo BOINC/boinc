@@ -55,7 +55,7 @@ TIME_STATS::TIME_STATS() {
 // so these get written to disk only when other activities
 // cause this to happen.  Maybe should change this.
 //
-void TIME_STATS::update(double now, int connected_state, bool is_active) {
+void TIME_STATS::update(double now, bool is_active) {
     double dt, w1, w2;
 
     if (last_update == 0) {
@@ -73,6 +73,7 @@ void TIME_STATS::update(double now, int connected_state, bool is_active) {
         w1 = 1 - exp(-dt/ALPHA);    // weight for recent period
         w2 = 1 - w1;                // weight for everything before that
                                     // (close to zero if long gap)
+        int connected_state = get_connected_state();
         if (first) {
             // the client has just started; this is the first call.
             //
