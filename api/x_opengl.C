@@ -402,12 +402,12 @@ void xwin_graphics_event_loop() {
     app_debug_msg("...glutMainLoop() returned!! This should never happen...\n");
 }
 
-
-
-void app_debug_msg (const char* /*fmt*/, ...) {
 #ifndef _DEBUG
+void app_debug_msg (const char* /*fmt*/, ...) {
     return;
+}
 #else
+void app_debug_msg (const char* fmt, ...) {
     va_list args;
     char buffer[5000+1];
     static char *boinc_slotdir = NULL;
@@ -437,8 +437,9 @@ void app_debug_msg (const char* /*fmt*/, ...) {
     fflush (stdout);
   
     va_end (args);
-#endif
 }
+#endif
+
 
 
 
