@@ -16424,7 +16424,7 @@ David  16 Aug 2004
     - client: check error return from choose_version_num().
         There's a remote chance this has something to do with
         the "scrambled XML" problem
-    _ changed my 13 Aug change to transitioner
+    - changed my 13 Aug change to transitioner
         so that new transition time is at least now + 1 day
 
     client/
@@ -16482,3 +16482,15 @@ Rom    17 Aug 2004
     sched/
         handle_request.C
         sched_send.C
+
+Karl 2004-08-18
+    - update_versions: 
+        - Print warning if specified signature files won't be used
+        - Print warning and query continue if no signature file specified
+        - Allow file.file_ref_info's contents to be used for inserting extra
+          info in the <file_ref> attribute (e.g. <copy_file/>) 
+
+    tools/
+        update_versions
+    py/Boinc/
+        tools.py

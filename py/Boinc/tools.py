@@ -27,10 +27,29 @@ def get_kludge_url_filename(filename):
     else:
         return filename
 
+def query_sign_executable(executable_path):
+    print '''\
+
+SECURITY WARNING:
+=================
+
+You have not provided a signature file for %s.
+
+I can generate one now, but this is highly unrecommended.  Generating code
+signatures on network-connected computers is a security vulnerability, and
+should not be done for publicly-accessable projects.
+''' \
+        % executable_path
+
+    if not query_noyes('Continue with automatically generating a code signature?'):
+        raise SystemExit
+
 def sign_executable(executable_path, quiet=False):
     '''Returns signed text for executable'''
     config = configxml.default_config()
-    if not quiet: print 'Signing', executable_path
+    if not quiet:
+        query_sign_executable(executable_path)
+        print 'Signing', executable_path
     code_sign_key = os.path.join(config.config.key_dir, 'code_sign_private')
     sign_executable_path = os.path.join(boinc_path_config.TOP_BUILD_DIR,
                                         'tools','sign_executable')
@@ -78,7 +97,11 @@ def process_executable_file(file, signature_text=None, quiet=False, executable=T
     xml += '    <nbytes>%f</nbytes>\n</file_info>\n' % file_size(target_path)
     return xml
 
-def process_app_version(app, version_num, exec_files, non_exec_files=[], signature_files={}, quiet=False):
+def process_app_version(app, version_num, exec_files,
+                        non_exec_files=[],
+                        signature_files={},
+                        file_ref_extra={},
+                        quiet=False):
     """Return xml for application version
 
     app             is an instance of database.App
@@ -98,6 +121,9 @@ def process_app_version(app, version_num, exec_files, non_exec_files=[], signatu
                     the same machine (requiring having the private key stored
                     on this machine) is a SECURITY RISK (since this machine
                     probably has network visibility)!
+
+    file_ref_infos  is a dictionary mapping exec_file -> extra XML strings to
+                    include in <file_info>, e.g. '<copy_file/>'
 
     exec_files[1:] and non_exec_files should be named like 'open_name=url_filename'.
                     (url_filename is the basename of file as copied to
@@ -137,6 +163,11 @@ def process_app_version(app, version_num, exec_files, non_exec_files=[], signatu
             xml_doc += '       <main_program/>\n'
         else:
             xml_doc += '       <open_name>%s</open_name>\n' % open_name
+        extra = file_ref_infos.get(exec_file)
+        if extra:
+            if not extra.endswith('\n'):
+                extra += '\n'
+            xml_doc += extra
         xml_doc += '    </file_ref>\n'
         first = False
 
