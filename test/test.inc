@@ -204,6 +204,12 @@ function create_keys() {
     XPassThru("$lib_dir/crypt_prog -genkey 1024 $key_dir/code_sign_private $key_dir/code_sign_public");
 }
 
+function check_exists($file) {
+    if (file_exists($file)) {
+        error("file doesn't exist: $file\n");
+    }
+}
+
 function check_deleted($file) {
     if (file_exists($file)) {
         error("file wasn't deleted: $file\n");
@@ -826,6 +832,10 @@ $matchresult->stderr_out
 
     function check_server_deleted($file) {
         check_deleted("$this->project_dir/" . $file);
+    }
+
+    function check_server_exists($file) {
+        check_exists("$this->project_dir/" . $file);
     }
 
 }
