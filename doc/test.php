@@ -1,31 +1,43 @@
-<?
-require_once("docutil.php");
-page_head("Testing BOINC");
-echo "
+<? // -*- html -*-
+   require_once("docutil.php");
+   page_head("Testing BOINC");
+   ?>
+
+<h2>Python testing framework</h2>
+
+The <code>test/</code> directory contains a library of Python modules that
+make end-to-end testing of BOINC easy.
+
+<h2>Quick start</h2>
+Single test:
+<blockquote>
+  <code> cd boinc/test && ./test_uc.py </code>
+</blockquote>
+
+Full test suite:
+<blockquote>
+  <code> cd boinc/test && make check </code>
+</blockquote>
 
 
-<h2>Testing BOINC</h2>
+After two or three minutes you should see "Passed Test".  During the test you
+should see various progress status indicators (Resize your window so that the
+status indicator line fits on one line).
 
-<h3>1) PHP-based testing framework</h3>
+<h2>Goals of the testing framework</h2>
 
-doc/test.php is a library of PHP classes that make it easy to
-write scripts that perform end-to-end tests of BOINC.
+The goal of the framework is to support automated testing of BOINC itself, and
+of BOINC applications.  Each test is performed by a Python program that
+initializes the system to a deterministic state, executes the system, detects
+termination, and returns success or failure depending on the final state.
 
-<h4>1.1) Goals of the testing framework</h4>
-
-The goal of the framework is to support automated testing of BOINC itself,
-and of BOINC applications.
-Each test is performed by a PHP script that initializes
-the system to a deterministic state, executes the system,
-detects termination, and returns success or failure depending
-on the final state.
 <p>
-Many BOINC features involve multiple projects and/or multiple hosts.
-It would be prohibitively complex to do automated testing
-on multiple physical hosts.
-Fortunately the BOINC architecture makes it possible for
-multiple projects and (virtual) hosts to reside on a single physical host.
-So the testing framework uses this approach.
+
+Many BOINC features involve multiple projects and/or multiple hosts.  It would
+be prohibitively complex to do automated testing on multiple physical hosts.
+Fortunately the BOINC architecture makes it possible for multiple projects and
+(virtual) hosts to reside on a single physical host.  So the testing framework
+uses this approach.
 
 <p>
 The framework lets you test systems with any of the following attributes:
@@ -43,332 +55,186 @@ The following system attributes are planned but not implemented yet:
 (out of disk space, crash/reboot, etc.).
 </ul>
 
-<h4>1.2) Directory structure</h4>
+<h2>Software</h2>
+<h3>Pre-requisites</h3>
+<ol>
+  <li> <b>MySQL</b> installed and running with permissions for the test script
+       user to create databases.  Currently the script expects it to be
+       running on localhost but that could be changed.
+  <li> <b>Python 2.2</b>, <a href=install_python_mysqldb.txt>Python module
+       MySQLdb</a>
+</ol>
 
-To use the testing framework,
-you must designate a 'BOINC projects' directory on your test host.
-The framework will create subdirectories as follows:
-<pre>
-boinc_projects/
-    proj1/
-        cgi/
-        download/   /*this is where the real download directory*/
-	download0/  /*these are optional, they are soft links to the
-	              real download directory*/
-	download1/
-	...
-        html_ops/
-        html_user/
-        keys/
-        upload/
-    proj2/
-    ...
-</pre>
-where proj1, proj2 etc. are the names of the projects in your scripts.
+<h3>Other optional software</h3>
+<ol>
+  <li> <b>PHPMyAdmin</b>: Useful for viewing database.
+  <li> <b>Apache</b> or other web server: normal the test system uses a custom
+       CGI/PHP web server based on the Python BaseHTTPServer module, but
+       a real web server could be used to test things like permissions and
+       throughput.
+  <li> <b>PHP</b>: Useful for viewing web server output, but not necessary
+       (otherwise a stub fake_php.py program is used)
+</ol>
 
-<p>
-Similarly, you must designate a 'BOINC hosts' directory on your test host.
-The framework will create subdirectories as follows:
-<pre>
-boinc_hosts/
-    host1/
-        projects/
-        slots/
-        client_state.xml
-        log_flags.xml
-    host2/
-    ...
-</pre>
-where host1, host2 etc. are the names of the hosts in your scripts.
+Note that a performance web server with PHP is required for running a real
+server, but that requires a lot of path and permissions configuration so we
+opt not to use them in testing.
 
-<h4>1.3) Classes</h4>
+<!-- TODO: Directory structure -->
 
-The framework provides the following classes
-<pre>
-class Project {                 // represents a project
-    var $name;                  // defaults to 'test'; override if needed
-    var $generate_keys;         // set to true if you want to generate
-                                // encryption keys for this project (slow)
-    function add_user($user);   // add a User to project's DB
-    function add_app($app);     // add an application
-    function add_app_version($app_version);     // add an app version
-    function install(optional: $scheduler_file);
-        //set up directories and DB. If $scheduler_file is provided, then
-        //there will be installed schedulers at the directories pointed by
-        //the schedulers
-    function start();           // start feeder
-    function stop();            // stop feeder
-    function compare_file($out, $correct);
-                // verify that a result file matches a known-correct file
-    function check_results($n, $result);
-                // check that there are n results
-                // and that they match 'result'
-                // (for all fields that are defined)
+<!-- TODO: Modules/ Classes  -->
 
-    // The functions below are used to interrupt or remove certain
-    // functionalities of the project for a desired time in order to be
-    // able to test persistence across these failures. All the
-    // parameters of the functions below are optional.
-    // $cgi_num,$download_dir_num,
-    // $handler_num refer to the number of the corresponding parts of
-    // the system  to be disabled temporarily. if they are not
-    // the default cgi, download, and file_upload_handler respectively.
-    // multiple cgis can be handles with passing in a file with
-    // scheduler_urls to project->install. Multiple download URLS are
-    // handled by adding a numer in between the download_url and the
-    // file to be downloaded in the wu_template file of the Work class
-    // for example: <url><DOWNLOAD_URL/>0/<INFILE_0/></url>, in which
-    // a link from project_dir/download0/ will be added to project_dir/download
-    // Similiar action can be taken by modifying the result_template file
-    // of a Work class to handle multiple upload URLs:
-    // for example: <url><UPLOAD_URL/>0</url>, in which case
-    // file_upload_handler0 will be added to project_dir/cgi
+<!-- TODO: Example script -->
 
-    function delete_masterindex()
-                //deletes the index.php for this project
-    function reestablish_masterindex()
-                //reestablished the master index.php
-    function delete_scheduler($cgi_num)
-                 //deletes project_dir/cgi/cgi$cgi$num
-    function reinstall_scheduler($cgi_num)
-                 //copies the cgi program into project_dir/cgi/cgi$cgi$num
-    function delete_downloaddir($download_dir_number)
-                 //removes project_dir/download$download_dir_num
-    function reinstall_downloaddir($download_dir_num)
-                 //reestablished project_dir/download$download_dir_num
-    function remove_file_upload_handler($handler_num)
-                 //deletes project_dir/cgi/file_upload_handler$handler_num
-    function reinstall_file_upload_handler($handler_num)
-                 //reinstalls project_dir/cgi/file_upload_handler$handler_num
-    function kill_file_upload_handler() //blocks until a file_upload_handler is
-                 //running in the system, kills it and returns
-}
-
-class User {                    // represents an account on a project
-    var $name;                  // override if needed
-    var $email_addr;
-    var $authenticator;
-}
-
-class Host {                    // represents a (virtual) host
-    function Host($user);
-    function add_project($project);
-    function install();
-
-    //There are two run functions, one that blocks until the client
-    //being run by this host finishes execution: run() and then there
-    //run_asynch which spawns a new php process running the client
-    //and returns to the thread of execution of the parent php process
-    //the php process_id of the child. This process_id can then be
-    //used for a call to pcntl_waitpid() to block until the execution
-    //of the client.
-    function run($args);
-    function run_asynch($args);
-
-    function get_new_client_pid($client_pid)
-    //returns a pid for a client process running in the system that is
-    //different from $client_pid. This call blocks until such process is started.
-
-    function check_file_present($project, $name);
-                                // check that a file exists
-}
-
-class App {                     // represents an application
-    function App($name);
-}
-
-class App_Version {             // represents an application version
-    var $version;               // defaults to 1
-    var $exec_name;             // name of executable; default to app name
-    function App_Version($app);
-}
-
-class Work {                    // represents a workunit and some results
-    var $wu_template;           // name of workunit template file
-    var $result_template;       // name of result template file
-    var $nresults;              // number of results for this WU
-    var $input_files;           // array of input file names
-    function Work($project, $app);
-    function install();         // install in DB and directories
-}
-</pre>
-A test script instantiates one or more instances of
-these classes, links them as needed,
-installs them, starts the projects, runs the hosts.
-It then checks the final state
-(typically, that results are done and result files are correct).
-
-<h4>1.4) Environment vars</h4>
-
-Before using the test framework,
-you must define the following environment variables
-(example values are given - you must supply your own):
-<pre>
-setenv BOINC_PROJECTS_DIR   /home/david/boinc_projects
-# BOINC projects directory
-setenv BOINC_HOSTS_DIR      /home/david/boinc_hosts
-# BOINC hosts directory
-setenv BOINC_USER_NAME      david
-# part of DB name, and prepended to web error log entries
-setenv BOINC_SRC_DIR        /home/david/boinc_cvs/boinc
-# BOINC source directory
-setenv BOINC_CGI_DIR        /home/david/cgi-bin
-# path of a CGI directory
-setenv BOINC_CGI_URL        http://localhost/cgi-bin
-# URL of that directory
-setenv BOINC_HTML_DIR       /home/david/html
-# path of a web-page directory
-setenv BOINC_HTML_URL       http://localhost
-# URL of that directory
-setenv BOINC_KEY_DIR        /home/david/boinc_keys
-# path of some pre-generated security keys
-setenv BOINC_PLATFORM       i686-pc-linux-gnu
-# platform name of this machine
-setenv BOINC_SHMEM_KEY      0x3abc1234
-# shared-memory key; must be less than 2^31
-</pre>
-<h4>1.5) Example script</h4>
-
-The following script (test/test_uc.php)
-illustrates the use of the testing framework.
-<pre>
-#! /usr/local/bin/php
-&lt;?php
-    include_once(\"test.inc\");
-
-    $project = new Project;
-    $user = new User();
-    $host = new Host($user);
-    $app = new App(\"upper_case\");
-    $app_version = new App_Version($app);
-
-    $project->add_user($user);
-    $project->add_app($app);
-    $project->add_app_version($app_version);
-    $project->install();      // must install projects before adding to hosts
-
-    $host->log_flags = \"log_flags.xml\";
-    $host->add_project($project);
-    $host->install();
-
-    echo \"adding work\n\";
-
-    $work = new Work($app);
-    $work->wu_template = \"uc_wu\";
-    $work->result_template = \"uc_result\";
-    $work->nresults = 2;
-    array_push($work->input_files, \"input\");
-    $work->install($project);
-
-    $project->start();
-    $host->run(\"-exit_when_idle\");
-    $project->stop();
-
-    $result->state = RESULT_STATE_DONE;
-    $result->stderr_out = \"APP: upper_case: starting, argc 1\";
-    $result->exit_status = 0;
-    $project->check_results(2, $result);
-    $project->compare_file(\"uc_wu_0_0\", \"uc_correct_output\");
-    $project->compare_file(\"uc_wu_1_0\", \"uc_correct_output\");
-?>
-</pre>
-
-<h4>1.6) Implementation</h4>
-Project->Install() does the following:
+<h2>Test applications</h2>
+The <code>apps</code> directory contains the following test applications:
 <ul>
-<li> Create the project directory and its subdirectories.
-<li> Create encryption keys if needed.
-<li> Create a database for this project,
-named (BOINC_USER_NAME)_(project-name).
-This is done by macro-substituting the database name
-into db/drop.sql, db/schema.sql, and db/constraints.sql.
-<li> Insert initial records in the project, platform, user, and app tables.
-<li> Run tools/add to create app_version records,
-to copy the application executables from the source directory
-to the download directory, and to compute their digital signatures.
-<li> Copy the server programs (cgi, feeder, file_upload_handler)
-from the source directory to the project/cgi directory.
-<li> Generate the configuration file (config.xml) used by
-the server programs.
-<li> Copy the user and administrative PHP files to the
-project directories html_user and html_ops.
-<li> Create a file 'db_name' in project/html_user and project/html_ops.
-<li> Macro-process html_user/index.html to insert the correct
-scheduler URL.
-<li> Create symbolic links (with the project name)
-from the main HTML and CGI directories to the project directory.
-<li> If a $scheduler_file is provided, then the contents of this file
-will be macro substituted in index.php and there will be corresponding
-cgi files in project_dir/cgi : cgi, cgi0, cgi1 ...
+  <li><code>upper_case</code>: converts a file to upper case.
+  <li><code>concat</code>: concatenates its input files.
+  <li><code>1sec</code>: uses 1 second of CPU time.
+  <li><code>uc_slow</code>: like upper_case, but processes only one character per
+    second.  Checkpoints every 5 characters. Restartable.
 </ul>
 
+<h2>Test cases</h2>
+The <code>test/</code> directory contains various python scripts named with
+prefix <code>test_</code>.  Each of these is a test case which runs an
+end-to-end test of BOINC (creates directory structure for project(s) and
+host(s), starts a web server, server daemons, host client(s), and checks
+output is as expected).
+<table border=1>
+  <tr><td><code>test_uc.py</code></td>
+    <td>The basic test using <code>uppercase</code></td></tr>
+  <tr><td><code>test_concat.py</code></td>
+    <td> tests command-line arguments and
+      filenames</tr>
+  <tr><td><code>test_uc_slow.py</code></td>
+    <td> tests checkpoint/restart mechanism</tr>
+  <tr><td><code>test_prefs.py</code></td>
+    <td> tests some aspects of preferences.</tr>
+  <tr><td><code>test_water.py</code></td>
+    <td> tests some aspects of water marks.</tr>
+  <tr><td><code>test_rsc.py</code></td>
+    <td> tests that scheduling server only sends
+      feasible work units.</tr>
+  <tr><td><code>test_pers.py</code></td>
+    <td> tests the persistent file transfers for
+      download and upload.  It interrupts them in the middle and makes sure
+      that the filesize never decreases along interrupted transfers.</tr>
+  <tr><td><code>test_masterurl_failure.py</code></td>
+    <td> tests the exponential backoff
+      mechanism on the client in case of master IURL failures.  This test is
+      not automated.  It has to be run, and then client.out (in the host
+      directory) must be looked at to examine whether everything is working
+      correctly.</tr>
+  <tr><td><code>test_sched_failure.py</code></td>
+    <td>tests the exponential backoff mechanism
+      on the client in case of scheduling server failures.
+      This test is not automated.
+      It has to be run, and then client.out (in the host
+      directory) must be looked at to examine whether everything
+      is working correctly.</tr>
+</table>
 
+<h2>Appendix: Optional Environment Variables</h2>
+The following environment variables are optional and apply whatever web server
+you use:
 <p>
-Host->install() does the following:
-<ul>
-<li> Delete and recreate the directory for this host.
-<li> Create an account file (account_masterURL.xml) for
-each project in which this host participates.
-</ul>
-<h3>2) Test applications</h3>
-<p>
-The <b>apps</b> directory contains the following test applications:
-<ul>
-<li>
-<b>concat</b>: concatenates its input files.
-Input and output filenames are passed on the command line.
-<li>
-<b>upper_case</b>: reads from stdin, converts to upper case,
-writes to stdout.
-<li>
-<b>uc_slow</b>: like upper_case, but processes only one
-character per second.
-Checkpoints every 5 characters. Restartable.
-</ul>
 
-<h3>3) Test scripts</h3>
-<p>
-The <b>test</b> directory contains PHP scripts, together with XML
-templates and sample input files, for initializing and testing the
-entire system:
-<ul>
-<li>
-<b>test_uc.php</b>: tests I/O connection using descriptors.
-<li>
-<b>test_concat.php</b>: tests I/O connection using command-line
-args and filenames.
-<li>
-<b>test_uc_slow.php</b>: tests checkpoint/restart.
-You have to run the client yourself, kill and restart it a few times.
-<li>
-<b>test_prefs.php</b>: tests some aspects of preferences.
-<li>
-<b>test_api.php</b>: tests to ensure the api is working properly.
-<li>
-<b>test_water.php</b>: tests some aspects of water marks.
-<li>
-<b>test_rsc.php</b>: tests that scheduling server only sends
-feasible work units.
-<li>
-<b>test_pers.php</b>: tests the persistent file transfers for
-download and upload.
-It interrupts them in the middle and makes
-sure that the filesize never decreases along interrupted transfers.
-<li>
-<b>test_masterurl_failure.php</b>: tests the exponential backoff
-mechanism on the client in case of master IURL failures.
-This test is not automated.
-It has to be run, and then client.out
-(in the host directory) must be looked at to examine whether everything
-is working correctly.
-<li>
-<b>test_sched_failure.php</b>:tests the exponential backoff mechanism
-on the client in case of scheduling server failures.
-This test is not automated.
-It has to be run, and then client.out (in the host
-directory) must be looked at to examine whether everything
-is working correctly.
-</ul>
-";
-page_tail();
-?>
+<code>BOINC_TEST_USER_NAME</code>
+<blockquote>
+  User name to use for setting up database name. Defaults to <code>$USER</code>
+</blockquote>
+
+<code>BOINC_TEST_VERBOSE</code>
+<blockquote>
+  Verbosity level.
+  <table border=1>
+    <tr><td><code>0</code></td><td>print nothing</td></tr>
+    <tr><td><code>1</code> [default]</td><td>print some. if output is a tty, overwrite lines.</td>
+    <tr><td><code>2</code></td><td>print all</td>
+  </table>
+</blockquote>
+
+<code>BOINC_TEST_DELETE</code>
+<blockquote>
+    Specifies whether or not to delete testbed after the test finishes.  Only
+    relevant when BOINC_TEST_AUTO_SETUP=0.  Possible values (case doesn't
+    matter):
+    <table border=1>
+      <tr><td><code>No</code></td></tr>
+      <tr><td><code>If-Successful</code>   [default]</td></tr>
+      <tr><td><code>Always</code></td></tr>
+    </table>
+</blockquote>
+<code>BOINC_TEST_INSTALL_METHOD</code>
+<blockquote>
+    Specifies how to install html/php, cgi from source directories to testbed
+    location.
+    <table border=1>
+      <tr><td><code>link</code>             </td><td>hardlink</td></tr>
+      <tr><td><code>symlink</code> [default]</td><td>symbolic link</td></tr>
+      <tr><td><code>copy</code>             </td><td>copy</td></tr>
+    </table>
+    Copying is useful because it preserves what version of the file was used
+    in a particular test run and hardlinking is best because compiled cgi and
+    scheduler programs are not disrupted by parallel builds.
+</blockquote>
+
+<h2>Appendix: Web Server</h2>
+
+By default, the test script will use a custom web server that has no security
+and minimal cgi/php capability.  You can also use Apache or some other web
+server with manually initialized directories by setting these environment
+variables:
+
+<blockquote>
+<pre>
+BOINC_TEST_AUTO_SETUP=0   [default=1]
+BOINC_TEST_KEY_DIR
+BOINC_TEST_PROJECTS_DIR
+BOINC_TEST_CGI_URL
+BOINC_TEST_HTML_URL
+BOINC_TEST_CGI_DIR
+BOINC_TEST_HTML_DIR
+BOINC_TEST_HOSTS_DIR
+</pre>
+</blockquote>
+
+<h3>Example setup</h3>
+Bourne shell:
+<pre>
+    QHOME=/disks/philmor/a/users/quarl/proj
+    TOP=$QHOME/test-boinc
+    URL=http://milhouse.ssl.berkeley.edu/quarl
+
+    export BOINC_TEST_PROJECTS_DIR=$TOP/projects
+    export BOINC_TEST_USER_NAME=quarl
+    export BOINC_TEST_SRC_DIR=$QHOME/boinc
+    export BOINC_TEST_CGI_DIR=$TOP/boinc_cgi
+    export BOINC_TEST_CGI_URL=$URL/boinc_cgi
+    export BOINC_TEST_HTML_DIR=$TOP/boinc_html
+    export BOINC_TEST_HTML_URL=$URL/boinc_html
+    export BOINC_TEST_SHMEM_KEY=0x1717f00f
+    export BOINC_TEST_KEY_DIR=$TOP/keys
+    export BOINC_TEST_HOSTS_DIR=$TOP/host
+</pre>
+
+Apache configuration:
+<pre>
+    &lt;Directory /disks/philmor/a/users/quarl/proj/test-boinc&gt;
+            AllowOverride FileInfo AuthConfig Limit
+            Options Indexes SymLinksIfOwnerMatch IncludesNoExec ExecCGI
+        &lt;Limit GET POST OPTIONS PROPFIND&gt;
+            Order allow,deny
+            Allow from all
+        &lt;/Limit&gt;
+    &lt;/Directory&gt;
+
+    ScriptAlias /quarl/boinc_cgi/ "/disks/philmor/a/users/quarl/proj/test-boinc/boinc_cgi/"
+    Alias /quarl/ "/disks/philmor/a/users/quarl/proj/test-boinc/"
+</pre>
+
+<? page_tail(); ?>
+
+

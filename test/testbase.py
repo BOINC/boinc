@@ -625,6 +625,7 @@ def run_check_all():
     all_hosts.run()
     all_projects.run_finish_wait()
     all_projects.stop_progress_meter()
+    print
     # all_hosts.stop()
     all_projects.stop()
     all_projects.check()
