@@ -20,12 +20,10 @@
 // make_work
 //      -wu_name name
 //      -result_template filename
-//      [ -redundancy n ]
 //      [ -cushion n ]
 //
 // Create WU and result records as needed to maintain a pool of work (for
 // testing purposes).
-// Makes a new WU for every "redundancy" results.
 // Clones the WU of the given name.
 //
 
@@ -46,8 +44,13 @@
 #define LOCKFILE            "make_work.out"
 #define PIDFILE             "make_work.pid"
 
-int cushion = 10;
-int redundancy = 10;
+int cushion = 30;
+int min_quorum = 5;
+int target_nresults = 10;
+int max_error_results = 5;
+int max_total_results = 20;
+int max_success_results = 10;
+
 char wu_name[256], result_template_file[256];
 
 // edit a WU XML doc, replacing one filename by another
@@ -86,8 +89,8 @@ void replace_file_name(
 void make_work() {
     CONFIG config;
     char * p;
-    int retval, start_time=time(0), n, nresults_left;
-    char keypath[256], suffix[256], result_template[MAX_BLOB_SIZE];
+    int retval, start_time=time(0), n;
+    char keypath[256], result_template[MAX_BLOB_SIZE];
     char file_name[256], buf[MAX_BLOB_SIZE], pathname[256];
     char new_file_name[256], new_pathname[256], command[256];
     char starting_xml[MAX_BLOB_SIZE], new_buf[MAX_BLOB_SIZE];
@@ -129,7 +132,6 @@ void make_work() {
         log_messages.printf(SchedMessages::CRITICAL, "can't open result template\n");
         exit(1);
     }
-    nresults_left = 0;
     while (1) {
         check_stop_trigger();
 
@@ -144,54 +146,49 @@ void make_work() {
             continue;
         }
 
-        // make a new workunit every "redundancy" results
-        //
-        if (nresults_left == 0) {
-            strcpy(buf, starting_xml);
-            p = strtok(buf, "\n");
-            strcpy(file_name, "");
+        strcpy(buf, starting_xml);
+        p = strtok(buf, "\n");
+        strcpy(file_name, "");
 
-            // make new copies of all the WU's input files
-            //
-            while (p) {
-                if (parse_str(p, "<name>", file_name, sizeof(file_name))) {
-                    sprintf(
-                        new_file_name, "%s__%d_%d", file_name, start_time, seqno++
-                    );
-                    sprintf(pathname, "%s/%s", config.download_dir, file_name);
-                    sprintf(
-                        new_pathname, "%s/%s",config.download_dir, new_file_name
-                    );
-                    sprintf(command,"ln %s %s", pathname, new_pathname);
-                    log_messages.printf(SchedMessages::DEBUG, "executing command: %s\n", command);
-                    if (system(command)) {
-                        log_messages.printf(SchedMessages::CRITICAL, "system() error\n");
-                        perror(command);
-                        exit(1);
-                    }
-                    strcpy(new_buf, starting_xml);
-                    replace_file_name(
-                        new_buf, file_name, new_file_name, config.download_url
-                    );
-                    strcpy(wu.xml_doc, new_buf);
+        // make new copies of all the WU's input files
+        //
+        while (p) {
+            if (parse_str(p, "<name>", file_name, sizeof(file_name))) {
+                sprintf(
+                    new_file_name, "%s__%d_%d", file_name, start_time, seqno++
+                );
+                sprintf(pathname, "%s/%s", config.download_dir, file_name);
+                sprintf(
+                    new_pathname, "%s/%s",config.download_dir, new_file_name
+                );
+                sprintf(command,"ln %s %s", pathname, new_pathname);
+                log_messages.printf(SchedMessages::DEBUG, "executing command: %s\n", command);
+                if (system(command)) {
+                    log_messages.printf(SchedMessages::CRITICAL, "system() error\n");
+                    perror(command);
+                    exit(1);
                 }
-                p = strtok(0, "\n");
+                strcpy(new_buf, starting_xml);
+                replace_file_name(
+                    new_buf, file_name, new_file_name, config.download_url
+                );
+                strcpy(wu.xml_doc, new_buf);
             }
-            nresults_left = redundancy;
-            sprintf(wu.name, "wu_%d_%d", start_time, seqno++);
-            wu.id = 0;
-            wu.create_time = time(0);
-            retval = wu.insert();
-            wu.id = boinc_db_insert_id();
-            log_messages.printf(SchedMessages::DEBUG, "[%s] Created new WU\n", wu.name);
+            p = strtok(0, "\n");
         }
-        sprintf(suffix, "%d_%d", start_time, seqno++);
-        create_result(
-            wu, result_template, suffix, key,
-            config.upload_url
-        );
-        log_messages.printf(SchedMessages::DEBUG, "[%s_%s] Added result\n", wu.name, suffix);
-        nresults_left--;
+        sprintf(wu.name, "wu_%d_%d", start_time, seqno++);
+        wu.id = 0;
+        wu.create_time = time(0);
+        wu.min_quorum = min_quorum;
+        wu.target_nresults = target_nresults;
+        wu.max_error_results = max_error_results;
+        wu.max_total_results = max_total_results;
+        wu.max_success_results = max_success_results;
+        strcpy(wu.result_template, result_template);
+        process_result_template_upload_url_only(wu.result_template, config.upload_url);
+        retval = wu.insert();
+        wu.id = boinc_db_insert_id();
+        log_messages.printf(SchedMessages::DEBUG, "[%s] Created new WU\n", wu.name);
     }
 }
 
@@ -205,8 +202,6 @@ int main(int argc, char** argv) {
             asynch = true;
         } else if (!strcmp(argv[i], "-cushion")) {
             cushion = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-redundancy")) {
-            redundancy = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-result_template")) {
             strcpy(result_template_file, argv[++i]);
         } else if (!strcmp(argv[i], "-d")) {
