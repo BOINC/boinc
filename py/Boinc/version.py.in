@@ -1,18 +1,8 @@
 ## $Id$
 
-import os
-import sys
-
 # define version numbers using autoconf
 MAJOR_VERSION = @MAJOR_VERSION@
 MINOR_VERSION = @MINOR_VERSION@
+VERSION_STRING = "@VERSION@"
 CLIENT_BIN_FILENAME = "@CLIENT_BIN_FILENAME@"
 PLATFORM = "@host@"
-_BUILD_TOP_DIR = "@BUILD_TOP_DIR@"
-_REL_TOP_SRC_DIR = "@top_srcdir@"
-_REL_SRC_DIR = "@srcdir@"
-TOP_BUILD_DIR = os.path.realpath(_BUILD_TOP_DIR)
-TOP_SRC_DIR = os.path.realpath(os.path.join(_BUILD_TOP_DIR, 'py', _REL_TOP_SRC_DIR))
-
-if _REL_SRC_DIR != ".":
-    sys.path.insert(0, _REL_SRC_DIR)

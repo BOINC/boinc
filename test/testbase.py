@@ -7,25 +7,13 @@
 # applications and work units, run the system, and verify that the results are
 # correct.
 #
-# See doc/test.html for details
+# See doc/test.php for details
 
-# the module MySQLdb can be installed on debian with "apt-get install python2.2-mysqldb"
+# TODO: make sure things work if build_dir != src_dir
 
-# TODO: make things work if build_dir != src_dir
-
-import sys
-sys.path.append('../py')
-try:
-    from version import *
-except ImportError:
-    raise SystemExit("""testbase.py: Couldn't import version.py
-
-This file is built from py/version.py.in by configure.
-
-Perhaps you did not run configure, or you configured in a different directory,
-or you are running from the wrong directory.""")
-
-from boinc import *
+import boinc_path_config
+from Boinc import version
+from Boinc.setup_project import *
 import atexit, traceback, signal
 import cgiserver
 
@@ -37,7 +25,7 @@ def test_init():
     options.have_init_t = True
 
     if not os.path.exists('test_uc.py'):
-        os.chdir(os.path.join(TOP_SRC_DIR,'test'))
+        os.chdir(os.path.join(boinc_path_config.TOP_SOURCE_DIR,'test'))
     if not os.path.exists('test_uc.py'):
         raise SystemExit('Could not find boinc_db.py anywhere')
 

@@ -49,8 +49,9 @@ AC_SUBST(MINOR_VERSION, `echo AC_PACKAGE_VERSION | sed 's/.*\.0*//'`)
 AC_DEFINE_UNQUOTED(MAJOR_VERSION, $MAJOR_VERSION, [Major part of version number])
 AC_DEFINE_UNQUOTED(MINOR_VERSION, $MINOR_VERSION, [Minor part of version number])
 AC_DEFINE_UNQUOTED(HOSTTYPE, "$host", [Host for this compilation])
-
-AC_SUBST(BUILD_TOP_DIR, `pwd`)
+AC_SUBST(CLIENT_BIN_FILENAME,[boinc_]AC_PACKAGE_VERSION[_$host${EXEEXT}])
+AC_SUBST(TOP_BUILD_DIR, [`pwd`])
+AC_SUBST(TOP_SOURCE_DIR, [`(cd \`dirname "$0"\` && pwd)`])
 
 AM_MAINTAINER_MODE
 
@@ -119,8 +120,6 @@ AC_TYPE_SIZE_T
 AC_STRUCT_TM
 AC_STRUCT_TIMEZONE
 
-AC_SUBST(CLIENT_BIN_FILENAME,[boinc_]AC_PACKAGE_VERSION[_$host${EXEEXT}])
-
 # by default, create static binaries on linux.
 [if [ "$target_os" = "linux-gnu" ]; then
     STATIC_FLAGS="-static"
@@ -128,7 +127,8 @@ fi
 echo "checking static flags... ${STATIC_FLAGS:-(none)}"]
 AC_SUBST(STATIC_FLAGS)
 
-AC_CONFIG_FILES([RSAEuro/source/Makefile
+AC_CONFIG_FILES([Makefile
+                 RSAEuro/source/Makefile
                  RSAEuro/Makefile
                  api/Makefile
                  apps/Makefile
@@ -138,14 +138,22 @@ AC_CONFIG_FILES([RSAEuro/source/Makefile
                  sched/Makefile
                  tools/Makefile
                  test/Makefile
-                 py/Makefile
                  test/version.inc
-                 py/version.py
-                 Makefile
+                 py/Makefile
+                 py/Boinc/Makefile
+                 py/Boinc/version.py
+                 py/Boinc/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 py/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 sched/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 tools/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 test/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  ])
 
 AC_CONFIG_HEADER([config.h])
 
 AC_OUTPUT
 
-(cd test && ./test_sanity.py)
+echo "--- Configured BOINC AC_PACKAGE_VERSION ---"
+
+test/test_sanity.py
+

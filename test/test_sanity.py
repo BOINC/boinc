@@ -33,11 +33,11 @@ def read_url(url, quiet=False):
 if __name__ == '__main__':
     test_msg("framework sanity")
 
-    verbose_echo(1, "Checking executables")
-    check_core_client_executable()
-    check_app_executable("upper_case")
-    check_app_executable("concat")
-    check_app_executable("1sec")
+    # verbose_echo(1, "Checking executables")
+    # check_core_client_executable()
+    # check_app_executable("upper_case")
+    # check_app_executable("concat")
+    # check_app_executable("1sec")
 
     verbose_echo(1, "Checking directories")
     for d in ['projects_dir',

@@ -1,10 +1,8 @@
 ## $Id$
 
-# the module MySQLdb can be installed on debian with "apt-get install python2.2-mysqldb"
-
 # TODO: make things work if build_dir != src_dir
 
-from version import *
+import version
 from boinc_db import *
 import os, sys, glob, time, shutil, re, random
 import MySQLdb
@@ -20,7 +18,7 @@ options.have_init = False
 options.install_method = None
 options.echo_verbose = 1
 options.is_test = False
-options.client_bin_filename = CLIENT_BIN_FILENAME
+options.client_bin_filename = version.CLIENT_BIN_FILENAME
 options.drop_db_first = False
 
 def init():
@@ -146,7 +144,7 @@ Executable not found: %s
 Did you `make' yet?
 """ % prog)
 def check_core_client_executable():
-    check_program_exists(builddir('client', CLIENT_BIN_FILENAME))
+    check_program_exists(builddir('client', version.CLIENT_BIN_FILENAME))
 def check_app_executable(app):
     check_program_exists(builddir('apps', app))
 
@@ -172,7 +170,7 @@ def _url_to_filename(url):
 	if (c.isalnum()):
 	    s += c
 	else:
-	    s += '_' 
+	    s += '_'
     return _remove_trail(s,'_')
 
 def account_file_name(url):

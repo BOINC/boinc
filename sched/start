@@ -79,8 +79,9 @@ Start/stop:
 The main script is "start"; sym-link or hard-link "start" to "stop".
 '''
 
+import boinc_path_config
+from Boinc import configxml
 import sys, os, getopt, time, glob, fcntl, signal
-from boinc_config import *
 
 verbose = os.isatty(sys.stdout.fileno())
 verbose_daemon_run = 0
@@ -557,8 +558,8 @@ for opt,v in opts:
 if not command:
     raise SystemExit('No command specified and script name is not "start", "stop", or "status"')
 
-config = BoincConfig(config_filename).read()
-run_state = BoincRunState(run_state_filename).read(failopen_ok = True)
+config = configxml.ConfigFile(config_filename).read()
+run_state = configxml.RunStateFile(run_state_filename).read(failopen_ok = True)
 
 project_dir = os.path.realpath(config.config.__dict__.get('project_dir') or
                                os.path.join(program_path, '../'))

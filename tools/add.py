@@ -2,25 +2,6 @@
 
 # $Id$
 
-# The contents of this file are subject to the BOINC Public License
-# Version 1.0 (the "License"); you may not use this file except in
-# compliance with the License. You may obtain a copy of the License at
-# http://boinc.berkeley.edu/license_1.0.txt
-#
-# Software distributed under the License is distributed on an "AS IS"
-# basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-# License for the specific language governing rights and limitations
-# under the License.
-#
-# The Original Code is the Berkeley Open Infrastructure for Network Computing.
-#
-# The Initial Developer of the Original Code is the SETI@home project.
-# Portions created by the SETI@home project are Copyright (C) 2002
-# University of California at Berkeley. All Rights Reserved.
-#
-# Contributor(s):
-#
-
 '''
 add items to the BOINC database.
 
@@ -51,11 +32,9 @@ add.py workunit  (TODO)
 
 add.py result    (TODO) '''
 
+import boinc_path_config
+from Boinc import database, db_mid, configxml, util
 import sys, os, getopt, md5, time
-sys.path.append('../py/')
-sys.path.append('../sched')
-import database, db_mid, boinc_config
-from util import *
 
 config = boinc_config.BoincConfig('../../projects/client_test/config.xml').read()
 
