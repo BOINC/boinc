@@ -8,7 +8,7 @@
 // License for the specific language governing rights and limitations
 // under the License. 
 // 
-// The Original Code is the Berkeley Open Network Computing. 
+// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
 // 
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002

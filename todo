@@ -1,0 +1,134 @@
+Global preferences
+    implement disk usage prefs
+    time-of-day prefs?
+    test propagation mechanism
+        set up multi-project, multi-host test;
+        change global prefs at one web site,
+        make sure they propagate to all hosts
+    limit on frequency of disk writes?
+    max net traffic per day?
+        implement in client
+
+Per-project preferences
+    test project-specific prefs
+        make example web edit pages
+        make app that uses them
+    set up a test with multiple projects
+        test "add project" feature, GUI and cmdline
+        test resource share mechanism
+
+Proxies
+    work through HTTP, Socks proxies
+    look at other open-source code (Mozilla?)
+
+Documentation
+    simplify/finish docs on server installation
+    get rid of text in INSTALL and INSTALL_CLIENT;
+        they should just refer to .html files
+
+Testing in general
+    figure out how to set up multi-project, multi-host tests
+        from a single script
+    automate some simple test cases
+
+Messages from core client
+    decide what messages should be shown to user, and how
+    log file?  GUI?  dialog?
+
+Host performance measurement
+    review CPU tests - do they do what we want?
+    what to do when tests show hardware problem?
+    How should we weight factors for credit?
+    run CPU tests unobtrusively, periodically
+    check that on/conn/active fracs are maintainted correctly
+    check that bandwidth is measured correctly
+    measure disk/mem size on all platforms
+    get timezone to work
+    batteries on windows
+
+WU/result sequence mechanism
+    design/implement/document
+
+Multiple application files
+    document, test
+
+CPU accounting in the presence of checkpoint/restart
+    test
+
+Application errors
+    make sure server/DB is notified correctly on:
+        - app crash
+        - app failure exit
+    make sure stderr out ends up in DB
+
+Test nslots > 1
+    Win/Unix: how to find # of CPUs?
+
+Redundancy checking and validation
+    test the validation mechanism
+    make sure credit is granted correctly
+    make sure average, total credit maintained correctly for user, host
+
+Scheduler RPC
+    formalize notion of "permanent failure" (e.g. can't download file)
+    report perm failures to scheduler, record in DB
+    make sure RPC backoff is done for any perm failure
+        (in general, should never make back-to-back RPCs to a project)
+    make sure that client eventually reloads master URL
+
+Data transfer
+    make sure restart of downloads works
+    make sure restart of uploads works
+    test download/upload with multiple data servers
+        make sure it tries servers in succession,
+        does exponential backoff if all fail
+    review and document prioritization of transfers
+    review protocol; make sure error returns are possible and handled correctly
+
+Application graphics
+    finish design, implementation, doc, testing
+        size, frame rate, whether to generate
+    X11/Win/Mac versions
+    
+Work generation
+    generation of upload signature is very slow
+
+Windows GUI
+    finish design/implement
+    display credit info, team
+
+Windows screensaver functionality
+    idle-only behavior without screensaver
+
+Windows install
+
+Versioning
+    think through issues involved in:
+    compatibility of core client and scheduling server
+    compatibility of core client and data server
+    compatibility of core client and app version
+    compatibility of core client and client state file?
+    Need version numbers for protocols/interfaces?
+    What messages to show user?  Project?
+
+Scheduler
+    Should dispatch results based on deadline?
+    test that scheduler estimates WU completion time correctly
+    test that scheduler sends right amount of work
+    test that client estimates remaining work correctly,
+        requests correct # of seconds
+    test that hi/low water mark system works
+    test that scheduler sends only feasible WUs
+
+Persistent files
+    test
+    design/implement test reporting, retrieval mechanisms
+    (do this using WU/results with null application?)
+
+User HTML
+    leader boards
+
+NET_XFER_SET
+    review logic; prevent one stream for starving others
+
+test HTTP redirect mechanism for all types of ops

@@ -28,7 +28,7 @@ OBJS = \
     backend_lib.o \
     process_result_template.o
 
-PROGS = create_work add country_select grant_credit
+PROGS = create_work add country_select
 all: $(PROGS) $(OBJS)
 
 MYSQL_DIR = /usr/local/mysql/lib
@@ -56,9 +56,6 @@ create_work: create_work.o $(CLIBS) $(LIBS) $(CRYPTO_LIBS)
 
 add: add.o $(CLIBS) $(LIBS) $(CRYPTO_LIBS)
 	$(CC) add.o $(CLIBS) $(LIBS) $(CRYPTO_LIBS) $(MYSQL_LIBS) -o add
-
-grant_credit: grant_credit.o
-	$(CC) grant_credit.o $(LIBS) $(CRYPTO_LIBS) $(MYSQL_LIBS) $(CLIBS) -o grant_credit;
 
 country_select: country_select.o ../lib/countries.o
 	$(CC) country_select.o ../lib/countries.o -o country_select

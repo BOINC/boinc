@@ -1956,3 +1956,10 @@ David   Sept 25 2002
         test_uc.php
     tools/
         backend_lib.C
+
+David   Sept 26 2002
+    - added todo list
+    - added license comment to various files
+
+    tools/
+        grant_credit.C (removed)
