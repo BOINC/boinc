@@ -9423,3 +9423,13 @@ David  Jan 20 2004
     lib/
         parse.C
         util.C,h
+
+David  Jan 21 2004
+	- get new GUI RPC stuff to compile on Win
+
+	client/
+		gui_rpc_server.C
+	win_build/
+		boinc.sln
+		boinc_cli.vcproj
+		boinc_gui.vcproj

@@ -1,9 +1,11 @@
-#include <vector.h>
 #include <stdio.h>
+#ifndef _WIN32
 #include <unistd.h>
-#include <string.h>
 #include <sys/socket.h>
 #include <sys/un.h>
+#include <vector>
+#endif
+#include <string.h>
 
 #include "parse.h"
 #include "client_state.h"
@@ -16,11 +18,14 @@ GUI_RPC_CONN::GUI_RPC_CONN(int s) {
 }
 
 GUI_RPC_CONN::~GUI_RPC_CONN() {
+#ifndef _WIN32
     close(sock);
     fclose(fout);
+#endif
 }
 
 int GUI_RPC_CONN::handle_rpc() {
+#ifndef _WIN32
     char buf[256];
     int n;
     unsigned int i;
@@ -40,7 +45,8 @@ int GUI_RPC_CONN::handle_rpc() {
         fprintf(fout, "<unrecognized/>\n");
     }
     fflush(fout);
-    return 0;
+#endif
+   return 0;
 }
 
 int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
@@ -49,10 +55,10 @@ int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
 }
 
 void GUI_RPC_CONN_SET::init(char* path) {
+#ifndef _WIN32
     sockaddr_un addr;
     int retval;
 
-#ifndef _WIN32
     unlink(path);
     addr.sun_family = AF_UNIX;
     strcpy(addr.sun_path, path);

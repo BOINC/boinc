@@ -566,6 +566,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\client\gui_rpc_server.C">
+			</File>
+			<File
 				RelativePath="..\Client\Hostinfo.c">
 				<FileConfiguration
 					Name="Debug|Win32">
@@ -1104,6 +1107,9 @@
 			</File>
 			<File
 				RelativePath="..\client\filesys.h">
+			</File>
+			<File
+				RelativePath="..\client\gui_rpc_server.h">
 			</File>
 			<File
 				RelativePath="..\client\hostinfo.h">
