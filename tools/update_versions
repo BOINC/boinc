@@ -91,6 +91,7 @@ def add_files(app, match, exec_file, non_exec_files=[], signature_files={},
     MATCH is the output of re_match_exec_filename(EXEC_FILE).
     '''
     assert(match)
+    assert(exec_file)
     version_major, version_minor, platform_name = match.groups()
     version_num = int(version_major) * 100 + int(version_minor)
 
@@ -169,37 +170,34 @@ def find_versions(app, dir):
         if os.path.islink(filepath):
             # ignore symlinks
             continue
+        match = re_match_exec_filename(filepath)
+        if not match:
+            print >>sys.stderr, "  Ignoring unknown file", filepath
+            continue
         if os.path.isdir(filepath):
-            find_versions__process_bundle(app, filepath)
+            find_versions__process_bundle(app, match, filepath)
         else:
-            find_versions__process_single_file(app, filepath)
+            find_versions__process_single_file(app, match, filepath)
 
-def find_versions__process_single_file(app, filepath):
+def find_versions__process_single_file(app, match, filepath):
      '''add a single executable as app/core version'''
-     match = re_match_exec_filename(filepath)
-     if not match:
-         print >>sys.stderr, "  Ignoring unknown file", filepath
-         return
      add_files(app=app, match=match, exec_file=filepath,
                min_core_version = min_core_version
                )
 
-def find_versions__process_bundle(app, dir):
+def find_versions__process_bundle(app, match, dir):
     '''add executable + bundle as app/core version'''
     exec_file = None
-    match = None
     non_exec_files = []
     signature_files = {}
+    dirname = os.path.basename(dir)
     for filepath in xlistdir(dir):
         if os.path.isdir(filepath):
             continue
-        if not match:
-            # no executable found yet, try this one
-            match = re_match_exec_filename(filepath)
-            if match:
-                # found an executable matching regexp
-                exec_file = filepath
-                continue
+        if os.path.basename(filepath) == dirname:
+            # the filename matches the folder name, so this is the executable.
+            exec_file = filepath
+            continue
         # if filename is of format 'EXECFILE.sig' treat it as signature file
         if filepath.endswith('.sig'):
             s = filepath[:-4]
@@ -207,8 +205,8 @@ def find_versions__process_bundle(app, dir):
                 signature_files[s] = filepath
                 continue
         non_exec_files.append(filepath)
-    if not match:
-        print >>sys.stderr, "  Ignoring directory", dir
+    if not exec_file
+        print >>sys.stderr, "  Ignoring directory (no executable found)", dir
         return
     add_files(app              = app,
               match            = match,

@@ -14083,8 +14083,7 @@ David 22 June 2004
         trickle_handler.C
 
 Karl 2004-06-24
-
-    OpenBSD compile fixes from Daniel Hartmeier <daniel@benzedrine.cx>
+    - OpenBSD compile fixes from Daniel Hartmeier <daniel@benzedrine.cx>
 
     lib/
         util.C
@@ -14092,3 +14091,10 @@ Karl 2004-06-24
 
     sched/
         sched_send.C
+
+Karl 2004-06-24
+    - update_versions: only match exec_file if it's the same as the directory.
+      This makes executable selection deterministic.
+
+    tools/
+        update_versions
