@@ -33,16 +33,11 @@
 // For upload, try to upload the file to the first URL;
 // if that gets transient failure, try the others.
 
+// Default values for exponential backoff
 #define PERS_RETRY_DELAY_MIN    60                // 1 minute
 #define PERS_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 #define PERS_GIVEUP             (60*60*24*7*2)    // 2 weeks
     // give up on xfer if this time elapses since last byte xferred
-
-#ifdef DEBUG
-#define PERS_RETRY_DELAY_MIN    1
-#define PERS_RETRY_DELAY_MAX    30
-#define PERS_GIVEUP             30
-#endif
 
 class PERS_FILE_XFER {
     int nretry;                // # of retries so far

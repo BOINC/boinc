@@ -95,6 +95,16 @@ CLIENT_STATE::CLIENT_STATE() {
     cpu_benchmarks_handle = NULL;
 #endif
     cpu_benchmarks_id = 0;
+    master_fetch_period = MASTER_FETCH_PERIOD;
+    retry_base_period = RETRY_BASE_PERIOD;
+    retry_cap = RETRY_CAP;
+    master_fetch_retry_cap = MASTER_FETCH_RETRY_CAP;
+    master_fetch_interval = MASTER_FETCH_INTERVAL;
+    sched_retry_delay_min = SCHED_RETRY_DELAY_MIN;
+    sched_retry_delay_max = SCHED_RETRY_DELAY_MAX;
+    pers_retry_delay_min = PERS_RETRY_DELAY_MIN;
+    pers_retry_delay_max = PERS_RETRY_DELAY_MAX;
+    pers_giveup = PERS_GIVEUP;
 }
 
 #if 0
@@ -248,8 +258,10 @@ int CLIENT_STATE::init() {
         core_client_major_version, core_client_minor_version);
 
     if (core_client_major_version != old_major_version) {
-        msg_printf(NULL, MSG_INFO, "State file has different major version (%d.%02d); resetting projects\n",
-            old_major_version, old_minor_version);
+        msg_printf(NULL, MSG_INFO,
+            "State file has different major version (%d.%02d); resetting projects\n",
+            old_major_version, old_minor_version
+        );
         for (i=0; i<projects.size(); i++) {
             reset_project(projects[i]);
         }
@@ -1377,6 +1389,28 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             // ignore -psn argument on Mac OS X
         } else if (!strcmp(argv[i], "-exit_before_upload")) {
             exit_before_upload = true;
+        // The following are only used for testing to alter scheduler/file transfer
+        // backoff rates
+        } else if (!strcmp(argv[i], "-master_fetch_period")) {
+            master_fetch_period = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-retry_base_period")) {
+            retry_base_period = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-retry_cap")) {
+            retry_cap = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-master_fetch_retry_cap")) {
+            master_fetch_retry_cap = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-master_fetch_interval")) {
+            master_fetch_interval = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-sched_retry_delay_min")) {
+            sched_retry_delay_min = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-sched_retry_delay_max")) {
+            sched_retry_delay_max = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-pers_retry_delay_min")) {
+            pers_retry_delay_min = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-pers_retry_delay_max")) {
+            pers_retry_delay_max = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-pers_giveup")) {
+            pers_giveup = atoi(argv[++i]);
 
         // the above options are private (i.e. not shown by -help)
 

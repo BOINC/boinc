@@ -136,19 +136,20 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
     int exp_backoff;
 
     int n = p->nrpc_failures;
-    if (n > RETRY_CAP) n = RETRY_CAP;
+    if (n > gstate.retry_cap) n = gstate.retry_cap;
 
     // we've hit the limit on master_url fetches
     //
-    if (p->master_fetch_failures >= MASTER_FETCH_RETRY_CAP) {
+    if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
         if (log_flags.sched_op_debug) {
             printf("we've hit the limit on master_url fetches\n");
         }
         exp_backoff = calculate_exponential_backoff(
-            p->master_fetch_failures, MASTER_FETCH_INTERVAL);
+            p->master_fetch_failures, gstate.master_fetch_interval);
     } else {
         exp_backoff = calculate_exponential_backoff(
-            n, SCHED_RETRY_DELAY_MIN, SCHED_RETRY_DELAY_MAX, RETRY_BASE_PERIOD);
+            n, gstate.sched_retry_delay_min, gstate.sched_retry_delay_max,
+            gstate.retry_base_period);
     }
     p->min_rpc_time = time(0) + exp_backoff;
     msg_printf(p, MSG_ERROR, "Deferring communication with project for %d seconds\n", exp_backoff);
@@ -160,13 +161,13 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
 void SCHEDULER_OP::backoff(PROJECT* p, char *error_msg ) {
     msg_printf(p, MSG_ERROR, error_msg);
 
-    if (p->master_fetch_failures >= MASTER_FETCH_RETRY_CAP) {
+    if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
         p->master_url_fetch_pending = true;
     } else {
         // if nrpc failures is a multiple of master_fetch_period,
         // then set master_url_fetch_pending and initialize again
         //
-        if (p->nrpc_failures == MASTER_FETCH_PERIOD) {
+        if (p->nrpc_failures == gstate.master_fetch_period) {
             p->master_url_fetch_pending = true;
             p->min_rpc_time = 0;
             p->nrpc_failures = 0;

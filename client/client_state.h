@@ -138,6 +138,11 @@ private:
         // if nonzero, exit this many seconds after starting an app
     time_t app_started;
         // when the most recent app was started
+    // exponential backoff variables
+    int master_fetch_period, retry_base_period, retry_cap;
+    int master_fetch_retry_cap, master_fetch_interval;
+    int sched_retry_delay_min, sched_retry_delay_max;
+    int pers_retry_delay_min, pers_retry_delay_max, pers_giveup;
 
     int parse_account_files();
     int parse_state_file();

@@ -267,11 +267,11 @@ void PERS_FILE_XFER::retry_or_backoff() {
         nretry++;
 
         // Do an exponential backoff of e^nretry seconds,
-        // keeping within the bounds of PERS_RETRY_DELAY_MIN and
-        // PERS_RETRY_DELAY_MAX
+        // keeping within the bounds of pers_retry_delay_min and
+        // pers_retry_delay_max
         //
         backoff = (int)calculate_exponential_backoff(
-            nretry, PERS_RETRY_DELAY_MIN, PERS_RETRY_DELAY_MAX);
+            nretry, gstate.pers_retry_delay_min, gstate.pers_retry_delay_max);
         next_request_time = now + backoff;
         // fprintf(stderr, "### PERS_FILE_XFER '%s'#%x::retry_or_backoff(): nretry=%d, backoff=%d, now=%d, next_request_time=%d\n",
         //         fip->name, this, nretry,
