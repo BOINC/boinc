@@ -20,6 +20,7 @@
     } else {
         $entries_to_show = 10;
     }
+    $page_entries_to_show = $entries_to_show;
 
     if (strlen($last_pos)) {
         $start_at = $last_pos;
@@ -46,21 +47,31 @@
     ";
 
     $urlquery = urlencode($q->query);
+    echo "<table><tr><td width=100>";
+    if ($start_at) { 
+        $prev_pos = $start_at - $page_entries_to_show;
+        if ($prev_pos < 0) {
+            $prev_pos = 0;
+        }
+        echo "
+            <a href=db_action.php?table=$table&query=$urlquery&last_pos=$prev_pos&detail=$detail>Previous $page_entries_to_show</a><br>
+        ";
+    }
+    echo "</td><td width=100>";
     if ($last < $count) {
         echo "
             <a href=db_action.php?table=$table&query=$urlquery&last_pos=$last&detail=$detail>Next $entries_to_show</a><br>
         ";
-    } else {
-        echo "<br>";
     }
+    echo "</td></tr></table>";
     if ($detail == "high") {
         echo "
-            | <a href=db_action.php?table=$table&query=$urlquery&detail=low>Less detail</a>
+            <a href=db_action.php?table=$table&query=$urlquery&detail=low>Less detail</a>
         ";
     }
     if ($detail == "low") {
         echo "
-            | <a href=db_action.php?table=$table&query=$urlquery&detail=high>More detail</a>
+            <a href=db_action.php?table=$table&query=$urlquery&detail=high>More detail</a>
         ";
     }
 
