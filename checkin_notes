@@ -16061,7 +16061,6 @@ Daniel 2004-08-06
     html/inc/
         prefs.inc
 
-
 Noaa	6 August 2004
 
 	- removed libglut.a from cvs, was accidentally in there
@@ -16086,3 +16085,11 @@ David  7 Aug 2004
         constraints.sql
     client/
         gui_rpc_server.C
+
+Daniel 2004-08-06
+    - client: check for exited apps right before (re)starting them for any
+      reason (unsuspend_all, resume_or_start)
+
+    client/
+        app.C,h
+

@@ -146,6 +146,11 @@ public:
     bool task_exited();                 // return true if this task has exited
     int preempt(bool quit_task);        // preempt (via suspend or quit) a running task
     int resume_or_start();
+#ifdef _WIN32
+    bool handle_exited_app(unsigned long);
+#else
+    bool handle_exited_app(int stat, struct rusage rs);
+#endif
 
     bool check_max_cpu_exceeded();
     bool check_max_disk_exceeded();

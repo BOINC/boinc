@@ -674,24 +674,24 @@ int ACTIVE_TASK::resume_or_start() {
     int retval;
     int task_start_type;
 
-    if (pending_suspend_via_quit || state == PROCESS_UNINITIALIZED) {
-        if (pending_suspend_via_quit) {
-            // still have to destroy shm
-            //
-#ifdef _WIN32
-            if (app_client_shm.shm) {
-                detach_shmem(shm_handle, app_client_shm.shm);
-                app_client_shm.shm = NULL;
-            }
-#else
-            if (app_client_shm.shm) {
-                detach_shmem(app_client_shm.shm);
-                app_client_shm.shm = NULL;
-            }
-            destroy_shmem(shm_key);
-#endif
-            pending_suspend_via_quit = false;
+    if (state == PROCESS_RUNNING) {
+#if _WIN32
+        unsigned long exit_code;
+        GetExitCodeProcess(pid_handle, &exit_code);
+        if (exit_code != STILL_ACTIVE) {
+            handle_exited_app(exit_code);
         }
+#else
+        int exited_pid;
+        int stat;
+        struct rusage rs;
+
+        if ((exited_pid = wait4(0, &stat, WNOHANG, &rs)) == pid) {
+            handle_exited_app(stat, rs);
+        }
+#endif
+    }
+    if (state == PROCESS_UNINITIALIZED) {
         if (scheduler_state == CPU_SCHED_UNINITIALIZED) {
             if (!boinc_file_exists(slot_dir)) {
                 make_slot_dir(slot);
@@ -710,7 +710,7 @@ int ACTIVE_TASK::resume_or_start() {
             msg_printf(
                 wup->project,
                 MSG_ERROR,
-                "ACTIVE_TASK::resume_preempted(): could not unsuspend active_task"
+                "ACTIVE_TASK::resume_or_start(): could not unsuspend active_task"
             );
             return retval;
         }
@@ -726,6 +726,136 @@ int ACTIVE_TASK::resume_or_start() {
     );
     return 0;
 }
+
+#ifdef _WIN32
+bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
+    get_msg();
+    result->final_cpu_time = checkpoint_cpu_time;
+    if (state == PROCESS_ABORT_PENDING) {
+        state = PROCESS_ABORTED;
+        result->active_task_state = PROCESS_ABORTED;
+    } else {
+        state = PROCESS_EXITED;
+        exit_status = exit_code;
+
+        //if a nonzero error code, then report it
+        //
+        if (exit_code) {
+            char szError[1024];
+            gstate.report_result_error(
+                *result, 0,
+                "%s - exit code %d (0x%x)",
+                windows_format_error_string(exit_code, szError, sizeof(szError)),
+                exit_code, exit_code
+            );
+        } else {
+            if (pending_suspend_via_quit) {
+                pending_suspend_via_quit = false;
+                state = PROCESS_UNINITIALIZED;
+                if (app_client_shm.shm) {
+                    detach_shmem(shm_handle, app_client_shm.shm);
+                    app_client_shm.shm = NULL;
+                }
+            } else if (!finish_file_present()) {
+                state = PROCESS_IN_LIMBO;
+            }
+            return true;
+        }
+        result->exit_status = exit_status;
+        result->active_task_state = PROCESS_EXITED;
+    }
+    read_stderr_file();
+    clean_out_dir(slot_dir);
+    return true;
+}
+#else
+bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
+
+    get_msg();
+    result->final_cpu_time = checkpoint_cpu_time;
+    if (state == PROCESS_ABORT_PENDING) {
+        state = PROCESS_ABORTED;
+        result->active_task_state = PROCESS_ABORTED;
+    } else {
+        if (WIFEXITED(stat)) {
+            state = PROCESS_EXITED;
+            exit_status = WEXITSTATUS(stat);
+
+            // If exit_status is nonzero,
+            // then we don't need to upload the output files
+            //
+            if (exit_status) {
+                gstate.report_result_error(
+                    *result, 0,
+                    "process exited with code %d (0x%x)",
+                    exit_status, exit_status
+                );
+            } else {
+                if (pending_suspend_via_quit) {
+                    pending_suspend_via_quit = false;
+                    state = PROCESS_UNINITIALIZED;
+
+                    // destroy shm, since restarting app will re-create it
+                    //
+                    if (app_client_shm.shm) {
+                        detach_shmem(app_client_shm.shm);
+                        app_client_shm.shm = NULL;
+                    }
+                    destroy_shmem(shm_key);
+                } else if (!finish_file_present()) {
+                    // The process looks like it exited normally
+                    // but there's no "finish file".
+                    // Assume it was externally killed,
+                    // and just leave it there
+                    // (assume user is about to exit core client)
+                    //
+                    state = PROCESS_IN_LIMBO;
+                }
+                return true;
+            }
+            result->exit_status = exit_status;
+            result->active_task_state = PROCESS_EXITED;
+            scope_messages.printf(
+                "ACTIVE_TASK::handle_exited_app(): process exited: status %d\n",
+                exit_status
+            );
+        } else if (WIFSIGNALED(stat)) {
+            int signal = WTERMSIG(stat);
+
+            // if the process was externally killed, allow it to restart.
+            //
+            switch(signal) {
+            case SIGHUP:
+            case SIGINT:
+            case SIGQUIT:
+            case SIGKILL:
+            case SIGTERM:
+            case SIGSTOP:
+                state = PROCESS_IN_LIMBO;
+                return true;
+            }
+            exit_status = stat;
+            result->exit_status = exit_status;
+            state = PROCESS_WAS_SIGNALED;
+            signal = signal;
+            result->signal = signal;
+            result->active_task_state = PROCESS_WAS_SIGNALED;
+            gstate.report_result_error(
+                *result, 0, "process got signal %d", signal
+            );
+            scope_messages.printf("ACTIVE_TASK::handle_exited_app(): process got signal %d\n", signal);
+        } else {
+            state = PROCESS_EXIT_UNKNOWN;
+            result->state = PROCESS_EXIT_UNKNOWN;
+        }
+    }
+
+    read_stderr_file();
+    clean_out_dir(slot_dir);
+    return true;
+}
+#endif
 
 #if 0
 // Deallocate memory to prevent unneeded reporting of memory leaks
@@ -807,12 +937,12 @@ void ACTIVE_TASK_SET::send_heartbeats() {
 
 bool ACTIVE_TASK_SET::check_app_exited() {
     ACTIVE_TASK* atp;
+    bool found = false;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
 #ifdef _WIN32
     unsigned long exit_code;
-    bool found = false;
     unsigned int i;
 
     for (i=0; i<active_tasks.size(); i++) {
@@ -824,148 +954,28 @@ bool ACTIVE_TASK_SET::check_app_exited() {
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             if (exit_code != STILL_ACTIVE) {
                 scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): Process exited with code %d\n", exit_code);
-                atp->get_msg();
-                atp->result->final_cpu_time = atp->checkpoint_cpu_time;
                 found = true;
-                if (atp->state == PROCESS_ABORT_PENDING) {
-                    atp->state = PROCESS_ABORTED;
-                    atp->result->active_task_state = PROCESS_ABORTED;
-                } else {
-                    atp->state = PROCESS_EXITED;
-                    atp->exit_status = exit_code;
-
-                    //if a nonzero error code, then report it
-                    //
-                    if (exit_code) {
-                        char szError[1024];
-                        gstate.report_result_error(
-                            *(atp->result), 0,
-                            "%s - exit code %d (0x%x)",
-                            windows_format_error_string(exit_code, szError, sizeof(szError)),
-                            exit_code, exit_code
-                        );
-                    } else {
-                        if (atp->pending_suspend_via_quit) {
-                            atp->pending_suspend_via_quit = false;
-                            atp->state = PROCESS_UNINITIALIZED;
-                            if (atp->app_client_shm.shm) {
-                                detach_shmem(atp->shm_handle, atp->app_client_shm.shm);
-                                atp->app_client_shm.shm = NULL;
-                            }
-                        } else if (!atp->finish_file_present()) {
-                            atp->state = PROCESS_IN_LIMBO;
-                        }
-                        return true;
-                    }
-                    atp->result->exit_status = atp->exit_status;
-                    atp->result->active_task_state = PROCESS_EXITED;
-                }
-                atp->read_stderr_file();
-                clean_out_dir(atp->slot_dir);
-
+                atp->handle_exited_app(exit_code);
             }
         }
     }
-    if (found) return true;
 #else
     int pid;
     int stat;
     struct rusage rs;
 
-    pid = wait4(0, &stat, WNOHANG, &rs);
-    if (pid > 0) {
+    if ((pid = wait4(0, &stat, WNOHANG, &rs)) > 0) {
         scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process %d is done\n", pid);
         atp = lookup_pid(pid);
         if (!atp) {
             msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK_SET::check_app_exited(): pid %d not found\n", pid);
-            return true;
+            return false;
         }
-        atp->get_msg();
-        atp->result->final_cpu_time = atp->checkpoint_cpu_time;
-        if (atp->state == PROCESS_ABORT_PENDING) {
-            atp->state = PROCESS_ABORTED;
-            atp->result->active_task_state = PROCESS_ABORTED;
-        } else {
-            if (WIFEXITED(stat)) {
-                atp->state = PROCESS_EXITED;
-                atp->exit_status = WEXITSTATUS(stat);
-
-                // If exit_status is nonzero,
-                // then we don't need to upload the output files
-                //
-                if (atp->exit_status) {
-                    gstate.report_result_error(
-                        *(atp->result), 0,
-                        "process exited with code %d (0x%x)",
-                        atp->exit_status, atp->exit_status
-                    );
-                } else {
-                    if (atp->pending_suspend_via_quit) {
-                        atp->pending_suspend_via_quit = false;
-                        atp->state = PROCESS_UNINITIALIZED;
-
-                        // destroy shm, since restarting app will re-create it
-                        //
-                        if (atp->app_client_shm.shm) {
-                            detach_shmem(atp->app_client_shm.shm);
-                            atp->app_client_shm.shm = NULL;
-                        }
-                        destroy_shmem(atp->shm_key);
-                    } else if (!atp->finish_file_present()) {
-                        // The process looks like it exited normally
-                        // but there's no "finish file".
-                        // Assume it was externally killed,
-                        // and just leave it there
-                        // (assume user is about to exit core client)
-                        //
-                        atp->state = PROCESS_IN_LIMBO;
-                    }
-                    return true;
-                }
-                atp->result->exit_status = atp->exit_status;
-                atp->result->active_task_state = PROCESS_EXITED;
-                scope_messages.printf(
-                    "ACTIVE_TASK_SET::check_app_exited(): process exited: status %d\n",
-                    atp->exit_status
-                );
-            } else if (WIFSIGNALED(stat)) {
-                int signal = WTERMSIG(stat);
-
-                // if the process was externally killed, allow it to restart.
-                //
-                switch(signal) {
-                case SIGHUP:
-                case SIGINT:
-                case SIGQUIT:
-                case SIGKILL:
-                case SIGTERM:
-                case SIGSTOP:
-                    atp->state = PROCESS_IN_LIMBO;
-                    return true;
-                }
-                atp->exit_status = stat;
-                atp->result->exit_status = atp->exit_status;
-                atp->state = PROCESS_WAS_SIGNALED;
-                atp->signal = signal;
-                atp->result->signal = atp->signal;
-                atp->result->active_task_state = PROCESS_WAS_SIGNALED;
-                gstate.report_result_error(
-                    *(atp->result), 0, "process got signal %d", atp->signal
-                );
-                scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process got signal %d\n", atp->signal);
-            } else {
-                atp->state = PROCESS_EXIT_UNKNOWN;
-                atp->result->state = PROCESS_EXIT_UNKNOWN;
-            }
-        }
-
-        atp->read_stderr_file();
-        clean_out_dir(atp->slot_dir);
-
-        return true;
+        atp->handle_exited_app(stat, rs);
+        found = true;
     }
 #endif
-    return false;
+    return found;
 }
 
 // if an app has exceeded its maximum CPU time, abort it
@@ -1293,6 +1303,23 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
+        if (atp->state == PROCESS_RUNNING) {
+#if _WIN32
+            unsigned long exit_code;
+            GetExitCodeProcess(atp->pid_handle, &exit_code);
+            if (exit_code != STILL_ACTIVE) {
+                atp->handle_exited_app(exit_code);
+            }
+#else
+            int exited_pid;
+            int stat;
+            struct rusage rs;
+
+            if ((exited_pid = wait4(0, &stat, WNOHANG, &rs)) == atp->pid) {
+                atp->handle_exited_app(stat, rs);
+            }
+#endif
+        }
         if (atp->state == PROCESS_UNINITIALIZED) {
             //atp->pending_suspend_via_quit = false;
             if (atp->start(false)) {

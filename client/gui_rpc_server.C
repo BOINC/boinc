@@ -111,9 +111,9 @@ static PROJECT* get_project(char* buf, MIOFILE& fout) {
 }
 
 static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
-	string result_name;
+    string result_name;
     ACTIVE_TASK* atp;
-    int mode
+    int mode;
 
     if (match_tag(buf, "<full_screen/>")) {
         mode = MODE_FULLSCREEN;
