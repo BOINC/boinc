@@ -13271,3 +13271,9 @@ David  10 June 2004
         client_state.C,h
         cs_cmdline.C
         gui_rpc_server.C
+
+Karl 2004-06-11
+    - added feature to START to prune obsolete run_state timestamps
+
+    sched/
+        start

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- mode: python; python-indent: 4; -*-
 
 ## $Id$
 
@@ -84,6 +85,7 @@ verbose_daemon_run = 0
 # starting simultaneously.  also it keeps output in sequence.
 fork_delay = 0.1
 ignore_timestamps = False
+prune_run_state = False
 is_main_host = False
 local_hostname = ''
 
@@ -323,10 +325,12 @@ def exec_command_string(command):
 def lookup_task_run_state(task):
     for run_state_task in run_state.tasks:
         if run_state_task.cmd == task.cmd:
+            run_state_task.prunable = False
             return run_state_task
     run_state_task = run_state.tasks.make_node_and_append('task')
     run_state_task.cmd = task.cmd
     run_state_task.last_run = 0
+    task_run_state.prunable = False
     return run_state_task
 
 def interpret_period(str):
@@ -412,12 +416,36 @@ def run_daemons():
 
 def run_tasks():
     if verbose: print "Running tasks"
+    prepare_run_state_pruning()
     for task in config.tasks:
         if task.host != local_hostname:
             continue
         if task.disabled:
             continue
         run_task(task)
+    do_prune_run_states()
+
+def prepare_run_state_pruning():
+    for run_state_task in run_state.tasks:
+        run_state_task.prunable = True
+
+def do_prune_run_states():
+    '''\
+
+    Delete tasks that have prunable==True (since we didn't touch them this run)
+
+    '''
+
+    if not prune_run_state:
+        return
+    new_run_state_tasks = []
+    for run_state_task in run_state.tasks:
+        if run_state_task.prunable:
+            print 'Deleting obsolete run_state task', run_state_task.cmd, '(last run %s)' %timestamp(run_state_task.last_run)
+        else:
+            new_run_state_tasks.append(run_state_task)
+    run_state.tasks = new_run_state_tasks
+
 
 def stop_daemon(pid):
     '''returns 1 if something stopped, else 0'''
@@ -558,7 +586,7 @@ def command_show_config():
 # ------------- main program begins here ---------------------
 
 local_hostname = socket.gethostname()
-print 'local hostname: ', local_hostname
+# print 'local hostname: ', local_hostname
 cwd = os.getcwd()
 program_name = os.path.basename(sys.argv[0])
 if program_name == 'start':
@@ -590,6 +618,7 @@ Options:
    --run-state-file=  Use specified file instead of program-path/../run_state.xml
    --fork-delay=      Seconds to sleep between daemon forks instead of 0.1
    --ignore-timestamps    Ignore timestamps; for cron mode, runs all tasks now
+   --prune-run-state  Delete unused timestamps in run_state.xml
 """
     if program_name == 'start':
         print >>sys.stderr, "Based on the invocation name as `start', the default action is --enable."
@@ -609,6 +638,7 @@ try:
                                 'ignore-timestamps',
                                 'fork-delay=',
                                 'config-file=', 'run-state-file=',
+                                'prune-run-state',
                                 'quiet', 'verbose', 'help'))
 except Exception, e:
     print >>sys.stderr, e
@@ -633,6 +663,8 @@ for opt,v in opts:
         command = command_show_config
     elif opt == '--ignore-timestamps':
         ignore_timestamps = True
+    elif opt == '--prune-run-state':
+        prune_run_state = True
     elif opt == '--config-file':
         config_filename = v
     elif opt == '--run-state-file':
