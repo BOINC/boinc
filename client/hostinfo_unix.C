@@ -102,12 +102,12 @@ int get_timezone( void ) {
     cur_time = time(NULL);
     time_data = localtime( &cur_time );
     return time_data->tm_gmtoff;
-#else
-#ifdef __timezone
+#elif defined(__timezone)
     return __timezone;
-#else
+#elif defined(timezone)
     return timezone;
-#endif
+#else
+#error timezone
 #endif
     return 0;
 }
@@ -134,21 +134,6 @@ bool host_is_running_on_batteries() {
 }
 
 #ifdef linux
-
-// Determine the memory sizes for this host,
-// including RAM and swap space
-//
-void parse_meminfo(HOST_INFO& host) {
-    char buf[256];
-    FILE* f = fopen("/proc/meminfo", "r");
-    if (!f) return;
-    while (fgets(buf, 256, f)) {
-        if (strstr(buf, "Swap:") == buf) {
-            sscanf(buf, "Swap: %lf", &host.m_swap);
-        }
-    }
-    fclose(f);
-}
 
 // Unfortunately the format of /proc/cpuinfo is not standardized.
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
@@ -193,15 +178,41 @@ void get_host_disk_info( double &total_space, double &free_space ) {
 // General function to get all relevant host information
 //
 int get_host_info(HOST_INFO& host) {
+#if HAVE_SYS_SYSCTL_H
+    int mib[2], mem_size;
+    size_t len;
+#endif
+
     get_host_disk_info( host.d_total, host.d_free );
 
+#if defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_MACHINE) && defined(HW_MODEL)
+    // Get machine
+    mib[0] = CTL_HW;
+    mib[1] = HW_MACHINE;
+    len = sizeof(host.p_vendor);
+    sysctl(mib, 2, &host.p_vendor, &len, NULL, 0);
+    
+    // Get model
+    mib[0] = CTL_HW;
+    mib[1] = HW_MODEL;
+    len = sizeof(host.p_model);
+    sysctl(mib, 2, &host.p_model, &len, NULL, 0);
+#else
+#error Need to specify a method to obtain vendor/model
+#endif
+ 
 #ifdef linux
     parse_cpuinfo(host);
-    parse_meminfo(host);
 #endif
 
 #if defined(_SC_NPROCESSORS_ONLN)
     host.p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
+#elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_NCPU)
+    // Get number of CPUs
+    mib[0] = CTL_HW;
+    mib[1] = HW_NCPU;
+    len = sizeof(host.p_ncpus);
+    sysctl(mib, 2, &host.p_ncpus, &len, NULL, 0);
 #else
 #error Need to specify a sysconf() define to obtain number of processors
 #endif
@@ -217,14 +228,14 @@ int get_host_info(HOST_INFO& host) {
 #elif defined(_SC_PHYS_PAGES)
     host.m_nbytes = (double)sysconf(_SC_PAGESIZE)
 	* (double)sysconf(_SC_PHYS_PAGES);      /*      Linux   */
+#elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_PHYSMEM)
+    mib[0] = CTL_HW;
+    mib[1] = HW_PHYSMEM;
+    len = sizeof(mem_size);
+    sysctl(mib, 2, &mem_size, &len, NULL, 0);	// Mac OS X
+    host.m_nbytes = mem_size;
 #else
 #error Need to specify a sysconf() define to obtain memory size
-#endif
-
-#if HAVE_SYS_SYSTEMINFO_H
-    sysinfo(SI_SYSNAME, host.os_name, sizeof(host.os_name));
-    sysinfo(SI_RELEASE, host.os_version, sizeof(host.os_version));
-    sysinfo(SI_HW_SERIAL, host.serialnum, sizeof(host.serialnum));
 #endif
 
 #if defined(HAVE_SYS_SWAP_H) && defined(SC_GETNSWP)
@@ -241,72 +252,24 @@ int get_host_info(HOST_INFO& host) {
     for (i=0; i<n; i++) {
         host.m_swap += 512.*(double)s->swt_ent[i].ste_length;
     }
-#endif
-
-#if HAVE_SYS_SYSCTL_H
-    int mib[2], mem_size;
-    size_t len;
-    //vmtotal vm_info;
-    
-#ifdef CTL_HW
-#ifdef HW_NCPU
-    // Get number of CPUs
-    mib[0] = CTL_HW;
-    mib[1] = HW_NCPU;
-    len = sizeof(host.p_ncpus);
-    sysctl(mib, 2, &host.p_ncpus, &len, NULL, 0);
-#endif
-    
-#ifdef HW_MACHINE
-    // Get machine
-    mib[0] = CTL_HW;
-    mib[1] = HW_MACHINE;
-    len = sizeof(host.p_vendor);
-    sysctl(mib, 2, &host.p_vendor, &len, NULL, 0);
-#endif
-    
-#ifdef HW_MODEL
-    // Get model
-    mib[0] = CTL_HW;
-    mib[1] = HW_MODEL;
-    len = sizeof(host.p_model);
-    sysctl(mib, 2, &host.p_model, &len, NULL, 0);
-#endif
-    
-#ifdef HW_PHYSMEM
-    // Get physical memory size
-    mib[0] = CTL_HW;
-    mib[1] = HW_PHYSMEM;
-    len = sizeof(mem_size);
-    sysctl(mib, 2, &mem_size, &len, NULL, 0);
-    host.m_nbytes = mem_size;
-#endif
-#endif
-    
-#ifdef CTL_KERN
-#ifdef KERN_OSTYPE
-    // Get operating system name
-    mib[0] = CTL_KERN;
-    mib[1] = KERN_OSTYPE;
-    len = sizeof(host.os_name);
-    sysctl(mib, 2, &host.os_name, &len, NULL, 0);
-#endif
-    
-#ifdef KERN_OSRELEASE
-    // Get operating system version
-    mib[0] = CTL_KERN;
-    mib[1] = KERN_OSRELEASE;
-    len = sizeof(host.os_version);
-    sysctl(mib, 2, &host.os_version, &len, NULL, 0);
-#endif
-#endif
-    
-    // TODO: Get virtual memory info
-    /*mib[0] = CTL_VM;
+#elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_VM) && defined(VM_METER)
+    // TODO: figure this out
+    /*vmtotal vm_info;
+   
+    mib[0] = CTL_VM;
     mib[1] = VM_METER;
     len = sizeof(vm_info);
     sysctl(mib, 2, &vm_info, &len, NULL, 0);
-    host.m_swap = vm_info.t_vm;*/
+    host.m_swap = vm_info.t_vm;
+    */
+#else
+#error Need to specify a method to obtain swap space
+#endif
+
+#if defined(HAVE_SYS_SYSTEMINFO_H) && defined(SI_HW_SERIAL)
+    sysinfo(SI_HW_SERIAL, host.serialnum, sizeof(host.serialnum));
+#else
+//#error Need to specify a method to obtain serial num
 #endif
 
     get_local_domain_name(host.domain_name, sizeof(host.domain_name));
@@ -317,6 +280,21 @@ int get_host_info(HOST_INFO& host) {
     uname(&u);
     safe_strcpy(host.os_name, u.sysname);
     safe_strcpy(host.os_version, u.release);
+#elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_KERN) && defined(KERN_OSTYPE) && defined(KERN_OSRELEASE)
+    mib[0] = CTL_KERN;
+    mib[1] = KERN_OSTYPE;
+    len = sizeof(host.os_name);
+    sysctl(mib, 2, &host.os_name, &len, NULL, 0);
+    
+    mib[0] = CTL_KERN;
+    mib[1] = KERN_OSRELEASE;
+    len = sizeof(host.os_version);
+    sysctl(mib, 2, &host.os_version, &len, NULL, 0);
+#elif HAVE_SYS_SYSTEMINFO_H
+    sysinfo(SI_SYSNAME, host.os_name, sizeof(host.os_name));
+    sysinfo(SI_RELEASE, host.os_version, sizeof(host.os_version));
+#else
+#error Need to specify a method to obtain OS name/version
 #endif
 
     return 0;
