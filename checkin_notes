@@ -13279,3 +13279,26 @@ Karl 2004-06-11
         start
     py/Boinc/
         boincxml.py
+
+David  11 June 2004
+    - updated sample_index.php and sample project.inc
+        - project_banner() now takes title, not user
+        - check for project stopped, show news even if stopped
+        - add user of the day
+        - Get rid of project_intro(), project_community() functions;
+            just put this stuff directly in your own index.php
+    - add install of sample_index.php, project_news.inc
+        to setup_project
+    - db_dump: if can't get result counts, keep going
+
+    html/
+        inc/
+            uotd.inc
+        project.sample/
+            project.inc
+        user/
+            sample_index.php
+    py/Boinc/
+        setup_project.py
+    sched/
+        db_dump.C

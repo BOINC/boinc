@@ -1,43 +1,31 @@
 <?php
-    require_once("../inc/db.inc");
-    require_once("../inc/util.inc");
-    require_once("../inc/news.inc");
-    require_once("../project/project.inc");
-    require_once("../project/project_news.inc");
 
-    // don't want to use DB here, because master page won't be visible
-    // if DB is down
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
+require_once("../inc/news.inc");
+require_once("../inc/cache.inc");
+require_once("../inc/uotd.inc");
+require_once("../inc/sanitize_html.inc");
+require_once("../project/project.inc");
+require_once("../project/project_news.inc");
 
-    page_head(PROJECT);
 
-    project_intro();
-
-    echo "
-<br><br>
-<table cellpadding=8>
-<tr><td valign=top width=40%>
-";
-if (project_is_stopped()) {
-    echo "
-        <b>".PROJECT." is temporarily shut down for maintenance.
-        Please try again later.
-    ";
-} else {
+function show_nav() {
     echo "
         <h3>Join ".PROJECT." </h3>
         <p>
         <ul>
-        <li><a href=".URL_BASE."info.php>Rules and policies <b>[read this first]</b></a>
+        <li><a href=info.php>Rules and policies <b>[read this first]</b></a>
         <li><a href=http://boinc.berkeley.edu/intro_user.php>Getting started</a>
-        <li><a href=".URL_BASE."create_account_form.php>Create account</a>
+        <li><a href=create_account_form.php>Create account</a>
         <li><a href=apps.php>Applications</a>
         </ul>
 
         <h3>Returning participants</h3>
         <ul>
-        <li><a href=".URL_BASE."home.php>Your account</a> - view stats, modify preferences
-        <li><a href=".URL_BASE."team.php>Teams</a> - create or join a team
-        <li><a href=".URL_BASE."download.php>Download BOINC</a>
+        <li><a href=home.php>Your account</a> - view stats, modify preferences
+        <li><a href=team.php>Teams</a> - create or join a team
+        <li><a href=download.php>Download BOINC</a>
         <li><a href=download_network.php>Add-ons</a>
         </ul>
         <h3>Community</h3>
@@ -45,42 +33,75 @@ if (project_is_stopped()) {
         <li><a href=".URL_BASE."profile_menu.php>Participant profiles</a>
         <li><a href=forum_main.php/>Message boards</a>
         <li><a href=forum_help_desk.php>Questions and problems</a>
-    ";
-    project_community();
-    echo "
         </ul>
         <h3>Project totals and leader boards</h3>
-    ";
-    if (true) {
-        echo "
-            <ul>
-            <li><a href=top_users.php>Top participants</a>
-            <li><a href=top_hosts.php>Top computers</a>
-            <li><a href=top_teams.php>Top teams</a>
-            <li><a href=stats.php>Other statistics</a></h3>
-            </ul>
-        ";
-    }
-    echo"
-        <p>
-        <h3>Powered by <a href=http://boinc.berkeley.edu><img align=middle border=0 src=http://boinc.berkeley.edu/boinc_logo_trans.gif></a>
-        </h3>
+        <ul>
+        <li><a href=top_users.php>Top participants</a>
+        <li><a href=top_hosts.php>Top computers</a>
+        <li><a href=top_teams.php>Top teams</a>
+        <li><a href=stats.php>Other statistics</a></h3>
+        </ul>
     ";
 }
+
+//start_cache(3600);
+
+$stopped = project_is_stopped();
+
 echo "
-</td>
-<td valign=top bgcolor=dddddd>
-<center>
-<h3>News</h3>
-</center>
+    <title>Project name here</title>
+    <link rel=stylesheet type=text/css href=white.css>
+    <h1>Project name here</h1>
+    <table cellpadding=8 cellspacing=4>
+    <tr><td rowspan=2 valign=top width=40%>
+";
+
+if ($stopped) {
+    echo "
+        <b>".PROJECT." is temporarily shut down for maintenance.
+        Please try again later.
+    ";
+} else {
+    db_init();
+    show_nav();
+}
+
+echo"
+    <p>
+    Powered by <a href=http://boinc.berkeley.edu><img align=middle border=0 src=http://boinc.berkeley.edu/boinc_logo_trans.gif></a>
+    </td>
+";
+
+if (!$stopped) {
+    $profile = get_current_uotd();
+    if ($profile) {
+        echo "
+            <td valign=top bgcolor=f4eeff>
+            <b>User of the day</b><br><br>
+        ";
+        $user = lookup_user_id($profile->userid);
+        echo uotd_thumbnail($profile, $user);
+        echo user_links($user)."<br>";
+        echo sub_sentence(strip_tags($profile->response1), ' ', 150, true);
+        echo "</td></tr>\n";
+    }
+}
+
+echo "
+    <tr><td valign=top bgcolor=dddddd>
+    <b>News</b>
+    <p>
 ";
 show_news($project_news, 5);
 if (count($project_news > 5)) {
         echo "<a href=old_news.php>...more</a>\n";
 }
 echo "
-</td>
-</tr></table>
+    <p>
+    <font size=-2>News is available as an
+    <a href=rss_main.php>RSS feed</a>.</font>
+    </td>
+    </tr></table>
 <!--
 ";
 
@@ -90,4 +111,5 @@ echo "-->\n";
 
 page_tail(true);
 
+//end_cache();
 ?>

@@ -271,7 +271,6 @@ def install_boinc_files(dest_dir):
     install_glob(srcdir('html/user/*.inc'), dir('html/user/'))
     install_glob(srcdir('html/user/*.css'), dir('html/user/'))
     install_glob(srcdir('html/user/*.txt'), dir('html/user/'))
-    install(srcdir('html/user/sample_index.php'), dir('html/user/index.php'), unless_exists=True)
 
     # copy all the backend programs
     map(lambda (s): install(builddir('sched',s), dir('cgi-bin',s)),
@@ -322,8 +321,6 @@ class Project:
         if production:
             config.one_result_per_user_per_wu = '1'
         self.scheduler_url = os.path.join(config.cgi_url     , 'cgi')
-        self.project_php_file                  = srcdir('html/project.sample/project.inc')
-        self.project_specific_prefs_php_file   = srcdir('html/project.sample/project_specific_prefs.inc')
 
 
     def dir(self, *dirs):
@@ -385,10 +382,16 @@ class Project:
 
         install_boinc_files(self.dir())
 
-        install(self.project_php_file,
-                self.dir('html', 'project', 'project.inc'))
-        install(self.project_specific_prefs_php_file,
-                self.dir('html', 'project', 'project_specific_prefs.inc'))
+        # copy sample web files
+        install(srcdir('html/user/sample_index.php'),
+            self.dir('html/user/index.php'))
+        install(srcdir('html/project.sample/project.inc'),
+            self.dir('html/project/project.inc'))
+        install(srcdir('html/project.sample/project_specific_prefs.inc'),
+            self.dir('html/project/project_specific_prefs.inc'))
+        install(srcdir('html/project.sample/project_news.inc'),
+            self.dir('html/project/project_news.inc'))
+
 
         my_symlink(self.config.config.download_dir, self.dir('html', 'user', 'download'))
         my_symlink('../stats', self.dir('html/user/stats'))

@@ -54,9 +54,9 @@ function build_uotd_page() {
         mail(SYS_ADMIN_EMAIL,
             PROJECT . ": User of the Day pool is running low!",
             "The pool of approved candidates for User of the Day has".
-            "reached your assigned threshold: there are now only " . mysql_num_rows($result) . " approved users.\n\n".
+            " reached your assigned threshold: there are now only " . mysql_num_rows($result) . " approved users.\n\n".
             "To approve more candidates for User of the Day,".
-            "go to the " . PROJECT . " administration page and click \"Unrated profile\""
+            " go to the " . PROJECT . " administration page and click \"Unrated profile\""
         );
     }
 
