@@ -151,8 +151,8 @@ function show_418($xml=false) {
 }
 
 function show_stable($xml) {
-    //show_425_public($xml);
-    show_419($xml);
+    show_425_public($xml);
+    show_419_public($xml);
 }
 
 function show_dev($xml) {
