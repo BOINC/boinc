@@ -1,6 +1,5 @@
 <?php
 
-require_once('../include/template.inc');
 require_once('forum.inc');
 require_once('../util.inc');
 
@@ -9,7 +8,7 @@ require_once('subscribe.inc');
 if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content'])) {
 	$_GET['id'] = stripslashes(strip_tags($_GET['id']));
 
-	$user = get_logged_in_user(true);
+	$user = get_logged_in_user(true, '../');
 
 	$threadID = createThread($_GET['id'], $user->id, $_POST['title'], $_POST['content']);
   
@@ -21,16 +20,18 @@ if (!empty($_GET['id'])) {
 	$category = getCategory($forum->category);
 } else {
 	// TODO: Standard error page
-	echo "No forum id was provided.<br>";
+	echo "No forum ID was provided.<br>";
 	exit();
 }
 
-get_logged_in_user(true, '../');
+$logged_in_user = get_logged_in_user(true, '../');
+
+// TODO: Write a function to do this.
 
 if ($category->is_helpdesk) {
-	doHeader('Help Desk');
+	page_head('Help Desk', $logged_in_user, NULL, '../style.css');
 } else {
-	doHeader('Forum');	
+	page_head('Forum', $logged_in_user, NULL, '../style.css');
 }
 
 show_forum_title($forum, NULL, $category->is_helpdesk);
@@ -80,5 +81,5 @@ end_forum_table();
 
 echo "</form>\n";
 
-doFooter();
+page_tail();
 ?>
