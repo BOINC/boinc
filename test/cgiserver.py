@@ -176,9 +176,9 @@ class PHPHTTPRequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
             raise SystemExit('need fork()')
 
 def serve(bind='', port=8000, handler=PHPHTTPRequestHandler):
-    setup_php(os.path.realpath(os.path.dirname(sys.argv[0])))
     httpd = BaseHTTPServer.HTTPServer((bind,port), handler)
     httpd.serve_forever()
 
 if __name__ == '__main__':
+    setup_php(os.path.realpath(os.path.dirname(sys.argv[0])))
     serve()
