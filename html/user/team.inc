@@ -135,6 +135,41 @@ function show_team_row($team, $i) {
         $team->total_credit, $team->country );
 }
 
+function user_join_team($team, $user) {
+    if ($user->teamid != 0) {
+        $query_team_other = sprintf(
+            "select * from team where id = %d",
+            $user->teamid
+        );
+        $result_team_other = mysql_query($query_team_other);
+        $first_team = mysql_fetch_object($result_team_other);
+        $first_nusers = $first_team->nusers;
+        $first_new_nusers = $first_nusers - 1;
+        $query_team_table_other = sprintf(
+            "update team set nusers = %d where id = %d",
+            $first_new_nusers,
+            $first_team->id
+        );
+        $result_team_table_other = mysql_query($query_team_table_other);
+    }
+    $query_user_table = sprintf(
+        "update user set teamid = %d where id = %d",
+        $team->id,
+        $user->id
+    );
+    $result_user_table = mysql_query($query_user_table);
+    $nusers = $team->nusers;
+    $new_nusers = $nusers + 1;
+    $query_team_table = sprintf(
+        "update team set nusers = %d where id = %d",
+        $new_nusers,
+        $team->id
+    );
+    $result_team_table = mysql_query($query_team_table);
+    if ($result_user_table && $result_team_table) return true;
+    else return false;
+}
+
 function team_edit_form($team, $label, $url) {
     echo "<form method=post action=$url>\n";
     if ($team) {

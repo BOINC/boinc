@@ -23,12 +23,16 @@
         $_POST["name_html"],
         $_POST["description"],
         $_POST["country"],
-        1
+        0
     );
 
     $result = mysql_query($query);
     if ($result) {
         $teamid = mysql_insert_id();
+        $team_result = mysql_query("select * from team where id = $teamid");
+        $new_team = mysql_fetch_object($team_result);
+        mysql_free_result($team_result);
+        user_join_team($new_team,$user);
         Header("Location: team_display.php?teamid=$teamid");
     } else {
         page_head("Error");

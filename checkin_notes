@@ -4272,3 +4272,12 @@ Erik  May 19 2003
     sched/
         handle_request.C
         server_types.C,h
+
+Eric  May 20, 2003
+    - When you create a team you automatically join it
+    
+    html_user/
+        team.inc
+        team_create_action.php
+        team_join_action.php
+

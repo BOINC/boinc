@@ -107,8 +107,6 @@ implement a "fetch prefs" command (regular RPC w/o work request)
 all RPCs should return a "user-specific project URL"
     to be used in GUI (might refer to user page)
 
-when you create a team you should join that team
-
 in GUI, project name should hyperlink to a project-specified URL
     (typically user page for that project)
 
