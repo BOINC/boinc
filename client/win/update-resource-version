@@ -3,18 +3,8 @@
 # $Id$
 # update resource.rc with version numbers.
 
-import sys
-sys.path.append('../../py')
-try:
-    from version import *
-except ImportError:
-    raise SystemExit("""testbase.py: Couldn't import version.py
-
-This file is built from py/version.py.in by configure.
-
-Perhaps you did not run configure, or you configured in a different directory,
-or you are running from the wrong directory.""")
-
+import boinc_path_config
+from Boinc.version import *
 import os, re
 
 fn_rc_old = 'resource.rc.old'
