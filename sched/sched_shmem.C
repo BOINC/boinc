@@ -135,11 +135,11 @@ APP_VERSION* SCHED_SHMEM::lookup_app_version(
         }
     }
 
-    log_messages.printf(
-        SchedMessages::DEBUG,
-        "SCHED_SHMEM::lookup_app_version(appid=%d, platformid=%d, min_version=%d): best_avp=%d\n",
-        appid, platformid, min_version,
-        best_version);
+    // log_messages.printf(
+    //     SchedMessages::DEBUG,
+    //     "SCHED_SHMEM::lookup_app_version(appid=%d, platformid=%d, min_version=%d): best_avp=%d\n",
+    //     appid, platformid, min_version,
+    //     best_version);
 
     return best_avp;
 }
