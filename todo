@@ -202,3 +202,5 @@ NET_XFER_SET
     review logic; prevent one stream for starving others
 
 test HTTP redirect mechanism for all types of ops
+
+prevent file_xfer->req1 from overflowing. This problems seems to be happening when the file_upload_handler returnes a message to the client that is large. This causes project->parsefile to get wrong input and so on.
