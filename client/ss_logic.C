@@ -28,9 +28,7 @@ void SS_LOGIC::start_ss(time_t new_blank_time) {
     create_curtain();
     atp = gstate.active_tasks.get_graphics_capable_app();
     if (atp) {
-        atp->app_client_shm.send_graphics_mode_msg(
-            CORE_APP_GFX_SEG, MODE_FULLSCREEN
-        );
+        atp->request_graphics_mode(MODE_FULLSCREEN);
         ack_deadline = time(0) + 5;
     } else {
         do_boinc_logo_ss = true;
@@ -38,24 +36,26 @@ void SS_LOGIC::start_ss(time_t new_blank_time) {
 }
 
 void SS_LOGIC::stop_ss() {
+	if (!do_ss) return;
     do_ss = do_boinc_logo_ss = do_blank = false;
     delete_curtain();
     gstate.active_tasks.restore_apps();
 }
+
 
 // called every second
 //
 void SS_LOGIC::poll() {
     ACTIVE_TASK* atp;
 
+	gstate.active_tasks.check_graphics_mode_ack();
+
     if (do_ss) {
         if (blank_time && (time(0) > blank_time)) {
             if (!do_blank) {
                 atp = gstate.active_tasks.get_app_requested(MODE_FULLSCREEN);
                 if (atp) {
-                    atp->app_client_shm.send_graphics_mode_msg(
-                        CORE_APP_GFX_SEG, MODE_HIDE_GRAPHICS
-                    );
+                    atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
                 }
             }
             do_boinc_logo_ss = false;
@@ -63,17 +63,17 @@ void SS_LOGIC::poll() {
         } else {
             atp = gstate.active_tasks.get_app_requested(MODE_FULLSCREEN);
             if (atp) {
-                if (atp->graphics_acked_mode != MODE_FULLSCREEN
-                    && (time(0)>ack_deadline)
-                ) {
-                    do_boinc_logo_ss = true;
+                if (atp->graphics_acked_mode == MODE_FULLSCREEN) {
+					do_boinc_logo_ss = false;
+				} else {
+                    if (time(0)>ack_deadline) {
+					    do_boinc_logo_ss = true;
+					}
                 }
             } else {
                 atp = gstate.active_tasks.get_graphics_capable_app();
                 if (atp) {
-                    atp->app_client_shm.send_graphics_mode_msg(
-                        CORE_APP_GFX_SEG, MODE_FULLSCREEN
-                    );
+                    atp->request_graphics_mode(MODE_FULLSCREEN);
                     ack_deadline = time(0) + 5;
                 } else {
                     do_boinc_logo_ss = true;

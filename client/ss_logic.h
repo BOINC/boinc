@@ -16,6 +16,9 @@
 // In either case, it close the curtain window and restores all apps
 // to their pre-screensaver state
 
+#ifndef _SS_LOGIC_
+#define _SS_LOGIC_
+
 #include <time.h>
 
 class SS_LOGIC {
@@ -37,3 +40,5 @@ public:
 // at most one app has request_mode = FULLSCREEN
 // pre-ss mode of all apps is not FULLSCREEN
 };
+
+#endif

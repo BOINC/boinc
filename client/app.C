@@ -71,7 +71,6 @@
 #include "util.h"
 
 #include "app.h"
-#include "boinc_api.h"
 
 // Goes through an array of strings, and prints each string
 //
@@ -309,9 +308,9 @@ int ACTIVE_TASK::start(bool first_time) {
 	//
     sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);
     shm_handle = create_shmem(buf, APP_CLIENT_SHMEM_SIZE,
-		(void **)&app_client_shm->shm
+		(void **)&app_client_shm.shm
 	);
-	app_client_shm->reset_msgs();
+	app_client_shm.reset_msgs();
 
     // NOTE: in Windows, stderr is redirected within boinc_init();
 
@@ -607,23 +606,17 @@ bool ACTIVE_TASK::read_stderr_file() {
     return false;
 }
 
-#if 0
-// Send a message to this active task requesting graphics mode change
-//
-int ACTIVE_TASK::gfx_mode(int mode) {
-	if (mode < 0 || mode > 4) return -1;
-	return app_client_shm.send_graphics_mode_msg(CORE_APP_GFX_SEG, mode);
+void ACTIVE_TASK::request_graphics_mode(int mode) {
+	app_client_shm.send_graphics_mode_msg(CORE_APP_GFX_SEG, mode);
+	graphics_requested_mode = mode;
 }
 
-int ACTIVE_TASK_SET::start_screensaver(int use_blank_screen, int time_until_blank) {
-	blank_screen = use_blank_screen;
-	blank_time = time(0)+time_until_blank;
-
-	app_client_shm->send_msg(xml_graphics_modes[MODE_FULLSCREEN], CORE_APP_GFX_SEG);
-
-	return 0;
+void ACTIVE_TASK::check_graphics_mode_ack() {
+	int mode;
+	if (app_client_shm.get_graphics_mode_msg(APP_CORE_GFX_SEG, mode)) {
+		this->graphics_acked_mode = mode;
+	}
 }
-#endif
 
 // Wait up to wait_time seconds for all processes in this set to exit
 //
@@ -991,11 +984,6 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
     return -1;
 }
 
-ACTIVE_TASK_SET::ACTIVE_TASK_SET() {
-	app_client_shm = new APP_CLIENT_SHM;
-	app_client_shm->shm = (char *)malloc(sizeof(char)*NUM_SEGS*SHM_SEG_SIZE);
-}
-
 // Write XML information about this active task set
 //
 int ACTIVE_TASK_SET::write(FILE* fout) {
@@ -1104,4 +1092,14 @@ void ACTIVE_TASK_SET::restore_apps() {
             );
         }
     }
+}
+
+void ACTIVE_TASK_SET::check_graphics_mode_ack() {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+		atp->check_graphics_mode_ack();
+	}
 }

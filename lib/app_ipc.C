@@ -141,7 +141,7 @@ bool APP_CLIENT_SHM::send_msg(char *msg,int seg_num) {
 
 	// Check if there's already a message
     //
-	if (shm[seg_num*SHM_SEG_SIZE]) return false;
+	//if (shm[seg_num*SHM_SEG_SIZE]) return false;
 
 	// Copy the message into shared memory
     //

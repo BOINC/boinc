@@ -54,7 +54,7 @@ int CMyApp::ExitInstance()
 	if (m_pMainWnd)
 		m_pMainWnd->DestroyWindow();
 
-	gstate.free_mem();
+	//gstate.free_mem();
 
 	return CWinApp::ExitInstance();
 }

@@ -61,6 +61,8 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define MODE_WINDOW             2
 #define MODE_FULLSCREEN         3
 
+#define END_SS_MSG			"BOINC_SS_END"
+
 extern char* xml_graphics_modes[5];
 
 #endif

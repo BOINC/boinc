@@ -530,6 +530,7 @@ bool CLIENT_STATE::do_something() {
 
     print_log("Polling; active layers:\n");
     net_stats.poll(*net_xfers);
+	ss_logic.poll();
     if (activities_suspended) {
         print_log("None (suspended)\n");
     } else {

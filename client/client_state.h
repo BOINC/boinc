@@ -36,6 +36,7 @@
 #include "scheduler_op.h"
 #include "time_stats.h"
 #include "file_names.h"
+#include "ss_logic.h"
 
 // CLIENT_STATE is the global variables of the core client
 // Most of the state is saved to and restored from "client_state.xml"
@@ -57,6 +58,7 @@ public:
     HOST_INFO host_info;
     GLOBAL_PREFS global_prefs;
     NET_STATS net_stats;
+	SS_LOGIC ss_logic;
 
     CLIENT_STATE();
     int init();

@@ -90,6 +90,8 @@ public:
     int graphics_request_time;            // when we sent it
     int graphics_acked_mode;            // most recent mode reported by app
     int graphics_mode_before_ss;        // mode before last screensaver request
+	void request_graphics_mode(int);
+	void check_graphics_mode_ack();
 
     ACTIVE_TASK();
     int init(RESULT*);
@@ -106,8 +108,6 @@ public:
     int abort();
         // kill, and flag as abort pending
 
-    int gfx_mode(int);
-
     int suspend();
     int unsuspend();
 
@@ -123,8 +123,6 @@ public:
 class ACTIVE_TASK_SET {
 public:
     vector<ACTIVE_TASK*> active_tasks;
-    int blank_time, blank_screen;
-    int start_screensaver(int,int);
     int insert(ACTIVE_TASK*);
     int remove(ACTIVE_TASK*);
     int wait_for_exit(double);
@@ -145,8 +143,7 @@ public:
     void save_app_modes();
     void hide_apps();
     void restore_apps();
-
-    ACTIVE_TASK_SET();
+	void check_graphics_mode_ack();
 
     int write(FILE*);
     int parse(FILE*, CLIENT_STATE*);
