@@ -1,6 +1,6 @@
 #Czech language.ini.cs file
-#Version 1.09b by Spok (2003/08/01 - 08:33:21 CET :)
-#Based on language.ini.template.txt ver 1.19 2003/08/01 02:52:29 quarl
+#Version 2.12a by Spok (2003/12/01 - 11:57:19 CET :)
+#Based on language.ini.template.txt - 2003/11/29 by Robi & Karl
 #Character set: "charset=Windows-1250"
  
 # Use & for menu keys
@@ -33,7 +33,7 @@ File=Soubor
 Progress=Prùbìh
 Size=Velikost
 Time=Èas
-Direction=Smìr
+#Direction=Smìr
 Speed=Rychlost
 Status=Stav
 Type=Typ
@@ -57,9 +57,9 @@ BOINC Core Client=BOINC - jádro
 [HEADER-MISC]
 New=Novı
 Running=Poèítám
-Ready to run=Pøipraveno
-Computation done=Vıpoèet ukonèen
-Results uploaded=Odesláno
+Ready to run=Pøipraven
+Computation error=Chyba pøi vıpoètu
+Ready to report=Vısledek odeslán
 Acknowledged=Potvrzeno
 Error: invalid state=Chyba: Neplatnı stav
 Completed=Dokonèeno
@@ -68,6 +68,7 @@ Downloading=Pøijímá se
 Retry in=Znovu zkusím za
 Upload failed=Chyba pøi odesílání
 Download failed=Chyba pøi stahování
+Suspended=Pozastaveno
 
 
 #menu items
@@ -77,7 +78,6 @@ Download failed=Chyba pøi stahování
 #       you can compare it with a saved language.ini.XX file
 [MENU-File]
 Title=&Soubor
-Show Graphics=Zobraz &Grafiku
 Run always=&Poèítej nepøetritì
 Run based on preferences=Poèítej podle &Nastavení
 Suspend=Po&zastavit
@@ -86,8 +86,8 @@ Hide=&Skryj
 Exit=&Konec
 #Force run=Spus &Vıpoèet
 #Pause=Pauza
-Resume=Obnovit
-
+#Show Graphics=Zobraz &Grafiku
+#Resume=Obnovit
 
 [MENU-Settings]
 Title=&Nastavení
@@ -95,7 +95,7 @@ Login to Project...=&Pøihlásit se k projektu...
 Proxy Server...=Proxy &Server...
 
 [MENU-Help]
-Title=&Pomoc
+Title=&Nápovìda
 About...=&O programu...
 
 [MENU-StatusIcon]
@@ -109,11 +109,12 @@ Exit=Konec
 
 [MENU-Project]
 Web site=Webová stránka
-Get preferences=Získej nastavení
-Retry now=Zkus teï
+Update=Aktualizuj
+Update (retry now)=Aktualizuj (zkus teï)
 Detach...=Opustit projekt...
 Reset project...=Restartovat projekt...
-Quit Project...=Ukonèit projekt...
+#Get preferences=Získej nastavení
+#Quit Project...=Ukonèit projekt...
 #Relogin...=Znovu pøihlásit...
 
 [MENU-Work]
@@ -125,7 +126,6 @@ Retry now=Zkus teï
 [MENU-Messages]
 Copy to clipboard=Zkopíruj do schránky
 
-
 [DIALOG-LOGIN]
 Title=Pøihlásit se k projektu
 URL:=URL:
@@ -135,13 +135,13 @@ Cancel=Zrušit
 The URL for the website of the project.=Adresa (URL) projektu.
 The authorization code recieved in your confirmation email.=Autorizaèní klíè obdrenı v potvrzovacím e-mailu.
 
-[DIALOG-QUIT]
-Title=Opustit projekt
-URL:=URL:
-Account Key:=Klíè (Account Key):
-OK=OK
-Cancel=Zrušit
-Select the project you wish to quit.=Vyberte projekt, kterı chcete opustit.
+#[DIALOG-QUIT]
+#Title=Opustit projekt
+#URL:=URL:
+#Account Key:=Klíè (Account Key):
+#OK=OK
+#Cancel=Zrušit
+#Select the project you wish to quit.=Vyberte projekt, kterı chcete opustit.
 
 [DIALOG-CONNECT]
 Title=Pøipojit
@@ -151,11 +151,11 @@ OK=OK
 Cancel=Zrušit
 
 [DIALOG-RESET]
-Title=Pokusnì Restartovat projekt
+Title=Restartovat projekt
 Are you sure you want to reset the project %1?=Opravdu chcete restartovat projekt %1?
 
 [DIALOG-DETACH]
-Title=Pokusnì Opustit projekt
+Title=Opustit projekt
 Are you sure you want to detach from the project %1?=Opravdu chcete opustit projekt %1?
 
 [DIALOG-ABOUT]

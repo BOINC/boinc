@@ -6,10 +6,10 @@
 [HEADER-Projects]
 Title=Progetti
 Project=Progetto
-Account=Acconto
+Account=Conto
 Total Credit=Credito totale
 Avg. Credit=Credito medio
-Resource Share=Ripartizione  risorse
+Resource Share=Quota di risorse
 
 # RESULT_ID
 [HEADER-Work]
@@ -18,19 +18,20 @@ Project=Progetto
 Application=Applicazione
 Name=Nome
 CPU time=Tempo di CPU
-Progress=Progresso
-To Completion=Da completare
+Progress=Avanzamento
+To Completion=Al Completamento
 Status=Stato
 
 # XFER_ID
 [HEADER-Transfers]
-Title=Transmissione
+Title=Trasmissione
 Project=Progetto
 File=File
-Progress=Progresso
+Progress=Avanzamento
 Size=Dimensioni
 Time=Tempo
-Direction=Direzione
+Speed=Velocità
+Status=Stato
 
 # MESSAGE_ID
 [HEADER-Messages]
@@ -42,10 +43,10 @@ Message=Messaggio
 # USAGE_ID
 [HEADER-Disk]
 Title=Disco
-Free space: not available for use=Spazio  libero: non disponibile
+Free space: not available for use=Spazio libero: non disponibile
 Free space: available for use=Spazio libero: disponibile
 Used space: other than BOINC=Spazio usato: da altri programmi, non da BOINC
-Used space: BOINC=Spazio usato: BOINC
+Used space: BOINC=Spazio usato: da BOINC
 Used space:=Spazio usato:
 
 # miscellaneous text
@@ -53,13 +54,16 @@ Used space:=Spazio usato:
 New=Nuovo
 Running=Attivo
 Ready to run=Pronto per essere eseguito
-Computation done=Fine del calcolo
+Computation done=Calcolo terminato
 Results uploaded=Risultati inviati
-Acknowledged=Comferma
-Error: invalid state=Errore: Stato invalido
+Acknowledged=Confermato
+Error: invalid state=Errore: Stato non valido
 Completed=Completato
-Upload=Scaricato
-Download=Caricato
+Uploading=Sta inviando
+Downloading=Sta ricevendo
+Retry in=Nuovo tentativo fra
+Upload failed=Invio fallito
+Download failed=Ricezione fallita
 
 # menu items
 [MENU-File]
@@ -72,10 +76,10 @@ Resume=&Continuare
 Exit=&Terminare
 
 [MENU-Settings]
-Title=&Messa a punto
-Login to Project...=&Notificarsi al progetto...
+Title=&Settaggi
+Login to Project...=&Accedere al progetto...
 Quit Project...=Abban&donare progetto...
-Proxy Server...=Regolare il Prox&y...
+Proxy Server...=Impostazioni Prox&y...
 
 [MENU-Connection]
 Title=&Connessione
@@ -85,7 +89,7 @@ Confirm Before Connecting=&Conferma prima di connettere
 
 [MENU-Help]
 Title=A&iuto
-About...=&Su...
+About...=&Informazioni
 
 [MENU-StatusIcon]
 Suspend=&Sospendere
@@ -93,52 +97,60 @@ Resume=&Continuare
 Exit=&Terminare
 
 [MENU-Project]
-Relogin...=&Notificarsi al progetto...
-Quit Project...=Abban&donare progetto...
+Relogin...=&Accedere al progetto...
+Quit Project...=Abban&donare il progetto...
+
+[MENU-Work]
+Show Graphics=Mostra &grafici
 
 [DIALOG-LOGIN]
-Title=Entrare nel progetto
+Title=Accesso al progetto
 URL:=URL:
-Account Key:=Chiave acconto:
-OK=Accettare
-Cancel=Cancellare
-The URL for the website of the project.=URL per la website del progetto.
-The authorization code recieved in your confirmation email.=Il codice di  autorizzazione che ha ricevuto nella email di conferma.
+Account Key:=Chiave personale:
+OK=Accetta
+Cancel=Annulla
+#Cancel=Cancellare
+The URL for the website of the project.=URL della pagina web del progetto.
+The authorization code recieved in your confirmation email.=Il codice di autorizzazione ricevuto nell'e-mail di conferma.
 
 [DIALOG-QUIT]
 Title=Abbandonare un progetto
 URL:=URL:
-Account Key:=Chiave acconto:
-OK=Accettare
-Cancel=Cancellare
-Select the project you wish to quit.=Selezioni il progetto che desidera abbandonare.
+Account Key:=Chiave personale:
+OK=Accetta
+Cancel=Annulla
+#Cancel=Cancellare
+Select the project you wish to quit.=Selezionare il progetto che si desidera abbandonare.
 
 [DIALOG-CONNECT]
 Title=Connessione alla rete
-BOINC needs to connect to the network.  May it do so now?=BOINC desidera connettersi  alla rete.  Puo' connettersi adesso?
+BOINC needs to connect to the network.  May it do so now?=BOINC desidera connettersi alla rete. Puo' connettersi ora?
 Don't ask this again (connect automatically)=Non chiedere nuovamente (connetti automaticamente)
-OK=Accettare
-Cancel=Cancellare
+OK=Accetta
+Cancel=Annulla
+#Cancel=Cancellare
 
 [DIALOG-ABOUT]
 Title=BOINC versione beta
 Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
 Open Beta=Beta aperto (Open Beta)
-OK=Accettare
+OK=Accetta
 
 [DIALOG-PROXY]
-Title=Regolare il Server Proxy
-Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=Alcune organizzazioni utilizzano un "HTTP Proxy" o un "SOCKS Proxy" (o ambedue) per maggiore sicurezza. Se Lei deve utilizzare un proxy, completi le informazioni. Se necessita aiuto, si rivolga al suo amministratore del sistema o al suo fornitore internet. 
+Title=Impostazioni del Server Proxy
+#Title=Settaggio Proxy
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=Alcuni provider o organizzazioni utilizzano un "HTTP Proxy" o un "SOCKS Proxy" (o ambedue) per questioni di sicurezza. Se si deve utilizzare un proxy, si inseriscano le informazioni. Se si necessita di aiuto, ci si rivolga all'amministratore di sistema o al provider internet.
 HTTP Proxy=HTTP proxy
-Connect via HTTP Proxy Server=Connetti via Server HTTP Proxy
+Connect via HTTP Proxy Server=Connetti tramite Server HTTP Proxy
 http://=http://
-Port Number:=Porto di accesso:
+Port Number:=Porta n°:
 SOCKS Proxy=SOCKS Proxy
 Connect via SOCKS Proxy Server=Connetti via Server SOCKS Proxy
 SOCKS Host:=SOCKS Host:
-Port Number:=Porto di accesso:
-Leave these blank if not needed=Lasciare vuoto se non si ha di bisogno 
+Port Number:=Porta n°:
+Leave these blank if not needed=Lasciare vuoto se non utilizzato
 SOCKS User Name:=SOCKS Nome:
 SOCKS Password:=SOCKS Password:
-OK=Accettare
-Cancel=Cancellare
+OK=Accetta
+Cancel=Annulla
+#Cancel=Cancellare

@@ -1,5 +1,5 @@
 # Nederlandse taalversie van language.ini
-# Versie 2.0.0, voor BOINC vanaf versie 2.00
+# Versie 2.0.1, voor BOINC beta vanaf versie 2.00
 # Dit bestand zorgt ervoor dat menu's en meldingen in BOINC
 # in de Nederlandse taal worden getoond
 # Vertaald door Derk Buisman, www.seti-nl.org
@@ -51,7 +51,7 @@ Title=Harde Schijf
 Free space=Vrije Ruimte
 Used space: non-BOINC=Gebruikte Ruimte: Niet-BOINC
 Used space: BOINC=Gebruikte Ruimte: BOINC
-BOINC Core Client=BOINC CORE CLIENT
+BOINC Core Client=BOINC Core Client
 
 #miscellaneous text
 [HEADER-MISC]
@@ -59,8 +59,10 @@ New=Nieuw
 Running=Aktief
 Ready to run=In wachtrij
 Computation done=Berekening klaar
+Computation error=Fout in berekening
 Results uploaded=Resultaat verzonden
-Outputs uploaded=OUTPUTS UPLOADED
+Ready to report=Verzonden, klaar om te melden
+Outputs uploaded=Gegevens verzonden
 Acknowledged=Bevestigd
 Error: invalid state=Fout: ongeldige toestand
 Completed=Klaar

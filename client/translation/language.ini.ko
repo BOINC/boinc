@@ -1,0 +1,170 @@
+# Language translation file for Korean by 전영진 <imappak@opendev.co.kr>
+# $Id$
+# language.ini.Ko 2003/11/21 13:00
+
+#PROJECT_ID
+[HEADER-Projects]
+Title=프로젝트
+Project=프로젝트
+Account=계정
+Total Credit=전체 작업시간
+Avg. Credit=평균 작업시간
+Resource Share=자원 공유율
+
+#RESULT_ID
+[HEADER-Work]
+Title=작업
+Project=프로젝트
+Application=프로그램
+Name=이름
+CPU time=CPU 사용시간
+Progress=진행률
+To Completion=남은시간
+Report Deadline=만료일시
+Status=상태
+
+#XFER_ID
+[HEADER-Transfers]
+Title=전송
+Project=프로젝트
+File=파일명
+Progress=진행률
+Size=크기
+Time=시간
+Direction=전송방향
+Speed=속도
+Status=상태
+Type=유형
+
+#MESSAGE_ID
+[HEADER-Messages]
+Title=메시지
+Project=프로젝트
+Time=시간
+Message=메시지
+
+#USAGE_ID
+[HEADER-Disk]
+Title=디스크
+Free space=남은 용량
+Used space: non-BOINC=BOINC 제외한 사용량:
+Used space: BOINC=BOINC 사용량:
+BOINC Core Client=BOINC 클라이언트
+
+#miscellaneous text
+[HEADER-MISC]
+New=새로받음
+Running=실행중
+Ready to run=실행대기
+Ready to report=보고대기
+Computation done=계산 완료
+Results uploaded=결과 업로드됨
+Outputs uploaded=출력 업로드됨
+Acknowledged=이미수행된작업
+Error: invalid state=에러: 잘못된 상태
+Completed=종료됨
+Uploading=업로드중
+Downloading=다운로드중
+Retry in=다시 시도중
+Upload failed=업로드 실패
+Download failed=다운로드 실패
+Suspended=잠시중지
+
+#menu items
+[MENU-File]
+Title=파일
+Run always=항상실행
+Run based on preferences=설정대로 실행
+Suspend=잠시중지
+Run Benchmarks=벤치마크 실행
+Hide=숨김
+Exit=종료
+
+[MENU-Settings]
+Title=설정
+Login to Project...=새로운 프로젝트
+Proxy Server...=프락시 서버
+
+[MENU-Help]
+Title=도움말
+About...=BOINC는...
+
+[MENU-StatusIcon]
+Show=보임
+Hide=숨김
+Run always=항상실행
+Run based on preferences=설정대로 실행
+Suspend=잠시중지
+Exit=종료
+
+[MENU-Project]
+Web site=웹사이트
+Update=업데이트
+Get preferences=설정가져오기
+Retry now=다시시도
+Detach...=제거
+Reset project...=초기화
+Quit Project...=나가기
+
+[MENU-Work]
+Show Graphics=그래픽보기
+
+[MENU-Transfers]
+Retry now=다시시도
+
+[MENU-Messages]
+Copy to clipboard=클립보드로 복사
+
+[DIALOG-LOGIN]
+Title=프로젝트 로그인
+URL:=URL:
+Account Key:=ACCOUNT KEY:
+OK=확인
+Cancel=취소
+The URL for the website of the project.=이 프로젝트의 사이트 URL
+The authorization code received in your confirmation email.=등록된 E-Mail로 승인코드가 도착했습니다.
+
+[DIALOG-QUIT]
+Title=프로젝트 종료
+URL:=URL:
+Account Key:=ACCOUNT KEY:
+OK=확인
+Cancel=취소
+Select the project you wish to quit.=종료할 프로젝트 선택
+
+[DIALOG-CONNECT]
+Title=네트웍에 연결
+BOINC needs to connect to the network.  May it do so now?=BOINC 프로그램은 네트웍 연결이 필요합니다. 지금 연결하시겠습니까?
+Don't ask this again (connect automatically)=다음에 다시 묻지 않음(자동연결)
+OK=확인
+Cancel=취소
+
+[DIALOG-RESET]
+Are you sure you want to reset the project %1?=정말로 %1 프로젝트를 초기화 하시겠습니까?
+
+[DIALOG-DETACH]
+Are you sure you want to detach from the project %1?=정말로 %1 프로젝트를 제거하시겠습니까?
+
+[DIALOG-ABOUT]
+Title=Boinc Beta Version
+Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
+Open Beta=OPEN BETA
+OK=확인
+
+[DIALOG-PROXY]
+Title=프락시 서버 설정
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=어떤 기관/회사는 보안증진을 위해 HTTP 프락시나 SOCKS 프락시 혹은 둘모두를 사용합니다.  프락시를 사용할 필요가 있으면 아래 정보를 입력해 주세요.  도움이 필요하면 시스템 관리자나 통신회사에 문의하세요.
+HTTP Proxy=HTTP 프락시
+Connect via HTTP Proxy Server=경유할 HTTP 프락시 서버
+http://=http://
+Port Number:=포트번호:
+SOCKS Proxy=SOCKS 프락시
+Connect via SOCKS Proxy Server=경유할 SOCKS 프락시 서버
+SOCKS Host:=호스트명:
+Port Number:=포트번호:
+Leave these blank if not needed=필요하지 않으면 빈칸으로 두세요.
+SOCKS User Name:=SOCKS 사용자명:
+SOCKS Password:=SOCKS 패스워드:
+OK=확인
+Cancel=취소
+

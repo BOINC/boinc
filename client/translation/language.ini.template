@@ -33,7 +33,6 @@ File=FILE
 Progress=PROGRESS
 Size=SIZE
 Time=TIME
-Direction=DIRECTION
 Speed=SPEED
 Status=STATUS
 Type=TYPE
@@ -58,8 +57,8 @@ BOINC Core Client=BOINC CORE CLIENT
 New=NEW
 Running=RUNNING
 Ready to run=READY TO RUN
-Computation done=COMPUTATION DONE
-Results uploaded=RESULTS UPLOADED
+Computation error=COMPUTATION ERROR
+Ready to report=READY TO REPORT
 Acknowledged=ACKNOWLEDGED
 Error: invalid state=ERROR: INVALID STATE
 Completed=COMPLETED
@@ -73,7 +72,6 @@ Suspended=SUSPENDED
 #menu items
 [MENU-File]
 Title=FILE
-Show Graphics=SHOW GRAPHICS
 Run always=RUN ALWAYS
 Run based on preferences=RUN BASED ON PREFERENCES
 Suspend=SUSPEND
@@ -100,11 +98,10 @@ Exit=EXIT
 
 [MENU-Project]
 Web site=WEB SITE
-Get preferences=GET PREFERENCES
-Retry now=RETRY NOW
+Update=UPDATE
+Update (retry now)=UPDATE (RETRY NOW)
 Detach...=DETACH...
 Reset project...=RESET PROJECT...
-Quit Project...=QUIT PROJECT...
 
 [MENU-Work]
 Show Graphics=SHOW GRAPHICS
@@ -123,14 +120,6 @@ OK=OK
 Cancel=CANCEL
 The URL for the website of the project.=THE URL FOR THE WEBSITE OF THE PROJECT.
 The authorization code received in your confirmation email.=THE AUTHORIZATION CODE RECEIVED IN YOUR CONFIRMATION EMAIL.
-
-[DIALOG-QUIT]
-Title=QUIT PROJECT
-URL:=URL:
-Account Key:=ACCOUNT KEY:
-OK=OK
-Cancel=CANCEL
-Select the project you wish to quit.=SELECT THE PROJECT YOU WISH TO QUIT.
 
 [DIALOG-CONNECT]
 Title=CONNECT TO NETWORK

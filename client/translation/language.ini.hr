@@ -1,14 +1,16 @@
-#Template Croatian language.ini file
+# Language translation file for Croatia, by Vedran Brnjetic <vedran_brnjetic@vip.hr>
+# $Id$
 
-#pay attention to the NOTE in the [MENU- ] section
+# Use & for menu keys, for example: "&Projects" lets you press Alt-P to
+# access the Project menu.
 
 #PROJECT_ID
 [HEADER-Projects]
 Title=Projekti
 Project=Projekt
 Account=Raèun
-Total Credit=Ukupno bodova
-Avg. Credit=Prosjeèno bodova
+Total Credit=Ukupan kredit
+Avg. Credit=Prosjeèan kredit
 Resource Share=Djeljenje resursa
 
 #RESULT_ID
@@ -17,21 +19,23 @@ Title=Posao
 Project=Projekt
 Application=Aplikacija
 Name=Naziv
-CPU time=Vrijeme procesora
+CPU time=Procesorsko vrijeme
 Progress=Napredak
 To Completion=Do završetka
-Status=Status
+Status=Stanje
 
 #XFER_ID
 [HEADER-Transfers]
-Title=Prijenosi
+Title=Promet
 Project=Projekt
 File=Datoteka
 Progress=Napredak
 Size=Velièina
 Time=Vrijeme
+Direction=Smjer
 Speed=Brzina
-Status=Status
+Status=Stanje
+Type=Tip
 
 #MESSAGE_ID
 [HEADER-Messages]
@@ -43,83 +47,85 @@ Message=Poruka
 #USAGE_ID
 [HEADER-Disk]
 Title=Disk
-Free space: not available for use=Slobodan prostor: nije dostupan za uporabu
-Free space: available for use=Slobodan prostor: dostupan za uporabu
-Used space: other than BOINC=Zauzet prostor: ne za BOINC
+Free space=Slobodan prostor
+Used space: non-BOINC=Zauzet prostor: ne za BOINC
 Used space: BOINC=Zauzet prostor: BOINC
-Used space:=Zauzet prostor
+BOINC Core Client=BOINC Core Client
 
 #miscellaneous text
 [HEADER-MISC]
 New=Novo
-Running=Aktivan
-Ready to run=Spreman za rad
-Computation done=Raèun završen
+Running=U obradi
+Ready to run=Spremno za obradu
+Computation done=Raèunanje završeno
 Results uploaded=Rezultati podignuti
-Acknowledged=Potvrda
-Error: invalid state=Pogreška: Pogrešno stanje
+Acknowledged=Potvrðeno
+Error: invalid state=Greška: nedozvoljeno stanje
 Completed=Završeno
 Uploading=Dizanje
 Downloading=Skidanje
-Retry in=Ponavljanje za
-Upload failed=Dizanje nuspješno
-Download failed=Skidanje neuspješno
+Retry in=Ponovno pokušaj za
+Upload failed=Dizanje neuspjelo
+Download failed=Skidanje neuspjelo
 
 #menu items
-# NOTE: add an & (ampersand) to the letter to be used as mnemonic
-#       i.e. Show Graphics=Show &Graphics
-#                               ^^ the "G" will trigger the menu item
-#       you can compare it with a saved language.ini.XX file
 [MENU-File]
 Title=&Datoteka
-Show Graphics=Pokaži &grafiku
-Clear Messages=Obriši &poruke
-Clear Inactive=&Obriši neaktivne
-Suspend=Pa&uza
-Resume=&Nastavak
+Show Graphics=&Pokaži grafiku
+Run always=&Uvijek radi
+Run based on preferences=&Radi ovisno o postavkama
+Suspend=P&rekini
+Run Benchmarks=Pokreni &testove
+Hide=&Sakrij
 Exit=&Izlaz
 
-[MENU-Work]
-Show Graphics=Pokaži &grafiku
-
 [MENU-Settings]
-Title=P&ostavke
-Login to Project...=U&logiraj se na Projekt...
-Quit Project...=&Napusti projekt...
+Title=&Postavke
+Login to Project...=&Ukljuèi se u projekt
 Proxy Server...=&Proxy server
-
-[MENU-Connection]
-Title=&Veza
-Connect Now=&Spoji se sada
-Hangup Connection if Dialed=&Prekini vezu ako je birana
-Confirm Before Connecting=P&otvrdi prije spajanja
 
 [MENU-Help]
 Title=&Pomoæ
-About...=&O programu...
+About...=&O programu
 
 [MENU-StatusIcon]
-Suspend=Pa&uza
-Resume=&Nastavak
-Exit=&Izlaz
+Show=&Pokaži
+Hide=&Sakrij
+Run always=&Uvijek radi
+Run based on preferences=&Radi ovisno o postavkama
+Suspend=P&rekini
+Exit=EXIT
 
 [MENU-Project]
-Relogin...=Ponovno se u&logiraj...
+Web site=&Web stranica
+Get preferences=Skini &postavke
+Retry now=Ponovi &sada
+Detach...=&Odvoji se...
+Reset project...=&Resetiraj projekt...
 Quit Project...=&Napusti projekt...
 
+[MENU-Work]
+Show Graphics=&Pokaži grafiku
+
+[MENU-Transfers]
+Retry now=Ponovi &sada
+
+[MENU-Messages]
+Copy to clipboard=&Kopiraj u memoriju
+
 [DIALOG-LOGIN]
-Title=Ulogiraj se za Projekt
-URL:=A&dresa
-Account Key:=Kljuè &Raèuna
+Title=Ukljuèi se u projekt
+URL:=&Adresa:
+Account Key:=&Broj raèuna:
 OK=&U redu
 Cancel=&Odustani
-The URL for the website of the project.=Adresa web stranice projekta
-The authorization code recieved in your confirmation email.=Autorizacijski kljuè primljen u potvrdnom e-mailu
+The URL for the website of the project.=Web adresa projekta.
+The authorization code received in your confirmation email.=Autorizacijski kod primljen u potvrdnom e-mailu.
 
 [DIALOG-QUIT]
 Title=Napusti projekt
-URL:=A&dresa
-Account Key:=Kljuè &Raèuna
+URL:=&Adresa:
+Account Key:=&Broj raèuna:
 OK=&U redu
 Cancel=&Odustani
 Select the project you wish to quit.=Odaberi projekt koji želiš napustiti.
@@ -127,20 +133,26 @@ Select the project you wish to quit.=Odaberi projekt koji želiš napustiti.
 [DIALOG-CONNECT]
 Title=Spoji se na mrežu
 BOINC needs to connect to the network.  May it do so now?=Boinc se mora spojiti na mrežu. Može li to uèiniti sada?
-Don't ask this again (connect automatically)=Ne pitaj više to pitanje(spoji se automatski)
-OK=&U redu
-Cancel=&Odustani
+Don't ask this again (connect automatically)=Ne pitaj me više (spoji se automatski)
+OK=&Da
+Cancel=&Ne
+
+[DIALOG-RESET]
+Are you sure you want to reset the project %1?=Jeste li sigurni da želite resetirati projekt %1?
+
+[DIALOG-DETACH]
+Are you sure you want to detach from the project %1?=Jeste li sigurni da želite napustiti projekt %1?
 
 [DIALOG-ABOUT]
-Title=BOINC Beta verzija
-Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
+Title=Boinc Beta verzija
+Berkeley Open Infrastructure for Network Computing=Berkeley Otvorena Infrastruktura za mrežnu obradu podataka.
 Open Beta=Otvorena Beta verzija
 OK=&U redu
 
 [DIALOG-PROXY]
-Title=Postavke proxy servera
+Title=PROXY SERVER SETUP
 Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=Neke organizacije koriste "HTTP proxy" ili "SOCKS proxy" (ili oba) za poveæanu sigurnost. Ako morate koristiti proxy, ispunite informacije ispod. Ako trebate pomoæ, obratite se administratoru sistema ili pružatelju internet usluge.
-HTTP Proxy=HTTp Proxy
+HTTP Proxy=HTTP Proxy
 Connect via HTTP Proxy Server=Spoji se preko HTTP Proxy servera
 http://=http://
 Port Number:=Broj porta
@@ -148,9 +160,8 @@ SOCKS Proxy=SOCKS Proxy
 Connect via SOCKS Proxy Server=Spoji se preko SOCKS Proxy servera
 SOCKS Host:=SOCKS domaæin
 Port Number:=Broj porta
-Leave these blank if not needed=Ovo ostavit prazno ako nije potrebno
-SOCKS User Name:=SOCKS Korisnièko ime
-SOCKS Password:=SOCKS Password
+Leave these blank if not needed=Ovo ostaviti prazno ako nije potrebno
+SOCKS User Name:=Korisnièko ime
+SOCKS Password:=Password
 OK=&U redu
 Cancel=&Odustani
-

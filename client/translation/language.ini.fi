@@ -1,6 +1,7 @@
-#Finnish language.ini file
+# Language translation file for Finnish, by pahis <pahis@pp.nic.fi>
 
-#pay attention to the NOTE in the [MENU- ] section
+# Use & for menu keys, for example: "&Projects" lets you press Alt-P to
+# access the Project menu.
 
 #PROJECT_ID
 [HEADER-Projects]
@@ -8,7 +9,7 @@ Title=Projektit
 Project=Projekti
 Account=Tili
 Total Credit=Pisteet yhteensä
-Avg. Credit=Pisteitä keskimäärin
+Avg. Credit=Pisteet keskimäärin
 Resource Share=Resurssien jako
 
 #RESULT_ID
@@ -16,10 +17,11 @@ Resource Share=Resurssien jako
 Title=Työ
 Project=Projekti
 Application=Ohjelma
-Name=Nimi
+Name=Paketin nimi
 CPU time=CPU aika
 Progress=Eteneminen
 To Completion=Aikaa valmistumiseen
+Report Deadline=Raportoinnin takaraja
 Status=Tilanne
 
 #XFER_ID
@@ -32,6 +34,7 @@ Size=Koko
 Time=Aika
 Speed=Nopeus
 Status=Tilanne
+Type=Tyyppi
 
 #MESSAGE_ID
 [HEADER-Messages]
@@ -43,19 +46,18 @@ Message=Viesti
 #USAGE_ID
 [HEADER-Disk]
 Title=Kiintolevy
-Free space: not available for use=Vapaa tila: Ei vapaana käytöön
-Free space: available for use=Vapaa tila: Vapaana käyttöön
-Used space: other than BOINC=Käytetty tila: Muu kuin BOINC
+Free space=Vapaa tila
+Used space: non-BOINC=Käytetty tila: Muu kuin BOINC
 Used space: BOINC=Käytetty tila: BOINCin käytössä
-Used space:=Käytetty tila
+BOINC Core Client=BOINC Core-ohjelma
 
 #miscellaneous text
 [HEADER-MISC]
 New=Uusi
 Running=Käynnissä
 Ready to run=Valmiina käyttöön
-Computation done=Laskentaa suoritettu
-Results uploaded=Tuloksia lähetetty
+Computation error=Laskentavirhe
+Ready to report=Valmiina raportointiin
 Acknowledged=Vastaanotettu
 Error: invalid state=Virhe: virheellinen tila
 Completed=Valmiina
@@ -64,48 +66,50 @@ Downloading=Lataa...
 Retry in=Uusi yritys
 Upload failed=Lähettäminen epäonnistui
 Download failed=Lataaminen epäonnistui
+Suspended=Keskeytetty
 
 #menu items
-# NOTE: add an & (ampersand) to the letter to be used as mnemonic
-#       i.e. Show Graphics=Show &Graphics
-#                               ^^ the "G" will trigger the menu item
-#       you can compare it with a saved language.ini.XX file
 [MENU-File]
 Title=&Tiedosto
-Show Graphics=&Näytä grafiikat
-Clear Messages=&Poista viestit
-Clear Inactive=&Poista käyttämättömät
-Suspend=&Tauko
-Resume=&Jatka
-Exit=&Poistu
-
-[MENU-Work]
-Show Graphics=&Näytä grafiikat
+Run always=&Aina päällä
+Run based on preferences=Suorita asetuksien perusteella
+Suspend=&Keskeytä
+Run Benchmarks=Mittaa laskentateho
+Hide=&Piilota
+Exit=&Sulje
 
 [MENU-Settings]
-Title=&Asetukset
-Login to Project...=&Tunnistaudu projektiin
-Quit Project...=&Lopeta projekti
-Proxy Server...=&Välityspalvelin
-
-[MENU-Connection]
-Title=&Yhteys
-Connect Now=&Yhdistä nyt
-Hangup Connection if Dialed=&Katkaise yhteys jos soitettu
-Confirm Before Connecting=&Vahvista ennen yhdistämistä
+Title=Asetukset
+Login to Project...=Tunnistaudu projektiin
+Proxy Server...=Välityspalvelin
 
 [MENU-Help]
 Title=&Ohje
 About...=&Tietoja...
 
 [MENU-StatusIcon]
-Suspend=&Tauko
-Resume=&Jatka
-Exit=&Poistu
+Show=Näytä
+Hide=Piilota
+Run always=&Aina päällä
+Run based on preferences=Suorita asetuksien perusteella
+Suspend=Keskeytä
+Exit=Sulje
 
 [MENU-Project]
-Relogin...=&Uudelleen tunnistautuminen...
-Quit Project...=&Lopeta projekti...
+Web site=Internet-sivulle...
+Update=Päivitä...
+Update (retry now)=Päivitä (yritä uudelleen nyt)
+Detach...=Irrottaudu...
+Reset project...=Resetoi projekti...
+
+[MENU-Work]
+Show Graphics=Näytä grafiikat
+
+[MENU-Transfers]
+Retry now=Yritä uudelleen nyt
+
+[MENU-Messages]
+Copy to clipboard=Kopioi leikepöydälle
 
 [DIALOG-LOGIN]
 Title=Tunnistaudu projektiin
@@ -130,6 +134,12 @@ BOINC needs to connect to the network.  May it do so now?=BOINCin pitäsi päästä 
 Don't ask this again (connect automatically)=Älä kysy tätä uudelleen (yhdistä automaattisesti)
 OK=OK
 Cancel=Keskeytä
+
+[DIALOG-RESET]
+Are you sure you want to reset the project %1?=Oletko varma että haluat resetoida projektin %1?
+
+[DIALOG-DETACH]
+Are you sure you want to detach from the project %1?=Oletko varma että haluat irrottautua projektista %1?
 
 [DIALOG-ABOUT]
 Title=Boinc Beta Versio
