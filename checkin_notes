@@ -10750,3 +10750,14 @@ David  Mar 23 2004
 		client_types.C
 		cs_benchmark.C
 		prefs.C
+
+David  Mar 23 2004
+    - Turned off the entire "infeasible result" mechanism for now.
+        The recent usage of min_core_version was causing
+        lots of results to (undeservedly) get tagged as infeasible.
+    - Don't bump infeasible_count (or print message!)
+        if min_core_version is not met
+    
+    sched/
+        handle_request.C
+        feeder.C

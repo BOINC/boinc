@@ -257,11 +257,13 @@ bool find_app_version(
 //
 bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av) {
     if (wreq.core_client_version < av.min_core_version) {
+#if 0
         log_messages.printf(
             SchedMessages::DEBUG,
             "Outdated core version: wanted %d, got %d\n",
             av.min_core_version, wreq.core_client_version
         );
+#endif
         wreq.outdated_core = true;
         return false;
     }
@@ -807,8 +809,12 @@ static void scan_work_array(
                 wu_result.infeasible_count++;
                 continue;
             }
+
+            // see if the core client is too old.
+            // don't bump the infeasible count because this
+            // isn't the result's fault
+            //
             if (!app_core_compatible(wreq, *avp)) {
-                wu_result.infeasible_count++;
                 continue;
             }
         }
@@ -982,6 +988,10 @@ int send_work(
         if (wreq.outdated_core) {
             strcat(reply.message,
                 " (your core client is out of date - please upgrade)"
+            );
+            log_messages.printf(
+                SchedMessages::NORMAL,
+                "Not sending work because core client is outdated\n"
             );
         }
         strcpy(reply.message_priority, "low");

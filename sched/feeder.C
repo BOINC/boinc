@@ -96,6 +96,8 @@
 #define LOCKFILE                "feeder.out"
 #define PIDFILE                 "feeder.pid"
 
+//#define REMOVE_INFEASIBLE_ENTRIES
+
 SCHED_CONFIG config;
 
 SCHED_SHMEM* ssp;
@@ -118,6 +120,7 @@ int check_reread_trigger() {
     return 0;
 }
 
+#ifdef REMOVE_INFEASIBLE_ENTRIES
 static int remove_infeasible(int i) {
     int retval;
     DB_RESULT result;
@@ -158,6 +161,7 @@ static int remove_infeasible(int i) {
 
     return 0;
 }
+#endif
 
 static void scan_work_array(
     DB_RESULT& result, char* clause,
@@ -171,11 +175,13 @@ static void scan_work_array(
     for (i=0; i<ssp->nwu_results; i++) {
         WU_RESULT& wu_result = ssp->wu_results[i];
         if (wu_result.present) {
+#ifdef REMOVE_INFEASIBLE_ENTRIES
             if (wu_result.infeasible_count > MAX_INFEASIBLE_COUNT) {
                 remove_infeasible(i);
             } else if (wu_result.infeasible_count > MAX_INFEASIBLE_THRESHOLD) {
                 ninfeasible++;
             }
+#endif
         } else {
 try_again:
             retval = result.enumerate(clause);
@@ -261,6 +267,7 @@ try_again:
     }
 }
 
+#ifdef REMOVE_INFEASIBLE_ENTRIES
 static int remove_most_infeasible() {
     int i, max, imax=-1;
 
@@ -276,9 +283,10 @@ static int remove_most_infeasible() {
 
     return remove_infeasible(imax);
 }
+#endif
 
 void feeder_loop() {
-    int i, n, retval, nadditions, ncollisions, ninfeasible;
+    int nadditions, ncollisions, ninfeasible;
     DB_RESULT result;
     bool no_wus;
     char clause[256];
@@ -299,6 +307,8 @@ void feeder_loop() {
 
         ssp->ready = true;
 
+#ifdef REMOVE_INFEASIBLE_ENTRIES
+        int i, n, retval;
         if (ninfeasible > MAX_INFEASIBLE) {
             n = ninfeasible - MAX_INFEASIBLE;
             for (i=0; i<n; i++ ) {
@@ -306,6 +316,7 @@ void feeder_loop() {
                 if (retval) break;
             }
         }
+#endif
         if (nadditions == 0) {
             log_messages.printf(SchedMessages::DEBUG, "No results added; sleeping 1 sec\n");
             sleep(1);
