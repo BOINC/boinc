@@ -31,7 +31,7 @@ int init_result_trivial(RESULT const& result, void*& data) {
 }
 
 int check_pair_initialized_trivial(
-    RESULT const& r1, void* /*data1*/,
+    RESULT & r1, void* /*data1*/,
     RESULT const& r2, void* /*data2*/
 ) {
     bool match = (r1.cpu_time >= MIN_CPU_TIME && r2.cpu_time >= MIN_CPU_TIME);
@@ -43,7 +43,10 @@ int cleanup_result_trivial(RESULT const&, void*) {
     return 0;
 }
 
-int check_set(vector<RESULT>& results, int& canonicalid, double& credit, bool& retry) {
+int check_set(
+    vector<RESULT>& results, DB_WORKUNIT&, int& canonicalid, double& credit,
+    bool& retry
+) {
     retry = false;
     return generic_check_set_majority(
         results, canonicalid, credit,
@@ -53,7 +56,8 @@ int check_set(vector<RESULT>& results, int& canonicalid, double& credit, bool& r
     );
 }
 
-int check_pair(RESULT const& r1, RESULT const& r2, bool& match) {
+int check_pair(RESULT & r1, RESULT const& r2, bool& retry) {
+    retry = false;
     return check_pair_initialized_trivial(
         r1, NULL,
         r2, NULL

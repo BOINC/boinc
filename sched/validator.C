@@ -49,7 +49,7 @@ extern int check_set(
     bool& retry
 );
 extern int check_pair(
-    RESULT const& new_result, RESULT const& canonical_result, bool& retry
+    RESULT & new_result, RESULT const& canonical_result, bool& retry
 );
 
 SCHED_CONFIG config;

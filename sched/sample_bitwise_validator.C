@@ -85,7 +85,7 @@ int init_result_read_file(RESULT const & result, void*& data)
 }
 
 int check_pair_initialized_identical(
-    RESULT const& /*r1*/, void* data1,
+    RESULT & /*r1*/, void* data1,
     RESULT const& /*r2*/, void* data2,
     bool& match)
 {
@@ -103,7 +103,11 @@ int cleanup_result_string(RESULT const& /*result*/, void* data) {
 
 // See if there's a strict majority under equality.
 //
-int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
+int check_set(
+    vector<RESULT>& results, DB_WORKUNIT&, int& canonicalid, double& credit,
+    bool& retry
+) {
+    retry = false;
     return generic_check_set_majority(
         results, canonicalid, credit,
         init_result_read_file,
@@ -112,12 +116,16 @@ int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
     );
 }
 
-int check_pair(RESULT const& r1, RESULT const& r2, bool& match) {
-    return generic_check_pair(
-        r1, r2, match,
+int check_pair(
+    RESULT & r1, RESULT const& r2, bool& retry
+) {
+    retry = false;
+    int retval = generic_check_pair(
+        r1, r2,
         init_result_read_file,
         check_pair_initialized_identical,
         cleanup_result_string
     );
+    return retval;
 }
 

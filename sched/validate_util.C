@@ -201,7 +201,7 @@ int generic_check_set_majority(
 }
 
 int generic_check_pair(
-    RESULT const& r1, RESULT const& r2, bool& match,
+    RESULT & r1, RESULT const& r2,
     init_result_f init_result_f,
     check_pair_with_data_f check_pair_with_data_f,
     cleanup_result_f cleanup_result_f
@@ -209,6 +209,7 @@ int generic_check_pair(
     void* data1;
     void* data2;
     int retval;
+    bool match;
 
     retval = init_result_f(r1, data1);
     if (retval) {
@@ -232,6 +233,7 @@ int generic_check_pair(
     }
 
     retval = check_pair_with_data_f(r1, data1, r2, data2, match);
+    r1.validate_state = match?VALIDATE_STATE_VALID:VALIDATE_STATE_INVALID;
 
     cleanup_result_f(r1, data1);
     cleanup_result_f(r2, data2);
