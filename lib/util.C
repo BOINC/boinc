@@ -349,17 +349,9 @@ void escape_url_readable(char *in, char* out) {
         if (isalnum(in[x]) || in[x]=='.' || in[x]=='-' || in[x]=='_') {
             out[y] = in[x];
             ++y;
-        } else if (in[x] == '/' || in[x] == '\\' || in[x] == ' ') {
+        } else {
             out[y] = '_';
             ++y;
-        } else {
-            out[y] = '%';
-            ++y;
-            out[y] = 0;
-            sprintf(buf, "%d", (char)in[x]);
-            c2x(buf);
-            strcat(out, buf);
-            y += 2;
         }
     }
     out[y] = 0;
