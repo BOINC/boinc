@@ -63,7 +63,8 @@ function show_error($str) {
         <p>
         If you're already running the BOINC client,
         select the <b>Add Project</b> command
-        and give it your account key.";
+        and give it your account key.
+        <p>";
 
-    mail($new_email_addr, "Account information for ".PROJECT."\nThe URL for this project is \n\n".MASTER_URL."\n\nYour account key is \n\n$authenticator\n\nCopy this information into the BOINC client.");
+    mail($new_email_addr, "Account information for ".PROJECT,"The URL for this project is \n\n".MASTER_URL."\n\nYour account key is \n\n$authenticator\n\nCopy this information into the BOINC client.");
     page_tail();

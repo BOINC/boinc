@@ -53,6 +53,8 @@ function page_head($title) {
 
 function page_tail() {
 
+    echo "<a href=index.php>Return to ".PROJECT." page</a><br>\n";
+
     // put your copyright notice etc. here
 
     echo "<hr>Copyright (c) 2002 Sample Project\n";
