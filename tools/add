@@ -31,6 +31,20 @@ add user         --name="Carl Sagan" --email_addr="carl.sagan@example.com"
                     [--country=Estonia --postal_code=94703
                      --global_prefs_file=/path/to/prefs.xml]
 
+add work         --name="/path/ap_20031026.23987.28452.wu"
+                 --wu_template=/path/wu_template.xml
+                 --result_template=/path/result_template.xml
+                 [--rsc_fpops_est=3000000] [--rsc_fpops_bound=5000000]
+                 [--rsc_memory_bound=20000000] [--rsc_disk_bound=10000000]
+                 [--delay_bound=14days  | --delay_bound=1209600]
+                 [--min_quorum=3]
+                 [--target_nresults=10]
+                 [--max_error_results=5]
+                 [--max_total_results=20]
+                 [--max_success_results=10]
+                 [--sequence 4] (unimplemented)
+                 infile1 [infile2] ...
+
 add workunit  (TODO)
 
 add result    (TODO) '''
@@ -41,6 +55,7 @@ from Boinc.util import *
 import sys, os, getopt, time, pprint
 
 CREATE_TIME = ['?create_time', int(time.time())]
+TRANSITION_TIME = ['?transition_time', int(time.time())]
 
 class XCoreVersion(database.CoreVersion):
     def __init__(self,**kwargs):
