@@ -11,10 +11,10 @@
     create_keys();
     init_client_dirs("prefs1.xml");
     copy_to_download_dir("small_input");
-    add_platform();
-    add_core_client();
+    add_platform(null);
+    add_core_client(null);
     add_user("laptop_prefs.xml");
-    add_app("uc_slow");
+    add_app("uc_slow", null, null);
     create_work("-appname uc_slow -wu_name ucs_wu -wu_template ucs_wu -result_template ucs_result -nresults 1 small_input");
     echo "Now run the client manually; start and stop it a few times.\n";
     //run_client();

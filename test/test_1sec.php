@@ -11,10 +11,10 @@
     clear_data_dirs();
     create_keys();
     init_client_dirs("prefs2.xml");
-    add_platform();
+    add_platform(null);
     add_core_client();
-    add_user(null);
-    add_app("1sec");
+    add_user("prefs.xml");
+    add_app("1sec", null, null);
     create_work("-appname 1sec -wu_name 1sec_wu -wu_template 1sec_wu -result_template 1sec_result -nresults 10");
     start_feeder();
     run_client("-exit_when_idle");

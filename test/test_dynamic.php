@@ -11,12 +11,12 @@
     create_keys();
     init_client_dirs("prefs1.xml");
     copy_to_download_dir("input");
-    add_platform();
-    add_core_client();
-    add_user(null);
-    add_app("upper_case");
-    create_work("-appname upper_case -wu_name uc_wu -wu_template uc_wu -result_template uc_result -dynamic_results -nresults 5 input input");
-    run_client(NULL);
+    add_platform(null);
+    //add_core_client();
+    add_user("prefs.xml");
+    add_app("upper_case", null, null);
+    create_work("-appname upper_case -wu_name uc_wu -wu_template uc_wu -result_template uc_result -dynamic_results -nresults 2 input input");
+    run_client("-exit_when_idle");
 
     check_results_done();
     compare_file("uc_wu_0_0", "uc_correct_output");
