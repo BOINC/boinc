@@ -36,6 +36,8 @@
 void GLOBAL_PREFS::init() {
     run_on_batteries = true;
     run_if_user_active = true;
+    start_hour = 0;
+    end_hour = 0;
     run_minimized = false;
     run_on_startup = false;
     confirm_before_connecting = false;
@@ -100,6 +102,10 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
             continue;
         } else if (match_tag(buf, "<run_if_user_active/>")) {
             run_if_user_active = true;
+            continue;
+        } else if (parse_int(buf, "<start_hour/>", start_hour)) {
+            continue;
+        } else if (parse_int(buf, "<end_hour/>", end_hour)) {
             continue;
         } else if (match_tag(buf, "<confirm_before_connecting/>")) {
             confirm_before_connecting = true;

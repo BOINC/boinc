@@ -440,6 +440,7 @@ int CLIENT_STATE::check_suspend_activities() {
     }
 
     // user_idle and suspend_requested are set in the Mac/Win GUI code
+    //
     if (!user_idle) {
         should_suspend = true;
         sprintf(susp_msg, "Suspending activity - user is active");
@@ -448,7 +449,29 @@ int CLIENT_STATE::check_suspend_activities() {
         should_suspend = true;
         sprintf(susp_msg, "Suspending activity - user request");
     }
+
+    if (global_prefs.start_hour != global_prefs.end_hour) {
+        time_t t = time(0);
+        struct tm *tmp = localtime(&t);
+        bool ok;
+        if (global_prefs.start_hour < global_prefs.end_hour) {
+            ok = false;
+            if (tmp->tm_hour >= global_prefs.start_hour && tmp->tm_hour < global_prefs.end_hour) {
+                ok = true;
+            }
+        } else {
+            ok = true;
+            if (tmp->tm_hour >= global_prefs.end_hour && tmp->tm_hour < global_prefs.start_hour) {
+                ok = false;
+            }
+        }
+        if (!ok) {
+            should_suspend = true;
+            sprintf(susp_msg, "Suspending activity - time of day");
+        }
+    }
     // Stop the applications while we're running time tests
+    //
     if (check_time_tests() == TIME_TESTS_RUNNING) {
         should_suspend = true;
         sprintf(susp_msg, "Suspending activity - running time tests");

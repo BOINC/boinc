@@ -138,6 +138,12 @@ function element_end_global($parser, $name) {
     case "run_if_user_active":
         $parse_result->run_if_user_active = true;
         break;
+    case "start_hour":
+        $parse_result->start_hour = $text;
+        break;
+    case "end_hour":
+        $parse_result->end_hour = $text;
+        break;
     case "confirm_before_connecting":
         $parse_result->confirm_before_connecting = true;
         break;
@@ -192,6 +198,8 @@ function default_prefs_global() {
     $p = null;
     $p->run_on_batteries = false;
     $p->run_if_user_active = true;
+    $p->start_hour = 0;
+    $p->end_hour = 0;
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = true;
     $p->work_buf_min_days = 1;
@@ -253,6 +261,22 @@ function prefs_parse_global($prefs_xml) {
     return $parse_result;
 }
 
+function hour_str($x) {
+    return "$x:00";
+}
+
+function hour_select($x, $name) {
+    $s = "";
+    $s = $s. "<select name=$name>\n";
+    for ($i=0; $i<24; $i++) {
+        $y = hour_str($i);
+        $sel = ($x == $i)?"selected":"";
+        $s = $s."<option value=$i $sel> $y";
+    }
+    $s = $s."</select>\n";
+    return $s;
+}
+
 ////////////////////////////////////////////
 //
 // display preference subsets
@@ -260,14 +284,22 @@ function prefs_parse_global($prefs_xml) {
 function prefs_show_global($prefs) {
     row2("Work if computer on batteries?", $prefs->run_on_batteries?"Yes":"No");
     row2("Work if computer in use?", $prefs->run_if_user_active?"Yes":"No");
+    if ($prefs->start_hour == $prefs->end_hour) {
+        $x = "no restriction";
+    } else {
+        $s = hour_str($prefs->start_hour);
+        $e = hour_str($prefs->end_hour);
+        $x = "$s and $e";
+    }
+    row2("Use my computer only between", $x);
     row2("Confirm before connecting to network?", $prefs->confirm_before_connecting?"Yes":"No");
     row2("Disconnect when connection complete?", $prefs->hangup_if_dialed?"Yes":"No");
     row2("Amount of work to buffer:", "$prefs->work_buf_min_days to $prefs->work_buf_max_days days");
-    row2("Use at most", "$prefs->max_cpus processors");
+    row2("On multiprocessors, use at most", "$prefs->max_cpus processors");
     row2("Write to disk at most every", "$prefs->disk_interval seconds");
     row2("Maximum disk space to use:", "$prefs->disk_max_used_gb GB");
     row2("Minimum disk space to leave free:", "$prefs->disk_min_free_gb GB");
-    row2("Maximum % of disk allowed to used:", "$prefs->disk_max_used_pct %");
+    row2("Maximum % of disk allowed to used:", "$prefs->disk_max_used_pct%");
     $x = $prefs->max_bytes_sec_down;
     row2("Maximum bytes/sec download:", $x?"$x":"No limit");
     $x = $prefs->max_bytes_sec_up;
@@ -377,6 +409,11 @@ function prefs_form_global($user, $prefs) {
         .($prefs->run_if_user_active?"":"checked")
         .">
     ";
+    row2($x, $y);
+
+    $x = "Use my computer only between the hours of
+        <br><font size=-1>(no restriction if same times)</font>";
+    $y = hour_select($prefs->start_hour, "start_hour")."and".hour_select($prefs->end_hour, "end_hour");
     row2($x, $y);
 
     $x = "Should ".PROJECT." ask you before connecting to Internet?
@@ -523,6 +560,8 @@ function prefs_global_parse_form(&$prefs) {
 
     $prefs->run_on_batteries = ($run_on_batteries == "yes");
     $prefs->run_if_user_active = ($run_if_user_active == "yes");
+    $prefs->start_hour = $_GET["start_hour"];
+    $prefs->end_hour = $_GET["end_hour"];
     $prefs->confirm_before_connecting = ($confirm_before_connecting == "yes");
     $prefs->hangup_if_dialed = ($hangup_if_dialed == "yes");
 
@@ -576,6 +615,10 @@ function global_prefs_make_xml($prefs, $primary=true) {
     }
     if ($prefs->run_if_user_active) {
         $xml = $xml."<run_if_user_active/>\n";
+    }
+    if ($prefs->start_hour != $prefs->end_hour) {
+        $xml = $xml."<start_hour>$prefs->start_hour</start_hour>"
+            ."<end_hour>$prefs->end_hour</end_hour>\n";
     }
     if ($prefs->confirm_before_connecting) {
         $xml = $xml."<confirm_before_connecting/>\n";

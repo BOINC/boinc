@@ -3934,3 +3934,15 @@ David  Mar 20 2003
 David  Mar 21 2003
     - fixed bugs in host merge
     - (Eric) fix secs-per-day problem in credit
+
+David  Mar 24 2003
+    - added preference for time-of-day restrictions
+        (run only between hours X and Y)
+
+    client/
+        client_state.C
+        prefs.C,h
+    html_user/
+        create_account_action.php
+        create_account_form.php
+        prefs.inc

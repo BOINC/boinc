@@ -39,7 +39,7 @@ function show_error($str) {
     $authenticator = random_string();
     $munged_email_addr = munge_email_addr($new_email_addr, $authenticator);
     $query = sprintf(
-       "insert into user (create_time, email_addr, name, web_password, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, teamid, venue) values(%d, '%s', '%s', '%s', '%s', '%s', '%s', 0, 0, 0, 0, 'home')",
+       "insert into user (create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, teamid, venue, url, send_email, show_hosts) values(%d, '%s', '%s', '%s', '%s', '%s', 0, 0, 0, 0, 'home', '', 1, 1)",
         time(),
         $munged_email_addr,
         $new_name,

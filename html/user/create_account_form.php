@@ -9,28 +9,28 @@ echo "<h3>Create an account with ".PROJECT."</h3>
 ";
 
 start_table();
-row2("<b>Name:</b>
+row2("<b>Name</b>
     <br><font size=-1>
-    This will identify you on our web site.
+    Identifies you on our web site.
     Use your real name or a nickname.
     </font>",
     "<input name=new_name size=30>"
 );
-row2("<b>Email address:</b>
+row2("<b>Email address</b>
     <br><font size=-1>
-    Must be a valid address of the form name@domain.
+    Must be a valid address of the form <i>name@domain</i>.
     </font>",
     "<input name=new_email_addr size=50>"
 );
 
-row2_init("<b>Country:</b>
-    <br><font size=-1>Select the country you wish to represent, if any.</font>",
+row2_init("<b>Country</b>
+    <br><font size=-1>Select the country you want to represent, if any.</font>",
     "<select name=country>"
 );
 print_country_select();
 echo "</select></td></tr>\n";
 
-row2("<b>Postal or ZIP code:</b>
+row2("<b>Postal or ZIP code</b>
     <br><font size=-1>Optional</font>",
     "<input name=postal_code size=20>"
 );

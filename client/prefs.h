@@ -36,6 +36,8 @@
 struct GLOBAL_PREFS {
     bool run_on_batteries;
     bool run_if_user_active;
+    int start_hour;     // 0..23; no restriction if start==end
+    int end_hour;
     bool confirm_before_connecting;
     bool run_minimized;
     bool run_on_startup;
