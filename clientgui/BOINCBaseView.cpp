@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.3  2004/09/23 08:28:49  rwalton
+// *** empty log message ***
+//
 // Revision 1.2  2004/09/22 21:53:02  rwalton
 // *** empty log message ***
 //
@@ -195,5 +198,12 @@ void CBOINCBaseView::OnLinkClicked( const wxHtmlLinkInfo& link )
 {
     wxLogTrace("CBOINCBaseView::OnLinkClicked - Function Begining");
     wxLogTrace("CBOINCBaseView::OnLinkClicked - Function Ending");
+}
+
+
+void CBOINCBaseView::OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
+{
+    wxLogTrace("CBOINCBaseView::OnCellMouseHover - Function Begining");
+    wxLogTrace("CBOINCBaseView::OnCellMouseHover - Function Ending");
 }
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/09/23 08:28:50  rwalton
+// *** empty log message ***
+//
 // Revision 1.1  2004/09/21 01:26:24  rwalton
 // *** empty log message ***
 //
@@ -62,6 +65,7 @@ public:
     virtual wxListItemAttr* OnGetItemAttr( long item ) const;
 
     virtual void            OnLinkClicked( const wxHtmlLinkInfo& link );
+    virtual void            OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
 
     bool                    m_bProcessingRenderEvent;
     wxInt32                 m_iCacheFrom;

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 3.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2004-09-21 16:48-0800\n"
+"PO-Revision-Date: 2004-09-22 23:10-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -23,21 +23,21 @@ msgid "Example command line option"
 msgstr ""
 
 #: clientgui/DlgAbout.cpp:137
-#: clientgui/DlgAttachProject.cpp:109
+#: clientgui/DlgAttachProject.cpp:114
 #: clientgui/DlgConnection.cpp:92
 #: clientgui/DlgOptions.cpp:210
 msgid "&OK"
 msgstr ""
 
-#: clientgui/DlgAttachProject.cpp:88
+#: clientgui/DlgAttachProject.cpp:93
 msgid "URL:"
 msgstr ""
 
-#: clientgui/DlgAttachProject.cpp:97
+#: clientgui/DlgAttachProject.cpp:102
 msgid "Account Key:"
 msgstr ""
 
-#: clientgui/DlgAttachProject.cpp:114
+#: clientgui/DlgAttachProject.cpp:119
 #: clientgui/DlgConnection.cpp:97
 #: clientgui/DlgOptions.cpp:215
 msgid "&Cancel"
@@ -102,33 +102,63 @@ msgstr ""
 msgid "SOCKS Proxy"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:156
+#: clientgui/MainFrame.cpp:159
 msgid "E&xit"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:160
+#: clientgui/MainFrame.cpp:163
 msgid "&Options"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:164
+#: clientgui/MainFrame.cpp:167
 msgid "&About BOINC..."
 msgstr ""
 
-#: clientgui/MainFrame.cpp:168
+#: clientgui/MainFrame.cpp:171
 msgid "&File"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:169
+#: clientgui/MainFrame.cpp:172
 msgid "&Tools"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:170
+#: clientgui/MainFrame.cpp:173
 msgid "&Help"
 msgstr ""
 
+#: clientgui/ValidateAccountKey.cpp:86
+#, c-format
+msgid "'%s' should only contain alphabetic or numeric characters and be equal to 32 characters."
+msgstr ""
+
+#: clientgui/ValidateAccountKey.cpp:98
+#: clientgui/ValidateURL.cpp:105
+msgid "Validation conflict"
+msgstr ""
+
+#: clientgui/ValidateURL.cpp:87
+#, c-format
+msgid "'%s' contains a syntax error."
+msgstr ""
+
+#: clientgui/ValidateURL.cpp:89
+#, c-format
+msgid "'%s' does not contain a protocol which can get this URL."
+msgstr ""
+
+#: clientgui/ValidateURL.cpp:91
+#, c-format
+msgid "'%s' does not contain a host name."
+msgstr ""
+
+#: clientgui/ValidateURL.cpp:93
+#, c-format
+msgid "'%s' does not contain a valid path."
+msgstr ""
+
 #: clientgui/ViewMessages.cpp:69
-#: clientgui/ViewProjects.cpp:109
-#: clientgui/ViewProjects.cpp:292
+#: clientgui/ViewProjects.cpp:111
+#: clientgui/ViewProjects.cpp:335
 #: clientgui/ViewTransfers.cpp:73
 #: clientgui/ViewWork.cpp:74
 msgid "Project"
@@ -147,74 +177,90 @@ msgstr ""
 msgid "Messages"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:105
+#: clientgui/ViewProjects.cpp:107
 msgid "Tasks"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:106
+#: clientgui/ViewProjects.cpp:108
 msgid "Websites"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:107
+#: clientgui/ViewProjects.cpp:109
 msgid "Quick Tips"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:110
+#: clientgui/ViewProjects.cpp:112
 msgid "Account"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:111
-#: clientgui/ViewProjects.cpp:298
+#: clientgui/ViewProjects.cpp:113
+#: clientgui/ViewProjects.cpp:340
 msgid "Team"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:112
+#: clientgui/ViewProjects.cpp:114
 msgid "Total Credit"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:113
+#: clientgui/ViewProjects.cpp:115
 msgid "Avg. Credit"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:114
+#: clientgui/ViewProjects.cpp:116
 msgid "Resource Share"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:133
+#: clientgui/ViewProjects.cpp:122
+msgid "Please select a project to see additional options."
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:137
 msgid "Projects"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:243
-#: clientgui/DlgAttachProject.h:39
+#: clientgui/ViewProjects.cpp:211
+msgid "<b>Attach to Project</b><br>Selecting attach to project allows you to join other BOINC projects.  You will need a valid project URL and Authenticator."
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:217
+msgid "<b>Detach from Project</b><br>Selecting detach from project removes the computer from the currently selected project.  You may wish to update the project first to submit any completed work."
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:224
+msgid "<b>Update Project</b><br>Selecting update project submits any outstanding work and refreshes your credit and preferences for the currently selected project."
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:230
+msgid "<b>Reset Project</b><br>Selecting reset project removes all workunits and applications from the currently selected project.  You may wish to update the project first to submit any completed work."
+msgstr ""
+
+#: clientgui/ViewProjects.cpp:292
+#: clientgui/DlgAttachProject.h:42
 msgid "Attach to Project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:249
+#: clientgui/ViewProjects.cpp:297
 msgid "Detach from Project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:255
+#: clientgui/ViewProjects.cpp:302
 msgid "Update Project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:261
+#: clientgui/ViewProjects.cpp:307
 msgid "Reset Project"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:280
+#: clientgui/ViewProjects.cpp:325
 msgid "BOINC"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:286
+#: clientgui/ViewProjects.cpp:330
 msgid "FAQ"
 msgstr ""
 
-#: clientgui/ViewProjects.cpp:303
+#: clientgui/ViewProjects.cpp:345
 msgid "User"
-msgstr ""
-
-#: clientgui/ViewProjects.cpp:318
-msgid "Please select a project to see additional options."
 msgstr ""
 
 #: clientgui/ViewResources.cpp:76

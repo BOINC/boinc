@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/09/23 08:28:50  rwalton
+// *** empty log message ***
+//
 // Revision 1.1  2004/09/21 01:26:24  rwalton
 // *** empty log message ***
 //
@@ -51,7 +54,7 @@ CBOINCListCtrl::CBOINCListCtrl()
 
 
 CBOINCListCtrl::CBOINCListCtrl( CBOINCBaseView* pView, wxWindowID iListWindowID ) :
-    wxListView( pView, iListWindowID, wxDefaultPosition, wxSize(-1, -1), wxLC_REPORT | wxLC_VIRTUAL, wxDefaultValidator )
+    wxListView( pView, iListWindowID, wxDefaultPosition, wxSize(-1, -1), wxLC_REPORT | wxLC_VIRTUAL | wxLC_SINGLE_SEL, wxDefaultValidator )
 {
     wxLogTrace("CBOINCListCtrl::CBOINCListCtrl - Function Begining");
 

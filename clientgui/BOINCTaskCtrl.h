@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.3  2004/09/23 08:28:50  rwalton
+// *** empty log message ***
+//
 // Revision 1.2  2004/09/22 21:53:02  rwalton
 // *** empty log message ***
 //
@@ -55,10 +58,12 @@ public:
                                                    bool  bHidden );
     virtual void                CreateTask(        const wxString& strLink,
                                                    const wxString& strTaskIconFilename, 
-                                                   const wxString& strTaskName,
-                                                   const wxString& strTaskDescription );
+                                                   const wxString& strTaskName );
     virtual void                EndTaskSection(    bool  bHidden );
-    virtual void                CreateQuickTip(    const wxString& strTip );
+    virtual void                UpdateQuickTip(    const wxString& strLink,
+                                                   const wxString& strIconFilename,
+                                                   const wxString& strTip,
+                                                   bool  bHidden );
     virtual void                EndTaskPage();
 
 
@@ -81,12 +86,16 @@ public:
     virtual bool                OnRestoreState( wxConfigBase* pConfig );
 
     virtual void                OnLinkClicked( const wxHtmlLinkInfo& link );
+    virtual void                OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
     virtual wxHtmlOpeningStatus OnOpeningURL( wxHtmlURLType type, const wxString& url, wxString *redirect );
 
 private:
     
     template < class T >
         void                FireOnLinkClickedEvent( T pView, const wxHtmlLinkInfo& link );
+
+    template < class T >
+        void                FireOnCellMouseHoverEvent( T pView, wxHtmlCell* cell, wxCoord x, wxCoord y );
 
     CBOINCBaseView*         m_pParentView;
 

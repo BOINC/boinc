@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.3  2004/09/23 08:28:50  rwalton
+// *** empty log message ***
+//
 // Revision 1.2  2004/09/22 21:53:03  rwalton
 // *** empty log message ***
 //
@@ -44,6 +47,7 @@
 class CViewProjects : public CBOINCBaseView
 {
     DECLARE_DYNAMIC_CLASS( CViewProjects )
+    DECLARE_EVENT_TABLE()
 
 public:
     CViewProjects();
@@ -57,23 +61,26 @@ public:
     virtual void            OnRender( wxTimerEvent& event );
 
     virtual void            OnLinkClicked( const wxHtmlLinkInfo& link );
+    virtual void            OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
+    virtual void            OnListSelected( wxListEvent& event );
+    virtual void            OnListDeselected( wxListEvent& event );
     virtual wxString        OnGetItemText( long item, long column ) const;
 
 private:
 
+    bool                    m_bTaskHeaderHidden;
+    bool                    m_bTaskAttachToProjectHidden;
+    bool                    m_bTaskDetachFromProjectHidden;
+    bool                    m_bTaskUpdateProjectHidden;
+    bool                    m_bTaskResetProjectHidden;
+
+    bool                    m_bWebsiteHeaderHidden;
+
+    bool                    m_bTipsHeaderHidden;
+
+    wxString                m_strQuickTip;
+
     virtual void            UpdateTaskPane();
-
-    bool                    bTaskHeaderHidden;
-    bool                    bTaskAttachToProjectHidden;
-    bool                    bTaskDetachFromProjectHidden;
-    bool                    bTaskUpdateProjectHidden;
-    bool                    bTaskResetProjectHidden;
-
-    bool                    bWebsiteHeaderHidden;
-
-    bool                    bTipsHeaderHidden;
-
-    DECLARE_EVENT_TABLE()
 
 };
 

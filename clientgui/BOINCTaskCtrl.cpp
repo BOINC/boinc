@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.3  2004/09/23 08:28:50  rwalton
+// *** empty log message ***
+//
 // Revision 1.2  2004/09/22 21:53:02  rwalton
 // *** empty log message ***
 //
@@ -51,45 +54,30 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCTaskCtrl, wxHtmlWindow)
 
 CBOINCTaskCtrl::CBOINCTaskCtrl()
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::CBOINCTaskCtrl - Function Begining"));
-    wxLogTrace(wxT("CBOINCTaskCtrl::CBOINCTaskCtrl - Function Ending"));
 }
 
 
 CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iHtmlWindowID) :
     wxHtmlWindow( pView, iHtmlWindowID, wxDefaultPosition, wxSize(225, -1), wxHW_SCROLLBAR_AUTO|wxHSCROLL|wxVSCROLL )
 {
-    wxLogTrace(wxT("CBOINCListCtrl::CBOINCListCtrl - Function Begining"));
-
     m_pParentView = pView;
-
-    wxLogTrace(wxT("CBOINCListCtrl::CBOINCListCtrl - Function Ending"));
 }
 
 
 CBOINCTaskCtrl::~CBOINCTaskCtrl()
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::~CBOINCTaskCtrl - Function Begining"));
-    wxLogTrace(wxT("CBOINCTaskCtrl::~CBOINCTaskCtrl - Function Ending"));
 }
 
 
 void CBOINCTaskCtrl::BeginTaskPage()
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::BeginTaskPage - Function Begining"));
-
     m_strTaskPage.Clear();
-
     m_strTaskPage += wxT("<html><body bgcolor=\"#0080FF\">");
-
-    wxLogTrace(wxT("CBOINCTaskCtrl::BeginTaskPage - Function Ending"));
 }
 
 
 void CBOINCTaskCtrl::BeginTaskSection( const wxString& strLink, const wxString& strTaskHeaderFilename, bool bHidden )
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::BeginTaskSection - Function Begining"));
-
     wxString strModifiedTaskHeaderFilename;
 
     if ( bHidden )
@@ -121,15 +109,11 @@ void CBOINCTaskCtrl::BeginTaskSection( const wxString& strLink, const wxString& 
         m_strTaskPage += wxT("    <td align=\"right\">");
         m_strTaskPage += wxT("      <table border=\"0\" width=\"90%\" cellpadding=\"0\" cellspacing=\"0\">");
     }
-
-    wxLogTrace(wxT("CBOINCTaskCtrl::BeginTaskSection - Function Ending"));
 }
 
 
-void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTaskIconFilename, const wxString& strTaskName, const wxString& strTaskDescription )
+void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTaskIconFilename, const wxString& strTaskName )
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::CreateTask - Function Begining"));
-
     m_strTaskPage += wxT("        <tr>");
     m_strTaskPage += wxT("          <td valign=\"center\" width=\"100%\">");
 
@@ -153,15 +137,11 @@ void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTas
 
     m_strTaskPage += wxT("          </td>");
     m_strTaskPage += wxT("        </tr>");
-
-    wxLogTrace(wxT("CBOINCTaskCtrl::CreateTask - Function Ending"));
 }
 
 
 void CBOINCTaskCtrl::EndTaskSection( bool bHidden )
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::EndTaskSection - Function Begining"));
-
     if ( !bHidden )
     {
         m_strTaskPage += wxT("      </table>");
@@ -174,40 +154,40 @@ void CBOINCTaskCtrl::EndTaskSection( bool bHidden )
 
     m_strTaskPage += wxT("</table>");
     m_strTaskPage += wxT("<p></p>");
-
-    wxLogTrace(wxT("CBOINCTaskCtrl::EndTaskSection - Function Ending"));
 }
 
 
-void CBOINCTaskCtrl::CreateQuickTip( const wxString& strTip )
+void CBOINCTaskCtrl::UpdateQuickTip( const wxString& strLink, const wxString& strIconFilename, const wxString& strTip, bool bHidden )
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::CreateQuickTip - Function Begining"));
-
-    m_strTaskPage += wxT("        <tr>");
-    m_strTaskPage += wxT("          <td width=\"100%\">");
-    m_strTaskPage += wxT("            ") + strTip;
-    m_strTaskPage += wxT("          </td>");
-    m_strTaskPage += wxT("        </tr>");
-
-    wxLogTrace(wxT("CBOINCTaskCtrl::CreateQuickTip - Function Ending"));
+    if (!strTip.empty())
+    {
+        BeginTaskSection(
+            strLink,
+            strIconFilename,
+            bHidden
+        );
+        if (!bHidden)
+        {
+            m_strTaskPage += wxT("        <tr>");
+            m_strTaskPage += wxT("          <td width=\"100%\">");
+            m_strTaskPage += wxT("            ") + strTip;
+            m_strTaskPage += wxT("          </td>");
+            m_strTaskPage += wxT("        </tr>");
+        }
+        EndTaskSection(bHidden);
+    }
 }
 
 
 void CBOINCTaskCtrl::EndTaskPage()
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::EndTaskPage - Function Begining"));
-
     m_strTaskPage += wxT("</body></html>");
     SetPage(m_strTaskPage);
-
-    wxLogTrace(wxT("CBOINCTaskCtrl::EndTaskPage - Function Ending"));
 }
 
 
 void CBOINCTaskCtrl::CreateTaskHeader( const wxString& strFilename, const wxBitmap& itemTaskBitmap, const wxString& strTaskName )
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::CreateTaskHeader - Function Begining"));
-
     wxMemoryDC dc;
     wxBitmap   bmpHeaderVisible(visibleheader_xpm);
     wxBitmap   bmpHeaderHidden(hiddenheader_xpm);
@@ -239,60 +219,40 @@ void CBOINCTaskCtrl::CreateTaskHeader( const wxString& strFilename, const wxBitm
 
     AddVirtualFile(strFilename + wxT(".visible"), bmpHeaderVisible, wxBITMAP_TYPE_XPM);
     AddVirtualFile(strFilename + wxT(".hidden"), bmpHeaderHidden, wxBITMAP_TYPE_XPM);
-
-    wxLogTrace(wxT("CBOINCTaskCtrl::CreateTaskHeader - Function Ending"));
 }
 
 
 void CBOINCTaskCtrl::AddVirtualFile( const wxString& strFilename, wxImage& itemImage, long lType )
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::AddVirtualFile - Function Begining"));
-
     wxMemoryFSHandler::AddFile( strFilename, itemImage, lType );
-
-    wxLogTrace(wxT("CBOINCTaskCtrl::AddVirtualFile - Function Ending"));
 }
 
 
 void CBOINCTaskCtrl::AddVirtualFile( const wxString& strFilename, const wxBitmap& itemBitmap, long lType )
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::AddVirtualFile - Function Begining"));
-
     wxMemoryFSHandler::AddFile( strFilename, itemBitmap, lType );
-
-    wxLogTrace(wxT("CBOINCTaskCtrl::AddVirtualFile - Function Ending"));
 }
 
 
 void CBOINCTaskCtrl::RemoveVirtualFile( const wxString& strFilename )
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::RemoveVirtualFile - Function Begining"));
-
     wxMemoryFSHandler::RemoveFile( strFilename );
-
-    wxLogTrace(wxT("CBOINCTaskCtrl::RemoveVirtualFile - Function Ending"));
 }
 
 
 void CBOINCTaskCtrl::OnRender( wxTimerEvent& event )
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::OnRender - Function Begining"));
-    wxLogTrace(wxT("CBOINCTaskCtrl::OnRender - Function Ending"));
 }
 
 
 bool CBOINCTaskCtrl::OnSaveState( wxConfigBase* pConfig )
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::OnSaveState - Function Begining"));
-    wxLogTrace(wxT("CBOINCTaskCtrl::OnSaveState - Function Ending"));
     return true;
 }
 
 
 bool CBOINCTaskCtrl::OnRestoreState( wxConfigBase* pConfig )
 {
-    wxLogTrace(wxT("CBOINCTaskCtrl::OnRestoreState - Function Begining"));
-    wxLogTrace(wxT("CBOINCTaskCtrl::OnRestoreState - Function Ending"));
     return true;
 }
 
@@ -318,6 +278,27 @@ void CBOINCTaskCtrl::OnLinkClicked( const wxHtmlLinkInfo& link )
 }
 
 
+void CBOINCTaskCtrl::OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
+{
+    wxASSERT(NULL != m_pParentView);
+    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
+
+    if        (wxDynamicCast(m_pParentView, CViewProjects)) {
+        FireOnCellMouseHoverEvent(wxDynamicCast(m_pParentView, CViewProjects), cell, x, y );
+    } else if (wxDynamicCast(m_pParentView, CViewWork)) {
+        FireOnCellMouseHoverEvent(wxDynamicCast(m_pParentView, CViewWork), cell, x, y );
+    } else if (wxDynamicCast(m_pParentView, CViewTransfers)) {
+        FireOnCellMouseHoverEvent(wxDynamicCast(m_pParentView, CViewTransfers), cell, x, y );
+    } else if (wxDynamicCast(m_pParentView, CViewMessages)) {
+        FireOnCellMouseHoverEvent(wxDynamicCast(m_pParentView, CViewMessages), cell, x, y );
+    } else if (wxDynamicCast(m_pParentView, CViewResources)) {
+        FireOnCellMouseHoverEvent(wxDynamicCast(m_pParentView, CViewResources), cell, x, y );
+    } else if (wxDynamicCast(m_pParentView, CViewResources)) {
+        FireOnCellMouseHoverEvent(wxDynamicCast(m_pParentView, CBOINCBaseView), cell, x, y );
+    }
+}
+
+
 wxHtmlOpeningStatus CBOINCTaskCtrl::OnOpeningURL( wxHtmlURLType type, const wxString& url, wxString *redirect )
 {
     wxHtmlOpeningStatus retval;
@@ -335,5 +316,12 @@ template < class T >
 void CBOINCTaskCtrl::FireOnLinkClickedEvent( T pView, const wxHtmlLinkInfo& link )
 {
     return pView->OnLinkClicked( link );
+}
+
+
+template < class T >
+void CBOINCTaskCtrl::FireOnCellMouseHoverEvent( T pView, wxHtmlCell* cell, wxCoord x, wxCoord y )
+{
+    return pView->OnCellMouseHover( cell, x, y );
 }
 

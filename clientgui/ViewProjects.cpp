@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.3  2004/09/23 08:28:50  rwalton
+// *** empty log message ***
+//
 // Revision 1.2  2004/09/22 21:53:03  rwalton
 // *** empty log message ***
 //
@@ -62,6 +65,12 @@
 #define LINK_TASKUPDATE             SECTION_TASK "update"
 #define LINK_TASKRESET              SECTION_TASK "reset"
 
+#define LINK_WEBBOINC               SECTION_WEB "boinc"
+#define LINK_WEBFAQ                 SECTION_WEB "faq"
+#define LINK_WEBPROJECT             SECTION_WEB "project"
+#define LINK_WEBTEAM                SECTION_WEB "team"
+#define LINK_WEBUSER                SECTION_WEB "user"
+
 #define COLUMN_PROJECT              0
 #define COLUMN_ACCOUNTNAME          1
 #define COLUMN_TEAMNAME             2
@@ -74,6 +83,8 @@ IMPLEMENT_DYNAMIC_CLASS(CViewProjects, CBOINCBaseView)
 
 BEGIN_EVENT_TABLE(CViewProjects, CBOINCBaseView)
     EVT_LIST_CACHE_HINT(ID_LIST_PROJECTSVIEW, CViewProjects::OnCacheHint)
+    EVT_LIST_ITEM_SELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListSelected)
+    EVT_LIST_ITEM_DESELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListDeselected)
 END_EVENT_TABLE()
 
 
@@ -115,9 +126,11 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_AVGCREDIT, _("Avg. Credit"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_RESOURCESHARE, _("Resource Share"), wxLIST_FORMAT_LEFT, -1);
 
-    bTaskHeaderHidden = false;
-    bWebsiteHeaderHidden = false;
-    bTipsHeaderHidden = false;
+    m_bTaskHeaderHidden = false;
+    m_bWebsiteHeaderHidden = false;
+    m_bTipsHeaderHidden = false;
+
+    m_strQuickTip = _("Please select a project to see additional options.");
 
     UpdateTaskPane();
 }
@@ -125,8 +138,6 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 
 CViewProjects::~CViewProjects()
 {
-    wxLogTrace(wxT("CViewProjects::~CViewProjects - Function Begining"));
-    wxLogTrace(wxT("CViewProjects::~CViewProjects - Function Ending"));
 }
 
 
@@ -164,10 +175,8 @@ void CViewProjects::OnRender(wxTimerEvent &event)
 
 void CViewProjects::OnLinkClicked( const wxHtmlLinkInfo& link )
 {
-    wxLogTrace(wxT("CViewProjects::OnLinkClicked - Function Begining"));
-
     if ( link.GetHref() == wxT(SECTION_TASK) )
-        bTaskHeaderHidden ? bTaskHeaderHidden = false : bTaskHeaderHidden = true;
+        m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
 
 
     if ( link.GetHref() == wxT(LINK_TASKATTACH) )
@@ -183,15 +192,102 @@ void CViewProjects::OnLinkClicked( const wxHtmlLinkInfo& link )
 
 
     if ( link.GetHref() == wxT(SECTION_WEB) )
-        bWebsiteHeaderHidden ? bWebsiteHeaderHidden = false : bWebsiteHeaderHidden = true;
+        m_bWebsiteHeaderHidden ? m_bWebsiteHeaderHidden = false : m_bWebsiteHeaderHidden = true;
 
     if ( link.GetHref() == wxT(SECTION_TIPS) )
-        bTipsHeaderHidden ? bTipsHeaderHidden = false : bTipsHeaderHidden = true;
+        m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
 
 
     UpdateTaskPane();
+}
 
-    wxLogTrace(wxT("CViewProjects::OnLinkClicked - Function Ending"));
+
+void CViewProjects::OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
+{
+    wxString strLink;
+
+    if ( NULL != cell->GetLink() )
+        strLink = cell->GetLink()->GetHref();
+
+    if      ( wxT(LINK_TASKATTACH) == strLink )
+    {
+        m_strQuickTip = _("<b>Attach to Project</b><br>"
+                          "Selecting attach to project allows you to join other BOINC "
+                          "projects.  You will need a valid project URL and Authenticator.");
+    }
+    else if ( wxT(LINK_TASKDETACH) == strLink )
+    {
+        m_strQuickTip = _("<b>Detach from Project</b><br>"
+                          "Selecting detach from project removes the computer from the currently "
+                          "selected project.  You may wish to update the project first to submit "
+                          "any completed work.");
+    }
+    else if ( wxT(LINK_TASKUPDATE) == strLink )
+    {
+        m_strQuickTip = _("<b>Update Project</b><br>"
+                          "Selecting update project submits any outstanding work and refreshes "
+                          "your credit and preferences for the currently selected project.");
+    }
+    else if ( wxT(LINK_TASKRESET) == strLink )
+    {
+        m_strQuickTip = _("<b>Reset Project</b><br>"
+                          "Selecting reset project removes all workunits and applications from "
+                          "the currently selected project.  You may wish to update the project "
+                          "first to submit any completed work.");
+    }
+    else if ( wxT(LINK_WEBBOINC) == strLink )
+    {
+        m_strQuickTip = _("<b>BOINC Homepage</b><br>"
+                          "This will open a browser window to the BOINC homepage.");
+    }
+    else if ( wxT(LINK_WEBFAQ) == strLink )
+    {
+        m_strQuickTip = _("<b>FAQ</b><br>"
+                          "This will open a browser window to the BOINC FAQ.");
+    }
+    else if ( wxT(LINK_WEBPROJECT) == strLink )
+    {
+        m_strQuickTip = _("<b>Project Homepage</b><br>"
+                          "This will open a browser window to the currently selected project "
+                          "homepage.");
+    }
+    else if ( wxT(LINK_WEBTEAM) == strLink )
+    {
+        m_strQuickTip = _("<b>Team Homepage</b><br>"
+                          "This will open a browser window to your team homepage for the currently "
+                          "selected project.");
+    }
+    else if ( wxT(LINK_WEBUSER) == strLink )
+    {
+        m_strQuickTip = _("<b>Your Homepage</b><br>"
+                          "This will open a browser window to your homepage for the currently "
+                          "selected project.");
+    }
+    else
+        m_strQuickTip.Empty();
+
+
+    UpdateTaskPane();
+}
+
+
+void CViewProjects::OnListSelected ( wxListEvent& event )
+{
+    wxLogTrace(wxT("CViewProjects::OnListSelected - Function Begining"));
+
+    event.Skip();
+
+    wxLogTrace(wxT("CViewProjects::OnListSelected - Function Ending"));
+}
+
+
+void CViewProjects::OnListDeselected ( wxListEvent& event )
+{
+    wxLogTrace(wxT("CViewProjects::OnListDeselected - Function Begining"));
+
+    event.Skip();
+
+    wxLogTrace(wxT("CViewProjects::OnListDeselected - Function Ending"));
 }
 
 
@@ -225,106 +321,34 @@ wxString CViewProjects::OnGetItemText(long item, long column) const {
 
 void CViewProjects::UpdateTaskPane()
 {
-    wxLogTrace(wxT("CViewProjects::UpdateTaskPane - Function Begining"));
-
     wxASSERT(NULL != m_pTaskPane);
 
     m_pTaskPane->BeginTaskPage();
 
-
-    m_pTaskPane->BeginTaskSection(
-        wxT(SECTION_TASK),
-        wxT(BITMAP_TASKHEADER), 
-        bTaskHeaderHidden 
-    );
-    if (!bTaskHeaderHidden)
+    m_pTaskPane->BeginTaskSection( wxT(SECTION_TASK), wxT(BITMAP_TASKHEADER), m_bTaskHeaderHidden );
+    if (!m_bTaskHeaderHidden)
     {
-        m_pTaskPane->CreateTask(
-            wxT(LINK_TASKATTACH),
-            wxT(BITMAP_PROJECTS),
-            _("Attach to Project"),
-            _("")
-        );
-        m_pTaskPane->CreateTask(
-            wxT(""),
-            wxT(BITMAP_PROJECTS),
-            _("Detach from Project"),
-            _("")
-        );
-        m_pTaskPane->CreateTask(
-            wxT(""),
-            wxT(BITMAP_PROJECTS),
-            _("Update Project"),
-            _("")
-        );
-        m_pTaskPane->CreateTask(
-            wxT(""),
-            wxT(BITMAP_PROJECTS),
-            _("Reset Project"),
-            _("")
-        );
+        m_pTaskPane->CreateTask( wxT(LINK_TASKATTACH), wxT(BITMAP_PROJECTS), _("Attach to Project") );
+        m_pTaskPane->CreateTask( wxT(LINK_TASKDETACH), wxT(BITMAP_PROJECTS), _("Detach from Project") );
+        m_pTaskPane->CreateTask( wxT(LINK_TASKUPDATE), wxT(BITMAP_PROJECTS), _("Update Project") );
+        m_pTaskPane->CreateTask( wxT(LINK_TASKRESET), wxT(BITMAP_PROJECTS), _("Reset Project") );
     }
-    m_pTaskPane->EndTaskSection(
-        bTaskHeaderHidden
-    );
+    m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 
 
-    m_pTaskPane->BeginTaskSection( 
-        wxT(SECTION_WEB),
-        wxT(BITMAP_WEBHEADER), 
-        bWebsiteHeaderHidden
-    );
-    if (!bWebsiteHeaderHidden)
+    m_pTaskPane->BeginTaskSection( wxT(SECTION_WEB), wxT(BITMAP_WEBHEADER), m_bWebsiteHeaderHidden );
+    if (!m_bWebsiteHeaderHidden)
     {
-        m_pTaskPane->CreateTask(
-            wxT(""),
-            wxT(BITMAP_PROJECTS),
-            _("BOINC"),
-            _("")
-        );
-        m_pTaskPane->CreateTask(
-            wxT(""),
-            wxT(BITMAP_PROJECTS),
-            _("FAQ"),
-            _("")
-        );
-        m_pTaskPane->CreateTask(
-            wxT(""),
-            wxT(BITMAP_PROJECTS),
-            _("Project"),
-            _("")
-        );
-        m_pTaskPane->CreateTask(
-            wxT(""),
-            wxT(BITMAP_PROJECTS), 
-            _("Team"), 
-            _(""));
-        m_pTaskPane->CreateTask(
-            wxT(""),
-            wxT(BITMAP_PROJECTS), 
-            _("User"), 
-            _("")
-        );
+        m_pTaskPane->CreateTask( wxT(LINK_WEBBOINC), wxT(BITMAP_PROJECTS), _("BOINC") );
+        m_pTaskPane->CreateTask( wxT(LINK_WEBFAQ), wxT(BITMAP_PROJECTS), _("FAQ") );
+        m_pTaskPane->CreateTask( wxT(LINK_WEBPROJECT), wxT(BITMAP_PROJECTS), _("Project") );
+        m_pTaskPane->CreateTask( wxT(LINK_WEBTEAM), wxT(BITMAP_PROJECTS), _("Team") );
+        m_pTaskPane->CreateTask( wxT(LINK_WEBUSER), wxT(BITMAP_PROJECTS), _("User") );
     }
-    m_pTaskPane->EndTaskSection(bWebsiteHeaderHidden);
+    m_pTaskPane->EndTaskSection(m_bWebsiteHeaderHidden);
 
-
-    m_pTaskPane->BeginTaskSection(
-        wxT(SECTION_TIPS),
-        wxT(BITMAP_TIPSHEADER),
-        bTipsHeaderHidden
-    );
-    if (!bTipsHeaderHidden)
-    {
-        m_pTaskPane->CreateQuickTip(
-            _("Please select a project to see additional options.")
-        );
-    }
-    m_pTaskPane->EndTaskSection(bTipsHeaderHidden);
-
+    m_pTaskPane->UpdateQuickTip(wxT(SECTION_TIPS), wxT(BITMAP_TIPSHEADER), m_strQuickTip, m_bTipsHeaderHidden);
 
     m_pTaskPane->EndTaskPage();
-
-    wxLogTrace(wxT("CViewProjects::UpdateTaskPane - Function Ending"));
 }
 

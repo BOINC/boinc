@@ -17616,3 +17616,9 @@ Lana   22 Sept 2004
            util_ops.inc
            db_ops.inc
  
+Rom    22 Sept 2004
+    - NEWGUI: Make the quick tips section auto update with the quick tip for the
+        item the mouse is hovering over.
+
+    clientgui/
+        <various files>
