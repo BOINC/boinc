@@ -921,12 +921,13 @@ int DB_VALIDATOR_ITEM_SET::update_result(RESULT& res) {
 
     sprintf(query,
         "update result set validate_state=%d, granted_credit=%.15e, "
-        "server_state=%d, outcome=%d "
+        "server_state=%d, outcome=%d, opaque=%lf"
         "where id=%d",
         res.validate_state,
         res.granted_credit,
         res.server_state,
         res.outcome,
+        res.opaque,
         res.id
     );
     return db->do_query(query);
