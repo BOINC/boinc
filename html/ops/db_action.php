@@ -13,6 +13,8 @@
 
     db_init();
 
+    $detail = null;
+
     parse_str(getenv("QUERY_STRING"));
     $q = new SqlQueryString();
     $q->process_form_items();
@@ -51,9 +53,6 @@
     ";
 
     $url = $q->get_url("db_action.php");
-    if (!isset($detail)) {
-        $detail = null;
-    }
     if ($detail) {
         $url .= "&detail=$detail";
     }
