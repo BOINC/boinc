@@ -403,6 +403,7 @@ inline void replace_string(
     }
 }
 
+#ifndef _WIN32
 // In order for toupper and tolower to work under certain conditions
 //   it needs to know about local.
 // See: http://linux-rep.fnal.gov/software/gcc/onlinedocs/libstdc++/22_locale/howto.html#7
@@ -413,7 +414,7 @@ struct Tolower
 private:
     std::locale const& loc;
 };
-
+#endif
 
 // Canonicalize a master url.
 //   - Convert the first part of a URL (before the "://") to lowercase
@@ -421,13 +422,17 @@ private:
 //   - Add a trailing slash if necessary
 //
 void canonicalize_master_url(string& url) {
-
+#ifndef _WIN32
     Tolower      down ( std::locale("C") );
-
+#endif
     string::size_type p = url.find("://");
     // lowercase http://
     if (p != string::npos) {
+#ifndef _WIN32
         transform(url.begin(), url.begin()+p, url.begin(), down);
+#else
+        transform(url.begin(), url.begin()+p, url.begin(), tolower);
+#endif
         p += 3;
     } else {
         p = 0;

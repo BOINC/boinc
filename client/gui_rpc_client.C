@@ -44,8 +44,11 @@ int RPC_CLIENT::init(char* path) {
     sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(GUI_RPC_PORT);
-    //addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+#ifdef _WIN32
+    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+#else
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
+#endif
 
     sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock <= 0) {

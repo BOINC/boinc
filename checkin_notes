@@ -13486,3 +13486,12 @@ Karl 2004-06-14
 
     sched/
         start
+
+Rom    14 June 2004
+    - Fix clientside GUI RPC calls so the test app will work.
+    - Fix util.C so cross-platform compliation
+
+    client/
+        gui_rpc_client.C
+    lib/
+        util.c
