@@ -3,12 +3,11 @@
 // show dynamic user info (private)
 //
 function show_user_stats_private($user) {
-    row1("Your account statistics");
+    row1("Account statistics");
     row2(PROJECT." member since", time_str($user->create_time));
     row2("Total credit", format_credit($user->total_credit));
     row2("Recent average credit", format_credit($user->expavg_credit));
-    $team_header = "Team<br>
-<font size=-1><a href=team.php>Change</a></font>";
+    $team_header = "Team<br><font size=-2><a href=team.php>Change</a></font>";
     if ($user->teamid) {
         $result = mysql_query("select * from team where id = $user->teamid");
         $team = mysql_fetch_object($result);
@@ -17,6 +16,7 @@ function show_user_stats_private($user) {
         row2($team_header, "None");
     }
     row2("Computers", "<a href=hosts_user.php>View</a>");
+    row2("Results", "<a href=results.php?userid=$user->id>View</a>");
 }
 
 // show static user info (private)
@@ -28,9 +28,9 @@ function show_user_profile_private($user) {
         $email_text = "Verification pending";
     }
 
-    row1("Your account information");
+    row1("Account information");
     row2("Email address<br>
-        <font size=-1><a href=edit_email_form.php>Edit</a></font>",
+        <font size=-2><a href=edit_email_form.php>Edit</a></font>",
         $email_text
     );
     row2("Name", $user->name);
@@ -39,7 +39,7 @@ function show_user_profile_private($user) {
     row2("Postal code", $user->postal_code);
     row2("", "<a href=edit_user_info_form.php>Edit account info</a>");
 
-    row1("Your profile");
+    row1("Profile");
     $sql = "SELECT * FROM profile WHERE userid = ".$user->id;
     $result = mysql_query($sql);
 
@@ -50,7 +50,7 @@ function show_user_profile_private($user) {
       row2("", "<a href=create_profile.php>Create</a>");
     }
 
-    row1("Your preferences");
+    row1("Preferences");
     row2("General", "<a href=prefs.php?subset=global>View / Edit</a>");
     row2(PROJECT, "<a href=prefs.php?subset=project>View / Edit</a>");
 }

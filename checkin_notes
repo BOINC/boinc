@@ -7122,3 +7122,15 @@ Oliver 27 Oct 2003
 	- Fixed efficiency bugs in starfield
 	api/
 		gutil.C,h
+
+David  27 Oct 2003
+    - let users see list of all their results
+    - added db_dump to list of programs updated by update_project
+
+    html_user/
+        host.inc
+        results.php (new)
+        results_host.php (deleted)
+        user.inc
+    py/Boinc/
+        setup_project.py

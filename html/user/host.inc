@@ -80,7 +80,7 @@ function show_host($host, $private) {
     $nresults = host_nresults($host);
     $nresults_success = host_nresults_success($host);
     $nresults_valid = host_nresults_valid($host);
-    $results = "$nresults_valid valid / $nresults_success successful / <a href=results_host.php?hostid=$host->id>$nresults</a> total";
+    $results = "$nresults_valid valid / $nresults_success successful / <a href=results.php?hostid=$host->id>$nresults</a> total";
     if ($last_result) {
         $time_last_result = time_str($last_result->received_time);
         $results .= "<br>Last received: $time_last_result";
@@ -188,7 +188,7 @@ function show_host_row($host, $i, $private) {
     $nresults = host_nresults($host);
     $nresults_success = host_nresults_success($host);
     $nresults_valid = host_nresults_valid($host);
-    echo "<td>$nresults_valid / $nresults_success / <a href=results_host.php?hostid=$host->id>$nresults</a>";
+    echo "<td>$nresults_valid / $nresults_success / <a href=results.php?hostid=$host->id>$nresults</a>";
     if ($last_result) {
         $date_last_result = date_str($last_result->received_time);
         echo " [$date_last_result]";
