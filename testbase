@@ -34,6 +34,9 @@ reqeval_log()
     eval "$1" > $2 2>&1 || die "error executing: $1" $2
 }
 
+if [ -z "$USER" ]; then
+    USER=$LOGNAME
+fi
 
 reqeval "rm -rf $TMPDIR"
 reqeval "mkdir -p $TMPDIR"
