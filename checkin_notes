@@ -5657,3 +5657,12 @@ Karl 2003/08/12
 
     Astropulse/split/pulse_split.C
 
+Karl 2003/08/12
+    - scheduler: if a result is received while already in
+      RESULT_SERVER_STATE_OVER, don't immediately mark it FILE_DELETE_READY.
+      we shouldn't delete the file yet because we could potentially still
+      check it against the canonical result (if its result hasn't been deleted
+      yet).
+
+    sched/
+        handle_request.C

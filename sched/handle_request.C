@@ -531,9 +531,17 @@ int handle_results(
             );
             continue;
         }
-        if (result.server_state == RESULT_SERVER_STATE_OVER) {
-            result.file_delete_state = FILE_DELETE_READY;
-        }
+
+        // TODO: audit this.  if a result timed out and then comes in, we
+        // shouldn't delete the file yet because we could potentially still
+        // check it against the canonical result (if its result hasn't been
+        // deleted yet).
+
+        // TODO: Fix documentation state diagrams.        
+
+        // if (result.server_state == RESULT_SERVER_STATE_OVER) {
+        //     result.file_delete_state = FILE_DELETE_READY;
+        // }
 
         if (result.hostid != sreq.hostid) {
             log_messages.printf(
