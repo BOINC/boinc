@@ -205,8 +205,8 @@ def find_versions__process_bundle(app, match, dir):
                 signature_files[s] = filepath
                 continue
         non_exec_files.append(filepath)
-    if not exec_file
-        print >>sys.stderr, "  Ignoring directory (no executable found)", dir
+    if not exec_file:
+        print >>sys.stderr, "  Ignoring directory (no executable found - it has to be named the same as the directory)", dir
         return
     add_files(app              = app,
               match            = match,
