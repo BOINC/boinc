@@ -24,7 +24,6 @@
 #include <sstream>
 #include "xml_util.h"
 
-static const int XML_MAX_INDENT=40;
 int xml_indent_level=0;
 
 std::string xml_indent(int i) {
@@ -32,7 +31,6 @@ std::string xml_indent(int i) {
   xml_indent_level = (xml_indent_level>0) ? xml_indent_level : 0;
   return std::string(std::min(xml_indent_level,XML_MAX_INDENT),' ');
 }
-
 // Most of these entries are for reverse translation of poorly written HTML.
 // Forward translation doesn't translate most printable characters.
 
@@ -544,7 +542,7 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
   for (i=0;i<(nelements-1);i++) {
     unsigned int ival=bin[i];
     rv << ival << ',';
-    if ((rv.str().size()-lastlen-xml_indent_level)>73) {
+    if ((rv.str().size()-lastlen-std::min(xml_indent_level,XML_MAX_INDENT))>73) {
       rv << std::endl << xml_indent();
       lastlen=rv.str().size();
     }
@@ -556,6 +554,9 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
 
 //
 // $Log$
+// Revision 1.21  2003/10/27 20:07:11  korpela
+// *** empty log message ***
+//
 // Revision 1.20  2003/10/27 19:41:23  korpela
 //
 // Fixed potential buffer overrun in decode_char()
