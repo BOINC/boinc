@@ -90,7 +90,7 @@ static void close_func() {
 static void make_new_window(int mode){
 	char* args[] = {"foobar", 0};
 	int one=1;
-    static bool first = false;
+    static bool first=true;
 
     if (mode == MODE_WINDOW || mode == MODE_FULLSCREEN){
         if (first) {

@@ -20228,9 +20228,16 @@ David  24 Nov 2004
         upgrade
 
 David  24 Nov 2004
-    - don't run benchmarks if activities suspended
+    - don't run benchmarks if activities suspended (from Ian Hay)
     - avoid buffer overrun in GUI RPC server
 
     client/
         cs_benchmark.C
         gui_rpc_server.C
+
+David  24 Nov 2004
+    - bug fix in graphics API (from Reinhard)
+        "first" should be init to true
+
+    api/
+        x_opengl.C
