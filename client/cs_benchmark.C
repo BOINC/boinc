@@ -99,8 +99,8 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     double x, y;
 
     host_info.clear_host_info();
-    whetstone(3.0, host_info.p_fpops);
-    dhrystone(3.0, x, y);
+    whetstone(host_info.p_fpops);
+    dhrystone(x, y);
     host_info.p_iops = y*1e6;
     host_info.p_membw = 1e9;
     //host_info.p_fpop_err = run_double_prec_test(fpop_test_secs, host_info.p_fpops);

@@ -12409,3 +12409,14 @@ David  May 19 2004
 
     sched/
         handle_request.C
+
+David  May 19 2004
+	- Changed dhry/whetstone to use fixed # of iterations instead
+		of dynamically adapting.
+		This hopefully will make multiple CPUs run more in lockstep
+
+	client
+		cpu_benchmark.h
+		cs_benchmark.C
+		dhrystone.C
+		whetstone.C

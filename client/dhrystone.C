@@ -216,7 +216,6 @@ int             getinput = 1;
 
 
 void dhrystone(
-   double min_time,
    double& Dhrystones_Per_Second, double& Vax_Mips
 ){
     OneToFifty              IntLoc1;
@@ -232,8 +231,6 @@ void dhrystone(
     double                  benchtime;
         
     register unsigned long  i;
-
-    int         count = 10;
 
  
 /***********************************************************************
@@ -251,13 +248,10 @@ void dhrystone(
 
     //printf ("Dhrystone Benchmark, Version 1.1 (Language: C or C++)\n");
     
-    Loops = 5000;
+    Loops = 16000000;       // determines runtime
 
    do
      {
-
-       Loops = Loops * 2;
-       count = count - 1;
        Array2Glob[8][7] = 10;
 
       /*****************
@@ -299,32 +293,10 @@ void dhrystone(
         benchtime = dtime() - startclock;
         
         //printf ("%12.0f runs %6.2f seconds \n",(double) Loops, benchtime);
-        if (benchtime > min_time)
-          {
-              count = 0;
-          }
-        else
-          {
-              if (benchtime < 0.1)
-                {
-                   Loops = Loops * 5;
-                }
-          }
-     }   /* calibrate/run do while */
-   while (count >0);
-   
-   for (i = 0; i < Loops; ++i)
-        {
-           count = count +1;
-        }
-        
-#if 0  
-    printf ("Array2Glob8/7: ");
-    if (Array2Glob[8][7] == count + 10)
-                           printf ("O.K.  ");
-    else                   printf ("WRONG ");
-    printf ("%12.0f\n", (double) Array2Glob[8][7]);
-#endif
+
+     } 
+   while (0);
+ 
     Dhrystones_Per_Second = (double) Loops / benchtime;
     Vax_Mips = Dhrystones_Per_Second / 1757.0;
 #if 0

@@ -38,5 +38,5 @@ extern int run_mem_bandwidth_test(double num_secs, double &bytes_per_sec);
 extern int set_benchmark_timer(double num_secs);
 extern int destroy_benchmark_timer();
 
-extern void dhrystone(double min_time, double& dps, double& vax_mips);
-extern void whetstone(double min_time, double& flops);
+extern void dhrystone(double& dps, double& vax_mips);
+extern void whetstone(double& flops);

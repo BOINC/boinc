@@ -90,7 +90,7 @@ void P3(double X, double Y, double *Z);
 double T,T1,T2,E1[5];
 int J,K,L;
 
-void whetstone(double min_time, double& flops) {
+void whetstone(double& flops) {
 
 	/* used in the FORTRAN version */
 	long I;
@@ -104,9 +104,8 @@ void whetstone(double min_time, double& flops) {
 	double startsec, finisec;
 	double KIPS;
 
-    II = 1;
+    II = 32;
 
-restart:
 	loopstart = 1000;		/* see the note about LOOP below */
 /*
 C
@@ -323,10 +322,6 @@ C
 C      where TIME is in seconds.
 C--------------------------------------------------------------------
 */
-	if (finisec-startsec <= min_time) {
-        II *= 2;
-        goto restart;
-	}
 
 #if 0
 	printf("Loops: %ld, Iterations: %d, Duration: %f sec.\n",
