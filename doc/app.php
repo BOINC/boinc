@@ -8,7 +8,7 @@ it consists of a program (perhaps with versions for different platforms)
 and a set of workunits and results.
 A project can operate many applications. 
 Applications are maintained in the <b>application</b> table in the BOINC DB,
-and can be created using the <a href=tools_other.php>add</a> utility. 
+and can be created using the <a href=tool_xadd.php>xadd</a> utility. 
 
 <p>
 An application program may go through a sequence of
@@ -54,8 +54,8 @@ files that make up the application version:
     &lt;/file_ref&gt;
 &lt;/app_version&gt;
 </pre>
-Application versions can be created using the
-<a href=tools_other.php>add</a> utility program.
+Application versions can be created using
+<a href=tool_update_versions.php>update_versions</a>.
 ";
 page_tail();
 ?>

@@ -17490,7 +17490,8 @@ Lana   20 Sept 2004
         backend_lib.C 
 
 Rom    20 Sept 2004
-    - NEWGUI: Refactor all view logic to accommodate the new task based interface.
+    - NEWGUI: Refactor all view logic to accommodate
+        the new task based interface.
     - NEWGUI: Add the new projects task pane.
     - NEWGUI: Stub the other tabs.
     - NEWGUI: Include new visuals for the task based UI.
@@ -17505,8 +17506,23 @@ David  21 Sept 2004
         profile.inc
 
 Lana   21 Sept 2004
-    - added getting value of the cpu_sched_period  for the client from the global prefs 
+    - added getting value of the cpu_sched_period
+        for the client from the global prefs 
    
     client/
        prefs.h 
        prefs.C
+
+David  21 Sept 2004
+    - parse_state_file():
+        If client_state.xml doesn't exist, try client_state_next.xml.
+        If the resulting file is empty, try client_state_prev.xml
+        This should hopefully fix cases of state file corruption on crash
+    - change request delay from 1 hour to 1 day for:
+        - no work for this platform
+        - core client out of date
+
+    client/
+        cs_statefile.C
+    sched/
+        sched_send.C

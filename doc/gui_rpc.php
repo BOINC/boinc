@@ -84,7 +84,7 @@ list_item_func(
 	"Set the run mode (never/auto/always)."
 );
 list_item_func(
-    "bet_run_mode(int& mode)",
+    "get_run_mode(int& mode)",
 	"Get the run mode (never/auto/always)."
 );
 list_item_func(

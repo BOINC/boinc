@@ -128,7 +128,7 @@ platform creation and naming be coordinated by a single group
 <h3>Tools</h3>
 <p>
 Platforms are maintained in the <b>platform</b> table in the BOINC DB,
-and can be created using the <a href=tools_other.php>add</a> utility. 
+and can be created using the <a href=tool_xadd.php>xadd</a> utility. 
 ";
 page_tail();
 ?>

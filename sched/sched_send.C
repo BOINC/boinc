@@ -773,11 +773,13 @@ int send_work(
     );
 
     if (wreq.nresults == 0) {
+        reply.request_delay = 3600;
         strcpy(reply.message, "No work available");
         if (wreq.no_app_version) {
             strcat(reply.message,
                 " (there was work for other platforms)"
             );
+            reply.request_delay = 3600*24;
         }
         if (wreq.insufficient_disk) {
             strcat(reply.message,
@@ -803,6 +805,7 @@ int send_work(
             strcat(reply.message,
                 " (your core client is out of date - please upgrade)"
             );
+            reply.request_delay = 3600*24;
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
                 "Not sending work because core client is outdated\n"
@@ -818,7 +821,6 @@ int send_work(
         }
 
         strcpy(reply.message_priority, "high");
-        reply.request_delay = 3600;
 
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL, "[HOST#%d] %s\n",

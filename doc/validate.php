@@ -37,16 +37,13 @@ If a canonical result is found, check_set() must set the
 validate_state field of each non-ERROR result to either VALID or INVALID.
 
 <li>
-The workunit is passed in for its min_quorum field.
-<li>
 If a recoverable error occurs while reading output files
-(e.g. a directory wasn't visible due to NSF mount failure)
+(e.g. a directory wasn't visible due to NFS mount failure)
 then check_set() should return retry=true.
 This tells the validator to arrange for this WU to be
 examined again in a few hours.
 <li>
-check_set() should return nonzero if a major error
-(e.g. database failure) occurs.
+check_set() should return nonzero if a major error occurs.
 This tells the validator to write an error message and exit.
 </ul>
 <p>
@@ -70,8 +67,7 @@ it returns retry=true,
 which causes the validator to arrange for the WU to be examined
 again in a few hours.
 <li>
-check_pair() should return nonzero if a major error
-(e.g. database failure) occurs.
+check_pair() should return nonzero if a major error occurs.
 This tells the validator to write an error message and exit.
 </ul>
 

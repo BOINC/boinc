@@ -63,6 +63,7 @@ How to configure and compile the BOINC software.
 <li> <a href=build_server.php>Building server components</a>
 <li> <a href=build_client.php>Building the core client</a>
 <li> <a href=test.php>Test applications and scripts</a>
+<li> <a href=http://noether.vassar.edu/~myers/help/boinc/boinc-on-redhat.html>Compiling BOINC on Red Hat Linux 7.x</a> (by Eric Myers)
 </ul>
 
 <font size=+1><b>
@@ -84,6 +85,7 @@ The components of a BOINC project, and how to create them.
 <li> <a href=code_signing.php>Code signing</a>
 <li> <a href=tool_update_versions.php>Adding application versions</a>
 <li> <a href=tool_upgrade.php>Upgrading a project's server software</a>
+<li> <a href=web.php>Managing the project web site</a>
 
 </ul>
 

@@ -77,7 +77,7 @@ The core client will accept
 a new key only if it's signed with the old key.
 This mechanism is
 designed to prevent attackers from breaking into a BOINC server and
-distributing a false key pair.
+distributing a false key.
 <p>
 <b>Denial of server attacks on data servers</b>
 <p>

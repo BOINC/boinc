@@ -1,51 +1,101 @@
-;; $Id$
+Boinc Core Client - HTTPS implementation
+========================================
 
-These notes/hints are for ourselves (SSL SETI/BOINC group) but they might be
-useful to others
+BUILD PROCEDURES
 
-COMPILING
-=========
+1    Build OpenSSL Static library which works with Boinc Client on Windows
 
-32-bit:
--------
+1-1)    Install Perl (to compile OpenSSL)
 
-Use 32-bit mysql CLIENT libraries (although server could be 64-bit) in
-/usr/local/mysql_32bit: 
+    Download package.
+    URL: http://aspn.activestate.com/ASPN/Downloads/ActivePerl/index/
 
-        ./configure MYSQL_CONFIG=/usr/local/mysql_32bit/bin/mysql_config
+    install.bat will start installation.
 
-64-bit:
--------
+1-2)    Download and install OpenSSL
 
-On Koloth, use these flags to link with mysql-max-64bit:
-     -L /usr/local/mysql/lib -lmysqlclient -lsocket -lnsl -lm -m64 -Wl,-R,/usr/local/gcc/lib/sparcv9
+    URL: http://www.openssl.org/source/
+    2798433 Mar 17 13:13:26 2004 openssl-0.9.7d.tar.gz (PGP sign)  [LATEST]
 
-Therefore configure like this:
-      ./configure CFLAGS=-m64 CXXFLAGS=-m64 LDFLAGS='-Wl,-R,/usr/local/gcc/lib/sparcv9'
+1-3)    Download Assembler (to compile sslelay32.lib, libeay32.lib)
 
-The -m64 compile flag generates 64-bit code and is necessary because the mysql
-libraries are 64-bit.
+    Download nasm.exe, and put it in some directory where %PATH% can find.
+    http://sourceforge.net/project/showfiles.php?group_id=6208        
 
-The -Wl,-R tells the linker to set the dynamic library search path (for C++)
-to the 64-bit versions (default /usr/local/gcc/lib has 32-bit libraries with
-the same name).
+    (Configure)
+
+    C:\openssl-0.9.7d>perl Configure VC-WIN32
+
+    (Build assembler code)
+
+    C:\openssl-0.9.7d>ms\do_nasm
+
+        * To compile debug library, need to add 'debug' option
+        in file 'do_nasm'.
+        perl util\mk1mf.pl debug nasm VC-WIN32 >ms\nt.mak
+
+    (Build main code)
+
+    C:\openssl-0.9.7d>nmake -f ms\nt.mak
+
+        * Before executing nt.mak, change make file 'nt.mak' 
+        as follows:
+
+        For release build:    /MD   ¨  /MT, and
+        For debug build:    /MDd  ¨  /MTd
+
+    (Check library)
+
+    C:\openssl-0.9.7d>cd out32
+    C:\openssl-0.9.7d\out32>..\ms\test.bat
+    
+        * If successfully build, you will see 'passed all tests' 
+        messages
 
 
-CRON SETUP
-==========
+2    Build BOINC Client
 
-Need to set PATH to include python executable; need to set PYTHONPATH to
-include PyXML module.
+     To discriminate the libraries, rename library files:
+      -  libeay32_release.lib ssleay32_release.lib for release build,
+      -  and libeay32_debug.lib ssleay32_debug.lib for debug build.
 
-crontab:
+2-1) Put all ssl libraries in the new directory 'SSL_Use'
+     (or other directories)
 
-0,5,10,15,20,25,30,35,40,45,50,55 * * * * /mydisks/a/users/boincadm/projects/cron/cron-astropulse
+        Directory: \boinc\SSL_Use\
 
-cron-astropulse:
+    (Optional) To discriminate core client executables, create new 
+               .Net project and directory for executables:
+
+        BoincClient CUI:
+            Project name - boinc_cli_SSL ,
+            executables - 
+            \boinc-2.19\SSL_Use\Build\Debug\boinc_cli_SSL.exe
+            \boinc-2.19\SSL_Use\Build\Release\boinc_cli_SSL.exe
+
+        BoincClient GUI
+            Project name - boinc_gui_SSL ,
+            executables -
+            \boinc-2.19\SSL_Use\Build\Debug\boinc_gui_SSL.exe
+            \boinc-2.19\SSL_Use\Build\Release\boinc_gui_SSL.exe
 
 
-PATH=/opt/misc/bin:/usr/bin:/bin
-PYTHONPATH=/disks/koloth/a/users/boincadm/pkg/Pyxml/PyXML-0.8.2/build/lib.solaris-2.9-sun4u-2.2
-export PATH PYTHONPATH
+2-2) Change project configuration for boinc_gui_SSL and boinc_cli_SSL
 
-/mydisks/a/users/boincadm/projects/AstroPulse_Beta/bin/start --cron
+        [boinc_xxx_SSL project]-[properties]-[Linker]-[Input]
+        -[Additional Dependencies]
+
+        For release build:
+            (add) libeay32_release.lib ssleay32_release.lib
+        For debug build:
+            (add) libeay32_debug.lib ssleay32_debug.lib
+
+        [boinc_xxx_SSL project]-[properties]-[C/C++]-[General]
+        -[Additional Include Directories]
+
+        For release build:
+            (add) ../openssl-0.9.7d/inc32/
+        For debug build:
+            (add) ../openssl-0.9.7d/inc32/
+                            
+2-3) Build projects

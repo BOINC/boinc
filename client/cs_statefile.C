@@ -40,9 +40,18 @@ int CLIENT_STATE::parse_state_file() {
     PROJECT *project=NULL;
     int retval=0;
     int failnum;
+    char *fname;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
-    if (!boinc_file_exists(STATE_FILE_NAME)) {
+
+    // Look for a valid state file:
+    // First the regular one, then the "next" one.
+    //
+    if (boinc_file_exists(STATE_FILE_NAME)) {
+        fname = STATE_FILE_NAME;
+    } else if (boinc_file_exists(STATE_FILE_NEXT)) {
+        fname = STATE_FILE_NEXT;
+    } else {
         scope_messages.printf("CLIENT_STATE::parse_state_file(): No state file; will create one\n");
 
         // avoid warning messages about version
@@ -52,14 +61,23 @@ int CLIENT_STATE::parse_state_file() {
         return ERR_FOPEN;
     }
 
-    FILE* f = fopen(STATE_FILE_NAME, "r");
+    FILE* f = fopen(fname, "r");
     MIOFILE mf;
     mf.init_file(f);
     fgets(buf, 256, f);
     if (!match_tag(buf, "<client_state>")) {
-        msg_printf(NULL, MSG_ERROR, "Missing open tag in state file.\n");
-        retval = ERR_XML_PARSE;
-        goto done;
+
+        // if file is invalid (probably empty), try the previous statefile
+        //
+        fclose(f);
+        f = fopen(STATE_FILE_PREV, "r");
+        mf.init_file(f);
+        fgets(buf, 256, f);
+        if (!match_tag(buf, "<client_state>")) {
+            msg_printf(NULL, MSG_ERROR, "Missing open tag in state file.\n");
+            retval = ERR_XML_PARSE;
+            goto done;
+        }
     }
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "</client_state>")) {
