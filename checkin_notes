@@ -7561,14 +7561,14 @@ Eric  7 Nov 2003
     apps/upper_case.C
 
 David  6 Nov 2003 (note: Eric's on the other side of the Int. Date Line)
-	- Fixed bug that cause CPU time to jump whenever Get Preferences.
-		It's because the app is getting a new aid.wu_cpu_time
-		as part of reread_prefs;
+    - Fixed bug that cause CPU time to jump whenever Get Preferences.
+        It's because the app is getting a new aid.wu_cpu_time
+        as part of reread_prefs;
         this is incorrectly added to the thread's CPU time.
-		Solution: make a copy of aid.wu_cpu_time at startup and use the copy.
+        Solution: make a copy of aid.wu_cpu_time at startup and use the copy.
 
-	api/
-		boinc_api.C
+    api/
+        boinc_api.C
 
 David  7 Nov 2003
     - Added "remember authenticator" checkbox to user login
@@ -7624,25 +7624,25 @@ Karl 2003-11-07
         wingui_mainwindow.cpp
 
 David  9 Nov 2003
-	- change upper_case app so that -cpu_time actually uses
-		significant CPU time (36 secs on my laptop)
-	- core state file writes sometimes fail if another app (e.g. text editor)
-		has the file open.  Show error code.
-	- don't start a scheduler RPC if we're suspended
-	- don't show parse error messages for empty lines in scheduler reply
-	- if reset a project during a scheduler RPC, set the scheduler_op state
-		to IDLE (else will never do another RPC)
+    - change upper_case app so that -cpu_time actually uses
+        significant CPU time (36 secs on my laptop)
+    - core state file writes sometimes fail if another app (e.g. text editor)
+        has the file open.  Show error code.
+    - don't start a scheduler RPC if we're suspended
+    - don't show parse error messages for empty lines in scheduler reply
+    - if reset a project during a scheduler RPC, set the scheduler_op state
+        to IDLE (else will never do another RPC)
 
-	api/
-		graphics_api.C
-	apps/
-		upper_case.C
-	client/
-		client_state.C
-		cs_scheduler.C
-		scheduler_op.C
-	lib/
-		filesys.C
+    api/
+        graphics_api.C
+    apps/
+        upper_case.C
+    client/
+        client_state.C
+        cs_scheduler.C
+        scheduler_op.C
+    lib/
+        filesys.C
 
 Eric  10 Nov 2003
     - readded statfs support for systems that don't have statvfs (i.e. Mac)
@@ -7650,20 +7650,20 @@ Eric  10 Nov 2003
     lib/filesys.C
 
 David  9 Nov 2003
-	- boinc_init(): initialize last_checkpoint_cpu_time.
-		This is why reported CPU time would sometimes go to zero
-	- Upper case app: report fraction done like you're supposed to
-	- Write checkpoint CPU time in %.15e format.
-		SHOULD ALWAYS USE THIS FOR FLOATING PT NUMBERS
-	- released version 2.06 of upper_case in the client test project.
-		Also changed est FP ops in that DB so that clients get few results
+    - boinc_init(): initialize last_checkpoint_cpu_time.
+        This is why reported CPU time would sometimes go to zero
+    - Upper case app: report fraction done like you're supposed to
+    - Write checkpoint CPU time in %.15e format.
+        SHOULD ALWAYS USE THIS FOR FLOATING PT NUMBERS
+    - released version 2.06 of upper_case in the client test project.
+        Also changed est FP ops in that DB so that clients get few results
 
-	api/
-		boinc_api.C
-	apps/
-		upper_case.C
-	win_builc/
-		upper_case.dsp
+    api/
+        boinc_api.C
+    apps/
+        upper_case.C
+    win_builc/
+        upper_case.dsp
 
 David  10 Nov 2003
     - released versions of Astropulse (2.10) and SETI@home (2.08) for Windows.
@@ -7741,7 +7741,7 @@ Karl 2003-11-20
 
     client/translation/ 
         language.ini.fr
-	langauge.ini.nl
+    langauge.ini.nl
 
 Karl 2003-11-21
     client/translation/
@@ -7806,30 +7806,51 @@ David  25 Nov 2003
 
 David  25 Nov 2003
     - Changes to a running app's checkpoint_cpu_time
-		(as conveyed in shared-memory msgs)
-		were not triggering state file writes.
-		As a result the CPU time of a result was, in general,
-		returning to zero after a reboot.
-	- ACTIVE_TASK_SET::poll(): if any task's checkpoint_cpu_time has changed,
-		trigger a client state file write
-	- renamed ACTIVE_TASK_SET::get_cpu_times() -> get_status_msgs()
-		Also, this function now returns boolean:
-		whether any checkpoint_cpu_time has changed
-	- renamed ACTIVE_TASK::get_cpu_time_via_shmem() -> get_status_msg()
-		(since the message includes more than just CPU time)
-	- removed ACTIVE_TASK.last_status_msg_time (not used)
-	- factored out logic to compute frac_rate_of_change
-		and put it in a separate function (ACTIVE_TASK::estimate_frac_rate_of_change())
-	- print app version for results in GUI
+        (as conveyed in shared-memory msgs)
+        were not triggering state file writes.
+        As a result the CPU time of a result was, in general,
+        returning to zero after a reboot.
+    - ACTIVE_TASK_SET::poll(): if any task's checkpoint_cpu_time has changed,
+        trigger a client state file write
+    - renamed ACTIVE_TASK_SET::get_cpu_times() -> get_status_msgs()
+        Also, this function now returns boolean:
+        whether any checkpoint_cpu_time has changed
+    - renamed ACTIVE_TASK::get_cpu_time_via_shmem() -> get_status_msg()
+        (since the message includes more than just CPU time)
+    - removed ACTIVE_TASK.last_status_msg_time (not used)
+    - factored out logic to compute frac_rate_of_change
+        and put it in a separate function (ACTIVE_TASK::estimate_frac_rate_of_change())
+    - print app version for results in GUI
 
-	client/
-		app.C,h
-		client_types.C,h
-		win/
-			wingui_mainwindow.cpp
+    client/
+        app.C,h
+        client_types.C,h
+        win/
+            wingui_mainwindow.cpp
 
 Karl 2003-11-25
     - wrote release notes 
     doc/
         ssl_client_release_instructions.txt
 
+David  25 Nov 2003
+    - Fixed bug that could cause a workunit to be sent to a client
+        without any corresponding result.
+        I'm not sure what happens then but it can't be good.
+
+        Here's the deal:
+        OLD:
+            retval = add_wu_to_reply()     // returns error if no app version
+            if (retval) continue
+            reread result from DB
+            if result.state != UNSENT continue
+                // if this happens, we'll send the WU but not the result
+        NEW:
+            found = find_app_version()
+            if (!found) continue;
+            reread result from DB
+            if result.state != UNSENT continue
+            add_wu_to_reply()
+
+    sched/
+        handle_request.C

@@ -209,25 +209,19 @@ int insert_wu_tags(WORKUNIT& wu, APP& app) {
     return insert_after(wu.xml_doc, "<workunit>\n", buf);
 }
 
-// add the given workunit to a reply.
-// look up its app, and make sure there's a version for this platform.
-// Add the app and app_version to the reply also.
+// return the APP and APP_VERSION for the given WU, for the given platform.
+// return false if none
 //
-int add_wu_to_reply(
-    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform, SCHED_SHMEM& ss,
-    WORK_REQ& wreq
+bool find_app_version(
+    WORK_REQ& wreq, WORKUNIT& wu, PLATFORM& platform, SCHED_SHMEM& ss,
+    APP*& app, APP_VERSION*& avp
 ) {
-    APP* app;
-    APP_VERSION* avp;
-    int retval;
-    WORKUNIT wu2;
-
     app = ss.lookup_app(wu.appid);
     if (!app) {
         log_messages.printf(
             SchedMessages::CRITICAL, "Can't find APP#%d\n", wu.appid
         );
-        return ERR_NULL;
+        return false;
     }
     avp = ss.lookup_app_version(app->id, platform.id, app->min_version);
     if (!avp) {
@@ -237,8 +231,21 @@ int add_wu_to_reply(
             app->id, platform.id, app->min_version
         );
         wreq.no_app_version = true;
-        return ERR_NULL;
+        return false;
     }
+    return true;
+}
+
+// add the given workunit to a reply.
+// look up its app, and make sure there's a version for this platform.
+// Add the app and app_version to the reply also.
+//
+int add_wu_to_reply(
+    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform, SCHED_SHMEM& ss,
+    WORK_REQ& wreq, APP* app, APP_VERSION* avp
+) {
+    int retval;
+    WORKUNIT wu2;
 
     // add the app, app_version, and workunit to the reply,
     // but only if they aren't already there
@@ -661,6 +668,9 @@ static void scan_work_array(
     DB_RESULT result;
     double wu_seconds_filled;
     char buf[256];
+    APP* app;
+    APP_VERSION* avp;
+    bool found;
 
     if (wreq.disk_available < 0) wreq.insufficient_disk = true;
 
@@ -733,12 +743,11 @@ static void scan_work_array(
             continue;
         }
 
-        // The following will fail if e.g. there's no app_version
-        // for the client's platform.
-        // Treat the same as the WU being infeasible
+        // Find the app and app_version for the client's platform.
+        // If none, treat the WU as infeasible
         //
-        retval = add_wu_to_reply(wu, reply, platform, ss, wreq);
-        if (retval) {
+        found = find_app_version(wreq, wu, platform, ss, app, avp);
+        if (!found) {
             wu_result.infeasible_count++;
             continue;
         }
@@ -759,6 +768,9 @@ static void scan_work_array(
 
         // ****** HERE WE'VE COMMITTED TO SENDING THIS RESULT TO HOST ******
         //
+
+        retval = add_wu_to_reply(wu, reply, platform, ss, wreq, app, avp);
+        if (retval) continue;
 
         wreq.disk_available -= wu.rsc_disk_bound;
 
@@ -815,14 +827,15 @@ int send_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     SCHED_SHMEM& ss
 ) {
-    int nresults = 0;
     WORK_REQ wreq;
 
+    memset(&wreq, 0, sizeof(wreq));
     wreq.disk_available = max_allowable_disk(reply.user, sreq);
     wreq.insufficient_disk = false;
     wreq.insufficient_mem = false;
     wreq.insufficient_speed = false;
     wreq.no_app_version = false;
+    wreq.nresults = 0;
 
     log_messages.printf(
         SchedMessages::NORMAL,
@@ -850,7 +863,7 @@ int send_work(
 
     log_messages.printf(
         SchedMessages::NORMAL, "[HOST#%d] Sent %d results\n",
-        reply.host.id, nresults
+        reply.host.id, wreq.nresults
     );
 
     if (wreq.nresults == 0) {
