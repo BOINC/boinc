@@ -62,24 +62,24 @@ LINK32=link.exe
 # PROP BASE Output_Dir "Debug"
 # PROP BASE Intermediate_Dir "Debug"
 # PROP BASE Target_Dir ""
-# PROP Use_MFC 2
+# PROP Use_MFC 1
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir "Debug"
 # PROP Intermediate_Dir "Debug"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /GX /ZI /Od /I "../../lib/" /I "../../api/" /I "../../RSAEuro/source/" /I "../../client/win/" /I "../../client" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_AFXDLL" /D MAJOR_VERSION=0 /D MINOR_VERSION=04 /FR /YX /FD /GZ /c /Tp
+# ADD CPP /nologo /MTd /W3 /GX /ZI /Od /I "../../lib/" /I "../../api/" /I "../../RSAEuro/source/" /I "../../client/win/" /I "../../client" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D MAJOR_VERSION=0 /D MINOR_VERSION=04 /FR /YX /FD /GZ /c /Tp
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
-# ADD RSC /l 0x409 /d "_DEBUG" /d "_AFXDLL"
+# ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 wsock32.lib wininet.lib winmm.lib /nologo /subsystem:windows /map /debug /machine:I386 /pdbtype:sept /libpath:"..\boinc_dll\Debug"
+# ADD LINK32 wsock32.lib wininet.lib winmm.lib nafxcwd.lib libcmtd.lib /nologo /subsystem:windows /map /debug /machine:I386 /nodefaultlib:"libc" /nodefaultlib:"nafxcwd" /nodefaultlib:"libcmtd" /pdbtype:sept /libpath:"..\boinc_dll\Debug"
 # SUBTRACT LINK32 /pdb:none
 
 !ENDIF 
