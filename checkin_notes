@@ -25842,6 +25842,35 @@ David  10 Mar 2005
         boinc_cmd.C
         gui_rpc_client.C
 
+Charlie	11 Mar 2005
+    - Add support for building Mac GUI BOINC Manager, Core Client 
+	and SETI@home application using XCODE IDE on Macintosh.
+	Removed Eric Heien's old boinc.pbroj which is confusing 
+	on CVS because it is a bundle, which looks like a directory
+	to CVS.  New boinc.proj bundle is checked in zipped.
+
+    - Changes for Mac GUI BOINC manager and core client.
+	Major rework of XCode project file.
+	BOINC Manager has standard Mac application bundle with icon.
+	Client doesn't ask for User ID or Project URL on command line.
+	Added code for Mac to determine idle time (user inactivity).
+	Core Client is embedded in BOINC Manager application bundle.
+	BOINC Manager sets working directory to 
+		~/Application Support/Boinc_Data/
+	and then launches embedded Core Client.
+
+    client/
+	hostinfo_unix.C
+	client/main.C
+   clientgui/
+	BOINCGUIApp.cpp
+   lib/
+	hostinfo.h
+    mac_build/
+	boinc.proj/boinc.proj (directory & file both removed)
+	boinc.proj.zip (new)
+	info.plist (new)
+
 Rom    11 Mar 2005
     - Add Account Management support into the BOINC Manager.
 
