@@ -12,7 +12,7 @@
  * $Id$
  */
 
-#include <cstdio>
+#include <stdio.h>
 
 #ifndef _FCGI_STDIO
 #define _FCGI_STDIO 1
