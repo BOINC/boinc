@@ -226,8 +226,9 @@ function row3($x, $y, $z) {
     echo "<tr><td width=30% valign=top align=right>$x</td><td>$y</td><td>$z</td></tr>\n";
 }
 
-function row4($w, $x, $y, $z) {
-    echo "<tr><td width=30% valign=top align=right>$w</td><td>$x</td><td>$y</td><td>$z</td></tr>\n";
+function row4($xx, $xy, $yx, $yy) {
+    echo "<tr><td width=25% valign=top align=right>$xx</td><td width=25%>$xy</td>"
+        . "<td width=25% align=right>$yx</td><td width=%25>$yy</td></tr>\n";
 }
 
 function rowify($string) {

@@ -1,40 +1,5 @@
 <?php
 
-function db_init() {
-    $config = get_config();
-	$user = parse_config($config, "<db_user>");
-    $pass = parse_config($config, "<db_passwd>");
-    $host = parse_config($config, "<db_host>");
-    if ($host == null) {
-        $host = "localhost";
-    }
-    $retval = mysql_connect($host, $user, $pass);
-    if (!$retval) {
-        echo "Unable to connect to database - please try again later";
-		echo mysql_error();
-        exit();
-    }
-    $db_name = parse_config($config, "<db_name>");
-    if(!mysql_select_db($db_name)) {
-	    echo "Unable to select database '$db_name' - please try again later";
-		echo mysql_error();
-	    exit();
-    }
-
-    return 0;
-}
-
-function lookup_user_auth($auth) {
-    $result = mysql_query("select * from user where authenticator='$auth'");
-    if ($result) {
-        $user = mysql_fetch_object($result);
-        mysql_free_result($result);
-        return $user;
-    } else {
-        return 0;
-    }
-}
-
 function join_query_string($s1, $s2) {
     if ($s1) {
         if ($s2) {

@@ -17607,3 +17607,12 @@ Rom    22 Sept 2004
     client/
         client_state.h
         cs_apps.C
+
+Lana   22 Sept 2004
+     - fixed opening of the ops page
+
+     html/
+        inc/
+           util_ops.inc
+           db_ops.inc
+ 
