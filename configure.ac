@@ -11,6 +11,8 @@ AC_PREREQ(2.57)
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(BOINC, 1.08)
 
+echo "--- Configuring BOINC AC_PACKAGE_VERSION ---"
+
 AC_CANONICAL_SYSTEM
 
 dnl generate .tar.gz, .tar.bz2, .zip
