@@ -155,12 +155,18 @@ void handle_wu(DB_WORKUNIT& wu) {
     unsigned int now = time(0);
     bool wu_error = false, all_over;
 
+    ScopeMessages scope_messages(log_messages, SchedMessages::NORMAL);
+    scope_messages.printf("[WU#%d %s] handling WU\n", wu.id, wu.name);
+
     // scan the results for the WU
     //
     sprintf(buf, "where workunitid=%d", wu.id);
     while (!result.enumerate(buf)) {
         results.push_back(result);
     }
+
+    log_messages.printf(SchedMessages::DEBUG, "[WU#%d %s] enumerated %d results\n",
+                        wu.id, wu.name, (int)results.size());
 
     nerrors = 0;
     ndone = 0;
@@ -170,8 +176,8 @@ void handle_wu(DB_WORKUNIT& wu) {
         switch (result.server_state) {
         case RESULT_SERVER_STATE_IN_PROGRESS:
             if (result.report_deadline < now) {
-                log_messages.printf(SchedMessages::NORMAL, "[%s] result timed out (%d < %d)\n",
-                                    result.name, result.report_deadline, now);
+                log_messages.printf(SchedMessages::NORMAL, "[WU#%d %s] [RESULT#%d %s] result timed out (%d < %d)\n",
+                                    wu.id, wu.name, result.id, result.name, result.report_deadline, now);
                 // clean up any incomplete uploads
                 result.file_delete_state = FILE_DELETE_READY;
                 result.server_state = RESULT_SERVER_STATE_OVER;
@@ -183,7 +189,8 @@ void handle_wu(DB_WORKUNIT& wu) {
         case RESULT_SERVER_STATE_OVER:
             switch (result.outcome) {
             case RESULT_OUTCOME_COULDNT_SEND:
-                log_messages.printf(SchedMessages::NORMAL, "[%s] result coulnd't be sent\n", result.name);
+                log_messages.printf(SchedMessages::NORMAL, "[WU#%d %s] [RESULT#%d %s] result coulnd't be sent\n",
+                                    wu.id, wu.name, result.id, result.name);
                 wu.error_mask |= WU_ERROR_COULDNT_SEND_RESULT;
                 wu_error = true;
                 break;
@@ -201,14 +208,14 @@ void handle_wu(DB_WORKUNIT& wu) {
     // check for too many errors or too many results
     //
     if (nerrors > max_errors) {
-        log_messages.printf(SchedMessages::NORMAL, "[%s] WU has too many errors (%d errors for %d results)\n",
-                            wu.name, nerrors, (int)results.size());
+        log_messages.printf(SchedMessages::NORMAL, "[WU#%d %s] WU has too many errors (%d errors for %d results)\n",
+                            wu.id, wu.name, nerrors, (int)results.size());
         wu.error_mask |= WU_ERROR_TOO_MANY_ERROR_RESULTS;
         wu_error = true;
     }
     if (ndone > max_done) {
-        log_messages.printf(SchedMessages::NORMAL, "[%s] WU has too many answers (%d of %d results)\n",
-                            wu.name, ndone, (int)results.size());
+        log_messages.printf(SchedMessages::NORMAL, "[WU#%d %s] WU has too many answers (%d of %d results)\n",
+                            wu.id, wu.name, ndone, (int)results.size());
         wu.error_mask |= WU_ERROR_TOO_MANY_RESULTS;
         wu_error = true;
     }
@@ -236,8 +243,8 @@ void handle_wu(DB_WORKUNIT& wu) {
         if (nredundancy > ndone) {
             n = nredundancy - ndone;
 
-            log_messages.printf(SchedMessages::NORMAL, "[%s] Generating %d more results\n",
-                                wu.name, n);
+            log_messages.printf(SchedMessages::NORMAL, "[WU#%d %s] Generating %d more results\n",
+                                wu.id, wu.name, n);
             for (i=0; i<n; i++) {
                 result = results[0];
                 make_unique_name(result.name);
@@ -247,7 +254,8 @@ void handle_wu(DB_WORKUNIT& wu) {
                 add_signatures(result.xml_doc_in, key);
                 retval = result.insert();
                 if (retval) {
-                    log_messages.printf(SchedMessages::CRITICAL, "result.insert() %d\n", retval);
+                    log_messages.printf(SchedMessages::CRITICAL, "[WU#%d %s] [RESULT#%d %s] result.insert() %d\n",
+                                        wu.id, wu.name, result.id, result.name, retval);
                     break;
                 }
             }
@@ -269,13 +277,16 @@ void handle_wu(DB_WORKUNIT& wu) {
     if (all_over && wu.assimilate_state == ASSIMILATE_DONE) {
         wu.file_delete_state = FILE_DELETE_READY;
         wu.timeout_check_time = 0;
+        log_messages.printf(SchedMessages::DEBUG, "[WU#%d %s] assimilate_state == ASSIMILATE_DONE => setting file_delete_state = FILE_DELETE_READY\n",
+                            wu.id, wu.name);
     } else {
         wu.timeout_check_time = now + wu.delay_bound;
     }
 
     retval = wu.update();
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "workunit.update() %d\n", retval);
+        log_messages.printf(SchedMessages::CRITICAL, "[WU#%d %s] workunit.update() %d\n",
+                            wu.id, wu.name, retval);
     }
 }
 
