@@ -328,7 +328,7 @@ function result_short_header() {
         <th>outcome</th>
         <th>client state</th>
         <th>host</th>
-        <th>client version</th>
+        <th>client ver</th>
         <th>received</th>
         </tr>
     ";
@@ -355,7 +355,11 @@ function show_result_short($result) {
     } else {
         echo "<td>---</td>\n";
     }
-    $version = sprintf("%.2f", $result->client_version_num/100);
+    if ($result->client_version_num) {
+        $version = '---';
+    } else {
+        $version = sprintf("%.2f", $result->client_version_num/100);
+    }
     echo "<td>$version</td>";
     echo "<td>$received</td>";
     echo "
