@@ -17852,3 +17852,8 @@ David  28 Sept 2004
 
     lib/
         gui_rpc_client.C,h
+
+Rom    28 Sep 2004 (boinc_public)
+    - Tag for 4.11 release, all platforms
+      boinc_core_release_4_11
+
