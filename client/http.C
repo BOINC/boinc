@@ -280,6 +280,8 @@ int HTTP_REPLY_HEADER::read_reply(int socket) {
 }
 
 // Read the contents of the socket into buf
+// Read until EOF from socket, so only call this if you're
+// sure the message is small
 //
 static int read_reply(int socket, char* buf, int len) {
     int i, n;
@@ -688,18 +690,18 @@ bool HTTP_OP_SET::poll(double) {
                         break;
                     }
                     switch (htp->http_op_type) {
-                        case HTTP_OP_HEAD:
-                            htp->init_head(new_url);
-                            break;
-                        case HTTP_OP_GET:
-                            htp->init_get(new_url, htp->outfile, false);
-                            break;
-                        case HTTP_OP_POST:
-                            htp->init_post(new_url, htp->infile, htp->outfile);
-                            break;
-                        case HTTP_OP_POST2:
-                            htp->init_post2(new_url, htp->req1, htp->infile, htp->file_offset);
-                            break;
+                    case HTTP_OP_HEAD:
+                        htp->init_head(new_url);
+                        break;
+                    case HTTP_OP_GET:
+                        htp->init_get(new_url, htp->outfile, false);
+                        break;
+                    case HTTP_OP_POST:
+                        htp->init_post(new_url, htp->infile, htp->outfile);
+                        break;
+                    case HTTP_OP_POST2:
+                        htp->init_post2(new_url, htp->req1, htp->infile, htp->file_offset);
+                        break;
                     }
 
                     // Open connection to the redirected server
@@ -753,27 +755,32 @@ bool HTTP_OP_SET::poll(double) {
                     break;
                 case HTTP_OP_POST2:
                     htp->http_op_state = HTTP_STATE_REPLY_BODY;
-                    htp->io_ready = false;
                     htp->io_done = false;
                     break;
                 }
             }
             break;
         case HTTP_STATE_REPLY_BODY:
-            if (htp->io_done) {
-                action = true;
-                switch (htp->http_op_type) {
-                case HTTP_OP_POST2:
+            switch (htp->http_op_type) {
+            case HTTP_OP_POST2:
+                if (htp->io_ready) {
+                    action = true;
                     read_reply(htp->socket, htp->req1, 256);
-                    break;
-                default:
+                    scope_messages.printf("HTTP_OP_SET::poll(): got reply body\n");
+                    htp->http_op_state = HTTP_STATE_DONE;
+                    htp->http_op_retval = 0;
+                }
+                break;
+            default:
+                if (htp->io_done) {
+                    action = true;
                     fclose(htp->file);
                     htp->file = 0;
+                    scope_messages.printf("HTTP_OP_SET::poll(): got reply body\n");
+                    htp->http_op_state = HTTP_STATE_DONE;
+                    htp->http_op_retval = 0;
                     break;
                 }
-                scope_messages.printf("HTTP_OP_SET::poll(): got reply body\n");
-                htp->http_op_state = HTTP_STATE_DONE;
-                htp->http_op_retval = 0;
             }
             break;
         }

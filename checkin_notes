@@ -20976,3 +20976,14 @@ David  9 Dec 2004
     client/
         http.C,h
         net_xfer.C,h
+
+David  9 Dec 2004
+	- Really fixed the above problem.
+		The HTTP code was looking at the wrong flag
+		(io_done, should have been io_ready)
+		in the POST2 case waiting for reply body
+
+	api/
+		boinc_api.C
+	client/
+		http.C,h

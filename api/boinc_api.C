@@ -302,7 +302,7 @@ int boinc_report_app_status(
     double checkpoint_cpu_time,
     double fraction_done
 ) {
-    char msg_buf[MSG_CHANNEL_SIZE], buf[256];
+    char msg_buf[MSG_CHANNEL_SIZE];
     sprintf(msg_buf,
         "<current_cpu_time>%10.4f</current_cpu_time>\n"
         "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n"
