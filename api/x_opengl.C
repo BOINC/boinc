@@ -192,29 +192,32 @@ void restart() {
 void xwin_graphics_event_loop() {
 	char* args[] = {"foobar", 0};
 	int one=1;
-    static bool first=true;
+    static bool glut_inited = false;
 
     graphics_thread = pthread_self();
+
+    atexit(restart);
     int restarted = setjmp(jbuf);
 
-#ifdef __APPLE_CC__
-    first = true;
-#endif
-    if (first) {
-        glutInit(&one, args);
-        first = false;
-    }
-
     if (restarted) {
+        if (!glut_inited) {
+            // here glutInit() must have failed and called exit().
+            // returning will cause the graphics thread to exit.
+            return;
+        }
         //fprintf(stderr, "graphics thread restarted\n"); fflush(stderr);
+#ifdef __APPLE_CC__
+        glutInit(&one, args);
+#endif
         set_mode(MODE_HIDE_GRAPHICS);
     } else {
+        glutInit(&one, args);
+        glut_inited = true;
         if (boinc_is_standalone()) {
             set_mode(MODE_WINDOW);
         } else {
             wait_for_initial_message();
             timer_handler(0);
-            atexit(restart);
         }
     }
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);

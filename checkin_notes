@@ -21757,3 +21757,10 @@ Rom    22 Dec 2004
 Rom   22 Dec 2004 (boinc)
     - Tag for 4.57 release, all platforms
       boinc_core_release_4_57
+
+David  22 Dec 2004
+    - shuffle logic in xwin_graphics_event_loop() to deal with
+        situation where glutInit() calls exit()
+
+    api/
+        x_opengl.C
