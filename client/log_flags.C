@@ -30,9 +30,22 @@
 LOG_FLAGS log_flags;
 
 LOG_FLAGS::LOG_FLAGS() {
-    task = file_xfer = sched_ops = state_debug = false;
-    task_debug = file_xfer_debug = sched_op_debug = false;
-    http_debug = time_debug = net_xfer_debug = false;
+
+    // informational output is on by default
+    //
+    task = true;
+    file_xfer = true;
+    sched_ops = true;
+
+    // debugging output is off by default
+    //
+    state_debug = false;
+    task_debug = false;
+    file_xfer_debug = false;
+    sched_op_debug = false;
+    http_debug = false;
+    time_debug = false;
+    net_xfer_debug = false;
     measurement_debug = false;
 }
 
@@ -48,48 +61,37 @@ int LOG_FLAGS::parse(FILE* in) {
         else if (match_tag(buf, "<task/>")) {
             task = true;
             continue;
-        }
-        else if (match_tag(buf, "<file_xfer/>")) {
+        } else if (match_tag(buf, "<file_xfer/>")) {
             file_xfer = true;
             continue;
-        }
-        else if (match_tag(buf, "<sched_ops/>")) {
+        } else if (match_tag(buf, "<sched_ops/>")) {
             sched_ops = true;
             continue;
-        }
-        else if (match_tag(buf, "<state_debug/>")) {
+        } else if (match_tag(buf, "<state_debug/>")) {
             state_debug = true;
             continue;
-        }
-        else if (match_tag(buf, "<task_debug/>")) {
+        } else if (match_tag(buf, "<task_debug/>")) {
             task_debug = true;
             continue;
-        }
-        else if (match_tag(buf, "<file_xfer_debug/>")) {
+        } else if (match_tag(buf, "<file_xfer_debug/>")) {
             file_xfer_debug = true;
             continue;
-        }
-        else if (match_tag(buf, "<sched_op_debug/>")) {
+        } else if (match_tag(buf, "<sched_op_debug/>")) {
             sched_op_debug = true;
             continue;
-        }
-        else if (match_tag(buf, "<http_debug/>")) {
+        } else if (match_tag(buf, "<http_debug/>")) {
             http_debug = true;
             continue;
-        }
-        else if (match_tag(buf, "<time_debug/>")) {
+        } else if (match_tag(buf, "<time_debug/>")) {
             time_debug = true;
             continue;
-        }
-        else if (match_tag(buf, "<net_xfer_debug/>")) {
+        } else if (match_tag(buf, "<net_xfer_debug/>")) {
             net_xfer_debug = true;
             continue;
-        }
-        else if (match_tag(buf, "<measurement_debug/>")) {
+        } else if (match_tag(buf, "<measurement_debug/>")) {
             measurement_debug = true;
             continue;
-        }
-        else if (match_tag(buf, "<poll_debug/>")) {
+        } else if (match_tag(buf, "<poll_debug/>")) {
             poll_debug = true;
             continue;
         }

@@ -1006,16 +1006,13 @@ bool CLIENT_STATE::garbage_collect() {
             // See if the files for this result's workunit had
             // any errors (MD5, RSA, etc)
             //
-            if(rp->wup->had_failure(failnum)) {
+            if (rp->wup->had_failure(failnum)) {
                 // If we don't already have an error for this file
                 if (!rp->ready_to_ack) {
                     // the wu corresponding to this result
                     // had an error downloading some input file(s).
                     //
-                    report_project_error(
-                        *rp,0,
-                        "The work_unit corresponding to this result had an error"
-                    );
+                    report_result_error(*rp, 0, "Couldn't get input files");
                 }
             } else {
                 rp->wup->ref_cnt++;
@@ -1030,9 +1027,7 @@ bool CLIENT_STATE::garbage_collect() {
                     if (!rp->ready_to_ack) {
                         // had an error uploading a file for this result
                         //
-                        report_project_error(*rp,0,
-                            "An output file of this result had an error"
-                        );
+                        report_result_error(*rp, 0, "Couldn't upload files");
                     }
                 } else {
                     rp->output_files[i].file_info->ref_cnt++;
@@ -1277,37 +1272,39 @@ void CLIENT_STATE::set_client_state_dirty(char* source) {
 }
 
 // Call this when a result has a nonrecoverable error.
-// The error will appear in the stderr_out field of the result.
+// Append a description of the error to the stderr_out field of the result.
 //
-// It goes through the input and output files for this result
+// Go through the input and output files for this result
 // and generates error messages for upload/download failures.
 //
 // This function is called in the following situations:
 // 1. When the active_task could not start or restart,
-//    in which case err_num is set to the an OS-specific error_code.
+//    in which case err_num is set to an OS-specific error_code.
 //    and err_msg has an OS-supplied string.
 // 2. when we fail in downloading an input file or uploading an output file,
 //    in which case err_num and err_msg are zero.
 // 3. When the active_task exits with a non_zero error code
-//    or it gets signaled, relevant info is printed to stderr_out of res.
+//    or it gets signaled.
 //
-int CLIENT_STATE::report_project_error(
+int CLIENT_STATE::report_result_error(
     RESULT& res, int err_num, char *err_msg
 ) {
-    char total_err[MAX_BLOB_LEN];
+    char buf[MAX_BLOB_LEN];
     unsigned int i;
     int failnum;
     
+    // only do this once per result
+    //
     if (res.ready_to_ack) {
         return 0;
     }
     
     res.ready_to_ack = true;
 
-    scheduler_op->backoff(res.project, "");
+    scheduler_op->backoff(res.project, "Backing off because a result failed");
 
     sprintf(
-        total_err, 
+        buf, 
         "<message>%s</message>\n"
         "<active_task_state>%d</active_task_state>\n"
         "<exit_status>%d</exit_status>\n"
@@ -1318,29 +1315,29 @@ int CLIENT_STATE::report_project_error(
         res.signal
     );
     
-    if (strlen(res.stderr_out)+strlen(total_err) < MAX_BLOB_LEN) {
-        strcat(res.stderr_out, total_err );
+    if (strlen(res.stderr_out) + strlen(buf) < MAX_BLOB_LEN) {
+        strcat(res.stderr_out, buf );
     }
     
     if ((res.state == RESULT_FILES_DOWNLOADED) && err_num) {            
-        sprintf(total_err,"<couldnt_start>%d</couldnt_start>\n", err_num);
-        if (strlen(res.stderr_out)+strlen(total_err) < MAX_BLOB_LEN) {
-            strcat(res.stderr_out, total_err );
+        sprintf(buf,"<couldnt_start>%d</couldnt_start>\n", err_num);
+        if (strlen(res.stderr_out) + strlen(buf) < MAX_BLOB_LEN) {
+            strcat(res.stderr_out, buf );
         }
     }
 
     if (res.state == RESULT_NEW) {
         for (i=0;i<res.wup->input_files.size();i++) {
             if (res.wup->input_files[i].file_info->had_failure(failnum)) {
-                sprintf(total_err,
+                sprintf(buf,
                     "<download_error>\n"
                     "    <file_name>%s</file_name>\n"
                     "    <error_code>%d</error_code>\n"
                     "</download_error>\n",
                     res.wup->input_files[i].file_info->name, failnum
                 );
-                if (strlen(res.stderr_out)+strlen(total_err) < MAX_BLOB_LEN ) {
-                    strcat( res.stderr_out, total_err );
+                if (strlen(res.stderr_out) + strlen(buf) < MAX_BLOB_LEN ) {
+                    strcat( res.stderr_out, buf );
                 }
             }
         }
@@ -1349,15 +1346,15 @@ int CLIENT_STATE::report_project_error(
     if (res.state == RESULT_COMPUTE_DONE) {
         for (i=0; i<res.output_files.size(); i++) {
             if (res.output_files[i].file_info->had_failure(failnum)) {
-                sprintf(total_err,
+                sprintf(buf,
                     "<upload_error>\n"
                     "    <file_name>%s</file_name>\n"
                     "    <error_code>%d</error_code>\n"
                     "</upload_error>\n",
                     res.output_files[i].file_info->name, failnum
                 );
-                if (strlen(res.stderr_out)+strlen(total_err) < MAX_BLOB_LEN ) {
-                    strcat( res.stderr_out, total_err );
+                if (strlen(res.stderr_out) + strlen(buf) < MAX_BLOB_LEN ) {
+                    strcat( res.stderr_out, buf );
                 }
             }
         }

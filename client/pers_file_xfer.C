@@ -65,6 +65,7 @@ bool PERS_FILE_XFER::start_xfer() {
     int retval;
     struct tm *newtime;
     time_t now;
+    char buf[256];
 
     now = time(0);
 
@@ -80,7 +81,10 @@ bool PERS_FILE_XFER::start_xfer() {
     file_xfer = new FILE_XFER;
     if (gstate.use_http_proxy) {
         file_xfer->use_http_proxy = true;
-        safe_strncpy(file_xfer->proxy_server_name, gstate.proxy_server_name, sizeof(file_xfer->proxy_server_name));
+        safe_strncpy(
+            file_xfer->proxy_server_name, gstate.proxy_server_name,
+            sizeof(file_xfer->proxy_server_name)
+        );
         file_xfer->proxy_server_port = gstate.proxy_server_port;
     }
     if (is_upload) {
@@ -89,16 +93,18 @@ bool PERS_FILE_XFER::start_xfer() {
         retval = file_xfer->init_download(*fip);
     }
     if (retval) {
-        fprintf(
-            stderr, "couldn't start %s for %s: error %d\n",
+        sprintf(buf,
+            "couldn't start %s for %s: error %d\n",
             (is_upload ? "upload" : "download"), fip->get_url(), retval
         );
+        show_message(fip->project, buf, MSG_ERROR);
+        // TODO: do we need to do anything here?
     } else {
         retval = gstate.file_xfers->insert(file_xfer);
         fxp = file_xfer;
         if (retval) {
             if (log_flags.file_xfer) {
-                printf( "file_xfer insert failed\n" );
+                show_message(fip->project, "file_xfer insert failed\n", MSG_ERROR);
             }
             fxp->file_xfer_retval = retval;
             handle_xfer_failure(now);
@@ -108,11 +114,12 @@ bool PERS_FILE_XFER::start_xfer() {
         if (log_flags.file_xfer) {
             now = time(0);
             newtime = localtime(&now);
-            printf(
+            sprintf(buf,
                 "started %s of %s to %s at time: %s\n",
                 (is_upload ? "upload" : "download"), fip->name, fip->get_url(),
                 asctime(newtime) 
             );
+            show_message(fip->project, buf, MSG_INFO);
         }
         return true;
     }
@@ -125,7 +132,7 @@ bool PERS_FILE_XFER::start_xfer() {
 //
 bool PERS_FILE_XFER::poll(unsigned int now) {
     int retval;
-    char pathname[256];
+    char pathname[256], buf[256];
     
     if (xfer_done) {
         return false;
@@ -151,10 +158,12 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
 
     if (fxp->file_xfer_done) {
         if (log_flags.file_xfer) {
-            printf(
-                "file transfer done for %s; retval %d\n",
+            sprintf(
+                buf,
+                "file transfer done for %s; error code %d\n",
                 fip->get_url(), fxp->file_xfer_retval
             );
+            show_message(fip->project, buf, MSG_INFO);
         }
         if (fxp->file_xfer_retval == 0) {
             // The transfer finished with no errors.
@@ -174,11 +183,13 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
                 get_pathname(fip, pathname);
                 retval = verify_downloaded_file(pathname, *fip);
                 if (retval) {
-                    printf("checksum or signature error for %s\n", fip->name);
+                    sprintf(buf, "checksum or signature error for %s\n", fip->name);
+                    show_message(fip->project, buf, MSG_ERROR);
                     fip->status = retval;
                 } else {
                     if (log_flags.file_xfer_debug) {
-                        printf("MD5 checksum validated for %s\n", pathname);
+                        sprintf(buf, "MD5 checksum validated for %s\n", pathname);
+                        show_message(fip->project, buf, MSG_INFO);
                     }
                     // Set the appropriate permissions depending on whether
                     // it's an executable or normal file
@@ -206,12 +217,15 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
 // Handle a transfer failure
 //
 void PERS_FILE_XFER::handle_xfer_failure(unsigned int cur_time) {
+    char buf[256];
+
     // If it was a bad range request, delete the file and start over
+    //
     if (fxp->file_xfer_retval == HTTP_STATUS_RANGE_REQUEST_ERROR) {
         fip->delete_file();
     }
 
-    retry_and_backoff(cur_time);
+    retry_or_backoff(cur_time);
     
     // See if it's time to give up on the persistent file xfer
     //
@@ -222,19 +236,19 @@ void PERS_FILE_XFER::handle_xfer_failure(unsigned int cur_time) {
             fip->status = ERR_GIVEUP_DOWNLOAD;
         }
         xfer_done = true;
-    }
-    if (log_flags.file_xfer_debug) {
-        printf("Error: transfer failure for %s: %d\n", fip->name, fip->status);
+        sprintf(buf, "Giving up on file transfer for %s: %d\n", fip->name, fip->status);
+        show_message(fip->project, buf, MSG_ERROR);
     }
 }
 
 // Cycle to the next URL, or if we've hit all URLs in this cycle,
 // backoff and try again later
 //
-void PERS_FILE_XFER::retry_and_backoff(unsigned int cur_time) {
+void PERS_FILE_XFER::retry_or_backoff(unsigned int cur_time) {
     double exp_backoff;
     struct tm *newtime;
     time_t aclock;
+    char buf[256];
     
     time( &aclock );                 /* Get time in seconds */
     
@@ -258,17 +272,18 @@ void PERS_FILE_XFER::retry_and_backoff(unsigned int cur_time) {
         next_request_time = cur_time+(int)max(PERS_RETRY_DELAY_MIN,min(PERS_RETRY_DELAY_MAX,exp_backoff));
     }
     if (log_flags.file_xfer_debug) {
-        printf(
+        sprintf(buf,
             "exponential back off is %d, current_time is %s\n",
             (int) exp_backoff,asctime(newtime) 
         );
+        show_message(fip->project, buf, MSG_INFO);
     }
 }
 
 // Parse XML information about a single persistent file transfer
 //
 int PERS_FILE_XFER::parse(FILE* fin) {
-    char buf[256];
+    char buf[256], buf2[256];
 
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</persistent_file_xfer>")) return 0;
@@ -276,7 +291,10 @@ int PERS_FILE_XFER::parse(FILE* fin) {
         else if (parse_int(buf, "<first_request_time>", first_request_time)) continue;
         else if (parse_int(buf, "<next_request_time>", next_request_time)) continue;
         else if (parse_double(buf, "<time_so_far>", time_so_far)) continue;
-        else fprintf(stderr, "PERS_FILE_XFER::parse(): unrecognized: %s\n", buf);
+        else {
+            sprintf(buf2, "PERS_FILE_XFER::parse(): unrecognized: %s\n", buf);
+            show_message(fip->project, buf2, MSG_ERROR);
+        }
     }
     return -1;
 }
@@ -339,6 +357,6 @@ int PERS_FILE_XFER_SET::remove(PERS_FILE_XFER* pfx) {
         }
         iter++;
     }
-    fprintf(stderr, "PERS_FILE_XFER_SET::remove(): not found\n");
+    show_message(pfx->fip->project, "PERS_FILE_XFER_SET::remove(): not found\n", MSG_ERROR);
     return 1;
 }

@@ -111,7 +111,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
 // Current dir is top-level BOINC dir
 //
 int ACTIVE_TASK::start(bool first_time) {
-    char exec_name[256], file_path[256], link_path[256], temp[256], exec_path[256];
+    char exec_name[256], file_path[256], link_path[256], buf[256], exec_path[256];
     unsigned int i;
     FILE_REF file_ref;
     FILE_INFO* fip;
@@ -156,9 +156,11 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(init_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, INIT_DATA_FILE);
     f = fopen(init_data_path, "w");
     if (!f) {
-        if (log_flags.task_debug) {
-            printf("Failed to open core to app prefs file %s.\n", init_data_path);
-        }
+        sprintf(
+            buf, "Failed to open core-to-app prefs file %s.\n",
+            init_data_path
+        );
+        show_message(wup->project, buf, MSG_ERROR);
         return ERR_FOPEN;
     }
     retval = write_init_data_file(f, aid);
@@ -169,9 +171,11 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(graphics_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, GRAPHICS_DATA_FILE);
     f = fopen(graphics_data_path, "w");
     if (!f) {
-        if (log_flags.task_debug) {
-            printf("Failed to open core to app graphics prefs file %s.\n", graphics_data_path);
-        }
+        sprintf(
+            buf, "Failed to open core-to-app graphics prefs file %s.\n",
+            graphics_data_path
+        );
+        show_message(wup->project, buf, MSG_ERROR);
         return ERR_FOPEN;
     }
     retval = write_graphics_file(f, &gi);
@@ -180,9 +184,8 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(fd_init_path, "%s%s%s", slot_dir, PATH_SEPARATOR, FD_INIT_FILE);
     f = fopen(fd_init_path, "w");
     if (!f) {
-        if(log_flags.task_debug) {
-            printf("Failed to open init file %s.\n", fd_init_path);
-        }
+        sprintf(buf, "Failed to open init file %s.\n", fd_init_path);
+        show_message(wup->project, buf, MSG_ERROR);
         return ERR_FOPEN;
     }
 
@@ -197,13 +200,14 @@ int ACTIVE_TASK::start(bool first_time) {
         }
         if (first_time) {
             sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, fip->name);
-            sprintf(temp, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
-            retval = boinc_link( temp, link_path);
+            sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
+            retval = boinc_link( buf, link_path);
             if (log_flags.task_debug) {
                 printf("link %s to %s\n", file_path, link_path);
             }
             if (retval) {
-                perror("link");
+                sprintf(buf, "Can't link %s to %s\n", file_path, link_path);
+                show_message(wup->project, buf, MSG_ERROR);
                 fclose(f);
                 return retval;
             }
@@ -218,20 +222,21 @@ int ACTIVE_TASK::start(bool first_time) {
         if (strlen(file_ref.open_name)) {
             if (first_time) {
                 sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, file_ref.open_name);
-                sprintf(temp, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
+                sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
                 if (log_flags.task_debug) {
                     printf("link %s to %s\n", file_path, link_path);
                 }
-                retval = boinc_link(temp, link_path);
+                retval = boinc_link(buf, link_path);
                 if (retval) {
-                    perror("link");
+                    sprintf(buf, "Can't link %s to %s\n", file_path, link_path);
+                    show_message(wup->project, buf, MSG_ERROR);
                     fclose(f);
                     return retval;
                 }
             }
         } else {
-            sprintf(temp, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
-            retval = write_fd_init_file(f, temp, file_ref.fd, 1);
+            sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
+            retval = write_fd_init_file(f, buf, file_ref.fd, 1);
             if (retval) return retval;
         }
     }
@@ -243,24 +248,22 @@ int ACTIVE_TASK::start(bool first_time) {
         get_pathname(file_ref.file_info, file_path);
         if (strlen(file_ref.open_name)) {
             if (first_time) {
-                // the following is a relic of using hard links.  not needed
-                //int fd = creat(file_path, 0660);
-                //close(fd);
                 sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, file_ref.open_name);
-                sprintf(temp, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
+                sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
                 if (log_flags.task_debug) {
                     printf("link %s to %s\n", file_path, link_path);
                 }
-                retval = boinc_link(temp, link_path);
+                retval = boinc_link(buf, link_path);
                 if (retval) {
+                    sprintf(buf, "Can't link %s to %s\n", file_path, link_path);
+                    show_message(wup->project, buf, MSG_ERROR);
                     fclose(f);
-                    perror("link");
                     return retval;
                 }
             }
         } else {
-            sprintf(temp, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
-            retval = write_fd_init_file(f, temp, file_ref.fd, 0);
+            sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
+            retval = write_fd_init_file(f, buf, file_ref.fd, 0);
             if (retval) return retval;
         }
     }
@@ -284,10 +287,7 @@ int ACTIVE_TASK::start(bool first_time) {
     
     // NOTE: in Windows, stderr is redirected within boinc_init();
 
-    sprintf( cmd_line, "%s %s", exec_path, wup->command_line );
-    // Need to condense argv into a single string
-    //if (log_flags.task_debug) print_argv(argv);
-    //
+    sprintf(cmd_line, "%s %s", exec_path, wup->command_line);
     full_path(slot_dir, slotdirpath);
     if (!CreateProcess(exec_path,
         cmd_line,
@@ -307,13 +307,13 @@ int ACTIVE_TASK::start(bool first_time) {
             NULL, win_error, 0, (LPTSTR)&lpMsgBuf, 0, errorargs
         );
 
-        // check for an error; if there is one, set error information for the currect result
         if (win_error) {
-            gstate.report_project_error(*result, win_error, (LPTSTR)&lpMsgBuf);
+            gstate.report_result_error(*result, win_error, (LPTSTR)&lpMsgBuf);
             LocalFree(lpMsgBuf);
             return -1;
         }
-        fprintf(stdout, "CreateProcess: %s\n", (LPCTSTR)lpMsgBuf);
+        sprintf(buf, "CreateProcess: %s\n", (LPCTSTR)lpMsgBuf);
+        show_message(wup->project, buf, MSG_ERROR);
         LocalFree(lpMsgBuf);
     }
     pid = process_info.dwProcessId;
@@ -343,8 +343,8 @@ int ACTIVE_TASK::start(bool first_time) {
         argv[0] = exec_name;
         parse_command_line(wup->command_line, argv+1);
         if (log_flags.task_debug) print_argv(argv);
-        boinc_resolve_filename(exec_name, temp, sizeof(temp));
-        retval = execv(temp, argv);
+        boinc_resolve_filename(exec_name, buf, sizeof(buf));
+        retval = execv(buf, argv);
         fprintf(stderr, "execv failed: %d\n", retval);
         perror("execv");
         exit(1);
@@ -423,8 +423,12 @@ bool ACTIVE_TASK_SET::poll() {
     for (int i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
+            //
             // Get the elapsed CPU time
-            if (GetProcessTimes(atp->pid_handle, &creation_time, &exit_time, &kernel_time, &user_time)) {
+            if (GetProcessTimes(
+                atp->pid_handle, &creation_time, &exit_time,
+                &kernel_time, &user_time
+            )) {
                 tKernel.LowPart = kernel_time.dwLowDateTime;
                 tKernel.HighPart = kernel_time.dwHighDateTime;
                 tUser.LowPart = user_time.dwLowDateTime;
@@ -439,7 +443,7 @@ bool ACTIVE_TASK_SET::poll() {
                 if (atp->state == PROCESS_ABORT_PENDING) {
                     atp->state = PROCESS_ABORTED;
                     atp->result->active_task_state = PROCESS_ABORTED;
-                    gstate.report_project_error(
+                    gstate.report_result_error(
                         *(atp->result), 0, "process was aborted\n"
                     );
                 } else {
@@ -449,7 +453,7 @@ bool ACTIVE_TASK_SET::poll() {
                     atp->result->active_task_state = PROCESS_EXITED;
                     //if a nonzero error code, then report it
                     if (exit_code) {
-                        gstate.report_project_error(
+                        gstate.report_result_error(
                             *(atp->result), 0,
                             "process exited with a non zero exit code\n"
                         );
@@ -482,7 +486,7 @@ bool ACTIVE_TASK_SET::poll() {
         if (atp->state == PROCESS_ABORT_PENDING) {
             atp->state = PROCESS_ABORTED;
             atp->result->active_task_state =  PROCESS_ABORTED;
-            gstate.report_project_error(
+            gstate.report_result_error(
                 *(atp->result), 0, "process was aborted\n"
             );
         } else {
@@ -491,24 +495,30 @@ bool ACTIVE_TASK_SET::poll() {
                 atp->exit_status = WEXITSTATUS(stat);
                 atp->result->exit_status = atp->exit_status;
                 atp->result->active_task_state = PROCESS_EXITED;
-                // If exit_status != 0, then we don't need to upload the
-                // files for the result of this app 
+
+                // If exit_status is nonzero, then we don't need to upload the
+                // output files
+                //
                 if(atp->exit_status) {
-                    gstate.report_project_error(
+                    gstate.report_result_error(
                         *(atp->result), 0,
                         "process exited with a nonzero exit code\n"
                     );
                 }
-                if (log_flags.task_debug) printf("process exited: status %d\n", atp->exit_status);
+                if (log_flags.task_debug) {
+                    printf("process exited: status %d\n", atp->exit_status);
+                }
             } else if (WIFSIGNALED(stat)) {
                 atp->state = PROCESS_WAS_SIGNALED;
                 atp->signal = WTERMSIG(stat);
                 atp->result->signal = atp->signal;
                 atp->result->active_task_state = PROCESS_WAS_SIGNALED;
-                gstate.report_project_error(
+                gstate.report_result_error(
                     *(atp->result), 0, "process was signaled\n"
                 );
-                if (log_flags.task_debug) printf("process was signaled: %d\n", atp->signal);
+                if (log_flags.task_debug) {
+                    printf("process was signaled: %d\n", atp->signal);
+                }
             } else {
                 atp->state = PROCESS_EXIT_UNKNOWN;
                 atp->result->state = PROCESS_EXIT_UNKNOWN;
@@ -562,15 +572,15 @@ bool ACTIVE_TASK::read_stderr_file() {
 // Wait up to wait_time seconds for all processes in this set to exit
 //
 int ACTIVE_TASK_SET::wait_for_exit(double wait_time) {
-    bool             all_exited;
-	unsigned int     i,n;
-	ACTIVE_TASK      *atp;
+    bool all_exited;
+	unsigned int i,n;
+	ACTIVE_TASK *atp;
 
-    for( i=0;i<10;i++ ) {
+    for (i=0; i<10; i++) {
         boinc_sleep(wait_time/10.0);
         all_exited = true;
 
-        for (n=0;n<active_tasks.size();n++) {
+        for (n=0; n<active_tasks.size(); n++) {
             atp = active_tasks[n];
             if (!atp->task_exited()) {
                 all_exited = false;
@@ -606,8 +616,12 @@ void ACTIVE_TASK_SET::suspend_all() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if(atp->suspend()) {
-            fprintf(stderr, "ACTIVE_TASK_SET::suspend_all(): could not suspend active_task\n");
+        if (atp->suspend()) {
+            show_message(
+                atp->wup->project,
+                "ACTIVE_TASK_SET::suspend_all(): could not suspend active_task\n",
+                MSG_ERROR
+            );
         }
     }
 }
@@ -619,8 +633,12 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if(atp->unsuspend()) {
-            fprintf(stderr, "ACTIVE_TASK_SET::unsuspend_all(): could not unsuspend active_task\n");
+        if (atp->unsuspend()) {
+            show_message(
+                atp->wup->project,
+                "ACTIVE_TASK_SET::unsuspend_all(): could not unsuspend active_task\n",
+                MSG_ERROR
+            );
         }
     } 
 }
@@ -633,7 +651,10 @@ void ACTIVE_TASK_SET::request_tasks_exit() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if(atp->request_exit()) {
-            fprintf(stderr, "ACTIVE_TASK_SET::request_tasks_exit(): could not exit active_task\n");
+            show_message(atp->wup->project,
+                "ACTIVE_TASK_SET::exit_tasks(): could not suspend active_task\n",
+                MSG_ERROR
+            );
         }
     }
 }
@@ -705,13 +726,14 @@ int ACTIVE_TASK_SET::restart_tasks() {
         atp->result->is_active = true;
         retval = atp->start(false);
         if (log_flags.task) {
-            printf("restarting application for result %s\n", atp->result->name);
+            sprintf(buf, "restarting computation for result %s\n", atp->result->name);
+            show_message(atp->wup->project, buf, MSG_INFO);
         }
         if (retval) {
             sprintf(buf, "ACTIVE_TASKS::restart_tasks(); restart failed: %d\n", retval);
             show_message(atp->wup->project, buf, MSG_ERROR);
             atp->result->active_task_state = PROCESS_COULDNT_START;
-            gstate.report_project_error(
+            gstate.report_result_error(
                 *(atp->result), retval,
                 "Couldn't restart the app for this result.\n"
             );

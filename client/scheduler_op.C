@@ -148,10 +148,8 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
 
 // Back off on the scheduler and output an error msg if needed
 //
-void SCHEDULER_OP::backoff( PROJECT* p, char *error_msg ) {
-    if (log_flags.sched_op_debug) {
-        printf(error_msg);
-    }
+void SCHEDULER_OP::backoff(PROJECT* p, char *error_msg ) {
+    show_message(p, error_msg, MSG_ERROR);
     
     if (p->master_fetch_failures >= MASTER_FETCH_RETRY_CAP) {
         p->master_url_fetch_pending = true;

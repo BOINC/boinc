@@ -44,7 +44,6 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
 
     fip = &file_info;
     get_pathname(fip, pathname);
-    // Check the current file size
     if (file_size(pathname, f_size)) {
         f_size = 0;
     }
@@ -59,8 +58,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
 int FILE_XFER::init_upload(FILE_INFO& file_info) {
     // If upload_offset < 0, we need to query the upload handler
     // for the offset information
-    // TODO: give priority to URL of unfinished upload if there
-    // are multiple choices
+    // TODO: give priority to unfinished upload if there are multiple choices
     //
     fip = &file_info;
     get_pathname(fip, pathname);

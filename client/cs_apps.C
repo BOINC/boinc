@@ -112,10 +112,13 @@ bool CLIENT_STATE::handle_running_apps() {
     unsigned int i;
     ACTIVE_TASK* atp;
     bool action = false;
+    char buf[256];
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         if (atp->state != PROCESS_RUNNING) {
+            sprintf(buf, "computation for result %s finished\n", atp->wup->name);
+            show_message(atp->wup->project, buf, MSG_INFO);
             if (log_flags.task_debug) {
                 printf(
                     "task finished; pid %d, status %d\n",
@@ -160,8 +163,8 @@ bool CLIENT_STATE::start_apps() {
     RESULT* rp;
     ACTIVE_TASK* atp;
     bool action = false;
-    int open_slot;
-    int retval;
+    int open_slot, retval;
+    char buf[256];
 
     for (i=0; i<results.size(); i++) {
 
@@ -179,8 +182,9 @@ bool CLIENT_STATE::start_apps() {
         // 3) all the input files for the result are locally available
         //
         if (rp->state == RESULT_FILES_DOWNLOADED && !rp->is_active ) {
-            if (log_flags.task_debug) {
-                printf("starting application for result %s\n", rp->name);
+            if (log_flags.task) {
+                sprintf(buf, "starting computation for result %s\n", rp->name);
+                show_message(rp->project, buf, MSG_INFO);
             }
             rp->is_active = true;
             atp = new ACTIVE_TASK;
@@ -193,7 +197,7 @@ bool CLIENT_STATE::start_apps() {
             if (retval) {
                 atp->state = PROCESS_COULDNT_START;
                 atp->result->active_task_state = PROCESS_COULDNT_START;
-                report_project_error(
+                report_result_error(
                     *(atp->result), retval,
                     "Couldn't start the app for this result.\n"
                 );

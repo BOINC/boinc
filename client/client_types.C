@@ -712,9 +712,6 @@ int RESULT::write(FILE* out, bool to_server) {
     FILE_INFO* fip;
     int n, retval;
 
-    // If we didn't have an error with this result, (in which case
-    // we would have called report_project_error():
-   
     fprintf(out,
         "<result>\n"
         "    <name>%s</name>\n"
