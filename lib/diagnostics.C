@@ -477,7 +477,7 @@ void boinc_set_signal_handler_force(int sig, RETSIGTYPE (*handler)(int)) {
     sigaction(sig, &temp, NULL);
 #else
     void (*temp)(int);
-    temp = signal(sig, handler);
+    temp = signal(sig, boinc_catch_signal);
     signal(sig, SIG_IGN);
 #endif /* HAVE_SIGACTION */
 }

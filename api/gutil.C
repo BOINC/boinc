@@ -64,7 +64,7 @@
 #include "tgalib.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GLUT/glut.h>
+#include <glut.h>
 #else
 #include <jpeglib.h>
 #endif
