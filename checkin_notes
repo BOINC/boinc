@@ -5021,3 +5021,14 @@ Karl 2003/06/23
     client/
         http.C
         net_xfer.C
+
+John Brian	2003/06/24
+    - Added context-menu support for copying items in the Messages tab to the
+      clipboard.
+
+    client/
+        wingui_mainwindow.cpp
+        wingui_mainwindow.h
+        resource.rc
+        resource.h
+        
