@@ -228,7 +228,7 @@ int SCHEDULER_OP::start_rpc() {
 
     scope_messages.printf_file(request_file, "req:");
 
-    http_op.set_proxy(&gstate.pi);
+    http_op.set_proxy(&gstate.proxy_info);
     retval = http_op.init_post(
         scheduler_url, request_file, reply_file
     );
@@ -249,7 +249,7 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
 
     project = p;
     scope_messages.printf("SCHEDULER_OP::init_master_fetch(): Fetching master file for %s\n", project->master_url);
-    http_op.set_proxy(&gstate.pi);
+    http_op.set_proxy(&gstate.proxy_info);
     retval = http_op.init_get(project->master_url, MASTER_FILE_NAME, true);
     if (retval) return retval;
     retval = http_ops->insert(&http_op);

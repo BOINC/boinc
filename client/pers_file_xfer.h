@@ -70,6 +70,7 @@ public:
     void handle_xfer_failure();
     void retry_or_backoff();
     void check_giveup(char*);
+    void abort();
     int write(MIOFILE& fout);
     int parse(MIOFILE& fin);
     int start_xfer();

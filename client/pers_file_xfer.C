@@ -125,7 +125,7 @@ int PERS_FILE_XFER::start_xfer() {
     // download or upload for the persistent file transfer
     //
     file_xfer = new FILE_XFER;
-    file_xfer->set_proxy(&gstate.pi);
+    file_xfer->set_proxy(&gstate.proxy_info);
     if (is_upload) {
         if (gstate.exit_before_upload) {
             exit(0);
@@ -275,7 +275,8 @@ bool PERS_FILE_XFER::poll(time_t now) {
 }
 
 // A file transfer (to a particular server)
-// has had a
+// has had a failure
+// TODO ?? transient ? permanent? terminology??
 //
 // Takes a reason why a transfer has failed.
 //
@@ -385,6 +386,17 @@ void PERS_FILE_XFER::retry_or_backoff() {
         "Backing off %s on transfer of file %s",
         timediff_format(backoff).c_str(), fip->name
     );
+}
+
+void PERS_FILE_XFER::abort() {
+    if (fxp) {
+        gstate.file_xfers->remove(fxp);
+        delete fxp;
+        fxp = NULL;
+    }
+    fip->status = is_upload?ERR_GIVEUP_UPLOAD:ERR_GIVEUP_DOWNLOAD;
+    fip->error_msg = "user requested transfer abort";
+    pers_xfer_done = true;
 }
 
 // Parse XML information about a single persistent file transfer

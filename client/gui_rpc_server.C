@@ -153,12 +153,24 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
 }
 
 
-static void handle_project_reset(char* buf, MIOFILE& fout) {
+static void handle_project_op(char* buf, MIOFILE& fout, char* op) {
     PROJECT* p = get_project(buf, fout);
-    if (p) {
-        gstate.reset_project(p);
+    if (!p) {
         fout.printf("<success/>\n");
     }
+    if (!strcmp(op, "reset")) {
+        gstate.reset_project(p);
+    } else if (!strcmp(op, "suspend")) {
+        p->suspended_via_gui = true;
+    } else if (!strcmp(op, "resume")) {
+        p->suspended_via_gui = false;
+    } else if (!strcmp(op, "detach")) {
+        gstate.detach_project(p);
+    } else if (!strcmp(op, "update")) {
+        p->sched_rpc_pending = true;
+        p->min_rpc_time = 0;
+    }
+    fout.printf("<success/>\n");
 }
 
 static void handle_project_attach(char* buf, MIOFILE& fout) {
@@ -173,23 +185,6 @@ static void handle_project_attach(char* buf, MIOFILE& fout) {
     }
     gstate.add_project(url.c_str(), authenticator.c_str());
     fout.printf("<success/>\n");
-}
-
-static void handle_project_detach(char* buf, MIOFILE& fout) {
-    PROJECT* p = get_project(buf, fout);
-    if (p) {
-        gstate.detach_project(p);
-        fout.printf("<success/>\n");
-    }
-}
-
-static void handle_project_update(char* buf, MIOFILE& fout) {
-    PROJECT* p = get_project(buf, fout);
-    if (p) {
-        p->sched_rpc_pending = true;
-        p->min_rpc_time = 0;
-        fout.printf("<success/>\n");
-    }
 }
 
 static void handle_set_run_mode(char* buf, MIOFILE& fout) {
@@ -258,10 +253,14 @@ static void handle_run_benchmarks(char* , MIOFILE& fout) {
 
 static void handle_set_proxy_settings(char* buf, MIOFILE& fout) {
     MIOFILE in;
-    in.init(buf);
-    gstate.pi.parse(in);
+    in.init_buf(buf);
+    gstate.proxy_info.parse(in);
     gstate.set_client_state_dirty("Set proxy settings RPC");
     fout.printf("<success/>\n");
+}
+
+static void handle_get_proxy_settings(char* , MIOFILE& fout) {
+    gstate.proxy_info.write(fout);
 }
 
 // params:
@@ -315,7 +314,7 @@ void handle_get_messages(char* buf, MIOFILE& fout) {
 //    <project_url>XXX</project_url>
 //    <filename>XXX</filename>
 // </retry_file_transfer>
-static void handle_retry_file_transfer(char* buf, MIOFILE& fout) {
+static void handle_file_transfer_op(char* buf, MIOFILE& fout, char* op) {
     string filename;
 
     PROJECT* p = get_project(buf, fout);
@@ -337,7 +336,51 @@ static void handle_retry_file_transfer(char* buf, MIOFILE& fout) {
         return;
     }
 
-    f->pers_file_xfer->next_request_time = 0;
+    if (!strcmp(op, "retry")) {
+        f->pers_file_xfer->next_request_time = 0;
+    } else if (!strcmp(op, "abort")) {
+        f->pers_file_xfer->abort();
+    } else {
+        fout.printf("<error>unknown op</error>\n");
+        return;
+    }
+    fout.printf("<success/>\n");
+}
+
+static void handle_result_op(char* buf, MIOFILE& fout, char* op) {
+    RESULT* rp;
+    char result_name[256];
+    ACTIVE_TASK* atp;
+
+    PROJECT* p = get_project(buf, fout);
+    if (!p) return;
+
+    if (!parse_str(buf, "<name>", result_name, sizeof(result_name))) {
+        fout.printf("<error>Missing result name</error>\n");
+        return;
+    }
+
+    rp = gstate.lookup_result(p, result_name);
+    if (!rp) {
+        fout.printf("<error>no such result</error>\n");
+        return;
+    }
+    atp = gstate.lookup_active_task_by_result(rp);
+    if (!atp) {
+        fout.printf("<error>result is not active</error>\n");
+        return;
+    }
+
+
+    if (!strcmp(op, "abort")) {
+        atp->abort_task("aborted via GUI RPC");
+    } else if (!strcmp(op, "suspend")) {
+        atp->suspended_via_gui = true;
+        gstate.must_schedule_cpus = true;
+    } else if (!strcmp(op, "resume")) {
+        atp->suspended_via_gui = false;
+        gstate.must_schedule_cpus = true;
+    }
     fout.printf("<success/>\n");
 }
 
@@ -378,13 +421,17 @@ int GUI_RPC_CONN::handle_rpc() {
     } else if (match_tag(request_msg, "<result_show_graphics>")) {
         handle_result_show_graphics(request_msg, mf);
     } else if (match_tag(request_msg, "<project_reset>")) {
-        handle_project_reset(request_msg, mf);
+        handle_project_op(request_msg, mf, "reset");
     } else if (match_tag(request_msg, "<project_attach>")) {
         handle_project_attach(request_msg, mf);
     } else if (match_tag(request_msg, "<project_detach>")) {
-        handle_project_detach(request_msg, mf);
+        handle_project_op(request_msg, mf, "detach");
     } else if (match_tag(request_msg, "<project_update>")) {
-        handle_project_update(request_msg, mf);
+        handle_project_op(request_msg, mf, "update");
+    } else if (match_tag(request_msg, "<project_suspend>")) {
+        handle_project_op(request_msg, mf, "suspend");
+    } else if (match_tag(request_msg, "<project_resume>")) {
+        handle_project_op(request_msg, mf, "resume");
     } else if (match_tag(request_msg, "<set_run_mode>")) {
         handle_set_run_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<get_run_mode")) {
@@ -397,12 +444,22 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_run_benchmarks(request_msg, mf);
     } else if (match_tag(request_msg, "<set_proxy_settings>")) {
         handle_set_proxy_settings(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_proxy_settings>")) {
+        handle_get_proxy_settings(request_msg, mf);
     } else if (match_tag(request_msg, "<get_messages>")) {
         handle_get_messages(request_msg, mf);
     } else if (match_tag(request_msg, "<retry_file_transfer>")) {
-        handle_retry_file_transfer(request_msg, mf);
+        handle_file_transfer_op(request_msg, mf, "retry");
+    } else if (match_tag(request_msg, "<abort_file_transfer>")) {
+        handle_file_transfer_op(request_msg, mf, "abort");
+    } else if (match_tag(request_msg, "<abort_result>")) {
+        handle_result_op(request_msg, mf, "abort");
+    } else if (match_tag(request_msg, "<suspent_result>")) {
+        handle_result_op(request_msg, mf, "suspend");
+    } else if (match_tag(request_msg, "<resume_result>")) {
+        handle_result_op(request_msg, mf, "resume");
     } else {
-        mf.printf("<unrecognized/>\n");
+        mf.printf("<error>unrecognized op</error/>\n");
     }
 
     mf.printf("\003");

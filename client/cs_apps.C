@@ -227,13 +227,16 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
 //
 void CLIENT_STATE::assign_results_to_projects() {
     unsigned int i;
+    RESULT* rp;
 
-    // first scan results with an ACTIVE_TASK already
+    // scan results with an ACTIVE_TASK
     //
     for (i=0; i<active_tasks.active_tasks.size(); ++i) {
         ACTIVE_TASK *atp = active_tasks.active_tasks[i];
+        if (atp->suspended_via_gui) continue;
         if (atp->result->already_selected) continue;
         PROJECT *p = atp->wup->project;
+        if (p->suspended_via_gui) continue;
         if (!p->next_runnable_result) {
             p->next_runnable_result = atp->result;
             continue;
@@ -258,12 +261,11 @@ void CLIENT_STATE::assign_results_to_projects() {
     // Now consider results that don't have an active task
     //
     for (i=0; i<results.size(); i++) {
-        if (results[i]->already_selected) continue;
-        PROJECT *p = results[i]->wup->project;
-        if (!p->next_runnable_result
-            && results[i]->state == RESULT_FILES_DOWNLOADED
-        ){
-            p->next_runnable_result = results[i];
+        rp = results[i];
+        if (rp->already_selected) continue;
+        PROJECT *p = rp->wup->project;
+        if (!p->next_runnable_result && rp->state == RESULT_FILES_DOWNLOADED){
+            p->next_runnable_result = rp;
         }
     }
 

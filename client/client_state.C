@@ -86,7 +86,7 @@ CLIENT_STATE::CLIENT_STATE() {
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
-    pi.clear();
+    proxy_info.clear();
     show_projects = false;
     strcpy(detach_project_url, "");
     strcpy(host_venue, "");

@@ -87,6 +87,7 @@ void PROJECT::init() {
     work_request = 0;
     send_file_list = false;
     non_cpu_intensive = false;
+    suspended_via_gui = false;
 #if 0
     deletion_policy_priority = false;
     deletion_policy_expire = false;

@@ -268,7 +268,7 @@ int CLIENT_STATE::parse_state_file() {
         } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
         } else if (parse_double(buf, "<cpu_sched_work_done_this_period>", cpu_sched_work_done_this_period)) {
         } else if (match_tag(buf, "<proxy_info>")) {
-            retval = pi.parse(mf);
+            retval = proxy_info.parse(mf);
             if (retval) {
                 msg_printf(NULL, MSG_ERROR, "Can't parse proxy info in state file\n");
             }
@@ -388,7 +388,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
 
     // save proxy info
     //
-    pi.write(f);
+    proxy_info.write(f);
     if (strlen(host_venue)) {
         f.printf("<host_venue>%s</host_venue>\n", host_venue);
     }
@@ -541,7 +541,7 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
 
     // save proxy info
     //
-    pi.write(f);
+    proxy_info.write(f);
     if (strlen(host_venue)) {
         f.printf("<host_venue>%s</host_venue>\n", host_venue);
     }

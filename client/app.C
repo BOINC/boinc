@@ -100,6 +100,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     resident_set_size = 0;
     have_trickle_down = false;
     pending_suspend_via_quit = false;
+    suspended_via_gui = false;
 #ifdef _WIN32
     pid_handle = 0;
     thread_handle = 0;

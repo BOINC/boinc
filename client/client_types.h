@@ -192,6 +192,7 @@ public:
     bool send_file_list;
         // send the list of permanent files associated/with the project
         // in the next scheduler reply
+    bool suspended_via_gui;
 #if 0
                                         // deletion policy, least recently used
     bool deletion_policy_priority;       // deletion policy, priority of files

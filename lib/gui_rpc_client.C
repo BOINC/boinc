@@ -906,15 +906,30 @@ int RPC_CLIENT::show_graphics(
     return rpc.do_rpc(buf);
 }
 
-int RPC_CLIENT::project_reset(char* url) {
-    char buf[256];
+int RPC_CLIENT::project_op(PROJECT& project, char* op) {
+    char buf[256], *tag;
     RPC rpc(this);
 
+    if (!strcmp(op, "reset")) {
+        tag = "project_reset";
+    } else if (!strcmp(op, "detach")) {
+        tag = "project_detach";
+    } else if (!strcmp(op, "update")) {
+        tag = "project_update";
+    } else if (!strcmp(op, "suspend")) {
+        tag = "project_suspend";
+    } else if (!strcmp(op, "resume")) {
+        tag = "project_resume";
+    } else {
+        return -1;
+    }
     sprintf(buf,
-        "<project_reset>\n"
+        "<%s>\n"
         "  <project_url>%s</project_url>\n"
-        "</project_reset>\n",
-        url
+        "</%s>\n",
+        tag,
+        project.master_url.c_str(),
+        tag
     );
     return rpc.do_rpc(buf);
 }
@@ -929,32 +944,6 @@ int RPC_CLIENT::project_attach(char* url, char* auth) {
         "  <authenticator>%s</authenticator>\n"
         "</project_attach>\n",
         url, auth
-    );
-    return rpc.do_rpc(buf);
-}
-
-int RPC_CLIENT::project_detach(char* url) {
-    char buf[256];
-    RPC rpc(this);
-
-    sprintf(buf,
-        "<project_detach>\n"
-        "  <project_url>%s</project_url>\n"
-        "</project_detach>\n",
-        url
-    );
-    return rpc.do_rpc(buf);
-}
-
-int RPC_CLIENT::project_update(char* url) {
-    char buf[256];
-    RPC rpc(this);
-
-    sprintf(buf,
-        "<project_update>\n"
-        "  <project_url>%s</project_url>\n"
-        "</project_update>\n",
-        url
     );
     return rpc.do_rpc(buf);
 }
@@ -1091,17 +1080,52 @@ int RPC_CLIENT::get_messages( int nmessages, int seqno, MESSAGES& msgs) {
     return 0;
 }
 
-int RPC_CLIENT::retry_file_transfer(FILE_TRANSFER& ft) {
-    char buf[4096];
+int RPC_CLIENT::file_transfer_op(FILE_TRANSFER& ft, char* op) {
+    char buf[4096], *tag;
     RPC rpc(this);
 
+    if (!strcmp(op, "retry")) {
+        tag = "retry_file_transfer";
+    } else if (!strcmp(op, "abort")) {
+        tag = "abort_file_transfer";
+    } else {
+        return -1;
+    }
     sprintf(buf,
-        "<retry_file_transfer>\n"
+        "<%s>\n"
         "   <project_url>%s</project_url>\n"
         "   <filename>%s</filename>\n"
-        "</retry_file_transfer>\n",
+        "</%s>\n",
+        tag,
         ft.project->master_url.c_str(),
-        ft.name.c_str()
+        ft.name.c_str(),
+        tag
+    );
+    return rpc.do_rpc(buf);
+}
+
+int RPC_CLIENT::result_op(RESULT& result, char* op) {
+    char buf[4096], *tag;
+    RPC rpc(this);
+
+    if (!strcmp(op, "abort")) {
+        tag = "abort_result";
+    } else if (!strcmp(op, "suspend")) {
+        tag = "suspend_result";
+    } else if (!strcmp(op, "resume")) {
+        tag = "resume_result";
+    } else {
+        return -1;
+    }
+    sprintf(buf,
+        "<%s>\n"
+        "   <project_url>%s</project_url>\n"
+        "   <name>%s</name>\n"
+        "</%s>\n",
+        tag,
+        result.project->master_url.c_str(),
+        result.name.c_str(),
+        tag
     );
     return rpc.do_rpc(buf);
 }

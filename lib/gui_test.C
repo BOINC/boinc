@@ -61,6 +61,7 @@ int main(int argc, char** argv) {
     MESSAGES messages;
     int retval;
     char* hostname=0;
+    PROJECT project;
 
 #ifdef _WIN32
     WSADATA wsdata;
@@ -124,13 +125,16 @@ int main(int argc, char** argv) {
             retval = rpc.show_graphics(argv[++i], argv[++i], fullscreen);
         }
     } else if (!strcmp(argv[i], "-project_reset")) {
-        retval = rpc.project_reset(argv[++i]);
+        project.master_url = argv[++i];
+        retval = rpc.project_op(project, "reset");
     } else if (!strcmp(argv[i], "-project_attach")) {
         retval = rpc.project_attach(argv[++i], argv[++i]);
     } else if (!strcmp(argv[i], "-project_detach")) {
-        retval = rpc.project_detach(argv[++i]);
+        project.master_url = argv[++i];
+        retval = rpc.project_op(project, "detach");
     } else if (!strcmp(argv[i], "-project_update")) {
-        retval = rpc.project_update(argv[++i]);
+        project.master_url = argv[++i];
+        retval = rpc.project_op(project, "update");
     } else if (!strcmp(argv[i], "-run_benchmarks")) {
         retval = rpc.run_benchmarks();
     }

@@ -171,20 +171,20 @@ void CLIENT_STATE::parse_env_vars() {
 
     p = getenv("HTTP_PROXY");
     if (p && strlen(p) > 0) {
-        pi.use_http_proxy = true;
-        parse_url(p, pi.http_server_name, pi.http_server_port, temp);
+        proxy_info.use_http_proxy = true;
+        parse_url(p, proxy_info.http_server_name, proxy_info.http_server_port, temp);
     }
     p = getenv("HTTP_USER_NAME");
     if (p) {
-        pi.use_http_auth = true;
-        strcpy(pi.http_user_name, p);
+        proxy_info.use_http_auth = true;
+        strcpy(proxy_info.http_user_name, p);
         p = getenv("HTTP_USER_PASSWD");
         if (p) {
-            strcpy(pi.http_user_passwd, p);
+            strcpy(proxy_info.http_user_passwd, p);
         }
     }
 
-    pi.socks_version =
+    proxy_info.socks_version =
         getenv("SOCKS5_SERVER")?SOCKS_VERSION_5:
         getenv("SOCKS4_SERVER")?SOCKS_VERSION_4:
         getenv("SOCKS_SERVER")?SOCKS_VERSION_5:
@@ -192,23 +192,23 @@ void CLIENT_STATE::parse_env_vars() {
 
     p = getenv("SOCKS4_SERVER");
     if (p && strlen(p) > 0) {
-        pi.use_socks_proxy = true;
-        parse_url(p, pi.socks_server_name, pi.socks_server_port, temp);
+        proxy_info.use_socks_proxy = true;
+        parse_url(p, proxy_info.socks_server_name, proxy_info.socks_server_port, temp);
     }
 
     if ((p = getenv("SOCKS_SERVER")) || (p = getenv("SOCKS5_SERVER"))) {
         if (strlen(p) > 0) {
-            pi.use_socks_proxy = true;
-            parse_url(p, pi.socks_server_name, pi.socks_server_port, temp);
+            proxy_info.use_socks_proxy = true;
+            parse_url(p, proxy_info.socks_server_name, proxy_info.socks_server_port, temp);
         }
     }
 
     if ((p = getenv("SOCKS5_USER")) || (p = getenv("SOCKS_USER"))) {
-        safe_strcpy(pi.socks5_user_name, p);
+        safe_strcpy(proxy_info.socks5_user_name, p);
     }
 
     if ((p = getenv("SOCKS5_PASSWD"))) {
-        safe_strcpy(pi.socks5_user_passwd, p);
+        safe_strcpy(proxy_info.socks5_user_passwd, p);
     }
 }
 

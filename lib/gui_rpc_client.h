@@ -282,18 +282,18 @@ public:
     int get_project_status(PROJECTS&);
     int get_disk_usage(PROJECTS&);
     int show_graphics(char* project, char* result_name, bool full_screen);
-    int project_reset(char*);
+    int project_op(PROJECT&, char* op);
     int project_attach(char* url, char* auth);
-    int project_detach(char*);
-    int project_update(char*);
     int set_run_mode(int mode);
     int get_run_mode(int& mode);
     int set_network_mode(int mode);
     int get_network_mode(int& mode);
     int run_benchmarks();
     int set_proxy_settings(PROXY_INFO&);
+    int get_proxy_settings(PROXY_INFO&);
     int get_messages(int nmessages, int seqno, MESSAGES&);
-    int retry_file_transfer(FILE_TRANSFER&);
+    int file_transfer_op(FILE_TRANSFER&, char*);
+    int result_op(RESULT&, char*);
     char* mode_name(int mode);
 };
 

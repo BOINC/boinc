@@ -86,7 +86,7 @@ public:
     GUI_RPC_CONN_SET gui_rpcs;
     LANGUAGE language;
     TIME_STATS time_stats;
-    PROXY_INFO pi;
+    PROXY_INFO proxy_info;
 
     int core_client_major_version;
     int core_client_minor_version;
