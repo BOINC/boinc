@@ -537,7 +537,7 @@ unsigned char decode_char(const char *s) {
 
 std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
   std::ostringstream rv("");
-  size_t lastlen=0,i;
+  long lastlen=0,i;
   rv << std::endl << xml_indent(2);
   for (i=0;i<(nelements-1);i++) {
     unsigned int ival=bin[i];
@@ -554,6 +554,9 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
 
 //
 // $Log$
+// Revision 1.23  2003/10/29 20:08:49  korpela
+// *** empty log message ***
+//
 // Revision 1.22  2003/10/27 23:07:34  korpela
 // *** empty log message ***
 //

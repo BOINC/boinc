@@ -517,7 +517,7 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements);
 template <typename T>
 std::string x_csv_encode(const T *bin, size_t nelements) {
   std::ostringstream rv("");
-  size_t lastlen=0,i;
+  long lastlen=0,i;
   bool ischar=(sizeof(T)==1);
   rv << std::endl << xml_indent(2);
   if (ischar) return x_csv_encode_char((const unsigned char *)bin, nelements);
@@ -821,6 +821,9 @@ std::string xml_encode_string(const T *input,
 #endif
 //
 // $Log$
+// Revision 1.16  2003/10/29 20:08:50  korpela
+// *** empty log message ***
+//
 // Revision 1.15  2003/10/27 23:07:34  korpela
 // *** empty log message ***
 //
