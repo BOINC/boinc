@@ -54,6 +54,8 @@ public:
     boinc_base_exception(const char *f, int l, const char *s=0)
         : m_strErrorData(s), m_strFilename(f), m_lLineNumber(l){};
 
+    ~boinc_base_exception() throw () {};
+
     virtual const char * ErrorType();
     virtual const char * ErrorMessage();
     virtual long         ErrorValue();
@@ -74,6 +76,8 @@ public:
     boinc_runtime_base_exception(const char *f, int l, const char *s=0)
         : boinc_base_exception(f, l, s){}
 
+    ~boinc_runtime_base_exception() throw () {};
+
     virtual const char * ErrorType();
     virtual const char * ErrorMessage();
 };
@@ -90,6 +94,8 @@ public:
     boinc_out_of_memory_exception(const char *f, int l, const char *s=0)
         : boinc_runtime_base_exception(f, l, s){}
 
+    ~boinc_out_of_memory_exception() throw () {};
+
     virtual const char * ErrorMessage();
     virtual long         ErrorValue();
 };
@@ -102,6 +108,8 @@ public:
         : boinc_runtime_base_exception(s){}
     boinc_invalid_parameter_exception(const char *f, int l, const char *s=0)
         : boinc_runtime_base_exception(f, l, s){}
+
+    ~boinc_invalid_parameter_exception() throw () {};
 
     virtual const char * ErrorMessage();
     virtual long         ErrorValue();
@@ -116,6 +124,8 @@ public:
     boinc_file_operation_exception(const char *f, int l, const char *s=0)
         : boinc_runtime_base_exception(f, l, s){}
 
+    ~boinc_file_operation_exception() throw () {};
+
     virtual const char * ErrorMessage();
     virtual long         ErrorValue();
 };
@@ -128,6 +138,8 @@ public:
         : boinc_runtime_base_exception(s){}
     boinc_signal_operation_exception(const char *f, int l, const char *s=0)
         : boinc_runtime_base_exception(f, l, s){}
+
+    ~boinc_signal_operation_exception() throw () {};
 
     virtual const char * ErrorMessage();
     virtual long         ErrorValue();
