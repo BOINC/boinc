@@ -6272,4 +6272,12 @@ Eric K. 16-Sep-2003
       tools/backend_lib.[Ch]
       tools/create_work.C
       tools/process_result_template.C
-      
+
+Jeff 2003/09/17
+No code changes.  This is the branch point for the seti beta.  The tag is:
+
+        setiathome-4.xx_all_platforms_beta
+
+for both seti_boinc and boinc.  They both make on solaris without serious 
+error and the resulting seti client links without error with the resulting 
+boinc libs. 
