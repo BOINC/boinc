@@ -87,7 +87,7 @@ char* ip_addr_string(int ip_addr) {
 int get_timezone() {
     tzset();
     // TODO: take daylight savings time into account
-#ifdef HAVE_GMTOFF
+#ifdef HAVE_STRUCT_TM_TM_ZONE
     time_t cur_time;
     struct tm *time_data;
 

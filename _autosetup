@@ -16,7 +16,7 @@ fi
 
 echo "Bootstrapping configure script and makefiles:"
 
-aclocal && automake && autoconf && autoheader
+aclocal -I m4 && automake && autoconf && autoheader
 
 ## We don't always run ./configure ourselves here, because the user may not
 ## want to run it, or may want to run with custom parameters.

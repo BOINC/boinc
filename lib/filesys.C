@@ -39,6 +39,9 @@
 #include <sys/resource.h>
 #endif
 #ifdef HAVE_SYS_MOUNT_H
+#ifdef __FreeBSD__
+#include <sys/param.h>
+#endif
 #include <sys/mount.h>
 #endif
 

@@ -101,7 +101,7 @@ AC_CHECK_LIB(socket, main)
 AC_CHECK_LIB(stdc++, main)
 AC_CHECK_LIB(z, gzopen)
 dnl check for pthread
-AC_CHECK_LIB(pthread, pthread_mutex_init, AC_DEFINE(HAVE_PTHREAD, 1, [Have libpthread]))
+ACX_PTHREAD(AC_DEFINE(HAVE_PTHREAD,1, [Have pthread]))
 dnl check for GL library
 AC_CHECK_LIB(GL, glCallList, AC_DEFINE(HAVE_GL_LIB, 1, [Have libGL]))
 AC_CHECK_LIB(socket, setservent)
@@ -145,6 +145,7 @@ AC_C_CONST
 AC_TYPE_SIZE_T
 AC_HEADER_TIME
 AC_STRUCT_TM
+AC_STRUCT_TIMEZONE
 
 AC_SUBST(CLIENT_BIN_FILENAME,[boinc_]AC_PACKAGE_VERSION[_$host${EXEEXT}])
 

@@ -30,6 +30,9 @@
 #include <sys/ipc.h>
 #endif
 #if HAVE_SYS_SHM_H
+#if __FreeBSD__
+#include <sys/param.h>
+#endif
 #include <sys/shm.h>
 #endif
 #include <assert.h>
