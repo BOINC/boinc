@@ -9030,3 +9030,21 @@ David  7 Jan 2004
 
     html_user/
         host_delete.php (new)
+
+David  8 Jan 2004
+    - Fixed bugs that caused WUs to be mistakenly marked COULDNT_SEND:
+        - the feeder marks WUs as COULDNT_SEND whenever
+            at least 50% of the results have infeasible_count > 20
+            (it used to be > 0, i.e. a WU could be marked as COULDNT_SEND
+            when it was infeasible for even a single host)
+        - Some hosts (Macs) report their memory size (host.m_nbytes)
+            as a large negative number.
+            Change this so that the min memory size is 64 MB
+
+    html_user/
+        host.inc
+        host_delete.php (new)
+    sched/
+        feeder.C
+        handle_request.C
+        sched_shmem.h
