@@ -266,7 +266,6 @@ def install_boinc_files(dest_dir):
     install_glob(srcdir('html_user/include/*.inc'), dir('html_user/include/'))
     install_glob(srcdir('html_ops/*.php'), dir('html_ops/'))
     install_glob(srcdir('html_ops/*.inc'), dir('html_ops/'))
-    install(builddir('tools/country_select'), dir('html_user/'))
 
     # copy all the backend programs
     map(lambda (s): install(builddir('sched',s), dir('cgi-bin',s)),
