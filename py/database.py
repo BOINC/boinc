@@ -7,7 +7,7 @@ Defines database backend library and database table and object relationships.
 
 Example usage:
 
-from Boinc import database
+from Boinc import database, db_mid
 
 # get platform with id 7; will raise exception if no such platform.
 p7 = database.Platforms[7]
