@@ -221,7 +221,6 @@ dir_hier_path_SOURCES = \
 dir_hier_move_SOURCES = \
     dir_hier_move.C \
     ../sched/sched_config.C     \
-    ../lib/filesys.C            \
     ../lib/parse.C \
     ../lib/filesys.C \
     ../lib/util.C
@@ -242,8 +241,8 @@ am_create_work_OBJECTS = create_work.$(OBJEXT) backend_lib.$(OBJEXT) \
 create_work_OBJECTS = $(am_create_work_OBJECTS)
 create_work_LDFLAGS =
 am_dir_hier_move_OBJECTS = dir_hier_move.$(OBJEXT) \
-	sched_config.$(OBJEXT) filesys.$(OBJEXT) parse.$(OBJEXT) \
-	filesys.$(OBJEXT) util.$(OBJEXT)
+	sched_config.$(OBJEXT) parse.$(OBJEXT) filesys.$(OBJEXT) \
+	util.$(OBJEXT)
 dir_hier_move_OBJECTS = $(am_dir_hier_move_OBJECTS)
 dir_hier_move_LDADD = $(LDADD)
 dir_hier_move_DEPENDENCIES =

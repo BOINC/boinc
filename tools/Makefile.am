@@ -45,7 +45,6 @@ dir_hier_path_SOURCES = \
 dir_hier_move_SOURCES = \
     dir_hier_move.C \
     ../sched/sched_config.C     \
-    ../lib/filesys.C            \
     ../lib/parse.C \
     ../lib/filesys.C \
     ../lib/util.C
