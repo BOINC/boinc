@@ -28,7 +28,6 @@ for user in database.Users.find():
 
 '''
 
-import boinc_path_config
 from Boinc import configxml
 from Boinc.util import *
 from Boinc.db_base import *
@@ -243,6 +242,7 @@ def _execute_sql_script(cursor, filename):
 
 def create_database(config = None, drop_first = False):
     ''' creates a new database. '''
+    import boinc_path_config
     config = config or configxml.default_config().config
     connect(config, nodb=True)
     cursor = get_dbconnection().cursor()

@@ -15307,6 +15307,7 @@ Noaa    15 July 2004
         gutil.C
 
 
+<<<<<<< checkin_notes
 David  15 July 2004
     - HTTP; increase size of request header buffer from 256 to 4096
         (fixes HTTP proxy authentication crash bug)
@@ -15324,12 +15325,39 @@ David  15 July 2004
         boinc_gui.vcproj
 
 Noaa    15 July 2004
+=======
+David  15 July 2004
+    - HTTP; increase size of request header buffer from 256 to 4096
+        (fixes HTTP proxy authentication crash bug)
+    - New way of updating client_state.xml:
+        - write new file to client_state_next.xml
+        - rename client_state.xml to client_state_prev.xml
+        - rename client_state_next.xml to client_state.xml
+    - remove references to version.* from project file
+
+    client/
+        cs_statefile.C
+        file_names.h
+        http.h
+    win_build/
+        boinc_gui.vcproj
+>>>>>>> 1.1637
+
+<<<<<<< checkin_notes
+    -added printout of usabilities in gui_test.C (ie when user types
+    "gui_test" with no arguments)
+
+    client/
+        gui_test.C
+=======
+Noaa    15 July 2004
 
     -added printout of usabilities in gui_test.C (ie when user types
     "gui_test" with no arguments)
 
     client/
         gui_test.C
+>>>>>>> 1.1637
 
 Daniel 2004-07-15
     - API: made APP_INIT_DATA aid extern so apps can access it (used to set
@@ -15552,6 +15580,7 @@ David  21 July 2004
 
 Noaa     21 July 2004
 
+<<<<<<< checkin_notes
     - incorporated modded, smaller glut into the source tree, includes
         a makefile if any files are changed
     - updated, cleaner version of x_opengl.C
@@ -15567,8 +15596,29 @@ Noaa     21 July 2004
         boinc_gl.h
         gutil.C
         Makefile.graphics (new)
+=======
+    - incorporated modded, smaller glut into the source tree, includes
+        a makefile if any files are changed
+    - updated, cleaner version of x_opengl.C
+    - removed glut stuff from boinc_gl.h to account for integrated glut in 
+        source tree
+    - updated gutil.C header
+    - changed Makefile for api to account for glut in source tree, called 
+        Makefile.graphics (unaffected by configure, may not run on every 
+        system correctly, please check for specific setups)
+>>>>>>> 1.1637
+
+<<<<<<< checkin_notes
+    boincglut/ (new)
+=======
+    api/
+        x_opengl.C
+        boinc_gl.h
+        gutil.C
+        Makefile.graphics (new)
 
     boincglut/ (new)
+>>>>>>> 1.1637
 
 David  21 July 2004
     - tweaked and enabled Rom's DB accelerator for the scheduler.
@@ -17946,8 +17996,29 @@ David  30 Sept 2004
         server_types.C,h
 
 David  1 Oct 2004
+<<<<<<< checkin_notes
+    - Ending the venue debacle, part II: The Client
+=======
     - Ending the venue debacle, part II: The Client
 
+        1) Each project maintains its venue separately.
+        It's stored in the project's account file,
+        and is used to select the project prefs variant.
+
+        2) Let P be the project that's the source of the global prefs.
+        Then P's venue is used to select the global prefs variant.
+        (Note: P's venue may change without the global prefs changing).
+        This venue is stored in the CLIENT_STATE.main_host_venue
+        and in the client state file; it survives even if P is detached.
+
+        So the basic logic is:
+        if you get a new venue from project P,
+        re-parse its project prefs.
+        If in addition P is the source of the global prefs,
+        re-parse the global prefs and put the venue in CLIENT_STATE.main_host_venue
+>>>>>>> 1.1637
+
+<<<<<<< checkin_notes
         1) Each project maintains its venue separately.
         It's stored in the project's account file,
         and is used to select the project prefs variant.
@@ -17975,6 +18046,19 @@ David  1 Oct 2004
         cs_scheduler.C
         cs_statefile.C
         scheduler_op.C
+=======
+        - got rid of CLIENT_STATE::parse_venue()
+        - don't send host_venue in scheduler request
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_account.C
+        cs_prefs.C
+        cs_scheduler.C
+        cs_statefile.C
+        scheduler_op.C
+>>>>>>> 1.1637
 
 David  1 Oct 2004
     - Bug fix for venue propagation
@@ -19838,11 +19922,13 @@ David  18 Nov 2004
         main.C
 
 Bruce 19 Nov 2004 UTC
-    - Clean fix automake/autoconf to build graphical core client.  David, I don't
-      have a Mac OSX box handy to test this on. I followed your hints in Makefile.old.
-      If you need to modify the Mac build flags, it is trivial, just search for ${host}
-      in configure.ac and you'll see.
-    - Removed obsolete aclocal.m4 file from CVS: it is build by the ./_autosetup script
+    - Clean fix automake/autoconf to build graphical core client.
+        David, I don't have a Mac OSX box handy to test this on.
+        I followed your hints in Makefile.old.
+        If you need to modify the Mac build flags,
+        it is trivial, just search for ${host} in configure.ac and you'll see.
+    - Removed obsolete aclocal.m4 file from CVS:
+        it is build by the ./_autosetup script
     - Added some more files to .cvsignore
 
     .cvsignore
@@ -20097,3 +20183,24 @@ David  23 Nov 2004
         graphics_api.C
     client/
         net_stats.C
+
+David  23 Nov 2004
+    - Remove the dependencies of a project on a source or build tree.
+        This involves:
+        - Don't copy boinc_path_config.py to project/bin
+        - Copy a bunch of files from source/py/Boinc to project/bin:
+            add_util.py, boinc_db.py, boinc_project_path.py, etc. etc.
+    - put keys in home/projects/PROJECT/keys, not in home/keys
+    - socket.gethostname() seems to return the full domain name on Linux.
+        Strip off the domain part for log_HOST etc.
+    - On project creation, symlink bin/stop and status to start,
+        rather than copying the file
+
+    py/Boinc/
+        database.py
+        setup_project.py
+        tools.py
+    sched/
+        start
+    tools/
+        make_project

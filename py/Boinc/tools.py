@@ -1,6 +1,5 @@
 ## $Id$
 
-import boinc_path_config
 import configxml
 import os, md5, shutil
 
@@ -51,10 +50,9 @@ def sign_executable(executable_path, quiet=False):
         query_sign_executable(executable_path)
         print 'Signing', executable_path
     code_sign_key = os.path.join(config.config.key_dir, 'code_sign_private')
-    sign_executable_path = os.path.join(boinc_path_config.TOP_BUILD_DIR,
-                                        'tools','sign_executable')
+    sign_executable_path = 'sign_executable'
     if not os.path.exists(sign_executable_path):
-        raise SystemExit("tools/sign_executable not found! did you `make' it?")
+        raise SystemExit("sign_executable not found! did you `make' it?")
     signature_text = os.popen('%s %s %s'%(sign_executable_path,
                                           executable_path,code_sign_key)).read()
     if not signature_text:

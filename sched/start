@@ -73,8 +73,7 @@ Both:
 
 '''
 
-import boinc_path_config
-from Boinc import configxml
+import configxml
 import sys, os, getopt, time, glob, fcntl, signal, socket
 
 right_now = int(time.time())
@@ -591,6 +590,7 @@ def command_show_config():
 # ------------- main program begins here ---------------------
 
 local_hostname = socket.gethostname()
+local_hostname = local_hostname.split('.')[0]
 # print 'local hostname: ', local_hostname
 cwd = os.getcwd()
 program_name = os.path.basename(sys.argv[0])

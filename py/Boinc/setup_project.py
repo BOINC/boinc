@@ -282,11 +282,18 @@ def install_boinc_files(dest_dir):
           'file_deleter', 'sample_dummy_assimilator',
           'update_stats', 'db_dump' ])
     map(lambda (s): install(srcdir('sched',s), dir('bin',s)),
-        [ 'start', 'stop', 'status' ])
+        [ 'start' ])
+    force_symlink(dir('bin', 'start'), dir('bin', 'stop'))
+    force_symlink(dir('bin', 'start'), dir('bin', 'status'))
     map(lambda (s): install(srcdir('tools',s), dir('bin',s)),
-        [ 'boinc_path_config.py', 'create_work', 'add', 'xadd', 'dbcheck_files_exist',
+        [ 'create_work', 'add', 'xadd', 'dbcheck_files_exist',
           'update_versions', 'upgrade', 'parse_config', 'grep_logs', 'db_query',
-          'watch_tcp' ])
+          'watch_tcp', 'sign_executable' ])
+    map(lambda (s): install(srcdir('py/Boinc',s), dir('bin',s)),
+        [ 'add_util.py', 'boinc_db.py', 'boinc_project_path.py',
+          'boincxml.py', 'configxml.py', 'database.py',
+          'db_base.py', 'db_mid.py', 'projectxml.py',
+          'sched_messages.py', 'tools.py', 'util.py', 'version.py' ])
 
 
 class Project:
@@ -313,7 +320,8 @@ class Project:
         config.db_passwd = ''
         config.shmem_key = generate_shmem_key()
         config.output_level = 3
-        config.host = socket.gethostname()
+        local_host = socket.gethostname()
+        config.host = local_host.split('.')[0]
 
         config.master_url    = master_url or os.path.join(options.html_url , self.short_name , '')
         config.download_url  = os.path.join(config.master_url, 'download')
@@ -335,7 +343,7 @@ class Project:
         return apply(os.path.join,(self.config.config.key_dir,)+dirs)
 
     def logdir(self, *dirs):
-		return apply(os.path.join,("log_"+socket.getfqdn(),)+dirs)
+		return apply(os.path.join,("log_"+self.config.config.host,)+dirs)
 
     def create_keys(self):
         if not os.path.exists(self.keydir()):
