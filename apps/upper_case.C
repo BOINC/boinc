@@ -53,12 +53,12 @@
 #include <GL/glu.h>
 #endif
 
+#include "graphics_api.h"
 #endif
 
 #include "util.h"
 #include "filesys.h"
 #include "boinc_api.h"
-#include "graphics_api.h"
 
 #define CHECKPOINT_FILE "upper_case_state"
 

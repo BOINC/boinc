@@ -18,6 +18,7 @@
 //
 
 // Code that's in the BOINC app library (but NOT in the core client)
+// graphics-related code goes in graphics_api.C, not here
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -44,17 +45,6 @@ MMRESULT timer_id;
 #include <fcntl.h>
 #include <sys/types.h>
 
-#ifdef BOINC_APP_GRAPHICS
-#ifdef _WIN32
-HANDLE hQuitEvent;
-extern HANDLE graphics_threadh;
-extern BOOL    win_loop_done;
-#endif
-#ifdef __APPLE_CC__
-#include <Carbon/Carbon.h>
-#endif
-#endif
-
 #include "parse.h"
 #include "shmem.h"
 #include "util.h"
@@ -72,7 +62,6 @@ extern void boinc_quit(int sig);
 #endif
 
 static APP_INIT_DATA aid;
-GRAPHICS_INFO gi;
 static double timer_period = 1.0/50.0;    // 50 Hz timer
 static double time_until_checkpoint;
 static double time_until_fraction_done_update;
@@ -129,22 +118,6 @@ int boinc_init(bool standalone_ /* = false */) {
             fprintf(stderr, "boinc_init(): can't parse init data file\n");
             return retval;
         }
-    }
-
-    f = fopen(GRAPHICS_DATA_FILE, "r");
-    if (!f) {
-        fprintf(stderr, "boinc_init(): can't open graphics data file\n");
-        fprintf(stderr, "Using default graphics settings.\n");
-        gi.refresh_period = 0.1; // 1/10th of a second
-        gi.xsize = 640;
-        gi.ysize = 480;
-    } else {
-        retval = parse_graphics_file(f, &gi);
-        if (retval) {
-            fprintf(stderr, "boinc_init(): can't parse graphics data file\n");
-            return retval;
-        }
-        fclose(f);
     }
 
     f = fopen(FD_INIT_FILE, "r");
@@ -269,15 +242,7 @@ int boinc_finish(int status) {
 #ifdef _WIN32
     // Stop the timer
     timeKillEvent(timer_id);
-#ifdef BOINC_APP_GRAPHICS
-    if (using_opengl) {
-        // If the graphics thread is running, tell it to quit and wait for it
-        win_loop_done = TRUE;
-        if (hQuitEvent != NULL) {
-            WaitForSingleObject(hQuitEvent, 1000);  // Wait up to 1000 ms
-        }
-    }
-#endif
+    boinc_finish_opengl();
 #endif
     cleanup_shared_mem();
     exit(status);
@@ -447,9 +412,12 @@ void on_timer(int a) {
         }
     }
 
+#if 0
+    // ???? shouldn't have graphics-related stuff here
 #if defined __APPLE_CC__ && defined BOINC_APP_GRAPHICS
     // Yield to the graphics thread to let it draw if needed
     YieldToAnyThread();
+#endif
 #endif
 }
 
@@ -470,16 +438,6 @@ int set_timer(double period) {
     );
     sprintf(buf, "%s%s", QUIT_PREFIX, aid.comm_obj_name);
     hQuitRequest = OpenEvent(EVENT_ALL_ACCESS, FALSE, buf);
-#ifdef BOINC_APP_GRAPHICS
-    // Create the event object used to signal between the
-    // worker and event threads
-
-    hQuitEvent = CreateEvent(
-            NULL,     // no security attributes
-            TRUE,    // manual reset event
-            TRUE,     // initial state is signaled
-            NULL);    // object not named
-#endif
 #endif
 
 #if HAVE_SIGNAL_H

@@ -6427,3 +6427,16 @@ David  Sept 30 2003
         pers_file_xfer.C
     lib/
         error_numbers.h
+
+
+David  Sept 30 2003
+    - Move graphics-related code from boinc_api.C to graphics_api.C
+    - Don't use the preprocessor symbol BOINC_APP_GRAPHICS in api/
+
+    api/
+        boinc_api.C
+        graphics_api.C,h
+        windows_opengl.C
+        x_opengl.h
+    apps/
+        upper_case.C

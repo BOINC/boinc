@@ -22,32 +22,65 @@
 
 #ifdef _WIN32
 #include <afxwin.h>
-DWORD WINAPI win_graphics_event_loop( LPVOID duff );
+extern DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 HANDLE graphics_threadh=NULL;
 #endif
 
 
-#include "graphics_api.h"
-#include "error_numbers.h"
-
-#include "parse.h"
-
 #include <string.h>
 #include <stdarg.h>
-
-#ifdef __APPLE_CC__
-#include "mac_app_opengl.h"
-#endif
 
 #ifdef HAVE_PTHREAD
 #include <pthread.h>
 #endif
 
-extern GRAPHICS_INFO gi;
+#define HAVE_GL_LIB 1
+
+#include "parse.h"
+#include "app_ipc.h"
+#include "graphics_api.h"
+#include "error_numbers.h"
+
+#ifdef __APPLE_CC__
+#include "mac_app_opengl.h"
+#endif
+
+
+
+GRAPHICS_INFO gi;
+bool graphics_inited = false;
 
 int boinc_init_opengl() {
-#ifdef BOINC_APP_GRAPHICS
+    FILE* f;
+    int retval;
+
+    f = fopen(GRAPHICS_DATA_FILE, "r");
+    if (!f) {
+        fprintf(stderr, "boinc_init(): can't open graphics data file\n");
+        fprintf(stderr, "Using default graphics settings.\n");
+        gi.refresh_period = 0.1; // 1/10th of a second
+        gi.xsize = 640;
+        gi.ysize = 480;
+    } else {
+        retval = parse_graphics_file(f, &gi);
+        if (retval) {
+            fprintf(stderr, "boinc_init(): can't parse graphics data file\n");
+            return retval;
+        }
+        fclose(f);
+    }
+
 #ifdef _WIN32
+    // Create the event object used to signal between the
+    // worker and event threads
+
+    hQuitEvent = CreateEvent(
+        NULL,     // no security attributes
+        TRUE,     // manual reset event
+        TRUE,     // initial state is signaled
+        NULL      // object not named
+    );
+
     DWORD threadId;
 
     // Create the graphics thread, passing it the graphics info
@@ -94,7 +127,6 @@ int boinc_init_opengl() {
 #ifdef _PTHREAD_H
     pthread_t graphics_thread;
     pthread_attr_t graphics_thread_attr;
-    int retval;
 
     pthread_attr_init( &graphics_thread_attr );
     retval = pthread_create( &graphics_thread, &graphics_thread_attr, p_graphics_loop, &gi );
@@ -102,17 +134,22 @@ int boinc_init_opengl() {
     pthread_attr_destroy( &graphics_thread_attr );
 #endif
     
-#endif
-    
+    graphics_inited = true;
     return 0;
 }
 
 int boinc_finish_opengl() {
+#ifdef _WIN32
+    if (graphics_inited) {
+        win_loop_done = TRUE;
+        if (hQuitEvent != NULL) {
+            WaitForSingleObject(hQuitEvent, 1000);  // Wait up to 1000 ms
+        }
+    }
+#endif
 	
     return 0;
 }
-
-#ifdef BOINC_APP_GRAPHICS
 
 GLvoid glPrint(GLuint font, const char *fmt, ...)    // Custom GL "Print" Routine
 {
@@ -138,43 +175,52 @@ GLenum InitGL(GLvoid) {					// All Setup For OpenGL Goes Here
     GLenum err;
     
     glShadeModel(GL_SMOOTH);				// Enable Smooth Shading
-    if (err=glGetError()) return err;
+    err = glGetError();
+    if (err) return err;
     
     glClearColor(0.0f, 0.0f, 0.0f, 0.5f);		// Black Background
-    if (err=glGetError()) return err;
+    err = glGetError();
+    if (err) return err;
     
     glClearDepth(1.0f);					// Depth Buffer Setup
-    if (err=glGetError()) return err;
+    err = glGetError();
+    if (err) return err;
     
     glEnable(GL_DEPTH_TEST);				// Enables Depth Testing
-    if (err=glGetError()) return err;
+    err = glGetError();
+    if (err) return err;
     
     glDepthFunc(GL_LEQUAL);				// The Type Of Depth Testing To Do
-    if (err=glGetError()) return err;
+    err = glGetError();
+    if (err) return err;
     
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
-    if (err=glGetError()) return err;
+    err = glGetError();
+    if (err) return err;
    	
 
     return GL_NO_ERROR;					// Initialization Went OK
 }
 
-GLenum ReSizeGLScene(GLsizei width, GLsizei height) {	// Resize And Initialize The GL Window
+// Resize And Initialize The GL Window
+// TODO: why is 4/3 hardwired here?
+GLenum ReSizeGLScene(GLsizei width, GLsizei height) {
     GLenum err;
     double aspect_ratio = 4.0/3.0;
 
-    if (height<=0) height=1;		// Prevent A Divide By Zero By Making Height Equal One
+    if (height<=0) height=1;
     if (width<=0) width=1;
 
-    if (height*aspect_ratio > width)
-        glViewport(0,0,(int)width,(int)(width/aspect_ratio));	// Reset The Current Viewport
-    else
-        glViewport(0,0,(int)(height*aspect_ratio),(height));	// Reset The Current Viewport
+    if (height*aspect_ratio > width) {
+        glViewport(0,0,(int)width,(int)(width/aspect_ratio));
+    } else {
+        glViewport(0,0,(int)(height*aspect_ratio),(height));
+    }
     
-    if (err=glGetError()) return err;
+    err = glGetError();
+    if (err) return err;
+
 	app_resize(width,height);
     
     return GL_NO_ERROR;
 }
-
-#endif

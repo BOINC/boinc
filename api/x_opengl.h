@@ -1,2 +1,1 @@
-void *p_graphics_loop( void * );
-
+extern void *p_graphics_loop( void * );

@@ -1,11 +1,9 @@
 #ifndef BOINC_GRAPHICS_API_H
 #define BOINC_GRAPHICS_API_H
 
-#include <stdio.h>
-
-#ifdef BOINC_APP_GRAPHICS
 #ifdef __APPLE_CC__
-    #include <OpenGL/gl.h>
+#include <OpenGL/gl.h>
+#include <Carbon/Carbon.h>
 #endif
 
 #ifdef _WIN32
@@ -19,23 +17,21 @@
 #include <GL/gl.h>
 #include "x_opengl.h"
 #endif
+
+#ifdef _WIN32
+extern HANDLE hQuitEvent;
+extern HANDLE graphics_threadh;
+extern BOOL    win_loop_done;
 #endif
 
-#include "app_ipc.h"
+extern int boinc_init_opengl();
+extern int boinc_finish_opengl();
 
-struct APP_OUT_GRAPHICS {
-};
-
-int boinc_init_opengl();
-int boinc_finish_opengl();
-
-#ifdef BOINC_APP_GRAPHICS
-GLvoid glPrint(GLuint font, const char *fmt, ...);
-GLenum InitGL(GLvoid);
-GLenum ReSizeGLScene(GLsizei width, GLsizei height);
+extern GLvoid glPrint(GLuint font, const char *fmt, ...);
+extern GLenum InitGL(GLvoid);
+extern GLenum ReSizeGLScene(GLsizei width, GLsizei height);
 extern bool app_render(int xs, int ys, double time_of_day);
 extern void app_init_gl(void);
 extern void app_resize(int width, int height);
-#endif
 
 #endif

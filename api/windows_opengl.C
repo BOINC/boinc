@@ -1,3 +1,6 @@
+// Event loop and support functions for BOINC applications w/ graphics.
+// Is any of this related to or dependent on OpenGL??
+//
 
 /*		This Code Was Created By Jeff Molofee 2000
  *		A HUGE Thanks To Fredric Echols For Cleaning Up
@@ -57,7 +60,6 @@ double starttime;
 double fps=60.;
 
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
-DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 BOOL reg_win_class();
 BOOL unreg_win_class();
 
