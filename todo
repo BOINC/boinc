@@ -127,14 +127,7 @@ Multiple application files
 CPU accounting in the presence of checkpoint/restart
     test
 
-Application errors
-    make sure server/DB is notified correctly on:
-        - app crash
-        - app failure exit
-    make sure stderr out ends up in DB
-
 Test nslots > 1
-    Win/Unix: how to find # of CPUs?
 
 Redundancy checking and validation
     test the validation mechanism
@@ -160,7 +153,6 @@ Data transfer
 Application graphics
     finish design, implementation, doc, testing
         size, frame rate, whether to generate
-    X11/Win/Mac versions
     
 Work generation
     generation of upload signature is very slow
@@ -170,9 +162,7 @@ Windows GUI
     display credit info, team
 
 Windows screensaver functionality
-    idle-only behavior without screensaver
-
-Windows install
+    idle-only behavior without screensaver - test
 
 Versioning
     think through issues involved in:
@@ -205,4 +195,7 @@ NET_XFER_SET
 
 test HTTP redirect mechanism for all types of ops
 
-prevent file_xfer->req1 from overflowing. This problems seems to be happening when the file_upload_handler returnes a message to the client that is large. This causes project->parsefile to get wrong input and so on.
+prevent file_xfer->req1 from overflowing. This problems seems to be
+happening when the file_upload_handler returnes a message to the
+client that is large. This causes project->parsefile to get wrong
+input and so on.
