@@ -178,7 +178,7 @@ int boinc_install_signal_handlers() {
     signal( SIGPIPE, boinc_catch_signal ); // write on a pipe with no reader
 #endif
 #ifdef _WIN32
-    SetUnhandledExceptionFilter( boinc_catch_signal );
+    //SetUnhandledExceptionFilter( boinc_catch_signal );
 #endif
     return 0;
 }

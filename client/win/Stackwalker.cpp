@@ -222,7 +222,7 @@ static FILE *g_fFile = NULL;
 // AllocCheckFileOpen
 //  Checks if the log-file is already opened
 //  if not, try to open file (append or create if not exists)
-//  if open failed, redirect output to stdout
+//  if open failed, redirect output to stderr
 static void AllocCheckFileOpen(bool bAppend = true) {
   // is the File already open? If not open it...
   if (g_fFile == NULL)
@@ -234,7 +234,7 @@ static void AllocCheckFileOpen(bool bAppend = true) {
         g_fFile = _tfopen(g_pszAllocLogName, _T("a"));
     }
   if (g_fFile == NULL)
-    g_fFile = stdout;
+    g_fFile = stderr;
 }
 
 // Write Date/Time to specified file (will also work after 2038)
@@ -1656,7 +1656,7 @@ static BOOL s_bUnhandledExeptionFilterSet = FALSE;
 static LONG __stdcall CrashHandlerExceptionFilter(EXCEPTION_POINTERS* pExPtrs)
 {
    LONG lRet;
-   lRet = StackwalkFilter(pExPtrs, /*EXCEPTION_CONTINUE_SEARCH*/EXCEPTION_EXECUTE_HANDLER, s_szExceptionLogFileName);
+   lRet = StackwalkFilter(pExPtrs, /*EXCEPTION_CONTINUE_SEARCH*/EXCEPTION_EXECUTE_HANDLER, NULL);
    TCHAR lString[500];
    _stprintf(lString,
       _T("*** Unhandled Exception!\n")
@@ -1676,11 +1676,11 @@ int InitAllocCheck(eAllocCheckOutput eOutput, BOOL bSetUnhandledExeptionFilter, 
   TCHAR szModName[_MAX_PATH];
   if (GetModuleFileName(NULL, szModName, sizeof(szModName)/sizeof(TCHAR)) != 0)
   {
-    _tcscpy(s_szExceptionLogFileName, szModName);
+    /*_tcscpy(s_szExceptionLogFileName, szModName);
     if (eOutput == ACOutput_XML)
       _tcscat(s_szExceptionLogFileName, _T(".exp.xml"));
     else
-      _tcscat(s_szExceptionLogFileName, _T(".exp.log"));
+      _tcscat(s_szExceptionLogFileName, _T(".exp.log"));*/
 
     if (eOutput == ACOutput_XML)
       _tcscat(szModName, _T(".mem.xml-leaks"));
@@ -1865,7 +1865,7 @@ std::string SimpleXMLEncode(PCSTR szText)
 DWORD StackwalkFilter( EXCEPTION_POINTERS *ep, DWORD status, LPCTSTR pszLogFile)
 {
   HANDLE hThread;
-  FILE *fFile = stdout;  // default to stdout
+  FILE *fFile = stderr;  // default to stderr
 
   if (pszLogFile != NULL) {  // a filename is provided
     // Open the logfile
@@ -1888,7 +1888,7 @@ DWORD StackwalkFilter( EXCEPTION_POINTERS *ep, DWORD status, LPCTSTR pszLogFile)
     }
   }  // if (pszLogFile != NULL) 
   if (fFile == NULL) {
-    fFile = stdout;
+    fFile = stderr;
   }
 
   // Write infos about the exception
@@ -1925,7 +1925,7 @@ DWORD StackwalkFilter( EXCEPTION_POINTERS *ep, DWORD status, LPCTSTR pszLogFile)
 
 void ShowStack( HANDLE hThread, CONTEXT& c, LPCTSTR pszLogFile)
 {
-  FILE *fFile = stdout;  // default to stdout
+  FILE *fFile = stderr;  // default to stderr
 
   if (pszLogFile != NULL) {  // a filename is available
     // Open the logfile
@@ -1948,7 +1948,7 @@ void ShowStack( HANDLE hThread, CONTEXT& c, LPCTSTR pszLogFile)
     }
   }  // if (pszLogFile != NULL) 
   if (fFile == NULL) {
-    fFile = stdout;
+    fFile = stderr;
   }
 
   ShowStack( hThread, c, fFile);
@@ -1981,9 +1981,9 @@ static void ShowStackRM( HANDLE hThread, CONTEXT& c, FILE *fLogFile, PREAD_PROCE
 
   static bFirstTime = TRUE;
 
-  // If no logfile is present, outpur to "stdout"
+  // If no logfile is present, outpur to "stderr"
   if (fLogFile == NULL) {
-    fLogFile = stdout;
+    fLogFile = stderr;
   }
 
   STACKFRAME s; // in/out stackframe
