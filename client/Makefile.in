@@ -232,8 +232,7 @@ EXTRA_DIST = \
 subdir = client
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/config.h \
-	$(top_builddir)/client/win/win_config.h
+CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 EXTRA_PROGRAMS = speed_stats$(EXEEXT)
 bin_PROGRAMS = boinc_client$(EXEEXT)
@@ -271,7 +270,7 @@ speed_stats_LDADD = $(LDADD)
 speed_stats_DEPENDENCIES =
 speed_stats_LDFLAGS =
 
-DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir) -I$(top_builddir)/client/win
+DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/boinc_client-account.Po \
@@ -1382,6 +1381,9 @@ all-local: client-bin-gz
 client-bin: @CLIENT_BIN_FILENAME@.gz
 client-bin-gz: @CLIENT_BIN_FILENAME@.gz
 
+win/win_config.h: $(top_srcdir)/config.h
+	grep '#define.*VERSION' $^ > $@
+
 # make a hard link to the client name.
 @CLIENT_BIN_FILENAME@: boinc_client
 	rm -f $^
@@ -1391,7 +1393,7 @@ client-bin-gz: @CLIENT_BIN_FILENAME@.gz
 	gzip -c $^ > $@
 
 clean-local:
-	rm -f @CLIENT_BIN_FILENAME@
+	rm -f @CLIENT_BIN_FILENAME@ @CLIENT_BIN_FILENAME@.gz
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
