@@ -70,6 +70,7 @@ bool parse_double(const char* buf, const char* tag, double& x) {
 
 // parse a string of the form ...<tag attrs>string</tag>...;
 // returns the "string" part.
+// "string" may not include '<'
 // Strips white space from ends.
 // Use "<tag", not "<tag>", if there might be attributes
 //
@@ -78,14 +79,13 @@ bool parse_str(const char* buf, const char* tag, char* dest, int len) {
     if (!p) return false;
     p = strchr(p, '>');
     ++p;
-    while (isspace(*p)) ++p;
     char* q = strchr(p, '<');
     if (!q) return false;
-    while (isspace(*(q-1))) --q;
     char save_q = *q;
     *q = 0;
     safe_strncpy(dest, p, len);
     *q = save_q;
+    strip_whitespace(dest);
     return true;
 }
 
@@ -96,15 +96,15 @@ bool parse_str(const char* buf, const char* tag, string& dest) {
     if (!p) return false;
     p = strchr(p, '>');
     ++p;
-    while (isspace(*p)) ++p;
     char const* q = strchr(p, '<');
     if (!q) return false;
-    while (isspace(*(q-1))) --q;
     dest.assign(p, q-p);
+    strip_whitespace(dest);
     return true;
 }
 
-// parse a string of the form name="string"
+// parse a string of the form name="string";
+// returns string in dest
 //
 void parse_attr(const char* buf, const char* name, char* dest, int len) {
     char* p, *q;

@@ -193,6 +193,7 @@ boinc_client_SOURCES = \
     cs_statefile.C				\
     file_names.C				\
     file_xfer.C					\
+    gui_rpc_server.C			\
     hostinfo.C					\
     hostinfo_unix.C				\
     http.C					    \
@@ -256,6 +257,7 @@ am_boinc_client_OBJECTS = boinc_client-app.$(OBJEXT) \
 	boinc_client-cs_statefile.$(OBJEXT) \
 	boinc_client-file_names.$(OBJEXT) \
 	boinc_client-file_xfer.$(OBJEXT) \
+	boinc_client-gui_rpc_server.$(OBJEXT) \
 	boinc_client-hostinfo.$(OBJEXT) \
 	boinc_client-hostinfo_unix.$(OBJEXT) \
 	boinc_client-http.$(OBJEXT) boinc_client-log_flags.$(OBJEXT) \
@@ -301,6 +303,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-file_names.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-file_xfer.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-filesys.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_client-gui_rpc_server.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-hostinfo.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-hostinfo_unix.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-http.Po \
@@ -385,6 +388,7 @@ boinc_client-cs_scheduler.$(OBJEXT): cs_scheduler.C
 boinc_client-cs_statefile.$(OBJEXT): cs_statefile.C
 boinc_client-file_names.$(OBJEXT): file_names.C
 boinc_client-file_xfer.$(OBJEXT): file_xfer.C
+boinc_client-gui_rpc_server.$(OBJEXT): gui_rpc_server.C
 boinc_client-hostinfo.$(OBJEXT): hostinfo.C
 boinc_client-hostinfo_unix.$(OBJEXT): hostinfo_unix.C
 boinc_client-http.$(OBJEXT): http.C
@@ -440,6 +444,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-file_names.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-file_xfer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-filesys.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-gui_rpc_server.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-hostinfo.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-hostinfo_unix.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-http.Po@am__quote@
@@ -838,6 +843,28 @@ boinc_client-file_xfer.obj: file_xfer.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-file_xfer.Po' tmpdepfile='$(DEPDIR)/boinc_client-file_xfer.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-file_xfer.obj `if test -f 'file_xfer.C'; then $(CYGPATH_W) 'file_xfer.C'; else $(CYGPATH_W) '$(srcdir)/file_xfer.C'`
+
+boinc_client-gui_rpc_server.o: gui_rpc_server.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-gui_rpc_server.o -MD -MP -MF "$(DEPDIR)/boinc_client-gui_rpc_server.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-gui_rpc_server.o `test -f 'gui_rpc_server.C' || echo '$(srcdir)/'`gui_rpc_server.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-gui_rpc_server.Tpo" "$(DEPDIR)/boinc_client-gui_rpc_server.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-gui_rpc_server.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gui_rpc_server.C' object='boinc_client-gui_rpc_server.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-gui_rpc_server.Po' tmpdepfile='$(DEPDIR)/boinc_client-gui_rpc_server.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-gui_rpc_server.o `test -f 'gui_rpc_server.C' || echo '$(srcdir)/'`gui_rpc_server.C
+
+boinc_client-gui_rpc_server.obj: gui_rpc_server.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-gui_rpc_server.obj -MD -MP -MF "$(DEPDIR)/boinc_client-gui_rpc_server.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-gui_rpc_server.obj `if test -f 'gui_rpc_server.C'; then $(CYGPATH_W) 'gui_rpc_server.C'; else $(CYGPATH_W) '$(srcdir)/gui_rpc_server.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-gui_rpc_server.Tpo" "$(DEPDIR)/boinc_client-gui_rpc_server.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-gui_rpc_server.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gui_rpc_server.C' object='boinc_client-gui_rpc_server.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-gui_rpc_server.Po' tmpdepfile='$(DEPDIR)/boinc_client-gui_rpc_server.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-gui_rpc_server.obj `if test -f 'gui_rpc_server.C'; then $(CYGPATH_W) 'gui_rpc_server.C'; else $(CYGPATH_W) '$(srcdir)/gui_rpc_server.C'`
 
 boinc_client-hostinfo.o: hostinfo.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-hostinfo.o -MD -MP -MF "$(DEPDIR)/boinc_client-hostinfo.Tpo" \

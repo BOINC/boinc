@@ -289,15 +289,34 @@ void c2x(char *what) {
     strcpy(what, buf);
 }
 
+// remove whitespace from start and end of a string
+//
 void strip_whitespace(char *str) {
-    int read_pos=0, write_pos=0;
-    while (str[read_pos]) {
-        if (!isspace(str[read_pos])) {
-            str[write_pos++] = str[read_pos];
-        }
-        read_pos++;
+    int n;
+    while (isascii(str[0]) && isspace(str[0])) {
+        strcpy(str, str+1);
     }
-    str[write_pos] = 0;
+    while (1) {
+        n = strlen(str);
+        if (n == 0) break;
+        if (!isascii(str[n-1])) break;
+        if (!isspace(str[n-1])) break;
+        str[n-1] = 0;
+    }
+}
+
+void strip_whitespace(string& str) {
+    int n;
+    while (isascii(str[0]) && isspace(str[0])) {
+        str.erase(0, 1);
+    }
+    while (1) {
+        n = str.length();
+        if (n == 0) break;
+        if (!isascii(str[n-1])) break;
+        if (!isspace(str[n-1])) break;
+        str.erase(n-1, 1);
+    }
 }
 
 void unescape_url(char *url) {

@@ -941,7 +941,7 @@ int RESULT::write(FILE* out, bool to_server) {
         if (to_server) {
             fprintf(out, "<app_version>%d</app_version>\n", wup->version_num);
             fprintf(out,
-                "<core_client_version>%d.%0.2d</core_client_version>\n",
+                "<core_client_version>%d.%.2d</core_client_version>\n",
                 gstate.core_client_major_version,
                 gstate.core_client_minor_version
             );

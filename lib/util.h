@@ -40,6 +40,7 @@ extern int parse_command_line( char *, char ** );
 extern int lock_file(char*);
 extern void c2x(char *what);
 extern void strip_whitespace(char *str);
+extern void strip_whitespace(string&);
 extern void unescape_url(char *url);
 extern void escape_url(char *in, char*out);
 extern void escape_url_readable(char* in, char* out);
@@ -62,18 +63,15 @@ inline bool starts_with(string const& s, string const& prefix) {
 }
 
 // http://lists.debian.org/debian-gcc/2002/debian-gcc-200204/msg00092.html
-inline void downcase_string(string::iterator begin, string::iterator end,
-                            string::iterator src)
-{
+inline void downcase_string(
+    string::iterator begin, string::iterator end, string::iterator src
+) {
 	std::transform(begin, end, src, (int(*)(int))tolower);
 }
 
-inline void downcase_string(string& w)
-{
+inline void downcase_string(string& w) {
     downcase_string(w.begin(), w.end(), w.begin());
 }
-
-
 
 // NOTE: use #include <functional>   to get max,min
 

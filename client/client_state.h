@@ -26,6 +26,7 @@
 #include "app.h"
 #include "client_types.h"
 #include "file_xfer.h"
+#include "gui_rpc_server.h"
 #include "hostinfo.h"
 #include "http.h"
 #include "language.h"
@@ -73,6 +74,7 @@ public:
     GLOBAL_PREFS global_prefs;
     NET_STATS net_stats;
     SS_LOGIC ss_logic;
+    GUI_RPC_CONN_SET gui_rpcs;
     LANGUAGE language;
 
     int core_client_major_version;

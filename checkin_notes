@@ -9393,3 +9393,33 @@ David  Jan 19 2004 (from Rom Walton)
 	win_build/
 		boinc_cli.vcproj
 		boinc_ss.vcproj
+
+David  Jan 20 2004
+    - added basic support for GUI RPCs in the core client.
+        This allows GUIs to be implemented in a separate process.
+        There can be multiple GUIs looking at the same core client.
+        New classes:
+            GUI_RPC_CONN: represents a connection to a GUI program
+            GUI_RPC_CONN_SET: represents the set of all such connections
+                has the usual poll() function.
+        This is currently implemented only for UNIX, using UNIX domain sockets.
+        Should be straightforward to do in Win using named pipes.
+    - The isspace() macro crashes if called with a non-ASCII arg,
+        so use it only after isascii()
+    - reimplement strip_whitespace() to do the above,
+        have it trim at both start and end,
+        and make a version for string
+    NOTE: the real problem is that user-supplied text is being
+        kept in XML elements in the state file.
+        Should escape it.
+
+    client/
+        Makefile.am,in
+        client_state.C,h
+        gui_rpc_client.C,h (new)
+        gui_rpc_server.C,h (new)
+        gui_test.C
+
+    lib/
+        parse.C
+        util.C,h

@@ -209,15 +209,26 @@ bool FILE_XFER_SET::poll() {
                         remove(fxp);
                         i--;
 
-                        // Restart the upload, using the newly obtained upload_offset
-                        fxp->file_xfer_retval = fxp->init_upload(*fxp->fip);
+                        // if the server's file size is bigger than ours,
+                        // something bad has happened (like a result
+                        // got sent to multiple users).
+                        // Pretend the file was successfully uploaded
+                        //
+                        if (fxp->fip->upload_offset >= fxp->fip->nbytes) {
+                            fxp->file_xfer_done = true;
+                            fxp->file_xfer_retval = 0;
+                        } else {
+                            // Restart the upload, using the newly obtained
+                            // upload_offset
+                            fxp->file_xfer_retval = fxp->init_upload(*fxp->fip);
 
-                        if (!fxp->file_xfer_retval) {
-                            fxp->file_xfer_retval = insert(fxp);
                             if (!fxp->file_xfer_retval) {
-                                fxp->file_xfer_done = false;
-                                fxp->file_xfer_retval = 0;
-                                fxp->http_op_retval = 0;
+                                fxp->file_xfer_retval = insert(fxp);
+                                if (!fxp->file_xfer_retval) {
+                                    fxp->file_xfer_done = false;
+                                    fxp->file_xfer_retval = 0;
+                                    fxp->http_op_retval = 0;
+                                }
                             }
                         }
                     }
