@@ -18,7 +18,7 @@ BOINC's credit system is based on a 'reference computer' that does
 <li>4 billion bytes per second of traffic to and from main memory
 (sequential, half reads and half writes)
 </ul>
-BOINC's unit of credit, the <b>Cobblestone</b>,
+BOINC's unit of credit, the <b>Cobblestone</b> <sup>1</sup>,
 is one day of CPU time on the reference computer.
 
 <p>
@@ -62,6 +62,8 @@ projects supply their own benchmarking functions.
 This will also handle the situation where a project's
 application does e.g. all integer arithmetic.
 </ul>
+<hr noshade size=1>
+<sup>1</sup> Named after Jeff Cobb of SETI@home
 ";
 page_tail();
 ?>

@@ -151,17 +151,14 @@ when they are no longer needed.</td>
             if all results are OVER
                 wu.file_delete_state = ready
 
-                // we can delete the canonical result output files
-                // if all successful results have been validated
-                if have canonical result and canonical_result.file_delete_state == INIT:
-                    if all results are != SUCCESS or (VALID or INVALID):
-                        canonical_result.file_delete_state = READY
-
             // outputs of error results can be deleted immediately;
             // outputs of successful results can be deleted when validated
-            for results outcome = CLIENT_ERROR or (SUCCESS and (VALID or INVALID))
-                if file_delete_state = INIT
-                    result.file_delete_state = READY
+            for results of WU
+                if canonical result and not all results OVER
+                    continue
+                if outcome = CLIENT_ERROR or (SUCCESS and (VALID or INVALID))
+                    if file_delete_state = INIT
+                        result.file_delete_state = READY
 
         // get next result timeout if any
         transition_time = MAX_INT
