@@ -10444,7 +10444,7 @@ Rom    Mar 11 2004 (for Thomas Horsten)
         hostinfo_unix.cpp
 
 Jeff  Mar 13 2004
-    - Another static/dynamic linking proplem fixed by an ugly collect2
+    - Another static/dynamic linking problem fixed by an ugly collect2
       hack.  It turns out that a statically linked linux client gets the 
       following warning at build time:
 
@@ -10468,7 +10468,8 @@ Jeff  Mar 13 2004
 
       So we needed to link dynamically to libc but statically to libstdc++
       (for reasons described elsewhere in these notes).  The only way found
-      so far to do this is via a hand crafted collect2 line.  
+      so far to do this is via a hand crafted collect2 line.  That, and
+      not linking the client statically in a global fashion.
 
       We should make the collect2 scripts adapt to the environment in
       which they ar run.  Or, better, figure out how to do this all
