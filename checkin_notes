@@ -6993,11 +6993,17 @@ Karl 2003-10-21
 
 
 David  22 Oct 2003
+    - trunc_stderr_stdout() had a typo: it never truncated stdout.txt
+
+    client/
+        cs_files.C
+
+David  22 Oct 2003
 	- fixed bug that caused project disk usage to be reported as zero
-	- Added debugging printfs (enabled by #define DEBUG) to wingui_mainwindow.cpp.
-		These write to C:/temp/core.txt.
-	- In CMyApp::InitInstance(), changed 2nd arg of CreateMutex from false to true.
-		This matches "1 instance" code samples from web.
+	- Added debugging printfs (enabled by #define DEBUG)
+        to wingui_mainwindow.cpp.  These write to C:/temp/core.txt.
+	- In CMyApp::InitInstance(), changed 2nd arg of CreateMutex
+        from false to true.  This matches "1 instance" code samples from web.
 		Thought it might fix startup bug - no.
 	- Added debugging printfs (enabled by #define DEBUG) into screensaver;
 		causes it to write info to C:/temp/boinc_scr.txt
