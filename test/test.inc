@@ -400,19 +400,60 @@ class Host {
             PassThru("cp $this->global_prefs.xml $this->host_dir/global_prefs.xml");
         }
     }
+    
+    function kill($boinc_pid,$time)
+      {
+	assert($boinc_pid != null);	
+      	if($time != null)
+	  {
+	    echo "\nsleepinf for $time seconds";
+	    PassThru("sleep $time");
+	  }
 
-    function run($args) {
-        echo "Running core client\n";
-        $source_dir = get_env_var("BOINC_SRC_DIR");
-        $platform = get_env_var("BOINC_PLATFORM");
-        PassThru("cd $this->host_dir; $source_dir/client/boinc_0.02_$platform $args> client.out");
+	PassThru("kill -9 $boinc_pid");
+      }
+ 
+    //forks off a new process to run this host with the given $args. the pid returned is the pid of the newly forked php process.
+
+    //NOTE: to kill the newly started host, get_new_boincpid() must be called and kill() must be called on it. 
+    function run_asynch($args) {
+      $pid = pcntl_fork();
+      if ($pid == -1) {
+	return -1; 
+      } else if ($pid) {
+	return $pid; // we are the parent 
+      } else { //we are the child
+	echo "\nRunning core client asynch\n";
+	$source_dir = get_env_var("BOINC_SRC_DIR");
+	$platform = get_env_var("BOINC_PLATFORM");
+	
+	PassThru("cd $this->host_dir; $source_dir/client/boinc_0.02_$platform $args > client.out");
+	exit(0);
+       }
     }
+    //returns a pid for a boinc process running in the system that is different from $boinc_pid. This call blocks until such process is started.
+    function get_new_boincpid($boinc_pid)
+      {
+	while(true)
+	  {
+	    $pid = exec("pgrep -n boinc");
+	    if(($pid != null) && ($pid != $boinc_pid))
+	      return $pid;
+	  }
 
+      }
+    function run($args)
+	{
+	  echo "\nRunning core client\n";
+	  $source_dir = get_env_var("BOINC_SRC_DIR");
+	  $platform = get_env_var("BOINC_PLATFORM");
+	  PassThru("cd $this->host_dir; $source_dir/client/boinc_0.02_$platform $args > client.out");
+	}
     // read a CPU time file written by the client.
     // This is sort of a kludge.
     //
     function read_cpu_time_file($file_name) {
-        $time_file = fopen($this->host_dir/$file_name, "r");
+      $time_file = fopen($this->host_dir/$file_name, "r");
         if($time_file == NULL) return 0;
         fscanf($time_file, "%f", $app_time);
         fclose($f);
