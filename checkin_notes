@@ -11805,3 +11805,17 @@ Rom    April 27 2004
         Makefile.am
     lib/
         Makefile.am
+
+Rom    April 28 2004
+    - Fixup build system so it doesn't have to change the version number in the
+      Windows resource files for every version change.  Make the resource files
+      include win_config.h which contain the nessassary information and then
+      reference it.
+
+    /
+        set-version
+    /client
+        Makefile.am
+    /client/win
+        *.rc
+        update* (deleted)

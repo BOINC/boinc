@@ -29,7 +29,3 @@ fi
 cmd ./_autosetup -c
 cmd cd client
 cmd make win/win_config.h
-cmd make win/boinc_cli.rc
-cmd make win/boinc_dll.rc
-cmd make win/boinc_gui.rc
-cmd make win/boinc_ss.rc

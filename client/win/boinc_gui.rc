@@ -1,6 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "boinc_gui.h"
+#include "win_config.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -30,6 +31,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 1 TEXTINCLUDE 
 BEGIN
     "boinc_gui.h\0"
+    "win_config.h\0"
 END
 
 2 TEXTINCLUDE 
@@ -288,8 +290,8 @@ IDI_ICONWARNING         ICON                    "res\\iconwarning.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 3,01,0,0
- PRODUCTVERSION 3,01,0,0
+ FILEVERSION MAJOR_VERSION,MINOR_VERSION,0,0
+ PRODUCTVERSION MAJOR_VERSION,MINOR_VERSION,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -306,12 +308,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Space Sciences Laboratory"
             VALUE "FileDescription", "boinc_gui"
-            VALUE "FileVersion", "3, 01, 0, 0"
+            VALUE "FileVersion", VERSION "\0"
             VALUE "InternalName", "boinc_gui"
             VALUE "LegalCopyright", "Copyright © 2004 University of California"
             VALUE "OriginalFilename", "boinc_gui.exe"
             VALUE "ProductName", "BOINC Core Client"
-            VALUE "ProductVersion", "3, 01, 0, 0"
+            VALUE "ProductVersion", PACKAGE_VERSION "\0"
         END
     END
     BLOCK "VarFileInfo"

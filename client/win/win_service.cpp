@@ -38,6 +38,7 @@ extern void susp_client(int a);
 extern void resume_client(int a);
 
 
+
 // internal function prototypes not defined in the header
 LPTSTR      GetLastErrorText( LPTSTR lpszBuf, DWORD dwSize );
 
@@ -194,7 +195,10 @@ BOOL ReportStatus(DWORD dwCurrentState,
     if (dwCurrentState == SERVICE_START_PENDING)
         ssStatus.dwControlsAccepted = 0;
     else
-        ssStatus.dwControlsAccepted = SERVICE_ACCEPT_STOP;
+        ssStatus.dwControlsAccepted = 
+        	SERVICE_ACCEPT_STOP | 
+            SERVICE_ACCEPT_PAUSE_CONTINUE |
+            SERVICE_ACCEPT_SHUTDOWN; 
 
     ssStatus.dwCurrentState = dwCurrentState;
     ssStatus.dwWin32ExitCode = dwWin32ExitCode;
