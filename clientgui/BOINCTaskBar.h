@@ -49,6 +49,7 @@ public:
     void OnAbout( wxCommandEvent& event );
     void OnExit( wxCommandEvent& event );
 
+    void OnIdle( wxIdleEvent& event );
     void OnClose( wxCloseEvent& event );
 
     void OnMouseMove( wxTaskBarIconEvent& event );

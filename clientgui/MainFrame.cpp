@@ -822,6 +822,8 @@ void CMainFrame::OnIdle( wxIdleEvent& event )
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnIdle - Function Begin"));
 
+    wxGetApp().UpdateSystemIdleDetection();
+
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     if ( NULL != pDoc )

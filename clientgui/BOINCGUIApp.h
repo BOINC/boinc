@@ -72,7 +72,7 @@ protected:
 
 #ifdef __WXMSW__
     HANDLE          m_hBOINCCoreProcess;
-    HINSTANCE       m_hIdleDll;
+    HINSTANCE       m_hIdleDetectionDll;
 #endif
 
     wxString        m_strDefaultWindowStation;
@@ -81,6 +81,8 @@ protected:
 public:
 
     bool            OnInit();
+
+    wxInt32         UpdateSystemIdleDetection();
 
     CMainFrame*     GetFrame()                { return m_pFrame; };
     CMainDocument*  GetDocument()             { return m_pDocument; };

@@ -22,6 +22,7 @@
 #include "client_types.h"
 #include "filesys.h"
 #include "util.h"
+#include "client_msgs.h"
 #include "hostinfo_network.h"
 #include "hostinfo.h"
 
@@ -375,11 +376,11 @@ bool HOST_INFO::host_is_running_on_batteries() {
 
 bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     typedef DWORD (CALLBACK* GetFn)();
-    static GetFn fn = (GetFn)GetProcAddress(g_hIdleDetectionDll, "IdleTrackerGetLastTickCount");
+    static GetFn fn = (GetFn)GetProcAddress(g_hIdleDetectionDll, "IdleTrackerGetIdleTickCount");
 
     if (g_hIdleDetectionDll) {
         if (fn) {
-            return (GetTickCount() - fn()) / 1000 > 60 * idle_time_to_run;
+            return (fn() / 1000) > 60 * idle_time_to_run;
         }
     }
 

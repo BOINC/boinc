@@ -34,6 +34,7 @@
 #ifdef __WXMSW__
 typedef BOOL (CALLBACK* IdleTrackerInit)();
 typedef void (CALLBACK* IdleTrackerTerm)();
+typedef DWORD (CALLBACK* IdleTrackerGetIdleTickCount)();
 #endif
 
 
@@ -313,25 +314,37 @@ void CBOINCGUIApp::ShutdownBOINCCore()
 
     if ( m_bBOINCStartedByManager )
     {
+#ifdef __WXMSW__
+        DWORD dwExitCode;
+        if ( GetExitCodeProcess( m_hBOINCCoreProcess, &dwExitCode ) )
+        {
+            if ( STILL_ACTIVE == dwExitCode )
+            {
+#else
         if ( wxProcess::Exists( m_lBOINCCoreProcessId ) )
         {
-            m_pDocument->CoreClientQuit();
-            for ( iCount = 0; iCount <= 10; iCount++ )
-            {
-#ifdef __WXMSW__
-                DWORD dwExitCode;
-                if ( !bClientQuit && GetExitCodeProcess( m_hBOINCCoreProcess, &dwExitCode ) )
-                {
-                    if ( STILL_ACTIVE != dwExitCode )
-                    {
-                        bClientQuit = true;
-                        continue;
-                    }
-                }
 #endif
-                ::wxSleep(1);
+                m_pDocument->CoreClientQuit();
+                for ( iCount = 0; iCount <= 10; iCount++ )
+                {
+#ifdef __WXMSW__
+                    if ( !bClientQuit && GetExitCodeProcess( m_hBOINCCoreProcess, &dwExitCode ) )
+                    {
+                        if ( STILL_ACTIVE != dwExitCode )
+                        {
+                            bClientQuit = true;
+                            continue;
+                        }
+                    }
+#endif
+                    ::wxSleep(1);
+                }
+#ifdef __WXMSW
             }
-
+        }
+#else
+        }
+#endif
             if ( !bClientQuit )
                 ::wxKill( m_lBOINCCoreProcessId );
         }
@@ -343,23 +356,23 @@ wxInt32 CBOINCGUIApp::StartupSystemIdleDetection()
 {
 #ifdef __WXMSW__
     // load dll and start idle detection
-    m_hIdleDll = LoadLibrary("boinc.dll");
-    if(m_hIdleDll)
+    m_hIdleDetectionDll = LoadLibrary("boinc.dll");
+    if(m_hIdleDetectionDll)
     {
         IdleTrackerInit fn;
-        fn = (IdleTrackerInit)GetProcAddress(m_hIdleDll, wxT("IdleTrackerInit"));
+        fn = (IdleTrackerInit)GetProcAddress(m_hIdleDetectionDll, wxT("IdleTrackerInit"));
         if(!fn)
         {
-            FreeLibrary(m_hIdleDll);
-            m_hIdleDll = NULL;
+            FreeLibrary(m_hIdleDetectionDll);
+            m_hIdleDetectionDll = NULL;
             return -1;
         }
         else 
         {
             if(!fn())
             {
-                FreeLibrary(m_hIdleDll);
-                m_hIdleDll = NULL;
+                FreeLibrary(m_hIdleDetectionDll);
+                m_hIdleDetectionDll = NULL;
                 return -1;
             }
         }
@@ -372,9 +385,9 @@ wxInt32 CBOINCGUIApp::StartupSystemIdleDetection()
 wxInt32 CBOINCGUIApp::ShutdownSystemIdleDetection()
 {
 #ifdef __WXMSW__
-    if(m_hIdleDll) {
+    if(m_hIdleDetectionDll) {
         IdleTrackerTerm fn;
-        fn = (IdleTrackerTerm)GetProcAddress(m_hIdleDll, wxT("IdleTrackerTerm"));
+        fn = (IdleTrackerTerm)GetProcAddress(m_hIdleDetectionDll, wxT("IdleTrackerTerm"));
         if(fn)
         {
             fn();
@@ -383,8 +396,29 @@ wxInt32 CBOINCGUIApp::ShutdownSystemIdleDetection()
         {
             return -1;
         }
-        FreeLibrary(m_hIdleDll);
-        m_hIdleDll = NULL;
+        FreeLibrary(m_hIdleDetectionDll);
+        m_hIdleDetectionDll = NULL;
+    }
+#endif
+    return 0;
+}
+
+
+wxInt32 CBOINCGUIApp::UpdateSystemIdleDetection()
+{
+#ifdef __WXMSW__
+    if (m_hIdleDetectionDll)
+    {
+        IdleTrackerGetIdleTickCount fn;
+        fn = (IdleTrackerGetIdleTickCount)GetProcAddress(m_hIdleDetectionDll, wxT("IdleTrackerGetIdleTickCount"));
+        if(fn)
+        {
+            fn();
+        }
+        else
+        {
+            return -1;
+        }
     }
 #endif
     return 0;

@@ -17,4 +17,4 @@
 
 __declspec(dllimport) BOOL IdleTrackerInit();
 __declspec(dllimport) void IdleTrackerTerm();
-__declspec(dllimport) DWORD IdleTrackerGetLastTickCount();
+__declspec(dllimport) DWORD IdleTrackerGetIdleTickCount();

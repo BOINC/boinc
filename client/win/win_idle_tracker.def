@@ -6,4 +6,4 @@ EXPORTS
     ; Explicit exports can go here
 	IdleTrackerInit
 	IdleTrackerTerm
-	IdleTrackerGetLastTickCount
+	IdleTrackerGetIdleTickCount

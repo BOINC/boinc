@@ -42,6 +42,7 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
     EVT_MENU_RANGE(ID_TB_NETWORKRUNALWAYS, ID_TB_NETWORKSUSPEND, CTaskBarIcon::OnNetworkSelection)
     EVT_MENU(wxID_ABOUT, CTaskBarIcon::OnAbout)
     EVT_MENU(wxID_EXIT, CTaskBarIcon::OnExit)
+    EVT_IDLE(CTaskBarIcon::OnIdle)
     EVT_CLOSE(CTaskBarIcon::OnClose)
     EVT_TASKBAR_MOVE(CTaskBarIcon::OnMouseMove)
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
@@ -159,6 +160,13 @@ void CTaskBarIcon::OnExit( wxCommandEvent& WXUNUSED(event) )
 
     if ( NULL != pFrame )
         pFrame->Close(true);
+}
+
+
+void CTaskBarIcon::OnIdle( wxIdleEvent& event )
+{
+    wxGetApp().UpdateSystemIdleDetection();
+    event.Skip();
 }
 
 

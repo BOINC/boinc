@@ -22148,3 +22148,24 @@ Rom    6 Jan 2005
     clientgui/msw/
         taskbarex.cpp
 
+Rom    6 Jan 2005
+    - Bug Fix: On Windows 2000 machines or better use the GetLastInputInfo
+        API to determine if the system is idle or not instead of hooking
+        into each process space.  This will fix the possible warnings
+        that key logging detection tools throw with BOINC is started up.
+    - Bug Fix: Detect system idle properties across the terminal services
+        boundry.  Thanks to Eric Youngdale for the patch.
+    - Bug Fix: Detect the condition where the system tick count may have
+        looped back to zero.
+
+    client/
+        main.C
+    client/win/
+        hostinfo_win.cpp
+        win_idle_tracker.cpp, .h, .def
+    clientgui/
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp, .h
+        MainFrame.cpp, .h
+
+    

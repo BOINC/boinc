@@ -53,7 +53,7 @@ public:
     void OnUpdateActivitySelection( wxUpdateUIEvent& event );
     void OnUpdateNetworkSelection( wxUpdateUIEvent& event );
 
-    void OnIdle ( wxIdleEvent& event );
+    void OnIdle( wxIdleEvent& event );
     void OnClose( wxCloseEvent& event );
     void OnSize( wxSizeEvent& event );
     void OnChar( wxKeyEvent& event );

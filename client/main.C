@@ -28,6 +28,10 @@
 #include "boinc_win.h"
 #include "win_service.h"
 #include "win_net.h"
+
+typedef BOOL (CALLBACK* IdleTrackerInit)();
+typedef void (CALLBACK* IdleTrackerTerm)();
+
 #endif
 
 #ifndef _WIN32
@@ -237,8 +241,8 @@ int boinc_main_loop(int argc, char** argv) {
         | BOINC_DIAG_HEAPCHECKENABLED
         | BOINC_DIAG_TRACETOSTDERR
 #ifdef _WIN32
-        | BOINC_DIAG_REDIRECTSTDERR
-        | BOINC_DIAG_REDIRECTSTDOUT
+        //| BOINC_DIAG_REDIRECTSTDERR
+        //| BOINC_DIAG_REDIRECTSTDOUT
 #endif
     );
 
@@ -338,6 +342,25 @@ int main(int argc, char** argv) {
         );
     }
 
+    if(g_hIdleDetectionDll)
+    {
+        IdleTrackerInit fnIdleTrackerInit;
+        fnIdleTrackerInit = (IdleTrackerInit)GetProcAddress(g_hIdleDetectionDll, _T("IdleTrackerInit"));
+        if(!fnIdleTrackerInit)
+        {
+            FreeLibrary(g_hIdleDetectionDll);
+            g_hIdleDetectionDll = NULL;
+        }
+        else 
+        {
+            if(!fnIdleTrackerInit())
+            {
+                FreeLibrary(g_hIdleDetectionDll);
+                g_hIdleDetectionDll = NULL;
+            }
+        }
+    }
+
 
     SERVICE_TABLE_ENTRY dispatchTable[] = {
         { TEXT(SZSERVICENAME), (LPSERVICE_MAIN_FUNCTION)service_main },
@@ -364,9 +387,14 @@ int main(int argc, char** argv) {
         retval = boinc_main_loop(argc, argv);
     }
 
-
     if(g_hIdleDetectionDll)
     {
+        IdleTrackerTerm fnIdleTrackerTerm;
+        fnIdleTrackerTerm = (IdleTrackerTerm)GetProcAddress(g_hIdleDetectionDll, _T("IdleTrackerTerm"));
+        if(fnIdleTrackerTerm)
+        {
+            fnIdleTrackerTerm();
+        }
         if(!FreeLibrary(g_hIdleDetectionDll))
         {
             printf(
@@ -374,6 +402,7 @@ int main(int argc, char** argv) {
                 "Failed to cleanup the BOINC Idle Detection Interface\n"
             );
         }
+        g_hIdleDetectionDll = NULL;
     }
 
     if ( WinsockCleanup() != 0 ) {
