@@ -424,7 +424,11 @@ def run_tasks():
             continue
         if task.disabled:
             continue
-        run_task(task)
+        if task.__dict__.get('always_run'): 
+            run_task(task)
+            continue
+        if run_state.enabled:
+            run_task(task)
     do_prune_run_states()
 
 def prepare_run_state_pruning():
@@ -504,10 +508,13 @@ def command_enable_start():
 
 def command_cron_start():
     if verbose: print "Verbose cron-start: status ==", (run_state.enabled and 'ENABLED' or 'DISABLED')
+    global verbose_daemon_run
     if run_state.enabled:
-        global verbose_daemon_run
         verbose_daemon_run = 1
         run_daemons()
+        run_tasks()
+    else:
+        verbose_daemon_run = 1
         run_tasks()
 
 def command_disable_stop():
