@@ -15569,3 +15569,16 @@ Noaa 	21 July 2004
 		Makefile.graphics (new)
 
 	boincglut/ (new)
+
+David  21 July 2004
+    - tweaked and enabled Rom's DB accelerator for the scheduler.
+        When a user is reporting results,
+        it reads the necessary fields in one gulp.
+        It updates only the necessary result fields.
+        It updates the workunit transition times in a single SQL statement.
+        It encloses this all in a transaction.
+
+    db/
+        boinc_db.C,h
+    sched/
+        handle_request.C

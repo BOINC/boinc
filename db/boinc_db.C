@@ -875,82 +875,70 @@ int DB_SCHED_RESULT_ITEM_SET::add_result(char* result_name) {
 
 int DB_SCHED_RESULT_ITEM_SET::enumerate() {
     char                query[MAX_QUERY_LEN];
-    int                 x;
+    int                 retval;
     unsigned int        i;
-    unsigned int        result_count;
     MYSQL_RES*          rp;
     MYSQL_ROW           row;
     SCHED_RESULT_ITEM   ri;
 
-    if (0 < results.size()) {
 
-        // construct the query
-        strcpy2(query,
-            "SELECT "
-            "   id, "
-            "   name, "
-            "   workunitid, "
-            "   server_state, "
-            "   hostid, "
-            "   userid, "
-            "   received_time "
-            "FROM "
-            "   result "
-            "WHERE "
-            "   name IN ( "
-        );
+    strcpy2(query,
+        "SELECT "
+        "   id, "
+        "   name, "
+        "   workunitid, "
+        "   server_state, "
+        "   hostid, "
+        "   userid, "
+        "   received_time "
+        "FROM "
+        "   result "
+        "WHERE "
+        "   name IN ( "
+    );
 
-        // we should only get here if there is one or more results to
-        // lookup, note the vector is zero index based.
-        result_count = results.size() - 1;
-        for (i=0; i<=result_count; i++) {
-            strcat(query, "'");
-            if (i != result_count) {
-                strcat(query, results[i].queried_name);
-                strcat(query, "', ");
-            } else {
-                strcat(query, results[i].queried_name);
-                strcat(query, "' )");
-            }
-        }
+    for (i=0; i<results.size(); i++) {
+        if (i>0) strcat(query, ",");
+        strcat(query, "'");
+        strcat(query, results[i].queried_name);
+        strcat(query, "'");
+    }
+    strcat(query, ")");
 
-        x = db->do_query(query);
-        if (x) return mysql_errno(db->mysql);
+    retval = db->do_query(query);
+    if (retval) return retval;
 
-        // the following stores the entire result set in memory
-        rp = mysql_store_result(db->mysql);
-        if (!rp) return mysql_errno(db->mysql);
+    // the following stores the entire result set in memory
+    //
+    rp = mysql_store_result(db->mysql);
+    if (!rp) return mysql_errno(db->mysql);
 
-        // populate the results missing values that we are going to make
-        // decisions on.
-        do {
-            row = mysql_fetch_row(rp);
-            if (!row) {
-                mysql_free_result(rp);
-            } else {
-                ri.parse(row);
-                for (i=0; i<results.size(); i++) {
-                    if (0 == strcmp(results[i].queried_name, ri.name)) {
-                        results[i].parse(row);
-                    }
+    do {
+        row = mysql_fetch_row(rp);
+        if (!row) {
+            mysql_free_result(rp);
+        } else {
+            ri.parse(row);
+            for (i=0; i<results.size(); i++) {
+                if (!strcmp(results[i].queried_name, ri.name)) {
+                    results[i] = ri;
                 }
             }
-        } while (row);
-    }
+        }
+    } while (row);
 
     return 0;
 }
 
 int DB_SCHED_RESULT_ITEM_SET::lookup_result(char* result_name, SCHED_RESULT_ITEM& ri) {
     unsigned int i;
-    int retval = -1;
     for (i=0; i<results.size(); i++) {
-        if (0 == strcmp(results[i].name, result_name)) {
+        if (!strcmp(results[i].name, result_name)) {
             ri = results[i];
-            retval = 0;
+            return 0;
         }
     }
-    return retval;
+    return -1;
 }
 
 int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
@@ -991,14 +979,20 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
     return db->do_query(query);
 }
 
-int DB_SCHED_RESULT_ITEM_SET::update_workunit(SCHED_RESULT_ITEM& ri) {
-    char query[MAX_QUERY_LEN];
+int DB_SCHED_RESULT_ITEM_SET::update_workunits() {
+    char query[MAX_QUERY_LEN], buf[256];
+    unsigned int i;
 
     sprintf(query,
-        "UPDATE workunit SET transition_time=%d WHERE id=%d",
-        time(0),
-        ri.id
+        "UPDATE workunit SET transition_time=%d WHERE id in (",
+        time(0)
     );
+    for (i=0; i<results.size(); i++) {
+        if (i>0) strcat(query, ",");
+        sprintf(buf, "%d", results[i].workunitid);
+        strcat(query, buf);
+    }
+    strcat(query, ")");
     return db->do_query(query);
 }
 

@@ -306,7 +306,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     return 0;
 }
 
-#if 0
+#if 1
 
 // New handle completed results
 //
@@ -319,21 +319,21 @@ int handle_results(
     int retval;
     RESULT* rp;
 
-    // lets request the status of all results the user is reporting in a batch
-    //
-    if (0 < sreq.results.size()) {
-        for (i=0; i<sreq.results.size(); i++) {
-            result_handler.add_result(sreq.results[i].name);
-        }
+    if (sreq.results.size() == 0) return 0;
 
-        retval = result_handler.enumerate();
-        if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
-                "[HOST#%d] Batch query failed\n",
-                reply.host.id
-            );
-        }
+    // read all results the user is reporting
+    //
+    for (i=0; i<sreq.results.size(); i++) {
+        result_handler.add_result(sreq.results[i].name);
+    }
+
+    retval = result_handler.enumerate();
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "[HOST#%d] Batch query failed\n",
+            reply.host.id
+        );
     }
 
     for (i=0; i<sreq.results.size(); i++) {
@@ -452,14 +452,14 @@ int handle_results(
     }
 
 
-    // Lets update all the results we have
+    // update all the results we have
     //
     log_messages.printf(
         SCHED_MSG_LOG::DEBUG,
         "[HOST#%d] Starting Result Update Transaction...\n",
         reply.host.id
         );
-    retval = result_handler.start_transaction();
+    retval = boinc_db.start_transaction();
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL,
             "[HOST#%d] result_handler.start_transaction() == %d\n",
@@ -468,7 +468,7 @@ int handle_results(
     }
 
     for (i=0; i<result_handler.results.size(); i++) {
-        if (0 < result_handler.results[i].id) {
+        if (result_handler.results[i].id > 0) {
             retval = result_handler.update_result(result_handler.results[i]);
             if (retval) {
                 log_messages.printf(
@@ -479,18 +479,17 @@ int handle_results(
                 );
             }
 
-            // trigger the transition handle for the result's WU
-            //
-            retval = result_handler.update_workunit(result_handler.results[i]);
-            if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL,
-                    "[HOST#%d] [RESULT#%d %s] can't update [WU#%d]\n",
-                    reply.host.id, result_handler.results[i].id, result_handler.results[i].name,
-                    result_handler.results[i].workunitid
-                );
-            }
         }
+    }
+    // trigger the transition handle for the results' WUs
+    //
+    retval = result_handler.update_workunits();
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "[HOST#%d] can't update WUs: %d\n",
+            reply.host.id, retval
+        );
     }
 
     log_messages.printf(
@@ -498,7 +497,7 @@ int handle_results(
         "[HOST#%d] Committing Transaction...\n",
         reply.host.id
         );
-    retval = result_handler.commit_transaction();
+    retval = boinc_db.commit_transaction();
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
