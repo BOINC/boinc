@@ -2,15 +2,16 @@
 require_once("docutil.php");
 page_head("Proxy servers");
 echo "
-SETI@home Classic benefited from 'proxy servers' such as SETIQueue.
-These proxy servers buffer work units and results
+SETI@home Classic benefited from 'proxy servers' such as SETIQueue,
+that store work units and results,
+and transfer them
 between participant computers and the main SETI@home server.
-They provide a smooth supply of work even when the main server is down,
+Proxies provide a smooth supply of work even when the main server is down,
 and they make it possible to run SETI@home Classic on computers
 not connected directly to the Internet.
 <p>
 These programs won't work with BOINC (see below),
-but some of their functions can be performed by other means:
+but some of their benefits can be achieved in other ways:
 <ul>
 <li>
 The buffering of multiple work units is provided by the BOINC client itself -
@@ -36,13 +37,54 @@ telling the server about its hardware (memory size, CPU speed etc.)
 and the server chooses work for it accordingly.
 Furthermore, BOINC has separate scheduling and data servers
 (in SETI@home Classic, a single server played both roles).
+
+<h3>How a BOINC proxy system might work</h3>
 <p>
-So a BOINC proxy would have to replicate much
-of the functionality of the BOINC core client
-(so that it can download and upload files)
-and the BOINC scheduling server
-(since it would have to implement the work-distribution policy).
-This is possible but it would be a lot of work.
+Here's a sketch of a proxy system based on a modified core client.
+We assume that there's a 'proxy' host that
+does only communication and storage,
+and a number of 'worker' hosts that do computation.
+The core client must be modified to accept -proxy and -worker options:
+<ul>
+
+<li> With the -proxy option,
+the client does network communication (scheduler RPC, file upload and download)
+and no computation, CPU benchmarking,
+or measurement of other hardware info like memory and disk size.
+(It does, however, measure and store network speed.)
+It exits when network communication is finished.
+
+<li> With the -worker option,
+the client does the complement:
+computation and CPU benchmarking but no network communication, etc.
+It exits when computation is finished
+(or perhaps when a CPU becomes idle,
+or when a project is starved).
+</ul>
+
+The proxy host would maintain a set of separate BOINC directories,
+one for each worker host.
+The high-level logic is (for each worker host):
+<ul>
+<li> Run the core client with -worker on the worker host.
+<li>
+When it exits, synchronize its directory with
+the corresponding directory on the proxy host.
+<li>
+Run the core client with -proxy on the proxy host.
+<li>
+When it exits, synchronize its directory with
+the corresponding directory on the worker host.
+<li>
+Repeat.
+</ul>
+Note: none of the following is implemented.
+If you are a programmer and would like to help, please let us know.
+Also note: as described above, the system is not asynchronous
+(computation and communication don't overlap)
+and the proxy doesn't act as a buffer.
+It could be modified to have these properties.
+
 ";
 page_tail();
 ?>

@@ -628,6 +628,13 @@ static void scan_work_array(
             );
             goto done;
         }
+        if (result.workunitid != wu.id) {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "[RESULT#%d] wrong WU ID: wanted %d, got %d\n",
+                result.id, wu.id, result.workunitid
+            );
+            goto done;
+        }
 
         // ****** HERE WE'VE COMMITTED TO SENDING THIS RESULT TO HOST ******
         //

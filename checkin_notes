@@ -16591,8 +16591,12 @@ David  21 Aug 2004
         this became invalid, and the feeder was overwriting entries while they
         were "checked out" by a scheduler.
         Fixed this by changing if() to switch()
+    - Added check to scan_work_array(): when read result from DB,
+        make sure result.workunitid matches the WU's ID.
+        This ensures correctness even if the feeder is wrong.
     - removed commented-out code from feeder
 
     sched/
         feeder.C
+        sched_send.C
         sched_shmem.h
