@@ -377,18 +377,18 @@ function write_page_links($filename, $currPageNum, $numPages, $descriptor) {
         fwrite($descriptor, "<a href=$filename" . "_" . $nextPageNum . ".html>Next Page</a>");
     }
 
-    fwrite($descriptor, "<p><table border=0>\n<tr>\n<td>Jump to Page:</td>\n");
+    fwrite($descriptor, "<p>Jump to Page:\n");
 
     // Make the individual page links (or a bold non-link for the current page).
+    //
     for ($i = 1; $i <= $numPages; $i++) {
         if ($i != $currPageNum) {
-            fwrite($descriptor, "<td><a href=$filename" . "_" . $i . ".html>$i</a></td>\n");
+            fwrite($descriptor, "<a href=$filename" . "_" . $i . ".html>$i</a>\n");
         } else {
-            fwrite($descriptor, "<td><b>$i</b></td>\n");
+            fwrite($descriptor, "<b>$i</b>\n");
         }
     }
 
-    fwrite($descriptor, "</table>\n");
 }
 
 // Generates a legal filename from a parameter string.
