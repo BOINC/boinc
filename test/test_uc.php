@@ -19,7 +19,7 @@
     copy_to_download_dir("input");
     add_project("Test Project");
     add_platform(null);
-    add_user("prefs.xml");
+    add_user(null);
     add_app("upper_case", null, null);
     add_core_client(null);
     create_work("-appname upper_case -rsc_iops 180000000000.0 -rsc_fpops 0.0 -wu_name uc_wu -wu_template uc_wu -result_template uc_result -nresults 2 input input input input input");

@@ -11,9 +11,9 @@ $user = get_user_from_cookie();
 if ($user == NULL) {
     print_login_form();
 } else {
-    page_head("Edit Disk Preferences");
+    page_head("Edit Global Preferences");
     $prefs = prefs_parse($user->prefs);
-    prefs_form_disk($user, $prefs);
+    prefs_form_global($user, $prefs);
     echo "<a href=prefs.php>Back to preferences</a>\n";
 }
 echo "<p>\n";

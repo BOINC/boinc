@@ -1963,3 +1963,32 @@ David   Sept 26 2002
 
     tools/
         grant_credit.C (removed)
+
+David   Sept 26 2002
+    - continue with separation of global vs. project preferences.
+        Added separate DB field for project prefs.
+        Revised PHP files for editing separately
+
+    client/
+        prefs.C
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    doc/
+        prefs.html
+    html_user/
+        removed prefs_add*, prefs_delete*, prefs_edit_disk*, prefs_edit_work*
+        removed prefs_edit_projects.php
+        added prefs_edit_global*
+        prefs_edit_project_action.php
+        prefs.inc
+        prefs.php
+        util.inc
+    sched/
+        server_types.C
+    test/
+        init.inc
+        test_uc.php
+    tools/
+        add.C

@@ -8,14 +8,16 @@ include_once("prefs.inc");
 db_init();
 
 $user = get_user_from_cookie();
-page_head("Edit Project Preferences");
 if ($user == NULL) {
     print_login_form();
 } else {
+    page_head("Preferences");
     $prefs = prefs_parse($user->prefs);
-    prefs_form_projects($prefs);
-    echo "<br>";
-    echo "<a href=prefs.php>Back to preferences</a>\n";
+    prefs_global_parse_form($prefs);
+    prefs_update($user, $prefs);
+    echo "<table width=780><tr><td>";
+    echo "</td></tr></table>";
+    print_prefs_display($prefs);
 }
 echo "<p>\n";
 page_tail();

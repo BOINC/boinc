@@ -36,7 +36,7 @@
 //      create DB record
 //      copy exec to data directory
 // add user -email_addr x -name y -web_password z -authenticator a
-// add prefs -email_addr x -prefs_file y
+//      [ -global_prefs_file y ]
 
 #include <string.h>
 #include <stdlib.h>
@@ -60,7 +60,7 @@ char buf[256], md5_cksum[64];
 char *app_name=0, *platform_name=0, *project_name=0;
 char* exec_dir=0, *exec_files[10], *signature_files[10];
 char *email_addr=0, *user_name=0, *web_password=0, *authenticator=0;
-char *prefs_file=0, *download_dir, *download_url;
+char *global_prefs_file=0, *download_dir, *download_url;
 char* code_sign_keyfile;
 char *message=0, *message_priority=0;
 
@@ -231,32 +231,13 @@ void add_user() {
     strcpy(user.authenticator, authenticator);
     strcpy(user.country, "United States");
     strcpy(user.postal_code, "94703");
-    if (prefs_file) {
-        retval = read_filename(prefs_file, user.prefs);
+    if (global_prefs_file) {
+        retval = read_filename(global_prefs_file, user.global_prefs);
         if (retval) {
-            printf("read_file: %s", prefs_file);
+            printf("read_file: %s", global_prefs_file);
             return;
         }
         user.prefs_mod_time = time(0);
-    } else {
-        strcpy(user.prefs,
-            "<preferences>\n"
-            "<low_water_days>1.2</low_water_days>\n"
-            "<high_water_days>2.5</high_water_days>\n"
-            "<disk_max_used_gb>0.4</disk_max_used_gb>\n"
-            "<disk_max_used_pct>50</disk_max_used_pct>\n"
-            "<disk_min_free_gb>0.4</disk_min_free_gb>\n"
-            "<project>\n"
-            "    <master_url>http://localhost.localdomain</master_url>\n"
-            "    <email_addr>david@localdomain</email_addr>\n"
-            "    <authenticator>123892398</authenticator>\n"
-            "    <resource_share>10</resource_share>\n"
-            "    <project_specific>\n"
-            "        <color-scheme>Tahiti Sunset</color-scheme>\n"
-            "    </project_specific>\n"
-            "</project>\n"
-            "</preferences>\n"
-        );
     }
     retval = db_user_new(user);
     if (retval) {
@@ -318,9 +299,9 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-authenticator")) {
             i++;
             authenticator = argv[i];
-        } else if (!strcmp(argv[i], "-prefs_file")) {
+        } else if (!strcmp(argv[i], "-global_prefs_file")) {
             i++;
-            prefs_file = argv[i];
+            global_prefs_file = argv[i];
         } else if (!strcmp(argv[i], "-download_url")) {
             i++;
             download_url = argv[i];

@@ -1,6 +1,7 @@
 <?php
 
-// This file contains support functions for preference display and editing
+// This file contains support functions for display and editing
+// preferences (global and project).
 // Preferences are represented in two ways:
 // - As a PHP structure (usually called $prefs)
 // - As XML (usually called $prefs_xml)
@@ -10,30 +11,36 @@
 // functions to parse preferences XML into a struct
 //
 // This XML has the general structure
-// <preferences>
+// <global_preferences>
 //    <dont_run_if_user_active/>
 //    <low_water_days>1.3</low_water_days>
 //    ...
+// </global_preferences>
+//
+// and
+//
+// <project_preferences>
+//    <resource_share>4</resource_share>
 //    <project-specific>
 //            ... (arbitrary project-specific XML)
 //    </project-specific>
-// </preferences>
+//    <send_email/>
+//    <show_email/>
+// </project_preferences>
 
 global $text;
 global $parse_result;
-global $project;
 global $in_project_specific;
 
+// the following will parse either global or project prefs
+// TODO: split up into separate functions
+//
 function element_start($parser, $name, $attrs) {
     global $text;
     global $project;
     global $in_project_specific;
 
     switch($name) {
-    case "project":
-        $project = null;
-        $text = "";
-        break;
     case "project_specific":
         $in_project_specific = 1;
         $text = "";
@@ -49,16 +56,12 @@ function element_start($parser, $name, $attrs) {
 
 function element_end($parser, $name) {
     global $text;
-    global $project;
     global $parse_result;
     global $in_project_specific;
 
     switch($name) {
-    case "project":
-        $parse_result->project = $project;
-        break;
     case "project_specific":
-        $project->project_specific = $text;
+        $prefs->project_specific = $text;
         $in_project_specific = false;
         break;
     case "dont_run_on_batteries":
@@ -70,9 +73,6 @@ function element_end($parser, $name) {
     case "confirm_before_connecting":
         $parse_result->confirm_before_connecting = 1;
         break;
-    case "mod_time":
-	$parse_result->mod_time = $text;
-	break;
     case "low_water_days":
         $parse_result->low_water_days = $text;
         break;
@@ -88,25 +88,18 @@ function element_end($parser, $name) {
     case "disk_min_free_gb":
         $parse_result->disk_min_free_gb = $text;
         break;
-    case "master_url":
-        $project->master_url = $text;
-        break;
-    case "email_addr":
-        $project->email_addr = $text;
-        break;
-    case "authenticator":
-        $project->authenticator = $text;
-        break;
     case "resource_share":
-        $project->resource_share = $text;
+        $prefs->resource_share = $text;
         break;
     case "show_email":
-        $project->show_email = $text;
+        $prefs->show_email = $text;
         break;
     case "send_email":
-        $project->send_email = $text;
+        $prefs->send_email = $text;
         break;
-    case "preferences":
+    case "global_preferences":
+        break;
+    case "project_preferences":
         break;
     default:
         if ($in_project_specific) {
@@ -129,9 +122,15 @@ function prefs_parse($prefs_xml) {
     $parse_result->dont_run_on_batteries = 0;
     $parse_result->dont_run_if_user_active = 0;
     $parse_result->confirm_before_connecting = 0;
+    $parse_result->low_water_days = 1;
+    $parse_result->high_water_days = 3;
     $parse_result->disk_max_used_gb = 1000;
     $parse_result->disk_max_used_pct = 50;
     $parse_result->disk_min_free_gb = 1;
+
+    $parse_result->resource_share = 1;
+    $parse_result->show_email = 1;
+    $parse_result->send_email = 1;
 
     $xml_parser = xml_parser_create();
     xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, 0);
@@ -143,13 +142,13 @@ function prefs_parse($prefs_xml) {
 
 ////////////////////////////////////////////
 //
-// Functions to display preference subsets, with Edit buttons
+// display preference subsets, with Edit buttons
 //
-function prefs_show_work($prefs) {
+function prefs_show_global($prefs) {
 
     echo "<p>";
     echo "<table width=580 cellpadding=4>\n";
-    echo "<tr>".TD2.LG_FONT."<b>Work preferences:</b></font></td></tr>\n";
+    echo "<tr>".TD2.LG_FONT."<b>Global preferences:</b></font></td></tr>\n";
     if ($prefs->dont_run_on_batteries) {
         $batteries = "No";
     } else {
@@ -168,50 +167,36 @@ function prefs_show_work($prefs) {
     row2a("<b>Work if computer on batteries:   </b>", $batteries);
     row2a("<b>Work if computer in use:   </b>", $in_use);
     row2a("<b>Confirm before connecting to network:   </b>", $confirm);
-    row2a("<b>Minimum amount of work to buffer (days):   </b>", "$prefs->low_water_days days");
-    row2a("<b>Maximum amount of work to buffer (days):   </b>", "$prefs->high_water_days days");
+    row2a("<b>Minimum amount of work to buffer:   </b>", "$prefs->low_water_days days");
+    row2a("<b>Maximum amount of work to buffer:   </b>", "$prefs->high_water_days days");
     
-    #row("<b>Work if computer on batteries:   </b>", $batteries);
-    #row("<b>Work if computer in use:   </b>", $in_use);
-    #row("<b>Confirm before connecting to network:   </b>", $confirm);
-    #row("<b>Minimum amount of work to buffer (days):   </b>", "$prefs->low_water_days days");
-    #row("<b>Maximum amount of work to buffer (days):   </b>", "$prefs->high_water_days days");
     
-    echo "<tr><td><a href=prefs_edit_work_form.php>Edit work preferences</a></td></tr>\n";
-    echo "</table>\n";
-}
-
-function prefs_show_disk($prefs) {
-
     echo "<p>";
-    echo "<table width=580 cellpadding=4>\n";
-    echo "<tr>".TD2.LG_FONT."<b>Disk preferences:</b></font></td></tr>\n";
-    row2a("<b>Maximum disk space allowed to be used:   </b>", "$prefs->disk_max_used_gb MB");
-    row2a("<b>Minimum disk space to leave free:   </b>", "$prefs->disk_min_free_gb MB");
+    row2a("<b>Maximum disk space to use:   </b>", "$prefs->disk_max_used_gb GB");
+    row2a("<b>Minimum disk space to leave free:   </b>", "$prefs->disk_min_free_gb GB");
     row2a("<b>Maximum % of disk allowed to used:   </b>", "$prefs->disk_max_used_pct %");
-    echo "<tr><td><a href=prefs_edit_disk_form.php>Edit disk preferences</a></td></tr>\n";
+    echo "<tr><td><a href=prefs_edit_global_form.php>Edit global preferences</a></td></tr>\n";
     echo "</table>\n";
 }
 
-function show_project($project) {
+function show_project($prefs) {
     echo "<tr><td><hr></tr></td>";
-    row2a("<b>Resource Share:   </b>", $project->resource_share);
-    row2a("<b>Project Specific Preferences:   </b>", htmlspecialchars($project->project_specific));
+    row2a("<b>Resource Share:   </b>", $prefs->resource_share);
+    row2a("<b>Project Specific Preferences:   </b>", htmlspecialchars($prefs->project_specific));
 }
 
 function prefs_show_project($prefs) {
     echo "<p>";
     echo "<table width=580 cellpadding=4>\n";
     echo "<tr>".TD2.LG_FONT."<b>Project preferences:</b></font></td></tr>\n";
-    show_project($prefs->project);
+    show_project($prefs);
     echo "<tr><td><hr></td></tr>";
-    echo "<tr><td><a href=prefs_edit_projects.php>Edit project preferences</a></td></tr>\n";
+    echo "<tr><td><a href=prefs_edit_project_form.php>Edit project preferences</a></td></tr>\n";
     echo "</table>";
 }
 
 function print_prefs_display($prefs) {
-    prefs_show_work($prefs);
-    prefs_show_disk($prefs);
+    prefs_show_global($prefs);
     prefs_show_project($prefs);
 }
 
@@ -219,8 +204,8 @@ function print_prefs_display($prefs) {
 //
 // Functions to display preference subsets as forms
 //
-function prefs_form_work($user, $prefs) {
-    echo   "<form action=prefs_edit_work_action.php>\n";
+function prefs_form_global($user, $prefs) {
+    echo   "<form action=prefs_edit_global_action.php>\n";
     echo   "    <table cellpadding=6>\n";
     echo   "    <tr>\n";
     echo   "        <td align=right><b>Don't run if computer is on batteries</b></td>\n";
@@ -235,21 +220,13 @@ function prefs_form_work($user, $prefs) {
     printf("        <td><input type=checkbox name=confirm_before_connecting %s></td>\n", $prefs->confirm_before_connecting?"checked":"");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right><b>Minimum amount of work to buffer (days)</b><br>- this is the minimum amount of work to stay<br>on disk so if your computer is disconnected<br>from the Internet for an extended amount of<br>time you can still do work</td>\n";
+    echo   "        <td align=right><b>Minimum amount of work to buffer (days)</b></td>\n";
     printf("        <td><input size=5 name=low_water_days value='$prefs->low_water_days'></td>\n");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right><b>Maximum amount of work to buffer (days)</b><br>- this is the maximum amount of work to stay<br>on disk so if your computer is disconnected<br>from the Internet for an extended amount of<br>time you can still do work</td>\n";
+    echo   "        <td align=right><b>Maximum amount of work to buffer (days)</b></td>\n";
     printf("        <td><input size=5 name=high_water_days value='$prefs->high_water_days'></td>\n");
     echo   "    </tr>\n";
-    echo   "    </table>\n";
-    echo   "    <input type=submit value=\"Edit Preferences\">\n";
-    echo   "</form>\n";
-}
-
-function prefs_form_disk($user, $prefs) {
-    echo   "<form action=prefs_edit_disk_action.php>\n";
-    echo   "    <table cellpadding=6>\n";
     echo   "    <tr>\n";
     echo   "        <td align=right><b>Maximum disk space allowed<br>to be used for BOINC (in MB)</b></td>\n";
     echo   "        <td><input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'></td>\n";
@@ -267,77 +244,46 @@ function prefs_form_disk($user, $prefs) {
     echo   "</form>\n";
 }
 
-function prefs_form_projects($prefs) {
-    echo "<table>";
-    prefs_show_project($prefs->project);
-    echo "<tr><td><a href=prefs_edit_project_form.php?master_url=$project->master_url>Edit project</a></td></tr>\n";
-    echo "</table>";
-
-    echo "<p>";
-    echo "<table width=780><tr><td>";
-    echo "</td></tr></table>";
-}
-
-function prefs_form_project($project, $action) {
-    echo   "<form action=$action>\n";
+function prefs_form_project($prefs) {
+    echo   "<form action=prefs_edit_project_action.php>\n";
     echo   "    <table cellpadding=6>\n";
-    echo   "    <tr>\n";
-    echo   "        <td align=right><b>Master URL:</b></td>\n";
-    echo   "        <td><input size=60 name=master_url value='$project->master_url'></td>\n";
-    echo   "    </tr>\n";
-    echo   "    <tr>\n";
-    echo   "        <td align=right><b>Email address:</b></td>\n";
-    echo   "        <td><input size=40 name=email_addr value='$project->email_addr'></td>\n";
-    echo   "    </tr>\n";
-    echo   "    <tr>\n";
-    echo   "        <td align=right><b>Authenticator:</b></td>\n";
-    echo   "        <td><input size=32 name=authenticator value='$project->authenticator'></td>\n";
-    echo   "    </tr>\n";
     echo   "    <tr>\n";
     
     echo   "        <td align=right><b>Resource share:</b><br><font size=-1> (If projects";
     echo   "        compete for resources,<br>this is the fraction of resources you<br>choose to";
     echo   "        allocate to this project.)</font></td>\n";
     
-    #echo   "        <td align=right><b>Resource share:</b><br>if projects contend<br>for resources, the amount<br>allocated to a project<br>is proportional to<br>this number</td>\n";
-    
-    echo   "        <td><input name=resource_share value='$project->resource_share'></td>\n";
+    echo   "        <td><input name=resource_share value='$prefs->resource_share'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";
     echo   "        <td align=right><b>Project-specific preferences:</b></td>\n";
-    echo   "        <td><input name=project_specific value='$project->project_specific'></td>\n";
+    echo   "        <td><input name=project_specific value='$prefs->project_specific'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr><td><br></td><td><input type=submit value=OK></td></tr>\n";
     echo   "    </table>\n";
+    echo   "    </form>\n";
 }
 
 ////////////////////////////////////////////
 //
 // Functions to parse form elements, modifying a preferences structure
 //
-function prefs_work_parse_form(&$prefs) {
+function prefs_global_parse_form(&$prefs) {
     parse_str(getenv("QUERY_STRING"));
     $prefs->dont_run_on_batteries = isset($dont_run_on_batteries)?1:0;
     $prefs->dont_run_if_user_active = isset($dont_run_if_user_active)?1:0;
     $prefs->confirm_before_connecting = isset($confirm_before_connecting)?1:0;
     $prefs->low_water_days = $low_water_days;
     $prefs->high_water_days = $high_water_days;
-}
-
-function prefs_disk_parse_form(&$prefs) {
-    parse_str(getenv("QUERY_STRING"));
     $prefs->disk_max_used_gb = $disk_max_used_gb;
     $prefs->disk_max_used_pct = $disk_max_used_pct;
     $prefs->disk_min_free_gb = $disk_min_free_gb;
 }
 
-function prefs_project_parse_form(&$project) {
+function prefs_project_parse_form(&$prefs) {
     parse_str(getenv("QUERY_STRING"));
-    $project->master_url = $master_url;
-    $project->email_addr = $email_addr;
-    $project->authenticator = $authenticator;
-    $project->resource_share = $resource_share;
-    $project->project_specific = $project_specific;
+    $prefs->resource_share = $resource_share;
+    $prefs->project_specific = $project_specific;
 }
 
 
@@ -345,8 +291,8 @@ function prefs_project_parse_form(&$project) {
 //
 // convert prefs from structure to XML
 //
-function prefs_make_xml($prefs) {
-    $xml = "<preferences>\n";
+function global_prefs_make_xml($prefs) {
+    $xml = "<global_preferences>\n";
     if ($prefs->dont_run_on_batteries) {
         $xml = $xml."<dont_run_on_batteries/>\n";
     }
@@ -363,44 +309,32 @@ function prefs_make_xml($prefs) {
         <disk_max_used_gb>$prefs->disk_max_used_gb</disk_max_used_gb>
         <disk_max_used_pct>$prefs->disk_max_used_pct</disk_max_used_pct>
         <disk_min_free_gb>$prefs->disk_min_free_gb</disk_min_free_gb>";
-    for ($i=0; $i<sizeof($prefs->projects); $i++) {
-        $project = $prefs->projects[$i];
-        $xml = $xml."
-            <project>
-            <master_url>$project->master_url</master_url>
-            <email_addr>$project->email_addr</email_addr>
-            <authenticator>$project->authenticator</authenticator>
-            <resource_share>$project->resource_share</resource_share>
-            <project_specific>\n$project->project_specific\n</project_specific>
-            </project>";
-    }
-    $xml = $xml."</preferences>\n";
+    $xml = $xml."</global_preferences>\n";
     return $xml;
+}
+
+function project_prefs_make_xml($prefs) {
+    $xml = "<project_preferences>\n";
+    $xml = $xml."
+            <resource_share>$prefs->resource_share</resource_share>
+            <project_specific>\n$prefs->project_specific\n</project_specific>";
+    $xml = $xml."</project_preferences>\n";
 }
 
 ////////////////////////////////////////////
 //
 // Update user's prefs in database, from a given structure
 //
-function prefs_update($user, $prefs) {
-    $prefs_xml = prefs_make_xml($prefs);
+function global_prefs_update($user, $prefs) {
+    $prefs_xml = global_prefs_make_xml($prefs);
     $now = time();
-    mysql_query("update user set prefs='$prefs_xml', prefs_mod_time=$now where id=$user->id");
+    mysql_query("update user set global_prefs='$prefs_xml', prefs_mod_time=$now where id=$user->id");
 }
 
-
-////////////////////////////////////////////
-//
-// Misc
-//
-function project_index($prefs, $master_url) {
-    for ($i=0; $i<sizeof($prefs->projects); $i++) {
-        $project = $prefs->projects[$i];
-        if ($project->master_url == $master_url) {
-            return $i;
-        }
-    }
-    return -1;
+function project_prefs_update($user, $prefs) {
+    $prefs_xml = project_prefs_make_xml($prefs);
+    $now = time();
+    mysql_query("update user set project_prefs='$prefs_xml' where id=$user->id");
 }
 
 ?>

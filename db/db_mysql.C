@@ -120,7 +120,8 @@ void struct_to_str(void* vp, char* q, int type) {
             "web_password='%s', authenticator='%s', "
             "country='%s', postal_code='%s', "
             "total_credit=%f, expavg_credit=%f, expavg_time=%f, "
-            "prefs='%s', prefs_mod_time=%d, teamid=%d",
+            "global_prefs='%s', prefs_mod_time=%d, project_prefs='%s', "
+            "teamid=%d",
             up->id,
             up->create_time,
             up->email_addr,
@@ -132,8 +133,9 @@ void struct_to_str(void* vp, char* q, int type) {
             up->total_credit,
             up->expavg_credit,
             up->expavg_time,
-            up->prefs,
+            up->global_prefs,
             up->prefs_mod_time,
+            up->project_prefs,
             up->teamid
         );
         unescape(up->email_addr);
@@ -293,8 +295,9 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         up->total_credit = atof(r[i++]);
         up->expavg_credit = atof(r[i++]);
         up->expavg_time = atof(r[i++]);
-        strcpy(up->prefs, r[i++]);
+        strcpy(up->global_prefs, r[i++]);
         up->prefs_mod_time = atoi(r[i++]);
+        strcpy(up->project_prefs, r[i++]);
         up->teamid = atoi(r[i++]);
         break;
     case TYPE_TEAM:

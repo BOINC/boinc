@@ -43,7 +43,6 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     char buf[256];
     RESULT result;
     assert(fin!=NULL);
-    prefs_mod_time = 0;
     strcpy(authenticator, "");
     hostid = 0;
     work_req_seconds = 0;

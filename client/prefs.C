@@ -30,6 +30,9 @@
 
 #include "prefs.h"
 
+// the following values determine how the client behaves
+// if the user didn't set preferences via web
+//
 PREFS::PREFS() {
     mod_time = 0;
     dont_run_on_batteries = false;

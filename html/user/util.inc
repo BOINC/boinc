@@ -9,14 +9,14 @@ define("EMAIL_FAIL", -2);
 define("LG_FONT", "<font size=+1>");
 define("SM_FONT", "<font size=-1>");
 
-define("TD", "<td bgcolor=#708090>");
-define("TD2", "<td colspan=2 bgcolor=#708090>");
-define("TD3", "<td colspan=3 bgcolor=#708090>");
+define("TD", "<td bgcolor=cccccc>");
+define("TD2", "<td colspan=2 bgcolor=cccccc>");
+define("TD3", "<td colspan=3 bgcolor=cccccc>");
 
 define("TABLE", "<table cellpadding=10 cellspacing=4 border=0 width=100%>");
 define("TABLE2", "<table width=580>");
 
-define("BG_COLOR", " bgcolor=cccccc ");
+define("BG_COLOR", " bgcolor=ffffff ");
 define("TITLE_COLOR", " bgcolor=000000 ");
 define("TITLE_FONT", " <font color=ffffff> ");
 define("BODY_COLOR", " bgcolor=ffffff ");
@@ -47,7 +47,7 @@ function show_login($user) {
 
 function page_head($title) {
     echo "<head><title>$title</title><body " . BG_COLOR . ">\n";
-    echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b><a href=index.php>".PROJECT.":</a>  $title</b></font></td></tr></table>\n";
+    echo TABLE."<tr ".TITLE_COLOR."><td>".TITLE_FONT."<font size=6><b><a href=index.php>".PROJECT.":</a>  $title</b></font></td></tr></table>\n";
 }
 
 function page_tail() {
