@@ -321,7 +321,7 @@ int boinc_thread_cpu_time(double& cpu, double& ws) {
 #ifdef _WIN32
 static void CALLBACK on_timer(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2) {
 #else
-static RETSIGTYPE on_timer(int a) {
+static void on_timer(int a) {
 #endif
 
     if (!ready_to_checkpoint) {

@@ -126,3 +126,5 @@
 #define ERR_SOCKS_CONN_REFUSED    -175
 #define ERR_TIMER_INIT            -176
 #define ERR_RSC_LIMIT_EXCEEDED  -177
+#define ERR_INVALID_PARAM   -178
+#define ERR_SIGNAL_OP       -179

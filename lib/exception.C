@@ -32,20 +32,19 @@ using namespace std;
 #include "error_numbers.h"
 
 
-// BOINC Base Exception Class Implementation
-//
+const char* boinc_base_exception::ErrorType() {
+    return "BOINC Exception";
+}
 
-const char * boinc_base_exception::ErrorType()
-    { return "BOINC Exception"; }
+const char * boinc_base_exception::ErrorMessage() {
+    return "Unknown Exception";
+}
 
-const char * boinc_base_exception::ErrorMessage()
-    { return "Unknown Exception"; }
+long  boinc_base_exception::ErrorValue() {
+    return -1;
+}
 
-long         boinc_base_exception::ErrorValue()
-    { return -1; }
-
-const char * boinc_base_exception::what()
-{
+const char * boinc_base_exception::what() {
 	m_strErrorBuffer.empty();
 
 	memset(m_szConversionBuffer, '\0', sizeof(m_szConversionBuffer));
@@ -80,32 +79,46 @@ const char * boinc_base_exception::what()
 
 // BOINC Base Runtime Exception Class Implementation
 //
-const char * boinc_runtime_base_exception::ErrorType()
-    { return "BOINC Runtime Exception"; }
+const char * boinc_runtime_base_exception::ErrorType() {
+    return "BOINC Runtime Exception";
+}
 
-const char * boinc_runtime_base_exception::ErrorMessage()
-    { return "Unknown Runtime Exception"; }
+const char * boinc_runtime_base_exception::ErrorMessage() {
+    return "Unknown Runtime Exception";
+}
 
 
 // BOINC Runtime Exceptions
 //
-const char * boinc_out_of_memory_exception::ErrorMessage()
-    { return "Out Of Memory"; }
-long         boinc_out_of_memory_exception::ErrorValue()
-    { return ERR_MALLOC; }
+const char * boinc_out_of_memory_exception::ErrorMessage() {
+    return "Out Of Memory";
+}
 
-const char * boinc_invalid_parameter_exception::ErrorMessage()
-    { return "Invalid Parameter"; }
-long         boinc_invalid_parameter_exception::ErrorValue()
-    { return -1001; }
+long         boinc_out_of_memory_exception::ErrorValue() {
+    return ERR_MALLOC;
+}
+
+const char * boinc_invalid_parameter_exception::ErrorMessage() {
+    return "Invalid Parameter";
+}
+
+long         boinc_invalid_parameter_exception::ErrorValue() {
+    return ERR_INVALID_PARAM;
+}
 
 
-const char * boinc_file_operation_exception::ErrorMessage()
-    { return "File Operation Failure"; }
-long         boinc_file_operation_exception::ErrorValue()
-    { return -1100; }
+const char * boinc_file_operation_exception::ErrorMessage() {
+    return "File Operation Failure";
+}
 
-const char * boinc_signal_operation_exception::ErrorMessage()
-    { return "Signal Operation Failure"; }
-long         boinc_signal_operation_exception::ErrorValue()
-    { return -1101; }
+long         boinc_file_operation_exception::ErrorValue() {
+    return ERR_FOPEN;
+}
+
+const char * boinc_signal_operation_exception::ErrorMessage() {
+    return "Signal Operation Failure";
+}
+
+long         boinc_signal_operation_exception::ErrorValue() {
+    return ERR_SIGNAL_OP;
+}
