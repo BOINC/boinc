@@ -63,7 +63,7 @@ int wu_delete_files(WORKUNIT& wu) {
                 retval = dir_hier_path(
                     filename, config.download_dir, config.uldl_dir_fanout,
                     pathname
-                    );
+                );
                 if (retval) {
                     log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[%s] dir_hier_path: %d\n", wu.name, retval);
                 } else {
@@ -147,8 +147,9 @@ bool do_pass() {
     while (!wu.enumerate(buf)) {
         did_something = true;
         
-        if (!preserve_wu_files)
+        if (!preserve_wu_files) {
             wu_delete_files(wu);
+        }
         wu.file_delete_state = FILE_DELETE_DONE;
         sprintf(buf, "file_delete_state=%d", wu.file_delete_state);
         retval= wu.update_field(buf);
@@ -163,8 +164,9 @@ bool do_pass() {
     sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_READY);
     while (!result.enumerate(buf)) {
         did_something = true;
-        if (!preserve_result_files)
+        if (!preserve_result_files) {
             result_delete_files(result);
+        }
         result.file_delete_state = FILE_DELETE_DONE;
         sprintf(buf, "file_delete_state=%d", result.file_delete_state); 
         retval= result.update_field(buf);
@@ -190,18 +192,22 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-preserve_wu_files")) {
-            // This option is primarily for testing.  If enabled, the
-            // file_deleter will function 'normally' and will update
-            // the database, but will not actually delete the workunit
-            // input files.  It's equivalent to setting <no_delete/>
-            // [undocumented] for all workunit input files.
+            // This option is primarily for testing.
+            // If enabled, the file_deleter will function 'normally'
+            // and will update the database,
+            // but will not actually delete the workunit input files.
+            // It's equivalent to setting <no_delete/>
+            // for all workunit input files.
+            //
             preserve_wu_files = true;
         } else if (!strcmp(argv[i], "-preserve_result_files")) {
-            // This option is primarily for testing.  If enabled, the
-            // file_deleter will function 'normally' and will update
-            // the database but will not actually delete the result
-            // output files. It's equivalent to setting <no_delete/>
-            // [undocumented] for all result output files.
+            // This option is primarily for testing.
+            // If enabled, the file_deleter will function 'normally'
+            // and will update the database,
+            // but will not actually delete the result output files.
+            // It's equivalent to setting <no_delete/>
+            // for all result output files.
+            //
             preserve_result_files = true;
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));

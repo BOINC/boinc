@@ -5,11 +5,14 @@ echo "
 <h3>Files and data servers</h3> 
 <p>
 The BOINC storage model is based on <b>files</b>.
-The inputs and outputs of applications,
-and the application executables, are files.
+Examples of files:
+<ul>
+<li> The inputs and outputs of applications;
+<li> Application executables, libraries, etc.
+</ul>
 <p>
-The BOINC core client transfers files to and from <b>data servers</b>
-operated by the project, using HTTP.
+The BOINC core client transfers files to and from project-operated
+<b>data servers</b> using HTTP.
 <p>
 A file is described by an XML element of the form 
 ".html_text("
@@ -76,16 +79,16 @@ list_item("signature_required",
 );
 list_item("no_delete",
     "If present for an input (workunit) file,
-    indicates that the file should NOT be removed from the download/
-    directory when the workunit is completed.  You should use this
-    if a particular input file or files are used by more than one
-    workunit, or will be used by future, unqueued workunits."
+    indicates that the file should NOT be removed from the data server's
+    download directory when the workunit is completed.
+    Use this if a particular input file or files are used by more than one
+    workunit, or will be used by future workunits."
 );
 list_item("no_delete",
     "If present for an output (result) file,
-    indicates that the file should NOT be removed from the upload/
+    indicates that the file should NOT be removed from the data server's upload
     directory when the corresponding workunit is completed.
-    Use with caution - this may cause your upload/ directory to overflow."
+    Use with caution - this may cause your upload directory to overflow."
 );
 list_item("report_on_rpc",
     "Include a description of this file in scheduler RPC requests,
@@ -94,12 +97,11 @@ list_item("report_on_rpc",
 );
 list_end();
 echo "
-These attributes allow the specification of various types of files: for
-example, input or output files that are retained for use as input to
-later computations.
 <p>
 Once a file is created (on a data server or a participant host) it
-is immutable.
+is <b>immutable</b>.
+This means that all replicas of that file are assumed to be identical.
+
 <h3>File references</h3> 
 <p>
 Files may be associated with <a href=work.php>workunits</a>,
@@ -123,5 +125,29 @@ list_item("main_program", "Used for files
 associated with application versions.
 It indicates that this file is the application's main program.");
 list_end();
+
+echo "
+<h3>File management</h3>
+<p>
+BOINC's default behavior is to delete files around
+when they aren't needed any more.
+Specifically:
+<ul>
+<li> On the client, input files are deleted when no workunit refers to them,
+and output files are deleted when no result refers to them.
+Application-version files are deleted when they are referenced
+only from superceded application versions.
+<li> On the client, the 'sticky' flag overrides the above mechanisms
+and suppresses the deletion of the file.
+The file may deleted by an explicit
+<a href=delete_file.php>server request</a>.
+The file may also be deleted at any time by the core client
+in order to honor limits on disk-space usage.
+<li> On the server, the <a href=file_deleter.php>file deleter daemon</a>
+deletes input and output files that are no longer needed.
+This can be suppressed using the 'no_delete' flag,
+or using command-line options to the file deleter.
+</ul>
+";
 page_tail();
 ?>

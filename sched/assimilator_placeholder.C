@@ -35,7 +35,7 @@
 
 using std::vector;
 
-void assimilate_handler(
+int assimilate_handler(
     WORKUNIT& wu, vector<RESULT>& results, RESULT& canonical_result
 ) {
     SCOPE_MSG_LOG scope_messages(log_messages, SCHED_MSG_LOG::NORMAL);
@@ -61,6 +61,7 @@ void assimilate_handler(
     if (wu.error_mask&WU_ERROR_TOO_MANY_SUCCESS_RESULTS) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[%s] Error: too many success results\n", wu.name);
     }
+    return 0;
 }
 
 #ifdef __GNUC__

@@ -84,7 +84,12 @@ bool do_pass(APP& app) {
             }
         }
 
-        assimilate_handler(wu, results, canonical_result);
+        retval = assimilate_handler(wu, results, canonical_result);
+        if (retval) {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "[%s] handler returned error %d; exiting\n", wu.name, retval
+            );
+        }
 
         if (update_db) {
             sprintf(

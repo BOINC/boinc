@@ -101,6 +101,11 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
                 "Output file %s for result %s exceeds size limit.",
                 fip->name, rp->name
             );
+            msg_printf(
+                rp->project, MSG_INFO,
+                "File size: %f bytes.  Limit: %f bytes",
+                size, fip->max_nbytes
+            );
 
             fip->delete_file();
             fip->status = ERR_FILE_TOO_BIG;

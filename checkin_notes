@@ -21621,7 +21621,7 @@ David  19 Dec 2004
         ViewResources.cpp
         ViewTransfers.cpp
 
-David
+David  20 Dec 2004
     - User web:
         don't call db_init() in profile.inc.
             This should be done by top-level files, not .inc files
@@ -21646,3 +21646,28 @@ David
             edit_forum_preferences_action.php
             profile_menu.php
             view_profile.php
+
+David  20 Dec 2004
+    - have assimilate_handler return an error code.
+        If nonzero,  assimilator exits
+        (don't want to mark WUs as assimilated if temporary NFS failure, e.g.)
+    - improve docs on file management, added doc on file_deleter
+    - added doc on backend utility funcs
+    - improve docs on assimilate_handler()
+    - core client: if an output file is too big, print info on size, limit
+
+    client/
+        cs_apps.C
+    doc/
+        various
+        backend_util.php (new)
+        benchmark.php (new)
+        file_deleter.php (new)
+    sched/
+        assimilate_handler.h
+        assimilator.C
+        assimilator_placeholder.C
+        file_deleter.C
+        sample_dummy_assimilator.C
+        sched_util.C
+        validate_util.C

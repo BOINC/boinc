@@ -101,6 +101,7 @@ How to generate tasks and handle the results.
 <li> <a href=tools_work.php>Generating work</a>
 <li> <a href=validate.php>Result validation</a>
 <li> <a href=assimilate.php>Result assimilation</a>
+<li> <a href=file_deleter.php>Server-side file deletion</a>
 </ul>
 
 <font size=+1><b>
@@ -128,7 +129,7 @@ Using disk space on participant hosts
 <li> <a href=get_file_list.php>Uploading file lists</a>
 <li> <a href=get_file.php>Uploading files</a>
 <li> <a href=send_file.php>Downloading files</a>
-<li> <a href=delete_file.php>Deleting files</a>
+<li> <a href=delete_file.php>Deleting files on client hosts</a>
 </ul>
 
 <font size=+1><b>

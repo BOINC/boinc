@@ -142,7 +142,8 @@ int generic_check_set(
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "generic_check_set: init_result([RESULT#%d %s]) failed\n",
-                results[i].id, results[i].name);
+                results[i].id, results[i].name
+            );
             goto cleanup;
         }
     }
@@ -161,7 +162,8 @@ int generic_check_set(
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
                     "generic_check_set: check_pair_with_data([RESULT#%d %s], [RESULT#%d %s]) failed\n",
-                    results[i].id, results[i].name, results[j].id, results[j].name);
+                    results[i].id, results[i].name, results[j].id, results[j].name
+                );
             } else if (match) {
                 ++neq;
                 matches[j] = true;
@@ -197,7 +199,8 @@ int generic_check_set_majority(
     return generic_check_set(
         results, canonicalid, credit,
         init_result_f, check_pair_with_data_f, cleanup_result_f,
-        results.size() / 2);
+        results.size() / 2
+    );
 }
 
 int generic_check_pair(
@@ -227,7 +230,7 @@ int generic_check_pair(
             SCHED_MSG_LOG::CRITICAL,
             "[RESULT#%d %s] [RESULT#%d %s] Couldn't initialize result 2\n",
             r1.id, r1.name, r2.id, r2.name
-            );
+        );
         cleanup_result_f(r1, data1);
         return retval;
     }
