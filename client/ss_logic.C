@@ -22,6 +22,7 @@
 #endif
 
 #include "client_state.h"
+#include "client_msgs.h"
 #include "ss_logic.h"
 
 extern void create_curtain();
@@ -50,7 +51,7 @@ void SS_LOGIC::start_ss(time_t new_blank_time) {
     gstate.active_tasks.hide_apps();
     create_curtain();
     if (!gstate.activities_suspended) {
-        atp = gstate.active_tasks.get_graphics_capable_app();
+        atp = gstate.get_next_graphics_capable_app();
         if (atp) {
             atp->request_graphics_mode(MODE_FULLSCREEN);
             ack_deadline = time(0) + 5;
@@ -74,13 +75,10 @@ void SS_LOGIC::poll() {
     ACTIVE_TASK* atp;
 
     if (!gstate.activities_suspended) {
-
-        gstate.active_tasks.check_graphics_mode_ack();
-
         if (do_ss) {
             if (blank_time && (time(0) > blank_time)) {
                 if (!do_blank) {
-                    atp = gstate.active_tasks.get_app_requested(MODE_FULLSCREEN);
+                    atp = gstate.active_tasks.get_app_graphics_mode_requested(MODE_FULLSCREEN);
                     if (atp) {
                         atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
                     }
@@ -89,9 +87,9 @@ void SS_LOGIC::poll() {
                 do_boinc_logo_ss = false;
                 strcpy(ss_msg, "");
             } else {
-                atp = gstate.active_tasks.get_app_requested(MODE_FULLSCREEN);
+                atp = gstate.active_tasks.get_app_graphics_mode_requested(MODE_FULLSCREEN);
                 if (atp) {
-                    if (atp->graphics_acked_mode == MODE_FULLSCREEN) {
+                    if (atp->graphics_mode_acked == MODE_FULLSCREEN) {
                         do_boinc_logo_ss = false;
                         strcpy(ss_msg, "");
                     } else {
@@ -101,7 +99,7 @@ void SS_LOGIC::poll() {
                         }
                     }
                 } else {
-                    atp = gstate.active_tasks.get_graphics_capable_app();
+                    atp = gstate.get_next_graphics_capable_app();
                     if (atp) {
                         atp->request_graphics_mode(MODE_FULLSCREEN);
                         ack_deadline = time(0) + 5;

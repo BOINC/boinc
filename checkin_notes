@@ -15366,3 +15366,24 @@ David  16 July 2004
         cs_statefile.C
     sched/
         transitioner.C
+
+David  17 July 2004
+	Various changes to reflect the fact that message-passing
+    operations may fail because buffer is full,
+	in which case they must be retried later.
+
+	- in graphics API: don't ack graphics mode in set_mode();
+		instead, ack it in timer_handler()
+	- in core client: keep track of the graphics_mode_requested
+		separately from the graphics_mode_sent;
+		in a polling routine, if these are different then try to send.
+
+	- used CLIENT_STATE::get_next_graphics_capable_app() instead of
+		ACTIVE_TASK_SET::get_graphics_capable_app()
+		
+	api/
+		windows_opengl.C
+	client/
+		app.C,h
+		cs_apps.C
+		ss_logic.C

@@ -26,6 +26,7 @@ static HWND		 hWnd                  = NULL;		// Holds Our Window Handle
 static HINSTANCE hInstance;		                    // Holds The Instance Of The Application
 static RECT		 rect                  = {50, 50, 50+640, 50+480};
 static int		 current_graphics_mode = MODE_HIDE_GRAPHICS;
+static int       acked_graphics_mode = -1;
 static POINT	 mousePos;
 static UINT		 m_uEndSSMsg;
 static HDC       myhDC;
@@ -158,24 +159,14 @@ void KillWindow() {
 // - when in SS mode and get user input
 //
 static void set_mode(int mode) {
-
+    if (mode == current_graphics_mode) return;
 	if (current_graphics_mode != MODE_FULLSCREEN) GetWindowRect(hWnd, &rect);
-
 	KillWindow();
-
 	current_graphics_mode = mode;
-
     if (mode != MODE_HIDE_GRAPHICS) {
         make_new_window(mode);
     }
 
-    // tell the core client that we're entering new mode
-    //
-    if (app_client_shm) {
-        app_client_shm->shm->graphics_reply.send_msg(
-            xml_graphics_modes[current_graphics_mode]
-        );
-    }
 }
 
 void parse_mouse_event(UINT uMsg, int& which, bool& down) {
@@ -320,6 +311,7 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
     //
     if (app_client_shm) {
         if (app_client_shm->shm->graphics_request.get_msg(buf)) {
+            //fprintf(stderr, "%d got graphics request: %s\n", time(0), buf); fflush(stderr);
             new_mode = app_client_shm->decode_graphics_msg(buf);
             switch (new_mode) {
             case MODE_REREAD_PREFS:
@@ -340,7 +332,15 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
                 break;
             }
         }
-	}
+        // ack graphics mode
+        //
+        if (acked_graphics_mode != current_graphics_mode) {
+            bool sent = app_client_shm->shm->graphics_reply.send_msg(
+                xml_graphics_modes[current_graphics_mode]
+            );
+            if (sent) acked_graphics_mode = current_graphics_mode;
+        }
+    }
     if (!visible) return;
 	if (current_graphics_mode == MODE_HIDE_GRAPHICS) return;
     if (!hWnd) return;

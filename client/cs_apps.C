@@ -559,7 +559,7 @@ void CLIENT_STATE::handle_file_xfer_apps() {
 // preferences goes to apps with pre-ss mode WINDOW, then apps with pre-ss mode HIDE
 //
 ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
-    static int project_index;
+    static int project_index=0;
     unsigned int i, j;
     ACTIVE_TASK *atp;
     PROJECT *p;
