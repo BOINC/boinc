@@ -23529,3 +23529,7 @@ Bruce 31 Jan 2005
         server_types.h
         server_types.C
 
+Eric K.	31 Jan 05
+	Fixed typo in lib/parse.C
+
+	lib/parse.C
