@@ -2,7 +2,7 @@
 
 # $Id$
 
-# Scans apps dir for current core client versions and updates
+# Scans apps dir for current core client versions and updates the database as appropriate.
 
 PROJECTS_ROOT = '~/projects/'
 URL_ROOT = 'http://setiboinc.ssl.berkeley.edu/'
