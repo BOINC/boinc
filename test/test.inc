@@ -286,8 +286,8 @@ class Project {
 
             $p = $app_version->platform;
             $x = "add app_version -db_name $this->db_name -app_name '$app->name' -platform_name $p->name -version $app_version->version -download_dir $this->project_dir/download -download_url $this->download_url -code_sign_keyfile $this->key_dir/code_sign_private -exec_dir $app_version->exec_dir -exec_files";
-            for ($i=0; $i<sizeof($app_version->exec_names); $i++) {
-                $x = $x." ".$app_version->exec_names[$i];
+            for ($j=0; $j<sizeof($app_version->exec_names); $j++) {
+                $x = $x." ".$app_version->exec_names[$j];
             }
             run_tool($x);
         }

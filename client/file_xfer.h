@@ -38,6 +38,7 @@ public:
     char pathname[256];
     char header[4096];
     bool file_size_query;
+    bool is_upload;
 
     FILE_XFER();
     ~FILE_XFER();

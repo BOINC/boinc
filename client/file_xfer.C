@@ -43,6 +43,7 @@ FILE_XFER::~FILE_XFER() {
 int FILE_XFER::init_download(FILE_INFO& file_info) {
     double f_size;
 
+    is_upload = false;
     fip = &file_info;
     get_pathname(fip, pathname);
     if (file_size(pathname, f_size)) {
@@ -64,6 +65,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
     fip = &file_info;
     get_pathname(fip, pathname);
 
+    is_upload = true;
     if (file_info.upload_offset < 0) {
         bytes_xferred = 0;
         sprintf(header,
@@ -175,6 +177,7 @@ bool FILE_XFER_SET::poll() {
     unsigned int i;
     FILE_XFER* fxp;
     bool action = false;
+    int retval;
 
     for (i=0; i<file_xfers.size(); i++) {
         fxp = file_xfers[i];
@@ -184,17 +187,20 @@ bool FILE_XFER_SET::poll() {
             if (log_flags.file_xfer_debug) {
                 printf("http op done; retval %d\n", fxp->http_op_retval);
             }
-            if (fxp->http_op_retval == 0) {
-                fxp->file_xfer_retval = fxp->parse_server_response(
-                    fxp->fip->upload_offset
-                );
+            fxp->file_xfer_retval = fxp->http_op_retval;
+            if (fxp->file_xfer_retval == 0) {
+                if (fxp->is_upload) {
+                    fxp->file_xfer_retval = fxp->parse_server_response(
+                        fxp->fip->upload_offset
+                    );
+                }
 
                 // If this was a file size query, restart the transfer
                 // using the remote file size information
                 //
                 if (fxp->file_size_query) {
                     if (fxp->file_xfer_retval) {
-                        printf("ERROR: file upload returned %d\n", fxp->file_xfer_retval);
+                        printf("ERROR: file upload returned %d\n", retval);
                         fxp->fip->upload_offset = -1;
                     } else {
                         remove(fxp);
@@ -213,8 +219,6 @@ bool FILE_XFER_SET::poll() {
                         }
                     }
                 }
-            } else {
-                fxp->file_xfer_retval = fxp->http_op_retval;
             }
         }
     }

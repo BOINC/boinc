@@ -180,6 +180,9 @@ void get_host_disk_info( double &total_space, double &free_space ) {
 int get_host_info(HOST_INFO& host) {
     get_host_disk_info( host.d_total, host.d_free );
 
+#ifdef linux
+    parse_cpuinfo(host);
+#else
 #if HAVE_SYS_SYSCTL_H
     int mib[2], mem_size;
     size_t len;
@@ -196,10 +199,8 @@ int get_host_info(HOST_INFO& host) {
     len = sizeof(host.p_model);
     sysctl(mib, 2, &host.p_model, &len, NULL, 0);
 #endif
- 
-#ifdef linux
-    parse_cpuinfo(host);
 #endif
+ 
 
 #if defined(_SC_NPROCESSORS_ONLN)
     host.p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
@@ -259,7 +260,6 @@ int get_host_info(HOST_INFO& host) {
     host.m_swap = vm_info.t_vm;
     */
 #else
-#error Need to specify a method to obtain swap space
 #endif
 
 #if defined(HAVE_SYS_SYSTEMINFO_H) && defined(SI_HW_SERIAL)

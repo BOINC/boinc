@@ -38,7 +38,9 @@
 #include "prefs.h"
 #include "util.h"
 
-void quit_client(int);
+// dummies
+void create_curtain(){}
+void delete_curtain(){}
 
 // Display a message to the user.
 // Depending on the priority, the message may be more or less obtrusive

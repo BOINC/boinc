@@ -79,7 +79,7 @@ static void http_get_request_header(
     char offset_info[256];
     if (offset) sprintf( offset_info, "Range: bytes=%.0f-\015\012", offset );
     sprintf(buf,
-        "GET %s HTTP/1.1\015\012"
+        "GET %s HTTP/1.0\015\012"
         "User-Agent: BOINC client\015\012"
         "Host: %s:%d\015\012"
         "%s"
@@ -94,7 +94,7 @@ static void http_get_request_header(
 //
 static void http_head_request_header(char* buf, char* host, int port, char* file) {
     sprintf(buf,
-        "HEAD %s HTTP/1.1\015\012"
+        "HEAD %s HTTP/1.0\015\012"
         "User-Agent: BOINC client\015\012"
         "Host: %s:%d\015\012"
         "Connection: close\015\012"
@@ -115,7 +115,7 @@ static void http_post_request_header(
         "Pragma: no-cache\015\012"
         "Cache-Control: no-cache\015\012"
         "Host: %s:%d\015\012"
-        //"Connection: close\015\012"
+        "Connection: close\015\012"
         "Content-Type: application/octet-stream\015\012"
         "Content-Length: %d\015\012"
         "\015\012",

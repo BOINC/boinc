@@ -10,6 +10,10 @@ a highly secure (e.g., a disconnected, physically secure) host.
 crypt_prog -genkey 1024 BOINC_KEY_DIR/upload_private BOINC_KEY_DIR/upload_public
 crypt_prog -genkey 1024 BOINC_KEY_DIR/code_sign_private BOINC_KEY_DIR/code_sign_public
 </pre>
+Or, in the test/ directory, run
+<pre>
+gen_keys.php
+</pre>
 
 <p>
 The program <b>lib/crypt_prog</b> can be used for several purposes: 

@@ -132,15 +132,22 @@ int add_wu_to_reply(
     APP_VERSION* app_version;
     int retval;
     WORKUNIT wu2;
+    char buf[256];
 
     app = ss.lookup_app(wu.appid);
     if (!app) {
-        write_log("Can't find app\n");
+        sprintf(buf, "Can't find app w/ ID %d\n", wu.appid);
+        write_log(buf);
         return -1;
     }
     app_version = ss.lookup_app_version(app->id, platform.id, app->min_version);
     if (!app_version) {
-        write_log("Can't find app version\n");
+        sprintf(buf,
+            "Can't find app version: appid %d platformid %d min_version %d"\n,
+            app->id, platform.id, app->min_version
+        );
+
+        write_log(buf);
         return -1;
     }
 

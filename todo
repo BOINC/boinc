@@ -19,9 +19,6 @@ BUGS (arranged from high to low priority)
     run_on_startup
     hangup_if_dialed
 - trim leading/trailing spaces from account ID (Win GUI)
-- astropulse wanted to display screensaver graphics when it wasn't supposed to,
-    causing the screen to flicker wildly and uncontrollably until ap.exe was killed
-    This happened on 98 and 2000.  recreate using Display Properties, preview
 - I entered in a wrong URL - there was no obvious feedback that it wasn't correct.
     Messages showed up in the messages tab, but I was looking at the progress tab.
     Shouldn't the client expect something from the server? If it doesn't get it,
@@ -33,8 +30,7 @@ BUGS (arranged from high to low priority)
 - consider warning message during windows (and perhaps other platforms)
     install that checks to see if the BOINC directory already exists,
     and if so, should the user overwrite it? or upgrade it?
-- When previewing the screensaver (on Win98) I had the AP graphics already on on the
-    desktop - the screensaver just shows a bouncing "B" icon. Should that happen?
+- Screensaver on win98 shows up as "boinc_ss" in the screensaver list. Should be "BOINC"
 - After running all night (on Win98) I shook the mouse to wake up the blank screen, and
     all I saw was the top half of the screen was solid gray, and the bottom half the
     bottom half of the astropulse graphics. They weren't moving. The computer was frozen.
