@@ -1704,15 +1704,21 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	char* argv[100];
 	int argc;
 
-	command_line = GetCommandLine();
-	argc = parse_command_line( command_line, argv );
-	gstate.parse_cmdline(argc, argv);
-
-    int retval = gstate.init();
+	int retval = gstate.init();
     if (retval) {
 		OnCommandExit();
 		return 0;
 	}
+
+	command_line = GetCommandLine();
+	argc = parse_command_line( command_line, argv );
+	gstate.parse_cmdline(argc, argv);
+
+    /* int retval = gstate.init();
+    if (retval) {
+		OnCommandExit();
+		return 0;
+	} */
 
 	m_nGuiTimerID = SetTimer(GUI_TIMER, GUI_WAIT, (TIMERPROC) NULL);
 

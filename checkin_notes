@@ -5696,6 +5696,8 @@ Karl 2003/08/13
     _autosetup
     aclocal.m4
 
+
+
 Karl 2003/08/13
     - test script fixes: increase delay_bound to reasonable value since it's
       now checked by handle_request
@@ -5815,3 +5817,10 @@ David  Aug 15 2003
         tools/
             backend_lib.C,h
             process_result_template.C
+
+
+Chrisz  2003/8/15
+    - first init preference then parse command line 
+
+    client/win/
+         wingui_mainwindow.cpp
