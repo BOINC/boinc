@@ -351,12 +351,11 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
             if (log_flags.net_xfer_debug) {
                 printf("wrote %d bytes to socket %d\n", n, socket);
             }
-	    if (n < 0 && errno != EAGAIN) {
-		error = ERR_WRITE;
-		io_done = true;
-		goto done;
-	    } else if (errno == EAGAIN) {
-                if (n<0) n = 0;
+	    if (n < 0) {
+                error = ERR_WRITE;
+                io_done = true;
+                goto done;
+            } else if (n < nleft) {
                 fseek( file, n+nbytes_transferred-blocksize, SEEK_CUR );
                 nbytes_transferred += n;
                 goto done;
