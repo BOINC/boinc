@@ -147,8 +147,6 @@
 				20286C2CFDCF999611CA2CEA,
 				20286C32FDCF999611CA2CEA,
 				195DF8C9FE9D4F0611CA2CBB,
-				F59DD71A0331180501A80164,
-				F59DD71B0331180501A80164,
 			);
 			isa = PBXGroup;
 			name = "¬´PROJECTNAME¬ª";
@@ -407,8 +405,8 @@
 			);
 			isa = PBXGroup;
 			name = lib;
-			path = /Users/eheien/Desktop/boinc/lib;
-			refType = 0;
+			path = ../lib;
+			refType = 2;
 		};
 		F5159560029EB02001F5651B = {
 			isa = PBXFileReference;
@@ -1108,7 +1106,8 @@
 			);
 			isa = PBXGroup;
 			name = win;
-			refType = 4;
+			path = "";
+			refType = 2;
 		};
 		F527EF3B0304847501AF6BA8 = {
 			isa = PBXFileReference;
@@ -1169,8 +1168,8 @@
 			);
 			isa = PBXGroup;
 			name = client;
-			path = /Users/eheien/Desktop/boinc/client;
-			refType = 0;
+			path = ../client;
+			refType = 2;
 		};
 		F54B8FC102AC0A0C01FB7237 = {
 			isa = PBXFileReference;
@@ -1606,13 +1605,15 @@
 		};
 		F54E2C0703453575019A4414 = {
 			isa = PBXFileReference;
-			path = account.h;
-			refType = 4;
+			name = account.h;
+			path = ../client/account.h;
+			refType = 2;
 		};
 		F54E2C0803453575019A4414 = {
 			isa = PBXFileReference;
-			path = account.C;
-			refType = 4;
+			name = account.C;
+			path = ../client/account.C;
+			refType = 2;
 		};
 		F54E2C0B03453580019A4414 = {
 			fileRef = F54E2C0703453575019A4414;
@@ -1694,7 +1695,6 @@
 				F5E946F003269BA8012012A7,
 				F5E946F203269BC0012012A7,
 				F59DD6FC032FF0AF01A80164,
-				F59DD7200331180501A80164,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1716,7 +1716,6 @@
 				F5E946F103269BBF012012A7,
 				F5E946F603269BE2012012A7,
 				F59DD6FD032FF0AF01A80164,
-				F59DD7210331180501A80164,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1859,7 +1858,6 @@
 				F5E946FA03269BF0012012A7,
 				F5E946FD03269BF3012012A7,
 				F59DD6FA032FF0AF01A80164,
-				F59DD71E0331180501A80164,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1881,7 +1879,6 @@
 				F5E946F903269BF0012012A7,
 				F5E946FB03269BF2012012A7,
 				F59DD6FB032FF0AF01A80164,
-				F59DD71F0331180501A80164,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1981,42 +1978,6 @@
 		};
 		F59DD6FE0330029E01A80164 = {
 			fileRef = 0640BAA5FFF0323A11CA0E50;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F59DD71A0331180501A80164 = {
-			isa = PBXFileReference;
-			name = mac_app_opengl.h;
-			path = /Users/eheien/Desktop/boinc/api/mac_app_opengl.h;
-			refType = 0;
-		};
-		F59DD71B0331180501A80164 = {
-			isa = PBXFileReference;
-			name = mac_app_opengl.c;
-			path = /Users/eheien/Desktop/boinc/api/mac_app_opengl.c;
-			refType = 0;
-		};
-		F59DD71E0331180501A80164 = {
-			fileRef = F59DD71A0331180501A80164;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F59DD71F0331180501A80164 = {
-			fileRef = F59DD71B0331180501A80164;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F59DD7200331180501A80164 = {
-			fileRef = F59DD71A0331180501A80164;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		F59DD7210331180501A80164 = {
-			fileRef = F59DD71B0331180501A80164;
 			isa = PBXBuildFile;
 			settings = {
 			};
