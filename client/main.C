@@ -256,6 +256,7 @@ void boinc_init(int argc, char** argv) {
     int dwDiagnosticsFlags =
         BOINC_DIAG_DUMPCALLSTACKENABLED | 
         BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_HEAPCHECKEVERYALLOC |
         BOINC_DIAG_TRACETOSTDOUT;
 
     if (gstate.redirect_io || gstate.executing_as_daemon) {

@@ -173,7 +173,10 @@ int diagnostics_init(
         SET_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
 
     if (flags & BOINC_DIAG_HEAPCHECKENABLED )
-        SET_CRT_DEBUG_FIELD( _CRTDBG_CHECK_EVERY_1024_DF );
+        if (flags & BOINC_DIAG_HEAPCHECKEVERYALLOC )
+            SET_CRT_DEBUG_FIELD( _CRTDBG_CHECK_ALWAYS_DF );
+        else
+            SET_CRT_DEBUG_FIELD( _CRTDBG_CHECK_EVERY_1024_DF );
 
 #endif // defined(_WIN32) && defined(_DEBUG)
 

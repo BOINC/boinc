@@ -25349,3 +25349,14 @@ David  25 Feb 2005
 
     html/user/
         create_account_action.php
+
+Rom    27 Feb 2005
+    - Add another flag to the diagnostics library that will allow
+        a check of the heap with every allocation/deallocation.
+    - Enable a check of the heap for every allocation in the
+        core client.
+
+    client/
+        main.C
+    lib/
+        diagnostics.C, .h
