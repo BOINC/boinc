@@ -345,7 +345,7 @@ bool CMainFrame::CreateStatusbar()
     m_pbmpConnected = new wxStaticBitmap(m_pStatusbar, -1, wxIcon(connect_xpm));
     m_pbmpConnected->Hide();
 
-    m_ptxtConnected = new wxStaticText(m_pStatusbar, -1, _(""), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT );
+    m_ptxtConnected = new wxStaticText(m_pStatusbar, -1, _("Connected"), wxPoint(0, 0), wxDefaultSize, wxALIGN_LEFT );
     m_ptxtConnected->Hide();
 
     m_pbmpDisconnect = new wxStaticBitmap(m_pStatusbar, -1, wxIcon(disconnect_xpm));
