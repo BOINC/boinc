@@ -9,7 +9,7 @@ more distributed applications, run by a single organization, that use BOINC.
 Projects are independent; each one has its own applications,
 databases and servers, and is not affected by the status of other projects. 
 <p>
-Each is identified by a <a href=web_site.php>master URL</a>,
+Each is identified by a <a href=server_components.php>master URL</a>,
 which refers to an XHTML document describing the project.
 <p>
 Creating projects is relatively easy.

@@ -14,7 +14,7 @@ so client can function through firewalls and proxies.
 <ul>
 <li>
 The client downloads the page from project's
-<a href=web_site.php>master URL</a>.
+<a href=server_components.php>master URL</a>.
 From XML tags embedded in this page,
 it obtains a list of domain names of <b>schedulers</b>.
 <li>

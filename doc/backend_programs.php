@@ -1,10 +1,11 @@
 <?
 require_once("docutil.php");
-page_head("Back end programs");
+page_head("Back end daemons");
 echo "
 
 <p>
-A project <b>back end</b> consists of a set of programs,
+A project <b>back end</b> consists of a set of daemons
+(programs that run all the time),
 some of which have application-specific parts.
 Each program should be listed as a daemon in the
 <a href=configuration.php>config.xml</a> file.
