@@ -19937,3 +19937,13 @@ Rom    20 Nov 2004
         windows_opengl.C
     client/
         app_start.C
+
+David  20 Nov 2004
+	- Fix check_suspend_activity() logic when benchmarks running
+	- Old Win GUI: restore "Show Graphics" code
+
+	client/
+		client_state.C,h
+		cs_prefs.C
+		win/
+			wingui_mainwindow.cpp

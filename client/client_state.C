@@ -343,17 +343,19 @@ bool CLIENT_STATE::do_something(double now) {
 		start_cpu_benchmarks();
     }
 
-    check_suspend_activities(now, reason);
-    if (reason) {
-        if (!activities_suspended) {
-            suspend_activities(reason);
+    retval = check_suspend_activities(now, reason);
+    if (!retval) {
+        if (reason) {
+            if (!activities_suspended) {
+                suspend_activities(reason);
+            }
+        } else {
+            if (activities_suspended) {
+                resume_activities();
+            }
         }
-    } else {
-        if (activities_suspended) {
-            resume_activities();
-        }
+        activities_suspended = (reason != 0);
     }
-    activities_suspended = (reason != 0);
 
     // if we're doing CPU benchmarks, don't do much else
     //
