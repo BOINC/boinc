@@ -173,7 +173,7 @@ int CLIENT_STATE::init() {
 
     srand(time(NULL));
 
-	language.read_language_file(LANGUAGE_FILE_NAME);
+    language.read_language_file(LANGUAGE_FILE_NAME);
 
     // parse account files.
     // If there are none, prompt user for project URL and create file
@@ -1656,15 +1656,15 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 // TODO: add translation functionality
 //
 void msg_printf(PROJECT *p, int priority, char *fmt, ...) {
-    char		buf[512], temp_buf[512];
-    va_list		ap;
+    char        buf[512], temp_buf[512];
+    va_list     ap;
 
     if (fmt == NULL) return;
 
-	// Windows doesn't support vsnprintf, so we have to do
-	// this roundabout method to avoid buffer overruns
-	//
-	safe_strncpy(temp_buf, fmt, sizeof(temp_buf));
+    // Windows doesn't support vsnprintf, so we have to do
+    // this roundabout method to avoid buffer overruns
+    //
+    safe_strncpy(temp_buf, fmt, sizeof(temp_buf));
     va_start(ap, temp_buf); // Parses string for variables
     vsprintf(buf, temp_buf, ap); // And convert symbols To actual numbers
     va_end(ap); // Results are stored in text
