@@ -24,9 +24,14 @@ extern "C" {
 #endif
 
 void InitMainWindow(void);
+void GUIRedraw();
 void DisplayBOINCStatusWindow (int left, int top, int width, int height);
 pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
+pascal OSStatus MainWinEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
 pascal void BOINCPollLoopProcessor(EventLoopTimerRef inTimer, void* timeData);
+pascal void BOINCIdleDetect(EventLoopTimerRef inTimer, void* timeData);
+int SaveBOINCPreferences( void );
+int ReadBOINCPreferences( void );
 int mac_setup (void);
 void mac_cleanup (void);
 

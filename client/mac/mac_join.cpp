@@ -19,16 +19,29 @@
 
 #include "mac_join.h"
 
-// Create, show and run modally our dialog window
+bool success;
+
+#define kJoinSignature		'join'
+#define kProjectURLFieldID	128
+#define kAccountKeyFieldID	129
+
+// Create, show and run modally our join window
 //
-OSStatus CreateJoinDialog()
+OSStatus CreateJoinDialog( char *master_url, char *account_key )
 {
     IBNibRef 		nibRef;
     EventTypeSpec 	dialogSpec = {kEventClassCommand, kEventCommandProcess };
     WindowRef 		dialogWindow;
     EventHandlerUPP	dialogUPP;
     OSStatus		err = noErr;
-
+    Size		realSize;
+    ControlID		projectURLID = { kJoinSignature, kProjectURLFieldID };
+    ControlID		accountKeyID = { kJoinSignature, kAccountKeyFieldID };
+    ControlHandle	zeControl;
+    CFStringRef		text;
+    
+    success = false;
+    
     // Find the dialog nib
     err = CreateNibReference(CFSTR("JoinDialog"), &nibRef);
     require_noerr( err, CantFindDialogNib );
@@ -47,10 +60,18 @@ OSStatus CreateJoinDialog()
 
     // Show the window
     ShowWindow( dialogWindow );
-
+    
     // Run modally
     RunAppModalLoopForWindow(dialogWindow);
 
+    GetControlByID( dialogWindow, &projectURLID, &zeControl );
+    GetControlData( zeControl, 0, kControlEditTextCFStringTag, sizeof(CFStringRef), &text, &realSize);
+    CFStringGetCString( text, master_url, 256, CFStringGetSystemEncoding() );
+
+    GetControlByID( dialogWindow, &accountKeyID, &zeControl );
+    GetControlData( zeControl, 0, kControlEditTextCFStringTag, sizeof(CFStringRef), &text, &realSize);
+    CFStringGetCString( text, account_key, 256, CFStringGetSystemEncoding() );
+    
     HideWindow(dialogWindow);
     DisposeWindow(dialogWindow);
     DisposeEventHandlerUPP(dialogUPP);
@@ -59,7 +80,7 @@ CantFindDialogNib:
 CantCreateDialogWindow:
 CantInstallDialogHandler:
 
-        return err;
+    return success;
 }
 
 // Dialog event handler
@@ -75,12 +96,8 @@ pascal OSStatus JoinDialogEventHandler (EventHandlerCallRef myHandler, EventRef 
     // Look for our Yes Join and No Join commands
     switch (command.commandID) {
         case kHICommandOK:		// 'ok  '
-            //HandleResponse(TRUE);
-            stopModalLoop = TRUE;
-            result = noErr;
-            break;
+            success = true;
         case kHICommandCancel:		// 'not!'
-            //HandleResponse(FALSE);
             stopModalLoop = TRUE;
             result = noErr;
             break;
@@ -94,4 +111,3 @@ pascal OSStatus JoinDialogEventHandler (EventHandlerCallRef myHandler, EventRef 
     //Return how we handled the event.
     return result;
 }
-

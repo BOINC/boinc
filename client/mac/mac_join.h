@@ -24,7 +24,7 @@ extern "C" {
 #endif
     
 pascal OSStatus JoinDialogEventHandler (EventHandlerCallRef myHandler, EventRef event, void *userData);
-OSStatus CreateJoinDialog();
+OSStatus CreateJoinDialog( char *master_url, char *account_key );
 
 #ifdef __cplusplus
 }
