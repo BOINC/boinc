@@ -19331,3 +19331,9 @@ David  12 Nov 2004
             results.php
     sched/
         sched_config.C
+
+David  12 Nov 2004
+    - clear need_validate in all cases
+
+    sched/
+        validator.C

@@ -257,7 +257,7 @@ void handle_wu(
             if (update_result) {
                     log_messages.printf(
                     SCHED_MSG_LOG::NORMAL,
-                    "[RESULT#%d %s] granted_credit %f", 
+                    "[RESULT#%d %s] granted_credit %f\n", 
                     result.id, result.name, result.granted_credit
                 );
 
@@ -428,8 +428,7 @@ void handle_wu(
         if (x < wu.transition_time) wu.transition_time = x;
     }
 
-    if (!need_delayed_transition)
-        wu.need_validate = 0;
+    wu.need_validate = 0;
     
     retval = validator.update_workunit(wu);
     if (retval) {
