@@ -22,7 +22,9 @@
 #endif
 
 #ifndef _WIN32
+#include "cstdio"
 #include "cstdlib"
+using namespace std;
 #endif
 
 #include "exception.h"
@@ -46,7 +48,7 @@ const char * boinc_base_exception::what()
 	m_strErrorBuffer.empty();
 
 	memset(m_szConversionBuffer, '\0', sizeof(m_szConversionBuffer));
-	ltoa(ErrorValue(), m_szConversionBuffer, 10);
+	itoa(ErrorValue(), m_szConversionBuffer, 10);
 
 	m_strErrorBuffer.append(ErrorType());
 	m_strErrorBuffer.append(" ");
