@@ -130,7 +130,7 @@ fcgi_SOURCES =                                  \
 
 fcgi_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 fcgi_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
-fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi -lfcgi++ $(MYSQL_LIBS)
+fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi $(MYSQL_LIBS)
 
 .PHONY: PHONY-start
 

@@ -25,9 +25,9 @@
 #include <string>
 using namespace std;
 
-#include <cstdio>
+#include <stdio.h>
 #include <unistd.h>
-#include <cassert>
+#include <assert.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 

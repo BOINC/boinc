@@ -23,7 +23,7 @@
 #include <string>
 using namespace std;
 
-#include <cstdio>
+#include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <ctime>
