@@ -100,6 +100,7 @@ protected:
 	CProgressListCtrl		m_ResultListCtrl;		// list control
 	CProgressListCtrl		m_MessageListCtrl;		// list control for messages to user
 	CPieChartCtrl			m_UsagePieCtrl;			// pie chart control
+	CPieChartCtrl			m_UsageBOINCPieCtrl;	// pie chart control for BOINC
 	CFont					m_Font;					// window's font
 	CTabCtrl				m_TabCtrl;				// tab control for choosing display
 	CImageList				m_TabIL;				// image list for tab control

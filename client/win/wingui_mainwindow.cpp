@@ -139,20 +139,7 @@ CMainWindow::CMainWindow()
 // function:	detemines colors for pie pieces in usage control
 COLORREF CMainWindow::GetPieColor(int nPiece)
 {
-	int nR = 0, nG = 0, nB = 0;
-	if(nPiece == 0) {
-		return RGB(255, 0, 255);
-	} else if(nPiece == 1) {
-		return RGB(192, 64, 192);
-	}
-	nPiece -= 2;
-	switch(nPiece % 4) {
-		case 0: return RGB(0, 0, 255);
-		case 1: return RGB(64, 0, 192);
-		case 2: return RGB(128, 0, 128);
-		default: return RGB(192, 0, 64);
-	}
-	return RGB(0, 0, 0);
+    return RGB( (64*(nPiece%4))%256, 0, (256-64*(nPiece%4)-1)%256 );
 }
 
 //////////
@@ -200,6 +187,7 @@ void CMainWindow::ClearProjectItems(char *proj_url) {
 void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 {
 	CString strBuf;
+    float totalres;
 	int i;
 
 	// If we failed to set the taskbar icon before, keep trying!
@@ -213,7 +201,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
 	// display projects
 	m_ProjectListCtrl.SetRedraw(FALSE);
-	float totalres = 0;
+    totalres = 0;
 	Syncronize(&m_ProjectListCtrl, (vector<void*>*)(&pcs->projects));
 	for(i = 0; i < pcs->projects.size(); i ++) {
 		totalres += pcs->projects[i]->resource_share;
@@ -450,39 +438,33 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	double xDiskAllow; gstate.allowed_disk_usage(xDiskAllow); xDiskAllow = xDiskFree - xDiskAllow;
 	double xDiskUsage; gstate.current_disk_usage(xDiskUsage);
 
-    /*
-	while(m_UsagePieCtrl.GetItemCount() - 4 < gstate.projects.size()) {
-		m_UsagePieCtrl.AddPiece("", GetPieColor(m_UsagePieCtrl.GetItemCount()), 0);
-	}
-
-	while(m_UsagePieCtrl.GetItemCount() - 4 > gstate.projects.size()) {
-		m_UsagePieCtrl.RemovePiece(m_UsagePieCtrl.GetItemCount() - 1);
-	}
-    */
-
-	while(m_UsagePieCtrl.GetItemCount() < 3) {
-		m_UsagePieCtrl.AddPiece("", GetPieColor(m_UsagePieCtrl.GetItemCount()), 0);
-	}
-
 	m_UsagePieCtrl.SetTotal(xDiskTotal);
 	m_UsagePieCtrl.SetPiece(0, xDiskFree); // Free space
 	m_UsagePieCtrl.SetPiece(1, xDiskUsed - xDiskUsage); // Used space
 	m_UsagePieCtrl.SetPiece(2, xDiskUsage); // Used space: BOINC
+	m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 
-    /*
+    while(m_UsageBOINCPieCtrl.GetItemCount() - 1 < gstate.projects.size()) {
+		m_UsageBOINCPieCtrl.AddPiece("", GetPieColor(m_UsageBOINCPieCtrl.GetItemCount()), 0);
+	}
+
+	while(m_UsageBOINCPieCtrl.GetItemCount() - 1 > gstate.projects.size()) {
+		m_UsageBOINCPieCtrl.RemovePiece(m_UsageBOINCPieCtrl.GetItemCount() - 1);
+	}
+
+	m_UsageBOINCPieCtrl.SetTotal(xDiskUsage);
+	m_UsageBOINCPieCtrl.SetPiece(0, 1); // BOINC: core application
 	for(i = 0; i < gstate.projects.size(); i ++) {
 		double xUsage;
 		CString strLabel;
 		strLabel.Format("%s %s", g_szUsageItems[4], gstate.projects[i]->project_name);
 		gstate.project_disk_usage(gstate.projects[i], xUsage);
-		m_UsagePieCtrl.SetPieceLabel(i + 4, strLabel.GetBuffer(0));
-		m_UsagePieCtrl.SetPiece(i + 4, xUsage);
-		xDiskUsage -= xUsage;
+		m_UsageBOINCPieCtrl.SetPieceLabel(i + 1, strLabel.GetBuffer(0));
+		m_UsageBOINCPieCtrl.SetPiece(i + 1, xUsage);
+        xDiskUsage -= xUsage;
 	}
-	m_UsagePieCtrl.SetPiece(3, xDiskUsage); // BOINC: core application
-    */
-
-	m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
+	m_UsageBOINCPieCtrl.SetPiece(0, xDiskUsage); // BOINC: core application
+	m_UsageBOINCPieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 
     // make icon flash if needed
 	if(m_bMessage || m_bRequest) {
@@ -568,6 +550,7 @@ void CMainWindow::ShowTab(int nTab)
 	m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
 	m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
 	m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
+	m_UsageBOINCPieCtrl.ModifyStyle(WS_VISIBLE, 0);
 	if(nTab == PROJECT_ID) {
 		m_ProjectListCtrl.ModifyStyle(0, WS_VISIBLE);
 		m_ProjectListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
@@ -587,6 +570,8 @@ void CMainWindow::ShowTab(int nTab)
 	} else if(nTab == USAGE_ID) {
 		m_UsagePieCtrl.ModifyStyle(0, WS_VISIBLE);
 		m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+		m_UsageBOINCPieCtrl.ModifyStyle(0, WS_VISIBLE);
+		m_UsageBOINCPieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 	}
 	m_TabCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 	RedrawWindow();
@@ -1452,10 +1437,13 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// create usage pie control
 	m_UsagePieCtrl.Create(WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, USAGE_ID);
 	m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-	m_UsagePieCtrl.AddPiece(g_szUsageItems[0], GetPieColor(0), 0);
-	m_UsagePieCtrl.AddPiece(g_szUsageItems[1], GetPieColor(1), 0);
-	m_UsagePieCtrl.AddPiece(g_szUsageItems[2], GetPieColor(2), 0);
-	//m_UsagePieCtrl.AddPiece(g_szUsageItems[3], GetPieColor(3), 0);
+	m_UsagePieCtrl.AddPiece(g_szUsageItems[0], RGB(255, 0, 255), 0);
+	m_UsagePieCtrl.AddPiece(g_szUsageItems[1], RGB(192, 64, 192), 0);
+	m_UsagePieCtrl.AddPiece(g_szUsageItems[2], RGB(0, 0, 255), 0);
+
+	m_UsageBOINCPieCtrl.Create(WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, USAGE_ID);
+	m_UsageBOINCPieCtrl.ModifyStyle(WS_VISIBLE, 0);
+	m_UsageBOINCPieCtrl.AddPiece(g_szUsageItems[3], GetPieColor(0), 0);
 
 	// set up image list for tab control
 	m_TabIL.Create(16, 16, ILC_COLOR8|ILC_MASK, MAX_TABS, 1);
@@ -1488,6 +1476,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_Font.CreateFontIndirect(&lf);
 	m_TabCtrl.SetFont(&m_Font);
 	m_UsagePieCtrl.SetFont(&m_Font);
+	m_UsageBOINCPieCtrl.SetFont(&m_Font);
 
 	// Set the current directory to the default
 	UtilGetRegStr("ClientDir", curDir);
@@ -1656,6 +1645,7 @@ void CMainWindow::OnSetFocus(CWnd* pOldWnd)
 		m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
 		m_MessageListCtrl.ModifyStyle(0, WS_VISIBLE);
 		m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_UsageBOINCPieCtrl.ModifyStyle(WS_VISIBLE, 0);
 		m_MessageListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		m_bMessage = false;
 		SetStatusIcon(ICON_NORMAL);
@@ -1706,8 +1696,14 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy)
 			m_MessageListCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		}
 		if(m_UsagePieCtrl.GetSafeHwnd()) {
-			m_UsagePieCtrl.MoveWindow(&srt, false);
+            RECT mrt = {rt.left+EDGE_BUFFER, irt.bottom+EDGE_BUFFER*2+TOP_BUFFER, rt.right/2, rt.bottom-EDGE_BUFFER};
+			m_UsagePieCtrl.MoveWindow(&mrt, false);
 			m_UsagePieCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
+        }
+		if(m_UsageBOINCPieCtrl.GetSafeHwnd()) {
+            RECT brt = {rt.right/2-1, irt.bottom+EDGE_BUFFER*2+TOP_BUFFER, rt.right-EDGE_BUFFER, rt.bottom-EDGE_BUFFER};
+			m_UsageBOINCPieCtrl.MoveWindow(&brt, false);
+			m_UsageBOINCPieCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 		}
 		m_TabCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 

@@ -4597,3 +4597,12 @@ Karl    2003/06/07
         road_map.html
    test/
         Makefile.am (added)
+
+Tim    June 9, 2003
+    - Windows GUI Enhancement
+        disk usage now displayed in two separate pie charts
+
+    client/
+        gui_titles.c
+        wingui_mainwindow.h
+        wingui_mainwindow.cpp
