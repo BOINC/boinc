@@ -296,10 +296,10 @@ FROM result WHERE
 
 if ($query_appid)
 	$main_query .= "appid=$query_appid and ";
-if ($query_received_time)
-	$main_query .= "received_time > $query_received_time and ";
 if ($query_wuid)
 	$main_query .= "workunitid=$query_wuid and ";
+if ($query_received_time)
+	$main_query .= "received_time > $query_received_time and ";
 
         $main_query .= "1=1";
 
@@ -647,6 +647,7 @@ function show_workunit($wu) {
 
     start_table();
     row("Created", time_str($wu->create_time));
+    row("Transition Time", time_str($wu->transition_time));
     row("Name", $wu->name);
     row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
     row("Application", "<a href=db_action.php?table=app&id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>");
@@ -666,6 +667,7 @@ function show_workunit($wu) {
     row("Assimilation state", assimilate_state_str($wu->assimilate_state));
     // row("","<a href=db_action.php?table=result&workunitid=$wu->id&detail=low>Show associated results</a>");
     row("min quorum", $wu->min_quorum);
+    row("target results", $wu->target_nresults);
     row("max error results", $wu->max_error_results);
     row("max total results", $wu->max_total_results);
     row("max success results", $wu->max_success_results);
@@ -848,7 +850,7 @@ function result_short_header() {
         <th>exit<br>status</th>
         <th>host<br>(user)</th>
         <th>client<br>ver</th>
-        <th>received</th>
+        <th>received <i>or</i> <font color='33cc33'>deadline</font></th>
         <th>CPU hours</th>
         <th>claimed<br>credit</th>
         <th>granted<br>credit</th>
@@ -864,7 +866,18 @@ function show_result_short($result) {
         $cs = client_state_string($result->client_state);
         $oc = "$oc ($cs)";
     }
-    $received = time_str($result->received_time);
+    if ($result->received_time)
+        $received = time_str($result->received_time);
+    else {
+        // result has not been received yet, so show report deadline either
+        // in green if in the future or in red if in the past.
+	$timenow=time();
+	if ($result->report_deadline>=$timenow)
+            $colortag="<font color='33cc33'>";
+        else
+            $colortag="<font color='ff3333'>";
+        $received = $colortag . time_str($result->report_deadline) . "</font>";
+    }
     $version = $result->app_version_num;
     $outcome_color = outcome_color($result->outcome);
     $validate_color = validate_color($result->validate_state);
