@@ -6,8 +6,10 @@
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
+require_once("../inc/ops.inc");
 
-db_init();
+cli_only();
+db_init_cli();
 
 set_time_limit(0);
 

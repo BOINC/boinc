@@ -25472,3 +25472,17 @@ Bruce  3 March 2005
             manage_special_users.php
             manage_special_users_action.php
 
+David  3 Mar 2005
+    - typo in translation.inc (wrong date format in log file)
+    - db_update.php must be run from command line,
+        and gets user name/password interactively
+        instead of from config file
+        (from Eric Myers)
+
+    html/
+        inc/
+            ops.inc (new)
+            translation.inc
+        ops/
+            db_update.php
+    

@@ -238,8 +238,7 @@ function getPOLineContent($line){
 function tr($tokennumber){
     global $language_lookup_array, $default_language_lookup_array;
     if (strval(intval($tokennumber))!=$tokennumber){
-	echo "Language token used which is not defined in language interface! DEVELOPER: please check your spelling or add the token to the interface (usually the project default language file).";
-	echo "<br>If you are a user of this system please contact an administrator right away and tell what URL you got this error on";
+	echo "token $tokennumber missing from language interface.";
     }
     
     if (array_key_exists($tokennumber,$language_lookup_array)){		//If language has got the token
@@ -261,7 +260,7 @@ function language_log($message, $loglevel=0){
     
     if ($loglevel>=$lang_log_level){
 	$fh = fopen($lang_log_file,"a");
-	fwrite($fh, date("Y-m-d H:m:s",time())." ".$msg." ".$message."\n");
+	fwrite($fh, date("Y-m-d H:i:s",time())." ".$msg." ".$message."\n");
 	fclose($fh);
     }
 }
