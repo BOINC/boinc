@@ -28,7 +28,7 @@ function platform_downloads($platform, $core_app) {
     db_init();
     page_head("Download the BOINC client");
 
-    $result = mysql_query("select * from app where name='core_client'");
+    $result = mysql_query("select * from app where name='core client'");
     $core_app = mysql_fetch_object($result);
     mysql_free_result($result);
 
