@@ -319,8 +319,8 @@ class Project:
         if production:
             config.one_result_per_user_per_wu = '1'
         self.scheduler_url = os.path.join(config.cgi_url     , 'cgi')
-        self.project_php_file                  = srcdir('html/user/project.inc.sample')
-        self.project_specific_prefs_php_file   = srcdir('html/user/project_specific_prefs.inc.sample')
+        self.project_php_file                  = srcdir('html/project.sample/project.inc')
+        self.project_specific_prefs_php_file   = srcdir('html/project.sample/project_specific_prefs.inc')
 
 
     def dir(self, *dirs):
