@@ -84,16 +84,25 @@ int print_key_hex(FILE* f, KEY* key, int size) {
 
 int scan_key_hex(FILE* f, KEY* key, int size) {
     int len, i, n;
+    int num_bits,nbytes_read=0;
     char buf[size+1];
-    //fscanf(f, "%d", &key->bits);
+
+    //fscanf(f, "%d", &num_bits);
     fgets(buf, size, f);
-    sscanf(buf, "%2x", &key->bits);
+    sscanf(buf, "%d", &num_bits);
+    key->bits = num_bits;
     len = size - sizeof(key->bits);
     for (i=0; i<len; i++) {
+        if( !nbytes_read ) {
+            fgets(buf, size, f);
+            nbytes_read = strlen(buf);
+        }
         //fscanf(f, "%2x", &n);
         sscanf(buf, "%2x", &n);
         key->data[i] = n;
+        nbytes_read -= 2;
     }
+    fgets(buf, size, f);
     //fscanf(f, ".");
     sscanf(buf, ".");
     return 0;
