@@ -379,9 +379,10 @@ make_new_host:
         host.userid = reply.user.id;
         host.rpc_seqno = 0;
         strcpy(host.venue, reply.user.venue);
+        host.fix_nans();
         retval = host.insert();
         if (retval) {
-            strcpy(reply.message, "server database error");
+            strcpy(reply.message, "Couldn't create host record in database");
             strcpy(reply.message_priority, "low");
             boinc_db.print_error("host.insert()");
             log_messages.printf(SchedMessages::CRITICAL, "host.insert() failed\n");
@@ -445,6 +446,7 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& xhost) {
     host.d_free = sreq.host.d_free;
     host.n_bwup = sreq.host.n_bwup;
     host.n_bwdown = sreq.host.n_bwdown;
+    host.fix_nans();
 
     compute_credit_rating(host);
 

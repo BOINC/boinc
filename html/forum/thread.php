@@ -27,7 +27,12 @@ $category = getCategory($forum->category);
 
 $logged_in_user = get_logged_in_user(false);
 
-// TODO: Make these more specific.
+if (!$sort_style) {
+        $sort_style = $_COOKIE['thread_sort_style'];
+} else {
+        setcookie('thread_sort_style', $sort_style, time()+3600*24*365);
+}
+
 if ($category->is_helpdesk) {
 	page_head(PROJECT.': Questions and problems', $logged_in_user);
 } else {

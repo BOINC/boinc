@@ -25,13 +25,23 @@ $forum = getForum($_GET['id']);
 $category = getCategory($forum->category);
 
 if ($category->is_helpdesk) {
-    page_head('Help Desk');
     $sort_style = $_GET['sort'];
+    if (!$sort_style) {
+        $sort_style = $_COOKIE['hd_sort_style'];
+    } else {
+        setcookie('hd_sort_style', $sort_style, time()+3600*24*365);
+    }
     if (!$sort_style) $sort_style = 'activity';
+    page_head('Help Desk');
 } else {
-    page_head('Message boards : '.$forum->title);
     $sort_style = $_GET['sort'];
+    if (!$sort_style) {
+        $sort_style = $_COOKIE['forum_sort_style'];
+    } else {
+        setcookie('forum_sort_style', $sort_style, time()+3600*24*365);
+    }
     if (!$sort_style) $sort_style = 'modified-new';
+    page_head('Message boards : '.$forum->title);
 }
 
 echo "

@@ -25,7 +25,12 @@ void DB_CONN::close() {
 }
 
 int DB_CONN::do_query(char* p) {
-    return mysql_query(mysql, p);
+    int retval;
+    retval = mysql_query(mysql, p);
+    if (retval) {
+        fprintf(stderr, "Database error: query=%s\n", p);
+    }
+    return retval;
 }
 
 int DB_CONN::insert_id() {

@@ -21,8 +21,8 @@
 #include <cstring>
 #include <ctime>
 #include <unistd.h>
+#include <math.h>
 
-//#include "std_fixes.h"
 #include "boinc_db.h"
 
 DB_CONN boinc_db;
@@ -307,6 +307,23 @@ void DB_TEAM::db_parse(MYSQL_ROW &r) {
     expavg_credit = atof(r[i++]);
     expavg_time = atof(r[i++]);
     seti_id = safe_atoi(r[i++]);
+}
+
+// set NaNs to a reasonable value
+void HOST::fix_nans() {
+    if (isnan(p_fpops)) p_fpops = 0;
+    if (isnan(p_iops)) p_iops = 0;
+    if (isnan(p_membw)) p_membw = 0;
+    if (isnan(m_nbytes)) m_nbytes = 0;
+    if (isnan(m_cache)) m_cache = 0;
+    if (isnan(m_swap)) m_swap = 0;
+    if (isnan(d_total)) d_total = 0;
+    if (isnan(d_free)) d_free = 0;
+    if (isnan(d_boinc_used_total)) d_boinc_used_total = 0;
+    if (isnan(d_boinc_used_project)) d_boinc_used_project = 0;
+    if (isnan(d_boinc_max)) d_boinc_max = 0;
+    if (isnan(n_bwup)) n_bwup = 0;
+    if (isnan(n_bwdown)) n_bwdown = 0;
 }
 
 void DB_HOST::db_print(char* buf){

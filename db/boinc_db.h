@@ -274,6 +274,7 @@ struct HOST {
     int parse(FILE*);
     int parse_time_stats(FILE*);
     int parse_net_stats(FILE*);
+    void fix_nans();
     void clear();
 };
 

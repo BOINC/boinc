@@ -9341,3 +9341,18 @@ David  Jan 18 2004
 	client/win/
 		win_screensaver.cpp,h
 
+David  Jan 18 2004
+    - add a function HOST::fix_nans(), called before updating or inserting
+        a host record; replaces NaNs with zeros.  Otherwise DB barfs
+    - on any failed DB query, write the query to stderr
+    - store sorting order for message boards in a cookie
+
+    db/
+        boinc_db.C,h
+        db_base.C
+    html_user/forum/
+        forum.php
+        thread.php
+    sched/
+        file_upload_handler.C
+        handle_request.C
