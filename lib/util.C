@@ -403,16 +403,29 @@ inline void replace_string(
     }
 }
 
+
+struct Tolower
+{
+    Tolower (std::locale const& l) : loc(l) {;}
+    char operator() (char c)  { return std::tolower(c,loc); }
+private:
+    std::locale const& loc;
+};
+
+
 // Canonicalize a master url.
 //   - Convert the first part of a URL (before the "://") to lowercase
 //   - Remove double slashes
 //   - Add a trailing slash if necessary
 //
 void canonicalize_master_url(string& url) {
+
+    Tolower      down ( std::locale("C") );
+
     string::size_type p = url.find("://");
     // lowercase http://
     if (p != string::npos) {
-        transform(url.begin(), url.begin()+p, url.begin(), tolower);
+        transform(url.begin(), url.begin()+p, url.begin(), down);
         p += 3;
     } else {
         p = 0;
