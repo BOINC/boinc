@@ -7,4 +7,3 @@ from Boinc import database, db_mid, projectxml
 
 database.connect()
 projectxml.default_project().commit_all()
-
