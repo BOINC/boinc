@@ -4,6 +4,7 @@
 
     db_init();
     $email_addr = trim($_GET["email_addr"]);
+    $email_addr = strtolower($email_addr);
 
     // see if email address is taken
     $query = "select * from user where email_addr='$email_addr'";
@@ -16,8 +17,9 @@
     $authenticator = random_string();
     $munged_email_addr = munge_email_addr($email_addr, $authenticator);
     $user_name = $_GET["user_name"];
+    $cross_project_id=random_string();
     $t = time();
-    $query = "insert into user (create_time, email_addr, name, authenticator) values ($t, '$munged_email_addr', '$user_name', '$authenticator')";
+    $query = "insert into user (create_time, email_addr, name, authenticator, cross_project_id) values ($t, '$munged_email_addr', '$user_name', '$authenticator', '$cross_project_id')";
     $result = mysql_query($query);
     if (!$result) {
         echo "couldn't create account:".mysql_error();
@@ -32,7 +34,7 @@
 
 ".PROJECT." URL:         ".MASTER_URL."
 
-Your account key:          $authenticator\n
+Your account ID:          $authenticator\n
 
 Please save this email.
 You will need your account key to log in to the ".PROJECT." web site.

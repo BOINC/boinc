@@ -19680,6 +19680,16 @@ David  17 Nov 2004
 
         Thanks to Bruce Allen for suggesting this!!!!
 
+	[Note inserted by Bruce the next day. ANSI-C 4.6.2.1 says: The
+	longjmp function ... The longjmp function should not be called in
+	an exit handler (i.e., a function registered with the atexit
+	function (see §4.10.4.2)), since it might jump to some code which
+	is no longer in scope.  This should be OK on OSes that delay image
+	teardown until after calling the handler functions, provided that
+	the routine calling exit() has cleaned up its memory. An
+	alternative might be to use dlopen() or the loader to replace the
+	calls to exit() with a BOINC routine.]
+
     api/
         gutil.C
         x_opengl.C
@@ -19761,3 +19771,9 @@ Rom    17 Nov 2004
 
     api/
         windows_opengl.C
+
+Bruce  18 Nov 2004
+    - Bug fixes (thanks to Jens Seidler): set cross project id (CPID) to random value
+      when creating user account from Administrator form, and lower_case email address
+      before inserting into database.
+    html/ops/create_account_action.php 
