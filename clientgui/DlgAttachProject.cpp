@@ -16,55 +16,93 @@
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-
+//
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "DlgAttachProject.h"
 #endif
+
+// For compilers that support precompilation, includes "wx/wx.h".
+#include "wx/wxprec.h"
+
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
+#ifndef WX_PRECOMP
+#include "wx/wx.h"
+#endif
+
+////@begin includes
+////@end includes
 
 #include "stdwx.h"
 #include "DlgAttachProject.h"
 #include "ValidateURL.h"
 #include "ValidateAccountKey.h"
 
+////@begin XPM images
+////@end XPM images
 
-IMPLEMENT_CLASS( CDlgAttachProject, wxDialog )
+/*!
+ * CDlgAttachProject type definition
+ */
+
+IMPLEMENT_DYNAMIC_CLASS( CDlgAttachProject, wxDialog )
+
+/*!
+ * CDlgAttachProject event table definition
+ */
 
 BEGIN_EVENT_TABLE( CDlgAttachProject, wxDialog )
 
+////@begin CDlgAttachProject event table entries
+////@end CDlgAttachProject event table entries
+
 END_EVENT_TABLE()
 
+/*!
+ * CDlgAttachProject constructors
+ */
 
 CDlgAttachProject::CDlgAttachProject( )
 {
 }
-
 
 CDlgAttachProject::CDlgAttachProject( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
     Create(parent, id, caption, pos, size, style);
 }
 
+/*!
+ * CDlgAttachProject creator
+ */
 
 bool CDlgAttachProject::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
+////@begin CDlgAttachProject member initialisation
     m_ProjectAddressCtrl = NULL;
     m_ProjectAccountKeyCtrl = NULL;
+////@end CDlgAttachProject member initialisation
 
-    SetExtraStyle(wxWS_EX_BLOCK_EVENTS);
+////@begin CDlgAttachProject creation
+    SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
     wxDialog::Create( parent, id, caption, pos, size, style );
 
     CreateControls();
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
     Centre();
-
+////@end CDlgAttachProject creation
     return TRUE;
 }
 
+/*!
+ * Control creation for CDlgAttachProject
+ */
 
 void CDlgAttachProject::CreateControls()
 {    
+////@begin CDlgAttachProject content construction
 
     CDlgAttachProject* itemDialog1 = this;
 
@@ -77,53 +115,80 @@ void CDlgAttachProject::CreateControls()
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxVERTICAL);
     itemFlexGridSizer3->Add(itemBoxSizer4, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText5 = new wxStaticText;
-    itemStaticText5->Create( itemDialog1, wxID_STATIC, 
-        _(
-        "These are emailed to you when you create an account.\n"
-        "Go to project web sites to create accounts.\n"
-        "Visit http://boinc.berkeley.edu/ for a list of projects."
-        ),
-        wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer4->Add(itemStaticText5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
+    wxFlexGridSizer* itemFlexGridSizer5 = new wxFlexGridSizer(2, 2, 0, 0);
+    itemBoxSizer4->Add(itemFlexGridSizer5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(2, 2, 0, 0);
-    itemBoxSizer4->Add(itemFlexGridSizer6, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-    wxStaticText* itemStaticText7 = new wxStaticText;
-    itemStaticText7->Create( itemDialog1, wxID_STATIC, _("URL:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer6->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    wxStaticText* itemStaticText6 = new wxStaticText;
+    itemStaticText6->Create( itemDialog1, wxID_STATIC, _("URL:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer5->Add(itemStaticText6, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     m_ProjectAddressCtrl = new wxTextCtrl;
     m_ProjectAddressCtrl->Create( itemDialog1, ID_PROJECTADDRESS, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
-    itemFlexGridSizer6->Add(m_ProjectAddressCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer5->Add(m_ProjectAddressCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* itemStaticText9 = new wxStaticText;
-    itemStaticText9->Create( itemDialog1, wxID_STATIC, _("Account Key:"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer6->Add(itemStaticText9, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    wxStaticText* itemStaticText8 = new wxStaticText;
+    itemStaticText8->Create( itemDialog1, wxID_STATIC, _("Account Key:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer5->Add(itemStaticText8, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
     m_ProjectAccountKeyCtrl = new wxTextCtrl;
     m_ProjectAccountKeyCtrl->Create( itemDialog1, ID_PROJECTACCOUNTKEY, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
-    itemFlexGridSizer6->Add(m_ProjectAccountKeyCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer5->Add(m_ProjectAccountKeyCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxVERTICAL);
-    itemFlexGridSizer3->Add(itemBoxSizer11, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_TOP|wxALL, 5);
+    wxStaticText* itemStaticText10 = new wxStaticText;
+    itemStaticText10->Create( itemDialog1, wxID_STATIC, _("These are emailed to you when you create an account.\nGo to project web sites to create accounts.\nVisit http://boinc.berkeley.edu for a list of projects."), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer4->Add(itemStaticText10, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    wxButton* itemButton12 = new wxButton;
-    itemButton12->Create( itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton12->SetDefault();
-    itemBoxSizer11->Add(itemButton12, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxWindow* itemWindow11 = (wxWindow*) FindWindow(ID_FOREIGN);
+    wxASSERT( itemWindow11 != NULL );
+    itemBoxSizer4->Add(itemWindow11, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    wxBoxSizer* itemBoxSizer12 = new wxBoxSizer(wxVERTICAL);
+    itemFlexGridSizer3->Add(itemBoxSizer12, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_TOP|wxALL, 5);
 
     wxButton* itemButton13 = new wxButton;
-    itemButton13->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer11->Add(itemButton13, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemButton13->Create( itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton13->SetDefault();
+    itemBoxSizer12->Add(itemButton13, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
+    wxButton* itemButton14 = new wxButton;
+    itemButton14->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer12->Add(itemButton14, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    // Set validators
+    m_ProjectAddressCtrl->SetValidator( CValidateURL(& m_strProjectAddress) );
+    m_ProjectAccountKeyCtrl->SetValidator( CValidateAccountKey(& m_strProjectAccountKey) );
+////@end CDlgAttachProject content construction
 }
+
+/*!
+ * Should we show tooltips?
+ */
 
 bool CDlgAttachProject::ShowToolTips()
 {
     return TRUE;
 }
 
+/*!
+ * Get bitmap resources
+ */
 
-const char *BOINC_RCSID_438471f88f = "$Id$";
+wxBitmap CDlgAttachProject::GetBitmapResource( const wxString& name )
+{
+    // Bitmap retrieval
+////@begin CDlgAttachProject bitmap retrieval
+    return wxNullBitmap;
+////@end CDlgAttachProject bitmap retrieval
+}
+
+/*!
+ * Get icon resources
+ */
+
+wxIcon CDlgAttachProject::GetIconResource( const wxString& name )
+{
+    // Icon retrieval
+////@begin CDlgAttachProject icon retrieval
+    return wxNullIcon;
+////@end CDlgAttachProject icon retrieval
+}
