@@ -60,15 +60,6 @@ function get_user_from_auth($auth) {
     return NULL;
 }
 
-function get_user_from_cookie() {
-    $auth = "";
-    $c = getenv("HTTP_COOKIE");
-    $d = str_replace("; ", "&", $c);
-    parse_str($d);
-    if ($auth) return lookup_user_auth($auth);
-    return NULL;
-}
-
 function show_login($user) {
     if ($user) {
         echo "Logged in as %s.\n", $user->name;
@@ -204,6 +195,41 @@ function no_cache() {
     header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
     header ("Cache-Control: no-cache, must-revalidate");  // HTTP/1.1
     header ("Pragma: no-cache");                          // HTTP/1.0
+}
+
+// A few functions relating to email-address munging
+// A "munged" email address is of the form @X_Y,
+// where X is a valid email address and Y is a random string.
+// When an email address hasn't been validated yet, it's munged.
+// (Used during account creation and email address changes)
+
+// a valid email address is of the form A@B.C
+// where A, B, C are nonempty and don't contain @ or .
+//
+function is_valid_email_addr($addr) {
+    $x = strstr($addr, "@");
+    if (!$x) return false;
+    if (strlen($x) == strlen($addr)) return false;
+    $x = substr($x, 1);
+    if (strstr($x, "@")) return false;
+    $y = strstr($x, ".");
+    if (!$y) return false;
+    if (strlen($y) == strlen($x)) return false;
+    if (strlen($y) == 1) return false;
+    $y = substr($y, 1);
+    if (strstr($y, ".")) return false;
+    if (strlen($y) == 0) return false;
+    return true;
+}
+
+function munge_email_addr($email, $string) {
+    return "@$email_$string";
+}
+
+// if email_addr is of the form @X_Y, split out the X and return true.
+// otherwise return false
+//
+function split_munged_email_addr($addr, $string, &$email) {
 }
 
 ?>
