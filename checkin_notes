@@ -14027,3 +14027,17 @@ Rom    June 19 2004
     - Tag for 3.18 release, all platforms
       boinc_core_release_3_18
 
+David  20 June 2004
+    - db_dump.C: major revision: make it configurable,
+        using an XML config file.
+        Lets you say what you want exported,
+        how to sort, whether to compress etc.
+    - destroy_shmem: try to destroy even if there are attachments.
+        Somehow ipcrm always destroys the seg.  How do they do it?
+    - assimilator: print error and exit if handler returns nonzero
+
+    lib/
+        shmem.C
+    sched/
+        assimilator.C
+        db_dump.C

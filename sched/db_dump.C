@@ -19,48 +19,39 @@
 
 // db_dump: dump database views in XML format
 //
-// usage: db_dump [-dir path] [-summary_recs num_recs_per_file]
-//                [-detail_recs num_recs_per_file] [-gzip] [-zip]
-
-// files:
-// NOTE: the goal is to make the full DB available (view *_id files)
-// to those who want it,
-// while allowing those who want to see only a particular row,
-// or the highest-ranked rows, to get this info with a small download
+// usage: [-d n] db_dump -dump_spec file
+// -d   debug level (1,2,3)
 //
-//
-// tables.xml
-//    for each table (team, user, host):
-//      total number of records
-//      number of records per file for summary files
-//      number of records per file for detailed files
-// team_total_credit_N.xml
-//    list of teams by decreasing total credit (summary)
-// team_expavg_credit_N.xml
-// team_id_N.xml
-//    teams by ID (detailed, including list of user summaries)
-// user_total_credit_N.xml
-//    list of users by total credit (summary)
-// user_expavg_credit_N.xml
-// user_id_N.xml
-//    users by ID (detailed, including list of host summaries)
-// host_total_credit_N.xml
-//    hosts by decreasing total credit (summary)
-// host_expavg_credit_N.xml
-// host_id_N.xml
-//    hosts by ID (detailed)
-
-// NOTE: for now we're using verbose XML tag names.
-// We may change to short tag names to save bandwidth.
+// dump_spec file:
+// <boinc_db_dump_spec>
+//   <output_dir>x</output_dir>
+//   <final_output_dir>x</final_output_dir>
+//   <enumeration>
+//     <table>user</table>
+//     <filename>x</filename>
+//     <sort>x</sort>      x = id, total_credit, expavg_credit
+//     <output>
+//       [<recs_per_file>n</recs_per_file>]
+//       [<detail/>]
+//       [<compression>x</compression> ] x = zip or gzip
+//     </output>
+//     ...
+//   </enumeration>
+// ...
+// </boinc_db_dump_spec>
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <string>
+#include <vector>
 
 #include "boinc_db.h"
 #include "util.h"
+#include "error_numbers.h"
 #include "md5_file.h"
 #include "parse.h"
 
@@ -70,20 +61,135 @@
 
 #define LOCKFILE "db_dump.out"
 
-#define DEFAULT_NRECS_PER_FILE_SUMMARY 1000
-#define DEFAULT_NRECS_PER_FILE_DETAIL 1000
+#define COMPRESSION_NONE    0
+#define COMPRESSION_GZIP    1
+#define COMPRESSION_ZIP     2
 
-int nrecs_per_file_summary;
-int nrecs_per_file_detail;
+#define SORT_ID             0
+#define SORT_TOTAL_CREDIT   1
+#define SORT_EXPAVG_CREDIT  2
 
-bool zip_files = false;
-string zip_cmd;
-char file_dir[256];
+#define TABLE_USER  0
+#define TABLE_TEAM  1
+#define TABLE_HOST  2
 
-char* file_path(char* filename) {
-    static char buf[256];
-    sprintf(buf, "%s/%s", file_dir, filename);
-    return buf;
+// must match the above
+char* table_name[3] = {"user", "team", "host"};
+char* tag_name[3] = {"users", "teams", "hosts"};
+
+struct OUTPUT {
+    int recs_per_file;
+    bool detail;
+    int compression;
+    class ZFILE* zfile;
+    class NUMBERED_ZFILE* nzfile;
+    int parse(FILE*);
+};
+
+struct ENUMERATION {
+    int table;
+    int sort;
+    char filename[256];
+    vector<OUTPUT> outputs;
+    int parse(FILE*);
+    int make_it_happen(char*);
+};
+
+struct DUMP_SPEC {
+    char output_dir[256];
+    char final_output_dir[256];
+    vector<ENUMERATION> enumerations;
+    int parse(FILE*);
+};
+
+int OUTPUT::parse(FILE* in) {
+    char buf[256], buf2[256];
+
+    recs_per_file = 0;
+    detail = false;
+    compression = COMPRESSION_NONE;
+    zfile = 0;
+    nzfile = 0;
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "</output>")) return 0;
+        if (parse_int(buf, "<recs_per_file>", recs_per_file)) continue;
+        if (match_tag(buf, "<detail/>")) {
+            detail = true;
+            continue;
+        }
+        if (parse_str(buf, "<compression>", buf2, sizeof(buf2))) {
+            if (!strcmp(buf2, "gzip")) {
+                compression = COMPRESSION_GZIP;
+            } else if (!strcmp(buf2, "zip")) {
+                compression = COMPRESSION_ZIP;
+            } else {
+                printf("unrecognized: %s", buf);
+            }
+            continue;
+        }
+        printf("unrecognized: %s", buf);
+    }
+    return ERR_XML_PARSE;
+}
+
+int ENUMERATION::parse(FILE* in) {
+    char buf[256], buf2[256];
+    int retval, i;
+
+    table = -1;
+    sort = SORT_ID;
+    strcpy(filename, "");
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "</enumeration>")) {
+            if (table == -1) return ERR_XML_PARSE;
+            if (sort == -1) return ERR_XML_PARSE;
+            if (!strlen(filename)) return ERR_XML_PARSE;
+            return 0;
+        }
+        if (match_tag(buf, "<output>")) {
+            OUTPUT output;
+            retval = output.parse(in);
+            if (!retval) outputs.push_back(output);
+        }
+        if (parse_str(buf, "<filename>", filename, sizeof(filename))) {
+            continue;
+        }
+        if (parse_str(buf, "<table>", buf2, sizeof(buf2))) {
+            for (i=0; i<3; i++) {
+                if (!strcmp(buf2, table_name[i])) {
+                    table = i;
+                    break;
+                }
+            }
+        }
+        if (parse_str(buf, "<sort>", buf2, sizeof(buf2))) {
+            if (!strcmp(buf2, "id")) sort = SORT_ID;
+            if (!strcmp(buf2, "total_credit")) sort = SORT_TOTAL_CREDIT;
+            if (!strcmp(buf2, "expavg_credit")) sort = SORT_EXPAVG_CREDIT;
+        }
+    }
+    return ERR_XML_PARSE;
+}
+
+int DUMP_SPEC::parse(FILE* in) {
+    char buf[256];
+    int retval;
+
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "</boinc_db_dump_spec>")) return 0;
+        if (match_tag(buf, "<enumeration>")) {
+            ENUMERATION e;
+            retval = e.parse(in);
+            if (!retval) enumerations.push_back(e);
+        }
+        if (parse_str(buf, "<output_dir", output_dir, sizeof(output_dir))) {
+            continue;
+        }
+        if (parse_str(buf, "<final_output_dir", final_output_dir, sizeof(final_output_dir))) {
+            continue;
+        }
+    }
+    return ERR_XML_PARSE;
 }
 
 // class that automatically compresses on close
@@ -91,41 +197,52 @@ char* file_path(char* filename) {
 class ZFILE {
 protected:
     string tag;     // enclosing XML tag
-    FILE* f;
-    string filename;
-    bool zip_file;
+    char current_path[256];
+    int compression;
 public:
-    ZFILE(string tag_, bool zip_file_ = zip_files) : tag(tag_), f(0), zip_file(zip_file_) {}
+    FILE* f;
+    ZFILE(string tag_, int comp)
+        : tag(tag_), compression(comp), f(0)
+    {printf("zfile const comp %d\n", compression);}
     ~ZFILE() { close(); }
 
-    operator FILE* () { return f; }
-    bool operator ! () { return !f; }
-
-    void open(const char* filename_format, ...) {
+    void open(const char* filename) {
         close();
-        va_list ap;
-        char filename_buf[256];
-        va_start(ap, filename_format);
-        vsprintf(filename_buf, filename_format, ap);
-        va_end(ap);
 
-        filename = file_path(filename_buf);
-
-        f = fopen(filename.c_str(), "w");
+        printf("opening %s\n", filename);
+        f = fopen(filename, "w");
         if (!f) {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL,  "db_dump: Couldn't open %s for output\n", filename.c_str());
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,  "db_dump: Couldn't open %s for output\n", filename);
         }
         fprintf(f,
             "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<%s>\n", tag.c_str()
         );
+        strcpy(current_path, filename);
     }
+
+    void open_num(const char* filename, int filenum) {
+        char buf[256];
+        sprintf(buf, "%s_%d", filename, filenum);
+        open(buf);
+    }
+
     void close() {
+        char buf[256];
         if (f) {
             fprintf(f, "</%s>\n", tag.c_str());
             fclose(f);
-            if (zip_file) {
-                string cmd = zip_cmd + ' ' + filename;
-                system(cmd.c_str());
+            printf("close compression: %d\n", compression);
+            switch(compression) {
+            case COMPRESSION_ZIP:
+                sprintf(buf, "zip -q %s", current_path);
+                printf("system: %s\n", buf);
+                system(buf);
+                break;
+            case COMPRESSION_GZIP:
+                sprintf(buf, "gzip -fq %s", current_path);
+                printf("system: %s\n", buf);
+                system(buf);
+                break;
             }
             f = 0;
         }
@@ -135,39 +252,25 @@ public:
 // class that automatically opens a new file every N IDs
 //
 class NUMBERED_ZFILE : public ZFILE {
-    const char* filename_format;
+    const char* filename_base;
     int nids_per_file;
     int last_filenum;
-    //int nrec_max;
-    //int nfile, nrec;
 public:
-    NUMBERED_ZFILE(string tag_, const char* filename_format_, int nids_per_file_)
-        : ZFILE(tag_), filename_format(filename_format_),
-        nids_per_file(nids_per_file_), last_filenum(-1)
-        
-        //nrec_max(nrec_max_), nfile(0), nrec(0)
-    {
-    }
+    NUMBERED_ZFILE(string tag_, int comp, const char* fb, int nids_per_file_)
+        :   ZFILE(tag_, comp),
+            filename_base(fb),
+            nids_per_file(nids_per_file_),
+            last_filenum(-1)
+    {}
 
     void set_id(int);
-#if 0
-    NUMBERED_ZFILE& operator ++() {
-        if (!f || nrec >= nrec_max) {
-            open(filename_format, nfile);
-            ++nfile;
-            nrec = 0;
-        }
-        ++nrec;
-        return *this;
-    }
-#endif
 
 };
 
 void NUMBERED_ZFILE::set_id(int id) {
     int filenum = id/nids_per_file;
     if (!f || (filenum != last_filenum)) {
-        open(filename_format, filenum);
+        open_num(filename_base, filenum);
         last_filenum = filenum;
     }
 }
@@ -223,12 +326,14 @@ void write_host(HOST& host, FILE* f, bool detail, bool show_user) {
     fprintf(f,
         "    <total_credit>%f</total_credit>\n"
         "    <expavg_credit>%f</expavg_credit>\n"
+        "    <expavg_time>%f</expavg_time>\n"
         "    <p_vendor>%s</p_vendor>\n"
         "    <p_model>%s</p_model>\n"
         "    <os_name>%s</os_name>\n"
         "    <os_version>%s</os_version>\n",
         host.total_credit,
         host.expavg_credit,
+        host.expavg_time,
         host.p_vendor,
         host.p_model,
         host.os_name,
@@ -271,7 +376,7 @@ void write_host(HOST& host, FILE* f, bool detail, bool show_user) {
     );
 }
 
-void write_user(USER& user, FILE* f, bool detail, bool show_team) {
+void write_user(USER& user, FILE* f, bool detail) {
     DB_HOST host;
     char buf[1024];
     char cpid[MD5_LEN];
@@ -288,22 +393,28 @@ void write_user(USER& user, FILE* f, bool detail, bool show_team) {
         "<user>\n"
         " <id>%d</id>\n"
         " <name>%s</name>\n"
-        " <url>%s</url>\n"
         " <country>%s</country>\n"
         " <create_time>%d</create_time>\n"
         " <total_credit>%f</total_credit>\n"
         " <expavg_credit>%f</expavg_credit>\n"
+        " <expavg_time>%f</expavg_time>\n"
         " <cpid>%s</cpid>\n",
         user.id,
         name.c_str(),
-        url.c_str(),
         user.country,
         user.create_time,
         user.total_credit,
         user.expavg_credit,
+        user.expavg_time,
         cpid
     );
-    if (show_team && user.teamid) {
+    if (strlen(user.url)) {
+        fprintf(f,
+            " <url>%s</url>\n",
+            url.c_str()
+        );
+    }
+    if (user.teamid) {
         fprintf(f,
             " <teamid>%d</teamid>\n",
             user.teamid
@@ -340,11 +451,13 @@ void write_team(TEAM& team, FILE* f, bool detail) {
         " <name>%s</name>\n"
         " <total_credit>%f</total_credit>\n"
         " <expavg_credit>%f</expavg_credit>\n"
+        " <expavg_time>%f</expavg_time>\n"
         " <nusers>%d</nusers>\n",
         team.id,
         name.c_str(),
         team.total_credit,
         team.expavg_credit,
+        team.expavg_time,
         team.nusers
     );
     if (detail) {
@@ -382,7 +495,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
         );
         sprintf(buf, "where teamid=%d", team.id);
         while (!user.enumerate(buf)) {
-            write_user(user, f, false, false);
+            write_user(user, f, false);
         }
     }
     fprintf(f,
@@ -390,133 +503,12 @@ void write_team(TEAM& team, FILE* f, bool detail) {
     );
 }
 
-void team_total_credit() {
-    DB_TEAM team;
-    NUMBERED_ZFILE f("teams", "team_total_credit_%d", nrecs_per_file_summary);
-    ZFILE g("teams", true);
-    g.open("team_total_credit");
+void core_versions(char* dir) {
+    char buf[256];
 
-    int i=0;
-    while (!team.enumerate("order by total_credit desc")) {
-        f.set_id(i++);
-        write_team(team, f, false);
-        write_team(team, g, false);
-    }
-}
-
-void team_expavg_credit() {
-    DB_TEAM team;
-    NUMBERED_ZFILE f("teams", "team_expavg_credit_%d", nrecs_per_file_summary);
-    ZFILE g("teams", true);
-    g.open("team_expavg_credit");
-
-    int i=0;
-    while (!team.enumerate("order by expavg_credit desc")) {
-        f.set_id(i++);
-        write_team(team, f, false);
-        write_team(team, g, false);
-    }
-}
-
-void team_id() {
-    DB_TEAM team;
-    NUMBERED_ZFILE f("teams", "team_id_%d", nrecs_per_file_detail);
-    ZFILE g("teams", true);
-    g.open("team_id");
-
-    while (!team.enumerate("order by id")) {
-        f.set_id(team.id);
-        write_team(team, f, true);
-        write_team(team, g, true);
-    }
-}
-
-void user_total_credit() {
-    DB_USER user;
-    NUMBERED_ZFILE f("users", "user_total_credit_%d", nrecs_per_file_summary);
-    ZFILE g("users", true);
-    g.open("user_total_credit");
-
-    int i=0;
-    while (!user.enumerate("order by total_credit desc")) {
-        f.set_id(i++);
-        write_user(user, f, false, true);
-        write_user(user, g, false, true);
-    }
-}
-
-void user_expavg_credit() {
-    DB_USER user;
-    NUMBERED_ZFILE f("users", "user_expavg_credit_%d", nrecs_per_file_summary);
-    ZFILE g("users", true);
-    g.open("user_expavg_credit");
-
-    int i=0;
-    while (!user.enumerate("order by expavg_credit desc")) {
-        f.set_id(i++);
-        write_user(user, f, false, true);
-        write_user(user, g, false, true);
-    }
-}
-
-void user_id() {
-    DB_USER user;
-    NUMBERED_ZFILE f("users", "user_id_%d", nrecs_per_file_detail);
-    ZFILE g("users", true);
-    g.open("user_id");
-
-    while (!user.enumerate("order by id")) {
-        f.set_id(user.id);
-        write_user(user, f, true, true);
-        write_user(user, g, true, true);
-    }
-}
-
-void host_total_credit() {
-    DB_HOST host;
-    NUMBERED_ZFILE f("hosts", "host_total_credit_%d", nrecs_per_file_summary);
-    ZFILE g("hosts", true);
-    g.open("host_total_credit");
-
-    int i=0;
-    while (!host.enumerate("order by total_credit desc")) {
-        f.set_id(i++);
-        write_host(host, f, false, true);
-        write_host(host, g, false, true);
-    }
-}
-
-void host_expavg_credit() {
-    DB_HOST host;
-    NUMBERED_ZFILE f("hosts", "host_expavg_credit_%d", nrecs_per_file_summary);
-    ZFILE g("hosts", true);
-    g.open("host_expavg_credit");
-
-    int i=0;
-    while (!host.enumerate("order by expavg_credit desc")) {
-        f.set_id(i++);
-        write_host(host, f, false, true);
-        write_host(host, g, false, true);
-    }
-}
-
-void host_id() {
-    DB_HOST host;
-    NUMBERED_ZFILE f("hosts", "host_id_%d", nrecs_per_file_detail);
-    ZFILE g("hosts", true);
-    g.open("host_id");
-
-    while (!host.enumerate("order by id")) {
-        f.set_id(host.id);
-        write_host(host, f, true, true);
-        write_host(host, g, true, true);
-    }
-}
-
-void core_versions() {
+    sprintf(buf, "%s/core_versions.xml", dir);
     ZFILE f("core_versions", false);
-    f.open("core_versions.xml");
-    if (!f) return;
+    f.open(buf);
 
     DB_PLATFORM platform;
     while (!platform.enumerate("order by name")) {
@@ -527,7 +519,7 @@ void core_versions() {
             char url[256] = "";
             parse_str(core_version.xml_doc, "<url>", url, sizeof(url));
 
-            fprintf(f,
+            fprintf(f.f,
                 "   <core_version>\n"
                 "      <id>%d</id>\n"
                 "      <platform id=\"%d\" name=\"%s\">%s</platform>\n"
@@ -586,79 +578,136 @@ int print_apps(FILE* f) {
     return 0;
 }
 
-int tables_file() {
+int tables_file(char* dir) {
     int nusers, nteams, nhosts;
     int retval;
+    char buf[256];
+
     DB_USER user;
     DB_TEAM team;
     DB_HOST host;
     ZFILE f("tables", false);
-    f.open("tables.xml");
-    if (!f) return -1;
+    sprintf(buf, "%s/tables.xml", dir);
+    f.open(buf);
     retval = user.count(nusers);
     if (retval) return retval;
     retval = team.count(nteams);
     if (retval) return retval;
     retval = host.count(nhosts);
     if (retval) return retval;
-    fprintf(f,
+    fprintf(f.f,
         "    <update_time>%d</update_time>\n"
         "    <nusers_total>%d</nusers_total>\n"
-        "    <nusers_per_file_summary>%d</nusers_per_file_summary>\n"
-        "    <nusers_per_file_detail>%d</nusers_per_file_detail>\n"
         "    <nteams_total>%d</nteams_total>\n"
-        "    <nteams_per_file_summary>%d</nteams_per_file_summary>\n"
-        "    <nteams_per_file_detail>%d</nteams_per_file_detail>\n"
-        "    <nhosts_total>%d</nhosts_total>\n"
-        "    <nhosts_per_file_summary>%d</nhosts_per_file_summary>\n"
-        "    <nhosts_per_file_detail>%d</nhosts_per_file_detail>\n",
+        "    <nhosts_total>%d</nhosts_total>\n",
         (int)time(0),
         nusers,
-        nrecs_per_file_summary,
-        nrecs_per_file_detail,
         nteams,
-        nrecs_per_file_summary,
-        nrecs_per_file_detail,
-        nhosts,
-        nrecs_per_file_summary,
-        nrecs_per_file_detail
+        nhosts
     );
-    print_apps(f);
+    print_apps(f.f);
     f.close();
+    return 0;
+}
+
+int ENUMERATION::make_it_happen(char* output_dir) {
+    unsigned int i;
+    int n;
+    DB_USER user;
+    DB_TEAM team;
+    DB_HOST host;
+    char clause[256];
+    char path[256];
+
+    sprintf(path, "%s/%s", output_dir, filename);
+
+    for (i=0; i<outputs.size(); i++) {
+        OUTPUT& out = outputs[i];
+        printf("out comp %d\n", out.compression);
+        if (out.recs_per_file) {
+            out.nzfile = new NUMBERED_ZFILE(
+                tag_name[table], out.compression, path, out.recs_per_file
+            );
+        } else {
+            out.zfile = new ZFILE(tag_name[table], out.compression);
+            out.zfile->open(path);
+        }
+    }
+    switch(sort) {
+    case SORT_ID:
+        strcpy(clause, "order by id");
+        break;
+    case SORT_TOTAL_CREDIT:
+        strcpy(clause, "order by total_credit desc");
+        break;
+    case SORT_EXPAVG_CREDIT:
+        strcpy(clause, "order by expavg_credit desc");
+        break;
+    }
+    switch(table) {
+    case TABLE_USER:
+        n = 0;
+        while(!user.enumerate(clause)) {
+            for (i=0; i<outputs.size(); i++) {
+                OUTPUT& out = outputs[i];
+                if (sort == SORT_ID && out.recs_per_file) {
+                    out.nzfile->set_id(n++);
+                }
+                if (out.zfile) {
+                    write_user(user, out.zfile->f, out.detail);
+                } else {
+                    write_user(user, out.nzfile->f, out.detail);
+                }
+            }
+        }
+        break;
+    case TABLE_HOST:
+        break;
+    case TABLE_TEAM:
+        break;
+    }
+    for (i=0; i<outputs.size(); i++) {
+        OUTPUT& out = outputs[i];
+        if (out.zfile) out.zfile->close();
+        if (out.nzfile) out.nzfile->close();
+    }
     return 0;
 }
 
 int main(int argc, char** argv) {
     SCHED_CONFIG config;
     int retval, i;
+    DUMP_SPEC spec;
+    char spec_filename[256], buf[256];
 
     check_stop_daemons();
+    setbuf(stderr, 0);
 
-    nrecs_per_file_summary = DEFAULT_NRECS_PER_FILE_SUMMARY;
-    nrecs_per_file_detail = DEFAULT_NRECS_PER_FILE_DETAIL;
-    strcpy(file_dir, ".");
+    strcpy(spec_filename, "");
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-dir")) {
-            strcpy(file_dir, argv[++i]);
-        } else if (!strcmp(argv[i], "-d")) {
-            log_messages.set_debug_level(atoi(argv[++i]));
-        } else if (!strcmp(argv[i], "-gzip")) {
-            zip_files = true;
-            zip_cmd = "gzip -fq";
-        } else if (!strcmp(argv[i], "-zip")) {
-            zip_files = true;
-            zip_cmd = "zip -q";
-        } else if (!strcmp(argv[i], "-summary_recs")) {
-            nrecs_per_file_summary = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-detail_recs")) {
-            nrecs_per_file_detail = atoi(argv[++i]);
+        if (!strcmp(argv[i], "-dump_spec")) {
+            strcpy(spec_filename, argv[++i]);
         }
     }
 
-    if (nrecs_per_file_summary <= 0 || nrecs_per_file_detail <= 0) {
-        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Too few records per file.\n");
+    if (!strlen(spec_filename)) {
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "no spec file given\n");
         exit(1);
     }
+
+    FILE* f = fopen(spec_filename, "r");
+    if (!f) {
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "spec file missing\n");
+        exit(1);
+    }
+
+    retval = spec.parse(f);
+    if (retval) {
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "can't parse spec file\n");
+        exit(1);
+    }
+
+    fclose(f);
 
     if (lock_file(LOCKFILE)) {
         log_messages.printf(SCHED_MSG_LOG::NORMAL, "Another copy of db_dump is already running\n");
@@ -677,15 +726,21 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    tables_file();
-    team_total_credit();
-    team_expavg_credit();
-    team_id();
-    user_total_credit();
-    user_expavg_credit();
-    user_id();
-    host_total_credit();
-    host_expavg_credit();
-    host_id();
-    core_versions();
+    mkdir(spec.output_dir, 0777);
+
+    unsigned int j;
+    for (j=0; j<spec.enumerations.size(); j++) {
+        ENUMERATION& e = spec.enumerations[j];
+        e.make_it_happen(spec.output_dir);
+    }
+
+    tables_file(spec.output_dir);
+    core_versions(spec.output_dir);
+
+    sprintf(buf, "cp %s %s/db_dump.xml", spec_filename, spec.output_dir);
+    system(buf);
+    sprintf(buf, "/bin/rm -rf %s; mv %s %s",
+        spec.final_output_dir, spec.output_dir, spec.final_output_dir
+    );
+    system(buf);
 }

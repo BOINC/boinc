@@ -111,10 +111,9 @@ int destroy_shmem(key_t key){
     if (retval) return ERR_SHMCTL;
     if (buf.shm_nattch > 0) {
         fprintf(stderr,
-            "destroy_shmem: can't destroy segment; %d attachments\n",
+            "destroy_shmem: %d attachments\n",
             (int)buf.shm_nattch
         );
-        return ERR_SHMCTL;
     }
     retval = shmctl(id, IPC_RMID, 0);
     if (retval) {

@@ -70,7 +70,13 @@ bool do_pass(APP& app) {
             }
         }
 
-        assimilate_handler(wu, results, canonical_result);
+        retval = assimilate_handler(wu, results, canonical_result);
+        if (retval) {
+            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                "[%s] handler failed: %d; exiting\n", wu.name, retval
+            );
+            exit(1);
+        }
 
         wu.assimilate_state = ASSIMILATE_DONE;
         wu.transition_time = time(0);
