@@ -20,10 +20,11 @@
 #include "stdafx.h"
 
 #include "client_msgs.h"
-#include "wingui_mainwindow.h"
 #include "diagnostics.h"
 #include "hostinfo.h"
 #include "win_net.h"
+
+#include "wingui_mainwindow.h"
 
 using std::min;
 using std::string;
@@ -32,6 +33,17 @@ using std::vector;
 CMyApp g_myApp;
 CMainWindow* g_myWnd = NULL;
 static bool winsock_inited = false;
+
+int check_unique_instance() {
+    // on Windows, we set a mutex so that the screensaver
+    // can find out that the core client is running
+    //
+    HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
+    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
+        return ERR_ALREADY_RUNNING;
+    }
+    return 0;
+}
 
 /////////////////////////////////////////////////////////////////////////
 // CMyApp member functions

@@ -17,7 +17,9 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef _WIN32
+#ifdef _WIN32
+#include "boinc_win.h"
+#else
 #include <unistd.h>
 #include <sys/socket.h>
 #endif

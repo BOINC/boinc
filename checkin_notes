@@ -25638,3 +25638,13 @@ David  7 Mar 2005
 
     client/
         app_start.C
+
+David  7 Mar 2005
+	- core client: win compile fixes
+
+	client/
+		main.C,h
+		win/
+			wingui_mainwindow.cpp
+	lib/
+		network.cpp
