@@ -158,16 +158,15 @@ int ACCT_MGR_CLIENT::init()
         }
     }
 
-    fclose(acct_mgr_file);
-    fclose(acct_mgr_login_file);
+    if (acct_mgr_file) fclose(acct_mgr_file);
+    if (acct_mgr_login_file) fclose(acct_mgr_login_file);
 
-    return retval;
+    return 0;
 }
 
 
-void ACCT_MGR_CLIENT::close()
-{
-    if ( ( false == acct_mgr_login_found ) && ( true == acct_mgr_login_initialized ) ) {
+void ACCT_MGR_CLIENT::close() {
+    if ( (!acct_mgr_login_found ) && ( acct_mgr_login_initialized ) ) {
         FILE* acct_mgr_login_file;
         acct_mgr_login_file = fopen("acct_mgr_login.xml", "w");
         if ( NULL != acct_mgr_login_file ) {
