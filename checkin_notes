@@ -5476,3 +5476,9 @@ Karl 2003/07/31
     - fixed astropulse memory leak
 
     astropulse/client/*
+
+Karl 2003/08/01
+    - if a file to download exists already and signature and checksum match,
+      skip downloading it.
+
+    Client/*

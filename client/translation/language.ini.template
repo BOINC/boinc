@@ -67,6 +67,7 @@ Downloading=DOWNLOADING
 Retry in=RETRY IN
 Upload failed=UPLOAD FAILED
 Download failed=DOWNLOAD FAILED
+Suspended=SUSPENDED
 
 #menu items
 [MENU-File]
