@@ -209,7 +209,7 @@ static void set_mode(int mode) {
     }
    
     current_graphics_mode = new_mode;
-    if (new_mode != MODE_HIDE_GRAPHICS && new_mode != MODE_QUIT) {
+    if (new_mode != MODE_HIDE_GRAPHICS && new_mode != MODE_QUIT && new_mode != MODE_UNSUPPORTED) {
         make_new_window();
     }
 

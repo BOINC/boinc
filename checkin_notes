@@ -19754,6 +19754,10 @@ Rom    17 Nov 2004
     - Bug Fix: When the service account is switched to an account that cannot
         support interact with desktop make sure the screensaver can display
         the project status.
+    - Bug Fix: If we have to report back that graphics are not supported in
+        the current configuration, don't create the window, it only makes
+        the system jittery.  I suspect it has something to do with the
+        possibility of garbage UI events being sent to the application.
 
     api/
         windows_opengl.C
