@@ -66,7 +66,7 @@ def add_files(app, match, exec_file, non_exec_files=[]):
     platforms = database.Platforms.find(name = platform_name)
     if not platforms:
         print >>sys.stderr, "  Unknown platform '%s' for file %s" %(platform_name, file_base)
-        continue
+        return
     platform = platforms[0]
 
     if app:
@@ -74,7 +74,7 @@ def add_files(app, match, exec_file, non_exec_files=[]):
         if existing_versions:
             if verbose:
                 print "  Skipping existing %s %3d: %s" %(app.name, version_num, file_base)
-            continue
+            return
 
         print "  Found %s version %s for %s: %s" %(app, version_num, platform, file_base),
         if non_exec_files:
@@ -100,7 +100,7 @@ def add_files(app, match, exec_file, non_exec_files=[]):
         if existing_versions:
             if verbose:
                 print "  Skipping existing core version %s: %s" %(version_num, file_base)
-            continue
+            return
 
         print "  Found core version %3d for %s: %s" %(version_num, platform, file_base)
 
