@@ -260,6 +260,8 @@ int CLIENT_STATE::init() {
     //
     restart_tasks();
 
+    // Just to be on the safe side; something may have been modified
+    //
     set_client_state_dirty("init");
     return 0;
 }

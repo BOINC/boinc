@@ -7452,3 +7452,15 @@ David  4 Nov 2003
     sched/
         handle_request.C
         server_types.C,h
+
+David  4 Nov 2003
+	- change project file to get cmdline version to compile
+		(didn't test it)
+
+	client/
+		client_state.C
+		win/
+			win_net.cpp
+	win_build/
+		boinc_cli.dsp
+		boinc_gui.dsp

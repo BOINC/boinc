@@ -70,14 +70,14 @@ int NetOpen( void )
                 if((double)time(NULL) < net_last_dial_time + CONFIRM_WAIT) {
                     return -1;
                 }
-
+#ifndef WIN_CLI
                 if(gstate.global_prefs.confirm_before_connecting) {
                     net_last_req_time = (double)time(NULL);
                     if(!RequestNetConnect()) {
                         return -1;
                     }
                 }
-
+#endif
                 net_last_dial_time = (double)time(NULL);
                 rc = (*AutoDial)(INTERNET_AUTODIAL_FORCE_UNATTENDED, 0);
                 if (rc) {
