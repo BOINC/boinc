@@ -267,7 +267,7 @@ int ACTIVE_TASK::start(bool first_time) {
     //
     strcpy(exec_name, "");
     for (i=0; i<app_version->app_files.size(); i++) {
-        FILE_REF fref = app_version->app_files[i];
+        fref = app_version->app_files[i];
         fip = fref.file_info;
         get_pathname(fip, file_path);
         if (fref.main_program) {
@@ -454,7 +454,7 @@ int ACTIVE_TASK::start(bool first_time) {
 // Postcondition: "state" is set correctly
 //
 int ACTIVE_TASK::resume_or_start() {
-    char* str = "??";
+    const char* str = "??";
     int retval;
 
     switch (task_state) {

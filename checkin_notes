@@ -25019,3 +25019,11 @@ David  18 Feb 2005
 		app_start.C
 		cs_account.C
 		scheduler_op.C
+
+David  18 Feb 2005
+    - fix gcc warning
+    - printf in http.C had wrong conversion character
+
+    client/
+        app_start.C
+        http.C
