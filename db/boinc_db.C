@@ -254,7 +254,8 @@ void DB_TEAM::db_print(char* buf){
         "id=%d, create_time=%d, userid=%d, name='%s', "
         "name_lc='%s', url='%s', "
         "type=%d, name_html='%s', description='%s', nusers=%d, "
-        "country='%s', total_credit=%.15e, expavg_credit=%.15e",
+        "country='%s', total_credit=%.15e, expavg_credit=%.15e, "
+        "set_id=%d",
         id,
         create_time,
         userid,
@@ -293,7 +294,7 @@ void DB_TEAM::db_parse(MYSQL_ROW &r) {
     strcpy2(country, r[i++]);
     total_credit = atof(r[i++]);
     expavg_credit = atof(r[i++]);
-    seti_id = atof(r[i++]);
+    seti_id = atoi(r[i++]);
 }
 
 void DB_HOST::db_print(char* buf){

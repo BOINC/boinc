@@ -20,7 +20,8 @@ and unstuff mac_build.sit inside the BOINC directory.
 Unpacking the BOINC source code creates the following directories:
 <dl>
 <dt> RSAEuro/
-<dd> A public-domain RSA implementation.
+<dd> An RSA implementation (included for convenience; not covered
+under the BOINC public license).
 <dt> api/
 <dd> The BOINC API (parts of which are compiled
 into the core client).

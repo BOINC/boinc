@@ -7044,3 +7044,12 @@ Oliver 24 Oct 2003
 
     api/
 	reduce.h,C
+
+David  24 Oct 2003
+    - db_dump generates valid XML
+    - fixed bugs in boinc_db.C (team parse)
+
+    db/
+        boinc_db.C
+    sched/
+        db_dump.C
