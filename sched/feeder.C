@@ -61,7 +61,7 @@
 #include "sched_shmem.h"
 
 #define RESULTS_PER_ENUM    100
-#define TRIGGER_FILENAME    "feeder_trigger"
+#define TRIGGER_FILENAME    "stop_server"
 
 CONFIG config;
 

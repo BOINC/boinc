@@ -2454,3 +2454,27 @@ David   Nov 30 200
         schema.sql
         db.h
         db_mysql.C
+David   Dec 1 2002
+    - If request to scheduling server is from client with wrong version,
+        return an error
+    - Change the file upload handler protocol a little:
+        1) add core client version to request
+        2) add enclosing <data_server_request> element
+    - The file upload handler returns an error if client has wrong version
+    - Split up long function in file_upload_handler.C
+    - Changed name of feeder trigger file so that it works
+        (when did this get broken??)
+
+    client/
+        file_xfer.C,h
+    doc/
+        protocol.html
+        upload.html
+    sched/
+        Makefile.in
+        feeder.C
+        file_upload_handler.C
+        handle_request.C
+        server_types.C,h
+    test/
+        test.inc

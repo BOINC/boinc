@@ -36,11 +36,8 @@ FILE_XFER::FILE_XFER() {
     strcpy(pathname,"");
     strcpy(header,"");
     file_size_query = false;
-    //state = ?
 }
 
-// Do we need to do anything special when destroying the FILE_XFER object?
-//
 FILE_XFER::~FILE_XFER() {
 }
 
@@ -57,7 +54,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
 }
 
 // for uploads, we need to build a header with xml_signature etc.
-// (see file_upload_handler.C for a spec)
+// (see doc/upload.html)
 // Do this in memory.
 //
 int FILE_XFER::init_upload(FILE_INFO& file_info) {
@@ -71,22 +68,32 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
 
     if (file_info.upload_offset < 0) {
         sprintf(header,
-            "<file_size_req>%s</file_size_req>\n",
+            "<data_server_request>\n"
+            "    <core_client_major_version>%d</core_client_major_version>\n"
+            "    <core_client_minor_version>%d</core_client_minor_version>\n"
+            "    <get_file_size>%s</get_file_size>\n"
+            "</data_server_request>\n",
+            MAJOR_VERSION, MINOR_VERSION,
             file_info.name
         );
         file_size_query = true;
         return HTTP_OP::init_post2(fip->get_url(), header, NULL, 0);
     } else {
         sprintf(header,
+            "<data_server_request>\n"
+            "    <core_client_major_version>%d</core_client_major_version>\n"
+            "    <core_client_minor_version>%d</core_client_minor_version>\n"
+            "<file_upload>\n"
             "<file_info>\n"
             "%s"
             "<xml_signature>\n"
             "%s"
             "</xml_signature>\n"
             "</file_info>\n"
-            "<nbytes>%f</nbytes>\n"
+            "<nbytes>%.0f</nbytes>\n"
             "<offset>%.0f</offset>\n"
             "<data>\n",
+            MAJOR_VERSION, MINOR_VERSION,
             file_info.signed_xml,
             file_info.xml_signature,
             file_info.nbytes,
@@ -94,20 +101,29 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
         );
         file_size_query = false;
         return HTTP_OP::init_post2(
-        fip->get_url(), header, pathname, fip->upload_offset
-    );
+            fip->get_url(), header, pathname, fip->upload_offset
+        );
     }
 }
 
 // Parse the server response in req1
 //
-int FILE_XFER::parse_server_response(double &offset) {
-    int status = -1;
+int FILE_XFER::parse_server_response(double &nbytes) {
+    int status = 0;
+    char buf[256];
 
-    parse_double(req1, "<nbytes>", offset);
+    printf("********** file upload response:\n%s", req1);
+
+    parse_double(req1, "<file_size>", nbytes);
     parse_int(req1, "<status>", status);
-    // TODO: decide what to do with error string
-    //if (!parse_str(req1, "<error>", upload_offset, sizeof(upload_offset)) ) return -1;
+ 
+    // TODO: show error message to user
+    //
+    if (parse_str(req1, "<message>", buf, sizeof(buf))) {
+        fprintf(stderr, "%s\n", buf);
+    }
+
+    printf("status: %d nbytes: %f\n", status, nbytes);
 
     return status;
 }
@@ -185,6 +201,7 @@ bool FILE_XFER_SET::poll() {
                     retval = fxp->parse_server_response(fxp->fip->upload_offset);
 
                     if (retval) {
+                        printf("ERROR: file upload returned %d\n", retval);
                         fxp->fip->upload_offset = -1;
                         fxp->file_xfer_retval = retval;
                     } else {

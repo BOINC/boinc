@@ -56,7 +56,8 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
         else if (parse_str(buf, "<platform_name>", platform_name, sizeof(platform_name))) continue;
-        else if (parse_int(buf, "<core_client_version>", core_client_version)) continue;
+        else if (parse_int(buf, "<core_client_major_version>", core_client_major_version)) continue;
+        else if (parse_int(buf, "<core_client_minor_version>", core_client_minor_version)) continue;
         else if (parse_int(buf, "<work_req_seconds>", work_req_seconds)) continue;
         else if (match_tag(buf, "<global_preferences>")) {
             global_prefs_xml = strdup("<global_preferences>\n");
@@ -102,6 +103,7 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     code_sign_key_signature = 0;
     memset(&user, 0, sizeof(user));
     memset(&host, 0, sizeof(host));
+    nucleus_only = false;
 }
 
 SCHEDULER_REPLY::~SCHEDULER_REPLY() {
@@ -111,9 +113,24 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 
 int SCHEDULER_REPLY::write(FILE* fout) {
     unsigned int i, j;
-    assert(fout!=NULL);
+
     fprintf(fout,
         "<scheduler_reply>\n"
+    );
+
+    if (request_delay) {
+        fprintf(fout, "<request_delay>%d</request_delay>\n", request_delay);
+    }
+    if (strlen(message)) {
+        fprintf(fout,
+            "<message priority=\"%s\">%s</message>\n",
+            message_priority,
+            message
+        );
+    }
+    if (nucleus_only) goto end;
+
+    fprintf(fout,
 	"<project_name>%s</project_name>\n",
 	gproject.name
     );
@@ -129,27 +146,16 @@ int SCHEDULER_REPLY::write(FILE* fout) {
 	user.create_time
     );
 
-    if (request_delay) {
-        fprintf(fout, "<request_delay>%d</request_delay>\n", request_delay);
-    }
-    if (strlen(message)) {
-        fprintf(fout,
-            "<message priority=\"%s\">%s</message>\n",
-            message_priority,
-            message
-        );
-    }
-
     if (hostid) {
         fprintf(fout, 
-		"<hostid>%d</hostid>\n"
-		"<host_total_credit>%f</host_total_credit>\n"
-		"<host_expavg_credit>%f</host_expavg_credit>\n"
-		"<host_create_time>%d</host_create_time>\n",
-		hostid,
-		host.total_credit,
-		host.expavg_credit,
-		host.create_time
+            "<hostid>%d</hostid>\n"
+            "<host_total_credit>%f</host_total_credit>\n"
+            "<host_expavg_credit>%f</host_expavg_credit>\n"
+            "<host_create_time>%d</host_create_time>\n",
+            hostid,
+            host.total_credit,
+            host.expavg_credit,
+            host.create_time
 	);
     }
     
@@ -199,6 +205,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         fputs(code_sign_key_signature, fout);
         fputs("</code_sign_key_signature>\n", fout);
     }
+end:
     fprintf(fout,
         "</scheduler_reply>\n"
     );

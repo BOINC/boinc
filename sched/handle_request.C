@@ -422,7 +422,7 @@ int send_work(
         if (retval) continue;
 
         fprintf(stderr,
-            "sending result name %s, id %d\n",
+            "BOINC scheduler: sending result name %s, id %d\n",
             result.name, result.id
         );
 
@@ -503,6 +503,20 @@ void send_code_sign_key(
     }
 }
 
+bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    if (sreq.core_client_major_version != MAJOR_VERSION) {
+        reply.nucleus_only = true;
+        sprintf(reply.message,
+            "To participate in this project, "
+            "you must use major version %d of the BOINC core client. "
+            "Your core client is major version %d.",
+            MAJOR_VERSION,
+            sreq.core_client_major_version
+        );
+        return true;
+    }
+    return false;
+}
 
 void process_request(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss,
@@ -512,6 +526,10 @@ void process_request(
     int retval;
     char buf[256];
 
+    // if different major version of BOINC, just send a message
+    //
+    if (wrong_major_version(sreq, reply)) return;
+    
     retval = authenticate_user(sreq, reply);
     if (retval) return;
 

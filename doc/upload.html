@@ -2,15 +2,17 @@
 
 <h2>Data server protocol</h2>
 
-A BOINC data server is an HTTP server such as Apache.
+Core client communicate with data servers using HTTP.
+A data server is typically implemented using
+a web server together with a BOINC-supplied CGI program,
+<b>file_upload_handler</b>.
 
 <h3>Download</h3>
 <p>
-File download is done by a standard GET request,
-using a URL from the FILE_INFO element.
-The file offset, if any, is given in the HTTP header.
-<p>
-TODO: is this right?
+File download is done by a GET request
+to a URL from the FILE_INFO element.
+The file offset, if any, is given in <b>Range:</b> attribute
+of the HTTP header.
 
 <h3>Upload</h3>
 <p>
@@ -23,24 +25,37 @@ Two RPC operations are used.
 <p>
 The request message has the form:
 <pre>
-&lt;file_size_req>filename&lt;/file_size_req>
+&lt;data_server_request>
+    &lt;core_client_major_version>1&lt;/core_client_major_version>
+    &lt;core_client_minor_version>1&lt;/core_client_minor_version>
+    &lt;get_file_size>filename&lt;/get_file_size>
+&lt;/data_server_request>
 </pre>
 
-TODO: should have a separate &lt;filename> tag
 <p>
 The reply message has the form:
 <pre>
-&lt;status>0&lt;/status>
-&lt;nbytes>1234&lt;/nbytes>
+&lt;data_server_reply>
+    &lt;status>x&lt;/status>
+    [ &lt;message>text&lt;/message>
+    | &lt;file_size>nbytes&lt;/file_size> ]
+&lt;/data_server_reply>
 </pre>
-Where nbytes is 0 if the file doesn't exist.
+The &lt;file_size> element is omitted in error cases;
+nbytes is -1 if the file doesn't exist.
 There are no security mechanisms.
+TODO: should distinguish between permanent and transient errors
+(i.e. whether should retry or give up).
 
 <p>
 <b>2) Upload file</b>
 <p>
 Request message format:
 <pre>
+&lt;data_server_request>
+&lt;core_client_major_version>1&lt;/core_client_major_version>
+&lt;core_client_minor_version>1&lt;/core_client_minor_version>
+&lt;file_upload>
 &lt;file_info>
    ...
 &lt;xml_signature>
@@ -50,7 +65,8 @@ Request message format:
 &lt;nbytes>x&lt;/nbytes>
 &lt;offset>x&lt;/offset>
 &lt;data>
-... (data)
+... (nbytes bytes of data; may be binary)
+&lt;/data>
 </pre>
 <p>
 The &lt;file_info> element is the exact text sent from the
@@ -60,11 +76,13 @@ authentication key pair.
 &lt;nbytes> is the amount of data being uploaded.
 &lt;offset> is the offset within the file.
 <p>
-TODO: this should all be within a request tag
-<p>
 Reply message format:
 <pre>
-&lt;status>x&lt;/status>
-[ &lt;error>bad file size&lt;/error> ]
+&lt;data_server_reply>
+    &lt;status>x&lt;/status>
+    &lt;message>x&lt;/message>
+&lt;/data_server_reply>
 </pre>
 The status is zero if the operation succeeded.
+TODO: should distinguish between permanent and transient errors
+(i.e. whether should retry or give up).

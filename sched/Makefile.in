@@ -11,6 +11,8 @@ CFLAGS = -g -Wall @DEFS@ \
     -I@top_srcdir@/tools \
     -I/usr/local/mysql/include \
     -I@top_srcdir@/RSAEuro/source \
+    -DMAJOR_VERSION=$(BOINC_MAJOR_VERSION) \
+    -DMINOR_VERSION=$(BOINC_MINOR_VERSION)
 
 CC = g++ $(CFLAGS)
 
