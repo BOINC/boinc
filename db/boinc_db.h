@@ -442,6 +442,7 @@ struct TRANSITIONER_QUEUE {
     int  file_delete_state;
     int  assimilate_state;
     int  target_nresults;
+    char result_template_file[256];
     int  res_id;
     int  res_report_deadline;
     int  res_server_state;

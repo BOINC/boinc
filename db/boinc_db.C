@@ -605,7 +605,7 @@ int DB_TRANSITIONER_QUEUE::enumerate_queue_entries(int transition_time, int ntot
             "   wu.file_delete_state, "
             "   wu.assimilate_state, "
             "   wu.target_nresults, "
-            "   wu.result_template, "
+            "   wu.result_template_file, "
             "   res.id AS res_id, "
             "   res.report_deadline AS res_report_deadline, "
             "   res.server_state AS res_server_state, "
@@ -673,6 +673,7 @@ void DB_TRANSITIONER_QUEUE::parse_entry(MYSQL_RES *result, MYSQL_ROW& row) {
     fetch_field_value(result, row, "file_delete_state", file_delete_state);
     fetch_field_value(result, row, "assimilate_state", assimilate_state);
     fetch_field_value(result, row, "target_nresults", target_nresults);
+    fetch_field_value(result, row, "result_template_file", result_template_file, sizeof(result_template_file));
     parse_result(result, row);
 }
 
@@ -704,14 +705,22 @@ int DB_TRANSITIONER_QUEUE::seek_first_result() {
 
 int DB_TRANSITIONER_QUEUE::seek_next_result() {
     int retval;
+    int temp_workunit_id;
     MYSQL_ROW row;
 
     row = mysql_fetch_row(cursor.rp);
     if (!row) {
-        retval = seek_first_result();
+        seek_first_result();
+        retval = -1;
     } else {
-        parse_result(cursor.rp, row);
-        retval = 0;
+        fetch_field_value(result, row, "id", temp_workunit_id);
+        if ( temp_workunit_id != current_entry_workunit_id ) {
+            seek_first_result();
+            retval = -1;
+        } else {
+            parse_result(cursor.rp, row);
+            retval = 0;
+        }
     }
 
     return retval;
