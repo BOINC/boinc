@@ -1,10 +1,6 @@
 -----------------------
 BUGS (arranged from high to low priority)
 -----------------------
-- window closes and does not reopen when workunit finishes
-    and new workunit starts
-- CPU time updates infrequently (every 10 seconds),
-    add user control for this (HD write frequency)
 - Client treats URL "maggie/ap/" different than URL "maggie/ap",
     though this isn't really a bug it might be good to fix anyway
 - global battery/user active prefs are always true in the client
@@ -36,9 +32,12 @@ THINGS TO TEST (preferably with test scripts)
 - WU failure: too many good results
 - credit is granted even if result arrives very late
 - multiple preference sets
+- shared memory and CPU time measurement, with and without the BOINC API
 -----------------------
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
+
+add user control for HD write frequency
 
 decide what to do with invalid result files in upload directory
 

@@ -202,6 +202,10 @@ SOURCE=..\..\Client\scheduler_op.C
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\lib\shmem.C
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\Client\speed_stats.C
 # End Source File
 # Begin Source File
@@ -347,6 +351,10 @@ SOURCE=..\..\client\win\Resource.h
 # Begin Source File
 
 SOURCE=..\..\client\scheduler_op.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\lib\shmem.h
 # End Source File
 # Begin Source File
 

@@ -79,7 +79,7 @@ extern BOOL    win_loop_done;
 #include "boinc_api.h"
 
 #ifdef _WIN32
-HANDLE hQuitRequest;
+HANDLE hQuitRequest, hSharedMem;
 LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
 #else
 extern void boinc_catch_signal(int signal);
@@ -259,7 +259,7 @@ void boinc_catch_signal(int signal) {
 }
 
 void boinc_quit(int sig) {
-    signal( SIGQUIT, boinc_quit );	// reset signal
+    signal( SIGQUIT, boinc_quit );    // reset signal
     time_to_quit = true;
 }
 #endif
@@ -462,6 +462,8 @@ void on_timer(int a) {
 int set_timer(double period) {
     int retval=0;
 #ifdef _WIN32
+    char buf[256];
+
     // Use Windows multimedia timer, since it is more accurate
     // than SetTimer and doesn't require an associated event loop
     timer_id = timeSetEvent(
@@ -471,7 +473,8 @@ int set_timer(double period) {
         NULL, // dwUser
         TIME_PERIODIC  // fuEvent
         );
-	hQuitRequest = OpenEvent(EVENT_ALL_ACCESS, FALSE, aid.comm_obj_name);
+    sprintf(buf, "%s%s", QUIT_PREFIX, aid.comm_obj_name);
+    hQuitRequest = OpenEvent(EVENT_ALL_ACCESS, FALSE, buf);
 #ifdef BOINC_APP_GRAPHICS
     // Create the event object used to signal between the
     // worker and event threads
@@ -513,6 +516,14 @@ void setup_shared_mem(void) {
     return;
 #endif
 
+#ifdef _WIN32
+    char buf[256];
+    sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);
+    hSharedMem = attach_shmem(buf, (void**)&app_client_shm);
+    if (hSharedMem == NULL)
+        app_client_shm = NULL;
+#endif
+
 #ifdef HAVE_SYS_SHM_H
 #ifdef HAVE_SYS_IPC_H
     if (attach_shmem(aid.shm_key, (void**)&app_client_shm)) {
@@ -523,6 +534,11 @@ void setup_shared_mem(void) {
 }
 
 void cleanup_shared_mem(void) {
+#ifdef _WIN32
+    if (app_client_shm != NULL)
+        detach_shmem(hSharedMem, app_client_shm);
+#endif
+
 #ifdef HAVE_SYS_SHM_H
 #ifdef HAVE_SYS_IPC_H
     if (app_client_shm != NULL)

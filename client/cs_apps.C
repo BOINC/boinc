@@ -19,6 +19,10 @@
 
 #include "windows_cpp.h"
 
+#ifdef _WIN32
+#include <afxwin.h>
+#endif
+
 #include "md5_file.h"
 #include "log_flags.h"
 #include "file_names.h"
@@ -102,7 +106,12 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         }
     }
 
+	// Detach from shared memory.  In Windows, this is the same as
+	// destroying the shared mem since we're the last one attached
+	//
 #ifdef _WIN32
+    if (at.app_client_shm)
+        detach_shmem(at.shm_handle, at.app_client_shm);
 #else
     if (at.app_client_shm)
         detach_shmem(at.app_client_shm);

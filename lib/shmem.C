@@ -17,15 +17,63 @@
 // Contributor(s):
 //
 
-
 // interfaces for accessing shared memory segments
 
 #include <stdio.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
+#if HAVE_SYS_IPC_H
 #include <sys/ipc.h>
-#include <sys/shm.h>
+#endif
 #include <assert.h>
 
 #include "shmem.h"
+
+#ifdef _WIN32
+
+HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp) {
+    SECURITY_ATTRIBUTES security;
+    HANDLE hSharedMem;
+    LPVOID pMemPtr;
+    
+    security.nLength = sizeof(security);
+    security.lpSecurityDescriptor = NULL;
+    security.bInheritHandle = TRUE;
+
+    hSharedMem = CreateFileMapping(INVALID_HANDLE_VALUE, &security,
+        PAGE_READWRITE, 0, size, seg_name);
+    if (!hSharedMem) return NULL;
+
+    pMemPtr = MapViewOfFile( hSharedMem, FILE_MAP_ALL_ACCESS, 0, 0, 0 );
+    *pp = pMemPtr;
+
+    return hSharedMem;
+}
+
+HANDLE attach_shmem(LPCTSTR seg_name, void** pp) {
+    HANDLE hSharedMem;
+    LPVOID pMemPtr;
+
+    hSharedMem = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, seg_name);
+    if (!hSharedMem) return NULL;
+
+    pMemPtr = MapViewOfFile( hSharedMem, FILE_MAP_ALL_ACCESS, 0, 0, 0 );
+    *pp = pMemPtr;
+
+    return hSharedMem;
+}
+
+
+int detach_shmem(HANDLE hSharedMem, void* p) {
+    UnmapViewOfFile(p);
+    CloseHandle(hSharedMem);
+
+	return 0;
+}
+
+#else
 
 int create_shmem(key_t key, int size, void** pp) {
     int id;
@@ -109,3 +157,5 @@ int shmem_info(key_t key) {
     
     return 0;
 }
+
+#endif

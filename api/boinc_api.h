@@ -68,6 +68,8 @@ struct APP_INIT_DATA {
 
 #define APP_ACCESS_OK		0
 #define CLIENT_ACCESS_OK	1
+#define SHM_PREFIX          "shm_"
+#define QUIT_PREFIX         "quit_"
 
 struct APP_CLIENT_SHM {
     int access;

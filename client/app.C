@@ -289,8 +289,12 @@ int ACTIVE_TASK::start(bool first_time) {
     startup_info.lpReserved = NULL;
     startup_info.lpDesktop = "";
 
-    quitRequestEvent = CreateEvent(0, TRUE, FALSE, aid.comm_obj_name);
-    
+    sprintf(buf, "%s%s", QUIT_PREFIX, aid.comm_obj_name);
+    quitRequestEvent = CreateEvent(0, TRUE, FALSE, buf);
+
+    sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);
+    shm_handle = create_shmem(buf, sizeof(APP_CLIENT_SHM), (void **)&app_client_shm);
+
     // NOTE: in Windows, stderr is redirected within boinc_init();
 
     sprintf(cmd_line, "%s %s", exec_path, wup->command_line);
@@ -412,7 +416,7 @@ bool ACTIVE_TASK::task_exited() {
         return true;
     }
 #endif
-	return false;
+    return false;
 }
 
 // Inserts an active task into the ACTIVE_TASK_SET and starts it up
