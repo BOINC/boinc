@@ -60,6 +60,7 @@ int CLIENT_STATE::cleanup_and_exit() {
         fprintf(stderr, "error: CLIENT_STATE.exit: write_state_file failed\n");
         // don't return here - we'll exit anyway
     }
+    show_message(NULL, "Exiting BOINC client", MSG_INFO);
     return 0;
 }
 

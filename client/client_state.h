@@ -58,7 +58,7 @@ public:
     HOST_INFO host_info;
     GLOBAL_PREFS global_prefs;
     NET_STATS net_stats;
-	SS_LOGIC ss_logic;
+    SS_LOGIC ss_logic;
 
     CLIENT_STATE();
     int init();

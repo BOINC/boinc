@@ -90,8 +90,8 @@ public:
     int graphics_request_time;            // when we sent it
     int graphics_acked_mode;            // most recent mode reported by app
     int graphics_mode_before_ss;        // mode before last screensaver request
-	void request_graphics_mode(int);
-	void check_graphics_mode_ack();
+    void request_graphics_mode(int);
+    void check_graphics_mode_ack();
 
     ACTIVE_TASK();
     int init(RESULT*);
@@ -143,7 +143,7 @@ public:
     void save_app_modes();
     void hide_apps();
     void restore_apps();
-	void check_graphics_mode_ack();
+    void check_graphics_mode_ack();
 
     int write(FILE*);
     int parse(FILE*, CLIENT_STATE*);

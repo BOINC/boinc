@@ -94,10 +94,10 @@ ACTIVE_TASK::ACTIVE_TASK() {
     exit_status = 0;
     signal = 0;
     strcpy(slot_dir, "");
-	graphics_requested_mode = MODE_HIDE_GRAPHICS;
-	graphics_request_time = time(0);
-	graphics_acked_mode = MODE_UNSUPPORTED;
-	graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
+    graphics_requested_mode = MODE_HIDE_GRAPHICS;
+    graphics_request_time = time(0);
+    graphics_acked_mode = MODE_UNSUPPORTED;
+    graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
 }
 
 int ACTIVE_TASK::init(RESULT* rp) {
@@ -169,8 +169,8 @@ int ACTIVE_TASK::start(bool first_time) {
         return ERR_FOPEN;
     }
 
-	// make a unique key for core/app shared memory segment
-	//
+    // make a unique key for core/app shared memory segment
+    //
 #ifdef _WIN32
     sprintf(aid.comm_obj_name, "boinc_%d", slot);
 #else
@@ -304,13 +304,13 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(buf, "%s%s", QUIT_PREFIX, aid.comm_obj_name);
     quitRequestEvent = CreateEvent(0, TRUE, FALSE, buf);
 
-	// create core/app share mem segment
-	//
+    // create core/app share mem segment
+    //
     sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);
     shm_handle = create_shmem(buf, APP_CLIENT_SHMEM_SIZE,
-		(void **)&app_client_shm.shm
-	);
-	app_client_shm.reset_msgs();
+        (void **)&app_client_shm.shm
+    );
+    app_client_shm.reset_msgs();
 
     // NOTE: in Windows, stderr is redirected within boinc_init();
 
@@ -607,18 +607,18 @@ bool ACTIVE_TASK::read_stderr_file() {
 }
 
 void ACTIVE_TASK::request_graphics_mode(int mode) {
-	app_client_shm.send_graphics_mode_msg(CORE_APP_GFX_SEG, mode);
-	graphics_requested_mode = mode;
+    app_client_shm.send_graphics_mode_msg(CORE_APP_GFX_SEG, mode);
+    graphics_requested_mode = mode;
 }
 
 void ACTIVE_TASK::check_graphics_mode_ack() {
-	int mode;
-	if (app_client_shm.get_graphics_mode_msg(APP_CORE_GFX_SEG, mode)) {
-		graphics_acked_mode = mode;
-		if (mode != MODE_FULLSCREEN) {
-			graphics_mode_before_ss = mode;
-		}
-	}
+    int mode;
+    if (app_client_shm.get_graphics_mode_msg(APP_CORE_GFX_SEG, mode)) {
+        graphics_acked_mode = mode;
+        if (mode != MODE_FULLSCREEN) {
+            graphics_mode_before_ss = mode;
+        }
+    }
 }
 
 // Wait up to wait_time seconds for all processes in this set to exit
@@ -831,7 +831,7 @@ int ACTIVE_TASK::get_cpu_time() {
 // If so read it and return true.
 //
 bool ACTIVE_TASK::check_app_status() {
-	char msg_buf[SHM_SEG_SIZE];
+    char msg_buf[SHM_SEG_SIZE];
     if (app_client_shm.get_msg(msg_buf, APP_CORE_WORKER_SEG)) {
         fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
         parse_double(msg_buf, "<fraction_done>", fraction_done);
@@ -1099,6 +1099,6 @@ void ACTIVE_TASK_SET::check_graphics_mode_ack() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-		atp->check_graphics_mode_ack();
-	}
+        atp->check_graphics_mode_ack();
+    }
 }

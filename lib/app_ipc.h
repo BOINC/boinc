@@ -31,14 +31,14 @@ public:
 
     bool pending_msg(int);    // returns true a message is waiting
                               // in the specified segment
-	bool get_msg(char *,int);  // returns the message from the specified
+    bool get_msg(char *,int);  // returns the message from the specified
                               // segment and resets the message flag
-	bool send_msg(char *,int); // if there is not already a message in the segment,
+    bool send_msg(char *,int); // if there is not already a message in the segment,
                               // writes specified message and sets message flag
-	bool send_graphics_mode_msg(int seg, int mode);
-	bool get_graphics_mode_msg(int seg, int& mode);
-	void reset_msgs();        // resets all messages and clears their flags
-	void reset_msg(int);      // resets specified message and clears its flag
+    bool send_graphics_mode_msg(int seg, int mode);
+    bool get_graphics_mode_msg(int seg, int& mode);
+    void reset_msgs();        // resets all messages and clears their flags
+    void reset_msg(int);      // resets specified message and clears its flag
 };
 
 #include "boinc_api.h"
@@ -61,7 +61,7 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define MODE_WINDOW             2
 #define MODE_FULLSCREEN         3
 
-#define END_SS_MSG			"BOINC_SS_END"
+#define END_SS_MSG            "BOINC_SS_END"
 
 extern char* xml_graphics_modes[5];
 

@@ -177,7 +177,7 @@ void SCHEDULER_OP::backoff(PROJECT* p, char *error_msg ) {
 int SCHEDULER_OP::start_rpc() {
     FILE *f;
     int retval;
-	char msg_buf[256];
+    char msg_buf[256];
 
     safe_strcpy(scheduler_url, project->scheduler_urls[url_index].text);
     if (log_flags.sched_ops) {

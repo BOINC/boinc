@@ -36,7 +36,7 @@ void SS_LOGIC::start_ss(time_t new_blank_time) {
 }
 
 void SS_LOGIC::stop_ss() {
-	if (!do_ss) return;
+    if (!do_ss) return;
     do_ss = do_boinc_logo_ss = do_blank = false;
     delete_curtain();
     gstate.active_tasks.restore_apps();
@@ -48,7 +48,7 @@ void SS_LOGIC::stop_ss() {
 void SS_LOGIC::poll() {
     ACTIVE_TASK* atp;
 
-	gstate.active_tasks.check_graphics_mode_ack();
+    gstate.active_tasks.check_graphics_mode_ack();
 
     if (do_ss) {
         if (blank_time && (time(0) > blank_time)) {
@@ -64,11 +64,11 @@ void SS_LOGIC::poll() {
             atp = gstate.active_tasks.get_app_requested(MODE_FULLSCREEN);
             if (atp) {
                 if (atp->graphics_acked_mode == MODE_FULLSCREEN) {
-					do_boinc_logo_ss = false;
-				} else {
+                    do_boinc_logo_ss = false;
+                } else {
                     if (time(0)>ack_deadline) {
-					    do_boinc_logo_ss = true;
-					}
+                        do_boinc_logo_ss = true;
+                    }
                 }
             } else {
                 atp = gstate.active_tasks.get_graphics_capable_app();

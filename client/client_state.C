@@ -201,6 +201,8 @@ int CLIENT_STATE::init() {
         print_summary();
     }
 
+    show_message(NULL, "Starting BOINC client", MSG_INFO);
+
     // Read the global preferences file, if it exists.
     // Do this after reading the state file so we know our venue
     //

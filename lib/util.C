@@ -129,7 +129,7 @@ void boinc_sleep(double seconds) {
     ::Sleep((int)(1000*seconds));
 #else
     sleep((int)seconds);
-	usleep((int)fmod(seconds*1000000,1000000));
+    usleep((int)fmod(seconds*1000000,1000000));
 #endif
 }
 

@@ -244,10 +244,10 @@ void PROJECT::copy_state_fields(PROJECT& p) {
 }
 
 char *PROJECT::get_project_name() {
-	if(!strcmp(project_name, ""))
-		return master_url;
-	else
-		return project_name;
+    if(!strcmp(project_name, ""))
+        return master_url;
+    else
+        return project_name;
 }
 
 int APP::parse(FILE* in) {

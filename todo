@@ -10,7 +10,6 @@ BUGS (arranged from high to low priority)
 - show_message should expect \n, discard it if GUI
 - show "---" for CPU time, %done of results not started yet
 - Win GUI: line between menus and tabs
-- message for client starting or exiting
 - "show graphics" should not use right-click
 - win GUI: reduce flicker?
 - on major version change,
