@@ -55,6 +55,7 @@ public:
     ~HTTP_OP();
 
     char hostname[256];
+    int port;
     char filename[256];
     char* req1;
     char infile[256];

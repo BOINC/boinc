@@ -2561,3 +2561,15 @@ David   Dec 5 2002
 David  Dec 6 2002
     - fix bugs in get_local_ip_addr()
         (need to figure out why they were happening)
+
+Eric   Dec 8, 2002
+    - added and tested HTTP proxy support (no SOCKS support yet)
+    - proxy server is specified through cmdline arg "-proxy server:port"
+      or by environment variable HTTP_PROXY
+    - this breaks the test_net_xfer program, I'll fix it soon
+
+    client/
+        client_state.C,h
+        http.C,h
+        net_xfer.C
+

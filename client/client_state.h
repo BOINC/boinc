@@ -70,7 +70,10 @@ public:
     int allowed_disk_usage(double&);
     unsigned int giveup_after;
     bool user_idle;
-	bool suspend_requested;
+    bool suspend_requested;
+    bool use_proxy;
+    int proxy_server_port;
+    char proxy_server_name[256];
 
 private:
     bool client_state_dirty;

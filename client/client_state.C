@@ -33,6 +33,8 @@
 #include "speed_stats.h"
 #include "client_state.h"
 
+extern void parse_url(char* url, char* host, int &port, char* file);
+
 #define SECONDS_IN_MONTH 2592000
 
 CLIENT_STATE gstate;
@@ -57,6 +59,7 @@ CLIENT_STATE::CLIENT_STATE() {
     max_transfer_rate = 9999999;
     max_bytes = 0;
     user_idle = true;
+    use_proxy = false;
     suspend_requested = false;
 }
 
@@ -887,6 +890,7 @@ bool CLIENT_STATE::update_results() {
 //
 void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     int i;
+    char *p, temp[256];
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-exit_when_idle")) {
@@ -901,7 +905,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             exit_after = atoi(argv[++i]);
             continue;
         };
-        // Give up on file transfers after x seconds.  Default value is 1209600 (2 weeks)
+        // Give up on file transfers after x seconds.
+        // Default value is 1209600 (2 weeks)
         if (!strcmp(argv[i], "-giveup_after")) {
             giveup_after = atoi(argv[++i]);
             continue;
@@ -911,6 +916,16 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             max_transfer_rate = atoi(argv[++i]);
             continue;
         };
+        
+        if (!strcmp(argv[i], "-proxy")) {
+            use_proxy = 1;
+            parse_url(argv[++i], proxy_server_name, proxy_server_port, temp);
+        }
+    }
+
+    if ((p = getenv("HTTP_PROXY"))) {
+        use_proxy = 1;
+        parse_url(p, proxy_server_name, proxy_server_port, temp);
     }
 }
 
