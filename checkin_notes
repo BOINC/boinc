@@ -11819,3 +11819,9 @@ Rom    April 28 2004
     /client/win
         *.rc
         update* (deleted)
+
+David  April 28 2004
+    - fix compile problem on Linux
+
+    client/
+        hostinfo_unix.C

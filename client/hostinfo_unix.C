@@ -129,7 +129,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
             &apm_ac_line_status
         );
         retval = (apm_ac_line_status == 0);
-
+        fclose(fapm);
     } else {
 
         // we try ACPI
@@ -161,15 +161,10 @@ bool HOST_INFO::host_is_running_on_batteries() {
                     retval = (strstr(buf, "off") != NULL);
                     break;
                 }
+                fclose(facpi);
             }
         }
     }
-
-    if (fapm)
-        fclose(fapm);
-
-    if (facpi)
-        fclose(facpi);
 
     return retval;
 #else
