@@ -32,7 +32,7 @@ alter table team
 alter table workunit
     add unique(name),
     add index wu_val (appid, need_validate),
-    add index wu_timeout (appid, timeout_check_time),
+    add index wu_timeout (transition_time),
     add index wu_filedel (file_delete_state),
     add index wu_assim (appid, assimilate_state);
 

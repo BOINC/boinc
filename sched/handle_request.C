@@ -533,17 +533,6 @@ int handle_results(
             continue;
         }
 
-        // TODO: audit this.  if a result timed out and then comes in, we
-        // shouldn't delete the file yet because we could potentially still
-        // check it against the canonical result (if its result hasn't been
-        // deleted yet).
-
-        // TODO: Fix documentation state diagrams.
-
-        // if (result.server_state == RESULT_SERVER_STATE_OVER) {
-        //     result.file_delete_state = FILE_DELETE_READY;
-        // }
-
         if (result.hostid != sreq.hostid) {
             log_messages.printf(
                 SchedMessages::CRITICAL,
@@ -576,6 +565,8 @@ int handle_results(
             }
         }
 
+        // update the result record in DB
+        //
         result.hostid = reply.host.id;
         result.received_time = time(0);
         result.client_state = rp->client_state;
@@ -586,30 +577,10 @@ int handle_results(
         // should client_state be RESULT_OUTCOME_CLIENT_ERROR ?
         if (result.client_state == RESULT_FILES_UPLOADED) {
             result.outcome = RESULT_OUTCOME_SUCCESS;
-            retval = wu.lookup_id(result.workunitid);
-            if (retval) {
-                log_messages.printf(
-                    SchedMessages::CRITICAL,
-                    "[HOST#%d] [RESULT#%d %s] Can't find [WU#%d] for result\n",
-                    host.id, result.id, result.name, result.workunitid
-                );
-            } else {
-                wu.need_validate = 1;
-                retval = wu.update();
-                if (retval) {
-                    log_messages.printf(
-                        SchedMessages::CRITICAL,
-                        "[HOST#%d] [RESULT#%d %s] Can't update [WU#%d %s]\n",
-                        host.id, result.id, result.name, wu.id, wu.name
-                    );
-                }
-            }
         } else {
             result.outcome = RESULT_OUTCOME_CLIENT_ERROR;
             result.validate_state = VALIDATE_STATE_INVALID;
-            // TODO: set timeout check to NOW
         }
-
         strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
         strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
         result.client_version_num =
@@ -623,6 +594,26 @@ int handle_results(
             );
         }
 
+        // trigger the transition handle for the result's WU
+        //
+        retval = wu.lookup_id(result.workunitid);
+        if (retval) {
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "[HOST#%d] [RESULT#%d %s] Can't find [WU#%d] for result\n",
+                host.id, result.id, result.name, result.workunitid
+            );
+        } else {
+            wu.transition_time = time(0);
+            retval = wu.update();
+            if (retval) {
+                log_messages.printf(
+                    SchedMessages::CRITICAL,
+                    "[HOST#%d] [RESULT#%d %s] Can't update [WU#%d %s]\n",
+                    host.id, result.id, result.name, wu.id, wu.name
+                );
+            }
+        }
     }
     return 0;
 }
@@ -645,6 +636,20 @@ int insert_deadline_tag(RESULT& result) {
     sprintf(buf, "<report_deadline>%d</report_deadline>\n", result.report_deadline);
     int retval = insert_after(result.xml_doc_in, "<result>\n", buf);
     if (retval) return retval;
+    return 0;
+}
+
+static int update_wu_transition_time(WORKUNIT wu, time_t x) {
+    DB_WORKUNIT dbwu;
+    int retval;
+
+    retval = dbwu.lookup_id(wu.id);
+    if (retval) return retval;
+    if (x < dbwu.transition_time) {
+        dbwu.transition_time = x;
+        retval = dbwu.update();
+        if (retval) return retval;
+    }
     return 0;
 }
 
@@ -709,6 +714,11 @@ int send_work(
         result.sent_time = time(0);
         result.report_deadline = result.sent_time + wu.delay_bound;
         result.update();
+
+        retval = update_wu_transition_time(wu, result.report_deadline);
+        if (retval) {
+            log_messages.printf(SchedMessages::CRITICAL, "send_work: can't update WU transition time\n");
+        }
 
         // copy the result so we don't overwrite its XML fields
         //

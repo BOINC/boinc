@@ -52,7 +52,7 @@ struct PROJECT {
 //
 struct PLATFORM {
     int id;
-    unsigned int create_time;
+    int create_time;
     char name[256];                 // i.e. "sparc-sun-solaris"
     char user_friendly_name[256];   // i.e. "SPARC Solaris 2.8"
     void clear();
@@ -62,7 +62,7 @@ struct PLATFORM {
 //
 struct CORE_VERSION {
     int id;
-    unsigned int create_time;
+    int create_time;
     int version_num;
     int platformid;
     char xml_doc[MAX_BLOB_SIZE];        // a <file_info> for the download file
@@ -78,7 +78,7 @@ struct CORE_VERSION {
 //
 struct APP {
     int id;
-    unsigned int create_time;
+    int create_time;
     char name[256];         // application name, preferably short
     int min_version;        // don't use app versions before this
     int write(FILE*);
@@ -89,7 +89,7 @@ struct APP {
 //
 struct APP_VERSION {
     int id;
-    unsigned int create_time;
+    int create_time;
     int appid;
     int version_num;
     int platformid;
@@ -120,7 +120,7 @@ struct APP_VERSION {
 
 struct USER {
     int id;
-    unsigned int create_time;
+    int create_time;
     char email_addr[256];
     char name[256];
     char authenticator[256];
@@ -138,6 +138,7 @@ struct USER {
     char url[256];                  // user's web page if any
     bool send_email;
     bool show_hosts;
+    int posts;
     void clear();
 };
 
@@ -151,7 +152,7 @@ struct USER {
 
 struct TEAM {
     int id;
-    unsigned int create_time;
+    int create_time;
     int userid;             // User ID of team founder
     char name[256];
     char name_lc[256];      // Team name in lowercase (used for searching)
@@ -168,10 +169,10 @@ struct TEAM {
 
 struct HOST {
     int id;
-    unsigned int create_time;
+    int create_time;
     int userid;             // ID of user running this host
     int rpc_seqno;          // last seqno received from client
-    unsigned int rpc_time;  // time of last scheduler RPC
+    int rpc_time;           // time of last scheduler RPC
     double total_credit;
     double expavg_credit;   // credit per second, recent average
     double expavg_time;     // last time the above was updated
@@ -250,13 +251,14 @@ struct HOST {
 // (file delete, assimilate, and states of results, error flags)
 
 // bit fields of error_mask
-#define WU_ERROR_COULDNT_SEND_RESULT        1
-#define WU_ERROR_TOO_MANY_ERROR_RESULTS     2
-#define WU_ERROR_TOO_MANY_RESULTS            4
+#define WU_ERROR_COULDNT_SEND_RESULT            1
+#define WU_ERROR_TOO_MANY_ERROR_RESULTS         2
+#define WU_ERROR_TOO_MANY_SUCCESS_RESULTS       4
+#define WU_ERROR_TOO_MANY_TOTAL_RESULTS         8
 
 struct WORKUNIT {
     int id;
-    unsigned int create_time;
+    int create_time;
     int appid;                  // associated app
     char name[256];
     char xml_doc[MAX_BLOB_SIZE];
@@ -283,8 +285,9 @@ struct WORKUNIT {
                                 // validate state = NEED_CHECK
     int canonical_resultid;     // ID of canonical result, or zero
     double canonical_credit;    // credit that all correct results get
-    unsigned int timeout_check_time;  // when to check for timeouts
-                                // zero if no need to check
+    int transition_time;        // when should transition_handler
+                                // next check this WU?
+                                // MAXINT if no need to check
     int delay_bound;            // determines result deadline,
                                 // timeout check time
     int error_mask;             // bitmask of errors (see above)
@@ -292,6 +295,15 @@ struct WORKUNIT {
     int assimilate_state;
     int workseq_next;           // if part of a sequence, the next WU
     int opaque;                 // project-specific; usually external ID
+    int min_quorum;             // minimum quorum size
+    int target_nresults;        // try to get this many successful results
+                                // may be > min_quorum to get consensus
+                                // quicker or reflect loss rate
+    int max_error_results;      // WU error if < #error results
+    int max_total_results;      // WU error if < #total results
+        // (need this in case results never returned
+    int max_success_results;    // WU error if < #success results
+        // without consensus (i.e. WU is nondeterministic)
 
     // the following not used in the DB
     char app_name[256];
@@ -326,7 +338,7 @@ struct WORKUNIT {
 
 struct RESULT {
     int id;
-    unsigned int create_time;
+    int create_time;
     int workunitid;
     int server_state;               // see above
     int outcome;                    // see above; defined if server state OVER
@@ -336,9 +348,9 @@ struct RESULT {
                                     // The values for this field are defined
                                     // in lib/result_state.h
     int hostid;                     // host processing this result
-    unsigned int report_deadline;   // deadline for receiving result
-    unsigned int sent_time;         // when result was sent to host
-    unsigned int received_time;     // when result was received from host
+    int report_deadline;            // deadline for receiving result
+    int sent_time;                  // when result was sent to host
+    int received_time;              // when result was received from host
     char name[256];
     double cpu_time;                // CPU time used to complete result
     char xml_doc_in[MAX_BLOB_SIZE];     // descriptions of output files
@@ -365,7 +377,7 @@ struct RESULT {
 
 struct WORKSEQ {
     int id;
-    unsigned int create_time;
+    int create_time;
     int state;
     int hostid;                     // host this seq is assigned to
     int wuid_last_done;             // last validated WU or zero

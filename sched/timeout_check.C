@@ -17,22 +17,21 @@
 // Contributor(s):
 //
 
-// timeout_check - do various time-based tasks
-//    - time out results
-//    - create new results to make up for lost ones
-//    - check for WU error conditions
+// transitioner - handle transitions in the state of a WU
+//    - a result has become DONE (via timeout or client reply)
+//    - the WU error mask is set (e.g. by validater)
+//    - assimilation is finished
 //
-// timeout_check
-//   -app appname
-//   [ -nerror n ]          if get this many errors, bail on WU
-//   [ -ndet n ]            if get this results w/o consensus, bail
-//   [ -nredundancy n ]     try to get at least this many done results
+// cmdline:
 //   [ -asynch ]            be asynchronous
+//   [ -one_pass ]          do one pass, then exit
+//   [ -d x ]               debug level x
 
 using namespace std;
 
 #include <vector>
 #include <unistd.h>
+#include <values.h>
 #include <sys/time.h>
 
 #include "boinc_db.h"
@@ -41,12 +40,9 @@ using namespace std;
 #include "sched_config.h"
 #include "sched_util.h"
 
-#define LOCKFILE                "timeout_check.out"
-#define PIDFILE                 "timeout_check.pid"
+#define LOCKFILE                "transitioner.out"
+#define PIDFILE                 "transitioner.pid"
 
-int max_errors = 999;
-int max_done = 999;
-int nredundancy = 0;
 int startup_time;
 CONFIG config;
 R_RSA_PRIVATE_KEY key;
@@ -149,11 +145,13 @@ int assign_new_names(char* in) {
 void handle_wu(DB_WORKUNIT& wu) {
     vector<RESULT> results;
     DB_RESULT result;
-    int nerrors, ndone, retval;
+    DB_RESULT canonical_result;
+    int nerrors, retval, ninprogress, nsuccess;
+    int nunsent, ncouldnt_send, nover;
     unsigned int i, n;
     char buf[256];
-    unsigned int now = time(0);
-    bool /*wu_error = false,*/ all_over;
+    time_t now = time(0), x;
+    bool all_over, have_result_to_validate, do_delete;
 
     log_messages.printf(SchedMessages::DEBUG, "[WU#%d %s] handling WU\n", wu.id, wu.name);
     ScopeMessages scope_messages(log_messages, SchedMessages::NORMAL);
@@ -166,36 +164,51 @@ void handle_wu(DB_WORKUNIT& wu) {
     }
 
     if (results.size() == 0) {
-        log_messages.printf(SchedMessages::NORMAL, "[WU#%d %s] No results\n",
-                            wu.id, wu.name);
+        log_messages.printf(
+            SchedMessages::NORMAL, "[WU#%d %s] No results\n",
+            wu.id, wu.name
+        );
         return;
     }
 
-    log_messages.printf(SchedMessages::DEBUG, "[WU#%d %s] enumerated %d results\n",
-                        wu.id, wu.name, (int)results.size());
+    log_messages.printf(SchedMessages::DEBUG,
+        "[WU#%d %s] enumerated %d results\n",
+        wu.id, wu.name, (int)results.size()
+    );
 
+    // count up the number of results in various states,
+    // and check for timed-out results
+    //
+    nunsent = 0;
+    ninprogress = 0;
     nerrors = 0;
-    ndone = 0;
+    nsuccess = 0;
+    ncouldnt_send = 0;
+    have_result_to_validate = false;
     for (i=0; i<results.size(); i++) {
         result = results[i];
 
         switch (result.server_state) {
+        case RESULT_SERVER_STATE_UNSENT:
+            nunsent++;
+            break;
         case RESULT_SERVER_STATE_IN_PROGRESS:
             if (result.report_deadline < now) {
                 log_messages.printf(
                     SchedMessages::NORMAL,
                     "[WU#%d %s] [RESULT#%d %s] result timed out (%d < %d)\n",
-                    wu.id, wu.name, result.id, result.name, result.report_deadline, now
+                    wu.id, wu.name, result.id, result.name,
+                    result.report_deadline, (int)now
                 );
-                // clean up any incomplete uploads
-                result.file_delete_state = FILE_DELETE_READY;
                 result.server_state = RESULT_SERVER_STATE_OVER;
-                result.received_time = time(0);
                 result.outcome = RESULT_OUTCOME_NO_REPLY;
                 result.update();
+            } else {
+                ninprogress++;
             }
             break;
         case RESULT_SERVER_STATE_OVER:
+            nover++;
             switch (result.outcome) {
             case RESULT_OUTCOME_COULDNT_SEND:
                 log_messages.printf(
@@ -203,13 +216,15 @@ void handle_wu(DB_WORKUNIT& wu) {
                     "[WU#%d %s] [RESULT#%d %s] result couldn't be sent\n",
                     wu.id, wu.name, result.id, result.name
                 );
-                wu.error_mask |= WU_ERROR_COULDNT_SEND_RESULT;
-                // wu_error = true;
+                ncouldnt_send++;
                 break;
             case RESULT_OUTCOME_SUCCESS:
-                ndone++;
+                if (result.validate_state == VALIDATE_STATE_INIT) {
+                    have_result_to_validate = true;
+                }
+                nsuccess++;
                 break;
-            default:
+            case RESULT_OUTCOME_CLIENT_ERROR:
                 nerrors++;
                 break;
             }
@@ -217,36 +232,45 @@ void handle_wu(DB_WORKUNIT& wu) {
         }
     }
 
-    // check for too many errors or too many results
+    // trigger validation if we have a quorum
+    // and some result hasn't been validated
     //
-    if (nerrors > max_errors) {
+    if (nsuccess >= wu.min_quorum && have_result_to_validate) {
+        wu.need_validate = true;
+    }
+
+    // check for WU error conditions
+    // NOTE: check on max # of success results is done in validater
+    //
+    if (ncouldnt_send > 0) {
+        wu.error_mask |= WU_ERROR_COULDNT_SEND_RESULT;
+    }
+
+    if (nerrors > wu.max_error_results) {
         log_messages.printf(
             SchedMessages::NORMAL,
             "[WU#%d %s] WU has too many errors (%d errors for %d results)\n",
             wu.id, wu.name, nerrors, (int)results.size()
         );
         wu.error_mask |= WU_ERROR_TOO_MANY_ERROR_RESULTS;
-        // wu_error = true;
     }
-    if (ndone > max_done) {
+    if ((int)results.size() > wu.max_total_results) {
         log_messages.printf(
             SchedMessages::NORMAL,
-            "[WU#%d %s] WU has too many answers (%d of %d results)\n",
-            wu.id, wu.name, ndone, (int)results.size()
+            "[WU#%d %s] WU has too many total results (%d)\n",
+            wu.id, wu.name, (int)results.size()
         );
-        wu.error_mask |= WU_ERROR_TOO_MANY_RESULTS;
-        // wu_error = true;
+        wu.error_mask |= WU_ERROR_TOO_MANY_TOTAL_RESULTS;
     }
 
-    all_over = true;
-    // if this WU had an error, don't send any unsent results
+    // if this WU had an error, don't send any unsent results,
+    // and trigger assimilation if needed
     //
     if (wu.error_mask) {
         for (i=0; i<results.size(); i++) {
             result = results[i];
             if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
                 result.server_state = RESULT_SERVER_STATE_OVER;
-                result.received_time = time(0);
                 result.outcome = RESULT_OUTCOME_DIDNT_NEED;
                 result.update();
             }
@@ -259,10 +283,8 @@ void handle_wu(DB_WORKUNIT& wu) {
         // Munge the XML of an existing result
         // to create unique new output filenames.
         //
-        if (nredundancy > ndone) {
-            n = nredundancy - ndone; // TODO: subtract # in-progress?
-            all_over = false;
-
+        n = wu.target_nresults - nunsent - ninprogress;
+        if (n > 0) {
             log_messages.printf(
                 SchedMessages::NORMAL,
                 "[WU#%d %s] Generating %d more results\n",
@@ -288,42 +310,90 @@ void handle_wu(DB_WORKUNIT& wu) {
         }
     }
 
-    if (all_over) {
-        // see if all results are OVER and result is assimilated;
-        // if so we don't need to check this WU ever again.
+    // scan results, see if all over, look for canonical result
+    //
+    all_over = true;
+    canonical_result.id = 0;
+    for (i=0; i<results.size(); i++) {
+        result = results[i];
+        if (result.server_state != RESULT_SERVER_STATE_OVER) {
+            all_over = false;
+        }
+        if (result.id == wu.canonical_resultid) {
+            canonical_result = result;
+        }
+    }
+    if (wu.canonical_resultid && canonical_result.id == 0) {
+        log_messages.printf(
+            SchedMessages::CRITICAL,
+            "[WU#%d %s] can't find canonical result\n",
+            wu.id, wu.name
+        );
+    }
+
+    // if WU is assimilated, trigger file deletion
+    //
+    if (wu.assimilate_state == ASSIMILATE_DONE) {
+        // can delete input files if all results OVER
+        //
+        if (all_over) {
+            wu.file_delete_state = FILE_DELETE_READY;
+            log_messages.printf(
+                SchedMessages::DEBUG,
+                "[WU#%d %s] ASSIMILATE_DONE => setting FILE_DELETE_READY\n",
+                wu.id, wu.name
+            );
+
+            // can delete canonical result outputs
+            // if all successful results have been validated
+            //
+            if (canonical_result.id && canonical_result.file_delete_state == FILE_DELETE_INIT) {
+                canonical_result.file_delete_state = FILE_DELETE_READY;
+                canonical_result.update();
+            }
+        }
+
+        // output of error results can be deleted immediately;
+        // output of success results can be deleted if validated
         //
         for (i=0; i<results.size(); i++) {
             result = results[i];
-            if (result.server_state != RESULT_SERVER_STATE_OVER) {
-                all_over = false;
+            do_delete = false;
+            switch(result.outcome) {
+            case RESULT_OUTCOME_CLIENT_ERROR:
+                do_delete = true;
                 break;
+            case RESULT_OUTCOME_SUCCESS:
+                do_delete = (result.validate_state != VALIDATE_STATE_INIT);
+                break;
+            }
+            if (do_delete) {
+                result.file_delete_state = FILE_DELETE_READY;
+                result.update();
             }
         }
     }
 
-    if (all_over && wu.assimilate_state == ASSIMILATE_DONE) {
-        wu.file_delete_state = FILE_DELETE_READY;
-        wu.timeout_check_time = 0;
-        log_messages.printf(
-            SchedMessages::DEBUG,
-            "[WU#%d %s] ASSIMILATE_DONE => setting FILE_DELETE_READY\n",
-            wu.id, wu.name
-        );
-    } else {
-        wu.timeout_check_time = now + wu.delay_bound;
+    wu.transition_time = MAXINT;
+    for (i=0; i<results.size(); i++) {
+        result = results[i];
+        if (result.server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
+            x = result.sent_time + wu.delay_bound;
+            if (x < wu.transition_time) {
+                wu.transition_time = x;
+            }
+        }
     }
-
     retval = wu.update();
     if (retval) {
         log_messages.printf(
             SchedMessages::CRITICAL,
-            "[WU#%d %s] workunit.update() %d\n",
-            wu.id, wu.name, retval
+            "[WU#%d %s] workunit.update() %d\n", wu.id, wu.name, retval
         );
     }
 }
 
-bool do_pass(APP& app) {
+bool do_pass() {
     DB_WORKUNIT wu;
     char buf[256];
     bool did_something = false;
@@ -331,7 +401,7 @@ bool do_pass(APP& app) {
     check_stop_trigger();
     // loop over WUs that are due to be checked
     //
-    sprintf(buf, "where appid=%d and timeout_check_time>0 and timeout_check_time<%d", app.id, (int)time(0));
+    sprintf(buf, "where transition_time<%d", (int)time(0));
     while (!wu.enumerate(buf)) {
         did_something = true;
         handle_wu(wu);
@@ -340,9 +410,7 @@ bool do_pass(APP& app) {
 }
 
 void main_loop(bool one_pass) {
-    DB_APP app;
     int retval;
-    char buf[256];
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
@@ -350,18 +418,11 @@ void main_loop(bool one_pass) {
         exit(1);
     }
 
-    sprintf(buf, "where name='%s'", app_name);
-    retval = app.lookup(buf);
-    if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "can't find app %s\n", app.name);
-        exit(1);
-    }
-
     if (one_pass) {
-        do_pass(app);
+        do_pass();
     } else {
         while (1) {
-            if (!do_pass(app)) sleep(1);
+            if (!do_pass()) sleep(1);
         }
     }
 }
@@ -374,20 +435,12 @@ int main(int argc, char** argv) {
     check_stop_trigger();
     startup_time = time(0);
     for (i=1; i<argc; i++) {
-        if (!strcmp(argv[i], "-app")) {
-            strcpy(app_name, argv[++i]);
-        } else if (!strcmp(argv[i], "-nerror")) {
-            max_errors = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-ndet")) {
-            max_done = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-asynch")) {
+        if (!strcmp(argv[i], "-asynch")) {
             asynch = true;
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
-        } else if (!strcmp(argv[i], "-nredundancy")) {
-            nredundancy = atoi(argv[++i]);;
         }
     }
 
@@ -412,7 +465,7 @@ int main(int argc, char** argv) {
 
     // // Call lock_file after fork(), because file locks are not always inherited
     // if (lock_file(LOCKFILE)) {
-    //     log_messages.printf(SchedMessages::NORMAL, "Another copy of timeout_check is already running\n");
+    //     log_messages.printf(SchedMessages::NORMAL, "Another copy of transitioner is already running\n");
     //     exit(1);
     // }
     // write_pid_file(PIDFILE);

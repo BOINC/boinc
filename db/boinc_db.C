@@ -376,7 +376,8 @@ void DB_USER::db_print(char* buf){
         "country='%s', postal_code='%s', "
         "total_credit=%.15e, expavg_credit=%.15e, expavg_time=%.15e, "
         "global_prefs='%s', project_prefs='%s', "
-        "teamid=%d, venue='%s', url='%s', send_email=%d, show_hosts=%d",
+        "teamid=%d, venue='%s', url='%s', send_email=%d, show_hosts=%d, "
+        "posts=%d",
         id,
         create_time,
         email_addr,
@@ -393,7 +394,8 @@ void DB_USER::db_print(char* buf){
         venue,
         url,
         send_email,
-        show_hosts
+        show_hosts,
+        posts
     );
     unescape_single_quotes(email_addr);
     unescape_single_quotes(name);
@@ -424,6 +426,7 @@ void DB_USER::db_parse(MYSQL_ROW &r) {
     strcpy2(url, r[i++]);
     send_email = atoi(r[i++]);
     show_hosts = atoi(r[i++]);
+    posts = atoi(r[i++]);
 }
 
 void DB_TEAM::db_print(char* buf){
@@ -574,17 +577,24 @@ void DB_WORKUNIT::db_print(char* buf){
         "rsc_fpops=%.15e, rsc_iops=%.15e, rsc_memory=%.15e, rsc_disk=%.15e, "
         "need_validate=%d, "
         "canonical_resultid=%d, canonical_credit=%.15e, "
-        "timeout_check_time=%d, delay_bound=%d, "
+        "transition_time=%d, delay_bound=%d, "
         "error_mask=%d, file_delete_state=%d, assimilate_state=%d, "
-        "workseq_next=%d, opaque=%d",
+        "workseq_next=%d, opaque=%d, "
+        "min_quorum=%d, target_nresults=%d, max_error_results=%d, "
+        "max_total_results=%d, max_success_results=%d",
         id, create_time, appid,
         name, xml_doc, batch,
         rsc_fpops, rsc_iops, rsc_memory, rsc_disk,
         need_validate,
         canonical_resultid, canonical_credit,
-        timeout_check_time, delay_bound,
+        transition_time, delay_bound,
         error_mask, file_delete_state, assimilate_state,
-        workseq_next, opaque
+        workseq_next, opaque,
+        min_quorum,
+        target_nresults,
+        max_error_results,
+        max_total_results,
+        max_success_results
     );
 }
 
@@ -604,13 +614,18 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     need_validate = atoi(r[i++]);
     canonical_resultid = atoi(r[i++]);
     canonical_credit = atof(r[i++]);
-    timeout_check_time = atoi(r[i++]);
+    transition_time = atoi(r[i++]);
     delay_bound = atoi(r[i++]);
     error_mask = atoi(r[i++]);
     file_delete_state = atoi(r[i++]);
     assimilate_state = atoi(r[i++]);
     workseq_next = atoi(r[i++]);
     opaque = atoi(r[i++]);
+    min_quorum = atoi(r[i++]);
+    target_nresults = atoi(r[i++]);
+    max_error_results = atoi(r[i++]);
+    max_total_results = atoi(r[i++]);
+    max_success_results = atoi(r[i++]);
 }
 
 void DB_RESULT::db_print(char* buf){

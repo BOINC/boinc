@@ -24,7 +24,10 @@ void assimilate_handler(
     if (wu.error_mask&WU_ERROR_TOO_MANY_ERROR_RESULTS) {
         log_messages.printf(SchedMessages::CRITICAL, "[%s] Error: too many error results\n", wu.name);
     }
-    if (wu.error_mask&WU_ERROR_TOO_MANY_RESULTS) {
+    if (wu.error_mask&WU_ERROR_TOO_MANY_TOTAL_RESULTS) {
         log_messages.printf(SchedMessages::CRITICAL, "[%s] Error: too many total results\n", wu.name);
+    }
+    if (wu.error_mask&WU_ERROR_TOO_MANY_SUCCESS_RESULTS) {
+        log_messages.printf(SchedMessages::CRITICAL, "[%s] Error: too many success results\n", wu.name);
     }
 }

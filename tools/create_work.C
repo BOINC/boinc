@@ -22,7 +22,6 @@
 //  -wu_name name
 //  -wu_template filename
 //  -result_template filename
-//  -redundancy n
 //  -db_name x
 //  -db_passwd x
 //  -upload_url x
@@ -34,6 +33,11 @@
 //  -rsc_disk n
 //  -keyfile path
 //  -delay_bound x
+//  -min_quorum x
+//  -target_nresults x
+//  -max_error_results x
+//  -max_total_results x
+//  -max_success_results x
 //  -sequence n
 //  infile1 infile2 ...
 //
@@ -48,6 +52,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <values.h>
 
 #include "boinc_db.h"
 #include "crypt.h"
@@ -94,8 +99,6 @@ int main(int argc, char** argv) {
             strcpy(wu_template_file, argv[++i]);
         } else if (!strcmp(argv[i], "-result_template")) {
             strcpy(result_template_file, argv[++i]);
-        } else if (!strcmp(argv[i], "-redundancy")) {
-            redundancy = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-rsc_fpops")) {
             wu.rsc_fpops = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-rsc_iops")) {
@@ -108,6 +111,16 @@ int main(int argc, char** argv) {
             strcpy(keyfile, argv[++i]);
         } else if (!strcmp(argv[i], "-delay_bound")) {
             wu.delay_bound = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-min_quorum")) {
+            wu.min_quorum = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-target_nresults")) {
+            wu.target_nresults = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-max_error_results")) {
+            wu.max_error_results = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-max_total_results")) {
+            wu.max_total_results = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-max_success_results")) {
+            wu.max_success_results = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-sequence")) {
             sequence = atoi(argv[++i]);
         } else {
@@ -123,6 +136,11 @@ int main(int argc, char** argv) {
         || !strlen(wu_template_file )
         || !strlen(result_template_file)
         || wu.delay_bound==0
+        || wu.min_quorum == 0
+        || wu.target_nresults == 0
+        || wu.max_error_results == 0
+        || wu.max_total_results == 0
+        || wu.max_success_results == 0
     ) {
         fprintf(stderr, "create_work: bad cmdline\n");
         exit(1);
@@ -146,7 +164,7 @@ int main(int argc, char** argv) {
     }
 
     wu.appid = app.id;
-    wu.timeout_check_time = time(0) + wu.delay_bound;
+    wu.transition_time = MAXINT;
 
     retval = read_key_file(keyfile, key);
     if (retval) {
@@ -159,7 +177,6 @@ int main(int argc, char** argv) {
             wu,
             wu_template,
             result_template_file,
-            redundancy,
             download_dir,
             infiles,
             ninfiles,
@@ -173,7 +190,6 @@ int main(int argc, char** argv) {
             wu,
             wu_template,
             result_template_file,
-            redundancy,
             download_dir,
             infiles,
             ninfiles,

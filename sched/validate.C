@@ -88,7 +88,7 @@ int grant_credit(DB_RESULT& result, double credit) {
 
 void handle_wu(DB_WORKUNIT& wu) {
     DB_RESULT result, canonical_result;
-    bool match, update_result;
+    bool match, update_result, need_transition = false;
     int retval, canonicalid = 0;
     double credit;
     unsigned int i;
@@ -125,51 +125,59 @@ void handle_wu(DB_WORKUNIT& wu) {
         //         && result.outcome == RESULT_OUTCOME_SUCCESS
         //     ) {
         sprintf(buf, "where workunitid=%d and validate_state=%d and server_state=%d and outcome=%d",
-                wu.id, VALIDATE_STATE_INIT, RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS);
+            wu.id, VALIDATE_STATE_INIT, RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS
+        );
         while (!result.enumerate(buf)) {
-            {
+            need_transition = true;
+
+            // it's possible that we've deleted canonical result outputs
+            //
+            if (canonical_result.file_delete_state == FILE_DELETE_DONE) {
+                match = false;
+                retval = 0;
+            } else {
                 retval = check_pair(result, canonical_result, match);
-                if (retval) {
-                    log_messages.printf(
-                        SchedMessages::DEBUG,
-                        "[RESULT#%d %s]: pair_check() failed for result\n",
-                        result.id, result.name
-                    );
-                    continue;
-                } else {
-                    if (match) {
-                        result.validate_state = VALIDATE_STATE_VALID;
-                        result.granted_credit = wu.canonical_credit;
-                        log_messages.printf(
-                            SchedMessages::NORMAL,
-                            "[RESULT#%d %s] pair_check() matched: setting result to valid; credit %f\n",
-                            result.id, result.name, result.granted_credit
-                        );
-                    } else {
-                        result.validate_state = VALIDATE_STATE_INVALID;
-                        log_messages.printf(
-                            SchedMessages::NORMAL,
-                            "[RESULT#%d %s] pair_check() didn't match: setting result to invalid\n",
-                            result.id, result.name
-                        );
-                    }
-                }
-                retval = result.update();
-                if (retval) {
-                    log_messages.printf(
-                        SchedMessages::CRITICAL,
-                        "[RESULT#%d %s] Can't update result\n", result.id, result.name
-                    );
-                    continue;
-                }
-                retval = grant_credit(result, result.granted_credit);
-                if (retval) {
+            }
+            if (retval) {
+                log_messages.printf(
+                    SchedMessages::DEBUG,
+                    "[RESULT#%d %s]: pair_check() failed for result\n",
+                    result.id, result.name
+                );
+                continue;
+            } else {
+                if (match) {
+                    result.validate_state = VALIDATE_STATE_VALID;
+                    result.granted_credit = wu.canonical_credit;
                     log_messages.printf(
                         SchedMessages::NORMAL,
-                        "[RESULT#%d %s] Can't grant credit\n", result.id, result.name
+                        "[RESULT#%d %s] pair_check() matched: setting result to valid; credit %f\n",
+                        result.id, result.name, result.granted_credit
                     );
-                    continue;
+                } else {
+                    result.validate_state = VALIDATE_STATE_INVALID;
+                    log_messages.printf(
+                        SchedMessages::NORMAL,
+                        "[RESULT#%d %s] pair_check() didn't match: setting result to invalid\n",
+                        result.id, result.name
+                    );
                 }
+            }
+            retval = result.update();
+            if (retval) {
+                log_messages.printf(
+                    SchedMessages::CRITICAL,
+                    "[RESULT#%d %s] Can't update result\n", result.id, result.name
+                );
+                continue;
+            }
+            retval = grant_credit(result, result.granted_credit);
+            if (retval) {
+                log_messages.printf(
+                    SchedMessages::NORMAL,
+                    "[RESULT#%d %s] Can't grant credit\n", result.id, result.name
+                );
+                continue;
             }
         }
     } else {
@@ -189,8 +197,10 @@ void handle_wu(DB_WORKUNIT& wu) {
         //     if (result.server_state == RESULT_SERVER_STATE_OVER
         //         && result.outcome == RESULT_OUTCOME_SUCCESS
         //     ) {
-        sprintf(buf, "where workunitid=%d and server_state=%d and outcome=%d",
-                wu.id, RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS);
+        sprintf(
+            buf, "where workunitid=%d and server_state=%d and outcome=%d",
+            wu.id, RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS
+        );
         while (!result.enumerate(buf)) {
             results.push_back(result);
         }
@@ -198,13 +208,14 @@ void handle_wu(DB_WORKUNIT& wu) {
             SchedMessages::DEBUG, "[WU#%d %s] Found %d successful results\n",
             wu.id, wu.name, (int)results.size()
         );
-        if (results.size() >= (unsigned int)min_quorum) {
+        if (results.size() >= (unsigned int)wu.min_quorum) {
             log_messages.printf(
                 SchedMessages::DEBUG,
                 "[WU#%d %s] Enough for quorum, checking set.\n", wu.id, wu.name
             );
             retval = check_set(results, canonicalid, credit);
             if (!retval && canonicalid) {
+                need_transition = true;
                 log_messages.printf(
                     SchedMessages::DEBUG,
                     "[WU#%d %s] Found a canonical result: id=%d\n",
@@ -237,15 +248,6 @@ void handle_wu(DB_WORKUNIT& wu) {
                         );
                     }
 
-                    // // don't send any unsent results
-                    // //
-                    // if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
-                    //     update_result = true;
-                    //     result.server_state = RESULT_SERVER_STATE_OVER;
-                    //     result.received_time = time(0);
-                    //     result.outcome = RESULT_OUTCOME_DIDNT_NEED;
-                    // }
-
                     if (update_result) {
                         retval = result.update();
                         if (retval) {
@@ -260,10 +262,10 @@ void handle_wu(DB_WORKUNIT& wu) {
 
                 // don't send any unsent results
                 sprintf(buf, "where workunitid=%d and server_state=%d",
-                        wu.id, RESULT_SERVER_STATE_UNSENT);
+                    wu.id, RESULT_SERVER_STATE_UNSENT
+                );
                 while (!result.enumerate(buf)) {
                     result.server_state = RESULT_SERVER_STATE_OVER;
-                    result.received_time = time(0);
                     result.outcome = RESULT_OUTCOME_DIDNT_NEED;
                     retval = result.update();
                     if (retval) {
@@ -271,8 +273,15 @@ void handle_wu(DB_WORKUNIT& wu) {
                             SchedMessages::CRITICAL,
                             "[RESULT#%d %s] result.update() = %d\n",
                             result.id, result.name, retval
-                            );
+                        );
                     }
+                }
+            } else {
+                // here if no consensus; check if #success results is too large
+                //
+                if ((int)results.size() > wu.max_success_results) {
+                    wu.error_mask |= WU_ERROR_TOO_MANY_SUCCESS_RESULTS;
+                    need_transition = true;
                 }
             }
         }
@@ -280,7 +289,12 @@ void handle_wu(DB_WORKUNIT& wu) {
 
     --log_messages;
 
-    mark_validated:
+mark_validated:
+
+    if (need_transition) {
+        wu.transition_time = time(0);
+    }
+
     // we've checked all results for this WU, so turn off flag
     //
     wu.need_validate = 0;

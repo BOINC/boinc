@@ -5768,3 +5768,24 @@ Karl 2003/08/15
 
     sched/
         file_upload_handler.C
+
+David  Aug 15 2003
+    - revised backend logic
+        This fixes some bugs and inefficiencies (I hope)
+        Redundancy parameters are now part of workunit DB records
+    - TODO: update test scripts to reflect these changes; debug
+
+    db/
+        boinc_db.C,h
+        constraints.sql
+        schema.sql
+    sched/
+        assimilate_handler.C
+        assimilator.C
+        handle_request.C
+        main.h
+        timeout_check.C
+        validate.C
+    tools/
+        backend_lib.C,h
+        create_work.C

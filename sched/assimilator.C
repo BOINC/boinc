@@ -41,8 +41,7 @@ CONFIG config;
 bool do_pass(APP& app) {
     DB_WORKUNIT wu;
     DB_RESULT canonical_result, result;
-    vector<RESULT> results;
-    bool did_something = false, delete_inputs, delete_outputs;
+    bool did_something = false;
     char buf[MAX_BLOB_SIZE];
     unsigned int i;
 
@@ -50,6 +49,7 @@ bool do_pass(APP& app) {
 
     sprintf(buf, "where appid=%d and assimilate_state=%d", app.id, ASSIMILATE_READY);
     while (!wu.enumerate(buf)) {
+        vector<RESULT> results;     // must be inside while()!
         did_something = true;
 
         log_messages.printf(SchedMessages::DEBUG,
@@ -66,47 +66,9 @@ bool do_pass(APP& app) {
 
         assimilate_handler(wu, results, canonical_result);
 
-        delete_outputs = true;
-        delete_inputs = true;
-        for (i=0; i<results.size(); i++) {
-            result = results[i];
-            if (result.server_state != RESULT_SERVER_STATE_OVER
-                || (result.outcome != RESULT_OUTCOME_SUCCESS && result.outcome != RESULT_OUTCOME_CLIENT_ERROR)
-            ) {
-                delete_outputs = false;
-            }
-            if (result.server_state != RESULT_SERVER_STATE_OVER) {
-                delete_inputs = false;
-            }
-        }
-
-        if (delete_outputs) {
-            for (i=0; i<results.size(); i++) {
-                result = results[i];
-                result.file_delete_state = FILE_DELETE_READY;
-                result.update();
-            }
-        } else {
-            for (i=0; i<results.size(); i++) {
-                result = results[i];
-                if (result.server_state == RESULT_SERVER_STATE_OVER
-                    && result.id != wu.canonical_resultid
-                    && (result.outcome == RESULT_OUTCOME_SUCCESS || result.outcome == RESULT_OUTCOME_CLIENT_ERROR)
-                ) {
-                    result.file_delete_state = FILE_DELETE_READY;
-                    result.update();
-                }
-            }
-        }
-
         wu.assimilate_state = ASSIMILATE_DONE;
-        if (delete_inputs) {
-            wu.file_delete_state = FILE_DELETE_READY;
-        }
+        wu.transition_time = time(0);
         wu.update();
-
-        // Clear out result vector so we don't reuse them in the next WU
-        results.erase(results.begin(),results.end());
     }
     return did_something;
 }

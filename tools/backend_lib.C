@@ -208,7 +208,6 @@ int create_work(
     DB_WORKUNIT& wu,
     char* _wu_template,
     char* result_template_filename,
-    int nresults,
     char* infile_dir,
     char** infiles,
     int ninfiles,
@@ -243,7 +242,7 @@ int create_work(
         fprintf(stderr, "create_work: can't read result template\n");
         return retval;
     }
-    for (i=0; i<nresults; i++) {
+    for (i=0; i<wu.target_nresults; i++) {
         sprintf(suffix, "%d", i);
         strcpy(result_template, _result_template);
         retval = create_result(
@@ -261,7 +260,6 @@ int create_sequence(
     DB_WORKUNIT& wu,
     char* wu_template,
     char* result_template_filename,
-    int redundancy,
     char* infile_dir,
     char** infiles,
     int ninfiles,
@@ -284,7 +282,6 @@ int create_sequence_group(
     DB_WORKUNIT& wu,
     char* wu_template,
     char* result_template_filename,
-    int redundancy,
     char* infile_dir,
     char** infiles,
     int ninfiles,
