@@ -19262,3 +19262,19 @@ David  11 Nov 2004
         file_names.C
     lib/
         filesys.C
+
+David  11 Nov 2004
+	- compile fixes and cleanup for Mac
+
+	api/
+		boinc_gl.h
+		graphics_api.C
+		gutil.C
+		mac_app_opengl.C,h (removed)
+		mac_carbon_gl.C,h (removed)
+		reduce.C
+	boincglut/lib/glut/
+		glutint.h
+	clientgui/
+		MainDocument.cpp
+		Makefile.old

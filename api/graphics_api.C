@@ -27,10 +27,6 @@
 extern void win_graphics_event_loop();
 #endif
 
-#ifdef __APPLE_CC__
-#include "mac_app_opengl.h"
-#endif
-
 #ifndef _WIN32
 #include <cstring>
 #include <cstdarg>
@@ -119,27 +115,6 @@ int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*_worker_main)()) {
     win_graphics_event_loop();
 #endif
 
-#ifdef __APPLE_CC__
-    OSErr     theErr = noErr;
-    ThreadID    workerThreadID = 0;
-    ThreadEntryUPP entry_proc;
-
-    entry_proc = NewThreadEntryUPP(foobar);
-
-    // Create the thread in a suspended state
-    theErr = NewThread ( kCooperativeThread, entry_proc,
-        0, 0, kNewSuspend | kCreateIfNeeded, NULL, &workerThreadID
-    );
-    if (theErr != noErr) return ERR_THREAD;
-
-    // Put the worker event loop into the ready state
-    SetThreadState(workerThreadID, kReadyThreadState, kNoThreadID);
-
-    YieldToAnyThread();
-    graphics_inited = true;
-    mac_graphics_event_loop();
-#endif
-
 #ifdef _PTHREAD_H
     pthread_t worker_thread;
     pthread_attr_t worker_thread_attr;
@@ -181,7 +156,7 @@ int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*_worker_main)()) {
     return 0;
 }
 
-#ifdef _PTHREAD_H
+#ifndef _WIN32
 extern "C" {
 void glut_quit() {
     pthread_exit(0);

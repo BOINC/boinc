@@ -25,6 +25,8 @@
 #pragma implementation "MainDocument.h"
 #endif
 
+#include <stdexcept>
+
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
