@@ -76,14 +76,19 @@ function show_425_public($xml=false) {
     version_end($xml);
 }
 
+function show_426($xml=false) {
+    version_start("4.26", "10 Mar 2005", $xml);
+    version("Windows", "boinc_4.26_windows_intelx86.exe", win_new(), $xml);
+    version("Linux/x86", "boinc_4.26_i686-pc-linux-gnu.sh", sea(), $xml);
+    version("Solaris/SPARC", "boinc_4.26_sparc-sun-solaris2.7.sh", sea(), $xml);
+    version_end($xml);
+}
+
 function show_425($xml=false) {
     version_start("4.25", "3 Mar 2005", $xml);
-    version("Windows", "boinc_4.25_windows_intelx86.exe", win_new(), $xml);
     version("Mac OS X", "BOINC_Menubar_4.25_mac.zip", mac_simple(), $xml);
     //version("Mac OS X", "BOINC.app.sit", mac_advanced(), $xml);
     version("Mac OS X", "boinc_4.25_powerpc-apple-darwin.gz", bare_core(), $xml);
-    version("Linux/x86", "boinc_4.25_i686-pc-linux-gnu.sh", sea(), $xml);
-    version("Solaris/SPARC", "boinc_4.25_sparc-sun-solaris2.7.sh", sea(), $xml);
     version_end($xml);
 }
 
@@ -156,6 +161,7 @@ function show_stable($xml) {
 }
 
 function show_dev($xml) {
+    show_426($xml);
     show_425($xml);
 }
 
