@@ -16,6 +16,7 @@ EXTRA_DIST = wd.php wd_nresults_changing.php
 bin_SCRIPTS = watch_tcp kill_server
 
 LDADD = $(MYSQL_LIBS) -L. -lsched
+LIB_SCHED = libsched.a
 
 libsched_a_SOURCES =				\
         sched_shmem.C				\
@@ -40,33 +41,48 @@ cgi_SOURCES =					\
 	handle_request.h			\
 	main.h					\
 	server_types.h
+cgi_DEPEDENCIES = $(LIB_SCHED)
 
 feeder_SOURCES = feeder.C
+feeder_DEPENDENCIES = $(LIB_SCHED)
+
 show_shmem_SOURCES = show_shmem.C
+show_shmem_DEPENDENCIES = $(LIB_SCHED)
+
 validate_test_SOURCES = validate.C validate_test.C
+validate_test_DEPENDENCIES = $(LIB_SCHED)
+
 file_deleter_SOURCES = file_deleter.C
+file_deleter_DEPENDENCIES = $(LIB_SCHED)
+
 assimilator_SOURCES = assimilator.C assimilate_handler.C
+assimilator_DEPENDENCIES = $(LIB_SCHED)
+
 db_dump_SOURCES = db_dump.C
+db_dump_DEPENDENCIES = $(LIB_SCHED)
+
 update_stats_SOURCES = update_stats.C
+update_stats_DEPENDENCIES = $(LIB_SCHED)
+
 start_servers_SOURCES = start_servers.C
+start_servers_DEPENDENCIES = $(LIB_SCHED)
 
 file_upload_handler_SOURCES = file_upload_handler.C
-file_upload_handler_DEPENDENCIES = $(LIBRSA)
+file_upload_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 file_upload_handler_LDADD = $(LDADD) $(RSA_LIBS)
 
 make_work_SOURCES =				\
         make_work.C				\
         ../tools/backend_lib.C			\
         ../tools/process_result_template.C	\
-make_work_DEPENDENCIES = $(LIBRSA)
+make_work_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 make_work_LDADD = $(LDADD) $(RSA_LIBS)
 
 timeout_check_SOURCES =				\
         timeout_check.C				\
         ../tools/backend_lib.C			\
         ../tools/process_result_template.C
-
-timeout_check_DEPENDENCIES = $(LIBRSA)
+timeout_check_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 timeout_check_LDADD = $(LDADD) $(RSA_LIBS)
 
 fcgi_SOURCES =					\
@@ -74,7 +90,6 @@ fcgi_SOURCES =					\
         main.C					\
         server_types.C				\
         ../tools/process_result_template.C
-
-fcgi_DEPENDENCIES = $(LIBRSA)
+fcgi_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 fcgi_CPPFLAGS = -include /usr/local/include/fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi -lfcgi++ $(MYSQL_LIBS)
