@@ -20,9 +20,11 @@
 // include header
 
 #include "wingui.h"
+#include "util.h"
 
 // globals
 
+int OSVersion;
 CMainWindow* g_myWnd = NULL;
 CMyApp g_myApp;
 char* g_szColumnTitles[MAX_LIST_ID][MAX_COLS] = {
@@ -1251,7 +1253,11 @@ BOOL CMyApp::InitInstance()
 		return FALSE;
 	}
     m_pMainWnd = new CMainWindow();
-	m_pMainWnd->ShowWindow(SW_SHOW);
+	if (gstate.minimize)
+		m_pMainWnd->ShowWindow(SW_HIDE);
+	else
+		m_pMainWnd->ShowWindow(SW_SHOW);
+
 	m_pMainWnd->UpdateWindow();
     return TRUE;
 }
@@ -1757,7 +1763,7 @@ void CMainWindow::LoadUserSettings()
 	rt.right = nBuf + rt.left;
 	nBuf = GetPrivateProfileInt("WINDOW", "height", 400, szPath);
 	rt.bottom = nBuf + rt.top;
-	SetWindowPos(&wndNoTopMost, rt.left, rt.top, rt.Width(), rt.Height(), SWP_SHOWWINDOW);
+	SetWindowPos(&wndNoTopMost, rt.left, rt.top, rt.Width(), rt.Height(), gstate.minimize?SWP_HIDEWINDOW:SWP_SHOWWINDOW);
 
 	// load selected tab
 	nBuf = GetPrivateProfileInt("WINDOW", "selection", 0, szPath);
@@ -2204,6 +2210,8 @@ void CMainWindow::OnCommandExit()
 //				windows, and initializes client state and timer
 int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 {
+	char curDir[512];
+
     if (CWnd::OnCreate(lpcs) == -1) {
 		return -1;
 	}
@@ -2299,6 +2307,14 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_TabCtrl.SetFont(&m_Font);
 	m_UsagePieCtrl.SetFont(&m_Font);
 
+	// Determine the OS version
+	UtilInitOSVersion();
+
+	// Set the current directory to the default
+	UtilGetRegStr("ClientDir", curDir);
+	if (strlen(curDir))
+		SetCurrentDirectory(curDir);
+
 	// add status icon to taskbar
 	SetStatusIcon(ICON_NORMAL);
 
@@ -2308,8 +2324,18 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// Redirect stdout and stderr to files
     freopen(STDOUT_FILE_NAME, "w", stdout);
     freopen(STDERR_FILE_NAME, "w", stderr);
+
 	// Check what (if any) activities should be logged
     read_log_flags();
+
+	LPSTR command_line;
+	char* argv[100];
+	int argc;
+
+	command_line = GetCommandLine();
+    argc = parse_command_line( command_line, argv );
+    gstate.parse_cmdline(argc, argv);
+
     int retval = gstate.init();
     if (retval) {
 		OnCommandExit();
@@ -2833,4 +2859,60 @@ void CProxyDialog::OnOK()
 	GetDlgItemText(IDC_EDIT_HTTP_PORT, strbuf);
 	gstate.proxy_server_port = atoi(strbuf.GetBuffer(0));
 	CDialog::OnOK();
+}
+
+//////////
+// Function:    UtilGetRegStr
+// arguments:	name: name of key, str: where to store value of key
+// returns:		int indicating error
+// function:	reads string value in specified key
+int UtilGetRegStr(char *name, char *str )
+{
+	LONG error;
+	DWORD type = REG_SZ;
+	DWORD size = 128;
+	HKEY boinc_key;
+
+	if ( OSVersion == OS_WIN95 ) {
+		error = RegOpenKeyEx( HKEY_LOCAL_MACHINE, "SOFTWARE\\BOINC",  
+			0, KEY_ALL_ACCESS, &boinc_key );
+		if ( error != ERROR_SUCCESS ) return -1;
+	} else {
+		error = RegOpenKeyEx( HKEY_CURRENT_USER, "SOFTWARE\\BOINC",  
+			0, KEY_ALL_ACCESS, &boinc_key );
+		if ( error != ERROR_SUCCESS ) return -1;
+	}
+
+	error = RegQueryValueEx( boinc_key, name, NULL,
+		&type, (BYTE*)str, &size );
+
+	RegCloseKey( boinc_key );
+
+	if ( error != ERROR_SUCCESS ) return -1;
+
+	return 0;
+}
+
+//////////
+// Function:    UtilInitOSVersion
+// arguments:	void
+// returns:		int indicating error
+// function:	sets global variable "OSVersion" to the current OS (Win95/NT/Unknown)
+int UtilInitOSVersion( void )
+{
+	OSVERSIONINFO osinfo;
+
+	osinfo.dwOSVersionInfoSize = sizeof(osinfo);
+	if (!GetVersionEx( &osinfo ))
+		return FALSE;
+
+	if (osinfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
+		OSVersion = OS_WIN95;
+	else if ( osinfo.dwPlatformId == VER_PLATFORM_WIN32_NT)
+		OSVersion = OS_WINNT;
+	else
+		OSVersion = OS_UNKNOWN;
+
+	return TRUE;
+
 }

@@ -68,6 +68,7 @@ CLIENT_STATE::CLIENT_STATE() {
     app_started = 0;
     max_transfer_rate = 9999999;
     max_bytes = 0;
+	minimize = false;
     user_idle = true;
     use_proxy = false;
 	proxy_server_name[0] = 0;
@@ -1000,6 +1001,12 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
 
         if (!strcmp(argv[i], "-limit_transfer_rate")) {
             max_transfer_rate = atoi(argv[++i]);
+            continue;
+        };
+
+        // Put the client in the background after starting up
+        if (!strcmp(argv[i], "-min")) {
+            minimize = true;
             continue;
         };
     }

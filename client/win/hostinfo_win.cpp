@@ -142,16 +142,16 @@ int get_host_info(HOST_INFO& host) {
         case PROCESSOR_ARCHITECTURE_INTEL:
         switch ( SystemInfo.dwProcessorType ) {
             case PROCESSOR_INTEL_386:
-                strcpy( host.p_model, "Intel 80386" );
+                strcpy( host.p_model, "80386" );
                 break;
             case PROCESSOR_INTEL_486:
-                strcpy( host.p_model, "Intel 80486" );
+                strcpy( host.p_model, "80486" );
                 break;
             case PROCESSOR_INTEL_PENTIUM:
-                strcpy( host.p_model, "Intel Pentium" );
+                strcpy( host.p_model, "Pentium" );
                 break;
             default:
-                strcpy( host.p_model, "Intel x86" );
+                strcpy( host.p_model, "x86" );
                 break;
             }
         break;

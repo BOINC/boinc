@@ -78,6 +78,7 @@ public:
         // returns the total disk usage of BOINC on this host
     int allowed_disk_usage(double&);
     unsigned int giveup_after;
+	bool minimize;  // put client in the background after it's started up
     bool user_idle;
     bool suspend_requested;
     bool use_proxy;
