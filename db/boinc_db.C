@@ -983,7 +983,7 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     strcpy2(wu.result_template_file, r[i++]);
 }
 
-int DB_WORK_ITEM::enumerate(int limit) {
+int DB_WORK_ITEM::enumerate(int limit, bool random_order) {
     char query[MAX_QUERY_LEN];
     int retval;
     MYSQL_ROW row;
@@ -993,8 +993,11 @@ int DB_WORK_ITEM::enumerate(int limit) {
             "select high_priority result.id, workunit.* from result left join workunit "
             "on workunit.id = result.workunitid "
             "where result.server_state=%d "
+            "%s"
             "limit %d",
-            RESULT_SERVER_STATE_UNSENT, limit
+            RESULT_SERVER_STATE_UNSENT,
+            random_order?" order by random ":"",
+            limit
         );
         retval = db->do_query(query);
         if (retval) return mysql_errno(db->mysql);

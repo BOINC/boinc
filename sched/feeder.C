@@ -19,7 +19,7 @@
 
 // -------------------------------
 //
-// feeder [-asynch] [-d debug_level]
+// feeder [-asynch] [-d debug_level] [-random_order]
 // -asynch      fork and run in a separate process
 //
 // Creates a shared memory segment containing DB info,
@@ -121,6 +121,7 @@
 SCHED_CONFIG config;
 SCHED_SHMEM* ssp;
 key_t sema_key;
+bool random_order = false;
 
 void cleanup_shmem() {
     detach_shmem((void*)ssp);
@@ -212,7 +213,7 @@ static void scan_work_array(
             break;
 #endif
         case WR_STATE_EMPTY:
-            retval = wi.enumerate(limit);
+            retval = wi.enumerate(limit, random_order);
             if (retval) {
 
                 // if we already restarted the enum on this array scan,
@@ -228,7 +229,7 @@ static void scan_work_array(
                 // restart the enumeration
                 //
                 restarted_enum = true;
-                retval = wi.enumerate(limit);
+                retval = wi.enumerate(limit, random_order);
                 log_messages.printf(SCHED_MSG_LOG::DEBUG,
                     "restarting enumeration\n"
                 );
@@ -370,6 +371,8 @@ int main(int argc, char** argv) {
             asynch = true;
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
+        } else if (!strcmp(argv[i], "-random_order")) {
+            random_order = true;
         }
     }
 

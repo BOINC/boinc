@@ -18611,3 +18611,14 @@ David  19 Oct 2004
 
 	client/
 		cs_apps.C
+
+David  19 Oct 2004
+    - added a -random_order option to the feeder
+        (this is inefficient if you don't have an index
+        on result.(server_state, random);
+        we're using it in the alpha project, where it doesn't matter)
+
+    db/
+        boinc_db.C,h
+    sched/
+        feeder.C
