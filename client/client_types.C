@@ -32,6 +32,10 @@
 #include "client_types.h"
 
 PROJECT::PROJECT() {
+    init();
+}
+
+void PROJECT::init() {
     strcpy(master_url, "");
     strcpy(authenticator, "");
     strcpy(project_specific_prefs, "");
@@ -97,8 +101,9 @@ int PROJECT::write_account_file() {
 // parse project fields from account_*.xml
 //
 int PROJECT::parse_account(FILE* in) {
-    char buf[256];
+    char buf[256], venue[256];
     int retval;
+    bool in_venue = false, in_correct_venue;
 
     // Assume master_url_fetch_pending, sched_rpc_pending are
     // true until we read client_state.xml
@@ -109,6 +114,30 @@ int PROJECT::parse_account(FILE* in) {
     strcpy(authenticator, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<account>")) continue;
+
+        /*
+        if (in_venue) {
+            if (match_tag(buf, "</venue>")) {
+                if (in_correct_venue)
+                    return 0;
+                else {
+                    in_venue = false;
+                    continue;
+                }
+            } else if (!in_correct_venue)
+                continue;
+        } else if (match_tag(buf, "<venue")) {
+            in_venue = true;
+            parse_attr(buf, "name", venue, sizeof(venue));
+            if (!strcmp(venue, gstate.host_venue)) {
+                init();
+                in_correct_venue = true;
+            } else
+                in_correct_venue = false;
+            continue;
+        }
+        */
+
         if (match_tag(buf, "</account>")) return 0;
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
             case_format_url(master_url);

@@ -4955,6 +4955,8 @@ Karl    2003/06/20
         upper_case.C
 
 Tim     June 23, 2003
+    - Project Preference
+        Added venue parsing (fixes stderr.txt PROJECT::parse_account() error), but commented out
     - Windows GUI
         UpdateGUI only refreshes active tab (reduces Windows CPU time by 85%)
         Fixed m_MessageListCtrl scrolling issue
@@ -4962,6 +4964,7 @@ Tim     June 23, 2003
         Temporarily fixed the afx assertion failure at line 157
 
     client/
+        client_types.c
         gui_title.c
     client/win/
         wingui_mainwindow.cpp

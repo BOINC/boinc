@@ -92,6 +92,7 @@ public:
 
     PROJECT();
     ~PROJECT();
+    void init();
     void copy_state_fields(PROJECT&);
     char *get_project_name();
     int write_account_file();
