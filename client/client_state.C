@@ -85,10 +85,6 @@ int CLIENT_STATE::init() {
 
     srand(time(NULL));
 
-    // TODO: set this to actual # of CPUs (or less, depending on prefs?)
-    //
-    nslots = 1;
-
     // Read the global preferences file, if it exists.
     //
     retval = global_prefs.parse_file();
@@ -147,6 +143,13 @@ int CLIENT_STATE::init() {
 		}
 #endif	
     }
+
+    // Set nslots to actual # of CPUs (or less, depending on prefs?)
+    //
+	if (gstate.host_info.p_ncpus > 0)
+		nslots = gstate.host_info.p_ncpus;
+	else
+	    nslots = 1;
     
     // Restart any tasks that were running when we last quit the client
     gstate.restart_tasks();

@@ -222,6 +222,10 @@ SOURCE=..\..\Client\win\Win_net.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\client\win\win_util.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\client\win\wingui.cpp
 # End Source File
 # End Group

@@ -88,10 +88,6 @@
 #define MESSAGE_COLS		3
 #define MAX_COLS			7
 
-#define OS_UNKNOWN          0
-#define OS_WIN95            1
-#define OS_WINNT            2
-
 // typedefs
 
 typedef BOOL (CALLBACK* InitFn)();
@@ -336,10 +332,6 @@ protected:
 	afx_msg void			OnOK();
 	DECLARE_MESSAGE_MAP()
 };
-
-// function declarations
-int UtilGetRegStr(char *name, char *str );
-int UtilInitOSVersion( void );
 
 // globals
 

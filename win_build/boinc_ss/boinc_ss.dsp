@@ -94,6 +94,10 @@ LINK32=link.exe
 
 SOURCE=..\..\client\win\win_screensaver.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\win_util.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -102,6 +106,10 @@ SOURCE=..\..\client\win\win_screensaver.cpp
 
 SOURCE=..\..\api\graphics_api.h
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\win_util.h
+# End Source File
 # End Group
 # Begin Group "Resource Files"
 
@@ -109,6 +117,14 @@ SOURCE=..\..\api\graphics_api.h
 # Begin Source File
 
 SOURCE=..\..\client\win\boinc_ss.rc
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\boinc_ss_res.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\Scricon3.ico
 # End Source File
 # End Group
 # End Target
