@@ -141,10 +141,10 @@ void REDUCED_ARRAY::reduce_source_row(float* in, float* out) {
             out[ri] += in[i];
             break;
             case REDUCE_METHOD_MIN:
-            out[ri] = min(out[ri],in[i]);
+            out[ri] = std::min(out[ri],in[i]);
             break;
             case REDUCE_METHOD_MAX:
-            out[ri] = max(out[ri],in[i]);
+            out[ri] = std::max(out[ri],in[i]);
             break;
         }
     }
@@ -255,7 +255,7 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
         y10 = draw_pos[1] + draw_size[1]*h10;
         y11 = draw_pos[1] + draw_size[1]*h11;
 
-        float h = max(h00, max(h01, max(h10, h11)));
+        float h = std::max(h00, std::max(h01, std::max(h10, h11)));
         double hue = hue0 + (dhue*i)/rdimx;
         if (hue > 1) hue -= 1;
         double sat = 1.;

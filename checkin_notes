@@ -20802,3 +20802,12 @@ Rom    6 Dec 2004
     win_build/
         boinc.sln
         boinc_gui.vcproj
+
+Rom    6 Dec 2004
+    - Force include StdAfx.h for all files in boinc_gui.vcproj fixes the
+        linker problems.
+
+    win_build/
+        boinc.sln
+        boinc_gui.vcproj
+    
