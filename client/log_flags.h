@@ -23,6 +23,9 @@
 // NOTE: all writes to stdout should have an if (log.*) {} around them.
 //
 
+#ifndef _LOGFLAGS_H_
+#define _LOGFLAGS_H_
+
 #include <stdio.h>
 
 class LOG_FLAGS {
@@ -51,3 +54,5 @@ public:
 
 extern LOG_FLAGS log_flags;
 extern void read_log_flags();
+
+#endif
