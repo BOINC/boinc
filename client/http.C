@@ -479,6 +479,10 @@ bool HTTP_OP_SET::poll() {
                 htp->want_download = true;
                 htp->io_ready = false;
                 htp->io_done = false;
+
+                // We don't need to write to the socket anymore.  This closes
+                // the read fd on the receiving side.
+                shutdown(htp->socket, SHUT_WR);
             }
             break;
         case HTTP_STATE_REPLY_HEADER:

@@ -7936,3 +7936,9 @@ Karl 2003-11-28
 
     test/
         testbase.py
+
+    - client: close write socket when done writing (but still reading) by
+      using shutdown(2)
+
+    client/
+        http.C
