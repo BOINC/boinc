@@ -1,4 +1,5 @@
-<?php
+<?php {
+
     require_once("db.inc");
     require_once("util.inc");
     require_once("user.inc");
@@ -7,7 +8,13 @@
     db_init();
 
     page_head("Top teams");
-    $result = mysql_query("select * from team order by expavg_credit desc, total_credit desc");
+    $sort_by = $_GET["sort_by"];
+    if ($sort_by == "total_credit") {
+        $sort_by = "total_credit desc, total_credit desc";
+    } else {
+        $sort_by = "expavg_credit desc, total_credit desc";
+    }
+    $result = mysql_query("select * from team order by $sort_by");
     start_table();
     row1("Teams", 5);
     team_table_start();
@@ -19,4 +26,5 @@
     mysql_free_result($result);
     echo "</table>\n<p>\n";
     page_tail();
-?>
+
+} ?>
