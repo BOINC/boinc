@@ -146,8 +146,14 @@ def rmtree(dir):
     except OSError:
         pass
 
+def _remove_trail(s, suffix):
+    if s.endswith(suffix):
+        return s[:-len(suffix)]
+    else:
+        return s
+
 def _url_to_filename(url):
-    return url.replace('http://','').replace('/','_')
+    return _remove_trail(url.replace('http://','').replace('/','_'),'_')
 def account_file_name(url):
     return 'account_' + _url_to_filename(url) + '.xml'
 
