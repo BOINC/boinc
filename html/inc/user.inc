@@ -108,6 +108,10 @@ function show_user_info_private($user) {
     );
 }
 
+function show_clone_url($user) {
+    $url = URL_BASE."create_account_form.php?userid=$user->id";
+    row2("Clone account URL<br><font size=-2>create accounts with the same team and project preferences as this account</font>", "<a href=$url>$url</a>");
+}
 // show summary of dynamic and static info (public)
 function show_user_summary_public($user) {
     row1("Account data for $user->name");
@@ -136,6 +140,7 @@ function show_user_summary_public($user) {
     if ($user->has_profile) {
         row2("Profile", "<a href=view_profile.php?userid=$user->id>view</a>");
     }
+    show_clone_url($user);
 }
 
 // show a summary of the user.
@@ -150,6 +155,7 @@ function show_user_page_private($user) {
     row2("", "<a href=logout.php>Log out</a>");
     row2("Account number<br><font size=-2>Used in URLs</font>", $user->id);
     row2("Cross-project ID", $user->cross_project_id);
+    show_clone_url($user);
     end_table();
 }
 

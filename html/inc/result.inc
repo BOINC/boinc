@@ -22,7 +22,7 @@ function result_granted_credit_string($result, $string_to_show) {
            return $string_to_show;
         }
     case 2: return "---"; //Couldn't send
-    case 3: return "-!-"; //Client error
+    case 3: return "---"; //Client error
     case 4: return "---"; //No reply
     case 5: return "---"; //Didn't need
     default: return $string_to_show;
@@ -46,6 +46,7 @@ function result_outcome_string($s) {
     case 3: return "Client error";
     case 4: return "No reply";
     case 5: return "Didn't need";
+    case 6: return "Couldn't validate - missing file";
     }
     return "Unknown";
 }

@@ -18451,3 +18451,16 @@ Lana    15 Oct 2004
 
      sched/
         transitioner.C
+
+David  15 Oct 2004
+    - debugged "clone account" feature
+
+    html/
+        inc/
+            result.inc
+            user.inc
+        user/
+            account_setup_first.php
+            account_setup_nonfirst_action.php
+            create_account_action.php
+            create_account_form.php

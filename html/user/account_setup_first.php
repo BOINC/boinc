@@ -25,8 +25,11 @@ echo "
 ";
 $global_prefs = default_prefs_global();
 global_prefs_update($user, $global_prefs);
-$project_prefs = default_prefs_project();
-project_prefs_update($user, $project_prefs);
+
+if (strlen($user->project_prefs) == 0) {
+    $project_prefs = default_prefs_project();
+    project_prefs_update($user, $project_prefs);
+}
 
 echo "<form action=account_setup_first_action.php>
     <table cellpadding=6>

@@ -28,9 +28,7 @@ function show_error($str) {
 
     $userid = $_POST["userid"];
     if ($userid) {
-        $result = mysql_query("select * from user where id=$userid");
-        $clone_user = mysql_fetch_object($result);
-        mysql_free_result($result);
+        $clone_user = lookup_user_id($userid);
         if (!$clone_user) {
             echo "User $userid not found";
             exit();

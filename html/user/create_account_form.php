@@ -30,9 +30,19 @@ echo "
     <form action=create_account_action.php method=post>
 ";
 if ($userid) {
-    echo "
-        <input type=hidden name=userid value=$userid>
-    ";
+    $user = lookup_user_id($userid);
+    if (!$user) {
+        echo "No such user";
+    } else {
+        echo "This account will have
+            the same team and project preferences as
+            <a href=show_user.php?userid=$userid>$user->name</a>.
+            <p>
+        ";
+        echo "
+            <input type=hidden name=userid value=$userid>
+        ";
+    }
 }
 start_table();
 row2(

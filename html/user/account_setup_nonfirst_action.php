@@ -8,7 +8,7 @@ db_init();
 
 $user = get_logged_in_user();
 
-$prefs = prefs_parse_global($user->global_prefs);
+$prefs = prefs_parse_project($user->project_prefs);
 prefs_resource_parse_form($prefs);
 venue_parse_form($user);
 project_prefs_update($user, $prefs);
