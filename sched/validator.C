@@ -427,8 +427,8 @@ void handle_wu(DB_WORKUNIT& wu) {
     //
     wu.need_validate = 0;
     sprintf(buf, 
-        "need_validate=%d, transition_time=%d, canonical_resultid=%d,
-        canonical_credit=%f, assimilate_state=%d",
+        "need_validate=%d, transition_time=%d, "
+        "canonical_resultid=%d,canonical_credit=%f,assimilate_state=%d",
         wu.need_validate, wu.transition_time, wu.canonical_resultid, 
         wu.canonical_credit, wu.assimilate_state
     );
