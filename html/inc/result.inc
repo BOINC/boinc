@@ -129,15 +129,16 @@ function result_table_start($show_wu_link, $show_host_link, $show_result_link) {
             <br>or deadline
             <br>(<font color='33cc33'>future</font> |
             <font color='ff3333'>past</font>)
+	    <br><font size=-2><a href=\"explain_state.php?field=result_time\">explain</a>
         </th>
         <th>Server state
-            <br><font size=-2><a href=explain_state.php?field=result_server_state>explain</a>
+            <br><font size=-2><a href=\"explain_state.php?field=result_server_state\">explain</a>
         </th>
         <th>Outcome
-            <br><font size=-2><a href=explain_state.php?field=result_outcome>explain</a>
+            <br><font size=-2><a href=\"explain_state.php?field=result_outcome\">explain</a>
         </th>
         <th>Client state
-            <br><font size=-2><a href=explain_state.php?field=result_client_state>explain</a>
+            <br><font size=-2><a href=\"explain_state.php?field=result_client_state\">explain</a>
         </th>
         <th>CPU time (sec)</th>
         <th>claimed credit</th>
@@ -176,10 +177,10 @@ function show_result_row(
         <tr>
     ";
     if ($show_result_link) {
-        echo "<td><a href=result.php?resultid=$result->id>$result->id</a></td>\n";
+        echo "<td><a href=\"result.php?resultid=$result->id\">$result->id</a></td>\n";
     }
     if ($show_wu_link) {
-        echo "<td><a href=workunit.php?wuid=$result->workunitid>$result->workunitid</a></td>\n";
+        echo "<td><a href=\"workunit.php?wuid=$result->workunitid\">$result->workunitid</a></td>\n";
     }
     if ($show_host_link) {
         echo "<td>", host_link($result->hostid), "</td>\n";
@@ -257,7 +258,7 @@ function show_result($result) {
     start_table();
     row2("Result ID", $result->id);
     row2("Name", $result->name);
-    row2("Workunit", "<a href=workunit.php?wuid=$result->workunitid>$result->workunitid</a>");
+    row2("Workunit", "<a href=\"workunit.php?wuid=$result->workunitid\">$result->workunitid</a>");
     row2("Created", time_str($result->create_time));
     row2("Sent", time_str($result->sent_time));
     row2("Received", time_str($result->received_time));
