@@ -8,7 +8,6 @@ noinst_LIBRARIES = libboinc.a
 EXTRA_DIST = result_state.h
 
 libboinc_a_SOURCES =				\
-        ../api/api_app.C			\
         ../api/boinc_api.C			\
         ../api/graphics_api.C			\
         ../api/graphics_data.C			\
