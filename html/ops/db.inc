@@ -1,12 +1,18 @@
 <?php
 
 function db_init() {
-    $retval = mysql_pconnect();
+    $retval = mysql_connect();
     if (!$retval) {
+        echo "Unable to connect to database - please try again later";
         exit();
     }
     $db_name = parse_config("<db_name>");
-    mysql_select_db($db_name);
+    if(!mysql_select_db($db_name)) {
+	    echo "Unable to select database - please try again later";
+	    exit();
+    }
+
+    return 0;
 }
 
 function lookup_user_auth($auth) {

@@ -4902,3 +4902,13 @@ Karl    2003/06/19
         Makefile.am
         boinc.py
         version.py.in
+
+David  June 20 2003
+    - use mysql_connect() instead of mysql_pconnect() in PHP.
+        The latter caused failures in mysql_select_db(),
+        with "commands out of sync" error.
+    
+    html_user/
+        db.inc
+    html_ops/
+        db.inc

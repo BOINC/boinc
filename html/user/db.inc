@@ -4,7 +4,7 @@
 // Presentation code (HTML) shouldn't be here
 
 function db_init() {
-    $retval = mysql_pconnect();
+    $retval = mysql_connect();
     if (!$retval) {
         echo "Unable to connect to database - please try again later";
         exit();
