@@ -123,7 +123,7 @@ class Thread {
         return $thread->id;
     }
     
-    function reply($user = -1, $content = "", $parent_post = NULL) {
+    function reply($user = -1, $content = "", $parent_post=NULL) {
         $content = addslashes(htmlentities($content));
         
         $post = new Post();
@@ -165,7 +165,7 @@ class Post {
     }
     
     function insert() {
-        $sql = "INSERT INTO post (thread, user, timestamp, content) VALUES (".$this->thread.", ".$this->user.", UNIX_TIMESTAMP(), '".$this->content."')";
+        $sql = "INSERT INTO post (thread, user, timestamp, content, parent_post) VALUES (".$this->thread.", ".$this->user.", UNIX_TIMESTAMP(), '".$this->content."', ".$this->parent_post.")";
         $result = sql_query($sql);
         if (!$result)
             return false;
