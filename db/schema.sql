@@ -2,7 +2,8 @@ use BOINC_DB_NAME
 
 create table project (
     id              integer     not null auto_increment,
-    name            varchar(254) not null,
+    short_name           varchar(254) not null,
+    long_name            varchar(254) not null,
     primary key (id)
 );
 

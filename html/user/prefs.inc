@@ -97,10 +97,10 @@ function element_end($parser, $name) {
         $parse_result->resource_share = $text;
         break;
     case "show_email":
-        $parse_result->show_email = $text;
+        $parse_result->show_email = true;
         break;
     case "send_email":
-        $parse_result->send_email = $text;
+        $parse_result->send_email = true;
         break;
     case "mod_time":
         $parse_result->mod_time = $text;
@@ -123,6 +123,8 @@ function char_handler($parser, $x) {
     $text = $text.$x;
 }
 
+// state of prefs for new users
+//
 function default_prefs() {
     $p = null;
     $p->dont_run_on_batteries = 1;
@@ -135,15 +137,25 @@ function default_prefs() {
     $p->disk_min_free_gb = 1;
 
     $p->resource_share = 100;
-    $p->show_email = 0;
-    $p->send_email = 1;
+    $p->show_email = false;
+    $p->send_email = true;
     return $p;
 }
 
+// state of prefs before parsing
+//
+function initial_prefs() {
+    $p = default_prefs;
+    $p->show_email = false;
+    $p->send_email = false;
+}
+
+// parse prefs (either global or project) from XML to a struct
+//
 function prefs_parse($prefs_xml) {
     global $parse_result;
     
-    $parse_result = default_prefs();
+    $parse_result = initial_prefs();
 
     $xml_parser = xml_parser_create();
     xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, 0);
@@ -216,7 +228,7 @@ function print_prefs_display($user) {
 
     prefs_show_resource($project_prefs);
     prefs_show_project($project_specific_prefs);
-    prefs_show_email($global_prefs);
+    prefs_show_email($project_prefs);
     prefs_show_global($global_prefs);
     echo "</table>";
 }
@@ -390,9 +402,15 @@ function global_prefs_make_xml($prefs) {
 
 function project_prefs_make_xml($prefs) {
     $xml = "<project_preferences>\n";
+    if ($prefs->show_email) {
+        $xml = $xml."<show_email/>\n";
+    }
+    if ($prefs->send_email) {
+        $xml = $xml."<send_email/>\n";
+    }
     $xml = $xml
         ."<resource_share>$prefs->resource_share</resource_share>\n"
-        ."<project_specific>\n$prefs->project_specific\n</project_specific>\n";
+        ."<project_specific>\n$prefs->project_specific</project_specific>\n";
     $xml = $xml."</project_preferences>\n";
     return $xml;
 }

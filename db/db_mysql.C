@@ -95,9 +95,10 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
     case TYPE_PROJECT:
         prp = (PROJECT*)vp;
         sprintf(q,
-            "id=%d, name='%s'",
+            "id=%d, short_name='%s', long_name='%s'",
             prp->id,
-            prp->name
+            prp->short_name,
+            prp->long_name
         );
         break;
     case TYPE_PLATFORM:
@@ -335,7 +336,8 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         prp = (PROJECT*)vp;
         memset(prp, 0, sizeof(PROJECT));
         prp->id = atoi(r[i++]);
-        strcpy2(prp->name, r[i++]);
+        strcpy2(prp->short_name, r[i++]);
+        strcpy2(prp->long_name, r[i++]);
         break;
     case TYPE_PLATFORM:
         pp = (PLATFORM*)vp;

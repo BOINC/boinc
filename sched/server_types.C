@@ -134,19 +134,19 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     if (nucleus_only) goto end;
 
     fprintf(fout,
-	"<project_name>%s</project_name>\n",
-	gproject.name
+        "<project_name>%s</project_name>\n",
+        gproject.long_name
     );
 
     fprintf(fout,
-	"<user_name>%s</user_name>\n"
-	"<user_total_credit>%f</user_total_credit>\n"
-	"<user_expavg_credit>%f</user_expavg_credit>\n"
-	"<user_create_time>%d</user_create_time>\n",
-	user.name,
-	user.total_credit,
-	user.expavg_credit,
-	user.create_time
+        "<user_name>%s</user_name>\n"
+        "<user_total_credit>%f</user_total_credit>\n"
+        "<user_expavg_credit>%f</user_expavg_credit>\n"
+        "<user_create_time>%d</user_create_time>\n",
+        user.name,
+        user.total_credit,
+        user.expavg_credit,
+        user.create_time
     );
 
     if (hostid) {
@@ -159,7 +159,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
             host.total_credit,
             host.expavg_credit,
             host.create_time
-	);
+        );
     }
     
     if (send_global_prefs) {

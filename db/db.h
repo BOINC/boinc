@@ -32,9 +32,17 @@
 // Maximum allowed size for SQL based blobs (Binary Large Object)
 #define MAX_BLOB_SIZE   4096
 
+// represents the project as a whole.
+// There is only of these per DB
+//
 struct PROJECT {
     int id;
-    char name[256];
+    char short_name[256];
+        // used as directory name and part of DB name of server side,
+        // so no spaces or special chars
+    char long_name[256];
+        // shown on client side, e.g. in GUI
+        // can contain spaces etc.
 };
 
 // A compilation target, i.e. a architecture/OS combination.
