@@ -40,7 +40,7 @@
 #define COLUMN_NAME                 2
 #define COLUMN_CPUTIME              3
 #define COLUMN_PROGRESS             4
-#define COLUMN_TOCOMPLETETION       5
+#define COLUMN_TOCOMPLETION         5
 #define COLUMN_REPORTDEADLINE       6
 #define COLUMN_STATUS               7
 
@@ -143,7 +143,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_NAME, _("Name"), wxLIST_FORMAT_LEFT, 285);
     m_pListPane->InsertColumn(COLUMN_CPUTIME, _("CPU time"), wxLIST_FORMAT_RIGHT, 80);
     m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_CENTRE, 60);
-    m_pListPane->InsertColumn(COLUMN_TOCOMPLETETION, _("To completion"), wxLIST_FORMAT_RIGHT, 100);
+    m_pListPane->InsertColumn(COLUMN_TOCOMPLETION, _("To completion"), wxLIST_FORMAT_RIGHT, 100);
     m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Report deadline"), wxLIST_FORMAT_LEFT, 150);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 135);
 
@@ -210,7 +210,7 @@ wxString CViewWork::OnListGetItemText( long item, long column ) const
         case COLUMN_PROGRESS:
             strBuffer = work->m_strProgress;
             break;
-        case COLUMN_TOCOMPLETETION:
+        case COLUMN_TOCOMPLETION:
             strBuffer = work->m_strTimeToCompletion;
             break;
         case COLUMN_REPORTDEADLINE:
@@ -246,7 +246,7 @@ wxString CViewWork::OnDocGetItemText( long item, long column ) const
         case COLUMN_PROGRESS:
             FormatProgress( item, strBuffer );
             break;
-        case COLUMN_TOCOMPLETETION:
+        case COLUMN_TOCOMPLETION:
             FormatTimeToCompletion( item, strBuffer );
             break;
         case COLUMN_REPORTDEADLINE:
@@ -455,7 +455,7 @@ wxInt32 CViewWork::UpdateCache( long item, long column, wxString& strNewData )
         case COLUMN_PROGRESS:
             work->m_strProgress = strNewData;
             break;
-        case COLUMN_TOCOMPLETETION:
+        case COLUMN_TOCOMPLETION:
             work->m_strTimeToCompletion = strNewData;
             break;
         case COLUMN_REPORTDEADLINE:
