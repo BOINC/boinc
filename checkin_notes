@@ -14404,3 +14404,10 @@ Daniel 30 June 2004
         client_state.C
         cs_apps.C
 
+Brian 1 July 2004
+    - Continuing Eric and Danial's vanquicshing of "using" directives from 
+	header files. Instances of string or vector in header files were changed
+	to std::string and std::vector respectively.
+
+    client/
+	  gui_rpc_client.h
