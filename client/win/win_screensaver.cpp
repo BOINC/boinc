@@ -2,9 +2,15 @@
 // Based on code by Lucian Wischik
 
 #include <afxwin.h>
+#include <windows.h>
 
 #include "boinc_ss_res.h"
 #include "win_util.h"
+
+//#define DEBUG
+#ifdef DEBUG
+FILE* fout;
+#endif
 
 void RunSaver( void );
 BOOL CALLBACK ConfigDialogProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam);
@@ -22,6 +28,11 @@ int WINAPI WinMain(HINSTANCE h,HINSTANCE,LPSTR,int) {
 
 	cmd_line=GetCommandLine();
 	c = cmd_line;
+
+#ifdef DEBUG
+    fout = fopen("C:/temp/boinc_scr.txt", "w");
+    fprintf(fout, "cmdline: %s\n", c);
+#endif
 
 	// Skip past the screensaver name
 	if (*c=='\"') {
@@ -77,13 +88,17 @@ int WINAPI WinMain(HINSTANCE h,HINSTANCE,LPSTR,int) {
 			DialogBox(hInstance,MAKEINTRESOURCE(DLG_CONFIG),hwnd,ConfigDialogProc);
 			break;
 	}
+#ifdef DEBUG
+    fprintf(fout, "screensaver exiting\n");
+    fflush(fout);
+#endif
 	return 0;
 }
 
 void RunSaver( void ) {
 	int BOINC_SS_START_MSG;
-	int oldval;
-	char client_path[256], client_dir[256];
+	BOOL flag;
+	char client_path[256], client_dir[256], cmdline[256];
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
 	HANDLE boinc_mutex;
@@ -104,25 +119,45 @@ void RunSaver( void ) {
 		startup_info.cb = sizeof(startup_info);
 		startup_info.lpReserved = NULL;
 		startup_info.lpDesktop = "";
+#ifdef DEBUG
+        fprintf(fout, "launching core client: %s\n", client_path);
+        fprintf(fout, "dir: %s\n", client_dir);
+#endif
+        // tell core client it's started by SS
+        sprintf(cmdline, "\"%s\" -saver", client_path);
 
-		// Start the client in the background
-		oldval = CreateProcess(  client_path,	// path to the client
-			"boinc -saver",				// start the screensaver
+		// Start the core client
+		flag = CreateProcess(
+            client_path,	            // path of core client executable
+			cmdline,
 			NULL, NULL,					// no process, thread security attributes
 			FALSE,						// doesn't inherit handles
-			CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+			CREATE_NEW_PROCESS_GROUP,
 			NULL,						// same environment
 			client_dir,					// start in the standard client directory
 			&startup_info,
 			&process_info
         );
-		// wait up to 3 seconds for BOINC to start
-		WaitForInputIdle(process_info.hProcess, 3000);
-	}
 
-	BOINC_SS_START_MSG = RegisterWindowMessage( START_SS_MSG );
-
-	PostMessage(HWND_BROADCAST, BOINC_SS_START_MSG, 0, 0);
+        if (!flag) {
+            int retval = GetLastError();
+#ifdef DEBUG
+            fprintf(fout, "Can't launch BOINC core client: error %d\n", retval);
+#endif
+        } else {
+#ifdef DEBUG
+            fprintf(fout, "Launched BOINC core client\n");
+#endif
+		    // wait up to 3 seconds for BOINC to start
+		    //WaitForInputIdle(process_info.hProcess, 3000);
+        }
+    } else {
+#ifdef DEBUG
+        fprintf(fout, "core client already running, sending msg\n");
+#endif
+	    BOINC_SS_START_MSG = RegisterWindowMessage( START_SS_MSG );
+	    PostMessage(HWND_BROADCAST, BOINC_SS_START_MSG, 0, 0);
+    }
 }
 
 void DoPreviewWindow(HWND hparwnd)
@@ -144,6 +179,9 @@ void DoPreviewWindow(HWND hparwnd)
 	int cx=rc.right-rc.left, cy=rc.bottom-rc.top;
 	hScrWindow=CreateWindowEx(0,"ScrClass","SaverPreview",WS_CHILD|WS_VISIBLE,0,0,cx,cy,hparwnd,NULL,hInstance,NULL);
 	if (hScrWindow==NULL) return;
+#ifdef DEBUG
+    fprintf(fout, "Doing preview window\n");
+#endif
 	MSG msg;
 	while (GetMessage(&msg,NULL,0,0))
 	{

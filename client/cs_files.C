@@ -61,7 +61,7 @@ void CLIENT_STATE::trunc_stderr_stdout() {
     }
     file_size(STDOUT_FILE_NAME, f_size);
     if (f_size > MAX_STDOUT_FILE_SIZE) {
-        freopen(STDOUT_FILE_NAME, "w", stderr);
+        freopen(STDOUT_FILE_NAME, "w", stdout);
     }
 }
 

@@ -77,7 +77,7 @@ public:
     int file_xfer_giveup_period;
     bool user_idle;
     int user_run_request;
-    bool start_saver;
+    bool started_by_screensaver;
     bool exit_when_idle;
     bool return_results_immediately;
     bool show_projects;

@@ -315,12 +315,10 @@ int dir_size(char* dirpath, double& size) {
         retval = dir_size(subdir, x);
         if (retval == 0) {
             size += x;
-        } else if (retval == -1) {
+        } else {
             retval = file_size(subdir, x);
             if (retval) continue;
             size += x;
-        } else {
-            break;
         }
     }
     dir_close(dirp);

@@ -6992,3 +6992,32 @@ Karl 2003-10-21
     - Astropulse client release 2.06
 
 
+David  22 Oct 2003
+	- fixed bug that caused project disk usage to be reported as zero
+	- Added debugging printfs (enabled by #define DEBUG) to wingui_mainwindow.cpp.
+		These write to C:/temp/core.txt.
+	- In CMyApp::InitInstance(), changed 2nd arg of CreateMutex from false to true.
+		This matches "1 instance" code samples from web.
+		Thought it might fix startup bug - no.
+	- Added debugging printfs (enabled by #define DEBUG) into screensaver;
+		causes it to write info to C:/temp/boinc_scr.txt
+	- Removed CREATE_NO_WINDOW and IDLE_PRIORITY flags from
+		CreateProcess() call in screensaver.
+		These aren't listed in the MSDN man page; are they needed?
+	- slight change to startup logic in screensaver:
+		- send it a BOINC_SS_START message only if it's already running
+			(not needed if start it ourselves, since we give it -saver arg)
+		- don't wait for 3 seconds after starting it
+	- In the cmdline passed to the core client from screensaver,
+		make argv[0] the real path of the executable.
+		Thought this might fix startup bug - no.
+	- Change "start_saver" to "started_by_screensaver".  Truth in advertising.
+
+	client/
+		client_state.C,h
+		cs_cmdline.C
+		win/
+			win_screensaver.cpp
+			wingui_mainwindow.cpp
+		lib/
+			filesys.C

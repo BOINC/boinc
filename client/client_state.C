@@ -84,7 +84,7 @@ CLIENT_STATE::CLIENT_STATE() {
     strcpy(socks_user_passwd, "");
     strcpy(host_venue, "");
     user_run_request = USER_RUN_REQUEST_AUTO;
-    start_saver = false;
+    started_by_screensaver = false;
     requested_exit = false;
 #ifdef _WIN32
     cpu_benchmarks_handle = NULL;

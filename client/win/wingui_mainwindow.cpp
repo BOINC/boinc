@@ -45,21 +45,49 @@ CMainWindow* g_myWnd = NULL;
 // returns:		true if initialization is successful, otherwise false
 // function:	creates and shows the main window if boinc is not running,
 //				otherwise shows the currently running window
+//#define DEBUG
+#ifdef DEBUG
+FILE* fout;
+#endif
 BOOL CMyApp::InitInstance()
 {
-	if(CreateMutex(NULL, false, RUN_MUTEX) == 0 || GetLastError() == ERROR_ALREADY_EXISTS) {
+#ifdef DEBUG
+    fout = fopen("c:/temp/core.txt", "w");
+    fprintf(fout, "starting\n");
+    fflush(fout);
+#endif
+    HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
+	if ((h==0)|| GetLastError() == ERROR_ALREADY_EXISTS) {
+#ifdef DEBUG
+        fprintf(fout, "couldn't create mutex; h=%x, e=%d\n", h, GetLastError());
+        fflush(fout);
+#endif
 		UINT nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
 		PostMessage(HWND_BROADCAST, nShowMsg, 0, 0);
 		return FALSE;
 	}
+
     m_pMainWnd = new CMainWindow();
+#ifdef DEBUG
+    fprintf(fout, "not already running; %d projects\n", gstate.projects.size());
+#endif
 	if(gstate.projects.size() == 0) {
+#ifdef DEBUG
+        fprintf(fout, "sending login msg\n");
+#endif
 		((CMainWindow*)m_pMainWnd)->SendMessage(WM_COMMAND, ID_SETTINGS_LOGIN);
 	}
-	if(gstate.start_saver) {
+	if(gstate.started_by_screensaver) {
+#ifdef DEBUG
+        fprintf(fout, "sending start_ss msg\n");
+#endif
 		UINT nStartSaver = RegisterWindowMessage(START_SS_MSG);
 		((CMainWindow*)m_pMainWnd)->SendMessage(nStartSaver, 0);
 	}
+#ifdef DEBUG
+    fprintf(fout, "returning from initInstance\n");
+    fflush(fout);
+#endif
     return TRUE;
 }
 
@@ -70,6 +98,10 @@ int CMyApp::ExitInstance()
 
 	//gstate.free_mem();
 
+#ifdef DEBUG
+    fprintf(fout, "exiting\n");
+    fclose(fout);
+#endif
 	return CWinApp::ExitInstance();
 }
 
@@ -205,6 +237,9 @@ CMainWindow::CMainWindow()
 	m_nNetActivityMsg = RegisterWindowMessage(NET_ACTIVITY_MSG);
 	m_uScreenSaverMsg = RegisterWindowMessage(START_SS_MSG);
 	m_uEndSSMsg = RegisterWindowMessage(END_SS_MSG);
+#ifdef DEBUG
+    fprintf(fout, "CMainWIndow\n");
+#endif
 }
 
 //////////
@@ -1091,6 +1126,9 @@ void CMainWindow::PostNcDestroy()
 // function:	handles any messages not handled by the window previously
 LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
+#ifdef DEBUG
+    fprintf(fout, "message %d\n", message);
+#endif
 	if(m_nShowMsg == message) {
 		ShowWindow(SW_SHOW);
 		SetForegroundWindow();
@@ -1465,11 +1503,12 @@ void CMainWindow::OnBenchmarksEnd()
 void CMainWindow::OnCommandExit()
 {
 	static bool already_exited = false;
-
+#ifdef DEBUG
+    fprintf(fout, "CMainWindow::onCommandExit\n");
+#endif
 	if (already_exited) return;
 	already_exited = true;
 
-	// quit
 	gstate.cleanup_and_exit();
 	PostQuitMessage(0);
 	KillTimer(m_nGuiTimerID);
@@ -1609,7 +1648,9 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	SetMenu(&m_MainMenu);
 
 	LoadLanguage();
-
+#ifdef DEBUG
+    fprintf(fout, "CMainWIndow:OnCreate\n");
+#endif
 	// create project list control
 	m_ProjectListCtrl.Create(LVS_REPORT|WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, PROJECT_ID);
 	m_ProjectListCtrl.SetExtendedStyle(m_ProjectListCtrl.GetExtendedStyle()|LVS_EX_HEADERDRAGDROP|LVS_EX_FULLROWSELECT);
@@ -1729,6 +1770,11 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 
 	command_line = GetCommandLine();
 	argc = parse_command_line( command_line, argv );
+#ifdef DEBUG
+    for (i=0; i<argc; i++) {
+        fprintf(fout, "arg %d: %s\n", i, argv[i]);
+    }
+#endif
 	gstate.parse_cmdline(argc, argv);
 
 	m_nGuiTimerID = SetTimer(GUI_TIMER, GUI_WAIT, (TIMERPROC) NULL);
@@ -1768,14 +1814,16 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	}
 
 	// see if we need to hide the window
-	if(gstate.global_prefs.run_minimized || gstate.start_saver) {
+	if(gstate.global_prefs.run_minimized || gstate.started_by_screensaver) {
 		ShowWindow(SW_HIDE);
 	} else {
 		ShowWindow(SW_SHOW);
 	}
 
 	UpdateRunRequestFileMenu();
-
+#ifdef DEBUG
+    fprintf(fout, "returning from OnCreate\n");
+#endif
     return 0;
 }
 
@@ -2053,7 +2101,14 @@ void CMainWindow::OnTimer(UINT uEventID)
 		KillTimer(m_nGuiTimerID);
 
 		// update state and gui
+#ifdef DEBUG
+        fprintf(fout, "calling do_something\n");
+#endif
 		while(gstate.do_something());
+#ifdef DEBUG
+        fprintf(fout, "return from do_something\n");
+        fflush(fout);
+#endif
 		NetCheck(); // check if network connection can be terminated
 		if (gstate.user_run_request == USER_RUN_REQUEST_NEVER) {
 			// user suspended - don't bother checking idle

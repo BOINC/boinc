@@ -61,7 +61,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-suspend")) {
             user_run_request = USER_RUN_REQUEST_NEVER;
         } else if (!strcmp(argv[i], "-saver")) {
-            start_saver = true;
+            started_by_screensaver = true;
         } else if (!strncmp(argv[i], "-psn_", strlen("-psn_"))) {
             // ignore -psn argument on Mac OS X
         } else if (!strcmp(argv[i], "-exit_before_upload")) {
