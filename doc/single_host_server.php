@@ -63,7 +63,8 @@ enabled, with a max shared segment size of at least 32 MB.
 </P>
 At this point you need to add platform(s), application(s), application
 version(s), and core version(s). See <a href=tool_add.php>Add tool</a>
-documentation.
+documentation and the <a href=tool_update_versions.php>update_versions
+tool</a> documentation..
 
 <h3>Directory structure</h3>
 
