@@ -203,6 +203,9 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 file_info.signed_xml, file_info.xml_signature, key, is_valid
             );
             if (retval || !is_valid) {
+                log_messages.printf(SchedMessages::CRITICAL,
+                                    "verify_string() = %d, is_valid = %d\n",
+                                    retval, is_valid);
                 log_messages.printf_multiline(SchedMessages::NORMAL, file_info.signed_xml, "signed xml: ");
                 log_messages.printf_multiline(SchedMessages::NORMAL, file_info.xml_signature, "signature: ");
                 return return_error(ERR_PERMANENT, "invalid signature");
