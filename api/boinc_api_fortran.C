@@ -53,7 +53,7 @@ extern "C" {
 
     int boinc_resolve_filename_(const char* s, int s_len, char* t, int t_len)
     {
-        boinc_resolve_filename(StringFromFortran(s), t, t_len);
+        boinc_resolve_filename(StringFromFortran(s, s_len), t, t_len);
     }
 
     int boinc_parse_init_data_file_()
