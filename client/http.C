@@ -784,8 +784,8 @@ bool HTTP_OP_SET::poll(double) {
                     retval = unlink(htp->outfile);
                     // no error check here because file need not already exist
 
-                    bytes_xferred = 0;
-                    file_offset = 0;
+                    htp->bytes_xferred = 0;
+                    htp->file_offset = 0;
                     // fall through
                     //
                 case HTTP_OP_GET:
