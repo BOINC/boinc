@@ -6607,3 +6607,11 @@ David  Oct 8 2003
             wingui_piecectrl.cpp
     lib/
         util.C,h
+
+David  Oct 8 2003
+    - add low-detail option to WU display
+
+    html_ops/
+        db_action.php
+        db_form.php
+        db_ops.php

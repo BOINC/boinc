@@ -106,14 +106,16 @@
             start_table();
             switch($table) {
             case "result": result_short_header(); break;
+            case "workunit": workunit_short_header(); break;
             case "host":   host_short_header(); break;
             }
         }
         while ($res = mysql_fetch_object($result)) {
             if ($detail == "low") {
                 switch ($table) {
-                case "result":      show_result_short($res);                                      break;
-                case "host":        show_host_short($res);                                        break;
+                case "result":      show_result_short($res); break;
+                case "host":        show_host_short($res); break;
+                case "workunit":    show_workunit_short($res); break;
                 }
             } else {
                 switch ($table) {

@@ -42,6 +42,7 @@ require_once("db_ops.inc");
         print_detail_field();
     } else if ($table=="workunit") {
         print_checkbox("Hide XML fields", "hide_xml_docs", $hide_xml_docs);
+        print_detail_field();
     } else if ($table=="result") {
         echo "<tr><td align=right>Server state</td><td> ";
         server_state_select();

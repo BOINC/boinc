@@ -477,6 +477,39 @@ function show_workunit($wu, $hide_xml_doc) {
     echo "<p>";
 }
 
+function workunit_short_header() {
+    echo "
+        <tr>
+        <th>WU ID</th>
+        <th>canonical result</th>
+        <th>error_mask</th>
+        <th>file delete</th>
+        <th>assimilate</th>
+        </tr>
+    ";
+}
+
+function show_workunit_short($wu) {
+    if ($wu->canonical_resultid) {
+        $cr = "<a href=db_action.php?table=result&id=$wu->canonical_resultid>$wu->canonical_resultid</a>";
+    } else {
+        $cr = "none";
+    }
+    $cr = $cr. " <a href=db_action.php?table=result&workunitid=$wu->id&detail=low>all</a>";
+    $e = wu_error_mask_str($wu->error_mask);
+    $f = file_delete_state_str($wu->file_delete_state);
+    $a = assimilate_state_str($wu->assimilate_state);
+    echo "
+        <tr>
+        <td>$wu->id</td>
+        <td>$cr</td>
+        <td>$e</td>
+        <td>$f</td>
+        <td>$a</td>
+        </tr>
+    ";
+}
+
 function server_state_string($s) {
     switch($s) {
     case 1: return "Inactive";
