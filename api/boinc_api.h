@@ -30,67 +30,6 @@ using namespace std;
 #include "app_ipc.h"
 
 
-// ****************************************************************************
-// ****************************************************************************
-//
-// Diagnostics Support for Windows 95/98/ME/2000/XP/2003
-//
-// ****************************************************************************
-// ****************************************************************************
-
-#ifdef _WIN32
-
-//
-// Define macros for both debug and release builds.
-//
-// We are using the native debugging technology built into the Microsoft
-//   C Runtime Libraries to trap and report the asserts and traces.
-//
-
-#ifdef _DEBUG
-
-// Forward declare so we can assign a macro to it.
-void	boinc_trace(const char *pszFormat, ...);
-void	boinc_error_debug(int iExitCode, const char *pszFormat, ...);
-
-#define BOINCASSERT(expr)	_ASSERT_BASE((expr), #expr)
-#define BOINCTRACE			boinc_trace
-#define BOINCERROR			boinc_error_debug
-
-#else // _DEBUG
-
-// Forward declare so we can assign a macro to it.
-void	boinc_error_release(int iExitCode, const char *pszFormat, ...);
-
-#define BOINCASSERT(expr)	((void)0)
-#define BOINCTRACE			((void)0)
-#define BOINCERROR			boinc_error_release
-
-#endif // _DEBUG
-
-#endif // _WIN32
-
-
-// ****************************************************************************
-// ****************************************************************************
-//
-// Diagnostics Support for Undefined Platform
-//
-// ****************************************************************************
-// ****************************************************************************
-#ifndef BOINCASSERT
-#define BOINCASSERT			assert
-#endif
-
-#ifndef BOINCTRACE
-#define BOINCTRACE			((int)0)
-#endif
-
-#ifndef BOINCERROR
-#define BOINCERROR			((int)0)
-#endif
-
-
 // MFILE supports a primitive form of checkpointing.
 // Write all your output (and restart file) to MFILEs.
 // The output is buffered in memory.

@@ -17,18 +17,16 @@
 // Contributor(s):
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
 
-#include "boinc_exception.h"
+#include "exception.h"
 #include "error_numbers.h"
 
 
-// ****************************************************************************
-// ****************************************************************************
-//
 // BOINC Base Exception Class Implementation
 //
-// ****************************************************************************
-// ****************************************************************************
 
 const char * boinc_base_exception::ErrorType()
     { return "BOINC Exception"; }
@@ -73,14 +71,8 @@ const char * boinc_base_exception::what()
 }
 
 
-// ****************************************************************************
-// ****************************************************************************
-//
 // BOINC Base Runtime Exception Class Implementation
 //
-// ****************************************************************************
-// ****************************************************************************
-
 const char * boinc_runtime_base_exception::ErrorType()
     { return "BOINC Runtime Exception"; }
 
@@ -88,15 +80,8 @@ const char * boinc_runtime_base_exception::ErrorMessage()
     { return "Unknown Runtime Exception"; }
 
 
-// ****************************************************************************
-// ****************************************************************************
-//
 // BOINC Runtime Exceptions
 //
-// ****************************************************************************
-// ****************************************************************************
-
-
 const char * boinc_out_of_memory_exception::ErrorMessage()
     { return "Out Of Memory"; }
 long         boinc_out_of_memory_exception::ErrorValue()
@@ -117,7 +102,3 @@ const char * boinc_signal_operation_exception::ErrorMessage()
     { return "Signal Operation Failure"; }
 long         boinc_signal_operation_exception::ErrorValue()
     { return -1101; }
-
-
-
-

@@ -22,11 +22,10 @@
 
 #ifdef _WIN32
 #include "stdafx.h"
-#else
-#include "config.h"
 #endif
 
 #ifndef _WIN32
+#include "config.h"
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -50,6 +49,7 @@
 using namespace std;
 #endif
 
+#include "diagnostics.h"
 #include "parse.h"
 #include "shmem.h"
 #include "util.h"
@@ -94,370 +94,15 @@ static void		cleanup_shared_mem();
 static int		update_app_progress(double frac_done, double cpu_t, double cp_cpu_t, double ws_t);
 static int		set_timer(double period);
 
-#ifdef _WIN32
 
-// Forward declare implementation functions - Windows Platform Only.
-LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
-
-#endif
-
-
-// ****************************************************************************
-// ****************************************************************************
-//
-// Diagnostics Support for Windows 95/98/ME/2000/XP/2003
-//
-// ****************************************************************************
-// ****************************************************************************
-
-#ifdef _WIN32
-
-//
-// Function: boinc_install_signal_handlers
-//
-// Purpose:  Used to setup an unhandled exception filter on Windows
-//
-// Date:     01/29/04
-//
-int boinc_install_signal_handlers() {
-
-	SetUnhandledExceptionFilter( boinc_catch_signal );
-
-	return 0;
-}
-
-//
-// Function: boinc_catch_signal
-//
-// Purpose:  Used to unwind the stack and spew the callstack to stderr. Terminate the
-//               process afterwards and return the exception code as the exit code.
-//
-// Date:     01/29/04
-//
-LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
-
-	// Snagged from the latest stackwalker code base.  This allows us to grab
-	//   callstacks even in a stack overflow scenario
-	if ( pExPtrs->ExceptionRecord->ExceptionCode == EXCEPTION_STACK_OVERFLOW )
-	{
-		static char MyStack[1024*128];  // be sure that we have enought space...
-		// it assumes that DS and SS are the same!!! (this is the case for Win32)
-		// change the stack only if the selectors are the same (this is the case for Win32)
-		//__asm push offset MyStack[1024*128];
-		//__asm pop esp;
-		__asm mov eax,offset MyStack[1024*128];
-		__asm mov esp,eax;
-	}
-
-	PVOID exceptionAddr = pExPtrs->ExceptionRecord->ExceptionAddress;
-    DWORD exceptionCode = pExPtrs->ExceptionRecord->ExceptionCode;
-
-	LONG  lReturnValue = NULL;
-	char  status[256];
-	char  substatus[256];
-    
-	static long   lDetectNestedException = 0;
-
-    // If we've been in this procedure before, something went wrong so we immediately exit
-	if ( InterlockedIncrement(&lDetectNestedException) > 1 ) {
-		TerminateProcess( GetCurrentProcess(), ERR_SIGNAL_CATCH );
-	}
-
-    switch ( exceptionCode ) {
-        case EXCEPTION_ACCESS_VIOLATION:
-			safe_strncpy( status, "Access Violation", sizeof(status) );
-			if ( pExPtrs->ExceptionRecord->NumberParameters == 2 ) {
-				switch( pExPtrs->ExceptionRecord->ExceptionInformation[0] ) {
-				case 0: // read attempt
-					sprintf( substatus, "read attempt to address 0x%8.8X", pExPtrs->ExceptionRecord->ExceptionInformation[1] );
-					break;
-				case 1: // write attempt
-					sprintf( substatus, "write attempt to address 0x%8.8X", pExPtrs->ExceptionRecord->ExceptionInformation[1] );
-					break;
-				}
-			}
-			break;
-        case EXCEPTION_DATATYPE_MISALIGNMENT: 
-			safe_strncpy( status, "Data Type Misalignment", sizeof(status) );
-			break;
-        case EXCEPTION_BREAKPOINT: 
-			safe_strncpy( status, "Breakpoint Encountered", sizeof(status) );
-			break;
-        case EXCEPTION_SINGLE_STEP: 
-			safe_strncpy( status, "Single Instruction Executed", sizeof(status) );
-			break;
-        case EXCEPTION_ARRAY_BOUNDS_EXCEEDED: 
-			safe_strncpy( status, "Array Bounds Exceeded", sizeof(status) );
-			break;
-        case EXCEPTION_FLT_DENORMAL_OPERAND: 
-			safe_strncpy( status, "Float Denormal Operand", sizeof(status) );
-			break;
-        case EXCEPTION_FLT_DIVIDE_BY_ZERO: 
-			safe_strncpy( status, "Divide by Zero", sizeof(status) ); 
-			break;
-        case EXCEPTION_FLT_INEXACT_RESULT: 
-			safe_strncpy( status, "Float Inexact Result", sizeof(status) ); 
-			break;
-        case EXCEPTION_FLT_INVALID_OPERATION: 
-			safe_strncpy( status, "Float Invalid Operation", sizeof(status) );
-			break;
-        case EXCEPTION_FLT_OVERFLOW: 
-			safe_strncpy( status, "Float Overflow", sizeof(status) );
-			break;
-        case EXCEPTION_FLT_STACK_CHECK: 
-			safe_strncpy( status, "Float Stack Check", sizeof(status) );
-			break;
-        case EXCEPTION_FLT_UNDERFLOW: 
-			safe_strncpy( status, "Float Underflow", sizeof(status) );
-			break;
-        case EXCEPTION_INT_DIVIDE_BY_ZERO: 
-			safe_strncpy( status, "Integer Divide by Zero", sizeof(status) );
-			break;
-        case EXCEPTION_INT_OVERFLOW: 
-			safe_strncpy( status, "Integer Overflow", sizeof(status) );
-			break;
-        case EXCEPTION_PRIV_INSTRUCTION: 
-			safe_strncpy( status, "Privileged Instruction", sizeof(status) );
-			break;
-        case EXCEPTION_IN_PAGE_ERROR: 
-			safe_strncpy( status, "In Page Error", sizeof(status) );
-			break;
-        case EXCEPTION_ILLEGAL_INSTRUCTION: 
-			safe_strncpy( status, "Illegal Instruction", sizeof(status) );
-			break;
-        case EXCEPTION_NONCONTINUABLE_EXCEPTION: 
-			safe_strncpy( status, "Noncontinuable Exception", sizeof(status) );
-			break;
-        case EXCEPTION_STACK_OVERFLOW: 
-			safe_strncpy( status, "Stack Overflow", sizeof(status) );
-			break;
-        case EXCEPTION_INVALID_DISPOSITION: 
-			safe_strncpy( status, "Invalid Disposition", sizeof(status) );
-			break;
-        case EXCEPTION_GUARD_PAGE: 
-			safe_strncpy( status, "Guard Page Violation", sizeof(status) );
-			break;
-        case EXCEPTION_INVALID_HANDLE: 
-			safe_strncpy( status, "Invalid Handle", sizeof(status) );
-			break;
-        case CONTROL_C_EXIT: 
-			safe_strncpy( status, "Ctrl+C Exit", sizeof(status) );
-			break;
-        default: 
-			safe_strncpy( status, "Unknown exception", sizeof(status) );
-			break;
-    }
-
-	fprintf( stderr, "\n***UNHANDLED EXCEPTION****\n" );
-	if ( EXCEPTION_ACCESS_VIOLATION == exceptionCode ) {
-		fprintf( stderr, "Reason: %s (0x%x) at address 0x%p %s\n\n", status, exceptionCode, exceptionAddr, substatus );
-	} else {
-		fprintf( stderr, "Reason: %s (0x%x) at address 0x%p\n\n", status, exceptionCode, exceptionAddr );
-	}
-    fflush(stderr);
-
-	// Unwind the stack and spew it to stderr
-	StackwalkFilter(pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL);
-
-	fprintf(stderr, "Exiting...\n");
-    fflush(stderr);
-
-	// Force terminate the app letting BOINC know an unknown exception has occurred.
-	TerminateProcess(GetCurrentProcess(), pExPtrs->ExceptionRecord->ExceptionCode);
-
-	// We won't make it to this point, but make the compiler happy anyway.
-	return 1;
-}
-
-
-//
-// Function: boinc_message_reporting
-//
-// Purpose:  Trap ASSERTs and TRACEs from the CRT and spew them to stderr.
-//
-// Date:     01/29/04
-//
-int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){ 
-	(*retVal) = 0; 
-
-	switch(reportType){
-
-		case _CRT_WARN:
-			fprintf( stderr, "%s", szMsg );
-			fflush( stderr );
-			break;
-		case _CRT_ERROR:
-			fprintf( stderr, "ERROR: %s", szMsg );
-			fflush( stderr );
-			break;
-		case _CRT_ASSERT:
-			fprintf( stderr, "ASSERT: %s\n", szMsg );
-			fflush( stderr );
-			(*retVal) = 1;
-			break;
-
-	}
-
-	return(TRUE);
-} 
-
-
-#ifdef _DEBUG
-
-//
-// Function: boinc_trace
-//
-// Purpose:  Converts the BOINCTRACE macro into a single string and report it
-//             to the CRT so it can be reported via the normal means.
-//
-// Date:     01/29/04
-//
-void boinc_trace(const char *pszFormat, ...)
-{
-	static char szBuffer[4096];
-
-	memset(szBuffer, 0, sizeof(szBuffer));
-
-	va_list ptr;
-	va_start(ptr, pszFormat);
-
-	BOINCASSERT( -1 != _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr) );
-
-	va_end(ptr);
-
-	_CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "%s", szBuffer);
-}
-
-
-//
-// Function: boinc_error_debug
-//
-// Purpose:  Converts the BOINCERROR macro into a single string and report it
-//             to the CRT so it can be reported via the normal means.
-//
-// Date:     01/29/04
-//
-void boinc_error_debug(int iExitCode, const char *pszFormat, ...)
-{
-	static char szBuffer[4096];
-
-	memset(szBuffer, 0, sizeof(szBuffer));
-
-	va_list ptr;
-	va_start(ptr, pszFormat);
-
-	BOINCASSERT( -1 != _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr) );
-
-	va_end(ptr);
-
-	_CrtDbgReport(_CRT_ERROR, NULL, NULL, NULL, "%s", szBuffer);
-}
-
-#else // _DEBUG
-
-//
-// Function: boinc_error_release
-//
-// Purpose:  Converts the BOINCERROR macro into a single string and report it
-//             to stderr so it can be reported via the normal means.
-//
-// Date:     01/29/04
-//
-void boinc_error_release(int iExitCode, const char *pszFormat, ...)
-{
-	static char szBuffer[4096];
-
-	memset(szBuffer, 0, sizeof(szBuffer));
-
-	va_list ptr;
-	va_start(ptr, pszFormat);
-
-	_vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
-
-	va_end(ptr);
-
-	fprintf( stderr, "ERROR: %s", szBuffer );
-	fflush( stderr );
-}
-
-
-#endif // _DEBUG
-
-#endif // _WIN32
-
-
-// ****************************************************************************
-// ****************************************************************************
-//
-// Diagnostics for POSIX Compatible systems.
-//
-// ****************************************************************************
-// ****************************************************************************
-
-#ifdef HAVE_SIGNAL_H
-
-int boinc_install_signal_handlers() {
-    boinc_set_signal_handler(SIGHUP, boinc_catch_signal);
-    boinc_set_signal_handler(SIGINT, boinc_catch_signal);
-    boinc_set_signal_handler(SIGQUIT, boinc_catch_signal);
-    boinc_set_signal_handler(SIGILL, boinc_catch_signal);
-    boinc_set_signal_handler(SIGABRT, boinc_catch_signal);
-    boinc_set_signal_handler(SIGBUS, boinc_catch_signal);
-    boinc_set_signal_handler(SIGSEGV, boinc_catch_signal);
-    boinc_set_signal_handler(SIGSYS, boinc_catch_signal);
-    boinc_set_signal_handler(SIGPIPE, boinc_catch_signal);
-    return 0;
-}
-
-RETSIGTYPE boinc_catch_signal(int signal) {
-    switch(signal) {
-        case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup"); break;
-        case SIGINT: fprintf(stderr, "SIGINT: interrupt program"); break;
-        case SIGILL: fprintf(stderr, "SIGILL: illegal instruction"); break;
-        case SIGABRT: fprintf(stderr, "SIGABRT: abort called"); break;
-        case SIGBUS: fprintf(stderr, "SIGBUS: bus error"); break;
-        case SIGSEGV: fprintf(stderr, "SIGSEGV: segmentation violation"); break;
-        case SIGSYS: fprintf(stderr, "SIGSYS: system call given invalid argument"); break;
-        case SIGPIPE: fprintf(stderr, "SIGPIPE: write on a pipe with no reader"); break;
-        default: fprintf(stderr, "unknown signal %d", signal); break;
-    }
-    fprintf(stderr, "\nExiting...\n");
-    exit(ERR_SIGNAL_CATCH);
-}
-
-void boinc_quit(int sig) {
-    signal(SIGQUIT, boinc_quit);    // reset signal
-    time_to_quit = true;
-}
-
-#endif /* HAVE_SIGNAL_H */
-
-
-// ****************************************************************************
-// ****************************************************************************
-//
 // Standard BOINC API's
 //
-// ****************************************************************************
-// ****************************************************************************
-
 
 int boinc_init(bool standalone_ /* = false */) {
     FILE* f;
     int retval;
 
 #ifdef _WIN32
-
-	// Redirect stderr earlier then boinc_init so we can trap errors earlier.
-    freopen(STDERR_FILE, "a", stderr);
-
-	// Define how messages should me formatted to sdterr
-	_CrtSetReportHook( boinc_message_reporting );
-
-    SET_CRT_DEBUG_FIELD(
-//        _CRTDBG_LEAK_CHECK_DF |
-        _CRTDBG_CHECK_EVERY_1024_DF
-    ); 
 
 	DuplicateHandle(
         GetCurrentProcess(),
@@ -470,9 +115,6 @@ int boinc_init(bool standalone_ /* = false */) {
     );
 
 #endif
-
-	// Install unhandled exception filters and signal traps.
-    boinc_install_signal_handlers();
 
     // Store startup mode for later use.
     standalone = standalone_;

@@ -10761,3 +10761,36 @@ David  Mar 23 2004
     sched/
         handle_request.C
         feeder.C
+
+Rom    Mar 24 2004
+    - Unify all diagnostics functionality under the same banner, SETI_BOINC,
+        BOINC_CLI, BOINC_GUI, upper_case now all initialize the BOINC Diagnostics
+        Library which sets up stdout and stderr redirection, heap corruption
+        detection, stackwalker for Windows, and stackalker fo *nix can be pluged
+        in and be automatically used by all applications.
+    - Taskbase#1131 -- closed
+    - Taskbase#1132 -- closed
+
+    api/
+        boinc_diagnostics.c, .h (removed)
+        boinc_exeception.c, .h (removed)
+        boinc_api.c, .h
+    api/win/
+        stackwalker.cpp, .h (removed)
+    apps/
+        upper_case.c
+    client/
+        file_names.h
+        main.c
+        stdafx.h
+    client/win/
+        wingui_mainwindow.cpp
+    lib/
+        diagnostics.c, .h (added)
+        exception.c, .h (added)
+        stackwalker_win.cpp, .h (added)
+    winbuild/
+        boinc_cli.vcproj
+        boinc_gui.vcproj
+        boinc_ss.vcproj
+        upper_case.vcproj

@@ -7,13 +7,8 @@
 #ifndef _STDAFX_H_
 #define _STDAFX_H_
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-//
 // Windows System Libraries
 //
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 #ifdef _WIN32
 
 // Modify the following defines if you have to target a platform prior to the ones specified below.
@@ -34,9 +29,7 @@
 #define _WIN32_IE 0x0500        // Change this to the appropriate value to target IE 5.0 or later.
 #endif
 
-//
 // BOINC Windows GUI Applications use MFC libraries and the like.
-//
 #ifndef _CONSOLE
 
 #ifndef VC_EXTRALEAN
@@ -68,22 +61,14 @@
 #include <crtdbg.h>
 #include <delayimp.h>
 
-#include "Stackwalker.h"
+#include "stackwalker_win.h"
 
 #endif //_WIN32
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-//
 // Standard Libraries
 //
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 
-
-//
 // Standard Template libraries
-//
 #include <cassert>
 #include <cerrno>
 #include <algorithm>
@@ -101,23 +86,19 @@
 #include <vector>
 
 
-//
 // Standard C Runtime libraries
-//
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <errno.h>
 #include <fcntl.h>
+#include <setjmp.h>
 
 
-//
 // Namespace Modifiers
-//
 using namespace std;
 
 
-//
 // Unify C Runtime Library across platforms 
-//
 #ifdef _WIN32
 
 #define vsnprintf               _vsnprintf
@@ -128,7 +109,7 @@ using namespace std;
 #define read                    _read
 #define stat                    _stat
 
-#endif
+#endif //_WIN32
 
 // On the Win32 platform include file and line number information for each
 //   memory allocation/deallocation
@@ -136,31 +117,31 @@ using namespace std;
 
 #ifdef _DEBUG
 
-#define   malloc(s)                             _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
-#define   calloc(c, s)                          _calloc_dbg(c, s, _NORMAL_BLOCK, __FILE__, __LINE__)
-#define   realloc(p, s)                         _realloc_dbg(p, s, _NORMAL_BLOCK, __FILE__, __LINE__)
-#define   _expand(p, s)                         _expand_dbg(p, s, _NORMAL_BLOCK, __FILE__, __LINE__)
-#define   free(p)                               _free_dbg(p, _NORMAL_BLOCK)
-#define   _msize(p)                             _msize_dbg(p, _NORMAL_BLOCK)
-#define   _aligned_malloc(s, a)                 _aligned_malloc_dbg(s, a, __FILE__, __LINE__)
-#define   _aligned_realloc(p, s, a)             _aligned_realloc_dbg(p, s, a, __FILE__, __LINE__)
-#define   _aligned_offset_malloc(s, a, o)       _aligned_offset_malloc_dbg(s, a, o, __FILE__, __LINE__)
-#define   _aligned_offset_realloc(p, s, a, o)   _aligned_offset_realloc_dbg(p, s, a, o, __FILE__, __LINE__)
-#define   _aligned_free(p)                      _aligned_free_dbg(p)
+#define malloc(s)                             _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
+#define calloc(c, s)                          _calloc_dbg(c, s, _NORMAL_BLOCK, __FILE__, __LINE__)
+#define realloc(p, s)                         _realloc_dbg(p, s, _NORMAL_BLOCK, __FILE__, __LINE__)
+#define _expand(p, s)                         _expand_dbg(p, s, _NORMAL_BLOCK, __FILE__, __LINE__)
+#define free(p)                               _free_dbg(p, _NORMAL_BLOCK)
+#define _msize(p)                             _msize_dbg(p, _NORMAL_BLOCK)
+#define _aligned_malloc(s, a)                 _aligned_malloc_dbg(s, a, __FILE__, __LINE__)
+#define _aligned_realloc(p, s, a)             _aligned_realloc_dbg(p, s, a, __FILE__, __LINE__)
+#define _aligned_offset_malloc(s, a, o)       _aligned_offset_malloc_dbg(s, a, o, __FILE__, __LINE__)
+#define _aligned_offset_realloc(p, s, a, o)   _aligned_offset_realloc_dbg(p, s, a, o, __FILE__, __LINE__)
+#define _aligned_free(p)                      _aligned_free_dbg(p)
 
-#define DEBUG_NEW   new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define DEBUG_NEW                             new(_NORMAL_BLOCK, __FILE__, __LINE__)
 
 // The following macros set and clear, respectively, given bits 
 // of the C runtime library debug flag, as specified by a bitmask. 
-#define SET_CRT_DEBUG_FIELD(a)      _CrtSetDbgFlag((a) | _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG)) 
-#define CLEAR_CRT_DEBUG_FIELD(a)    _CrtSetDbgFlag(~(a) & _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG)) 
+#define SET_CRT_DEBUG_FIELD(a)                _CrtSetDbgFlag((a) | _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG)) 
+#define CLEAR_CRT_DEBUG_FIELD(a)              _CrtSetDbgFlag(~(a) & _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG)) 
 
-#else
+#else //_DEBUG
 
-#define DEBUG_NEW   new
+#define DEBUG_NEW                             new
 
-#define SET_CRT_DEBUG_FIELD(a) ((void) 0) 
-#define CLEAR_CRT_DEBUG_FIELD(a) ((void) 0) 
+#define SET_CRT_DEBUG_FIELD(a)                ((void) 0) 
+#define CLEAR_CRT_DEBUG_FIELD(a)              ((void) 0) 
 
 #endif //_DEBUG
 

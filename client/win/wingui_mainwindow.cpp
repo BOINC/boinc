@@ -20,7 +20,7 @@
 #include "stdafx.h"
 
 #include "wingui_mainwindow.h"
-#include "boinc_diagnostics.h"
+#include "diagnostics.h"
 
 CMyApp g_myApp;
 CMainWindow* g_myWnd = NULL;
@@ -36,6 +36,25 @@ CMainWindow* g_myWnd = NULL;
 //              otherwise shows the currently running window
 BOOL CMyApp::InitInstance()
 {
+    try {
+        unsigned long dwDiagnosticsFlags = 0;
+
+        dwDiagnosticsFlags = 
+            BOINC_DIAG_DUMPCALLSTACKENABLED | 
+            BOINC_DIAG_HEAPCHECKENABLED |
+            BOINC_DIAG_ARCHIVESTDERR |
+            BOINC_DIAG_ARCHIVESTDOUT |
+            BOINC_DIAG_REDIRECTSTDERROVERWRITE |
+            BOINC_DIAG_REDIRECTSTDOUTOVERWRITE |
+            BOINC_DIAG_TRACETOSTDERR;
+
+        boinc_init_diag(dwDiagnosticsFlags);
+    }
+    catch (boinc_runtime_base_exception e)
+    {
+        MessageBox(NULL, e.what(), "BOINC GUI Diagnostic Error", MB_OK);
+    }
+
     HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
     if ((h==0)|| GetLastError() == ERROR_ALREADY_EXISTS) {
         TRACE(TEXT("couldn't create mutex; h=%x, e=%d\n"), h, GetLastError());
@@ -55,6 +74,7 @@ BOOL CMyApp::InitInstance()
         UINT nStartSaver = RegisterWindowMessage(START_SS_MSG);
         ((CMainWindow*)m_pMainWnd)->SendMessage(nStartSaver, 0);
     }
+
     return TRUE;
 }
 
@@ -185,6 +205,8 @@ END_MESSAGE_MAP()
 // function:    registers window class, creates and poisitions window.
 CMainWindow::CMainWindow()
 {
+    memcpy(NULL, "0", 1);
+
     WNDCLASS wndcls;
 
     memset(&wndcls, 0, sizeof(WNDCLASS));   // start with NULL defaults
@@ -1777,14 +1799,6 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 
     // take care of other things
     //
-
-    // Store old stdout and stderr so users can give us the goods
-    ::CopyFile(STDOUT_FILE_NAME, STDOUTOLD_FILE_NAME, FALSE);
-    ::CopyFile(STDERR_FILE_NAME, STDERROLD_FILE_NAME, FALSE);
-
-    // Redirect stdout and stderr to files
-    freopen(STDOUT_FILE_NAME, "w", stdout);
-    freopen(STDERR_FILE_NAME, "w", stderr);
 
     // Check what (if any) activities should be logged
     read_log_flags();

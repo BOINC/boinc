@@ -24,7 +24,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../lib/,../api/,../api/win/,../RSAEuro/source/,../client/win/,../client"
+				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -93,7 +93,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib/,../api/,../api/win/,../RSAEuro/source/,../client/win/,../client"
+				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -510,6 +510,12 @@
 						BrowseInformation="1"
 						CompileAs="2"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\diagnostics.C">
+			</File>
+			<File
+				RelativePath="..\lib\exception.C">
 			</File>
 			<File
 				RelativePath="..\Client\file_names.C">
@@ -998,7 +1004,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\win\Stackwalker.cpp">
+				RelativePath="..\lib\stackwalker_win.cpp">
 			</File>
 			<File
 				RelativePath="..\client\stdafx.cpp">
@@ -1282,7 +1288,13 @@
 				RelativePath="..\client\cpu_benchmark.h">
 			</File>
 			<File
+				RelativePath="..\lib\diagnostics.h">
+			</File>
+			<File
 				RelativePath="..\lib\error_numbers.h">
+			</File>
+			<File
+				RelativePath="..\lib\exception.h">
 			</File>
 			<File
 				RelativePath="..\client\file_names.h">
@@ -1345,7 +1357,7 @@
 				RelativePath="..\client\ss_logic.h">
 			</File>
 			<File
-				RelativePath="..\api\win\Stackwalker.h">
+				RelativePath="..\lib\stackwalker_win.h">
 			</File>
 			<File
 				RelativePath="..\client\stdafx.h">
@@ -1391,10 +1403,10 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\boinc.bmp">
+				RelativePath="..\client\win\res\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\boinc.bmp">
+				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
 				RelativePath="..\client\win\boinc_gui.rc">
@@ -1414,10 +1426,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\res\boincsm.bmp">
+				RelativePath="..\client\win\boincsm.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\boincsm.bmp">
+				RelativePath="..\client\win\res\boincsm.bmp">
 			</File>
 			<File
 				RelativePath="..\res\CoreClient.ico">

@@ -42,8 +42,6 @@
 #include "stdafx.h"
 #endif
 
-#include "Stackwalker.h"
-
 // the form of the output file
 static eAllocCheckOutput g_CallstackOutputType = ACOutput_XML;
 

@@ -197,6 +197,12 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\diagnostics.C">
+			</File>
+			<File
+				RelativePath="..\lib\exception.C">
+			</File>
+			<File
 				RelativePath="..\lib\filesys.C">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -289,7 +295,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\win\Stackwalker.cpp">
+				RelativePath="..\lib\stackwalker_win.cpp">
 			</File>
 			<File
 				RelativePath="..\lib\util.C">
@@ -325,7 +331,13 @@
 				RelativePath="..\Api\boinc_api.h">
 			</File>
 			<File
+				RelativePath="..\lib\diagnostics.h">
+			</File>
+			<File
 				RelativePath="..\lib\error_numbers.h">
+			</File>
+			<File
+				RelativePath="..\lib\exception.h">
 			</File>
 			<File
 				RelativePath="..\client\file_names.h">
@@ -343,7 +355,7 @@
 				RelativePath="..\lib\shmem.h">
 			</File>
 			<File
-				RelativePath="..\api\win\Stackwalker.h">
+				RelativePath="..\lib\stackwalker_win.h">
 			</File>
 			<File
 				RelativePath="..\lib\util.h">

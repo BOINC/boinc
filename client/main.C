@@ -38,6 +38,7 @@
 #endif
 #endif
 
+#include "diagnostics.h"
 #include "client_state.h"
 #include "error_numbers.h"
 #include "file_names.h"
@@ -198,6 +199,19 @@ int boinc_execution_engine(int argc, char** argv) {
         fprintf(stderr, "Another copy of BOINC is already running\n");
         exit(1);
     }
+
+
+    // Initialize Diagnostics
+    //
+    unsigned long dwDiagnosticsFlags = 0;
+
+    dwDiagnosticsFlags = 
+        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_TRACETOSTDERR;
+
+    boinc_init_diag(dwDiagnosticsFlags);
+
 
 // Unix/Linux console controls
 #ifndef WIN32

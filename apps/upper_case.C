@@ -57,6 +57,7 @@
 #include "graphics_api.h"
 #endif
 
+#include "diagnostics.h"
 #include "util.h"
 #include "filesys.h"
 #include "boinc_api.h"
@@ -116,8 +117,21 @@ int main(int argc, char **argv) {
     MFILE out;
     FILE* state, *in;
     bool standalone = false;
+    unsigned long dwDiagnosticsFlags = 0;
 
     my_start_time = time(0);
+
+
+    dwDiagnosticsFlags = 
+        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_REDIRECTSTDERR;
+
+    if (standalone)
+        dwDiagnosticsFlags = dwDiagnosticsFlags | BOINC_DIAG_TRACETOSTDERR;
+
+    boinc_init_diag(dwDiagnosticsFlags);
+
 
     // NOTE: if you change output here, remember to change the output that
     // test_uc.py pattern-matches against.

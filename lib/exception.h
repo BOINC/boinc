@@ -20,20 +20,9 @@
 #ifndef _BOINC_EXCEPTIONS_
 #define _BOINC_EXCEPTIONS_
 
-#include <exception>
-#include <string>
 
-using namespace std;
-
-
-// ****************************************************************************
-// ****************************************************************************
-//
 // BOINC Base Exception Class
 //
-// ****************************************************************************
-// ****************************************************************************
-
 
 class boinc_base_exception : public exception
 {
@@ -68,20 +57,15 @@ public:
 };
 
 
-// ****************************************************************************
-// ****************************************************************************
-//
 // BOINC Base Runtime Exception Class
 //
-// ****************************************************************************
-// ****************************************************************************
-
 
 class boinc_runtime_base_exception : public boinc_base_exception
 {
 public:
 
-    boinc_runtime_base_exception(const char *s=0) : boinc_base_exception(s){}
+    boinc_runtime_base_exception(const char *s=0)
+        : boinc_base_exception(s){}
     boinc_runtime_base_exception(const char *f, int l, const char *s=0)
         : boinc_base_exception(f, l, s){}
 
@@ -90,14 +74,8 @@ public:
 };
 
 
-// ****************************************************************************
-// ****************************************************************************
-//
 // BOINC Runtime Exceptions
 //
-// ****************************************************************************
-// ****************************************************************************
-
 
 class boinc_out_of_memory_exception : public boinc_runtime_base_exception
 {
@@ -105,7 +83,7 @@ public:
     boinc_out_of_memory_exception(const char *s=0)
         : boinc_runtime_base_exception(s){}
     boinc_out_of_memory_exception(const char *f, int l, const char *s=0)
-        : boinc_runtime_base_exception(f, l, s) {}
+        : boinc_runtime_base_exception(f, l, s){}
 
     virtual const char * ErrorMessage();
     virtual long         ErrorValue();
@@ -131,7 +109,7 @@ public:
     boinc_file_operation_exception(const char *s=0)
         : boinc_runtime_base_exception(s){}
     boinc_file_operation_exception(const char *f, int l, const char *s=0)
-        : boinc_runtime_base_exception(f, l, s) {}
+        : boinc_runtime_base_exception(f, l, s){}
 
     virtual const char * ErrorMessage();
     virtual long         ErrorValue();
@@ -144,7 +122,7 @@ public:
     boinc_signal_operation_exception(const char *s=0)
         : boinc_runtime_base_exception(s){}
     boinc_signal_operation_exception(const char *f, int l, const char *s=0)
-        : boinc_runtime_base_exception(f, l, s) {}
+        : boinc_runtime_base_exception(f, l, s){}
 
     virtual const char * ErrorMessage();
     virtual long         ErrorValue();

@@ -22,7 +22,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib/,../api/,../api/win/,../RSAEuro/source/,../client/win/,../client"
+				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
 				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -93,7 +93,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../lib/,../api/,../api/win/,../RSAEuro/source/,../client/win/,../client"
+				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE"
 				StringPooling="TRUE"
 				RuntimeLibrary="0"
@@ -507,6 +507,12 @@
 						PreprocessorDefinitions=""
 						CompileAs="2"/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\lib\diagnostics.C">
+			</File>
+			<File
+				RelativePath="..\lib\exception.C">
 			</File>
 			<File
 				RelativePath="..\Client\file_names.C">
@@ -995,7 +1001,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\win\Stackwalker.cpp">
+				RelativePath="..\lib\stackwalker_win.cpp">
 			</File>
 			<File
 				RelativePath="..\client\stdafx.cpp">
@@ -1115,7 +1121,13 @@
 				RelativePath="..\client\client_types.h">
 			</File>
 			<File
+				RelativePath="..\lib\diagnostics.h">
+			</File>
+			<File
 				RelativePath="..\lib\error_numbers.h">
+			</File>
+			<File
+				RelativePath="..\lib\exception.h">
 			</File>
 			<File
 				RelativePath="..\client\file_names.h">
@@ -1178,16 +1190,16 @@
 				RelativePath="..\client\ss_logic.h">
 			</File>
 			<File
-				RelativePath="..\api\win\Stackwalker.h">
-			</File>
-			<File
-				RelativePath="..\client\win\Stackwalker.h">
+				RelativePath="..\lib\stackwalker_win.h">
 			</File>
 			<File
 				RelativePath="..\client\stdafx.h">
 			</File>
 			<File
 				RelativePath="..\client\time_stats.h">
+			</File>
+			<File
+				RelativePath="..\lib\util.h">
 			</File>
 			<File
 				RelativePath="..\client\version.h">
