@@ -55,6 +55,7 @@ bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 
 DB_PROJECT gproject;
 SCHED_CONFIG config;
+key_t sema_key;
 
 void send_shut_message() {
     printf(
@@ -103,6 +104,9 @@ int main() {
         );
         exit(1);
     }
+
+    getcwd(path, sizeof(path));
+    get_key(path, 'a', sema_key);
 
     retval = attach_shmem(config.shmem_key, &p);
     if (retval) {

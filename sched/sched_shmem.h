@@ -41,9 +41,14 @@
     // classify as COULDNT_SEND and remove it from array
     // TODO: lower this to 50 or so
 
+#define WR_STATE_EMPTY   0
+#define WR_STATE_PRESENT 1
+#define WR_STATE_CHECKED_OUT    2
+    // some server process is considering this result
+
 // a workunit/result pair
 struct WU_RESULT {
-    bool present;
+    int state;
     int infeasible_count;
     WORKUNIT workunit;
     RESULT result;

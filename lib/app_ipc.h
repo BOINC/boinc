@@ -126,6 +126,7 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define INIT_DATA_FILE    "init_data.xml"
 #define GRAPHICS_DATA_FILE    "graphics.xml"
 #define FD_INIT_FILE    "fd_init.xml"
+#define BOINC_FINISH_CALLED_FILE "boinc_finish_called"
 
 #define STDERR_FILE           "stderr.txt"
 #define STDOUT_FILE           "stdout.txt"

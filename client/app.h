@@ -42,6 +42,9 @@ typedef int PROCESS_ID;
 #define PROCESS_ABORTED         6
     // process has exited
 #define PROCESS_COULDNT_START   7
+#define PROCESS_IN_LIMBO        8
+    // process exited zero, but no finish file.
+    // Leave it there.
 
 
 // Represents a task in progress.
@@ -122,6 +125,7 @@ public:
     bool get_status_msg();
     double est_time_to_completion();
     bool read_stderr_file();
+    bool finish_file_present();
     bool supports_graphics();
     int write_app_init_file(APP_INIT_DATA&);
     int move_trickle_file();

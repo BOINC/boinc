@@ -11278,3 +11278,49 @@ David  April 2 2004
 Jeff  April 2 2004
      - tagged as seti_boinc_app_release_2_32 and released to alpha.
 
+David  April 3 2004
+    - added a mechanism to handle situations where an app
+        appears to have exited successfully,
+        but in fact didn't call boinc_finish() or exit(0).
+        This apparently can happen on various platforms, don't ask me how.
+        The new mechanism:
+        boinc_finish() writes a file "boinc_finish_called"
+        in the slot directory.
+        When an app appears to have exited successfully,
+        the core client checks for the existence of this file.
+        If it's not there, the result is placed "in limbo":
+        it takes up a slot, but the app isn't restarted.
+        If the core client is restarted, the app is restarted.
+
+        NOTE: when we release a core client with this feature,
+        it's critical that all users reset the project,
+        and that updated versions of all apps are released.
+        Might be a good time for a major release increment.
+
+    api/
+        boinc_api.C
+    client/
+        app.C,h
+    lib/
+        app_ipc.h
+
+David  April 3 2004
+    - synchronize access to shared-mem work array by scheduler processes,
+        with the goal of NEVER sending the same result to different hosts.
+        - Instead of a single bool present flag, there are now 3 states
+            for an element in the array: absent, present, and
+            "checked out" (being considered for sending)
+        - There's now a semaphore that a scheduler process must acquire before
+            examining the state field of an array entry
+            (note: the feeder creates this semaphore,
+            but doesn't have to acquire it
+            because of the producer/consumer situation).
+    - split out the work-sending part of handle_request.C to a new file
+        (sched_send.C,h) because it was getting kinda big
+
+    sched/
+        Makefile.am
+        main.C,h
+        sched_send.C,h (new)
+        sched_shmem.h
+        show_shmem.C

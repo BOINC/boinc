@@ -87,6 +87,7 @@
 
 #include "boinc_db.h"
 #include "shmem.h"
+#include "synch.h"
 #include "util.h"
 #include "sched_config.h"
 #include "sched_shmem.h"
@@ -99,8 +100,8 @@
 //#define REMOVE_INFEASIBLE_ENTRIES
 
 SCHED_CONFIG config;
-
 SCHED_SHMEM* ssp;
+key_t sema_key;
 
 void cleanup_shmem() {
     detach_shmem((void*)ssp);
@@ -127,7 +128,7 @@ static int remove_infeasible(int i) {
     DB_WORKUNIT wu;
 
     WU_RESULT& wu_result = ssp->wu_results[i];
-    wu_result.present = false;      // mark as absent
+    wu_result.state = WR_STATE_EMPTY;
     result = wu_result.result;
     wu = wu_result.workunit;
 
@@ -174,7 +175,7 @@ static void scan_work_array(
 
     for (i=0; i<ssp->nwu_results; i++) {
         WU_RESULT& wu_result = ssp->wu_results[i];
-        if (wu_result.present) {
+        if (wu_result.state == WR_STATE_PRESENT) {
 #ifdef REMOVE_INFEASIBLE_ENTRIES
             if (wu_result.infeasible_count > MAX_INFEASIBLE_COUNT) {
                 remove_infeasible(i);
@@ -234,7 +235,7 @@ try_again:
             }
             collision = false;
             for (j=0; j<ssp->nwu_results; j++) {
-                if (ssp->wu_results[j].present
+                if (ssp->wu_results[j].state != WR_STATE_EMPTY
                     && ssp->wu_results[j].result.id == result.id
                 ) {
                     ncollisions++;
@@ -259,7 +260,7 @@ try_again:
                 }
                 wu_result.result = result;
                 wu_result.workunit = wu;
-                wu_result.present = true;
+                wu_result.state = WR_STATE_PRESENT;
                 wu_result.infeasible_count = 0;
                 nadditions++;
             }
@@ -274,7 +275,7 @@ static int remove_most_infeasible() {
     max = 0;
     for (i=0; i<ssp->nwu_results; i++) {
         WU_RESULT& wu_result = ssp->wu_results[i];
-        if (wu_result.present && wu_result.infeasible_count > max) {
+        if (wu_result.state == WR_STATE_PRESENT && wu_result.infeasible_count > max) {
             imax = i;
             max = wu_result.infeasible_count;
         }
@@ -341,6 +342,7 @@ int main(int argc, char** argv) {
     int i, retval;
     bool asynch = false;
     void* p;
+    char path[256];
 
     unlink(REREAD_DB_FILENAME);
 
@@ -364,17 +366,12 @@ int main(int argc, char** argv) {
         }
     }
 
-#if 0
-    // Call lock_file after fork(), because file locks are not always inherited
-    //
-    if (lock_file(LOCKFILE)) {
-        log_messages.printf(SchedMessages::NORMAL, "Another copy of feeder is already running\n");
-        exit(1);
-    }
-    write_pid_file(PIDFILE);
-#endif
-
     log_messages.printf(SchedMessages::NORMAL, "Starting\n");
+
+    getcwd(path, sizeof(path));
+    get_key(path, 'a', sema_key);
+    destroy_semaphore(sema_key);
+    create_semaphore(sema_key);
 
     retval = destroy_shmem(config.shmem_key);
     if (retval) {

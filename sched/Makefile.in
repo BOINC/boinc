@@ -223,15 +223,18 @@ libsched_a_SOURCES = \
 cgi_SOURCES = \
     handle_request.C			\
     main.C					\
+    sched_send.C					\
     server_types.C				\
-	assimilate_handler.h			\
-	handle_request.h			\
-	main.h					\
-	server_types.h
+    ../lib/synch.C
+
 
 cgi_DEPENDENCIES = $(LIB_SCHED)
 
-feeder_SOURCES = feeder.C
+feeder_SOURCES = \
+    feeder.C \
+    ../lib/synch.C
+
+
 feeder_DEPENDENCIES = $(LIB_SCHED)
 
 wu_check_SOURCES = wu_check.C
@@ -310,7 +313,7 @@ assimilator_OBJECTS = $(am_assimilator_OBJECTS)
 assimilator_LDADD = $(LDADD)
 assimilator_LDFLAGS =
 am_cgi_OBJECTS = handle_request.$(OBJEXT) main.$(OBJEXT) \
-	server_types.$(OBJEXT)
+	sched_send.$(OBJEXT) server_types.$(OBJEXT) synch.$(OBJEXT)
 cgi_OBJECTS = $(am_cgi_OBJECTS)
 cgi_LDADD = $(LDADD)
 cgi_LDFLAGS =
@@ -322,7 +325,7 @@ am_fcgi_OBJECTS = fcgi-handle_request.$(OBJEXT) fcgi-main.$(OBJEXT) \
 	fcgi-server_types.$(OBJEXT)
 fcgi_OBJECTS = $(am_fcgi_OBJECTS)
 fcgi_LDFLAGS =
-am_feeder_OBJECTS = feeder.$(OBJEXT)
+am_feeder_OBJECTS = feeder.$(OBJEXT) synch.$(OBJEXT)
 feeder_OBJECTS = $(am_feeder_OBJECTS)
 feeder_LDADD = $(LDADD)
 feeder_LDFLAGS =
@@ -389,10 +392,11 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/process_result_template.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_config.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_messages.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sched_send.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_shmem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_util.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/server_types.Po ./$(DEPDIR)/shmem.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/show_shmem.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/show_shmem.Po ./$(DEPDIR)/synch.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/transitioner.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/trickle_handler.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/update_stats.Po ./$(DEPDIR)/util.Po \
@@ -458,6 +462,7 @@ clean-noinstPROGRAMS:
 assimilator$(EXEEXT): $(assimilator_OBJECTS) $(assimilator_DEPENDENCIES) 
 	@rm -f assimilator$(EXEEXT)
 	$(CXXLINK) $(assimilator_LDFLAGS) $(assimilator_OBJECTS) $(assimilator_LDADD) $(LIBS)
+synch.$(OBJEXT): ../lib/synch.C
 cgi$(EXEEXT): $(cgi_OBJECTS) $(cgi_DEPENDENCIES) 
 	@rm -f cgi$(EXEEXT)
 	$(CXXLINK) $(cgi_LDFLAGS) $(cgi_OBJECTS) $(cgi_LDADD) $(LIBS)
@@ -554,11 +559,13 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/process_result_template.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_config.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_messages.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_send.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/server_types.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/show_shmem.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/synch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/transitioner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/trickle_handler.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/update_stats.Po@am__quote@
@@ -835,6 +842,28 @@ backend_lib.obj: ../tools/backend_lib.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/backend_lib.Po' tmpdepfile='$(DEPDIR)/backend_lib.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o backend_lib.obj `if test -f '../tools/backend_lib.C'; then $(CYGPATH_W) '../tools/backend_lib.C'; else $(CYGPATH_W) '$(srcdir)/../tools/backend_lib.C'`
+
+synch.o: ../lib/synch.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT synch.o -MD -MP -MF "$(DEPDIR)/synch.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o synch.o `test -f '../lib/synch.C' || echo '$(srcdir)/'`../lib/synch.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/synch.Tpo" "$(DEPDIR)/synch.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/synch.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/synch.C' object='synch.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/synch.Po' tmpdepfile='$(DEPDIR)/synch.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o synch.o `test -f '../lib/synch.C' || echo '$(srcdir)/'`../lib/synch.C
+
+synch.obj: ../lib/synch.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT synch.obj -MD -MP -MF "$(DEPDIR)/synch.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o synch.obj `if test -f '../lib/synch.C'; then $(CYGPATH_W) '../lib/synch.C'; else $(CYGPATH_W) '$(srcdir)/../lib/synch.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/synch.Tpo" "$(DEPDIR)/synch.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/synch.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/synch.C' object='synch.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/synch.Po' tmpdepfile='$(DEPDIR)/synch.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o synch.obj `if test -f '../lib/synch.C'; then $(CYGPATH_W) '../lib/synch.C'; else $(CYGPATH_W) '$(srcdir)/../lib/synch.C'`
 
 fcgi-handle_request.o: handle_request.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-handle_request.o -MD -MP -MF "$(DEPDIR)/fcgi-handle_request.Tpo" \

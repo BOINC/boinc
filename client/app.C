@@ -629,6 +629,12 @@ bool ACTIVE_TASK_SET::poll() {
     return action;
 }
 
+bool ACTIVE_TASK::finish_file_present() {
+    char path[256];
+    sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, BOINC_FINISH_CALLED_FILE);
+    return boinc_file_exists(path);
+}
+
 bool ACTIVE_TASK_SET::check_app_exited() {
     ACTIVE_TASK* atp;
 
@@ -653,9 +659,9 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                 } else {
                     atp->state = PROCESS_EXITED;
                     atp->exit_status = exit_code;
-                    atp->result->exit_status = atp->exit_status;
-                    atp->result->active_task_state = PROCESS_EXITED;
+
                     //if a nonzero error code, then report it
+                    //
                     if (exit_code) {
                         char szError[1024];
                         gstate.report_result_error(
@@ -664,7 +670,14 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                             windows_format_error_string(exit_code, szError, sizeof(szError)),
                             exit_code, exit_code
                         );
+                    } else {
+                        if (!finish_file_present()) {
+                            atp->state = PROCESS_IN_LIMBO;
+                            return true;
+                        }
                     }
+                    atp->result->exit_status = atp->exit_status;
+                    atp->result->active_task_state = PROCESS_EXITED;
                 }
                 atp->read_stderr_file();
                 clean_out_dir(atp->slot_dir);
@@ -695,20 +708,34 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             if (WIFEXITED(stat)) {
                 atp->state = PROCESS_EXITED;
                 atp->exit_status = WEXITSTATUS(stat);
-                atp->result->exit_status = atp->exit_status;
-                atp->result->active_task_state = PROCESS_EXITED;
 
-                // If exit_status is nonzero, then we don't need to upload the
-                // output files
+                // If exit_status is nonzero,
+                // then we don't need to upload the output files
                 //
-                if(atp->exit_status != 0) {
+                if (atp->exit_status) {
                     gstate.report_result_error(
                         *(atp->result), 0,
                         "process exited with code %d (0x%x)",
                         atp->exit_status, atp->exit_status
                     );
+                } else {
+                    if (!finish_file_present()) {
+                        // The process looks like it exited normally
+                        // but there's no "finish file".
+                        // Assume it was externally killed,
+                        // and just leave it there
+                        // (assume user is about to exit core client)
+                        //
+                        atp->state = PROCESS_IN_LIMBO;
+                        return true;
+                    }
                 }
-                scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process exited: status %d\n", atp->exit_status);
+                atp->result->exit_status = atp->exit_status;
+                atp->result->active_task_state = PROCESS_EXITED;
+                scope_messages.printf(
+                    "ACTIVE_TASK_SET::check_app_exited(): process exited: status %d\n",
+                    atp->exit_status
+                );
             } else if (WIFSIGNALED(stat)) {
                 atp->exit_status = stat;
                 atp->result->exit_status = atp->exit_status;

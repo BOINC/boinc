@@ -159,6 +159,10 @@ int boinc_finish(int status) {
     CloseHandle(worker_thread_handle);
 #endif
     cleanup_shared_mem();
+    if (status == 0) {
+        FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
+        if (f) fclose(f);
+    }
     exit(status);
     return 0;
 }

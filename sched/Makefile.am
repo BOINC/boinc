@@ -53,14 +53,16 @@ libsched_a_SOURCES =				\
 cgi_SOURCES =					\
     handle_request.C			\
     main.C					\
+    sched_send.C					\
     server_types.C				\
-	assimilate_handler.h			\
-	handle_request.h			\
-	main.h					\
-	server_types.h
+    ../lib/synch.C
+
 cgi_DEPENDENCIES = $(LIB_SCHED)
 
-feeder_SOURCES = feeder.C
+feeder_SOURCES = \
+    feeder.C \
+    ../lib/synch.C
+
 feeder_DEPENDENCIES = $(LIB_SCHED)
 
 wu_check_SOURCES = wu_check.C

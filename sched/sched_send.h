@@ -1,0 +1,3 @@
+extern int send_work(
+    SCHEDULER_REQUEST&, SCHEDULER_REPLY&, PLATFORM&, SCHED_SHMEM&
+);

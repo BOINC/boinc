@@ -50,12 +50,18 @@ int main() {
     printf("max_wu_results: %d\n", ssp->max_wu_results);
     for (i=0; i<ssp->max_wu_results; i++) {
         WU_RESULT& wu_result = ssp->wu_results[i];
-        if (wu_result.present) {
+        switch(wu_result.state) {
+        case WR_STATE_PRESENT:
             printf("%d: present; infeasible_count %d; result %s\n",
                 i, wu_result.infeasible_count, wu_result.result.name
             );
-        } else {
+            break;
+        case WR_STATE_EMPTY:
             printf("%d: absent\n", i);
+            break;
+        case WR_STATE_CHECKED_OUT:
+            printf("%d: checked out: %s\n", i, wu_result.result.name);
+            break;
         }
     }
 }
