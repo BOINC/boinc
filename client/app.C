@@ -496,7 +496,7 @@ void ACTIVE_TASK_SET::suspend_all() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        atp->suspend();
+        atp->suspend(true);  // suspend each active task
     }
 }
 
@@ -507,7 +507,7 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        atp->unsuspend();
+        atp->suspend(false);  // resume each active task
     }
 }
 
@@ -525,40 +525,30 @@ void ACTIVE_TASK_SET::exit_tasks() {
 }
 
 #ifdef _WIN32
-// Send a suspend request to the ACTIVE_TASK
+// Send a suspend or resume request to the ACTIVE_TASK
 //
-void ACTIVE_TASK::suspend() {
+void ACTIVE_TASK::suspend(bool suspend) {
     char susp_file[256];
 
     get_slot_dir(slot, slot_dir);
     sprintf( susp_file, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE );
     FILE *fp = fopen( susp_file, "w" );
-    write_suspend_quit_file( fp, true, false );
-    fclose(fp);
-}
 
-// Send a resume request to the ACTIVE_TASK
-//
-void ACTIVE_TASK::unsuspend() {
-    char susp_file[256];
+	if (suspend)
+	    write_suspend_quit_file( fp, true, false );
+	else
+	    write_suspend_quit_file( fp, false, false );
 
-    get_slot_dir(slot, slot_dir);
-    sprintf( susp_file, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE );
-    FILE *fp = fopen( susp_file, "w" );
-    write_suspend_quit_file( fp, false, false );
     fclose(fp);
 }
 #else
-// Send a suspend request to the ACTIVE_TASK
+// Send a suspend or resume request to the ACTIVE_TASK
 //
-void ACTIVE_TASK::suspend() {
-    kill(this->pid, SIGSTOP);
-}
-
-// Send a resume request to the ACTIVE_TASK
-//
-void ACTIVE_TASK::unsuspend() {
-    kill(this->pid, SIGCONT);
+void ACTIVE_TASK::suspend(bool suspend) {
+	if (suspend)
+	    kill(this->pid, SIGSTOP);	// put the process to sleep
+	else
+	    kill(this->pid, SIGCONT);	// wake up the process
 }
 #endif
 
@@ -605,8 +595,8 @@ int ACTIVE_TASK_SET::restart_tasks() {
     return 0;
 }
 
-// See if the app has generated new checkpoint CPU or fraction-done files.
-// If so read them and return true.
+// See if the app has generated a new fraction-done file.
+// If so read it and return true.
 //
 bool ACTIVE_TASK::check_app_status_files() {
     FILE* f;
@@ -614,26 +604,11 @@ bool ACTIVE_TASK::check_app_status_files() {
     bool found = false;
     int retval;
 
-    sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, CHECKPOINT_CPU_FILE);
-    f = fopen(path, "r");
-    if (f) {
-        found = true;
-        parse_checkpoint_cpu_file(f, checkpoint_cpu_time);
-        fclose(f);
-        retval = file_delete(path);
-        if (retval) {
-            fprintf(stderr,
-                "ACTIVE_TASK.check_app_status_files: could not delete %s: %d\n",
-                path, retval
-            );
-        }
-    }
-
     sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, FRACTION_DONE_FILE);
     f = fopen(path, "r");
     if (f) {
         found = true;
-        parse_fraction_done_file(f, fraction_done, current_cpu_time);
+        parse_fraction_done_file(f, fraction_done, current_cpu_time, checkpoint_cpu_time);
         fclose(f);
         retval = file_delete(path);
         if (retval) {

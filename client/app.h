@@ -72,8 +72,7 @@ public:
     void request_pause(int x);
         // request a task to pause.  If not paused after x secs, kill
 
-    void suspend();
-    void unsuspend();
+    void suspend(bool suspend);
 
     bool check_app_status_files();
 

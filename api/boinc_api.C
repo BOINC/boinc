@@ -87,6 +87,7 @@ static double time_until_redraw;
 static double time_until_fraction_done_update;
 static double time_until_suspend_check;
 static double fraction_done;
+static double last_checkpoint_cpu_time;
 static bool ready_to_checkpoint = false;
 static bool ready_to_redraw = false;
 static bool this_process_active;
@@ -229,7 +230,8 @@ void boinc_catch_signal(int signal) {
 }
 
 int boinc_finish(int status) {
-    write_checkpoint_cpu_file(boinc_cpu_time());
+	last_checkpoint_cpu_time = boinc_cpu_time();
+    write_fraction_done_file(fraction_done,last_checkpoint_cpu_time,last_checkpoint_cpu_time);
 #ifdef _WIN32
     // Stop the timer
     timeKillEvent(timer_id);
@@ -308,7 +310,8 @@ bool boinc_time_to_checkpoint() {
 }
 
 int boinc_checkpoint_completed() {
-    write_checkpoint_cpu_file(boinc_cpu_time());
+	last_checkpoint_cpu_time = boinc_cpu_time();
+    write_fraction_done_file(fraction_done,last_checkpoint_cpu_time,last_checkpoint_cpu_time);
     ready_to_checkpoint = false;
     time_until_checkpoint = aid.checkpoint_period;
     // If it's time to quit, call boinc_finish which will
@@ -432,9 +435,7 @@ void on_timer(int a) {
     if (this_process_active) {
         time_until_fraction_done_update -= timer_period;
         if (time_until_fraction_done_update < 0) {
-            FILE* f = fopen(FRACTION_DONE_FILE, "w");
-            write_fraction_done_file(f, fraction_done, boinc_cpu_time());
-            fclose(f);
+            write_fraction_done_file(fraction_done, boinc_cpu_time(), last_checkpoint_cpu_time);
             time_until_fraction_done_update = aid.fraction_done_update_period;
         }
     }
@@ -545,37 +546,28 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     return 0;
 }
 
-int write_checkpoint_cpu_file(double cpu) {
-    FILE *f = fopen(CHECKPOINT_CPU_FILE, "w");
-    if (!f) return ERR_FOPEN;
-    fprintf(f, "<checkpoint_cpu_time>%f</checkpoint_cpu_time>\n", cpu);
-    fclose(f);
-    return 0;
-}
+int write_fraction_done_file(double pct, double cpu, double checkpoint_cpu) {
+    FILE* f = fopen(FRACTION_DONE_FILE, "w");
 
-int parse_checkpoint_cpu_file(FILE* f, double& checkpoint_cpu) {
-    char buf[256];
-    while (fgets(buf, 256, f)) {
-        if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu)) continue;
-    }
-    return 0;
-}
-
-int write_fraction_done_file(FILE* f, double pct, double cpu) {
     fprintf(f,
         "<fraction_done>%f</fraction_done>\n"
-        "<cpu_time>%f</cpu_time>\n",
+        "<cpu_time>%f</cpu_time>\n"
+        "<checkpoint_cpu_time>%f</checkpoint_cpu_time>\n",
         pct,
-        cpu
+        cpu,
+		checkpoint_cpu
     );
+
+	fclose(f);
     return 0;
 }
 
-int parse_fraction_done_file(FILE* f, double& pct, double& cpu) {
+int parse_fraction_done_file(FILE* f, double& pct, double& cpu, double& checkpoint_cpu) {
     char buf[256];
     while (fgets(buf, 256, f)) {
         if (parse_double(buf, "<fraction_done>", pct)) continue;
         else if (parse_double(buf, "<cpu_time>", cpu)) continue;
+        else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu)) continue;
         else fprintf(stderr, "parse_fraction_done_file: unrecognized %s", buf);
     }
     return 0;

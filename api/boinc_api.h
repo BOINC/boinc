@@ -79,21 +79,16 @@ extern void boinc_catch_signal(int signal);
 
 int write_init_data_file(FILE* f, APP_INIT_DATA&);
 int parse_init_data_file(FILE* f, APP_INIT_DATA&);
-int write_percent_done_file(FILE* f, double, double);
-int parse_percent_done_file(FILE* f, double&, double&);
 int write_fd_init_file(FILE*, char*, int, int);
 int parse_fd_init_file(FILE*);
-int write_checkpoint_cpu_file(double);
-int parse_checkpoint_cpu_file(FILE*, double&);
-int write_fraction_done_file(FILE*, double, double);
-int parse_fraction_done_file(FILE*, double&, double&);
+int write_fraction_done_file(double, double, double);
+int parse_fraction_done_file(FILE*, double&, double&, double&);
 int write_suspend_quit_file(FILE* f, bool suspend, bool quit);
 int parse_suspend_quit_file(FILE* f, bool& suspend, bool& quit);
 
 #define INIT_DATA_FILE    "init_data.xml"
 #define GRAPHICS_DATA_FILE    "graphics.xml"
 #define FD_INIT_FILE    "fd_init.xml"
-#define CHECKPOINT_CPU_FILE     "checkpoint_cpu.xml"
 #define FRACTION_DONE_FILE  "fraction_done.xml"
 #define SUSPEND_QUIT_FILE  "suspend.xml"
 #define STDERR_FILE             "stderr.txt"
