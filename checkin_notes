@@ -18428,3 +18428,12 @@ Lana    14 Oct 2004
 
     sched/
         db_purge.C
+
+David  15 Oct 2004
+    - GUI RPC: don't crash if bad project URL
+    - SCHEDULER_REPLY::parse(): tolerate extra lines
+        at start of scheduler reply (from Volker Hatzenberger)
+
+    client/
+        gui_rpc_server.C
+        scheduler_op.C

@@ -156,6 +156,7 @@ static void handle_project_op(char* buf, MIOFILE& fout, char* op) {
     PROJECT* p = get_project(buf, fout);
     if (!p) {
         fout.printf("<error>no such project</error>\n");
+        return;
     }
     if (!strcmp(op, "reset")) {
         gstate.reset_project(p);
@@ -317,7 +318,10 @@ static void handle_file_transfer_op(char* buf, MIOFILE& fout, char* op) {
     string filename;
 
     PROJECT* p = get_project(buf, fout);
-    if (!p) return;
+    if (!p) {
+        fout.printf("<error>No such project</error>\n");
+        return;
+    }
 
     if (!parse_str(buf, "<filename>", filename)) {
         fout.printf("<error>Missing filename</error>\n");
@@ -352,7 +356,10 @@ static void handle_result_op(char* buf, MIOFILE& fout, char* op) {
     ACTIVE_TASK* atp;
 
     PROJECT* p = get_project(buf, fout);
-    if (!p) return;
+    if (!p) {
+        fout.printf("<error>No such project</error>\n");
+        return;
+    }
 
     if (!parse_str(buf, "<name>", result_name, sizeof(result_name))) {
         fout.printf("<error>Missing result name</error>\n");

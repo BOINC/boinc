@@ -31,6 +31,7 @@ show_name("Markku Degerholm");
 show_name("James Drews");
 show_name("Michael Gary");
 show_name("Gary Gibson");
+show_name("Volker Hatzenberger");
 show_name("Ian Hay");
 show_name("Eric Heien");
 show_name("Thomas Horsten");

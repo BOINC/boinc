@@ -568,11 +568,12 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 // Others are copied straight to the PROJECT
 //
 int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
-    char buf[256], *p;
+    char buf[256];
     int retval, x;
     MIOFILE mf;
     char delete_file_name[256];
     mf.init_file(in);
+    bool found_start_tag = false;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
@@ -589,21 +590,17 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     project_is_down = false;
     send_file_list = false;
 
-    p = fgets(buf, 256, in);
-    if (!p) {
-        msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY::parse(): empty file\n");
-        return ERR_XML_PARSE;
-    }
-    // First part of content should either be tag (HTTP 1.0) or
+    // First line should either be tag (HTTP 1.0) or
     // hex length of response (HTTP 1.1)
-    if (!match_tag(buf, "<scheduler_reply>")) {
-        msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY::parse(): bad first tag %s\n", buf);
-        return ERR_XML_PARSE;
-    }
+    //
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "<scheduler_reply>")) {
-            // Do nothing
-        } else if (match_tag(buf, "</scheduler_reply>")) return 0;
+        if (!found_start_tag) {
+            if (match_tag(buf, "<scheduler_reply")) {
+                found_start_tag = true;
+            }
+            continue;
+        }
+        if (match_tag(buf, "</scheduler_reply>")) return 0;
         else if (parse_str(buf, "<project_name>", project->project_name, sizeof(project->project_name))) continue;
 		else if (parse_str(buf, "<user_name>", project->user_name, sizeof(project->user_name))) continue;
         else if (parse_double(buf, "<user_total_credit>", project->user_total_credit)) continue;
@@ -744,6 +741,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             scope_messages.printf("SCHEDULER_REPLY::parse(): unrecognized %s\n", buf);
         }
     }
-    msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY::parse(): no close tag\n");
+    if (found_start_tag) {
+        msg_printf(project, MSG_ERROR, "No close tag in scheduler reply\n");
+    } else {
+        msg_printf(project, MSG_ERROR, "No start tag in scheduler reply\n");
+    }
     return ERR_XML_PARSE;
 }

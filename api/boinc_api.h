@@ -76,6 +76,8 @@ extern "C" {
     extern int boinc_wu_cpu_time(double&);
     extern int boinc_calling_thread_cpu_time(double&, double&);
 
+    extern int boinc_suspend_other_activities();
+    extern int boinc_resume_other_activities();
 } // extern "C"
 
 extern APP_INIT_DATA aid;
@@ -86,9 +88,11 @@ extern APP_INIT_DATA aid;
 
 extern APP_CLIENT_SHM *app_client_shm;
 
+#if 0
 #ifdef HAVE_SIGNAL_H
 extern void boinc_catch_signal(int signal);
 extern void boinc_quit(int sig);
+#endif
 #endif
 
 /////////// IMPLEMENTATION STUFF ENDS HERE
