@@ -2,25 +2,24 @@
 
     include_once("util.inc");
 
+    parse_str(getenv("QUERY_STRING"));
     page_head("Account created");
-    echo "Your account has been created,
-        and an <b>account key</b> is being emailed to you.
+    echo "
+        <h3>Congratulations - your ".PROJECT." account has been created</h3>
         <p>
-        <b>If you are already running the BOINC client:</b>
-        <blockquote>
-        Select the <b>Add Project</b> command in the BOINC client.
-        Enter the project URL and your account key.
-        </blockquote>
-        <b>If you aren't running the BOINC client:</b>
-        <blockquote>
-        <a href=download.php>Download the BOINC client</a>.
-        Install and run the client.
-        Enter the project URL and your account key.
-        </blockquote>
-        <p>
-        Your account initially has default <b>preferences</b>
-        (limits on CPU, disk and network usage).
-        <a href=prefs.php>View or edit these preferences</a>.
+        Your <b>account key</b> has been emailed to $email_addr.
+        <br>
+        Please wait until you receive this email (it may take a minute or two).
+        <form method=post action=login_action.php>
+        <input type=hidden name=url value=account_setup.php>
+        <table cellpadding=8>
+        <tr><td align=right>Copy and paste the account key here:</td>
+        <td><input name=authenticator size=40></td>
+        </tr><tr>
+        <td align=right>and click here:</td>
+        <td><input type=submit value='OK'></td>
+        </tr></table>
+        </form>
         ";
 
     page_tail();

@@ -3115,3 +3115,11 @@ David   Feb 4 2003
         participate.html
     sched/
         db_dump.C
+
+David  Feb 7 2003
+    - Changed account creation features quite a bit.
+        It now bifurcates according to whether this is first project.
+        Asks for preferences and offers download accordingly.
+    
+    html_user/
+        account_setup* (new)

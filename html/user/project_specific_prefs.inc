@@ -48,8 +48,7 @@ function project_specific_prefs_show($prefs) {
 
 // parse XML, fill in struct
 //
-function project_specific_prefs_parse($prefs) {
-    $xml = $prefs->project_specific;
-    $prefs->color_scheme = parse_element($xml, "<color_scheme>");
+function project_specific_prefs_parse($prefs_xml) {
+    $prefs->color_scheme = parse_element($prefs_xml, "<color_scheme>");
     return $prefs;
 }

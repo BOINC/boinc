@@ -58,4 +58,4 @@ function show_error($str) {
     // return to it without getting "Repost form data" stuff
 
     send_auth_email($new_email_addr, $authenticator);
-    Header("Location: account_created.php");
+    Header("Location: account_created.php?email_addr=$new_email_addr");

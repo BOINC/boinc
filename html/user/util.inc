@@ -28,11 +28,9 @@ define("MASTER_URL", "http://maggie.ssl.berkeley.edu/ap/");
 //
 function send_auth_email($email_addr, $auth) {
     mail($email_addr, PROJECT." new account confirmation",
-"This email confirms the creation of your account with ".PROJECT.",
-a distributed computing project based on BOINC.\n
-The URL for this project:    ".MASTER_URL."
+"This email confirms the creation of your ".PROJECT." account.
+".PROJECT." URL:          ".MASTER_URL."
 Your account key:            $auth\n
-Copy and paste these into the BOINC client when prompted.\n
 Please save this email, as you will need the account key
 to access your account on the ".PROJECT." web site."
     );
@@ -87,16 +85,16 @@ function page_head($title) {
     // Put your project title and logo here
 
     echo "<h2>".PROJECT."</h2><hr>\n";
-    echo "<h3>$title</h3>\n";
+    //echo "<h3>$title</h3>\n";
 }
 
 function page_tail() {
 
-    echo "<br><hr><center><a href=index.php>Return to main ".PROJECT." page</a><br>\n";
+    echo "<br><hr><center><a href=index.php>Return to ".PROJECT." main page</a><br>\n";
 
     // put your copyright notice etc. here
 
-    echo "<br><br>Copyright (c) 2002 ".PROJECT."</center>\n";
+    echo "<br><br>Copyright (c) 2003 ".PROJECT."</center>\n";
 }
 
 function date_str($when) {
