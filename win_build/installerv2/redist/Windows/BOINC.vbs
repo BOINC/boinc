@@ -300,15 +300,22 @@ End Function
 Function VerifyServiceExecutionRight()
     On Error Resume Next
 
-    Dim oRecord
-    Dim iReturnValue
+    Dim oRecordRightPrompt
+    Dim oRecordBDCPrompt
+    Dim iFunctionReturnValue
+    Dim strGrantValue
 
-    Set oRecord = Installer.CreateRecord(2)
+    Set oRecordRightPrompt = Installer.CreateRecord(2)
+    Set oRecordBDCPrompt = Installer.CreateRecord(2)
 
-    oRecord.IntegerData(1) = 25008
-    iReturnValue = Message(msiMessageTypeUser Or vbExclamation Or vbYesNo, oRecord)
-    If ( msiMessageStatusYes = iReturnValue ) Then
-        Property("SERVICE_GRANTEXECUTIONRIGHT") = "1"    
+    oRecordRightPrompt.IntegerData(1) = 25008
+    oRecordBDCPrompt.IntegerData(1) = 25009
+
+    strGrantValue = "0"
+
+    iFunctionReturnValue = Message(msiMessageTypeUser Or vbExclamation Or vbYesNo, oRecordRightPrompt)
+    If ( msiMessageStatusYes = iFunctionReturnValue ) Then
+        strGrantValue = "1"    
     End If
     
     ''    
@@ -317,12 +324,12 @@ Function VerifyServiceExecutionRight()
     ''
     If ( 400 = Property("VersionNT") ) Then
         If ( 2 = Property("MsiNTProductType") ) Then
-            oRecord.IntegerData(1) = 25009
-		    Message msiMessageTypeUser Or vbExclamation Or vbOKOnly, oRecord
-    	 	Property("SERVICE_GRANTEXECUTIONRIGHT") = "0"    
+		    Message msiMessageTypeUser Or vbExclamation Or vbOKOnly, oRecordBDCPrompt
+    	 	strGrantValue = "0"    
         End If
     End If  
 
+    Property("SERVICE_GRANTEXECUTIONRIGHT") = strGrantValue    
 	VerifyServiceExecutionRight = msiDoActionStatusSuccess
 End Function
 
