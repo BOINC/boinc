@@ -3,6 +3,8 @@ topsrcdir       = @top_srcdir@
 srcdir          = @srcdir@
 VPATH           = @srcdir@
 
+INSTALL_DIR = /usr/local/boinc
+
 VERSION = 1
 
 CFLAGS = -g -Wall @DEFS@ \
@@ -66,6 +68,8 @@ TEST_FX_OBJS = \
     file_names.o \
     file_xfer.o
 
+TAR_TARGETS = client/* lib/* api/* RSAEuro/* INSTALL_CLIENT
+
 .C.o:
 	$(CC) -c -o $*.o $<
 .c.o:
@@ -84,17 +88,21 @@ test_file_xfer: test_file_xfer.o $(TEST_FX_OBJS)
 	$(CC) test_file_xfer.o $(TEST_FX_OBJS) $(CLIBS) -o test_file_xfer
 
 tar:
-	tar cf boinc_client.tar *.C *.h Makefile.in
+	cd $(topsrcdir); tar cf boinc_client.tar $(TAR_TARGETS); \
+	    gzip boinc_client.tar;
 
 clean:
 	rm -f *.o $(PROGS) core dependencies Makefile config.cache
 
 install: all
-	-mkdir -p /usr/local/boinc/client
-	cp test_net_xfer /usr/local/boinc/client/test_net_xfer
-	cp test_http /usr/local/boinc/client/test_http
-	cp test_file_xfer /usr/local/boinc/client/test_file_xfer
-	cp $(CLIENT_PROG) /usr/local/boinc/client/$(CLIENT_PROG)
+	-mkdir -p $(INSTALL_DIR)/client
+	cp test_net_xfer $(INSTALL_DIR)/client/test_net_xfer
+	cp test_http $(INSTALL_DIR)/client/test_http
+	cp test_file_xfer $(INSTALL_DIR)/client/test_file_xfer
+	cp $(CLIENT_PROG) $(INSTALL_DIR)/client/$(CLIENT_PROG)
+
+uninstall:
+	$(RM) -r $(INSTALL_DIR)/client
 
 dependencies: @srcdir@/*.C
 	$(CC) -M @srcdir@/*.C > dependencies

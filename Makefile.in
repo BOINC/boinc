@@ -5,6 +5,8 @@ topsrcdir	= @top_srcdir@
 srcdir	= @srcdir@
 VPATH	= @srcdir@
 
+INSTALL_DIR = /usr/local/boinc
+
 #
 #	The ../$(srcdir)/client/configure
 #	only works when the original configure is relative path
@@ -12,6 +14,7 @@ VPATH	= @srcdir@
 #	This needs to be fixed
 #
 all:
+	echo $(APACHE_MSG)
 	cd RSAEuro/source; ${MAKE}; cd ../..; \
 	cd db; ${MAKE}; cd ..; \
 	cd lib; ${MAKE}; cd ..; \
@@ -33,18 +36,26 @@ clean:
 	cd tools; ${MAKE} clean; cd ..;
 
 install: all
-	-mkdir -p /usr/local/boinc;
+	-mkdir -p $(INSTALL_DIR);
 	cd sched; ${MAKE} install;
 	cd lib; ${MAKE} install;
 	cd api; ${MAKE} install;
 	cd apps; ${MAKE} install;
 	cd client; ${MAKE} install;
 	cd tools; ${MAKE} install;
-	cp -r test /usr/local/boinc;
+	$(CP) -r test /usr/local/boinc;
+
+uninstall:
+	cd sched; ${MAKE} uninstall;
+	cd lib; ${MAKE} uninstall;
+	cd api; ${MAKE} uninstall;
+	cd apps; ${MAKE} uninstall;
+	cd client; ${MAKE} uninstall;
+	cd tools; ${MAKE} uninstall;
+	$(RM) -r $(INSTALL_DIR)/tools;
 
 tar: clean
 	tar cf boinc.tar * ; gzip boinc.tar
 
 client_tar: clean
-	tar cf boinc_client.tar client/* lib/* api/* RSAEuro/* INSTALL_CLIENT
-	gzip boinc_client.tar
+	cd client; ${MAKE} tar;

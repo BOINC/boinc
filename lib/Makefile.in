@@ -3,6 +3,8 @@ topsrcdir       = @top_srcdir@
 srcdir          = @srcdir@
 VPATH           = @srcdir@
 
+INSTALL_DIR = $(INSTALL_DIR)
+
 VERSION = 1
 
 CFLAGS = -g
@@ -52,11 +54,14 @@ clean:
 	rm -f *.o $(PROGS) core dependencies
 
 install: all
-	-mkdir -p /usr/local/boinc/lib
-	cp md5_test /usr/local/boinc/lib/md5_test
-	cp shmem_test /usr/local/boinc/lib/shmem_test
-	cp synch_test /usr/local/boinc/lib/synch_test
-	#cp crypt_prog /usr/local/boinc/lib/crypt_prog
+	-mkdir -p $(INSTALL_DIR)/lib
+	cp md5_test $(INSTALL_DIR)/lib/md5_test
+	cp shmem_test $(INSTALL_DIR)/lib/shmem_test
+	cp synch_test $(INSTALL_DIR)/lib/synch_test
+	cp crypt_prog $(INSTALL_DIR)/lib/crypt_prog
+
+uninstall:
+	$(RM) -r $(INSTALL_DIR)/lib
 
 dependencies: @srcdir@/*.C
 	$(CC) -M @srcdir@/*.C > dependencies

@@ -1220,3 +1220,24 @@ Michael Gary	7/17/2002
         test_stderr.php
         test_uc_slow.php
         test_suite.php (added)
+
+Michael Gary	7/18/2002
+    - Configure now checks to make sure that apache, mysql, and php are
+	installed. If they are not installed, it prints out a warning and
+	continues configuration
+    - Added uninstall target, made Makefiles more compliant with GNU standards
+    INSTALL
+    INSTALL_CLIENT
+    aclocal.m4 (added)
+    configure
+    configure.in
+    Makefile.in
+    sched/
+	Makefile.in
+    lib/
+	Makefile.in
+    api/
+        Makefile.in
+    client/
+        Makefile.in
+

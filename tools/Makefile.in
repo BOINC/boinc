@@ -3,6 +3,8 @@ topsrcdir       = @top_srcdir@
 srcdir          = @srcdir@
 VPATH           = @srcdir@
 
+INSTALL_DIR = /usr/local/boinc
+
 VERSION = 1
 
 MYSQL_INC = /usr/local/mysql/include
@@ -61,10 +63,13 @@ clean:
 	rm -f *.o create_work add core country_select dependencies
 
 install:
-	-mkdir -p /usr/local/boinc/tools
-	cp create_work /usr/local/boinc/tools/create_work
-	cp add /usr/local/boinc/tools/add
-	cp country_select /usr/local/boinc/tools/country_select
+	-mkdir -p $(INSTALL_DIR)/tools
+	cp create_work $(INSTALL_DIR)/tools/create_work
+	cp add $(INSTALL_DIR)/tools/add
+	cp country_select $(INSTALL_DIR)/tools/country_select
+
+uninstall:
+	$(RM) -r $(INSTALL_DIR)/tools
 
 dependencies: @srcdir@/*.C
 	$(CC) -M @srcdir@/*.C > dependencies

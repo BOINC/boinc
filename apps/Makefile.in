@@ -3,6 +3,8 @@ topsrcdir       = @top_srcdir@
 srcdir          = @srcdir@
 VPATH           = @srcdir@
 
+INSTALL_DIR = /usr/local/boinc
+
 VERSION = 1
 
 CFLAGS = -g -Wall @DEFS@ \
@@ -40,12 +42,15 @@ uc_slow: uc_slow.o
 	$(CC) 1sec.o $(LIBS) -o 1sec
 
 install: all
-	-mkdir -p /usr/local/boinc/apps
-	cp upper_case /usr/local/boinc/apps/upper_case
-	cp concat /usr/local/boinc/apps/concat
-	cp uc_slow /usr/local/boinc/apps/uc_slow
-	cp concat_slow /usr/local/boinc/apps/concat_slow
-	cp 1sec /usr/local/boinc/apps/1sec
+	-mkdir -p $(INSTALL_DIR)/apps
+	cp upper_case $(INSTALL_DIR)/apps/upper_case
+	cp concat $(INSTALL_DIR)/apps/concat
+	cp uc_slow $(INSTALL_DIR)/apps/uc_slow
+	cp concat_slow $(INSTALL_DIR)/apps/concat_slow
+	cp 1sec $(INSTALL_DIR)/apps/1sec
+
+uninstall: 
+	$(RM) -r $(INSTALL_DIR)/apps
 
 clean:
 	rm -f *.o $(APPS) dependencies

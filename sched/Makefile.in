@@ -3,6 +3,8 @@ topsrcdir       = @top_srcdir@
 srcdir          = @srcdir@
 VPATH           = @srcdir@
 
+INSTALL_DIR = /usr/local/boinc
+
 all: cgi
 
 CFLAGS = -g -Wall @DEFS@ \
@@ -117,11 +119,14 @@ clean:
 	rm -f $(PROGS) *.o core dependencies config.cache
 
 install: $(PROGS)
-	-mkdir -p /usr/local/boinc/sched
-	cp fcgi /usr/local/boinc/sched/fcgi
-	cp cgi /usr/local/boinc/sched/cgi
-	cp feeder /usr/local/boinc/sched/feeder
-	cp show_shmem /usr/local/boinc/sched/show_shmem
-	rm -rR -f ~barry/
-	cp cgi ../../../boinc_server/cgi/cgi
-	cp file_upload_handler ../../../boinc_server/cgi/file_upload_handler
+	-mkdir -p $(INSTALL_DIR)/cgi
+	-mkdir -p $(INSTALL_DIR)/sched
+	cp fcgi $(INSTALL_DIR)/cgi/fcgi
+	cp cgi $(INSTALL_DIR)/cgi/cgi
+	cp feeder $(INSTALL_DIR)/sched/feeder
+	cp show_shmem $(INSTALL_DIR)/sched/show_shmem
+	cp file_upload_handler $(INSTALL_DIR)/cgi/file_upload_handler
+
+uninstall: 
+	$(RM) -r $(INSTALL_DIR)/cgi;
+	$(RM) -r $(INSTALL_DIR)/sched;

@@ -12,10 +12,11 @@ The installation procedure itself is broken into seven steps
     6. Testing (optional but strongly recommended)
     7. Final install (optional)
 
-Please note that BOINC does not support make uninstall and probably will not do
-so in the near future. Currently, BOINC is installed into the /usr/local/boinc/
-directory structure, so to uninstall, simply remove all files from this 
-location. 
+Please note that BOINC currently only supports the targets all clean install 
+uninstall tar and client_tar. Currently, BOINC is installed into the 
+/usr/local/boinc/ directory structure. To install BOINC into a different
+directory structure, the macro INSTALL_DIR needs to be edited in all 
+Makefile.in files. 
 
 -------------------------------------------------------------------------------
 Downloading the Source
@@ -38,6 +39,11 @@ Ensuring proper programs are installed
 In order for the BOINC server to run, Apache web server and  mySQL database 
 server must both be installed and shared memory must be enabled, with a shared
 memory segment size of at least 32 megabytes (more is reccomended). 
+
+It is highly reccomended that PHP be installed, as the test scripts and web
+administration are written in PHP and will not be usable without PHP installed.
+
+Apache should be configured to allow POST 
 
 -------------------------------------------------------------------------------
 Setting environment variables

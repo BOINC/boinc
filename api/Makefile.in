@@ -3,6 +3,8 @@ topsrcdir       = @top_srcdir@
 srcdir          = @srcdir@
 VPATH           = @srcdir@
 
+INSTALL_DIR = /usr/local/boinc
+
 VERSION = 1
 
 CFLAGS = -g -Wall @DEFS@ \
@@ -36,9 +38,12 @@ api_test: $(TEST_OBJS)
 	$(CC) $(TEST_OBJS) -o api_test
 
 install: all
-	-mkdir -p /usr/local/boinc/api
-	cp api_test /usr/local/boinc/api/api_test
-	cp api_app /usr/local/boinc/api/api_app
+	-mkdir -p $(INSTALL_DIR)/api
+	cp api_test $(INSTALL_DIR)/api/api_test
+	cp api_app $(INSTALL_DIR)/api/api_app
+
+uninstall: 
+	$(RM) -r $(INSTALL_DIR)/api;
 
 clean:
 	rm -f *.o $(PROGS) core dependencies

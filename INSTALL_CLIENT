@@ -9,10 +9,10 @@ The installation procedure itself is broken into four steps
     3. Building
     4. Running the BOINC client
 
-Please note that BOINC does not support make uninstall and probably will not do
-so in the near future. Currently, BOINC is installed into the /usr/local/boinc
-directory structure, so to uninstall, simply remove all files from this 
-location. 
+Please note that BOINC currently only supports the targets all clean install
+uninstall and tar. Currently, BOINC is installed into the /usr/local/boinc/
+directory structure. To install BOINC into a different directory structure,
+the macro INSTALL_DIR needs to be edited in the client/Makefile.in file.
 
 -------------------------------------------------------------------------------
 Downloading the Source
