@@ -12,12 +12,12 @@ On Koloth, use these flags to link with mysql-max-64bit:
 Therefore configure like this:
       ./configure CFLAGS=-m64 CXXFLAGS=-m64 LDFLAGS='-Wl,-R,/usr/local/gcc/lib/sparcv9'
 
-The -m64 compile flag generates 64-bit code and is necessary because the
+The -m64 compile flag generates 64-bit code and is necessary because the mysql
 libraries are 64-bit.
 
 The -Wl,-R tells the linker to set the dynamic library search path (for C++)
-to the 64-bit versions
-
+to the 64-bit versions (default /usr/local/gcc/lib has 32-bit libraries with
+the same name).
 
 
 CRON SETUP
