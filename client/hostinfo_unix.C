@@ -102,9 +102,9 @@ int get_timezone( void ) {
     cur_time = time(NULL);
     time_data = localtime( &cur_time );
     return time_data->tm_gmtoff;
-#elif defined(__timezone)
+#elif defined(linux)
     return __timezone;
-#elif defined(timezone)
+#elif defined(unix)
     return timezone;
 #else
 #error timezone
@@ -178,14 +178,12 @@ void get_host_disk_info( double &total_space, double &free_space ) {
 // General function to get all relevant host information
 //
 int get_host_info(HOST_INFO& host) {
+    get_host_disk_info( host.d_total, host.d_free );
+
 #if HAVE_SYS_SYSCTL_H
     int mib[2], mem_size;
     size_t len;
-#endif
 
-    get_host_disk_info( host.d_total, host.d_free );
-
-#if defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_MACHINE) && defined(HW_MODEL)
     // Get machine
     mib[0] = CTL_HW;
     mib[1] = HW_MACHINE;
@@ -197,8 +195,6 @@ int get_host_info(HOST_INFO& host) {
     mib[1] = HW_MODEL;
     len = sizeof(host.p_model);
     sysctl(mib, 2, &host.p_model, &len, NULL, 0);
-#else
-#error Need to specify a method to obtain vendor/model
 #endif
  
 #ifdef linux

@@ -211,6 +211,8 @@ bool PERS_FILE_XFER::poll(time_t now) {
                 }
                 xfer_done = true;
             }
+        } else if (fxp->file_xfer_retval == ERR_UPLOAD_PERMANENT) {
+            giveup();
         } else {
             handle_xfer_failure(now);
         }
@@ -226,10 +228,24 @@ bool PERS_FILE_XFER::poll(time_t now) {
     return false;
 }
 
+void PERS_FILE_XFER::giveup() {
+    char buf[256];
+    if (is_upload) {
+        fip->status = ERR_GIVEUP_UPLOAD;
+    } else {
+        fip->status = ERR_GIVEUP_DOWNLOAD;
+    }
+    xfer_done = true;
+    sprintf(buf,
+        "Giving up on file transfer for %s: %d",
+        fip->name, fip->status
+    );
+    show_message(fip->project, buf, MSG_ERROR);
+}
+
 // Handle a transfer failure
 //
 void PERS_FILE_XFER::handle_xfer_failure(time_t cur_time) {
-    char buf[256];
 
     // If it was a bad range request, delete the file and start over
     //
@@ -242,17 +258,7 @@ void PERS_FILE_XFER::handle_xfer_failure(time_t cur_time) {
     // See if it's time to give up on the persistent file xfer
     //
     if ((cur_time - first_request_time) > gstate.file_xfer_giveup_period) {
-        if (is_upload) {
-            fip->status = ERR_GIVEUP_UPLOAD;
-        } else {
-            fip->status = ERR_GIVEUP_DOWNLOAD;
-        }
-        xfer_done = true;
-        sprintf(buf,
-            "Giving up on file transfer for %s: %d",
-            fip->name, fip->status
-        );
-        show_message(fip->project, buf, MSG_ERROR);
+        giveup();
     }
 }
 

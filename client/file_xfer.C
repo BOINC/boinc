@@ -23,6 +23,7 @@
 #include "file_names.h"
 #include "filesys.h"
 #include "log_flags.h"
+#include "message.h"
 #include "file_xfer.h"
 #include "parse.h"
 #include "error_numbers.h"
@@ -108,16 +109,24 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
 // Parse the server response in req1
 //
 int FILE_XFER::parse_server_response(double &nbytes) {
-    int status = 0;
+    int status = ERR_UPLOAD_TRANSIENT, x;
     char buf[256];
 
+    nbytes = -1;
     parse_double(req1, "<file_size>", nbytes);
-    parse_int(req1, "<status>", status);
+    if (parse_int(req1, "<status>", x)) {
+        switch (x) {
+        case -1: status = ERR_UPLOAD_PERMANENT; break;
+        case 0: status = 0; break;
+        case 1: status = ERR_UPLOAD_TRANSIENT; break;
+        default: status = ERR_UPLOAD_TRANSIENT; break;
+        }
+    } else {
+        status = ERR_UPLOAD_TRANSIENT;
+    }
  
-    // TODO: show error message to user
-    //
     if (parse_str(req1, "<message>", buf, sizeof(buf))) {
-        fprintf(stderr, "%s\n", buf);
+        show_message(fip->project, buf, MSG_ERROR);
     }
 
     return status;
@@ -177,28 +186,29 @@ bool FILE_XFER_SET::poll() {
                 printf("http op done; retval %d\n", fxp->http_op_retval);
             }
             if (fxp->http_op_retval == 0) {
+                fxp->file_xfer_retval = fxp->parse_server_response(
+                    fxp->fip->upload_offset
+                );
 
                 // If this was a file size query, restart the transfer
                 // using the remote file size information
                 //
                 if (fxp->file_size_query) {
-                    retval = fxp->parse_server_response(fxp->fip->upload_offset);
-
-                    if (retval) {
+                    if (fxp->file_xfer_retval) {
                         printf("ERROR: file upload returned %d\n", retval);
                         fxp->fip->upload_offset = -1;
-                        fxp->file_xfer_retval = retval;
                     } else {
                         remove(fxp);
                         i--;
 
                         // Restart the upload, using the newly obtained upload_offset
-                        retval = fxp->init_upload(*fxp->fip);
+                        fxp->file_xfer_retval = fxp->init_upload(*fxp->fip);
 
-                        if (!retval) {
-                            retval = insert(fxp);
-                            if (!retval) {
+                        if (!fxp->file_xfer_retval) {
+                            fxp->file_xfer_retval = insert(fxp);
+                            if (!fxp->file_xfer_retval) {
                                 fxp->file_xfer_done = false;
+                                fxp->file_xfer_retval = 0;
                                 fxp->http_op_retval = 0;
                             }
                         }

@@ -4049,3 +4049,37 @@ David  Apr 7 2003
         *.C
     tools/
         *.C
+
+Erik  May 6 2003
+    - Added a notion of "transient" and "permanent" errors on file uploads.
+        A permanent error is returned by the file upload handler if
+            - the request is malformed
+            - filename includes ".."
+            - the signature is bad
+            - the file size is larger than allowed
+        PERS_FILE_XFER checks for this return from FILE_XFER
+        and gives up immediately.
+    - FILE_XFER now always parses the server response (not just for file size)
+    - Added some missing error checks to FILE_XFER
+    - Punted on the timezone-related ifdefs:
+        added hardwired ifdefs for linux and unix.
+        Need to revisit this
+    - in PHP test library, add a provision for multiple files per application
+
+    client/
+        file_xfer.C
+        hostinfo_unix.C
+        pers_file_xfer.C,h
+    doc/
+        client.html
+        index.html
+        old_news.html (new)
+        result.fig
+        setiathome.jpg
+        upload.html
+    lib/
+        error_numbers.h
+    sched/
+        file_upload_handler.C
+    test/
+        test.inc

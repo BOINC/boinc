@@ -21,10 +21,38 @@ BUGS (arranged from high to low priority)
     run_minimized
     run_on_startup
     hangup_if_dialed
+- trim leading/trailing spaces from account ID (Win GUI)
+- astropulse wanted to display screensaver graphics when it wasn't supposed to,
+    causing the screen to flicker wildly and uncontrollably until ap.exe was killed
+    This happened on 98 and 2000.  recreate using Display Properties, preview
+- I entered in a wrong URL - there was no obvious feedback that it wasn't correct.
+    Messages showed up in the messages tab, but I was looking at the progress tab.
+    Shouldn't the client expect something from the server? If it doesn't get it,
+    especially on logging in for the first time, you should get an obvious warning.
+- when i quit a project, I have to exit and restart the client, which is ugly.
+- after quitting a project, the project name still showed up in gray in the projects
+    list - I could right click on it to "relogin" (which did nothing) or "quit project"
+    which I thought I already did.
+- consider warning message during windows (and perhaps other platforms)
+    install that checks to see if the BOINC directory already exists,
+    and if so, should the user overwrite it? or upgrade it?
+- Screensaver on win98 shows up as "boinc_ss" in the screensaver list. Should be "BOINC"
+- When previewing the screensaver (on Win98) I had the AP graphics already on on the
+    desktop - the screensaver just shows a bouncing "B" icon. Should that happen?
+- After running all night (on Win98) I shook the mouse to wake up the blank screen, and
+    all I saw was the top half of the screen was solid gray, and the bottom half the
+    bottom half of the astropulse graphics. They weren't moving. The computer was frozen.
+    I had to ctrl-alt-del to restart.
 
 -----------------------
 HIGH-PRIORITY (should do for beta test)
 -----------------------
+
+On "add project" the core client should immediately attempt to
+    get project master page and verify user account.
+    If failure, let user retype URL/ID
+
+test cpu-counting on red hat
 
 Delete files if needed to honor disk usage constraint
     should include per-result constraints (e.g. giant stderr files)
@@ -38,6 +66,7 @@ implement server watchdogs
 -----------------------
 THINGS TO TEST (preferably with test scripts)
 -----------------------
+time-of-day limitation
 Limit frequency of disk writes
     make sure it actually works
 - Test suspend/resume functionality on Windows/UNIX
@@ -55,6 +84,28 @@ Limit frequency of disk writes
 -----------------------
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
+
+add an RPC to verify an account ID (returns DB ID for user)
+    needed for multi-project stats sites
+
+implement a "clear project" command (GUI and cmdline)
+
+implement a "fetch prefs" command (regular RPC w/o work request)
+
+all RPCs should return a "user-specific project URL"
+    to be used in GUI (might refer to user page)
+
+screensaver should say (in text below logo) if
+    - core client isn't running
+    - core client running, but in no-work period
+    - in work period, but no app w/ graphics to run
+
+when you create a team you should join that team
+
+in GUI, project name should hyperlink to a project-specified URL
+    (typically user page for that project)
+
+preference flag for confirm before accepting executable file
 
 abort result if any file exceeds max_nbytes
 

@@ -31,19 +31,18 @@
 // using an exponential backoff policy to avoid flooding servers.
 
 // For upload, try to upload the file to the first URL;
-// if that fails try the others.
+// if that gets transient failure, try the others.
 
 #define PERS_RETRY_DELAY_MIN    60                // 1 minute
 #define PERS_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
 #define PERS_GIVEUP             (60*60*24*7*2)    // 2 weeks
+    // give up on xfer if this time elapses since last byte xferred
 
 #ifdef DEBUG
 #define PERS_RETRY_DELAY_MIN    1
 #define PERS_RETRY_DELAY_MAX    30
 #define PERS_GIVEUP             30
 #endif
-
-    // give up on xfer if this time elapses since last byte xferred
 
 class PERS_FILE_XFER {
     int nretry;                // # of retries so far
@@ -62,6 +61,7 @@ public:
     bool poll(time_t now);
     void handle_xfer_failure(time_t cur_time);
     void retry_or_backoff(time_t cur_time);
+    void giveup();
     int write(FILE* fout);
     int parse(FILE* fin);
     bool start_xfer();
