@@ -643,7 +643,7 @@ void warn_user_if_core_client_upgrade_scheduled(
       
             sprintf(msg,
                 "Starting in %d days and %d hours, project will require a minimum "
-                "BOINC core client version of %d.%02d.  You are currently using"
+                "BOINC core client version of %d.%02d.  You are currently using "
                 "version %d.%02d; please upgrade before this time.",
                 days, hours,
                 config.min_core_client_version_announced / 100, 
