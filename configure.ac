@@ -237,7 +237,9 @@ WARNING: wxWindows could not be found ==> building client without clientgui.
   If wxWindows is installed on your system, please check that wx-config is 
   in the path, that the directory where wxWindows libraries are installed 
   (returned by 'wx-config --libs' command) is in LD_LIBRARY_PATH (or equivalent),
-  and that wxWindows version is 2.3.4 or above.
+  and that wxWindows version is 2.3.4 or above. Currently wxWindows version
+  2.4.2 (gtk based) is known to work with boinc_gui under Linux. You can
+  use wx-config --version to find what version you have currently installed.
 ================================================================================
        ])
 fi
