@@ -242,7 +242,8 @@ function show_result_summary() {
             link_results($client_state[$cs], $urlquery, "client_state=$cs")
         );
     }
-    echo "</td></table>";
+    echo "</table></td>";
+    echo "</table>";
 
 }
 
