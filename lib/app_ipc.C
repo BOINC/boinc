@@ -87,7 +87,9 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<host_total_credit>%f</host_total_credit>\n"
         "<host_expavg_credit>%f</host_expavg_credit>\n"
         "<checkpoint_period>%f</checkpoint_period>\n"
-        "<fraction_done_update_period>%f</fraction_done_update_period>\n",
+        "<fraction_done_update_period>%f</fraction_done_update_period>\n"
+        "<fraction_done_start>%f</fraction_done_start>"
+        "<fraction_done_end>%f</fraction_done_end>",
         ai.slot,
         ai.wu_cpu_time,
         ai.user_total_credit,
@@ -95,7 +97,9 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.host_total_credit,
         ai.host_expavg_credit,
         ai.checkpoint_period,
-        ai.fraction_done_update_period
+        ai.fraction_done_update_period,
+        ai.fraction_done_start,
+        ai.fraction_done_end
     );
     return 0;
 }
@@ -103,6 +107,8 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
 int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     char buf[256];
     memset(&ai, 0, sizeof(ai));
+    ai.fraction_done_start = 0;
+    ai.fraction_done_end = 1;
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "<project_preferences>")) {
             safe_strncpy(ai.project_preferences, "", sizeof(ai.project_preferences));
@@ -132,6 +138,8 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         else if (parse_double(buf, "<wu_cpu_time>", ai.wu_cpu_time)) continue;
         else if (parse_double(buf, "<checkpoint_period>", ai.checkpoint_period)) continue;
         else if (parse_double(buf, "<fraction_done_update_period>", ai.fraction_done_update_period)) continue;
+        else if (parse_double(buf, "<fraction_done_start>", ai.fraction_done_start)) continue;
+        else if (parse_double(buf, "<fraction_done_end>", ai.fraction_done_end)) continue;
         //else fprintf(stderr, "parse_init_data_file: unrecognized %s", buf);
     }
     return 0;

@@ -168,11 +168,6 @@ An application may call
 (from the beginning of the work unit, not just since the last restart).
 This excludes CPU time used to render graphics.
 
-<h3>Trickle messages</h3>
-<p>
-'Trickle messages' allow applications with long (multi-day)
-work units to communicate with the server during execution.
-This mechanism is described <a href=trickle.php>here</a>.
 ";
 page_tail();
 ?>

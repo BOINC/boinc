@@ -42,6 +42,7 @@ extern int	boinc_resolve_filename(const char*, char*, int len);
 extern int	boinc_resolve_filename(const char*, string&);
 
 extern int	boinc_parse_init_data_file();
+extern int	boinc_write_init_data_file();
 extern int	boinc_get_init_data(APP_INIT_DATA&);
 
 extern int	boinc_send_trickle_up(char*);
@@ -51,8 +52,6 @@ extern bool	boinc_time_to_checkpoint();
 extern int	boinc_checkpoint_completed();
 
 extern int	boinc_fraction_done(double);
-extern int	boinc_child_start();
-extern int	boinc_child_done(double);
 
 extern int	boinc_wu_cpu_time(double&);
 extern int	boinc_thread_cpu_time(double&, double&);

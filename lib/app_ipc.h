@@ -109,8 +109,13 @@ struct APP_INIT_DATA {
 #else
     int shm_key;
 #endif
-    double wu_cpu_time;       // cpu time from previous sessions
+    double wu_cpu_time;       // cpu time from previous episodes
     double fraction_done_update_period;
+        // the following 2 are used for compound apps,
+        // where each stage of the computation is a fixed
+        // fraction of the total.
+    double fraction_done_start;
+    double fraction_done_end;
 };
 
 struct GRAPHICS_INFO {

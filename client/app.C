@@ -219,6 +219,8 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     aid.host_expavg_credit = wup->project->host_expavg_credit;
     aid.checkpoint_period = gstate.global_prefs.disk_interval;
     aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
+    aid.fraction_done_start = 0;
+    aid.fraction_done_end = 1;
 #ifndef _WIN32
     aid.shm_key = 0;
 #endif

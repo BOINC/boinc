@@ -12543,3 +12543,29 @@ David  May 23 2004
             sample_index.php (renamed from index.php)
     sched/
         db_dump.C
+
+David  May 23 2004
+    - Support for "compound applications" (such as climateprediction.net)
+        in which a main program runs several apps in sequence.
+        The items are:
+        1) The app init file now contains fields
+            <fraction_done_start> and <fraction_done_end>
+            giving the fraction-done range occupied by the app.
+            Note: the app calls boinc_fraction_done() with values
+            from 0 to 1 as usual.
+            The API implementation takes care of scaling them
+            to the start..end range.
+
+            The main program must fill in these fields and call
+            boinc_write_app_init_file() prior to running each app.
+        2) boinc_finish() fills the final CPU time into the
+            APP_INIT_DATA struct, then calls boinc_write_app_init_file().
+            This passes the CPU time along to the next program.
+        3) got rid of boinc_child_start() and boinc_child_done().
+
+    api/
+        boinc_ipc.C,h
+    client/
+        app.C
+    lib/
+        app_ipc.C,h

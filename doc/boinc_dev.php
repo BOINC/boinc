@@ -55,6 +55,7 @@ before getting into the source code.
 <ul>
 <li> <a href=python.php>Python framework</a>
 <li> <a href=prefs_impl.php>Preferences</a>
+<li> <a href=trickle_impl.php>Trickle messages</a>
 </ul>
 
 ";

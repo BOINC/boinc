@@ -167,6 +167,8 @@ int boinc_finish(int status) {
         FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
         if (f) fclose(f);
     }
+    aid.wu_cpu_time = last_checkpoint_cpu_time;
+    boinc_write_init_data_file();
     exit(status);
     return 0;
 }
@@ -219,6 +221,13 @@ int boinc_parse_init_data_file() {
     return 0;
 }
 
+int boinc_write_init_data_file() {
+    FILE* f = boinc_fopen(INIT_DATA_FILE, "w");
+    if (!f) return ERR_FOPEN;
+    int retval = write_init_data_file(f, aid);
+    fclose(f);
+    return retval;
+}
 
 // communicate to the core client (via shared mem)
 // the current CPU time and fraction done
@@ -237,7 +246,9 @@ static int update_app_progress(
         cpu_t, cp_cpu_t, ws_t
     );
     if (fraction_done >= 0) {
-        sprintf(buf, "<fraction_done>%2.8f</fraction_done>\n", fraction_done);
+        double range = aid.fraction_done_end - aid.fraction_done_start;
+        double fdone = aid.fraction_done_start + fraction_done*range;
+        sprintf(buf, "<fraction_done>%2.8f</fraction_done>\n", fdone);
         strcat(msg_buf, buf);
     }
 
@@ -487,14 +498,3 @@ int boinc_fraction_done(double x) {
     fraction_done = x;
     return 0;
 }
-
-int boinc_child_start() {
-    this_process_active = false;
-    return 0;
-}
-
-int boinc_child_done(double cpu) {
-    this_process_active = true;
-    return 0;
-}
-
