@@ -7731,3 +7731,8 @@ David  12 Nov 2003
     html_ops/
         db_action.php
         db_ops.inc
+
+Karl 2003-11-17
+    - BOINC release 2.10 for windows, Linux, solaris2.7, solaris2.8
+
+
