@@ -19916,3 +19916,8 @@ Rom    20 Nov 2004
         boinc_api.C
     client/
         app_start.C
+
+David  20 Nov 2004
+    - web fix
+
+    html/user/edit_email_form.php
