@@ -162,16 +162,20 @@ void get_osinfo(HOST_INFO& host) {
 #endif
 
 int get_host_info(HOST_INFO& host) {
+#ifndef mac
     struct statvfs foo;
-
+#endif
+        
     memset(&host, 0, sizeof(host));
-
+      
     get_local_domain_name(host.domain_name);
     get_local_ip_addr_str(host.ip_addr);
-
+			    
+#ifndef mac
     statvfs(".", &foo);
     host.d_total = (double)foo.f_bsize * (double)foo.f_blocks;
     host.d_free = (double)foo.f_bsize * (double)foo.f_bavail;
+#endif
 
 #ifdef solaris
     int i, n;
