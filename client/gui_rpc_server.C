@@ -45,6 +45,16 @@ using std::string;
 using std::list;
 using std::vector;
 
+#if defined(_WIN32)
+typedef int socklen_t;
+#elif defined ( __APPLE__)
+typedef int32_t socklen_t;
+#elif !GETSOCKOPT_SOCKLEN_T
+#ifndef socklen_t
+typedef size_t socklen_t;
+#endif
+#endif
+
 GUI_RPC_CONN::GUI_RPC_CONN(int s) {
     sock = s;
 }
@@ -407,13 +417,10 @@ bool GUI_RPC_CONN_SET::poll() {
         n = select(FD_SETSIZE, &read_fds, 0, &error_fds, &tv);
         if (FD_ISSET(lsock, &read_fds)) {
             struct sockaddr_in addr;
-#ifdef _WIN32
-            int addr_len = sizeof(addr);
-            sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
-#else
+
             socklen_t addr_len = sizeof(addr);
             sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
-#endif
+
             int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
 
             // check list of allowed remote hosts
