@@ -106,7 +106,7 @@ PROJECT* CLIENT_STATE::choose_project() {
 }
 
 int CLIENT_STATE::make_scheduler_request(PROJECT* p, int work_req) {
-    FILE* f = fopen(SCHED_OP_REQUEST_FILE, "w");
+    FILE* f = fopen(SCHED_OP_REQUEST_FILE, "wb");
     unsigned int i;
     RESULT* rp;
 

@@ -504,6 +504,7 @@ Eric H       June 19, 2002
 Eric H       June 20, 2002
     - added soft link support via XML tags
     - fixed Windows ASCII/binary bug
+    - Added Windows networking support
     - Fixed some bad indenting
 
     api/
@@ -511,4 +512,11 @@ Eric H       June 20, 2002
         api.h
     lib/
         md5_file.C
-    
+    client/
+        cs_scheduler.C
+        net_xfer.C
+        win_net.C (added)
+        win_net.h (added)
+        win_main.C
+        windows_cpp.h
+

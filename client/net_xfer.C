@@ -87,7 +87,8 @@ int NET_XFER::open_server() {
     retval = connect(fd, (sockaddr*)&addr, sizeof(addr));
     if (retval) {
 #ifdef _WIN32
-        if (errno != WSAEINPROGRESS) {
+        errno = WSAGetLastError();
+        if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
             closesocket(fd);
             return -1;
         }
