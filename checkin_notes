@@ -25726,3 +25726,11 @@ David  9 Mar 2005
         http.C
     sched/
         validate_util.h
+
+Rom    9 Mar 2005
+    - Cleanup a few asserts that were happening under Linux and not
+        Windows
+
+    clientgui/
+        MainFrame.cpp
+        MainDocument.cpp
