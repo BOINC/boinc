@@ -26,7 +26,7 @@
 #include <unistd.h>
 #include <ctype.h>
 
-#include "api.h"
+#include "boinc_api.h"
 
 #define CHECKPOINT_FILE "uc_slow_state"
 
@@ -34,7 +34,7 @@ int do_checkpoint(MFILE& mf, int nchars) {
     int retval;
     char resolved_name[512],res_name2[512];
 
-    boinc_resolve_link( "temp", resolved_name );
+    boinc_resolve_filename( "temp", resolved_name );
     FILE* f = fopen(resolved_name, "w");
     if (!f) return 1;
     fprintf(f, "%d", nchars);
@@ -45,7 +45,7 @@ int do_checkpoint(MFILE& mf, int nchars) {
     // hopefully atomic part starts here
     retval = mf.flush();
     if (retval) return retval;
-    boinc_resolve_link( CHECKPOINT_FILE, res_name2 );
+    boinc_resolve_filename( CHECKPOINT_FILE, res_name2 );
     retval = rename(resolved_name, res_name2);
     if (retval) return retval;
     // hopefully atomic part ends here
@@ -59,23 +59,21 @@ int main() {
     char resolved_name[512];
     MFILE out, time_file;
     FILE* state, *in;
-    APP_IN ai;
-    APP_OUT ao;
 
-    boinc_init( ai );
+    boinc_init();
 
-    boinc_resolve_link( "in", resolved_name );
+    boinc_resolve_filename( "in", resolved_name );
     in = fopen(resolved_name, "r");
-    boinc_resolve_link( CHECKPOINT_FILE, resolved_name );
+    boinc_resolve_filename( CHECKPOINT_FILE, resolved_name );
     state = fopen(resolved_name, "r");
     if (state) {
         fscanf(state, "%d", &nchars);
         printf("nchars %d\n", nchars);
         fseek(in, nchars, SEEK_SET);
-        boinc_resolve_link( "out", resolved_name );
+        boinc_resolve_filename( "out", resolved_name );
         retval = out.open(resolved_name, "a");
     } else {
-        boinc_resolve_link( "out", resolved_name );
+        boinc_resolve_filename( "out", resolved_name );
         retval = out.open(resolved_name, "w");
     }
     fprintf(stderr, "APP: uc_slow starting\n");
@@ -99,13 +97,12 @@ int main() {
 	    j /= (float)n;
         }
 
-        if (time_to_checkpoint()) {
+        if (boinc_time_to_checkpoint()) {
             retval = do_checkpoint(out, nchars);
             if (retval) {
                 fprintf(stderr, "APP: uc_slow checkpoint failed %d\n", retval);
             }
-            ao.percent_done = 1;
-            checkpoint_completed(ao);
+            boinc_checkpoint_completed();
         }
     }
     retval = out.flush();
@@ -114,10 +111,9 @@ int main() {
         exit(1);
     }
     fprintf(stderr, "APP: uc_slow ending, wrote %d chars\n", nchars);
-    ao.percent_done = 1;
-    app_completed(ao);
-    time_file.printf("%f\n", ao.cpu_time_at_checkpoint);
+    time_file.printf("%f\n", boinc_cpu_time());
     time_file.flush();
     time_file.close();
+    boinc_finish(0);
     return 0;
 }

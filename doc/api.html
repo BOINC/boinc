@@ -9,45 +9,45 @@ The graphics API is described <a href=graphics.html>separately</a>.
 <h3>Initialization and termination</h3>
 The application must call
 <pre>
-    int boinc_init(bool is_main_program, char** init_data_xml)
+    int boinc_init();
 </pre>
 before calling other BOINC functions or doing I/O.
-<tt>is_main_program</tt> indicates whether the program
-is the application's main program (normally true - see below).
-Various information is returned in the malloced <tt>init_data_xml</tt>,
-an XML string that may contain the following elements:
+It may call
 <pre>
-    &lt;init_data>
-        &lt;app_preferences>...&lt;/app_preferences>
-        &lt;user_name>...&lt;/user_name>
-        &lt;team_name>...&lt;/team_name>
-        &lt;wu_cpu_time>...&lt;/wu_cpu_time>
-        &lt;total_cobblestones>...&lt;/total_cobblestones>
-        &lt;recent_avg_cobblestones>...&lt;/recent_avg_cobblestones>
-    &lt;/init_data>
+    struct APP_INIT_DATA {
+        char project_preferences[4096];
+        char user_name[256];
+        char team_name[256];
+        double wu_cpu_time;           // cpu time from previous sessions
+        double total_cobblestones;
+        double recent_avg_cobblestones;
+    };
+
+    int boinc_get_init_data(APP_INIT_DATA&);
 </pre>
+to get the following information:
 <ul>
-<li><b>app_preferences</b>: arbitrary text (generally XML);
-the participant's preferences for this project.
-<li><b>user_name</b>: the user's account name for this project
-<li><b>team_name</b>: the user's team name, if any, for this project
-<li><b>wu_cpu_time</b>: the CPU time used so far for this work unit
-<li><b>total_cobblestones</b>: the user's total credit
-<li><b>recent_avg_cobblestones</b>: the user's recent average credit
+<li> <b>project_preferences</b>: An XML string containing
+the user's project-specific preferences.
+<li> <b>user_name</b>: the user's "screen name" on this project.
+<li> <b>team_name</b>: the user's team name, if any.
+<li> <b>wu_cpu_time</b>: the CPU time spent on this WU so far
+<li> <b>total_cobblestones</b>: the user's total work for this project.
+<li> <b>recent_avg_cobblestones</b>: the recent average work per day.
 </ul>
 <p>
 These items might be used by the application in its graphics.
-They can be parsed using the functions in lib/parse.C.
+At any time it may call
+<pre>
+    double boinc_cpu_time();
+</pre>
+to get its current CPU time.
 <p>
-When the application has completed successfully it must call
+When the application has completed it must call
 <pre>
-    int boinc_finish();
+    int boinc_finish(int status);
 </pre>
-before exiting.
-An application that encounters a fatal error must call
-<pre>
-    void exit(int error);
-</pre>
+<tt>status</tt> is nonzero if an error was encountered.
 
 <h3>Resolving file names</h3>
 Applications that use named input or output files must call
@@ -93,7 +93,7 @@ public:
     int _putchar(char);
     int puts(char*);
     int printf(char* format, ...);
-    size_t write(const void* buf, size_t count);
+    size_t write(const void* buf, size_t size, size_t nitems);
     int close();
     int flush();
 };
@@ -115,42 +115,44 @@ then call
 <pre>
     void boinc_checkpoint_completed();
 </pre>
+A call to <tt>boinc_time_to_checkpoint()</tt> is extremely fast,
+so there is little penalty in calling it frequently.
 
 <h3>Fraction done</h3>
 The core client GUI displays the percent done of workunits in progress.
 To keep this display current, an application should
 periodically call
 <pre>
-   boinc_percent_done(double fraction_done);
+   boinc_fraction_done(double fraction_done);
 </pre>
 The <tt>fraction_done</tt> argument is a rough estimate of the
 workunit fraction complete (0 to 1).
+This function is extremely fast and can be called often.
 
 <h3>Multi-program applications</h3>
 Some applications consist of multiple programs:
 a <b>main program</b> that acts as coordinator,
 and one or more subsidiary programs.
-Each program should use the BOINC API as described above,
-using the appropriate argument to <tt>boinc_init()</tt>.
+Each program should use the BOINC API as described above.
 <p>
-For checkpointing, each program has its own state file;
+Each program should have its own state file;
 the state file of the coordinator program records
 which subsidiary program was last active.
 <p>
-To correctly implement percent done,
+To correctly implement fraction done,
 the main program should pass information to subsidiary programs
-(perhaps as command-line arguments) the starting and ending
+(perhaps as command-line arguments) indicating the starting and ending
 fractions for that program.
 <p>
 The coordinator must call
 <pre>
-    boinc_child_start();
+    void boinc_child_start();
 </pre>
 prior to forking a child process.
 When the child is done, the coordinator
 must get the child's CPU time, then call
 <pre>
-    boinc_child_done(double total_CPU);
+    void boinc_child_done(double total_cpu);
 </pre>
 before forking the next child process.
 
@@ -164,9 +166,8 @@ Input and output files are kept outside the catbox.
 The mappings from virtual to physical filenames use
 "symbolic link" files in the catbox directory.
 The name of such a file is the virtual name,
-and it contains an XML tag with the physical name.
-This scheme is necessary because of the lack of filesystem links
-in Windows.
+and the file contains an XML tag with the physical name.
+(This scheme is used because of the lack of filesystem links in Windows.)
 
 <p>
 Communication between the core client and applications
@@ -189,10 +190,11 @@ as well as the minimum checkpoint period.
 <b>Files created by the API implementation, read by the core client:</b>
 <ul>
 <li>
-<b>percent_done.xml</b>:
-contains the WU percent done.
+<b>fraction_done.xml</b>:
+contains the WU fraction done and the current CPU time from start of WU.
 Written by the timer routine as needed.
 
+<li>
 <b>checkpoint_cpu.xml</b>
 CPU time (from start of WU) at last checkpoint.
 Written by checkpoint_completed.
@@ -204,6 +206,50 @@ the real-time clock is not available to applications.
 This timer is used for several purposes:
 <ul>
 <li> To tell the app when to checkpoint;
-<li> To regenerate the percent done file
+<li> To regenerate the fraction done file
 <li> To refresh graphics
 </ul>
+
+<p>
+<b>Exit status</b>
+The core client does a wait() to get the status.
+boinc_finish() ends with an exit(status);
+<p>
+<b>Accounting of CPU time</b>:
+(note: in Unix, a parent can't get the CPU time of a child
+until the child exits.  So we're forced to measure it in the child.)
+The core passes the WU CPU time in init_data.xml.
+boinc_checkpoint_done() and boinc_finish() compute the new WU CPU time,
+and write it to checkpoint_cpu.xml.
+The core deletes this after reading.
+If on exit there is no checkpoint_cpu.xml, it means the app
+called exit(0) rather than boinc_finish().
+In this case the core measures the child CPU itself.
+<p>
+The core client maintains 
+<p>
+<b>Timing of checkpoints</b>
+<p>
+The app library maintains time_until_checkpoint,
+decremented from the timer handler.
+boinc_time_to_checkpoint() returns true if this is zero or less.
+boinc_checkpoint_done() resets it.
+
+<p>
+<b>Maintaining fraction done and current CPU</b>
+<p>
+These two quantities are transferred from the app library to
+the core client in the file fraction_done.xml.
+The parameter <tt>time_until_fraction_done_update</tt>,
+passed in the initialization file,
+determines how often this file is written.
+It is written from the timer handler.
+<p>
+For multi-program applications, only the active application
+must write the file.
+The functions boinc_child_start() and boinc_child_done()
+tell the app library to stop and start writing the file.
+<p>
+TO DO: this creates disk traffic.
+Either figure out a way of increasing the period for users who don't
+want disk access, or don't use disk files.

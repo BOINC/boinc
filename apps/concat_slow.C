@@ -24,7 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "api.h"
+#include "boinc_api.h"
 
 #define CHECKPOINT_FILE "concat_slow_state"
 
@@ -32,7 +32,7 @@ int do_checkpoint(MFILE& mf, int filenum, int nchars ) {
     int retval;
     char resolved_name[512],res_name2[512];
 
-    boinc_resolve_link( "temp", resolved_name );
+    boinc_resolve_filename( "temp", resolved_name );
     FILE* f = fopen(resolved_name, "w");
     if (!f) return 1;
     fprintf(f, "%d %d", filenum, nchars);
@@ -43,7 +43,7 @@ int do_checkpoint(MFILE& mf, int filenum, int nchars ) {
     // hopefully atomic part starts here
     retval = mf.flush();
     if (retval) return retval;
-    boinc_resolve_link( CHECKPOINT_FILE, res_name2 );
+    boinc_resolve_filename( CHECKPOINT_FILE, res_name2 );
     retval = rename(resolved_name, res_name2);
     if (retval) return retval;
     // hopefully atomic part ends here
@@ -54,7 +54,6 @@ int do_checkpoint(MFILE& mf, int filenum, int nchars ) {
 void file_append(FILE* in, MFILE &out, int skip, int filenum) {
     char buf[1];
     int n,nread,retval;
-    APP_OUT ao;
 
     fseek( in, skip, SEEK_SET );
     nread = skip;
@@ -71,15 +70,14 @@ void file_append(FILE* in, MFILE &out, int skip, int filenum) {
         if( retval == 0 )
             n = 1;
 
-        if( time_to_checkpoint() ) {
+        if( boinc_time_to_checkpoint() ) {
             fprintf( stderr, "Checkpoint.\n" );
             retval = do_checkpoint( out, filenum, nread );
             if( retval ) {
                 fprintf( stderr, "APP: concat_slow checkpoint failed %d\n", retval );
                 exit(1);
             }
-            ao.percent_done = 1;
-            checkpoint_completed(ao);
+            boinc_checkpoint_completed();
         }
         sleep(1);
     }
@@ -91,16 +89,14 @@ int main(int argc, char** argv) {
     char file_name[512];
     int i;
     int file_num,nchars,retval;
-    APP_IN ai;
     char *mode;
 
-    boinc_init(ai);
-    fprintf( stderr, "%f\n", ai.checkpoint_period );
+    boinc_init();
     fprintf(stderr, "APP: concat: starting, argc %d\n", argc);
     for (i=0; i<argc; i++) {
         fprintf(stderr, "APP: concat: argv[%d] is %s\n", i, argv[i]);
     }
-    boinc_resolve_link( CHECKPOINT_FILE, file_name );
+    boinc_resolve_filename( CHECKPOINT_FILE, file_name );
     state = fopen( file_name, "r" );
     if( state ) {
         fscanf( state, "%d %d", &file_num, &nchars );
@@ -110,7 +106,7 @@ int main(int argc, char** argv) {
         nchars = 0;
         mode = "w";
     }
-    boinc_resolve_link( argv[argc-1], file_name );
+    boinc_resolve_filename( argv[argc-1], file_name );
     fprintf( stderr, "res: %s\n", file_name );
     retval = out.open(file_name, mode);
     if (retval) {
@@ -118,7 +114,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
     for (i=file_num; i<argc-1; i++) {
-        boinc_resolve_link( argv[i], file_name );
+        boinc_resolve_filename( argv[i], file_name );
         fprintf( stderr, "res: %s\n", file_name );
         in = fopen(file_name, "r");
         if (!in) {
@@ -131,5 +127,6 @@ int main(int argc, char** argv) {
     }
     out.close();
     fprintf(stderr, "APP: concat: done\n");
+    boinc_finish(0);
     return 0;
 }

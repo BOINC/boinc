@@ -177,7 +177,7 @@ struct RESULT {
     bool is_active;         // an app is currently running for this
     bool is_compute_done;   // computation finished
     bool is_server_ack;     // ack received from scheduling server
-    double cpu_time;        // cpu time spent completing result
+    double final_cpu_time;
     int exit_status;
     char stderr_out[STDERR_MAX_LEN];
     APP* app;

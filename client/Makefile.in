@@ -51,7 +51,7 @@ OBJS = \
     ../lib/md5.o \
     ../lib/crypt.o \
     ../RSAEuro/source/rsaeuro.a \
-    ../api/api.o
+    ../api/boinc_api.o
 
 TEST_NET_XFER_OBJS = \
     filesys.o \

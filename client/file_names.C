@@ -38,9 +38,6 @@ static void c2x(char *what) {
     char d1 = num / 16;
     char d2 = num % 16;
     int abase1, abase2;
-    if(what==NULL) {
-        fprintf(stderr, "error: c2x: unexpected NULL pointer what\n");
-    }
     if (d1 < 10) abase1 = 48;
     else abase1 = 55;
     if (d2 < 10) abase2 = 48;
@@ -57,12 +54,6 @@ static void c2x(char *what) {
 //
 static void escape_url(char *in, char* out) {
     int x, y;
-    if(in==NULL) {
-        fprintf(stderr, "error: escape_url: unexpected NULL pointer in\n");
-    }
-    if(out==NULL) {
-        fprintf(stderr, "error: escape_url: unexpected NULL pointer out\n");
-    }
     for (x=0, y=0; in[x]; ++x) {
         if (isalnum(in[x]) || in[x]=='.' || in[x]=='-' || in[x]=='_') {
             out[y] = in[x];
@@ -85,14 +76,9 @@ static void escape_url(char *in, char* out) {
 // Gets the pathname of a file
 //
 void get_pathname(FILE_INFO* fip, char* path) {
-    if(fip==NULL) {
-        fprintf(stderr, "error: get_pathname: unexpected NULL pointer fip\n");
-    }
-    if(path==NULL) {
-        fprintf(stderr, "error: get_pathname: unexpected NULL pointer path\n");
-    }
     PROJECT* p = fip->project;
     char buf[256];
+
     // for testing purposes, it's handy to allow a FILE_INFO without
     // an associated PROJECT.
     //
@@ -107,12 +93,6 @@ void get_pathname(FILE_INFO* fip, char* path) {
 // Returns the location of a numbered slot directory
 //
 void get_slot_dir(int slot, char* path) {
-    if(path==NULL) {
-        fprintf(stderr, "error: get_slot_dir: unexpected NULL pointer path\n");
-    }
-    if(slot<0) {
-        fprintf(stderr, "error: get_slot_dir: negative slot\n");
-    }
     sprintf(path, "slots/%d", slot);
 }
 
@@ -173,10 +153,6 @@ int make_slot_dir(int slot) {
 // Returns a filename used for prefs backup
 //
 int make_prefs_backup_name(PREFS& prefs, char* name) {
-    if(name==NULL) {
-        fprintf(stderr, "error: make_prefs_backup_name: unexpected NULL pointer name\n");
-        return ERR_NULL;
-    }
     sprintf(name, "prefs_backup_%d", prefs.mod_time);
     return 0;
 }

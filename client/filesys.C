@@ -70,13 +70,10 @@ char failed_file[256];
 // routines for enumerating the entries in a directory
 
 // Open a directory
+//
 DIR *dir_open(char* p) {
     DIR *dirp;
 
-    if(p==NULL) {
-        fprintf(stderr, "error: dir_open: unexpected NULL pointer p\n");
-        return NULL;
-    }
 #ifdef HAVE_DIRENT_H
     dirp = opendir(p);
     if (!dirp) return NULL;
@@ -97,22 +94,14 @@ DIR *dir_open(char* p) {
 // Scan through a directory and return the next file name in it
 //
 int dir_scan(char* p, DIR *dirp) {
-    if(p==NULL) {
-        fprintf(stderr, "error: dir_scan: unexpected NULL pointer p\n");
-        return ERR_NULL;
-    }
-    if( !dirp )
-        return -1;
 #ifdef HAVE_DIRENT_H
     while (1) {
 	dirent* dp = readdir(dirp);
 	if (dp) {
 	    if (dp->d_name[0] == '.') continue;
-	    if (p) strncpy(p, dp->d_name, 255);
+	    if (p) strcpy(p, dp->d_name);
 	    return 0;
 	} else {
-	    closedir(dirp);
-	    dirp = 0;
 	    return -1;
 	}
     }
@@ -151,11 +140,10 @@ int dir_scan(char* p, DIR *dirp) {
 
 // Close a directory
 //
-void dir_close( DIR* dirp ) {
+void dir_close(DIR* dirp) {
 #ifdef HAVE_DIRENT_H
     if (dirp) {
 	closedir(dirp);
-	dirp = 0;
     }
 #endif
 #ifdef _WIN32
@@ -165,7 +153,7 @@ void dir_close( DIR* dirp ) {
     }
 #endif
 #ifdef macintosh
-	SayErr("\pdir_close called (empty function)");	/* CAF Temp */
+    SayErr("\pdir_close called (empty function)");	/* CAF Temp */
 #endif
 }
 
@@ -173,10 +161,7 @@ void dir_close( DIR* dirp ) {
 //
 int file_delete(char* path) {
     int retval,i;
-    if(path==NULL) {
-        fprintf(stderr, "error: file_delete: unexpected NULL pointer path\n");
-        return ERR_NULL;
-    }
+
     for (i=0; i<2; i++) {
 #ifdef HAVE_UNISTD_H
         retval = unlink(path);
@@ -198,37 +183,28 @@ int file_delete(char* path) {
 int file_size(char* path, int& size) {
     struct stat sbuf;
     int retval;
-    if(path==NULL) {
-        fprintf(stderr, "error: file_size: unexpected NULL pointer path\n");
-        return ERR_NULL;
-    }
+
     retval = stat(path, &sbuf);
     if (retval) return retval;
     size = sbuf.st_size;
     return 0;
 }
 
-/* boinc_link creates a file (new_link) which contains an XML
-   reference (soft link) to existing. */
-
-int boinc_link( char *existing, char *new_link ) {
+// create a file (new_link) which contains an XML
+// reference to existing file.
+//
+int boinc_link(char *existing, char *new_link) {
     FILE *fp;
-    if(existing==NULL) {
-        fprintf(stderr, "error: boinc_link: unexpected NULL pointer existing\n");
-        return ERR_NULL;
-    }
-    if(new_link==NULL) {
-        fprintf(stderr, "error: boinc_link: unexpected NULL pointer new_link\n");
-        return ERR_NULL;
-    }
-    fp = fopen( new_link, "wb" );
+
+    fp = fopen(new_link, "wb");
     if (!fp) return ERR_FOPEN;
-    rewind( fp );
-    fprintf( fp, "<soft_link>%s</soft_link>\n", existing );
-    fclose( fp );
+    fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
+    fclose(fp);
 
     return 0;
 }
+
+#include <dirent.h>
 
 // Goes through directory specified by dirpath and removes all files from it
 //
@@ -236,16 +212,12 @@ int clean_out_dir(char* dirpath) {
     char filename[256], path[256];
     int retval;
     DIR *dirp;
-    if(dirpath==NULL) {
-        fprintf(stderr, "error: clean_out_dir: unexpected NULL pointer dirpath\n");
-        return ERR_NULL;
-    }
     
     dirp = dir_open(dirpath);
     if (!dirp) return -1;
     while (1) {
 	strcpy(filename,"");
-        retval = dir_scan(filename,dirp);
+        retval = dir_scan(filename, dirp);
         if (retval) break;
         sprintf(path, "%s/%s", dirpath, filename);
         retval = file_delete(path);
@@ -262,25 +234,19 @@ int clean_out_dir(char* dirpath) {
 // total size of files in it and its subdirectories
 //
 double dir_size(char* dirpath) {
-    char filename[256], *path;
+    char filename[256], subdir[256];
     int retval,temp;
     double cur_size = 0;
     DIR *dirp;
 
-    if(dirpath==NULL) {
-        fprintf(stderr, "error: dir_size: unexpected NULL pointer dirpath\n");
-        return ERR_NULL;
-    }
-    
-    path = (char *)malloc( 256*sizeof( char ) );
     dirp = dir_open(dirpath);
     if (!dirp) return -1;
     while (1) {
-        retval = dir_scan(filename,dirp);
+        retval = dir_scan(filename, dirp);
         if (retval) break;
-        sprintf(path, "%s/%s", dirpath, filename);
-        cur_size += dir_size( path );
-        retval = file_size(path,temp);
+        sprintf(subdir, "%s/%s", dirpath, filename);
+        cur_size += dir_size(subdir);
+        retval = file_size(subdir, temp);
         if (retval) {
             dir_close(dirp);
             return cur_size;

@@ -22,7 +22,7 @@ Contributor(s): See ACKNOWLEDGEMENTS.
 
 #include <stdlib.h>
 
-#include "api.h"
+#include "boinc_api.h"
 
 int get_run_info(double& time, unsigned long int& counter);
 void run_api_test(char* args);

@@ -63,8 +63,11 @@ public:
     int state;
     int exit_status;
     int signal;
+    double fraction_done;
+    double starting_cpu_time;
+    double checkpoint_cpu_time;
+    double current_cpu_time;
     char dirname[256];      // directory where process runs
-    double prev_cpu_time;
     ACTIVE_TASK();
     int init(RESULT*);
 
@@ -77,7 +80,7 @@ public:
     void suspend();
     void unsuspend();
 
-    bool update_time();
+    bool check_app_status_files();
 
     int write(FILE*);
     int parse(FILE*, CLIENT_STATE*);

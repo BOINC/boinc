@@ -512,7 +512,7 @@ void RESULT::clear() {
     is_active = false;
     is_compute_done = false;
     is_server_ack = false;
-    cpu_time = 0;
+    final_cpu_time = 0;
     exit_status = 0;
     strcpy(stderr_out, "");
     app = NULL;
@@ -563,7 +563,7 @@ int RESULT::parse_state(FILE* in) {
             output_files.push_back(file_ref);
             continue;
         }
-        else if (parse_double(buf, "<cpu_time>", cpu_time)) continue;
+        else if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
         else if (parse_int(buf, "<exit_status>", exit_status)) continue;
         else if (match_tag(buf, "<stderr_out>" )) {
             while (fgets(buf, 256, in)) {
@@ -589,10 +589,10 @@ int RESULT::write(FILE* out, bool to_server) {
         "<result>\n"
         "    <name>%s</name>\n"
         "    <exit_status>%d</exit_status>\n"
-        "    <cpu_time>%f</cpu_time>\n",
+        "    <final_cpu_time>%f</final_cpu_time>\n",
         name,
         exit_status,
-        cpu_time
+        final_cpu_time
     );
     n = strlen(stderr_out);
     if (n) {

@@ -1382,3 +1382,59 @@ Eric Heien  August 2, 2002
         net_xfer.C
         net_xfer.h
 
+David A.
+    Various changes to API:
+        - Added user, team names, credit info to APP_INIT_DATA
+        - separate call for getting init data
+        - separate call for returning fraction done
+        - separated out fraction_done_update_period
+        - moved graphics API to separate file
+        - moved MFILE implementation to separate file
+        - API timer is now 0.1 sec; use counters for various uses
+            (checkpoint, fraction done, graphics)
+        - changed name of API files to boinc_api.C,h
+
+    - clarify distinction between
+        "current CPU time"
+        "CPU time at last checkpoint"
+        "CPU time at start of current run"
+        These are all kept in ACTIVE_TASK.
+        RESULT now only has "final CPU time".
+    
+    - fixed bug in dir scanning (ahem...)
+    
+    - Coding style notes:
+        - every fopen() MUST have a matching fclose() in same function
+        - every malloc() MUST have a matching free() in same function
+        - don't do a rewind() right after fopen()
+        - write function calls as
+            func(arg1, arg2);
+            NOTE: there's a space after every comma, everywhere
+        - write "if" statements as
+            if (condition) {
+                ...
+            }
+        - no explicit argument checking.  do this at higher level
+        - functions in foo.C should be declared (as extern) in foo.h,
+            AND NOWHERE ELSE.
+    
+    api/
+        Makefile.in
+        api.C,h (removed)
+        boinc_api.C,h (new)
+        graphics_api.C,h (new)
+        mfile.C (new)
+    apps/
+        Makefile.in
+        *.C
+    client/
+        Makefile.in
+        app.C,h
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+        file_names.C
+        filesys.C,h
+    doc/
+        api.html

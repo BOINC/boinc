@@ -67,11 +67,7 @@
 #include "util.h"
 
 #include "app.h"
-#include "api.h"
-
-extern void write_core_file(FILE *f, APP_IN& ai);
-extern void write_init_file(FILE *f, char *file_name, int fdesc, int input_file);
-extern void parse_app_file(FILE *f, APP_OUT& ao);
+#include "boinc_api.h"
 
 // take a string containing some space separated words.
 // return an array of pointers to the null-terminated words.
@@ -80,15 +76,6 @@ extern void parse_app_file(FILE *f, APP_OUT& ao);
 int parse_command_line(char* p, char** argv) {
     char** pp = argv;
     bool space = true;
-
-    if(p==NULL) {
-        fprintf(stderr, "error: parse_command_line: unexpected NULL pointer p\n");
-        return ERR_NULL;
-    }
-    if(argv==NULL) {
-        fprintf(stderr, "error: parse_command_line: unexpected NULL pointer argv\n");
-        return ERR_NULL;
-    }
 
     while (*p) {
         if (isspace(*p)) {
@@ -112,10 +99,6 @@ int parse_command_line(char* p, char** argv) {
 static int print_argv(char** argv) {
     int i;
 
-    if(argv==NULL) {
-        fprintf(stderr, "error: print_argv: unexpected NULL pointer argv\n");
-        return ERR_NULL;
-    }
     for (i=0; argv[i]; i++) {
         fprintf(stderr, "argv[%d]: %s\n", i, argv[i]);
     }
@@ -123,8 +106,6 @@ static int print_argv(char** argv) {
     return 0;
 }
 
-// Initialize the ACTIVE_TASK object members to null
-//
 ACTIVE_TASK::ACTIVE_TASK() {
     result = NULL;
     wup = NULL;
@@ -135,17 +116,9 @@ ACTIVE_TASK::ACTIVE_TASK() {
     exit_status = 0;
     signal = 0;
     strcpy(dirname, "");
-    prev_cpu_time = 0;
 }
 
-// Initialize active task with a specific result requirement
-//
 int ACTIVE_TASK::init(RESULT* rp) {
-    if(rp==NULL) {
-        fprintf(stderr, "error: ACTIVE_TASK.init: unexpected NULL pointer rp\n");
-        return ERR_NULL;
-    }
-
     result = rp;
     wup = rp->wup;
     app_version = wup->avp;
@@ -154,57 +127,60 @@ int ACTIVE_TASK::init(RESULT* rp) {
 }
 
 // Start a task in a slot directory.  This includes setting up soft links,
-// passing preferences, and starting the actual process for computation
+// passing preferences, and starting the process
+//
+// WHAT ARE ASSUMPTIONS ABOUT CURRENT DIR??
+// SHOULD REPLACE ../.. stuff
 //
 int ACTIVE_TASK::start(bool first_time) {
-    char exec_name[256], file_path[256], link_path[256],temp[256];
+    char exec_name[256], file_path[256], link_path[256], temp[256];
     char* argv[100];
     unsigned int i;
     FILE_REF file_ref;
     FILE_INFO* fip;
     int retval;
-    char prefs_path[256],init_path[256];
+    char prefs_path[256], init_path[256];
     FILE *prefs_fd,*init_file;
-    APP_IN app_prefs;
+    APP_INIT_DATA aid;
 
-    prev_cpu_time = 0;
-    // These should be chosen in a better manner (user specifiable)
-    app_prefs.graphics.xsize = 640;
-    app_prefs.graphics.ysize = 480;
-    app_prefs.graphics.refresh_period = 5;
-    app_prefs.checkpoint_period = 5;
-    app_prefs.poll_period = 5;
-    if(!first_time) app_prefs.cpu_time = result->cpu_time;
+    if (first_time) {
+        checkpoint_cpu_time = 0;
+    }
+    current_cpu_time = checkpoint_cpu_time;
+    starting_cpu_time = checkpoint_cpu_time;
+    fraction_done = 0;
 
-    // Write out the app prefs.  This has everything in the APP_IN
-    // struct, including graphics prefs and checkpoint/poll prefs
-    sprintf( prefs_path, "%s/%s", dirname, CORE_TO_APP_FILE );
-    prefs_fd = fopen( prefs_path, "wb" );
-    if( !prefs_fd ) {
-        if( log_flags.task_debug ) {
-            printf( "Failed to open core to app prefs file %s.\n", prefs_path );
+    //app_prefs.graphics.xsize = 640;
+    //app_prefs.graphics.ysize = 480;
+    //app_prefs.graphics.refresh_period = 5;
+
+    memset(&aid, 0, sizeof(aid));
+    // TODO: fill in the app prefs, user name, team name, etc.
+    aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
+    aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
+    aid.wu_cpu_time = checkpoint_cpu_time;
+
+    sprintf(prefs_path, "%s/%s", dirname, INIT_DATA_FILE);
+    prefs_fd = fopen(prefs_path, "wb");
+    if (!prefs_fd) {
+        if (log_flags.task_debug) {
+            printf("Failed to open core to app prefs file %s.\n", prefs_path);
         }
         return ERR_FOPEN;
     }
-    rewind( prefs_fd );
-    write_core_file( prefs_fd,app_prefs );
+    retval = write_init_data_file(prefs_fd, aid);
     fclose(prefs_fd);
 
-    // Open the init file.  This file contains initialization
-    // information regarding tasks that can only be performed in
-    // the app, such as redirecting file descriptors
-    //
-    sprintf( init_path, "%s/%s", dirname, BOINC_INIT_FILE );
-    init_file = fopen( init_path, "wb" );
-    if( !init_file ) {
-        if( log_flags.task_debug ) {
+    sprintf(init_path, "%s/%s", dirname, FD_INIT_FILE);
+    init_file = fopen(init_path, "wb");
+    if (!init_file) {
+        if(log_flags.task_debug) {
             printf( "Failed to open init file %s.\n", init_path );
         }
         return ERR_FOPEN;
     }
-    rewind( init_file );
 
-    // make a soft link to the executable(s)
+    // make soft links to the executable(s)
     //
     for (i=0; i<app_version->app_files.size(); i++) {
         fip = app_version->app_files[i].file_info;
@@ -247,8 +223,8 @@ int ACTIVE_TASK::start(bool first_time) {
                 }
             }
         } else {
-            sprintf( temp, "../../%s", file_path );
-            write_init_file( init_file, temp, file_ref.fd, 1 );
+            sprintf(temp, "../../%s", file_path);
+            write_fd_init_file(init_file, temp, file_ref.fd, 1);
         }
     }
 
@@ -274,7 +250,7 @@ int ACTIVE_TASK::start(bool first_time) {
             }
         } else {
             sprintf( temp, "../../%s", file_path );
-            write_init_file( init_file, temp, file_ref.fd, 0 );
+            write_fd_init_file(init_file, temp, file_ref.fd, 0);
         }
     }
 
@@ -304,7 +280,7 @@ int ACTIVE_TASK::start(bool first_time) {
         argv[0] = exec_name;
         parse_command_line(wup->command_line, argv+1);
         if (log_flags.task_debug) print_argv(argv);
-        boinc_resolve_link( exec_name, temp );
+        boinc_resolve_filename(exec_name, temp);
         retval = execv(temp, argv);
         fprintf(stderr, "execv failed: %d\n", retval);
         perror("execv");
@@ -331,6 +307,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     // Need to condense argv into a single string
     //if (log_flags.task_debug) print_argv(argv);
+    //
     sprintf( temp, "%s/%s", dirname, exec_name );
     boinc_resolve_link( temp, exec_name );
     if( !CreateProcess( exec_name,
@@ -394,10 +371,7 @@ void ACTIVE_TASK::request_exit(int seconds) {
 //
 int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
     int retval;
-    if(atp==NULL) {
-        fprintf(stderr, "error: ACTIVE_TASK.insert: unexpected NULL pointer atp\n");
-        return ERR_NULL;
-    }
+
     get_slot_dir(atp->slot, atp->dirname);
     clean_out_dir(atp->dirname);
     retval = atp->start(true);
@@ -423,9 +397,9 @@ bool ACTIVE_TASK_SET::poll() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if( GetExitCodeProcess( atp->pid_handle,&exit_code ) ) {
+        if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             // Get the elapsed CPU time
-            if( GetProcessTimes( atp->pid_handle, &creation_time, &exit_time, &kernel_time, &user_time ) ) {
+            if (GetProcessTimes(atp->pid_handle, &creation_time, &exit_time, &kernel_time, &user_time)) {
                 tKernel.LowPart = kernel_time.dwLowDateTime;
                 tKernel.HighPart = kernel_time.dwHighDateTime;
 	
@@ -440,7 +414,7 @@ bool ACTIVE_TASK_SET::poll() {
                 // This probably isn't correct
                 atp->result->cpu_time = ((double)clock())/CLOCKS_PER_SEC;
             }
-            if( exit_code != STILL_ACTIVE ) {
+            if (exit_code != STILL_ACTIVE) {
                 // Not sure how to incorporate the other states (WAS_SIGNALED, etc)
                 atp->state = PROCESS_EXITED;
                 atp->exit_status = exit_code;
@@ -470,15 +444,18 @@ bool ACTIVE_TASK_SET::poll() {
         fprintf(stderr, "ACTIVE_TASK_SET::poll(): pid %d not found\n", pid);
         return true;
     }
-    atp->result->cpu_time = rs.ru_utime.tv_sec + rs.ru_utime.tv_usec/1.e6;
+    double x = rs.ru_utime.tv_sec + rs.ru_utime.tv_usec/1.e6;
+    atp->result->final_cpu_time = atp->starting_cpu_time + x;
     if (WIFEXITED(stat)) {
         atp->state = PROCESS_EXITED;
         atp->exit_status = WEXITSTATUS(stat);
         atp->result->exit_status = atp->exit_status;
+        if (log_flags.task_debug) printf("process exited status%d\n", atp->exit_status);
     } else if (WIFSIGNALED(stat)) {
         atp->state = PROCESS_WAS_SIGNALED;
         atp->signal = WTERMSIG(stat);
         atp->result->exit_status = atp->signal;
+        if (log_flags.task_debug) printf("process was signaled %d\n", atp->signal);
     } else {
         atp->state = PROCESS_EXIT_UNKNOWN;
         atp->result->exit_status = -1;
@@ -507,10 +484,7 @@ bool ACTIVE_TASK_SET::poll() {
 ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
     unsigned int i;
     ACTIVE_TASK* atp;
-    if(pid<0) {
-        fprintf(stderr, "error: ACTIVE_TASK_SET.lookup_pid: negatvie pid\n");
-        return NULL;
-    }
+
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->pid == pid) return atp;
@@ -549,7 +523,7 @@ void ACTIVE_TASK_SET::exit_tasks() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         atp->request_exit(0);
-        atp->update_time();
+        atp->check_app_status_files();
     }
 }
 
@@ -586,10 +560,7 @@ void ACTIVE_TASK::unsuspend() {
 //
 int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
     vector<ACTIVE_TASK*>::iterator iter;
-    if(atp==NULL) {
-        fprintf(stderr, "error: ACTIVE_TASK_SET.remove: unexpected NULL pointer atp\n");
-        return ERR_NULL;
-    }
+
     iter = active_tasks.begin();
     while (iter != active_tasks.end()) {
         if (*iter == atp) {
@@ -627,22 +598,32 @@ int ACTIVE_TASK_SET::restart_tasks() {
     return 0;
 }
 
-// Update the CPU time accounting based on the APP_TO_CORE_FILE passed to
-// us by the application
+// See if the app has generated new checkpoint CPU or fraction-done files.
+// If so read them and return true.
 //
-bool ACTIVE_TASK::update_time() {
-    FILE* app_fp;
+bool ACTIVE_TASK::check_app_status_files() {
+    FILE* f;
     char app_path[256];
-    APP_OUT ao;
+    bool found = false;
 
-    sprintf(app_path, "%s/%s", dirname, APP_TO_CORE_FILE);
-    app_fp = fopen(app_path, "r");
-    if(!app_fp) return false;
-    parse_app_file(app_fp, ao);
-    if(!ao.checkpointed) return false;
-    result->cpu_time += ao.cpu_time_at_checkpoint - prev_cpu_time;
-    prev_cpu_time = ao.cpu_time_at_checkpoint;
-    return true;
+    sprintf(app_path, "%s/%s", dirname, CHECKPOINT_CPU_FILE);
+    f = fopen(app_path, "r");
+    if (f) {
+        found = true;
+        parse_checkpoint_cpu_file(f, checkpoint_cpu_time);
+        fclose(f);
+    }
+
+    sprintf(app_path, "%s/%s", dirname, FRACTION_DONE_FILE);
+    f = fopen(app_path, "r");
+    if (f) {
+        found = true;
+        parse_fraction_done_file(
+            f, current_cpu_time, fraction_done
+        );
+        fclose(f);
+    }
+    return found;
 }
 
 // Poll each of the currently running tasks and get their CPU time
@@ -651,9 +632,10 @@ bool ACTIVE_TASK_SET::poll_time() {
     ACTIVE_TASK* atp;
     unsigned int i;
     bool updated;
+
     for(i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        updated |= atp->update_time();
+        updated |= atp->check_app_status_files();
     }
     return updated;
 }
@@ -661,23 +643,19 @@ bool ACTIVE_TASK_SET::poll_time() {
 // Write XML data about this ACTIVE_TASK
 //
 int ACTIVE_TASK::write(FILE* fout) {
-    if(fout==NULL) {
-        fprintf(stderr, "error: ACTIVE_TASK.write: unexpected NULL pointer fout\n");
-        return ERR_NULL;
-    }
     fprintf(fout,
         "<active_task>\n"
         "    <project_master_url>%s</project_master_url>\n"
         "    <result_name>%s</result_name>\n"
         "    <app_version_num>%d</app_version_num>\n"
         "    <slot>%d</slot>\n"
-        "    <prev_cpu_time>%f</prev_cpu_time>\n"
+        "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "</active_task>\n",
         result->project->master_url,
         result->name,
         app_version->version_num,
         slot,
-        prev_cpu_time
+        checkpoint_cpu_time
     );
     return 0;
 }
@@ -688,14 +666,7 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
     char buf[256], result_name[256], project_master_url[256];
     int app_version_num=0;
     PROJECT* project;
-    if(fin==NULL) {
-        fprintf(stderr, "error: ACTIVE_TASK.parse: unexpected NULL pointer fin\n");
-        return ERR_NULL;
-    }
-    if(cs==NULL) {
-        fprintf(stderr, "error: ACTIVE_TASK.parse: unexpected NULL pointer cs\n");
-        return ERR_NULL;
-    }
+
     strcpy(result_name, "");
     strcpy(project_master_url, "");
     while (fgets(buf, 256, fin)) {
@@ -727,7 +698,7 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
         else if (parse_str(buf, "<project_master_url>", project_master_url)) continue;
         else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         else if (parse_int(buf, "<slot>", slot)) continue;
-	else if (parse_double(buf, "<prev_cpu_time>", prev_cpu_time)) continue;
+	else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else fprintf(stderr, "ACTIVE_TASK::parse(): unrecognized %s\n", buf);
     }
     return -1;
@@ -737,10 +708,7 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
 //
 int ACTIVE_TASK_SET::write(FILE* fout) {
     unsigned int i;
-    if(fout==NULL) {
-        fprintf(stderr, "error: ACTIVE_TASK_SET.write: unexpected NULL pointer fout\n");
-        return ERR_NULL;
-    }
+
     fprintf(fout, "<active_task_set>\n");
     for (i=0; i<active_tasks.size(); i++) {
         active_tasks[i]->write(fout);
@@ -755,14 +723,7 @@ int ACTIVE_TASK_SET::parse(FILE* fin, CLIENT_STATE* cs) {
     ACTIVE_TASK* atp;
     char buf[256];
     int retval;
-    if(fin==NULL) {
-        fprintf(stderr, "error: ACTIVE_TASK_SET.parse: unexpected NULL pointer fin\n");
-        return ERR_NULL;
-    }
-    if(cs==NULL) {
-        fprintf(stderr, "error: ACTIVE_TASK_SET.parse: unexpected NULL pointer cs\n");
-        return ERR_NULL;
-    }
+
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</active_task_set>")) return 0;
         else if (match_tag(buf, "<active_task>")) {

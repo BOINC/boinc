@@ -300,7 +300,6 @@ int CLIENT_STATE::exit() {
 }
 
 int CLIENT_STATE::exit_tasks() {
-    int retval;
     active_tasks.exit_tasks();
     return 0;
 }

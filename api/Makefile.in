@@ -15,15 +15,17 @@ CC = @CC@ $(CFLAGS)
 
 PROGS = api_app api_test
 
-all: $(PROGS)
+#all: $(PROGS)
+all: mfile.o boinc_api.o
 
 APP_OBJS = \
     api_app.o \
-    api.o \
+    mfile.o \
+    boinc_api.o \
     ../lib/parse.o
 
 TEST_OBJS = \
-    api.o \
+    boinc_api.o \
     api_test.o \
     ../lib/parse.o
 

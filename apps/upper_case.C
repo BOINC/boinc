@@ -22,14 +22,12 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
-#include "api.h"
+#include "boinc_api.h"
 
 int main() {
     int c, n=0;
-    APP_IN ai;
-    APP_OUT ao;
 
-    boinc_init(ai);
+    boinc_init();
     fprintf(stderr, "APP: upper_case starting\n");
     fflush(stderr);
     while (1) {
@@ -38,12 +36,12 @@ int main() {
         c = toupper(c);
         putchar(c);
         n++;
-        if(time_to_checkpoint()) {
+        if (boinc_time_to_checkpoint()) {
 	    fflush(stdout);
-            ao.percent_done = 1;
-	    checkpoint_completed(ao);
+	    boinc_checkpoint_completed();
         }
     }
     fprintf(stderr, "APP: upper_case ending, wrote %d chars\n", n);
+    boinc_finish(0);
     return 0;
 }

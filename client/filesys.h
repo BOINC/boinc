@@ -25,6 +25,6 @@ extern int dir_scan(char*,DIR*);
 extern void dir_close(DIR*);
 extern int file_delete(char*);
 extern int file_size(char*, int&);
-extern int boinc_link( char *existing, char *new_link );
+extern int boinc_link(char *existing, char *new_link);
 extern int clean_out_dir(char*);
 extern double dir_size(char* dirpath);

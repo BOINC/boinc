@@ -24,7 +24,7 @@
 #include <sys/time.h>
 #endif
 
-#include "api.h"
+#include "boinc_api.h"
 
 int recover(char* file, unsigned long int* i);
 int timer(int secs, int usecs);

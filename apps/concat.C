@@ -23,7 +23,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "api.h"
+#include "boinc_api.h"
 
 void file_append(FILE* in, FILE* out) {
     char buf[1024];
@@ -40,14 +40,13 @@ int main(int argc, char** argv) {
     FILE* in, *out;
     char file_name[512];
     int i;
-    APP_IN ai;
 
-    boinc_init(ai);
+    boinc_init();
     fprintf(stderr, "APP: concat: starting, argc %d\n", argc);
     for (i=0; i<argc; i++) {
         fprintf(stderr, "APP: concat: argv[%d] is %s\n", i, argv[i]);
     }
-    boinc_resolve_link( argv[argc-1], file_name );
+    boinc_resolve_filename( argv[argc-1], file_name );
     fprintf( stderr, "res: %s\n", file_name );
     out = fopen(file_name, "w");
     if (!out) {
@@ -55,7 +54,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
     for (i=1; i<argc-1; i++) {
-        boinc_resolve_link( argv[i], file_name );
+        boinc_resolve_filename( argv[i], file_name );
         fprintf( stderr, "res: %s\n", file_name );
         in = fopen(file_name, "r");
         if (!in) {
@@ -67,5 +66,6 @@ int main(int argc, char** argv) {
     }
     fclose(out);
     fprintf(stderr, "APP: concat: done\n");
+    boinc_finish(0);
     return 0;
 }

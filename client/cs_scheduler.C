@@ -57,11 +57,8 @@ double CLIENT_STATE::current_water_days() {
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         if (rp->is_compute_done) continue;
-	if (rp->cpu_time > 0) {
-	    seconds_remaining += (rp->wup->seconds_to_complete - rp->cpu_time);
-	} else {
-	    seconds_remaining += rp->wup->seconds_to_complete;
-        }
+        // TODO: subtract time already finished for WUs in progress
+        seconds_remaining += rp->wup->seconds_to_complete;
     }
     return (seconds_remaining * SECONDS_IN_DAY);
 }

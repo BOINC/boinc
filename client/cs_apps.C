@@ -50,7 +50,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     at.result->is_active = false;
     at.result->is_compute_done = true;
     update_avg_cpu(at.result->project);
-    at.result->project->exp_avg_cpu += at.result->cpu_time;
+    at.result->project->exp_avg_cpu += at.result->final_cpu_time;
     return 0;
 }
 
