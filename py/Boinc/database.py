@@ -30,6 +30,7 @@ for user in database.Users.find():
 
 '''
 
+from __future__ import generators
 import boinc_path_config
 from Boinc import configxml
 from Boinc.util import *
@@ -159,6 +160,13 @@ def _select_object_fetchall(*args, **kwargs):
     cursor.close()
     return results
 
+def _select_object_iterate(*args, **kwargs):
+    cursor = apply(_select_object, args, kwargs)
+    while True:
+        result = cursor.fetchone()
+        if not result: return
+        yield result
+
 def _select_count_objects(*args, **kwargs):
     kwargs['select_what'] = 'count(*)'
     cursor = apply(_select_object, args, kwargs)
@@ -223,6 +231,13 @@ class DatabaseTable:
         """Return the number of database objects matching keywords.
 
         Arguments are the same format as find()."""
+        if kwargs.keys() == ['id']:
+            # looking up by ID only, look in cache first:
+            id = kwargs['id']
+            if not id:
+                return 0
+            if id in self.objects:
+                return 1
         kwargs = self.dict2database_fields(kwargs)
         return _select_count_objects(self.table, kwargs,
                                      extra_args=self.select_args)
@@ -254,6 +269,30 @@ class DatabaseTable:
         if self.sort_results:
             objects.sort()
         return objects
+    def iterate(self, **kwargs):
+        """Same as find(), but using generators.
+
+        No sorting."""
+        if kwargs.keys() == ['id']:
+            # looking up by ID only, look in cache first:
+            id = kwargs['id']
+            if not id:
+                return
+            try:
+                yield self.objects[id]
+                return
+            except KeyError:
+                pass
+            limbo_object = self.object_class(id=None) # prevent possible id recursion
+            limbo_object.in_limbo = 1
+            self.objects[id] = limbo_object
+            self._cache(limbo_object)
+        kwargs = self.dict2database_fields(kwargs)
+        for result in _select_object_iterate(self.table, kwargs,
+                                             extra_args=self.select_args):
+            yield self._create_object_from_sql_result(result)
+        return
+
     def _create_object_from_sql_result(self, result):
         id = result['id']
         try:
