@@ -46,6 +46,7 @@ htmlspecialchars("
     <task>
       [ <host>foobar</host> ]
       [ <disabled>1</disabled> ]
+      [ <always_run>1</always_run> ]
       <cmd>get_load</cmd>
       <output>get_load.out</output>
       <period>5 min</period>
@@ -92,6 +93,10 @@ and the process is sent a SIGHUP in a DISABLE operation.
 Both tasks and daemons can run on a different host (specified by &lt;host>).
 The default is the project's main host, which is specified in config.host
 A daemon or task can be turned off by adding the &lt;disabled> element.
+As well, there may be some tasks you wish to run via cron regardless of
+whether or not the project is enabled (for example, a script that logs the
+current CPU load of the host machine). You can do so by adding the
+&lt;always_run> element (&lt;disabled> takes precedence over &lt;always_run>).
 ";
 page_tail();
 ?>
