@@ -9793,6 +9793,9 @@ David  Feb 4 2004
 	client/
 		client_state.C
 
+David  Feb 4 2004
+    - Released version 2.24 of core client
+
 Rom    Feb 4 2004
     - When handled errors occur provide the translated error message as well as the
         error code.
@@ -9838,3 +9841,12 @@ David  Feb 5 2004
         feeder.C
         handle_request.C
         sched_shmem.h
+
+David  Feb 5 2004
+    - My checkin of Jan 31 broke access via HTTP proxies.
+        Here's an attempt to fix it
+
+    client/
+        http.C,h
+        net_xfer.C,h
+        pers_file_xfer.C

@@ -230,7 +230,7 @@ static int read_reply(int socket, char* buf, int len) {
 }
 
 HTTP_OP::HTTP_OP() {
-    strcpy(hostname, "");
+    strcpy(url_hostname, "");
     strcpy(filename, "");
     req1 = NULL;
     strcpy(infile, "");
@@ -253,16 +253,16 @@ HTTP_OP::~HTTP_OP() {
 //
 int HTTP_OP::init_head(const char* url) {
     char proxy_buf[256];
-    parse_url(url, hostname, port, filename);
-    NET_XFER::init(use_http_proxy?proxy_server_name:hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
+    parse_url(url, url_hostname, port, filename);
+    NET_XFER::init(use_http_proxy?proxy_server_name:url_hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
     http_op_type = HTTP_OP_HEAD;
     http_op_state = HTTP_STATE_CONNECTING;
     if (use_http_proxy) {
-        sprintf( proxy_buf, "http://%s:%d/%s", hostname, port, filename );
+        sprintf(proxy_buf, "http://%s:%d/%s", url_hostname, port, filename);
     } else {
-        sprintf( proxy_buf, "/%s", filename );
+        sprintf(proxy_buf, "/%s", filename);
     }
-    http_head_request_header(request_header, hostname, port, proxy_buf);
+    http_head_request_header(request_header, url_hostname, port, proxy_buf);
     return 0;
 }
 
@@ -275,8 +275,8 @@ int HTTP_OP::init_get(const char* url, char* out, bool del_old_file, double off)
         unlink(out);
     }
     file_offset = off;
-    parse_url(url, hostname, port, filename);
-    NET_XFER::init(use_http_proxy?proxy_server_name:hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
+    parse_url(url, url_hostname, port, filename);
+    NET_XFER::init(use_http_proxy?proxy_server_name:url_hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
     safe_strcpy(outfile, out);
 	if (off != 0){
 		bytes_xferred = off;
@@ -284,11 +284,11 @@ int HTTP_OP::init_get(const char* url, char* out, bool del_old_file, double off)
     http_op_type = HTTP_OP_GET;
     http_op_state = HTTP_STATE_CONNECTING;
     if (use_http_proxy) {
-        sprintf( proxy_buf, "http://%s:%d/%s", hostname, port, filename );
+        sprintf(proxy_buf, "http://%s:%d/%s", url_hostname, port, filename);
     } else {
-        sprintf( proxy_buf, "/%s", filename );
+        sprintf(proxy_buf, "/%s", filename);
     }
-    http_get_request_header(request_header, hostname, port, proxy_buf, (int)file_offset);
+    http_get_request_header(request_header, url_hostname, port, proxy_buf, (int)file_offset);
     return 0;
 }
 
@@ -301,8 +301,8 @@ int HTTP_OP::init_post(const char* url, char* in, char* out) {
 
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
 
-    parse_url(url, hostname, port, filename);
-    NET_XFER::init(use_http_proxy?proxy_server_name:hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
+    parse_url(url, url_hostname, port, filename);
+    NET_XFER::init(use_http_proxy?proxy_server_name:url_hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
     safe_strcpy(infile, in);
     safe_strcpy(outfile, out);
     retval = file_size(infile, size);
@@ -311,12 +311,12 @@ int HTTP_OP::init_post(const char* url, char* in, char* out) {
     http_op_type = HTTP_OP_POST;
     http_op_state = HTTP_STATE_CONNECTING;
     if (use_http_proxy) {
-        sprintf( proxy_buf, "http://%s:%d/%s", hostname, port, filename );
+        sprintf(proxy_buf, "http://%s:%d/%s", url_hostname, port, filename);
     } else {
-        sprintf( proxy_buf, "/%s", filename );
+        sprintf(proxy_buf, "/%s", filename);
     }
     http_post_request_header(
-        request_header, hostname, port, proxy_buf, content_length
+        request_header, url_hostname, port, proxy_buf, content_length
     );
     scope_messages.printf("HTTP_OP::init_post(): %p io_done %d\n", this, io_done);
     return 0;
@@ -331,8 +331,8 @@ int HTTP_OP::init_post2(
     double size;
     char proxy_buf[256];
 
-    parse_url(url, hostname, port, filename);
-    NET_XFER::init(use_http_proxy?proxy_server_name:hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
+    parse_url(url, url_hostname, port, filename);
+    NET_XFER::init(use_http_proxy?proxy_server_name:url_hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
     req1 = r1;
     if (in) {
         safe_strcpy(infile, in);
@@ -348,12 +348,12 @@ int HTTP_OP::init_post2(
     http_op_type = HTTP_OP_POST2;
     http_op_state = HTTP_STATE_CONNECTING;
     if (use_http_proxy) {
-        sprintf( proxy_buf, "http://%s:%d/%s", hostname, port, filename );
+        sprintf(proxy_buf, "http://%s:%d/%s", url_hostname, port, filename);
     } else {
-        sprintf( proxy_buf, "/%s", filename );
+        sprintf(proxy_buf, "/%s", filename);
     }
     http_post_request_header(
-        request_header, hostname, port, proxy_buf, content_length
+        request_header, url_hostname, port, proxy_buf, content_length
     );
     return 0;
 }

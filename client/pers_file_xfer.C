@@ -362,7 +362,7 @@ int PERS_FILE_XFER::write(FILE* fout) {
             fxp->bytes_xferred,
             fxp->file_offset,
             fxp->xfer_speed,
-            fxp->hostname
+            fxp->get_hostname()
         );
     }
     return 0;

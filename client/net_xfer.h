@@ -33,6 +33,8 @@
 // or being transferred to/from a file
 //
 class NET_XFER {
+    char hostname[256];
+        // The host we're connecting to (possibly a proxy)
 public:
     int net_xfer_state;
             // client-defined; better to define state in parent class
@@ -49,7 +51,6 @@ public:
     bool io_ready;
         // can read or write socket now (used if !do_file_io)
     int error;
-    char hostname[256];
     int port;
     int blocksize;
     double xfer_speed;      // exponentially-smoother avg of recent throughput
@@ -66,6 +67,7 @@ public:
     int do_xfer(int&);
     void update_speed(int);
     void got_error();
+    char* get_hostname();
 };
 
 // bandwidth limitation is implemented at this level, as follows:

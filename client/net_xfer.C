@@ -259,6 +259,10 @@ void NET_XFER::init(char* host, int p, int b) {
     bytes_xferred = 0;
 }
 
+char* NET_XFER::get_hostname() {
+    return hostname;
+}
+
 NET_XFER_SET::NET_XFER_SET() {
     max_bytes_sec_up = 0;
     max_bytes_sec_down = 0;
@@ -429,7 +433,7 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
                 if (n) {
                     scope_messages.printf(
                         "NET_XFER_SET::do_select(): socket %d connection to %s failed\n",
-                        fd, nxp->hostname
+                        fd, nxp->get_hostname()
                     );
                     nxp->error = ERR_CONNECT;
                     nxp->io_done = true;

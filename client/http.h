@@ -61,6 +61,9 @@ public:
 
     int port;
     char filename[256];
+    char url_hostname[256];
+        // the hostname part of the URL.
+        // May not be the host we connect to (if using proxy)
     char* req1;
     char infile[256];
     char outfile[256];

@@ -11,17 +11,17 @@ location as <code>config.xml</code>.
 The contents of <code>project.xml</code> should look like this:
 
 <pre>
-  &lt;boinc&rt;
-    &lt;project&rt;
-      &lt;short_name&rt;yah&lt;/short_name&rt;
-      &lt;long_name&rt;YETI @ Home&lt;/long_name&rt;
-    &lt;/project&rt;
-    &lt;platform&rt;
-      &lt;name&rt;c64&lt;/name&rt;
-      &lt;user_friendly_name&rt;Commodore 64&lt;/user_friendly_name&rt;
-    &lt;/platform&rt;
+  &lt;boinc&gt;
+    &lt;project&gt;
+      &lt;short_name&gt;yah&lt;/short_name&gt;
+      &lt;long_name&gt;YETI @ Home&lt;/long_name&gt;
+    &lt;/project&gt;
+    &lt;platform&gt;
+      &lt;name&gt;c64&lt;/name&gt;
+      &lt;user_friendly_name&gt;Commodore 64&lt;/user_friendly_name&gt;
+    &lt;/platform&gt;
     ...
-  &lt;/boinc&rt;
+  &lt;/boinc&gt;
 </pre>
 
 Notes:

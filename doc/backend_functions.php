@@ -32,12 +32,14 @@ and the policy for deciding which are correct, are project-specific.
 
 <li> <b>Grant credit</b>.
 Some users will attempt to get undeserved credit by falsifying their CPU
-metrics or CPU times.  Each project and application can have its own
-credit-granting algorithm, for example granting the minimum or the mean of
-the median of all claimed credits (during validation time).  The granted
-credit is assigned to all correct results. This ensures that as long as a
-reasonable majority of participants don't falsify credit, almost all credit
-accounting will be correct.
+metrics or CPU times.
+Each project and application can have its own credit-granting algorithm,
+for example granting the minimum or
+the median of all claimed credits (during validation time).
+The granted credit is assigned to all correct results.
+This ensures that as long as a
+reasonable majority of participants don't falsify credit,
+almost all credit accounting will be correct.
 <p>
 <li> <b>Assimilate results</b>.
 <p>
