@@ -171,7 +171,7 @@ AM_CPPFLAGS = \
 LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
 
 bin_PROGRAMS = crypt_prog
-EXTRA_PROGRAMS = md5_test shmem_test msg_test synch_test
+EXTRA_PROGRAMS = md5_test shmem_test msg_test
 noinst_LIBRARIES = libboinc.a 
 #libboinc_graphics.a
 EXTRA_DIST = result_state.h parse.h std_fixes.h util.h
@@ -200,7 +200,6 @@ libboinc_a_SOURCES = \
 	msg_queue.h				\
     parse.C					\
 	shmem.C					\
-	synch.C					\
     util.C					\
 	util.h					\
 	xml_util.C              \
@@ -214,7 +213,6 @@ libboinc_a_SOURCES = \
 md5_test_SOURCES = md5_test.C md5.c md5_file.C
 shmem_test_SOURCES = shmem_test.C shmem.C
 msg_test_SOURCES = msg_test.C msg_queue.C
-synch_test_SOURCES = synch_test.C synch.C
 crypt_prog_SOURCES = crypt_prog.C crypt.C md5.c md5_file.C
 crypt_prog_DEPENDENCIES = $(LIBRSA)
 crypt_prog_LDADD = $(RSA_LIBS)
@@ -230,11 +228,9 @@ am_libboinc_a_OBJECTS = boinc_api.$(OBJEXT) mfile.$(OBJEXT) \
 	app_ipc.$(OBJEXT) base64.$(OBJEXT) diagnostics.$(OBJEXT) \
 	exception.$(OBJEXT) filesys.$(OBJEXT) language.$(OBJEXT) \
 	md5.$(OBJEXT) md5_file.$(OBJEXT) parse.$(OBJEXT) \
-	shmem.$(OBJEXT) synch.$(OBJEXT) util.$(OBJEXT) \
-	xml_util.$(OBJEXT)
+	shmem.$(OBJEXT) util.$(OBJEXT) xml_util.$(OBJEXT)
 libboinc_a_OBJECTS = $(am_libboinc_a_OBJECTS)
-EXTRA_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) msg_test$(EXEEXT) \
-	synch_test$(EXEEXT)
+EXTRA_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) msg_test$(EXEEXT)
 bin_PROGRAMS = crypt_prog$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
@@ -258,11 +254,6 @@ shmem_test_OBJECTS = $(am_shmem_test_OBJECTS)
 shmem_test_LDADD = $(LDADD)
 shmem_test_DEPENDENCIES =
 shmem_test_LDFLAGS =
-am_synch_test_OBJECTS = synch_test.$(OBJEXT) synch.$(OBJEXT)
-synch_test_OBJECTS = $(am_synch_test_OBJECTS)
-synch_test_LDADD = $(LDADD)
-synch_test_DEPENDENCIES =
-synch_test_LDFLAGS =
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -276,8 +267,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/md5_test.Po ./$(DEPDIR)/mfile.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/msg_queue.Po ./$(DEPDIR)/msg_test.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/parse.Po ./$(DEPDIR)/shmem.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/shmem_test.Po ./$(DEPDIR)/synch.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/synch_test.Po ./$(DEPDIR)/util.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/shmem_test.Po ./$(DEPDIR)/util.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/xml_util.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -289,10 +279,9 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(libboinc_a_SOURCES) $(crypt_prog_SOURCES) \
-	$(md5_test_SOURCES) $(msg_test_SOURCES) $(shmem_test_SOURCES) \
-	$(synch_test_SOURCES)
+	$(md5_test_SOURCES) $(msg_test_SOURCES) $(shmem_test_SOURCES)
 DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in
-SOURCES = $(libboinc_a_SOURCES) $(crypt_prog_SOURCES) $(md5_test_SOURCES) $(msg_test_SOURCES) $(shmem_test_SOURCES) $(synch_test_SOURCES)
+SOURCES = $(libboinc_a_SOURCES) $(crypt_prog_SOURCES) $(md5_test_SOURCES) $(msg_test_SOURCES) $(shmem_test_SOURCES)
 
 all: all-am
 
@@ -350,9 +339,6 @@ msg_test$(EXEEXT): $(msg_test_OBJECTS) $(msg_test_DEPENDENCIES)
 shmem_test$(EXEEXT): $(shmem_test_OBJECTS) $(shmem_test_DEPENDENCIES) 
 	@rm -f shmem_test$(EXEEXT)
 	$(CXXLINK) $(shmem_test_LDFLAGS) $(shmem_test_OBJECTS) $(shmem_test_LDADD) $(LIBS)
-synch_test$(EXEEXT): $(synch_test_OBJECTS) $(synch_test_DEPENDENCIES) 
-	@rm -f synch_test$(EXEEXT)
-	$(CXXLINK) $(synch_test_LDFLAGS) $(synch_test_OBJECTS) $(synch_test_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -378,8 +364,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem_test.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/synch.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/synch_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xml_util.Po@am__quote@
 
