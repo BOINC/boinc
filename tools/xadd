@@ -3,10 +3,8 @@
 # $Id$
 
 import boinc_path_config
-from Boinc import database, db_mid, configxml, projectxml
+from Boinc import database, db_mid, projectxml
 
-config = configxml.default_config()
-database.connect(config.config)
-
+database.connect()
 projectxml.default_project().commit_all()
 
