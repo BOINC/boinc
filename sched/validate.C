@@ -117,12 +117,16 @@ void handle_wu(DB_WORKUNIT& wu) {
 
         // scan this WU's results, and check the unchecked ones
         //
-        sprintf(buf, "where workunitid=%d", wu.id);
+        // sprintf(buf, "where workunitid=%d", wu.id);
+        // while (!result.enumerate(buf)) {
+        //     if (result.validate_state == VALIDATE_STATE_INIT
+        //         && result.server_state == RESULT_SERVER_STATE_OVER
+        //         && result.outcome == RESULT_OUTCOME_SUCCESS
+        //     ) {
+        sprintf(buf, "where workunitid=%d and validate_state=%d and server_state=%d and outcome=%d",
+                wu.id, VALIDATE_STATE_INIT, RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS);
         while (!result.enumerate(buf)) {
-            if (result.validate_state == VALIDATE_STATE_INIT
-                && result.server_state == RESULT_SERVER_STATE_OVER
-                && result.outcome == RESULT_OUTCOME_SUCCESS
-            ) {
+            {
                 retval = check_pair(result, canonical_result, match);
                 if (retval) {
                     log_messages.printf(
@@ -179,13 +183,15 @@ void handle_wu(DB_WORKUNIT& wu) {
         );
         ++log_messages;
 
-        sprintf(buf, "where workunitid=%d", wu.id);
+        // sprintf(buf, "where workunitid=%d", wu.id);
+        // while (!result.enumerate(buf)) {
+        //     if (result.server_state == RESULT_SERVER_STATE_OVER
+        //         && result.outcome == RESULT_OUTCOME_SUCCESS
+        //     ) {
+        sprintf(buf, "where workunitid=%d and server_state=%d and outcome=%d",
+                wu.id, RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS);
         while (!result.enumerate(buf)) {
-            if (result.server_state == RESULT_SERVER_STATE_OVER
-                && result.outcome == RESULT_OUTCOME_SUCCESS
-            ) {
-                results.push_back(result);
-            }
+            results.push_back(result);
         }
         log_messages.printf(
             SchedMessages::DEBUG, "[%s] Found %d successful results\n",
@@ -229,14 +235,14 @@ void handle_wu(DB_WORKUNIT& wu) {
                         );
                     }
 
-                    // don't send any unsent results
-                    //
-                    if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
-                        update_result = true;
-                        result.server_state = RESULT_SERVER_STATE_OVER;
-                        result.received_time = time(0);
-                        result.outcome = RESULT_OUTCOME_DIDNT_NEED;
-                    }
+                    // // don't send any unsent results
+                    // //
+                    // if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
+                    //     update_result = true;
+                    //     result.server_state = RESULT_SERVER_STATE_OVER;
+                    //     result.received_time = time(0);
+                    //     result.outcome = RESULT_OUTCOME_DIDNT_NEED;
+                    // }
 
                     if (update_result) {
                         retval = result.update();
@@ -247,6 +253,23 @@ void handle_wu(DB_WORKUNIT& wu) {
                                 result.name, retval
                             );
                         }
+                    }
+                }
+
+                // don't send any unsent results
+                sprintf(buf, "where workunitid=%d and server_state=%d",
+                        wu.id, RESULT_SERVER_STATE_UNSENT);
+                while (!result.enumerate(buf)) {
+                    result.server_state = RESULT_SERVER_STATE_OVER;
+                    result.received_time = time(0);
+                    result.outcome = RESULT_OUTCOME_DIDNT_NEED;
+                    retval = result.update();
+                    if (retval) {
+                        log_messages.printf(
+                            SchedMessages::CRITICAL,
+                            "[%s] result.update() = %d\n",
+                            result.name, retval
+                            );
                     }
                 }
             }
