@@ -4959,6 +4959,7 @@ Tim     June 23, 2003
         UpdateGUI only refreshes active tab (reduces Windows CPU time by 85%)
         Fixed m_MessageListCtrl scrolling issue
         Changed pie chart labels
+        Temporarily fixed the afx assertion failure at line 157
 
     client/
         gui_title.c

@@ -151,6 +151,12 @@ void CMainWindow::ClearProjectItems(char *proj_url) {
 	int i;
 	CString ItemURL;
 
+    // TODO: find out how proj_url can be null
+    if (!proj_url) {
+        fprintf(stderr, "CMainWindow::ClearProjectItems failed: proj_url is null");
+        return;
+    }
+
 	for(i = 0; i < m_ProjectListCtrl.GetItemCount();) {
 		ItemURL = m_ProjectListCtrl.GetProjectURL(i);
 		if(!ItemURL.Compare(proj_url)) {
