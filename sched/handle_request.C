@@ -641,7 +641,7 @@ void process_request(
     }
 
     last_rpc_time = reply.host.rpc_time;
-    last_rpc_time_tm = localtime((const time_t*)&reply.host.rpc_time));
+    last_rpc_time_tm = localtime((const time_t*)&reply.host.rpc_time);
 
     reply.host.rpc_time = time(0);
     rpm_time_tm = localtime((const time_t*)&reply.host.rpc_time);
