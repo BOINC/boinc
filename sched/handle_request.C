@@ -47,6 +47,10 @@ bool wu_is_feasible(WORKUNIT& wu, HOST& host) {
 // estimate the time that a WU will take on a host
 //
 double estimate_duration(WORKUNIT& wu, HOST& host) {
+    if (host.p_fpops <= 0) host.p_fpops = 1;
+    if (host.p_iops <= 0) host.p_iops = 1;
+    if (wu.rsc_fpops <= 0) wu.rsc_fpops = 1;
+    if (wu.rsc_iops <= 0) wu.rsc_iops = 1;
     return wu.rsc_fpops/host.p_fpops + wu.rsc_iops/host.p_iops;
 }
 
