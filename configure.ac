@@ -221,25 +221,28 @@ if test -e "/proc/meminfo"; then
 fi
 
 
-dnl ---------- wxWindows --------------------------------------------------
+dnl ---------- wxWidgets --------------------------------------------------
 
 AM_OPTIONS_WXCONFIG
 
-dnl check for wxWindows
+dnl check for wxWidgets
 AM_PATH_WXCONFIG(2.3.4, wxWin=1)
 if ( test "${enable_client}" = yes ) && ( test "$wxWin" != 1 ); then
    AC_MSG_WARN([
 ================================================================================
-WARNING: wxWindows could not be found ==> building client without clientgui.
-  If you add wxWindows to your system, then this configure script will also
+WARNING: wxWidgets could not be found ==> building client without clientgui.
+  If you add wxWidgets to your system, then this configure script will also
   configure your system to build the BOINC graphical client (clientgui).  
 
-  If wxWindows is installed on your system, please check that wx-config is 
-  in the path, that the directory where wxWindows libraries are installed 
+  If wxWidgets is installed on your system, please check that wx-config is 
+  in the path, that the directory where wxWidgets libraries are installed 
   (returned by 'wx-config --libs' command) is in LD_LIBRARY_PATH (or equivalent),
-  and that wxWindows version is 2.3.4 or above. Currently wxWindows version
+  and that wxWidgets version is 2.3.4 or above. Currently wxWidgets version
   2.4.2 (gtk based) is known to work with boinc_gui under Linux. You can
   use wx-config --version to find what version you have currently installed.
+
+  You can get wxWidgets by following the DOWNLOAD link at:
+  http://www.wxwindows.org/
 ================================================================================
        ])
 fi
