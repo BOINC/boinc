@@ -32,6 +32,7 @@ Size=Tamaño
 Time=Hora
 Direction=Dirección
 Speed=Velocidad
+Report Deadline=Fecha Límite
 Status=Estado
 Type=Tipo
 
@@ -45,11 +46,11 @@ Message=Mensaje
 #USAGE_ID
 [HEADER-Disk]
 Title=Disco
-Free space: not available for use=Espacio libre: no disponible
-Free space: available for use=Espacio libre: disponible
-Used space: other than BOINC=Espacio usado: Diferentes de BOINC
 Used space: BOINC=Espacio usado: BOINC
+Free space=Espacio libre
+Used space: non-BOINC=Espacio usuado: no BOINC
 Used space:=Espacio usado
+
 
 #miscellaneous text
 [HEADER-MISC]
@@ -72,13 +73,16 @@ Download failed=Descarga errónea
 Title=&Archivo
 Show Graphics=Mostrar gráficos
 Force Run=Forzar ejecución
+Run always=Siempre activo
 Run based on preferences=Ejecución basada en preferencias
+Suspend=Suspender
 Pause=Pausa
 Run Benchmarks=Calcular rendimiento
 Hide=Ocultar
 Exit=Salir
 
 [MENU-Settings]
+Title=&Configuración
 Login to Project...=Apuntarse a proyecto...
 Quit Project...=Salir de proyecto...
 Proxy Server...=Servidor Proxy...
