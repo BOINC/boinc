@@ -915,23 +915,19 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     }
 }
 
-// initiate exit of all currently running tasks
+// Send quit signal to all currently running tasks
 //
 void ACTIVE_TASK_SET::request_tasks_exit() {
     unsigned int i;
     ACTIVE_TASK *atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if(atp->request_exit()) {
-            msg_printf(atp->wup->project,
-                MSG_ERROR,
-                "ACTIVE_TASK_SET::exit_tasks(): could not request exit of active_task"
-            );
-        }
+        atp->request_exit();
     }
 }
 
-// Kills all currently running tasks without warning
+// Send kill signal to all currently running tasks
+// Don't wait for them to exit
 //
 void ACTIVE_TASK_SET::kill_tasks() {
     unsigned int i;
