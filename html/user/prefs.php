@@ -10,14 +10,14 @@
     $subset = $_GET["subset"];
     page_head(subset_name($subset)." preferences");
 	if ($_GET['updated']) {
-	    echo '<p style="color: red">
+	    echo "<p style='color: red'>
             Your preferences have been updated
             and will take effect the next time your computer communicates
             with the project.
             You may manually retrieve the preferences
-            using the BOINC client's "Get Preferences" command.
+            using the BOINC client's \"Get Preferences\" command.
             </p>
-        ';
+        ";
 	}
     if ($subset == "global") {
         print_prefs_display_global($user);
