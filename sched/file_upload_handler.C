@@ -88,7 +88,7 @@ int return_error(bool transient, const char* message, ...) {
         "</data_server_reply>\n",
         transient?1:-1,
         message
-        );
+    );
 
     va_list va;
     va_start(va, message);
@@ -96,8 +96,10 @@ int return_error(bool transient, const char* message, ...) {
     vsprintf(buf, message, va);
     va_end(va);
 
-    log_messages.printf(SchedMessages::NORMAL, "Returning error to client: %s (%s)\n", buf,
-                        (transient?"transient":"permanent"));
+    log_messages.printf(
+        SchedMessages::NORMAL, "Returning error to client: %s (%s)\n", buf,
+        transient?"transient":"permanent"
+    );
     return 1;
 }
 
@@ -222,14 +224,17 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             //
             if (strstr(file_info.name, "..")) {
                 return return_error(ERR_PERMANENT,
-                                    "file_upload_handler: .. found in filename: %s",
-                                    file_info.name);
+                    "file_upload_handler: .. found in filename: %s",
+                    file_info.name
+                );
             }
 
             sprintf(path, "%s/%s", config.upload_dir, file_info.name);
-            log_messages.printf(SchedMessages::NORMAL,
-                                "Handling upload of %s [offset=%.0f, nbytes=%.0f]\n",
-                                file_info.name, offset, nbytes);
+            log_messages.printf(
+                SchedMessages::NORMAL,
+                "Handling upload of %s [offset=%.0f, nbytes=%.0f]\n",
+                file_info.name, offset, nbytes
+            );
             retval = copy_socket_to_file(in, path, offset, nbytes);
             if (!retval) {
                 return_success(0);
@@ -257,8 +262,10 @@ int handle_get_file_size(char* file_name) {
         log_messages.printf(SchedMessages::DEBUG, "handle_get_file_size(): [%s] returning zero\n", file_name);
         return return_success("<file_size>0</file_size>");
     } else {
-        log_messages.printf(SchedMessages::DEBUG, "handle_get_file_size(): [%s] returning %d\n",
-                            file_name, (int)sbuf.st_size);
+        log_messages.printf(
+            SchedMessages::DEBUG, "handle_get_file_size(): [%s] returning %d\n",
+            file_name, (int)sbuf.st_size
+        );
         sprintf(buf, "<file_size>%d</file_size>", (int)sbuf.st_size);
         return return_success(buf);
     }
@@ -276,9 +283,10 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         if (parse_int(buf, "<core_client_major_version>", major)) {
             if (major != MAJOR_VERSION) {
                 return return_error(ERR_PERMANENT,
-                                    "Core client has major version %d; "
-                                    "expected %d.",
-                                    major, MAJOR_VERSION);
+                    "Core client has major version %d; "
+                    "expected %d.",
+                    major, MAJOR_VERSION
+                );
             } else {
                 got_version = true;
             }
