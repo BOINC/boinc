@@ -2,7 +2,7 @@
 
 include $(top_srcdir)/Makefile.incl
 
-noinst_LIBRARIES = libboinc_api.a libboinc_graphics_api.a
+noinst_LIBRARIES = libboinc_api.a
 
 libboinc_api_a_SOURCES =			\
 	boinc_api.C				\

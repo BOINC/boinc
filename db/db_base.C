@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "error_numbers.h"
 #include "db_base.h"
 
 #define MAX_QUERY_LEN 8192
@@ -13,22 +14,23 @@ DB_CONN::DB_CONN() {
 int DB_CONN::open(char* dbname, char* dbpassword) {
     char buf[256],*db_name,*db_host,*p;
     if (dbname) {
-      strncpy(buf,dbname,254);
-      buf[255]=0;
-      db_name=buf;
+        strncpy(buf,dbname,254);
+        buf[255]=0;
+        db_name=buf;
     } else {
-      db_name=0;
+        db_name=0;
     }
     if ((p=strchr(buf,'@'))) {
-      db_host=p+1;
+        db_host=p+1;
       *p=0;
     } else {
-      db_host=0;
+        db_host=0;
     }
     mysql = mysql_init(0);
     if (!mysql) return 0;
     mysql = mysql_real_connect(mysql, db_host, 0, dbpassword, db_name, 0, 0, 0);
-    return (mysql == 0);
+    if (mysql == 0) return ERR_DB_CANT_CONNECT;
+    return 0;
 }
 
 void DB_CONN::close() {
@@ -96,7 +98,13 @@ int DB_BASE::lookup(char* clause) {
     row = mysql_fetch_row(rp);
     if (row) db_parse(row);
     mysql_free_result(rp);
-    return (row == 0);
+    if (row == 0) return ERR_DB_NOT_FOUND;
+
+    // make sure there's exactly one row
+    //
+    row = mysql_fetch_row(rp);
+    if (row) return ERR_DB_NOT_UNIQUE;
+    return 0;
 }
 
 int DB_BASE::lookup_id(int id) {
@@ -113,7 +121,10 @@ int DB_BASE::lookup_id(int id) {
     row = mysql_fetch_row(rp);
     if (row) db_parse(row);
     mysql_free_result(rp);
-    return (row == 0);
+    if (row == 0) return ERR_DB_NOT_FOUND;
+
+    // don't bother checking for uniqueness here
+    return 0;
 }
 
 int DB_BASE::enumerate(char* clause) {
@@ -148,10 +159,10 @@ int DB_BASE::get_integer(char* query, int& n) {
     retval = mysql_query(db->mysql, query);
     if (retval) return retval;
     resp = mysql_store_result(db->mysql);
-    if (!resp) return -1;
+    if (!resp) return ERR_DB_NOT_FOUND;
     row = mysql_fetch_row(resp);
-    if (!row) return -1;
-    if (!row[0]) return -1;
+    if (!row) return ERR_DB_NOT_FOUND;
+    if (!row[0]) return ERR_DB_NOT_FOUND;
     n = atoi(row[0]);
     mysql_free_result(resp);
     return 0;
@@ -165,10 +176,10 @@ int DB_BASE::get_double(char* query, double& x) {
     retval = mysql_query(db->mysql, query);
     if (retval) return retval;
     resp = mysql_store_result(db->mysql);
-    if (!resp) return -1;
+    if (!resp) return ERR_DB_NOT_FOUND;
     row = mysql_fetch_row(resp);
-    if (!row) return -1;
-    if (!row[0]) return -1;
+    if (!row) return ERR_DB_NOT_FOUND;
+    if (!row[0]) return ERR_DB_NOT_FOUND;
     x = atof(row[0]);
     mysql_free_result(resp);
     return 0;

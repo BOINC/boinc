@@ -6872,3 +6872,15 @@ Karl 2003-10-16
         setup_project.py
     test/
         testbase.py
+
+David  17 Oct 2003
+    - db_base::lookup() returns an error if >1 rows satisfy the query
+    - return #defined error numbers in db_base.C
+    - add more info to CGI log entries
+
+    db/
+        db_base.C
+    lib/
+        error_numbers.h
+    sched/
+        handle_request.C

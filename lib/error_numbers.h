@@ -72,3 +72,8 @@
     // hex-format key data is bad
 #define ERR_USER_REJECTED   -135
     // user rejected executable file
+#define ERR_DB_NOT_FOUND    -136
+    // no rows found in lookup()
+#define ERR_DB_NOT_UNIQUE   -137
+    // not unique in lookup()
+#define ERR_DB_CANT_CONNECT -138
