@@ -73,11 +73,13 @@ void whetstone(double& flops) {
 	long n1,n2,n3,n4,n5,n6,n7,n8,i,ix,n1mult;
 	SPDP x,y,z;              
 	long j,k,l;
-	SPDP e1[4],timea,timeb, dtime();
+	SPDP e1[4];
 	double startsec, finisec, ws;
 	double KIPS;
     int xtra, ii;
-    int x100 = 100;
+    int x100 = 10000;   // chosen to make each pass take about 1 sec
+            // on my current computer (2.2 GHz celeron)
+            // Non-critical.
 
     benchmark_wait_to_start(BM_TYPE_FP);
 
