@@ -856,15 +856,13 @@ void STARFIELD::build_stars(int sz, float sp) {
 // move stars
 //
 void STARFIELD::update_stars(float dt) {
-	glMatrixMode(GL_MODELVIEW);
     int i;
 	
-	GLfloat mat_emission[] = {1, 1, 1, 1};
-	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emission );
-	glColor3f(1.0, 1.0, 1.0);	
-
+    mode_ortho();
+    mode_lines();
+	glColor4f(1.0, 1.0, 1.0, 1.0);	
 	for (i=0; i<nstars; i++) {
-		stars[i].z -= speed*dt;
+		stars[i].z -= speed*dt/50;
         if (stars[i].z < 0) stars[i].z += zmax;
         if (stars[i].z > zmax) stars[i].z -= zmax;
 
@@ -879,9 +877,7 @@ void STARFIELD::update_stars(float dt) {
 		glVertex2f(x, y);
 		glEnd();
 	}
-
-	GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };	
-	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION, no_mat );
+    ortho_done();
 }
 
 void STARFIELD::replace_star(int i) {
