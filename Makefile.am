@@ -13,7 +13,9 @@ EXTRA_DIST =								\
 	stripchart							\
         INSTALL LICENSE
 
+# the perl line below gets rid of '\r' characters because MSVC barfs at them.
+
 dist-hook:
 	rm -rf `find $(distdir) -name CVS -prune`
 	rm -rf `find $(distdir) -name .backup -prune -o -name *~`
-	cd $(distdir)/win_build && perl -pi.bak -e 'tr /\r//d' boinc.dsw */*.dsp
+	cd $(distdir)/win_build && perl -pi.bak -e 'tr /\r//d' boinc.dsw *.dsp
