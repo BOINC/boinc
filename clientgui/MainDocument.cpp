@@ -211,6 +211,8 @@ wxInt32 CMainDocument::Disconnect()
         m_dtCachedStateLockTimestamp = wxDateTime::Now();
         m_dtCachedStateTimestamp = wxDateTime( (time_t)0 );
 
+        m_iMessageSequenceNumber = 0;
+
         m_bIsConnected = false;
     }
 

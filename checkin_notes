@@ -23857,3 +23857,12 @@ Rom    2 Feb 2005
 
     client/win/
         win_screensaver.cpp, .h
+
+Rom    2 Feb 2005
+    - Bug Fix: Ops, when deleting a bunch of code, make sure all of it really
+        isn't needed.  When the manager looses the core client reset the message
+        sequence back to zero so when we detect the core client again we can
+        get all the messages.
+
+    clientgui/
+        MainDocument.cpp
