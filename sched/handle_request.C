@@ -194,7 +194,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
-            sprintf(buf, "Bad authenticator: %s\n", sreq.authenticator);
+            sprintf(buf, "Bad authenticator [%s]\n", sreq.authenticator);
             write_log(buf);
             return -1;
         }
@@ -221,7 +221,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
-            sprintf(buf, "Bad authenticator: %s\n", sreq.authenticator);
+            sprintf(buf, "Bad authenticator [%s]\n", sreq.authenticator);
             write_log(buf);
             return -1;
         }
@@ -625,7 +625,7 @@ void process_request(
     //
     platform = ss.lookup_platform(sreq.platform_name);
     if (!platform) {
-        sprintf(buf, "platform %s not found", sreq.platform_name);
+        sprintf(buf, "platform [%s] not found\n", sreq.platform_name);
         strcpy(reply.message, buf);
         strcpy(reply.message_priority, "low");
         write_log(buf);
