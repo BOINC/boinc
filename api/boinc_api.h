@@ -22,7 +22,7 @@
 
 // API_STANDALONE will allow the app to function without the core client.
 // this is useful for debugging just the application
-//#define API_STANDALONE
+#define API_STANDALONE
 
 #include <stdio.h>
 #ifdef HAVE_SYS_TIME_H

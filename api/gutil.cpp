@@ -407,7 +407,7 @@ int read_ppm_file(char* name, int& w, int& h, unsigned char** arrayp) {
     sscanf(buf, "%d %d", &w, &h);
     do {fgets(buf, 256, f);} while (buf[0] == '#');
     array = (unsigned char*)malloc(w*h*3);
-    switch(img_type) {
+    switch(img_type) {  // TODO: pad image dimension to power of 2
     case '3':
         for (i=0; i<w*h*3; i++) {
             fscanf(f, "%d", array+i);
@@ -425,12 +425,21 @@ unsigned int texture_id;
 int init_texture(char* filename) {
     unsigned char* pixels;
     int width, height, retVal;
+    int err;
     retVal = read_ppm_file(filename, width, height, &pixels);
     if (retVal) return retVal;
     glGenTextures(1, &texture_id);
+    err = glGetError();
+    if (err) return err;
     glBindTexture(GL_TEXTURE_2D, texture_id);
+    err = glGetError();
+    if (err) return err;
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    err = glGetError();
+    if (err) return err;
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    err = glGetError();
+    if (err) return err;
     glTexImage2D(
         GL_TEXTURE_2D,
         0,
@@ -442,8 +451,10 @@ int init_texture(char* filename) {
         0,
         GL_RGB,
         GL_UNSIGNED_BYTE,
-        pixels
+        pixels    // dimension of PPM file MUST be power of 2
     );
+    err = glGetError();
+    if (err) return err;
     return 0;
 }
 struct Vertex
