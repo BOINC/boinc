@@ -36,7 +36,6 @@ BOOL CLoginDialog::OnInitDialog() {
 }
 
 void CLoginDialog::OnOK() {
-    CString url, auth;
     GetDlgItemText(IDC_LOGIN_URL, url);
     GetDlgItemText(IDC_LOGIN_AUTH, auth);
     CDialog::OnOK();
@@ -158,7 +157,6 @@ void CALLBACK CMainWindow::TimerProc(HWND h, UINT x, UINT id, DWORD time) {
     n++;
     sprintf(buf, "%d", n);
     results.set_field(0, 0, buf);
-
     while (gstate.do_something()) {
     }
 }
@@ -197,7 +195,6 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
     read_log_flags();
     int retval = gstate.init();
     if (retval) exit(retval);
-
     SetTimer(ID_TIMER, 1000, TimerProc);
 
     return 0;
@@ -210,6 +207,8 @@ void show_message(char* p, char* prior) {
 int initialize_prefs() {
     CLoginDialog dlg(IDD_LOGIN);
     int retval = dlg.DoModal();
+	if (retval != IDOK) return -1;
+    write_initial_prefs((char*)(LPCTSTR) dlg.url, (char*)(LPCTSTR) dlg.auth);
     return 0;
 }
 

@@ -68,12 +68,10 @@
 //
 int get_local_domain_name(char* p) {
     char buf[256];
-    if(p==NULL) {
-        fprintf(stderr, "error: get_local_domain_name: unexpected NULL pointer p\n");
-        return ERR_NULL;
-    }
+
     gethostname(buf, 256);
     struct hostent* he = gethostbyname(buf);
+	if (!he) return -1;
     strcpy(p, he->h_name);
     return 0;
 }
@@ -81,12 +79,11 @@ int get_local_domain_name(char* p) {
 // Gets the ip address of the local host
 //
 int get_local_ip_addr(int& p) {
-    char buf[256];
-    struct in_addr addr;
-
     p = 0;
 
 #if HAVE_NETDB_H
+    char buf[256];
+    struct in_addr addr;
     gethostname(buf, 256);
     struct hostent* he = gethostbyname(buf);
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
@@ -99,16 +96,9 @@ int get_local_ip_addr(int& p) {
 // TODO: Should the 256 be MAXHOSTNAMELEN instead?
 //
 int get_local_ip_addr_str(char* p) {
-    char buf[256];
-
-    if(p==NULL) {
-        fprintf(stderr, "error: get_local_ip_addr_str: unexpected NULL pointer p\n");
-        return ERR_NULL;
-    }
-
     strcpy( p,"" );
-
 #if HAVE_NETDB_H
+    char buf[256];
     struct in_addr addr;
     gethostname(buf, 256);
     struct hostent* he = gethostbyname(buf);

@@ -29,6 +29,7 @@ class CLoginDialog: public CDialog {
 public:
 	OnInitDialog();
 	CLoginDialog(UINT);
+	CString url, auth;
 protected:
 	virtual void OnOK();
 	DECLARE_MESSAGE_MAP()

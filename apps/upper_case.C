@@ -24,7 +24,12 @@
 #include <stdlib.h>
 #include "boinc_api.h"
 
+#ifdef _WIN32
+#include <windows.h>
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
+#else
 int main() {
+#endif
     int c, n=0;
 
     boinc_init();

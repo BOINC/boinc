@@ -59,8 +59,6 @@ public:
     vector<WORKUNIT*> workunits;
     vector<RESULT*> results;
 
-    int version;
-    char* platform_name;
     NET_XFER_SET* net_xfers;
     PERS_FILE_XFER_SET* pers_xfers;
     HTTP_OP_SET* http_ops;
@@ -71,6 +69,8 @@ public:
 private:
     TIME_STATS time_stats;
     NET_STATS net_stats;
+    int version;
+    char* platform_name;
     unsigned int nslots;
     bool client_state_dirty;
     bool exit_when_idle;

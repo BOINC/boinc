@@ -17,8 +17,6 @@
 // Contributor(s):
 //
 
-#ifdef _WIN32
-
 #include <windows.h>
 #include "client_types.h"
 
@@ -37,8 +35,9 @@ int get_host_info2(HOST_INFO& host) {
         strcpy( host.os_name, "Windows 3.1/Win32s" ); // does ANYBODY use this anymore?
         break;
     case VER_PLATFORM_WIN32_WINDOWS:
-        if ( OSVersionInfo.dwMajorVersion > 4 || ( OSVersionInfo.dwMajorVersion == 4
-			&& OSVersionInfo.dwMinorVersion > 10 ) )
+        if ( OSVersionInfo.dwMajorVersion > 4
+	    || ( OSVersionInfo.dwMajorVersion == 4
+	    && OSVersionInfo.dwMinorVersion > 10 ) )
         {
             strcpy( host.os_name, "Windows 98" );
         } else {
@@ -57,8 +56,10 @@ int get_host_info2(HOST_INFO& host) {
 
     char Version[ 25 ];
     Version[ 0 ] = NULL;
-    sprintf( Version, ": %lu.%lu", OSVersionInfo.dwMajorVersion,
-        OSVersionInfo.dwMinorVersion );
+    sprintf(
+	Version, ": %lu.%lu", OSVersionInfo.dwMajorVersion,
+        OSVersionInfo.dwMinorVersion
+    );
     strcat( host.os_name, Version );
 
     SYSTEM_INFO SystemInfo;
@@ -107,5 +108,3 @@ int get_host_info2(HOST_INFO& host) {
 
     return 0;
 }
-
-#endif
