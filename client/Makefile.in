@@ -21,7 +21,7 @@ CC = @CC@ $(CFLAGS)
 CLIBS = @LIBS@
 
 CLIENT_PROG = boinc_$(BOINC_MAJOR_VERSION).$(BOINC_MINOR_VERSION)_@host@
-PROGS = $(CLIENT_PROG) test_net_xfer test_http test_file_xfer
+PROGS = $(CLIENT_PROG)
 
 all: $(PROGS)
 
@@ -102,15 +102,6 @@ speed_stats.o:
 $(CLIENT_PROG): main.o $(OBJS)
 	$(CC) main.o $(OBJS) $(CLIBS) -o $(CLIENT_PROG)
 
-test_net_xfer: test_net_xfer.o $(TEST_NET_XFER_OBJS)
-	$(CC) test_net_xfer.o $(TEST_NET_XFER_OBJS) $(CLIBS) -o test_net_xfer
-
-test_http: test_http.o $(TEST_HTTP_OBJS)
-	$(CC) test_http.o $(TEST_HTTP_OBJS) $(CLIBS) -o test_http
-
-test_file_xfer: test_file_xfer.o $(TEST_FX_OBJS)
-	$(CC) test_file_xfer.o $(TEST_FX_OBJS) $(CLIBS) -o test_file_xfer
-
 tar:
 	cd $(topsrcdir)/..; \
 	tar cf boinc_client_$(BOINC_MAJOR_VERSION).$(BOINC_MINOR_VERSION).tar $(ARCHIVE_TARGETS); \
@@ -127,9 +118,6 @@ clean:
 
 install: all
 	-mkdir -p $(INSTALL_DIR)/client
-	cp test_net_xfer $(INSTALL_DIR)/client/test_net_xfer
-	cp test_http $(INSTALL_DIR)/client/test_http
-	cp test_file_xfer $(INSTALL_DIR)/client/test_file_xfer
 	cp $(CLIENT_PROG) $(INSTALL_DIR)/client/$(CLIENT_PROG)
 
 uninstall:

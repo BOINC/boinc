@@ -170,7 +170,9 @@ int ACTIVE_TASK::start(bool first_time) {
         return ERR_FOPEN;
     }
 #ifdef HAVE_SYS_IPC_H
-    aid.shm_key = ftok( init_data_path, slot );
+    aid.shm_key = ftok(init_data_path, slot);
+#else
+#error
 #endif
     retval = write_init_data_file(f, aid);
     if (retval) return retval;
