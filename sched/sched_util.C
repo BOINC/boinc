@@ -53,6 +53,38 @@ void write_log(int msg_level, const char* p, ...) {
     va_end(ap);
 }
 
+void write_log_line(int msg_level, const char* p, ...) {
+    if (debug_level < msg_level) return;
+    if (p == NULL) return;
+
+    va_list     ap;
+    va_start(ap, p);
+    fprintf(stderr, "%s [%s]: ", timestamp(), msg_level_dscription(msg_level));
+    vfprintf(stderr, p, ap);
+    fprintf(stderr, "\n");
+    va_end(ap);
+}
+
+// break a multi-line string into lines (so that we show prefix on each line)
+void write_log_multiline(int msg_level, const char* p) {
+    if (debug_level < msg_level) return;
+    if (p == NULL) return;
+
+    string line;
+    while (*p) {
+        if (*p == '\n') {
+            write_log(msg_level, "   %s\n", line.c_str());
+            line.erase();
+        } else {
+            line += *p;
+        }
+        ++p;
+    }
+    if (!line.empty()) {
+        write_log(msg_level, "  %s\n", line.c_str());
+    }
+}
+
 void write_pid_file(const char* filename)
 {
     FILE* fpid = fopen(filename, "w");

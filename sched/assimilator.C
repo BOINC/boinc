@@ -148,10 +148,12 @@ int main(int argc, char** argv) {
 
     // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
-        write_log(MSG_NORMAL, "Another copy of assimilator is already running\n");
+        write_log(MSG_NORMAL, "Not starting; another copy of assimilator is already running\n");
         exit(1);
     }
     write_pid_file(PIDFILE);
+
+    write_log(MSG_NORMAL, "Starting\n");
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {

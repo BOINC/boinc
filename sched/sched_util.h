@@ -44,6 +44,7 @@
 #define MSG_DEBUG    2
 
 void write_log(int, char const*, ...);
+void write_log_multiline(int msg_level, const char* p);
 extern void write_pid_file(const char* filename);
 extern void set_debug_level(int);
 extern void check_stop_trigger();

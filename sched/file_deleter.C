@@ -154,6 +154,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
     write_pid_file(PIDFILE);
+    write_log(MSG_NORMAL, "Starting\n");
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {

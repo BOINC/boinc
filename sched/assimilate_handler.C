@@ -10,7 +10,8 @@ void assimilate_handler(
 {
     write_log(MSG_NORMAL, "assimilating WU %s\n", wu.name);
     if (wu.canonical_resultid) {
-        write_log(MSG_NORMAL, "canonical result:\n%s", canonical_result.xml_doc_out);
+        write_log(MSG_NORMAL, "canonical result:\n");
+        write_log_multiline(MSG_NORMAL, canonical_result.xml_doc_out);
     } else {
         write_log(MSG_NORMAL, "no canonical result\n");
     }

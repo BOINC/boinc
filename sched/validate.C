@@ -290,8 +290,6 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    write_log(MSG_NORMAL, "starting validator; min_quorum %d\n", min_quorum);
-
     retval = config.parse_file();
     if (retval) {
         write_log(MSG_CRITICAL, "Can't parse config file\n");
@@ -310,6 +308,8 @@ int main(int argc, char** argv) {
         exit(1);
     }
     write_pid_file(PIDFILE);
+    write_log(MSG_NORMAL, "Starting validator; min_quorum %d\n", min_quorum);
+
     install_sigint_handler();
 
     main_loop(one_pass);

@@ -576,6 +576,7 @@ int main(int argc, char** argv) {
         write_log(MSG_NORMAL, "Another copy of db_dump is already running\n");
         exit(1);
     }
+    write_log(MSG_NORMAL, "Starting\n");
 
     retval = config.parse_file();
     if (retval) {

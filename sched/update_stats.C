@@ -143,6 +143,8 @@ int main(int argc, char** argv) {
         exit(1);
     }
     write_pid_file(PIDFILE);
+    write_log(MSG_NORMAL, "Starting\n");
+
 
     retval = config.parse_file();
     if (retval) {
