@@ -10547,3 +10547,17 @@ Rom    Mar 16 2004
         hostinfo_unix.c
     client/win/
         wingui_mainwindow.cpp
+
+David  Mar 18 2004
+    - Remove "confirm executables" preference.
+        This is replaced by the anonymous platform mechanism.
+
+    client/
+        client_state.h
+        client_types.C,h
+        cs_apps.C
+        cs_files.C
+        main.C
+        prefs.C,h
+    html/inc/
+        prefs.inc

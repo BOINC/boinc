@@ -145,8 +145,6 @@ public:
         // sleeps until either dt seconds have elapsed,
         // or until there's network activity.
     bool time_to_exit();
-    void approve_executables();
-        // get user approval of any executables for which approval is pending
     PROJECT* lookup_project(const char*);
     APP* lookup_app(PROJECT*, const char*);
     FILE_INFO* lookup_file_info(PROJECT*, const char* name);

@@ -61,10 +61,6 @@ define("HANGUP_IF_DIALED_DESC",
     "Disconnect when done?
     <br><font size=-2>(matters only if you use a modem)</font>"
 );
-define("CONFIRM_EXECUTABLE_DESC",
-    "Confirm before accepting executable file?
-    <br><font size=-2>(currently implemented only on Unix/Linux)</font>"
-);
 define("WORK_BUF_DESC", "Keep enough work on disk to last between");
 define("MAX_CPUS_DESC", "On multiprocessors, use at most");
 define("MAX_CPUS_DESC2", "processors");
@@ -215,9 +211,6 @@ function element_end_global($parser, $name) {
     case "hangup_if_dialed":
         $parse_result->hangup_if_dialed = true;
         break;
-    case "confirm_executable":
-        $parse_result->confirm_executable = true;
-        break;
     case "work_buf_min_days":
         $parse_result->work_buf_min_days = $text;
         break;
@@ -271,7 +264,6 @@ function default_prefs_global() {
     $p->end_hour = 0;
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = true;
-    $p->confirm_executable = false;
     $p->work_buf_min_days = .1;
     $p->work_buf_max_days = 1;
     $p->max_cpus = 2;
@@ -299,7 +291,6 @@ function initialize_prefs_before_parsing_global() {
     $p->run_if_user_active = false;
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = false;
-    $p->confirm_executable = false;
     return $p;
 }
 
@@ -368,7 +359,6 @@ function prefs_show_global($prefs) {
     row2(START_END_DESC, $x);
     row2(CONFIRM_BEFORE_CONNECTING_DESC, $prefs->confirm_before_connecting?"yes":"no");
     row2(HANGUP_IF_DIALED_DESC, $prefs->hangup_if_dialed?"yes":"no");
-    row2(CONFIRM_EXECUTABLE_DESC, $prefs->confirm_executable?"yes":"no");
     row2(WORK_BUF_DESC, "$prefs->work_buf_min_days and $prefs->work_buf_max_days days");
     row2(MAX_CPUS_DESC, "$prefs->max_cpus ".MAX_CPUS_DESC2);
     row2(DISK_INTERVAL_DESC, "$prefs->disk_interval seconds");
@@ -511,15 +501,6 @@ function prefs_form_global($user, $prefs) {
     ";
     row2($x, $y);
 
-    $x = CONFIRM_EXECUTABLE_DESC;
-    $y = "yes <input type=radio name=confirm_executable value=yes "
-        .($prefs->confirm_executable?"checked":"")
-        ."> no <input type=radio name=confirm_executable value=no "
-        .($prefs->confirm_executable?"":"checked")
-        .">
-    ";
-    row2($x, $y);
-
     $x = WORK_BUF_DESC;
     $y = "<input size=5 name=work_buf_min_days value='$prefs->work_buf_min_days'>
         and
@@ -635,7 +616,6 @@ function prefs_global_parse_form(&$prefs) {
     $idle_time_to_run = $_GET["idle_time_to_run"];
     $confirm_before_connecting = $_GET["confirm_before_connecting"];
     $hangup_if_dialed = $_GET["hangup_if_dialed"];
-    $confirm_executable = $_GET["confirm_executable"];
     $work_buf_min_days = $_GET["work_buf_min_days"];
     $work_buf_max_days = $_GET["work_buf_max_days"];
     $max_cpus = $_GET["max_cpus"];
@@ -718,9 +698,6 @@ function global_prefs_make_xml($prefs, $primary=true) {
     }
     if ($prefs->hangup_if_dialed) {
         $xml = $xml."<hangup_if_dialed/>\n";
-    }
-    if ($prefs->confirm_executable) {
-        $xml = $xml."<confirm_executable/>\n";
     }
     $xml = $xml
         ."<work_buf_min_days>$prefs->work_buf_min_days</work_buf_min_days>\n"

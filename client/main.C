@@ -52,34 +52,6 @@ void delete_curtain(){}
 void guiOnBenchmarksBegin(){}
 void guiOnBenchmarksEnd(){}
 
-void CLIENT_STATE::approve_executables() {
-    unsigned int i;
-    char buf[256];
-
-    for (i=0; i<file_infos.size(); i++) {
-        FILE_INFO* fip = file_infos[i];
-        if (fip->approval_pending) {
-            printf(
-                "BOINC has received the executable file %s\n"
-                "from project %s.\n"
-                "Its MD5 checksum is %s\n"
-                "Should BOINC accept this file (y/n)? ",
-                fip->name,
-                fip->project->project_name,
-                fip->md5_cksum
-            );
-            scanf("%s", buf);
-            if (buf[0]=='y' || buf[0]=='Y') {
-                fip->approval_pending = false;
-                set_client_state_dirty("approve_executables");
-            } else {
-                msg_printf(fip->project, MSG_INFO, "User rejected executable: %s", fip->name);
-                fip->status = ERR_USER_REJECTED;
-            }
-        }
-    }
-}
-
 // This gets called when the client fails to add a project
 //
 void project_add_failed(PROJECT* project) {
@@ -269,11 +241,6 @@ int boinc_execution_engine(int argc, char** argv) {
             fflush(stdout);
         }
 
-        // check for executables files that need approval;
-        // in the GUI version this is done in event loop
-        //
-        gstate.approve_executables();
-
         if (gstate.time_to_exit()) {
             msg_printf(NULL, MSG_INFO, "Time to exit");
             break;
@@ -296,45 +263,33 @@ int boinc_execution_engine(int argc, char** argv) {
 //     a different startup method
 //
 int main(int argc, char** argv) {
+	int retval = 0;
 
-	int iRetVal = 0;
-
-	SERVICE_TABLE_ENTRY dispatchTable[] =
-    {
+	SERVICE_TABLE_ENTRY dispatchTable[] = {
 		{ TEXT(SZSERVICENAME), (LPSERVICE_MAIN_FUNCTION)service_main },
 		{ NULL, NULL }
 	};
 
-    if ( (argc > 1) &&
-         ((*argv[1] == '-') || (*argv[1] == '/')) )
-    {
-        if ( _stricmp( "install", argv[1]+1 ) == 0 )
-        {
+    if ( (argc > 1) && ((*argv[1] == '-') || (*argv[1] == '/')) ) {
+        if ( _stricmp( "install", argv[1]+1 ) == 0 ) {
             CmdInstallService();
-        }
-        else if ( _stricmp( "uninstall", argv[1]+1 ) == 0 )
-        {
+        } else if ( _stricmp( "uninstall", argv[1]+1 ) == 0 ) {
             CmdUninstallService();
-        }
- 		else if ( _stricmp( "win_service", argv[1]+1 ) == 0 )
-        {
+        } else if ( _stricmp( "win_service", argv[1]+1 ) == 0 ) {
 			printf( "\nStartServiceCtrlDispatcher being called.\n" );
 			printf( "This may take several seconds.  Please wait.\n" );
 
-			if (!StartServiceCtrlDispatcher(dispatchTable))
+			if (!StartServiceCtrlDispatcher(dispatchTable)) {
 				LogEventErrorMessage(TEXT("StartServiceCtrlDispatcher failed."));
-        }
-		else
-		{
-			iRetVal = boinc_execution_engine(argc, argv);
+            }
+        } else {
+			retval = boinc_execution_engine(argc, argv);
 		}
-    }
-	else
-	{
-		iRetVal = boinc_execution_engine(argc, argv);
+    } else {
+		retval = boinc_execution_engine(argc, argv);
 	}
 
-    return iRetVal;
+    return retval;
 }
 
 #else

@@ -217,11 +217,6 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
                     // it's an executable or normal file
                     //
                     retval = fip->set_permissions();
-                    if (fip->executable && gstate.global_prefs.confirm_executable) {
-#ifndef _WIN32
-                        fip->approval_pending = true;
-#endif
-                    }
                     fip->status = FILE_PRESENT;
                 }
 
