@@ -24052,3 +24052,10 @@ Rom    5 Feb 2005
         BOINC.ism
     win_build/installerv2/redist/windows
         BOINC.vbs
+
+Rom    6 Feb 2005
+    - Bug Fix: Reduce the flicker of the error box by only painting on
+        every third WM_PAINT message.
+
+    client/win/
+        win_screensaver.cpp, .h

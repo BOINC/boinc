@@ -127,9 +127,10 @@ CScreensaver::CScreensaver()
     LoadString( NULL, IDS_DESCRIPTION, m_strWindowTitle, 200 );
 
 	m_bPaintingInitialized = FALSE;
-	m_bBOINCCoreNotified = FALSE;
-    m_dwBOINCTimerCounter = 0;
+	m_bCoreNotified = FALSE;
     m_bResetCoreState = TRUE;
+    m_dwTimerCounter = 0;
+    m_dwPaintCounter = 0;
     m_iStatus = 0;
     m_dwBlankTime = 0;
 
@@ -280,7 +281,7 @@ VOID CScreensaver::StartupBOINC()
 
 	if( m_SaverMode != sm_preview )
 	{
-        if( (NULL != m_Monitors[0].hWnd) && (m_bBOINCCoreNotified == FALSE) )
+        if( (NULL != m_Monitors[0].hWnd) && (m_bCoreNotified == FALSE) )
 		{
             TCHAR szCurrentWindowStation[MAX_PATH];
             TCHAR szCurrentDesktop[MAX_PATH];
@@ -328,7 +329,7 @@ VOID CScreensaver::StartupBOINC()
 
 			// We have now notified the boinc client
 			if ( 0 == iReturnValue )
-                m_bBOINCCoreNotified = TRUE;
+                m_bCoreNotified = TRUE;
             else
             {
        			m_bErrorMode = TRUE;
@@ -347,13 +348,13 @@ VOID CScreensaver::StartupBOINC()
 //-----------------------------------------------------------------------------
 VOID CScreensaver::ShutdownBOINC()
 {
-	if( m_bBOINCCoreNotified )
+	if( m_bCoreNotified )
 	{
 		// Tell the boinc client to stop the screen saver
         rpc.set_screensaver_mode(false, NULL, NULL, 0.0);
 
         // We have now notified the boinc client
-		m_bBOINCCoreNotified = FALSE;
+		m_bCoreNotified = FALSE;
 	}
 }
 
@@ -738,16 +739,16 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                     // four times before setting up the update timer lets the request
                     // the initial display, then gives the core client enough time to
                     // choose an application or report an error.
-                    if ( 3 >= m_dwBOINCTimerCounter ) m_dwBOINCTimerCounter++;
-					if ( 4 == m_dwBOINCTimerCounter )
+                    if ( 3 >= m_dwTimerCounter ) m_dwTimerCounter++;
+					if ( 4 == m_dwTimerCounter )
                     {
                         BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Starting Update Timer\n"));
     					SetTimer(hWnd, 3, 30000, NULL);
-                        m_dwBOINCTimerCounter++;
+                        m_dwTimerCounter++;
                     }
                     else
                     {
-					    if ( 5 == m_dwBOINCTimerCounter )
+					    if ( 5 == m_dwTimerCounter )
                         {
                             if( m_bErrorMode )
 					        {
@@ -772,7 +773,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 			        // Create a screen saver window on the primary display if the boinc client crashes
 			        CreateSaverWindow();
 
-                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Start Status = '%d', BOINCCoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bBOINCCoreNotified, m_bErrorMode, m_hrError);
+                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Start Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
 
                     iReturnValue = rpc.get_screensaver_mode( m_iStatus );
                     BOINCTRACE(_T("CScreensaver::PrimarySaverProc - get_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
@@ -800,7 +801,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 				            m_hrError = SCRAPPERR_BOINCNOTDETECTEDSTARTUP;
 			            }
 
-			            m_bBOINCCoreNotified = FALSE;
+			            m_bCoreNotified = FALSE;
                     }
                     else
                     {
@@ -808,7 +809,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                    	    m_bErrorMode = FALSE;
     				    m_hrError = 0;
 
-                        if (m_bBOINCCoreNotified)
+                        if (m_bCoreNotified)
                         {
                             switch (m_iStatus)
                             {
@@ -846,7 +847,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                                     m_hrError = FALSE;
                                     break;
                                 case SS_STATUS_RESTARTREQUEST:
-                                    m_bBOINCCoreNotified = FALSE;
+                                    m_bCoreNotified = FALSE;
                                     m_bErrorMode = FALSE;
                                     m_hrError = FALSE;
                                     break;
@@ -867,11 +868,11 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                         }
                     }
 
-                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Checkpoint Status = '%d', BOINCCoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bBOINCCoreNotified, m_bErrorMode, m_hrError);
+                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Checkpoint Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
 
 
                     // Lets try and get the current state of the CC
-                    if ( m_bResetCoreState && m_bBOINCCoreNotified )
+                    if ( m_bResetCoreState && m_bCoreNotified )
                     {
                         iReturnValue = rpc.get_state( state );
                         if ( 0 == iReturnValue )
@@ -888,7 +889,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					}
                     else
                     {
-                        if ( !m_bBOINCCoreNotified )
+                        if ( !m_bCoreNotified )
                         {
                             BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Startup BOINC Screensaver\n"));
                             StartupBOINC();
@@ -903,7 +904,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                         }
                     }
 
-                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - End Status = '%d', BOINCCoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bBOINCCoreNotified, m_bErrorMode, m_hrError);
+                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - End Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
             }
             break;
 
@@ -939,7 +940,12 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
             }
             else
             {
-                DoPaint( hWnd, ps.hdc );
+                m_dwPaintCounter++;
+                if ( 3 >= m_dwPaintCounter )
+                {
+                    DoPaint( hWnd, ps.hdc );
+                    m_dwPaintCounter = 0;
+                }
             }
 
             EndPaint( hWnd, &ps );

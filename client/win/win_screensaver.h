@@ -165,9 +165,10 @@ protected:
 	BOOL					m_bPaintingInitialized;
 
     TCHAR					m_strWindowTitle[200]; // Title for the app's window
-	BOOL					m_bBOINCCoreNotified;
-    DWORD                   m_dwBOINCTimerCounter;
+	BOOL					m_bCoreNotified;
     BOOL                    m_bResetCoreState;
+    DWORD                   m_dwTimerCounter;
+    DWORD                   m_dwPaintCounter;
     int                     m_iStatus;
     DWORD                   m_dwBlankTime;
 
