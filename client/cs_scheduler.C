@@ -57,7 +57,7 @@ double CLIENT_STATE::current_water_days() {
         // TODO: subtract time already finished for WUs in progress
         seconds_remaining += rp->wup->seconds_to_complete;
     }
-    return (seconds_remaining * SECONDS_IN_DAY);
+    return (seconds_remaining / SECONDS_IN_DAY);
 }
 
 // seconds of work needed to come up to high-water mark
@@ -65,7 +65,7 @@ double CLIENT_STATE::current_water_days() {
 double CLIENT_STATE::work_needed_secs() {
     double x = current_water_days();
     if (x > global_prefs.high_water_days) return 0;
-    return (global_prefs.high_water_days - x)*86400;
+    return (global_prefs.high_water_days - x)*SECONDS_IN_DAY;
 }
 
 // update exponentially-averaged CPU times of all projects
