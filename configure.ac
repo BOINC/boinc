@@ -383,7 +383,14 @@ if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" = yes 
 
    ## now we walk through the blacklist and turn all matching libs found in 
    ## into a static link-command
-   CLIENTLIBS="-nodefaultlibs $LDSTATIC -lstdc++ -lgcc $GCC_EH_LIB $LDDYNAMIC -lpthread -lm  -lc -lsocket -lnsl"	
+   case $target in 
+      *sun*)
+         CLIENTLIBS="-nodefaultlibs $LDSTATIC -lstdc++ -lgcc $GCC_EH_LIB $LDDYNAMIC -lpthread -lm  -lc -lsocket -lnsl"	
+         ;;
+      *)
+         CLIENTLIBS="-nodefaultlibs $LDSTATIC -lstdc++ -lgcc $GCC_EH_LIB $LDDYNAMIC -lpthread -lm  -lc"	
+         ;;
+   esac
    echo "DEBUG: before mangling CLIENTLIBS='$CLIENTLIBS'" 
    for somelib in ${blacklist}; do
        CLIENTLIBS=`echo $CLIENTLIBS | sed -e"s/ -l${somelib} / $LDSTATIC -l${somelib} $LDDYNAMIC /g"`
