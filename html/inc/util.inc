@@ -27,13 +27,16 @@ function db_init() {
 function send_auth_email($email_addr, $auth) {
     $user = get_user_from_auth($auth);
     $subject = PROJECT." new account confirmation for $user->name";
-    $headers = "From: ". EMAIL_FROM;
-    $body = "Welcome to ".PROJECT."
+    if (defined('EMAIL_FROM')) {
+        $headers = "From: ". EMAIL_FROM;
+    } else {
+        $headers ="";
+    }
+    $body = "Welcome to ".PROJECT.".
         
 This email confirms your account with ".PROJECT.":
 
     Project URL:         ".MASTER_URL."
-
     Account ID:          $auth
 
     User name:           $user->name
