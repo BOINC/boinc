@@ -20622,3 +20622,11 @@ Bruce   3 Dec 2004
     -   Enabled automatic emailing of CVS diffs to the boinc_cvs email
         list.  This is done by adding a 'syncmail' script in the CVSROOT/
         directory and adding an extra line at the end of CVSROOT/loginfo.
+
+Rom    3 Dec 2004
+    - Change which wxLogTrace prototype we are using in MainFrame.cpp and
+        enable that trace mask in BOINCGUIApp.cpp
+
+    clientgui/
+        BOINCGUIApp.cpp
+        MainFrame.cpp

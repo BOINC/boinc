@@ -38,18 +38,17 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 
 bool CBOINCGUIApp::OnInit()
 {
+    // Setup application and company information
+    SetVendorName(wxT("Space Sciences Laboratory, U.C. Berkeley"));
+    SetAppName(wxT("BOINC Manager"));
+
     // Setup variables with default values
     m_bBOINCStartedByManager = false;
     m_bFrameVisible = true;
     m_lBOINCCoreProccessId = 0;
 
-    // Setup application and company information
-    SetVendorName(wxT("Space Sciences Laboratory, U.C. Berkeley"));
-    SetAppName(wxT("BOINC Manager"));
-
-    // Commandline parsing is done in wxApp::OnInit()
-    if (!wxApp::OnInit())
-        return false;
+    // Enable Trace Masks
+    wxLog::AddTraceMask( wxT("Function Start/End") );
 
     // Enable the in memory virtual file system for
     //   storing images
@@ -57,6 +56,10 @@ bool CBOINCGUIApp::OnInit()
 
     // Enable known image types
     wxImage::AddHandler(new wxXPMHandler);
+
+    // Commandline parsing is done in wxApp::OnInit()
+    if (!wxApp::OnInit())
+        return false;
 
     // Initialize the internationalization module
     m_pLocale = new wxLocale();
