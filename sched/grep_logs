@@ -15,6 +15,13 @@ if ($ARGV[0] eq '-html') {
 
 my $s = shift; die unless defined $s;
 
+# if the string to grep for ends with a digit, add a zero-width negative
+# look-ahead assertion against another digit.  e.g., if we are searching for
+# "wu_12" do not match "wu_125".
+if ($s =~ /\d$/) {
+    $s .= "(?!\\d)";
+}
+
 my $prev_file = '';
 
 if ($html) { print "<pre>"; }
@@ -32,7 +39,7 @@ while (<ARGV>) {
         my $n = sprintf("%05d", $.);
         if ($html) {
             s%.*debug.*%<font color=grey>$&</font>%i;
-            s%.*critical|error.*%<font color=red>$&</font>%i;
+            s%.*(critical|error).*%<font color=red>$&</font>%i;
             s%$s%<b>$&</b>%g if $s;
             print "<font size=-1><a name=$. href=show_log.php?f=$ARGV#$.>$n</a></font>  $_\n";
         } else {

@@ -239,7 +239,7 @@ function show_workunit($wu, $hide_xml_doc) {
     row("File delete state", file_delete_state_str($wu->file_delete_state));
     row("Assimilation state", assimilate_state_str($wu->assimilate_state));
     row("","<a href=db_action.php?table=result&wu_id=$wu->id>Show associated results</a>");
-    row("","<a href=show_log.php?s=$wu->name>Grep logs for</a>");
+    row("","<a href='show_log.php?s=$wu->name'>Grep logs</a>");
     end_table();
     echo "<p>";
 }
@@ -313,7 +313,7 @@ function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times) {
     row("Validate state", validate_state_str($result->validate_state));
     row("claimed credit", $result->claimed_credit);
     row("Granted credit", $result->granted_credit);
-    row("","<a href=show_log.php?s=$result->name>Grep logs</a>");
+    row("","<a href='show_log.php?s=$result->name'>Grep logs</a>");
     end_table();
     echo "<p>";
 }

@@ -22,9 +22,11 @@
     }
 
     echo "<form action=show_log.php>";
-    echo " String: <input name=s value='$s'>";
+    echo " Regexp: <input name=s value='$s'>";
     echo " Files: <input name=f value='$f'>";
     echo " <input type=submit value=Grep></form>";
+
+    echo "Hint: you could grep by WU name, result name, date, keyword<br>";
 
     passthru("cd $log_dir && ./grep_logs -html '$s' $f 2>&1");
 
