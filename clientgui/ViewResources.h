@@ -44,11 +44,6 @@ public:
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
 
-    virtual void            OnTaskRender( wxTimerEvent& event );
-    virtual void            OnListRender( wxTimerEvent& event );
-
-    virtual void            OnListSelected( wxListEvent& event );
-    virtual void            OnListDeselected( wxListEvent& event );
     virtual wxString        OnListGetItemText( long item, long column ) const;
 
     virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );

@@ -55,7 +55,6 @@
 #define PRIORITY_ERROR              2
 
 
-const wxString LINK_DEFAULT             = wxT("default");
 const wxString LINKDESC_DEFAULT         = 
      _("Please click a message to see additional options.");
 
@@ -81,8 +80,6 @@ CViewMessages::CViewMessages()
 CViewMessages::CViewMessages(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook, ID_HTML_MESSAGESVIEW, ID_LIST_MESSAGESVIEW)
 {
-    m_bItemSelected = false;
-
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -145,28 +142,6 @@ char** CViewMessages::GetViewIcon()
 }
 
 
-void CViewMessages::OnTaskRender(wxTimerEvent &event)
-{
-    if (!m_bProcessingTaskRenderEvent)
-    {
-        m_bProcessingTaskRenderEvent = true;
-
-        wxASSERT(NULL != m_pListPane);
-
-        if ( ( 0 == m_pListPane->GetSelectedItemCount() ) && m_bItemSelected )
-        {
-            UpdateSelection();
-        }
-
-        m_bProcessingTaskRenderEvent = false;
-    }
-    else
-    {
-        event.Skip();
-    }
-}
-
-
 void CViewMessages::OnListRender(wxTimerEvent &event)
 {
     if (!m_bProcessingListRenderEvent)
@@ -222,30 +197,6 @@ void CViewMessages::OnListRender(wxTimerEvent &event)
 
     m_pListPane->Refresh();
 
-    event.Skip();
-}
-
-
-void CViewMessages::OnListSelected ( wxListEvent& event )
-{
-    SetCurrentQuickTip(
-        LINK_DEFAULT, 
-        wxT("")
-    );
-
-    UpdateSelection();
-    event.Skip();
-}
-
-
-void CViewMessages::OnListDeselected ( wxListEvent& event )
-{
-    SetCurrentQuickTip(
-        LINK_DEFAULT, 
-        wxT("")
-    );
-
-    UpdateSelection();
     event.Skip();
 }
 

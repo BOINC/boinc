@@ -86,27 +86,11 @@ private:
     bool            DeleteStatusbar();
 
     bool            SaveState();
-    template < class T >
-        bool        FireSaveStateEvent( T pPage, wxConfigBase* pConfig );
-
     bool            RestoreState();
-    template < class T >
-        bool        FireRestoreStateEvent( T pPage, wxConfigBase* pConfig );
-
-    template < class T >
-        void        FireListOnCacheHintEvent( T pView, wxListEvent& event );
-    template < class T >
-        void        FireListOnSelectedEvent( T pView, wxListEvent& event );
-    template < class T >
-        void        FireListOnDeselectedEvent( T pView, wxListEvent& event );
-    template < class T >
-        void        FireListPanelRenderEvent( T pPage, wxTimerEvent& event );
-
-    template < class T >
-        void        FireTaskPanelRenderEvent( T pPage, wxTimerEvent& event );
 
 
     DECLARE_EVENT_TABLE()
+
 };
 
 

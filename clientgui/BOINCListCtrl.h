@@ -51,13 +51,6 @@ private:
     virtual int             OnGetItemImage( long item ) const;
     virtual wxListItemAttr* OnGetItemAttr( long item ) const;
 
-    template < class T >
-        wxString            FireOnGetItemTextEvent( T pView, long item, long column ) const;
-    template < class T >
-        int                 FireOnGetItemImageEvent( T pView, long item ) const;
-    template < class T >
-        wxListItemAttr*     FireOnGetItemAttrEvent( T pView, long item ) const;
-
     CBOINCBaseView*         m_pParentView;
 
 };

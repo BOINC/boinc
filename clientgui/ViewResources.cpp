@@ -51,7 +51,6 @@
 #define COLUMN_DISKSPACE            1
 
 
-const wxString LINK_DEFAULT             = wxT("default");
 const wxString LINKDESC_DEFAULT         = 
      _("No available options currently defined.");
 
@@ -67,8 +66,6 @@ CViewResources::CViewResources()
 CViewResources::CViewResources(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook, ID_HTML_RESOURCEUTILIZATIONVIEW, ID_LIST_RESOURCEUTILIZATIONVIEW)
 {
-    m_bItemSelected = false;
-
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
@@ -113,133 +110,6 @@ wxString CViewResources::GetViewName()
 char** CViewResources::GetViewIcon()
 {
     return usage_xpm;
-}
-
-
-void CViewResources::OnTaskRender(wxTimerEvent &event)
-{
-    if (!m_bProcessingTaskRenderEvent)
-    {
-        m_bProcessingTaskRenderEvent = true;
-
-        wxASSERT(NULL != m_pListPane);
-
-        if ( ( 0 == m_pListPane->GetSelectedItemCount() ) && m_bItemSelected )
-        {
-            UpdateSelection();
-        }
-
-        m_bProcessingTaskRenderEvent = false;
-    }
-    else
-    {
-        event.Skip();
-    }
-}
-
-
-void CViewResources::OnListRender(wxTimerEvent &event)
-{
-    if (!m_bProcessingListRenderEvent)
-    {
-        m_bProcessingListRenderEvent = true;
-
-        CMainDocument*  pDoc = wxGetApp().GetDocument();
-
-        wxASSERT(NULL != pDoc);
-        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-        wxASSERT(NULL != m_pListPane);
-
-        wxInt32 iCount = pDoc->GetResourceCount();
-        if ( iCount != m_iCount )
-        {
-            m_iCount = iCount;
-            if ( 0 >= iCount )
-                m_pListPane->DeleteAllItems();
-            else
-                m_pListPane->SetItemCount(iCount);
-        }
-        else
-        {
-            if ( 1 <= m_iCacheTo )
-            {
-                wxInt32         iRowIndex        = 0;
-                wxInt32         iColumnIndex     = 0;
-                wxInt32         iColumnTotal     = 0;
-                wxString        strDocumentText  = wxEmptyString;
-                wxString        strListPaneText  = wxEmptyString;
-                bool            bNeedRefreshData = false;
-                wxListItem      liItem;
-
-                liItem.SetMask(wxLIST_MASK_TEXT);
-                iColumnTotal = m_pListPane->GetColumnCount();
-
-                for ( iRowIndex = m_iCacheFrom; iRowIndex <= m_iCacheTo; iRowIndex++ )
-                {
-                    bNeedRefreshData = false;
-                    liItem.SetId(iRowIndex);
-
-                    for ( iColumnIndex = 0; iColumnIndex < iColumnTotal; iColumnIndex++ )
-                    {
-                        strDocumentText.Empty();
-                        strListPaneText.Empty();
-
-                        switch(iColumnIndex)
-                        {
-                            case COLUMN_PROJECT:
-                                FormatProjectName( iRowIndex, strDocumentText );
-                                break;
-                            case COLUMN_DISKSPACE:
-                                FormatDiskSpace( iRowIndex, strDocumentText );
-                                break;
-                        }
-
-                        liItem.SetColumn(iColumnIndex);
-                        m_pListPane->GetItem(liItem);
-                        strListPaneText = liItem.GetText();
-
-                        if ( !strDocumentText.IsSameAs(strListPaneText) )
-                            bNeedRefreshData = true;
-                    }
-
-                    if ( bNeedRefreshData )
-                    {
-                        m_pListPane->RefreshItem( iRowIndex );
-                    }
-                }
-            }
-        }
-
-        m_bProcessingListRenderEvent = false;
-    }
-
-    m_pListPane->Refresh();
-
-    event.Skip();
-}
-
-
-void CViewResources::OnListSelected ( wxListEvent& event )
-{
-    SetCurrentQuickTip(
-        LINK_DEFAULT, 
-        wxT("")
-    );
-
-    UpdateSelection();
-    event.Skip();
-}
-
-
-void CViewResources::OnListDeselected ( wxListEvent& event )
-{
-    SetCurrentQuickTip(
-        LINK_DEFAULT, 
-        wxT("")
-    );
-
-    UpdateSelection();
-    event.Skip();
 }
 
 

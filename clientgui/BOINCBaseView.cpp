@@ -26,11 +26,16 @@
 #endif
 
 #include "stdwx.h"
+#include "BOINCGUIApp.h"
+#include "MainDocument.h"
 #include "BOINCBaseView.h"
 #include "BOINCTaskCtrl.h"
 #include "BOINCListCtrl.h"
 
 #include "res/boinc.xpm"
+
+
+const wxString LINK_DEFAULT             = wxT("default");
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
@@ -48,9 +53,13 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iHtmlWindowID, 
 
     m_bProcessingTaskRenderEvent = false;
     m_bProcessingListRenderEvent = false;
+
     m_iCacheFrom = 0;
     m_iCacheTo = 0;
+
     m_iCount = 0;
+
+    m_bItemSelected = false;
 
     m_strQuickTip = wxEmptyString;
     m_strQuickTipText = wxEmptyString;
@@ -102,17 +111,122 @@ char** CBOINCBaseView::GetViewIcon()
 }
 
 
+void CBOINCBaseView::_OnTaskRender (wxTimerEvent& event)
+{
+    OnTaskRender( event );
+}
+
+
+void CBOINCBaseView::_OnListRender (wxTimerEvent& event)
+{
+    OnListRender( event );
+}
+
+
 void CBOINCBaseView::OnTaskRender (wxTimerEvent& event)
 {
-    wxLogTrace("CBOINCBaseView::OnTaskRender - Function Begining");
-    wxLogTrace("CBOINCBaseView::OnTaskRender - Function Ending");
+    if (!m_bProcessingTaskRenderEvent)
+    {
+        m_bProcessingTaskRenderEvent = true;
+
+        wxASSERT(NULL != m_pListPane);
+
+        if ( ( 0 == m_pListPane->GetSelectedItemCount() ) && m_bItemSelected )
+        {
+            UpdateSelection();
+        }
+
+        m_bProcessingTaskRenderEvent = false;
+    }
+    else
+    {
+        event.Skip();
+    }
 }
 
 
 void CBOINCBaseView::OnListRender (wxTimerEvent& event)
 {
-    wxLogTrace("CBOINCBaseView::OnListRender - Function Begining");
-    wxLogTrace("CBOINCBaseView::OnListRender - Function Ending");
+    if (!m_bProcessingListRenderEvent)
+    {
+        m_bProcessingListRenderEvent = true;
+
+        CMainDocument*  pDoc = wxGetApp().GetDocument();
+
+        wxASSERT(NULL != pDoc);
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+        wxASSERT(NULL != m_pListPane);
+
+        wxInt32 iCount = pDoc->GetProjectCount();
+        if ( iCount != m_iCount )
+        {
+            m_iCount = iCount;
+            if ( 0 >= iCount )
+                m_pListPane->DeleteAllItems();
+            else
+                m_pListPane->SetItemCount(iCount);
+        }
+        else
+        {
+            if ( 1 <= m_iCacheTo )
+            {
+                wxInt32         iRowIndex        = 0;
+                wxInt32         iColumnIndex     = 0;
+                wxInt32         iColumnTotal     = 0;
+                wxString        strDocumentText  = wxEmptyString;
+                wxString        strListPaneText  = wxEmptyString;
+                bool            bNeedRefreshData = false;
+                wxListItem      liItem;
+
+                liItem.SetMask(wxLIST_MASK_TEXT);
+                iColumnTotal = m_pListPane->GetColumnCount();
+
+                for ( iRowIndex = m_iCacheFrom; iRowIndex <= m_iCacheTo; iRowIndex++ )
+                {
+                    bNeedRefreshData = false;
+                    liItem.SetId(iRowIndex);
+
+                    for ( iColumnIndex = 0; iColumnIndex < iColumnTotal; iColumnIndex++ )
+                    {
+                        strDocumentText.Empty();
+                        strListPaneText.Empty();
+
+                        strDocumentText = OnListGetItemText( iRowIndex, iColumnIndex );
+
+                        liItem.SetColumn(iColumnIndex);
+                        m_pListPane->GetItem(liItem);
+                        strListPaneText = liItem.GetText();
+
+                        if ( !strDocumentText.IsSameAs(strListPaneText) )
+                            bNeedRefreshData = true;
+                    }
+
+                    if ( bNeedRefreshData )
+                    {
+                        m_pListPane->RefreshItem( iRowIndex );
+                    }
+                }
+            }
+        }
+
+        m_bProcessingListRenderEvent = false;
+    }
+
+    m_pListPane->Refresh();
+
+    event.Skip();
+}
+
+
+bool CBOINCBaseView::_OnSaveState( wxConfigBase* pConfig )
+{
+    return OnSaveState( pConfig );
+}
+
+
+bool CBOINCBaseView::_OnRestoreState( wxConfigBase* pConfig )
+{
+    return OnRestoreState( pConfig );
 }
 
 
@@ -152,24 +266,68 @@ bool CBOINCBaseView::OnRestoreState( wxConfigBase* pConfig )
 }
 
 
-void CBOINCBaseView::OnListCacheHint ( wxListEvent& event )
+void CBOINCBaseView::_OnListCacheHint( wxListEvent& event )
+{
+    OnListCacheHint( event );
+}
+
+
+void CBOINCBaseView::_OnListSelected( wxListEvent& event )
+{
+    OnListSelected( event );
+}
+
+
+void CBOINCBaseView::_OnListDeselected( wxListEvent& event )
+{
+    OnListDeselected( event );
+}
+
+
+wxString CBOINCBaseView::_OnListGetItemText(long item, long column) const
+{
+    return OnListGetItemText( item, column );
+}
+
+
+int CBOINCBaseView::_OnListGetItemImage(long item) const
+{
+    return OnListGetItemImage( item );
+}
+
+
+wxListItemAttr* CBOINCBaseView::_OnListGetItemAttr(long item) const
+{
+    return OnListGetItemAttr( item );
+}
+
+
+void CBOINCBaseView::OnListCacheHint( wxListEvent& event )
 {
     m_iCacheFrom = event.GetCacheFrom();
     m_iCacheTo = event.GetCacheTo();
 }
 
 
-void CBOINCBaseView::OnListSelected ( wxListEvent& event )
+void CBOINCBaseView::OnListSelected( wxListEvent& event )
 {
-    wxLogTrace("CBOINCBaseView::OnListSelected - Processing Event...");
+    SetCurrentQuickTip(
+        LINK_DEFAULT, 
+        wxT("")
+    );
+
     UpdateSelection();
     event.Skip();
 }
 
 
-void CBOINCBaseView::OnListDeselected ( wxListEvent& event )
+void CBOINCBaseView::OnListDeselected( wxListEvent& event )
 {
-    wxLogTrace("CBOINCBaseView::OnListDeselected - Processing Event...");
+    SetCurrentQuickTip(
+        LINK_DEFAULT, 
+        wxT("")
+    );
+
     UpdateSelection();
     event.Skip();
 }
@@ -193,17 +351,25 @@ wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long item) const
 }
 
 
+void CBOINCBaseView::_OnTaskLinkClicked( const wxHtmlLinkInfo& link )
+{
+    OnTaskLinkClicked( link );
+}
+
+
+void CBOINCBaseView::_OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
+{
+    OnTaskCellMouseHover( cell, x, y );
+}
+
+
 void CBOINCBaseView::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 {
-    wxLogTrace("CBOINCBaseView::OnTaskLinkClicked - Function Begining");
-    wxLogTrace("CBOINCBaseView::OnTaskLinkClicked - Function Ending");
 }
 
 
 void CBOINCBaseView::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
 {
-    wxLogTrace("CBOINCBaseView::OnTaskCellMouseHover - Function Begining");
-    wxLogTrace("CBOINCBaseView::OnTaskCellMouseHover - Function Ending");
 }
 
 
@@ -244,14 +410,10 @@ bool CBOINCBaseView::UpdateQuickTip( const wxString& strCurrentLink, const wxStr
 
 void CBOINCBaseView::UpdateSelection()
 {
-    wxLogTrace("CBOINCBaseView::UpdateSelection - Function Begining");
-    wxLogTrace("CBOINCBaseView::UpdateSelection - Function Ending");
 }
 
 
 void CBOINCBaseView::UpdateTaskPane()
 {
-    wxLogTrace("CBOINCBaseView::UpdateTaskPane - Function Begining");
-    wxLogTrace("CBOINCBaseView::UpdateTaskPane - Function Ending");
 }
 

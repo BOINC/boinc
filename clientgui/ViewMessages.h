@@ -44,11 +44,8 @@ public:
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
 
-    virtual void            OnTaskRender( wxTimerEvent& event );
     virtual void            OnListRender( wxTimerEvent& event );
 
-    virtual void            OnListSelected( wxListEvent& event );
-    virtual void            OnListDeselected( wxListEvent& event );
     virtual wxString        OnListGetItemText( long item, long column ) const;
     virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
@@ -62,8 +59,6 @@ private:
     bool                    m_bTaskCopyMessageHidden;
 
     bool                    m_bTipsHeaderHidden;
-
-    bool                    m_bItemSelected;
 
     wxListItemAttr*         m_pMessageInfoAttr;
     wxListItemAttr*         m_pMessageErrorAttr;

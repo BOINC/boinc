@@ -254,19 +254,7 @@ void CBOINCTaskCtrl::OnLinkClicked( const wxHtmlLinkInfo& link )
     wxASSERT(NULL != m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
-    if        (wxDynamicCast(m_pParentView, CViewProjects)) {
-        FireOnLinkClickedEvent(wxDynamicCast(m_pParentView, CViewProjects), link);
-    } else if (wxDynamicCast(m_pParentView, CViewWork)) {
-        FireOnLinkClickedEvent(wxDynamicCast(m_pParentView, CViewWork), link);
-    } else if (wxDynamicCast(m_pParentView, CViewTransfers)) {
-        FireOnLinkClickedEvent(wxDynamicCast(m_pParentView, CViewTransfers), link);
-    } else if (wxDynamicCast(m_pParentView, CViewMessages)) {
-        FireOnLinkClickedEvent(wxDynamicCast(m_pParentView, CViewMessages), link);
-    } else if (wxDynamicCast(m_pParentView, CViewResources)) {
-        FireOnLinkClickedEvent(wxDynamicCast(m_pParentView, CViewResources), link);
-    } else if (wxDynamicCast(m_pParentView, CViewResources)) {
-        FireOnLinkClickedEvent(wxDynamicCast(m_pParentView, CBOINCBaseView), link);
-    }
+    m_pParentView->_OnTaskLinkClicked( link );
 }
 
 
@@ -275,19 +263,7 @@ void CBOINCTaskCtrl::OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
     wxASSERT(NULL != m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
-    if        (wxDynamicCast(m_pParentView, CViewProjects)) {
-        FireOnCellMouseHoverEvent(wxDynamicCast(m_pParentView, CViewProjects), cell, x, y );
-    } else if (wxDynamicCast(m_pParentView, CViewWork)) {
-        FireOnCellMouseHoverEvent(wxDynamicCast(m_pParentView, CViewWork), cell, x, y );
-    } else if (wxDynamicCast(m_pParentView, CViewTransfers)) {
-        FireOnCellMouseHoverEvent(wxDynamicCast(m_pParentView, CViewTransfers), cell, x, y );
-    } else if (wxDynamicCast(m_pParentView, CViewMessages)) {
-        FireOnCellMouseHoverEvent(wxDynamicCast(m_pParentView, CViewMessages), cell, x, y );
-    } else if (wxDynamicCast(m_pParentView, CViewResources)) {
-        FireOnCellMouseHoverEvent(wxDynamicCast(m_pParentView, CViewResources), cell, x, y );
-    } else if (wxDynamicCast(m_pParentView, CViewResources)) {
-        FireOnCellMouseHoverEvent(wxDynamicCast(m_pParentView, CBOINCBaseView), cell, x, y );
-    }
+    m_pParentView->_OnTaskCellMouseHover( cell, x, y );
 }
 
 
@@ -301,19 +277,5 @@ wxHtmlOpeningStatus CBOINCTaskCtrl::OnOpeningURL( wxHtmlURLType type, const wxSt
         retval = wxHTML_OPEN;
 
     return retval;
-}
-
-
-template < class T >
-void CBOINCTaskCtrl::FireOnLinkClickedEvent( T pView, const wxHtmlLinkInfo& link )
-{
-    return pView->OnTaskLinkClicked( link );
-}
-
-
-template < class T >
-void CBOINCTaskCtrl::FireOnCellMouseHoverEvent( T pView, wxHtmlCell* cell, wxCoord x, wxCoord y )
-{
-    return pView->OnTaskCellMouseHover( cell, x, y );
 }
 

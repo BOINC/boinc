@@ -32,6 +32,9 @@
 class CBOINCTaskCtrl;
 class CBOINCListCtrl;
 
+extern const wxString LINK_DEFAULT;
+
+
 class CBOINCBaseView : public wxPanel
 {
     DECLARE_DYNAMIC_CLASS( CBOINCBaseView )
@@ -45,11 +48,22 @@ public:
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
 
+    void                    _OnTaskRender( wxTimerEvent& event );
+    void                    _OnListRender( wxTimerEvent& event );
     virtual void            OnTaskRender( wxTimerEvent& event );
     virtual void            OnListRender( wxTimerEvent& event );
+
+    bool                    _OnSaveState( wxConfigBase* pConfig );
+    bool                    _OnRestoreState( wxConfigBase* pConfig );
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
+    void                    _OnListCacheHint( wxListEvent& event );
+    void                    _OnListSelected( wxListEvent& event );
+    void                    _OnListDeselected( wxListEvent& event );
+    wxString                _OnListGetItemText( long item, long column ) const;
+    int                     _OnListGetItemImage( long item ) const;
+    wxListItemAttr*         _OnListGetItemAttr( long item ) const;
     virtual void            OnListCacheHint( wxListEvent& event );
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );
@@ -57,6 +71,8 @@ public:
     virtual int             OnListGetItemImage( long item ) const;
     virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
+    void                    _OnTaskLinkClicked( const wxHtmlLinkInfo& link );
+    void                    _OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
     virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
     virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
 
@@ -70,9 +86,13 @@ public:
 
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;
+
     wxInt32                 m_iCacheFrom;
     wxInt32                 m_iCacheTo;
+
     wxInt32                 m_iCount;
+
+    bool                    m_bItemSelected;
 
     wxString                m_strQuickTip;
     wxString                m_strQuickTipText;

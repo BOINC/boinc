@@ -81,12 +81,6 @@ public:
 
 private:
     
-    template < class T >
-        void                FireOnLinkClickedEvent( T pView, const wxHtmlLinkInfo& link );
-
-    template < class T >
-        void                FireOnCellMouseHoverEvent( T pView, wxHtmlCell* cell, wxCoord x, wxCoord y );
-
     CBOINCBaseView*         m_pParentView;
 
     wxString                m_strTaskPage;
