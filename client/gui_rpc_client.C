@@ -610,6 +610,10 @@ int RESULT::parse(MIOFILE& in) {
         else if (match_tag(buf, "<stderr_out>")) {
             copy_element_contents(in, "</stderr_out>", stderr_out);
         }
+        else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
+        else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
+        else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
+        else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -625,23 +629,6 @@ void RESULT::print() {
     printf("   signal: %d\n", signal);
     printf("   active_task_state: %d\n", active_task_state);
     printf("   stderr_out: %s\n", stderr_out.c_str());
-}
-
-int RESULT::parse(MIOFILE& in) {
-    char buf[256];
-    while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</result>")) return 0;
-        else if (parse_str(buf, "<result_name>", result_name)) continue;
-        else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
-        else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
-        else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
-        else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
-    }
-    return ERR_XML_PARSE;
-}
-
-void RESULT::print() {
-    printf("   result name: %s\n", result_name.c_str());
     printf("   app version num: %d\n", app_version_num);
     printf("   checkpoint CPU time: %f\n", checkpoint_cpu_time);
     printf("   current CPU time: %f\n", current_cpu_time);

@@ -120,22 +120,15 @@ struct RESULT {
     int signal;
     int active_task_state;
     std::string stderr_out;
-    APP* app;
-    WORKUNIT* wup;
-    PROJECT* project;
-
-    int parse(MIOFILE&);
-    void print();
-};
-
-struct RESULT {
-    std::string result_name;
+    // the following define if in progress
     int app_version_num;
     double checkpoint_cpu_time;
     double current_cpu_time;
     double fraction_done;
+
+    APP* app;
+    WORKUNIT* wup;
     PROJECT* project;
-    RESULT* result;
 
     int parse(MIOFILE&);
     void print();
