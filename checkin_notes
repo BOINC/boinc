@@ -23297,3 +23297,8 @@ David  27 Jan 2005
 
     sched/
         sched_shmem.C
+
+David 27 Jan 2005
+    - build fixes from Reinhard
+
+    configure.ac

@@ -140,6 +140,7 @@ dnl (note, we also don't define HAVE_LIBXXX, because currently they aren't used
 AC_CHECK_LIB(nsl, gethostbyname, [BOINC_EXTRA_LIBS="-lnsl ${BOINC_EXTRA_LIBS}"])
 AC_CHECK_LIB(socket, setservent, [BOINC_EXTRA_LIBS="-lsocket ${BOINC_EXTRA_LIBS}"])
 AC_CHECK_LIB(z, gzopen, [BOINC_EXTRA_LIBS="-lz ${BOINC_EXTRA_LIBS}"])
+AC_CHECK_LIB(dl, dlopen, [BOINC_EXTRA_LIBS="-ldl ${BOINC_EXTRA_LIBS}"])
 
 dnl check for pthread
 ACX_PTHREAD(AC_DEFINE(HAVE_PTHREAD,1, [Have pthread]))
@@ -381,7 +382,14 @@ if test "${enable_client_release}" = yes; then
       
    ## extend this list as necessary if you find additional libs required on your system
    ## ****************************************
-   blacklist="gtk gdk gmodule gthread glib Xi png jpeg tiff nsl z socket"
+   blacklist="gtk gdk gmodule gthread glib Xi png jpeg tiff nsl socket"
+   case $target in 
+      *linux*)
+         blacklist="$blacklist z"
+         ;;
+      *)
+         ;;
+   esac
    ## ****************************************
 
    ## now we walk through the blacklist and turn all matching libs found in 
