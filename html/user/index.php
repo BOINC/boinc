@@ -30,6 +30,7 @@ if (project_is_stopped()) {
         <p>
         <ul>
         <li><a href=".URL_BASE."info.php>Rules and policies <b>[read this first]</b></a>
+        <li><a href=intro.php>Getting started</a>
         <li><a href=".URL_BASE."create_account_form.php>Create account</a>
         <li><a href=apps.php>Applications</a>
         </ul>

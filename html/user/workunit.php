@@ -2,18 +2,22 @@
     // show summary of a workunit
 
     require_once("db.inc");
-    require_once("util.inc");
     require_once("result.inc");
 
     db_init();
     $wuid = $_GET["wuid"];
     page_head("Work unit");
     echo "<h3>Summary of workunit</h3>\n";
-    $result = mysql_query("select * from workunit where id=$wuid");
-    $wu = mysql_fetch_object($result);
-    mysql_free_result($result);
+    $wu = lookup_wu($wuid);
+    if (!$wu) {
+        echo "can't find workunit";
+        exit();
+    }
+
+    $app = lookup_app($wu->appid);
 
     start_table();
+    row2("application", $app->user_friendly_name);
     row2("created", time_str($wu->create_time));
     row2("name", $wu->name);
     row2("granted credit", format_credit($wu->canonical_credit));

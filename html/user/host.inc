@@ -34,6 +34,14 @@ function show_host($host, $private, $ipprivate) {
     if ($private) {
         row2("Name", $host->domain_name);
     }
+    if (!$private) {
+        $user = lookup_user_id($host->userid);
+        if ($user && $user->show_hosts) {
+            row2("Owner", "<a href=show_user.php?userid=$user->id>$user->name</a>");
+        } else {
+            row2("Owner", "Anonymous");
+        }
+    }
     row2("Created", time_str($host->create_time));
     row2("Total Credit", format_credit($host->total_credit));
     row2("Recent average credit", format_credit($host->expavg_credit));

@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 // $Log$
+// Revision 1.26  2003/12/12 21:10:38  boincadm
+// *** empty log message ***
+//
 // Revision 1.25  2003/12/11 19:05:48  boincadm
 // *** empty log message ***
 //
@@ -426,7 +429,7 @@ void DB_WORKUNIT::db_print(char* buf){
         "canonical_resultid=%d, canonical_credit=%.15e, "
         "transition_time=%d, delay_bound=%d, "
         "error_mask=%d, file_delete_state=%d, assimilate_state=%d, "
-        "workseq_next=%d, opaque=%d, "
+        "workseq_next=%d, opaque=%f, "
         "min_quorum=%d, target_nresults=%d, max_error_results=%d, "
         "max_total_results=%d, max_success_results=%d, "
         "result_template='%s'",
@@ -469,7 +472,7 @@ void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     file_delete_state = atoi(r[i++]);
     assimilate_state = atoi(r[i++]);
     workseq_next = atoi(r[i++]);
-    opaque = atoi(r[i++]);
+    opaque = atof(r[i++]);
     min_quorum = atoi(r[i++]);
     target_nresults = atoi(r[i++]);
     max_error_results = atoi(r[i++]);
@@ -490,7 +493,7 @@ void DB_RESULT::db_print(char* buf){
         "name='%s', cpu_time=%.15e, "
         "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
         "batch=%d, file_delete_state=%d, validate_state=%d, "
-        "claimed_credit=%.15e, granted_credit=%.15e, opaque=%d, random=%d, "
+        "claimed_credit=%.15e, granted_credit=%.15e, opaque=%f, random=%d, "
         "client_version_num=%d, appid=%d",
         id, create_time, workunitid,
         server_state, outcome, client_state,
@@ -530,7 +533,7 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     validate_state = atoi(r[i++]);
     claimed_credit = atof(r[i++]);
     granted_credit = atof(r[i++]);
-    opaque = atoi(r[i++]);
+    opaque = atof(r[i++]);
     random = atoi(r[i++]);
     client_version_num = atoi(r[i++]);
     appid = atoi(r[i++]);

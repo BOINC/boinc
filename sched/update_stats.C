@@ -79,9 +79,15 @@ int get_team_credit(TEAM& team) {
     //
     sprintf(buf, "where teamid=%d", team.id);
     retval = user.sum(expavg_credit, "expavg_credit", buf);
-    if (retval) return retval;
+    // we'll get error if nusers == 0
+    //
+    if (retval) {
+        expavg_credit = 0;
+    }
     retval = user.sum(total_credit, "total_credit", buf);
-    if (retval) return retval;
+    if (retval) {
+        total_credit = 0;
+    }
 
     team.nusers = nusers;
     team.total_credit = total_credit;

@@ -182,6 +182,9 @@ struct USER {
 #define TEAM_TYPE_UNIVERSITY            6
 #define TEAM_TYPE_GOVERNMENT            7
 
+// invariants of teams:
+// a team has > 0 members
+
 struct TEAM {
     int id;
     int create_time;
@@ -327,7 +330,7 @@ struct WORKUNIT {
     int file_delete_state;
     int assimilate_state;
     int workseq_next;           // if part of a sequence, the next WU
-    int opaque;                 // project-specific; usually external ID
+    double opaque;              // project-specific; usually external ID
     int min_quorum;             // minimum quorum size
     int target_nresults;        // try to get this many successful results
                                 // may be > min_quorum to get consensus
@@ -399,7 +402,7 @@ struct RESULT {
     int validate_state;
     double claimed_credit;          // CPU time times host credit/sec
     double granted_credit;          // == canonical credit of WU
-    int opaque;                     // project-specific; usually external ID
+    double opaque;                  // project-specific; usually external ID
     int random;                     // determines send order
     int client_version_num;
     int appid;                      // copy of WU's appid

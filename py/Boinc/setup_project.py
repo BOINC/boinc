@@ -272,7 +272,7 @@ def install_boinc_files(dest_dir):
         [ 'cgi', 'file_upload_handler'])
     map(lambda (s): install(builddir('sched',s), dir('bin',s)),
         [ 'make_work', 'feeder', 'transitioner', 'validate_test',
-          'file_deleter', 'assimilator', 'db_dump' ])
+          'file_deleter', 'assimilator', 'db_dump', 'update_stats' ])
     map(lambda (s): install(srcdir('sched',s), dir('bin',s)),
         [ 'start', 'stop', 'status', 'grep_logs' ])
     map(lambda (s): install(srcdir('tools',s), dir('bin',s)),

@@ -20,7 +20,7 @@
             $user->id
         );
         $result_user_table = mysql_query($query_user_table);
-	$nusers = $team->nusers;
+        $nusers = $team->nusers;
         $new_nusers = $nusers - 1;
         if ($new_nusers > 0) {
             $query_team_table = sprintf(

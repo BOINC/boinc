@@ -8419,4 +8419,31 @@ Gary	11 Dec 2003
 
     client/win/
 		wingui_mainwindow.cpp
-           
+
+David  12 Dec 2003
+    - changed "opaque" fields from int to double
+    - Unix core client: if execv() fails, exit with errno rather than -1
+    - show link to user on non-private host page
+    - fix bug in update_stats: don't crash if team has zero members
+    - add "update_stats" to install_boinc_files()
+
+    client/
+        app.C
+    doc/
+        client_files.php
+        db_dump.php
+        index.html
+        old_news.php
+        prefs.php
+    db/
+        boinc_db.C,h
+        schema.sql
+    html_user/
+        db.inc
+        host.inc
+        index.php
+        workunit.php
+    py/Boinc/
+        setup_project.py
+    sched/
+        update_stats.C
