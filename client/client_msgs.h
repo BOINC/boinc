@@ -30,7 +30,7 @@
 //   Message intended for users, displayed in the Messages tab of the GUI
 //   Write these using the msg_printf() function
 
-#include <list>
+#include <deque>
 #include <string>
 
 #include "msg_log.h"
