@@ -7955,3 +7955,12 @@ David  28 Nov 2003
 
     client/
         cs_files.C
+
+Karl 2003-11-28
+    - new base64_encode() and base64_decode() functions.
+    - small fixes to Makefiles
+
+    lib/
+        parse.h
+        base64.C (new)
+        Makefile.am

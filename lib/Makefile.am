@@ -2,8 +2,8 @@
 
 include $(top_srcdir)/Makefile.incl
 
-bin_PROGRAMS = md5_test shmem_test crypt_prog
-EXTRA_PROGRAMS = msg_test synch_test
+bin_PROGRAMS = crypt_prog
+EXTRA_PROGRAMS = md5_test shmem_test msg_test synch_test
 noinst_LIBRARIES = libboinc.a 
 #libboinc_graphics.a
 EXTRA_DIST = result_state.h
@@ -13,7 +13,8 @@ libboinc_a_SOURCES =				\
         ../api/mfile.C				\
         app_ipc.C				\
         parse.C					\
-	xml_util.C                              \
+	base64.C				\
+	xml_util.C				\
         filesys.C				\
         language.C				\
         util.C					\
