@@ -46,7 +46,7 @@
         Displaying $start_at to $last.<p>
     ";
 
-    $urlquery = urlencode($q->query);
+    $urlquery = $q->urlquery;
     echo "<table><tr><td width=100>";
     if ($start_at) {
         $prev_pos = $start_at - $page_entries_to_show;

@@ -29,7 +29,12 @@ function lookup_user_auth($auth) {
 class SqlQueryString {
     var $table;
     var $query;
-    function SqlQueryString($table, $query) { $this->table = $table; $this->query = $query; }
+    var $urlquery;
+    function SqlQueryString() {
+        $this->table = $_GET['table'];
+        $this->query = $_GET['query'];
+        $this->urlquery = "table=$this->table&query=$this->query";
+    }
     function add($clause) {
         if (!$this->query) {
             $this->query .= "where $clause";
@@ -42,19 +47,25 @@ class SqlQueryString {
             $this->add($clause);
         }
     }
-    function addeq($name, $value) {
+    function addeq($name) {
+        $value = $_GET[$name];
         if (strlen($value)) {
-            $this->add("$name = $value");
+            $this->add("$name = '$value'");
+            $this->urlquery .= "&$name=".urlencode($value);
         }
     }
-    function addeqnz($name, $value) {
+    function addeqnz($name) {
+        $value = $_GET[$name];
         if (strlen($value) && $value > 0) {
-            $this->add("$name = $value");
+            $this->add("$name = '$value'");
+            $this->urlquery .= "&$name=".urlencode($value);
         }
     }
-    function addgt($name, $value) {
+    function addgt($name) {
+        $value = $_GET[$name];
         if (strlen($value) && $value > 0) {
-            $this->add("$name > $value");
+            $this->add("$name > '$value'");
+            $this->urlquery .= "&$name=".urlencode($value);
         }
     }
 
@@ -79,27 +90,24 @@ class SqlQueryString {
     }
 }
 
-function build_sql_query($table)
+function build_sql_query()
 {
-    parse_str(getenv("QUERY_STRING"));
+    $q = new SqlQueryString();
 
-    $q = new SqlQueryString($table, $query);
-
-    $q->addclause($clauses);
-    $q->addeq('id', $id);
-    $q->addeq('platformid', $plat_id);
-    $q->addeq('appid', $app_id);
-    $q->addeq('workunitd', $wu_id);
-    $q->addeq('hostid', $hostid);
-    $q->addeq('userid', $userid);
-    $q->addeq('teamid', $team_id);
+    $q->addeq('id');
+    $q->addeq('platformid');
+    $q->addeq('appid'_id);
+    $q->addeq('workunitid');
+    $q->addeq('hostid');
+    $q->addeq('userid');
+    $q->addeq('teamid');
     if ($nsecs) {
         $received_time = time() - $nsecs;
     }
-    $q->addgt('received_time', $received_time);
-    $q->addeqnz('server_state', $result_server_state);
-    $q->addeqnz('outcome', $result_outcome);
-    $q->addeqnz('client_state', $result_client_state);
+    $q->addgt('received_time');
+    $q->addeqnz('server_state');
+    $q->addeqnz('outcome');
+    $q->addeqnz('client_state');
 
     if (strlen($sort_by)) {
         $q->query .= " order by $sort_by desc";
@@ -134,7 +142,7 @@ function show_result_summary()
 
     $q = build_sql_query('result');
     $main_query = $q->get_select_query(0,0);
-    $urlquery = urlencode($q->query);
+    $urlquery = $q->urlquery;
     echo "<p>Query: <b>$main_query</b><p>\n";
     $result = mysql_query($main_query);
     $ntotal =0; // TODO: how to count $result?
@@ -153,66 +161,66 @@ function show_result_summary()
     echo "<table>";
     echo "<tr valign=top>";
     echo "<td><h2>" . link_results("$ntotal results", $urlquery, '') . "</h2></td>";
-    echo "<td><h2>" . link_results("'Over' results", $urlquery, "result_server_state=5") . "</h2></td>";
-    echo "<td><h2>" . link_results("'Client error' results", $urlquery, "result_outcome=3") . "</h2></td>";
+    echo "<td><h2>" . link_results("'Over' results", $urlquery, "server_state=5") . "</h2></td>";
+    echo "<td><h2>" . link_results("'Client error' results", $urlquery, "outcome=3") . "</h2></td>";
     echo "</tr>";
     echo "<tr valign=top>";
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Server state</th><th># results</th></tr>\n";
     for ($ss=1; $ss<6; $ss++) {
-        row2(result_server_state_string($ss),
-             link_results($server_state[$ss],  $urlquery,"result_server_state=$ss"));
+        row2(server_state_string($ss),
+             link_results($server_state[$ss],  $urlquery,"server_state=$ss"));
     }
     echo "</table></td>";
 
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
     for ($ro=0; $ro<6; $ro++) {
-        c_row2(outcome_color($ro), result_outcome_string($ro),
-               link_results($outcome[$ro], $urlquery, "result_outcome=$ro"));
+        c_row2(outcome_color($ro), outcome_string($ro),
+               link_results($outcome[$ro], $urlquery, "outcome=$ro"));
     }
     echo "</table></td>";
 
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Client state</th><th># results</th></tr>\n";
     for ($cs=1; $cs<6; $cs++) {
-        row2(result_client_state_string($cs),
-             link_results($client_state[$cs], $urlquery, "result_client_state=$cs"));
+        row2(client_state_string($cs),
+             link_results($client_state[$cs], $urlquery, "client_state=$cs"));
     }
     print "</td></table>";
     print "</table>";
 
 }
 
-function result_server_state_select() {
+function server_state_select() {
     echo "
-        <select name=result_server_state>
+        <select name=server_state>
         <option value=0 selected> Any
     ";
     for($i=1; $i<=6; $i++) {
-        echo "<option value=$i> ".result_server_state_string($i) . "\n";
+        echo "<option value=$i> ".server_state_string($i) . "\n";
     }
     echo "</select>\n";
 }
 
-function result_outcome_select() {
+function outcome_select() {
     echo "
-        <select name=result_outcome>
+        <select name=outcome>
         <option value=0 selected> Any
     ";
     for($i=1; $i<=6; $i++) {
-        echo "<option value=$i> ".result_outcome_string($i) . "\n";
+        echo "<option value=$i> ".outcome_string($i) . "\n";
     }
     echo "</select>\n";
 }
 
-function result_client_state_select() {
+function client_state_select() {
     echo "
-        <select name=result_client_state>
+        <select name=client_state>
         <option value=0 selected> Any
     ";
     for($i=1; $i<=6; $i++) {
-        echo "<option value=$i> ".result_client_state_string($i) . "\n";
+        echo "<option value=$i> ".client_state_string($i) . "\n";
     }
     echo "</select>\n";
 }
@@ -248,7 +256,7 @@ function show_platform($platform) {
     row("Created", time_str($platform->create_time));
     row("Name", $platform->name);
     row("User friendly name", $platform->user_friendly_name);
-    row("","<a href=db_action.php?table=app_version&plat_id=$platform->id>App versions for this platform</a>");
+    row("","<a href=db_action.php?table=app_version&platformid=$platform->id>App versions for this platform</a>");
     end_table();
 }
 
@@ -257,8 +265,8 @@ function show_app($app) {
     row("ID", $app->id);
     row("Created", time_str($app->create_time));
     row("Name", $app->name);
-    row("","<a href=db_action.php?table=app_version&app_id=$app->id>App Versions for this application</a>");
-    row("","<a href=db_action.php?table=workunit&app_id=$app->id>Workunits for this application</a>");
+    row("","<a href=db_action.php?table=app_version&appid=$app->id>App Versions for this application</a>");
+    row("","<a href=db_action.php?table=workunit&appid=$app->id>Workunits for this application</a>");
     end_table();
 }
 
@@ -397,13 +405,13 @@ function show_workunit($wu, $hide_xml_doc) {
     row("Error mask", wu_error_mask_str($wu->error_mask));
     row("File delete state", file_delete_state_str($wu->file_delete_state));
     row("Assimilation state", assimilate_state_str($wu->assimilate_state));
-    row("","<a href=db_action.php?table=result&wu_id=$wu->id>Show associated results</a>");
+    row("","<a href=db_action.php?table=result&workunitid=$wu->id>Show associated results</a>");
     row("","<a href='show_log.php?s=$wu->name'>Grep logs</a>");
     end_table();
     echo "<p>";
 }
 
-function result_server_state_string($s) {
+function server_state_string($s) {
     switch($s) {
     case 1: return "Inactive";
     case 2: return "Unsent";
@@ -413,7 +421,7 @@ function result_server_state_string($s) {
     return "Unknown";
 }
 
-function result_outcome_string($s) {
+function outcome_string($s) {
     switch($s) {
     case 1: return "Success";
     case 2: return "Couldn't send";
@@ -424,7 +432,7 @@ function result_outcome_string($s) {
     return "Unknown";
 }
 
-function result_client_state_string($s) {
+function client_state_string($s) {
     switch($s) {
     case 0: return "New";
     case 1: return "Downloading";
@@ -487,9 +495,9 @@ function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times) {
     }
     row("Name", $result->name);
     row("Workunit", "<a href=db_action.php?table=workunit&id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
-    row("Server state", result_server_state_string($result->server_state));
-    row("Outcome", result_outcome_string($result->outcome));
-    row("Client state", result_client_state_string($result->client_state));
+    row("Server state", server_state_string($result->server_state));
+    row("Outcome", outcome_string($result->outcome));
+    row("Client state", client_state_string($result->client_state));
     row("Host ID", "<a href=db_action.php?table=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
     row("Report deadline", time_str($result->report_deadline));
     row("CPU time", $result->cpu_time);
@@ -526,10 +534,10 @@ function result_short_header() {
 }
 
 function show_result_short($result) {
-    $ss = result_server_state_string($result->server_state);
-    $oc = result_outcome_string($result->outcome);
+    $ss = server_state_string($result->server_state);
+    $oc = outcome_string($result->outcome);
     if ($result->outcome == 3) {
-        $cs = result_client_state_string($result->client_state);
+        $cs = client_state_string($result->client_state);
         $oc = "$oc ($cs)";
     }
     $received = time_str($result->received_time);
@@ -591,12 +599,12 @@ function show_team($team) {
     row("Url", "<a href=http://$team->url>" . $team->url . "</a>");
     row("Type", team_type_string($team->type));
     row("Description", $team->description);
-    row("", "<a href=db_action.php?table=user&team_id=$team->id>List All Members</a>");
+    row("", "<a href=db_action.php?table=user&teamid=$team->id>List All Members</a>");
     end_table();
 }
 
-function team_name_by_id($team_id) {
-    $result = mysql_query("select * from team where id = $team_id");
+function team_name_by_id($teamid) {
+    $result = mysql_query("select * from team where id = $teamid");
     $team = mysql_fetch_object($result);
     return $team->name;
 }
@@ -607,20 +615,20 @@ function user_name_by_id($user_id) {
     return $user->name;
 }
 
-function app_name_by_id($app_id) {
-    $result = mysql_query("select * from app where id = $app_id");
+function app_name_by_id($appid) {
+    $result = mysql_query("select * from app where id = $appid");
     $app = mysql_fetch_object($result);
     return $app->name;
 }
 
-function wu_name_by_id($wu_id) {
-    $result = mysql_query("select * from workunit where id = $wu_id");
+function wu_name_by_id($workunitid) {
+    $result = mysql_query("select * from workunit where id = $workunitid");
     $wu = mysql_fetch_object($result);
     return $wu->name;
 }
 
-function platform_name_by_id($plat_id) {
-    $result = mysql_query("select * from platform where id = $plat_id");
+function platform_name_by_id($platformid) {
+    $result = mysql_query("select * from platform where id = $platformid");
     $plat = mysql_fetch_object($result);
     return $plat->name;
 }
