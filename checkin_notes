@@ -21300,3 +21300,9 @@ David  14 Dec 2004
 
     api/
         graphics_impl.C
+
+Reinhard Prix 2004-12-15
+    - Make sure that when --enable-maintainer-mode is used, automatic
+      re-configuration will find the proper macro-definitions in m4.
+
+    Makefile.am
