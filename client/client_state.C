@@ -1667,8 +1667,10 @@ void msg_printf(PROJECT *p, int priority, char *fmt, ...) {
 
     if (fmt == NULL) return;
 
-    // TODO: This is vulnerable to buffer overruns - FIX IT!
+    // Since Windows doesn't support vsnprintf, we have to do a
+    // workaround to prevent buffer overruns
     //
+    if (strlen(fmt) > 512) fmt[511] = '\0';
     va_start(ap, fmt); // Parses string for variables
     vsprintf(buf, fmt, ap); // And convert symbols To actual numbers
     va_end(ap); // Results are stored in text
