@@ -397,9 +397,7 @@ int HTTP_OP::init_post(const char* url, char* in, char* out) {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_HTTP);
 
     parse_url(url, url_hostname, port, filename);
-////    if(!proxy_auth_done){
-////        parse_url(url, url_hostname, port, filename);
-////    }
+
     PROXY::init(url_hostname, port);
     NET_XFER::init(get_proxy_server_name(url_hostname),get_proxy_port(port), HTTP_BLOCKSIZE);
     safe_strcpy(infile, in);
@@ -414,15 +412,12 @@ int HTTP_OP::init_post(const char* url, char* in, char* out) {
     } else {
         sprintf(proxy_buf, "/%s", filename);
     }
-//    http_post_request_header(
-//        request_header, url_hostname, port, proxy_buf, content_length
-//    );
-////    if(!proxy_auth_done){
-	if(!pi.use_http_auth){
+
+	if (!pi.use_http_auth){
         http_post_request_header(
             request_header, url_hostname, port, proxy_buf, content_length
         );
- 	}else{
+ 	} else {
   		char	id_passwd[512];
   		string	encstr = "";
   		memset(id_passwd,0,sizeof(id_passwd));
@@ -449,9 +444,6 @@ int HTTP_OP::init_post2(
     char proxy_buf[256];
 
     parse_url(url, url_hostname, port, filename);
-////    if(!proxy_auth_done){
-////        parse_url(url, url_hostname, port, filename);
-////    }
     PROXY::init(url_hostname, port);
     NET_XFER::init(get_proxy_server_name(url_hostname),get_proxy_port(port), HTTP_BLOCKSIZE);
     req1 = r1;
@@ -473,15 +465,11 @@ int HTTP_OP::init_post2(
     } else {
         sprintf(proxy_buf, "/%s", filename);
     }
-//    http_post_request_header(
-//        request_header, url_hostname, port, proxy_buf, content_length
-//    );
-////    if(!proxy_auth_done){
-  	if(!pi.use_http_auth){
+  	if (!pi.use_http_auth){
         http_post_request_header(
             request_header, url_hostname, port, proxy_buf, content_length
         );
- 	}else{
+ 	} else {
   		char	id_passwd[512];
   		string	encstr = "";
   		memset(id_passwd,0,sizeof(id_passwd));
@@ -528,13 +516,14 @@ bool HTTP_OP_SET::poll() {
 
     for (i=0; i<http_ops.size(); i++) {
         htp = http_ops[i];
+        if (htp->error) {
+            htp->http_op_state = HTTP_STATE_DONE;
+            htp->http_op_retval = htp->error;
+            action = true;
+            continue;
+        }
         switch(htp->http_op_state) {
         case HTTP_STATE_CONNECTING:
-            if (htp->error) {
-                htp->http_op_state = HTTP_STATE_DONE;
-                htp->http_op_retval = ERR_CONNECT;
-                break;
-            }
             if (htp->is_connected) {
                 htp->http_op_state = HTTP_STATE_SOCKS_CONNECT;
                 htp->want_upload = true;
@@ -724,38 +713,10 @@ bool HTTP_OP_SET::poll() {
 
                 if (htp->hrh.http_status == HTTP_STATUS_PROXY_AUTH_REQ) {
                     htp->close_socket();
-////  	                if( htp->proxy_auth_done ){
-                        htp->http_op_state = HTTP_STATE_DONE;
-                        htp->http_op_retval = htp->hrh.http_status;
-                        msg_printf(NULL, MSG_ERROR, "HTTP_OP_SET::poll(): Proxy Authentication Failed\n");
-////                        htp->proxy_auth_done = false;
-                        break;
-////                    }else{
-////                        htp->proxy_auth_done = true;
-////						switch (htp->http_op_type) {
-////							case HTTP_OP_HEAD:
-////								htp->init_head("");
-////								break;
-////							case HTTP_OP_GET:
-////								htp->init_get("", htp->outfile, false);
-////								break;
-////							case HTTP_OP_POST:
-////								htp->init_post("", htp->infile, htp->outfile);
-////								break;
-////							case HTTP_OP_POST2:
-////								htp->init_post2("", htp->req1, htp->infile, htp->file_offset);
-////								break;
-////						}
-////                        retval = htp->open_server();
-////                        break;
-////                     }
-////                }else{
-////                    htp->proxy_auth_done = false;
-////                    if ((htp->hrh.http_status/100)*100 != HTTP_STATUS_OK) {
-////                        htp->http_op_state = HTTP_STATE_DONE;
-////                        htp->http_op_retval = htp->hrh.http_status;
-////                        break;
-////                    }
+                    htp->http_op_state = HTTP_STATE_DONE;
+                    htp->http_op_retval = htp->hrh.http_status;
+                    msg_printf(NULL, MSG_ERROR, "HTTP_OP_SET::poll(): Proxy Authentication Failed\n");
+                    break;
                 }
 
 				if ((htp->hrh.http_status/100)*100 != HTTP_STATUS_OK) {
@@ -798,13 +759,7 @@ bool HTTP_OP_SET::poll() {
             }
             break;
         case HTTP_STATE_REPLY_BODY:
-            if (htp->error) {
-                action = true;
-                scope_messages.printf("HTTP_OP_SET::poll(): net_xfer returned error %d\n", htp->error);
-                htp->http_op_state = HTTP_STATE_DONE;
-                htp->http_op_retval = htp->error;
-            }
-            else if (htp->io_done) {
+            if (htp->io_done) {
                 action = true;
                 switch(htp->http_op_type) {
                 case HTTP_OP_POST2:

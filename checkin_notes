@@ -13777,3 +13777,15 @@ David  16 June 2004
 		boinc_win.h
 	win_build/
 		boinc_gui.vcproj
+
+David  16 June 2004
+	- fixed shocking error in http.C:
+		in poll function (HTTP_OP_SET::poll()),
+		check for error conditions at the beginning,
+		outside of the switch on http_op_state.
+		Previously we were checking for errors only in a couple of states
+		(CONNECTING, REPLY_BODY) and errors in other states would go undetected.
+		This could account for hangs in file uploads, scheduler RPCs
+
+	client/
+		http.C
