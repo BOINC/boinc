@@ -18,7 +18,8 @@ fi
 CHECKOUT="CVSROOT=/disks/milkyway/a/users/anderson/seti/cvsroot cvs co boinc"
 TMPDIR=/tmp/nightly-tarball
 
-FILENAME="boinc-cvs-`date +%Y-%m-%d`.tar.gz"
+FILENAME_TGZ="boinc-cvs-`date +%Y-%m-%d`.tar.gz"
+FILENAME_ZIP="boinc-cvs-`date +%Y-%m-%d`.zip"
 DESTINATION="/disks/milkyway/a/users/anderson/boinc/doc/source/nightly/"
 
 die()
@@ -47,5 +48,6 @@ reqeval "rm -rf $TMPDIR"
 reqeval "mkdir -p $TMPDIR"
 reqeval "cd $TMPDIR"
 reqeval_log "$CHECKOUT"      checkout.log
-reqeval_log "tar czvf $FILENAME boinc" tar.log
-reqeval "mv $FILENAME $DESTINATION"
+reqeval_log "tar czvf $FILENAME_TGZ boinc" tar.log
+reqeval_log "zip -r9 $FILENAME_TGZ boinc" zip.log
+reqeval "mv $FILENAME_TGZ $FILENAME_TAR $DESTINATION"
