@@ -59,6 +59,7 @@ public:
     int sum(double&, char* field, char* clause="");
     int get_double(char* query, double&);
     int get_integer(char* query, int&);
+    bool is_high_priority;
 
     DB_CONN* db;
     const char *table_name;

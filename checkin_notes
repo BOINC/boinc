@@ -14238,3 +14238,12 @@ Rom    27 June 2004
         app.C
     lib/
         shmem.C
+
+Rom    27 June 2004
+    - Introduce the notion of high priority queries for mysql queries and
+        implement them for the transitioner
+
+    db/
+        db_base.C, .h
+    sched/
+        transitioner.C
