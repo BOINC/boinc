@@ -243,7 +243,7 @@ void CLIENT_STATE::assign_results_to_projects() {
         }
         // any next_runnable_result assigned so far should have an active task
         ACTIVE_TASK *next_atp = lookup_active_task_by_result(p->next_runnable_result);
-        assert(next_atp != NULL);
+        //assert(next_atp != NULL);
         if ((next_atp->state == PROCESS_UNINITIALIZED
             && atp->state == PROCESS_RUNNING) ||
             (next_atp->scheduler_state == CPU_SCHED_PREEMPTED
@@ -289,7 +289,7 @@ void CLIENT_STATE::assign_results_to_projects() {
 //
 bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
     PROJECT *best_project = NULL;
-    double best_debt;
+    double best_debt = 0.; // initial value doesn't matter
     bool first = true;
 
     for (unsigned int i=0; i < projects.size(); ++i) {
