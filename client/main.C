@@ -106,7 +106,9 @@ void show_message(PROJECT *p, char* msg, int priority) {
 		if (gstate.executing_as_windows_service) {
 #if defined(WIN32) && defined(_CONSOLE)
 		    _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
-			LogEventErrorMessage(event_message);
+            // TODO: Refactor messages so that we do not overload the event log
+            // RTW 08/24/2004 
+			//LogEventErrorMessage(event_message);
 #endif
 		}
 		break;
@@ -115,7 +117,9 @@ void show_message(PROJECT *p, char* msg, int priority) {
 		if (gstate.executing_as_windows_service) {
 #if defined(WIN32) && defined(_CONSOLE)
 		    _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
-			LogEventWarningMessage(event_message);
+            // TODO: Refactor messages so that we do not overload the event log
+            // RTW 08/24/2004 
+			//LogEventWarningMessage(event_message);
 #endif
 		}
 		break;
@@ -124,7 +128,9 @@ void show_message(PROJECT *p, char* msg, int priority) {
 		if (gstate.executing_as_windows_service) {
 #if defined(WIN32) && defined(_CONSOLE)
 		    _stprintf(event_message, TEXT("%s [%s] %s\n"), time_string,  x, message);
-			LogEventInfoMessage(event_message);
+            // TODO: Refactor messages so that we do not overload the event log
+            // RTW 08/24/2004 
+			//LogEventInfoMessage(event_message);
 #endif
 		}
 		break;

@@ -16681,9 +16681,12 @@ David  24 Aug 2004
 Rom    24 Aug 2004
     - Fix a logic error where the benchmarks would continuously run on a 
       core client upgrade.
+    - Comment out event logging to the Windows Event log until we can
+      refactor the various messages.
 
     client/
         client_state.C
+        main.C
 
 Rom    24 Aug 2004
     - Tag for 4.04 release, all platforms
