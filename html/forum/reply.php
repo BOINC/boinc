@@ -1,6 +1,7 @@
 <?php
 require_once('../include.php');
 require_once('forum.inc');
+//require_once('thread.php');
 require_once('subscribe.inc');
 require_once('../util.inc');
 
@@ -13,8 +14,7 @@ if (!empty($_GET['thread']) && !empty($_POST['content'])) {
             $parent_post = NULL;
         }
 
-	//$user = getUserByAuth($_SESSION['authenticator']);
-	$user = get_logged_in_user(true);
+	$user = get_logged_in_user(true, '../');
 
 	$thread = getThread($_GET['thread']);
 	$thread->reply($user->id, $_POST['content'], $parent_post);
@@ -31,10 +31,8 @@ if (empty($_SESSION['authenticator']))
 doHeader('Forum');
 
 if (!empty($_GET['post'])) {
-    $postId = $_GET['post'];
-} else {
-    $postId = -1;
-}
+    $post = getPost($_GET['post']);
+} 
 $thread = getThread($_GET['thread']);
 $forum = getForum($thread->forum);
 
@@ -53,41 +51,14 @@ $logged_in_user = get_logged_in_user(true);
 			<th style="width: 150px">Author</th>
 			<th>Message</th>
 		</tr>
-		<?php
-                if ($post != -1) {
-                    
-                }
-		$posts = $thread->getPosts();
-		while ($post = getNextPost($posts)):
-			$user = getUser($post->user);
-			?>
-			<tr style="vertical-align:top">
-				<td>
-					<p style="font-weight:bold">
-					<?php if ($user->has_profile) { ?>
-						<a href="../view_profile.php?userid=<?php echo $post->user ?>"><?php echo $user->name ?></a>
-					<?php } else { echo $user->name; } ?>
-					</p>
-					<p style="font-size:8pt">
-						Joined: <?php echo date('M j, Y', $user->create_time) ?>
-						<br>Posts: <?php echo $user->posts ?>
-					</p>
-				</td>
-				<td>
-                                        <p style="font-size:8pt">Posted: <?php echo date('D M j, Y g:i a', $post->timestamp) ?></p>
-                                        <p><?php echo nl2br(stripslashes($post->content)) ?></p>
-                                </td>
-                                        <?php if ($post->id == $postId) {
-						show_message_row($thread, $post);
-                                        } ?>
-                                        
-		<?php endwhile;
-		
-		if ($postId == -1) {
-                    show_message_row($thread, $post);
-		} ?>
-	</table>
- </p>
+<?php
+
+show_posts($thread, false, false);
+show_message_row($thread, $post);
+?>
+
+        </table>
+</p>
 
 <?php
 doFooter();
@@ -118,15 +89,21 @@ Joined: ", date('M j, Y', $logged_in_user->create_time), "
 </p>
 </td>	
 <td>
-	<p style=\"font-size:8pt\">Your Message</p>
+	<p style=\"font-size:8pt\">Your Message";
+    if ($post) echo " in response to <a href=#$post->id>Message ID $post->id</a>";
+    echo "</p>
 	<form action='reply.php?thread=", $thread->id;
 
     if ($post) {
         echo "&post=", $post->id;
     }
+    
+    if ($post) $content = quote_text($post->content, 60);
 
     echo "' method=\"post\">
-	    <textarea name=\"content\" rows=\"12\" cols=\"54\"></textarea><p>
+	    <textarea name=\"content\" rows=\"12\" cols=\"80\">";
+    //if ($content) echo $content;
+    echo "</textarea><p>
 	    <input type=\"submit\" value=\"Post reply\"></p>
 	</form>
 	";
@@ -134,4 +111,16 @@ Joined: ", date('M j, Y', $logged_in_user->create_time), "
     echo "</td></tr>";
 }
 
+// TODO: Finish this.
+
+function quote_text($text, $cols) {
+    $quoteChar = "> ";
+    $width = $cols - strlen($quoteChar);
+    $wrapped = wordwrap($text, $width);
+    
+    for ($i = 0; $i < strlen($wrapped); $i++) {
+    }
+    
+    return $wrapped;
+}
 ?>
