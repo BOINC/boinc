@@ -72,8 +72,6 @@ extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
 #endif // _WIN32
 
 
-#ifdef _DEBUG
-
 #define BOINCERROR( errmsg ) \
     throw boinc_runtime_base_exception( __FILE__, __LINE__, errmsg )
 #define BOINCMEMORYERROR( errmsg ) \
@@ -85,20 +83,6 @@ extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
 #define BOINCSIGNALERROR( errmsg ) \
     throw boinc_signal_operation_exception( __FILE__, __LINE__, errmsg )
 
-#else // _DEBUG
-
-#define BOINCERROR( errmsg ) \
-    throw boinc_runtime_base_exception( errmsg )
-#define BOINCMEMORYERROR( errmsg ) \
-    throw boinc_out_of_memory_exception( errmsg )
-#define BOINCPARAMETERERROR( errmsg ) \
-    throw boinc_invalid_parameter_exception( errmsg )
-#define BOINCFILEERROR( errmsg ) \
-    throw boinc_file_operation_exception( errmsg )
-#define BOINCSIGNALERROR( errmsg ) \
-    throw boinc_signal_operation_exception( errmsg )
-
-#endif // _DEBUG
 
 #ifndef BOINCASSERT
 #define BOINCASSERT			assert
