@@ -15483,11 +15483,6 @@ Rom    July 19 2004
 
 Karl 2004-07-21
     - fix bug in "couldn't find app" messages
-
-    sched/
-        message_handler.C
-        validator.C
-
     - allow '.msi' as extension for installation package
 
     tools/
@@ -15502,3 +15497,42 @@ Karl 2004-07-21
         old_news.php
     project.sample/
         project_news.inc
+
+    sched/
+        message_handler.C
+        validator.C
+
+David  21 July 2004
+    - Database optimization in the transitioner:
+        add several results in a single SQL insert statement
+        (using values (...),(...),(...))
+        instead of separate inserts.
+        This is enabled by a BATCH_INSERT compile flag in transitioner.C
+    - Add a USE_TRANSACTIONS flag to transitioner.
+        Leave it off for now.
+    - For some reason we weren't processing the UPLOAD_URL symbol
+        in result templates.
+        Restore this, using the info in the config file.
+    - transitioner: if anything fails (result creation, WU update), quit.
+    - result.random must be initialize by caller on insert
+        (not too relevant since we don't use it anymore)
+    - start/commit_transaction are now members of DB_CONN
+        rather than DB_BASE_SPECIAL
+    - scheduler: in scan_work_array, do all "cheap" checks
+        (i.e. those that don't require DB access)
+        before releasing the semaphore.
+        Thus if all the results are infeasible,
+        we'll acquire/release the semaphore once, not 100 times.
+    - re-enable team name search
+
+    db/
+        boinc_db.C,h
+        db_base.C,h
+    html/user/
+        team.php
+        team_lookup.php
+    sched/
+        sched_send.C
+        transitioner.C
+    tools/
+        backend_lib.C,h

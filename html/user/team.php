@@ -23,7 +23,7 @@ echo "<p>".PROJECT." participants may form <b>teams</b>.
     </ul>
     <p>
     <form method=get action=team_lookup.php>
-    Search for a team whose name contains:
+    Search for teams whose name start with:
     <input name=team_name>
     <input type=submit name=search value=Search>
     </form>

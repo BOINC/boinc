@@ -45,7 +45,8 @@ extern int create_result(
     char* result_template_filename, 
     char* suffix,
     R_RSA_PRIVATE_KEY& key, 
-    char* upload_url
+    char* upload_url,
+    char* query_string=0
 );
 
 extern int create_work(

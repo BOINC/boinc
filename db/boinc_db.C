@@ -492,6 +492,34 @@ void DB_RESULT::db_print(char* buf){
     UNESCAPE(stderr_out);
 }
 
+void DB_RESULT::db_print_values(char* buf){
+    ESCAPE(xml_doc_out);
+    ESCAPE(stderr_out);
+    sprintf(
+        buf,
+        "(0, %d, %d, "
+        "%d, %d, %d, "
+        "%d, %d, "
+        "%d, %d, %d, "
+        "'%s', %.15e, "
+        "'%s', '%s', '%s', "
+        "%d, %d, %d, "
+        "%.15e, %.15e, %f, %d, "
+        "%d, %d, %d, %d)",
+        create_time, workunitid,
+        server_state, outcome, client_state,
+        hostid, userid,
+        report_deadline, sent_time, received_time,
+        name, cpu_time,
+        xml_doc_in, xml_doc_out, stderr_out,
+        batch, file_delete_state, validate_state,
+        claimed_credit, granted_credit, opaque, random,
+        app_version_num, appid, exit_status, teamid
+    );
+    UNESCAPE(xml_doc_out);
+    UNESCAPE(stderr_out);
+}
+
 void DB_RESULT::db_parse(MYSQL_ROW &r) {
     int i=0;
     clear();
@@ -522,11 +550,6 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     appid = atoi(r[i++]);
     exit_status = atoi(r[i++]);
     teamid = atoi(r[i++]);
-}
-
-int DB_RESULT::insert() {
-    random = lrand48();
-    return DB_BASE::insert();
 }
 
 void DB_MSG_FROM_HOST::db_print(char* buf) {

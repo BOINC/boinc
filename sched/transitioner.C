@@ -47,6 +47,9 @@ using namespace std;
 
 #define SELECT_LIMIT    100
 
+#define BATCH_INSERT    1
+//#define USE_TRANSACTIONS  1
+
 int startup_time;
 SCHED_CONFIG config;
 R_RSA_PRIVATE_KEY key;
@@ -59,7 +62,7 @@ int result_suffix(char* name) {
     return 0;
 }
 
-void handle_wu(
+int handle_wu(
     DB_TRANSITIONER_ITEM_SET& transitioner,
     std::vector<TRANSITIONER_ITEM>& items
 ) {
@@ -226,8 +229,11 @@ void handle_wu(
         }
     } else if (items[0].assimilate_state == ASSIMILATE_INIT) {
         // If no error, generate new results if needed.
-        // NOTE!! `n' must be a SIGNED integer!
+        // NOTE: n must be signed
+        //
         int n = items[0].target_nresults - nunsent - ninprogress - nsuccess;
+        string values;
+        char value_buf[MAX_QUERY_LEN];
         if (n > 0) {
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
@@ -238,9 +244,10 @@ void handle_wu(
                 sprintf(suffix, "%d", max_result_suffix+i+1);
                 char rtfpath[256];
                 sprintf(rtfpath, "../%s", items[0].result_template_file);
+#ifdef BATCH_INSERT
                 retval = create_result(
                     items[0].id, items[0].appid, items[0].name,
-                    rtfpath, suffix, key, config.upload_url
+                    rtfpath, suffix, key, config.upload_url, value_buf
                 );
                 if (retval) {
                     log_messages.printf(
@@ -248,9 +255,41 @@ void handle_wu(
                         "[WU#%d %s] create_result() %d\n",
                         items[0].id, items[0].name, retval
                     );
-                    break;
+                    return retval;
                 }
+                if (i==0) {
+                    values = value_buf;
+                } else {
+                    values += ",";
+                    values += value_buf;
+                }
+#else
+                retval = create_result(
+                    items[0].id, items[0].appid, items[0].name,
+                    rtfpath, suffix, key, config.upload_url, 0
+                );
+                if (retval) {
+                    log_messages.printf(
+                        SCHED_MSG_LOG::CRITICAL,
+                        "[WU#%d %s] create_result() %d\n",
+                        items[0].id, items[0].name, retval
+                    );
+                    return retval;
+                }
+#endif
             }
+#ifdef BATCH_INSERT
+            DB_RESULT r;
+            retval = r.insert_batch(values.c_str());
+            if (retval) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::CRITICAL,
+                    "[WU#%d %s] insert_batch() %d\n",
+                    items[0].id, items[0].name, retval
+                );
+                return retval;
+            }
+#endif
         }
     }
 
@@ -359,7 +398,9 @@ void handle_wu(
             SCHED_MSG_LOG::CRITICAL,
             "[WU#%d %s] workunit.update() == %d\n", items[0].id, items[0].name, retval
         );
+        return retval;
     }
+    return 0;
 }
 
 bool do_pass() {
@@ -375,12 +416,13 @@ bool do_pass() {
     while (!transitioner.enumerate((int)time(0), mod_n, mod_i, SELECT_LIMIT, items)) {
         did_something = true;
 
+#ifdef USE_TRANSACTIONS
         log_messages.printf(
             SCHED_MSG_LOG::DEBUG,
             "[WU#%d %s] Starting Transaction...\n",
             items[0].id, items[0].name
-            );
-        retval = transitioner.start_transaction();
+        );
+        retval = boinc_db.start_transaction();
         if (retval) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
@@ -388,15 +430,25 @@ bool do_pass() {
                 items[0].id, items[0].name, retval
             );
         }
+#endif
 
-        handle_wu(transitioner, items);
+        retval = handle_wu(transitioner, items);
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[WU#%d %s] handle_wu: %d; quitting\n",
+                items[0].id, items[0].name, retval
+            );
+            exit(1);
+        }
 
+#ifdef USE_TRANSACTIONS
         log_messages.printf(
             SCHED_MSG_LOG::DEBUG,
             "[WU#%d %s] Committing Transaction...\n",
             items[0].id, items[0].name
             );
-        retval = transitioner.commit_transaction();
+        retval = boinc_db.commit_transaction();
         if (retval) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
@@ -410,6 +462,7 @@ bool do_pass() {
                 items[0].id, items[0].name
             );
         }
+#endif
 
         check_stop_daemons();
     }

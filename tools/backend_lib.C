@@ -22,6 +22,7 @@
 #include <ctime>
 #include <cassert>
 #include <unistd.h>
+#include <cmath>
 
 #include "boinc_db.h"
 #include "crypt.h"
@@ -35,6 +36,12 @@
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
 #endif
+
+static struct random_init {
+    random_init() {
+    srand48(getpid() + time(0));
+                        }
+} random_init;
 
 int read_file(FILE* f, char* buf, int len) {
     int n = fread(buf, 1, len, f);
@@ -212,7 +219,9 @@ int create_result(
     char* result_template_filename,
     char* result_name_suffix,
     R_RSA_PRIVATE_KEY& key,
-    char* upload_url
+    char* upload_url,
+    char* query_string
+        // if nonzero, write value list here; else do insert
 ) {
     DB_RESULT result;
     char base_outfile_name[256];
@@ -226,8 +235,10 @@ int create_result(
 
     retval = read_filename(result_template_filename, result_template, sizeof(result_template));
     if (retval) {
-        fprintf(stderr, "Failed to read result template file '%s': %d\n",
-            result_template_filename, retval);
+        fprintf(stderr,
+            "Failed to read result template file '%s': %d\n",
+            result_template_filename, retval
+        );
         return retval;
     }
 
@@ -246,12 +257,16 @@ int create_result(
     }
     safe_strncpy(result.xml_doc_in, result_template, sizeof(result.xml_doc_in));
 
-    // NOTE: result::insert() sets random
+    result.random = lrand48();
 
-    retval = result.insert();
-    if (retval) {
-        fprintf(stderr, "result.insert(): %d\n", retval);
-        return retval;
+    if (query_string) {
+        result.db_print_values(query_string);
+    } else {
+        retval = result.insert();
+        if (retval) {
+            fprintf(stderr, "result.insert(): %d\n", retval);
+            return retval;
+        }
     }
     return 0;
 }

@@ -68,6 +68,8 @@ public:
     const char* error_string();
 
     MYSQL* mysql;
+    int start_transaction();
+    int commit_transaction();
 };
 
 // Base for derived classes that can access the DB
@@ -77,6 +79,7 @@ class DB_BASE {
 public:
     DB_BASE(DB_CONN&, char *table_name);
     int insert();
+    int insert_batch(const char*);
     int update();
     int update_field(char*);
     int lookup_id(int id);
@@ -106,9 +109,6 @@ public:
 
     DB_CONN* db;
     CURSOR cursor;
-
-    int start_transaction();
-    int commit_transaction();
 };
 
 void escape_string(char* field, int len);

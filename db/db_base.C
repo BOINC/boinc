@@ -60,6 +60,14 @@ const char* DB_CONN::error_string() {
     return mysql?mysql_error(mysql):"Not connected";
 }
 
+int DB_CONN::start_transaction() {
+    return do_query("START TRANSACTION");
+}
+
+int DB_CONN::commit_transaction() {
+    return do_query("COMMIT");
+}
+
 DB_BASE::DB_BASE(DB_CONN& p, char *tn) : db(&p), table_name(tn) {
     is_high_priority = false;
 }
@@ -73,6 +81,12 @@ int DB_BASE::insert() {
     char vals[MAX_QUERY_LEN], query[MAX_QUERY_LEN];
     db_print(vals);
     sprintf(query, "insert into %s set %s", table_name, vals);
+    return db->do_query(query);
+}
+
+int DB_BASE::insert_batch(const char* values) {
+    char query[MAX_QUERY_LEN];
+    sprintf(query, "insert into %s values %s", table_name, values);
     return db->do_query(query);
 }
 
@@ -253,17 +267,9 @@ int DB_BASE::sum(double& x, char* field, char* clause) {
 DB_BASE_SPECIAL::DB_BASE_SPECIAL(DB_CONN& p) : db(&p) {
 }
 
-int DB_BASE_SPECIAL::start_transaction() {
-    return db->do_query("START TRANSACTION");
-}
-
-int DB_BASE_SPECIAL::commit_transaction() {
-    return db->do_query("COMMIT");
-}
-
 // convert a string into a form that allows it to be used
 // in SQL queries delimited by single quotes:
-// replace ' with \', \ with \\
+// replace ' with \', '\' with '\\'
 //
 void escape_string(char* field, int len) {
     char buf[MAX_QUERY_LEN];

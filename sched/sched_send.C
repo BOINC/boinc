@@ -490,47 +490,44 @@ static void scan_work_array(
 
         WU_RESULT& wu_result = ss.wu_results[i];
 
-        // the following should be a critical section
-        //
+        // do fast checks on this wu_result;
+        // i.e. ones that don't require DB access
+        // if any check fails, continue
+
         switch (wu_result.state) {
             case WR_STATE_EMPTY:
             case WR_STATE_CHECKED_OUT:
                 continue;
         }
-        wu_result.state = WR_STATE_CHECKED_OUT;
-        unlock_sema();
 
-        // from here on in this loop, don't continue;
-        // you can only goto dont_send (so that we reacquire semaphore)
+        if (wreq.infeasible_only && (wu_result.infeasible_count==0)) {
+            continue;
+        }
 
         if (wu_result.workunit.rsc_disk_bound > wreq.disk_available) {
             wreq.insufficient_disk = true;
             wu_result.infeasible_count++;
-            goto dont_send;
-        }
-
-        if (wreq.infeasible_only && (wu_result.infeasible_count==0)) {
-            goto dont_send;
+            continue;
         }
 
         // don't send if we're already sending a result for same WU
         //
         if (already_in_reply(wu_result, reply)) {
-            goto dont_send;
+            continue;
         }
 
         // don't send if host can't handle it
         //
         wu = wu_result.workunit;
-        if (!wu_is_feasible(wu, reply.host, wreq,
-                sreq.resource_share_fraction)
-        ) {
+        if (!wu_is_feasible(
+            wu, reply.host, wreq, sreq.resource_share_fraction
+        )) {
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
                 reply.host.id, wu.id, wu.name
             );
             wu_result.infeasible_count++;
-            goto dont_send;
+            continue;
         }
 
         // Find the app and app_version for the client's platform.
@@ -540,14 +537,14 @@ static void scan_work_array(
             app = ss.lookup_app(wu.appid);
             found = sreq.has_version(*app);
             if (!found) {
-                goto dont_send;
+                continue;
             }
             avp = NULL;
         } else {
             found = find_app_version(wreq, wu, platform, ss, app, avp);
             if (!found) {
                 wu_result.infeasible_count++;
-                goto dont_send;
+                continue;
             }
 
             // see if the core client is too old.
@@ -555,12 +552,18 @@ static void scan_work_array(
             // isn't the result's fault
             //
             if (!app_core_compatible(wreq, *avp)) {
-                goto dont_send;
+                continue;
             }
         }
 
+        // end of fast checks - mark wu_result as checked out and release sema.
+        // from here on in this loop, don't continue on failure;
+        // instead, goto dont_send (so that we reacquire semaphore)
+
+        wu_result.state = WR_STATE_CHECKED_OUT;
+        unlock_sema();
+
         // Don't send if we've already sent a result of this WU to this user.
-        // NOTE: do this check last since it involves a DB access
         //
         if (config.one_result_per_user_per_wu) {
             sprintf(buf,
