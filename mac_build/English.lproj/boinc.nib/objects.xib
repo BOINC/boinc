@@ -1,0 +1,372 @@
+<?xml version="1.0" standalone="yes"?>
+<object class="NSIBObjectData">
+  <string name="targetFramework">IBCarbonFramework</string>
+  <object name="rootObject" class="NSCustomObject" id="1">
+    <string name="customClass">NSApplication</string>
+  </object>
+  <array count="22" name="allObjects">
+    <object class="IBCarbonMenuItem" id="309">
+      <string name="title">Edit</string>
+      <object name="submenu" class="IBCarbonMenu">
+        <string name="title">Edit</string>
+        <array count="8" name="items">
+          <object class="IBCarbonMenuItem">
+            <string name="title">Undo</string>
+            <string name="keyEquivalent">z</string>
+            <ostype name="command">undo</ostype>
+          </object>
+          <object class="IBCarbonMenuItem">
+            <string name="title">Redo</string>
+            <string name="keyEquivalent">Z</string>
+            <ostype name="command">redo</ostype>
+          </object>
+          <object class="IBCarbonMenuItem">
+            <boolean name="separator">TRUE</boolean>
+          </object>
+          <object class="IBCarbonMenuItem">
+            <string name="title">Cut</string>
+            <string name="keyEquivalent">x</string>
+            <ostype name="command">cut </ostype>
+          </object>
+          <object class="IBCarbonMenuItem">
+            <string name="title">Copy</string>
+            <string name="keyEquivalent">c</string>
+            <ostype name="command">copy</ostype>
+          </object>
+          <object class="IBCarbonMenuItem">
+            <string name="title">Paste</string>
+            <string name="keyEquivalent">v</string>
+            <ostype name="command">past</ostype>
+          </object>
+          <object class="IBCarbonMenuItem">
+            <string name="title">Clear</string>
+            <ostype name="command">clea</ostype>
+          </object>
+          <object class="IBCarbonMenuItem">
+            <string name="title">Select All</string>
+            <string name="keyEquivalent">a</string>
+            <ostype name="command">sall</ostype>
+          </object>
+        </array>
+      </object>
+    </object>
+    <object class="IBCarbonMenuItem" id="310">
+      <boolean name="separator">TRUE</boolean>
+    </object>
+    <object class="IBCarbonMenuItem" id="313">
+      <string name="title">Window</string>
+      <object name="submenu" class="IBCarbonMenu">
+        <string name="title">Window</string>
+        <array count="6" name="items">
+          <object class="IBCarbonMenuItem">
+            <string name="title">Zoom Window</string>
+            <ostype name="command">zoom</ostype>
+          </object>
+          <object class="IBCarbonMenuItem">
+            <boolean name="dynamic">TRUE</boolean>
+            <string name="title">Minimize Window</string>
+            <string name="keyEquivalent">m</string>
+            <ostype name="command">mini</ostype>
+          </object>
+          <object class="IBCarbonMenuItem">
+            <boolean name="dynamic">TRUE</boolean>
+            <string name="title">Minimize All Windows</string>
+            <string name="keyEquivalent">m</string>
+            <int name="keyEquivalentModifier">1572864</int>
+            <ostype name="command">mini</ostype>
+          </object>
+          <object class="IBCarbonMenuItem">
+            <boolean name="separator">TRUE</boolean>
+          </object>
+          <object class="IBCarbonMenuItem">
+            <boolean name="dynamic">TRUE</boolean>
+            <string name="title">Arrange All to Front</string>
+            <ostype name="command">frnt</ostype>
+          </object>
+          <object class="IBCarbonMenuItem">
+            <boolean name="dynamic">TRUE</boolean>
+            <string name="title">Arrange in Front</string>
+            <int name="keyEquivalentModifier">1572864</int>
+            <ostype name="command">frnt</ostype>
+          </object>
+        </array>
+        <string name="name">_NSWindowsMenu</string>
+      </object>
+    </object>
+    <object class="IBCarbonMenuItem" id="316">
+      <string name="title">CarbonApp</string>
+      <object name="submenu" class="IBCarbonMenu" id="329">
+        <string name="title">CarbonApp</string>
+        <array count="2" name="items">
+          <object class="IBCarbonMenuItem" id="325">
+            <string name="title">About BOINC</string>
+            <int name="keyEquivalentModifier">0</int>
+            <ostype name="command">abou</ostype>
+          </object>
+          <reference idRef="310"/>
+        </array>
+        <string name="name">_NSAppleMenu</string>
+      </object>
+    </object>
+    <object class="IBCarbonMenuItem" id="319">
+      <string name="title">Options</string>
+      <object name="submenu" class="IBCarbonMenu" id="343">
+        <string name="title">Options</string>
+        <array count="2" name="items">
+          <object class="IBCarbonMenuItem" id="333">
+            <string name="title">Join Project...</string>
+            <string name="keyEquivalent">j</string>
+            <ostype name="command">join</ostype>
+          </object>
+          <object class="IBCarbonMenuItem" id="346">
+            <string name="title">Suspend Processing</string>
+            <string name="keyEquivalent">h</string>
+          </object>
+        </array>
+      </object>
+    </object>
+    <reference idRef="325"/>
+    <reference idRef="329"/>
+    <reference idRef="333"/>
+    <object class="IBCarbonMenu" id="337">
+      <string name="title">main</string>
+      <array count="2" name="items">
+        <reference idRef="316"/>
+        <reference idRef="319"/>
+      </array>
+      <string name="name">_NSMainMenu</string>
+    </object>
+    <reference idRef="343"/>
+    <reference idRef="346"/>
+    <object class="IBCarbonRootControl" id="385">
+      <string name="bounds">0 0 535 667 </string>
+      <array count="9" name="subviews">
+        <object class="IBCarbonDBListView" id="387">
+          <string name="bounds">44 17 125 647 </string>
+          <ostype name="controlSignature">TASK</ostype>
+          <int name="controlID">1001</int>
+          <int name="columnWidth">190</int>
+          <boolean name="variableWidthColumns">FALSE</boolean>
+          <boolean name="horzScrollBar">FALSE</boolean>
+          <int name="selectionFlags">41</int>
+          <boolean name="showFocusRing">FALSE</boolean>
+          <array count="4" name="listViewColumns">
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">300</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">Project Name</string>
+            </object>
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">300</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">Application</string>
+            </object>
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">300</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">CPU Time</string>
+            </object>
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">300</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">Percent Done</string>
+            </object>
+          </array>
+        </object>
+        <object class="IBCarbonDBListView" id="390">
+          <string name="bounds">157 17 238 647 </string>
+          <boolean name="horzScrollBar">FALSE</boolean>
+          <boolean name="showFocusRing">FALSE</boolean>
+          <array count="5" name="listViewColumns">
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">250</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">Project</string>
+            </object>
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">250</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">File Name</string>
+            </object>
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">200</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">Size</string>
+            </object>
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">200</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">Speed</string>
+            </object>
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">300</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">Percent Done</string>
+            </object>
+          </array>
+        </object>
+        <object class="IBCarbonStaticText" id="386">
+          <string name="bounds">20 20 36 143 </string>
+          <string name="title">Task Information</string>
+        </object>
+        <object class="IBCarbonStaticText" id="395">
+          <string name="bounds">133 20 149 178 </string>
+          <string name="title">File Transfer Information</string>
+        </object>
+        <object class="IBCarbonStaticText" id="393">
+          <string name="bounds">246 20 262 172 </string>
+          <string name="title">Disk Usage Information</string>
+        </object>
+        <object class="IBCarbonDBListView" id="394">
+          <string name="bounds">270 17 351 647 </string>
+          <boolean name="horzScrollBar">FALSE</boolean>
+          <boolean name="showFocusRing">FALSE</boolean>
+          <array count="2" name="listViewColumns">
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">400</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">Project</string>
+            </object>
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">400</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">Space Used</string>
+            </object>
+          </array>
+        </object>
+        <object class="IBCarbonStaticText" id="391">
+          <string name="bounds">359 20 375 143 </string>
+          <string name="title">Project Information</string>
+        </object>
+        <object class="IBCarbonDBListView" id="388">
+          <string name="bounds">383 17 464 647 </string>
+          <boolean name="horzScrollBar">FALSE</boolean>
+          <boolean name="showFocusRing">FALSE</boolean>
+          <array count="3" name="listViewColumns">
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">300</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">Project</string>
+            </object>
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">300</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">Total CPU</string>
+            </object>
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">300</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">Resource Share</string>
+            </object>
+          </array>
+        </object>
+        <object class="IBCarbonDBListView" id="389">
+          <string name="bounds">472 17 515 647 </string>
+          <boolean name="horzScrollBar">FALSE</boolean>
+          <boolean name="vertScrollBar">FALSE</boolean>
+          <boolean name="showFocusRing">FALSE</boolean>
+          <array count="4" name="listViewColumns">
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">300</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">User Name</string>
+            </object>
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">300</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">Team</string>
+            </object>
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">300</int>
+              <int name="textAlignment">-2</int>
+              <string name="titleString">Total Credit</string>
+            </object>
+            <object class="IBCarbonDBListViewColumn">
+              <int name="propertyFlags">0</int>
+              <int name="maxWidth">300</int>
+              <string name="titleString">Recent Credit</string>
+            </object>
+          </array>
+        </object>
+      </array>
+    </object>
+    <reference idRef="386"/>
+    <reference idRef="387"/>
+    <reference idRef="388"/>
+    <reference idRef="389"/>
+    <reference idRef="390"/>
+    <reference idRef="391"/>
+    <object class="IBCarbonWindow" id="392">
+      <string name="windowRect">44 284 579 951 </string>
+      <string name="title">BOINC Core Client</string>
+      <reference name="rootControl" idRef="385"/>
+      <boolean name="isResizable">FALSE</boolean>
+      <int name="carbonWindowClass">6</int>
+      <int name="themeBrush">0</int>
+      <int name="windowPosition">4</int>
+    </object>
+    <reference idRef="393"/>
+    <reference idRef="394"/>
+    <reference idRef="395"/>
+  </array>
+  <array count="22" name="allParents">
+    <reference idRef="337"/>
+    <reference idRef="329"/>
+    <reference idRef="337"/>
+    <reference idRef="337"/>
+    <reference idRef="337"/>
+    <reference idRef="329"/>
+    <reference idRef="316"/>
+    <reference idRef="343"/>
+    <reference idRef="1"/>
+    <reference idRef="319"/>
+    <reference idRef="343"/>
+    <reference idRef="392"/>
+    <reference idRef="385"/>
+    <reference idRef="385"/>
+    <reference idRef="385"/>
+    <reference idRef="385"/>
+    <reference idRef="385"/>
+    <reference idRef="385"/>
+    <reference idRef="1"/>
+    <reference idRef="385"/>
+    <reference idRef="385"/>
+    <reference idRef="385"/>
+  </array>
+  <dictionary count="8" name="nameTable">
+    <string>Client Window</string>
+    <reference idRef="392"/>
+    <string>File&apos;s Owner</string>
+    <reference idRef="1"/>
+    <string>ListView</string>
+    <reference idRef="387"/>
+    <string>ListView1</string>
+    <reference idRef="390"/>
+    <string>ListView2</string>
+    <reference idRef="394"/>
+    <string>ListView3</string>
+    <reference idRef="388"/>
+    <string>ListView4</string>
+    <reference idRef="389"/>
+    <string>MainMenu</string>
+    <reference idRef="337"/>
+  </dictionary>
+  <unsigned_int name="nextObjectID">396</unsigned_int>
+</object>
