@@ -17,20 +17,3 @@
 // Contributor(s):
 //
 
-#include <stdio.h>
-#include <string.h>
-
-
-#include "countries.h"
-
-int main(int argc, char** argv) {
-    int i;
-    for (i=0; i<NUM_COUNTRIES; i++) {
-        printf(
-            "<option value=\"%s\" %s>%s\n",
-            countries[i],
-            !strcmp(countries[i], argv[1])?"selected":"",
-            countries[i]
-        );
-    }
-}
