@@ -27,6 +27,7 @@ boinc_gui_SOURCES = \
     ViewResources.cpp \
     ViewTransfers.cpp \
     ViewWork.cpp \
+    ../lib/acct_mgr_client.C \
     ../lib/diagnostics.C \
     ../lib/gui_rpc_client.C \
     ../lib/filesys.C \
