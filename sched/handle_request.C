@@ -177,7 +177,8 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             strcpy(reply.message_priority, "low");
             sprintf(buf, "can't find host %d\n", sreq.hostid);
             write_log(buf);
-            return -1;
+            sreq.hostid = 0;
+            goto new_host;
         }
         retval = boinc_db_user(reply.host.userid, reply.user);
         if (retval) {
