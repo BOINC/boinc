@@ -22589,3 +22589,10 @@ Rom    12 Jan 2005
 
     client/win/
         win_screensaver.cpp, .h
+
+Bruce  13 Jan 2005
+    - Various efforts to fix CVS 'loginfo' file so that we get auto
+      mailings of changes to the top level directory.  The main problem
+      is that one can't use "^boinc[ ]" or "^boinc\ " or
+      "^boinc\#20" as a regex to try and match the name of the top
+      level directory with no trailing slash.
