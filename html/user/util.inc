@@ -148,8 +148,8 @@ function start_table() {
     echo "<table border=1 cellpadding=5>";
 }
 
-function start_table_noborder() {
-    echo "<table border=0 cellpadding=0 width=640>";
+function start_table_noborder($width=640) {
+    echo "<table border=0 cellpadding=0 width=$width>";
 }
 
 function end_table() {
