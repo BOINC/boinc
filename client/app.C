@@ -525,6 +525,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                 //
                 if (atp->app_client_shm.shm) {
                     detach_shmem(atp->shm_handle, atp->app_client_shm.shm);
+                    atp->app_client_shm.shm = NULL;
                 }
             }
         }
@@ -592,6 +593,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
         //
         if (atp->app_client_shm.shm) {
             detach_shmem(atp->app_client_shm.shm);
+            atp->app_client_shm.shm = NULL;
         }
         destroy_shmem(atp->shm_key);
 
