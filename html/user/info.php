@@ -68,14 +68,14 @@ To ensure the safety of program downloads, all executable files are digitally si
 </p>
 
 <p>
-", PROJECT, " was developed at the University of California at Berkeley,
-by members of the SETI@home project.
+", PROJECT, " was developed at the University of California at Berkeley.
 </p>
 
 <h3>Liability</h3>
 
 <p>
-", PROJECT, " assumes no liability for damage to your computer,
+", PROJECT, " and the University of California
+assume no liability for damage to your computer,
 loss of data, or any other event or condition that may occur
 as a result of participating in ", PROJECT, ".
 </p>

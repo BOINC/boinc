@@ -664,7 +664,7 @@ void process_request(
 
     // if last RPC was within config.min_sendwork_interval, don't send work
     //
-    if (sreq.work_req_seconds > 0) {
+    if (ok_to_send && sreq.work_req_seconds > 0) {
         if (config.min_sendwork_interval) {
             double diff = dtime() - last_rpc_time;
             if (diff < config.min_sendwork_interval) {

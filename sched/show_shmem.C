@@ -52,15 +52,15 @@ int main() {
         WU_RESULT& wu_result = ssp->wu_results[i];
         switch(wu_result.state) {
         case WR_STATE_PRESENT:
-            printf("%d: present; infeasible_count %d; result %s\n",
-                i, wu_result.infeasible_count, wu_result.result.name
+            printf("%d: present; infeasible_count %d; result %d\n",
+                i, wu_result.infeasible_count, wu_result.resultid
             );
             break;
         case WR_STATE_EMPTY:
             printf("%d: absent\n", i);
             break;
         case WR_STATE_CHECKED_OUT:
-            printf("%d: checked out: %s\n", i, wu_result.result.name);
+            printf("%d: checked out: result %d\n", i, wu_result.resultid);
             break;
         }
     }

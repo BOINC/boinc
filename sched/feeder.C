@@ -237,7 +237,7 @@ try_again:
             collision = false;
             for (j=0; j<ssp->nwu_results; j++) {
                 if (ssp->wu_results[j].state != WR_STATE_EMPTY
-                    && ssp->wu_results[j].result.id == result.id
+                    && ssp->wu_results[j].resultid == result.id
                 ) {
                     ncollisions++;
                     collision = true;
@@ -259,7 +259,7 @@ try_again:
                     );
                     continue;
                 }
-                wu_result.result = result;
+                wu_result.resultid = result.id;
                 wu_result.workunit = wu;
                 wu_result.state = WR_STATE_PRESENT;
                 wu_result.infeasible_count = 0;

@@ -12329,5 +12329,7 @@ David  May 17 2004
         reread the result record anyway.
 
     sched/
+        feeder.C
         sched_shmem.h
         sched_send.C
+        show_shmem.C
