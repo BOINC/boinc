@@ -40,33 +40,30 @@ function project_footer($show_return, $show_date) {
     }
 }
 
-// NOTE: These functions appear here and not in profile.inc because they contain
-// project-specific information that needs to be set by the project administrators.
-
 function show_profile_heading1() {
-    row1("Your personal background.");
+    return "Your personal background.";
 }
 
 function show_profile_question1() {
-    rowify("
+    return "
         Tell us about yourself.
         You could tell us where you're from, your age, occupation, hobbies,
         or anything else about yourself.
-    ");
+    ";
 }
 
 function show_profile_heading2() {
-    row1("Your opinions about " . PROJECT);
+    return "Your opinions about " . PROJECT;
 }
 
 function show_profile_question2() {
-    rowify("
+    return "
         Tell us your thoughts about " . PROJECT . "<ol>
         <li>Why do you run " . PROJECT . "?
         <li>What are your views about the project?
         <li>Any suggestions?
         </ol>
-    ");
+    ";
 }
 
 ?>

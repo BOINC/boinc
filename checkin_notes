@@ -23236,3 +23236,20 @@ Rom    24 Jan 2005
 
     /
     configure.ac
+
+David  25 Jan 2005
+    Policy change: apps of non-CPU-intensive projects are never suspended
+    - Change ACTIVE_TASK_SET::suspend_all() and unsuspend_all()
+        to skip non-CPU-intensive projects.
+    - Ignore GUI RPC requests to suspend non-CPU-intensive projects or results
+    - Add the non_cpu_intensive flag to GUI RPC's PROJECT structure.
+        GUIs should not show suspend/resume buttons
+        for non-CPU-intensive projects or results
+
+    client/
+        app_control.C
+        gui_rpc_server.C
+    lib/
+        gui_rpc_client.C,h
+    html/project.sample/
+        project.inc

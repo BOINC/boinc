@@ -162,7 +162,11 @@ static void handle_project_op(char* buf, MIOFILE& fout, char* op) {
     if (!strcmp(op, "reset")) {
         gstate.reset_project(p);
     } else if (!strcmp(op, "suspend")) {
-        p->suspended_via_gui = true;
+        if (p->non_cpu_intensive) {
+            msg_printf(p, MSG_ERROR, "Can't suspend non-CPU-intensive project");
+        } else {
+            p->suspended_via_gui = true;
+        }
     } else if (!strcmp(op, "resume")) {
         p->suspended_via_gui = false;
     } else if (!strcmp(op, "detach")) {
@@ -390,7 +394,11 @@ static void handle_result_op(char* buf, MIOFILE& fout, char* op) {
             rp->aborted_via_gui = true;
         }
     } else if (!strcmp(op, "suspend")) {
-        rp->suspended_via_gui = true;
+        if (p->non_cpu_intensive) {
+            msg_printf(p, MSG_ERROR, "Can't suspend non-CPU-intensive result");
+        } else {
+            rp->suspended_via_gui = true;
+        }
     } else if (!strcmp(op, "resume")) {
         rp->suspended_via_gui = false;
     }

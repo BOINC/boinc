@@ -103,6 +103,10 @@ int PROJECT::parse(MIOFILE& in) {
             sched_rpc_pending = true;
             continue;
         }
+        else if (match_tag(buf, "<non_cpu_intensive/>")) {
+            non_cpu_intensive = true;
+            continue;
+        }
         else if (match_tag(buf, "<suspended_via_gui/>")) {
             suspended_via_gui = true;
             continue;
@@ -173,6 +177,7 @@ void PROJECT::clear() {
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
     tentative = false;
+    non_cpu_intensive = false;
     suspended_via_gui = false;
 	dont_request_more_work = false;
     gui_urls.clear();
