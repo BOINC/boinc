@@ -175,7 +175,7 @@ BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
     case CTRL_SHUTDOWN_EVENT:
         msg_printf(NULL, MSG_INFO, "Exiting - user request");
         gstate.quit_activities();
-        requested_exit = true;
+        gstate.requested_exit = true;
         bReturnStatus =  TRUE;
         break;
 	}
