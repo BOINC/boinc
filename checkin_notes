@@ -11362,3 +11362,12 @@ David  April 3 2004
             account_setup_first_download.php
     py/Boinc/
         setup_project.py
+
+David  April 4 2004
+    - change the way file transfer speed is computed.
+        Instead of fancy exponential averaging,
+        just take the average every 3 seconds
+
+    client/
+        net_xfer.C,h
+        pers_file_xfer.h

@@ -52,7 +52,13 @@ class PERS_FILE_XFER {
 
 public:
     int next_request_time;     // UNIX time to next retry the file request
-    double last_time, time_so_far;
+    double time_so_far;
+        // Total time there's been an active FILE_XFER for this PFX
+        // Currently not used for anything;  not meaningful for throughput
+        // because could include repeated transfer
+    double last_time;
+        // when the above was last updated.
+        // Defined only while a transfer is active
     bool xfer_done;
     FILE_XFER* fxp;     // nonzero if file xfer in progress
     FILE_INFO* fip;
