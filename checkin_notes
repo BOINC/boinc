@@ -10443,7 +10443,7 @@ Rom    Mar 11 2004 (for Thomas Horsten)
     client/
         hostinfo_unix.cpp
 
-Jeff  Mar 13 2004
+Jeff  Mar 14 2004
     - Another static/dynamic linking problem fixed by an ugly collect2
       hack.  It turns out that a statically linked linux client gets the 
       following warning at build time:
