@@ -39,43 +39,42 @@ libboinc_a_SOURCES =                            \
     prefs.C                                     \
     proxy_info.C                                \
 	shmem.C                                     \
-    util.C
+    util.C										\
+	base64.h  				\
+	crypt.h  				\
+	error_numbers.h  		\
+	exception.h  			\
+	gui_rpc_client.h  		\
+	language.h  			\
+	md5_file.h  			\
+	md5.h  					\
+	msg_log.h  				\
+	msg_queue.h  			\
+	parse.h  				\
+	result_state.h  		\
+	shmem.h  				\
+	stackwalker_win.h  		\
+	std_fixes.h  			\
+	synch.h  
+
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/
 
-## FIXME: currently we install ALL header-files: please remove those not needed!
-include_HEADERS = \
-	app_ipc.h \
-	base64.h  \
-	boinc_win.h  \
-	crypt.h  \
-	diagnostics.h  \
-	error_numbers.h  \
-	exception.h  \
-	filesys.h  \
-	gui_rpc_client.h  \
-	hostinfo.h  \
-	language.h  \
-	md5_file.h  \
-	md5.h  \
-	mfile.h  \
-	miofile.h  \
-	msg_log.h  \
-	msg_queue.h  \
-	parse.h  \
-	prefs.h  \
-	proxy_info.h  \
-	result_state.h  \
-	shmem.h  \
-	stackwalker_win.h  \
-	std_fixes.h  \
-	synch.h  \
-	util.h 
+## only headers that are meant for exporting the API !!
+include_HEADERS = 	\
+	app_ipc.h 		\
+	diagnostics.h 	\
+	filesys.h  		\
+	boinc_win.h  	\
+	mfile.h  		\
+	util.h 			\
+	hostinfo.h  	\
+	proxy_info.h  	\
+	prefs.h  		\
+	exception.h  	\
+	miofile.h 
 
-# libboinc_graphics_a_SOURCES =			\
-#         ../api/graphics_api.C			\
-#         ../api/graphics_data.C
 
 md5_test_SOURCES = md5_test.C md5.c md5_file.C
 shmem_test_SOURCES = shmem_test.C shmem.C

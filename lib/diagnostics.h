@@ -19,15 +19,83 @@
 // Contributor(s):
 //
 
-#include <string>
-#include <assert.h>
-#include "exception.h"
-
 #ifndef _BOINC_DIAGNOSTICS_
 #define _BOINC_DIAGNOSTICS_
 
+#include <assert.h>
+
+/*----------------------------------------------------------------------
+ * pure ANSI C API follows here
+ */
+#ifndef BOINCASSERT
+#define BOINCASSERT			assert
+#endif
+
+#ifndef BOINCTRACE
+#define BOINCTRACE			__noop
+#endif
+
+#ifndef BOINCINFO
+#define BOINCINFO			__noop
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern int boinc_init_diagnostics(int flags);
+extern int boinc_finish_diag(void);
+extern int boinc_install_signal_handlers(void);
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
+
+// flags for boinc_init_diagnostics()
+//
+#define BOINC_DIAG_DUMPCALLSTACKENABLED     0x00000001L
+#define BOINC_DIAG_HEAPCHECKENABLED         0x00000002L
+#define BOINC_DIAG_MEMORYLEAKCHECKENABLED   0x00000004L
+#define BOINC_DIAG_ARCHIVESTDERR            0x00000008L
+#define BOINC_DIAG_ARCHIVESTDOUT            0x00000010L
+#define BOINC_DIAG_REDIRECTSTDERR           0x00000020L
+#define BOINC_DIAG_REDIRECTSTDOUT           0x00000040L
+#define BOINC_DIAG_REDIRECTSTDERROVERWRITE  0x00000080L
+#define BOINC_DIAG_REDIRECTSTDOUTOVERWRITE  0x00000100L
+#define BOINC_DIAG_TRACETOSTDERR            0x00000200L
+#define BOINC_DIAG_TRACETOSTDOUT            0x00000400L
+
+// filenames
+//
+#define BOINC_DIAG_STDERR                  "stderr.txt"
+#define BOINC_DIAG_STDERROLD               "stderr.old"
+#define BOINC_DIAG_STDOUT                  "stdout.txt"
+#define BOINC_DIAG_STDOUTOLD               "stdout.old"
+
+
+/* ----------------------------------------------------------------------
+ * C++ specific API
+ */
+#ifdef __cplusplus
+
+#include <string>
+#include "exception.h"
+
+#define BOINCERROR( errmsg ) \
+    throw boinc_runtime_base_exception( __FILE__, __LINE__, errmsg )
+#define BOINCMEMORYERROR( errmsg ) \
+    throw boinc_out_of_memory_exception( __FILE__, __LINE__, errmsg )
+#define BOINCPARAMETERERROR( errmsg ) \
+    throw boinc_invalid_parameter_exception( __FILE__, __LINE__, errmsg )
+#define BOINCFILEERROR( errmsg ) \
+    throw boinc_file_operation_exception( __FILE__, __LINE__, errmsg )
+#define BOINCSIGNALERROR( errmsg ) \
+    throw boinc_signal_operation_exception( __FILE__, __LINE__, errmsg )
+
+#endif /* C++ */
+
+
 
 #ifdef _WIN32
+
 #include "boinc_win.h"
 #undef min
 
@@ -82,61 +150,9 @@ void	boinc_info_release(const char *pszFormat, ...);
 #endif // _DEBUG
 
 #else   // non-Win starts here
-#include <csignal>
+#include <signal.h>
 extern void boinc_set_signal_handler(int sig, void(*handler)(int));
 extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
-#endif // _WIN32
+#endif // ! _WIN32
 
-
-#define BOINCERROR( errmsg ) \
-    throw boinc_runtime_base_exception( __FILE__, __LINE__, errmsg )
-#define BOINCMEMORYERROR( errmsg ) \
-    throw boinc_out_of_memory_exception( __FILE__, __LINE__, errmsg )
-#define BOINCPARAMETERERROR( errmsg ) \
-    throw boinc_invalid_parameter_exception( __FILE__, __LINE__, errmsg )
-#define BOINCFILEERROR( errmsg ) \
-    throw boinc_file_operation_exception( __FILE__, __LINE__, errmsg )
-#define BOINCSIGNALERROR( errmsg ) \
-    throw boinc_signal_operation_exception( __FILE__, __LINE__, errmsg )
-
-
-#ifndef BOINCASSERT
-#define BOINCASSERT			assert
-#endif
-
-#ifndef BOINCTRACE
-#define BOINCTRACE			__noop
-#endif
-
-#ifndef BOINCINFO
-#define BOINCINFO			__noop
-#endif
-
-extern int boinc_init_diagnostics(int flags);
-extern int boinc_finish_diag();
-extern int boinc_install_signal_handlers();
-
-// flags for boinc_init_diagnostics()
-//
-#define BOINC_DIAG_DUMPCALLSTACKENABLED     0x00000001L
-#define BOINC_DIAG_HEAPCHECKENABLED         0x00000002L
-#define BOINC_DIAG_MEMORYLEAKCHECKENABLED   0x00000004L
-#define BOINC_DIAG_ARCHIVESTDERR            0x00000008L
-#define BOINC_DIAG_ARCHIVESTDOUT            0x00000010L
-#define BOINC_DIAG_REDIRECTSTDERR           0x00000020L
-#define BOINC_DIAG_REDIRECTSTDOUT           0x00000040L
-#define BOINC_DIAG_REDIRECTSTDERROVERWRITE  0x00000080L
-#define BOINC_DIAG_REDIRECTSTDOUTOVERWRITE  0x00000100L
-#define BOINC_DIAG_TRACETOSTDERR            0x00000200L
-#define BOINC_DIAG_TRACETOSTDOUT            0x00000400L
-
-
-// filenames
-//
-#define BOINC_DIAG_STDERR                  "stderr.txt"
-#define BOINC_DIAG_STDERROLD               "stderr.old"
-#define BOINC_DIAG_STDOUT                  "stdout.txt"
-#define BOINC_DIAG_STDOUTOLD               "stdout.old"
-
-
-#endif //_BOINC_DIAGNOSTICS_
+#endif /* double-inclusion protection */

@@ -20653,3 +20653,18 @@ Rom    3 Dec 2004
         BOINCGUIApp.cpp
         MainFrame.cpp
         stdwx.h
+
+Bruce   3 Dec 2004 (Thanks Reinhard!!)
+    -   C extern statements so that 'API' header files can be included in C
+        programs as well as C++.
+    -   Make install now only installs the header files needed for building
+        the external APIs.
+
+    api/
+        Makefile.am
+        boinc_api.h
+        graphics_api.h
+    lib/
+        Makefile.am
+        diagnostics.h
+        filesys.h

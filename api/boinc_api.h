@@ -20,11 +20,45 @@
 #ifndef _BOINC_API_
 #define _BOINC_API_
 
+/* to allow prototypes using 'bool' in ANSI-C */
+#if (!defined __cplusplus) && (!defined bool)
+#  define bool int
+#endif
+
+/* ----------------------------------------------------------------------
+ * ANSI C API BEGINS HERE
+ */
+#ifdef __cplusplus
+extern "C" {
+#endif
+  extern int boinc_init(void);
+  extern int boinc_finish(int status);
+  extern int boinc_resolve_filename(const char*, char*, int len);
+  extern int boinc_parse_init_data_file(void);
+  extern int boinc_write_init_data_file(void);
+  extern int boinc_send_trickle_up(char* variety, char* text);
+  extern int boinc_checkpoint_completed(void);
+  extern int boinc_fraction_done(double);
+  extern int boinc_suspend_other_activities(void);
+  extern int boinc_resume_other_activities(void);
+
+  /* we can use those in ANSI-C with a suitable define for 'bool' */
+  extern bool boinc_is_standalone(void);
+  extern bool boinc_receive_trickle_down(char* buf, int len);
+  extern bool boinc_time_to_checkpoint();
+
+#ifdef __cplusplus
+} /* extern "C" { */
+#endif
+
+/*----------------------------------------------------------------------
+ * C++ API follows 
+ */
+#ifdef __cplusplus
 #include <string>
 
 #include "app_ipc.h"
 
-/////////// API BEGINS HERE
 
 struct BOINC_OPTIONS {
     bool main_program;
@@ -55,33 +89,14 @@ struct BOINC_STATUS {
     bool quit_request;
 };
 
-extern "C" {
-    extern int boinc_init();
-    extern int boinc_init_options(BOINC_OPTIONS&);
-    extern int boinc_finish(int status);
-    extern int boinc_get_status(BOINC_STATUS&);
-    extern bool boinc_is_standalone();
-    extern int boinc_resolve_filename(const char*, char*, int len);
-    extern int boinc_resolve_filename_s(const char*, std::string&);
-    extern int boinc_parse_init_data_file();
-    extern int boinc_write_init_data_file();
-    extern int boinc_get_init_data(APP_INIT_DATA&);
-
-    extern int boinc_send_trickle_up(char* variety, char* text);
-    extern bool boinc_receive_trickle_down(char* buf, int len);
-
-    extern bool boinc_time_to_checkpoint();
-    extern int boinc_checkpoint_completed();
-
-    extern int boinc_fraction_done(double);
-
-    extern int boinc_wu_cpu_time(double&);
-
-    extern int boinc_suspend_other_activities();
-    extern int boinc_resume_other_activities();
-} // extern "C"
-
 extern APP_INIT_DATA aid;
+
+/* C++ prototypes */
+extern int boinc_init_options(BOINC_OPTIONS&);
+extern int boinc_get_status(BOINC_STATUS&);
+extern int boinc_resolve_filename_s(const char*, std::string&);
+extern int boinc_get_init_data(APP_INIT_DATA&);
+extern int boinc_wu_cpu_time(double&);
 
 /////////// API ENDS HERE
 
@@ -92,8 +107,11 @@ extern APP_CLIENT_SHM *app_client_shm;
 extern HANDLE worker_thread_handle;
 #endif
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
-extern int set_worker_timer();
+extern int set_worker_timer(void);
+
 
 /////////// IMPLEMENTATION STUFF ENDS HERE
 
-#endif
+#endif /* C++ part */
+
+#endif /* double-inclusion protection */

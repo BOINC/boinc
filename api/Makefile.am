@@ -13,12 +13,16 @@ api_files= \
 	../lib/shmem.C                              \
 	../lib/util.C
 
-graphics_api_files = \
-	x_opengl.C 		\
-	graphics_data.C \
-	graphics_api.C 	\
-	reduce.C		\
-	gutil.C
+graphics_api_files = 		\
+	x_opengl.C 				\
+	graphics_data.C 		\
+	graphics_api.C 			\
+	reduce.C				\
+	gutil.C					\
+	graphics_data.h 	\
+	reduce.h 			\
+	x_opengl.h 			\
+	boinc_gl.h 
 
 if BUILD_GRAPHICS_API
 graphics_libs = libboinc_graphics_api.a
@@ -38,15 +42,12 @@ libboinc_graphics_api_a_CPPFLAGS = -I$(top_srcdir)/lib
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/
 
-## FIXME: currently we install ALL header-files: please remove those not needed!
-include_HEADERS = \
-	boinc_api.h   \
-	boinc_gl.h   \
-	graphics_api.h   \
-	graphics_data.h   \
-	gutil.h   \
-	reduce.h   \
-	x_opengl.h  
+## install only headers that are meant for exporting the API !!
+include_HEADERS = 	\
+	boinc_api.h   	\
+	graphics_api.h	\
+	gutil.h   
+
 
 .PHONY: nographics
 nographics:

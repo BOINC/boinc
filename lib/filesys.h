@@ -26,6 +26,12 @@
 #ifndef _FILESYS_
 #define _FILESYS_
 
+/* to allow prototypes using 'bool' in ANSI-C */
+#if (!defined __cplusplus) && (!defined bool)
+#  define bool int
+#endif
+
+
 #ifdef _WIN32
 
 struct DIR_DESC {
@@ -36,18 +42,47 @@ struct DIR_DESC {
 typedef DIR_DESC *DIRREF;
 #define PATH_SEPARATOR "\\"
 
+#else
+#include <stdio.h>
+#include <dirent.h>
+
+#ifdef __cplusplus
+#include <string>
 #endif
 
-#ifndef _WIN32
-
-#include <cstdio>
-#include <string>
-#include <dirent.h>
 typedef DIR *DIRREF;
-
 #define PATH_SEPARATOR "/"
 
+#endif /* !WIN32 */
+
+#ifdef __cplusplus
+extern "C" {
 #endif
+  extern int boinc_delete_file(const char*);
+  extern int clean_out_dir(const char*);
+  extern FILE* boinc_fopen(const char* path, const char* mode);
+  extern int boinc_copy(const char* orig, const char* newf);
+  extern int boinc_rename(const char* old, const char* newf);
+  extern int boinc_mkdir(const char*);
+  extern int boinc_rmdir(const char*);
+  extern int lock_file(char*);
+  extern void relative_to_absolute(char* relname, char* path);
+  extern int boinc_make_dirs(char*, char*);
+  extern char boinc_failed_file[256];
+
+  /* we suitably defined 'bool' as 'int' in ANSI-C */
+  extern bool boinc_file_exists(const char* path);
+
+#ifdef __cplusplus
+}
+#endif
+
+/* C++ specific prototypes/defines follow here */
+#ifdef __cplusplus
+extern int file_size(const char*, double&);
+extern int dir_size(const char* dirpath, double&);
+extern int get_filesystem_info(double& total, double& free);
+
 
 // TODO TODO TODO
 // remove this code - the DirScanner class does the same thing.
@@ -58,23 +93,6 @@ extern int dir_scan(char*, DIRREF, int);
 int dir_scan(std::string&, DIRREF);
 extern void dir_close(DIRREF);
 
-extern "C" {
-extern int boinc_delete_file(const char*);
-extern int file_size(const char*, double&);
-extern int clean_out_dir(const char*);
-extern int dir_size(const char* dirpath, double&);
-extern FILE* boinc_fopen(const char* path, const char* mode);
-extern bool boinc_file_exists(const char* path);
-extern int boinc_copy(const char* orig, const char* newf);
-extern int boinc_rename(const char* old, const char* newf);
-extern int boinc_mkdir(const char*);
-extern int boinc_rmdir(const char*);
-extern int lock_file(char*);
-extern void relative_to_absolute(char* relname, char* path);
-extern int get_filesystem_info(double& total, double& free);
-extern int boinc_make_dirs(char*, char*);
-extern char boinc_failed_file[256];
-}
 
 class DirScanner {
 #ifdef _WIN32
@@ -90,5 +108,7 @@ public:
     bool scan(std::string& name);    // return true if file returned
 };
 
-#endif
+#endif /* c++ */
+
+#endif /* double-inclusion protection */
 
