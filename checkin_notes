@@ -1624,3 +1624,26 @@ Eric Heien  August 13, 2002
         pers_file_xfer.C
     lib/
         error_numbers.h
+
+Eric Heien  August 21, 2002
+    - Finished persistent file transfer implementation, including
+      file upload/download resumption, exponential backoff
+
+    client/
+        client_state.C
+        client_state.h
+        client_types.C
+        client_types.h
+        cs_files.C
+        file_xfer.C
+        file_xfer.h
+        http.h
+        main.C
+        pers_file_xfer.C
+        pers_file_xfer.h
+        mac/
+            mac_main.cpp
+            mac_main.h
+    lib/
+        error_numbers.h
+
