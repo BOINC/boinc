@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <vector>
 
 #include "boinc_db.h"
 
@@ -192,7 +193,9 @@ static int send_results_for_file(
 ) {
     DB_RESULT result;
     int lookup_retval=0, send_retval=0, lastid=0, i, last_wuid=0;
-    char buf[256];
+    unsigned int j;
+    std::vector<int> excluded_wus;
+    char buf[256], query[65000];
 
     nsent = 0;
     for (i=0; i<100; i++) {     // avoid infinite loop
@@ -200,11 +203,16 @@ static int send_results_for_file(
         boinc_db.start_transaction();
         // Look for results which match file 'filename'
 
-        sprintf(buf,
-            "where name like '%s__%%' and server_state=%d and workunitid<>%d limit 1",
-            filename, RESULT_SERVER_STATE_UNSENT, last_wuid
+        sprintf(query,
+            "where name like '%s__%%' and server_state=%d",
+            filename, RESULT_SERVER_STATE_UNSENT
         );
-        lookup_retval = result.lookup(buf);
+        for (j=0; j<excluded_wus.size(); j++) {
+            sprintf(buf, " and workunitid<>%d ", excluded_wus[j]);
+            strcat(query, buf);
+        }
+        strcat(query, " limit 1");
+        lookup_retval = result.lookup(query);
 
         // if we see the same result twice, bail (avoid spinning)
         //
@@ -227,7 +235,7 @@ static int send_results_for_file(
                 sreq, reply, platform, wreq, ss
             );
             if (config.one_result_per_user_per_wu) {
-                last_wuid = result.workunitid;
+                excluded_wus.push_back(result.workunitid);
             }
             if (!send_retval) {
                 nsent++;
@@ -249,18 +257,25 @@ static void send_new_file_work(
 ) {
     int lookup_retval, retval, send_retval;
     int lastid=0, nsent, last_wuid=0, i;
+    unsigned int j;
     DB_RESULT result;
     char filename[256];
-    char buf[256];
+    std::vector<int> excluded_wus;
+    char buf[256], query[65000];
 
     for (i=0; i<100; i++) {     // avoid infinite loop
         if (!wreq.work_needed(reply)) break;
         boinc_db.start_transaction();
-        sprintf(buf,
-            "where server_state=%d and workunitid<>%d limit 1",
-            RESULT_SERVER_STATE_UNSENT, last_wuid
+        sprintf(query,
+            "where server_state=%d",
+            RESULT_SERVER_STATE_UNSENT
         );
-        lookup_retval = result.lookup(buf);
+        for (j=0; j<excluded_wus.size(); j++) {
+            sprintf(buf, " and workunitid<>%d", excluded_wus[j]);
+            strcat(query, buf);
+        }
+        strcat(query, " limit 1");
+        lookup_retval = result.lookup(query);
 
         // if we see the same result twice, bail (avoid spinning)
         //
@@ -275,7 +290,7 @@ static void send_new_file_work(
         log_messages.printf(SCHED_MSG_LOG::DEBUG, "possibly_send_result() gives retval=%d\n", send_retval);
 
             if (config.one_result_per_user_per_wu) {
-                last_wuid = result.workunitid;
+                excluded_wus.push_back(result.workunitid);
             }
         }
 
