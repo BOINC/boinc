@@ -151,18 +151,23 @@ int add_wu_to_reply(
 //
 int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int retval;
+    char buf[256];
 
     if (sreq.hostid) {
         retval = db_host(sreq.hostid, reply.host);
         if (retval) {
             strcpy(reply.message, "Can't find host record");
             strcpy(reply.message_priority, "low");
+            sprintf(buf, "can't find host %d\n", sreq.hostid);
+            write_log(buf);
             return -1;
         }
         retval = db_user(reply.host.userid, reply.user);
         if (retval) {
             strcpy(reply.message, "Can't find user record");
             strcpy(reply.message_priority, "low");
+            sprintf(buf, "can't find user %d\n", reply.host.userid);
+            write_log(buf);
             return -1;
         }
         if (strcmp(sreq.authenticator, reply.user.authenticator)) {
@@ -172,6 +177,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
+            write_log("bad authenticator\n");
             return -1;
         }
 
@@ -196,6 +202,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "Visit this project's web site to get an authenticator.");
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
+            write_log("bad authenticator\n");
             return -1;
         }
 new_host:
@@ -212,6 +219,7 @@ new_host:
             strcpy(reply.message, "server database error");
             strcpy(reply.message_priority, "low");
             boinc_db_print_error("db_host_new");
+            write_log("db_host_new failed\n");
             return -1;
         }
         reply.host.id = boinc_db_insert_id();
@@ -554,6 +562,7 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             MAJOR_VERSION,
             sreq.core_client_major_version
         );
+        write_log("wrong major version\n");
         return true;
     }
     return false;
@@ -583,6 +592,7 @@ void process_request(
         sprintf(buf, "platform %s not found", sreq.platform_name);
         strcpy(reply.message, buf);
         strcpy(reply.message_priority, "low");
+        write_log(buf);
         return;
     }
 

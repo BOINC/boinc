@@ -7,9 +7,6 @@ BUGS (arranged from high to low priority)
     client does not remember window size/pos after close/reopen,
     window closes and does not reopen when workunit finishes
     and new workunit starts
-- No easy way to quit/add projects on UNIX
-- Write a README file
-    what should it say?
 - "ACTIVE_TASK.check_app_status_files: could not delete
     slots\0\fraction_done.xml: -110" appears in stderr.txt on Windows
 - "no work available" appears sporadically though work is eventually assigned,
@@ -47,6 +44,9 @@ BUGS (arranged from high to low priority)
 -----------------------
 HIGH-PRIORITY (should do for beta test)
 -----------------------
+
+Check for problematic HTML tags in team descriptions
+    (use SETI@home code?)
 
 Windows: put text (e.g. column headings, menus) in a file
     so that people can develop alternate versions of the file
