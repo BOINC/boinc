@@ -11650,3 +11650,27 @@ Rom    April 15 2004
 
     client/
         cpu_benchmark.h
+
+David  April 18 2004
+    - Added cross-project identification (scheme developed by Janus Kristensen)
+
+    NOTE: this involves a database change (new field in user table).
+    You must update your database by adding the field and initializing it
+    (see html/ops/db_update.php) before using this code.
+
+    client/
+        client_types.C,h
+        cs_scheduler.C
+    db/
+        boinc_db.C,h
+        schema.sql
+    html/
+        user/
+            create_account_action.php
+        ops/
+            db_update.php (new)
+    py/Boinc/
+        database.py
+    sched/
+        db_dump.C
+        server_types.C

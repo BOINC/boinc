@@ -293,9 +293,8 @@ int CLIENT_STATE::remove_trickle_files(PROJECT* project) {
     return 0;
 }
 
-// Prepare the scheduler request.  This writes the request in XML to a
-// file (SCHED_OP_REQUEST_FILE) which is later sent to the scheduling
-// server
+// Prepare the scheduler request.  This writes the request to a
+// file (SCHED_OP_REQUEST_FILE) which is later sent to the scheduling server
 //
 int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     FILE* f = boinc_fopen(SCHED_OP_REQUEST_FILE, "wb");
@@ -303,6 +302,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     RESULT* rp;
     int retval;
     double size;
+    char cross_project_id[MD5_LEN];
 
     if (!f) return ERR_FOPEN;
     fprintf(f,
@@ -350,6 +350,20 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
             fclose(fprefs);
         }
     }
+
+    // send the maximum of cross_project_id over projects
+    // with the same email hash as this one
+    //
+    strcpy(cross_project_id, p->cross_project_id);
+    for (i=0; i<projects.size(); i++ ) {
+        PROJECT* project = projects[i];
+        if (project == p) continue;
+        if (strcmp(project->email_hash, p->email_hash)) continue;
+        if (strcmp(project->cross_project_id, cross_project_id) > 0) {
+            strcpy(cross_project_id, project->cross_project_id);
+        }
+    }
+    fprintf(f, "<cross_project_id>%s</cross_project_id>\n", cross_project_id);
 
     fprintf(f, "<projects>\n");
     for (i=0; i<projects.size(); i++ ) {

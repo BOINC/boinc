@@ -26,6 +26,7 @@ using namespace std;
 #include <assert.h>
 
 #include "parse.h"
+#include "md5_file.h"
 #include "error_numbers.h"
 #include "util.h"
 #include "main.h"
@@ -175,6 +176,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     unsigned int i, j;
     string u1, u2, t1, t2;
     int retval;
+    char email_hash[MD5_LEN];
 
     fprintf(fout,
         "<scheduler_reply>\n"
@@ -199,6 +201,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
 
     u1 = user.name;
     xml_escape(u1, u2);
+    md5_block((unsigned char*)user.email_addr, strlen(user.email_addr), email_hash);
     fprintf(fout,
         "<user_name>%s</user_name>\n"
         "<user_total_credit>%f</user_total_credit>\n"
@@ -206,14 +209,18 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         "<user_create_time>%d</user_create_time>\n"
         "<host_total_credit>%f</host_total_credit>\n"
         "<host_expavg_credit>%f</host_expavg_credit>\n"
-        "<host_venue>%s</host_venue>\n",
+        "<host_venue>%s</host_venue>\n"
+        "<email_hash>%s</email_hash>\n"
+        "<cross_project_id>%s</cross_project_id>\n",
         u2.c_str(),
         user.total_credit,
         user.expavg_credit,
         user.create_time,
         host.total_credit,
         host.expavg_credit,
-        host.venue
+        host.venue,
+        email_hash,
+        user.cross_project_id
     );
 
     // might want to send team credit too.

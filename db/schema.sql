@@ -56,7 +56,7 @@ create table app_version (
     platformid          integer     not null,
     xml_doc             blob,
     min_core_version    integer     not null,
-    max_core_version     integer    not null,
+    max_core_version    integer     not null,
     deprecated          integer     not null,
     primary key (id)
 );
@@ -86,6 +86,7 @@ create table user (
     seti_total_cpu      double      not null,
     signature           varchar(254),
     has_profile         smallint    not null,
+    cross_project_id    varchar(254) not null,
     primary key (id)
 );
 

@@ -32,6 +32,7 @@
 #include <sys/time.h>
 #endif
 
+#include "md5_file.h"
 #include "hostinfo.h"
 #include "result_state.h"
 
@@ -137,6 +138,8 @@ public:
     char project_name[256];             // descriptive.  not unique
     char user_name[256];
     char team_name[256];
+    char email_hash[MD5_LEN];
+    char cross_project_id[MD5_LEN];
     double user_total_credit;    // as reported by server
     double user_expavg_credit;    // as reported by server
     unsigned int user_create_time;   // as reported by server

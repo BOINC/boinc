@@ -52,6 +52,8 @@ void PROJECT::init() {
     strcpy(project_name, "");
     strcpy(user_name, "");
     strcpy(team_name, "");
+    strcpy(email_hash, "");
+    strcpy(cross_project_id, "");
     user_total_credit = 0;
     user_expavg_credit = 0;
     user_create_time = 0;
@@ -268,6 +270,8 @@ int PROJECT::parse_state(FILE* in) {
     strcpy(project_name, "");
     strcpy(user_name, "");
     strcpy(team_name, "");
+    strcpy(email_hash, "");
+    strcpy(cross_project_id, "");
     resource_share = 100;
     exp_avg_cpu = 0;
     exp_avg_mod_time = 0;
@@ -287,6 +291,8 @@ int PROJECT::parse_state(FILE* in) {
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
         else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
         else if (parse_str(buf, "<team_name>", team_name, sizeof(team_name))) continue;
+        else if (parse_str(buf, "<email_hash>", email_hash, sizeof(email_hash))) continue;
+        else if (parse_str(buf, "<cross_project_id>", cross_project_id, sizeof(cross_project_id))) continue;
         else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
         else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) continue;
@@ -339,6 +345,8 @@ int PROJECT::write_state(FILE* out) {
         "    <project_name>%s</project_name>\n"
         "    <user_name>%s</user_name>\n"
         "    <team_name>%s</team_name>\n"
+        "    <email_hash>%s</email_hash>\n"
+        "    <cross_project_id>%s</cross_project_id>\n"
         "    <user_total_credit>%f</user_total_credit>\n"
         "    <user_expavg_credit>%f</user_expavg_credit>\n"
         "    <user_create_time>%d</user_create_time>\n"
@@ -357,6 +365,8 @@ int PROJECT::write_state(FILE* out) {
         project_name,
         u2.c_str(),
         t2.c_str(),
+        email_hash,
+        cross_project_id,
         user_total_credit,
         user_expavg_credit,
         user_create_time,
@@ -391,6 +401,8 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     safe_strcpy(project_name, p.project_name);
     safe_strcpy(user_name, p.user_name);
     safe_strcpy(team_name, p.team_name);
+    safe_strcpy(email_hash, p.email_hash);
+    safe_strcpy(cross_project_id, p.cross_project_id);
     user_total_credit = p.user_total_credit;
     user_expavg_credit = p.user_expavg_credit;
     user_create_time = p.user_create_time;

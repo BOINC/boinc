@@ -61,6 +61,7 @@
 
 #include "boinc_db.h"
 #include "util.h"
+#include "md5_file.h"
 #include "parse.h"
 
 #include "sched_config.h"
@@ -272,11 +273,16 @@ void write_host(HOST& host, FILE* f, bool detail, bool show_user) {
 
 void write_user(USER& user, FILE* f, bool detail, bool show_team) {
     DB_HOST host;
-    char buf[256];
+    char buf[1024];
+    char cpid[MD5_LEN];
 
     string name, url;
     xml_escape(user.name, name);
     xml_escape(user.url, url);
+
+    strcpy(buf, user.cross_project_id);
+    strcat(buf, user.email_addr);
+    md5_block((unsigned char*)buf, strlen(buf), cpid);
 
     fprintf(f,
         "<user>\n"
@@ -286,14 +292,16 @@ void write_user(USER& user, FILE* f, bool detail, bool show_team) {
         " <country>%s</country>\n"
         " <create_time>%d</create_time>\n"
         " <total_credit>%f</total_credit>\n"
-        " <expavg_credit>%f</expavg_credit>\n",
+        " <expavg_credit>%f</expavg_credit>\n"
+        " <cpid>%s</cpid>\n",
         user.id,
         name.c_str(),
         url.c_str(),
         user.country,
         user.create_time,
         user.total_credit,
-        user.expavg_credit
+        user.expavg_credit,
+        cpid
     );
     if (show_team) {
         fprintf(f,

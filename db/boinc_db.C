@@ -209,7 +209,8 @@ void DB_USER::db_print(char* buf){
         "teamid=%d, venue='%s', url='%s', send_email=%d, show_hosts=%d, "
         "posts=%d, "
         "seti_id=%d, seti_nresults=%d, seti_last_result_time=%d, "
-        "seti_total_cpu=%.15e, signature='%s', has_profile=%d",
+        "seti_total_cpu=%.15e, signature='%s', has_profile=%d, "
+        "cross_project_id='%s'",
         id, create_time, email_addr, name,
         authenticator,
         country, postal_code,
@@ -218,7 +219,8 @@ void DB_USER::db_print(char* buf){
         teamid, venue, url, send_email, show_hosts,
         posts,
         seti_id, seti_nresults, seti_last_result_time,
-        seti_total_cpu, signature, has_profile
+        seti_total_cpu, signature, has_profile,
+        cross_project_id
     );
     UNESCAPE(email_addr);
     UNESCAPE(name);
@@ -257,6 +259,7 @@ void DB_USER::db_parse(MYSQL_ROW &r) {
     seti_total_cpu = safe_atof(r[i++]);
     strcpy2(signature, r[i++]);
     has_profile = atoi(r[i++]);
+    strcpy2(cross_project_id, r[i++]);
 }
 
 void DB_TEAM::db_print(char* buf){

@@ -173,6 +173,7 @@ struct USER {
     double seti_total_cpu;          // number of CPU seconds
     char signature[256];
     bool has_profile;
+    char cross_project_id[256];
     void clear();
 };
 
