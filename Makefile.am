@@ -20,10 +20,12 @@ all-local: html_user html_ops
 
 # the perl line below gets rid of '\r' characters because MSVC barfs at them.
 
+UNIX2DOS = /disks/philmor/a/users/quarl/bin/unix2dos
+
 dist-hook:
 	rm -rf `find $(distdir) -name CVS -prune`
 	rm -rf `find $(distdir) -name .backup -prune -o -name *~`
-	cd $(distdir)/win_build && perl -pi.bak -e 'tr /\r//d' boinc.dsw *.dsp
+	cd $(distdir)/win_build && $(UNIX2DOS) boinc.dsw *.dsp
 
 client-bin:
 	cd client && make client-bin client-bin-gz
