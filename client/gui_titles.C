@@ -1,5 +1,9 @@
 #include "gui_titles.h"
 
+// TODO: the code is riddles with constants that are indices
+// into these arrays.  This is bad.
+// Also can't these be made char* instead of char[256]s?
+
 char g_szTabItems[MAX_TABS][256] = {
     "Projects",
     "Work",

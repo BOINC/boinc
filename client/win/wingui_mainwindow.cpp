@@ -416,7 +416,11 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 				case RESULT_NEW:
 					strBuf.Format(g_szMiscItems[0]); break;
 				case RESULT_FILES_DOWNLOADING:
-					strBuf.Format(g_szMiscItems[9]);
+                    if (re->ready_to_report) {
+                        strBuf.Format(g_szMiscItems[11]);
+                    } else {
+					    strBuf.Format(g_szMiscItems[9]);
+                    }
 					break;
 				case RESULT_FILES_DOWNLOADED:
 					if (at) strBuf.Format(g_szMiscItems[1]);
@@ -426,7 +430,11 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 					strBuf.Format(g_szMiscItems[3]); break;
 					break;
 				case RESULT_FILES_UPLOADING:
-					strBuf.Format(g_szMiscItems[8]);
+                    if (re->ready_to_report) {
+    					strBuf.Format(g_szMiscItems[12]);
+                    } else {
+    					strBuf.Format(g_szMiscItems[8]);
+                    }
 					break;
 				default:
 					if (re->got_server_ack) strBuf.Format(g_szMiscItems[5]);

@@ -6440,3 +6440,15 @@ David  Sept 30 2003
         x_opengl.h
     apps/
         upper_case.C
+
+David  Sept 30 2003
+    - Undid checkin of 9/23.  Reference count all WUs,
+        and can assume that result->wup is always valid.
+        I can't remember why we did this, but it creates too many problems.
+    - in Windows GUI, if a result had an error in download or upload,
+        display status as "Download failed" instead of "Download" etc.
+
+    client/
+        client_state.C
+        cs_scheduler.C
+        win/wingui_mainwindow.cpp

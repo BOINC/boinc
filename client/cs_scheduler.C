@@ -57,10 +57,11 @@ double CLIENT_STATE::current_work_buf_days() {
 
     for (i=0; i<results.size(); i++) {
         rp = results[i];
-        // Don't count result if we've already computed it
+        // Don't count result if we've already computed it,
+        // or if it had an error
         //
         if (rp->state >= RESULT_COMPUTE_DONE) continue;
-        if (!rp->wup) continue;
+        if (rp->ready_to_report) continue;
 
         // TODO: subtract time already finished for WUs in progress
 

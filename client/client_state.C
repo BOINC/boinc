@@ -1247,7 +1247,7 @@ bool CLIENT_STATE::garbage_collect() {
     // Check for results whose WUs had download failures
     // Check for resultw that had upload failures
     // Reference-count output files
-    // Reference-count WUs referred to by results in progress
+    // Reference-count WUs
     //
     result_iter = results.begin();
     while (result_iter != results.end()) {
@@ -1263,7 +1263,7 @@ bool CLIENT_STATE::garbage_collect() {
         // any errors (download failure, MD5, RSA, etc)
         // and we don't already have an error for this file
         //
-        if (!rp->ready_to_report && rp->wup && rp->wup->had_failure(failnum)) {
+        if (!rp->ready_to_report && rp->wup->had_failure(failnum)) {
             rp->wup->get_file_errors(error_msgs);
             report_result_error(*rp, 0, error_msgs.c_str());
         }
@@ -1288,9 +1288,7 @@ bool CLIENT_STATE::garbage_collect() {
             }
             rp->output_files[i].file_info->ref_cnt++;
         }
-        if (!rp->ready_to_report && rp->wup) {
-            rp->wup->ref_cnt++;
-        }
+        rp->wup->ref_cnt++;
         result_iter++;
     }
 
@@ -1389,12 +1387,12 @@ bool CLIENT_STATE::update_results() {
     result_iter = results.begin();
     while (result_iter != results.end()) {
         rp = *result_iter;
-        // The result has been received by the scheduling
-        // server.  It will be deleted on the next
-        // garbage collection, which we trigger by
-        // setting action to true
-        if (rp->got_server_ack)
+        // The result has been acked by the scheduling server.
+        // It will be deleted on the next garbage collection,
+        // which we trigger by setting action to true
+        if (rp->got_server_ack) {
             action = true;
+        }
 
         switch (rp->state) {
         case RESULT_NEW:
