@@ -104,7 +104,7 @@ function show_picture_option() {
 <tr><td colspan=2>
 <table border=0 cellpadding=5
 <tr>
-<td><a href=\"" . IMAGE_PATH . $profile_info['userid'] . '.jpg' . "\"><img src=\"" . IMAGE_PATH . $profile_info['userid'] . '_sm.jpg' . "\"></a><p>
+<td><a href=\"" . IMAGE_URL . $profile_info['userid'] . '.jpg' . "\"><img src=\"" . IMAGE_URL . $profile_info['userid'] . '_sm.jpg' . "\"></a><p>
 <input type=\"checkbox\" name=\"delete_pic\">Delete
 </td>
 <td>You have previously uploaded a picture of yourself
@@ -380,7 +380,7 @@ function show_user_table(
                 $profile = mysql_fetch_assoc($result);
 
                 if ($profile['has_picture']) {
-                    write_fd($descriptor, "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . URL_BASE . IMAGE_PATH . $members[$count] . '_sm.jpg' . "\"></a>");
+                    write_fd($descriptor, "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $members[$count] . "\"><img src=\"" . URL_BASE . IMAGE_URL . $members[$count] . '_sm.jpg' . "\"></a>");
 
                 } else {
                     write_fd($descriptor, "&nbsp;");
@@ -486,8 +486,8 @@ function show_profile_summary($user, $profile_info, $can_edit, $verify_mode) {
 
     // Only display an image if the user has uploaded one;
     if ($profile_info['has_picture']) {
-        //echo "<a href=\"" , URL_BASE, IMAGE_PATH , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_PATH , $user->id , '_sm.jpg' . "\"></a>\n";
-        echo "<br><img vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_PATH , $user->id , '.jpg' . "\">\n";
+        //echo "<a href=\"" , URL_BASE, IMAGE_URL , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_URL , $user->id , '_sm.jpg' . "\"></a>\n";
+        echo "<br><img vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_URL , $user->id , '.jpg' . "\">\n";
     }
 
     echo "

@@ -1,4 +1,5 @@
 <?php
+//z
 
 // This is a sample project file.
 // Modify it to suit your project.
@@ -9,8 +10,8 @@ require_once("../inc/util.inc");
 define("PROJECT", "Test Project");
 define("MASTER_URL", "http://boinc.berkeley.edu/");
 define("URL_BASE", "");
-define('IMAGE_PATH', 'images/user_profile/');
-define('PROFILE_PATH', 'user_profile/');
+define('IMAGE_PATH', '../user_profile/images/');
+define('PROFILE_PATH', '../user_profile/');
 define('LANGUAGE_FILE', 'languages.txt');
 define('STYLESHEET', 'white.css');
 define('COPYRIGHT_HOLDER', 'Test Group');

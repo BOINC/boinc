@@ -18,9 +18,9 @@ require_once("../inc/util.inc");
     <p>
     <b>BOINC core client</b>
     <p>
-    The zipped symbol file(s) are for the BOINC core client 2.24
+    The zipped symbol file(s) are for the BOINC core client 2.25
     (both GUI and CLI versions) are here:
-    <a href=http://setiboinc.ssl.berkeley.edu/ap/download/boinc_224_pdb.zip>boinc_224_pdb.zip</a>
+    <a href=http://setiboinc.ssl.berkeley.edu/ap/download/boinc_225_pdb.zip>boinc_225_pdb.zip</a>
     <p>
     Place the extracted file(s) in the same directory as the executable(s)
     (usually <code>C:/Program Files/BOINC</code>).

@@ -1126,6 +1126,7 @@ void process_request(
                 "Not sending work - last RPC too recent: %d sec", (int)diff
             );
             strcpy(reply.message_priority, "low");
+            reply.request_delay = config.min_sendwork_interval;
         }
     }
     if (ok_to_send) {

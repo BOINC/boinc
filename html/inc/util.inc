@@ -134,15 +134,15 @@ function page_head($title, $user=null, $fd=null, $styleSheet=null) {
     project_banner($user, $fd);
 }
 
-function page_tail($is_main=false) {
-    echo "<br><hr noshade size=1><center>";
+function page_tail($is_main=false, $fd=null) {
+    write_fd($fd, "<br><hr noshade size=1><center>");
     if (!$is_main) {
-        echo "<a href=".MASTER_URL.">Return to ".PROJECT." main page</a><br>\n";
+        write_fd($fd, "<a href=".MASTER_URL.">Return to ".PROJECT." main page</a><br>\n");
     }
 
     // put your copyright notice etc. here
 
-    echo "<br><br>Copyright &copy; 2004 ".COPYRIGHT_HOLDER."</center>\n</body>\n</html>";
+    write_fd($fd, "<br><br>Copyright &copy; 2004 ".COPYRIGHT_HOLDER."</center>\n</body>\n</html>");
 }
 
 function db_error_page() {

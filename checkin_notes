@@ -9971,3 +9971,28 @@ David  Feb 8 2004
         tools_work.php
         validate.php
         web_site.php (removed)
+
+David  Feb 9 2004
+    - Scheduler: when last work request was too recent,
+        send request_delay to tell client to wait
+    - code that generates user profile gallery pages (inc/gallery.inc)
+        has a nightmare of hardwired URL and path names.
+        I unraveled things enough to make them work again.
+        Should revisit at some point.
+    - page_tail() wasn't working when writing to files
+
+    html/
+        inc/
+            gallery.inc
+            profile.inc
+            util.inc
+        ops/
+            gallery.inc (removed)
+        project.sample/
+            project.inc
+        user/
+            debug.php
+            profile_menu.php
+            project.inc.sample
+    sched/
+        handle_request.C

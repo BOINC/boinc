@@ -6,13 +6,14 @@ require_once("../inc/profile.inc");
 
 db_init();
 
-page_head("Profile Zone");
 
 $cmd = $_GET['cmd'];
 if ($cmd) {
     execute_command($cmd);
     exit();
 }
+
+page_head("Profile Zone");
 
 
 start_table_noborder();
@@ -32,15 +33,15 @@ $today = getdate(time());
 $UOTD_heading = "User of the Day -- " . $today['month'] . " " . $today['mday'] . ", " . $today['year'];
 row1($UOTD_heading);
 echo "<tr><td>";
-include("uotd.html");
+include("user_profile/uotd.html");
 echo "</td></tr>";
 
 rowify("<br>");
 row1("User Profile Explorer");
 echo "<tr><td>
     <ul>
-    <li>View the <a href=" . PROFILE_PATH . "user_gallery_1.html>User Picture Gallery</a>.
-    <li>Browse profiles <a href=" . PROFILE_PATH . "profile_country.html>by country</a>.
+    <li>View the <a href=" . PROFILE_URL . "user_gallery_1.html>User Picture Gallery</a>.
+    <li>Browse profiles <a href=" . PROFILE_URL . "profile_country.html>by country</a>.
     <li>Browse profiles <a href=" . $_SERVER['PHP_SELF'] . "?cmd=rand&pic=-1>at random</a>,
     <a href=" . $_SERVER['PHP_SELF'] . "?cmd=rand&pic=1>at random with pictures</a>, or 
     <a href=" . $_SERVER['PHP_SELF'] . "?cmd=rand&pic=0>at random without pictures</a>. 

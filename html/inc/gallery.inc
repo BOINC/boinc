@@ -56,7 +56,7 @@ function build_picture_pages($width, $height) {
     $count = 0;
 
     for ($page = 1; $page <= $numPages; $page++) {
-        $file = "../html_user/" . PROFILE_PATH . "user_gallery_" . $page . ".html";
+        $file = PROFILE_PATH . "user_gallery_" . $page . ".html";
         $descriptor = fopen($file, "w");
 
         page_head("User Picture Gallery: Page $page of $numPages", null, $descriptor);
@@ -77,8 +77,8 @@ function build_picture_pages($width, $height) {
                     fwrite($descriptor,
                         "<td class=bordered align=\"center\"><a href=\""
                         . URL_BASE . "view_profile.php?userid="
-                        . $userIds[$count] . "\"><img src=\"" . '../'
-                        . IMAGE_PATH . $userIds[$count] . '_sm.jpg'
+                        . $userIds[$count] . "\"><img src=\""
+                        . IMAGE_URL . $userIds[$count] . '_sm.jpg'
                         . "\"></a></td>"
                     );
                     $count++;
@@ -96,13 +96,13 @@ function build_picture_pages($width, $height) {
 
         write_page_links("user_gallery", $page, $numPages, $descriptor);
 
-        page_tail($descriptor);
+        page_tail(false, $descriptor);
 
         fclose($descriptor);
 
     }
 
-    //echo "<br><br><a href=\"" . "../html_user/" .PROFILE_PATH . "user_gallery_1.html\">Go to the first generated page.</a>";
+    //echo "<br><br><a href=\""  .PROFILE_PATH . "user_gallery_1.html\">Go to the first generated page.</a>";
 }
 
 // Creates pages grouping user profiles by country.  Filenames are of the
@@ -147,11 +147,11 @@ function build_country_pages() {
 
     foreach ($countries as $country) {
         $baseFileName =  "profile_country_" . get_legal_filename($country);
-        $filePath = "../html_user/" . PROFILE_PATH;
+        $filePath = PROFILE_PATH;
         build_profile_pages(
             $countryMembers[$country],
             "User Profiles from $country", $country, 5, 2,
-            $filePath, $baseFileName, "../html_user/"
+            $filePath, $baseFileName, "../html/"
         );
     }
 
@@ -159,7 +159,7 @@ function build_country_pages() {
 
     build_country_summary_page($countryMembers);
 
-    //echo "<br><a href=\"" . "../html_user/" . PROFILE_PATH . "profile_country.html\">View Summary Page</a>";
+    //echo "<br><a href=\"" . PROFILE_PATH . "profile_country.html\">View Summary Page</a>";
     //echo "<br><br>Done";
 
 }
@@ -194,7 +194,7 @@ function build_alpha_pages() {
 
     foreach ($letters as $letter) {
         // NOTE: Array indexing is case sensitive.
-        $filePath = "../html_user/" . PROFILE_PATH;
+        $filePath = PROFILE_PATH;
         if (in_array($letter, $alphabet)) {
             build_profile_pages(
                 $members[$letter],
@@ -242,7 +242,7 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
 
         write_page_links($baseFileName, $page, $numPages, $descriptor);
 
-        page_tail($descriptor);
+        page_tail(false, $descriptor);
         fclose($descriptor);
     }
 
@@ -251,7 +251,7 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
 function build_country_summary_page($countryMembers) {
     $countries = array_keys($countryMembers);
 
-    $filename = "../html_user/" . PROFILE_PATH . "profile_country.html";
+    $filename = PROFILE_PATH . "profile_country.html";
     $descriptor = fopen($filename, "w");
 
     page_head("User Profiles by Country", null, $descriptor);
@@ -271,7 +271,7 @@ function build_country_summary_page($countryMembers) {
     }
 
     fwrite($descriptor, "</table>");
-    page_tail($descriptor);
+    page_tail(false, $descriptor);
 
     fclose($descriptor);
 }
@@ -279,7 +279,7 @@ function build_country_summary_page($countryMembers) {
 function build_alpha_summary_page($characters) {
     global $alphabet;
 
-    $filename = "../html_user/profile_alpha.html";
+    $filename = PROFILE_PATH."profile_alpha.html";
     $descriptor = fopen($filename, "w");
 
     foreach ($alphabet as $character) {
@@ -299,12 +299,12 @@ function build_alpha_summary_page($characters) {
 }
 
 function generate_uod_page($profile, $user) {
-    $filename = "../html_user/uotd.html";
+    $filename = PROFILE_PATH."uotd.html";
     $descriptor = fopen($filename, "w");
 
     if ($profile->has_picture) {
         fwrite($descriptor,
-            "<a href=view_profile?userid=$user->id><img align=left src=" . IMAGE_PATH . $user->id . "_sm.jpg></a>"
+            "<a href=view_profile?userid=$user->id><img align=left src=" . IMAGE_URL . $user->id . "_sm.jpg></a>"
         );
     }
     $x = user_links($user);
