@@ -1,1 +1,1 @@
-Berkeley Open Infrastructure for Network Computing (BOINC), version 2.14
+Berkeley Open Infrastructure for Network Computing (BOINC), version 2.15

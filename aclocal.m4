@@ -1064,10 +1064,10 @@ AC_SUBST(MYSQL_LIBS)
 AC_SUBST(MYSQL_CFLAGS)
 ])
 
-# SETI_BOINC is free software; you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free
-# Software Foundation; either version 2, or (at your option) any later
-# version.
+# The contents of this file are subject to the BOINC Public License
+# Version 1.0 (the "License"); you may not use this file except in
+# compliance with the License. You may obtain a copy of the License at
+# http://boinc.berkeley.edu/license_1.0.txt
 
 AC_PREREQ([2.54])
 	
@@ -1104,8 +1104,11 @@ AC_DEFUN([SAH_HEADER_STDCXX],[
 #
 # Revision Log:
 # $Log$
-# Revision 1.55  2003/12/11 18:37:40  korpela
-# Added C++ namespace and header checks
+# Revision 1.56  2003/12/17 20:10:29  gmg
+# BOINC release 2.15 for windows, Linux, solaris, mac os x
+#
+# Revision 1.1  2003/12/11 18:38:24  korpela
+# Added checked macro files into boinc
 #
 # Revision 1.5  2003/12/03 23:46:11  korpela
 # Fixed "sah_namespaces.m4" not to rely on "tr".
