@@ -79,6 +79,11 @@ int FILE_INFO::parse(FILE* in) {
     return 1;
 }
 
+inline static const char* get_remote_addr()
+{
+    return getenv("REMOTE_ADDR");
+}
+
 int return_error(bool transient, const char* message, ...) {
     printf(
         "Content-type: text/plain\n\n"
@@ -97,7 +102,8 @@ int return_error(bool transient, const char* message, ...) {
     va_end(va);
 
     log_messages.printf(
-        SchedMessages::NORMAL, "Returning error to client: %s (%s)\n", buf,
+        SchedMessages::NORMAL, "Returning error to client %s: %s (%s)\n",
+        get_remote_addr(), buf,
         transient?"transient":"permanent"
     );
     return 1;
@@ -232,8 +238,10 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             sprintf(path, "%s/%s", config.upload_dir, file_info.name);
             log_messages.printf(
                 SchedMessages::NORMAL,
-                "Handling upload of %s [offset=%.0f, nbytes=%.0f]\n",
-                file_info.name, offset, nbytes
+                "Handling upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
+                file_info.name,
+                get_remote_addr(),
+                offset, nbytes
             );
             retval = copy_socket_to_file(in, path, offset, nbytes);
             if (!retval) {
