@@ -3,10 +3,16 @@
    page_head("Testing BOINC");
    ?>
 
+See the section on testing in the <a href=software.php>Software
+Prerequisites</a>. Note that a performance web server with PHP is required for
+running a real server, but that requires a lot of path and permissions
+configuration so we opt not to use them in testing.
+
 <h2>Python testing framework</h2>
 
 The <code>test/</code> directory contains a library of Python modules that
-make end-to-end testing of BOINC easy.
+make end-to-end testing of BOINC easy.  See the <a href=python.php>Python
+framework</a>.
 
 <h2>Quick start</h2>
 Single test:
@@ -54,31 +60,6 @@ The following system attributes are planned but not implemented yet:
 <li> Simulations of various host conditions
 (out of disk space, crash/reboot, etc.).
 </ul>
-
-<h2>Software</h2>
-<h3>Pre-requisites</h3>
-<ol>
-  <li> <b>MySQL</b> installed and running with permissions for the test script
-       user to create databases.  Currently the script expects it to be
-       running on localhost but that could be changed.
-  <li> <b>Python 2.2</b>, <a href=install_python_mysqldb.txt>Python module
-       MySQLdb</a>
-</ol>
-
-<h3>Other optional software</h3>
-<ol>
-  <li> <b>PHPMyAdmin</b>: Useful for viewing database.
-  <li> <b>Apache</b> or other web server: normal the test system uses a custom
-       CGI/PHP web server based on the Python BaseHTTPServer module, but
-       a real web server could be used to test things like permissions and
-       throughput.
-  <li> <b>PHP</b>: Useful for viewing web server output, but not necessary
-       (otherwise a stub fake_php.py program is used)
-</ol>
-
-Note that a performance web server with PHP is required for running a real
-server, but that requires a lot of path and permissions configuration so we
-opt not to use them in testing.
 
 <!-- TODO: Directory structure -->
 

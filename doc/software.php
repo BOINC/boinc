@@ -19,27 +19,36 @@ Required for <b>compiling</b>:
   <li>Other standard development tools assumed: make, gzip, etc.
 </ul>
 
-Required to run automated tests, create a project and other various tools:
-<ul>
-  <li><b>Python</b> 2.2+
-    <ul>
-      <li>Python module <a
-          href=http://sourceforge.net/projects/mysql-python><b>MySQLdb</b></a>
-          0.9.2 (0.9.1 currently won't work; see <a href=install_python_mysqldb.txt>installation instructions</a>)
-      <li>Python module <a href=http://pyxml.sourceforge.net/><b>xml</b></a> (part of most distributions)
-    </ul>
-</ul>
-
 Required on the <b>database</b> server:
 <ul>
-  <li><b>MySQL server</b> 3.25+ or 4.0+: other SQL server can be ported.
+  <li><b>MySQL server</b> 3.23+ or 4.0+: other SQL server can be ported
+      (package <code>mysql-server</code>)
 </ul>
 
 Required on the <b>master/scheduler</b> server(s):
 <ul>
-  <li><b>Apache</b> or other webserver
-  <li><b>PHP</b> 4.0
+  <li><b>Apache</b> or other webserver (package <code>apache2</code> or <code>apache</code>)
+  <li><b>PHP</b> 4.0 (package <code>php4</code>)
+  <li><b>MySQL client</b> (package <code>mysql-client</code>)
+  <li><b>Python</b> 2.2+ (package <code>python2.3</code> or <code>python2.2</code>)
+    <ul>
+      <li><a href=http://sourceforge.net/projects/mysql-python><b>Python module MySQLdb</b></a>
+        0.9.2 (0.9.1 currently won't work; see <a
+              href=install_python_mysqldb.txt>installation instructions</a>)
+        (package <code>python-mysqldb</code>)
+      <li><a href=http://pyxml.sourceforge.net/><b>Python module xml</b></a>
+          (part of most Python distributions; package <code>python-xml</code>)
+    </ul>
+</ul>
+
+The <a href=test.php>test suite</a> simulates all servers on a single machine
+as well as a client, so to run <code>make check</code> you need most of the
+usual server and client software:
+<ul>
+  <li><b>MySQL server</b> with permissions to create databases
   <li><b>MySQL client</b>
+  <li><b>Python</b> with modules as above
+  <li>Apache and PHP: can be used but not required
 </ul>
 
 Optional, required only if you change <code>*/Makefile.am</code>:
@@ -52,7 +61,7 @@ Optional, required only if you change <code>*/Makefile.am</code>:
 <small>
   On Debian Linux you can install all of the above software using
   <blockquote>
-    <code>apt-get install g++ python python-mysqldb python-xml mysql-server mysql-client apache php automake autoconf</code>
+    <code>apt-get install g++ python python-mysqldb python-xml mysql-server mysql-client apache php4 automake autoconf</code>
   </blockquote>
 </small>
 

@@ -6086,7 +6086,7 @@ quarl 2003/09/03
     - start and add.py know where config.xml and run_state.xml are
       (customizable too)
 
-    - starting web documentation of python framework
+    - wrote documentation for python framework; revised other documentation
 
     py/Boinc/    (added entire tree)
         Makefile.am
@@ -6111,3 +6111,5 @@ quarl 2003/09/03
 
     doc/
         python.php (added)
+        software.php    
+        test.php

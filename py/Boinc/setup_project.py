@@ -2,6 +2,7 @@
 
 # TODO: make things work if build_dir != src_dir
 
+import boinc_path_config
 import version
 from boinc_db import *
 import os, sys, glob, time, shutil, re, random
@@ -177,10 +178,10 @@ def account_file_name(url):
     return 'account_' + _url_to_filename(url) + '.xml'
 
 def srcdir(*dirs):
-    return apply(os.path.join,(TOP_SRC_DIR,)+dirs)
+    return apply(os.path.join,(boinc_path_config.TOP_SOURCE_DIR,)+dirs)
 
 def builddir(*dirs):
-    return apply(os.path.join,(TOP_BUILD_DIR,)+dirs)
+    return apply(os.path.join,(boinc_path_config.TOP_BUILD_DIR,)+dirs)
 
 def run_tool(cmd):
     verbose_shell_call(builddir('tools', cmd))
@@ -271,7 +272,7 @@ class Platform:
 class CoreVersion:
     def __init__(self):
         self.version = 1
-        self.platform = Platform(PLATFORM)
+        self.platform = Platform(version.PLATFORM)
         self.exec_dir = builddir('client')
         self.exec_name = options.client_bin_filename
 
@@ -281,13 +282,13 @@ class App:
         self.name = name
 
 class AppVersion:
-    def __init__(self, app, version = 1, exec_names=None):
+    def __init__(self, app, appversion = 1, exec_names=None):
         self.exec_names = []
         self.exec_dir = builddir('apps')
         self.exec_names = exec_names or [app.name]
         self.app = app
-        self.version = 1
-        self.platform = Platform(PLATFORM)
+        self.version = appversion
+        self.platform = Platform(version.PLATFORM)
 
 class Project:
     def __init__(self,
@@ -323,7 +324,7 @@ class Project:
         self.core_versions = core_versions or [CoreVersion()]
         self.app_versions  = app_versions or [AppVersion(App(appname))]
         self.apps          = apps or unique(map(lambda av: av.app, self.app_versions))
-        self.platforms     = [Platform(PLATFORM)]
+        self.platforms     = [Platform(version.PLATFORM)]
         # convenience vars:
         self.app_version   = self.app_versions[0]
         self.app           = self.apps[0]
