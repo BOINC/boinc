@@ -762,7 +762,7 @@ function show_result($result) {
     row("Validate state", validate_state_str($result->validate_state));
     row("claimed credit", $result->claimed_credit);
     row("Granted credit", $result->granted_credit);
-    row("Client version", client_version_string($result->client_version_num));
+    row("Client version", $result->app_version_num);
     row("Random",$result->random);
     row("","<a href='show_log.php?s=$result->name'>Grep logs</a>");
     end_table();
