@@ -150,5 +150,6 @@ AC_CONFIG_FILES([RSAEuro/source/Makefile
                  ])
 
 AC_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADER([client/win/win_config.h])
 
 AC_OUTPUT
