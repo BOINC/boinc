@@ -298,7 +298,6 @@ bool do_pass(APP& app) {
 
 void main_loop(bool one_pass) {
     DB_APP app;
-    bool did_something;
     int retval;
     char buf[256];
 
