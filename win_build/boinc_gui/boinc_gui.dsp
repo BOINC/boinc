@@ -362,6 +362,10 @@ SOURCE=..\..\Client\win\Win_net.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\client\win\win_util.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\Client\win\windows_cpp.h
 # End Source File
 # Begin Source File
