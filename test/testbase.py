@@ -516,9 +516,9 @@ class Host:
         # copy log flags and global prefs, if any
         if self.log_flags:
             shutil.copy(self.log_flags, self.dir('log_flags.xml'))
-        if self.global_prefs:
-            shell_call("cp %s %s" % (self.global_prefs, self.dir('global_prefs.xml')))
-            # shutil.copy(self.global_prefs, self.dir('global_prefs.xml'))
+        # if self.global_prefs:
+        #     shell_call("cp %s %s" % (self.global_prefs, self.dir('global_prefs.xml')))
+        #     # shutil.copy(self.global_prefs, self.dir('global_prefs.xml'))
 
     def run(self, args='', asynch=False):
         if asynch:
