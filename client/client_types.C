@@ -187,12 +187,12 @@ int PROJECT::parse_account(FILE* in) {
             if (strlen(gstate.host_venue)) {
                 if (!got_venue_prefs) {
                     msg_printf(this, MSG_INFO,
-                        "Projects prefs for %s not found; using your default prefs",
+                        "Project preferences for %s not found; using your default preferences",
                         gstate.host_venue
                     );
                 }
             } else {
-                msg_printf(this, MSG_INFO, "Using your default project prefs");
+                msg_printf(this, MSG_INFO, "Using your default project preferences");
             }
             return 0;
         }
