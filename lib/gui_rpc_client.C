@@ -44,6 +44,27 @@ using std::string;
 using std::vector;
 
 
+int GUI_URL::parse(MIOFILE& in) {
+    char buf[256];
+    while (in.fgets(buf, 256)) {
+        if (match_tag(buf, "</gui_url>")) return 0;
+        else if (parse_str(buf, "<name>", name)) continue;
+        else if (parse_str(buf, "<description>", description)) continue;
+        else if (parse_str(buf, "<url>", url)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
+void GUI_URL::print() {
+    printf(
+        "GUI URL:\n"
+        "   name: %s\n"
+        "   description: %s\n"
+        "   URL: %s\n",
+        name.c_str(), description.c_str(), url.c_str()
+    );
+}
+
 PROJECT::PROJECT() {
     clear();
 }
@@ -54,6 +75,8 @@ PROJECT::~PROJECT() {
 
 int PROJECT::parse(MIOFILE& in) {
     char buf[256];
+    int retval;
+
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project>")) return 0;
         else if (parse_str(buf, "<master_url>", master_url)) continue;
@@ -68,20 +91,33 @@ int PROJECT::parse(MIOFILE& in) {
         else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
         else if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
         else if (parse_int(buf, "<min_rpc_time>", min_rpc_time)) continue;
-        else if (match_tag(buf, "<master_url_fetch_pending>")) {
+        else if (match_tag(buf, "<master_url_fetch_pending/>")) {
             master_url_fetch_pending = true;
             continue;
         }
-        else if (match_tag(buf, "<sched_rpc_pending>")) {
+        else if (match_tag(buf, "<sched_rpc_pending/>")) {
             sched_rpc_pending = true;
             continue;
         }
-        else if (match_tag(buf, "<tentative>")) {
+        else if (match_tag(buf, "<suspended_via_gui/>")) {
+            suspended_via_gui = true;
+            continue;
+        }
+        else if (match_tag(buf, "<tentative/>")) {
             tentative = true;
             continue;
         }
         else if (match_tag(buf, "<gui_urls>")) {
-            copy_element_contents(in, "</gui_urls>", gui_urls);
+            while (in.fgets(buf, 256)) {
+                if (match_tag(buf, "</gui_urls>")) break;
+                else if (match_tag(buf, "<gui_url>")) {
+                    GUI_URL gu;
+                    retval = gu.parse(in);
+                    if (!retval) {
+                        gui_urls.push_back(gu);
+                    }
+                }
+            }
             continue;
         }
     }
@@ -89,6 +125,8 @@ int PROJECT::parse(MIOFILE& in) {
 }
 
 void PROJECT::print() {
+    unsigned int i;
+
     printf("   name: %s\n", project_name.c_str());
     printf("   master URL: %s\n", master_url.c_str());
     printf("   user_name: %s\n", user_name.c_str());
@@ -103,7 +141,10 @@ void PROJECT::print() {
     printf("   master fetch pending: %s\n", master_url_fetch_pending?"yes":"no");
     printf("   scheduler RPC pending: %s\n", sched_rpc_pending?"yes":"no");
     printf("   tentative: %s\n", tentative?"yes":"no");
-    printf("   gui_urls: %s\n", gui_urls.c_str());
+    printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
+    for (i=0; i<gui_urls.size(); i++) {
+        gui_urls[i].print();
+    }
 }
 
 void PROJECT::clear() {
@@ -122,7 +163,8 @@ void PROJECT::clear() {
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
     tentative = false;
-    gui_urls = "";
+    suspended_via_gui = false;
+    gui_urls.clear();
 }
 
 APP::APP() {
@@ -242,12 +284,16 @@ int RESULT::parse(MIOFILE& in) {
         else if (parse_str(buf, "<name>", name)) continue;
         else if (parse_str(buf, "<wu_name>", wu_name)) continue;
         else if (parse_int(buf, "<report_deadline>", report_deadline)) continue;
-        else if (match_tag(buf, "<ready_to_report>")) {
+        else if (match_tag(buf, "<ready_to_report/>")) {
             ready_to_report = true;
             continue;
         }
-        else if (match_tag(buf, "<got_server_ack>")) {
+        else if (match_tag(buf, "<got_server_ack/>")) {
             got_server_ack = true;
+            continue;
+        }
+        else if (match_tag(buf, "<suspended_via_gui/>")) {
+            suspended_via_gui = true;
             continue;
         }
         else if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;

@@ -31,6 +31,15 @@
 #define RUN_MODE_NEVER  1
 #define RUN_MODE_AUTO   2
 
+struct GUI_URL {
+    std::string name;
+    std::string description;
+    std::string url;
+
+    int parse(MIOFILE&);
+    void print();
+};
+
 class PROJECT {
 public:
     std::string master_url;
@@ -38,7 +47,7 @@ public:
     std::string project_name;
     std::string user_name;
     std::string team_name;
-    std::string gui_urls;
+    std::vector<GUI_URL> gui_urls;
     double user_total_credit;
     double user_expavg_credit;
     double host_total_credit;      // as reported by server
@@ -51,6 +60,7 @@ public:
     bool master_url_fetch_pending; // need to fetch and parse the master URL
     bool sched_rpc_pending;     // contact scheduling server for preferences
     bool tentative;             // master URL and account ID not confirmed
+    bool suspended_via_gui;
 
     PROJECT();
     ~PROJECT();
@@ -127,6 +137,7 @@ public:
     double checkpoint_cpu_time;
     double current_cpu_time;
     double fraction_done;
+    bool suspended_via_gui;
 
     APP* app;
     WORKUNIT* wup;

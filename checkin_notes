@@ -17838,4 +17838,4 @@ David  27 Sept 2004
         client_types.C
 		scheduler_op.C
     lib/
-        gui_rpc_client.h
+        gui_rpc_client.C,h
