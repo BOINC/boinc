@@ -1506,3 +1506,39 @@ Eric Heien      August 7, 2002
     sched/
         file_upload_handler.C
 
+Eric Heien    August 9, 2002
+        - Moved windows files to client/win directory, added win_build.zip
+          for building Windows GUI and CLI clients.
+        - Fixed compile bugs in graphics_api.C and graphics_api.h
+        - Updated TODO and INSTALL docs
+        - Added Mac init, event loop, and cleanup functionality in main.C
+        - Added user requestable quit to main loop for use in GUI interfaces.
+        - Fixed Windows specific compile bugs in filesys and pers_file_xfer.
+
+    TODO
+    INSTALL
+    INSTALL_CLIENT
+    win_build.zip
+    api/
+        boinc_api.C
+        graphics_api.C
+        graphics_api.h
+    client/
+        app.C
+        filesys.C
+        filesys.h
+        hostinfo_win.C (removed)
+        main.C
+        pers_file_xfer.C
+        util.C
+        util.h
+        win_main.cpp (removed)
+        win_net.cpp (removed)
+        win_net.h (removed)
+        windows_cpp.h (removed)
+        win/
+            hostinfo_win.cpp (added)
+            win_main.cpp (added)
+            win_net.cpp (added)
+            win_net.h (added)
+            windows_cpp.h (added)
