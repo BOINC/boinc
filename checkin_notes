@@ -18363,3 +18363,9 @@ David  13 Oct 2004
         x_opengl.C,h
     apps/
         Makefile.am
+
+David  13 Oct 2004
+    - upload handler: return error msg to client if can't open log file
+
+    sched/
+        file_upload_handler.C

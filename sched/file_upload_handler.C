@@ -449,6 +449,7 @@ int main() {
     get_log_path(log_path);
     if (!freopen(log_path, "a", stderr)) {
         fprintf(stderr, "Can't open log file\n");
+        return_error(ERR_TRANSIENT, "can't open log file");
         exit(1);
     }
 
@@ -456,7 +457,6 @@ int main() {
 
     retval = config.parse_file("..");
     if (retval) {
-        return_error(ERR_TRANSIENT, "can't read config file");
         exit(1);
     }
 
