@@ -142,7 +142,6 @@ class PHPHTTPRequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
                 args = [script]
             if '=' not in decoded_query:
                 args.append(decoded_query)
-            nobody = CGIHTTPServer.nobody_uid()
             self.wfile.flush() # Always flush before forking
             pid = os.fork()
             if pid != 0:
@@ -160,10 +159,6 @@ class PHPHTTPRequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
                 return
             # Child
             try:
-                try:
-                    os.setuid(nobody)
-                except os.error:
-                    pass
                 os.dup2(self.rfile.fileno(), 0)
                 os.dup2(self.wfile.fileno(), 1)
                 os.chdir(self.translate_path(dir)) # KC

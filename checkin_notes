@@ -7774,3 +7774,10 @@ Karl 2003-11-22
 
     client/
         client_types.C
+
+Karl 2003-11-24
+    - testbase fixes
+
+    test/
+        testbase.py
+        cgiserver.py

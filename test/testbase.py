@@ -726,7 +726,7 @@ class AsynchCGIServer:
             return
         ## child
         os.chdir(base_dir)
-        sys.stderr = open('cgiserver.log', 'w')
+        sys.stderr = open('cgiserver.log', 'w', 0)
         cgiserver.serve(port=port)
         os._exit(1)
     def kill(self):
