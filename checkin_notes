@@ -18663,3 +18663,13 @@ David  20 Oct 2004
 
     api/
         boinc_api.C
+
+David  20 Oct 2004
+    - API: make the worker thread low priority
+        (or at least lower than the graphics thread)
+
+    NOTE: on UNIX, the core client nices apps to 20.
+        Need to rethink this for graphics apps.
+
+    api/
+        graphics_api.C

@@ -39,6 +39,7 @@ HANDLE worker_threadh=NULL;
 
 #ifdef HAVE_PTHREAD
 #include <pthread.h>
+#include <sched.h>
 #endif
 #endif
 
@@ -142,9 +143,17 @@ int boinc_init_graphics(void (*_worker_main)()) {
 #ifdef _PTHREAD_H
     pthread_t worker_thread;
     pthread_attr_t worker_thread_attr;
+    sched_param param;
     int retval;
 
-    pthread_attr_init( &worker_thread_attr );
+    // make the worker thread low priority
+    // (current thread, i.e. graphics thread, should remain high priority)
+    //
+    pthread_attr_init(&worker_thread_attr);
+    pthread_attr_getschedparam(&worker_thread_attr, &param);
+    param.sched_priority = 20;
+    pthread_attr_setschedparam(&worker_thread_attr, &param);
+
     retval = pthread_create( &worker_thread, &worker_thread_attr, foobar, 0 );
     if (retval) return ERR_THREAD;
     pthread_attr_destroy( &worker_thread_attr );
