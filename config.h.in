@@ -27,6 +27,27 @@
 /* Define to 1 if you have the `gettimeofday' function. */
 #undef HAVE_GETTIMEOFDAY
 
+/* Define to 1 if you have the <GLUT/glut.h> header file. */
+#undef HAVE_GLUT_GLUT_H
+
+/* Define to 1 if you have the <glut.h> header file. */
+#undef HAVE_GLUT_H
+
+/* Define to 1 if you have the <glu.h> header file. */
+#undef HAVE_GLU_H
+
+/* Define to 1 if you have the <GL/glut.h> header file. */
+#undef HAVE_GL_GLUT_H
+
+/* Define to 1 if you have the <GL/glu.h> header file. */
+#undef HAVE_GL_GLU_H
+
+/* Define to 1 if you have the <GL/gl.h> header file. */
+#undef HAVE_GL_GL_H
+
+/* Define to 1 if you have the <gl.h> header file. */
+#undef HAVE_GL_H
+
 /* Have libGL */
 #undef HAVE_GL_LIB
 
@@ -74,6 +95,15 @@
 
 /* Define to 1 if you have the <netinet/tcp.h> header file. */
 #undef HAVE_NETINET_TCP_H
+
+/* Define to 1 if you have the <OpenGL/glut.h> header file. */
+#undef HAVE_OPENGL_GLUT_H
+
+/* Define to 1 if you have the <OpenGL/glu.h> header file. */
+#undef HAVE_OPENGL_GLU_H
+
+/* Define to 1 if you have the <OpenGL/gl.h> header file. */
+#undef HAVE_OPENGL_GL_H
 
 /* Define if you have POSIX threads libraries and header files. */
 #undef HAVE_PTHREAD

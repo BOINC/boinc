@@ -6033,3 +6033,15 @@ Karl 2003/09/02
     test/
         Makefile.am
         test_sanity.py
+
+Korpela 2003/09/02
+    Added lib/std_fixes.h which is used to add missing functions/templates
+    to the standard namespace.  Used in SETI@home, but probably has wider
+    application, so I moved it to BOINC.
+
+Korpela 2003/09/03
+   - Added OpenGL header check to configure.ac
+   - Changed gutil.C to use OpenGL header paths found by configure.
+
+    api/gutil.C
+    configure.ac
