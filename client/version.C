@@ -17,8 +17,8 @@
 // Contributor(s):
 //
 
+//#include "cpp.h"
 #include "version.h"
-#include "windows_cpp.h"
 
 int gmajor_version = MAJOR_VERSION;
 int gminor_version = MINOR_VERSION;

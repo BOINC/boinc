@@ -22,10 +22,10 @@
 
 // Note: code for actually doing a scheduler RPC is in scheduler_op.C
 
+#include "cpp.h"
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
-#include "windows_cpp.h"
 
 #include "crypt.h"
 #include "error_numbers.h"

@@ -19,7 +19,7 @@
 // High-level logic involving task execution
 //
 
-#include "windows_cpp.h"
+#include "cpp.h"
 
 #ifdef _WIN32
 #include <afxwin.h>

@@ -21,8 +21,7 @@
 // connected to I/O files in various ways.
 // Shouldn't depend on CLIENT_STATE.
 
-#include "windows_cpp.h"
-#include "error_numbers.h"
+#include "cpp.h"
 
 #ifdef _WIN32
 #include <io.h>
@@ -64,6 +63,7 @@
 
 #include "client_state.h"
 #include "client_types.h"
+#include "error_numbers.h"
 #include "filesys.h"
 #include "file_names.h"
 #include "parse.h"

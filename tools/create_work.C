@@ -94,7 +94,7 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file();
     if (retval) {
-        printf("No configure file found\n");
+        printf("Create_work: No configuration file found; using cmdline values\n");
     } else {
         strcpy(db_name, config.db_name);
         strcpy(db_passwd, config.db_passwd);

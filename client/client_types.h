@@ -25,11 +25,7 @@
 #ifndef _CLIENT_TYPES_
 #define _CLIENT_TYPES_
 
-#ifdef _WIN32
-#include "windows_cpp.h"
-#endif
-
-#include <vector>
+#include "cpp.h"
 #include <stdio.h>
 
 #ifdef _WIN32

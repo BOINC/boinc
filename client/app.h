@@ -20,7 +20,6 @@
 #ifndef _TASK_
 #define _TASK_
 
-#include "windows_cpp.h"
 #ifdef _WIN32
 #include <afxwin.h>
 #endif

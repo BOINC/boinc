@@ -31,6 +31,8 @@ using std::ifstream;
 
 const char* CONFIG_FILE = "config.xml";
 
+// ??? why not use read_file_malloc()
+//
 inline string read_stream(istream& f) {
     string buf;
     buf.reserve(8192);
@@ -53,6 +55,9 @@ int SCHED_CONFIG::parse(istream& f) {
     parse_str(buf.c_str(), "<upload_url>", upload_url, sizeof(upload_url));
     parse_str(buf.c_str(), "<upload_dir>", upload_dir, sizeof(upload_dir));
     parse_str(buf.c_str(), "<user_name>", user_name, sizeof(user_name));
+    if (match_tag(buf.c_str(), "<one_result_per_user_per_wu/>")) {
+        one_result_per_user_per_wu = true;
+    }
     if (match_tag(buf.c_str(), "</config>")) return 0;
     return ERR_XML_PARSE;
 }

@@ -6830,6 +6830,9 @@ David  15 Oct 2003
 David  16 Oct 2003
     - add "userid" to result table
     - send at most one result per WU per user
+        NOTE: since this change breaks test_uc.py and other tests,
+        it's enabled by a <one_result_per_user_per_wu/> tag in the config file;
+        make sure this is present in production projects
 
     db/
         boinc_db.C,h
@@ -6837,3 +6840,7 @@ David  16 Oct 2003
         constraints.sql
     sched/
         handle_request.C
+
+David  16 Oct 2003
+    - moved client/win/windows_cpp.h to client/cpp.h,
+        since it's included (and needed) in UNIX as well as Windows

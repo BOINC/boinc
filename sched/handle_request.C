@@ -701,24 +701,27 @@ static void scan_work_array(
 
         // don't send if we've already a result of this WU to this user
         //
-        sprintf(buf,
-            "where workunitid=%d and userid=%d",
-            wu_result.workunit.id, reply.user.id
-        );
-        retval = result.count(n, buf);
-        if (retval) {
-            log_messages.printf(
-                SchedMessages::CRITICAL,
-                "send_work: can't get result count (%d)\n", retval
+        if (config.one_result_per_user_per_wu) {
+            sprintf(buf,
+                "where workunitid=%d and userid=%d",
+                wu_result.workunit.id, reply.user.id
             );
-            continue;
-        } else {
-            if (n>0) {
+            retval = result.count(n, buf);
+            if (retval) {
                 log_messages.printf(
-                    SchedMessages::NORMAL,
-                    "send_work: user %d already has %d result for WU %d\n",
-                    reply.user.id, n, wu_result.workunit.id
+                    SchedMessages::CRITICAL,
+                    "send_work: can't get result count (%d)\n", retval
                 );
+                continue;
+            } else {
+                if (n>0) {
+                    log_messages.printf(
+                        SchedMessages::NORMAL,
+                        "send_work: user %d already has %d result for WU %d\n",
+                        reply.user.id, n, wu_result.workunit.id
+                    );
+                    continue;
+                }
             }
         }
         

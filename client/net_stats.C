@@ -24,10 +24,10 @@
 // it increments elapsed time and byte counts,
 // and maintains an exponential average of throughput.
 
+#include "cpp.h"
 #include <string.h>
 #include <math.h>
 
-#include "windows_cpp.h"
 
 #include "parse.h"
 #include "time.h"

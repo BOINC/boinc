@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-#include "windows_cpp.h"
+#include "cpp.h"
 
 #include <stdio.h>
 #include <stdlib.h>

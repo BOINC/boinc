@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-#include "windows_cpp.h"
+#include "cpp.h"
 
 #if HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -51,9 +51,9 @@
 #include "hostinfo.h"
 #include "http.h"
 #include "speed_stats.h"
-#include "client_state.h"
 #include "log_flags.h"
 #include "maybe_gui.h"
+#include "client_state.h"
 
 #define BENCHMARK_PERIOD        (SECONDS_PER_DAY*30)
     // rerun CPU benchmarks this often (hardware may have been upgraded)

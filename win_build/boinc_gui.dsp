@@ -302,6 +302,10 @@ SOURCE=..\client\client_types.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\cpp.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\lib\error_numbers.h
 # End Source File
 # Begin Source File
@@ -411,10 +415,6 @@ SOURCE=..\Client\win\Win_net.h
 # Begin Source File
 
 SOURCE=..\client\win\win_util.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\Client\win\windows_cpp.h
 # End Source File
 # Begin Source File
 

@@ -17,7 +17,11 @@
 // Contributor(s):
 //
 
-#include "windows_cpp.h"
+#include "cpp.h"
+#include <cstring>
+#include <sstream>
+#include <algorithm>
+
 
 #ifdef _WIN32
 #include "winsock.h"
@@ -38,10 +42,6 @@
 #include "message.h"
 
 #include "http.h"
-
-#include <cstring>
-#include <sstream>
-#include <algorithm>
 
 #define HTTP_BLOCKSIZE  16384
 
