@@ -3,8 +3,6 @@ DON'T ADD ANYTHING TO HERE.  USE THE TASKBASE INSTEAD.
 BUGS (arranged from high to low priority)
 -----------------------
 
-- Test BOINC error handling on UNIX if app can't start up (use bad path name)
-
 - reset/quit
     - Resetting project should delete old project files
 
@@ -177,8 +175,6 @@ delete the old boinc.dll file
 
 If a client connects to the scheduling server using default prefs,
 use the stored user prefs for determining how much work to send
-
-Windows client crashes if application fails to start up (CreateProcess)
 
 get preferences works, but is slightly confusing - you have to go to
 projects, right click on "get preferences", and then exit/restart boinc
