@@ -459,9 +459,6 @@ void draw_text_new(
         if (q) *q = 0;
 		glRasterPos3d(pos[0],pos[1],pos[2]);
 		print_text(listBase, p);
-//        draw_text_start(pos, char_height, line_width);
-  ///      draw_text_line_aux(p);
-     //   draw_text_end();
         pos[1] -= line_spacing;
         if (!q) break;
         p = q+1;
@@ -759,7 +756,7 @@ void draw_texture(float* p, float* size) {
 
 //star drawing functions -<oliver wang>-
 #define STARFIELD_SIZE 1000
-#define STAR_SPEED 80.0f
+#define STAR_SPEED 20.0f
 #define PI 3.14159265358979323846264
 
 //pointer to the begining of the list
@@ -841,10 +838,15 @@ void update_stars()
 			continue;
 		}
 		
+//		tmpStar->x+=(0)*tmpStar->v*STAR_SPEED;
+//		tmpStar->y+=(0)*tmpStar->v*STAR_SPEED;
+//		tmpStar->z+=(1)*tmpStar->v*STAR_SPEED;
+		
+		
 		tmpStar->x+=(eye[0])*tmpStar->v*STAR_SPEED;
 		tmpStar->y+=(eye[1])*tmpStar->v*STAR_SPEED;
 		tmpStar->z+=(eye[2])*tmpStar->v*STAR_SPEED;
-		
+
 		
 		//grow objects as the approach you
 		if(dist>900) glPointSize(1.0f);

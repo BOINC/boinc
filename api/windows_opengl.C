@@ -19,6 +19,10 @@
 #include "util.h"
 #include "win_idle_tracker.h"
 
+//remove if there are windows problems
+#define WIN32_LEAN_AND_MEAN   // This trims down the windows libraries.
+#define WIN32_EXTRA_LEAN      // Trims even farther.
+
 static HDC			hDC;
 static HGLRC		hRC;
 static HWND			hWnd=NULL;		// Holds Our Window Handle
@@ -43,7 +47,9 @@ DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 BOOL reg_win_class();
 BOOL unreg_win_class();
 
-bool KillWindow() {
+bool KillWindow() {	
+	if(hDC) app_unload_gl();
+
 	if (hRC) {											// Do We Have A Rendering Context?
 		if (!wglMakeCurrent(NULL,NULL)) {				// Are We Able To Release The DC And RC Contexts?
 			return false;
@@ -65,8 +71,7 @@ bool KillWindow() {
 		return false;
 		hWnd=NULL;										// Set hWnd To NULL
 	}
-
-	app_unload_gl();
+	
 	return true;
 }
 
