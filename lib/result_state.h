@@ -20,9 +20,7 @@
 #ifndef _RESULT_STATE_
 #define _RESULT_STATE_
 
-// The following are the states that the client is in according to the result. 
-// These are used by both the server and client
-// Keep them in order based on chronology of transition
+// States of a result on a client.
 //
 #define RESULT_NEW               0
     // New result, files may still need to be downloaded

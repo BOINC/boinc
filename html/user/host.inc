@@ -17,9 +17,6 @@ function location_form($host) {
     return $x;
 }
 
-// show info about a host.
-// $private is true if we're showing this to the host's owner
-//
 function show_host($host, $private) {
     start_table();
     row1("Computer information");
@@ -95,6 +92,7 @@ function show_host($host, $private) {
 function host_table_start($title, $private) {
     start_table();
     row1($title, 6);
+    echo "<tr>";
     if ($private) {
         echo "<th>Name
             <br><font size=-2>Click for more info</font>
@@ -112,6 +110,7 @@ function host_table_start($title, $private) {
         <th>Total credit</th>
         <th>CPU type</th>
         <th>Operating system</th>
+        <th>Results<br><font size=-2>Click for list</font></th>
         </tr>
     ";
 }
@@ -120,11 +119,20 @@ function show_host_row($host, $i, $private) {
     $result = mysql_query("select * from user where id = $host->userid");
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
+
+    $result = mysql_query("select * from result where hostid = $host->id order by received_time desc limit 1");
+    $last_result = mysql_fetch_object($result);
+    mysql_free_result($result);
+
+    $result = mysql_query("select count(*) as nresults from result where hostid=$host->id");
+    $foobar = mysql_fetch_object($result);
+    $nresults = $foobar->nresults;
+
     echo "<tr>
     ";
     if ($private) {
         echo"<td>
-            <a href=show_host_detail.php?hostid=$host->id&private>
+            <a href=show_host_detail.php?hostid=$host->id>
             $host->domain_name</a></td>
         ";
     } else {
@@ -135,10 +143,16 @@ function show_host_row($host, $i, $private) {
         <td>%.4f</td>
         <td>%.4f</td>
         <td>%s %s</td>
-        <td>%s %s</td>
-        </tr>\n",
+        <td>%s %s</td>",
         $host->expavg_credit, $host->total_credit, $host->p_vendor, $host->p_model,
-        $host->os_name, $host->os_version );
+        $host->os_name, $host->os_version
+    );
+    echo "<td><a href=results_host.php?hostid=$host->id>$nresults</a>";
+    if ($last_result) {
+        $x = time_str($last_result->received_time);
+        echo "<br><font size=2>Last received: $x</font>\n";
+    }
+    echo "</td></tr>\n";
 }
 
 // return true iff it's possible that the hosts are actually

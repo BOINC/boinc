@@ -4841,3 +4841,15 @@ David  June 18 2003
 
     sched/
         file_upload_handler.C
+
+David  June 18 2003
+    - added user web interface for seeing results for a host
+
+    client/
+        cs_scheduler.C
+    lib/
+        result_state.h
+    html_user/
+        host.inc
+        result.inc (new)
+        results_host.php (new)

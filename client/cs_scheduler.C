@@ -238,8 +238,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     if (retval) return retval;
     for (i=0; i<results.size(); i++) {
         rp = results[i];
-        if (rp->project == p && rp->ready_to_ack)
+        if (rp->project == p && rp->ready_to_ack) {
             rp->write(f, true);
+        }
     }
     fprintf(f, "</scheduler_request>\n");
     fclose(f);
