@@ -10,10 +10,12 @@ CONFIG config;
 
 int wu_delete_files(WORKUNIT& wu) {
     char* p;
-    char filename[256], pathname[256];
+    char filename[256], pathname[256], buf[MAX_BLOB_SIZE];
     bool no_delete;
 
-    p = strtok(wu.xml_doc, "\n");
+    strcpy(buf,wu.xml_doc);
+
+    p = strtok(buf, "\n");
     strcpy(filename, "");
     while (p) {
         if (parse_str(p, "<name>", filename, sizeof(filename))) {
@@ -36,10 +38,11 @@ int wu_delete_files(WORKUNIT& wu) {
 
 int result_delete_files(RESULT& result) {
     char* p;
-    char filename[256], pathname[256];
+    char filename[256], pathname[256], buf[MAX_BLOB_SIZE];
     bool no_delete;
 
-    p = strtok(result.xml_doc_in, "\n");
+    strcpy(buf,result.xml_doc_in);
+    p = strtok(buf,"\n");
     while (p) {
         if (parse_str(p, "<name>", filename, sizeof(filename))) {
         } else if (match_tag(p, "<file_info>")) {

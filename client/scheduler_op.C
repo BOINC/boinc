@@ -123,7 +123,7 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
     else {
       //backoff RETRY_BASE_PERIOD * e^nrpc_failures * random
         x = RETRY_BASE_PERIOD * exp(((double)rand()/(double)RAND_MAX) * n);
-	exp_backoff =  (int)max(PERS_RETRY_DELAY_MIN,min(PERS_RETRY_DELAY_MAX,(int) x));
+	exp_backoff =  (int)max(SCHED_RETRY_DELAY_MIN,min(SCHED_RETRY_DELAY_MAX,(int) x));
 	p->min_rpc_time = time(0) + exp_backoff;
 	
     }

@@ -147,7 +147,7 @@ int read_file_malloc(char* pathname, char*& str) {
     return 0;
 }
 
-#if 0
+
 // replace XML element contents.  not currently used
 //
 void replace_element(char* buf, char* start, char* end, char* replacement) {
@@ -160,4 +160,4 @@ void replace_element(char* buf, char* start, char* end, char* replacement) {
     strcpy(p, replacement);
     strcat(p, temp);
 }
-#endif
+

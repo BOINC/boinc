@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+#define DEBUG
+
 #ifndef _SCHEDULER_OP_
 #define _SCHEDULER_OP_
 
@@ -51,8 +53,18 @@
     // This is the Max on the time to wait after we've contacted the Master URL MASTER_FETCH_RETRY_CAP times.
 
 //The next two constants are used to bound RPC exponential waiting. 
-#define PERS_RETRY_DELAY_MIN    60                // 1 minute
-#define PERS_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
+#define SCHED_RETRY_DELAY_MIN    60                // 1 minute
+#define SCHED_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
+
+#ifdef DEBUG
+#define MASTER_FETCH_PERIOD     5
+#define RETRY_BASE_PERIOD       1
+#define RETRY_CAP               5
+#define MASTER_FETCH_RETRY_CAP 3
+#define MASTER_FETCH_INTERVAL 5
+#define SCHED_RETRY_DELAY_MIN    1
+#define SCHED_RETRY_DELAY_MAX    30
+#endif
 
 #define SCHEDULER_OP_STATE_IDLE         0
 #define SCHEDULER_OP_STATE_GET_MASTER   1

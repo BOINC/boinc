@@ -18,6 +18,7 @@
 //
 
 #include <stdio.h>
+#include <db.h>
 
 extern bool parse(char*, char*);
 extern bool parse_int(char*, char*, int&);
@@ -29,3 +30,4 @@ extern void copy_stream(FILE* in, FILE* out);
 extern void strcatdup(char*& p, char* buf);
 extern int dup_element_contents(FILE* in, char* end_tag, char** pp);
 extern int read_file_malloc(char* pathname, char*& str);
+extern void replace_element(char* buf, char* start, char* end, char* replacement);

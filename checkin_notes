@@ -2745,6 +2745,17 @@ David   Dec 19 2002
     tools/
         country_select.C
 
+Hamid   Dec 19 2002
+
+    -Edited make_work.C, now when a new work_unit is created, it's input files are copied along with it, with some random numbers added to the end, so for each new work_unit there are a set of associated new input files
+
+    -fixed a little bug in file_deleter
+
+    -note: strtok() changes the original string passed to it, kind of dangerous to use
+ 
+    -from parse.h : replace_element() is now in use ( I used it for make_work.C)
+
+
 David  Dec 19 2002
     - added -add_new_project option to command line version
         changed func name from get_initial_project() to add_new_project()
@@ -2756,3 +2767,4 @@ David  Dec 19 2002
         scheduler_op.h
     win/
         wingui.cpp,h
+

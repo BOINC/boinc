@@ -400,12 +400,12 @@ class Project {
         PassThru("cd $this->project_dir/cgi; ./feeder -asynch > feeder_out");
     }
 
-    function result_retry($app){
-       PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror 10 -ndet 10 -nredundancy 10  > result_retry_out");
+    function result_retry($app, $nerror = 5, $ndet = 5, $nredundancy = 5){
+       PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy  > result_retry_out");
     }
 
-    function start_result_retry($app){
-       PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror 10 -ndet 10 -nredundancy 10 -asynch > result_retry_out");
+    function start_result_retry($app, $nerror = 5,$ndet = 5, $nredundancy = 5){
+       PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy -asynch > result_retry_out");
     }
       
 

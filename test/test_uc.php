@@ -40,9 +40,9 @@
 
     $project->start_feeder();
     $host->run("-exit_when_idle -no_time_test");
+
     $project->stop();
     $project->validate($app, 2);
-
     $result->state = RESULT_STATE_DONE;
     $result->stderr_out = "APP: upper_case: starting, argc 1";
     $result->exit_status = 0;
