@@ -84,7 +84,7 @@ int create_download_result(DB_RESULT& result, int host_id) {
     return 0;
 }
 
-int create_download_message(DB_RESULT& result, int host_id, const char* file_name, int priority, unsigned long exp_days) {;
+int create_download_message(DB_RESULT& result, int host_id, const char* file_name, int priority, long int exp_days) {;
     DB_MSG_TO_HOST mth;
     int retval;
     double nbytes;
@@ -118,7 +118,7 @@ int create_download_message(DB_RESULT& result, int host_id, const char* file_nam
             "    <nbytes>%.0f</nbytes>\n"
             "    <sticky/>\n"
             "    <priority>%d</priority>\n"
-            "    <exp_days>%d</exp_days>\n"
+            "    <exp_days>%ld</exp_days>\n"
             "</file_info>\n"
             "<workunit>\n"
             "    <name>%s</name>\n"
@@ -138,16 +138,16 @@ int create_download_message(DB_RESULT& result, int host_id, const char* file_nam
     return 0;
 }
 
-int send_file(int host_id, const char* file_name, int priority, unsigned long exp_date) {
+int send_file(int host_id, const char* file_name, int priority, long int exp_days) {
     DB_RESULT result;
     int retval;
     result.clear();
     long int my_time = time(0);
     init_xfer_result(result);
-    sprintf(result.name, "send_%s_%d_%ul", file_name, host_id, my_time);
+    sprintf(result.name, "send_%s_%d_%ld", file_name, host_id, my_time);
     result.hostid = host_id;
     retval = create_download_result(result, host_id);
-    retval = create_download_message(result, host_id, file_name, priority, exp_date);
+    retval = create_download_message(result, host_id, file_name, priority, exp_days);
     return retval;
 }
 
@@ -181,12 +181,13 @@ int main(int argc, char** argv) {
             exp_days = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-help")) {
             fprintf(stdout,
-                    "send_file: sends a file to a specific host\n\n",
-                    "It takes the following arguments and types:\n",
-                    "-hostid (int); the number of the host\n",
-                    "-file_name (string); the name of the file to send\n",
-                    "-priority (int); the priority of the file, (low=1, high=5)\n",
+                    "send_file: sends a file to a specific host\n\n"
+                    "It takes the following arguments and types:\n"
+                    "-hostid (int); the number of the host\n"
+                    "-file_name (string); the name of the file to send\n"
+                    "-priority (int); the priority of the file, (low=1, high=5)\n"
                     "-exp_days (int); the number of days until the file should expire\n");
+            exit(0);
         } else {
             if (!strncmp("-",argv[i],1)) {
                 fprintf(stderr, "send_file: bad argument '%s'\n", argv[i]);

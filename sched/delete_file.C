@@ -77,9 +77,17 @@ int main(int argc, char** argv) {
             }
         } else if(!strcmp(argv[i], "-file_name")) {
             strcpy(file_name, argv[i++]);
+        } else if (!strcmp(argv[i], "-help")) {
+            fprintf(stdout,
+                    "delete_file: deletes a file on a specific host\n\n"
+                    "It takes the following arguments and types:\n"
+                    "-hostid (int); the number of the host\n"
+                    "-file_name (string); the name of the file to get\n");
+            exit(0);
         } else {
             if (!strncmp("-",argv[i],1)) {
                 fprintf(stderr, "request_file_list: bad argument '%s'\n", argv[i]);
+                fprintf(stderr, "type get_file -help for more information\n");
                 exit(1);
             }
         }
