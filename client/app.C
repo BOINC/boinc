@@ -807,6 +807,20 @@ ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
     return NULL;
 }
 
+// Find the ACTIVE_TASK in the current set with the matching result
+//
+ACTIVE_TASK* ACTIVE_TASK_SET::lookup_result(RESULT* result) {
+    for (active_tasks_v::iterator i = active_tasks.begin();
+         i != active_tasks.end(); ++i)
+    {
+        ACTIVE_TASK* atp = *i;
+        if (atp->result == result) {
+            return atp;
+        }
+    }
+    return NULL;
+}
+
 // suspend all currently running tasks
 //
 void ACTIVE_TASK_SET::suspend_all() {

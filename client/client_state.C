@@ -523,6 +523,19 @@ double CLIENT_STATE::estimate_cpu_time(WORKUNIT& wu) {
     return x;
 }
 
+inline double force_fraction(double f)
+{
+    if (f < 0) return 0;
+    if (f > 1) return 1;
+    return f;
+}
+
+double CLIENT_STATE::get_percent_done(RESULT* result)
+{
+    ACTIVE_TASK* atp = active_tasks.lookup_result(result);
+    return atp ? force_fraction(atp->fraction_done) : 0.0;
+}
+
 // returns true if start_hour == end_hour or start_hour <= now < end_hour
 inline bool now_between_two_hours(int start_hour, int end_hour)
 {

@@ -95,6 +95,7 @@ public:
     int check_cpu_benchmarks();
     void trunc_stderr_stdout();
     double estimate_cpu_time(WORKUNIT&);
+    double get_percent_done(RESULT* result);
     int project_disk_usage(PROJECT*, double&);
     int current_disk_usage(double&);
         // returns the total disk usage of BOINC on this host
@@ -204,7 +205,7 @@ private:
     bool some_project_rpc_ok();
     bool scheduler_rpc_poll();
     void update_avg_cpu(PROJECT*);
-    double estimate_duration(WORKUNIT*);
+    // double estimate_duration(WORKUNIT*);
     double current_work_buf_days();
 
     // the following could be eliminated by using map instead of vector
