@@ -80,7 +80,8 @@ echo "
         // if WU is assimilated, trigger deletion of files
         if wu.assimilated_state = DONE
             // trigger input file deletion if needed
-            if all results are OVER
+            if (all results are OVER and those that are outcome SUCCESS
+                have validate_state != INIT)
                 wu.file_delete_state = ready
 
             // outputs of error results can be deleted immediately;

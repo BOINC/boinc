@@ -55,7 +55,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     int nunsent, ncouldnt_send, nover;
     char suffix[256], result_template[MEDIUM_BLOB_SIZE];
     time_t now = time(0), x;
-    bool all_over, have_result_to_validate, do_delete;
+    bool all_over_and_validated, have_result_to_validate, do_delete;
 
     {
         char buf[256];
@@ -245,13 +245,21 @@ void handle_wu(DB_WORKUNIT& wu) {
         }
     }
 
-    // scan results, see if all over, look for canonical result
+    // scan results:
+    //  - see if all over and validated
+    //  - look for canonical result
     //
-    all_over = true;
+    all_over_and_validated = true;
     for (unsigned int i=0; i<results.size(); i++) {
         DB_RESULT& result = results[i];
-        if (result.server_state != RESULT_SERVER_STATE_OVER) {
-            all_over = false;
+        if (result.server_state == RESULT_SERVER_STATE_OVER) {
+            if (result.outcome == RESULT_OUTCOME_SUCCESS) {
+                if (result.validate_state == VALIDATE_STATE_INIT) {
+                    all_over_and_validated = false;
+                }
+            }
+        } else {
+            all_over_and_validated = false;
         }
         if (result.id == wu.canonical_resultid) {
             p_canonical_result = &result;
@@ -270,7 +278,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     if (wu.assimilate_state == ASSIMILATE_DONE) {
         // can delete input files if all results OVER
         //
-        if (all_over && wu.file_delete_state == FILE_DELETE_INIT) {
+        if (all_over_and_validated && wu.file_delete_state == FILE_DELETE_INIT) {
             wu.file_delete_state = FILE_DELETE_READY;
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG,
@@ -288,7 +296,9 @@ void handle_wu(DB_WORKUNIT& wu) {
             // can delete canonical result outputs only if all successful
             // results have been validated
             //
-            if (&result == p_canonical_result && !all_over) continue;
+            if (&result == p_canonical_result && !all_over_and_validated) {
+                continue;
+            }
 
             do_delete = false;
             switch(result.outcome) {
@@ -312,7 +322,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                         SCHED_MSG_LOG::CRITICAL,
                         "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
                         wu.id, wu.name, result.id, result.name, retval
-                        );
+                    );
                 }
             }
         }

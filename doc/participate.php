@@ -18,6 +18,7 @@ echo "
 <li> User-supplied FAQs by
     <a href=http://homepage.mac.com/pauldbuck/>Paul D. Buck</a> and
     <a href=http://users.iafrica.com/c/ch/chrissu/boinc-README.html>Chris Sutton</a>
+<li> <a href=http://setiboinc.ssl.berkeley.edu/ap/stats.php>Leader boards</a>
 </ul>
 <p>
 <b>Third-party software and web sites</b>

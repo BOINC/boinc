@@ -11458,3 +11458,19 @@ David  April 8 2004
 
     client/
         cs_apps.C
+
+David  April 8 2004
+    - Fix a major error in back-end logic (found by Jeff):
+        The canonical result's output files (and WU input files)
+        were being deleted when all results had server_state = OVER.
+        But this doesn't mean they've been validated!
+        So the third result from every group of three
+        was failing validation about half the time
+        because the canonical result output files had been deleted.
+
+        The fix: delete canonical result and WU files only when
+        all results are OVER *and* all results with outcome SUCCESS
+        have been validated.
+    
+    sched/
+        transitioner.C
