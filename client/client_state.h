@@ -212,7 +212,7 @@ public:
 // --------------- cs_files.C:
 public:
     void trunc_stderr_stdout();
-    bool start_new_file_xfer();
+    bool start_new_file_xfer(PERS_FILE_XFER&);
 private:
     int make_project_dirs();
     int make_slot_dirs();

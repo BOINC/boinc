@@ -154,7 +154,7 @@ void UpdateLanguageStrings(CWnd* wnd, char const * windowname, int const* pnIDs,
 inline CString GetStrTime(CTime timeObj = CTime::GetCurrentTime())
 {
 	CString strTime;
-	strTime = timeObj.Format("%c"); // TODO: use windows time locale
+	strTime = timeObj.Format("%Y-%m-%d %H:%M:%S"); // TODO: use windows time locale
 	return strTime;
 }
 

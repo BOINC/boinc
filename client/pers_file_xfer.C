@@ -77,14 +77,13 @@ int PERS_FILE_XFER::start_xfer() {
 
     // Decide whether to start a new file transfer
     //
-    if (!gstate.start_new_file_xfer()) {
+    if (!gstate.start_new_file_xfer(*this)) {
         return ERR_IDLE_PERIOD;
     }
 
     // Does the file exist already? this could happen for example if we are
-    // downloading an application which exists from a previous installation,
-    // or if we get the same input file (which is unlikely outside the beta
-    // test microcosm)
+    // downloading an application which exists from a previous installation
+    //
     if (!is_upload) {
         char pathname[256];
         get_pathname(fip, pathname);
@@ -99,7 +98,9 @@ int PERS_FILE_XFER::start_xfer() {
                 xfer_done = true;
 
                 msg_printf(
-                    fip->project, MSG_INFO, "File %s exists already, skipping download", pathname);
+                    fip->project, MSG_INFO,
+                    "File %s exists already, skipping download", pathname
+                );
                 
                 return retval;
             }
@@ -169,7 +170,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
     }
     if (!fxp) {
         // No file xfer is active.
-        // We must be waiting after a failure.
+        // Either initial or resume after failure.
         // See if it's time to try again.
         //
         if (now >= next_request_time) {

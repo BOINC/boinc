@@ -40,11 +40,27 @@
 #include "filesys.h"
 #include "error_numbers.h"
 
+#define MAX_TRANSFERS_PER_PROJECT   2
+
 // Decide whether to consider starting a new file transfer
-// TODO: limit the number of file xfers in some way
 //
-bool CLIENT_STATE::start_new_file_xfer() {
-    return !activities_suspended;
+bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
+    unsigned int i;
+    int n;
+
+    if (activities_suspended) return false;
+
+    // limit the number of file transfers per project
+    //
+    n = 0;
+    for (i=0; i<file_xfers->file_xfers.size(); i++) {
+        FILE_XFER* fxp = file_xfers->file_xfers[i];
+        if (pfx.fip->project == fxp->fip->project) {
+            n++;
+        }
+    }
+    if (n >= MAX_TRANSFERS_PER_PROJECT) return false;
+    return true;
 }
 
 void CLIENT_STATE::trunc_stderr_stdout() {

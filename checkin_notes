@@ -8005,7 +8005,7 @@ Karl 2003-12-02
 
     nightly-tarball
 
-David  28 Nov 2003
+David  2 Dec 2003
     - changed indices on result table
         changed res_hostid to include id desc
         removed res_wuid
@@ -8025,3 +8025,14 @@ David  28 Nov 2003
         forum/
             post.php
             subscribe.inc
+
+David  2 Dec 2003
+    - Don't start more than 2 simultaneous file transfers per project
+
+    client/
+        client_state.h
+        cs_cmdline.C
+        cs_files.C
+        cs_scheduler.C
+        hostinfo.C
+        pers_file_xfer.C

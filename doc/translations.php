@@ -32,13 +32,13 @@ Information about BOINC is available in the following languages:
 <ul>
     <li><a href=http://boinc.homeunix.org/><font size=-2>boinc.homeunix.org</font></a>
 </ul>
+<li> Japanese
+<ul>
+    <li><a href=http://members.fortunecity.com/je2bwm/indexj.html#next2ads><font size=-2>fortunecity.com</a> (by Komori Hitoshi) </font>
+</ul>
 <li> Russian
 <ul>
     <li><a href=http://www.boinc.narod.ru><font size=-2>www.boinc.narod.ru</font></a>
-</ul>
-<li> Spanish
-<ul>
-    <li><a href=http://boinc.astroseti.org><font size=-2>boinc.astroseti.org</font></a>
 </ul>
 <li> Turkish
 <ul>

@@ -231,43 +231,36 @@ int get_local_domain_name(char* p, int len) {
     return 0;
 }
 
-// Returns the name of the local host
+// Get the IP address of the local host
 //
-int get_local_ip_addr_str(char* p, int len) {
-    strcpy(p, "");
+static int get_local_ip_addr(struct in_addr& addr) {
 #if HAVE_NETDB_H || _WIN32
     char buf[256];
-    struct in_addr addr;
     if (gethostname(buf, 256)) {
-        printf("gethostname() didn't return name\n");
+        msg_printf(NULL, MSG_ERROR, "get_local_ip_addr(): gethostname failed\n");
         return ERR_GETHOSTNAME;
     }
     struct hostent* he = gethostbyname(buf);
     if (!he || !he->h_addr_list[0]) {
-        printf("gethostbyname() didn't return any IP addresses\n");
+        msg_printf(NULL, MSG_ERROR, "get_local_ip_addr(): gethostbyname failed\n");
         return ERR_GETHOSTBYNAME;
     }
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
-    safe_strncpy(p, inet_ntoa(addr), len);
-#endif
     return 0;
+#elif
+    GET IP ADDR NOT IMPLEMENTED
+#endif
 }
 
-// Gets the ip address of the local host
+// Get the IP address as a string
 //
-int get_local_ip_addr(int& p) {
-    p = 0;
-
-#if HAVE_NETDB_H || _WIN32
-    char buf[256];
+int get_local_ip_addr_str(char* p, int len) {
+    int retval;
     struct in_addr addr;
-    if (gethostname(buf, 256)) {
-        return ERR_GETHOSTNAME;
-    }
-    struct hostent* he = gethostbyname(buf);
-    if (!he) return ERR_GETHOSTBYNAME;
-    memcpy(&addr, he->h_addr_list[0], sizeof(addr));
-    p = addr.s_addr;
-#endif
+
+    strcpy(p, "");
+    retval = get_local_ip_addr(addr);
+    if (retval) return retval;
+    safe_strncpy(p, inet_ntoa(addr), len);
     return 0;
 }

@@ -3,10 +3,10 @@
 ## $Id$
 
 '''
-A cron-like program to start/stop BOINC server daemons, and run utility tasks
+A cron-like program to start/stop BOINC server daemons and run utility tasks
 
-START parses config.xml and runs <daemon> and <task> entries.  A config.xml
-file looks like this:
+START parses config.xml and runs <daemon> and <task> entries.
+A config.xml file looks like this:
 
 <boinc>
   <config>
@@ -38,31 +38,55 @@ file looks like this:
   </tasks>
 </boinc>
 
-CMD and PERIOD are required.  OUTPUT specifies the file to output and by
-default is COMMAND_BASE_NAME.out.  Commands are run in the <bin_dir> directory
+CMD and PERIOD are required.
+OUTPUT specifies the file to output and by default is COMMAND_BASE_NAME.out.
+Commands are run in the <bin_dir> directory
 which is a path relative to <project_dir> and output to <log_dir>.
 
+The main script is "start"; sym-link or hard-link "start" to "stop", "cron".
 Invocation methods:
 
    --enable   (default if invoked as "start")
-              Set BOINC in ENABLED mode and start daemons
+              Set the project to ENABLED mode and start daemons
 
-   --cron     (default if invoked as "stop")
-              If BOINC is in ENABLED mode start daemons and run tasks Else do
-              nothing.  This command is intended to be run as a real cron job
+   --cron     If project is in ENABLED mode start daemons and run tasks;
+              else do nothing.
+              This command is intended to be run as a real cron job
               every five minutes.
 
-   --disable  Set BOINC in DISABLED mode and stop daemons.
+   --disable  (default if invoked as "stop")
+              Set project to DISABLED mode and stop daemons.
 
    --status   Show status.
 
 See "start --help" for options.
 
-
 A daemon is a task for which a process ID is recorded in the <pid_dir>
 directory and is sent a SIGINT in a DISABLE operation.
 
 IMPLEMENTATION:
+
+Uses a file "run_state.xml" that records the enabled mode
+and the last run time of periodic tasks.
+Looks like this:
+<?xml version="1.0">
+<boinc>
+  <tasks>
+    <task>
+      <cmd>
+        get_load
+      </cmd>
+      <last_run>
+        1070392808.86
+      </last_run>
+    </task>
+    ...
+  </tasks>
+  <enabled>
+    1
+  </enabled>
+</boinc>
+
 
 Daemons:
   Writes a PID to pid_dir/command.pid.
@@ -74,9 +98,6 @@ Both:
   A lock file (pid_dir/command.lock) prevents tasks and daemons from being run
   again when they are currently running.
 
-
-Start/stop:
-The main script is "start"; sym-link or hard-link "start" to "stop".
 '''
 
 import boinc_path_config
@@ -85,8 +106,8 @@ import sys, os, getopt, time, glob, fcntl, signal
 
 verbose = os.isatty(sys.stdout.fileno())
 verbose_daemon_run = 0
-# how long (in seconds) parent should wait before continuing after a
-# fork. this is just a safety measure in case anything doesn't play nice if
+# how long (in seconds) parent should wait before continuing after a fork.
+# this is just a safety measure in case anything doesn't play nice if
 # starting simultaneously.  also it keeps output in sequence.
 fork_delay = 0.1
 ignore_timestamps = False
