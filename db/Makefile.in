@@ -27,7 +27,7 @@ CLIBS = @LIBS@
 all: db_mysql.o mysql_util.o
 
 clean:
-	rm -f dependencies *.o Makefile
+	rm -f dependencies *.o
 
 dependencies: @srcdir@/*.C
 	$(CC) -M @srcdir@/*.C > dependencies
