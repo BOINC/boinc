@@ -17,6 +17,10 @@
 // Contributor(s):
 //
 
+// API_IGNORE_CLIENT will make the app ignore the core client
+// this is useful for debugging just the application
+#define API_IGNORE_CLIENT
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -39,16 +43,22 @@
 
 #include "parse.h"
 #include "error_numbers.h"
+#include "graphics_api.h"
 
 #include "boinc_api.h"
 
 static APP_INIT_DATA aid;
+static GRAPHICS_INFO gi;
 static double timer_period = 0.1;
 static double time_until_checkpoint;
 static double time_until_fraction_done_update;
 static double fraction_done;
 static bool ready_to_checkpoint = false;
 static bool this_process_active;
+
+#ifdef _WIN32
+DWORD WINAPI graphics_main( LPVOID duff );
+#endif
 
 // read the INIT_DATA and FD_INIT files
 //
@@ -61,6 +71,7 @@ int boinc_init() {
     fprintf(stderr, "in boinc_init()\n");
 #endif
 
+#ifndef API_IGNORE_CLIENT
     f = fopen(INIT_DATA_FILE, "r");
     if (!f) {
         fprintf(stderr, "boinc_init(): can't open init data file\n");
@@ -73,15 +84,59 @@ int boinc_init() {
     }
     fclose(f);
 
+    f = fopen(GRAPHICS_DATA_FILE, "r");
+    if (!f) {
+        fprintf(stderr, "boinc_init(): can't open graphics data file\n");
+        return ERR_FOPEN;
+    }
+    retval = parse_graphics_file(f, gi);
+    if (retval) {
+        fprintf(stderr, "boinc_init(): can't parse graphics data file\n");
+        return retval;
+    }
+    fclose(f);
+
     f = fopen(FD_INIT_FILE, "r");
     if (f) {
         parse_fd_init_file(f);
         fclose(f);
     }
+#else
+	strcpy(aid.app_preferences, "");
+	strcpy(aid.user_name, "John Smith");
+	strcpy(aid.team_name, "The A-Team");
+    aid.wu_cpu_time = 1000;
+    aid.total_cobblestones = 1000;
+    aid.recent_avg_cobblestones = 500;
+    aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
+    aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
+
+	gi.graphics_mode = MODE_WINDOW;
+	gi.refresh_period = 0.1; // 1/10th of a second
+	gi.xsize = 640;
+	gi.ysize = 480;
+#endif
     time_until_checkpoint = aid.checkpoint_period;
     time_until_fraction_done_update = aid.fraction_done_update_period;
     this_process_active = true;
     set_timer(timer_period);
+
+#ifdef BOINC_APP_GRAPHICS
+#ifdef _WIN32
+	DWORD threadId;
+	HANDLE hThread;
+
+	// Create the graphics thread, passing it the graphics info
+	hThread = CreateThread( NULL, 0, graphics_main, 0, CREATE_SUSPENDED, &threadId );
+
+	// Set it to idle priority
+	SetThreadPriority (hThread, THREAD_PRIORITY_IDLE);
+
+	// Start the graphics thread
+	ResumeThread( hThread );
+#endif
+#endif
+
     return 0;
 }
 
