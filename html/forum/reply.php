@@ -1,6 +1,7 @@
 <?php
 require_once('../include.php');
 require_once('forum.inc');
+require_once('subscribe.inc');
 require_once('../util.inc');
 
 if (!empty($_GET['thread']) && !empty($_POST['content'])) {
@@ -17,7 +18,9 @@ if (!empty($_GET['thread']) && !empty($_POST['content'])) {
 
 	$thread = getThread($_GET['thread']);
 	$thread->reply($user->id, $_POST['content'], $parent_post);
-
+        
+        notify_subscribers($thread);
+        
 	header('Location: thread.php?id='.$thread->id);
 }
 
@@ -96,9 +99,9 @@ function show_message_row($thread, $post = NULL) {
     global $logged_in_user;
     
     echo "
-    <a name=\"input\"></a>
     <tr class = \"row1\" style=\"vertical-align:top\">
         <td>
+        <a name=\"input\"></a>
         <p style=\"font-weight:bold\">
     ";
 

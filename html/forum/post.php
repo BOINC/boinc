@@ -2,6 +2,7 @@
 require_once('../include.php');
 require_once('forum.inc');
 require_once('../util.inc');
+require_once('subscribe.inc');
 
 if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content'])) {
 	$_GET['id'] = stripslashes(strip_tags($_GET['id']));
@@ -16,8 +17,8 @@ if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content']))
 	$thread->title = $_POST['title'];
 
 	$thread->post($_POST['content']);
-
-	header('Location: thread.php?id='.$thread->id);
+        
+        header('Location: thread.php?id='.$thread->id);
 }
 
 if (empty($_SESSION['authenticator'])) {
