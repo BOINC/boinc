@@ -1115,9 +1115,8 @@ bool CLIENT_STATE::garbage_collect() {
                     //
                     report_result_error(*rp, 0, "Couldn't get input files");
                 }
-            } else {
-                rp->wup->ref_cnt++;
             }
+            rp->wup->ref_cnt++;
             for (i=0; i<rp->output_files.size(); i++) {
                 // If one of the file infos had a failure,
                 // mark the result as done and report the error.
@@ -1130,9 +1129,8 @@ bool CLIENT_STATE::garbage_collect() {
                         //
                         report_result_error(*rp, 0, "Couldn't upload files");
                     }
-                } else {
-                    rp->output_files[i].file_info->ref_cnt++;
                 }
+                rp->output_files[i].file_info->ref_cnt++;
             }
             result_iter++;
         }
