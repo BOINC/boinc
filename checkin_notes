@@ -13823,3 +13823,12 @@ David  16 June 2004
 			boinc_win.h
 	win_build/
 		boinc_guirpc_test.vcproj
+
+David  16 June 2004
+    - get GUI RPC working on UNIX
+
+    client/
+        Makefile.am
+        client_msgs.C,h
+        gui_rpc_client.C,h
+        makefile.gui_test

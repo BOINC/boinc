@@ -183,7 +183,6 @@ boinc_client_SOURCES = \
     client_msgs.C			    \
     client_state.C				\
     client_types.C				\
-    cpu_benchmark.C				\
     cs_account.C				\
     cs_apps.C					\
     cs_benchmark.C				\
@@ -230,13 +229,13 @@ boinc_client_SOURCES = \
 
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
-boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS) -O6
+boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS) -O3
 boinc_client_LDADD = $(RSA_LIBS)
 #boinc_client_LDFLAGS = $(STATIC_FLAGS)
 
 # the following don't do anything
-cpu_benchmark_SOURCES = cpu_benchmark.C whetstone.C dhrystone.C
-cpu_benchmark_CFLAGS = -O6 $(AM_CFLAGS)
+cpu_benchmark_SOURCES = whetstone.C dhrystone.C
+cpu_benchmark_CFLAGS = -O3 $(AM_CFLAGS)
 
 EXTRA_DIST = \
 	*.h					\
@@ -258,7 +257,6 @@ am_boinc_client_OBJECTS = boinc_client-app.$(OBJEXT) \
 	boinc_client-client_msgs.$(OBJEXT) \
 	boinc_client-client_state.$(OBJEXT) \
 	boinc_client-client_types.$(OBJEXT) \
-	boinc_client-cpu_benchmark.$(OBJEXT) \
 	boinc_client-cs_account.$(OBJEXT) \
 	boinc_client-cs_apps.$(OBJEXT) \
 	boinc_client-cs_benchmark.$(OBJEXT) \
@@ -292,8 +290,7 @@ am_boinc_client_OBJECTS = boinc_client-app.$(OBJEXT) \
 	boinc_client-shmem.$(OBJEXT) boinc_client-util.$(OBJEXT)
 boinc_client_OBJECTS = $(am_boinc_client_OBJECTS)
 boinc_client_LDFLAGS =
-am_cpu_benchmark_OBJECTS = cpu_benchmark.$(OBJEXT) whetstone.$(OBJEXT) \
-	dhrystone.$(OBJEXT)
+am_cpu_benchmark_OBJECTS = whetstone.$(OBJEXT) dhrystone.$(OBJEXT)
 cpu_benchmark_OBJECTS = $(am_cpu_benchmark_OBJECTS)
 cpu_benchmark_LDADD = $(LDADD)
 cpu_benchmark_DEPENDENCIES =
@@ -309,7 +306,6 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-client_msgs.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-client_state.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-client_types.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cpu_benchmark.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-crypt.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_account.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-cs_apps.Po \
@@ -351,7 +347,6 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-time_stats.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-util.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-whetstone.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/cpu_benchmark.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/dhrystone.Po ./$(DEPDIR)/whetstone.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
@@ -405,7 +400,6 @@ boinc_client-check_state.$(OBJEXT): check_state.C
 boinc_client-client_msgs.$(OBJEXT): client_msgs.C
 boinc_client-client_state.$(OBJEXT): client_state.C
 boinc_client-client_types.$(OBJEXT): client_types.C
-boinc_client-cpu_benchmark.$(OBJEXT): cpu_benchmark.C
 boinc_client-cs_account.$(OBJEXT): cs_account.C
 boinc_client-cs_apps.$(OBJEXT): cs_apps.C
 boinc_client-cs_benchmark.$(OBJEXT): cs_benchmark.C
@@ -469,7 +463,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-client_msgs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-client_state.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-client_types.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cpu_benchmark.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-crypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_account.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-cs_apps.Po@am__quote@
@@ -511,7 +504,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-time_stats.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-whetstone.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cpu_benchmark.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dhrystone.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/whetstone.Po@am__quote@
 
@@ -649,28 +641,6 @@ boinc_client-client_types.obj: client_types.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-client_types.Po' tmpdepfile='$(DEPDIR)/boinc_client-client_types.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-client_types.obj `if test -f 'client_types.C'; then $(CYGPATH_W) 'client_types.C'; else $(CYGPATH_W) '$(srcdir)/client_types.C'`
-
-boinc_client-cpu_benchmark.o: cpu_benchmark.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cpu_benchmark.o -MD -MP -MF "$(DEPDIR)/boinc_client-cpu_benchmark.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-cpu_benchmark.o `test -f 'cpu_benchmark.C' || echo '$(srcdir)/'`cpu_benchmark.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-cpu_benchmark.Tpo" "$(DEPDIR)/boinc_client-cpu_benchmark.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-cpu_benchmark.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cpu_benchmark.C' object='boinc_client-cpu_benchmark.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-cpu_benchmark.Po' tmpdepfile='$(DEPDIR)/boinc_client-cpu_benchmark.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cpu_benchmark.o `test -f 'cpu_benchmark.C' || echo '$(srcdir)/'`cpu_benchmark.C
-
-boinc_client-cpu_benchmark.obj: cpu_benchmark.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cpu_benchmark.obj -MD -MP -MF "$(DEPDIR)/boinc_client-cpu_benchmark.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-cpu_benchmark.obj `if test -f 'cpu_benchmark.C'; then $(CYGPATH_W) 'cpu_benchmark.C'; else $(CYGPATH_W) '$(srcdir)/cpu_benchmark.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-cpu_benchmark.Tpo" "$(DEPDIR)/boinc_client-cpu_benchmark.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-cpu_benchmark.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='cpu_benchmark.C' object='boinc_client-cpu_benchmark.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-cpu_benchmark.Po' tmpdepfile='$(DEPDIR)/boinc_client-cpu_benchmark.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-cpu_benchmark.obj `if test -f 'cpu_benchmark.C'; then $(CYGPATH_W) 'cpu_benchmark.C'; else $(CYGPATH_W) '$(srcdir)/cpu_benchmark.C'`
 
 boinc_client-cs_account.o: cs_account.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-cs_account.o -MD -MP -MF "$(DEPDIR)/boinc_client-cs_account.Tpo" \

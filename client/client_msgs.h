@@ -31,6 +31,8 @@
 //   Write these using the msg_printf() function
 
 #include <list>
+#include <string>
+using std::string;
 
 #include "msg_log.h"
 

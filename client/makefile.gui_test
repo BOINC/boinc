@@ -1,2 +1,2 @@
-gui_test: gui_test.C gui_rpc_client.C gui_rpc_client.h miofile.C
-	g++ -g -I../lib -o gui_test -lnsl -lsocket gui_test.C miofile.C gui_rpc_client.C ../lib/libboinc.a
+gui_test: gui_test.C gui_rpc_client.C gui_rpc_client.h
+	g++ -g -I../lib -o gui_test -lnsl -lsocket gui_test.C gui_rpc_client.C ../lib/libboinc.a

@@ -38,7 +38,7 @@ Visible result: the web site's Applications page has an entry.
 <li> Using a text editor, create a work unit template file
 and a result template file.
 <li> Run create_work
-<li> Edit the configuration file to add
+<li> Edit config.xml to add
 ".htmlspecialchars("<daemon>")." records for
 make_work,
 feeder,
@@ -46,6 +46,15 @@ transitioner,
 file_deleter,
 the trivial validator,
 and the trivial assimilator.
+For example",
+html_text(
+"<daemon>
+    <cmd>validate_test -app appname</cmd>
+    <output>validate_test.log</output>
+    <pid_file>validate_test.pid</pid_file>
+</daemon>"
+),
+"
 </ul>
 
 Visible result: 'status' shows the above daemon processes running.

@@ -192,7 +192,7 @@ int RPC_CLIENT::set_proxy_settings(PROXY_INFO& pi) {
 }
 
 int RPC_CLIENT::get_messages(
-    int nmessages, int offset, vector<MESSAGE_DESC>& msgs
+    int nmessages, int seqno, vector<MESSAGE_DESC>& msgs
 ) {
     char buf[256];
     char* mbuf;
@@ -200,9 +200,9 @@ int RPC_CLIENT::get_messages(
     sprintf(buf,
         "<get_messages>\n"
         "  <nmessages>%d</nmessages>\n"
-        "  <offset>%d</offset>\n"
+        "  <seqno>%d</seqno>\n"
         "</get_messages>\n",
-        nmessages, offset
+        nmessages, seqno
     );
     send_request(buf);
     get_reply(mbuf);

@@ -15,7 +15,6 @@ boinc_client_SOURCES =			\
     client_msgs.C			    \
     client_state.C				\
     client_types.C				\
-    cpu_benchmark.C				\
     cs_account.C				\
     cs_apps.C					\
     cs_benchmark.C				\
@@ -61,13 +60,13 @@ boinc_client_SOURCES =			\
     ../lib/util.C
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
-boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS) -O6
+boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS) -O3
 boinc_client_LDADD = $(RSA_LIBS)
 #boinc_client_LDFLAGS = $(STATIC_FLAGS)
 
 # the following don't do anything
-cpu_benchmark_SOURCES = cpu_benchmark.C whetstone.C dhrystone.C
-cpu_benchmark_CFLAGS = -O6 $(AM_CFLAGS)
+cpu_benchmark_SOURCES = whetstone.C dhrystone.C
+cpu_benchmark_CFLAGS = -O3 $(AM_CFLAGS)
 
 all-local: client-bin-gz
 client-bin: @CLIENT_BIN_FILENAME@.gz

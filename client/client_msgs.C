@@ -21,9 +21,9 @@
 #include "boinc_win.h"
 #endif
 #ifndef _WIN32
-#include <vector>
-#include <string>
 #include <stdarg.h>
+#include <list>
+using std::list;
 #endif
 
 #include "log_flags.h"

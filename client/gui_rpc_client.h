@@ -191,7 +191,7 @@ public:
     int set_run_mode(int mode);
     int run_benchmarks();
     int set_proxy_settings(PROXY_INFO&);
-    int get_messages(int nmessages, int offset, vector<MESSAGE_DESC>&);
+    int get_messages(int nmessages, int seqno, vector<MESSAGE_DESC>&);
     void print();
 };
 
