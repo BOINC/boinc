@@ -5544,3 +5544,9 @@ Karl 2003/08/05
     Astropulse/client/*
 
     Release Astropulse 1.11.
+
+Karl 2003/08/06
+    Fixed time stats calculation - changed integer division to FP division.
+
+    Client/time_stats.C
+
