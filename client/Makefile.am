@@ -45,6 +45,7 @@ boinc_client_SOURCES =			\
     time_stats.C				\
     whetstone.C                 \
     ../lib/app_ipc.C			\
+    ../lib/base64.C			\
     ../lib/crypt.C				\
     ../lib/diagnostics.C		\
     ../lib/exception.C			\
