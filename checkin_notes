@@ -23960,3 +23960,10 @@ Rom    3 Feb 2005
 Rom    3 Feb 2005
     - Tag for 4.65 release, all platforms
       boinc_core_release_4_65
+
+Rom    3 Feb 2005
+    - Bug Fix: Add a comment to the service install option that states that
+        show graphics does not work in the service install scenario.
+
+    win_build/installerv2/
+        BOINC.ism
