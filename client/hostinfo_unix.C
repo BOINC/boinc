@@ -108,26 +108,35 @@ int get_timezone() {
 //
 bool HOST_INFO::host_is_running_on_batteries() {
 #ifdef linux
-    float x1, x2;
-    int i1, i2;
-    bool on_batteries = false;
+    bool    retval = false;
+    char    apm_driver_version[10];
+    int     apm_major_version;
+    int     apm_minor_version;
+    int     apm_flags;
+    int     apm_ac_line_status=1;
 
     FILE* fapm = fopen("/proc/apm", "r");
     FILE* facpi = fopen("/proc/acpi/ac_adapter/ACAD/state", "r");
     
     if (fapm) {          // Then we're using APM!  Yay.
-        // Supposedly we're on batteries if the 4th entry is zero.
+        // Supposedly we're on batteries if the 5th entry is zero.
         //
-        fscanf(fapm, "%f %f %x %x", &x1, &x2, &i1, &i2);
+        fscanf(f, "%10s %d.%d %x %x",
+            apm_driver_version,
+            &apm_major_version,
+            &apm_minor_version,
+            &apm_flags,
+            &apm_ac_line_status
+        );
         fclose(fapm);
-        if (i2 == 0) on_batteries = true;
+        retval = (apm_ac_line_status == 0);
     } else if (facpi) {
         // The 27th letter is f if they're on AC and n if they're on battery
         fseek(facpi, 26, 0);
-        if (fgetc(facpi) == 'n') on_batteries = true;
+        if (fgetc(facpi) == 'n') retval = true;
         fclose(facpi);
     }
-    return on_batteries;
+    return retval;
 #else
     return false;
 #endif
