@@ -355,7 +355,7 @@ bool GUI_RPC_CONN_SET::poll() {
             int addr_len = sizeof(addr);
             sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
 #else
-            size_t addr_len = sizeof(addr);
+            socklen_t addr_len = sizeof(addr);
             sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
 #endif
             int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
