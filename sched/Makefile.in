@@ -1046,8 +1046,11 @@ uninstall-am: uninstall-binSCRIPTS uninstall-info-am
 $(LIBRSA):
 	cd $(top_builddir)/RSAEuro/source; ${MAKE} librsaeuro.a
 
-$(srcdir)/stop $(srcdir)/status: $(srcdir)/start
-	ln -f -s start $@
+start:  
+	ln -s $(srcdir)/start start
+
+status stop: start
+	ln -s start $@
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

@@ -5519,3 +5519,11 @@ Karl 2003/08/01
 Karl 2003/08/01
     - fixed \n s in client messages
     client/*
+
+Karl 2003/08/01
+    Release BOINC 1.09, Astropulse 1.09
+
+Karl 2003/08/04
+    Astropulse: Fixed windows \r\n translation bug
+
+    release Astropulse 1.10.
