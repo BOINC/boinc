@@ -1,26 +1,22 @@
-#! /usr/local/bin/php
-<?php
-    // test the sticky file mechanism
+#!/usr/local/bin/php -q
+<?php {
+    // $Id$
 
     include_once("test.inc");
+
+    test_msg("sticky file mechanism");
 
     $project = new Project;
     $user = new User();
     $host = new Host($user);
-    $app = new App("upper_case");
-    $app_version = new App_Version($app);
 
     $project->add_user($user);
-    $project->add_app($app);
-    $project->add_app_version($app_version);
+    $project->add_app_and_version("upper_case");
     $project->install();      // must install projects before adding to hosts
     $project->install_feeder();
 
-    $host->log_flags = "log_flags.xml";
     $host->add_user($user,$project);
     $host->install();
-
-    echo "adding work\n";
 
     $work = new Work($app);
     $work->wu_template = "uc_wu_sticky";
@@ -42,4 +38,5 @@
     $host->check_file_present($project, "uc_wu_sticky_0_0");
     $host->check_file_present($project, "uc_wu_sticky_1_0");
 
-?>
+    test_done();
+} ?>

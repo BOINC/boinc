@@ -66,7 +66,7 @@ function verbose_echo($level, $line)
             echo "$line\n";
         } else if (VERBOSE == 1) {
             echo "\r                                                                               ";
-            echo "\r$line";
+            echo "\r$line ";
         }
     }
 }
@@ -969,7 +969,7 @@ class Host {
         $enc_url = str_replace("/", "_", $enc_url);
         $path= "$this->host_dir/projects/$enc_url/$filename";
         if (!file_exists($path)) {
-            echo "ERROR: file $path doesn't exist\n";
+            error("file $path doesn't exist");
         }
     }
 }

@@ -1,5 +1,7 @@
-#! /usr/local/bin/php
-<?php
+#!/usr/local/bin/php -q
+<?php {
+    // $Id$
+
     // End to end test.  Tests make_work, feeder, scheduling server, client,
     // file_upload_handler, validator, assimilator, timeout_check, and
     // file_deleter on a large batch of workunits.  Confirms that credit
@@ -7,7 +9,7 @@
 
     include_once("test.inc");
 
-    $retval = 0;
+    test_msg("backend");
 
     $project = new Project;
     $user = new User();
@@ -32,16 +34,18 @@
     $host->add_user($user,$project);
     $host->install();
 
-    echo "adding work\n";
-
     $work->install($project);
 
     $project->start_servers();
 
     // Start by generating a batch of 500 results
-    echo "Generating 500 results... ";
-    while( $project->num_wus_left() < 500 ) sleep(1);
-    echo "done.\n";
+    $n = 0;
+    while($n < 500 ) {
+        $n = $project->num_wus_left();
+        verbose_echo(1, "Generating results [$n/500]");
+        sleep(1);
+    }
+    verbose_echo(1, "Generating results... 500 done");
 
     // Stop the project, deinstall make_work, and install the normal backend components
     $project->stop();
@@ -72,5 +76,5 @@
     // Stop the server
     $project->stop();
 
-    exit($retval);
-?>
+    test_done();
+} ?>
