@@ -746,8 +746,8 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
         if (disk_usage > max_disk_usage) {
             msg_printf(
                 result->project, MSG_INFO,
-                "Aborting result %s: exceeded disk limit %f\n",
-                result->name, max_disk_usage
+				"Aborting result %s: exceeded disk limit: %f > %f\n",
+                result->name, disk_usage, max_disk_usage
             );
             abort();
             return true;

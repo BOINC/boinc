@@ -15,8 +15,6 @@
  */
 
 #include <afxwin.h>
-#include <gl\gl.h>			// Header File For The OpenGL32 Library
-#include <gl\glu.h>			// Header File For The GLu32 Library
 #include <stdio.h>
 #include <winuser.h>
 
@@ -30,71 +28,62 @@
 #define WIN32_LEAN_AND_MEAN   // This trims down the windows libraries.
 #define WIN32_EXTRA_LEAN      // Trims even farther.
 
-static HDC			hDC;
-static HGLRC		hRC;
+#define BOINC_WINDOW_CLASS_NAME "BOINC_app"
+
+static HDC			hDC=NULL;
+static HGLRC		hRC=NULL;
 static HWND			hWnd=NULL;		// Holds Our Window Handle
 static HINSTANCE	hInstance;		// Holds The Instance Of The Application
 static RECT			rect = {50, 50, 50+640, 50+480};
 static int			current_graphics_mode = MODE_HIDE_GRAPHICS;
 static POINT		mousePos;
 static UINT			m_uEndSSMsg;
-
 static HDC myhDC;
-
 BOOL		win_loop_done;
 
-void SetupPixelFormat(HDC hDC);
+static bool visible = true;
 
-LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
-BOOL reg_win_class();
-BOOL unreg_win_class();
+void SetupPixelFormat(HDC hDC) {
+   int nPixelFormat;
 
-bool KillWindow() {	
-	//if(hDC) app_unload_gl();
+   static PIXELFORMATDESCRIPTOR pfd = {
+         sizeof(PIXELFORMATDESCRIPTOR),   // size of structure.
+         1,                               // always 1.
+         PFD_DRAW_TO_WINDOW |             // support window
+         PFD_SUPPORT_OPENGL |             // support OpenGl
+         PFD_DOUBLEBUFFER,                // support double buffering
+         PFD_TYPE_RGBA,                   // support RGBA
+         32,                              // 32 bit color mode
+         0, 0, 0, 0, 0, 0,                // ignore color bits
+         0,                               // no alpha buffer
+         0,                               // ignore shift bit
+         0,                               // no accumulation buffer
+         0, 0, 0, 0,                      // ignore accumulation bits.
+         16,                              // number of depth buffer bits.
+         0,                               // number of stencil buffer bits.
+         0,                               // 0 means no auxiliary buffer
+         PFD_MAIN_PLANE,                  // The main drawing plane
+         0,                               // this is reserved
+         0, 0, 0 };                       // layer masks ignored.
 
-	if (hRC) {											// Do We Have A Rendering Context?
-		if (!wglMakeCurrent(NULL,NULL)) {				// Are We Able To Release The DC And RC Contexts?
-			return false;
-		}
-		if (!wglDeleteContext(hRC)) {					// Are We Able To Delete The RC?
-			return false;
-		}
-		hRC=NULL;										// Set RC To NULL
-	}
 
-	if (hDC && !ReleaseDC(hWnd,hDC)) {					// Are We Able To Release The DC
-		hDC=NULL;										// Set DC To NULL
-		return false;
-	}
 
-	KillTimer(hWnd, 1);
+   // this chooses the best pixel format and returns index.
+   nPixelFormat = ChoosePixelFormat(hDC, &pfd);
 
-	if (hWnd && !DestroyWindow(hWnd)) {					// Are We Able To Destroy The Window?
-		return false;
-		hWnd=NULL;										// Set hWnd To NULL
-	}
-	
-	return true;
+   // This set pixel format to device context.
+   SetPixelFormat(hDC, nPixelFormat, &pfd);
+
+   // Remember that its not important to fully understand the pixel format,
+   // just remember to include in all of your applications and you'll be
+   // good to go.
 }
 
-// switch to the given graphics mode.  This is called:
-// - on initialization
-// - when get mode change msg (via shared mem)
-// - when in SS mode and get user input
-//
-void SetMode(int mode) {
+static void make_new_window(int mode) {
 	RECT WindowRect = {0,0,0,0};
 	int width, height;
 	DWORD dwExStyle;
 	DWORD dwStyle;
-
-	if (current_graphics_mode != MODE_FULLSCREEN) GetWindowRect(hWnd, &rect);
-
-	KillWindow();
-
-	current_graphics_mode = mode;
-
-    // ?? if mode is HIDE, can't we just return here?
 
 	if (current_graphics_mode == MODE_FULLSCREEN) {
 		HDC screenDC=GetDC(NULL);
@@ -112,13 +101,10 @@ void SetMode(int mode) {
 		while(ShowCursor(true) < 0);
 	}
 
-	// Do not do AdjustWindowRectEx here, this will
-	// cause the window to creep upwards
-
     APP_INIT_DATA aid;
     boinc_get_init_data(aid);
     if (!strlen(aid.app_name)) strcpy(aid.app_name, "BOINC Application");
-	hWnd = CreateWindowEx(dwExStyle, "BOINC_OpenGL", aid.app_name,
+	hWnd = CreateWindowEx(dwExStyle, BOINC_WINDOW_CLASS_NAME, aid.app_name,
 		dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
 		WindowRect.right-WindowRect.left,WindowRect.bottom-WindowRect.top,
 		NULL, NULL, hInstance, NULL
@@ -146,8 +132,6 @@ void SetMode(int mode) {
 	width = WindowRect.right-WindowRect.left;
 	height = WindowRect.bottom-WindowRect.top;
 
-	SetTimer(hWnd, 1, 100, NULL);
-
 	if(current_graphics_mode == MODE_FULLSCREEN || current_graphics_mode == MODE_WINDOW) {
 		ShowWindow(hWnd, SW_SHOW);
 		SetFocus(hWnd);
@@ -155,10 +139,47 @@ void SetMode(int mode) {
 		ShowWindow(hWnd, SW_HIDE);
 	}	
 	
-    // do GL initialization every time, since we're creating a new window
-    //
-	InitGL();
     app_graphics_init();
+}
+
+void KillWindow() {	
+	wglMakeCurrent(NULL,NULL);  // release GL rendering context
+	if (hRC) {
+		wglDeleteContext(hRC);
+		hRC=NULL;
+	}
+
+    if (hWnd && hDC) {
+        ReleaseDC(hWnd,hDC);
+	}
+    hDC = NULL;
+
+    if (hWnd) {
+        DestroyWindow(hWnd);
+	}
+    hWnd = NULL;
+}
+
+// switch to the given graphics mode.  This is called:
+// - on initialization
+// - when get mode change msg (via shared mem)
+// - when in SS mode and get user input
+//
+void SetMode(int mode) {
+
+	if (current_graphics_mode != MODE_FULLSCREEN) GetWindowRect(hWnd, &rect);
+
+	KillWindow();
+
+    FILE* f = fopen("setmode.txt", "a");
+    fprintf(f, "mode: %d\n", mode);
+    fclose(f);
+
+	current_graphics_mode = mode;
+
+    if (mode != MODE_HIDE_GRAPHICS) {
+        make_new_window(mode);
+    }
 
     // tell the core client that we're entering new mode
     //
@@ -171,15 +192,12 @@ void SetMode(int mode) {
 
 // message handler (includes timer, Windows msgs)
 //
-LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
-							UINT	uMsg,			// Message For This Window
-							WPARAM	wParam,			// Additional Message Information
-							LPARAM	lParam)			// Additional Message Information
-{
-	RECT rt;
-	int width, height, new_mode, msg;
-    static bool visible = true;
-
+LRESULT CALLBACK WndProc(
+    HWND	hWnd,			// Handle For This Window
+    UINT	uMsg,			// Message For This Window
+    WPARAM	wParam,			// Additional Message Information
+    LPARAM	lParam			// Additional Message Information
+) {
 	switch(uMsg) {
 	case WM_ERASEBKGND:		// Check To See If Windows Is Trying To Erase The Background
 			return 0;	
@@ -229,46 +247,83 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 	case WM_SIZE:
 		ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));
 		return 0;
-	case WM_TIMER:
-        if (app_client_shm) {
-            if (app_client_shm->get_graphics_msg(CORE_APP_GFX_SEG, msg, new_mode)) {
-                switch (msg) {
-                case GRAPHICS_MSG_SET_MODE:
-                    SetMode(new_mode);
-                    break;
-                case GRAPHICS_MSG_REREAD_PREFS:
-                    app_graphics_reread_prefs();
-                    break;
-                }
-            }
-		}
-        if (!visible) return 0;
-		if (current_graphics_mode == MODE_HIDE_GRAPHICS) return 0;
-
-        // TODO: remove width, height from API
-        //
-		GetClientRect(hWnd, &rt);
-		width = rt.right-rt.left;
-		height = rt.bottom-rt.top;
-
-        if (throttled_app_render(width, height, dtime())) {
-		    SwapBuffers(hDC);
-        }
-		return 0;
 	}
 
 	// Pass All Unhandled Messages To DefWindowProc
 	return DefWindowProc(hWnd,uMsg,wParam,lParam);
 }
 
+BOOL reg_win_class() {
+	WNDCLASS	wc;						// Windows Class Structure
+
+	hInstance			= GetModuleHandle(NULL);				// Grab An Instance For Our Window
+	wc.style			= CS_HREDRAW | CS_VREDRAW | CS_OWNDC;	// Redraw On Size, And Own DC For Window.
+	wc.lpfnWndProc		= (WNDPROC) WndProc;					// WndProc Handles Messages
+	wc.cbClsExtra		= 0;									// No Extra Window Data
+	wc.cbWndExtra		= 0;									// No Extra Window Data
+	wc.hInstance		= hInstance;							// Set The Instance
+	wc.hIcon			= LoadIcon(NULL, IDI_WINLOGO);			// Load The Default Icon
+	wc.hCursor			= LoadCursor(NULL, IDC_ARROW);			// Load The Arrow Pointer
+	wc.hbrBackground	= NULL;									// No Background Required For GL
+	wc.lpszMenuName		= NULL;									// We Don't Want A Menu
+	wc.lpszClassName	= BOINC_WINDOW_CLASS_NAME;				// Set The Class Name
+
+	if (!RegisterClass(&wc))									// Attempt To Register The Window Class
+	{
+		MessageBox(NULL,"Failed To Register The Window Class.","ERROR",MB_OK|MB_ICONEXCLAMATION);
+		return FALSE;											// Return FALSE
+	}
+
+	return TRUE;
+}
+
+BOOL unreg_win_class() {
+	if (!UnregisterClass(BOINC_WINDOW_CLASS_NAME,hInstance)) {
+		MessageBox(NULL,"Could Not Unregister Class.","SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
+		hInstance=NULL;									// Set hInstance To NULL
+	}
+
+	return TRUE;
+}
+
+static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
+	RECT rt;
+	int width, height, new_mode, msg;
+    if (app_client_shm) {
+        if (app_client_shm->get_graphics_msg(CORE_APP_GFX_SEG, msg, new_mode)) {
+            switch (msg) {
+            case GRAPHICS_MSG_SET_MODE:
+                SetMode(new_mode);
+                break;
+            case GRAPHICS_MSG_REREAD_PREFS:
+                app_graphics_reread_prefs();
+                break;
+            }
+        }
+	}
+    if (!visible) return;
+	if (current_graphics_mode == MODE_HIDE_GRAPHICS) return;
+    if (!hWnd) return;
+
+    // TODO: remove width, height from API
+    //
+	GetClientRect(hWnd, &rt);
+	width = rt.right-rt.left;
+	height = rt.bottom-rt.top;
+
+    if (throttled_app_render(width, height, dtime())) {
+		SwapBuffers(hDC);
+    }
+}
+
 DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	MSG					msg;		// Windows Message Structure
-
-	double start = (double)time(0);
 	m_uEndSSMsg = RegisterWindowMessage(END_SS_MSG);
 
 	// Register window class and graphics mode message
 	reg_win_class();
+
+	SetTimer(NULL, 1, 100, &timer_handler);
 
     if (boinc_is_standalone()) {
         SetMode(MODE_WINDOW);
@@ -312,119 +367,48 @@ BOOL VerifyPassword(HWND hwnd)
   return bres;
 }
 
-BOOL reg_win_class() {
-	WNDCLASS	wc;						// Windows Class Structure
-
-	hInstance			= GetModuleHandle(NULL);				// Grab An Instance For Our Window
-	wc.style			= CS_HREDRAW | CS_VREDRAW | CS_OWNDC;	// Redraw On Size, And Own DC For Window.
-	wc.lpfnWndProc		= (WNDPROC) WndProc;					// WndProc Handles Messages
-	wc.cbClsExtra		= 0;									// No Extra Window Data
-	wc.cbWndExtra		= 0;									// No Extra Window Data
-	wc.hInstance		= hInstance;							// Set The Instance
-	wc.hIcon			= LoadIcon(NULL, IDI_WINLOGO);			// Load The Default Icon
-	wc.hCursor			= LoadCursor(NULL, IDC_ARROW);			// Load The Arrow Pointer
-	wc.hbrBackground	= NULL;									// No Background Required For GL
-	wc.lpszMenuName		= NULL;									// We Don't Want A Menu
-	wc.lpszClassName	= "BOINC_OpenGL";						// Set The Class Name
-
-	if (!RegisterClass(&wc))									// Attempt To Register The Window Class
-	{
-		MessageBox(NULL,"Failed To Register The Window Class.","ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return FALSE;											// Return FALSE
-	}
-
-	return TRUE;
-}
-
-BOOL unreg_win_class() {
-	if (!UnregisterClass("BOINC_OpenGL",hInstance))		// Are We Able To Unregister Class
-	{
-		MessageBox(NULL,"Could Not Unregister Class.","SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
-		hInstance=NULL;									// Set hInstance To NULL
-	}
-
-	return TRUE;
-}
-
-void SetupPixelFormat(HDC hDC)
-{
-   int nPixelFormat;
-
-   static PIXELFORMATDESCRIPTOR pfd = {
-         sizeof(PIXELFORMATDESCRIPTOR),   // size of structure.
-         1,                               // always 1.
-         PFD_DRAW_TO_WINDOW |             // support window
-         PFD_SUPPORT_OPENGL |             // support OpenGl
-         PFD_DOUBLEBUFFER,                // support double buffering
-         PFD_TYPE_RGBA,                   // support RGBA
-         32,                              // 32 bit color mode
-         0, 0, 0, 0, 0, 0,                // ignore color bits
-         0,                               // no alpha buffer
-         0,                               // ignore shift bit
-         0,                               // no accumulation buffer
-         0, 0, 0, 0,                      // ignore accumulation bits.
-         16,                              // number of depth buffer bits.
-         0,                               // number of stencil buffer bits.
-         0,                               // 0 means no auxiliary buffer
-         PFD_MAIN_PLANE,                  // The main drawing plane
-         0,                               // this is reserved
-         0, 0, 0 };                       // layer masks ignored.
-
-
-
-   // this chooses the best pixel format and returns index.
-   nPixelFormat = ChoosePixelFormat(hDC, &pfd);
-
-   // This set pixel format to device context.
-   SetPixelFormat(hDC, nPixelFormat, &pfd);
-
-   // Remember that its not important to fully understand the pixel format,
-   // just remember to include in all of your applications and you'll be
-   // good to go.
-}
 
 float txt_widths[256];
 
 unsigned int MyCreateFont(char *fontName, int Size, int weight) {	
-   // windows font
-   HFONT hFont;   
-   unsigned int mylistbase =0;
+    // windows font
+    HFONT hFont;   
+    unsigned int mylistbase =0;
 
-   // Create space for 96 characters.
-   mylistbase= glGenLists(256);
+    // Create space for 96 characters.
+    mylistbase= glGenLists(256);
 
-   if(stricmp(fontName, "symbol")==0)
-      {
-         hFont = CreateFont(Size, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
-                            SYMBOL_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
-                            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName);
-      }
-   else
-      {
-         hFont = CreateFont(Size, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
-                            ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
-                            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName);
-      }
+    if(stricmp(fontName, "symbol")==0) {
+        hFont = CreateFont(
+            Size, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
+            SYMBOL_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
+            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName
+        );
+    } else {
+        hFont = CreateFont(
+            Size, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
+            ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
+            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName
+        );
+    }
 
-   if(!hFont)
-      return -1;
-   SelectObject(myhDC, hFont);
+    if(!hFont) return -1;
+    SelectObject(myhDC, hFont);
 #if 1 //no idea why this has to be twice
-   wglUseFontBitmaps(myhDC, 0, 256, mylistbase);   
-   wglUseFontBitmaps(myhDC, 0, 256, mylistbase);   
+    wglUseFontBitmaps(myhDC, 0, 256, mylistbase);   
+    wglUseFontBitmaps(myhDC, 0, 256, mylistbase);   
 #endif 
 #if 0
-   wglUseFontOutlines(hDC,0,255,mylistbase,0.0f,0.2f,WGL_FONT_POLYGONS,gmf);   
+    wglUseFontOutlines(hDC,0,255,mylistbase,0.0f,0.2f,WGL_FONT_POLYGONS,gmf);   
 #endif
  
-    TEXTMETRIC met;
-    GetTextMetrics(myhDC,&met);   
-    GetCharWidthFloat(myhDC,met.tmFirstChar,met.tmLastChar,txt_widths);
+     TEXTMETRIC met;
+     GetTextMetrics(myhDC,&met);   
+     GetCharWidthFloat(myhDC,met.tmFirstChar,met.tmLastChar,txt_widths);
 
-   return mylistbase;
+    return mylistbase;
 }
 
-float get_char_width(unsigned char c)
-{
+float get_char_width(unsigned char c) {
 	return txt_widths[c];	
 }

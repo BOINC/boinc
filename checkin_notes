@@ -9272,3 +9272,29 @@ Karl 2004-01-15
 
 David  Jan 16 2004
     - released core client 2.18 for Windows
+
+David  Jan 19 2004
+	- change logic in windows_opengl.C so that an app has no window
+		when it doesn't need one.
+		In particular, it has no window when it initially runs,
+		so it won't wake up screensaver when an app starts.
+		This requires using a window-less timer 
+		to poll for messages from core client.
+
+	api/
+		windows_opengl.C
+
+David  Jan 19 2004
+	- remove win_main.cpp
+	- if result exceeds disk, show both usage and limit
+	- change title of Attach to Project dialog
+	- change debugging symbol from DEBUG to SS_DEBUG
+		(since VC7.0 equates _DEBUG and DEBUG)
+
+	client/
+		app.C
+		win_main.cpp (removed)
+		win/
+			resource.rc
+	win_build/
+		boinc_gui.vcproj

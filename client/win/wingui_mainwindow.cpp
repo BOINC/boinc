@@ -45,20 +45,20 @@ CMainWindow* g_myWnd = NULL;
 // returns:     true if initialization is successful, otherwise false
 // function:    creates and shows the main window if boinc is not running,
 //              otherwise shows the currently running window
-//#define DEBUG
-#ifdef DEBUG
+//#define SS_DEBUG
+#ifdef SS_DEBUG
 FILE* fout;
 #endif
 BOOL CMyApp::InitInstance()
 {
-#ifdef DEBUG
+#ifdef SS_DEBUG
     fout = fopen("c:/temp/core.txt", "w");
     fprintf(fout, "starting\n");
     fflush(fout);
 #endif
     HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
     if ((h==0)|| GetLastError() == ERROR_ALREADY_EXISTS) {
-#ifdef DEBUG
+#ifdef SS_DEBUG
         fprintf(fout, "couldn't create mutex; h=%x, e=%d\n", h, GetLastError());
         fflush(fout);
 #endif
@@ -68,23 +68,23 @@ BOOL CMyApp::InitInstance()
     }
 
     m_pMainWnd = new CMainWindow();
-#ifdef DEBUG
+#ifdef SS_DEBUG
     fprintf(fout, "not already running; %d projects\n", gstate.projects.size());
 #endif
     if(gstate.projects.size() == 0) {
-#ifdef DEBUG
+#ifdef SS_DEBUG
         fprintf(fout, "sending login msg\n");
 #endif
         ((CMainWindow*)m_pMainWnd)->SendMessage(WM_COMMAND, ID_SETTINGS_LOGIN);
     }
     if(gstate.started_by_screensaver) {
-#ifdef DEBUG
+#ifdef SS_DEBUG
         fprintf(fout, "sending start_ss msg\n");
 #endif
         UINT nStartSaver = RegisterWindowMessage(START_SS_MSG);
         ((CMainWindow*)m_pMainWnd)->SendMessage(nStartSaver, 0);
     }
-#ifdef DEBUG
+#ifdef SS_DEBUG
     fprintf(fout, "returning from initInstance\n");
     fflush(fout);
 #endif
@@ -98,7 +98,7 @@ int CMyApp::ExitInstance()
 
     //gstate.free_mem();
 
-#ifdef DEBUG
+#ifdef SS_DEBUG
     fprintf(fout, "exiting\n");
     fclose(fout);
 #endif
@@ -237,7 +237,7 @@ CMainWindow::CMainWindow()
     m_nNetActivityMsg = RegisterWindowMessage(NET_ACTIVITY_MSG);
     m_uScreenSaverMsg = RegisterWindowMessage(START_SS_MSG);
     m_uEndSSMsg = RegisterWindowMessage(END_SS_MSG);
-#ifdef DEBUG
+#ifdef SS_DEBUG
     fprintf(fout, "CMainWIndow\n");
 #endif
 }
@@ -303,8 +303,9 @@ void CMainWindow::ClearProjectItems(char *proj_url) {
 void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 {
     CString strBuf;
-    float totalres;
-    int i, n;
+    double totalres;
+    unsigned int ui;
+	int i, n;
     string appname;
 
     // If we failed to set the taskbar icon before, keep trying!
@@ -319,8 +320,8 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
         m_ProjectListCtrl.SetRedraw(FALSE);
         totalres = 0;
         Syncronize(&m_ProjectListCtrl, (vector<void*>*)(&pcs->projects));
-        for(i = 0; i < pcs->projects.size(); i ++) {
-            totalres += pcs->projects[i]->resource_share;
+        for(ui = 0; ui < pcs->projects.size(); ui ++) {
+            totalres += pcs->projects[ui]->resource_share;
         }
         for(i = 0; i < m_ProjectListCtrl.GetItemCount(); i ++) {
             PROJECT* pr = (PROJECT*)m_ProjectListCtrl.GetItemData(i);
@@ -618,23 +619,23 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
         m_UsagePieCtrl.SetPiece(2, xDiskUsage); // Used space: BOINC
         m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 
-        while(m_UsageBOINCPieCtrl.GetItemCount() - 1 < gstate.projects.size()) {
+        while(m_UsageBOINCPieCtrl.GetItemCount() - 1 < (int)gstate.projects.size()) {
             m_UsageBOINCPieCtrl.AddPiece("", GetPieColor(m_UsageBOINCPieCtrl.GetItemCount()), 0);
         }
 
-        while(m_UsageBOINCPieCtrl.GetItemCount() - 1 > gstate.projects.size()) {
+        while(m_UsageBOINCPieCtrl.GetItemCount() - 1 > (int)gstate.projects.size()) {
             m_UsageBOINCPieCtrl.RemovePiece(m_UsageBOINCPieCtrl.GetItemCount() - 1);
         }
 
         m_UsageBOINCPieCtrl.SetTotal(xDiskUsage);
         m_UsageBOINCPieCtrl.SetPiece(0, 1); // BOINC: core application
-        for(i = 0; i < gstate.projects.size(); i ++) {
+        for(ui = 0; ui < gstate.projects.size(); ui ++) {
             double xUsage;
             CString strLabel;
-            strLabel.Format("%s", gstate.projects[i]->project_name);
-            gstate.project_disk_usage(gstate.projects[i], xUsage);
-            m_UsageBOINCPieCtrl.SetPieceLabel(i + 1, strLabel.GetBuffer(0));
-            m_UsageBOINCPieCtrl.SetPiece(i + 1, xUsage);
+            strLabel.Format("%s", gstate.projects[ui]->project_name);
+            gstate.project_disk_usage(gstate.projects[ui], xUsage);
+            m_UsageBOINCPieCtrl.SetPieceLabel(ui + 1, strLabel.GetBuffer(0));
+            m_UsageBOINCPieCtrl.SetPiece(ui + 1, xUsage);
             xDiskUsage -= xUsage;
         }
         m_UsageBOINCPieCtrl.SetPiece(0, xDiskUsage); // BOINC: core application
@@ -983,7 +984,7 @@ void CMainWindow::SaveUserSettings()
 
 static const int message_header_widths[] = {
     DEF_COL_WIDTH,
-    DEF_COL_WIDTH*1.5,
+    (int)(DEF_COL_WIDTH*1.5),
     DEF_COL_WIDTH*4
 };
 
@@ -1086,7 +1087,7 @@ void CMainWindow::LoadLanguage()
     CString strItem, strItemNoAmp;
     char szItem[256];
     int i, is;
-    for(i = 0; i < m_MainMenu.GetMenuItemCount(); i ++) {
+    for(i = 0; i < (int)m_MainMenu.GetMenuItemCount(); i ++) {
         m_MainMenu.GetMenuString(i, strItem, MF_BYPOSITION);
         strItemNoAmp = strItem; strItemNoAmp.Remove('&');
         strSection.Format("MENU-%s", strItemNoAmp);
@@ -1094,14 +1095,14 @@ void CMainWindow::LoadLanguage()
         m_MainMenu.ModifyMenu(i, MF_BYPOSITION|MF_STRING, 0, szItem);
         CMenu* pSubMenu = m_MainMenu.GetSubMenu(i);
         if(!pSubMenu) continue;
-        for(is = 0; is < pSubMenu->GetMenuItemCount(); is ++) {
+        for(is = 0; is < (int)pSubMenu->GetMenuItemCount(); is ++) {
             pSubMenu->GetMenuString(is, strItem, MF_BYPOSITION);
             if (UpdateLanguageString(strSection, strItem, strPath)) {
                 pSubMenu->ModifyMenu(is, MF_BYPOSITION|MF_STRING, pSubMenu->GetMenuItemID(is), strItem);
             }
         }
     }
-    for(i = 0; i < m_ContextMenu.GetMenuItemCount(); i ++) {
+    for(i = 0; i < (int)m_ContextMenu.GetMenuItemCount(); i ++) {
         m_ContextMenu.GetMenuString(i, strItem, MF_BYPOSITION);
         strItemNoAmp = strItem; strItemNoAmp.Remove('&');
         strSection.Format("MENU-%s", strItemNoAmp);
@@ -1109,7 +1110,7 @@ void CMainWindow::LoadLanguage()
         m_ContextMenu.ModifyMenu(i, MF_BYPOSITION|MF_STRING, 0, szItem);
         CMenu* pSubMenu = m_ContextMenu.GetSubMenu(i);
         if(!pSubMenu) continue;
-        for(is = 0; is < pSubMenu->GetMenuItemCount(); is ++) {
+        for(is = 0; is < (int)pSubMenu->GetMenuItemCount(); is ++) {
             pSubMenu->GetMenuString(is, strItem, MF_BYPOSITION);
             if (UpdateLanguageString(strSection, strItem, strPath)) {
                 pSubMenu->ModifyMenu(is, MF_BYPOSITION|MF_STRING, pSubMenu->GetMenuItemID(is), strItem);
@@ -1162,10 +1163,10 @@ DWORD CMainWindow::GetUserIdleTime()
 //              vector does not contain.
 void CMainWindow::Syncronize(CProgressListCtrl* pProg, vector<void*>* pVect)
 {
-    int i, j;
+	int i, j;
 
     // add items to list that are not already in it
-    for(i = 0; i < pVect->size(); i ++) {
+    for(i = 0; i < (int)pVect->size(); i ++) {
         void* item = (*pVect)[i];
         BOOL contained = false;
         for(j = 0; j < pProg->GetItemCount(); j ++) {
@@ -1185,7 +1186,7 @@ void CMainWindow::Syncronize(CProgressListCtrl* pProg, vector<void*>* pVect)
     for(i = 0; i < pProg->GetItemCount(); i ++) {
         DWORD item = pProg->GetItemData(i);
         BOOL contained = false;
-        for(j = 0; j < pVect->size(); j ++) {
+        for(j = 0; j < (int)pVect->size(); j ++) {
             if(item == (DWORD)(*pVect)[j]) {
                 contained = true;
                 break;
@@ -1216,7 +1217,7 @@ void CMainWindow::PostNcDestroy()
 // function:    handles any messages not handled by the window previously
 LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-#ifdef DEBUG
+#ifdef SS_DEBUG
     fprintf(fout, "message %d\n", message);
 #endif
     if(m_nShowMsg == message) {
@@ -1593,7 +1594,7 @@ void CMainWindow::OnBenchmarksEnd()
 void CMainWindow::OnCommandExit()
 {
     static bool already_exited = false;
-#ifdef DEBUG
+#ifdef SS_DEBUG
     fprintf(fout, "CMainWindow::onCommandExit\n");
 #endif
     if (already_exited) return;
@@ -1740,7 +1741,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     SetMenu(&m_MainMenu);
 
     LoadLanguage();
-#ifdef DEBUG
+#ifdef SS_DEBUG
     fprintf(fout, "CMainWIndow:OnCreate\n");
 #endif
     // create project list control
@@ -1780,7 +1781,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     m_MessageListCtrl.SetMenuItems(szTitles, MESSAGE_COLS);
     for(i = 0; i < MESSAGE_COLS; i ++) {
         int width = DEF_COL_WIDTH;
-        if(i == 1) width *= 1.5;
+        if(i == 1) width = (int)(width*1.5);
         if(i == 2) width *= 4;
         m_MessageListCtrl.InsertColumn(i, g_szColumnTitles[MESSAGE_ID][i], LVCFMT_LEFT, width, -1);
     }
@@ -1872,7 +1873,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 
     command_line = GetCommandLine();
     argc = parse_command_line( command_line, argv );
-#ifdef DEBUG
+#ifdef SS_DEBUG
     for (i=0; i<argc; i++) {
         fprintf(fout, "arg %d: %s\n", i, argv[i]);
     }
@@ -1923,7 +1924,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     }
 
     UpdateRunRequestFileMenu();
-#ifdef DEBUG
+#ifdef SS_DEBUG
     fprintf(fout, "returning from OnCreate\n");
 #endif
     return 0;
@@ -2195,11 +2196,11 @@ void CMainWindow::OnTimer(UINT uEventID)
         KillTimer(m_nGuiTimerID);
 
         // update state and gui
-#ifdef DEBUG
+#ifdef SS_DEBUG
         fprintf(fout, "calling do_something\n");
 #endif
         while(gstate.do_something());
-#ifdef DEBUG
+#ifdef SS_DEBUG
         fprintf(fout, "return from do_something\n");
         fflush(fout);
 #endif

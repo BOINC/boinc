@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -27,18 +27,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE MOVEABLE PURE 
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE MOVEABLE PURE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE MOVEABLE PURE 
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -52,10 +52,10 @@ END
 // Dialog
 //
 
-IDD_LOGIN DIALOG DISCARDABLE  0, 0, 283, 54
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Login to Project"
-FONT 8, "MS Sans Serif"
+IDD_LOGIN DIALOGEX 0, 0, 283, 54
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Attach to Project"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,226,7,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,226,24,50,14
@@ -65,8 +65,8 @@ BEGIN
     LTEXT           "Account Key:",IDC_STATIC_AUTH,7,32,63,8
 END
 
-IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 300, 67
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_ABOUTBOX DIALOG  0, 0, 300, 67
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Boinc Beta version"
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -77,8 +77,8 @@ BEGIN
     CTEXT           "Open Beta",IDC_STATIC_BOTTOM,61,36,171,13
 END
 
-IDD_QUIT DIALOG DISCARDABLE  0, 0, 186, 70
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_QUIT DIALOG  0, 0, 186, 70
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Quit Project"
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -88,8 +88,8 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
 END
 
-IDD_PROXY DIALOG DISCARDABLE  0, 0, 212, 278
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_PROXY DIALOG  0, 0, 212, 278
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "BOINC Proxy Server Setup"
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -122,8 +122,8 @@ BEGIN
                     ES_AUTOHSCROLL
 END
 
-IDD_CONNECT DIALOG DISCARDABLE  0, 0, 210, 46
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_CONNECT DIALOG  0, 0, 210, 46
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Connection"
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -140,7 +140,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO MOVEABLE PURE 
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_LOGIN, DIALOG
     BEGIN
@@ -190,7 +190,7 @@ END
 // Menu
 //
 
-IDR_MAINFRAME MENU DISCARDABLE 
+IDR_MAINFRAME MENU 
 BEGIN
     POPUP "&File"
     BEGIN
@@ -215,7 +215,7 @@ BEGIN
     END
 END
 
-IDR_CONTEXT MENU DISCARDABLE 
+IDR_CONTEXT MENU 
 BEGIN
     POPUP "StatusIcon"
     BEGIN
@@ -255,13 +255,13 @@ END
 // Bitmap
 //
 
-IDB_LOGO                BITMAP  MOVEABLE PURE   "res\\boinc.bmp"
-IDB_LOGOSM              BITMAP  MOVEABLE PURE   "res\\boincsm.bmp"
-IDB_PROJ                BITMAP  MOVEABLE PURE   "res\\proj.bmp"
-IDB_RESULT              BITMAP  MOVEABLE PURE   "res\\result.bmp"
-IDB_USAGE               BITMAP  MOVEABLE PURE   "res\\usage.bmp"
-IDB_XFER                BITMAP  MOVEABLE PURE   "res\\xfer.bmp"
-IDB_MESS                BITMAP  MOVEABLE PURE   "res\\mess.bmp"
+IDB_LOGO                BITMAP                  "res\\boinc.bmp"
+IDB_LOGOSM              BITMAP                  "res\\boincsm.bmp"
+IDB_PROJ                BITMAP                  "res\\proj.bmp"
+IDB_RESULT              BITMAP                  "res\\result.bmp"
+IDB_USAGE               BITMAP                  "res\\usage.bmp"
+IDB_XFER                BITMAP                  "res\\xfer.bmp"
+IDB_MESS                BITMAP                  "res\\mess.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -270,15 +270,14 @@ IDB_MESS                BITMAP  MOVEABLE PURE   "res\\mess.bmp"
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON                ICON    DISCARDABLE     "res\\icon.ico"
-IDI_ICONHIGHLIGHT       ICON    DISCARDABLE     "res\\iconhigh.ico"
-IDI_ICONSMALL           ICON    DISCARDABLE     "res\\iconsmall.ico"
-IDI_ICONERROR           ICON    DISCARDABLE     "res\\iconerror.ico"
-IDI_ICONINFO            ICON    DISCARDABLE     "res\\iconinfo.ico"
-IDI_ICONNETWORK         ICON    DISCARDABLE     "res\\iconnetwork.ico"
-IDI_ICONWARNING         ICON    DISCARDABLE     "res\\iconwarning.ico"
+IDI_ICON                ICON                    "res\\icon.ico"
+IDI_ICONHIGHLIGHT       ICON                    "res\\iconhigh.ico"
+IDI_ICONSMALL           ICON                    "res\\iconsmall.ico"
+IDI_ICONERROR           ICON                    "res\\iconerror.ico"
+IDI_ICONINFO            ICON                    "res\\iconinfo.ico"
+IDI_ICONNETWORK         ICON                    "res\\iconnetwork.ico"
+IDI_ICONWARNING         ICON                    "res\\iconwarning.ico"
 
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
@@ -301,14 +300,14 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "CompanyName", "Space Sciences Laboratory\0"
-            VALUE "FileDescription", "boinc_gui\0"
-            VALUE "FileVersion", "2, 0, 18, 0\0"
-            VALUE "InternalName", "boinc_gui\0"
-            VALUE "LegalCopyright", "Copyright © 2003 SETI@home\0"
-            VALUE "OriginalFilename", "boinc_gui.exe\0"
-            VALUE "ProductName", "BOINC Core Client\0"
-            VALUE "ProductVersion", "2, 0, 18, 0\0"
+            VALUE "CompanyName", "Space Sciences Laboratory"
+            VALUE "FileDescription", "boinc_gui"
+            VALUE "FileVersion", "2, 0, 18, 0"
+            VALUE "InternalName", "boinc_gui"
+            VALUE "LegalCopyright", "Copyright © 2003 SETI@home"
+            VALUE "OriginalFilename", "boinc_gui.exe"
+            VALUE "ProductName", "BOINC Core Client"
+            VALUE "ProductVersion", "2, 0, 18, 0"
         END
     END
     BLOCK "VarFileInfo"
@@ -316,8 +315,6 @@ BEGIN
         VALUE "Translation", 0x409, 1200
     END
 END
-
-#endif    // !_MAC
 
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////

@@ -13,15 +13,15 @@ SubFolders=1
 ApplicationName=BOINC
 Description=Berkeley Open Infrastructure for Network Computing
 Comments=
-Notice=Copyright 2002-2003 University of California, Berkeley
-Version=2.14
-OutputSpec=boinc_2.14_windows_intelx86.exe
+Notice=Copyright 2002-2004 University of California, Berkeley
+Version=2.18
+OutputSpec=boinc_2.18_windows_intelx86.exe
 GUIDs=0
 Type=2
 Compress=1
 Sign=0
 Transfer=0
-Files=23
+Files=22
 
 [Engine]
 Setup=Disk1\Setup.exe
@@ -151,48 +151,42 @@ Flags=1
 Disk=0
 
 [File 16]
-Name=Thumbs.db
-Path=Media\Default\Disk Images\Disk1\
-Flags=1
-Disk=0
-
-[File 17]
 Name=_INST32I.EX_
 Path=Media\Default\Disk Images\Disk1\
 Flags=524289
 Disk=0
 
-[File 18]
+[File 17]
 Name=_ISDel.exe
 Path=Media\Default\Disk Images\Disk1\
 Flags=589825
 Disk=0
 
-[File 19]
+[File 18]
 Name=_Setup.dll
 Path=Media\Default\Disk Images\Disk1\
 Flags=655377
 Disk=0
 
-[File 20]
+[File 19]
 Name=_sys1.cab
 Path=Media\Default\Disk Images\Disk1\
 Flags=2097153
 Disk=0
 
-[File 21]
+[File 20]
 Name=_sys1.hdr
 Path=Media\Default\Disk Images\Disk1\
 Flags=2097153
 Disk=0
 
-[File 22]
+[File 21]
 Name=_user1.cab
 Path=Media\Default\Disk Images\Disk1\
 Flags=2097153
 Disk=0
 
-[File 23]
+[File 22]
 Name=_user1.hdr
 Path=Media\Default\Disk Images\Disk1\
 Flags=2097153
