@@ -61,6 +61,7 @@ AC_PROG_CXX
 AC_PROG_CPP
 AC_PROG_MAKE_SET
 AC_PROG_RANLIB
+AC_PROG_LN_S
 
 dnl Checks for libraries.
 AC_CHECK_LIB(gen, main)
@@ -84,6 +85,7 @@ AC_HEADER_DIRENT
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
+AC_TYPE_SIGNAL
 AC_CHECK_HEADERS(arpa/inet.h dirent.h fcntl.h malloc.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/file.h sys/ipc.h sys/mount.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h errno.h)
 SAH_GRX_INCLUDES
 AC_LANG_PUSH(C++)
@@ -110,7 +112,7 @@ dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
 AC_FUNC_WAIT3
-AC_CHECK_FUNCS(gethostname gettimeofday mkdir select socket strstr uname lockf flock strftime setpriority wait4 strlcpy strlcat)
+AC_CHECK_FUNCS(gethostname gettimeofday mkdir select socket strstr uname lockf flock strftime setpriority wait4 strlcpy strlcat sigaction)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
