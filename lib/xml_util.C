@@ -24,12 +24,14 @@
 #include <sstream>
 #include "xml_util.h"
 
-static int xml_indent_level=0;
+int xml_indent_level=0;
 
 std::string xml_indent(int i) {
-  if (i) xml_indent_level+=i;
+  if (i>0) xml_indent_level+=i;
+  std::string rv(xml_indent_level,' ');
+  if (i<0) xml_indent_level+=i;
   xml_indent_level = (xml_indent_level>0) ? xml_indent_level : 0;
-  return std::string(xml_indent_level,' ');
+  return rv;
 }
 
 // Most of these entries are for reverse translation of poorly written HTML.
@@ -550,6 +552,9 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
 
 //
 // $Log$
+// Revision 1.10  2003/10/22 15:24:10  korpela
+// *** empty log message ***
+//
 // Revision 1.9  2003/10/21 18:14:36  korpela
 // *** empty log message ***
 //

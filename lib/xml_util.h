@@ -148,6 +148,7 @@ struct xml_entity {
 // "i" spaces.  return a string of spaces corresponding to the current xml 
 // indent level.
 std::string xml_indent(int i=0);
+extern int xml_indent_level;
 
 // decode an XML character string.  Return a the decoded string in a vector
 // (null not necessarily a terminator).
@@ -499,18 +500,19 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements);
  
 template <typename T>
 std::string x_csv_encode(const T *bin, size_t nelements) {
-  std::ostringstream rv("\n");
+  std::ostringstream rv();
   size_t lastlen=0,i;
   bool ischar=(sizeof(T)==1);
+  rv << std::endl << xml_indent(2);
   if (ischar) return x_csv_encode_char((const unsigned char *)bin, nelements);
   for (i=0;i<(nelements-1);i++) {
     rv << bin[i] << ',';
-    if ((rv.str().size()-lastlen)>70) {
-      rv << std::endl;
+    if ((rv.str().size()-lastlen-xml_indent_level)>73) {
+      rv << std::endl << xml_indent();
       lastlen=rv.str().size();
     }
   }
-  rv << bin[i] << std::endl;
+  rv << bin[i] << std::endl << xml_indent(-2);
   return rv.str();
 }
 
@@ -806,6 +808,9 @@ std::string xml_encode_string(const T *input,
 #endif
 //
 // $Log$
+// Revision 1.6  2003/10/22 15:24:10  korpela
+// *** empty log message ***
+//
 // Revision 1.5  2003/10/22 03:09:55  korpela
 // *** empty log message ***
 //
