@@ -22808,3 +22808,19 @@ David  17 Jan 2005
 
     client/
         client_state.C
+
+Rom    17 Jan 2005
+    - Bug Fix: Remove the ability for the CC to exit when a project fails to
+        attach.  This now keeps the CC from exiting for te Single and Shared
+        install types as well.
+    - Bug Fix: Remove the readme options from setup.
+    - Bug Fix: Enable the checkboxes in setup by default.
+
+    client/
+        main.C
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/0409
+        readme.txt
+    win_build/installerv2/redist/windows
+        BOINC.vbs

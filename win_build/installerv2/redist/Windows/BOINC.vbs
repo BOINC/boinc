@@ -129,39 +129,6 @@ End Function
 
 
 ''
-'' Launch the BOINC Readme when requested to do so
-''
-Function LaunchReadme()
-    On Error Resume Next
-
-	Dim oShell
-    Dim oRecord
-    Dim strFileToLaunch
-
-	Set oShell = CreateObject("WScript.Shell")
-    Set oRecord = Installer.CreateRecord(2)
-
-    oRecord.StringData(0) = Property("READMEFILETOLAUNCHATEND")
-    strFileToLaunch = "notepad.exe " & FormatRecord(oRecord)
-
-    oShell.Run(strFileToLaunch)
-    If ( Err.Number <> 0 ) Then
-	    oRecord.IntegerData(1) = Err.Number
-	    oRecord.StringData(2) = Err.Description
-        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
-    
-        LaunchReadme = msiMessageTypeError
-        Exit Function
-    End If
-
-    Set oShell = Nothing
-    Set oRecord = Nothing
-
-	LaunchReadme = msiDoActionStatusSuccess
-End Function
-
-
-''
 '' Detect the username of the user executing setup, and populate
 ''   SERVICE_USERNAME if it is empty
 ''

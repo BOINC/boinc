@@ -71,10 +71,6 @@ void project_add_failed(PROJECT* project) {
         );
     }
     gstate.detach_project(project);
-    if (!gstate.executing_as_daemon) {
-        gstate.quit_activities();
-        exit(1);
-    }
 }
 
 // Display a message to the user.
