@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.6  2004/10/24 21:21:39  rwalton
+// *** empty log message ***
+//
 // Revision 1.5  2004/10/24 21:14:37  rwalton
 // *** empty log message ***
 //
@@ -91,12 +94,12 @@ bool CDlgOptions::Create( wxWindow* parent, wxWindowID id, const wxString& capti
 
 void CDlgOptions::CreateControls()
 {    
-    CDlgOptions* item1 = this;
 
-    wxBoxSizer* item2 = new wxBoxSizer(wxVERTICAL);
-    item1->SetSizer(item2);
-    item1->SetAutoLayout(TRUE);
+    CDlgToolsOptions* itemDialog1 = this;
 
+    wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
+    itemDialog1->SetSizer(itemBoxSizer2);
+    itemDialog1->SetAutoLayout(TRUE);
     wxNotebook* itemNotebook3 = new wxNotebook;
     itemNotebook3->Create( itemDialog1, ID_NOTEBOOK, wxDefaultPosition, wxSize(300, 265), wxNB_TOP );
     wxPanel* itemPanel4 = new wxPanel;
@@ -241,6 +244,7 @@ void CDlgOptions::CreateControls()
     wxButton* itemButton41 = new wxButton;
     itemButton41->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer39->Add(itemButton41, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
 }
 
 
