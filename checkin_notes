@@ -8459,6 +8459,13 @@ David  12 Dec 2003
 		net_xfer.C,h
 		pers_file_xfer.C
 
+Gary	12 Dec 2003
+	- fixed bug that caused 'Progress' and 'To completion' columns to reset to
+      0.00% and init completion time at end of WU.
+
+    client/win/
+		wingui_mainwindow.cpp
+
 David  12 Dec 2003
 	- fixed bug that caused est. time to completion to not update
 
