@@ -95,8 +95,8 @@ void NET_STATS::poll(NET_XFER_SET& nxs) {
 
 // Write XML based network statistics
 //
-int NET_STATS::write(FILE* out, bool to_server) {
-    fprintf(out,
+int NET_STATS::write(MIOFILE& out, bool to_server) {
+    out.printf(
         "<net_stats>\n"
         "    <bwup>%f</bwup>\n"
         "    <bwdown>%f</bwdown>\n"
@@ -109,12 +109,12 @@ int NET_STATS::write(FILE* out, bool to_server) {
 
 // Read XML based network statistics
 //
-int NET_STATS::parse(FILE* in) {
+int NET_STATS::parse(MIOFILE& in) {
     char buf[256];
     double bwup, bwdown;
 
     memset(this, 0, sizeof(NET_STATS));
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</net_stats>")) return 0;
         else if (parse_double(buf, "<bwup>", bwup)) {
             up.starting_throughput = bwup;

@@ -22,57 +22,80 @@
 #endif
 
 #ifndef _WIN32
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <sys/un.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/socket.h>
-#include <sys/un.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
+#include <arpa/inet.h>
 #endif
 
 #include "parse.h"
 #include "error_numbers.h"
+#include "miofile.h"
 #include "gui_rpc_client.h"
 
 int RPC_CLIENT::init(char* path) {
-    int sock, retval;
+    int retval;
     sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(GUI_RPC_PORT);
-    addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    //addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
     sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock <= 0) {
+        perror("socket");
+        exit(1);
+    }
     retval = connect(sock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
+#ifdef _WIN32
         printf( "Windows Socket Error '%d'\n", WSAGetLastError() );
+#endif
         perror("connect");
         exit(1);
     }
-#ifdef _WIN32
-    fin = fdopen(dup(_open_osfhandle(sock, _O_RDONLY | _O_BINARY)), "r");
-    fout = fdopen(_open_osfhandle(sock, _O_WRONLY | _O_BINARY), "w");
-#else
-    fin = fdopen(dup(sock), "r");
-    fout = fdopen(sock, "w");
-#endif
-
     return 0;
 }
 
 RPC_CLIENT::~RPC_CLIENT() {
-    fclose(fin);
-    fclose(fout);
+}
+
+int RPC_CLIENT::send_request(char* p) {
+    send(sock, p, strlen(p), 0);
+}
+
+int RPC_CLIENT::get_reply(char*& mbuf) {
+    char buf[1025];
+    MFILE mf;
+    int n;
+
+    while (1) {
+        n = recv(sock, buf, 1024, 0);
+        if (n <= 0) break;
+        buf[n]=0;
+        mf.puts(buf);
+        if (strchr(buf, '\003')) break;
+    }
+    mf.get_buf(mbuf, n);
 }
 
 int RPC_CLIENT::get_state() {
     char buf[256];
     PROJECT* project;
+    char* mbuf;
 
-    fprintf(fout, "<get_state/>\n");
-    fflush(fout);
-    while (fgets(buf, 256, fin)) {
+    send_request("<get_state/>\n");
+    get_reply(mbuf);
+    MIOFILE fin;
+    fin.init_buf(mbuf);
+
+    while (fin.fgets(buf, 256)) {
         if (match_tag(buf, "</client_state>")) break;
         else if (match_tag(buf, "<project>")) {
             project = new PROJECT;
@@ -167,21 +190,27 @@ int RPC_CLIENT::get_messages(
     int nmessages, int offset, vector<MESSAGE_DESC>& msgs
 ) {
     char buf[256];
-    fprintf(fout,
+    char* mbuf;
+
+    sprintf(buf,
         "<get_messages>\n"
         "  <nmessages>%d</nmessages>\n"
         "  <offset>%d</offset>\n"
         "</get_messages>\n",
         nmessages, offset
     );
-    fflush(fout);
-    while (fgets(buf, 256, fin)) {
+    send_request(buf);
+    get_reply(mbuf);
+    MIOFILE fin;
+    fin.init_buf(mbuf);
+
+    while (fin.fgets(buf, 256)) {
         puts(buf);
         if (match_tag(buf, "<msgs>")) continue;
         if (match_tag(buf, "</msgs>")) break;
         if (match_tag(buf, "<msg>")) {
             MESSAGE_DESC md;
-            while (fgets(buf, 256, fin)) {
+            while (fin.fgets(buf, 256)) {
                 puts(buf);
                 if (match_tag(buf, "</msg>")) break;
                 if (parse_str(buf, "<project>", md.project)) continue;
@@ -235,9 +264,9 @@ void RPC_CLIENT::print() {
     }
 }
 
-int FILE_INFO::parse(FILE* in) {
+int FILE_INFO::parse(MIOFILE& in) {
     char buf[256];
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</file_info>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
         else if (match_tag(buf, "<generated_locally/>")) {
@@ -282,9 +311,9 @@ void FILE_INFO::print() {
     printf("   generated locally: %s\n", generated_locally?"yes":"no");
 }
 
-int PROJECT::parse(FILE* in) {
+int PROJECT::parse(MIOFILE& in) {
     char buf[256];
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project>")) return 0;
         else if (parse_str(buf, "<master_url", master_url)) continue;
         else if (parse_double(buf, "<resource_share", resource_share)) continue;
@@ -331,9 +360,9 @@ void PROJECT::print() {
     printf("   tentative: %s\n", tentative?"yes":"no");
 }
 
-int APP::parse(FILE* in) {
+int APP::parse(MIOFILE& in) {
     char buf[256];
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
     }
@@ -345,9 +374,9 @@ void APP::print() {
     printf("   Project: %s\n", project->project_name.c_str());
 }
 
-int APP_VERSION::parse(FILE* in) {
+int APP_VERSION::parse(MIOFILE& in) {
     char buf[256];
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app_version>")) return 0;
         else if (parse_str(buf, "<app_name>", app_name)) continue;
         else if (parse_int(buf, "<version_num>", version_num)) continue;
@@ -361,9 +390,9 @@ void APP_VERSION::print() {
     printf("   project: %s\n", project->project_name.c_str());
 }
 
-int WORKUNIT::parse(FILE* in) {
+int WORKUNIT::parse(MIOFILE& in) {
     char buf[256];
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</workunit>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
         else if (parse_str(buf, "<app_name>", app_name)) continue;
@@ -384,9 +413,9 @@ void WORKUNIT::print() {
     printf("   disk bound: %f\n", rsc_disk_bound);
 }
 
-int RESULT::parse(FILE* in) {
+int RESULT::parse(MIOFILE& in) {
     char buf[256];
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</result>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
         else if (parse_str(buf, "<wu_name>", wu_name)) continue;
@@ -424,9 +453,9 @@ void RESULT::print() {
     printf("   stderr_out: %s\n", stderr_out.c_str());
 }
 
-int ACTIVE_TASK::parse(FILE* in) {
+int ACTIVE_TASK::parse(MIOFILE& in) {
     char buf[256];
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</active_task>")) return 0;
         else if (parse_str(buf, "<result_name>", result_name)) continue;
         else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;

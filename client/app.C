@@ -1374,8 +1374,8 @@ int ACTIVE_TASK_SET::get_free_slot(int total_slots) {
     return -1;
 }
 
-int ACTIVE_TASK::write(FILE* fout) {
-    fprintf(fout,
+int ACTIVE_TASK::write(MIOFILE& fout) {
+    fout.printf(
         "<active_task>\n"
         "    <project_master_url>%s</project_master_url>\n"
         "    <result_name>%s</result_name>\n"
@@ -1396,7 +1396,7 @@ int ACTIVE_TASK::write(FILE* fout) {
     return 0;
 }
 
-int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
+int ACTIVE_TASK::parse(MIOFILE& fin) {
     char buf[256], result_name[256], project_master_url[256];
     int app_version_num=0;
     PROJECT* project;
@@ -1405,9 +1405,9 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
 
     strcpy(result_name, "");
     strcpy(project_master_url, "");
-    while (fgets(buf, 256, fin)) {
+    while (fin.fgets(buf, 256)) {
         if (match_tag(buf, "</active_task>")) {
-            project = cs->lookup_project(project_master_url);
+            project = gstate.lookup_project(project_master_url);
             if (!project) {
                 msg_printf(
                     NULL, MSG_ERROR,
@@ -1416,7 +1416,7 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
                 );
                 return ERR_NULL;
             }
-            result = cs->lookup_result(project, result_name);
+            result = gstate.lookup_result(project, result_name);
             if (!result) {
                 msg_printf(
                     project, MSG_ERROR, "ACTIVE_TASK::parse(): result not found\n"
@@ -1437,7 +1437,7 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
             }
 
             wup = result->wup;
-            app_version = cs->lookup_app_version(
+            app_version = gstate.lookup_app_version(
                 result->app, app_version_num
             );
             if (!app_version) {
@@ -1463,33 +1463,33 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
 
 // Write XML information about this active task set
 //
-int ACTIVE_TASK_SET::write(FILE* fout) {
+int ACTIVE_TASK_SET::write(MIOFILE& fout) {
     unsigned int i;
     int retval;
 
-    fprintf(fout, "<active_task_set>\n");
+    fout.printf("<active_task_set>\n");
     for (i=0; i<active_tasks.size(); i++) {
         retval = active_tasks[i]->write(fout);
         if (retval) return retval;
     }
-    fprintf(fout, "</active_task_set>\n");
+    fout.printf("</active_task_set>\n");
     return 0;
 }
 
 // Parse XML information about an active task set
 //
-int ACTIVE_TASK_SET::parse(FILE* fin, CLIENT_STATE* cs) {
+int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
     ACTIVE_TASK* atp;
     char buf[256];
     int retval;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
-    while (fgets(buf, 256, fin)) {
+    while (fin.fgets(buf, 256)) {
         if (match_tag(buf, "</active_task_set>")) return 0;
         else if (match_tag(buf, "<active_task>")) {
             atp = new ACTIVE_TASK;
-            retval = atp->parse(fin, cs);
+            retval = atp->parse(fin);
             if (!retval) active_tasks.push_back(atp);
             else delete atp;
         } else scope_messages.printf("ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf);

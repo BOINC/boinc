@@ -552,6 +552,8 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     char buf[256], *p;
     int retval;
+    MIOFILE mf;
+    mf.init_file(in);
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
@@ -640,24 +642,24 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             if (retval) return ERR_XML_PARSE;
         } else if (match_tag(buf, "<app>")) {
             APP app;
-            app.parse(in);
+            app.parse(mf);
             apps.push_back(app);
         } else if (match_tag(buf, "<file_info>")) {
             FILE_INFO file_info;
-            file_info.parse(in, true);
+            file_info.parse(mf, true);
             file_infos.push_back(file_info);
         } else if (match_tag(buf, "<app_version>")) {
             APP_VERSION av;
-            av.parse(in);
+            av.parse(mf);
             app_versions.push_back(av);
         } else if (match_tag(buf, "<workunit>")) {
             WORKUNIT wu;
-            wu.parse(in);
+            wu.parse(mf);
             workunits.push_back(wu);
         } else if (match_tag(buf, "<result>")) {
             RESULT result;      // make sure this is here so constructor
                                 // gets called each time
-            result.parse_server(in);
+            result.parse_server(mf);
             results.push_back(result);
         } else if (match_tag(buf, "<result_ack>")) {
             RESULT result;

@@ -13332,3 +13332,49 @@ Daniel 11 June 2004
     client/
         cs_prefs.C
 
+David  11 June 2004
+    - Windows sockets can't be used in fdopen() (thank you MS),
+        and we wanted all the standard XML output functions
+        to be able to write to either disk or socket (for GUI RPC).
+        So we added a class MIOFILE, with printf() and fgets() member funcs,
+        that can be implemented with either a FILE* or a memory buffer
+        under the hood.
+    - Moved MFILE from api/ to lib/ since it's used in the implementation
+        of MIOFILE
+    - Changed all XML write and parse functions to take MIOFILE&
+        instead of FILE*
+    - Changed GUI RPC client code to use MIOFILEs
+    - Changed GUI RPC protocol so that every reply message
+        ends with a \003 delimiter
+        (to make it unambiguous where reply ends)
+    - removed version number header from GUI RPC (rethink this later)
+     
+    Got this all to work on Unix; will try Windows next
+
+    api/
+        Makefile.am
+        mfile.C,h (moved from here)
+    client/
+        Makefile.am
+        app.C,h
+        client_state.h
+        client_types.C,h
+        cs_scheduler.C
+        cs_statefile.C
+        gui_rpc_client.C,h
+        gui_rpc_server.C,h
+        gui_test.C
+        hostinfo.C,h
+        makefile.gui_test
+        miofile.C,h (new)
+        net_stats.C,h
+        net_xfer.h
+        pers_file_xfer.h
+        proxy.C,y
+        scheduler_op.C
+        time_stats.C,h
+    doc/
+        client_sched.php (new)
+    lib/
+        Makefile.am
+        mfile.C,h (moved to here)

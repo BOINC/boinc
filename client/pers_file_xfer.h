@@ -70,8 +70,8 @@ public:
     void handle_xfer_failure();
     void retry_or_backoff();
     void giveup(char*);
-    int write(FILE* fout);
-    int parse(FILE* fin);
+    int write(MIOFILE& fout);
+    int parse(MIOFILE& fin);
     int start_xfer();
     void suspend();
 };

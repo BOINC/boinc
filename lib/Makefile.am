@@ -12,7 +12,6 @@ EXTRA_DIST = result_state.h parse.h std_fixes.h util.h
 
 libboinc_a_SOURCES =				\
     ../api/boinc_api.C			\
-    ../api/mfile.C				\
     app_ipc.C				\
 	base64.C				\
     diagnostics.C           \
@@ -21,6 +20,7 @@ libboinc_a_SOURCES =				\
     language.C				\
     md5.c					\
     md5_file.C				\
+    mfile.C                 \
     parse.C					\
 	shmem.C					\
     util.C

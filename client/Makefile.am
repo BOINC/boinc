@@ -9,8 +9,6 @@ bin_PROGRAMS = boinc_client
 
 EXTRA_PROGRAMS = cpu_benchmark
 
-CXXFLAGS = -g -Wall -O6
-
 boinc_client_SOURCES =			\
     app.C				    	\
     check_state.C               \
@@ -36,6 +34,7 @@ boinc_client_SOURCES =			\
     http.C					    \
     log_flags.C					\
     main.C					    \
+    miofile.C                   \
     net_stats.C					\
     net_xfer.C					\
     pers_file_xfer.C			\
@@ -53,6 +52,7 @@ boinc_client_SOURCES =			\
     ../lib/language.C			\
     ../lib/md5_file.C			\
     ../lib/md5.c				\
+    ../lib/mfile.C				\
     ../lib/msg_log.C            \
     ../lib/parse.C				\
     ../lib/shmem.C				\

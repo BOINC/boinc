@@ -84,13 +84,13 @@ void print_buf( char *buf, int n ) {
     printf( "\n" );
 }
 
-int PROXY_INFO::parse(FILE* in) {
+int PROXY_INFO::parse(MIOFILE& in) {
     char buf[256];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
     memset(this, 0, sizeof(PROXY_INFO));
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</proxy_info>")) return 0;
         else if (match_tag(buf, "<use_http_proxy/>")) use_http_proxy = true;
         else if (match_tag(buf, "<use_socks_proxy/>")) use_socks_proxy = true;
@@ -106,8 +106,8 @@ int PROXY_INFO::parse(FILE* in) {
     return 0;
 }
 
-int PROXY_INFO::write(FILE* out) {
-   fprintf(out,
+int PROXY_INFO::write(MIOFILE& out) {
+   out.printf(
        "<proxy_info>\n"
        "%s"
        "%s"

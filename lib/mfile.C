@@ -39,22 +39,27 @@ using namespace std;
 #include "error_numbers.h"
 #include "mfile.h"
 
-int MFILE::open(const char* path, const char* mode) {
+
+MFILE::MFILE() {
     buf = 0;
     len = 0;
+}
+
+MFILE::~MFILE() {
+    if (buf) free(buf);
+}
+
+int MFILE::open(const char* path, const char* mode) {
     f = boinc_fopen(path, mode);
     if (!f) return -1;
     return 0;
 }
 
-int MFILE::printf(const char* format, ...) {
-    va_list ap;
+int MFILE::vprintf(const char* format, va_list ap) {
     char buf2[20000];
     int n, k;
 
-    va_start(ap, format);
     k = vsprintf(buf2, format, ap);
-    va_end(ap);
     n = (int)strlen(buf2);
     buf = (char*)realloc(buf, len+n);
     if (!buf) {
@@ -64,6 +69,16 @@ int MFILE::printf(const char* format, ...) {
     strncpy(buf+len, buf2, n);
     len += n;
     return k;
+}
+
+int MFILE::printf(const char* format, ...) {
+    int n;
+    va_list ap;
+
+    va_start(ap, format);
+    n = MFILE::vprintf(format, ap);
+    va_end(ap);
+    return n;
 }
 
 size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
@@ -115,4 +130,11 @@ int MFILE::flush() {
 
 long MFILE::tell() const {
     return f ? ftell(f) : -1;
+}
+
+void MFILE::get_buf(char*& b, int& l) {
+    b = buf;
+    l = len;
+    buf = 0;
+    len = 0;
 }

@@ -32,7 +32,7 @@
 #include "hostinfo.h"
 #include "http.h"
 #include "language.h"
-//#include "message.h"
+#include "miofile.h"
 #include "net_stats.h"
 #include "net_xfer.h"
 #include "pers_file_xfer.h"
@@ -257,7 +257,7 @@ private:
 public:
     void set_client_state_dirty(char*);
     int parse_state_file();
-    int write_state(FILE*);
+    int write_state(MIOFILE&);
     int write_state_file();
     int write_state_file_if_needed();
     int parse_venue();

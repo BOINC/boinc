@@ -35,6 +35,6 @@ public:
     void update(bool is_connected, bool is_active);
 
     TIME_STATS();
-    int write(FILE*, bool to_server);
-    int parse(FILE*);
+    int write(MIOFILE&, bool to_server);
+    int parse(MIOFILE&);
 };

@@ -326,10 +326,10 @@ void PERS_FILE_XFER::retry_or_backoff() {
 
 // Parse XML information about a single persistent file transfer
 //
-int PERS_FILE_XFER::parse(FILE* fin) {
+int PERS_FILE_XFER::parse(MIOFILE& fin) {
     char buf[256];
 
-    while (fgets(buf, 256, fin)) {
+    while (fin.fgets(buf, 256)) {
         if (match_tag(buf, "</persistent_file_xfer>")) return 0;
         else if (parse_int(buf, "<num_retries>", nretry)) continue;
         else if (parse_int(buf, "<first_request_time>", first_request_time)) continue;
@@ -344,8 +344,8 @@ int PERS_FILE_XFER::parse(FILE* fin) {
 
 // Write XML information about a particular persistent file transfer
 //
-int PERS_FILE_XFER::write(FILE* fout) {
-    fprintf(fout,
+int PERS_FILE_XFER::write(MIOFILE& fout) {
+    fout.printf(
         "    <persistent_file_xfer>\n"
         "        <num_retries>%d</num_retries>\n"
         "        <first_request_time>%d</first_request_time>\n"
@@ -355,7 +355,7 @@ int PERS_FILE_XFER::write(FILE* fout) {
         nretry, first_request_time, next_request_time, time_so_far
     );
     if (fxp) {
-        fprintf(fout,
+        fout.printf(
             "    <file_xfer>\n"
             "        <bytes_xferred>%f</bytes_xferred>\n"
             "        <file_offset>%f</file_offset>\n"

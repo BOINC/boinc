@@ -251,6 +251,7 @@ void CLIENT_STATE::compute_resource_debts() {
 //
 int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     FILE* f = boinc_fopen(SCHED_OP_REQUEST_FILE, "wb");
+    MIOFILE mf;
     unsigned int i;
     RESULT* rp;
     int retval;
@@ -258,6 +259,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     char cross_project_id[MD5_LEN];
 
     if (!f) return ERR_FOPEN;
+    mf.init_file(f);
     fprintf(f,
         "<scheduler_request>\n"
         "    <authenticator>%s</authenticator>\n"
@@ -280,7 +282,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
 		for (i=0; i<app_versions.size(); i++) {
 			APP_VERSION* avp = app_versions[i];
 			if (avp->project != p) continue;
-			avp->write(f);
+			avp->write(mf);
 		}
 		fprintf(f, "    </app_versions>\n");
 	}
@@ -339,16 +341,16 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     }
     fprintf(f, "</projects>\n");
 
-    retval = time_stats.write(f, true);
+    retval = time_stats.write(mf, true);
     if (retval) return retval;
-    retval = net_stats.write(f, true);
+    retval = net_stats.write(mf, true);
     if (retval) return retval;
-    retval = host_info.write(f);
+    retval = host_info.write(mf);
     if (retval) return retval;
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         if (rp->project == p && rp->ready_to_report) {
-            rp->write(f, true);
+            rp->write(mf, true);
         }
     }
     read_trickle_files(p, f);

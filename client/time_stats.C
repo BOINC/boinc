@@ -90,8 +90,8 @@ void TIME_STATS::update(bool is_connected, bool is_active) {
 
 // Write XML based time statistics
 //
-int TIME_STATS::write(FILE* out, bool to_server) {
-    fprintf(out,
+int TIME_STATS::write(MIOFILE& out, bool to_server) {
+    out.printf(
         "<time_stats>\n"
         "    <on_frac>%f</on_frac>\n"
         "    <connected_frac>%f</connected_frac>\n"
@@ -101,23 +101,23 @@ int TIME_STATS::write(FILE* out, bool to_server) {
         active_frac
     );
     if (!to_server) {
-        fprintf(out,
+        out.printf(
             "    <last_update>%d</last_update>\n",
             last_update
         );
     }
-    fprintf(out, "</time_stats>\n");
+    out.printf("</time_stats>\n");
     return 0;
 }
 
 // Parse XML based time statistics, usually from client_state.xml
 //
-int TIME_STATS::parse(FILE* in) {
+int TIME_STATS::parse(MIOFILE& in) {
     char buf[256];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</time_stats>")) return 0;
         else if (parse_int(buf, "<last_update>", last_update)) continue;
         else if (parse_double(buf, "<on_frac>", on_frac)) continue;

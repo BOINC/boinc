@@ -81,13 +81,13 @@ void HOST_INFO::clear_host_info() {
 
 // Parse the host information, usually from the client state XML file
 //
-int HOST_INFO::parse(FILE* in) {
+int HOST_INFO::parse(MIOFILE& in) {
     char buf[256];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
     memset(this, 0, sizeof(HOST_INFO));
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</host_info>")) return 0;
         else if (parse_int(buf, "<timezone>", timezone)) continue;
         else if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
@@ -127,8 +127,8 @@ int HOST_INFO::parse(FILE* in) {
 
 // Write the host information, usually to the client state XML file
 //
-int HOST_INFO::write(FILE* out) {
-    fprintf(out,
+int HOST_INFO::write(MIOFILE& out) {
+    out.printf(
         "<host_info>\n"
         "    <timezone>%d</timezone>\n"
         "    <domain_name>%s</domain_name>\n"

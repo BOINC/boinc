@@ -152,7 +152,7 @@ RSA_LIBS = \
 
 
 AM_CFLAGS = -g -Wall
-AM_CXXFLAGS = -g -Wall
+AM_CXXFLAGS = -g -Wall -O3
 
 AM_CPPFLAGS = \
         -I$(top_srcdir)/lib			\

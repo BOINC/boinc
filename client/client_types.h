@@ -34,6 +34,7 @@
 
 #include "md5_file.h"
 #include "hostinfo.h"
+#include "miofile.h"
 #include "result_state.h"
 
 #define MAX_BLOB_LEN 4096
@@ -85,8 +86,8 @@ public:
     FILE_INFO();
     ~FILE_INFO();
     int set_permissions();
-    int parse(FILE*, bool from_server);
-    int write(FILE*, bool to_server);
+    int parse(MIOFILE&, bool from_server);
+    int write(MIOFILE&, bool to_server);
     int delete_file();      // attempt to delete the underlying file
     char* get_url();
     bool had_failure(int& failnum);
@@ -107,8 +108,8 @@ struct FILE_REF {
     FILE_INFO* file_info;
 	bool copy_file;  // if true, core client will copy the file instead of linking
 
-    int parse(FILE*);
-    int write(FILE*);
+    int parse(MIOFILE&);
+    int write(MIOFILE&);
 };
 
 class PROJECT {
@@ -180,8 +181,8 @@ public:
     int write_account_file();
     int parse_account(FILE*);
     int parse_account_file();
-    int parse_state(FILE*);
-    int write_state(FILE*);
+    int parse_state(MIOFILE&);
+    int write_state(MIOFILE&);
 
     // set min_rpc_time and have_reported_min_rpc_time
     void set_min_rpc_time(time_t future_time);
@@ -193,8 +194,8 @@ struct APP {
     char name[256];
     PROJECT* project;
 
-    int parse(FILE*);
-    int write(FILE*);
+    int parse(MIOFILE&);
+    int write(MIOFILE&);
 };
 
 struct APP_VERSION {
@@ -205,8 +206,8 @@ struct APP_VERSION {
     vector<FILE_REF> app_files;
     int ref_cnt;
 
-    int parse(FILE*);
-    int write(FILE*);
+    int parse(MIOFILE&);
+    int write(MIOFILE&);
 };
 
 struct WORKUNIT {
@@ -227,8 +228,8 @@ struct WORKUNIT {
     double rsc_memory_bound;
     double rsc_disk_bound;
 
-    int parse(FILE*);
-    int write(FILE*);
+    int parse(MIOFILE&);
+    int write(MIOFILE&);
     bool had_failure(int& failnum);
     void get_file_errors(string&);
 };
@@ -274,10 +275,10 @@ struct RESULT {
     PROJECT* project;
 
     void clear();
-    int parse_server(FILE*);
-    int parse_state(FILE*);
+    int parse_server(MIOFILE&);
+    int parse_state(MIOFILE&);
     int parse_ack(FILE*);
-    int write(FILE*, bool to_server);
+    int write(MIOFILE&, bool to_server);
     bool is_upload_done();    // files uploaded?
     void get_app_version_string(string&);
 };

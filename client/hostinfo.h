@@ -20,6 +20,8 @@
 #ifndef _HOSTINFO_
 #define _HOSTINFO_
 
+#include "miofile.h"
+
 // Other host-specific info is kept in
 // TIME_STATS (on/connected/active fractions)
 // NET_STATS (average network bandwidths)
@@ -51,8 +53,8 @@ struct HOST_INFO {
     double d_total;
     double d_free;
 
-    int parse(FILE*);
-    int write(FILE*);
+    int parse(MIOFILE&);
+    int write(MIOFILE&);
     int parse_cpu_benchmarks(FILE*);
     int write_cpu_benchmarks(FILE*);
 

@@ -27,8 +27,8 @@
 #endif
 
 
-// The following classes provide an interface for polling
-// (non-blocking) network I/O.
+// The following classes implement polling (non-blocking) I/O
+// between a disk file (or memory block) and a socket
 
 #define MAX_BLOCKSIZE   16384
 

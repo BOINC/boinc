@@ -53,6 +53,8 @@ int CLIENT_STATE::parse_state_file() {
     }
 
     FILE* f = fopen(STATE_FILE_NAME, "r");
+    MIOFILE mf;
+    mf.init_file(f);
     fgets(buf, 256, f);
     if (!match_tag(buf, "<client_state>")) {
         retval = ERR_XML_PARSE;
@@ -63,7 +65,7 @@ int CLIENT_STATE::parse_state_file() {
             retval = 0;
             break;
         } else if (match_tag(buf, "<project>")) {
-            temp_project.parse_state(f);
+            temp_project.parse_state(mf);
             project = lookup_project(temp_project.master_url);
             if (project) {
                 project->copy_state_fields(temp_project);
@@ -73,7 +75,7 @@ int CLIENT_STATE::parse_state_file() {
             }
         } else if (match_tag(buf, "<app>")) {
             APP* app = new APP;
-            app->parse(f);
+            app->parse(mf);
             if (project) {
                 retval = link_app(project, app);
                 if (!retval) apps.push_back(app);
@@ -82,7 +84,7 @@ int CLIENT_STATE::parse_state_file() {
             }
         } else if (match_tag(buf, "<file_info>")) {
             FILE_INFO* fip = new FILE_INFO;
-            fip->parse(f, false);
+            fip->parse(mf, false);
             if (project) {
                 retval = link_file_info(project, fip);
                 if (!retval) file_infos.push_back(fip);
@@ -102,7 +104,7 @@ int CLIENT_STATE::parse_state_file() {
             }
         } else if (match_tag(buf, "<app_version>")) {
             APP_VERSION* avp = new APP_VERSION;
-            avp->parse(f);
+            avp->parse(mf);
             if (project) {
                 retval = link_app_version(project, avp);
                 if (!retval) app_versions.push_back(avp);
@@ -111,7 +113,7 @@ int CLIENT_STATE::parse_state_file() {
             }
         } else if (match_tag(buf, "<workunit>")) {
             WORKUNIT* wup = new WORKUNIT;
-            wup->parse(f);
+            wup->parse(mf);
             if (project) {
                 retval = link_workunit(project, wup);
                 if (!retval) workunits.push_back(wup);
@@ -120,7 +122,7 @@ int CLIENT_STATE::parse_state_file() {
             }
         } else if (match_tag(buf, "<result>")) {
             RESULT* rp = new RESULT;
-            rp->parse_state(f);
+            rp->parse_state(mf);
             if (project) {
                 retval = link_result(project, rp);
                 if (!retval) results.push_back(rp);
@@ -131,16 +133,16 @@ int CLIENT_STATE::parse_state_file() {
                 delete rp;
             }
         } else if (match_tag(buf, "<host_info>")) {
-            retval = host_info.parse(f);
+            retval = host_info.parse(mf);
             if (retval) goto done;
         } else if (match_tag(buf, "<time_stats>")) {
-            retval = time_stats.parse(f);
+            retval = time_stats.parse(mf);
             if (retval) goto done;
         } else if (match_tag(buf, "<net_stats>")) {
-            retval = net_stats.parse(f);
+            retval = net_stats.parse(mf);
             if (retval) goto done;
         } else if (match_tag(buf, "<active_task_set>")) {
-            retval = active_tasks.parse(f, this);
+            retval = active_tasks.parse(mf);
             if (retval) goto done;
         } else if (match_tag(buf, "<platform_name>")) {
             // should match our current platform name
@@ -150,7 +152,7 @@ int CLIENT_STATE::parse_state_file() {
         } else if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
         } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
         } else if (match_tag(buf, "<proxy_info>")) {
-            retval = pi.parse(f);
+            retval = pi.parse(mf);
             if (retval) goto done;
         // } else if (parse_int(buf, "<user_run_request/>")) {
         } else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) {
@@ -189,7 +191,6 @@ int CLIENT_STATE::parse_venue() {
 //
 int CLIENT_STATE::write_state_file() {
     FILE* f = boinc_fopen(STATE_FILE_TEMP, "w");
-    int retval;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
     scope_messages.printf("CLIENT_STATE::write_state_file(): Writing state file\n");
@@ -197,7 +198,9 @@ int CLIENT_STATE::write_state_file() {
         msg_printf(0, MSG_ERROR, "Can't open temp state file: %s\n", STATE_FILE_TEMP);
         return ERR_FOPEN;
     }
-    retval = write_state(f);
+    MIOFILE mf;
+    mf.init_file(f);
+    int retval = write_state(mf);
     fclose(f);
     if (retval) return retval;
     retval = boinc_rename(STATE_FILE_TEMP, STATE_FILE_NAME);
@@ -206,11 +209,11 @@ int CLIENT_STATE::write_state_file() {
     return 0;
 }
 
-int CLIENT_STATE::write_state(FILE* f) {
+int CLIENT_STATE::write_state(MIOFILE& f) {
     unsigned int i, j;
     int retval;
 
-    fprintf(f, "<client_state>\n");
+    f.printf("<client_state>\n");
     retval = host_info.write(f);
     if (retval) return retval;
     retval = time_stats.write(f, false);
@@ -244,7 +247,7 @@ int CLIENT_STATE::write_state(FILE* f) {
         }
     }
     active_tasks.write(f);
-    fprintf(f,
+    f.printf(
         "<platform_name>%s</platform_name>\n"
         "<core_client_major_version>%d</core_client_major_version>\n"
         "<core_client_minor_version>%d</core_client_minor_version>\n",
@@ -256,13 +259,10 @@ int CLIENT_STATE::write_state(FILE* f) {
     // save proxy info
     //
     pi.write(f);
-#if 0
-    fprintf(f, "<user_run_request>%d</user_run_request>\n", user_run_request);
-#endif
     if (strlen(host_venue)) {
-        fprintf(f, "<host_venue>%s</host_venue>\n", host_venue);
+        f.printf("<host_venue>%s</host_venue>\n", host_venue);
     }
-    fprintf(f, "</client_state>\n");
+    f.printf("</client_state>\n");
     return 0;
 }
 
@@ -308,13 +308,15 @@ void CLIENT_STATE::check_anonymous() {
 
 int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
 	char buf[256];
+    MIOFILE mf;
+    mf.init_file(in);
 
 	while (fgets(buf, 256, in)) {
 		if (match_tag(buf, "<app_info>")) continue;
 		if (match_tag(buf, "</app_info>")) return 0;
 		if (match_tag(buf, "<file_info>")) {
 			FILE_INFO* fip = new FILE_INFO;
-			if (fip->parse(in, false)) {
+			if (fip->parse(mf, false)) {
 				delete fip;
 				continue;
 			}
@@ -328,7 +330,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
 		}
 		if (match_tag(buf, "<app>")) {
 			APP* app = new APP;
-			if (app->parse(in)) {
+			if (app->parse(mf)) {
 				delete app;
 				continue;
 			}
@@ -342,7 +344,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
 		}
 		if (match_tag(buf, "<app_version>")) {
 			APP_VERSION* avp = new APP_VERSION;
-			if (avp->parse(in)) {
+			if (avp->parse(mf)) {
 				delete avp;
 				continue;
 			}

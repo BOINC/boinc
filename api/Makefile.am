@@ -7,7 +7,6 @@ noinst_LIBRARIES = libboinc_api.a
 libboinc_api_a_SOURCES =			\
 	boinc_api.C				\
 	boinc_api.h				\
-	mfile.C					\
 	reduce.h				\
 	../lib/app_ipc.C			\
 	../lib/base64.C                         \
@@ -36,7 +35,7 @@ nographics:
 
 EXTRA_PROGRAMS = api_app api_test
 
-api_app_SOURCES = api_app.C mfile.C boinc_api.C ../lib/parse.C ../lib/synch.C
+api_app_SOURCES = api_app.C boinc_api.C ../lib/parse.C ../lib/synch.C
 api_test_SOURCES = boinc_api.C api_test.C ../lib/parse.C
 
 all = libboinc_api.a

@@ -152,7 +152,7 @@ RSA_LIBS = \
 
 
 AM_CFLAGS = -g -Wall
-AM_CXXFLAGS = -g -Wall
+AM_CXXFLAGS = -g -Wall -O3
 
 AM_CPPFLAGS = \
         -I$(top_srcdir)/lib			\
@@ -175,7 +175,6 @@ noinst_LIBRARIES = libboinc_api.a
 libboinc_api_a_SOURCES = \
 	boinc_api.C				\
 	boinc_api.h				\
-	mfile.C					\
 	reduce.h				\
 	../lib/app_ipc.C			\
 	../lib/base64.C                         \
@@ -202,7 +201,7 @@ libboinc_graphics_api_a_SOURCES = \
 
 EXTRA_PROGRAMS = api_app api_test
 
-api_app_SOURCES = api_app.C mfile.C boinc_api.C ../lib/parse.C ../lib/synch.C
+api_app_SOURCES = api_app.C boinc_api.C ../lib/parse.C ../lib/synch.C
 api_test_SOURCES = boinc_api.C api_test.C ../lib/parse.C
 
 all = libboinc_api.a
@@ -214,14 +213,13 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 libboinc_api_a_AR = $(AR) cru
 libboinc_api_a_LIBADD =
-am_libboinc_api_a_OBJECTS = boinc_api.$(OBJEXT) mfile.$(OBJEXT) \
-	app_ipc.$(OBJEXT) base64.$(OBJEXT) diagnostics.$(OBJEXT) \
-	exception.$(OBJEXT) parse.$(OBJEXT) shmem.$(OBJEXT) \
-	synch.$(OBJEXT) util.$(OBJEXT)
+am_libboinc_api_a_OBJECTS = boinc_api.$(OBJEXT) app_ipc.$(OBJEXT) \
+	base64.$(OBJEXT) diagnostics.$(OBJEXT) exception.$(OBJEXT) \
+	parse.$(OBJEXT) shmem.$(OBJEXT) synch.$(OBJEXT) util.$(OBJEXT)
 libboinc_api_a_OBJECTS = $(am_libboinc_api_a_OBJECTS)
 EXTRA_PROGRAMS = api_app$(EXEEXT) api_test$(EXEEXT)
-am_api_app_OBJECTS = api_app.$(OBJEXT) mfile.$(OBJEXT) \
-	boinc_api.$(OBJEXT) parse.$(OBJEXT) synch.$(OBJEXT)
+am_api_app_OBJECTS = api_app.$(OBJEXT) boinc_api.$(OBJEXT) \
+	parse.$(OBJEXT) synch.$(OBJEXT)
 api_app_OBJECTS = $(am_api_app_OBJECTS)
 api_app_LDADD = $(LDADD)
 api_app_DEPENDENCIES =
@@ -239,9 +237,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/api_app.Po ./$(DEPDIR)/api_test.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/app_ipc.Po ./$(DEPDIR)/base64.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_api.Po ./$(DEPDIR)/diagnostics.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/exception.Po ./$(DEPDIR)/mfile.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/parse.Po ./$(DEPDIR)/shmem.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/synch.Po ./$(DEPDIR)/util.Po
+@AMDEP_TRUE@	./$(DEPDIR)/exception.Po ./$(DEPDIR)/parse.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/shmem.Po ./$(DEPDIR)/synch.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/util.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -302,7 +300,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_api.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/diagnostics.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/exception.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mfile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/synch.Po@am__quote@

@@ -54,7 +54,6 @@ int main(int argc, char** argv) {
     vector<MESSAGE_DESC> message_descs;
 
 #ifdef _WIN32
-    // Initialize WinSock
     if ( WinsockInitialize() != 0 ) {
         printf(
             "BOINC Core Client Error Message\n"

@@ -26,6 +26,8 @@ using std::string;
 using std::vector;
 #endif
 
+#include "miofile.h"
+
 #define GUI_RPC_PORT 31416
 
 struct PROJECT;
@@ -45,7 +47,7 @@ struct FILE_INFO {
     string hostname;
     PROJECT* project;
 
-    int parse(FILE*);
+    int parse(MIOFILE&);
     void print();
 };
 
@@ -68,7 +70,7 @@ struct PROJECT {
     bool sched_rpc_pending;     // contact scheduling server for preferences
     bool tentative;             // master URL and account ID not confirmed
 
-    int parse(FILE*);
+    int parse(MIOFILE&);
     void print();
 };
 
@@ -76,7 +78,7 @@ struct APP {
     string name;
     PROJECT* project;
 
-    int parse(FILE*);
+    int parse(MIOFILE&);
     void print();
 };
 
@@ -86,7 +88,7 @@ struct APP_VERSION {
     APP* app;
     PROJECT* project;
 
-    int parse(FILE*);
+    int parse(MIOFILE&);
     void print();
 };
 
@@ -102,7 +104,7 @@ struct WORKUNIT {
     APP* app;
     APP_VERSION* avp;
 
-    int parse(FILE*);
+    int parse(MIOFILE&);
     void print();
 };
 
@@ -122,7 +124,7 @@ struct RESULT {
     WORKUNIT* wup;
     PROJECT* project;
 
-    int parse(FILE*);
+    int parse(MIOFILE&);
     void print();
 };
 
@@ -135,7 +137,7 @@ struct ACTIVE_TASK {
     PROJECT* project;
     RESULT* result;
 
-    int parse(FILE*);
+    int parse(MIOFILE&);
     void print();
 };
 
@@ -160,8 +162,8 @@ struct MESSAGE_DESC {
 
 class RPC_CLIENT {
     int sock;
-    FILE* fin;
-    FILE* fout;
+    int send_request(char*);
+    int get_reply(char*&);
 public:
     vector<PROJECT*> projects;
     vector<FILE_INFO*> file_infos;

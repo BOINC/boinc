@@ -17,7 +17,11 @@
 // Contributor(s):
 //
 
+#ifndef _MFILE_
+#define _MFILE_
+
 #include <stdio.h>
+#include <stdarg.h>
 
 // MFILE supports a primitive form of checkpointing.
 // Write all your output (and restart file) to MFILEs.
@@ -30,13 +34,18 @@ class MFILE {
     int len;
     FILE* f;
 public:
+    MFILE();
+    ~MFILE();
     int open(const char* path, const char* mode);
     int _putchar(char);
     int puts(const char*);
+    int vprintf(const char* format, va_list);
     int printf(const char* format, ...);
     size_t write(const void *, size_t size, size_t nitems);
     int close();
     int flush();
     long tell() const;
+    void get_buf(char*&, int&);
 };
 
+#endif

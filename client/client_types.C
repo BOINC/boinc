@@ -264,7 +264,7 @@ int PROJECT::parse_account(FILE* in) {
 
 // parse project fields from client_state.xml
 //
-int PROJECT::parse_state(FILE* in) {
+int PROJECT::parse_state(MIOFILE& in) {
     char buf[256];
     STRING256 sched_url;
     string str1, str2;
@@ -285,7 +285,7 @@ int PROJECT::parse_state(FILE* in) {
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
     scheduler_urls.clear();
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project>")) return 0;
         else if (parse_str(buf, "<scheduler_url>", sched_url.text, sizeof(sched_url.text))) {
             scheduler_urls.push_back(sched_url);
@@ -327,15 +327,15 @@ int PROJECT::parse_state(FILE* in) {
 
 // Write the project information to client state file
 //
-int PROJECT::write_state(FILE* out) {
+int PROJECT::write_state(MIOFILE& out) {
     unsigned int i;
     string u1, u2, t1, t2;
 
-    fprintf(out,
+    out.printf(
         "<project>\n"
     );
     for (i=0; i<scheduler_urls.size(); i++) {
-        fprintf(out,
+        out.printf(
             "    <scheduler_url>%s</scheduler_url>\n",
             scheduler_urls[i].text
         );
@@ -344,7 +344,7 @@ int PROJECT::write_state(FILE* out) {
     xml_escape(u1, u2);
     t1 = team_name;
     xml_escape(t1, t2);
-    fprintf(out,
+    out.printf(
         "    <master_url>%s</master_url>\n"
         "    <project_name>%s</project_name>\n"
         "    <user_name>%s</user_name>\n"
@@ -388,11 +388,11 @@ int PROJECT::write_state(FILE* out) {
         sched_rpc_pending?"    <sched_rpc_pending/>\n":""
     );
     if (strlen(code_sign_key)) {
-        fprintf(out,
+        out.printf(
             "    <code_sign_key>\n%s</code_sign_key>\n", code_sign_key
         );
     }
-    fprintf(out,
+    out.printf(
         "</project>\n"
     );
     return 0;
@@ -433,14 +433,14 @@ char* PROJECT::get_project_name() {
     }
 }
 
-int APP::parse(FILE* in) {
+int APP::parse(MIOFILE& in) {
     char buf[256];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
     strcpy(name, "");
     project = NULL;
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         else scope_messages.printf("APP::parse(): unrecognized: %s\n", buf);
@@ -448,8 +448,8 @@ int APP::parse(FILE* in) {
     return ERR_XML_PARSE;
 }
 
-int APP::write(FILE* out) {
-    fprintf(out,
+int APP::write(MIOFILE& out) {
+    out.printf(
         "<app>\n"
         "    <name>%s</name>\n"
         "</app>\n",
@@ -535,7 +535,7 @@ bool FILE_INFO::verify_existing_file() {
 // If from server, make an exact copy of everything
 // except the start/end tags and the <xml_signature> element.
 //
-int FILE_INFO::parse(FILE* in, bool from_server) {
+int FILE_INFO::parse(MIOFILE& in, bool from_server) {
     char buf[256], buf2[1024];
     STRING256 url;
     PERS_FILE_XFER *pfxp;
@@ -543,7 +543,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</file_info>")) return 0;
         else if (match_tag(buf, "<xml_signature>")) {
             copy_element_contents(
@@ -598,7 +598,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
             );
             continue;
    	    } else if (match_tag(buf, "<file_xfer>")) {
-   	    	while (fgets(buf, 256, in)) {
+   	    	while (in.fgets(buf, 256)) {
    	    		if (match_tag(buf, "</file_xfer>")) break;
    	   	    }
    	   	    continue;
@@ -610,11 +610,11 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     return ERR_XML_PARSE;
 }
 
-int FILE_INFO::write(FILE* out, bool to_server) {
+int FILE_INFO::write(MIOFILE& out, bool to_server) {
     unsigned int i;
     int retval;
 
-    fprintf(out,
+    out.printf(
         "<file_info>\n"
         "    <name>%s</name>\n"
         "    <nbytes>%f</nbytes>\n"
@@ -622,23 +622,23 @@ int FILE_INFO::write(FILE* out, bool to_server) {
         name, nbytes, max_nbytes
     );
     if (strlen(md5_cksum)) {
-        fprintf(out,
+        out.printf(
             "    <md5_cksum>%s</md5_cksum>\n",
             md5_cksum
         );
     }
     if (!to_server) {
-        if (generated_locally) fprintf(out, "    <generated_locally/>\n");
-        fprintf(out, "    <status>%d</status>\n", status);
-        if (executable) fprintf(out, "    <executable/>\n");
-        if (uploaded) fprintf(out, "    <uploaded/>\n");
-        if (upload_when_present) fprintf(out, "    <upload_when_present/>\n");
-        if (sticky) fprintf(out, "    <sticky/>\n");
-        if (signature_required) fprintf(out, "    <signature_required/>\n");
-        if (file_signature) fprintf(out,"    <file_signature>\n%s</file_signature>\n", file_signature);
+        if (generated_locally) out.printf("    <generated_locally/>\n");
+        out.printf("    <status>%d</status>\n", status);
+        if (executable) out.printf("    <executable/>\n");
+        if (uploaded) out.printf("    <uploaded/>\n");
+        if (upload_when_present) out.printf("    <upload_when_present/>\n");
+        if (sticky) out.printf("    <sticky/>\n");
+        if (signature_required) out.printf("    <signature_required/>\n");
+        if (file_signature) out.printf("    <file_signature>\n%s</file_signature>\n", file_signature);
     }
     for (i=0; i<urls.size(); i++) {
-        fprintf(out, "    <url>%s</url>\n", urls[i].text);
+        out.printf("    <url>%s</url>\n", urls[i].text);
     }
     if (!to_server && pers_file_xfer) {
         retval = pers_file_xfer->write(out);
@@ -646,16 +646,16 @@ int FILE_INFO::write(FILE* out, bool to_server) {
     }
     if (!to_server) {
         if (strlen(signed_xml) && strlen(xml_signature)) {
-            fprintf(out, "    <signed_xml>\n%s    </signed_xml>\n", signed_xml);
+            out.printf("    <signed_xml>\n%s    </signed_xml>\n", signed_xml);
         }
         if (strlen(xml_signature)) {
-            fprintf(out, "    <xml_signature>\n%s    </xml_signature>\n", xml_signature);
+            out.printf("    <xml_signature>\n%s    </xml_signature>\n", xml_signature);
         }
     }
     if (!error_msg.empty()) {
-        fprintf(out, "    <error_msg>\n%s</error_msg>\n", error_msg.c_str());
+        out.printf("    <error_msg>\n%s</error_msg>\n", error_msg.c_str());
     }
-    fprintf(out, "</file_info>\n");
+    out.printf("</file_info>\n");
     return 0;
 }
 
@@ -702,7 +702,7 @@ bool FILE_INFO::had_failure(int& failnum) {
 
 // Parse XML based app_version information, usually from client_state.xml
 //
-int APP_VERSION::parse(FILE* in) {
+int APP_VERSION::parse(MIOFILE& in) {
     char buf[256];
     FILE_REF file_ref;
 
@@ -712,7 +712,7 @@ int APP_VERSION::parse(FILE* in) {
     version_num = 0;
     app = NULL;
     project = NULL;
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app_version>")) return 0;
         else if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
         else if (match_tag(buf, "<file_ref>")) {
@@ -726,11 +726,11 @@ int APP_VERSION::parse(FILE* in) {
     return ERR_XML_PARSE;
 }
 
-int APP_VERSION::write(FILE* out) {
+int APP_VERSION::write(MIOFILE& out) {
     unsigned int i;
     int retval;
 
-    fprintf(out,
+    out.printf(
         "<app_version>\n"
         "    <app_name>%s</app_name>\n"
         "    <version_num>%d</version_num>\n",
@@ -741,13 +741,13 @@ int APP_VERSION::write(FILE* out) {
         retval = app_files[i].write(out);
         if (retval) return retval;
     }
-    fprintf(out,
+    out.printf(
         "</app_version>\n"
     );
     return 0;
 }
 
-int FILE_REF::parse(FILE* in) {
+int FILE_REF::parse(MIOFILE& in) {
     char buf[256];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
@@ -757,7 +757,7 @@ int FILE_REF::parse(FILE* in) {
     fd = -1;
     main_program = false;
 	copy_file = false;
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</file_ref>")) return 0;
         else if (parse_str(buf, "<file_name>", file_name, sizeof(file_name))) continue;
         else if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
@@ -769,30 +769,30 @@ int FILE_REF::parse(FILE* in) {
     return ERR_XML_PARSE;
 }
 
-int FILE_REF::write(FILE* out) {
+int FILE_REF::write(MIOFILE& out) {
 
-    fprintf(out,
+    out.printf(
         "    <file_ref>\n"
         "        <file_name>%s</file_name>\n",
         file_name
     );
     if (strlen(open_name)) {
-        fprintf(out, "        <open_name>%s</open_name>\n", open_name);
+        out.printf("        <open_name>%s</open_name>\n", open_name);
     }
     if (fd >= 0) {
-        fprintf(out, "        <fd>%d</fd>\n", fd);
+        out.printf("        <fd>%d</fd>\n", fd);
     }
     if (main_program) {
-        fprintf(out, "        <main_program/>\n");
+        out.printf("        <main_program/>\n");
     }
     if (copy_file) {
-        fprintf(out, "        <copy_file/>\n");
+        out.printf("        <copy_file/>\n");
     }
-    fprintf(out, "    </file_ref>\n");
+    out.printf("    </file_ref>\n");
     return 0;
 }
 
-int WORKUNIT::parse(FILE* in) {
+int WORKUNIT::parse(MIOFILE& in) {
     char buf[256];
     FILE_REF file_ref;
 
@@ -811,7 +811,7 @@ int WORKUNIT::parse(FILE* in) {
     rsc_fpops_bound = 4e9*SECONDS_PER_DAY*7;
     rsc_memory_bound = 1e8;
     rsc_disk_bound = 1e9;
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</workunit>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         else if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
@@ -832,10 +832,10 @@ int WORKUNIT::parse(FILE* in) {
     return ERR_XML_PARSE;
 }
 
-int WORKUNIT::write(FILE* out) {
+int WORKUNIT::write(MIOFILE& out) {
     unsigned int i;
 
-    fprintf(out,
+    out.printf(
         "<workunit>\n"
         "    <name>%s</name>\n"
         "    <app_name>%s</app_name>\n"
@@ -859,7 +859,7 @@ int WORKUNIT::write(FILE* out) {
     for (i=0; i<input_files.size(); i++) {
         input_files[i].write(out);
     }
-    fprintf(out, "</workunit>\n");
+    out.printf("</workunit>\n");
     return 0;
 }
 
@@ -922,14 +922,14 @@ void RESULT::clear() {
 
 // parse a <result> element from scheduling server.
 //
-int RESULT::parse_server(FILE* in) {
+int RESULT::parse_server(MIOFILE& in) {
     char buf[256];
     FILE_REF file_ref;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
     clear();
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</result>")) return 0;
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
@@ -946,14 +946,14 @@ int RESULT::parse_server(FILE* in) {
 
 // parse a <result> element from state file
 //
-int RESULT::parse_state(FILE* in) {
+int RESULT::parse_state(MIOFILE& in) {
     char buf[256];
     FILE_REF file_ref;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
     clear();
-    while (fgets(buf, 256, in)) {
+    while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</result>")) {
             // restore some invariants in case of bad state file
             //
@@ -976,7 +976,7 @@ int RESULT::parse_state(FILE* in) {
         else if (match_tag(buf, "<ready_to_report/>")) ready_to_report = true;
         else if (parse_int(buf, "<state>", state)) continue;
         else if (match_tag(buf, "<stderr_out>")) {
-            while (fgets(buf, 256, in)) {
+            while (in.fgets(buf, 256)) {
                 if (match_tag(buf, "</stderr_out>")) break;
                 stderr_out.append(buf);
             }
@@ -987,12 +987,12 @@ int RESULT::parse_state(FILE* in) {
     return ERR_XML_PARSE;
 }
 
-int RESULT::write(FILE* out, bool to_server) {
+int RESULT::write(MIOFILE& out, bool to_server) {
     unsigned int i;
     FILE_INFO* fip;
     int n, retval;
 
-    fprintf(out,
+    out.printf(
         "<result>\n"
         "    <name>%s</name>\n"
         "    <final_cpu_time>%f</final_cpu_time>\n"
@@ -1004,24 +1004,26 @@ int RESULT::write(FILE* out, bool to_server) {
         state
     );
     if (to_server) {
-        fprintf(out,
+        out.printf(
             "    <app_version_num>%d</app_version_num>\n",
             wup->version_num
         );
     }
     n = stderr_out.length();
     if (n) {
-        fprintf(out, "<stderr_out>\n");
+        out.printf("<stderr_out>\n");
         if (to_server) {
-            fprintf(out,
+            out.printf(
                 "<core_client_version>%d.%.2d</core_client_version>\n",
                 gstate.core_client_major_version,
                 gstate.core_client_minor_version
             );
         }
-		fprintf(out, stderr_out.c_str());
-        if (stderr_out[n-1] != '\n') fprintf(out, "\n");
-        fprintf(out, "</stderr_out>\n");
+		out.printf(stderr_out.c_str());
+        if (stderr_out[n-1] != '\n') {
+            out.printf("\n");
+        }
+        out.printf("</stderr_out>\n");
     }
     if (to_server) {
         for (i=0; i<output_files.size(); i++) {
@@ -1032,9 +1034,9 @@ int RESULT::write(FILE* out, bool to_server) {
             }
         }
     } else {
-        if (got_server_ack) fprintf(out, "    <got_server_ack/>\n");
-        if (ready_to_report) fprintf(out, "    <ready_to_report/>\n");
-        fprintf(out,
+        if (got_server_ack) out.printf("    <got_server_ack/>\n");
+        if (ready_to_report) out.printf("    <ready_to_report/>\n");
+        out.printf(
             "    <wu_name>%s</wu_name>\n"
             "    <report_deadline>%d</report_deadline>\n",
             wu_name,
@@ -1045,7 +1047,7 @@ int RESULT::write(FILE* out, bool to_server) {
             if (retval) return retval;
         }
     }
-    fprintf(out, "</result>\n");
+    out.printf("</result>\n");
     return 0;
 }
 

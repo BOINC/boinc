@@ -41,18 +41,9 @@
 
 GUI_RPC_CONN::GUI_RPC_CONN(int s) {
     sock = s;
-    
-#ifdef _WIN32
-    fout = fdopen(dup(_open_osfhandle(sock, _O_RDWR | _O_BINARY)), "w");
-    setvbuf(fout, buffer, _IOFBF, 262144);
-    memset(buffer, NULL, 262144);
-#else
-    fout = fdopen(dup(sock), "w");
-#endif
 }
 
 GUI_RPC_CONN::~GUI_RPC_CONN() {
-    fclose(fout);
 #ifdef _WIN32
 	closesocket(sock);
 #else
@@ -60,84 +51,84 @@ GUI_RPC_CONN::~GUI_RPC_CONN() {
 #endif
 }
 
-static PROJECT* get_project(char* buf, FILE* fout) {
+static PROJECT* get_project(char* buf, MIOFILE& fout) {
 	string url;
 	if (!parse_str(buf, "<project_url>", url)) {
-		fprintf(fout, "<error>Missing project URL</error>\n");
+		fout.printf("<error>Missing project URL</error>\n");
 		return 0;
 	}
 	PROJECT* p = gstate.lookup_project(url.c_str());
 	if (!p) {
-		fprintf(fout, "<error>No such project</error>\n");
+		fout.printf("<error>No such project</error>\n");
 		return 0 ;
 	}
 	return p;
 }
 
-static void handle_result_show_graphics(char* buf, FILE* fout) {
+static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
 	string result_name;
     PROJECT* p = get_project(buf, fout);
     if (!p) return;
 
 	if (!parse_str(buf, "<result_name>", result_name)) {
-		fprintf(fout, "<error>Missing result name</error>\n");
+		fout.printf("<error>Missing result name</error>\n");
 		return;
 	}
 	RESULT* rp = gstate.lookup_result(p, result_name.c_str());
 	if (!rp) {
-		fprintf(fout, "<error>No such result</error>\n");
+		fout.printf("<error>No such result</error>\n");
 		return;
 	}
 	ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
     if (!atp) {
-		fprintf(fout, "<error>Result not active</error>\n");
+		fout.printf("<error>Result not active</error>\n");
 		return;
 	}
     atp->request_graphics_mode(MODE_WINDOW);
-	fprintf(fout, "<success/>\n");
+	fout.printf("<success/>\n");
 }
 
 
-static void handle_project_reset(char* buf, FILE* fout) {
+static void handle_project_reset(char* buf, MIOFILE& fout) {
 	PROJECT* p = get_project(buf, fout);
 	if (p) {
 		gstate.reset_project(p);
-		fprintf(fout, "<success/>\n");
+		fout.printf("<success/>\n");
 	}
 }
 
-static void handle_project_attach(char* buf, FILE* fout) {
+static void handle_project_attach(char* buf, MIOFILE& fout) {
 	string url, authenticator;
 	if (!parse_str(buf, "<url>", url)) {
-		fprintf(fout, "<error>Missing URL</error>\n");
+		fout.printf("<error>Missing URL</error>\n");
 		return;
 	}
 	if (!parse_str(buf, "<authenticator>", authenticator)) {
-		fprintf(fout, "<error>Missing authenticator</error>\n");
+		fout.printf("<error>Missing authenticator</error>\n");
 		return;
 	}
 	gstate.add_project(url.c_str(), authenticator.c_str());
-	fprintf(fout, "<success/>\n");
+	fout.printf("<success/>\n");
 }
 
-static void handle_project_detach(char* buf, FILE* fout) {
+static void handle_project_detach(char* buf, MIOFILE& fout) {
 	PROJECT* p = get_project(buf, fout);
 	if (p) {
 		gstate.detach_project(p);
-		fprintf(fout, "<success/>\n");
+		fout.printf("<success/>\n");
 	}
 }
 
-static void handle_project_update(char* buf, FILE* fout) {
+static void handle_project_update(char* buf, MIOFILE& fout) {
 	PROJECT* p = get_project(buf, fout);
 	if (p) {
         p->sched_rpc_pending = true;
         p->min_rpc_time = 0;
-		fprintf(fout, "<success/>\n");
+		fout.printf("<success/>\n");
 	}
 }
 
-static void handle_set_run_mode(char* buf, FILE* fout) {
+static void handle_set_run_mode(char* buf, MIOFILE& fout) {
 	if (match_tag(buf, "<always>")) {
 		gstate.user_run_request = USER_RUN_REQUEST_ALWAYS;
 	} else if (match_tag(buf, "<never>")) {
@@ -145,43 +136,43 @@ static void handle_set_run_mode(char* buf, FILE* fout) {
 	} else if (match_tag(buf, "<auto>")) {
 		gstate.user_run_request = USER_RUN_REQUEST_AUTO;
 	} else {
-		fprintf(fout, "<error>Missing mode</error>\n");
+		fout.printf("<error>Missing mode</error>\n");
 		return;
 	}
-	fprintf(fout, "<success/>\n");
+	fout.printf("<success/>\n");
 }
 
-static void handle_run_benchmarks(char* buf, FILE* fout) {
+static void handle_run_benchmarks(char* buf, MIOFILE& fout) {
     // TODO: suspend activities; make sure run at right priority
     //
     gstate.start_cpu_benchmarks();
-    fprintf(fout, "<success/>\n");
+    fout.printf("<success/>\n");
 }
 
-static void handle_set_proxy_settings(char* buf, FILE* fout) {
+static void handle_set_proxy_settings(char* buf, MIOFILE& fout) {
     string socks_proxy_server_name,http_proxy_server_name;
     int socks_proxy_server_port,http_proxy_server_port;
     if (!parse_str(buf, "<socks_proxy_server_name>", socks_proxy_server_name)) {
-        fprintf(fout, "<error>SOCKS proxy server name missing</error>\n");
+        fout.printf("<error>SOCKS proxy server name missing</error>\n");
         return;
     }
     if (!parse_int(buf, "<socks_proxy_server_port>", socks_proxy_server_port)) {
-        fprintf(fout, "<error>SOCKS proxy server port missing</error>\n");
+        fout.printf("<error>SOCKS proxy server port missing</error>\n");
         return;
     }
     if (!parse_str(buf, "<http_proxy_server_name>", http_proxy_server_name)) {
-        fprintf(fout, "<error>HTTP proxy server name missing</error>\n");
+        fout.printf("<error>HTTP proxy server name missing</error>\n");
         return;
     }
     if (!parse_int(buf, "<http_proxy_server_port>", http_proxy_server_port)) {
-        fprintf(fout, "<error>HTTP proxy server port missing</error>\n");
+        fout.printf("<error>HTTP proxy server port missing</error>\n");
         return;
     }
     safe_strcpy(gstate.pi.socks_server_name, socks_proxy_server_name.c_str());
     gstate.pi.socks_server_port = socks_proxy_server_port;
     safe_strcpy(gstate.pi.http_server_name, http_proxy_server_name.c_str());
     gstate.pi.http_server_port = http_proxy_server_port;
-    fprintf(fout, "<success/>\n");
+    fout.printf("<success/>\n");
 }
 
 // params:
@@ -191,14 +182,14 @@ static void handle_set_proxy_settings(char* buf, FILE* fout) {
 //    start at message n.
 // if no offset is given, return last n messages
 //
-void handle_get_messages(char* buf, FILE* fout) {
+void handle_get_messages(char* buf, MIOFILE& fout) {
     int nmessages=-1, offset=-1, j;
     unsigned int i;
 
     parse_int(buf, "<nmessages>", nmessages);
     parse_int(buf, "<offset>", offset);
     if (nmessages < 0) {
-        fprintf(fout, "<error>No nmessages given</error>\n");
+        fout.printf("<error>No nmessages given</error>\n");
         return;
     }
 
@@ -212,11 +203,11 @@ void handle_get_messages(char* buf, FILE* fout) {
         }
     }
 
-    fprintf(fout, "<msgs>\n");
+    fout.printf("<msgs>\n");
     j = 0;
     for (i=offset; i<message_descs.size()&&j<nmessages; i++, j++) {
         MESSAGE_DESC& md = message_descs[i];
-        fprintf(fout,
+        fout.printf(
             "<msg>\n"
             " <i>%d</i>\n"
             " <pri>%d</pri>\n"
@@ -228,19 +219,23 @@ void handle_get_messages(char* buf, FILE* fout) {
             md.timestamp
         );
         if (md.project) {
-            fprintf(fout,
+            fout.printf(
                 " <project>%s</project>\n",
                 md.project->get_project_name()
             );
         }
-        fprintf(fout, "</msg>\n");
+        fout.printf("</msg>\n");
     }
-    fprintf(fout, "</msgs>\n");
+    fout.printf("</msgs>\n");
 }
 
 int GUI_RPC_CONN::handle_rpc() {
-    char buf[1024];
+    char request_msg[1024];
     int n;
+    MIOFILE mf;
+    MFILE m;
+    char* p;
+    mf.init_mfile(&m);
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_GUIRPC);
 
@@ -249,44 +244,40 @@ int GUI_RPC_CONN::handle_rpc() {
 	// of malformed request msgs
 	//
 #ifdef _WIN32
-        n = recv(sock, buf, 1024, 0);
+        n = recv(sock, request_msg, 1024, 0);
 #else
-        n = read(sock, buf, 1024);
+        n = read(sock, request_msg, 1024);
 #endif
     if (n <= 0) return -1;
-    buf[n] = 0;
-
-    scope_messages.printf("GUI RPC Command = '%s'\n", buf);
-
-    if (match_tag(buf, "<get_state")) {
-        gstate.write_state(fout);
-	} else if (match_tag(buf, "<result_show_graphics>")) {
-		handle_result_show_graphics(buf, fout);
-	} else if (match_tag(buf, "<project_reset>")) {
-		handle_project_reset(buf, fout);
-	} else if (match_tag(buf, "<project_attach>")) {
-		handle_project_attach(buf, fout);
-	} else if (match_tag(buf, "<project_detach>")) {
-		handle_project_detach(buf, fout);
-	} else if (match_tag(buf, "<project_update>")) {
-		handle_project_update(buf, fout);
-	} else if (match_tag(buf, "<set_run_mode>")) {
-		handle_set_run_mode(buf, fout);
-	} else if (match_tag(buf, "<run_benchmarks>")) {
-		handle_run_benchmarks(buf, fout);
-	} else if (match_tag(buf, "<set_proxy_settings>")) {
-		handle_set_proxy_settings(buf, fout);
-	} else if (match_tag(buf, "<get_messages>")) {
-		handle_get_messages(buf, fout);
+    request_msg[n] = 0;
+    msg_printf(NULL, MSG_INFO, "GUI RPC command '%s'\n", request_msg);
+    if (match_tag(request_msg, "<get_state")) {
+        gstate.write_state(mf);
+	} else if (match_tag(request_msg, "<result_show_graphics>")) {
+		handle_result_show_graphics(request_msg, mf);
+	} else if (match_tag(request_msg, "<project_reset>")) {
+		handle_project_reset(request_msg, mf);
+	} else if (match_tag(request_msg, "<project_attach>")) {
+		handle_project_attach(request_msg, mf);
+	} else if (match_tag(request_msg, "<project_detach>")) {
+		handle_project_detach(request_msg, mf);
+	} else if (match_tag(request_msg, "<project_update>")) {
+		handle_project_update(request_msg, mf);
+	} else if (match_tag(request_msg, "<set_run_mode>")) {
+		handle_set_run_mode(request_msg, mf);
+	} else if (match_tag(request_msg, "<run_benchmarks>")) {
+		handle_run_benchmarks(request_msg, mf);
+	} else if (match_tag(request_msg, "<set_proxy_settings>")) {
+		handle_set_proxy_settings(request_msg, mf);
+	} else if (match_tag(request_msg, "<get_messages>")) {
+		handle_get_messages(request_msg, mf);
     } else {
-        fprintf(fout, "<unrecognized/>\n");
+        mf.printf("<unrecognized/>\n");
     }
 
-#ifdef WIN32
-    send(sock, fout->_base, strlen(fout->_base), NULL);
-#else
-    fflush(fout);
-#endif
+    mf.printf("\003");
+    m.get_buf(p, n);
+    send(sock, p, n, 0);
 
     return 0;
 }
@@ -300,15 +291,12 @@ int GUI_RPC_CONN_SET::init() {
 	sockaddr_in addr;
     int retval;
 
-    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_GUIRPC);
-
     lsock = socket(AF_INET, SOCK_STREAM, 0);
-    if (lsock < 0)
-    {
-        scope_messages.printf("GUI RPC failed to initialize socket (retval = '%d')\n", lsock);
-#ifdef _WIN32
-        scope_messages.printf("Windows Socket Error = '%d')\n", WSAGetLastError());
-#endif
+    if (lsock < 0) {
+        msg_printf(NULL, MSG_ERROR,
+            "GUI RPC failed to initialize socket (retval = '%d')\n",
+            lsock
+        );
         return ERR_SOCKET;
     }
 
@@ -316,20 +304,22 @@ int GUI_RPC_CONN_SET::init() {
     addr.sin_port = htons(GUI_RPC_PORT);
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
+    int one = 1;
+    setsockopt(lsock, SOL_SOCKET, SO_REUSEADDR, (char*)&one, 4);
+
     retval = bind(lsock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
-        scope_messages.printf("GUI RPC failed to bind to socket (retval = '%d')\n", retval);
-#ifdef _WIN32
-        scope_messages.printf("Windows Socket Error = '%d')\n", WSAGetLastError());
-#endif
+        msg_printf(NULL, MSG_ERROR,
+            "GUI RPC bind failed (retval = '%d')\n", retval
+        );
         return ERR_BIND;
     }
     retval = listen(lsock, 999);
     if (retval) {
-        scope_messages.printf("GUI RPC failed to put socket into listening state (retval = '%d')\n", retval);
-#ifdef _WIN32
-        scope_messages.printf("Windows Socket Error = '%d')\n", WSAGetLastError());
-#endif
+        msg_printf(NULL, MSG_ERROR,
+            "GUI RPC listen failed (retval = '%d')\n",
+            retval
+        );
         return ERR_LISTEN;
     }
     return 0;
@@ -340,7 +330,6 @@ bool GUI_RPC_CONN_SET::poll() {
 
     if (lsock >= 0) {
         unsigned int i;
-        char buf[256];
         fd_set read_fds, error_fds;
         int sock, retval;
         vector<GUI_RPC_CONN*>::iterator iter;
@@ -379,11 +368,6 @@ bool GUI_RPC_CONN_SET::poll() {
             } else {
                 GUI_RPC_CONN* gr = new GUI_RPC_CONN(sock);
                 insert(gr);
-#ifdef WIN32
-                send(gr->sock, buf, strlen(buf), NULL);
-#else
-                write(gr->sock, buf, strlen(buf));
-#endif
             }
         }
         iter = gui_rpcs.begin();
@@ -406,11 +390,6 @@ bool GUI_RPC_CONN_SET::poll() {
                     gui_rpcs.erase(iter);
                     continue;
                 }
-#ifdef WIN32
-                send(gr->sock, buf, strlen(buf), NULL);
-#else
-                write(gr->sock, buf, strlen(buf));
-#endif
             }
             iter++;
         }
