@@ -1,3 +1,5 @@
+EXTRA_DIST = make-sea.sh
+
 vers = @BOINC_MAJOR_VERSION@.@BOINC_MINOR_VERSION@_@target@
 sea = boinc_$(vers).sh
 
