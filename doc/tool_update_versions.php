@@ -85,8 +85,8 @@ Instructions for creating installers are
 we recommend that BOINC projects not distribute core client versions,
 but rather set the 'Download BOINC' link on their web page
 to point to the download page on the main BOINC site.
-Use this URL:
-http://setiweb.ssl.berkeley.edu/sah/download_boinc.php
+Use this URL: <a href='http://setiweb.ssl.berkeley.edu/sah/download_boinc.php'>
+http://setiweb.ssl.berkeley.edu/sah/download_boinc.php</a>
 
 ";
    page_tail();
