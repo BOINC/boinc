@@ -185,14 +185,14 @@ BOOL IsTerminalServicesEnabled()
         {
             // In Windows 2000 we need to use the Product Suite APIs
             // Don't static link because it won't load on non-Win2000 systems
-            hmodNtDll = GetModuleHandleA("NTDLL.DLL");
+            hmodNtDll = GetModuleHandle( "NTDLL.DLL" );
             if (hmodNtDll != NULL)
             {
                 pfnVerSetConditionMask = (PFnVerSetConditionMask )GetProcAddress( hmodNtDll, "VerSetConditionMask");
                 if (pfnVerSetConditionMask != NULL)
                 {
                     dwlConditionMask = (*pfnVerSetConditionMask)( dwlConditionMask, VER_SUITENAME, VER_AND );
-                    hmodK32 = GetModuleHandleA( "KERNEL32.DLL" );
+                    hmodK32 = GetModuleHandle( "KERNEL32.DLL" );
                     if (hmodK32 != NULL)
                     {
                         pfnVerifyVersionInfoA = (PFnVerifyVersionInfoA)GetProcAddress( hmodK32, "VerifyVersionInfoA") ;
