@@ -363,3 +363,25 @@ create table subscriptions (
     userid              integer     not null,
     threadid            integer     not null
 ) type=InnoDB;
+
+create table forum_preferences (
+    userid              integer     not null default 0,
+    signature           varchar(254) not null default '',
+    posts               integer     not null default 0,
+    avatar              varchar(254) not null default '',
+    avatar_type         tinyint(4)  not null default 0,
+    hide_avatars        tinyint(1) unsigned not null default 0,
+    sorting             varchar(100) not null default '',
+    no_signature_by_default tinyint(1) unsigned not null default 0,
+    images_as_links     tinyint(1) unsigned not null default 0,
+    link_popup          tinyint(1) unsigned not null default 0,
+    mark_as_read_timestamp integer not null default 0,
+    primary key (userid)
+) type=MyISAM; 
+
+create table forum_logging (
+    userid              integer     not null default 0,
+    threadid            integer     not null default 0,
+    timestamp           integer     not null default 0,
+    primary key (userid,threadid)
+) TYPE=MyISAM;

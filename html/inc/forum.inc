@@ -4,6 +4,19 @@ require_once('../inc/db.inc');
 require_once('../inc/sanitize_html.inc');
 require_once('../inc/time.inc');
 
+define('AVATAR_WIDTH', 100);
+define('AVATAR_HEIGHT',100);
+define('ST_ADMIN', 'Project administrator');
+define('ST_MODERATOR', 'Forum moderator');
+define('ST_DEV', 'Developer');
+define('ST_VOLDEV', 'Volunteer developer');
+define('ST_SCIENT', 'Project scientist');
+define('ST_NEW_TIME', 1209600); //3600*24*14 - 14 days
+define('ST_NEW', 'New member');
+
+
+define('FORUM_OPEN_LINK_IN_NEW_WINDOW',1);
+define('MAX_FORUM_LOGGING_TIME', 172800); //3600*24*2 - 2 days
 define('NO_CONTROLS', 0);
 define('FORUM_CONTROLS', 1);
 define('HELPDESK_CONTROLS', 2);
@@ -20,16 +33,17 @@ $forum_sort_styles['modified-old'] = "Least recent post first";
 $forum_sort_styles['views-most'] = "Most views first";
 $forum_sort_styles['replies-most'] = "Most posts first";
 
+$thread_sort_styles['timestamp'] = "Newest first";
+$thread_sort_styles['timestamp_asc'] = "Oldest first";
+$thread_sort_styles['score'] = "Highest rated first";
+
 $faq_sort_styles['create_time'] = "Most recent question first";
 $faq_sort_styles['timestamp'] = "Most recent answer first";
 $faq_sort_styles['activity'] = "Most frequently asked first";
 
 $answer_sort_styles['score'] = "Highest score first";
 $answer_sort_styles['timestamp'] = "Most recent first";
-
-$thread_sort_styles['timestamp'] = "Newest first";
-$thread_sort_styles['timestamp_asc'] = "Oldest first";
-$thread_sort_styles['score'] = "Highest rated first";
+$answer_sort_styles['timestamp_asc'] = "Oldest first";
 
 $thread_filter_styles['2'] = "\"Very helpful\"";
 $thread_filter_styles['1'] = "At least \"helpful\"";
@@ -182,9 +196,87 @@ function getFirstPost($threadID) {
     }
 }
 
+function getForumPreferences($user){
+    $sql = "SELECT * FROM forum_preferences WHERE userid = '".$user->id."'";
+    $result = mysql_query($sql);
+    if (mysql_num_rows($result)>0) {
+        $prefs=mysql_fetch_object($result);
+
+	//Todo - find out how to simply merge two objects instead of specifying all the fields manually here
+	$user->avatar=$prefs->avatar;
+	$user->hide_avatars=$prefs->hide_avatars;
+	$user->sorting=$prefs->sorting;
+	$user->images_as_links=$prefs->images_as_links;
+	$user->signature=$prefs->signature;
+	$user->posts=$prefs->posts;
+	$user->avatar_type=$prefs->avatar_type;
+	$user->no_signature_by_default=$prefs->no_signature_by_default;
+	$user->link_popup=$prefs->link_popup;
+	$user->mark_as_read_timestamp=$prefs->mark_as_read_timestamp;
+	$user->forum_preferences=1;
+    } else {
+        mysql_query("insert into forum_preferences set userid='".$user->id."'");
+	$user->forum_preferences=0;
+    }
+    return $user;
+}
+
+function getSortStyle($user,$place){
+    list($forum,$thread,$faq,$answer)=explode("|",$user->sorting);
+    return $$place;
+}
+
+function setSortStyle($user,$place,$new_style){
+    list($forum,$thread,$faq,$answer)=explode("|",$user->forum_sorting);
+    $$place=$new_style;
+    $user->forum_sorting=implode("|",array($forum,$thread,$faq,$answer));
+    $sql = "UPDATE forum_preferences SET sorting = '".$user->forum_sorting."' where userid = '".$user->id."'";
+    mysql_query($sql);
+}
+
+function getThreadLastVisited($user, $thread){
+    $sql = "SELECT timestamp from forum_logging where userid='".$user->id."' and threadid='".$thread->id."'";
+    $result = mysql_query($sql);
+    if ($result) {
+	$data=mysql_fetch_object($result);
+	$user->thread_last_visited=$data->timestamp;
+    } else {
+    }
+    $user->thread_last_visited= max(time()-MAX_FORUM_LOGGING_TIME,$user->thread_last_visited,$user->mark_as_read_timestamp);
+    //echo $user->thread_last_visited." - ".time();
+    return $user;
+}
+
+function setThreadLastVisited($user, $thread, $timestamp=""){
+    if ($timestamp==""){$timestamp=time();};
+    $sql = "REPLACE DELAYED into forum_logging set userid='".$user->id."', threadid='".$thread->id."',  timestamp='$timestamp'";
+    mysql_query($sql);
+}
+
+
 function incThreadViews($threadID) {
     $sql = "UPDATE thread SET views = views + 1 WHERE id = " . $threadID . " LIMIT 1";
     mysql_query($sql);
+}
+
+function cleanup_forum_log(){
+    $sql = "SELECT timestamp FROM forum_logging where userid=0 and threadid=0";
+    $result=mysql_query($sql);
+    if (mysql_num_rows($result)>0) {
+	$data=mysql_fetch_object($result);
+	if ($data->timestamp<time()-MAX_FORUM_LOGGING_TIME){
+	    $sql = "DELETE FROM forum_logging where timestamp<'".(time()-MAX_FORUM_LOGGING_TIME)."' and userid != 0";
+	    mysql_query($sql);
+	    echo mysql_error();
+	    $sql = "REPLACE INTO forum_logging set userid=0, threadid=0, timestamp='".time()."'";
+	    mysql_query($sql);
+	}
+    } else {
+	//No cleanup timestamp found, make one:
+	$sql = "INSERT INTO forum_logging set userid=0, threadid=0, timestamp=0";
+	mysql_query($sql);
+	echo mysql_error();
+    }
 }
 
 /* Forum modifying functions. */
@@ -206,7 +298,7 @@ function createThread($forumID, $ownerID, $title, $content) {
 
     $postID = addPost($threadID, $ownerID, NULL, $content);
 
-    $sql = "UPDATE user SET posts = posts + 1 WHERE id = " . $ownerID . " LIMIT 1";
+    $sql = "UPDATE forum_preferences SET posts = posts + 1 WHERE userid = " . $ownerID . " LIMIT 1";
     mysql_query($sql);
 
     $sql = "UPDATE forum SET threads = threads + 1, posts = posts + 1, timestamp = UNIX_TIMESTAMP() WHERE id = " . $forumID . " LIMIT 1";
@@ -222,7 +314,7 @@ function replyToThread($threadID, $userID, $content, $parent_post=NULL) {
 
     addPost($threadID, $userID, $parent_post, $content);
 
-    $sql = "UPDATE user SET posts = posts + 1 WHERE id = " . $userID . " LIMIT 1";
+    $sql = "UPDATE forum_preferences SET posts = posts + 1 WHERE userid = " . $userID . " LIMIT 1";
     mysql_query($sql);
 
     $sql = "UPDATE thread SET replies = replies + 1, timestamp = UNIX_TIMESTAMP() WHERE id = " . $threadID . " LIMIT 1";
@@ -280,6 +372,10 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
     }
 
     $posts = getPosts($thread->id, -1, -1, $sort_style);
+    $logged_in_user = getThreadLastVisited($logged_in_user,$thread);
+    setThreadLastVisited($logged_in_user,$thread);
+    
+    
     $firstPost = getFirstPost($thread->id);
 
     if ($is_helpdesk) {
@@ -302,22 +398,40 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     global $post_ratings;
 
     $user = lookup_user_id($post->user);
-    $sql = "SELECT * FROM profile WHERE userid = " . $user->id;
-    $result2 = mysql_query($sql);
-    $user->has_profile = (mysql_num_rows($result2) > 0);
-
+    $user = getForumPreferences($user);
+    $data = mysql_query("SELECT userid FROM profile WHERE userid = " . $user->id);		//Lookup existance of profile for user
+    $user->has_profile = (mysql_numrows($data) > 0);						//and store this info in the user object
+    $user->has_avatar = ($user->avatar != "");							//for later access
+	
     $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
 
     echo "
-        <tr class=\"row$n\" valign=top>
+        <tr class=\"row$n\" valign=\"top\">
         <td>
-        <a name= $post->id ></a>
+        <a name=\"$post->id\"></a>
     ";
 
     echo user_links($user, URL_BASE);
+    
+    if ($user->rights) {									//If this user is somehow special
+	if ($user->rights==1) $fstatus=ST_ADMIN;						//this is displayed in the forums
+	if ($user->rights==2) $fstatus=ST_MODERATOR;						//so that people know who they are
+	if ($user->rights==3) $fstatus=ST_DEV;							//talking to.
+	if ($user->rights==4) $fstatus=ST_VOLDEV;
+	if ($user->rights==5) $fstatus=ST_SCIENT;
+	/*...*/
+    } else {
+	if ($user->create_time>time()-ST_NEW_TIME) $fstatus=ST_NEW;
+	/*...*/
+    }
+    if ($fstatus) echo "<br><font size=\"-2\">$fstatus</font>";
+    
+    echo "
+        <p style=\"font-size:8pt\">";
+
+    if ($user->has_avatar and $logged_in_user->hide_avatars!=1) echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->avatar."\" alt=\"Avatar\"><br>";
 
     echo "
-        <p style=\"font-size:8pt\">
         Joined: ", gmdate('M j, Y', $user->create_time), "<br>Posts: ", $user->posts, "
         </p>
         </td>
@@ -327,10 +441,17 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     if ($controls == FORUM_CONTROLS || $controls == HELPDESK_CONTROLS) {
         echo "<form action=\"forum_rate.php?post=", $post->id, "\" method=\"post\">";
     }
+    
     echo "
         <table width=100% cellpadding=0 cellspacing=0 border=0 cellborder=0>
         <tr valign=top>
-        <td align=left style=border:0px><font size=-2>
+        <td align=left style=border:0px><font size=-2>";
+
+    if ($post->timestamp>$logged_in_user->thread_last_visited){
+	echo "<a name=\"unread\"><img src=\"".NEW_IMAGE."\" alt=\"Unread post\" height=\"".NEW_IMAGE_HEIGHT."\"></a>";
+    }
+	
+    echo "	
         Posted: ", pretty_time_str($post->timestamp);
     ;
 
@@ -364,7 +485,22 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     if ($controls == FORUM_CONTROLS || $controls == HELPDESK_CONTROLS) {
         echo "</form>";
     }
-    echo "<p>", nl2br(stripslashes($post->content)), "</p>";
+
+    $posttext=nl2br(stripslashes($post->content));
+    //echo $logged_in_user->images_as_links;
+    
+    if ($logged_in_user->images_as_links==1){
+	$posttext=image_as_link($posttext);
+    }
+    //echo $logged_in_user->link_popup;
+    if ($logged_in_user->link_popup==1){
+	$posttext=externalize_links($posttext);
+    }
+    
+    echo "<p>", $posttext, "</p>";
+
+
+
     echo "<table width=100% cellspacing=0 cellpadding=0>
         <tr valign=\"bottom\">
         <td align=\"left\" style=\"border:0px; font-size:7pt\"><i>ID: ", $post->id;
@@ -398,6 +534,39 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
 
 /* utility functions */
 
+function externalize_links($text){
+    $i=0;$linkpos=true;
+    while (true){				//Find a link
+        $linkpos=strpos($text,"<a ",$i);
+	if ($linkpos===false) break;
+	$out.= substr($text,$i,$linkpos-$i)."<a target=\"_new\"";	//Replace with target='_new'
+	$i=$linkpos+3;
+    }
+    $out.=substr($text,$i);
+    return $out;
+}
+
+function image_as_link($text){
+/* This function depends on sanitized HTML - always use KSES or equivalent before using this */
+    $i=0;
+    while (true){							//Find an image
+	$imgpos=strpos($text,"<img ",$i);
+	if ($imgpos===false) break;
+	$out.= substr($text,$i,$imgpos-$i)."<a href=";			//Replace with link start
+	$temp1=strpos($text,"src=",$imgpos)+5;				//Find the image source
+	$temp2=strpos($text,">",$imgpos)+1;				//Or the end of the tag
+	if ($temp1<$temp2){						//If source was found within tag
+	    $temp3=strpos($text,"\"",$temp1);				//Find the end of source
+	    $out.=substr($text,$temp1,$temp3-$temp1);			//output the source
+	}
+	$out.=">[Image link]</a>";
+	$i=$temp2;							//Now move to end of tag to continue
+    }
+    $out.=substr($text,$i);						//Output the rest
+    return $out;
+}
+    
+
 function start_forum_table($headings, $span=NULL) {
     echo "
         <p style=\"text-align:center\">
@@ -422,17 +591,22 @@ function end_forum_table() {
 
 // generate a "select" element from an array of values
 //
-function show_select_from_array($name, $array, $selection) {
-    echo "<select name=\"$name\">";
+function select_from_array($name, $array, $selection) {
+    $out= "<select name=\"$name\">";
 
     foreach ($array as $key => $value) {
-        echo "<option ";
+        $out.= "<option ";
         if ($key == $selection) {
-            echo "selected ";
+            $out.= "selected ";
         }
-        echo "value=\"", $key, "\">", $value, "</option>";
+        $out.= "value=\"". $key. "\">". $value. "</option>";
     }
-    echo "</select>";
+    $out.= "</select>";
+    return $out;
+}
+
+function show_select_from_array($name, $array, $selection) {
+    echo select_from_array($name,$array,$selection);
 }
 
 function show_forum_title($forum=NULL, $thread=NULL, $helpdesk=false) {

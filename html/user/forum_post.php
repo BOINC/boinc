@@ -4,15 +4,17 @@ require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 require_once('../inc/subscribe.inc');
 
-if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content'])) {
-	$_GET['id'] = stripslashes(strip_tags($_GET['id']));
+$logged_in_user = get_logged_in_user(true);
+$logged_in_user = getForumPreferences($logged_in_user);
 
-	$user = get_logged_in_user(true);
+if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content'])) {
+    $_GET['id'] = stripslashes(strip_tags($_GET['id']));
+
 
     if ($_POST['add_signature']=="add_it") {
-        $forum_signature = "\n".$user->signature;
+        $forum_signature = "\n".$logged_in_user->signature;
     }
-    $threadID = createThread($_GET['id'], $user->id, $_POST['title'], $_POST['content'].$forum_signature);
+    $threadID = createThread($_GET['id'], $logged_in_user->id, $_POST['title'], $_POST['content'].$forum_signature);
     if (!$threadID) {
         page_head("Can't create thread");
         echo "Title is possibly missing";
@@ -31,7 +33,6 @@ if (!empty($_GET['id'])) {
 	exit();
 }
 
-$logged_in_user = get_logged_in_user(true);
 
 // TODO: Write a function to do this.
 
@@ -97,8 +98,9 @@ if ($category->is_helpdesk) {
     
 
 $y = "<textarea name=content rows=12 cols=54></textarea>";
+if ($logged_in_user->no_signature_by_default==0){$enable_signature="checked=\"true\"";} else {$enable_signature="";}
 row2($x, $y);
-row2("", "<input name=add_signature value=add_it checked=true type=checkbox>Add my signature to this post");
+row2("", "<input name=add_signature value=add_it ".$enable_signature." type=checkbox>Add my signature to this post");
 row2("", "<input type=submit value=\"OK\">");
 
 end_forum_table();

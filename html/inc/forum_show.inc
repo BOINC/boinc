@@ -74,7 +74,7 @@ function show_page_nav($forum) {
     return $gotoStr;
 }
 
-function show_forum($category, $forum, $start, $sort_style) {
+function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
     global $threads_per_page;
     $gotoStr = show_page_nav($forum);
     if ($category->is_helpdesk) {
@@ -105,6 +105,13 @@ function show_forum($category, $forum, $start, $sort_style) {
 
         echo "</td>";
         $x = time_diff_str($thread->timestamp, time());
+
+	$logged_in_user=getThreadLastVisited($logged_in_user,$thread);
+	if ($thread->timestamp>$logged_in_user->thread_last_visited){
+	    $unread="Unread post(s): ";
+	} else {
+	    $unread="";
+	}
         if ($category->is_helpdesk) {
             if ($thread->replies == 0) $x = "---";
             echo "<td align=left>
@@ -117,7 +124,7 @@ function show_forum($category, $forum, $start, $sort_style) {
                 <td>", $thread->replies+1, "</td>
                 <td align=left>", user_links($user), "</td>
                 <td>", $thread->views, "</td>
-                <td style=\"text-align:right\">", $x, "</td>
+                <td style=\"text-align:right\">", $unread, " ", $x, "</td>
             ";
         }
 

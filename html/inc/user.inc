@@ -69,10 +69,10 @@ function show_user_info_private($user) {
     row2("URL", $x);
     row2("Country", $user->country);
     row2("Postal code", $user->postal_code);
-    if ($user->signature) {
+/*    if ($user->signature) {
         $x = "<pre>".htmlspecialchars($user->signature)."</pre>";
         row2("Forums signature", $x);
-    }
+    }*/
     row2("", "<a href=edit_user_info_form.php>Edit account info</a>");
 
     row1("Profile");
@@ -93,6 +93,9 @@ function show_user_info_private($user) {
     );
     row2(PROJECT."<br><font size=-2>control project's resource share and customize screensaver graphics</font>",
         "<a href=prefs.php?subset=project>View or edit</a>"
+    );
+    row2("Forum<br><font size=-2>configure features and the appearance of the forum</font>",
+        "<a href=\"edit_forum_preferences_form.php\">View or edit</a>"
     );
 }
 

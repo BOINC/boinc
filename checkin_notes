@@ -16973,3 +16973,65 @@ David  3 Sept 2004
 		app_start.C
 		client_types.C,h
 		cs_apps.C
+
+David  4 Sept 2004
+    - New features for message boards (from Janus Kristensen):
+        Added:
+        - External avatars (but commented it out -
+            it's better to use hosted avatars)
+          (Tiny images under people's name)
+        - Hosted avatars
+          (Uploads and scales to 100x100 in the IMGAGE_PATH dir)
+        - Special users
+          (Project admins, devs, newcomers etc. will get a line
+           telling what they are under their name)
+        - Option to display images as links
+        - Option to open links in a new window
+        - Option to hide avatars
+        - Option to enable/disable attach of signature by default
+        - Settings for sorting is now handled using the database
+            instead of cookies (ie. you can change host without
+            having to set your preferences up again,
+            some users also have cookies disabled)
+        - Preview of signature
+        - Unread posts are marked as "Unread"
+          (if they are newer than 2 days (configurable in forum.inc)
+           and user hasn't visited the post)
+        - Interface to forum preferences and sorting methods
+        - Link to interface from user preferences
+        - Reset forum preferences button
+         (Some users have reported that an unusually long
+          signature with html could make the page unviewable. This fixes it)
+        - Option to sort with "Oldest first" in answers in the FAQ area
+
+        Moved:
+        - Signature input in user prefs to forum prefs
+
+        Fixed:
+        - Sorting in answers in the FAQ area didn't work
+        - minor speedups and html stuff
+
+        DB-stuff:
+        - create forum_preferences & forum_logging
+        - transfer old settings
+
+    NOTE: If you want to use these features, you will need to
+    create two new DB tables (forum_preferences and forum_logging;
+    just execute the commands from schema.sql)
+    and you'll probably want to copy existing signatures and nposts
+    from the user table (see html/ops/db_update.php)
+
+    html/
+        inc/
+            forum.inc
+            forum_show.inc
+            user.inc
+        user/
+            edit_forum_preferences_action.php (new)
+            edit_forum_preferences_form.php (new)
+            edit_user_info_action.php
+            edit_user_info_form.php
+            forum_forum.php
+            forum_post.php
+            forum_reply.php
+            forum_thread.php

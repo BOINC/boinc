@@ -26,17 +26,25 @@ $forum = getForum($thread->forum);
 $category = getCategory($forum->category);
 
 $logged_in_user = get_logged_in_user(false);
-
-if (!$sort_style) {
-        $sort_style = $_COOKIE['thread_sort_style'];
-} else {
-        setcookie('thread_sort_style', $sort_style, time()+3600*24*365);
-}
+$logged_in_user = getForumPreferences($logged_in_user);
 
 if ($category->is_helpdesk) {
 	page_head(PROJECT.': Questions and problems');
+	if (!$sort_style) {
+    	    $sort_style = getSortStyle($logged_in_user,"answer");
+	} else {
+    	    setSortStyle($logged_in_user,"answer", $sort_style);
+	    //);setcookie('thread_sort_style', $sort_style, time()+3600*24*365);
+	}
+	
 } else {
 	page_head(PROJECT.': Message boards');
+	if (!$sort_style) {
+    	    $sort_style = getSortStyle($logged_in_user,"thread");
+	} else {
+    	    setSortStyle($logged_in_user,"thread", $sort_style);
+	    //);setcookie('thread_sort_style', $sort_style, time()+3600*24*365);
+	}
 }
 
 // TODO: Constant for default sort style and filter values.
@@ -91,7 +99,7 @@ echo "</td>";
 
 echo "<td align=right style=\"border:0px\">";
 if ($category->is_helpdesk) {
-    show_select_from_array("sort", $answer_sort_styles, $sort_styles);
+    show_select_from_array("sort", $answer_sort_styles, $sort_style);
 } else {
     echo "Sort ";
     show_select_from_array("sort", $thread_sort_styles, $sort_style);

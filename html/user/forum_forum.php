@@ -26,18 +26,20 @@ $category = getCategory($forum->category);
 if ($category->is_helpdesk) {
     $sort_style = $_GET['sort'];
     if (!$sort_style) {
-        $sort_style = $_COOKIE['hd_sort_style'];
+        $sort_style = getSortStyle($logged_in_user,"faq");
     } else {
-        setcookie('hd_sort_style', $sort_style, time()+3600*24*365);
+        setSortStyle($logged_in_user,"faq",$sort_style);
     }
     if (!$sort_style) $sort_style = 'activity';
     page_head('Help Desk');
 } else {
     $sort_style = $_GET['sort'];
     if (!$sort_style) {
-        $sort_style = $_COOKIE['forum_sort_style'];
+        $sort_style = getSortStyle($logged_in_user,"forum");
+        //$sort_style = $_COOKIE['forum_sort_style'];
     } else {
-        setcookie('forum_sort_style', $sort_style, time()+3600*24*365);
+	setSortStyle($logged_in_user, "forum",$sort_style);
+        //setcookie('forum_sort_style', $sort_style, time()+3600*24*365);
     }
     if (!$sort_style) $sort_style = 'modified-new';
     page_head('Message boards : '.$forum->title);
@@ -73,7 +75,7 @@ echo "<input type=submit value=OK></td>\n";
 
 echo "</tr>\n</table>\n</form>";
 
-show_forum($category, $forum, $start, $sort_style);
+show_forum($category, $forum, $start, $sort_style, $logged_in_user);
 
 page_tail();
 

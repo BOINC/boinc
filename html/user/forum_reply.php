@@ -4,6 +4,10 @@ require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 require_once('../inc/subscribe.inc');
 
+$logged_in_user = get_logged_in_user(true);
+$logged_in_user = getForumPreferences($logged_in_user);
+
+
 if (!empty($_GET['thread']) && !empty($_POST['content'])) {
 	$_GET['thread'] = stripslashes($_GET['thread']);
 
@@ -13,18 +17,15 @@ if (!empty($_GET['thread']) && !empty($_POST['content'])) {
     $parent_post = NULL;
   }
 
-	$user = get_logged_in_user(true);
-
     if ($_POST['add_signature']=="add_it"){
-        $forum_signature = "\n".$user->signature;
+        $forum_signature = "\n".$logged_in_user->signature;
     }  
-	replyToThread($_GET['thread'], $user->id, $_POST['content'].$forum_signature, $parent_post);
+	replyToThread($_GET['thread'], $logged_in_user->id, $_POST['content'].$forum_signature, $parent_post);
 	notify_subscribers($_GET['thread']);
 
 	header('Location: forum_thread.php?id='.$_GET['thread']);
 }
 
-$logged_in_user = get_logged_in_user(true);
 
 if (empty($_GET['thread'])) {
 	// TODO: Standard error page.
@@ -94,10 +95,11 @@ function show_message_row($thread, $category, $post=NULL) {
 
     echo "' method=post><textarea name=\"content\" rows=\"18\" cols=\"80\">";
     if ($post) echo quote_text(stripslashes($post->content), 80);
+    if ($logged_in_user->no_signature_by_default==0){$enable_signature="checked=\"true\"";} else {$enable_signature="";}
     echo "</textarea><p>
 	    <input type=\"submit\" value=\"Post reply\">
         &nbsp;&nbsp;&nbsp;
-        <input name=add_signature value=add_it checked=true type=checkbox>Add my signature to this reply                                
+        <input name=add_signature value=add_it ".$enable_signature." type=checkbox>Add my signature to this reply                                
 
         </form>
 	";
