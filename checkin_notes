@@ -6199,3 +6199,10 @@ Karl 2003/09/05
     api/
         boinc_api.C
         guitl.C
+
+Karl 2003/09/05
+    - created COBBLESTONE_FACTOR variable and changed it from 1/3 to 100.
+    - fixed superfluous authenticator in cgi.log
+
+    Sched/
+        handle_request.C

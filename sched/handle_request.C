@@ -44,6 +44,8 @@ const int MIN_SECONDS_TO_SEND = 0;
 const int MAX_SECONDS_TO_SEND = (28*SECONDS_PER_DAY);
 const int MAX_WUS_TO_SEND     = 10;
 
+const double COBBLESTONE_FACTOR = 100.0;
+
 // if a host has active_frac < 0.5, assume 0.5 so we don't deprive it of work.
 const double HOST_ACTIVE_FRAC_MIN = 0.5;
 
@@ -400,8 +402,8 @@ new_host:
 //
 static void compute_credit_rating(HOST& host) {
     host.credit_per_cpu_sec =
-        (fabs(host.p_fpops)/1e9 + fabs(host.p_iops)/1e9 + fabs(host.p_membw)/4e9)/
-        (3*SECONDS_PER_DAY);
+        (fabs(host.p_fpops)/1e9 + fabs(host.p_iops)/1e9 + fabs(host.p_membw)/4e9)
+        * COBBLESTONE_FACTOR / (SECONDS_PER_DAY);
 }
 
 // Update host record based on request.
@@ -822,9 +824,9 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         strcpy(reply.message_priority, "low");
         log_messages.printf(
             SchedMessages::NORMAL,
-            "[HOST#%d] Wrong major version '%s' from user: wanted %d, got %d\n",
+            "[HOST#%d] Wrong major version from user: wanted %d, got %d\n",
             reply.host.id,
-            sreq.authenticator, MAJOR_VERSION, sreq.core_client_major_version
+            MAJOR_VERSION, sreq.core_client_major_version
         );
         return true;
     }
