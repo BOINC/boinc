@@ -23,8 +23,6 @@
         <a href=prefs.php>View or edit these preferences</a>.
         ";
 
-    send_auth_email($new_email_addr, $authenticator);
-
     page_tail();
 
 ?>

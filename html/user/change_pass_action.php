@@ -28,14 +28,14 @@
                 printf(
                     TABLE2."\n"
                     ."<tr><td>Password changed successfully. Use your new password to\n"
-                    ." <a href=login.php>login</a> to your account.</td></tr>\n"
+                    ." <a href=login_form.php>login</a> to your account.</td></tr>\n"
                     ."</table>\n"
                 );
             } else {
                 printf(
                     TABLE2."\n"
                     ."<tr><td>Password was unable to be changed. Continue using your old \n"
-                    ."password to <a href=login.php>login</a> to your account. You can try \n"
+                    ."password to <a href=login_form.php>login</a> to your account. You can try \n"
                     ."changing your password again later.</td></tr>\n"
                     ."</table>"
                 );

@@ -21,9 +21,14 @@
 
 #include "countries.h"
 
-int main() {
+int main(int argc, char** argv) {
     int i;
     for (i=0; i<NUM_COUNTRIES; i++) {
-        printf("<option value=\"%s\">%s\n", countries[i], countries[i]);
+        printf(
+            "<option value=\"%s\" %s>%s\n",
+            countries[i],
+            !strcmp(countries[i], argv[1])?"checked":"",
+            countries[i]
+        );
     }
 }

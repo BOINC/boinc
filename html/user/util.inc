@@ -25,13 +25,22 @@ define("PROJECT", "Astropulse");
 define("MASTER_URL", "http://maggie.ssl.berkeley.edu/ap/");
 
 // Sends the authenticator to the given email address
+//
 function send_auth_email($email_addr, $auth) {
-    mail($email_addr, "Account information for ".PROJECT,
-         "The URL for this project is \n\n".MASTER_URL."\n\nYour account key is \n\n$auth\n\nCopy this information into the BOINC client.");
+    mail($email_addr, PROJECT." new account confirmation",
+"This email confirms the creation of your account with ".PROJECT.",
+a distributed computing project based on BOINC.\n
+The URL for this project:    ".MASTER_URL."
+Your account key:            $auth\n
+Copy and paste these into the BOINC client when prompted.\n
+Please save this email, as you will need the account key
+to access your account on the ".PROJECT." web site."
+    );
 }
 
 // Initializes the session and returns the authenticator
 // for the session (if any)
+//
 function init_session() {
     session_start();
     if (!isset($_SESSION["authenticator"])) {
@@ -40,7 +49,8 @@ function init_session() {
     return $_SESSION["authenticator"];
 }
 
-// requires that the user be logged in
+// if not logged in, put up login form and exit
+//
 function require_login($user) {
     if (!$user) {
         print_login_form();
@@ -65,7 +75,7 @@ function get_user_from_cookie() {
 function show_login($user) {
     if ($user) {
         echo "Logged in as %s.\n", $user->name;
-        echo "<br><a href=login.php>Log in as someone else.</a>\n";
+        echo "<br><a href=login_form.php>Log in as someone else.</a>\n";
     } else {
 	echo "Not logged in";
     }
@@ -122,9 +132,9 @@ function random_string() {
     return md5(uniqid(rand()));
 }
 
-function print_country_select() {
+function print_country_select($country) {
     $x = posix_getcwd();
-    PassThru("$x/country_select");
+    PassThru("$x/country_select '$country'");
 }
 
 function print_login_form() {

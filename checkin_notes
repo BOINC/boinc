@@ -2727,3 +2727,20 @@ David  Dec 18 2002
         util.inc
     lib/
         countries.C,h
+
+David   Dec 19 2002
+    - The Edit Account form now shows current values
+        directly in input fields.
+    - Country select popup shows current value
+    - Improve new account email
+
+    html_user/
+        account_created.php
+        change_pass_action.php
+        create_account_action.php
+        edit.inc
+        edit_action.php
+        edit_user_info.php
+        util.inc
+    tools/
+        country_select.C

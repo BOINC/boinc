@@ -16,6 +16,12 @@
     $my_country = $HTTP_POST_VARS["my_country"];
     $my_zip = $HTTP_POST_VARS["my_zip"];
 
+    // TODO: we need to keep track of whether email addresses
+    // have been verified or not (i.e. whether we ever got back
+    // the authenticator, either via web or from core client)
+    // The right was to do this is to add a "email_verified"
+    // flag to the user structure.
+    // Also, email need not be unique.
 
     if (strlen($my_email)) {
         $query = sprintf("select * from user where email_addr='%s'", $my_email);
