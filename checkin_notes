@@ -12284,3 +12284,9 @@ David  May 12 2004
             download_network.inc
         user/
             download_network.php
+
+Karl 2004-04-12
+    - update_versions: by default only allow most recent core client
+
+    tools/
+        update_versions

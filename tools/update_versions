@@ -36,6 +36,17 @@ import boinc_path_config
 from Boinc import database, db_mid, configxml, tools
 import sys, os, re, time
 
+def get_current_core_version():
+    cursor = database.get_dbconnection().cursor()
+    cursor.execute('select max(version_num) from core_version')
+    return int(cur.fetchall()[0].values()[0])
+
+##### only allow most recent core client
+if True:
+    min_core_version = get_current_core_version()
+else:
+    min_core_version = 0
+
 verbose = 0
 try:
     if sys.argv[1] == '-v':
@@ -66,7 +77,8 @@ def xsort(list):
 def xlistdir(dir):
     return map(lambda file: os.path.join(dir, file), os.listdir(dir))
 
-def add_files(app, match, exec_file, non_exec_files=[]):
+def add_files(app, match, exec_file, non_exec_files=[],
+              min_core_version = 0, max_core_version = 0):
     ''' add files to app/core.
 
     EXEC_FILE is the executable, and NON_EXEC_FILES are supporting
@@ -109,6 +121,8 @@ def add_files(app, match, exec_file, non_exec_files=[]):
                                      app = app,
                                      platform = platform,
                                      version_num = version_num,
+                                     min_core_version = min_core_version,
+                                     max_core_version = max_core_version,
                                      xml_doc = xml_doc)
     else:
         assert(not non_exec_files)      # this wouldn't make sense for core clients
@@ -171,14 +185,18 @@ def find_versions(app, dir):
                 continue
             add_files(app=app, match=match,
                       exec_file=exec_file,
-                      non_exec_files=non_exec_files)
+                      non_exec_files=non_exec_files,
+                      min_core_version = min_core_version
+                      )
         else:
             # add a single executable as app/core version
             match = re_match_exec_filename(filepath)
             if not match:
                 print >>sys.stderr, "  Ignoring unknown file", filepath
                 continue
-            add_files(app=app, match=match, exec_file=filepath)
+            add_files(app=app, match=match, exec_file=filepath,
+                      min_core_version = min_core_version
+                      )
 
 for appdir in xlistdir(config.app_dir):
     if not os.path.isdir(appdir): continue
