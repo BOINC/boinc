@@ -13,7 +13,7 @@
     init_client_dirs("prefs3.xml");
     copy_to_download_dir("input");
     add_platform(null);
-    add_user(null);
+    add_user("prefs.xml");
     add_app("upper_case", null, null);
     create_work("-appname upper_case -rsc_iops 180000000000.0 -rsc_fpops 0.0 -rsc_memory 1000000000000.2 -rsc_disk 1000000000000.2 -wu_name uc_wu -wu_template uc_wu -result_template uc_result -nresults 1 input");
     start_feeder();

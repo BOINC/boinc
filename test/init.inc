@@ -98,7 +98,7 @@ function init_client_dirs($prefs_file) {
     PassThru("rm -f client_state.xml");
     PassThru("rm -rf ".PROJECTS);
     PassThru("rm -rf slots");
-    PassThru("sed -e s/BOINC_MASTER_URL/$BOINC_MASTER_URL/ $prefs_file > prefs.xml");
+    PassThru("sed -e s/BOINC_MASTER_URL/\$BOINC_MASTER_URL/ $prefs_file > prefs.xml");
 }
 
 function copy_to_download_dir($f) {
