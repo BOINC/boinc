@@ -6084,6 +6084,8 @@ quarl 2003/09/03
     - start and add.py know where config.xml and run_state.xml are
       (customizable too)
 
+    - finished database.py and add.py
+
     - configure runs test/test_sanity.py
 
     - wrote extensive documentation for python framework and tools; revised
