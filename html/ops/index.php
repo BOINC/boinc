@@ -26,7 +26,7 @@ echo "
     <br>
     <a href=$cgi_url/stripchart.cgi>Stripcharts</a> |
     <a href=show_log.php>Show/Grep all logs</a> |
-    <a href=show_log.php?f=mysql*.log>Show/Grep MySQL logs</a>
+    <a href=show_log.php?f=mysql*.log&l=-20>Tail MySQL logs</a>
 ";
 
 // TODO: Add functionality to list the number of recommends / rejects received

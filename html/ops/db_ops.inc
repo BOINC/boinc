@@ -150,6 +150,7 @@ function show_host($host) {
 
     row("ID", $host->id);
     row("Created", time_str($host->create_time));
+    row("User", "<a href=db_action.php?table=user&id=$host->userid>$host->userid</a>");
     row("Venue", $host->venue);
     row("Total credit", $host->total_credit);
     row("Average credit", $host->expavg_credit);
