@@ -21469,3 +21469,12 @@ Rom    17 Dec 2004
         BOINC.vbs
 
     < Added a bunch of files required for various setup things >
+
+David  17 Dec 2004
+    - VALIDATOR_ITEM: need to read receive_time so can update
+        host.avg_turnaround
+
+    db/
+        boinc_db.C
+    sched/
+        transitioner.C

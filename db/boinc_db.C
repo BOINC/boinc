@@ -843,6 +843,7 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     res.exit_status = atoi(r[i++]);
     res.hostid = atoi(r[i++]);
     res.sent_time = atoi(r[i++]);
+    res.received_time = atoi(r[i++]);
 }
 
 int DB_VALIDATOR_ITEM_SET::enumerate(
@@ -887,7 +888,8 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   res.opaque, "
             "   res.exit_status, "
             "   res.hostid, "
-            "   res.sent_time "
+            "   res.sent_time, "
+            "   res.received_time "
             "FROM "
             "   workunit AS wu "
             "       LEFT JOIN result AS res ON wu.id = res.workunitid "

@@ -63,10 +63,11 @@ int result_suffix(char* name) {
 }
 
 // The given result just timed out.
-// update the host's avg_turnaround.
+// Update the host's avg_turnaround.
 //
 int penalize_host(int hostid, double delay_bound) {
     DB_HOST host;
+    char buf[256];
     int retval = host.lookup_id(hostid);
     if (retval) return retval;
     if (host.avg_turnaround == 0) {
@@ -74,7 +75,9 @@ int penalize_host(int hostid, double delay_bound) {
     } else {
         host.avg_turnaround = .7*host.avg_turnaround + .3*delay_bound;
     }
-    return host.update();
+
+    sprintf(buf, "avg_turnaround=%f", host.avg_turnaround);
+    return host.update_field(buf);
 }
 
 int handle_wu(
@@ -136,7 +139,7 @@ int handle_wu(
                         res_item.res_name, retval
                     );
                 }
-                penalize_host(res_item.res_hostid, wu_item.delay_bound);
+                penalize_host(res_item.res_hostid, (double)wu_item.delay_bound);
                 nover++;
             } else {
                 ninprogress++;
