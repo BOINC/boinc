@@ -753,6 +753,10 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                                 BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Updating Error Box\n"));
 						        UpdateErrorBox();
 					        }
+                            else
+                            {
+                                InvalidateRect(hWnd, NULL, TRUE);
+                            }
                             break;
                         }
                     }
@@ -762,15 +766,14 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                     HWND hwndBOINCGraphicsWindow = NULL;
                     HWND hwndForegroundWindow = NULL;
                     int  iReturnValue = 0;
-                    int  iStatus = 0;
 
 
 			        // Create a screen saver window on the primary display if the boinc client crashes
 			        CreateSaverWindow();
 
-                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Start Status = '%d', BOINCCoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), iStatus, m_bBOINCCoreNotified, m_bErrorMode, m_hrError);
+                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Start Status = '%d', BOINCCoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bBOINCCoreNotified, m_bErrorMode, m_hrError);
 
-                    iReturnValue = rpc.get_screensaver_mode( iStatus );
+                    iReturnValue = rpc.get_screensaver_mode( m_iStatus );
                     BOINCTRACE(_T("CScreensaver::PrimarySaverProc - get_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
                     if (0 != iReturnValue)
                     {
@@ -806,7 +809,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 
                         if (m_bBOINCCoreNotified)
                         {
-                            switch (iStatus)
+                            switch (m_iStatus)
                             {
                                 case SS_STATUS_ENABLED:
                                     hwndBOINCGraphicsWindow = FindWindow( BOINC_WINDOW_CLASS_NAME, NULL );
@@ -836,6 +839,8 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                                     }
                                 break;
                                 case SS_STATUS_BLANKED:
+                                    m_bErrorMode = FALSE;
+                                    m_hrError = FALSE;
                                     break;
                                 case SS_STATUS_RESTARTREQUEST:
                                     m_bBOINCCoreNotified = FALSE;
@@ -857,7 +862,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                         }
                     }
 
-                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Checkpoint Status = '%d', BOINCCoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), iStatus, m_bBOINCCoreNotified, m_bErrorMode, m_hrError);
+                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Checkpoint Status = '%d', BOINCCoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bBOINCCoreNotified, m_bErrorMode, m_hrError);
 
 
                     // Lets try and get the current state of the CC
@@ -885,7 +890,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                         }
                         else
                         {
-                            if (SS_STATUS_QUIT == iStatus)
+                            if (SS_STATUS_QUIT == m_iStatus)
                             {
                                 BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Shutdown BOINC Screensaver\n"));
                                 ShutdownSaver();
@@ -893,7 +898,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                         }
                     }
 
-                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - End Status = '%d', BOINCCoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), iStatus, m_bBOINCCoreNotified, m_bErrorMode, m_hrError);
+                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - End Status = '%d', BOINCCoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bBOINCCoreNotified, m_bErrorMode, m_hrError);
             }
             break;
 
@@ -1024,6 +1029,10 @@ LRESULT CScreensaver::GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                         BOINCTRACE(_T("CScreensaver::GenericSaverProc - Updating Error Box\n"));
 						UpdateErrorBox();
 					}
+                    else
+                    {
+                        InvalidateRect(hWnd, NULL, TRUE);
+                    }
 					break; 
 				case 3: 
 					break; 
@@ -1685,8 +1694,14 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc)
         (INT)(pMonitorInfo->yError + pMonitorInfo->heightError) );
 
 
-	// Draw the background as black, and put a frame around it that it red.
+	// Draw the background as black.
 	FillRect(hdc, &rc, hbrushBlack);
+
+    // If the screensaver has switched to a blanked state, we should
+    // exit here so the screen has been erased to black.
+    if ( SS_STATUS_BLANKED == m_iStatus ) return;
+
+    // Draw a frame in red.
 	FrameRect(hdc, &rc, hbrushRed);
 
     // Draw the bitmap rectangle and copy the bitmap into 

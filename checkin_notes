@@ -24041,7 +24041,12 @@ Rom    5 Feb 2005
         type is selected
     - Bug Fix: Adjust the validate setup type script to account for the new
         rules
+    - Bug Fix: When switching from an error state to the blank screensaver
+        state, invalidate the window and redraw the background.  Basically
+        that was causing us to display out of sync project data.
 
+    client/win/
+        win_screensaver.cpp, .h
     win_build/installerv2/
         BOINC.ism
     win_build/installerv2/redist/windows
