@@ -17839,3 +17839,10 @@ David  27 Sept 2004
 		scheduler_op.C
     lib/
         gui_rpc_client.C,h
+
+David  28 Sept 2004
+    - fixed CPU sched bug, I hope
+
+    client/
+        client_state.C
+        cs_data.C

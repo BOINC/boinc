@@ -389,6 +389,16 @@ bool CLIENT_STATE::do_something() {
     scope_messages.printf("CLIENT_STATE::do_something(): Begin poll:\n");
     ++scope_messages;
 
+    // NOTE:
+    // The order of calls in the following lists generally doesn't matter,
+    // except for the following:
+    // must have:
+    //  active_tasks_poll
+    //  handle_finished_apps
+    //  schedule_cpus
+    // in that order (active_tasks_poll() sets must_schedule_cpus,
+    // and handle_finished_apps() must be done before schedule_cpus()
+
     ss_logic.poll();
     if (activities_suspended) {
         scope_messages.printf("CLIENT_STATE::do_something(): activities suspended\n");
@@ -406,16 +416,14 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(net_xfers              , net_xfers->poll        );
         POLL_ACTION(http_ops               , http_ops->poll         );
         POLL_ACTION(active_tasks           , active_tasks.poll      );
-        POLL_ACTION(schedule_cpus          , schedule_cpus          );
         POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
+        POLL_ACTION(schedule_cpus          , schedule_cpus          );
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
         POLL_ACTION(garbage_collect        , garbage_collect        );
         POLL_ACTION(update_results         , update_results         );
         POLL_ACTION(gui_rpc                , gui_rpcs.poll          );        
     } else {
         net_stats.poll(*net_xfers);
-        // Call these functions in bottom to top order with
-        // respect to the FSM hierarchy
         //
         //POLL_ACTION(data_manager           , data_manager_poll      );
         POLL_ACTION(net_xfers              , net_xfers->poll        );
@@ -423,9 +431,9 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(file_xfers             , file_xfers->poll       );
         POLL_ACTION(active_tasks           , active_tasks.poll      );
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
-        POLL_ACTION(schedule_cpus          , schedule_cpus          );
         POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll  );
         POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
+        POLL_ACTION(schedule_cpus          , schedule_cpus          );
         POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );
         POLL_ACTION(garbage_collect        , garbage_collect        );
         POLL_ACTION(update_results         , update_results         );

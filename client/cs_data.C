@@ -21,6 +21,8 @@
 // utilized by the client to managed its deletion policy and communicate with
 // the user and the server what the status of the data storage is
 //
+// Uhhhh... what exactly does the above say????
+//
 
 #include "cpp.h"
 
