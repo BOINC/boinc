@@ -403,7 +403,9 @@ inline void replace_string(
     }
 }
 
-
+// In order for toupper and tolower to work under certain conditions
+//   it needs to know about local.
+// See: http://linux-rep.fnal.gov/software/gcc/onlinedocs/libstdc++/22_locale/howto.html#7
 struct Tolower
 {
     Tolower (std::locale const& l) : loc(l) {;}

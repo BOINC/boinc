@@ -20,19 +20,20 @@
 #ifndef h_BASE64
 #define h_BASE64
 
+#ifndef _WIN32
 #include <cstdio>
 #include <cstdlib>
 #include <string>
-
-using std::string;
+using namespace std;
+#endif
 
 class InvalidBase64Exception
 {
 };
 
-string r_base64_encode (const char* from, size_t length) throw(InvalidBase64Exception);
-string r_base64_decode (const char* from, size_t length) throw(InvalidBase64Exception);
-inline string r_base64_decode (string const& from) throw(InvalidBase64Exception)
+string r_base64_encode (const char* from, size_t length);
+string r_base64_decode (const char* from, size_t length);
+inline string r_base64_decode (string const& from)
 {
     return r_base64_decode(from.c_str(), from.length());
 }

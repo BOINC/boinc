@@ -50,10 +50,10 @@ using std::string;
 #include "client_msgs.h"
 
 #include "http.h"
+#include "base64.h"
 
 #define HTTP_BLOCKSIZE  16384
 
-#include "..\lib\base64.h"
 
 // Breaks a HTTP url down into its server and file path components
 //

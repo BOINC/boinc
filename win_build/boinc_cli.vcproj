@@ -23,7 +23,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
-				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE;HAVE_STD_TRANSFORM;HAVE_STD_MIN;HAVE_STD_MAX"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -1087,6 +1087,9 @@
 				RelativePath="..\client\client_types.h">
 			</File>
 			<File
+				RelativePath="..\client\cpp.h">
+			</File>
+			<File
 				RelativePath="..\lib\diagnostics.h">
 			</File>
 			<File
@@ -1102,7 +1105,7 @@
 				RelativePath="..\client\file_xfer.h">
 			</File>
 			<File
-				RelativePath="..\client\filesys.h">
+				RelativePath="..\lib\filesys.h">
 			</File>
 			<File
 				RelativePath="..\client\gui_rpc_server.h">
@@ -1121,9 +1124,6 @@
 			</File>
 			<File
 				RelativePath="..\client\main.h">
-			</File>
-			<File
-				RelativePath="..\client\maybe_gui.h">
 			</File>
 			<File
 				RelativePath="..\lib\md5.h">

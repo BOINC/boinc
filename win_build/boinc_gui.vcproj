@@ -96,7 +96,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
-				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;HAVE_STD_TRANSFORM;HAVE_STD_MIN;HAVE_STD_MAX"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
@@ -1338,6 +1338,9 @@
 				RelativePath="..\lib\stackwalker_win.h">
 			</File>
 			<File
+				RelativePath="..\lib\std_fixes.h">
+			</File>
+			<File
 				RelativePath="..\client\stdafx.h">
 			</File>
 			<File
@@ -1384,10 +1387,10 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\boinc.bmp">
+				RelativePath="..\client\win\res\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\boinc.bmp">
+				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
 				RelativePath="..\client\win\boinc_gui.rc">
@@ -1407,10 +1410,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\res\boincsm.bmp">
+				RelativePath="..\client\win\boincsm.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\boincsm.bmp">
+				RelativePath="..\client\win\res\boincsm.bmp">
 			</File>
 			<File
 				RelativePath="..\res\CoreClient.ico">

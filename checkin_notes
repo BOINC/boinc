@@ -13460,3 +13460,14 @@ Rom    13 June 2004
 
     client/
         gui_rpc_server.C
+
+Rom    13 June 2004
+    - Do some more header file work and fix util.c so it'll compile on unix
+      platforms again.
+
+    client/
+        miofile.C, .h
+        stdafx.h
+    lib/
+        base64.C, .h
+        util.C

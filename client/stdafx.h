@@ -101,6 +101,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <locale>
 
 
 // Standard C Runtime libraries
