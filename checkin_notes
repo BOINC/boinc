@@ -933,3 +933,67 @@ David A.    July 8, 2002
         Makefile.in
         add.C
         process_result_template.C
+
+Michael Gary	July 10, 2002
+    - Added asserts to the server side
+    - Added error checks on function parameters
+    - Made the api update result with time information at
+        checkpoints and when an application exits
+    - Removed unused tests
+    - Fixed bug in crypto sscan
+    - Moved client/error_numbers.h to lib/error_numbers.h
+
+    api/
+        Makefile.in
+        api.C
+        app.C
+    client/
+        app.h
+        client_state.C
+        client_types.C
+        cs_apps.C
+        cs_files.C
+        cs_scheduler.C
+        file_names.C
+        file_xfer.C
+        filesys.C
+        hostinfo.C
+        hostinfo_unix.C
+        http.C
+        log_flags.C
+        main.C
+        net_stats.C
+        scheduler_op.C
+        speed_stats.C
+        time_stats.C
+        util.C
+        error_numbers.h (removed)
+    db/
+        db_mysql.C
+        mysql_util.C
+    lib/
+        crypt.C
+        md5_file.C
+        parse.C
+        shmem.C
+        error_numbers.h (added)
+    sched/
+        Makefile.in
+        feeder.C
+        file_upload_handler.C
+        handle_request.C
+        main.C
+        sched_shmem.C
+        sched_shmem.h
+        server_types.C
+    test/
+        max_water_prefs.xml (removed)
+        min_water_prefs.xml (removed)
+        normal_water_prefs.xml (removed)
+        test_max_water_prefs.php (removed)
+        test_min_water_prefs.php (removed)
+        test_normal_water_prefs.php (removed)
+    tools/
+        add.C
+        backend_lib.C
+        process_result_template.C
