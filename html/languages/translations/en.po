@@ -9,9 +9,6 @@
 ##########################################
 
 
-msgid "CHARSET"
-msgstr "iso-8859-1"
-
 #########################################
 # Apps page (apps.php)
 #########################################
@@ -220,7 +217,7 @@ msgstr "No - I'm currently participating in at least one other BOINC project"
 
 
 #########################################
-# First Account setup page (account_setuo_first.php)
+# First Account setup page (account_setup_first.php)
 #########################################
 msgid "AC_FIRST_TITLE"
 msgstr "Account preferences"
@@ -233,17 +230,69 @@ msgstr "To use the defaults settings, scroll to the bottom and click OK."
 
 
 #########################################
+# First Account setup done page (account_setup_first_done.php)
+# and (account_setup_nonfirst_done.php
+#########################################
+msgid "AC_DONE_TITLE"
+msgstr "Account setup: done"
+
+msgid "AC_DONE_COMPLETE"
+msgstr "Your account setup is complete."
+
+msgid "AC_DONE_BOINC"
+msgstr "Next you must download and install the BOINC software and tell your computer(s) "
+"to use this account."
+
+msgid "AC_DONE_URL"
+msgstr "When the BOINC software first runs, it will ask you for a <b>Project URL</b> and "
+"a <b>Account key</b>."
+
+msgid "AC_DONE_COPYPASTE"
+msgstr "Copy and paste them from here:"
+
+msgid "AC_DONE_GETDOWNLOAD"
+msgstr "You can now %s to complete the $PROJECT installation."
+
+msgid "AC_DONE_DL_BOINC"
+msgstr "download the BOINC software"
+
+msgid "AC_DONE_THANKS"
+msgstr "Thanks for participating in $PROJECT"
+
+
+#########################################
 # Non-first Account setup page (account_setup_nonfirst.php)
 #########################################
 msgid "AC_NONFIRST_TITLE"
 msgstr "Account setup: resource share"
 
 
-msgid ""
-msgstr ""
+#########################################
+# Non-first Account setup done page (account_setup_nonfirst_done.php)
+#########################################
+msgid "AC_DONE_MUST_USE"
+msgstr "Next you must tell your computer(s) to use this account."
 
-msgid ""
-msgstr ""
+msgid "AC_DONE_WIN"
+msgstr "Windows users:"
+
+msgid "AC_DONE_WIN_TEXT"
+msgstr "Open the BOINC application window by double-clicking the BOINC system tray icon. "
+"Choose the 'Attach to Project' item in the Settings menu. It will ask you for a project URL "
+"and an account key."
+
+msgid "AC_DONE_UNIX"
+msgstr "Mac, Unix and Linux users:"
+
+msgid "AC_DONE_UNIX_TEXT"
+msgstr "Quit the BOINC client. Then run the BOINC client with the -attach_project option. "
+"It will ask you for a project URL and an account key."
+
+msgid "AC_DONE_ANYCASE"
+msgstr "In each case copy and paste the following:"
+
+msgid "AC_DONE_INSTALLED"
+msgstr "This completes the $PROJECT installation."
 
 
 #########################################
