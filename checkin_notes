@@ -17223,3 +17223,16 @@ David  9 Sept 2004
 
     lib/
         util.C,h
+
+
+David  9 Sept 2004
+	- Added support for stats access via WAP (for cell phones)
+		(from Carl Christensen)
+
+	html/
+		inc/
+			userw.inc
+			wap.inc
+		user/
+			opsw.php
+			userw.php
