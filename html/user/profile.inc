@@ -143,8 +143,15 @@ function show_language_selection() {
 }
 
 function show_finale() {
+    global $profile_info;
+    
     row1("Submit Your Profile");
-    rowify("<input type=\"checkbox\" name=\"hide_email\">Please do NOT show my email address in my profile.<p>
+    $email_check = "<input type=\"checkbox\" name=\"hide_email\"";
+    if ($profile_info['hide_email']) {
+        $email_check = $email_check . " checked";
+    } 
+    $email_check = $email_check . ">Please do NOT show my email address in my profile.";
+    rowify($email_check . "<p>
             <input type=\"submit\" value=\"Submit\" name=\"submit\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type=\"reset\" value=\"Clear\" name=\"clear\">");
 }
 
