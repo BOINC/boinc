@@ -15792,3 +15792,13 @@ David  3 Aug 2004
     client/
         gui_rpc_client.C
         gui_test.C
+
+David  3 Aug 2004
+    - Change PHP so that web site is turned off if "stop_web" file is present;
+        it no longer looks at "stop_sched" or "stop_daemons".
+        NOTE: I don't think any script creates stop_web.
+        for now you'll have to do it manually
+
+    html/inc
+        util.inc
+        xml.inc (new)
