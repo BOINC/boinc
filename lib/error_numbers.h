@@ -67,3 +67,5 @@
 #define ERR_GETRUSAGE       -132
     // getrusage failed
 #define ERR_BENCHMARK_FAILED -133
+#define ERR_BAD_HEX_FORMAT  -134
+    // hex-format key data is bad

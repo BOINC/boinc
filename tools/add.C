@@ -80,7 +80,7 @@ char* user_friendly_name=0;
 char* exec_dir=0, *exec_files[10], *signature_files[10];
 char *email_addr=0, *user_name=0, *authenticator=0;
 char *global_prefs_file=0, *download_dir, *download_url;
-char* code_sign_keyfile=0;
+char code_sign_keyfile[256];
 char *message=0, *message_priority=0;
 
 void add_project() {
@@ -357,10 +357,10 @@ int main(int argc, char** argv) {
     if (retval) {
         printf("no config file found\n");
     } else {
-        strcpy(db_name, config.db_name);
-        strcpy(db_passwd, config.db_passwd);
-        strcpy(download_url, config.download_url);
-        strcpy(download_dir, config.download_dir);
+        db_name = config.db_name;
+        db_passwd = config.db_passwd;
+        download_url = config.download_url;
+        download_dir = config.download_dir;
         sprintf(code_sign_keyfile, "%s/code_sign_private", config.key_dir);
     }
 
@@ -423,7 +423,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-message_priority")) {
             message_priority = argv[++i];
         } else if (!strcmp(argv[i], "-code_sign_keyfile")) {
-            code_sign_keyfile = argv[++i];
+            strcpy(code_sign_keyfile, argv[++i]);
         }
     }
     retval = boinc_db_open(db_name, db_passwd);

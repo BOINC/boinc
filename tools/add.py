@@ -53,10 +53,13 @@ add.py result    (TODO) '''
 
 import sys, os, getopt, md5, time
 sys.path.append('../py/')
-import database, db_mid
+sys.path.append('../sched')
+import database, db_mid, boinc_config
 from util import *
 
-database._connectp('quarl_test_upper_case','','')
+config = boinc_config.BoincConfig('../../projects/client_test/config.xml').read()
+
+database._connectp('boinc_client_test','','')
 
 CREATE_TIME = ['?create_time', int(time.time())]
 

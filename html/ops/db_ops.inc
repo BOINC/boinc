@@ -26,8 +26,7 @@ function lookup_user_auth($auth) {
     }
 }
 
-function join_query_string($s1, $s2)
-{
+function join_query_string($s1, $s2) {
     if ($s1) {
         if ($s2) {
             return "$s1&s2";
@@ -120,8 +119,7 @@ class SqlQueryString {
     }
 }
 
-function build_sql_query()
-{
+function build_sql_query() {
     $q = new SqlQueryString();
 
     $q->addeq('id');
@@ -151,8 +149,7 @@ function link_results($n, $mq, $query) {
     }
 }
 
-function show_result_summary()
-{
+function show_result_summary() {
     $server_state = array();
     $outcome = array();
     $client_state = array();
@@ -175,6 +172,11 @@ function show_result_summary()
     echo "<p>Query: <b>$main_query</b><p>\n";
     $result = mysql_query($main_query);
     $ntotal =0; // TODO: how to count $result?
+
+    $nvalid = 0;    // for SUCCESS results
+    $ninvalid = 0;
+    $nfile_deleted = 0;
+
     while ($res = mysql_fetch_object($result)) {
         $server_state[$res->server_state] += 1;
         $ntotal  += 1;
@@ -182,6 +184,17 @@ function show_result_summary()
             $outcome[$res->outcome] += 1;
             if ($res->outcome == 3) {
                 $client_state[$res->client_state] += 1;
+            }
+            if ($res->outcome == 1) {
+                if ($res->validate_state == 1) {
+                    $nvalid += 1;
+                }
+                if ($res->validate_state == 2) {
+                    $ninvalid += 1;
+                }
+                if ($res->file_delete_state >= 1) {
+                    $nfile_deleted +=1;
+                }
             }
         }
     }
@@ -192,6 +205,7 @@ function show_result_summary()
     echo "<td><h2>" . link_results("$ntotal results", $urlquery, '') . "</h2></td>";
     echo "<td><h2>" . link_results("'Over' results", $urlquery, "server_state=5") . "</h2></td>";
     echo "<td><h2>" . link_results("'Client error' results", $urlquery, "outcome=3") . "</h2></td>";
+    echo "<td><h2>Success results</h2></td>";
     echo "</tr>";
     echo "<tr valign=top>";
     echo "<td><table border=2 cellpadding=4\n";
@@ -206,7 +220,8 @@ function show_result_summary()
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
     for ($ro=0; $ro<6; $ro++) {
         c_row2($outcome[$ro]?outcome_color($ro):'white', outcome_string($ro),
-               link_results($outcome[$ro], $urlquery, "outcome=$ro"));
+            link_results($outcome[$ro], $urlquery, "outcome=$ro")
+        );
     }
     echo "</table></td>";
 
@@ -214,10 +229,17 @@ function show_result_summary()
     echo "<tr><th>Client state</th><th># results</th></tr>\n";
     for ($cs=1; $cs<6; $cs++) {
         row2(client_state_string($cs),
-             link_results($client_state[$cs], $urlquery, "client_state=$cs"));
+            link_results($client_state[$cs], $urlquery, "client_state=$cs")
+        );
     }
-    print "</td></table>";
-    print "</table>";
+    echo "</td></table>";
+    echo "<td>";
+    start_table();
+    row2("Valid", link_results($nvalid, $urlquery, "validate_state=1"));
+    row2("Invalid", link_results($ninvalid, $urlquery, "validate_state=2"));
+    row2("Files deleted", link_results($ninvalid, $urlquery, "file_delete_state= 1 or file_delete_state=2"));
+    end_table();
+    echo "</table>";
 
 }
 

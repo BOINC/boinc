@@ -102,7 +102,7 @@ int scan_hex_data(FILE* f, DATA_BLOCK& x) {
 
 // same, but read from buffer
 //
-int sscan_hex_data(char* p, DATA_BLOCK& x) {
+static int sscan_hex_data(char* p, DATA_BLOCK& x) {
     int m, n, nleft=x.len;
 
     x.len = 0;
@@ -113,7 +113,7 @@ int sscan_hex_data(char* p, DATA_BLOCK& x) {
         nleft--;
         if (nleft<0) {
             fprintf(stderr, "sscan_hex_data: buffer overflow\n");
-            exit(1);
+            return ERR_BAD_HEX_FORMAT;
         }
         p += 2;
         if (*p == '\n') p++;
@@ -291,7 +291,8 @@ int verify_file2(
     }
     signature.data = signature_buf;
     signature.len = sizeof(signature_buf);
-    sscan_hex_data(signature_text, signature);
+    retval = sscan_hex_data(signature_text, signature);
+    if (retval) return retval;
     return verify_file(path, key, signature, answer);
 }
 
@@ -311,7 +312,8 @@ int verify_string(
     n = strlen(md5_buf);
     signature.data = signature_buf;
     signature.len = sizeof(signature_buf);
-    sscan_hex_data(signature_text, signature);
+    retval = sscan_hex_data(signature_text, signature);
+    if (retval) return retval;
     clear_signature.data = (unsigned char*)clear_buf;
     clear_signature.len = 256;
     retval = decrypt_public(key, signature, clear_signature);
