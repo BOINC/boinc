@@ -47,6 +47,7 @@ int SCHED_CONFIG::parse(istream& f) {
 
     memset(this, 0, sizeof(SCHED_CONFIG));
     parse_str(buf.c_str(), "<db_name>", db_name, sizeof(db_name));
+    parse_str(buf.c_str(), "<db_user>", db_user, sizeof(db_user));
     parse_str(buf.c_str(), "<db_passwd>", db_passwd, sizeof(db_passwd));
     parse_str(buf.c_str(), "<db_host>", db_host, sizeof(db_host));
     parse_int(buf.c_str(), "<shmem_key>", shmem_key);
@@ -55,7 +56,6 @@ int SCHED_CONFIG::parse(istream& f) {
     parse_str(buf.c_str(), "<download_dir>", download_dir, sizeof(download_dir));
     parse_str(buf.c_str(), "<upload_url>", upload_url, sizeof(upload_url));
     parse_str(buf.c_str(), "<upload_dir>", upload_dir, sizeof(upload_dir));
-    parse_str(buf.c_str(), "<user_name>", user_name, sizeof(user_name));
     if (match_tag(buf.c_str(), "<one_result_per_user_per_wu/>")) {
         one_result_per_user_per_wu = true;
     }

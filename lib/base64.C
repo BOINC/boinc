@@ -1,6 +1,6 @@
 // Copyright 2003 Regents of the University of California
 
-#include "parse.h"
+#include "base64.h"
 
 // Table of characters coding the 64 values.
 static char base64_value_to_char[64] =

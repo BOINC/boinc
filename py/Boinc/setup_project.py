@@ -326,11 +326,18 @@ class Project:
     def keydir(self, *dirs):
         return apply(os.path.join,(self.config.config.key_dir,)+dirs)
 
+    def logdir(self, *dirs):
+		return apply(os.path.join,("log_"+socket.getfqdn(),)+dirs)
+
     def create_keys(self):
         if not os.path.exists(self.keydir()):
             os.mkdir(self.keydir())
         _gen_key(self.keydir('upload'))
         _gen_key(self.keydir('code_sign'))
+
+    def create_logdir(self):
+		print "logdir = ", self.logdir();
+		os.mkdir(self.logdir());
 
     def query_create_keys(self):
         return query_yesno("Keys don't exist in %s; generate them?"%self.keydir())
@@ -351,12 +358,12 @@ class Project:
         # TODO: that is a security risk; don't do this in the future - write
         # req/reply files somewhere else
         map(lambda dir: os.mkdir(self.dir(dir)),
-            [ '', 'cgi-bin', 'bin', 'upload', 'download', 'apps', 'log',
+            [ '', 'cgi-bin', 'bin', 'upload', 'download', 'apps', self.logdir(),
               'html_ops', 'html_user', 'html_user/project_specific',
               'html_user/class', 'html_user/include'
               ])
         map(lambda dir: os.chmod(self.dir(dir), 0777),
-            [ 'cgi-bin', 'upload', 'log' ])
+            [ 'cgi-bin', 'upload', self.logdir() ])
 
         if not self.keys_exist():
             if self.query_create_keys():
@@ -365,6 +372,9 @@ class Project:
 
         # copy the user and administrative PHP files to the project dir,
         verbose_echo(1, "Setting up server files: copying files")
+
+		# Create the project log directory
+#        self.create_logdir()
 
         install_boinc_files(self.dir())
 

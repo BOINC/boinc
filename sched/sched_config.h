@@ -28,6 +28,7 @@ using std::istream;
 class SCHED_CONFIG {
 public:
     char db_name[256];
+    char db_user[256];
     char db_passwd[256];
     char db_host[256];
     int shmem_key;
@@ -36,7 +37,6 @@ public:
     char download_dir[256];
     char upload_url[256];
     char upload_dir[256];
-    char user_name[256];
     bool one_result_per_user_per_wu;
     int min_sendwork_interval;
 

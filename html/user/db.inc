@@ -10,14 +10,18 @@ function db_init($pathMod='') {
         echo "Project is shut down for maintenance - please try again later\n";
         exit();
     }
-    $retval = mysql_pconnect();
+	$user = parse_config("<db_user>", $pathMod);
+	$pass = parse_config("<db_passwd>", $pathMod);
+    $retval = mysql_pconnect("localhost", $user, $pass);
     if (!$retval) {
         echo "Unable to connect to database - please try again later";
+		echo mysql_error();
         exit();
     }
     $db_name = parse_config("<db_name>", $pathMod);
     if(!mysql_select_db($db_name)) {
         echo "Unable to select database - please try again later";
+		echo mysql_error();
         exit();
     }
 

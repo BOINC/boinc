@@ -172,7 +172,7 @@ int main(int argc, char** argv) {
         log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
         exit(1);
     }
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_passwd);
+    retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "Can't open DB\n");
         exit(1);

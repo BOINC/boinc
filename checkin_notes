@@ -9238,9 +9238,11 @@ Karl 2004-01-15
         base64.h
 
 Karl 2004-01-15
+    - renamed user_name to db_user
+
     - applied changes by Daniel Sumers Myers <dmyers@umiacs.umd.edu>
         - setup script creates log_<host>
-        - add support for <db_user> field in config.XML
+        - add support for <db_user> field in config.XML in C, python, php
         - missing default project.inc.sample fields
 
     db/

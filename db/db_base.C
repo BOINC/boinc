@@ -12,10 +12,10 @@ DB_CONN::DB_CONN() {
     mysql = 0;
 }
 
-int DB_CONN::open(char* db_name, char* db_host, char* dbpassword) {
+int DB_CONN::open(char* db_name, char* db_host, char* db_user, char* dbpassword) {
     mysql = mysql_init(0);
     if (!mysql) return ERR_DB_CANT_INIT;
-    mysql = mysql_real_connect(mysql, db_host, 0, dbpassword, db_name, 0, 0, 0);
+    mysql = mysql_real_connect(mysql, db_host, db_user, dbpassword, db_name, 0, 0, 0);
     if (mysql == 0) return ERR_DB_CANT_CONNECT;
     return 0;
 }

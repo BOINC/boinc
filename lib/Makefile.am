@@ -33,7 +33,8 @@ libboinc_a_SOURCES =				\
 	xml_util.h				\
 	shmem.h					\
 	synch.h					\
-	util.h
+	util.h					\
+	base64.h
 
 # libboinc_graphics_a_SOURCES =			\
 #         ../api/graphics_api.C			\
