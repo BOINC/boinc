@@ -32,7 +32,7 @@ echo "<form action=account_setup_first_action.php>
     <table cellpadding=6>
 ";
 prefs_form_global($user, $global_prefs);
-prefs_form_email($project_prefs);
+prefs_form_privacy($project_prefs);
 venue_form($user);
 
 echo "<tr><td><br></td><td><input type=submit value=\"OK\"></td></tr>

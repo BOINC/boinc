@@ -15,7 +15,7 @@ prefs_global_parse_form($prefs);
 global_prefs_update($user, $prefs);
 
 $prefs = prefs_parse_project($user->project_prefs);
-prefs_email_parse_form($prefs);
+prefs_privacy_parse_form($prefs);
 project_prefs_update($user, $prefs);
 
 venue_parse_form($user);
