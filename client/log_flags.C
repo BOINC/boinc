@@ -56,6 +56,7 @@ LOG_FLAGS::LOG_FLAGS() {
     time_debug = false;
     net_xfer_debug = false;
     measurement_debug = false;
+    dont_check_file_sizes = false;
 }
 
 // Parse log flag preferences
