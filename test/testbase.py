@@ -336,7 +336,7 @@ class TestProject(Project):
         db.close()
 
     def check(self):
-        verbose_sleep("Sleeping to allow server daemons to finish", 5)
+        # verbose_sleep("Sleeping to allow server daemons to finish", 5)
         # TODO:     self.check_outputs(output_expected,  ZZZ, YYY)
         self.check_results(self.expected_result, self.num_wu*self.redundancy)
         self.sched_run('file_deleter')
@@ -541,7 +541,8 @@ class Work:
         if not self.app:
             self.app = project.app_versions[0].app
         for input_file in unique(self.input_files):
-            install(input_file, os.path.join(project.download_dir,''))
+            install(os.path.realpath(input_file),
+                    os.path.join(project.download_dir,os.path.basename(input_file)))
 
         # simulate multiple data servers by making symbolic links to the
         # download directory

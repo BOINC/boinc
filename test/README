@@ -63,9 +63,9 @@ BOINC_TEST_DELETE
 BOINC_TEST_INSTALL_METHOD
     Specifies how to install html/php, cgi from source directories to testbed
     location.
-        link [default]   - hardlink
-        symlink          - symbolic link
-        copy             - copy
+        link              - hardlink
+        symlink [default] - symbolic link
+        copy              - copy
 
     Copying is useful because it preserves what version of the file was used
     in a particular test run and
