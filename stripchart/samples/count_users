@@ -1,8 +1,0 @@
-#! /bin/csh
-# NOTE: this must be macro-substituted (for DATABASE)
-
-set CIVDATE = `/bin/date "+%Y:%m:%d:%H:%M"`
-set UNIXDATE = `/usr/local/bin/perl -e 'print time()'`
-set COUNT = `echo "use DATABASE; select count(*) from user" | mysql | tail -1`
- 
-echo $CIVDATE $UNIXDATE $COUNT

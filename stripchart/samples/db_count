@@ -3,6 +3,6 @@
 
 set CIVDATE = `date "+%Y:%m:%d:%H:%M"`
 set UNIXDATE = `perl -e 'print time()'`
-set COUNT = `echo "use BOINC_DB_NAME; select count(*) from result" | mysql | tail -1`
+set COUNT = `echo "use david_test; select count(*) from $1" | mysql | tail -1`
  
 echo $CIVDATE $UNIXDATE $COUNT
