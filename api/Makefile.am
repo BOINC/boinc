@@ -6,26 +6,46 @@ include $(top_srcdir)/Makefile.incl
 api_files= \
 	boinc_api.C
 
-graphics_api_files = 		\
-	x_opengl.C 				\
-	graphics_data.C 		\
-	graphics_api.C 			\
-	reduce.C				\
-	gutil.C					\
+graphics_api_files = 	\
+	graphics_api.C 		\
+	graphics_data.C 	\
+    graphics_impl.o     \
+	reduce.C			\
+	gutil.C	            \
+	x_opengl.C
+
+graphics_lib_files =    \
+    graphics_lib.o      \
+    graphics_data.o     \
+    reduce.o
+
+graphics_impl_file=     \
+	graphics_data.C 	\
+    graphics_impl.o     \
+	gutil.C	            \
+	reduce.C			\
+	x_opengl.C
+
+EXTRA_DIST =            \
+    boinc_api.h         \
+	boinc_gl.h          \
+	graphics_api.h 	    \
 	graphics_data.h 	\
+    graphics_impl.h     \
+    graphics_lib.h      \
+    gutil.h             \
 	reduce.h 			\
-	x_opengl.h 			\
-	boinc_gl.h 
+	x_opengl.h
 
 if BUILD_GRAPHICS_API
-graphics_libs = libboinc_graphics_api.a
+graphics_libs = libboinc_graphics_api.a libboinc_graphics_lib.a libboinc_graphics_impl.a
 else
 graphics_libs = 
 endif
 
 lib_LIBRARIES = libboinc_api.a $(graphics_libs)
 
-EXTRA_LIBRARIES = libboinc_graphics_api.a
+#EXTRA_LIBRARIES = libboinc_graphics_api.a
 
 libboinc_api_a_SOURCES = $(api_files)
 
