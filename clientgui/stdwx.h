@@ -97,6 +97,14 @@
 #endif
 
 
+#ifdef __WXMSW__
+
+// Windows Headers
+//
+#include <crtdbg.h>
+
+#endif
+
 // Standard Libraries
 //
 
@@ -143,8 +151,6 @@
 #if (defined(__WIN32__) && defined(__VISUALC__) && !defined(__AFX_H__))
 
 #ifdef _DEBUG
-
-#include <crtdbg.h>
 
 #define malloc(s)                             _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
 #define calloc(c, s)                          _calloc_dbg(c, s, _NORMAL_BLOCK, __FILE__, __LINE__)
