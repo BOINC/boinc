@@ -322,7 +322,7 @@ int NET_XFER_SET::net_sleep(double x) {
 // Transfer at most one block per socket.
 //
 int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
-    int n, fd, retval;
+    int n, fd, retval, nsocks_queried;
     socklen_t i;
     NET_XFER *nxp;
     socklen_t intsize = sizeof(int);
@@ -350,29 +350,37 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
     FD_ZERO(&write_fds);
     FD_ZERO(&error_fds);
 
-    // do a select on all active streams
+    // do a select on all active (non-throttled) sockets
     //
+    nsocks_queried = 0;
     for (i=0; i<net_xfers.size(); i++) {
         nxp = net_xfers[i];
         if (!nxp->is_connected) {
             FD_SET(nxp->socket, &write_fds);
+            nsocks_queried++;
         } else if (nxp->want_download) {
             if (bytes_left_down > 0) {
                 FD_SET(nxp->socket, &read_fds);
+                nsocks_queried++;
             } else {
                 scope_messages.printf("NET_XFER_SET::do_select(): Throttling download\n");
             }
         } else if (nxp->want_upload) {
             if (bytes_left_up > 0) {
                 FD_SET(nxp->socket, &write_fds);
+                nsocks_queried++;
             } else {
                 scope_messages.printf("NET_XFER_SET::do_select(): Throttling upload\n");
             }
         }
         FD_SET(nxp->socket, &error_fds);
     }
+    if (nsocks_queried==0) return 0;
     n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &timeout);
-    scope_messages.printf("NET_XFER_SET::do_select(): select returned %d\n", n);
+    scope_messages.printf(
+        "NET_XFER_SET::do_select(): queried %d, returned %d\n",
+        nsocks_queried, n
+    );
     if (n == 0) return 0;
     if (n < 0) return ERR_SELECT;
 
@@ -393,7 +401,10 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
                 getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, &intsize);
 #endif
                 if (n) {
-                    scope_messages.printf("NET_XFER_SET::do_select(): socket %d connect failed\n", fd);
+                    scope_messages.printf(
+                        "NET_XFER_SET::do_select(): socket %d connection to %s failed\n",
+                        nxp->hostname, fd
+                    );
                     nxp->error = ERR_CONNECT;
                     nxp->io_done = true;
                 } else {

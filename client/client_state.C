@@ -602,9 +602,15 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
 // sleep up to x seconds,
 // but if network I/O becomes possible,
 // wake up and do as much as limits allow.
-// If suspended, just sleep x seconds
+// If suspended, just sleep x seconds.
+// This gets called from the Win GUI to allow high network throughput.
+// NOTE: when a socket is connecting, this gets called repeatedly,
+// because the NetActivity messages seems to get sent repeatedly.
+// This is inefficient but not a problem (I guess)
 //
 int CLIENT_STATE::net_sleep(double x) {
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_NET_XFER);
+    scope_messages.printf("CLIENT_STATE::net_sleep(%f)\n", x);
     if (activities_suspended) {
         boinc_sleep(x);
         return 0;
