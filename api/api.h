@@ -98,7 +98,7 @@ int boinc_resolve_link(char *file_name, char *resolved_name);
 //the following are provided for implementation of the checkpoint system
 extern bool _checkpoint;
 #define time_to_checkpoint() _checkpoint
-int checkpoint_completed();
+int checkpoint_completed(APP_OUT &ao);
 int set_timer(double period); //period is seconds spent in process
 void on_timer(int not_used);
 double get_cpu_time(); //return cpu time for this process

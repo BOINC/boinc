@@ -283,9 +283,8 @@ double get_cpu_time() {
 #endif
 }
 
-int checkpoint_completed() {
+int checkpoint_completed(APP_OUT &ao) {
     int retval;
-    APP_OUT ao;
     FILE *f = fopen(APP_TO_CORE_FILE, "w");
     ao.cpu_time_at_checkpoint = get_cpu_time();
     write_app_file(f, ao);

@@ -26,6 +26,7 @@ int main() {
     unsigned long int i = 0;
     int temp=0;
     APP_IN ai;
+    APP_OUT ao;
     boinc_init(ai);
     mf.open("foobar", "w");
     mf.printf("blah %d %f\n", 17, 34.5);
@@ -34,7 +35,8 @@ int main() {
 	if(time_to_checkpoint()) {
 	    mf.printf("checkpoint\n");
 	    mf.flush();
-	    checkpoint_completed();
+            ao.percent_done = 1;
+	    checkpoint_completed(ao);
 	}
 	temp++;
     }
