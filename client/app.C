@@ -243,7 +243,23 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     // make a unique key for core/app shared memory segment
     //
 #ifdef _WIN32
-    sprintf(aid.comm_obj_name, "boinc_%d", slot);
+    int     i = 0;
+    char    szSharedMemoryName[256];
+    HANDLE  hSharedMemoryHandle;
+
+    do {
+        memset(szSharedMemoryName, '\0', sizeof(szSharedMemoryName));
+        sprintf(szSharedMemoryName, "boinc_%d", slot);
+        i++;
+    } while((!(hSharedMemoryHandle = create_shmem(szSharedMemoryName, 1024, NULL))) || (1024 < i));
+
+    if (hSharedMemoryHandle)
+        CloseHandle(hSharedMemoryHandle);
+
+    if (1024 < i)
+        return ERR_SEMOP;
+
+    strcpy(aid.comm_obj_name, szSharedMemoryName);
 #elif HAVE_SYS_IPC_H
     aid.shm_key = ftok(init_data_path, slot);
 #else

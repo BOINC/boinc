@@ -14229,3 +14229,12 @@ David  27 June 2004
         hostinfo_unix.C
     lib/
         app_ipc.h
+
+Rom    27 June 2004
+    - Prevent the reuse of shared memory segments with ones that are already
+      in use on Windows.
+
+    client/
+        app.C
+    lib/
+        shmem.C
