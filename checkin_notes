@@ -17441,3 +17441,9 @@ David  14 Sept 2004
         user/
             edit_forum_preferences_action.php
             edit_forum_preferences_form.php
+
+David  14 Sept 2004
+    - fix bug in update_versions
+
+    tools/
+        update_versions

@@ -186,6 +186,7 @@ def find_versions__process_bundle(app, match, dir):
     exec_file = None
     non_exec_files = []
     signature_files = {}
+    file_ref_infos = {}
     dirname = os.path.basename(dir)
     for filepath in xlistdir(dir):
         if os.path.isdir(filepath):
