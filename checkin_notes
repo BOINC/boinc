@@ -26101,3 +26101,10 @@ Rom    22 Mar 2005
 
     client/win/
         win_screensaver.cpp, .h
+
+David  22 Mar 2005
+    - user web: mail_passwd.php was broken.  Aargh.
+
+    html/user/
+        forum_thread.php
+        mail_passwd.php

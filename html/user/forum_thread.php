@@ -23,6 +23,9 @@ if ($filter != "false"){
 }
 
 $thread = getThread($_GET['id']);
+if (!$thread) {
+    error_page("no such thread");
+}
 incThreadViews($thread->id);
 
 $forum = getForum($thread->forum);
