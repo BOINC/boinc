@@ -8580,3 +8580,10 @@ David  19 Dec 2003
 		res/
 			iconerror.ico (new)
 			iconinfo.ico (new)
+
+Karl 2003-12-19
+    - undid #ifndef for base64.  Renamed to r_base64.
+
+    lib/
+        parse.h
+        base64.C

@@ -50,7 +50,7 @@ static short base64_char_to_value[128] =
    The octets are divided into 6 bit chunks, which are then encoded into
    base64 characters.  */
 
-string base64_encode (const char* from, size_t length) throw(InvalidBase64Exception)
+string r_base64_encode (const char* from, size_t length) throw(InvalidBase64Exception)
 {
     string result;
     result.reserve(length + length/3 + 1);
@@ -112,7 +112,7 @@ string base64_encode (const char* from, size_t length) throw(InvalidBase64Except
     }                                                             \
     while (IS_BASE64_IGNORABLE (c))
 
-string base64_decode (const char* from, size_t length) throw(InvalidBase64Exception)
+string r_base64_decode (const char* from, size_t length) throw(InvalidBase64Exception)
 {
     size_t i = 0;
     string result;
