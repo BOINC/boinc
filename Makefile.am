@@ -28,12 +28,6 @@ EXTRA_DIST =                                    \
     INSTALL										
 
 
-# KARL -- please remove this!!  BA
-#
-# UNIX2DOS=unix2dos
-# UNIX2DOSDIR = /disks/philmor/a/users/quarl/bin 
-# UNIX2DOS = /disks/philmor/a/users/quarl/bin/unix2dos
-
 dist-hook:
 	rm -rf `find $(distdir) -name .backup -prune -o -name '*~' -o -name CVS`
 #	cd $(distdir) && ./_autosetup

@@ -91,16 +91,36 @@ version: win/win_config.h
 	rm -f $@
 	ln $? $@
 
-## these source files need to be specified because no rule on unix uses them.
+## these source files need to be specified because no rule uses them.
 
-EXTRA_DIST = \
-	app.h		 dhrystone.h	     http.h	       proxy.h  				\
-	client_msgs.h	 file_names.h	     log_flags.h       scheduler_op.h	\
-	client_state.h	 file_xfer.h	     main.h	       ss_logic.h			\
-	client_types.h	 gui_rpc_server.h    net_stats.h       ssl_http.h		\
-	cpp.h		 gui_titles.h	     net_xfer.h        ssl_net_xfer.h		\
-	cpu_benchmark.h  hostinfo_network.h  pers_file_xfer.h  time_stats.h		\
-	mac win translation
+EXTRA_DIST =                                    \
+    app.h                                       \
+    client_msgs.h                               \
+    client_state.h                              \
+    client_types.h                              \
+    cpp.h                                       \
+    cpu_benchmark.h                             \
+    dhrystone.h                                 \
+    file_names.h                                \
+    file_xfer.h                                 \
+    gui_rpc_server.h                            \
+    gui_titles.h                                \
+    hostinfo_network.h                          \
+    http.h                                      \
+    log_flags.h                                 \
+    mac                                         \
+    main.h                                      \
+    net_stats.h                                 \
+    net_xfer.h                                  \
+    pers_file_xfer.h                            \
+    proxy.h                                     \
+    scheduler_op.h                              \
+    ss_logic.h                                  \
+    ssl_http.h                                  \
+    ssl_net_xfer.h                              \
+    time_stats.h                                \
+    translation                                 \
+    win
 
 clean-local:
 	rm -f @CLIENT_BIN_FILENAME@
