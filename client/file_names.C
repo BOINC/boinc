@@ -138,29 +138,17 @@ bool is_account_file(char* filename) {
 }
 
 int check_unique_instance() {
-#if 1
     if (lock_file(LOCK_FILE_NAME)) {
         return ERR_ALREADY_RUNNING;
     }
 #ifdef _WIN32
-    else
-    {
-        HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
-        if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
-            UINT nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
-            PostMessage(HWND_BROADCAST, nShowMsg, 0, 0);
-            return FALSE;
-        }
-    }
-#endif
-#else
-    key_t key;
-    char path[256];
-    getcwd(path, 256);
-    retval = get_key(path, 'a', key);
-    if (!retval) retval = create_semaphore(key);
-    if (!retval) retval = lock_semaphore(key);
-    if (retval) {
+    // on Windows, we also set a mutex so that the screensaver
+    // can find out that the core client is running
+    //
+    HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
+    if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
+        UINT nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
+        PostMessage(HWND_BROADCAST, nShowMsg, 0, 0);
         return ERR_ALREADY_RUNNING;
     }
 #endif

@@ -472,6 +472,8 @@ int lock_file(char* filename) {
     int lock = open(filename, O_WRONLY|O_CREAT, 0644);
     retval = flock(lock, LOCK_EX|LOCK_NB);
     // must leave fd open
+#else
+    no file lock mechanism
 #endif
 
 #ifdef _WIN32

@@ -17124,8 +17124,9 @@ David  7 Sept 2004
         hostinfo_unix.C
 
 Rom    8 Sep 2004
-    - If we can lock the lockfile, also aquire the global mutex.  If we don't the screensaver
-      cannot properly detect that BOINC is executing.
+    - If we can lock the lockfile, also aquire the global mutex.
+        If we don't the screensaver
+        cannot properly detect that BOINC is executing.
 
     client/
         file_names.C
@@ -19233,9 +19234,10 @@ David  10 Nov 2004
 
 Rom    10 Nov 2004
     - Remove the old VC 6.0 build files
-    - Include the boinc_gui project within the boinc solution again to ease debugging
-    - Update the new installer to shutdown and uninstall the BOINC service during
-      uninstall.
+    - Include the boinc_gui project within the boinc solution again to ease
+        debugging
+    - Update the new installer to shutdown and uninstall the BOINC
+        service during uninstall.
 
     win_build/
         *.dsp (Removed)
@@ -19245,10 +19247,18 @@ Rom    10 Nov 2004
         boinc.sln
 
 Rom    10 Nov 2004
-    - Create a custom action to copy account files from a specific location when the
-      ACCOUNTS_LOCATION public property is defined.
+    - Create a custom action to copy account files from a specific location
+        when the ACCOUNTS_LOCATION public property is defined.
 
     win_build/installerv2/
         BOINC.ism
     win_build/installerv2/redist/Windows
         Accounts_CopyFiles.vbs
+
+David  11 Nov 2004
+    - error out compile if no file lock mechanism
+
+    client/
+        file_names.C
+    lib/
+        filesys.C
