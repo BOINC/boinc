@@ -38,7 +38,6 @@
     #include <Windows.h>
 #endif
 
-#include <math.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -66,7 +65,7 @@ EventLoopTimerUPP	boincTimerUPP;
 EventHandlerUPP 	appCommandProcessor;
 WindowPtr               boincAboutWindow;
 AGLContext		boincAGLContext;
-GLuint			monacoFontList;
+GLuint			main_font;
 structGLWindowInfo	glInfo;
 
 bool user_requested_exit = false;
@@ -166,8 +165,8 @@ int InitGLWindow(int xsize, int ysize, int depth)
         glViewport (0, 0, rectPort.right - rectPort.left, rectPort.bottom - rectPort.top);
         glReportError ();
         
-        GetFNum("\pMonaco", &fNum);									// build font
-        monacoFontList = BuildFontGL (boincAGLContext, fNum, normal, 9);
+        GetFNum("\pTimes New Roman", &fNum);									// build font
+        main_font = BuildFontGL (boincAGLContext, fNum, normal, 9);
 
         aglUpdateContext (boincAGLContext);
         aglReportError ();
@@ -271,12 +270,14 @@ pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef the
 
 // --------------------------------------------------------------------------
 
-pascal void mac_graphics_event_loop ( void *data ) {
+pascal void *mac_graphics_event_loop ( void *data ) {
     GRAPHICS_INFO *gi;
     gi = data;
     
     InitGLWindow(gi->xsize, gi->ysize, 16);
     RunApplicationEventLoop();
+    
+    return NULL;
 }
 
 // --------------------------------------------------------------------------
@@ -296,7 +297,7 @@ static void DisposeGLWindow (WindowPtr pWindow) // Dispose a single window and i
 {
     if (pWindow)
     {
-        DeleteFontGL (monacoFontList);
+        DeleteFontGL (main_font);
         // must clean up failure to do so will result in an Unmapped Memory Exception
         DestroyGLFromWindow (&boincAGLContext, &glInfo);
         

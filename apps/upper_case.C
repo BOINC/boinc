@@ -231,6 +231,7 @@ int main(int argc, char **argv) {
 }
 
 #ifdef BOINC_APP_GRAPHICS
+extern GLuint			main_font;
 
 int DrawGLScene(GLvoid)      // Here's Where We Do All The Drawing
 {
@@ -239,7 +240,7 @@ int DrawGLScene(GLvoid)      // Here's Where We Do All The Drawing
     glColor3f(1,1,1);
 
     glRasterPos2f(xPos, yPos);
-    glPrint(the_char);
+    glPrint(main_font, the_char);
 
     xPos += xDelta;
     yPos += yDelta;
@@ -247,13 +248,13 @@ int DrawGLScene(GLvoid)      // Here's Where We Do All The Drawing
     if (yPos < -1 || yPos > 1) yDelta *= -1;
     
     glRasterPos2f(-0.9, 0.9);
-    glPrint("User: %s", uc_aid.user_name);
+    glPrint(main_font, "User: %s", uc_aid.user_name);
 
     glRasterPos2f(-0.9, 0.8);
-    glPrint("Team: %s", uc_aid.team_name);
+    glPrint(main_font, "Team: %s", uc_aid.team_name);
 
     glRasterPos2f(-0.9, 0.7);
-    glPrint("CPU Time: %f", uc_aid.wu_cpu_time);
+    glPrint(main_font, "CPU Time: %f", uc_aid.wu_cpu_time);
 
     return TRUE;                                        // Everything Went OK
 }

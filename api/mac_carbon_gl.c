@@ -108,9 +108,6 @@ static OSStatus BuildGLonDevice (AGLDrawable* paglDraw, AGLContext* paglContext,
 				  		  GDHandle hGD, pstructGLInfo pcontextInfo, AGLContext aglShareContext);
 static OSStatus BuildGLonWindow (WindowPtr pWindow, AGLContext* paglContext, pstructGLWindowInfo pcontextInfo, AGLContext aglShareContext);
 
-extern GLuint			monacoFontList;
-
-
 // functions (internal/private) ---------------------------------------------
 
 // CheckRenderer
@@ -1100,26 +1097,6 @@ short FindGDHandleFromWindow (WindowPtr pWindow, GDHandle * phgdOnThisDevice)
 }
 
 #pragma mark -
-
-//-----------------------------------------------------------------------------------------------------------------------
-
-GLvoid glPrint(const char *fmt, ...)					// Custom GL "Print" Routine
-{
-    char		text[256];								// Holds Our String
-    va_list		ap;										// Pointer To List Of Arguments
-
-    if (fmt == NULL)									// If There's No Text
-            return;											// Do Nothing
-
-    va_start(ap, fmt);									// Parses The String For Variables
-        vsprintf(text, fmt, ap);						// And Converts Symbols To Actual Numbers
-    va_end(ap);											// Results Are Stored In Text
-
-    glPushAttrib(GL_LIST_BIT);							// Pushes The Display List Bits
-    glListBase(monacoFontList);								// Sets The Base Character to 32
-    glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);	// Draws The Display List Text
-    glPopAttrib();										// Pops The Display List Bits
-}
 
 //-----------------------------------------------------------------------------------------------------------------------
 

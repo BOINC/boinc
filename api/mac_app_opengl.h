@@ -24,7 +24,7 @@
 extern "C" {
 #endif
 
-pascal void mac_graphics_event_loop ( void *data );
+pascal void *mac_graphics_event_loop ( void *data );
 pascal void GraphicsLoopProcessor(EventLoopTimerRef inTimer, void* timeData);
 pascal void YieldProcessor(EventLoopTimerRef inTimer, void* timeData);
 pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);

@@ -17,6 +17,18 @@
 // Contributor(s):
 //
 
+#ifdef BOINC_APP_GRAPHICS
+#ifdef __APPLE_CC__
+    #include <OpenGL/gl.h>
+#endif
+
+#ifdef _WIN32
+#include <gl\gl.h>            // Header File For The OpenGL32 Library
+#include <gl\glu.h>            // Header File For The GLu32 Library
+#include <gl\glaux.h>        // Header File For The Glaux Library
+#endif
+#endif
+
 #include "graphics_api.h"
 #include "error_numbers.h"
 
@@ -109,3 +121,25 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi) {
     }
     return -1;
 }
+
+#ifdef BOINC_APP_GRAPHICS
+
+GLvoid glPrint(GLuint font, const char *fmt, ...)	// Custom GL "Print" Routine
+{
+    char		text[256];			// Holds Our String
+    va_list		ap;				// Pointer To List Of Arguments
+
+    if (fmt == NULL)					// If There's No Text
+        return;						// Do Nothing
+
+    va_start(ap, fmt);					// Parses The String For Variables
+        vsprintf(text, fmt, ap);			// And Converts Symbols To Actual Numbers
+    va_end(ap);						// Results Are Stored In Text
+
+    glPushAttrib(GL_LIST_BIT);				// Pushes The Display List Bits
+    glListBase(font);					// Sets The Base Character
+    glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);	// Draws The Display List Text
+    glPopAttrib();					// Pops The Display List Bits
+}
+
+#endif
