@@ -39,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_5EF32FF56D264B918E11E1064E31199E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7B671C455D8347B698695707C290F708"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -58,12 +64,6 @@
         "Entry"
         {
         "MsmKey" = "8:_88712CCE679D49F9BE808A32135E52E0"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_97A7AD16DFD045E3A3015C2579915181"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -89,6 +89,12 @@
         {
         "MsmKey" = "8:_D3BFC551EB284EA5B5A30D5BF767F505"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D5166C9FF47DDEB30AE92C39F16E9333"
+        "OwnerKey" = "8:_88712CCE679D49F9BE808A32135E52E0"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -203,6 +209,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{A582A373-4685-4296-BEFE-614B80A702C3}:_5EF32FF56D264B918E11E1064E31199E"
+            {
+            "SourcePath" = "8:account_lhcathome.cern.ch.xml"
+            "TargetName" = "8:account_lhcathome.cern.ch.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_0E7B9DE0EE844F94A2FA0AB7FC76EB80"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{A582A373-4685-4296-BEFE-614B80A702C3}:_7B671C455D8347B698695707C290F708"
             {
             "SourcePath" = "8:readme.txt"
@@ -227,26 +253,6 @@
             {
             "SourcePath" = "8:..\\client\\win\\dbghelp.dll"
             "TargetName" = "8:dbghelp.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_0E7B9DE0EE844F94A2FA0AB7FC76EB80"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{A582A373-4685-4296-BEFE-614B80A702C3}:_97A7AD16DFD045E3A3015C2579915181"
-            {
-            "SourcePath" = "8:account_pcolrent20_8080_sixtrack.xml"
-            "TargetName" = "8:account_pcolrent20_8080_sixtrack.xml"
             "Tag" = "8:"
             "Folder" = "8:_0E7B9DE0EE844F94A2FA0AB7FC76EB80"
             "Condition" = "8:"
@@ -301,6 +307,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{A582A373-4685-4296-BEFE-614B80A702C3}:_D5166C9FF47DDEB30AE92C39F16E9333"
+            {
+            "SourcePath" = "8:comdlg32.dll"
+            "TargetName" = "8:comdlg32.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_0E7B9DE0EE844F94A2FA0AB7FC76EB80"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -392,7 +418,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:BOINC"
         "ProductCode" = "8:{30BA0563-FA85-413A-ABCF-E5F46E9EB78A}"
-        "PackageCode" = "8:{CB79496D-4C81-4746-90DD-61A57CC4F8B9}"
+        "PackageCode" = "8:{12A58FC1-2BC1-458E-A72D-1C0E915852F0}"
         "UpgradeCode" = "8:{53BBF90F-DA7D-48DA-BF22-619A4BCC28C0}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
@@ -675,7 +701,7 @@
         {
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_1FFCCA8E0373435F86B1A2E7CE2F819F"
             {
-            "SourcePath" = "8:Build\\Release\\boinc_cli.exe"
+            "SourcePath" = "8:Build\\Debug\\boinc_cli.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_0E7B9DE0EE844F94A2FA0AB7FC76EB80"
@@ -703,7 +729,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_8495CFB944E845DF862F02FB34E9F0EF"
             {
-            "SourcePath" = "8:Build\\Release\\boinc.dll"
+            "SourcePath" = "8:Build\\Debug\\boinc.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_0E7B9DE0EE844F94A2FA0AB7FC76EB80"
@@ -731,7 +757,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_88712CCE679D49F9BE808A32135E52E0"
             {
-            "SourcePath" = "8:Build\\Release\\boinc_gui.exe"
+            "SourcePath" = "8:Build\\Debug\\boinc_gui.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_0E7B9DE0EE844F94A2FA0AB7FC76EB80"
@@ -787,7 +813,7 @@
             }
             "{8062640A-2EEE-46E9-AB67-688E9A886E9F}:_AE3740F93D234A7FBE4AD2B8FDBA3E8A"
             {
-            "SourcePath" = "8:Build\\Release\\boinc.scr"
+            "SourcePath" = "8:Build\\Debug\\boinc.scr"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1FA0300676FE425ABDB68E797730A45C"
