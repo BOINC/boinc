@@ -338,6 +338,8 @@ int ACTIVE_TASK::start(bool first_time) {
             NULL, win_error, 0, (LPTSTR)&lpMsgBuf, 0, errorargs
         );
 
+        state = PROCESS_COULDNT_START;
+        result->active_task_state = PROCESS_COULDNT_START;
         if (win_error) {
             gstate.report_result_error(*result, win_error, (LPTSTR)&lpMsgBuf);
             LocalFree(lpMsgBuf);
