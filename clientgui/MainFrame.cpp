@@ -43,6 +43,13 @@
 #include "res/disconnect.xpm"
 
 
+enum STATUSBARFIELDS
+{
+    STATUS_TEXT,
+    STATUS_CONNECTION_STATUS
+};
+
+
 IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
 
 BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
@@ -54,14 +61,16 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
     EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
-    EVT_UPDATE_UI_RANGE(ID_ACTIVITYRUNALWAYS, ID_ACTIVITYSUSPEND, CMainFrame::OnUpdateActivitySelection)
-    EVT_UPDATE_UI_RANGE(ID_NETWORKRUNALWAYS, ID_NETWORKSUSPEND, CMainFrame::OnUpdateNetworkSelection)
     EVT_IDLE(CMainFrame::OnIdle)
     EVT_CLOSE(CMainFrame::OnClose)
+    EVT_SIZE(CMainFrame::OnSize)
+    EVT_UPDATE_UI_RANGE(ID_ACTIVITYRUNALWAYS, ID_ACTIVITYSUSPEND, CMainFrame::OnUpdateActivitySelection)
+    EVT_UPDATE_UI_RANGE(ID_NETWORKRUNALWAYS, ID_NETWORKSUSPEND, CMainFrame::OnUpdateNetworkSelection)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CMainFrame::OnNotebookSelectionChanged)
     EVT_LIST_CACHE_HINT(wxID_ANY, CMainFrame::OnListCacheHint)
     EVT_LIST_ITEM_SELECTED(wxID_ANY, CMainFrame::OnListSelected)
     EVT_LIST_ITEM_DESELECTED(wxID_ANY, CMainFrame::OnListDeselected)
+    EVT_TIMER(ID_FRAMERENDERTIMER, CMainFrame::OnFrameRender)
     EVT_TIMER(ID_FRAMELISTRENDERTIMER, CMainFrame::OnListPanelRender)
     EVT_TIMER(ID_FRAMETASKRENDERTIMER, CMainFrame::OnTaskPanelRender)
 END_EVENT_TABLE ()
@@ -79,6 +88,10 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_pMenubar = NULL;
     m_pNotebook = NULL;
     m_pStatusbar = NULL;
+    m_pbmpConnected = NULL;
+    m_pbmpDisconnect = NULL;
+
+    m_strBaseTitle = strTitle;
 
 
     SetIcon(wxICON(APP_ICON));
@@ -89,12 +102,16 @@ CMainFrame::CMainFrame(wxString strTitle) :
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
 
 
+    m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
+    wxASSERT(NULL != m_pFrameRenderTimer);
+
     m_pFrameTaskPanelRenderTimer = new wxTimer(this, ID_FRAMETASKRENDERTIMER);
     wxASSERT(NULL != m_pFrameTaskPanelRenderTimer);
 
     m_pFrameListPanelRenderTimer = new wxTimer(this, ID_FRAMELISTRENDERTIMER);
     wxASSERT(NULL != m_pFrameListPanelRenderTimer);
 
+    m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
     m_pFrameTaskPanelRenderTimer->Start(1000);       // Send event every 1 second
     m_pFrameListPanelRenderTimer->Start(5000);       // Send event every 5 seconds
 
@@ -106,6 +123,7 @@ CMainFrame::CMainFrame(wxString strTitle) :
 
 CMainFrame::~CMainFrame()
 {
+    wxASSERT(NULL != m_pFrameRenderTimer);
     wxASSERT(NULL != m_pFrameTaskPanelRenderTimer);
     wxASSERT(NULL != m_pFrameListPanelRenderTimer);
     wxASSERT(NULL != m_pMenubar);
@@ -115,6 +133,11 @@ CMainFrame::~CMainFrame()
 
     SaveState();
 
+
+    if (m_pFrameRenderTimer) {
+        m_pFrameRenderTimer->Stop();
+        delete m_pFrameRenderTimer;
+    }
 
     if (m_pFrameTaskPanelRenderTimer) {
         m_pFrameTaskPanelRenderTimer->Stop();
@@ -296,9 +319,7 @@ bool CMainFrame::CreateStatusbar()
     if (m_pStatusbar)
         return true;
 
-    wxInt32 ch = GetCharWidth();
-
-    const wxInt32 widths[] = {-1, 16, 15};
+    const wxInt32 widths[] = {-1, 20, 20};
 
     m_pStatusbar = CreateStatusBar(WXSIZEOF(widths), wxST_SIZEGRIP, ID_STATUSBAR);
     wxASSERT(NULL != m_pStatusbar);
@@ -306,10 +327,14 @@ bool CMainFrame::CreateStatusbar()
     m_pStatusbar->SetStatusWidths(WXSIZEOF(widths), widths);
 
     SetStatusBar(m_pStatusbar);
-    SendSizeEvent();
 
     m_pbmpConnected = new wxStaticBitmap(m_pStatusbar, -1, wxIcon(connect_xpm));
-    m_pbmpDisconnected = new wxStaticBitmap(m_pStatusbar, -1, wxIcon(disconnect_xpm));
+    m_pbmpConnected->Hide();
+
+    m_pbmpDisconnect = new wxStaticBitmap(m_pStatusbar, -1, wxIcon(disconnect_xpm));
+    m_pbmpDisconnect->Hide();
+
+    SendSizeEvent();
 
     return true;
 }
@@ -346,8 +371,8 @@ bool CMainFrame::DeleteStatusbar()
     SetStatusBar(NULL);
 
     delete m_pStatusbar;
-
     m_pStatusbar = NULL;
+
     SendSizeEvent();
 
     return true;
@@ -361,9 +386,9 @@ bool CMainFrame::UpdateStatusbar( const wxString& strStatusbarText )
 
     if ( NULL != m_pStatusbar )
     {
-        if ( m_pStatusbar->GetStatusText(0) != strStatusbarText )
+        if ( m_pStatusbar->GetStatusText(STATUS_TEXT) != strStatusbarText )
         {
-            SetStatusText(strStatusbarText, 0);
+            SetStatusText(strStatusbarText, STATUS_TEXT);
         }
     }
 
@@ -757,6 +782,35 @@ void CMainFrame::OnClose( wxCloseEvent& event )
 }
 
 
+void CMainFrame::OnSize( wxSizeEvent& event )
+{
+    if ( IsShown() )
+    {
+        wxRect rect;
+        wxSize size;
+
+        wxASSERT(NULL != m_pStatusbar);
+        m_pStatusbar->GetFieldRect(STATUS_CONNECTION_STATUS, rect);
+
+        if ( m_pbmpConnected )
+        {
+            size = m_pbmpConnected->GetSize();
+            m_pbmpConnected->Move(rect.x + (rect.width - size.x) / 2,
+                                  rect.y + (rect.height - size.y) / 2);
+        }
+
+        if ( m_pbmpDisconnect )
+        {
+            size = m_pbmpConnected->GetSize();
+            m_pbmpDisconnect->Move(rect.x + (rect.width - size.x) / 2,
+                                   rect.y + (rect.height - size.y) / 2);
+        }
+    }
+
+    event.Skip();
+}
+
+
 void CMainFrame::OnNotebookSelectionChanged( wxNotebookEvent& event )
 {
     if ( (-1 != event.GetSelection()) && IsShown() )
@@ -841,6 +895,45 @@ void CMainFrame::OnListDeselected( wxListEvent& event )
         wxASSERT(NULL != pView);
 
         pView->FireOnListDeselected( event );
+    }
+
+    event.Skip();
+}
+
+
+void CMainFrame::OnFrameRender ( wxTimerEvent &event )
+{
+    if ( IsShown() )
+    {
+        wxString       strConnectedMachine = wxEmptyString;
+        CMainDocument* pDoc = wxGetApp().GetDocument();
+        if ( NULL != pDoc )
+        {
+            wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+            
+            wxASSERT(wxDynamicCast(m_pbmpConnected, wxStaticBitmap));
+            wxASSERT(wxDynamicCast(m_pbmpDisconnect, wxStaticBitmap));
+            if ( pDoc->IsConnected() )
+            {
+                m_pbmpConnected->Show();
+                m_pbmpDisconnect->Hide();
+
+                pDoc->GetConnectedComputerName( strConnectedMachine );
+                if ( strConnectedMachine.empty() )
+                    strConnectedMachine = m_strBaseTitle + wxT(" - (localhost)");
+                else
+                    strConnectedMachine = m_strBaseTitle + wxT(" - (") + strConnectedMachine + wxT(")");
+
+                SetTitle( strConnectedMachine );
+            }
+            else
+            {
+                m_pbmpConnected->Hide();
+                m_pbmpDisconnect->Show();
+
+                SetTitle( m_strBaseTitle );
+            }
+        }
     }
 
     event.Skip();

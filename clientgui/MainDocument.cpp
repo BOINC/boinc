@@ -48,7 +48,7 @@ CMainDocument::CMainDocument()
 #endif
 
     m_bIsConnected = false;
-    m_strConnectedComputer = wxEmptyString;
+    m_strConnectedComputerName = wxEmptyString;
 
     m_iCachedActivityRunMode = 0;
     m_iCachedNetworkRunMode = 0;
@@ -80,7 +80,7 @@ CMainDocument::~CMainDocument()
     m_iCachedActivityRunMode = 0;
     m_iCachedNetworkRunMode = 0;
 
-    m_strConnectedComputer = wxEmptyString;
+    m_strConnectedComputerName = wxEmptyString;
     m_bIsConnected = false;
 
 #ifdef __WIN32__
@@ -108,7 +108,7 @@ wxInt32 CMainDocument::CachedStateUpdate()
         if (retval)
         {
             wxLogTrace("CMainDocument::CachedStateUpdate - Get State Failed '%d'", retval);
-            state.clear();
+            Connect( strEmpty );
         }
 
         pFrame->UpdateStatusbar( _("Retrieving the BOINC host information.  Please wait...") );
@@ -116,7 +116,7 @@ wxInt32 CMainDocument::CachedStateUpdate()
         if (retval)
         {
             wxLogTrace("CMainDocument::CachedStateUpdate - Get Host Information Failed '%d'", retval);
-            host.clear();
+            Connect( strEmpty );
         }
 
         pFrame->UpdateStatusbar( strEmpty );
@@ -168,8 +168,8 @@ wxInt32 CMainDocument::Connect( wxString& strMachine )
 
     str.clear();
 
-    if ( strMachine.empty() && !m_strConnectedComputer.empty() )
-        str = m_strConnectedComputer.c_str();
+    if ( strMachine.empty() && !m_strConnectedComputerName.empty() )
+        str = m_strConnectedComputerName.c_str();
     else
         str = strMachine.c_str();
 
@@ -179,7 +179,10 @@ wxInt32 CMainDocument::Connect( wxString& strMachine )
         iRetVal = rpc.init( str.c_str() );
 
     if ( 0 == iRetVal )
-        m_strConnectedComputer = strMachine;
+    {
+        m_bIsConnected = true;
+        m_strConnectedComputerName = strMachine;
+    }
     else
         wxLogTrace("CMainDocument::Connect - RPC Initialization Failed '%d'", iRetVal);
 
@@ -211,6 +214,13 @@ wxInt32 CMainDocument::Disconnect()
 }
 
 
+wxInt32 CMainDocument::GetConnectedComputerName( wxString& strMachine )
+{
+    strMachine = m_strConnectedComputerName;
+    return 0;
+}
+
+
 bool CMainDocument::IsConnected()
 {
     return m_bIsConnected;
@@ -234,7 +244,8 @@ wxInt32 CMainDocument::CachedStateUnlock()
 
 wxInt32 CMainDocument::GetActivityRunMode( wxInt32& iMode )
 {
-    wxInt32 iRetVal = 0;
+    wxInt32     iRetVal = 0;
+    wxString    strEmpty = wxEmptyString;
 
     wxTimeSpan ts(wxDateTime::Now() - m_dtCachedActivityRunModeTimestamp);
     if ( ts.GetSeconds() > 10 )
@@ -246,6 +257,8 @@ wxInt32 CMainDocument::GetActivityRunMode( wxInt32& iMode )
         {
             m_iCachedActivityRunMode = iMode;
         }
+        else
+            Connect( strEmpty );
     }
     else
     {
@@ -258,7 +271,8 @@ wxInt32 CMainDocument::GetActivityRunMode( wxInt32& iMode )
 
 wxInt32 CMainDocument::SetActivityRunMode( wxInt32 iMode )
 {
-    wxInt32 iRetVal = 0;
+    wxInt32     iRetVal = 0;
+    wxString    strEmpty = wxEmptyString;
 
     iRetVal = rpc.set_run_mode( iMode );
     if ( 0 == iRetVal )
@@ -266,6 +280,9 @@ wxInt32 CMainDocument::SetActivityRunMode( wxInt32 iMode )
         m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
         m_iCachedActivityRunMode = iMode;
     }
+    else
+        Connect( strEmpty );
+
 
     return iRetVal;
 }
@@ -273,7 +290,8 @@ wxInt32 CMainDocument::SetActivityRunMode( wxInt32 iMode )
 
 wxInt32 CMainDocument::GetNetworkRunMode( wxInt32& iMode )
 {
-    wxInt32 iRetVal = 0;
+    wxInt32     iRetVal = 0;
+    wxString    strEmpty = wxEmptyString;
 
     wxTimeSpan ts(wxDateTime::Now() - m_dtCachedNetworkRunModeTimestamp);
     if ( ts.GetSeconds() > 10 )
@@ -285,6 +303,8 @@ wxInt32 CMainDocument::GetNetworkRunMode( wxInt32& iMode )
         {
             m_iCachedNetworkRunMode = iMode;
         }
+        else
+            Connect( strEmpty );
     }
     else
     {
@@ -297,7 +317,8 @@ wxInt32 CMainDocument::GetNetworkRunMode( wxInt32& iMode )
 
 wxInt32 CMainDocument::SetNetworkRunMode( wxInt32 iMode )
 {
-    wxInt32 iRetVal = 0;
+    wxInt32     iRetVal = 0;
+    wxString    strEmpty = wxEmptyString;
 
     iRetVal = rpc.set_network_mode( iMode );
     if ( 0 == iRetVal )
@@ -305,6 +326,8 @@ wxInt32 CMainDocument::SetNetworkRunMode( wxInt32 iMode )
         m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
         m_iCachedNetworkRunMode = iMode;
     }
+    else
+        Connect( strEmpty );
 
     return iRetVal;
 }
@@ -318,14 +341,15 @@ wxInt32 CMainDocument::RunBenchmarks()
 
 wxInt32 CMainDocument::CachedProjectStatusUpdate()
 {
-    wxInt32 retval = 0;
+    wxInt32     iRetVal = 0;
+    wxString    strEmpty = wxEmptyString;
     wxInt32 i = 0;
 
-    retval = rpc.get_project_status(project_status);
-    if (retval)
+    iRetVal = rpc.get_project_status(project_status);
+    if (iRetVal)
     {
-        wxLogTrace("CMainDocument::CachedProjectStatusUpdate - Get Project Status Failed '%d'", retval);
-        project_status.clear();
+        wxLogTrace("CMainDocument::CachedProjectStatusUpdate - Get Project Status Failed '%d'", iRetVal);
+        Connect( strEmpty );
     }
 
     m_fProjectTotalResourceShare = 0.0;
@@ -333,7 +357,7 @@ wxInt32 CMainDocument::CachedProjectStatusUpdate()
         m_fProjectTotalResourceShare += project_status.projects.at( i )->resource_share;
     }
 
-    return retval;
+    return iRetVal;
 }
 
 
@@ -692,16 +716,17 @@ wxInt32 CMainDocument::ProjectResume( wxInt32 iIndex )
 
 wxInt32 CMainDocument::CachedResultsStatusUpdate()
 {
-    wxInt32 retval = 0;
+    wxInt32     iRetVal = 0;
+    wxString    strEmpty = wxEmptyString;
 
-    retval = rpc.get_results(results);
-    if (retval)
+    iRetVal = rpc.get_results(results);
+    if (iRetVal)
     {
-        wxLogTrace("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'", retval);
-        results.clear();
+        wxLogTrace("CMainDocument::CachedResultsStatusUpdate - Get Result Status Failed '%d'", iRetVal);
+        Connect( strEmpty );
     }
 
-    return retval;
+    return iRetVal;
 }
 
 
@@ -1103,19 +1128,20 @@ wxInt32 CMainDocument::WorkAbort( wxInt32 iIndex )
 
 wxInt32 CMainDocument::CachedMessageUpdate()
 {
-    wxInt32 retval = 0;
+    wxInt32     iRetVal = 0;
+    wxString    strEmpty = wxEmptyString;
 
-    retval = rpc.get_messages( m_iMessageSequenceNumber, messages );
-    if (retval)
+    iRetVal = rpc.get_messages( m_iMessageSequenceNumber, messages );
+    if (iRetVal)
     {
-        wxLogTrace("CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", retval);
-        messages.clear();
+        wxLogTrace("CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'", iRetVal);
+        Connect( strEmpty );
     }
 
     if ( messages.messages.size() != 0 )
         m_iMessageSequenceNumber = messages.messages.at( messages.messages.size()-1 )->seqno;
 
-    return retval;
+    return iRetVal;
 }
 
 
@@ -1194,16 +1220,17 @@ wxInt32 CMainDocument::GetMessageMessage( wxInt32 iIndex, wxString& strBuffer )
 
 wxInt32 CMainDocument::CachedFileTransfersUpdate()
 {
-    wxInt32 retval = 0;
+    wxInt32     iRetVal = 0;
+    wxString    strEmpty = wxEmptyString;
 
-    retval = rpc.get_file_transfers( ft );
-    if (retval)
+    iRetVal = rpc.get_file_transfers( ft );
+    if (iRetVal)
     {
-        wxLogTrace("CMainDocument::CachedFileTransfersUpdate - Get File Transfers Failed '%d'", retval);
-        ft.clear();
+        wxLogTrace("CMainDocument::CachedFileTransfersUpdate - Get File Transfers Failed '%d'", iRetVal);
+        Connect( strEmpty );
     }
 
-    return retval;
+    return iRetVal;
 }
 
 
@@ -1394,16 +1421,17 @@ wxInt32 CMainDocument::TransferAbort( wxInt32 iIndex )
 
 wxInt32 CMainDocument::CachedResourceStatusUpdate()
 {
-    wxInt32 retval = 0;
+    wxInt32     iRetVal = 0;
+    wxString    strEmpty = wxEmptyString;
 
-    retval = rpc.get_disk_usage(resource_status);
-    if (retval)
+    iRetVal = rpc.get_disk_usage(resource_status);
+    if (iRetVal)
     {
-        wxLogTrace("CMainDocument::CachedResourceStatusUpdate - Get Disk Usage Failed '%d'", retval);
-        resource_status.clear();
+        wxLogTrace("CMainDocument::CachedResourceStatusUpdate - Get Disk Usage Failed '%d'", iRetVal);
+        Connect( strEmpty );
     }
 
-    return retval;
+    return iRetVal;
 }
 
 
@@ -1458,16 +1486,17 @@ wxInt32 CMainDocument::GetResourceDiskspace( wxInt32 iIndex, float& fBuffer )
 
 wxInt32 CMainDocument::GetProxyConfiguration()
 {
-    wxInt32 retval = 0;
+    wxInt32     iRetVal = 0;
+    wxString    strEmpty = wxEmptyString;
 
-	retval = rpc.get_proxy_settings(proxy_info);
-    if (retval)
+	iRetVal = rpc.get_proxy_settings(proxy_info);
+    if (iRetVal)
     {
-        wxLogTrace("CMainDocument::GetProxyInfo - Get Proxy Info Failed '%d'", retval);
-        proxy_info.clear();
+        wxLogTrace("CMainDocument::GetProxyInfo - Get Proxy Info Failed '%d'", iRetVal);
+        Connect( strEmpty );
     }
 
-    return retval;
+    return iRetVal;
 }
 
 
@@ -1549,7 +1578,8 @@ wxInt32 CMainDocument::GetProxySOCKSPassword( wxString& strPassword )
     
 wxInt32 CMainDocument::SetProxyConfiguration()
 {
-    wxInt32 retval = 0;
+    wxInt32     iRetVal = 0;
+    wxString    strEmpty = wxEmptyString;
 
     if ( !proxy_info.http_user_name.empty() || !proxy_info.http_user_passwd.empty() )
         proxy_info.use_http_authentication = true;
@@ -1558,14 +1588,14 @@ wxInt32 CMainDocument::SetProxyConfiguration()
     if ( !proxy_info.socks5_user_name.empty() || !proxy_info.socks5_user_passwd.empty() )
         proxy_info.socks_version = 5;
 
-	retval = rpc.set_proxy_settings( proxy_info );
-    if (retval)
+	iRetVal = rpc.set_proxy_settings( proxy_info );
+    if (iRetVal)
     {
-        wxLogTrace("CMainDocument::SetProxyInfo - Set Proxy Info Failed '%d'", retval);
-        proxy_info.clear();
+        wxLogTrace("CMainDocument::SetProxyInfo - Set Proxy Info Failed '%d'", iRetVal);
+        Connect( strEmpty );
     }
 
-    return retval;
+    return iRetVal;
 }
 
 

@@ -79,7 +79,7 @@ private:
     bool                        m_bCachedStateLocked;
 
     bool                        m_bIsConnected;
-    wxString                    m_strConnectedComputer;
+    wxString                    m_strConnectedComputerName;
 
     wxInt32                     m_iCachedActivityRunMode;
     wxInt32                     m_iCachedNetworkRunMode;
@@ -94,6 +94,7 @@ public:
 
     wxInt32                     Connect( wxString& strMachine );
     wxInt32                     Disconnect();
+    wxInt32                     GetConnectedComputerName( wxString& strMachine );
     bool                        IsConnected();
 
     wxInt32                     CachedStateLock();
