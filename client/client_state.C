@@ -71,7 +71,7 @@ CLIENT_STATE::CLIENT_STATE() {
     user_idle = true;
     use_proxy = false;
 	proxy_server_name[0] = 0;
-	proxy_server_port = -1;
+	proxy_server_port = 80;
     suspend_requested = false;
 #ifdef _WIN32
 	time_tests_handle = NULL;
@@ -490,6 +490,10 @@ int CLIENT_STATE::parse_state_file() {
             // TODO: handle old client state file if different version
         } else if (match_tag(buf, "<core_client_minor_version>")) {
             // TODO: handle old client state file if different version
+        } else if (match_tag(buf, "<use_http_proxy>")) {
+			use_proxy = true;
+        } else if (parse_str(buf, "<http_proxy_server>", proxy_server_name, sizeof(proxy_server_name))) {
+        } else if (parse_int(buf, "<http_proxy_port>", proxy_server_port)) {
         } else {
             fprintf(stderr, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
             retval = ERR_XML_PARSE;
@@ -548,6 +552,15 @@ int CLIENT_STATE::write_state_file() {
         platform_name,
         core_client_major_version,
         core_client_minor_version
+    );
+	// save proxy info
+    fprintf(f,
+        "%s"
+        "<http_proxy_server>%s</http_proxy_server>\n"
+        "<http_proxy_port>%d</http_proxy_port>\n",
+        use_proxy?"<use_http_proxy>\n":"",
+        proxy_server_name,
+        proxy_server_port
     );
     fprintf(f, "</client_state>\n");
     fclose(f);
