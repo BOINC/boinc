@@ -78,7 +78,7 @@ the corresponding directory on the worker host.
 <li>
 Repeat.
 </ul>
-Note: none of the following is implemented.
+Note: none of the above is implemented.
 If you are a programmer and would like to help, please let us know.
 Also note: as described above, the system is not asynchronous
 (computation and communication don't overlap)

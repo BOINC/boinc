@@ -20,6 +20,9 @@
 #ifndef _APP_IPC_
 #define _APP_IPC_
 
+#include <vector>
+#include <string>
+
 #include "hostinfo.h"
 
 // Communication between the core client and the BOINC app library.

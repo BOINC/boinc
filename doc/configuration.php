@@ -75,7 +75,7 @@ list_item("disable_account_creation", "If present, disallow account creation");
 list_item("max_wus_to_send", "Maximum results sent per scheduler RPC");
 list_item("enforce_delay_bound", "Don't send results to hosts
     too slow to complete them within delay bound");
-list_item("show_results", "Show results on user web site");
+list_item("show_results", "Enable web site features that show results (per user, host, etc.)");
 list_end();
 echo "
 <b>Tasks</b> are periodic, short-running jobs.

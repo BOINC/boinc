@@ -173,7 +173,7 @@ int PERS_FILE_XFER::start_xfer() {
 //
 bool PERS_FILE_XFER::poll(time_t now) {
     int retval;
-    char pathname[256];
+    char pathname[256], buf[256];
     double existing_size = 0;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
@@ -212,7 +212,11 @@ bool PERS_FILE_XFER::poll(time_t now) {
             get_pathname(fip, pathname);
             file_size(pathname, existing_size);
             if (existing_size != fip->nbytes) {
-                check_giveup("File downloaded had wrong size");
+                sprintf(buf,
+                    "Downloaded file had wrong size: expected %.0f, got %.0f",
+                    fip->nbytes, existing_size
+                );
+                check_giveup(buf);
                 return true;
             }
         }

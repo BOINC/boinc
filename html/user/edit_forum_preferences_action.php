@@ -15,44 +15,37 @@
     $newfile=IMAGE_PATH.$user->id."_avatar.jpg";
     if ($avatar_type<0 or $avatar_type>3) $avatar_type=0;
     if ($avatar_type==0){
-	if (file_exists($newfile)){
-	    unset($newfile);				//Delete the file on the server if the user
-							//decides not to use an avatar
-							// - or should it be kept?
-	}
-	$avatar_url="";
+        if (file_exists($newfile)){
+            unset($newfile);      //Delete the file on the server if the user
+                                  //decides not to use an avatar
+                                  // - or should it be kept?
+        }
+        $avatar_url="";
     } elseif ($avatar_type==2){
-	if ($_FILES['picture']['tmp_name']!=""){
-    	    $file=$_FILES['picture']['tmp_name'];
+        if ($_FILES['picture']['tmp_name']!=""){
+                $file=$_FILES['picture']['tmp_name'];
             $size = getImageSize($file);
-    //	print_r($size);flush();
-	    switch($size[2]) {
-    	    case '2':    // JPEG
-        	$image = imageCreateFromJPEG($file);
-            break;
-    	    case '3':    // PNG
-        	$image = imageCreateFromPNG($file);
-            break;
-    	    default:
-        	//Not the right kind of file
-		Echo "Error: Not the right kind of file";
-        	exit();
-	    }
-    	    $width = $size[0];
-    	    $height = $size[1];
-	    if ($width!=100||$height!=100){
-    		$image2 = scale_image($image, $width, $height, 100, 100);
-	    } else {
-		$image2=$image;
-	    }
-	    ImageJPEG($image2, $newfile);
-	}
-	if (file_exists($newfile)){
-	    $avatar_url=IMAGE_URL.$user->id."_avatar.jpg"; //$newfile;
-	} else {
-	    //User didn't upload a compatible file or it went lost on the server
-	    $avatar_url="";
-	}
+    //        print_r($size);flush();
+            if ($size[2]!=1 and $size[2]!=2 and $size[2]!=3){
+                //Not the right kind of file
+                Echo "Error: Not the right kind of file";
+                exit();
+            }
+                $width = $size[0];
+                $height = $size[1];
+            if ($width!=100||$height!=100){
+                    $image2 = intelligently_scale_image($file, 100, 100);
+            } else {
+                $image2=$image;
+            }
+            ImageJPEG($image2, $newfile);
+        }
+        if (file_exists($newfile)){
+            $avatar_url=IMAGE_URL.$user->id."_avatar.jpg"; //$newfile;
+        } else {
+            //User didn't upload a compatible file or it went lost on the server
+            $avatar_url="";
+        }
     }
     
     $image_as_link = ($HTTP_POST_VARS["forum_images_as_links"]!="");
@@ -70,23 +63,23 @@
     $has_prefs=mysql_query("select * from forum_preferences where userid='".$user->id."'");
 
     $result = mysql_query(
-	"update forum_preferences set 
-	    avatar_type='".$avatar_type."', 
-	    avatar='".$avatar_url."', 
-	    images_as_links='".$image_as_link."', 
-	    link_popup='".$link_externally."', 
-	    hide_avatars='".$hide_avatars."', 
-	    no_signature_by_default='".$no_signature_by_default."', 
-	    sorting='".$forum_sorting."',
-	    signature='$signature' 
-	where userid=$user->id");
+        "update forum_preferences set 
+            avatar_type='".$avatar_type."', 
+            avatar='".$avatar_url."', 
+            images_as_links='".$image_as_link."', 
+            link_popup='".$link_externally."', 
+            hide_avatars='".$hide_avatars."', 
+            no_signature_by_default='".$no_signature_by_default."', 
+            sorting='".$forum_sorting."',
+            signature='$signature' 
+        where userid=$user->id");
     if ($result) {
     echo mysql_error();
         Header("Location: home.php");
     } else {
         page_head("Forum preferences update");
         echo "Couldn't update forum preferences.<br>\n";
-	echo mysql_error();
+        echo mysql_error();
         page_tail();
     }
 

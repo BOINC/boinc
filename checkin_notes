@@ -17425,3 +17425,19 @@ David  14 Sept 2004
             util.inc
         user/
             sample_status.php (new)
+
+David  14 Sept 2004
+    fixes to forum code (from Janus K.):
+
+    - Intelligently scale the avatar instead of stretching it.
+       (keep largest portion of the image within the 100x100
+        view while keeping image proportions)
+    - show preview of the avatar in forum prefs
+    - Inform users of the maximum signature size in forum prefs 
+
+    html/
+        inc/
+            util.inc
+        user/
+            edit_forum_preferences_action.php
+            edit_forum_preferences_form.php

@@ -18,6 +18,7 @@
 */
 
 // Modified a little to work with BOINC
+//
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -41,6 +42,9 @@
 // suggested by Ben Herndon
 //
 double extern_array[12];
+
+// #pragma intrinsic (sin, cos, tan, atan, sqrt, exp, log)
+
 
 void pa(SPDP e[4], SPDP t, SPDP t2)
       {
@@ -77,7 +81,7 @@ void p3(SPDP *x, SPDP *y, SPDP *z, SPDP t, SPDP t1, SPDP t2)
 void whetstone(double& flops) {
 	long n1,n2,n3,n4,n5,n6,n7,n8,i,ix,n1mult;
 	SPDP x,y,z;
-	long j,k,l;
+	long j,k,l, jjj;
 	SPDP e1[4];
 	double startsec, finisec, ws;
 	double KIPS;
@@ -152,23 +156,23 @@ void whetstone(double& flops) {
      extern_array[4] = e1[0];
 
 	/* Section 3, Conditional jumps */
-	j = (long) extern_array[11];
+	jjj = (long) extern_array[11];
 	 {
 	    for (ix=0; ix<xtra; ix++) {
 		  for(i=0; i<n3; i++)  {
-		     if(j==1)       j = 2;
-		     else           j = 3;
-		     if(j>2)        j = 0;
+		     if(j==1)       l = jjj;
+		     else           l = k;
+		     if(k>2)        j = jjj;
 		     else           j = 1;
-		     if(j<1)        j = 1;
-		     else           j = 0;
+		     if(l<1)        k = 1;
+		     else           k = jjj;
 		  }
 	    }
 	 }
      extern_array[5] = (double)j;
 
 	/* Section 4, Integer arithmetic */
-	j = 1;
+	j = long(e1[0]);
 	k = 2;
 	l = 3;
 	 {
@@ -179,8 +183,8 @@ void whetstone(double& flops) {
 		     j = j *(k-j)*(l-k);
 		     k = l * k - (l-j) * k;
 		     l = (l-k) * (k+j);
-		     e1[l-2] = j + k + l;
-		     e1[k-2] = j * k * l;
+		     e1[l&3] = j + k + l;
+		     e1[k&3] = j * k * l;
 		  }
 	      }
 	 }

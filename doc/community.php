@@ -43,6 +43,12 @@ This list is for people developing, debugging or porting the BOINC software.
 <dd>
 This list is for people developing web sites showing statistics
 for BOINC projects.
+
+<dt>
+<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_opt>boinc_opt</a>
+<dd>
+This list is for people porting and optimizing BOINC applications.
+
 </dl>
 <h2>Getting source code</h2>
 <p>
