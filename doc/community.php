@@ -83,6 +83,9 @@ For example, Michael Peele contributed
 <a href=NewBOiNC.gif>this</a>,
 <a href=BOiNC3.jpg>this</a>,
 and <a href=BOiNC2.png>this</a>.
+Yopi at sympatico.ca contributed
+<a href=boincb6.png>this</a> and
+<a href=boincb7.png>this</a>.
 If you have an opinion, please contact
 <a href=contact.php>David Anderson</a>.
 

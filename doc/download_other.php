@@ -28,6 +28,13 @@ list_item(
     "<a href=http://boinc.vawacon.de/>SOLARIS@x86</a>",
     "Solaris 9 on Intel x86 (BOINC client and SETI@home app)"
 );
+list_item(
+    "<a href=http://www.freebsd.org/cgi/ports.cgi?query=boinc-client&stype=all>FreeBSD</a>",
+    "FreeBSD on a variety of hardware.
+    Also has <a href=http://www.freebsd.org/cgi/ports.cgi?query=boinc-setiathome&stype=all>SETI@home apps</a>.
+    "
+);
+
 list_end();
 page_tail();
 ?>

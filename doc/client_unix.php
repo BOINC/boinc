@@ -34,11 +34,10 @@ list_item("SOCKS5_SERVER", "URL of SOCKS 5 server");
 list_item("SOCKS5_USER", "User name for SOCKS authentication");
 list_item("SOCKS5_PASSWD", "Password for SOCKS authentication");
 list_end();
-";
+echo "
 <h3>Command-line interface</h3>
 <p>
-The command-line interface program
-has the following interface:
+The command-line interface program has the following interface:
 <pre>
 boinc_cmd [--host hostname] command
 </pre>
@@ -51,40 +50,96 @@ list_item("--get_file_transfers", "show file transfers");
 list_item("--get_project_status", "show status of all projects");
 list_item("--get_disk_usage", "Show disk usage by project");
 list_item("--result
-     <br>{suspend | resume | abort | graphics_window | graphics_fullscreen}
-     <br>url result_name",
-     "Do operation on a result"
+     <br>{suspend | resume | abort | 
+     <br> {graphics_window | graphics_fullscreen} {--window_station ws --desktop dt --display dp}}
+     <br>URL result_name",
+     "Do operation on a result, identified by the project master URL
+     and the result name.
+     <ul>
+     <li> suspend: temporarily stop work on result
+     <li> resume: allow work on result
+     <li> abort: permanently stop work on result
+     <li> graphics_window: open graphics in a window.
+     The optional desktop/window_station (Windows) or display (X11)
+     arguments specify the display.
+     <li> graphics_fullscreen: open graphics fullscreen
+     </ul>
+     "
 );
 list_item("--project
-     <br>{reset | detach | update | suspend | resume | nomorework | allowmorework}
-     <br>url",
-     "Do operation on a project"
+    <br>{reset | detach | update | suspend | resume | nomorework | allowmorework}
+    <br>URL",
+    "Do operation on a project, identified by its master URL.
+    <ul>
+    <li>reset: delete current work and get more;
+    <li>detach: delete current work and don't get more;
+    <li>update: contact scheduling server;
+    <li>suspend: stop work for project;
+    <li>result: resume work for projrect;
+    <li>nomorework: finish current work but don't get more;
+    <li>allowmorework: undo nomorework
+    </ul>
+    "
 );
-list_item("--project_attach url auth","Attach to an account");
-list_item("--file_transfer {retry | abort} url filename",
+list_item("--project_attach URL auth","Attach to an account");
+list_item("--file_transfer {retry | abort} URL filename",
     "Do operation on a file transfer"
 );
 list_item("--get_run_mode","Get current run mode");
-list_item("--set_run_mode {always | auto | never}","Set run mode");
+list_item("--set_run_mode {always | auto | never}",
+    "Set run mode.
+    <br>always: do work (network + CPU) always
+    <br>auto: do work only when allowed by preferences
+    <br>never: don't do work (same as suspending all projects)
+    "
+);
 list_item("--get_network_mode","Get current network mode");
-list_item("--set_network_mode {always | auto | never}","Set network mode");
+list_item("--set_network_mode {always | auto | never}",
+    "Set network mode
+    <br> Like set_run_mode but applies only to network transfers
+    "
+);
 list_item("--get_proxy_settings", "Get proxy settings");
-list_item("--set_proxy_settings", "Set proxy settings");
+list_item(
+    "--set_proxy_settings
+    http_server_name
+    http_server_port
+    http_user_name
+    http_user_passwd
+    socks_server_name
+    socks_server_port
+    socks_version
+    socks5_user_name
+    socks5_user_passwd
+    ",
+    "Set proxy settings (all fields are mandatory)"
+);
 list_item("--get_messages seqno",
     "show messages with sequence numbers beyond the given seqno"
 );
 list_item("--get_host_info", "Show host info");
-list_item("--acct_mgr_rpc url name password",
-    "Instruct core client to contact account manager server."
+list_item("--acct_mgr_rpc URL name password",
+    "Instruct core client to contact an account manager server."
 );
 list_item("--run_benchmarks", "Run CPU benchmarks");
 list_item("--get_screensaver_mode", "");
-list_item("--set_screensaver_mode on|off blank_time {desktop window_station}", "");
+list_item(
+    "--set_screensaver_mode on|off blank_time
+    <br>{--desktop desktop}
+    <br>{--window_station window_station}
+    <br>{--display display}
+    ",
+    "Tell the core client to start or stop doing fullscreen graphics,
+    and going to black after blank_time seconds.
+    The optional arguments specify which desktop/windows_station (Windows)
+    or display (X11) to use.
+    "
+);
 list_item("--quit", "");
 list_end();
 echo "
 <p>
-Core client command-line options [DEPRECATED]:
+<h3>Core client command-line options</h3>
 ";
 list_start();
 list_item("-attach_project",

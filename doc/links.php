@@ -30,6 +30,9 @@ echo "
 <tr><th>Language</th><th>Site</th></tr>
 ";
 
+language("Belgium (Dutch & French)", array(
+    site("http://www.boinc.be", "www.boinc.be")
+));
 language("Chinese", array(
     site("http://boinc.equn.com/", "boinc.equn.com")
 ));
@@ -41,10 +44,10 @@ language("Danish", array(
     site("http://www.boinc.dk", "www.boinc.dk"),
     site("http://www.setihome.dk", "www.setihome.dk")
 ));
-language(
-    "Dutch", array(
+language("Dutch", array(
     site("http://www.seti.nl/content.php?c=boinc_berkeley_main",
-        "SETI@Netherlands")
+        "SETI@Netherlands"
+    )
 ));
 language("English", array(
     site("http://boinc.mundayweb.com", "boinc.mundayweb.com - stats counters and more")

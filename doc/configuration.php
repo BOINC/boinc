@@ -40,7 +40,7 @@ htmlspecialchars("
     [ <max_wus_to_send>                  N    </max_wus_to_send>                 ]
     [ <min_sendwork_interval>            N    </min_sendwork_interval>           ]
     [ <daily_result_quota>               N    </daily_result_quota>              ]
-    [ <enforce_delay_bound/>                                                     ]
+    [ <ignore_delay_bound/>                                                     ]
     [ <locality_scheduling/>                                                     ]
     [ <locality_scheduling_wait_period>  N    </locality_scheduling_wait_period> ]
     [ <min_core_client_version>          N    </min_core_client_version          ]
@@ -172,8 +172,9 @@ list_item("daily_result_quota",
     a host does not go idle in a 24-hour period, and can download enough
     work to keep it busy if disconnected from the net for a few days."
 );
-list_item("enforce_delay_bound",
-    "Don't send results to hosts too slow to complete them within delay bound."
+list_item("ignore_delay_bound",
+    "By default, results are not sent to hosts too slow to complete them within delay bound.
+    If this flag is set, this rule is not enforced."
 );
 list_item("locality_scheduling",
     "When possible, send work that uses the same files that the host

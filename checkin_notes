@@ -24867,3 +24867,8 @@ Bruce 15 Feb 2004
         handle_request.C
         sched_send.C
 
+David  15 Feb 2005
+    - user web
+
+    html/user/
+        account_setup_first_done.php (new)

@@ -49,7 +49,7 @@ Other Unix-like systems should work without too much configuration.
     <td><br></td>
 </tr>
 <tr>
-    <td>MySQL 3.23+ or 4.0+
+    <td>MySQL 4.0+ or 4.1+
         <br>MySQL client
         <br>packages: mysql-server, mysql-client
     </td>
@@ -70,7 +70,7 @@ Other Unix-like systems should work without too much configuration.
     <td><br></td>
 </tr>
 <tr>
-    <td>WxWidgets 2.4.2
+    <td><a href=http://www.wxwidgets.org/>WxWidgets</a> 2.4.2 (Mac: 2.5.3)
         <br>GTK+ 2.5.6
     </td>
     <td><br></td>
@@ -117,25 +117,27 @@ some information is
 </ul>
 <h3>MySQL notes</h3>
 <ul>
-<li>
-Transactions are only supported by MySQL 4.0+;
-to use MySQL 3.23, disable &lt;use_transactions/&gt; in config.xml
 
 <li>
 After installing and running the server,
 grant permissions for your own account and for
 the account under which Apache runs
-('nobody' in the following; may be different on your machine):
+('nobody' in the following; may be different on your machine).
+All mysql accounts should be password protected including root.
 <pre>
     mysql -u root
-    grant all on *.* to yourname@localhost;
-    grant all on *.* to yourname;
-    grant all on *.* to nobody@localhost;
-    grant all on *.* to nobody;
+    grant all on *.* to yourname@localhost identified by 'password';
+    grant all on *.* to yourname identified by 'password';
+    grant all on *.* to nobody@localhost identified by 'password';
+    grant all on *.* to nobody identified by 'password';
 </pre>
 <li>
 Set your PATH variable to include MySQL programs
 (typically /usr/local/mysql and /usr/local/mysql/bin).
+
+<li>
+Transactions are only supported by MySQL 4.0+;
+to use MySQL 3.23, disable &lt;use_transactions/&gt; in config.xml
 </ul>
 
 <h3>PHP notes</h3>
