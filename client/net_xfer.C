@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -272,7 +272,7 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
         }
         iter++;
     }
-    fprintf(stdout, "NET_XFER_SET::remove(): not found\n");
+    // fprintf(stdout, "NET_XFER_SET::remove(): not found\n");
     return 1;
 }
 
@@ -320,7 +320,7 @@ int NET_XFER_SET::net_sleep(double x) {
 // do a select with the given timeout,
 // then do I/O on as many sockets as possible, subject to rate limits
 // Transfer at most one block per socket.
-// 
+//
 int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
     int n, fd, retval;
     socklen_t i;
