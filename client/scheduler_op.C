@@ -29,9 +29,6 @@
 #include "scheduler_op.h"
 
 SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
-    if(h==NULL) {
-        fprintf(stderr, "error: SCHEDULER_OP: unexpected NULL pointer h\n");
-    }
     state = SCHEDULER_OP_STATE_IDLE;
     http_op.http_op_state = HTTP_STATE_IDLE;
     http_ops = h;
@@ -140,10 +137,6 @@ int SCHEDULER_OP::start_rpc() {
 int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     int retval;
 
-    if (p==NULL) {
-        fprintf(stderr, "error: SCHEDULER_OP.init_master_fetch: NULL pointer p\n"); 
-        return ERR_NULL;
-    }
     project = p;
     if (log_flags.sched_op_debug) {
         printf("Fetching master file for %s\n", project->master_url);
@@ -355,10 +348,7 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 int SCHEDULER_REPLY::parse(FILE* in) {
     char buf[256], *p;
     int retval;
-    if(in==NULL) {
-        fprintf(stderr, "error: SCHEDULER_REPLY.parse: unexpected NULL pointer in\n");
-        return ERR_NULL;
-    }
+
     strcpy(message, "");
     strcpy(message_priority, "");
     request_delay = 0;

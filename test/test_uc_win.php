@@ -15,7 +15,7 @@
     add_user("prefs.xml");
     add_app("upper_case", "windows_intelx86", "upper_case.exe");
     create_work("-appname upper_case -rsc_iops 180000000000.0 -rsc_fpops 0.0 -wu_name uc_wu -wu_template uc_wu -result_template uc_result -nresults 2 input input input input input");
-    start_feeder();
+    //start_feeder();
     //stop_feeder();
     //check_results_done();
     //compare_file("uc_wu_0_0", "uc_correct_output");
