@@ -33,6 +33,7 @@
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
+#include "../lib/filesys.h"
 
 #define LOCKFILE "file_deleter.out"
 #define PIDFILE  "file_deleter.pid"
@@ -41,11 +42,31 @@
 
 SCHED_CONFIG config;
 
+// David -- not sure what the previous code was meant to do, since dir_hier_path
+// always returns 0 if the last argument (eg, missing below) argument is set to
+// false.
+//
+int get_file_path(char *buf, char* upload_dir, int fanout, bool newhash, char* path) {
+
+    dir_hier_path(buf, upload_dir, fanout, true, path);
+    if (boinc_file_exists(path))
+        return 0;
+            	
+    // TODO: get rid of the old hash in about 3/2005
+    //
+    dir_hier_path(buf, upload_dir, fanout, false, path);
+    if (!boinc_file_exists(path))
+        return 0;
+
+    return 1;
+}
+
+
 int wu_delete_files(WORKUNIT& wu) {
     char* p;
     char filename[256], pathname[256], buf[LARGE_BLOB_SIZE];
     bool no_delete=false;
-    int count_deleted = 0, retval, ret1, ret2;
+    int count_deleted = 0, retval;
 
     safe_strcpy(buf, wu.xml_doc);
     
@@ -60,17 +81,10 @@ int wu_delete_files(WORKUNIT& wu) {
             no_delete = true;
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
-            	// TODO: get rid of the old hash in about 3/2005
-            	//
-                ret1 = dir_hier_path(
-                    filename, config.download_dir, config.uldl_dir_fanout, true,
+                    retval=get_file_path(filename, config.download_dir, config.uldl_dir_fanout, true,
                     pathname
                 );
-                ret2 = dir_hier_path(
-                    filename, config.download_dir, config.uldl_dir_fanout, false,
-                    pathname
-                );
-                if (ret1 && ret2) {
+                if (retval) {
                     log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[%s] dir_hier_path: %d\n", wu.name, retval);
                 } else {
                     log_messages.printf(SCHED_MSG_LOG::NORMAL, "[%s] deleting download/%s\n", wu.name, filename);
@@ -93,7 +107,7 @@ int result_delete_files(RESULT& result) {
     char* p;
     char filename[256], pathname[256], buf[LARGE_BLOB_SIZE];
     bool no_delete=false;
-    int count_deleted = 0, retval, ret1, ret2;
+    int count_deleted = 0, retval;
 
     safe_strcpy(buf, result.xml_doc_in);
     p = strtok(buf,"\n");
@@ -106,15 +120,10 @@ int result_delete_files(RESULT& result) {
             no_delete = true;
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
-                ret1 = dir_hier_path(
-                    filename, config.upload_dir, config.uldl_dir_fanout, true,
+                retval=get_file_path(filename, config.upload_dir, config.uldl_dir_fanout, true,
                     pathname
                 );
-                ret2 = dir_hier_path(
-                    filename, config.upload_dir, config.uldl_dir_fanout, false,
-                    pathname
-                );
-                if (ret1 && ret2) {
+                if (retval) {
                     log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                         "[%s] dir_hier_path: %d\n", result.name, retval
                     );
