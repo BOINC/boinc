@@ -15939,3 +15939,16 @@ Noaa	5 August 2004
 		
 		/
 				Graphics.Readme
+
+Daniel 2004-08-05
+    - regenerated build files to fix (some) compiling problems
+
+    aclocal.m4
+    client/
+        Makefile.in
+    sched/
+        Makefile.in
+    win_build/
+        boinc_cli.dsp,vcproj
+        boinc_gui.dsp,vcproj
+

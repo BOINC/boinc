@@ -189,6 +189,10 @@ noinst_PROGRAMS = \
     sample_dummy_assimilator                    \
     sample_bitwise_validator                    \
     sample_trivial_validator                    \
+    get_file					\
+    send_file					\
+    request_file_list				\
+    delete_file					\
     wu_check
 
 
@@ -281,6 +285,22 @@ message_handler_SOURCES = message_handler.C
 message_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 message_handler_LDADD = $(LDADD) $(RSA_LIBS)
 
+request_file_list_SOURCES = request_file_list.C
+request_file_list_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+request_file_list_LDADD = $(LDADD) $(RSA_LIBS)
+
+get_file_SOURCES = get_file.C
+get_file_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+get_file_LDADD = $(LDADD) $(RSA_LIBS)
+
+send_file_SOURCES = send_file.C
+send_file_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+send_file_LDADD = $(LDADD) $(RSA_LIBS)
+
+delete_file_SOURCES = delete_file.C
+delete_file_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+delete_file_LDADD = $(LDADD) $(RSA_LIBS)
+
 fcgi_SOURCES = \
     handle_request.C                            \
     main.C                                      \
@@ -332,7 +352,9 @@ noinst_PROGRAMS = cgi$(EXEEXT) feeder$(EXEEXT) db_dump$(EXEEXT) \
 	message_handler$(EXEEXT) update_stats$(EXEEXT) \
 	sample_dummy_assimilator$(EXEEXT) \
 	sample_bitwise_validator$(EXEEXT) \
-	sample_trivial_validator$(EXEEXT) wu_check$(EXEEXT)
+	sample_trivial_validator$(EXEEXT) get_file$(EXEEXT) \
+	send_file$(EXEEXT) request_file_list$(EXEEXT) \
+	delete_file$(EXEEXT) wu_check$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 
 am_cgi_OBJECTS = handle_request.$(OBJEXT) main.$(OBJEXT) \
@@ -344,6 +366,9 @@ am_db_dump_OBJECTS = db_dump.$(OBJEXT)
 db_dump_OBJECTS = $(am_db_dump_OBJECTS)
 db_dump_LDADD = $(LDADD)
 db_dump_LDFLAGS =
+am_delete_file_OBJECTS = delete_file.$(OBJEXT)
+delete_file_OBJECTS = $(am_delete_file_OBJECTS)
+delete_file_LDFLAGS =
 am_fcgi_OBJECTS = fcgi-handle_request.$(OBJEXT) fcgi-main.$(OBJEXT) \
 	fcgi-sched_send.$(OBJEXT) fcgi-server_types.$(OBJEXT) \
 	fcgi-synch.$(OBJEXT) fcgi-sched_shmem.$(OBJEXT) \
@@ -368,12 +393,18 @@ file_deleter_LDFLAGS =
 am_file_upload_handler_OBJECTS = file_upload_handler.$(OBJEXT)
 file_upload_handler_OBJECTS = $(am_file_upload_handler_OBJECTS)
 file_upload_handler_LDFLAGS =
+am_get_file_OBJECTS = get_file.$(OBJEXT)
+get_file_OBJECTS = $(am_get_file_OBJECTS)
+get_file_LDFLAGS =
 am_make_work_OBJECTS = make_work.$(OBJEXT)
 make_work_OBJECTS = $(am_make_work_OBJECTS)
 make_work_LDFLAGS =
 am_message_handler_OBJECTS = message_handler.$(OBJEXT)
 message_handler_OBJECTS = $(am_message_handler_OBJECTS)
 message_handler_LDFLAGS =
+am_request_file_list_OBJECTS = request_file_list.$(OBJEXT)
+request_file_list_OBJECTS = $(am_request_file_list_OBJECTS)
+request_file_list_LDFLAGS =
 am_sample_bitwise_validator_OBJECTS = validator.$(OBJEXT) \
 	sample_bitwise_validator.$(OBJEXT) validate_util.$(OBJEXT)
 sample_bitwise_validator_OBJECTS = \
@@ -392,6 +423,9 @@ sample_trivial_validator_OBJECTS = \
 	$(am_sample_trivial_validator_OBJECTS)
 sample_trivial_validator_LDADD = $(LDADD)
 sample_trivial_validator_LDFLAGS =
+am_send_file_OBJECTS = send_file.$(OBJEXT)
+send_file_OBJECTS = $(am_send_file_OBJECTS)
+send_file_LDFLAGS =
 am_show_shmem_OBJECTS = show_shmem.$(OBJEXT)
 show_shmem_OBJECTS = $(am_show_shmem_OBJECTS)
 show_shmem_LDADD = $(LDADD)
@@ -417,6 +451,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/backend_lib.Po ./$(DEPDIR)/base64.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_db.Po ./$(DEPDIR)/crypt.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/db_base.Po ./$(DEPDIR)/db_dump.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/delete_file.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/fcgi-backend_lib.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/fcgi-base64.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/fcgi-boinc_db.Po \
@@ -439,20 +474,21 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/fcgi-util.Po ./$(DEPDIR)/feeder.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/file_deleter.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/file_upload_handler.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/filesys.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/filesys.Po ./$(DEPDIR)/get_file.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/handle_request.Po ./$(DEPDIR)/main.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/make_work.Po ./$(DEPDIR)/md5.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/message_handler.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/msg_log.Po ./$(DEPDIR)/parse.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/process_result_template.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/request_file_list.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sample_bitwise_validator.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sample_dummy_assimilator.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sample_trivial_validator.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_config.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_msgs.Po ./$(DEPDIR)/sched_send.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_shmem.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sched_util.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sched_util.Po ./$(DEPDIR)/send_file.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/server_types.Po ./$(DEPDIR)/shmem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/show_shmem.Po ./$(DEPDIR)/synch.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/transitioner.Po \
@@ -469,15 +505,17 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(libsched_a_SOURCES) $(cgi_SOURCES) $(db_dump_SOURCES) \
-	$(fcgi_SOURCES) $(feeder_SOURCES) $(file_deleter_SOURCES) \
-	$(file_upload_handler_SOURCES) $(make_work_SOURCES) \
-	$(message_handler_SOURCES) $(sample_bitwise_validator_SOURCES) \
+	$(delete_file_SOURCES) $(fcgi_SOURCES) $(feeder_SOURCES) \
+	$(file_deleter_SOURCES) $(file_upload_handler_SOURCES) \
+	$(get_file_SOURCES) $(make_work_SOURCES) \
+	$(message_handler_SOURCES) $(request_file_list_SOURCES) \
+	$(sample_bitwise_validator_SOURCES) \
 	$(sample_dummy_assimilator_SOURCES) \
-	$(sample_trivial_validator_SOURCES) $(show_shmem_SOURCES) \
-	$(transitioner_SOURCES) $(update_stats_SOURCES) \
-	$(wu_check_SOURCES)
+	$(sample_trivial_validator_SOURCES) $(send_file_SOURCES) \
+	$(show_shmem_SOURCES) $(transitioner_SOURCES) \
+	$(update_stats_SOURCES) $(wu_check_SOURCES)
 DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in
-SOURCES = $(libsched_a_SOURCES) $(cgi_SOURCES) $(db_dump_SOURCES) $(fcgi_SOURCES) $(feeder_SOURCES) $(file_deleter_SOURCES) $(file_upload_handler_SOURCES) $(make_work_SOURCES) $(message_handler_SOURCES) $(sample_bitwise_validator_SOURCES) $(sample_dummy_assimilator_SOURCES) $(sample_trivial_validator_SOURCES) $(show_shmem_SOURCES) $(transitioner_SOURCES) $(update_stats_SOURCES) $(wu_check_SOURCES)
+SOURCES = $(libsched_a_SOURCES) $(cgi_SOURCES) $(db_dump_SOURCES) $(delete_file_SOURCES) $(fcgi_SOURCES) $(feeder_SOURCES) $(file_deleter_SOURCES) $(file_upload_handler_SOURCES) $(get_file_SOURCES) $(make_work_SOURCES) $(message_handler_SOURCES) $(request_file_list_SOURCES) $(sample_bitwise_validator_SOURCES) $(sample_dummy_assimilator_SOURCES) $(sample_trivial_validator_SOURCES) $(send_file_SOURCES) $(show_shmem_SOURCES) $(transitioner_SOURCES) $(update_stats_SOURCES) $(wu_check_SOURCES)
 
 all: all-am
 
@@ -522,6 +560,9 @@ cgi$(EXEEXT): $(cgi_OBJECTS) $(cgi_DEPENDENCIES)
 db_dump$(EXEEXT): $(db_dump_OBJECTS) $(db_dump_DEPENDENCIES) 
 	@rm -f db_dump$(EXEEXT)
 	$(CXXLINK) $(db_dump_LDFLAGS) $(db_dump_OBJECTS) $(db_dump_LDADD) $(LIBS)
+delete_file$(EXEEXT): $(delete_file_OBJECTS) $(delete_file_DEPENDENCIES) 
+	@rm -f delete_file$(EXEEXT)
+	$(CXXLINK) $(delete_file_LDFLAGS) $(delete_file_OBJECTS) $(delete_file_LDADD) $(LIBS)
 fcgi-handle_request.$(OBJEXT): handle_request.C
 fcgi-main.$(OBJEXT): main.C
 fcgi-sched_send.$(OBJEXT): sched_send.C
@@ -557,12 +598,18 @@ file_deleter$(EXEEXT): $(file_deleter_OBJECTS) $(file_deleter_DEPENDENCIES)
 file_upload_handler$(EXEEXT): $(file_upload_handler_OBJECTS) $(file_upload_handler_DEPENDENCIES) 
 	@rm -f file_upload_handler$(EXEEXT)
 	$(CXXLINK) $(file_upload_handler_LDFLAGS) $(file_upload_handler_OBJECTS) $(file_upload_handler_LDADD) $(LIBS)
+get_file$(EXEEXT): $(get_file_OBJECTS) $(get_file_DEPENDENCIES) 
+	@rm -f get_file$(EXEEXT)
+	$(CXXLINK) $(get_file_LDFLAGS) $(get_file_OBJECTS) $(get_file_LDADD) $(LIBS)
 make_work$(EXEEXT): $(make_work_OBJECTS) $(make_work_DEPENDENCIES) 
 	@rm -f make_work$(EXEEXT)
 	$(CXXLINK) $(make_work_LDFLAGS) $(make_work_OBJECTS) $(make_work_LDADD) $(LIBS)
 message_handler$(EXEEXT): $(message_handler_OBJECTS) $(message_handler_DEPENDENCIES) 
 	@rm -f message_handler$(EXEEXT)
 	$(CXXLINK) $(message_handler_LDFLAGS) $(message_handler_OBJECTS) $(message_handler_LDADD) $(LIBS)
+request_file_list$(EXEEXT): $(request_file_list_OBJECTS) $(request_file_list_DEPENDENCIES) 
+	@rm -f request_file_list$(EXEEXT)
+	$(CXXLINK) $(request_file_list_LDFLAGS) $(request_file_list_OBJECTS) $(request_file_list_LDADD) $(LIBS)
 sample_bitwise_validator$(EXEEXT): $(sample_bitwise_validator_OBJECTS) $(sample_bitwise_validator_DEPENDENCIES) 
 	@rm -f sample_bitwise_validator$(EXEEXT)
 	$(CXXLINK) $(sample_bitwise_validator_LDFLAGS) $(sample_bitwise_validator_OBJECTS) $(sample_bitwise_validator_LDADD) $(LIBS)
@@ -572,6 +619,9 @@ sample_dummy_assimilator$(EXEEXT): $(sample_dummy_assimilator_OBJECTS) $(sample_
 sample_trivial_validator$(EXEEXT): $(sample_trivial_validator_OBJECTS) $(sample_trivial_validator_DEPENDENCIES) 
 	@rm -f sample_trivial_validator$(EXEEXT)
 	$(CXXLINK) $(sample_trivial_validator_LDFLAGS) $(sample_trivial_validator_OBJECTS) $(sample_trivial_validator_LDADD) $(LIBS)
+send_file$(EXEEXT): $(send_file_OBJECTS) $(send_file_DEPENDENCIES) 
+	@rm -f send_file$(EXEEXT)
+	$(CXXLINK) $(send_file_LDFLAGS) $(send_file_OBJECTS) $(send_file_LDADD) $(LIBS)
 show_shmem$(EXEEXT): $(show_shmem_OBJECTS) $(show_shmem_DEPENDENCIES) 
 	@rm -f show_shmem$(EXEEXT)
 	$(CXXLINK) $(show_shmem_LDFLAGS) $(show_shmem_OBJECTS) $(show_shmem_LDADD) $(LIBS)
@@ -618,6 +668,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/db_base.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/db_dump.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/delete_file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-backend_lib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-base64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-boinc_db.Po@am__quote@
@@ -644,6 +695,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_deleter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_upload_handler.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filesys.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/get_file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/handle_request.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/make_work.Po@am__quote@
@@ -653,6 +705,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msg_log.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/process_result_template.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/request_file_list.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sample_bitwise_validator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sample_dummy_assimilator.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sample_trivial_validator.Po@am__quote@
@@ -661,6 +714,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_send.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_util.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/send_file.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/server_types.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/show_shmem.Po@am__quote@

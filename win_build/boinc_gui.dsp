@@ -138,6 +138,10 @@ SOURCE=..\client\cs_cmdline.C
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\cs_data.C
+# End Source File
+# Begin Source File
+
 SOURCE=..\Client\cs_files.C
 # End Source File
 # Begin Source File
