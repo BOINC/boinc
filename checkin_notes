@@ -4647,6 +4647,16 @@ Tim    June 11, 2003
         pers_file_xfer.c
         wingui_mainwindow.cpp
 
+Tim    June 11, 2003
+    - Preference
+        improved executable confirmation message (commented out)
+        added max_memory_mbytes, process_priority, cpu_affinity
+
+    client/
+        pers_file_xfer.c
+        prefs.c
+        prefs.h        
+
 Karl    2003/06/11
     - test suite overhaul 
 
@@ -4700,3 +4710,22 @@ Karl    2003/06/16
         test_upload_resume.php
         test_upload_backoff.php
         testproxy
+
+Tim    June 16, 2003
+    - Preference
+        removed executable confirmation
+        implemented max_memory_mbyte
+
+    client/
+        pers_file_xfer.c
+        app.c
+
+Tim     June 17, 2003
+    - application graphics file
+        added timestamp to astropulse appfile
+        open_name (if available) is used when creating a slot directory
+
+    client\
+        app.c
+    html_user\
+        project_specific_prefs_ap.inc
