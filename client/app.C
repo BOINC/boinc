@@ -137,6 +137,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     safe_strncpy(aid.user_name, wup->project->user_name, sizeof(aid.user_name));
     safe_strncpy(aid.team_name, wup->project->team_name, sizeof(aid.team_name));
+	sprintf(aid.comm_obj_name, "boinc_%d", slot);
     if (wup->project->project_specific_prefs) {
         extract_venue(
             wup->project->project_specific_prefs,
@@ -269,7 +270,6 @@ int ACTIVE_TASK::start(bool first_time) {
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
-    SECURITY_ATTRIBUTES quit_handle_attrs;
     char slotdirpath[256];
     char cmd_line[512];
     int win_error;
@@ -280,10 +280,7 @@ int ACTIVE_TASK::start(bool first_time) {
     startup_info.lpReserved = NULL;
     startup_info.lpDesktop = "";
 
-    quit_handle_attrs.nLength = sizeof(SECURITY_ATTRIBUTES);
-    quit_handle_attrs.lpSecurityDescriptor = NULL;
-    quit_handle_attrs.bInheritHandle = TRUE;
-    quitRequestEvent = CreateEvent( &quit_handle_attrs, FALSE, FALSE, 
+    quitRequestEvent = CreateEvent(0, TRUE, FALSE, aid.comm_obj_name);
     
     // NOTE: in Windows, stderr is redirected within boinc_init();
 

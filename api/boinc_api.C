@@ -78,6 +78,7 @@ extern BOOL    win_loop_done;
 #include "boinc_api.h"
 
 #ifdef _WIN32
+HANDLE hQuitRequest;
 LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
 #else
 extern void boinc_catch_signal(int signal);
@@ -311,11 +312,13 @@ bool boinc_time_to_checkpoint() {
 #ifdef _WIN32
     DWORD eventState;
     // Check if core client has requested us to exit
-    WaitForSingleObject(quitRequestEvent, 0L);
+    eventState = WaitForSingleObject(hQuitRequest, 0L);
     
     switch (eventState) {
         case WAIT_OBJECT_0:
         case WAIT_ABANDONED:
+			time_to_quit = true;
+			break;
     }
 #endif
 
@@ -464,6 +467,7 @@ int set_timer(double period) {
         NULL, // dwUser
         TIME_PERIODIC  // fuEvent
         );
+	hQuitRequest = OpenEvent(EVENT_ALL_ACCESS, FALSE, aid.comm_obj_name);
 #ifdef BOINC_APP_GRAPHICS
     // Create the event object used to signal between the
     // worker and event threads
@@ -509,6 +513,9 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     if (strlen(ai.user_name)) {
         fprintf(f, "<user_name>%s</user_name>\n", ai.user_name);
     }
+    if (strlen(ai.comm_obj_name)) {
+        fprintf(f, "<comm_obj_name>%s</comm_obj_name>\n", ai.comm_obj_name);
+    }
     fprintf(f,
         "<wu_cpu_time>%f</wu_cpu_time>\n"
         "<user_total_credit>%f</user_total_credit>\n"
@@ -542,6 +549,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         }
         else if (parse_str(buf, "<user_name>", ai.user_name, sizeof(ai.user_name))) continue;
         else if (parse_str(buf, "<team_name>", ai.team_name, sizeof(ai.team_name))) continue;
+        else if (parse_str(buf, "<comm_obj_name>", ai.comm_obj_name, sizeof(ai.comm_obj_name))) continue;
         else if (parse_double(buf, "<user_total_credit>", ai.user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", ai.user_expavg_credit)) continue;
         else if (parse_double(buf, "<host_total_credit>", ai.host_total_credit)) continue;
