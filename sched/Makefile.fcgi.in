@@ -5,7 +5,7 @@ VPATH           = @srcdir@
 
 all: cgi
 
-CFLAGS = -g -Wall -include /usr/local/include/fcgi_stdio.h -d _USING_FCGI_ @DEFS@ -I@top_srcdir@/db -I@top_srcdir@/lib -I@top_srcdir@/tools
+CFLAGS = -g -Wall -include /usr/local/include/fcgi_stdio.h -d_USING_FCGI_ @DEFS@ -I@top_srcdir@/db -I@top_srcdir@/lib -I@top_srcdir@/tools
 CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@ -lfcgi -lfcgi++
@@ -52,6 +52,7 @@ MYSQL_LIBS = \
 
 cgi: $(CGI_OBJS)
 	$(CC) $(CGI_OBJS) $(MYSQL_LIBS) $(CLIBS) -o cgi
+	rm -f ../lib/parse.o
 
 feeder: $(FEEDER_OBJS)
 	$(CC) $(FEEDER_OBJS) $(MYSQL_LIBS) $(CLIBS) -o feeder
