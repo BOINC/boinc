@@ -403,8 +403,6 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& xhost) {
 
     compute_credit_rating(host);
 
-    safe_strcpy(host.projects, sreq.projects_xml);
-
     retval = host.update();
     if (retval) {
         sprintf(buf, "host.update() failed: %d\n", retval);
@@ -492,9 +490,6 @@ int handle_results(
         }
         if (result.server_state == RESULT_SERVER_STATE_OVER) {
             result.file_delete_state = FILE_DELETE_READY;
-        }
-        if (result.server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
-            result.server_state = RESULT_SERVER_STATE_OVER;
         }
 
         if (result.hostid != sreq.hostid) {

@@ -19,6 +19,8 @@ Browse database:
 <li><a href=db.php?show=workunit>Workunits</a>
 <li><a href=db.php?show=result>Results</a>
 </ul>
+<a href=result_summary.php?nsecs=86400>Result summary, last 24 hours</a>
+<br>
 <a href=$cgi_url/stripchart.cgi>Stripcharts</a>
 
 EOT;
