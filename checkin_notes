@@ -7999,3 +7999,8 @@ David  29 Nov 2003
             post.php
             reply.php
             thread.php
+
+Karl 2003-12-02
+    - created export-tarball program for nightly-tarball
+
+    nightly-tarball
