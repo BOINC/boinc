@@ -25989,3 +25989,16 @@ Rom    15 Mar 2005
         ViewResources.cpp, .h
         ViewTransfers.cpp, .h
         ViewWork.cpp, .h
+
+Rom    16 Mar 2005
+    - Implement the diagnostics functions for platforms other than Windows.
+
+    NOTE: I was working in this area a bit since I'm trying to track down
+      why E@H isn't always able to display graphics during a start screen saver
+      request.  The changes here and some build environment changes should
+      now allow us to build a debug E@H application with debug BOINC API
+      libraries and now see additional information reported to stderr_txt as
+      the application tries to identify/transition into the calling desktop.
+
+    lib/
+        diagnostics.C, .h

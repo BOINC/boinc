@@ -429,7 +429,7 @@ int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){
 //   to the CRT so it can be reported via the normal means.
 //
 void boinc_trace(const char *pszFormat, ...) {
-	static char szBuffer[1024];
+	static char szBuffer[4096];
 
 	// Trace messages should only be reported if running as a standalone
 	//   application or told too.
@@ -453,9 +453,8 @@ void boinc_trace(const char *pszFormat, ...) {
 // Converts the BOINCINFO macro into a single string and report it
 //   to stderr so it can be reported via the normal means.
 //
-void boinc_info_debug(const char *pszFormat, ...)
-{
-	static char szBuffer[1024];
+void boinc_info_debug(const char *pszFormat, ...){
+	static char szBuffer[4096];
 
 	memset(szBuffer, 0, sizeof(szBuffer));
 
@@ -476,9 +475,8 @@ void boinc_info_debug(const char *pszFormat, ...)
 // Converts the BOINCINFO macro into a single string and report it
 //   to stderr so it can be reported via the normal means.
 //
-void boinc_info_release(const char *pszFormat, ...)
-{
-	static char szBuffer[1024];
+void boinc_info_release(const char *pszFormat, ...){
+	static char szBuffer[4096];
 
 	memset(szBuffer, 0, sizeof(szBuffer));
 
@@ -494,6 +492,91 @@ void boinc_info_release(const char *pszFormat, ...)
 }
 
 #endif // _DEBUG
+
+
+#else // _WIN32
+
+
+#ifdef _DEBUG
+
+
+// Converts the BOINCTRACE macro into a single string and report it
+//   to the CRT so it can be reported via the normal means.
+//
+void boinc_trace(const char *pszFormat, ...) {
+	static char szBuffer[4096];
+
+	// Trace messages should only be reported if running as a standalone
+	//   application or told too.
+	if ((flags & BOINC_DIAG_TRACETOSTDERR) ||
+         (flags & BOINC_DIAG_TRACETOSTDOUT) ) {
+
+		memset(szBuffer, 0, sizeof(szBuffer));
+
+		va_list ptr;
+		va_start(ptr, pszFormat);
+
+		BOINCASSERT( -1 != _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr) );
+
+		va_end(ptr);
+
+        if (flags & BOINC_DIAG_TRACETOSTDERR ) {
+            fprintf( stderr, "TRACE: %s", szBuffer );
+			fflush( stderr );
+        }
+
+        if (flags & BOINC_DIAG_TRACETOSTDOUT ) {
+            fprintf( stdout, "TRACE: %s", szBuffer );
+			fflush( stdout );
+        }
+	}
+}
+
+
+// Converts the BOINCINFO macro into a single string and report it
+//   to stderr so it can be reported via the normal means.
+//
+void boinc_info_debug(const char *pszFormat, ...){
+	static char szBuffer[4096];
+
+	memset(szBuffer, 0, sizeof(szBuffer));
+
+	va_list ptr;
+	va_start(ptr, pszFormat);
+
+	BOINCASSERT( -1 != _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr) );
+
+	va_end(ptr);
+
+	fprintf( stderr, "%s", szBuffer );
+	fflush( stderr );
+}
+
+
+#else // _DEBUG
+
+
+// Converts the BOINCINFO macro into a single string and report it
+//   to stderr so it can be reported via the normal means.
+//
+void boinc_info_release(const char *pszFormat, ...){
+	static char szBuffer[4096];
+
+	memset(szBuffer, 0, sizeof(szBuffer));
+
+	va_list ptr;
+	va_start(ptr, pszFormat);
+
+	_vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
+
+	va_end(ptr);
+
+	fprintf( stderr, "%s", szBuffer );
+	fflush( stderr );
+}
+
+#endif // _DEBUG
+
 
 #endif // _WIN32
 

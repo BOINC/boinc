@@ -31,6 +31,10 @@
 #include <assert.h>
 #endif
 
+#ifndef _WIN32
+#include <signal.h>
+#endif
+
 
 // flags for boinc_init_diagnostics()
 //
@@ -54,6 +58,45 @@
 #define BOINC_DIAG_STDOUT                  "stdout"
 
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+// These are functions common to all platforms
+extern int boinc_init_diagnostics(int flags);
+extern int boinc_finish_diag();
+extern int boinc_install_signal_handlers();
+
+extern int diagnostics_init(
+    int flags, const char* stdout_prefix, const char* stderr_prefix
+);
+extern int diagnostics_cycle_logs();
+
+
+// These are functions that are specific to Unix
+#ifndef _WIN32
+
+extern void boinc_set_signal_handler(int sig, void(*handler)(int));
+extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
+
+#endif
+
+
+// These functions are used to log the various messages that are
+//   defined in the BOINC Diagnostics Library
+extern void boinc_trace(const char *pszFormat, ...);
+extern void boinc_info_debug(const char *pszFormat, ...);
+extern void boinc_info_release(const char *pszFormat, ...);
+
+
+#ifdef __cplusplus
+}
+#endif
+
+
+
 #ifdef _WIN32
 
 // Define macros for both debug and release builds.
@@ -61,11 +104,6 @@
 // We are using the native debugging technology built into the Microsoft
 //   C Runtime Libraries to trap and report the asserts and traces.
 //
-
-// Forward declare so we can assign a macro to it.
-void	boinc_trace(const char *pszFormat, ...);
-void	boinc_info_debug(const char *pszFormat, ...);
-void	boinc_info_release(const char *pszFormat, ...);
 
 #ifdef _DEBUG
 
@@ -97,19 +135,25 @@ void	boinc_info_release(const char *pszFormat, ...);
 
 #endif // _DEBUG
 
-#else   // non-Win starts here
-#include <signal.h>
+#else
 
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
+#ifdef _DEBUG
 
-extern void boinc_set_signal_handler(int sig, void(*handler)(int));
-extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
+// Standard Frameworks
+//
 
-#ifdef __cplusplus
-}
-#endif // __cplusplus
+#define BOINCASSERT         assert
+#define BOINCTRACE          boinc_trace
+#define BOINCINFO           boinc_info_debug
+
+#else  // _DEBUG
+
+#define BOINCASSERT(expr)   __noop
+#define BOINCTRACE          __noop
+#define BOINCINFO           boinc_info_release
+
+#endif // _DEBUG
+
 #endif // ! _WIN32
 
 
@@ -128,23 +172,6 @@ extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
 
 #ifndef BOINCINFO
 #define BOINCINFO			__noop
-#endif
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-extern int boinc_init_diagnostics(int flags);
-extern int boinc_finish_diag();
-extern int boinc_install_signal_handlers();
-
-extern int diagnostics_init(
-    int flags, const char* stdout_prefix, const char* stderr_prefix
-);
-extern int diagnostics_cycle_logs();
-
-#ifdef __cplusplus
-}
 #endif
 
 #endif
