@@ -21849,3 +21849,24 @@ David  26 Dec 2004
 
     sched/
         db_purge.C
+
+David  27 Dec 2004
+    - Add a -min_age_days N option to db_purge.
+        It will only purge WUs whose mod_time is at least N days ago.
+    - Change an index on workunit to make this efficient
+    - have setup_project.py copy db_purge
+
+    Note: if you use this version of db_purge you should modify
+    the index workunit.wu_filedel.
+    You can do this manually or using html/ops/db_update.php
+
+    db/
+        constraints.sql
+    html/ops/
+        db_update.php
+    lib/
+        util.C,h
+    py/Boinc/
+        setup_project.py
+    sched/
+        db_purge.C

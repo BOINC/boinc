@@ -34,7 +34,7 @@
 //
 // Options:
 //
-// -days n              purge WUs with mod_time at least N days in the past
+// -min_age_days n      purge WUs with mod_time at least N days in the past
 // -max n               purge at most N WUs
 // -one_pass            purge a few (~1000) WUs, then exit
 //                      default: keep scanning indefinitely
@@ -75,9 +75,6 @@ using namespace std;
 
 #include "error_numbers.h"
 
-#define LOCKFILE "db_purge.out"
-#define PIDFILE  "db_purge.pid"
-
 #define WU_FILENAME_PREFIX              "wu_archive"
 #define RESULT_FILENAME_PREFIX          "result_archive"
 #define WU_INDEX_FILENAME_PREFIX        "wu_index"
@@ -91,6 +88,7 @@ FILE            *re_stream=NULL;
 FILE            *wu_index_stream=NULL;
 FILE            *re_index_stream=NULL;
 int             time_int=0;
+int min_age_days=0;
 
 // These is used if limiting the total number of workunits to eliminate
 int purged_workunits= 0;
@@ -456,12 +454,19 @@ bool do_pass() {
     DB_WORKUNIT wu;
     char buf[256];
 
-    // select all workunits with file_delete_state=DONE
-    //
-    sprintf(buf,
-        "where file_delete_state=%d limit %d",
-        FILE_DELETE_DONE, DB_QUERY_LIMIT
-    );
+    if (min_age_days) {
+        char timestamp[15];
+        mysql_timestamp(dtime()-min_age_days*86400, timestamp);
+        sprintf(buf,
+            "where file_delete_state=%d and mod_time<'%s' limit %d",
+            FILE_DELETE_DONE, timestamp, DB_QUERY_LIMIT
+        );
+    } else {
+        sprintf(buf,
+            "where file_delete_state=%d limit %d",
+            FILE_DELETE_DONE, DB_QUERY_LIMIT
+        );
+    }
 
     int n=0;
     while (!wu.enumerate(buf)) {
@@ -539,6 +544,8 @@ int main(int argc, char** argv) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
+        } else if (!strcmp(argv[i], "-min_age_days")) {
+            min_age_days = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-max")) {
             max_number_workunits_to_purge= atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-zip")) {
@@ -552,6 +559,7 @@ int main(int argc, char** argv) {
                 "Unrecognized arg: %s\n",
                 argv[i]
             );
+            exit(1);
         }
     }
 

@@ -198,6 +198,12 @@ function update_11_24_2004_host() {
         ." add avg_turnaround double not null"
     );
 }
+
+function update_12_27_2004() {
+    mysql_query("alter table workunit drop index wu_filedel");
+    mysql_query("alter table workunit add index wu_filedel (file_delete_state, mod_time)");
+}
+
 //update_10_25_2004();
 
 ?>

@@ -32,8 +32,8 @@ alter table workunit
         -- validator
     add index wu_timeout (transition_time),
         -- transitioner
-    add index wu_filedel (file_delete_state),
-        -- file_deleter
+    add index wu_filedel (file_delete_state, mod_time),
+        -- file_deleter, db_purge
     add index wu_assim (appid, assimilate_state);
         -- assimilator
 

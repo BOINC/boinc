@@ -280,7 +280,7 @@ def install_boinc_files(dest_dir):
         [ 'make_work', 'feeder', 'transitioner',
           'sample_bitwise_validator', 'sample_trivial_validator',
           'file_deleter', 'sample_dummy_assimilator',
-          'update_stats', 'db_dump' ])
+          'update_stats', 'db_dump', 'db_purge' ])
     map(lambda (s): install(srcdir('sched',s), dir('bin',s)),
         [ 'start', 'show_shmem' ])
     force_symlink(dir('bin', 'start'), dir('bin', 'stop'))

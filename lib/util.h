@@ -134,4 +134,8 @@ extern int dir_hier_url(
 
 extern int boinc_calling_thread_cpu_time(double&);
 
+// convert UNIX time to MySQL timestamp (yyyymmddhhmmss)
+//
+extern void mysql_timestamp(double, char*);
+
 #endif
