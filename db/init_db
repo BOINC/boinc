@@ -1,6 +1,8 @@
-#! /bin/tcsh
+#!/bin/sh
 
-sed -e s/BOINC_DB_NAME/$BOINC_DB_NAME/g drop.sql | mysql
-sed -e s/BOINC_DB_NAME/$BOINC_DB_NAME/g schema.sql | mysql
-sed -e s/BOINC_DB_NAME/$BOINC_DB_NAME/g constraints.sql | mysql
+if [ -z "$1" ]; then
+    echo "syntax: $0 DB_NAME"
+    exit 1
+fi
 
+mysql $1 < schema.sql

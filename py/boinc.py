@@ -418,7 +418,7 @@ class Project:
 
         verbose_echo(1, "Setting up database")
         self.create_db()
-        map(self.run_db_script, [ 'schema.sql', 'constraints.sql' ])
+        map(self.run_db_script, [ 'schema.sql' ])
 
         db = self.db_open()
         db.query("insert into project(short_name, long_name) values('%s', '%s')" %(

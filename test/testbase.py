@@ -49,7 +49,7 @@ def test_init():
     options.echo_verbose   = int(get_env_var("BOINC_TEST_VERBOSE", '1'))
     options.proxy_port     = 16000 + (os.getpid() % 1000)
     options.drop_db_first  = True
-    
+
     if options.auto_setup:
         options.auto_setup_basedir = 'run-%d'%os.getpid()
         verbose_echo(0, "Creating testbed in %s"%options.auto_setup_basedir)
@@ -239,7 +239,7 @@ class TestProject(Project):
                 gp = ''
 
             db.query(("insert into user values (0, %d, '%s', '%s', '%s', " +
-                      "'Peru', '12345', 0, 0, 0, '%s', '%s', 0, 'home', '', 0, 1)") % (
+                      "'Peru', '12345', 0, 0, 0, '%s', '%s', 0, 'home', '', 0, 1, 0)") % (
                 time.time(),
                 user.email_addr,
                 user.name,
