@@ -1,6 +1,7 @@
 #include "x_opengl.h"
 #include <stdio.h>
 
+#ifdef HAVE_GL
 #include <GL/glx.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -131,4 +132,6 @@ GLvoid buildFont(GLvoid)
     /* free our XFontStruct since we have our display lists */
     XFreeFont(dpy, font);
 }
+
+#endif
 

@@ -28,14 +28,14 @@ APPS = upper_case concat 1sec
 	$(CC) -c -o $*.o $<
 .c.o:
 	$(CC) -c -o $*.o $<
-upper_case.x11.o:
-	$(CC) -DBOINC_APP_GRAPHICS -c -o $*.o upper_case.C
-../api/x_opengl.x11.o:
-	$(CC) -DBOINC_APP_GRAPHICS -c -o $*.o ../api/x_opengl.C
-../api/boinc_api.x11.o:
-	$(CC) -DBOINC_APP_GRAPHICS -c -o $*.o ../api/boinc_api.C
-../api/graphics_api.x11.o:
-	$(CC) -DBOINC_APP_GRAPHICS -c -o $*.o ../api/graphics_api.C
+#upper_case.x11.o:
+#	$(CC) -DBOINC_APP_GRAPHICS -c -o $*.o upper_case.C
+#../api/x_opengl.x11.o:
+#	$(CC) -DBOINC_APP_GRAPHICS -c -o $*.o ../api/x_opengl.C
+#../api/boinc_api.x11.o:
+#	$(CC) -DBOINC_APP_GRAPHICS -c -o $*.o ../api/boinc_api.C
+#../api/graphics_api.x11.o:
+#	$(CC) -DBOINC_APP_GRAPHICS -c -o $*.o ../api/graphics_api.C
 
 
 all: $(APPS)
