@@ -52,7 +52,7 @@ const double COBBLESTONE_FACTOR = 300.0;
 double max_allowable_disk(USER& user, SCHEDULER_REQUEST& req) {
     GLOBAL_PREFS prefs;
     HOST host = req.host;
-    double x1, x2, x3;
+    double x1, x2, x3, x;
 
     prefs.parse(user.global_prefs);
 
@@ -73,7 +73,26 @@ double max_allowable_disk(USER& user, SCHEDULER_REQUEST& req) {
     x2 = host.d_total*prefs.disk_max_used_pct/100.;
     x3 = host.d_free - prefs.disk_min_free_gb*1e9;      // may be negative
 
-    return min(x1, min(x2, x3));
+    x = min(x1, min(x2, x3));
+    if (x < 0) {
+        log_messages.printf(
+            SchedMessages::NORMAL,
+            "disk_max_used_gb %f disk_max_used_pct %f disk_min_free_gb %f\n",
+            prefs.disk_max_used_gb, prefs.disk_max_used_pct,
+            prefs.disk_min_free_gb
+        );
+        log_messages.printf(
+            SchedMessages::NORMAL,
+            "req.total_disk_usage %f host.d_total %f host.d_free %f\n",
+            req.total_disk_usage, host.d_total, host.d_free
+        );
+        log_messages.printf(
+            SchedMessages::NORMAL,
+            "x1 %f x2 %f x3 %f x %f\n",
+            x1, x2, x3, x
+        );
+    }
+    return x;
 }
 
 // if a host has active_frac < 0.5, assume 0.5 so we don't deprive it of work.
@@ -624,13 +643,15 @@ static void scan_work_array(
     bool infeasible_only, double& seconds_to_fill, double& disk_available,
     int& nresults,
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    SCHED_SHMEM& ss
+    SCHED_SHMEM& ss, bool& insufficient_disk
 ) {
     int i, retval, n;
     WORKUNIT wu;
     DB_RESULT result;
     double wu_seconds_filled;
     char buf[256];
+
+    if (disk_available < 0) insufficient_disk = true;
 
     for (i=0; i<ss.nwu_results; i++) {
 
@@ -646,6 +667,7 @@ static void scan_work_array(
         }
 
         if (wu_result.workunit.rsc_disk_bound > disk_available) {
+            insufficient_disk = true;
             wu_result.infeasible_count++;
             continue;
         }
@@ -785,6 +807,7 @@ int send_work(
     int nresults = 0;
     double seconds_to_fill;
     double disk_available;
+    bool insufficient_disk = false;
 
     disk_available = max_allowable_disk(reply.user, sreq);
 
@@ -808,11 +831,11 @@ int send_work(
     //
     scan_work_array(
         true, seconds_to_fill, disk_available,
-        nresults, sreq, reply, platform, ss
+        nresults, sreq, reply, platform, ss, insufficient_disk
     );
     scan_work_array(
         false, seconds_to_fill, disk_available,
-        nresults, sreq, reply, platform, ss
+        nresults, sreq, reply, platform, ss, insufficient_disk
     );
 
     log_messages.printf(
@@ -821,13 +844,18 @@ int send_work(
     );
 
     if (nresults == 0) {
-        strcpy(reply.message, "no work available");
+        strcpy(reply.message, "No work available");
+        if (insufficient_disk) {
+            strcat(reply.message,
+                " (you may need to increase disk limits in global prefs)"
+            );
+        }
         strcpy(reply.message_priority, "low");
         reply.request_delay = 10;
 
         log_messages.printf(
-            SchedMessages::NORMAL, "[HOST#%d] No work available\n",
-            reply.host.id
+            SchedMessages::NORMAL, "[HOST#%d] %s\n",
+            reply.host.id, reply.message
         );
     }
     return 0;

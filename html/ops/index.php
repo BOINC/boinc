@@ -13,7 +13,7 @@ echo "
     Browse database:
     <ul> 
     <li><a href=db_action.php?table=platform>Platforms</a>
-    <li><a href=db_form.php?table=app>Applications</a>
+    <li><a href=db_action.php?table=app>Applications</a>
     <li><a href=db_form.php?table=app_version>Application versions</a>
     <li><a href=db_form.php?table=user>Users</a>
     <li><a href=db_form.php?table=team>Teams</a>

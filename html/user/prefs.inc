@@ -215,7 +215,7 @@ function default_prefs_global() {
     $p->disk_interval = 60;
     $p->disk_max_used_gb = 100;
     $p->disk_max_used_pct = 50;
-    $p->disk_min_free_gb = 1;
+    $p->disk_min_free_gb = 0.1;
     $p->max_bytes_sec_down = 0;
     $p->max_bytes_sec_up = 0;
     return $p;

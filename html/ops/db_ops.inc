@@ -284,7 +284,7 @@ function result_sort_select() {
     echo "
         <select name=sort_by>
         <option value=''>None
-        <option value=create_time>Create time
+        <option value=id>ID
         <option value=sent_time>Sent time
         <option value=received_time>Received time
         </select>
@@ -321,7 +321,7 @@ function show_app($app) {
     row("Created", time_str($app->create_time));
     row("Name", $app->name);
     row("","<a href=db_action.php?table=app_version&appid=$app->id>App Versions for this application</a>");
-    row("","<a href=db_action.php?table=workunit&appid=$app->id>Workunits for this application</a>");
+    row("","<a href=db_action.php?table=workunit&appid=$app->id&detail=low>Workunits for this application</a>");
     end_table();
 }
 

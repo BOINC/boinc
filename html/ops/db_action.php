@@ -12,7 +12,7 @@
 
     db_init();
 
-    parse_str(getenv("QUERY_STRING")); // 'TODO: remove';
+    parse_str(getenv("QUERY_STRING"));
     $q = build_sql_query();
 
     if (strlen($nresults)) {
@@ -47,23 +47,26 @@
     ";
 
     $urlquery = $q->urlquery;
-    echo "<table border=1><tr><td width=100>";
-    if ($start_at) {
-        $prev_pos = $start_at - $page_entries_to_show;
-        if ($prev_pos < 0) {
-            $prev_pos = 0;
+    if ($start_at || $last < $count) {
+        echo "<table border=1><tr><td width=100>";
+        if ($start_at) {
+            $prev_pos = $start_at - $page_entries_to_show;
+            if ($prev_pos < 0) {
+                $prev_pos = 0;
+            }
+            echo "
+                <a href=db_action.php?table=$table&query=$urlquery&last_pos=$prev_pos&detail=$detail>Previous $page_entries_to_show</a><br>
+            ";
         }
-        echo "
-            <a href=db_action.php?table=$table&query=$urlquery&last_pos=$prev_pos&detail=$detail>Previous $page_entries_to_show</a><br>
-        ";
+        echo "</td><td width=100>";
+        if ($last < $count) {
+            echo "
+                <a href=db_action.php?table=$table&query=$urlquery&last_pos=$last&detail=$detail>Next $entries_to_show</a><br>
+            ";
+        }
+        echo "</td></tr></table>";
     }
-    echo "</td><td width=100>";
-    if ($last < $count) {
-        echo "
-            <a href=db_action.php?table=$table&query=$urlquery&last_pos=$last&detail=$detail>Next $entries_to_show</a><br>
-        ";
-    }
-    echo "</td></tr></table>";
+
     if ($table == "result") {
         echo "<a href=result_summary.php?query=$urlquery>Summary</a> |";
     }
