@@ -22537,3 +22537,21 @@ Janus 12 Jan 2005
         util.inc
         forum_show.inc
 
+Bruce 12 Jan 2005
+    more locality sched changes.
+    - bug fix 1, trivial, n % 0  generates FPE if no files.
+    - bug fix 2, sublte.  In the deterministic hunt to find
+      the next unsent result, the comparison of the result name must be
+      done with the lexically maximum result name constructed from the
+      given filename.  Eg, if one needs name>FILE_ZZZZ...Z where
+      Z=0xff (is this charset independent??) and the total name length
+      is 255 (or is it 254??).
+
+    - David, I'll clean out some of the debugging scaffolding in a few
+      more days, when I get some confidence that there are not other
+      problems to fix!  Please read embedded comments/questions in code.
+
+    sched/
+        sched_locality.C
+   
+
