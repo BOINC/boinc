@@ -251,9 +251,12 @@ void add_user() {
 }
 
 int main(int argc, char** argv) {
-    int i;
+    int i, retval;
 
-    db_open(getenv("BOINC_DB_NAME"));
+    retval = db_open(getenv("BOINC_DB_NAME"));
+    if (retval) {
+    	printf("can't open DB %s\n", getenv("BOINC_DB_NAME"));
+    }
     for (i=2; i<argc; i++) {
         if (!strcmp(argv[i], "-app_name")) {
             i++;
