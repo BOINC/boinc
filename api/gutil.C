@@ -32,11 +32,14 @@
 #include <cstring>
 #include <cmath>
 #include <csetjmp>
+extern "C"{
 #include <jpeglib.h>
+}
 #endif
 
 #include "boinc_gl.h"
 
+#include "glut.h"
 #include "gutil.h"
 #include "filesys.h"
 #include "util.h"

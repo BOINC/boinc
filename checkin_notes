@@ -15283,3 +15283,25 @@ David
         db_dump.C
         handle_request.C
         sched_config.C,h
+	
+Noaa: 
+	- completely new copy of x_opengl utilizing glut, updated using Karl's
+	boinc_gl.h. Include-file issues including makefile issues have yet to 
+	be resolved so this will NOT compile with your existing Makefile
+	- updated graphics_api with xwin_graphics_event_loop and some new
+	included files. Will not compile with existing Makefile.
+	- reduce.C rearranged includes and added GL, to be resolved later.
+	- gutil.C extern "C" for jpeglib, glut included, will not compile
+	with existing Makefile
+	- boinc_api.h RETSIGTYPE changed to void
+
+	New makefile to take all of these into account will be committed when
+	available.
+
+	api/
+		x_opengl.C
+		x_opengl.h
+		graphics_api.C
+		reduce.C
+		boinc_api.h
+		gutil.C

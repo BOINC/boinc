@@ -65,7 +65,7 @@ extern APP_CLIENT_SHM *app_client_shm;
 
 // Forward declare implementation functions - POSIX Platform Only.
 #ifdef HAVE_SIGNAL_H
-extern RETSIGTYPE boinc_catch_signal(int signal);
+extern void boinc_catch_signal(int signal);
 extern void boinc_quit(int sig);
 #endif
 
