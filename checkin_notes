@@ -15441,3 +15441,10 @@ David  19 July 2004
         testbase.py
     tools/
         create_work.C
+
+Karl 2004-07-20
+    - fixed bug in md5_string() that caused sample_bitwise_validator to
+      segfault.
+
+    lib/
+        md5_file.C

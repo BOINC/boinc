@@ -80,8 +80,8 @@ int md5_block(const unsigned char* data, int nbytes, char* output) {
 
 std::string md5_string(const unsigned char* data, int nbytes)
 {
-    char output[16];
+    char output[32];
     md5_block(data, nbytes, output);
-    return std::string(output, 16);
+    return std::string(output);
 }
 

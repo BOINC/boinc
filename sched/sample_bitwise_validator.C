@@ -53,7 +53,8 @@ bool operator ==(FileCache const& f1, FileCache const& f2)
 
 // read file into memory
 //
-int init_result_read_file(RESULT const & result, void*& data) {
+int init_result_read_file(RESULT const & result, void*& data)
+{
     int retval;
     string path;
 
@@ -86,8 +87,8 @@ int init_result_read_file(RESULT const & result, void*& data) {
 int check_pair_initialized_identical(
     RESULT const& /*r1*/, void* data1,
     RESULT const& /*r2*/, void* data2,
-    bool& match
-) {
+    bool& match)
+{
     FileCache const* f1 = (FileCache*) data1;
     FileCache const* f2 = (FileCache*) data2;
 
