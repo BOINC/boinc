@@ -3756,3 +3756,14 @@ Eric  March 7, 2003
         sched_util.C,h (added)
         update_stats.C (added)
 
+Seth  March 10, 2003
+	- changed windows graphics handling again.  client/app messaging
+		now mainly consists of the client polling the app windows, 
+		with apps messaging the client when they change modes. 
+		moved most of this into the client's child screensaver window.
+
+	api/
+		windows_opengl.cpp
+	client/win/
+		wingui_sswindow.cpp,h
+		wingui_mainwindow.cpp,h
