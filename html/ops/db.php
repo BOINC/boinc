@@ -135,6 +135,8 @@
         $start_at = 0;
     }
 
+    $query = $query . " limit " . ($entries_to_show+$start_at);
+
     print_header($show);
 
     if ($show=="platform") {
