@@ -10,13 +10,21 @@ require_once("../inc/util.inc");
 define("PROJECT", "Test Project");
 define("MASTER_URL", "");
 define("URL_BASE", "");
+
 define("IMAGE_PATH", "../user_profile/images/");
+
 define("IMAGE_URL", "user_profile/images/");
+
 define("PROFILE_PATH", "../user_profile/");
+
 define("PROFILE_URL", "user_profile/");
+
 define("LANGUAGE_FILE", "languages.txt");
+
 define("STYLESHEET", "white.css");
+
 define("COPYRIGHT_HOLDER", "Test Group");
+
 define("SYS_ADMIN_EMAIL", "");
 
 
