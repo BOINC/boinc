@@ -108,12 +108,15 @@ int ACTIVE_TASK::start(bool first_time) {
     FILE *prefs_fd,*init_file;
     APP_IN app_prefs;
 
+    if(first_time) prev_cpu_time = 0;
+    cpu_time = 0;
     // These should be chosen in a better manner
     app_prefs.graphics.xsize = 640;
     app_prefs.graphics.ysize = 480;
     app_prefs.graphics.refresh_period = 5;
     app_prefs.checkpoint_period = 5;
     app_prefs.poll_period = 5;
+    app_prefs.cpu_time = prev_cpu_time;
 
     // Write out the app prefs
     sprintf( prefs_path, "%s/%s", dirname, CORE_TO_APP_FILE );
@@ -436,6 +439,7 @@ void ACTIVE_TASK_SET::unsuspend_all() {
 
 #ifdef _WIN32
 void ACTIVE_TASK::suspend() {
+    prev_cpu_time = cpu_time;
 	// figure out a way to do this, perhaps via trigger file?
 	//kill(atp->pid, SIGSTOP);
 }
@@ -446,6 +450,7 @@ void ACTIVE_TASK::unsuspend() {
 }
 #else
 void ACTIVE_TASK::suspend() {
+    prev_cpu_time = cpu_time;
 	kill(this->pid, SIGSTOP);
 }
 
@@ -492,6 +497,31 @@ int ACTIVE_TASK_SET::restart_tasks() {
     return 0;
 }
 
+bool ACTIVE_TASK::update_time() {
+    FILE* app_fp;
+    char app_path[256];
+    APP_OUT ao;
+
+    sprintf(app_path, "%s/%s", dirname, APP_TO_CORE_FILE);
+    app_fp = fopen(app_path, "r");
+    if(!app_fp) return false;
+    parse_app_file(app_fp, ao);
+    if(!ao.checkpointed) return false;
+    cpu_time = ao.cpu_time_at_checkpoint + prev_cpu_time;
+    return true;
+}
+
+bool ACTIVE_TASK_SET::poll_time() {
+    ACTIVE_TASK* atp;
+    int i;
+    bool updated;
+    for(i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        updated |= atp->update_time();
+    }
+    return updated;
+}
+
 int ACTIVE_TASK::write(FILE* fout) {
     fprintf(fout,
         "<active_task>\n"
@@ -500,12 +530,14 @@ int ACTIVE_TASK::write(FILE* fout) {
         "    <app_version_num>%d</app_version_num>\n"
         "    <slot>%d</slot>\n"
         "    <cpu_time>%f</cpu_time>\n"
+        "    <prev_cpu_time>%f</prev_cpu_time>"
         "</active_task>\n",
         result->project->master_url,
         result->name,
         app_version->version_num,
         slot,
-        cpu_time
+        cpu_time,
+        prev_cpu_time
     );
     return 0;
 }
@@ -548,6 +580,7 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
         else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         else if (parse_int(buf, "<slot>", slot)) continue;
         else if (parse_double(buf, "<cpu_time>", cpu_time)) continue;
+	else if (parse_double(buf, "<prev_cpu_time>", prev_cpu_time)) continue;
         else fprintf(stderr, "ACTIVE_TASK::parse(): unrecognized %s\n", buf);
     }
     return -1;

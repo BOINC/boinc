@@ -38,6 +38,7 @@ int HOST_INFO::parse(FILE* in) {
         else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
         else if (parse_double(buf, "<p_iops>", p_iops)) continue;
         else if (parse_double(buf, "<p_membw>", p_membw)) continue;
+	else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
         else if (parse_str(buf, "<os_name>", os_name)) continue;
         else if (parse_str(buf, "<os_version>", os_version)) continue;
         else if (parse_double(buf, "<m_nbytes>", m_nbytes)) continue;
@@ -62,6 +63,7 @@ int HOST_INFO::write(FILE* out) {
         "    <p_fpops>%f</p_fpops>\n"
         "    <p_iops>%f</p_iops>\n"
         "    <p_membw>%f</p_membw>\n"
+	"    <p_calculated>%f</p_calculated>\n"
         "    <os_name>%s</os_name>\n"
         "    <os_version>%s</os_version>\n"
         "    <m_nbytes>%f</m_nbytes>\n"
@@ -79,6 +81,7 @@ int HOST_INFO::write(FILE* out) {
         p_fpops,
         p_iops,
         p_membw,
+	p_calculated, 
         os_name,
         os_version,
         m_nbytes,

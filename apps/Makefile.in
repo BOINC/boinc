@@ -36,6 +36,13 @@ uc_slow: uc_slow.o
 1sec: 1sec.o
 	$(CC) 1sec.o $(LIBS) -o 1sec
 
+install: all
+	-mkdir -p /usr/local/boinc/apps
+	cp upper_case /usr/local/boinc/apps/upper_case
+	cp concat /usr/local/boinc/apps/concat
+	cp uc_slow /usr/local/boinc/apps/uc_slow
+	cp 1sec /usr/local/boinc/apps/1sec
+
 clean:
 	rm -f *.o $(APPS) dependencies
 

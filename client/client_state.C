@@ -20,14 +20,17 @@
 #include "windows_cpp.h"
 
 #include <stdio.h>
+#include <time.h>
 
 #include "error_numbers.h"
 #include "file_names.h"
 #include "hostinfo.h"
 #include "log_flags.h"
 #include "parse.h"
-
+#include "speed_stats.h"
 #include "client_state.h"
+
+#define SECONDS_IN_MONTH 2592000
 
 CLIENT_STATE gstate;
 
@@ -68,9 +71,15 @@ int CLIENT_STATE::init(PREFS* p) {
     make_project_dirs();
     make_slot_dirs();
 
-    // TODO: only get host info every so often
+    // Updates computer statistics once per month
     //
-    get_host_info(host_info);
+    if(difftime(time(0), (time_t)host_info.p_calculated) > SECONDS_IN_MONTH) { 
+        get_host_info(host_info); // this is platform dependent
+	host_info.p_fpops = run_double_prec_test(4); //these are not
+	host_info.p_iops = run_int_test(4);
+	host_info.p_membw = run_mem_bandwidth_test(4);
+        host_info.p_calculated = (double)time(0); //set time calculated
+    }
     return 0;
 }
 
@@ -111,6 +120,7 @@ bool CLIENT_STATE::do_something() {
         action |= http_ops->poll();
         action |= file_xfers->poll();
         action |= active_tasks.poll();
+        action |= active_tasks.poll_time();
         action |= get_work();
         action |= garbage_collect();
         action |= start_apps();

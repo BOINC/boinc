@@ -21,23 +21,13 @@
 #include <sys/wait.h>
 #include <time.h>
 
-#ifdef _USING_FCGI_
-#include "/usr/local/include/fcgi_stdio.h"
-#endif
-
 #include "db.h"
 #include "backend_lib.h"
-
-#ifndef _USING_FCGI_
 #include "parse.h"
-#else
-#include "fcgi_parse.h"
-#endif
-
 #include "server_types.h"
 #include "handle_request.h"
 
-#define MIN_SECONDS_TO_SEND 3600 //1 hour
+#define MIN_SECONDS_TO_SEND 1 //testing 3600 //1 hour
 #define MAX_SECONDS_TO_SEND 2419200 //4 weeks
 
 // return true if the WU can be executed on the host
@@ -54,15 +44,30 @@ double estimate_duration(WORKUNIT& wu, HOST& host) {
     return wu.rsc_fpops/host.p_fpops + wu.rsc_iops/host.p_iops;
 }
 
+//inserts an xml tag in xml_doc with an estimation of how many seconds
+//a workunit will take to complete
+int insert_time_tag(WORKUNIT& wu, double seconds) {
+    char *location;
+    location = strstr(wu.xml_doc, "</workunit>");
+    if((location - wu.xml_doc) > (MAX_BLOB_SIZE - 64)) {
+	return -1; //not enough space to include time info
+    }
+    sprintf(location, "    <seconds_to_complete>%lf</seconds_to_complete>\n"
+	              "</workunit>\n", seconds);
+    return 0;
+}
+
 // add the given workunit to a reply.
 // look up its app, and make sure there's a version for this platform.
 // Add the app and app_version to the reply also.
 //
 int add_wu_to_reply(
-    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform, SCHED_SHMEM& ss
+    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform, SCHED_SHMEM& ss,
+    double seconds_to_complete
 ) {
     APP* app;
     APP_VERSION* app_version;
+    int retval;
 
     app = ss.lookup_app(wu.appid);
     if (!app) return -1;
@@ -74,6 +79,10 @@ int add_wu_to_reply(
 
     reply.insert_app_unique(*app);
     reply.insert_app_version_unique(*app_version);
+
+    retval = insert_time_tag(wu, seconds_to_complete); //add time estimate
+                                                       //to reply
+    if (retval) return -1;
     reply.insert_workunit_unique(wu);
     return 0;
 }
@@ -169,6 +178,7 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
     host.p_fpops = sreq.host.p_fpops;
     host.p_iops = sreq.host.p_iops;
     host.p_membw = sreq.host.p_membw;
+    host.p_calculated = sreq.host.p_calculated;
     strcpy(host.os_name, sreq.host.os_name);
     strcpy(host.os_version, sreq.host.os_version);
     host.m_nbytes = sreq.host.m_nbytes;
@@ -260,9 +270,9 @@ int handle_results(
 
 int send_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    HOST& host, SCHED_SHMEM& ss, WORKUNIT& wu_sending
+    HOST& host, SCHED_SHMEM& ss
 ) {
-    int i, retval, nresults = 0;
+    int i, retval, nresults = 0, seconds_to_fill;
     WORKUNIT wu;
     RESULT result;
 #if 0
@@ -270,19 +280,31 @@ int send_work(
     char prefix [256];
 #endif
 
-    for (i=0; i<ss.nwu_results; i++) {
+    seconds_to_fill = sreq.work_req_seconds;
+    if(seconds_to_fill > MAX_SECONDS_TO_SEND)
+        seconds_to_fill = MAX_SECONDS_TO_SEND;
+    else if(seconds_to_fill < MIN_SECONDS_TO_SEND)
+        seconds_to_fill = MIN_SECONDS_TO_SEND;
+
+    for (i=0; i<ss.nwu_results && seconds_to_fill>0; i++) {
 
         // the following should be a critical section
         //
-        if (!ss.wu_results[i].present) continue;
+        if (!ss.wu_results[i].present || 
+            !wu_is_feasible(ss.wu_results[i].workunit, host) 
+        ) {
+	    continue;
+	}
         wu = ss.wu_results[i].workunit;
         result = ss.wu_results[i].result;
         ss.wu_results[i].present = false;
-
-        retval = add_wu_to_reply(wu, reply, platform, ss);
+        
+        retval = add_wu_to_reply(wu, reply, platform, ss,
+	    estimate_duration(wu, host)
+        );
         if (retval) continue;
         reply.insert_result(result);
-	wu_sending = wu;
+	seconds_to_fill -= (int)estimate_duration(wu, host);
         nresults++;
 
         result.state = RESULT_STATE_IN_PROGRESS;
@@ -340,9 +362,8 @@ void process_request(
     HOST host;
     USER user;
     PLATFORM* platform;
-    int retval, seconds_to_fill;
+    int retval;
     char buf[256];
-    WORKUNIT wu;
 
     retval = authenticate_user(sreq, reply, user, host);
     if (retval) return;
@@ -365,15 +386,7 @@ void process_request(
 
     handle_results(sreq, reply, host);
 
-    seconds_to_fill = sreq.work_req_seconds;
-    if(seconds_to_fill > MAX_SECONDS_TO_SEND)
-	seconds_to_fill = MAX_SECONDS_TO_SEND;
-    else if(seconds_to_fill < MIN_SECONDS_TO_SEND)
-	seconds_to_fill = MIN_SECONDS_TO_SEND;
-    while(seconds_to_fill > 0) {
-	send_work(sreq, reply, *platform, host, ss, wu);
-	seconds_to_fill -= (int)estimate_duration(wu, host);
-    }
+    send_work(sreq, reply, *platform, host, ss);
 }
 
 void handle_request(FILE* fin, FILE* fout, SCHED_SHMEM& ss) {

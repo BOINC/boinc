@@ -7,4 +7,5 @@
     <file_xfer_debug/>
     <sched_op_debug/>
     <time_debug/>
+    <http_debug/>
 </log_flags>

@@ -31,10 +31,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#ifdef _USING_FCGI_
-#include "/usr/local/include/fcgi_stdio.h"
-#endif
-
 #include "parse.h"
 
 bool match_tag(char* buf, char* tag) {

@@ -28,6 +28,10 @@
 #else
 #include <unistd.h>
 #endif
+#ifdef UNIX
+#include <sys/time.h>
+#endif
+#include <signal.h>
 
 #include <fcntl.h>
 #include <sys/types.h>
@@ -98,12 +102,14 @@ void write_core_file(FILE* f, APP_IN& ai) {
         "<graphics_ysize>%d</graphics_ysize>\n"
         "<graphics_refresh_period>%f</graphics_refresh_period>\n"
         "<checkpoint_period>%f</checkpoint_period>\n"
-        "<poll_period>%f</poll_period>\n",
+        "<poll_period>%f</poll_period>\n"
+        "<cpu_time>%f</cpu_time>\n",
         ai.graphics.xsize,
         ai.graphics.ysize,
         ai.graphics.refresh_period,
         ai.checkpoint_period,
-        ai.poll_period
+	ai.poll_period,
+        ai.cpu_time
     );
 }
 
@@ -124,6 +130,7 @@ void parse_core_file(FILE* f, APP_IN& ai) {
         else if (parse_double(buf, "<graphics_refresh_period>", ai.graphics.refresh_period)) continue;
         else if (parse_double(buf, "<checkpoint_period>", ai.checkpoint_period)) continue;
         else if (parse_double(buf, "<poll_period>", ai.poll_period)) continue;
+	else if (parse_double(buf, "<cpu_time>", ai.cpu_time)) continue;
         else fprintf(stderr, "parse_core_file: unrecognized %s", buf);
     }
 }
@@ -141,6 +148,14 @@ void write_app_file(FILE* f, APP_OUT& ao) {
 }
 
 void parse_app_file(FILE* f, APP_OUT& ao) {
+    char buf[256];
+    while (fgets(buf, 256, f)) {
+        if (parse_double(buf, "<percent_done>", ao.percent_done)) continue;
+        else if (parse_double(buf, "<cpu_time_at_checkpoint>", 
+            ao.cpu_time_at_checkpoint)) continue;
+        else if (match_tag(buf, "<checkpointed/>")) ao.checkpointed = true;
+        else fprintf(stderr, "parse_app_file: unrecognized %s", buf);
+    }
 }
 
 void write_init_file(FILE* f, char *file_name, int fdesc, int input_file ) {
@@ -212,6 +227,7 @@ void boinc_init(APP_IN& ai) {
         parse_init_file(f);
         unlink(BOINC_INIT_FILE);
     }
+    set_timer((int)ai.checkpoint_period);
 }
 
 double boinc_time() {
@@ -251,5 +267,61 @@ int boinc_resolve_link(char *file_name, char *resolved_name)
     }
 
     return 0;
+}
+
+bool checkpoint = false;
+
+double get_cpu_time() {
+    int retval, pid = getpid();
+#ifdef unix
+    struct rusage ru;
+    retval = getrusage(RUSAGE_SELF, &ru);
+    if(retval) fprintf(stderr, "error: could not get cpu time for %d\n", pid);
+    return (double)ru.ru_utime.tv_sec + (
+	((double)ru.ru_utime.tv_usec) / ((double)1000000.0)
+    ); //this should be a decimal, but isn't
+#else
+    return 0;
+#endif
+}
+
+int checkpoint_completed() {
+    int retval;
+    APP_OUT ao;
+    FILE *f = fopen(APP_TO_CORE_FILE, "w");
+    ao.cpu_time_at_checkpoint = get_cpu_time();
+    write_app_file(f, ao);
+    retval = fflush(f);
+    if(retval) {
+	fprintf(stderr,"error: could not flush %s\n", APP_TO_CORE_FILE);
+	return retval;
+    }
+    retval = fclose(f);
+    if(retval) {
+	fprintf(stderr, "error: could not close %s\n", APP_TO_CORE_FILE);
+	return retval;
+    }
+    checkpoint = false;
+    return 0;
+}
+
+void on_timer(int a) {
+    checkpoint = true;
+}
+
+int set_timer(int period) {
+    int retval=0;
+    struct sigaction sa;
+    sa.sa_handler = on_timer;
+    sa.sa_flags = 0;
+    sigaction(SIGVTALRM, &sa, NULL);
+#ifdef unix
+    itimerval value;
+    value.it_value.tv_sec = period;
+    value.it_value.tv_usec = 0;
+    value.it_interval = value.it_value;
+    retval = setitimer(ITIMER_VIRTUAL, &value, NULL);
+#endif
+    return retval;
 }
 

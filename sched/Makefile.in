@@ -5,12 +5,12 @@ VPATH           = @srcdir@
 
 all: cgi
 
-CFLAGS = -g -Wall @DEFS@ -I@top_srcdir@/db -I@top_srcdir@/lib -I@top_srcdir@/tools
+CFLAGS = -g -Wall @DEFS@ -I@top_srcdir@/db -I@top_srcdir@/lib -I@top_srcdir@/tools -I/usr/local/mysql/include
 CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
 
-PROGS = cgi feeder show_shmem
+PROGS = cgi feeder show_shmem fcgi
 
 all: $(PROGS)
 
@@ -39,14 +39,31 @@ SHOW_SHMEM_OBJS = \
     ../db/mysql_util.o \
     ../lib/shmem.o
 
+FCGI_OBJS = \
+    handle_request.fcgi.o \
+    main.fcgi.o \
+    sched_shmem.fcgi.o \
+    server_types.fcgi.o \
+    ../db/db_mysql.fcgi.o \
+    ../db/mysql_util.fcgi.o \
+    ../lib/shmem.fcgi.o \
+    ../lib/parse.fcgi.o \
+    ../tools/process_result_template.fcgi.o
+FCGI_LIBS = -lfcgi -lfcgi++
+FCGI_FLAGS = -include /usr/local/include/fcgi_stdio.h -D_USING_FCGI_
+
 MYSQL_DIR = /usr/local/mysql/lib
 MYSQL_LIBS = \
 -L$(MYSQL_DIR) -L/sw/lib/mysql -L/usr/local/lib/mysql \
 -lmysqlclient -L/usr/local/lib -lz \
 -lm $(NETLIBS) 
 
+%.fcgi.o: %.C
+	$(CC) $(FCGI_FLAGS) -c $*.C -o $*.fcgi.o
+
 .C.o:
 	$(CC) -c -o $*.o $<
+
 .c.o:
 	$(CC) -c -o $*.o $<
 
@@ -59,6 +76,10 @@ feeder: $(FEEDER_OBJS)
 show_shmem: $(SHOW_SHMEM_OBJS)
 	$(CC) $(SHOW_SHMEM_OBJS) $(MYSQL_LIBS) $(CLIBS) -o show_shmem
 
+fcgi: $(FCGI_OBJS)
+	$(CC) $(FCGI_OBJS) $(MYSQL_LIBS) $(CLIBS) $(FCGI_LIBS) \
+	    -o fcgi
+
 dependencies: @srcdir@/*.C
 	$(CC) -M @srcdir@/*.C > dependencies
 
@@ -66,3 +87,10 @@ include dependencies
 
 clean:
 	rm -f $(PROGS) *.o core dependencies config.cache
+
+install: $(PROGS)
+	-mkdir -p /usr/local/boinc/sched
+	cp fcgi /usr/local/boinc/sched/fcgi
+	cp cgi /usr/local/boinc/sched/cgi
+	cp feeder /usr/local/boinc/sched/feeder
+	cp show_shmem /usr/local/boinc/sched/show_shmem

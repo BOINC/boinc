@@ -40,6 +40,7 @@ struct HOST_INFO {
     double p_fpops;
     double p_iops;
     double p_membw;
+    double p_calculated; //needs to be initialized to zero
 
     char os_name[256];
     char os_version[256];

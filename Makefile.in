@@ -16,7 +16,6 @@ all:
 	cd apps; make; cd ..; \
 	cd client; ../$(srcdir)/client/configure; make; cd ..; \
 	cd sched; make; cd ..; \
-	cd sched_fcgi; make; cd ..; \
 	cd tools; make; cd ..;
 
 clean:
@@ -27,6 +26,16 @@ clean:
 	cd client; make clean; cd ..; \
 	cd sched; make clean; cd ..; \
 	cd tools; make clean; cd ..;
+
+install: all
+	-mkdir -p /usr/local/boinc;
+	cd sched; make install;
+	cd lib; make install;
+	cd api; make install;
+	cd apps; make install;
+	cd client; make install;
+	cd tools; make install;
+	cp -r test /usr/local/boinc;
 
 tar: clean
 	tar cf boinc.tar * ; gzip boinc.tar

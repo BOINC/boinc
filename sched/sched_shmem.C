@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef _USING_FCGI_
-#include "/usr/local/include/fcgi_stdio.h"
-#endif
-
 #include "db.h"
 
 #include "sched_shmem.h"

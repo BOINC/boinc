@@ -95,6 +95,7 @@ int NET_XFER::open_server() {
 #else
         if (errno != EINPROGRESS) {
             close(fd);
+            perror("connect");
             return -1;
         }
 #endif

@@ -24,6 +24,7 @@
     <p_fpops>0.000000</p_fpops>
     <p_iops>0.000000</p_iops>
     <p_membw>0.000000</p_membw>
+    <p_calculated>0.000000</p_calculated>
     <os_name>Linux</os_name>
     <os_version>2.2.14-5.0</os_version>
     <m_nbytes>197427200.000000</m_nbytes>

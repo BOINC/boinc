@@ -139,6 +139,7 @@ struct HOST {
     double p_fpops;
     double p_iops;
     double p_membw;
+    double p_calculated;
 
     char os_name[256];
     char os_version[256];

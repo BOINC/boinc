@@ -339,6 +339,8 @@ int WORKUNIT::parse(FILE* in) {
         else if (parse_int(buf, "<version_num>", version_num)) continue;
         else if (parse_str(buf, "<command_line>", command_line)) continue;
         else if (parse_str(buf, "<env_vars>", env_vars)) continue;
+	else if (parse_double(buf, "<seconds_to_complete>", 
+			      seconds_to_complete)) continue; 
         else if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             input_files.push_back(file_ref);

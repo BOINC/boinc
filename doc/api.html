@@ -17,4 +17,13 @@ and to report errors.
 Simple support for writing output into memory buffers,
 then appending them to output files and
 writing the checkpoint file (almost atomic).
+<li> <b>Using the api </b>.
+The client, if using the api, should call time_to_checkpoint()
+inside of the innermost loop, and, if time_to_checkpoint()
+returns true, the client should run a checkpoint, then call
+checkpoint_completed(). This will ensure proper cpu time
+accounting and write trigger files for the core client. All
+input and output should be written through MFILEs, using the
+associated i/o functions and flushing MFILEs at each checkpoint
+to ensure data is saved. 
 </ul>

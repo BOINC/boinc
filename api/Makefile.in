@@ -5,7 +5,7 @@ VPATH           = @srcdir@
 
 VERSION = 1
 
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -I../lib/
 
 CC = @CC@ $(CFLAGS)
 
@@ -25,6 +25,10 @@ OBJS = \
 
 api_test: $(OBJS)
 	$(CC) $(OBJS) -o api_test
+
+install: all
+	-mkdir -p /usr/local/boinc/api
+	cp api_test /usr/local/boinc/api/api_test
 
 clean:
 	rm -f *.o $(PROGS) core dependencies

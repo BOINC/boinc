@@ -19,10 +19,6 @@
 
 #include <strings.h>
 
-#ifdef _USING_FCGI_
-#include "/usr/local/include/fcgi_stdio.h"
-#endif
-
 #include "parse.h"
 #include "server_types.h"
 
@@ -258,6 +254,7 @@ int HOST::parse(FILE* fin) {
         else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
         else if (parse_double(buf, "<p_iops>", p_iops)) continue;
         else if (parse_double(buf, "<p_membw>", p_membw)) continue;
+        else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
         else if (parse_str(buf, "<os_name>", os_name)) continue;
         else if (parse_str(buf, "<os_version>", os_version)) continue;
         else if (parse_double(buf, "<m_nbytes>", m_nbytes)) continue;

@@ -27,10 +27,6 @@
 #include "server_types.h"
 #include "handle_request.h"
 
-#ifdef _USING_FCGI_
-#include "/usr/local/include/fcgi_stdio.h"
-#endif
-
 #define REQ_FILE_PREFIX "/tmp/boinc_req_"
 #define REPLY_FILE_PREFIX "/tmp/boinc_reply_"
 
@@ -54,7 +50,9 @@ int main() {
     void* p;
     
     #ifdef _USING_FCGI_
+    int counter = 0;
     while(FCGI_Accept >= 0) {
+    counter++;
     #endif
     retval = attach_shmem(BOINC_KEY, &p);
     if (retval) {
@@ -77,7 +75,7 @@ int main() {
         fprintf(stderr, "handle_request(): feeder doesn't seem to be running\n");
         exit(1);
     }
-    fprintf(stderr, "got ready flag\n");
+    //fprintf(stderr, "got ready flag\n");
 
     pid = getpid();
     sprintf(req_path, "%s%d", REQ_FILE_PREFIX, pid);
@@ -120,5 +118,6 @@ int main() {
     unlink(reply_path);
     #ifdef _USING_FCGI_
     }
+    printf("loop cycled %d times\n", counter);
     #endif
 }

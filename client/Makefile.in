@@ -81,6 +81,13 @@ tar:
 clean:
 	rm -f *.o $(PROGS) core dependencies Makefile config.cache
 
+install: all
+	-mkdir -p /usr/local/boinc/client
+	cp test_net_xfer /usr/local/boinc/client/test_net_xfer
+	cp test_http /usr/local/boinc/client/test_http
+	cp test_file_xfer /usr/local/boinc/client/test_file_xfer
+	cp $(CLIENT_PROG) /usr/local/boinc/client/$(CLIENT_PROG)
+
 dependencies: @srcdir@/*.C
 	$(CC) -M @srcdir@/*.C > dependencies
 

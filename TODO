@@ -16,8 +16,6 @@ HIGH-PRIORITY (must be done to support SETI@home)
     can't connect to sched server
     error return from sched server
 
-- make scheduling server use fast CGI
-
 - proxy support
     HTTP, Socks
     Look at other open source code
@@ -191,4 +189,8 @@ DONE (may need test)
 
 - measure bandwidth on each network xfer
     maintain exponential average, weighted by #bytes xferred
+
+- make scheduling server work with fast cgi
+
+- high and low water marks implemented
 

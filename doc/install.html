@@ -11,7 +11,10 @@ installed on a server computer running Linux or Solaris:
 
 <p>
 Unzip and untar the BOINC release, and compile it
-by typing "configure" and "make".
+by typing "configure" and "make". 
+To install in /usr/local/boinc, type "make install".
+<br>If Apache is configured to run with Fast CGI, rename
+fcgi to cgi in the "boinc/sched" directory, replacing the existing cgi.
 <p>
 Edit your Apache configuration file (httpd.conf) to
 set the "boinc/sched" directory as CGI,
@@ -29,7 +32,7 @@ setenv BOINC_URL_BASE       http://localhost.localdomain/download
 <p>
 Go into the boinc/test directory, and type
 <pre>
-test_uc
+test_uc.php
 </pre>
 
 This script runs a test case that initializes the database

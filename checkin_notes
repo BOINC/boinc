@@ -574,3 +574,50 @@ David A     June 20 2002
         init.inc
         prefs1.xml, prefs2.xml (new)
         test_*.php
+
+Michael Gary	June 21 2002
+    - added install to the make system to put executables
+        in /usr/local/boinc
+    - simplified make system for fast cgi scheduling server
+    - completed implementation of high/low water system and
+        testing of host.
+    - checkpoints and timekeeping now implemented in api
+    - timekeeping through api done in client state
+
+    Makefile.in
+    configure
+    api/
+        Makefile.in
+        api.C
+        api.h
+        api_test.C
+    apps/
+        Makefile.in
+    client/
+        Makefile.in
+        client_state.C
+        client_state.h
+        client_types.C
+        client_types.h
+        cs_scheduler.C
+        hostinfo.C
+        hostinfo.h
+        app.h
+        app.C
+    db/
+        db.h
+    lib/
+        Makefile.in
+    sched/
+        Makefile.in
+        feeder.C
+        handle_request.C
+        main.C
+        parse.C (removed)
+        parse.h (removed)
+        sched_shmem.C
+        server_types.C
+        show_shmem.C
+    test/
+        log_flags.php
+    sched_fcgi/ (removed)

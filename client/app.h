@@ -62,7 +62,8 @@ public:
     int exit_status;
     int signal;
     char dirname[256];      // directory where process runs
-    double cpu_time;        // CPU time thus far
+    double cpu_time;        // total CPU time
+    double prev_cpu_time;   // CPU time from previous processes
     ACTIVE_TASK();
     int init(RESULT*);
 
@@ -72,8 +73,10 @@ public:
     void request_pause(int x);
         // request a task to pause.  If not paused after x secs, kill
 
-	void suspend();
-	void unsuspend();
+    void suspend();
+    void unsuspend();
+
+    bool update_time();
 
     int write(FILE*);
     int parse(FILE*, CLIENT_STATE*);
@@ -86,6 +89,7 @@ public:
     int remove(ACTIVE_TASK*);
     ACTIVE_TASK* lookup_pid(int);
     bool poll();
+    bool poll_time();
     void suspend_all();
     void unsuspend_all();
     int restart_tasks();

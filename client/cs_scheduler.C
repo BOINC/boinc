@@ -46,12 +46,6 @@
 // quantities like avg CPU time decay by a factor of e every week
 #define EXP_DECAY_RATE  (1./(3600*24*7))
 
-//estimates amount of time a workunit will take to complete
-//
-double CLIENT_STATE::estimate_duration(WORKUNIT* wup) {
-    return wup->rsc_fpops/host_info.p_fpops + wup->rsc_iops/host_info.p_iops;
-}
-
 //estimates the number of days of work remaining
 //
 double CLIENT_STATE::current_water_days() {
@@ -61,9 +55,9 @@ double CLIENT_STATE::current_water_days() {
         RESULT* rp = results[i];
         if (rp->is_compute_done) continue;
 	if (rp->cpu_time > 0)
-	    seconds_remaining += (estimate_duration(rp->wup) - rp->cpu_time);
+	    seconds_remaining += (rp->wup->seconds_to_complete - rp->cpu_time);
 	else
-	    seconds_remaining += estimate_duration(rp->wup);
+	    seconds_remaining += rp->wup->seconds_to_complete;
     }
     return (seconds_remaining * 86400);
 }

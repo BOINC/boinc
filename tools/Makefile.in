@@ -52,6 +52,12 @@ country_select: country_select.o ../lib/countries.o
 clean:
 	rm -f *.o create_work add core country_select dependencies
 
+install:
+	-mkdir -p /usr/local/boinc/tools
+	cp create_work /usr/local/boinc/tools/create_work
+	cp add /usr/local/boinc/tools/add
+	cp country_select /usr/local/boinc/tools/country_select
+
 dependencies: @srcdir@/*.C
 	$(CC) -M @srcdir@/*.C > dependencies
 
