@@ -24332,3 +24332,18 @@ Bruce 8 Feb 2005
         handle_request.C
         sched_config.C
         sched_config.h
+
+Bruce 8 Feb 2005
+    - Turn off ops pages that update the data base.  These now issue a message
+      informing the project admin that they need to be explicitly edited to
+      enable updating the database.  This will help prevent inadvertent use.
+      Thanks to David Hammer.
+
+    html/
+        ops/
+            clear_host.php
+            forum_repair.php
+            make_emails_lowercase.php
+            repair_validator_problem.php
+            team_repair.php
+

@@ -3,6 +3,18 @@
 set_time_limit(0);
 require_once("../inc/db.inc");
 
+// activate/deactivate script
+if (1) {
+  echo "
+This script needs to be activated before it can be run.
+Once you understand what the script does you can change the 
+if (1) to if (0) at the top of the file to activate it.
+Be sure to deactivate the script after using it to make sure
+it is not accidentally run. 
+";
+  exit;
+}
+
 db_init();
 
 $result = mysql_query("select * from workunit where canonical_resultid=0");
