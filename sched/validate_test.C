@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -45,7 +45,7 @@ int get_output_file_path(RESULT& result, char* path) {
 int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
     int i, j, n, neq=0, retval, ilow, ihigh, canonical;
     char* files[100];
-    char path[256], buf[256];
+    char path[256];
     bool found;
     double c, low=0.0, high=0.0;
 
@@ -57,17 +57,15 @@ int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
     for (i=0; i<n; i++) {
         retval = get_output_file_path(results[i], path);
         if (retval) {
-            fprintf(
-                stderr,
-                "check_set: can't get output filename for %s\n",
-                results[i].name
-            );
+            write_log(MSG_CRITICAL,
+                      "check_set: can't get output filename for %s\n",
+                      results[i].name
+                );
             return retval;
         }
         retval = read_file_malloc(path, files[i]);
         if (retval) {
-            sprintf(buf, "read_file_malloc %s %d\n", path, retval);
-            write_log(buf, MSG_CRITICAL);
+            write_log(MSG_CRITICAL, "read_file_malloc %s %d\n", path, retval);
             return retval;
         }
     }
@@ -151,13 +149,13 @@ int check_pair(RESULT& r1, RESULT& r2, bool& match) {
     get_output_file_path(r1, path);
     retval = read_file_malloc(path, p1);
     if (retval) {
-        fprintf(stderr, "read_file_malloc %s %d\n", path, retval);
+        write_log(MSG_CRITICAL, "read_file_malloc %s %d\n", path, retval);
         return retval;
     }
     get_output_file_path(r2, path);
     retval = read_file_malloc(path, p2);
     if (retval) {
-        fprintf(stderr, "read_file_malloc %s %d\n", path, retval);
+        write_log(MSG_CRITICAL, "read_file_malloc %s %d\n", path, retval);
         return retval;
     }
     match = !strcmp(p1, p2);
