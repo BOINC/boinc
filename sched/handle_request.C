@@ -379,7 +379,7 @@ int handle_results(
         result.cpu_time = rp->cpu_time;
         result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
         result.server_state = RESULT_SERVER_STATE_OVER;
-        if (result.client_state == CLIENT_DONE) {
+        if (result.client_state == RESULT_FILES_UPLOADED) {
             result.outcome = RESULT_OUTCOME_SUCCESS;
             retval = db_workunit(result.workunitid, wu);
             if (retval) {

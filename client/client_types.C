@@ -595,11 +595,12 @@ void RESULT::clear() {
     output_files.clear();
     is_active = false;
     state = RESULT_NEW;
+    ready_to_ack = false;
+    server_ack = false;
     final_cpu_time = 0;
     exit_status = 0;
     active_task_state = 0;
     signal = 0;
-    client_state = CLIENT_UNINITIALIZED;
     strcpy(stderr_out, "");
     app = NULL;
     wup = NULL;
@@ -646,7 +647,6 @@ int RESULT::parse_state(FILE* in) {
             continue;
         }
         else if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
-        else if (parse_int(buf, "<client_state>", client_state)) continue;
         else if (parse_int(buf, "<exit_status>", exit_status)) continue;
         else if (parse_int(buf, "<state>", state)) continue;
         else if (match_tag(buf, "<stderr_out>")) {
@@ -675,7 +675,7 @@ int RESULT::write(FILE* out, bool to_server) {
         "    <client_state>%d</client_state>\n"
         "    <final_cpu_time>%f</final_cpu_time>\n",
         name,
-        client_state,
+        state,
         final_cpu_time
     );
     n = strlen(stderr_out);

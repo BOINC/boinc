@@ -340,7 +340,6 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
     state = PROCESS_RUNNING;
     result->active_task_state = PROCESS_RUNNING;
-    result->client_state = CLIENT_COMPUTING;
     return 0;
 }
 
@@ -413,7 +412,7 @@ bool ACTIVE_TASK_SET::poll() {
                 if (atp->state == PROCESS_ABORT_PENDING) {
                     atp->state = PROCESS_ABORTED;
 		    atp->result->active_task_state = PROCESS_ABORTED;
-		    gstate.report_project_error(*(atp->result), 0, "process was aborted\n",CLIENT_COMPUTING);
+		    gstate.report_project_error(*(atp->result), 0, "process was aborted\n");
                 } else {
                     atp->state = PROCESS_EXITED;
                     atp->exit_status = exit_code;
@@ -422,7 +421,7 @@ bool ACTIVE_TASK_SET::poll() {
 		    //if a nonzero error code, then report it
 		    if(exit_code)
 		      {
-			gstate.report_project_error(*(atp->result),0,"process exited with a non zero exit code\n",CLIENT_COMPUTING);
+			gstate.report_project_error(*(atp->result),0,"process exited with a non zero exit code\n");
 		      }
                 }
                 CloseHandle(atp->pid_handle);
@@ -451,7 +450,7 @@ bool ACTIVE_TASK_SET::poll() {
         if (atp->state == PROCESS_ABORT_PENDING) {
             atp->state = PROCESS_ABORTED;
 	    atp->result->active_task_state =  PROCESS_ABORTED;
-	    gstate.report_project_error(*(atp->result),0,"process was aborted\n",CLIENT_COMPUTING);
+	    gstate.report_project_error(*(atp->result),0,"process was aborted\n");
         } else {
             if (WIFEXITED(stat)) {
                 atp->state = PROCESS_EXITED;
@@ -462,7 +461,7 @@ bool ACTIVE_TASK_SET::poll() {
 		//if exit_status != 0, then we don't need to upload the files for the result of this app 
 		if(atp->exit_status)
 		  {
-		    gstate.report_project_error(*(atp->result),0,"process exited with a nonzero exit code\n",CLIENT_COMPUTING);
+		    gstate.report_project_error(*(atp->result),0,"process exited with a nonzero exit code\n");
 		  }
 		 if (log_flags.task_debug) printf("process exited: status %d\n", atp->exit_status);
             } else if (WIFSIGNALED(stat)) {
@@ -470,7 +469,7 @@ bool ACTIVE_TASK_SET::poll() {
                 atp->signal = WTERMSIG(stat);
                 atp->result->signal = atp->signal;
 		atp->result->active_task_state = PROCESS_WAS_SIGNALED;
-		gstate.report_project_error(*(atp->result),0,"process was signaled\n",CLIENT_COMPUTING);
+		gstate.report_project_error(*(atp->result),0,"process was signaled\n");
                 if (log_flags.task_debug) printf("process was signaled: %d\n", atp->signal);
             } else {
 	      atp->state = PROCESS_EXIT_UNKNOWN;
@@ -638,9 +637,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
         if (retval) {
             fprintf(stderr, "ACTIVE_TASKS::restart_tasks(); restart failed: %d\n", retval);
             atp->result->active_task_state = PROCESS_COULDNT_START;
-            atp->result->client_state = CLIENT_COMPUTING;
-            gstate.report_project_error(*(atp->result),retval,"Couldn't restart the app for this result.\n",CLIENT_COMPUTING);
-            
+            gstate.report_project_error(*(atp->result),retval,"Couldn't restart the app for this result.\n");      
             active_tasks.erase(iter);
         } else {
             iter++;

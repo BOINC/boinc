@@ -264,6 +264,10 @@ struct RESULT {
                                     // (download, compute, upload)
                                     // Defined if outcome is CLIENT_ERROR
                                     // and error details are in stderr_out
+                                    // the values for this field are defined
+                                    // in sched/server_types.h and 
+                                    // in client/client_types.h, 
+                                    // they are the same.
     int hostid;                     // host processing this result
     unsigned int report_deadline;   // deadline for receiving result
     unsigned int sent_time;         // when result was sent to host

@@ -943,7 +943,7 @@ bool CLIENT_STATE::garbage_collect() {
     result_iter = results.begin();
     while (result_iter != results.end()) {
         rp = *result_iter;
-        if (rp->state == RESULT_SERVER_ACK) {
+        if (rp->server_ack) {
             if (log_flags.state_debug) printf("deleting result %s\n", rp->name);
             delete rp;
             result_iter = results.erase(result_iter);
@@ -954,14 +954,13 @@ bool CLIENT_STATE::garbage_collect() {
             //
             if(rp->wup->had_failure(failnum)) {
                 // If we don't already have an error for this file
-                if (rp->state < RESULT_READY_TO_ACK) {
+                if (!rp->ready_to_ack) {
                     // the wu corresponding to this result
                     // had an error downloading some input file(s).
                     //
                     report_project_error(
                         *rp,0,
-                        "The work_unit corresponding to this result had an error",
-                        CLIENT_DOWNLOADING
+                        "The work_unit corresponding to this result had an error"
                     );
                 }
             } else {
@@ -974,14 +973,13 @@ bool CLIENT_STATE::garbage_collect() {
                 // will be cleaned up after the server is notified
                 //
                 if(rp->output_files[i].file_info->had_failure(failnum)) {
-                    if (rp->state < RESULT_READY_TO_ACK) {
+                    if (!rp->ready_to_ack) {
                         // had an error uploading a file for this result
                         //
-                        rp->client_state = CLIENT_UPLOADING;
+                        
                         report_project_error(*rp,0,
-                            "An output file of this result had an error",
-                            CLIENT_UPLOADING
-                        );
+                            "An output file of this result had an error"
+		        );
                     }
                 } else {
                     rp->output_files[i].file_info->ref_cnt++;
@@ -1052,6 +1050,13 @@ bool CLIENT_STATE::update_results() {
     result_iter = results.begin();
     while (result_iter != results.end()) {
         rp = *result_iter;
+	// The result has been received by the scheduling
+	// server.  It will be deleted on the next
+	// garbage collection, which we trigger by
+	// setting action to true
+	if(rp->server_ack)
+	  action = true;
+
         switch (rp->state) {
             case RESULT_NEW:
                 if (input_files_available(rp)) {
@@ -1068,26 +1073,15 @@ bool CLIENT_STATE::update_results() {
                 // that the necessary files have been uploaded
                 // before moving on
                 if (rp->is_upload_done()) {
-                    rp->state = RESULT_READY_TO_ACK;
-                    rp->client_state = CLIENT_DONE;
+		    rp->ready_to_ack = true;
+                    rp->state = RESULT_FILES_UPLOADED;
                     action = true;
                 }
                 break;
 
-            case RESULT_ERROR:
-                 rp->state = RESULT_READY_TO_ACK;
-                 action = true;
-
-            case RESULT_READY_TO_ACK:
+            case RESULT_FILES_UPLOADED:
                 // The transition to SERVER_ACK is performed in
                 // handle_scheduler_reply()
-                break;
-            case RESULT_SERVER_ACK:
-                // The result has been received by the scheduling
-                // server.  It will be deleted on the next
-                // garbage collection, which we trigger by
-                // setting action to true
-                action = true;
                 break;
         }
         result_iter++;
@@ -1224,22 +1218,21 @@ void CLIENT_STATE::set_client_state_dirty(char* source) {
 // or it gets signaled, relevant info is printed to stderr_out of res.
 //
 int CLIENT_STATE::report_project_error(
-    RESULT& res, int err_num, char *err_msg, int state
-) {
+    RESULT& res, int err_num, char *err_msg
+    ) {
     char total_err[STDERR_MAX_LEN];
     unsigned int i;
     int failnum;
     
-    // if this result is already in a state of error, then do nothing
+    // if this result is already in a a ready_to_ack state
     //
-    if (res.state == RESULT_ERROR) {
+    if (res.ready_to_ack) {
         return 0;
     }
-        
-    res.state = RESULT_ERROR;
-    scheduler_op->backoff(res.project, "");
+    
+    res.ready_to_ack = true;
 
-    res.client_state = state;
+    scheduler_op->backoff(res.project, "");
 
     sprintf( total_err, 
         "<message>%s</message>\n"
@@ -1256,7 +1249,7 @@ int CLIENT_STATE::report_project_error(
         strcat(res.stderr_out, total_err );
     }
     
-    if ((res.client_state == CLIENT_COMPUTING) && err_num) {            
+    if ((res.state == RESULT_FILES_DOWNLOADED) && err_num) {            
         sprintf(total_err,"<couldnt_start>%d</couldnt_start>\n", err_num);
         if (strlen(res.stderr_out)+strlen(total_err) < STDERR_MAX_LEN) {
             strcat(res.stderr_out, total_err );
@@ -1264,7 +1257,7 @@ int CLIENT_STATE::report_project_error(
     }
                     
 
-    if (res.client_state == CLIENT_DOWNLOADING) {
+    if (res.state == RESULT_NEW) {
         for (i=0;i<res.wup->input_files.size();i++) {
             if (res.wup->input_files[i].file_info->had_failure(failnum)) {
                 sprintf(total_err,
@@ -1281,7 +1274,7 @@ int CLIENT_STATE::report_project_error(
         }
     }
 
-    if (res.client_state == CLIENT_UPLOADING) {
+    if (res.state == RESULT_COMPUTE_DONE) {
         for (i=0; i<res.output_files.size(); i++) {
             if (res.output_files[i].file_info->had_failure(failnum)) {
                 sprintf(total_err,

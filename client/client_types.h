@@ -200,20 +200,8 @@ struct WORKUNIT {
     // Files are downloaded, result can be computed
 #define RESULT_COMPUTE_DONE     2
     // Computation is done, if no error then files need to be uploaded
-#define RESULT_READY_TO_ACK     3
+#define RESULT_FILES_UPLOADED   3
     // Files are uploaded, notify scheduling server
-#define RESULT_SERVER_ACK       4
-    // Received ack from server, can delete result
-#define RESULT_ERROR            5
-
-//The following are the states that the client is in according to the result. 
-#define CLIENT_UNINITIALIZED    0
-#define CLIENT_DOWNLOADING      1
-#define CLIENT_COMPUTING        2
-#define CLIENT_UPLOADING        3
-#define CLIENT_DONE             4
-
-// TODO: combine the above two state fields!!!!!
 
 struct RESULT {
     char name[256];
@@ -221,15 +209,19 @@ struct RESULT {
     int report_deadline;
     vector<FILE_REF> output_files;
     bool is_active;         // an app is currently running for this
+    bool ready_to_ack;      // all the files have been uploaded or there
+                            // was an error and we are ready to report this to 
+                            // the server
+    bool server_ack;        // received the ack for the report of 
+                            // the status of the result from server
     double final_cpu_time;
-    int state;              // state of this result
+    int state;              // state of this result, see above
     int exit_status;        // return value from the application
-    int signal;             //the signal caught by the active_task,
+    int signal;             // the signal caught by the active_task,
                 // defined only if active_task_state is PROCESS_SIGNALED
     int active_task_state; // the state of the active task corresponding to this result
     char stderr_out[STDERR_MAX_LEN];
-    int client_state;     // the state of the client according to this result, as defined above. this information is passed back with the scheduler RPC to the scheduler server when there is any error related to the result or when the result is done.
-
+    
     APP* app;
     WORKUNIT* wup;
     PROJECT* project;

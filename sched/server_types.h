@@ -26,11 +26,14 @@
 #include "db.h"
 
 //The following are the states that the client is in according to the result. 
-#define CLIENT_UNINITIALIZED    0
-#define CLIENT_DOWNLOADING      1
-#define CLIENT_COMPUTING        2
-#define CLIENT_UPLOADING        3
-#define CLIENT_DONE             4
+#define RESULT_NEW              0
+    // New result, files may still need to be downloaded
+#define RESULT_FILES_DOWNLOADED 1
+    // Files are downloaded, result can be computed
+#define RESULT_COMPUTE_DONE     2
+    // Computation is done, if no error then files need to be uploaded
+#define RESULT_FILES_UPLOADED   3
+    // Files are uploaded, notify scheduling server
 
 struct SCHEDULER_REQUEST {
     char authenticator[256];

@@ -143,11 +143,11 @@ public:
     int make_scheduler_request(PROJECT*, double);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
     void set_client_state_dirty(char*);
-    int report_project_error( RESULT &res,int err_num, char *err_msg, int state);
+    int report_project_error( RESULT &res,int err_num, char *err_msg);
         // flag a result as having an error
-	int add_project(char* master_url, char* authenticator);
-	int change_project(int index, char* master_url, char* authenticator);
-	int quit_project(int index);
+    int add_project(char* master_url, char* authenticator);
+    int change_project(int index, char* master_url, char* authenticator);
+    int quit_project(int index);
 private:
     PROJECT* find_project_with_overdue_results();
     bool some_project_rpc_ok();
