@@ -145,3 +145,18 @@ Hiram C.	Fri May 24 23:34:59 PDT 2002
 	allow a proper identification of where the mysql .h files live.
 	The SSL location of /usr/local/mysql/include is a bit non-standard.
 	Most systems will have these in /usr/local/include/mysql
+
+Hiram C.		Sat May 25 09:20:25 PDT 2002
+	Continue updating:
+	Makefile.in config.guess configure configure.in api/Makefile.in
+	apps/Makefile.in client/Makefile.in client/config.guess
+	client/configure client/configure.in sched/Makefile.in
+	tools/Makefile.in
+
+	I have almost clean builds now on Solaris, Mac OS X,
+	and UnixWare.  There appears to be a missing sched_shmem.h
+	file from the source tree.
+
+	There is still cruft in this configure system.  I will continue
+	to work on it to clean it up.
+
