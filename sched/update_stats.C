@@ -17,8 +17,9 @@
 // Contributor(s):
 //
 
-// update_stats: update exponential average credit for users and hosts,
-//               and calculate total users/credit for teams
+// update_stats
+// update average credit for users and hosts,
+// and calculate total users/credit for teams
 //
 // usage: update_stats [-update_teams] [-update_users] [-update_hosts] [-asynch]
 
@@ -68,13 +69,14 @@ int get_team_credit(TEAM& team) {
     DB_USER user;
     char buf[256];
 
-    // count the number of users on a team
+    // count the number of users on the team
     //
     sprintf(buf, "where teamid=%d", team.id);
     retval = user.count(nusers, buf);
     if (retval) return retval;
 
     // get the summed credit values for a team
+    //
     sprintf(buf, "where teamid=%d", team.id);
     retval = user.sum(expavg_credit, "expavg_credit", buf);
     if (retval) return retval;
@@ -108,7 +110,6 @@ int update_teams() {
             continue;
         }
 
-        // update the team record
         retval = team.update();
         if (retval) return retval;
     }

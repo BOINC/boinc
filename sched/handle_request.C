@@ -95,7 +95,8 @@ bool wu_is_feasible(WORKUNIT& wu, HOST& host) {
     if (host_remaining_time + wu_wallclock_time > wu.delay_bound) {
         log_messages.printf(
             SchedMessages::DEBUG, "[WU#%d %s] needs requires %d seconds on [HOST#%d]; delay_bound is %d\n",
-            wu.id, wu.name, (int)wu_wallclock_time, host.id, wu.delay_bound);
+            wu.id, wu.name, (int)wu_wallclock_time, host.id, wu.delay_bound
+        );
         return false;
     }
 

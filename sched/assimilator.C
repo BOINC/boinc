@@ -52,7 +52,9 @@ bool do_pass(APP& app) {
     while (!wu.enumerate(buf)) {
         did_something = true;
 
-        log_messages.printf(SchedMessages::DEBUG, "[%s] assimilating; state=%d\n", wu.name, wu.assimilate_state);
+        log_messages.printf(SchedMessages::DEBUG,
+            "[%s] assimilating; state=%d\n", wu.name, wu.assimilate_state
+        );
 
         sprintf(buf, "where workunitid=%d", wu.id);
         while (!result.enumerate(buf)) {

@@ -38,7 +38,7 @@ void write_pid_file(const char* filename) {
         log_messages.printf(SchedMessages::NORMAL, "Couldn't write pid\n");
         return;
     }
-    fprintf(fpid, "%d\n", getpid());
+    fprintf(fpid, "%d\n", (int)getpid());
     fclose(fpid);
 }
 
@@ -67,10 +67,15 @@ void check_stop_trigger() {
 }
 
 
-// update an exponential average of credit per second.
+// decay an exponential average of credit per day,
+// and possibly add an increment for new credit
 //
 void update_average(
-    double credit_assigned_time, double credit, double& avg, double& avg_time
+    double credit_assigned_time,        // when work was started for new credit
+                                        // (or zero if no new credit)
+    double credit,                      // amount of new credit
+    double& avg,                        // average credit per day (in and out)
+    double& avg_time                    // when average was last computed
 ) {
     time_t now = time(0);
 
@@ -79,13 +84,14 @@ void update_average(
     //
     if (avg_time) {
         double deltat = now - avg_time;
-        avg *= exp(-deltat*ALPHA);
+        avg *= exp(-deltat*LOG2/AVG_HALF_LIFE);
     }
     if (credit_assigned_time) {
         double deltat = now - credit_assigned_time;
-        // Add (credit)/(number of days to return result) to credit, which
-        // is the average number of cobblestones per day
-        avg += credit/(deltat/86400);
+        // Add (credit)/(number of days to return result) to credit,
+        // which is the average number of cobblestones per day
+        //
+        avg += credit/(deltat/SECONDS_IN_DAY);
     }
     avg_time = now;
 }
