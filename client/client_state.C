@@ -94,9 +94,8 @@ CLIENT_STATE::CLIENT_STATE() {
     cpu_benchmarks_id = 0;
 }
 
-#if 0
-// what's the purpose of this?
-
+// Deallocate memory to prevent unneeded reporting of memory leaks
+//
 void CLIENT_STATE::free_mem() {
     vector<PROJECT*>::iterator proj_iter;
     vector<APP*>::iterator app_iter;
@@ -104,58 +103,57 @@ void CLIENT_STATE::free_mem() {
     vector<APP_VERSION*>::iterator av_iter;
     vector<WORKUNIT*>::iterator wu_iter;
     vector<RESULT*>::iterator res_iter;
-	PROJECT *proj;
-	APP *app;
-	FILE_INFO *fi;
-	APP_VERSION *av;
-	WORKUNIT *wu;
-	RESULT *res;
+    PROJECT *proj;
+    APP *app;
+    FILE_INFO *fi;
+    APP_VERSION *av;
+    WORKUNIT *wu;
+    RESULT *res;
 
     proj_iter = projects.begin();
     while (proj_iter != projects.end()) {
-		proj = projects[0];
+        proj = projects[0];
         proj_iter = projects.erase(proj_iter);
-		delete proj;
+        delete proj;
     }
 
     app_iter = apps.begin();
     while (app_iter != apps.end()) {
-		app = apps[0];
+        app = apps[0];
         app_iter = apps.erase(app_iter);
-		delete app;
+        delete app;
     }
 
     fi_iter = file_infos.begin();
     while (fi_iter != file_infos.end()) {
-		fi = file_infos[0];
+        fi = file_infos[0];
         fi_iter = file_infos.erase(fi_iter);
-		delete fi;
+        delete fi;
     }
 
     av_iter = app_versions.begin();
     while (av_iter != app_versions.end()) {
-		av = app_versions[0];
+        av = app_versions[0];
         av_iter = app_versions.erase(av_iter);
-		delete av;
+        delete av;
     }
 
     wu_iter = workunits.begin();
     while (wu_iter != workunits.end()) {
-		wu = workunits[0];
+        wu = workunits[0];
         wu_iter = workunits.erase(wu_iter);
-		delete wu;
+        delete wu;
     }
 
     res_iter = results.begin();
     while (res_iter != results.end()) {
-		res = results[0];
+        res = results[0];
         res_iter = results.erase(res_iter);
-		delete res;
+        delete res;
     }
 
-	active_tasks.free_mem();
+    active_tasks.free_mem();
 }
-#endif
 
 void CLIENT_STATE::install_global_prefs() {
     net_xfers->max_bytes_sec_up = global_prefs.max_bytes_sec_up;
@@ -590,7 +588,7 @@ int CLIENT_STATE::parse_state_file() {
     PROJECT temp_project, *project;
     int retval=0;
     int failnum;
-	int old_major_vers, old_minor_vers;
+    int old_major_vers, old_minor_vers;
 
     if (!f) {
         if (log_flags.state_debug) {
@@ -711,11 +709,11 @@ int CLIENT_STATE::parse_state_file() {
 done:
     fclose(f);
 
-	// This was for updating CPU benchmarks on the beta
-	// test, it can be taken out eventually, 
-	if (old_major_vers <= 0 && old_minor_vers <= 16) {
+    // This was for updating CPU benchmarks on the beta
+    // test, it can be taken out eventually, 
+    if (old_major_vers <= 0 && old_minor_vers <= 16) {
             run_cpu_benchmarks = true;
-	}
+    }
     return retval;
 }
 
