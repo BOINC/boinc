@@ -134,7 +134,7 @@ bool do_pass() {
 
     check_stop_daemons();
 
-    sprintf(buf, "where file_delete_state=%d", FILE_DELETE_READY);
+    sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_READY);
     while (!wu.enumerate(buf)) {
         did_something = true;
         wu_delete_files(wu);
@@ -142,7 +142,7 @@ bool do_pass() {
         wu.update();
     }
 
-    sprintf(buf, "where file_delete_state=%d", FILE_DELETE_READY);
+    sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_READY);
     while (!result.enumerate(buf)) {
         did_something = true;
         result_delete_files(result);

@@ -16726,3 +16726,9 @@ David  25 Aug 2004
 
     client/
         app_control.C
+
+Jeff  	25 Aug 2004
+    - limit workunit and result enumerations in the file_deleter to 1000.
+
+    sched/
+	file_deleter.C
