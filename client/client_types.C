@@ -501,9 +501,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             }
             continue;
         }
-        if (from_server) {
-            strcat(signed_xml, buf);
-        }
+        strcat(signed_xml, buf);
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         else if (parse_str(buf, "<url>", url.text, sizeof(url.text))) {
             urls.push_back(url);

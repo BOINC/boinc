@@ -80,6 +80,8 @@ public:
     char signed_xml[MAX_BLOB_LEN];
         // if the file_info is signed (for uploadable files)
         // this is the text that is signed
+        // Otherwise it is the FILE_INFO's XML descriptor
+        // (without enclosing <file_info> tags)
     char xml_signature[MAX_BLOB_LEN];
         // ... and this is the signature
     char file_signature[MAX_BLOB_LEN];

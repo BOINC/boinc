@@ -18239,3 +18239,16 @@ David  9 Oct 2004
         assimilator.C
         db_purge.C
         validator.C
+
+David  9 Oct 2004
+	- When parsing a FILE_INFO, always copy the XML to "signed_xml".
+		Otherwise, when the core client tries to upload the file,
+		it sends an empty <file_info> element.
+
+		This fixes a problem in which all uploads fail if a project
+		uses the <dont_generate_upload_certificates/> config option
+
+	client/
+		client_types.C,h
+
+
