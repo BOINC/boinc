@@ -15,6 +15,10 @@ Applications that provide graphics must call either
 </pre>
 where <code>worker()</code> is the main function of your application.
 Do NOT call boinc_init() or boinc_init_options().
+<p>
+Unix/Linux applications that use graphics should compile
+all files with -D_REENTRANT,
+since graphics uses multiple threads.
 
 <h3>Static graphics</h3>
 <p>

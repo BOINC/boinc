@@ -26,7 +26,6 @@ extern void boinc_app_key_release(int, int);
 
 // Implementation stuff
 //
-extern int boinc_init_graphics(void (*worker)());
 extern double boinc_max_fps;
 extern double boinc_max_gfx_cpu_frac;
 extern bool throttled_app_render(int, int, double);

@@ -145,6 +145,8 @@ def add_files(app, match, exec_file, non_exec_files=[],
 
     objects_to_commit.append(object)
 
+# Return a match if the filename is a possible exec file name (or installer)
+
 def re_match_exec_filename(filepath):
     file = os.path.basename(filepath)
     return re.match('[^.]+_([0-9]+)[.]([0-9]+)_([^.]+?(?:[0-9][0-9.]*[0-9])?)(?:[.]gz|[.]exe|[.]sit|[.]msi)?$', file)
@@ -163,9 +165,15 @@ def find_versions(app, dir):
     """
 
     for filepath in xlistdir(dir):
+        # ignore symlinks
         if os.path.islink(filepath):
-            # ignore symlinks
             continue
+
+        # ignore signature files
+        if filepath.endswith('.sig'):
+            continue
+
+        # look for an executable file (proper .ext at end)
         match = re_match_exec_filename(filepath)
         if not match:
             print >>sys.stderr, "  Ignoring unknown file", filepath
@@ -175,12 +183,28 @@ def find_versions(app, dir):
         else:
             find_versions__process_single_file(app, match, filepath)
 
+# Process an app that is a single file only, possibly with
+# a signature file included.  Could also be the core client.
+#
 def find_versions__process_single_file(app, match, filepath):
-     '''add a single executable as app/core version'''
-     add_files(app=app, match=match, exec_file=filepath,
-               min_core_version = min_core_version
-               )
+    '''add a single executable as app/core version'''
+    # Find signature file, if it exists.
+    signature_files={}
+    sig_file = filepath + ".sig"
+    if os.path.isfile(sig_file):
+        signature_files[filepath] = sig_file
 
+    add_files(app             = app,
+             match            = match,
+             exec_file        = filepath,
+             signature_files  = signature_files,
+             min_core_version = min_core_version,
+             )
+
+
+# Process an app that is a bundle of files in a directory of the same name,
+# possibly with signature files included.
+ 
 def find_versions__process_bundle(app, match, dir):
     '''add executable + bundle as app/core version'''
     exec_file = None
@@ -227,17 +251,22 @@ def find_versions__process_bundle(app, match, dir):
               min_core_version = min_core_version
               )
 
+####################
+# BEGIN:
+
 for appdir in xlistdir(config.app_dir):
     if not os.path.isdir(appdir): continue
     dirname = os.path.basename(appdir)
     if dirname == 'boinc':
-        print "Looking for core versions in", appdir
+        if verbose:
+            print "Looking for core versions in", appdir
         find_versions(None, appdir)
         continue
     appname = os.path.basename(appdir)
     apps = database.Apps.find(name=appname)
     if apps:
-        print "Looking for %s versions in"%apps[0], appdir
+        if verbose:
+            print "Looking for %s versions in"%apps[0], appdir
         find_versions(apps[0], appdir)
         continue
 

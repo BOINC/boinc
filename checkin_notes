@@ -18963,3 +18963,12 @@ Eric   28 Oct 2004
     	file_upload_handler.C
     tools/
     	Makefile.am
+
+David  29 Oct 2004
+    - update_versions looks for .sig files for single-file applications
+        (from Eric Myers)
+
+    api/
+        graphics_api.h
+    tools/
+        update_versions
