@@ -141,7 +141,7 @@ int ACTIVE_TASK::start(bool first_time) {
     char init_data_path[256], graphics_data_path[256], fd_init_path[256];
     FILE *f;
     APP_INIT_DATA aid;
-	GRAPHICS_INFO gi;
+    GRAPHICS_INFO gi;
 
     if (first_time) {
         checkpoint_cpu_time = 0;
@@ -152,7 +152,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     gi.xsize = 640;
     gi.ysize = 480;
-	gi.graphics_mode = MODE_WINDOW;
+    gi.graphics_mode = MODE_WINDOW;
     gi.refresh_period = 0.1;
 
     memset(&aid, 0, sizeof(aid));
@@ -181,7 +181,7 @@ int ACTIVE_TASK::start(bool first_time) {
         }
         return ERR_FOPEN;
     }
-    retval = write_graphics_file(f, gi);
+    retval = write_graphics_file(f, &gi);
     fclose(f);
 
     sprintf(fd_init_path, "%s%s%s", slot_dir, PATH_SEPARATOR, FD_INIT_FILE);

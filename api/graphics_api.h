@@ -7,12 +7,14 @@
 struct GRAPHICS_INFO {
     int xsize;
     int ysize;
-	int graphics_mode;
+    int graphics_mode;
     double refresh_period;
 };
+
+typedef struct GRAPHICS_INFO GRAPHICS_INFO;
 
 struct APP_OUT_GRAPHICS {
 };
 
-int write_graphics_file(FILE* f, GRAPHICS_INFO& gi);
-int parse_graphics_file(FILE* f, GRAPHICS_INFO& gi);
+int write_graphics_file(FILE* f, GRAPHICS_INFO* gi);
+int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);

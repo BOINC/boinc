@@ -27,12 +27,7 @@
 #define PROCESS_WAS_SIGNALED    3
 #define PROCESS_EXIT_UNKNOWN    4
 
-#ifdef macintosh
-    typedef int PROCESS_ID;
-    //typedef ProcessSerialNumber PROCESS_ID;
-#else
-    typedef int PROCESS_ID;
-#endif
+typedef int PROCESS_ID;
 
 #include "windows_cpp.h"
 #ifdef _WIN32
