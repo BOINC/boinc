@@ -11,6 +11,7 @@ define('ST_MODERATOR', 'Forum moderator');
 define('ST_DEV', 'Project Developer');
 define('ST_TEST', 'Project Tester');
 define('ST_VOLDEV', 'Volunteer developer');
+define('ST_VOLTEST', 'Volunteer Tester');
 define('ST_SCIENT', 'Project scientist');
 define('ST_NEW_TIME', 1209600); //3600*24*14 - 14 days
 define('ST_NEW', 'New member');
@@ -480,6 +481,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         if ($user->special_user==4) $fstatus=ST_VOLDEV;
         if ($user->special_user==5) $fstatus=ST_SCIENT;
         if ($user->special_user==6) $fstatus=ST_TEST;
+        if ($user->special_user==7) $fstatus=ST_VOLTEST;
         /*...*/
     } else {
         if ($user->create_time>time()-ST_NEW_TIME) $fstatus=ST_NEW;
