@@ -83,12 +83,10 @@ bool SCHEDULER_REQUEST::has_version(APP& app) {
 
 // compute the max disk usage we can request of the host
 //
-double max_allowable_disk(USER& user, SCHEDULER_REQUEST& req) {
-    GLOBAL_PREFS prefs;
+double max_allowable_disk(SCHEDULER_REQUEST& req) {
     HOST host = req.host;
+    GLOBAL_PREFS prefs = req.global_prefs;
     double x1, x2, x3, x;
-
-    prefs.parse(user.global_prefs);
 
     // fill in default values for missing prefs
     //
@@ -490,38 +488,38 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& xhost) {
     return 0;
 }
 
-// Deal with global preferences.
-// If the client sent global prefs, and they're more recent than ours,
-// update user record in DB.
-// If DB has more recent global prefs than client's, send them.
+// Decide which global prefs to use,
+// (from request msg, or if absent then from user record)
+// and parse them into the request message global_prefs field.
+// Decide whether to send global prefs in reply msg
 //
 int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     reply.send_global_prefs = false;
+
     if (strlen(sreq.global_prefs_xml)) {
-        bool need_update = false;
         unsigned req_mod_time=0, db_mod_time=0;
         parse_int(sreq.global_prefs_xml, "<mod_time>", (int&)req_mod_time);
         if (strlen(reply.user.global_prefs)) {
             parse_int(reply.user.global_prefs, "<mod_time>", (int&)db_mod_time);
-            if (req_mod_time > db_mod_time) {
-                need_update = true;
-            } else if (req_mod_time < db_mod_time) {
+
+            // if user record has more recent prefs,
+            // use them and arrange to return in reply msg
+            //
+            if (req_mod_time < db_mod_time) {
+                strcpy(sreq.global_prefs_xml, reply.user.global_prefs);
                 reply.send_global_prefs = true;
             }
-        } else {
-            need_update = true;
-        }
-        if (need_update) {
-            safe_strcpy(reply.user.global_prefs, sreq.global_prefs_xml);
-            DB_USER user;
-            user = reply.user;
-            user.update();
         }
     } else {
+        // request message has no global prefs;
+        // copy from user record, and send them in reply
+        //
         if (strlen(reply.user.global_prefs)) {
+            strcpy(sreq.global_prefs_xml, reply.user.global_prefs);
             reply.send_global_prefs = true;
         }
     }
+    sreq.global_prefs.parse(sreq.global_prefs_xml);
     return 0;
 }
 
@@ -921,7 +919,7 @@ int send_work(
     WORK_REQ wreq;
 
     memset(&wreq, 0, sizeof(wreq));
-    wreq.disk_available = max_allowable_disk(reply.user, sreq);
+    wreq.disk_available = max_allowable_disk(sreq);
     wreq.insufficient_disk = false;
     wreq.insufficient_mem = false;
     wreq.insufficient_speed = false;
@@ -1225,7 +1223,8 @@ void handle_request(
         );
         process_request(sreq, sreply, ss, code_sign_key);
     } else {
-        SchedMessages::NORMAL, "Incomplete request received from IP %s, auth %s, platform %s, version %d.%d\n",
+        log_messages.printf(
+            SchedMessages::NORMAL, "Incomplete request received from IP %s, auth %s, platform %s, version %d.%d\n",
              get_remote_addr(), sreq.authenticator, sreq.platform_name,
              sreq.core_client_major_version, sreq.core_client_minor_version
         );

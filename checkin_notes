@@ -10701,7 +10701,23 @@ David  Mar 22 2004
         util.C,h
 
 kevin Mar 22 2004
-    handle_results().  result.exit_status
-    set to rp->exit_status.
+    - Scheduling server: we were failing to copy a result's exit_status
+        from the request message to the DB record.
+        So exit_status was always zero in the DB.  Dooh!
+
     sched/
         handle_request.C
+
+David  Mar 22 2004
+    - Change the policy for propagating global preferences.
+        OLD: if a scheduler request message has newer prefs than
+            those in the DB, update the user record.
+            I.e. propagate prefs from hosts to projects
+        The problem with this: see bug #1164
+        NEW: Use whichever is more recent of the prefs in the
+            request msg and the prefs in the DB.
+            Don't update the prefs in the DB
+
+    sched/
+        handle_request.C
+        server_types.C

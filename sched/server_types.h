@@ -42,6 +42,16 @@ struct CLIENT_APP_VERSION {
     int parse(FILE*);
 };
 
+// subset of global prefs used by scheduler
+//
+struct GLOBAL_PREFS {
+    double disk_max_used_gb;
+    double disk_max_used_pct;
+    double disk_min_free_gb;
+
+    void parse(char*);
+};
+
 struct SCHEDULER_REQUEST {
     char authenticator[256];
     char platform_name[256];
@@ -57,6 +67,7 @@ struct SCHEDULER_REQUEST {
     double project_disk_usage;
     bool anonymous_platform;
     vector<CLIENT_APP_VERSION> client_app_versions;
+    GLOBAL_PREFS global_prefs;
 
     HOST host;
     vector<RESULT> results;
@@ -100,16 +111,6 @@ struct SCHEDULER_REPLY {
     void insert_app_version_unique(APP_VERSION&);
     void insert_workunit_unique(WORKUNIT&);
     void insert_result(RESULT&);
-};
-
-// subset of global prefs used by scheduler
-//
-struct GLOBAL_PREFS {
-    double disk_max_used_gb;
-    double disk_max_used_pct;
-    double disk_min_free_gb;
-
-    void parse(char*);
 };
 
 #endif
