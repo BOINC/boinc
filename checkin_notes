@@ -22342,9 +22342,8 @@ Bruce 8 Jan 2005
     project, so that if no work is currently available for a given
     data file, there is an opportunity to make such work.  This is
     controlled by an additional tag in config.xml, of the form:
-    NOTE: CURRENTLY ENABLED BY DEFAULT WITH N=5 sec
 
-    <locality_scheduling_signal> N </locality_scheduling_signal>
+    <locality_scheduling_wait_period> N </locality_scheduling_wait_period>
 
     where N is some number of seconds.  If this new tag is absent,
     then the locality scheduler behaves as before.
@@ -22387,8 +22386,7 @@ Bruce 8 Jan 2005
     words, the signals can be ignored at any time and for any time
     without adverse consequences.
 
-    TODO: further testing, enable/disable this feature using XML tag
-    described above.
+    TODO: further testing.
 
     sched/
         sched_locality.C
@@ -22422,7 +22420,7 @@ David  8 Jan 2005
         If present, this tells the scheduler how long to sleep
         between requesting more work for a file
         and looking for it (and giving up if it's not there)
-        If absent, the scheduler doesn't request more work.
+        If absent, the scheduler doesn't request more work unit generation.
 
     sched/
         sched_config.C,h
