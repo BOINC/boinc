@@ -10,9 +10,6 @@
 #include "fcgi_stdio.h"
 #endif
 
-#define MAX_QUERY_LEN 256000
-    // TODO: use "string" instead of char[]
-
 DB_CONN::DB_CONN() {
     mysql = 0;
 }
@@ -254,65 +251,9 @@ int DB_BASE::sum(double& x, char* field, char* clause) {
 }
 
 
-DB_BASE_PERF::DB_BASE_PERF(DB_CONN& p) : db(&p) {
+DB_BASE_SPECIAL::DB_BASE_SPECIAL(DB_CONN& p) : db(&p) {
     cursor.active = false;
 }
-
-int DB_BASE_PERF::fetch_field_value(MYSQL_RES *result, MYSQL_ROW& row, const char* field_name, int& field_value)
-{
-    unsigned int     num_fields;
-    unsigned int     i;
-    MYSQL_FIELD*     fields;
-
-    num_fields = mysql_num_fields(result);
-    fields = mysql_fetch_fields(result);
-    for(i = 0; i < num_fields; i++)
-    {
-        if (0 == strncmp(field_name, fields[i].name, strlen(field_name))) {
-            field_value = safe_atoi(row[i]);
-        }
-    }
-
-    return 0;
-}
-
-int DB_BASE_PERF::fetch_field_value(MYSQL_RES *result, MYSQL_ROW& row, const char* field_name, float& field_value)
-{
-    unsigned int     num_fields;
-    unsigned int     i;
-    MYSQL_FIELD*     fields;
-
-    num_fields = mysql_num_fields(result);
-    fields = mysql_fetch_fields(result);
-    for(i = 0; i < num_fields; i++)
-    {
-        if (0 == strncmp(field_name, fields[i].name, strlen(field_name))) {
-            field_value = safe_atof(row[i]);
-        }
-    }
-
-    return 0;
-}
-
-int DB_BASE_PERF::fetch_field_value(MYSQL_RES *result, MYSQL_ROW& row, const char* field_name, char* field_value, int field_size)
-{
-    unsigned int     num_fields;
-    unsigned int     i;
-    MYSQL_FIELD*     fields;
-
-    num_fields = mysql_num_fields(result);
-    fields = mysql_fetch_fields(result);
-    for(i = 0; i < num_fields; i++)
-    {
-        if (0 == strncmp(field_name, fields[i].name, strlen(field_name))) {
-            memset(field_value, '\0', field_size);
-            strlcpy(field_value, row[i], field_size);
-        }
-    }
-
-    return 0;
-}
-
 
 // convert a string into a form that allows it to be used
 // in SQL queries delimited by single quotes:

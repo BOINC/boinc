@@ -59,7 +59,7 @@ DB_HOST::DB_HOST() : DB_BASE(boinc_db, "host"){}
 DB_WORKUNIT::DB_WORKUNIT() : DB_BASE(boinc_db, "workunit"){}
 DB_RESULT::DB_RESULT() : DB_BASE(boinc_db, "result"){}
 DB_MSG_FROM_HOST::DB_MSG_FROM_HOST() : DB_BASE(boinc_db, "msg_from_host"){}
-DB_TRANSITIONER_QUEUE::DB_TRANSITIONER_QUEUE() : DB_BASE(boinc_db), current_entry_start_position(0), current_entry_workunit_id(0){}
+DB_TRANSITIONER_ITEM_SET::DB_TRANSITIONER_ITEM_SET() : DB_BASE_SPECIAL(boinc_db){}
 
 int DB_PLATFORM::get_id() {return id;}
 int DB_CORE_VERSION::get_id() {return id;}
@@ -571,23 +571,29 @@ void DB_MSG_TO_HOST::db_parse(MYSQL_ROW& r) {
     strcpy2(xml, r[i++]);
 }
 
-int DB_TRANSITIONER_QUEUE::enumerate_queue_entries(int transition_time, int ntotal_transitioners, int ntransitioner, int nresult_limit) {
+int DB_TRANSITIONER_ITEM_SET::enumerate(
+    int transition_time, int ntotal_transitioners, int ntransitioner,
+    int nresult_limit,
+    std::vector<TRANSITIONER_ITEM>& items
+) {
     int                 x;
     char                query[MAX_QUERY_LEN];
-    char                priority[16];
-    char                mod[64];
+    char                priority[256];
+    char                mod[256];
     MYSQL_ROW           row;
-    int                 temp_workunit_id;
-    MYSQL_ROW_OFFSET    temp_entry_position;
+    TRANSITIONER_ITEM new_item;
 
     if (!cursor.active) {
-        cursor.active = true;
 
-        memset(priority, '\0', sizeof(priority));
-        if (db->mysql) { strcpy(priority, "HIGH_PRIORITY"); }
+        strcpy(priority, "");
+        if (db->mysql) strcpy(priority, "HIGH_PRIORITY");
 
-        memset(mod, '\0', sizeof(mod));
-        if (0 < ntotal_transitioners) { sprintf(mod, "MOD(wu.id, %d) = %d", ntotal_transitioners, ntransitioner); }
+        strcpy(mod, "");
+        if (ntotal_transitioners > 1) {
+            sprintf(mod, "MOD(wu.id, %d) = %d",
+                ntotal_transitioners, ntransitioner
+            );
+        }
 
         sprintf(query,
             "SELECT %s "
@@ -625,104 +631,63 @@ int DB_TRANSITIONER_QUEUE::enumerate_queue_entries(int transition_time, int ntot
 
         x = db->do_query(query);
         if (x) return mysql_errno(db->mysql);
+
+        // the following stores the entire result set in memory
         cursor.rp = mysql_store_result(db->mysql);
         if (!cursor.rp) return mysql_errno(db->mysql);
+        cursor.active = true;
+        //nrows = mysql_num_rows(cursor.rp);
+        //current_row = 0;
 
-        current_entry_start_position = mysql_row_tell(cursor.rp);
-    }
-
-    mysql_row_seek(current_entry_start_position);
-
-    do
-    {
-        temp_entry_position = mysql_row_tell(cursor.rp);
         row = mysql_fetch_row(cursor.rp);
         if (!row) {
-            mysql_free_result(cursor.rp);
             cursor.active = false;
             return -1;
-        } else {
-            fetch_field_value(cursor.rp, row, "id", temp_workunit_id);
         }
+        last_item.parse(row);
     }
-    while ( row && ( temp_workunit_id == current_entry_workunit_id ));
 
-    // New Workunit Detected
-    current_entry_workunit_id    = temp_workunit_id;
-    current_entry_start_position = temp_entry_position;
+    items.clear();
+    while (true) {
+        items.push_back(last_item);
+        row = mysql_fetch_row(cursor.rp);
+        if (!row) {
+            cursor.active = false;
+            return -1;
+        }
+        new_item.parse(row);
+        if (new_item.id != last_item.id) {
+            last_item = new_item;
+            return 0;
+        }
+        last_item = new_item;
+    }
 
-    parse_entry(cursor.rp, row);
-    
     return 0;
 }
 
-void DB_TRANSITIONER_QUEUE::parse_entry(MYSQL_RES *result, MYSQL_ROW& row) {
-    int temp_need_validate = 0;
-    fetch_field_value(result, row, "id", id);
-    fetch_field_value(result, row, "name", name, sizeof(name));
-    fetch_field_value(result, row, "appid", appid);
-    fetch_field_value(result, row, "min_quorum", min_quorum);
-    fetch_field_value(result, row, "need_validate", temp_need_validate);
-    if (temp_need_validate) { need_validate = true; } else { need_validate = false; }
-    fetch_field_value(result, row, "canonical_resultid", canonical_resultid);
-    fetch_field_value(result, row, "transition_time", transition_time);
-    fetch_field_value(result, row, "delay_bound", delay_bound);
-    fetch_field_value(result, row, "error_mask", error_mask);
-    fetch_field_value(result, row, "max_error_results", max_error_results);
-    fetch_field_value(result, row, "max_total_results", max_total_results);
-    fetch_field_value(result, row, "file_delete_state", file_delete_state);
-    fetch_field_value(result, row, "assimilate_state", assimilate_state);
-    fetch_field_value(result, row, "target_nresults", target_nresults);
-    fetch_field_value(result, row, "result_template_file", result_template_file, sizeof(result_template_file));
-    parse_result(result, row);
+void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
+    int i=0;
+    memset(this, 0, sizeof(TRANSITIONER_ITEM));
+    id = atoi(r[i++]);
+    strcpy2(name, r[i++]);
+    appid = atoi(r[i++]);
+    min_quorum = atoi(r[i++]);
+    canonical_resultid = atoi(r[i++]);
+    transition_time = atoi(r[i++]);
+    delay_bound = atoi(r[i++]);
+    error_mask = atoi(r[i++]);
+    max_error_results = atoi(r[i++]);
+    max_total_results = atoi(r[i++]);
+    file_delete_state = atoi(r[i++]);
+    assimilate_state = atoi(r[i++]);
+    target_nresults = atoi(r[i++]);
+    strcpy2(result_template_file, r[i++]);
+    res_id = atoi(r[i++]);
+    res_report_deadline = atoi(r[i++]);
+    res_server_state = atoi(r[i++]);
+    res_outcome = atoi(r[i++]);
+    res_validate_state = atoi(r[i++]);
+    res_file_delete_state = atoi(r[i++]);
+    res_sent_time = atoi(r[i++]);
 }
-
-void DB_TRANSITIONER_QUEUE::parse_result(MYSQL_RES *result, MYSQL_ROW& row) {
-    fetch_field_value(result, row, "res_id", res_id);
-    fetch_field_value(result, row, "res_report_deadline", res_report_deadline);
-    fetch_field_value(result, row, "res_server_state", res_server_state);
-    fetch_field_value(result, row, "res_outcome", res_outcome);
-    fetch_field_value(result, row, "res_validate_state", res_validate_state);
-    fetch_field_value(result, row, "res_file_delete_state", res_file_delete_state);
-    fetch_field_value(result, row, "res_sent_time", res_sent_time);
-}
-
-int DB_TRANSITIONER_QUEUE::seek_first_result() {
-    int retval;
-    MYSQL_ROW row;
-
-    mysql_row_seek(current_entry_start_position);
-    row = mysql_fetch_row(cursor.rp);
-    if (!row) {
-        retval = -1;
-    } else {
-        parse_result(cursor.rp, row);
-        retval = 0;
-    }
-
-    return retval;
-}
-
-int DB_TRANSITIONER_QUEUE::seek_next_result() {
-    int retval;
-    int temp_workunit_id;
-    MYSQL_ROW row;
-
-    row = mysql_fetch_row(cursor.rp);
-    if (!row) {
-        seek_first_result();
-        retval = -1;
-    } else {
-        fetch_field_value(result, row, "id", temp_workunit_id);
-        if ( temp_workunit_id != current_entry_workunit_id ) {
-            seek_first_result();
-            retval = -1;
-        } else {
-            parse_result(cursor.rp, row);
-            retval = 0;
-        }
-    }
-
-    return retval;
-}
-

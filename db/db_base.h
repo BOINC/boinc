@@ -25,14 +25,15 @@
 // if SQL columns are not 'not null', you must use these safe_atoi, safe_atof
 // instead of atoi, atof, since the strings returned by MySQL may be NULL.
 //
+
 inline int safe_atoi(const char* s) {
-    if (!s) return 0;
-    return atoi(s);
+        if (!s) return 0;
+            return atoi(s);
 }
 
 inline float safe_atof(const char* s) {
-    if (!s) return 0;
-    return atof(s);
+        if (!s) return 0;
+            return atof(s);
 }
 
 #define strcpy2(x, y) \
@@ -44,6 +45,9 @@ inline float safe_atof(const char* s) {
             strlcpy(x, z, sizeof(x)); \
         } \
     }
+
+#define MAX_QUERY_LEN 256000
+    // TODO: use string for queries, get rid of this
 
 struct CURSOR {
     bool active;
@@ -92,17 +96,12 @@ public:
     virtual void db_parse(MYSQL_ROW&);
 };
 
-// Base for derived classes that can access the DB
-// Defines various generic operations on DB tables
-// for specially designed queries
+// Base for derived classes that can get special-purpose data,
+// perhaps spanning multiple tables
 //
-class DB_BASE_PERF {
+class DB_BASE_SPECIAL {
 public:
-    DB_BASE_PERF(DB_CONN&);
-
-    int fetch_field_value(MYSQL_RES* result, MYSQL_ROW& row, const char* field_name, int& field_value);
-    int fetch_field_value(MYSQL_RES* result, MYSQL_ROW& row, const char* field_name, float& field_value);
-    int fetch_field_value(MYSQL_RES* result, MYSQL_ROW& row, const char* field_name, char* field_value, int field_size);
+    DB_BASE_SPECIAL(DB_CONN&);
 
     DB_CONN* db;
     CURSOR cursor;

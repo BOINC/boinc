@@ -28,6 +28,7 @@
 // They don't necessarily serialize the entire records.
 
 #include <stdio.h>
+#include <vector>
 
 #include "db_base.h"
 
@@ -427,7 +428,7 @@ struct MSG_TO_HOST {
     void clear();
 };
 
-struct TRANSITIONER_QUEUE {
+struct TRANSITIONER_ITEM {
     int  id;
     char name[256];
     int  appid;
@@ -451,6 +452,7 @@ struct TRANSITIONER_QUEUE {
     int  res_file_delete_state;
     int  res_sent_time;
     void clear();
+    void parse(MYSQL_ROW&);
 };
 
 #if 0
@@ -563,20 +565,21 @@ public:
     void db_parse(MYSQL_ROW &row);
 };
 
-class DB_TRANSITIONER_QUEUE : public DB_BASE, public TRANSITIONER_QUEUE {
+// The transitioner uses this to get (WU, result) pairs efficiently.
+// Each call to enumerate() returns a list of the pairs for a single WU
+//
+class DB_TRANSITIONER_ITEM_SET : public DB_BASE_SPECIAL {
 public:
-    DB_TRANSITIONER_QUEUE();
+    DB_TRANSITIONER_ITEM_SET();
+    TRANSITIONER_ITEM last_item;
 
-    MYSQL_ROW_OFFSET current_entry_start_position;
-    int              current_entry_workunit_id;
-
-    int  enumerate_entries(int transition_time, int ntotal_transitioners, int ntransitioner, int nresult_limit);
-    void parse_entry(MYSQL_RES *result, MYSQL_ROW& row);
-    void parse_result(MYSQL_RES *result, MYSQL_ROW& row);
-
-    int  seek_first_result();
-    int  seek_next_result();
-
+    int enumerate(
+        int transition_time,
+        int ntotal_transitioners,
+        int ntransitioner,
+        int nresult_limit,
+        std::vector<TRANSITIONER_ITEM>& items
+    );
 };
 
 #if 0
