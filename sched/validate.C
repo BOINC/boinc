@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 
 
@@ -51,6 +51,7 @@ using namespace std;
 #include "sched_util.h"
 
 #define LOCKFILE "validate.out"
+#define PIDFILE  "validate.pid"
 
 extern int check_set(vector<RESULT>&, int& canonical, double& credit);
 extern int check_pair(RESULT&, RESULT&, bool&);
@@ -113,7 +114,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         //
         sprintf(buf, "where workunitid=%d", wu.id);
         while (!result.enumerate(buf)) {
-            if (result.validate_state == VALIDATE_STATE_INIT 
+            if (result.validate_state == VALIDATE_STATE_INIT
                 && result.server_state == RESULT_SERVER_STATE_OVER
                 && result.outcome == RESULT_OUTCOME_SUCCESS
             ) {
@@ -329,6 +330,8 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Another copy of validate is already running\n");
         exit(1);
     }
+    write_pid_file(PIDFILE);
+    install_sigint_handler();
 
     main_loop(one_pass);
 }

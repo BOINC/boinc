@@ -1,8 +1,6 @@
 ## $Id$
 
-# version.inc.in
-
-# defines version numbers using autoconf
+# define version numbers using autoconf
 MAJOR_VERSION = @MAJOR_VERSION@
 MINOR_VERSION = @MINOR_VERSION@
 CLIENT_BIN_FILENAME = "@CLIENT_BIN_FILENAME@"

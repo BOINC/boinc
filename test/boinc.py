@@ -368,7 +368,7 @@ class Project:
         map(lambda (s): self.copy(os.path.join('sched', s), 'cgi/'),
             [ 'cgi', 'file_upload_handler', 'make_work',
               'feeder', 'timeout_check', 'validate_test',
-              'file_deleter', 'assimilator', 'start_servers' ])
+              'file_deleter', 'assimilator', 'start_servers', 'kill_server' ])
 
         verbose_echo(1, "Setting up database")
         map(self.run_db_script, [ 'drop.sql', 'schema.sql', 'constraints.sql' ])
@@ -582,15 +582,16 @@ class Project:
         self._run_cgi_prog('looper'    , '"dir_size ../download" 1'              , 'download_size')
         self._run_cgi_prog('looper'    , '"dir_size ../upload" 1'                , 'upload_size')
 
-    def stop(self, sleep=7):
-        '''Stop the feeder and other daemons'''
-        ## TODO: have the daemons write pid to a file so we can kill them that way.
+    def stop(self, daemons=['ALL']):
+        '''Stop running scheduler daemons.'''
+        ## the following shouldn't be necessary anymore:
         f = open(self.dir('cgi', 'stop_server'), 'w')
         print >>f, "<quit/>"
         f.close()
-        # need to sleep because the feeder sleeps (up to 5+5+1) seconds to
-        # check triggers.
-        verbose_sleep("Stopping server(s) for project '%s'" % self.short_name, sleep)
+
+        daemons = ' '.join(daemons)
+        verbose_echo(1,"Stopping server(s) for project '%s': "%self.short_name)
+        shell_call("cd %s ; ./kill_server -v %s" % (self.dir('cgi'), daemons))
 
     def restart(self):
         '''remove the stop_server trigger'''

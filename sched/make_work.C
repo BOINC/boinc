@@ -43,6 +43,7 @@
 #include "sched_util.h"
 
 #define LOCKFILE            "make_work.out"
+#define PIDFILE             "make_work.pid"
 
 int cushion = 10;
 int redundancy = 10;
@@ -130,6 +131,8 @@ void make_work() {
     }
     nresults_left = 0;
     while (1) {
+        check_stop_trigger();
+
         sprintf(buf, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
         retval = result.count(n, buf);
         if (retval) {
@@ -137,7 +140,6 @@ void make_work() {
             exit(1);
         }
         if (n > cushion) {
-            check_stop_trigger();
             sleep(1);
             continue;
         }
@@ -193,7 +195,6 @@ void make_work() {
         sprintf(buf, "added result: %s_%s\n", wu.name, suffix);
         write_log(buf, MSG_DEBUG);
         nresults_left--;
-        check_stop_trigger();
     }
 }
 
@@ -238,6 +239,8 @@ int main(int argc, char** argv) {
         write_log("Another copy of make_work is already running\n", MSG_NORMAL);
         exit(1);
     }
+    write_pid_file(PIDFILE);
+    install_sigint_handler();
 
     srand48(getpid() + time(0));
     make_work();

@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -62,19 +62,20 @@
 #define RESULTS_PER_ENUM    100
 #define REREAD_DB_FILENAME      "reread_db"
 #define LOCKFILE                "feeder.out"
+#define PIDFILE                 "feeder.pid"
 
 CONFIG config;
 
-int check_triggers(SCHED_SHMEM* ssp) {
-    FILE* f;
+SCHED_SHMEM* ssp;
 
-    f = fopen(STOP_TRIGGER_FILENAME, "r");
-    if (f) {
-        fclose(f);
-        detach_shmem((void*)ssp);
-        destroy_shmem(config.shmem_key);
-        exit(0);
-    }
+void cleanup_shmem()
+{
+    detach_shmem((void*)ssp);
+    destroy_shmem(config.shmem_key);
+}
+
+int check_reread_trigger() {
+    FILE* f;
     f = fopen(REREAD_DB_FILENAME, "r");
     if (f) {
         fclose(f);
@@ -102,7 +103,7 @@ int check_triggers(SCHED_SHMEM* ssp) {
 //    Crude approach: if a "collision" (as above) occurred on
 //    a pass through the array, wait a long time (5 sec)
 //
-void feeder_loop(SCHED_SHMEM* ssp) {
+void feeder_loop() {
     int i, j, nadditions, ncollisions, retval;
     DB_RESULT result;
     DB_WORKUNIT wu;
@@ -202,12 +203,12 @@ try_again:
             sleep(5);
         }
         fflush(stdout);
-        check_triggers(ssp);
+        check_stop_trigger();
+        check_reread_trigger();
     }
 }
 
 int main(int argc, char** argv) {
-    SCHED_SHMEM* ssp;
     int i, retval;
     bool asynch = false;
     void* p;
@@ -240,6 +241,7 @@ int main(int argc, char** argv) {
         write_log("Another copy of feeder is already running\n", MSG_NORMAL);
         exit(1);
     }
+    write_pid_file(PIDFILE);
 
     retval = destroy_shmem(config.shmem_key);
     if (retval) {
@@ -253,6 +255,10 @@ int main(int argc, char** argv) {
     }
     ssp = (SCHED_SHMEM*)p;
     ssp->init();
+
+    atexit(cleanup_shmem);
+    install_sigint_handler();
+
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
         sprintf(buf, "boinc_db_open: %d\n", retval);
@@ -271,5 +277,5 @@ int main(int argc, char** argv) {
         ssp->napp_versions
     );
 
-    feeder_loop(ssp);
+    feeder_loop();
 }
