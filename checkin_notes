@@ -2707,3 +2707,23 @@ Seth Dec 18 2002
 		wingui_listctrl.cpp,h (new)
 		wingui_pictrl.cpp,h (new)
 
+David  Dec 18 2002
+    - Have account create action redirect to a different page
+        so you don't get "Repost form data" if you go back to it
+    - Added full support for project-specific preferences.
+        Logic is encapsulated in project_specific_prefs.inc.
+        The example lets you choose color scheme
+        (Tahiti Sunset, Desert Sands)
+
+    html_user/
+        account_created.php (new)
+        project_specific_prefs.inc (new)
+        create_account_action.php
+        prefs.inc
+        prefs.php
+        prefs_edit_global_form.php
+        prefs_edit_project_action.php
+        prefs_edit_project_form.php
+        util.inc
+    lib/
+        countries.C,h

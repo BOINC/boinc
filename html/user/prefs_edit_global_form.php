@@ -13,7 +13,7 @@ if ($user == NULL) {
     exit();
 }
 page_head("Edit Global Preferences");
-$prefs = prefs_parse($user->prefs);
+$prefs = prefs_parse($user->global_prefs);
 prefs_form_global($user, $prefs);
 echo "<a href=prefs.php>Back to preferences</a>\n";
 echo "<p>\n";

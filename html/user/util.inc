@@ -82,11 +82,11 @@ function page_head($title) {
 
 function page_tail() {
 
-    echo "<br><br><a href=index.php>Return to main ".PROJECT." page</a><br>\n";
+    echo "<br><hr><center><a href=index.php>Return to main ".PROJECT." page</a><br>\n";
 
     // put your copyright notice etc. here
 
-    echo "<hr>Copyright (c) 2002 Sample Project\n";
+    echo "<br><br>Copyright (c) 2002 ".PROJECT."</center>\n";
 }
 
 function date_str($when) {
@@ -162,6 +162,15 @@ function parse_config($tag) {
     }
     fclose($fp);
     return $element;
+}
+
+// Call this if for dynamic pages
+//
+function no_cache() {
+    header ("Expires: Mon, 26 Jul 1997 05:00:00 GMT");    // Date in the past
+    header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // always modified
+    header ("Cache-Control: no-cache, must-revalidate");  // HTTP/1.1
+    header ("Pragma: no-cache");                          // HTTP/1.0
 }
 
 ?>

@@ -14,8 +14,8 @@ if ($user == NULL) {
 }
 page_head("Edit project preferences");
 parse_str(getenv("QUERY_STRING"));
-$prefs = prefs_parse($user->prefs);
-prefs_form_project($prefs->project, "prefs_edit_project_action.php");
+$prefs = prefs_parse($user->project_prefs);
+prefs_form_project($prefs);
 echo "<p>\n";
 page_tail();
 

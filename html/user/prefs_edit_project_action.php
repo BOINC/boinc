@@ -13,6 +13,7 @@ if ($user == NULL) {
     exit();
 }
 
+no_cache();
 page_head("Preferences");
 $prefs = prefs_parse($user->project_prefs);
 prefs_project_parse_form($prefs);

@@ -1,2 +1,2 @@
-#define NUM_COUNTRIES   226
+#define NUM_COUNTRIES   227
 extern char *countries[NUM_COUNTRIES];

@@ -9,8 +9,8 @@
     $user = get_user_from_auth($authenticator);
     require_login($user);
 
-        page_head("Preferences");
-        print_prefs_display($user);
-        page_tail();
+    page_head("Preferences");
+    print_prefs_display($user);
+    page_tail();
 
 ?>

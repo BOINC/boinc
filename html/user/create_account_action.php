@@ -53,19 +53,8 @@ function show_error($str) {
     if (!$result) {
         show_error("Couldn't create account");
     }
-    page_head("Account created");
-    echo "Your account has been created,
-        and an <b>account key</b> is being emailed to you.
-        <p>
-        If you don't already have it,
-        <a href=download.php>download the BOINC client</a>.
-        Install and run the client, and give it your account key.
-        <p>
-        If you're already running the BOINC client,
-        select the <b>Add Project</b> command
-        and give it your account key.
-        <p>";
 
-    send_auth_email($new_email_addr, $authenticator);
+    // In success case, redirect to a fixed page so that user can
+    // return to it without getting "Repost form data" stuff
 
-    page_tail();
+    Header("Location: account_created.php");

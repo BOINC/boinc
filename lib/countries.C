@@ -3,6 +3,7 @@
 #include "countries.h"
 
 char *countries[NUM_COUNTRIES] = {
+    "None",
     "United States",
     "Afghanistan",
     "Albania",
