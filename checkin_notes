@@ -5480,5 +5480,7 @@ Karl 2003/07/31
 Karl 2003/08/01
     - if a file to download exists already and signature and checksum match,
       skip downloading it.
+    - when running benchmarks say pausing computation, and "run always / run
+      never" works correctly with benchmarks
 
     Client/*
