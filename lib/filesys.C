@@ -150,6 +150,7 @@ void dir_close(DIRREF dirp) {
 	FindClose(dirp->handle);
 	dirp->handle = INVALID_HANDLE_VALUE;
     }
+	free(dirp);
 #endif
 #ifdef macintosh
     SayErr("\pdir_close called (empty function)");	/* CAF Temp */
