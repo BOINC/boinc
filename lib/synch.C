@@ -26,7 +26,7 @@
 #include "error_numbers.h"
 #include "synch.h"
 
-union semun {
+union SEMUN {
     int val;
     struct semid_ds *buf;
     unsigned short int *arra;
@@ -35,7 +35,7 @@ union semun {
 
 int create_semaphore(key_t key){
     int id, retval;
-    semun s;
+    SEMUN s;
 
     id = semget(key, 1, IPC_CREAT|IPC_EXCL|0777);
     if (id < 0) {

@@ -3,6 +3,7 @@
 require_once("../inc/util.inc");
 require_once("../inc/db.inc");
 require_once("../inc/sanitize_html.inc");
+require_once("../inc/countries.inc");
 
 function display_team_page($team, $user) {
     page_head("$team->name", $user);

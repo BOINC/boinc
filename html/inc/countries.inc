@@ -2,6 +2,8 @@
 // $Id$
 // list of countries taken from http://www.cia.gov
 
+require_once("../inc/geoip.inc"); 
+
 $countries = array(
     "None",
     "International",
@@ -233,4 +235,23 @@ $countries = array(
     "Zimbabwe"
     );
 
+function print_country_select($selected_country="None") {
+   global $countries;
+
+   //See if we can find the user's country and select it as default:
+   $gi = geoip_open("../inc/GeoIP.dat",GEOIP_STANDARD);
+   $geoip_country = geoip_country_name_by_addr($gi,$_SERVER["REMOTE_ADDR"]);
+   geoip_close($gi);
+
+   if ($selected_country=="None" and $geoip_country!=""){
+       $selected_country=$geoip_country;
+   }
+
+   $numCountries = count($countries);
+   for ($i=0; $i<$numCountries; $i++) {
+       $country = $countries[$i];
+       $selected = ($selected_country == $country ? "selected":"");
+       echo "<option value=\"$country\" $selected>$country</option>\n";
+   }
+} 
 ?>

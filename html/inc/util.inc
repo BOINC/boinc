@@ -216,16 +216,6 @@ function random_string() {
     return md5(uniqid(rand()));
 }
 
-function print_country_select($selected_country="None") {
-    global $countries;
-    $numCountries = count($countries);
-    for ($i=0; $i<$numCountries; $i++) {
-        $country = $countries[$i];
-        $selected = ($selected_country == $country ? "selected":"");
-        echo "<option value=\"$country\" $selected>$country</option>\n";
-    }
-}
-
 function print_login_form_aux($next_url, $user) {
     echo "
         <form name=f method=post action=login_action.php>

@@ -94,7 +94,21 @@ static int		update_app_progress(double frac_done, double cpu_t, double cp_cpu_t,
 static int		set_timer(double period);
 
 
-// Standard BOINC API's
+static bool core_client_is_running() {
+    int retval;
+    bool running = true;
+    retval = lock_semaphore(core_semaphore_key);
+    if (!retval) {
+        // we got the semaphore - core client must not be running.
+        // release semaphore so that other apps can get it
+        //
+        running = false;
+        unlock_semaphore(core_semaphore_key);
+    }
+    return running;
+}
+
+// Standard BOINC APIs
 //
 
 int boinc_init(bool standalone_ /* = false */) {
@@ -347,6 +361,7 @@ static int set_timer(double period) {
 
     // Use Windows multimedia timer, since it is more accurate
     // than SetTimer and doesn't require an associated event loop
+    //
     timer_id = timeSetEvent(
         (int)(period*1000), // uDelay
         (int)(period*1000), // uResolution
@@ -488,3 +503,4 @@ int boinc_child_done(double cpu) {
     this_process_active = true;
     return 0;
 }
+

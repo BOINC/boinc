@@ -1,6 +1,8 @@
 <?php
 require_once('../inc/db.inc');
 require_once('../inc/util.inc');
+require_once('../inc/countries.inc');
+
 db_init();
 page_head('New Account');
 

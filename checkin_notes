@@ -10566,9 +10566,10 @@ David  Mar 18 2004
         prefs.inc
 
 kevin 18 March 2004
-	* client/app.C:
-	exit status of application set to nonzero value if there is an
-	uncaught signal.
+	- exit status of application set to nonzero value if there is an
+        uncaught signal.
+	client/
+        app.C
 
 Rom    Mar 18 2004
     - Fixed a bug causing build problems for a customer in Australia, basically
@@ -10662,8 +10663,8 @@ Rom    Mar 22 2004
         app_ipc.h
 
 kevin Mon Mar 22 2004
-    - ensure that </stderr_txt> is included in
-    stderr_out, even if stderr_out is too long.
+    - ensure that </stderr_txt> is included in stderr_out,
+        even if stderr_out is too long.
      client/
         app.C
 
@@ -10796,9 +10797,9 @@ Rom    Mar 24 2004
         upper_case.vcproj
 
 kevin    Mar 24 2004
-	(class boinc_base_exception): changed order of
-	initialization in constructor so that initialization matches
-	declaration. 
+	- class boinc_base_exception: changed order of initialization
+        in constructor so that initialization matches declaration. 
+
 	lib/
 		exception.h 
 
@@ -10922,5 +10923,25 @@ David  Mar 25 2004
 
 Jeff  Mar 26 2004
      - Release tags.  Sources were tagged as seti_boinc_release_2_30 and then,
-       after some build problems were fixed, were tagged as seti_boinc_release_2_30a.
-       The build from this latter tag was what was released as app version 2.30.
+       after some build problems were fixed,
+       were tagged as seti_boinc_release_2_30a.
+       The build from this latter tag was what was released
+       as app version 2.30.
+
+David  Mar 26 2004
+    - when show country select on web,
+        pre-populate based on client's IP (using GeoIP; from Janus)
+    - fix compile problem with semaphore code
+
+    html/
+        inc/
+            GeoIP.dat (new)
+            geoip.inc (new)
+            team.inc
+            util.inc
+        lib/
+            app_ipc.h
+            synch.C
+        user/
+            create_account_form.php
+            edit_user_info_form.php
