@@ -58,6 +58,7 @@ MMRESULT timer_id;
 HANDLE hGlobalDrawEvent,hQuitEvent;
 extern HANDLE graphics_threadh;
 extern BOOL    win_loop_done;
+LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
 #endif
 
 #ifdef HAVE_GL_LIB
@@ -97,10 +98,8 @@ int ok_to_draw = 0;
 // read the INIT_DATA and FD_INIT files
 //
 int boinc_init() {
-
 #ifdef _WIN32
     freopen(STDERR_FILE, "a", stderr);
-    fprintf(stderr, "in boinc_init()\n");
 #endif
 
 #ifndef API_IGNORE_CLIENT
@@ -167,31 +166,129 @@ int boinc_init() {
 //
 int boinc_install_signal_handlers() {
 #ifdef HAVE_SIGNAL_H
-    // terminal line hangup
-    signal( SIGHUP, boinc_catch_signal );
-    // interrupt program
-    signal( SIGINT, boinc_catch_signal );
-    // quit program
-    signal( SIGQUIT, boinc_catch_signal );
-    // illegal instruction
-    signal( SIGILL, boinc_catch_signal );
-    // abort(2) call
-    signal( SIGABRT, boinc_catch_signal );
-    // bus error
-    signal( SIGBUS, boinc_catch_signal );
-    // segmentation violation
-    signal( SIGSEGV, boinc_catch_signal );
-    // system call given invalid argument
-    signal( SIGSYS, boinc_catch_signal );
-    // write on a pipe with no reader
-    signal( SIGPIPE, boinc_catch_signal );
+    signal( SIGHUP, boinc_catch_signal );  // terminal line hangup
+    signal( SIGINT, boinc_catch_signal );  // interrupt program
+    signal( SIGQUIT, boinc_catch_signal ); // quit program
+    signal( SIGILL, boinc_catch_signal );  // illegal instruction
+    signal( SIGABRT, boinc_catch_signal ); // abort(2) call
+    signal( SIGBUS, boinc_catch_signal );  // bus error
+    signal( SIGSEGV, boinc_catch_signal ); // segmentation violation
+    signal( SIGSYS, boinc_catch_signal );  // system call given invalid argument
+    signal( SIGPIPE, boinc_catch_signal ); // write on a pipe with no reader
 #endif
-
+#ifdef _WIN32
+    SetUnhandledExceptionFilter( boinc_catch_signal );
+#endif
     return 0;
 }
 
-void boinc_catch_signal(int signal) {
+#ifdef _WIN32
+LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo) {
+    PVOID exceptionAddr = ExceptionInfo->ExceptionRecord->ExceptionAddress;
+    DWORD exceptionCode = ExceptionInfo->ExceptionRecord->ExceptionCode;
+    char  status[256];
+    
+    switch (exceptionCode) {
+        case STATUS_WAIT_0:
+            strcpy(status,"Wait 0");
+            break;
+        case STATUS_ABANDONED_WAIT_0:
+            strcpy(status,"Abandoned Wait 0");
+            break;
+        case STATUS_USER_APC:
+            strcpy(status,"User APC");
+            break;
+        case STATUS_TIMEOUT:
+            strcpy(status,"Timeout");
+            break;
+        case STATUS_PENDING:
+            strcpy(status,"Pending");
+            break;
+        case STATUS_SEGMENT_NOTIFICATION:
+            return DBG_EXCEPTION_NOT_HANDLED;
+        case STATUS_GUARD_PAGE_VIOLATION:
+            strcpy(status,"Guard Page Violation");
+            break;
+        case STATUS_DATATYPE_MISALIGNMENT:
+            strcpy(status,"Data Type Misalignment");
+            break;
+        case STATUS_BREAKPOINT:
+            return DBG_EXCEPTION_NOT_HANDLED;
+        case STATUS_SINGLE_STEP:
+            return DBG_EXCEPTION_NOT_HANDLED;
+        case STATUS_ACCESS_VIOLATION:
+            strcpy(status,"Access Violation");
+            break;
+        case STATUS_IN_PAGE_ERROR:
+            strcpy(status,"In Page Error");
+            break;
+        case STATUS_NO_MEMORY:
+            strcpy(status,"No Memory");
+            break;
+        case STATUS_ILLEGAL_INSTRUCTION:
+            strcpy(status,"Illegal Instruction");
+            break;
+        case STATUS_NONCONTINUABLE_EXCEPTION:
+            strcpy(status,"Noncontinuable Exception");
+            break;
+        case STATUS_INVALID_DISPOSITION:
+            strcpy(status,"Invalid Disposition");
+            break;
+        case STATUS_ARRAY_BOUNDS_EXCEEDED:
+            strcpy(status,"Array Bounds Exceeded");
+            break;
+        case STATUS_FLOAT_DENORMAL_OPERAND:
+            strcpy(status,"Float Denormal Operand");
+            break;
+        case STATUS_FLOAT_DIVIDE_BY_ZERO:
+            strcpy(status,"Divide by Zero");
+            break;
+        case STATUS_FLOAT_INEXACT_RESULT:
+            strcpy(status,"Float Inexact Result");
+            break;
+        case STATUS_FLOAT_INVALID_OPERATION:
+            strcpy(status,"Float Invalid Operation");
+            break;
+        case STATUS_FLOAT_OVERFLOW:
+            strcpy(status,"Float Overflow");
+            break;
+        case STATUS_FLOAT_STACK_CHECK:
+            strcpy(status,"Float Stack Check");
+            break;
+        case STATUS_FLOAT_UNDERFLOW:
+            strcpy(status,"Float Uderflow");
+            break;
+        case STATUS_INTEGER_DIVIDE_BY_ZERO:
+            strcpy(status,"Integer Divide by Zero");
+            break;
+        case STATUS_INTEGER_OVERFLOW:
+            strcpy(status,"Integer Overflow");
+            break;
+        case STATUS_PRIVILEGED_INSTRUCTION:
+            strcpy(status,"Privileged Instruction");
+            break;
+        case STATUS_STACK_OVERFLOW:
+            strcpy(status,"Stack Overflow");
+            break;
+        case STATUS_CONTROL_C_EXIT:
+            strcpy(status,"Ctrl+C Exit");
+            break;
+        default:
+            strcpy(status,"Unknown exception");
+            break;
+    }
+    // TODO: also output info in CONTEXT structure?
+    fprintf( stderr, "\n***UNHANDLED EXCEPTION****\n");
+    fprintf( stderr, "Reason: %s at address 0x%p\n",status,exceptionAddr);
+    fprintf( stderr, "Exiting...\n" );
+    fflush(stderr);
+    exit(ERR_SIGNAL_CATCH);
+    return(EXCEPTION_EXECUTE_HANDLER);
+}
+#endif
+
 #ifdef HAVE_SIGNAL_H
+void boinc_catch_signal(int signal) {
     switch(signal) {
         case SIGHUP: // terminal line hangup
             fprintf( stderr, "SIGHUP: terminal line hangup" );
@@ -225,9 +322,9 @@ void boinc_catch_signal(int signal) {
             break;
     }
     fprintf( stderr, "\nExiting...\n" );
-#endif
     exit(ERR_SIGNAL_CATCH);
 }
+#endif
 
 int boinc_finish(int status) {
     last_checkpoint_cpu_time = boinc_cpu_time();
@@ -386,7 +483,7 @@ double boinc_cpu_time() {
         tKernel.HighPart = kernelTime.dwHighDateTime;
         tUser.LowPart    = userTime.dwLowDateTime;
         tUser.HighPart   = userTime.dwHighDateTime;
-		totTime = tKernel.QuadPart + tUser.QuadPart;
+        totTime = tKernel.QuadPart + tUser.QuadPart;
 
         // Runtimes in 100-nanosecond units
         cpu_secs += totTime / 10000000.0;
@@ -396,7 +493,7 @@ double boinc_cpu_time() {
     }
     CloseHandle(hProcess);
 
-	// TODO: Handle timer wraparound
+    // TODO: Handle timer wraparound
     static bool first=true;
     static DWORD first_count = 0;
 
