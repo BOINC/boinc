@@ -1,0 +1,9 @@
+[DYNAMIC]
+WILDCARD0=*.scr
+INCLUDESUBDIR=NO
+FOLDER=..\Build\Debug\
+
+[General]
+Type=FILELIST
+Version=1.10.000
+
