@@ -33,17 +33,17 @@ int HOST_INFO::parse(FILE* in) {
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</host_info>")) return 0;
         else if (parse_int(buf, "<timezone>", timezone)) continue;
-        else if (parse_str(buf, "<domain_name>", domain_name)) continue;
-        else if (parse_str(buf, "<ip_addr>", ip_addr)) continue;
+        else if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
+        else if (parse_str(buf, "<ip_addr>", ip_addr, sizeof(ip_addr))) continue;
         else if (parse_int(buf, "<p_ncpus>", p_ncpus)) continue;
-        else if (parse_str(buf, "<p_vendor>", p_vendor)) continue;
-        else if (parse_str(buf, "<p_model>", p_model)) continue;
+        else if (parse_str(buf, "<p_vendor>", p_vendor, sizeof(p_vendor))) continue;
+        else if (parse_str(buf, "<p_model>", p_model, sizeof(p_model))) continue;
         else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
         else if (parse_double(buf, "<p_iops>", p_iops)) continue;
         else if (parse_double(buf, "<p_membw>", p_membw)) continue;
 	else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
-        else if (parse_str(buf, "<os_name>", os_name)) continue;
-        else if (parse_str(buf, "<os_version>", os_version)) continue;
+        else if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
+        else if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
         else if (parse_double(buf, "<m_nbytes>", m_nbytes)) continue;
         else if (parse_double(buf, "<m_cache>", m_cache)) continue;
         else if (parse_double(buf, "<m_swap>", m_swap)) continue;

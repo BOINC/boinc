@@ -51,7 +51,7 @@
 #endif
 
 bool app_render(int xs, int ys, double time_of_day);
-void renderBitmapString( float x, float y, void *font, char *string);
+void renderBitmapString(float x, float y, void *font, char *string);
 int DrawGLScene(GLvoid);
 #endif
 
@@ -80,7 +80,7 @@ int do_checkpoint(MFILE& mf, int nchars) {
         client_time = fopen("../../client.time", "w");
         boinc_get_init_data(uc_aid);
     }
-    boinc_resolve_filename( "temp", resolved_name );
+    boinc_resolve_filename("temp", resolved_name, sizeof(resolved_name));
     FILE* f = fopen(resolved_name, "w");
     if (!f) return 1;
     fprintf(f, "%d", nchars);
@@ -91,7 +91,7 @@ int do_checkpoint(MFILE& mf, int nchars) {
     // hopefully atomic part starts here
     retval = mf.flush();
     if (retval) return retval;
-    boinc_resolve_filename( CHECKPOINT_FILE, res_name2 );
+    boinc_resolve_filename(CHECKPOINT_FILE, res_name2, sizeof(res_name2));
     retval = boinc_rename(resolved_name, res_name2);
     if (retval) return retval;
     // hopefully atomic part ends here
@@ -143,7 +143,7 @@ int main(int argc, char **argv) {
     
     my_start_time = time(0);
 
-    strcpy( the_char, "(none)\0" );
+    strcpy(the_char, "(none)\0");
     retval = boinc_init();
     if (retval) exit(retval);
     
@@ -154,8 +154,8 @@ int main(int argc, char **argv) {
 
     boinc_get_init_data(uc_aid);
 
-    boinc_resolve_filename( "in", resolved_name );
-    fprintf( stderr, "APP: upper_case: starting, argc %d\n", argc );
+    boinc_resolve_filename("in", resolved_name, sizeof(resolved_name));
+    fprintf(stderr, "APP: upper_case: starting, argc %d\n", argc);
     for (i=0; i<argc; i++) {
         fprintf(stderr, "APP: upper_case: argv[%d] is %s\n", i, argv[i]);
         if (!strcmp(argv[i], "-run_slow")) run_slow = 1;
@@ -163,16 +163,16 @@ int main(int argc, char **argv) {
     }
     run_slow = 1;
     in = fopen(resolved_name, "r");
-    boinc_resolve_filename( CHECKPOINT_FILE, resolved_name );
+    boinc_resolve_filename(CHECKPOINT_FILE, resolved_name, sizeof(resolved_name));
     state = fopen(resolved_name, "r");
     if (state) {
         fscanf(state, "%d", &nchars);
         printf("nchars %d\n", nchars);
         fseek(in, nchars, SEEK_SET);
-        boinc_resolve_filename( "out", resolved_name );
+        boinc_resolve_filename("out", resolved_name, sizeof(resolved_name));
         retval = out.open(resolved_name, "a");
     } else {
-        boinc_resolve_filename( "out", resolved_name );
+        boinc_resolve_filename("out", resolved_name, sizeof(resolved_name));
         retval = out.open(resolved_name, "w");
     }
     if (retval) {
@@ -183,7 +183,7 @@ int main(int argc, char **argv) {
     while (1) {
         c = fgetc(in);
         if (c == EOF) break;
-            sprintf( the_char, "%c -> %c\0", c, toupper(c) );
+            sprintf(the_char, "%c -> %c\0", c, toupper(c));
         c = toupper(c);
         out._putchar(c);
         nchars++;
@@ -241,14 +241,14 @@ int DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
     renderBitmapString(xPos,yPos,GLUT_BITMAP_HELVETICA_12,the_char);
     xPos += xDelta;
     yPos += yDelta;
-    if( xPos < -1 || xPos > 1 ) xDelta *= -1;
-    if( yPos < -1 || yPos > 1 ) yDelta *= -1;
+    if (xPos < -1 || xPos > 1) xDelta *= -1;
+    if (yPos < -1 || yPos > 1) yDelta *= -1;
 
-    sprintf( text, "User: %s", uc_aid.user_name );
+    sprintf(text, "User: %s", uc_aid.user_name);
     renderBitmapString(-1.3,1.1,GLUT_BITMAP_HELVETICA_12, text);
-    sprintf( text, "Team: %s", uc_aid.team_name );
+    sprintf(text, "Team: %s", uc_aid.team_name);
     renderBitmapString(-1.3,1.0,GLUT_BITMAP_HELVETICA_12, text);
-    sprintf( text, "CPU Time: %f", uc_aid.wu_cpu_time );
+    sprintf(text, "CPU Time: %f", uc_aid.wu_cpu_time);
     renderBitmapString(-1.3,0.9,GLUT_BITMAP_HELVETICA_12, text);
 
     return TRUE;										// Everything Went OK

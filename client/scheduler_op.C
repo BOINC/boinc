@@ -163,7 +163,7 @@ int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
     }
     project->scheduler_urls.clear();
     while (fgets(buf, 256, f)) {
-        if (parse_str(buf, "<scheduler>", str.text)) {
+        if (parse_str(buf, "<scheduler>", str.text, sizeof(str.text))) {
             urls.push_back(str);
         }
     }
@@ -376,9 +376,9 @@ int SCHEDULER_REPLY::parse(FILE* in) {
             // Do nothing
         } else if (match_tag(buf, "</scheduler_reply>")) {
             return 0;
-        } else if (parse_str(buf, "<project_name>", project_name)) {
+        } else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) {
             continue;
-        } else if (parse_str(buf, "<user_name>", user_name)) {
+        } else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) {
             continue;
         } else if (parse_double(buf, "<total_credit>", total_credit)) {
             continue;
@@ -428,8 +428,8 @@ int SCHEDULER_REPLY::parse(FILE* in) {
             RESULT result;
             result.parse_ack(in);
             result_acks.push_back(result);
-        } else if (parse_str(buf, "<message", message)) {
-            parse_attr(buf, "priority", message_priority);
+        } else if (parse_str(buf, "<message", message, sizeof(message))) {
+            parse_attr(buf, "priority", message_priority, sizeof(message_priority));
             continue;
         } else {
             fprintf(stderr, "SCHEDULER_REPLY::parse: unrecognized %s\n", buf);

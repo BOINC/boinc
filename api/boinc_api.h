@@ -65,7 +65,7 @@ struct APP_INIT_DATA {
 extern int boinc_init();
 extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_finish(int);
-extern int boinc_resolve_filename(char*, char*);
+extern int boinc_resolve_filename(char*, char*, int len);
 extern bool boinc_time_to_checkpoint();
 extern int boinc_checkpoint_completed();
 extern int boinc_fraction_done();

@@ -32,9 +32,9 @@ int run_slow = 0;
 
 #define CHECKPOINT_FILE "concat_state"
 
-int do_checkpoint(MFILE& mf, int filenum, int nchars ) {
+int do_checkpoint(MFILE& mf, int filenum, int nchars) {
     int retval;
-    char resolved_name[512],res_name2[512];
+    char res_name2[512];
 
     FILE* f = fopen("temp", "w");
     if (!f) return 1;
@@ -43,7 +43,7 @@ int do_checkpoint(MFILE& mf, int filenum, int nchars ) {
 
     fprintf(stderr, "APP: concat checkpointing\n");
 
-    boinc_resolve_filename( CHECKPOINT_FILE, res_name2 );
+    boinc_resolve_filename(CHECKPOINT_FILE, res_name2, sizeof(res_name2));
 
     retval = mf.flush();
     if (retval) return retval;
@@ -57,7 +57,7 @@ void file_append(FILE* in, MFILE &out, int skip, int filenum) {
     char buf[1];
     int n,nread,retval;
 
-    fseek( in, skip, SEEK_SET );
+    fseek(in, skip, SEEK_SET);
     nread = skip;
 
     while (1) {
@@ -66,11 +66,11 @@ void file_append(FILE* in, MFILE &out, int skip, int filenum) {
         out.write(buf, 1, n);
         nread += n;
 
-        if( boinc_time_to_checkpoint() ) {
-            fprintf( stderr, "Checkpoint.\n" );
-            retval = do_checkpoint( out, filenum, nread );
-            if( retval ) {
-                fprintf( stderr, "APP: concat checkpoint failed %d\n", retval );
+        if (boinc_time_to_checkpoint()) {
+            fprintf(stderr, "Checkpoint.\n");
+            retval = do_checkpoint(out, filenum, nread);
+            if (retval) {
+                fprintf(stderr, "APP: concat checkpoint failed %d\n", retval);
                 exit(1);
             }
             boinc_checkpoint_completed();
@@ -115,26 +115,26 @@ int main(int argc, char** argv) {
         fprintf(stderr, "APP: concat: argv[%d] is %s\n", i, argv[i]);
         if (!strcmp(argv[i], "-run_slow")) run_slow = 1;
     }
-    boinc_resolve_filename( CHECKPOINT_FILE, file_name );
-    state = fopen( file_name, "r" );
-    if( state ) {
-        fscanf( state, "%d %d", &file_num, &nchars );
+    boinc_resolve_filename(CHECKPOINT_FILE, file_name, sizeof(file_name));
+    state = fopen(file_name, "r");
+    if (state) {
+        fscanf(state, "%d %d", &file_num, &nchars);
         mode = "a";
     } else {
         file_num = (run_slow ? 2 : 1);
         nchars = 0;
         mode = "w";
     }
-    boinc_resolve_filename( argv[argc-1], file_name );
-    fprintf( stderr, "res: %s\n", file_name );
+    boinc_resolve_filename(argv[argc-1], file_name, sizeof(file_name));
+    fprintf(stderr, "res: %s\n", file_name);
     retval = out.open(file_name, mode);
     if (retval) {
         fprintf(stderr, "APP: concat: can't open out file %s\n", argv[argc-1]);
         exit(1);
     }
     for (i=file_num; i<argc-1; i++) {
-        boinc_resolve_filename( argv[i], file_name );
-        fprintf( stderr, "res: %s\n", file_name );
+        boinc_resolve_filename(argv[i], file_name, sizeof(file_name));
+        fprintf(stderr, "res: %s\n", file_name);
         in = fopen(file_name, "r");
         if (!in) {
             fprintf(stderr, "APP: concat: can't open in file %s\n", argv[i]);

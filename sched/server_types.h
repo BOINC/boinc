@@ -44,6 +44,9 @@ struct SCHEDULER_REQUEST {
     int parse(FILE*);
 };
 
+// NOTE: if any field requires initialization,
+// you must do it in the constructor.  Nothing is zeroed by default.
+//
 struct SCHEDULER_REPLY {
     int request_delay;          // don't request again until this time elapses
     char message[1024];

@@ -49,10 +49,10 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     if (!match_tag(buf, "<scheduler_request>")) return 1;
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</scheduler_request>")) return 0;
-        else if (parse_str(buf, "<authenticator>", authenticator)) continue;
+        else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
-        else if (parse_str(buf, "<platform_name>", platform_name)) continue;
+        else if (parse_str(buf, "<platform_name>", platform_name, sizeof(platform_name))) continue;
         else if (parse_int(buf, "<core_client_version>", core_client_version)) continue;
         else if (parse_int(buf, "<work_req_seconds>", work_req_seconds)) continue;
         else if (parse_int(buf, "<prefs_mod_time>", (int)prefs_mod_time)) {
@@ -98,6 +98,8 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     send_prefs = false;
     code_sign_key = 0;
     code_sign_key_signature = 0;
+    memset(&user, 0, sizeof(user));
+    memset(&host, 0, sizeof(host));
 }
 
 SCHEDULER_REPLY::~SCHEDULER_REPLY() {
@@ -239,7 +241,7 @@ int RESULT::parse_from_client(FILE* fin) {
     memset(this, 0, sizeof(RESULT));
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</result>")) return 0;
-        else if (parse_str(buf, "<name>", name)) continue;
+        else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         else if (parse_int(buf, "<exit_status>", exit_status)) continue;
         else if (parse_double(buf, "<final_cpu_time>", cpu_time)) continue;
         else if (match_tag(buf, "<file_info>")) {
@@ -273,18 +275,18 @@ int HOST::parse(FILE* fin) {
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</host_info>")) return 0;
         else if (parse_int(buf, "<timezone>", timezone)) continue;
-        else if (parse_str(buf, "<domain_name>", domain_name)) continue;
-        else if (parse_str(buf, "<serialnum>", serialnum)) continue;
-        else if (parse_str(buf, "<ip_addr>", last_ip_addr)) continue;
+        else if (parse_str(buf, "<domain_name>", domain_name, sizeof(domain_name))) continue;
+        else if (parse_str(buf, "<serialnum>", serialnum, sizeof(serialnum))) continue;
+        else if (parse_str(buf, "<ip_addr>", last_ip_addr, sizeof(last_ip_addr))) continue;
         else if (parse_int(buf, "<p_ncpus>", p_ncpus)) continue;
-        else if (parse_str(buf, "<p_vendor>", p_vendor)) continue;
-        else if (parse_str(buf, "<p_model>", p_model)) continue;
+        else if (parse_str(buf, "<p_vendor>", p_vendor, sizeof(p_vendor))) continue;
+        else if (parse_str(buf, "<p_model>", p_model, sizeof(p_model))) continue;
         else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
         else if (parse_double(buf, "<p_iops>", p_iops)) continue;
         else if (parse_double(buf, "<p_membw>", p_membw)) continue;
         else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
-        else if (parse_str(buf, "<os_name>", os_name)) continue;
-        else if (parse_str(buf, "<os_version>", os_version)) continue;
+        else if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
+        else if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
         else if (parse_double(buf, "<m_nbytes>", m_nbytes)) continue;
         else if (parse_double(buf, "<m_cache>", m_cache)) continue;
         else if (parse_double(buf, "<m_swap>", m_swap)) continue;
@@ -322,62 +324,3 @@ int HOST::parse_net_stats(FILE* fin) {
     }
     return 1;
 }
-
-#if 0
-DB_CACHE::DB_CACHE() {
-}
-
-int DB_CACHE::read_db() {
-    PLATFORM platform;
-    APP app;
-    APP_VERSION app_version;
-
-    while (!db_platform_enum(platform)) {
-        platforms.push_back(platform);
-    }
-    while (!db_app_enum(app)) {
-        apps.push_back(app);
-    }
-    while (!db_app_version_enum(app_version)) {
-        app_versions.push_back(app_version);
-    }
-    return 0;
-}
-
-PLATFORM* DB_CACHE::lookup_platform(char* name) {
-    unsigned int i;
-    assert(name!=NULL);
-    for (i=0; i<platforms.size(); i++) {
-        if (!strcmp(platforms[i].name, name)) {
-            return &platforms[i];
-        }
-    }
-    return 0;
-}
-
-APP* DB_CACHE::lookup_app(int id) {
-    unsigned int i;
-
-    for (i=0; i<apps.size(); i++) {
-        if (apps[i].id == id) {
-            return &apps[i];
-        }
-    }
-    return 0;
-}
-
-APP_VERSION* DB_CACHE::lookup_app_version(
-    int appid, int platformid, int version
-) {
-    unsigned int i;
-    APP_VERSION* avp;
-    assert(version>=0);
-    for (i=0; i<app_versions.size(); i++) {
-        avp = &app_versions[i];
-        if (avp->appid == appid && avp->platformid == platformid && avp->version_num == version) {
-            return avp;
-        }
-    }
-    return 0;
-}
-#endif

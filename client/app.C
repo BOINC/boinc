@@ -295,7 +295,7 @@ int ACTIVE_TASK::start(bool first_time) {
         argv[0] = exec_name;
         parse_command_line(wup->command_line, argv+1);
         if (log_flags.task_debug) print_argv(argv);
-        boinc_resolve_filename(exec_name, temp);
+        boinc_resolve_filename(exec_name, temp, sizeof(temp));
         retval = execv(temp, argv);
         fprintf(stderr, "execv failed: %d\n", retval);
         perror("execv");
@@ -664,14 +664,16 @@ bool ACTIVE_TASK_SET::poll_time() {
 }
 
 // Gets the next available free slot, or returns -1 if all slots are full
+// TODO: don't use malloc here
 //
 int ACTIVE_TASK_SET::get_free_slot(int total_slots) {
-    int i;
+    unsigned int i;
     char *slot_status;
 
-    if (active_tasks.size() >= total_slots)
+    if (active_tasks.size() >= (unsigned int)total_slots) {
         return -1;
-    
+    }
+
     slot_status = (char *)calloc( sizeof(char), total_slots );
     if (!slot_status) return -1;
     
@@ -681,7 +683,7 @@ int ACTIVE_TASK_SET::get_free_slot(int total_slots) {
         }
     }
 
-    for (i=0; i<total_slots; i++) {
+    for (i=0; i<(unsigned int)total_slots; i++) {
         if (!slot_status[i]) {
             free(slot_status);
             return i;
@@ -746,8 +748,8 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
             }
             return 0;
         }
-        else if (parse_str(buf, "<result_name>", result_name)) continue;
-        else if (parse_str(buf, "<project_master_url>", project_master_url)) continue;
+        else if (parse_str(buf, "<result_name>", result_name, sizeof(result_name))) continue;
+        else if (parse_str(buf, "<project_master_url>", project_master_url, sizeof(project_master_url))) continue;
         else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         else if (parse_int(buf, "<slot>", slot)) continue;
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;

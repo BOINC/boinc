@@ -1858,3 +1858,27 @@ Eric   September 18, 2002
         graphics_api.C
         graphics_api.h
         windows_opengl.cpp
+
+David    Sept 22, 2002
+    - Various changes to prevent buffer overrun in servers;
+        parse_str and parse_attr now take a buffer length arg
+    
+    api/
+        boinc_api.C,h
+    apps/
+        concat.C
+        upper_case.C
+    client/
+        app.C
+        client_types.C
+        file_xfer.C
+        hostinfo.C
+        scheduler_op.C
+    doc/
+        account.html
+    lib/
+        parse.C,h
+    sched/
+        file_upload_handler.C
+        handle_request.C
+        server_types.C,h

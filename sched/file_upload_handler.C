@@ -64,7 +64,7 @@ int FILE_INFO::parse(FILE* in) {
             continue;
         }
         strcatdup(signed_xml, buf);
-        if (parse_str(buf, "<name>", name)) continue;
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
         //fprintf(stderr, "file_upload_handler (%s): FILE_INFO::parse: unrecognized: %s \n", BOINC_USER, buf);
     }
@@ -158,7 +158,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
             continue;
         }
         // Handle a file size request
-        else if (parse_str(buf, "<file_size_req>", file_name)) {
+        else if (parse_str(buf, "<file_size_req>", file_name, sizeof(file_name))) {
             struct stat sbuf;
             // TODO: check to ensure path doesn't point somewhere bad
             //

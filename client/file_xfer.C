@@ -120,7 +120,7 @@ int FILE_XFER::parse_server_response(double &offset) {
     parse_double(req1, "<nbytes>", offset);
     parse_int(req1, "<status>", status);
     // TODO: decide what to do with error string
-    //if (!parse_str(req1, "<error>", upload_offset) ) return -1;
+    //if (!parse_str(req1, "<error>", upload_offset, sizeof(upload_offset)) ) return -1;
 
     return status;
 }

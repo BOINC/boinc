@@ -133,7 +133,10 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         reply.host.rpc_seqno = sreq.rpc_seqno;
         reply.host.rpc_time = time(0);
     } else {
-        strcpy(reply.user.authenticator, sreq.authenticator);
+        strncpy(
+            reply.user.authenticator, sreq.authenticator,
+            sizeof(reply.user.authenticator)
+        );
         retval = db_user_lookup_auth(reply.user);
         if (retval) {
             strcpy(reply.message, "Invalid or missing authenticator");
@@ -170,10 +173,10 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
     int retval;
 
     host.timezone = sreq.host.timezone;
-    strcpy(host.domain_name, sreq.host.domain_name);
-    strcpy(host.serialnum, sreq.host.serialnum);
+    strncpy(host.domain_name, sreq.host.domain_name, sizeof(host.domain_name));
+    strncpy(host.serialnum, sreq.host.serialnum, sizeof(host.serialnum));
     if (strcmp(host.last_ip_addr, sreq.host.last_ip_addr)) {
-        strcpy(host.last_ip_addr, sreq.host.last_ip_addr);
+        strncpy(host.last_ip_addr, sreq.host.last_ip_addr, sizeof(host.last_ip_addr));
     } else {
         host.nsame_ip_addr++;
     }
@@ -181,14 +184,14 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
     host.connected_frac = sreq.host.connected_frac;
     host.active_frac = sreq.host.active_frac;
     host.p_ncpus = sreq.host.p_ncpus;
-    strcpy(host.p_vendor, sreq.host.p_vendor);    // unlikely this will change
-    strcpy(host.p_model, sreq.host.p_model);
+    strncpy(host.p_vendor, sreq.host.p_vendor, sizeof(host.p_vendor));    // unlikely this will change
+    strncpy(host.p_model, sreq.host.p_model, sizeof(host.p_model));
     host.p_fpops = sreq.host.p_fpops;
     host.p_iops = sreq.host.p_iops;
     host.p_membw = sreq.host.p_membw;
     host.p_calculated = sreq.host.p_calculated;
-    strcpy(host.os_name, sreq.host.os_name);
-    strcpy(host.os_version, sreq.host.os_version);
+    strncpy(host.os_name, sreq.host.os_name, sizeof(host.os_name));
+    strncpy(host.os_version, sreq.host.os_version, sizeof(host.os_version));
     host.m_nbytes = sreq.host.m_nbytes;
     host.m_cache = sreq.host.m_cache;
     host.m_swap = sreq.host.m_swap;
@@ -209,7 +212,7 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
 //
 int handle_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     if (sreq.prefs_mod_time > reply.user.prefs_mod_time && strlen(sreq.prefs_xml)) {
-        strcpy(reply.user.prefs, sreq.prefs_xml);
+        strncpy(reply.user.prefs, sreq.prefs_xml, sizeof(reply.user.prefs));
         reply.user.prefs_mod_time = sreq.prefs_mod_time;
         if (reply.user.prefs_mod_time > (unsigned)time(0)) {
             reply.user.prefs_mod_time = (unsigned)time(0);
@@ -232,7 +235,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     for (i=0; i<sreq.results.size(); i++) {
         rp = &sreq.results[i];
-        strcpy(result.name, rp->name);
+        strncpy(result.name, rp->name, sizeof(result.name));
         retval = db_result_lookup_name(result);
         if (retval) {
             printf("can't find result %s\n", rp->name);
@@ -245,6 +248,14 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 continue;
             }
 
+            if (result.hostid != sreq.hostid) {
+                fprintf(stderr,
+                    "got result from wrong host: %d %d\n",
+                    result.hostid, sreq.hostid
+                );
+                continue;
+            }
+
             // TODO: handle error returns
             //
             result.hostid = reply.host.id;
@@ -252,8 +263,8 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             result.exit_status = rp->exit_status;
             result.cpu_time = rp->cpu_time;
             result.state = RESULT_STATE_DONE;
-            strcpy(result.stderr_out, rp->stderr_out);
-            strcpy(result.xml_doc_out, rp->xml_doc_out);
+            strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
+            strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
             db_result_update(result);
 
             retval = db_workunit(result.workunitid, wu);
@@ -346,7 +357,7 @@ int send_work(
         result.sent_time = time(0);
         sprintf(result.name, "result_%d", result.id);
         app = db.lookup_app(wu.appid);
-        strcpy(result.xml_doc_in, app->result_xml_template);
+        strncpy(result.xml_doc_in, app->result_xml_template, sizeof(result.xml_doc_in));
         sprintf(prefix, "%s_", result.name);
         process_result_template(
             result.xml_doc_in, prefix, wu.name, result.name
@@ -369,7 +380,7 @@ int send_work(
     return 0;
 }
 
-// if the client has an old code sign key,
+// if the client has an old code sign public key,
 // send it the new one, with a signature based on the old one.
 // If they don't have a code sign key, send them one
 //

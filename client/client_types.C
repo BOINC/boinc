@@ -66,8 +66,8 @@ int PROJECT::parse_prefs(FILE* in) {
     strcpy(authenticator, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</project>")) return 0;
-        else if (parse_str(buf, "<master_url>", master_url)) continue;
-        else if (parse_str(buf, "<authenticator>", authenticator)) continue;
+        else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
+        else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
         else if (parse_double(buf, "<resource_share>", resource_share)) continue;
         else if (match_tag(buf, "<project_specific>")) {
             retval = dup_element_contents(in, "</project_specific>", &p);
@@ -95,13 +95,13 @@ int PROJECT::parse_state(FILE* in) {
     nrpc_failures = 0;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</project>")) return 0;
-        else if (parse_str(buf, "<scheduler_url>", string.text)) {
+        else if (parse_str(buf, "<scheduler_url>", string.text, sizeof(string.text))) {
             scheduler_urls.push_back(string);
             continue;
         }
-        else if (parse_str(buf, "<master_url>", master_url)) continue;
-        else if (parse_str(buf, "<project_name>", project_name)) continue;
-        else if (parse_str(buf, "<user_name>", user_name)) continue;
+        else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
+        else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
+        else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
         else if (parse_double(buf, "<total_credit>", total_credit)) continue;
         else if (parse_double(buf, "<expavg_credit>", expavg_credit)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
@@ -202,7 +202,7 @@ int APP::parse(FILE* in) {
     project = NULL;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</app>")) return 0;
-        else if (parse_str(buf, "<name>", name)) continue;
+        else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         else fprintf(stderr, "APP::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
@@ -287,8 +287,8 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
         if (from_server) {
             strcatdup(signed_xml, buf);
         }
-        if (parse_str(buf, "<name>", name)) continue;
-        else if (parse_str(buf, "<url>", url.text)) {
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        else if (parse_str(buf, "<url>", url.text, sizeof(url.text))) {
             urls.push_back(url);
             continue;
         }
@@ -296,7 +296,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
             dup_element_contents(in, "</file_signature>", &file_signature);
             continue;
         }
-        else if (parse_str(buf, "<md5_cksum>", md5_cksum)) continue;
+        else if (parse_str(buf, "<md5_cksum>", md5_cksum, sizeof(md5_cksum))) continue;
         else if (parse_double(buf, "<nbytes>", nbytes)) continue;
         else if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
         else if (match_tag(buf, "<generated_locally/>")) generated_locally = true;
@@ -409,7 +409,7 @@ int APP_VERSION::parse(FILE* in) {
     project = NULL;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</app_version>")) return 0;
-        else if (parse_str(buf, "<app_name>", app_name)) continue;
+        else if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
         else if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             app_files.push_back(file_ref);
@@ -449,8 +449,8 @@ int FILE_REF::parse(FILE* in) {
     main_program = false;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file_ref>")) return 0;
-        else if (parse_str(buf, "<file_name>", file_name)) continue;
-        else if (parse_str(buf, "<open_name>", open_name)) continue;
+        else if (parse_str(buf, "<file_name>", file_name, sizeof(file_name))) continue;
+        else if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
         else if (parse_int(buf, "<fd>", fd)) continue;
         else if (match_tag(buf, "<main_program/>")) main_program = true;
         else fprintf(stderr, "FILE_REF::parse(): unrecognized: %s\n", buf);
@@ -492,11 +492,11 @@ int WORKUNIT::parse(FILE* in) {
     seconds_to_complete = 0;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</workunit>")) return 0;
-        else if (parse_str(buf, "<name>", name)) continue;
-        else if (parse_str(buf, "<app_name>", app_name)) continue;
+        else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        else if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
         else if (parse_int(buf, "<version_num>", version_num)) continue;
-        else if (parse_str(buf, "<command_line>", command_line)) continue;
-        else if (parse_str(buf, "<env_vars>", env_vars)) continue;
+        else if (parse_str(buf, "<command_line>", command_line, sizeof(command_line))) continue;
+        else if (parse_str(buf, "<env_vars>", env_vars, sizeof(env_vars))) continue;
         else if (parse_double(buf, "<seconds_to_complete>", seconds_to_complete)) continue; 
         else if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
@@ -534,7 +534,7 @@ int RESULT::parse_ack(FILE* in) {
     strcpy(name, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</result_ack>")) return 0;
-        else if (parse_str(buf, "<name>", name)) continue;
+        else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         else fprintf(stderr, "RESULT::parse(): unrecognized: %s\n", buf);
     }
     return 1;
@@ -564,8 +564,8 @@ int RESULT::parse_server(FILE* in) {
     clear();
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</result>")) return 0;
-        if (parse_str(buf, "<name>", name)) continue;
-        if (parse_str(buf, "<wu_name>", wu_name)) continue;
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
         if (parse_int(buf, "<report_deadline>", report_deadline)) continue;
         if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
@@ -586,8 +586,8 @@ int RESULT::parse_state(FILE* in) {
     clear();
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</result>")) return 0;
-        if (parse_str(buf, "<name>", name)) continue;
-        if (parse_str(buf, "<wu_name>", wu_name)) continue;
+        if (parse_str(buf, "<name>", name, sizeof(name))) continue;
+        if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
         if (parse_int(buf, "<report_deadline>", report_deadline)) continue;
         if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);

@@ -139,7 +139,7 @@ int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
 
 // resolve XML soft links
 //
-int boinc_resolve_filename(char *virtual_name, char *physical_name) {
+int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
     FILE *fp;
     char buf[512];
 
@@ -155,7 +155,7 @@ int boinc_resolve_filename(char *virtual_name, char *physical_name) {
     // If it's the <soft_link> XML tag, return its value,
     // otherwise, return the original file name
     //
-    parse_str( buf, "<soft_link>", physical_name);
+    parse_str(buf, "<soft_link>", physical_name, len);
     return 0;
 }
 
@@ -246,7 +246,7 @@ double boinc_cpu_time() {
 }
 
 #ifdef _WIN32
-void CALLBACK on_timer( HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime ) {
+void CALLBACK on_timer(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime) {
 #else
 void on_timer(int a) {
 #endif
@@ -273,7 +273,7 @@ void on_timer(int a) {
 int set_timer(double period) {
     int retval=0;
 #ifdef _WIN32
-    retval = SetTimer( NULL, 0, (int)(period*1000), on_timer );
+    retval = SetTimer(NULL, 0, (int)(period*1000), on_timer);
 #endif
 
 #if HAVE_SIGNAL_H
@@ -329,8 +329,8 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
             }
             continue;
         }
-        else if (parse_str(buf, "<user_name>", ai.user_name)) continue;
-        else if (parse_str(buf, "<team_name>", ai.team_name)) continue;
+        else if (parse_str(buf, "<user_name>", ai.user_name, sizeof(ai.user_name))) continue;
+        else if (parse_str(buf, "<team_name>", ai.team_name, sizeof(ai.team_name))) continue;
         else if (parse_double(buf, "<total_cobblestones>", ai.total_cobblestones)) continue;
         else if (parse_double(buf, "<recent_avg_cobblestones>", ai.recent_avg_cobblestones)) continue;
         else if (parse_double(buf, "<wu_cpu_time>", ai.wu_cpu_time)) continue;
@@ -397,14 +397,14 @@ int parse_fd_init_file(FILE* f) {
     char buf[256],filename[256];
     int filedesc;
     while (fgets(buf, 256, f)) {
-        if (parse_str(buf, "<fdesc_dup_infile>", filename)) {
+        if (parse_str(buf, "<fdesc_dup_infile>", filename, sizeof(filename))) {
             if (fgets(buf, 256, f)) {
                 if (parse_int(buf, "<fdesc_dup_innum>", filedesc)) {
                     freopen(filename, "r", stdin);
                     fprintf(stderr, "opened input file %s\n", filename);
                 }
             }
-        } else if (parse_str(buf, "<fdesc_dup_outfile>", filename)) {
+        } else if (parse_str(buf, "<fdesc_dup_outfile>", filename, sizeof(filename))) {
             if (fgets(buf, 256, f)) {
                 if (parse_int(buf, "<fdesc_dup_outnum>", filedesc)) {
                     freopen(filename, "w", stdout);

@@ -34,11 +34,17 @@
 #include "parse.h"
 #include "error_numbers.h"
 
+// return true if the tag appears in the line
+//
 bool match_tag(char* buf, char* tag) {
     if (strstr(buf, tag)) return true;
     return false;
 }
 
+// parse an integer of the form <tag>1234</tag>
+// return true if it's there
+// Note: this doesn't check for the end tag
+//
 bool parse_int(char* buf, char* tag, int& x) {
     char* p = strstr(buf, tag);
     if (!p) return false;
@@ -46,6 +52,8 @@ bool parse_int(char* buf, char* tag, int& x) {
     return true;
 }
 
+// Same, for doubles
+//
 bool parse_double(char* buf, char* tag, double& x) {
     char* p = strstr(buf, tag);
     if (!p) return false;
@@ -53,20 +61,25 @@ bool parse_double(char* buf, char* tag, double& x) {
     return true;
 }
 
-bool parse_str(char* buf, char* tag, char* x) {
+// parse a string of the form <tag>string</tag>
+//
+bool parse_str(char* buf, char* tag, char* dest, int len) {
     char* p = strstr(buf, tag);
     if (!p) return false;
     p = strchr(p, '>');
     char* q = strchr(p+1, '<');
     *q = 0;
-    strcpy(x, p+1);
+    strncpy(dest, p+1, len);
+    dest[len-1] = 0;
     return true;
 }
 
-void parse_attr(char* buf, char* name, char* out) {
+// parse a string of the form name="string"
+//
+void parse_attr(char* buf, char* name, char* dest, int len) {
     char* p, *q;
 
-    strcpy(out, "");
+    strcpy(dest, "");
     p = strstr(buf, name);
     if (!p) return;
     p = strchr(p, '"');
@@ -74,7 +87,8 @@ void parse_attr(char* buf, char* name, char* out) {
     q = strchr(p+1, '"');
     if (!q) return;
     *q = 0;
-    strcpy(out, p+1);
+    strncpy(dest, p+1, len);
+    dest[len-1] = 0;
 }
 
 void copy_stream(FILE* in, FILE* out) {
@@ -87,6 +101,8 @@ void copy_stream(FILE* in, FILE* out) {
     }
 }
 
+// append to a malloc'd string
+//
 void strcatdup(char*& p, char* buf) {
     p = (char*)realloc(p, strlen(p) + strlen(buf)+1);
     if (!p) {
@@ -96,6 +112,8 @@ void strcatdup(char*& p, char* buf) {
     strcat(p, buf);
 }
 
+// copy from a file to a malloc'd string until the end tag is reached
+//
 int dup_element_contents(FILE* in, char* end_tag, char** pp) {
     char buf[256];
 
@@ -111,6 +129,8 @@ int dup_element_contents(FILE* in, char* end_tag, char** pp) {
     return 1;
 }
 
+// read a file into a malloc'd string
+//
 int read_file_malloc(char* pathname, char*& str) {
     char buf[256];
     FILE* f;
