@@ -1,4 +1,5 @@
 <title>Scheduler RPC Timing and Retry Policies</title> 
+<body bgcolor=ffffff>
 <h2>Scheduler RPC Timing and Retry Policies</h2> 
 <p>
 Each scheduler RPC reports results, gets work, or both.
@@ -10,8 +11,7 @@ that project, how much work to ask for, and what to do if the RPC fails.
 The scheduler RPC policy has the following goals:
 <ul>
 <li> Make as few scheduler RPCs as possible.
-<li> Use random exponential backoff if a project's scheduling servers
-are down.
+<li> Use random exponential backoff if a project's scheduling servers are down.
 This avoids an RPC storm when the servers come back up.
 <li> Eventually re-read a project's master URL file in case its set
 of schedulers changes.

@@ -1,6 +1,7 @@
-<title>The graphics API</title> 
+<title>The BOINC graphics API</title> 
+<body bgcolor=ffffff>
 
-<h2>The graphics API</h2> 
+<h2>The BOINC graphics API</h2> 
 <p>
 Applications can optionally generate graphics,
 which are displayed either in an application window,
@@ -52,7 +53,6 @@ This file has the format
 
 <p>
 The graphics API implementation uses a 60 Hz timer.
-Every 0.5 sec, it sees if graphics.xml has been modified,
-and if so parses it.
+Every 0.5 sec, it sees if graphics.xml has been modified, and if so parses it.
 Every 1/60 sec, it sees if it's time for a new frame,
 and if so calls <tt>app_render()</tt>.

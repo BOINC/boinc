@@ -1,115 +1,98 @@
-<title>Introduction to BOINC</title>
-<h2>Introduction to BOINC</h2>
+<title>Overview of BOINC</title>
+<body bgcolor=ffffff>
+<h2>Overview of BOINC</h2>
 <p>
-BOINC supports applications
-that can be divided into large parallel parts with few data dependencies;
-it is not presently intended for fine-grained parallel applications.
+BOINC is a software platform for distributed computing
+using volunteer computer resources.
+The features of BOINC fall into several areas:
+
+<h3>Resource sharing among independent projects</h3>
 <p>
-The features of BOINC include:
+Many different projects can use BOINC.
+Projects are independent; they operate their own servers and databases.
+However, projects can share resources in the following sense:
+Participants install a <b>core client</b> program
+which in turn downloads and executes project-specific application programs.
+Participants control which projects they participate in,
+and how their resources are divided among these projects.
+When a project is down or has no work,
+the processing power of its participants is divided among
+the other projects in which the participants are registered.
+<p>
+
+<h3>Project features</h3>
+<p>
+BOINC provides features that simplify
+the creation and operation of distributed computing projects.
 <ul>
 <li>
-<b>Multiple independent projects</b>
+<b>Flexible application framework</b>
 <br>
-BOINC allows multiple independent projects to share participants.
-Participants download a single <b>core client</b> program,
-which in turn downloads and executes project-specific executables.
-Participants can control which projects they participate in,
-and how their resources are divided among these projects.
-Since the projects are independent,
-any downtime for one project will merely result in temporary extra
-processing power for another.
+Existing applications in common languages (C, C++, Fortran)
+can run as BOINC applications with little or no modification.
+An application can consist of several files
+(e.g. multiple programs and a coordinating script).
+New versions of applications can be deployed without
+participant involvement.
 <li>
-<b>Comprehensive security</b>
+<b>Security</b>
 <br>
-All file transfers to the host computer are validated with an
-MD5 checksum, and all executable files are signed with RSA
-public/private key encryption (1024 bit default).
-See the <a href="security.html">security</a> page for more details.
+BOINC protects against several types of attacks.
+For example, it uses digital signatures based on public-key encryption
+to protect against the distribution of viruses.
 <li>
-<b>Host work caching</b>
+<b>Multiple servers and fault-tolerance</b>
 <br>
-The BOINC core client will download enough work to keep the host
-busy for a user specifiable amount of time.
-This will allow the client
-to continue to function during project downtimes, as well as decrease
-the frequency of connections to servers.
-<li>
-<b>Multiple platform support</b>
-<br>
-The BOINC core client can run on almost any platform (Mac OS X,
-Windows 95 and later, Linux and other Unix systems) and provides OpenGL
-based graphics support on Mac OS X, Windows 95 and up, and X Windows.
-<li>
-<b>Multiple server support</b>
-<br>
-The BOINC architecture supports multiple scheduling and data servers.
-If one server is temporarily unavailable,
-clients automatically try alternate servers.
-If all servers are unavailable,
-clients perform random exponential backoff to avoid flooding the server.
+Projects can have separate scheduling and data servers,
+with multiple servers of each type.
+Clients automatically try alternate servers;
+if all servers are unavailable, they do exponential backoff.
 <li>
 <b>Open source</b>
 <br>
 BOINC is open source; it's distributed under the Mozilla
 Public License version 1.0.
-Projects that use
-BOINC are not required to release the source code of their project
-specific applications.
+Application programs need not be open source.
 BOINC can be used for private, commercial, or public distributed
 computing projects.
+Each project must provide and maintain its own server systems;
+these systems can be set up easily using
+open-source components (MySQL, PHP, Apache).
 <li>
 <b>Support for large data</b>
 <br>
-BOINC supports applications that produce or consume large
-amounts of data (on the order of gigabytes).
-It allows data distribution
-and collection to be spread across many servers, and it allows
-participant hosts to transfer large data unobtrusively.
-Users are able to specify maximum disk usage.
-BOINC also handles network disconnections and allows
-user-specifiable network bandwidth restrictions.
+BOINC supports applications that produce or consume large amounts of data,
+or that use large amounts of memory.
+Data distribution and collection can be spread across many servers,
+and participant hosts transfer large data unobtrusively.
+Users can specify limits on disk usage and network bandwidth.
+Work is dispatched only to hosts able to handle it.
+</ul>
+
+<h3>Participant features</h3>
+<p>
+BOINC provides the following features to participants:
+<ul>
 <li>
-<b>Extreme resource requirement support</b>
+<b>Multiple participant platforms</b>
 <br>
-BOINC supports applications with extreme requirements for
-memory, disk, cache or other resources.
-Work is dispatched only to hosts
-able to handle it.
-<li>
-<b>Application program Interface</b>
-<br>
-An Application Program Interface (API) is provided to
-application developers to ease integration with BOINC.
-See the <a href="api.html">API page</a> for details.
-<li>
-<b>Support for applications in any language</b>
-<br>
-BOINC applications can be developed in any language (C++,
-Fortran, Perl).
-An application can consist of several files
-(e.g. multiple programs and a coordinating script).
-New versions of
-applications can be deployed without requiring participants to download.
-<li>
-<b>Multiprocessor support</b>.
-The BOINC client can use multiple CPUs.
+The BOINC core client is available for most common platforms (Mac OS X,
+Windows, Linux and other Unix systems).
+The client can use multiple CPUs.
 
 <li>
-<b>Web Based User and Administrative Interfaces</b>
+<b>Web-based administrative interfaces</b>
 <br>
-A set of PHP scripts is included to provide interfaces for user
-and administrative tasks.
-These include preference editing, account creation and user information display.
+BOINC provides web-based interfaces for
+account creation, preference editing, and participant status display.
+A participant's preferences are automatically propagated to all their hosts,
+making it easy to manage large numbers of hosts.
+
 <li>
-<b>Database and server architecture</b>
+<b>Configurable host work caching</b>
 <br>
-BOINC provides a SQL schema, database functions, a simple server
-architecture, web based user interfaces and server administration tools.
-Each project must provide and maintain its own server systems and
-backend result processing but these systems can be set up easily and
-require only open-source components (MySQL, PHP, Apache, and Linux).
-The BOINC scheduling server also supports FastCGI for enhanced server
-performance.
+The core client downloads enough work to keep its host
+busy for a user-specifiable amount of time.
+This allows the host to continue to function during project downtimes,
+and decreases the frequency of connections.
 </ul>
-</body>
-</html>
