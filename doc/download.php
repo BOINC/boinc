@@ -32,18 +32,11 @@ function version_end($xml) {
     list_end();
 }
 
-function show_462($xml=false) {
-    version_start("4.62", "24 Jan 2005", $xml);
-    version("Windows", "boinc_4.62_windows_intelx86.exe", $xml);
-    version("Linux/x86", "boinc_4.62_i686-pc-linux-gnu.sh", $xml);
-    version("Solaris/SPARC", "boinc_4.62_sparc-sun-solaris2.7.sh", $xml);
-    version_end($xml);
-}
-
 function show_423($xml=false) {
     version_start("4.23", "21 Feb 2005", $xml);
     version("Windows", "boinc_4.23_windows_intelx86.exe", $xml);
     version("Linux/x86", "boinc_4.23_i686-pc-linux-gnu.sh", $xml);
+    version("Solaris/SPARC", "boinc_4.23_sparc-sun-solaris2.7.sh", $xml);
     version_end($xml);
 }
 
@@ -89,7 +82,6 @@ function show_stable($xml) {
 
 function show_dev($xml) {
     show_423($xml);
-    show_462($xml);
 }
 
 if ($_GET["no_header"]) {
