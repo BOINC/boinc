@@ -480,7 +480,15 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     int retval;
 
     f.printf("<client_state>\n");
-    for (j=0; j<projects.size(); j++) {
+
+	retval = host_info.write(f);
+    if (retval) return retval;
+    retval = time_stats.write(f, false);
+    if (retval) return retval;
+    retval = net_stats.write(f, false);
+    if (retval) return retval;
+
+	for (j=0; j<projects.size(); j++) {
         PROJECT* p = projects[j];
         retval = p->write_state(f, true);
         if (retval) return retval;
@@ -500,25 +508,58 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
             if (results[i]->project == p) results[i]->write_gui(f);
         }
     }
+    f.printf(
+        "<platform_name>%s</platform_name>\n"
+        "<core_client_major_version>%d</core_client_major_version>\n"
+        "<core_client_minor_version>%d</core_client_minor_version>\n",
+        platform_name,
+        core_client_major_version,
+        core_client_minor_version
+    );
+
+    // save CPU scheduling state
+    //
+    f.printf(
+        "<cpu_sched_period>%d</cpu_sched_period>\n"
+        "<cpu_sched_work_done_this_period>%f</cpu_sched_work_done_this_period>\n",
+        cpu_sched_period,
+        cpu_sched_work_done_this_period
+    );
+
+    // save proxy info
+    //
+    pi.write(f);
+    if (strlen(host_venue)) {
+        f.printf("<host_venue>%s</host_venue>\n", host_venue);
+    }
+    f.printf("</client_state>\n");
     return 0;
 }
 
 int CLIENT_STATE::write_tasks_gui(MIOFILE& f) {
     unsigned int i;
+    
+	f.printf("<results>\n");
     for(i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
         rp->write_gui(f);
     }
+    f.printf("</results>\n");
+
     return 0;
 }
 
 int CLIENT_STATE::write_file_transfers_gui(MIOFILE& f) {
     unsigned int i;
+
+	f.printf("<file_transfers>\n");
     for (i=0; i<file_infos.size(); i++) {
         FILE_INFO* fip = file_infos[i];
         if (fip->pers_file_xfer) {
             fip->write_gui(f);
         }
     }
+	f.printf("</file_transfers>\n");
+
     return 0;
 }

@@ -19,15 +19,20 @@ which provides the following functions
 ";
 list_start();
 list_heading("function ", "description");
-list_item("init(char* host)", "Establish RPC connection to the given host");
-list_item("get_state(CC_STATE&)",
+list_item_func(
+    "init(char* host)",
+    "Establish RPC connection to the given host"
+);
+list_item_func(
+    "get_state(CC_STATE&)",
     "Get the core client's 'static' state,
     i.e. its projects, apps, app_versions, workunits and results.
     This call is relatively slow and should only
     be done initially, and when needed later (see below).
     "
 );
-list_item("get_results(RESULTS&)",
+list_item_func(
+    "get_results(RESULTS&)",
     "Get a list of results.
     Those that are in progress will have information
     such as CPU time and fraction done.
@@ -37,16 +42,69 @@ list_item("get_results(RESULTS&)",
     if it's not there, call get_state() again.
     "
 );
-list_item("get_file_transfers(FILE_TRANSFERS&)",
+list_item_func(
+    "get_file_transfers(FILE_TRANSFERS&)",
     "Get a list of file transfers in progress.
     Each is linked by name to a project;
     use CC_STATE::lookup_project() to find this project in
-    the current state state;
+    the current state;
     if it's not there, call get_state() again."
 );
-
-list_item(
-    "get_messages(int nmessages, int seqno, vector&lt;MESSAGE_DESC>&)",
+list_item_func(
+    "get_project_status(vector<PROJECT>&)",
+    "Get a list of projects, with only basic fields filled in."
+);
+list_item_func(
+    "get_disk_usage(vector<PROJECT>&)",
+    "Get a list of projects, with disk usage fields filled in."
+);
+list_item_func(
+	"show_graphics(char* result_name, bool full_screen)",
+	"Request that the application processing the given result
+	create a graphics window"
+);
+list_item_func(
+    "project_reset(char* url)",
+	"Reset the given project"
+);
+list_item_func(
+    "project_attach(char* url, char* account_id)",
+	"Attach to the given project"
+);
+list_item_func(
+    "project_detach(char* url)",
+	"Detach from the given project"
+);
+list_item_func(
+    "project_update(char* url)",
+	"Update the given project"
+);
+list_item_func(
+    "set_run_mode(int mode)",
+	"Set the run mode (never/auto/always)."
+);
+list_item_func(
+    "bet_run_mode(int& mode)",
+	"Get the run mode (never/auto/always)."
+);
+list_item_func(
+    "set_network_mode(int mode)",
+	"Set the network mode (never/auto/always)."
+);
+list_item_func(
+    "run_benchmarks()",
+	"Run benchmarks"
+);
+list_item_func(
+    "set_proxy_settings(PROXY_INFO&)",
+	"Set proxy settings"
+);
+list_item_func(
+    "get_messages(
+    int nmessages,
+    int seqno,
+    vector<MESSAGE_DESC>&
+)",
     "Returns a list of (user-level) messages.
     Each message has a sequence number (1, 2, ...),
     a priority (1=informational, 2=error)
@@ -55,35 +113,9 @@ list_item(
     with sequence numbers greater than M.
     They are returned in order of decreasing sequence number."
 );
-
-list_item(
-	"show_graphics(char* result_name, bool full_screen)",
-	"Request that the application processing the given result
-	create a graphics window"
-);
-list_item(
-    "project_reset(char* url)",
-	"Reset the given project"
-);
-list_item(
-    "project_update(char* url)",
-	"Update the given project"
-);
-list_item(
-    "project_detach(char* url)",
-	"Detach from the given project"
-);
-list_item(
-    "project_attach(char* url, char* account_id)",
-	"Attach to the given project"
-);
-list_item(
-    "run_benchmarks()",
-	"Run benchmarks"
-);
-list_item(
-    "set_proxy_settings(PROXY_INFO&)",
-	"Set proxy settings"
+list_item_func(
+    "retry_file_transfer(FILE_TRANSFER&)",
+	"Retry file transfer"
 );
 list_end();
 echo "

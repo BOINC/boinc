@@ -35,6 +35,11 @@ function page_tail() {
     ";
 }
 
+function html_text($x) {
+    return "<pre>".htmlspecialchars($x)."</pre>
+    ";
+}
+
 function list_start() {
     echo "<p><table border=1 cellpadding=6 width=100%>\n";
 }
@@ -63,12 +68,12 @@ function list_item($x, $y, $z=null) {
     echo " </tr>\n";
 }
 
+function list_item_func($x, $y) {
+    list_item(html_text($x), $y);
+}
+
 function list_end() {
     echo "</table><p>\n";
 }
 
-function html_text($x) {
-    return "<pre>".htmlspecialchars($x)."</pre>
-    ";
-}
 ?>

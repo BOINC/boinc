@@ -68,7 +68,7 @@ GUI_RPC_CONN::GUI_RPC_CONN(int s) {
 }
 
 GUI_RPC_CONN::~GUI_RPC_CONN() {
-	boinc_close_socket(sock);
+    boinc_close_socket(sock);
 }
 
 static void handle_get_project_status(MIOFILE& fout) {
@@ -101,17 +101,17 @@ static void handle_get_disk_usage(MIOFILE& fout) {
 }
 
 static PROJECT* get_project(char* buf, MIOFILE& fout) {
-	string url;
-	if (!parse_str(buf, "<project_url>", url)) {
-		fout.printf("<error>Missing project URL</error>\n");
-		return 0;
-	}
-	PROJECT* p = gstate.lookup_project(url.c_str());
-	if (!p) {
-		fout.printf("<error>No such project</error>\n");
-		return 0 ;
-	}
-	return p;
+    string url;
+    if (!parse_str(buf, "<project_url>", url)) {
+        fout.printf("<error>Missing project URL</error>\n");
+        return 0;
+    }
+    PROJECT* p = gstate.lookup_project(url.c_str());
+    if (!p) {
+        fout.printf("<error>No such project</error>\n");
+        return 0 ;
+    }
+    return p;
 }
 
 static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
@@ -125,7 +125,7 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
         mode = MODE_WINDOW;
     }
 
-	if (parse_str(buf, "<result_name>", result_name)) {
+    if (parse_str(buf, "<result_name>", result_name)) {
         PROJECT* p = get_project(buf, fout);
         if (!p) {
             fout.printf("<error>No such project</error>\n");
@@ -149,61 +149,106 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
             atp->request_graphics_mode(mode);
         }
     }
-	fout.printf("<success/>\n");
+    fout.printf("<success/>\n");
 }
 
 
 static void handle_project_reset(char* buf, MIOFILE& fout) {
-	PROJECT* p = get_project(buf, fout);
-	if (p) {
-		gstate.reset_project(p);
-		fout.printf("<success/>\n");
-	}
+    PROJECT* p = get_project(buf, fout);
+    if (p) {
+        gstate.reset_project(p);
+        fout.printf("<success/>\n");
+    }
 }
 
 static void handle_project_attach(char* buf, MIOFILE& fout) {
-	string url, authenticator;
-	if (!parse_str(buf, "<project_url>", url)) {
-		fout.printf("<error>Missing URL</error>\n");
-		return;
-	}
-	if (!parse_str(buf, "<authenticator>", authenticator)) {
-		fout.printf("<error>Missing authenticator</error>\n");
-		return;
-	}
-	gstate.add_project(url.c_str(), authenticator.c_str());
-	fout.printf("<success/>\n");
+    string url, authenticator;
+    if (!parse_str(buf, "<project_url>", url)) {
+        fout.printf("<error>Missing URL</error>\n");
+        return;
+    }
+    if (!parse_str(buf, "<authenticator>", authenticator)) {
+        fout.printf("<error>Missing authenticator</error>\n");
+        return;
+    }
+    gstate.add_project(url.c_str(), authenticator.c_str());
+    fout.printf("<success/>\n");
 }
 
 static void handle_project_detach(char* buf, MIOFILE& fout) {
-	PROJECT* p = get_project(buf, fout);
-	if (p) {
-		gstate.detach_project(p);
-		fout.printf("<success/>\n");
-	}
+    PROJECT* p = get_project(buf, fout);
+    if (p) {
+        gstate.detach_project(p);
+        fout.printf("<success/>\n");
+    }
 }
 
 static void handle_project_update(char* buf, MIOFILE& fout) {
-	PROJECT* p = get_project(buf, fout);
-	if (p) {
+    PROJECT* p = get_project(buf, fout);
+    if (p) {
         p->sched_rpc_pending = true;
         p->min_rpc_time = 0;
-		fout.printf("<success/>\n");
-	}
+        fout.printf("<success/>\n");
+    }
 }
 
 static void handle_set_run_mode(char* buf, MIOFILE& fout) {
-	if (match_tag(buf, "<always")) {
-		gstate.user_run_request = USER_RUN_REQUEST_ALWAYS;
-	} else if (match_tag(buf, "<never")) {
-		gstate.user_run_request = USER_RUN_REQUEST_NEVER;
-	} else if (match_tag(buf, "<auto")) {
-		gstate.user_run_request = USER_RUN_REQUEST_AUTO;
-	} else {
-		fout.printf("<error>Missing mode</error>\n");
-		return;
-	}
-	fout.printf("<success/>\n");
+    if (match_tag(buf, "<always")) {
+        gstate.user_run_request = USER_RUN_REQUEST_ALWAYS;
+    } else if (match_tag(buf, "<never")) {
+        gstate.user_run_request = USER_RUN_REQUEST_NEVER;
+    } else if (match_tag(buf, "<auto")) {
+        gstate.user_run_request = USER_RUN_REQUEST_AUTO;
+    } else {
+        fout.printf("<error>Missing mode</error>\n");
+        return;
+    }
+    fout.printf("<success/>\n");
+}
+
+static void handle_get_run_mode(char* buf, MIOFILE& fout) {
+    fout.printf("<run_mode>\n");
+    switch (gstate.user_run_request) {
+    case USER_RUN_REQUEST_ALWAYS:
+        fout.printf("<always/>\n");
+        break;
+    case USER_RUN_REQUEST_NEVER:
+        fout.printf("<never/>\n");
+        break;
+    case USER_RUN_REQUEST_AUTO:
+        fout.printf("<auto/>\n");
+        break;
+    default:
+        fout.printf("<error>Unknown run mode<error/>\n");
+    }
+    fout.printf("</run_mode>\n");
+}
+
+static void handle_set_network_mode(char* buf, MIOFILE& fout) {
+    if (match_tag(buf, "<always")) {
+        gstate.user_network_request = USER_RUN_REQUEST_ALWAYS;
+    } else if (match_tag(buf, "<never")) {
+        gstate.user_network_request = USER_RUN_REQUEST_NEVER;
+    } else {
+        fout.printf("<error>Missing mode</error>\n");
+        return;
+    }
+    fout.printf("<success/>\n");
+}
+
+static void handle_get_network_mode(char* buf, MIOFILE& fout) {
+    fout.printf("<network_mode>\n");
+    switch (gstate.user_network_request) {
+        case USER_RUN_REQUEST_ALWAYS:
+            fout.printf("<always/>\n");
+            break;
+        case USER_RUN_REQUEST_NEVER:
+            fout.printf("<never/>\n");
+            break;
+        default:
+            fout.printf("<error>Unknown network mode<error/>\n");
+    }
+    fout.printf("</network_mode>\n");
 }
 
 static void handle_run_benchmarks(char* buf, MIOFILE& fout) {
@@ -286,6 +331,36 @@ void handle_get_messages(char* buf, MIOFILE& fout) {
     fout.printf("</msgs>\n");
 }
 
+// <retry_file_transfer>
+//    <project_url>XXX</project_url>
+//    <filename>XXX</filename>
+// </retry_file_transfer>
+static void handle_retry_file_transfer(char* buf, MIOFILE& fout) {
+    string filename;
+
+    PROJECT* p = get_project(buf, fout);
+    if (!p) return;
+
+    if (!parse_str(buf, "<filename>", filename)) {
+        fout.printf("<error>Missing filename</error>\n");
+        return;
+    }
+    
+    FILE_INFO* f = gstate.lookup_file_info(p, filename.c_str());
+    if (!f) {
+        fout.printf("<error>No such file</error>\n");
+        return;
+    }
+    
+    if (!f->pers_file_xfer) {
+        fout.printf("<error>No such transfer waiting</error>\n");
+        return;
+    }
+
+    f->pers_file_xfer->next_request_time = 0;
+    fout.printf("<success/>\n");
+}
+
 int GUI_RPC_CONN::handle_rpc() {
     char request_msg[1024];
     int n;
@@ -297,9 +372,9 @@ int GUI_RPC_CONN::handle_rpc() {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_GUIRPC);
 
     // read the request message in one read()
-	// so that the core client won't hang because
-	// of malformed request msgs
-	//
+    // so that the core client won't hang because
+    // of malformed request msgs
+    //
 #ifdef _WIN32
         n = recv(sock, request_msg, 1024, 0);
 #else
@@ -312,32 +387,38 @@ int GUI_RPC_CONN::handle_rpc() {
 
     if (match_tag(request_msg, "<get_state")) {
         gstate.write_state_gui(mf);
-	} else if (match_tag(request_msg, "<get_tasks>")) {
+    } else if (match_tag(request_msg, "<get_results>")) {
         gstate.write_tasks_gui(mf);
-	} else if (match_tag(request_msg, "<get_file_transfers>")) {
+    } else if (match_tag(request_msg, "<get_file_transfers>")) {
         gstate.write_file_transfers_gui(mf);
-	} else if (match_tag(request_msg, "<get_project_status>")) {
-		handle_get_project_status(mf);
-	} else if (match_tag(request_msg, "<get_disk_usage>")) {
-		handle_get_disk_usage(mf);
-	} else if (match_tag(request_msg, "<result_show_graphics>")) {
-		handle_result_show_graphics(request_msg, mf);
-	} else if (match_tag(request_msg, "<project_reset>")) {
-		handle_project_reset(request_msg, mf);
-	} else if (match_tag(request_msg, "<project_attach>")) {
-		handle_project_attach(request_msg, mf);
-	} else if (match_tag(request_msg, "<project_detach>")) {
-		handle_project_detach(request_msg, mf);
-	} else if (match_tag(request_msg, "<project_update>")) {
-		handle_project_update(request_msg, mf);
-	} else if (match_tag(request_msg, "<set_run_mode>")) {
-		handle_set_run_mode(request_msg, mf);
-	} else if (match_tag(request_msg, "<run_benchmarks")) {
-		handle_run_benchmarks(request_msg, mf);
-	} else if (match_tag(request_msg, "<set_proxy_settings>")) {
-		handle_set_proxy_settings(request_msg, mf);
-	} else if (match_tag(request_msg, "<get_messages>")) {
-		handle_get_messages(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_project_status>")) {
+        handle_get_project_status(mf);
+    } else if (match_tag(request_msg, "<get_disk_usage>")) {
+        handle_get_disk_usage(mf);
+    } else if (match_tag(request_msg, "<result_show_graphics>")) {
+        handle_result_show_graphics(request_msg, mf);
+    } else if (match_tag(request_msg, "<project_reset>")) {
+        handle_project_reset(request_msg, mf);
+    } else if (match_tag(request_msg, "<project_attach>")) {
+        handle_project_attach(request_msg, mf);
+    } else if (match_tag(request_msg, "<project_detach>")) {
+        handle_project_detach(request_msg, mf);
+    } else if (match_tag(request_msg, "<project_update>")) {
+        handle_project_update(request_msg, mf);
+    } else if (match_tag(request_msg, "<set_run_mode>")) {
+        handle_set_run_mode(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_run_mode")) {
+        handle_get_run_mode(request_msg, mf);
+    } else if (match_tag(request_msg, "<set_network_mode>")) {
+        handle_set_network_mode(request_msg, mf);
+    } else if (match_tag(request_msg, "<run_benchmarks")) {
+        handle_run_benchmarks(request_msg, mf);
+    } else if (match_tag(request_msg, "<set_proxy_settings>")) {
+        handle_set_proxy_settings(request_msg, mf);
+    } else if (match_tag(request_msg, "<get_messages>")) {
+        handle_get_messages(request_msg, mf);
+    } else if (match_tag(request_msg, "<retry_file_transfer>")) {
+        handle_retry_file_transfer(request_msg, mf);
     } else {
         mf.printf("<unrecognized/>\n");
     }
@@ -380,7 +461,7 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
                 // resolve and add
                 if (temp.get_ip_addr(buf, ipaddr) == 0) {
                     allowed_remote_ip_addresses.push_back((int)ntohl(ipaddr));
-               }
+                }
             }
         }
         fclose(f);
@@ -394,7 +475,7 @@ int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
 }
 
 int GUI_RPC_CONN_SET::init() {
-	sockaddr_in addr;
+    sockaddr_in addr;
     int retval;
 
     // get list of hosts allowed to do GUI RPCs

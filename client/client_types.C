@@ -766,16 +766,17 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
 
 int FILE_INFO::write_gui(MIOFILE& out) {
     out.printf(
-        "<file_info>\n"
+        "<file_transfer>\n"
+        "    <project_url>%s</project_url>\n"
         "    <name>%s</name>\n"
         "    <nbytes>%f</nbytes>\n"
         "    <max_nbytes>%f</max_nbytes>\n",
-        name, nbytes, max_nbytes
+		project->master_url, name, nbytes, max_nbytes
     );
     if (pers_file_xfer) {
         pers_file_xfer->write(out);
     }
-    out.printf("</file_info>\n");
+    out.printf("</file_transfer>\n");
     return 0;
 }
 
