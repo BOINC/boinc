@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.9  2004/07/13 06:10:32  rwalton
+// Fixed a typo
+//
 // Revision 1.8  2004/07/13 05:56:01  rwalton
 // Hooked up the Project and Work tab for the new GUI.
 //
@@ -151,7 +154,7 @@ wxString CMainDocument::GetProjectAvgCredit(wxInt32 iIndex) {
 
 wxString CMainDocument::GetProjectResourceShare(wxInt32 iIndex) {
     CachedStateUpdate();
-    return wxString::Format(_T("%0.2f%"), m_Projects.Item(iIndex).GetResourceShare());
+    return wxString::Format(_T("%0.2f%%"), m_Projects.Item(iIndex).GetResourceShare());
 }
 
 
