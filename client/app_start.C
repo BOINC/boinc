@@ -225,6 +225,8 @@ static int setup_file(
 //
 // Current dir is top-level BOINC dir
 //
+// postcondition: ACTIVE_TASK::state is set correctly
+//
 int ACTIVE_TASK::start(bool first_time) {
     char exec_name[256], file_path[256], buf[256], exec_path[256];
     unsigned int i;
@@ -364,8 +366,7 @@ int ACTIVE_TASK::start(bool first_time) {
         windows_error_string(szError, sizeof(szError));
 
         state = PROCESS_COULDNT_START;
-        result->active_task_state = PROCESS_COULDNT_START;
-        gstate.report_result_error(*result, ERR_EXEC, "CreateProcess() failed - %s", szError);
+        gstate.report_result_error(*result, "CreateProcess() failed - %s", szError);
         msg_printf(wup->project, MSG_ERROR, "CreateProcess() failed - %s", szError);
         return ERR_EXEC;
     }
@@ -393,9 +394,8 @@ int ACTIVE_TASK::start(bool first_time) {
     pid = fork();
     if (pid == -1) {
         state = PROCESS_COULDNT_START;
-        result->active_task_state = PROCESS_COULDNT_START;
-        gstate.report_result_error(*result, -1, "fork(): %s", strerror(errno));
-        msg_printf(wup->project, MSG_ERROR, "fork(): %s", strerror(errno));
+        gstate.report_result_error(*result, "fork() failed: %s", strerror(errno));
+        msg_printf(wup->project, MSG_ERROR, "fork() failed: %s", strerror(errno));
         return ERR_FORK;
     }
     if (pid == 0) {
@@ -438,12 +438,11 @@ int ACTIVE_TASK::start(bool first_time) {
 
 #endif
     state = PROCESS_EXECUTING;
-    result->active_task_state = PROCESS_EXECUTING;
     return 0;
 }
 
-// Resume the task if it was previously running
-// Otherwise, start it
+// Resume the task if it was previously running; otherwise start it
+// Postcondition: "state" is set correctly
 //
 int ACTIVE_TASK::resume_or_start() {
     char* str = "??";
@@ -462,7 +461,10 @@ int ACTIVE_TASK::resume_or_start() {
             retval = start(false);
             str = "Restarting";
         }
-        if (retval) return retval;
+        if (retval) {
+            state = PROCESS_COULDNT_START;
+            return retval;
+        }
         break;
     case PROCESS_SUSPENDED:
         retval = unsuspend();
@@ -472,6 +474,7 @@ int ACTIVE_TASK::resume_or_start() {
                 MSG_ERROR,
                 "ACTIVE_TASK::resume_or_start(): could not unsuspend active_task"
             );
+            state = PROCESS_COULDNT_START;
             return retval;
         }
         str = "Resuming";
@@ -515,9 +518,8 @@ int ACTIVE_TASK_SET::restart_tasks(int max_tasks) {
         get_slot_dir(atp->slot, atp->slot_dir);
         if (!gstate.input_files_available(result)) {
             msg_printf(atp->wup->project, MSG_ERROR, "ACTIVE_TASKS::restart_tasks(); missing files\n");
-            atp->result->active_task_state = PROCESS_COULDNT_START;
             gstate.report_result_error(
-                *(atp->result), ERR_FILE_MISSING,
+                *(atp->result),
                 "One or more missing files"
             );
             iter = active_tasks.erase(iter);
@@ -548,9 +550,8 @@ int ACTIVE_TASK_SET::restart_tasks(int max_tasks) {
 
         if (retval) {
             msg_printf(atp->wup->project, MSG_ERROR, "ACTIVE_TASKS::restart_tasks(); restart failed: %d\n", retval);
-            atp->result->active_task_state = PROCESS_COULDNT_START;
             gstate.report_result_error(
-                *(atp->result), retval,
+                *(atp->result),
                 "Couldn't restart the app for this result: %d", retval
             );
             iter = active_tasks.erase(iter);

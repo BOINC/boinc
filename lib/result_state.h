@@ -25,17 +25,17 @@
 // (because of the >= comparison in current_work_buf_days())
 //
 #define RESULT_NEW               0
-    // New result, files may still need to be downloaded
+    // New result
 #define RESULT_FILES_DOWNLOADING 1
-    // Input files for result are being downloaded
+    // Input files for result (WU, app version) are being downloaded
 #define RESULT_FILES_DOWNLOADED  2
-    // Files are downloaded, result can be computed
-#define RESULT_COMPUTE_DONE      3
-    // Computation is done, if no error then files need to be uploaded
+    // Files are downloaded, result can be (or is being) computed
+#define RESULT_COMPUTE_ERROR     3
+    // computation failed; no file upload
 #define RESULT_FILES_UPLOADING   4
     // Output files for result are being uploaded
 #define RESULT_FILES_UPLOADED    5
-    // Files are uploaded, notify scheduling server
+    // Files are uploaded, notify scheduling server at some point
 
 #endif
 

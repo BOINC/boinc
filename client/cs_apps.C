@@ -121,11 +121,8 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     }
 
     if (had_error) {
-        // dead-end state indicating we had an error at end of computation;
-        // do not move to RESULT_FILES_UPLOADING
-        rp->state = RESULT_COMPUTE_DONE;
+        rp->state = RESULT_COMPUTE_ERROR;
     } else {
-        // can now upload files.
         rp->state = RESULT_FILES_UPLOADING;
     }
     PROJECT* p = rp->project;
@@ -178,8 +175,9 @@ bool CLIENT_STATE::handle_finished_apps() {
     return action;
 }
 
-// Returns true if all the input files for a result are available
-// locally, false otherwise
+// Returns true if all the input files for a result are present
+// (both WU and app version)
+// false otherwise
 //
 bool CLIENT_STATE::input_files_available(RESULT* rp) {
     WORKUNIT* wup = rp->wup;
@@ -308,14 +306,6 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
         PROJECT* p = projects[i];
         if (!p->next_runnable_result) continue;
         if (p->non_cpu_intensive) continue;
-        if (!input_files_available(projects[i]->next_runnable_result)) {
-            report_result_error(
-                *(p->next_runnable_result), ERR_FILE_MISSING,
-                "One or more missing files"
-            );
-            p->next_runnable_result = NULL;
-            continue;
-        }
         if (first || p->anticipated_debt > best_debt) {
             first = false;
             best_project = p;
@@ -488,12 +478,13 @@ bool CLIENT_STATE::schedule_cpus() {
         ) {
             retval = atp->resume_or_start();
             if (retval) {
-                atp->state = PROCESS_COULDNT_START;
-                atp->result->active_task_state = PROCESS_COULDNT_START;
                 report_result_error(
-                    *(atp->result), retval,
-                    "Couldn't start the app for this result: error %d", retval
+                    *(atp->result), "Couldn't start or resume: %d", retval
                 );
+
+                // if we couldn't run something, reschedule
+                //
+                must_schedule_cpus = true;
                 continue;
             }
             atp->scheduler_state = CPU_SCHED_SCHEDULED;

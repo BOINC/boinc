@@ -365,7 +365,7 @@ double CLIENT_STATE::ettprc(PROJECT *p, int k) {
     ) {
         RESULT *rp = *iter;
         if (rp->project != p
-            || rp->state >= RESULT_COMPUTE_DONE
+            || rp->state > RESULT_FILES_DOWNLOADED
             || rp->ready_to_report
         ) continue;
         if (num_results_to_skip > 0) {

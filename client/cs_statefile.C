@@ -145,6 +145,7 @@ int CLIENT_STATE::parse_state_file() {
                         file_infos.push_back(fip);
                         // If the file had a failure before,
                         // don't start another file transfer
+                        //
                         if (fip->had_failure(failnum)) {
                             if (fip->pers_file_xfer) {
                                 delete fip->pers_file_xfer;

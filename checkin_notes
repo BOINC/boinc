@@ -18134,8 +18134,41 @@ David  6 Oct 2004
     lib/
         crypt_prog.C
 
+David  6 Oct 2004
+    - boinc_resolve_filename() fix bug where link file is empty
+        (from Markku Degerholm)
+
+    lib/
+        app_ipc.C
+
 David  7 Oct 2004
     - return formatted msg in file_upload_handler
 
     sched/
         file_upload_handler.C
+
+David  7 Oct 2004
+    - Housecleaning of result_report_error() and related code:
+        - removed RESULT::active_task_state field
+        - removed RESULT::signal field
+        - removed "errnum" argument from result_report_error()
+        - return XML text for upload errors
+        - clean up logic of result_report_error()
+        - changed FILE_INFO::had_failure() to optionally return error text
+        - changed RESULT_COMPUTE_DONE to RESULT_COMPUTE_ERROR
+        - renamed APP_VERSION::had_failure() to had_download_failure()
+            (same work WORKUNIT)
+    - schedule_cpus(): if any start or resume fails,
+        set must_schedule_cpus so we'll try something else
+
+    client/
+        app_control.C
+        app_start.C
+        client_state.C,h
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C
+        cs_statefile.C
+    lib/
+        prefs.C
+        result_state.h

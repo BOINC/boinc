@@ -258,6 +258,9 @@ int boinc_resolve_filename(const char *virtual_name, char *physical_name, int le
     fp = boinc_fopen(virtual_name, "r");
     if (!fp) return ERR_FOPEN;
 
+    // must initialize buf since fgets() on an empty file won't do anything
+    //
+    buf[0] = 0;
     fgets(buf, 512, fp);
     fclose(fp);
 

@@ -261,3 +261,4 @@ int GLOBAL_PREFS::write(FILE* f) {
     );
     return 0;
 }
+

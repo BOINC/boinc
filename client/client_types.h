@@ -105,7 +105,7 @@ public:
     char* get_next_url(bool);
     char* get_current_url(bool);
     bool is_correct_url_type(bool, STRING256);
-    bool had_failure(int& failnum);
+    bool had_failure(int& failnum, char* buf=0);
     bool verify_existing_file();
     int merge_info(FILE_INFO&);
     int verify_downloaded_file();
@@ -259,7 +259,7 @@ struct APP_VERSION {
 
     int parse(MIOFILE&);
     int write(MIOFILE&);
-    bool had_failure(int& failnum);
+    bool had_download_failure(int& failnum);
     void get_file_errors(std::string&);
     void clear_errors();
 };
@@ -284,7 +284,7 @@ struct WORKUNIT {
 
     int parse(MIOFILE&);
     int write(MIOFILE&);
-    bool had_failure(int& failnum);
+    bool had_download_failure(int& failnum);
     void get_file_errors(std::string&);
 };
 
@@ -300,17 +300,13 @@ struct RESULT {
     bool got_server_ack;
         // we're received the ack for this result from the server
     double final_cpu_time;
-    int state;              // state of this result, see lib/result_state.h
+    int state;              // state of this result: see lib/result_state.h
     int exit_status;        // return value from the application
-    int signal;             // the signal caught by the active_task,
-                // defined only if active_task_state is PROCESS_SIGNALED
-    int active_task_state; // the state of the active task corresponding to this result
     std::string stderr_out;
         // the concatenation of:
         //
         // - if report_result_error() is called for this result:
         //   <message>x</message>
-        //   <active_task_state>x</active_task_state>
         //   <exit_status>x</exit_status>
         //   <signal>x</signal>
         //   - if called in FILES_DOWNLOADED state:

@@ -199,7 +199,6 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
     result->final_cpu_time = checkpoint_cpu_time;
     if (state == PROCESS_ABORT_PENDING) {
         state = PROCESS_ABORTED;
-        result->active_task_state = PROCESS_ABORTED;
     } else {
         state = PROCESS_EXITED;
         exit_status = exit_code;
@@ -207,7 +206,7 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
         if (exit_code) {
             char szError[1024];
             gstate.report_result_error(
-                *result, 0,
+                *result,
                 "%s - exit code %d (0x%x)",
                 windows_format_error_string(exit_code, szError, sizeof(szError)),
                 exit_code, exit_code
@@ -220,19 +219,14 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
                 return true;
             }
             if (!finish_file_present()) {
-#if 0
-                state = PROCESS_IN_LIMBO;
-#else
                 scheduler_state = CPU_SCHED_PREEMPTED;
                 state = PROCESS_UNINITIALIZED;
                 close_process_handles();
-#endif
                 limbo_message(*this);
                 return true;
             }
         }
         result->exit_status = exit_status;
-        result->active_task_state = PROCESS_EXITED;
     }
 
     if (app_client_shm.shm) {
@@ -253,7 +247,6 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
     result->final_cpu_time = checkpoint_cpu_time;
     if (state == PROCESS_ABORT_PENDING) {
         state = PROCESS_ABORTED;
-        result->active_task_state = PROCESS_ABORTED;
     } else {
         if (WIFEXITED(stat)) {
             state = PROCESS_EXITED;
@@ -261,7 +254,7 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
 
             if (exit_status) {
                 gstate.report_result_error(
-                    *result, 0,
+                    *result,
                     "process exited with code %d (0x%x)",
                     exit_status, exit_status
                 );
@@ -298,17 +291,16 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
                 }
             }
             result->exit_status = exit_status;
-            result->active_task_state = PROCESS_EXITED;
             scope_messages.printf(
                 "ACTIVE_TASK::handle_exited_app(): process exited: status %d\n",
                 exit_status
             );
         } else if (WIFSIGNALED(stat)) {
-            int signal = WTERMSIG(stat);
+            int got_signal = WTERMSIG(stat);
 
             // if the process was externally killed, allow it to restart.
             //
-            switch(signal) {
+            switch(got_signal) {
             case SIGHUP:
             case SIGINT:
             case SIGQUIT:
@@ -322,11 +314,9 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
             exit_status = stat;
             result->exit_status = exit_status;
             state = PROCESS_WAS_SIGNALED;
-            signal = signal;
-            result->signal = signal;
-            result->active_task_state = PROCESS_WAS_SIGNALED;
+            signal = got_signal;
             gstate.report_result_error(
-                *result, 0, "process got signal %d", signal
+                *result, "process got signal %d", signal
             );
             scope_messages.printf("ACTIVE_TASK::handle_exited_app(): process got signal %d\n", signal);
         } else {
@@ -547,12 +537,11 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 int ACTIVE_TASK::abort_task(char* msg) {
     if (state == PROCESS_EXECUTING || state == PROCESS_SUSPENDED) {
         state = PROCESS_ABORT_PENDING;
-        result->active_task_state = PROCESS_ABORT_PENDING;
         kill_task();
     } else {
         state = PROCESS_ABORTED;
     }
-    gstate.report_result_error(*result, ERR_RSC_LIMIT_EXCEEDED, msg);
+    gstate.report_result_error(*result, msg);
     return 0;
 }
 

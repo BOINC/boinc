@@ -723,6 +723,7 @@ bool CLIENT_STATE::garbage_collect() {
     bool action = false, found;
     string error_msgs;
     PROJECT* project;
+    char buf[1024];
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
@@ -769,42 +770,41 @@ bool CLIENT_STATE::garbage_collect() {
         }
         // See if the files for this result's workunit had
         // any errors (download failure, MD5, RSA, etc)
-        // and we don't already have an error for this file
+        // and we don't already have an error for this result
         //
         if (!rp->ready_to_report) {
             wup = rp->wup;
-            if (wup->had_failure(failnum)) {
+            if (wup->had_download_failure(failnum)) {
                 wup->get_file_errors(error_msgs);
                 report_result_error(
-                    *rp, 0, "WU download error: %s", error_msgs.c_str()
+                    *rp, "WU download error: %s", error_msgs.c_str()
                 );
-            } else if (wup->avp && wup->avp->had_failure(failnum)) {
+            } else if (wup->avp && wup->avp->had_download_failure(failnum)) {
                 wup->avp->get_file_errors(error_msgs);
                 report_result_error(
-                    *rp, 0, "app_version download error: %s", error_msgs.c_str()
+                    *rp, "app_version download error: %s", error_msgs.c_str()
                 );
             }
         }
+        bool found_error = false;
+        std::string error_str;
         for (i=0; i<rp->output_files.size(); i++) {
             // If one of the output files had an upload failure,
             // mark the result as done and report the error.
             // The result, workunits, and file infos
             // will be cleaned up after the server is notified
             //
-            if (rp->output_files[i].file_info->had_failure(failnum)) {
-                if (!rp->ready_to_report) {
-                    // had an error uploading a file for this result
-                    //
-                    switch (failnum) {
-                    case ERR_FILE_TOO_BIG:
-                        report_result_error(*rp, 0, "Output file exceeded size limit");
-                        break;
-                    default:
-                        report_result_error(*rp, 0, "Output file error: %d", failnum);
-                    }
+            if (!rp->ready_to_report) {
+                fip = rp->output_files[i].file_info;
+                if (fip->had_failure(failnum, buf)) {
+                    found_error = true;
+                    error_str += buf;
                 }
             }
             rp->output_files[i].file_info->ref_cnt++;
+        }
+        if (found_error) {
+            report_result_error(*rp, error_str.c_str());
         }
         rp->wup->ref_cnt++;
         result_iter++;
@@ -907,15 +907,11 @@ bool CLIENT_STATE::update_results() {
     vector<RESULT*>::iterator result_iter;
     bool action = false;
 
-    // delete RESULTs that have been finished and reported;
-    // reference-count files referred to by other results
-    //
     result_iter = results.begin();
     while (result_iter != results.end()) {
         rp = *result_iter;
         // The result has been acked by the scheduling server.
         // It will be deleted on the next garbage collection,
-        // which we trigger by setting action to true
         if (rp->got_server_ack) {
             action = true;
         }
@@ -932,21 +928,7 @@ bool CLIENT_STATE::update_results() {
                 action = true;
             }
             break;
-
-            // app_finished() transitions to either RESULT_COMPUTE_DONE or
-            // RESULT_FILES_UPLOADING. RESULT_COMPUTE_DONE is a dead-end state
-            // indicating we had an error at the end of computation.
-
-        // case RESULT_FILES_DOWNLOADED:
-        //     break;
-        // case RESULT_COMPUTE_DONE:
-        //     rp->state = RESULT_FILES_UPLOADING;
-        //     action = true;
-        //     break;
         case RESULT_FILES_UPLOADING:
-            // Once the computation has been done, check that the necessary
-            // files have been uploaded before moving on
-            //
             if (rp->is_upload_done()) {
                 rp->ready_to_report = true;
                 rp->state = RESULT_FILES_UPLOADED;
@@ -981,22 +963,12 @@ bool CLIENT_STATE::time_to_exit() {
 }
 
 // Call this when a result has a nonrecoverable error.
-// Append a description of the error to the stderr_out field of the result.
-//
-// Go through the input and output files for this result
-// and generates error messages for upload/download failures.
-//
-// This function is called in the following situations:
-// 1. When the active_task could not start or restart,
-//    in which case err_num is set to an OS-specific error_code.
-//    and err_msg has an OS-supplied string.
-// 2. when we fail in downloading an input file or uploading an output file,
-//    in which case err_num and err_msg are zero.
-// 3. When the active_task exits with a non_zero error code
-//    or it gets signaled.
+// - back off on contacting the project's scheduler
+//   (so don't crash over and over)
+// - Append a description of the error to result.stderr_out
 //
 int CLIENT_STATE::report_result_error(
-    RESULT& res, int err_num, const char* format, ...
+    RESULT& res, const char* format, ...
 ) {
     char buf[MAX_BLOB_LEN],  err_msg[MAX_BLOB_LEN];
     unsigned int i;
@@ -1018,44 +990,39 @@ int CLIENT_STATE::report_result_error(
     sprintf(buf, "Unrecoverable error for result %s (%s)", res.name, err_msg);
     scheduler_op->backoff(res.project, buf);
 
-    sprintf(
-        buf,
-        "<message>%s\n</message>\n"
-        "<active_task_state>%d</active_task_state>\n"
-        "<signal>%d</signal>\n",
-        err_msg,
-        res.active_task_state,
-        res.signal
-    );
+    sprintf( buf, "<message>%s\n</message>\n", err_msg);
     res.stderr_out.append(buf);
 
-    if ((res.state == RESULT_FILES_DOWNLOADED) && err_num) {
-        sprintf(buf,"<couldnt_start>%d</couldnt_start>\n", err_num);
-        res.stderr_out.append(buf);
-        if (!res.exit_status) {
-            res.exit_status = ERR_RESULT_START;
-        }
-    }
-
-    if (res.state == RESULT_NEW) {
-        for (i=0;i<res.wup->input_files.size();i++) {
-            if (res.wup->input_files[i].file_info->had_failure(failnum)) {
-                sprintf(buf,
-                    "<download_error>\n"
-                    "    <file_name>%s</file_name>\n"
-                    "    <error_code>%d</error_code>\n"
-                    "</download_error>\n",
-                    res.wup->input_files[i].file_info->name, failnum
-                );
-                res.stderr_out.append(buf);
-            }
-        }
+    switch(res.state) {
+    case RESULT_NEW:
+    case RESULT_FILES_DOWNLOADING:
+        // called from:
+        // CLIENT_STATE::garbage_collect()
+        //   if WU or app_version had a download failure
+        //
         if (!res.exit_status) {
             res.exit_status = ERR_RESULT_DOWNLOAD;
         }
-    }
+        break;
 
-    if (res.state == RESULT_COMPUTE_DONE) {
+    case RESULT_FILES_DOWNLOADED:
+        // called from:
+        // ACTIVE_TASK::start (if couldn't start app)
+        // ACTIVE_TASK::restart (if files missing)
+        // ACITVE_TASK_SET::restart_tasks (catch other error returns)
+        // ACTIVE_TASK::handle_exited_app (on nonzero exit or signal)
+        // ACTIVE_TASK::abort_task (if exceeded resource limit)
+        // CLIENT_STATE::schedule_cpus (catch-all for resume/start errors)
+        //
+        if (!res.exit_status) {
+            res.exit_status = ERR_RESULT_START;
+        }
+        break;
+
+    case RESULT_FILES_UPLOADING:
+        // called from
+        // CLIENT_STATE::garbage_collect() if result had an upload error
+        //
         for (i=0; i<res.output_files.size(); i++) {
             if (res.output_files[i].file_info->had_failure(failnum)) {
                 sprintf(buf,
@@ -1071,6 +1038,12 @@ int CLIENT_STATE::report_result_error(
         if (!res.exit_status) {
             res.exit_status = ERR_RESULT_UPLOAD;
         }
+        break;
+    case RESULT_COMPUTE_ERROR:
+        break;
+    case RESULT_FILES_UPLOADED:
+        msg_printf(res.project, MSG_ERROR, "report_result_error() called unexpectedly");
+        break;
     }
 
     res.stderr_out = res.stderr_out.substr(0,MAX_BLOB_LEN-1);
