@@ -5129,3 +5129,28 @@ John Brian	2003/06/30
 
     astropulse/client/
         ap_graphics.C
+
+
+Karl    2003/06/30
+    - schedulers: improved logging facilities. Use a library for common
+      object files.
+
+    sched/
+        Makefile.am
+        assimilate_handler.C
+        assimilator.C
+        db_dump.C
+        feeder.C
+        file_deleter.C
+        file_upload_handler.C
+        handle_request.C
+        main.C
+        make_work.C
+        sched_util.C
+        sched_util.h
+        server_types.C
+        start_servers.C
+        timeout_check.C
+        update_stats.C
+        validate.C
+        validate_test.C

@@ -17,26 +17,29 @@
 // Contributor(s):
 //
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 
 #include "config.h"
+#include "sched_util.h"
 
 int main() {
     CONFIG config;
     int i, retval;
     char* p;
 
+    write_log(MSG_NORMAL, "Starting servers.\n");
+
     retval = config.parse_file();
     if (retval) {
-        fprintf(stderr, "Can't read config\n");
+        write_log(MSG_CRITICAL, "Can't read config\n");
         exit(1);
     }
 
     for (i=0; i<20; i++) {
         p = config.start_commands[i];
         if (!p) break;
-        fprintf(stderr, "Executing: %s\n", p);
+        write_log(MSG_NORMAL, "Executing: %s\n", p);
         system(p);
     }
 }

@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -568,30 +568,30 @@ int main(int argc, char** argv) {
     }
 
     if (nrecs_per_file_summary <= 0 || nrecs_per_file_detail <= 0) {
-        fprintf(stderr, "Too few records per file.\n");
+        write_log(MSG_NORMAL, "Too few records per file.\n");
         exit(1);
     }
 
     if (lock_file(LOCKFILE)) {
-        write_log("Another copy of db_dump is already running\n", MSG_NORMAL);
+        write_log(MSG_NORMAL, "Another copy of db_dump is already running\n");
         exit(1);
     }
 
     retval = config.parse_file();
     if (retval) {
-        fprintf(stderr, "Can't parse config file\n");
+        write_log(MSG_NORMAL, "Can't parse config file\n");
         exit(1);
     }
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        fprintf(stderr, "Can't open DB\n");
+        write_log(MSG_NORMAL, "Can't open DB\n");
         exit(1);
     }
 
     if (strlen(dir)) {
         retval = chdir(dir);
         if (retval) {
-            fprintf(stderr, "can't chdir to %s\n", dir);
+            write_log(MSG_NORMAL, "can't chdir to %s\n", dir);
             exit(1);
         }
     }

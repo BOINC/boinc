@@ -38,7 +38,7 @@ CONFIG config;
 
 int wu_delete_files(WORKUNIT& wu) {
     char* p;
-    char filename[256], pathname[256], buf[MAX_BLOB_SIZE], logbuf[256];
+    char filename[256], pathname[256], buf[MAX_BLOB_SIZE];
     bool no_delete=false;
 
     safe_strcpy(buf, wu.xml_doc);
@@ -55,8 +55,7 @@ int wu_delete_files(WORKUNIT& wu) {
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.download_dir, filename);
-                sprintf(logbuf, "deleting %s\n", pathname);
-                write_log(logbuf, MSG_NORMAL);
+                write_log(MSG_NORMAL, "deleting %s\n", pathname);
                 unlink(pathname);
             }
         }
@@ -67,7 +66,7 @@ int wu_delete_files(WORKUNIT& wu) {
 
 int result_delete_files(RESULT& result) {
     char* p;
-    char filename[256], pathname[256], buf[MAX_BLOB_SIZE], logbuf[256];
+    char filename[256], pathname[256], buf[MAX_BLOB_SIZE];
     bool no_delete=false;
 
     safe_strcpy(buf, result.xml_doc_in);
@@ -82,8 +81,7 @@ int result_delete_files(RESULT& result) {
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.upload_dir, filename);
-                sprintf(logbuf, "deleting %s\n", pathname);
-                write_log(logbuf, MSG_NORMAL);
+                write_log(MSG_NORMAL, "deleting %s\n", pathname);
                 unlink(pathname);
             }
         }
@@ -124,7 +122,6 @@ int main(int argc, char** argv) {
     int retval;
     bool asynch = false, one_pass = false;
     int i;
-    char buf[256];
 
     check_stop_trigger();
     for (i=1; i<argc; i++) {
@@ -135,14 +132,13 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-d")) {
             set_debug_level(atoi(argv[++i]));
         } else {
-            sprintf(buf, "Unrecognized arg: %s\n", argv[i]);
-            write_log(buf, MSG_CRITICAL);
+            write_log(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 
     retval = config.parse_file();
     if (retval) {
-        write_log("Can't parse config file\n", MSG_CRITICAL);
+        write_log(MSG_CRITICAL, "Can't parse config file\n");
         exit(1);
     }
 
@@ -154,14 +150,14 @@ int main(int argc, char** argv) {
 
     // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
-        write_log("Another copy of file deleter is running\n", MSG_NORMAL);
+        write_log(MSG_NORMAL, "Another copy of file deleter is running\n");
         exit(1);
     }
     write_pid_file(PIDFILE);
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        write_log("can't open DB\n", MSG_CRITICAL);
+        write_log(MSG_CRITICAL, "can't open DB\n");
         exit(1);
     }
     install_sigint_handler();

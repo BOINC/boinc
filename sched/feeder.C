@@ -108,7 +108,7 @@ void feeder_loop() {
     DB_RESULT result;
     DB_WORKUNIT wu;
     bool no_wus, collision, restarted_enum;
-    char clause[256], buf[256];
+    char clause[256];
 
     sprintf(clause, "where server_state=%d order by random limit %d",
         RESULT_SERVER_STATE_UNSENT, RESULTS_PER_ENUM
@@ -129,7 +129,7 @@ try_again:
                     // there's no point in doing it again.
                     //
                     if (restarted_enum) {
-                        write_log("already restarted enum on this pass\n", MSG_DEBUG);
+                        write_log(MSG_DEBUG, "already restarted enum on this pass\n");
                         break;
                     }
 
@@ -137,9 +137,9 @@ try_again:
                     //
                     restarted_enum = true;
                     retval = result.enumerate(clause);
-                    write_log("restarting enumeration\n", MSG_DEBUG);
+                    write_log(MSG_DEBUG, "restarting enumeration\n");
                     if (retval) {
-                        write_log("enumeration restart returned nothing\n", MSG_NORMAL);
+                        write_log(MSG_NORMAL, "enumeration restart returned nothing\n");
                         no_wus = true;
                         break;
                     }
@@ -151,13 +151,11 @@ try_again:
                 //
                 retval = result.lookup_id(result.id);
                 if (retval) {
-                    sprintf(buf, "can't reread result %s\n", result.name);
-                    write_log(buf, MSG_NORMAL);
+                    write_log(MSG_NORMAL, "can't reread result %s\n", result.name);
                     goto try_again;
                 }
                 if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
-                    sprintf(buf, "RESULT STATE CHANGED: %s\n", result.name);
-                    write_log(buf, MSG_NORMAL);
+                    write_log(MSG_NORMAL, "RESULT STATE CHANGED: %s\n", result.name);
                     goto try_again;
                 }
                 collision = false;
@@ -171,12 +169,10 @@ try_again:
                     }
                 }
                 if (!collision) {
-                    sprintf(buf, "adding result %d in slot %d\n", result.id, i);
-                    write_log(buf, MSG_DEBUG);
+                    write_log(MSG_DEBUG, "adding result %d in slot %d\n", result.id, i);
                     retval = wu.lookup_id(result.workunitid);
                     if (retval) {
-                        sprintf(buf, "can't read workunit %d: %d\n", result.workunitid, retval);
-                        write_log(buf, MSG_CRITICAL);
+                        write_log(MSG_CRITICAL, "can't read workunit %d: %d\n", result.workunitid, retval);
                         continue;
                     }
                     ssp->wu_results[i].result = result;
@@ -188,18 +184,17 @@ try_again:
         }
         ssp->ready = true;
         if (nadditions == 0) {
-            write_log("no results added\n", MSG_DEBUG);
+            write_log(MSG_DEBUG, "no results added\n");
             sleep(1);
         } else {
-            sprintf(buf, "added %d results to array\n", nadditions);
-            write_log(buf, MSG_DEBUG);
+            write_log(MSG_DEBUG, "added %d results to array\n", nadditions);
         }
         if (no_wus) {
-            write_log("feeder: no results available\n", MSG_DEBUG);
+            write_log(MSG_DEBUG, "feeder: no results available\n");
             sleep(5);
         }
         if (ncollisions) {
-            write_log("feeder: some results already in array - sleeping\n", MSG_DEBUG);
+            write_log(MSG_DEBUG, "feeder: some results already in array - sleeping\n");
             sleep(5);
         }
         fflush(stdout);
@@ -212,13 +207,12 @@ int main(int argc, char** argv) {
     int i, retval;
     bool asynch = false;
     void* p;
-    char buf[256];
 
     unlink(REREAD_DB_FILENAME);
 
     retval = config.parse_file();
     if (retval) {
-        write_log("can't parse config file\n", MSG_CRITICAL);
+        write_log(MSG_CRITICAL, "can't parse config file\n");
         exit(1);
     }
 
@@ -238,19 +232,19 @@ int main(int argc, char** argv) {
 
     // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
-        write_log("Another copy of feeder is already running\n", MSG_NORMAL);
+        write_log(MSG_NORMAL, "Another copy of feeder is already running\n");
         exit(1);
     }
     write_pid_file(PIDFILE);
 
     retval = destroy_shmem(config.shmem_key);
     if (retval) {
-        write_log("can't destroy shmem\n", MSG_CRITICAL);
+        write_log(MSG_CRITICAL, "can't destroy shmem\n");
         exit(1);
     }
     retval = create_shmem(config.shmem_key, sizeof(SCHED_SHMEM), &p);
     if (retval) {
-        write_log("can't create shmem\n", MSG_CRITICAL);
+        write_log(MSG_CRITICAL, "can't create shmem\n");
         exit(1);
     }
     ssp = (SCHED_SHMEM*)p;
@@ -261,21 +255,19 @@ int main(int argc, char** argv) {
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        sprintf(buf, "boinc_db_open: %d\n", retval);
-        write_log(buf, MSG_CRITICAL);
+        write_log(MSG_CRITICAL, "boinc_db_open: %d\n", retval);
         exit(1);
     }
     ssp->scan_tables();
 
-    printf(
-        "feeder: read\n"
-        "%d platforms\n"
-        "%d apps\n"
-        "%d app_versions\n",
-        ssp->nplatforms,
-        ssp->napps,
-        ssp->napp_versions
-    );
+    write_log(MSG_NORMAL,
+              "feeder: read "
+              "%d platforms, "
+              "%d apps, "
+              "%d app_versions\n",
+              ssp->nplatforms,
+              ssp->napps,
+              ssp->napp_versions);
 
     feeder_loop();
 }

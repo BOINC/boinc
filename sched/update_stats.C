@@ -112,7 +112,6 @@ int main(int argc, char** argv) {
     int retval, i;
     bool do_update_teams = false, do_update_users = false;
     bool do_update_hosts = false, asynch = false;
-    char buf[256];
 
     check_stop_trigger();
 
@@ -128,8 +127,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-asynch")) {
             asynch = true;
         } else {
-            sprintf(buf, "Unrecognized arg: %s\n", argv[i]);
-            write_log(buf, MSG_CRITICAL);
+            write_log(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 
@@ -141,26 +139,26 @@ int main(int argc, char** argv) {
 
     // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
-        write_log("Another copy of update_stats is already running\n", MSG_NORMAL);
+        write_log(MSG_NORMAL, "Another copy of update_stats is already running\n");
         exit(1);
     }
     write_pid_file(PIDFILE);
 
     retval = config.parse_file();
     if (retval) {
-        fprintf(stderr, "Can't parse config file\n");
+        write_log(MSG_CRITICAL, "Can't parse config file\n");
         exit(1);
     }
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        fprintf(stderr, "Can't open DB\n");
+        write_log(MSG_CRITICAL, "Can't open DB\n");
         exit(1);
     }
 
     if (do_update_users) {
         retval = update_users();
         if (retval) {
-            fprintf(stderr, "update_users failed: %d\n", retval);
+            write_log(MSG_CRITICAL, "update_users failed: %d\n", retval);
             exit(1);
         }
     }
@@ -168,7 +166,7 @@ int main(int argc, char** argv) {
     if (do_update_hosts) {
         retval = update_hosts();
         if (retval) {
-            fprintf(stderr, "update_hosts failed: %d\n", retval);
+            write_log(MSG_CRITICAL, "update_hosts failed: %d\n", retval);
             exit(1);
         }
     }
@@ -176,7 +174,7 @@ int main(int argc, char** argv) {
     if (do_update_teams) {
         retval = update_teams();
         if (retval) {
-            fprintf(stderr, "update_teams failed: %d\n", retval);
+            write_log(MSG_CRITICAL, "update_teams failed: %d\n", retval);
             exit(1);
         }
     }

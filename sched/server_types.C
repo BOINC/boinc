@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -38,7 +38,7 @@ SCHEDULER_REQUEST::~SCHEDULER_REQUEST() {
 }
 
 int SCHEDULER_REQUEST::parse(FILE* fin) {
-    char buf[256], ebuf[256];
+    char buf[256];
     RESULT result;
     assert(fin!=NULL);
     strcpy(authenticator, "");
@@ -96,8 +96,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             copy_element_contents(fin, "</code_sign_key>", code_sign_key, sizeof(code_sign_key));
         }
         else {
-            sprintf(ebuf, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
-            write_log(ebuf, MSG_NORMAL);
+            write_log(MSG_NORMAL, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
         }
     }
     return 1;
@@ -172,14 +171,14 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     }
 
     if (hostid) {
-        fprintf(fout, 
+        fprintf(fout,
             "<hostid>%d</hostid>\n"
             "<host_create_time>%d</host_create_time>\n",
             hostid,
             host.create_time
         );
     }
-    
+
     if (send_global_prefs) {
         fputs(user.global_prefs, fout);
     }
@@ -282,7 +281,7 @@ int APP_VERSION::write(FILE* fout, APP& app) {
 }
 
 int RESULT::parse_from_client(FILE* fin) {
-    char buf[256], ebuf[256];
+    char buf[256];
 
     memset(this, 0, sizeof(RESULT));
     while (fgets(buf, 256, fin)) {
@@ -304,15 +303,14 @@ int RESULT::parse_from_client(FILE* fin) {
             }
             continue;
         } else {
-            sprintf(ebuf, "RESULT::parse_from_client(): unrecognized: %s\n", buf);
-            write_log(ebuf, MSG_NORMAL);
+            write_log(MSG_NORMAL, "RESULT::parse_from_client(): unrecognized: %s\n", buf);
         }
     }
     return 1;
 }
 
 int HOST::parse(FILE* fin) {
-    char buf[256], ebuf[256];
+    char buf[256];
 
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</host_info>")) return 0;
@@ -337,8 +335,7 @@ int HOST::parse(FILE* fin) {
         else if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
         else if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
         else {
-            sprintf(ebuf, "HOST::parse(): unrecognized: %s\n", buf);
-            write_log(ebuf, MSG_NORMAL);
+            write_log(MSG_NORMAL, "HOST::parse(): unrecognized: %s\n", buf);
         }
     }
     return 1;
@@ -346,7 +343,7 @@ int HOST::parse(FILE* fin) {
 
 
 int HOST::parse_time_stats(FILE* fin) {
-    char buf[256], ebuf[256];
+    char buf[256];
 
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</time_stats>")) return 0;
@@ -354,30 +351,28 @@ int HOST::parse_time_stats(FILE* fin) {
         else if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
         else if (parse_double(buf, "<active_frac>", active_frac)) continue;
         else {
-            sprintf(ebuf, "HOST::parse_time_stats(): unrecognized: %s\n", buf);
-            write_log(ebuf, MSG_NORMAL);
+            write_log(MSG_NORMAL, "HOST::parse_time_stats(): unrecognized: %s\n", buf);
         }
     }
     return 1;
 }
 
 int HOST::parse_net_stats(FILE* fin) {
-    char buf[256], ebuf[256];
+    char buf[256];
 
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</net_stats>")) return 0;
         else if (parse_double(buf, "<bwup>", n_bwup)) continue;
         else if (parse_double(buf, "<bwdown>", n_bwdown)) continue;
         else {
-            sprintf(ebuf, "HOST::parse_net_stats(): unrecognized: %s\n", buf);
-            write_log(ebuf, MSG_NORMAL);
+            write_log(MSG_NORMAL, "HOST::parse_net_stats(): unrecognized: %s\n", buf);
         }
     }
     return 1;
 }
 
 int APP_FILE::parse(char*& in) {
-    char buf[256], ebuf[256];
+    char buf[256];
 
     while (sgets(buf, 256, in)) {
         if (match_tag(buf, "</app_file>")) return 0;
@@ -385,8 +380,7 @@ int APP_FILE::parse(char*& in) {
         else if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
         else if (parse_int(buf, "<timestamp>", timestamp)) continue;
         else {
-            sprintf(ebuf, "APP_FILE::parse(): unrecognized %s\n", buf);
-            write_log(ebuf, MSG_NORMAL);
+            write_log(MSG_NORMAL, "APP_FILE::parse(): unrecognized %s\n", buf);
         }
     }
     return 1;

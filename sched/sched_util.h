@@ -43,7 +43,7 @@
 #define MSG_NORMAL   1
 #define MSG_DEBUG    2
 
-extern void write_log(char*, int);
+void write_log(int, char const*, ...);
 extern void write_pid_file(const char* filename);
 extern void set_debug_level(int);
 extern void check_stop_trigger();

@@ -21,6 +21,7 @@ using namespace std;
 
 #include <strings.h>
 #include <csignal>
+#include <cstdarg>
 #include <unistd.h>
 
 #include "parse.h"
@@ -31,16 +32,32 @@ using namespace std;
 
 int debug_level = 0;
 
-void write_log(char* p, int msg_level) {
-    if (msg_level <= debug_level)
-        fprintf(stderr, "%s: %s", timestamp(), p);
+inline const char* msg_level_dscription(int msg_level)
+{
+    switch (msg_level) {
+    case MSG_CRITICAL: return "CRITICAL";
+    case MSG_NORMAL:   return "NORMAL";
+    case MSG_DEBUG:    return "DEBUG";
+    default:           return "*** internal error; unknown msg_level ***";
+    }
+}
+
+void write_log(int msg_level, const char* p, ...) {
+    if (debug_level < msg_level) return;
+    if (p == NULL) return;
+
+    va_list     ap;
+    va_start(ap, p);
+    fprintf(stderr, "%s [%s]: ", timestamp(), msg_level_dscription(msg_level));
+    vfprintf(stderr, p, ap);
+    va_end(ap);
 }
 
 void write_pid_file(const char* filename)
 {
     FILE* fpid = fopen(filename, "w");
     if (!fpid) {
-        write_log("Couldn't write pid\n", MSG_NORMAL);
+        write_log(MSG_NORMAL, "Couldn't write pid\n");
         return;
     }
     fprintf(fpid, "%d\n", getpid());
@@ -67,12 +84,12 @@ void install_sigint_handler()
 
 void check_stop_trigger() {
     if (sig_int) {
-        write_log("Quitting due to SIGINT\n", MSG_CRITICAL);
+        write_log(MSG_CRITICAL, "Quitting due to SIGINT\n");
         exit(0);
     }
     FILE* f = fopen(STOP_TRIGGER_FILENAME, "r");
     if (f) {
-        write_log("Quitting due to stop trigger\n", MSG_NORMAL);
+        write_log(MSG_NORMAL, "Quitting due to stop trigger\n");
         exit(0);
     }
 }

@@ -52,11 +52,10 @@ bool do_pass(APP& app) {
     while (!wu.enumerate(buf)) {
         did_something = true;
 
-        sprintf(buf,
-            "Assimilating WU %s, assim state %d\n",
-            wu.name, wu.assimilate_state
-        );
-        write_log(buf, MSG_DEBUG);
+        write_log(MSG_DEBUG,
+                  "Assimilating WU %s, assim state %d\n",
+                  wu.name, wu.assimilate_state
+            );
 
         sprintf(buf, "where workunitid=%d", wu.id);
         while (!result.enumerate(buf)) {
@@ -131,14 +130,13 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-app")) {
             strcpy(app.name, argv[++i]);
         } else {
-            sprintf(buf, "Unrecognized arg: %s\n", argv[i]);
-            write_log(buf, MSG_CRITICAL);
+            write_log(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 
     retval = config.parse_file();
     if (retval) {
-        write_log("Can't parse config file\n", MSG_CRITICAL);
+        write_log(MSG_CRITICAL, "Can't parse config file\n");
         exit(1);
     }
 
@@ -150,20 +148,20 @@ int main(int argc, char** argv) {
 
     // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
-        write_log("Another copy of assimilator is already running\n", MSG_NORMAL);
+        write_log(MSG_NORMAL, "Another copy of assimilator is already running\n");
         exit(1);
     }
     write_pid_file(PIDFILE);
 
     retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        write_log("Can't open DB\n", MSG_CRITICAL);
+        write_log(MSG_CRITICAL, "Can't open DB\n");
         exit(1);
     }
     sprintf(buf, "where name='%s'", app.name);
     retval = app.lookup(buf);
     if (retval) {
-        write_log("Can't find app\n", MSG_CRITICAL);
+        write_log(MSG_CRITICAL, "Can't find app\n");
         exit(1);
     }
     install_sigint_handler();
