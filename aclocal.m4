@@ -1104,8 +1104,8 @@ AC_DEFUN([SAH_HEADER_STDCXX],[
 #
 # Revision Log:
 # $Log$
-# Revision 1.57  2003/12/27 02:29:49  gmg
-# new version 2.16
+# Revision 1.58  2004/01/06 01:08:52  gmg
+# boinc client - new version 2.17
 #
 # Revision 1.1  2003/12/11 18:38:24  korpela
 # Added checked macro files into boinc

@@ -1,8 +1,8 @@
 ;; $Id$
 
 <verno> represents the new version number. At the time of this update, the
-latest version is 2.16, so the new version number would be 2.17. Substitute
-2.17 everywhere you see <verno>
+latest version was 2.17, so the new version number would be 2.18. Substitute
+2.18 everywhere you see <verno>
 
 Administrivia:
     Make a note in checkin_notes 
@@ -68,31 +68,44 @@ Windows:
     copy BOINC_<verno>_intelx86_windows.exe to the projects/AstroPulse_Beta/apps/boinc directory
 
 
-{Linux,Solaris2.7,Mac OS X} release:
+{Linux, Solaris2.7} release:
     use these hosts:
        Linux: milhouse
        solaris2.7: milkyway
-       Mac OS X: seti2 (the macox build should work as a command-line application in
-                 OS X 10.2 and OS X 10.3 [10.1 or earlier will not be supported] see
-                 below)
 
     note 1: The solaris 2.7 build should be statically linked, and should support
             solaris 2.7-2.9
-
-    note 2: The mac os x  build should be statically linked, and should support OS X
-            10.2 and 10.3. However, the apple-supplied gcc ignores the -static option.
-            Until this problem is resolved, builds should be performed on an OS X 10.2
-            machine (gmg's laptop at the moment).
 
     do a clean check out; compile; copy to koloth:
         % cd ~
         % mkdir proj
         % cd proj
-        % mkdir client-build-`~quarl/proj/boinc/config.guess`
-        % cd client-build-`~quarl/proj/boinc/config.guess`
+        % mkdir client-build-`<any boinc src dir>/boinc/config.guess`
+        % cd client-build-`<any boinc src dir>/boinc/config.guess`
         % cvs co boinc
         % cd boinc
         % ./configure && make
+        % scp client/boinc_<verno>_*.gz boincadm@koloth:projects/AstroPulse_Beta/apps/boinc/
+
+    [bonus: automate this process]
+
+Mac OS X release:
+    use the G3 OS X 10.2 mac in 329 (setisf2):
+
+    note:  The mac os x build is identical to the unix/linux builds, except that
+           the configure step requires the --build argument to set a generic
+           host type (see below). The mac os x client will run on either os x
+           10.2 or 10.3 [10.1 or earlier is not supported])
+
+    do a clean check out; compile; copy to koloth:
+        % cd ~
+        % mkdir proj
+        % cd proj
+        % mkdir client-build-powerpc-apple-darwin
+        % cvs co boinc
+        % cd boinc
+        % ./configure --build=powerpc-apple-darwin
+        % make
         % scp client/boinc_<verno>_*.gz boincadm@koloth:projects/AstroPulse_Beta/apps/boinc/
 
     [bonus: automate this process]
