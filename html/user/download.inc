@@ -1,7 +1,7 @@
 <?php
 
 function platform_downloads($platform) {
-    $result = mysql_query("select * from core_version where platformid=$platform->id order by version_num desc");
+    $result = mysql_query("select * from core_version where platformid=$platform->id and version_num>=200 order by version_num desc");
 
     if (!$result) return;
 
