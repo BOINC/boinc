@@ -52,10 +52,10 @@
 
 // get domain name and IP address of this host
 //
+#ifdef _WIN32
 int get_local_network_info(
     char* domain_name, int domlen, char* ip_addr, int iplen
 ) {
-#ifdef _WIN32
     char buf[256];
     struct in_addr addr;
 
@@ -69,18 +69,20 @@ int get_local_network_info(
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
     safe_strncpy(ip_addr, inet_ntoa(addr), iplen);
     return 0;
+}
+
 #else
 
 // gethostbyname() is a linkage nightmare on UNIX systems (go figure)
 // so use a kludge instead: run ping and parse the output
 // should be "PING domainname (ipaddr) ..."
 //
-    char hostname[256];
-    char buf[256];
+static int try_ping(
+    char* cmd, char* domain_name, int domlen, char* ip_addr, int iplen
+) {
     int retval;
+    char buf[256];
 
-    if (gethostname(hostname, 256)) return ERR_GETHOSTBYNAME;
-    sprintf(buf, "ping -c 1 %s > %s", hostname, TEMP_FILE_NAME);
     retval = system(buf);
     if (retval) return retval;
     FILE* f = fopen(TEMP_FILE_NAME, "r");
@@ -104,5 +106,23 @@ int get_local_network_info(
     *q = 0;
     safe_strncpy(ip_addr, p, iplen);
     return 0;
-#endif
 }
+
+int get_local_network_info(
+    char* domain_name, int domlen, char* ip_addr, int iplen
+) {
+    char hostname[256];
+    char buf[256];
+    int retval;
+
+    if (gethostname(hostname, 256)) return ERR_GETHOSTBYNAME;
+    sprintf(buf, "ping -c 1 -w 1 %s > %s", hostname, TEMP_FILE_NAME);
+    retval = try_ping(buf, domain_name, domlen, ip_addr, iplen);
+    if (retval) {
+        sprintf(buf, "ping -c 1 %s > %s", hostname, TEMP_FILE_NAME);
+        return try_ping(buf, domain_name, domlen, ip_addr, iplen);
+    }
+    return 0;
+}
+
+#endif

@@ -13854,3 +13854,15 @@ David  17 June 2004
             hostinfo_win.cpp
     py/Boinc/
         database.py
+
+David  17 June 2004
+    - Not so fast!  "ping -c 1 hostname" hangs forever on Linux
+        if hostname is unreachable.
+        "ping -c 1 -w 1 hostname" works,
+        but the -w option doesn't exist on Solaris!
+        So...
+        try with -w, and if get an error, try without.
+        Hope this is the end of the story.
+
+    client/
+        hostinfo_network.C
