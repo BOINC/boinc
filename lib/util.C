@@ -21,6 +21,7 @@
 #include "stdafx.h"
 #endif
 
+#ifndef _WIN32
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -36,7 +37,9 @@
 #endif
 #include <algorithm>
 #include <fstream>
-using namespace std;
+using std::ifstream;
+using std::min;
+#endif
 
 #include "error_numbers.h"
 #include "util.h"

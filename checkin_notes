@@ -10390,3 +10390,10 @@ Rom    Mar 6 2004
 
     client/
         cs_scheduler.c
+
+Rom    Mar 6 2004
+    - Changed the namespace references back to the orginal references so that the clients
+        will build on Solaris and Linux.
+
+    lib/
+        util.c, .h
