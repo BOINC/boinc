@@ -21,6 +21,7 @@
 
 #include "win_net.h"
 #include "client_state.h"
+#include "hostinfo_network.h"
 
 #define DIAL_WAIT       60          // seconds after dial to wait (in case of cancel)
 #define CONFIRM_WAIT    60          // seconds after user says not to connect to ask again
@@ -43,21 +44,31 @@ int WinsockCleanup()
     return WSACleanup();
 }
 
-//
-// NetOnline - Check if network connection is live NOW
-//
-bool NetOnline( void ) {
-    typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD  lpdwFlags, IN DWORD    dwReserved);
+typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD  lpdwFlags, IN DWORD    dwReserved);
+
+int get_connected_state( ) {
     int        online = 0;
-    HMODULE libmodule = LoadLibrary("wininet.dll");        // Load library with check rtn
-    if (libmodule) {    // Find function address
-        GetStateProc GetState = (GetStateProc)
-            GetProcAddress(libmodule, "InternetGetConnectedState");
-        DWORD connectionFlags;
-        if (GetState)
-            online = (*GetState)(&connectionFlags, 0);    // Get online status
+    static bool first=true;
+    static HMODULE libmodule;
+    static GetStateProc GetState;
+    DWORD connectionFlags;
+
+    if (first) {
+        libmodule = LoadLibrary("wininet.dll");
+        if (libmodule) {
+            GetState = (GetStateProc) GetProcAddress(libmodule, "InternetGetConnectedState");
+        }
+        first = false;
     }
-    return (online != 0);
+    if (libmodule && GetState) {
+        online = (*GetState)(&connectionFlags, 0);
+        if (online) {
+            return CONNECTED_STATE_CONNECTED;
+        } else {
+            return CONNECTED_STATE_NOT_CONNECTED;
+        }
+    }
+    return CONNECTED_STATE_UNKNOWN;
 }
 
 int NetOpen( void )

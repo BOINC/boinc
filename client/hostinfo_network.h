@@ -17,4 +17,9 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+#define CONNECTED_STATE_NOT_CONNECTED   0
+#define CONNECTED_STATE_CONNECTED       1
+#define CONNECTED_STATE_UNKNOWN         2
+
+extern int get_connected_state();
 extern int get_local_network_info(char* dom, int ,char* ip, int iplen);

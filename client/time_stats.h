@@ -34,7 +34,7 @@ public:
         // the fraction it is enabled to work
         // (due to preferences, manual suspend/resume, etc.)
 
-    void update(double now, bool is_connected, bool is_active);
+    void update(double now, int connected_state, bool is_active);
 
     TIME_STATS();
     int write(MIOFILE&, bool to_server);

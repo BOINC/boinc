@@ -23390,3 +23390,19 @@ David  28 Jan 2005
     client/
         cs_scheduler.C
         time_stats.C,h
+
+David  28 Jan 2005
+	- add notion of CONNECTED_STATE;
+		can be CONNECTED, NOT_CONNECTED, or UNKNOWN.
+		Implemented get_connected_state() on Windows
+	- if connected state is UNKNOWN,
+		TIME_STATS::connected_frac is set to -1
+	- rewrote TIME_STATS::update().
+		Seems to work in testing.
+
+	client/
+		client_state.C
+		hostinfo_network.h
+		time_stats.C,h
+		win
+			win_net.cpp,h

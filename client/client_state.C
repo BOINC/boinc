@@ -51,6 +51,7 @@
 
 #include "file_names.h"
 #include "hostinfo.h"
+#include "hostinfo_network.h"
 #include "http.h"
 #include "log_flags.h"
 #include "client_msgs.h"
@@ -471,7 +472,8 @@ bool CLIENT_STATE::do_something(double now) {
     if (actions > 0) {
         return true;
     } else {
-        time_stats.update(now, true, !activities_suspended);
+        int connected_state = get_connected_state();
+        time_stats.update(now, connected_state, !activities_suspended);
         return false;
     }
 }
