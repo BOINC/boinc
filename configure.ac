@@ -11,6 +11,12 @@ AC_PREREQ(2.57)
 dnl Set the BOINC version here.  You can also use the set-version script.
 AC_INIT(BOINC, 4.66)
 
+AC_ARG_ENABLE(client, 
+    AC_HELP_STRING([--enable-debug],
+                   [enable tracing and debugging flags for all components]),
+    [],
+    [enable_debug=yes])
+
 AC_ARG_ENABLE(server, 
     AC_HELP_STRING([--disable-server],
                    [disable building the scheduling server]),
@@ -37,11 +43,19 @@ else
     if test "${enable_client}" = yes ; then
         configured_to_build='client only'
     else
-        echo "You've disabled both the server and the client -- only BOINC-libraries will be built!" >&2
+        configured_to_build='libraries only'
     fi
 fi
 
-echo "--- Configuring BOINC AC_PACKAGE_VERSION (${configured_to_build}) ---"
+if test "${enable_client}" = yes ; then
+    build_state='Debug'
+else
+    build_state='Release'
+fi
+
+
+echo "--- Configuring BOINC AC_PACKAGE_VERSION (${build_state}) ---"
+echo "        Build Components: (${configured_to_build})"
 
 AC_CANONICAL_SYSTEM
 
@@ -391,6 +405,11 @@ AC_SUBST(CLIENTLIBS)
 ## --------------------
 ## some more tweaking to turn non-standard libs into statically linked ones
 CLIENTGUIFLAGS="-DNOCLIPBOARD -DNOTASKBAR"
+
+if test "${enable_client_release}" = yes; then
+    CLIENTGUIFLAGS="$CLIENTGUIFLAGS -D__WXDEBUG__"
+fi
+
 CLIENTGUILIBS=${WX_LIBS}
 
 if test "${enable_client_release}" = yes; then
@@ -476,7 +495,8 @@ AC_CONFIG_HEADERS([config.h])
 
 AC_OUTPUT
 
-echo "--- Configured BOINC AC_PACKAGE_VERSION (${configured_to_build}) ---"
+echo "--- Configuring BOINC AC_PACKAGE_VERSION (${build_state}) ---"
+echo "        Build Components: (${configured_to_build})"
 
 [
 true || $TOP_SOURCE_DIR/test/test_sanity.py || (
