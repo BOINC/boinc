@@ -249,6 +249,7 @@ bool NET_XFER_SET::poll() {
 
 // Wait at most x seconds for network I/O to become possible,
 // then do up to about .5 seconds of I/O.
+// This is used only by the cmdline client, to sleep without slowing down I/O.
 //
 int NET_XFER_SET::net_sleep(double x) {
     int retval;
@@ -281,6 +282,8 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
     socklen_t intsize = sizeof(int);
 #endif
 
+    // if a second has gone by, do rate-limit accounting
+    //
     time_t t = time(0);
     if (t != last_time) {
         last_time = t;
@@ -314,6 +317,21 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
             }
         } else if (nxp->want_upload) {
             if (bytes_left_up > 0) {
+#ifdef _WIN32
+                // KLUDGE ALERT!!!!!
+                // In the Windows GUI version we rely on the WSAAsynchSelect
+                // mechanism to send us a message when I/O becomes possible.
+                // But apparently this message is sent only if you've already
+                // done a send() that failed because of full buffer.
+                // So do this send here, even though it's overkill
+                //
+                retval = nxp->do_xfer(n);
+                nxp->update_speed(n);
+                bytes_transferred += n;
+                up_active = true;
+                bytes_left_up -= n;
+                bytes_up += n;
+#endif
                 FD_SET(nxp->socket, &write_fds);
             } else {
                 if (log_flags.net_xfer_debug) printf("Throttling upload\n");
@@ -398,7 +416,7 @@ NET_XFER* NET_XFER_SET::lookup_fd(int fd) {
 // transfer up to a block of data; return #bytes transferred
 //
 int NET_XFER::do_xfer(int& nbytes_transferred) {
-    int n, m, nleft;
+    unsigned int n, m, nleft;
     bool would_block;
     char buf[MAX_BLOCKSIZE];
 
@@ -470,8 +488,9 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
             nbytes_transferred += n;
             bytes_xferred += n;
 
-            if (n < nleft || would_block)
+            if (n < nleft || would_block) {
                 break;
+            }
 
             nleft -= n;
         }
