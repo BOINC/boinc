@@ -1,34 +1,24 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
-<html lang="en">
-<head>
-	<title>Security Tools</title> 
-	<meta name="generator" content="BBEdit 6.1.2">
-</head>
-<body>
+<title>Security Tools</title> 
 <h3>Security Tools</h3> 
 <p>
-	The program <b>lib/crypt_prog</b> can be used for several purposes: 
-	<br>
-	<br>
-	<b>-genkey n private_keyfile public_keyfile</b> 
-	<br>
-	Create a key pair with n bits (always use 1024). Write the keys in
-encoded ASCII form to the indicated files. 
-	<br>
-	<b>-sign file private_keyfile</b> 
-	<br>
-	Create a digital signature for the given file. Write it in encoded
+The program <b>lib/crypt_prog</b> can be used for several purposes: 
+<br>
+<br>
+<b>-genkey n private_keyfile public_keyfile</b> 
+<br>
+Create a key pair with n bits (always use 1024).
+Write the keys in encoded ASCII form to the indicated files. 
+<br>
+<b>-sign file private_keyfile</b> 
+<br>
+Create a digital signature for the given file. Write it in encoded
 ASCII to stdout. 
-	<br>
-	<b>-verify file signature_file public_keyfile</b> 
-	<br>
-	Verify a signature for the given file. 
-	<br>
-	<b>-test_crypt private_keyfile public_keyfile</b> 
-	<br>
-	Perform an internal test, checking that encryption followed by
+<br>
+<b>-verify file signature_file public_keyfile</b> 
+<br>
+Verify a signature for the given file. 
+<br>
+<b>-test_crypt private_keyfile public_keyfile</b> 
+<br>
+Perform an internal test, checking that encryption followed by
 decryption works. 
-</p>
-</body>
-</html>

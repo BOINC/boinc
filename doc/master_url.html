@@ -1,35 +1,23 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
-<html lang="en">
-<head>
-	<title>The Master URL</title> 
-	<meta name="generator" content="BBEdit 6.1.2">
-</head>
-<body>
+<title>The Master URL</title> 
 <h2>The Master URL</h2> 
 <p>
-	Each project is identified by a <b>master URL</b>. This URL is used
-to publicize the project. The <b>master page</b> at this URL has two
-functions.
-</p>
+Each project is identified by a <b>master URL</b>.
+This URL is used to publicize the project.
+The <b>master page</b> at this URL has two functions.
 <ul>
-	<li>
-		It is the home page of the project; when viewed in a browser it
+<li> It is the home page of the project; when viewed in a browser it
 describes the project and contains links for registering and for
 downloading the core client.
-	</li>
-	<li>
-		It contains XML tags of the form <pre>
+<li> It contains XML tags of the form <pre>
 &lt;scheduler&gt;http://host.domain.edu/cgi/scheduler&lt;scheduler&gt;
 &lt;scheduler&gt;http://host2.domain.edu/cgi/scheduler&lt;scheduler&gt;
-</pre> that give the URLs of the project's scheduling servers. These
-tags can be embedded within HTML comments. The BOINC core client reads
-and parses the master page to find scheduler servers. If it is unable to
-connect to any scheduler server for a project, it rereads the master
-page.
-	</li>
+</pre>
+that give the URLs of the project's scheduling servers.
+These tags can be embedded within HTML comments.
+The BOINC core client reads
+and parses the master page to find scheduler servers.
+If it is unable to
+connect to any scheduler server for a project, it rereads the master page.
 </ul>
 This mechanism lets a project change the locations of its scheduling
 servers, or add new servers. 
-</body>
-</html>

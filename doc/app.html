@@ -1,21 +1,14 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
-<html lang="en">
-<head>
-    <title>Platforms, Applications, and Versions</title> 
-    <meta name="generator" content="BBEdit 6.1.2">
-</head>
-<body>
+<title>Platforms, Applications, and Versions</title> 
 <h2>Platforms, Applications, and Versions</h2> 
 <p>
-    A <b>platform</b> is a compilation target (Windows/Intel,
+A <b>platform</b> is a compilation target (Windows/Intel,
 Linux/Intel, MacOS/PPC, etc.). 
 Platforms are maintained in the <b>platform</b> table in the BOINC
 DB, and can be created using the <a href="tools.html">add</a>
 utility program. 
 
 <p>
-    An <b>application</b> is a computational task; in concrete terms it
+An <b>application</b> is a computational task; in concrete terms it
 consists of an executable program (perhaps in versions for various
 platforms) and a set of input files to be processed by the program. 
 A project can operate many applications. 
@@ -24,15 +17,15 @@ BOINC DB, and can be created using the <a href="tools.html">add</a>
 utility. 
 
 <p>
-    An application program may go through a sequence of <a
-href="version.html">versions</a>. 
+An application program may go through a sequence of
+<ahref="version.html">versions</a>. 
 A particular version, compiled for a particular platform, is
 called an <b>application version</b>. 
 An application version can consist of multiple files: for example, a
 controller script, pre- and post-processing programs, and a primary. 
 
 <p>
-    Each application version has an integer <b>version number</b>.
+Each application version has an integer <b>version number</b>.
 Projects can assign version numbers however they like; for example,
 version 304 might represent major version 3 and minor version 4. 
 Version numbers should be used consistently across platforms;
@@ -40,13 +33,13 @@ Windows version 304 should be computationally identical to
 Mac version 304. 
 
 <p>
-    Each application has a <b>minimum version</b>. 
+Each application has a <b>minimum version</b>. 
 When a client is sent work for an application, it is also sent
 the latest application version for its platform. 
 It is sent work only if this version is the minimum or greater. 
 
 <p>
-    Application version are maintained in the <b>app_version</b> table
+Application version are maintained in the <b>app_version</b> table
 in the BOINC DB, Each entry includes an XML document describing the
 files that make up the application version: 
 <pre>
@@ -67,6 +60,3 @@ files that make up the application version:
 &lt;/app_version&gt;
 </pre> The <a href="tools.html">add</a> utility program provides a
 simplified interface for creating application versions. 
-
-</body>
-</html>

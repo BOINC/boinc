@@ -1,72 +1,45 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
-<html lang="en">
-<head>
-	<title>Core Client: Finite-State Machine (FSM) Structure</title> 
-	<meta name="generator" content="BBEdit 6.1.2">
-</head>
-<body>
+<title>Core Client: Finite-State Machine (FSM) Structure</title> 
 <h2>Core Client: Finite-State Machine (FSM) Structure</h2> 
 <p>
-	The core client can perform many activities (file transfers,
-computations, RPCs to scheduling servers) in parallel. To manage this
-parallelism, the core client is structures as a number of
-<b>finite-state machines</b> (FSM). For example, an HTTP transaction is
+The core client can perform many activities (file transfers,
+computations, RPCs to scheduling servers) in parallel.
+To manage this parallelism, the core client is structures as a number of
+<b>finite-state machines</b> (FSM).
+For example, an HTTP transaction is
 represented by an FSM whose states might include: 
 </p>
 <ul>
-	<li>
-		Waiting for connection establishment. 
-	</li>
-	<li>
-		Waiting to send request header. 
-	</li>
-	<li>
-		Waiting to send send request body. 
-	</li>
-	<li>
-		Waiting for reply header. 
-	</li>
-	<li>
-		Waiting for reply body. 
-	</li>
-	<li>
-		Finished. 
-	</li>
+<li> Waiting for connection establishment. 
+<li> Waiting to send request header. 
+<li> Waiting to send send request body. 
+<li> Waiting for reply header. 
+<li> Waiting for reply body. 
+<li> Finished. 
 </ul>
 <p>
-	FSMs of a particular type are managed by an <b>FSM container</b>.
+FSMs of a particular type are managed by an <b>FSM container</b>.
 Each FSM container manages a set of FSMs, and provides a <b>poll()</b>
 function for detecting and performing state transitions. These functions
 are nonblocking. 
-</p>
 <p>
-	The core client uses the following FSM types: 
-</p>
+The core client uses the following FSM types: 
 <ul>
-	<li>
-		<b>NET_XFER</b> (container: <b>NET_XFER_SET</b>). Each instance
+<li>
+<b>NET_XFER</b> (container: <b>NET_XFER_SET</b>). Each instance
 represents a network connection, for which data is being transferred
 to/from memory or a disk file. The <b>poll()</b> function uses
 <b>select()</b> to manage the FSM without blocking. 
-	</li>
-	<li>
-		<b>HTTP_OP</b> (container: <b>HTTP_OP_SET</b>). Each instance
+<li>
+<b>HTTP_OP</b> (container: <b>HTTP_OP_SET</b>). Each instance
 represents an HTTP operation (GET, PUT or POST). 
-	</li>
-	<li>
-		<b>FILE_XFER</b> (container: <b>FILE_XFER_SET</b>). Each
+<li>
+<b>FILE_XFER</b> (container: <b>FILE_XFER_SET</b>). Each
 instance represents a file transfer (upload or download) in progress. 
-	</li>
-	<li>
-		<b>ACTIVE_TASK</b> (container: <b>ACTIVE_TASK_SET</b>). Each
+<li>
+<b>ACTIVE_TASK</b> (container: <b>ACTIVE_TASK_SET</b>). Each
 instance represents a running application. 
-	</li>
 </ul>
 <p>
-	An FSM may be implemented using other FSMs; for example, FILE_XFER
+An FSM may be implemented using other FSMs; for example, FILE_XFER
 is implemented using HTTP_OP, which in turn is implemented using
 NET_XFER. 
-</p>
-</body>
-</html>

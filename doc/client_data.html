@@ -1,18 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
-<html lang="en">
-<head>
-	<title>Core Client: Data Structures</title> 
-	<meta name="generator" content="BBEdit 6.1.2">
-</head>
-<body>
+<title>Core Client: Data Structures</title> 
 <h2>Core Client: Data Structures</h2> 
 <p>
-	The key data structures in the core client are as follows. 
-</p>
+The key data structures in the core client are as follows. 
 <p>
-	Basic types: 
-</p>
+Basic types: 
 <pre>
 PROJECT
 APP
@@ -21,16 +12,13 @@ APP_VERSION
 IO_FILE_DESC
 WORKUNIT
 RESULT
-</pre> <pre>ACCOUNTS</pre> Contains a vector of PROJECTs, summarizing
+</pre>
+<pre>ACCOUNTS</pre> Contains a vector of PROJECTs, summarizing
 the accounts file. 
 <p>
-</p>
 <pre>CLIENT_STATE</pre> 
 <p>
-	Contains vectors of all the basic types. These are crossed-linked
+Contains vectors of all the basic types. These are crossed-linked
 with pointers; for example, APP_VERSION has a pointer to FILE_INFO. Also
 contains FSM sets for network connections, HTTP operations, file
 transfers, and active tasks. 
-</p>
-</body>
-</html>

@@ -1,82 +1,40 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
-<html lang="en">
-<head>
-	<title>The BOINC Database</title> 
-	<meta name="generator" content="BBEdit 6.1.2">
-</head>
-<body>
+<title>The BOINC Database</title> 
 <h2>The BOINC Database</h2> 
 <p>
-	BOINC uses a relational database to keep track of participants, work
-and result. The reference implementation uses MySQL, but any SQL
-database can be used. 
-</p>
+BOINC uses a relational database to keep track of participants, work
+and result.
+The reference implementation uses MySQL, but any SQL database can be used. 
 <p>
-        In boinc/html_user/ there is a file called db_name containing only the
-name of the database for that project.  Each BOINC project will have a different database
-name.  This allows for access to different databases through the webpages of projects.
+In boinc/html_user/ there is a file called db_name containing only the
+name of the database for that project.
+Each BOINC project will have a different database name.
+This allows for access to different databases through the webpages of projects.
 <p>
-	The database tables are as follows: 
-</p>
+The database tables are as follows: 
 <dl>
-	<dt>
-		platform
-	</dt>
-	<dd>
-		Compilation targets of the core client and/or applications.
-	</dd>
-	<dt>
-		app
-	</dt>
-	<dd>
-		Applications. The core client is treated as an application; its
+<dt> platform
+<dd> Compilation targets of the core client and/or applications.
+<dt> app
+<dd> Applications. The core client is treated as an application; its
 name is "core_client".
-	</dd>
-	<dt>
-		app_version
-	</dt>
-	<dd>
-		Versions of applications. Each record includes a URL for
+<dt> app_version
+<dd> Versions of applications. Each record includes a URL for
 downloading the executable, and the MD5 checksum of the executable. 
-	</dd>
-	<dt>
-		user
-	</dt>
-	<dd>
-		Describes users, including their email address, name, web
+<dt> user
+<dd> Describes users, including their email address, name, web
 password, and authenticator. 
-	</dd>
-	<dt>
-		preferences
-	</dt>
-	<dd>
-		Describes preferences. The actual preference information is
+<dt> preferences
+<dd> Describes preferences. The actual preference information is
 stored in an XML document in a "blob" field of this table. 
-	</dd>
-	<dt>
-		host
-	</dt>
-	<dd>
-		Describes hosts. 
-	</dd>
-	<dt>
-		workunit
-	</dt>
-	<dd>
-		Describes workunits. The input file descriptions are stored in
+<dt> host
+<dd> Describes hosts. 
+<dt> workunit
+<dd> Describes workunits. The input file descriptions are stored in
 an XML document in a blob field. Includes counts of the number of
 results linked to this workunit, and the numbers that have been sent,
 that have succeeded, and that have failed. 
-	</dd>
-	<dt>
-		result
-	</dt>
-	<dd>
-		Describes results. Includes a "state" (whether the result has
+<dt> result
+<dd> Describes results. Includes a "state" (whether the result has
 been dispatched). Stores a number of items relevant only after the
 result has been returned: CPU time, exit status, and validation status. 
-	</dd>
 </dl>
-</body>
-</html>
