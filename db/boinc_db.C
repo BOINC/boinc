@@ -52,6 +52,8 @@ void RESULT::clear() {memset(this, 0, sizeof(*this));}
 void WORKUNIT::clear() {memset(this, 0, sizeof(*this));}
 void MSG_FROM_HOST::clear() {memset(this, 0, sizeof(*this));}
 void MSG_TO_HOST::clear() {memset(this, 0, sizeof(*this));}
+void TRANSITIONER_ITEM::clear() {memset(this, 0, sizeof(*this));}
+void SCHED_RESULT_ITEM::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PLATFORM::DB_PLATFORM() : DB_BASE(boinc_db, "platform"){}
 DB_CORE_VERSION::DB_CORE_VERSION() : DB_BASE(boinc_db, "core_version"){}
@@ -66,6 +68,7 @@ DB_MSG_FROM_HOST::DB_MSG_FROM_HOST() : DB_BASE(boinc_db, "msg_from_host"){}
 DB_MSG_TO_HOST::DB_MSG_TO_HOST() : DB_BASE(boinc_db, "msg_to_host"){}
 DB_TRANSITIONER_ITEM_SET::DB_TRANSITIONER_ITEM_SET() : DB_BASE_SPECIAL(boinc_db){}
 DB_WORK_ITEM::DB_WORK_ITEM() : DB_BASE_SPECIAL(boinc_db){}
+DB_SCHED_RESULT_ITEM_SET::DB_SCHED_RESULT_ITEM_SET() : DB_BASE_SPECIAL(boinc_db){}
 
 int DB_PLATFORM::get_id() {return id;}
 int DB_CORE_VERSION::get_id() {return id;}
@@ -576,6 +579,33 @@ void DB_MSG_TO_HOST::db_parse(MYSQL_ROW& r) {
     strcpy2(xml, r[i++]);
 }
 
+void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
+    int i=0;
+    clear();
+    id = atoi(r[i++]);
+    strcpy2(name, r[i++]);
+    appid = atoi(r[i++]);
+    min_quorum = atoi(r[i++]);
+    canonical_resultid = atoi(r[i++]);
+    transition_time = atoi(r[i++]);
+    delay_bound = atoi(r[i++]);
+    error_mask = atoi(r[i++]);
+    max_error_results = atoi(r[i++]);
+    max_total_results = atoi(r[i++]);
+    file_delete_state = atoi(r[i++]);
+    assimilate_state = atoi(r[i++]);
+    target_nresults = atoi(r[i++]);
+    strcpy2(result_template_file, r[i++]);
+    res_id = safe_atoi(r[i++]);
+    strcpy2(res_name, r[i++]);
+    res_report_deadline = safe_atoi(r[i++]);
+    res_server_state = safe_atoi(r[i++]);
+    res_outcome = safe_atoi(r[i++]);
+    res_validate_state = safe_atoi(r[i++]);
+    res_file_delete_state = safe_atoi(r[i++]);
+    res_sent_time = safe_atoi(r[i++]);
+}
+
 int DB_TRANSITIONER_ITEM_SET::enumerate(
     int transition_time, int ntotal_transitioners, int ntransitioner,
     int nresult_limit,
@@ -680,38 +710,11 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
     return 0;
 }
 
-void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
-    int i=0;
-    memset(this, 0, sizeof(TRANSITIONER_ITEM));
-    id = atoi(r[i++]);
-    strcpy2(name, r[i++]);
-    appid = atoi(r[i++]);
-    min_quorum = atoi(r[i++]);
-    canonical_resultid = atoi(r[i++]);
-    transition_time = atoi(r[i++]);
-    delay_bound = atoi(r[i++]);
-    error_mask = atoi(r[i++]);
-    max_error_results = atoi(r[i++]);
-    max_total_results = atoi(r[i++]);
-    file_delete_state = atoi(r[i++]);
-    assimilate_state = atoi(r[i++]);
-    target_nresults = atoi(r[i++]);
-    strcpy2(result_template_file, r[i++]);
-    res_id = safe_atoi(r[i++]);
-    strcpy2(res_name, r[i++]);
-    res_report_deadline = safe_atoi(r[i++]);
-    res_server_state = safe_atoi(r[i++]);
-    res_outcome = safe_atoi(r[i++]);
-    res_validate_state = safe_atoi(r[i++]);
-    res_file_delete_state = safe_atoi(r[i++]);
-    res_sent_time = safe_atoi(r[i++]);
-}
-
 int DB_TRANSITIONER_ITEM_SET::update_result(TRANSITIONER_ITEM& ti) {
     char query[MAX_QUERY_LEN];
 
     sprintf(query,
-        "update result set server_state=%d, outcome=%d, validate_state=%d, file_delete_state=%d where id=%d;",
+        "update result set server_state=%d, outcome=%d, validate_state=%d, file_delete_state=%d where id=%d",
         ti.res_server_state,
         ti.res_outcome,
         ti.res_validate_state,
@@ -725,7 +728,7 @@ int DB_TRANSITIONER_ITEM_SET::update_workunit(TRANSITIONER_ITEM& ti) {
     char query[MAX_QUERY_LEN];
 
     sprintf(query,
-        "update workunit set need_validate=%d, error_mask=%d, assimilate_state=%d, file_delete_state=%d, transition_time=%d where id=%d;",
+        "update workunit set need_validate=%d, error_mask=%d, assimilate_state=%d, file_delete_state=%d, transition_time=%d where id=%d",
         ti.need_validate,
         ti.error_mask,
         ti.assimilate_state,
@@ -826,6 +829,153 @@ int DB_WORK_ITEM::enumerate(int limit) {
         parse(row);
     }
     return 0;
+}
+
+void SCHED_RESULT_ITEM::parse(MYSQL_ROW& r) {
+    int i=0;
+    clear();
+    id = atoi(r[i++]);
+    strcpy2(name, r[i++]);
+    workunitid = atoi(r[i++]);
+    server_state = atoi(r[i++]);
+    hostid = atoi(r[i++]);
+    userid = atoi(r[i++]);
+    received_time = atoi(r[i++]);
+}
+
+int DB_SCHED_RESULT_ITEM_SET::add_result(char* result_name) {
+    SCHED_RESULT_ITEM result;
+    strcpy2(result.queried_name, result_name);
+    results.push_back(result);
+    return 0;
+}
+
+int DB_SCHED_RESULT_ITEM_SET::enumerate() {
+    char                query[MAX_QUERY_LEN];
+    unsigned int        i;
+    unsigned int        result_count;
+    MYSQL_RES*          rp;
+    MYSQL_ROW           row;
+    SCHED_RESULT_ITEM   ri;
+
+    if (0 < results.size()) {
+
+        // construct the query
+        strcpy2(query,
+            "SELECT "
+            "   id, "
+            "   name, "
+            "   workunitid, "
+            "   server_state, "
+            "   hostid, "
+            "   userid, "
+            "   received_time "
+            "FROM "
+            "   result "
+            "WHERE "
+            "   name IN ( "
+        );
+
+        // we should only get here if there is one or more results to
+        // lookup, note the vector is zero index based.
+        result_count = results.size() - 1;
+        for (i=0; i<=result_count; i++) {
+            strcat(query, "'");
+            if (i != result_count) {
+                strcat(query, results[i].queried_name);
+                strcat(query, "', ");
+            } else {
+                strcat(query, results[i].queried_name);
+                strcat(query, "' )");
+            }
+        }
+
+        x = db->do_query(query);
+        if (x) return mysql_errno(db->mysql);
+
+        // the following stores the entire result set in memory
+        rp = mysql_store_result(db->mysql);
+        if (!rp) return mysql_errno(db->mysql);
+
+        // populate the results missing values that we are going to make
+        // decisions on.
+        do {
+            row = mysql_fetch_row(rp);
+            if (!row) {
+                mysql_free_result(rp);
+            } else {
+                ri.parse(row);
+                for (i=0; i<results.size(); i++) {
+                    if (0 == strcmp(results[i].queried_name, ri.name)) {
+                        results[i].parse(row);
+                    }
+                }
+            }
+        } while (row);
+    }
+
+    return 0;
+}
+
+int DB_SCHED_RESULT_ITEM_SET::lookup_result(char* result_name, SCHED_RESULT_ITEM& ri) {
+    unsigned int i;
+    int retval = -1;
+    for (i=0; i<results.size(); i++) {
+        if (0 == strcmp(results[i].name, result_name)) {
+            ri = results[i];
+            retval = 0;
+        }
+    }
+    return retval;
+}
+
+int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
+    char query[MAX_QUERY_LEN];
+
+    sprintf(query,
+        "UPDATE result SET "
+        "    hostid=%d, "
+        "    received_time=%d, "
+        "    client_state=%d, "
+        "    cpu_time=%.15e, "
+        "    exit_status=%d, "
+        "    app_version_num=%d, "
+        "    claimed_credit=%.15e, "
+        "    server_state=%d, "
+        "    outcome=%d, "
+        "    stderr_out='%s', "
+        "    xml_doc_out='%s', "
+        "    validate_state=%d, "
+        "    teamid=%d "
+        "WHERE "
+        "    id=%d",
+        ri.hostid,
+        ri.received_time,
+        ri.client_state,
+        ri.cpu_time,
+        ri.exit_status,
+        ri.app_version_num,
+        ri.claimed_credit,
+        ri.server_state,
+        ri.outcome,
+        ri.stderr_out,
+        ri.xml_doc_out,
+        ri.validate_state,
+        ri.teamid,
+        ri.id
+    );
+    return db->do_query(query);
+}
+
+int DB_SCHED_RESULT_ITEM_SET::update_workunit(SCHED_RESULT_ITEM& ri) {
+    char query[MAX_QUERY_LEN];
+
+    sprintf(query,
+        "UPDATE workunit SET transition_time=%d WHERE id=%d",
+        time(0),
+        ri.id
+    );
+    return db->do_query(query);
 }
 
 #if 0

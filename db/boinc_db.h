@@ -621,44 +621,43 @@ public:
         // and various result fields
 };
 
-// used by the scheduler for handling completed results
-//
-class DB_RESULT_DONE : public DB_BASE_SPECIAL {
-public:
-    DB_RESULT_DONE();
-    int hostid;
-    int received_time;
-    int client_state;
-    int cpu_time;
-    int exit_status;
-    int claimed_credit;
-    int teamid;
+struct SCHED_RESULT_ITEM {
+    char queried_name[256];
+    int id;
+    char name[256];
     int workunitid;
-    char stderr_out[LARGE_BLOB_SIZE];
+    int server_state;
+    int client_state;
+    int validate_state;
+    int outcome;
+    int hostid;
+    int userid;
+    int teamid;
+    int received_time;
+    double cpu_time;
+    double claimed_credit;
     char xml_doc_out[LARGE_BLOB_SIZE];
+    char stderr_out[LARGE_BLOB_SIZE];
+    int app_version_num;
+    int exit_status;
 
-    int lookup();
-        // lookup by name; reads hostid, server_state, workunitid
-    int update();
-        // updates all fields except hostid, workunitid
-        // sets transition time of corresponding WU
+    void clear();
+    void parse(MYSQL_ROW& row);
 };
 
-// used by the scheduler for looking up and updating host/user/team
-//
-class DB_ACCOUNT_INFO : public DB_BASE_SPECIAL {
-    DB_ACCOUNT_INFO();
-    HOST host;
-    USER user;
-    TEAM team;
+class DB_SCHED_RESULT_ITEM_SET : public DB_BASE_SPECIAL {
+public:
+    DB_SCHED_RESULT_ITEM_SET();
+    std::vector<SCHED_RESULT_ITEM>& results;
 
-    int lookup_hostid();
-        // used when hostid is supplied; reads all 3 records
-    int lookup_auth();
-        // used when no hostid is supplied; reads user/team
-        // must manually create host
-    // no update functions here because we always update the entire host,
-    // and we update the entire user infrequently
+    int add_result(char* result_name);
+
+    int enumerate();
+
+    int lookup_result(char* result_name, SCHED_RESULT_ITEM& result);
+
+    int update_result(SCHED_RESULT_ITEM& result);
+    int update_workunit(SCHED_RESULT_ITEM& result);
 };
 
 #if 0

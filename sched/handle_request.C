@@ -311,12 +311,27 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 int handle_results(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
+    DB_SCHED_RESULT_ITEM_SET result_handler;
+    SCHED_RESULT_ITEM result;
     unsigned int i;
     int retval;
-    DB_RESULT result;
     RESULT* rp;
-    DB_WORKUNIT wu;
-    char buf[256];
+
+    // lets request the status of all results the user is reporting in a batch
+    //
+    if (0 < sreq.results.size()) {
+        for (i=0; i<sreq.results.size(); i++) {
+            result_handler.add_result(sreq.results[i].name);
+        }
+
+        retval = result_handler.enumerate();
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[HOST#%d] Batch query failed\n"
+            );
+        }
+    }
 
     for (i=0; i<sreq.results.size(); i++) {
         rp = &sreq.results[i];
@@ -326,9 +341,7 @@ int handle_results(
         //
         reply.result_acks.push_back(*rp);
 
-        strncpy(result.name, rp->name, sizeof(result.name));
-        sprintf(buf, "where name='%s'", result.name);
-        retval = result.lookup(buf);
+        retval = result_handler.lookup_result(rp->name, result);
         if (retval) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
@@ -396,6 +409,7 @@ int handle_results(
         // update the result record in DB
         //
         result.hostid = reply.host.id;
+        result.teamid = reply.user.teamid;
         result.received_time = time(0);
         result.client_state = rp->client_state;
         result.cpu_time = rp->cpu_time;
@@ -432,38 +446,70 @@ int handle_results(
             result.outcome = RESULT_OUTCOME_CLIENT_ERROR;
             result.validate_state = VALIDATE_STATE_INVALID;
         }
+    }
 
-        result.teamid = reply.user.teamid;
-        retval = result.update();
-        if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::NORMAL,
-                "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
-                reply.host.id, result.id, result.name, boinc_db.error_string()
-            );
-        }
 
-        // trigger the transition handle for the result's WU
-        //
-        retval = wu.lookup_id(result.workunitid);
-        if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
-                "[HOST#%d] [RESULT#%d %s] Can't find [WU#%d] for result\n",
-                reply.host.id, result.id, result.name, result.workunitid
-            );
-        } else {
-            wu.transition_time = time(0);
-            retval = wu.update();
+    // Lets update all the results we have
+    //
+    log_messages.printf(
+        SCHED_MSG_LOG::DEBUG,
+        "[HOST#%d] Starting Result Update Transaction...\n",
+        reply.host.id
+        );
+    retval = result_handler.start_transaction();
+    if (retval) {
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+            "[HOST#%d] result_handler.start_transaction() == %d\n",
+            reply.host.id, retval
+        );
+    }
+    
+    for (i=0; i<result_handler.results.size(); i++) {
+        if (0 < result_handler.results[i].id) {
+            retval = result_handler.update_result(result_handler.results[i]);
             if (retval) {
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
-                    "[HOST#%d] [RESULT#%d %s] Can't update [WU#%d %s]\n",
-                    reply.host.id, result.id, result.name, wu.id, wu.name
+                    "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
+                    reply.host.id, result_handler.results[i].id, result_handler.results[i].name, 
+                    boinc_db.error_string()
+                );
+            }
+
+            // trigger the transition handle for the result's WU
+            //
+            retval = result_handler.update_workunit(result_handler.results[i]);
+            if (retval) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::CRITICAL,
+                    "[HOST#%d] [RESULT#%d %s] can't update [WU#%d %s]\n",
+                    reply.host.id, result_handler.results[i].id, result_handler.results[i].name, 
+                    result_handler.results[i].workunitid, wu.name
                 );
             }
         }
     }
+
+    log_messages.printf(
+        SCHED_MSG_LOG::DEBUG,
+        "[HOST#%d] Committing Transaction...\n",
+        reply.host.id
+        );
+    retval = result_handler.commit_transaction();
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "[HOST#%d] result_handler.commit_transaction() == %d\n",
+            reply.host.id, retval
+        );
+    } else {
+        log_messages.printf(
+            SCHED_MSG_LOG::DEBUG,
+            "[HOST#%d] Committed Transaction Successfully...\n",
+            reply.host.id
+        );
+    }
+
     return 0;
 }
 
