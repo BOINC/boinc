@@ -4,7 +4,7 @@
 <p>
 The <b>back end</b> of a BOINC project consists
 of a number of components that together are responsible
-for generating work and absorbing the results.
+for generating work and handling results.
 Some of these components are supplied by BOINC;
 other parts are project- or application-specific:
 
@@ -14,47 +14,68 @@ other parts are project- or application-specific:
 <th>BOINC-supplied part</th>
 <th>project-supplied part</th>
 <tr>
-<td>
-<b>Work generator</b>: generates work units and their input files,
-and generates one or more results per work unit.
+<td valign=top>
+<b>Work generator</b>: generates work units, work sequences, results,
+and the corresponding input files.
 </td>
-<td>
+<td valign=top>
 Functions and programs that handle the details of
-creating workunit and result database records.
+creating workunit, work sequence, and result database records.
 </td>
-<td>
+<td valign=top>
 Programs or scripts that generate input files,
 install them on data servers,
 and call the BOINC functions.
 </td></tr>
 <tr>
-<td><b>Result retry generator</b>:
-generates additional results if some of those initially sent are lost.</td>
-<td>A program, <b>result_retry</b>, that does the job.</td>
-<td>Some parameters used by result_retry.</td>
+<td valign=top><b>Result retry generator</b>:
+generates additional results if some of those initially sent are lost
+not completed, or completed erroneously.</td>
+<td valign=top>A program, <b>result_retry</b>, that does the job.</td>
+<td valign=top>Some parameters used by result_retry.</td>
 </tr>
 <tr>
-<td><b>Result validation and accounting</b>:
+<td valign=top><b>Result validation and accounting</b>:
 compare redundant results; select a <b>canonical result</b>
 representing the correct output,
 and a <b>canonical credit</b> granted to users and hosts
 that return the correct output.</td>
-<td>A program, <b>validate</b>, that contains the
+<td valign=top>A program, <b>validate</b>, that contains the
 basic logic for validation.</td>
-<td>An application-specific function, linked with <b>validate</b>,
+<td valign=top>An application-specific function, linked with <b>validate</b>,
 that compares sets of redundant results.</td>
 </tr>
 <tr>
-<td><b>Result processing</b>: parse output files of
-completed results, and take appropriate action
-(record results in a database, and/or generate more work)</td>
-<td>Function for enumerating unprocessed results.</td>
-<td>The rest.</td>
+<td valign=top><b>Work sequence relocater</b>:
+detects work sequences whose hosts have failed,
+and relocates them to other hosts.</td>
+<td valign=top>A program <b>seq_relocate</b></td>
+<td valign=top>Some parameters used by seq_relocate</td>
 </tr>
 <tr>
-<td><b>Garbage collector</b>: delete input and output files
+<td valign=top><b>Work sequence validation and accounting</b>:
+Similar to result validation, but for work sequences.
+</td>
+<td valign=top>A program <b>seq_validate</b></td>
+<td valign=top>An application-specific function,
+linked with <b>seq_validate</b>, that compares sets of redundant results.</td>
+</tr>
+<tr>
+<td valign=top><b>Result processing</b>: parse output files of
+completed results, and take appropriate action
+(record results in a database, and/or generate more work)</td>
+<td valign=top>Function for enumerating unprocessed results.
+Functions and programs that handle the details of
+creating workunit, work sequence, and result database records.
+</td>
+<td valign=top>
+The rest.
+</td>
+</tr>
+<tr>
+<td valign=top><b>Garbage collector</b>: delete input and output files
 when they are no longer needed.</td>
-<td>A program, <b>garbage_collect</b>, that does the job.</td>
-<td>None.</td>
+<td valign=top>A program, <b>garbage_collect</b>, that does the job.</td>
+<td valign=top>None.</td>
 </tr>
 </table>

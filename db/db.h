@@ -188,6 +188,13 @@ struct HOST {
     int parse_net_stats(FILE*);
 };
 
+#define WU_STATE_SEND_FAIL          1
+    // failed to send results for this WU
+#define WU_STATE_TOO_MANY_ERRORS    2
+    // too many errors; may have bug
+#define WU_STATE_TOO_MANY_DONE      3
+    // too many results without consensus; may be nondeterministic
+
 struct WORKUNIT {
     int id;
     unsigned int create_time;   // time of record creation
@@ -206,6 +213,8 @@ struct WORKUNIT {
                                 // VALIDATE_STATE_NEED_CHECK state
     int canonical_resultid;     // ID of canonical result, or zero
     double canonical_credit;    // credit that all correct results get
+    double retry_check_time;    // when to check for result retry
+    int state;                  // see above
 
     // the following not used in the DB
     char app_name[256];
@@ -296,6 +305,7 @@ extern int db_workunit_update(WORKUNIT& p);
 extern int db_workunit_lookup_name(WORKUNIT&);
 //extern int db_workunit_enum_dynamic_to_send(WORKUNIT&, int);
 extern int db_workunit_enum_app_need_validate(WORKUNIT&);
+extern int db_workunit_enum_retry_check_time(WORKUNIT&);
 
 extern int db_result_new(RESULT& p);
 extern int db_result(int id, RESULT&);

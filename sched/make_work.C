@@ -6,7 +6,8 @@
 //      [ -redundancy n ]
 //      [ -cushion n ]
 //
-// Create WU and result records as needed to maintain a pool of work.
+// Create WU and result records as needed to maintain a pool of work
+// (for testing purposes).
 // Makes a new WU for every "redundancy" results.
 // Clones the WU of the given name.
 //

@@ -128,6 +128,8 @@ create table workunit (
     need_validate   smallint    not null,
     canonical_resultid integer  not null,
     canonical_credit double     not null,
+    retry_check_time double     not null,
+    state           integer     not null,
     primary key (id)
 );
 

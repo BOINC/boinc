@@ -2263,3 +2263,16 @@ Eric  October 29, 2002
         mac_carbon_dsp.c,h
         mac_carbon_gl.c,h
 
+David  Nov 5 2002
+    - Continued work on result retry mechanism:
+        - new fields "retry_check_time" and "state" in workunit table
+        - logic for creating new output filenames
+        - needs a bit more work
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    sched/
+        Makefile.in
+        make_work.C
+        result_retry.C

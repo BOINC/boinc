@@ -79,6 +79,11 @@ MAKE_WORK_OBJS = \
     ../lib/crypt.o \
     ../RSAEuro/source/rsaeuro.a
 
+RESULT_RETRY_OBJS = \
+    result_retry.o \
+    ../db/db_mysql.o \
+    ../db/mysql_util.o
+
 FCGI_OBJS = \
     handle_request.fcgi.o \
     main.fcgi.o \

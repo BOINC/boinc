@@ -194,12 +194,14 @@ void struct_to_str(void* vp, char* q, int type) {
             "has_successor=%d, name='%s', xml_doc='%s', batch=%d, "
             "rsc_fpops=%f, rsc_iops=%f, rsc_memory=%f, rsc_disk=%f, "
             "need_validate=%d, "
-            "canonical_resultid=%d, canonical_credit=%f",
+            "canonical_resultid=%d, canonical_credit=%f, "
+            "retry_check_time=%f, state=%d",
             wup->id, wup->create_time, wup->appid, wup->previous_wuid,
             wup->has_successor?1:0, wup->name, wup->xml_doc, wup->batch,
             wup->rsc_fpops, wup->rsc_iops, wup->rsc_memory, wup->rsc_disk, 
             wup->need_validate,
-            wup->canonical_resultid, wup->canonical_credit
+            wup->canonical_resultid, wup->canonical_credit,
+            wup->retry_check_time, wup->state
         );
         break;
     case TYPE_RESULT:
@@ -360,6 +362,8 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         wup->need_validate = atoi(r[i++]);
         wup->canonical_resultid = atoi(r[i++]);
         wup->canonical_credit = atof(r[i++]);
+        wup->retry_check_time = atof(r[i++]);
+        wup->state = atoi(r[i++]);
         break;
     case TYPE_RESULT:
         rp = (RESULT*)vp;
@@ -570,6 +574,16 @@ int db_workunit_enum_app_need_validate(WORKUNIT& p) {
 
     if (!e.active) {
         sprintf(buf, "where appid=%d and need_validate<>0", p.appid);
+    }
+    return db_enum(e, &p, TYPE_WORKUNIT, buf);
+}
+
+int db_workunit_enum_retry_check_time(WORKUNIT& p) {
+    static ENUM e;
+    char buf[256];
+
+    if (!e.active) {
+        sprintf(buf, "where retry_check_time > 0 and retry_check_time < %f", p.retry_check_time);
     }
     return db_enum(e, &p, TYPE_WORKUNIT, buf);
 }
