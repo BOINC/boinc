@@ -15496,7 +15496,10 @@ Karl 2004-07-21
 
 Karl 2004-07-22
     - fixed html/php bugs (e.g. should be <?php instead of <?)
+    - fixed forum link
     - multipart/form-data doesn't seem to work (?)
+    - don't show profile thumbnail if none exists
+    - fix installation of head_20.png
 
     html/user/
         sample_index.php
@@ -15505,8 +15508,11 @@ Karl 2004-07-22
         old_news.php
     html/inc
         profile.inc
+        uotd.inc
     project.sample/
         project_news.inc
+    py/Boinc/
+        setup_project.py
 
 David  21 July 2004
     - Database optimization in the transitioner:

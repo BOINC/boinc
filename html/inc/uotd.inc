@@ -3,7 +3,11 @@
 define('UOTD_THRESHOLD', 7);
 
 function uotd_thumbnail($profile, $user) {
-    return "<a href=view_profile.php?userid=$user->id><img vspace=4 hspace=8 align=left src=" . IMAGE_URL . $user->id . "_sm.jpg></a>";
+    if ($profile->has_picture) {
+        return "<a href=view_profile.php?userid=$user->id><img vspace=4 hspace=8 align=left src=" . IMAGE_URL . $user->id . "_sm.jpg></a>";
+    } else {
+        return "";
+    }
 }
 
 function generate_uotd_page($profile, $user) {
