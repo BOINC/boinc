@@ -224,11 +224,11 @@ function prefs_form_work($user, $prefs) {
     printf("        <td><input type=checkbox name=confirm_before_connecting %s></td>\n", $prefs->confirm_before_connecting?"checked":"");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>Minimum work buffer (days)</td>\n";
+    echo   "        <td align=right>Minimum work buffer (hours)</td>\n";
     printf("        <td><input name=low_water_days value='$prefs->low_water_days'></td>\n");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>Maximum work buffer (days)</td>\n";
+    echo   "        <td align=right>Maximum work buffer (hours)</td>\n";
     printf("        <td><input name=high_water_days value='$prefs->high_water_days'></td>\n");
     echo   "    </tr>\n";
     echo   "    <tr><td><br></td><td><input type=submit value=OK></td></tr>\n";

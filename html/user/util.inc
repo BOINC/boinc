@@ -59,7 +59,7 @@ function random_string() {
 }
 
 function print_country_select() {
-    PassThru("/home/david/boinc/tools/country_select");
+    PassThru("/disks/milkyway/a/users/anderson/boinc/tools/country_select");
 }
 
 function print_page_header($title) {

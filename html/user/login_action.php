@@ -2,6 +2,7 @@
     require_once("util.inc");
     require_once("user.inc");
     require_once("db.inc");
+
     db_init();
     if (strlen($HTTP_POST_VARS["old"])) {
         $query = sprintf(
@@ -14,6 +15,7 @@
             mysql_free_result($result);
         }
         if (!$user or ($user->web_password != $HTTP_POST_VARS["existing_password"])) {
+	    page_head("Logging In");
             echo "We have no account with that name and password.";
         } else {
             setcookie("auth", $user->authenticator, time()+100000000);
@@ -31,9 +33,11 @@
             mysql_free_result($result);
         }
         if ($user) {
+	    page_head("Creating Account");
             echo "There's already an account with that email address.";
         } else {
             if ($HTTP_POST_VARS["new_password"] != $HTTP_POST_VARS["new_password2"]) {
+		page_head("Creating Account");
                 echo "You've typed two different passwords.";
             } else {
                 $authenticator = random_string();
@@ -51,9 +55,11 @@
                 $result = mysql_query($query);
                 if ($result) {
                     setcookie("auth", $authenticator);
+		    page_head("Creating Account");
                     echo "Account created.  You are being mailed a key that you'll need to run the client.\n";
                     mail($email_addr, "BOINC key", "Your BOINC key is " . $authenticator);
                 } else {
+	       	    page_head("Creating Account");
                     echo "Couldn't create account - please try later.\n";
                 }
             }

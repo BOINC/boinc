@@ -9,5 +9,6 @@ db_init();
 
 page_head("Create Account");
 print_create_account_form();
+page_tail();
 
 ?>

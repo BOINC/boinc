@@ -5,12 +5,12 @@
     require_once("login.inc");
 
     db_init();
-    $user = get_user_from_cookie();
-    page_head("User stats");
+    $user = get_user_From_cookie();
     if ($user) {
-        show_user($user);
+      	page_head("User stats");
+    	show_user($user);
     } else {
-        print_login_form();
+	echo "Not logged in";
     }
     page_tail();
 ?>
