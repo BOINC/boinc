@@ -946,6 +946,7 @@ bool CreateTextureJPG(UINT textureArray[], LPSTR strFileName, int textureID)
 
 bool CreateTextureBMP(UINT textureArray[], LPSTR strFileName, int textureID)
 {
+#ifdef _WIN32
 	DIB_BITMAP image; 
 	if(image.loadBMP(strFileName) == false)
 		return false;
@@ -957,10 +958,12 @@ bool CreateTextureBMP(UINT textureArray[], LPSTR strFileName, int textureID)
 					  image.getLinePtr(0));
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);		
+#endif
 	return true;
 }
 bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int textureID)
 {
+#ifdef _WIN32
 	unsigned char* pixels;
     int width, height;    
     if(read_ppm_file(strFileName, width, height, &pixels)==-1) return false;
@@ -971,11 +974,13 @@ bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int textureID)
 
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);		
+#endif
 	return true;
 }
 
 bool CreateTextureTGA(UINT textureArray[], LPSTR strFileName, int textureID)
 {
+#ifdef _WIN32
 	if(!strFileName)									// Return from the function if no file name was passed in
 		return false;
 
@@ -1002,6 +1007,7 @@ bool CreateTextureTGA(UINT textureArray[], LPSTR strFileName, int textureID)
 		}
 		free(pImage);								// Free the image structure
 	}
+#endif
 	return true;
 }
 
