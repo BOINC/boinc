@@ -14930,13 +14930,14 @@ Karl 2004-07-08
         whetstone.C
 
 Karl 2004-07-09
-    - fixed CURSOR initialization problem (found by Carl Christensen)
+    - fixed CURSOR initialization problem  (found by Carl Christensen)
+        - CURSOR now initializes itself; classes that use it don't need to
+          initialize it anymore
 
     - removed superfluous 'CURSOR cursor' in DB_WORK_ITEM -- is this correct?
         - if there should be two cursors, they should be named differently --
           otherwise it is way too easy to use the wrong one in multiple
           inheritance 
-    
 
     db/
         boinc_db.h
