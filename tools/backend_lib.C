@@ -206,9 +206,9 @@ void initialize_result(DB_RESULT& result, int workunit_id, int workunit_appid) {
 // This is called ONLY from the transitioner
 //
 int create_result(
-    int workunit_id;
-    int workunit_appid;
-    DB_WORKUNIT& wu, 
+    int workunit_id,
+    int workunit_appid,
+    char* wu_name,
     char* result_template_filename,
     char* result_name_suffix, 
     R_RSA_PRIVATE_KEY& key,
@@ -221,7 +221,7 @@ int create_result(
 
     result.clear();
     initialize_result(result, workunit_id, workunit_appid);
-    sprintf(result.name, "%s_%s", wu.name, result_name_suffix);
+    sprintf(result.name, "%s_%s", wu_name, result_name_suffix);
     sprintf(base_outfile_name, "%s_", result.name);
 
     retval = read_filename(result_template_filename, result_template, sizeof(result_template));
@@ -231,7 +231,6 @@ int create_result(
         return retval;
     }
 
-    strcpy(result_template_copy, result_template);
     retval = process_result_template(
         result_template,
         key,

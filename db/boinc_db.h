@@ -581,6 +581,8 @@ public:
         int nresult_limit,
         std::vector<TRANSITIONER_ITEM>& items
     );
+    int update_result(TRANSITIONER_ITEM&);
+    int update_workunit(TRANSITIONER_ITEM&);
 };
 
 #if 0

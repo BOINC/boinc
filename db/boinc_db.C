@@ -692,3 +692,32 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     res_file_delete_state = safe_atoi(r[i++]);
     res_sent_time = safe_atoi(r[i++]);
 }
+
+int DB_TRANSITIONER_ITEM_SET::update_result(TRANSITIONER_ITEM& ti) {
+    char query[MAX_QUERY_LEN];
+
+    sprintf(query,
+        "update result set server_state=%d, outcome=%d, validate_state=%d, file_delete_state=%d where id=%d",
+        ti.res_server_state,
+        ti.res_outcome,
+        ti.res_validate_state,
+        ti.res_file_delete_state,
+        ti.res_id
+    );
+    return db->do_query(query);
+}
+
+int DB_TRANSITIONER_ITEM_SET::update_workunit(TRANSITIONER_ITEM& ti) {
+    char query[MAX_QUERY_LEN];
+
+    sprintf(query,
+        "update workunit set need_validate=%d, error_mask=%d, assimilate_state=%d, file_delete_state=%d, transition_time=%d where id=%d",
+        ti.need_validate,
+        ti.error_mask,
+        ti.assimilate_state,
+        ti.file_delete_state,
+        ti.transition_time,
+        ti.id
+    );
+    return db->do_query(query);
+}

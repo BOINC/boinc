@@ -88,13 +88,7 @@ void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_
                 );
                 items[i].res_server_state = RESULT_SERVER_STATE_OVER;
                 items[i].res_outcome = RESULT_OUTCOME_NO_REPLY;
-                retval = transitioner.update_result(
-                    items[i].res_id, 
-                    items[i].res_server_state, 
-                    items[i].res_outcome, 
-                    items[i].res_validate_state,
-                    items[i].res_file_delete_state
-                    );
+                retval = transitioner.update_result(items[i]);
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::CRITICAL,
@@ -196,19 +190,13 @@ void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_
                 update_result = true;
             }
             if (update_result) {
-                retval = transitioner.update_result(
-                    items[i].res_id, 
-                    items[i].res_server_state, 
-                    items[i].res_outcome, 
-                    items[i].res_validate_state,
-                    items[i].res_file_delete_state
-                    );
+                retval = transitioner.update_result(items[i]);
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::CRITICAL,
                         "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
                         items[0].id, items[0].name, items[i].res_id, items[i].res_name, retval
-                        );
+                    );
                 }
             }
         }
@@ -232,7 +220,12 @@ void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_
             );
             for (int i=0; i<n; i++) {
                 sprintf(suffix, "%d", items.size()+i);
-                retval = create_result(items[0].id, items[0].appid, items[0].result_template_file, suffix, key, "");
+                char rtfpath[256];
+                sprintf(rtfpath, "../%s", items[0].result_template_file);
+                retval = create_result(
+                    items[0].id, items[0].appid, items[0].name,
+                    rtfpath, suffix, key, ""
+                );
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::CRITICAL,
@@ -295,7 +288,7 @@ void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_
             // can delete canonical result outputs only if all successful
             // results have been validated
             //
-            if ((i == canonical_result_index) && !all_over_and_validated) {
+            if (((int)i == canonical_result_index) && !all_over_and_validated) {
                 continue;
             }
 
@@ -316,19 +309,13 @@ void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_
                 );
                 items[i].res_file_delete_state = FILE_DELETE_READY;
 
-                retval = transitioner.update_result(
-                    items[i].res_id, 
-                    items[i].res_server_state, 
-                    items[i].res_outcome, 
-                    items[i].res_validate_state,
-                    items[i].res_file_delete_state
-                    );
+                retval = transitioner.update_result(items[i]);
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::CRITICAL,
                         "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
                         items[0].id, items[0].name, items[i].res_id, items[i].res_name, retval
-                        );
+                    );
                 }
             }
         }
@@ -344,14 +331,7 @@ void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_
         }
     }
 
-    retval = transitioner.update_workunit(
-        items[0].id,
-        items[0].need_validate,
-        items[0].error_mask,
-        items[0].assimilate_state,
-        items[0].file_delete_state,
-        items[0].transition_time
-        );
+    retval = transitioner.update_workunit(items[0]);
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
@@ -362,8 +342,7 @@ void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_
 
 bool do_pass() {
     DB_TRANSITIONER_ITEM_SET transitioner;
-    std::vector<TRANSITIONER_ITEM>& items;
-    char buf[256];
+    std::vector<TRANSITIONER_ITEM> items;
     bool did_something = false;
 
     check_stop_daemons();
