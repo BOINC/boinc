@@ -28,9 +28,9 @@ function init_session() {
 
 // if not logged in, put up login form and exit
 //
-function require_login($user) {
+function require_login($user, $pathMod="") {
     if (!$user) {
-        print_login_form();
+        print_login_form($pathMod);
         exit();    
     }
 }
@@ -45,11 +45,14 @@ function get_user_from_id($id) {
     return NULL;
 }
 
-function get_logged_in_user($must_be_logged_in=true) {
+// $pathMod is a prefix for the path of the login processing form.  This
+// allows scripts in other directories (i.e. forum/) to call this function.
+
+function get_logged_in_user($must_be_logged_in=true, $pathMod="") {
     $authenticator = init_session();
     $user = get_user_from_auth($authenticator);
     if ($must_be_logged_in) {
-        require_login($user);
+        require_login($user, $pathMod);
     }
     return $user;
 }
@@ -185,8 +188,8 @@ function print_country_select($country="None") {
     PassThru("$x/country_select '$country'");
 }
 
-function print_login_form_aux($next_url, $user) {
-    echo "<form method=post action=login_action.php>
+function print_login_form_aux($next_url, $user, $pathMod='') {
+    echo "<form method=post action=\"", $pathMod, "login_action.php\">
         <input type=hidden name=next_url value='$next_url'>
     ";
     start_table();
@@ -210,14 +213,14 @@ function print_login_form_aux($next_url, $user) {
     end_table();
 }
 
-function print_login_form() {
+function print_login_form($pathMod="") {
     page_head("Please log in");
     echo "
         <h3>Please log in</h3>
         This function requires that you log in.
     ";
-    $next_url = $_SERVER[REQUEST_URI];
-    print_login_form_aux($next_url, null);
+    $next_url = $_SERVER['REQUEST_URI'];
+    print_login_form_aux($next_url, null, $pathMod);
     page_tail();
 }
 
