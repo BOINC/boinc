@@ -15,6 +15,7 @@ TMPDIR=/tmp/testbase
 
 die()
 {
+    echo "ERROR in testbase on `hostname`:"
     echo "$1"
     [ "$2" ] && cat "$2"
     exit 1
