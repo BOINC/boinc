@@ -13328,6 +13328,7 @@ Daniel 11 June 2004
 
     configure
     configure.ac
+    config.h.in
     client/
         cs_prefs.C
 
