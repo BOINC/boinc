@@ -62,8 +62,9 @@ public:
 
 private:
 
-    wxIcon     iconTaskBarIcon;
-    wxDateTime dtLastMouseCaptureTime;
+    wxIcon     m_iconTaskBarIcon;
+    wxDateTime m_dtLastHoverDetected;
+    wxDateTime m_dtLastBalloonDisplayed;
 
     void       ResetTaskBar();
     void       CreateContextMenu();

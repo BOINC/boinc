@@ -57,10 +57,11 @@ END_EVENT_TABLE ()
 CTaskBarIcon::CTaskBarIcon() : 
     wxTaskBarIconEx()
 {
-    iconTaskBarIcon = wxIcon( boinc_xpm );
-    dtLastMouseCaptureTime = wxDateTime( (time_t)0 );
+    m_iconTaskBarIcon = wxIcon( boinc_xpm );
+    m_dtLastHoverDetected = wxDateTime( (time_t)0 );
+    m_dtLastBalloonDisplayed = wxDateTime( (time_t)0 );
 
-    SetIcon( iconTaskBarIcon, wxEmptyString );
+    SetIcon( m_iconTaskBarIcon, wxEmptyString );
 }
 
 
@@ -175,13 +176,19 @@ void CTaskBarIcon::OnClose( wxCloseEvent& event )
 
 void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
 {
-   wxTimeSpan ts(wxDateTime::Now() - dtLastMouseCaptureTime);
 
-    if ( ts.GetSeconds() >= 5 )
+    wxTimeSpan ts(wxDateTime::Now() - m_dtLastHoverDetected);
+    if ( ts.GetSeconds() >= 10 )
+        m_dtLastHoverDetected = wxDateTime::Now();
+
+    wxTimeSpan tsLastHover(wxDateTime::Now() - m_dtLastHoverDetected);
+    wxTimeSpan tsLastBalloon(wxDateTime::Now() - m_dtLastBalloonDisplayed);
+    if ( (tsLastHover.GetSeconds() >= 2) && (tsLastBalloon.GetSeconds() >= 10) )
     {
-        dtLastMouseCaptureTime = wxDateTime::Now();
+        m_dtLastBalloonDisplayed = wxDateTime::Now();
 
         wxString strTitle        = wxGetApp().GetAppName();
+        wxString strMachineName  = wxEmptyString;
         wxString strMessage      = wxEmptyString;
         wxString strBuffer       = wxEmptyString;
         wxString strProjectName  = wxEmptyString;
@@ -196,8 +203,15 @@ void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
         wxASSERT(NULL != pDoc);
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-        iResultCount = pDoc->GetWorkCount();
 
+        pDoc->GetConnectedComputerName( strMachineName );
+        if ( strMachineName.empty() )
+            strTitle = strTitle + wxT(" - (localhost)");
+        else
+            strTitle = strTitle + wxT(" - (") + strMachineName + wxT(")");
+
+
+        iResultCount = pDoc->GetWorkCount();
         for ( iIndex = 0; iIndex < iResultCount; iIndex++ )
         {
             bIsDownloaded = ( CMainDocument::RESULT_FILES_DOWNLOADED == pDoc->GetWorkState( iIndex ) );
@@ -212,7 +226,7 @@ void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
             strMessage += strBuffer;
         }
 
-        SetBalloon( iconTaskBarIcon, strTitle, strMessage );
+        SetBalloon( m_iconTaskBarIcon, strTitle, strMessage );
     }
 }
 
@@ -254,12 +268,12 @@ void CTaskBarIcon::OnRButtonDown( wxTaskBarIconEvent& event )
 void CTaskBarIcon::ResetTaskBar()
 {
 #ifdef __WXMSW___
-    SetBalloon( iconTaskBarIcon, wxT(""), wxT("") );
+    SetBalloon( m_iconTaskBarIcon, wxT(""), wxT("") );
 #else
-    SetIcon( iconTaskBarIcon, wxT("") );
+    SetIcon( m_iconTaskBarIcon, wxT("") );
 #endif
 
-    dtLastMouseCaptureTime = wxDateTime::Now();
+    m_dtLastBalloonDisplayed = wxDateTime::Now();
 }
 
 

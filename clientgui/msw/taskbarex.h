@@ -21,6 +21,13 @@
 #include <wx/list.h>
 #include <wx/icon.h>
 
+
+// ----------------------------------------------------------------------------
+// wxTaskBarIconEx 
+// ----------------------------------------------------------------------------
+
+class wxTaskBarIconExEvent;
+
 class wxTaskBarIconEx: public wxEvtHandler {
     DECLARE_DYNAMIC_CLASS(wxTaskBarIconEx)
 public:
@@ -33,6 +40,9 @@ public:
         Warning = NIIF_WARNING,
         Error = NIIF_ERROR
     };
+
+// Events
+    virtual void OnTaskBarCreated( wxTaskBarIconExEvent& event );
 
 // Accessors
     inline WXHWND GetHWND() const { return m_hWnd; }
@@ -70,15 +80,19 @@ public:
 protected:
     WXHWND          m_hWnd;
     bool            m_iconAdded;
+    NOTIFYICONDATA  notifyData;
     static wxList   sm_taskBarIcons;
     static bool     sm_registeredClass;
     static unsigned int sm_taskbarMsg;
+
+private:
+    DECLARE_EVENT_TABLE()
 
 };
 
 
 // ----------------------------------------------------------------------------
-// wxTaskBarIcon events
+// wxTaskBarIconEx events
 // ----------------------------------------------------------------------------
 
 class wxTaskBarIconExEvent : public wxEvent

@@ -37,6 +37,10 @@ DEFINE_EVENT_TYPE( wxEVT_TASKBAR_BALLOON_USERCLICK )
 
 IMPLEMENT_DYNAMIC_CLASS(wxTaskBarIconEx, wxEvtHandler)
 
+BEGIN_EVENT_TABLE (wxTaskBarIconEx, wxEvtHandler)
+    EVT_TASKBAR_CREATED(wxTaskBarIconEx::OnTaskBarCreated)
+END_EVENT_TABLE ()
+
 
 wxTaskBarIconEx::wxTaskBarIconEx(void)
 {
@@ -65,13 +69,23 @@ wxTaskBarIconEx::~wxTaskBarIconEx(void)
     }
 }
 
+// Events
+void wxTaskBarIconEx::OnTaskBarCreated(wxTaskBarIconExEvent& event)
+{
+    if (m_iconAdded)
+        Shell_NotifyIcon(NIM_MODIFY, &notifyData);
+    else
+    {
+        m_iconAdded = (Shell_NotifyIcon(NIM_ADD, &notifyData) != 0);
+        Shell_NotifyIcon(NIM_SETVERSION, &notifyData);
+    }
+}
+
 // Operations
 bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& tooltip)
 {
     if (!IsOK())
         return FALSE;
-
-    NOTIFYICONDATA notifyData;
 
     memset(&notifyData, 0, sizeof(notifyData));
     notifyData.cbSize           = sizeof(notifyData);
@@ -109,8 +123,6 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
    if (!IsOK())
       return false;
 
-    NOTIFYICONDATA notifyData;
-
     memset(&notifyData, 0, sizeof(notifyData));
     notifyData.cbSize           = sizeof(notifyData);
     notifyData.hWnd             = (HWND) m_hWnd;
@@ -143,8 +155,6 @@ bool wxTaskBarIconEx::RemoveIcon(void)
 {
     if (!m_iconAdded)
         return FALSE;
-
-    NOTIFYICONDATA notifyData;
 
     memset(&notifyData, 0, sizeof(notifyData));
     notifyData.cbSize = sizeof(notifyData);
