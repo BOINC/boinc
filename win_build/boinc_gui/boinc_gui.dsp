@@ -228,6 +228,22 @@ SOURCE=..\..\client\win\win_util.cpp
 
 SOURCE=..\..\client\win\wingui.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\wingui_dialog.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\wingui_listctrl.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\wingui_mainwindow.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\wingui_piectrl.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -338,6 +354,10 @@ SOURCE=..\..\client\version.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\win_dialog.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\Client\win\Win_net.h
 # End Source File
 # Begin Source File
@@ -347,6 +367,22 @@ SOURCE=..\..\Client\win\windows_cpp.h
 # Begin Source File
 
 SOURCE=..\..\client\win\wingui.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\wingui_dialog.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\wingui_listctrl.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\wingui_mainwindow.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\wingui_piectrl.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
@@ -359,6 +395,10 @@ SOURCE=..\..\client\win\boinc.bmp
 # Begin Source File
 
 SOURCE=..\..\client\win\boincsm.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\win\res\boincsm.bmp
 # End Source File
 # Begin Source File
 

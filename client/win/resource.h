@@ -21,6 +21,7 @@
 #define IDR_CONTEXT                     124
 #define IDD_QUIT                        125
 #define IDD_PROXY                       127
+#define IDD_CONNECT                     129
 #define IDC_LOGIN_URL                   1000
 #define IDC_LOGIN_AUTH                  1002
 #define IDC_LIST                        1006
@@ -29,6 +30,7 @@
 #define IDC_EDIT_HTTP_PORT              1015
 #define IDC_EDIT_SOCKS_NAME             1017
 #define IDC_EDIT_SOCKS_PASS             1018
+#define IDC_DONTASK                     1019
 #define IDC_CHECK_SOCKS                 1022
 #define IDC_EDIT_SOCKS_ADDR             1023
 #define IDC_EDIT_SOCKS_PORT             1024
@@ -61,14 +63,17 @@
 #define ID_FILE_SHOWGRAPHICS            40030
 #define ID_STATUSICON_RESUME            40031
 #define ID_FILE_RESUME                  40032
+#define ID_CONNECTION_HANGUPIFDIALED    40033
+#define ID_CONNECTION_CONFIRMBEFORECONNECTING 40034
+#define ID_CONNECTION_CONNECTNOW        40035
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        128
-#define _APS_NEXT_COMMAND_VALUE         40033
-#define _APS_NEXT_CONTROL_VALUE         1019
+#define _APS_NEXT_RESOURCE_VALUE        130
+#define _APS_NEXT_COMMAND_VALUE         40036
+#define _APS_NEXT_CONTROL_VALUE         1020
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
