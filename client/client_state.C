@@ -309,7 +309,9 @@ int CLIENT_STATE::init() {
     //
     set_client_state_dirty("init");
 
-    gui_rpcs.init();
+    retval = gui_rpcs.init();
+    if (retval) return retval;
+
     return 0;
 }
 

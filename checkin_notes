@@ -21532,3 +21532,13 @@ Rom    17 Dec 2004
     win_build/installerv2/redist/windows
         BOINC.vbs
  
+David  17 Dec 2004
+    - feeder: if a result's WU refers to nonexistent app,
+        print error message and exit
+    - core client: if can't create/bind/listen GUI RPC socket,
+        print error message and exit
+
+    client/
+        client_state.C
+    sched/
+        feeder.C

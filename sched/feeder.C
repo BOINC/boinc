@@ -245,6 +245,16 @@ static void scan_work_array(
                 }
             }
 
+            // at this point "wi" has an item
+
+            if (!ssp->have_app(wi.wu.appid)) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::CRITICAL,
+                    "result [RESULT#%d] has bad appid %d; clean up your DB!\n",
+                    wi.res_id, wi.wu.appid
+                );
+                exit(1);
+            }
             collision = false;
             for (j=0; j<ssp->nwu_results; j++) {
                 if (ssp->wu_results[j].state != WR_STATE_EMPTY
@@ -261,9 +271,6 @@ static void scan_work_array(
                     "adding result [RESULT#%d] in slot %d\n",
                     wi.res_id, i
                 );
-                if (!ssp->have_app(wi.wu.appid)) {
-                    continue;
-                }
                 wu_result.resultid = wi.res_id;
                 wu_result.workunit = wi.wu;
                 wu_result.state = WR_STATE_PRESENT;
