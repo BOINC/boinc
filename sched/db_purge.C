@@ -518,12 +518,14 @@ bool do_pass() {
 
     }
 
-    log_messages.printf(SCHED_MSG_LOG::NORMAL,
-        "Archived %d workunits and %d results\n",
-        do_pass_purged_workunits,do_pass_purged_results
-    );
+    if (do_pass_purged_workunits) {
+        log_messages.printf(SCHED_MSG_LOG::NORMAL,
+            "Archived %d workunits and %d results\n",
+            do_pass_purged_workunits,do_pass_purged_results
+        );
+    }
 
-    if (wu_stored_in_file>0) {
+    if (did_something && wu_stored_in_file>0) {
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
             "Currently open archive files contain %d workunits\n",
             wu_stored_in_file);
