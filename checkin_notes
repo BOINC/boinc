@@ -20294,3 +20294,9 @@ Bruce 2004-11-27
      the database, and so is useful for testing.
   sched/
     assimilator.C
+
+Karl 2004-11-27
+    - Fixed db_base.py to work with Python-MySQLdb 1.x
+
+    py/Boinc/
+        db_base.py

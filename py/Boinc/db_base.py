@@ -86,7 +86,8 @@ def _commit_object(tablename, paramdict, id=None):
         if debug.mysql:
             debug.printline("query: "+command)
         _execute_sql(cursor, command)
-        id = cursor.insert_id()       #porters note: works w/MySQLdb only
+        # id = cursor.insert_id()       #porters note: works w/MySQLdb only
+        id = cursor.lastrowid
     else:
         command =  "UPDATE %s SET %s WHERE id=%d" % \
             (tablename, ', '.join(equalcommands), id)

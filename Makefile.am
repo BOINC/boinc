@@ -36,7 +36,6 @@ EXTRA_DIST =                                    \
 
 dist-hook:
 	rm -rf `find $(distdir) -name .backup -prune -o -name '*~' -o -name CVS`
-#	PATH=$PATH:$UNIX2DOSDIR cd $(distdir)/win_build && $(UNIX2DOS) boinc.dsw *.dsp
 #	cd $(distdir) && ./_autosetup
 
 # This is a hack!

@@ -3,7 +3,8 @@
 
 include $(top_srcdir)/Makefile.incl
 
-# by default, "-static -static-libgcc" on linux.
+# (for a while we used "-static -static-libgcc" on linux, but this is obsolete
+# now)
 #STATIC_FLAGS=@STATIC_FLAGS@
 
 client-bin: @CLIENT_BIN_FILENAME@
