@@ -44,12 +44,13 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
 
     while (ds.scan(fn)) {
         strcpy(fname, fn.c_str());
-        if (strstr(fname, "trickle_up") != fname) continue;
-        q = fname + strlen("trickle_up");
+        if (strstr(fname, "trickle_up_") != fname) continue;
+        q = fname + strlen("trickle_up_");
         p = strrchr(fname, '_');
         if (p <= q) continue;
         *p = 0;
         strcpy(result_name, q);
+        *p = '_';
         t = atoi(p+1);
 
         sprintf(path, "%s%s%s", project_dir, PATH_SEPARATOR, fname);
