@@ -41,7 +41,7 @@
 #include <string.h>
 
 // project includes ---------------------------------------------------------
-
+using namespace std;
 #include "app_ipc.h"
 #include "graphics_api.h"
 
