@@ -384,16 +384,18 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
 		    // to completion
 		    double tocomp;
-		    if(!at || at->fraction_done == 0) {
+		    if(!at || (tocomp = at->est_time_to_completion()) <= 0) {
 			    tocomp = gstate.estimate_cpu_time(*re->wup);
-		    } else {
-			    tocomp = at->est_time_to_completion();
 		    }
 			if (tocomp > 0) {
 				cpuhour = (int)(tocomp / (60 * 60));
 				cpumin = (int)(tocomp / 60) % 60;
 				cpusec = (int)(tocomp) % 60;
 				strBuf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
+				//strBuf.Format("%s [%.f]", strBuf, tocomp);
+				//if (at) {
+				//	strBuf.Format("%s frac_done=%.7f frac_r=%.9f rec_ch=%.9f", strBuf, at->fraction_done, at->frac_rate_of_change, at->recent_change);
+				//}
 			} else {
 				strBuf = "---";
 			}

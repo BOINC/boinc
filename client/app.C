@@ -1009,13 +1009,14 @@ int ACTIVE_TASK::get_cpu_time_via_shmem(time_t now) {
 			recent_change = 0;
 		} else {
 			recent_change += (fraction_done - last_frac_done);
-			if ((now-last_frac_update)>0) {
-				recent_change = max(0, recent_change);
+			int tdiff = now-last_frac_update;
+			if (tdiff>0) {
+				double recent_frac_rate_of_change = max(0, recent_change) / tdiff;
 				if (frac_rate_of_change == 0) {
-					frac_rate_of_change = recent_change;
+					frac_rate_of_change = recent_frac_rate_of_change;
 				} else {
-					double x = exp(-(now-last_frac_update)*log(2.0)/20.0);
-					frac_rate_of_change = frac_rate_of_change*x + recent_change*(1-x);
+					double x = exp(-1*log(2.0)/20.0);
+					frac_rate_of_change = frac_rate_of_change*x + recent_frac_rate_of_change*(1-x);
 				}
 				last_frac_update = now;
 				last_frac_done = fraction_done;
@@ -1054,8 +1055,8 @@ double ACTIVE_TASK::est_time_to_completion() {
     if (fraction_done <= 0 || fraction_done > 1 || frac_rate_of_change <= 0) {
         return -1;
     }
-    return (1.0-fraction_done)/frac_rate_of_change;
-    //return (current_cpu_time / fraction_done) - current_cpu_time;
+    return (current_cpu_time / fraction_done) - current_cpu_time;
+    //return (1.0-fraction_done)/frac_rate_of_change;
 }
 
 // size of output files and files in slot dir
