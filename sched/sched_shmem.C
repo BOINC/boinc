@@ -30,6 +30,7 @@
 
 #include "sched_shmem.h"
 #include "sched_util.h"
+#include "sched_msgs.h"
 
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
@@ -66,13 +67,16 @@ int SCHED_SHMEM::verify() {
     return 0;
 }
 
-static void overflow(char* table) {
-    assert(table!=NULL);
-    fprintf(stderr,
-        "The SCHED_SHMEM structure is too small for table %s.\n"
-        "Increase the size and restart feeder and fcgi.\n",
-        table
+static void overflow(char* table, char* param_name) {
+    log_messages.printf(
+        SCHED_MSG_LOG::CRITICAL,
+        "The SCHED_SHMEM structure is too small for the %s table.\n"
+        "Either increase the %s parameter in sched_shmem.h and recompile,\n"
+        "or prune old rows from the table.\n"
+        "Then restart the project.\n",
+        table, param_name
     );
+    exit(1);
 }
 
 bool SCHED_SHMEM::have_app(int appid) {
@@ -95,7 +99,9 @@ int SCHED_SHMEM::scan_tables() {
     while (!platform.enumerate()) {
         if (platform.deprecated) continue;
         platforms[n++] = platform;
-        if (n == MAX_PLATFORMS) overflow("platforms");
+        if (n == MAX_PLATFORMS) {
+            overflow("platforms", "MAX_PLATFORMS");
+        }
     }
     nplatforms = n;
 
@@ -103,7 +109,9 @@ int SCHED_SHMEM::scan_tables() {
     while (!app.enumerate()) {
         if (app.deprecated) continue;
         apps[n++] = app;
-        if (n == MAX_APPS) overflow("apps");
+        if (n == MAX_APPS) {
+            overflow("apps", "MAX_APPS");
+        }
     }
     napps = n;
 
@@ -113,7 +121,9 @@ int SCHED_SHMEM::scan_tables() {
         if (app_version.deprecated) continue;
         if (!have_app(app_version.appid)) continue;
         app_versions[n++] = app_version;
-        if (n == MAX_APP_VERSIONS) overflow("app_versions");
+        if (n == MAX_APP_VERSIONS) {
+            overflow("app_versions", "MAX_APP_VERSIONS");
+        }
     }
     napp_versions = n;
 
@@ -122,7 +132,9 @@ int SCHED_SHMEM::scan_tables() {
         if (core_version.version_num/100 != BOINC_MAJOR_VERSION) continue;
         if (core_version.deprecated) continue;
         core_versions[n++] = core_version;
-        if (n == MAX_CORE_VERSIONS) overflow("core_versions");
+        if (n == MAX_CORE_VERSIONS) {
+            overflow("core_versions", "MAX_CORE_VERSIONS");
+        }
     }
     ncore_versions = n;
     return 0;

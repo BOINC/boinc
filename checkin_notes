@@ -23290,3 +23290,10 @@ Rom    26 Jan 2005
     api/
         boinc_api.C, .h
         graphics_impl.C
+
+David  27 Jan 2005
+    - feeder: improved error message when table overflows shared-mem structure
+        Also, exit(1) in this case
+
+    sched/
+        sched_shmem.C
