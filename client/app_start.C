@@ -329,7 +329,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     // create core/app share mem segment if needed
     //
-    if (!app_client_shmem.shm) {
+    if (!app_client_shm.shm) {
         sprintf(buf, "%s%s", SHM_PREFIX, shmem_seg_name);
         shm_handle = create_shmem(buf, sizeof(SHARED_MEM),
             (void **)&app_client_shm.shm

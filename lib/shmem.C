@@ -69,12 +69,11 @@ HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp) {
 
 HANDLE attach_shmem(LPCTSTR seg_name, void** pp) {
     HANDLE hSharedMem;
-    LPVOID pMemPtr;
 
     hSharedMem = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, seg_name);
     if (!hSharedMem) return NULL;
 
-    if (pp) *pp = MapViewOfFile( hSharedMem, FILE_MAP_ALL_ACCESS, 0, 0, 0 );
+    if (pp) *pp = MapViewOfFile(hSharedMem, FILE_MAP_ALL_ACCESS, 0, 0, 0);
 
     return hSharedMem;
 }

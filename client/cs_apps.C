@@ -409,6 +409,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
             p->anticipated_debt = p->debt;
         }
         p->next_runnable_result = NULL;
+        //msg_printf(p, MSG_INFO, "debt: %f", p->debt);
     }
 
     // schedule tasks for projects in order of decreasing anticipated debt

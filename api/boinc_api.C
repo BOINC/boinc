@@ -528,7 +528,7 @@ static int setup_shared_mem() {
 
 #ifdef _WIN32
     char buf[256];
-    sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);
+    sprintf(buf, "%s%s", SHM_PREFIX, aid.shmem_seg_name);
     hSharedMem = attach_shmem(buf, (void**)&app_client_shm->shm);
     if (hSharedMem == NULL) {
         delete app_client_shm;

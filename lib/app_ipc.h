@@ -122,7 +122,7 @@ public:
 };
 
 #ifdef _WIN32
-    typedef char[256] SHMEM_SEG_NAME;
+    typedef char SHMEM_SEG_NAME[256];
 #else
     typedef int SHMEM_SEG_NAME;
 #endif
