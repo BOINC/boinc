@@ -23335,3 +23335,10 @@ David  27 Jan 2005
 
     sched/
         db_dump.C
+
+David  27 Jan 2005
+	- added utility programs to tools/ (from Christian Søttrup)
+
+	tools/
+		kill_wu.C
+		poll_wu.C
