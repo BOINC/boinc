@@ -145,7 +145,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(attach_project)) {
             add_new_project();
         } else if (ARG(version)) {
-            printf( "%.2f %s\n", MAJOR_VERSION+(MINOR_VERSION/100.0), HOSTTYPE );
+            printf(PACKAGE_STRING " " HOSTTYPE "\n");
             exit(0);
         } else if (ARG(allow_remote_gui_rpc)) {
             allow_remote_gui_rpc = true;
@@ -176,7 +176,7 @@ void CLIENT_STATE::parse_env_vars() {
         }
     }
 
-    pi.socks_version = 
+    pi.socks_version =
         getenv("SOCKS5_SERVER")?SOCKS_VERSION_5:
         getenv("SOCKS4_SERVER")?SOCKS_VERSION_4:
         getenv("SOCKS_SERVER")?SOCKS_VERSION_5:

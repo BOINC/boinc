@@ -3,3 +3,4 @@ transitioner
 trickle_handler
 validate_trivial
 wu_check
+message_handler

@@ -334,11 +334,11 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         if (parse_int(buf, "<core_client_major_version>", major)) {
 #if 0
     // for now, allow old versions
-            if (major != MAJOR_VERSION) {
+            if (major != BOINC_MAJOR_VERSION) {
                 retval = return_error(ERR_PERMANENT,
                     "Core client has major version %d; "
                     "expected %d.",
-                    major, MAJOR_VERSION
+                    major, BOINC_MAJOR_VERSION
                 );
                 break;
             }

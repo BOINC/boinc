@@ -13,17 +13,39 @@ AC_INIT(BOINC, 4.00)
 
 AC_ARG_ENABLE(server, 
     AC_HELP_STRING([--disable-server],
-                   [Disables building the scheduling server (build only client; default builds both server and client)]),
+                   [disable building the scheduling server]),
     [],
     [enable_server=yes])
 
-if test "${enable_server}" = yes; then
-    echo "--- Configuring BOINC AC_PACKAGE_VERSION (server & client) ---"
+AC_ARG_ENABLE(client, 
+    AC_HELP_STRING([--disable-client],
+                   [disable building the client]),
+    [],
+    [enable_client=yes])
+
+m4_divert_once([HELP_ENABLE],
+  AC_HELP_STRING([], [Default: --enable-server --enable-client: 
+                      builds both server and client]))
+
+if test "${enable_server}" = yes ; then
+    if test "${enable_client}" = yes ; then
+        configured_to_build='server & client'
+    else
+        configured_to_build='server only'
+    fi
 else
-    echo "--- Configuring BOINC AC_PACKAGE_VERSION (client only) ---"
+    if test "${enable_client}" = yes ; then
+        configured_to_build='client only'
+    else
+        echo "You've disabled both the server and the client -- nothing to build!" >&2
+        exit 1
+    fi
 fi
 
+echo "--- Configuring BOINC AC_PACKAGE_VERSION (${configured_to_build}) ---"
+
 AM_CONDITIONAL(ENABLE_SERVER, [test "${enable_server}" = yes])
+AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
 
 AC_CANONICAL_SYSTEM
 
@@ -55,15 +77,23 @@ Contributor(s):
 
 AC_REVISION([$Revision$])
 
-AC_SUBST(MAJOR_VERSION, `echo AC_PACKAGE_VERSION | sed 's/\..*//'`)
-AC_SUBST(MINOR_VERSION, `echo AC_PACKAGE_VERSION | sed 's/.*\.0*//'`)
+AC_DEFUN([AC_STRIP_LEADING_ZEROS],[m4_bregexp([$*],[^0*\(..*\)],\1)])
 
-AC_DEFINE_UNQUOTED(MAJOR_VERSION, $MAJOR_VERSION, [Major part of version number])
-AC_DEFINE_UNQUOTED(MINOR_VERSION, $MINOR_VERSION, [Minor part of version number])
-AC_DEFINE_UNQUOTED(HOSTTYPE, "$host", [Host for this compilation])
-AC_SUBST(CLIENT_BIN_FILENAME,[boinc_]AC_PACKAGE_VERSION[_$host${EXEEXT}])
-AC_SUBST(TOP_BUILD_DIR, [`pwd`])
-AC_SUBST(TOP_SOURCE_DIR, [`(cd \`dirname "$0"\` && pwd)`])
+AC_DEFUN([AC_BOINC_SET_VERSION],[dnl
+AC_SUBST([BOINC_MAJOR_VERSION],AC_STRIP_LEADING_ZEROS([$1]))
+AC_SUBST([BOINC_MINOR_VERSION],AC_STRIP_LEADING_ZEROS([$2]))
+AC_SUBST([BOINC_VERSION_STRING],AC_PACKAGE_VERSION)
+])
+
+AC_BOINC_SET_VERSION(translit(AC_PACKAGE_VERSION, [.], [,]))
+
+AC_DEFINE_UNQUOTED([BOINC_VERSION_STRING], "$BOINC_VERSION_STRING", [String representation of BOINC version number])
+AC_DEFINE_UNQUOTED([BOINC_MAJOR_VERSION], $BOINC_MAJOR_VERSION, [Major part of BOINC version number])
+AC_DEFINE_UNQUOTED([BOINC_MINOR_VERSION], $BOINC_MINOR_VERSION, [Minor part of BOINC version number])
+AC_DEFINE_UNQUOTED([HOSTTYPE], "$host", [Host for this compilation])
+AC_SUBST([CLIENT_BIN_FILENAME],[boinc_]AC_PACKAGE_VERSION[_$host${EXEEXT}])
+AC_SUBST([TOP_BUILD_DIR], [`pwd`])
+AC_SUBST([TOP_SOURCE_DIR], [`(cd \`dirname "$0"\` && pwd)`])
 
 AM_MAINTAINER_MODE
 
@@ -189,11 +219,7 @@ AC_CONFIG_HEADER([config.h])
 
 AC_OUTPUT
 
-if test "${enable_server}" = yes; then
-    echo "--- Configured BOINC AC_PACKAGE_VERSION (server & client) ---"
-else
-    echo "--- Configured BOINC AC_PACKAGE_VERSION (client only) ---"
-fi
+echo "--- Configured BOINC AC_PACKAGE_VERSION (${configured_to_build}) ---"
 
 [
 true || $TOP_SOURCE_DIR/test/test_sanity.py || (

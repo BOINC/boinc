@@ -82,8 +82,8 @@ CLIENT_STATE::CLIENT_STATE() {
     activities_suspended = false;
     network_suspended = false;
     previous_activities_suspended = false;
-    core_client_major_version = MAJOR_VERSION;
-    core_client_minor_version = MINOR_VERSION;
+    core_client_major_version = BOINC_MAJOR_VERSION;
+    core_client_minor_version = BOINC_MINOR_VERSION;
     platform_name = HOSTTYPE;
     exit_after_app_start_secs = 0;
     app_started = 0;

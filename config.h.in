@@ -1,5 +1,14 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* Major part of BOINC version number */
+#undef BOINC_MAJOR_VERSION
+
+/* Minor part of BOINC version number */
+#undef BOINC_MINOR_VERSION
+
+/* String representation of BOINC version number */
+#undef BOINC_VERSION_STRING
+
 /* getsockopt uses size_t */
 #undef GETSOCKOPT_SIZE_T
 
@@ -304,12 +313,6 @@
 
 /* Host for this compilation */
 #undef HOSTTYPE
-
-/* Major part of version number */
-#undef MAJOR_VERSION
-
-/* Minor part of version number */
-#undef MINOR_VERSION
 
 /* Name of package */
 #undef PACKAGE

@@ -29,30 +29,30 @@ LDADD = -L. -lsched $(MYSQL_LIBS)
 
 LIB_SCHED = libsched.a
 
-libsched_a_SOURCES =				\
-    sched_shmem.C				\
-    sched_util.C				\
-    sched_config.C				\
-	sched_msgs.C			    \
-	../db/boinc_db.C			\
-	../db/db_base.C				\
-    ../lib/util.C				\
-    ../lib/crypt.C				\
-    ../lib/filesys.C				\
-    ../lib/parse.C				\
-    ../lib/base64.C				\
-    ../lib/shmem.C				\
-    ../lib/md5.c				\
-    ../lib/md5_file.C			\
-	../lib/msg_log.C			\
-	../tools/process_result_template.C	\
+libsched_a_SOURCES =                            \
+    sched_shmem.C                               \
+    sched_util.C                                \
+    sched_config.C                              \
+    sched_msgs.C                                \
+    ../db/boinc_db.C                            \
+    ../db/db_base.C                             \
+    ../lib/util.C                               \
+    ../lib/crypt.C                              \
+    ../lib/filesys.C                            \
+    ../lib/parse.C                              \
+    ../lib/base64.C                             \
+    ../lib/shmem.C                              \
+    ../lib/md5.c                                \
+    ../lib/md5_file.C                           \
+    ../lib/msg_log.C                            \
+    ../tools/process_result_template.C          \
     ../tools/backend_lib.C
 
-cgi_SOURCES =					\
-    handle_request.C			\
-    main.C					\
-    sched_send.C					\
-    server_types.C				\
+cgi_SOURCES =                                   \
+    handle_request.C                            \
+    main.C                                      \
+    sched_send.C                                \
+    server_types.C                              \
     ../lib/synch.C
 
 cgi_DEPENDENCIES = $(LIB_SCHED)
@@ -99,32 +99,32 @@ transitioner_SOURCES = transitioner.C
 transitioner_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 transitioner_LDADD = $(LDADD) $(RSA_LIBS)
 
-message_handler_SOURCES = mesage_handler.C
+message_handler_SOURCES = message_handler.C
 message_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 message_handler_LDADD = $(LDADD) $(RSA_LIBS)
 
-fcgi_SOURCES =					\
-        handle_request.C			\
-        main.C					\
-        sched_send.C					\
-        server_types.C  \
-        ../lib/synch.C \
-    sched_shmem.C				\
-    sched_util.C				\
-    sched_config.C				\
-	sched_msgs.C			    \
-	../db/boinc_db.C			\
-	../db/db_base.C				\
-    ../lib/util.C				\
-    ../lib/crypt.C				\
-    ../lib/filesys.C				\
-    ../lib/parse.C				\
-    ../lib/base64.C				\
-    ../lib/shmem.C				\
-    ../lib/md5.c				\
-    ../lib/md5_file.C			\
-	../lib/msg_log.C			\
-	../tools/process_result_template.C	\
+fcgi_SOURCES =                                  \
+    handle_request.C                            \
+    main.C                                      \
+    sched_send.C                                \
+    server_types.C                              \
+    ../lib/synch.C                              \
+    sched_shmem.C                               \
+    sched_util.C                                \
+    sched_config.C                              \
+    sched_msgs.C                                \
+    ../db/boinc_db.C                            \
+    ../db/db_base.C                             \
+    ../lib/util.C                               \
+    ../lib/crypt.C                              \
+    ../lib/filesys.C                            \
+    ../lib/parse.C                              \
+    ../lib/base64.C                             \
+    ../lib/shmem.C                              \
+    ../lib/md5.c                                \
+    ../lib/md5_file.C                           \
+    ../lib/msg_log.C                            \
+    ../tools/process_result_template.C          \
     ../tools/backend_lib.C
 
 fcgi_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)

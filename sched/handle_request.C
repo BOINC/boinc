@@ -466,7 +466,7 @@ int handle_results(
             reply.host.id, retval
         );
     }
-    
+
     for (i=0; i<result_handler.results.size(); i++) {
         if (0 < result_handler.results[i].id) {
             retval = result_handler.update_result(result_handler.results[i]);
@@ -474,7 +474,7 @@ int handle_results(
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
                     "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
-                    reply.host.id, result_handler.results[i].id, result_handler.results[i].name, 
+                    reply.host.id, result_handler.results[i].id, result_handler.results[i].name,
                     boinc_db.error_string()
                 );
             }
@@ -486,7 +486,7 @@ int handle_results(
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
                     "[HOST#%d] [RESULT#%d %s] can't update [WU#%d]\n",
-                    reply.host.id, result_handler.results[i].id, result_handler.results[i].name, 
+                    reply.host.id, result_handler.results[i].id, result_handler.results[i].name,
                     result_handler.results[i].workunitid
                 );
             }
@@ -733,7 +733,7 @@ void send_code_sign_key(
 
 bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     // char buf[256];
-    if (sreq.core_client_major_version != MAJOR_VERSION) {
+    if (sreq.core_client_major_version != BOINC_MAJOR_VERSION) {
         //reply.nucleus_only = true;
         // TODO: check for user-agent not empty and not BOINC
         reply.probable_user_browser = true;
@@ -741,7 +741,7 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             "To participate in this project, "
             "you must use major version %d of the BOINC core client. "
             "Your core client is major version %d.",
-            MAJOR_VERSION,
+            BOINC_MAJOR_VERSION,
             sreq.core_client_major_version
         );
         strcpy(reply.message_priority, "low");
@@ -749,7 +749,7 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             SCHED_MSG_LOG::NORMAL,
             "[HOST#%d] [auth %s] Wrong major version from user: wanted %d, got %d\n",
             sreq.hostid, sreq.authenticator,
-            MAJOR_VERSION, sreq.core_client_major_version
+            BOINC_MAJOR_VERSION, sreq.core_client_major_version
         );
         reply.request_delay = 3600*24;
         return true;

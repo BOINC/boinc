@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -47,8 +47,8 @@ int CLIENT_STATE::parse_state_file() {
 
         // avoid warning messages about version
         //
-        old_major_version = MAJOR_VERSION;
-        old_minor_version = MINOR_VERSION;
+        old_major_version = BOINC_MAJOR_VERSION;
+        old_minor_version = BOINC_MINOR_VERSION;
         return ERR_FOPEN;
     }
 
@@ -177,7 +177,7 @@ int CLIENT_STATE::parse_venue() {
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "</client_state>")) {
             break;
-        } 
+        }
         if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) {
             break;
         }

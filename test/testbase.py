@@ -477,7 +477,7 @@ class AppVersion(database.AppVersion):
     def __init__(self, app, platform, exec_file):
         database.AppVersion.__init__(self,id=None)
         self.app = app
-        self.version_num = version.MAJOR_VERSION * 100
+        self.version_num = version.BOINC_MAJOR_VERSION * 100
         self.platform = platform
         self.min_core_version = 1
         self.max_core_version = 999

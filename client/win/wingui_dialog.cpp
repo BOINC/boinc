@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -59,7 +59,7 @@ void CLoginDialog::LoadLanguage()
 // arguments:	void
 // returns:		true if windows needs to give dialog focus, false if dialog has taken focus
 // function:	initializes and centers dialog box
-BOOL CLoginDialog::OnInitDialog() 
+BOOL CLoginDialog::OnInitDialog()
 {
     CDialog::OnInitDialog();
 	m_strUrlTT.Format("The URL for the website of the project.");
@@ -85,7 +85,7 @@ BOOL CLoginDialog::OnInitDialog()
 // arguments:	void
 // returns:		void
 // function:	copies strings from edit controls to member variables.
-void CLoginDialog::OnOK() 
+void CLoginDialog::OnOK()
 {
     GetDlgItemText(IDC_LOGIN_URL, m_strUrl);
     GetDlgItemText(IDC_LOGIN_AUTH, m_strAuth);
@@ -98,7 +98,7 @@ void CLoginDialog::OnOK()
 //				pNMHDR: pointer to notification message header
 //				pResult: pointer to result of notification
 // returns:		true if the notification is processed, otherwise false
-// function:	handles notifications of tool tips by filling in 
+// function:	handles notifications of tool tips by filling in
 //				text for tool tips
 BOOL CLoginDialog::OnToolTipNotify(UINT id, NMHDR *pNMHDR, LRESULT *pResult)
 {
@@ -155,7 +155,7 @@ void CConnectDialog::LoadLanguage()
 // arguments:	void
 // returns:		true if windows needs to give dialog focus, false if dialog has taken focus
 // function:	initializes and centers dialog box
-BOOL CConnectDialog::OnInitDialog() 
+BOOL CConnectDialog::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	LoadLanguage();
@@ -167,7 +167,7 @@ BOOL CConnectDialog::OnInitDialog()
 // arguments:	void
 // returns:		void
 // function:	sets member variables
-void CConnectDialog::OnOK() 
+void CConnectDialog::OnOK()
 {
 	CDialog::OnOK();
 }
@@ -203,19 +203,17 @@ void CAboutDialog::LoadLanguage()
 // arguments:	void
 // returns:		true if windows needs to give dialog focus, false if dialog has taken focus
 // function:	initializes and centers dialog box
-BOOL CAboutDialog::OnInitDialog() 
+BOOL CAboutDialog::OnInitDialog()
 {
     CDialog::OnInitDialog();
-	LoadLanguage();
+    LoadLanguage();
 
-	double xVersion = MAJOR_VERSION + MINOR_VERSION / 100.0;
-	CString strOldTitle, strVersion, strTitle;
-	GetWindowText(strOldTitle);
-	strVersion.Format("%0.2f", xVersion);
+    CString strOldTitle, strTitle;
+    GetWindowText(strOldTitle);
 #ifdef _DEBUG
-    strTitle.Format("%s %s (DEBUG)", strOldTitle, strVersion);
+    strTitle.Format("%s %s (DEBUG)", strOldTitle, BOINC_VERSION_STRING);
 #else
-    strTitle.Format("%s %s", strOldTitle, strVersion);
+    strTitle.Format("%s %s", strOldTitle, BOINC_VERSION_STRING);
 #endif
     SetWindowText(strTitle);
     CenterWindow();

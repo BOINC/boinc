@@ -7,7 +7,11 @@ if ENABLE_SERVER
   SERVER_SUBDIRS = db lib api apps sched tools test py
 endif
 
-SUBDIRS = RSAEuro $(SERVER_SUBDIRS) client
+if ENABLE_CLIENT
+  CLIENT_SUBDIRS = client
+endif
+
+SUBDIRS = RSAEuro $(SERVER_SUBDIRS) $(CLIENT_SUBDIRS)
 
 # Putting a directory name recursively copies the entire contents - the
 # dist-hook below gets rid of CVS directories.

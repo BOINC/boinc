@@ -67,7 +67,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
 // (see doc/upload.html)
 // Do this in memory.
 //
-int FILE_XFER::init_upload(FILE_INFO& file_info) {  
+int FILE_XFER::init_upload(FILE_INFO& file_info) {
     // If upload_offset < 0, we need to query the upload handler
     // for the offset information
     // TODO: give priority to unfinished upload if there are multiple choices
@@ -84,7 +84,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
             "    <core_client_minor_version>%d</core_client_minor_version>\n"
             "    <get_file_size>%s</get_file_size>\n"
             "</data_server_request>\n",
-            MAJOR_VERSION, MINOR_VERSION,
+            BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION,
             file_info.name
         );
         file_size_query = true;
@@ -105,7 +105,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
             "<nbytes>%.0f</nbytes>\n"
             "<offset>%.0f</offset>\n"
             "<data>\n",
-            MAJOR_VERSION, MINOR_VERSION,
+            BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION,
             file_info.signed_xml,
             file_info.xml_signature,
             file_info.nbytes,

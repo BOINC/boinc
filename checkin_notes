@@ -14253,6 +14253,7 @@ Rom    27 June 2004
 
 Karl 2004-06-28
     - added configure-time option for building server+client or only client
+      (--disable-server or --enable-server)
 
     configure.ac
     Makefile.am
@@ -15089,3 +15090,52 @@ Rom    12 July 2004
         TransfersView.cpp, .h
         WorkView.cpp, .h
         XMLParser.cpp
+
+Karl 2004-07-13
+    - fixed configure bug where MINOR_VERSION gets set to nothing if minor
+      version is 0
+
+    - changed MAJOR_VERSION, MINOR_VERSION to BOINC_MAJOR_VERSION,
+      BOINC_MINOR_VERSION; PACKAGE_VERSION and VERSION -> BOINC_VERSION_STRING
+
+    - added '--disable-client' option to disable building client
+
+    - fixed Makefile typo for message_handler
+
+    - fixed Makefile problem with @CLIENT_BIN_FILENAME@.gz
+
+    - misc configure fixes
+
+    configure.ac
+    Makefile.am
+
+    client/
+        Makefile.am
+        client_state.C
+        cs_cmdline.C
+        cs_statefile.C
+        file_xfer.C
+        version.C (removed -- obsolete)
+        version.h (removed -- obsolete)
+    client/win/
+        boinc_cli.rc
+        boinc_dll.rc
+        boinc_gui.rc
+        boinc_ss.rc
+        wingui_dialog.cpp
+        win_config.h [regenerated]
+
+    py/Boinc/
+        version.py.in
+
+    sched/
+        Makefile.am
+        file_upload_handler.C
+        handle_request.C
+        sched_shmem.C
+
+    test/
+        testbase.py
+
+    configure [regenerated]
+    */Makefile.in [regenerated]

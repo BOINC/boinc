@@ -300,8 +300,8 @@ IDI_ICONWARNING         ICON                    "res\\iconwarning.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION MAJOR_VERSION,MINOR_VERSION,0,0
- PRODUCTVERSION MAJOR_VERSION,MINOR_VERSION,0,0
+ FILEVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,0,0
+ PRODUCTVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -323,7 +323,7 @@ BEGIN
             VALUE "LegalCopyright", "Copyright © 2004 University of California"
             VALUE "OriginalFilename", "boinc_gui.exe"
             VALUE "ProductName", "BOINC Core Client"
-            VALUE "ProductVersion", PACKAGE_VERSION "\0"
+            VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
         END
     END
     BLOCK "VarFileInfo"
