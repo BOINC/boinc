@@ -437,13 +437,13 @@ int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
 
 void ACTIVE_TASK_SET::free_mem() {
     vector<ACTIVE_TASK*>::iterator at_iter;
-	ACTIVE_TASK *at;
+    ACTIVE_TASK *at;
 
     at_iter = active_tasks.begin();
     while (at_iter != active_tasks.end()) {
-		at = active_tasks[0];
+        at = active_tasks[0];
         at_iter = active_tasks.erase(at_iter);
-		delete at;
+        delete at;
     }
 }
 

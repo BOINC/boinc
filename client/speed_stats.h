@@ -33,10 +33,5 @@ double run_int_test( double num_secs );
 double run_mem_bandwidth_test( double num_secs );
 int set_test_timer(double num_secs);
 int destroy_test_timer();
-#ifdef _WIN32
-void CALLBACK stop_test(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2);
-#else
-void stop_test(int a);
-#endif
 
 

@@ -31,6 +31,15 @@
 #include "speed_stats.h"
 #include "error_numbers.h"
 
+#ifdef _WIN32
+#include <afxwin.h>
+#include <mmsystem.h>    // for timing
+void CALLBACK stop_test(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2);
+UINT speed_timer_id;
+#else
+void stop_test(int a);
+#endif
+
 // Speed test global variables
 bool run_test;
 
@@ -537,7 +546,8 @@ double bandwidth_test(int iterations, int print_debug) {
 int set_test_timer(double num_secs) {
     run_test = true;
 #ifdef _WIN32
-    timer_id = SetTimer( NULL, NULL, (int)(num_secs*1000), stop_test );
+    speed_timer_id = timeSetEvent( (int)(num_secs*1000),
+        (int)(num_secs*1000), stop_test, NULL, TIME_ONESHOT );
 #else
     struct sigaction sa;
     itimerval value;
@@ -558,6 +568,7 @@ int set_test_timer(double num_secs) {
 
 int destroy_test_timer() {
 #ifdef _WIN32
+	timeKillEvent(speed_timer_id);
 #endif
     return 0;
 }
