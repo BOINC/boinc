@@ -1386,7 +1386,7 @@ Eric Heien  August 2, 2002
         net_xfer.C
         net_xfer.h
 
-David A.
+David A.    August 4 2002
     Various changes to API:
         - Added user, team names, credit info to APP_INIT_DATA
         - separate call for getting init data

@@ -6,12 +6,11 @@
     <disk_max_used_pct>50</disk_max_used_pct>
     <disk_min_free_gb>0.4</disk_min_free_gb>
     <project>
-        <master_url>http://localhost.localdomain</master_url>
-        <email_addr>david@localdomain</email_addr>
-        <authenticator>123892398</authenticator>
+        <master_url>BOINC_MASTER_URL</master_url>
+        <authenticator>3f7b90793a0175ad0bda68684e8bd136</authenticator>
         <resource_share>10</resource_share>
         <project_specific>
             <color-scheme>Tahiti Sunset</color-scheme>
         </project_specific>
-    </project>\n"
+    </project>
 </preferences>
