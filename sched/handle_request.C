@@ -888,7 +888,7 @@ void send_code_sign_key(
                     if (retval) {
                         strcpy(reply.message,
                             "Can't update code signing key.  "
-                            "Please report this to project."
+                            "Please report this to the project administrators."
                         );
                     } else {
                         safe_strcpy(reply.code_sign_key, code_sign_key);
