@@ -1,6 +1,10 @@
 #ifndef _MIOFILE_
 #define _MIOFILE_
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
 #ifndef _WIN32
 #include <string>
 using namespace std;

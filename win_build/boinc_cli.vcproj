@@ -759,6 +759,12 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\lib\mfile.C">
+			</File>
+			<File
+				RelativePath="..\client\miofile.C">
+			</File>
+			<File
 				RelativePath="..\lib\msg_log.C">
 			</File>
 			<File
@@ -1118,6 +1124,12 @@
 			</File>
 			<File
 				RelativePath="..\lib\md5_file.h">
+			</File>
+			<File
+				RelativePath="..\lib\mfile.h">
+			</File>
+			<File
+				RelativePath="..\client\miofile.h">
 			</File>
 			<File
 				RelativePath="..\lib\msg_log.h">

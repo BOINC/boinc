@@ -336,8 +336,6 @@ bool GUI_RPC_CONN_SET::poll() {
         GUI_RPC_CONN* gr;
         struct timeval tv;
 
-        sprintf(buf, "\r\nBOINC RPC Interface %d.%.2d\r\n\r\n", MAJOR_VERSION, MINOR_VERSION);
-
         FD_ZERO(&read_fds);
         FD_ZERO(&error_fds);
         FD_SET(lsock, &read_fds);

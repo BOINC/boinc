@@ -157,7 +157,7 @@ void KillWindow() {
 // - when get mode change msg (via shared mem)
 // - when in SS mode and get user input
 //
-void SetMode(int mode) {
+static void set_mode(int mode) {
 
 	if (current_graphics_mode != MODE_FULLSCREEN) GetWindowRect(hWnd, &rect);
 
@@ -203,7 +203,7 @@ LRESULT CALLBACK WndProc(
 	case WM_KEYDOWN:
 	case WM_KEYUP:
 		if (current_graphics_mode == MODE_FULLSCREEN) {
-			SetMode(MODE_HIDE_GRAPHICS);
+			set_mode(MODE_HIDE_GRAPHICS);
 			PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
         } else {
             if (uMsg == WM_KEYDOWN) {
@@ -220,7 +220,7 @@ LRESULT CALLBACK WndProc(
 	case WM_MBUTTONUP:
 	case WM_RBUTTONUP:
 		if (current_graphics_mode == MODE_FULLSCREEN) {
-			SetMode(MODE_HIDE_GRAPHICS);
+			set_mode(MODE_HIDE_GRAPHICS);
 			PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
 		} else  {
             int which;
@@ -236,7 +236,7 @@ LRESULT CALLBACK WndProc(
 		GetCursorPos(&cPos);
 		if(current_graphics_mode == MODE_FULLSCREEN) {
 			if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
-				SetMode(MODE_HIDE_GRAPHICS);
+				set_mode(MODE_HIDE_GRAPHICS);
 				PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
 			}
 		} else {
@@ -314,11 +314,14 @@ BOOL unreg_win_class() {
 static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
 	RECT rt;
 	int width, height, new_mode, msg;
+
+    // check for graphics-related message from core client
+    //
     if (app_client_shm) {
         if (app_client_shm->get_graphics_msg(CORE_APP_GFX_SEG, msg, new_mode)) {
             switch (msg) {
             case GRAPHICS_MSG_SET_MODE:
-                SetMode(new_mode);
+                set_mode(new_mode);
                 break;
             case GRAPHICS_MSG_REREAD_PREFS:
 				// only reread graphics prefs if we have a window open
@@ -355,12 +358,12 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	// Register window class and graphics mode message
 	reg_win_class();
 
-	SetTimer(NULL, 1, 100, &timer_handler);
+	SetTimer(NULL, 1, 30, &timer_handler);
 
     if (boinc_is_standalone()) {
-        SetMode(MODE_WINDOW);
+        set_mode(MODE_WINDOW);
     } else {
-        SetMode(MODE_HIDE_GRAPHICS);
+        set_mode(MODE_HIDE_GRAPHICS);
     }
 	win_loop_done = false;
 	while(!win_loop_done) {

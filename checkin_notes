@@ -13378,3 +13378,17 @@ David  11 June 2004
     lib/
         Makefile.am
         mfile.C,h (moved to here)
+
+David  11 June 2004
+	- get core client to compile on Win
+	- graphics API: change max frame rate from 10 to 33.3
+
+	api/
+		windows_opengl.C
+	client/
+		gui_rpc_server.C
+		miofile.h
+	win_build/
+		boinc_cli.vcproj
+		boinc_gui.vcproj
+
