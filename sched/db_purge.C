@@ -23,6 +23,7 @@
 
 // purges workunit and result records that are no longer needed from 
 // the database
+
 #include <cstdio>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -44,6 +45,9 @@ using namespace std;
 
 #include "error_numbers.h"
 
+#define LOCKFILE "db_purge.out"
+#define PIDFILE  "db_purge.pid"
+
 #define WU_FILENAME_PREFIX              "wu_archive"
 #define RESULT_FILENAME_PREFIX          "result_archive"
 #define WU_INDEX_FILENAME_PREFIX        "wu_index"
@@ -64,10 +68,10 @@ int open_archive(char* filename_prefix, FILE*& f){
 
     sprintf(path,"../archives/%s_%d.xml", filename_prefix, time_int);
 
-    fprintf(stdout, "Opening archive %s\n", path);
+    log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Opening archive %s\n", path);
     
     if ((f = fopen( path,"a+")) == NULL) {  
-        fprintf(stdout,"Can't open archive file %s\n", path);
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Can't open archive file %s\n", path);
         return ERR_FOPEN;
     }
 
@@ -245,63 +249,25 @@ int purge_and_archive_results(DB_WORKUNIT& wu, int& number_results) {
     while (!result.enumerate(buf)) {
        retval= archive_result(result);
        if (retval) return retval;
-       fprintf(stdout,"Archived result [%d] to a file\n", result.id);
+       log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Archived result [%d] to a file\n", result.id);
         
        retval= result.delete_from_db();
        if (retval) return retval;
-       fprintf(stdout,"Purged result [%d] from database\n", result.id);
+       log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Purged result [%d] from database\n", result.id);
 
        number_results++;
     }
     return 0;
 }
 
-
-int main(int argc, char** argv) {
+// return nonzer if did anything
+//
+bool do_pass() {
     int purged_workunits= 0, purged_results= 0;
     int retval= 0;
-    //time_t  now;
-    //struct tm tim;
-    //size_t i;
+   
+    check_stop_daemons();
 
-    //now= time(0);
-    //tim= *(localtime(&now));
-    //i= strftime(time_int,30,"%b%d_%Y_%H:%M:%S", &tim);
-    time_int= (int)time(0);
-
-    retval= config.parse_file("..");
-    if (retval) {
-        fprintf(stdout, "Can't parse config file\n");
-        exit(1);
-    }
-
-    fprintf(stdout, "Starting DB Purger\n");
-
-    retval = boinc_db.open(config.db_name, config.db_host, config.db_user,
-    config.db_passwd);
-    if (retval) {
-        fprintf(stdout, "Can't open DB\n");
-        exit(1);
-    }
-    fprintf(stdout, "Opened DB\n");
-
-    mkdir("../archives", 0777);
-
-    retval = open_archive(WU_FILENAME_PREFIX, wu_stream);
-    if (!retval) 
-        retval = open_archive(RESULT_FILENAME_PREFIX, re_stream);
-    if (!retval)  
-        retval = open_archive(RESULT_INDEX_FILENAME_PREFIX,
-        re_index_stream);
-    if (!retval) 
-        retval = open_archive(WU_INDEX_FILENAME_PREFIX, wu_index_stream);
-        
-
-    if (retval) {
-        fprintf(stdout, "Can't open archives\n");
-        exit(1);
-    }
-    
     bool did_something = false;
     DB_WORKUNIT wu;
     char buf[256];
@@ -319,37 +285,123 @@ int main(int argc, char** argv) {
         
         retval= archive_wu(wu);
         if (retval) {
-            fprintf(stdout,
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "Failed to write to XML file workunit:%d\n", wu.id
             );
             exit(1);
         }
-        fprintf(stdout,"Archived workunit [%d] to a file\n", wu.id);
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Archived workunit [%d] to a file\n", wu.id);
         
         //purge workunit from DB        
         retval= wu.delete_from_db();
         if (retval) {
-            fprintf(stdout,"Can't delete workunit [%d] from database:%d\n", wu.id, retval);
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Can't delete workunit [%d] from database:%d\n", wu.id, retval);
             exit(1);
         }
-        fprintf(stdout,"Purged workunit [%d] from database\n", wu.id);
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,"Purged workunit [%d] from database\n", wu.id);
 
         purged_workunits++;
     }
     
-    if (!did_something) {
-        fprintf(stdout, "Did not do anything\n");
-        exit(1);
-    }
-    
-    fprintf(stdout,
+    log_messages.printf(SCHED_MSG_LOG::CRITICAL,
         "Archived %d workunits and %d results\n",
         purged_workunits,purged_results
     );
 
+    return did_something;
+}
+
+int main(int argc, char** argv) {
+    int retval;
+    bool asynch = false, one_pass = false;
+    int i;
+    
+    check_stop_daemons();
+    for (i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "-asynch")) {
+            asynch = true;
+        } else if (!strcmp(argv[i], "-one_pass")) {
+            one_pass = true;
+        } else if (!strcmp(argv[i], "-d")) {
+            log_messages.set_debug_level(atoi(argv[++i]));
+        } else {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "Unrecognized arg: %s\n", 
+                argv[i]
+            );
+        }    
+    }
+
+    retval = config.parse_file("..");
+    if (retval) {
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, 
+            "Can't parse config file\n"
+        );
+        exit(1);
+    }
+
+    if (asynch) {
+        if (fork()) {
+            exit(0);
+        }
+    }    
+
+    // // Call lock_file after fork(), because file locks are not always
+    // inherited
+    // if (lock_file(LOCKFILE)) {
+    //     log_messages.printf(SCHED_MSG_LOG::NORMAL, "Another copy of file
+    //     deleter is running\n");
+    //     exit(1);
+    // }
+    // write_pid_file(PIDFILE);
+    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting\n");
+
+    retval = boinc_db.open(config.db_name, config.db_host, config.db_user,
+        config.db_passwd);
+    if (retval) {
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't open DB\n");
+        exit(1);
+    }
+    install_stop_signal_handler();
+
+
+    //time_t  now;
+    //struct tm tim;
+    //size_t i;
+
+    //now= time(0);
+    //tim= *(localtime(&now));
+    //i= strftime(time_int,30,"%b%d_%Y_%H:%M:%S", &tim);
+    time_int= (int)time(0);
+
+    mkdir("../archives", 0777);
+
+    retval = open_archive(WU_FILENAME_PREFIX, wu_stream);
+    if (!retval) 
+        retval = open_archive(RESULT_FILENAME_PREFIX, re_stream);
+    if (!retval)  
+        retval = open_archive(RESULT_INDEX_FILENAME_PREFIX,
+        re_index_stream);
+    if (!retval) 
+        retval = open_archive(WU_INDEX_FILENAME_PREFIX, wu_index_stream);
+        
+
+    if (retval) {
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't open archives\n");
+        exit(1);
+    }
+    
+    if (one_pass) {
+        do_pass();
+    } else {
+        while (1) {
+            if (!do_pass()) sleep(10);
+        }
+    }    
+            
     boinc_db.close();
     fclose(wu_stream);
     fclose(re_stream);
     fclose(wu_index_stream);
     fclose(re_index_stream);
-}
+}    
