@@ -227,7 +227,7 @@ void CViewProjects::OnListRender(wxTimerEvent &event)
         if ( iCount != m_iCount )
         {
             m_iCount = iCount;
-            if ( 0 <= iCount )
+            if ( 0 >= iCount )
                 m_pListPane->DeleteAllItems();
             else
                 m_pListPane->SetItemCount(iCount);
