@@ -20572,3 +20572,15 @@ Bruce 2 Dec 2004
             db_ops.inc
         ops/
             db_form.inc
+
+Rom    2 Dec 2004
+    - Bug Fix: On certain versions of Windows it might be necessary for the
+        screensaver to force the foreground window depending on the state in
+        which the screensaver was launched.  This is the slightly less
+        aggressive way to do this.  Ideally the active process is the screensaver
+        and so therefore can promote another process into the foreground.
+
+    client/win/
+        win_screensaver.cpp
+    lib/
+        gui_rpc_client.h

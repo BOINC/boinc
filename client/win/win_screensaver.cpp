@@ -830,6 +830,20 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                         {
                             switch (iStatus)
                             {
+                                case SS_STATUS_ENABLED:
+                                    HWND hwndBOINCGraphicsWindow = NULL;
+                                    HWND hwndActiveWindow = NULL;
+
+                                    hwndBOINCGraphicsWindow = FindWindow( BOINC_WINDOW_CLASS_NAME, NULL );
+                                    if ( NULL != hwndBOINCGraphicsWindow )
+                                    {
+                                        hwndActiveWindow = GetForegroundWindow();
+                                        if ( hwndActiveWindow != hwndBOINCGraphicsWindow )
+                                        {
+                                            SetForegroundWindow(hwndBOINCGraphicsWindow);
+                                        }
+                                    }
+                                break;
                                 case SS_STATUS_RESTARTREQUEST:
                                     m_bBOINCCoreNotified = FALSE;
                                     break;
