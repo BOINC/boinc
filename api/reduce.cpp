@@ -25,6 +25,8 @@ REDUCED_ARRAY::~REDUCED_ARRAY() {
 void REDUCED_ARRAY::set_max_dims(int mx, int my) {
     rdimx_max = mx;
     rdimy_max = my;
+    rdimx = rdimx_max;
+    rdimy = rdimy_max;
 }
 
 // Prepare to receive a source array.
@@ -366,7 +368,7 @@ void REDUCED_ARRAY::draw_part(double frac) {
 
 void REDUCED_ARRAY::draw_axes() {
     glBegin(GL_QUADS);
-    glColor3f(.2, .2, .2);
+    glColor3d(.2, .2, .2);
 
     glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]);
     glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]);

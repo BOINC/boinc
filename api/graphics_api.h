@@ -23,4 +23,5 @@ int boinc_finish_opengl();
 
 #ifdef BOINC_APP_GRAPHICS
 GLvoid glPrint(GLuint font, const char *fmt, ...);
+bool app_render(int xs, int ys, double time_of_day);
 #endif

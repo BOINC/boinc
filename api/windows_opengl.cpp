@@ -40,11 +40,11 @@ HWND		hWnd=NULL;		// Holds Our Window Handle
 HINSTANCE	hInstance;		// Holds The Instance Of The Application
 int			mouse_thresh = 3;
 POINT		initCursorPos;
-UINT		BOINC_GFX_MODE_MSG;
+UINT		BOINC_GFX_MODE_MSG,gfx_timer;
+
+#define GFX_TIMER_ID 1001
 
 GLuint	main_font;			// Base Display List For The Font Set
-GLfloat	cnt1;				// 1st Counter Used To Move Text & For Coloring
-GLfloat	cnt2;				// 2nd Counter Used To Move Text & For Coloring
 
 extern bool using_opengl;
 bool	keys[256];
@@ -54,10 +54,8 @@ BOOL	win_loop_done=FALSE;			// Bool Variable To Exit Loop
 int		counter,old_left,old_top,old_right,old_bottom,cur_gfx_mode,old_gfx_mode;
 extern HANDLE hQuitEvent;
 
-extern int app_render(int, int, double);
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 DWORD WINAPI win_graphics_event_loop( LPVOID duff );
-void renderBitmapString( float x, float y, void *font, char *string);
 BOOL CreateGLWindow(char* title, int width, int height, int bits, bool initially_visible);
 void ChangeMode( int mode );
 BOOL reg_win_class();
@@ -125,6 +123,7 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 GLvoid KillGLWindow(GLvoid)								// Properly Kill The Window
 {
 	while(ShowCursor(true) < 0);						// Show Mouse Pointer
+	active = false;
 
 	if (hRC)											// Do We Have A Rendering Context?
 	{
@@ -256,6 +255,11 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool initially
 		return FALSE;								// Return FALSE
 	}
 
+	old_left = WindowRect.left;
+	old_right = WindowRect.right;
+	old_top = WindowRect.top;
+	old_bottom = WindowRect.bottom;
+
 	static	PIXELFORMATDESCRIPTOR pfd=				// pfd Tells Windows How We Want Things To Be
 	{
 		sizeof(PIXELFORMATDESCRIPTOR),				// Size Of This Pixel Format Descriptor
@@ -313,10 +317,13 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool initially
 		return FALSE;								// Return FALSE
 	}
 
-	if (initially_visible)
+	if (initially_visible) {
 		ShowWindow(hWnd,SW_SHOW);					// Show The Window
-	else
-		ShowWindow(hWnd,SW_HIDE);					// Show The Window
+		active = true;
+	} else {
+		ShowWindow(hWnd,SW_HIDE);					// Hide The Window
+		active = false;
+	}
 
 	SetForegroundWindow(hWnd);						// Slightly Higher Priority
 	SetFocus(hWnd);									// Sets Keyboard Focus To The Window
@@ -343,12 +350,11 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 		case WM_ACTIVATEAPP:						// Watch For App Activate Message
 		{
 			if (!HIWORD(wParam)) {					// Check Minimization State
-				active=TRUE;						// Program Is Active
+				//active=TRUE;						// Program Is Active
 			} else {
-				active=FALSE;						// Program Is No Longer Active
+				//active=FALSE;						// Program Is No Longer Active
 			}
-
-			return 0;								// Return To The Message Loop
+			return 0;
 		}
 
 		/*case WM_SYSCOMMAND:							// Intercept System Commands
@@ -368,24 +374,20 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 		}*/
 
 		case WM_KEYDOWN:							// Is A Key Being Held Down?
-		{
 			// If a key is pressed in full screen mode, go back to old mode
 			if (fullscreen) {
 				ChangeMode(old_gfx_mode);
 			}
 			keys[wParam] = TRUE;					// If So, Mark It As TRUE
-			return 0;								// Jump Back
-		}
+			return 0;
 
 		case WM_KEYUP:								// Has A Key Been Released?
-		{
 			// If a key is pressed in full screen mode, go back to old mode
 			if (fullscreen) {
 				ChangeMode(old_gfx_mode);
 			}
 			keys[wParam] = FALSE;					// If So, Mark It As FALSE
-			return 0;								// Jump Back
-		}
+			return 0;
 
 		case WM_LBUTTONDOWN:
 		case WM_MBUTTONDOWN:
@@ -408,27 +410,19 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 		}
 
 		case WM_CLOSE:								// Did We Receive A Close Message?
-		{
 			ChangeMode(MODE_NO_GRAPHICS);
-			active = false;
-			return 0;								// Jump Back
-		}
+			return 0;
 
 		case WM_DESTROY:							// Did We Receive A Destroy Message?
-		{
-			return 0;								// Jump Back
-		}
+			return 0;
 
 		case WM_SIZE:								// Resize The OpenGL Window
-		{
 			ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));  // LoWord=Width, HiWord=Height
-			return 0;								// Jump Back
-		}
+			return 0;
 
 		// If we get a redraw request outside of our normal
 		// redraw framework, just fill the window with black
 		case WM_PAINT:
-		{
 			PAINTSTRUCT ps;
 		    HDC hdc;
 			RECT winRect;
@@ -438,7 +432,13 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
             FillRect(hdc, &winRect, (HBRUSH) GetStockObject(BLACK_BRUSH));
             EndPaint(hWnd, &ps);
 			return 0;
-		}
+	}
+
+	if (uMsg == BOINC_GFX_MODE_MSG) {
+		if (lParam != cur_gfx_mode)
+			ChangeMode(lParam);
+
+		return 0;
 	}
 
 	// Pass All Unhandled Messages To DefWindowProc
@@ -447,53 +447,51 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 
 DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	MSG			msg;		// Windows Message Structure
- 
+
 	fullscreen=FALSE;							// Windowed Mode
 
-	// Register window class
+	// Register window class and graphics mode message
 	reg_win_class();
-
-	// Register the messages for changing graphics modes
 	BOINC_GFX_MODE_MSG = RegisterWindowMessage( "BOINC_GFX_MODE" );
 
 	// Create Our OpenGL Window
 	if (!CreateGLWindow("BOINC App Window",((GRAPHICS_INFO*)gi)->xsize,
 		((GRAPHICS_INFO*)gi)->ysize,16,false)) {
-		return 0;									// Quit this thread if window was not created
+		return -1;					// Quit this thread if window was not created
 	}
+
+	// Initialize the graphics refresh timer
+	gfx_timer = SetTimer(NULL, GFX_TIMER_ID,
+		(int)(((GRAPHICS_INFO*)gi)->refresh_period*1000),
+		(TIMERPROC)NULL);
 	cur_gfx_mode = MODE_NO_GRAPHICS;
 	using_opengl = true;
+	ChangeMode(MODE_WINDOW);
 
-	while(!win_loop_done)							// Loop That Runs While done=FALSE
+	while(!win_loop_done)					// Loop That Runs While done=FALSE
 	{
-		if (PeekMessage(&msg,NULL,0,0,PM_REMOVE))	// Is There A Message Waiting?
-		{
-			if (msg.message==WM_QUIT) {	// Have We Received A Quit Message?
-				win_loop_done=TRUE;					// If So done=TRUE
-			}
-			else if (msg.message==BOINC_GFX_MODE_MSG) {
-				if (msg.lParam != cur_gfx_mode) {
-					ChangeMode(msg.lParam);
+		if (GetMessage(&msg,NULL,0,0)) {	// Is There A Message Waiting?
+			if (msg.message==WM_TIMER) {
+				if (active) {	// only draw if the window is visible
+					// Draw The Scene
+					RECT win_rect;
+					GetWindowRect(hWnd,&win_rect);
+					app_render(win_rect.right-win_rect.left,win_rect.bottom-win_rect.top,
+						time(NULL));
+					SwapBuffers(hDC);        // This seems to take lots of CPU time
 				}
-			}
-			else {									// If Not, Deal With Window Messages
-				TranslateMessage(&msg);				// Translate The Message
-				DispatchMessage(&msg);				// Dispatch The Message
+			} else {
+				TranslateMessage(&msg);			// Translate The Message
+				DispatchMessage(&msg);			// Dispatch The Message
 			}
 		} else {
-			MsgWaitForMultipleObjects( 0, NULL, FALSE, 100, QS_ALLEVENTS|QS_POSTMESSAGE );
-		}
-		if (ok_to_draw) {						// Window Active?
-			if (active) {	// Time To Update Screen
-				// Draw The Scene
-				app_render();
-				SwapBuffers(hDC);        // This seems to take lots of CPU time
-			}
+			win_loop_done = true;
 		}
 	}
 
 	// Shutdown
 	KillGLWindow();				// Kill The Window
+	KillTimer(NULL, gfx_timer);	// Stop the graphics timer
 
 	unreg_win_class();
 

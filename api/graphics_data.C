@@ -1,5 +1,8 @@
 #include "graphics_data.h"
 
+void GRAPHICS_BUFFER::clear() {
+}
+
 void GRAPHICS_DOUBLE_BUFFER::init(GRAPHICS_BUFFER* _b1, GRAPHICS_BUFFER* _b2) {
     b1 = _b1;
     b2 = _b2;
@@ -16,6 +19,7 @@ GRAPHICS_BUFFER* GRAPHICS_DOUBLE_BUFFER::get_render_buffer() {
 
     b = get_buffer(GB_STATE_RENDERING);
     if (!b) b = get_buffer(GB_STATE_RENDERED);
+    if (!b) b = get_buffer(GB_STATE_GENERATED);
     if (b) {
         if (b->state == GB_STATE_RENDERED) {
             other = get_buffer(GB_STATE_GENERATED);
@@ -25,7 +29,9 @@ GRAPHICS_BUFFER* GRAPHICS_DOUBLE_BUFFER::get_render_buffer() {
                 b = other;
                 b->state = GB_STATE_RENDERING;
             }
-        }
+        } else {
+			b->state = GB_STATE_RENDERING;
+		}
     }
     return b;
 }

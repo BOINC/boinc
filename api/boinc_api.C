@@ -55,7 +55,7 @@ MMRESULT timer_id;
 #include <gl\gl.h>            // Header File For The OpenGL32 Library
 #include <gl\glu.h>            // Header File For The GLu32 Library
 #include <gl\glaux.h>        // Header File For The Glaux Library
-HANDLE hDoneDrawingEvent,hQuitEvent, hGraphicsDrawEvent;
+HANDLE hQuitEvent;
 extern HANDLE graphics_threadh;
 extern BOOL    win_loop_done;
 #endif
@@ -486,17 +486,6 @@ int set_timer(double period) {
 #ifdef BOINC_APP_GRAPHICS
     // Create the event object used to signal between the
     // worker and event threads
-    hDoneDrawingEvent = CreateEvent( 
-            NULL,     // no security attributes
-            TRUE,    // manual reset event
-            TRUE,     // initial state is signaled
-            NULL);    // object not named
-
-    hGraphicsDrawEvent = CreateEvent( 
-            NULL,     // no security attributes
-            TRUE,    // manual reset event
-            TRUE,     // initial state is signaled
-            NULL);    // object not named
 
     hQuitEvent = CreateEvent( 
             NULL,     // no security attributes
