@@ -321,7 +321,7 @@ BEGIN
             VALUE "FileDescription", "boinc_gui"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_gui"
-            VALUE "LegalCopyright", "Copyright © 2004 University of California"
+            VALUE "LegalCopyright", "Copyright © 2005 University of California"
             VALUE "OriginalFilename", "boinc_gui.exe"
             VALUE "ProductName", "BOINC Core Client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"

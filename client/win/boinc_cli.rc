@@ -75,7 +75,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Core Client Command Line Interface"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_cli"
-            VALUE "LegalCopyright", "Copyright © 2003-2004 University of California"
+            VALUE "LegalCopyright", "Copyright © 2003-2005 University of California"
             VALUE "OriginalFilename", "boinc_cli.exe"
             VALUE "ProductName", "BOINC Core Client"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
