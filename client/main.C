@@ -144,7 +144,9 @@ int main(int argc, char** argv) {
     signal(SIGHUP, quit_client);
     signal(SIGINT, quit_client);
     signal(SIGQUIT, quit_client);
+#ifdef SIGPWR
     signal(SIGPWR, quit_client);
+#endif
     signal(SIGTSTP, susp_client);
     signal(SIGCONT, resume_client);
 #endif

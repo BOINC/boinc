@@ -397,6 +397,7 @@ int read_ppm_file(char* name, int& w, int& h, unsigned char** arrayp) {
     int i;
 
     f = fopen(name, "rb");
+    if (!f) return -1;
     do {fgets(buf, 256, f);} while (buf[0] == '#');
     if (buf[0] != 'P') {
         return -1;
