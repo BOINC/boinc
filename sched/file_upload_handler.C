@@ -259,11 +259,12 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             sprintf(path, "%s/%s", config.upload_dir, file_info.name);
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
-                "Handling upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
+                "Starting upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
                 file_info.name,
                 get_remote_addr(),
                 offset, nbytes
             );
+            fflush(stderr);
             if (offset >= nbytes) {
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
@@ -271,7 +272,16 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 );
                 return return_success(0);
             }
-            return copy_socket_to_file(in, path, offset, nbytes);
+            retval = copy_socket_to_file(in, path, offset, nbytes);
+            log_messages.printf(
+                SCHED_MSG_LOG::NORMAL,
+                "Ended upload of %s from %s; retval %d\n",
+                file_info.name,
+                get_remote_addr(),
+                retval
+            );
+            fflush(stderr);
+            return retval;
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "unrecognized: %s", buf
@@ -407,8 +417,6 @@ int main() {
         fprintf(stderr, "Can't open log file\n");
         exit(1);
     }
-
-    //installer();
 
     log_messages.set_debug_level(DEBUG_LEVEL);
 
