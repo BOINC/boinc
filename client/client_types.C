@@ -143,6 +143,7 @@ int PROJECT::parse_state(FILE* in) {
             //fprintf(stderr, "code_sign_key: %s\n", code_sign_key);
         }
         else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
+        else if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
         else if (parse_int(buf, "<min_rpc_time>", min_rpc_time)) continue;
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
         else if (match_tag(buf, "<sched_rpc_pending/>")) sched_rpc_pending = true;
@@ -181,6 +182,7 @@ int PROJECT::write_state(FILE* out) {
         "    <exp_avg_cpu>%f</exp_avg_cpu>\n"
         "    <exp_avg_mod_time>%d</exp_avg_mod_time>\n"
         "    <nrpc_failures>%d</nrpc_failures>\n"
+        "    <master_fetch_failures>%d</master_fetch_failures>\n"
         "    <min_rpc_time>%d</min_rpc_time>\n"
         "%s%s",
         master_url,
@@ -198,6 +200,7 @@ int PROJECT::write_state(FILE* out) {
         exp_avg_cpu,
         exp_avg_mod_time,
         nrpc_failures,
+        master_fetch_failures,
         min_rpc_time,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         sched_rpc_pending?"    <sched_rpc_pending/>\n":""
@@ -230,9 +233,12 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     host_create_time = p.host_create_time;
     exp_avg_cpu = p.exp_avg_cpu;
     exp_avg_mod_time = p.exp_avg_mod_time;
-    strcpy(code_sign_key, p.code_sign_key);
     nrpc_failures = p.nrpc_failures;
+    master_fetch_failures = p.master_fetch_failures;
     min_rpc_time = p.min_rpc_time;
+    master_url_fetch_pending = p.master_url_fetch_pending;
+    sched_rpc_pending = p.sched_rpc_pending;
+    strcpy(code_sign_key, p.code_sign_key);
 }
 
 int APP::parse(FILE* in) {

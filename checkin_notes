@@ -3543,3 +3543,29 @@ Eric   Feb 28, 2003
             win_util.h
             win_screensaver.cpp
             wingui_sswindow.cpp,h
+
+David  Feb 28 2003
+    - after master URL fetch done, write client state file
+        (so that we don't fetch it again)
+    - scheduler: don't check for WU feasibility if the client reports
+        zero disk or zero memory;
+        improved reporting of infeasibility
+    - added a "watchdog" script (wd.php) that checks log files for error msgs
+        and sends an email if any.  Also added a sample watchdog that
+        makes sure #results changes
+
+    client/
+        client_types.C
+        cs_scheduler.C
+        scheduler_op.C
+    sched/
+        handle_request.C
+        wd.php
+        wd_nresults_changing.php
+
+David  Feb 28 2003
+    - add some fields to copy_state_fields().
+        (fixed bug where client always fetches master URL)
+
+    client/
+        client_types.C,h

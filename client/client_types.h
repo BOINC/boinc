@@ -47,7 +47,7 @@ struct STRING256 {
 
 class PROJECT {
 public:
-    // the following items come from prefs.xml
+    // the following items come from the account file
     // They are a function only of the user and the project
     //
     char master_url[256];       // url of site that contains scheduler tags
@@ -59,6 +59,7 @@ public:
 
     // the following items come from client_state.xml
     // They may depend on the host as well as user and project
+    // NOTE: if you add anything, add it copy_state_fields() as well!!!
     //
     vector<STRING256> scheduler_urls;       // where to find scheduling servers
     char project_name[256];             // descriptive.  not unique
@@ -74,20 +75,21 @@ public:
     unsigned int host_create_time; // as reported by server 
     double exp_avg_cpu;         // exponentially weighted CPU time
     int exp_avg_mod_time;       // last time average was changed
-    char code_sign_key[MAX_BLOB_LEN];
     int nrpc_failures;          // # of consecutive times we've failed to
                                 // contact all scheduling servers
+    int master_fetch_failures;
     int min_rpc_time;           // earliest time to contact any server
                                 // of this project (or zero)
-    int master_fetch_failures;
-    // the following items are transient; not saved in state file
-    double resource_debt;       // How much CPU time we owe this project
-                                // (arbitrary scale)
-    int debt_order;             // 0 == largest debt
     bool master_url_fetch_pending;
                                 // need to fetch and parse the master URL
     bool sched_rpc_pending;
                                 // need to contact the scheduling server for user/project info
+    char code_sign_key[MAX_BLOB_LEN];
+
+    // the following items are transient; not saved in state file
+    double resource_debt;       // How much CPU time we owe this project
+                                // (arbitrary scale)
+    int debt_order;             // 0 == largest debt
 
     PROJECT();
     ~PROJECT();
