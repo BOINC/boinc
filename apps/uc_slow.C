@@ -56,7 +56,7 @@ int do_checkpoint(MFILE& mf, int nchars) {
 int main() {
     int c, nchars = 0, retval, n;
     char resolved_name[512];
-    MFILE out;
+    MFILE out, time_file;
     FILE* state, *in;
     APP_IN ai;
     APP_OUT ao;
@@ -82,6 +82,7 @@ int main() {
         fprintf(stderr, "APP: uc_slow output open failed %d\n", retval);
         exit(1);
     }
+    time_file.open("../../time.xml", "w");
     while (1) {
         c = fgetc(in);
         if (c == EOF) break;
@@ -112,4 +113,10 @@ int main() {
         exit(1);
     }
     fprintf(stderr, "APP: uc_slow ending, wrote %d chars\n", nchars);
+    ao.percent_done = 1;
+    app_completed(ao);
+    time_file.printf("%f\n", ao.cpu_time_at_checkpoint);
+    time_file.flush();
+    time_file.close();
+    return 0;
 }

@@ -1260,3 +1260,12 @@ Michael Gary	7/23/2002
         test_sticky.php (added)
         uc_wu_sticky (added)
         uc_result_sticky (added)
+
+Michael Gary	7/24/2002
+    - Added a test for the time reporting system. 
+    test/
+        test_time.php (added)
+        init.inc
+    apps/
+        uc_slow.C
+
