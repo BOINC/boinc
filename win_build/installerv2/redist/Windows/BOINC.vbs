@@ -19,57 +19,134 @@
 '' Contributor(s):
 ''
 
+Const msiMessageTypeFatalExit      = &H00000000
+Const msiMessageTypeError          = &H01000000 
+Const msiMessageTypeWarning        = &H02000000 
+Const msiMessageTypeUser           = &H03000000 
+Const msiMessageTypeInfo           = &H04000000 
+Const msiMessageTypeFilesInUse     = &H05000000 
+Const msiMessageTypeResolveSource  = &H06000000 
+Const msiMessageTypeOutOfDiskSpace = &H07000000 
+Const msiMessageTypeActionStart    = &H08000000 
+Const msiMessageTypeActionData     = &H09000000
+Const msiMessageTypeProgress       = &H0A000000
+Const msiMessageTypeCommonData     = &H0B000000 
+
 
 ''
-'' Detect is a previous version of BOINC was installed with the old installer
+'' Detect the previous version of BOINC if it was installed with the old installer
 ''
-Function IsOldInstallDeteted()
-
-	Dim iReturnValue
-	Dim oShell
-	Dim strUninstallValue
-
+Function DetectOldInstaller()
     On Error Resume Next
 
+	Dim oShell
+    Dim oRecord
+	Dim strUninstallValue
+
 	Set oShell = CreateObject("WScript.Shell")
+    Set oRecord = Installer.CreateRecord(1)
+
     strUninstallValue = oShell.RegRead("HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\BOINC\UninstallString")
-	If Err.Number <> 0 Then
-	    iReturnValue = IDOK
+	If (Err.Number <> 0) Then
+        oRecord.IntegerData(1) = 25000
+        Message msiMessageTypeInfo, oRecord
+
+	    DetectOldInstaller = 1
+	    Exit Function
 	Else
-	    MsgBox("Setup has detected an older version of BOINC, please uninstall it to install this version")
-	    iReturnValue = IDABORT 
+	    oRecord.IntegerData(1) = 25001
+        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
 	End If
 
-	IsOldInstallDeteted = iReturnValue
-    On Error GoTo 0
+    DetectOldInstaller = 3 
+End Function
+
+
+''
+'' Detect the username of the user executing setup, and populate
+''   SERVICE_USERNAME if it is empty
+''
+Function DetectUsername()
+    On Error Resume Next
+
+	Dim oNetwork
+    Dim oRecord
+	Dim strValue
+	Dim strNewValue
+	Dim strUserName
+	Dim strUserDomain
+	Dim strUserComputerName
+
+	Set oNetwork = CreateObject("WScript.Network")
+    Set oRecord = Installer.CreateRecord(2)
+
+    strValue = Property("SERVICE_USERNAME")
+    If ( Len(strValue) = 0 ) Then
+        strUserName = oNetwork.UserName
+        If ( Err.Number <> 0 ) Then
+            DetectUsername = 3
+            Exit Function
+        End If
+        
+        strUserDomain = oNetwork.UserDomain
+        If ( Err.Number <> 0 ) Then
+            DetectUsername = 3
+            Exit Function
+        End If
+        
+        strComputerName = oNetwork.ComputerName
+        If ( Err.Number <> 0 ) Then
+            DetectUsername = 3
+            Exit Function
+        End If
+                   
+        If ( strUserDomain = strComputerName ) Then
+            strNewValue = ".\" & strUserName
+        Else
+            strNewValue = strUserDomain & "\" & strUserName
+        End If
+                      
+        Property("SERVICE_USERNAME") = strNewValue
+    End If
+
+    DetectUsername = 1
 End Function
 
 
 ''
 '' If we are the 'Shared' SETUPTYPE then we must change ALLUSERS = 1
 ''
-Function DetermineSetuptypeFlags()
-
-    Dim strSetupType
-	Dim iReturnValue
-
+Function ValidateSetupType()
     On Error Resume Next
 
+    Dim strSetupType
+    Dim oRecord
+
+    Set oRecord = Installer.CreateRecord(1)
+
     strSetupType = Property("SETUPTYPE")
-	If (Not( IsEmpty(strSetupType) )) And (Not( IsNull(strSetupType) )) Then
-        If ( strSetupType = "Shared" )
-            Property("ALLUSERS") = 2
+    If (Len(strSetupType) <> 0) Then
+        If ( strSetupType = "Single" ) Then
+            If (Property("ALLUSERS") <> "0") Then
+			    oRecord.IntegerData(1) = 25002
+			    Message msiMessageTypeFatalExit, oRecord
+
+		        ValidateSetupType = 3
+				Exit Function
+            End If
+        Else
+            If (Property("ALLUSERS") <> "1") Then
+			    oRecord.IntegerData(1) = 25005
+			    Message msiMessageTypeFatalExit, oRecord
+
+		        ValidateSetupType = 3
+				Exit Function
+            End If
         End If
-	    iReturnValue = IDOK
-    Else
-	    MsgBox("SETUPTYPE cannot be null or empty, aborting SETUP.")
-	    iReturnValue = IDABORT 
-    End If    
-
-	DetermineSetuptypeFlags = iReturnValue
-    On Error GoTo 0
+    End If
+                                     
+	ValidateSetupType = 1
 End Function
-
 
 
 ''
@@ -77,16 +154,17 @@ End Function
 '' destination folder and before the BOINC service is started.  We basically
 '' copy all the account files from the source path to the destination path.
 ''
-Function Accounts_CopyFiles()
+Function CopyAccountFiles()
+    On Error Resume Next
 
 	Dim oFSO
+    Dim oRecord
 	Dim strInstallDir
 	Dim strAccountsLocation
 	Dim iReturnValue
 	
-    On Error Resume Next
-
 	Set oFSO = CreateObject("Scripting.FileSystemObject")
+    Set oRecord = Installer.CreateRecord(1)
 	strInstallDir = Property("INSTALLDIR")
 	strAccountsLocation = Property("ACCOUNTS_LOCATION")
     
@@ -97,35 +175,17 @@ Function Accounts_CopyFiles()
     	strAccountsLocation = strAccountsLocation + "\*.xml"
 
     	oFSO.CopyFile strAccountsLocation, strInstallDir
-    	If ErrHandler("Copy Account Files Failed ") Then
-    	    iReturnValue = IDCANCEL
-    	Else
-    	    iReturnValue = IDOK
-    	End If
+    	If (Err.Number = 0) Then
+		    oRecord.IntegerData(1) = 25003
+		    Message msiMessageTypeInfo, oRecord
 
+    	    CopyAccountFiles = 1
+    	    Exit Function
+    	Else
+		    oRecord.IntegerData(1) = 25004
+		    Message msiMessageTypeError, oRecord
+		End If
 	End If
 
-	Accounts_CopyFiles = iReturnValue
-    On Error GoTo 0
+	CopyAccountFiles = 3
 End Function
-
-
-Function ErrHandler(what)
-    Dim bReturnValue
-
-    If Err.Number > 0 Then
-        MsgBox( what & " Error " & Err.Number & ": " & Err.Description )
-        Err.Clear
-        bReturnValue = True
-    Else
-        bReturnValue = False
-    End If
-
-    ErrHandler = bReturnValue
-End Function
-
-
-Sub Print(Str)
-    'strip when not debugging
-    MsgBox(Str)
-End Sub
