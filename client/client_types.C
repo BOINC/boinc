@@ -50,6 +50,7 @@ PROJECT::PROJECT() {
     code_sign_key = NULL;
     nrpc_failures = 0;
     min_rpc_time = 0;
+    master_fetch_failures = 0;
     resource_debt = 0;
     debt_order = 0;
     master_url_fetch_pending = 0;

@@ -83,7 +83,7 @@ void CLIENT_STATE::update_avg_cpu(PROJECT* p) {
 }
 
 // find a project that needs its master file parsed
-//
+// 
 PROJECT* CLIENT_STATE::next_project_master_pending() {
     unsigned int i;
     PROJECT* p;
@@ -101,7 +101,8 @@ PROJECT* CLIENT_STATE::next_project_master_pending() {
 
 // return the next project after "old", in debt order,
 // that is eligible for a scheduler RPC
-//
+// It excludes projects that have (p->master_url_fetch_pending) set to true.
+// Such projects will be returned by next_project_master_pending routine.
 PROJECT* CLIENT_STATE::next_project(PROJECT* old) {
     PROJECT* p, *pbest;
     int best = 999;

@@ -106,8 +106,21 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
 
     int n = p->nrpc_failures;
     if (n > RETRY_CAP) n = RETRY_CAP;
-    for (i=0; i<n; i++) x *= 2;
-    p->min_rpc_time = time(0) + x;
+    
+    // we've hit the limit on master_url fetches
+    if(project->master_fetch_failures >= MASTER_FETCH_RETRY_CAP)
+    {
+      if (log_flags.sched_op_debug) {
+	printf("we've hit the limit on master_url fetches\n");
+      }
+      p->min_rpc_time = time(0) + MASTER_FETCH_INTERVAL;
+      x = MASTER_FETCH_INTERVAL;
+    }   
+    else
+      {
+	for (i=0; i<n; i++) x *= 2;
+	p->min_rpc_time = time(0) + x;
+      }
     if (log_flags.sched_op_debug) {
         printf(
             "setting min RPC time for %s to %d seconds from now\n",
@@ -119,15 +132,30 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
 
 // Back off on the scheduler and output an error msg if needed
 //
+
 int SCHEDULER_OP::backoff( PROJECT* p, char *error_msg ) {
-    p->nrpc_failures++;
-    set_min_rpc_time(p);
-    
-    if (log_flags.sched_op_debug) {
-        printf(error_msg);
-    }
-    
-    return 0;
+  if (log_flags.sched_op_debug) {
+    printf(error_msg);
+  }
+  
+  if(project->master_fetch_failures >= MASTER_FETCH_RETRY_CAP)
+    {
+      project->master_url_fetch_pending = true;
+      set_min_rpc_time(p);
+      return 0;
+    } 
+  // if nrpc failures a multiple of master_fetch_period, then  set master_url_fetch_pending and initialize again 
+  if (project->nrpc_failures == MASTER_FETCH_PERIOD) {
+    project->master_url_fetch_pending = true;
+    project->min_rpc_time = 0;
+    project->nrpc_failures = 0;
+    project->master_fetch_failures++;
+  }
+
+  p->nrpc_failures++;
+  set_min_rpc_time(p);
+
+  return 0;
 }
 
 // low-level routine to initiate an RPC
@@ -198,6 +226,11 @@ int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
     if (log_flags.sched_op_debug) {
         printf("Parsed master file; got %d scheduler URLs\n", (int)urls.size());
     }
+    
+    //if couldn't find any urls in the master file. 
+    if((int) urls.size() == 0)
+      return -1;
+    
     return 0;
 }
 
@@ -259,16 +292,17 @@ bool SCHEDULER_OP::poll() {
                     if (changed) {
                         project->min_rpc_time = 0;
                         project->nrpc_failures = 0;
+			project->master_fetch_failures = 0;
                     }
                 } else {
                     // master file parse failed.  treat like RPC error
                     //
-                    backoff(project, "Master file parse failed\n");
+		  backoff(project, "Master file parse failed\n");
                 }
             } else {
                 // fetch of master file failed.  Treat like RPC error
                 //
-                backoff(project, "Master file fetch failed\n");
+	      backoff(project, "Master file fetch failed\n");
             }
             project = gstate.next_project_master_pending();
             if (project) {
@@ -300,11 +334,7 @@ bool SCHEDULER_OP::poll() {
                     start_rpc();
                 } else {
                     backoff(project,"");
-                    if ((project->nrpc_failures % MASTER_FETCH_PERIOD) == 0) {
-                        project->master_url_fetch_pending = true;
-			project->min_rpc_time = 0;
-			project->nrpc_failures = 0;
-		    }
+		    
                     if (must_get_work) {
                         project = gstate.next_project(project);
                         if (project) {
@@ -331,6 +361,7 @@ bool SCHEDULER_OP::poll() {
                     );
                 }
                 project->nrpc_failures = 0;
+		project->min_rpc_time = 0;
                 gstate.handle_scheduler_reply(project, scheduler_url);
                 if (must_get_work) {
                     double x = gstate.work_needed_secs();
@@ -356,8 +387,8 @@ bool SCHEDULER_OP::poll() {
             }
         }
         if (scheduler_op_done) {
-            project = gstate.next_project_master_pending();
-            if (project) {
+           project = gstate.next_project_master_pending();
+	   if (project) {
 	      init_master_fetch(project);
             } else {
 	        state = SCHEDULER_OP_STATE_IDLE;

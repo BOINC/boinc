@@ -76,7 +76,7 @@ public:
                                 // contact all scheduling servers
     int min_rpc_time;           // earliest time to contact any server
                                 // of this project (or zero)
-
+    int master_fetch_failures;
     // the following items are transient; not saved in state file
     double resource_debt;       // How much CPU time we owe this project
                                 // (arbitrary scale)
