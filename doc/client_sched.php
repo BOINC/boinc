@@ -271,7 +271,7 @@ divided by this host's average processing rate times P.resource_share.
 If S < T
 <ol>
 <li>If S == 0: urgency = NEED_WORK_IMMEDIATELY
-<li>P.work_request = (2T - S) * P.resource_share
+<li>P.work_request = (2T - S) * P.resource_share * average processing rate
 <li>urgency = max(urgency, NEED_WORK)
 </ol>
 <li>
@@ -298,6 +298,7 @@ compute_work_request():
     urgency = 0
 
     foreach project P:
+        project_active_frac = active_frac * P.resource_share
         work_remaining = 0
         results_to_skip = min_results(P) - 1
         P.work_request = 0
@@ -306,13 +307,13 @@ compute_work_request():
             if results_to_skip > 0:
                 results_to_skip--
                 continue
-            work_remaining += E(R)
+            work_remaining += cpu_time(R) / project_active_frac
 
         if P.work_remaining < T:
             if work_remaining == 0:
                 urgency = NEED_WORK_IMMEDIATELY
             P.work_request =
-                (2*T - work_remaining / SECONDS_PER_DAY) * P.resource_share
+                (2*T - work_remaining)*project_active_frac
             urgency = max(NEED_WORK, urgency)
 
     return urgency
