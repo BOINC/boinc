@@ -4485,11 +4485,11 @@ David  June 5 2003
         add.C
 
 Tim    June 5, 2003
-    - Windiws GUI enhancement
+    - bug fix
         fixed "uploading" "downloading" problem
         fixed minor problem with updateGUI
-    - bug fix
         fixed "time of day" suspension check (was parsing XML incorrectly)
+        fixed "website" problem (missing "http://")
 
     client/
         client_state.c

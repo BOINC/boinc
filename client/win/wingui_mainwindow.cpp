@@ -1164,8 +1164,14 @@ PROJECT* CMainWindow::GetProjectFromContextMenu() {
 void CMainWindow::OnCommandProjectWebSite()
 {
 	PROJECT *proj;
+    char url[263] = "";
+
 	proj = GetProjectFromContextMenu();
-	if (proj) ShellExecute(GetSafeHwnd(), "open", proj->master_url, "", "", SW_SHOWNORMAL);
+    if (proj) {
+        if (strncmp(proj->master_url, "http://", 7) != 0)   // ***WARNING*** ASSUMING LOWER-CASE URL
+            sprintf(url, "http://");
+        ShellExecute(GetSafeHwnd(), "open", strcat(url, proj->master_url), "", "", SW_SHOWNORMAL);
+    }
 }
 
 //////////
