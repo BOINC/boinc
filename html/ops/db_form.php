@@ -1,6 +1,6 @@
 <?php
-    require_once("util.inc");
-    require_once("db.inc");
+    require_once("util_ops.inc");
+require_once("db_ops.inc");
 
     db_init();
 
