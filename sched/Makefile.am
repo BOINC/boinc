@@ -16,6 +16,10 @@ noinst_PROGRAMS =                               \
     sample_dummy_assimilator                    \
     sample_bitwise_validator                    \
     sample_trivial_validator                    \
+    get_file					\
+    send_file					\
+    request_file_list				\
+    delete_file					\
     wu_check
 
 noinst_LIBRARIES = libsched.a
@@ -103,6 +107,22 @@ transitioner_LDADD = $(LDADD) $(RSA_LIBS)
 message_handler_SOURCES = message_handler.C
 message_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 message_handler_LDADD = $(LDADD) $(RSA_LIBS)
+
+request_file_list_SOURCES = request_file_list.C
+request_file_list_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+request_file_list_LDADD = $(LDADD) $(RSA_LIBS)
+
+get_file_SOURCES = get_file.C
+get_file_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+get_file_LDADD = $(LDADD) $(RSA_LIBS)
+
+send_file_SOURCES = send_file.C
+send_file_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+send_file_LDADD = $(LDADD) $(RSA_LIBS)
+
+delete_file_SOURCES = delete_file.C
+delete_file_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+delete_file_LDADD = $(LDADD) $(RSA_LIBS)
 
 fcgi_SOURCES =                                  \
     handle_request.C                            \

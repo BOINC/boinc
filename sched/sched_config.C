@@ -58,13 +58,22 @@ int SCHED_CONFIG::parse(char* buf) {
         non_cpu_intensive = true;
     }
     if (match_tag(buf, "<homogeneous_redundancy/>")) {
-        homogeneous_redundancy = true;
+        homogeneous_redundancy  = true;
     }
     if (match_tag(buf, "<msg_to_host/>")) {
         msg_to_host = true;
     }
     if (match_tag(buf, "<ignore_upload_certificates/>")) {
         ignore_upload_certificates = true;
+    }
+    if (match_tag(buf, "<deletion_policy_priority/>")) {
+        deletion_policy_priority = true;
+    }
+    if (match_tag(buf, "<deletion_policy_expire/>")) {
+        deletion_policy_expire = true;
+    }
+    if (match_tag(buf, "<delete_from_self/>")) {
+        delete_from_self = true;
     }
     if (match_tag(buf, "<enforce_delay_bound/>")) {
         enforce_delay_bound = true;
