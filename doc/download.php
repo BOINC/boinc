@@ -60,6 +60,7 @@ function show_414($xml=false) {
     version_start("4.14", "13 Jan 2005", $xml);
     version("Windows", "boinc_4.14_windows_intelx86.exe", $xml);
     version("Linux/x86", "boinc_4.14_i686-pc-linux-gnu.gz", $xml);
+    version("Mac OS X", "boinc_4.14_powerpc-apple-darwin.gz", $xml);
     version("Solaris/SPARC", "boinc_4.14_sparc-sun-solaris2.7.gz", $xml);
     version_end($xml);
 }
