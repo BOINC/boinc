@@ -75,14 +75,39 @@ define("DISK_MIN_FREE_GB_DESC", "Leave at least");
 define("DISK_MAX_USED_PCT_DESC", "Use no more than");
 define("DISK_MAX_USED_PCT_DESC2", "% of total space");
 define("NETWORK_LIMIT_DESC", "Limits on network bandwidth used by BOINC:");
-define("MAX_BYTES_SEC_DOWN_DESC", "Maximum bytes/sec download:");
-define("MAX_BYTES_SEC_UP_DESC", "Maximum bytes/sec upload:");
+define("MAX_BYTES_SEC_DOWN_DESC", "Maximum download rate:");
+define("MAX_BYTES_SEC_UP_DESC", "Maximum upload rate:");
+
+define("BYTE_CONVERSION", 1000.0);
+define("BYTE_UNITS", "Kbytes");
+define("BYTE_ABBR", "KB");
 
 global $text;
 global $parse_result;
 global $top_parse_result;
 global $in_project_specific;
 global $venue_name;
+
+// functions to convert between max_bytes_sec_* as stored in the
+// database and max_bytes_sec_* as displayed/entered on the web
+// pages. Currently max_bytes_sec_* is stored in bytes and
+// displayed/entered in Kbytes.
+//
+function max_bytes_display_mode($db_bytes) {
+    $disp_bytes = 0;
+    if ($db_bytes) {
+        $disp_bytes = $db_bytes / BYTE_CONVERSION;
+    }
+    return $disp_bytes;
+}
+
+function max_bytes_db_mode($disp_bytes) {
+    $db_bytes = 0;
+    if ($disp_bytes) {
+        $db_bytes = $disp_bytes * BYTE_CONVERSION;
+    }
+    return $db_bytes;
+}
 
 // functions to parse preferences XML into a struct
 //
@@ -352,10 +377,12 @@ function prefs_show_global($prefs) {
     row2(DISK_MIN_FREE_GB_DESC, "$prefs->disk_min_free_gb GB");
     row2(DISK_MAX_USED_PCT_DESC, "$prefs->disk_max_used_pct".DISK_MAX_USED_PCT_DESC2);
     row1(NETWORK_LIMIT_DESC);
-    $x = $prefs->max_bytes_sec_down;
-    row2(MAX_BYTES_SEC_DOWN_DESC, $x?"$x":"no limit");
-    $x = $prefs->max_bytes_sec_up;
-    row2(MAX_BYTES_SEC_UP_DESC, $x?"$x":"no limit");
+    $x = max_bytes_display_mode($prefs->max_bytes_sec_down);
+    $y = "$x " . BYTE_ABBR;
+    row2(MAX_BYTES_SEC_DOWN_DESC, $x?"$y":"no limit");
+    $x = max_bytes_display_mode($prefs->max_bytes_sec_up);
+    $y = "$x " . BYTE_ABBR;
+    row2(MAX_BYTES_SEC_UP_DESC, $x?"$y":"no limit");
 }
 
 function prefs_show_resource($prefs) {
@@ -521,15 +548,15 @@ function prefs_form_global($user, $prefs) {
     );
 
     row1(NETWORK_LIMIT_DESC);
-    $d = $prefs->max_bytes_sec_down;
+    $d = max_bytes_display_mode($prefs->max_bytes_sec_down);
     $dt = $d?"$d":"";
-    $u = $prefs->max_bytes_sec_up;
+    $u = max_bytes_display_mode($prefs->max_bytes_sec_up);
     $ut = $u?"$u":"";
     row2(MAX_BYTES_SEC_DOWN_DESC,
-        "<input size=7 name=max_bytes_sec_down value='$dt'>"
+        "<input size=7 name=max_bytes_sec_down value='$dt'> " . BYTE_UNITS
     );
     row2(MAX_BYTES_SEC_UP_DESC,
-        "<input size=7 name=max_bytes_sec_up value='$ut'>"
+        "<input size=7 name=max_bytes_sec_up value='$ut'> " . BYTE_UNITS
     );
 }
 
@@ -645,8 +672,8 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->disk_max_used_gb = $disk_max_used_gb;
     $prefs->disk_max_used_pct = $disk_max_used_pct;
     $prefs->disk_min_free_gb = $disk_min_free_gb;
-    $prefs->max_bytes_sec_down = $max_bytes_sec_down;
-    $prefs->max_bytes_sec_up = $max_bytes_sec_up;
+    $prefs->max_bytes_sec_down = max_bytes_db_mode($max_bytes_sec_down);
+    $prefs->max_bytes_sec_up = max_bytes_db_mode($max_bytes_sec_up);
 }
 
 function prefs_resource_parse_form(&$prefs) {
