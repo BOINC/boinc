@@ -12373,3 +12373,8 @@ Rom    May 18 2004
         proxy.C
         scheduler_op.C
         time_stats.C
+
+Rom    May 18 2004
+    - Tag for 3.05 release, all platforms
+      boinc_core_release_3_05
+
