@@ -12,7 +12,7 @@ a:active {
 
 body , table , input , select {
 	background-color: white;
-	font-family: Verdana, Arial, Sans Serif;
+	font-family: Verdana, Arial, Sans-Serif;
 	font-size: 12px;
 }
 
@@ -31,7 +31,7 @@ td {
 }
 
 td.bordered {
-    border: 1px solid grey;
+    border: 1px solid gray;
 }
 
 td.indent {
