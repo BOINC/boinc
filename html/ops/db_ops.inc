@@ -357,7 +357,7 @@ function show_result_short($result) {
     }
     $version = sprintf("%.2f", $result->client_version_num/100);
     echo "<td>$version</td>";
-    echo "<td nowrap>$received</td>";
+    echo "<td>$received</td>";
     echo "
         </tr>
     ";
