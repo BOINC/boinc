@@ -36,18 +36,18 @@ typedef DIR_DESC *DIRREF;
 #define PATH_SEPARATOR "/"
 #endif
 
-extern DIRREF dir_open(char*);
+extern DIRREF dir_open(const char*);
 extern int dir_scan(char*, DIRREF, int);
 int dir_scan(string&, DIRREF);
 extern void dir_close(DIRREF);
-extern int file_delete(char*);
-extern int file_size(char*, double&);
-extern int clean_out_dir(char*);
-extern int dir_size(char* dirpath, double&);
-extern int boinc_copy(char* orig, char* newf);
-extern int boinc_rename(char* old, char* newf);
-extern int boinc_mkdir(char*);
-extern int boinc_rmdir(char*);
+extern int file_delete(const char*);
+extern int file_size(const char*, double&);
+extern int clean_out_dir(const char*);
+extern int dir_size(const char* dirpath, double&);
+extern int boinc_copy(const char* orig, const char* newf);
+extern int boinc_rename(const char* old, const char* newf);
+extern int boinc_mkdir(const char*);
+extern int boinc_rmdir(const char*);
 #ifdef _WIN32
 extern void full_path(char* relname, char* path);
 #endif

@@ -86,7 +86,7 @@ int is_dir(char* path) {
 
 // Open a directory
 //
-DIRREF dir_open(char* p) {
+DIRREF dir_open(const char* p) {
     DIRREF dirp;
 
 #ifdef HAVE_DIRENT_H
@@ -239,7 +239,7 @@ DirScanner::~DirScanner() {
 
 // Delete the file located at path
 //
-int file_delete(char* path) {
+int file_delete(const char* path) {
     int retval;
 
 #ifdef HAVE_UNISTD_H
@@ -257,7 +257,7 @@ int file_delete(char* path) {
 
 // get file size
 //
-int file_size(char* path, double& size) {
+int file_size(const char* path, double& size) {
     struct stat sbuf;
     int retval;
 
@@ -269,7 +269,7 @@ int file_size(char* path, double& size) {
 
 // removes all files from specified directory
 //
-int clean_out_dir(char* dirpath) {
+int clean_out_dir(const char* dirpath) {
     char filename[256], path[256];
     int retval;
     DIRREF dirp;
@@ -295,7 +295,7 @@ int clean_out_dir(char* dirpath) {
 
 // return total size of files in directory and its subdirectories
 //
-int dir_size(char* dirpath, double& size) {
+int dir_size(const char* dirpath, double& size) {
     char filename[256], subdir[256];
     int retval=0;
     DIRREF dirp;
@@ -325,7 +325,7 @@ int dir_size(char* dirpath, double& size) {
     return 0;
 }
 
-int boinc_copy(char* orig, char* newf) {
+int boinc_copy(const char* orig, const char* newf) {
 #ifdef _WIN32
 	if(CopyFile(orig, newf, FALSE))
 		return 0;
@@ -338,14 +338,14 @@ int boinc_copy(char* orig, char* newf) {
 #endif
 }
 
-int boinc_rename(char* old, char* newf) {
+int boinc_rename(const char* old, const char* newf) {
 #ifdef _WIN32
     unlink(newf);
 #endif
     return rename(old, newf);
 }
 
-int boinc_mkdir(char* name) {
+int boinc_mkdir(const char* name) {
 #ifdef _WIN32
     return CreateDirectory(name, NULL);
 #else
@@ -353,7 +353,7 @@ int boinc_mkdir(char* name) {
 #endif
 }
 
-int boinc_rmdir(char* name) {
+int boinc_rmdir(const char* name) {
 #ifdef _WIN32
     return RemoveDirectory(name);
 #else

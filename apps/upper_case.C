@@ -21,7 +21,6 @@
 // command line options:
 // -run_slow: sleep 1 second after each character, useful for debugging
 // -cpu_time: chew up some CPU cycles after each character,
-//            used for testing CPU time reporting
 // -signal:   raise SIGHUP signal (for testing signal handler)
 // -exit:     exit with status -10 (for testing exit handler)
 //
@@ -69,49 +68,26 @@ double xDelta=0.03, yDelta=0.07;
 #endif
 
 bool run_slow=false, raise_signal=false, random_exit=false;
-int cpu_time=0;
+bool cpu_time=false;
 time_t my_start_time;
 APP_INIT_DATA uc_aid;
 
 int do_checkpoint(MFILE& mf, int nchars) {
     int retval;
-    char resolved_name[512],res_name2[512];
-    FILE *app_time=NULL, *client_time=NULL;
+    string resolved_name;
 
-    if (cpu_time) {
-        app_time = fopen("app.time", "w"),
-        client_time = fopen("client.time", "w");
-        boinc_get_init_data(uc_aid);
-    }
-    boinc_resolve_filename("temp", resolved_name, sizeof(resolved_name));
-    FILE* f = fopen(resolved_name, "w");
+    FILE* f = fopen("temp", "w");
     if (!f) return 1;
     fprintf(f, "%d", nchars);
     fclose(f);
 
     fprintf(stderr, "APP: upper_case checkpointing\n");
 
-    // hopefully atomic part starts here
     retval = mf.flush();
     if (retval) return retval;
-    boinc_resolve_filename(CHECKPOINT_FILE, res_name2, sizeof(res_name2));
-    retval = boinc_rename(resolved_name, res_name2);
+    boinc_resolve_filename(CHECKPOINT_FILE, resolved_name);
+    retval = boinc_rename("temp", resolved_name.c_str());
     if (retval) return retval;
-    // hopefully atomic part ends here
-
-    if (cpu_time) {
-        double cur_cpu;
-        // print our own information about cpu time
-        fprintf(app_time, "%f\n", difftime(time(0), my_start_time));
-        fflush(app_time);
-        fclose(app_time);
-
-        boinc_wu_cpu_time(cur_cpu);
-        // print what the client thinks is our cpu time
-        fprintf(client_time, "%f\n", uc_aid.wu_cpu_time + cur_cpu);
-        fflush(client_time);
-        fclose(client_time);
-    }
 
     return 0;
 }
@@ -211,7 +187,7 @@ int main(int argc, char **argv) {
         if (cpu_time) {
             n = 0;
             j = 3.14159;
-            for(i=0; i<200000; i++) {
+            for (i=0; i<200000; i++) {
                 n++;
                 j *= n+j-3.14159;
                 j /= (float)n;

@@ -7606,3 +7606,12 @@ David  7 Nov 2003
         db_form.php
     sched/
         make_work.C
+
+David  7 Nov 2003
+    - Added const to some char* args (so can use strings)
+    - Removed cruft from upper_case.C
+
+    apps/
+        upper_case.C
+    lib/
+        filesys.C,h
