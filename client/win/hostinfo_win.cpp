@@ -380,8 +380,8 @@ bool HOST_INFO::host_is_running_on_batteries() {
     //   battery is charging or missing and make that part
     //   of the decision.
     bool bIsOnBatteryPower  = (pStatus.ACLineStatus != 1);
-    bool bIsBatteryCharging = (pStatus.BatteryFlag & 8)
-    bool bIsBatteryMissing = (pStatus.BatteryFlag & 128)
+    bool bIsBatteryCharging = ((pStatus.BatteryFlag & 8) == 8);
+    bool bIsBatteryMissing = ((pStatus.BatteryFlag & 128) == 128);
 
 	return (bIsOnBatteryPower && !bIsBatteryCharging && !bIsBatteryMissing);
 }
