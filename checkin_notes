@@ -15463,7 +15463,7 @@ Rom    July 19 2004
     - Tag for 4.01 release, all platforms
       boinc_release_4_01
 
-Eric
+Eric K.	July 20 2004
     - Added cache control headers to the cached php pages to reduce CGI
       load on the web server.  The headers include Last-Modified, Expires,
       and Cache-Control: public, max-age=.  Expiration and max-age are
@@ -15473,6 +15473,10 @@ Eric
       'Last-Modified:'
 
     html/inc/cache.inc
+
+
+
+
 
 Rom    July 19 2004
     - Fix a bug where during the benchmarking process all the active tasks
@@ -15631,3 +15635,32 @@ Jeff  22 July 2004
 
     db/
 	boinc_db.C
+
+Eric K. July 22 2004
+    - Worked a bit more on the caching... Improvements include....
+    	- A parameter file html/project.sample/cache_parameters.inc that
+	  contains the cache TTL values for differing types of files, maximum
+	  cache size and minimum free disk space in the cache directory.
+	- Reducing the cache TTL to 0 for a specific file type results in
+	  caching being turned off for that file type.
+	- The cache now has 256 subdirectories to speed up file open times.
+	- The cache directories will be automatically built if they don't exist
+	  when first called
+	- The cache size is checked every CACHE_SIZE_CHECK_FREQ page accesses.
+	  If the max size or min free space are exceeded, file are purged in
+	  order of age until the cache size is below the cutoff.
+    html/
+    	inc/
+	    cache.inc
+	    profile.inc
+        project.sample/
+	    cache_parameters.inc
+	user/
+	    download.php
+	    hosts_user.php
+	    sample_index.php
+	    show_user.php
+	    team_display.php
+	    top_hosts.php
+	    top_teams.php
+	    top_users.php

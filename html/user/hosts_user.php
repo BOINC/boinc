@@ -21,7 +21,7 @@
             user_host_table_start(false);
         } else {
             echo "Hidden\n";
-	    end_cache($cache_args);
+	    end_cache(USER_PAGE_TTL,$cache_args);
             exit();
         }
         $private = false;
@@ -42,5 +42,5 @@
     mysql_free_result($result);
     echo "</table>\n";
     page_tail();
-    if ($caching) end_cache($cache_args);
+    if ($caching) end_cache(USER_PAGE_TTL,$cache_args);
 ?>

@@ -27,9 +27,50 @@ function get_path($params) {
     return $path;
 }
 
+function disk_usage($dir) {
+   $usage=0;
+   if ($handle=@opendir($dir)) {
+     while ($file=readdir($handle)) {
+       if (($file != ".") && ($file != "..")) {
+         if (@is_dir($dir."/".$file)) {
+	   $usage+=disk_usage($dir."/".$file);
+	 } else {
+	   $usage+=@filesize($dir."/".$file);
+	 }
+       }
+     }
+     @closedir($handle);
+   }
+   return $usage;
+}
+
+function clean_cache($max_age,$dir="../cache") {
+   if ($handle=@opendir($dir)) {
+     while ($file=readdir($handle)) {
+       if (($file != ".") && ($file != "..")) {
+         if (@is_dir($dir."/".$file)) {
+	   clean_cache($max_age,$dir."/".$file);
+	 } else {
+	   if ((time()-@filemtime($file))>$max_age) @unlink($file);
+	 }
+       }
+     }
+     @closedir($handle);
+   }
+} 
+
 function start_cache($max_age, $params=""){
+    $path = get_path($params);
+    // check free disk space every once in a while
+    if (!(rand() % CACHE_SIZE_CHECK_FREQ)) {
+       $too_old=86400;
+       while ((disk_free_space("../cache") < MIN_FREE_SPACE) ||
+           (disk_usage("../cache") > MAX_CACHE_USAGE)) {
+	   clean_cache($too_old);
+	   $too_old/=2;
+       }
+    }
     if ($max_age) {
-      $path = get_path($params);
       $request = getallheaders();
       // Check to see if this is a conditional fetch.
       $lastmodified = @filemtime($path);

@@ -462,7 +462,7 @@ function show_profile($userid, $verify_mode=false) {
     if (!$verify_mode) {
         page_tail();
     }
-    if ($caching) end_cache($cache_args);
+    if ($caching) end_cache(USER_PROFILE_TTL,$cache_args);
 }
 
 function show_profile_summary($user, $profile, $can_edit, $verify_mode) {

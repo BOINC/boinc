@@ -55,7 +55,7 @@
     page_tail();
 
     if ($offset < 1000) {
-        end_cache($cache_args);
+        end_cache(TOP_PAGES_TTL,$cache_args);
     }
 
 } ?>

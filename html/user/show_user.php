@@ -38,5 +38,5 @@
             page_tail();
         }
     }
-    end_cache($cache_args);
+    end_cache(USER_PAGE_TTL,$cache_args);
 ?>

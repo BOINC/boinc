@@ -111,5 +111,5 @@ echo "-->\n";
 
 page_tail(true);
 
-//end_cache();
+//end_cache(INDEX_PAGE_TTL);
 ?>

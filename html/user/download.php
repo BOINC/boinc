@@ -52,5 +52,5 @@ require_once("../inc/download.inc");
         </font>
     ";
     page_tail();
-end_cache();
+end_cache(DOWNLOAD_PAGE_TTL);
 ?>
