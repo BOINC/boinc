@@ -1,19 +1,19 @@
-// The contents of this file are subject to the Mozilla Public License
+// The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/
-//
+// http://boinc.berkeley.edu/license_1.0.txt
+// 
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License.
-//
-// The Original Code is the Berkeley Open Infrastructure for Network Computing.
-//
+// under the License. 
+// 
+// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
+// 
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002, 2003
-// University of California at Berkeley. All Rights Reserved.
-//
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved. 
+// 
 // Contributor(s):
 //
 
@@ -28,20 +28,17 @@
 
 #include "account.h"
 
-inline bool ends_with(string const& s, string const& suffix)
-{
+inline bool ends_with(string const& s, string const& suffix) {
     return
         s.size()>=suffix.size() &&
         s.substr(s.size()-suffix.size()) == suffix;
 }
 
-inline bool starts_with(string const& s, string const& prefix)
-{
+inline bool starts_with(string const& s, string const& prefix) {
     return s.substr(0, prefix.size()) == prefix;
 }
 
-static inline string filename_to_project_dirname(const string& filename)
-{
+static inline string filename_to_project_dirname(const string& filename) {
     assert(starts_with(filename, "account_"));
     assert(ends_with(filename, ".xml"));
     return string(PROJECTS_DIR) + PATH_SEPARATOR + filename.substr(8,filename.size()-12);
@@ -50,10 +47,9 @@ static inline string filename_to_project_dirname(const string& filename)
 // we want to canonicalize filenames to NOT have a trailing _ . However, old
 // clients <=1.03 did not ensure this so we have to rename them when someone
 // upgrades.
-
 // returns true if an error occurred.
-static bool maybe_rename_old_filename_format(string& filename)
-{
+//
+static bool maybe_rename_old_filename_format(string& filename) {
     if (ends_with(filename, "_.xml")) {
         string newfilename = filename.substr(0, filename.length()-5) + ".xml";
         msg_printf(NULL, MSG_INFO, "Renaming %s to %s", filename.c_str(), newfilename.c_str());

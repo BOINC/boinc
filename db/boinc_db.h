@@ -1,19 +1,19 @@
-// The contents of this file are subject to the Mozilla Public License
+// The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/
-//
+// http://boinc.berkeley.edu/license_1.0.txt
+// 
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License.
-//
-// The Original Code is the Berkeley Open Infrastructure for Network Computing.
-//
+// under the License. 
+// 
+// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
+// 
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002, 2003
-// University of California at Berkeley. All Rights Reserved.
-//
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved. 
+// 
 // Contributor(s):
 //
 
@@ -177,11 +177,11 @@ struct HOST {
     double expavg_time;     // last time the above was updated
 
     // all remaining items are assigned by the client
-    int timezone;
+    int timezone;           // hours difference from GMT
     char domain_name[256];
     char serialnum[256];
-    char last_ip_addr[256];
-    int nsame_ip_addr;
+    char last_ip_addr[256]; // IP address as of last RPC
+    int nsame_ip_addr;      // # of RPCs with same IP address
 
     double on_frac;         // Fraction of time (0-1) that BOINC is running
     double connected_frac;  // Fraction of time that host is connected to net
@@ -193,6 +193,7 @@ struct HOST {
     double p_fpops;         // measured floating point ops/sec of CPU
     double p_iops;          // measured integer ops/sec of CPU
     double p_membw;         // measured memory bandwidth (bytes/sec) of CPU
+                            // The above are per CPU, not total
     double p_calculated;    // when the above were calculated
 
     char os_name[256];      // Name of operating system
