@@ -36,7 +36,7 @@ if ($category->is_helpdesk) {
 
 // TODO: Constant for default sort style and filter values.
 if ($sort_style == NULL) {
-    $sort_style = "date-old";
+    $sort_style = "timestamp";
 }
 
 $is_subscribed = false;

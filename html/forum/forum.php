@@ -29,11 +29,11 @@ $category = getCategory($forum->category);
 if ($category->is_helpdesk) {
     page_head('Help Desk');
     $sort_style = $_GET['sort'];
-    if (!sort_style) $sort_style = 'sufferers';
+    if (!$sort_style) $sort_style = 'sufferers';
 } else {
     page_head('Message boards : '.$forum->title);
     $sort_style = $_GET['sort'];
-    if (!sort_style) $sort_style = 'modified-new';
+    if (!$sort_style) $sort_style = 'modified-new';
 }
 
 echo "

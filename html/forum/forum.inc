@@ -192,7 +192,7 @@ function createThread($forumID, $ownerID, $title, $content) {
     $title = addslashes(sanitize_html($title));
     $content = addslashes(sanitize_html($content));
 
-    $sql = "INSERT INTO thread (forum, owner, title, create_time) VALUES (" . $forumID . ", " . $ownerID . ", '" . $title . "', time())";
+    $sql = "INSERT INTO thread (forum, owner, title, create_time) VALUES (" . $forumID . ", " . $ownerID . ", '" . $title . "', UNIX_TIMESTAMP())";
     $result = mysql_query($sql);
     if (!$result) return false;
     $threadID = mysql_insert_id();
