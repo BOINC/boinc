@@ -224,7 +224,7 @@ protected:
 	afx_msg void			OnCommandFileClose();
 	afx_msg void			OnCommandStatusIconHide();
 	afx_msg void			OnCommandStatusIconQuit();
-	afx_msg void			OnCommandStatusIconSuspend();
+	afx_msg void			OnCommandSuspend();
     afx_msg int				OnCreate(LPCREATESTRUCT);
 	afx_msg BOOL			OnNotify(WPARAM, LPARAM, LRESULT*);
     afx_msg void			OnPaint();
@@ -248,6 +248,7 @@ public:
 
 protected:
 	afx_msg void			OnOK();
+	afx_msg BOOL			OnToolTipNotify(UINT, NMHDR*, LRESULT*);
 	DECLARE_MESSAGE_MAP()
 };
 
@@ -264,12 +265,13 @@ public:
 
 protected:
 	afx_msg void			OnOK();
+	afx_msg BOOL			OnToolTipNotify(UINT, NMHDR*, LRESULT*);
 	DECLARE_MESSAGE_MAP()
 };
 
 // globals
 
-extern CMyApp myApp;
+extern CMyApp g_myApp;
 extern CMainWindow* g_myWnd;
 
 #endif

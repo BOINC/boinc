@@ -24,7 +24,7 @@
 // globals
 
 CMainWindow* g_myWnd = NULL;
-CMyApp myApp;
+CMyApp g_myApp;
 
 #define STATUS_ICON_ID		(WM_USER + 1)
 
@@ -967,12 +967,13 @@ BOOL CMyApp::InitInstance()
 BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_WM_CLOSE()
     ON_COMMAND(ID_FILE_CLOSE, OnCommandFileClose)
+    ON_COMMAND(ID_FILE_SUSPEND, OnCommandSuspend)
     ON_COMMAND(ID_ACCT_LOGIN, OnCommandAccountLogin)
     ON_COMMAND(ID_ACCT_QUIT, OnCommandAccountQuit)
     ON_COMMAND(ID_HELP_ABOUT, OnCommandHelpAbout)
     ON_COMMAND(ID_STATUSICON_HIDE, OnCommandStatusIconHide)
     ON_COMMAND(ID_STATUSICON_QUIT, OnCommandStatusIconQuit)
-    ON_COMMAND(ID_STATUSICON_SUSPEND, OnCommandStatusIconSuspend)
+    ON_COMMAND(ID_STATUSICON_SUSPEND, OnCommandSuspend)
     ON_WM_CREATE()
     ON_WM_PAINT()
     ON_WM_SIZE()
@@ -988,8 +989,8 @@ END_MESSAGE_MAP()
 CMainWindow::CMainWindow()
 {
 	// register window class
-    CString strWndClass = AfxRegisterWndClass (0, myApp.LoadStandardCursor(IDC_ARROW),
-        (HBRUSH)(COLOR_3DFACE+1), myApp.LoadIcon(IDI_ICON));
+    CString strWndClass = AfxRegisterWndClass (0, g_myApp.LoadStandardCursor(IDC_ARROW),
+        (HBRUSH)(COLOR_3DFACE+1), g_myApp.LoadIcon(IDI_ICON));
 
 	// create and position window
     CreateEx(0, strWndClass, "BOINC", WS_OVERLAPPEDWINDOW|WS_EX_OVERLAPPEDWINDOW,
@@ -1159,6 +1160,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		FILE_XFER* fi = (FILE_XFER*)m_XferListCtrl.GetItemData(i);
 		if(!fi) {
 			m_XferListCtrl.SetItemProgress(i, 2, 100);
+			m_XferListCtrl.SetItemText(i, 3, "Completed");
 			continue;
 		}
 
@@ -1172,7 +1174,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		m_XferListCtrl.SetItemProgress(i, 2, 100 * (fi->nbytes_xfered / fi->fip->nbytes));
 
 		// progress
-		buf.Format("%0.0f/%0.0f", fi->nbytes_xfered, fi->fip->nbytes);
+		buf.Format("%0.0f/%0.0fKB", fi->nbytes_xfered / 1024, fi->fip->nbytes / 1024);
 		m_XferListCtrl.SetItemText(i, 3, buf.GetBuffer(0));
 
 		// direction
@@ -1280,14 +1282,14 @@ void CMainWindow::SetStatusIcon(DWORD dwMessage)
 		icon_data.hIcon = NULL;
 		Shell_NotifyIcon(NIM_DELETE, &icon_data);
 	} else if(dwMessage == ICON_NORMAL) {
-		icon_data.hIcon = myApp.LoadIcon(IDI_ICON);
+		icon_data.hIcon = g_myApp.LoadIcon(IDI_ICON);
 		if(m_IconState == ICON_OFF) {
 			Shell_NotifyIcon(NIM_ADD, &icon_data);
 		} else {
 			Shell_NotifyIcon(NIM_MODIFY, &icon_data);
 		}
 	} else if(dwMessage == ICON_HIGHLIGHT) {
-		icon_data.hIcon = myApp.LoadIcon(IDI_ICONHIGHLIGHT);
+		icon_data.hIcon = g_myApp.LoadIcon(IDI_ICONHIGHLIGHT);
 		if(m_IconState == ICON_OFF) {
 			Shell_NotifyIcon(NIM_ADD, &icon_data);
 		} else {
@@ -1617,18 +1619,30 @@ void CMainWindow::OnCommandStatusIconQuit()
 }
 
 //////////
-// CMainWindow::OnCommandStatusIconSuspend
+// CMainWindow::OnCommandSuspend
 // arguments:	void
 // returns:		void
 // function:	suspends or unsuspends the window
-void CMainWindow::OnCommandStatusIconSuspend()
+void CMainWindow::OnCommandSuspend()
 {
+	CMenu* mainMenu;
+	CMenu* fileMenu;
+	mainMenu = GetMenu();
+	if(mainMenu) {
+		fileMenu = mainMenu->GetSubMenu(0);
+	}
 	if(m_Suspend) {
-		gstate.user_idle = false;
+		gstate.suspend_requested = false;
 		m_Suspend = false;
+		if(fileMenu) {
+			fileMenu->CheckMenuItem(ID_FILE_SUSPEND, MF_UNCHECKED);
+		}
 	} else {
-		gstate.user_idle = false;
+		gstate.suspend_requested = true;
 		m_Suspend = true;
+		if(fileMenu) {
+			fileMenu->CheckMenuItem(ID_FILE_SUSPEND, MF_CHECKED);
+		}
 	}
 }
 
@@ -1933,7 +1947,9 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 			submenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
 			menu.DestroyMenu();
 		} else if(lParam == WM_LBUTTONDOWN) {
-			SetForegroundWindow();
+			if(IsWindowVisible()) {
+				SetForegroundWindow();
+			}
 		} else if(lParam == WM_LBUTTONDBLCLK) {
 			if(IsWindowVisible()) {
 				ShowWindow(SW_HIDE);
@@ -1951,6 +1967,8 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 
 BEGIN_MESSAGE_MAP(CLoginDialog, CDialog)
     ON_BN_CLICKED(IDOK, OnOK)
+	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
+	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 //////////
@@ -1973,6 +1991,7 @@ BOOL CLoginDialog::OnInitDialog()
 	CWnd* toFocus = GetDlgItem(IDC_LOGIN_URL);
 	if(toFocus) toFocus->SetFocus();
     CenterWindow();
+	EnableToolTips(TRUE);
     return FALSE;
 }
 
@@ -1988,11 +2007,48 @@ void CLoginDialog::OnOK()
     CDialog::OnOK();
 }
 
+//////////
+// CLoginDialog::OnToolTipNotify
+// arguments:	id: id of the window, actually its hwnd
+//				pNMHDR: pointer to notification message header
+//				pResult: pointer to result of notification
+// returns:		true if the notification is processed, otherwise false
+// function:	handles notifications of tool tips by filling in 
+//				text for tool tips
+BOOL CLoginDialog::OnToolTipNotify(UINT id, NMHDR *pNMHDR, LRESULT *pResult)
+{
+	// need to handle both ANSI and UNICODE versions of the message
+	TOOLTIPTEXTA* pTTTA = (TOOLTIPTEXTA*)pNMHDR;
+	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+	CString strTipText;
+	UINT nID = pNMHDR->idFrom;
+	if(pNMHDR->code == TTN_NEEDTEXTA && (pTTTA->uFlags & TTF_IDISHWND) ||
+		pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND)) {
+
+		// idFrom is actually the HWND of the tool
+		nID = ::GetDlgCtrlID((HWND)nID);
+	}
+
+	if(nID == IDC_LOGIN_URL) strTipText.Format("The url for the website of the project.");
+	if(nID == IDC_LOGIN_AUTH) strTipText.Format("The authorization code recieved in your confirmation email.");
+	if(pNMHDR->code == TTN_NEEDTEXTA) {
+		lstrcpyn(pTTTA->szText, strTipText, sizeof(pTTTA->szText));
+	} else {
+		_mbstowcsz(pTTTW->szText, strTipText, sizeof(pTTTW->szText));
+	}
+	*pResult = 0;
+
+    // message was handled
+	return TRUE;
+}
+
 /////////////////////////////////////////////////////////////////////////
 // CQuitDialog message map and member functions
 
 BEGIN_MESSAGE_MAP(CQuitDialog, CDialog)
     ON_BN_CLICKED(IDOK, OnOK)
+	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
+	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 //////////
@@ -2015,11 +2071,16 @@ BOOL CQuitDialog::OnInitDialog()
 	CListBox* List = (CListBox*)GetDlgItem(IDC_LIST);
 	if(List) {
 		for(int i = 0; i < gstate.projects.size(); i ++) {
-			List->AddString(gstate.projects[i]->project_name);
+			if(!strcmp(gstate.projects[i]->project_name, "")) {
+				List->AddString(gstate.projects[i]->master_url);
+			} else {
+				List->AddString(gstate.projects[i]->project_name);
+			}
 		}
 		List->SetFocus();
 	}
     CenterWindow();
+	EnableToolTips(TRUE);
     return TRUE;
 }
 
@@ -2038,4 +2099,38 @@ void CQuitDialog::OnOK()
 	}
     if(m_sel >= 0) CDialog::OnOK();
 	else CDialog::OnCancel();
+}
+
+//////////
+// CQuitDialog::OnToolTipNotify
+// arguments:	id: id of the window, actually its hwnd
+//				pNMHDR: pointer to notification message header
+//				pResult: pointer to result of notification
+// returns:		true if the notification is processed, otherwise false
+// function:	handles notifications of tool tips by filling in 
+//				text for tool tips
+BOOL CQuitDialog::OnToolTipNotify(UINT id, NMHDR *pNMHDR, LRESULT *pResult)
+{
+	// need to handle both ANSI and UNICODE versions of the message
+	TOOLTIPTEXTA* pTTTA = (TOOLTIPTEXTA*)pNMHDR;
+	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+	CString strTipText;
+	UINT nID = pNMHDR->idFrom;
+	if(pNMHDR->code == TTN_NEEDTEXTA && (pTTTA->uFlags & TTF_IDISHWND) ||
+		pNMHDR->code == TTN_NEEDTEXTW && (pTTTW->uFlags & TTF_IDISHWND)) {
+
+		// idFrom is actually the HWND of the tool
+		nID = ::GetDlgCtrlID((HWND)nID);
+	}
+
+	if(nID == IDC_LIST) strTipText.Format("Select the project you wish to quit.");
+	if(pNMHDR->code == TTN_NEEDTEXTA) {
+		lstrcpyn(pTTTA->szText, strTipText, sizeof(pTTTA->szText));
+	} else {
+		_mbstowcsz(pTTTW->szText, strTipText, sizeof(pTTTW->szText));
+	}
+	*pResult = 0;
+
+    // message was handled
+	return TRUE;
 }
