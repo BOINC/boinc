@@ -21671,3 +21671,27 @@ David  20 Dec 2004
         sample_dummy_assimilator.C
         sched_util.C
         validate_util.C
+
+David  20 Dec 2004
+    - modify scheduler to handle bad host IDs gracefully.
+        E.g.: it a project accidentally deletes its host table,
+        things will eventually return to normal without
+        users having to detach/reattach
+
+        Old logic:
+        look up host based on request.hostid
+        look up user based on host.userid
+        if user.authenticator != request.authenticator
+            send error message and delay request
+
+        New logic:
+        look up host based on request.hostid
+           If not found, create new host record and return its ID
+        look up user based on request.authenticator
+        if no such user
+           send error message and delay request
+        if host.userid != user.id
+           create new host record and return its ID
+
+    sched/
+        handle_request.C

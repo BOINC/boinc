@@ -34,7 +34,7 @@ If assimilate_handler() returns zero,
 the workunit record will be marked as assimilated.
 If assimilate_handler() returns nonzero,
 the assimilator will print an error message and exit.
-Typically you should do this in any error situation.
+Typically you should return any recoverable error.
 <p>
 You can use BOINC's
 <a href=backend_util.php>back-end utility functions</a>

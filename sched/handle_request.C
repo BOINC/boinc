@@ -80,23 +80,13 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
         reply.host = host;
 
-        retval = user.lookup_id(reply.host.userid);
+        strlcpy(
+            user.authenticator, sreq.authenticator,
+            sizeof(user.authenticator)
+        );
+        sprintf(buf, "where authenticator='%s'", user.authenticator);
+        retval = user.lookup(buf);
         if (retval) {
-            // this should never happen - means inconsistent DB
-            //
-            strcpy(reply.message, "Can't find user record");
-            strcpy(reply.message_priority, "low");
-            reply.request_delay = 3600;
-            reply.nucleus_only = true;
-            log_messages.printf(
-                SCHED_MSG_LOG::NORMAL,
-                "[HOST#%d] [USER#%d?] can't find user record\n",
-                host.id, reply.host.userid
-            );
-            return retval;
-        }
-        reply.user = user;
-        if (strcmp(sreq.authenticator, reply.user.authenticator)) {
             strcpy(reply.message,
                "Invalid or missing account key.  "
                "Visit this project's web site to get an account key."
@@ -111,6 +101,20 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
             return ERR_AUTHENTICATOR;
         }
+        reply.user = user;
+
+        if (host.userid != user.id) {
+            // If the request's host ID isn't consistent with the authenticator,
+            // create a new host record.
+            //
+            log_messages.printf(
+                SCHED_MSG_LOG::NORMAL,
+                "[HOST#%d] [USER#%d] inconsistent host ID; creating new host\n",
+                host.id, user.id
+            );
+            goto make_new_host;
+        }
+
 
         // If the seqno from the host is less than what we expect,
         // the user must have copied the state file to a different host.
@@ -131,7 +135,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // here no hostid was given; we'll have to create a new host record
         //
 lookup_user_and_make_new_host:
-        strncpy(
+        strlcpy(
             user.authenticator, sreq.authenticator,
             sizeof(user.authenticator)
         );
