@@ -8,8 +8,8 @@ list_start();
 list_item("Chinese",
     "<a href=http://www.equn.com/boinchina>www.equn.com/boinchina</a>"
 );
-list_item("Estonian",
-    "<a href=http://boinc.tmac.pri.ee>boinc.tmac.pri.ee</a>"
+list_item("Czech",
+    "<a href=http://www.boinc.cz/>www.boinc.cz</a>"
 );
 list_item("Danish",
     "<a href=http://setiboinc.dk>setiboinc.dk</a>
@@ -18,6 +18,9 @@ list_item("Danish",
 );
 list_item("Dutch",
     "<a href=http://www.seti-nl.org/content.php?c=boinc_berkeley_main>www.seti-nl.org</a>"
+);
+list_item("Estonian",
+    "<a href=http://boinc.tmac.pri.ee>boinc.tmac.pri.ee</a>"
 );
 list_item("Finnish",
     "<a href=http://www.universe-examiners.org/boinc_faq.php>Universe Examiners</a>"
@@ -38,9 +41,9 @@ list_item("Japanese",
 list_item("Russian",
     "<a href=http://www.boinc.narod.ru>www.boinc.narod.ru</a>"
 );
-list_item("Serbian",
-    "<a href=http://www.boincatserbia.co.sr/>BOINC@Serbia</a>"
-);
+//list_item("Serbian",
+//    "<a href=http://www.boincatserbia.co.sr/>BOINC@Serbia</a>"
+//);
 list_item("Spanish",
     "<a href=http://members.lycos.co.uk/boincspain/>BOINC España</a>"
 );

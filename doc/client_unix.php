@@ -33,7 +33,9 @@ list_item("-reset_project URL",
 );
 
 list_item("-update_prefs URL",
-    "Contact a project's server to obtain new preferences."
+    "Contact a project's server to obtain new preferences.
+    This will also report completed results
+    and get new work if needed."
 );
 
 list_item("-run_cpu_benchmarks",

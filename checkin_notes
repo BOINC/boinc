@@ -13836,3 +13836,21 @@ David  16 June 2004
 Rom    June 16 2004
     - Tag for 3.10 release, all platforms
       boinc_core_release_3_10
+
+David  17 June 2004
+    - Change the way we get local host's domain name on UNIX:
+        instead of gethostbyname()
+        (which has nightmarish linkage problems that no one quite understands)
+        use "ping", which we assume exists on all UNIX systems,
+        and parse its output
+    - Allow Python scripts to access remote databases
+        (courtesy of Carl C.)
+
+    client/
+        gui_rpc_server.C
+        hostinfo_network.C,h
+        hostinfo_unix.C
+        win/
+            hostinfo_win.cpp
+    py/Boinc/
+        database.py

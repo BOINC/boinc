@@ -199,7 +199,7 @@ void handle_get_messages(char* buf, MIOFILE& fout) {
         iter++, j++
     ) {
         MESSAGE_DESC* mdp = *iter;
-        if (seqno && mdp->seqno < seqno) break;
+        if (mdp->seqno <= seqno) break;
         fout.printf(
             "<msg>\n"
             " <pri>%d</pri>\n"

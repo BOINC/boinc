@@ -318,8 +318,9 @@ int HOST_INFO::get_host_info() {
 	WSAStartup(wVersionRequested, &wsdata);
 
 	// Get host name/ip info
-    get_local_domain_name(domain_name, sizeof(domain_name));
-    get_local_ip_addr_str(ip_addr, sizeof(ip_addr));
+    get_local_network_info(
+        domain_name, sizeof(domain_name), ip_addr, sizeof(ip_addr)
+    );
 
 	// Close the WinSock dll
 	WSACleanup();

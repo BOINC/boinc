@@ -44,53 +44,75 @@
 
 #include "util.h"
 #include "parse.h"
+#include "file_names.h"
 #include "client_msgs.h"
 #include "error_numbers.h"
 
 #include "hostinfo.h"
 
-// Returns the domain of the local host
+// get domain name and IP address of this host
 //
-int get_local_domain_name(char* p, int len) {
+int get_local_network_info(
+    char* domain_name, int domlen, char* ip_addr, int iplen
+) {
+#ifdef _WIN32
     char buf[256];
 
     if (gethostname(buf, 256)) return ERR_GETHOSTBYNAME;
     struct hostent* he = gethostbyname(buf);
     if (!he) return ERR_GETHOSTBYNAME;
-    safe_strncpy(p, he->h_name, len);
-    return 0;
-}
+    safe_strncpy(domain_name, he->h_name, domlen);
 
-// Get the IP address of the local host
-//
-static int get_local_ip_addr(struct in_addr& addr) {
-#if HAVE_NETDB_H || _WIN32
-    char buf[256];
     if (gethostname(buf, 256)) {
         msg_printf(NULL, MSG_ERROR, "get_local_ip_addr(): gethostname failed\n");
         return ERR_GETHOSTNAME;
     }
+
+    struct in_addr addr;
     struct hostent* he = gethostbyname(buf);
     if (!he || !he->h_addr_list[0]) {
         msg_printf(NULL, MSG_ERROR, "get_local_ip_addr(): gethostbyname failed\n");
         return ERR_GETHOSTBYNAME;
     }
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
-    return 0;
-#elif
-    GET IP ADDR NOT IMPLEMENTED
-#endif
-}
 
-// Get the IP address as a string
+    strcpy(ip_addr, "");
+    safe_strncpy(ip_addr, inet_ntoa(addr), iplen);
+    return 0;
+#else
+
+// gethostbyname() is a linkage nightmare on UNIX systems (go figure)
+// so use a kludge instead: run ping and parse the output
+// should be "PING domainname (ipaddr) ..."
 //
-int get_local_ip_addr_str(char* p, int len) {
+    char hostname[256];
+    char buf[256];
     int retval;
-    struct in_addr addr;
 
-    strcpy(p, "");
-    retval = get_local_ip_addr(addr);
+    if (gethostname(hostname, 256)) return ERR_GETHOSTBYNAME;
+    sprintf(buf, "ping -c 1 %s > %s", hostname, TEMP_FILE_NAME);
+    retval = system(buf);
     if (retval) return retval;
-    safe_strncpy(p, inet_ntoa(addr), len);
+    FILE* f = fopen(TEMP_FILE_NAME, "r");
+    if (!f) return ERR_FOPEN;
+    fgets(buf, 256, f);
+    fclose(f);
+    char *p, *q;
+    p = strchr(buf, ' ');
+    if (!p) return ERR_NULL;
+    p++;
+    q = strchr(p, ' ');
+    if (!q) return ERR_NULL;
+    *q = 0;
+    safe_strncpy(domain_name, p, domlen);
+    q++;
+    p = strchr(q, '(');
+    if (!p) return ERR_NULL;
+    p++;
+    q = strchr(p, ')');
+    if (!q) return ERR_NULL;
+    *q = 0;
+    safe_strncpy(ip_addr, p, iplen);
     return 0;
+#endif
 }

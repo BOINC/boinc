@@ -89,8 +89,6 @@ list_item("error_mask",
 list_end();
 echo "
 
-</ul>
-
 Workunit invariants:
 <ul>
 <li> eventually either canonical_resultid or error_mask is set
