@@ -302,10 +302,10 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
 		    // progress
 		    if(!at) {
-                if (m_ResultListCtrl.GetItemProgress(i, 4) != 0)
+//                if (m_ResultListCtrl.GetItemProgress(i, 4) != 0)
 	    		    m_ResultListCtrl.SetItemProgress(i, 4, 0);
 		    } else {	
-                if (m_ResultListCtrl.GetItemProgress(i, 4) != at->fraction_done * 100)
+//                if (m_ResultListCtrl.GetItemProgress(i, 4) != at->fraction_done * 100)
     			    m_ResultListCtrl.SetItemProgress(i, 4, at->fraction_done * 100);
 		    }
 
@@ -382,7 +382,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		    if (pfx->fxp) {
 			    xSent = pfx->fxp->bytes_xferred;
 		    }
-            if (m_XferListCtrl.GetItemProgress(i, 2) != 100 * xSent / pfx->fip->nbytes)
+//            if (m_XferListCtrl.GetItemProgress(i, 2) != 100 * xSent / pfx->fip->nbytes)
 		        m_XferListCtrl.SetItemProgress(i, 2, 100 * xSent / pfx->fip->nbytes);
 
 		    // size
