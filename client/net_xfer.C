@@ -119,7 +119,7 @@ int NET_XFER::get_ip_addr( char *hostname, int &ip_addr ) {
 
 #else
 
-        switch (h_errno()) {
+        switch (h_errno) {
         case HOST_NOT_FOUND:
             sprintf(msg+n, "(authoritative answer not found)");
             break;
