@@ -1245,6 +1245,7 @@ int RPC_CLIENT::get_run_mode(int& mode) {
 
     mode = -1;
     while (rpc.fin.fgets(buf, 256)) {
+        if (match_tag(buf, "</run_mode>")) break;
         if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) mode = RUN_MODE_ALWAYS;
         if (match_tag(buf, mode_name(RUN_MODE_NEVER))) mode = RUN_MODE_NEVER;
         if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;
@@ -1275,6 +1276,7 @@ int RPC_CLIENT::get_network_mode(int& mode) {
 
     mode = -1;
     while (rpc.fin.fgets(buf, 256)) {
+        if (match_tag(buf, "</network_mode>")) break;
         if (match_tag(buf, mode_name(RUN_MODE_ALWAYS))) mode = RUN_MODE_ALWAYS;
         if (match_tag(buf, mode_name(RUN_MODE_NEVER))) mode = RUN_MODE_NEVER;
         if (match_tag(buf, mode_name(RUN_MODE_AUTO))) mode = RUN_MODE_AUTO;

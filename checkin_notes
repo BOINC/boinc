@@ -23438,3 +23438,12 @@ Rom    29 Jan 2005
         ViewResources.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+
+Rom    29 Jan 2005
+    - We had an interesting crash condition where the GUI would crash while
+      requesting for a run mode update, aparently the core client has some
+      junk appended to the end of the RPC, so this allows the cliet-side
+      code to deal with this condition.
+
+    lib/
+        gui_rpc_client.C
