@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 #include "gui_titles.h"
 
 // TODO: the code is riddles with constants that are indices
@@ -53,3 +52,9 @@ char g_szMiscItems[MAX_MISC_STR][256] = {
     "Suspended",
     "Paused"
 };
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

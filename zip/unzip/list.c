@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-2001 Info-ZIP.  All rights reserved.
 
@@ -670,3 +669,9 @@ void fnprint(__G)    /* print filename (after filtering) and newline */
     (*G.message)((zvoid *)&G, (uch *)"\n", 1L, 0);
 
 } /* end function fnprint() */
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-2001 Info-ZIP.  All rights reserved.
 
@@ -812,3 +811,9 @@ time_t mkgmtime(tm)
 }
 
 #endif /* __timezone_c */
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

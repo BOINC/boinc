@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // $Id$
 //
 // The contents of this file are subject to the BOINC Public License
@@ -125,3 +124,9 @@ const char * boinc_signal_operation_exception::ErrorMessage() {
 long         boinc_signal_operation_exception::ErrorValue() {
     return ERR_SIGNAL_OP;
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

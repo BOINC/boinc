@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // $Id$
 //
 // The contents of this file are subject to the BOINC Public License
@@ -926,3 +925,9 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
     return 0;
 }
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-2000 Info-ZIP.  All rights reserved.
 
@@ -582,3 +581,9 @@ local int testkey(__G__ h, key)
 int zcr_dummy;
 
 #endif /* ?CRYPT */
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // $Id$
 //
 // The contents of this file are subject to the BOINC Public License
@@ -1795,3 +1794,8 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 	BOINCTRACE(_T("IsConfigStartupBOINC: Returning '%d'\n"), bRetVal);
 	return bRetVal;
 }
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-1999 Info-ZIP.  All rights reserved.
 
@@ -2289,3 +2288,9 @@ nextarg: ;
   RETURN(finish(o ? ZE_OPEN : ZE_OK));
 }
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

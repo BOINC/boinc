@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-1999 Info-ZIP.  All rights reserved.
 
@@ -919,3 +918,9 @@ printf("\n%16s [%c%c%c%c]  [%c%c%c%c]",Fork,
     MacZip.fpb.hFileInfo.ioFlFndrInfo.fdCreator >> 8,
     MacZip.fpb.hFileInfo.ioFlFndrInfo.fdCreator);
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

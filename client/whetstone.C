@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
 *     C/C++ Whetstone Benchmark Single or Double Precision
 *
@@ -268,3 +267,9 @@ void whetstone(double& flops) {
     // convert from thousands of instructions a second to instructions a second.
     flops = KIPS*1000.0;
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -559,3 +558,9 @@ int CLIENT_STATE::write_file_transfers_gui(MIOFILE& f) {
 
     return 0;
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

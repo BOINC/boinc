@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
 These functions are based on Jim Luther's IterateDirectory() found in MoreFiles
 However, it's heavily modified by Dirk Haase
@@ -441,3 +440,9 @@ if ( (Globals->cPB.hFileInfo.ioFlAttrib & ioDirMask) != 0 )
     ProcessDirectory(Globals,IncludeItem, DirID);
     } /* Is it a directory? */
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

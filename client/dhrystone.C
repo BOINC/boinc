@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
 *************************************************************************
 *
@@ -241,3 +240,9 @@ void Proc_5(DS_DATA& dd)
         Bool_Glob = FALSE;
 }
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

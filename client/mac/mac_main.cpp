@@ -957,3 +957,9 @@ void create_curtain() {
 
 void project_add_failed(PROJECT* project) {
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // $Id$
 //
 // The contents of this file are subject to the BOINC Public License
@@ -546,3 +545,9 @@ int get_filesystem_info(double &total_space, double &free_space) {
 #endif
     return 0;
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

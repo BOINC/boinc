@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
  * susp.c
  *
@@ -372,3 +371,9 @@ main (int argc, char *argv[])
 
     pthread_exit (NULL);        /* Let threads finish */
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

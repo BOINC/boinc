@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 #define DIRREF long
 
 #include "config.h"
@@ -29,3 +28,9 @@ int main()
    return retval;
 }
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

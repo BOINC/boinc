@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // $Id$
 //
 // The contents of this file are subject to the BOINC Public License
@@ -100,3 +99,9 @@ bool CDlgConnection::ShowToolTips()
     return TRUE;
 }
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

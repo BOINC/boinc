@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /////////////////////////////////////////////////////////////////////////
 // File:        taskbar.cpp
 // Purpose:     Implements wxTaskBarIconEx class for manipulating icons on
@@ -406,3 +405,9 @@ LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam
         return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

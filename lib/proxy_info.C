@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
@@ -74,3 +73,9 @@ void PROXY_INFO::clear() {
     strcpy(http_user_passwd, "");
     socks_version = 0;
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

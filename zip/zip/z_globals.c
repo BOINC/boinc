@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-1999 Info-ZIP.  All rights reserved.
 
@@ -94,4 +93,10 @@ unsigned icount = 0;            /* number of include only patterns */
 
 #ifdef IZ_CHECK_TZ
 int zp_tz_is_valid;     /* signals "timezone info is available" */
+#endif
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
 #endif

@@ -20875,3 +20875,8 @@ David  7 Dec 2004
         tools.py
     tools/
         update_versions
+
+Bruce 7 Dec 2004
+    - Moved RCSID tags to END of all .c .C and .cpp files, as per
+      David's request.
+

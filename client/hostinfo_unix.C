@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -575,3 +574,9 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
         ;
 }
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

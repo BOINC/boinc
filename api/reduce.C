@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // Copyright 2003 Regents of the University of California
 
 // SETI_BOINC is free software; you can redistribute it and/or modify it under
@@ -860,3 +859,9 @@ void REDUCED_ARRAY::draw_labels() {
 
 	ortho_done();
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

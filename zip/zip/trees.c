@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-1999 Info-ZIP.  All rights reserved.
 
@@ -1363,3 +1362,9 @@ local void copy_block(block, len, header)
 }
 
 #endif /* !USE_ZLIB */
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

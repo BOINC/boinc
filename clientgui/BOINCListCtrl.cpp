@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // $Id$
 //
 // The contents of this file are subject to the BOINC Public License
@@ -160,3 +159,9 @@ wxListItemAttr* CBOINCListCtrl::OnGetItemAttr( long item ) const
     return m_pParentView->FireOnListGetItemAttr( item );
 }
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

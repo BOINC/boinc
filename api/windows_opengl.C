@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // Event loop and support functions for Windows versions
 // of BOINC applications w/ graphics.
 // Platform-independent code should NOT be here.
@@ -434,3 +433,9 @@ void win_graphics_event_loop() {
 	SetEvent(hQuitEvent);		// Signal the worker thread that we're quitting
 }
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

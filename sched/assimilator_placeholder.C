@@ -3,7 +3,6 @@
 // replace it with your own code and then 'make' in this Directory
 // will build it.
 
-static volatile const char *BOINCrcsid="$Id$";
 
 
 // The contents of this file are subject to the BOINC Public License
@@ -63,3 +62,9 @@ void assimilate_handler(
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "[%s] Error: too many success results\n", wu.name);
     }
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-2002 Info-ZIP.  All rights reserved.
 
@@ -1525,3 +1524,9 @@ static void qlfix(__G__ ef_ptr, ef_len)
     }
 }
 #endif /* QLZIP */
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

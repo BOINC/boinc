@@ -1063,3 +1063,9 @@ BOOL CProgressListCtrl::OnCommand(WPARAM wParam, LPARAM lParam)
 	SwapColumnVisibility(wParam);
 	return CListCtrl::OnCommand(wParam, lParam);
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

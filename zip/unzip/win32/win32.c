@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-2002 Info-ZIP.  All rights reserved.
 
@@ -2755,3 +2754,9 @@ int getch_win32(void)
   return ret;
 }
 #endif /* !WINDLL */
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

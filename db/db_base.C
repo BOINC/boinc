@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -337,3 +336,9 @@ void unescape_string(char* p, int /*len*/) {
     }
 }
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

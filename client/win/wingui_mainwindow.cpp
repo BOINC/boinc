@@ -2287,3 +2287,9 @@ void guiOnBenchmarksEnd()
     g_myWnd->OnBenchmarksEnd();
 }
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

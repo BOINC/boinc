@@ -312,3 +312,9 @@ bool boinc_filelist(const std::string directory,
     std::sort(pList->begin(), pList->end());  // may as well sort it?
     return true;
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

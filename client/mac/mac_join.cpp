@@ -111,3 +111,9 @@ pascal OSStatus JoinDialogEventHandler (EventHandlerCallRef myHandler, EventRef 
     //Return how we handled the event.
     return result;
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

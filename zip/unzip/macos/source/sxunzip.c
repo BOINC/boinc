@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-2001 Info-ZIP.  All rights reserved.
 
@@ -143,3 +142,9 @@ sprintf(UnzipVersion, "Unzip Module\n%d.%d%d%s of %s", UZ_MAJORVER,
 
 return UnzipVersion;
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

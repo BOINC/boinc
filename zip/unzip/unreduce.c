@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-2002 Info-ZIP.  All rights reserved.
 
@@ -34,3 +33,9 @@ static volatile const char *BOINCrcsid="$Id$";
  #error This dummy-module does not support the unreduce method!
 
 #endif /* !COPYRIGHT_CLEAN */
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // utility program for projects that use homogeneous redundancy.
 // Converts old-style info (in result table)
 // to new style (using workseq_next field of workunit)
@@ -58,3 +57,8 @@ int main() {
   }
 
 };
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

@@ -82,3 +82,9 @@ void operator delete[](void *p)
 #endif /* _DEBUG */
 
 #endif /* __cplusplus */
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

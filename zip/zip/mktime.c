@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /* free mktime function
    Copyright 1988, 1989 by David MacKenzie <djm@ai.mit.edu>
    and Michael Haertel <mike@ai.mit.edu>
@@ -256,3 +255,9 @@ mkgmtime(tm)
                   3600L * (unsigned long)hours +
                   (unsigned long)(60 * minutes + seconds));
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-2001 Info-ZIP.  All rights reserved.
 
@@ -2192,3 +2191,9 @@ static char *zi_time(__G__ datetimez, modtimez, d_t_str)
 } /* end function zi_time() */
 
 #endif /* !NO_ZIPINFO */
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

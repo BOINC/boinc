@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // -c       create semaphore
 // -d       destroy semaphore
 // -l       lock semaphore, sleep 10 secs, unlock
@@ -22,3 +21,9 @@ int main(int argc, char** argv) {
 
     return 0;
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

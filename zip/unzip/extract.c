@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-2002 Info-ZIP.  All rights reserved.
 
@@ -2270,3 +2269,9 @@ static int namecmp(s1, s2)   /* [not] used by dircomp(); swiped from Zip */
 
 #endif /* 0 */
 #endif /* SET_DIR_ATTRIB */
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

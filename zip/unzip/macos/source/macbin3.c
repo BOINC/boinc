@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /****************************************************************
     MacBinaryIII.c
 
@@ -762,3 +761,9 @@ static OSErr   DecodeMacBinary(Handle data, FSSpec *destination)
 
 
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

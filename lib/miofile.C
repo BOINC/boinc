@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // $Id$
 //
 // The contents of this file are subject to the BOINC Public License
@@ -119,3 +118,9 @@ int copy_element_contents(MIOFILE& in, const char* end_tag, string& str) {
     fprintf(stderr, "copy_element_contents(): no end tag\n");
     return ERR_XML_PARSE;
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

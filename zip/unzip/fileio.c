@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-2002 Info-ZIP.  All rights reserved.
 
@@ -2533,3 +2532,9 @@ char Far * Far zfstrcpy(char Far *s1, const char Far *s2)
 #endif /* !_MSC_VER || (_MSC_VER < 600) */
 
 #endif /* SMALL_MEM */
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

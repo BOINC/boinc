@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 #include <cstdio>
 
 #include "md5_file.h"
@@ -12,3 +11,9 @@ int main(int, char** argv) {
 
     return 0;
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

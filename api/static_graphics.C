@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // Include this file in a BOINC application to display
 // a static image (JPEG, GIFF, BMP, Targa) as its graphics.
 //
@@ -54,3 +53,9 @@ void app_graphics_resize(int w, int h) {
 
 void app_graphics_reread_prefs() {
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

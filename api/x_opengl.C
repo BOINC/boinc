@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 #include <stdlib.h>
 #include <stdio.h>    
 #include <setjmp.h>    
@@ -216,3 +215,9 @@ void xwin_graphics_event_loop() {
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
     glutMainLoop();
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

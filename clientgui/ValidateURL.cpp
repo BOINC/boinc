@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 // $Id$
 //
 // The contents of this file are subject to the BOINC Public License
@@ -22,6 +21,10 @@ static volatile const char *BOINCrcsid="$Id$";
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/12/08 00:39:12  ballen
+// Moved RCSID strings to the end of all .c, .C and .cpp files as per
+// David's request.
+//
 // Revision 1.6  2004/12/02 20:17:34  rwalton
 // *** empty log message ***
 //
@@ -168,3 +171,9 @@ bool CValidateURL::CheckValidator() const
     return TRUE;
 }
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

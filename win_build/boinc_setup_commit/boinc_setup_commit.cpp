@@ -29,3 +29,9 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	// Don't wait for process to exit!  That's the whole point.
 	return 0;
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

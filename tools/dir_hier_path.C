@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 #include <stdio.h>
 
 #include "util.h"
@@ -18,3 +17,9 @@ int main(int argc, char** argv) {
     dir_hier_path(argv[1], "", config.uldl_dir_fanout, path);
     printf("path: %s%s\n", config.download_dir, path);
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

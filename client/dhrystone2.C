@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 #include <string.h>
 #include "dhrystone.h"
 
@@ -125,3 +124,9 @@ bool Func_3(Enumeration Enum_Par_Val)
 }
 
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

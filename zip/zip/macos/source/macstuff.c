@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
 These Functions were originally part of More Files version 1.4.8
 
@@ -1723,3 +1722,9 @@ pascal  OSErr FSpGetDInfo(const FSSpec *spec,
 }
 
 
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif

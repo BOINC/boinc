@@ -1,4 +1,3 @@
-static volatile const char *BOINCrcsid="$Id$";
 /*
   Copyright (c) 1990-2000 Info-ZIP.  All rights reserved.
 
@@ -186,3 +185,9 @@ int UZmacstat(const char *path, struct stat *buf)
 
     return (err == noErr ? 0 : -1);
 }
+
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif
