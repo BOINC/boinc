@@ -202,4 +202,8 @@ function getThread($threadID) {
 	return getNextThread(sql_query($sql));
 }
 
+function getPost($postID) {
+        $sql = "SELECT * FROM post WHERE id = ".$postID;
+        return getNextPost(sql_query($sql));
+}
 ?>
