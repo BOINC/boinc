@@ -250,7 +250,6 @@ Eric H.  May 30, 2002
 David A.    June 1, 2002
     - Ensure that preferences propagate from the server
         where they are updated to all hosts,
-        and from there to the servers of other project.
         Eliminated concept of "home project".
         Not tested yet.
         Also to do: replace the "accounts.xml" file with
@@ -13321,3 +13320,14 @@ Jeff   11 June 2004
 
     sched/
         start
+
+Daniel 11 June 2004
+    - client: check_idle() now also checks /dev/tty[1-7] (linux).
+        Also put idle checks under #ifdefs. MacOS X idle checks
+        will be more difficult.
+
+    configure
+    configure.ac
+    client/
+        cs_prefs.C
+

@@ -7771,6 +7771,28 @@ _ACEOF
 fi
 
 
+if test -e "/dev/mouse"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE__DEV_MOUSE 1
+_ACEOF
+
+fi
+if test -e "/dev/kbd"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE__DEV_KBD 1
+_ACEOF
+
+fi
+if test -e "/dev/tty1"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE__DEV_TTY1 1
+_ACEOF
+
+fi
+
 # by default, create static binaries on linux.
 #[if [ "$target_os" = "linux-gnu" ]; then
 #    STATIC_FLAGS="-static"

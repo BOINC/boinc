@@ -109,11 +109,36 @@ inline bool device_idle(time_t t, char *device) {
     return stat(device, &sbuf) || (sbuf.st_atime < t);
 }
 
+inline bool all_tty_idle(time_t t, char *device, char first_char, int num_tty) {
+    struct stat sbuf;
+    char *tty_index = device + strlen(device) - 1;
+    *tty_index = first_char;
+    for (int i = 0; i < num_tty; i++, (*tty_index)++) {
+        if (stat(device, &sbuf)) {
+            // error looking at device; don't try any more
+            return true;
+        } else if (sbuf.st_atime >= t) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void CLIENT_STATE::check_idle() {
+    char device_tty[] = "/dev/tty1";
     time_t idle_time =
         time(NULL) - (long) (60 * global_prefs.idle_time_to_run);
-    user_idle = device_idle(idle_time, "/dev/kbd")
-        && device_idle(idle_time, "/dev/mouse");
+    user_idle = true
+#ifdef HAVE__DEV_MOUSE
+        && device_idle(idle_time, "/dev/mouse") // solaris, linux
+#endif
+#ifdef HAVE__DEV_KBD
+        && device_idle(idle_time, "/dev/kbd") // solaris
+#endif
+#ifdef HAVE__DEV_TTY1
+        && all_tty_idle(idle_time, device_tty, '1', 7) // linux
+#endif
+        ;
 }
 #endif
 
