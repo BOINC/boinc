@@ -304,6 +304,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         host_info.p_calculated = dtime();
         guiOnBenchmarksEnd();
         benchmarks_running = false;
+	    msg_printf(NULL, MSG_INFO, "Finished CPU benchmarks");
         set_client_state_dirty("CPU benchmarks");
     }
     return false;
