@@ -27,6 +27,7 @@
 #endif
 
 #ifndef _WIN32
+#include <cassert>
 #include <csignal>
 #endif
 
