@@ -997,3 +997,63 @@ Michael Gary	July 10, 2002
         add.C
         backend_lib.C
         process_result_template.C
+
+Barry Luong    July 11, 2002
+    - added changes to allow for multiple servers on one machine
+        - database names are from environment variables
+        - download and upload directories are from environment variables
+        - download and upload url's are from environment variables
+        - boinc_key (for shared memory) is from environment variables
+        - new directory tree:
+
+                  ~barry/
+                   /  \
+                  /    \
+                 /      \
+          boinc_cvs/   boinc_server/
+            /         /   /    \   \
+           /         /   /      \   \
+          /         /   /        \   \
+       boinc/   cgi/  keys/  upload/  download/
+       /  \    \
+      /    \    \ 
+     /      \    \
+  client/ sched/  ...
+
+        - sched cgi, fcgi, file_upload_handler are copied into
+          ~barry/boinc_server/cgi/
+        - in httpd.conf set up cgi permissions for appropriate files and 
+          directories
+        - must define new environment variables:
+          BOINC_DOWNLOAD_DIR ~/barry/boinc_server/download
+          BOINC_UPLOAD_DIR ~/barry/boinc_server/upload
+          BOINC_DB_NAME boinc_barry
+          BOINC_UPLOAD_URL http://localhost/barry/boinc_server/cgi/fileupload_handler
+          BOINC_DOWNLOAD_URL http://localhost/barry/boinc_server/cgi/download
+          BOINC_KEY 0xdabacafe
+          BOINC_USER barry
+          BOINC_PUBLIC_KEY_PATH ~/barry/boinc_server/keys/upload_public
+          BOINC_KEY_DIR ~barry/boinc_server/keys
+
+    db/
+        init_db
+        drop.sql
+        schema.sql
+        constraints.sql
+
+    sched/
+        main.C
+        feeder.C
+        Makefile.in
+        file_upload_handler.C
+        sched_shmem.h
+
+    tools/
+        backend_lib.C
+        process_result_template.C
+        add.C
+        create_work.C
+
+    html_user/
+        db.inc
+        
