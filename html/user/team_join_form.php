@@ -4,18 +4,12 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
-db_init();
-$user = get_logged_in_user();
-$id = $_GET["id"];
+    db_init();
+    $user = get_logged_in_user();
+    $teamid = $_GET["id"];
 
-    $query = "select * from team where id = $id";
-    $result = mysql_query($query);
-    if ($result) {
-        $team = mysql_fetch_object($result);
-        mysql_free_result($result);
-    }
+    $team = lookup_team($teamid);
     $team_name = $team->name;
-    $team_id = $team->id;
     page_head("Join $team_name");
     echo " <p><b>Please note:</b>
         <ul>
@@ -24,7 +18,7 @@ $id = $_GET["id"];
         </ul>
         <hr>
         <form method=post action=team_join_action.php>
-        <input type=hidden name=teamid value=$team_id>
+        <input type=hidden name=teamid value=$teamid>
         <input type=submit value='Join team'>
         </form>
     ";

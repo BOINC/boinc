@@ -155,6 +155,13 @@ function profile_error_page($str) {
     page_tail();
 }
 
+function error_page($msg) {
+    page_head("Unable to handle request");
+    echo $msg;
+    page_tail();
+    exit();
+}
+
 function date_str($x) {
     if ($x == 0) return "---";
     // return date("g:i A, l M j", $when);

@@ -19947,3 +19947,16 @@ David  20 Nov 2004
 		cs_prefs.C
 		win/
 			wingui_mainwindow.cpp
+
+David  21 Nov 2004
+    - Change team-related PHP code so that it recomputes
+        "nusers" by doing a select count(*) when a user
+        quits or joins a team.
+        Also cleaned up skanky PHP code.
+
+    html/
+        inc/
+            team.inc
+            util.inc
+        user/
+            team*.php

@@ -8,14 +8,9 @@ require_once("../inc/team.inc");
     $user = get_logged_in_user();
 
     $teamid = $_GET["teamid"];
-
-    $query = "select * from team where id = $teamid";
-    $result = mysql_query($query);
-    if ($result) {
-        $team = mysql_fetch_object($result);
-        mysql_free_result($result);
-    }
+    $team = lookup_team($teamid);
     require_founder_login($user, $team);
+
     $team_name = ereg_replace("\"", "'", $team->name);
     $team_name_html = ereg_replace("\"", "'", $team->name_html);
     $team_url = ereg_replace("\"", "'", $team->url);

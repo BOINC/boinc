@@ -114,22 +114,17 @@ function display_team_page($team, $offset, $sort_by) {
 // requires that the team exist
 function require_team($team) {
     if (!$team) {
-        page_head("Error");
-        echo "Team does not exist.";
-        page_tail();
-        exit();
+        error_page("No such team.");
     }
 }
 
 // requires that the user is logged in as the founder of
 // the team trying to be edited
+//
 function require_founder_login($user, $team) {
     require_team($team);
     if ($user->id != $team->userid) {
-        page_head("Permission denied");
-        echo "Only a team's founder may edit a team.";
-        page_tail();
-        exit();
+        error_page("Only a team's founder may edit a team.");
     }
 }
 
@@ -170,39 +165,15 @@ function show_team_row($team, $i) {
 }
 
 function user_join_team($team, $user) {
-    if ($user->teamid != 0) {
-        $query_team_other = sprintf(
-            "select * from team where id = %d",
-            $user->teamid
-        );
-        $result_team_other = mysql_query($query_team_other);
-        $first_team = mysql_fetch_object($result_team_other);
-        $first_nusers = $first_team->nusers;
-        $first_new_nusers = $first_nusers - 1;
-        if ($first_new_nusers > 0) {
-            $query_team_table_other = sprintf(
-                "update team set nusers = %d where id = %d",
-                $first_new_nusers,
-                $first_team->id
-            );
-        } else {
-            // no more users in this team: disband it.
-            $query_team_table_other = sprintf(
-                "delete from team where id = %d",
-                $first_team->id
-            );
-        }
-        $result_team_table_other = mysql_query($query_team_table_other);
+    $old_teamid = $user->teamid;
+    $res = mysql_query("update user set teamid=$team->id where id=$user->id");
+    if ($old_teamid != 0) {
+        $old_team = lookup_team($old_teamid);
+        team_update_nusers($old_team);
     }
-    $query_user_table = sprintf(
-        "update user set teamid = %d where id = %d",
-        $team->id,
-        $user->id
-    );
-    $result_user_table = mysql_query($query_user_table);
-    $result_team_table = mysql_query("update team set nusers=nusers+1 where id = $team->id");
-    if ($result_user_table && $result_team_table) return true;
-    else return false;
+    team_update_nusers($team);
+    if ($res) return true;
+    return false;
 }
 
 function team_edit_form($team, $label, $url) {
@@ -293,6 +264,19 @@ function team_inactive_ndays($team, $ndays) {
         return true;
     }
     return false;
+}
+
+function team_update_nusers($team) {
+    $res = mysql_query("select count(*) as total from user where teamid=$team->id");
+    $comp = mysql_fetch_object($res);
+    if (!$comp) return;
+    $n = $comp->total;
+    if ($n > 0) {
+        mysql_query("update team set nusers=$n where id=$team->id");
+    } else {
+        echo "<br>Team is empty - deleting team.\n";
+        mysql_query("delete from team where id=$team->id");
+    }
 }
 
 ?>

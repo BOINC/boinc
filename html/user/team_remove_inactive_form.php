@@ -7,22 +7,14 @@
     db_init();
     $user = get_logged_in_user();
     $teamid = $_GET["teamid"];
-
-    $result = mysql_query("select * from team where id = $teamid");
-    if ($result) {
-        $team = mysql_fetch_object($result);
-        mysql_free_result($result);
-    }
+    $team = lookup_team($teamid);
     require_founder_login($user, $team);
-    $team_name = $team->name;
-    $team_id = $team->id;
     $nusers = $team->nusers;
-    page_head("Remove Members from $team_name");
+    page_head("Remove Members from $team->name");
     echo "
-        <h2>Remove members from $team_name</h2>
         Removing a member will subtract their credit from team totals
         <form method=post action=team_remove_inactive_action.php>
-        <input type=hidden name=id value=$team_id>
+        <input type=hidden name=id value=$team->id>
     ";
     start_table();
     echo "<tr>
@@ -33,7 +25,7 @@
         </tr>
     ";
 
-    $result = mysql_query("select * from user where teamid = $team_id");
+    $result = mysql_query("select * from user where teamid = $team->id");
 
     $ninactive_users = 0;
     while ($user = mysql_fetch_object($result)) {

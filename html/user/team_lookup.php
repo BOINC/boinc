@@ -32,9 +32,10 @@
         }
         echo "</ul>";
         if ($too_many) {
-            echo "This is only a partial list of the possible teams you ";
-            echo "were searching for. You will need to narrow your search ";
-            echo "criteria to get more accurate results.<br>";
+            echo "
+                More than 100 teams match your search.
+                The first 100 are shown.<br>
+            ";
         }
     }
     echo "End of results<br>";

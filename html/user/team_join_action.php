@@ -14,18 +14,17 @@
         page_head("Unable to add $user->name");
         echo "You are already a member of $team->name.";
     } else {
-        $success = user_join_team($team,$user);
+        $success = user_join_team($team, $user);
         if ($success == true) {
             page_head("Joined $team->name");
             echo "You have joined
                 <a href=team_display.php?teamid=$team->id>$team->name</a>.
             ";
         } else {
-            page_head("Error");
-            echo "Couldn't join team - please try later.\n";
+            error_page("Couldn't join team - please try later.");
         }
     }
 
-page_tail();
+    page_tail();
 
 ?>
