@@ -25187,3 +25187,22 @@ David  22 Feb 2005
         sched_util.C,h
         transitioner.C
         validator.C
+
+David  22 Feb 2005
+    - admin web:
+        fixed boinc_real_escape_string();
+        fixed clean_user_names.php (rerun this if you already ran)
+    - user web:
+        change "questions and problems" to "questions and answers"
+
+    html/
+        inc/
+            db.inc
+        ops/
+            clean_user_names.php
+            create_forums.php
+        user/
+            forum_help_desk.php
+            forum_post.php
+            forum_reply.php
+            sample_index.php

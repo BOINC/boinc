@@ -49,6 +49,7 @@ if ($confirm) {
     create_forum($catid, 3, "Getting started", "Creating your account");
     create_forum($catid, 4, "Preferences", "Using preferences to fine-tune SETI@home");
     create_forum($catid, 5, "Wish list", "What features would you like to see in BOINC and SETI@home");
+    create_forum($catid, 6, "Web site", "Issues involving the SETI@home web site");
 } else {
     echo "<p>
           Please make sure to alter the default forums in this file before executing.<br>

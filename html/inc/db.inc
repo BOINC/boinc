@@ -99,11 +99,13 @@ function lookup_app($id) {
 // apply this to any user-supplied strings used in queries
 //
 function boinc_real_escape_string($x) {
-    //if (version_compare(phpversion(),"4.3.0")>=0) {
+    if (version_compare(phpversion(),"4.3.0")>=0) {
         return mysql_real_escape_string($x);
-    //} else {
-    //    return str_replace("\'", "'", str_replace("\\\"", "'", $x));
-    //}
+    } else {
+        $x = str_replace("'", "\'", $x);
+        $x = str_replace("\"", "\\\"", $x);
+        return $x;
+    }
 }
 
 // Process user-supplied text prior to using in query;

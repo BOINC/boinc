@@ -32,7 +32,7 @@ function show_nav() {
         <ul>
         <li><a href=".URL_BASE."profile_menu.php>Participant profiles</a>
         <li><a href=forum_index.php>Message boards</a>
-        <li><a href=forum_help_desk.php>Questions and problems</a>
+        <li><a href=forum_help_desk.php>Questions and answers</a>
         </ul>
         <h3>Project totals and leader boards</h3>
         <ul>

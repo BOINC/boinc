@@ -46,7 +46,7 @@ if ($category->is_helpdesk) {
 show_forum_title($forum, NULL, $category->is_helpdesk);
 
 if ($category->is_helpdesk) {
-    echo "<p>The <b>Questions and problems</b> area let you
+    echo "<p>The <b>Questions and answers</b> area let you
         get help from other users.
         If you have a question or problem:
         <ul>

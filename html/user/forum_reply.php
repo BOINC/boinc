@@ -49,7 +49,7 @@ $helpdesk = $category->is_helpdesk;
 
 // TODO: Write a function for this.
 if ($helpdesk) {
-    page_head('Questions and problems');
+    page_head('Questions and answers');
 } else {
     page_head('Message boards');
 }

@@ -6,7 +6,7 @@ require_once('../inc/time.inc');
 
 db_init();
 
-page_head("Questions and problems");
+page_head("Questions and answers");
 
 echo "
     <p>
