@@ -140,6 +140,7 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
 
     // we've hit the limit on master_url fetches
     //
+    // TODO: after 2 failures of master_url fetch, the next wait is 2 weeks!
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
         if (log_flags.sched_op_debug) {
             printf("we've hit the limit on master_url fetches\n");
