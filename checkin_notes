@@ -6192,3 +6192,8 @@ Karl 2003/09/05
 
     astropulse/client/
         *.C
+
+    - misc. Win32 fixes
+    api/
+        boinc_api.C
+        guitl.C
