@@ -1,6 +1,6 @@
 <?php
 
-require_once("util.inc");
+require_once("util_ops.inc");
 
 $cgi_url = parse_config("<cgi_url>");
 
