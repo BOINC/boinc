@@ -80,6 +80,7 @@ struct SCHED_SHMEM {
     int verify();
     int scan_tables();
     bool have_app(int);
+    bool no_work();
 
     APP* lookup_app(int);
     APP_VERSION* lookup_app_version(int appid, int platform, int version);

@@ -156,3 +156,13 @@ APP_VERSION* SCHED_SHMEM::lookup_app_version(
 
     return best_avp;
 }
+
+bool SCHED_SHMEM::no_work() {
+    int i;
+
+    if (!ready) return false;
+    for (i=0; i<max_wu_results; i++) {
+        if (wu_results[i].state == WR_STATE_PRESENT) return false;
+    }
+    return true;
+}

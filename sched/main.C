@@ -80,9 +80,9 @@ void send_message(char* msg, int delay) {
     );
 }
 
+static bool db_opened=false;
 int open_database() {
     int retval;
-    static bool db_opened=false;
 
     if (db_opened) return 0;
 
@@ -226,5 +226,7 @@ done:
     continue;
     }
 #endif
-    boinc_db.close();
+    if (db_opened) {
+        boinc_db.close();
+    }
 }

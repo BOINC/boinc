@@ -624,13 +624,35 @@ void process_request(
     struct tm *rpc_time_tm;
     int last_rpc_dayofyear;
     int current_rpc_dayofyear;
-    bool ok_to_send = true;
+    bool ok_to_send_work = true;
 
 
     // if different major version of BOINC, just send a message
     //
     if (wrong_major_version(sreq, reply)) {
-        ok_to_send = false;
+        ok_to_send_work = false;
+
+        // if no results, return without accessing DB
+        //
+        if (sreq.results.size() == 0) {
+            return;
+        }
+    }
+
+    // if there's no work, and client isn't returning results,
+    // and client is requesting work, return without accessing DB
+    //
+    if ((sreq.work_req_seconds > 0)
+        && ss.no_work()
+        && (sreq.results.size() == 0)
+    ) {
+        strcat(reply.message, "No work available");
+        strcpy(reply.message_priority, "low");
+        reply.request_delay = 3600;
+        log_messages.printf(
+            SCHED_MSG_LOG::NORMAL, "No work - skipping DB access\n"
+        );
+        return;
     }
 
     // now open the database
@@ -694,11 +716,11 @@ void process_request(
 
     // if last RPC was within config.min_sendwork_interval, don't send work
     //
-    if (ok_to_send && sreq.work_req_seconds > 0) {
+    if (ok_to_send_work && sreq.work_req_seconds > 0) {
         if (config.min_sendwork_interval) {
             double diff = dtime() - last_rpc_time;
             if (diff < config.min_sendwork_interval) {
-                ok_to_send = false;
+                ok_to_send_work = false;
                 log_messages.printf(
                     SCHED_MSG_LOG::NORMAL,
                     "Not sending work - last RPC too recent: %f\n", diff
@@ -710,7 +732,7 @@ void process_request(
                 reply.request_delay = config.min_sendwork_interval;
             }
         }
-        if (ok_to_send) {
+        if (ok_to_send_work) {
             send_work(sreq, reply, *platform, ss);
         }
     }

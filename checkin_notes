@@ -14598,4 +14598,17 @@ Rom   3 July 2004
 
     db/
         boinc_db.C
-    
+David  4 July 2004
+    - scheduler: if client is requesting work,
+        and client is not returning results,
+        and there's no work,
+        then send "No work available" message
+        and return without opening DB
+    - scheduler: if client has wrong major version,
+        and is not returning results,
+        return without opening DB
+
+    sched/
+        handle_request.C
+        main.C
+        sched_shmem.C,h
