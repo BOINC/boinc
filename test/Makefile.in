@@ -178,7 +178,8 @@ TESTS = test_sanity.py				\
 	test_rsc.py				\
 	test_exit.py				\
 	test_signal.py				\
-	test_backend.py
+	test_backend.py				\
+	test_masterurl_failure.py
 
 
 EXTRA_DIST = \
@@ -200,8 +201,8 @@ CONFIG_CLEAN_FILES = version.inc version.py
 SCRIPTS = $(noinst_SCRIPTS)
 
 DIST_SOURCES =
-DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in \
-	version.inc.in version.py.in
+DIST_COMMON = README $(top_srcdir)/Makefile.incl Makefile.am \
+	Makefile.in version.inc.in version.py.in
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 

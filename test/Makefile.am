@@ -10,7 +10,8 @@ TESTS = test_sanity.py				\
 	test_rsc.py				\
 	test_exit.py				\
 	test_signal.py				\
-	test_backend.py
+	test_backend.py				\
+	test_masterurl_failure.py
 
 EXTRA_DIST =					\
         *.xml *.php *wu *result *output *input
