@@ -272,8 +272,13 @@ function file_get_contents($path) {
 }
 }
 
+$g_config = null;
 function get_config() {
-    return file_get_contents("../../config.xml");
+    global $g_config;
+    if ($g_config == null) {
+       $g_config = file_get_contents("../../config.xml");
+    }
+    return $g_config;
 }
 
 // look for a particular element in the ../../config.xml file

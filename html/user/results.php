@@ -5,7 +5,8 @@
     require_once("../inc/util.inc");
     require_once("../inc/result.inc");
 
-    if (true) {
+    $config = get_config();
+    if (!parse_config($config, "<show_results/>")) {
         page_head("Temporarily disabled");
         page_tail();
         exit();

@@ -16708,3 +16708,14 @@ David  24 Aug 2004
 Rom    24 Aug 2004
     - Tag for 4.05 release, all platforms
       boinc_release_4_05
+
+David  25 Aug 2004
+    - Make it configurable (via <show_results/> in config.xml)
+        whether results are shown on user web site
+
+    html/
+        inc/
+            host.inc
+            util.inc
+        user/
+            results.php

@@ -86,15 +86,16 @@ function show_host($host, $private, $ipprivate) {
     } else {
         row2("Average download rate", "Unknown");
     }
-if (false) {
-    $nresults = host_nresults($host);
-    if ($nresults) {
-        $results = "<a href=results.php?hostid=$host->id>$nresults</a>";
-    } else {
-        $results = "0";
+    $config = get_config();
+    if (parse_config($config, "<show_results/>")) {
+        $nresults = host_nresults($host);
+        if ($nresults) {
+            $results = "<a href=results.php?hostid=$host->id>$nresults</a>";
+        } else {
+            $results = "0";
+        }
+        row2("Results", $results);
     }
-    row2("Results", $results);
-}
 
     if ($private) {
         row2("Number of times client has contacted server", $host->rpc_seqno);
