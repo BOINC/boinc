@@ -629,6 +629,9 @@ int insert_deadline_tag(RESULT& result) {
 }
 
 static int update_wu_transition_time(WORKUNIT wu, time_t x) {
+    // TODO: this might be better: a mysql statement such as "update set
+    // transition_time=X where id=ID and transition_time<X".  this avoids
+    // concurrency problems altogether.
     DB_WORKUNIT dbwu;
     int retval;
 
