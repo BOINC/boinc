@@ -88,7 +88,7 @@ test_file_xfer: test_file_xfer.o $(TEST_FX_OBJS)
 	$(CC) test_file_xfer.o $(TEST_FX_OBJS) $(CLIBS) -o test_file_xfer
 
 tar:
-	cd $(topsrcdir); tar cf boinc_client.tar $(TAR_TARGETS); \
+	cd $(topsrcdir)/..; tar cf boinc_client.tar $(TAR_TARGETS); \
 	    gzip boinc_client.tar;
 
 clean:

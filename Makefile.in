@@ -129,4 +129,4 @@ tar: clean
 	tar cf boinc.tar * ; gzip boinc.tar
 
 client_tar: clean
-	cd client; ${MAKE} tar;
+	cd client; ./configure; ${MAKE} tar;
