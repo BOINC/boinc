@@ -24583,3 +24583,15 @@ David  11 Feb 2005
 		app_start.C
 	win_build/
 		boinc_guirpctest.vcproj
+
+Janus 11 Feb 2005
+   - Added translation features to create_account_form.php
+   - Inserted the text from the page in the language interface and the
+     english language file
+
+   /html/
+        users/
+                create_account_form.php
+        languages/translations/
+                en.po
+
