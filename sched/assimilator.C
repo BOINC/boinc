@@ -81,7 +81,7 @@ bool do_pass(APP& app) {
 
         sprintf(
 	    buf, "assimilate_state=%d, transition_time=%d", 
-	    ASSIMILATE_DONE, time(0)
+            ASSIMILATE_DONE, (int)time(0)
         );
         retval = wu.update_field(buf);
         if (retval) {

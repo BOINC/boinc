@@ -18223,3 +18223,19 @@ David  9 Oct 2004
             forum_reply.php
             forum_thread.php
             unread_post.png (new)
+
+David  9 Oct 2004
+    - added script to cancel a WU
+
+    html/ops/
+        cancel_wu.php (new)
+
+David  9 Oct 2004
+    - finished changes to validator to user DB_VALIDATOR_ITEM_SET
+
+    db/
+        boinc_db.C,h
+    sched/
+        assimilator.C
+        db_purge.C
+        validator.C

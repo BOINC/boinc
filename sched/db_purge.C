@@ -57,7 +57,7 @@ int open_archive(char* filename_prefix, FILE*& f){
     int   retval=0;
     char  path[256];
 
-    sprintf(path,"../archives/%s_%d.xml", filename_prefix, time(0));
+    sprintf(path,"../archives/%s_%d.xml", filename_prefix, (int)time(0));
 
     log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Opening archive %s\n", path);
     

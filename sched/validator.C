@@ -158,10 +158,8 @@ void handle_wu(
     int retval = 0, canonicalid = 0;
     double credit = 0;
     unsigned int i;
-    RESULT result, canonical_result;
 
-    VALIDATOR_ITEM& wu_vi = items[0];
-    WORKUNIT& wu = wu_vi.wu;
+    WORKUNIT& wu = items[0].wu;
 
     if (wu.canonical_resultid) {
         log_messages.printf(
@@ -175,41 +173,42 @@ void handle_wu(
         // Get unchecked results and see if they match the canonical result
         //
         for (i=0; i<items.size(); i++) {
-            VALIDATOR_ITEM& vi= items[i];
-            RESULT& result = vi.res;
-            
+            RESULT& result = items[i].res;
+
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
                  "[WU#%d %s] handle_wu(): Analyzing result %d\n",
-                 wu.id, wu.name, res.id
+                 wu.id, wu.name, result.id
              );
-            if (res.id == wu.canonical_resultid)
-                canonical_result_index= i; 
+            if (result.id == wu.canonical_resultid) {
+                canonical_result_index = i; 
+            }
         }
         if (canonical_result_index == (-1)) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
-                "[WU#%d %s] Can't read canonical result %d; exiting\n",
+                "[WU#%d %s] Can't find canonical result %d; exiting\n",
                 wu.id, wu.name, wu.canonical_resultid
             );
             exit(1);
         }
 
-        // scan this WU's results, and check the unchecked ones
-        for (i=0; i<items.size(); i++) {
-        
-            VALIDATOR_ITEM& vitem= items[i];
+        RESULT& canonical_result = items[canonical_result_index].res;
 
-            if (!((vitem.res_validate_state == VALIDATE_STATE_INIT) &&
-                (vitem.res_server_state == RESULT_SERVER_STATE_OVER) &&
-                (vitem.res_outcome ==  RESULT_OUTCOME_SUCCESS)))
+        // scan this WU's results, and check the unchecked ones
+        //
+        for (i=0; i<items.size(); i++) {
+            RESULT& result = items[i].res;
+
+            if (!((result.validate_state == VALIDATE_STATE_INIT) &&
+                (result.server_state == RESULT_SERVER_STATE_OVER) &&
+                (result.outcome ==  RESULT_OUTCOME_SUCCESS))
+            ) {
                 continue;
+            }
 
             need_immediate_transition = true;
             
-            result = vitem.res;
-            RESULT& canonical_result = items[canonical_result_index].res;
-
             retval = check_pair(
                 result, canonical_result, retry
             );
@@ -232,7 +231,7 @@ void handle_wu(
             switch (result.validate_state) {
             case VALIDATE_STATE_VALID:
                 update_result = true;
-                result.granted_credit = wu_vi.canonical_credit;
+                result.granted_credit = wu.canonical_credit;
                 log_messages.printf(
                     SCHED_MSG_LOG::NORMAL,
                     "[RESULT#%d %s] pair_check() matched: setting result to valid; credit %f\n",
@@ -256,10 +255,10 @@ void handle_wu(
                 );
             }
             if (update_result) {
-		log_messages.printf(
+                    log_messages.printf(
                     SCHED_MSG_LOG::NORMAL,
                     "[RESULT#%d %s] granted_credit %f", 
-		    result.id, result.name, result.granted_credit
+                    result.id, result.name, result.granted_credit
                 );
 
                 retval = validator.update_result(result);
@@ -280,41 +279,41 @@ void handle_wu(
 
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL,
-            "[WU#%d %s] handle_wu(): No canonical result yet\n", wu_vi.id,
-            wu_vi.name
+            "[WU#%d %s] handle_wu(): No canonical result yet\n",
+            wu.id, wu.name
         );
         ++log_messages;
 
         for (i=0; i<items.size(); i++) {
-            VALIDATOR_ITEM& vitem= items[i];
+            RESULT& result = items[i].res;
 
-            if (!((vitem.res_validate_state == VALIDATE_STATE_INIT) &&
-                (vitem.res_server_state == RESULT_SERVER_STATE_OVER) &&
-                (vitem.res_outcome == RESULT_OUTCOME_SUCCESS)))
+            if (!((result.validate_state == VALIDATE_STATE_INIT) &&
+                (result.server_state == RESULT_SERVER_STATE_OVER) &&
+                (result.outcome == RESULT_OUTCOME_SUCCESS))
+            ) {
                 continue;
+            }
 
-            RESULT result= vitem.res;
             results.push_back(result);
         }
 
         log_messages.printf(
             SCHED_MSG_LOG::DEBUG, "[WU#%d %s] Found %d successful results\n",
-            wu_vi.id, wu_vi.name, (int)results.size()
+            wu.id, wu.name, (int)results.size()
         );
-        if (results.size() >= (unsigned int)wu_vi.min_quorum) {
+        if (results.size() >= (unsigned int)wu.min_quorum) {
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG,
-                "[WU#%d %s] Enough for quorum, checking set.\n", wu_vi.id,
-                wu_vi.name
+                "[WU#%d %s] Enough for quorum, checking set.\n",
+                wu.id, wu.name
             );
            
-            wu= wu_vi.wu;
             retval = check_set(results, wu, canonicalid, credit, retry);
             if (retval) {
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,
                     "[WU#%d %s] check_set returned %d, exiting\n",
-                    wu_vi.id, wu_vi.name, retval
+                    wu.id, wu.name, retval
                 );
                 exit(retval);
             }
@@ -323,7 +322,7 @@ void handle_wu(
             // See if any results had nonrecoverable errors
             //
             for (i=0; i<results.size(); i++) {
-                result = results[i];
+                RESULT& result = results[i];
                 if (result.outcome != RESULT_OUTCOME_SUCCESS) {
                     need_immediate_transition = true;
                     retval = validator.update_result(result);
@@ -341,13 +340,13 @@ void handle_wu(
                 log_messages.printf(
                     SCHED_MSG_LOG::DEBUG,
                     "[WU#%d %s] Found a canonical result: id=%d\n",
-                    wu_vi.id, wu_vi.name, canonicalid
+                    wu.id, wu.name, canonicalid
                 );
-                wu_vi.canonical_resultid = canonicalid;
-                wu_vi.canonical_credit = credit;
-                wu_vi.assimilate_state = ASSIMILATE_READY;
+                wu.canonical_resultid = canonicalid;
+                wu.canonical_credit = credit;
+                wu.assimilate_state = ASSIMILATE_READY;
                 for (i=0; i<results.size(); i++) {
-                    result = results[i];
+                    RESULT& result = results[i];
 
                     // skip results that had file-read errors
                     //
@@ -373,11 +372,11 @@ void handle_wu(
                         );
                     }
 
-		    log_messages.printf(
-                    	SCHED_MSG_LOG::NORMAL,
-                    	"[RESULT#%d %s] granted_credit %f\n",
-                    	result.id, result.name, result.granted_credit
-	       	    );
+                    log_messages.printf(
+                        SCHED_MSG_LOG::NORMAL,
+                        "[RESULT#%d %s] granted_credit %f\n",
+                        result.id, result.name, result.granted_credit
+                    );
 
                     retval = validator.update_result(result);
                     if (retval) {
@@ -390,12 +389,13 @@ void handle_wu(
                 }
 
                 // If found a canonical result, don't send any unsent results
+                //
                 for (i=0; i<items.size(); i++) {
-                    VALIDATOR_ITEM& vitem= items[i];
+                    RESULT& result = items[i].res;
 
-                    if (!(vitem.res_server_state ==
-                        RESULT_SERVER_STATE_UNSENT)) 
+                    if (!(result.server_state == RESULT_SERVER_STATE_UNSENT)) {
                         continue;
+                    }
 
                     result.server_state = RESULT_SERVER_STATE_OVER;
                     result.outcome = RESULT_OUTCOME_DIDNT_NEED;
@@ -411,8 +411,8 @@ void handle_wu(
             } else {
                 // here if no consensus; check if #success results is too large
                 //
-                if ((int)results.size() > wu_vi.max_success_results) {
-                    wu_vi.error_mask |= WU_ERROR_TOO_MANY_SUCCESS_RESULTS;
+                if ((int)results.size() > wu.max_success_results) {
+                    wu.error_mask |= WU_ERROR_TOO_MANY_SUCCESS_RESULTS;
                     need_immediate_transition = true;
                 }
             }
@@ -422,21 +422,19 @@ void handle_wu(
     --log_messages;
 
     if (need_immediate_transition) {
-        wu_vi.transition_time = time(0);
+        wu.transition_time = time(0);
     } else if (need_delayed_transition) {
         int x = time(0) + 6*3600;
-        if (x < wu_vi.transition_time) wu_vi.transition_time = x;
+        if (x < wu.transition_time) wu.transition_time = x;
     }
 
-    // update workunit clears WU.need_validate
-    //
-    wu= wu_vi.wu;
+    wu.need_validate = 0;
     retval = validator.update_workunit(wu);
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
-            "[WU#%d %s] wu_vi.update() failed: %d; exiting\n", wu_vi.id,
-            wu_vi.name, retval
+            "[WU#%d %s] update_workunit() failed: %d; exiting\n",
+            wu.id, wu.name, retval
         );
         exit(1);
     }

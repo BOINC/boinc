@@ -293,6 +293,7 @@ struct HOST {
 #define WU_ERROR_TOO_MANY_ERROR_RESULTS         2
 #define WU_ERROR_TOO_MANY_SUCCESS_RESULTS       4
 #define WU_ERROR_TOO_MANY_TOTAL_RESULTS         8
+#define WU_ERROR_CANCELLED                      16
 
 struct WORKUNIT {
     int id;

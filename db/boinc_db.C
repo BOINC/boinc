@@ -906,7 +906,7 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
         }
         new_item.parse(row);
         nitems_this_query++;
-        if (new_item.id != last_item.id) {
+        if (new_item.wu.id != last_item.wu.id) {
             last_item = new_item;
             return 0;
         }
