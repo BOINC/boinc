@@ -153,9 +153,9 @@ extern int xml_indent_level;
 
 // decode an XML character string.  Return a the decoded string in a vector
 // (null not necessarily a terminator).
-template <typename T>
-std::vector<T> xml_decode_string(const char *input, size_t length=0, 
-    const char *encoding="x_xml_entity");
+//template <typename T>
+//std::vector<T> xml_decode_string(const char *input, size_t length=0, 
+//    const char *encoding="x_xml_entity");
 
 // do the same thing, but get the length and encoding type from the
 // xml tag properties.
@@ -163,9 +163,9 @@ template <typename T>
 std::vector<T> xml_decode_field(const std::string &input, const char *tag);
 
 // encode an XML character string.  Return the encoded string.
-template <typename T>
-std::string xml_encode_string(const T *input, size_t n_elements=0, 
-    xml_encoding encoding=_x_xml_entity);
+//template <typename T>
+//std::string xml_encode_string(const T *input, size_t n_elements=0, 
+//    xml_encoding encoding=_x_xml_entity);
 
 template <typename T>
 inline std::string xml_encode_string(const std::vector<T> &input, 
@@ -713,7 +713,7 @@ std::string x_uuencode(const T *data, size_t nbytes) {
 
 template <typename T>
 std::vector<T> xml_decode_string(const char *input, 
-                           size_t length, const char *encoding) {
+                           size_t length=0, const char *encoding="_x_xml_entity") {
   int i=_x_xml_entity;
   do {
     if (!strncmp(encoding,xml_encoding_names[i],strlen(xml_encoding_names[i])))
@@ -773,7 +773,7 @@ std::vector<T> xml_decode_field(const std::string &input, const char *tag) {
 
 template <typename T>
 std::string xml_encode_string(const T *input, 
-                           size_t length, xml_encoding encoding) {
+                           size_t length=0, xml_encoding encoding=_x_xml_entity) {
   switch (encoding) {
     case _x_xml_entity:
       return x_xml_entity_encode<T>(input,length);
@@ -806,6 +806,9 @@ std::string xml_encode_string(const T *input,
 #endif
 //
 // $Log$
+// Revision 1.9  2003/10/22 22:36:52  jeffc
+// jeffc - init xml_encode/decode_string in the definition, not the prototype
+//
 // Revision 1.8  2003/10/22 18:13:39  korpela
 // *** empty log message ***
 //
