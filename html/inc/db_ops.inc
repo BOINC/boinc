@@ -327,6 +327,7 @@ function result_error_mask_str($x){
 // @param String $stderr_out the stderr_out value to parse
 function stderr_error_string($stderr_out){
     $y = parse_element($stderr_out, "<error_code>");
+    $x = 0;
     if ($y) {
         $x = (int)$y;
     }
@@ -383,6 +384,7 @@ function show_result_summary() {
     $_GET['sort_by'] = ''; // ignore sort
 
     $query_appid = $_GET['appid'];
+    $query_mod_time = 0;
     if ($_GET['nsecs']) {
         //$query_mod_time = time() - $_GET['nsecs'];
 		$query_mod_time = $_GET['nsecs'];
@@ -646,7 +648,7 @@ function show_app_version($app_version) {
     row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
     row("Min_core_version", $app_version->min_core_version);
     row("Max_core_version", $app_version->max_core_version);
-    row("Message", $app_version->message);
+    //row("Message", $app_version->message);
     row("Deprecated", $app_version->deprecated);
     end_table();
 }
@@ -704,7 +706,10 @@ function show_host($host) {
 
     row("ID", $host->id);
     row("Created", time_str($host->create_time));
-    row("User", "<a href=db_action.php?table=user&id=$host->userid>$host->userid</a>");
+    row("User",
+        "<a href=\"db_action.php?table=user&id=$host->userid\">".user_name_by_id($host->userid)."($host->userid)</a>"
+    );
+
     row("Venue", $host->venue);
     row("Total credit", $host->total_credit);
     row("Average credit", $host->expavg_credit);
@@ -737,7 +742,7 @@ function show_host($host) {
     row("Avg network bandwidth (upstream)", "$host->n_bwup bytes/sec");
     row("Avg network bandwidth (downstream)", "$host->n_bwdown bytes/sec");
     $x = $host->avg_turnaround/86400;
-    row("Average turnaround", "$x days");
+    row("Average turnaround", round($x, 2)." days");
     row("Number of RPCs", $host->rpc_seqno);
     row("Last RPC", time_str($host->rpc_time));
     row("% of time client on", 100*$host->on_frac." %");
@@ -940,7 +945,7 @@ function host_user_link($hostid)
     $host = mysql_fetch_object($result);
     mysql_free_result($result);
     if (!$host->userid) return $h;
-    $result = mysql_query("select * from user where id='$host->userid' limit 1");
+    $result = mysql_query("select id, name from user where id='$host->userid' limit 1");
     if (!$result) return $h;
     $user = mysql_fetch_object($result);
     mysql_free_result($result);

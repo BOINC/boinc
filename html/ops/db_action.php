@@ -19,6 +19,7 @@
     $q = new SqlQueryString();
     $q->process_form_items();
 
+    $nresults = $_GET['nresults'];
     if (strlen($nresults)) {
         $entries_to_show = $nresults;
     } else {
@@ -26,6 +27,7 @@
     }
     $page_entries_to_show = $entries_to_show;
 
+    $last_pos = $_GET['last_pos'];
     if (strlen($last_pos)) {
         $start_at = $last_pos;
     } else {
@@ -66,13 +68,13 @@
                 $prev_pos = 0;
             }
             echo "
-                <a href=$url&last_pos=$prev_pos>Previous $page_entries_to_show</a><br>
+                <a href=$url&last_pos=$prev_pos&nresults=$entries_to_show>Previous $page_entries_to_show</a><br>
             ";
         }
         echo "</td><td width=100>";
         if ($last < $count) {
             echo "
-                <a href=$url&last_pos=$last>Next $entries_to_show</a><br>
+                <a href=$url&last_pos=$last&nresults=$entries_to_show>Next $entries_to_show</a><br>
             ";
         }
         echo "</td></tr></table>";
@@ -98,12 +100,20 @@
     echo " | <a href=index.php>Return to main admin page</a>\n";
     echo "<p>\n";
     if ($table == "host") {
+        $show_aggregate = $_GET['show_aggregate'];
         if ($show_aggregate) {
-            $result = mysql_query("select sum(d_total) as tot_sum, sum(d_free) as free_sum, " . "sum(m_nbytes) as tot_mem from host" . $query);
+            $query = "select sum(d_total) as tot_sum, sum(d_free) as free_sum, sum(m_nbytes) as tot_mem from host";
+            if ($_GET['clauses']) {
+                $query = $query." WHERE " . urldecode($_GET['clauses']);
+            }
+            $result = mysql_query($query);
             $disk_info = mysql_fetch_object($result);
             $dt = $disk_info->tot_sum/(1024*1024*1024);
             $df = $disk_info->free_sum/(1024*1024*1024);
             $mt = $disk_info->tot_mem/(1024*1024);
+            $dt = round($dt, 2);
+            $df = round($df, 2);
+            $mt = round($mt, 2);
             echo "<p>\n
                 Sum of total disk space on these hosts:
                 $dt GB

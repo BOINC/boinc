@@ -22233,3 +22233,13 @@ Rom    7 Jan 2005
         main.C
     clientgui/
         BOINCGUIApp.cpp
+
+David  7 Jan 2005
+    - fixes from Christian Beer to avoid undefined PHP vars
+
+    html/
+        inc/
+            db_ops.inc
+        ops/
+            db_action.php
+            db_form.ph

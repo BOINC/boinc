@@ -34,6 +34,7 @@ echo "<!--\$Id$ -->\n";
 
     $first = 1;
 
+    $show_aggregate = $_GET['show_aggregate'];
     $title = table_title($table);
     page_head($title);
     echo "<h2>Query $table table</h2>\n";
@@ -48,7 +49,16 @@ echo "<!--\$Id$ -->\n";
         print_detail_field();
         print_query_field();
     } else if ($table=="host") {
-        print_checkbox("Show Aggregate Information", "show_aggregate", $show_aggregate);
+        echo "
+            <tr>
+            <td align=\"right\">Show Aggregate Information</td>
+            <td>
+        ";
+        print_checkbox("", "show_aggregate", $show_aggregate);
+        echo "
+            </td>
+            </tr>
+        ";
         print_detail_field();
         print_query_field();
     } else if ($table=="workunit") {
