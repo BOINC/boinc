@@ -34,8 +34,27 @@ class Forum {
             $this->$var = $$var;
     }
     
-    function getThreads($min = -1, $nRec = -1) {
-        $sql = 'SELECT * FROM thread WHERE forum = '.$this->id.' ORDER BY timestamp DESC';
+    // TODO: Could define a function to take a $sort_style and return the associated ORDER BY sql;
+    // TODO: Make sure sorting still works properly when there are enough threads to span multiple pages.
+                 
+    function getThreads($min = -1, $nRec = -1, $sort_style='modified-new') {
+        $sql = 'SELECT * FROM thread WHERE forum = '.$this->id; 
+        switch($sort_style) {
+        case 'modified-new':
+            $sql = $sql . ' ORDER BY timestamp DESC';
+            break;
+        case 'modified-old':
+            $sql = $sql . ' ORDER BY timestamp ASC';
+            break;
+        case 'views-most':
+            $sql = $sql . ' ORDER BY views DESC';
+            break;
+        case 'replies-most':
+            $sql = $sql . ' ORDER BY replies DESC';
+            break;
+        case 'activity-most':
+            break;
+        }
         if ($min > -1) {
             $sql .= ' LIMIT '.$min;
             if ($nRec > -1)
@@ -63,8 +82,21 @@ class Thread {
             $this->$var = $$var;
     }
     
-    function getPosts($min = -1, $nRec = -1) {
-        $sql = 'SELECT * FROM post WHERE thread = '.$this->id.' ORDER BY id ASC';
+    // TODO: Constant for the defauly sort style.
+    function getPosts($min = -1, $nRec = -1, $sort_style="date-old") {
+        $sql = 'SELECT *, (score * votes) AS rating FROM post WHERE thread = '.$this->id;
+        switch($sort_style) {
+        case 'date-old':
+            $sql = $sql . ' ORDER BY timestamp ASC';
+            break;
+        case 'date-new':
+            $sql = $sql . ' ORDER BY timestamp DESC';
+            break;
+        case 'rating-high':
+            $sql = $sql . ' ORDER BY rating DESC';
+            break;
+        }
+            
         if ($min > -1) {
             $sql .= ' LIMIT '.$min;
             if ($nRec > -1)
@@ -157,8 +189,10 @@ class Post {
     var $timestamp;
     var $content;
     var $modified;
+    var $votes;
+    var $score;
     
-    function Post($id = -1, $thread = -1, $user = -1, $timestamp = 0, $content = "", $modified=NULL, $parent_post=NULL) {
+    function Post($id = -1, $thread = -1, $user = -1, $timestamp = 0, $content = "", $modified=NULL, $parent_post=NULL, $votes=NULL, $score=NULL) {
         $vars = get_class_vars('Post');
         foreach ($vars as $var => $value)
             $this->$var = $$var;
@@ -254,7 +288,7 @@ function getNextPost($result) {
         return false;
     foreach ($post as $var => $value)
         $post[$var] = stripslashes($value);
-    return new Post($post['id'], $post['thread'], $post['user'], $post['timestamp'], $post['content'], $post['modified'], $post['parent_post']);
+    return new Post($post['id'], $post['thread'], $post['user'], $post['timestamp'], $post['content'], $post['modified'], $post['parent_post'], $post['votes'], $post['score']);
 }
 
 /* specific database functions */
@@ -276,13 +310,15 @@ function getPost($postID) {
 
 /* display functions */
 
-function show_posts($thread, $show_controls=true, $do_coloring=true) {
+function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_coloring=true) {
     global $logged_in_user;
     $n = 0;
-    $posts = $thread->getPosts();
+    $posts = $thread->getPosts(-1, -1, $sort_style);
     while ($post = getNextPost($posts)) {
-        show_post($post, $thread, $logged_in_user, $n, $show_controls);
-	if ($do_coloring) $n = ($n+1)%2;
+        if ($post->score >= $filter) {
+            show_post($post, $thread, $logged_in_user, $n, $show_controls);
+            if ($do_coloring) $n = ($n+1)%2;
+        }
     } 
 }
 
@@ -326,11 +362,11 @@ function show_post($post, $thread, $logged_in_user, $n, $show_controls=true) {
             echo "
                         <td align=\"right\" style=\"border:0px\">Rate this post:
                           <select name=\"rating\">
-                              <option value=\"2\">Excellent (+2)</option>
+                              <option value=\"2\">Very helpful (+2)</option>
                               <option value=\"1\">Helpful (+1)</option>
                               <option selected value=\"0\">Neutral</option>
                               <option value=\"-1\">Unhelpful (-1)</option>
-                              <option value=\"-2\">Useless (-2)</option>
+                              <option value=\"-2\">Off topic (-2)</option>
                           </select>
                           <input type=\"submit\" value=\"Rate\">
                         </td>
@@ -340,11 +376,14 @@ function show_post($post, $thread, $logged_in_user, $n, $show_controls=true) {
                     </tr></table>
                   </form>
 			<p>", nl2br(stripslashes($post->content)), "</p>";
+        echo "<table width=100% cellspacing=0 cellpadding=0>
+                <tr valign=\"bottom\">
+                  <td align=\"left\" style=\"border:0px; font-size:7pt\"><i>ID: ", $post->id, ", Rating: ", $post->score, "</i></td>";
         if ($show_controls) {
-            //echo "<table width=100% border=0 cellpadding=0 cellspacing=0><tr><td align=left style=\"border:0px;\">Left</td><td align=right>Right</td></tr></table>";
-            //echo "<div align=\"left\">Rating</div>";
-            echo "<div align=\"right\">[<a href=\"reply.php?thread=", $thread->id, "&post=", $post->id, "#input\">Reply to this post</a>]</div></td></tr>";
+            echo "<td align=\"right\" style=\"border:0px\">[<a href=\"reply.php?thread=", $thread->id, "&post=", $post->id, "#input\">Reply to this post</a>]</td>";
+
         }
+        echo "</tr></table></td></tr>";
 }
 
 ?>
