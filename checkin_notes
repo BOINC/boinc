@@ -8898,3 +8898,10 @@ David  3 Jan 2004
         filesys.C,h
     tools/
         backend_lib.C,h
+
+Gary	4 Jan 2004
+	- Added missing sys header declaration needed to build libboinc
+	  on OSX jaguar
+
+    api/
+        boinc_api.C
