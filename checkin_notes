@@ -13471,3 +13471,11 @@ Rom    13 June 2004
     lib/
         base64.C, .h
         util.C
+
+Rom    13 June 2004
+    - Minor tweaks so you can setup a new project
+
+    py/Boinc/
+        setup_project.py
+    sched/
+        start
