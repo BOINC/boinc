@@ -1,16 +1,18 @@
 #include <afxwin.h>
+
+#include "log_flags.h"
 #include "client_state.h"
 #include "resource.h"
 #include "wingui.h"
 
-#define ID_TIMER		104
-#define IDM_CLOSE		105
-#define IDM_LOGIN		106
+#define ID_TIMER        104
+#define IDM_CLOSE        105
+#define IDM_LOGIN        106
 #if 0
-#define IDD_LOGIN		105
-#define IDC_LOGIN_URL	1000
-#define IDC_LOGIN_AUTH	1001
-#define IDC_LOGIN_OK	3
+#define IDD_LOGIN        105
+#define IDC_LOGIN_URL    1000
+#define IDC_LOGIN_AUTH    1001
+#define IDC_LOGIN_OK    3
 #endif
 
 CMainWindow* main_window;
@@ -28,20 +30,20 @@ CLoginDialog::CLoginDialog(UINT y) : CDialog(y){
 }
 
 BOOL CLoginDialog::OnInitDialog() {
-	CDialog::OnInitDialog();
-	CenterWindow();
-	return TRUE;
+    CDialog::OnInitDialog();
+    CenterWindow();
+    return TRUE;
 }
 
 void CLoginDialog::OnOK() {
-	CString url, auth;
-	GetDlgItemText(IDC_LOGIN_URL, url);
-	GetDlgItemText(IDC_LOGIN_AUTH, auth);
-	CDialog::OnOK();
+    CString url, auth;
+    GetDlgItemText(IDC_LOGIN_URL, url);
+    GetDlgItemText(IDC_LOGIN_AUTH, auth);
+    CDialog::OnOK();
 }
 
 BEGIN_MESSAGE_MAP (CLoginDialog, CDialog)
-	ON_BN_CLICKED(IDC_LOGIN_OK, OnOK)
+    ON_BN_CLICKED(IDC_LOGIN_OK, OnOK)
 END_MESSAGE_MAP()
 
 char* result_titles[] = {"Project", "Application", "CPU time", "% done"};
@@ -56,57 +58,57 @@ char* user_info_titles[] = {"Name", "Team", "Total credit", "Recent credit"};
 int user_info_widths[] = {20, 20, 15, 15};
 
 void TEXT_TABLE::create(char* title, int nf, int sl, int nl, char** titles, int* w) {
-	int i, j, col, rcol;
-	CRect rect;
-	char* text;
+    int i, j, col, rcol;
+    CRect rect;
+    char* text;
 
-	nfields = nf;
-	nlines = nl;
+    nfields = nf;
+    nlines = nl;
 
-	rect.SetRect (m_cxChar * BOX_LEFT, m_cyChar * sl, m_cxChar * BOX_RIGHT, m_cyChar * (sl+nl+2));
+    rect.SetRect (m_cxChar * BOX_LEFT, m_cyChar * sl, m_cxChar * BOX_RIGHT, m_cyChar * (sl+nl+2));
     group_box.Create (title,  WS_CHILD | WS_VISIBLE | BS_GROUPBOX,
         rect, main_window, (UINT) -1);
     group_box.SetFont (&m_fontMain, FALSE);
 
-	for (i=0; i<nl; i++) {
-		col = TEXT_LEFT;
-		for (j=0; j<nf; j++) {
-			rcol = col + w[j];
-			rect.SetRect (m_cxChar * col, m_cyChar * (sl+i+1), m_cxChar * rcol, m_cyChar * (sl+i+2));
-			text = (i==0)?titles[j]:"xxx";
-			lines[i].fields[j].Create(text, WS_CHILD|WS_VISIBLE|SS_LEFT, rect, main_window);
+    for (i=0; i<nl; i++) {
+        col = TEXT_LEFT;
+        for (j=0; j<nf; j++) {
+            rcol = col + w[j];
+            rect.SetRect (m_cxChar * col, m_cyChar * (sl+i+1), m_cxChar * rcol, m_cyChar * (sl+i+2));
+            text = (i==0)?titles[j]:"xxx";
+            lines[i].fields[j].Create(text, WS_CHILD|WS_VISIBLE|SS_LEFT, rect, main_window);
             lines[i].fields[j].SetFont (&m_fontMain, FALSE);
-			col = rcol;
-		}
-	}
+            col = rcol;
+        }
+    }
 }
 
 void TEXT_TABLE::set_field(int line, int field, char* text) {
-	lines[line].set_field(field, text);
+    lines[line].set_field(field, text);
 }
 
 void TEXT_TABLE::blank_line(int line) {
-	int i;
+    int i;
 
-	for (i=0; i<nfields; i++) {
-		lines[line].set_field(i, "");
-	}
+    for (i=0; i<nfields; i++) {
+        lines[line].set_field(i, "");
+    }
 }
 
 void TEXT_LINE::set_field(int field, char* text) {
-	fields[field].SetWindowText(text);
+    fields[field].SetWindowText(text);
 }
 
 void make_menus(CMenu* main_menu) {
-	CMenu popup;
+    CMenu popup;
 
-	main_menu->CreateMenu();
-	popup.CreatePopupMenu();
-	popup.AppendMenu(MF_STRING, IDM_CLOSE, "&Close");
-	main_menu->AppendMenu(MF_POPUP, (UINT)popup.Detach(), "&File");
-	popup.CreatePopupMenu();
-	popup.AppendMenu(MF_STRING, IDM_LOGIN, "&Login");
-	main_menu->AppendMenu(MF_POPUP, (UINT)popup.Detach(), "&Account");
+    main_menu->CreateMenu();
+    popup.CreatePopupMenu();
+    popup.AppendMenu(MF_STRING, IDM_CLOSE, "&Close");
+    main_menu->AppendMenu(MF_POPUP, (UINT)popup.Detach(), "&File");
+    popup.CreatePopupMenu();
+    popup.AppendMenu(MF_STRING, IDM_LOGIN, "&Login");
+    main_menu->AppendMenu(MF_POPUP, (UINT)popup.Detach(), "&Account");
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -125,8 +127,8 @@ BOOL CMyApp::InitInstance ()
 
 BEGIN_MESSAGE_MAP (CMainWindow, CWnd)
     ON_WM_CREATE ()
-	ON_COMMAND (IDM_CLOSE, OnCloseMenu)
-	ON_COMMAND (IDM_LOGIN, OnLoginMenu)
+    ON_COMMAND (IDM_CLOSE, OnCloseMenu)
+    ON_COMMAND (IDM_LOGIN, OnLoginMenu)
 END_MESSAGE_MAP ()
 
 CMainWindow::CMainWindow ()
@@ -151,11 +153,14 @@ CMainWindow::CMainWindow ()
 }
 
 void CALLBACK CMainWindow::TimerProc(HWND h, UINT x, UINT id, DWORD time) {
-	static int n=0;
-	char buf[256];
-	n++;
-	sprintf(buf, "%d", n);
-	results.set_field(0, 0, buf);
+    static int n=0;
+    char buf[256];
+    n++;
+    sprintf(buf, "%d", n);
+    results.set_field(0, 0, buf);
+
+    while (gstate.do_something()) {
+    }
 }
 
 int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
@@ -175,22 +180,36 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
     dc.GetTextMetrics (&tm);
     m_cxChar = tm.tmAveCharWidth;
     m_cyChar = tm.tmHeight + tm.tmExternalLeading;
-	
-	main_window = this;
+    
+    main_window = this;
 
-	CMenu main_menu;
+    CMenu main_menu;
     make_menus(&main_menu);
-	SetMenu(&main_menu);
-	main_menu.Detach();
+    SetMenu(&main_menu);
+    main_menu.Detach();
 
-	results.create("Work units", 4, 1, 5, result_titles, result_widths);
-	file_xfers.create("File transfers", 4, 9, 4, file_xfer_titles, file_xfer_widths);
-	disk_usage.create("Disk usage", 2, 16, 3, disk_usage_titles, disk_usage_widths);
-	projects.create("Projects", 3, 22, 3, project_titles, project_widths);
-	user_info.create("User info", 4, 28, 2, user_info_titles, user_info_widths);
+    results.create("Work units", 4, 1, 5, result_titles, result_widths);
+    file_xfers.create("File transfers", 4, 9, 4, file_xfer_titles, file_xfer_widths);
+    disk_usage.create("Disk usage", 2, 16, 3, disk_usage_titles, disk_usage_widths);
+    projects.create("Projects", 3, 22, 3, project_titles, project_widths);
+    user_info.create("User info", 4, 28, 2, user_info_titles, user_info_widths);
 
-	SetTimer(ID_TIMER, 1000, TimerProc);
+    read_log_flags();
+    int retval = gstate.init();
+    if (retval) exit(retval);
 
+    SetTimer(ID_TIMER, 1000, TimerProc);
+
+    return 0;
+}
+
+void show_message(char* p, char* prior) {
+    MessageBox(NULL, p, prior, MB_OK);
+}
+
+int initialize_prefs() {
+    CLoginDialog dlg(IDD_LOGIN);
+    int retval = dlg.DoModal();
     return 0;
 }
 
@@ -200,55 +219,55 @@ void CMainWindow::PostNcDestroy ()
 }
 
 void CMainWindow::OnCloseMenu() {
-	SendMessage(WM_CLOSE, 0, 0);
+    SendMessage(WM_CLOSE, 0, 0);
 }
 
 void CMainWindow::OnLoginMenu() {
-	CLoginDialog dlg(IDD_LOGIN);
-	int retval = dlg.DoModal();
+    CLoginDialog dlg(IDD_LOGIN);
+    int retval = dlg.DoModal();
 }
 
 void show_result(TEXT_LINE& line, RESULT& result) {
-	char buf[256];
-	line.set_field(0, result.project->project_name);
-	line.set_field(1, result.app->name);
-	sprintf(buf, "%f", result.final_cpu_time);
-	line.set_field(2, buf);
+    char buf[256];
+    line.set_field(0, result.project->project_name);
+    line.set_field(1, result.app->name);
+    sprintf(buf, "%f", result.final_cpu_time);
+    line.set_field(2, buf);
 #if 0
-	sprintf(buf, "%f", result.fraction_done);
-	line.set_field(3, buf);
+    sprintf(buf, "%f", result.fraction_done);
+    line.set_field(3, buf);
 #endif
 }
 
 void show_file_xfer(TEXT_LINE& line, FILE_XFER& fx) {
-	char buf[256];
+    char buf[256];
 
-	line.set_field(0, fx.fip->project->project_name);
-	line.set_field(1, fx.fip->name);
-	sprintf(buf, "%f", fx.fip->nbytes);
-	line.set_field(2, buf);
+    line.set_field(0, fx.fip->project->project_name);
+    line.set_field(1, fx.fip->name);
+    sprintf(buf, "%f", fx.fip->nbytes);
+    line.set_field(2, buf);
 #if 0
-	sprintf(buf, "%f", fx.fip->fraction_done*100);
-	line.set_field(3, buf);
+    sprintf(buf, "%f", fx.fip->fraction_done*100);
+    line.set_field(3, buf);
 #endif
 }
 
 void update_gui(CLIENT_STATE& cs) {
-	int i, n;
+    int i, n;
 
-	n = min(results.nlines, cs.results.size());
-	for (i=0; i<n; i++) {
-		show_result(results.lines[i], *cs.results[i]);
-	}
-	for (i=n; i<results.nlines; i++) {
-		results.blank_line(i);
-	}
+    n = min(results.nlines, cs.results.size());
+    for (i=0; i<n; i++) {
+        show_result(results.lines[i], *cs.results[i]);
+    }
+    for (i=n; i<results.nlines; i++) {
+        results.blank_line(i);
+    }
 
-	n = min(file_xfers.nlines, cs.file_xfers->file_xfers.size());
-	for (i=0; i<n; i++) {
-		show_file_xfer(file_xfers.lines[i], *cs.file_xfers->file_xfers[i]);
-	}
-	for (i=n; i<file_xfers.nlines; i++) {
-		file_xfers.blank_line(i);
-	}
+    n = min(file_xfers.nlines, cs.file_xfers->file_xfers.size());
+    for (i=0; i<n; i++) {
+        show_file_xfer(file_xfers.lines[i], *cs.file_xfers->file_xfers[i]);
+    }
+    for (i=n; i<file_xfers.nlines; i++) {
+        file_xfers.blank_line(i);
+    }
 }
