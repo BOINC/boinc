@@ -212,7 +212,6 @@ bool host_is_running_on_batteries() {
 	SYSTEM_POWER_STATUS pStatus;
 	ZeroMemory(&pStatus, sizeof(SYSTEM_POWER_STATUS));
 	if (!GetSystemPowerStatus(&pStatus)) {
-		printf( "Got error: %d\n", GetLastError());
 		return false;
 	}
 
