@@ -18,6 +18,8 @@ Karl Chen
 <br>
 Seth Cooper
 <br>
+James Drews
+<br>
 Michael Gary
 <br>
 Gary Gibson
@@ -52,8 +54,6 @@ BOINC Project Testers include:
 Comatose
 <br>
 Jay Curtis
-<br>
-James Drews
 <br>
 Fons Maartens
 <br>

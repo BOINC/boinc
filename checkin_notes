@@ -11451,3 +11451,10 @@ David  April 8 2004
         *.C
         sched_messages.C (removed)
         sched_msgs.C,h (new)
+
+David  April 8 2004
+    - If an active task is in limbo, don't mark its result as done!
+        (from James Drew)
+
+    client/
+        cs_apps.C

@@ -168,6 +168,7 @@ bool CLIENT_STATE::handle_finished_apps() {
         switch (atp->state) {
         case PROCESS_RUNNING:
         case PROCESS_ABORT_PENDING:
+        case PROCESS_IN_LIMBO:
             break;
         default:
             msg_printf(atp->wup->project, MSG_INFO, "Computation for result %s finished", atp->wup->name);
