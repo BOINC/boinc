@@ -53,7 +53,13 @@ Setup Build Environments
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 UNIX/Linux
 
-* ?
+* g++ (tested with 2.95, 3.3)
+
+* standard build tools: make (and ...?)
+
+* If you modify make files: autoconf 2.57, automake 1.7
+
+* for building source distributions: tar, gzip, bzip2, zip
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Windows
@@ -65,8 +71,6 @@ Windows
 * Apply Visual Studio 97 Service Pack 3.
 
 * InstallShield 5.5 Professional Edition.
-
-* WinCvs 1.2, available from www.wincvs.org.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Macintosh
@@ -81,8 +85,6 @@ Macintosh
 
 Build Source Release
 
-0   Run on a UNIX/Linux machine with the unix2dos program installed
-
 1   Get latest source using CVS
 
   1.1  At command line, enter:
@@ -94,22 +96,9 @@ Build Source Release
 
        cvs -z3 -d:pserver:anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc co boinc
 
-2   Make source tarballs and zipfiles
+2   Make source distributions (.tar.gz, .tar.bz2, .zip)
 
-  2.1  Fix Windows workspace/project files
-    2.1.1  Using CVS on UNIX will often change carriage returns on Windows workspace
-           and project files, which means they are corrupted in the eyes of Visual Studio.
-    2.1.2  cd boinc/win_build
-    2.1.3  unix2dos boinc.dsw ; unix2dos */*.dsp
-
-  2.2  setenv BOINC_MAJOR_VERSION x
-       setenv BOINC_MINOR_VERSION y
-       Where x.y is the release version number.
-
-  2.3  cd boinc
-  2.4  ./configure; make zip; make tar
-  2.5  cd client
-  2.6  ./configure; make zip; make tar
+  2.1 cd boinc && ./configure && make dist-client
 
 -------------------------------------------------------------------------
 

@@ -1,0 +1,48 @@
+<!-- $Id$ -->
+
+<html>
+  <head>
+    <title>Build system</title>
+  </head>
+
+  <body>
+
+    <h3>Details of the automake/autoconf build system</h3>
+    <p>
+      The build system uses <a href=
+      "http://www.gnu.org/software/autoconf/">autoconf</a> 2.57 and <a
+      href="http://www.gnu.org/software/automake/automake.html">automake</a>
+      1.7.  You should modify only the <code>Makefile.am</code> files, which
+      generate the <code>Makefile.in</code> files (and
+      the <code>configure</code> script produced by autoconf will generate the
+      <code>Makefile</code>s from those).
+    </p>
+
+    <p>
+      The top-level <code>Makefile.am</code> contains the
+      <code>SUBDIRS=</code> line which sets up directory recursion, and the
+      rules for creating source distributions.
+
+    <p>
+      To make distributions:
+      <pre>
+        make dist
+        make dist-client
+      </pre>
+    </p>
+
+    <p>
+      ... will make the full and client distributions respectively.  (The client
+      distribution contains everything necessary to compile the client; the
+      full distribution contains everything necessary to compile the server
+      and client.)
+    </p>
+
+    <p>
+      Each will make <code>.tar.gz</code>, <code>.tar.bz2</code>,
+      and <code>.zip</code> files.  You can also make only the individual ones
+      using the make
+      targets <code>dist-bzip2</code>, <code>dist-gzip</code>, <code>dist-zip</code>.
+    </p>
+  </body>
+</html>

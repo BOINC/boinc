@@ -1,1 +1,6 @@
 config.h
+boinc-*.tar.gz
+boinc-*.tar.bz2
+boinc-*.zip
+stamp-h*
+configure.lineno

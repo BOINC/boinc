@@ -9,7 +9,7 @@ dnl not sure exactly what the minimum version is (but 2.13 won't work)
 AC_PREREQ(2.57)
 
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(BOINC, 1.02, [seti@ssl.berkeley.edu])
+AC_INIT(BOINC, 1.03, [davea@ssl.berkeley.edu])
 
 AC_CANONICAL_SYSTEM
 
@@ -32,7 +32,7 @@ under the License.
 The Original Code is the Berkeley Open Infrastructure for Network Computing. 
 
 The Initial Developer of the Original Code is the SETI@home project.
-Portions created by the SETI@home project are Copyright (C) 2002
+Portions created by the SETI@home project are Copyright (C) 2002, 2003
 University of California at Berkeley. All Rights Reserved. 
 
 Contributor(s):
