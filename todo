@@ -36,7 +36,6 @@ BUGS (arranged from high to low priority)
 - consider warning message during windows (and perhaps other platforms)
     install that checks to see if the BOINC directory already exists,
     and if so, should the user overwrite it? or upgrade it?
-- Screensaver on win98 shows up as "boinc_ss" in the screensaver list. Should be "BOINC"
 - When previewing the screensaver (on Win98) I had the AP graphics already on on the
     desktop - the screensaver just shows a bouncing "B" icon. Should that happen?
 - After running all night (on Win98) I shook the mouse to wake up the blank screen, and
