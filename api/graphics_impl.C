@@ -107,14 +107,9 @@ int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
         NULL, 0, foobar, 0, CREATE_SUSPENDED, &threadId
     );
 
-    // raise priority of graphics thread (i.e. current thread)
-    //
-    HANDLE h = GetCurrentThread();
-    SetThreadPriority(h, THREAD_PRIORITY_HIGHEST);
-
     // lower worker thread priority
     //
-    SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_LOWEST);
+    boinc_adjust_worker_thread_priority();
 
     // Start the worker thread
     //

@@ -97,6 +97,7 @@ extern int boinc_get_status(BOINC_STATUS&);
 extern int boinc_resolve_filename_s(const char*, std::string&);
 extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_wu_cpu_time(double&);
+extern int boinc_adjust_worker_thread_priority();
 
 /////////// API ENDS HERE
 

@@ -107,6 +107,28 @@ static BOINC_STATUS boinc_status;
 //
 int boinc_init() {
     boinc_options_defaults(options);
+
+#ifdef _WIN32
+
+    // populate the global thread handle before adjusting the priority
+    // of the thread
+    //
+    DuplicateHandle(
+        GetCurrentProcess(),
+        GetCurrentThread(),
+        GetCurrentProcess(),
+        &worker_thread_handle,
+        0,
+        FALSE,
+        DUPLICATE_SAME_ACCESS
+    );
+
+#endif
+
+    // adjust the thread priority so we don't eat cycles from
+    // other programs
+    boinc_adjust_worker_thread_priority();
+
     return boinc_init_options(options);
 }
 
@@ -141,18 +163,6 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
         }
     }
 
-#ifdef _WIN32
-    DuplicateHandle(
-        GetCurrentProcess(),
-        GetCurrentThread(),
-        GetCurrentProcess(),
-        &worker_thread_handle,
-        0,
-        FALSE,
-        DUPLICATE_SAME_ACCESS
-    );
-#endif
-
     retval = boinc_parse_init_data_file();
     if (retval) {
         standalone = true;
@@ -186,6 +196,20 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     heartbeat_active = !standalone;
     heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
 
+    return 0;
+}
+
+// adjust the worker thread priority to the lowest thread priority
+// available
+int boinc_adjust_worker_thread_priority() {
+#ifdef _WIN32
+
+    // lower worker thread priority
+    //
+    if (!SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_LOWEST))
+        return ERR_THREAD;
+
+#endif
     return 0;
 }
 
