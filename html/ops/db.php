@@ -65,8 +65,8 @@
     }
 
     if (strlen($result_state) && $result_state != 0) {
-        $query = append_sql_query( $query, "state = $result_state", $first );
-        $english_query = append_sql_query( $english_query, "state is ".res_state_string($result_state), $first );
+        $query = append_sql_query( $query, "server_state = $result_state", $first );
+        $english_query = append_sql_query( $english_query, "server state is ".res_state_string($result_state), $first );
         $rstate = $result_state;
         $first = 0;
     } else {

@@ -174,7 +174,7 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
     }
     row("Name", $result->name);
     row("Workunit", "<a href=db.php?show=workunit&id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
-    row("state", res_state_string($result->state));
+    row("state", res_state_string($result->server_state));
     row("Deadline", time_str($result->report_deadline));
     row("Host ID", "<a href=db.php?show=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
     row("Client State", $result->client_state);
