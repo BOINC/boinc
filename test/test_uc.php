@@ -56,10 +56,10 @@
 
     $project->stop();
     $project->validate($app, 2);
-    $result->state = RESULT_STATE_DONE;
+    $result->server_state = RESULT_STATE_OVER;
     $result->stderr_out = "APP: upper_case: starting, argc 1";
     $result->exit_status = 0;
-    $project->check_results(2, $result);
+    $project->check_results(10, $result);
     $project->compare_file("uc_wu_0_0", "uc_correct_output");
     $project->compare_file("uc_wu_1_0", "uc_correct_output");
 

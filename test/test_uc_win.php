@@ -10,31 +10,37 @@
     $host = new Host($user);
     $app = new App("upper_case");
     $app_version = new App_Version($app);
-    $app_version->platform_name = "windows_intelx86";
+    $platform->name = "windows_intelx86";
+    $platform->user_friendly_name = "Windows";
+    $app_version->platform = $platform;
     $app_version->exec_name = "upper_case.exe";
-
-    $project->add_user($user);
-    $project->add_app($app);
-    $project->add_app_version($app_version);
-    $project->add_platform("windows_intelx86");
-    $project->install();      // must install projects before adding to hosts
-
-    echo "adding work\n";
 
     $work = new Work($app);
     $work->wu_template = "uc_wu";
     $work->result_template = "uc_result";
     $work->redundancy = 2;
     array_push($work->input_files, "input");
+
+    $project->add_user($user);
+    $project->add_app($app);
+    $project->add_app_version($app_version);
+    $project->add_platform($platform);
+    $project->install();
+    $project->install_feeder();
+    $project->install_make_work($work,20,5);
+
+    echo "adding work\n";
     $work->install($project);
 
-    $project->start_feeder();
+    $project->start_servers();
 
-    echo "go run the client\n";
+    echo "Go run the client\n";
+    /*echo "Hit any key to stop the server\n";
 
-    //$project->stop();
+    $project->stop();
 
-    //$project->check_results(2, $result);
-    //$project->compare_file("uc_wu_0_0", "uc_correct_output");
-    //$project->compare_file("uc_wu_1_0", "uc_correct_output");
+    $project->check_results(2, $result);
+    $project->compare_file("uc_wu_0_0", "uc_correct_output");
+    $project->compare_file("uc_wu_1_0", "uc_correct_output");
+    */
 ?>

@@ -10,7 +10,7 @@
 //
 // See doc/test.html for details
 
-define("RESULT_STATE_DONE", 4);
+define("RESULT_STATE_OVER", 5);
 
 ob_end_flush();         // let us see what's going on
 
@@ -577,8 +577,8 @@ class Project {
         $result = mysql_query("select * from result");
         while ($x = mysql_fetch_object($result)) {
             $n++;
-            if ($result->state != null && $result->state != $x->state) {
-                echo "ERROR: result $x->id: unexpected state $x->state\n";
+            if ($result->server_state != null && $result->server_state != $x->server_state) {
+                echo "ERROR: result $x->id: unexpected state $x->server_state\n";
             }
             if ($result->stderr_out != null) {
                 if (substr($result->stderr_out, $x->stderr_out)==0) {
@@ -752,7 +752,8 @@ class Host {
     }
 
     function check_file_present($project, $filename) {
-        $enc_url = replace($project->master_url, "/", "_");
+        $enc_url = str_replace("http://", "", $project->master_url);
+        $enc_url = str_replace("/", "_", $enc_url);
         $path= "$this->host_dir/projects/$enc_url/$filename";
         if (!file_exists($path)) {
             echo "ERROR: file $path doesn't exist\n";

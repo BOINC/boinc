@@ -7,10 +7,8 @@
     <sticky/>
 </file_info>
 <result>
-    <name><RESULT_NAME/></name>
-    <wu_name><WU_NAME/></wu_name>
     <file_ref>
         <file_name><OUTFILE_0/></file_name>
-        <fd>1</fd>
+        <open_name>out</open_name>
     </file_ref>
 </result>

@@ -15,9 +15,10 @@
     $project->add_app($app);
     $project->add_app_version($app_version);
     $project->install();      // must install projects before adding to hosts
+    $project->install_feeder();
 
     $host->log_flags = "log_flags.xml";
-    $host->add_project($project);
+    $host->add_user($user,$project);
     $host->install();
 
     echo "adding work\n";
@@ -31,10 +32,10 @@
     array_push($work->input_files, "input");
     $work->install($project);
 
-    $project->start_feeder();
-    $host->run("-exit_when_idle");
+    $project->start_servers();
+    $host->run("-exit_when_idle -skip_cpu_benchmarks");
     $project->stop();
 
-    $result->state = RESULT_STATE_DONE;
+    $result->server_state = RESULT_STATE_OVER;
     $project->check_results(0, $result);
 ?>

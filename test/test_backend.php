@@ -61,7 +61,7 @@
     sleep(5);
 
     // *** DO TESTS HERE
-    $result->state = RESULT_STATE_DONE;
+    $result->server_state = RESULT_STATE_OVER;
     $result->exit_status = 0;
     $project->check_results(101, $result);
 

@@ -30,10 +30,10 @@
     $work->install($project);
 
     $project->start_servers();
-    $host->run("-exit_when_idle");
+    $host->run("-exit_when_idle -skip_cpu_benchmarks");
     $project->stop();
 
-    $result->state = RESULT_STATE_DONE;
+    $result->server_state = RESULT_STATE_OVER;
     $project->check_results(2, $result);
     $project->compare_file("concat_wu_0_0", "concat_correct_output");
     $project->compare_file("concat_wu_1_0", "concat_correct_output");

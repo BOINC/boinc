@@ -139,7 +139,7 @@ while(1)
 
 $project->stop();
 
-$result->state = RESULT_STATE_DONE;
+$result->server_state = RESULT_STATE_OVER;
 $result->stderr_out = "APP: upper_case: starting, argc 1";
 $result->exit_status = 0;
 $project->check_results(2, $result);

@@ -22,7 +22,7 @@
     $project->install();      // must install projects before adding to hosts
 
     $host->log_flags = "log_flags.xml";
-    $host->add_project($project);
+    $host->add_user($user,$project);
     $host->install();
 
     echo "adding work\n";
