@@ -142,6 +142,12 @@ Are you sure you want to reset the project =ARE YOU SURE YOU WANT TO RESET THE P
 Yes=YES
 No=NO
 
+[DIALOG-DETACH]
+Are you sure you want to detach from the project =ARE YOU SURE YOU WANT TO DETACH FROM THE PROJECT 
+?=???
+Yes=YES
+No=NO
+
 [DIALOG-ABOUT]
 Title=Boinc Beta Version
 Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
