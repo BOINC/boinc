@@ -7596,3 +7596,13 @@ David  7 Nov 2003
         app.C
     lib/
         filesys.C
+
+David  7 Nov 2003
+    - In make_work, need to initialize many fields of the WU being created.
+        For example, if assimilate_state is not INIT,
+        the transitioner will not create any results for the new WU!
+
+    html_ops/
+        db_form.php
+    sched/
+        make_work.C

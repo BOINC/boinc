@@ -216,18 +216,33 @@ void make_work() {
             }
             p = strtok(0, "\n");
         }
-        sprintf(wu.name, "wu_%d_%d", start_time, seqno++);
+
+        // set various fields for new WU (all others are copied)
+        //
         wu.id = 0;
         wu.create_time = time(0);
+        sprintf(wu.name, "wu_%d_%d", start_time, seqno++);
         wu.min_quorum = min_quorum;
         wu.target_nresults = target_nresults;
         wu.max_error_results = max_error_results;
         wu.max_total_results = max_total_results;
         wu.max_success_results = max_success_results;
+        wu.need_validate = false;
+        wu.canonical_resultid = 0;
+        wu.canonical_credit = 0;
+        wu.transition_time = time(0);
+        wu.error_mask = 0;
+        wu.file_delete_state = FILE_DELETE_INIT;
+        wu.assimilate_state = ASSIMILATE_INIT;
         strcpy(wu.result_template, result_template);
         process_result_template_upload_url_only(wu.result_template, config.upload_url);
-        wu.transition_time = time(0);
         retval = wu.insert();
+        if (retval) {
+            log_messages.printf(SchedMessages::CRITICAL,
+                "Failed to created WU, error %d; exiting\n", retval
+            );
+            exit(retval);
+        }
         wu.id = boinc_db.insert_id();
         log_messages.printf(SchedMessages::DEBUG, "[%s] Created new WU\n", wu.name);
     }

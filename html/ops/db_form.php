@@ -43,6 +43,7 @@ require_once("db_ops.inc");
         print_detail_field();
     } else if ($table=="workunit") {
         print_detail_field();
+        print_query_field();
         echo "<input type=hidden name=sort_by value=id>\n";
     } else if ($table=="result") {
         echo "<tr><td align=right>Server state</td><td> ";
