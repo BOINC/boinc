@@ -7390,3 +7390,6 @@ David  2 Nov 2003
     sched/
         handle_request.C
         server_types.C,h
+
+Karl 2003-11-02
+    - BOINC core client release 2.09
