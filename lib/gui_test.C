@@ -117,8 +117,14 @@ int main(int argc, char** argv) {
             retval = rpc.set_run_mode(RUN_MODE_NEVER);
         }
     } else if (!strcmp(argv[i], "-show_graphics")) {
+        if (argc != 5) {
+            printf("usage: gui_test -show_graphics window proj result\n");
+            exit(1);
+        }
         bool fullscreen = !strcmp(argv[++i], "fullscreen");
-        retval = rpc.show_graphics(argv[++i], argv[++i], fullscreen, "winsta0", "default");
+        char* url = argv[++i];
+        char* result = argv[++i];
+        retval = rpc.show_graphics(url, result, fullscreen, "winsta0", "default");
     } else if (!strcmp(argv[i], "-project_reset")) {
         project.master_url = argv[++i];
         retval = rpc.project_op(project, "reset");

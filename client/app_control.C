@@ -484,11 +484,12 @@ bool ACTIVE_TASK::check_max_mem_exceeded() {
     if (max_mem_usage != 0 && resident_set_size*1024 > max_mem_usage) {
         msg_printf(
             result->project, MSG_INFO,
-            "Aborting result %s: exceeded memory limit %f\n",
+            "result %s: memory usage %f exceeds limit %f\n",
             result->name,
+            resident_set_size*1024,
             max_mem_usage
         );
-        abort_task("Maximum memory usage exceeded");
+        //abort_task("Maximum memory usage exceeded");
         return true;
     }
     return false;

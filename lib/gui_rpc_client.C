@@ -1130,7 +1130,8 @@ int RPC_CLIENT::get_disk_usage(PROJECTS& p) {
 }
 
 int RPC_CLIENT::show_graphics(
-    const char* project_url, const char* result_name, bool full_screen, const char* window_station, const char* desktop
+    const char* project_url, const char* result_name, bool full_screen,
+    const char* window_station, const char* desktop
 ) {
     char buf[1024];
     RPC rpc(this);

@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>    
+#include <setjmp.h>    
 #include <unistd.h> 
+#include <pthread.h> 
 #include "x_opengl.h"
 
 #include "boinc_gl.h"
@@ -21,7 +23,6 @@ static int clicked_button;
 static int win=0;
 extern int userclose;
 extern void graphics_thread_init();
-//extern GRAPHICS_INFO gi;
 static void set_mode(int mode);
 
 void keyboardU(unsigned char key, int x, int y) {
@@ -162,10 +163,12 @@ static void timer_handler(int) {
     char buf[MSG_CHANNEL_SIZE];
     GRAPHICS_MSG m;
 
+#if 0
     if (userclose) {
         close_func();
         userclose = false;
     }
+#endif
     int new_mode;
     if (app_client_shm) {
         if (app_client_shm->shm->graphics_request.get_msg(buf)) {
@@ -200,17 +203,35 @@ static void timer_handler(int) {
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
 }
 
-void xwin_graphics_event_loop(){
+jmp_buf jbuf;
+pthread_t graphics_thread;
+
+void restart() {
+    if (pthread_equal(pthread_self(), graphics_thread)) {
+        longjmp(jbuf, 1);
+    }
+}
+
+void xwin_graphics_event_loop() {
+    graphics_thread = pthread_self();
     if (boinc_is_standalone()) {
         set_mode(MODE_WINDOW);
+#if 0
         if (userclose) {
             return;
         }
+#endif
     } else {
         wait_for_initial_message();
         timer_handler(0);
     }
+    atexit(restart);
+    int retval = setjmp(jbuf);
+    if (retval) {
+        fprintf(stderr, "graphics thread restarted\n");
+        fflush(stderr);
+        set_mode(MODE_HIDE_GRAPHICS);
+    }
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
     glutMainLoop();
 }
-

@@ -19655,9 +19655,10 @@ David  17 Nov 2004
         gui_rpc_client.C
 
 Rom    17 Nov 2004
-    - Bug Fix: The screensaver wouldn't shutdown when just the application window was
-        dismissed by moving the mouse two or three pixels.  There is a new graphics
-        message called MODE_QUIT which is treated like MODE_HIDE_GRAPHICS by the app,
+    - Bug Fix: The screensaver wouldn't shutdown when just the application
+        window was dismissed by moving the mouse two or three pixels.
+        There is a new graphics message called MODE_QUIT which is treated
+        like MODE_HIDE_GRAPHICS by the app,
         but the CC sees the message and tells the screensaver to stop.
 
     api/
@@ -19667,3 +19668,24 @@ Rom    17 Nov 2004
         ss_logic.C
     lib/
         app_ipc.C, .h
+
+David  17 Nov 2004
+    - UNIX applications graphics:
+        Use atexit(), setjmp() and longjmp() to pop the stack
+        and resume within xwin_graphics_event_loop()
+        when exit() is called in the graphics thread.
+
+        This means that we can use the standard GLUT library,
+        not our modified version.
+
+        Thanks to Bruce Allen for suggesting this!!!!
+
+    api/
+        gutil.C
+        x_opengl.C
+    client/
+        app_control.C
+    lib/
+        gui_rpc_client.C
+        gui_test.C
+        makefile.gui_test
