@@ -13313,3 +13313,11 @@ Rom    11 June 2004
         log_flags.C, .h
     doc/
         client_debug.php
+
+Jeff   11 June 2004
+    - The start script now forks before exec'ing the ssh start to remote hosts.
+      Without this, start would run "start" on the first remote host it finds
+      in the config file but would go no further.
+
+    sched/
+        start

@@ -705,6 +705,8 @@ if is_main_host:
             remote_cmd += " -v"
         remote_cmd += '"'
         print 'running ', remote_cmd
-        os.execl('/bin/sh', 'sh', '-c', remote_cmd)
+        pid = os.fork()
+        if pid == 0:
+           os.execl('/bin/sh', 'sh', '-c', remote_cmd)
 
 os.unlink(start_lockfile)
