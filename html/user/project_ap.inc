@@ -3,6 +3,9 @@
 define("PROJECT", "Astropulse");
 define("MASTER_URL", "http://maggie.ssl.berkeley.edu/ap/");
 define("URL_BASE", "http://setiboinc.ssl.berkeley.edu/ap");
+define('IMAGE_PATH', 'images/user_profile/');
+define('PROFILE_PATH', 'user_profile/');
+define('LANGUAGE_FILE', 'languages.txt');
 
 function project_intro() {
     echo"
