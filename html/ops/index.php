@@ -27,4 +27,7 @@ echo "
     <a href=$cgi_url/stripchart.cgi>Stripcharts</a>
 ";
 
+// TODO: Add functionality to list the number of recommends / rejects received
+// by each profiled user.
+
 ?>
