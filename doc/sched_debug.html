@@ -1,3 +1,7 @@
 <h2>Scheduling server: debugging</h2>
 
 <p>
+The scheduling server uses assert to verify that arguments to functions have
+valid values. Specifically, assert statements are used to verify that pointers
+are not NULL and lengths are greater than zero. Error messages are also printed
+to stderr, which is routed by Apache to the error log. 

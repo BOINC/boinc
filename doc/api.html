@@ -90,6 +90,47 @@ refresh period passed via <tt>boinc_init</tt> in <tt>APP_IN</tt>.
 <p>
 </li>
 <li>
+<b>The APP_IN Structure</b>
+<br>
+Members:
+<ul>
+	<li>
+    <tt>char app_prefrences[4096];</tt>
+	</li><li>
+    <tt>APP_IN_GRAPHICS graphics;</tt>
+	</li><li>
+    <tt>double checkpoint_period;</tt>
+	</li><li>
+    <tt>double poll_period;</tt>
+        </li><li>
+    <tt>double cpu_time;</tt>
+	</li>
+</ul>
+<br>
+The APP_IN structure is passed via <tt>boinc_init()</tt> on initialization. 
+The <tt>app_preferences</tt> string contains any user preferences. The <tt>graphics</tt> structure
+contains information about the OpenGL graphics settings. The api will initialize
+timers such that the period of <tt>time_to_checkpoint()</tt> is <tt>checkpoint_period</tt>. The <tt>poll_period</tt> states how often the core client will poll the application for state information. The <tt>cpu_time</tt> member contains the number of seconds previously spent working on the current work unit. 
+<p>
+</li>
+<li>
+<b>The APP_OUT Structure</b>
+<br>
+Members: 
+<ul>
+	<li>
+    <tt>double percent_done;</tt>
+	</li><li>
+    <tt>double cpu_time_at_checkpoint;</tt>
+	</li><li>
+    <tt>bool checkpoint_completed;</tt>
+	</li>
+</ul>
+<br>
+The APP_OUT structure is passed via <tt>checkpoint_completed()</tt> and <tt>app_completed()</tt>. The only member expected to be filled in by the application is <tt>percent_done</tt>. THe other members will be filled in by the api. The <tt>cpu_time_at_checkpoint</tt> contains the cpu time elapsed in this instance of the application, which can be combined with the <tt>cpu_time</tt> from the APP_IN structure for total cpu time spent on this work unit. 
+<p>
+</li>
+<li>
 <b>The MFILE Class</b>
 <br>
 Functions:

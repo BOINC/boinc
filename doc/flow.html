@@ -11,11 +11,12 @@ the <b>high-water mark</b> and the <b>low-water mark</b>
 
 <p>
 Normally the work remaining is between the high- and low-water marks.
-Then the work remaining reaches the low-water mark,
+When the work remaining reaches the low-water mark,
 the core client contacts one or more scheduling servers,
 and attempts to get enough work to exceed the high-water mark. The
-scheduling server sends a minimum of one hour of work and a maximum of
-four weeks of work. 
+scheduling server sends a maximum of four weeks of work. If a work unit is
+not feasible for a host because it consumes too many system resources, 
+the scheduling server will not send that work unit. 
 
 <p>
 The amount of work (measured in FP/int ops) sent

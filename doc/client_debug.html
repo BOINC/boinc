@@ -5,7 +5,13 @@
 The core client writes error messages to stderr.
 This mechanism is reserved for serious problems,
 i.e. those that reflect bugs in the core client program
-or conditions that require user intervention.
+or conditions that require user intervention. Specifically, 
+The client verifies that arguments to functions have valid
+values, and will print a message to stderr on an invalid argument. 
+These error messages are formatted as <tt>error: CLASS_NAME.function: 
+error_statement argument</tt>. Common errors of this type include 
+unexpected NULL pointer arguments and negative lengths. Error numbers are
+defined in <b>lib/error_numbers.h</b>.
 
 <p>
 In addition, the core client can write a variety of "logging"
