@@ -11612,3 +11612,10 @@ David  April 14 2004
     sched/
         sched_config.C,h
         server_types.C
+
+David  April 14 2004
+    - moved MFILE declaration to a separate file
+        to facilitate a plain-C BOINC API
+    
+    api/
+        mfile.h (new)

@@ -61,6 +61,7 @@
 #include "util.h"
 #include "filesys.h"
 #include "boinc_api.h"
+#include "mfile.h"
 
 #define CHECKPOINT_FILE "upper_case_state"
 

@@ -29,29 +29,6 @@ using namespace std;
 
 #include "app_ipc.h"
 
-
-// MFILE supports a primitive form of checkpointing.
-// Write all your output (and restart file) to MFILEs.
-// The output is buffered in memory.
-// Then close or flush all the MFILEs;
-// all the buffers will be flushed to disk, almost atomically.
-
-class MFILE {
-    char* buf;
-    int len;
-    FILE* f;
-public:
-    int open(const char* path, const char* mode);
-    int _putchar(char);
-    int puts(const char*);
-    int printf(const char* format, ...);
-    size_t write(const void *, size_t size, size_t nitems);
-    int close();
-    int flush();
-    long tell() const;
-};
-
-
 /////////// API BEGINS HERE 
 
 extern int	boinc_set_error(int exit_code);

@@ -27,8 +27,9 @@
 #include <unistd.h>
 
 #include "filesys.h"
-#include "boinc_api.h"
 #include "util.h"
+#include "boinc_api.h"
+#include "mfile.h"
 
 int run_slow = 0;
 

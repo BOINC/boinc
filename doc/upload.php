@@ -101,7 +101,6 @@ The client should give up on the result.
 ");
 list_end();
 echo "
-</ul>
 In the error cases, the &lt;message> element gives an explanation.
 <p>
 TODO: if there's an error in the header

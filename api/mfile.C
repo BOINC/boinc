@@ -37,7 +37,7 @@ using namespace std;
 
 #include "filesys.h"
 #include "error_numbers.h"
-#include "boinc_api.h"
+#include "mfile.h"
 
 int MFILE::open(const char* path, const char* mode) {
     buf = 0;
