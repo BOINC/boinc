@@ -412,22 +412,22 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         iProjectIndex = m_pListPane->GetFirstSelected();
         pDoc->GetConnectedComputerName( strMachineName );
 
-        if ( !strMachineName.empty() )
-        {
+#ifdef _WIN32
+        if ( !strMachineName.empty() ) {
             iAnswer = wxMessageBox(
                 _("Are you sure you wish to display graphics on a remote machine?"),
                 _("Show graphics"),
                 wxYES_NO | wxICON_QUESTION, 
                 this
             );
-        }
-        else
-        {
+        } else {
             iAnswer = wxYES;
         }
+#else
+            iAnswer = wxYES;
+#endif
 
-        if ( wxYES == iAnswer )
-        {
+        if ( wxYES == iAnswer ) {
 			int foo = iProjectIndex;
             pDoc->WorkShowGraphics(
                 foo,
