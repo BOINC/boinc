@@ -202,7 +202,7 @@ function pretty_time_str($x) {
 }
 
 function start_table($extra="width=100%") {
-    echo "<table border=0 cellpadding=5 $extra>";
+    echo "<table border=1 cellpadding=5 $extra>";
 }
 
 function start_table_noborder($width="100%") {
