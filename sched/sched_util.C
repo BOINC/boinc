@@ -37,47 +37,6 @@ void check_stop_trigger() {
     exit(0);
 }
 
-// fill in the nusers, total_credit and expavg_credit fields
-// of the team table.
-// This may take a while; don't do it often
-//
-int update_teams() {
-    TEAM team;
-    int retval;
-
-    while (!db_team_enum(team)) {
-        retval = get_team_credit(team);
-        if (retval) return retval;
-
-        // update the team record
-        retval = db_team_update(team);
-        if (retval) return retval;
-    }
-    return 0;
-}
-
-int get_team_credit(TEAM &t) {
-    int nusers;
-    double expavg_credit, total_credit;
-    int retval;
-
-    // count the number of users on a team
-    retval = db_user_count_team(t, nusers);
-    if (retval) return retval;
-
-    // get the summed credit values for a team
-    retval = db_user_sum_team_expavg_credit(t, expavg_credit);
-    if (retval) return retval;
-    retval = db_user_sum_team_total_credit(t, total_credit);
-    if (retval) return retval;
-
-    t.nusers = nusers;
-    t.total_credit = total_credit;
-    t.expavg_credit = expavg_credit;
-
-    return 0;
-}
-
 // update an exponential average of credit per second.
 //
 void update_average(double credit_assigned_time, double credit, double& avg, double& avg_time) {

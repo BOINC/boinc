@@ -41,8 +41,6 @@
 
 extern void write_log(char*);
 extern void check_stop_trigger();
-extern int get_team_credit(TEAM&);
-extern int update_teams();
 extern void update_average(double, double, double&, double&);
 
 #endif

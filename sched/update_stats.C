@@ -20,7 +20,7 @@
 // update_stats: update exponential average credit for users and hosts,
 //               and calculate total users/credit for teams
 //
-// usage: update_stats [-update_teams] [-update_users] [-update_hosts]
+// usage: update_stats [-update_teams] [-update_users] [-update_hosts] [-asynch]
 
 #include <stdio.h>
 #include <string.h>
@@ -60,12 +60,53 @@ int update_hosts() {
     return 0;
 }
 
+int get_team_credit(TEAM &t) {
+    int nusers;
+    double expavg_credit, total_credit;
+    int retval;
+
+    // count the number of users on a team
+    retval = db_user_count_team(t, nusers);
+    if (retval) return retval;
+
+    // get the summed credit values for a team
+    retval = db_user_sum_team_expavg_credit(t, expavg_credit);
+    if (retval) return retval;
+    retval = db_user_sum_team_total_credit(t, total_credit);
+    if (retval) return retval;
+
+    t.nusers = nusers;
+    t.total_credit = total_credit;
+    t.expavg_credit = expavg_credit;
+
+    return 0;
+}
+
+// fill in the nusers, total_credit and expavg_credit fields
+// of the team table.
+// This may take a while; don't do it often
+//
+int update_teams() {
+    TEAM team;
+    int retval;
+
+    while (!db_team_enum(team)) {
+        retval = get_team_credit(team);
+        if (retval) return retval;
+
+        // update the team record
+        retval = db_team_update(team);
+        if (retval) return retval;
+    }
+    return 0;
+}
+
 int main(int argc, char** argv) {
     CONFIG config;
     int retval, i;
-    bool do_update_teams = false;
-    bool do_update_users = false;
-    bool do_update_hosts = false;
+    bool do_update_teams = false, do_update_users = false;
+    bool do_update_hosts = false, asynch = false;
+    char buf[256];
 
     check_stop_trigger();
 
@@ -76,6 +117,17 @@ int main(int argc, char** argv) {
             do_update_users = true;
         } else if (!strcmp(argv[i], "-update_hosts")) {
             do_update_hosts = true;
+        } else if (!strcmp(argv[i], "-asynch")) {
+            asynch = true;
+        } else {
+            sprintf(buf, "Unrecognized arg: %s\n", argv[i]);
+            write_log(buf);
+        }
+    }
+
+    if (asynch) {
+        if (fork()) {
+            exit(0);
         }
     }
 
@@ -95,14 +147,6 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    if (do_update_teams) {
-        retval = update_teams();
-        if (retval) {
-            fprintf(stderr, "update_teams failed: %d\n", retval);
-            exit(1);
-        }
-    }
-
     if (do_update_users) {
         retval = update_users();
         if (retval) {
@@ -115,6 +159,14 @@ int main(int argc, char** argv) {
         retval = update_hosts();
         if (retval) {
             fprintf(stderr, "update_hosts failed: %d\n", retval);
+            exit(1);
+        }
+    }
+
+    if (do_update_teams) {
+        retval = update_teams();
+        if (retval) {
+            fprintf(stderr, "update_teams failed: %d\n", retval);
             exit(1);
         }
     }
