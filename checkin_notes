@@ -18437,3 +18437,9 @@ David  15 Oct 2004
     client/
         gui_rpc_server.C
         scheduler_op.C
+
+David  15 Oct 2004
+    - don't finalize WinSock unless we inited it successfully
+
+    client/win/
+        wingui_mainwindow.cpp

@@ -31,6 +31,7 @@ using std::vector;
 
 CMyApp g_myApp;
 CMainWindow* g_myWnd = NULL;
+static bool winsock_inited = false;
 
 /////////////////////////////////////////////////////////////////////////
 // CMyApp member functions
@@ -76,6 +77,7 @@ BOOL CMyApp::InitInstance()
         MessageBox(NULL, "Failed to initialize the Windows Sockets Interface\nTerminating Application", "BOINC GUI Error", MB_OK);
         return FALSE;
     }
+    winsock_inited = true;
 
     m_pMainWnd = new CMainWindow();
     TRACE(TEXT("not already running; %d projects\n"), gstate.projects.size());
@@ -100,7 +102,9 @@ int CMyApp::ExitInstance()
     //gstate.free_mem();
 
     // Cleanup WinSock
-    WinsockCleanup();
+    if (winsock_inited) {
+        WinsockCleanup();
+    }
 
     return CWinApp::ExitInstance();
 }
