@@ -20,19 +20,20 @@
 
 #if defined(_WIN32) && defined(_CONSOLE)
 
-#include <afxwin.h>
+#include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <process.h>
 #include <tchar.h>
 
 #include "win_service.h"
+#include "util.h"
 
 // internal variables
 SERVICE_STATUS          ssStatus;       // current status of the service
 SERVICE_STATUS_HANDLE   sshStatusHandle;
 DWORD                   dwErr = 0;
-TCHAR                   szErr[256];
+TCHAR                   szErr[1024];
 
 // define the execution engine start point
 extern int boinc_execution_engine(int argc, char** argv);
@@ -376,7 +377,7 @@ void CmdInstallService()
 
     if ( GetModuleFileName( NULL, szPath, 512 ) == 0 )
     {
-        _tprintf(TEXT("Unable to install %s - %s\n"), TEXT(SZSERVICEDISPLAYNAME), GetLastErrorText(szErr, 256));
+        _tprintf(TEXT("Unable to install %s - %s\n"), TEXT(SZSERVICEDISPLAYNAME), windows_error_string(szErr, sizeof(szErr)));
         return;
     }
 
@@ -437,20 +438,20 @@ void CmdInstallService()
 			if ( ChangeServiceConfig2(schService, SERVICE_CONFIG_DESCRIPTION, &sdDescription) ){
 	            _tprintf(TEXT("%s service description installed.\n"), TEXT(SZSERVICEDISPLAYNAME) );
 			} else {
-	            _tprintf(TEXT("ChangeServiceConfig2 failed - %s\n"), GetLastErrorText(szErr, 256));
+	            _tprintf(TEXT("ChangeServiceConfig2 failed - %s\n"), windows_error_string(szErr, sizeof(szErr)));
 			}
 
             CloseServiceHandle(schService);
         }
         else
         {
-            _tprintf(TEXT("CreateService failed - %s\n"), GetLastErrorText(szErr, 256));
+            _tprintf(TEXT("CreateService failed - %s\n"), windows_error_string(szErr, sizeof(szErr)));
         }
 
         CloseServiceHandle(schSCManager);
     }
     else
-        _tprintf(TEXT("OpenSCManager failed - %s\n"), GetLastErrorText(szErr,256));
+        _tprintf(TEXT("OpenSCManager failed - %s\n"), windows_error_string(szErr,sizeof(szErr)));
 }
 
 
@@ -512,61 +513,19 @@ void CmdUninstallService()
             if( DeleteService(schService) )
                 _tprintf(TEXT("%s removed.\n"), TEXT(SZSERVICEDISPLAYNAME) );
             else
-                _tprintf(TEXT("DeleteService failed - %s\n"), GetLastErrorText(szErr,256));
+                _tprintf(TEXT("DeleteService failed - %s\n"), windows_error_string(szErr,sizeof(szErr)));
 
 
             CloseServiceHandle(schService);
         }
         else
-            _tprintf(TEXT("OpenService failed - %s\n"), GetLastErrorText(szErr,256));
+            _tprintf(TEXT("OpenService failed - %s\n"), windows_error_string(szErr,sizeof(szErr)));
 
         CloseServiceHandle(schSCManager);
     }
     else
-        _tprintf(TEXT("OpenSCManager failed - %s\n"), GetLastErrorText(szErr,256));
+        _tprintf(TEXT("OpenSCManager failed - %s\n"), windows_error_string(szErr,sizeof(szErr)));
 }
 
-
-//
-//  FUNCTION: GetLastErrorText
-//
-//  PURPOSE: copies error message text to string
-//
-//  PARAMETERS:
-//    lpszBuf - destination buffer
-//    dwSize - size of buffer
-//
-//  RETURN VALUE:
-//    destination buffer
-//
-//  COMMENTS:
-//
-LPTSTR GetLastErrorText( LPTSTR lpszBuf, DWORD dwSize )
-{
-    DWORD dwRet;
-    LPTSTR lpszTemp = NULL;
-
-    dwRet = FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM |FORMAT_MESSAGE_ARGUMENT_ARRAY,
-                           NULL,
-                           GetLastError(),
-                           LANG_NEUTRAL,
-                           (LPTSTR)&lpszTemp,
-                           0,
-                           NULL );
-
-    // supplied buffer is not long enough
-    if ( !dwRet || ( (long)dwSize < (long)dwRet+14 ) )
-        lpszBuf[0] = TEXT('\0');
-    else
-    {
-        lpszTemp[lstrlen(lpszTemp)-2] = TEXT('\0');  //remove cr and newline character
-        _stprintf( lpszBuf, TEXT("%s (0x%x)"), lpszTemp, GetLastError() );
-    }
-
-    if ( lpszTemp )
-        LocalFree((HLOCAL) lpszTemp );
-
-    return lpszBuf;
-}
 
 #endif

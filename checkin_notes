@@ -9718,3 +9718,25 @@ Karl 2004-02-03
         user/
             project.inc.sample (removed)
             project_specific_prefs.inc (removed)
+
+Rom    Feb 4 2004
+    - Fixed the windows_error_string routine so it'll report back windows system errors.
+    - Updated the CreateProcess part of app.c to report OS Errors based on the above funtion.
+    - Removed the seperate header blocks for both release and debug and made them the same.
+        clears up one customer bug on Windows NT 4.0 platforms
+    - Changed the 1400 version check in stackwalker.h to 1310 which is what the 7.1 compiler
+        version is really.
+    - Changed the service routines to use windows_error_string instead of GetSystemErrorText
+    
+    client/
+        app.c
+    client
+        win/
+            stackwalker.h
+            win_screensaver.h
+            win_service.cpp
+    lib/
+        util.c,h
+
+        
+        

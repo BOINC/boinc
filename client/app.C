@@ -378,10 +378,13 @@ int ACTIVE_TASK::start(bool first_time) {
         &startup_info,
         &process_info
     )) {
+		char szError[1024];
+		windows_error_string(szError, sizeof(szError));
+
         state = PROCESS_COULDNT_START;
         result->active_task_state = PROCESS_COULDNT_START;
-        gstate.report_result_error(*result, ERR_EXEC, "CreateProcess() failed");
-        msg_printf(wup->project, MSG_ERROR, "CreateProcess() failed");
+        gstate.report_result_error(*result, ERR_EXEC, "CreateProcess() failed - %s", szError);
+        msg_printf(wup->project, MSG_ERROR, "CreateProcess() failed - %s", szError);
         return ERR_EXEC;
     }
     pid = process_info.dwProcessId;

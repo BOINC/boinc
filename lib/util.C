@@ -39,6 +39,7 @@ using std::min;
 #ifdef _WIN32
 #include <time.h>
 #include <windows.h>
+#include <stdio.h>
 #else
 #include <sys/time.h>
 #include <unistd.h>
@@ -524,17 +525,48 @@ int read_file_string(const char* pathname, string& result) {
     return 0;
 }
 
-#ifdef _WIN32
-// the following doesn't seem to work
-// TODO: fix it; use after e.g. CreateProcess() error
+#ifdef WIN32
 //
-void windows_error_string(char* buf, int len) {
-	strcpy(buf, "");
-    LPVOID lpMsgBuf;
-    FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM,
-        NULL, GetLastError(), 0, (LPTSTR)&lpMsgBuf, 0, NULL
-    );
-	safe_strncpy(buf, (LPCSTR)lpMsgBuf, len);
-    LocalFree(lpMsgBuf);
+//  FUNCTION: windows_error_string
+//
+//  PURPOSE: copies error message text to string
+//
+//  PARAMETERS:
+//    pszBuf - destination buffer
+//    iSize - size of buffer
+//
+//  RETURN VALUE:
+//    destination buffer
+//
+//  COMMENTS:
+//
+char* windows_error_string( char* pszBuf, int iSize )
+{
+    DWORD dwRet;
+    LPTSTR lpszTemp = NULL;
+
+    dwRet = FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER |
+						   FORMAT_MESSAGE_FROM_SYSTEM |
+						   FORMAT_MESSAGE_ARGUMENT_ARRAY,
+                           NULL,
+                           GetLastError(),
+                           LANG_NEUTRAL,
+                           (LPTSTR)&lpszTemp,
+                           0,
+                           NULL );
+
+    // supplied buffer is not long enough
+    if ( !dwRet || ( (long)iSize < (long)dwRet+14 ) )
+        pszBuf[0] = TEXT('\0');
+    else
+    {
+        lpszTemp[lstrlen(lpszTemp)-2] = TEXT('\0');  //remove cr and newline character
+        sprintf( pszBuf, TEXT("%s (0x%x)"), lpszTemp, GetLastError() );
+    }
+
+    if ( lpszTemp )
+        LocalFree((HLOCAL) lpszTemp );
+
+    return pszBuf;
 }
 #endif

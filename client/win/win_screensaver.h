@@ -22,33 +22,17 @@
 #ifndef _BOINC_H
 #define _BOINC_H
 
-#ifdef _DEBUG
-
-// Used for TRACE Macros and the like.
-#include <afxwin.h>
-#include <windowsx.h>
-#include <string.h>
-#include <regstr.h>
-#include <mmsystem.h>
-#include <shlobj.h>
-#include <strsafe.h>
-
-#else
-
-// Used during the release code
 #include <Windows.h>
 #include <windowsx.h>
 #include <commctrl.h>
 #include <stdio.h>
 #include <tchar.h>
 #include <regstr.h>
-#define COMPILE_MULTIMON_STUBS
-#include <multimon.h>
 #include <mmsystem.h>
 #include <shlobj.h>
+#define COMPILE_MULTIMON_STUBS
+#include <multimon.h>
 #include <strsafe.h>
-
-#endif
 
 #include "boinc_ss.h"
 #include "win_util.h"
@@ -57,13 +41,9 @@
 //-----------------------------------------------------------------------------
 // Diagnostics Support
 //-----------------------------------------------------------------------------
-#ifndef _DEBUG
-
 #define TRACE		__noop		// If we are compiling for a release build noop the
 								//   trace macro, otherwise use the native debugging
 								//   support in the MFC libraries
-
-#endif
 
 
 //-----------------------------------------------------------------------------
