@@ -86,7 +86,7 @@ ARCHIVE_TARGETS = \
         mac_build/boinc.pbproj/*.pbxproj mac_build/*.lproj/*.nib/*.* \
         mac_build/*.lproj/*.strings \
         win_build/*.* win_build/*/*.dsp win_build/*/*.rct \
-        INSTALL_CLIENT LICENSE
+        INSTALL LICENSE
 
 .C.o:
 	$(CC) -c -o $*.o $<
