@@ -307,13 +307,13 @@ void xml_escape(char* in, string& out) {
     string_replace(out, x5, y5);
 }
 
-void write_host(HOST& host, FILE* f, bool detail, bool show_user) {
+void write_host(HOST& host, FILE* f, bool detail) {
     fprintf(f,
         "<host>\n"
         "    <id>%d</id>\n",
         host.id
     );
-    if (show_user) {
+    if (detail) {
         DB_USER user;
         user.lookup_id(host.userid);
         if (user.show_hosts) {
@@ -429,7 +429,7 @@ void write_user(USER& user, FILE* f, bool detail) {
         sprintf(buf, "where userid=%d", user.id);
         while (!host.enumerate(buf)) {
             if (host.total_credit > 0) {
-                write_host(host, f, false, false);
+                write_host(host, f, false);
             }
         }
     }
@@ -662,8 +662,36 @@ int ENUMERATION::make_it_happen(char* output_dir) {
         }
         break;
     case TABLE_HOST:
+        n = 0;
+        while(!host.enumerate(clause)) {
+            for (i=0; i<outputs.size(); i++) {
+                OUTPUT& out = outputs[i];
+                if (sort == SORT_ID && out.recs_per_file) {
+                    out.nzfile->set_id(n++);
+                }
+                if (out.zfile) {
+                    write_host(host, out.zfile->f, out.detail);
+                } else {
+                    write_host(host, out.nzfile->f, out.detail);
+                }
+            }
+        }
         break;
     case TABLE_TEAM:
+        n = 0;
+        while(!team.enumerate(clause)) {
+            for (i=0; i<outputs.size(); i++) {
+                OUTPUT& out = outputs[i];
+                if (sort == SORT_ID && out.recs_per_file) {
+                    out.nzfile->set_id(n++);
+                }
+                if (out.zfile) {
+                    write_team(team, out.zfile->f, out.detail);
+                } else {
+                    write_team(team, out.nzfile->f, out.detail);
+                }
+            }
+        }
         break;
     }
     for (i=0; i<outputs.size(); i++) {
