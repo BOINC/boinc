@@ -1,4 +1,4 @@
-2004-03-12  Kevin Dalley  <kevin@kelphead.org>
+2004-03-12  Kevin Dalley  <kevind@ssl.berkeley.edu>
 
 	* client/Makefile.am: update-boinc* references are replaced with
 	../$(srcdir)/win, so that srcdir will be checked. update-boinc*
@@ -12,7 +12,7 @@
 	html_user, which no longer exist.  UNIX2DOS now has path which
 	includes quarl's unix2dos.  This should be changed, but not yet. 
 
-2004-03-11  Kevin Dalley  <kevin@kelphead.org>
+2004-03-11  Kevin Dalley  <kevind@ssl.berkeley.edu>
 
 	* lib/util.C: added newline to end of file.
 
