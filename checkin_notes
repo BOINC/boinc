@@ -24524,6 +24524,30 @@ Rom    10 Feb 2005
         BOINCTaskBar.cpp
         MainFrame.cpp
 
+Eric K 10 Feb 2005
+    - There was a problem using dynamic allocations (with new) in many of the
+      graphics classes.  In many places the code was written assuming default 
+      values of 0, especially for pointers and booleans.  While that's true 
+      in the case of a static instance with the default constructors, it not
+      generally true with dynamic allocation unless the default constructor 
+      is replaced.  Therefore I've added constructors in the following 
+      classes/structs:  MOVING_TEXT_PANEL, COLOR, PROGRESS, PROGRESS_2D,
+      TEXTURE_DESC, REDUCED_ARRAY.  
+    - This will be a problem is any are used from C code unless the 
+      constructors declarations are enclosed in "#ifdef __cplusplus" blocks.
+    - There was also a problem that showed up under Windows when dynamic 
+      allocations were used.  app_graphics_resize() gets called before 
+      app_graphics_init().  This usually results in a crash since classes
+      haven't yet been constructed.  To work around this I've added a case
+      for WM_CREATE in the WndProc() which calls app_graphics_init.  Under
+      windows this will get passed before WM_SIZE does.
+
+    api/
+        gutil.C
+	gutil.h
+	reduce_main.C
+	windows_opengl.C
+
 Rom    10 Feb 2005
     - Bug Fix: Reorder the logic for NT 4.0 domain controllers one more
         time.  Damn variant variable types.
