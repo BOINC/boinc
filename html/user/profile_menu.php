@@ -72,7 +72,7 @@ function execute_command() {
       echo "No profiles matched your query.<br>";
       exit();
     }
-
+    
     shuffle($userIds);
     
     header("Location: " . URL_BASE . "view_profile.php?userid=" . $userIds[0]);
