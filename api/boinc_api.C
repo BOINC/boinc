@@ -55,7 +55,7 @@ MMRESULT timer_id;
 #include <gl\gl.h>            // Header File For The OpenGL32 Library
 #include <gl\glu.h>            // Header File For The GLu32 Library
 #include <gl\glaux.h>        // Header File For The Glaux Library
-HANDLE hGlobalDrawEvent,hQuitEvent;
+HANDLE hDoneDrawingEvent,hQuitEvent, hGraphicsDrawEvent;
 extern HANDLE graphics_threadh;
 extern BOOL    win_loop_done;
 #endif
@@ -311,11 +311,14 @@ bool boinc_time_to_checkpoint() {
         ok_to_draw = 1;
         // And wait for the graphics thread to notify us that it's done drawing
 #ifdef _WIN32
-        ResetEvent(hGlobalDrawEvent);
+		// Notify the graphics thread
+		SetEvent(hGraphicsDrawEvent);
+		// Reset the draw done event
+        ResetEvent(hDoneDrawingEvent);
         while (ok_to_draw) {
             // Wait for drawing to finish.  We don't do an infinite wait here to avoid the
             // possibility of deadlock (which was happening with an infinite wait value)
-            WaitForSingleObject( hGlobalDrawEvent, 10 );
+            WaitForSingleObject( hDoneDrawingEvent, 10 );
         }
 #endif _WIN32
 #ifdef __APPLE_CC__
@@ -516,7 +519,13 @@ int set_timer(double period) {
 #ifdef BOINC_APP_GRAPHICS
     // Create the event object used to signal between the
     // worker and event threads
-    hGlobalDrawEvent = CreateEvent( 
+    hDoneDrawingEvent = CreateEvent( 
+            NULL,     // no security attributes
+            TRUE,    // manual reset event
+            TRUE,     // initial state is signaled
+            NULL);    // object not named
+
+    hGraphicsDrawEvent = CreateEvent( 
             NULL,     // no security attributes
             TRUE,    // manual reset event
             TRUE,     // initial state is signaled

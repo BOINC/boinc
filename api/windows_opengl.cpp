@@ -53,7 +53,7 @@ bool	active=TRUE;		// Window Active Flag Set To TRUE By Default
 bool	fullscreen=TRUE;	// Fullscreen Flag Set To Fullscreen Mode By Default
 BOOL	win_loop_done=FALSE;			// Bool Variable To Exit Loop
 int		counter,old_left,old_top,old_right,old_bottom,cur_gfx_mode,old_gfx_mode;
-extern HANDLE hGlobalDrawEvent,hQuitEvent;
+extern HANDLE hGraphicsDrawEvent,hQuitEvent,hDoneDrawingEvent;
 
 int DrawGLScene(GLvoid);
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
@@ -164,6 +164,11 @@ void ChangeMode( int mode ) {
 	switch (mode) {
 		case MODE_NO_GRAPHICS:
 			if (fullscreen) while(ShowCursor(true) < 0);		// Show Mouse Pointer
+			GetWindowRect( hWnd, &WindowRect );
+			old_left = WindowRect.left;
+			old_top = WindowRect.top;
+			old_right = WindowRect.right;
+			old_bottom = WindowRect.bottom;
 			fullscreen = false;
 			break;
 		case MODE_WINDOW:
@@ -420,6 +425,21 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));  // LoWord=Width, HiWord=Height
 			return 0;								// Jump Back
 		}
+
+		// If we get a redraw request outside of our normal
+		// redraw framework, just fill the window with black
+		case WM_PAINT:
+		{
+			PAINTSTRUCT ps;
+		    HDC hdc;
+			RECT winRect;
+
+			hdc = BeginPaint(hWnd, &ps);
+			GetClientRect(hWnd, &winRect);
+            FillRect(hdc, &winRect, (HBRUSH) GetStockObject(BLACK_BRUSH));
+            EndPaint(hWnd, &ps);
+			return 0;
+		}
 	}
 
 	// Pass All Unhandled Messages To DefWindowProc
@@ -428,6 +448,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 
 DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	MSG			msg;		// Windows Message Structure
+	HANDLE		objs[1];
  
 	fullscreen=FALSE;							// Windowed Mode
 
@@ -461,21 +482,23 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 				TranslateMessage(&msg);				// Translate The Message
 				DispatchMessage(&msg);				// Dispatch The Message
 			}
+		} else {
+			objs[0] = hGraphicsDrawEvent;
+			MsgWaitForMultipleObjects( 1, objs, FALSE, 1000, QS_ALLEVENTS|QS_POSTMESSAGE );
 		}
-		else										// If There Are No Messages
-		{
-			if (ok_to_draw) {						// Window Active?
-				if (active) {	// Not Time To Quit, Update Screen
-					// Draw The Scene
-					DrawGLScene();
-					// Swap Buffers (Double Buffering).  This seems to take lots of CPU time
-					SwapBuffers(hDC);
-				}
-				// TODO: Do we need a mutex for ok_to_draw?
-				ok_to_draw = 0;
-				// Signal the worker thread that we're done drawing
-				SetEvent(hGlobalDrawEvent);
+		if (ok_to_draw) {						// Window Active?
+			if (active) {	// Time To Update Screen
+				// Draw The Scene
+				DrawGLScene();
+				// Swap Buffers (Double Buffering).  This seems to take lots of CPU time
+				SwapBuffers(hDC);
 			}
+			// TODO: Do we need a mutex for ok_to_draw?
+			ok_to_draw = 0;
+			// Signal the worker thread that we're done drawing
+			SetEvent(hDoneDrawingEvent);
+			// Put hGraphicsDrawEvent in unsignaled state so we don't immediately wake up
+			ResetEvent(hGraphicsDrawEvent);
 		}
 	}
 

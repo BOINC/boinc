@@ -18,7 +18,6 @@
 //
 
 #include <stdio.h>
-#include <db.h>
 
 extern bool parse(char*, char*);
 extern bool parse_int(char*, char*, int&);
