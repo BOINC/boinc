@@ -90,22 +90,23 @@ void P3(double X, double Y, double *Z);
 double T,T1,T2,E1[5];
 int J,K,L;
 
-// II determines how many iterations we do.
-// 10 seems to be a good value (about 1 sec on a 2 GHz machine)
-void whetstone(int II, double& flops) {
+void whetstone(double min_time, double& flops) {
 
 	/* used in the FORTRAN version */
 	long I;
 	long N1, N2, N3, N4, N6, N7, N8, N9, N10, N11;
 	double X1,X2,X3,X4,X,Y,Z;
 	long LOOP;
-    int JJ;
+    int II, JJ;
 
 	/* added for this version */
 	long loopstart;
 	double startsec, finisec;
 	double KIPS;
 
+    II = 1;
+
+restart:
 	loopstart = 1000;		/* see the note about LOOP below */
 /*
 C
@@ -131,7 +132,6 @@ C
 	LOOP = 1000;
 */
 	LOOP = loopstart;
-	II   = 10;
 
 	JJ = 1;
 
@@ -323,10 +323,9 @@ C
 C      where TIME is in seconds.
 C--------------------------------------------------------------------
 */
-	printf("\n");
-	if (finisec-startsec <= 0) {
-		printf("Insufficient duration- Increase the LOOP count\n");
-		return;
+	if (finisec-startsec <= min_time) {
+        II *= 2;
+        goto restart;
 	}
 
 	printf("Loops: %ld, Iterations: %d, Duration: %f sec.\n",

@@ -96,11 +96,16 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     double fpop_test_secs = 3.3;
     double iop_test_secs = 3.3;
     double mem_test_secs = 3.3;
+    double x, y;
 
     host_info.clear_host_info();
-    host_info.p_fpop_err = run_double_prec_test(fpop_test_secs, host_info.p_fpops);
-    host_info.p_iop_err = run_int_test(iop_test_secs, host_info.p_iops);
-    host_info.p_membw_err = run_mem_bandwidth_test(mem_test_secs, host_info.p_membw);
+    whetstone(3.0, host_info.p_fpops);
+    dhrystone(3.0, x, y);
+    host_info.p_iops = y*1e6;
+    host_info.p_membw = 1e9;
+    //host_info.p_fpop_err = run_double_prec_test(fpop_test_secs, host_info.p_fpops);
+    //host_info.p_iop_err = run_int_test(iop_test_secs, host_info.p_iops);
+    //host_info.p_membw_err = run_mem_bandwidth_test(mem_test_secs, host_info.p_membw);
     host_info.m_cache = 1e6;    // TODO: measure the cache
 
 #ifdef _WIN32
@@ -282,17 +287,19 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             host_info.m_cache /= host_info.p_ncpus;
         }
         msg_printf(
-            NULL, MSG_INFO, "Benchmark results: %.0f million floating point ops/sec%s",
+            NULL, MSG_INFO, "Benchmark results: %.0f double precision MIPS (Whetstone)%s",
         host_info.p_fpops/1e6, (host_info.p_fpop_err?" [ERROR]":"")
         );
         msg_printf(
-            NULL, MSG_INFO, "Benchmark results: %.0f million integer ops/sec%s",
+            NULL, MSG_INFO, "Benchmark results: %.0f integer MIPS (Dhrystone)%s",
         host_info.p_iops/1e6,  (host_info.p_iop_err?" [ERROR]":"")
         );
+#if 0
         msg_printf(
             NULL, MSG_INFO, "Benchmark results: %.0f million bytes/sec memory bandwidth%s",
         host_info.p_membw/1e6, (host_info.p_membw_err?" [ERROR]":"")
         );
+#endif
 
         host_info.p_calculated = dtime();
         guiOnBenchmarksEnd();

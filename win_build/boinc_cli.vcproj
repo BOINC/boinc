@@ -93,12 +93,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="1"
-				EnableIntrinsicFunctions="TRUE"
-				ImproveFloatingPointConsistency="FALSE"
-				FavorSizeOrSpeed="1"
-				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE"
 				StringPooling="TRUE"
@@ -496,6 +491,9 @@
 			</File>
 			<File
 				RelativePath="..\client\cs_trickle.C">
+			</File>
+			<File
+				RelativePath="..\client\dhrystone.C">
 			</File>
 			<File
 				RelativePath="..\lib\diagnostics.C">

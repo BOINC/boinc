@@ -17,22 +17,17 @@
 			OutputDirectory=".\Build\Release"
 			IntermediateDirectory=".\Build\Release\boinc_gui\obj"
 			ConfigurationType="1"
-			UseOfMFC="1"
+			UseOfMFC="2"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="1"
-				EnableIntrinsicFunctions="TRUE"
-				ImproveFloatingPointConsistency="FALSE"
-				FavorSizeOrSpeed="1"
-				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS"
 				StringPooling="TRUE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="../client/StdAfx.h"
@@ -48,13 +43,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="nafxcw.lib atls.lib libcmt.lib libcpmt.lib kernel32.lib user32.lib gdi32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib comdlg32.lib comctl32.lib shell32.lib shlwapi.lib ole32.lib oleaut32.lib oleacc.lib winspool.lib oldnames.lib uuid.lib"
+				AdditionalDependencies="wsock32.lib wininet.lib winmm.lib"
 				OutputFile=".\Build\Release/boinc_gui.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				IgnoreAllDefaultLibraries="TRUE"
-				IgnoreDefaultLibraryNames=""
-				DelayLoadDLLs="oleacc.dll"
+				IgnoreDefaultLibraryNames="libc,nafxcwd,libcmtd"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Release/boinc_gui.pdb"
 				SubSystem="2"
@@ -500,6 +493,9 @@
 			</File>
 			<File
 				RelativePath="..\client\cs_trickle.C">
+			</File>
+			<File
+				RelativePath="..\client\dhrystone.C">
 			</File>
 			<File
 				RelativePath="..\lib\diagnostics.C">

@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+#if 0       // this entire file is deprecated
+
 #ifdef _WIN32
 #include "stdafx.h"
 #endif
@@ -608,3 +610,5 @@ void stop_benchmark(int a) {
 #endif
     run_benchmark = false;
 }
+
+#endif
