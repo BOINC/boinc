@@ -39,13 +39,12 @@ $path= "$host->host_dir/projects/$enc_url/upper_case";
 print "\n the path for checking download is :".$path;
 
 $pid = $host->run_asynch("-exit_when_idle -limit_transfer_rate 2048");
-$boinc_pid = $host->get_new_boincpid(null); 
+$client_pid = $host->get_new_client_pid(null); 
 assert($pid != -1);
-echo "\n boinc_pid is $boinc_pid";
 $first = 0;
 $file_size = 0;
-
 //Check download
+
 while(1)
 {
   
@@ -65,11 +64,11 @@ while(1)
 	  if(($temp  > 40000) && ($first ==0))
 	    {
 	      print "\n stopping and rerunning the client";
-	      echo "\n now killing boinc_pid : $boinc_pid";
-	      $host->kill($boinc_pid, null);
+	      echo "\n now killing client_pid : $client_pid";
+	      $host->kill($client_pid, null);
 	      $host->run_asynch("-exit_when_idle -limit_transfer_rate 2048");
-	      $boinc_pid = $host->get_new_boincpid($boinc_pid);
-              echo "\nNow executing : $boinc_pid";
+	      $client_pid = $host->get_new_client_pid($client_pid);
+              echo "\nNow executing : $client_pid";
 	      $first++;
 	    }
 	     
@@ -116,11 +115,11 @@ while(1)
 	  if(($temp  > 20000) && ($first ==0))
 	    {
 	      print "\n stopping and rerunning the client";
-	      print "\nkilling $boinc_pid";
-	      $host->kill($boinc_pid,null);
+	      print "\nkilling $client_pid";
+	      $host->kill($client_pid,null);
 	      $host->run_asynch("-exit_when_idle -limit_transfer_rate 2048");
-	      $boinc_pid = $host->get_new_boincpid($boinc_pid);
-	      echo "\nnew boinc_pid is $boinc_pid";
+	      $client_pid = $host->get_new_client_pid($client_pid);
+	      echo "\nnew client_pid is $client_pid";
 	      $first++;
 	    }
 	     
@@ -130,7 +129,7 @@ while(1)
 	{
 	  print "\n all of the files has been uploaded";
 	  print "\n stopping and rerunning the client";
-	  $host->kill($boinc_pid, null);
+	  $host->kill($client_pid, null);
 	  $host->run("-exit_when_idle");
 	  break;
 	}

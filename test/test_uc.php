@@ -4,7 +4,8 @@
     // Also whether stderr output is reported correctly
 
     include_once("test.inc");
-
+$temp = "hello";
+echo "$temp[1]";
     $project = new Project;
     $user = new User();
     $host = new Host($user);

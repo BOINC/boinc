@@ -38,10 +38,7 @@ and give it your account key.
 <li><a href=top_teams.php>Top teams</a>
 </ul>
 
-<!--
-<scheduler>SCHEDULER_URL</scheduler>
--->
-
 <?php
+include 'FILE_NAME';
     page_tail();
 ?>
