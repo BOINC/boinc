@@ -75,7 +75,7 @@ int main() {
             if (nxp->io_done) break;
         }
         if (nxp->io_done) break;
-        sleep(1);
+        boinc_sleep(1);
     }
     nxs.remove(nxp);
     if (nxp->file) fclose(nxp->file);

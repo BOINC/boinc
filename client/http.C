@@ -17,9 +17,16 @@
 // Contributor(s):
 //
 
+#include "windows_cpp.h"
+
 #include <string.h>
 #include <sys/stat.h>
+
+#ifdef _WIN32
+#include "winsock.h"
+#else
 #include <unistd.h>
+#endif
 
 #include "error_numbers.h"
 #include "filesys.h"
@@ -92,7 +99,11 @@ int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
     header.content_length = 0;
     header.status = 404;        // default to failure
     for (i=0; i<1024; i++) {
+#ifdef _WIN32
+        recv(socket, buf+i, 1, 0);
+#else
         read(socket, buf+i, 1);
+#endif
         if (strstr(buf, "\r\n\r\n") || strstr(buf, "\n\n")) {
             if (log_flags.http_debug) printf("reply header:\n%s", buf);
             p = strchr(buf, ' ');
@@ -203,7 +214,11 @@ bool HTTP_OP_SET::poll() {
                     );
                     break;
                 }
+#ifdef _WIN32
+                n = send(htp->socket, hdr, strlen(hdr), 0);
+#else
                 n = write(htp->socket, hdr, strlen(hdr));
+#endif
                 if (log_flags.http_debug) {
                     printf("wrote HTTP header: %d bytes\n", n);
                 }

@@ -229,10 +229,6 @@ double run_mem_bandwidth_test( double num_secs ) {
 }
 
 void run_test_suite( double num_secs_per_test ) {
-    int bw_test_time;
-    double bw_secs;
-    int bw_iters;
-    
     printf(
         "Running tests.  This will take about %.1lf seconds.\n\n",
         num_secs_per_test*3

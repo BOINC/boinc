@@ -18,3 +18,4 @@
 //
 
 extern double dtime();
+extern void boinc_sleep( int seconds );

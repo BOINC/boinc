@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/utsname.h>
+#include <time.h>
 #if HAVE_SYS_SYSTEMINFO_H
 #include <sys/systeminfo.h>
 #endif
@@ -32,10 +32,15 @@
 #if HAVE_SYS_SWAP_H
 #include <sys/swap.h>
 #endif
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <sys/utsname.h>
 #include <unistd.h>
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
+#endif
 
 #include "client_types.h"
 
@@ -161,23 +166,19 @@ void get_osinfo(HOST_INFO& host) {
 
 #endif
 
+#ifdef solaris
 int get_host_info(HOST_INFO& host) {
-#ifndef mac
     struct statvfs foo;
-#endif
-        
+
     memset(&host, 0, sizeof(host));
-      
+    
     get_local_domain_name(host.domain_name);
     get_local_ip_addr_str(host.ip_addr);
-			    
-#ifndef mac
+
     statvfs(".", &foo);
     host.d_total = (double)foo.f_bsize * (double)foo.f_blocks;
     host.d_free = (double)foo.f_bsize * (double)foo.f_bavail;
-#endif
 
-#ifdef solaris
     int i, n;
     sysinfo(SI_SYSNAME, host.os_name, sizeof(host.os_name));
     sysinfo(SI_RELEASE, host.os_version, sizeof(host.os_version));
@@ -197,14 +198,29 @@ int get_host_info(HOST_INFO& host) {
     for (i=0; i<n; i++) {
         host.m_swap += 512.*(double)s->swt_ent[i].ste_length;
     }
+
+    return 0;
+}
+#endif
+
+#ifdef mac
+int get_host_info(HOST_INFO &host) {
+    return 0;
+}
 #endif
 
 #ifdef linux
+int get_host_info(HOST_INFO& host) {
+    memset(&host, 0, sizeof(host));
+      
+    get_local_domain_name(host.domain_name);
+    get_local_ip_addr_str(host.ip_addr);
+			    
     parse_cpuinfo(host);
     parse_meminfo(host);
     get_osinfo(host);
     get_timezone(host.timezone);
-#endif
 
     return 0;
 }
+#endif

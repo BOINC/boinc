@@ -24,6 +24,10 @@
 // by the BOINC scheduling server or client.
 // Could replace this with a more general parser.
 
+#ifdef _WIN32
+#include "windows.h"
+#endif
+
 #include <string.h>
 #include <stdlib.h>
 

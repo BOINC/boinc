@@ -17,18 +17,27 @@
 // Contributor(s):
 //
 
+#include "windows_cpp.h"
+
 #include <stdio.h>
+
+#ifdef _WIN32
+#include "winsock.h"
+#else
 #include <sys/time.h>
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/select.h>
-//#include <sys/ioctl.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <netdb.h>
+#include <unistd.h>
+#endif
+
+#include <sys/types.h>
+//#include <sys/ioctl.h>
 #include <errno.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <time.h>
 #include <fcntl.h>
 #include <string.h>
 
@@ -50,8 +59,6 @@ int NET_XFER::open_server() {
     sockaddr_in addr;
     hostent* hep;
     int fd=0, ipaddr, retval=0;
-    int flags;
-    //long one = 1;
 
     hep = gethostbyname(hostname);
     if (!hep) {
@@ -63,20 +70,33 @@ int NET_XFER::open_server() {
     fd = ::socket(AF_INET, SOCK_STREAM, 0);
     if (fd < 0) return -1;
 
+#ifdef _WIN32
+	unsigned long one = 1;
+	ioctlsocket(fd, FIONBIO, &one);
+#else
+    int flags;
     //ioctl(fd, FIONBIO, &one);
     flags = fcntl(fd, F_GETFL, 0);
     if (flags < 0) return -1;
     else if( fcntl(fd, F_SETFL, flags|O_NONBLOCK) < 0 ) return -1;
+#endif
 
     addr.sin_family = AF_INET;
     addr.sin_port = htons(port);
     addr.sin_addr.s_addr = ((long)ipaddr);
     retval = connect(fd, (sockaddr*)&addr, sizeof(addr));
     if (retval) {
+#ifdef _WIN32
+        if (errno != WSAEINPROGRESS) {
+            closesocket(fd);
+            return -1;
+        }
+#else
         if (errno != EINPROGRESS) {
             close(fd);
             return -1;
         }
+#endif
     } else {
         is_connected = true;
     }
@@ -108,7 +128,11 @@ int NET_XFER_SET::insert(NET_XFER* nxp) {
 int NET_XFER_SET::remove(NET_XFER* nxp) {
     vector<NET_XFER*>::iterator iter;
 
+#ifdef _WIN32
+    if (nxp->socket) closesocket(nxp->socket);
+#else
     if (nxp->socket) close(nxp->socket);
+#endif
 
     iter = net_xfers.begin();
     while (iter != net_xfers.end()) {
@@ -190,7 +214,11 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
         fd = nxp->socket;
 	if (FD_ISSET(fd, &read_fds) || FD_ISSET(fd, &write_fds)) {
             if (!nxp->is_connected) {
-                getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, &intsize);
+#ifdef _WIN32
+                getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, (int *)&intsize);
+#else
+                getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
+#endif
                 if (n) {
                     if (log_flags.net_xfer_debug) {
                         printf("socket %d connect failed\n", fd);
@@ -241,7 +269,11 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
 
     if (!buf) return ERR_MALLOC;
     if (want_download) {
-	n = read(socket, buf, blocksize);
+#ifdef _WIN32
+    n = recv(socket, buf, blocksize, 0);
+#else
+    n = read(socket, buf, blocksize);
+#endif
         if (log_flags.net_xfer_debug) {
             printf("read %d bytes from socket %d\n", n, socket);
         }
@@ -276,7 +308,11 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
 	nleft = m;
 	offset = 0;
 	while (nleft) {
-	    n = write(socket, buf+offset, nleft);
+#ifdef _WIN32
+        n = send(socket, buf+offset, nleft, 0);
+#else
+        n = write(socket, buf+offset, nleft);
+#endif
             if (log_flags.net_xfer_debug) {
                 printf("wrote %d bytes to socket %d\n", n, socket);
             }

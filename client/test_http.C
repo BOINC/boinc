@@ -51,7 +51,7 @@ int main() {
             op2 = 0;
 	}
 	if (!op1 && !op2) break;
-	sleep(1);
+	boinc_sleep(1);
     }
     printf("all done\n");
 }

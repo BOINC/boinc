@@ -7,5 +7,4 @@
 
 - produce bitmap in separate process, use shared mem
 
-- Allow for hardware acceleration direct to screen.
--Test
+- Allow for hardware acceleration direct to screen

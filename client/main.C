@@ -19,12 +19,15 @@
 
 // command-line version of the BOINC core client
 
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 
 #include "accounts.h"
 #include "file_names.h"
 #include "log_flags.h"
 #include "client_state.h"
+#include "util.h"
 
 void show_message(char* message, char* priority) {
     if (!strcmp(priority, "high")) {
@@ -58,10 +61,12 @@ int main(int argc, char** argv) {
         if (!cs.do_something()) {
             if (log_flags.time_debug) printf("SLEEP 1 SECOND\n");
             fflush(stdout);
-            sleep(1);
+            boinc_sleep(1);
         }
         if (cs.time_to_exit()) {
             exit(0);
         }
     }
+
+	return 0;
 }

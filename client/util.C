@@ -17,7 +17,21 @@
 // Contributor(s):
 //
 
+#ifndef _WIN32
 #include <sys/time.h>
+#include <unistd.h>
+#else
+#include <time.h>
+#include <windows.h>
+
+/* Replacement gettimeofday 
+   Sets the microseconds to clock() * 1000 which is microseconds in Windows */
+void gettimeofday(timeval *t, void *tz) {
+	t->tv_sec = time(NULL);
+	t->tv_usec = 1000 * (long)(clock());
+}
+
+#endif
 
 #include "util.h"
 
@@ -28,3 +42,16 @@ double dtime() {
     gettimeofday(&tv, 0);
     return tv.tv_sec + (tv.tv_usec/1.e6);
 }
+
+#ifdef _WIN32
+void boinc_sleep( int seconds ) {
+	::Sleep( 1000*seconds );
+}
+
+#else
+
+void boinc_sleep( int seconds ) {
+	sleep( seconds );
+}
+
+#endif

@@ -328,3 +328,27 @@ Eric Heien    June 03, 2002
         parse.C (removed, uses lib version now)
         parse.h (removed, uses lib version now)
         Makefile.in
+
+Eric Heien   June 06, 2002
+    - Changes and additions made to begin porting to Windows.
+    - This code will compile on Windows, but is not quite fully functional.
+
+    client/
+	hostinfo_unix.C
+	hostinfo_win.C (added)
+	http.C
+	main.C
+	net_xfer.C
+	prefs.C
+	speed_stats.C
+	test_file_xfer.C
+	test_http.C
+	test_net_xfer.C
+	util.C
+	util.h
+	windows_cpp.h (added)
+	win_main.C (added)
+    lib/
+	md5.c
+	parse.C
+
