@@ -21,9 +21,7 @@ define("TITLE_COLOR", " bgcolor=000000 ");
 define("TITLE_FONT", " <font color=ffffff> ");
 define("BODY_COLOR", " bgcolor=ffffff ");
 define("NOLOGIN", "Not logged in. Click <a href=login.php>here</a> to login.\n");
-define("BADPASS", "The password you entered is incorrect. Click the <b>Back</b> button on your browser to re-enter your password or try again later.");
-define("DIFFPASS", "You've typed two different passwords. Click the <b>Back</b> button on your browser to edit your information, making sure you type the same password in both password fields."); 
-define("PROJECT", "Sample project");
+define("PROJECT", "Astropulse");
 
 
 function get_user_from_cookie() {
@@ -49,7 +47,7 @@ function page_head($title) {
 
     // Put your project title and logo here
 
-    echo "<h2>Sample Project</h2>\n";
+    echo "<h2>".PROJECT."</h2><hr>\n";
     echo "<h3>$title</h3>\n";
 }
 

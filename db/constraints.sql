@@ -12,6 +12,8 @@ alter table app_version
 alter table user
     add unique(email_addr);
 alter table user
+    add unique(authenticator);
+alter table user
     add index ind_tid (teamid);
 
 alter table team

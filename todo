@@ -1,4 +1,8 @@
-protection mechanism for project admin web
+use PHP session mechanism instead of our own cookies
+
+use https for login (don't sent account key or password in clear)
+
+protect project admin web pages (htaccess)
 
 Deadline mechanism for results
     - use in result dispatching

@@ -102,7 +102,7 @@ struct USER {
     unsigned int create_time;
     char email_addr[256];
     char name[256];
-    char web_password[256];
+    char web_password[256];         // optional
     char authenticator[256];
     char country[256];
     char postal_code[256];

@@ -9,14 +9,14 @@
     $user = new User();
     $host = new Host($user);
 
-    // the following is optional
-    $app = new App("core_client");
-    $app_version = new App_Version($app);
-    $project->add_app($app);
-    $project->add_app_version($app_version);
-
     $app = new App("upper_case");
     $app_version = new App_Version($app);
+
+    // the following is optional (makes client web download possible)
+    $core_app = new App("core client");
+    $core_app_version = new App_Version($core_app);
+    $project->add_app($core_app);
+    $project->add_app_version($core_app_version);
 
     $project->add_user($user);
     $project->add_app($app);

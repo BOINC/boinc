@@ -2356,3 +2356,32 @@ David  Nov 9 2002
         test_uc.php
     tools/
         process_result_template.C
+
+David  Nov 9 2002
+    - Simplified account creation.
+        Only screen name, email address required; country, zip optional.
+        Only account ID required to log in
+        Removed web password from form;
+        projects can add this if they want.
+    - Change "authenticator" to "account ID" everywhere
+    - made country list appear on account creation form
+
+    todo
+    db/
+        constraints.sql
+        db.h
+    doc/
+        account.html
+        app.html
+        create_project.html
+        participate.html
+        startup.html
+    html_user/
+        renamed create_account.php to create_account_form.php
+        renamed login.php to login_form.php
+        download.php
+        index.php
+        login_action.php
+        util.inc
+    test/
+        test_uc.php
