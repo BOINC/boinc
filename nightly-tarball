@@ -49,5 +49,5 @@ reqeval "mkdir -p $TMPDIR"
 reqeval "cd $TMPDIR"
 reqeval_log "$CHECKOUT"      checkout.log
 reqeval_log "tar czvf $FILENAME_TGZ boinc" tar.log
-reqeval_log "zip -r9 $FILENAME_TGZ boinc" zip.log
-reqeval "mv $FILENAME_TGZ $FILENAME_TAR $DESTINATION"
+reqeval_log "zip -r9 $FILENAME_ZIP boinc" zip.log
+reqeval "mv $FILENAME_TGZ $FILENAME_ZIP $DESTINATION"
