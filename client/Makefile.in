@@ -69,7 +69,13 @@ TEST_FX_OBJS = \
     file_names.o \
     file_xfer.o
 
-TAR_TARGETS = client/*.C client/*.cpp client/*.h client/configure client/install-sh client/*.in client/*.sub client/*.guess lib/*.C lib/*.c lib/*.h api/*.C api/*.h RSAEuro/*/*.c RSAEuro/*/*.h RSAEuro/*/*.in RSAEuro/*/*.mak INSTALL_CLIENT
+TAR_TARGETS = \
+        client/*.C client/*.cpp client/*.h client/configure \
+        client/install-sh client/*.in client/*.sub client/*.guess \
+        lib/*.C lib/*.c lib/*.h \
+        api/*.C api/*.h \
+        RSAEuro/*/*.c RSAEuro/*/*.h RSAEuro/*/*.in RSAEuro/*/*.mak \
+        INSTALL_CLIENT ACKNOWLEDGEMENTS LICENSE
 
 .C.o:
 	$(CC) -c -o $*.o $<

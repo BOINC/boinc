@@ -59,8 +59,8 @@ BOINC_WARN_ENV = 1
 BOINC_MASTER_URL_MSG = $(ENV_MSG_1)"BOINC_MASTER_URL"$(ENV_MSG_2)
 endif
 ifdef BOINC_WARN_ENV
-ENV_MESSAGES = echo "****************************************"; \
-    echo $(BOINC_DOWNLOAD_DIR_MSG) \
+ENV_MESSAGES = "****************************************" \
+    $(BOINC_DOWNLOAD_DIR_MSG) \
     $(BOINC_UPLOAD_URL_MSG) \
     $(BOINC_PLATFORM_MSG) \
     $(BOINC_EMAIL_MSG) \
@@ -72,8 +72,9 @@ ENV_MESSAGES = echo "****************************************"; \
     $(BOINC_UPLOAD_URL_MSG) \
     $(BOINC_DOWNLOAD_URL_MSG) \
     $(BOINC_MASTER_URL_MSG) \
-    $(ENV_MSG_3); \
-    echo "****************************************";
+    $(ENV_MSG_3) \
+    "****************************************"
+EXIT_IF_NEEDED = @exit 1;
 endif
 
 #
@@ -93,7 +94,8 @@ all: messages
 	cd tools; ${MAKE}; cd ..;
 
 messages:
-	$(ENV_MESSAGES)
+	@echo $(ENV_MESSAGES)
+	$(EXIT_IF_NEEDED)
 
 clean:
 	rm -f boinc.tar.gz config.cache; \
@@ -125,8 +127,27 @@ uninstall:
 	cd tools; ${MAKE} uninstall;
 	$(RM) -r $(INSTALL_DIR)/tools;
 
-tar: clean
-	tar cf boinc.tar * ; gzip boinc.tar
+TAR_TARGETS = \
+        client/*.C client/*.cpp client/*.h client/configure \
+        client/install-sh client/*.in client/*.sub client/*.guess \
+        apps/*.C apps/*.h apps/*.in \
+        db/*.sql db/*.h db/*.C db/*.in db/init_db \
+        doc/*.* \
+        html_ops/*.* \
+        html_user/*.* \
+        lib/*.C lib/*.c lib/*.h lib/*.in \
+        sched/*.C sched/*.h sched/*.in \
+        sched_fcgi/*.C sched_fcgi/*.h sched_fcgi/*.in \
+        test/*.xml test/*.php test/*wu test/*result test/*output \
+        test/*.html test/*input \
+        tools/*.C tools/*.h tools/*.in \
+        api/*.C api/*.h api/*.in \
+        RSAEuro/*/*.c RSAEuro/*/*.h RSAEuro/*/*.in RSAEuro/*/*.mak \
+        INSTALL ACKNOWLEDGEMENTS LICENSE configure install-sh \
+        *.in *.sub *.guess *.m4
+
+tar: 
+	tar cf boinc.tar $(TAR_TARGETS) ; gzip boinc.tar
 
 client_tar: clean
 	cd client; ./configure; ${MAKE} tar;
