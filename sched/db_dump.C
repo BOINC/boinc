@@ -113,7 +113,7 @@ public:
 
         f = fopen(filename.c_str(), "w");
         if (!f) {
-            fprintf(stderr, "db_dump: Couldn't open %s for output\n", filename.c_str());
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,  "db_dump: Couldn't open %s for output\n", filename.c_str());
         }
         fprintf(f,
             "<?xml version=\"1.0\"?>\n<%s>\n", tag.c_str()
