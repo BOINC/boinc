@@ -406,7 +406,7 @@ AC_SUBST(CLIENTLIBS)
 ## some more tweaking to turn non-standard libs into statically linked ones
 CLIENTGUIFLAGS="-DNOCLIPBOARD -DNOTASKBAR"
 
-if test "${enable_client_release}" = yes; then
+if test "${enable_debug}" = yes; then
     CLIENTGUIFLAGS="$CLIENTGUIFLAGS -D__WXDEBUG__"
 fi
 
