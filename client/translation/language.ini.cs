@@ -1,5 +1,6 @@
 #Czech language.ini.cs file
-#Version 1.09a by Spok (2003/07/31 - 09:32:48 CET :)
+#Version 1.09b by Spok (2003/08/01 - 08:33:21 CET :)
+#Based on language.ini.template.txt ver 1.19 2003/08/01 02:52:29 quarl
 #Character set: "charset=Windows-1250"
  
 # Use & for menu keys
@@ -18,7 +19,7 @@ Resource Share=Rozdìlení práce
 Title=Úkoly
 Project=Projekt
 Application=Aplikace
-Name=Jméno
+Name=Název
 CPU time=Procesorovı èas
 Progress=Prùbìh
 To Completion=Dokonèí za
@@ -47,31 +48,26 @@ Message=Zpráva
 #USAGE_ID
 [HEADER-Disk]
 Title=Disk
-#Free space: not available for use=Volné místo: Nevyuitelné
-#Free space: available for use=Volné místo: Vyuitelné
-#Used space: other than BOINC=Obsazené místo: Mimo BOINC
-#Used space:=Obsazené místo:
 Free space=Volné místo
 Used space: non-BOINC=Obsazené místo: mimo BOINC
 Used space: BOINC=Obsazené místo: BOINC
+BOINC Core Client=BOINC - jádro
 
 #miscellaneous text
 [HEADER-MISC]
 New=Novı
-Running=Probíhající
-Ready to run=Pøipravenı
+Running=Poèítám
+Ready to run=Pøipraveno
 Computation done=Vıpoèet ukonèen
 Results uploaded=Odesláno
 Acknowledged=Potvrzeno
 Error: invalid state=Chyba: Neplatnı stav
 Completed=Dokonèeno
-Upload=Odesílá se
-Download=Pøijímá se
+Uploading=Odesílá se
+Downloading=Pøijímá se
 Retry in=Znovu zkusím za
 Upload failed=Chyba pøi odesílání
 Download failed=Chyba pøi stahování
-Uploading=Odesílá se (*)
-Downloading=Pøijímá se (*)
 
 
 #menu items
@@ -82,14 +78,15 @@ Downloading=Pøijímá se (*)
 [MENU-File]
 Title=&Soubor
 Show Graphics=Zobraz &Grafiku
-Force run=Spus &Vıpoèet
+Run always=&Poèítej nepøetritì
 Run based on preferences=Poèítej podle &Nastavení
-Pause=&Pauza
+Suspend=Po&zastavit
 Run Benchmarks=Spus &Testy
 Hide=&Skryj
 Exit=&Konec
-Suspend=Pozastavit (*)
-Resume=Obnovit (*)
+#Force run=Spus &Vıpoèet
+#Pause=Pauza
+Resume=Obnovit
 
 
 [MENU-Settings]
@@ -102,17 +99,22 @@ Title=&Pomoc
 About...=&O programu...
 
 [MENU-StatusIcon]
+Show=Zobraz
+Hide=Skryj
+Run always=&Poèítej nepøetritì
+Run based on preferences=Poèítej podle &Nastavení
 Suspend=Pozastavit
-Resume=Obnovit
+#Resume=Obnovit
 Exit=Konec
 
 [MENU-Project]
-Relogin...=Znovu pøihlásit...
+Web site=Webová stránka
 Get preferences=Získej nastavení
 Retry now=Zkus teï
 Detach...=Opustit projekt...
 Reset project...=Restartovat projekt...
 Quit Project...=Ukonèit projekt...
+#Relogin...=Znovu pøihlásit...
 
 [MENU-Work]
 Show Graphics=Zobraz &grafiku
@@ -123,49 +125,48 @@ Retry now=Zkus teï
 [MENU-Messages]
 Copy to clipboard=Zkopíruj do schránky
 
+
 [DIALOG-LOGIN]
 Title=Pøihlásit se k projektu
 URL:=URL:
 Account Key:=Klíè (Account Key):
 OK=OK
 Cancel=Zrušit
-The URL for the website of the project.=URL projektu.
-The authorization code recieved in your confirmation email.=Autorizaèní klíè
-obdrenı v potvrzovacím e-mailu.
+The URL for the website of the project.=Adresa (URL) projektu.
+The authorization code recieved in your confirmation email.=Autorizaèní klíè obdrenı v potvrzovacím e-mailu.
 
 [DIALOG-QUIT]
-Title=Ukonèit
+Title=Opustit projekt
 URL:=URL:
 Account Key:=Klíè (Account Key):
 OK=OK
 Cancel=Zrušit
-Select the project you wish to quit.=Vyberte projekt, kterı chcete ukonèit.
+Select the project you wish to quit.=Vyberte projekt, kterı chcete opustit.
 
 [DIALOG-CONNECT]
 Title=Pøipojit
-BOINC needs to connect to the network.  May it do so now?=BOINC vyaduje
-pøipojení na internet. Pøipojit?
-Don't ask this again (connect automatically)=Pøíštì se nedotazovat
-(pøipojovat automaticky).
+BOINC needs to connect to the network.  May it do so now?=BOINC vyaduje pøipojení na internet. Pøipojit?
+Don't ask this again (connect automatically)=Pøíštì se nedotazovat (pøipojovat automaticky).
 OK=OK
 Cancel=Zrušit
 
+[DIALOG-RESET]
+Title=Pokusnì Restartovat projekt
+Are you sure you want to reset the project %1?=Opravdu chcete restartovat projekt %1?
+
+[DIALOG-DETACH]
+Title=Pokusnì Opustit projekt
+Are you sure you want to detach from the project %1?=Opravdu chcete opustit projekt %1?
+
 [DIALOG-ABOUT]
 Title=BOINC - Beta verze
-Berkeley Open Infrastructure for Network Computing=Berkeley Open
-Infrastructure for Network Computing
+Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
 Open Beta=Open Beta
 OK=OK
 
 [DIALOG-PROXY]
 Title=Nastavení proxy serveru
-Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for
-increased security.  If you need to use a proxy, fill in the information
-below.  If you need help, ask your System Administrator or Internet Service
-Provider.=Nìkteré organizace pouívají HTTP nebo SOCKS proxy server
-(pøípadnì oba), kvùli zvıšení bezpeènosti. Pokud se pøipojujete pøes proxy
-server, vyplòte tento formuláø. Potøebujete-li pomoc, kontaktujte vašeho
-správce sítì nebo vašeho poskytovatele pøipojení.
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=Nìkteré organizace pouívají HTTP nebo SOCKS proxy server (pøípadnì oba), kvùli zvıšení bezpeènosti. Pokud se pøipojujete pøes proxy server, vyplòte tento formuláø. Potøebujete-li pomoc, kontaktujte vašeho správce sítì nebo vašeho poskytovatele pøipojení.
 HTTP Proxy=HTTP proxy server
 Connect via HTTP Proxy Server=Pøipojit pøes HTTP proxy server
 http://=http://
