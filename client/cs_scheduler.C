@@ -180,7 +180,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         "    <core_client_minor_version>%d</core_client_minor_version>\n"
         "    <work_req_seconds>%f</work_req_seconds>\n"
         "    <resource_share_fraction>%f</resource_share_fraction>\n"
-        "    <estimated_delay>%f</estimated_delay>\n",
+        "    <estimated_delay>%f</estimated_delay>\n"
+        "    <host_venue>%s</host_venue>\n",
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
@@ -189,7 +190,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         core_client_minor_version,
         work_req,
         p->resource_share / trs,
-        ettprc(p, proj_min_results(p, ncpus)-1)
+        ettprc(p, proj_min_results(p, ncpus)-1),
+        host_venue
     );
 	if (p->anonymous_platform) {
 		fprintf(f, "    <app_versions>\n");

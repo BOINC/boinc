@@ -15802,3 +15802,15 @@ David  3 Aug 2004
     html/inc
         util.inc
         xml.inc (new)
+
+Daniel 2004-08-3
+    - Fixed "prefs and venue" issue. Before: host venue assignment always
+      comes from the project that is contacted. Now: host venue assignment
+      comes from the project with the newer global prefs.
+
+    client/
+        cs_scheduler.C
+    sched/
+        handle_request.C
+        server_types.C,h
+

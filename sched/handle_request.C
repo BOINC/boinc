@@ -291,6 +291,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         }
         if (update_prefs) {
             strcpy(reply.user.global_prefs, sreq.global_prefs_xml);
+            strncpy(reply.host.venue, sreq.host_venue, sizeof(reply.host.venue));
             reply.update_user_record = true;
         }
     } else {
@@ -302,7 +303,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             reply.send_global_prefs = true;
         }
     }
-    sreq.global_prefs.parse(sreq.global_prefs_xml, sreq.host.venue);
+    sreq.global_prefs.parse(sreq.global_prefs_xml, reply.host.venue);
     return 0;
 }
 

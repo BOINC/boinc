@@ -65,6 +65,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     strcpy(projects_xml, "");
     strcpy(code_sign_key, "");
     strcpy(cross_project_id, "");
+    strcpy(host_venue, "");
 
     fgets(buf, 256, fin);
     if (!match_tag(buf, "<scheduler_request>")) return ERR_XML_PARSE;
@@ -91,6 +92,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_int(buf, "<work_req_seconds>", work_req_seconds)) continue;
         else if (parse_double(buf, "<resource_share_fraction>", resource_share_fraction)) continue;
         else if (parse_double(buf, "<estimated_delay>", estimated_delay)) continue;
+        else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
         else if (parse_double(buf, "<project_disk_usage>", project_disk_usage)) continue;
         else if (parse_double(buf, "<total_disk_usage>", total_disk_usage)) continue;
         else if (match_tag(buf, "<global_preferences>")) {
