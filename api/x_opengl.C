@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
-#ifdef __APPLE_CC__
+#ifdef __APPLE__
 #include <Carbon/Carbon.h>
 #endif
 
@@ -158,22 +158,20 @@ static void make_new_window(int mode) {
     glutMotionFunc(mouse_click_move);
     glutDisplayFunc(maybe_render); 
     glEnable(GL_DEPTH_TEST);    
+#ifdef __APPLE__
+    glutWMCloseFunc(CloseWindow);   // Enable the window's close box
 
+    SetSystemUIMode(kUIModeAllHidden, 0);   // Hide Menu Bar
+        
+    ProcessSerialNumber	myProcess;
+    GetCurrentProcess(&myProcess);
+    SetFrontProcess(&myProcess);     // Bring ourselves to the front
+#endif
     app_graphics_init();
 
     if (mode == MODE_FULLSCREEN)  {
         glutFullScreen();
     }
-#ifdef __APPLE_CC__
-    else
-        SetSystemUIMode(kUIModeAllHidden, 0);   // Hide Menu Bar
-        
-    glutWMCloseFunc(CloseWindow);   // Enable the window's close box
-    
-    ProcessSerialNumber	myProcess;
-    GetCurrentProcess(&myProcess);
-    SetFrontProcess(&myProcess);     // Bring ourselves to the front
-#endif
 
     return;
 }
@@ -302,16 +300,24 @@ void restart() {
     //
     // 
     if (glut_is_initialized ) {
+#ifdef __APPLE__
 	if (boinc_is_standalone())
             app_debug_msg("Assuming user pressed 'close'... means we're exiting now.\n");
-#ifdef __APPLE_CC__
 	else
             app_debug_msg("Assuming user pressed 'quit'... means we're exiting now.\n");
-#endif
-	if (boinc_delete_file(LOCKFILE) != 0) {
+
+	if (boinc_delete_file(LOCKFILE) != 0)
             perror ("Failed to remove lockfile..\n");
-	}
 	return;
+#else
+        if (boinc_is_standalone())
+        {
+            app_debug_msg("Assuming user pressed 'close'... means we're exiting now.\n");
+            if (boinc_delete_file(LOCKFILE) != 0)
+                perror ("Failed to remove lockfile..\n");
+            return;
+        }
+#endif
     }
 
     // re-install the  exit-handler to catch glut's notorious exits()...
