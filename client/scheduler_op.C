@@ -91,11 +91,11 @@ int SCHEDULER_OP::init_op_project(double ns) {
     // if project has no schedulers, skip everything else
     // and just get its master file.
     //
+    url_index = 0;
     if (project->scheduler_urls.size() == 0) {
         retval = init_master_fetch(project);
         goto done;
     }
-    url_index = 0;
     retval = gstate.make_scheduler_request(project, ns);
     if (retval) {
         fprintf(stderr, "make_scheduler_request: %d\n", retval);
