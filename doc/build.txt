@@ -48,6 +48,37 @@ TBD
 
 
 -------------------------------------------------------------------------
+Get the source
+
+- released distribution from http://boinc.berkeley.edu/
+
+- CVS:
+
+     CVSROOT=anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc
+     authentication: pserver, password=(blank)
+
+  - Command-Line CVS (UNIX/CygWin):
+
+    1  At command line, enter:
+
+       cvs -d:pserver:anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc login
+
+       Enter a blank password.
+    2  At command line, enter:
+
+       cvs -z3 -d:pserver:anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc co boinc
+
+  - WinCVS
+
+    1  Menu item Create->Checkout module
+    2  Under General Tab, set CVSROOT to "anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc"
+    3  Under General Tab, Set authentication to "'passwd' file on the cvs server"
+    4  Under Checkout settings tab, set module name to "boinc"
+    5  Under Checkout settings tab, checkout location to "C:\", click OK
+
+
+
+-------------------------------------------------------------------------
 Setup Build Environments
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -59,9 +90,9 @@ UNIX/Linux
 
 * If you modify make files: autoconf 2.57, automake 1.7
 
-* for building source distributions: perl, tar, gzip, bzip2, zip
+* for building source distributions: perl, tar, gzip, zip
 
-* for running server and testing: apache (or other server), php
+* for running server and testing: apache (or other server), php, python
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 Windows
@@ -87,20 +118,20 @@ Macintosh
 
 Build Source Release
 
-1   Get latest source using CVS
+0   Get latest source using CVS
 
-  1.1  At command line, enter:
+  0.1  At command line, enter:
 
        cvs -d:pserver:anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc login
 
        Enter a blank password.
-  1.2  At command line, enter:
+  0.2  At command line, enter:
 
        cvs -z3 -d:pserver:anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc co boinc
 
-2   Make source distributions (.tar.gz, .tar.bz2, .zip)
+1   Make source distributions (.tar.gz, .tar.bz2, .zip)
 
-  2.1 cd boinc && ./configure && make dist
+  1.1 ./configure && make dist
 
 -------------------------------------------------------------------------
 
@@ -116,27 +147,16 @@ Build Windows
 ///////////////////////////////////////
 
 
-1	Build Client
+1	Build Client exe, screensaver, dll
 
-  1.1  Get latest source using CVS
+  1.1	Boot Visual C++ 6.0.
+  1.2	Load boinc/win_build/boinc.dsw workspace
+  1.3       Select "FileView" tab.
+  1.4	Update MAJOR_VERSION and MINOR_VERSION in boinc_gui project settings as needed.
 
-    1.1.1  Run WinCvs
-    1.1.2  Menu item Create->Checkout module
-    1.1.3  Under General Tab, set CVSROOT to "anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc"
-    1.1.4  Under General Tab, Set authentication to "'passwd' file on the cvs server"
-    1.1.5  Under Checkout settings tab, set module name to "boinc"
-    1.1.6  Under Checkout settings tab, checkout location to "C:\", click OK
-
-  1.2  Build client exe, screensaver, dll
-
-    1.2.1	Boot Visual C++ 6.0.
-    1.2.2	Load boinc/win_build/boinc.dsw workspace
-    1.2.3       Select "FileView" tab.
-    1.2.4	Update MAJOR_VERSION and MINOR_VERSION in boinc_gui project settings as needed.
-
-    1.2.5	Menu item Build->Set Active Configuration, set to "boinc_gui - Win32 Release"
-    1.2.6	Build->Rebuild All
-    1.2.7       Also rebuild DEBUG version if desired for future development.
+  1.5	Menu item Build->Set Active Configuration, set to "boinc_gui - Win32 Release"
+  1.6	Build->Rebuild All
+  1.7       Also rebuild DEBUG version if desired for future development.
 
 2	Make installer
 
@@ -235,22 +255,10 @@ Build Macintosh
 
 1   Build client
 
-  1.1  Get latest source using CVS
-
-    1.1.1  At command line, enter:
-
-         cvs -d:pserver:anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc login
-
-         Enter a blank password.
-    1.2.1  At command line, enter:
-
-         cvs -z3 -d:pserver:anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc co boinc
-
-  1.2  Build client
-    1.2.1  Boot Project Builder
-    1.2.2  Open boinc/mac_build/boinc.pbproj
-    1.2.3  Select "Targets" tab, choose "boinc" target
-    1.2.4  Under "GCC Compiler Settings", edit the MAJOR_VERSION and MINOR_VERSION to the appropriate values
+    1.1  Boot Project Builder
+    1.2  Open boinc/mac_build/boinc.pbproj
+    1.3  Select "Targets" tab, choose "boinc" target
+    1.4  Under "GCC Compiler Settings", edit the MAJOR_VERSION and MINOR_VERSION to the appropriate values
 
 2	Make installer
 
@@ -272,6 +280,16 @@ Building the Installer
 
 -------------------------------------------------------------------------
 Build UNIX
+
+Default (shared libraries) client:
+
+1 ./configure && make
+
+Static client:
+
+1 ./configure CFLAGS=-static CXXFLAGS=-static && cd client && make 
+
+
 
 
 -------------------------------------------------------------------------
