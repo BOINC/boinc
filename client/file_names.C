@@ -189,7 +189,7 @@ int remove_project_dir(PROJECT& p) {
     escape_project_url(p.master_url, buf);
     sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
 	clean_out_dir(buf2);
-    rmdir(buf2);
+	// rmdir(buf2);
     return 0;
 }
 

@@ -111,7 +111,7 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
     if (n > RETRY_CAP) n = RETRY_CAP;
     
     // we've hit the limit on master_url fetches
-    if(project->master_fetch_failures >= MASTER_FETCH_RETRY_CAP) {
+    if(p->master_fetch_failures >= MASTER_FETCH_RETRY_CAP) {
         if (log_flags.sched_op_debug) {
             printf("we've hit the limit on master_url fetches\n");
         }
@@ -144,17 +144,17 @@ int SCHEDULER_OP::backoff( PROJECT* p, char *error_msg ) {
         printf(error_msg);
     }
     
-    if (project->master_fetch_failures >= MASTER_FETCH_RETRY_CAP) {
-        project->master_url_fetch_pending = true;
+    if (p->master_fetch_failures >= MASTER_FETCH_RETRY_CAP) {
+        p->master_url_fetch_pending = true;
         set_min_rpc_time(p);
         return 0;
     } 
     // if nrpc failures a multiple of master_fetch_period, then  set master_url_fetch_pending and initialize again 
-    if (project->nrpc_failures == MASTER_FETCH_PERIOD) {
-        project->master_url_fetch_pending = true;
-        project->min_rpc_time = 0;
-        project->nrpc_failures = 0;
-        project->master_fetch_failures++;
+    if (p->nrpc_failures == MASTER_FETCH_PERIOD) {
+        p->master_url_fetch_pending = true;
+        p->min_rpc_time = 0;
+        p->nrpc_failures = 0;
+        p->master_fetch_failures++;
     }
     
     p->nrpc_failures++;
