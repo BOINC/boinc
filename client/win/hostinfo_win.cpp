@@ -61,8 +61,7 @@ int get_host_info(HOST_INFO& host) {
         case VER_PLATFORM_WIN32_NT:
 
             // Test for the specific product family.
-            if ( (osvi.dwMajorVersion >= 5) ||
-                 ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion >= 2)) )
+            if ( osvi.dwMajorVersion >= 6 )
                 strcpy( host.os_name, "Microsoft Windows Longhorn " );
 
             if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 )

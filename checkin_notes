@@ -10427,3 +10427,10 @@ Rom    Mar 9 2004
 
     client/win/
         hostinfo_win.cpp
+
+Rom    Mar 11 2004
+    - Properly identify Windows Longhorn
+
+    client/win/
+        hostinfo_win.cpp
+
