@@ -25392,3 +25392,15 @@ David  27 Feb 2005
 
 	client/
 		cs_account.C
+
+Bruce 28 Feb 2005
+      - messages containing newlines were being lost when sent to 4.19
+        core clients. Fix strips newlines from messages sent to clients
+        <= 4.19.  NOTE: stripping may ALSO be needed for more recent
+        clients.  But it would be better to fix the clients so that
+        embedded newlines in messages are respected.
+
+        sched/
+            server_types.C
+        
+        
