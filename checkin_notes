@@ -20320,7 +20320,7 @@ Bruce 2004-11-28
       parse.C
 
 Bruce 2004-11-29
-    - Added command-line options -preserve_wu_file and -preserve_result_files
+    - Added command-line options -preserve_wu_files and -preserve_result_files
       to the file deleter.  This are useful to implement <no_delete/>
       for all input or output files respectively.
     - Documented <no_delete/> file tag.
