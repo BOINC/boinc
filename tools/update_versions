@@ -3,21 +3,22 @@
 # $Id$
 
 """
-Scans apps dir for current core client and application versions and updates
-the database as appropriate.
+Scans apps dir for current core client and application versions
+and updates the database as appropriate.
 
 config.xml must contain an <app_dir> which specifies the directory to search.
 
-apps/boinc/ contains core client versions.
 apps/APPLICATION_NAME/ contains application versions for each application.
+apps/boinc/ contains core client versions (not used for most projects).
 
-Filenames MUST be of the form NAME_VERSION_PLATFORM[.ext].  The prefix name
-and extensions .gz, .exe, .sit are ignored.  Platform strings must match the
-names of platforms in the database.
+Filenames must be of the form NAME_VERSION_PLATFORM[.ext].
+The prefix name and extensions .gz, .exe, .sit are ignored.
+Platform strings must match the names of platforms in the database.
 
-update_versions also handles sub-directories, which contain files to bundle as
-a single app-version.  Sub-directory names are ignored.  Non-executable files
-can be arbitrarily named.
+update_versions also handles subdirectories,
+which contain files to bundle as a single app-version.
+Subdirectory names are ignored.
+Non-executable files can be arbitrarily named.
 
 Example setup:
 
@@ -35,14 +36,6 @@ Example setup:
 import database, db_mid, configxml, tools
 import sys, os, re, time
 
-def get_current_core_version():
-    cursor = database.get_dbconnection().cursor()
-    cursor.execute('select max(version_num) from core_version')
-    x = cursor.fetchall()[0].values()[0]
-    if x == None:
-        return 0
-    return int(cursor.fetchall()[0].values()[0])
-
 verbose = 0
 try:
     if sys.argv[1] == '-v':
@@ -54,29 +47,19 @@ except:
 config = configxml.default_config().config
 database.connect()
 
-##### only allow most recent core client
-if True:
-    min_core_version = get_current_core_version()
-else:
-    min_core_version = 0
-
 create_time = int(time.time())
 
-assert(config.app_dir
-       and
-       config.download_dir
-       and
-       config.download_url
-       )
+assert(config.app_dir and config.download_dir and config.download_url)
 
 objects_to_commit = []
 
 def xlistdir(dir):
     return map(lambda file: os.path.join(dir, file), os.listdir(dir))
 
-def add_files(app, match, exec_file, non_exec_files=[],
-              signature_files={}, file_ref_infos = {},
-              min_core_version = 0, max_core_version = 0):
+def add_files(
+    app, match, exec_file, non_exec_files=[],
+    signature_files={}, file_ref_infos = {}
+    ):
     ''' add files to app/core.
 
     EXEC_FILE is the executable, and NON_EXEC_FILES are supporting
@@ -118,13 +101,12 @@ def add_files(app, match, exec_file, non_exec_files=[],
             file_ref_infos = file_ref_infos
             )
 
-        object = database.AppVersion(create_time = create_time,
-                                     app = app,
-                                     platform = platform,
-                                     version_num = version_num,
-                                     min_core_version = min_core_version,
-                                     max_core_version = max_core_version,
-                                     xml_doc = xml_doc)
+        object = database.AppVersion(
+            create_time = create_time,
+            app = app,
+            platform = platform,
+            version_num = version_num,
+            xml_doc = xml_doc)
     else:
         assert(not non_exec_files)      # this wouldn't make sense for core clients
         existing_versions = database.CoreVersions.find(platform=platform, version_num=version_num)
@@ -137,10 +119,11 @@ def add_files(app, match, exec_file, non_exec_files=[],
 
         xml_doc = tools.process_executable_file(exec_file)
 
-        object = database.CoreVersion(create_time = create_time,
-                                      platform = platform,
-                                      version_num = version_num,
-                                      xml_doc = xml_doc)
+        object = database.CoreVersion(
+            create_time = create_time,
+            platform = platform,
+            version_num = version_num,
+            xml_doc = xml_doc)
 
     objects_to_commit.append(object)
 
@@ -193,12 +176,12 @@ def find_versions__process_single_file(app, match, filepath):
     if os.path.isfile(sig_file):
         signature_files[filepath] = sig_file
 
-    add_files(app             = app,
-             match            = match,
-             exec_file        = filepath,
-             signature_files  = signature_files,
-             min_core_version = min_core_version,
-             )
+    add_files(
+        app             = app,
+        match            = match,
+        exec_file        = filepath,
+        signature_files  = signature_files,
+        )
 
 
 # Process an app that is a bundle of files in a directory of the same name,
@@ -215,7 +198,8 @@ def find_versions__process_bundle(app, match, dir):
         if os.path.isdir(filepath):
             continue
         if os.path.basename(filepath) == dirname:
-            # the filename matches the folder name, so this is the executable.
+            # the filename matches the folder name,
+            # so this is the main program executable.
             exec_file = filepath
             continue
         # if filename is of format 'EXECFILE.sig' treat it as signature file
@@ -240,14 +224,14 @@ def find_versions__process_bundle(app, match, dir):
         if filepath != exec_file and filepath not in non_exec_files:
             print >>sys.stderr, "  Warning: file_ref info file '%s' will be ignored because it does not match a file" %file_ref_info_filepath
 
-    add_files(app              = app,
-              match            = match,
-              exec_file        = exec_file,
-              non_exec_files   = non_exec_files,
-              signature_files  = signature_files,
-              file_ref_infos   = file_ref_infos,
-              min_core_version = min_core_version
-              )
+    add_files(
+        app              = app,
+        match            = match,
+        exec_file        = exec_file,
+        non_exec_files   = non_exec_files,
+        signature_files  = signature_files,
+        file_ref_infos   = file_ref_infos,
+        )
 
 ####################
 # BEGIN:

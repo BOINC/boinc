@@ -86,7 +86,7 @@ def sign_executable(executable_path, quiet=False):
         raise SystemExit("Couldn't sign executable %s"%executable_path)
     return signature_text
 
-def process_executable_file(file, signature_text=None, quiet=False, executable=True):
+def process_app_file(file, signature_text=None, quiet=False, executable=True):
     '''Handle a new executable (or non-executable) file to be added to the
     database.
 
@@ -122,11 +122,13 @@ def process_executable_file(file, signature_text=None, quiet=False, executable=T
     xml += '    <nbytes>%f</nbytes>\n</file_info>\n' % file_size(target_path)
     return xml
 
-def process_app_version(app, version_num, exec_files,
-                        non_exec_files=[],
-                        signature_files={},
-                        file_ref_infos={},
-                        quiet=False):
+def process_app_version(
+    app, version_num, exec_files,
+    non_exec_files=[],
+    signature_files={},
+    file_ref_infos={},
+    quiet=False
+    ):
     """Return xml for application version
 
     app             is an instance of database.App
@@ -165,7 +167,7 @@ def process_app_version(app, version_num, exec_files,
             signature_text = open(signature_file).read()
         else:
             signature_text = sign_executable(exec_file, quiet=quiet)
-        xml_doc += process_executable_file(exec_file, signature_text, quiet=quiet)
+        xml_doc += process_app_file(exec_file, signature_text, quiet=quiet)
 
     for non_exec_file in non_exec_files:
         # default: use MD5 sum instead of RSA signature
@@ -175,7 +177,7 @@ def process_app_version(app, version_num, exec_files,
             signature_text = open(signature_file).read()
         else:
             signature_text = None
-        xml_doc += process_executable_file(
+        xml_doc += process_app_file(
             non_exec_file, signature_text=signature_text,
             executable=False, quiet=quiet)
 

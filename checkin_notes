@@ -23309,3 +23309,14 @@ Rom    27 Jan 2005
 
     client/win
         hostinfo_win.cpp
+
+David  27 Jan 2005
+    - Enhancements to update_versions
+        - set min_core_version and max_core_version to zero.
+            Shouldn't be setting these here.
+            Projects are no longer expected to maintain core versions.
+
+    py/Boinc/
+        tools.py
+    tools/
+        update_versions
