@@ -102,3 +102,4 @@ public:
 
 #endif
     // _DLGOPTIONS_H_
+

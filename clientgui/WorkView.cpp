@@ -56,3 +56,4 @@ wxString CWorkView::GetViewName(void)
 {
     return wxString(_("Work"));
 }
+

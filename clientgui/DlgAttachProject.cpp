@@ -111,3 +111,4 @@ bool CDlgAttachProject::ShowToolTips()
 {
     return TRUE;
 }
+

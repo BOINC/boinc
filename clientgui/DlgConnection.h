@@ -59,3 +59,4 @@ public:
 
 #endif
     // _DLGCONNECTION_H_
+

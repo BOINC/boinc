@@ -51,3 +51,4 @@ wxString CMessagesView::GetViewName(void)
 {
     return wxString(_("Messages"));
 }
+

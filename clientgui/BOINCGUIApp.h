@@ -58,3 +58,4 @@ DECLARE_APP(CBOINCGUIApp)
 
 
 #endif
+

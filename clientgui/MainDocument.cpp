@@ -35,3 +35,4 @@ CMainDocument::CMainDocument(void)
 CMainDocument::~CMainDocument(void)
 {
 }
+

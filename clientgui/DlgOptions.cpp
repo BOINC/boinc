@@ -254,3 +254,4 @@ bool CDlgOptions::ShowToolTips()
 {
     return TRUE;
 }
+

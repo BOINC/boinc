@@ -39,6 +39,7 @@ public:
     void OnIdle(wxIdleEvent &event);
 
     void OnExit(wxCommandEvent &event);
+    void OnCommandsAttachProject(wxCommandEvent &event);
     void OnToolsOptions(wxCommandEvent &event);
     void OnAbout(wxCommandEvent &event);
     void OnStatusbar(wxCommandEvent &event);
@@ -72,3 +73,4 @@ private:
 
 
 #endif
+

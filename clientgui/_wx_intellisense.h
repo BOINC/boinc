@@ -10,3 +10,4 @@
  * Visual Studio the opportunity to parse the file and add its contents to intellisense.
  */
 #include <wx/msw/__wx_intellisense_inc.h>
+

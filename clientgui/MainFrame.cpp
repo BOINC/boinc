@@ -34,6 +34,7 @@
 #include "Events.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
+#include "DlgAttachProject.h"
 
 #include "res/BOINCGUIApp.xpm"
 
@@ -41,13 +42,14 @@ IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
 
 
 BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
-    EVT_CLOSE       (                       CMainFrame::OnClose)
-    EVT_IDLE        (                       CMainFrame::OnIdle)
-    EVT_MENU        (wxID_EXIT,             CMainFrame::OnExit)
-    EVT_MENU        (ID_TOOLSOPTIONS,       CMainFrame::OnToolsOptions)
-    EVT_MENU        (wxID_ABOUT,            CMainFrame::OnAbout)
-    EVT_MENU        (ID_STATUSBAR,          CMainFrame::OnStatusbar)
-    EVT_UPDATE_UI   (ID_STATUSBAR,          CMainFrame::OnStatusbarUI)
+    EVT_CLOSE       (                           CMainFrame::OnClose)
+    EVT_IDLE        (                           CMainFrame::OnIdle)
+    EVT_MENU        (wxID_EXIT,                 CMainFrame::OnExit)
+    EVT_MENU        (ID_COMMANDSATTACHPROJECT,  CMainFrame::OnCommandsAttachProject)
+    EVT_MENU        (ID_TOOLSOPTIONS,           CMainFrame::OnToolsOptions)
+    EVT_MENU        (wxID_ABOUT,                CMainFrame::OnAbout)
+    EVT_MENU        (ID_STATUSBAR,              CMainFrame::OnStatusbar)
+    EVT_UPDATE_UI   (ID_STATUSBAR,              CMainFrame::OnStatusbarUI)
 END_EVENT_TABLE ()
 
 
@@ -93,7 +95,7 @@ bool CMainFrame::CreateMenu() {
 
     // Commands menu
     wxMenu *menuCommands = new wxMenu;
-    menuCommands->Append(wxID_EXIT, _("&Attach to Project..."));
+    menuCommands->Append(ID_COMMANDSATTACHPROJECT, _("&Attach to Project..."));
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
@@ -149,15 +151,11 @@ bool CMainFrame::CreateNotebookPage(wxWindow* pwndNewNotebookPage) {
     wxASSERT(pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseListCtrlView)) ||
              pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseWindowView)));
 
-    if(pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseListCtrlView)))
-    {
+    if(pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseListCtrlView))) {
         CBaseListCtrlView* pPage = (CBaseListCtrlView*)pwndNewNotebookPage;
         m_pNotebook->AddPage(pPage, pPage->GetViewName(), true, -1);
-    }
-    else
-    {
-        if(pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseWindowView)))
-        {
+    } else {
+        if(pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseWindowView))) {
             CBaseWindowView* pPage = (CBaseWindowView*)pwndNewNotebookPage;
             m_pNotebook->AddPage(pPage, pPage->GetViewName(), true, -1);
         }
@@ -227,6 +225,16 @@ void CMainFrame::OnClose(wxCloseEvent &event) {
 }
 
 
+void CMainFrame::OnCommandsAttachProject(wxCommandEvent &WXUNUSED(event)) {
+    CDlgAttachProject* pDlg = new CDlgAttachProject(this);
+
+    pDlg->ShowModal();
+
+    if (pDlg)
+        delete pDlg;
+}
+
+
 void CMainFrame::OnToolsOptions(wxCommandEvent &WXUNUSED(event)) {
     CDlgOptions* pDlg = new CDlgOptions(this);
 
@@ -259,3 +267,4 @@ void CMainFrame::OnStatusbar (wxCommandEvent &WXUNUSED(event)) {
 void CMainFrame::OnStatusbarUI (wxUpdateUIEvent &event) {
     event.Check(m_pStatusbar != NULL);
 }
+

@@ -51,3 +51,4 @@ wxString CBaseListCtrlView::GetViewName(void)
 {
     return wxString(_T("Undefined"));
 }
+

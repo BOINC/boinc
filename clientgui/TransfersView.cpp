@@ -55,3 +55,4 @@ wxString CTransfersView::GetViewName(void)
 {
     return wxString(_("Transfers"));
 }
+

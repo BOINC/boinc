@@ -51,3 +51,4 @@ wxString CBaseWindowView::GetViewName(void)
 {
     return wxString(_T("Undefined"));
 }
+

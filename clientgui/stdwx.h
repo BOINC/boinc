@@ -49,3 +49,4 @@
 #include <wx/statline.h> // static line
 
 #endif
+

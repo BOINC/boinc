@@ -52,3 +52,4 @@ wxString CResourceUtilizationView::GetViewName(void)
 {
     return wxString(_("Disk"));
 }
+

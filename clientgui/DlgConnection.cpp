@@ -94,3 +94,4 @@ bool CDlgConnection::ShowToolTips()
 {
     return TRUE;
 }
+

@@ -59,3 +59,4 @@ public:
 
 #endif
     // _DLGABOUT_H_
+

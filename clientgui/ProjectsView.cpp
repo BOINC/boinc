@@ -53,3 +53,4 @@ wxString CProjectsView::GetViewName(void)
 {
     return wxString(_("Projects"));
 }
+
