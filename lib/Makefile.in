@@ -74,6 +74,7 @@ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
 MAINT = @MAINT@
 MAINTAINER_MODE_FALSE = @MAINTAINER_MODE_FALSE@
@@ -201,7 +202,9 @@ libboinc_a_SOURCES = \
 	shmem.h					\
 	synch.h					\
 	util.h					\
-	base64.h
+	base64.h				\
+	sighandle.C				\
+	sighandle.h
 
 
 
@@ -226,7 +229,8 @@ libboinc_a_LIBADD =
 am_libboinc_a_OBJECTS = boinc_api.$(OBJEXT) mfile.$(OBJEXT) \
 	app_ipc.$(OBJEXT) parse.$(OBJEXT) base64.$(OBJEXT) \
 	xml_util.$(OBJEXT) filesys.$(OBJEXT) language.$(OBJEXT) \
-	util.$(OBJEXT) md5.$(OBJEXT) md5_file.$(OBJEXT) shmem.$(OBJEXT)
+	util.$(OBJEXT) md5.$(OBJEXT) md5_file.$(OBJEXT) shmem.$(OBJEXT) \
+	sighandle.$(OBJEXT)
 libboinc_a_OBJECTS = $(am_libboinc_a_OBJECTS)
 EXTRA_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) msg_test$(EXEEXT) \
 	synch_test$(EXEEXT)
@@ -270,8 +274,9 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/mfile.Po ./$(DEPDIR)/msg_queue.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/msg_test.Po ./$(DEPDIR)/parse.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/shmem.Po ./$(DEPDIR)/shmem_test.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/synch.Po ./$(DEPDIR)/synch_test.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/util.Po ./$(DEPDIR)/xml_util.Po
+@AMDEP_TRUE@	./$(DEPDIR)/sighandle.Po ./$(DEPDIR)/synch.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/synch_test.Po ./$(DEPDIR)/util.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/xml_util.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -369,6 +374,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/shmem_test.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sighandle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/synch.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/synch_test.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@

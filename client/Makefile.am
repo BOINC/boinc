@@ -83,10 +83,10 @@ version: win/win_config.h win/boinc_cli.rc win/boinc_dll.rc win/boinc_gui.rc win
 # make a hard link to the client name.
 @CLIENT_BIN_FILENAME@: boinc_client
 	rm -f $@
-	ln $^ $@
+	ln $? $@
 
 @CLIENT_BIN_FILENAME@.gz: @CLIENT_BIN_FILENAME@
-	gzip -c $^ > $@
+	gzip -c $? > $@
 
 ## these source files need to be specified because no rule on unix uses them.
 EXTRA_DIST =					\

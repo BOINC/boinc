@@ -141,6 +141,9 @@
 /* Define to 1 if you have the `setpriority' function. */
 #undef HAVE_SETPRIORITY
 
+/* Define to 1 if you have the `sigaction' function. */
+#undef HAVE_SIGACTION
+
 /* Define to 1 if you have the <signal.h> header file. */
 #undef HAVE_SIGNAL_H
 
@@ -305,6 +308,9 @@
 /* Define to the necessary symbol if this constant uses a non-standard name on
    your system. */
 #undef PTHREAD_CREATE_JOINABLE
+
+/* Define as the return type of signal handlers (`int' or `void'). */
+#undef RETSIGTYPE
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS

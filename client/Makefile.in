@@ -74,6 +74,7 @@ INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
 MAINT = @MAINT@
 MAINTAINER_MODE_FALSE = @MAINTAINER_MODE_FALSE@
@@ -221,7 +222,7 @@ boinc_client_SOURCES = \
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS)
-boinc_client_LDADD = $(RSA_LIBS)
+boinc_client_LDADD = $(RSA_LIBS) ../lib/libboinc.a
 
 #boinc_client_LDFLAGS = $(STATIC_FLAGS)
 cpu_benchmark_SOURCES = cpu_benchmark.C
@@ -233,9 +234,13 @@ EXTRA_DIST = \
 	win/update-boinc-gui-version		\
 	win/update-boinc-ss-version		\
 	*.h					\
+	win/update-boinc-cli-version		\
+	win/update-boinc-dll-version		\
+	win/update-boinc-gui-version		\
+	win/update-boinc-ss-version		\
 	mac/*.h mac/*.cpp			\
         win/*.h win/*.cpp win/*.rc		\
-        win/*.ico win/*.def win/res/*.*		\
+        win/*.def win/res/*.*			\
         translation/language.* 
 
 subdir = client
@@ -1600,10 +1605,10 @@ version: win/win_config.h win/boinc_cli.rc win/boinc_dll.rc win/boinc_gui.rc win
 # make a hard link to the client name.
 @CLIENT_BIN_FILENAME@: boinc_client
 	rm -f $@
-	ln $^ $@
+	ln $? $@
 
 @CLIENT_BIN_FILENAME@.gz: @CLIENT_BIN_FILENAME@
-	gzip -c $^ > $@
+	gzip -c $? > $@
 
 clean-local:
 	rm -f @CLIENT_BIN_FILENAME@ @CLIENT_BIN_FILENAME@.gz
