@@ -24,7 +24,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
+#endif
 
 #ifdef _WIN32
 #include <time.h>
