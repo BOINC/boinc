@@ -1,9 +1,0 @@
-;
-; Module definition file for the getgrpname.dll
-;
-
-LIBRARY    getgrpname
-
-EXPORTS
-	GetAdministratorsGroupName	PRIVATE
-	GetUsersGroupName			PRIVATE

@@ -1,0 +1,18 @@
+;
+; Module definition file for the boinccas.dll
+;
+
+LIBRARY    boinccas
+
+EXPORTS
+	DllMain
+	CopyAccountFiles
+	DetectOldInstaller
+	GetAdministratorsGroupName
+	GetUsersGroupName
+	GrantServiceExecutionRight
+	PopulateServiceAccount
+	ShutdownBOINCManager
+	ValidateServiceAccount
+	ValidateSetupType
+	VerifyServiceExecutionRight

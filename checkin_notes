@@ -25447,3 +25447,18 @@ David  2 Mar 2005
 
     html/ops
         db_update.php
+
+Rom    3 Mar 2005
+    - Bug Fix: Remove the prereq's for the Windows Scripting Host on
+        Windows
+    - Bug Fix: Convert all the VBS custom actions to C/C++ custom
+        actions
+
+    NOTE: I'm having problems with code paths that involve displaying
+      something to the user, so 7 out of the 10 custom actions have been
+      debugged, and the others are waiting on me to figure out why
+      MsiProcessMessage is returning 0 when it is supposed to be
+      returning 6.
+
+    win_build/installerv2/
+        < numerous files and folders >

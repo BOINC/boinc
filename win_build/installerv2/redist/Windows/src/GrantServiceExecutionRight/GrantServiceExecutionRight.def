@@ -1,8 +1,0 @@
-;
-; Module definition file for the grant.dll
-;
-
-LIBRARY    grant
-
-EXPORTS
-	GrantServiceExecutionRight	PRIVATE
