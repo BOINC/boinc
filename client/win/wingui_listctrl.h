@@ -92,6 +92,7 @@ public:
 	void					GetTextRect(int, int, LPRECT);
 	void					GetColumnTitle(int, CString&);
 	int						GetColumnWidth(int);
+	CString					GetItemTextOrPos(int, int);
 	BOOL					SetColumnWidth(int, int);
 	void					SetItemColor(int, COLORREF);
 	void					SetProjectURL(int, char*);
@@ -110,7 +111,7 @@ protected:
 	CArray<CString,CString>			m_ProjectURLs;	// urls for project links
 
 	void					SwapItems(int, int);
-	// TODO: fix selection sort algorithm
+	void					QSort(int, int, int, int);
 	void					Sort(int, int);
 	void					SwapColumnVisibility(int);
 
@@ -120,7 +121,6 @@ protected:
 	afx_msg BOOL			OnNotify(WPARAM, LPARAM, LRESULT*);
 	afx_msg void			OnCustomDraw(NMHDR*, LRESULT*);
 	afx_msg void			OnPaint();
-	// TODO: context menu for items?
 	afx_msg BOOL			OnSetCursor(CWnd*, UINT, UINT);
 	afx_msg void			OnLButtonDown(UINT, CPoint);
 	afx_msg void			OnRButtonDown(UINT, CPoint);

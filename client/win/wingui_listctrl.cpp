@@ -579,57 +579,65 @@ void CProgressListCtrl::SwapItems(int nItem1, int nItem2)
 }
 
 //////////
+// CProgressListCtrl::GetItemTextOrPos
+// arguments:	nItem: item position
+//				nSubItem: subitem position
+// returns:		the string at the given location or the string representation
+//				of the progress control there
+// function:	if there is no progress control at the given location, gets the
+//				text there, otherwise, formats the position of the progress control
+//				to a string and gets that.
+CString CProgressListCtrl::GetItemTextOrPos(int nItem, int nSubItem)
+{
+	CString strRet;
+	CProgressBarCtrl* pProgCtrl = NULL;
+	strRet.Format("%d:%d", nItem, nSubItem);
+	m_Progs.Lookup(strRet, (CObject*&)pProgCtrl);
+	if(pProgCtrl) strRet.Format("%5.5d", pProgCtrl->GetPos());
+	else strRet = GetItemText(nItem, nSubItem);
+	return strRet;
+}
+
+//////////
+// CProgressListCtrl::QSort
+// arguments:	lo: the low index of sorting
+//				hi: the high index of sorting
+//				nSubItem: subitem to sort by
+//				nOrder: the order to sort by, either SORT_ASCEND or SORT_DESCEND
+// returns:		void
+// function:	sorts items between lo and hi by the given subitem into the given
+//				order using quicksort.
+void CProgressListCtrl::QSort(int lo, int hi, int nSubItem, int nOrder)
+{
+	int i = lo, j = hi;
+	CString x = GetItemTextOrPos((lo+hi)/2, nSubItem);
+	while(i <= j) {
+		if(nOrder == SORT_ASCEND) {
+			while(strcmp(GetItemTextOrPos(i, nSubItem), x) < 0) i ++;
+			while(strcmp(GetItemTextOrPos(j, nSubItem), x) > 0) j --;
+		} else {
+			while(strcmp(GetItemTextOrPos(i, nSubItem), x) > 0) i ++;
+			while(strcmp(GetItemTextOrPos(j, nSubItem), x) < 0) j --;
+		}
+		if(i <= j) {
+			SwapItems(i, j);
+			i++;
+			j--;
+		}
+	}
+	if(lo < j) QSort(lo, j, nSubItem, nOrder);
+	if(i < hi) QSort(i, hi, nSubItem, nOrder);	
+}
+
+//////////
 // CProgressListCtrl::Sort
 // arguments:	nSubItem: subitem to sort by
 //				nOrder: the order to sort by, either SORT_ASCEND or SORT_DESCEND
 // returns:		void
-// function:	sorts items by the given subitem into the given order. if there
-//				is a progress control, converts the position to a string for 
-//				comparison, otherwise sorts by the string at that subitem.
+// function:	sorts items by the given subitem into the given order by calling QSort
 void CProgressListCtrl::Sort(int nSubItem, int nOrder)
 {
-	int i, j, min, z;
-	CString Stri, Strj;
-	CProgressBarCtrl* pProgCtrli = NULL;
-	CProgressBarCtrl* pProgCtrlj = NULL;
-
-	// check subitem is in bounds
-	if(nSubItem >= GetHeaderCtrl()->GetItemCount()) {
-		return;
-	}
-
-	// run selection sort for now
-	int items = GetItemCount();
-	for(z = 0; z < GetItemCount(); z ++) {
-		for(i = 0; i < items-1; i ++) {
-			min = i;
-			for(j = i+1; j < items; j ++) {
-
-				// see if there is a progress control here, and set its
-				// progress as the comparison string, otherwise,
-				// just get the text
-				Stri.Format("%d:%d", i, nSubItem);
-				Strj.Format("%d:%d", j, nSubItem);
-				pProgCtrli = NULL;
-				pProgCtrlj = NULL;
-				m_Progs.Lookup(Stri, (CObject*&)pProgCtrli);
-				m_Progs.Lookup(Strj, (CObject*&)pProgCtrlj);
-				if(pProgCtrli) {
-					Stri.Format("%0.3d", pProgCtrli->GetPos());
-				} else {
-					Stri = GetItemText(i, nSubItem);
-				}
-				if(pProgCtrlj) {
-					Strj.Format("%0.3d", pProgCtrlj->GetPos());
-				} else {
-					Strj = GetItemText(j, nSubItem);
-				}
-				if(nOrder == SORT_ASCEND && strcmp(Stri, Strj) > 0) min = j;
-				if(nOrder == SORT_DESCEND && strcmp(Stri, Strj) < 0) min = j;
-			}
-			SwapItems(i, min);
-		}
-	}
+	QSort(0, GetItemCount() - 1, nSubItem, nOrder);
 	RepositionProgress();
 }
 
@@ -742,6 +750,12 @@ void CProgressListCtrl::SetMenuItems(char** szTitles, int nLength)
 	}
 }
 
+//////////
+// CProgressListCtrl::SaveInactive
+// arguments:	szFile: name of file to save to
+//				szSection: section of file to save to
+// returns:		void
+// function:	saves inactive elements of list to a file.
 void CProgressListCtrl::SaveInactive(char* szFile, char* szSection)
 {
 	CString strSection, strKey, strValue;
@@ -761,6 +775,12 @@ void CProgressListCtrl::SaveInactive(char* szFile, char* szSection)
 	WritePrivateProfileString(szSection, "max", strValue, szFile);
 }
 
+//////////
+// CProgressListCtrl::LoadInactive
+// arguments:	szFile: name of file to load from
+//				szSection: section of file to load from
+// returns:		void
+// function:	loads inactive elements of list from a file.
 void CProgressListCtrl::LoadInactive(char* szFile, char* szSection)
 {
 	CString strSection, strKey;
