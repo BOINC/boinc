@@ -5580,3 +5580,9 @@ Karl 2003/08/07
     
     sched/
         handle_request.C
+
+Karl 2003/08/08
+    - fixed bug with timeout_check not noticing old wu error_mask, generating
+      new result and then marking WU as FILE_DELETE_READY.
+
+    Sched/timeout_check.C

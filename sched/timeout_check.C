@@ -153,7 +153,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     unsigned int i, n;
     char buf[256];
     unsigned int now = time(0);
-    bool wu_error = false, all_over;
+    bool /*wu_error = false,*/ all_over;
 
     log_messages.printf(SchedMessages::DEBUG, "[WU#%d %s] handling WU\n", wu.id, wu.name);
     ScopeMessages scope_messages(log_messages, SchedMessages::NORMAL);
@@ -204,7 +204,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                     wu.id, wu.name, result.id, result.name
                 );
                 wu.error_mask |= WU_ERROR_COULDNT_SEND_RESULT;
-                wu_error = true;
+                // wu_error = true;
                 break;
             case RESULT_OUTCOME_SUCCESS:
                 ndone++;
@@ -226,7 +226,7 @@ void handle_wu(DB_WORKUNIT& wu) {
             wu.id, wu.name, nerrors, (int)results.size()
         );
         wu.error_mask |= WU_ERROR_TOO_MANY_ERROR_RESULTS;
-        wu_error = true;
+        // wu_error = true;
     }
     if (ndone > max_done) {
         log_messages.printf(
@@ -235,12 +235,13 @@ void handle_wu(DB_WORKUNIT& wu) {
             wu.id, wu.name, ndone, (int)results.size()
         );
         wu.error_mask |= WU_ERROR_TOO_MANY_RESULTS;
-        wu_error = true;
+        // wu_error = true;
     }
 
+    all_over = true;
     // if this WU had an error, don't send any unsent results
     //
-    if (wu_error) {
+    if (wu.error_mask) {
         for (i=0; i<results.size(); i++) {
             result = results[i];
             if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
@@ -260,6 +261,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         //
         if (nredundancy > ndone) {
             n = nredundancy - ndone;
+            all_over = false;
 
             log_messages.printf(
                 SchedMessages::NORMAL,
@@ -286,15 +288,16 @@ void handle_wu(DB_WORKUNIT& wu) {
         }
     }
 
-    // see if all results are OVER and result is assimilated;
-    // if so we don't need to check this WU ever again.
-    //
-    all_over = true;
-    for (i=0; i<results.size(); i++) {
-        result = results[i];
-        if (result.server_state != RESULT_SERVER_STATE_OVER) {
-            all_over = false;
-            break;
+    if (all_over) {
+        // see if all results are OVER and result is assimilated;
+        // if so we don't need to check this WU ever again.
+        //
+        for (i=0; i<results.size(); i++) {
+            result = results[i];
+            if (result.server_state != RESULT_SERVER_STATE_OVER) {
+                all_over = false;
+                break;
+            }
         }
     }
 
