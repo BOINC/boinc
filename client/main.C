@@ -198,22 +198,16 @@ static void signal_handler(int signum) {
     case SIGINT:
     case SIGQUIT:
     case SIGTERM:
-        msg_printf(NULL, MSG_INFO, "Exiting - user request");
-        gstate.quit_activities();
-        exit(0);
+        gstate.requested_exit = true;
+        break;
     case SIGTSTP:
-        msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
-        gstate.active_tasks.suspend_all();
-        signal(SIGTSTP, SIG_DFL);
-        raise(SIGTSTP);
+        gstate.user_run_request = USER_RUN_REQUEST_NEVER;
         break;
     case SIGCONT:
-        msg_printf(NULL, MSG_INFO, "Resuming activity");
-        gstate.active_tasks.unsuspend_all();
-        boinc_set_signal_handler_force(SIGTSTP, signal_handler);
+        gstate.user_run_request = USER_RUN_REQUEST_AUTO;
         break;
     default:
-        msg_printf(NULL, MSG_INFO, "Signal not handled");
+        msg_printf(NULL, MSG_WARNING, "Signal not handled");
     }
 }
 #endif

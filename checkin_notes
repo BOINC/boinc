@@ -12113,3 +12113,11 @@ David  May 5 2004
         Makefile.am,in
     sched/
         Makefile.am,in
+
+Rom    May 5 2004
+    - Our exit stragety should be the same for Windows and Unix.  The signal
+      handler should use the same global flags as Windows for suspending
+      and resuming activities.
+
+    client/
+        main.C
