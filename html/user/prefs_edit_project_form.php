@@ -15,8 +15,20 @@ if ($user == NULL) {
 page_head("Edit project preferences", $user);
 parse_str(getenv("QUERY_STRING"));
 $prefs = prefs_parse($user->project_prefs);
-prefs_form_project($prefs, "prefs.php");
-echo "<p>\n";
+
+echo "<form action=prefs_edit_project_action.php>
+    <table cellpadding=6>
+";
+
+prefs_form_resource($prefs);
+prefs_form_project($prefs->project_specific);
+prefs_form_email($prefs);
+
+echo "<tr><td><br></td><td><input type=submit value=\"OK\"></td></tr>
+    </table>
+    </form>\n
+";
+
 page_tail();
 
 ?>

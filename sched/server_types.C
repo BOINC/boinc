@@ -142,22 +142,22 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         "<user_name>%s</user_name>\n"
         "<user_total_credit>%f</user_total_credit>\n"
         "<user_expavg_credit>%f</user_expavg_credit>\n"
-        "<user_create_time>%d</user_create_time>\n",
+        "<user_create_time>%d</user_create_time>\n"
+        "<host_total_credit>%f</host_total_credit>\n"
+        "<host_expavg_credit>%f</host_expavg_credit>\n",
         user.name,
         user.total_credit,
         user.expavg_credit,
-        user.create_time
+        user.create_time,
+        host.total_credit,
+        host.expavg_credit
     );
 
     if (hostid) {
         fprintf(fout, 
             "<hostid>%d</hostid>\n"
-            "<host_total_credit>%f</host_total_credit>\n"
-            "<host_expavg_credit>%f</host_expavg_credit>\n"
             "<host_create_time>%d</host_create_time>\n",
             hostid,
-            host.total_credit,
-            host.expavg_credit,
             host.create_time
         );
     }

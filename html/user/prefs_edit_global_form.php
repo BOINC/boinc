@@ -22,7 +22,17 @@ echo "<h3>Edit global preferences</h3>
     <br>otherwise edits may be overwritten.
 ";
 
+echo "<form action=prefs_edit_global_action.php>
+    <table cellpadding=6>
+";
+
 prefs_form_global($user, $prefs, "prefs.php");
+
+echo "<tr><td><br></td><td><input type=submit value=\"OK\"></td></tr>
+    </table>
+    </form>\n
+";
+
 echo "<a href=prefs.php>Back to preferences</a>\n";
 page_tail();
 

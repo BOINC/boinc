@@ -224,7 +224,7 @@ class Project {
         for ($i=0; $i<sizeof($this->users); $i++) {
             $user = $this->users[$i];
             $now = time(0);
-            db_query("insert into user values (0, $now, '$user->email_addr', '$user->name', 'foobar', '$user->authenticator', 'Peru', '12345', 0, 0, 0, '', '', 0)");
+            db_query("insert into user values (0, $now, '$user->email_addr', '$user->name', 'foobar', '$user->authenticator', 'Peru', '12345', 0, 0, 0, '', '', 0, 'home')");
         }
 
         echo "adding apps\n";
@@ -388,9 +388,9 @@ class Project {
 
         // show the URLs for user and admin sites
         //
-        echo "The master URL for project $this->long_name is $this->master_url\n";
-        $admin_url = $html_url."/".$this->short_name."/html_ops/index.html";
-        echo "The admin URL for project $this->long_name is $admin_url\n";
+        echo "Master URL: $this->master_url\n";
+        $admin_url = $html_url."/".$this->short_name."_admin/index.php";
+        echo "Admin URL: $admin_url\n";
     }
     
     // moves the master web page to temp

@@ -52,6 +52,7 @@ create table user (
     global_prefs    blob,
     project_prefs   blob,
     teamid          integer not null,
+    venue           varchar(254)    not null,
     primary key (id)
 );
 
@@ -114,6 +115,7 @@ create table host (
     n_bwdown        double       not null,
 
     credit_per_cpu_sec double    not null,
+    venue           varchar(254)    not null,
 
     primary key (id)
 );
@@ -144,6 +146,7 @@ create table workunit (
     file_delete_state   integer not null,
     assimilate_state    integer not null,
     workseq_next    integer     not null,
+    opaque          integer     not null,
     primary key (id)
 );
 
@@ -168,6 +171,7 @@ create table result (
     validate_state  integer     not null,
     claimed_credit  double       not null,
     granted_credit  double       not null,
+    opaque          integer     not null,
     primary key (id)
 );
 

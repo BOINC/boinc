@@ -19,6 +19,13 @@ no_cache();
 $prefs = prefs_parse($user->project_prefs);
 prefs_project_parse_form($prefs);
 project_prefs_update($user, $prefs);
-Header("Location: $next_url");
+
+prefs_email_parse_form($prefs);
+project_prefs_update($user, $prefs);
+
+venue_parse($user);
+venue_update($user);
+
+Header("Location: prefs.php");
 
 ?>

@@ -40,7 +40,7 @@ function show_error($str) {
 
     $authenticator = random_string();
     $query = sprintf(
-       "insert into user (create_time, email_addr, name, web_password, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, teamid) values(%d, '%s', '%s', '%s', '%s', '%s', %d, 0, 0, 0, 0)",
+       "insert into user (create_time, email_addr, name, web_password, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, teamid, venue) values(%d, '%s', '%s', '%s', '%s', '%s', %d, 0, 0, 0, 0, 'home')",
         time(),
         $new_email_addr,
         $HTTP_POST_VARS["new_name"],

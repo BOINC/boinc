@@ -156,7 +156,7 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             "country='%s', postal_code='%s', "
             "total_credit=%.12e, expavg_credit=%.12e, expavg_time=%f, "
             "global_prefs='%s', project_prefs='%s', "
-            "teamid=%d",
+            "teamid=%d, venue='%s'",
             up->id,
             up->create_time,
             up->email_addr,
@@ -170,7 +170,8 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             up->expavg_time,
             up->global_prefs,
             up->project_prefs,
-            up->teamid
+            up->teamid,
+            up->venue
         );
         unescape(up->email_addr);
         unescape(up->name);
@@ -234,7 +235,8 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             "m_nbytes=%f, m_cache=%f, m_swap=%f, "
             "d_total=%f, d_free=%f, "
             "n_bwup=%f, n_bwdown=%f, "
-            "credit_per_cpu_sec=%f",
+            "credit_per_cpu_sec=%f, "
+            "venue='%s'",
             hp->id, hp->create_time, hp->userid,
             hp->rpc_seqno, hp->rpc_time,
             hp->total_credit, hp->expavg_credit, hp->expavg_time,
@@ -247,7 +249,8 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             hp->m_nbytes, hp->m_cache, hp->m_swap,
             hp->d_total, hp->d_free,
             hp->n_bwup, hp->n_bwdown,
-            hp->credit_per_cpu_sec
+            hp->credit_per_cpu_sec,
+            hp->venue
         );
         unescape(hp->domain_name);
         unescape(hp->serialnum);
@@ -267,7 +270,7 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             "canonical_resultid=%d, canonical_credit=%f, "
             "timeout_check_time=%d, delay_bound=%d, "
             "error_mask=%d, file_delete_state=%d, assimilate_state=%d, "
-            "workseq_next=%d",
+            "workseq_next=%d, opaque=%d",
             wup->id, wup->create_time, wup->appid,
             wup->name, wup->xml_doc, wup->batch,
             wup->rsc_fpops, wup->rsc_iops, wup->rsc_memory, wup->rsc_disk, 
@@ -275,7 +278,7 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             wup->canonical_resultid, wup->canonical_credit,
             wup->timeout_check_time, wup->delay_bound,
             wup->error_mask, wup->file_delete_state, wup->assimilate_state,
-            wup->workseq_next
+            wup->workseq_next, wup->opaque
         );
         break;
     case TYPE_RESULT:
@@ -287,14 +290,14 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             "name='%s', cpu_time=%f, "
             "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
             "batch=%d, file_delete_state=%d, validate_state=%d, "
-            "claimed_credit=%f, granted_credit=%f",
+            "claimed_credit=%f, granted_credit=%f, opaque=%d",
             rp->id, rp->create_time, rp->workunitid,
             rp->server_state, rp->outcome, rp->client_state,
             rp->hostid, rp->report_deadline, rp->sent_time, rp->received_time,
             rp->name, rp->cpu_time,
             rp->xml_doc_in, rp->xml_doc_out, rp->stderr_out,
             rp->batch, rp->file_delete_state, rp->validate_state,
-            rp->claimed_credit, rp->granted_credit
+            rp->claimed_credit, rp->granted_credit, rp->opaque
         );
         break;
     case TYPE_WORKSEQ:
@@ -386,6 +389,7 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         strcpy2(up->global_prefs, r[i++]);
         strcpy2(up->project_prefs, r[i++]);
         up->teamid = atoi(r[i++]);
+        strcpy2(up->venue, r[i++]);
         break;
     case TYPE_TEAM:
         tp = (TEAM*)vp;
@@ -439,6 +443,7 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         hp->n_bwup = atof(r[i++]);
         hp->n_bwdown = atof(r[i++]);
         hp->credit_per_cpu_sec = atof(r[i++]);
+        strcpy2(hp->venue, r[i++]);
         break;
     case TYPE_WORKUNIT:
         wup = (WORKUNIT*)vp;
@@ -462,6 +467,7 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         wup->file_delete_state = atoi(r[i++]);
         wup->assimilate_state = atoi(r[i++]);
         wup->workseq_next = atoi(r[i++]);
+        wup->opaque = atoi(r[i++]);
         break;
     case TYPE_RESULT:
         rp = (RESULT*)vp;
@@ -486,6 +492,7 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         rp->validate_state = atoi(r[i++]);
         rp->claimed_credit = atof(r[i++]);
         rp->granted_credit = atof(r[i++]);
+        rp->opaque = atoi(r[i++]);
         break;
     case TYPE_WORKSEQ:
         wsp = (WORKSEQ*)vp;

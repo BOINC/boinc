@@ -170,8 +170,6 @@ function prefs_parse($prefs_xml) {
 // display preference subsets, with Edit buttons
 //
 function prefs_show_global($prefs) {
-    echo "<tr>".TD2.LG_FONT."<b>Global preferences</b></font>
-        <br><font size=-1>These apply to all BOINC projects in which you participate</font></td></tr>\n";
     if ($prefs->dont_run_on_batteries) {
         $batteries = "No";
     } else {
@@ -195,29 +193,23 @@ function prefs_show_global($prefs) {
     row2a("Maximum disk space to use:", "$prefs->disk_max_used_gb GB");
     row2a("Minimum disk space to leave free:", "$prefs->disk_min_free_gb GB");
     row2a("Maximum % of disk allowed to used:", "$prefs->disk_max_used_pct %");
-    echo "<tr><td><a href=prefs_edit_global_form.php>Edit global preferences</a></td></tr>\n";
 }
 
 function prefs_show_resource($prefs) {
-    echo "<tr>".TD2.LG_FONT."<b>Resource share</b></font>
-        <br><font size=-1>Control how your resources are divided among BOINC projects</font></td></tr>\n";
-    row2a(PROJECT." resource share:", $prefs->resource_share);
-    echo "<tr><td><a href=prefs_edit_resource_form.php>Edit resource share</a></td></tr>\n";
+    row2(
+        "Resource share:
+        <br><font size=-1>If you participate in multiple BOINC projects, this is the proportion of your resources used by ".PROJECT."</font>",
+        $prefs->resource_share
+    );
 }
 
 function prefs_show_email($prefs) {
-    echo "<tr>".TD2.LG_FONT."<b>Email options</b></font>
-        <br><font size=-1>Control how ".PROJECT." uses your email address</font></td></tr>\n";
-    row2a("Should ".PROJECT." send you email newsletters?", $prefs->send_email?"Yes":"No");
-    row2a("Should ".PROJECT." show your email address on its web site?", $prefs->show_email?"Yes":"No");
-    echo "<tr><td><a href=prefs_edit_email_form.php>Edit email options</a></td></tr>\n";
+    row2("Should ".PROJECT." send you email newsletters?", $prefs->send_email?"Yes":"No");
+    row2("Should ".PROJECT." show your email address on its web site?", $prefs->show_email?"Yes":"No");
 }
 
 function prefs_show_project($prefs) {
-    echo "<tr>".TD2.LG_FONT."<b>Graphics preferences</b></font>
-        <br><font size=-1>Customize ".PROJECT." screensaver graphics</font></td></tr>\n";
     project_specific_prefs_show($prefs);
-    echo "<tr><td><a href=prefs_edit_project_form.php>Edit graphics preferences</a></td></tr>\n";
 }
 
 function print_prefs_display($user) {
@@ -226,10 +218,16 @@ function print_prefs_display($user) {
     $project_prefs = prefs_parse($user->project_prefs);
     $project_specific_prefs = project_specific_prefs_parse($project_prefs->project_specific);
 
+    echo "<tr><td colspan=2><b>".PROJECT." preferences</b></td></tr>\n";
     prefs_show_resource($project_prefs);
     prefs_show_project($project_specific_prefs);
     prefs_show_email($project_prefs);
+    echo "<tr><td><a href=prefs_edit_project_form.php>Edit ".PROJECT." preferences</a></td></tr>\n";
+    echo "<tr><td colspan=2><hr></td></tr>\n";
+    echo "<tr><td colspan=2><b>BOINC preferences</b></font>
+        <br><font size=-1>These apply to all BOINC projects in which you participate</font></td></tr>\n";
     prefs_show_global($global_prefs);
+    echo "<tr><td><a href=prefs_edit_global_form.php>Edit BOINC preferences</a></td></tr>\n";
     echo "</table>";
 }
 
@@ -237,12 +235,9 @@ function print_prefs_display($user) {
 //
 // Functions to display preference subsets as forms
 //
-function prefs_form_global($user, $prefs, $next_url) {
-    echo   "<form action=prefs_edit_global_action.php>
-        <input type=hidden name=next_url value=$next_url>
-        <table cellpadding=6>
-        <tr>
-        <td align=right>Should ".PROJECT." run while computer is on batteries?
+function prefs_form_global($user, $prefs) {
+    echo   "<tr>
+        <td align=right>Should ".PROJECT." run while the computer is on battery power?
         <br><font size=-1>(This matters only for portable computers)</font>
         </td><td valign=top>
     ";
@@ -257,7 +252,7 @@ function prefs_form_global($user, $prefs, $next_url) {
     printf("No <input type=radio name=dont_run_if_user_active %s>\n", $prefs->dont_run_if_user_active?"checked":"");
     echo   "</td></tr>
         <tr>
-        <td align=right>Wait for your OK before connecting to Internet?
+        <td align=right>Ask you before connecting to Internet?
         <br><font size=-1>(This matters only if you use a modem)</font>
         </td><td valign=top>
     ";
@@ -286,17 +281,11 @@ function prefs_form_global($user, $prefs, $next_url) {
         <td align=right valign=top>Use no more than</td>
         <td><input size=5 name=disk_max_used_pct value='$prefs->disk_max_used_pct'> % of total space</td>
         </tr>
-        <tr><td><br></td><td><input type=submit value=\"OK\"></td></tr>
-        </table>
-        </form>
     ";
 }
 
-function prefs_form_email($prefs, $next_url) {
-    echo "<form action=prefs_edit_email_action.php>
-        <input type=hidden name=next_url value=$next_url>
-        <table cellpadding=6>
-        <tr>
+function prefs_form_email($prefs) {
+    echo "<tr>
         <td align=right>Should ".PROJECT." send you email newsletters?</td><td>
     ";
     printf("Yes <input type=radio name=send_email %s>\n", $prefs->send_email?"checked":"");
@@ -307,37 +296,48 @@ function prefs_form_email($prefs, $next_url) {
     printf("Yes <input type=radio name=show_email %s>\n", $prefs->show_email?"checked":"");
     printf("No <input type=radio name=show_email %s>\n", $prefs->show_email?"":"checked");
     echo" </td></tr>
-        <tr><td><br></td><td><input type=submit value=OK></td></tr>
-        </table></form>
     ";
 }
 
-function prefs_form_resource($prefs, $next_url) {
-    echo "<form action=prefs_edit_resource_action.php>
-        <input type=hidden name=next_url value=$next_url>
-        <table cellpadding=6>
-        <tr>
-        <td align=right><b>Resource share:</b>
-        <font size=-1><br>The proportion of your resources
-        <br>allocated to ".PROJECT.".</font></td>
-        <td><input name=resource_share value='$prefs->resource_share'></td>
-        <tr><td><br></td><td><input type=submit value=OK></td></tr>
-        </tr></table></form>
+function prefs_form_resource($prefs) {
+    echo "<tr>
+        <td width=50% valign=top align=right><b>Resource share:</b>
+        <font size=-1><br>The proportion of your computer's resources
+        (processing time and disk space)
+        allocated to ".PROJECT."
+        relative to the other BOINC projects in which you participate.
+        The default is 100.
+        For example, if you participate in two projects and
+        give them resource shares of 100 and 200,
+        the first will get 1/3 of our resources and the second will get 2/3.
+        </font></td>
+        <td valign=top><input name=resource_share value='$prefs->resource_share'></td>
     ";
 }
 
-function prefs_form_project($prefs_xml, $next_url) {
+function prefs_form_project($prefs_xml) {
     $prefs = project_specific_prefs_parse($prefs_xml);
-    echo "<form action=prefs_edit_project_action.php>
-        <input type=hidden name=next_url value=$next_url>
-        <table cellpadding=6>
-    ";
     project_specific_prefs_edit($prefs);
-    echo "
-        <tr><td><br></td><td><input type=submit value=OK></td></tr>
-        </table>
-        </form>
-    ";
+}
+
+function venue_form($user) {
+    echo "<tr><td align=right>Computer location</td><td>
+        <select name=venue>
+        <option name=home>Home
+        <option name=work>Work
+        <option name=school>School
+        </select>
+        </td></tr>
+        ";
+}
+
+function venue_parse(&$user) {
+    parse_str(getenv("QUERY_STRING"));
+    $user->venue = $venue;
+}
+
+function venue_update($user) {
+    mysql_query("update user set venue='$user->venue' where id=$user->id");
 }
 
 ////////////////////////////////////////////
@@ -389,13 +389,13 @@ function global_prefs_make_xml($prefs) {
     if ($prefs->confirm_before_connecting) {
         $xml = $xml."<confirm_before_connecting/>\n";
     }
-    $xml = $xml."<low_water_days>$prefs->low_water_days</low_water_days>
-<high_water_days>$prefs->high_water_days</high_water_days>
-";
-    $xml = $xml."<disk_max_used_gb>$prefs->disk_max_used_gb</disk_max_used_gb>
-<disk_max_used_pct>$prefs->disk_max_used_pct</disk_max_used_pct>
-<disk_min_free_gb>$prefs->disk_min_free_gb</disk_min_free_gb>
-";
+    $xml = $xml
+        ."<low_water_days>$prefs->low_water_days</low_water_days>\n"
+        ."<high_water_days>$prefs->high_water_days</high_water_days>\n";
+    $xml = $xml
+        ."<disk_max_used_gb>$prefs->disk_max_used_gb</disk_max_used_gb>\n"
+        ."<disk_max_used_pct>$prefs->disk_max_used_pct</disk_max_used_pct>\n"
+        ."<disk_min_free_gb>$prefs->disk_min_free_gb</disk_min_free_gb>\n";
     $xml = $xml."</global_preferences>\n";
     return $xml;
 }

@@ -119,6 +119,7 @@ struct USER {
     char project_prefs[MAX_BLOB_SIZE];
         // within <project_preferences> tag
     int teamid;                     // if user is part of a team
+    char venue[256];                // home/work/school (default)
 };
 
 #define TEAM_TYPE_CLUB                  1
@@ -190,6 +191,8 @@ struct HOST {
     // The following is derived (by server) from other fields
     double credit_per_cpu_sec;
 
+    char venue[256];        // home/work/school
+
     int parse(FILE*);
     int parse_time_stats(FILE*);
     int parse_net_stats(FILE*);
@@ -238,6 +241,7 @@ struct WORKUNIT {
     int file_delete_state;
     int assimilate_state;
     int workseq_next;           // if part of a sequence, the next WU
+    int opaque;                 // project-specific; usually external ID
 
     // the following not used in the DB
     char app_name[256];
@@ -291,6 +295,7 @@ struct RESULT {
     int validate_state;
     double claimed_credit;      // CPU time times host credit/sec
     double granted_credit;      // == canonical credit of WU
+    int opaque;                 // project-specific; usually external ID
 
     // the following not used in the DB
     char wu_name[256];

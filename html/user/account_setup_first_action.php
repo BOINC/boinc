@@ -4,8 +4,6 @@ include_once("db.inc");
 include_once("util.inc");
 include_once("prefs.inc");
 
-parse_str(getenv("QUERY_STRING"));
-
 $authenticator = init_session();
 db_init();
 
@@ -15,10 +13,18 @@ if ($user == NULL) {
     exit();
 }
 
-no_cache();
-$prefs = prefs_parse($user->project_prefs);
+// TODO: consolidate the three DB updates into one
+
+$prefs = prefs_parse($user->prefs);
+prefs_global_parse_form($prefs);
+global_prefs_update($user, $prefs);
+
 prefs_email_parse_form($prefs);
 project_prefs_update($user, $prefs);
-Header("Location: $next_url");
+
+venue_parse($user);
+venue_update($user);
+
+Header("Location: account_setup_first_download.php");
 
 ?>

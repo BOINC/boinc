@@ -17,6 +17,6 @@ parse_str(getenv("QUERY_STRING"));
 $prefs = prefs_parse($user->prefs);
 prefs_global_parse_form($prefs);
 global_prefs_update($user, $prefs);
-Header("Location: $next_url");
+Header("Location: prefs.php");
 
 ?>

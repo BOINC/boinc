@@ -493,12 +493,20 @@ int SCHEDULER_REPLY::parse(FILE* in) {
     char buf[256], *p;
     int retval;
 
+    hostid = 0;
+    host_total_credit = 0;
+    host_expavg_credit = 0;
+    host_create_time = 0;
+    request_delay = 0;
     strcpy(message, "");
     strcpy(message_priority, "");
-    request_delay = 0;
-    hostid = 0;
+    strcpy(project_name, "");
     global_prefs_xml = 0;
     project_prefs_xml = 0;
+    strcpy(user_name, "");
+    user_total_credit = 0;
+    user_expavg_credit = 0;
+    user_create_time = 0;
     code_sign_key = 0;
     code_sign_key_signature = 0;
 

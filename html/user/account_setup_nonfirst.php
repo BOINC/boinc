@@ -14,18 +14,21 @@ if ($user == NULL) {
 }
 page_head("Account setup: resource share", $user);
 echo "
-    <h3>Account setup: resource share</h3>
-    <br>
-    You can control how your resources
-    (computer time and disk space) are divided
-    among ".PROJECT." and the other BOINC-based projects
-    in which you participate.
-    You do this by assigning a <b>resource share</b> to each project.
-    The resources allocated to a project are proportional to its resource share.
-    The default resource share is 100.
+    <h3>Account setup</h3>
 ";
 $prefs = prefs_parse($user->project_prefs);
-prefs_form_resource($prefs, "account_setup_nonfirst_email.php");
+echo "<form action=account_setup_nonfirst_action.php>
+    <table cellpadding=6>
+";
+prefs_form_resource($prefs);
+
+venue_form($user);
+
+echo "<tr><td><br></td><td><input type=submit value=\"OK\"></td></tr>
+    </table>
+    </form>\n
+";
+
 page_tail();
 
 ?>

@@ -42,8 +42,13 @@ function project_specific_prefs_parse_form() {
 function project_specific_prefs_show($prefs) {
     echo "<tr>\n
         <td>Color scheme:</td>\n
-        <td>$prefs->color_scheme</td>\n
-        </tr>\n";
+        <td>";
+    if ($prefs->color_scheme) {
+        echo $prefs->color_scheme;
+    } else {
+        echo "None selected";
+    }
+    echo "</td></tr>\n";
 }
 
 // parse XML, fill in struct

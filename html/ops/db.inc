@@ -74,6 +74,7 @@ function show_host($host) {
     start_table();
 
     row("Created", time_str($host->create_time));
+    row("Venue", $host->venue);
     row("Total credit", $host->total_credit);
     row("Average credit", $host->expavg_credit);
     row("Average update time", time_str($host->expavg_time));
@@ -247,6 +248,7 @@ function show_user($user) {
     row("Total credit", $user->total_credit);
     row("Average credit", $user->expavg_credit);
     row("Last average time", time_str($user->expavg_time));
+    row("Venue", $user->venue);
     end_table();
 }
 

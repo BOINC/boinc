@@ -214,6 +214,7 @@ new_host:
         reply.host.userid = reply.user.id;
         reply.host.rpc_seqno = 0;
         reply.host.rpc_time = time(0);
+        strcpy(reply.host.venue, reply.user.venue);
         retval = db_host_new(reply.host);
         if (retval) {
             strcpy(reply.message, "server database error");

@@ -20,14 +20,25 @@ echo "
     <br>
     You can control when and how your computer is used.
     <br>
-    We suggest using the defaults settings -
-    just go to the bottom and click OK.
+    To use the defaults settings,
+    scroll to the bottom and click OK.
 ";
 $prefs = default_prefs();
 global_prefs_update($user, $prefs);
 project_prefs_update($user, $prefs);
 
-prefs_form_global($user, $prefs, "account_setup_first_email.php");
+echo "<form action=account_setup_first_action.php>
+    <table cellpadding=6>
+";
+prefs_form_global($user, $prefs);
+prefs_form_email($prefs);
+venue_form($user);
+
+echo "<tr><td><br></td><td><input type=submit value=\"OK\"></td></tr>
+    </table>
+    </form>\n
+";
+
 page_tail();
 
 ?>
