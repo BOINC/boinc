@@ -81,8 +81,8 @@ function show_user_info_private($user) {
     $result = mysql_query($sql);
 
     if (mysql_num_rows($result) != 0) {
-        row2("", "<a href=view_profile.php?userid=$user->id>View or edit</a>");
-        row2("", "<a href=delete_profile.php>Delete</a>");
+        row2("", "<a href=view_profile.php?userid=$user->id>View or edit profile</a>");
+        row2("", "<a href=delete_profile.php>Delete profile</a>");
     } else {
         row2("", "<a href=create_profile.php>Create</a>");
     }
@@ -90,13 +90,13 @@ function show_user_info_private($user) {
     row1("Preferences");
     row2(
         "General<br><font size=-2>specify when and how BOINC uses your computer</font>",
-        "<a href=prefs.php?subset=global>View or edit</a>"
+        "<a href=prefs.php?subset=global>View or edit general preferences</a>"
     );
-    row2(PROJECT."<br><font size=-2>control project's resource share and customize screensaver graphics</font>",
-        "<a href=prefs.php?subset=project>View or edit</a>"
+    row2(PROJECT."<br><font size=-2>control resource share and customize graphics</font>",
+        "<a href=prefs.php?subset=project>View or edit ".PROJECT." preferences</a>"
     );
     row2("Forum<br><font size=-2>configure features and the appearance of the forum</font>",
-        "<a href=\"edit_forum_preferences_form.php\">View or edit</a>"
+        "<a href=\"edit_forum_preferences_form.php\">View or edit forum preferences</a>"
     );
 }
 

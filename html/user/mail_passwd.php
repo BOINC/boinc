@@ -14,7 +14,6 @@ if (strlen($email_addr)) {
     $result = mysql_query($query);
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
-    send_auth_email($user->email_addr, $user->authenticator);
 }
 
 if (!$user) {
@@ -22,7 +21,12 @@ if (!$user) {
         Try reentering your email address.<p>
     ";
 } else {
-    email_sent_message($email_addr);
+    $retval = send_auth_email($user->email_addr, $user->authenticator);
+    if ($retval) {
+        email_sent_message($email_addr);
+    } else {
+        echo "Can't send email to $user->email_addr: $retval";
+    }
 }
 
 page_tail();

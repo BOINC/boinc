@@ -25,16 +25,15 @@ function db_init() {
 // Sends the authenticator to the given email address
 //
 function send_auth_email($email_addr, $auth) {
-    mail($email_addr, PROJECT." new account confirmation",
-"This email confirms the creation of your ".PROJECT." account.
-
+    $subject = PROJECT." new account confirmation";
+    $body = "This email confirms the creation of your ".PROJECT." account.
 ".PROJECT." URL:          ".MASTER_URL."
 
 Your account ID:             $auth\n
 
 Please save this email.
-You will need your account ID to log in to the ".PROJECT." web site."
-    );
+You will need your account ID to log in to the ".PROJECT." web site.";
+    return mail($email_addr, $subject, $body);
 }
 
 function email_sent_message($email_addr) {

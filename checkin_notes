@@ -17877,3 +17877,13 @@ David  30 Sept 2004
 
     sched/
         db_dump.C
+
+David  30 Sept 2004
+    - Change wording of some web links
+
+    html/
+        inc/
+            user.inc
+            util.inc
+        user/
+            mail_passwd.php
