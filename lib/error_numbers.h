@@ -124,4 +124,5 @@
 #define ERR_SOCKS_UNSUPPORTED     -173
 #define ERR_SOCKS_CANT_REACH_HOST -174
 #define ERR_SOCKS_CONN_REFUSED    -175
+#define ERR_TIMER_INIT            -176
 

@@ -10989,7 +10989,7 @@ David  Mar 26 2004
         user/
             host_edit_action.php
 
-Eric H   Mar 26 2004
+Eric H   Mar 27 2004
     - added support for SOCKS4 and SOCKS5 proxy servers
     - added a new PROXY layer between HTTP_OP and NET_XFER.  This layer takes care
       of the state transitions involved in negotiating with a SOCKS server.  Since
@@ -11013,6 +11013,14 @@ Eric H   Mar 26 2004
         pers_file_xfer.C
         proxy.C,h (added)
         scheduler_op.C
+    lib/
+        error_numbers.h
+
+Eric H  Mar 27 2004
+    - Catch error returns from CPU benchmark timer
+
+    client/
+        cpu_benchmark.C
     lib/
         error_numbers.h
 

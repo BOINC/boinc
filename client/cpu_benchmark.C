@@ -265,7 +265,8 @@ int run_double_prec_test(double num_secs, double &flops_per_sec) {
     }
     
     // Setup a timer to interrupt the tests in num_secs
-    set_benchmark_timer(num_secs);
+    retval = set_benchmark_timer(num_secs);
+    if (retval) return retval;
 
     retval = (int)double_flop_test(0, flops_per_sec, 0);
         
@@ -285,7 +286,8 @@ int run_int_test(double num_secs, double &iops_per_sec) {
     }
     
     // Setup a timer to interrupt the tests in num_secs
-    set_benchmark_timer(num_secs);
+    retval = set_benchmark_timer(num_secs);
+    if (retval) return retval;
 
     retval = (int)int_op_test(0, iops_per_sec, 0);
     
@@ -305,7 +307,8 @@ int run_mem_bandwidth_test(double num_secs, double &bytes_per_sec) {
     }
     
     // Setup a timer to interrupt the tests in num_secs
-    set_benchmark_timer(num_secs);
+    retval = set_benchmark_timer(num_secs);
+    if (retval) return retval;
     
     retval = (int)bandwidth_test(0, bytes_per_sec, 0);
     
@@ -540,19 +543,24 @@ int bandwidth_test(int iterations, double &bytes_per_sec, int print_debug) {
     return error;
 }
 
-// TODO: handle errors here
 int set_benchmark_timer(double num_secs) {
     run_benchmark = true;
 #ifdef _WIN32
     speed_timer_id = timeSetEvent( (int)(num_secs*1000),
         (int)(num_secs*1000), stop_benchmark, NULL, TIME_ONESHOT );
+    if (speed_timer_id == NULL) return ERR_TIMER_INIT;
 #else
     itimerval value;
-    signal(SIGALRM, stop_benchmark);
+    sighandler_t sig_retval;
+    int retval;
+
+    sig_retval = signal(SIGALRM, stop_benchmark);
+    if (sig_retval == SIG_ERR) return ERR_TIMER_INIT;
     value.it_value.tv_sec = (int)num_secs;
     value.it_value.tv_usec = ((int)(num_secs*1000000))%1000000;
     value.it_interval = value.it_value;
-    setitimer(ITIMER_REAL, &value, NULL);
+    retval = setitimer(ITIMER_REAL, &value, NULL);
+    if (retval) return ERR_TIMER_INIT;
 #endif
 
     return 0;
