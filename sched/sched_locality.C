@@ -604,10 +604,20 @@ static int send_new_file_work_deterministic_seeded(
         if (end_f && strcmp(min_resultname, end_f)>=0)
           break;
 
+#if 0
+        // an alternative here is to add ANOTHER index on name, server_state
+        // to the result table.
         sprintf(query,
             "where server_state=%d and name>'%s' order by name limit 1",
             RESULT_SERVER_STATE_UNSENT, min_resultname
         );
+#endif
+
+        sprintf(query,
+            "where name>'%s' order by name limit 1",
+             min_resultname
+        );
+
         retval = result.lookup(query);
         if (retval) break; // no more unsent results or at the end of the filenames, return -1
         retval = extract_filename(result.name, filename);
