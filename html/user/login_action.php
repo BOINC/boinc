@@ -33,6 +33,9 @@
     //        echo "Bad password.";
     //    }
     } else {
+        if (split_munged_email_addr($user->email_addr, $authenticator, $email)) {
+            mysql_query("update user set email_addr='$email' where id=$user->id");
+        }
         $_SESSION["authenticator"] = $user->authenticator;
         $next_url = $HTTP_POST_VARS["next_url"];
         Header("Location: $next_url");

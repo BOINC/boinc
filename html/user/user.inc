@@ -17,19 +17,25 @@ function show_user_stats($user) {
     echo "</table>\n";
 }
 
+function edit_link() {
+    return "<br><font size=-1><a href=edit_user_info_form.php>edit</a></font>";
+}
+function edit_email_link() {
+    return "<br><font size=-1><a href=edit_email_form.php>edit</a></font>";
+}
+
 function show_user_profile($user) {
+    if (is_valid_email_addr($user->email_addr)) {
+        $email_text = $user->email_addr;
+    } else {
+        $email_text = "Verification pending";
+    }
     echo TABLE2."\n";
     echo "<tr>".TD2.LG_FONT."<b>User information</b></font></td></tr>\n";
-    row("<b>name</b>", $user->name);
-    row("<b>email address</b>", $user->email_addr);
-    row("<b>country</b>", $user->country);
-    row("<b>postal (ZIP) code</b>", $user->postal_code);
-    echo "<tr><td align=right><a href=edit_user_info.php>Edit user information</a></td>\n";
-    if (1) {
-        echo "<td><br></td></tr>\n";
-    } else {
-        echo "<td align=center><a href=change_password.php>Change Password</a></td></tr>\n";
-    }
+    row("<b>name</b>", $user->name.edit_link());
+    row("<b>email address</b>", $email_text.edit_email_link());
+    row("<b>country</b>", $user->country.edit_link());
+    row("<b>postal (ZIP) code</b>", $user->postal_code.edit_link());
     echo "</table>\n";
 }
 

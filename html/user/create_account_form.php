@@ -23,7 +23,7 @@ Use your real name or a nickname.
 <tr><td align=right>
 <b>Email address:</b>
 <br><font size=-1>
-Must be a valid address.
+Must be a valid address of the form name@domain.
 </font>
 </td><td>
 <input name=new_email_addr size=50>

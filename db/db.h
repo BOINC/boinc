@@ -92,7 +92,7 @@ struct APP_VERSION {
     int min_core_version;   // min core version this will run with
     int max_core_version;   // if <>0, max core version this will run with
 
-    // the following defined for core client
+    // the following defined for core client app
     //
     char message[256];      // if we get a request from this version,
                             // send this message

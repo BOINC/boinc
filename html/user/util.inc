@@ -29,9 +29,11 @@ function send_auth_email($email_addr, $auth) {
     mail($email_addr, PROJECT." new account confirmation",
 "This email confirms the creation of your ".PROJECT." account.
 ".PROJECT." URL:          ".MASTER_URL."
+
 Your account key:            $auth\n
-Please save this email, as you will need the account key
-to access your account on the ".PROJECT." web site."
+
+Please save this email.
+You will need your account key to log in to the ".PROJECT." web site."
     );
 }
 
@@ -223,13 +225,20 @@ function is_valid_email_addr($addr) {
 }
 
 function munge_email_addr($email, $string) {
-    return "@$email_$string";
+    return "@".$email."_".$string;
 }
 
 // if email_addr is of the form @X_Y, split out the X and return true.
 // otherwise return false
 //
 function split_munged_email_addr($addr, $string, &$email) {
+    if (substr($addr, 0, 1) != "@") return false;
+    $x = strrchr($addr, "_");
+    if (!$x) return false;
+    $y = substr($x, 1);
+    if ($y != $string) return false;
+    $email = substr($addr, 1, strlen($addr)-strlen($x)-1);
+    return true;
 }
 
 ?>

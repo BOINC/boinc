@@ -3308,3 +3308,31 @@ David  Feb 18 2003
         server_types.C
     test/
         test.inc
+
+David  Feb 19 2003
+    - Added scheme for verified user update of email address
+        When user updates email address, their email address in the DB
+        is set to a "munged" form that includes a random string,
+        and an email is sent to the new address that includes a
+        URL that they must visit to verify the change.
+    - The same mechanism is used on account creation;
+        the email DB field is initially set to a munged form.
+        This prevents hackers from adding entries to the DB
+        with other peoples' email addresses.
+    - Separate logic for update email address from update other user info;
+        remove combinatorial logic (?) for update other user info
+
+    configure (removed; generated from configure.in by autoconf)
+    db/
+        db.h
+    html_user/
+        create_account_action.php
+        create_account_form.php
+        edit_action.php (removed)
+        edit_email_action.php (new)
+        edit_email_form.php (new)
+        edit_user_info.php (removed)
+        edit_user_info_form.php (new)
+        login_action.php
+        user.inc
+        util.inc
