@@ -887,40 +887,73 @@ leave:
     }
 }
 
-void delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
+
+
+extern double max_allowable_disk(SCHEDULER_REQUEST& req);
+extern double watch_diskspace[3];
+
+// returns zero if there is a file we can delete.  Return non-zero if
+// no file to delete.
+//
+int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
     int nfiles = (int)sreq.file_infos.size();
-                                                                                                                                                       
+    char helpful_hint[256];
+                                                                                                                                                    
     if (!nfiles) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
             "[HOST#%d]: no disk space but no files we can delete!\n", sreply.host.id
         );
+
+	sprintf(helpful_hint, 
+            "\nNo disk space (BOINC needs %.1f MB more)\n", max_allowable_disk(sreq)/1.e6);
+	strcat(sreply.message, helpful_hint);
+
+	if (watch_diskspace[0] != 0.0) {
+	    strcat(sreply.message,
+	        "Review preferences for maximum disk space used\n");
+	}
+	else if (watch_diskspace[1] != 0.0) {
+	  strcat(sreply.message,
+	      "Review preferences for maximum disk percentage used\n");
+	}
+	else if (watch_diskspace[2] != 0.0) {
+	    strcat(sreply.message,
+	        "Review preferences for minimum disk free space allowed\n");
+	}
+	strcpy(sreply.message_priority, "high");
+	sreply.request_delay = 24*3600;
+	return 1;
     }
-    else {
-        // pick a data file to delete.  Do this deterministically
-        // so that we always tell host to delete the same file. But to prevent
-        // all hosts from removing 'the same' file, we choose a file which depends
-        // upon the hostid.
-        //
-        // Assumption is that if nothing has changed on the host, the order in
-        // which it reports files is fixed.  If this is false, we need to sort
-        // files into order by name!
-        //
-        int j = sreply.host.id % nfiles;
-        FILE_INFO& fi = sreq.file_infos[j];
-        sreply.file_deletes.push_back(fi);
-        log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
-            "[HOST#%d]: delete file %s (make space)\n", sreply.host.id, fi.name
-        );
-        // give host an hour to nuke the file and come back.  This might
-        // in general be too soon, since host needs to complete any work
-        // that depends upon this file, before it will be removed by core client.
-        //
-        sreply.request_delay = 3600;
-    }   
-    return;
-}
+    
+    // pick a data file to delete.  Do this deterministically
+    // so that we always tell host to delete the same file. But to prevent
+    // all hosts from removing 'the same' file, we choose a file which depends
+    // upon the hostid.
+    //
+    // Assumption is that if nothing has changed on the host, the order in
+    // which it reports files is fixed.  If this is false, we need to sort
+    // files into order by name!
+    //
+    int j = sreply.host.id % nfiles;
+    FILE_INFO& fi = sreq.file_infos[j];
+    sreply.file_deletes.push_back(fi);
+    log_messages.printf(
+        SCHED_MSG_LOG::DEBUG,
+        "[HOST#%d]: delete file %s (make space)\n", sreply.host.id, fi.name
+    );
+    // give host an hour to nuke the file and come back.  This might
+    // in general be too soon, since host needs to complete any work
+    // that depends upon this file, before it will be removed by core client.
+    //
+    
+    strcat(sreply.message, "\nRemoving file ");
+    strcat(sreply.message, fi.name);
+    strcat(sreply.message, " to free up disk space\n");
+    strcpy(sreply.message_priority, "low");
+    sreply.request_delay = 4*3600;
+    return 0;
+}   
 
 void debug_sched(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *trigger) {
     char tmpfilename[256];
@@ -970,8 +1003,6 @@ void debug_sched(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply, const char *t
     return;
 }
 
-extern double max_allowable_disk(SCHEDULER_REQUEST& req);
-
 void handle_request(
     FILE* fin, FILE* fout, SCHED_SHMEM& ss, char* code_sign_key
 ) {
@@ -1001,11 +1032,18 @@ void handle_request(
     }
 
     // if we got no work, and we have no file space, delete some files
-    if (sreq.results.size()==0 && max_allowable_disk(sreq)<0) {
-        delete_file_from_host(sreq, sreply);
+    if (sreply.results.size()==0 && max_allowable_disk(sreq)<0) {
+      // try to delete a file to make more space.  Also give some
+      // hints to the user about what's going wrong (lack of disk
+      // space).
+      delete_file_from_host(sreq, sreply);
     }
 
-    debug_sched(sreq, sreply, "../debug_sched");
+#if 1
+    if (sreply.results.size()==0)
+        debug_sched(sreq, sreply, "../debug_sched");
+#endif
+
     sreply.write(fout);
 }
 

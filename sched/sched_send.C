@@ -60,6 +60,14 @@ bool SCHEDULER_REQUEST::has_version(APP& app) {
     return false;
 }
 
+// This is an ugly way to keep track of *why* a particular host didn't
+// get its work request satisfied.  Unfortunately I don't see a clean
+// way of doing this without global vars.  David, Rom?
+//
+
+// Initialized to zero, since it's static memory.
+double watch_diskspace[3];
+
 // compute the max additional disk usage we can impose on the host
 //
 double max_allowable_disk(SCHEDULER_REQUEST& req) {
@@ -88,6 +96,15 @@ double max_allowable_disk(SCHEDULER_REQUEST& req) {
     x3 = host.d_free - prefs.disk_min_free_gb*1e9;      // may be negative
 
     x = min(x1, min(x2, x3));
+
+    // keep track of which bound is the most stringent
+    if (x==x1)
+      watch_diskspace[0]=x;
+    else if (x==x2)
+      watch_diskspace[1]=x;
+    else
+      watch_diskspace[2]=x;
+
     if (x < 0) {
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL,
@@ -747,6 +764,8 @@ int send_work(
     if (config.locality_scheduling) {
         wreq.infeasible_only = false;
         send_work_locality(sreq, reply, platform, wreq, ss);
+	if (wreq.disk_available < 0)
+	  wreq.insufficient_disk = true;
     } else {
         // give priority to results that were infeasible for some other host
         //
