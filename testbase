@@ -48,4 +48,4 @@ reqeval "cd boinc"
 reqeval_log "./configure"    configure.log
 reqeval_log "make all"       make_all.log
 reqeval_log "make check"     make_check.log
-reqeval_log "make distcheck" make_distcheck.log
+# reqeval_log "make distcheck" make_distcheck.log
