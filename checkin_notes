@@ -16902,3 +16902,12 @@ David  2 Sept 2004
 
     sched/
         sched_shmem.h
+
+Rom    2 Sep 2004
+    - BUGFIX: The active task destructor also tried to clean up dangling handles, so
+      after cleaning up a handle lets also set the handle value to NULL to keep it from
+      being acted on again.
+
+    client/
+        app.C
+        app_control.C

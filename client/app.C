@@ -111,9 +111,18 @@ ACTIVE_TASK::ACTIVE_TASK() {
 
 ACTIVE_TASK::~ACTIVE_TASK() {
 #ifdef _WIN32
-    if (pid_handle) CloseHandle(pid_handle);
-    if (thread_handle) CloseHandle(thread_handle);
-    if (quitRequestEvent) CloseHandle(quitRequestEvent);
+    if (pid_handle) {
+        CloseHandle(pid_handle);
+        pid_handle = NULL;
+    }
+    if (thread_handle) {
+        CloseHandle(thread_handle);
+        thread_handle = NULL;
+    }
+    if (quitRequestEvent) {
+        CloseHandle(quitRequestEvent);
+        quitRequestEvent = NULL;
+    }
     // detach from shared mem.
     // This will destroy shmem seg since we're the last attachment
     //

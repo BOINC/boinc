@@ -213,8 +213,14 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
             if (pending_suspend_via_quit) {
                 pending_suspend_via_quit = false;
                 state = PROCESS_UNINITIALIZED;
-                CloseHandle(pid_handle);
-                CloseHandle(thread_handle);
+                if (pid_handle) {
+                    CloseHandle(pid_handle);
+                    pid_handle = NULL;
+                }
+                if (thread_handle) {
+                    CloseHandle(thread_handle);
+                    thread_handle = NULL;
+                }
                 return true;
             }
             if (!finish_file_present()) {
