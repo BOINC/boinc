@@ -60,8 +60,8 @@ RSS-based news feeds are available from BOINC
 and from several BOINC-based projects:
 <ul>
 <li> BOINC: http://boinc.berkeley.edu/rss_main.php
-<li> BOINC alpha test: http://setiboinc.berkeley.edu/boinc_alpha/rss_main.php
-<li> BOINC beta test: http://setiboinc.berkeley.edu/ap/rss_main.php
+<li> BOINC alpha test: http://setiboinc.ssl.berkeley.edu/boinc_alpha/rss_main.php
+<li> BOINC beta test: http://setiboinc.ssl.berkeley.edu/ap/rss_main.php
 </ul>
 <h2>Other</h2>
 For other information, contact Dr. David P. Anderson,

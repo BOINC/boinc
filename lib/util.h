@@ -32,6 +32,10 @@
 using std::string;
 #endif
 
+#ifndef HAVE_STRLCPY
+extern void strlcpy(char*, char*, int);
+#endif
+
 extern int ndays_to_string(double x, int smallest_timescale, char *buf);
 extern void nbytes_to_string(double nbytes, double total_bytes, char* str, int len);
 extern double dtime();

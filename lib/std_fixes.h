@@ -19,60 +19,6 @@
 #ifndef _STD_FIXES_H_
 #define _STD_FIXES_H_
 
-#ifndef CONFIG_TEST
-
-#ifndef HAVE_STRLCPY
-#ifdef HAVE_STDLIB_H
-#include <stdlib.h>
-#endif
-#ifdef HAVE_STRING_H
-#include <string.h>
-#endif
-
-#if 0
-extern "C" {
-size_t strlcpy(char *dst, const char *src, size_t len);
-}
-
-inline size_t strlcpy(char *dst, const char *src, size_t len) {
-  strncpy(dst,src,len-1);
-  dst[len-1]=0;
-  return strlen(dst);
-}
-
-namespace std {
-  using ::strlcpy;
-}
-#endif
-
-#endif
-
-#ifndef HAVE_STRLCAT
-#ifdef HAVE_STDLIB_H
-#include <stdlib.h>
-#endif
-#ifdef HAVE_STRING_H
-#include <string.h>
-#endif
-
-#if 0
-extern "C" {
-size_t strlcat(char *dst, const char *src, size_t len);
-}
-
-inline size_t strlcat(char *dst, const char *src, size_t len) {
-  strncat(dst,src,len-strlen(dst)-1);
-  dst[len-1]=0;
-  return strlen(dst);
-}
-
-namespace std {
-  using ::strlcat;
-}
-#endif
-
-#endif
-
 #ifndef HAVE_STD_MIN
 namespace std {
 

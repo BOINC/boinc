@@ -49,6 +49,21 @@ using std::min;
 #include "fcgi_stdio.h"
 #endif
 
+#ifndef HAVE_STRLCPY
+void strlcpy(char* dst, char* src, int len) {
+    while (1) {
+        len--;
+        if (len == 0) {
+            *dst = 0;
+            break;
+        }
+        if ((*dst++ = *src++) == 0) {
+            break;
+        }
+    }
+}
+#endif
+
 // Converts a double precision time (where the value of 1 represents
 // a day) into a string.  smallest_timescale determines the smallest
 // unit of time division used
@@ -176,7 +191,11 @@ void boinc_sleep(double seconds) {
 #ifdef _WIN32
     ::Sleep((int)(1000*seconds));
 #else
-    sleep((int)seconds);
+    unsigned int rem = (int) seconds;
+    while (1) {
+        rem = sleep(rem);
+        if (rem <= 0) break;
+    }
     int x = (int)fmod(seconds*1000000,1000000);
     if (x) usleep(x);
 #endif

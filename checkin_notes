@@ -13121,3 +13121,11 @@ David  6 June 2004
         file_upload_handler.C
         sched_send.C
         validate.C
+
+David  6 June 2004
+    - change boinc_sleep() to work correctly in the presence of signals
+    - add an implementation of strlcpy() for systems that don't have it
+
+    lib/
+        std_fixes.h
+        util.C,h

@@ -67,7 +67,7 @@ BOINC is supported by the
 <p>
 BOINC is under development.
 We are conducting a
-<a href=http://maggie.ssl.berkeley.edu/ap/>beta test of BOINC</a>
+<a href=http://setiboinc.ssl.berkeley.edu/ap/>beta test of BOINC</a>
 using the <a href=http://setiathome.berkeley.edu>SETI@home</a> and
 Astropulse applications.
 The public release will be announced on the SETI@home web site.
