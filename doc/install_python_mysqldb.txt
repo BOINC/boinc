@@ -32,6 +32,7 @@ Red Hat Linux: shared module
 ----------------------------
     1. Download MySQL-python
        $ wget http://easynews.dl.sourceforge.net/sourceforge/mysql-python/MySQL-python-0.9.2-1.i386.rpm
+
     2. Install
        # rpm (arguments?) 
 
@@ -39,11 +40,14 @@ Other Unix/Linux: shared module
 -------------------------------
     1. Download MySQL-python
        $ wget http://easynews.dl.sourceforge.net/sourceforge/mysql-python/MySQL-python-0.9.2.tar.gz
+
     2. Unpack
        $ gunzip -c MySQL-python-0.9.2.tar.gz | tar xf -
-       $ cd MySQL-python-0.9.2
+
     3. Build
+       $ cd MySQL-python-0.9.2
        $ python setup.py build
+
     4. Install
        # python setup.py install
 
@@ -51,35 +55,43 @@ Unix/Linux: compiled statically into Python
 -------------------------------------------
     1. Download MySQL-python
        $ wget http://easynews.dl.sourceforge.net/sourceforge/mysql-python/MySQL-python-0.9.2.tar.gz
+
     2. Unpack
        $ gunzip -c MySQL-python-0.9.2.tar.gz | tar xf -
+
     3. Download Python
        $ wget http://python.org/ftp/python/2.3/Python-2.3.tgz   
+
     4. Unpack
        $ gunzip -c Python-2.3.tgz | tar xf -
-       $ cd Python-2.3
+
     5. Copy MySQL files
-       $ cp ../MySQL-python-0.9.2/{*c,*.h} Modules/
+       $ cp MySQL-python-0.9.2/{*.c,*.h} Python-2.3/Modules/
+
     6. Configure python
+       $ cd Python-2.3/
        $ ./configure --prefix=/path/to/install/python
-    7. Modify the Python module setup file.
-       $ vi Modules/Setup
-    
-       Find 'sre _sre.c' and add below it:
-         _mysql _mysql.c -I/usr/include/mysql -I/usr/local/mysql/include -L/usr/local/mysql/lib -lmysqlclient
-    
-       If those -I and -L flags don't work you can find the correct ones using
-       the program `mysql_config'
+
+    7. Enter the MySQL in the Python extension setup file.
+       $ perl -wpi.bak -e "s,^_sre _sre.c,_mysql _mysql.c `mysql_config --cflags` `mysql_config --libs`\n$&," Modules/Setup
+           (This adds the line '_mysql _msql.c [flags]' to Modules/Setup)
+
     8. Build
        $ make
 
+       Troubleshooting:
+           If you get undefined symbols or other compile errors in
+           _mysql.c you probably didn't add the correct include
+           directory for mysql. If you get unresolved symbols or other
+           link errors involving _mysql.o or libmysql.a you probably
+           didn't add the correct libraries.
+
     8T. Check
        You can check if your MySQLdb was compiled correctly like this:
-       
-       $ cd ../Python-MySQLdb-0.9.2
-       $ ../Python-2.3/python
-       >>> import MySQLdb
-       >>> MySQLdb.connect(db='databasename', user='username')
+
+       $ python
+       >>> import _mysql
+       >>> _mysql.version_info
 
     9. Install
        $ cd ../Python-2.3/
