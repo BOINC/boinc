@@ -21089,3 +21089,21 @@ David  10 Dec 2004
 
     sched/
         transitioner.C
+
+Bruce 10 Dec 2004
+                                                                                                                                    
+        David, here's a rough pass, I haven't even tried to compile
+        it. Please read comments in-line.  I think the major
+        shortcoming is
+        that most (all?) apps will want to use 'handle' to resolve their
+        own functions to communicate data from worker to app graphics.
+        Perhaps we should provide an additional argument to
+        boinc_init_graphics_lib() for that purpose?  At the right point,
+        after sucessful dlopen(), boinc_init_graphics_lib() will call
+        that user-supplied function (if not NULL) passing it handle.
+        On return boinc_init_graphics_lib() will then carry on and start
+        graphics.
+        It's fun working on a file that's not in Makefile.  No guilt!
+                                                                                                                                    
+    api/
+        graphics_lib.C
