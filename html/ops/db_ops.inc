@@ -618,16 +618,11 @@ function credit_str($c) {
     }
 }
 
-function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times)
-{
+function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times) {
     $wu_name = wu_name_by_id($result->workunitid);
 
-    echo "<h2>$result->name</h2>";
-    echo "<p>WU: <a href=db_action.php?table=workunit&id=$result->workunitid>$wu_name</a>";
 
     start_table();
-
-
 
     if (!$hide_times) {
         row("Created", time_str($result->create_time));
@@ -787,10 +782,11 @@ function platform_name_by_id($platformid) {
 function host_name_by_id($hostid) {
     $result = mysql_query("select * from host where id = $hostid");
     $host = mysql_fetch_object($result);
-    if (!strlen($host->domain_name) && !strlen($host->last_ip_addr))
+    if (!strlen($host->domain_name) && !strlen($host->last_ip_addr)) {
         return "(blank)";
-    else
+    } else {
         return $host->domain_name . " (" . $host->last_ip_addr . ")";
+    }
 }
 
 ?>
