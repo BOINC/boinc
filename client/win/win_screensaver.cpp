@@ -774,7 +774,8 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					return 0; 
 		 
 				case 2:
-                    HWND hwndBOINCAppWindow = NULL;
+                    HWND hwndBOINCGraphicsWindow = NULL;
+                    HWND hwndActiveWindow = NULL;
                     int  iReturnValue = 0;
                     int  iStatus = 0;
 
@@ -784,13 +785,6 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                     // Reset the error flags.
                    	m_bErrorMode = FALSE;
     				m_hrError = 0;
-
-                    hwndBOINCAppWindow = ::FindWindow( BOINC_WINDOW_CLASS_NAME, NULL );
-                    if ( NULL != hwndBOINCAppWindow )
-                    {
-                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - BOINC Application Window Detected\n"));
-                        ::SetForegroundWindow( hwndBOINCAppWindow );
-                    }
 
                     // Lets try and get the current state of the CC
                     if (m_bResetCoreState)
@@ -831,9 +825,6 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                             switch (iStatus)
                             {
                                 case SS_STATUS_ENABLED:
-                                    HWND hwndBOINCGraphicsWindow = NULL;
-                                    HWND hwndActiveWindow = NULL;
-
                                     hwndBOINCGraphicsWindow = FindWindow( BOINC_WINDOW_CLASS_NAME, NULL );
                                     if ( NULL != hwndBOINCGraphicsWindow )
                                     {

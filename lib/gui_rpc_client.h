@@ -55,8 +55,6 @@
 #define SS_STATUS_NOGRAPHICSAPPSEXECUTING    7
 #define SS_STATUS_QUIT                       8
 
-#define BOINC_WINDOW_CLASS_NAME "BOINC_app"
-
 struct GUI_URL {
     std::string name;
     std::string description;
