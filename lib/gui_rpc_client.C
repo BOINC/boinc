@@ -577,12 +577,12 @@ int HOST_INFO::parse(MIOFILE& in) {
 
 void HOST_INFO::clear() {
     timezone = 0;
-    domain_name[0] = NULL;
-    serialnum[0] = NULL;
-    ip_addr[0] = NULL;
+    strcpy(domain_name, "");
+    strcpy(serialnum, "");
+    strcpy(ip_addr, "");
     p_ncpus = 0;
-    p_vendor[0] = NULL;
-    p_model[0] = NULL;
+    strcpy(p_vendor, "");
+    strcpy(p_model, "");
     p_fpops = 0.0;
     p_iops = 0.0;
     p_membw = 0.0;
@@ -590,8 +590,8 @@ void HOST_INFO::clear() {
     p_iop_err = 0;
     p_membw_err = 0;
     p_calculated = 0.0;
-    os_name[0] = NULL;
-    os_version[0] = NULL;
+    strcpy(os_name, "");
+    strcpy(os_version, "");
     m_nbytes = 0.0;
     m_cache = 0.0;
     m_swap = 0.0;

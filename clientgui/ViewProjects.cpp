@@ -832,7 +832,7 @@ bool CViewProjects::IsWebsiteLink( const wxString& strLink )
 
 wxInt32 CViewProjects::ConvertWebsiteIndexToLink( wxInt32 iProjectIndex, wxInt32 iWebsiteIndex, wxString& strLink )
 {
-    strLink.Printf(wxT("%s:%d:%d"), LINK_WEB, iProjectIndex, iWebsiteIndex);
+    strLink.Printf(wxT("%s:%d:%d"), LINK_WEB.c_str(), iProjectIndex, iWebsiteIndex);
     return 0;
 }
 

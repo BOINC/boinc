@@ -18724,3 +18724,11 @@ Rom    21 Oct 2004 (boinc)
     - Tag for 4.50 release, all platforms
       boinc_core_release_4_50
 
+David 21 Oct 2004
+    - compile fix
+        To initialize a char[256], use strcpy(x, ""), not x[0] = NULL.
+
+    client/
+        app_control.C
+    lib/
+        gui_rpc_client.C
