@@ -6937,3 +6937,8 @@ Karl 2003-10-19
 
     client/win/
         wingui_mainwindow.cpp
+
+David  20 Oct 2003
+	- fixed bug that prevented screensaver from launching core client
+
+	win_screensaver.cpp

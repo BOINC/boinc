@@ -93,7 +93,7 @@ void RunSaver( void ) {
 	if(boinc_mutex != NULL && GetLastError() != ERROR_ALREADY_EXISTS) {
 		CloseHandle(boinc_mutex);
 		// Get the path to the client
-		if (!UtilGetRegStr( "ClientPath", client_path ) ||
+		if (UtilGetRegStr( "ClientPath", client_path ) ||
 			 UtilGetRegStr( "ClientDir", client_dir )) 
 		{
 			return /* error */;
@@ -107,14 +107,15 @@ void RunSaver( void ) {
 
 		// Start the client in the background
 		oldval = CreateProcess(  client_path,	// path to the client
-					"boinc -saver",				// start the screensaver
-					NULL, NULL,					// no process, thread security attributes
-					FALSE,						// doesn't inherit handles
-					CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
-					NULL,						// same environment
-					client_dir,					// start in the standard client directory
-					&startup_info,
-					&process_info );
+			"boinc -saver",				// start the screensaver
+			NULL, NULL,					// no process, thread security attributes
+			FALSE,						// doesn't inherit handles
+			CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+			NULL,						// same environment
+			client_dir,					// start in the standard client directory
+			&startup_info,
+			&process_info
+        );
 		// wait up to 3 seconds for BOINC to start
 		WaitForInputIdle(process_info.hProcess, 3000);
 	}
