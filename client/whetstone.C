@@ -77,21 +77,38 @@ C**********************************************************************
 #define DSQRT	sqrt
 #define IF		if
 
-/* function prototypes */
-void POUT(long N, long J, long K, double X1, double X2, double X3, double X4);
-void PA(double E[]);
-void P0(void);
-void P3(double X, double Y, double *Z);
+
 #define USAGE	"usage: whetdc [-c] [loops]\n"
 
 
 /*
 	COMMON T,T1,T2,E1(4),J,K,L
 */
-double T,T1,T2,E1[5];
-int J,K,L;
+
+// have to make this non-global because we run this multi-threaded
+//
+struct WS_DATA {
+    double t,t1,t2,e1[5];
+    int j,k,l;
+};
+
+#define T wd.t
+#define T1 wd.t1
+#define T2 wd.t2
+#define E1 wd.e1
+#define E wd.e1
+#define J wd.j
+#define K wd.k
+#define L wd.l
+
+/* function prototypes */
+//void POUT(long N, long J, long K, double X1, double X2, double X3, double X4);
+void PA(WS_DATA&);
+void P0(WS_DATA&);
+void P3(WS_DATA&, double X, double Y, double *Z);
 
 void whetstone(double& flops) {
+    WS_DATA wd;
 
 	/* used in the FORTRAN version */
 	long I;
@@ -185,7 +202,7 @@ C
     C
     */
 	    for (I = 1; I <= N3; I++)
-		    PA(E1);
+		    PA(wd);
 
     /*
     C
@@ -254,7 +271,7 @@ C
 	    Z = 1.0;
 
 	    for (I = 1; I <= N8; I++)
-		    P3(X,Y,&Z);
+		    P3(wd, X,Y,&Z);
 
 
     /*
@@ -270,7 +287,7 @@ C
 	    E1[3] = 3.0;
 
 	    for (I = 1; I <= N9; I++)
-		    P0();
+		    P0(wd);
 
 
     /*
@@ -342,7 +359,7 @@ C--------------------------------------------------------------------
 }
 
 void
-PA(double E[])
+PA(WS_DATA& wd)
 {
 	J = 0;
 
@@ -358,7 +375,7 @@ L10:
 }
 
 void
-P0(void)
+P0(WS_DATA& wd)
 {
 	E1[J] = E1[K];
 	E1[K] = E1[L];
@@ -366,7 +383,7 @@ P0(void)
 }
 
 void
-P3(double X, double Y, double *Z)
+P3(WS_DATA& wd, double X, double Y, double *Z)
 {
 	double X1, Y1;
 

@@ -187,16 +187,7 @@ typedef RecordType *    RecordPtr;
 #define FALSE           0
 
 
-void Proc0();
-void Proc1(RecordPtr PtrParIn);
-void Proc2(OneToFifty *IntParIO);
-void Proc3(RecordPtr *PtrParOut);
-void Proc4();
-void Proc5();
-void Proc6(Enumeration EnumParIn, Enumeration *EnumParOut);
-void Proc7(OneToFifty IntParI1, OneToFifty IntParI2, OneToFifty *IntParOut);
-void Proc8(Array1Dim Array1Par, Array2Dim Array2Par, OneToFifty IntParI1,
-                                                OneToFifty IntParI2);
+
 extern Enumeration  Func1(CapitalLetter CharPar1, CapitalLetter CharPar2);
 extern bool      Func2(String30 StrParI1, String30 StrParI2);
 bool Func3(Enumeration EnumParIn);
@@ -205,17 +196,35 @@ bool Func3(Enumeration EnumParIn);
 /*
  * Package 1
  */
-int             IntGlob;
-bool         BoolGlob;
-char            Char1Glob;
-char            Char2Glob;
-Array1Dim       Array1Glob;
-Array2Dim       Array2Glob;
-RecordPtr       PtrGlb;
-RecordPtr       PtrGlbNext;
-int             getinput = 1;
+struct DS_DATA {
+    int             _IntGlob;
+    bool            _BoolGlob;
+    char            _Char1Glob;
+    char            _Char2Glob;
+    Array1Dim       _Array1Glob;
+    Array2Dim       _Array2Glob;
+    RecordPtr       _PtrGlb;
+    RecordPtr       _PtrGlbNext;
+};
+#define IntGlob dd._IntGlob
+#define BoolGlob dd._BoolGlob
+#define Char1Glob dd._Char1Glob
+#define Char2Glob dd._Char2Glob
+#define Array1Glob dd._Array1Glob
+#define Array2Glob dd._Array2Glob
+#define PtrGlb dd._PtrGlb
+#define PtrGlbNext dd._PtrGlbNext
 
-
+void Proc0();
+void Proc1(DS_DATA&, RecordPtr PtrParIn);
+void Proc2(DS_DATA&, OneToFifty *IntParIO);
+void Proc3(DS_DATA&, RecordPtr *PtrParOut);
+void Proc4(DS_DATA&);
+void Proc5(DS_DATA&);
+void Proc6(DS_DATA&, Enumeration EnumParIn, Enumeration *EnumParOut);
+void Proc7(OneToFifty IntParI1, OneToFifty IntParI2, OneToFifty *IntParOut);
+void Proc8(DS_DATA&, Array1Dim Array1Par, Array2Dim Array2Par, OneToFifty IntParI1,
+                                                OneToFifty IntParI2);
 void dhrystone(
    double& Dhrystones_Per_Second, double& Vax_Mips
 ){
@@ -227,6 +236,7 @@ void dhrystone(
     String30                String1Loc;
     String30                String2Loc;
     unsigned long         Loops;
+    DS_DATA dd;
                           
     double                  startclock, endclock;
     double                  benchtime;
@@ -267,8 +277,8 @@ void dhrystone(
     {
         for (i = 0; i < Loops; ++i)
         {
-                Proc5();
-                Proc4();
+                Proc5(dd);
+                Proc4(dd);
                 IntLoc1 = 2;
                 IntLoc2 = 3;
                 strcpy(String2Loc, "DHRYSTONE PROGRAM, 2'ND STRING");
@@ -280,15 +290,15 @@ void dhrystone(
                         Proc7(IntLoc1, IntLoc2, &IntLoc3);
                         ++IntLoc1;
                 }
-                Proc8(Array1Glob, Array2Glob, IntLoc1, IntLoc3);
-                Proc1(PtrGlb);
+                Proc8(dd, Array1Glob, Array2Glob, IntLoc1, IntLoc3);
+                Proc1(dd, PtrGlb);
                 for (CharIndex = 'A'; CharIndex <= Char2Glob; ++CharIndex)
                         if (EnumLoc == Func1(CharIndex, 'C'))
-                                Proc6(Ident1, &EnumLoc);
+                                Proc6(dd, Ident1, &EnumLoc);
                 IntLoc3 = IntLoc2 * IntLoc1;
                 IntLoc2 = IntLoc3 / IntLoc1;
                 IntLoc2 = 7 * (IntLoc3 - IntLoc2) - IntLoc1;
-                Proc2(&IntLoc1);
+                Proc2(dd, &IntLoc1);
         }
         bigloops++;
     }
@@ -313,9 +323,11 @@ void dhrystone(
     printf ("VAX  MIPS rating =                          ");
     printf ("%12.2lf \n",Vax_Mips);
 #endif
+    free(PtrGlbNext);
+    free(PtrGlb);
 }
 
-void Proc1(RecordPtr PtrParIn)
+void Proc1(DS_DATA& dd, RecordPtr PtrParIn)
 {
 #define NextRecord      (*(PtrParIn->PtrComp))
 
@@ -323,11 +335,11 @@ void Proc1(RecordPtr PtrParIn)
         PtrParIn->IntComp = 5;
         NextRecord.IntComp = PtrParIn->IntComp;
         NextRecord.PtrComp = PtrParIn->PtrComp;
-        Proc3(&NextRecord.PtrComp);
+        Proc3(dd, &NextRecord.PtrComp);
         if (NextRecord.Discr == Ident1)
         {
                 NextRecord.IntComp = 6;
-                Proc6(PtrParIn->EnumComp, &NextRecord.EnumComp);
+                Proc6(dd, PtrParIn->EnumComp, &NextRecord.EnumComp);
                 NextRecord.PtrComp = PtrGlb->PtrComp;
                 Proc7(NextRecord.IntComp, 10, &NextRecord.IntComp);
         }
@@ -337,7 +349,7 @@ void Proc1(RecordPtr PtrParIn)
 #undef  NextRecord
 }
 
-void Proc2(OneToFifty *IntParIO)
+void Proc2(DS_DATA& dd, OneToFifty *IntParIO)
 {
         OneToFifty              IntLoc;
         Enumeration             EnumLoc;
@@ -356,7 +368,7 @@ void Proc2(OneToFifty *IntParIO)
         }
 }
 
-void Proc3(RecordPtr *PtrParOut)
+void Proc3(DS_DATA& dd, RecordPtr *PtrParOut)
 {
         if (PtrGlb != NULL)
                 *PtrParOut = PtrGlb->PtrComp;
@@ -365,7 +377,7 @@ void Proc3(RecordPtr *PtrParOut)
         Proc7(10, IntGlob, &PtrGlb->IntComp);
 }
 
-void Proc4()
+void Proc4(DS_DATA& dd)
 {
         bool BoolLoc;
 
@@ -374,7 +386,7 @@ void Proc4()
         Char2Glob = 'B';
 }
 
-void Proc5()
+void Proc5(DS_DATA& dd)
 {
         Char1Glob = 'A';
         BoolGlob = FALSE;
@@ -382,7 +394,7 @@ void Proc5()
 
 extern bool Func3();
 
-void Proc6(Enumeration EnumParIn, Enumeration *EnumParOut)
+void Proc6(DS_DATA& dd, Enumeration EnumParIn, Enumeration *EnumParOut)
 {
         *EnumParOut = EnumParIn;
         if (! Func3(EnumParIn) )
@@ -407,7 +419,7 @@ void Proc7(OneToFifty IntParI1, OneToFifty IntParI2, OneToFifty *IntParOut)
         *IntParOut = IntParI2 + IntLoc;
 }
 
-void Proc8(Array1Dim Array1Par, Array2Dim Array2Par, OneToFifty IntParI1,
+void Proc8(DS_DATA& dd, Array1Dim Array1Par, Array2Dim Array2Par, OneToFifty IntParI1,
                                                 OneToFifty IntParI2)
 {
         OneToFifty      IntLoc;

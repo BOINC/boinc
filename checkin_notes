@@ -12622,3 +12622,15 @@ David  May 24 2004
 
     tools/
         update_versions
+
+David  May 24 2004
+	- Change benchmarks to not use global variables
+		(since, on Windows, we have several threads running them
+		in the same address space).
+		This requires passing around an extra structure pointer,
+		which slows down the benchmarks,
+		but it doesn't seem to make a big difference.
+
+	client/
+		dhrystone.C
+		whetstone.C
