@@ -100,7 +100,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
     md.project = p;
     md.priority = priority;
     md.timestamp = now;
-    md.message = msg;
+    md.message = message;
     message_descs.push_back(md);
 
     switch (priority) {

@@ -220,7 +220,7 @@ void handle_get_messages(char* buf, FILE* fout) {
         );
         if (md.project) {
             fprintf(fout,
-                " <project>%s</project>",
+                " <project>%s</project>\n",
                 md.project->get_project_name()
             );
         }

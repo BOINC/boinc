@@ -138,12 +138,15 @@ int RPC_CLIENT::get_messages(
         "</get_messages>\n",
         nmessages, offset
     );
+    fflush(fout);
     while (fgets(buf, 256, fin)) {
+        puts(buf);
         if (match_tag(buf, "<msgs>")) continue;
         if (match_tag(buf, "</msgs>")) break;
         if (match_tag(buf, "<msg>")) {
             MESSAGE_DESC md;
             while (fgets(buf, 256, fin)) {
+                puts(buf);
                 if (match_tag(buf, "</msg>")) break;
                 if (parse_str(buf, "<project>", md.project)) continue;
                 if (parse_str(buf, "<body>", md.body)) continue;
