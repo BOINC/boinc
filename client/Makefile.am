@@ -60,6 +60,11 @@ client-bin-gz: @CLIENT_BIN_FILENAME@.gz
 win/win_config.h: $(top_srcdir)/config.h
 	grep '#define.*VERSION' $^ > $@
 
+win/resource.rc: $(top_srcdir)/config.h
+	cd win && ./update-resource-version
+
+version: win/win_config.h win/resource.rc
+
 # make a hard link to the client name.
 @CLIENT_BIN_FILENAME@: boinc_client
 	rm -f $@
@@ -78,3 +83,5 @@ EXTRA_DIST =					\
 
 clean-local:
 	rm -f @CLIENT_BIN_FILENAME@ @CLIENT_BIN_FILENAME@.gz
+
+.PHONY: version
