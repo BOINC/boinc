@@ -6,3 +6,5 @@
 - draw to offscreen bitmap, then blit to window
 
 - produce bitmap in separate process, use shared mem
+
+- Allow for hardware acceleration direct to screen(?)
