@@ -81,7 +81,6 @@ public:
     bool poll();
     int insert(HTTP_OP*);
     int remove(HTTP_OP*);
-    int size();
 };
 
 #define HTTP_STATE_IDLE             0

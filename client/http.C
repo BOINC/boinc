@@ -345,10 +345,6 @@ int HTTP_OP_SET::insert(HTTP_OP* ho) {
     return 0;
 }
 
-// Runs through the set of HTTP_OP objects in the set and decides
-// what operation is appropriate for each.  This section needs more
-// thorough documentation, as it is fairly complex
-//
 bool HTTP_OP_SET::poll() {
     unsigned int i;
     HTTP_OP* htp;
@@ -553,10 +549,4 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
     }
     fprintf(stdout, "HTTP_OP_SET::remove(): not found\n");
     return 1;
-}
-
-// Returns the size of the set of HTTP_OP objects
-//
-int HTTP_OP_SET::size() {
-    return http_ops.size();
 }

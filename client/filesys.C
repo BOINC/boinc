@@ -196,7 +196,7 @@ int file_size(char* path, int& size) {
 int boinc_link(char *existing, char *new_link) {
     FILE *fp;
 
-    fp = fopen(new_link, "wb");
+    fp = fopen(new_link, "w");
     if (!fp) return ERR_FOPEN;
     fprintf(fp, "<soft_link>%s</soft_link>\n", existing);
     fclose(fp);

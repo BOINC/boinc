@@ -178,11 +178,16 @@ struct WORKUNIT {
     int write(FILE*);
 };
 
-#define RESULT_NEW              0  // New result, files still need to be downloaded
-#define RESULT_FILES_DOWNLOADED 1  // Files are downloaded, result can be computed
-#define RESULT_COMPUTE_DONE     2  // Computation is done, files to be uploaded
-#define RESULT_READY_TO_ACK     3  // Files are uploaded, notify scheduling server
-#define RESULT_SERVER_ACK       4  // Received an ack from server, result is done
+#define RESULT_NEW              0
+    // New result, files may still need to be downloaded
+#define RESULT_FILES_DOWNLOADED 1
+    // Files are downloaded, result can be computed
+#define RESULT_COMPUTE_DONE     2
+    // Computation is done, files need to be uploaded
+#define RESULT_READY_TO_ACK     3
+    // Files are uploaded, notify scheduling server
+#define RESULT_SERVER_ACK       4
+    // Received ack from server, can delete result
 
 struct RESULT {
     char name[256];

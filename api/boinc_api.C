@@ -56,6 +56,10 @@ int boinc_init() {
     FILE* f;
     int retval;
 
+#ifdef _WIN32
+    freopen(STDERR_FILE, "a", stderr);
+#endif
+
     f = fopen(INIT_DATA_FILE, "r");
     if (!f) return ERR_FOPEN;
     retval = parse_init_data_file(f, aid);
@@ -91,7 +95,7 @@ int boinc_resolve_filename(char *virtual_name, char *physical_name) {
     FILE *fp;
     char buf[512];
 
-    strcpy( physical_name, virtual_name );
+    strcpy(physical_name, virtual_name);
 
     // Open the file and load the first line
     fp = fopen(virtual_name, "r");

@@ -153,13 +153,14 @@ int ACTIVE_TASK::start(bool first_time) {
     //app_prefs.graphics.refresh_period = 5;
 
     memset(&aid, 0, sizeof(aid));
+
     // TODO: fill in the app prefs, user name, team name, etc.
     aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
     aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
     aid.wu_cpu_time = checkpoint_cpu_time;
 
     sprintf(prefs_path, "%s/%s", dirname, INIT_DATA_FILE);
-    prefs_fd = fopen(prefs_path, "wb");
+    prefs_fd = fopen(prefs_path, "w");
     if (!prefs_fd) {
         if (log_flags.task_debug) {
             printf("Failed to open core to app prefs file %s.\n", prefs_path);
@@ -170,7 +171,7 @@ int ACTIVE_TASK::start(bool first_time) {
     fclose(prefs_fd);
 
     sprintf(init_path, "%s/%s", dirname, FD_INIT_FILE);
-    init_file = fopen(init_path, "wb");
+    init_file = fopen(init_path, "w");
     if (!init_file) {
         if(log_flags.task_debug) {
             printf( "Failed to open init file %s.\n", init_path );
@@ -292,8 +293,7 @@ int ACTIVE_TASK::start(bool first_time) {
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
-    //HINSTANCE inst;
-	char exec_path[256];
+    char exec_path[256];
 
     memset( &process_info, 0, sizeof( process_info ) );
     memset( &startup_info, 0, sizeof( startup_info ) );
@@ -301,25 +301,23 @@ int ACTIVE_TASK::start(bool first_time) {
     startup_info.lpReserved = NULL;
     startup_info.lpDesktop = "";
 
-    // hook up stderr to a specially-named file (do this inside the new process)
-    //
-    //freopen(STDERR_FILE, "a", stderr);
+    // NOTE: in Windows, stderr is redirected within boinc_init();
 
     // Need to condense argv into a single string
     //if (log_flags.task_debug) print_argv(argv);
     //
     sprintf(exec_path, "%s/%s", dirname, exec_name);
-    if( !CreateProcess(exec_path,
+    if (!CreateProcess(exec_path,
         wup->command_line,
-        NULL, // not sure about this for security
-        NULL, // not sure about this for security
+        NULL,
+        NULL,
         FALSE,
         CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|NORMAL_PRIORITY_CLASS,
         NULL,
         dirname,
         &startup_info,
-        &process_info )
-    ) {
+        &process_info
+    )) {
         state = GetLastError();
         LPVOID lpMsgBuf;
         FormatMessage( 
@@ -333,8 +331,7 @@ int ACTIVE_TASK::start(bool first_time) {
             0,
             NULL
         );
-		fprintf(stdout, "CreateProcess: %s\n", (LPCTSTR)lpMsgBuf);
-        //MessageBox( NULL, (LPCTSTR)lpMsgBuf, "Error", MB_OK | MB_ICONINFORMATION );
+	fprintf(stdout, "CreateProcess: %s\n", (LPCTSTR)lpMsgBuf);
     }
     pid_handle = process_info.hProcess;
 

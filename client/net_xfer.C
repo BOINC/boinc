@@ -88,14 +88,13 @@ int NET_XFER::open_server() {
     if (fd < 0) return -1;
 
 #ifdef _WIN32
-	unsigned long one = 1;
-	ioctlsocket(fd, FIONBIO, &one);
+    unsigned long one = 1;
+    ioctlsocket(fd, FIONBIO, &one);
 #else
     int flags;
-    //ioctl(fd, FIONBIO, &one);
     flags = fcntl(fd, F_GETFL, 0);
     if (flags < 0) return -1;
-    else if( fcntl(fd, F_SETFL, flags|O_NONBLOCK) < 0 ) return -1;
+    else if (fcntl(fd, F_SETFL, flags|O_NONBLOCK) < 0 ) return -1;
 #endif
 
     addr.sin_family = AF_INET;
@@ -123,7 +122,7 @@ int NET_XFER::open_server() {
     return 0;
 }
 
-void NET_XFER::close_socket( void ) {
+void NET_XFER::close_socket() {
 #ifdef _WIN32
     if (socket) closesocket(socket);
 #else
@@ -132,7 +131,6 @@ void NET_XFER::close_socket( void ) {
 }
 
 void NET_XFER::init(char* host, int p, int b) {
-    // net_xfer_state = ?
     socket = -1;
     is_connected = false;
     want_download = false;
@@ -161,7 +159,6 @@ int NET_XFER_SET::insert(NET_XFER* nxp) {
 int NET_XFER_SET::remove(NET_XFER* nxp) {
     vector<NET_XFER*>::iterator iter;
 
-    // Close the socket
     nxp->close_socket();
 
     iter = net_xfers.begin();
@@ -179,6 +176,7 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
 // transfer data to/from a list of active streams
 // transfer at most max_bytes bytes.
 // TODO: implement other bandwidth constraints (ul/dl ratio, time of day)
+//
 int NET_XFER_SET::poll(int max_bytes, int& bytes_transferred) {
     int n, retval;
 
