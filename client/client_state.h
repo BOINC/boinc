@@ -205,6 +205,6 @@ public:
 
 extern CLIENT_STATE gstate;
 
-extern void msg_printf(PROJECT *p, int priority, const char *fmt, ...);
+extern void msg_printf(PROJECT *p, int priority, char *fmt, ...);
 
 #endif
