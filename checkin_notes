@@ -6557,8 +6557,8 @@ Karl 2003/10/06
     - client release 2.04
 
 Karl 2003/10/06
-    - log more verbose, trying to find "input files deleted for WU having
-      results IN_PROGRESS" bug
+    - transitioner: log every state transition, and check return value for
+      every update()
 
     sched/
         transitioner.C
