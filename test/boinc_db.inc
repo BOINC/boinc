@@ -33,9 +33,6 @@
     define("VALIDATE_STATE_VALID", 1);
     define("VALIDATE_STATE_INVALID", 2);
     define("VALIDATE_STATE_NO_CHECK", 3);
-    define("WORKSEQ_STATE_UNASSIGNED", 0);
-    define("WORKSEQ_STATE_ASSIGNED", 1);
-    define("WORKSEQ_STATE_DONE", 2);
     define("RESULT_NEW", 0);
     define("RESULT_FILES_DOWNLOADING", 1);
     define("RESULT_FILES_DOWNLOADED", 2);
