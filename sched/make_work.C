@@ -135,6 +135,7 @@ void make_work() {
             exit(1);
         }
         if (n > cushion) {
+            check_stop_trigger();
             sleep(1);
             continue;
         }
@@ -190,7 +191,6 @@ void make_work() {
         sprintf(buf, "added result: %s_%s\n", wu.name, suffix);
         write_log(buf);
         nresults_left--;
-        check_stop_trigger();
     }
 }
 
