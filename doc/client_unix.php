@@ -38,6 +38,9 @@ list_item("-update_prefs URL",
     and get new work if needed."
 );
 
+list_item("-return_results_immediately",
+    "Contact scheduler as soon as any result done."
+);
 list_item("-run_cpu_benchmarks",
     "Run CPU benchmarks.
     Do this if you have modified your computer's hardware."

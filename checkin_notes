@@ -5567,8 +5567,8 @@ David  Aug 7 2003
 Karl 2003/08/07
     - client: Start tasks in order of earliest report_deadline.
         - added next_result_to_start()
-    - client: don't report a result until 6 hours before report_deadline (or
-      other reason to contact scheduler)
+    - client: don't report a result until 6 hours before report_deadline
+        (or other reason to contact scheduler)
     - scheduler: Send report deadline
     - client GUI: added 'report deadline' column. Rewrote column-order
       profile code.
@@ -13947,14 +13947,22 @@ David  2004.06.17
         hostinfo_network.C
         hostinfo_unix.C
 
+David  2004.06.18
+    - punt the ping/gethostbyname issue for now;
+        just get the hostname (not domain)
+        and set IP address to "unknown".
+
+    client/
+        hostinfo_network.C
+
 Karl 2004-06-18
     - makefile cleanup
 
     */Makefile.am
 
 Rom    June 18 2004
-    - Update screensaver logic to determine the difference between 'no work avaliable'
-      and the active tasks cannot display graphics.
+    - Update screensaver logic to determine the difference between
+      'no work avaliable' and the active tasks cannot display graphics.
 
     client/
         ss_logic.C
@@ -13962,3 +13970,14 @@ Rom    June 18 2004
 Rom    June 18 2004
     - Tag for 3.15 release, all platforms
       boinc_core_release_3_15
+
+David  2004.06.18
+    - Undo the checkin of Mar 4 2004 that changed the "report deadline"
+        based on connected_frac etc.
+        Just use 24 hours.
+    - Undo checkin of June 14 2004 that didn't fetch work
+        if return_results_immediately is set;
+        this broke test_uc.py
+
+    client/
+        cs_scheduler.C

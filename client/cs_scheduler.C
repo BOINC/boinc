@@ -51,18 +51,14 @@
 //
 #define EXP_DECAY_RATE  (1./(SECONDS_PER_DAY*7))
 
+// how often to show user "backing off" messages
+//
 const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 
 
-// values used in adjusting the deadline to report
-// These values should be changed to produce approximately
-// one week maximum warning in the release version of the client.
-// Recommended base=60*60*12, multiplier=14.0
+// try to report results this much before their deadline
 //
-float SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT = 60*60*6;
-const int SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT_BASE = 60*60*6;
-const float DEADLINE_TO_REPORT_MULTIPLIER = 2.0;
-
+#define REPORT_DEADLINE_CUSHION SECONDS_PER_DAY
 
 // estimate the days of work remaining
 //
@@ -362,42 +358,25 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
 // find a project with results that are overdue to report,
 // and which we're allowed to contact.
 //
-PROJECT* CLIENT_STATE::find_project_with_overdue_results(bool& overdue) {
+PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
     unsigned int i;
-    float fReportDeadlineToReport = 0.0;
     RESULT* r;
     time_t now = time(0);
-
-    // update deadline to report before use. connected_frac should be valid here
-    //
-    fReportDeadlineToReport =
-        (SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT_BASE *
-        DEADLINE_TO_REPORT_MULTIPLIER *
-        ((float)(1 - time_stats.connected_frac))) +
-        SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT_BASE;
 
     for (i=0; i<results.size(); i++) {
         r = results[i];
         // return the project for this result to report if:
         //    - we're not backing off a scheduler request for its project
         //    - we're ready_to_report (compute done; files uploaded)
-        //    - we're almost at the report_deadline (6 hours)
+        //    - we're almost at the report_deadline
         //
 
         if (r->project->waiting_until_min_rpc_time(now)) continue;
 
-        // NOTE: early versions of scheduler (<2003/08/07) did not send
-        // report_deadline (in which case it is 0)
-        // 'return_results_immediately' is a debug flag that makes the client
-        // ignore the report deadline when deciding when to report a result
-        //
-        if (r->ready_to_report &&
-             r->report_deadline <= (now + fReportDeadlineToReport))
+        if (!r->ready_to_report) continue;
+        if (return_result_immediately ||
+             r->report_deadline <= (now + REPORT_DEADLINE_CUSHION)))
         {
-            overdue = true;
-            return r->project;
-        } else if (r->ready_to_report && return_results_immediately) {
-            overdue = false;
             return r->project;
         }
     }
@@ -453,11 +432,10 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             scheduler_op->init_return_results(p, 0);
             action = true;
         } else {
-            bool overdue = false;
-            p = find_project_with_overdue_results(overdue);
+            p = find_project_with_overdue_results();
             if (p) {
                 compute_resource_debts();
-                if (overdue && p->debt_order == 0) {
+                if (p->debt_order == 0) {
                     work_secs = work_needed_secs();
                 } else {
                     work_secs = 0;
