@@ -595,6 +595,10 @@ bool CLIENT_STATE::do_something() {
     print_log("Polling; active layers:\n");
     net_stats.poll(*net_xfers);
     ss_logic.poll();
+
+    x = scheduler_rpc_poll();
+    if (x) {action=true; print_log("scheduler_rpc\n"); }
+
     if (activities_suspended) {
         print_log("None (suspended)\n");
     } else {
@@ -877,10 +881,12 @@ int CLIENT_STATE::write_state_file() {
 //
 int CLIENT_STATE::write_state_file_if_needed() {
     int retval;
-    if (client_state_dirty) {
+    long idle = time(0) - last_write_state_file;
+    if (client_state_dirty && idle > global_prefs.disk_interval) {
         client_state_dirty = false;
         retval = write_state_file();
         if (retval) return retval;
+        time(&last_write_state_file);
     }
     return 0;
 }

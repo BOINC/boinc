@@ -4490,8 +4490,10 @@ Tim    June 5, 2003
         fixed minor problem with updateGUI
         fixed "time of day" suspension check (was parsing XML incorrectly)
         fixed "website" problem (missing "http://")
+        fixed "write to disk frequency" (was not implemented)
 
     client/
         client_state.c
+        client_state.h
         prefs.c
         wingui_mainwindow.cpp

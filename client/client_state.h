@@ -121,6 +121,7 @@ public:
 
 private:
     bool client_state_dirty;
+    time_t last_write_state_file;
     TIME_STATS time_stats;
     int core_client_major_version;
     int core_client_minor_version;
