@@ -217,8 +217,8 @@ int CSSWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_nPosX = m_nPosY = 0;
 	m_nDX = m_nDY = 5;
 
-	UtilGetRegKey("Blank", m_bBlankScreen);
-	UtilGetRegKey("Blank Time", m_uBlankTime);
+	UtilGetRegKey(REG_BLANK_NAME, m_bBlankScreen);
+	UtilGetRegKey(REG_BLANK_TIME, m_uBlankTime);
 	m_uBlankTime *= 60;
 
     return 0;

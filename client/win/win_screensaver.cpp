@@ -172,9 +172,9 @@ BOOL CALLBACK ConfigDialogProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
 
 	switch (msg) {
 		case WM_INITDIALOG:
-			UtilGetRegKey( "Blank", screen_blank );
+			UtilGetRegKey( REG_BLANK_NAME, screen_blank );
 			CheckDlgButton(hwnd,IDC_BLANK,screen_blank);
-			UtilGetRegKey( "Blank Time", blank_time );
+			UtilGetRegKey( REG_BLANK_TIME, blank_time );
 			sprintf( buf, "%d", blank_time );
 			SetDlgItemText(hwnd,IDC_BLANK_TIME,buf);
 			return TRUE;
@@ -182,10 +182,10 @@ BOOL CALLBACK ConfigDialogProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
 			int id=LOWORD(wParam);
 			if (id==IDOK) {
 				screen_blank=(IsDlgButtonChecked(hwnd,IDC_BLANK)==BST_CHECKED);
-				UtilSetRegKey( "Blank", screen_blank );
+				UtilSetRegKey( REG_BLANK_NAME, screen_blank );
 				GetDlgItemText(hwnd, IDC_BLANK_TIME, buf, 256 );
 				blank_time=atoi(buf);
-				UtilSetRegKey( "Blank Time", blank_time );
+				UtilSetRegKey( REG_BLANK_TIME, blank_time );
 			}
 			if (id==IDOK || id==IDCANCEL)
 				EndDialog(hwnd,id);
