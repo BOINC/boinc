@@ -193,9 +193,11 @@ public:
     wxInt32                     GetTransferTime( wxInt32 iIndex, float& fBuffer );
     wxInt32                     GetTransferNextRequestTime( wxInt32 iIndex, wxInt32& iBuffer );
     wxInt32                     GetTransferStatus( wxInt32 iIndex, wxInt32& iBuffer );
-
     bool                        IsTransferActive( wxInt32 iIndex );
     bool                        IsTransferGeneratedLocally( wxInt32 iIndex );
+
+    wxInt32                     TransferRetryNow( wxInt32 iIndex );
+    wxInt32                     TransferAbort( wxInt32 iIndex );
 
 };
 

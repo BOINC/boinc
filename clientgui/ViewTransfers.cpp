@@ -316,19 +316,56 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const
 
 void CViewTransfers::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 {
+    wxInt32  iAnswer        = 0; 
+    wxInt32  iProjectIndex  = 0; 
+    wxInt32  iWebsiteIndex  = 0; 
+    wxString strName        = wxEmptyString;
+    wxString strMessage     = wxEmptyString;
+    CMainDocument* pDoc     = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    wxString strMessage;
-
-    if ( link.GetHref() == SECTION_TASK )
+    if      ( link.GetHref() == SECTION_TASK )
         m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
+    else if ( link.GetHref() == LINK_TASKRETRY )
+    {
+        iProjectIndex = m_pListPane->GetFirstSelected();
 
-    if ( link.GetHref() == SECTION_TIPS )
+        pDoc->TransferRetryNow(
+            iProjectIndex 
+        );
+    }
+    else if ( link.GetHref() == LINK_TASKABORT )
+    {
+        iProjectIndex = m_pListPane->GetFirstSelected();
+        pDoc->GetTransferFileName(iProjectIndex, strName);
+
+        strMessage.Printf(
+            _("Are you sure you wish to abort this file transfer '%s'?"), 
+            strName.c_str());
+
+        iAnswer = wxMessageBox(
+            strMessage,
+            _("Abort File Transfer"),
+            wxYES_NO | wxICON_QUESTION, 
+            this
+        );
+
+        if ( wxYES == iAnswer )
+        {
+            pDoc->TransferAbort(
+                iProjectIndex
+            );
+        }
+    }
+    else if ( link.GetHref() == SECTION_TIPS )
         m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
 
-
     UpdateSelection();
+    m_pListPane->Refresh();
 }
 
 
@@ -551,9 +588,10 @@ wxInt32 CViewTransfers::FormatSize( wxInt32 item, wxString& strBuffer ) const
 wxInt32 CViewTransfers::FormatTime( wxInt32 item, wxString& strBuffer ) const
 {
     float          fBuffer = 0;
-    int            xhour = 0;
-    int            xmin = 0;
-    int            xsec = 0;
+    wxInt32        iHour = 0;
+    wxInt32        iMin = 0;
+    wxInt32        iSec = 0;
+    wxTimeSpan     ts;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -563,11 +601,13 @@ wxInt32 CViewTransfers::FormatTime( wxInt32 item, wxString& strBuffer ) const
 
     pDoc->GetTransferTime(item, fBuffer);
 
-    xhour = (int)(fBuffer / (60 * 60));
-    xmin = (int)(fBuffer / 60) % 60;
-    xsec = (int)(fBuffer) % 60;
+    iHour = (wxInt32)(fBuffer / (60 * 60));
+    iMin  = (wxInt32)(fBuffer / 60) % 60;
+    iSec  = (wxInt32)(fBuffer) % 60;
 
-    strBuffer.Printf(wxT("%0.2d:%0.2d:%0.2d"), xhour, xmin, xsec);
+    ts = wxTimeSpan( iHour, iMin, iSec );
+
+    strBuffer = ts.Format();
 
     return 0;
 }

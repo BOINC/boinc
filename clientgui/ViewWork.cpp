@@ -573,9 +573,10 @@ wxInt32 CViewWork::FormatName( wxInt32 item, wxString& strBuffer ) const
 wxInt32 CViewWork::FormatCPUTime( wxInt32 item, wxString& strBuffer ) const
 {
     float          fBuffer = 0;
-    int            cpuhour = 0;
-    int            cpumin = 0;
-    int            cpusec = 0;
+    wxInt32        iHour = 0;
+    wxInt32        iMin = 0;
+    wxInt32        iSec = 0;
+    wxTimeSpan     ts;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -601,11 +602,13 @@ wxInt32 CViewWork::FormatCPUTime( wxInt32 item, wxString& strBuffer ) const
     }
     else
     {
-        cpuhour = (int)(fBuffer / (60 * 60));
-        cpumin = (int)(fBuffer / 60) % 60;
-        cpusec = (int)(fBuffer) % 60;
+        iHour = (wxInt32)(fBuffer / (60 * 60));
+        iMin  = (wxInt32)(fBuffer / 60) % 60;
+        iSec  = (wxInt32)(fBuffer) % 60;
 
-        strBuffer.Printf(wxT("%0.2d:%0.2d:%0.2d"), cpuhour, cpumin, cpusec);
+        ts = wxTimeSpan( iHour, iMin, iSec );
+
+        strBuffer = ts.Format();
     }
 
     return 0;
@@ -642,9 +645,10 @@ wxInt32 CViewWork::FormatProgress( wxInt32 item, wxString& strBuffer ) const
 wxInt32 CViewWork::FormatTimeToCompletion( wxInt32 item, wxString& strBuffer ) const
 {
     float          fBuffer = 0;
-    int            cpuhour = 0;
-    int            cpumin = 0;
-    int            cpusec = 0;
+    wxInt32        iHour = 0;
+    wxInt32        iMin = 0;
+    wxInt32        iSec = 0;
+    wxTimeSpan     ts;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(NULL != pDoc);
@@ -660,11 +664,13 @@ wxInt32 CViewWork::FormatTimeToCompletion( wxInt32 item, wxString& strBuffer ) c
     }
     else
     {
-        cpuhour = (int)(fBuffer / (60 * 60));
-        cpumin = (int)(fBuffer / 60) % 60;
-        cpusec = (int)(fBuffer) % 60;
+        iHour = (wxInt32)(fBuffer / (60 * 60));
+        iMin  = (wxInt32)(fBuffer / 60) % 60;
+        iSec  = (wxInt32)(fBuffer) % 60;
 
-        strBuffer.Printf(wxT("%0.2d:%0.2d:%0.2d"), cpuhour, cpumin, cpusec);
+        ts = wxTimeSpan( iHour, iMin, iSec );
+
+        strBuffer = ts.Format();
     }
 
     return 0;

@@ -1317,7 +1317,7 @@ int RPC_CLIENT::file_transfer_op(FILE_TRANSFER& ft, char* op) {
         "   <filename>%s</filename>\n"
         "</%s>\n",
         tag,
-        ft.project->master_url.c_str(),
+        ft.project_url.c_str(),
         ft.name.c_str(),
         tag
     );

@@ -1203,3 +1203,33 @@ bool CMainDocument::IsTransferGeneratedLocally( wxInt32 iIndex )
     return bRetVal;
 }
 
+
+wxInt32 CMainDocument::TransferRetryNow( wxInt32 iIndex )
+{
+    FILE_TRANSFER* pFT = NULL;
+    wxInt32 iRetVal = 0;
+
+    if ( !ft.file_transfers.empty() )
+        pFT = ft.file_transfers.at( iIndex );
+
+    if ( NULL != pFT )
+        iRetVal = rpc.file_transfer_op( (*pFT), wxT("retry") );
+
+    return iRetVal;
+}
+
+
+wxInt32 CMainDocument::TransferAbort( wxInt32 iIndex )
+{
+    FILE_TRANSFER* pFT = NULL;
+    wxInt32 iRetVal = 0;
+
+    if ( !ft.file_transfers.empty() )
+        pFT = ft.file_transfers.at( iIndex );
+
+    if ( NULL != pFT )
+        iRetVal = rpc.file_transfer_op( (*pFT), wxT("abort") );
+
+    return iRetVal;
+}
+
