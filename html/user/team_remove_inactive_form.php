@@ -7,7 +7,7 @@
     $user = get_logged_in_user();
     $teamid = $_GET["teamid"];
 
-    $result = mysql_query("select * from team where id = $teamid);
+    $result = mysql_query("select * from team where id = $teamid");
     if ($result) {
         $team = mysql_fetch_object($result);
         mysql_free_result($result);
