@@ -6233,8 +6233,13 @@ Karl 2003/09/07
 
     html_user/*.php, *.inc
 
-Karl 2003/09/07
     - changed "Results uploaded" to "Outputs uploaded"
 
-    clients/
+    client/
         gui_titles.C
+
+    - use rsc_fpops_bound instead of rsc_fpops_est*2
+
+    client/
+        app.C
+        client_types.C

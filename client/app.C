@@ -123,7 +123,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     result = rp;
     wup = rp->wup;
     app_version = wup->avp;
-    max_cpu_time = gstate.estimate_cpu_time(*rp->wup)*2;
+    max_cpu_time = rp->wup->rsc_fpops_bound/gstate.host_info.p_fpops;
     max_disk_usage = rp->wup->rsc_disk_bound;
     max_mem_usage = rp->wup->rsc_memory_bound;
 
@@ -482,7 +482,7 @@ pid_t wait4(pid_t pid, int *statusp, int options, struct rusage *rusagep) {
       proc_info.erase(pid);
       return pid;
     }
-  }    
+  }
 }
 #endif
 
