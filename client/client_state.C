@@ -663,7 +663,7 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
 //
 void CLIENT_STATE::print_summary() {
     unsigned int i;
-    int t;
+    double t, now=dtime();
     if (!log_flags.state_debug) return;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
@@ -673,7 +673,7 @@ void CLIENT_STATE::print_summary() {
     for (i=0; i<projects.size(); i++) {
         t = projects[i]->min_rpc_time;
         if (t) {
-            scope_messages.printf("    %s min RPC %d seconds from now\n", projects[i]->master_url, (int)(t-time(0)));
+            scope_messages.printf("    %s min RPC %f.0 seconds from now\n", projects[i]->master_url, t-now);
         } else {
             scope_messages.printf("    %s\n", projects[i]->master_url);
         }

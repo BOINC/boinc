@@ -69,17 +69,17 @@ const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 static int proj_min_results(PROJECT* p, int ncpus) {
     return (int)(ceil(ncpus*p->resource_share/trs));
 }
-void PROJECT::set_min_rpc_time(time_t future_time) {
+void PROJECT::set_min_rpc_time(double future_time) {
 	if (future_time > min_rpc_time) {
 		min_rpc_time = future_time;
 	}
-    min_report_min_rpc_time = 0; // report immediately
+    min_report_min_rpc_time = 0;
 }
 
 // Return true iff we should not contact the project yet.
 // Print a message to the user if we haven't recently
 //
-bool PROJECT::waiting_until_min_rpc_time(time_t now) {
+bool PROJECT::waiting_until_min_rpc_time(double now) {
     if (min_rpc_time > now ) {
         if (now >= min_report_min_rpc_time) {
             min_report_min_rpc_time = now + SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN;
@@ -99,7 +99,7 @@ bool PROJECT::waiting_until_min_rpc_time(time_t now) {
 PROJECT* CLIENT_STATE::next_project_master_pending() {
     unsigned int i;
     PROJECT* p;
-    time_t now = time(0);
+    double now = dtime();
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
@@ -115,7 +115,7 @@ PROJECT* CLIENT_STATE::next_project_master_pending() {
 //
 PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
     unsigned int i;
-    time_t now = time(0);
+    double now = dtime();
 
     for (i=0; i<projects.size(); i++) {
         if (projects[i]->waiting_until_min_rpc_time(now)) continue;
@@ -133,7 +133,7 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
 //
 PROJECT* CLIENT_STATE::next_project_need_work(PROJECT *old) {
     PROJECT *p;
-    time_t now = time(0);
+    double now = dtime();
     unsigned int i;
     bool found_old = (old == 0);
     for (i=0; i<projects.size(); ++i) {
@@ -304,7 +304,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
 PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
     unsigned int i;
     RESULT* r;
-    time_t now = time(0);
+    double now = dtime();
 
     for (i=0; i<results.size(); i++) {
         r = results[i];
@@ -331,7 +331,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
 //
 bool CLIENT_STATE::some_project_rpc_ok() {
     unsigned int i;
-    time_t now = time(0);
+    double now = dtime();
 
     for (i=0; i<projects.size(); i++) {
         if (projects[i]->min_rpc_time < now) return true;
@@ -385,7 +385,7 @@ int CLIENT_STATE::compute_work_requests() {
     int urgency = DONT_NEED_WORK;
     unsigned int i;
     double work_min_period = global_prefs.work_buf_min_days * SECONDS_PER_DAY;
-    time_t now = time(0);
+    double now = dtime();
     
     trs = total_resource_share();
 
@@ -520,7 +520,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (retval) return retval;
 
     if (sr.request_delay) {
-        time_t x = time(0) + sr.request_delay;
+        double x = dtime() + sr.request_delay;
         if (x > project->min_rpc_time) project->min_rpc_time = x;
     }
 

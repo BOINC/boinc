@@ -43,14 +43,14 @@
 #endif
 
 class SS_LOGIC {
-    time_t blank_time;          // 0 or time to blank screen
-    time_t ack_deadline;        // when to give up on graphics app
+    double blank_time;          // 0 or time to blank screen
+    double ack_deadline;        // when to give up on graphics app
 public:
     SS_LOGIC();
 
     char ss_msg[256];           // message to display on BOINC screensaver
 
-    void start_ss(time_t blank_time);
+    void start_ss(double blank_time);
     void stop_ss();
     void poll();
     void reset();

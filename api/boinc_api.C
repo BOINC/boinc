@@ -98,7 +98,7 @@ static bool           heartbeat_active;             // if false, suppress heartb
 //HANDLE   hSuspendRequest;
 //HANDLE   hResumeRequest;
 static HANDLE   hSharedMem;
-static HANDLE   worker_thread_handle;
+HANDLE   worker_thread_handle;
 static MMRESULT timer_id;
 #endif
 

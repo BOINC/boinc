@@ -52,8 +52,8 @@ extern void canonicalize_master_url(char *url);
 extern void safe_strncpy(char*, const char*, int);
 #define safe_strcpy(x, y) safe_strncpy(x, y, sizeof(x))
 #define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)
-extern char* time_to_string(time_t);
-std::string timediff_format(long tdiff);
+extern char* time_to_string(double);
+std::string timediff_format(double);
 int read_file_string(const char* pathname, std::string& result);
 
 inline bool ends_with(std::string const& s, std::string const& suffix) {
@@ -95,7 +95,7 @@ static inline double rand_range(double rmin, double rmax)
 }
 
 // return a random integer in the range [MIN,min(e^n,MAX))
-int calculate_exponential_backoff(
+double calculate_exponential_backoff(
     const char* debug_descr, int n, double MIN, double MAX,
     double factor=1.0
 );

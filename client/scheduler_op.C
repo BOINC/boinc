@@ -152,7 +152,7 @@ done:
 // based on exponential backoff
 //
 int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
-    int exp_backoff;
+    double exp_backoff;
 
     int n = p->nrpc_failures;
     if (n > gstate.retry_cap) n = gstate.retry_cap;
@@ -173,7 +173,7 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
             gstate.retry_base_period
         );
     }
-    p->set_min_rpc_time(time(0) + exp_backoff);
+    p->set_min_rpc_time(dtime() + exp_backoff);
     // note: we don't need to print a message now, it will be printed the
     // next time p->waiting_until_min_rpc_time() is called.
     return 0;
@@ -612,7 +612,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         else if (parse_double(buf, "<host_expavg_credit>", project->host_expavg_credit)) continue;
         else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
         else if (parse_int(buf, "<host_create_time>", (int&)project->host_create_time)) continue;
-        else if (parse_int(buf, "<request_delay>", request_delay)) continue;
+        else if (parse_double(buf, "<request_delay>", request_delay)) continue;
         else if (match_tag(buf, "<global_preferences>")) {
             retval = dup_element_contents(
                 in,

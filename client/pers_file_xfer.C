@@ -135,22 +135,17 @@ int PERS_FILE_XFER::start_xfer() {
         retval = file_xfer->init_download(*fip);
     }
     fxp = file_xfer;
+    if (!retval) retval = gstate.file_xfers->insert(file_xfer);
     if (retval) {
         msg_printf(
-            fip->project, MSG_ERROR, "Couldn't start %s for %s: error %d",
-            (is_upload ? "upload" : "download"), fip->get_current_url(is_upload), retval
+            fip->project, MSG_ERROR, "Couldn't start %s of %s",
+            (is_upload ? "upload" : "download"), fip->name
         );
-        handle_xfer_failure();
-        delete fxp;
-        fxp = NULL;
-        return retval;
-    }
-    retval = gstate.file_xfers->insert(file_xfer);
-    if (retval) {
         msg_printf(
-            fip->project, MSG_ERROR, "Couldn't start %s for %s: error %d",
-            (is_upload ? "upload" : "download"), fip->get_current_url(is_upload), retval
+            fip->project, MSG_ERROR, "URL %s: error %d",
+            fip->get_current_url(is_upload), retval
         );
+
         fxp->file_xfer_retval = retval;
         handle_xfer_failure();
         delete fxp;
@@ -322,7 +317,7 @@ void PERS_FILE_XFER::check_giveup(char* why) {
 // Handle a transfer failure
 //
 void PERS_FILE_XFER::handle_xfer_failure() {
-    time_t now = time(0);
+    double now = dtime();
 
     // If it was a bad range request, delete the file and start over
     //
@@ -355,14 +350,9 @@ void PERS_FILE_XFER::handle_xfer_failure() {
 // backoff and try again later
 //
 void PERS_FILE_XFER::retry_or_backoff() {
-    // struct tm *newtime;
-    time_t now;
-    int backoff = 0;
+    double backoff = 0;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
-
-    now = time(0);
-    // newtime = localtime(&now);
 
     // Cycle to the next URL to try
     // If we reach the URL that we started at, then we have tried all
@@ -380,12 +370,14 @@ void PERS_FILE_XFER::retry_or_backoff() {
             "pers_file_xfer",
             nretry, gstate.pers_retry_delay_min, gstate.pers_retry_delay_max
         );
-        next_request_time = now + backoff;
+        next_request_time = dtime() + backoff;
+        msg_printf(fip->project, MSG_INFO,
+            "Backing off %s on %s of file %s",
+            timediff_format(backoff).c_str(),
+            is_upload?"upload":"download",
+            fip->name
+        );
     }
-    msg_printf(fip->project, MSG_INFO,
-        "Backing off %s on transfer of file %s",
-        timediff_format(backoff).c_str(), fip->name
-    );
 }
 
 void PERS_FILE_XFER::abort() {
@@ -407,8 +399,8 @@ int PERS_FILE_XFER::parse(MIOFILE& fin) {
     while (fin.fgets(buf, 256)) {
         if (match_tag(buf, "</persistent_file_xfer>")) return 0;
         else if (parse_int(buf, "<num_retries>", nretry)) continue;
-        else if (parse_int(buf, "<first_request_time>", first_request_time)) continue;
-        else if (parse_int(buf, "<next_request_time>", next_request_time)) continue;
+        else if (parse_double(buf, "<first_request_time>", first_request_time)) continue;
+        else if (parse_double(buf, "<next_request_time>", next_request_time)) continue;
         else if (parse_double(buf, "<time_so_far>", time_so_far)) continue;
         else {
             msg_printf(fip->project, MSG_ERROR, "PERS_FILE_XFER::parse(): unrecognized: %s", buf);
@@ -423,8 +415,8 @@ int PERS_FILE_XFER::write(MIOFILE& fout) {
     fout.printf(
         "    <persistent_file_xfer>\n"
         "        <num_retries>%d</num_retries>\n"
-        "        <first_request_time>%d</first_request_time>\n"
-        "        <next_request_time>%d</next_request_time>\n"
+        "        <first_request_time>%f</first_request_time>\n"
+        "        <next_request_time>%f</next_request_time>\n"
         "        <time_so_far>%f</time_so_far>\n"
         "    </persistent_file_xfer>\n",
         nretry, first_request_time, next_request_time, time_so_far

@@ -87,13 +87,7 @@ extern APP_INIT_DATA aid;
 /////////// IMPLEMENTATION STUFF BEGINS HERE
 
 extern APP_CLIENT_SHM *app_client_shm;
-
-#if 0
-#ifdef HAVE_SIGNAL_H
-extern void boinc_catch_signal(int signal);
-extern void boinc_quit(int sig);
-#endif
-#endif
+extern HANDLE worker_thread_handle;
 
 /////////// IMPLEMENTATION STUFF ENDS HERE
 

@@ -25,7 +25,6 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 extern void win_graphics_event_loop();
-HANDLE worker_threadh=NULL;
 #endif
 
 #ifdef __APPLE_CC__
@@ -96,7 +95,7 @@ int boinc_init_graphics(void (*_worker_main)()) {
     // Create the graphics thread, passing it the graphics info
     // TODO: is it better to use _beginthreadex here?
     //
-    worker_threadh = CreateThread(
+    worker_thread_handle = CreateThread(
         NULL, 0, foobar, 0, CREATE_SUSPENDED, &threadId
     );
 
@@ -107,11 +106,11 @@ int boinc_init_graphics(void (*_worker_main)()) {
 
     // lower worker thread priority
     //
-    SetThreadPriority(worker_threadh, THREAD_PRIORITY_LOWEST);
+    SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_LOWEST);
 
     // Start the worker thread
     //
-    ResumeThread(worker_threadh);
+    ResumeThread(worker_thread_handle);
 
     graphics_inited = true;
     win_graphics_event_loop();

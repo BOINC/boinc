@@ -43,11 +43,11 @@
 
 class PERS_FILE_XFER {
     int nretry;                // # of retries so far
-    int first_request_time;    // UNIX time of first file request
+    double first_request_time;    // time of first transfer request
     bool is_upload;
 
 public:
-    int next_request_time;     // UNIX time to next retry the file request
+    double next_request_time;     // UNIX time to next retry the file request
     double time_so_far;
         // Total time there's been an active FILE_XFER for this PFX
         // Currently not used for anything;  not meaningful for throughput

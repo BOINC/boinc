@@ -39,7 +39,7 @@ SS_LOGIC::SS_LOGIC() {
 // this is called when the core client receives a message
 // from the screensaver module.
 //
-void SS_LOGIC::start_ss(time_t new_blank_time) {
+void SS_LOGIC::start_ss(double new_blank_time) {
     ACTIVE_TASK* atp;
 
     if (do_ss) return;

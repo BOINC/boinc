@@ -89,8 +89,8 @@ public:
         // this is the signature
 #if 0
     int priority;
-    time_t time_last_used;         // time of last use of FILE_INFO, update during parsing, writing, or application usage
-    time_t exp_date;
+    double time_last_used;         // time of last use of FILE_INFO, update during parsing, writing, or application usage
+    double exp_date;
 #endif
     std::string error_msg;       // if permanent error occurs during file xfer,
                             // it's recorded here
@@ -186,9 +186,9 @@ public:
     int nrpc_failures;          // # of consecutive times we've failed to
                                 // contact all scheduling servers
     int master_fetch_failures;
-    time_t min_rpc_time;           // earliest time to contact any server
+    double min_rpc_time;           // earliest time to contact any server
                                   // of this project (or zero)
-    time_t min_report_min_rpc_time; // when to next report on min_rpc_time
+    double min_report_min_rpc_time; // when to next report on min_rpc_time
                                     // (or zero)
     bool master_url_fetch_pending;
                                 // need to fetch and parse the master URL
@@ -238,9 +238,9 @@ public:
 #endif
 
     // set min_rpc_time and have_reported_min_rpc_time
-    void set_min_rpc_time(time_t future_time);
+    void set_min_rpc_time(double future_time);
     // returns true if min_rpc_time > now; may print a message
-    bool waiting_until_min_rpc_time(time_t now);
+    bool waiting_until_min_rpc_time(double now);
 };
 
 struct APP {

@@ -92,7 +92,7 @@ public:
         // total bytes transferred
     bool up_active, down_active;
         // has there been transfer activity since last call to check_active()?
-    time_t last_time;
+    double last_time;
     int insert(NET_XFER*);
     int remove(NET_XFER*);
     bool poll(double);

@@ -409,7 +409,7 @@ void escape_url_readable(char *in, char* out) {
 //
 void canonicalize_master_url(char* url) {
     char buf[1024];
-    int n;
+    size_t n;
 
     char *p = strstr(url, "//");
     if (p) {
@@ -441,8 +441,9 @@ void safe_strncpy(char* dst, const char* src, int len) {
     dst[len-1]=0;
 }
 
-char* time_to_string(time_t x) {
+char* time_to_string(double t) {
     static char buf[100];
+    time_t x = (time_t)t;
     struct tm* tm = localtime(&x);
     strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", tm);
     return buf;
@@ -455,7 +456,7 @@ static int count_debug_fake_exponential_backoff = 0;
 static const int max_debug_fake_exponential_backoff = 1000; // safety limit
 
 // return a random integer in the range [MIN,min(e^n,MAX))
-int calculate_exponential_backoff(
+double calculate_exponential_backoff(
     const char* debug_descr, int n, double MIN, double MAX,
     double factor /* = 1.0 */
 ) {
@@ -488,11 +489,12 @@ int calculate_exponential_backoff(
         return 0;
     }
 
-    return (int) rand_range(MIN, rmax);
+    return rand_range(MIN, rmax);
 }
 
-string timediff_format(long tdiff) {
+string timediff_format(double diff) {
     char buf[256];
+    int tdiff = (int)diff;
 
     int sex = tdiff % 60;
     tdiff /= 60;

@@ -86,7 +86,7 @@ struct SCHEDULER_OP {
 
 struct SCHEDULER_REPLY {
     int hostid;
-    int request_delay;
+    double request_delay;
     char message[1024];
     char message_priority[256];
     char* global_prefs_xml;

@@ -169,7 +169,7 @@ int copy_element_contents(FILE* in, const char* end_tag, char* p, int len) {
         if (strstr(buf, end_tag)) {
             return 0;
         }
-        n = strlen(buf);
+        n = (int)strlen(buf);
         if (n >= len-1) return ERR_XML_PARSE;
         strcat(p, buf);
         len -= n;
@@ -244,7 +244,7 @@ bool str_replace(char* str, char* substr, char* replacement) {
 
     p = strstr(str, substr);
     if (!p) return false;
-    int n = strlen(substr);
+    int n = (int)strlen(substr);
     strcpy(temp, p+n);
     strcpy(p, replacement);
     strcat(p, temp);

@@ -114,7 +114,6 @@ int CLIENT_STATE::allowed_project_disk_usage(double& size) {
 //
 inline bool now_between_two_hours(int start_hour, int end_hour) {
     if (start_hour == end_hour) {
-        // always work
         return true;
     }
 

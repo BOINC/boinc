@@ -18798,3 +18798,35 @@ David  22 Oct 2004
 	client/
 		client_state.C
 		cs_apps.C
+
+David  25 Oct 2004
+	- Use double instead of time_t to represent time;
+		use dtime() instead of time(0) to get time
+	- better error message on upload init failure
+	- add lib/result_state.h to VC project
+
+	client/
+		client_state.C
+		client_types.h
+		cs_prefs.C
+		cs_scheduler.C
+		net_xfer.h
+		pers_file_xfer.C,h
+		schedule_op.C,h
+		ss_logic.C,h
+	lib/
+		util.C,h
+	win_build/
+		boinc_gui.vcproj
+
+David  25 Oct 2004
+	- fixed bug that caused app's reported CPU time to always stay at zero
+		This is a by-product of recent graphics changes:
+		boinc_init() was getting the current thread handle and assuming
+		it's the worker thread, which is not the case now.
+		Fix: use a single variable for worker thread handle;
+		if boinc_graphics_init() is called, it changes it
+
+	api/
+		boinc_api.C,h
+		graphics_api.C
