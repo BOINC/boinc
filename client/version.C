@@ -18,6 +18,7 @@
 //
 
 #include "version.h"
+#include "windows_cpp.h"
 
 int gversion = VERSION;
 char* gplatform_name = HOSTTYPE;
