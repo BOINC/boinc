@@ -1,4 +1,1 @@
-Berkeley Open Infrastructure for Network Computing (BOINC), version 2.11
-README
-
-Not much to read yet.  This will be filled in later.
+Berkeley Open Infrastructure for Network Computing (BOINC), version 2.12

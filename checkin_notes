@@ -7869,3 +7869,8 @@ David  25 Nov 2003
 
 Gary	25 Nov 2003
     - BOINC release 2.11 for windows, Linux, solaris2.7, solaris2.8
+
+Gary	26 Nov 2003
+    - BOINC release 2.12 for windows, Linux, solaris2.7, solaris2.8
+      fixes problem with windows release 2.11 installer
+      no change to Solaris/Linux clients
