@@ -15,7 +15,7 @@ if ($offset > 1000) {
 }
 
 $cache_args = "teamid=$teamid&sort_by=$sort_by&offset=$offset";
-start_cache(3600, $cache_args);
+start_cache(TEAM_PAGE_TTL, $cache_args);
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");

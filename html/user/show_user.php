@@ -8,7 +8,7 @@
     if ($format) {
         $cache_args .= "&format=xml";
     }
-    start_cache(600, $cache_args);
+    start_cache(USER_PAGE_TTL, $cache_args);
 
     require_once("../inc/db.inc");
     require_once("../inc/user.inc");

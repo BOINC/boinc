@@ -3,6 +3,7 @@
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/sanitize_html.inc");
+require_once("../inc/cache.inc");
 
 // TODO: Determine if we can always assume these will be the same number.
 define('SMALL_IMG_WIDTH', 64);
@@ -422,6 +423,16 @@ function show_profile($userid, $verify_mode=false) {
         exit();
     }
 
+    if (!$verify_mode) {
+        $logged_in_user = get_logged_in_user(false);  // (false) since anyone can look at profiles.;
+	if (!$logged_in_user || ($user->id != $logged_in_user->id)) {
+	  $caching = true;
+	  $cache_args = "userid=$userid";
+	  start_cache(USER_PROFILE_TTL,$cache_args);
+	}
+    }
+
+
     $profile = get_profile($userid);
 
     if (!$profile) {
@@ -451,6 +462,7 @@ function show_profile($userid, $verify_mode=false) {
     if (!$verify_mode) {
         page_tail();
     }
+    if ($caching) end_cache($cache_args);
 }
 
 function show_profile_summary($user, $profile, $can_edit, $verify_mode) {

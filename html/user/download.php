@@ -3,7 +3,7 @@
 require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
 
-start_cache(3600);
+start_cache(DOWNLOAD_PAGE_TTL);
 
 require_once("../inc/db.inc");
 require_once("../inc/download.inc");

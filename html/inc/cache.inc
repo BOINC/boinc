@@ -1,11 +1,26 @@
 <?php
 
+require_once("../project/cache_parameters.inc");
+
 // mechanism for caching commonly-accessed pages
 
+function make_cache_dirs() {
+  if (!@filemtime("../cache")) mkdir("../cache");
+  for ($i=0;$i<256;$i++) {
+    $j=sprintf("%02x",$i);
+    if (!@filemtime("../cache/$j")) {
+      mkdir("../cache/$j");
+    } 
+  }
+}
+
 function get_path($params) {
+    if (!@filemtime("../cache/00")) make_cache_dirs();
     $y = pathinfo($_SERVER["PHP_SELF"]);
     $z = $y["basename"];
-    $path = "../cache/".$z;
+    // add a layer of subdirectories for reducing file lookup time
+    $sz = substr(md5($z."_".urlencode($params)),1,2);
+    $path = "../cache/".$sz."/".$z;
     if ($params) {
         $path = $path."_".urlencode($params);
     }

@@ -44,7 +44,7 @@ function show_nav() {
     ";
 }
 
-//start_cache(3600);
+//start_cache(INDEX_PAGE_TTL);
 
 $stopped = project_is_stopped();
 

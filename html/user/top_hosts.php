@@ -13,7 +13,7 @@
 
     if ($offset < 1000) {
         $cache_args = "sort_by=$sort_by&offset=$offset";
-        start_cache(12*3600, $cache_args);
+        start_cache(TOP_PAGES_TTL, $cache_args);
     } else {
         page_head("Limit exceeded");
         echo "Sorry - first 1000 only.";
