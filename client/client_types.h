@@ -119,7 +119,8 @@ public:
     char master_url[256];       // url of site that contains scheduler tags
                                 // for this project
     char authenticator[256];    // user's authenticator on this project
-    char project_specific_prefs[MAX_BLOB_LEN];   // without enclosing tags
+    char project_specific_prefs[MAX_BLOB_LEN];
+                                // without enclosing <project_specific> tags
     double resource_share;      // project's resource share
                                 // relative to other projects.  Arbitrary scale.
 

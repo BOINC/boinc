@@ -40,16 +40,19 @@ linking to the corresponding files in the project directory.
 <h3>Format of account files</h3>
 The format of an account file is as follows:
 <pre>
-&lt;account>
-    &lt;master_url>http://www.myproject.com/&lt;/master_url>
-    &lt;authenticator>3f7b90793a0175ad0bda68684e8bd136&lt;/authenticator>
-    &lt;resource_share>1&lt;/resource_share>
-    [ &lt;show_email/> ]
-    [ &lt;send_email/> ]
-    &lt;project_specific>
+";
+echo htmlspecialchars("
+<account>
+    <master_url>http://www.myproject.com/</master_url>
+    <authenticator>3f7b90793a0175ad0bda68684e8bd136</authenticator>
+    [ <tentative/> ]
+    <resource_share>1</resource_share>
+    <project_specific>
         ...
-    &lt;/project_specific>
-&lt;/account>
+    </project_specific>
+</account>
+");
+echo "
 </pre>
 Note: everything from &lt;resource_share> onwards is
 the contents of the 'project_prefs' field of the user database record,

@@ -94,11 +94,11 @@ int PROJECT::write_account_file() {
     if (strlen(project_name)) {
         fprintf(f, "    <project_name>%s</project_name>\n", project_name);
     }
-    if (strlen(project_specific_prefs)) {
-        fprintf(f, "%s", project_specific_prefs);
-    }
     if (tentative) {
         fprintf(f, "    <tentative/>\n");
+    }
+    if (strlen(project_specific_prefs)) {
+        fprintf(f, "<project_specific>\n%s</project_specific>", project_specific_prefs);
     }
     fprintf(f, "</account>\n");
     fclose(f);

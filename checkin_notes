@@ -7819,7 +7819,8 @@ David  25 Nov 2003
         (since the message includes more than just CPU time)
     - removed ACTIVE_TASK.last_status_msg_time (not used)
     - factored out logic to compute frac_rate_of_change
-        and put it in a separate function (ACTIVE_TASK::estimate_frac_rate_of_change())
+        and put it in a separate function
+        (ACTIVE_TASK::estimate_frac_rate_of_change())
     - print app version for results in GUI
 
     client/
@@ -7874,3 +7875,14 @@ Gary	26 Nov 2003
     - BOINC release 2.12 for windows, Linux, solaris2.7, solaris2.8
       fixes problem with windows release 2.11 installer
       no change to Solaris/Linux clients
+
+David  27 Nov 2003
+    - put missing <project_specific> tags around
+        project-specific prefs when write account files
+    - removed uniqueness constraint on user.seti_id
+        (this will generally be zero)
+
+    client/
+        client_types.C,h
+    db/
+        constraints.sql
