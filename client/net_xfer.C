@@ -184,6 +184,7 @@ void NET_XFER::init(char* host, int p, int b) {
     last_speed_update = 0;
     file_read_buf_offset = 0;
     file_read_buf_len = 0;
+    bytes_xferred = 0;
 }
 
 NET_XFER_SET::NET_XFER_SET() {
@@ -317,21 +318,6 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
             }
         } else if (nxp->want_upload) {
             if (bytes_left_up > 0) {
-#ifdef _WIN32
-                // KLUDGE ALERT!!!!!
-                // In the Windows GUI version we rely on the WSAAsynchSelect
-                // mechanism to send us a message when I/O becomes possible.
-                // But apparently this message is sent only if you've already
-                // done a send() that failed because of full buffer.
-                // So do this send here, even though it's overkill
-                //
-                retval = nxp->do_xfer(n);
-                nxp->update_speed(n);
-                bytes_transferred += n;
-                up_active = true;
-                bytes_left_up -= n;
-                bytes_up += n;
-#endif
                 FD_SET(nxp->socket, &write_fds);
             } else {
                 if (log_flags.net_xfer_debug) printf("Throttling upload\n");
@@ -374,18 +360,24 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
                     bytes_transferred += 1;
                 }
             } else if (nxp->do_file_io) {
-                retval = nxp->do_xfer(n);
-                nxp->update_speed(n);
-                bytes_transferred += n;
-                if (nxp->want_download) {
-                    down_active = true;
-                    bytes_left_down -= n;
-                    bytes_down += n;
-                } else {
-                    up_active = true;
-                    bytes_left_up -= n;
-                    bytes_up += n;
-                }
+                n = 1;
+                time_t now = time(0);
+                do {
+                    retval = nxp->do_xfer(n);
+                    nxp->update_speed(n);
+                    bytes_transferred += n;
+                    if (nxp->want_download) {
+                        down_active = true;
+                        bytes_left_down -= n;
+                        bytes_down += n;
+                    } else {
+                        up_active = true;
+                        bytes_left_up -= n;
+                        bytes_up += n;
+                    }
+                    // For uploads, keep trying to send until we fill
+                    // the buffers or 1 second has passed
+                } while(nxp->want_upload && n > 0 && time(0) == now);
             } else {
                 nxp->io_ready = true;
             }
@@ -416,7 +408,8 @@ NET_XFER* NET_XFER_SET::lookup_fd(int fd) {
 // transfer up to a block of data; return #bytes transferred
 //
 int NET_XFER::do_xfer(int& nbytes_transferred) {
-    unsigned int n, m, nleft;
+    // Leave these as signed ints so recv/send can return errors
+    int n, m, nleft;
     bool would_block;
     char buf[MAX_BLOCKSIZE];
 

@@ -4202,3 +4202,13 @@ Erik  May 16 2003
     sched/
         file_upload_handler.C
         handle_request.C
+
+Eric  May 16, 2003
+    - changed do_select to keep calling do_xfer for uploads until either
+        a) the send buffers are full or b) 1 second has passed
+    - changed variable name in Windows GUI code for clarity
+
+    client/
+        net_xfer.C
+        win/
+            wingui_mainwindow.cpp
