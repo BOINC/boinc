@@ -186,7 +186,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
                     msg_printf(fip->project, MSG_ERROR, "Checksum or signature error for %s", fip->name);
                     fip->status = retval;
                 } else {
-                    scope_messages.printf("PERS_FILE_XFER::poll(): MD5 checksum validated for %s", pathname);
+                    scope_messages.printf("PERS_FILE_XFER::poll(): MD5 checksum validated for %s\n", pathname);
                     // Set the appropriate permissions depending on whether
                     // it's an executable or normal file
                     //
