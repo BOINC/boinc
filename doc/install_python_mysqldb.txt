@@ -24,8 +24,10 @@ Debian Linux: shared module
     1. Install
        # apt-get install python-mysqldb
     
-    [ 2003/07: if you have both Python 2.1 and 2.2 installed and use python2.2, do
+    [ 2003/07: if you have multiple Python versions installed you may want to do
        # apt-get install python2.2-mysqldb
+            or
+       # apt-get install python2.3-mysqldb
     ]
 
 Red Hat Linux: shared module
