@@ -1210,7 +1210,7 @@ void CMainWindow::OnCommandProjectWebSite()
 // CMainWindow::OnCommandProjectGetPrefs
 // arguments:	void
 // returns:		void
-// function:	lets the user quit a project
+// function:	reset rpc time to get prefences now
 void CMainWindow::OnCommandProjectGetPrefs()
 {
 	PROJECT *proj;
@@ -1806,21 +1806,38 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 
 		pContextMenu = m_ContextMenu.GetSubMenu(nMenuId);
 		if(pContextMenu) {
-			if (nMenuId == RESULT_MENU) {
-				pContextMenu->EnableMenuItem(ID_WORK_SHOWGRAPHICS,MF_GRAYED); //disable
-				RESULT *rp = (RESULT *)pMenuCtrl->GetItemData(indexSelected);
-				if (rp) {
-					ACTIVE_TASK *atp = gstate.lookup_active_task_by_result(rp);
-					if (atp && atp->supports_graphics())
-						pContextMenu->EnableMenuItem(ID_WORK_SHOWGRAPHICS,MF_ENABLED); // enable
+			switch(nMenuId) {
+			case PROJECT_MENU:
+				{
+					// if we are backing off, show "retry now", else "get preferences"
+					PROJECT *proj = (PROJECT *)pMenuCtrl->GetItemData(indexSelected);
+					pContextMenu->ModifyMenu(ID_PROJECT_GET_PREFS, 0, ID_PROJECT_GET_PREFS, 
+						((proj && proj->min_rpc_time > time(0)) ?
+						"&Retry now" : "Get p&references"));
+					break;
 				}
-			} else if (nMenuId == XFER_MENU) {
-				// enable "retry now" only if currently waiting to retry
-				PERS_FILE_XFER* pfx = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(indexSelected);
-				pContextMenu->EnableMenuItem(ID_TRANSFERS_RETRYNOW,
-					pfx && (pfx->next_request_time > time(0) ?
-							MF_ENABLED : MF_GRAYED));
+			case RESULT_MENU: 
+				{
+					pContextMenu->EnableMenuItem(ID_WORK_SHOWGRAPHICS,MF_GRAYED); //disable
+					RESULT *rp = (RESULT *)pMenuCtrl->GetItemData(indexSelected);
+					if (rp) {
+						ACTIVE_TASK *atp = gstate.lookup_active_task_by_result(rp);
+						if (atp && atp->supports_graphics())
+							pContextMenu->EnableMenuItem(ID_WORK_SHOWGRAPHICS,MF_ENABLED); // enable
+					}
+					break;
+				}	
+			case XFER_MENU: 
+				{
+					// enable "retry now" only if currently waiting to retry
+					PERS_FILE_XFER* pfx = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(indexSelected);
+					pContextMenu->EnableMenuItem(ID_TRANSFERS_RETRYNOW,
+						pfx && (pfx->next_request_time > time(0) ?
+								MF_ENABLED : MF_GRAYED));
+					break;
+				}
 			}
+
 			pContextMenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
 			m_nContextItem = indexSelected;
 		}
