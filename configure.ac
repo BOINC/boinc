@@ -8,10 +8,40 @@ dnl directory; the _autosetup script does this.
 dnl not sure exactly what the minimum version is (but 2.13 won't work)
 AC_PREREQ(2.57)
 
-dnl Process this file with autoconf to produce a configure script.
-AC_INIT(BOINC, 2.02)
+dnl Set the BOINC version here.  You can also use the set-version script.
+AC_INIT(BOINC, 4.57)
 
-echo "--- Configuring BOINC AC_PACKAGE_VERSION ---"
+AC_ARG_ENABLE(server, 
+    AC_HELP_STRING([--disable-server],
+                   [disable building the scheduling server]),
+    [],
+    [enable_server=yes])
+
+AC_ARG_ENABLE(client, 
+    AC_HELP_STRING([--disable-client],
+                   [disable building the client]),
+    [],
+    [enable_client=yes])
+
+m4_divert_once([HELP_ENABLE],
+  AC_HELP_STRING([], [Default: --enable-server --enable-client: 
+                      builds both server and client]))
+
+if test "${enable_server}" = yes ; then
+    if test "${enable_client}" = yes ; then
+        configured_to_build='server & client'
+    else
+        configured_to_build='server only'
+    fi
+else
+    if test "${enable_client}" = yes ; then
+        configured_to_build='client only'
+    else
+        echo "You've disabled both the server and the client -- only BOINC-libraries will be built!" >&2
+    fi
+fi
+
+echo "--- Configuring BOINC AC_PACKAGE_VERSION (${configured_to_build}) ---"
 
 AC_CANONICAL_SYSTEM
 
@@ -43,29 +73,26 @@ Contributor(s):
 
 AC_REVISION([$Revision$])
 
-AC_SUBST(MAJOR_VERSION, `echo AC_PACKAGE_VERSION | sed 's/\..*//'`)
-AC_SUBST(MINOR_VERSION, `echo AC_PACKAGE_VERSION | sed 's/.*\.0*//'`)
+AC_DEFUN([KC_STRIP_LEADING_ZEROS],[m4_bregexp([$*],[^0*\(..*\)],\1)])
 
-AC_DEFINE_UNQUOTED(MAJOR_VERSION, $MAJOR_VERSION, [Major part of version number])
-AC_DEFINE_UNQUOTED(MINOR_VERSION, $MINOR_VERSION, [Minor part of version number])
-AC_DEFINE_UNQUOTED(HOSTTYPE, "$host", [Host for this compilation])
-AC_SUBST(CLIENT_BIN_FILENAME,[boinc_]AC_PACKAGE_VERSION[_$host${EXEEXT}])
-AC_SUBST(TOP_BUILD_DIR, [`pwd`])
-AC_SUBST(TOP_SOURCE_DIR, [`(cd \`dirname "$0"\` && pwd)`])
+AC_DEFUN([BOINC_SET_VERSION],[dnl
+AC_SUBST([BOINC_MAJOR_VERSION],KC_STRIP_LEADING_ZEROS([$1]))
+AC_SUBST([BOINC_MINOR_VERSION],KC_STRIP_LEADING_ZEROS([$2]))
+AC_SUBST([BOINC_VERSION_STRING],AC_PACKAGE_VERSION)
+])
+
+BOINC_SET_VERSION(translit(AC_PACKAGE_VERSION, [.], [,]))
+
+AC_DEFINE_UNQUOTED([BOINC_VERSION_STRING], "$BOINC_VERSION_STRING", [String representation of BOINC version number])
+AC_DEFINE_UNQUOTED([BOINC_MAJOR_VERSION], $BOINC_MAJOR_VERSION, [Major part of BOINC version number])
+AC_DEFINE_UNQUOTED([BOINC_MINOR_VERSION], $BOINC_MINOR_VERSION, [Minor part of BOINC version number])
+AC_DEFINE_UNQUOTED([HOSTTYPE], "$host", [Host for this compilation])
+AC_SUBST([CLIENT_BIN_FILENAME],[boinc])
+AC_SUBST([CLIENT_GUI_BIN_FILENAME],[boincmgr])
+AC_SUBST([TOP_BUILD_DIR], [`pwd`])
+AC_SUBST([TOP_SOURCE_DIR], [`(cd \`dirname "$0"\` && pwd)`])
 
 AM_MAINTAINER_MODE
-
-dnl AC_EGREP_CPP(yes,
-dnl [#ifdef __APPLE__
-dnl   yes
-dnl #endif
-dnl ], AC_DEFINE(unix, 1, [unix]))
-
-dnl AC_EGREP_CPP(yes,
-dnl [#ifdef _AIX
-dnl   yes
-dnl #endif
-dnl ], AC_DEFINE(unix, 1, [unix]))
 
 dnl Checks for programs.
 AC_PROG_CC
@@ -73,31 +100,106 @@ AC_PROG_CXX
 AC_PROG_CPP
 AC_PROG_MAKE_SET
 AC_PROG_RANLIB
+AC_PROG_LN_S
+
+if test "${enable_server}" = yes; then
+   AC_CHECK_MYSQL
+   if test "${no_mysql}" = yes; then
+      AC_MSG_WARN([ mysql not found.
+======================================================================
+WARNING: trying to build BOINC-server, but MYSQL was not be found.
+If you don't want to build the server you should use --disable-server.
+
+I am continuing now as if --disable-server had been specified.
+
+======================================================================
+])
+   enable_server=no
+   fi
+fi
 
 dnl Checks for libraries.
 AC_CHECK_LIB(gen, main)
 AC_CHECK_LIB(m, sin)
-AC_CHECK_LIB(nsl, gethostbyaddr)
 AC_CHECK_LIB(socket, main)
+AC_CHECK_LIB(nsl, gethostbyaddr)
+dnl AC_CHECK_LIB(socket, main)
+dnl AC_CHECK_LIB(nsl, gethostbyaddr, [have_nsl=yes])
+dnl AM_CONDITIONAL([HAVE_NSL], [test x$have_nsl = xyes])
+dnl AC_SEARCH_LIBS(gethostbyname, nsl, , AC_SEARCH_LIBS(gethostbyname, nsl, ,, -lsocket), , )
+
 AC_CHECK_LIB(stdc++, main)
 AC_CHECK_LIB(z, gzopen)
 dnl check for pthread
 ACX_PTHREAD(AC_DEFINE(HAVE_PTHREAD,1, [Have pthread]))
+CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
+CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
+LIBS="$PTHREAD_LIBS $LIBS"
+
+
+dnl ---------- decide wether to build the graphical boinc-api libs or not
+dnl check for X11 
+AC_PATH_X
+AC_PATH_XTRA
+
 dnl check for GL library
-AC_CHECK_LIB(GL, glCallList, AC_DEFINE(HAVE_GL_LIB, 1, [Have libGL]))
+AX_CHECK_GL
+AX_CHECK_GLU
+AX_CHECK_GLUT
+if test "$no_gl" = yes -o "$no_glu" = yes -o "$no_glut" = yes ; then
+   have_glut=no
+   AC_MSG_WARN([
+================================================================================
+WARNING: openGL/GLUT not found.
+
+The GL, GLU and GLUT libraries are required in order to build the graphical parts
+of the BOINC application API library.
+
+==> only building non-graphical parts of the BOINC API Library for now.
+
+================================================================================
+       ])
+else 
+   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h])
+   have_glut=yes
+fi
+
+AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes ])
+dnl --------------------------------------------------------------------------------
+
 AC_CHECK_LIB(socket, setservent)
 AC_CHECK_LIB(gen, strfind)
 AC_CHECK_LIB(gen, strfind, [ AC_DEFINE(HAVE_STRFIND, 1, [Have strfind]) ] )
-AC_CHECK_MYSQL
+AC_CHECK_LIB(cygipc, shmget)
+
+dnl put double-inclusion protection into config.h
+AH_TOP([
+/* double-inclusion protection for config.h */
+#ifndef BOINC_CONFIG_H
+#define BOINC_CONFIG_H
+])
+AH_BOTTOM([
+/* end double-inclusion protection for config.h */
+#endif /* #ifndef BOINC_CONFIG_H */
+])
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
-AC_CHECK_HEADERS(arpa/inet.h dirent.h fcntl.h malloc.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/file.h sys/ipc.h sys/mount.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/statvfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h)
-AC_CHECK_HEADERS([gl.h glu.h glut.h GL/gl.h GL/glu.h GL/glut.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h GLUT/glut.h])
+AC_TYPE_SIGNAL
+AC_CHECK_HEADERS(arpa/inet.h dirent.h fcntl.h malloc.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/file.h sys/ipc.h sys/mount.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h)
 
+AC_LANG_PUSH(C++)
+SAH_HEADER_STDCXX
+SAH_CHECK_NAMESPACES
+AH_TEMPLATE([HAVE_STD_MIN],[Define to 1 if min is in namespace std::])
+AH_TEMPLATE([HAVE_STD_MAX],[Define to 1 if max is in namespace std::])
+AH_TEMPLATE([HAVE_STD_LOCALE],[Define to 1 if locale is in namespace std::])
+AH_TEMPLATE([HAVE_STD_TRANSFORM],[Define to 1 if transform is in namespace std:: ])
+SAH_FUNCS_IN_NAMESPACE([['min(0,0)'] ['max(0,0)'] ['transform((char *)0,(char *) 0,(char *)0,(int(*)(int))malloc)'] ['locale("")']],std)
+AC_LANG_POP
 dnl TODO: use compiler to test these; there probably exists an autoconf macro already!
 case "$target" in
 *-linux-* | *-sun-*)
@@ -112,7 +214,7 @@ dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
 AC_FUNC_WAIT3
-AC_CHECK_FUNCS(gethostname gettimeofday mkdir select socket strstr uname lockf flock strftime setpriority wait4)
+AC_CHECK_FUNCS(gethostname gettimeofday mkdir select socket strstr uname lockf flock strftime setpriority wait4 strlcpy strlcat sigaction getutent setutent)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -120,43 +222,151 @@ AC_TYPE_SIZE_T
 AC_STRUCT_TM
 AC_STRUCT_TIMEZONE
 
-# by default, create static binaries on linux.
-[if [ "$target_os" = "linux-gnu" ]; then
-    STATIC_FLAGS="-static"
+dnl utmp file location
+for f in /etc/utmp /var/adm/utmp /var/run/utmp; do
+    if test -f $f; then
+        utmp_file=$f
+    fi
+done
+if test -n "$utmp_file"; then
+    AC_DEFINE_UNQUOTED(UTMP_LOCATION, "$utmp_file", utmp file location)
 fi
-echo "checking static flags... ${STATIC_FLAGS:-(none)}"]
-AC_SUBST(STATIC_FLAGS)
 
-AC_CONFIG_FILES([Makefile
-                 RSAEuro/source/Makefile
-                 RSAEuro/Makefile
+dnl Checks for device files
+if test -e "/dev/mouse"; then
+    AC_DEFINE(HAVE__DEV_MOUSE, 1, [Define to 1 if /dev/mouse exists])
+fi
+if test -e "/dev/kbd"; then
+    AC_DEFINE(HAVE__DEV_KBD, 1, [Define to 1 if /dev/kbd exists])
+fi
+if test -e "/dev/tty1"; then
+    AC_DEFINE(HAVE__DEV_TTY1, 1, [Define to 1 if /dev/tty1 exists])
+fi
+
+dnl Check for /proc/self/psinfo (Solaris)
+if test -e "/proc/self/psinfo"; then
+    AC_DEFINE(HAVE__PROC_SELF_PSINFO, 1, [Define to 1 if /proc/self/psinfo exists])
+fi
+
+dnl Check for /proc/self/stat (Linux)
+if test -e "/proc/self/stat"; then
+    AC_DEFINE(HAVE__PROC_SELF_STAT, 1, [Define to 1 if /proc/self/stat exists])
+fi
+
+dnl Check for /proc/meminfo (Linux)
+if test -e "/proc/meminfo"; then
+    AC_DEFINE(HAVE__PROC_MEMINFO, 1, [Define to 1 if /proc/meminfo exists])
+fi
+
+
+dnl ---------- wxWidgets --------------------------------------------------
+
+AM_OPTIONS_WXCONFIG
+
+dnl check for wxWidgets
+AM_PATH_WXCONFIG(2.3.4, wxWin=1)
+if ( test "${enable_client}" = yes ) && ( test "$wxWin" != 1 ); then
+   AC_MSG_WARN([
+================================================================================
+WARNING: wxWidgets could not be found ==> building client without clientgui.
+  If you add wxWidgets to your system, then this configure script will also
+  configure your system to build the BOINC graphical client (clientgui).  
+
+  If wxWidgets is installed on your system, please check that wx-config is 
+  in the path, that the directory where wxWidgets libraries are installed 
+  (returned by 'wx-config --libs' command) is in LD_LIBRARY_PATH (or equivalent),
+  and that wxWidgets version is 2.3.4 or above. Currently wxWidgets version
+  2.4.2 (gtk based) is known to work with boinc_gui under Linux. You can
+  use wx-config --version to find what version you have currently installed.
+
+  You can get wxWidgets by following the DOWNLOAD link at:
+  http://www.wxwindows.org/
+================================================================================
+       ])
+fi
+
+AM_CONDITIONAL(BUILD_CLIENTGUI, [ test "$wxWin" = 1 -a "${enable_client}" = yes ])
+dnl --------------------------------------------------------------------------------
+
+
+dnl This is one way to set up host-specific stuff
+case "${host}" in
+      *-*-linux*)
+           dnl no taskbar support in wxWidgets
+ 	  CLIENTGUIFLAGS="-DNOCLIPBOARD -DNOTASKBAR";
+	  AC_SUBST(CLIENTGUIFLAGS)
+	  AC_SUBST(CLIENTGUILIBS) ;;
+      *-*-darwin*)
+           dnl no taskbar support in wxWidgets
+          CLIENTGUIFLAGS="-DNOCLIPBOARD -DNOTASKBAR";
+	  CLIENTGUILIBS="-framework QuickTime -framework IOKit -framework Carbon -framework Cocoa -framework System  -licon -framework WebKit";
+	  AC_SUBST(CLIENTGUIFLAGS)
+	  AC_SUBST(CLIENTGUILIBS) ;;
+esac
+
+dnl Here's another way to set up host-specific stuff
+AM_CONDITIONAL(OS_DARWIN, [echo $host_os | grep '^darwin' > /dev/null])
+AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
+dnl In case anyone wants to try building the windows code using mingw!
+AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
+
+dnl tell automake about whether to build client and/or server
+AM_CONDITIONAL(ENABLE_SERVER, [test "${enable_server}" = yes])
+AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
+
+dnl  by default, create static binaries on linux.
+dnl [if [ "$target_os" = "linux-gnu" ]; then
+dnl     STATIC_FLAGS="-static"
+dnl fi
+dnl echo "checking static flags... ${STATIC_FLAGS:-(none)}"]
+dnl AC_SUBST(STATIC_FLAGS)
+
+
+# If you still want to build boincglut, include these into the file list below
+#		 boincglut/include/Makefile
+#		 boincglut/lib/glut/Makefile
+#                boincglut/lib/Makefile
+#                boincglut/Makefile
+
+
+AC_CONFIG_FILES([
                  api/Makefile
                  apps/Makefile
+                 clientgui/Makefile
                  client/Makefile
+                 client/win/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  db/Makefile
                  lib/Makefile
+                 Makefile
+                 py/Boinc/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 py/Boinc/Makefile
+                 py/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 py/Boinc/version.py
+                 py/Makefile
+                 RSAEuro/Makefile
+                 RSAEuro/source/Makefile
+                 sched/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  sched/Makefile
-                 tools/Makefile
+                 test/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  test/Makefile
                  test/version.inc
-                 py/Makefile
-                 py/Boinc/Makefile
-                 py/Boinc/version.py
-                 py/Boinc/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
-                 py/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
-                 sched/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  tools/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
-                 test/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 tools/Makefile
+                 zip/Makefile
+		 zip/zip/Makefile
+		 zip/unzip/Makefile
+		 m4/Makefile
                  ])
 
-AC_CONFIG_HEADER([config.h])
+dnl AC_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADERS([config.h])
 
 AC_OUTPUT
 
-echo "--- Configured BOINC AC_PACKAGE_VERSION ---"
+echo "--- Configured BOINC AC_PACKAGE_VERSION (${configured_to_build}) ---"
 
 [
-test/test_sanity.py || (
+true || $TOP_SOURCE_DIR/test/test_sanity.py || (
     cat <<EOF
 
 ******************************************************************************
@@ -176,4 +386,14 @@ test/test_sanity.py || (
 EOF
 
 )
+
+if test "${enable_server}" = yes ; then
+  cat<<EOF
+
+We recommend you run test/test_sanity.py to make sure your host is configured
+properly for building the BOINC server.
+
+EOF
+fi
+
 ]
