@@ -74,9 +74,7 @@ bool CValidateURL::Validate(wxWindow *parent)
     {
         ok = FALSE;
 
-        if      ( wxURL_SNTXERR == val.GetError() )
-            m_errormsg = _("No URL supplied; please enter a valid project URL.");
-        else if ( wxURL_NOPROTO == val.GetError() )
+        if ( ( wxURL_NOPROTO == val.GetError() ) || wxURL_SNTXERR == val.GetError() )
         {
             // Special case: we want to allow the user to specify the URL without
             //   specifing the protocol.
