@@ -130,3 +130,4 @@
 #define ERR_SIGNAL_OP       -179
 #define ERR_BIND            -180
 #define ERR_LISTEN          -181
+#define ERR_TIMEOUT         -182

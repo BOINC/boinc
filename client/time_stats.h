@@ -24,6 +24,8 @@
 //
 // We maintain an exponentially weighted mean of these quantities
 
+#include "miofile.h"
+
 class TIME_STATS {
     int last_update;
     bool first;

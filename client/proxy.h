@@ -21,6 +21,7 @@
 #define _PROXY_
 
 #include "net_xfer.h"
+#include "miofile.h"
 
 struct PROXY_INFO {
     bool use_http_proxy;

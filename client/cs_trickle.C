@@ -19,7 +19,7 @@
 
 #include "cpp.h"
 #ifdef _WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 #endif
 
 #include "error_numbers.h"

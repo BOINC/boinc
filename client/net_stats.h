@@ -26,6 +26,7 @@
 #endif
 
 #include "net_xfer.h"
+#include "miofile.h"
 
 // there's one of these each for upload and download
 //

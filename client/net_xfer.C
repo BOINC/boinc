@@ -20,7 +20,7 @@
 #include "cpp.h"
 
 #ifdef _WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 
 #ifndef _CONSOLE
 #include "wingui_mainwindow.h"
@@ -85,6 +85,10 @@ typedef int32_t socklen_t;
 typedef size_t socklen_t;
 #endif
 #endif
+
+// if an active transfer doesn't get any activity
+// in this many seconds, error out
+#define NET_XFER_TIMEOUT    600
 
 int get_socket_error(int fd) {
     socklen_t intsize = sizeof(int);
@@ -270,6 +274,23 @@ void NET_XFER::init(char* host, int p, int b) {
     file_read_buf_len = 0;
     bytes_xferred = 0;
     xfer_speed = -1;
+    reset_timeout();
+}
+
+bool NET_XFER::check_timeout(bool time_passed) {
+    if (seconds_until_timeout == 0) {
+        io_done = true;
+        error = ERR_TIMEOUT;
+        return true;
+    }
+    if (time_passed) {
+        seconds_until_timeout--;
+    }
+    return false;
+}
+
+void NET_XFER::reset_timeout() {
+    seconds_until_timeout = NET_XFER_TIMEOUT;
 }
 
 char* NET_XFER::get_hostname() {
@@ -364,6 +385,7 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
     unsigned int i;
     NET_XFER *nxp;
     struct timeval tv;
+    bool time_passed = false;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
@@ -371,6 +393,7 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
     //
     time_t t = time(0);
     if (t != last_time) {
+        time_passed = true;
         last_time = t;
         if (bytes_left_up < max_bytes_sec_up) {
             bytes_left_up += max_bytes_sec_up;
@@ -394,9 +417,11 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
     for (i=0; i<net_xfers.size(); i++) {
         nxp = net_xfers[i];
         if (!nxp->is_connected) {
+            if (nxp->check_timeout(time_passed)) continue;
             FD_SET(nxp->socket, &write_fds);
             nsocks_queried++;
         } else if (nxp->want_download) {
+            if (nxp->check_timeout(time_passed)) continue;
             if (bytes_left_down > 0) {
                 FD_SET(nxp->socket, &read_fds);
                 nsocks_queried++;
@@ -404,6 +429,7 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
                 scope_messages.printf("NET_XFER_SET::do_select(): Throttling download\n");
             }
         } else if (nxp->want_upload) {
+            if (nxp->check_timeout(time_passed)) continue;
             if (bytes_left_up > 0) {
                 FD_SET(nxp->socket, &write_fds);
                 nsocks_queried++;
@@ -454,6 +480,7 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
                     scope_messages.printf("NET_XFER_SET::do_select(): socket %d is connected\n", fd);
                     nxp->is_connected = true;
                     bytes_transferred += 1;
+                    nxp->reset_timeout();
                 }
             } else if (nxp->do_file_io) {
                 n = 1;
@@ -461,6 +488,7 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
                 do {
                     retval = nxp->do_xfer(n);
                     nxp->update_speed(n);
+                    nxp->reset_timeout();
                     bytes_transferred += n;
                     if (nxp->want_download) {
                         down_active = true;

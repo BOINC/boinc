@@ -21,7 +21,7 @@
 // Does a single RPC and shows results
 
 #ifdef _WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 #include "win_net.h"
 #endif
 

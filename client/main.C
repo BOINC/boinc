@@ -23,7 +23,7 @@
 // and is not included in the source code for Mac or Win GUI clients
 
 #ifdef WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 #include "win_service.h"
 #include "win_net.h"
 #endif

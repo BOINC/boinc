@@ -23,7 +23,7 @@
 #include "cpp.h"
 
 #ifdef _WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 #endif
 
 #ifndef _WIN32

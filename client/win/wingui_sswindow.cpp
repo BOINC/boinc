@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-#include "stdafx.h"
+#include "boinc_win.h"
 
 #include "wingui_sswindow.h"
 #include "parse.h"

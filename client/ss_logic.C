@@ -18,7 +18,7 @@
 //
 
 #ifdef _WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 #endif
 
 #include "client_state.h"

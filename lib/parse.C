@@ -25,7 +25,7 @@
 // Could replace this with a more general parser.
 
 #ifdef _WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 #endif
 
 #ifndef _WIN32

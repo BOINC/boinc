@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-#include "stdafx.h"
+#include "boinc_win.h"
 
 #include "win_net.h"
 #include "client_state.h"

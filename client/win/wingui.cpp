@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-#include "stdafx.h"
+#include "boinc_win.h"
 
 #include "client_msgs.h"
 #include "wingui.h"

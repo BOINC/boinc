@@ -33,7 +33,8 @@
 #include <vector>
 
 #include "msg_log.h"
-#include "client_types.h"
+
+class PROJECT;
 
 // Show a message, preceded by timestamp and project name
 // priorities:

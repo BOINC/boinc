@@ -944,9 +944,6 @@
 				RelativePath="..\lib\stackwalker_win.cpp">
 			</File>
 			<File
-				RelativePath="..\client\stdafx.cpp">
-			</File>
-			<File
 				RelativePath="..\Client\time_stats.C">
 				<FileConfiguration
 					Name="Debug|Win32">

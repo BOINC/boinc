@@ -20,7 +20,7 @@
 #include "cpp.h"
 
 #ifdef _WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 #define SHUT_WR SD_SEND
 using std::string;
 #endif

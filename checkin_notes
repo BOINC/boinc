@@ -13740,3 +13740,11 @@ David  16 June 2004
         main.C,h
         handle_request.C
 
+David  16 June 2004
+	- change includes from stdafx.h to boinc_win.h
+	- add 1o-minute timeout on all network transfers
+
+	client/
+		*.C
+	lib/
+		*.C
