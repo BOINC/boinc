@@ -3,6 +3,7 @@ require_once("docutil.php");
 page_head("Participating in BOINC projects");
 echo "
 <ul>
+<li> <a href=projects.php>Choosing project(s)</a>
 <li> <a href=host_requirements.php>System requirements</a>
 <li> <a href=account.php>Joining a project</a>
 <li> <a href=client.php>Running the BOINC client</a>

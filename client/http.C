@@ -556,7 +556,7 @@ bool HTTP_OP_SET::poll() {
                 case HTTP_OP_GET:
                     htp->http_op_state = HTTP_STATE_REPLY_BODY;
 
-                    htp->file = fopen(htp->outfile, "ab");
+                    htp->file = boinc_fopen(htp->outfile, "ab");
                     if (!htp->file) {
                         msg_printf(NULL, MSG_ERROR,
                             "HTTP_OP_SET::poll(): can't open output file %s\n",

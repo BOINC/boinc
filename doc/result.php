@@ -51,9 +51,6 @@ list_item("output file info",
 list_item("stderr",
     "The stderr output of the computation"
 );
-list_item("host",
-    "The host that was sent the result."
-);
 list_item("received time",
     "The time when the result was received."
 );

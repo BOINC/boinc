@@ -179,7 +179,7 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     aid.wu_cpu_time = starting_cpu_time;
 
     sprintf(init_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, INIT_DATA_FILE);
-    f = fopen(init_data_path, "w");
+    f = boinc_fopen(init_data_path, "w");
     if (!f) {
         msg_printf(wup->project, MSG_ERROR,
             "Failed to open core-to-app prefs file %s",
@@ -238,7 +238,7 @@ int ACTIVE_TASK::start(bool first_time) {
     if (retval) return retval;
 
     sprintf(graphics_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, GRAPHICS_DATA_FILE);
-    f = fopen(graphics_data_path, "w");
+    f = boinc_fopen(graphics_data_path, "w");
     if (!f) {
         msg_printf(wup->project, MSG_ERROR,
             "Failed to open core-to-app graphics prefs file %s",
@@ -250,7 +250,7 @@ int ACTIVE_TASK::start(bool first_time) {
     fclose(f);
 
     sprintf(fd_init_path, "%s%s%s", slot_dir, PATH_SEPARATOR, FD_INIT_FILE);
-    f = fopen(fd_init_path, "w");
+    f = boinc_fopen(fd_init_path, "w");
     if (!f) {
         msg_printf(wup->project, MSG_ERROR, "Failed to open init file %s", fd_init_path);
         return ERR_FOPEN;

@@ -86,7 +86,7 @@ that recognizes when it's running on a 3DNow machine,
 and branches to the appropriate code.
 
 <p>
-<h3>Web-site statistics breakdown by archicture</h3>
+<h3>Web-site statistics breakdown by architecture</h3>
 <p>
 BOINC collects architecture details about each completed result
 to allow detailed statistical breakdowns.
@@ -111,7 +111,7 @@ For example, the application might pass a description like
 &lt;graphics_board>ATI Rage 64MB</graphics_board>
 </pre>
 This makes it possible, for example, to report average or total
-performance statistics for 3DNow hosts constrasted
+performance statistics for 3DNow hosts contrasted
 with other Intel-compatible hosts.
 
 

@@ -1065,7 +1065,7 @@ int read_ppm_file(char* name, int& w, int& h, unsigned char** arrayp) {
     unsigned char* array;
     int i;
 
-    f = fopen(name, "rb");
+    f = boinc_fopen(name, "rb");
     if (!f) return -1;
     do {fgets(buf, 256, f);} while (buf[0] == '#');
     if (buf[0] != 'P') {
@@ -1182,7 +1182,7 @@ tImageJPG *LoadJPG(const char *filename) {
 	tImageJPG *pImageData = NULL;
 	FILE *pFile;
 
-	if((pFile = fopen(filename, "rb")) == NULL) {
+	if((pFile = boinc_fopen(filename, "rb")) == NULL) {
 		fprintf(stderr,"Unable to load JPG File!");
 		return NULL;
 	}
@@ -1206,7 +1206,7 @@ tImageJPG *LoadJPG(const char *filename) {
 }
 
 void printdata(char* filename, int x, int y, unsigned char* data) {
-	FILE* bmpfile = fopen(filename,"w");
+	FILE* bmpfile = boinc_fopen(filename,"w");
 	fprintf(bmpfile,"%i,%i\n",x,y);
 	for(int i=0;i<y;i++) {
         for(int c=0;c<8;c++) {
@@ -1314,7 +1314,7 @@ int TEXTURE_DESC::CreateTextureTGA(char* strFileName) {
 int TEXTURE_DESC::load_image_file(char* filename) {
     int retval;
     FILE* f;
-    f = fopen(filename, "r");
+    f = boinc_fopen(filename, "r");
     if (!f) goto done;
     fclose(f);
 

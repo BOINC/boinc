@@ -29,7 +29,28 @@ list_item(
 );
 list_item(
     "error mask",
-    "A bit mask of various error conditions (see below)"
+    "A bit mask of various error conditions:
+    <ul>
+    <li> <b>WU_ERROR_COULDNT_SEND_RESULT</b>:
+        The BOINC scheduler was unable to send the workunit
+        to a large number (~100) of hosts,
+        probably because its resource requirements (disk, memory, CPU)
+        were too large for the hosts,
+        or because no application version was available
+        for the hosts' platforms.
+    <li> <b>WU_ERROR_TOO_MANY_ERROR_RESULTS</b>:
+        Too many results with error conditions
+        (upload/download problem, client crashes)
+        have been returned for this work unit.
+    <li> <b>WU_ERROR_TOO_MANY_SUCCESS_RESULTS</b>:
+        Too many successful results have been returned
+        without a quorum being reached.
+        This indicates that the application may
+        be nondeterministic.
+    <li> <b>WU_ERROR_TOO_MANY_TOTAL_RESULTS</b>:
+        Too many total results have been sent for this workunit.
+    </ul>
+    "
 );
 list_end();
 
@@ -43,7 +64,7 @@ list_item(
     "An estimate of the average number of floating-point operations
     required to complete the computation.
     This used to estimate how long the computation will
-    take on a give host."
+    take on a given host."
 );
 list_item(
     "rsc_fpops_bound",
@@ -82,6 +103,10 @@ list_item(
     a result to a client and receiving a reply.
     The scheduler won't issue a result if the estimated
     completion time exceeds this.
+    If the client doesn't respond within this interval,
+    the server 'gives up' on the result
+    and generates a new result, to be assigned to another client.
+    <p>
     Set this to several times the average execution time
     of a workunit on a typical PC.
     If you set it too low,

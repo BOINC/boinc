@@ -46,6 +46,7 @@
 #include "parse.h"
 #include "shmem.h"
 #include "util.h"
+#include "filesys.h"
 #include "error_numbers.h"
 #include "app_ipc.h"
 
@@ -89,7 +90,7 @@ int boinc_parse_init_data_file() {
     // If in standalone mode, use init files if they're there,
     // but don't demand that they exist
     //
-    f = fopen(INIT_DATA_FILE, "r");
+    f = boinc_fopen(INIT_DATA_FILE, "r");
     if (!f) {
         if (standalone) {
             safe_strncpy(aid.app_preferences, "", sizeof(aid.app_preferences));
@@ -456,7 +457,7 @@ int boinc_init(bool standalone_ /* = false */) {
     //
     initial_wu_cpu_time = aid.wu_cpu_time;
 
-    f = fopen(FD_INIT_FILE, "r");
+    f = boinc_fopen(FD_INIT_FILE, "r");
     if (f) {
         parse_fd_init_file(f);
         fclose(f);

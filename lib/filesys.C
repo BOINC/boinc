@@ -18,6 +18,9 @@
 //
 // Revision History:
 // $Log$
+// Revision 1.32  2003/12/24 00:50:50  davea
+// *** empty log message ***
+//
 // Revision 1.31  2003/12/01 23:28:46  korpela
 // Fix for systems with no statvfs.h and statfs defined in sys/statfs.h
 //
@@ -331,6 +334,23 @@ int dir_size(const char* dirpath, double& size) {
     }
     dir_close(dirp);
     return 0;
+}
+
+// on Windows: if fopen fails, and it's an open for write,
+// try again in 3 seconds
+// (since the file might be open by FastFind, Diskeeper etc.)
+//
+FILE* boinc_fopen(const char* path, const char* mode) {
+    FILE* f;
+
+    f = fopen(path, mode);
+#ifdef _WIN32
+    if (!f && strchr(mode, 'r')) {
+        boinc_sleep(3.0);
+        f = fopen(path, mode);
+    }
+#endif
+    return f;
 }
 
 int boinc_copy(const char* orig, const char* newf) {

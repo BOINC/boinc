@@ -154,7 +154,7 @@ int CLIENT_STATE::cpu_benchmarks() {
     }
 
     host_info.p_calculated = (double)time(0);
-    finfo = fopen(CPU_BENCHMARKS_FILE_NAME, "w");
+    finfo = boinc_fopen(CPU_BENCHMARKS_FILE_NAME, "w");
     if(!finfo) return ERR_FOPEN;
     host_info.write_cpu_benchmarks(finfo);
     fclose(finfo);

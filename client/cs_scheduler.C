@@ -213,7 +213,7 @@ void CLIENT_STATE::compute_resource_debts() {
 // server
 //
 int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
-    FILE* f = fopen(SCHED_OP_REQUEST_FILE, "wb");
+    FILE* f = boinc_fopen(SCHED_OP_REQUEST_FILE, "wb");
     unsigned int i;
     RESULT* rp;
     int retval;
@@ -447,7 +447,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     // insert extra elements, write to disk, and parse
     //
     if (sr.global_prefs_xml) {
-        f = fopen(GLOBAL_PREFS_FILE_NAME, "w");
+        f = boinc_fopen(GLOBAL_PREFS_FILE_NAME, "w");
         if (!f) return ERR_FOPEN;
         fprintf(f,
             "<global_preferences>\n"

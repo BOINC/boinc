@@ -25,12 +25,13 @@
 #include <malloc.h>
 #endif
 
+#include "filesys.h"
 #include "boinc_api.h"
 
 int MFILE::open(const char* path, const char* mode) {
     buf = 0;
     len = 0;
-    f = fopen(path, mode);
+    f = boinc_fopen(path, mode);
     if (!f) return -1;
     return 0;
 }

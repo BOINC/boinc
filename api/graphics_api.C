@@ -59,7 +59,7 @@ int boinc_init_graphics() {
     FILE* f;
     int retval;
 
-    f = fopen(GRAPHICS_DATA_FILE, "r");
+    f = boinc_fopen(GRAPHICS_DATA_FILE, "r");
     if (!f) {
         fprintf(stderr, "boinc_init(): can't open graphics data file\n");
         fprintf(stderr, "Using default graphics settings.\n");

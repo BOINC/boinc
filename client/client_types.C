@@ -83,7 +83,7 @@ int PROJECT::write_account_file() {
     int retval;
 
     get_account_filename(master_url, path);
-    f = fopen(TEMP_FILE_NAME, "w");
+    f = boinc_fopen(TEMP_FILE_NAME, "w");
     if (!f) return ERR_FOPEN;
 #ifndef _WIN32
     chmod(TEMP_FILE_NAME, 0600);

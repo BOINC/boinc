@@ -8664,3 +8664,30 @@ David  23 Dec 2003
     client/
         app.C
         client_state.C
+
+David  23 Dec 2003
+    - added boinc_fopen() function.
+       This should be used in lieu of fopen(), in both core client and apps,
+       whenever opening a file for writing.
+       This is because on Windows a utility program like FileFind
+       might have the file open at that exact moment,
+       and your fopen() will fail.
+       boinc_fopen() deals with this by sleeping for 3 seconds and trying again.
+       NOTE: in SETI@home there's a much fancier function
+       that does exponential backoff up to one hour.
+       Can't do that here, in part because the GUI requires
+       the core client to be nonblocking.
+    api/
+        boinc_api.C
+        graphics_api.C
+        gutil.C
+        mfile.C
+    client/
+        app.C
+        client_types.C
+        cs_benchmark.C
+        cs_scheduler.C
+        cs_statefile.C
+        http.C
+    doc/
+        (various)

@@ -6,7 +6,7 @@ bin_PROGRAMS = crypt_prog
 EXTRA_PROGRAMS = md5_test shmem_test msg_test synch_test
 noinst_LIBRARIES = libboinc.a 
 #libboinc_graphics.a
-EXTRA_DIST = result_state.h
+EXTRA_DIST = result_state.h parse.h std_fixes.h util.h
 
 libboinc_a_SOURCES =				\
         ../api/boinc_api.C			\

@@ -186,7 +186,7 @@ int CLIENT_STATE::parse_venue() {
 //
 int CLIENT_STATE::write_state_file() {
     unsigned int i, j;
-    FILE* f = fopen(STATE_FILE_TEMP, "w");
+    FILE* f = boinc_fopen(STATE_FILE_TEMP, "w");
     int retval;
 
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
