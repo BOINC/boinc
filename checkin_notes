@@ -17122,3 +17122,10 @@ David  7 Sept 2004
 
     client/
         hostinfo_unix.C
+
+Rom    8 Sep 2004
+    - If we can lock the lockfile, also aquire the global mutex.  If we don't the screensaver
+      cannot properly detect that BOINC is executing.
+
+    client/
+        file_names.C

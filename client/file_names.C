@@ -21,6 +21,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "win_util.h"
 #endif
 
 #ifndef _WIN32
@@ -127,6 +128,17 @@ int check_unique_instance() {
     if (lock_file(LOCK_FILE_NAME)) {
         return ERR_ALREADY_RUNNING;
     }
+#ifdef _WIN32
+    else
+    {
+        HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
+        if ((h==0) || (GetLastError() == ERROR_ALREADY_EXISTS)) {
+            UINT nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
+            PostMessage(HWND_BROADCAST, nShowMsg, 0, 0);
+            return FALSE;
+        }
+    }
+#endif
 #else
     key_t key;
     char path[256];
