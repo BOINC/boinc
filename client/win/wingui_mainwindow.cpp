@@ -259,7 +259,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		if(!at) {
 			m_ResultListCtrl.SetItemProgress(i, 4, 0);
 		} else {	
-			m_ResultListCtrl.SetItemProgress(i, 4, (int)(at->fraction_done * 100));
+			m_ResultListCtrl.SetItemProgress(i, 4, at->fraction_done * 100);
 		}
 
 		// to completion
