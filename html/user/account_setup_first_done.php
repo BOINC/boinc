@@ -14,8 +14,8 @@ echo "
     tell your computer(s) to use this account.
 
     <p>When the BOINC software first runs, it will ask you for
-    <br>a <b>Project URL</b> and a <b>Account key</b>.
-	Copy and paste them from here:
+    a <b>Project URL</b> and a <b>Account key</b>.
+	<br>Copy and paste them from here:
     <p><ul>
     <li>Project URL: <b>".MASTER_URL."</b>
     <li>Account key: $user->authenticator

@@ -24872,3 +24872,10 @@ David  15 Feb 2005
 
     html/user/
         account_setup_first_done.php (new)
+
+David  16 Feb 2005
+    - user web fixes
+
+    html/user/
+        account_setup_first_done.php
+        team_display.php

@@ -1,5 +1,6 @@
 <?php
 require_once("../inc/cache.inc");
+require_once("../inc/util.inc");
 
 $sort_by = $_GET["sort_by"];
 if (!$sort_by) $sort_by = "expavg_credit";
@@ -18,7 +19,6 @@ $cache_args = "teamid=$teamid&sort_by=$sort_by&offset=$offset";
 start_cache(TEAM_PAGE_TTL, $cache_args);
 
 require_once("../inc/db.inc");
-require_once("../inc/util.inc");
 require_once("../inc/team.inc");
 
 db_init();
