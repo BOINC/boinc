@@ -9782,3 +9782,13 @@ David  Feb 4 2004
     client/
         app.h,C
         cs_scheduler.C
+
+David  Feb 4 2004
+	- Cleaned up the project-reset logic a little:
+		- first garbage-collect, THEN unlink and delete the apps and app_versions
+	- When detach project, delete FILE_INFO*s.
+
+	NOTE: there are lots of loose ends, e.g. files/sockets left open etc.
+
+	client/
+		client_state.C

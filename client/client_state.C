@@ -992,6 +992,8 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
     msg_printf(project, MSG_INFO, "Resetting project");
     active_tasks.abort_project(project);
 
+	// TODO: close sockets and open FILEs; delete the various objects
+	//
     for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
         pxp = pers_file_xfers->pers_file_xfers[i];
         if (pxp->fip->project == project) {
@@ -1023,11 +1025,14 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
         }
     }
 
-    avp_iter = app_versions.begin();
+    garbage_collect();
+
+	avp_iter = app_versions.begin();
     while (avp_iter != app_versions.end()) {
         avp = *avp_iter;
         if (avp->project == project) {
             avp_iter = app_versions.erase(avp_iter);
+			delete avp;
         } else {
             avp_iter++;
         }
@@ -1038,12 +1043,12 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
         app = *app_iter;
         if (app->project == project) {
             app_iter = apps.erase(app_iter);
+			delete app;
         } else {
             app_iter++;
         }
     }
 
-    garbage_collect();
     write_state_file();
     return 0;
 }
@@ -1073,6 +1078,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
         fip = *fi_iter;
         if (fip->project == project) {
             file_infos.erase(fi_iter);
+			delete fip;
         } else {
             fi_iter++;
         }
