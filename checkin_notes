@@ -13922,3 +13922,9 @@ Daniel 17 June 2004
         hostinfo_unix.C
         hostinfo_network.C
 
+Rom    17 June 2004
+    - Add an additional path to the list of pings to try.
+      /usr/sbin
+
+    client/
+        hostinfo_network.C
