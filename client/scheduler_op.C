@@ -47,10 +47,17 @@ int SCHEDULER_OP::init_get_work() {
         if( (retval=init_op_project(ns)) ) {
             sprintf(err_msg, "init_get_work failed, error %d\n", retval);
             backoff(project, err_msg);
-            
-            return retval;
+	    return retval;
         }
     }
+    else
+      {
+	project = gstate.next_project_master_pending();
+	if (project) {
+	  init_master_fetch(project);
+	}
+      }
+
     return 0;
 }
 
@@ -295,11 +302,13 @@ bool SCHEDULER_OP::poll() {
                     backoff(project,"");
                     if ((project->nrpc_failures % MASTER_FETCH_PERIOD) == 0) {
                         project->master_url_fetch_pending = true;
-                    }
+			project->min_rpc_time = 0;
+			project->nrpc_failures = 0;
+		    }
                     if (must_get_work) {
                         project = gstate.next_project(project);
                         if (project) {
-                            if( (retval=init_op_project(gstate.work_needed_secs())) ) {
+			  if( (retval=init_op_project(gstate.work_needed_secs())) ) {
                                 sprintf( err_msg,
                                     "scheduler init_op_project to %s failed, error %d\n",
                                     project->scheduler_urls[url_index].text, retval
@@ -309,7 +318,8 @@ bool SCHEDULER_OP::poll() {
                         } else {
                             scheduler_op_done = true;
                         }
-                    } else {
+                    } 
+		    else {
                         scheduler_op_done = true;
                     }
                 }
@@ -348,9 +358,9 @@ bool SCHEDULER_OP::poll() {
         if (scheduler_op_done) {
             project = gstate.next_project_master_pending();
             if (project) {
-                init_master_fetch(project);
+	      init_master_fetch(project);
             } else {
-                state = SCHEDULER_OP_STATE_IDLE;
+	        state = SCHEDULER_OP_STATE_IDLE;
                 if (log_flags.sched_op_debug) {
                     printf("Scheduler_op: return to idle state\n");
                 }
