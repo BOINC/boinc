@@ -14839,3 +14839,11 @@ David  7 July 2004
 	lib/
 		app_ipc.C,h
 
+Daniel 2004-07-08
+    - NetBSD compile fixes from John Klos <john@ziaspace.com>
+        (just added __NetBSD__ wherever __OpenBSD__ appeared)
+
+    lib/
+        filesys.C
+        util.C
+

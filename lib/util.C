@@ -31,7 +31,7 @@
 #include <algorithm>
 #include <iterator>
 #include <iostream>
-#ifndef __OpenBSD__
+#if !defined(__OpenBSD__) && !defined(__NetBSD__)
 #include <locale>
 #endif
 #include <fstream>
@@ -407,7 +407,7 @@ inline void replace_string(
     }
 }
 
-#if !defined(_WIN32) && !defined(__OpenBSD__)
+#if !defined(_WIN32) && !defined(__OpenBSD__) && !defined(__NetBSD__)
 // In order for toupper and tolower to work under certain conditions
 //   it needs to know about local.
 // See: http://linux-rep.fnal.gov/software/gcc/onlinedocs/libstdc++/22_locale/howto.html#7
@@ -426,13 +426,13 @@ private:
 //   - Add a trailing slash if necessary
 //
 void canonicalize_master_url(string& url) {
-#if !defined(_WIN32) && !defined(__OpenBSD__)
+#if !defined(_WIN32) && !defined(__OpenBSD__) && !defined(__NetBSD__)
     Tolower      down ( std::locale("C") );
 #endif
     string::size_type p = url.find("://");
     // lowercase http://
     if (p != string::npos) {
-#if !defined(_WIN32) && !defined(__OpenBSD__)
+#if !defined(_WIN32) && !defined(__OpenBSD__) && !defined(__NetBSD__)
         transform(url.begin(), url.begin()+p, url.begin(), down);
 #else
         transform(url.begin(), url.begin()+p, url.begin(), tolower);
