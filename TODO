@@ -1,15 +1,5 @@
 HIGH-PRIORITY (must be done to support SETI@home)
 
-- Code-signing
-    Done - David
-
-- Upload authentication (David)
-    Each result contains a "certificate", signed with project key, giving
-        - list of: file name, max size
-        - min, max times to xfer
-    modify put program to decrypt certificate, enforce name/size/time limits
-    Done - David
-
 - File retry policies (Eric?)
     can't download file: when to give up? how to retry?
         exponential backoff
@@ -75,7 +65,6 @@ HIGH-PRIORITY (must be done to support SETI@home)
         move around screen?
     system tray icon behavior
 
-
 - get idle-only behavior without screensaver
     Windows
     UNIX
@@ -84,6 +73,8 @@ HIGH-PRIORITY (must be done to support SETI@home)
     could display in default core client display
 
 - edit user account
+
+- more robust XML parsing functions
 --------------------------
 MEDIUM-PRIORITY (must be done for CM)
 
@@ -97,6 +88,13 @@ MEDIUM-PRIORITY (must be done for CM)
 - implement WU/result sequences
 
 - decide on action when speed_tests detect a calculation inconsistency
+
+- write functions to determine amount of disk space currently used by BOINC
+
+- implement user specified disk space limits, including actions to perform
+  when space limit is hit
+
+- Implement functionality to write client_state file (and other files?) no more than every X seconds
 
 --------------------------
 LOW-PRIORITY
@@ -159,6 +157,19 @@ LOW-PRIORITY
 
 --------------------------
 DONE (may need test)  Please document these!
+
+- Code-signing
+    To be tested - David
+
+- Upload authentication (David)
+    Each result contains a "certificate", signed with project key, giving
+        - list of: file name, max size
+        - min, max times to xfer
+    modify put program to decrypt certificate, enforce name/size/time limits
+    To be tested - David
+
+- make scheduling server use fast CGI
+    To be tested - Michael
 
 - Test HTTP redirect mechanism for all types of operations (POST, GET, HEAD, etc)
 

@@ -55,11 +55,8 @@ Building
 
 Now that BOINC is configured, you are ready to build BOINC
 
-It is necessary to use GNU make at the moment, as the RSAEuro libraries will
-not compile under other versions of make. 
-
 Some commands executed when making BOINC may fail (return a nonzero status) and
-be ignored by make. The most common of these failures is when making RSAEuro. 
+be ignored by make.
 
 It is normal to have compiler warnings when compiling certain files. These
 warnings can be safely ignored unless you are a member of the development team.
