@@ -598,6 +598,7 @@ function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times)
     row("claimed credit", $result->claimed_credit);
     row("Granted credit", $result->granted_credit);
     row("Client version", client_version_string($result->client_version_num));
+    row("Random",$result->random);
     row("","<a href='show_log.php?s=$result->name'>Grep logs</a>");
     end_table();
     echo "<p>";
