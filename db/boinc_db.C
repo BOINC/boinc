@@ -16,12 +16,16 @@
 //
 // Contributor(s):
 //
-
+// $Log$
+// Revision 1.24  2003/12/11 18:38:05  korpela
+// Added include of "std_fixes.h"
+//
+//
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <unistd.h>
-
+#include "std_fixes.h"
 #include "boinc_db.h"
 
 DB_CONN boinc_db;
