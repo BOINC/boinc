@@ -36,17 +36,53 @@ int get_host_info2(HOST_INFO& host) {
         break;
     case VER_PLATFORM_WIN32_WINDOWS:
         if ( OSVersionInfo.dwMajorVersion > 4
-	    || ( OSVersionInfo.dwMajorVersion == 4
-	    && OSVersionInfo.dwMinorVersion > 10 ) )
+	        || ( OSVersionInfo.dwMajorVersion == 4
+	        && OSVersionInfo.dwMinorVersion >= 90 ) )
         {
+            strcpy( host.os_name, "Windows Me" );
+        }
+		else if ( OSVersionInfo.dwMajorVersion == 4
+            && OSVersionInfo.dwMinorVersion >= 10 )
+		{
             strcpy( host.os_name, "Windows 98" );
-        } else {
+        }
+		else
+		{
             strcpy( host.os_name, "Windows 95" );
         }
         break;
 
     case VER_PLATFORM_WIN32_NT:
-        strcpy( host.os_name, "Windows NT" );
+		if ( OSVersionInfo.dwMajorVersion > 5
+            || (OSVersionInfo.dwMajorVersion == 5
+            && OSVersionInfo.dwMinorVersion >= 2) )
+		{
+		    strcpy( host.os_name, "Windows .NET Server" );
+		}
+		else if (OSVersionInfo.dwMajorVersion == 5
+			&& OSVersionInfo.dwMinorVersion == 1)
+		{
+		    strcpy( host.os_name, "Windows XP" );
+		}
+		else if (OSVersionInfo.dwMajorVersion == 5
+			&& OSVersionInfo.dwMinorVersion == 0)
+		{
+		    strcpy( host.os_name, "Windows 2000" );
+		}
+		else if (OSVersionInfo.dwMajorVersion == 4
+			&& OSVersionInfo.dwMinorVersion == 0)
+		{
+		    strcpy( host.os_name, "Windows NT 4.0" );
+		}
+		else if (OSVersionInfo.dwMajorVersion == 3
+			&& OSVersionInfo.dwMinorVersion == 51)
+		{
+		    strcpy( host.os_name, "Windows NT 3.51" );
+		}
+		else
+		{
+            strcpy( host.os_name, "Windows NT" );
+        }
         break;
 
     default:
@@ -65,40 +101,43 @@ int get_host_info2(HOST_INFO& host) {
     SYSTEM_INFO SystemInfo;
     memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
     ::GetSystemInfo( &SystemInfo );
+
+    host.p_ncpus = SystemInfo.dwNumberOfProcessors;
+
     switch ( SystemInfo.wProcessorArchitecture ) {
-    case PROCESSOR_ARCHITECTURE_INTEL:
+        case PROCESSOR_ARCHITECTURE_INTEL:
         switch ( SystemInfo.dwProcessorType ) {
-        case PROCESSOR_INTEL_386:
-            strcpy( host.p_model, "Intel 80386" );
+            case PROCESSOR_INTEL_386:
+                strcpy( host.p_model, "Intel 80386" );
+                break;
+            case PROCESSOR_INTEL_486:
+                strcpy( host.p_model, "Intel 80486" );
+                break;
+            case PROCESSOR_INTEL_PENTIUM:
+                strcpy( host.p_model, "Intel Pentium" );
+                break;
+            default:
+                strcpy( host.p_model, "Intel x86" );
+                break;
+            }
+        break;
+
+        case PROCESSOR_ARCHITECTURE_MIPS:
+            strcpy( host.p_model, "MIPS" );
             break;
-        case PROCESSOR_INTEL_486:
-            strcpy( host.p_model, "Intel 80486" );
+
+        case PROCESSOR_ARCHITECTURE_ALPHA:
+            strcpy( host.p_model, "Alpha" );
             break;
-        case PROCESSOR_INTEL_PENTIUM:
-            strcpy( host.p_model, "Intel Pentium" );
+
+        case PROCESSOR_ARCHITECTURE_PPC:
+            strcpy( host.p_model, "Power PC" );
             break;
+
+        case PROCESSOR_ARCHITECTURE_UNKNOWN:
         default:
-            strcpy( host.p_model, "Intel x86" );
+            strcpy( host.p_model, "Unknown" );
             break;
-        }
-        break;
-
-    case PROCESSOR_ARCHITECTURE_MIPS:
-        strcpy( host.p_model, "MIPS" );
-        break;
-
-    case PROCESSOR_ARCHITECTURE_ALPHA:
-        strcpy( host.p_model, "Alpha" );
-        break;
-
-    case PROCESSOR_ARCHITECTURE_PPC:
-        strcpy( host.p_model, "Power PC" );
-        break;
-
-    case PROCESSOR_ARCHITECTURE_UNKNOWN:
-    default:
-        strcpy( host.p_model, "Unknown" );
-        break;
     }
         
     memset(&host, 0, sizeof(host));
