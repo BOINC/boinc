@@ -102,6 +102,37 @@ void RunSaver( void ) {
 	int BOINC_SS_START_MSG;
 	int BOINC_GFX_MODE_MSG;
 	int oldval;
+	char client_path[256], client_dir[256];
+    PROCESS_INFORMATION process_info;
+    STARTUPINFO startup_info;
+	HANDLE boinc_mutex;
+
+	// If BOINC isn't running, then start it up!
+	boinc_mutex = CreateMutex(NULL, false, "BOINC_MUTEX");
+	if(boinc_mutex != 0) {
+		CloseHandle(boinc_mutex);
+		// Get the path to the client
+		UtilGetRegStr( "ClientPath", client_path );
+		UtilGetRegStr( "ClientDir", client_dir );
+
+		memset( &process_info, 0, sizeof( process_info ) );
+		memset( &startup_info, 0, sizeof( startup_info ) );
+		startup_info.cb = sizeof(startup_info);
+		startup_info.lpReserved = NULL;
+		startup_info.lpDesktop = "";
+
+		// Start the client in the background
+		oldval = CreateProcess(  client_path,	// path to the client
+						"boinc -min -saver",	// start it in the background
+						NULL,					// no process security attributes
+						NULL,					// no thread security attribute
+						FALSE,					// doesn't inherit handles
+						CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+						NULL,					// same environment
+						client_dir,				// start in the standard client directory
+						&startup_info,
+						&process_info );
+	}
 
 	// Set a flag in the system to indicate that we're in screensaver mode
 	SystemParametersInfo(SPI_SCREENSAVERRUNNING,1,&oldval,0);
