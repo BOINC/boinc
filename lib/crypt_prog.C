@@ -43,7 +43,7 @@ void die(char* p) {
     exit(1);
 }
 
-main(int argc, char** argv) {
+int main(int argc, char** argv) {
     R_RANDOM_STRUCT randomStruct;
     R_RSA_PUBLIC_KEY public_key;
     R_RSA_PRIVATE_KEY private_key;
@@ -118,4 +118,6 @@ main(int argc, char** argv) {
     } else {
         printf("unrecognized command\n");
     }
+
+    return 0;
 }

@@ -4,12 +4,13 @@
 
 #include <unistd.h>
 #include <strings.h>
+#include <string.h>
 
 #include "synch.h"
 
 #define KEY 0xdeadbeef
 
-main(int argc, char** argv) {
+int main(int argc, char** argv) {
     if (!strcmp(argv[1], "-c")) {
         create_semaphore(KEY);
     } else if (!strcmp(argv[1], "-d")) {
@@ -19,4 +20,6 @@ main(int argc, char** argv) {
         sleep(10);
         unlock_semaphore(KEY);
     }
+
+    return 0;
 }

@@ -6,11 +6,13 @@ VPATH           = @srcdir@
 VERSION = 1
 
 MYSQL_DIR = /usr/local/mysql/include
+MYSQL_DIR2 = /usr/local/mysql/include/mysql
 
 CFLAGS = -g -Wall @DEFS@ \
     -DHOSTTYPE=\"@host@\" \
     -DVERSION=$(VERSION) \
     -I $(MYSQL_DIR) \
+    -I $(MYSQL_DIR2) \
     -pedantic
 
 CC = @CC@ $(CFLAGS)
