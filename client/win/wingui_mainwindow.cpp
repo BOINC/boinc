@@ -222,8 +222,8 @@ CMainWindow::CMainWindow()
     //CString strWndClass = AfxRegisterWndClass (0, g_myApp.LoadStandardCursor(IDC_ARROW),
     //    (HBRUSH)(COLOR_3DFACE+1), g_myApp.LoadIcon(IDI_ICON));
 
-	m_MenuLabelRetryNow = "&Retry now";
-	m_MenuLabelGetPreferences = "Get p&references";
+	m_MenuLabelRetryNow = "&Update (retry now)";
+	m_MenuLabelGetPreferences = "&Update";
 	m_DialogResetQuery = "Are you sure you want to reset the project %1?";
 	m_DialogDetachQuery = "Are you sure you want to detach from the project %1?";
 

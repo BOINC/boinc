@@ -7615,3 +7615,10 @@ David  7 Nov 2003
         upper_case.C
     lib/
         filesys.C,h
+
+Karl 2003-11-07
+    - changed { 'Get preferences' , 'Retry now' } to { 'Update', 'Update
+      (retry now)' }
+
+    client/win
+        wingui_mainwindow.cpp
