@@ -30,7 +30,7 @@ function show_login($user) {
 
 function page_head($title) {
     echo "<head><title>$title</title><body " . BG_COLOR . ">\n";
-    echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b><a href=index.html>".PROJECT_NAME.":</a> $title</b></font></td></tr></table>\n";
+    echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b><a href=index.html>".PROJECT_NAME.":</a>  $title</b></font></td></tr></table>\n";
 }
 
 function page_tail() {

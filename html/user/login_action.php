@@ -56,7 +56,9 @@
                 if ($result) {
                     setcookie("auth", $authenticator);
 		    page_head("Creating Account");
-                    echo "Account created.  You are being mailed a key that you'll need to run the client.\n";
+                    echo "Account created.  You are being mailed a key that you'll need to run the client. You can copy and paste the key,\n";
+		    echo " which will be a string of letters and numbers, in the location indicated when downloading the client.\n";
+		    echo "<br><br><a href=download.php>Download core client</a>\n";
                     mail($email_addr, "BOINC key", "Your BOINC key is " . $authenticator);
                 } else {
 	       	    page_head("Creating Account");
