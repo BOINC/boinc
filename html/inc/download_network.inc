@@ -12,10 +12,10 @@ function csort($array, $column,$column2){
 
 function getContentArray($content_header){
   $data=$content_header;
-  $entries=explode("|",trim($data));
+  $entries=explode("|||",trim($data));
   //echo "h".$content_header;
   for ($i=0; $i<sizeof($entries)-1;$i++){
-    list($contents[$i]["filename"],$contents[$i]["description"], $contents[$i]["origin"],$contents[$i]["timestamp"],$contents[$i]["hash"], $contents[$i]["size"], $contents[$i]["position"])=explode("ñ", $entries[$i]);
+    list($contents[$i]["filename"],$contents[$i]["description"], $contents[$i]["origin"],$contents[$i]["timestamp"],$contents[$i]["hash"], $contents[$i]["size"], $contents[$i]["position"])=explode("|+|", $entries[$i]);
     list($contents[$i]["name"],$contents[$i]["short_description"],$longdesc,$inst,$contents[$i]["platform"],$contents[$i]["platform_add"],$contents[$i]["user"],$contents[$i]["mime_type"],$contents[$i]["real_origin"],$contents[$i]["website"],$contents[$i]["version"])=explode("[[@",$contents[$i]["description"]);
   }
   return $contents;
