@@ -75,7 +75,6 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_COMMAND(ID_SETTINGS_QUIT, OnCommandSettingsQuit)
     ON_COMMAND(ID_SETTINGS_PROXYSERVER, OnCommandSettingsProxyServer)
     ON_COMMAND(ID_HELP_ABOUT, OnCommandHelpAbout)
-    ON_COMMAND(ID_PROJECT_RELOGIN, OnCommandProjectRelogin)
     ON_COMMAND(ID_PROJECT_QUIT, OnCommandProjectQuit)
     ON_COMMAND(ID_WORK_SHOWGRAPHICS, OnCommandWorkShowGraphics)
     ON_COMMAND(ID_STATUSICON_HIDE, OnCommandHide)
@@ -1047,44 +1046,10 @@ void CMainWindow::OnCommandFileClearMessages()
 // function:	causes the client to connect to the network
 void CMainWindow::OnCommandConnectionConnectNow()
 {
-	bool bOldConfirm = gstate.global_prefs.confirm_before_connecting;
-	gstate.global_prefs.confirm_before_connecting = false;
-	NetOpen();
-	gstate.global_prefs.confirm_before_connecting = bOldConfirm;
 	for(int ii = 0; ii < gstate.projects.size(); ii ++) {
 		gstate.projects[ii]->sched_rpc_pending = true;
 	}
-	NetClose();
 }
-
-#if 0
-//////////
-// CMainWindow::OnCommandProjectRelogin
-// arguments:	void
-// returns:		void
-// function:	lets a user change the properties for an account
-void CMainWindow::OnCommandProjectRelogin()
-{
-	if(m_nContextItem < 0 || m_nContextItem > m_ProjectListCtrl.GetItemCount()) return;
-	PROJECT* pToRelogin = (PROJECT*)m_ProjectListCtrl.GetItemData(m_nContextItem);
-	m_nContextItem = -1;
-	if(!pToRelogin) return;
-
-	// find project index
-	int i;
-	for(i = 0; i < gstate.projects.size(); i ++) {
-		if(gstate.projects[i] == pToRelogin) break;
-	}
-	if(i == gstate.projects.size()) return;
-
-	// get info and relogin
-    CLoginDialog dlg(IDD_LOGIN, gstate.projects[i]->master_url, gstate.projects[i]->authenticator);
-    int retval = dlg.DoModal();
-	if(retval == IDOK) {
-		gstate.change_project(i, dlg.m_strUrl.GetBuffer(0), dlg.m_strAuth.GetBuffer(0));
-	}
-}
-#endif
 
 //////////
 // CMainWindow::OnCommandProjectQuit
@@ -1658,4 +1623,7 @@ void create_curtain() {
 
 void delete_curtain() {
 	g_myWnd->m_pSSWnd->ShowSSWindow(false);
+}
+
+void project_add_failed(PROJECT* project) {
 }
