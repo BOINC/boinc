@@ -1,4 +1,4 @@
-;; -*- tab-width: 4 -*-
+;; -*- tab-width: 4 ; indent-tabs-mode: nil; -*-
 David A.        April 10 2002
     Initial checkin of all files.
     The system is fairly feature-complete and
@@ -20488,8 +20488,17 @@ Rom    2 Dec 2004
         taskbarex.h
 
 Bruce	2 Dec 2004
-	- Fixed boinc_zip.h so that it works correctly under both C++ and
-      C under both Unix and Win32.
+    -   Added emacs mode statement to the top of this file to eliminate tabs
+        in favor of spaces!
+    -   Fixed boinc_zip.h so that it works correctly under both C++ and
+        C under both Unix and Win32.
+    -   Modified admin ops pages so that workunit displays transition time,
+        and target_nresults.  Results pages displays deadline not received time
+        for results that are still in progress or were never received.
 
-	zip/
-		boinc_zip.h
+    checkin-notes
+    zip/
+        boinc_zip.h
+    html/
+        inc/
+            db_ops.inc
