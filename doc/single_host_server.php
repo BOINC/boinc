@@ -1,38 +1,41 @@
 <? // -*- html -*-
-require_once("docutil.php");
-page_head("Setting up a single-host server");
+   require_once("docutil.php");
+   page_head("Setting up a single-host server");
    ?>
 
 TODO: update stuff about make_project (don't add application/appversion in
 make_project); move it to tool_make_project.php.
 
 <p>
-BOINC provides a set of scripts for setting up
-and controlling a BOINC server complex.
-These scripts require all the server components to run on a single host.
-This has been tested only on Linux and Solaris hosts;
-it may work with small modifications on Windows also.
+BOINC provides a set of scripts for setting up and controlling a BOINC server
+complex.  These scripts require all the server components to run on a single
+host.  This has been tested only on Linux and Solaris hosts; it may work with
+small modifications on Windows also.
+
 <p>
 The scripts can be used to create multiple BOINC projects on the same host.
 This can be handy for creating separate projects for testing and debugging.
-In fact, the scripts are part of a general
-<a href=test.html>testing framework</a>
-that allows multiple developers to work independently on
-a single host, with each developer able to create multiple projects.
 <p>
-
 Install all components listed in the <a href=software.php>Software
 Prerequisites</a> page.  Your operating system must have shared memory
 enabled, with a max shared segment size of at least 32 MB.
 
 <h3>Creating the server</h3>
 <p>
-  Run the <code>make_project</code> script; example command line:
+  Run the <code>make_project</code> script; example command lines:
   <pre>
     cd tools/
-    ./make_project --base $HOME/boinc --url_base http://boink/ yah 'YETI @ Home' upper_case 'UpperCase'
+    ./make_project yah
   </pre>
-
+  will create $HOME/projects/yah with html_user_url set to
+  http://<hostname>/yah/ and long project name 'Yah'.
+  <pre>
+    cd tools/
+    ./make_project --base $HOME/boinc --url_base http://boink/ yah 'YETI @ Home'
+  </pre>
+  will create $HOME/boinc/projects/yah with the html_user_url set to
+  http://boink/yah/.
+<p>
   See 'make_project --help' for more command-line options available (such as
   finer control of directory structure or clobbering an existing installation).
 <p>
@@ -44,16 +47,26 @@ enabled, with a max shared segment size of at least 32 MB.
       you must move the code-signing private key
       to a highly secure (preferably non-networked) host,
       and delete it from the server host.
-    <li> Create a MySQL database for this project,
-      named (BOINC_USER_NAME)_(project-name).
-    <li> Insert initial records in the project, platform, user, and app
-         tables.
-    <li> Copy cgi-programs to project/cgi-bin
-    <li> Copy daemons to project/cgi
-    <li> Copy html files to project/html_user and project/html_ops
+    <li> Create and initialize MySQL database
+    <li> Copy source and built files
     <li> Generate the configuration file (config.xml) used by
       the server programs.
   </ul>
+
+<p>
+  The script gives further instructions, namely
+  <ul>
+    <li>It generates a template Apache config file which you can edit and
+      paste into /etc/apache/httpd.conf (path varies), or Include directly
+      if it is already perfect.
+    <li>It generates a crontab line to paste.
+  </ul>
+  The php scripts need access to the database, so the user that Apache runs
+  under needs SELECT,INSERT,UPDATE,DELETE to the database just created.
+</P>
+At this point you need to add platform(s), application(s), application
+version(s), and core version(s). See <a href=tool_add.php>Add tool</a>
+documentation.
 
 <h3>Directory structure</h3>
 
@@ -82,8 +95,7 @@ Each project directory contains:
   <li>bin: server daemons and programs, including the main <code>start</code>
     program as well as all the daemons
   <li>cgi-bin: cgi programs
-  <li>log: log output
-  <li>pid: lock files and pid files
+  <li>log: log output, lock files, pid files
   <li> download: storage for data server downloads.
   <li> html_ops: copies of PHP files for project management.
   <li> html_user: copies of PHP files for the public web site.
