@@ -57,7 +57,7 @@ extern void escape_project_url(char *in, char* out);
 #define STDERROLD_FILE_NAME         "stderr.old"
 #define STDOUT_FILE_NAME            "stdout.txt"
 #define STDOUTOLD_FILE_NAME         "stdout.old"
-#define CPU_BENCHMARKS_FILE_NAME    "cpu_benchmarks.xml"
+#define CPU_BENCHMARKS_FILE_NAME    "cpu_benchmarks"
 #define LOCK_FILE_NAME              "lockfile"
 #define INI_FILE_NAME               "boinc.ini"
 #define LANGUAGE_FILE_NAME          "language.ini"

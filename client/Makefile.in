@@ -209,15 +209,16 @@ boinc_client_SOURCES = \
     ss_logic.C					\
     time_stats.C				\
     ../lib/app_ipc.C			\
+    ../lib/crypt.C				\
     ../lib/filesys.C			\
     ../lib/language.C			\
-    ../lib/parse.C				\
-    ../lib/shmem.C				\
     ../lib/md5_file.C			\
     ../lib/md5.c				\
-    ../lib/crypt.C				\
-    ../lib/util.C				\
-    ../lib/messages.C
+    ../lib/messages.C           \
+    ../lib/parse.C				\
+    ../lib/shmem.C				\
+    ../lib/sighandle.C			\
+    ../lib/util.C
 
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
@@ -278,11 +279,12 @@ am_boinc_client_OBJECTS = boinc_client-app.$(OBJEXT) \
 	boinc_client-scheduler_op.$(OBJEXT) \
 	boinc_client-ss_logic.$(OBJEXT) \
 	boinc_client-time_stats.$(OBJEXT) \
-	boinc_client-app_ipc.$(OBJEXT) boinc_client-filesys.$(OBJEXT) \
-	boinc_client-language.$(OBJEXT) boinc_client-parse.$(OBJEXT) \
-	boinc_client-shmem.$(OBJEXT) boinc_client-md5_file.$(OBJEXT) \
-	boinc_client-md5.$(OBJEXT) boinc_client-crypt.$(OBJEXT) \
-	boinc_client-util.$(OBJEXT) boinc_client-messages.$(OBJEXT)
+	boinc_client-app_ipc.$(OBJEXT) boinc_client-crypt.$(OBJEXT) \
+	boinc_client-filesys.$(OBJEXT) boinc_client-language.$(OBJEXT) \
+	boinc_client-md5_file.$(OBJEXT) boinc_client-md5.$(OBJEXT) \
+	boinc_client-messages.$(OBJEXT) boinc_client-parse.$(OBJEXT) \
+	boinc_client-shmem.$(OBJEXT) boinc_client-sighandle.$(OBJEXT) \
+	boinc_client-util.$(OBJEXT)
 boinc_client_OBJECTS = $(am_boinc_client_OBJECTS)
 boinc_client_LDFLAGS =
 am_cpu_benchmark_OBJECTS = cpu_benchmark.$(OBJEXT)
@@ -331,6 +333,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-prefs.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-scheduler_op.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-shmem.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_client-sighandle.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-ss_logic.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-time_stats.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-util.Po \
@@ -413,15 +416,16 @@ boinc_client-scheduler_op.$(OBJEXT): scheduler_op.C
 boinc_client-ss_logic.$(OBJEXT): ss_logic.C
 boinc_client-time_stats.$(OBJEXT): time_stats.C
 boinc_client-app_ipc.$(OBJEXT): ../lib/app_ipc.C
+boinc_client-crypt.$(OBJEXT): ../lib/crypt.C
 boinc_client-filesys.$(OBJEXT): ../lib/filesys.C
 boinc_client-language.$(OBJEXT): ../lib/language.C
-boinc_client-parse.$(OBJEXT): ../lib/parse.C
-boinc_client-shmem.$(OBJEXT): ../lib/shmem.C
 boinc_client-md5_file.$(OBJEXT): ../lib/md5_file.C
 boinc_client-md5.$(OBJEXT): ../lib/md5.c
-boinc_client-crypt.$(OBJEXT): ../lib/crypt.C
-boinc_client-util.$(OBJEXT): ../lib/util.C
 boinc_client-messages.$(OBJEXT): ../lib/messages.C
+boinc_client-parse.$(OBJEXT): ../lib/parse.C
+boinc_client-shmem.$(OBJEXT): ../lib/shmem.C
+boinc_client-sighandle.$(OBJEXT): ../lib/sighandle.C
+boinc_client-util.$(OBJEXT): ../lib/util.C
 boinc_client$(EXEEXT): $(boinc_client_OBJECTS) $(boinc_client_DEPENDENCIES) 
 	@rm -f boinc_client$(EXEEXT)
 	$(CXXLINK) $(boinc_client_LDFLAGS) $(boinc_client_OBJECTS) $(boinc_client_LDADD) $(LIBS)
@@ -472,6 +476,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-prefs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-scheduler_op.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-shmem.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-sighandle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-ss_logic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-time_stats.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-util.Po@am__quote@
@@ -1184,6 +1189,28 @@ boinc_client-app_ipc.obj: ../lib/app_ipc.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-app_ipc.obj `if test -f '../lib/app_ipc.C'; then $(CYGPATH_W) '../lib/app_ipc.C'; else $(CYGPATH_W) '$(srcdir)/../lib/app_ipc.C'`
 
+boinc_client-crypt.o: ../lib/crypt.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-crypt.o -MD -MP -MF "$(DEPDIR)/boinc_client-crypt.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-crypt.o `test -f '../lib/crypt.C' || echo '$(srcdir)/'`../lib/crypt.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-crypt.Tpo" "$(DEPDIR)/boinc_client-crypt.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-crypt.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/crypt.C' object='boinc_client-crypt.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-crypt.Po' tmpdepfile='$(DEPDIR)/boinc_client-crypt.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-crypt.o `test -f '../lib/crypt.C' || echo '$(srcdir)/'`../lib/crypt.C
+
+boinc_client-crypt.obj: ../lib/crypt.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-crypt.obj -MD -MP -MF "$(DEPDIR)/boinc_client-crypt.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-crypt.obj `if test -f '../lib/crypt.C'; then $(CYGPATH_W) '../lib/crypt.C'; else $(CYGPATH_W) '$(srcdir)/../lib/crypt.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-crypt.Tpo" "$(DEPDIR)/boinc_client-crypt.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-crypt.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/crypt.C' object='boinc_client-crypt.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-crypt.Po' tmpdepfile='$(DEPDIR)/boinc_client-crypt.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-crypt.obj `if test -f '../lib/crypt.C'; then $(CYGPATH_W) '../lib/crypt.C'; else $(CYGPATH_W) '$(srcdir)/../lib/crypt.C'`
+
 boinc_client-filesys.o: ../lib/filesys.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-filesys.o -MD -MP -MF "$(DEPDIR)/boinc_client-filesys.Tpo" \
 @am__fastdepCXX_TRUE@	  -c -o boinc_client-filesys.o `test -f '../lib/filesys.C' || echo '$(srcdir)/'`../lib/filesys.C; \
@@ -1227,6 +1254,50 @@ boinc_client-language.obj: ../lib/language.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-language.Po' tmpdepfile='$(DEPDIR)/boinc_client-language.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-language.obj `if test -f '../lib/language.C'; then $(CYGPATH_W) '../lib/language.C'; else $(CYGPATH_W) '$(srcdir)/../lib/language.C'`
+
+boinc_client-md5_file.o: ../lib/md5_file.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-md5_file.o -MD -MP -MF "$(DEPDIR)/boinc_client-md5_file.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-md5_file.o `test -f '../lib/md5_file.C' || echo '$(srcdir)/'`../lib/md5_file.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-md5_file.Tpo" "$(DEPDIR)/boinc_client-md5_file.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-md5_file.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/md5_file.C' object='boinc_client-md5_file.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-md5_file.Po' tmpdepfile='$(DEPDIR)/boinc_client-md5_file.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-md5_file.o `test -f '../lib/md5_file.C' || echo '$(srcdir)/'`../lib/md5_file.C
+
+boinc_client-md5_file.obj: ../lib/md5_file.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-md5_file.obj -MD -MP -MF "$(DEPDIR)/boinc_client-md5_file.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-md5_file.obj `if test -f '../lib/md5_file.C'; then $(CYGPATH_W) '../lib/md5_file.C'; else $(CYGPATH_W) '$(srcdir)/../lib/md5_file.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-md5_file.Tpo" "$(DEPDIR)/boinc_client-md5_file.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-md5_file.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/md5_file.C' object='boinc_client-md5_file.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-md5_file.Po' tmpdepfile='$(DEPDIR)/boinc_client-md5_file.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-md5_file.obj `if test -f '../lib/md5_file.C'; then $(CYGPATH_W) '../lib/md5_file.C'; else $(CYGPATH_W) '$(srcdir)/../lib/md5_file.C'`
+
+boinc_client-messages.o: ../lib/messages.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-messages.o -MD -MP -MF "$(DEPDIR)/boinc_client-messages.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-messages.o `test -f '../lib/messages.C' || echo '$(srcdir)/'`../lib/messages.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-messages.Tpo" "$(DEPDIR)/boinc_client-messages.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-messages.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/messages.C' object='boinc_client-messages.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-messages.Po' tmpdepfile='$(DEPDIR)/boinc_client-messages.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-messages.o `test -f '../lib/messages.C' || echo '$(srcdir)/'`../lib/messages.C
+
+boinc_client-messages.obj: ../lib/messages.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-messages.obj -MD -MP -MF "$(DEPDIR)/boinc_client-messages.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-messages.obj `if test -f '../lib/messages.C'; then $(CYGPATH_W) '../lib/messages.C'; else $(CYGPATH_W) '$(srcdir)/../lib/messages.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-messages.Tpo" "$(DEPDIR)/boinc_client-messages.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-messages.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/messages.C' object='boinc_client-messages.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-messages.Po' tmpdepfile='$(DEPDIR)/boinc_client-messages.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-messages.obj `if test -f '../lib/messages.C'; then $(CYGPATH_W) '../lib/messages.C'; else $(CYGPATH_W) '$(srcdir)/../lib/messages.C'`
 
 boinc_client-parse.o: ../lib/parse.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-parse.o -MD -MP -MF "$(DEPDIR)/boinc_client-parse.Tpo" \
@@ -1272,49 +1343,27 @@ boinc_client-shmem.obj: ../lib/shmem.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-shmem.obj `if test -f '../lib/shmem.C'; then $(CYGPATH_W) '../lib/shmem.C'; else $(CYGPATH_W) '$(srcdir)/../lib/shmem.C'`
 
-boinc_client-md5_file.o: ../lib/md5_file.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-md5_file.o -MD -MP -MF "$(DEPDIR)/boinc_client-md5_file.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-md5_file.o `test -f '../lib/md5_file.C' || echo '$(srcdir)/'`../lib/md5_file.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-md5_file.Tpo" "$(DEPDIR)/boinc_client-md5_file.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-md5_file.Tpo"; exit 1; \
+boinc_client-sighandle.o: ../lib/sighandle.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-sighandle.o -MD -MP -MF "$(DEPDIR)/boinc_client-sighandle.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-sighandle.o `test -f '../lib/sighandle.C' || echo '$(srcdir)/'`../lib/sighandle.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-sighandle.Tpo" "$(DEPDIR)/boinc_client-sighandle.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-sighandle.Tpo"; exit 1; \
 @am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/md5_file.C' object='boinc_client-md5_file.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-md5_file.Po' tmpdepfile='$(DEPDIR)/boinc_client-md5_file.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/sighandle.C' object='boinc_client-sighandle.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-sighandle.Po' tmpdepfile='$(DEPDIR)/boinc_client-sighandle.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-md5_file.o `test -f '../lib/md5_file.C' || echo '$(srcdir)/'`../lib/md5_file.C
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-sighandle.o `test -f '../lib/sighandle.C' || echo '$(srcdir)/'`../lib/sighandle.C
 
-boinc_client-md5_file.obj: ../lib/md5_file.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-md5_file.obj -MD -MP -MF "$(DEPDIR)/boinc_client-md5_file.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-md5_file.obj `if test -f '../lib/md5_file.C'; then $(CYGPATH_W) '../lib/md5_file.C'; else $(CYGPATH_W) '$(srcdir)/../lib/md5_file.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-md5_file.Tpo" "$(DEPDIR)/boinc_client-md5_file.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-md5_file.Tpo"; exit 1; \
+boinc_client-sighandle.obj: ../lib/sighandle.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-sighandle.obj -MD -MP -MF "$(DEPDIR)/boinc_client-sighandle.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-sighandle.obj `if test -f '../lib/sighandle.C'; then $(CYGPATH_W) '../lib/sighandle.C'; else $(CYGPATH_W) '$(srcdir)/../lib/sighandle.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-sighandle.Tpo" "$(DEPDIR)/boinc_client-sighandle.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-sighandle.Tpo"; exit 1; \
 @am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/md5_file.C' object='boinc_client-md5_file.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-md5_file.Po' tmpdepfile='$(DEPDIR)/boinc_client-md5_file.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/sighandle.C' object='boinc_client-sighandle.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-sighandle.Po' tmpdepfile='$(DEPDIR)/boinc_client-sighandle.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-md5_file.obj `if test -f '../lib/md5_file.C'; then $(CYGPATH_W) '../lib/md5_file.C'; else $(CYGPATH_W) '$(srcdir)/../lib/md5_file.C'`
-
-boinc_client-crypt.o: ../lib/crypt.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-crypt.o -MD -MP -MF "$(DEPDIR)/boinc_client-crypt.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-crypt.o `test -f '../lib/crypt.C' || echo '$(srcdir)/'`../lib/crypt.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-crypt.Tpo" "$(DEPDIR)/boinc_client-crypt.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-crypt.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/crypt.C' object='boinc_client-crypt.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-crypt.Po' tmpdepfile='$(DEPDIR)/boinc_client-crypt.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-crypt.o `test -f '../lib/crypt.C' || echo '$(srcdir)/'`../lib/crypt.C
-
-boinc_client-crypt.obj: ../lib/crypt.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-crypt.obj -MD -MP -MF "$(DEPDIR)/boinc_client-crypt.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-crypt.obj `if test -f '../lib/crypt.C'; then $(CYGPATH_W) '../lib/crypt.C'; else $(CYGPATH_W) '$(srcdir)/../lib/crypt.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-crypt.Tpo" "$(DEPDIR)/boinc_client-crypt.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-crypt.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/crypt.C' object='boinc_client-crypt.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-crypt.Po' tmpdepfile='$(DEPDIR)/boinc_client-crypt.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-crypt.obj `if test -f '../lib/crypt.C'; then $(CYGPATH_W) '../lib/crypt.C'; else $(CYGPATH_W) '$(srcdir)/../lib/crypt.C'`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-sighandle.obj `if test -f '../lib/sighandle.C'; then $(CYGPATH_W) '../lib/sighandle.C'; else $(CYGPATH_W) '$(srcdir)/../lib/sighandle.C'`
 
 boinc_client-util.o: ../lib/util.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-util.o -MD -MP -MF "$(DEPDIR)/boinc_client-util.Tpo" \
@@ -1337,28 +1386,6 @@ boinc_client-util.obj: ../lib/util.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-util.Po' tmpdepfile='$(DEPDIR)/boinc_client-util.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-util.obj `if test -f '../lib/util.C'; then $(CYGPATH_W) '../lib/util.C'; else $(CYGPATH_W) '$(srcdir)/../lib/util.C'`
-
-boinc_client-messages.o: ../lib/messages.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-messages.o -MD -MP -MF "$(DEPDIR)/boinc_client-messages.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-messages.o `test -f '../lib/messages.C' || echo '$(srcdir)/'`../lib/messages.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-messages.Tpo" "$(DEPDIR)/boinc_client-messages.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-messages.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/messages.C' object='boinc_client-messages.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-messages.Po' tmpdepfile='$(DEPDIR)/boinc_client-messages.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-messages.o `test -f '../lib/messages.C' || echo '$(srcdir)/'`../lib/messages.C
-
-boinc_client-messages.obj: ../lib/messages.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-messages.obj -MD -MP -MF "$(DEPDIR)/boinc_client-messages.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-messages.obj `if test -f '../lib/messages.C'; then $(CYGPATH_W) '../lib/messages.C'; else $(CYGPATH_W) '$(srcdir)/../lib/messages.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-messages.Tpo" "$(DEPDIR)/boinc_client-messages.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-messages.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/messages.C' object='boinc_client-messages.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-messages.Po' tmpdepfile='$(DEPDIR)/boinc_client-messages.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-messages.obj `if test -f '../lib/messages.C'; then $(CYGPATH_W) '../lib/messages.C'; else $(CYGPATH_W) '$(srcdir)/../lib/messages.C'`
 
 .c.o:
 @am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" \

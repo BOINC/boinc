@@ -1,4 +1,4 @@
-<? // -*- html -*-
+<?
 require_once("docutil.php");
 page_head("Software prerequisites");
 ?>

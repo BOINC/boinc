@@ -10,7 +10,6 @@ See the <a href=software.php>Software Prerequisites</a>.
   href=http://www.gnu.org/software/autoconf/>autoconf</a> 2.57 and <a
  href=http://www.gnu.org/software/automake/automake.html>automake</a>
 1.7.
-</p>
 
 <h2>Maintainer-mode</h2>
 
@@ -47,18 +46,15 @@ echo "
   The top-level <code>Makefile.am</code> contains the
   <code>SUBDIRS=</code> line which sets up directory recursion, and
   the rules for creating source distributions.
-</p>
 <p>
   Each subdirectory's <code>Makefile.am</code> contains the rules for
   making the binaries and libraries in that directory and any extra
   files to distribute.
-</p>
 <p>
   Usually you will want to run <code>make</code> from the toplevel
   (the directory containing the file <code>configure</code>), but
   sometimes it is useful to run <code>make</code> and <code>make
     check</code> in certain subdirectories (e.g. <code>client/</code>).
-</p>
 
 <h2>Expansion</h2>
 If you create a new directory with another <code>Makefile.am</code>,
@@ -94,7 +90,6 @@ To compile, use the usual
     shaggy$ ../../configure
     shaggy$ gmake
   </pre>
-</p>
 
 <h2>Testing</h2>
 
@@ -106,7 +101,6 @@ To test the code:
 This runs the python tests in the <code>test/</code> directory.  Old PHP-based
 tests in <code>test/</code>are also available to be run individually but not
 currently maintained.
-</p>
 
 <h2>Version number</h2>
 To set the BOINC client version number:

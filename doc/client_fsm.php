@@ -5,7 +5,7 @@ echo "
 <p>
 The core client can perform many activities (file transfers,
 computations, RPCs to scheduling servers) in parallel.
-To manage this parallelism, the core client is structures as a number of
+To manage this parallelism, the core client is structured as a number of
 <b>finite-state machines</b> (FSM).
 For example, an HTTP transaction is
 represented by an FSM whose states might include: 

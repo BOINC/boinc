@@ -19,11 +19,11 @@ They can then do repeated RPCs over this connection.
 The current RPCs are available:
 ";
 list_start();
+list_heading("Request message format", "Function");
 list_item(
 	html_text("<get_state/>"),
 	"Get the state of the core client.
-	The reply message
-	This has the same format as the client_state.xml file."
+	The reply message has the same format as the client_state.xml file."
 );
 list_item(
 	html_text(

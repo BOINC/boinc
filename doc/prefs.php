@@ -10,7 +10,9 @@ Preferences are divided into two groups:
 <b>General preferences</b> apply to all BOINC projects in which you participate.
 They include:
 ";
+
 list_start();
+
 list_item("When to work",
 "You can specify whether work (computation and network transfer) should be done
 1) while the host is being used (i.e. during keyboard and mouse input);
@@ -37,17 +39,18 @@ If the host is frequently disconnected from the Internet, the min
 should be at least as long as the typical period of disconnection.
 The larger the difference between min and max, the less often
 the BOINC client will connect to the Internet.
-?>
 ");
+
 list_item("Disk usage limits",
 "You can limit the disk space used by BOINC in any of three ways:
 1) Maximum disk space used by BOINC;
-2) Maximum percentage of free space used by BOINC.
+2) Maximum percentage of total space that can be used by BOINC.
 3) Minimum disk space to keep free.
 ");
+
 list_end();
+
 echo "
-</ul>
 You can view and edit your general preferences through a web interface,
 at the site of any project in which you participate.
 Changes are automatically propagated to all your hosts;
@@ -72,7 +75,7 @@ a web interface at the project's web site.
 
 <h3>Location-specific preferences</h3>
 If you have computers both at home and at work
-you may want to use differences preferences for them.
+you may want to use different preferences for them.
 In addition to your 'primary preferences'
 (which are used by default)
 BOINC allows you to create separate preferences for

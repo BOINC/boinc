@@ -59,10 +59,6 @@ using namespace std;
 #include "boinc_api.h"
 #include "sighandle.h"
 
-
-//
-// Declare global variables
-//
 static APP_INIT_DATA		aid;
 APP_CLIENT_SHM		*app_client_shm;
 
@@ -79,19 +75,14 @@ static	bool				standalone = false;
 static	double				initial_wu_cpu_time;
 static	bool				have_new_trickle = false;
 
-
-
 #ifdef _WIN32
-
-// Declare global variables - Windows Platform Only
-		HANDLE				hErrorNotification;
-		HANDLE				hQuitRequest;
-		HANDLE				hSuspendRequest;
-		HANDLE				hResumeRequest;
-		HANDLE				hSharedMem;
-		HANDLE				worker_thread_handle;
-		MMRESULT			timer_id;
-
+HANDLE				hErrorNotification;
+HANDLE				hQuitRequest;
+HANDLE				hSuspendRequest;
+HANDLE				hResumeRequest;
+HANDLE				hSharedMem;
+HANDLE				worker_thread_handle;
+MMRESULT			timer_id;
 #endif
 
 
@@ -518,6 +509,7 @@ int boinc_finish(int status) {
 #ifdef _WIN32
     // Stop the timer
     timeKillEvent(timer_id);
+    CloseHandle(worker_thread_handle);
 #endif
     cleanup_shared_mem();
     exit(status);

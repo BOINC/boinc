@@ -210,7 +210,6 @@ How do we delete output files that arrive REALLY late?
 Possible answer:
 let X = create time of oldest unassimilated WU.
 Any output files created before X can be deleted.
-</ul>
 ";
 page_tail();
 ?>

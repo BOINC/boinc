@@ -21,11 +21,11 @@ Information about BOINC is available in the following languages:
 <li> Italian
     <br><a href=http://boinc.homeunix.org/><font size=-2>boinc.homeunix.org</font></a>
 <li> Japanese
-    <br><a href=http://members.fortunecity.com/je2bwm/indexj.html#next2ads><font size=-2>fortunecity.com</a> (by Komori Hitoshi) </font>
+    <br><a href=http://members.fortunecity.com/je2bwm/indexj.html#next2ads><font size=-2>fortunecity.com</font></a> (by Komori Hitoshi)
 <li> Russian
     <br><a href=http://www.boinc.narod.ru><font size=-2>www.boinc.narod.ru</font></a>
 <li> Turkish
-    <br><a href=http://www.turksetiteam.org/boinc/index.html><font size=-2>www.turksetiteam.org</a>
+    <br><a href=http://www.turksetiteam.org/boinc/index.html><font size=-2>www.turksetiteam.org</font></a>
 </ul>
 If you'd like to add a web site to this list, please
 <a href=mailto:davea@ssl.berkeley.edu>contact us</a>.

@@ -26,7 +26,7 @@ This also provides a means for assignment of
 differing work based on host abilities.
 <li> <b>Timezone</b>: 
 <li> <b>Last IP address</b> and count of consecutive same addresses.
-<li> <b>Number of RPCs and time of last RPC</b>.
+<li> <b>Number of RPCs, and time of last RPC</b>.
 <li> <b>Fractions of time</b> that core client runs on host, host is
 connected, and user is active.
 These are computed as exponentially-weighted averages; see the class TIME_STATS.

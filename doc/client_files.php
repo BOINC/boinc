@@ -58,7 +58,7 @@ echo htmlspecialchars("
 ");
 echo "
 </pre>
-The &lt;project_preferences> field is
+The &lt;project_preferences&gt; field is
 the 'project_prefs' field of the user database record.
 
 <h3>Format of prefs.xml</h3>

@@ -41,15 +41,16 @@ boinc_client_SOURCES =			\
     ss_logic.C					\
     time_stats.C				\
     ../lib/app_ipc.C			\
+    ../lib/crypt.C				\
     ../lib/filesys.C			\
     ../lib/language.C			\
-    ../lib/parse.C				\
-    ../lib/shmem.C				\
     ../lib/md5_file.C			\
     ../lib/md5.c				\
-    ../lib/crypt.C				\
-    ../lib/util.C				\
-    ../lib/messages.C
+    ../lib/messages.C           \
+    ../lib/parse.C				\
+    ../lib/shmem.C				\
+    ../lib/sighandle.C			\
+    ../lib/util.C
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS)

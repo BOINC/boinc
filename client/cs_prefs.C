@@ -94,7 +94,7 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
 
     // Don't work while we're running CPU benchmarks
     //
-    if (check_cpu_benchmarks() == CPU_BENCHMARKS_RUNNING) {
+    if (are_cpu_benchmarks_running()) {
         reason |= SUSPEND_REASON_BENCHMARKS;
     }
 

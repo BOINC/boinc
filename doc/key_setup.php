@@ -22,18 +22,18 @@ gen_keys.php
 The program <b>lib/crypt_prog</b> can be used for several purposes: 
 <br>
 <dl>
-<dt>crypt_prog -genkey n private_keyfile public_keyfile</b> 
+<dt>crypt_prog -genkey n private_keyfile public_keyfile
 <dd>
 Create a key pair with n bits (always use 1024).
 Write the keys in encoded ASCII form to the indicated files. 
-<dt>crypt_prog -sign file private_keyfile</b> 
+<dt>crypt_prog -sign file private_keyfile
 <dd>
 Create a digital signature for the given file. Write it in encoded
 ASCII to stdout. 
-<dt>crypt_prog -verify file signature_file public_keyfile</b> 
+<dt>crypt_prog -verify file signature_file public_keyfile
 <dd>
 Verify a signature for the given file. 
-<dt>crypt_prog -test_crypt private_keyfile public_keyfile</b> 
+<dt>crypt_prog -test_crypt private_keyfile public_keyfile
 <dd>
 Perform an internal test, checking that encryption followed by
 decryption works. 

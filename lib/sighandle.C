@@ -33,39 +33,40 @@
 #include "sighandle.h"
 
 #ifdef HAVE_SIGNAL_H
-// Set a signal handler but only if it is not currently ignored
-void boinc_set_signal_handler(int sig, RETSIGTYPE (*handler)(int))
-{
+
+// Set a signal handler only if it is not currently ignored
+//
+void boinc_set_signal_handler(int sig, RETSIGTYPE (*handler)(int)) {
 #ifdef HAVE_SIGACTION
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
     if (temp.sa_handler != SIG_IGN) {
-	 temp.sa_handler = handler;
-	 sigemptyset(&temp.sa_mask);
-	 sigaction(sig, &temp, NULL);
+        temp.sa_handler = handler;
+        sigemptyset(&temp.sa_mask);
+        sigaction(sig, &temp, NULL);
     }
 #else
     void (*temp)(int);
     temp = signal(sig, boinc_catch_signal);
     if (temp == SIG_IGN) {
-	 signal(sig, SIG_IGN);
+        signal(sig, SIG_IGN);
     }
 #endif /* HAVE_SIGACTION */
 }
 
-// Set a signal handler but even if it is currently ignored
-void boinc_set_signal_handler_force(int sig, RETSIGTYPE (*handler)(int))
-{
+// Set a signal handler even if it is currently ignored
+//
+void boinc_set_signal_handler_force(int sig, RETSIGTYPE (*handler)(int)) {
 #ifdef HAVE_SIGACTION
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
-	 temp.sa_handler = handler;
-	 sigemptyset(&temp.sa_mask);
-	 sigaction(sig, &temp, NULL);
+    temp.sa_handler = handler;
+    sigemptyset(&temp.sa_mask);
+    sigaction(sig, &temp, NULL);
 #else
     void (*temp)(int);
     temp = signal(sig, boinc_catch_signal);
-	 signal(sig, SIG_IGN);
+    signal(sig, SIG_IGN);
 #endif /* HAVE_SIGACTION */
 }
 

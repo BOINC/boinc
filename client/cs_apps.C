@@ -70,15 +70,8 @@ int CLIENT_STATE::cleanup_and_exit() {
         // don't return here - we'll exit anyway
     }
 
-    // Stop the CPU benchmark if it's running
-    if (cpu_benchmarks_id) {
-#ifdef _WIN32
-        TerminateThread(cpu_benchmarks_handle, 0);
-        CloseHandle(cpu_benchmarks_handle);
-#else
-        kill(cpu_benchmarks_id, SIGKILL);
-#endif
-    }
+    abort_cpu_benchmarks();
+
     msg_printf(NULL, MSG_INFO, "Exiting BOINC client");
     return 0;
 }

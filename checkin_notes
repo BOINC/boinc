@@ -10602,3 +10602,44 @@ David  Mar 19 2004
 kevin	March 19 2004
 	check for result of	status request parse.  Should avoid problem of
 	partial communication from client to server.
+
+David  Mar 20 2004
+    - Various changes to the way CPU benchmarking is done,
+        motivated by the need to make claimed credit constant across CPUs,
+        including "hyperthreaded" X86 CPUs
+        Old:
+            A single process runs the benchmark.
+            This gets 100% of the FPU on a HT CPU.
+            When 2 copies of an app are run,
+            they will each get 50% of the FPU,
+            so the claimed credit will be too high by a factor of 2.
+        New:
+            Run N copies of the benchmark in parallel,
+            where N is the number of CPUs reported by the OS
+            (e.g. twice the number of HT CPUs)
+            Average the results.
+        Revised interface:
+            start_cpu_benchmarks() starts up the N benchmark processes
+            cpu_benchmarks_poll() checks for completion
+            are_cpu_benchmarks_running() returns true iff running (doesn't poll)
+            abort_cpu_benchmarks() aborts processes
+        The set of running processes is maintained in an
+            array of BENCHMARK_DESC structures
+        Results are passed back in files in the Unix case,
+            where we use separate processes.
+            In the Windows case (where we use threads)
+            results are passed back in the BENCHMARK_DESC structure.
+        
+    api/boinc_api.C
+    client/
+        Makefile.am
+        client_state.C,h
+        cs_apps.C
+        cs_benchmark.C
+        cs_prefs.C
+        file_names.h
+        gui_rpc_server.C
+    doc/
+        various
+    lib/
+        sighandle.C

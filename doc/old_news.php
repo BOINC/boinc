@@ -3,6 +3,32 @@ require_once("docutil.php");
 page_head("Archived news");
 echo "
 <br><br>
+<b>November 26, 2003</b>
+<br>
+The CVS repository of BOINC code (including web pages) is now visible through
+<a href=http://boinc.berkeley.edu/cgi-bin/cvsweb.cgi/>a web-based interface</a>.
+This may be useful for people maintaining web-site translations.
+<br><br>
+<b>November 26, 2003</b>
+<br>
+A <a href=http://boinc.berkeley.edu/talks/madrid_03/madrid.html>paper
+about the goals of BOINC</a> was presented at a recent conference.
+<br><br>
+<b>November 25, 2003</b>
+<br>
+The beta test project is accepting new users.
+CPU time measurement accuracy improved.
+Scheduler respects disk usage limits.
+Web site can issue cookies.
+<br><br>
+<b>November 5, 2003</b>
+<br>
+The graphics of running application are updated whenever
+preferences are changed.
+The scheduler now issues only as many results as will fit in
+the allotted amount of disk space.
+
+<br><br>
 <b>October 30, 2003</b>
 <br>
 New minor versions of the core client and beta-test apps have been released.

@@ -57,7 +57,6 @@ This mechanism lets a project move or add scheduling servers.
 creates a master page in project/html/user/index.php.
 This file includes the file 'schedulers.txt',
 which contains the list of ", htmlspecialchars("<scheduler>"), "elements.
-</ul>
 ";
 page_tail();
 ?>

@@ -93,10 +93,6 @@ CLIENT_STATE::CLIENT_STATE() {
     user_run_request = USER_RUN_REQUEST_AUTO;
     started_by_screensaver = false;
     requested_exit = false;
-#ifdef _WIN32
-    cpu_benchmarks_handle = NULL;
-#endif
-    cpu_benchmarks_id = 0;
     master_fetch_period = MASTER_FETCH_PERIOD;
     retry_base_period = RETRY_BASE_PERIOD;
     retry_cap = RETRY_CAP;
@@ -264,7 +260,7 @@ int CLIENT_STATE::init() {
     // running CPU benchmarks is slow, so do it infrequently
     //
     if (should_run_cpu_benchmarks()) {
-		fork_run_cpu_benchmarks();
+		start_cpu_benchmarks();
     }
 
     set_nslots();
@@ -338,7 +334,10 @@ bool CLIENT_STATE::do_something() {
 
     // if we're doing CPU benchmarks, don't do anything else
     //
-    if (reason & SUSPEND_REASON_BENCHMARKS) return false;
+    if (reason & SUSPEND_REASON_BENCHMARKS) {
+        cpu_benchmarks_poll();
+        return false;
+    }
 
     scope_messages.printf("CLIENT_STATE::do_something(): Begin poll:\n");
     ++scope_messages;

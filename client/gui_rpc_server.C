@@ -145,7 +145,7 @@ static void handle_set_run_mode(char* buf, FILE* fout) {
 static void handle_run_benchmarks(char* buf, FILE* fout) {
     // TODO: suspend activities; make sure run at right priority
     //
-    gstate.fork_run_cpu_benchmarks();
+    gstate.start_cpu_benchmarks();
     fprintf(fout, "<success/>\n");
 }
 

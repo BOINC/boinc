@@ -52,9 +52,6 @@
 #include "cpu_benchmark.h"
 #include "client_state.h"
 
-extern void guiOnBenchmarksBegin();
-extern void guiOnBenchmarksEnd();
-
 // defaults in case benchmarks fail or time out.
 // better to err on the low side so hosts don't get too much work
 
@@ -66,46 +63,34 @@ extern void guiOnBenchmarksEnd();
 #define BENCHMARK_PERIOD        (SECONDS_PER_DAY*30)
     // rerun CPU benchmarks this often (hardware may have been upgraded)
 
-void CLIENT_STATE::fork_run_cpu_benchmarks() {
-	cpu_benchmarks_start = time(0);
-	msg_printf(NULL, MSG_INFO, "Running CPU benchmarks");
-#ifdef _WIN32
-    cpu_benchmarks_handle = CreateThread(
-        NULL, 0, win_cpu_benchmarks, NULL, 0, &cpu_benchmarks_id
-    );
-#else
-    cpu_benchmarks_id = fork();
-    if (cpu_benchmarks_id == 0) {
-        _exit(cpu_benchmarks());
-    }
-#endif
-}
+extern void guiOnBenchmarksBegin();
+extern void guiOnBenchmarksEnd();
 
-// Returns true if CPU benchmarks should be run:
-// flag is set or it's been a month since we last ran
+// represents a benchmark thread/process, in progress or completed
 //
-bool CLIENT_STATE::should_run_cpu_benchmarks() {
-    // Note: we if skip_cpu_benchmarks we still should "run" cpu benchmarks
-    // (we'll just use default values in cpu_benchmarks())
-    return (
-        run_cpu_benchmarks ||
-        (difftime(time(0), (time_t)host_info.p_calculated) > BENCHMARK_PERIOD)
-    );
-}
-
-#ifdef _WIN32
-DWORD WINAPI CLIENT_STATE::win_cpu_benchmarks(LPVOID) {
-    return gstate.cpu_benchmarks();
-}
-#endif
-
-// gets info about the host
-// NOTE: this locks up the process for 10-20 seconds,
-// so it should be called very seldom
-//
-int CLIENT_STATE::cpu_benchmarks() {
+struct BENCHMARK_DESC {
+    int ordinal;
     HOST_INFO host_info;
-    FILE* finfo;
+    bool done;
+    bool error;
+#ifdef _WIN32
+    HANDLE handle;
+    DWORD pid;
+#else
+    char filename[256];
+    PROCESS_ID pid;
+#endif
+};
+
+static BENCHMARK_DESC* benchmark_descs;
+static bool benchmarks_running=false;    // at least 1 benchmark thread running
+static double cpu_benchmarks_start;
+
+// benchmark a CPU
+// This takes 10-20 seconds,
+//
+int cpu_benchmarks(BENCHMARK_DESC* bdp) {
+    HOST_INFO host_info;
     double fpop_test_secs = 3.3;
     double iop_test_secs = 3.3;
     double mem_test_secs = 3.3;
@@ -117,118 +102,227 @@ int CLIENT_STATE::cpu_benchmarks() {
 
     clear_host_info(host_info);
     ++log_messages;
+    scope_messages.printf(
+        "CLIENT_STATE::cpu_benchmarks(): Running floating point test for about %.1f seconds.\n",
+        fpop_test_secs
+    );
+    host_info.p_fpop_err = run_double_prec_test(fpop_test_secs, host_info.p_fpops);
+
+    scope_messages.printf(
+        "CLIENT_STATE::cpu_benchmarks(): Running integer test for about %.1f seconds.\n",
+        iop_test_secs
+    );
+    host_info.p_iop_err = run_int_test(iop_test_secs, host_info.p_iops);
+
+    scope_messages.printf(
+        "CLIENT_STATE::cpu_benchmarks(): Running memory bandwidth test for about %.1f seconds.\n",
+        mem_test_secs
+    );
+    host_info.p_membw_err = run_mem_bandwidth_test(mem_test_secs, host_info.p_membw);
+
+    // need to check cache!!
+    host_info.m_cache = 1e6;
+
+    msg_printf(
+        NULL, MSG_INFO, "Benchmark results: %.0f million floating point ops/sec%s",
+       host_info.p_fpops/1e6, (host_info.p_fpop_err?" [ERROR]":"")
+    );
+    msg_printf(
+        NULL, MSG_INFO, "Benchmark results: %.0f million integer ops/sec%s",
+       host_info.p_iops/1e6,  (host_info.p_iop_err?" [ERROR]":"")
+    );
+    msg_printf(
+        NULL, MSG_INFO, "Benchmark results: %.0f million bytes/sec memory bandwidth%s",
+       host_info.p_membw/1e6, (host_info.p_membw_err?" [ERROR]":"")
+    );
+
+    host_info.p_calculated = (double)time(0);
+#ifdef _WIN32
+    bdp->host_info = host_info;
+#else
+    FILE* finfo;
+    finfo = boinc_fopen(bdp->filename, "w");
+    if (!finfo) return ERR_FOPEN;
+    host_info.write_cpu_benchmarks(finfo);
+    fclose(finfo);
+#endif
+	guiOnBenchmarksEnd();
+    --log_messages;
+    return 0;
+}
+
+#ifdef _WIN32
+DWORD WINAPI CLIENT_STATE::win_cpu_benchmarks(LPVOID p) {
+    return cpu_benchmarks((BENCHMARK_DESC*)p);
+}
+#endif
+
+void CLIENT_STATE::start_cpu_benchmarks() {
+    int i;
+
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_MEASUREMENT);
     if (skip_cpu_benchmarks) {
         scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Skipping CPU benchmarks.\n");
         host_info.p_fpops = DEFAULT_FPOPS;
         host_info.p_iops = DEFAULT_IOPS;
         host_info.p_membw = DEFAULT_MEMBW;
         host_info.m_cache = DEFAULT_CACHE;
-    } else {
-        scope_messages.printf(
-            "CLIENT_STATE::cpu_benchmarks(): Running floating point test for about %.1f seconds.\n",
-            fpop_test_secs
-        );
-        host_info.p_fpop_err = run_double_prec_test(fpop_test_secs, host_info.p_fpops);
-
-        scope_messages.printf(
-            "CLIENT_STATE::cpu_benchmarks(): Running integer test for about %.1f seconds.\n",
-            iop_test_secs
-        );
-        host_info.p_iop_err = run_int_test(iop_test_secs, host_info.p_iops);
-
-        scope_messages.printf(
-            "CLIENT_STATE::cpu_benchmarks(): Running memory bandwidth test for about %.1f seconds.\n",
-            mem_test_secs
-        );
-        host_info.p_membw_err = run_mem_bandwidth_test(mem_test_secs, host_info.p_membw);
-
-        // need to check cache!!
-        host_info.m_cache = 1e6;
-
-        msg_printf(
-            NULL, MSG_INFO, "Benchmark results: %.0f million floating point ops/sec%s",
-           host_info.p_fpops/1e6, (host_info.p_fpop_err?" [ERROR]":"")
-        );
-        msg_printf(
-            NULL, MSG_INFO, "Benchmark results: %.0f million integer ops/sec%s",
-           host_info.p_iops/1e6,  (host_info.p_iop_err?" [ERROR]":"")
-        );
-        msg_printf(
-            NULL, MSG_INFO, "Benchmark results: %.0f million bytes/sec memory bandwidth%s",
-           host_info.p_membw/1e6, (host_info.p_membw_err?" [ERROR]":"")
-        );
+        return;
     }
 
-    host_info.p_calculated = (double)time(0);
-    finfo = boinc_fopen(CPU_BENCHMARKS_FILE_NAME, "w");
-    if(!finfo) return ERR_FOPEN;
-    host_info.write_cpu_benchmarks(finfo);
-    fclose(finfo);
-	guiOnBenchmarksEnd();
-    --log_messages;
-    return 0;
+	cpu_benchmarks_start = dtime();
+	msg_printf(NULL, MSG_INFO, "Running CPU benchmarks");
+    benchmark_descs = (BENCHMARK_DESC*)calloc(
+        host_info.p_ncpus, sizeof(BENCHMARK_DESC)
+    );
+    benchmarks_running = true;
+
+    for (i=0; i<host_info.p_ncpus; i++) {
+        benchmark_descs[i].ordinal = i;
+        benchmark_descs[i].done = false;
+        benchmark_descs[i].error = false;
+#ifdef _WIN32
+        benchmark_descs[i].handle = CreateThread(
+            NULL, 0, win_cpu_benchmarks, benchmark_descs+i, 0,
+            &benchmark_descs[i].pid
+        );
+#else
+        sprintf(benchmark_descs[i].filename, "%s_%d.xml", CPU_BENCHMARKS_FILE_NAME, i);
+        PROCESS_ID pid = fork();
+        if (pid == 0) {
+            _exit(cpu_benchmarks(benchmark_descs+i));
+        } else {
+            benchmark_descs[i].pid = pid;
+        }
+    }
+#endif
 }
 
-// checks if the CPU benchmarks are running
+// Returns true if CPU benchmarks should be run:
+// flag is set or it's been a month since we last ran
 //
-int CLIENT_STATE::check_cpu_benchmarks() {
-    FILE* finfo;
-    int retval;
+bool CLIENT_STATE::should_run_cpu_benchmarks() {
+    // Note: if skip_cpu_benchmarks we still should "run" cpu benchmarks
+    // (we'll just use default values in cpu_benchmarks())
+    return (
+        run_cpu_benchmarks ||
+        (difftime(time(0), (time_t)host_info.p_calculated) > BENCHMARK_PERIOD)
+    );
+}
 
-    if (cpu_benchmarks_id) {
+// abort a running benchmark thread/process
+//
+void abort_benchmark(BENCHMARK_DESC& desc) {
+    if (desc.done) return;
 #ifdef _WIN32
-        DWORD exit_code = 0;
-        GetExitCodeThread(cpu_benchmarks_handle, &exit_code);
-        if(exit_code == STILL_ACTIVE) {
-            if(time(0) > (time_t)(cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS)) {
-                msg_printf(NULL, MSG_ERROR, "CPU benchmarks timed out, using default values");
-                TerminateThread(cpu_benchmarks_handle, 0);
-                CloseHandle(cpu_benchmarks_handle);
-                host_info.p_fpops = DEFAULT_FPOPS;
-                host_info.p_iops = DEFAULT_IOPS;
-                host_info.p_membw = DEFAULT_MEMBW;
-                host_info.m_cache = DEFAULT_CACHE;
-                cpu_benchmarks_id = 0;
-                return CPU_BENCHMARKS_ERROR;
-            }
-            return CPU_BENCHMARKS_RUNNING;
-        }
-        CloseHandle(cpu_benchmarks_handle);
-		guiOnBenchmarksEnd();
+    TerminateThread(desc.handle, 0);
+    CloseHandle(desc.handle);
 #else
-        int exit_code = 0;
-        retval = waitpid(cpu_benchmarks_id, &exit_code, WNOHANG);
-        if(retval == 0) {
-            if((unsigned int)time(NULL) > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
-                msg_printf(NULL, MSG_ERROR, "CPU benchmarks timed out, using default values");
-                kill(cpu_benchmarks_id, SIGKILL);
-                host_info.p_fpops = DEFAULT_FPOPS;
-                host_info.p_iops = DEFAULT_IOPS;
-                host_info.p_membw = DEFAULT_MEMBW;
-                host_info.m_cache = DEFAULT_CACHE;
-                cpu_benchmarks_id = 0;
-                return CPU_BENCHMARKS_ERROR;
-            }
-            return CPU_BENCHMARKS_RUNNING;
-        }
+    kill(desc.pid, SIGKILL);
 #endif
-        cpu_benchmarks_id = 0;
-        msg_printf(NULL, MSG_INFO, "CPU benchmarks complete");
-        finfo = fopen(CPU_BENCHMARKS_FILE_NAME, "r");
-        if (!finfo) {
-            msg_printf(NULL, MSG_ERROR, "Can't open CPU benchmark file, using default values");
+}
+
+// check a running benchmark thread/process.
+//
+void check_benchmark(BENCHMARK_DESC& desc) {
+#ifdef _WIN32
+    DWORD exit_code = 0;
+    GetExitCodeThread(desc.handle, &exit_code);
+    if (exit_code != STILL_ACTIVE) {
+        CloseHandle(desc.handle);
+        desc.done = true;
+    }
+#else
+    int retval;
+    int exit_code = 0;
+    retval = waitpid(desc.pid, &exit_code, WNOHANG);
+    if (retval) {
+        desc.done = true;
+        FILE* f = fopen(desc.filename, "r");
+        if (!f) {
+            desc.error = true;
+            return;
+        }
+        retval = desc.host_info.parse_cpu_benchmarks(f);
+        fclose(f);
+        boinc_delete_file(desc.filename);
+        if (retval) {
+            desc.error = true;
+        }
+    }
+#endif
+}
+
+void CLIENT_STATE::abort_cpu_benchmarks() {
+    int i;
+    if (!benchmarks_running) return;
+    for (i=0; i<host_info.p_ncpus; i++) {
+        abort_benchmark(benchmark_descs[i]);
+    }
+}
+
+// benchmark poll routine.  Called every second
+//
+bool CLIENT_STATE::cpu_benchmarks_poll() {
+    int i;
+    if (!benchmarks_running) return false;
+
+    // check for timeout
+    //
+    if (dtime() > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
+        msg_printf(NULL, MSG_ERROR, "CPU benchmarks timed out, using default values");
+        abort_cpu_benchmarks();
+        host_info.p_fpops = DEFAULT_FPOPS;
+        host_info.p_iops = DEFAULT_IOPS;
+        host_info.p_membw = DEFAULT_MEMBW;
+        host_info.m_cache = DEFAULT_CACHE;
+        guiOnBenchmarksEnd();
+        benchmarks_running = false;
+        set_client_state_dirty("CPU benchmarks");
+    }
+    int ndone = 0;
+    bool had_error = false;
+    for (i=0; i<host_info.p_ncpus; i++) {
+        if (!benchmark_descs[i].done) {
+            check_benchmark(benchmark_descs[i]);
+        }
+        if (benchmark_descs[i].done) {
+            ndone ++;
+            if (benchmark_descs[i].error) had_error = true;
+        }
+    }
+    if (ndone == host_info.p_ncpus) {
+        if (had_error) {
+            msg_printf(NULL, MSG_ERROR, "CPU benchmarks error");
             host_info.p_fpops = DEFAULT_FPOPS;
             host_info.p_iops = DEFAULT_IOPS;
             host_info.p_membw = DEFAULT_MEMBW;
             host_info.m_cache = DEFAULT_CACHE;
-            return CPU_BENCHMARKS_ERROR;
+        } else {
+            host_info.p_fpops = 0;
+            host_info.p_iops = 0;
+            host_info.p_membw = 0;
+            host_info.m_cache = 0;
+            for (i=0; i<host_info.p_ncpus; i++) {
+                host_info.p_fpops += benchmark_descs[i].host_info.p_fpops;
+                host_info.p_iops += benchmark_descs[i].host_info.p_iops;
+                host_info.p_membw += benchmark_descs[i].host_info.p_membw;
+                host_info.m_cache += benchmark_descs[i].host_info.m_cache;
+            }
+            host_info.p_fpops /= host_info.p_ncpus;
+            host_info.p_iops /= host_info.p_ncpus;
+            host_info.p_membw /= host_info.p_ncpus;
+            host_info.m_cache /= host_info.p_ncpus;
         }
-        retval = host_info.parse_cpu_benchmarks(finfo);
-        fclose(finfo);
-        if (retval) return CPU_BENCHMARKS_ERROR;
-        boinc_delete_file(CPU_BENCHMARKS_FILE_NAME);
-        return CPU_BENCHMARKS_COMPLETE;
+        guiOnBenchmarksEnd();
+        benchmarks_running = false;
+        set_client_state_dirty("CPU benchmarks");
     }
-    return CPU_BENCHMARKS_NOT_RUNNING;
+    return false;
 }
 
+// return true if any CPU benchmark thread/process is running
+//
+bool CLIENT_STATE::are_cpu_benchmarks_running() {
+    return benchmarks_running;
+}

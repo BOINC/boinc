@@ -194,17 +194,10 @@ private:
 // --------------- cs_benchmark.C:
 public:
     bool should_run_cpu_benchmarks();
-    int cpu_benchmarks();
-	void fork_run_cpu_benchmarks();
-#ifdef _WIN32
-    static DWORD WINAPI win_cpu_benchmarks(LPVOID);
-    HANDLE cpu_benchmarks_handle;
-    DWORD cpu_benchmarks_id;
-#else
-    PROCESS_ID cpu_benchmarks_id;
-#endif
-    unsigned int cpu_benchmarks_start;
-    int check_cpu_benchmarks();
+	void start_cpu_benchmarks();
+    bool cpu_benchmarks_poll();
+    void abort_cpu_benchmarks();
+    bool are_cpu_benchmarks_running();
 
 // --------------- cs_cmdline.C:
 public:
