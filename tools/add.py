@@ -56,6 +56,8 @@ sys.path.append('../py/')
 import database, db_mid
 from util import *
 
+database._connectp('quarl_test_upper_case','','')
+
 CREATE_TIME = ['?create_time', int(time.time())]
 
 class XCoreVersion(database.CoreVersion):
@@ -114,7 +116,7 @@ list_objects_to_add = [
     [ database.Platform,   'name', 'user_friendly_name', CREATE_TIME ],
     [ XCoreVersion, 'platform', 'version_num', 'exec_file',
       ['?message',''], ['?message_priority','']],
-    [ database.App,        'name', 'min_version', CREATE_TIME],
+    [ database.App,        'name', ['?min_version',0], CREATE_TIME],
     [ XAppVersion, 'app', 'platform', 'version_num', 'exec_file', '?signature_file',
       CREATE_TIME ],
     [ database.User,       'name', 'email_addr', 'authenticator',
@@ -213,6 +215,7 @@ def add_object(object, args):
     except getopt.GetoptError, e:
         help_object(object, e)
     args_dict = {}
+    args_dict.update(object.default_values)
     for arg,value in parsed_opts:
         if not arg.startswith('--'):
             raise Exception('internal error: arg should start with "--"')
@@ -226,7 +229,7 @@ def add_object(object, args):
 
     object = apply(object.DatabaseObject, [], args_dict)
     object.commit()
-    print "Done"
+    print "Committed", object
 
 def code_sign_file(executable_path):
     '''Returns signed text for executable'''
