@@ -9667,3 +9667,9 @@ Rom    Feb 2 2004
     api/
         boincdiag.cpp,h (Added)
         boinc_api.c
+
+Rom    Feb 3 2004
+    - Fixed warning while compiling with gcc.
+
+    api/
+        boincdiag.cpp,h

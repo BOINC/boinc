@@ -66,7 +66,7 @@ void	boinc_trace(const char *pszFormat, ...);
 
 
 // Well if we are not using the MFC/ATL frameworks, then we are using the CRT.
-#else __AFXWIN_H__
+#else // __AFXWIN_H__
 
 
 //
@@ -84,16 +84,16 @@ void	boinc_trace(const char *pszFormat, ...);
 #define BOINCASSERT(expr)	_ASSERT_BASE((expr), #expr)
 #define BOINCTRACE			boinc_trace
 
-#else _DEBUG
+#else // _DEBUG
 
 #define BOINCASSERT(expr)	((void)0)
 #define BOINCTRACE			((void)0)
 
-#endif _DEBUG
+#endif // _DEBUG
 
-#endif __AFXWIN_H__
+#endif // __AFXWIN_H__
 
-#endif _WIN32
+#endif // _WIN32
 
 
 
@@ -118,4 +118,4 @@ void	boinc_trace(const char *pszFormat, ...);
 #endif
 
 
-#endif _BOINC_DIAGNOSTICS_
+#endif //_BOINC_DIAGNOSTICS_

@@ -37,7 +37,7 @@
 
 
 // Well if we are not using the MFC/ATL frameworks, then we are using the CRT.
-#else __AFXWIN_H__
+#else // __AFXWIN_H__
 
 #include <windows.h>
 #include <stdio.h>
@@ -63,7 +63,7 @@ void boinc_trace(const char *pszFormat, ...)
 	_CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "%s", szBuffer);
 }
 
-#endif _DEBUG
+#endif // _DEBUG
 
 
 //
@@ -152,6 +152,6 @@ int boinc_diag_cleanup() {
 }
 
 
-#endif __AFXWIN_H__
+#endif // __AFXWIN_H__
 
-#endif _WIN32
+#endif // _WIN32
