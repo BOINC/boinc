@@ -38,17 +38,16 @@ SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
 //
 int SCHEDULER_OP::init_get_work() {
     int retval;
+    char err_msg[256];
     double ns = gstate.work_needed_secs();
 
     must_get_work = true;
     project = gstate.next_project(0);
     if (project) {
         if( (retval=init_op_project(ns)) ) {
-            project->nrpc_failures++;
-            set_min_rpc_time(project);
-            if (log_flags.sched_op_debug) {
-                printf("init_get_work failed, error %d\n", retval);
-            }
+            sprintf(err_msg, "init_get_work failed, error %d\n", retval);
+            backoff(project, err_msg);
+            
             return retval;
         }
     }
@@ -109,6 +108,17 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
         );
     }
     return 0;
+}
+
+// Back off on the scheduler and output an error msg if needed
+//
+int SCHEDULER_OP::backoff( PROJECT* p, char *error_msg ) {
+    p->nrpc_failures++;
+    set_min_rpc_time(p);
+    
+    if (log_flags.sched_op_debug) {
+        printf(error_msg);
+    }
 }
 
 // low-level routine to initiate an RPC
@@ -217,6 +227,7 @@ bool SCHEDULER_OP::poll() {
     vector<STRING256> urls;
     bool changed, scheduler_op_done;
     bool action = false;
+    char err_msg[256];
 
     switch(state) {
     case SCHEDULER_OP_STATE_GET_MASTER:
@@ -243,20 +254,12 @@ bool SCHEDULER_OP::poll() {
                 } else {
                     // master file parse failed.  treat like RPC error
                     //
-                    project->nrpc_failures++;
-                    set_min_rpc_time(project);
-                    if (log_flags.sched_op_debug) {
-                        printf("Master file parse failed\n");
-                    }
+                    backoff(project, "Master file parse failed\n");
                 }
             } else {
                 // fetch of master file failed.  Treat like RPC error
                 //
-                project->nrpc_failures++;
-                set_min_rpc_time(project);
-                if (log_flags.sched_op_debug) {
-                    printf("Master file fetch failed\n");
-                }
+                backoff(project, "Master file fetch failed\n");
             }
             project = gstate.next_project_master_pending();
             if (project) {
@@ -287,23 +290,19 @@ bool SCHEDULER_OP::poll() {
                 if (url_index < project->scheduler_urls.size()) {
                     start_rpc();
                 } else {
-                    project->nrpc_failures++;
+                    backoff(project,"");
                     if ((project->nrpc_failures % MASTER_FETCH_PERIOD) == 0) {
                         project->master_url_fetch_pending = true;
                     }
-                    set_min_rpc_time(project);
                     if (must_get_work) {
                         project = gstate.next_project(project);
                         if (project) {
                             if( (retval=init_op_project(gstate.work_needed_secs())) ) {
-                                project->nrpc_failures++;
-                                set_min_rpc_time(project);
-                                if (log_flags.sched_op_debug) {
-                                    printf(
-                                        "scheduler init_op_project to %s failed, error %d\n",
-                                        project->scheduler_urls[url_index].text, retval
-                                    );
-                                }
+                                sprintf( err_msg,
+                                    "scheduler init_op_project to %s failed, error %d\n",
+                                    project->scheduler_urls[url_index].text, retval
+                                );
+                                backoff(project, err_msg);
                             }
                         } else {
                             scheduler_op_done = true;
@@ -327,14 +326,11 @@ bool SCHEDULER_OP::poll() {
                         project = gstate.next_project(project);
                         if (project) {
                             if( (retval=init_op_project(x)) ) {
-                                project->nrpc_failures++;
-                                set_min_rpc_time(project);
-                                if (log_flags.sched_op_debug) {
-                                    printf(
-                                        "scheduler init_op_project to %s failed, error %d\n",
-                                        project->scheduler_urls[url_index].text, retval
-                                    );
-                                }
+                                sprintf( err_msg,
+                                    "scheduler init_op_project to %s failed, error %d\n",
+                                    project->scheduler_urls[url_index].text, retval
+                                );
+                                backoff(project, err_msg);
                             }
                         } else {
                             scheduler_op_done = true;
