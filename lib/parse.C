@@ -262,7 +262,7 @@ bool extract_xml_record(const std::string &field, const char *tag, std::string &
     do {
       j=field.find(">",j+1);
       end_pos=field.rfind(end_tag,j);
-      if ((end_pos != std::string::npos) && isxmldelim(field[end_pos+1])) {
+      if ((end_pos != std::string::npos) && isxmldelim(field[end_pos+strlen(end_tag)+1])) {
 	end_pos=j;
       }
     } while ((end_pos==std::string::npos) && (j!=std::string::npos));
