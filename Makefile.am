@@ -3,7 +3,7 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-API_SUBDIRS = api lib boincglut apps zip
+API_SUBDIRS = api lib apps zip
 
 if ENABLE_SERVER
    SERVER_SUBDIRS = db tools test py sched
@@ -16,7 +16,7 @@ if BUILD_CLIENTGUI
    CLIENTGUI_SUBDIRS = clientgui
 endif
 
-SUBDIRS = RSAEuro $(SERVER_SUBDIRS) $(CLIENT_SUBDIRS) $(CLIENTGUI_SUBDIRS) $(API_SUBDIRS)
+SUBDIRS = m4 RSAEuro $(SERVER_SUBDIRS) $(CLIENT_SUBDIRS) $(CLIENTGUI_SUBDIRS) $(API_SUBDIRS)
 
 # Putting a directory name recursively copies the entire contents - the
 # dist-hook below gets rid of CVS directories.
@@ -25,20 +25,20 @@ EXTRA_DIST =                                    \
 	win_build                                   \
 	doc                                         \
 	stripchart                                  \
-    INSTALL
+    INSTALL										
 
-py:
-	[ "$(srcdir)" != . ] && rm -f $@ && $(LN_S) $(srcdir)/$@ $@
 
-UNIX2DOS=unix2dos
-UNIX2DOSDIR = /disks/philmor/a/users/quarl/bin
-
+# KARL -- please remove this!!  BA
+#
+# UNIX2DOS=unix2dos
+# UNIX2DOSDIR = /disks/philmor/a/users/quarl/bin 
 # UNIX2DOS = /disks/philmor/a/users/quarl/bin/unix2dos
 
 dist-hook:
-	rm -rf `find $(distdir) -name .backup -prune -o -name '*~'`
-	PATH=$PATH:$UNIX2DOSDIR cd $(distdir)/win_build && $(UNIX2DOS) boinc.dsw *.dsp
-	cd $(distdir) && ./_autosetup
+	rm -rf `find $(distdir) -name .backup -prune -o -name '*~' -o -name CVS`
+#	PATH=$PATH:$UNIX2DOSDIR cd $(distdir)/win_build && $(UNIX2DOS) boinc.dsw *.dsp
+#	cd $(distdir) && ./_autosetup
 
+# This is a hack!
 client-bin:
 	cd client && make client-bin client-bin-gz

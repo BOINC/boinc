@@ -43,9 +43,6 @@ fi
 
 echo "--- Configuring BOINC AC_PACKAGE_VERSION (${configured_to_build}) ---"
 
-AM_CONDITIONAL(ENABLE_SERVER, [test "${enable_server}" = yes])
-AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
-
 AC_CANONICAL_SYSTEM
 
 dnl generate .tar.gz, .tar.bz2, .zip
@@ -106,7 +103,19 @@ AC_PROG_RANLIB
 AC_PROG_LN_S
 
 if test "${enable_server}" = yes; then
-  AC_CHECK_MYSQL
+   AC_CHECK_MYSQL
+   if test "${no_mysql}" = yes; then
+      AC_MSG_WARN([ mysql not found.
+======================================================================
+WARNING: trying to build BOINC-server, but MYSQL was not be found.
+If you don't want to build the server you should use --disable-server.
+
+I am continuing now as if --disable-server had been specified.
+
+======================================================================
+])
+   enable_server=no
+   fi
 fi
 
 dnl Checks for libraries.
@@ -127,8 +136,35 @@ CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
 CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
 LIBS="$PTHREAD_LIBS $LIBS"
 
+
+dnl ---------- decide wether to build the graphical boinc-api libs or not
+dnl check for X11 
+AC_PATH_X
+AC_PATH_XTRA
+
 dnl check for GL library
-SAH_GRX_LIBS
+AX_CHECK_GL
+AX_CHECK_GLU
+AX_CHECK_GLUT
+if test "$no_gl" = yes -o "$no_glu" = yes -o "$no_glut" = yes ; then
+   have_glut=no
+   AC_MSG_WARN([
+================================================================================
+WARNING: openGL/GLUT not found.
+
+The GL, GLU and GLUT libraries are required in order to build the graphical parts
+of the BOINC application API library.
+
+==> only building non-graphical parts of the BOINC API Library for now.
+
+================================================================================
+       ])
+else
+   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h])
+fi
+AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes ])
+dnl --------------------------------------------------------------------------------
+
 AC_CHECK_LIB(socket, setservent)
 AC_CHECK_LIB(gen, strfind)
 AC_CHECK_LIB(gen, strfind, [ AC_DEFINE(HAVE_STRFIND, 1, [Have strfind]) ] )
@@ -152,7 +188,7 @@ AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
 AC_CHECK_HEADERS(arpa/inet.h dirent.h fcntl.h malloc.h netdb.h netinet/in.h netinet/tcp.h signal.h strings.h sys/file.h sys/ipc.h sys/mount.h sys/param.h sys/resource.h sys/select.h sys/shm.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h)
-SAH_GRX_INCLUDES
+
 AC_LANG_PUSH(C++)
 SAH_HEADER_STDCXX
 SAH_CHECK_NAMESPACES
@@ -272,7 +308,9 @@ AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
 dnl In case anyone wants to try building the windows code using mingw!
 AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
 
-
+dnl tell automake about whether to build client and/or server
+AM_CONDITIONAL(ENABLE_SERVER, [test "${enable_server}" = yes])
+AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
 
 dnl  by default, create static binaries on linux.
 dnl [if [ "$target_os" = "linux-gnu" ]; then
@@ -281,13 +319,17 @@ dnl fi
 dnl echo "checking static flags... ${STATIC_FLAGS:-(none)}"]
 dnl AC_SUBST(STATIC_FLAGS)
 
+
+# If you still want to build boincglut, include these into the file list below
+#		 boincglut/include/Makefile
+#		 boincglut/lib/glut/Makefile
+#                boincglut/lib/Makefile
+#                boincglut/Makefile
+
+
 AC_CONFIG_FILES([
                  api/Makefile
                  apps/Makefile
-                 boincglut/include/Makefile
-                 boincglut/lib/glut/Makefile
-                 boincglut/lib/Makefile
-                 boincglut/Makefile
                  clientgui/Makefile
                  client/Makefile
                  client/win/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
@@ -309,9 +351,12 @@ AC_CONFIG_FILES([
                  tools/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  tools/Makefile
                  zip/Makefile
+		 zip/zip/Makefile
+		 zip/unzip/Makefile
+		 m4/Makefile
                  ])
 
-dnl AC_CONFIG_HEADERS([config.h])
+dnl AC_CONFIG_HEADER([config.h])
 AC_CONFIG_HEADERS([config.h])
 
 AC_OUTPUT

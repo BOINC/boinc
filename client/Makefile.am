@@ -6,6 +6,8 @@ include $(top_srcdir)/Makefile.incl
 # by default, "-static -static-libgcc" on linux.
 #STATIC_FLAGS=@STATIC_FLAGS@
 
+client-bin: @CLIENT_BIN_FILENAME@
+
 bin_PROGRAMS = boinc_client
 
 EXTRA_PROGRAMS = cpu_benchmark
@@ -76,7 +78,7 @@ cpu_benchmark_SOURCES = whetstone.C dhrystone.C
 cpu_benchmark_CFLAGS = -O3 $(AM_CFLAGS)
 
 all-local: client-bin
-client-bin: @CLIENT_BIN_FILENAME@
+
 
 win/win_config.h: $(top_srcdir)/config.h
 	grep '#define.*BOINC.*VERSION' $^ > $@
@@ -91,11 +93,13 @@ version: win/win_config.h
 ## these source files need to be specified because no rule on unix uses them.
 
 EXTRA_DIST = \
-	*.h \
-	mac/*.h mac/*.cpp \
-    win/*.h win/*.cpp win/*.rc \
-    win/*.def win/res/*.* \
-    translation/*/*
+	app.h		 dhrystone.h	     http.h	       proxy.h  				\
+	client_msgs.h	 file_names.h	     log_flags.h       scheduler_op.h	\
+	client_state.h	 file_xfer.h	     main.h	       ss_logic.h			\
+	client_types.h	 gui_rpc_server.h    net_stats.h       ssl_http.h		\
+	cpp.h		 gui_titles.h	     net_xfer.h        ssl_net_xfer.h		\
+	cpu_benchmark.h  hostinfo_network.h  pers_file_xfer.h  time_stats.h		\
+	mac win translation
 
 clean-local:
 	rm -f @CLIENT_BIN_FILENAME@

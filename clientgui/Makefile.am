@@ -34,6 +34,14 @@ boinc_gui_SOURCES = \
     ../lib/parse.C \
     ../lib/util.C
 
+EXTRA_DIST = BOINCBaseView.h  DlgAttachProject.h  ValidateAccountKey.h  ViewWork.h 	\
+	BOINCGUIApp.h	 DlgConnection.h     ValidateURL.h	   _wx_intellisense.h 		\
+	BOINCListCtrl.h  DlgOptions.h	     ViewMessages.h	   resource.h				\
+	BOINCTaskBar.h	 Events.h	     ViewProjects.h	   stdwx.h						\
+	BOINCTaskCtrl.h  MainDocument.h      ViewResources.h							\
+	DlgAbout.h	 MainFrame.h	     ViewTransfers.h								\
+	res  msw locale
+
 boinc_gui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS)
 boinc_gui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS)
 boinc_gui_LDADD = $(PTHREAD_LIBS) $(WX_LIBS) $(CLIENTGUILIBS)

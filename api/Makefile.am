@@ -20,7 +20,15 @@ graphics_api_files = \
 	reduce.C		\
 	gutil.C
 
-lib_LIBRARIES = libboinc_api.a libboinc_graphics_api.a
+if BUILD_GRAPHICS_API
+graphics_libs = libboinc_graphics_api.a
+else
+graphics_libs = 
+endif
+
+lib_LIBRARIES = libboinc_api.a $(graphics_libs)
+
+EXTRA_LIBRARIES = libboinc_graphics_api.a
 
 libboinc_api_a_SOURCES = $(api_files)
 

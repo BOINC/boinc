@@ -9,8 +9,9 @@ AC_DEFUN([SAH_HEADER_STDCXX],[
   save_inc="$ac_includes_default"
   ac_includes_default="$ac_includes_default 
 #define CONFIG_TEST
-#include \"lib/std_fixes.h\" 
+#include \"lib/std_fixes.h\"
 "
+
   sah_stdcxx_headers="algorithm bitset cassert cctype cerrno cfloat climits clocale cmath complex csetjmp csignal cstdarg cstddef cstdio cstdlib cstring ctime deque fstream functional iomanip ios iosfwd iostream istream iterator limits list locale map memory numeric ostream queue set sstream stack stdexcept streambuf string utility valarray vector"
   AC_LANG_PUSH(C++) 
   AC_CHECK_HEADERS([$sah_stdcxx_headers])

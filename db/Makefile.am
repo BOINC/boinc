@@ -1,3 +1,3 @@
 ## $Id$
 
-EXTRA_DIST = *.sql *.h init_db
+EXTRA_DIST = constraints.sql schema.sql boinc_db.h db_base.h mysql.h init_db
