@@ -48,3 +48,4 @@ extern bool is_account_file(char*);
 #define STDERR_FILE_NAME        "stderr.txt"
 #define STDOUT_FILE_NAME        "stdout.txt"
 #define TIME_TESTS_FILE_NAME	"time_tests.xml"
+#define LOCK_FILE_NAME          "lockfile"

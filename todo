@@ -1,3 +1,7 @@
+write garbage collector
+
+prevent 2 core clients from running at once
+
 support for HTTP and SOCKS proxies
 make get_local_ip_addr() work in all cases
 est_time_to_completion doesn't work for non-running tasks

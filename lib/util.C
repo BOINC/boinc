@@ -20,6 +20,9 @@
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #ifdef _WIN32
 #include <time.h>
@@ -145,5 +148,31 @@ int parse_command_line(char* p, char** argv) {
     *pp++ = 0;
 
     return argc;
+}
+
+int lock_file(char* filename) {
+    int retval;
+        
+    // some systems have both!
+#ifdef HAVE_LOCKF
+    int lock = open(filename, O_WRONLY|O_CREAT, 0644);
+    retval = lockf(lock, F_TLOCK, 1);
+    // must leave fd open
+#else
+#ifdef HAVE_FLOCK
+    int lock = open(filename, O_WRONLY|O_CREAT, 0644);
+    retval = flock(lock, LOCK_EX|LOCK_NB);
+#endif
+#endif
+                        
+#ifdef _WIN32
+    HANDLE hfile = CreateFile(
+        filename, GENERIC_WRITE,
+        0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0
+    );
+    if (hfile == INVALID_HANDLE_VALUE) retval = 1;
+    else retval = 0;
+#endif
+    return retval;
 }
 

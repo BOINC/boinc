@@ -2625,3 +2625,15 @@ David  Dec 11 2002
         tools_work.html
     test/
         *wu
+
+David  Dec 13 2002
+    - use lock file mechanism to prevent multiple instances of
+       core client from running in same directory
+    
+    configure
+    configure.in
+    client/
+        file_names.h
+        main.C
+    lib/
+        util.C,y

@@ -75,6 +75,10 @@ int main(int argc, char** argv) {
     int retval;
 
     setbuf(stdout, 0);
+    if (lock_file(LOCK_FILE_NAME)) {
+        fprintf(stderr, "Another copy of BOINC is already running\n");
+        exit(1);
+    }
     read_log_flags();
     gstate.parse_cmdline(argc, argv);
     retval = gstate.init();
