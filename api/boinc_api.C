@@ -138,7 +138,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
         }
         if (retval) {
             fprintf(stderr, "Can't acquire lockfile - exiting\n");
-            exit(0);
+            boinc_finish(0);	// not un-recoverable ==> status=0
         }
     }
 
@@ -162,7 +162,7 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
             fprintf(stderr, "Core client has wrong major version: wanted %d, got %d\n",
                 BOINC_MAJOR_VERSION, aid.core_version/100
             );
-            exit(ERR_MAJOR_VERSION);
+            boinc_finish(ERR_MAJOR_VERSION); // un-recoverable==> exit with nonzero status
         }
         retval = setup_shared_mem();
         if (retval) {
@@ -203,7 +203,16 @@ static void send_trickle_up_msg() {
     }
 }
 
+
+// NOTE: a non-zero status tells a running client that we're exiting with 
+// and "unrecoverable error", which will be reported back to server. 
+// Therefore, on "recoverable errors", use exit-status == 0 !
 int boinc_finish(int status) {
+
+    // remove the lockfile
+    if ( boinc_delete_file (LOCKFILE) != 0) 
+      perror ("boinc_finish(): failed to remove lockfile");
+
     if (options.send_status_msgs) {
         boinc_calling_thread_cpu_time(last_checkpoint_cpu_time);
         last_checkpoint_cpu_time += aid.wu_cpu_time;
@@ -225,7 +234,21 @@ int boinc_finish(int status) {
         aid.wu_cpu_time = last_checkpoint_cpu_time;
         boinc_write_init_data_file();
     }
+
+    // on Linux < 2.6, probably due to non-POSIX LinuxThreads, _Exit() fails to
+    // shut down the graphics-thread properly, while exit() does the job and does _NOT_ 
+    // seem to get tangled in exit-atexit loops... 
+#ifdef __linux__
     exit(status);
+#else    
+    // on Mac (and supposedly other systems with POSIX-complian thread-implementations?), 
+    // calling exit() can lead to infinite exit-atexit loops, while _Exit() seems to behave nicely 
+    // This is not pretty but unless someone finds a cleaner solution, we handle the two cases
+    // separately based on these observations
+    _Exit(status);
+#endif
+
+    fprintf(stderr, "..exit() or _Exit() returned... this is totally weird!!\n");
     return 0;
 }
 
@@ -400,7 +423,7 @@ static void handle_process_control_msg() {
                             break;
                         }
                         if (match_tag(buf, "<quit/>")) {
-                            exit(0);
+			  boinc_finish(0); // NOTE: exit-status = 0 !
                         }
                     }
                     boinc_sleep(1.0);
@@ -422,7 +445,7 @@ static void handle_process_control_msg() {
         if (match_tag(buf, "<quit/>")) {
             boinc_status.quit_request = true;
             if (options.direct_process_action) {
-                exit(0);
+	      boinc_finish(0);	// NOTE: exit-status == 0!
             }
         }
     }
@@ -467,7 +490,7 @@ static void worker_timer(int a) {
                 now - (heartbeat_giveup_time - HEARTBEAT_GIVEUP_PERIOD)
             );
             if (options.direct_process_action) {
-                exit(0);
+	      boinc_finish(0); // NOTE: exit-status == 0! (recoverable error)
             } else {
                 boinc_status.no_heartbeat = true;
             }

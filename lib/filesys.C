@@ -472,18 +472,44 @@ int lock_file(char* filename) {
         0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0
     );
     if (hfile == INVALID_HANDLE_VALUE) retval = 1;
-    else retval = 0;
+    else 
+     // NOTE: contrary to unix, we close the file on windows, so that we can remove it later in boinc_finish().
+     // there seems to be no real file-locking done here, so this should be ok...
+      if (CloseHandle(hfile))
+	retval = 0;
+      else
+	retval = 1;
 
 // some systems have both!
 #elif defined(HAVE_LOCKF) && !defined(__APPLE__)
-    int lock = open(filename, O_WRONLY|O_CREAT, 0644);
-    retval = lockf(lock, F_TLOCK, 1);
+    int fd = open(filename, O_WRONLY|O_CREAT, 0644);
+    retval = lockf(fd, F_TLOCK, 0);
+#ifndef NDEBUG
+    if ( retval != 0 )
+      {
+	struct flock lck;
+	fprintf(stdout, "DEBUG: Failed to get lockf on %s. Error = %d, %s\n", filename, errno, strerror(errno));
+	lck.l_whence = 0;
+	lck.l_start = 0L;
+	lck.l_len = 0L;
+	lck.l_type = F_WRLCK;
+	(void) fcntl(fd, F_GETLK, &lck);
+	if (lck.l_type != F_UNLCK) 
+	  fprintf(stdout, "DEBUG: Lock-info: pid = %d type = %c start = %8ld len = %8ld\n", lck.l_pid, 
+		    (lck.l_type == F_WRLCK) ? 'W' : 'R', lck.l_start, lck.l_len);
+	else
+	  fprintf(stdout, "DEBUG: fcntl() says it's unlocked though....strange.\n");
+
+	fflush(stdout);
+      }
+#endif // defined NDEBUG
+
 #elif HAVE_FLOCK
-    int lock = open(filename, O_WRONLY|O_CREAT, 0644);
-    retval = flock(lock, LOCK_EX|LOCK_NB);
+    int fd = open(filename, O_WRONLY|O_CREAT, 0644);
+    retval = flock(fd, LOCK_EX|LOCK_NB);
     // must leave fd open
 #else
-    no file lock mechanism
+    no file lock mechanism;
 #endif
 
     return retval;

@@ -443,7 +443,7 @@ void boinc_set_signal_handler(int sig, void(*handler)(int)) {
     sigaction(sig, NULL, &temp);
     if (temp.sa_handler != SIG_IGN) {
         temp.sa_handler = handler;
-        sigemptyset(&temp.sa_mask);
+	//        sigemptyset(&temp.sa_mask);
         sigaction(sig, &temp, NULL);
     }
 #else
@@ -463,7 +463,7 @@ void boinc_set_signal_handler_force(int sig, void(*handler)(int)) {
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
     temp.sa_handler = handler;
-    sigemptyset(&temp.sa_mask);
+    //    sigemptyset(&temp.sa_mask);
     sigaction(sig, &temp, NULL);
 #else
     void (*temp)(int);

@@ -61,6 +61,11 @@ HANDLE hQuitEvent;
 BOINC_MAIN_STATE* g_bmsp;
 static WORKER_FUNC_PTR worker_main;
 
+#ifndef _WIN32
+pthread_t worker_thread;
+pthread_t graphics_thread;
+#endif
+
 #ifdef _WIN32
 DWORD WINAPI foobar(LPVOID) {
 #else
@@ -117,7 +122,6 @@ int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
 
 #else
 
-    pthread_t worker_thread;
     pthread_attr_t worker_thread_attr;
     sched_param param;
     int retval, currentpolicy, minpriority;
@@ -145,6 +149,9 @@ int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
     retval = pthread_attr_setschedparam(&worker_thread_attr, &param);
     if (retval) return ERR_THREAD;
 
+    // initialze thread-id of calling thread (which is the graphics-thread!)
+    graphics_thread = pthread_self();
+    
     retval = pthread_create(&worker_thread, &worker_thread_attr, foobar, 0);
     if (retval) return ERR_THREAD;
     pthread_attr_destroy( &worker_thread_attr );

@@ -22243,3 +22243,25 @@ David  7 Jan 2005
         ops/
             db_action.php
             db_form.ph
+
+Bruce 7 Jan 2005
+
+    - Reinhard has done a substantial amount of work in the past
+      couple of weeks to fix a number of bugs and problems in the
+      X-windows and/or Mac graphics event loop, and with lockfile
+      handling problems seen on a number of Unix file systems. A
+      brief summary of the changes is:
+
+      lockfile: replace calls to exit() by boinc_finish() + make
+      boinc_finish() remove the lockfile
+
+      graphics-eventloop: some re-structuring and simplification to
+      make handling of glut-exits/abort-signals more robust.  Eric,
+      if you could test this under Solaris we'd be very grateful.
+
+    api/
+        boinc_api.C
+        graphics_impl.C
+        x_opengl.C
+        diagnostics.C
+        filesys.C
