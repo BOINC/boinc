@@ -54,7 +54,7 @@ int do_checkpoint(MFILE& mf, int nchars) {
 }
 
 int main() {
-    int c, nchars = 0, retval;
+    int c, nchars = 0, retval, n;
     char resolved_name[512];
     MFILE out;
     FILE* state, *in;
@@ -88,7 +88,13 @@ int main() {
         c = toupper(c);
         out._putchar(c);
         nchars++;
-        sleep(1);
+
+        n = 0;
+        while( n<100000 )
+            n++;
+
+        if( nchars % 2 == 0 )
+            sleep(1);
 
         if (time_to_checkpoint()) {
             retval = do_checkpoint(out, nchars);
