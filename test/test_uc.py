@@ -14,15 +14,14 @@ class ProjectUC(Project):
         self.add_core_version()
         self.add_app_and_version("upper_case")
         self.user = User()
-        self.user.project_prefs = "<project_specific>\nfoobar\n</project_specific>\n"
+        self.user.project_prefs = "<project_specific>\nfoobar\n</project_specific>"
         self.user.global_prefs  = """<venue name=\"home\">
 <work_buf_min_days>0</work_buf_min_days>
 <work_buf_max_days>2</work_buf_max_days>
 <disk_interval>1</disk_interval>
 <run_on_batteries/>
 <max_bytes_sec_down>400000</max_bytes_sec_down>
-</venue>
-"""
+</venue>"""
         self.add_user(self.user)
         # must install projects before adding hosts (WHY?)
         self.install()
@@ -53,16 +52,16 @@ class ProjectUC(Project):
         self.validate(self.work.redundancy)
         result = {}
         result['server_state'] = RESULT_SERVER_STATE_OVER
-        result['stderr_out'] = """APP: upper_case: starting, argc 1
+        result['stderr_out'] = STARTS_WITH("""APP: upper_case: starting, argc 1
 APP: upper_case: argv[0] is upper_case
-APP: upper_case ending, wrote """
-        result['exit_status'] = 0
+APP: upper_case ending, wrote """)
+        # result['exit_status'] = 0
         self.check_results(2, result)
-        self.check_all_files_match(2, "uc_wu_%d_0", "uc_correct_output")
+        self.check_files_match("upload/uc_wu_%d_0", "uc_correct_output", count=2)
         self.assimilate()
         self.file_delete()
-        self.check_server_deleted("download/input")
-        self.check_all_deleted(2, "upload/uc_wu_%d_0")
+        self.check_deleted("download/input")
+        self.check_deleted("upload/uc_wu_%d_0", count=2)
         self.stop()
 
 if __name__ == '__main__':

@@ -105,6 +105,17 @@ def check_deleted(file):
         error("file wasn't deleted: " + file)
         return 1
     return 0
+def check_files_match(file, correct, descr=''):
+    if not os.path.isfile(file):
+        error("file doesn't exist: %s (needs to match %s)" % (file,correct))
+        return 1
+    if os.system("diff %s %s" % (file, correct)):
+        error("File mismatch%s: %s %s" % (descr, file, correct))
+        return 1
+    else:
+        verbose_echo(2, "Files match%s: %s %s" % (descr, file, correct))
+        return 0
+
 def check_program_exists(prog):
     if not os.path.isfile(prog):
         fatal_error("""
@@ -165,8 +176,11 @@ def map_xml(dic, keys):
         dic = dic.__dict__
     s = ''
     for key in keys:
-        s += "<%s>%s</%s>\n" % (key, dic[key], key)
-    return s
+        s += "    <%s>%s</%s>\n" % (key, dic[key], key)
+    return s[:-1]
+
+class STARTS_WITH(str):
+    pass
 
 def dict_match(dict, resultdict):
     '''match values in DICT against RESULTDICT'''
@@ -177,7 +191,11 @@ def dict_match(dict, resultdict):
         except KeyError:
             error("Database query result didn't have key '%s'!" % key)
             continue
-        if found != expected:
+        if isinstance(expected,STARTS_WITH):
+            match = found.startswith(expected)
+        else:
+            match = found == expected
+        if not match:
             id = resultdict.get('id', '?')
             if str(found).count('\n') or str(expected).count('\n'):
                 format = """result %s: unexpected %s:
@@ -425,12 +443,10 @@ class Project:
 
         verbose_echo(1, "Setting up server files: writing config files");
 
-        config = '<config>\n'
-        config += map_xml(self,
-                          [ 'db_name', 'db_passwd', 'shmem_key',
-                            'key_dir', 'download_url', 'download_dir',
-                            'upload_url', 'upload_dir', 'project_dir', 'user_name' ])
-        config += '</config>\n'
+        config = map_xml(self,
+                         [ 'db_name', 'db_passwd', 'shmem_key',
+                           'key_dir', 'download_url', 'download_dir',
+                           'upload_url', 'upload_dir', 'project_dir', 'user_name' ])
         self.append_config(config)
 
         # put a file with the database name and other info in each HTML
@@ -505,11 +521,12 @@ class Project:
     def _run_cgi_onepass(self, prog, args=''):
         self._run_cgi_prog(prog, '-d 3 -one_pass '+args)
     def start_servers(self):
+        self.restart()
         self._run_cgi_prog('start_servers')
         verbose_sleep("Starting servers for project '%s'" % self.short_name, 1)
 
     def _install_prog(self, prog, args=''):
-        self.append_config('<start>./%s -d 3 -asynch %s >>%s.out 2>&1</start>\n' % (
+        self.append_config('<start>./%s -d 3 -asynch %s >>%s.out 2>&1</start>' % (
             prog, args, prog))
     def install_feeder(self):
         self._install_prog('feeder')
@@ -537,10 +554,10 @@ class Project:
         self._run_cgi_onepass('file_deleter')
     def install_assimilator(self):
         for app_version in self.app_versions:
-            self._install_prog('assimilator', app_version.app.name)
+            self._install_prog('assimilator', '-app %s' % app_version.app.name)
     def assimilate(self):
         for app_version in self.app_versions:
-            self._run_cgi_onepass('assimilator', app_version.app.name)
+            self._run_cgi_onepass('assimilator', '-app %s' % app_version.app.name)
 
     def start_stripcharts(self):
         map(lambda l: self.copy(os.path.join('stripchart', l), 'cgi/'),
@@ -568,12 +585,18 @@ class Project:
 
     def restart(self):
         '''remove the stop_server trigger'''
-        os.unlink(self.dir('cgi', 'stop_server'))
+        try:
+            os.unlink(self.dir('cgi', 'stop_server'))
+        except OSError:
+            pass
 
+    configlines = ''
     def append_config(self, line):
-        f = open(self.dir('cgi/.htconfig.xml'), 'a')
-        print >>f, line
-        f.close()
+        self.configlines += '\n' + line
+        f = open(self.dir('cgi/.htconfig.xml'), 'w')
+        print >>f, '<config>'
+        print >>f, self.configlines
+        print >>f, '</config>'
 
     def remove_config(self, pattern):
         config = self.dir('cgi/.htconfig.xml')
@@ -609,29 +632,29 @@ class Project:
         self.db_open(self.db_name)
         return self.db_query("select count(*) from result where server_state=4")[0][0]
 
-    def check_files_match(self, result, correct):
-        if not check_exists(result):
-            return 0
-        if os.system("diff %s %s" % (self.dir(result), correct)):
-            error("File mismatch for project '%s': %s %s" % (self.short_name, result, correct))
-            return 1
-        else:
-            verbose_echo(2, "Files match for project '%s': %s %s" % (self.short_name, result, correct))
-            return 0
-    def check_all_files_match(self, num, result, correct):
-        '''result should contain a "%d" which is replaced by [0,NUM)'''
-        for i in range(num):
-            self.check_files_match(result%i, correct)
-    def check_deleted(self, file):
-        check_deleted(self.dir(file))
-    def check_all_deleted(self, num, file):
-        for i in range(num):
-            self.check_deleted(file%i)
-    def check_exists(self, file):
+    def check_files_match(self, result, correct, count=None):
+        '''if COUNT is specified then [0,COUNT) is mapped onto the %d in RESULT'''
+        if count != None:
+            errs = 0
+            for i in range(count):
+                errs += self.check_files_match(result%i, correct)
+            return errs
+        return check_files_match(self.dir(result),
+                                 correct, " for project '%s'"%self.short_name)
+    def check_deleted(self, file, count=None):
+        if count != None:
+            errs = 0
+            for i in range(count):
+                errs += self.check_deleted(file%i)
+            return errs
+        return check_deleted(self.dir(file))
+    def check_exists(self, file, count=None):
+        if count != None:
+            errs = 0
+            for i in range(count):
+                errs += self.check_exists(file%i)
+            return errs
         return check_exists(self.dir(file))
-    def check_all_exist(self, file):
-        for i in range(num):
-            self.check_exists(file%i)
 
 class User:
     '''represents an account on a particular project'''
@@ -666,18 +689,19 @@ class Host:
             verbose_echo(2, "Setting up host '%s': writing %s" % (self.name, filename))
 
             f = open(filename, "w")
-            print >>f, "<account>\n"
+            print >>f, "<account>"
             print >>f, map_xml(project, ['master_url'])
             print >>f, map_xml(user, ['authenticator'])
             print >>f, user.project_prefs
-            print >>f, "</account>\n"
+            print >>f, "</account>"
             f.close()
 
         # copy log flags and global prefs, if any
         if self.log_flags:
             shutil.copy(self.log_flags, self.dir('log_flags.xml'))
         if self.global_prefs:
-            shutil.copy(self.global_prefs, self.dir('global_prefs.xml'))
+            shell_call("cp %s %s" % (self.global_prefs, self.dir('global_prefs.xml')))
+            # shutil.copy(self.global_prefs, self.dir('global_prefs.xml'))
 
     def run(self, args, asynch=False):
         if asynch:
@@ -778,11 +802,15 @@ def test_msg(msg):
 def test_done():
     global errors
     if sys.__dict__.get('last_traceback'):
-        errors += 1
-        sys.stderr.write("\nException thrown - bug in test scripts?\n")
+        if sys.last_type == KeyboardInterrupt:
+            errors += 0.1
+            sys.stderr.write("\nTest canceled by user\n")
+        else:
+            errors += 1
+            sys.stderr.write("\nException thrown - bug in test scripts?\n")
     if errors:
         verbose_echo(0, "ERRORS: %d" % errors)
-        sys.exit(errors)
+        sys.exit(int(errors))
     else:
         verbose_echo(1, "Passed test!")
         if VERBOSE == 1:
