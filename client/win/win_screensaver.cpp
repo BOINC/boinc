@@ -128,8 +128,9 @@ CScreensaver::CScreensaver()
 
 	m_bPaintingInitialized = FALSE;
 	m_bBOINCCoreNotified = FALSE;
-    m_bResetCoreState = TRUE;
     m_dwBOINCTimerCounter = 0;
+    m_bResetCoreState = TRUE;
+    m_iStatus = 0;
     m_dwBlankTime = 0;
 
     m_bBOINCConfigChecked = FALSE;
@@ -837,6 +838,8 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                                             }
                                         }
                                     }
+                                    m_bErrorMode = FALSE;
+                                    m_hrError = FALSE;
                                 break;
                                 case SS_STATUS_BLANKED:
                                     m_bErrorMode = FALSE;
@@ -844,6 +847,8 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                                     break;
                                 case SS_STATUS_RESTARTREQUEST:
                                     m_bBOINCCoreNotified = FALSE;
+                                    m_bErrorMode = FALSE;
+                                    m_hrError = FALSE;
                                     break;
                                 case SS_STATUS_BOINCSUSPENDED:
        				                m_bErrorMode = TRUE;
@@ -1684,7 +1689,20 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc)
 	static HBITMAP  hbmp = LoadBitmap( m_hInstance, MAKEINTRESOURCE(IDB_BOINCSPLAT) );
 
 
-	SetRect( &rc, (INT)pMonitorInfo->xError, (INT)pMonitorInfo->yError,
+    // If the screensaver has switched to a blanked state or not in an error mode,
+    // we should exit here so the screen has been erased to black.
+    if ( (SS_STATUS_BLANKED == m_iStatus) || !m_bErrorMode )
+    {
+        BOINCTRACE(_T("CScreensaver::DoPaint - Blank Screen Detected\n"), m_szError);
+        rc = pMonitorInfo->rcScreen;
+        ScreenToClient( hwnd, (POINT*)&rc.left );
+        ScreenToClient( hwnd, (POINT*)&rc.right );
+        FillRect(hdc, &rc, hbrushBlack );
+        return;
+    }
+
+    
+    SetRect( &rc, (INT)pMonitorInfo->xError, (INT)pMonitorInfo->yError,
         (INT)(pMonitorInfo->xError + pMonitorInfo->widthError),
         (INT)(pMonitorInfo->yError + pMonitorInfo->heightError) );
 
@@ -1696,10 +1714,6 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc)
 
 	// Draw the background as black.
 	FillRect(hdc, &rc, hbrushBlack);
-
-    // If the screensaver has switched to a blanked state, we should
-    // exit here so the screen has been erased to black.
-    if ( SS_STATUS_BLANKED == m_iStatus ) return;
 
     // Draw a frame in red.
 	FrameRect(hdc, &rc, hbrushRed);
