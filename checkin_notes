@@ -23847,3 +23847,13 @@ David  2 Feb 2005
 
     client/
         http.C
+
+Rom    2 Feb 2005
+    - Bug Fix: The screensaver really should call UpdateErrorBox frequently,
+        otherwise the error box ends up being drawn outside the visible region
+        of the window, which gives the impression that the screen has gone blank.
+    - Bug Fix: Give the core client enough time to actually cycle through all
+        the capable graphics applications before acting on the error codes.
+
+    client/win/
+        win_screensaver.cpp, .h

@@ -110,6 +110,7 @@ protected:
 
 	HRESULT         CreateSaverWindow();
 	VOID            UpdateErrorBox();
+	VOID            UpdateErrorBoxText();
     VOID            InterruptSaver();
     VOID            ShutdownSaver();
 	VOID            ChangePassword();
@@ -166,6 +167,8 @@ protected:
     TCHAR					m_strWindowTitle[200]; // Title for the app's window
 	BOOL					m_bBOINCCoreNotified;
     BOOL                    m_bResetCoreState;
+    DWORD                   m_dwBOINCTimerCounter;
+
     BOOL                    m_bBOINCConfigChecked;
     BOOL                    m_bBOINCStartupConfigured;
 };

@@ -138,6 +138,7 @@ CScreensaver::CScreensaver()
 	m_bPaintingInitialized = FALSE;
 	m_bBOINCCoreNotified = FALSE;
     m_bResetCoreState = TRUE;
+    m_dwBOINCTimerCounter = 0;
 
     m_bBOINCConfigChecked = FALSE;
     m_bBOINCStartupConfigured = FALSE;
@@ -165,10 +166,6 @@ HRESULT CScreensaver::Create( HINSTANCE hInstance )
     osvi.dwOSVersionInfoSize = sizeof(osvi);
     GetVersionEx( &osvi );
     m_bIs9x = (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS);
-
-    // Attempt to reinitialize the RPC client
-    rpc.close();
-    rpc.init( NULL );
 
     // Enumerate Monitors
     EnumMonitors();
@@ -324,7 +321,12 @@ VOID CScreensaver::StartupBOINC()
             dwBlankTime = time(0) + (dwBlankTime * 60);
 
 			// Tell the boinc client to start the screen saver
+            BOINCTRACE(
+                _T("CScreensaver::StartupBOINC - Calling set_screensaver_mode - WindowStation = '%s', Desktop = '%s', BlankTime = '%d'.\n"),
+                szCurrentWindowStation, szCurrentDesktop, dwBlankTime
+            );
             iReturnValue = rpc.set_screensaver_mode(true, szCurrentWindowStation, szCurrentDesktop, dwBlankTime);
+            BOINCTRACE(_T("CScreensaver::StartupBOINC - set_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
 
 			// We have now notified the boinc client
 			if ( 0 == iReturnValue )
@@ -623,8 +625,7 @@ HRESULT CScreensaver::CreateSaverWindow()
                     if( m_hWnd == NULL )
 						m_hWnd = pMonitorInfo->hWnd;
 
-					SetTimer(pMonitorInfo->hWnd, 2, 500, NULL);
-					SetTimer(pMonitorInfo->hWnd, 3, 10000, NULL);
+					SetTimer(pMonitorInfo->hWnd, 2, 1000, NULL);
 				}
             }
     }
@@ -729,15 +730,38 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					// Initial idle time is done, proceed with initialization.
 					m_bWaitForInputIdle = FALSE;
 					KillTimer( hWnd, 1 );
-                    return 0;
+                    break;
 				case 2:
-                    // This kicks off the first pass for communitication with the
-                    // core client and should tell the core client to startup the
-                    // screensaver window.
-					KillTimer( hWnd, 2 );
+                    // This timer is called once a second and handles drawing the error
+                    // boxes as well as the initial 4 loops through of the update
+                    // data timer.  It is necessary to call the UpdateErrorBox routine
+                    // frequently or the error box will end up being drawn outside the 
+                    // visible portion of the window.  Letting the update routine be called
+                    // four times before setting up the update timer lets the request
+                    // the initial display, then gives the core client enough time to
+                    // choose an application or report an error.
+                    if ( 3 >= m_dwBOINCTimerCounter ) m_dwBOINCTimerCounter++;
+					if ( 4 == m_dwBOINCTimerCounter )
+                    {
+                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Starting Update Timer\n"));
+    					SetTimer(hWnd, 3, 30000, NULL);
+                        m_dwBOINCTimerCounter++;
+                    }
+                    else
+                    {
+					    if ( 5 == m_dwBOINCTimerCounter )
+                        {
+                            if( m_bErrorMode )
+					        {
+                                BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Updating Error Box\n"));
+						        UpdateErrorBox();
+					        }
+                            break;
+                        }
+                    }
 				case 3:
                     // Except for the initial startup sequence, this is run every
-                    //   60 seconds.
+                    //   30 seconds.
                     HWND hwndBOINCGraphicsWindow = NULL;
                     HWND hwndForegroundWindow = NULL;
                     int  iReturnValue = 0;
@@ -763,14 +787,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 			        // Create a screen saver window on the primary display if the boinc client crashes
 			        CreateSaverWindow();
 
-                    // Lets try and get the current state of the CC
-                    if (m_bResetCoreState)
-                    {
-                        iReturnValue = rpc.get_state( state );
-                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - get_state iReturnValue = '%d'\n"), iReturnValue);
-                        if ( 0 == iReturnValue )
-                            m_bResetCoreState = FALSE;
-                    }
+                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Start Status = '%d', BOINCCoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), iStatus, m_bBOINCCoreNotified, m_bErrorMode, m_hrError);
 
                     iReturnValue = rpc.get_screensaver_mode( iStatus );
                     BOINCTRACE(_T("CScreensaver::PrimarySaverProc - get_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
@@ -859,14 +876,27 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                         }
                     }
 
-                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Status = '%d', BOINCCoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), iStatus, m_bBOINCCoreNotified, m_bErrorMode, m_hrError);
-					if( m_bErrorMode )
+                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Checkpoint Status = '%d', BOINCCoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), iStatus, m_bBOINCCoreNotified, m_bErrorMode, m_hrError);
+
+
+                    // Lets try and get the current state of the CC
+                    if ( m_bResetCoreState && m_bBOINCCoreNotified )
+                    {
+                        iReturnValue = rpc.get_state( state );
+                        if ( 0 == iReturnValue )
+                            m_bResetCoreState = FALSE;
+
+                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - get_state iReturnValue = '%d'\n"), iReturnValue);
+                    }
+
+
+                    if( m_bErrorMode )
 					{
-                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Updating Error Box\n"));
-						UpdateErrorBox();
+                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Updating Error Box Text\n"));
+						UpdateErrorBoxText();
 					}
-					else
-					{
+                    else
+                    {
                         if ( !m_bBOINCCoreNotified )
                         {
                             BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Startup BOINC Screensaver\n"));
@@ -880,9 +910,10 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                                 ShutdownSaver();
                             }
                         }
-					}
-					return 0; 
-			}
+                    }
+
+                    BOINCTRACE(_T("CScreensaver::PrimarySaverProc - End Status = '%d', BOINCCoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), iStatus, m_bBOINCCoreNotified, m_bErrorMode, m_hrError);
+            }
             break;
 
         case WM_DESTROY:
@@ -906,7 +937,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
             BeginPaint( hWnd, &ps );
 
             // In preview mode, just fill 
-            // the preview window with black. 
+            // the preview window with black, and the BOINC icon. 
             if( !m_bErrorMode && m_SaverMode == sm_preview )
             {
                 RECT rc;
@@ -1004,16 +1035,17 @@ LRESULT CScreensaver::GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					// Initial idle time is done, proceed with initialization.
 					m_bWaitForInputIdle = FALSE;
 					KillTimer( hWnd, 1 );
-					return 0; 
+					break; 
 		 
 				case 2: 
-					KillTimer( hWnd, 2 );
-				case 3: 
 					if( m_bErrorMode )
 					{
+                        BOINCTRACE(_T("CScreensaver::GenericSaverProc - Updating Error Box\n"));
 						UpdateErrorBox();
 					}
-					return 0; 
+					break; 
+				case 3: 
+					break; 
 			}
             break;
 
@@ -1038,7 +1070,7 @@ LRESULT CScreensaver::GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
             BeginPaint( hWnd, &ps );
 
             // In preview mode, just fill 
-            // the preview window with black. 
+            // the preview window with black, and the BOINC icon. 
             if( !m_bErrorMode && m_SaverMode == sm_preview )
             {
                 RECT rc;
@@ -1142,7 +1174,7 @@ INT_PTR CScreensaver::ConfigureDialogProc(HWND hwnd,UINT msg,WPARAM wParam,LPARA
 			int id=LOWORD(wParam);
 			if (id==IDOK) {
 
-				screen_blank=( IsDlgButtonChecked( hwnd, IDC_BLANK ) == BST_CHECKED );
+				screen_blank = ( IsDlgButtonChecked( hwnd, IDC_BLANK ) == BST_CHECKED );
 				UtilSetRegKey( REG_BLANK_NAME, screen_blank );
 
 				GetDlgItemText( hwnd, IDC_BLANK_TIME, buf, 256 );
@@ -1429,16 +1461,6 @@ VOID CScreensaver::UpdateErrorBox()
     DWORD dwTimeNow;
     FLOAT fTimeDelta;
 
-    RESULTS  results;
-    PROJECT* pProject;
-    TCHAR    szBuffer[256];
-    bool     bIsActive       = false;
-    bool     bIsExecuting    = false;
-    bool     bIsDownloaded   = false;
-    int      iResultCount    = 0;
-    int      iIndex          = 0;
-    float    fProgress       = 0;
-
 
     // Update timing to determine how much to move error box
     if( dwTimeLast == 0 )
@@ -1446,40 +1468,6 @@ VOID CScreensaver::UpdateErrorBox()
     dwTimeNow = timeGetTime();
     fTimeDelta = (FLOAT)(dwTimeNow - dwTimeLast) / 1000.0f;
     dwTimeLast = dwTimeNow;
-
-    // Load error string
-    GetTextForError( m_hrError, m_szError, sizeof(m_szError) / sizeof(TCHAR) );
-    if( SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError )
-    {
-        if( 0 == rpc.get_results( results ) )
-        {
-            iResultCount = results.results.size();
-            for ( iIndex = 0; iIndex < iResultCount; iIndex++ )
-            {
-                bIsDownloaded = ( RESULT_FILES_DOWNLOADED == results.results.at(iIndex)->state );
-                bIsActive     = ( results.results.at(iIndex)->active_task );
-                bIsExecuting  = ( CPU_SCHED_SCHEDULED == results.results.at(iIndex)->scheduler_state );
-                if ( !( bIsActive ) || !( bIsDownloaded ) || !( bIsExecuting ) ) continue;
-
-                pProject = state.lookup_project( results.results.at( iIndex )->project_url );
-                if ( NULL != pProject )
-                {
-                    StringCbPrintf( szBuffer, sizeof(szBuffer) / sizeof(TCHAR),
-                        _T("%s: %.2f%%\n"),
-                        pProject->project_name.c_str(),
-                        results.results.at(iIndex)->fraction_done * 100 
-                    );
-
-                    StringCbCat( m_szError, sizeof(m_szError) / sizeof(TCHAR), szBuffer );
-                }
-                else
-                {
-                    m_bResetCoreState = TRUE;
-                }
-            }
-            m_szError[ sizeof(m_szError) -1 ] = '\0';
-        }
-    }
 
     for( DWORD iMonitor = 0; iMonitor < m_dwNumMonitors; iMonitor++ )
     {
@@ -1562,6 +1550,62 @@ VOID CScreensaver::UpdateErrorBox()
                     UpdateWindow( hwnd );
                 }
             }
+        }
+    }
+}
+
+
+
+
+//-----------------------------------------------------------------------------
+// Name: UpdateErrorBoxText()
+// Desc: Update the error message
+//-----------------------------------------------------------------------------
+VOID CScreensaver::UpdateErrorBoxText()
+{
+    RESULTS  results;
+    PROJECT* pProject;
+    TCHAR    szBuffer[256];
+    bool     bIsActive       = false;
+    bool     bIsExecuting    = false;
+    bool     bIsDownloaded   = false;
+    int      iResultCount    = 0;
+    int      iIndex          = 0;
+    float    fProgress       = 0;
+
+
+    // Load error string
+    GetTextForError( m_hrError, m_szError, sizeof(m_szError) / sizeof(TCHAR) );
+    if( SCRAPPERR_BOINCNOGRAPHICSAPPSEXECUTING == m_hrError )
+    {
+        if( 0 == rpc.get_results( results ) )
+        {
+            iResultCount = results.results.size();
+            for ( iIndex = 0; iIndex < iResultCount; iIndex++ )
+            {
+                bIsDownloaded = ( RESULT_FILES_DOWNLOADED == results.results.at(iIndex)->state );
+                bIsActive     = ( results.results.at(iIndex)->active_task );
+                bIsExecuting  = ( CPU_SCHED_SCHEDULED == results.results.at(iIndex)->scheduler_state );
+                if ( !( bIsActive ) || !( bIsDownloaded ) || !( bIsExecuting ) ) continue;
+
+                pProject = state.lookup_project( results.results.at( iIndex )->project_url );
+                if ( NULL != pProject )
+                {
+                    StringCbPrintf( szBuffer, sizeof(szBuffer) / sizeof(TCHAR),
+                        _T("%s: %.2f%%\n"),
+                        pProject->project_name.c_str(),
+                        results.results.at(iIndex)->fraction_done * 100 
+                    );
+
+                    StringCbCat( m_szError, sizeof(m_szError) / sizeof(TCHAR), szBuffer );
+                }
+                else
+                {
+                    m_bResetCoreState = TRUE;
+                }
+            }
+            m_szError[ sizeof(m_szError) -1 ] = '\0';
+            BOINCTRACE(_T("CScreensaver::UpdateErrorBoxText - Updated Text '%s'\n"), m_szError);
         }
     }
 }
