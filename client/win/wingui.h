@@ -40,6 +40,7 @@
 // constants
 
 #define WND_TITLE			"BOINC"		// window's title
+#define REGISTER_WND_CLASS	AfxRegisterWndClass(CS_VREDRAW|CS_HREDRAW, ::LoadCursor(NULL, IDC_ARROW),	(HBRUSH)::GetStockObject(WHITE_BRUSH), ::LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ICON)))		// registering window's class
 
 #ifndef IDC_HAND
 #define IDC_HAND			MAKEINTRESOURCE(32649)	// hand pointer, the "hidden resource"
@@ -252,6 +253,7 @@ protected:
 	DWORD					GetUserIdleTime();
 	void					Syncronize(CProgressListCtrl*, vector<void*>*);
     virtual void			PostNcDestroy();
+	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
     afx_msg void			OnClose();
 	afx_msg void			OnCommandSettingsQuit();
@@ -265,6 +267,7 @@ protected:
 	afx_msg void			OnCommandFileClearMessages();
 	afx_msg void			OnCommandHide();
 	afx_msg void			OnCommandSuspend();
+	afx_msg void			OnCommandResume();
 	afx_msg void			OnCommandExit();
     afx_msg int				OnCreate(LPCREATESTRUCT);
 	afx_msg BOOL			OnNotify(WPARAM, LPARAM, LRESULT*);

@@ -179,8 +179,8 @@ BEGIN
         MENUITEM "Clear &Messages",             ID_FILE_CLEARMESSAGES
         MENUITEM "Clear &Inactive",             ID_FILE_CLEARINACTIVE
         MENUITEM SEPARATOR
-        MENUITEM "&Hide",                       ID_FILE_HIDE
         MENUITEM "&Suspend",                    ID_FILE_SUSPEND
+        MENUITEM "&Resume",                     ID_FILE_RESUME
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_FILE_EXIT
     END
@@ -201,8 +201,8 @@ IDR_CONTEXT MENU DISCARDABLE
 BEGIN
     POPUP "Status Icon"
     BEGIN
-        MENUITEM "Hide",                        ID_STATUSICON_HIDE
         MENUITEM "Suspend",                     ID_STATUSICON_SUSPEND
+        MENUITEM "Resume",                      ID_STATUSICON_RESUME
         MENUITEM SEPARATOR
         MENUITEM "Exit",                        ID_STATUSICON_EXIT
     END

@@ -1245,14 +1245,10 @@ void CPieChartCtrl::OnPaint()
 //				otherwise shows the currently running window
 BOOL CMyApp::InitInstance()
 {
-	CWnd* pBoincWnd;
-	pBoincWnd = CWnd::FindWindow(NULL, WND_TITLE);
-	if(pBoincWnd) {
-		if(pBoincWnd->GetExStyle() & WS_EX_TOOLWINDOW) {
-			pBoincWnd->ShowWindow(SW_SHOW);
-			pBoincWnd->SetForegroundWindow();
-			return FALSE;
-		}
+	if(CreateMutex(NULL, false, "BOINC_MUTEX") == 0 || GetLastError() == ERROR_ALREADY_EXISTS) {
+		UINT nShowMsg = RegisterWindowMessage("BOINC_SHOW_MESSAGE");
+		PostMessage(HWND_BROADCAST, nShowMsg, 0, 0);
+		return FALSE;
 	}
     m_pMainWnd = new CMainWindow();
 	m_pMainWnd->ShowWindow(SW_SHOW);
@@ -1270,6 +1266,7 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_COMMAND(ID_FILE_CLEARMESSAGES, OnCommandFileClearMessages)
     ON_COMMAND(ID_FILE_HIDE, OnCommandHide)
     ON_COMMAND(ID_FILE_SUSPEND, OnCommandSuspend)
+    ON_COMMAND(ID_FILE_RESUME, OnCommandResume)
     ON_COMMAND(ID_FILE_EXIT, OnCommandExit)
     ON_COMMAND(ID_SETTINGS_LOGIN, OnCommandSettingsLogin)
     ON_COMMAND(ID_SETTINGS_QUIT, OnCommandSettingsQuit)
@@ -1279,6 +1276,7 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_COMMAND(ID_PROJECT_QUIT, OnCommandProjectQuit)
     ON_COMMAND(ID_STATUSICON_HIDE, OnCommandHide)
     ON_COMMAND(ID_STATUSICON_SUSPEND, OnCommandSuspend)
+    ON_COMMAND(ID_STATUSICON_RESUME, OnCommandResume)
     ON_COMMAND(ID_STATUSICON_EXIT, OnCommandExit)
     ON_WM_CREATE()
     ON_WM_RBUTTONDOWN()
@@ -1809,6 +1807,24 @@ void CMainWindow::PostNcDestroy()
 }
 
 //////////
+// CMainWindow::DefWindowProc
+// arguments:	message: message received
+//				wParam: message's wparam
+//				lParam: message's lparam
+// returns:		dependent on message
+// function:	handles any messages not handled by the window previously
+LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	UINT uShowMsg = RegisterWindowMessage("BOINC_SHOW_MESSAGE");
+	if(uShowMsg == message) {
+		ShowWindow(SW_SHOW);
+		SetForegroundWindow();
+		return 0;
+	}
+	return CWnd::DefWindowProc(message, wParam, lParam);
+}
+
+//////////
 // CMainWindow::OnClose
 // arguments:	void
 // returns:		void
@@ -2017,27 +2033,43 @@ void CMainWindow::OnCommandHide()
 // CMainWindow::OnCommandSuspend
 // arguments:	void
 // returns:		void
-// function:	suspends or unsuspends the window
+// function:	suspends client
 void CMainWindow::OnCommandSuspend()
 {
+	gstate.suspend_requested = true;
+	m_bSuspend = true;
+
 	CMenu* pMainMenu;
 	CMenu* pFileMenu;
 	pMainMenu = GetMenu();
 	if(pMainMenu) {
 		pFileMenu = pMainMenu->GetSubMenu(0);
 	}
-	if(m_bSuspend) {
-		gstate.suspend_requested = false;
-		m_bSuspend = false;
-		if(pFileMenu) {
-			pFileMenu->CheckMenuItem(ID_FILE_SUSPEND, MF_UNCHECKED);
-		}
-	} else {
-		gstate.suspend_requested = true;
-		m_bSuspend = true;
-		if(pFileMenu) {
-			pFileMenu->CheckMenuItem(ID_FILE_SUSPEND, MF_CHECKED);
-		}
+	if(pFileMenu) {
+		pFileMenu->EnableMenuItem(ID_FILE_SUSPEND, MF_GRAYED);
+		pFileMenu->EnableMenuItem(ID_FILE_RESUME, MF_ENABLED);
+	}
+}
+
+//////////
+// CMainWindow::OnCommandResume
+// arguments:	void
+// returns:		void
+// function:	resumes client
+void CMainWindow::OnCommandResume()
+{
+	gstate.suspend_requested = false;
+	m_bSuspend = false;
+
+	CMenu* pMainMenu;
+	CMenu* pFileMenu;
+	pMainMenu = GetMenu();
+	if(pMainMenu) {
+		pFileMenu = pMainMenu->GetSubMenu(0);
+	}
+	if(pFileMenu) {
+		pFileMenu->EnableMenuItem(ID_FILE_SUSPEND, MF_ENABLED);
+		pFileMenu->EnableMenuItem(ID_FILE_RESUME, MF_GRAYED);
 	}
 }
 
@@ -2096,8 +2128,8 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 
     g_myWnd = this;
 	m_nIconState = ICON_OFF;
-	m_bMessage = false;
 	m_bSuspend = false;
+	m_bMessage = false;
 	m_nContextItem = -1;
 
 	// load main menu
@@ -2185,8 +2217,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_TabCtrl.SetFont(&m_Font);
 	m_UsagePieCtrl.SetFont(&m_Font);
 
-	// remove button from taskbar and add status icon in taskbar
-	ModifyStyleEx(WS_EX_APPWINDOW, WS_EX_TOOLWINDOW);
+	// add status icon to taskbar
 	SetStatusIcon(ICON_NORMAL);
 
 	// take care of other things
@@ -2226,6 +2257,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 
 	LoadUserSettings();
 	UpdateGUI(&gstate);
+	OnCommandResume();
 
     return 0;
 }
@@ -2425,15 +2457,10 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 			Menu.DestroyMenu();
 			return FALSE;
 		}
-		if(IsWindowVisible()) {
-			pSubmenu->CheckMenuItem(ID_STATUSICON_HIDE, MF_UNCHECKED);
-		} else {
-			pSubmenu->CheckMenuItem(ID_STATUSICON_HIDE, MF_CHECKED);
-		}
 		if(m_bSuspend) {
-			pSubmenu->CheckMenuItem(ID_STATUSICON_SUSPEND, MF_CHECKED);
+			pSubmenu->EnableMenuItem(ID_STATUSICON_SUSPEND, MF_GRAYED);
 		} else {
-			pSubmenu->CheckMenuItem(ID_STATUSICON_SUSPEND, MF_UNCHECKED);
+			pSubmenu->EnableMenuItem(ID_STATUSICON_RESUME, MF_GRAYED);
 		}
 		pSubmenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
 		Menu.DestroyMenu();

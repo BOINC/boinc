@@ -8,12 +8,9 @@ get benchmark working as separate process
 validate in crontab
 
 Windows client
-    "bring up graphics" button/menu item in core client
     make mini-logo
     test uninstall
-    fix "unable to calculate"
     xfers: show file size,
-    completed results: show final CPU time
 -----------------------
 
 test feeder reread-DB mechanism
