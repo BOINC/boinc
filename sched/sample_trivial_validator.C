@@ -32,10 +32,10 @@ int init_result_trivial(RESULT const& result, void*& data) {
 
 int check_pair_initialized_trivial(
     RESULT & r1, void* /*data1*/,
-    RESULT const& r2, void* /*data2*/
+    RESULT const& r2, void* /*data2*/,
+    bool& match
 ) {
-    bool match = (r1.cpu_time >= MIN_CPU_TIME && r2.cpu_time >= MIN_CPU_TIME);
-    r1.validate_state = match?VALIDATE_STATE_VALID:VALIDATE_STATE_INVALID;
+    match = (r1.cpu_time >= MIN_CPU_TIME && r2.cpu_time >= MIN_CPU_TIME);
     return 0;
 }
 
@@ -57,10 +57,14 @@ int check_set(
 }
 
 int check_pair(RESULT & r1, RESULT const& r2, bool& retry) {
+    bool match;
     retry = false;
-    return check_pair_initialized_trivial(
+    int retval = check_pair_initialized_trivial(
         r1, NULL,
-        r2, NULL
+        r2, NULL,
+        match
     );
+    r1.validate_state = match?VALIDATE_STATE_VALID:VALIDATE_STATE_INVALID;
+    return retval;
 }
 
