@@ -3,7 +3,7 @@
 include $(top_srcdir)/Makefile.incl
 
 bin_PROGRAMS = crypt_prog
-EXTRA_PROGRAMS = md5_test shmem_test msg_test synch_test
+EXTRA_PROGRAMS = md5_test shmem_test msg_test
 noinst_LIBRARIES = libboinc.a 
 #libboinc_graphics.a
 EXTRA_DIST = result_state.h parse.h std_fixes.h util.h
@@ -32,7 +32,6 @@ libboinc_a_SOURCES =				\
 	msg_queue.h				\
     parse.C					\
 	shmem.C					\
-	synch.C					\
     util.C					\
 	util.h					\
 	xml_util.C              \
@@ -45,7 +44,6 @@ libboinc_a_SOURCES =				\
 md5_test_SOURCES = md5_test.C md5.c md5_file.C
 shmem_test_SOURCES = shmem_test.C shmem.C
 msg_test_SOURCES = msg_test.C msg_queue.C
-synch_test_SOURCES = synch_test.C synch.C
 crypt_prog_SOURCES = crypt_prog.C crypt.C md5.c md5_file.C
 crypt_prog_DEPENDENCIES = $(LIBRSA)
 crypt_prog_LDADD = $(RSA_LIBS)

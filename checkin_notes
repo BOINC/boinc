@@ -11796,3 +11796,12 @@ Rom    April 26 2004
         hostinfo_unix.c
     lib/
         filesys.c
+
+Rom    April 27 2004
+    - Remove dependency on semaphore stuff so the Mac 10.2 client will build.
+      NOTE:  The semaphore stuff should only be used in server components now.
+
+    client/
+        Makefile.am
+    lib/
+        Makefile.am
