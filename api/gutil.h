@@ -57,3 +57,8 @@ public:
     void draw(float* data, int len);
     void add_tick(float x, float yfrac);
 };
+
+extern int read_ppm(char* name, int& w, int& h, unsigned char** arrayp);
+
+extern void init_texture(char* filename);
+extern void draw_texture(float* pos, float* size);

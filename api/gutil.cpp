@@ -13,7 +13,6 @@
 #endif
 
 #include "gutil.h"
-
 //GLfloat mat_diffuse[] = {0.7, 0.5, 1.0, 0.4};
 GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
 GLfloat mat_shininess[] = {40.0};
@@ -29,6 +28,15 @@ void mode_shaded(GLfloat* color) {
     glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+}
+
+void mode_texture() {
+	glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+    glDisable(GL_LIGHTING);
+    glDisable(GL_LIGHT0);
+	//glTranslatef( 0.0f, 0.0f, -4.0f );
+
 }
 
 void mode_unshaded() {
@@ -344,4 +352,105 @@ void GRAPH_2D::draw(float* d, int ln) {
 }
 
 void GRAPH_2D::add_tick(float x, float yfrac) {
+}
+
+// read a PPM file
+// to generate PPM from JPEG:
+// mogrify -format ppm foo.jpg
+// or xv foo.jpg; right click on image, choose PPM
+//
+int read_ppm_file(char* name, int& w, int& h, unsigned char** arrayp) {
+    FILE* f;
+    char buf[256];
+    char img_type;
+    unsigned char* array;
+    int i;
+
+    f = fopen(name, "rb");
+    do {fgets(buf, 256, f);} while (buf[0] == '#');
+    if (buf[0] != 'P') {
+        return -1;
+    }
+    img_type = buf[1];
+    do {fgets(buf, 256, f);} while (buf[0] == '#');
+    sscanf(buf, "%d %d", &w, &h);
+    do {fgets(buf, 256, f);} while (buf[0] == '#');
+    array = (unsigned char*)malloc(w*h*3);
+    switch(img_type) {
+    case '3':
+        for (i=0; i<w*h*3; i++) {
+            fscanf(f, "%d", array+i);
+        }
+    case '6':
+        fread(array, 3, w*h, f);
+        break;
+    }
+    *arrayp = array;
+    return 0;
+}
+
+unsigned int texture_id;
+
+void init_texture(char* filename) {
+    unsigned char* pixels;
+    int width, height;
+    read_ppm_file(filename, width, height, &pixels);
+    glGenTextures(1, &texture_id);
+    glBindTexture(GL_TEXTURE_2D, texture_id);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(
+        GL_TEXTURE_2D,
+        0,
+        3,
+        //0,
+        //0,
+        width,
+        height,
+        0,
+        GL_RGB,
+        GL_UNSIGNED_BYTE,
+        pixels
+    );
+}
+struct Vertex
+{
+    float tu, tv;
+    float x, y, z;
+};
+
+Vertex g_quadVertices[] =
+{
+    { 0.0f,0.0f, -1.0f,-1.0f, 0.0f },
+    { 1.0f,0.0f,  1.0f,-1.0f, 0.0f },
+    { 1.0f,1.0f,  1.0f, 1.0f, 0.0f },
+    { 0.0f,1.0f, -1.0f, 1.0f, 0.0f }
+};
+float white[3] = {1., 1., 1.};
+
+void draw_texture(float* p, float* size) {
+    float pos[3];
+    memcpy(pos, p, sizeof(pos));
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, texture_id);
+#if 1
+    glBegin(GL_QUADS);
+	glTexCoord2f(0., 1.);
+    glVertex3fv(pos);
+    pos[0] += size[0];
+	glTexCoord2f(1., 1.);
+    glVertex3fv(pos);
+    pos[1] += size[1];
+	glTexCoord2f(1., 0.);
+    glVertex3fv(pos);
+    pos[0] -= size[0];
+	glTexCoord2f(0., 0.);
+    glVertex3fv(pos);
+    glEnd();
+#else
+    glInterleavedArrays( GL_T2F_V3F, 0, g_quadVertices );
+    glDrawArrays( GL_QUADS, 0, 4 );
+#endif
+
+    glDisable(GL_TEXTURE_2D);
 }
