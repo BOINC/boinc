@@ -308,6 +308,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                     break;
                 }
 #endif
+                char suffix[256];
                 sprintf(suffix, "%d", results.size()+i);
                 strcpy(result_template, wu.result_template);
                 retval = create_result(wu, result_template, suffix, key, "");
