@@ -455,7 +455,7 @@ int CLIENT_STATE::reset_checks() {
     return 0;
 }
 
-int CLIENT_STATE::total_potentially_offender(PROJECT* p, double& tps) {
+int CLIENT_STATE::total_potential_offender(PROJECT* p, double& tps) {
     PROJECT* other_p;
     unsigned int i;
 
@@ -476,7 +476,7 @@ int CLIENT_STATE::total_potentially_offender(PROJECT* p, double& tps) {
     }
 }
 
-int CLIENT_STATE::total_potentially_self(PROJECT* p, double& tps) {
+int CLIENT_STATE::total_potential_self(PROJECT* p, double& tps) {
     FILE_INFO* fip;
     unsigned int i;
     total_potentially_offender(p, tps);
