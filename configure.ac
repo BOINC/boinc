@@ -153,9 +153,9 @@ AC_CONFIG_HEADER([config.h])
 
 AC_OUTPUT
 
-[
 echo "--- Configured BOINC AC_PACKAGE_VERSION ---"
 
+[
 test/test_sanity.py || (
     cat <<EOF
 

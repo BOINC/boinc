@@ -7,30 +7,30 @@ add items to the BOINC database.
 
 Usages:
 
-add.py project      --name=yah --long_name="YETI @ home"
+add project      --name=yah --long_name="YETI @ home"
 
-add.py platform     --name=c64 [ --user_friendly_name="Commodore 64" ]
+add platform     --name=c64 [ --user_friendly_name="Commodore 64" ]
 
-add.py core_version --platform=c64 --version_num=717
+add core_version --platform=c64 --version_num=717
                     --exec_file=/path/to/boinc_7.17_c64
                     [--message="Message"] [--message_priority="Priority"]
 
-add.py app          --name=YetiApp [--min_version=716]
+add app          --name=YetiApp [--min_version=716]
 
-add.py app_version  --app=YetiApp --platform=c64 --version_num=717
+add app_version  --app=YetiApp --platform=c64 --version_num=717
                     --exec_file=/path/to/yeti_7.17_c64
                       [--signature_file=/path/to/sig_file]
                     [--exec_file=/path/to/more_bins
                       [--signature_file=/tmp/sig_file2]] ...
 
-add.py user         --name="Carl Sagan" --email_addr="carl.sagan@example.com"
+add user         --name="Carl Sagan" --email_addr="carl.sagan@example.com"
                     --authenticator="deadbeef"
                     [--country=Estonia --postal_code=94703
                      --global_prefs_file=/path/to/prefs.xml]
 
-add.py workunit  (TODO)
+add workunit  (TODO)
 
-add.py result    (TODO) '''
+add result    (TODO) '''
 
 import boinc_path_config
 from Boinc import database, db_mid, configxml, tools
@@ -153,7 +153,7 @@ def help_object(object, msg=None):
     if msg:
         print >>sys.stderr, "add:", msg
         print
-    print >>sys.stderr, "Syntax: add.py %s"%object.name
+    print >>sys.stderr, "Syntax: add %s"%object.name
     for arg in object.args:
         print >>sys.stderr, dv(object,arg)
     print >>sys.stderr, " Optional:"
@@ -219,7 +219,7 @@ for o in list_objects_to_add:
     objects_to_add[object.name] = object
 
 if len(sys.argv) < 2:
-    print >>sys.stderr, """Syntax: add.py <object_to_add> <options...>
+    print >>sys.stderr, """Syntax: add <object_to_add> <options...>
 
 Adds an object to the BOINC database.
 

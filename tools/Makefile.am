@@ -4,7 +4,7 @@ include $(top_srcdir)/Makefile.incl
 
 bin_PROGRAMS = create_work old_add country_select sign_executable
 
-EXTRA_DIST = make_project add.py update_version
+EXTRA_DIST = make_project add update_version
 
 # TODO: use libboinc for these:
 

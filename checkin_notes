@@ -6180,3 +6180,9 @@ Karl 2003/09/05
         add.py
         update_versions
 
+    - renamed add.C output to old_add and renamed add.py to add
+
+    tools/
+        Makefile.am
+        add.py -> add  (renamed)
+
