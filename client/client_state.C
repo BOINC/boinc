@@ -1319,9 +1319,10 @@ bool CLIENT_STATE::update_results() {
             action = true;
             break;
         case RESULT_FILES_DOWNLOADING:
-            if (input_files_available(rp))
+            if (input_files_available(rp)) {
                 rp->state = RESULT_FILES_DOWNLOADED;
-            action = true;
+                action = true;
+            }
             break;
         case RESULT_FILES_DOWNLOADED:
             // The transition to COMPUTE_DONE is performed
