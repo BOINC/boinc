@@ -228,8 +228,8 @@ function row3($x, $y, $z) {
 }
 
 function row4($xx, $xy, $yx, $yy) {
-    echo "<tr><td width=25% valign=top align=right>$xx</td><td width=25%>$xy</td>"
-        . "<td width=25% align=right>$yx</td><td width=%25>$yy</td></tr>\n";
+    echo "<tr><td width=25% valign=top>$xx</td><td width=25%>$xy</td>"
+        . "<td width=25% >$yx</td><td width=%25>$yy</td></tr>\n";
 }
 
 function rowify($string) {

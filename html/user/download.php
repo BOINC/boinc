@@ -9,24 +9,16 @@ require_once("../inc/db.inc");
 require_once("../inc/download.inc");
 
 
-    init_session();
     db_init();
 
     page_head("Download BOINC software");
-    if (!get_logged_in_user(false)) {
-        echo "
-            <font color=ff0000>
-            <b>First-time ".PROJECT." participants</b>:
-            <br>Don't download BOINC software now.
-            <a href=create_account_form.php>Create an account</a>
-            before you download.
-            </font>
-            <p>
-            If you're a returning ".PROJECT." user:
-        ";
-    }
     echo "
-        Select your computer type:<p>\n
+        <font color=ff0000>
+        <b>First-time ".PROJECT." participants</b>:
+        <br>Don't download BOINC software now.
+        <a href=create_account_form.php>Create an account</a> first.
+        </font>
+        <p>
     ";
     print_download_links();
     echo "

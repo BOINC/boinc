@@ -91,6 +91,7 @@ function start_cache($max_age, $params=""){
     if ($max_age) {
         $request = getallheaders();
 
+        clearstatcache();
         $lastmodified = @filemtime($path);
         if ($lastmodified) {
 
@@ -141,7 +142,9 @@ function start_cache($max_age, $params=""){
             Header("Last-Modified: " . gmdate("D, d M Y H:i:s",$lastmodified) . " GMT");
             Header("Expires: " . gmdate("D, d M Y H:i:s",$lastmodified+$max_age) . " GMT");
             Header("Cache-Control: public, max-age=" . $max_age );
-            readfile($path);
+            if (!@readfile($path)) {
+                echo "can't read $path; lastmod $lastmodified\n";
+            }
             exit;
         }
     }

@@ -19003,3 +19003,19 @@ David  1 Nov 2004
             top_users.php
         lib/
             util.C
+
+David  1 Nov 2004
+    - PHP caching: call clearstatcache() prior to filemtime(),
+        just in case the file doesn't exist anymore.
+        NOTE: this doesn't seem to work.
+        Sometimes it thinks a cached copy is there, but it's not.
+    - row4(): don't left/right align
+    - core client download page:
+        don't check for user login (this page is cached!!)
+
+    html/
+        inc/
+            cache.inc
+            util.C
+        user/
+            download.inc
