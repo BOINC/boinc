@@ -357,7 +357,9 @@ class Project:
         # req/reply files somewhere else
         map(lambda dir: os.mkdir(self.dir(dir)),
             [ '', 'cgi-bin', 'bin', 'upload', 'download', 'log',
-              'html_ops', 'html_user', 'html_user/project_specific'])
+              'html_ops', 'html_user', 'html_user/project_specific',
+              'html_user/class', 'html_user/include'
+              ])
         map(lambda dir: os.chmod(self.dir(dir), 0777),
             [ 'cgi-bin', 'upload', 'log' ])
 
@@ -371,6 +373,8 @@ class Project:
 
         install_glob(srcdir('html_user/*.php'), self.dir('html_user/'))
         install_glob(srcdir('html_user/*.inc'), self.dir('html_user/'))
+        install_glob(srcdir('html_user/class/*.inc'), self.dir('html_user/class/'))
+        install_glob(srcdir('html_user/include/*.inc'), self.dir('html_user/include/'))
         install_glob(srcdir('html_user/*.txt'), self.dir('html_user/'))
         install_glob(srcdir('html_ops/*.php'), self.dir('html_ops/'))
         install_glob(srcdir('html_ops/*.inc'), self.dir('html_ops/'))
