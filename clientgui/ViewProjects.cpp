@@ -416,9 +416,11 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    if      ( link.GetHref() == SECTION_TASK )
-        m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
-    else if ( link.GetHref() == LINK_TASKATTACH )
+    m_bTaskHeaderHidden = false;
+    m_bWebsiteHeaderHidden = false;
+    m_bTipsHeaderHidden = false;
+
+    if ( link.GetHref() == LINK_TASKATTACH )
     {
         CDlgAttachProject* pDlg = new CDlgAttachProject(this);
         wxASSERT(NULL != pDlg);
@@ -506,8 +508,6 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
             iProjectIndex 
         );
     }
-    else if ( link.GetHref() == SECTION_WEB )
-        m_bWebsiteHeaderHidden ? m_bWebsiteHeaderHidden = false : m_bWebsiteHeaderHidden = true;
     else if ( link.GetHref() == LINK_WEBBOINC )
     {
         ExecuteLink(wxT("http://boinc.berkeley.edu"));
@@ -526,8 +526,6 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 
         ExecuteLink(strURL);
     }
-    else if ( link.GetHref() == SECTION_TIPS )
-        m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
 
     UpdateSelection();
     m_pListPane->Refresh();
@@ -582,7 +580,9 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x),
         {
             if ( 0 == m_pListPane->GetSelectedItemCount() )
             {
-                if  ( LINK_DEFAULT != GetCurrentQuickTip() )
+                if  ( ( LINK_DEFAULT != GetCurrentQuickTip() ) &&
+                      ( LINK_TASKATTACH != strLink ) &&
+                      ( LINK_WEBBOINC != strLink ) )
                 {
                     SetCurrentQuickTip(
                         LINK_DEFAULT, 
@@ -695,7 +695,7 @@ void CViewProjects::UpdateSelection()
         {
             SetCurrentQuickTip(
                 LINK_DEFAULT, 
-                wxT("")
+                LINKDESC_DEFAULT
             );
         }
         m_bItemSelected = false;
@@ -745,24 +745,24 @@ void CViewProjects::UpdateTaskPane()
 
     m_pTaskPane->BeginTaskPage();
 
-    m_pTaskPane->BeginTaskSection( SECTION_TASK, BITMAP_TASKHEADER, m_bTaskHeaderHidden );
+    m_pTaskPane->BeginTaskSection( BITMAP_TASKHEADER, m_bTaskHeaderHidden );
     if (!m_bTaskHeaderHidden)
     {
-        m_pTaskPane->CreateTask( LINK_TASKATTACH, BITMAP_PROJECTS, _("Attach to new project"), m_bTaskAttachHidden );
-        m_pTaskPane->CreateTask( LINK_TASKDETACH, BITMAP_PROJECTS, _("Detach from project"), m_bTaskDetachHidden );
-        m_pTaskPane->CreateTask( LINK_TASKRESET, BITMAP_PROJECTS, _("Reset project"), m_bTaskResetHidden );
-        m_pTaskPane->CreateTask( LINK_TASKSUSPEND, BITMAP_PROJECTS, _("Suspend project"), m_bTaskSuspendHidden );
-        m_pTaskPane->CreateTask( LINK_TASKRESUME, BITMAP_PROJECTS, _("Resume project"), m_bTaskResumeHidden );
-        m_pTaskPane->CreateTask( LINK_TASKUPDATE, BITMAP_PROJECTS, _("Update project"), m_bTaskUpdateHidden );
+        m_pTaskPane->CreateTask( LINK_TASKATTACH, _("Attach to new project"), m_bTaskAttachHidden );
+        m_pTaskPane->CreateTask( LINK_TASKDETACH, _("Detach from project"), m_bTaskDetachHidden );
+        m_pTaskPane->CreateTask( LINK_TASKRESET, _("Reset project"), m_bTaskResetHidden );
+        m_pTaskPane->CreateTask( LINK_TASKSUSPEND, _("Suspend project"), m_bTaskSuspendHidden );
+        m_pTaskPane->CreateTask( LINK_TASKRESUME, _("Resume project"), m_bTaskResumeHidden );
+        m_pTaskPane->CreateTask( LINK_TASKUPDATE, _("Update project"), m_bTaskUpdateHidden );
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 
 
-    m_pTaskPane->BeginTaskSection( wxT(SECTION_WEB), wxT(BITMAP_WEBHEADER), m_bWebsiteHeaderHidden );
+    m_pTaskPane->BeginTaskSection( BITMAP_WEBHEADER, m_bWebsiteHeaderHidden );
     if (!m_bWebsiteHeaderHidden)
     {
-        m_pTaskPane->CreateTask( LINK_WEBBOINC, BITMAP_BOINC, _("BOINC"), m_bWebsiteBOINCHidden );
-        m_pTaskPane->CreateTask( LINK_WEBPROJECT, BITMAP_PROJECTS, _("Project"), m_bWebsiteProjectHidden );
+        m_pTaskPane->CreateTask( LINK_WEBBOINC, _("BOINC"), m_bWebsiteBOINCHidden );
+        m_pTaskPane->CreateTask( LINK_WEBPROJECT, _("Project"), m_bWebsiteProjectHidden );
 
         iProjectIndex = m_pListPane->GetFirstSelected();
         if ( -1 != iProjectIndex )
@@ -773,13 +773,13 @@ void CViewProjects::UpdateTaskPane()
                 ConvertWebsiteIndexToLink( iProjectIndex, iWebsiteIndex, strWebsiteLink );
                 pDoc->GetProjectWebsiteName(iProjectIndex, iWebsiteIndex, strWebsiteName);
                 
-                m_pTaskPane->CreateTask( strWebsiteLink, BITMAP_PROJECTS, strWebsiteName, false );
+                m_pTaskPane->CreateTask( strWebsiteLink, strWebsiteName, false );
             }
         }
     }
     m_pTaskPane->EndTaskSection(m_bWebsiteHeaderHidden);
 
-    m_pTaskPane->UpdateQuickTip( SECTION_TIPS, BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
+    m_pTaskPane->UpdateQuickTip( BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
 
     m_pTaskPane->EndTaskPage();
 }

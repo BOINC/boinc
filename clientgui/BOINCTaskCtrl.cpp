@@ -65,6 +65,34 @@ void CBOINCTaskCtrl::BeginTaskPage()
 }
 
 
+void CBOINCTaskCtrl::BeginTaskSection( const wxString& strTaskHeaderFilename, bool bHidden )
+{
+    wxString strModifiedTaskHeaderFilename;
+
+    if ( bHidden )
+        strModifiedTaskHeaderFilename = strTaskHeaderFilename + wxT(".hidden");
+    else
+        strModifiedTaskHeaderFilename = strTaskHeaderFilename + wxT(".visible");
+
+    m_strTaskPage += wxT("<table border=\"0\" bgcolor=\"White\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">");
+    m_strTaskPage += wxT("  <tr bgcolor=\"#0080FF\">");
+    m_strTaskPage += wxT("    <td width=\"100%\">");
+    m_strTaskPage += wxT("        <img src=\"memory:") + strModifiedTaskHeaderFilename + wxT("\">");
+    m_strTaskPage += wxT("    </td>");
+    m_strTaskPage += wxT("  </tr>");
+
+    if ( !bHidden )
+    {
+        m_strTaskPage += wxT("  <tr>");
+        m_strTaskPage += wxT("    <td>&nbsp;</td>");
+        m_strTaskPage += wxT("  </tr>");
+        m_strTaskPage += wxT("  <tr>");
+        m_strTaskPage += wxT("    <td align=\"right\">");
+        m_strTaskPage += wxT("      <table border=\"0\" width=\"90%\" cellpadding=\"0\" cellspacing=\"0\">");
+    }
+}
+
+
 void CBOINCTaskCtrl::BeginTaskSection( const wxString& strLink, const wxString& strTaskHeaderFilename, bool bHidden )
 {
     wxString strModifiedTaskHeaderFilename;
@@ -122,19 +150,6 @@ void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTas
 }
 
 
-void CBOINCTaskCtrl::CreateTaskSeperator( bool  bHidden )
-{
-    if ( !bHidden )
-    {
-        m_strTaskPage += wxT("        <tr>");
-        m_strTaskPage += wxT("          <td>");
-        m_strTaskPage += wxT("            <hr><br>");
-        m_strTaskPage += wxT("          </td>");
-        m_strTaskPage += wxT("        </tr>");
-    }
-}
-
-
 void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTaskIconFilename, const wxString& strTaskName, bool  bHidden )
 {
     if ( !bHidden )
@@ -166,6 +181,19 @@ void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTas
 }
 
 
+void CBOINCTaskCtrl::CreateTaskSeperator( bool  bHidden )
+{
+    if ( !bHidden )
+    {
+        m_strTaskPage += wxT("        <tr>");
+        m_strTaskPage += wxT("          <td>");
+        m_strTaskPage += wxT("            <hr><br>");
+        m_strTaskPage += wxT("          </td>");
+        m_strTaskPage += wxT("        </tr>");
+    }
+}
+
+
 void CBOINCTaskCtrl::EndTaskSection( bool bHidden )
 {
     if ( !bHidden )
@@ -180,6 +208,27 @@ void CBOINCTaskCtrl::EndTaskSection( bool bHidden )
 
     m_strTaskPage += wxT("</table>");
     m_strTaskPage += wxT("<p></p>");
+}
+
+
+void CBOINCTaskCtrl::UpdateQuickTip( const wxString& strIconFilename, const wxString& strTip, bool bHidden )
+{
+    if (!strTip.empty())
+    {
+        BeginTaskSection(
+            strIconFilename,
+            bHidden
+        );
+        if (!bHidden)
+        {
+            m_strTaskPage += wxT("        <tr>");
+            m_strTaskPage += wxT("          <td width=\"100%\">");
+            m_strTaskPage += wxT("            ") + strTip;
+            m_strTaskPage += wxT("          </td>");
+            m_strTaskPage += wxT("        </tr>");
+        }
+        EndTaskSection(bHidden);
+    }
 }
 
 

@@ -396,9 +396,10 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    if      ( link.GetHref() == SECTION_TASK )
-        m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
-    else if ( link.GetHref() == LINK_TASKSUSPEND )
+    m_bTaskHeaderHidden = false;
+    m_bTipsHeaderHidden = false;
+
+    if ( link.GetHref() == LINK_TASKSUSPEND )
     {
         iProjectIndex = m_pListPane->GetFirstSelected();
 
@@ -467,8 +468,6 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
             );
         }
     }
-    else if ( link.GetHref() == SECTION_TIPS )
-        m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
 
     UpdateSelection();
     m_pListPane->Refresh();
@@ -645,17 +644,17 @@ void CViewWork::UpdateTaskPane()
 
     m_pTaskPane->BeginTaskPage();
 
-    m_pTaskPane->BeginTaskSection( SECTION_TASK, BITMAP_TASKHEADER, m_bTaskHeaderHidden );
+    m_pTaskPane->BeginTaskSection( BITMAP_TASKHEADER, m_bTaskHeaderHidden );
     if (!m_bTaskHeaderHidden)
     {
-        m_pTaskPane->CreateTask( LINK_TASKSUSPEND, BITMAP_RESULTS, _("Suspend"), m_bTaskSuspendHidden );
-        m_pTaskPane->CreateTask( LINK_TASKRESUME, BITMAP_RESULTS, _("Resume"), m_bTaskResumeHidden );
-        m_pTaskPane->CreateTask( LINK_TASKSHOWGRAPHICS, BITMAP_RESULTS, _("Show graphics"), m_bTaskShowGraphicsHidden );
-        m_pTaskPane->CreateTask( LINK_TASKABORT, BITMAP_RESULTS, _("Abort result"), m_bTaskAbortHidden );
+        m_pTaskPane->CreateTask( LINK_TASKSUSPEND, _("Suspend"), m_bTaskSuspendHidden );
+        m_pTaskPane->CreateTask( LINK_TASKRESUME, _("Resume"), m_bTaskResumeHidden );
+        m_pTaskPane->CreateTask( LINK_TASKSHOWGRAPHICS, _("Show graphics"), m_bTaskShowGraphicsHidden );
+        m_pTaskPane->CreateTask( LINK_TASKABORT, _("Abort result"), m_bTaskAbortHidden );
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 
-    m_pTaskPane->UpdateQuickTip( SECTION_TIPS, BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
+    m_pTaskPane->UpdateQuickTip( BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
 
     m_pTaskPane->EndTaskPage();
 }

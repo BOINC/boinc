@@ -223,10 +223,8 @@ void CViewResources::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 
     wxString strMessage;
 
-    if ( link.GetHref() == wxT(SECTION_TASK) )
-        m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
-    else if ( link.GetHref() == wxT(SECTION_TIPS) )
-        m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
+    m_bTaskHeaderHidden = false;
+    m_bTipsHeaderHidden = false;
 
     UpdateSelection();
     m_pListPane->Refresh();
@@ -353,13 +351,13 @@ void CViewResources::UpdateTaskPane()
 
     m_pTaskPane->BeginTaskPage();
 
-    m_pTaskPane->BeginTaskSection( SECTION_TASK, BITMAP_TASKHEADER, m_bTaskHeaderHidden );
+    m_pTaskPane->BeginTaskSection( BITMAP_TASKHEADER, m_bTaskHeaderHidden );
     if (!m_bTaskHeaderHidden)
     {
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 
-    m_pTaskPane->UpdateQuickTip( SECTION_TIPS, BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
+    m_pTaskPane->UpdateQuickTip( BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden);
 
     m_pTaskPane->EndTaskPage();
 }

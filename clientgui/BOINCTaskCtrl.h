@@ -42,6 +42,8 @@ public:
     ~CBOINCTaskCtrl();
 
     virtual void                BeginTaskPage();
+    virtual void                BeginTaskSection(  const wxString& strTaskHeaderFilename, 
+                                                   bool  bHidden );
     virtual void                BeginTaskSection(  const wxString& strLink,
                                                    const wxString& strTaskHeaderFilename, 
                                                    bool  bHidden );
@@ -54,6 +56,9 @@ public:
                                                    bool  bHidden );
     virtual void                CreateTaskSeperator( bool  bHidden );
     virtual void                EndTaskSection(    bool  bHidden );
+    virtual void                UpdateQuickTip(    const wxString& strIconFilename,
+                                                   const wxString& strTip,
+                                                   bool  bHidden );
     virtual void                UpdateQuickTip(    const wxString& strLink,
                                                    const wxString& strIconFilename,
                                                    const wxString& strTip,

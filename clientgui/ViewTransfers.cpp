@@ -362,9 +362,10 @@ void CViewTransfers::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    if      ( link.GetHref() == SECTION_TASK )
-        m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
-    else if ( link.GetHref() == LINK_TASKRETRY )
+    m_bTaskHeaderHidden = false;
+    m_bTipsHeaderHidden = false;
+
+    if ( link.GetHref() == LINK_TASKRETRY )
     {
         iProjectIndex = m_pListPane->GetFirstSelected();
 
@@ -395,8 +396,6 @@ void CViewTransfers::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
             );
         }
     }
-    else if ( link.GetHref() == SECTION_TIPS )
-        m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
 
     UpdateSelection();
     m_pListPane->Refresh();
@@ -544,15 +543,15 @@ void CViewTransfers::UpdateTaskPane()
 
     m_pTaskPane->BeginTaskPage();
 
-    m_pTaskPane->BeginTaskSection( SECTION_TASK, BITMAP_TASKHEADER, m_bTaskHeaderHidden );
+    m_pTaskPane->BeginTaskSection( BITMAP_TASKHEADER, m_bTaskHeaderHidden );
     if (!m_bTaskHeaderHidden)
     {
-        m_pTaskPane->CreateTask( LINK_TASKRETRY, BITMAP_TRANSFER, _("Retry Now"), m_bTaskRetryHidden );
-        m_pTaskPane->CreateTask( LINK_TASKABORT, BITMAP_TRANSFER, _("Abort Upload"), m_bTaskAbortHidden );
+        m_pTaskPane->CreateTask( LINK_TASKRETRY, _("Retry Now"), m_bTaskRetryHidden );
+        m_pTaskPane->CreateTask( LINK_TASKABORT, _("Abort Upload"), m_bTaskAbortHidden );
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 
-    m_pTaskPane->UpdateQuickTip( SECTION_TIPS, BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
+    m_pTaskPane->UpdateQuickTip( BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
 
     m_pTaskPane->EndTaskPage();
 }

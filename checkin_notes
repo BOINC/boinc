@@ -21737,6 +21737,11 @@ Rom    22 Dec 2004
         the wxLocale object is created.
     - Add the ability for the task control to have a horizonal rule
     - Create a CreateTask API that doesn't require a reference to a bitmap
+    - Remove icons from the various tasks until we can get some better
+      visuals
+    - Fix a flicker bug when no item is selected on the project tab
+        and you hover over the 'attach to new project' or 'BOINC' links
+    - Remove the ability to expand or collapse the various headers
 
     clientgui/
         BOINCBaseView.cpp, .h

@@ -312,11 +312,11 @@ void CViewMessages::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    if      ( link.GetHref() == SECTION_TASK )
-        m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
+    m_bTaskHeaderHidden = false;
+    m_bTipsHeaderHidden = false;
 
 #ifndef NOCLIPBOARD
-    else if ( link.GetHref() == LINK_TASKCOPYALL )
+    if ( link.GetHref() == LINK_TASKCOPYALL )
     {
         wxInt32 iRowCount = 0;
 
@@ -348,10 +348,6 @@ void CViewMessages::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         CloseClipboard();
     }
 #endif
-
-    else if ( link.GetHref() == SECTION_TIPS )
-        m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
-
 
     UpdateSelection();
 }
@@ -503,15 +499,15 @@ void CViewMessages::UpdateTaskPane()
 
     m_pTaskPane->BeginTaskPage();
 
-    m_pTaskPane->BeginTaskSection( SECTION_TASK, BITMAP_TASKHEADER, m_bTaskHeaderHidden );
+    m_pTaskPane->BeginTaskSection( BITMAP_TASKHEADER, m_bTaskHeaderHidden );
     if (!m_bTaskHeaderHidden)
     {
-        m_pTaskPane->CreateTask( LINK_TASKCOPYALL, BITMAP_MESSAGE, _("Copy all messages"), m_bTaskCopyAllHidden );
-        m_pTaskPane->CreateTask( LINK_TASKCOPYMESSAGE, BITMAP_MESSAGE, _("Copy selected messages"), m_bTaskCopyMessageHidden );
+        m_pTaskPane->CreateTask( LINK_TASKCOPYALL, _("Copy all messages"), m_bTaskCopyAllHidden );
+        m_pTaskPane->CreateTask( LINK_TASKCOPYMESSAGE, _("Copy selected messages"), m_bTaskCopyMessageHidden );
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 
-    m_pTaskPane->UpdateQuickTip( SECTION_TIPS, BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
+    m_pTaskPane->UpdateQuickTip( BITMAP_TIPSHEADER, GetCurrentQuickTipText(), m_bTipsHeaderHidden );
 
     m_pTaskPane->EndTaskPage();
 }
