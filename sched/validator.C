@@ -105,10 +105,19 @@ int grant_credit(RESULT& result, double credit) {
 
     host.total_credit += credit;
     update_average(result.sent_time, credit, CREDIT_HALF_LIFE, host.expavg_credit, host.expavg_time);
+
+    double turnaround = result.received_time - result.sent_time;
+    if (host.avg_turnaround == 0) {
+        host.avg_turnaround = turnaround;
+    } else {
+        host.avg_turnaround = .7*host.avg_turnaround + .3*turnaround;
+    }
+
     sprintf(
-        buf, "total_credit=%f, expavg_credit=%f, expavg_time=%f",
-        host.total_credit,  host.expavg_credit,
-        host.expavg_time
+        buf,
+        "total_credit=%f, expavg_credit=%f, expavg_time=%f, avg_turnaround=%f",
+        host.total_credit,  host.expavg_credit, host.expavg_time,
+        host.avg_turnaround
     );
     retval = host.update_field(buf);
     if (retval) {

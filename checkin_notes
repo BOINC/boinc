@@ -21289,3 +21289,8 @@ David  14 Dec 2004
 	win_build/
 		upper_case.vcproj
 
+David  13 Dec 2004
+    - Added code to validator to maintain host.avg_turnaround
+
+    sched/
+        validator.C
