@@ -605,6 +605,9 @@ bool ACTIVE_TASK_SET::check_app_exited() {
     for (int i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
+            // check for most recent checkpoint_cpu_time to calculate
+            // a more accurate final time.
+            atp->get_status_msg();
             atp->result->final_cpu_time = atp->checkpoint_cpu_time;
             if (exit_code != STILL_ACTIVE) {
                 found = true;
@@ -658,9 +661,11 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK_SET::check_app_exited(): pid %d not found\n", pid);
             return true;
         }
-        double x = rs.ru_utime.tv_sec + rs.ru_utime.tv_usec/1.e6;
-        atp->result->final_cpu_time = atp->current_cpu_time =
-            atp->checkpoint_cpu_time = atp->starting_cpu_time + x;
+
+        // check for most recent checkpoint_cpu_time to calculate a more
+        // accurate final time.
+        atp->get_status_msg();
+        atp->result->final_cpu_time = atp->checkpoint_cpu_time;
         if (atp->state == PROCESS_ABORT_PENDING) {
             atp->state = PROCESS_ABORTED;
             atp->result->active_task_state = PROCESS_ABORTED;
