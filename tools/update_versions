@@ -174,7 +174,7 @@ def find_versions__process_single_file(filepath):
      match = re_match_exec_filename(filepath)
      if not match:
          print >>sys.stderr, "  Ignoring unknown file", filepath
-         continue
+         return
      add_files(app=app, match=match, exec_file=filepath,
                min_core_version = min_core_version
                )
@@ -197,7 +197,7 @@ def find_versions__process_bundle(dir):
         non_exec_files.append(filepath)
     if not match:
         print >>sys.stderr, "  Ignoring directory", dir
-        continue
+        return
     add_files(app=app, match=match,
               exec_file=exec_file,
               non_exec_files=non_exec_files,
