@@ -75,9 +75,9 @@
 #define DEFAULT_CACHE   1e6
 
 #define FP_START    2
-#define FP_END      6
-#define INT_START   8
-#define INT_END     12
+#define FP_END      22
+#define INT_START   37
+#define INT_END     57
 
 #define BM_FP_INIT  0
 #define BM_FP       1
@@ -141,7 +141,7 @@ bool benchmark_time_to_stop(int which) {
 }
 
 // benchmark a single CPU
-// This takes 10-20 seconds,
+// This takes 60-120 seconds,
 //
 int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     HOST_INFO host_info;

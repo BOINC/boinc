@@ -14015,3 +14015,15 @@ David  2004.06.18
 Rom    June 19 2004
     - Tag for 3.17 release, all platforms
       boinc_core_release_3_17
+
+Rom    June 19 2004
+    - Lengthen the benchmarks so even on slow machines they won't get stuck in an
+      endless loop waiting on a file that has already come and gone.
+
+    client/
+        cs_benchmark.C
+
+Rom    June 19 2004
+    - Tag for 3.18 release, all platforms
+      boinc_core_release_3_18
+
