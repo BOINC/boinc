@@ -110,12 +110,12 @@ int PROJECT::parse_state(FILE* in) {
         else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
         else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
-	else if (parse_int(buf, "<user_create_time>", (int)user_create_time)) continue;
+	else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
 	else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
-        else if (parse_int(buf, "<host_create_time>", (int)host_create_time)) continue;
+        else if (parse_int(buf, "<host_create_time>", (int &)host_create_time)) continue;
         else if (parse_double(buf, "<exp_avg_cpu>", exp_avg_cpu)) continue;
         else if (parse_int(buf, "<exp_avg_mod_time>", exp_avg_mod_time)) continue;
         else if (match_tag(buf, "<code_sign_key>")) {

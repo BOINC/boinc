@@ -410,7 +410,7 @@ int SCHEDULER_REPLY::parse(FILE* in) {
             continue;
         } else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) {
             continue;
-	} else if (parse_int(buf, "<user_create_time>", (int)user_create_time)) {
+	} else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) {
 	    continue;
         } else if (parse_int(buf, "<hostid>", hostid)) {
             continue;
@@ -418,7 +418,7 @@ int SCHEDULER_REPLY::parse(FILE* in) {
 	    continue;
 	} else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) {
 	    continue;
-	} else if (parse_int(buf, "<host_create_time>", (int)host_create_time)) {
+	} else if (parse_int(buf, "<host_create_time>", (int &)host_create_time)) {
 	    continue;
         } else if (parse_int(buf, "<request_delay>", request_delay)) {
             continue;

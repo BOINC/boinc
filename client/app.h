@@ -48,7 +48,7 @@ class CLIENT_STATE;
 class ACTIVE_TASK {
 public:
 #ifdef _WIN32
-    HANDLE pid_handle;
+    HANDLE pid_handle,thread_handle;
 #endif
     RESULT* result;
     WORKUNIT* wup;

@@ -94,7 +94,9 @@ int main() {
         boinc_sleep(1);
     }
     nxs.remove(nxp);
-    if (nxp->file) fclose(nxp->file);
+    if (nxp->file) {
+		fclose(nxp->file);
+	}
 
     return 0;
 }
