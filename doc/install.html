@@ -45,12 +45,12 @@ Add the following lines (with appropriate changes) where aliases are placed.
 <pre>
 Alias /barry/ "/disks/philmor/a/users/barry/"
 
-<Directory>
+&#60;Directory&#62;
     Options Indexes FollowSymlinks MultiViews
     AllowOverride None
     Order allow,deny
     Alias from all
-</Directory\>
+&#60;/Directory&#62;
 </pre>
 
 This allows you to resolve URL's and path names that go to your home directory.
@@ -63,12 +63,12 @@ aliases are placed.
 <pre>
 ScriptAlias /barry-cgi/ "/disks/philmor/a/users/barry/cgi/"
 
-<Directory "/disks/philmor/a/users/barry/cgi/">
+&#60;Directory "/disks/philmor/a/users/barry/cgi/"&#62;
     AllowOverride None
     Options None
     Order allow,deny
     Allow from all
-</Directory>
+&#60;/Directory&#62;
 </pre>
 
 This allows CGI files to be executed in the specified directory.  You will put
