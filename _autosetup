@@ -18,10 +18,15 @@ echo "Bootstrapping configure script and makefiles:"
 
 aclocal && automake && autoconf && autoheader
 
-## We don't just run ./configure ourselves here, because the user may not want
-## to run it, or may want to run with custom parameters.
+## We don't always run ./configure ourselves here, because the user may not
+## want to run it, or may want to run with custom parameters.
 
-echo "Done, now run ./configure"
-echo " ./configure -C                         to enable caching"
-echo " ./configure --enable-maintainer-mode   to enable maintainer depedencies"
-
+if [ "$1" = "-a" ]; then
+    ./configure --enable-maintainer-mode
+elif [ "$1" = "-c" ]; then
+    ./configure
+else
+    echo "Done, now run ./configure"
+    echo " ./configure -C                         to enable caching"
+    echo " ./configure --enable-maintainer-mode   to enable maintainer depedencies"
+fi
