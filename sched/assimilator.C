@@ -143,6 +143,7 @@ int main(int argc, char** argv) {
         }
     }
 
+    // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(ASSIMILATOR_LOCKFILE)) {
         fprintf(stderr, "Another copy of assimilator is already running\n");
         exit(1);

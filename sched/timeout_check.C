@@ -363,6 +363,7 @@ int main(int argc, char** argv) {
         }
     }
 
+    // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
         fprintf(stderr, "Another copy of timeout_check is already running\n");
         exit(1);
