@@ -23302,3 +23302,10 @@ David 27 Jan 2005
     - build fixes from Reinhard
 
     configure.ac
+
+Rom    27 Jan 2005
+    - Include some of the battery status flags in the decision when trying to
+      determine if a notebook is on battery power.
+
+    client/win
+        hostinfo_win.cpp

@@ -375,7 +375,15 @@ bool HOST_INFO::host_is_running_on_batteries() {
 		return false;
 	}
 
-	return (pStatus.ACLineStatus != 1);
+    // Sometimes the system reports the ACLineStatus as an 
+    //   undocumented value, so lets check to see if the
+    //   battery is charging or missing and make that part
+    //   of the decision.
+    bool bIsOnBatteryPower  = (pStatus.ACLineStatus != 1);
+    bool bIsBatteryCharging = (pStatus.BatteryFlag & 8)
+    bool bIsBatteryMissing = (pStatus.BatteryFlag & 128)
+
+	return (bIsOnBatteryPower && !bIsBatteryCharging && !bIsBatteryMissing);
 }
 
 bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
