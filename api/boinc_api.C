@@ -128,14 +128,19 @@ int boinc_init() {
     f = fopen(GRAPHICS_DATA_FILE, "r");
     if (!f) {
         fprintf(stderr, "boinc_init(): can't open graphics data file\n");
-        return ERR_FOPEN;
+		fprintf(stderr, "Using default graphics settings.\n");
+		gi.refresh_period = 0.5;
+		gi.xsize = 640;
+		gi.ysize = 480;
     }
-    retval = parse_graphics_file(f, &gi);
-    if (retval) {
-        fprintf(stderr, "boinc_init(): can't parse graphics data file\n");
-        return retval;
-    }
-    fclose(f);
+	if (f) {
+		retval = parse_graphics_file(f, &gi);
+		if (retval) {
+			fprintf(stderr, "boinc_init(): can't parse graphics data file\n");
+			return retval;
+		}
+		fclose(f);
+	}
 
     f = fopen(FD_INIT_FILE, "r");
     if (f) {
