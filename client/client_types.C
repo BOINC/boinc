@@ -731,8 +731,8 @@ bool FILE_INFO::is_correct_url_type(bool is_upload, STRING256 url) {
     }
 }
 
-// merges information from a new FILE_INFO that has the same name as a 
-// FILE_INFO that is already present in the client state
+// merges information from a new FILE_INFO that has the same name as one
+// that is already present in the client state file.
 // Potentially changes upload_when_present, max_nbytes, and signed_xml
 //
 int FILE_INFO::merge_info(FILE_INFO& new_info) {
@@ -762,6 +762,11 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
     for (i=0; i<new_info.urls.size(); i++) {
         urls.push_back(new_info.urls[i]);
     }
+
+    // replace signature
+    //
+    strcpy(file_signature, new_info.file_signature);
+
     return 0;
 }
 

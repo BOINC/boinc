@@ -25413,3 +25413,11 @@ David  1 Mar 2005
         client_state.C
         cs_files.C
         pers_file_xfer.C,h
+
+David  1 Mar 2005
+	- core client: FILE_INFO::merge_info(): merge signature also.
+		If we get a new version of a FILE_INFO from server
+		and it has a signature, us it.
+
+	client/
+		client_types.C
