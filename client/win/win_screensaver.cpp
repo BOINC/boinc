@@ -1168,7 +1168,7 @@ INT_PTR CALLBACK CScreensaver::ConfigureDialogProcStub( HWND hwndDlg, UINT uMsg,
 // arguments:	name: name of key, keyval: where to store value of key
 // returns:		int indicating error
 // function:	reads string value in specified key
-int CScreensaver::UtilSetRegKey(char *name, DWORD value)
+int CScreensaver::UtilSetRegKey(LPCTSTR name, DWORD value)
 {
 	LONG error;
 	HKEY boinc_key;
@@ -1216,17 +1216,17 @@ int CScreensaver::UtilSetRegKey(char *name, DWORD value)
 // arguments:	name: name of key, keyval: where to store value of key
 // returns:		int indicating error
 // function:	reads string value in specified key
-int CScreensaver::UtilGetRegKey(char *name, DWORD &keyval)
+int CScreensaver::UtilGetRegKey(LPCTSTR name, DWORD &keyval)
 {
-	LONG error;
+	LONG  error;
 	DWORD type = REG_DWORD;
 	DWORD size = sizeof( DWORD );
-	char str[2048];
+	TCHAR str[2048];
 	DWORD value;
-	HKEY boinc_key;
+	HKEY  boinc_key;
 
-	strncpy( str, _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Screensaver\\"), sizeof(str) );
-	strcat( str, name );
+    StringCbCat( str, sizeof(str) / sizeof(TCHAR), _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Screensaver\\") );
+    StringCbCat( str, sizeof(str) / sizeof(TCHAR), name );
 
 	if ( m_bIs9x ) {
 		error = RegOpenKeyEx( 
@@ -1268,7 +1268,7 @@ int CScreensaver::UtilGetRegKey(char *name, DWORD &keyval)
 //				if str is empty, attepts to delete the key
 // returns:		int indicating error
 // function:	sets string value in specified key in windows startup dir
-int CScreensaver::UtilGetRegStartupStr(char *name, char *str)
+int CScreensaver::UtilGetRegStartupStr(LPCTSTR name, LPTSTR str)
 {
 	LONG error;
 	DWORD type = REG_SZ;

@@ -148,9 +148,9 @@ protected:
 	static LRESULT CALLBACK GenericSaverProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 	static INT_PTR CALLBACK ConfigureDialogProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
-    int             UtilGetRegKey(char *name, DWORD &keyval);
-    int             UtilSetRegKey(char *name, DWORD value);
-    int             UtilGetRegStartupStr(char *name, char *str);
+    int             UtilGetRegKey(LPCTSTR name, DWORD &keyval);
+    int             UtilSetRegKey(LPCTSTR name, DWORD value);
+    int             UtilGetRegStartupStr(LPCTSTR name, LPTSTR str);
 
 protected:
     RPC_CLIENT              rpc;
