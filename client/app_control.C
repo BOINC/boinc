@@ -558,7 +558,11 @@ bool ACTIVE_TASK::read_stderr_file() {
         // truncate stderr output to 63KB;
         // it's unlikely that more than that will be useful
         //
-        stderr_file = stderr_file.substr( 0, 63*1024);
+        int max_len = 63*1024;
+        int len = stderr_file.length();
+        if (len > max_len) {
+            stderr_file = stderr_file.substr(len-max_len, len);
+        }
         result->stderr_out += "<stderr_txt>\n";
         result->stderr_out += stderr_file;
         result->stderr_out += "\n</stderr_txt>\n";

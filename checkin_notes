@@ -24238,3 +24238,8 @@ Janus 8 Feb 2005
         user/
              info.php
 
+David  8 Feb 2005
+    - return the last 63KB of stderr output, not first 63KB
+
+    client/
+        app_control.C
