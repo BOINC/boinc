@@ -538,22 +538,25 @@ inline bool now_between_two_hours(int start_hour, int end_hour)
     }
 }
 
-#define SUSPEND_REASON_BATTERIES    1
-#define SUSPEND_REASON_USER_ACTIVE  2
-#define SUSPEND_REASON_USER_REQ     4
-#define SUSPEND_REASON_TIME_OF_DAY  8
+enum SUSPEND_REASON_t {
+    SUSPEND_REASON_BATTERIES = 1,
+    SUSPEND_REASON_USER_ACTIVE = 2,
+    SUSPEND_REASON_USER_REQ = 4,
+    SUSPEND_REASON_TIME_OF_DAY = 8,
+    SUSPEND_REASON_BENCHMARKS = 16
+};
 
 // See if (on the basis of user run request and prefs)
 // we should suspend activities.
 //
-int CLIENT_STATE::check_suspend_activities(int& reason) {
+void CLIENT_STATE::check_suspend_activities(int& reason) {
     reason = 0;
 
-    if (user_run_request == USER_RUN_REQUEST_ALWAYS) return 0;
+    if (user_run_request == USER_RUN_REQUEST_ALWAYS) return;
 
     if (user_run_request == USER_RUN_REQUEST_NEVER) {
         reason = SUSPEND_REASON_USER_REQ;
-        return 0;
+        return;
     }
 
     if (!global_prefs.run_on_batteries && host_is_running_on_batteries()) {
@@ -569,7 +572,14 @@ int CLIENT_STATE::check_suspend_activities(int& reason) {
     if (!now_between_two_hours(global_prefs.start_hour, global_prefs.end_hour)) {
         reason |= SUSPEND_REASON_TIME_OF_DAY;
     }
-    return 0;
+
+    // Don't work while we're running CPU benchmarks
+    //
+    if (check_cpu_benchmarks() == CPU_BENCHMARKS_RUNNING) {
+        reason |= SUSPEND_REASON_BENCHMARKS;
+    }
+
+    return;
 }
 
 // sleep up to x seconds,
@@ -587,21 +597,24 @@ int CLIENT_STATE::net_sleep(double x) {
 }
 
 int CLIENT_STATE::suspend_activities(int reason) {
-    char buf [256];
-    strcpy(buf, "Suspending computation and file transfer");
+    string s_reason;
+    s_reason = "Suspending computation and file transfer";
     if (reason & SUSPEND_REASON_BATTERIES) {
-        strcat(buf, " - on batteries");
+        s_reason += " - on batteries";
     }
     if (reason & SUSPEND_REASON_USER_ACTIVE) {
-        strcat(buf, " - user is active");
+        s_reason += " - user is active";
     }
     if (reason & SUSPEND_REASON_USER_REQ) {
-        strcat(buf, " - user request");
+        s_reason += " - user request";
     }
     if (reason & SUSPEND_REASON_TIME_OF_DAY) {
-        strcat(buf, " - time of day");
+        s_reason += " - time of day";
     }
-    msg_printf(NULL, MSG_INFO, buf);
+    if (reason & SUSPEND_REASON_BENCHMARKS) {
+        s_reason += " - running CPU benchmarks";
+    }
+    msg_printf(NULL, MSG_INFO, const_cast<char*>(s_reason.c_str()));
     active_tasks.suspend_all();
     pers_file_xfers->suspend();
     return 0;
@@ -631,10 +644,6 @@ bool CLIENT_STATE::do_something() {
     int actions = 0, reason;
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_POLL);
 
-    // if we're doing CPU benchmarks, don't do anything else
-    //
-    if (check_cpu_benchmarks() == CPU_BENCHMARKS_RUNNING) return false;
-
     check_suspend_activities(reason);
     if (reason) {
         if (!activities_suspended) {
@@ -647,6 +656,10 @@ bool CLIENT_STATE::do_something() {
     }
     previous_activities_suspended = activities_suspended;
     activities_suspended = (reason != 0);
+
+    // if we're doing CPU benchmarks, don't do anything else
+    //
+    if (reason & SUSPEND_REASON_BENCHMARKS) return false;
 
     scope_messages.printf("CLIENT_STATE::do_evil(): Begin poll:\n");
     ++scope_messages;
