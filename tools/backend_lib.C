@@ -76,13 +76,16 @@ static int process_wu_template(
     int retval, file_number;
     double nbytes;
     char open_name[256];
+    bool found=false;
 
+#if 0
     assert(wu_name!=NULL);
     assert(tmplate!=NULL);
     assert(out!=NULL);
     assert(dirpath!=NULL);
     assert(infiles!=NULL);
     assert(n>=0);
+#endif
 
     strcpy(out, "");
     p = strtok(tmplate, "\n");
@@ -110,6 +113,7 @@ static int process_wu_template(
             );
             strcat(out, buf);
         } else if (match_tag(p, "<workunit>")) {
+            found = true;
             strcat(out, "<workunit>\n");
         } else if (match_tag(p, "</workunit>")) {
             strcat(out, "</workunit>\n");
@@ -131,6 +135,10 @@ static int process_wu_template(
             strcat(out, "\n");
         }
         p = strtok(0, "\n");
+    }
+    if (!found) {
+        fprintf(stderr, "create_work: bad WU template - no <workunit>\n");
+        return -1;
     }
     return 0;
 }
@@ -193,7 +201,7 @@ int create_result(
 
 int create_work(
     WORKUNIT& wu,
-    char* wu_template,
+    char* _wu_template,
     char* result_template_filename,
     int nresults,
     char* infile_dir,
@@ -205,7 +213,10 @@ int create_work(
     int i, retval;
     char suffix[256];
     char result_template[MAX_BLOB_SIZE];
+    char _result_template[MAX_BLOB_SIZE];
+    char wu_template[MAX_BLOB_SIZE];
 
+    strcpy(wu_template, _wu_template);
     wu.create_time = time(0);
     retval = process_wu_template(
         wu.name, wu_template, wu.xml_doc, infile_dir, infiles, ninfiles,
@@ -222,13 +233,14 @@ int create_work(
     }
     wu.id = boinc_db_insert_id();
 
-    retval = read_filename(result_template_filename, result_template);
+    retval = read_filename(result_template_filename, _result_template);
     if (retval) {
         fprintf(stderr, "create_work: can't read result template\n");
         return retval;
     }
     for (i=0; i<nresults; i++) {
         sprintf(suffix, "%d", i);
+        strcpy(result_template, _result_template);
         retval = create_result(
             wu, result_template, suffix, key, upload_url, download_url
         );

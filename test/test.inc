@@ -28,7 +28,7 @@ function get_env_var($name) {
 function run_db_script($script, $db_name) {
     $db_dir = get_env_var("BOINC_SRC_DIR")."/db";
     $x = "sed -e s/BOINC_DB_NAME/$db_name/ $db_dir/$script | mysql";
-    echo $x;
+    //echo $x;
     PassThru($x);
 }
 
@@ -36,7 +36,7 @@ function run_db_script($script, $db_name) {
 //
 function macro_substitute($macro, $replacement, $infile, $outfile) {
     $x = "sed -e s/$macro/$replacement/ $infile > $outfile";
-    echo $x;
+    //echo $x;
     PassThru($x);
 }
 

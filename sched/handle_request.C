@@ -65,9 +65,16 @@ int insert_after(char* buffer, char* after, char* text) {
     char* p;
     char temp[MAX_BLOB_SIZE];
 
-    if (strlen(buffer) + strlen(text) > MAX_BLOB_SIZE-1) return -1;
+    if (strlen(buffer) + strlen(text) > MAX_BLOB_SIZE-1) {
+        write_log("insert_after: overflow\n");
+        return -1;
+    }
     p = strstr(buffer, after);
-    if (!p) return -1;
+    if (!p) {
+        sprintf(temp, "insert_after: %s not found in %s\n", after, buffer);
+        write_log(temp);
+        return -1;
+    }
     p += strlen(after);
     strcpy(temp, p);
     strcpy(p, text);

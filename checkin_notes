@@ -2960,3 +2960,15 @@ David  Jan 14 2003
     sched/
         handle_request.C
         main.C
+
+David  Jan 15 2003
+    - create_work() makes a copy of result, WU templates since
+        they get modified (fixed bug when create >1 WU)
+    - scheduler reports errors in WU/result XML docs
+
+    sched/
+        handle_request.C
+    test/
+        test.inc
+    tools/
+        backend_lib.C
