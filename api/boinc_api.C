@@ -79,17 +79,12 @@ bool boinc_is_standalone() {
     return standalone;
 }
 
-// read the INIT_DATA and FD_INIT files
+// parse the init data file.
+// This is done at startup, and also if a "reread prefs" message is received
 //
-int boinc_init(bool standalone_ /* = false */) {
+int boinc_parse_init_data_file() {
     FILE* f;
     int retval;
-
-#ifdef _WIN32
-    freopen(STDERR_FILE, "a", stderr);
-#endif
-
-    standalone = standalone_;
 
     // If in standalone mode, use init files if they're there,
     // but don't demand that they exist
@@ -119,6 +114,23 @@ int boinc_init(bool standalone_ /* = false */) {
             return retval;
         }
     }
+    return 0;
+}
+
+// read the INIT_DATA and FD_INIT files
+//
+int boinc_init(bool standalone_ /* = false */) {
+    FILE* f;
+    int retval;
+
+#ifdef _WIN32
+    freopen(STDERR_FILE, "a", stderr);
+#endif
+
+    standalone = standalone_;
+
+    retval = boinc_parse_init_data_file();
+    if (retval) return retval;
 
     f = fopen(FD_INIT_FILE, "r");
     if (f) {

@@ -6537,34 +6537,34 @@ Karl 2003/10/02
         configxml.py
 
 David  Oct 4 2003
-	- throttled_app_render() returns true iff it rendered anything.
-		This lets the caller do swapbuffers only if needed
-	- app_render() now returns void
-	- added functions that read graphics files (JPEG, PPM, BMP, TGA)
-		and create textures (moved from SETI@home)
+    - throttled_app_render() returns true iff it rendered anything.
+        This lets the caller do swapbuffers only if needed
+    - app_render() now returns void
+    - added functions that read graphics files (JPEG, PPM, BMP, TGA)
+        and create textures (moved from SETI@home)
 
-	api/
-		graphics_api.C,h
-		gutil.C,h
-		windows_opengl.C
-	lib/
-		xml_util.C
+    api/
+        graphics_api.C,h
+        gutil.C,h
+        windows_opengl.C
+    lib/
+        xml_util.C
 
 David  Oct 6 2003
-	- Created class MOVING_TEXT_PANEL (in boinc/api/gutil.h)
-		to do Astropulse-type text display
-	- Created class TEXTURE_DESC (same place)
-		to represent an OpenGL texture (including its ID and size).
-	- Modify draw_texture() to not change the aspect ratio of the picture;
-		it shrinks the image in one dimension or the other, and centers
-		it in the allotted space
-	- Add a GRAPH_DRAW_STYLE field to REDUCED_ARRAY
-	- Eliminate methods of REDUCED_ARRAY that take a style argument
+    - Created class MOVING_TEXT_PANEL (in boinc/api/gutil.h)
+        to do Astropulse-type text display
+    - Created class TEXTURE_DESC (same place)
+        to represent an OpenGL texture (including its ID and size).
+    - Modify draw_texture() to not change the aspect ratio of the picture;
+        it shrinks the image in one dimension or the other, and centers
+        it in the allotted space
+    - Add a GRAPH_DRAW_STYLE field to REDUCED_ARRAY
+    - Eliminate methods of REDUCED_ARRAY that take a style argument
 
-	api/
-		graphics_api.C
-		gutil.C,h
-		reduce.C,h
+    api/
+        graphics_api.C
+        gutil.C,h
+        reduce.C,h
 
 Karl 2003/10/06
     - client release 2.04
@@ -6627,13 +6627,13 @@ Oliver  Oct 8 2003
        windows_opengl.c
 
 David  Oct 8 2003
-	- made draw, CreateTextureJPG etc. into member functions of TEXTURE_DESC
-	- added xalign, yalign args to TEXTURE_DESC::draw()
-	- attempted to turn off rendering when window is hidden (don't think I succeeded)
+    - made draw, CreateTextureJPG etc. into member functions of TEXTURE_DESC
+    - added xalign, yalign args to TEXTURE_DESC::draw()
+    - attempted to turn off rendering when window is hidden (don't think I succeeded)
 
-	api/
-		gutil.C,h
-		windows_opengl.C
+    api/
+        gutil.C,h
+        windows_opengl.C
 
 Oliver Oct 9 2003
         - fixed error handling when jpeglib fails
@@ -6662,11 +6662,11 @@ Karl 2003/10/08
         transitioner.C
 
 David  Oct 10 2003
-	- made STARFIELD CLASS
-	- implement tickmarks for RIBBON_GRAPH
+    - made STARFIELD CLASS
+    - implement tickmarks for RIBBON_GRAPH
 
-	api/
-		gutil.C,h
+    api/
+        gutil.C,h
 
 David  Oct 10 2003
     - various web stuff
@@ -6747,20 +6747,20 @@ Oliver Oct 13 2003
 
 
 David  Oct 14 2003
-	- don't call boinc_finish_opengl() in boinc_finish()!!
-	- max frame rate and max graphics CPU are accessible to app
-		(via global variables boinc_max_fps and boinc_max_gfx_cpu_frac)
-	- in windows_opengl.C, moved InitGL() and app_init_gl() calls
-		from SetMode() to start of win_graphics_event_loop()
-		(just want to call these once, right?)
-	- in windows_opengl.C: if in standalone mode and get WM_CLOSE event,
-		actually exit (makes debugging easier).
+    - don't call boinc_finish_opengl() in boinc_finish()!!
+    - max frame rate and max graphics CPU are accessible to app
+        (via global variables boinc_max_fps and boinc_max_gfx_cpu_frac)
+    - in windows_opengl.C, moved InitGL() and app_init_gl() calls
+        from SetMode() to start of win_graphics_event_loop()
+        (just want to call these once, right?)
+    - in windows_opengl.C: if in standalone mode and get WM_CLOSE event,
+        actually exit (makes debugging easier).
 
-	api/
-		boinc_api.C
-		graphics_api.C,h
-		gutil.C
-		windows_opengl.C
+    api/
+        boinc_api.C
+        graphics_api.C,h
+        gutil.C
+        windows_opengl.C
 
 Oliver Oct 14 2003
     - stars now draw in visible pyramid with original coordinate system
@@ -6774,11 +6774,11 @@ Oliver Oct 14 2003
 
 David  Oct 14 2003
     - extended MOVING_TEXT_PANEL interface to let you draw text on
-	   particular line numbers,
-	   and get the coords the start of a line number
+       particular line numbers,
+       and get the coords the start of a line number
 
-	api/
-		gutil.C,h
+    api/
+        gutil.C,h
 
 Karl 2003-10-14
     - makefiles:
@@ -6848,14 +6848,14 @@ David  16 Oct 2003
         since it's included (and needed) in UNIX as well as Windows
 
 Oliver 16 Oct 2003
-	- Implemented scaling factor to center objects
-	- Fixed starfields
-	- Right justified text
+    - Implemented scaling factor to center objects
+    - Fixed starfields
+    - Right justified text
 
-	api/		
-		graphics_api.C
-		gutil.C,h
-		windows_opengl.C
+    api/        
+        graphics_api.C
+        gutil.C,h
+        windows_opengl.C
 
 Karl 2003-10-16
     - updated python database API with new workunit.userid field
@@ -6939,9 +6939,9 @@ Karl 2003-10-19
         wingui_mainwindow.cpp
 
 David  20 Oct 2003
-	- fixed bug that prevented screensaver from launching core client
+    - fixed bug that prevented screensaver from launching core client
 
-	win_screensaver.cpp
+    win_screensaver.cpp
 
 Karl 2003-10-20
     - BOINC client release 2.05
@@ -6972,12 +6972,12 @@ David  20 Oct 2003
 
 
 David  20 Oct 2003
-	- changed CPU benchmark code to store all times as doubles.
-		This might fix the "negative fpops/sec" bug
+    - changed CPU benchmark code to store all times as doubles.
+        This might fix the "negative fpops/sec" bug
 
-	client/
-		cpu_benchmark.C
-		cs_benchmark.C
+    client/
+        cpu_benchmark.C
+        cs_benchmark.C
 
 David  20 Oct 2003
     - changed overflowing integer calculation in CPU checkpoint code.
@@ -6999,34 +6999,34 @@ David  22 Oct 2003
         cs_files.C
 
 David  22 Oct 2003
-	- fixed bug that caused project disk usage to be reported as zero
-	- Added debugging printfs (enabled by #define DEBUG)
+    - fixed bug that caused project disk usage to be reported as zero
+    - Added debugging printfs (enabled by #define DEBUG)
         to wingui_mainwindow.cpp.  These write to C:/temp/core.txt.
-	- In CMyApp::InitInstance(), changed 2nd arg of CreateMutex
+    - In CMyApp::InitInstance(), changed 2nd arg of CreateMutex
         from false to true.  This matches "1 instance" code samples from web.
-		Thought it might fix startup bug - no.
-	- Added debugging printfs (enabled by #define DEBUG) into screensaver;
-		causes it to write info to C:/temp/boinc_scr.txt
-	- Removed CREATE_NO_WINDOW and IDLE_PRIORITY flags from
-		CreateProcess() call in screensaver.
-		These aren't listed in the MSDN man page; are they needed?
-	- slight change to startup logic in screensaver:
-		- send it a BOINC_SS_START message only if it's already running
-			(not needed if start it ourselves, since we give it -saver arg)
-		- don't wait for 3 seconds after starting it
-	- In the cmdline passed to the core client from screensaver,
-		make argv[0] the real path of the executable.
-		Thought this might fix startup bug - no.
-	- Change "start_saver" to "started_by_screensaver".  Truth in advertising.
+        Thought it might fix startup bug - no.
+    - Added debugging printfs (enabled by #define DEBUG) into screensaver;
+        causes it to write info to C:/temp/boinc_scr.txt
+    - Removed CREATE_NO_WINDOW and IDLE_PRIORITY flags from
+        CreateProcess() call in screensaver.
+        These aren't listed in the MSDN man page; are they needed?
+    - slight change to startup logic in screensaver:
+        - send it a BOINC_SS_START message only if it's already running
+            (not needed if start it ourselves, since we give it -saver arg)
+        - don't wait for 3 seconds after starting it
+    - In the cmdline passed to the core client from screensaver,
+        make argv[0] the real path of the executable.
+        Thought this might fix startup bug - no.
+    - Change "start_saver" to "started_by_screensaver".  Truth in advertising.
 
-	client/
-		client_state.C,h
-		cs_cmdline.C
-		win/
-			win_screensaver.cpp
-			wingui_mainwindow.cpp
-		lib/
-			filesys.C
+    client/
+        client_state.C,h
+        cs_cmdline.C
+        win/
+            win_screensaver.cpp
+            wingui_mainwindow.cpp
+        lib/
+            filesys.C
 
 David  24 Oct 2003
     - complete Bob's addition of SETI@home "grandfather" fields to DB
@@ -7043,7 +7043,7 @@ Oliver 24 Oct 2003
       is created
 
     api/
-	reduce.h,C
+    reduce.h,C
 
 David  24 Oct 2003
     - db_dump generates valid XML
@@ -7068,21 +7068,21 @@ Karl 2003-10-25
 
 
 David  25 Oct 2003
-	- removed code that caps backoff count at one
-		TODO: we still need to reexamine the backoff policy,
-		so that multiple file failures don't lead to huge backoffs
-	- moved OpenGL init calls from the start of the event loop
-		back to SetMode, undoing an earlier change.
-		Turns out the need to be in SetMode because it creates a new
-		window every time.
-		This should fix the bug that cause Astropulse to show no graphics.
-		TODO: make sure that when an application window is hidden,
-		no rendering work gets done.
+    - removed code that caps backoff count at one
+        TODO: we still need to reexamine the backoff policy,
+        so that multiple file failures don't lead to huge backoffs
+    - moved OpenGL init calls from the start of the event loop
+        back to SetMode, undoing an earlier change.
+        Turns out the need to be in SetMode because it creates a new
+        window every time.
+        This should fix the bug that cause Astropulse to show no graphics.
+        TODO: make sure that when an application window is hidden,
+        no rendering work gets done.
 
-	api/
-		windows_opengl.C
-	client/
-		scheduler_op.C
+    api/
+        windows_opengl.C
+    client/
+        scheduler_op.C
 
 Karl 2003-10-25
     - updated_versions: don't be so verbose unless "-v" verbose command-line
@@ -7098,36 +7098,36 @@ Karl 2003-10-25
         tools.py
 
 David  27 Oct 2003
-	- Parse project-specific prefs correctly (i.e. based on venue)
-		These prefs are read from account files.
-		Account files are read before the client state file is parsed.
-		This presented a problem because the host venue,
-		which is needed to decide which project prefs to use,
-		is kept in the client state file.
-		So I added a new function, parse_venue(), that gets the
-		host venue from the state file; this is done before parsing account files.
-	- Also added <project_name> element to account file so that we can
-		display that correctly in message about project prefs
+    - Parse project-specific prefs correctly (i.e. based on venue)
+        These prefs are read from account files.
+        Account files are read before the client state file is parsed.
+        This presented a problem because the host venue,
+        which is needed to decide which project prefs to use,
+        is kept in the client state file.
+        So I added a new function, parse_venue(), that gets the
+        host venue from the state file; this is done before parsing account files.
+    - Also added <project_name> element to account file so that we can
+        display that correctly in message about project prefs
 
-	api/
-		windows_opengl.C
-	client/
-		client_state.C,h
-		client_types.C
-		cs_statefile.C
-		pers_file_xfer.h
-		prefs.C
+    api/
+        windows_opengl.C
+    client/
+        client_state.C,h
+        client_types.C
+        cs_statefile.C
+        pers_file_xfer.h
+        prefs.C
 
 Oliver 27 Oct 2003
-	- Fixed efficiency bugs in starfield
-	api/
-		gutil.C,h
+    - Fixed efficiency bugs in starfield
+    api/
+        gutil.C,h
 
 Eric K 27 Oct 2003
-	- xml_indent() is now limited to a max of 40 spaces.
+    - xml_indent() is now limited to a max of 40 spaces.
 
         lib/
-		xml_util.h
+        xml_util.h
 
 David  27 Oct 2003
     - let users see list of all their results
@@ -7197,16 +7197,16 @@ Oliver 29 Oct 2003
     - fixed improperly scaled logos
 
     api/
-	gutil.C,h
-	
+    gutil.C,h
+    
 
 David  28 Oct 2003
-	- app library: don't access shared memory if it's not there
-		(should keep non-standalone version from crashing
-		when run in isolation)
+    - app library: don't access shared memory if it's not there
+        (should keep non-standalone version from crashing
+        when run in isolation)
 
-	api/
-		windows_opengl.C
+    api/
+        windows_opengl.C
 
 Karl 2003-10-29
     - removed test_sanity check from configure
@@ -7218,18 +7218,18 @@ Karl 2003-10-29
         make_project
 
 David  30 Oct 2003
-	- On call to CreateEvent() to make "event" object for
-		core client to ask app to quit (Windows)
-		changed ManualReset argument to false.
-		This fixes a bug where, after resetting a project,
-		all apps get quit signal immediately
-	- Change CLIENT_STATE::report_result_error() so that it
-		takes a format string and varargs
+    - On call to CreateEvent() to make "event" object for
+        core client to ask app to quit (Windows)
+        changed ManualReset argument to false.
+        This fixes a bug where, after resetting a project,
+        all apps get quit signal immediately
+    - Change CLIENT_STATE::report_result_error() so that it
+        takes a format string and varargs
 
-	client/
-		app.C
-		client_state.C,h
-		pers_file_xfer.C
+    client/
+        app.C
+        client_state.C,h
+        pers_file_xfer.C
 
 David  30 Oct 2003
     - API writes to stderr if get quit request
@@ -7267,3 +7267,51 @@ David  31 Oct 2003
         prefs.php
         prefs_edit_action.php
         stats.php (new)
+
+David  31 Oct 2003
+	- Added a mechanism allowing applications to change their graphics
+		"on the fly" in response to new project preferences:
+		- Added a new message type <reread_prefs/> to the
+			core->app graphics segment
+		- When the graphics framework (windows_opengl.C) gets this message,
+			it calls an application function app_graphics_reread_prefs().
+			This function can call boinc_parse_init_data_file() (see below)
+			to get the new prefs
+	- Core client: when get new project preferences,
+		write new init_data.xml files for all running apps,
+		and send them <reread_prefs/> messages.
+		New functions:
+			ACTIVE_TASK::write_app_init_file()
+			ACTIVE_TASK::request_reread_prefs()
+			ACTIVE_TASK_SET::request_reread_prefs(PROJECT*)
+	- name changes:
+		old						new
+		boinc_init_opengl		boinc_init_graphics
+		boinc_finish_opengl		boinc_finish_graphics
+		app_init_gl				app_graphics_init
+		app_render				app_graphics_render
+		app_resize				app_graphics_resize
+		REDUCED_ARRAY::init		init_data
+		REDUCED_ARRAY::init_draw	init_display:$
+	- changed graphics objects (PROGRESS, PROGRESS2D, RIBBON_GRAPH)
+		to use init() functions instead of constructor for setup;
+		changed STARFIELD::build_stars() so that it can be called repeatedly
+	- factored code to read init_data.xml into a new function
+		boinc_parse_init_data_file()
+	- moved tImageJPG out of the .h file - it's not interface
+
+	api/
+		boinc_api.C,h
+		graphics_api.C,h
+		gutil.C,h
+		reduce.C,h
+		windows_opengl.C
+	client/
+		app.C,h
+		cs_scheduler.C
+	doc/
+		graphics.sxd (new)
+		graphics.png (new)
+	lib/
+		app_ipc.C
+		parse.C,h

@@ -64,8 +64,10 @@ public:
 
     REDUCED_ARRAY();
     ~REDUCED_ARRAY();
-    void init(int, int);
-    void init_draw(GRAPH_STYLE, float*, float*, double, double, float,char*,char*,char*);
+    void init_data(int, int);
+    void init_display(
+        GRAPH_STYLE, float*, float*, double, double, float, char*, char*, char*
+    );
     void set_max_dims(int, int);
     void reduce_source_row(float*, float*);
     void add_source_row(float*);

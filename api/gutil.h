@@ -104,7 +104,7 @@ class PROGRESS {
     float len, rad, inner_rad;
 public:
 	float pos[3];
-    PROGRESS(float* pos, float len, float diam, float inner, float* c, float* ic);
+    void init(float* pos, float len, float diam, float inner, float* c, float* ic);
     void draw(float);
 };
 
@@ -115,7 +115,7 @@ class PROGRESS_2D {
 	float pos[3];
 public:
     void set_pos(float*);
-    PROGRESS_2D(float* pos, float len, float width, float inner_width, float* c, float* ic);
+    void init(float* pos, float len, float width, float inner_width, float* c, float* ic);
     void draw(float);
 };
 
@@ -134,7 +134,7 @@ class RIBBON_GRAPH {
 	float pos[3];
 public:
     void set_pos(float*);
-    RIBBON_GRAPH(float* pos, float* size, float* color, float* tick_color, float tick_yfrac=0.2);
+    void init(float* pos, float* size, float* color, float* tick_color, float tick_yfrac=0.2);
     void draw(float* data, int len, bool with_ticks=false);
     void add_tick(float x, int index);
 };
@@ -164,7 +164,7 @@ public:
 };
 
 
-// ----- STUFF RELATED TO STARFIELDS
+// ----- STARFIELDS
 //
 #define COS_30 0.8720254037f
 #define XY_HEIGHT 1656.85f
@@ -183,21 +183,15 @@ class STARFIELD {
 	void replace_star(int);
 	bool is_visible(int,double[16],double[16],int[4]);
     STAR* stars;
-public:	
+public:
+    STARFIELD();
     void build_stars(int, float);
     void update_stars(float);
 };
 
 
 
-// ----- STUFF RELATED TO TEXTURES AND IMAGES
-
-#if 0
-#define IMAGE_TYPE_JPG     0
-#define IMAGE_TYPE_PPM      1
-#define IMAGE_TYPE_BMP      2
-#define IMAGE_TYPE_TGA      3
-#endif
+// ----- TEXTURES AND IMAGES
 
 #define ALIGN_BOTTOM    0
 #define ALIGN_CENTER    1
@@ -216,17 +210,8 @@ struct TEXTURE_DESC {
     int CreateTextureTGA(char* strFileName);
 };
 
-struct tImageJPG {
-	int rowSpan;
-	int sizeX;
-	int sizeY;
-	unsigned char *data;
-};
 
-extern tImageJPG *LoadJPG(const char *filename);
-
-
-// ----- STUFF RELATED TO FONTS
+// ----- FONTS
 //
 extern unsigned int listBase;
 extern unsigned int MyCreateFont(char *fontName, int Size,int weight);

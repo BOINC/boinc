@@ -33,6 +33,8 @@ char* xml_graphics_modes[5] = {
     "<mode_blankscreen/>"
 };
 
+#define REREAD_PREFS_MSG "<reread_prefs/>"
+
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     if (strlen(ai.app_name)) {
         fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);

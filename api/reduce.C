@@ -43,7 +43,7 @@ void REDUCED_ARRAY::set_max_dims(int mx, int my) {
 // Prepare to receive a source array.
 // (sx, sy) are dimensions of source array
 //
-void REDUCED_ARRAY::init(int sx, int sy) {
+void REDUCED_ARRAY::init_data(int sx, int sy) {
     sdimx = sx;
     sdimy = sy;
     if (sdimx > rdimx_max) {
@@ -80,8 +80,10 @@ void REDUCED_ARRAY::reset() {
     last_ry_count = 0;
 }
 
-void REDUCED_ARRAY::init_draw(GRAPH_STYLE st, float* p, float* s, double h0, double dh, float trans,
-							  char* xl,char* yl,char* zl) {
+void REDUCED_ARRAY::init_display(
+    GRAPH_STYLE st, float* p, float* s, double h0, double dh, float trans,
+    char* xl, char* yl, char* zl
+) {
     memcpy(draw_pos, p, sizeof(draw_pos));
     memcpy(draw_size, s, sizeof(draw_size));
     draw_deltax = draw_size[0]/rdimx;
@@ -399,7 +401,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 	*/
 //		}
 		glEnd();	
-	break;
+	    break;
 	case GRAPH_STYLE_SURFACE:
 		glBegin(GL_TRIANGLE_STRIP);
 
@@ -434,7 +436,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 			}
 		}		
 		glEnd();
-	break;
+	    break;
 	case GRAPH_STYLE_WIREFRAME:
 		glLineWidth(1.0f);
 		z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
@@ -473,7 +475,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 		}		
 		glEnd();
 		glDisable(GL_LINE_SMOOTH);
-	break;
+	    break;
 	case GRAPH_STYLE_PLANES:
 		z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
 		z1 = z0+.14f;			
@@ -650,7 +652,8 @@ void REDUCED_ARRAY::draw_axis_labels() {
 
 void REDUCED_ARRAY::draw_axes() {
 
-	//float adj2=-.18f;
+	// comment??
+
 	float adj2=0.0f;//-(draw_size[2]*1)/rdimy;
 	float adj=0.0f;
 
@@ -753,9 +756,8 @@ void REDUCED_ARRAY::draw_labels() {
 
 	float wd=.015f;
 	float l=1.0f;
-//	char* zlabel = "Time(sec)";
-//	char* xlabel = "Frequency(HZ)";
-//	char* plabel = "Power";
+
+    // what the hell are the following doing here??
 
 	char* zmax = "107.4";
 	char* zmin = "0";
@@ -796,14 +798,11 @@ void REDUCED_ARRAY::draw_labels() {
 	//unscale modelview matrix
 	
 	double aspect_ratio = 4.0/3.0;	
-	if ((double)h*aspect_ratio > (double)w) 
-	{
+	if ((double)h*aspect_ratio > (double)w) {
 		model[1]*=1.0f/(((double)w/aspect_ratio)/(double)h);    
 		model[5]*=1.0f/(((double)w/aspect_ratio)/(double)h);
 		model[9]*=1.0f/(((double)w/aspect_ratio)/(double)h);
-	}
-	else 
-	{   
+    } else {   
 		model[0]*=1.0f/(((double)h*aspect_ratio)/(double)w);    
 		model[4]*=1.0f/(((double)h*aspect_ratio)/(double)w);
 		model[8]*=1.0f/(((double)h*aspect_ratio)/(double)w);

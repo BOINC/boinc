@@ -55,6 +55,7 @@ public:
 };
 
 int boinc_init(bool standalone = false);
+int boinc_parse_init_data_file();
 int boinc_get_init_data(APP_INIT_DATA&);
 int boinc_finish(int);
 int boinc_resolve_filename(const char*, char*, int len);

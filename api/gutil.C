@@ -710,7 +710,7 @@ void MOVING_TEXT_PANEL::sort(MOVING_TEXT_PANEL* tp, int n) {
     qsort(tp, n, sizeof(MOVING_TEXT_PANEL), compare_tp);
 }
 
-PROGRESS::PROGRESS(
+void PROGRESS::init(
     GLfloat* p, GLfloat l, GLfloat r, GLfloat in, GLfloat* c, GLfloat* ic
 ) {
     memcpy(pos, p, sizeof(pos));
@@ -728,7 +728,7 @@ void PROGRESS::draw(float x) {
     drawCylinder(false, pos, len, rad);
 }
 
-PROGRESS_2D::PROGRESS_2D(
+void PROGRESS_2D::init(
 	GLfloat* p, GLfloat l, GLfloat w, GLfloat in, GLfloat* c, GLfloat* ic
 ) {
     memcpy(pos, p, sizeof(pos));
@@ -780,7 +780,7 @@ void PROGRESS_2D::draw(float x) {
 
 //----------------- RIBBON_GRAPH ---------------------
 
-RIBBON_GRAPH::RIBBON_GRAPH(float* p, float* s, float* c, float* tc, float ty) {
+void RIBBON_GRAPH::init(float* p, float* s, float* c, float* tc, float ty) {
     memcpy(pos, p, sizeof(pos));
     memcpy(size, s, sizeof(size));
     memcpy(color, c, sizeof(color));
@@ -792,10 +792,10 @@ void RIBBON_GRAPH::set_pos(float* p) {
     memcpy(pos, p, sizeof(pos));
 }
 
-float yvec[] = {0., 1., 0.};
-float xvec[] = {1., 0., 0.};
-float xvecneg[] = {-1., 0., 0.};
-float zvec[] = {0, 0, 1};
+static float yvec[] = {0., 1., 0.};
+static float xvec[] = {1., 0., 0.};
+static float xvecneg[] = {-1., 0., 0.};
+static float zvec[] = {0, 0, 1};
 
 // draw XZ rect from i to i+1, with height data[i]
 //
@@ -927,7 +927,11 @@ void crossProd(float a[3], float b[3], float out[3])
 	normalize(out);
 }
 
-//makes a list of stars that lie on cocentric circles (inefficient, most will be out of sight)
+STARFIELD::STARFIELD() {
+    stars = NULL;
+}
+
+//
 //
 void STARFIELD::build_stars(int sz, float sp) {	
 	float modelview[16];	
@@ -940,6 +944,7 @@ void STARFIELD::build_stars(int sz, float sp) {
 	speed=sp;
 	size=sz;
 
+    if (stars) free(stars);
     stars = (STAR*)calloc(sizeof(STAR), size);
 
 	if(get_matrix_invert(modelview)==false)
@@ -1052,6 +1057,13 @@ void STARFIELD::replace_star(int i) {
 
 // ------------  TEXTURE STUFF --------------------
 //
+
+struct tImageJPG {
+	int rowSpan;
+	int sizeX;
+	int sizeY;
+	unsigned char *data;
+};
 
 struct Vertex
 {

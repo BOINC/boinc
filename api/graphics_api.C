@@ -56,7 +56,7 @@ HANDLE hQuitEvent;
 GRAPHICS_INFO gi;
 bool graphics_inited = false;
 
-int boinc_init_opengl() {
+int boinc_init_graphics() {
 #ifdef HAVE_GL_LIB
     FILE* f;
     int retval;
@@ -149,7 +149,7 @@ int boinc_init_opengl() {
     return !graphics_inited;
 }
 
-int boinc_finish_opengl() {
+int boinc_finish_graphics() {
 #ifdef _WIN32
     if (graphics_inited) {
         win_loop_done = TRUE;
@@ -205,7 +205,7 @@ bool throttled_app_render(int x, int y, double t) {
         if (boinc_max_gfx_cpu_frac) {
             boinc_cpu_time(t0, m);
         }
-        app_render(x, y, t);
+        app_graphics_render(x, y, t);
         if (boinc_max_gfx_cpu_frac) {
             boinc_cpu_time(t1, m);
             total_render_time += t1 - t0;
@@ -257,7 +257,7 @@ GLenum ReSizeGLScene(GLsizei width, GLsizei height) {
     err = glGetError();
     if (err) return err;
 
-	app_resize(width,height);
+	app_graphics_resize(width,height);
     return GL_NO_ERROR;
 }
 #endif

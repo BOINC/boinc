@@ -203,6 +203,7 @@ void replace_element(char* buf, char* start, char* end, char* replacement) {
     strcat(p, temp);
 }
 
+#if 0
 // if the given XML has an element of the form
 // <venue name="venue_name">
 //   ...
@@ -231,6 +232,7 @@ void extract_venue(const char* in, const char* venue_name, char* out) {
         }
     }
 }
+#endif
 
 // copy a line from the given string.
 // kinda like fgets() when you're reading from a string

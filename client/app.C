@@ -130,36 +130,10 @@ int ACTIVE_TASK::init(RESULT* rp) {
     return 0;
 }
 
-// Start a task in a slot directory.
-// This includes setting up soft links,
-// passing preferences, and starting the process
-//
-// Current dir is top-level BOINC dir
-//
-int ACTIVE_TASK::start(bool first_time) {
-    char exec_name[256], file_path[256], link_path[256], buf[256], exec_path[256];
-    unsigned int i;
-    FILE_REF file_ref;
-    FILE_INFO* fip;
-    int retval;
-    char init_data_path[256], graphics_data_path[256], fd_init_path[256];
+int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     FILE *f;
-    APP_INIT_DATA aid;
-    GRAPHICS_INFO gi;
-
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_TASK);
-    scope_messages.printf("ACTIVE_TASK::start(first_time=%d)\n", first_time);
-
-    if (first_time) {
-        checkpoint_cpu_time = 0;
-    }
-    current_cpu_time = checkpoint_cpu_time;
-    starting_cpu_time = checkpoint_cpu_time;
-    fraction_done = 0;
-
-    gi.xsize = 800;
-    gi.ysize = 600;
-    gi.refresh_period = 0.1;
+    char init_data_path[256];
+    int retval;
 
     memset(&aid, 0, sizeof(aid));
 
@@ -167,11 +141,14 @@ int ACTIVE_TASK::start(bool first_time) {
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);
     if (wup->project->project_specific_prefs) {
+#if 0
         extract_venue(
             wup->project->project_specific_prefs,
             gstate.host_venue,
             aid.app_preferences
         );
+#endif
+        strcpy(aid.app_preferences, wup->project->project_specific_prefs);
     }
     aid.user_total_credit = wup->project->user_total_credit;
     aid.user_expavg_credit = wup->project->user_expavg_credit;
@@ -203,9 +180,43 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
 
     retval = write_init_data_file(f, aid);
-    if (retval) return retval;
-
     fclose(f);
+    return retval;
+}
+
+// Start a task in a slot directory.
+// This includes setting up soft links,
+// passing preferences, and starting the process
+//
+// Current dir is top-level BOINC dir
+//
+int ACTIVE_TASK::start(bool first_time) {
+    char exec_name[256], file_path[256], link_path[256], buf[256], exec_path[256];
+    unsigned int i;
+    FILE_REF file_ref;
+    FILE_INFO* fip;
+    int retval;
+    char graphics_data_path[256], fd_init_path[256];
+    FILE *f;
+    GRAPHICS_INFO gi;
+    APP_INIT_DATA aid;
+
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_TASK);
+    scope_messages.printf("ACTIVE_TASK::start(first_time=%d)\n", first_time);
+
+    if (first_time) {
+        checkpoint_cpu_time = 0;
+    }
+    current_cpu_time = checkpoint_cpu_time;
+    starting_cpu_time = checkpoint_cpu_time;
+    fraction_done = 0;
+
+    gi.xsize = 800;
+    gi.ysize = 600;
+    gi.refresh_period = 0.1;
+
+    retval = write_app_init_file(aid);
+    if (retval) return retval;
 
     sprintf(graphics_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, GRAPHICS_DATA_FILE);
     f = fopen(graphics_data_path, "w");
@@ -798,10 +809,27 @@ bool ACTIVE_TASK::read_stderr_file() {
     return false;
 }
 
-void ACTIVE_TASK::request_reread_prefs() {
+int ACTIVE_TASK::request_reread_prefs() {
+    int retval;
+    APP_INIT_DATA aid;
+    
+    retval = write_app_init_file(aid);
+    if (retval) return retval;
     app_client_shm.send_graphics_msg(
         CORE_APP_GFX_SEG, GRAPHICS_MSG_REREAD_PREFS, 0
     );
+    return 0;
+}
+
+void ACTIVE_TASK_SET::request_reread_prefs(PROJECT* project) {
+    unsigned int i;
+    ACTIVE_TASK* atp;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        if (atp->result->project != project) continue;
+        atp->request_reread_prefs();
+    }
 }
 
 void ACTIVE_TASK::request_graphics_mode(int mode) {

@@ -163,13 +163,13 @@ void SetMode(int mode) {
     // do GL initialization every time, since we're creating a new window
     //
 	InitGL();
-    app_init_gl();
+    app_graphics_init();
 
     // tell the core client that we're entering new mode
     //
     if (app_client_shm) {
-        app_client_shm->send_graphics_mode_msg(
-            APP_CORE_GFX_SEG, current_graphics_mode
+        app_client_shm->send_graphics_msg(
+            APP_CORE_GFX_SEG, GRAPHICS_MSG_SET_MODE, current_graphics_mode
         );
     }
 }
@@ -182,7 +182,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 							LPARAM	lParam)			// Additional Message Information
 {
 	RECT rt;
-	int width, height, new_mode;
+	int width, height, new_mode, msg;
     static bool visible = true;
 
 	switch(uMsg) {
@@ -235,8 +235,17 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 		ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));
 		return 0;
 	case WM_TIMER:
-		if (app_client_shm && app_client_shm->get_graphics_mode_msg(CORE_APP_GFX_SEG, new_mode)) {
-			SetMode(new_mode);
+        if (app_client_shm) {
+            if (app_client_shm->get_graphics_msg(CORE_APP_GFX_SEG, msg, new_mode)) {
+                switch (msg) {
+                case GRAPHICS_MSG_SET_MODE:
+                    SetMode(new_mode);
+                    break;
+                case GRAPHICS_MSG_REREAD_PREFS:
+                    app_graphics_reread_prefs();
+                    break;
+                }
+            }
 		}
         if (!visible) return 0;
 		if (current_graphics_mode == MODE_HIDE_GRAPHICS) return 0;
