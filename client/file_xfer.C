@@ -184,13 +184,13 @@ bool FILE_XFER_SET::poll() {
                     // Parse the server's response.
                     retval = fxp->parse_server_response(fxp->fip->upload_offset);
 
-                    remove(fxp);
-                    i--;
-
                     if (retval) {
                         fxp->fip->upload_offset = -1;
                         fxp->file_xfer_retval = retval;
                     } else {
+                        remove(fxp);
+                        i--;
+
                         // Restart the upload, using the newly obtained upload_offset
                         retval = fxp->init_upload(*fxp->fip);
 

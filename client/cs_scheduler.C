@@ -53,7 +53,8 @@ double CLIENT_STATE::current_water_days() {
 
     for (i=0; i<results.size(); i++) {
         rp = results[i];
-        if (rp->state > RESULT_COMPUTE_DONE) continue;
+        // Don't count result if we've already computed it
+        if (rp->state >= RESULT_COMPUTE_DONE) continue;
         // TODO: subtract time already finished for WUs in progress
         seconds_remaining += rp->wup->seconds_to_complete;
     }
