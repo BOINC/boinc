@@ -26,9 +26,9 @@ Example setup:
   apps/SETI@home/sah_4.20_sparc-sun-solaris2.9.gz
   apps/SETI@home/sah_4.20_i686-pc-linux-gnu.gz
   apps/SETI@Home/sah_4.21_sparc-sun-solaris2.9/sah_4.21_sparc-sun-solaris2.9.gz
-  apps/SETI@Home/sah_4.21_sparc-sun-solaris2.9/sah_4.21_logo.jpg
+  apps/SETI@Home/sah_4.21_sparc-sun-solaris2.9/sah_logo_1.0.jpg
   apps/SETI@Home/sah_4.21_i686-pc-linux-gnu/sah_4.21_i686-pc-linux-gnu.gz
-  apps/SETI@Home/sah_4.21_i686-pc-linux-gnu/sah_4.21_logo.jpg
+  apps/SETI@Home/sah_4.21_i686-pc-linux-gnu/sah_logo_1.0.jpg
 
 """
 
