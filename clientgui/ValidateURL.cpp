@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.3  2004/10/22 16:06:10  rwalton
+// *** empty log message ***
+//
 // Revision 1.2  2004/09/30 20:32:15  davea
 // *** empty log message ***
 //
@@ -87,7 +90,7 @@ bool CValidateURL::Validate(wxWindow *parent)
         ok = FALSE;
 
         if      ( wxURL_SNTXERR == val.GetError() )
-            m_errormsg = _("'%s' contains a syntax error.");
+            m_errormsg = _("No URL supplied, please enter a valid project URL.");
         else if ( wxURL_NOPROTO == val.GetError() )
             m_errormsg = _("'%s' does not contain a protocol which can get this URL.");
         else if ( wxURL_NOHOST == val.GetError() )

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/10/22 16:06:10  rwalton
+// *** empty log message ***
+//
 // Revision 1.1  2004/09/22 21:53:04  rwalton
 // *** empty log message ***
 //
@@ -79,11 +82,11 @@ bool CValidateAccountKey::Validate(wxWindow *parent)
 
     bool ok = TRUE;
 
-    if ( (!wxIsAlphaNumeric(val)) || (val.Length() != 32) )
+    if ( (!wxIsAlphaNumeric(val)) )
     {
         ok = FALSE;
 
-        m_errormsg = _("'%s' should only contain alphabetic or numeric characters and be equal to 32 characters.");
+        m_errormsg = _("Invalid Account Key, please enter a valid Account Key");
     }
 
     if ( !ok )
