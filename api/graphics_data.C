@@ -30,8 +30,8 @@ GRAPHICS_BUFFER* GRAPHICS_DOUBLE_BUFFER::get_render_buffer() {
                 b->state = GB_STATE_RENDERING;
             }
         } else {
-			b->state = GB_STATE_RENDERING;
-		}
+            b->state = GB_STATE_RENDERING;
+        }
     }
     return b;
 }

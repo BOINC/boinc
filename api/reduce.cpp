@@ -1,8 +1,17 @@
-#include <windows.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#ifdef _WIN32
+#include <windows.h>
 #include <GL/gl.h>
+#endif
+
+#ifdef __APPLE_CC__
+#include <OpenGL/gl.h>
+#define max(a,b)  (a>b?a:b)
+#define min(a,b)  (a>b?b:a)
+#endif
 
 #include "gutil.h"
 #include "reduce.h"
@@ -11,7 +20,7 @@ REDUCED_ARRAY::REDUCED_ARRAY() {
     rdata = 0;
     ftemp = 0;
     itemp = 0;
-	reduce_method = REDUCE_METHOD_AVG;
+    reduce_method = REDUCE_METHOD_AVG;
 }
 
 REDUCED_ARRAY::~REDUCED_ARRAY() {
@@ -55,7 +64,7 @@ void REDUCED_ARRAY::init(int sx, int sy) {
     last_ry = 0;
     last_ry_count = 0;
     rdata_max = 0;
-	rdata_min = (float)1e20;
+    rdata_min = (float)1e20;
 }
 
 bool REDUCED_ARRAY::full() {
@@ -77,7 +86,7 @@ void REDUCED_ARRAY::init_draw(float* p, float* s, double h0, double dh, float tr
     draw_deltaz = draw_size[2]/rdimy;
     hue0 = h0;
     dhue = dh;
-	alpha = trans;
+    alpha = trans;
 }
 
 // reduce a single row.  This is called only if sdimx > rdimx;
@@ -89,27 +98,27 @@ void REDUCED_ARRAY::reduce_source_row(float* in, float* out) {
     memset(itemp, 0, rdimx*sizeof(int));
     for (i=0; i<sdimx; i++) {
         ri = (i*rdimx)/sdimx;
-		switch (reduce_method) {
-		case REDUCE_METHOD_AVG:
+        switch (reduce_method) {
+            case REDUCE_METHOD_AVG:
             out[ri] += in[i];
             itemp[ri]++;
             break;
-		case REDUCE_METHOD_SUM:
+            case REDUCE_METHOD_SUM:
             out[ri] += in[i];
             break;
-		case REDUCE_METHOD_MIN:
+            case REDUCE_METHOD_MIN:
             out[ri] = min(out[ri],in[i]);
             break;
-		case REDUCE_METHOD_MAX:
+            case REDUCE_METHOD_MAX:
             out[ri] = max(out[ri],in[i]);
             break;
-		}
+        }
     }
-	if (reduce_method==REDUCE_METHOD_AVG) {
+    if (reduce_method==REDUCE_METHOD_AVG) {
         for (i=0; i<rdimx; i++) {
             if (itemp[i] > 1) out[i] /= itemp[i];
         }
-	}
+    }
 }
 
 void REDUCED_ARRAY::update_max(int row) {
