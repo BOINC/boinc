@@ -14,6 +14,44 @@
 
 #include "gutil.h"
 
+//GLfloat mat_diffuse[] = {0.7, 0.5, 1.0, 0.4};
+GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
+GLfloat mat_shininess[] = {40.0};
+
+void mode_shaded(GLfloat* color) {
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glShadeModel (GL_SMOOTH);
+    glDepthMask(GL_TRUE);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+}
+
+void mode_unshaded() {
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_LIGHTING);
+    glDisable(GL_LIGHT0);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glShadeModel (GL_SMOOTH);
+    glDepthMask(GL_TRUE);
+}
+
+void mode_lines() {
+    glEnable(GL_BLEND);
+    glDisable(GL_LIGHTING);
+    glDisable(GL_LIGHT0);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    //glDepthMask(GL_TRUE);
+    //glEnable(GL_LINE_SMOOTH);
+    //glHint(GL_LINE_SMOOTH, GL_NICEST);
+    //glDisable(GL_DEPTH_TEST);
+}
+
 static double HuetoRGB(double m1, double m2, double h ) {
    if( h < 0 ) h += 1.0;
    if( h > 1 ) h -= 1.0;
@@ -168,6 +206,7 @@ void draw_text_panel(
     pos2[1] += size[1];
     memcpy(pos3, pos2, sizeof(pos0));
     pos3[0] -= size[0];
+    mode_unshaded();
     glColor4fv(&color.r);
     glBegin(GL_QUADS);
     glVertex3fv(pos0);
@@ -215,3 +254,94 @@ void draw_text_panel(
     draw_text(pos3, char_height, line_width, line_spacing, text);
 }
 
+PROGRESS::PROGRESS(
+    GLfloat* p, GLfloat l, GLfloat r, GLfloat in, GLfloat* c, GLfloat* ic
+) {
+    memcpy(pos, p, sizeof(pos));
+    len  = l;
+    rad = r;
+    inner_rad = in;
+    memcpy(color, c, sizeof(color));
+    memcpy(inner_color, ic, sizeof(inner_color));
+}
+
+void PROGRESS::draw(float x) {
+    mode_shaded(inner_color);
+    drawCylinder(false, pos, x*len, inner_rad);
+    mode_shaded(color);
+    drawCylinder(false, pos, len, rad);
+}
+
+GRAPH_2D::GRAPH_2D(float* p, float* s, float* c, float* tc) {
+    memcpy(pos, p, sizeof(pos));
+    memcpy(size, s, sizeof(size));
+    memcpy(color, c, sizeof(color));
+    memcpy(tick_color, tc, sizeof(tick_color));
+}
+
+float yvec[] = {0., 1., 0.};
+float xvec[] = {1., 0., 0.};
+float xvecneg[] = {-1., 0., 0.};
+
+// draw horizontal plate from i to i+1, with height data[i]
+//
+void GRAPH_2D::draw_x(int i) {
+    GLfloat pt[3];
+    double r1 = i/(double)len;
+    double r2 = (i+1)/(double)len;
+
+    glNormal3fv(yvec);
+    pt[0] = pos[0] + r1*size[0];
+    pt[1] = pos[1] + data[i]*size[1]/dmax;
+    pt[2] = pos[2];
+    glVertex3fv(pt);
+    pt[0] = pos[0] + r2*size[0];
+    glVertex3fv(pt);
+    pt[2] = pos[2] + size[2];
+    glVertex3fv(pt);
+    pt[0] = pos[0] + r1*size[0];
+    glVertex3fv(pt);
+}
+
+// draw vertical plate at position i, with height from data[i-1] to data[i]
+//
+void GRAPH_2D::draw_y(int i) {
+    GLfloat pt[3];
+    double r1 = i/(double)len;
+
+    (data[i]>data[i-1])?glNormal3fv(xvecneg):glNormal3fv(xvec);
+    pt[0] = pos[0] + r1*size[0];
+    pt[1] = pos[1] + data[i-1]*size[1]/dmax;
+    pt[2] = pos[2];
+    glVertex3fv(pt);
+    pt[1] = pos[1] + data[i]*size[1]/dmax;
+    glVertex3fv(pt);
+    pt[2] = pos[2] + size[2];
+    glVertex3fv(pt);
+    pt[1] = pos[1] + data[i-1]*size[1]/dmax;
+    glVertex3fv(pt);
+}
+
+void GRAPH_2D::draw(float* d, int ln) {
+    int i;
+
+    data = d;
+    len = ln;
+    dmax = 0;
+    for (i=0; i<len; i++) {
+        if (data[i] > dmax) dmax = data[i];
+    }
+
+    mode_shaded(color);
+    glBegin(GL_QUADS);
+    draw_x(0);
+    for (i=1; i<len-1; i++) {
+        draw_y(i);
+        draw_x(i);
+    }
+    draw_x(len-1);
+    glEnd();
+}
+
+void GRAPH_2D::add_tick(float x, float yfrac) {
+}
