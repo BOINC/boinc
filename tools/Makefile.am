@@ -40,11 +40,15 @@ dir_hier_path_SOURCES = \
     ../sched/sched_config.C     \
     ../lib/filesys.C            \
     ../lib/parse.C \
-    ../lib/util.C
+    ../lib/util.C   \
+    ../lib/md5_file.C           \
+    ../lib/md5.c
 
 dir_hier_move_SOURCES = \
     dir_hier_move.C \
     ../sched/sched_config.C     \
     ../lib/parse.C \
     ../lib/filesys.C \
-    ../lib/util.C
+    ../lib/util.C   \
+    ../lib/md5_file.C           \
+    ../lib/md5.c

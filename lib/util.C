@@ -49,6 +49,7 @@
 
 #include "error_numbers.h"
 #include "filesys.h"
+#include "md5_file.h"
 #include "util.h"
 
 #ifdef _USING_FCGI_
@@ -755,6 +756,7 @@ void update_average(
 
 static void filename_hash_old(const char* filename, int fanout, char* dir) {
     int sum=0;
+    const char* p = filename;
 
     while (*p) sum += *p++;
     sum %= fanout;
@@ -762,9 +764,9 @@ static void filename_hash_old(const char* filename, int fanout, char* dir) {
 }
 
 static void filename_hash(const char* filename, int fanout, char* dir) {
-	std::string s = md5_string(p, strlen(p));
+	std::string s = md5_string((const unsigned char*)filename, strlen(filename));
 	int x = strtol(s.substr(1, 7).c_str(), 0, 16);
-	return x % fanout;
+    sprintf(dir, "%x", x % fanout);
 }
 
 // given a filename, compute its path in a directory hierarchy
@@ -805,7 +807,7 @@ int dir_hier_path(
 }
 
 int dir_hier_url(
-    const char* filename, const char* root, int fanout, bool new_hash
+    const char* filename, const char* root, int fanout, bool new_hash,
 	char* result
 ) {
     char dir[256];

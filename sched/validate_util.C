@@ -27,6 +27,7 @@
 #include "error_numbers.h"
 #include "parse.h"
 #include "util.h"
+#include "filesys.h"
 
 #include "sched_util.h"
 #include "sched_config.h"
