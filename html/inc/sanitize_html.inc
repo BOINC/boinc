@@ -8,6 +8,7 @@ $allowed = array(
     'p' => array('align' => 1),
     'font' => array('face' => 1),
     'br' => array(),
+    'strong' => array(),
     'ul' => array(),
     'ol' => array(),
     'li' => array(),
