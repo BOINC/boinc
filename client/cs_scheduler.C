@@ -283,7 +283,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     FILE_INFO* fip;
     int retval;
     double size;
-    double total_share;
+    double total_share = 0;
     char cross_project_id[MD5_LEN];
 
     for (i=0; i<projects.size(); ++i) {
