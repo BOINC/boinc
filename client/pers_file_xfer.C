@@ -262,12 +262,31 @@ void PERS_FILE_XFER::handle_xfer_failure() {
     }
 }
 
+// return a random number in the range [0,1)
+static inline double rand_fraction()
+{
+    // rand() / RAND_MAX is not always reliable
+    static const int MODULUS = 1357;
+    return double(rand() % MODULUS) / double(MODULUS);
+}
+
+// return a random integer in the range [min,max)
+static inline double rand_range(int min, int max)
+{
+    return rand_fraction() * (max-min) + min
+}
+
+// return a random integer in the range [max(MIN,e^n),min(MAX,e^n))
+static inline int calculate_exponential_backoff(MIN, MAX, int n)
+{
+    double e = exp(n);
+    return rand_range(max(MIN, e), min(MAX, e));
+}
+
 // Cycle to the next URL, or if we've hit all URLs in this cycle,
 // backoff and try again later
 //
 void PERS_FILE_XFER::retry_or_backoff() {
-    double exp_backoff;
-    int backoff;
     struct tm *newtime;
     time_t now;
     char buf[256];
@@ -284,14 +303,14 @@ void PERS_FILE_XFER::retry_or_backoff() {
     //
     if (fip->current_url == fip->start_url) {
         nretry++;
-        exp_backoff = exp(((double)rand()/(double)RAND_MAX)*nretry);
 
         // Do an exponential backoff of e^nretry seconds,
         // keeping within the bounds of PERS_RETRY_DELAY_MIN and
         // PERS_RETRY_DELAY_MAX
         //
-        backoff = (int)max(PERS_RETRY_DELAY_MIN, min(PERS_RETRY_DELAY_MAX, exp_backoff));
-        next_request_time = now + backoff;
+        next_request_time = now + 
+            calculate_exponential_backoff(
+                PERS_RETRY_DELAY_MIN, PERS_RETRY_DELAY_MAX, nretry);
     }
     if (log_flags.file_xfer_debug) {
         sprintf(buf,
