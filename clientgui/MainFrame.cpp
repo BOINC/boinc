@@ -962,16 +962,17 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
             if ( NULL != pMenuBar->FindItem( ID_ACTIVITYRUNBASEDONPREPERENCES, NULL ) )
                 pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, false );
 
-            pDoc->GetActivityRunMode( iActivityMode );
+            if ( 0 == pDoc->GetActivityRunMode( iActivityMode ) )
+            {
+                if ( CMainDocument::MODE_ALWAYS == iActivityMode )
+                    pMenuBar->Check( ID_ACTIVITYRUNALWAYS, true );
 
-            if ( CMainDocument::MODE_ALWAYS == iActivityMode )
-                pMenuBar->Check( ID_ACTIVITYRUNALWAYS, true );
+                if ( CMainDocument::MODE_NEVER == iActivityMode )
+                    pMenuBar->Check( ID_ACTIVITYSUSPEND, true );
 
-            if ( CMainDocument::MODE_NEVER == iActivityMode )
-                pMenuBar->Check( ID_ACTIVITYSUSPEND, true );
-
-            if ( CMainDocument::MODE_AUTO == iActivityMode )
-                pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
+                if ( CMainDocument::MODE_AUTO == iActivityMode )
+                    pMenuBar->Check( ID_ACTIVITYRUNBASEDONPREPERENCES, true );
+            }
 
             if ( NULL != pMenuBar->FindItem( ID_NETWORKRUNALWAYS, NULL ) )
                 pMenuBar->Check( ID_NETWORKRUNALWAYS, false );
@@ -982,17 +983,17 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
             if ( NULL != pMenuBar->FindItem( ID_NETWORKRUNBASEDONPREPERENCES, NULL ) )
                 pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, false );
 
-            pDoc->GetNetworkRunMode( iNetworkMode );
+            if ( 0 == pDoc->GetNetworkRunMode( iNetworkMode ) )
+            {
+                if ( CMainDocument::MODE_ALWAYS == iNetworkMode )
+                    pMenuBar->Check( ID_NETWORKRUNALWAYS, true );
 
-            if ( CMainDocument::MODE_ALWAYS == iNetworkMode )
-                pMenuBar->Check( ID_NETWORKRUNALWAYS, true );
+                if ( CMainDocument::MODE_NEVER == iNetworkMode )
+                    pMenuBar->Check( ID_NETWORKSUSPEND, true );
 
-            if ( CMainDocument::MODE_NEVER == iNetworkMode )
-                pMenuBar->Check( ID_NETWORKSUSPEND, true );
-
-            if ( CMainDocument::MODE_AUTO == iNetworkMode )
-                pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, true );
-
+                if ( CMainDocument::MODE_AUTO == iNetworkMode )
+                    pMenuBar->Check( ID_NETWORKRUNBASEDONPREPERENCES, true );
+            }
 
             // Update the statusbar
             wxASSERT(wxDynamicCast(m_pbmpConnected, wxStaticBitmap));
