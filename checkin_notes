@@ -18258,3 +18258,28 @@ David  10 Oct 2004
     client/
         client_types.C
         gui_rpc_server.C
+
+David  11 Oct 2004
+	- changed the graphics API to support Mac OS/X
+		(in which only the original thread can do GUI stuff).
+		boinc_init_graphics() now takes a function-pointer arg
+		for the worker function; it runs this function in a new thread,
+		and the calling thread does the GUI event loop.
+
+		Did this for Windows, and attempted to make the same changes
+		in the Mac and X11 code.  May or may not work.
+
+	- got rid of everything related to the GRAPHICS_INFO structure.
+		This wasn't being used.
+
+	NOTE: this change doesn't affect the core/app interface.
+	No need to recompile existing apps.
+
+	api/
+		graphics_api.C,h
+		windows_opengl.C
+	client/
+		app_start.C
+	lib/
+		app_ipc.C,h
+		prefs.C

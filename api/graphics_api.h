@@ -4,7 +4,7 @@
 // The API (functions called by the app)
 
 extern "C"{
-extern int boinc_init_graphics();
+extern int boinc_init_graphics(void (*worker)());
 extern int boinc_finish_graphics();
 }
 

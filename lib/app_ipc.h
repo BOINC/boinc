@@ -193,7 +193,6 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 // filenames used in the slot directory
 //
 #define INIT_DATA_FILE    "init_data.xml"
-#define GRAPHICS_DATA_FILE    "graphics.xml"
 #define BOINC_FINISH_CALLED_FILE "boinc_finish_called"
 #define TRICKLE_UP_FILENAME "trickle_up.xml"
 #define STDERR_FILE           "stderr.txt"

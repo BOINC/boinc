@@ -346,7 +346,7 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
     }
 }
 
-DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
+void win_graphics_event_loop() {
 	MSG					msg;		// Windows Message Structure
 	m_uEndSSMsg = RegisterWindowMessage(STOP_SS_MSG);
 
@@ -372,8 +372,7 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 
 	unreg_win_class();
 
-	SetEvent(hQuitEvent);		// Signal to the worker thread that we're quitting
-	return (DWORD)msg.wParam;		// Exit The thread
+	SetEvent(hQuitEvent);		// Signal the worker thread that we're quitting
 }
 
 static inline bool osIsNT()

@@ -24,8 +24,8 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-extern DWORD WINAPI win_graphics_event_loop( LPVOID duff );
-HANDLE graphics_threadh=NULL;
+extern void win_graphics_event_loop();
+HANDLE worker_threadh=NULL;
 #endif
 
 #ifdef __APPLE_CC__
@@ -58,29 +58,18 @@ double boinc_max_gfx_cpu_frac = 0.5;
 HANDLE hQuitEvent;
 #endif
 
-GRAPHICS_INFO gi;
 bool graphics_inited = false;
 
-int boinc_init_graphics() {
-    FILE* f;
-    int retval;
+#ifdef _WIN32
+// glue routine for Windows
+DWORD WINAPI foobar(LPVOID foo) {
+    void (*w)() = (void (*)()) foo;
+    w();
+    return 0;
+}
+#endif
 
-    f = boinc_fopen(GRAPHICS_DATA_FILE, "r");
-    if (!f) {
-        fprintf(stderr, "boinc_init_graphics(): can't open graphics data file\n");
-        fprintf(stderr, "boinc_init_graphics(): Using default graphics settings.\n");
-        gi.refresh_period = 0.1; // 1/10th of a second
-        gi.xsize = 640;
-        gi.ysize = 480;
-    } else {
-        retval = parse_graphics_file(f, &gi);
-        if (retval) {
-            fprintf(stderr, "boinc_init_graphics(): can't parse graphics data file\n");
-            return retval;
-        }
-        fclose(f);
-    }
-
+int boinc_init_graphics(void (*worker_main)()) {
 #ifdef _WIN32
 
     // Create the event object used to signal between the
@@ -98,30 +87,33 @@ int boinc_init_graphics() {
     // Create the graphics thread, passing it the graphics info
     // TODO: is it better to use _beginthreadex here?
     //
-    graphics_threadh = CreateThread(
-        NULL, 0, win_graphics_event_loop, &gi, CREATE_SUSPENDED, &threadId
+    worker_threadh = CreateThread(
+        NULL, 0, foobar, worker_main, CREATE_SUSPENDED, &threadId
     );
 
-    // lower priority of worker thread (i.e. current thread)
+    // raise priority of graphics thread (i.e. current thread)
     //
     HANDLE h = GetCurrentThread();
-    SetThreadPriority(h, THREAD_PRIORITY_LOWEST);
+    SetThreadPriority(h, THREAD_PRIORITY_HIGHEST);
 
-    // Raise graphics thread priority
+    // lower worker thread priority
     //
-    SetThreadPriority(graphics_threadh, THREAD_PRIORITY_HIGHEST);
+    SetThreadPriority(worker_threadh, THREAD_PRIORITY_LOWEST);
 
-    // Start the graphics thread
+    // Start the worker thread
     //
-    ResumeThread(graphics_threadh);
+    ResumeThread(worker_threadh);
+
+    graphics_inited = true;
+    win_graphics_event_loop();
 #endif
 
 #ifdef __APPLE_CC__
     OSErr     theErr = noErr;
-    ThreadID    graphicsThreadID = 0;
+    ThreadID    workerThreadID = 0;
     ThreadEntryUPP entry_proc;
 
-    entry_proc = NewThreadEntryUPP( mac_graphics_event_loop );
+    entry_proc = NewThreadEntryUPP( worker_main );
 
     // Create the thread in a suspended state
     theErr = NewThread ( kCooperativeThread, entry_proc,
@@ -132,23 +124,26 @@ int boinc_init_graphics() {
     // In theory we could do customized scheduling or install thread disposal routines here
 
     // Put the graphics event loop into the ready state
-    SetThreadState(graphicsThreadID, kReadyThreadState, kNoThreadID);
+    SetThreadState(workerThreadID, kReadyThreadState, kNoThreadID);
 
     YieldToAnyThread();
+    mac_graphics_event_loop();
+    graphics_inited = true;
 #endif
 
 #ifdef _PTHREAD_H
-    pthread_t graphics_thread;
-    pthread_attr_t graphics_thread_attr;
+    pthread_t worker_thread;
+    pthread_attr_t worker_thread_attr;
 
-    pthread_attr_init( &graphics_thread_attr );
-    retval = pthread_create( &graphics_thread, &graphics_thread_attr, xwin_graphics_event_loop, &gi );
+    pthread_attr_init( &worker_thread_attr );
+    retval = pthread_create( &worker_thread, &worker_thread_attr, worker_main, &gi );
     if (retval) return ERR_THREAD;
-    pthread_attr_destroy( &graphics_thread_attr );
+    pthread_attr_destroy( &worker_thread_attr );
+    graphics_inited = true;
+    xwin_graphics_event_loop();
 #endif
 
-    graphics_inited = true;
-
+    // normally we never get here
     return 0;
 }
 

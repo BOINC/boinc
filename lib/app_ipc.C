@@ -203,34 +203,6 @@ void APP_CLIENT_SHM::reset_msgs() {
     memset(shm, 0, sizeof(SHARED_MEM));
 }
 
-int write_graphics_file(FILE* f, GRAPHICS_INFO* gi) {
-    fprintf(f,
-        "<graphics_info>\n"
-        "    <graphics_xsize>%d</graphics_xsize>\n"
-        "    <graphics_ysize>%d</graphics_ysize>\n"
-        "    <graphics_refresh_period>%f</graphics_refresh_period>\n"
-        "</graphics_info>\n",
-        gi->xsize,
-        gi->ysize,
-        gi->refresh_period
-    );
-
-    return 0;
-}
-
-int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi) {
-    char buf[256];
-    while (fgets(buf, 256, f)) {
-        if (match_tag(buf, "<graphics_info>")) continue;
-        if (match_tag(buf, "</graphics_info>")) return 0;
-        else if (parse_int(buf, "<graphics_xsize>", gi->xsize)) continue;
-        else if (parse_int(buf, "<graphics_ysize>", gi->ysize)) continue;
-        else if (parse_double(buf, "<graphics_refresh_period>", gi->refresh_period)) continue;
-        else fprintf(stderr, "parse_graphics_file: unrecognized %s", buf);
-    }
-    return ERR_XML_PARSE;
-}
-
 // create a file (new_link) which contains an XML
 // reference to existing file.
 //

@@ -233,8 +233,6 @@ int ACTIVE_TASK::start(bool first_time) {
     FILE_REF fref;
     FILE_INFO* fip;
     int retval;
-    char graphics_data_path[256];
-    GRAPHICS_INFO gi;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
     scope_messages.printf("ACTIVE_TASK::start(first_time=%d)\n", first_time);
@@ -246,10 +244,6 @@ int ACTIVE_TASK::start(bool first_time) {
     episode_start_cpu_time = checkpoint_cpu_time;
     cpu_time_at_last_sched = checkpoint_cpu_time;
     fraction_done = 0;
-
-    gi.xsize = 800;
-    gi.ysize = 600;
-    gi.refresh_period = 0.1;
 
     if (!app_client_shm.shm) {
         retval = get_shmem_seg_name();
@@ -263,18 +257,6 @@ int ACTIVE_TASK::start(bool first_time) {
 
     retval = write_app_init_file();
     if (retval) return retval;
-
-    sprintf(graphics_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, GRAPHICS_DATA_FILE);
-    FILE* gf = boinc_fopen(graphics_data_path, "w");
-    if (!gf) {
-        msg_printf(wup->project, MSG_ERROR,
-            "Failed to open core-to-app graphics prefs file %s",
-            graphics_data_path
-        );
-        return ERR_FOPEN;
-    }
-    retval = write_graphics_file(gf, &gi);
-    fclose(gf);
 
     // set up applications files
     //

@@ -17,7 +17,6 @@
 // Contributor(s):
 //
 
-#include "cpp.h"
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -32,9 +31,6 @@
 #include "parse.h"
 
 #include "error_numbers.h"
-#include "file_names.h"
-
-#include "client_state.h"
 #include "prefs.h"
 
 // The following values determine how the client behaves
