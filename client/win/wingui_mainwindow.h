@@ -62,7 +62,7 @@
 #define TAB_ID				5
 
 #define PROJECT_COLS		5			// number of columns for each control
-#define RESULT_COLS			7
+#define RESULT_COLS			8
 #define XFER_COLS			7
 #define MESSAGE_COLS		3
 

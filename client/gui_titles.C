@@ -10,7 +10,7 @@ char g_szTabItems[MAX_TABS][256] = {
 
 char g_szColumnTitles[MAX_LIST_ID][MAX_COLS][256] = {
     {"Project",	"Account",		"Total Credit",	"Avg. Credit",	"Resource Share",	"",					""},
-    {"Project",	"Application",	"Name",			"CPU time",		"Progress",			"To Completion",	"Status"},
+    {"Project",	"Application",	"Name",			"CPU time",		"Progress",			"To Completion",	"Report Deadline", "Status"},
     {"Project",	"File",			"Progress",		"Size",			"Time",				"Speed",			"Status"},
     {"Project",	"Time",			"Message",		"",				"",					"",					""}
 };

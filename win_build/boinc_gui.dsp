@@ -230,10 +230,6 @@ SOURCE=..\client\win\Stackwalker.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\client\win\HeapCheck\testApp.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\Client\time_stats.C
 # End Source File
 # Begin Source File

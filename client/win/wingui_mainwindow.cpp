@@ -23,7 +23,7 @@
 CMyApp g_myApp;
 CMainWindow* g_myWnd = NULL;
 
-static struct _test
+/*static struct _test
 {
   _test()
   {
@@ -34,7 +34,7 @@ static struct _test
   {
     DeInitAllocCheck();
   }
-} _myLeakFinder;
+} _myLeakFinder;*/
 
 /////////////////////////////////////////////////////////////////////////
 // CMyApp member functions
@@ -117,6 +117,13 @@ void UpdateLanguageStrings(CWnd* wnd, char const * windowname, int const* pnIDs,
 			str = szVal;
 		}
 	}
+}
+
+inline CString GetStrTime(CTime timeObj = CTime::GetCurrentTime())
+{
+	CString strTime;
+	strTime = timeObj.Format("%c"); // TODO: use windows time locale
+	return strTime;
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -370,10 +377,8 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
 		    // progress
 		    if(!at) {
-//                if (m_ResultListCtrl.GetItemProgress(i, 4) != 0)
 	    		    m_ResultListCtrl.SetItemProgress(i, 4, 0);
 		    } else {	
-//                if (m_ResultListCtrl.GetItemProgress(i, 4) != at->fraction_done * 100)
     			    m_ResultListCtrl.SetItemProgress(i, 4, at->fraction_done * 100);
 		    }
 
@@ -390,6 +395,15 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		    strBuf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
             if (m_ResultListCtrl.GetItemText(i, 5) != strBuf)
     		    m_ResultListCtrl.SetItemText(i, 5, strBuf);
+
+			if (re->report_deadline) {
+				strBuf = GetStrTime(re->report_deadline);
+			} else {
+				strBuf = "---";
+			}
+			if (m_ResultListCtrl.GetItemText(i,6) != strBuf) {
+				m_ResultListCtrl.SetItemText(i, 6, strBuf);
+			}
 
 		    // status
 			switch(re->state) {
@@ -417,8 +431,8 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 			if (gstate.is_suspended()) {
 				strBuf = CString(g_szMiscItems[13]) + " (" + strBuf + ")";
 			}
-            if (m_ResultListCtrl.GetItemText(i, 6) != strBuf)
-    		    m_ResultListCtrl.SetItemText(i, 6, strBuf);
+            if (m_ResultListCtrl.GetItemText(i, 7) != strBuf)
+    		    m_ResultListCtrl.SetItemText(i, 7, strBuf);
 	    }
 	    m_ResultListCtrl.SetRedraw(TRUE);
 
@@ -585,11 +599,7 @@ void CMainWindow::MessageUser(char* szProject, char* szMessage, int szPriority)
 
     m_MessageListCtrl.Scroll(m_MessageListCtrl.ApproximateViewRect());
 
-	CTime curTime = CTime::GetCurrentTime();
-	CString strTime;
-	strTime = curTime.Format("%c");
-	m_MessageListCtrl.SetItemText(nNewPos, 1, strTime);
-
+	m_MessageListCtrl.SetItemText(nNewPos, 1, GetStrTime());
 	m_MessageListCtrl.SetItemText(nNewPos, 2, szMessage);
 	
 	// set status icon to flash
@@ -746,6 +756,46 @@ void CMainWindow::LoadListControls()
 	m_MessageListCtrl.LoadInactive(szPath, "MESSAGES");
 }
 
+inline void SaveColumns(CProgressListCtrl& listCtrl,
+						const char* header_name,
+						const char* szPath
+						) 
+{
+	int colOrder[MAX_COLS];
+	int itemCount = listCtrl.GetHeaderCtrl()->GetItemCount();
+	listCtrl.GetColumnOrderArray(colOrder, itemCount);
+	CString strKey, strVal;
+	strKey.Format("%s-order", header_name);
+	WritePrivateProfileStruct("HEADERS", strKey, colOrder, sizeof(int)*itemCount, szPath);
+	for(int i = 0; i < itemCount; i ++) {
+		strKey.Format("%s-%d", header_name, i);
+		strVal.Format("%d", listCtrl.GetColumnWidth(i));
+		WritePrivateProfileString("HEADERS", strKey, strVal, szPath);
+	}
+}
+
+inline void LoadColumns(CProgressListCtrl& listCtrl,
+						const char* header_name,
+						const char* szPath,
+						int const* default_widths = NULL
+						)
+{
+	int colOrder[MAX_COLS];
+	int itemCount = listCtrl.GetHeaderCtrl()->GetItemCount();
+	CString strKey;
+	strKey.Format("%s-order", header_name);
+	memset(colOrder, 0, sizeof(colOrder));
+	if(GetPrivateProfileStruct("HEADERS", strKey, colOrder, sizeof(int)*itemCount, szPath)) {
+		listCtrl.SetColumnOrderArray(itemCount, colOrder);
+	}
+	for(int i = 0; i < itemCount; i ++) {
+		strKey.Format("%s-%d", header_name, i);
+		int width = default_widths ? default_widths[i] : DEF_COL_WIDTH;
+		width = GetPrivateProfileInt("HEADERS", strKey, width, szPath);
+		listCtrl.SetColumnWidth(i, width);
+	}
+}
+
 //////////
 // CMainWindow::SaveUserSettings
 // arguments:	void
@@ -758,8 +808,6 @@ void CMainWindow::SaveUserSettings()
 	GetCurrentDirectory(256, szPath);
 	strcat(szPath, "\\");
 	strcat(szPath, INI_FILE_NAME);
-	int colorder[MAX_COLS];
-	int i;
 
 	// get rid of old lists
 	file_delete(szPath);
@@ -780,42 +828,17 @@ void CMainWindow::SaveUserSettings()
 	strVal.Format("%d", m_TabCtrl.GetCurSel());
 	WritePrivateProfileString("WINDOW", "selection", strVal, szPath);
 
-	// save project columns
-	m_ProjectListCtrl.GetColumnOrderArray(colorder, PROJECT_COLS);
-	WritePrivateProfileStruct("HEADERS", "projects-order", colorder, sizeof(colorder), szPath);
-	for(i = 0; i < m_ProjectListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		strKey.Format("projects-%d", i);
-		strVal.Format("%d", m_ProjectListCtrl.GetColumnWidth(i));
-		WritePrivateProfileString("HEADERS", strKey, strVal, szPath);
-	}
-
-	// save result columns
-	m_ResultListCtrl.GetColumnOrderArray(colorder, RESULT_COLS);
-	WritePrivateProfileStruct("HEADERS", "results-order", colorder, sizeof(colorder), szPath);
-	for(i = 0; i < m_ResultListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		strKey.Format("results-%d", i);
-		strVal.Format("%d", m_ResultListCtrl.GetColumnWidth(i));
-		WritePrivateProfileString("HEADERS", strKey, strVal, szPath);
-	}
-
-	// save xfer columns
-	m_XferListCtrl.GetColumnOrderArray(colorder, XFER_COLS);
-	WritePrivateProfileStruct("HEADERS", "xfers-order", colorder, sizeof(colorder), szPath);
-	for(i = 0; i < m_XferListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		strKey.Format("xfers-%d", i);
-		strVal.Format("%d", m_XferListCtrl.GetColumnWidth(i));
-		WritePrivateProfileString("HEADERS", strKey, strVal, szPath);
-	}
-
-	// save xfer columns
-	m_MessageListCtrl.GetColumnOrderArray(colorder, MESSAGE_COLS);
-	WritePrivateProfileStruct("HEADERS", "messages-order", colorder, sizeof(colorder), szPath);
-	for(i = 0; i < m_MessageListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		strKey.Format("messages-%d", i);
-		strVal.Format("%d", m_MessageListCtrl.GetColumnWidth(i));
-		WritePrivateProfileString("HEADERS", strKey, strVal, szPath);
-	}
+	SaveColumns(m_ProjectListCtrl, "projects", szPath);
+	SaveColumns(m_ResultListCtrl,  "results", szPath);
+	SaveColumns(m_XferListCtrl,    "xfers", szPath);
+	SaveColumns(m_MessageListCtrl, "messages", szPath);
 }
+
+static const int message_header_widths[] = {
+	DEF_COL_WIDTH,
+	DEF_COL_WIDTH*1.5,
+	DEF_COL_WIDTH*4
+};
 
 //////////
 // CMainWindow::LoadUserSettings
@@ -829,8 +852,7 @@ void CMainWindow::LoadUserSettings()
 	GetCurrentDirectory(256, szPath);
 	strcat(szPath, "\\");
 	strcat(szPath, INI_FILE_NAME);
-	int i, nBuf;
-	int colorder[MAX_COLS];
+	int nBuf;
 
 	// load window size/position
 	CRect rt;
@@ -860,48 +882,10 @@ void CMainWindow::LoadUserSettings()
 	nBuf = GetPrivateProfileInt("WINDOW", "selection", 0, szPath);
 	ShowTab(nBuf);
 
-	// load project columns
-	if(GetPrivateProfileStruct("HEADERS", "projects-order", colorder, sizeof(colorder), szPath)) {
-		m_ProjectListCtrl.SetColumnOrderArray(PROJECT_COLS, colorder);
-	}
-	for(i = 0; i < m_ProjectListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		strKey.Format("projects-%d", i);
-		nBuf = GetPrivateProfileInt("HEADERS", strKey.GetBuffer(0), DEF_COL_WIDTH, szPath);
-		m_ProjectListCtrl.SetColumnWidth(i, nBuf);
-	}
-
-	// load result columns
-	if(GetPrivateProfileStruct("HEADERS", "results-order", colorder, sizeof(colorder), szPath)) {
-		m_ResultListCtrl.SetColumnOrderArray(RESULT_COLS, colorder);
-	}
-	for(i = 0; i < m_ResultListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		strKey.Format("results-%d", i);
-		nBuf = GetPrivateProfileInt("HEADERS", strKey.GetBuffer(0), DEF_COL_WIDTH, szPath);
-		m_ResultListCtrl.SetColumnWidth(i, nBuf);
-	}
-
-	// load xfer columns
-	if(GetPrivateProfileStruct("HEADERS", "xfers-order", colorder, sizeof(colorder), szPath)) {
-		m_XferListCtrl.SetColumnOrderArray(XFER_COLS, colorder);
-	}
-	for(i = 0; i < m_XferListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		strKey.Format("xfers-%d", i);
-		nBuf = GetPrivateProfileInt("HEADERS", strKey.GetBuffer(0), DEF_COL_WIDTH, szPath);
-		m_XferListCtrl.SetColumnWidth(i, nBuf);
-	}
-
-	// load message columns
-	if(GetPrivateProfileStruct("HEADERS", "messages-order", colorder, sizeof(colorder), szPath)) {
-		m_MessageListCtrl.SetColumnOrderArray(MESSAGE_COLS, colorder);
-	}
-	for(i = 0; i < m_MessageListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		strKey.Format("messages-%d", i);
-		int nWidth = DEF_COL_WIDTH;
-		if(i == 1) nWidth *= 1.5;
-		if(i == 2) nWidth *= 4;
-		nBuf = GetPrivateProfileInt("HEADERS", strKey.GetBuffer(0), nWidth, szPath);
-		m_MessageListCtrl.SetColumnWidth(i, nBuf);
-	}
+	LoadColumns(m_ProjectListCtrl, "projects", szPath);
+	LoadColumns(m_ResultListCtrl,  "results", szPath);
+	LoadColumns(m_XferListCtrl,    "xfers", szPath);
+	LoadColumns(m_MessageListCtrl, "messages", szPath, message_header_widths);
 }
 
 //////////
