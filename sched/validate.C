@@ -68,11 +68,11 @@ int min_quorum;
     // log(2)
 #define SECONDS_IN_DAY (3600*24)
 #define AVG_HALF_LIFE  (SECONDS_IN_DAY*7)
-#define ALPHA (1./(AVG_HALF_LIFE*LOG2))
+#define ALPHA (LOG2/AVG_HALF_LIFE)
 
 // update an exponential average of credit per second.
 //
-void update_average(double credit, double& avg, double& avg_time) {
+void update_average(double credit_assigned_time, double credit, double& avg, double& avg_time) {
     time_t now = time(0);
 
     // decrease existing average according to how long it's been
@@ -80,9 +80,12 @@ void update_average(double credit, double& avg, double& avg_time) {
     //
     if (avg_time) {
         double deltat = now - avg_time;
-        avg *= exp(-deltat/ALPHA);
+        avg *= exp(-deltat*ALPHA);
     }
-    avg += credit*ALPHA;
+    double deltat = now - credit_assigned_time;
+    // Add (credit)/(number of days to return result) to credit, which
+    // is the average number of cobblestones per day
+    avg += credit/(deltat/86400);
     avg_time = now;
 }
 
@@ -100,12 +103,12 @@ int grant_credit(RESULT& result, double credit) {
     if (retval) return retval;
 
     user.total_credit += credit;
-    update_average(credit, user.expavg_credit, user.expavg_time);
+    update_average(result.sent_time, credit, user.expavg_credit, user.expavg_time);
     retval = db_user_update(user);
     if (retval) return retval;
 
     host.total_credit += credit;
-    update_average(credit, host.expavg_credit, host.expavg_time);
+    update_average(result.sent_time, credit, host.expavg_credit, host.expavg_time);
     retval = db_host_update(host);
     if (retval) return retval;
 
