@@ -35,6 +35,8 @@ THINGS TO TEST (preferably with test scripts)
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
+finish SOCKS implementation, test
+
 decide what to do with invalid result files in upload directory
 
 make get_local_ip_addr() work in all cases

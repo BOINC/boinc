@@ -3912,6 +3912,17 @@ David  Mar 19 2003
     tools/
         add.C
 
+Eric  March 20, 2003
+    - Changed speed tests to use a realtime timer rather than
+      estimating the number of iterations.
+    - Changed floating point test to use more accurate code.
+    - Fixed memory bandwidth test reporting.
+
+    client/
+        app.C
+        client_state.C,h
+        speed_stats.C,h
+
 David  Mar 20 2003
     - added web interface for "merging" hosts
     - cleaned up team-related PHP code
@@ -3919,3 +3930,4 @@ David  Mar 20 2003
     html_user/
         edit_host_action.php
         edit_host_form.php
+
