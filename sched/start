@@ -441,7 +441,7 @@ def do_prune_run_states():
     new_run_state_tasks = []
     for run_state_task in run_state.tasks:
         if run_state_task.prunable:
-            print 'Deleting obsolete run_state task', run_state_task.cmd, '(last run %s)' %timestamp(run_state_task.last_run)
+            print 'Deleting obsolete run_state task', run_state_task.cmd, '(last run %s)' %timestamp(float(run_state_task.last_run))
         else:
             new_run_state_tasks.append(run_state_task)
     run_state.tasks = new_run_state_tasks
