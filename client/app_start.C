@@ -329,10 +329,10 @@ int ACTIVE_TASK::start(bool first_time) {
 
     // NOTE: in Windows, stderr is redirected in boinc_init_diagnostics();
 
-    cmd_line = exec_path + " " + wup->command_line;
+    cmd_line = exec_path + std::string(" ") + wup->command_line;
     relative_to_absolute(slot_dir, slotdirpath);
     if (!CreateProcess(exec_path,
-        cmd_line.c_str(),
+        (LPSTR)cmd_line.c_str(),
         NULL,
         NULL,
         FALSE,
