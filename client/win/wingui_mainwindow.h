@@ -41,7 +41,7 @@
 #define EDGE_BUFFER			2			// buffer pixels around edge of client
 
 #define ID_TIMER			104			// timer id
-#define GUI_REFRESH			1000		// gui refresh rate
+#define TIMEOUT_WAIT		100			// timeout sleep time (in milliseconds)
 
 #define STATUS_ICON_ID		(WM_USER + 1)	// id for notifications from status icon
 
@@ -124,8 +124,6 @@ protected:
 	void					Syncronize(CProgressListCtrl*, vector<void*>*);
 	void					SyncronizePie(CPieChartCtrl*, vector<PROJECT*>*);
     virtual void			PostNcDestroy();
-	void					SetTimeOut();
-	static DWORD WINAPI		TimeOutThreadProc(LPVOID);
 	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
     afx_msg void			OnClose();

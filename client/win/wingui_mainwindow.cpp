@@ -922,32 +922,6 @@ void CMainWindow::PostNcDestroy()
 }
 
 //////////
-// CMainWindow::SetTimeOut
-// arguments:	void
-// returns:		void
-// function:	creates a thread to signal a timeout
-void CMainWindow::SetTimeOut()
-{
-	DWORD nId;
-	if(!CreateThread(NULL, 0, TimeOutThreadProc, GetSafeHwnd(), NULL, &nId)) {
-		show_message("Error setting timer, BOINC cannot run", "low");
-	}
-}
-
-//////////
-// CMainWindow::TimeOutThreadProc
-// arguments:	hWnd: handle to window to signal cast as LPVOID
-// returns:		true for success, false otherwise
-// function:	sleeps for some time then signals the given window
-DWORD CMainWindow::TimeOutThreadProc(LPVOID hWnd)
-{
-	CWnd* pWnd = CWnd::FromHandle((HWND)hWnd);
-	Sleep(GUI_REFRESH);
-	pWnd->SendMessage(WM_TIMER, 0, 0);
-	return 1;
-}
-
-//////////
 // CMainWindow::DefWindowProc
 // arguments:	message: message received
 //				wParam: message's wparam
@@ -1488,7 +1462,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 		return 0;
 	}
 
-	SetTimeOut();
+	SetTimer(ID_TIMER, TIMEOUT_WAIT, (TIMERPROC) NULL);
 
 	// load dll and start idle detection
 	m_hIdleDll = LoadLibrary("boinc.dll");
@@ -1720,6 +1694,12 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 //				and updates gui display.
 void CMainWindow::OnTimer(UINT uEventID)
 {
+	// refresh_count is used so we only update the GUI once a
+	// second regardless of the TIMEOUT_WAIT value
+	static int refresh_count = 0;
+
+	// stop the timer while we do processing
+	KillTimer(ID_TIMER);
 	// update state and gui
 	while(gstate.do_something());
 	NetCheck(); // need to check if network connection can be terminated
@@ -1737,7 +1717,10 @@ void CMainWindow::OnTimer(UINT uEventID)
 			gstate.user_idle = true;
 		}
 
-		UpdateGUI(&gstate);
+		if (refresh_count == 0)
+			UpdateGUI(&gstate);
 	}
-	SetTimeOut();
+	refresh_count = (refresh_count+1)%(1000/TIMEOUT_WAIT);
+	// Start the timer again
+	SetTimer(ID_TIMER, TIMEOUT_WAIT, (TIMERPROC) NULL);
 }
