@@ -23279,10 +23279,10 @@ David  26 Jan 2005
     configure.ac
 
 Rom    26 Jan 2005
-    - The worker thread for a science application should be lowered for both
-      the graphics capable application and non-graphics capable.
-    - The graphics thread should now be set to a normal thread priority level
-      instead of high.
+    - The worker thread priority for a science application should be lowered 
+      for both the graphics capable application and non-graphics capable.
+    - The graphics thread priority should now be set to a normal thread 
+      priority level instead of high.
 
     NOTE: The above changes were only implemented for Windows right now,
           the pthread version of this stuff needs to be done.

@@ -35,6 +35,10 @@
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
+#ifdef HAVE_PTHREAD
+#include <pthread.h>
+#include <sched.h>
+#endif
 using namespace std;
 #endif
 
@@ -108,26 +112,10 @@ static BOINC_STATUS boinc_status;
 int boinc_init() {
     boinc_options_defaults(options);
 
-#ifdef _WIN32
-
-    // populate the global thread handle before adjusting the priority
-    // of the thread
-    //
-    DuplicateHandle(
-        GetCurrentProcess(),
-        GetCurrentThread(),
-        GetCurrentProcess(),
-        &worker_thread_handle,
-        0,
-        FALSE,
-        DUPLICATE_SAME_ACCESS
-    );
-
-#endif
-
     // adjust the thread priority so we don't eat cycles from
     // other programs
-    boinc_adjust_worker_thread_priority();
+    //
+    boinc_adjust_worker_thread_priority(GetCurrentThread());
 
     return boinc_init_options(options);
 }
@@ -162,6 +150,18 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
             boinc_exit(0);	// not un-recoverable ==> status=0
         }
     }
+
+#ifdef _WIN32
+    DuplicateHandle(
+        GetCurrentProcess(),
+        GetCurrentThread(),
+        GetCurrentProcess(),
+        &worker_thread_handle,
+        0,
+        FALSE,
+        DUPLICATE_SAME_ACCESS
+    );
+#endif
 
     retval = boinc_parse_init_data_file();
     if (retval) {
@@ -201,17 +201,17 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
 
 // adjust the worker thread priority to the lowest thread priority
 // available
-int boinc_adjust_worker_thread_priority() {
 #ifdef _WIN32
-
-    // lower worker thread priority
-    //
-    if (!SetThreadPriority(worker_thread_handle, THREAD_PRIORITY_LOWEST))
+int boinc_adjust_worker_thread_priority(HANDLE thread_handle) {
+    if (!SetThreadPriority(thread_handle, THREAD_PRIORITY_LOWEST))
         return ERR_THREAD;
-
-#endif
     return 0;
 }
+#else
+int boinc_adjust_worker_thread_priority(pthread_t thread_handle) {
+    return 0;
+}
+#endif
 
 int boinc_get_status(BOINC_STATUS& s) {
     s = boinc_status;

@@ -109,7 +109,7 @@ int start_worker_thread(WORKER_FUNC_PTR _worker_main) {
 
     // lower worker thread priority
     //
-    boinc_adjust_worker_thread_priority();
+    boinc_adjust_worker_thread_priority(worker_thread_handle);
 
     // Start the worker thread
     //
