@@ -176,11 +176,11 @@ do num_cpus times:
     P = argmax { P.anticipated_debt } over all P in projects with runnable result
     if none:
         break
-    if (some T in P is RUNNING):
+    if (some T (not already scheduled to run) for P is RUNNING):
         T.next_scheduler_state = RUNNING
         P.anticipated_debt -= expected_pay_off
         continue
-    if (some T in P is PREEMPTED):
+    if (some T (not already scheduled to run) for P is PREEMPTED):
         T.next_scheduler_state = RUNNING
         P.anticipated_debt -= expected_pay_off
         continue
