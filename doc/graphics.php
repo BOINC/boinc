@@ -109,7 +109,8 @@ int boinc_init_options_graphics_lib(
 )
     // for compound apps
 </pre>
-where <code>worker()</code> is as above.
+where <code>worker()</code> is as above, and argv0 is the name of the
+executable as passed in the second argument of main() as argv[0].
 The main program must be linked with libboinc_graphics_lib.a
 
 <p>
@@ -119,9 +120,39 @@ It must be linked with libboinc_graphics_impl.a,
 with your rendering and input-handling functions,
 and (dynamically) with glut and opengl.
 
+<p> 
+You must bundle the main program and the shared library together as a
+<a href=tool_update_versions.php>multi-file application version</a>.
+
 <p>
-You must bundle the main program and the shared library together
-as a <a href=tool_update_versions.php>multi-file application version</a>.
+A typical linking line in building the main program might look like
+this:<br> <b>g++ -pthread -o einstein_4.01_i686-pc-linux-gnu app1.o
+app2.o -lboinc_zip -lboinc_api -lboinc -lboinc_graphics_lib -ldl
+-lm</b><br>
+where app1.o and app2.o contain the definitions of main() and worker().
+
+<p>
+A typical linking line in building the shared library might
+look like this:<br> <b>g++ -pthread -o
+einstein_4.01_i686-pc-linux-gnu.so -shared -fPIC app_graphics1.o
+app_graphics2.o -lboinc_graphics_impl -lboinc -lglut -lGLU -lGL -lX11
+-lXmu -ldl -lm</b><br>
+where app_graphics1.o and app_graphics2.o contain the definitions
+of app_graphics_init(), app_graphics_render(), etc.
+
+<p>In order to communicate data between the worker thread and the
+graphics thread, the worker() function can call functions from within
+the shared library.  To do this, it makes use of the global variable
+graphics_lib_handle.  If NULL, this means that the host lacks graphics
+capabilities.  If not NULL, the worker can use
+<pre>
+communications_function_hook = dlsym(graphics_lib_handle,\"communications_function\");
+</pre>
+to resolve pointers to functions which are defined in the graphics
+code app_graphicsN.o.  In turn, such functions can modify data used by
+the graphics code.
+
+
 
 <a name=separate>
 <h3>Separate-program structure</h3>
