@@ -18655,3 +18655,11 @@ David  20 Oct 2004
         gui_rpc_server.C
         win/
             wingui_mainwindow.cpp
+
+David  20 Oct 2004
+    - API: don't delete shared mem in boinc_finish().
+        If you do, the graphics thread (which is generally still running)
+        may seg fault soon thereafter.
+
+    api/
+        boinc_api.C

@@ -103,7 +103,6 @@ static MMRESULT timer_id;
 #endif
 
 static int  setup_shared_mem();
-static void cleanup_shared_mem();
 static int  update_app_progress(double cpu_t, double cp_cpu_t, double ws_t);
 static int  set_timer(double period);
 static int  mem_usage(unsigned long& vm_kb, unsigned long& rs_kb);
@@ -221,7 +220,6 @@ int boinc_finish(int status) {
     timeKillEvent(timer_id);
     CloseHandle(worker_thread_handle);
 #endif
-    cleanup_shared_mem();
     if (options.main_program && status==0) {
         FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
         if (f) fclose(f);
@@ -540,18 +538,6 @@ static int setup_shared_mem() {
 #endif
     if (app_client_shm == NULL) return -1;
     return 0;
-}
-
-static void cleanup_shared_mem() {
-    if (!app_client_shm) return;
-
-#ifdef _WIN32
-    detach_shmem(hSharedMem, app_client_shm->shm);
-#else
-    detach_shmem(app_client_shm->shm);
-#endif
-    delete app_client_shm;
-    app_client_shm = NULL;
 }
 
 int boinc_send_trickle_up(char* variety, char* p) {
