@@ -7,9 +7,9 @@
 <h1>Overview</h1>
 Download:
 <pre>
-  wget http://boinc.berkeley.edu/source/boinc-1.12.tar.gz
-  tar xvzf boinc-1.12.tar.gz
-  cd boinc-1.12
+  wget http://boinc.berkeley.edu/source/boinc-VERSION.tar.gz
+  tar xvzf boinc-VERSION.tar.gz
+  cd boinc-VERSION
 </pre>
 Configure:
 <pre>
@@ -39,7 +39,8 @@ Libraries:
 called <code>mysql_config</code> which comes with your MySQL distribution.
 This sometimes references libraries that are not part of your base system
 installation, such as <code>-lnsl</code> or <code>-lnss_files</code>.  You may
-need to install additional packages or fiddle with Makefiles.
+need to install additional packages (often you can use something called
+"mysql-dev" or "mysql-devel") or fiddle with Makefiles.
 
 <?
    page_tail();
