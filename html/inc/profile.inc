@@ -20,6 +20,9 @@ db_init();
 
 function get_profile($userid) {
     $result = mysql_query("SELECT * FROM profile WHERE userid = $userid");
+    if (!$result) {
+        return NULL;
+    }
     $profile = mysql_fetch_object($result);
     mysql_free_result($result);
     return $profile;
@@ -354,10 +357,15 @@ function show_user_table($members, $offset, $numToDisplay, $cols) {
 
         for ($col = 0; $col < $cols; $col++) {
             if ($count < $numMembers) {
+                $profile = get_profile($members[$count]);
+                if (!$profile) {
+                    $numMembers--;
+                    continue;
+                }
+
                 echo "<td class=bordered width=7% height=64><center>";
 
                 // Only link an image if the user has uploaded one.;
-                $profile = get_profile($members[$count]);
                 if ($profile->has_picture) {
                     echo "<a href=\"", URL_BASE, "view_profile.php?userid={$members[$count]}\"><img src=\"", URL_BASE, IMAGE_URL, "{$members[$count]}_sm.jpg\"></a>";
 

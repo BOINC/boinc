@@ -141,7 +141,7 @@ function build_country_pages() {
         if ($user->country) {
             $countryMembers[$user->country][] = $user->id;
             $numIds++;
-        } else {
+        } else if ($user) {
             $countryMembers['Other'][] = $user->id;
         }
     }
@@ -218,9 +218,10 @@ function build_alpha_pages() {
                 "profile_other"
             );
         }
+        $letters_used[$letter] = 1;
     }
 
-    build_alpha_summary_page($letters);
+    build_alpha_summary_page($letters_used);
 }
 
 // A generalized function to produce some number of pages summarizing a
@@ -286,7 +287,7 @@ function build_country_summary_page($countryMembers) {
     close_output_buffer($filename);
 }
 
-function build_alpha_summary_page($characters) {
+function build_alpha_summary_page($characters_used) {
     global $alphabet;
 
     $filename = PROFILE_PATH."profile_alpha.html";
@@ -294,16 +295,16 @@ function build_alpha_summary_page($characters) {
     open_output_buffer();
 
     foreach ($alphabet as $character) {
-        if (in_array($character, $characters)) {
+        if (isset($characters_used[$character])) {
             echo "<a href=", URL_BASE, PROFILE_URL, "profile_{$character}_1.html>$character</a>&nbsp;";
-            unset($characters[$character]);
+            unset($characters_used[$character]);
         } else {
             echo "$character ";
         }
     }
 
     // Link to the 'Other' page if necessary.
-    if (!empty($characters)) {
+    if (!empty($characters_used)) {
         echo "<a href=", URL_BASE, PROFILE_URL, "profile_other_1.html>Other</a>&nbsp;";
     }
     close_output_buffer($filename);

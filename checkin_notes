@@ -13614,3 +13614,28 @@ Rom    June 15 2004
     - Tag for 3.08 release, all platforms
       boinc_core_release_3_08
       seti_boinc_app_release_3_08
+
+David  15 June 2004
+    - Database inserts and updates from C++ (boinc_db.C)
+        were of the form "insert into foo set id=x, a=y,...".
+        Removed the "id=x" part.
+        The ID field should never be explicitly set.
+    - add index on user.name
+
+    NOTE: projects should do this on their DB (see html/ops/db_update.php).
+    Otherwise user name search will be slow.
+
+    db/
+        boinc_db.C
+        constraints.sql
+    html/ops;
+        db_update.php
+
+Daniel 15 June 2004
+    - html: Fixed bugs in gallery that caused database failures.
+        Fixed some bugs in building summary pages.
+
+    html/inc/
+        gallery.inc
+        profile.inc
+
