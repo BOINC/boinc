@@ -207,7 +207,7 @@ def safe_unlink(filename):
         print "Couldn't unlink %s:"%filename,e
 
 def remove_cached_home_page():
-    path = os.path.join(project_dir, 'html/cache/index.php')
+    path = os.path.join(project_dir, 'html/cache/65/index.php')
     if os.path.exists(path):
         print 'removing ' + path
         safe_unlink(path)
