@@ -317,6 +317,9 @@ function show_post($post, $thread, $logged_in_user, $n, $show_controls=true) {
         echo "
 			        </p>
                             </td>
+        ";
+        if ($show_controls) {
+            echo "
                         <td align=\"right\" style=\"border:0px\">Rate this post:
                           <select name=\"rating\">
                               <option value=\"2\">Excellent (+2)</option>
@@ -327,6 +330,9 @@ function show_post($post, $thread, $logged_in_user, $n, $show_controls=true) {
                           </select>
                           <input type=\"submit\" value=\"Rate\">
                         </td>
+            ";
+        }
+        echo "
                     </tr></table>
                   </form>
 			<p>", nl2br(stripslashes($post->content)), "</p>";
