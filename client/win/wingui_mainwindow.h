@@ -110,6 +110,7 @@ protected:
 	UINT					m_nGuiTimerID;			// ID of current GUI timer	
 	CSSWindow*				m_pSSWnd;				// default graphics window
 	UINT					m_nShowMsg;				// ID of show window request message
+	UINT					m_uScreenSaverMsg;		// ID of screensaver message
 
 	COLORREF				GetPieColor(int);
     void					ShowTab(int);

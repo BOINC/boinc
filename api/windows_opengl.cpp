@@ -31,20 +31,19 @@
 #include <stdio.h>
 
 #include "graphics_api.h"
+#include "app_ipc.h"
 #include "util.h"
 #include "win_idle_tracker.h"
 
-HDC			hdc;
-HGLRC		hRC;
-HWND		hWnd=NULL;		// Holds Our Window Handle
-HINSTANCE	hInstance;		// Holds The Instance Of The Application
-RECT		rect = {50, 50, 50+640, 50+480};
-int			nPrevMode = MODE_NO_GRAPHICS;
-int			nMode = MODE_NO_GRAPHICS;
-POINT		mousePos;
+static HDC			hdc;
+static HGLRC		hRC;
+static HWND		hWnd=NULL;		// Holds Our Window Handle
+static HINSTANCE	hInstance;		// Holds The Instance Of The Application
+static RECT		rect = {50, 50, 50+640, 50+480};
+static int	current_graphics_mode = MODE_HIDE_GRAPHICS;
+static POINT		mousePos;
 
 BOOL		win_loop_done;
-UINT		SET_MODE, GET_MODE;
 
 extern bool using_opengl;
 extern HANDLE hQuitEvent;
@@ -54,27 +53,30 @@ DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 BOOL reg_win_class();
 BOOL unreg_win_class();
 
-void SetMode(int mode)
-{
+// switch to the given graphics mode.  This is called:
+// - on initialization
+// - when get mode change msg (via shared mem)
+// - when in SS mode and get user input
+//
+void SetMode(int mode) {
 	RECT WindowRect = {0,0,0,0};
 	int width, height;
+	DWORD dwExStyle;
+	DWORD dwStyle;
 
-	nPrevMode = nMode;
-	nMode = mode;
 
 	if(hWnd) {
 		if (hRC) wglDeleteContext(hRC);
 		if (hdc) ReleaseDC(hWnd, hdc);
 
-		if(nPrevMode != MODE_FULLSCREEN) GetWindowRect(hWnd, &rect);
+		if (current_graphics_mode != MODE_FULLSCREEN) GetWindowRect(hWnd, &rect);
 		KillTimer(hWnd, 1);
 		DestroyWindow(hWnd);
 	}
 
-	DWORD dwExStyle;
-	DWORD dwStyle;
+	current_graphics_mode = mode;
 
-	if (nMode == MODE_FULLSCREEN) {
+	if (current_graphics_mode == MODE_FULLSCREEN) {
 		HDC screenDC=GetDC(NULL);
 		WindowRect.left = WindowRect.top = 0;
 		WindowRect.right=GetDeviceCaps(screenDC, HORZRES);
@@ -144,23 +146,25 @@ void SetMode(int mode)
 	InitGL();
 	app_init_gl();
 
-	if(nMode == MODE_FULLSCREEN || nMode == MODE_WINDOW) {
+	if(current_graphics_mode == MODE_FULLSCREEN || current_graphics_mode == MODE_WINDOW) {
 		ShowWindow(hWnd, SW_SHOW);
 		SetFocus(hWnd);
 	} else {
 		ShowWindow(hWnd, SW_HIDE);
 	}
 
-	PostMessage(HWND_BROADCAST, RegisterWindowMessage( "BOINC_APP_MODE" ), nMode, GetCurrentProcessId());
+	app_client_shm->send_graphics_mode_msg(APP_CORE_GFX_SEG, current_graphics_mode);
 }
 
+// message handler (includes timer, Windows msgs)
+//
 LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 							UINT	uMsg,			// Message For This Window
 							WPARAM	wParam,			// Additional Message Information
 							LPARAM	lParam)			// Additional Message Information
 {
 	RECT rt;
-	int width, height;
+	int width, height, new_mode;
 
 	switch(uMsg) {
 		case WM_KEYDOWN:
@@ -168,17 +172,17 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 		case WM_LBUTTONDOWN:
 		case WM_MBUTTONDOWN:
 		case WM_RBUTTONDOWN:
-			if(nMode == MODE_FULLSCREEN) SetMode(nPrevMode);
+			if(current_graphics_mode == MODE_FULLSCREEN) SetMode(MODE_HIDE_GRAPHICS);
 			return 0;
 		case WM_MOUSEMOVE:
-			if(nMode == MODE_FULLSCREEN) {
+			if(current_graphics_mode == MODE_FULLSCREEN) {
 				POINT cPos;
 				GetCursorPos(&cPos);
-				if(cPos.x != mousePos.x || cPos.y != mousePos.y) SetMode(nPrevMode);
+				if(cPos.x != mousePos.x || cPos.y != mousePos.y) SetMode(MODE_HIDE_GRAPHICS);
 			}
 			return 0;
 		case WM_CLOSE:
-			SetMode(MODE_NO_GRAPHICS);
+			SetMode(MODE_HIDE_GRAPHICS);
 			return 0;
 		case WM_PAINT:
 			PAINTSTRUCT ps;
@@ -193,7 +197,10 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));
 			return 0;
 		case WM_TIMER:
-			if(nMode == MODE_NO_GRAPHICS) return 0;
+			if (app_client_shm->get_graphics_mode_msg(CORE_APP_GFX_SEG, new_mode)) {
+				SetMode(new_mode);
+			}
+			if (current_graphics_mode == MODE_HIDE_GRAPHICS) return 0;
 
 			GetClientRect(hWnd, &rt);
 			width = rt.right-rt.left;
@@ -203,15 +210,6 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 
 			SwapBuffers(hdc);
 			return 0;
-	}
-
-	if(uMsg == SET_MODE) {
-		SetMode(wParam);
-		return 0;
-	}
-
-	if(uMsg == GET_MODE) {
-		return MAKELONG(nMode, nPrevMode);
 	}
 
 	// Pass All Unhandled Messages To DefWindowProc
@@ -225,10 +223,8 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 
 	// Register window class and graphics mode message
 	reg_win_class();
-	GET_MODE = RegisterWindowMessage( "BOINC_APP_GET" );
-	SET_MODE = RegisterWindowMessage( "BOINC_APP_SET" );
 
-	SetMode(MODE_NO_GRAPHICS);
+	SetMode(MODE_HIDE_GRAPHICS);
 
 	win_loop_done = false;
 	using_opengl = true;

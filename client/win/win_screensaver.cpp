@@ -20,7 +20,6 @@
 
 #include <afxwin.h>
 
-#include "graphics_api.h"
 #include "boinc_ss_res.h"
 #include "win_util.h"
 

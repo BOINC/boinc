@@ -108,6 +108,7 @@ CMainWindow::CMainWindow()
 
 	m_nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
 	m_nNetActivityMsg = RegisterWindowMessage(NET_ACTIVITY_MSG);
+	m_uScreenSaverMsg = RegisterWindowMessage(START_SS_MSG);
 }
 
 //////////
@@ -907,12 +908,21 @@ void CMainWindow::PostNcDestroy()
 // function:	handles any messages not handled by the window previously
 LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
+	unsigned long time_until_blank, blank_screen;
+
 	if(m_nShowMsg == message) {
 		ShowWindow(SW_SHOW);
 		SetForegroundWindow();
 		return 0;
 	} else if(m_nNetActivityMsg == message) {
 		gstate.net_sleep(0);
+		return 0;
+	} else if(m_uScreenSaverMsg == message) {
+		// Get the current screen blanking information
+		UtilGetRegKey(REG_BLANK_NAME, blank_screen);
+		UtilGetRegKey(REG_BLANK_TIME, time_until_blank);
+		time_until_blank *= 60;
+		gstate.active_tasks.start_screensaver(blank_screen, time_until_blank);
 		return 0;
 	}
 
@@ -1117,10 +1127,7 @@ void CMainWindow::OnCommandWorkShowGraphics()
 	if(resToShow) {
 		ACTIVE_TASK* at = gstate.lookup_active_task_by_result(resToShow);
 		if(at) {
-			CWnd* pAppWnd = GetWndFromProcId(at->pid);
-			if(pAppWnd && IsWindow(pAppWnd->m_hWnd)) {
-				pAppWnd->PostMessage(RegisterWindowMessage(APP_SET_MSG), MODE_WINDOW, 0);
-			}
+			at->gfx_mode(MODE_WINDOW);
 		}
 	}
 }
@@ -1265,7 +1272,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_bMessage = false;
 	m_bRequest = false;
 	m_nContextItem = -1;
-	m_pSSWnd = new CSSWindow();
+	m_pSSWnd = new CSSWindow(gstate.active_tasks.app_client_shm->shm);
 
 	// load menus
 	m_ContextMenu.LoadMenu(IDR_CONTEXT);

@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 
+#ifndef _BOINC_API
+#define _BOINC_API
+
 #include <stdio.h>
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
@@ -24,12 +27,6 @@
 #ifdef HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
 #endif
-
-#ifndef _BOINC_API
-#define _BOINC_API
-
-#define DEFAULT_FRACTION_DONE_UPDATE_PERIOD     1
-#define DEFAULT_CHECKPOINT_PERIOD               300
 
 // MFILE supports a primitive form of checkpointing.
 // Write all your output (and restart file) to MFILEs.
@@ -66,9 +63,6 @@ struct APP_INIT_DATA {
     double fraction_done_update_period;
 };
 
-#define SHM_PREFIX          "shm_"
-#define QUIT_PREFIX         "quit_"
-
 extern int boinc_init();
 extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_finish(int);
@@ -78,61 +72,27 @@ extern int boinc_checkpoint_completed();
 extern int boinc_fraction_done(double);
 extern int boinc_child_start();
 extern int boinc_child_done(double);
-extern double boinc_cpu_time();     // CPU time for this process
-extern int boinc_install_signal_handlers();
 
 /////////// API ENDS HERE - IMPLEMENTATION STUFF FOLLOWS
 
-int update_app_progress(double, double, double);
-int write_init_data_file(FILE* f, APP_INIT_DATA&);
-int parse_init_data_file(FILE* f, APP_INIT_DATA&);
-int write_fd_init_file(FILE*, char*, int, int);
-int parse_fd_init_file(FILE*);
+#include "app_ipc.h"
 
-#define INIT_DATA_FILE    "init_data.xml"
-#define GRAPHICS_DATA_FILE    "graphics.xml"
-#define FD_INIT_FILE    "fd_init.xml"
+#define DEFAULT_FRACTION_DONE_UPDATE_PERIOD     1
+#define DEFAULT_CHECKPOINT_PERIOD               300
+
+#define SHM_PREFIX          "shm_"
+#define QUIT_PREFIX         "quit_"
+
+extern double boinc_cpu_time();     // CPU time for this process
+extern int boinc_install_signal_handlers();
+extern int update_app_progress(double, double, double);
+
 #define STDERR_FILE             "stderr.txt"
 
-int set_timer(double period);
-void setup_shared_mem();
-void cleanup_shared_mem();
+extern int set_timer(double period);
+extern void setup_shared_mem();
+extern void cleanup_shared_mem();
 
-
-#define SHM_SEG_SIZE            1024
-#define NUM_SEGS            4
-#define CORE_APP_WORKER_SEG 0
-#define APP_CORE_WORKER_SEG 1
-#define CORE_APP_GFX_SEG    2
-#define APP_CORE_GFX_SEG    3
-
-/* Shared memory is arranged as follows:
-   4 1K segments
-   First byte of each segment indicates whether
-   segment contains unread data, remaining 1023
-   bytes contain data
-*/
-
-class APP_CLIENT_SHM {
-public:
-    char *shm;
-
-    bool pending_msg(int);    // returns true a message is waiting
-                              // in the specified segment
-	bool get_msg(char *,int);  // returns the message from the specified
-                              // segment and resets the message flag
-	bool send_msg(char *,int); // if there is not already a message in the segment,
-                              // writes specified message and sets message flag
-	void reset_msgs();        // resets all messages and clears their flags
-	void reset_msg(int);      // resets specified message and clears its flag
-};
-
-struct GFX_MSG_INTERFACE {
-    APP_CLIENT_SHM *app_client_shm;
-	int requestedSSMode, actualSSMode;
-	int requestedWinMode, actualWinMode;
-};
-
-typedef struct GFX_MSG_INTERFACE GFX_MSG_INTERFACE;
+extern APP_CLIENT_SHM *app_client_shm;
 
 #endif

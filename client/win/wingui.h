@@ -28,7 +28,6 @@
 #include <afxcoll.h>
 #include <afxext.h>
 #include <math.h>
-#include "graphics_api.h"
 #include "file_names.h"
 #include "filesys.h"
 #include "log_flags.h"

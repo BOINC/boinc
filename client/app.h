@@ -28,8 +28,7 @@
 #include <stdio.h>
 #include <vector>
 #include "client_types.h"
-#include "boinc_api.h"
-#include "shmem.h"
+#include "app_ipc.h"
 
 class CLIENT_STATE;
 typedef int PROCESS_ID;
@@ -64,7 +63,6 @@ public:
     WORKUNIT* wup;
     APP_VERSION* app_version;
     PROCESS_ID pid;
-    APP_CLIENT_SHM *app_client_shm;
     int slot;   // which slot (determines directory)
     int state;
     int exit_status;
@@ -85,6 +83,13 @@ public:
     double max_cpu_time;
     double max_disk_usage;
 
+    APP_CLIENT_SHM *app_client_shm;		// core/app shared mem
+		// info related to app's graphics mode (win, screensaver, etc.)
+	int graphics_requested_mode;		// our last request to this app
+	int graphics_request_time;			// when we sent it
+	int graphics_acked_mode;			// most recent mode reported by app
+	int graphics_mode_before_ss;		// mode before last screensaver request
+
     ACTIVE_TASK();
     int init(RESULT*);
 
@@ -99,6 +104,8 @@ public:
         // return true if this task has exited
     int abort();
         // kill, and flag as abort pending
+
+    int gfx_mode(int);
 
     int suspend();
     int unsuspend();
@@ -115,6 +122,11 @@ public:
 class ACTIVE_TASK_SET {
 public:
     vector<ACTIVE_TASK*> active_tasks;
+	// The ACTIVE_TASK_SET uses this memory segment to communicate
+	// with the default BOINC screensaver
+    APP_CLIENT_SHM *app_client_shm;
+	int blank_time, blank_screen;
+	int start_screensaver(int,int);
     int insert(ACTIVE_TASK*);
     int remove(ACTIVE_TASK*);
     int wait_for_exit(double);
@@ -129,6 +141,8 @@ public:
     void check_apps();
     int get_free_slot(int total_slots);
 	void free_mem();
+
+    ACTIVE_TASK_SET();
 
     int write(FILE*);
     int parse(FILE*, CLIENT_STATE*);

@@ -72,7 +72,6 @@
 
 #include "app.h"
 #include "boinc_api.h"
-#include "graphics_api.h"
 
 // Goes through an array of strings, and prints each string
 //
@@ -97,6 +96,10 @@ ACTIVE_TASK::ACTIVE_TASK() {
     exit_status = 0;
     signal = 0;
     strcpy(slot_dir, "");
+	graphics_requested_mode = MODE_HIDE_GRAPHICS;
+	graphics_request_time = time(0);
+	graphics_acked_mode = MODE_UNSUPPORTED;
+	graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
 }
 
 int ACTIVE_TASK::init(RESULT* rp) {
@@ -135,14 +138,12 @@ int ACTIVE_TASK::start(bool first_time) {
 
     gi.xsize = 800;
     gi.ysize = 600;
-    gi.graphics_mode = MODE_WINDOW;
     gi.refresh_period = 0.1;
 
     memset(&aid, 0, sizeof(aid));
 
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);
-    sprintf(aid.comm_obj_name, "boinc_%d", slot);
     if (wup->project->project_specific_prefs) {
         extract_venue(
             wup->project->project_specific_prefs,
@@ -169,13 +170,19 @@ int ACTIVE_TASK::start(bool first_time) {
         show_message(wup->project, buf, MSG_ERROR);
         return ERR_FOPEN;
     }
-#ifndef _WIN32
+
+	// make a unique key for core/app shared memory segment
+	//
+#ifdef _WIN32
+    sprintf(aid.comm_obj_name, "boinc_%d", slot);
+#else
 #ifdef HAVE_SYS_IPC_H
     aid.shm_key = ftok(init_data_path, slot);
 #else
 #error
 #endif
 #endif
+
     retval = write_init_data_file(f, aid);
     if (retval) return retval;
     
@@ -299,8 +306,12 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(buf, "%s%s", QUIT_PREFIX, aid.comm_obj_name);
     quitRequestEvent = CreateEvent(0, TRUE, FALSE, buf);
 
+	// create core/app share mem segment
+	//
     sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);
-    shm_handle = create_shmem(buf, sizeof(char)*NUM_SEGS*SHM_SEG_SIZE, (void **)&app_client_shm->shm);
+    shm_handle = create_shmem(buf, APP_CLIENT_SHMEM_SIZE,
+		(void **)&app_client_shm->shm
+	);
 	app_client_shm->reset_msgs();
 
     // NOTE: in Windows, stderr is redirected within boinc_init();
@@ -340,14 +351,14 @@ int ACTIVE_TASK::start(bool first_time) {
 #else
     char* argv[100];
     
-    // Setup shared memory to communicate between processes
-    // The app must attach to this shmem segment by calling boinc_init()
+    // Set up core/app shared memory seg
     //
     shm_key = aid.shm_key;
-    
-    // Destroy any shared memory still hanging around from previous runs
-    //destroy_shmem(shm_key);
-    
+    if (!create_shmem(shm_key, APP_CLIENT_SHMEM_SIZE,
+		(void**)&app_client_shm->shm)) {
+        app_client_shm->reset_msgs();
+    }
+            
     pid = fork();
     if (pid == 0) {
         // from here on we're running in a new process.
@@ -374,12 +385,6 @@ int ACTIVE_TASK::start(bool first_time) {
         fprintf(stderr, "execv failed: %d\n", retval);
         perror("execv");
         exit(1);
-    }
-    
-    // Create shared memory after forking, to prevent problems with the
-    // child inheriting bad information about the segment
-    if (!create_shmem(shm_key, sizeof(char)*NUM_SEGS*SHM_SEG_SIZE, (void**)&app_client_shm->shm)) {
-        app_client_shm->reset_msgs();
     }
     
     if (log_flags.task_debug) printf("forked process: pid %d\n", pid);
@@ -598,6 +603,22 @@ bool ACTIVE_TASK::read_stderr_file() {
         return true;
     }
     return false;
+}
+
+// Send a message to this active task requesting graphics mode change
+//
+int ACTIVE_TASK::gfx_mode(int mode) {
+	if (mode < 0 || mode > 4) return -1;
+	return app_client_shm->send_graphics_mode_msg(CORE_APP_GFX_SEG, mode);
+}
+
+int ACTIVE_TASK_SET::start_screensaver(int use_blank_screen, int time_until_blank) {
+	blank_screen = use_blank_screen;
+	blank_time = time(0)+time_until_blank;
+
+	app_client_shm->send_msg(xml_graphics_modes[MODE_FULLSCREEN], CORE_APP_GFX_SEG);
+
+	return 0;
 }
 
 // Wait up to wait_time seconds for all processes in this set to exit
@@ -881,6 +902,8 @@ bool ACTIVE_TASK_SET::poll_time() {
         atp = active_tasks[i];
         updated |= atp->check_app_status();
     }
+	if (blank_screen && (time(0) > blank_time))
+		app_client_shm->send_msg(xml_graphics_modes[MODE_BLANKSCREEN], CORE_APP_GFX_SEG);
 
     return updated;
 }
@@ -972,6 +995,11 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
         else fprintf(stderr, "ACTIVE_TASK::parse(): unrecognized %s\n", buf);
     }
     return -1;
+}
+
+ACTIVE_TASK_SET::ACTIVE_TASK_SET() {
+	app_client_shm = new APP_CLIENT_SHM;
+	app_client_shm->shm = (char *)malloc(sizeof(char)*NUM_SEGS*SHM_SEG_SIZE);
 }
 
 // Write XML information about this active task set

@@ -102,7 +102,7 @@ SOURCE=..\..\Client\app.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Api\boinc_api.C
+SOURCE=..\..\lib\app_ipc.C
 # End Source File
 # Begin Source File
 
@@ -139,10 +139,6 @@ SOURCE=..\..\Client\file_xfer.C
 # Begin Source File
 
 SOURCE=..\..\lib\filesys.C
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\api\graphics_api.C
 # End Source File
 # Begin Source File
 
@@ -270,7 +266,7 @@ SOURCE=..\..\client\app.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Api\boinc_api.h
+SOURCE=..\..\lib\app_ipc.h
 # End Source File
 # Begin Source File
 
@@ -295,10 +291,6 @@ SOURCE=..\..\client\file_xfer.h
 # Begin Source File
 
 SOURCE=..\..\lib\filesys.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\api\graphics_api.h
 # End Source File
 # Begin Source File
 

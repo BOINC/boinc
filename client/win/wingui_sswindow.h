@@ -40,35 +40,26 @@
 class CSSWindow : public CWnd
 {
 public:
-							CSSWindow();
+							CSSWindow(char*);
 	void					SetMode(int);
-	void					CheckAppWnd();
-	bool					BlankScreen();
+	void					CheckMsgQueue();
 
 private:
 	int						m_nMode;
-	int						m_nPrevMode;
 	CPoint					m_MousePos;
 	CRect					m_Rect;
-	unsigned long			m_bBlankScreen;
-	unsigned long			m_uBlankTime;
-	unsigned long			m_uStartTime;
 	bool					m_bCleared;
 
 	UINT					m_uAppTimerID;			// ID of current app timer	
-	UINT					m_uPaintTimerID;			// ID of current app timer	
-	UINT					m_uScreenSaverMsg;		// ID of screensaver message
-	UINT					m_uSetMsg;
-	UINT					m_uGetMsg;
-	UINT					m_uAppModeMsg;
+	UINT					m_uPaintTimerID;		// ID of current app timer	
 
-	DWORD					m_dwAppId;
 	CRect					m_AppRect;
 	int						m_AppMode;
 
 	HICON					m_hBOINCIcon;
 	int						m_nPosX, m_nPosY;
 	int						m_nDX, m_nDY;
+    APP_CLIENT_SHM			*boinc_screensaver_shm;
 
 	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 

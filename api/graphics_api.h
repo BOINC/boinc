@@ -1,20 +1,29 @@
-#include <stdio.h>
-
 #ifndef BOINC_GRAPHICS_API_H
 #define BOINC_GRAPHICS_API_H
 
-#define MODE_UNSUPPORTED        0
-#define MODE_NO_GRAPHICS        1
-#define MODE_WINDOW             2
-#define MODE_FULLSCREEN         3
-#define MODE_BLANKSCREEN        4
+#include <stdio.h>
 
-extern char* xml_graphics_modes[5];
+#ifdef BOINC_APP_GRAPHICS
+#ifdef __APPLE_CC__
+    #include <OpenGL/gl.h>
+#endif
+
+#ifdef _WIN32
+#include <windows.h>
+#include <gl\gl.h>            // Header File For The OpenGL32 Library
+#include <gl\glu.h>            // Header File For The GLu32 Library
+#include <gl\glaux.h>        // Header File For The Glaux Library
+#endif
+
+#ifdef HAVE_GL_LIB
+#include <GL/gl.h>
+#include "x_opengl.h"
+#endif
+#endif
 
 struct GRAPHICS_INFO {
     int xsize;
     int ysize;
-    int graphics_mode;
     double refresh_period;
 };
 
@@ -23,8 +32,6 @@ typedef struct GRAPHICS_INFO GRAPHICS_INFO;
 struct APP_OUT_GRAPHICS {
 };
 
-int write_graphics_file(FILE* f, GRAPHICS_INFO* gi);
-int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 int boinc_init_opengl();
 int boinc_finish_opengl();
 
