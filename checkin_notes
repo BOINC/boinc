@@ -26050,6 +26050,7 @@ Bruce  19 Mar 2005
       agree and log a message if they do NOT.
     - active_frac not correctly reported by 4.19 and earlier core clients.
       Adjust for this in estimating wallclock execution times.
+    - All messages sent to user ALSO get logged to cgi.log
     - Added a small block into validator code to attach a debugger.
 
     sched/
