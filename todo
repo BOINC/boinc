@@ -77,8 +77,6 @@ MEDIUM-PRIORITY (should do before public release)
 more accurate time to completion calculation
     - perhaps use recent change in percent done?
 
-change show_message to use vsprintf
-
 add an RPC to verify an account ID (returns DB ID for user)
     needed for multi-project stats sites
 
@@ -89,7 +87,6 @@ all RPCs should return a "user-specific project URL"
 
 in GUI, project name should hyperlink to a project-specified URL
     (typically user page for that project)
-
 
 let user choose language files in installation process
 
