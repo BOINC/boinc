@@ -53,7 +53,7 @@ boinc_client_SOURCES =			\
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS)
-boinc_client_LDADD = $(RSA_LIBS)
+boinc_client_LDADD = $(RSA_LIBS) ../lib/libboinc.a
 #boinc_client_LDFLAGS = $(STATIC_FLAGS)
 
 cpu_benchmark_SOURCES = cpu_benchmark.C
@@ -95,9 +95,13 @@ EXTRA_DIST =					\
 	win/update-boinc-gui-version		\
 	win/update-boinc-ss-version		\
 	*.h					\
+	win/update-boinc-cli-version		\
+	win/update-boinc-dll-version		\
+	win/update-boinc-gui-version		\
+	win/update-boinc-ss-version		\
 	mac/*.h mac/*.cpp			\
         win/*.h win/*.cpp win/*.rc		\
-        win/*.ico win/*.def win/res/*.*		\
+        win/*.def win/res/*.*			\
         translation/language.* 
 
 clean-local:
