@@ -18339,3 +18339,10 @@ David  13 Oct 2004
 		cs_apps.C
 	lib/
 		prefs.C,h
+
+David  13 Oct 2004
+    - initial cleanup of x_opengl.C
+        (e.g. use a timer instead of onIdle)
+
+    api/
+        x_opengl.C
