@@ -2,7 +2,12 @@
 
 require_once("docutil.php");
 
+$version_num;
 function version_start($num, $date, $xml, $comment=null) {
+    global $version_num;
+
+    $version_num = $num;
+
     if ($xml) return;
     list_start();
     list_bar("Version $num (released $date)");
@@ -17,6 +22,7 @@ function version_start($num, $date, $xml, $comment=null) {
 }
 
 function version($platform, $filename, $install_type, $xml) {
+    global $version_num;
     $path = "dl/$filename";
     $dlink = "<a href=http://boinc.berkeley.edu/$path>Download</a>";
     $md = md5_file($path);
@@ -26,6 +32,7 @@ function version($platform, $filename, $install_type, $xml) {
     <platform>$platform</platform>
     <url>http://boinc.berkeley.edu/$path</url>
     <filename>$filename</filename>
+    <version_num>$version_num</version_num>
     <md5>$md</md5>
 </version>
 ";
@@ -66,7 +73,7 @@ function mac_advanced() {
 function show_425($xml=false) {
     version_start("4.25", "3 Mar 2005", $xml);
     version("Windows", "boinc_4.25_windows_intelx86.exe", win_new(), $xml);
-    version("Mac OS X", "BOINC_Menubar.zip", mac_simple(), $xml);
+    version("Mac OS X", "BOINC_Menubar_4.25_mac.zip", mac_simple(), $xml);
     //version("Mac OS X", "BOINC.app.sit", mac_advanced(), $xml);
     version("Mac OS X", "boinc_4.25_powerpc-apple-darwin.gz", bare_core(), $xml);
     version("Linux/x86", "boinc_4.25_i686-pc-linux-gnu.sh", sea(), $xml);
@@ -150,10 +157,12 @@ if ($_GET["xml"]) {
     echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
 <core_versions>
     ";
-    echo "<stable_versions/>\n";
+    echo "<stable_versions>\n";
     show_stable(true);
-    echo "<unstable_versions/>\n";
+    echo "</stable_versions>\n";
+    echo "<unstable_versions>\n";
     show_dev(true);
+    echo "</unstable_versions>\n";
     echo "</core_versions>\n";
     exit();
 }

@@ -25631,3 +25631,10 @@ Rom    7 Mar 2005
         Events.h
         MainDocument.cpp, .h
         MainFrame.cpp, .h
+
+David  7 Mar 2005
+    - Core client: if a project is anonymous-platform,
+        don't require that main programs be marked as executable
+
+    client/
+        app_start.C

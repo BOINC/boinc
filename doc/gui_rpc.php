@@ -25,6 +25,10 @@ list_item_func(
     "Establish RPC connection to the given host"
 );
 list_item_func(
+    "authorize(char* password)",
+    "Do authorization sequence with the peer, using given password"
+);
+list_item_func(
     "get_state(CC_STATE&)",
     "Get the core client's 'static' state,
     i.e. its projects, apps, app_versions, workunits and results.

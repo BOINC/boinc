@@ -48,9 +48,9 @@ Run the core client and attach to the project.  This will create a
 directory.  Exit the client.
 
 <li>
-Create a file <b>app_info.xml</b> in the project directory.  This file
-lists the applications you have compiled or downloaded.  It has the
-following form:
+Create a file <b>app_info.xml</b> in the project directory.
+This file lists the applications you have compiled or downloaded.
+It has the following form:
 ".html_text("
 <app_info>
     <app>
@@ -58,6 +58,7 @@ following form:
     </app>
     <file_info>
         <name>setiathome_4.07_windows_intelx86.exe</name>
+        <executable/>
     </file_info>
     <app_version>
         <app_name>setiathome</app_name>
@@ -69,7 +70,7 @@ following form:
     </app_version>
 </app_info>
 ")."
-In the example XML file, 407 is the (major + minor/100).
+where 407 is the application's version number.
 <li>
 Run the core client again.  When it requests work from the scheduling
 server, it will report its platform as 'anonymous', and provides a list of
