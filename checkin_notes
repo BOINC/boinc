@@ -17644,3 +17644,14 @@ David  23 Sept 2004
 		win/
 			wingui_listctrl.cpp,h
 			wingui_mainwindow.cpp
+
+David  23 Sept 2004
+	- Added code (from Ben Herndon) for getting X86 CPU names and models better.
+		Not using this for now.
+
+	client/win/
+		cpuid_tbl.cpp,h
+		opt_x86.h
+		opt_x86cpu.cpp
+		optBench.hpp
+		optimize.hpp
