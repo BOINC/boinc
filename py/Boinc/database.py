@@ -101,7 +101,13 @@ class User(DatabaseObject):
                     'url',
                     'send_email',
                     'show_hosts',
-                    'posts' ])
+                    'posts',
+                    'seti_id',
+                    'seti_nresults',
+                    'seti_last_result_time',
+                    'seti_total_cpu',
+                    'signature'
+                    ])
 
 class Team(DatabaseObject):
     _table = DatabaseTable(
@@ -217,7 +223,9 @@ class Result(DatabaseObject):
                     'granted_credit',
                     'opaque',
                     'random',
-                    'client_version_num' ])
+                    'client_version_num',
+                    'appid'
+                    ])
 
 class Workseq(DatabaseObject):
     _table = DatabaseTable(

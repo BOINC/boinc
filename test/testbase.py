@@ -350,7 +350,7 @@ class TestProject(Project):
     def progress_meter_ctor(self):
         pass
     def progress_meter_status(self):
-        return "WUs: [A:%d T:%d]  Results: [U:%d,P:%d,O:%d T:%d]" % (
+        return "WUs: [A:%d T:%d]  Results: [U:%d,IP:%d,O:%d T:%d]" % (
             num_wus_assimilated(),
             #num_wus(),
             self.num_wu,
@@ -459,7 +459,7 @@ class AppVersion(database.AppVersion):
     def __init__(self, app, platform, exec_file):
         database.AppVersion.__init__(self,id=None)
         self.app = app
-        self.version_num = 1
+        self.version_num = version.MAJOR_VERSION * 100
         self.platform = platform
         self.min_core_version = 1
         self.max_core_version = 999
