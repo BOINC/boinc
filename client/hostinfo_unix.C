@@ -38,8 +38,9 @@
 #ifdef HAVE_SYS_VFS_H
 #include <sys/vfs.h>
 #endif
-
+#ifdef HAVE_SYS_VMMETER_H
 #include <sys/vmmeter.h>
+#endif
 
 #ifdef HAVE_SYS_STATVFS_H
 #define STATFS statvfs
