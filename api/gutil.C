@@ -39,7 +39,6 @@ extern "C"{
 
 #include "boinc_gl.h"
 
-#include "glut.h"
 #include "gutil.h"
 #include "filesys.h"
 #include "util.h"

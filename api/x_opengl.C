@@ -1,15 +1,19 @@
+#include <stdlib.h>
+#include <stdio.h>  
+#include <unistd.h> 
 #include "x_opengl.h"
-#include <cstdio>
 
+/*
 #ifdef HAVE_GL
 #include "boinc_gl.h"
 #endif
+*/
 
+#include "boinc_gl.h"
 #include "boinc_api.h"
 #include "graphics_api.h"
 #include "app_ipc.h"
 #include "util.h"
-#include "glut.h"
 
 #define BOINC_WINDOW_CLASS_NAME "BOINC_app"
 
@@ -19,6 +23,7 @@ int win_loop_done;
 int xpos = 100, ypos = 100; // globals
 int clicked_button;
 int win; 
+extern int userclose;
 extern void graphics_thread_init();
 extern GRAPHICS_INFO gi;
 static void timer_handler();
@@ -80,41 +85,40 @@ void keyboardD(unsigned char key, int x, int y) {
   }
 }
 
-void computeFPS(){
-  static int frameCount = 0;
-  static int lastFrameTime = 0;
-
-  frameCount++;
-  int currentTime = glutGet(GLenum(GLUT_ELAPSED_TIME));
-  if (currentTime - lastFrameTime > 1000){
-    char s[30];
-    sprintf(s, "%s [ FPS: %4.2f ]", aid.app_name,
-	    frameCount*1000/(currentTime - lastFrameTime));
-    glutSetWindowTitle(s);
-    lastFrameTime = currentTime;
-    frameCount = 0;
-  }
-}
-
-
 void onIdle(){
   static double oldTime = 0;
   double currentTime = dtime();
   
+  if(userclose == 1){
+    userclose = 0;
+    set_mode(MODE_HIDE_GRAPHICS);
+  }
   if(currentTime - oldTime > .001){
     timer_handler();
     oldTime = currentTime;
   }
-  //  computeFPS();
 }
 
 static void make_new_window(int mode){
-  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); //DEPTH of how many? want 16
+
+  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
+  
   if (mode == MODE_FULLSCREEN){
-    glutFullScreen(); //TOPMOST AND POPUP?
+    win = glutCreateWindow(aid.app_name);
+    glutKeyboardFunc(keyboardD);
+    glutKeyboardUpFunc(keyboardU); 
+    glutMouseFunc(mouse_click);
+    glutMotionFunc(mouse_click_move);
+    glutDisplayFunc(timer_handler); 
+    glutIdleFunc(onIdle);
+    app_graphics_init();
+    glEnable(GL_DEPTH_TEST);  
+
+    glutFullScreen();
   } else if(mode == MODE_WINDOW){
     glutInitWindowPosition(xpos, ypos);
     glutInitWindowSize(gi.xsize, gi.ysize); 
+    boinc_get_init_data(aid);
     if (!strlen(aid.app_name)) 
       strcpy(aid.app_name, "BOINC Application");
     win = glutCreateWindow(aid.app_name); 
@@ -132,7 +136,13 @@ static void make_new_window(int mode){
 }
 
 void set_mode(int mode) {
-  if (current_graphics_mode != mode){
+
+  if(current_graphics_mode == MODE_HIDE_GRAPHICS && 
+     mode == current_graphics_mode){
+    make_new_window(MODE_WINDOW);
+    glutDestroyWindow(win);
+  }
+  else if (current_graphics_mode != mode){
     if(mode == MODE_HIDE_GRAPHICS){
       if(mode != MODE_FULLSCREEN){
 	xpos = glutGet(GLUT_WINDOW_X);
@@ -150,7 +160,6 @@ void set_mode(int mode) {
   // tell the core client that we're entering new mode
   //
   if (app_client_shm) {
-    printf("in0\n");
     app_client_shm->shm->graphics_reply.send_msg(
 	   	       xml_graphics_modes[current_graphics_mode]
 						 );
@@ -162,30 +171,19 @@ void* xwin_graphics_event_loop(void*){
   if (boinc_is_standalone()) {
     set_mode(MODE_WINDOW);
   } else {
-    set_mode(MODE_HIDE_GRAPHICS);
+    set_mode(MODE_HIDE_GRAPHICS); 
   }
-  /*  
-  glutReshapeFunc(app_graphics_resize);
-  glutKeyboardFunc(keyboardD);
-  glutKeyboardUpFunc(keyboardU);
-  glutMouseFunc(mouse_click);
-  glutMotionFunc(mouse_click_move);
-  glutDisplayFunc(timer_handler); 
-  glutIdleFunc(onIdle);
 
-  app_graphics_init();
-  glEnable(GL_DEPTH_TEST);*/
   glutMainLoop();
+  return 0;
 }
 
 static void timer_handler() {
-  //  printf("in timer_handler\n");
   char buf[MSG_CHANNEL_SIZE];
 
-  int width, height, new_mode, msg;
+  int width, height, new_mode;
   if (app_client_shm) {
-    fprintf(stderr, "In first if\n"); fflush(stderr);
-    if(app_client_shm->shm->graphics_request.get_msg(buf)){
+   if(app_client_shm->shm->graphics_request.get_msg(buf)){
       new_mode = app_client_shm->decode_graphics_msg(buf);
       switch(new_mode) {
       case MODE_REREAD_PREFS:
@@ -216,35 +214,9 @@ static void timer_handler() {
   height = glutGet(GLUT_WINDOW_HEIGHT);
   
   if (throttled_app_render(width, height, dtime())) {
-    //    printf("swapping buffers\n");
     glutSwapBuffers();
     }
 }
-
-
-/*
-  
-BOOL VerifyPassword(HWND hwnd)
-{ // Under NT, we return TRUE immediately. This lets the saver quit,
-// and the system manages passwords. Under '95, we call VerifyScreenSavePwd.
-// This checks the appropriate registry key and, if necessary,
-// pops up a verify dialog
-/*OSVERSIONINFO osv; osv.dwOSVersionInfoSize=sizeof(osv); GetVersionEx(&osv);
-if (osv.dwPlatformId==VER_PLATFORM_WIN32_NT) return TRUE;
-HINSTANCE hpwdcpl=::LoadLibrary("PASSWORD.CPL");
-if (hpwdcpl==NULL) {return TRUE;}
-typedef BOOL (WINAPI *VERIFYSCREENSAVEPWD)(HWND hwnd);
-VERIFYSCREENSAVEPWD VerifyScreenSavePwd;
-VerifyScreenSavePwd=
-(VERIFYSCREENSAVEPWD)GetProcAddress(hpwdcpl,"VerifyScreenSavePwd");
-if (VerifyScreenSavePwd==NULL)
-{
-  FreeLibrary(hpwdcpl);return TRUE;
-}
-         BOOL bres=VerifyScreenSavePwd(hwnd); FreeLibrary(hpwdcpl);
-         return bres;
-}
-*/
 
 #if 0
 float txt_widths[256];

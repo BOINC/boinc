@@ -54,6 +54,8 @@
 #    include <OpenGL/glu.h>
 #  endif
 
+# include "GL/glut.h"
+/*
 #  if defined(HAVE_GLUT_H)
 #    include "glut.h"
 #  elif defined(HAVE_GL_GLUT_H)
@@ -63,6 +65,7 @@
 #  elif defined(HAVE_GLUT_GLUT_H)
 #    include <GLUT/glut.h>
 #  endif
+*/
 
 #endif // _WIN32
 
