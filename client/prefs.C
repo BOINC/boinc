@@ -86,8 +86,10 @@ int GLOBAL_PREFS::parse(FILE* in) {
         } else if (parse_double(buf, "<idle_time_to_run>", idle_time_to_run)) {
             continue;
         } else if (parse_double(buf, "<max_bytes_sec_up>", max_bytes_sec_up)) {
+			if (max_bytes_sec_up <= 0) max_bytes_sec_up = 1e9;
             continue;
         } else if (parse_double(buf, "<max_bytes_sec_down>", max_bytes_sec_down)) {
+			if (max_bytes_sec_down <= 0) max_bytes_sec_down = 1e9;
             continue;
         }
     }
