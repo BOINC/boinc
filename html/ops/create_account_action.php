@@ -26,9 +26,17 @@
         exit();
     }
     
-    echo "Account created";
+   $url = URL_BASE."/account_created.php?email_addr=".urlencode($email_addr);
+   echo "
+          <h2>Account created for:<br/>
+          $user_name<br/>
+          at email address:<br/>
+          $email_addr</h2><br/>
+          Note: The user (not YOU, the admin) must confirm by visiting:<br/>
+          <a href=\"$url\"> $url </a>
+         ";
 
-    $url = URL_BASE."/account_created.php?email_addr=".urlencode($email_addr);
+
     mail($email_addr, PROJECT. " account created",
 "This email confirms the creation of your ".PROJECT." account.
 
@@ -37,14 +45,13 @@
 Your account ID:          $authenticator\n
 
 Please save this email.
-You will need your account key to log in to the ".PROJECT." web site.
+You will need your account Id to log in to the ".PROJECT." web site.
 
-To finish registration, go to
+To finish registration, you must confirm. Please go to:
 $url
-
-Please subscribe to the BOINC beta-test mail list:
-https://lists.sourceforge.net/lists/listinfo/boinc-beta
 "
 );
+
+
 
 ?>
