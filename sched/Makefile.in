@@ -140,7 +140,7 @@ MYSQL_INCLUDES2 = /usr/local/mysql/include/mysql
 MYSQL_INCLUDES3 = /usr/include/mysql
 
 MYSQL_LIBS = \
-        -L/usr/local/mysql/lib -L/sw/lib/mysql -L/usr/local/lib/mysql	\
+        -L/usr/local/mysql_32bit/lib -L/sw/lib/mysql -L/usr/local/lib/mysql	\
         -lmysqlclient -L/usr/local/lib -lz				\
         -lm $(NETLIBS)
 
