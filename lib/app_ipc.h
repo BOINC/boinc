@@ -9,8 +9,6 @@
 // - fd init file
 // - graphics init file
 
-#include "graphics_api.h"
-
 // Shared memory is arranged as follows:
 // 4 1K segments
 // First byte of each segment is nonzero if
@@ -18,12 +16,18 @@
 // bytes contain data
 
 #define SHM_SEG_SIZE            1024
-#define NUM_SEGS            4
-#define CORE_APP_WORKER_SEG 0
-#define APP_CORE_WORKER_SEG 1
-#define CORE_APP_GFX_SEG    2
-#define APP_CORE_GFX_SEG    3
-#define APP_CLIENT_SHMEM_SIZE (sizeof(char)*NUM_SEGS*SHM_SEG_SIZE)
+#define NUM_SEGS                4
+#define CORE_APP_WORKER_SEG     0
+#define APP_CORE_WORKER_SEG     1
+#define CORE_APP_GFX_SEG        2
+#define APP_CORE_GFX_SEG        3
+#define APP_CLIENT_SHMEM_SIZE   (sizeof(char)*NUM_SEGS*SHM_SEG_SIZE)
+
+#define DEFAULT_FRACTION_DONE_UPDATE_PERIOD     1
+#define DEFAULT_CHECKPOINT_PERIOD               300
+
+#define SHM_PREFIX          "shm_"
+#define QUIT_PREFIX         "quit_"
 
 class APP_CLIENT_SHM {
 public:
@@ -41,7 +45,28 @@ public:
     void reset_msg(int);      // resets specified message and clears its flag
 };
 
-#include "boinc_api.h"
+struct APP_INIT_DATA {
+    char app_preferences[4096];
+    char user_name[256];
+    char team_name[256];
+    char comm_obj_name[256];  // name to identify shared memory segments, signals, etc
+    double wu_cpu_time;		  // cpu time from previous sessions
+    double user_total_credit;
+    double user_expavg_credit;
+    double host_total_credit;
+    double host_expavg_credit;
+    double checkpoint_period;     // recommended checkpoint period
+    int shm_key;
+    double fraction_done_update_period;
+};
+
+struct GRAPHICS_INFO {
+    int xsize;
+    int ysize;
+    double refresh_period;
+};
+
+typedef struct GRAPHICS_INFO GRAPHICS_INFO;
 
 int write_init_data_file(FILE* f, APP_INIT_DATA&);
 int parse_init_data_file(FILE* f, APP_INIT_DATA&);
@@ -62,6 +87,8 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define MODE_FULLSCREEN         3
 
 #define END_SS_MSG            "BOINC_SS_END"
+
+#define STDERR_FILE           "stderr.txt"
 
 extern char* xml_graphics_modes[5];
 

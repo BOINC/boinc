@@ -21,13 +21,7 @@
 #endif
 #endif
 
-struct GRAPHICS_INFO {
-    int xsize;
-    int ysize;
-    double refresh_period;
-};
-
-typedef struct GRAPHICS_INFO GRAPHICS_INFO;
+#include "app_ipc.h"
 
 struct APP_OUT_GRAPHICS {
 };

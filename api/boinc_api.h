@@ -32,6 +32,8 @@
 #include <sys/resource.h>
 #endif
 
+#include "app_ipc.h"
+
 // MFILE supports a primitive form of checkpointing.
 // Write all your output (and restart file) to MFILEs.
 // The output is buffered in memory.
@@ -52,21 +54,6 @@ public:
     int flush();
 };
 
-struct APP_INIT_DATA {
-    char app_preferences[4096];
-    char user_name[256];
-    char team_name[256];
-    char comm_obj_name[256];  // name to identify shared memory segments, signals, etc
-    double wu_cpu_time;		  // cpu time from previous sessions
-    double user_total_credit;
-    double user_expavg_credit;
-    double host_total_credit;
-    double host_expavg_credit;
-    double checkpoint_period;     // recommended checkpoint period
-    int shm_key;
-    double fraction_done_update_period;
-};
-
 extern int boinc_init();
 extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_finish(int);
@@ -79,19 +66,9 @@ extern int boinc_child_done(double);
 
 /////////// API ENDS HERE - IMPLEMENTATION STUFF FOLLOWS
 
-#include "app_ipc.h"
-
-#define DEFAULT_FRACTION_DONE_UPDATE_PERIOD     1
-#define DEFAULT_CHECKPOINT_PERIOD               300
-
-#define SHM_PREFIX          "shm_"
-#define QUIT_PREFIX         "quit_"
-
 extern int boinc_cpu_time(double &, int &); // CPU time and memory usage for this process
 extern int boinc_install_signal_handlers();
 extern int update_app_progress(double, double, double, int);
-
-#define STDERR_FILE             "stderr.txt"
 
 extern int set_timer(double period);
 extern void setup_shared_mem();
