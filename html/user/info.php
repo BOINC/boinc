@@ -8,7 +8,7 @@ echo "
 
 <h2>Rules and Policies</h2>
 
-<h3>Run", PROJECT, " only on authorized computers</h3>
+<h3>Run ", PROJECT, " only on authorized computers</h3>
 
 <p>
 Run ", PROJECT, " only on computers that you own,

@@ -10413,3 +10413,11 @@ Rom    Mar 6 2004
 
 Jeff Mar 9 2004
     - CVS tagged as boinc_app_release_2_27.
+
+Rom    Mar 9 2004
+    - Fix fatal error with the intro.php page because of missing function in project.inc
+
+    html/project.sample/
+        project.inc
+    html/user
+        info.php

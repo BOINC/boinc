@@ -82,4 +82,11 @@ function project_news() {
     echo "No news is good news\n";
 }
 
+function project_research_url() {
+
+    return "http://boinc.berkeley.edu/";
+
+}
+
+
 ?>
