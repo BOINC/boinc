@@ -1,25 +1,32 @@
 <?php
 
-function result_claimed_credit_string($outcome,$string_to_show) {
-   switch($outcome) {
-   case 1: return $string_to_show; //Success
-   case 2: return "---"; //Couldn't send
-   case 3: return $string_to_show; //Client error
-   case 4: return "---"; //No reply
-   case 5: return "---"; //Didn't need
-   default: return $string_to_show;
-   }
+function result_claimed_credit_string($result, $string_to_show) {
+    if ($result->server_state <> 5) return "---";
+    switch($result->outcome) {
+    case 1: return $string_to_show; //Success
+    case 2: return "---"; //Couldn't send
+    case 3: return $string_to_show; //Client error
+    case 4: return "---"; //No reply
+    case 5: return "---"; //Didn't need
+    default: return $string_to_show;
+    }
 }
 
-function result_granted_credit_string($outcome,$string_to_show) {
-   switch($outcome) {
-   case 1: return $string_to_show; //Success
-   case 2: return "---"; //Couldn't send
-   case 3: return "-!-"; //Client error
-   case 4: return "---"; //No reply
-   case 5: return "---"; //Didn't need
-   default: return $string_to_show;
-   }
+function result_granted_credit_string($result, $string_to_show) {
+    if ($result->server_state <> 5) return "---";
+    switch($result->outcome) {
+    case 1:              //Success
+       if ($result->validate_state == 0) {
+           return "pending";
+        } else {
+           return $string_to_show;
+        }
+    case 2: return "---"; //Couldn't send
+    case 3: return "-!-"; //Client error
+    case 4: return "---"; //No reply
+    case 5: return "---"; //Didn't need
+    default: return $string_to_show;
+    }
 } 
 
 function result_server_state_string($s) {
@@ -29,7 +36,7 @@ function result_server_state_string($s) {
     case 4: return "In Progress";
     case 5: return "Over";
     }
-    return "unknown";
+    return "Unknown";
 }
 
 function result_outcome_string($s) {
@@ -40,7 +47,7 @@ function result_outcome_string($s) {
     case 4: return "No reply";
     case 5: return "Didn't need";
     }
-    return "unknown";
+    return "Unknown";
 }
 
 function result_client_state_string($s) {
@@ -61,7 +68,7 @@ function validate_state_str($s) {
     case 2: return "Invalid";
     case 3: return "Check skipped";
     }
-    return "unknown";
+    return "Unknown";
 }
 
 function result_table_start($show_wu_link, $show_host_link, $show_result_link) {
@@ -107,8 +114,8 @@ function show_result_row(
     $cl = result_client_state_string($result->client_state);
     $result_claimed_credit = format_credit($result->claimed_credit);
     $result_granted_credit = format_credit($result->granted_credit);
-    $result_claimed_credit = result_claimed_credit_string($result->outcome,$result_claimed_credit);
-    $result_granted_credit = result_granted_credit_string($result->outcome,$result_granted_credit); 
+    $result_claimed_credit = result_claimed_credit_string($result, $result_claimed_credit);
+    $result_granted_credit = result_granted_credit_string($result, $result_granted_credit); 
     echo "
         <tr>
     ";
@@ -121,13 +128,18 @@ function show_result_row(
     if ($show_host_link) {
         echo "<td>", host_link($result->hostid), "</td>\n";
     }
+    if ($result->server_state <> 5) {
+        $cpu_time = "---";
+    } else {
+        $cpu_time = number_format($result->cpu_time, 2);
+    }
     echo "
         <td>$s</td>
         <td>$r</td>
         <td>$ss</td>
         <td>$out</td>
         <td>$cl</td>
-        <td>$result->cpu_time</td>
+        <td>$cpu_time</td>
         <td>$result_claimed_credit</td>
         <td>$result_granted_credit</td>
         </tr>

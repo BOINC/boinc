@@ -14041,3 +14041,11 @@ David  20 June 2004
     sched/
         assimilator.C
         db_dump.C
+
+David  21 June 2004
+    - Web: when displaying results, try to show "---" (i.e. undefined)
+        where a field isn't determined yet.
+        Show "pending" instead of 0 for granted credit of unvalidated results
+
+    html/inc/
+        result.inc
