@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -131,10 +131,8 @@ done:
 
 // Set a project's min RPC time to something in the future,
 // based on exponential backoff
-// TODO: integrate with other backoff sources
 //
 int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
-    double x;
     int exp_backoff;
 
     int n = p->nrpc_failures;
@@ -146,11 +144,11 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
         if (log_flags.sched_op_debug) {
             printf("we've hit the limit on master_url fetches\n");
         }
-        x = exp(drand()*p->master_fetch_failures);
-        exp_backoff = (int) min((int)x, MASTER_FETCH_INTERVAL);
+        exp_backoff = calculate_exponential_backoff(
+            p->master_fetch_failures, MASTER_FETCH_INTERVAL);
     } else {
-        x = RETRY_BASE_PERIOD * exp(drand() * n);
-        exp_backoff =  (int)max(SCHED_RETRY_DELAY_MIN, min(SCHED_RETRY_DELAY_MAX, (int) x));
+        exp_backoff = calculate_exponential_backoff(
+            n, SCHED_RETRY_DELAY_MIN, SCHED_RETRY_DELAY_MAX, RETRY_BASE_PERIOD);
     }
     p->min_rpc_time = time(0) + exp_backoff;
     msg_printf(p, MSG_ERROR, "Deferring communication with project for %d seconds\n", exp_backoff);
@@ -161,7 +159,7 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
 //
 void SCHEDULER_OP::backoff(PROJECT* p, char *error_msg ) {
     msg_printf(p, MSG_ERROR, error_msg);
-    
+
     if (p->master_fetch_failures >= MASTER_FETCH_RETRY_CAP) {
         p->master_url_fetch_pending = true;
     } else {
@@ -174,7 +172,7 @@ void SCHEDULER_OP::backoff(PROJECT* p, char *error_msg ) {
             p->nrpc_failures = 0;
             p->master_fetch_failures++;
         }
-        
+
         p->nrpc_failures++;
     }
     set_min_rpc_time(p);
@@ -243,7 +241,7 @@ int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
     char buf[256];
     STRING256 str;
     FILE* f;
-    
+
     f = fopen(MASTER_FILE_NAME, "r");
     if (!f) {
         fprintf(stderr, "Can't open master file\n");
@@ -259,7 +257,7 @@ int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
     if (log_flags.sched_op_debug) {
         printf("Parsed master file; got %d scheduler URLs\n", (int)urls.size());
     }
-    
+
     // couldn't find any urls in the master file?
     //
     if ((int) urls.size() == 0) {
@@ -446,7 +444,7 @@ bool SCHEDULER_OP::poll() {
                         project->min_rpc_time = 0;
                     }
                 }
-                    
+
                 // if we didn't get all the work we needed,
                 // ask another project for work
                 //

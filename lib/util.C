@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 #include <stdio.h>
@@ -47,15 +47,15 @@
 int double_to_ydhms (double x, int smallest_timescale, char *buf) {
     double years, days, hours, minutes, seconds;
     char year_buf[64], day_buf[16], hour_buf[16], min_buf[16], sec_buf[16];
-    
+
     if (x < 0 || buf == NULL) return -1;
-    
+
     years = x / 365.25;
     days = fmod(x, 365.25);
     hours = fmod(x*24, 24);
     minutes = fmod(x*24*60, 60);
     seconds = fmod(x*24*60*60, 60);
-    
+
     if (smallest_timescale==4) {
         sprintf( year_buf, "%.3f yr ", years );
     } else if (years > 1 && smallest_timescale < 4) {
@@ -63,7 +63,7 @@ int double_to_ydhms (double x, int smallest_timescale, char *buf) {
     } else {
         strcpy( year_buf, "" );
     }
-    
+
     if (smallest_timescale==3) {
         sprintf( day_buf, "%.2f day%s ", days, (days>1?"s":"") );
     } else if (days > 1 && smallest_timescale < 3) {
@@ -71,7 +71,7 @@ int double_to_ydhms (double x, int smallest_timescale, char *buf) {
     } else {
         strcpy( day_buf, "" );
     }
-    
+
     if (smallest_timescale==2) {
         sprintf( hour_buf, "%.2f hr ", hours );
     } else if (hours > 1 && smallest_timescale < 2) {
@@ -79,7 +79,7 @@ int double_to_ydhms (double x, int smallest_timescale, char *buf) {
     } else {
         strcpy( hour_buf, "" );
     }
-    
+
     if (smallest_timescale==1) {
         sprintf( min_buf, "%.2f min ", minutes );
     } else if (minutes > 1 && smallest_timescale < 1) {
@@ -87,7 +87,7 @@ int double_to_ydhms (double x, int smallest_timescale, char *buf) {
     } else {
         strcpy( min_buf, "" );
     }
-    
+
     if (smallest_timescale==0) {
         sprintf( sec_buf, "%.2f sec ", seconds );
     } else if (seconds > 1 && smallest_timescale < 0) {
@@ -99,7 +99,7 @@ int double_to_ydhms (double x, int smallest_timescale, char *buf) {
     // when the real value is e.g. 59.91
     //
     sprintf(buf, "%s%s%s%s%s", year_buf, day_buf, hour_buf, min_buf, sec_buf);
-    
+
     return 0;
 }
 
@@ -232,7 +232,7 @@ int parse_command_line(char* p, char** argv) {
 
 int lock_file(char* filename) {
     int retval;
-        
+
     // some systems have both!
 #ifdef HAVE_FLOCK
     int lock = open(filename, O_WRONLY|O_CREAT, 0644);
@@ -242,7 +242,7 @@ int lock_file(char* filename) {
     retval = lockf(lock, F_TLOCK, 1);
     // must leave fd open
 #endif
-                        
+
 #ifdef _WIN32
     HANDLE hfile = CreateFile(
         filename, GENERIC_WRITE,
@@ -254,15 +254,9 @@ int lock_file(char* filename) {
     return retval;
 }
 
-// TODO: should use drand48 and/or drand_r (multithreaded re-entrant version)
-// when available (check using autoconf) -- quarl
-double drand() {
-    return (double)rand()/(double)RAND_MAX;
-}
-
 static char x2c(char *what) {
     register char digit;
-    
+
     digit = (what[0] >= 'A' ? ((what[0] & 0xdf) - 'A')+10 : (what[0] - '0'));
     digit *= 16;
     digit += (what[1] >= 'A' ? ((what[1] & 0xdf) - 'A')+10 : (what[1] - '0'));
@@ -299,7 +293,7 @@ void strip_whitespace(char *str) {
 
 void unescape_url(char *url) {
     register int x,y;
-    
+
     for(x=0,y=0;url[y];++x,++y) {
         if((url[x] = url[y]) == '%') {
             url[x] = x2c(&url[y+1]);
@@ -338,7 +332,7 @@ void escape_url_readable(char *in, char* out) {
     int x, y;
     char *temp;
     char buf[256];
-    
+
     temp = strstr(in,"://");
     if (temp) {
         in = temp + strlen("://");

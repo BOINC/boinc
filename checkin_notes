@@ -4611,3 +4611,13 @@ Tim    June 9, 2003
         pers_file_xfer.c
         wingui_mainwindow.h
         wingui_mainwindow.cpp
+
+Karl    2003/06/09
+    - refactored exponential backoff to util.h
+
+    client/
+        pers_file_xfer.C 
+        scheduler_op.C 
+    lib/
+        util.h   
+        util.C

@@ -1,19 +1,19 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -68,7 +68,7 @@ int PERS_FILE_XFER::start_xfer() {
     if (!gstate.start_new_file_xfer()) {
         return ERR_IDLE_PERIOD;
     }
-    
+
     // Create a new FILE_XFER object and initialize a
     // download or upload for the persistent file transfer
     //
@@ -121,7 +121,7 @@ int PERS_FILE_XFER::start_xfer() {
 bool PERS_FILE_XFER::poll(time_t now) {
     int retval;
     char pathname[256];
-    
+
     if (xfer_done) {
         return false;
     }
@@ -131,6 +131,9 @@ bool PERS_FILE_XFER::poll(time_t now) {
         // See if it's time to try again.
         //
         if (now >= next_request_time) {
+            // fprintf(stderr, "### PERS_FILE_XFER '%s'#%x::poll(): starting file transfer (now=%d, next_request_time=%d)\n",
+            //         fip->name, this,
+            //         now, next_request_time);
             last_time = dtime();
             fip->upload_offset = -1;
             retval = start_xfer();
@@ -234,7 +237,7 @@ void PERS_FILE_XFER::handle_xfer_failure() {
     }
 
     retry_or_backoff();
-    
+
     // See if it's time to give up on the persistent file xfer
     //
     if ((now - first_request_time) > gstate.file_xfer_giveup_period) {
@@ -242,29 +245,16 @@ void PERS_FILE_XFER::handle_xfer_failure() {
     }
 }
 
-// return a random integer in the range [min,max)
-static inline double rand_range(double min, double max)
-{
-    return drand() * (max-min) + min;
-}
-
-// return a random integer in the range [max(MIN,e^n),min(MAX,e^n))
-static inline double calculate_exponential_backoff(double MIN, double MAX, double n)
-{
-    double e = exp((double)n);
-    return rand_range(max(MIN, e), min(MAX, e));
-}
-
 // Cycle to the next URL, or if we've hit all URLs in this cycle,
 // backoff and try again later
 //
 void PERS_FILE_XFER::retry_or_backoff() {
-    struct tm *newtime;
+    // struct tm *newtime;
     time_t now;
     int backoff = 0;
-    
+
     now = time(0);
-    newtime = localtime(&now);
+    // newtime = localtime(&now);
 
     // Cycle to the next URL to try
     //
@@ -281,9 +271,11 @@ void PERS_FILE_XFER::retry_or_backoff() {
         // PERS_RETRY_DELAY_MAX
         //
         backoff = (int)calculate_exponential_backoff(
-            PERS_RETRY_DELAY_MIN, PERS_RETRY_DELAY_MAX, nretry);
+            nretry, PERS_RETRY_DELAY_MIN, PERS_RETRY_DELAY_MAX);
         next_request_time = now + backoff;
-            
+        // fprintf(stderr, "### PERS_FILE_XFER '%s'#%x::retry_or_backoff(): nretry=%d, backoff=%d, now=%d, next_request_time=%d\n",
+        //         fip->name, this, nretry,
+        //         backoff, now, next_request_time);
     }
     if (log_flags.file_xfer_debug) {
         msg_printf(fip->project, MSG_INFO, "Backing off %d seconds on transfer of file %s",

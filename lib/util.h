@@ -1,23 +1,25 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
+// http://www.mozilla.org/MPL/
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
-#include <time.h>
+#include <ctime>
+#include <cstdlib>
+#include <cmath>
 
 extern int double_to_ydhms (double x, int smallest_timescale, char *buf);
 extern void get_byte_string(double nbytes, double total_bytes, char* str, int len);
@@ -25,7 +27,6 @@ extern double dtime();
 extern void boinc_sleep(double);
 extern int parse_command_line( char *, char ** );
 extern int lock_file(char*);
-extern double drand();
 extern void c2x(char *what);
 extern void strip_whitespace(char *str);
 extern void unescape_url(char *url);
@@ -46,3 +47,28 @@ extern char* timestamp();
 #endif
 
 #define SECONDS_PER_DAY 86400
+
+static inline double drand() {
+    return (double)rand()/(double)RAND_MAX;
+}
+
+// return a random integer in the range [rmin,rmax)
+static inline double rand_range(double rmin, double rmax)
+{
+    if (rmin < rmax)
+        return drand() * (rmax-rmin) + rmin;
+    else
+        return rmin;
+}
+
+// return a random integer in the range [MIN,min(e^n,MAX))
+static inline int calculate_exponential_backoff(int n, double MIN, double MAX, double factor=1.0)
+{
+    return (int) rand_range(MIN, min(MAX, factor*exp((double)n)));
+}
+
+// return a random integer in the range [MIN,e^n)
+static inline int calculate_exponential_backoff(int n, double MIN)
+{
+    return (int) rand_range(MIN, exp((double)n));
+}
