@@ -199,7 +199,7 @@ for appdir in xlistdir(config.app_dir):
 if not objects_to_commit:
     raise SystemExit("No new versions found!")
 
-print "Commit %d items:" %len(objects_to_commit)
+print "Ready to commit %d items:" %len(objects_to_commit)
 for object in objects_to_commit:
     print "   ", object
 

@@ -57,12 +57,11 @@ def process_executable_file(file, signature_text=None, quiet=False, executable=T
 
     source_dir, source_file_base = os.path.split(file)
     target_file_base = get_kludge_url_filename(source_file_base)
-    target_dir = config.config.download_dir
-    target_path = os.path.join(target_dir, target_file_base)
+    target_path = os.path.join(config.config.download_dir, target_file_base)
     target_url = os.path.join(config.config.download_url, target_file_base)
     if file != target_path:
         if not quiet:
-            print "Copying %s to %s"%(source_file_base, target_dir)
+            print "Copying %s to %s"%(source_file_base, target_path)
         shutil.copy(file, target_path)
 
     xml = '''<file_info>
