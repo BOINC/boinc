@@ -10015,3 +10015,7 @@ David  Feb 9 2004
 
 David  Feb 11 2004
     - updated docs
+	- "request_delay" from server overrides exponential backoff
+
+	client/
+		cs_scheduler.C
