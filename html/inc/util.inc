@@ -330,6 +330,17 @@ function parse_config($config, $tag) {
     return trim($element);
 }
 
+// return true if XML contains either <tag/> or <tag>1</tag>
+//
+function parse_bool($xml, $tag) {
+    $x = "<$tag/>";
+    if (strstr($xml, $x)) return true;
+    $x = "<$tag>";
+    $y = (int)parse_element($xml, $x);
+    if ($y != 0) return true;
+    return false;
+}
+
 // Call this if for dynamic pages
 //
 function no_cache() {

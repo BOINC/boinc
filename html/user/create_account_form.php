@@ -7,7 +7,7 @@ db_init();
 page_head('Create an account');
 
 $config = get_config();
-if (parse_config($config, "<disable_account_creation/>")) {
+if (parse_bool($config, "disable_account_creation")) {
     echo "
         <h1>Account Creation is Disabled</h1>
         <p>

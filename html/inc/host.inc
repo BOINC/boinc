@@ -91,7 +91,7 @@ function show_host($host, $private, $ipprivate) {
         row2("Average download rate", "Unknown");
     }
     $config = get_config();
-    if (parse_config($config, "<show_results/>")) {
+    if (parse_bool($config, "show_results")) {
         $nresults = host_nresults($host);
         if ($nresults) {
             $results = "<a href=results.php?hostid=$host->id>$nresults</a>";

@@ -59,7 +59,7 @@ echo " </tr>\n";
 function list_item($x, $y, $z=null) {
     echo "
         <tr>
-            <td bgcolor=ffffcc valign=top><b>$x</b></td>
+            <td bgcolor=d8d8ff valign=top><b>$x</b></td>
             <td valign=top>$y</td>
 ";
     if ($z) {
@@ -74,7 +74,7 @@ function list_item_func($x, $y) {
 
 function list_bar($x) {
     echo "
-        <tr><td colspan=3 bgcolor=f0d8a0><center><b>$x</b></center></td></tr>
+        <tr><td colspan=3 bgcolor=b8b8ff><center><b>$x</b></center></td></tr>
     ";
 }
 

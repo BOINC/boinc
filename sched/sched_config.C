@@ -34,6 +34,23 @@
 
 const char* CONFIG_FILE = "config.xml";
 
+// look for a boolean; accepts either <foobar/> or <foobar>1</foobar>
+//
+static void parse_bool(char* buf, char* tag, bool& result) {
+    char single_tag[256], start_tag[256];
+    int x;
+
+    sprintf(single_tag, "<%s/>", tag);
+    if (match_tag(buf, single_tag)) {
+        result = true;
+        return;
+    }
+    sprintf(start_tag, "<%s>", tag);
+    if (parse_int(buf, start_tag, x)) {
+        result = (x != 0);
+    }
+}
+
 int SCHED_CONFIG::parse(char* buf) {
     // fill in defaults
     //
@@ -52,44 +69,20 @@ int SCHED_CONFIG::parse(char* buf) {
     parse_str(buf, "<download_dir_alt>", download_dir_alt, sizeof(download_dir_alt));
     parse_str(buf, "<upload_url>", upload_url, sizeof(upload_url));
     parse_str(buf, "<upload_dir>", upload_dir, sizeof(upload_dir));
-    if (match_tag(buf, "<one_result_per_user_per_wu/>")) {
-        one_result_per_user_per_wu = true;
-    }
-    if (match_tag(buf, "<non_cpu_intensive/>")) {
-        non_cpu_intensive = true;
-    }
-    if (match_tag(buf, "<homogeneous_redundancy/>")) {
-        homogeneous_redundancy  = true;
-    }
-    if (match_tag(buf, "<locality_scheduling/>")) {
-        locality_scheduling  = true;
-    }
-    if (match_tag(buf, "<msg_to_host/>")) {
-        msg_to_host = true;
-    }
-    if (match_tag(buf, "<ignore_upload_certificates/>")) {
-        ignore_upload_certificates = true;
-    }
-    if (match_tag(buf, "<dont_generate_upload_certificates/>")) {
-        dont_generate_upload_certificates = true;
-    }
+    parse_bool(buf, "one_result_per_user_per_wu", one_result_per_user_per_wu);
+    parse_bool(buf, "non_cpu_intensive", non_cpu_intensive);
+    parse_bool(buf,"homogeneous_redundancy", homogeneous_redundancy);
+    parse_bool(buf, "locality_scheduling", locality_scheduling);
+    parse_bool(buf, "msg_to_host", msg_to_host);
+    parse_bool(buf, "ignore_upload_certificates", ignore_upload_certificates);
+    parse_bool(buf, "dont_generate_upload_certificates", dont_generate_upload_certificates);
 #if 0
-    if (match_tag(buf, "<deletion_policy_priority/>")) {
-        deletion_policy_priority = true;
-    }
-    if (match_tag(buf, "<deletion_policy_expire/>")) {
-        deletion_policy_expire = true;
-    }
-    if (match_tag(buf, "<delete_from_self/>")) {
-        delete_from_self = true;
-    }
+    parse_bool(buf, "deletion_policy_priority", deletion_policy_priority);
+    parse_bool(buf, "deletion_policy_expire", deletion_policy_expire);
+    parse_bool(buf, "delete_from_self", delete_from_self);
 #endif
-    if (match_tag(buf, "<enforce_delay_bound/>")) {
-        enforce_delay_bound = true;
-    }
-    if (match_tag(buf, "<use_transactions/>")) {
-        use_transactions = true;
-    }
+    parse_bool(buf, "enforce_delay_bound", enforce_delay_bound);
+    parse_bool(buf, "use_transactions", use_transactions);
     parse_int(buf, "<min_sendwork_interval>", min_sendwork_interval);
     parse_int(buf, "<max_wus_to_send>", max_wus_to_send);
     parse_int(buf, "<daily_result_quota>", daily_result_quota);

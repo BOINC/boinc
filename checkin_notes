@@ -19316,3 +19316,18 @@ David  12 Nov 2004
             db_action.php
     lib/
         gui_rpc_client.h
+
+David  12 Nov 2004
+    - booleans in config.xml are represented as <foo>1</foo>
+        (<foo/> still supported for now)
+
+    html/
+        inc/
+            host.inc
+            util.inc
+        user/
+            create_account_action.php
+            create_account_form.php
+            results.php
+    sched/
+        sched_config.C
