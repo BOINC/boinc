@@ -1,74 +1,162 @@
 <?php
 
-function print_login_form() {
-    printf(
-        "<form method=post action=login_action.php>\n"
-        ."<table>\n"
-        ."<tr><td colspan=2>If you already have an account:</td></tr>\n"
-        ."<tr>\n"
-        ."    <td align=right>Email</td>\n"
-        ."    <td> <input name=existing_email type=text size=40></td>\n"
-        ."</tr>\n"
-        ."<tr>\n"
-        ."    <td align=right>Password</td>\n"
-        ."    <td> <input name=existing_password type=password></td>\n"
-        ."</tr>\n"
-        ."<tr>\n"
-        ."    <td><br></td>\n"
-        ."    <td><input type=submit name=old value=\"Log in\"></td>\n"
-        ."</tr>\n"
-        ."</table>\n"
-        ."</form>\n"
-        ."<table>\n"
-        ."<tr><td colspan=2>If you don't have an account:</td></tr>\n"
-        ."<tr><td><a href=create_account.php>Create a new account</a></td></tr>\n"
-        ."</table>\n"
-    );
-
+function db_init() {
+    $retval = mysql_pconnect();
+    if (!$retval) {
+        exit();
+    }
+    $fp = fopen(db_name, "r");
+    $db_name = fgets($fp, 1024);
+    $db_name = rtrim($db_name);
+    mysql_select_db($db_name);
+    fclose($fp);
+    return $db_name;
 }
 
-function print_create_account_form() {
-    printf(
-        "<form method=post action=login_action.php>\n"
-        ."<table>\n"
-        ."<tr><td colspan=2>To create a new account:</td></tr>\n"
-        ."<tr>\n"
-        ."    <td align=right>Name or nickname</td>\n"
-        ."    <td><input name=new_name size=30></td>\n"
-        ."</tr>\n"
-        ."<tr>\n"
-        ."    <td align=right>Password</td>\n"
-        ."    <td><input name=new_password type=password></td>\n"
-        ."</tr>\n"
-        ."<tr>\n"
-        ."    <td align=right>Password confirm</td>\n"
-        ."    <td><input name=new_password2 type=password></td>\n"
-        ."</tr>\n"
-        ."<tr>\n"
-        ."    <td align=right>Email</td>\n"
-        ."    <td><input name=new_email_addr size=40></td>\n"
-        ."</tr>\n"
-        ."<tr>\n"
-        ."    <td align=right>Country</td>\n"
-        ."    <td><select name=country>\n"
+function lookup_user_auth($auth) {
+    $result = mysql_query("select * from user where authenticator='$auth'");
+    $user = mysql_fetch_object($result);
+    mysql_free_result($result);
+    return $user;
+}
 
-    );
-        print_country_select();
-    printf(
-        "    </select>\n"
-        ."    </td>\n"
-        ."</tr>\n"
-        ."<tr>\n"
-        ."    <td align=right>Postal (ZIP) code</td>\n"
-        ."    <td><input name=postal_code size=40></td>\n"
-        ."</tr>\n"
-        ."<tr>\n"
-        ."    <td><br></td>\n"
-        ."    <td><input type=submit name=new value=\"Create account\"></td>\n"
-        ."</tr>\n".
-        "</table>\n"
-        ."</form>\n"
-    );
+function show_platform($platform) {
+    start_table();
+    row("ID", $platform->id);
+    row("created", time_str($platform->create_time));
+    row("name", $platform->name);
+    echo "</table>";
+}
+
+function show_app($app) {
+    start_table();
+    row("ID", $app->id);
+    row("created", time_str($app->create_time));
+    row("name", $app->name);
+    row("alpha version", $app->alpha_vers);
+    row("beta version", $app->beta_vers);
+    row("production version", $app->prod_vers);
+    row("result template", "<pre>".htmlspecialchars($app->result_xml_template)."</pre>");
+    echo "</table>";
+}
+
+function show_app_version($app_version) {
+    start_table();
+    row("ID", $app_version->id);
+    row("created", time_str($app_version->create_time));
+    row("app ID", $app_version->appid);
+    row("version num", $app_version->version_num);
+    row("platform ID", $app_version->platformid);
+    row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
+    row("min_core_version", $app_version->min_core_version);
+    row("max_core_version", $app_version->max_core_version);
+    row("message", $app_version->message);
+    row("deprecated", $app_version->deprecated);
+    echo "</table>";
+}
+
+function show_host($host) {
+    start_table();
+    row("ID", $host->id);
+    row("created", time_str($host->create_time));
+    row("user ID", $host->userid);
+    row("prefs ID", $host->prefsid);
+    row("RPC seqno", $host->rpc_seqno);
+    row("RPC time", time_str($host->rpc_time));
+    echo "<tr><td align=right>Domain name</td><td>$host->domain_name</td></tr>\n";
+    $x = $host->timezone/3600;
+    echo "<tr><td align=right>Time zone</td><td>UTC - $x hours</td></tr>\n";
+    echo "<tr><td align=right>IP address</td><td>$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)</td></tr>\n";
+    echo "<tr><td align=right>On fraction</td><td>$host->on_frac</td></tr>\n";
+    echo "<tr><td align=right>Connected fraction</td><td>$host->connected_frac</td></tr>\n";
+    echo "<tr><td align=right>Active fraction</td><td>$host->active_frac</td></tr>\n";
+    echo "<tr><td align=right># CPUs</td><td>$host->p_ncpus</td></tr>\n";
+    echo "<tr><td align=right>CPU vendor</td><td>$host->p_vendor</td></tr>\n";
+    echo "<tr><td align=right>CPU model</td><td>$host->p_model</td></tr>\n";
+    echo "<tr><td align=right>OS name</td><td>$host->os_name</td></tr>\n";
+    echo "<tr><td align=right>OS version</td><td>$host->os_version</td></tr>\n";
+    $x = $host->m_nbytes/(1024*1024);
+    echo "<tr><td align=right>Memory</td><td>$x MB</td></tr>\n";
+    $x = $host->m_cache/1024;
+    echo "<tr><td align=right>Cache</td><td>$x KB</td></tr>\n";
+    $x = $host->m_swap/(1024*1024);
+    echo "<tr><td align=right>Swap space</td><td>$x MB</td></tr>\n";
+    $x = $host->d_total/(1024*1024*1024);
+    echo "<tr><td align=right>Disk, total</td><td>$x GB</td></tr>\n";
+    $x = $host->d_free/(1024*1024*1024);
+    echo "<tr><td align=right>Disk, free</td><td>$x GB</td></tr>\n";
+    echo "<tr><td align=right>Average network bandwidth, upstream</td><td>$host->n_bwup bytes/sec</td></tr>\n";
+    echo "<tr><td align=right>Average network bandwidth, downstream</td><td>$host->n_bwdown bytes/sec</td></tr>\n";
+    echo "</table>\n";
+}
+
+function show_workunit($wu) {
+    start_table();
+    row("created", time_str($wu->create_time));
+    row("name", $wu->name);
+    row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
+    row("app ID", $wu->appid);
+    row("batch", $wu->batch);
+    row("FP operations", $wu->rsc_fpops);
+    row("integer operations", $wu->rsc_iops);
+    row("memory requirement", $wu->rsc_memory);
+    row("disk requirement", $wu->rsc_disk);
+    row("dynamic results", $wu->dynamic_results?"yes":"no");
+    row("max_results", $wu->max_results);
+    row("nresults", $wu->nresults);
+    row("nresults_unsent", $wu->nresults_unsent);
+    row("nresults_done", $wu->nresults_done);
+    row("nresults_fail", $wu->nresults_fail);
+    echo "</table>";
+}
+
+function res_state_string($s) {
+    switch($s) {
+    case 1: return "inactive";
+    case 2: return "unsent";
+    case 3: return "in progress";
+    case 4: return "done";
+    case 5: return "timeout";
+    case 6: return "error";
+    }
+}
+
+function show_result($result) {
+    start_table();
+    row("created", time_str($result->create_time));
+    row("name", $result->name);
+    row("workunit ID", $result->workunitid);
+    row("state", res_state_string($result->state));
+    row("host ID", $result->hostid);
+    row("sent", time_str($result->sent_time));
+    row("received", time_str($result->received_time));
+    row("exit status", $result->exit_status);
+    row("CPU time", $result->cpu_time);
+    row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
+    row("XML doc out", "<pre>".htmlspecialchars($result->xml_doc_out)."</pre>");
+    row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
+    row("batch", $result->batch);
+    row("validated", $result->validated);
+    echo "</table>";
+}
+
+function show_user_stats($user, $project) {
+    echo TABLE2."\n";
+    echo "<tr>".TD2.LG_FONT."<b>User Stats:</b></font></td></tr>\n";
+    row("<b>User ID:   </b>", $user->id);
+
+    echo "</table>\n";
+}
+
+function show_team($team) {
+    start_table();
+    row("ID", $team->id);
+    row("founder", $team->userid);
+    row("name", $team->name);
+    row("url", $team->url);
+    row("type", $team->type);
+    row("name_html", $team->name_html);
+    row("description", $team->description);
 }
 
 ?>
