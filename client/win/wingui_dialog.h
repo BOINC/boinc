@@ -45,27 +45,6 @@ protected:
 };
 
 //////////
-// class:		CProxyDialog
-// parent:		CDialog
-// description:	allows user to set up proxy information
-class CProxyDialog : public CDialog
-{
-public:
-							CProxyDialog(UINT);
-	afx_msg BOOL			OnInitDialog();
-	
-protected:
-	void					EnableHttp(BOOL bEnable);
-	void					EnableSocks(BOOL bEnable);
-	void					LoadLanguage();
-
-	afx_msg void			OnHttp();
-	afx_msg void			OnSocks();
-	afx_msg void			OnOK();
-	DECLARE_MESSAGE_MAP()
-};
-
-//////////
 // class:		CConnectDialog
 // parent:		CDialog
 // description:	request users permission to connect to the network

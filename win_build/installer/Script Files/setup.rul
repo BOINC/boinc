@@ -155,10 +155,13 @@ program
 
 
     // Launch BOINC
-	ChangeDirectory(TARGETDIR);
-   	svAppPath = TARGETDIR ^ BOINC_GUI_EXE;
-	LongPathToQuote( svAppPath, TRUE );
-   	LaunchApp( svAppPath, "" );
+    if (bLaunchBoincAtStartup) then
+		ChangeDirectory(TARGETDIR);
+   		svAppPath = TARGETDIR ^ BOINC_GUI_EXE;
+		LongPathToQuote( svAppPath, TRUE );
+   		LaunchApp( svAppPath, "" );
+   	endif;
+   	
 
 endprogram
 
@@ -683,6 +686,7 @@ end;
 // --- include script file section ---
 
 #include "sddialog.rul"
+
 
 
 

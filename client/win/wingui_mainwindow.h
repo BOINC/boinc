@@ -26,6 +26,7 @@
 #include "wingui_listctrl.h"
 #include "wingui_piectrl.h"
 #include "wingui_dialog.h"
+#include "wingui_proxydlg.h"
 #include "wingui_sswindow.h"
 #include "gui_titles.h"
 

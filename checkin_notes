@@ -11101,3 +11101,17 @@ David  Mar 29 2004
 		main.C
 		win/
 			win_service.cpp
+
+Rom    Mar 29 2004
+	- Implement UI for SOCKS proxy server
+	- Fix setup bug in the making, only automatically startup BOINC if the user
+	    has opted for the always start BOINC at startup.
+
+	client/win
+		wingui_dialog.cpp, .h
+		wingui_mainwindow.cpp, .h
+		wingui_proxydlg.cpp, .h (Added)
+	win_build/
+		boinc_gui.vcproj
+	win_build/installer/Script Files/
+		setup.rul

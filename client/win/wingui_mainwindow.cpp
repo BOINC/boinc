@@ -1256,7 +1256,7 @@ void CMainWindow::OnCommandSettingsLogin()
 // function:    shows the proxy dialog box
 void CMainWindow::OnCommandSettingsProxyServer()
 {
-    CProxyDialog dlg(IDD_PROXY);
+    CProxyServerDlg dlg;
     int nResult = dlg.DoModal();
 }
 
