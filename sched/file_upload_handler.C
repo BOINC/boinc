@@ -212,22 +212,33 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             if (retval) {
                 return return_error(ERR_PERMANENT, "FILE_INFO::parse");
             }
-            retval = verify_string(
-                file_info.signed_xml, file_info.xml_signature, key, is_valid
-            );
-            if (retval || !is_valid) {
-                log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                    "verify_string() [%s] [%s] retval %d, is_valid = %d\n",
-                    file_info.signed_xml, file_info.xml_signature,
-                    retval, is_valid
-                );
-                if (!config.ignore_upload_certificates) {
-                    log_messages.printf(SCHED_MSG_LOG::NORMAL, file_info.signed_xml, "signed xml: ");
-                    log_messages.printf(SCHED_MSG_LOG::NORMAL, file_info.xml_signature, "signature: ");
+            if (!config.ignore_upload_certificates) {
+                if (!file_info.signed_xml || !file_info.xml_signature) {
+                    log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                        "file info is missing signature\n"
+                    );
                     return return_error(ERR_PERMANENT, "invalid signature");
-                    continue;
+                } else {
+                    retval = verify_string(
+                        file_info.signed_xml, file_info.xml_signature, key, is_valid
+                    );
+                    if (retval || !is_valid) {
+                        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                            "verify_string() [%s] [%s] retval %d, is_valid = %d\n",
+                            file_info.signed_xml, file_info.xml_signature,
+                            retval, is_valid
+                        );
+                        log_messages.printf(SCHED_MSG_LOG::NORMAL,
+                            "signed xml: %s", file_info.signed_xml
+                        );
+                        log_messages.printf(SCHED_MSG_LOG::NORMAL,
+                            "signature: %s", file_info.xml_signature
+                        );
+                        return return_error(ERR_PERMANENT, "invalid signature");
+                    }
                 }
             }
+            continue;
         }
         else if (parse_double(buf, "<offset>", offset)) continue;
         else if (parse_double(buf, "<nbytes>", nbytes)) continue;

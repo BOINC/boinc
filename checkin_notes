@@ -15828,3 +15828,13 @@ David  4 Aug 2004
         handle_request.C
         sched_config.C,h
         transitioner.C
+
+David  4 Aug 2004
+    - A <file_info> without a signature would cause
+        the file_upload_handler to crash.
+        Fixed this.
+    - File upload handler: if ignore_upload_certificate is set,
+        don't compute the expected signature
+
+    sched/
+        file_upload_handler.C
