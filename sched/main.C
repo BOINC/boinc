@@ -30,6 +30,8 @@ using namespace std;
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/time.h>
+#include <sys/resource.h>
 
 #include "boinc_db.h"
 #include "parse.h"
@@ -48,6 +50,11 @@ using namespace std;
 #ifdef _USING_FCGI_
 #include "fcgi_stdio.h"
 #endif
+
+// Useful for debugging, if your cgi script keeps crashing.  This
+// makes it dump a core file that you can load into a debugger to see
+// where the problem is.
+#define DUMP_CORE_ON_SEGV 0
 
 #define DEBUG_LEVEL  999
 #define MAX_FCGI_COUNT  20
@@ -121,6 +128,41 @@ int main() {
 
     srand(time(0)+getpid());
     log_messages.set_debug_level(DEBUG_LEVEL);
+
+#if DUMP_CORE_ON_SEGV
+    {
+        struct rlimit limit;
+        if (getrlimit(RLIMIT_CORE, &limit)) {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "Unable to read resource limit for core dump size.\n"
+            );
+        }
+        else {
+            char short_string[256], *short_message=short_string;
+
+            short_message += sprintf(short_message,"Default resource limit for core dump size curr=");
+            if (limit.rlim_cur == RLIM_INFINITY)
+                short_message += sprintf(short_message,"Inf max=");
+            else
+                short_message += sprintf(short_message,"%d max=", (int)limit.rlim_cur);
+
+            if (limit.rlim_max == RLIM_INFINITY)
+                short_message += sprintf(short_message,"Inf\n");
+            else
+                short_message += sprintf(short_message,"%d\n", (int)limit.rlim_max);
+          
+            log_messages.printf(SCHED_MSG_LOG::DEBUG, "%s", short_string);
+            
+            // now set limit to the maximum allowed value
+            limit.rlim_cur=limit.rlim_max;
+            if (setrlimit(RLIMIT_CORE, &limit)) {
+                log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                    "Unable to set current resource limit for core dump size to max value.\n"
+                );
+            }   
+        }
+    }
+#endif
 
     if (check_stop_sched()) {
         send_message("Project is temporarily shut down for maintenance", 3600);
@@ -215,6 +257,7 @@ int main() {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't write reply file\n");
             exit(1);
         }
+
         handle_request(fin, fout, *ssp, code_sign_key);
         fclose(fin);
         fclose(fout);

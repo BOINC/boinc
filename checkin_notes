@@ -24462,3 +24462,15 @@ Bruce 10 Feb 2005
         sched_send.C
         sched_util.[hC]
 
+Bruce 10 Feb 2005
+      Added code to the scheduler so that it will dump core on SEGV.  This
+      is disabled by default.  Having this
+      is really useful if the scheduler is crashing some of the time.  You
+      can load the core dump file into a debugger to see where things are
+      breaking.  To use this, edit sched/main.C by hand and set
+      #define DUMP_CORE_ON_SEGV 1
+
+    sched/
+        main.C
+
+
