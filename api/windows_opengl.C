@@ -21,22 +21,25 @@
 
 #define BOINC_WINDOW_CLASS_NAME "BOINC_app"
 
-static HDC		 hDC                   = NULL;
-static HGLRC	 hRC                   = NULL;
-static HWND		 hWnd                  = NULL;		// Holds Our Window Handle
-static HINSTANCE hInstance;		                    // Holds The Instance Of The Application
-static RECT		 rect                  = {50, 50, 50+640, 50+480};
-static int		 current_graphics_mode = MODE_HIDE_GRAPHICS;
-static int       acked_graphics_mode = -1;
-static POINT	 mousePos;
-static HDC       myhDC;
-BOOL		     win_loop_done;
+const UINT              WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
+
+
+static HDC		        hDC                   = NULL;
+static HGLRC	        hRC                   = NULL;
+static HWND		        hWnd                  = NULL;		// Holds Our Window Handle
+static HINSTANCE        hInstance;		                    // Holds The Instance Of The Application
+static RECT		        rect                  = {50, 50, 50+640, 50+480};
+static int		        current_graphics_mode = MODE_HIDE_GRAPHICS;
+static int              acked_graphics_mode = -1;
+static POINT	        mousePos;
+static HDC              myhDC;
+BOOL		            win_loop_done;
 
 static GRAPHICS_MSG     graphics_msg;
-static HWINSTA   hOriginalWindowStation = NULL;
-static HDESK     hOriginalDesktop = NULL;
-static HWINSTA   hInteractiveWindowStation = NULL;
-static HDESK     hInteractiveDesktop = NULL;
+static HWINSTA          hOriginalWindowStation = NULL;
+static HDESK            hOriginalDesktop = NULL;
+static HWINSTA          hInteractiveWindowStation = NULL;
+static HDESK            hInteractiveDesktop = NULL;
 
 
 static bool visible = true;
@@ -309,6 +312,10 @@ LRESULT CALLBACK WndProc(
         }
 		app_graphics_resize(LOWORD(lParam), HIWORD(lParam));
 		return 0;
+    default:
+        if ( WM_BOINCSFW == uMsg ) {
+            SetForegroundWindow(hWnd);
+        }
 	}
 
 	// Pass All Unhandled Messages To DefWindowProc

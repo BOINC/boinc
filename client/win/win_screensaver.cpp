@@ -47,6 +47,17 @@
 #include "win_util.h"
 
 
+//
+// Define the stuff needed to actually do a set foreground window on
+//   Windows 2000 or later machines.
+//
+#ifndef BSF_ALLOWSFW
+#define BSF_ALLOWSFW            0x00000080
+#endif
+
+const UINT WM_BOINCSFW = RegisterWindowMessage(TEXT("BOINCSetForegroundWindow"));
+
+
 static CScreensaver* gs_pScreensaver = NULL;
 
 
@@ -60,19 +71,18 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 #ifdef _DEBUG
     // Initialize Diagnostics when compiled for debug
-    try {
-        boinc_init_diagnostics (
-            BOINC_DIAG_DUMPCALLSTACKENABLED | 
-            BOINC_DIAG_HEAPCHECKENABLED |
-            BOINC_DIAG_MEMORYLEAKCHECKENABLED |
-            BOINC_DIAG_ARCHIVESTDERR |
-            BOINC_DIAG_REDIRECTSTDERROVERWRITE |
-            BOINC_DIAG_TRACETOSTDERR
-        );
-    }
-    catch (boinc_runtime_base_exception e)
+    retval = boinc_init_diagnostics (
+        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_MEMORYLEAKCHECKENABLED |
+        BOINC_DIAG_ARCHIVESTDERR |
+        BOINC_DIAG_REDIRECTSTDERROVERWRITE |
+        BOINC_DIAG_TRACETOSTDERR
+    );
+    if (retval) 
     {
-        MessageBox(NULL, e.what(), "BOINC SCreensaver Diagnostic Error", MB_OK);
+        BOINCTRACE("WinMain - BOINC Screensaver Diagnostic Error '%d'", retval);
+        MessageBox(NULL, NULL, "BOINC Screensaver Diagnostic Error", MB_OK);
     }
 #endif
 
@@ -573,7 +583,7 @@ HRESULT CScreensaver::CreateSaverWindow()
             m_Monitors[0].hWnd = m_hWnd;
             GetClientRect( m_hWnd, &m_rcRenderTotal );
             GetClientRect( m_hWnd, &m_rcRenderCurDevice );
-			SetTimer(m_hWnd, 2, 1000, NULL);
+			SetTimer(m_hWnd, 2, 10000, NULL);
             break;
 
         case sm_full:
@@ -606,7 +616,7 @@ HRESULT CScreensaver::CreateSaverWindow()
                     if( m_hWnd == NULL )
 						m_hWnd = pMonitorInfo->hWnd;
 
-					SetTimer(pMonitorInfo->hWnd, 2, 1000, NULL);
+					SetTimer(pMonitorInfo->hWnd, 2, 10000, NULL);
 				}
             }
     }
@@ -867,6 +877,20 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                                         {
                                             BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Graphics Window Detected but NOT the foreground window, bringing window to foreground.\n"));
                                             SetForegroundWindow(hwndBOINCGraphicsWindow);
+
+                                            hwndForegroundWindow = GetForegroundWindow();
+                                            if ( hwndForegroundWindow != hwndBOINCGraphicsWindow )
+                                            {
+                                                // This may be needed on Windows 2000 or better machines
+                                                DWORD dwComponents = BSM_APPLICATIONS;
+                                                BroadcastSystemMessage( 
+                                                    BSF_ALLOWSFW, 
+                                                    &dwComponents,
+                                                    WM_BOINCSFW,
+                                                    NULL,
+                                                    NULL
+                                                );
+                                            }
                                         }
                                     }
                                 break;
@@ -1794,8 +1818,11 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 	BOINCTRACE(_T("IsConfigStartupBOINC: Returning '%d'\n"), bRetVal);
 	return bRetVal;
 }
+
+
 #ifdef __GNUC__
 static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
 #else
 static volatile const char *BOINCrcsid="$Id$";
 #endif
+

@@ -21588,3 +21588,12 @@ Rom    18 Dec 2004
     lib/
         hostinfo.h
 
+Rom    18 Dec 2004
+    - Add another layer of checks for Windows 2000 or better machines to get
+        try and get graphics to appear.
+
+    api/
+        windows_opengl.C
+    client/win/
+        win_screensaver.cpp
+
