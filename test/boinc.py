@@ -26,23 +26,26 @@ def get_env_var(name, default = None):
         sys.exit(1)
 
 # VERBOSE: 0 = print nothing
-#          1 = print some, and overwrite lines (default)
+#          1 = print some (default
+#              if output is a tty, overwrite lines.
 #          2 = print all
 
 VERBOSE = int(get_env_var('TEST_VERBOSE', 1))
+TTY = os.isatty(1)
+OVERWRITE = TTY and VERBOSE==1
 
 def verbose_echo(level, line):
     if level == 0:
-        if VERBOSE == 1:
+        if OVERWRITE:
             print
         print line
     elif VERBOSE >= level:
-        if VERBOSE >= 2:
-            print line
-        elif VERBOSE == 1:
+        if OVERWRITE:
             print "\r                                                                               ",
             print "\r", line,
             sys.stdout.flush()
+        else:
+            print line
 
 def fatal_error(msg):
     global errors
@@ -922,7 +925,7 @@ def test_done():
         sys.exit(int(errors))
     else:
         verbose_echo(1, "Passed test!")
-        if VERBOSE == 1:
+        if OVERWRITE:
             print
         sys.exit(0)
 
