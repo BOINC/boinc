@@ -22666,3 +22666,15 @@ David  13 Jan 2005
         user/
             explain_state.php
             info.php
+
+David  13 Jan 2005
+    - add "hidden" fields to thread and post tables,
+        in preparation for message board moderation features
+
+    NOTE TO PROJECTS: apply this update if you're using current PHP.
+    It doesn't hurt to apply it anyway.
+
+    db/
+        schema.sql
+    html/ops/
+        db_update.php

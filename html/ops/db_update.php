@@ -214,6 +214,11 @@ function update_1_7_2005() {
     mysql_query("alter table forum_preferences add ignorelist varchar(254) not null");
 }
 
+function update_1_13_2005() {
+    mysql_query("alter table thread add hidden integer not null");
+    mysql_query("alter table post add hidden integer not null");
+}
+
 //update_10_25_2004();
 
 ?>

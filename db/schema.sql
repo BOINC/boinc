@@ -351,6 +351,8 @@ create table thread (
         -- in help desk: # people who indicated they had same problem
     create_time         integer     not null,
         -- when this record was created
+    hidden              integer     not null,
+        -- nonzero if hidden by moderators
     primary key (id)
 );
 
@@ -371,6 +373,8 @@ create table post (
     score               double      not null,
     votes               integer     not null,
     signature           tinyint(1) unsigned not null default 0,
+    hidden              integer     not null,
+        -- nonzero if hidden by moderators
     primary key (id)
 );
 
