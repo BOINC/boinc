@@ -47,7 +47,9 @@
     #include <AGL/aglRenderers.h>
     #include <OpenGL/gl.h>
     #include <OpenGL/glu.h>
-#include <GLUT/glut.h>
+    #include <GLUT/glut.h>
+
+    #include "mac_carbon_gl.h"
 #endif
 
 #ifdef _WIN32
@@ -128,7 +130,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
     int argc;
 
     command_line = GetCommandLine();
-	argc = parse_command_line( command_line, argv );
+    argc = parse_command_line( command_line, argv );
     return main(argc, argv);
 }
 #endif
@@ -161,10 +163,10 @@ int main(int argc, char **argv) {
     }
     in = fopen(resolved_name, "r");
     boinc_resolve_filename(CHECKPOINT_FILE, resolved_name, sizeof(resolved_name));
-	if (in == NULL) {
-		fprintf( stderr, "Couldn't find input file.\n" );
-		exit(-1);
-	}
+    if (in == NULL) {
+            fprintf( stderr, "Couldn't find input file.\n" );
+            exit(-1);
+    }
     state = fopen(resolved_name, "r");
     if (state) {
         fscanf(state, "%d", &nchars);
@@ -204,7 +206,7 @@ int main(int argc, char **argv) {
         if (run_slow) {
             boinc_sleep(1);
         }
-
+        
         if (raise_signal) {
             raise(SIGHUP);
         }
@@ -236,29 +238,27 @@ int main(int argc, char **argv) {
 
 #ifdef BOINC_APP_GRAPHICS
 
-GLvoid glPrint(const char *fmt, ...);
-
 int DrawGLScene(GLvoid)      // Here's Where We Do All The Drawing
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    // Clear Screen And Depth Buffer
     glLoadIdentity();                                    // Reset The Current Modelview Matrix
     glColor3f(1,1,1);
 
-	glRasterPos3f(xPos, yPos, -3);
+    glRasterPos3f(xPos, yPos, -3);
     glPrint(the_char);
 
     xPos += xDelta;
     yPos += yDelta;
     if (xPos < -1 || xPos > 1) xDelta *= -1;
     if (yPos < -1 || yPos > 1) yDelta *= -1;
+    
+    glRasterPos3f(-1.3, 1.1, -3);
+    glPrint("User: %s", uc_aid.user_name);
 
-	glRasterPos3f(-1.3, 1.1, -3);
-	glPrint("User: %s", uc_aid.user_name);
-
-	glRasterPos3f(-1.3, 1.0, -3);
+    glRasterPos3f(-1.3, 1.0, -3);
     glPrint("Team: %s", uc_aid.team_name);
 
-	glRasterPos3f(-1.3, 0.9, -3);
+    glRasterPos3f(-1.3, 0.9, -3);
     glPrint("CPU Time: %f", uc_aid.wu_cpu_time);
 
     return TRUE;                                        // Everything Went OK
