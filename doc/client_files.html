@@ -8,13 +8,15 @@ home directory:
 <ul>
 <li>
 <b>prefs.xml</b>:
-The user's latest preferences; see below.
+The user's global preferences; see below.
 <li>
-<b>client_state.xml</b>: a description of the files,
+<b>client_state.xml</b> describes of the files,
 application, workunits and results present on this client.
 <li>
-<b>Account files</b> describing the participant's account
-in each subscribed project.
+<b>Account files</b> describes the participant's account
+in each subscribed project,
+including the resource share and project-specific preferences.
+It contains no host-specific information.
 The name of the account file is <b>account_PROJECT.xml</b>,
 where PROJECT is an encoded version of the project's master URL.
 <li>
@@ -35,7 +37,7 @@ The core client creates "soft link" files in the slot directory,
 linking to the corresponding files in the project directory.
 
 <h3>Format of account files</h3>
-This format of an account file is as follows:
+The format of an account file is as follows:
 <pre>
 &lt;account>
     &lt;master_url>http://www.myproject.com/&lt;/master_url>
@@ -57,4 +59,6 @@ This format of prefs.xml is as follows:
     &lt;high_water_days>2&lt;/high_water_days>
     &lt;low_water_days>1&lt;/low_water_days>
 &lt;/preferences>
+
+XXX this is not complete
 </pre>
