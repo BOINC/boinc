@@ -3094,3 +3094,24 @@ Eric   Feb 04, 2003
         win/
             wingui.h
             wingui_mainwindow.cpp,h
+
+David   Feb 4 2003
+    - removed graphics logic from boinc_ready_to_checkpoint().
+        Rendering logic is now entirely in the GUI thread.
+        It's up to the application to synchronize computation and rendering.
+    - added REDUCED_ARRAY::draw_part()
+    - bug fixes in db_dump
+
+    api/
+        boinc_api.C
+        graphics_data.C,h
+        reduce.cpp,h
+        windows_opengl.cpp
+    db/
+        db_mysql.C
+    doc/
+        db_dump.html (new)
+        index.html
+        participate.html
+    sched/
+        db_dump.C

@@ -89,19 +89,25 @@ int update_teams() {
     return 0;
 }
 
-void write_host(HOST& host, FILE* f, bool detail) {
+void write_host(HOST& host, FILE* f, bool detail, bool show_user) {
     fprintf(f,
         "<host>\n"
-        "    <id>%d</id>\n"
-        "    <userid>%d</userid>\n"
+        "    <id>%d</id>\n",
+        host.id
+    );
+    if (show_user) {
+        fprintf(f,
+            "    <userid>%d</userid>\n",
+            host.userid
+        );
+    }
+    fprintf(f,
         "    <total_credit>%f</total_credit>\n"
         "    <expavg_credit>%f</expavg_credit>\n"
         "    <p_vendor>%s</p_vendor>\n"
         "    <p_model>%s</p_model>\n"
         "    <os_name>%s</os_name>\n"
         "    <os_version>%s</os_version>\n",
-        host.id,
-        host.userid,
         host.total_credit,
         host.expavg_credit,
         host.p_vendor,
@@ -144,25 +150,29 @@ void write_host(HOST& host, FILE* f, bool detail) {
     );
 }
 
-void write_user(USER& user, FILE* f, bool detail) {
+void write_user(USER& user, FILE* f, bool detail, bool show_team) {
     HOST host;
     fprintf(f,
         "<user>\n"
         " <id>%d</id>\n"
         " <name>%s</name>\n"
         " <total_credit>%f</total_credit>\n"
-        " <expavg_credit>%f</expavg_credit>\n"
-        " <teamid>%d</teamid>\n",
+        " <expavg_credit>%f</expavg_credit>\n",
         user.id,
         user.name,
         user.total_credit,
-        user.expavg_credit,
-        user.teamid
+        user.expavg_credit
     );
+    if (show_team) {
+        fprintf(f,
+            " <teamid>%d</teamid>\n",
+            user.teamid
+        );
+    }
     if (detail) {
         host.userid = user.id;
         while (!db_host_enum_userid(host)) {
-            write_host(host, f, false);
+            write_host(host, f, false, false);
         }
     }
     fprintf(f,
@@ -218,7 +228,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
         );
         user.teamid = team.id;
         while (!db_user_enum_teamid(user)) {
-            write_user(user, f, false);
+            write_user(user, f, false, false);
         }
     }
     fprintf(f,
@@ -317,7 +327,7 @@ void user_total_credit() {
             nfile++;
             nrec = 0;
         }
-        write_user(user, f, false);
+        write_user(user, f, false, true);
         nrec++;
         if (nrec == NRECS_PER_FILE_SUMMARY) {
             fclose(f);
@@ -343,7 +353,7 @@ void user_expavg_credit() {
             nfile++;
             nrec = 0;
         }
-        write_user(user, f, false);
+        write_user(user, f, false, true);
         nrec++;
         if (nrec == NRECS_PER_FILE_SUMMARY) {
             fclose(f);
@@ -369,7 +379,7 @@ void user_id() {
             nfile++;
             nrec = 0;
         }
-        write_user(user, f, true);
+        write_user(user, f, true, true);
         nrec++;
         if (nrec == NRECS_PER_FILE_DETAIL) {
             fclose(f);
@@ -395,7 +405,7 @@ void host_total_credit() {
             nfile++;
             nrec = 0;
         }
-        write_host(host, f, false);
+        write_host(host, f, false, true);
         nrec++;
         if (nrec == NRECS_PER_FILE_SUMMARY) {
             fclose(f);
@@ -420,7 +430,7 @@ void host_expavg_credit() {
             nfile++;
             nrec = 0;
         }
-        write_host(host, f, false);
+        write_host(host, f, false, true);
         nrec++;
         if (nrec == NRECS_PER_FILE_SUMMARY) {
             fclose(f);
@@ -446,7 +456,7 @@ void host_id() {
             nfile++;
             nrec = 0;
         }
-        write_host(host, f, true);
+        write_host(host, f, true, true);
         nrec++;
         if (nrec == NRECS_PER_FILE_DETAIL) {
             fclose(f);

@@ -89,13 +89,11 @@ static APP_INIT_DATA aid;
 GRAPHICS_INFO gi;
 static double timer_period = 1.0/50.0;    // 50 Hz timer
 static double time_until_checkpoint;
-static double time_until_redraw;
 static double time_until_fraction_done_update;
 static double time_until_suspend_check;
 static double fraction_done;
 static double last_checkpoint_cpu_time;
 static bool ready_to_checkpoint = false;
-static bool ready_to_redraw = false;
 static bool check_susp_quit = false;
 static bool write_frac_done = false;
 static bool this_process_active;
@@ -164,7 +162,6 @@ int boinc_init() {
 #endif
     time_until_checkpoint = aid.checkpoint_period;
     time_until_fraction_done_update = aid.fraction_done_update_period;
-    time_until_redraw = gi.refresh_period;
     time_until_suspend_check = 1;  // check every 1 second for suspend request from core client
     this_process_active = true;
     
@@ -310,34 +307,6 @@ int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
 }
 
 bool boinc_time_to_checkpoint() {
-    // Tell the graphics thread it's OK to draw now
-#ifdef BOINC_APP_GRAPHICS
-    if (ready_to_redraw && using_opengl) {
-        ok_to_draw = 1;
-        // And wait for the graphics thread to notify us that it's done drawing
-#ifdef _WIN32
-		// Notify the graphics thread
-		SetEvent(hGraphicsDrawEvent);
-		// Reset the draw done event
-        ResetEvent(hDoneDrawingEvent);
-        while (ok_to_draw) {
-            // Wait for drawing to finish.  We don't do an infinite wait here to avoid the
-            // possibility of deadlock (which was happening with an infinite wait value)
-            WaitForSingleObject( hDoneDrawingEvent, 10 );
-        }
-#endif _WIN32
-#ifdef __APPLE_CC__
-        while (ok_to_draw) {
-            MPWaitOnQueue( drawQueue, NULL, NULL, NULL, kDurationImmediate );
-            YieldToAnyThread();
-        }
-#endif  // __APPLE_CC__
-        // Reset the refresh counter
-        time_until_redraw = gi.refresh_period;
-        ready_to_redraw = false;
-    }
-#endif  // BOINC_APP_GRAPHICS
-
     if (check_susp_quit) {
         FILE* f = fopen(SUSPEND_QUIT_FILE, "r");
         if(f) {
@@ -478,13 +447,6 @@ void on_timer(int a) {
         time_until_checkpoint -= timer_period;
         if (time_until_checkpoint <= 0) {
             ready_to_checkpoint = true;
-        }
-    }
-
-    if (!ready_to_redraw) {
-        time_until_redraw -= timer_period;
-        if (time_until_redraw <= 0) {
-            ready_to_redraw = true;
         }
     }
 

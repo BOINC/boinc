@@ -359,6 +359,11 @@ void REDUCED_ARRAY::draw_new() {
     draw(ndrawn_rows, nvalid_rows);
 }
 
+void REDUCED_ARRAY::draw_part(double frac) {
+    int nr = (int)(nvalid_rows*frac);
+    draw(0, nr);
+}
+
 void REDUCED_ARRAY::draw_axes() {
     glBegin(GL_QUADS);
     glColor3f(.2, .2, .2);

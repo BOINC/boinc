@@ -64,7 +64,6 @@ public:
 class GRAPHICS_DOUBLE_BUFFER {
     GRAPHICS_BUFFER* b1, *b2;
     GRAPHICS_BUFFER* get_buffer(int state);
-    GRAPHICS_BUFFER* other_buffer(GRAPHICS_BUFFER*);
 public:
     void init(GRAPHICS_BUFFER*, GRAPHICS_BUFFER*);
 

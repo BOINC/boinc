@@ -11,12 +11,6 @@ GRAPHICS_BUFFER* GRAPHICS_DOUBLE_BUFFER::get_buffer(int state) {
     return 0;
 }
 
-GRAPHICS_BUFFER* GRAPHICS_DOUBLE_BUFFER::other_buffer(GRAPHICS_BUFFER* b) {
-    if (b == b1) return b2;
-    if (b == b2) return b1;
-    return 0;
-}
-
 GRAPHICS_BUFFER* GRAPHICS_DOUBLE_BUFFER::get_render_buffer() {
     GRAPHICS_BUFFER* b, *other;
 

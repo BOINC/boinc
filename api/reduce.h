@@ -62,5 +62,6 @@ public:
     void draw(int, int);
     void draw_new();
     void draw_all();
+    void draw_part(double frac);
     void draw_axes();
 };

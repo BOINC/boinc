@@ -609,11 +609,11 @@ int db_user_lookup_email_addr(USER& p) {
 
 int db_user_enum_id(USER& p) {
     static ENUM e;
-    return boinc_db.db_enum(e, &p, TYPE_TEAM, "order by id");
+    return boinc_db.db_enum(e, &p, TYPE_USER, "order by id");
 }
 int db_user_enum_total_credit(USER& p) {
     static ENUM e;
-    return boinc_db.db_enum(e, &p, TYPE_TEAM, "order by total_credit desc");
+    return boinc_db.db_enum(e, &p, TYPE_USER, "order by total_credit desc");
 }
 
 int db_user_enum_expavg_credit(USER& p) {

@@ -40,7 +40,6 @@ HWND		hWnd=NULL;		// Holds Our Window Handle
 HINSTANCE	hInstance;		// Holds The Instance Of The Application
 int			mouse_thresh = 3;
 POINT		initCursorPos;
-extern int ok_to_draw;
 UINT		BOINC_GFX_MODE_MSG;
 
 GLuint	main_font;			// Base Display List For The Font Set
@@ -53,9 +52,9 @@ bool	active=TRUE;		// Window Active Flag Set To TRUE By Default
 bool	fullscreen=TRUE;	// Fullscreen Flag Set To Fullscreen Mode By Default
 BOOL	win_loop_done=FALSE;			// Bool Variable To Exit Loop
 int		counter,old_left,old_top,old_right,old_bottom,cur_gfx_mode,old_gfx_mode;
-extern HANDLE hGraphicsDrawEvent,hQuitEvent,hDoneDrawingEvent;
+extern HANDLE hQuitEvent;
 
-int DrawGLScene(GLvoid);
+extern int app_render(int, int, double);
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 void renderBitmapString( float x, float y, void *font, char *string);
@@ -448,7 +447,6 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 
 DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	MSG			msg;		// Windows Message Structure
-	HANDLE		objs[1];
  
 	fullscreen=FALSE;							// Windowed Mode
 
@@ -483,22 +481,14 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 				DispatchMessage(&msg);				// Dispatch The Message
 			}
 		} else {
-			objs[0] = hGraphicsDrawEvent;
-			MsgWaitForMultipleObjects( 1, objs, FALSE, 1000, QS_ALLEVENTS|QS_POSTMESSAGE );
+			MsgWaitForMultipleObjects( 0, NULL, FALSE, 100, QS_ALLEVENTS|QS_POSTMESSAGE );
 		}
 		if (ok_to_draw) {						// Window Active?
 			if (active) {	// Time To Update Screen
 				// Draw The Scene
-				DrawGLScene();
-				// Swap Buffers (Double Buffering).  This seems to take lots of CPU time
-				SwapBuffers(hDC);
+				app_render();
+				SwapBuffers(hDC);        // This seems to take lots of CPU time
 			}
-			// TODO: Do we need a mutex for ok_to_draw?
-			ok_to_draw = 0;
-			// Signal the worker thread that we're done drawing
-			SetEvent(hDoneDrawingEvent);
-			// Put hGraphicsDrawEvent in unsignaled state so we don't immediately wake up
-			ResetEvent(hGraphicsDrawEvent);
 		}
 	}
 
