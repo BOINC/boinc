@@ -206,7 +206,9 @@ for object in objects_to_commit:
 if not tools.query_yesno("Continue"):
     raise SystemExit
 
+print "Committed:"
 for object in objects_to_commit:
     object.commit()
+    print "   ", object
 
 print "Done"

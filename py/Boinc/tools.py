@@ -59,6 +59,7 @@ def process_executable_file(file, signature_text=None, quiet=False, executable=T
     target_file_base = get_kludge_url_filename(source_file_base)
     target_dir = config.config.download_dir
     target_path = os.path.join(target_dir, target_file_base)
+    target_url = os.path.join(config.config.download_url, target_file_base)
     if file != target_path:
         if not quiet:
             print "Copying %s to %s"%(source_file_base, target_dir)
@@ -67,8 +68,7 @@ def process_executable_file(file, signature_text=None, quiet=False, executable=T
     xml = '''<file_info>
     <name>%s</name>
     <url>%s</url>
-''' %(file_base,
-      os.path.join(config.config.download_url, target_file_base))
+''' %(source_file_base,target_url)
     if executable:
         xml += '    <executable/>\n'
     if signature_text:
