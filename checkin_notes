@@ -13007,3 +13007,10 @@ Karl 2004-04-04
     lib/
         exception.h
         util.C
+
+    - install_boinc_files(): *do* copy sample_index.php to index.php, unless
+      it already exists (otherwise test scripts don't work)
+
+    py/Boinc/
+        setup_project.py
+

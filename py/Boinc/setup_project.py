@@ -123,7 +123,9 @@ def my_link(src,dest):
         raise
 
 # install = options.install_function
-def install(src, dest):
+def install(src, dest, unless_exists=False):
+    if unless_exists and os.path.exists(dest):
+        return
     options.install_function(src, dest)
 
 def install_glob(glob_source, dest, failok=False):
@@ -268,6 +270,7 @@ def install_boinc_files(dest_dir):
     install_glob(srcdir('html/user/*.inc'), dir('html/user/'))
     install_glob(srcdir('html/user/*.css'), dir('html/user/'))
     install_glob(srcdir('html/user/*.txt'), dir('html/user/'))
+    install(srcdir('html/user/sample_index.php'), dir('html/user/index.php'), unless_exists=True)
 
     # copy all the backend programs
     map(lambda (s): install(builddir('sched',s), dir('cgi-bin',s)),
