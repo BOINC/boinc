@@ -378,4 +378,19 @@ Michael Gary	June 06, 2002
 	test_min_water_prefs.php (new)
 	test_normal_water_prefs.php (new)
 
+Michael Gary	June 07, 2002
+    - Converted scheduling server to Fast CGI
+
+    sched/
+	feeder.C
+	handle_request.C
+	main.C
+	sched_shmem.C
+	main.C
+	sched_shmem.C
+	server_types.C
+	show_shmem.C
+	Makefile
+    lib/
+	parse.C
 

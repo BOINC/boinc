@@ -20,6 +20,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "/usr/local/include/fcgi_stdio.h" 
+#define _USING_FCGI_ //used to tell lib to inlcude fcgi_stdio.h
+
 #include "db.h"
 #include "parse.h"
 #include "shmem.h"
@@ -48,6 +51,7 @@ int main() {
     SCHED_SHMEM* ssp;
     void* p;
 
+    while(FCGI_Accept() >= 0) {
     retval = attach_shmem(BOINC_KEY, &p);
     if (retval) {
         printf("can't attach shmem\n");
@@ -110,4 +114,5 @@ int main() {
 
     unlink(req_path);
     unlink(reply_path);
+    }
 }

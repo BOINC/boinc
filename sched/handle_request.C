@@ -21,6 +21,8 @@
 #include <sys/wait.h>
 #include <time.h>
 
+#include "/usr/local/include/fcgi_stdio.h"
+
 #include "db.h"
 #include "backend_lib.h"
 #include "parse.h"

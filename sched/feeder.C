@@ -46,6 +46,8 @@
 #include <unistd.h>
 #endif
 
+#include "/usr/local/include/fcgi_stdio.h"
+
 #include "db.h"
 #include "shmem.h"
 #include "sched_shmem.h"

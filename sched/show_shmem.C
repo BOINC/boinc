@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#include "/usr/local/include/fcgi_stdio.h"
+
 #include "shmem.h"
 #include "sched_shmem.h"
 

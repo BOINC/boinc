@@ -45,7 +45,7 @@ HIGH-PRIORITY (must be done to support SETI@home)
 
 - complete client side and test hi/lo water mark scheme
     - initialize rsc_fpops and rsc_iops in client WORKUNIT 
-    - ensure server sends correct number of work units
+    - check server sends correct number of work units
     - check client requests correct number of seconds of work
 
 - measure hardware parameters: CPU speed, #CPUs, memory, disk
@@ -178,3 +178,4 @@ DONE (may need test)
 
 - measure bandwidth on each network xfer
     maintain exponential average, weighted by #bytes xferred
+
