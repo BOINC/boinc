@@ -1,6 +1,9 @@
 <?php
 
 function show_user_stats($user) {
+    echo TABLE2."\n";
+    echo "<tr>".TD2.LG_FONT."<b>User Stats:</b></font></td></tr>\n";
+    row("<b>User Name:   </b>", $user->name);
     $row = sprintf("<b>%s user since:   </b>", $project);
     row($row, time_str($user->create_time));
     row("<b>Total credit:   </b>", $user->total_credit);
@@ -10,30 +13,45 @@ function show_user_stats($user) {
         $team = mysql_fetch_object($result);
         row("<b>Team:   </b>", "<a href=team_display.php?id=$team->id>$team->name</a>");
     } else {
-        row("<b>Team:   </b>", "none");
+        row("<b>Team:   </b>", "None");
     }
+    echo "</table>\n";
 }
 
 function show_user_profile($user) {
+    echo TABLE2."\n";
+    echo "<tr>".TD2.LG_FONT."<b>User Information:</b></font></td></tr>\n";
     row("<b>name</b>", $user->name);
-    row("<b>email address<b>", $user->email_addr);
+    row("<b>email address</b>", $user->email_addr);
     row("<b>country</b>", $user->country);
     row("<b>postal (ZIP) code</b>", $user->postal_code);
-    echo "<tr><td align=right><a href=edit_user_info.php><font size=-1>Edit the above information</font></a></td>\n";
+    echo "<tr><td align=right><a href=edit_user_info.php>Edit user information</a></td>\n";
     if (1) {
         echo "<td><br></td></tr>\n";
     } else {
         echo "<td align=center><a href=change_password.php>Change Password</a></td></tr>\n";
     }
+    echo "</table>\n";
 }
 
 function show_hosts($user) {
-    $result = mysql_query("select * from host where userid=$user->id");
+    $result = mysql_query("select * from host where userid=$user->id order by rpc_time desc");
+    echo VISTABLE."\n";
+    echo "<tr><td>Host name</td><td>Total Credit</td><td>Recent credit</td></tr>";
     while ($host = mysql_fetch_object($result)) {
         echo "<p>\n";
-        show_host($host);
+        show_host_brief($host);
     }
+    echo "</table>\n";
     mysql_free_result($result);
+}
+
+function show_host_brief($host) {
+    echo "<tr>
+              <td><a href=show_host_detail.php?hostid=$host->id>$host->domain_name</a></td>
+              <td>$host->total_credit</td>
+              <td>$host->expavg_credit</td>
+          </tr>";
 }
 
 // show a summary of the user.
@@ -53,7 +71,7 @@ function show_user_page_private($user) {
 }
 
 function user_table_start() {
-    echo TABLE."
+    echo VISTABLE."
         <tr><th>Name</th><th>Average credit</th><th>Total credit</th>
         <th>Participant since</th></tr>";
 }

@@ -14,6 +14,7 @@ define("TD2", "<td colspan=2 bgcolor=cccccc>");
 define("TD3", "<td colspan=3 bgcolor=cccccc>");
 
 define("TABLE", "<table cellpadding=10 cellspacing=4 border=0 width=100%>");
+define("VISTABLE", "<table cellpadding=2 cellspacing=0 border=1 width=100%>");
 define("TABLE2", "<table width=580>");
 
 define("BG_COLOR", " bgcolor=ffffff ");
@@ -22,6 +23,12 @@ define("TITLE_FONT", " <font color=ffffff> ");
 define("BODY_COLOR", " bgcolor=ffffff ");
 define("PROJECT", "Astropulse");
 define("MASTER_URL", "http://maggie.ssl.berkeley.edu/ap/");
+
+// Sends the authenticator to the given email address
+function send_auth_email($email_addr, $auth) {
+    mail($email_addr, "Account information for ".PROJECT,
+         "The URL for this project is \n\n".MASTER_URL."\n\nYour account key is \n\n$auth\n\nCopy this information into the BOINC client.");
+}
 
 // Initializes the session and returns the authenticator
 // for the session (if any)
@@ -71,7 +78,7 @@ function page_tail() {
 
     // put your copyright notice etc. here
 
-    echo "<hr>Copyright (c) 2002 ".PROJECT."\n";
+    echo "<hr>Copyright (c) 2002 Sample Project\n";
 }
 
 function date_str($when) {

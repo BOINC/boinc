@@ -14,7 +14,7 @@ EOT;
 }
 
 function show_host_row($host) {
-    $result = mysql_query("select * from user where id = $host->id");
+    $result = mysql_query("select * from user where id = $host->userid");
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
     echo "<tr>

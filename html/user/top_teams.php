@@ -3,7 +3,7 @@
     require_once("user.inc");
 
 function team_table_start() {
-    echo TABLE."
+    echo VISTABLE."
         <tr><th>Name</th><th>Average credit</th><th>Total credit</th>
         <th>Founded</th></tr>";
 }
@@ -50,6 +50,6 @@ function show_team_row($team) {
         show_team_row($team);
     }
     mysql_free_result($result);
-    echo "</table>\n";
+    echo "</table>\n<p>\n";
     page_tail();
 ?>

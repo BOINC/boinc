@@ -6,20 +6,23 @@ require_once("db.inc");
 db_init();
 
 page_head("Password");
-if (strlen($HTTP_POST_VARS["Submit"])) {
+$email_addr = $HTTP_POST_VARS["email_addr"];
+if (strlen($email_addr)) {
     $query = sprintf(
         "select * from user where email_addr = '%s'",
-        $HTTP_POST_VARS["email_addr"]
+        $email_addr
     );
     $result = mysql_query($query);
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
-    mail($user->email_addr, "BOINC password", "Your BOINC password is " . $user->web_password);
+    send_auth_email($user->email_addr,$user->authenticator);
 }
 
 if (!$user) {
-    echo "There is no user with that password. ";
-    echo "Try reentering your email address.";
+    echo "There is no user with that password. <br>
+          Try reentering your email address.<p>";
+} else {
+    echo "Your account key has been emailed to ".$email_addr.".<p>";
 }
 
 page_tail();

@@ -66,5 +66,6 @@ function show_error($str) {
         and give it your account key.
         <p>";
 
-    mail($new_email_addr, "Account information for ".PROJECT,"The URL for this project is \n\n".MASTER_URL."\n\nYour account key is \n\n$authenticator\n\nCopy this information into the BOINC client.");
+    send_auth_email($new_email_addr, $authenticator);
+
     page_tail();

@@ -5,7 +5,7 @@
     echo "<form method=post action=login_action.php>
         <table cellpadding=8>
         <tr><td align=right>
-        Your account ID:
+        Your account key:
         </td><td>
         <input name=authenticator size=40>
         </td></tr>
@@ -16,6 +16,9 @@
         <input type=submit value='Log in'>
         </td></tr>
         </table>";
+    echo "<font size=1>
+          If you don't know your account key, <a href=get_acct_key.php>click here</a>.<p>
+          </font>";
 
     page_tail();
 ?>
