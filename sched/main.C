@@ -179,7 +179,7 @@ int main() {
         send_message("Project is temporarily shut down for maintenance", 3600);
         goto done;
     }
-    printf("Content-type: text/plain\n\n");
+    fprintf(stdout,"Content-type: text/plain\n\n");
     if (use_files) {
         // the code below is convoluted because,
         // instead of going from stdin to stdout directly,
