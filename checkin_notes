@@ -1,13 +1,13 @@
-David A.	April 10 2002
+David A.        April 10 2002
     Initial checkin of all files.
     The system is fairly feature-complete and
     runs a number of test cases correctly.
     Currently runs only on Linux.
 
-David A.	April 11 2002
+David A.        April 11 2002
     - Got things to compile on Solaris.
     - Pass in platform name, version number from Makefile
-	(platform name comes from configure)
+        (platform name comes from configure)
 
 David A.        May 15 2002
     - Allow applications to have multiple files
@@ -111,54 +111,54 @@ David A.        May 23 2002
         add.C
         create_work.C
 
-Hiram C.	Fri May 24 23:34:59 PDT 2002
-	files db/dependencies and client/config.status and client/config.log
-		removed.  These are build time files and should not belong
-		in the source tree.  They confuse subsequent builds.
-	files updated: configure configure.in api/Makefile.in
-		apps/Makefile.in client/Makefile.in db/Makefile.in
-		db/mysql.h lib/Makefile.in sched/Makefile.in
-		tools/Makefile.in
+Hiram C.        Fri May 24 23:34:59 PDT 2002
+        files db/dependencies and client/config.status and client/config.log
+                removed.  These are build time files and should not belong
+                in the source tree.  They confuse subsequent builds.
+        files updated: configure configure.in api/Makefile.in
+                apps/Makefile.in client/Makefile.in db/Makefile.in
+                db/mysql.h lib/Makefile.in sched/Makefile.in
+                tools/Makefile.in
 
-	These Makefile.in changes will allow the build to be performed
-	outside the source tree.  This is convenient for several
-	reasons.  The number one reason is that this allows the source
-	tree to remain untouched by the build and therefore clean.
-	This will prevent garbage build files from being checked in
-	during a 'cvs commit'
+        These Makefile.in changes will allow the build to be performed
+        outside the source tree.  This is convenient for several
+        reasons.  The number one reason is that this allows the source
+        tree to remain untouched by the build and therefore clean.
+        This will prevent garbage build files from being checked in
+        during a 'cvs commit'
 
-	To run a build outside the source tree, simply make an object
-	directory anywhere else that you would like to work, then just
-	execute the configure script in the top-level boinc directory.
-		$ mkdir boincobj
-		$ cd boincobj
-		$ <... path to source tree ...>/boinc/configure
-		$ make > make.out 2>&1 &
+        To run a build outside the source tree, simply make an object
+        directory anywhere else that you would like to work, then just
+        execute the configure script in the top-level boinc directory.
+                $ mkdir boincobj
+                $ cd boincobj
+                $ <... path to source tree ...>/boinc/configure
+                $ make > make.out 2>&1 &
 
-	Note the examples in apps/Makefile.in and sched/Makefile.in
-	of how to use the top_srcdir variable to locate include files
-	in the source tree outside of the current directory.  Local
-	references to other object files and libraries produced by
-	the build remain as local .. references.
+        Note the examples in apps/Makefile.in and sched/Makefile.in
+        of how to use the top_srcdir variable to locate include files
+        in the source tree outside of the current directory.  Local
+        references to other object files and libraries produced by
+        the build remain as local .. references.
 
-	The change to configure.in, (and thus configure) and db/mysql.h
-	allow a proper identification of where the mysql .h files live.
-	The SSL location of /usr/local/mysql/include is a bit non-standard.
-	Most systems will have these in /usr/local/include/mysql
+        The change to configure.in, (and thus configure) and db/mysql.h
+        allow a proper identification of where the mysql .h files live.
+        The SSL location of /usr/local/mysql/include is a bit non-standard.
+        Most systems will have these in /usr/local/include/mysql
 
-Hiram C.		Sat May 25 09:20:25 PDT 2002
-	Continue updating:
-	Makefile.in config.guess configure configure.in api/Makefile.in
-	apps/Makefile.in client/Makefile.in client/config.guess
-	client/configure client/configure.in sched/Makefile.in
-	tools/Makefile.in
+Hiram C.                Sat May 25 09:20:25 PDT 2002
+        Continue updating:
+        Makefile.in config.guess configure configure.in api/Makefile.in
+        apps/Makefile.in client/Makefile.in client/config.guess
+        client/configure client/configure.in sched/Makefile.in
+        tools/Makefile.in
 
-	I have almost clean builds now on Solaris, Mac OS X,
-	and UnixWare.  There appears to be a missing sched_shmem.h
-	file from the source tree.
+        I have almost clean builds now on Solaris, Mac OS X,
+        and UnixWare.  There appears to be a missing sched_shmem.h
+        file from the source tree.
 
-	There is still cruft in this configure system.  I will continue
-	to work on it to clean it up.
+        There is still cruft in this configure system.  I will continue
+        to work on it to clean it up.
 
 David A.        May 29, 2002
     - Mostly implemented support for editing preferences,
@@ -228,15 +228,15 @@ David A.        May 29, 2002
         sched_shmem.C,h
 
 Hiram C.  Thu May 30 01:28:47 PDT 2002
-	updating: client/configure client/configure.in
-	client/net_xfer.C sched/Makefile.in sched/feeder.C
+        updating: client/configure client/configure.in
+        client/net_xfer.C sched/Makefile.in sched/feeder.C
 
-	This now builds just fine on Solaris, Linux and OpenUnix8.
-	And only two tiny errors remain for a Mac OS X build.
-	That being the specification of g++ in the sched/Makefile
-	and statvfs() is not available on the Mac for
-	the client/hostinfo_unix.C compile.  Need a substitute for
-	that function on the Mac.
+        This now builds just fine on Solaris, Linux and OpenUnix8.
+        And only two tiny errors remain for a Mac OS X build.
+        That being the specification of g++ in the sched/Makefile
+        and statvfs() is not available on the Mac for
+        the client/hostinfo_unix.C compile.  Need a substitute for
+        that function on the Mac.
 
 Eric H.  May 30, 2002
      Added safeguard to avoid removing root directory when
@@ -329,73 +329,73 @@ Eric Heien    June 03, 2002
         parse.h (removed, uses lib version now)
         Makefile.in
 
-Michael Gary	June 04, 2002
+Michael Gary        June 04, 2002
     - Added server side water level functionality, now sends as many work units
-	as necessary to fill the time requested.
+        as necessary to fill the time requested.
 
     sched/
-	handle_request.C
+        handle_request.C
 
 Eric Heien   June 06, 2002
     - Changes and additions made to begin porting to Windows.
     - This code will compile on Windows, but is not quite fully functional.
 
     client/
-	hostinfo_unix.C
-	hostinfo_win.C (added)
-	http.C
-	main.C
-	net_xfer.C
-	prefs.C
-	speed_stats.C
-	test_file_xfer.C
-	test_http.C
-	test_net_xfer.C
-	util.C
-	util.h
-	windows_cpp.h (added)
-	win_main.C (added)
+        hostinfo_unix.C
+        hostinfo_win.C (added)
+        http.C
+        main.C
+        net_xfer.C
+        prefs.C
+        speed_stats.C
+        test_file_xfer.C
+        test_http.C
+        test_net_xfer.C
+        util.C
+        util.h
+        windows_cpp.h (added)
+        win_main.C (added)
     lib/
-	md5.c
-	parse.C
+        md5.c
+        parse.C
 
-Michael Gary	June 06, 2002
+Michael Gary        June 06, 2002
     - Added client side water level functionality.
     - Added rsc_fpops and rsc_iops to the client WORKUNIT struct, bun not yet
-	functional since not initialized.
+        functional since not initialized.
     - Test scripts to check water level functionality, including minima and
-	maxima. Test scripts are based on test_prefs.php.
+        maxima. Test scripts are based on test_prefs.php.
 
     client/
-	client_state.h
-	cs_scheduler.C
-	client_types.h
+        client_state.h
+        cs_scheduler.C
+        client_types.h
     test/
-	max_water_prefs.xml (new)
-	min_water_prefs.xml (new)
-	normal_water_prefs.xml (new)
-	test_max_water_prefs.php (new)
-	test_min_water_prefs.php (new)
-	test_normal_water_prefs.php (new)
+        max_water_prefs.xml (new)
+        min_water_prefs.xml (new)
+        normal_water_prefs.xml (new)
+        test_max_water_prefs.php (new)
+        test_min_water_prefs.php (new)
+        test_normal_water_prefs.php (new)
 
-Michael Gary	June 07, 2002
+Michael Gary        June 07, 2002
     - Converted scheduling server to allow for Fast CGI. Fast CGI will only be
-	used if Makefile.in is replaced by Makefile.fcgi.in. Makefile.nofcgi.in
-	is a copy of the current Makefile.in.
+        used if Makefile.in is replaced by Makefile.fcgi.in. Makefile.nofcgi.in
+        is a copy of the current Makefile.in.
 
     sched/
-	feeder.C
-	handle_request.C
-	main.C
-	sched_shmem.C
-	main.C
-	sched_shmem.C
-	server_types.C
-	show_shmem.C
-	Makefile.nofcgi.in (new)
-	Makefile.fcgi.in (new)
+        feeder.C
+        handle_request.C
+        main.C
+        sched_shmem.C
+        main.C
+        sched_shmem.C
+        server_types.C
+        show_shmem.C
+        Makefile.nofcgi.in (new)
+        Makefile.fcgi.in (new)
     lib/
-	parse.C
+        parse.C
 
 Eric Heien    June 07, 2002
     - Added initial functionality for passing graphics preferences between core and app
@@ -407,33 +407,33 @@ Eric Heien    June 07, 2002
         gfx_interface.C
         gfx_interface.h
 
-Michael Gary		June 08, 2002
+Michael Gary                June 08, 2002
     - Moved fast cgi Makefile.in to boinc/sched_fcgi
     - make now makes fcgi in boinc/sched_fcgi
     - Added links to existing code where necessary for making fast cgi
-	scheduling server.
+        scheduling server.
 
     configure
     Makefile.in
     sched/
-	Makefile.nofcgi.in (removed)
-	Makefile.fcgi.in (removed)
-	Makefile.in
-	parse.C (added)
-	parse.h (added)
+        Makefile.nofcgi.in (removed)
+        Makefile.fcgi.in (removed)
+        Makefile.in
+        parse.C (added)
+        parse.h (added)
     sched_fcgi/ (added)
-	Makefile.in (added)
-	feeder.C (added)
-	handle_request.C (added)
-	handle_request.h (added)
-	main.C (added)
-	parse.C (added)
-	parse.h (added)
-	sched_shmem.C (added)
-	sched_shmem.h (added)
-	server_types.C (added)
-	server_types.h (added)
-	show_shmem.C (added)
+        Makefile.in (added)
+        feeder.C (added)
+        handle_request.C (added)
+        handle_request.h (added)
+        main.C (added)
+        parse.C (added)
+        parse.h (added)
+        sched_shmem.C (added)
+        sched_shmem.h (added)
+        server_types.C (added)
+        server_types.h (added)
+        show_shmem.C (added)
 
 David A     June 9 2002
     - added support for multiple URLs in a FILE_INFO
@@ -587,7 +587,7 @@ David A     June 21 2002
     html_user/
         index.html
 
-Michael Gary	June 21 2002
+Michael Gary        June 21 2002
     - added install to the make system to put executables
         in /usr/local/boinc
     - simplified make system for fast cgi scheduling server
@@ -634,7 +634,7 @@ Michael Gary	June 21 2002
         log_flags.php
     sched_fcgi/ (removed)
 
-Micahel Gary	6/23/2002
+Micahel Gary        6/23/2002
     - Checkpoint timer initialized in boinc_init.
     - Test script added for api.
 
@@ -648,7 +648,7 @@ Micahel Gary	6/23/2002
         ta_correct_f (new)
         core_to_app.xml.in (new)
 
-Michael Gary	6/25/2002
+Michael Gary        6/25/2002
     - Maggie is now the master url for boinc.
 
     test/
@@ -656,7 +656,7 @@ Michael Gary	6/25/2002
     doc/
         test.html
 
-Michael Gary	6/27/2002
+Michael Gary        6/27/2002
     - Fixed a bug in add_work and added water level testing to test_uc.php
 
     test/
@@ -664,7 +664,7 @@ Michael Gary	6/27/2002
     tools/
         add_work.C
 
-Michael Gary	6/28/2002
+Michael Gary        6/28/2002
     - Added an explicit test for water level
     - Added a -no_time_test argument to the boinc client to stop the time tests
         from running.
@@ -700,7 +700,7 @@ Eric Heien 7/01/2002
     tools/
         create_work.C
 
-Michael Gary	7/01/2002
+Michael Gary        7/01/2002
     - Fixed fast cgi scheduling server
     - If low water mark is higher than high water mark, water marks are
         switched
@@ -717,7 +717,7 @@ Michael Gary	7/01/2002
     test/
         prefs1.xml
 
-Michael Gary 	7/03/2002
+Michael Gary         7/03/2002
     - api test is now more thorough, tests time accounting and restarting
     - added app_completed function to api
     - api_test.C was moved to api_app.C
@@ -851,7 +851,7 @@ David   July 4, 2002
     client/app.C
     sched/file_upload_handler.C
 
-Michael Gary	July 5, 2002
+Michael Gary        July 5, 2002
     - fixed fast cgi crypto
         use fgets and sscanf instead of fscanf, which
         is not implemented in fcgi_stdio.h
@@ -934,7 +934,7 @@ David A.    July 8, 2002
         add.C
         process_result_template.C
 
-Michael Gary	July 10, 2002
+Michael Gary        July 10, 2002
     - Added asserts to the server side
     - Added error checks on function parameters
     - Made the api update result with time information at
@@ -1069,7 +1069,7 @@ Barry Luong    July 12, 2002
         feeder.C
         file_upload_handler.C
 
-Michael Gary	July 12, 2002
+Michael Gary        July 12, 2002
     - Added a test to make sure the scheduling server does not send unfeasible
         work units
     - Removed some debug output
@@ -1150,7 +1150,7 @@ David A     July 15, 2002
     tools/
         Makefile.in
 
-Michael Gary	July 15, 2002
+Michael Gary        July 15, 2002
     - Fixed compile bug
     - Updated documentation
     - Fixed test script bug
@@ -1178,11 +1178,11 @@ Michael Gary	July 15, 2002
         api.C
         api.h
 
-Michael Gary	July 16, 2002
+Michael Gary        July 16, 2002
     -Fixed test script bug
     test/
-	concat_result
-	test_concat.php
+        concat_result
+        test_concat.php
 
 Eric Heien      July 17, 2002
     - Removed assembly optimized routines from RSAEuro, since we
@@ -1206,7 +1206,7 @@ Eric Heien      July 17, 2002
             randemo.c
             redemo.c
 
-Michael Gary	7/17/2002
+Michael Gary        7/17/2002
     - Fixed more test scripts
     - Added a comprehensive test
     - Added make tar_client to toplevel makefile
@@ -1224,10 +1224,10 @@ Michael Gary	7/17/2002
         test_suite.php (added)
 
 
-Michael Gary	7/18/2002
+Michael Gary        7/18/2002
     - Configure now checks to make sure that apache, mysql, and php are
-	installed. If they are not installed, it prints out a warning and
-	continues configuration
+        installed. If they are not installed, it prints out a warning and
+        continues configuration
     - Added uninstall target, made Makefiles more compliant with GNU standards
     INSTALL
     INSTALL_CLIENT
@@ -1236,9 +1236,9 @@ Michael Gary	7/18/2002
     configure.in
     Makefile.in
     sched/
-	Makefile.in
+        Makefile.in
     lib/
-	Makefile.in
+        Makefile.in
     api/
         Makefile.in
     client/
@@ -1254,7 +1254,7 @@ Eric Heien   7/18/2002
     configure
     configure.in
 
-Michael Gary	7/23/2002
+Michael Gary        7/23/2002
     - Added a test for sticky files. Required updating escape_url to support
          RRC1738 (-_. no longer escaped out).
     client/
@@ -1264,15 +1264,15 @@ Michael Gary	7/23/2002
         uc_wu_sticky (added)
         uc_result_sticky (added)
 
-Michael Gary	7/24/2002
+Michael Gary        7/24/2002
     - Added a test for the time reporting system.
     test/
         test_time.php (added)
         init.inc
     apps/
         uc_slow.C
-	uc_cpu.C (added)
-	Makefile.in
+        uc_cpu.C (added)
+        Makefile.in
 
 David   July 28 2002
     - Changed the "add" utility so that, when adding an app version,
@@ -1600,16 +1600,16 @@ Eric Heien   August 12, 2002
 
 David    August 12 2002
     - Cleaned up initialization code:
-	main.C is now used ONLY for CLI versions
-	(remove this file from GUI projects)
-	Factored out initialization code that is common to
-	both GUI and CLI versions.
+        main.C is now used ONLY for CLI versions
+        (remove this file from GUI projects)
+        Factored out initialization code that is common to
+        both GUI and CLI versions.
 
     client/
-	client_state.C,h
-	log_flags.C,h
-	main.C
-	prefs.h
+        client_state.C,h
+        log_flags.C,h
+        main.C
+        prefs.h
 
 Eric Heien  August 13, 2002
     - Implemented correct handling of RSA or MD5 failures.  The
@@ -1649,56 +1649,56 @@ Eric Heien  August 21, 2002
 
 David   August 24, 2002
     - fixed bugs in the Windows variant of app.C
-	Notes on Windows:
-	- Some places (e.g. current dir arg of CreateProcess())
-	  require a full path
-	- Some places require \ instead of / in paths.
-	  Added the constant PATH_SEPARATOR for this purpose.
-	- To redirect stdin/stdout, you need to use freopen();
-	  it's not enough to dup2 the underlying descriptor
+        Notes on Windows:
+        - Some places (e.g. current dir arg of CreateProcess())
+          require a full path
+        - Some places require \ instead of / in paths.
+          Added the constant PATH_SEPARATOR for this purpose.
+        - To redirect stdin/stdout, you need to use freopen();
+          it's not enough to dup2 the underlying descriptor
 
     api/
-	boinc_api.C
+        boinc_api.C
     apps/
-	upper_case.C
+        upper_case.C
     client/
-	app.C,h
-	file_names.C
-	filesys.C,h
+        app.C,h
+        file_names.C
+        filesys.C,h
     lib/
-	error_numbers.h
+        error_numbers.h
 
-David	August 25, 2002
+David        August 25, 2002
     - Implemented project name (as shown in GUI).
-	It's stored in the DB (in a single-row "project" table)
-	and sent in scheduler RPC
+        It's stored in the DB (in a single-row "project" table)
+        and sent in scheduler RPC
     - Changed env var BOINC_KEY to BOINC_SHMEM_KEY
-	(avoid confusion w/ encryption keys)
+        (avoid confusion w/ encryption keys)
 
     Makefile.in
     client/
-	cs_scheduler.C
-	filesys.C
-	scheduler_op.C,h
-	win/
-	    windows_cpp.h
-	    wingui.cpp
+        cs_scheduler.C
+        filesys.C
+        scheduler_op.C,h
+        win/
+            windows_cpp.h
+            wingui.cpp
     db/
-	db.h
-	db_mysql.C
-	schema.sql
+        db.h
+        db_mysql.C
+        schema.sql
     sched/
-	Makefile.in
-	feeder.C
-	main.C
-	server_types.C
-	show_shmem.C
+        Makefile.in
+        feeder.C
+        main.C
+        server_types.C
+        show_shmem.C
     test/
-	init.inc
-	test_uc.php
-	test_uc_win.php
+        init.inc
+        test_uc.php
+        test_uc_win.php
     tools/
-	add.C
+        add.C
 
 Eric  August 26, 2002
     - Finished multi-slot functionality.  The client now requests an
@@ -1712,16 +1712,16 @@ Eric  August 26, 2002
 
 David  August 26, 2002
     - adding missing clause to SCHEDULER_OP::poll(); was failing to
-	return state to IDLE, caused reply to get processed twice
+        return state to IDLE, caused reply to get processed twice
     - return user name, total credit, avg credit in scheduler RPC reply
-	- save/restore these in client state file
+        - save/restore these in client state file
     - client was trying to delete "checkpoint CPU file" in wrong directory
     - change CLIENT_STATE field from "version" to "core_client_version"
     - got rid of CLIENT_STATE::update_net_stats(), insert_file_xfer()
-	(made some stuff public)
+        (made some stuff public)
     - disable host performance measurement (temp! turn back on later)
     - removed comments of the form
-	read_config_file();    // read config file
+        read_config_file();    // read config file
     - in HTTP op of type POST2, it's not an error if htp->file is zero
     - replaced hardwired HTTP_STATUS constants
     - made separate db.inc, util.inc in html_ops
@@ -1730,34 +1730,34 @@ David  August 26, 2002
     - scheduling server: make USER, HOST part of SCHEDULER_REPLY
         so don't have to pass around as separate args
     - in test/init.inc, don't use the init_db() from html_user/.
-	define it separately here.
+        define it separately here.
     - in test/init.inc, split up clear_data_dirs() into
-	client, server parts
+        client, server parts
     - change test_uc.php to not create keys by default
 
     client/
-	app.C
-	client_state.C,h
-	cs_scheduler.C
-	file_xfer.C
-	http.C,h
-	pers_file_xfer.C
-	scheduler_op.C,h
+        app.C
+        client_state.C,h
+        cs_scheduler.C
+        file_xfer.C
+        http.C,h
+        pers_file_xfer.C
+        scheduler_op.C,h
     db/
-	db.h
+        db.h
     html_ops/
-	db.inc (new)
-	util.inc (new)
+        db.inc (new)
+        util.inc (new)
     lib/
-	crypt_prog.C
+        crypt_prog.C
     sched/
-	file_upload_handler.C
-	handle_request.C
-	server_types.C,h
+        file_upload_handler.C
+        handle_request.C
+        server_types.C,h
     test/
-	init.inc
-	master.html
-	test_uc.php
+        init.inc
+        master.html
+        test_uc.php
 
 David   August 28, 2002
     - added DB fields to keep track of credit for hosts and result
@@ -2584,17 +2584,17 @@ Hamid  Dec 9,2002
       <exit_status>%d</exit_status>
       <signal>%d</signal>
       if download had failures
-	 "<download_error>\
+         "<download_error>\
           "    <file_name>%s</file_name>
           "    <error_code>%d</error_code>\n"
-	  "    </download_error>\n"
+          "    </download_error>\n"
 
 
       if upload  had failures
-	same as above
+        same as above
 
       if coudln't start active task for result (in which err_num should be set)
-	"<couldnt_start>%d</couldnt_start>\n"
+        "<couldnt_start>%d</couldnt_start>\n"
 
 
     - The error mechanism right now is such that any failures
@@ -2605,16 +2605,16 @@ Hamid  Dec 9,2002
     are reported from app.C and cs_apps.C.
 
 Seth  Dec 9, 2002
-	- time tests run in their own thread when needed, if they are global state
-	  won't do anything until they are done; threads communicate by a file
-	- windows host info complete except for cache
+        - time tests run in their own thread when needed, if they are global state
+          won't do anything until they are done; threads communicate by a file
+        - windows host info complete except for cache
 
-	client/
-	    client_stat.C,h
-	    file_names.h
-	    hostinfo.C,h
-	client/win/
-	    hostinfo_win.cpp
+        client/
+            client_stat.C,h
+            file_names.h
+            hostinfo.C,h
+        client/win/
+            hostinfo_win.cpp
 
 David  Dec 11 2002
     - Have process_wu_template() fill in the file size as well as the MD5.
@@ -2695,23 +2695,23 @@ David   Dec 17 2002
         test_uc.php
 
 Seth Dec 18 2002
-	- net_xfers in windows will get permission before connecting if needed
-	- added global pref for whether or not to hang up the modem if BOINC dialed
-	- client state saves global prefs confirm_before_connecting
+        - net_xfers in windows will get permission before connecting if needed
+        - added global pref for whether or not to hang up the modem if BOINC dialed
+        - client state saves global prefs confirm_before_connecting
         and hangup_if_dialed locally for now
-	- wingui split into different files, bug fixes
+        - wingui split into different files, bug fixes
 
-	client/
-		net_xfer.C,h
-		prefs.C,h
-		client_state.C
-	client/win
-		win_net.cpp,h
-		wingui.cpp,h
-		wingui_mainwindow.cpp,h (new)
-		wingui_dialog.cpp,h (new)
-		wingui_listctrl.cpp,h (new)
-		wingui_pictrl.cpp,h (new)
+        client/
+                net_xfer.C,h
+                prefs.C,h
+                client_state.C
+        client/win
+                win_net.cpp,h
+                wingui.cpp,h
+                wingui_mainwindow.cpp,h (new)
+                wingui_dialog.cpp,h (new)
+                wingui_listctrl.cpp,h (new)
+                wingui_pictrl.cpp,h (new)
 
 David  Dec 18 2002
     - Have account create action redirect to a different page
@@ -2922,7 +2922,7 @@ David  Jan 8 2003
         create_work.C
 
 Seth   Jan 8 2003
-	- Set up Windows client to read captions from a file
+        - Set up Windows client to read captions from a file
 
     client/win/
         Resource.h
@@ -3757,16 +3757,16 @@ Eric  March 7, 2003
         update_stats.C (added)
 
 Seth  March 10, 2003
-	- changed windows graphics handling again.  client/app messaging
-		now mainly consists of the client polling the app windows,
-		with apps messaging the client when they change modes.
-		moved most of this into the client's child screensaver window.
+        - changed windows graphics handling again.  client/app messaging
+                now mainly consists of the client polling the app windows,
+                with apps messaging the client when they change modes.
+                moved most of this into the client's child screensaver window.
 
-	api/
-		windows_opengl.cpp
-	client/win/
-		wingui_sswindow.cpp,h
-		wingui_mainwindow.cpp,h
+        api/
+                windows_opengl.cpp
+        client/win/
+                wingui_sswindow.cpp,h
+                wingui_mainwindow.cpp,h
 
 Eric  March 11, 2003
     - changed client exit to send a quit request to the apps, wait 1
@@ -4684,13 +4684,13 @@ Karl    2003/06/11
         test_upload_backoff.php
 
 Eric K. 2003/06/16
-	Attempted to make the XML parser more robust by adding
-	extract_xml_record() to parse.C
-	Added const modifier to constant parameters to increase class
-	compatibility.
+        Attempted to make the XML parser more robust by adding
+        extract_xml_record() to parse.C
+        Added const modifier to constant parameters to increase class
+        compatibility.
 
-	parse.C
-	parse.h
+        parse.C
+        parse.h
 
 Karl    2003/06/16
         Removed bzip2 rule; add 'foreign' option to automake through
@@ -4969,7 +4969,7 @@ Tim     June 23, 2003
     client/win/
         wingui_mainwindow.cpp
 
-John Brian	2003/06/23
+John Brian        2003/06/23
     - Changed label text in "Disk" tab:
         "BOINC" -> "BOINC core client"
         "PROJECT:" prepending removed
@@ -5022,7 +5022,7 @@ Karl    2003/06/23
         http.C
         net_xfer.C
 
-John Brian	2003/06/24
+John Brian        2003/06/24
     - Added context-menu support for copying items in the Messages tab to the
       clipboard.
 
@@ -5124,7 +5124,7 @@ Karl    2003/06/30
         BOINC_db.inc
         test_uc.py
 
-John Brian	2003/06/30
+John Brian        2003/06/30
     - Removed stray printf used in debugging background graphics code.
 
     astropulse/client/
@@ -5303,26 +5303,26 @@ Karl 2003/07/03-08
     test/
         boinc.py
 
-John Brian	2003/07/11
+John Brian        2003/07/11
     - added profile functionality to BOINC.  Users can now add, modify, and delete
       personal profiles.  Scripts to build picture galleries, and country summaries
       are also available.  Most of the functionality of the SETI@Home profiling system
       is now available in BOINC.
 
     html_user/
-	create_profile.php (new)
-	delete_profile.php (new)
-	gallery.inc (new)
-	generate_country_pages.php (new)
-	generate_picture_pages.php (new)
-	index.php
-	languages.txt (new)
-	profile.inc (new)
-	profile_menu.php (new)
-	project.inc
-	user.inc
-	util.inc
-	view_profile.php (new)
+        create_profile.php (new)
+        delete_profile.php (new)
+        gallery.inc (new)
+        generate_country_pages.php (new)
+        generate_picture_pages.php (new)
+        index.php
+        languages.txt (new)
+        profile.inc (new)
+        profile_menu.php (new)
+        project.inc
+        user.inc
+        util.inc
+        view_profile.php (new)
 
 David  July 15 2003
     - use double for VM working set size
@@ -5827,7 +5827,7 @@ Chrisz  2003/8/15
 
 Eric K  8/15/2003
     -  Prefaced transform() with std:: to get util.C to compile under windows.
-	api/util.C
+        api/util.C
 
 
 Karl 2003/08/18
@@ -5929,7 +5929,7 @@ Chrisz 2003/08/25
     - changed _url_to_filename from nonalnum to '_'
 
     py/
-	boinc.py
+        boinc.py
 
 Karl 2003/08/28
     - rewrote all documentation related to software prerequisites and
@@ -6360,15 +6360,15 @@ David  Sept 23 2003
         cs_scheduler.C
         check_state.C (new)
 
-Eric K	9/24/03
+Eric K        9/24/03
     - Create an XML entity encoder/decoder for single byte entities.  In new
       files lib/xml_util.[Ch].  Encoder will make the following translations.
         '>' => "&gt;"
-	'<' => "&lt;"
-	'&' => "&amp;"
-	"'" => "&apos;"
-	'"' => "&quot;"
-	other unprintable -> "&#nnnd;"
+        '<' => "&lt;"
+        '&' => "&amp;"
+        "'" => "&apos;"
+        '"' => "&quot;"
+        other unprintable -> "&#nnnd;"
       The decoder recognizes a larger number of translations for single byte
       entities found in XML/HTML.
     - Added check for <map> header to configure scripts.  
@@ -6634,9 +6634,9 @@ David  Oct 8 2003
 		windows_opengl.C
 
 Oliver Oct 9 2003
-	- fixed error handling when jpeglib fails
-	api/
-		gutil.C
+        - fixed error handling when jpeglib fails
+        api/
+                gutil.C
 
 Karl 2003/10/08
     - tests: fixed bug re user global prefs
@@ -6683,11 +6683,11 @@ Oliver Oct 10 2003
     - updated primitives (progress bar. etc.) to have public pos field
 
     api/
-		gutil.c,h
-		graphics_api.c
-		reduce.c
-		windows_opengl.c
-		
+                gutil.c,h
+                graphics_api.c
+                reduce.c
+                windows_opengl.c
+                
 Karl 2003/10/11
     - Astropulse: output in index by samples, rather than bytes + fft bin;
     - indicate that output is finished; also make it valid XML
@@ -6741,7 +6741,7 @@ Oliver Oct 13 2003
     - stars now draw in visible pyramid 
 
     api/
-	gutil.C,h
+        gutil.C,h
 
 
 David  Oct 14 2003
@@ -6766,7 +6766,14 @@ Oliver Oct 14 2003
     - added font width function
 
     api/
-	gutil.C,h
- 	reduce.c
-	windows_opengl.C
+        gutil.C,h
+         reduce.c
+        windows_opengl.C
 
+David  Oct 14 2003
+    - extended MOVING_TEXT_PANEL interface to let you draw text on
+	   particular line numbers,
+	   and get the coords the start of a line number
+
+	api/
+		gutil.C,h

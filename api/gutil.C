@@ -334,7 +334,7 @@ float text_width_new(char* text) {
 #ifdef _WIN32	
 	char* p;				
 	for(p=text;*p;p++) {		
-		sum += get_char_width(p[0]);
+//		sum += get_char_width(p[0]);
 	}
 #endif
 	return sum;
@@ -557,7 +557,7 @@ void MOVING_TEXT_PANEL::init(
     line_width = lw;
     line_spacing = ls;
     margin = m;
-    strcpy(text, "");
+    memset(text, 0, sizeof(text));
 }
 
 // draw a rectangle of the given color in the XY plane
@@ -618,7 +618,23 @@ void MOVING_TEXT_PANEL::draw() {
     pos3[1] -= (margin+char_height);
     pos3[2] += 0.01;
     glColor3f(1, 1, 1);
-    draw_text(pos3, char_height, line_width, line_spacing, text);
+    for (int i=0; i<PANEL_MAX_LINES; i++) {
+        if (strlen(text[i])) {
+            draw_text(pos3, char_height, line_width, line_spacing, text[i]);
+        }
+        pos3[1] -= line_spacing;
+    }
+}
+
+void MOVING_TEXT_PANEL::set_text(int lineno, char* p) {
+    char* q = strchr(p, '\n');
+    while (p) {
+        if (q) *q = 0;
+        strcpy(text[lineno++], p);
+        if (!q) break;
+        p = q+1;
+        q = strchr(p, '\n');
+    }
 }
 
 void MOVING_TEXT_PANEL::move(double dt) {
@@ -626,6 +642,12 @@ void MOVING_TEXT_PANEL::move(double dt) {
     pos[1] = base_pos[1];
     pos[2] = base_pos[2] + cos(theta);
     theta += dtheta*dt;
+}
+
+void MOVING_TEXT_PANEL::get_pos(int lineno, float* p) {
+    memcpy(p, pos, sizeof(pos));
+    p[0] += margin;
+    p[1] += (size[1] - margin - lineno*line_spacing);
 }
 
 static int compare_tp(const void* p1, const void* p2) {
@@ -711,6 +733,10 @@ RIBBON_GRAPH::RIBBON_GRAPH(float* p, float* s, float* c, float* tc, float ty) {
     memcpy(color, c, sizeof(color));
     memcpy(tick_color, tc, sizeof(tick_color));
     tick_yfrac = ty;
+}
+
+void RIBBON_GRAPH::set_pos(float* p) {
+    memcpy(pos, p, sizeof(pos));
 }
 
 float yvec[] = {0., 1., 0.};

@@ -42,11 +42,11 @@ void write_pid_file(const char* filename) {
     fclose(fpid);
 }
 
-// sig_int will be set to true if SIGINT is caught.
-bool sig_int = false;
+// caught_sig_int will be set to true if SIGINT is caught.
+bool caught_sig_int = false;
 static void sigint_handler(int) {
     fprintf(stderr, "SIGINT\n");
-    sig_int = true;
+    caught_sig_int = true;
 }
 
 void install_sigint_handler() {
@@ -55,7 +55,7 @@ void install_sigint_handler() {
 }
 
 void check_stop_trigger() {
-    if (sig_int) {
+    if (caught_sig_int) {
         log_messages.printf(SchedMessages::CRITICAL, "Quitting due to SIGINT\n");
         exit(0);
     }

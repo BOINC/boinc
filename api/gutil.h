@@ -123,13 +123,15 @@ class RIBBON_GRAPH {
     void draw_x(int);
     void draw_y(int);
     void draw_tick(int i);
-public:
 	float pos[3];
+public:
+    void set_pos(float*);
     RIBBON_GRAPH(float* pos, float* size, float* color, float* tick_color, float tick_yfrac=0.2);
     void draw(float* data, int len, bool with_ticks=false);	
     void add_tick(float x, int index);
 };
 
+#define PANEL_MAX_LINES  10
 // a colored panel with some text, that can move cyclically
 //
 class MOVING_TEXT_PANEL {
@@ -142,11 +144,13 @@ class MOVING_TEXT_PANEL {
     float line_spacing;   		
 	float size[3];
 	double margin;
+	char text[PANEL_MAX_LINES][256];
 public:	         
-	char text[1024];
 	float pos[3];
     void init(float* pos, float* size, COLOR& color, double dtheta, double ch, double lw, double ls, double margin);
     void draw();
+    void set_text(int lineno, char* t);
+    void get_pos(int lineno, float* pos);
     static void sort(MOVING_TEXT_PANEL* tp, int n);
     void move(double dt);
 };
