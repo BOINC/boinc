@@ -940,6 +940,11 @@ int RESULT::write(FILE* out, bool to_server) {
         fprintf(out, "<stderr_out>\n");
         if (to_server) {
             fprintf(out, "<app_version>%d</app_version>\n", wup->version_num);
+            fprintf(out,
+                "<core_client_version>%d.%0.2d</core_client_version>\n",
+                gstate.core_client_major_version,
+                gstate.core_client_minor_version
+            );
         }
 		fprintf(out, stderr_out.c_str());
         if (stderr_out[n-1] != '\n') fprintf(out, "\n");

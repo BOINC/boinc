@@ -75,6 +75,8 @@ public:
     SS_LOGIC ss_logic;
     LANGUAGE language;
 
+    int core_client_major_version;
+    int core_client_minor_version;
     int file_xfer_giveup_period;
     bool user_idle;
     int user_run_request;
@@ -112,8 +114,6 @@ public:
 private:
     bool client_state_dirty;
     TIME_STATS time_stats;
-    int core_client_major_version;
-    int core_client_minor_version;
     int old_major_version;
     int old_minor_version;
     char* platform_name;
