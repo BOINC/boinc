@@ -579,7 +579,7 @@ void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
         sprintf(teamid, "%d", team.id);
     } else {
         strcpy(teamid, "0");
-        while (remove_element(buf, "<ifteam>", "</ifteam>") {
+        while (remove_element(buf, "<ifteam>", "</ifteam>")) {
             continue;
         }
 
