@@ -129,11 +129,14 @@ echo "
     <p>
     BOINC can be customized for
     <a href=http://boinc.berkeley.edu/language.php>languages other than English</a>
+
+    <p>
+    <a href=download.php?dev=1>Show development versions also</a>.
 ";
 
 if ($_GET["dev"]) {
     echo "
-        <h2>Development version (latest features, possibly buggy)</h2>
+        <h2>Development versions (latest features, possibly buggy)</h2>
     ";
     show_415();
 echo "<br>";

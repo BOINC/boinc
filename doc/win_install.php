@@ -91,7 +91,7 @@ and conveys idle state to the core client.
 
 <p>
 The screensaver either does graphics itself
-(based on info obtained from the screensaver via RPC)
+(based on info obtained from the core client via RPC)
 or (via the core client) has an application do the graphics.
 In this case the application must switch to the same
 window station and desktop as the screensaver.

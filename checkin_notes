@@ -22900,3 +22900,13 @@ David  18 Jan 2005
 
     html/inc/
         db_ops.inc
+
+David  18 Jan 2005
+    - added --cron-tasks option to start
+        (does periodic tasks but doesn't start daemons)
+        From David Hammer.
+        This should arguably be used instead of --cron
+        because if daemons are crashing you'll find out about it sooner.
+
+    sched/
+        start

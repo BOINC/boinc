@@ -92,54 +92,75 @@ Of course it still does the initial query,
 so if the transitioner has made some new results for an existing
 (old) WU, they will get picked up.
 
-// Implementation notes:
-// Work is organized in a hierarchy: File -> workunit -> result
-// Let's say there are N active hosts and target_nresults=4.
-// Optimally, we'd like to send each file to 4 hosts,
-// and have them process all the results for that file.
-//
-// If the one_result_per_user_per_wu rule is in effect,
-// a file may have work but be "excluded" for a particular user.
-//
-// Assigning work to a host with no files:
-// - maintain a working set of N/4 files
-// - when a host with no file requests work,
-//   choose a file F uniformly (randomly or sequentially) from the working set.
-// - if F is excluded for this user,
-//   choose a file using a deterministic algorithm
-//   that doesn't involve the working set
-//   (don't want to do this in general to avoid flocking)
-//
-// The working set is represented by a directory
-//    PROJECT/locality_scheduling/file_working_set/
-// whose contents are names of files in the working set.
-// A project-specific 'working set manager' daemon
-// is responsible for maintaining this.
-//
-// If the scheduler finds that there are no sendable results for a file,
-// it makes a file with that name in
-//   PROJECT/sched_locality/files_no_work/
-// The working set manager should poll this directory
-// and remove those files from the working set.
-// NOTE: BOINC may later create more results for the file,
-// so it may be necessary to add it to the working set again.
-//
-// Assigning work to a host with a file F:
-// - send more results for file F.
-//   To do this efficiently, we maintain the following invariant:
-//   For a given user/file pair, results are sent in increasing ID order.
-//
-// Some projects may want to generate work incrementally.
-// They can do this by supplying a 'work generator' daemon
-// that polls the directory PROJECT/locality_scheduling/need_work/
-// and creates work for any filenames found there.
-// To enable this, add the element <locality_scheduling_wait_period>
-// to config.xml; this tells the scheduler how long to wait for
-// work to appear.
-//
-// NOTE: we assume that all results have app_versions for the same
-// set of platforms.  So if any result is rejected for this reason,
-// we give up immediately instead of scanning everything.
+<h2>Implementation notes</h2>
+
+Work is organized in a hierarchy:
+<pre>
+File -> workunit -> result
+</pre>
+Let's say there are N active hosts and target_nresults=4.
+Optimally, we'd like to send each file to 4 hosts,
+and have them process all the results for that file.
+
+<p>
+If the one_result_per_user_per_wu rule is in effect,
+a file may have work but be 'excluded' for a particular user.
+
+<p>
+Assigning work to a host with no files:
+<ul>
+<li>
+maintain a working set of N/4 files
+<li>
+ when a host with no file requests work,
+ choose a file F uniformly (randomly or sequentially) from the working set.
+ <li>
+if F is excluded for this user,
+choose a file using a deterministic algorithm
+that doesn't involve the working set
+(don't want to do this in general to avoid flocking)
+</ul>
+<p>
+The working set is represented by a directory
+<pre>
+PROJECT/locality_scheduling/file_working_set/
+</pre>
+whose contents are names of files in the working set.
+A project-specific 'working set manager' daemon
+is responsible for maintaining this.
+<p>
+If the scheduler finds that there are no sendable results for a file,
+it makes a file with that name in
+<pre>
+PROJECT/sched_locality/files_no_work/
+</pre>
+The working set manager should poll this directory
+and remove those files from the working set.
+NOTE: BOINC may later create more results for the file,
+so it may be necessary to add it to the working set again.
+<p>
+Assigning work to a host with a file F:
+<ul>
+<li>
+send more results for file F.
+To do this efficiently, we maintain the following invariant:
+For a given user/file pair, results are sent in increasing ID order.
+</ul>
+<p>
+Some projects may want to generate work incrementally.
+They can do this by supplying a 'work generator' daemon
+that polls the directory
+<pre>
+PROJECT/locality_scheduling/need_work/
+</pre>
+and creates work for any filenames found there.
+To enable this, add the element <locality_scheduling_wait_period>
+to config.xml; this tells the scheduler how long to wait for
+work to appear.
+<p>
+NOTE: we assume that all results have app_versions for the same
+set of platforms.  So if any result is rejected for this reason,
+we give up immediately instead of scanning everything.
 
 ";
 page_tail();

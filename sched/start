@@ -18,6 +18,9 @@ Invocation methods:
               else do nothing.
               This command is intended to be run as a real cron job
               every five minutes.
+   --cron-tasks     Run tasks but do not start daemons;
+              This command is intended to be run as a real cron job
+              every five minutes.
 
    --disable  (default if invoked as "stop")
               Set project to DISABLED mode and stop daemons.
@@ -516,6 +519,10 @@ def command_cron_start():
         verbose_daemon_run = 1
         run_tasks()
 
+def command_tasks_start():
+    if verbose: print "Verbose cron-start: status ==", (run_state.enabled and 'ENABLED' or 'DISABLED')
+    run_tasks()
+
 def command_disable_stop():
     if verbose:
         if run_state.enabled:
@@ -611,6 +618,9 @@ Commands:
    --enable  (-e)     Set BOINC to ENABLED mode and start daemons
    --cron    (-c)     If ENABLED, start daemons and run tasks
                       Intended to be run from real cron every 5 min.
+   --cron-tasks       If ENABLED run tasks only and do not start daemons
+                      Intended to be run from real cron every 5 min.
+
    --disable (-d)     Set BOINC to DISABLED mode and stop daemons
    --status  (-s)     Show status.
    --show-config      Show configuration
@@ -637,7 +647,7 @@ run_state_filename = os.path.realpath(os.path.join(program_path, '../run_state_'
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], 'cedskqvh?',
-                               ('enable', 'cron', 'disable',
+                               ('enable', 'cron', 'cron-tasks', 'disable',
                                 'start', 'stop', 'kill', 'status',
                                 'show-config',
                                 'ignore-timestamps',
@@ -660,6 +670,8 @@ for opt,v in opts:
         command = command_enable_start
     elif opt == '-c' or opt == '--cron':
         command = command_cron_start
+    elif opt == '-c' or opt == '--cron-task':
+        command = command_tasks_start
     elif opt == '-d' or opt == '--disable' or opt == '--stop' or opt == '-k' or opt == '--kill':
         command = command_disable_stop
     elif opt == '-s' or opt == '--status':

@@ -136,6 +136,14 @@ Set your PATH variable to include MySQL programs
 (typically /usr/local/mysql and /usr/local/mysql/bin).
 </ul>
 
+<h3>PHP notes</h3>
+<ul>
+<li> Make sure 'magic quotes' are enabled (this is the default).
+The file /etc/php.ini should contain
+<pre>
+magic_quotes_gpc = On
+</pre>
+</ul>
 <h3>Linux notes</h3>
 <ul>
 <li>
@@ -148,7 +156,7 @@ select the relevant options when you're installing Linux,
 or (Redhat) go to System Settings/Add Software.
 
 <li>
-Notes for <a href=debian_linux_install.php>Debian Linux</a>.
+Notes for <a href=debian_linux_install.txt>Debian Linux</a>.
 </ul>
 
 <hr>
