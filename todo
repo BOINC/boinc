@@ -121,8 +121,6 @@ use https to secure login pages, do we care about authenticator
 
 abort app if excess memory used
 
-Astropulse memory leak on Linux/Solaris?
-
 Windows 9x CPU time calculated incorrectly
 
 write docs for project management

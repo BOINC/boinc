@@ -107,9 +107,9 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         }
     }
 
-	// Detach from shared memory.  In Windows, this is the same as
-	// destroying the shared mem since we're the last one attached
-	//
+    // Detach from shared memory.  In Windows, this is the same as
+    // destroying the shared mem since we're the last one attached
+    //
 #ifdef _WIN32
     if (at.app_client_shm.shm) {
         detach_shmem(at.shm_handle, at.app_client_shm.shm);
