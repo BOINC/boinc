@@ -157,14 +157,12 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		PROJECT* pr = (PROJECT*)m_ProjectListCtrl.GetItemData(i);
 		if(!pr) {
 			m_ProjectListCtrl.SetItemColor(i, RGB(128, 128, 128));
-			m_ProjectListCtrl.SetProjectURL(i, "");
 			m_ProjectListCtrl.SetItemProgress(i, 4, 0);
 			continue;
 		}
 
 		// project
 		m_ProjectListCtrl.SetItemText(i, 0, pr->get_project_name());
-		m_ProjectListCtrl.SetProjectURL(i, pr->master_url);
 
 		// account
 		m_ProjectListCtrl.SetItemText(i, 1, pr->user_name);
