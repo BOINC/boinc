@@ -282,8 +282,9 @@ function prefs_form_projects($prefs) {
     }
     echo "<hr><a href=prefs_add_project_form.php>Add project</a>\n";
     echo "<p>";
+    echo "<table width=780><tr><td>";
     echo "Whenever you join a new project, remember to add that project with the authenticator that you get from that project to your home project (the first project) you joined.";
-    echo "<br>";
+    echo "</td></tr></table>";
 }
 
 function prefs_form_project($project, $action) {
