@@ -14050,6 +14050,25 @@ David  21 June 2004
     html/inc/
         result.inc
 
+Brian 22 June 2004
+      - server: renamed all functions, structures and database items that
+                associated with trickle_up or down and renamed to 
+                msg_from_host and msg_to_host repectively,
+                - Deleted result and app fields from the database entry for
+                  msg_from_host (trickle_up) to make more generic of a
+                  message that has no app or result associated it with it
+                - Changed methods that use these fields to ignore old
+                  functionality, will update when new method agreed upon
+      - sched/
+           handle_request.C
+           sched_config.C
+           sched_config.h
+           server_types.h
+      - db/
+           schema.sql
+           BOINC_db.C
+           constraints.sql
+
 David 22 June 2004
     - client: handle a "down for maintenance" RPC reply as a failure,
         i.e. do a backoff on the project.
@@ -14112,3 +14131,11 @@ David  24 June 2004
         user/
             team_display.php
             top_*.php
+
+Brian  24 June 2004
+    - msg_from_host no longer have preceding and trailing flags in 
+      scheduler reply. All tags will be included  as part of the XML blob
+      to be created by whatever program handles the message.
+
+      Sched/
+           server_types.C

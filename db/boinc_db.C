@@ -539,9 +539,11 @@ void DB_MSG_FROM_HOST::db_print(char* buf) {
         "create_time=%d, send_time=%d, "
         "hostid=%d, variety=%d, "
         "handled=%d, xml='%s'",
+
         create_time, send_time,
         hostid, variety,
         handled, xml
+
     );
     UNESCAPE(xml);
 }

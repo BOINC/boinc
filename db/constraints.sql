@@ -78,12 +78,12 @@ alter table result
     add index app_received_time (appid, received_time desc);
         -- html_ops/result_summary.php
 
-alter table trickle_up
-    add index trickle_handled (appid, handled);
-        -- for trickle handler
+alter table msg_from_host
+    add index message_handled (handled);
+        -- for message handler
 
-alter table trickle_down
-    add index trickle_host(hostid, handled);
+alter table msg_to_host
+    add index msg_to_host(hostid, handled);
         -- for scheduler
 
 alter table host
