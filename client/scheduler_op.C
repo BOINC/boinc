@@ -501,7 +501,7 @@ bool SCHEDULER_OP::poll() {
                         if (must_get_work && nresults==0) {
                             backoff(project, "No work from project\n");
                         } else {
-                            project->nrpc_errors = 0;
+                            project->nrpc_failures = 0;
                         }
                         break;
                     case ERR_PROJECT_DOWN:
