@@ -85,7 +85,7 @@ verbose_daemon_run = 0
 # starting simultaneously.  also it keeps output in sequence.
 fork_delay = 0.1
 ignore_timestamps = False
-prune_run_state = False
+prune_run_state = True #
 is_main_host = False
 local_hostname = ''
 
@@ -445,7 +445,6 @@ def do_prune_run_states():
         else:
             new_run_state_tasks.append(run_state_task)
     run_state.tasks = new_run_state_tasks
-
 
 def stop_daemon(pid):
     '''returns 1 if something stopped, else 0'''
