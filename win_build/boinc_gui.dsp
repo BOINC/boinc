@@ -106,6 +106,10 @@ SOURCE=..\lib\app_ipc.C
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\client_messages.C
+# End Source File
+# Begin Source File
+
 SOURCE=..\Client\client_state.C
 # End Source File
 # Begin Source File
@@ -171,6 +175,10 @@ SOURCE=..\Lib\Md5.c
 # Begin Source File
 
 SOURCE=..\Lib\Md5_file.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\lib\messages.C
 # End Source File
 # Begin Source File
 
