@@ -263,7 +263,7 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
 }
 
 void REDUCED_ARRAY::draw_row_rect_x(int row)  {	
-	float z0=0,z1=0,x0=0,x1=0,y0=0,y1=0,h=0;
+	float z0=0,z1=0,x0=0,x1=0,y0=0,y1=0,h=0,xm=0;
 	int i=0; 	
 	float* row0=0;
 	int trow=row-1;
@@ -397,7 +397,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 		glEnd();	
 	break;
 	case GRAPH_STYLE_SURFACE:
-		glBegin(GL_QUAD_STRIP);
+		glBegin(GL_TRIANGLE_STRIP);
 
 		z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
 		z1 = z0+.14f;
@@ -408,6 +408,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 		for (i=0; i<rdimx; i++) {
 			x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
 			x1 = x0 + draw_deltax*.8f;
+			xm = x0+((x1-x0)/2.0f);
 			h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
 
 			y0 = draw_pos[1];
@@ -419,13 +420,13 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 			lum = .5 + h/2;			
 			HLStoRGB(hue, lum, sat, color);
 			glColor4f(color.r, color.g, color.b, alpha);		
-			
-			glVertex3f(x0+((x1-x0)/2.0f), y1, z0);  		
+						
 			if(row!=0) {
-				float h2 = (trow0[i]-rdata_min)/(rdata_max-rdata_min);
-				float z2 = draw_pos[2] + (draw_size[2]*trow)/rdimy;
-				float y2 = draw_pos[1] + draw_size[1]*h2;					  
-				glVertex3f(x0+((x1-x0)/2.0f), y2, z2);					
+				float lh = (trow0[i]-rdata_min)/(rdata_max-rdata_min);				
+				float ly = draw_pos[1] + draw_size[1]*lh;					  
+				float lz = draw_pos[2] + (draw_size[2]*trow)/rdimy + .14f;				
+				glVertex3f(xm,ly,lz);
+				glVertex3f(xm,y1,z1);
 			}
 		}		
 		glEnd();
@@ -832,13 +833,13 @@ void REDUCED_ARRAY::draw_labels() {
 	glLoadIdentity();
   	
 	glRasterPos3d(zpos[0],zpos[1],0);//zpos[2]);
-	print_text(listBase[0], zlabel);
+	print_text(zlabel);
 
 	glRasterPos3d(xpos[0],xpos[1],0);//xpos[2]);
-	print_text(listBase[0], xlabel);
+	print_text(xlabel);
 
 	glRasterPos3d(ppos[0],ppos[1],0);//xpos[2]);
-	print_text(listBase[0], plabel);
+	print_text(plabel);
 
 	glPopMatrix();
 	

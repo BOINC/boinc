@@ -327,8 +327,8 @@ GLfloat text_width(char* text) {
 
 GLfloat text_width_new(char* text) {
 	GLfloat sum=0;
-	char* p;
-	float w=.01; //FIND OUT WHAT IT IS
+	char* p;	
+	float w = .01;	
 	for(p=text;*p;p++) {
 		sum += w;
 	}
@@ -445,8 +445,8 @@ void draw_text_new_3d(
     while (*p) {
         q = strchr(p, '\n');
         if (q) *q = 0;
-//		glRasterPos3d(pos[0],pos[1],pos[2]);    
-		print_text(listBase[0], p);
+		glRasterPos3d(pos[0],pos[1],pos[2]);    
+		print_text(p);
         pos[1] -= line_spacing;
         if (!q) break;		
         p = q+1;
@@ -464,13 +464,14 @@ void draw_text_new(
 	memcpy(pos,_pos,sizeof(pos));
 	strcpy(buf,text);
 	p=buf;
-
+	int viewport[4];
+	get_viewport(viewport);
 	while(*p)
 	{
 		q = strchr(p, '\n');
         if (q) *q = 0;
 		glRasterPos3d(pos[0],pos[1],pos[2]);
-		print_text(listBase[0], p);
+		print_text(p);
         pos[1] -= line_spacing;
         if (!q) break;
         p = q+1;
@@ -495,7 +496,7 @@ void draw_text_new_right(
         if (q) *q = 0;
 		l=text_width_new(p);
 		glRasterPos3d(pos[0]-l,pos[1],pos[2]);
-		print_text(listBase[0], p);
+		print_text(p);
         pos[1] -= line_spacing;
         if (!q) break;
         p = q+1;
@@ -637,13 +638,27 @@ void PROGRESS_2D::draw(float x) {
 	glEnd();
 
 	float dif=width-inner_width;
+	float zoffset=.01;
     glBegin(GL_QUADS);
 	glColor4d(inner_color[0],inner_color[1],inner_color[2],inner_color[3]);
-	glVertex3d(pos[0],pos[1]-(dif/2.),pos[2]);
-	glVertex3d(pos[0],pos[1]-(inner_width+dif/2.),pos[2]);
-	glVertex3d(pos[0]+x*len,pos[1]-(inner_width+dif/2.),pos[2]);
-	glVertex3d(pos[0]+x*len,pos[1]-(dif/2.),pos[2]);
+	glVertex3d(pos[0],pos[1]-(dif/2.),pos[2]+zoffset);
+	glVertex3d(pos[0],pos[1]-(inner_width+dif/2.),pos[2]+zoffset);
+	glVertex3d(pos[0]+x*len,pos[1]-(inner_width+dif/2.),pos[2]+zoffset);
+	glVertex3d(pos[0]+x*len,pos[1]-(dif/2.),pos[2]+zoffset);
 	glEnd();
+#if 0
+	glColor4f(1,1,1,1);
+	glLineWidth(.8f);
+	glEnable(GL_LINE_SMOOTH);
+	glBegin(GL_LINE_STRIP);
+	glVertex3d(pos[0],pos[1],pos[2]);
+	glVertex3d(pos[0],pos[1]-width,pos[2]);
+	glVertex3d(pos[0]+len,pos[1]-width,pos[2]);
+	glVertex3d(pos[0]+len,pos[1],pos[2]);
+	glVertex3d(pos[0],pos[1],pos[2]);
+	glEnd();
+	glDisable(GL_LINE_SMOOTH);
+#endif
 }
 
 
@@ -977,7 +992,7 @@ void TEXTURE_DESC::draw(float* p, float* size, int xalign, int yalign) {
 
 #if 1
     glBegin(GL_QUADS);
-    glTexCoord2f(0., 1.);
+    glTexCoord2f(0., 1.); 
     glVertex3fv(pos);
     pos[0] += size[0];
     glTexCoord2f(1., 1.);
@@ -999,21 +1014,22 @@ void TEXTURE_DESC::draw(float* p, float* size, int xalign, int yalign) {
 
 void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData) {	
 	jpeg_read_header(cinfo, TRUE);
-	jpeg_start_decompress(cinfo);
+	jpeg_start_decompress(cinfo);	
+	int rem = cinfo->output_width%4;
+	pImageData->rowSpan = cinfo->output_width * cinfo->output_components;
+	pImageData->sizeX   = cinfo->output_width;
+	pImageData->sizeY   = cinfo->output_height;
 
-	pImageData->rowSpan = cinfo->image_width * cinfo->num_components;
-	//pImageData->rowSpan = cinfo->output_width * cinfo->output_components;
-	pImageData->sizeX   = cinfo->image_width;
-	pImageData->sizeY   = cinfo->image_height;
 	pImageData->data = new unsigned char[pImageData->rowSpan * pImageData->sizeY];
 		
 	unsigned char** rowPtr = new unsigned char*[pImageData->sizeY];
-	for (int i = 0; i < pImageData->sizeY; i++)
+	for (int i = 0; i < pImageData->sizeY; i++)	
 		rowPtr[i] = &(pImageData->data[i*pImageData->rowSpan]);
-
+		
 	int rowsRead = 0;
+
 	while (cinfo->output_scanline < cinfo->output_height) {
-		rowsRead += jpeg_read_scanlines(cinfo, &rowPtr[rowsRead], cinfo->output_height - rowsRead);
+		rowsRead += jpeg_read_scanlines(cinfo, &rowPtr[rowsRead], cinfo->output_height - rowsRead);		
 	}
 	delete [] rowPtr;
 	jpeg_finish_decompress(cinfo);
@@ -1034,7 +1050,7 @@ my_error_exit (j_common_ptr cinfo)
   longjmp(myerr->setjmp_buffer, 1);
 }
 
-tImageJPG *LoadJPG(const char *filename) {
+tImageJPG *LoadJPG(const char *filename) {	
 	struct jpeg_decompress_struct cinfo;
 	tImageJPG *pImageData = NULL;
 	FILE *pFile;
@@ -1046,7 +1062,7 @@ tImageJPG *LoadJPG(const char *filename) {
 
 	struct my_error_mgr jerr;
     cinfo.err = jpeg_std_error(&jerr.pub);
-    jerr.pub.error_exit = my_error_exit;    
+    jerr.pub.error_exit = my_error_exit;
     if (setjmp(jerr.setjmp_buffer)) {
       jpeg_destroy_decompress(&cinfo);
       fclose(pFile);
@@ -1062,11 +1078,24 @@ tImageJPG *LoadJPG(const char *filename) {
 	return pImageData;
 }
 
+void printdata(char* filename, int x, int y, unsigned char* data) {
+	FILE* bmpfile = fopen(filename,"w");
+	fprintf(bmpfile,"%i,%i\n",x,y);
+	for(int i=0;i<y;i++)
+	{
+		for(int c=0;c<8;c++)
+			fprintf(bmpfile,"%d ",data[x*i+c]);
+		fprintf(bmpfile,"\n");
+	}
+	fclose(bmpfile);
+}
+
 int TEXTURE_DESC::CreateTextureJPG(char* strFileName) {
 	if(!strFileName) return -1;	
 	tImageJPG *pImage = LoadJPG(strFileName);			// Load the image and store the data	
-	if(pImage == NULL) return -1;
-	glGenTextures(1, &id);
+	if(pImage == NULL) return -1;		
+	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+	glGenTextures(1, &id);	
 	glBindTexture(GL_TEXTURE_2D, id);	
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, pImage->sizeX, pImage->sizeY, GL_RGB, GL_UNSIGNED_BYTE, pImage->data);	
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
@@ -1089,8 +1118,8 @@ int TEXTURE_DESC::CreateTextureBMP(char* strFileName) {
     if(image.loadBMP(strFileName) == false) {
 		return -1;
     }
-
-	glGenTextures(1, &id);	
+	glPixelStorei(GL_UNPACK_ALIGNMENT,4);
+	glGenTextures(1, &id);		
 	glBindTexture(GL_TEXTURE_2D, id);
 	gluBuild2DMipmaps(GL_TEXTURE_2D, image.get_channels(), image.get_width(), 
         image.get_height(), GL_BGR_EXT, GL_UNSIGNED_BYTE, 
@@ -1109,12 +1138,11 @@ int TEXTURE_DESC::CreateTexturePPM(char* strFileName) {
 	unsigned char* pixels;
     int width, height, retval;    
     retval = read_ppm_file(strFileName, width, height, &pixels);
-    if (retval) return retval;
-    
+    if (retval) return retval;    
+	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
     glGenTextures(1, &id);
-    glBindTexture(GL_TEXTURE_2D, id);
+    glBindTexture(GL_TEXTURE_2D, id);	
 	gluBuild2DMipmaps(GL_TEXTURE_2D,3,width,height,GL_RGB,GL_UNSIGNED_BYTE,pixels);
-
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);		
     xsize = width;
@@ -1132,14 +1160,15 @@ int TEXTURE_DESC::CreateTextureTGA(char* strFileName) {
     if(pImage == NULL) {
 		return -1;
     }
+	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
 	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_2D, id);
 	int textureType = GL_RGB;
 	if(pImage->channels == 4) {
 		textureType = GL_RGBA;		
-	}
+	}		
 	gluBuild2DMipmaps(GL_TEXTURE_2D, pImage->channels, pImage->sizeX, 
-		pImage->sizeY, textureType, GL_UNSIGNED_BYTE, pImage->data);
+	pImage->sizeY, textureType, GL_UNSIGNED_BYTE, pImage->data);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);	
     xsize = pImage->sizeX;
@@ -1181,15 +1210,13 @@ done:
 
 
 //text
-unsigned int listBase[MAX_FONTS];
+unsigned int listBase;
 
-void print_text(unsigned int base, char *string)
-{   
-   if((base == 0 || string == NULL))
-      return;
-
-   glPushAttrib(GL_LIST_BIT);
-   glListBase(base - 32);
-   glCallLists(strlen(string), GL_UNSIGNED_BYTE, string);
-   glPopAttrib();
+void print_text(char* string)
+{
+	if(string==NULL) return;								
+	glPushAttrib(GL_LIST_BIT);
+	glListBase(listBase);							
+	glCallLists(strlen(string), GL_UNSIGNED_BYTE, string);
+	glPopAttrib();						
 }

@@ -6676,3 +6676,15 @@ David  Oct 10 2003
         db_ops.inc
     html_user/
         white.css, black.css (new)
+
+Oliver Oct 10 2003
+    - fixed surface drawing bug
+    - fixed jpeg loading bug
+    - updated primitives (progress bar. etc.) to have public pos field
+
+    api/
+		gutil.c,h
+		graphics_api.c
+		reduce.c
+		windows_opengl.c
+		

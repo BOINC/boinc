@@ -56,7 +56,7 @@ BOOL		win_loop_done;
 extern bool using_opengl;
 extern bool standalone;
 extern HANDLE hQuitEvent;
-extern void MyCreateFont(unsigned int &base, char *fontName, int Size, int weight);
+extern unsigned int MyCreateFont(char *fontName, int Size, int weight);
 
 void SetupPixelFormat(HDC hDC);
 
@@ -178,8 +178,7 @@ void SetMode(int mode) {
 	vis_init();
 #else
 	app_init_gl();
-#endif
-
+#endif	
 	app_client_shm->send_graphics_mode_msg(APP_CORE_GFX_SEG, current_graphics_mode);
 }
 
@@ -384,14 +383,15 @@ void SetupPixelFormat(HDC hDC)
    // good to go.
 }
 
+GLYPHMETRICSFLOAT gmf[256];
 
-void MyCreateFont(unsigned int &base, char *fontName, int Size, int weight)
-{	
+unsigned int MyCreateFont(char *fontName, int Size, int weight) {	
    // windows font
    HFONT hFont;   
+   unsigned int mylistbase =0;
 
    // Create space for 96 characters.
-   base = glGenLists(96);
+   mylistbase= glGenLists(256);
 
    if(stricmp(fontName, "symbol")==0)
       {
@@ -401,15 +401,20 @@ void MyCreateFont(unsigned int &base, char *fontName, int Size, int weight)
       }
    else
       {
-         hFont = CreateFont(Size, 0, 0, 0, weight, FALSE, FALSE, FALSE,
+         hFont = CreateFont(Size, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
                             ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
                             ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName);
       }
 
    if(!hFont)
-      return;
-   	
+      return -1;
    SelectObject(myhDC, hFont);
-   wglUseFontBitmaps(myhDC, 32, 96, base);
-   wglUseFontBitmaps(myhDC, 32, 96, base);
+#if 1 //no idea why this has to be twice
+   wglUseFontBitmaps(myhDC, 0, 256, mylistbase);   
+   wglUseFontBitmaps(myhDC, 0, 256, mylistbase);   
+#endif 
+#if 0
+   wglUseFontOutlines(hDC,0,255,mylistbase,0.0f,0.2f,WGL_FONT_POLYGONS,gmf);   
+#endif
+   return mylistbase;
 }

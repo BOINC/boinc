@@ -92,21 +92,21 @@ extern void get_2d_positions(float p1,float p2,float p3,
 
 // a progress bar represented as an opaque cylinder within a translucent cylinder
 //
-class PROGRESS {
-    float pos[3];
+class PROGRESS {    
     float color[4], inner_color[4];
     float len, rad, inner_rad;
 public:
+	float pos[3];
     PROGRESS(float* pos, float len, float diam, float inner, float* c, float* ic);
     void draw(float);
 };
 
 //2d progress bar
 class PROGRESS_2D {
-    float pos[3];
     float color[4], inner_color[4];
     float len, width, inner_width;
 public:
+	float pos[3];
     PROGRESS_2D(float* pos, float len, float width, float inner_width, float* c, float* ic);
     void draw(float);
 };
@@ -114,7 +114,7 @@ public:
 // a graph of a function of 1 variable drawn as a ribbon in 3D
 //
 class RIBBON_GRAPH {
-    float pos[3], size[3];
+    float size[3];
     float color[4], tick_color[4];
     float *data, dmax;
     float tick_yfrac;
@@ -124,6 +124,7 @@ class RIBBON_GRAPH {
     void draw_y(int);
     void draw_tick(int i);
 public:
+	float pos[3];
     RIBBON_GRAPH(float* pos, float* size, float* color, float* tick_color, float tick_yfrac=0.2);
     void draw(float* data, int len, bool with_ticks=false);	
     void add_tick(float x, int index);
@@ -206,9 +207,8 @@ extern tImageJPG *LoadJPG(const char *filename);
 
 // ----- STUFF RELATED TO FONTS
 //
-#define MAX_FONTS 16
-extern unsigned int listBase[MAX_FONTS];
-extern void MyCreateFont(unsigned int &base, char *fontName, int Size,int weight);
-extern void print_text(unsigned int base, char *string);
+extern unsigned int listBase;
+extern unsigned int MyCreateFont(char *fontName, int Size,int weight);
+extern void print_text(char* string);
 
 #endif
