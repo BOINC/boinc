@@ -219,7 +219,10 @@ int boinc_main_loop(int argc, char** argv) {
     setbuf(stdout, 0);
 #if 1
     if (lock_file(LOCK_FILE_NAME)) {
-        fprintf(stderr, "Another copy of BOINC is already running\n");
+        fprintf(stderr,
+            "Can't lock file - either another copy of BOINC is running,\n"
+            "or this user doesn't have permission to lock the file.\n"
+        );
         exit(1);
     }
 #else

@@ -43,6 +43,7 @@ public:
     bool homogeneous_redundancy;
     bool ignore_upload_certificates;
     bool enforce_delay_bound;
+    bool use_transactions;
     int daily_result_quota;     // max results per host per day
 
     int parse(char*);

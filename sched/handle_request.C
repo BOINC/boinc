@@ -455,17 +455,14 @@ int handle_results(
 
     // update all the results we have
     //
-    log_messages.printf(
-        SCHED_MSG_LOG::DEBUG,
-        "[HOST#%d] Starting Result Update Transaction...\n",
-        reply.host.id
-        );
-    retval = boinc_db.start_transaction();
-    if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-            "[HOST#%d] result_handler.start_transaction() == %d\n",
-            reply.host.id, retval
-        );
+    if (config.use_transactions) {
+        retval = boinc_db.start_transaction();
+        if (retval) {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "[HOST#%d] result_handler.start_transaction() == %d\n",
+                reply.host.id, retval
+            );
+        }
     }
 
     for (i=0; i<result_handler.results.size(); i++) {
@@ -493,26 +490,16 @@ int handle_results(
         );
     }
 
-    log_messages.printf(
-        SCHED_MSG_LOG::DEBUG,
-        "[HOST#%d] Committing Transaction...\n",
-        reply.host.id
-        );
-    retval = boinc_db.commit_transaction();
-    if (retval) {
-        log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
-            "[HOST#%d] result_handler.commit_transaction() == %d\n",
-            reply.host.id, retval
-        );
-    } else {
-        log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
-            "[HOST#%d] Committed Transaction Successfully...\n",
-            reply.host.id
-        );
+    if (config.use_transactions) {
+        retval = boinc_db.commit_transaction();
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[HOST#%d] result_handler.commit_transaction() == %d\n",
+                reply.host.id, retval
+            );
+        }
     }
-
     return 0;
 }
 

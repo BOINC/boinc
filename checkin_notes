@@ -15815,7 +15815,16 @@ Daniel 2004-08-3
         server_types.C,h
 
 Rom    3 Aug 2004
-    - Change the Secure Windows Desktop message to include an action item for those who want to fix it.
+    - Change the Secure Windows Desktop message to include
+        an action item for those who want to fix it.
 
     client/win/
         boinc_ss.rc
+
+David  4 Aug 2004
+    - Don't use transactions unless config.xml contains <use_transactions/>
+
+    sched/
+        handle_request.C
+        sched_config.C,h
+        transitioner.C

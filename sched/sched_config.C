@@ -69,6 +69,9 @@ int SCHED_CONFIG::parse(char* buf) {
     if (match_tag(buf, "<enforce_delay_bound/>")) {
         enforce_delay_bound = true;
     }
+    if (match_tag(buf, "<use_transactions/>")) {
+        use_transactions = true;
+    }
     parse_int(buf, "<min_sendwork_interval>", min_sendwork_interval);
     parse_int(buf, "<max_wus_to_send>", max_wus_to_send);
     parse_int(buf, "<daily_result_quota>", daily_result_quota);
