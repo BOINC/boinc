@@ -9,6 +9,9 @@
 
     $subset = $_GET["subset"];
     page_head(subset_name($subset)." preferences");
+	if ($_GET['updated']) {
+	    echo '<p style="color: ref">Your preference has been updated and will take effect the next time BOINC starts, or you may manually retrieve the preference in the BOINC software.';
+	}
     if ($subset == "global") {
         print_prefs_display_global($user);
     } else {
