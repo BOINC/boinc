@@ -1,3 +1,9 @@
+XML export: don't subdivide into files
+anonymous platform mechanism
+    (would let people run BOINC on platforms not registered on server)
+    - allow <anonymous_platform> element in sched req
+        req includes list of app_versions
+    - add mechanism to core client for adding app_versions
 port graphics API to X
     CLI core interface:
         --show slotnum or --show all

@@ -1,5 +1,6 @@
-/* do not replace this with an automatically generated schema */
-/* if you add/change anything, update boinc_db.C,h */
+/* If you add/change anything, update boinc_db.C,h */
+/* Fields are documented in boinc_db.h */
+/* Do not replace this with an automatically generated schema */
 
 create table project (
     id                  integer     not null auto_increment,
@@ -66,10 +67,10 @@ create table user (
     send_email          smallint    not null,
     show_hosts          smallint    not null,
     posts               smallint    not null,
-    seti_id             integer,
-    seti_nresults       integer,
-    seti_last_result_time   integer,
-    seti_total_cpu      double,
+    seti_id             integer     not null,
+    seti_nresults       integer     not null,
+    seti_last_result_time   integer not null,
+    seti_total_cpu      double      not null,
     primary key (id)
 );
 
@@ -87,10 +88,9 @@ create table team (
     country             varchar(254),
     total_credit        double      not null,   /* temp */
     expavg_credit       double      not null,   /* temp */
-    seti_id             integer,
+    seti_id             integer     not null,
     primary key (id)
 );
-
 
 create table host (
     id                  integer     not null auto_increment,

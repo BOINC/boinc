@@ -175,6 +175,7 @@ void write_host(HOST& host, FILE* f, bool detail, bool show_user) {
     if (detail) {
         fprintf(f,
             "  <create_time>%d</create_time>\n"
+            "  <rpc_time>%d</rpc_time>\n"
             "  <timezone>%d</timezone>\n"
             "  <ncpus>%d</ncpus>\n"
             "  <p_fpops>%f</p_fpops>\n"
@@ -188,6 +189,7 @@ void write_host(HOST& host, FILE* f, bool detail, bool show_user) {
             "  <n_bwup>%f</n_bwup>\n"
             "  <n_bwdown>%f</n_bwdown>\n",
             host.create_time,
+            host.rpc_time,
             host.timezone,
             host.p_ncpus,
             host.p_fpops,

@@ -31,19 +31,21 @@ For each table (team, user, and host) this gives
 </ul>
 It also includes the UNIX time when the files were last generated.<br>
 For example:
-<pre>
-&lt;tables>
-    &lt;update_time>1046220857&lt;/nupdate_time>
-    &lt;nusers_total>127&lt;/nusers_total>
-    &lt;nusers_per_file_summary>1000&lt;/nusers_per_file_summary>
-    &lt;nusers_per_file_detail>100&lt;/nusers_per_file_detail>
-    &lt;nteams_total>14&lt;/nteams_total>
-    &lt;nteams_per_file_summary>1000&lt;/nteams_per_file_summary>
-    &lt;nteams_per_file_detail>100&lt;/nteams_per_file_detail>
-    &lt;nhosts_total>681&lt;/nhosts_total>
-    &lt;nhosts_per_file_summary>1000&lt;/nhosts_per_file_summary>
-    &lt;nhosts_per_file_detail>100&lt;/nhosts_per_file_detail>
-&lt;/tables>
+<pre> "
+. htmlspecialchars("
+<tables>
+    <update_time>1046220857</update_time>
+    <nusers_total>127</nusers_total>
+    <nusers_per_file_summary>1000</nusers_per_file_summary>
+    <nusers_per_file_detail>100</nusers_per_file_detail>
+    <nteams_total>14</nteams_total>
+    <nteams_per_file_summary>1000</nteams_per_file_summary>
+    <nteams_per_file_detail>100</nteams_per_file_detail>
+    <nhosts_total>681</nhosts_total>
+    <nhosts_per_file_summary>1000</nhosts_per_file_summary>
+    <nhosts_per_file_detail>100</nhosts_per_file_detail>
+</tables>
+") . "
 </pre>
 <b>team_total_credit_N.xml</b>
 <br>

@@ -131,6 +131,7 @@ bool host_is_running_on_batteries() {
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
 // The following is for Redhat Linux 2.2.14.
 // TODO: get this to work on all platforms
+//
 void parse_cpuinfo(HOST_INFO& host) {
     char buf[256];
     int n;
@@ -252,12 +253,12 @@ int get_host_info(HOST_INFO& host) {
 #ifdef SI_ISALIST
     sysinfo(SI_ISALIST, host.p_model, sizeof(host.p_model));
     for (unsigned int i=0; i<sizeof(host.p_model); i++) {
-      if (host.p_model[i]==' ') {
-	host.p_model[i]=0;
-      }
-      if (host.p_model[i]==0) {
-	i=sizeof(host.p_model);
-      }
+        if (host.p_model[i]==' ') {
+            host.p_model[i]=0;
+        }
+        if (host.p_model[i]==0) {
+            i=sizeof(host.p_model);
+        }
     }
 #endif
 #endif

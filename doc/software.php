@@ -16,14 +16,15 @@ Other Unix-like systems should work without too much configuration.
 
 Required for <b>compiling</b>:
 <ul>
-  <li><b>GNU C++</b> 2.95 or 3.0-3.3; other C++ compilers can be ported
-  <li>Other standard development tools assumed: make, gzip, etc.
+  <li><b>GNU C++</b> 2.95 or 3.0-3.3
+  <li>Other GNU development tools: gmake, gzip, etc.
 </ul>
 
 Required on the <b>database</b> server:
 <ul>
-  <li><b>MySQL server</b> 3.23+ or 4.0+: other SQL server can be ported
-      (package <code>mysql-server</code>)
+  <li><b>MySQL server</b> 3.23+ or 4.0+
+      (package <code>mysql-server</code>).
+
 </ul>
 
 Required on the <b>master/scheduler</b> server(s):
