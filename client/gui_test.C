@@ -23,6 +23,7 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_net.h"
+using std::vector;
 #endif
 
 #ifndef _WIN32
