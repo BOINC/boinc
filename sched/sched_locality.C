@@ -191,7 +191,7 @@ static int send_results_for_file(
     WORK_REQ& wreq, SCHED_SHMEM& ss
 ) {
     DB_RESULT result;
-    int retval=0, lastid=0, i, last_wuid=0;
+    int lookup_retval=0, send_retval=0, lastid=0, i, last_wuid=0;
     char buf[256];
 
     nsent = 0;
@@ -204,13 +204,13 @@ static int send_results_for_file(
             "where name like '%s__%%' and server_state=%d and workunitid<>%d limit 1",
             filename, RESULT_SERVER_STATE_UNSENT, last_wuid
         );
-        retval = result.lookup(buf);
+        lookup_retval = result.lookup(buf);
 
         // if we see the same result twice, bail (avoid spinning)
         //
-        if (!retval && (result.id == lastid)) retval = -1;
+        if (!lookup_retval && (result.id == lastid)) lookup_retval = -1;
 
-        if (retval) {
+        if (lookup_retval) {
             if (config.locality_scheduling_wait_period) {
                 make_more_work_for_file(filename);
             }
@@ -222,20 +222,20 @@ static int send_results_for_file(
             // set one_result_per_wu then we won't get one of these.
             //
             lastid = result.id;
-            retval = possibly_send_result(
+            send_retval = possibly_send_result(
                 result,
                 sreq, reply, platform, wreq, ss
             );
-            if (!retval) {
-                if (config.one_result_per_user_per_wu) {
-                    last_wuid = result.workunitid;
-                }
+            if (config.one_result_per_user_per_wu) {
+                last_wuid = result.workunitid;
+            }
+            if (!send_retval) {
                 nsent++;
             }
         }
 
         boinc_db.commit_transaction();
-        if (retval) break;
+        if (lookup_retval) break;
     }
     return 0;
 }
