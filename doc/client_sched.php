@@ -299,7 +299,7 @@ compute_work_request():
 
     foreach project P:
         project_active_frac = active_frac * P.resource_share
-        work_remaining = 0
+        time_to_starvation = 0
         results_to_skip = min_results(P) - 1
         P.work_request = 0
 
@@ -307,13 +307,13 @@ compute_work_request():
             if results_to_skip > 0:
                 results_to_skip--
                 continue
-            work_remaining += cpu_time(R) / project_active_frac
+            time_to_starvation += cpu_time(R) / project_active_frac
 
-        if P.work_remaining < T:
-            if work_remaining == 0:
+        if time_to_starvation < T:
+            if time_to_starvation == 0:
                 urgency = NEED_WORK_IMMEDIATELY
             P.work_request =
-                (2*T - work_remaining)*project_active_frac
+                (2*T - time_to_starvation)*project_active_frac
             urgency = max(NEED_WORK, urgency)
 
     return urgency
