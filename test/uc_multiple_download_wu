@@ -1,6 +1,9 @@
 <file_info>
     <name><INFILE_0/></name>
     <url><DOWNLOAD_URL/>/<INFILE_0/></url>
+    <url><DOWNLOAD_URL/>0/<INFILE_0/></url>
+    <url><DOWNLOAD_URL/>1/<INFILE_0/></url>	
+    <url><DOWNLOAD_URL/>2/<INFILE_0/></url>
     <md5_cksum><MD5_0/></md5_cksum>
 </file_info>
 <workunit>
