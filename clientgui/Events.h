@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.12  2004/10/22 10:02:14  rwalton
+// *** empty log message ***
+//
 // Revision 1.11  2004/10/21 14:29:58  rwalton
 // *** empty log message ***
 //
@@ -48,16 +51,18 @@
 #define ID_FRAMENOTEBOOK                    6002
 #define ID_FRAMETASKRENDERTIMER             6003
 #define ID_FRAMELISTRENDERTIMER             6004
-#define ID_LIST_PROJECTSVIEW                6005
-#define ID_LIST_WORKVIEW                    6006
-#define ID_LIST_TRANSFERSVIEW               6007
-#define ID_LIST_MESSAGESVIEW                6008
-#define ID_LIST_RESOURCEUTILIZATIONVIEW     6009
-#define ID_HTML_PROJECTSVIEW                6010
-#define ID_HTML_WORKVIEW                    6011
-#define ID_HTML_TRANSFERSVIEW               6012
-#define ID_HTML_MESSAGESVIEW                6013
-#define ID_HTML_RESOURCEUTILIZATIONVIEW     6014
+#define ID_LIST_BASE                        7000
+#define ID_LIST_PROJECTSVIEW                7000
+#define ID_LIST_WORKVIEW                    7001
+#define ID_LIST_TRANSFERSVIEW               7002
+#define ID_LIST_MESSAGESVIEW                7003
+#define ID_LIST_RESOURCEUTILIZATIONVIEW     7004
+#define ID_HTML_BASE                        8000
+#define ID_HTML_PROJECTSVIEW                8000
+#define ID_HTML_WORKVIEW                    8001
+#define ID_HTML_TRANSFERSVIEW               8002
+#define ID_HTML_MESSAGESVIEW                8003
+#define ID_HTML_RESOURCEUTILIZATIONVIEW     8004
 
 
 #endif

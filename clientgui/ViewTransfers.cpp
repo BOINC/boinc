@@ -83,8 +83,7 @@ CViewTransfers::CViewTransfers()
 CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook, ID_HTML_TRANSFERSVIEW, ID_LIST_TRANSFERSVIEW)
 {
-    m_bProcessingTaskRenderEvent = false;
-    m_bProcessingListRenderEvent = false;
+    m_bItemSelected = false;
 
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
