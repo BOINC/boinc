@@ -1,7 +1,7 @@
 <?php
 
 require_once("util.inc");
-require_once("project_specfici/project.inc");
+require_once("project_specific/project.inc");
 
 // TODO: Determine if we can always assume these will be the same number.
 define('SMALL_IMG_WIDTH', 64);
