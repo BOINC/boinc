@@ -68,3 +68,102 @@ int CLIENT_STATE::parse_account_files() {
     return 0;
 }
 
+int CLIENT_STATE::add_project(char* master_url, char* authenticator)
+{
+    char path[256];
+    PROJECT* project;
+    FILE* f;
+	int retval;
+
+	// check if this project is already running
+	if(lookup_project(master_url)) return -1;
+
+	// create project state
+	write_account_file(master_url, authenticator);
+    get_account_filename(master_url, path);
+    f = fopen(path, "r");
+    if (!f) return ERR_FOPEN;
+    project = new PROJECT;
+    retval = project->parse_account(f);
+    fclose(f);
+	if(retval) {
+		return retval;
+	}
+
+	// remove any old files
+	retval = remove_project_dir(*project);
+
+	retval = make_project_dir(*project);
+	if(retval) {
+		return retval;
+	}
+    projects.push_back(project);
+	return 0;
+}
+
+int CLIENT_STATE::change_project(int index, char* master_url, char* authenticator)
+{
+    char path[256];
+    PROJECT* project;
+    FILE* f;
+	int retval;
+
+	// check if this project is already running
+	if(lookup_project(master_url)) return -1;
+
+	// delete old file
+	project = projects[index];
+    get_account_filename(project->master_url, path);
+	retval = file_delete(path);
+
+	// create project state
+	write_account_file(master_url, authenticator);
+    get_account_filename(master_url, path);
+    f = fopen(path, "r");
+    if (!f) return ERR_FOPEN;
+    retval = project->parse_account(f);
+    fclose(f);
+	if(retval) {
+		return retval;
+	}
+
+	// remove any old files
+	retval = remove_project_dir(*project);
+
+	retval = make_project_dir(*project);
+	if(retval) {
+		return retval;
+	}
+	return 0;
+}
+
+int CLIENT_STATE::quit_project(int index)
+{
+	PROJECT* project = NULL;
+	vector <PROJECT*>::iterator iter;
+	int curindex = 0;
+
+	// find project and remove it from the vector
+	for(iter = projects.begin(); iter != projects.end(); iter ++) {
+		if(curindex == index) {
+			project = *iter;
+			projects.erase(iter);
+			break;
+		}
+		curindex ++;
+	}
+	if(project == NULL) return -1;
+
+	// delete file
+    char path[256];
+	int retval;
+    get_account_filename(project->master_url, path);
+	retval = file_delete(path);
+
+//	delete project;  //also somewhere else?
+
+#ifdef _WIN32
+	AfxMessageBox("Please restart the client to complete the quit.", MB_OK, 0);
+#endif
+	return 0;
+}

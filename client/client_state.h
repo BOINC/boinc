@@ -124,6 +124,9 @@ public:
     void handle_scheduler_reply(PROJECT*, char* scheduler_url);
     void set_client_state_dirty(char*);
     int report_project_error( RESULT &res, int err_num, char *err_msg );
+	int add_project(char* master_url, char* authenticator);
+	int change_project(int index, char* master_url, char* authenticator);
+	int quit_project(int index);
 private:
     PROJECT* find_project_with_overdue_results();
     bool some_project_rpc_ok();
