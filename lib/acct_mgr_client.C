@@ -98,8 +98,7 @@ void ACCT_MGR_LOGIN::clear() {
 }
 
 
-ACCT_MGR_CLIENT::ACCT_MGR_CLIENT()
-{
+ACCT_MGR_CLIENT::ACCT_MGR_CLIENT() {
     acct_mgr_found = false;
     acct_mgr_login_found = false;
     acct_mgr_login_initialized = false;
@@ -108,8 +107,7 @@ ACCT_MGR_CLIENT::ACCT_MGR_CLIENT()
 }
 
 
-ACCT_MGR_CLIENT::~ACCT_MGR_CLIENT()
-{
+ACCT_MGR_CLIENT::~ACCT_MGR_CLIENT() {
     acct_mgr_found = false;
     acct_mgr_login_found = false;
     acct_mgr_login_initialized = false;
@@ -118,8 +116,7 @@ ACCT_MGR_CLIENT::~ACCT_MGR_CLIENT()
 }
 
 
-int ACCT_MGR_CLIENT::init()
-{
+int ACCT_MGR_CLIENT::init() {
     char    buf[256];
     int     retval;
     MIOFILE mf;
@@ -127,7 +124,7 @@ int ACCT_MGR_CLIENT::init()
     FILE*   acct_mgr_login_file;
 
     acct_mgr_file = fopen("acct_mgr_url.xml", "r");
-    if ( NULL != acct_mgr_file ) {
+    if (acct_mgr_file ) {
         acct_mgr_found = true;
 
         mf.init_file(acct_mgr_file);
@@ -143,7 +140,7 @@ int ACCT_MGR_CLIENT::init()
     }
 
     acct_mgr_login_file = fopen("acct_mgr_login.xml", "r");
-    if ( (NULL != acct_mgr_login_file) && (0 == retval) ) {
+    if (acct_mgr_login_file && !retval) {
         acct_mgr_login_found = true;
 
         mf.init_file(acct_mgr_login_file);
@@ -166,10 +163,10 @@ int ACCT_MGR_CLIENT::init()
 
 
 void ACCT_MGR_CLIENT::close() {
-    if ( (!acct_mgr_login_found ) && ( acct_mgr_login_initialized ) ) {
+    if (!acct_mgr_login_found && acct_mgr_login_initialized) {
         FILE* acct_mgr_login_file;
         acct_mgr_login_file = fopen("acct_mgr_login.xml", "w");
-        if ( NULL != acct_mgr_login_file ) {
+        if (acct_mgr_login_file) {
             fprintf(
                 acct_mgr_login_file, 
                 "<acct_mgr_login>\n"
@@ -179,7 +176,6 @@ void ACCT_MGR_CLIENT::close() {
                 acct_mgr_login.login.c_str(),
                 acct_mgr_login.password.c_str()
             );
-
             fclose(acct_mgr_login_file);
         }
     }
