@@ -20,41 +20,42 @@
 #ifndef _BOINC_API_
 #define _BOINC_API_
 
-#ifndef _WIN32
 #include <string>
-#include <assert.h>
-#endif
 
 using namespace std;
 
 #include "app_ipc.h"
 
-/////////// API BEGINS HERE 
+/////////// API BEGINS HERE
 
-extern int	boinc_set_error(int exit_code);
+extern "C" {
+    extern int	boinc_set_error(int exit_code);
 
-extern int	boinc_init(bool standalone = false);
-extern int	boinc_finish(int);
+    extern int	boinc_init(bool standalone = false);
+    extern int	boinc_finish(int);
 
-extern bool	boinc_is_standalone();
+    extern bool	boinc_is_standalone();
 
-extern int	boinc_resolve_filename(const char*, char*, int len);
-extern int	boinc_resolve_filename(const char*, string&);
+    extern int	boinc_resolve_filename(const char*, char*, int len);
 
-extern int	boinc_parse_init_data_file();
-extern int	boinc_write_init_data_file();
-extern int	boinc_get_init_data(APP_INIT_DATA&);
+    extern int	boinc_resolve_filename_s(const char*, string&);
 
-extern int	boinc_send_trickle_up(char*);
-extern bool boinc_receive_trickle_down(char* buf, int len);
+    extern int	boinc_parse_init_data_file();
+    extern int	boinc_write_init_data_file();
+    extern int	boinc_get_init_data(APP_INIT_DATA&);
 
-extern bool	boinc_time_to_checkpoint();
-extern int	boinc_checkpoint_completed();
+    extern int	boinc_send_trickle_up(char*);
+    extern bool boinc_receive_trickle_down(char* buf, int len);
 
-extern int	boinc_fraction_done(double);
+    extern bool	boinc_time_to_checkpoint();
+    extern int	boinc_checkpoint_completed();
 
-extern int	boinc_wu_cpu_time(double&);
-extern int	boinc_thread_cpu_time(double&, double&);
+    extern int	boinc_fraction_done(double);
+
+    extern int	boinc_wu_cpu_time(double&);
+    extern int	boinc_thread_cpu_time(double&, double&);
+
+} // extern "C"
 
 /////////// API ENDS HERE
 

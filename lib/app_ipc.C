@@ -25,6 +25,7 @@
 #include <string.h>
 #endif
 
+#include "boinc_api.h"
 #include "parse.h"
 #include "error_numbers.h"
 #include "util.h"
@@ -337,7 +338,7 @@ int boinc_resolve_filename(const char *virtual_name, char *physical_name, int le
 
 // resolve XML soft link
 //
-int boinc_resolve_filename(const char *virtual_name, string& physical_name) {
+int boinc_resolve_filename_s(const char *virtual_name, string& physical_name) {
 
     physical_name = virtual_name;
     // Open the file and load the first line

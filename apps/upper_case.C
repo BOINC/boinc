@@ -89,7 +89,7 @@ int do_checkpoint(MFILE& mf, int nchars) {
 
     retval = mf.flush();
     if (retval) return retval;
-    boinc_resolve_filename(CHECKPOINT_FILE, resolved_name);
+    boinc_resolve_filename_s(CHECKPOINT_FILE, resolved_name);
     retval = boinc_rename("temp", resolved_name.c_str());
     if (retval) return retval;
 
@@ -123,8 +123,8 @@ int main(int argc, char **argv) {
     my_start_time = time(0);
 
 
-    flags = 
-        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+    flags =
+        BOINC_DIAG_DUMPCALLSTACKENABLED |
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_REDIRECTSTDERR;
 

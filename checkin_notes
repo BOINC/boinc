@@ -12995,7 +12995,7 @@ Daniel June 3 2004
 		cs_files.C
 		pers_file_xfer.C
 
-Karl 2004-04-04
+Karl 2004-06-04
     - start: fixed bug where Python 2.3.3 writes 'True' instead of '1' to
       run_state.xml
 
@@ -13076,3 +13076,14 @@ David  June 6 2004
 	client/
 		client_state.C
 		pers_file_xfer.C,h
+
+Karl 2004-06-08
+    - changed BOINC api calls to extern "C" -- makes it easier to call from
+      other languages  (Fortran)
+
+    api/
+        boinc_api.h
+    apps/
+        upper-case.C
+    lib/
+        app_ipc.C
