@@ -24542,9 +24542,10 @@ Bruce  10 Feb 2005
       makes host_has_file() skip the final WU in the vector in hunting for a file.
     - Better log message for setting coredump size.
 I   - Added RCSID tag to sched_timezone.C
+    - Got rid of annoying 'no <host_venue>' tag messages from scheduler
     sched/
         sched_send.C
         sched_locality.C
         main.C
         sched_timezone.C
-
+        server_types.C

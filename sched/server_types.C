@@ -159,6 +159,8 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             if (!retval) {
                 file_infos.push_back(fi);
             }
+        } else if (match_tag(buf, "<host_venue>")) {
+            // do NOTHING here
         } else {
             log_messages.printf(SCHED_MSG_LOG::NORMAL, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
         }
