@@ -10047,17 +10047,3 @@ David  Feb 15 2004
     py/Boinc/
         database.py
         setup_project.py
-
-Rom    Feb 15 2004
-    - Older clients do not report back exit_status information of the project client
-      application which is causing a condition where the server believes a success
-      condition has occurred even though the client application AV'ed or otherwise
-      crashed.
-
-    NOTE:
-        BOINC Clients older than 2.16 will ALWAYS report back an error as the server
-        will be looking for the exit_status tag in stderr and when it doesn't find
-        it it forcefully sets the exit_status to ERR_XML_PARSE (-112)
-
-    sched/
-        handle_request.C

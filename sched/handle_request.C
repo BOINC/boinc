@@ -608,12 +608,10 @@ int handle_results(
         strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
         parse_int(result.stderr_out, "<app_version>", result.app_version_num);
 
-		// look for exit status in stderr_out
+	// look for exit status in stderr_out
         // TODO: return it separately
         //
-		if (!parse_int(result.stderr_out, "<exit_status>", result.exit_status)) {
-			result.exit_status = ERR_XML_PARSE;
-		}
+	parse_int(result.stderr_out, "<exit_status>", result.exit_status);
 
         if ((result.client_state == RESULT_FILES_UPLOADED) && (result.exit_status == 0)) {
             result.outcome = RESULT_OUTCOME_SUCCESS;
