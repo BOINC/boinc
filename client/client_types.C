@@ -75,6 +75,11 @@ void PROJECT::init() {
     sched_rpc_pending = false;
     tentative = false;
 	anonymous_platform = false;
+    debt = 0;
+    anticipated_debt = 0;
+    work_done_this_period = 0;
+    next_runnable_result = NULL;
+    work_request = 0;
 }
 
 PROJECT::~PROJECT() {
@@ -320,6 +325,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_int(buf, "<min_rpc_time>", (int&)min_rpc_time)) continue;
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
         else if (match_tag(buf, "<sched_rpc_pending/>")) sched_rpc_pending = true;
+        else if (parse_double(buf, "<debt>", debt)) continue;
         else scope_messages.printf("PROJECT::parse_state(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
@@ -364,7 +370,8 @@ int PROJECT::write_state(MIOFILE& out) {
         "    <nrpc_failures>%d</nrpc_failures>\n"
         "    <master_fetch_failures>%d</master_fetch_failures>\n"
         "    <min_rpc_time>%d</min_rpc_time>\n"
-        "%s%s",
+        "    <debt>%f</debt>\n"
+        "%s%s\n",
         master_url,
         project_name,
         u2.c_str(),
@@ -384,6 +391,7 @@ int PROJECT::write_state(MIOFILE& out) {
         nrpc_failures,
         master_fetch_failures,
         (int)min_rpc_time,
+        debt,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         sched_rpc_pending?"    <sched_rpc_pending/>\n":""
     );
@@ -423,6 +431,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     master_url_fetch_pending = p.master_url_fetch_pending;
     sched_rpc_pending = p.sched_rpc_pending;
     safe_strcpy(code_sign_key, p.code_sign_key);
+    debt = p.debt;
 }
 
 char* PROJECT::get_project_name() {

@@ -103,6 +103,9 @@ CLIENT_STATE::CLIENT_STATE() {
     pers_retry_delay_max = PERS_RETRY_DELAY_MAX;
     pers_giveup = PERS_GIVEUP;
 	executing_as_windows_service = false;
+    cpu_sched_last_time = (long) 0;
+    cpu_sched_period = 30;
+    cpu_sched_work_done_this_period = 0;
 }
 
 #if 0
@@ -258,6 +261,7 @@ int CLIENT_STATE::init() {
             msg_printf(p, MSG_INFO, "Host ID not assigned yet");
         }
     }
+
     // Read the global preferences file, if it exists.
     // Do this after reading the state file so we know our venue
     //
@@ -284,7 +288,13 @@ int CLIENT_STATE::init() {
 		start_cpu_benchmarks();
     }
 
-    set_nslots();
+    set_ncpus();
+
+    // set period start time
+    cpu_sched_last_time = time(NULL);
+
+    // set initial work_done_this_period so project debts are non-zero
+    cpu_sched_work_done_this_period = cpu_sched_period * ncpus;
 
     // set up the project and slot directories
     //
@@ -386,7 +396,7 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(net_xfers              , net_xfers->poll        );
         POLL_ACTION(http_ops               , http_ops->poll         );
         POLL_ACTION(active_tasks           , active_tasks.poll      );
-        POLL_ACTION(start_apps             , start_apps             );
+        POLL_ACTION(schedule_cpus          , schedule_cpus          );
         POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
         POLL_ACTION(garbage_collect        , garbage_collect        );
@@ -402,8 +412,8 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(file_xfers             , file_xfers->poll       );
         POLL_ACTION(active_tasks           , active_tasks.poll      );
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
-        POLL_ACTION(start_apps             , start_apps             );
-        POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll       );
+        POLL_ACTION(schedule_cpus          , schedule_cpus          );
+        POLL_ACTION(pers_file_xfers        , pers_file_xfers->poll  );
         POLL_ACTION(handle_finished_apps   , handle_finished_apps   );
         POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );
         POLL_ACTION(garbage_collect        , garbage_collect        );
@@ -878,6 +888,7 @@ bool CLIENT_STATE::update_results() {
         case RESULT_FILES_DOWNLOADING:
             if (input_files_available(rp)) {
                 rp->state = RESULT_FILES_DOWNLOADED;
+                schedule_cpus(true);
                 action = true;
             }
             break;

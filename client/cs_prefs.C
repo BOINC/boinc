@@ -47,9 +47,9 @@ void CLIENT_STATE::install_global_prefs() {
     net_xfers->bytes_left_up = global_prefs.max_bytes_sec_up;
     net_xfers->bytes_left_down = global_prefs.max_bytes_sec_down;
 
-    // max_cpus may have changed, so update nslots
+    // max_cpus may have changed, so update ncpus
     //
-    set_nslots();
+    set_ncpus();
 }
 
 // Return the maximum allowed disk usage as determined by user preferences.

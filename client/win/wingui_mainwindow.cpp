@@ -488,7 +488,15 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
                     }
                     break;
                 case RESULT_FILES_DOWNLOADED:
-                    if (at) strBuf.Format(g_szMiscItems[1]);
+                    if (at) {
+                        if (at->scheduler_state == CPU_SCHED_RUNNING) {
+                            strBuf.Format(g_szMiscItems[1]);
+                        } else if (at->scheduler_state == CPU_SCHED_PREEMPTED) {
+                            strBuf.Format(g_szMiscItems[14]);
+                        } else if (at->scheduler_state == CPU_SCHED_UNINITIALIZED) {
+                            strBuf.Format(g_szMiscItems[2]);
+                        }
+                    }
                     else strBuf.Format(g_szMiscItems[2]);
                     break;
                 case RESULT_COMPUTE_DONE:

@@ -19,7 +19,7 @@
 
 #define MAX_TABS        5
 #define MAX_USAGE_STR   5
-#define MAX_MISC_STR    14
+#define MAX_MISC_STR    16
 #define MAX_LIST_ID     4        // for column titles
 #define MAX_COLS        8
 

@@ -14290,3 +14290,24 @@ David  29 June 2004
 			wingui_mainwindow.cpp
 	lib/
 		hostinfo.h
+
+Daniel 29 June 2004
+    - New client CPU scheduler, as specified in client_sched.php
+    - Fixed NULL pointer bug in create_shmem when calling with pp=NULL
+      (fixed by Dave)
+
+    client/
+        app.{C,h}
+        client_state.{C,h}
+        client_types.{C,h}
+        cs_apps.C
+        cs_prefs.C
+        cs_scheduler.C
+        cs_statefile.C
+        gui_titles.C
+        gui_titles.h
+        win/
+            wingui_mainwindow.cpp
+    lib/
+        shmem.C
+

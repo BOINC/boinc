@@ -151,6 +151,8 @@ int CLIENT_STATE::parse_state_file() {
             // after core client update
         } else if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
         } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
+        } else if (parse_int(buf, "<cpu_sched_period>", cpu_sched_period)) {
+        } else if (parse_double(buf, "<cpu_sched_work_done_this_period>", cpu_sched_work_done_this_period)) {
         } else if (match_tag(buf, "<proxy_info>")) {
             retval = pi.parse(mf);
             if (retval) goto done;
@@ -254,6 +256,15 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         platform_name,
         core_client_major_version,
         core_client_minor_version
+    );
+
+    // save CPU scheduling state
+    //
+    f.printf(
+        "<cpu_sched_period>%d</cpu_sched_period>\n"
+        "<cpu_sched_work_done_this_period>%f</cpu_sched_work_done_this_period>\n",
+        cpu_sched_period,
+        cpu_sched_work_done_this_period
     );
 
     // save proxy info

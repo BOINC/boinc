@@ -187,6 +187,32 @@ PROJECT* CLIENT_STATE::next_project(PROJECT* old) {
     return pbest;
 }
 
+#if 0
+// return the next project after "old" that is eligible for a
+// scheduler RPC
+// It excludes projects that have (p->master_url_fetch_pending) set to
+// true.
+// Such projects will be returned by next_project_master_pending
+// routine.
+//
+PROJECT* CLIENT_STATE::next_project(PROJECT *old) {
+    PROJECT *p;
+    time_t now = time(0);
+    unsigned int i;
+    bool found_old = old == 0;
+    for (i=0; i<projects.size(); ++i) {
+        p = projects[i];
+        if (p == old) found_old = true;
+        if (p->master_url_fetch_pending) continue;
+        if (p->waiting_until_min_rpc_time(now)) continue;
+        if (found_old && p->work_request > 0) {
+            return p;
+        }
+    }
+    return 0;
+}
+#endif
+
 // Compute the "resource debt" of each project.
 // This is used to determine what project we will ask for work next,
 // based on the user-specified resource share.
@@ -396,12 +422,60 @@ bool CLIENT_STATE::some_project_rpc_ok() {
     return false;
 }
 
+// set projects' work_request and return the urgency of requesting
+// more work
+//
+int CLIENT_STATE::compute_work_requests() {
+    double total_share = 0;
+    int urgency = 0;
+    double work_min_period = global_prefs.work_buf_min_days * SECONDS_PER_DAY;
+
+    for (unsigned int i=0; i<projects.size(); ++i) {
+        PROJECT *p = projects[i];
+        total_share += p->resource_share;
+    }
+
+    for (unsigned int i=0; i<projects.size(); ++i) {
+        PROJECT *p = projects[i];
+        double work_remaining = 0;
+        double resource_share = p->resource_share / total_share;
+        int num_results_to_skip = (int) ceil(ncpus * resource_share) - 1;
+        p->work_request = 0;
+
+        for (vector<RESULT*>::reverse_iterator iter = results.rbegin();
+             iter != results.rend(); iter++
+        ) {
+            RESULT *rp = *iter;
+            if (rp->project != p) continue;
+            if (num_results_to_skip--) continue;
+            if (rp->wup) {
+                double cpu_time =
+                    estimate_cpu_time(*rp->wup) * (1.0 - get_fraction_done(rp));
+                if (cpu_time > 0) {
+                    work_remaining += cpu_time * resource_share;
+                }
+            }
+        }
+
+        if (work_remaining < work_min_period) {
+            if (work_remaining == 0) {
+                urgency = NEED_WORK_IMMEDIATELY;
+            }
+            p->work_request =
+                (2 * work_min_period - work_remaining) * resource_share;
+            urgency = NEED_WORK < urgency ? urgency : NEED_WORK;
+        }
+    }
+
+    return urgency;
+}
+
 // called from the client's polling loop.
 // initiate scheduler RPC activity if needed and possible
 //
 bool CLIENT_STATE::scheduler_rpc_poll() {
     double work_secs, work_buf_days;
-	int nactive_results;
+    int nactive_results;
     PROJECT* p;
     bool action=false, below_work_buf_min, should_get_work;
 

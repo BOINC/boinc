@@ -108,6 +108,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     pid = 0;
     slot = 0;
     state = PROCESS_UNINITIALIZED;
+    scheduler_state = CPU_SCHED_UNINITIALIZED;
     exit_status = 0;
     signal = 0;
     strcpy(slot_dir, "");
@@ -123,6 +124,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     recent_change = 0;
     last_frac_update = 0;
     episode_start_cpu_time = 0;
+    cpu_time_at_last_sched = 0;
     checkpoint_cpu_time = 0;
     current_cpu_time = 0;
     working_set_size = 0;
@@ -297,6 +299,7 @@ int ACTIVE_TASK::start(bool first_time) {
     }
     current_cpu_time = checkpoint_cpu_time;
     episode_start_cpu_time = checkpoint_cpu_time;
+    cpu_time_at_last_sched = checkpoint_cpu_time;
     fraction_done = 0;
 
     gi.xsize = 800;
@@ -520,6 +523,7 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
     state = PROCESS_RUNNING;
     result->active_task_state = PROCESS_RUNNING;
+    scheduler_state = CPU_SCHED_RUNNING;
     return 0;
 }
 
@@ -615,23 +619,76 @@ bool ACTIVE_TASK::task_exited() {
     return exited;
 }
 
-// Inserts an active task into the ACTIVE_TASK_SET and starts it up
+// preempts a task
 //
-int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
-    int retval;
+int ACTIVE_TASK::preempt() {
+    int retval = suspend();
 
-    get_slot_dir(atp->slot, atp->slot_dir);
-    retval = clean_out_dir(atp->slot_dir);
     if (retval) {
-        msg_printf(atp->result->project, MSG_ERROR,
-            "ACTIVE_TASK_SET::insert(): can't delete file %s",
-            boinc_failed_file
+        msg_printf(
+            wup->project,
+            MSG_ERROR,
+            "ACTIVE_TASK::preempt(): could not suspend active_task"
         );
         return retval;
     }
-    retval = atp->start(true);
-    if (retval) return retval;
-    active_tasks.push_back(atp);
+    scheduler_state = CPU_SCHED_PREEMPTED;
+
+    msg_printf(result->project, MSG_INFO,
+        "Preempting computation for result %s",
+        result->name
+    );
+    return 0;
+}
+
+// Resume the task if it was previously running
+// Otherwise, start it
+//
+int ACTIVE_TASK::resume_or_start() {
+    int retval;
+
+    if (state == PROCESS_UNINITIALIZED) {
+        if (scheduler_state == CPU_SCHED_UNINITIALIZED) {
+            if (!boinc_file_exists(slot_dir)) {
+                make_slot_dir(slot);
+            }
+            retval = clean_out_dir(slot_dir);
+            if (retval) {
+                msg_printf(result->project, MSG_ERROR,
+                    "ACTIVE_TASK::resume_or_start(): can't delete file %s",
+                    boinc_failed_file
+                );
+                return retval;
+            }
+            retval = start(true);
+        } else {
+            retval = start(false);
+        }
+        if (retval) return retval;
+        msg_printf(result->project, MSG_INFO,
+            "Starting computation for result %s using %s version %.2f",
+            result->name,
+            app_version->app->name,
+            app_version->version_num/100.
+        );
+    } else {
+        retval = unsuspend();
+        if (retval) {
+            msg_printf(
+                wup->project,
+                MSG_ERROR,
+                "ACTIVE_TASK::resume_preempted(): could not unsuspend active_task"
+            );
+            return retval;
+        }
+        scheduler_state = CPU_SCHED_RUNNING;
+        msg_printf(result->project, MSG_INFO,
+            "Resuming computation for result %s using %s version %.2f",
+            result->name,
+            app_version->app->name,
+            app_version->version_num/100.
+        );
+    }
     return 0;
 }
 
@@ -700,6 +757,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         if (atp->state == PROCESS_IN_LIMBO) continue;
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             if (exit_code != STILL_ACTIVE) {
@@ -898,6 +956,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 
     for (j=0;j<active_tasks.size();j++) {
         atp = active_tasks[j];
+        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         if (atp->state != PROCESS_RUNNING) continue;
         if (atp->check_max_cpu_exceeded()) return true;
         //else if (atp->check_max_mem_exceeded()) return true;
@@ -1107,6 +1166,7 @@ void ACTIVE_TASK_SET::suspend_all() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         if (atp->suspend()) {
             msg_printf(
                 atp->wup->project,
@@ -1124,6 +1184,7 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         if (atp->unsuspend()) {
             msg_printf(
                 atp->wup->project,
@@ -1186,7 +1247,6 @@ int ACTIVE_TASK::unsuspend() {
 }
 
 // Remove an ACTIVE_TASK from the set.
-// Do this only if you're sure that the process has exited.
 // Does NOT delete the ACTIVE_TASK object.
 //
 int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
@@ -1205,15 +1265,17 @@ int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
 }
 
 // Restart active tasks without wiping and reinitializing slot directories
+// Called at init, with max_tasks = ncpus
 //
-int ACTIVE_TASK_SET::restart_tasks() {
+int ACTIVE_TASK_SET::restart_tasks(int max_tasks) {
     vector<ACTIVE_TASK*>::iterator iter;
     ACTIVE_TASK* atp;
     RESULT* result;
-    int retval;
+    int retval, num_tasks_started;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
+    num_tasks_started = 0;
     iter = active_tasks.begin();
     while (iter != active_tasks.end()) {
         atp = *iter;
@@ -1231,7 +1293,22 @@ int ACTIVE_TASK_SET::restart_tasks() {
             delete atp;
             continue;
         }
+
+        if (atp->scheduler_state != CPU_SCHED_RUNNING
+            || num_tasks_started >= max_tasks
+        ) {
+            msg_printf(atp->wup->project, MSG_INFO,
+                "Deferring computation for result %s",
+                atp->result->name
+            );
+
+            atp->scheduler_state = CPU_SCHED_PREEMPTED;
+            iter++;
+            continue;
+        }
+
         result->is_active = true;
+
         msg_printf(atp->wup->project, MSG_INFO,
             "Resuming computation for result %s using %s version %.2f",
             atp->result->name,
@@ -1239,6 +1316,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
             atp->app_version->version_num/100.
         );
         retval = atp->start(false);
+
         if (retval) {
             msg_printf(atp->wup->project, MSG_ERROR, "ACTIVE_TASKS::restart_tasks(); restart failed: %d\n", retval);
             atp->result->active_task_state = PROCESS_COULDNT_START;
@@ -1249,6 +1327,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
             iter = active_tasks.erase(iter);
             delete atp;
         } else {
+            ++num_tasks_started;
             iter++;
         }
     }
@@ -1378,18 +1457,14 @@ int ACTIVE_TASK::current_disk_usage(double& size) {
     return 0;
 }
 
-// Get the next available free slot, or returns -1 if all slots are full
+// Get the next free slot
 //
-int ACTIVE_TASK_SET::get_free_slot(int total_slots) {
+int ACTIVE_TASK_SET::get_free_slot() {
     unsigned int i;
     int j;
     bool found;
 
-    if (active_tasks.size() >= (unsigned int)total_slots) {
-        return -1;
-    }
-
-    for (j=0; j<total_slots; j++) {
+    for (j=0; ; j++) {
         found = false;
         for (i=0; i<active_tasks.size(); i++) {
             if (active_tasks[i]->slot == j) {
@@ -1399,8 +1474,7 @@ int ACTIVE_TASK_SET::get_free_slot(int total_slots) {
         }
         if (!found) return j;
     }
-
-    return -1;
+    return -1;   // probably never get here
 }
 
 int ACTIVE_TASK::write(MIOFILE& fout) {
@@ -1410,6 +1484,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <result_name>%s</result_name>\n"
         "    <app_version_num>%d</app_version_num>\n"
         "    <slot>%d</slot>\n"
+        "    <scheduler_state>%d</scheduler_state>\n"
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
@@ -1418,6 +1493,7 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         result->name,
         app_version->version_num,
         slot,
+        scheduler_state,
         checkpoint_cpu_time,
         fraction_done,
         current_cpu_time
@@ -1482,6 +1558,7 @@ int ACTIVE_TASK::parse(MIOFILE& fin) {
         else if (parse_str(buf, "<project_master_url>", project_master_url, sizeof(project_master_url))) continue;
         else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         else if (parse_int(buf, "<slot>", slot)) continue;
+        else if (parse_int(buf, "<scheduler_state>", scheduler_state)) continue;
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
@@ -1536,12 +1613,14 @@ ACTIVE_TASK* ACTIVE_TASK_SET::get_graphics_capable_app() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         if (atp->graphics_mode_before_ss == MODE_WINDOW) {
             return atp;
         }
     }
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         if (atp->graphics_mode_before_ss == MODE_HIDE_GRAPHICS) {
             return atp;
         }
@@ -1557,6 +1636,7 @@ ACTIVE_TASK* ACTIVE_TASK_SET::get_app_requested(int req_mode) {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         if (atp->graphics_requested_mode == req_mode) {
             return atp;
         }
@@ -1570,6 +1650,7 @@ void ACTIVE_TASK_SET::save_app_modes() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         atp->graphics_mode_before_ss = atp->graphics_acked_mode;
     }
 }
@@ -1580,6 +1661,7 @@ void ACTIVE_TASK_SET::hide_apps() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
     }
 }
@@ -1590,6 +1672,7 @@ void ACTIVE_TASK_SET::restore_apps() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         if (atp->graphics_requested_mode != atp->graphics_mode_before_ss) {
             atp->request_graphics_mode(atp->graphics_mode_before_ss);
         }
@@ -1602,6 +1685,7 @@ void ACTIVE_TASK_SET::check_graphics_mode_ack() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
+        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         atp->check_graphics_mode_ack();
     }
 }
@@ -1609,3 +1693,4 @@ void ACTIVE_TASK_SET::check_graphics_mode_ack() {
 bool ACTIVE_TASK::supports_graphics() {
     return (graphics_acked_mode != MODE_UNSUPPORTED);
 }
+

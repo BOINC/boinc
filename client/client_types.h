@@ -167,8 +167,18 @@ public:
     char code_sign_key[MAX_BLOB_LEN];
     vector<FILE_REF> user_files;
     int parse_preferences_for_user_files();
-
+    
+    // the following fields used by CPU scheduler
+    double debt;                // how much CPU time we owe this project (secs)
     // the following items are transient; not saved in state file
+    double anticipated_debt;    // expected debt by the end of the preemption period
+    double work_done_this_period; // how much CPU time has been devoted to this
+                                  // project in the current period (secs)
+    RESULT *next_runnable_result; // the next result to run for this project
+	
+	// the following used by work-fetch algorithm
+    double work_request;        // how much work a project needs (secs)
+    // the following soon to be deprecated
     double resource_debt;       // How much CPU time we owe this project
                                 // (arbitrary scale)
     int debt_order;             // 0 == largest debt
@@ -239,7 +249,9 @@ struct RESULT {
     char wu_name[256];
     int report_deadline;
     vector<FILE_REF> output_files;
-    bool is_active;         // an app is currently running for this
+    bool is_active;
+        // an app is currently running for this.
+        // this is false for preempted tasks!
     bool ready_to_report;
         // we're ready to report this result to the server;
         // either computation is done and all the files have been uploaded
@@ -274,6 +286,9 @@ struct RESULT {
         // this may be NULL after result is finished
     PROJECT* project;
 
+    bool already_selected;
+        // used to keep cpu scheduler from scheduling a result twice
+        // (transient)
     void clear();
     int parse_server(MIOFILE&);
     int parse_state(MIOFILE&);

@@ -47,6 +47,10 @@ extern int add_new_project();
 #define USER_RUN_REQUEST_AUTO       2
 #define USER_RUN_REQUEST_NEVER      3
 
+#define DONT_NEED_WORK 0
+#define NEED_WORK 1
+#define NEED_WORK_IMMEDIATELY 2
+
 enum SUSPEND_REASON_t {
     SUSPEND_REASON_BATTERIES = 1,
     SUSPEND_REASON_USER_ACTIVE = 2,
@@ -133,6 +137,11 @@ private:
     time_t app_started;
         // when the most recent app was started
 
+    // CPU sched state
+    //
+    time_t cpu_sched_last_time;
+    int cpu_sched_period;
+    double cpu_sched_work_done_this_period;
 
 // --------------- client_state.C:
 public:
@@ -180,18 +189,22 @@ private:
 public:
     int restart_tasks();
     int quit_activities();
-    int set_nslots();
+    void set_ncpus();
     double estimate_cpu_time(WORKUNIT&);
     double get_fraction_done(RESULT* result);
     bool input_files_available(RESULT*);
 private:
+    int ncpus;
     int nslots;
 
     int choose_version_num(char*, SCHEDULER_REPLY&);
     int app_finished(ACTIVE_TASK&);
+    bool have_free_cpu();
+    void assign_results_to_projects();
+    bool schedule_largest_debt_project(double expected_pay_off);
     bool start_apps();
+    bool schedule_cpus(bool must_reschedule = false);
     bool handle_finished_apps();
-    RESULT* next_result_to_start() const;
 
 // --------------- cs_benchmark.C:
 public:
@@ -213,7 +226,6 @@ public:
     bool start_new_file_xfer(PERS_FILE_XFER&);
 private:
     int make_project_dirs();
-    int make_slot_dirs();
     bool handle_pers_file_xfers();
 
 // --------------- cs_prefs.C:
@@ -243,6 +255,7 @@ private:
     SCHEDULER_OP* scheduler_op;
     bool contacted_sched_server;
     void compute_resource_debts();
+    int compute_work_requests();
 
     PROJECT* find_project_with_overdue_results();
     void current_work_buf_days(double& work_buf, int& nactive_results);

@@ -46,6 +46,11 @@ typedef int PROCESS_ID;
     // process exited zero, but no finish file.
     // Leave it there.
 
+// Possible scheduler states of an ACTIVE_TASK
+#define CPU_SCHED_UNINITIALIZED   0
+#define CPU_SCHED_PREEMPTED       1
+#define CPU_SCHED_RUNNING         2
+
 
 // Represents a task in progress.
 // The execution of a task may be divided into many "episodes"
@@ -76,6 +81,8 @@ public:
     PROCESS_ID pid;
     int slot;   // which slot (determines directory)
     int state;
+    int scheduler_state;
+    int next_scheduler_state; // temp
     int exit_status;
     int signal;
     double fraction_done;
@@ -87,6 +94,8 @@ public:
         // based on a recent exponential weighted average
     double last_frac_done, recent_change;
     double last_frac_update;
+    double cpu_time_at_last_sched;
+        // CPU time when CPU scheduler last ran
     double episode_start_cpu_time;
         // CPU time at the start of current episode
     double checkpoint_cpu_time;
@@ -126,6 +135,8 @@ public:
     int unsuspend();                    // send a SIGCONT signal or equivalent
     int abort_task(char*);       // flag as abort pending and send kill signal
     bool task_exited();                 // return true if this task has exited
+    int preempt();
+    int resume_or_start();
 
     bool check_max_cpu_exceeded();
     bool check_max_disk_exceeded();
@@ -148,14 +159,13 @@ class ACTIVE_TASK_SET {
 public:
     typedef vector<ACTIVE_TASK*> active_tasks_v;
     active_tasks_v active_tasks;
-    int insert(ACTIVE_TASK*);
     int remove(ACTIVE_TASK*);
     ACTIVE_TASK* lookup_pid(int);
     ACTIVE_TASK* lookup_result(RESULT*);
     bool poll();
     void suspend_all();
     void unsuspend_all();
-    int restart_tasks();
+    int restart_tasks(int max_tasks);
     void request_tasks_exit(PROJECT* p=0);
     int wait_for_exit(double, PROJECT* p=0);
     int exit_tasks(PROJECT* p=0);
@@ -164,7 +174,7 @@ public:
     bool get_status_msgs();
     bool check_app_exited();
     bool check_rsc_limits_exceeded();
-    int get_free_slot(int total_slots);
+    int get_free_slot();
     void send_heartbeat();
 
     // screensaver-related functions

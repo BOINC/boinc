@@ -32,6 +32,8 @@
 #endif
 #endif
 
+#include <float.h>
+
 #include "md5_file.h"
 #include "util.h"
 #include "error_numbers.h"
@@ -42,17 +44,6 @@
 #include "client_msgs.h"
 #include "client_state.h"
 
-// Make a directory for each available slot
-//
-int CLIENT_STATE::make_slot_dirs() {
-    int i;
-    int retval;
-    for (i=0; i<nslots; i++) {
-        retval = make_slot_dir(i);
-        if (retval) return retval;
-    }
-    return 0;
-}
 
 // Quit running applications, quit benchmarks,
 // write the client_state.xml file
@@ -85,6 +76,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     char path[256];
     int retval;
     double size;
+    double task_cpu_time;
 
     bool had_error = false;
 
@@ -146,6 +138,11 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         p->exp_avg_cpu,
         p->exp_avg_mod_time
     );
+
+    task_cpu_time = at.current_cpu_time - at.cpu_time_at_last_sched;
+    at.result->project->work_done_this_period += task_cpu_time;
+    cpu_sched_work_done_this_period += task_cpu_time;
+
     return 0;
 }
 
@@ -160,6 +157,7 @@ bool CLIENT_STATE::handle_finished_apps() {
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
+        if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         switch (atp->state) {
         case PROCESS_RUNNING:
         case PROCESS_ABORT_PENDING:
@@ -213,96 +211,236 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
     return true;
 }
 
-RESULT* CLIENT_STATE::next_result_to_start() const {
-    int earliest_deadline = INT_MAX;
-    RESULT* rp_earliest_deadline = NULL;
 
-    for (vector<RESULT*>::const_iterator i = results.begin();
-         i != results.end(); ++i)
-    {
-        RESULT* rp = *i;
-        if (rp->state == RESULT_FILES_DOWNLOADED && !rp->is_active) {
-            if (rp->report_deadline < earliest_deadline) {
-                earliest_deadline = rp->report_deadline;
-                rp_earliest_deadline = rp;
-            }
+// Return true iff there are fewer running tasks than available CPUs
+//
+bool CLIENT_STATE::have_free_cpu() {
+    int num_running_tasks = 0;
+    for (unsigned int i=0; i<active_tasks.active_tasks.size(); ++i) {
+        if (active_tasks.active_tasks[i]->scheduler_state == CPU_SCHED_RUNNING) {
+            ++num_running_tasks;
         }
     }
-    return rp_earliest_deadline;
+    return num_running_tasks < ncpus;
 }
 
-// start new app if possible
+// Choose the next runnable result for each project with this
+// preference order:
+// 1. results with active tasks that are running
+// 2. results with active tasks that are preempted (but have a process)
+// 3. results with active tasks that have no process
+// 4. results with no active task
 //
-bool CLIENT_STATE::start_apps() {
-    bool action = false;
-    RESULT* rp;
-    int open_slot;
+void CLIENT_STATE::assign_results_to_projects() {
 
-    while ((open_slot = active_tasks.get_free_slot(nslots)) >= 0
-        && (rp = next_result_to_start())
-        && input_files_available(rp)
-    ){
-        int retval;
-        // Start the application to compute a result if:
-        // 1) the result isn't done yet;
-        // 2) the application isn't currently computing the result;
-        // 3) all the input files for the result are locally available
-        //
-        rp->is_active = true;
-        ACTIVE_TASK* atp = new ACTIVE_TASK;
-        atp->slot = open_slot;
-        atp->init(rp);
-
-        msg_printf(atp->wup->project, MSG_INFO,
-            "Starting computation for result %s using %s version %.2f",
-            atp->result->name,
-            atp->app_version->app->name,
-            atp->app_version->version_num/100.
-        );
-
-        retval = active_tasks.insert(atp);
-
-        // couldn't start process
-        //
-        if (retval) {
-            atp->state = PROCESS_COULDNT_START;
-            atp->result->active_task_state = PROCESS_COULDNT_START;
-            report_result_error(
-                *(atp->result), retval,
-                "Couldn't start the app for this result: error %d", retval
-            );
-            delete atp;
+    for (unsigned int i=0; i<active_tasks.active_tasks.size(); ++i) {
+        ACTIVE_TASK *atp = active_tasks.active_tasks[i];
+        if (atp->result->already_selected) continue;
+        PROJECT *p = atp->wup->project;
+        if (p->next_runnable_result == NULL) {
+            p->next_runnable_result = atp->result;
+            continue;
         }
-        action = true;
-        set_client_state_dirty("start_apps");
-        app_started = time(0);
+        // any next_runnable_result assigned so far should have an active task
+        ACTIVE_TASK *next_atp = lookup_active_task_by_result(p->next_runnable_result);
+        assert(next_atp != NULL);
+        if ((next_atp->state == PROCESS_UNINITIALIZED
+            && atp->state == PROCESS_RUNNING) ||
+            (next_atp->scheduler_state == CPU_SCHED_PREEMPTED
+            && atp->state == CPU_SCHED_RUNNING)
+        ){
+            p->next_runnable_result = atp->result;
+        }
     }
-    return action;
+    // Note: !results[i]->is_active is true for results with preempted
+    // active tasks, but all of those were already been considered in the
+    // previous loop.
+    // So p->next_runnable_result will not be NULL if there were any.
+    for (unsigned int i=0; i<results.size(); ++i) {
+        if (results[i]->already_selected) continue;
+        PROJECT *p = results[i]->wup->project;
+        if (p->next_runnable_result == NULL
+            && !results[i]->is_active
+            && results[i]->state == RESULT_FILES_DOWNLOADED
+        ){
+            p->next_runnable_result = results[i];
+        }
+    }
+
+    // mark selected results, so CPU scheduler won't try to consider
+    // a result more than once (i.e. for running on another CPU)
+    //
+    // also reset debts for projects that are starved (have no
+    // runnable result)
+    //
+    for (unsigned int i=0; i<projects.size(); ++i) {
+        if (projects[i]->next_runnable_result != NULL)
+            projects[i]->next_runnable_result->already_selected = true;
+        else {
+            projects[i]->debt = 0;
+            projects[i]->anticipated_debt = 0;
+        }
+    }
+}
+
+// Schedule an active task for the project with the largest anticipated debt
+// among those that have a runnable result. Return true iff a task was
+// scheduled.
+//
+bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
+    PROJECT *best_project = NULL;
+    double best_debt;
+    bool first = true;
+
+    for (unsigned int i=0; i < projects.size(); ++i) {
+        if (projects[i]->next_runnable_result == NULL) continue;
+        if (!input_files_available(projects[i]->next_runnable_result)) {
+            report_result_error(
+                *(projects[i]->next_runnable_result), ERR_FILE_MISSING,
+                "One or more missing files"
+            );
+            projects[i]->next_runnable_result = NULL;
+            continue;
+        }
+        if (first || projects[i]->anticipated_debt > best_debt) {
+            first = false;
+            best_project = projects[i];
+            best_debt = best_project->anticipated_debt;
+        }
+    }
+    if (!best_project) return false;
+
+    ACTIVE_TASK *atp = lookup_active_task_by_result(best_project->next_runnable_result);
+    if (!atp) {
+        atp = new ACTIVE_TASK;
+        atp->init(best_project->next_runnable_result);
+        atp->slot = active_tasks.get_free_slot();
+        get_slot_dir(atp->slot, atp->slot_dir);
+        atp->result->is_active = true;
+        active_tasks.active_tasks.push_back(atp);
+    }
+    best_project->anticipated_debt -= expected_pay_off;
+    best_project->next_runnable_result = false;
+    atp->next_scheduler_state = CPU_SCHED_RUNNING;
+    return true;
+}
+
+// Schedule active tasks to be run and preempted.
+//
+// This is called in the do_something() loop
+// (with must_reschedule=false)
+// and whenever all the files for a result finish downloading
+// (with must_reschedule=true)
+//
+bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
+    double expected_pay_off;
+    vector<ACTIVE_TASK*>::iterator iter;
+    bool some_app_started = false;
+    double total_resource_share = 0;
+    int retval, elapsed_time;
+    unsigned int i;
+
+    elapsed_time = time(NULL) - cpu_sched_last_time;
+    if (elapsed_time < cpu_sched_period
+        && !have_free_cpu()
+        && !must_reschedule
+    ) {
+        return false;
+    }
+
+    // finish work accounting for active tasks, reset temporary fields
+    for (i=0; i < active_tasks.active_tasks.size(); ++i) {
+        ACTIVE_TASK *atp = active_tasks.active_tasks[i];
+        double task_cpu_time = atp->current_cpu_time - atp->cpu_time_at_last_sched;
+        atp->result->project->work_done_this_period += task_cpu_time;
+        cpu_sched_work_done_this_period += task_cpu_time;
+        atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
+    }
+
+    // adjust project debts, reset temporary fields
+    for (i=0; i < projects.size(); ++i) {
+        total_resource_share += projects[i]->resource_share;
+    }
+    for (i=0; i < projects.size(); ++i) {
+        PROJECT *p = projects[i];
+        p->debt += (p->resource_share/total_resource_share) * cpu_sched_work_done_this_period
+            - p->work_done_this_period;
+        p->anticipated_debt = p->debt;
+        p->next_runnable_result = NULL;
+    }
+
+    // schedule tasks for projects in order of decreasing anticipated debt
+    for (i=0; i<results.size(); ++i) {
+        results[i]->already_selected = false;
+    }
+    expected_pay_off = cpu_sched_work_done_this_period / ncpus;
+    for (int j=0; j<ncpus; ++j) {
+        assign_results_to_projects();
+        if (!schedule_largest_debt_project(expected_pay_off)) break;
+    }
+
+    // preempt, start, and resume tasks
+    iter = active_tasks.active_tasks.begin();
+    while (iter != active_tasks.active_tasks.end()) {
+        ACTIVE_TASK *atp = *iter;
+        if (atp->scheduler_state == CPU_SCHED_RUNNING
+            && atp->next_scheduler_state == CPU_SCHED_PREEMPTED
+        ) {
+            atp->preempt();
+            iter++;
+        } else if (atp->scheduler_state != CPU_SCHED_RUNNING
+            && atp->next_scheduler_state == CPU_SCHED_RUNNING
+        ) {
+            if ((retval = atp->resume_or_start())) {
+                atp->state = PROCESS_COULDNT_START;
+                atp->result->active_task_state = PROCESS_COULDNT_START;
+                report_result_error(
+                    *(atp->result), retval,
+                    "Couldn't start the app for this result: error %d", retval
+                );
+                iter = active_tasks.active_tasks.erase(iter);
+                delete atp;
+                continue;
+            } else {
+                some_app_started = true;
+                iter++;
+            }
+        } else {
+            iter++;
+        }
+        atp->cpu_time_at_last_sched = atp->current_cpu_time;
+    }
+
+    // reset work accounting
+    // doing this at the end of schedule_cpus() because
+    // work_done_this_period's can change as apps finish
+    for (i=0; i < projects.size(); ++i) {
+        projects[i]->work_done_this_period = 0;
+    }
+    cpu_sched_work_done_this_period = 0;
+
+    set_client_state_dirty("schedule_cpus");
+    cpu_sched_last_time = time(0);
+    if (some_app_started) {
+        app_started = cpu_sched_last_time;
+    }
+    return true;
 }
 
 // This is called when the client is initialized.
 // Try to restart any tasks that were running when we last shut down.
 //
 int CLIENT_STATE::restart_tasks() {
-    return active_tasks.restart_tasks();
+    return active_tasks.restart_tasks(ncpus);
 }
 
-int CLIENT_STATE::set_nslots() {
-    int retval;
-
-    // Set nslots to actual # of CPUs (or less, depending on prefs)
-    //
+void CLIENT_STATE::set_ncpus() {
     if (host_info.p_ncpus > 0) {
-        nslots = host_info.p_ncpus;
+        ncpus = host_info.p_ncpus;
     } else {
-        nslots = 1;
+        ncpus = 1;
     }
-    if (nslots > global_prefs.max_cpus) nslots = global_prefs.max_cpus;
-
-    retval = make_slot_dirs();
-    if (retval) return retval;
-
-    return 0;
+    if (ncpus > global_prefs.max_cpus) ncpus = global_prefs.max_cpus;
 }
 
 // estimate how long a WU will take on this host
