@@ -7053,3 +7053,10 @@ David  24 Oct 2003
         boinc_db.C
     sched/
         db_dump.C
+
+
+Karl 2003-10-24
+    - fixed missing comma typos
+    db/
+        constraints.sql
+

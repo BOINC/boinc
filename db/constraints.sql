@@ -22,13 +22,13 @@ alter table user
     add unique(authenticator),
     add index ind_tid (teamid),
     add index user_tot (total_credit desc),
-    add index user_avg (expavg_credit desc)
+    add index user_avg (expavg_credit desc),
     add unique user_seti_inx (seti_id);
 
 alter table team
     add unique(name),
     add index team_avg (expavg_credit desc),
-    add index team_tot (total_credit desc)
+    add index team_tot (total_credit desc),
     add unique team_seti_inx (seti_id);
 
 alter table workunit
