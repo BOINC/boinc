@@ -9552,3 +9552,25 @@ David  Jan 24 2004
 	client/win/
 		boinc_ss.h
 		boinc_ss.rc
+
+David  Jan 26 2004
+    - server-side support for anonymous platform mechanism
+        - struct CLIENT_APP_VERSION represents an app version
+            that an anonymous-platform client says it has
+        - SCHEDULER_REQUEST has a vector of CLIENT_APP_VERSIONs,
+            parsed from request message
+        - in scan_work_array(): if anonymous platform,
+            instead of checking for an app version in the DB,
+            check that the client has an app version with an
+            acceptable version#
+
+    NOTE: for this to work you need to add an entry named "anonymous"
+    to the platform table
+
+    html_user/
+        index.php
+        team_join_form.php
+        team_quit_form.php
+    sched/
+        handle_request.C
+        server_types.C,h

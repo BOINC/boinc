@@ -64,6 +64,22 @@ struct WORK_REQ {
     bool no_app_version;
 };
 
+bool anonymous(PLATFORM& platform) {
+    return (!strcmp(platform.name, "anonymous"));
+}
+
+bool SCHEDULER_REQUEST::has_version(APP& app) {
+    unsigned int i;
+
+    for (i=0; i<client_app_versions.size(); i++) {
+        CLIENT_APP_VERSION& cav = client_app_versions[i];
+        if (!strcmp(cav.app_name, app.name) && cav.version_num >= app.min_version) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // compute the max disk usage we can request of the host
 //
 double max_allowable_disk(USER& user, SCHEDULER_REQUEST& req) {
@@ -252,14 +268,15 @@ int add_wu_to_reply(
     // add the app, app_version, and workunit to the reply,
     // but only if they aren't already there
     //
-    reply.insert_app_unique(*app);
-
-    reply.insert_app_version_unique(*avp);
-    log_messages.printf(
-        SchedMessages::DEBUG,
-        "[HOST#%d] Sending app_version %s %s %d\n",
-        reply.host.id, app->name, platform.name, avp->version_num
-    );
+    if (avp) {
+        reply.insert_app_unique(*app);
+        reply.insert_app_version_unique(*avp);
+        log_messages.printf(
+            SchedMessages::DEBUG,
+            "[HOST#%d] Sending app_version %s %s %d\n",
+            reply.host.id, app->name, platform.name, avp->version_num
+        );
+    }
 
     // add time estimate to reply
     //
@@ -779,10 +796,19 @@ static void scan_work_array(
         // Find the app and app_version for the client's platform.
         // If none, treat the WU as infeasible
         //
-        found = find_app_version(wreq, wu, platform, ss, app, avp);
-        if (!found) {
-            wu_result.infeasible_count++;
-            continue;
+        if (anonymous(platform)) {
+            app = ss.lookup_app(wu.appid);
+            found = sreq.has_version(*app);
+            if (!found) {
+                continue;
+            }
+            avp = NULL;
+        } else {
+            found = find_app_version(wreq, wu, platform, ss, app, avp);
+            if (!found) {
+                wu_result.infeasible_count++;
+                continue;
+            }
         }
 
         result = wu_result.result;

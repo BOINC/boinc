@@ -33,6 +33,15 @@ struct TRICKLE_DESC {
     int parse(FILE*);
 };
 
+// an app version from an anonymous-platform client
+//
+struct CLIENT_APP_VERSION {
+    char app_name[256];
+    int version_num;
+
+    int parse(FILE*);
+};
+
 struct SCHEDULER_REQUEST {
     char authenticator[256];
     char platform_name[256];
@@ -46,6 +55,8 @@ struct SCHEDULER_REQUEST {
     char code_sign_key[MEDIUM_BLOB_SIZE];
     double total_disk_usage;
     double project_disk_usage;
+    bool anonymous_platform;
+    vector<CLIENT_APP_VERSION> client_app_versions;
 
     HOST host;
     vector<RESULT> results;
@@ -54,6 +65,7 @@ struct SCHEDULER_REQUEST {
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST();
     int parse(FILE*);
+    bool has_version(APP& app);
 };
 
 // NOTE: if any field requires initialization,

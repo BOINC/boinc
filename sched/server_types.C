@@ -32,6 +32,17 @@ using namespace std;
 #include "server_types.h"
 #include "sched_util.h"
 
+int CLIENT_APP_VERSION::parse(FILE* f) {
+    char buf[256];
+
+    while (fgets(buf, 256, f)) {
+        if (match_tag(buf, "</app_version>")) return 0;
+        if (parse_str(buf, "<app_name>", app_name, 256)) continue;
+        if (parse_int(buf, "<version_num>", version_num)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
 }
 
@@ -58,6 +69,17 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
         else if (parse_str(buf, "<platform_name>", platform_name, sizeof(platform_name))) continue;
+        else if (match_tag(buf, "<app_versions>")) {
+            while (fgets(buf, 256, fin)) {
+                if (match_tag(buf, "</app_versions>")) break;
+                if (match_tag(buf, "<app_version>")) {
+                    CLIENT_APP_VERSION cav;
+                    cav.parse(fin);
+                    client_app_versions.push_back(cav);
+                }
+            }
+            continue;
+        }
         else if (parse_int(buf, "<core_client_major_version>", core_client_major_version)) continue;
         else if (parse_int(buf, "<core_client_minor_version>", core_client_minor_version)) continue;
         else if (parse_int(buf, "<work_req_seconds>", work_req_seconds)) continue;

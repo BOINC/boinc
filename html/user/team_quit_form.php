@@ -25,19 +25,11 @@ $id = $_GET["id"];
     echo "<tr><td>";
     echo "<p><b>Please note before quitting a team:</b>";
     echo "<ul>";
-    echo "<li>By quitting a team you remove your name from the team listing.  ";
-    echo "Your credit contribution to the team is also removed";
-    echo "<li>Even if you quit a team, you may rejoin later, ";
+    echo "<li>If you quit a team, you may rejoin later, ";
     echo "or join any other team you desire ";
     echo "<li>Quitting a team does not affect your personal credit ";
     echo "statistics in any way.";
     echo "</ul>";
-
-    if ($team->nusers <= 1) {
-        echo "<p><b>You are the only member of this team.</b>";
-        echo "<ul><li>By quitting the team you will disband it.</li></ul>";
-    }
-
     echo "</p>";
     echo "<hr>";
     echo "<form method=post action=team_quit_action.php>";

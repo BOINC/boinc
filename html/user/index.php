@@ -33,6 +33,7 @@ if (project_is_stopped()) {
         <li><a href=intro.php>Getting started</a>
         <li><a href=".URL_BASE."create_account_form.php>Create account</a>
         <li><a href=apps.php>Applications</a>
+        <li><a href=debug.php>Download debugging files</a>
         </ul>
 
         <h3>Returning participants</h3>

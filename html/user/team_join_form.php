@@ -18,12 +18,10 @@ $id = $_GET["id"];
     $team_id = $team->id;
     page_head("Join $team_name");
     echo "<h2>Join $team_name</h2>
-        <p><b>Please note before joining or switching to a team:</b>
+        <p><b>Please note:</b>
         <ul>
-        <li> Your credit will be transferred from your old team (if any)
-         to the new team.
-        <li> Joining a team does not affect your account's credit.
         <li> Joining a team gives its founder access to your email address.
+        <li> Joining a team does not affect your account's credit.
         </ul>
         <hr>
         <form method=post action=team_join_action.php>
