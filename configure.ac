@@ -8,7 +8,7 @@ dnl directory; the _autosetup script does this.
 dnl not sure exactly what the minimum version is (but 2.13 won't work)
 AC_PREREQ(2.57)
 
-dnl Process this file with autoconf to produce a configure script.
+dnl Set the BOINC version here.  You can also use the set-version script.
 AC_INIT(BOINC, 4.01)
 
 AC_ARG_ENABLE(server, 
