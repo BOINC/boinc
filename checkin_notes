@@ -21753,3 +21753,7 @@ Rom    22 Dec 2004
         ViewResources.cpp, .h
         ViewTransfers.cpp, .h
         ViewWork.cpp, .h
+
+Rom   22 Dec 2004 (boinc)
+    - Tag for 4.57 release, all platforms
+      boinc_core_release_4_57
