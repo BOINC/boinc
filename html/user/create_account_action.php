@@ -2,6 +2,7 @@
 
 include_once("../inc/db.inc");
 include_once("../inc/util.inc");
+include_once("../inc/email.inc");
 
 function show_error($str) {
     page_head("Create account: error");

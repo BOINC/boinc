@@ -22,57 +22,6 @@ function db_init() {
     }
 }
 
-// Sends the authenticator to the given email address
-//
-function send_auth_email($email_addr, $auth) {
-    $user = get_user_from_auth($auth);
-    $subject = PROJECT." new account confirmation for $user->name";
-    if (defined('EMAIL_FROM')) {
-        $headers = "From: ". EMAIL_FROM;
-    } else {
-        $headers ="";
-    }
-    $body = "Welcome to ".PROJECT.".
-        
-This email confirms your account with ".PROJECT.":
-
-    Project URL:         ".MASTER_URL."
-    Account ID:          $auth
-
-    User name:           $user->name
-    E-mail:              $email_addr
-
-You will need the Project URL and Account ID to attach the 
-BOINC client to the project.    
-
-You will need  your Account ID to login to the ".PROJECT." web site,
-or you can use this direct link:
-
-".URL_BASE."login_action.php?key=$auth
-
-Please save this email.    For further information and assistance
-with ".PROJECT." go to ".MASTER_URL."
-";
-    return mail($email_addr, $subject, $body, $headers);
-}
-
-function email_sent_message($email_addr) {
-    if (defined('EMAIL_FROM')) {
-        $email_from = EMAIL_FROM;
-    } else {
-        $email_from = URL_BASE;
-    }
-
-    echo "
-        Your account ID has been emailed to $email_addr.
-        <p>
-        If the email doesn't arrive in a few minutes,
-        your ISP may be blocking it as spam.
-        In this case please contact your ISP and
-        ask them to not block email from $email_from.
-    ";
-}
-
 // Initializes the session and returns the authenticator
 // for the session (if any)
 //
@@ -170,15 +119,23 @@ function page_head($title, $java_onload="") {
     project_banner($title);
 }
 
-function page_tail($is_main=false) {
+function page_tail_aux($show_return, $show_date) {
     echo "<br><hr noshade size=1><center>";
-    if (!$is_main) {
+    if ($show_return) {
         echo "<a href=".URL_BASE.">Return to ".PROJECT." main page</a><br>\n";
     }
+    echo "<br><br>Copyright &copy; 2004 ".COPYRIGHT_HOLDER."</center>\n";
+    if ($show_date) {
+        echo "<font size=-2 color=bbbbbb>Generated ",time_str(time()),"\n";
+    }
+    echo "</body>\n</html>";
+}
+function page_tail_main($show_date=false) {
+    page_tail_aux(false, $show_date);
+}
 
-    // put your copyright notice etc. here
-
-    echo "<br><br>Copyright &copy; 2004 ".COPYRIGHT_HOLDER."</center>\n</body>\n</html>";
+function page_tail($show_date=false) {
+    page_tail_aux(true, $show_date);
 }
 
 function db_error_page() {
@@ -370,48 +327,6 @@ function no_cache() {
     header ("Pragma: no-cache");                          // HTTP/1.0
 }
 
-// a valid email address is of the form A@B.C
-// where A, B, C are nonempty,
-// A and B don't contain @ or .,
-// and C doesn't contain @
-//
-function is_valid_email_addr($addr) {
-    $x = strstr($addr, "@");
-    if (!$x) return false;
-    if (strlen($x) == strlen($addr)) return false;
-    $x = substr($x, 1);
-    if (strstr($x, "@")) return false;
-    $y = strstr($x, ".");
-    if (!$y) return false;
-    if (strlen($y) == strlen($x)) return false;
-    if (strlen($y) == 1) return false;
-    return true;
-}
-
-// A few functions relating to email-address munging
-// A "munged" email address is of the form @X_Y,
-// where X is a valid email address
-// and Y is a random string not containing _.
-// When an email address hasn't been validated yet, it's munged.
-// (Used during account creation and email address changes)
-
-function munge_email_addr($email, $string) {
-    return "@".$email."_".$string;
-}
-
-// if email_addr is of the form @X_Y, split out the X and return true.
-// otherwise return false
-//
-function split_munged_email_addr($addr, $auth, &$email) {
-    if (substr($addr, 0, 1) != "@") return false;
-    $x = strrchr($addr, "_");
-    if (!$x) return false;
-    $y = substr($x, 1);
-    if ($auth && $y != $auth) return false;
-    $email = substr($addr, 1, strlen($addr)-strlen($x)-1);
-    return true;
-}
-
 // Generates a standard set of links between associated multi-page documents.
 //  All linked files must be of the form "$filename_<page number>.html".
 
@@ -525,59 +440,4 @@ function close_output_buffer($filename) {
     fclose($fh);
 }
 
-
-function intelligently_scale_image($sourcefile, $fw, $fh) {
-
-	//In order to use the default built-in GD library all imageCreateTrueColor
-	//has been commented out.
-	//If you whish to enable the advanced GD features (resamples copy for instance)
-	//simply switch back to the commented functions.
-	
-    list($ow, $oh, $from_type) = getimagesize($sourcefile);
-
-    switch($from_type) {
-    case 1: // GIF
-        $srcImage = imageCreateFromGif($sourcefile);
-        break;
-    case 2: // JPG
-        $srcImage = imageCreateFromJpeg($sourcefile);
-        break;
-    case 3: // PNG
-        $srcImage = imageCreateFromPng($sourcefile);
-        break;
-    }
-
-    $tempw = $fw;
-    $temph = number_format((($oh*$fw)/$ow), 0);
-
-    if($temph < $fh) {
-        $tempw = number_format((($ow*$fh)/$oh), 0);
-        $temph = $fh;
-    }
-
-//  $tempImage = imageCreateTrueColor($tempw, $temph);
-//  imageAntiAlias($tempImage, true);
-    $tempImage = imageCreate($tempw, $temph);
-
-//  imagecopyresampled($tempImage, $srcImage, 0, 0, 0, 0, $tempw, $temph, $ow, $oh);
-    imagecopyresized($tempImage, $srcImage, 0, 0, 0, 0, $tempw, $temph, $ow, $oh);
-
-
-    // Calculate offsets
-    if($temph < $fh) {
-        $offsety = number_format(($temph/2)-($fh/2), 0);
-        $offsetx = 0;
-    } else {
-        $offsety = 0;
-        $offsetx = number_format(($tempw/2)-($fw/2), 0);
-    }
-
-//  $destImage = imageCreateTrueColor($fw, $fh);
-//  imagecopyresampled($destImage, $tempImage, 0, 0, $offsetx, $offsety, $fw, $fh, $fw, $fh);
-
-    $destImage = imageCreate($fw, $fh);
-    imagecopyresized($destImage, $tempImage, 0, 0, $offsetx, $offsety, $fw, $fh, $fw, $fh);
-
-    return $destImage; //imageJpeg($destImage, $destfile, $jpegquality);
-}
 ?>

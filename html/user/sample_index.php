@@ -44,7 +44,11 @@ function show_nav() {
     ";
 }
 
-//start_cache(INDEX_PAGE_TTL);
+$caching = false;
+
+if ($caching) {
+    start_cache(INDEX_PAGE_TTL);
+}
 
 $stopped = project_is_stopped();
 $rssname = PROJECT . " RSS 2.0" ;
@@ -112,7 +116,11 @@ include 'schedulers.txt';
 
 echo "-->\n";
 
-page_tail(true);
+if ($caching) {
+    page_tail_main(true);
+    end_cache(INDEX_PAGE_TTL);
+} else {
+    page_tail_main();
+}
 
-//end_cache(INDEX_PAGE_TTL);
 ?>

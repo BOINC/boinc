@@ -3,11 +3,10 @@
     require_once("../inc/user.inc");
     require_once("../inc/profile.inc");
     require_once("../inc/util.inc");
+    require_once("../inc/image.inc");
 
     db_init();
     $user = get_logged_in_user();
-
-
 
     $avatar_url = mysql_escape_string($HTTP_POST_VARS["avatar_url"]);
     if (substr($avatar_url,0,4)!="http") $avatar_url="http://".$avatar_url;
@@ -78,13 +77,14 @@
             no_signature_by_default='".$no_signature_by_default."', 
             sorting='".$forum_sorting."',
             signature='$signature',
-	    jump_to_unread='".$jump_to_unread."',
-	    hide_signatures='".$hide_signatures."',
-	    low_rating_threshold='".$low_rating_threshold."',
-	    high_rating_threshold='".$high_rating_threshold."'
-        where userid=$user->id");
+            jump_to_unread='".$jump_to_unread."',
+            hide_signatures='".$hide_signatures."',
+            low_rating_threshold='".$low_rating_threshold."',
+            high_rating_threshold='".$high_rating_threshold."'
+        where userid=$user->id"
+    );
     if ($result) {
-    echo mysql_error();
+        echo mysql_error();
         Header("Location: home.php");
     } else {
         page_head("Forum preferences update");

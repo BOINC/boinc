@@ -157,7 +157,6 @@ function end_cache($max_age,$params=""){
     if (strstr($params, "..")) {
         return;
     }
-    echo "<font size=-2 color=bbbbbb>Generated ",time_str(time()),"\n";
     if ($max_age) {
         $path = get_path($params);
         $fhandle=fopen($path, "w");

@@ -35,6 +35,7 @@ if (!$team) {
 
 display_team_page($team, $offset, $sort_by);
 
+page_tail(true);
 end_cache(TEAM_PAGE_TTL,$cache_args);
 
 ?>

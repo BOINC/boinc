@@ -1,6 +1,7 @@
 <?php
     require_once("../inc/db.inc");
     require_once("../inc/util.inc");
+    require_once("../inc/email.inc");
     require_once("../inc/user.inc");
 
     init_session();

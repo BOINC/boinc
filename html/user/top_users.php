@@ -55,9 +55,11 @@
     }
     $new_offset = $offset + $n;
     echo "<a href=top_users.php?sort_by=$sort_by&offset=$new_offset>Next $n</a>";
-    page_tail();
 
     if ($offset < 1000) {
+        page_tail(true);
         end_cache(TOP_PAGES_TTL,$cache_args);
+    } else {
+        page_tail();
     }
 } ?>

@@ -2,6 +2,7 @@
 
     require_once("../inc/db.inc");
     require_once("../inc/util.inc");
+    require_once("../inc/email.inc");
     require_once("../inc/user.inc");
 
 function send_verify_email($user, $email_addr, $key) {

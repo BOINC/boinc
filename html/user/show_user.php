@@ -34,11 +34,11 @@
             start_table();
             show_user_summary_public($user);
             end_table();
-            page_tail();
+            page_tail(true);
         } else {
             page_head("Can't find user");
             echo "There is no account with that ID.\n<p>";
-            page_tail();
+            page_tail(true);
         }
     }
     end_cache(USER_PAGE_TTL,$cache_args);

@@ -1,6 +1,7 @@
 <?php
     include_once("../inc/db.inc");
     include_once("../inc/util.inc");
+    include_once("../inc/email.inc");
 
     $email_addr = $_GET["email_addr"];
     page_head("Account created");

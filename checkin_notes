@@ -19763,18 +19763,19 @@ Rom    17 Nov 2004
         gui_rpc_client.h
 
 Bruce  18 Nov 2004
-    - Bug fixes (thanks to Jens Seidler): set cross project id (CPID) to random value
-      when creating user account from Administrator form, and lower_case email address
-      before inserting into database. Added script  make_emails_lowercase.php which
-      goes through user database and changes email addresses to lowercase, and sets CPID
-      to a random string if it is currently 0 (empty).  It should be safe to run this
-      script any number of times, on a damanged or undamaged user database, with no side
-      effects.
-    - 'Fixed' py/Boinc/add_util.py so that it takes cross_project_id value out of XML
-      file.  Current default value is '0'.  Karl, could you fix this to make it a random
-      string?
-    - validator.c sets global variable int boinc_validator_debuglevel for use by check_set
-      and check_match functions.
+    - Bug fixes (thanks to Jens Seidler): set cross project id (CPID)
+        to random value when creating user account from Administrator form,
+        and lower_case email address before inserting into database.
+        Added script  make_emails_lowercase.php which
+        goes through user database and changes email addresses to lowercase,
+        and sets CPID to a random string if it is currently 0 (empty).
+        It should be safe to run this script any number of times,
+        on a damanged or undamaged user database, with no side effects.
+    - 'Fixed' py/Boinc/add_util.py so that it takes cross_project_id
+        value out of XML file.  Current default value is '0'.
+        Karl, could you fix this to make it a random string?
+    - validator.c sets global variable int boinc_validator_debuglevel
+        for use by check_set and check_match functions.
 
     html/ops/
       create_account_action.php 
@@ -19785,3 +19786,36 @@ Bruce  18 Nov 2004
 
     sched/
       validator.C
+
+David  18 Nov 2004
+    - Changed PHP code so that the "generated on" text
+        produced for cached pages appears inside the <html> tag
+        for HTML pages, and doesn't appear at all for XML output.
+        
+        Cached pages must now call page_tail(true) rather than page_tail().
+        This function, not end_cache(), prints the "generated on" text.
+
+    - split some stuff out from util.inc into new .inc files
+
+    html/
+        inc/
+            cache.inc
+            email.inc (new)
+            image.inc (new)
+            team.inc
+            util.inc
+        user/
+            account_created.php
+            confirm_email_change.php
+            create_account_action.php
+            edit_email_action.php
+            edit_form_preferences_action.php
+            hosts_user.php
+            login_action.php
+            mail_passwd.php
+            sample_index.php
+            sample_status.php
+            show_user.php
+            team_display.php
+            team_email_lsit.php
+            top_*.php

@@ -109,8 +109,6 @@ function display_team_page($team, $offset, $sort_by) {
         $new_offset = $offset + $n;
         echo "<a href=team_display.php?teamid=$team->id&sort_by=$sort_by&offset=$new_offset>Next $n</a>";
     }
-
-    page_tail();
 }
 
 // requires that the team exist

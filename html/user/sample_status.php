@@ -98,7 +98,7 @@ if ($retval) {
     ";
 }
 
-page_tail();
-
+page_tail(true);
 end_cache(600);
+
 ?>

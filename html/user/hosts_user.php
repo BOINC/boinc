@@ -11,8 +11,8 @@
     $userid = $_GET["userid"];
     if ($userid) {
         $cache_args = "userid=$userid";
-	$caching=true;
-        start_cache(USER_PAGE_TTL,$cache_args);
+        $caching=true;
+        start_cache(USER_PAGE_TTL, $cache_args);
         $result = mysql_query("select * from user where id=$userid");
         $user = mysql_fetch_object($result);
         mysql_free_result($result);
@@ -21,7 +21,7 @@
             user_host_table_start(false);
         } else {
             echo "Hidden\n";
-	    end_cache(USER_PAGE_TTL,$cache_args);
+            end_cache(USER_PAGE_TTL,$cache_args);
             exit();
         }
         $private = false;
@@ -41,6 +41,10 @@
     }
     mysql_free_result($result);
     echo "</table>\n";
-    page_tail();
-    if ($caching) end_cache(USER_PAGE_TTL,$cache_args);
+    if ($caching) {
+        page_tail(true);
+        end_cache(USER_PAGE_TTL,$cache_args);
+    } else {
+        page_tail();
+    }
 ?>
