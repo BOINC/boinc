@@ -40,6 +40,11 @@
 #ifdef mac
 #define socklen_t unsigned int
 #endif
+//  The other option is that the socket functions require size_t instead
+#if !defined(socklen_t)
+#define socklen_t size_t
+#endif
+
 
 int NET_XFER::open_server() {
     sockaddr_in addr;
@@ -142,7 +147,11 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
     int n, fd, retval;
     socklen_t i;
     NET_XFER *nxp;
+#if GETSOCKOPT_SIZE_T
+    size_t intsize = sizeof(int);
+#else
     int intsize = sizeof(int);
+#endif
 
     bytes_transferred = 0;
 

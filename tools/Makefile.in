@@ -26,7 +26,7 @@ all: $(PROGS) $(OBJS)
 MYSQL_DIR = /usr/local/mysql/lib
 MYSQL_LIBS = \
 -L $(MYSQL_DIR) -L /usr/local/lib/mysql \
--lmysqlclient -lz \
+-lmysqlclient -L /usr/local/lib -lz \
 -lm $(NETLIBS)
 
 LIBS = \

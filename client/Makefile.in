@@ -9,7 +9,7 @@ CFLAGS = -g -Wall @DEFS@ \
     -DHOST=\"@host@\" \
     -DVERSION=$(VERSION)
 
-CC = @CC@ $(CFLAGS) -I @top_srcdir@/lib
+CC = @CC@ $(CFLAGS) -I @srcdir@/lib
 
 CLIBS = @LIBS@
 

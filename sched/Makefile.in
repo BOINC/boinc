@@ -35,7 +35,7 @@ FEEDER_OBJS = \
 MYSQL_DIR = /usr/local/mysql/lib
 MYSQL_LIBS = \
 -L$(MYSQL_DIR) \
--lmysqlclient -lz \
+-lmysqlclient -L /usr/local/lib -lz \
 -lm $(NETLIBS)
 
 .C.o:
