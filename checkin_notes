@@ -14430,3 +14430,10 @@ Daniel 2004-07-01
     client/
         cs_apps.C
 
+Daniel 2004-07-01
+    - Yet another file that needs "using std::string".
+
+
+    client/
+        hostinfo_unix.C
+

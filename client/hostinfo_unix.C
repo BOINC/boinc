@@ -69,6 +69,8 @@
 #include "client_state.h"
 #include "hostinfo_network.h"
 
+using std::string;
+
 // functions to get name/addr of local host
 
 // Converts a int ip address to a string representation (i.e. "66.218.71.198")
