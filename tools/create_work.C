@@ -221,7 +221,7 @@ int main(int argc, char** argv) {
             wu_template,
             result_template_file,
             download_dir,
-            infiles,
+            const_cast<const char **>(infiles),
             ninfiles,
             key,
             upload_url,

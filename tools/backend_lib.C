@@ -38,7 +38,7 @@ int read_file(FILE* f, char* buf) {
     return 0;
 }
 
-int read_filename(char* path, char* buf) {
+int read_filename(const char* path, char* buf) {
     int retval;
     assert(path);
     assert(buf);
@@ -53,9 +53,9 @@ int read_filename(char* path, char* buf) {
 // process WU template
 //
 static int process_wu_template(
-    char* wu_name, char* tmplate, char* out,
-    char* dirpath, char** infiles, int n,
-    char* upload_url, char* download_url
+    const char* wu_name, char* tmplate, char* out,
+    const char* dirpath, const char** infiles, int n,
+    const char* upload_url, const char* download_url
 ) {
     char* p;
     char buf[MAX_BLOB_SIZE], md5[33], path[256];
@@ -181,13 +181,13 @@ int create_result(
 
 int create_work(
     DB_WORKUNIT& wu,
-    char* _wu_template,
-    char* result_template_filename,
-    char* infile_dir,
-    char** infiles,
+    const char* _wu_template,
+    const char* result_template_filename,
+    const char* infile_dir,
+    const char** infiles,
     int ninfiles,
     R_RSA_PRIVATE_KEY& key,
-    char* upload_url, char* download_url
+    const char* upload_url, const char* download_url
 ) {
     int retval;
     char _result_template[MAX_BLOB_SIZE];

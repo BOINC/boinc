@@ -148,7 +148,7 @@ int process_result_template(
 //
 int process_result_template_upload_url_only(
     char* result_template,
-    char* upload_url
+    const char* upload_url
 ) {
     char *p;
     char temp[MAX_BLOB_SIZE];

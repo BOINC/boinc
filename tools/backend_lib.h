@@ -35,11 +35,11 @@ extern int process_result_template(
 
 extern int process_result_template_upload_url_only(
     char* result_template,
-    char* upload_url
+    const char* upload_url
 );
 
 extern int read_file(FILE*, char* buf);
-extern int read_filename(char* path, char* buf);
+extern int read_filename(const char* path, char* buf);
 
 extern void initialize_result(DB_RESULT&, DB_WORKUNIT&);
 extern int create_result(
@@ -49,14 +49,14 @@ extern int create_result(
 
 extern int create_work(
     DB_WORKUNIT& wu,
-    char* wu_template,
-    char* result_template,
-    char* infile_dir,
-    char** infiles,
+    const char* wu_template,
+    const char* result_template,
+    const char* infile_dir,
+    const char** infiles,
     int ninfiles,
     R_RSA_PRIVATE_KEY&,
-    char* upload_url,
-    char* download_url
+    const char* upload_url,
+    const char* download_url
 );
 
 extern int create_sequence_group(
