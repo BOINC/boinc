@@ -1,5 +1,14 @@
 HIGH-PRIORITY (must be done to support SETI@home)
 
+- Code-signing
+    research tools for code-signing
+
+- Upload authentication
+    Each result contains a "certificate", signed with project key, giving
+        - list of: file name, max size
+        - min, max times to xfer
+    modify put program to decrypt certificate, enforce name/size/time limits
+
 - Network retry policies
     can't download file: when to give up? how to retry?
         exponential backoff
@@ -142,6 +151,10 @@ LOW-PRIORITY
     - test
 
 - implement file upload/download requests
+    This can be done in the current WU/result paradigm;
+    WU has a special "null" application
+    use sticky input files to download;
+    use upload-when-done output files to upload
 
 - preferences
     finish PHP web interface

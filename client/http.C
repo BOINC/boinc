@@ -54,9 +54,34 @@ void parse_url(char* url, char* host, char* file) {
 // Note: HTTP 1.1 keeps connection open.
 // We use 1.0 so we don't have to count bytes.
 //
-void http_get_request_header(char* buf, char* host, char* file) {
+
+void http_get_request_header(char* buf, char* host, char* file, int offset) {
+    if (offset) {
+        sprintf(buf,
+            "GET /%s;byte-range %d- HTTP/1.0\015\012"
+            "User-Agent: BOINC client\015\012"
+            "Host: %s:80\015\012"
+            "Accept: */*\015\012"
+            "\015\012",
+            file, offset,
+            host
+        );
+    } else {
+        sprintf(buf,
+            "GET /%s HTTP/1.0\015\012"
+            "User-Agent: BOINC client\015\012"
+            "Host: %s:80\015\012"
+            "Accept: */*\015\012"
+            "\015\012",
+            file,
+            host
+        );
+    }
+}
+
+void http_head_request_header(char* buf, char* host, char* file) {
     sprintf(buf,
-        "GET /%s HTTP/1.0\015\012"
+        "HEAD /%s HTTP/1.0\015\012"
         "User-Agent: BOINC client\015\012"
         "Host: %s:80\015\012"
         "Accept: */*\015\012"
@@ -78,17 +103,34 @@ void http_post_request_header(char* buf, char* host, char* file, int size) {
     );
 }
 
-void http_put_request_header(char* buf, char* host, char* file, int size) {
-    sprintf(buf,
-        "PUT /%s HTTP/1.0\015\012"
-        "Pragma: no-cache\015\012"
-        "Cache-Control: no-cache\015\012"
-        "Host: %s:80\015\012"
-        "Content-Type: application/octet-stream\015\012"
-        "Content-Length: %d\015\012"
-        "\015\012",
-        file, host, size
-    );
+void http_put_request_header(
+    char* buf, char* host, char* file, int size, int offset
+) {
+    if (offset) {
+        sprintf(buf,
+            "PUT /%s;byte-range %d- HTTP/1.0\015\012"
+            "Pragma: no-cache\015\012"
+            "Cache-Control: no-cache\015\012"
+            "Host: %s:80\015\012"
+            "Content-Type: application/octet-stream\015\012"
+            "Content-Length: %d\015\012"
+            "\015\012",
+            file, offset,
+            host, size
+        );
+    } else {
+        sprintf(buf,
+            "PUT /%s HTTP/1.0\015\012"
+            "Pragma: no-cache\015\012"
+            "Cache-Control: no-cache\015\012"
+            "Host: %s:80\015\012"
+            "Content-Type: application/octet-stream\015\012"
+            "Content-Length: %d\015\012"
+            "\015\012",
+            file,
+            host, size
+        );
+    }
 }
 
 int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
@@ -127,7 +169,16 @@ HTTP_OP::HTTP_OP() {
 HTTP_OP::~HTTP_OP() {
 }
 
-int HTTP_OP::init_get(char* url, char* out) {
+int HTTP_OP::init_head(char* url) {
+    parse_url(url, hostname, filename);
+    NET_XFER::init(hostname, 80, HTTP_BLOCKSIZE);
+    http_op_type = HTTP_OP_HEAD;
+    http_op_state = HTTP_STATE_CONNECTING;
+    return 0;
+}
+
+int HTTP_OP::init_get(char* url, char* out, int off) {
+    offset = off;
     parse_url(url, hostname, filename);
     NET_XFER::init(hostname, 80, HTTP_BLOCKSIZE);
     strcpy(outfile, out);
@@ -150,9 +201,10 @@ int HTTP_OP::init_post(char* url, char* in, char* out) {
     return 0;
 }
 
-int HTTP_OP::init_put(char* url, char* in) {
+int HTTP_OP::init_put(char* url, char* in, int off) {
     int retval;
 
+    offset = off;
     parse_url(url, hostname, filename);
     NET_XFER::init(hostname, 80, HTTP_BLOCKSIZE);
     strcpy(infile, in);
@@ -206,11 +258,14 @@ bool HTTP_OP_SET::poll() {
                     );
                     break;
                 case HTTP_OP_GET:
-                    http_get_request_header(hdr, htp->hostname, htp->filename);
+                    http_get_request_header(hdr, htp->hostname, htp->filename, htp->offset);
+                    break;
+                case HTTP_OP_HEAD:
+                    http_head_request_header(hdr, htp->hostname, htp->filename);
                     break;
                 case HTTP_OP_PUT:
                     http_put_request_header(
-                        hdr, htp->hostname, htp->filename, htp->content_length
+                        hdr, htp->hostname, htp->filename, htp->content_length, htp->offset
                     );
                     break;
                 }
@@ -238,6 +293,7 @@ bool HTTP_OP_SET::poll() {
                     htp->do_file_io = true;
                     break;
                 case HTTP_OP_GET:
+                case HTTP_OP_HEAD:
                     htp->http_op_state = HTTP_STATE_REPLY_HEADER;
                     htp->want_upload = false;
                     htp->want_download = true;
@@ -269,6 +325,10 @@ bool HTTP_OP_SET::poll() {
                     break;
                 }
                 switch (htp->http_op_type) {
+                case HTTP_OP_HEAD:
+                    htp->http_op_state = HTTP_STATE_DONE;
+                    htp->http_op_retval = 0;
+                    break;
                 case HTTP_OP_GET:
                 case HTTP_OP_POST:
                     htp->http_op_state = HTTP_STATE_REPLY_BODY;

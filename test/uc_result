@@ -7,8 +7,8 @@
 <result>
     <name><RESULT_NAME/></name>
     <wu_name><WU_NAME/></wu_name>
-    <output_file>
+    <file_ref>
         <file_name><OUTFILE_0/></file_name>
         <fd>1</fd>
-    </output_file>
+    </file_ref>
 </result>

@@ -15,11 +15,8 @@
     add_user(null);
     add_app("upper_case");
     create_work("-appname upper_case -wu_name uc_wu -wu_template uc_wu -result_template uc_result -nresults 2 input input");
-    echo "starting feeder\n";
     start_feeder();
-    echo "started feeder\n";
     run_client();
-    echo "ran client\n";
     stop_feeder();
 
     check_results_done();

@@ -30,6 +30,7 @@ struct HTTP_REPLY_HEADER {
 #define HTTP_OP_GET     1
 #define HTTP_OP_POST    2
 #define HTTP_OP_PUT     3
+#define HTTP_OP_HEAD    4
 
 // represents an HTTP request in progress
 //
@@ -43,14 +44,16 @@ public:
     char infile[256];
     char outfile[256];
     int content_length;
+    int offset;
     HTTP_REPLY_HEADER hrh;
     int http_op_state;     // values below
     int http_op_type;
     int http_op_retval;
 
-    int init_get(char* url, char* outfile);
+    int init_head(char* url);
+    int init_get(char* url, char* outfile, int offset=0);
     int init_post(char* url, char* infile, char* outfile);
-    int init_put(char* url, char* infile);
+    int init_put(char* url, char* infile, int offset=0);
     bool http_op_done();
 };
 

@@ -97,7 +97,7 @@ function add_user($prefs_file) {
 
     $cmd = "../tools/add user -email_addr $BOINC_EMAIL -user_name David -web_password foobar -authenticator 3f7b90793a0175ad0bda68684e8bd136 ";
     if ($prefs_file) {
-        $cmd = $cmd." -prefs_file=$prefs_file";
+        $cmd = $cmd." -prefs_file $prefs_file";
     }
     PassThru($cmd);
 }

@@ -36,6 +36,10 @@
 
 class FILE_XFER;
 
+struct STRING256 {
+    char text[256];
+};
+
 class PROJECT {
 public:
     char name[256];             // descriptive.  not unique
@@ -66,9 +70,10 @@ struct APP {
     int write(FILE*);
 };
 
-struct FILE_INFO {
+class FILE_INFO {
+public:
     char name[256];
-    char url[256];          // TODO: allow multiple URLs
+    //char url[256];          // TODO: allow multiple URLs
     char md5_cksum[33];
     double nbytes;
     bool generated_locally; // file is produced by app
@@ -80,7 +85,10 @@ struct FILE_INFO {
     FILE_XFER* file_xfer;   // nonzero if in the process of being up/downloaded
     PROJECT* project;
     int ref_cnt;
+    vector<STRING256> urls;
 
+    FILE_INFO();
+    ~FILE_INFO();
     int parse(FILE*);
     int write(FILE*, bool to_server);
     int delete_file();      // attempt to delete the underlying file
@@ -99,17 +107,15 @@ struct FILE_REF {
     bool main_program;
     FILE_INFO* file_info;
 
-    int parse(FILE*, char*);
-    int write(FILE*, char*);
+    int parse(FILE*);
+    int write(FILE*);
 };
 
 struct APP_VERSION {
     char app_name[256];
-    //char file_name[256];
     int version_num;
     APP* app;
     PROJECT* project;
-    //FILE_INFO* file_info;
     vector<FILE_REF> app_files;
 
     int parse(FILE*);

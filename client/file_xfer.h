@@ -20,7 +20,8 @@
 #ifndef _FILE_XFER_
 #define _FILE_XFER_
 
-// FILE_XFER objects encapsulate the transfer of file
+// FILE_XFER objects encapsulate the transfer of a file
+// to/from a particular server.
 // TODO: use the HTTP Range header fields to do partial xfers
 
 #include "client_types.h"

@@ -21,22 +21,43 @@
 #include <unistd.h>
 
 #include "http.h"
+#include "log_flags.h"
 #include "net_xfer.h"
 #include "util.h"
 
 int main() {
     NET_XFER_SET nxs;
     HTTP_OP_SET hos(&nxs);
-    HTTP_OP *op1, *op2;
-    int n;
+    HTTP_OP *op1=0, *op2=0, *op3=0;
+    int retval, n;
 
+    log_flags.http_debug = true;
+    log_flags.net_xfer_debug = true;
+
+#if 0
     op1 = new HTTP_OP;
-    op2 = new HTTP_OP;
-    op1->init_get("http://localhost.localdomain/my_index.html", "test_out1");
-    op2->init_post("http://localhost.localdomain/test-cgi/cgi", "test_in1", "test_out2");
-
+    retval = op1->init_get("http://localhost.localdomain/my_index.html", "test_out1");
+    if (retval) {
+        printf("init_post: %d\n", retval);
+        exit(1);
+    }
     hos.insert(op1);
+
+    op2 = new HTTP_OP;
+    retval = op2->init_post("http://localhost.localdomain/test-cgi/cgi", "test_in1", "test_out2");
+    if (retval) {
+        printf("init_post: %d\n", retval);
+        exit(1);
+    }
     hos.insert(op2);
+#endif
+    op3 = new HTTP_OP;
+    retval = op3->init_head("http://localhost.localdomain/my_index2.html");
+    if (retval) {
+        printf("init_post: %d\n", retval);
+        exit(1);
+    }
+    hos.insert(op3);
 
     while (1) {
 	nxs.poll(100000, n);
@@ -51,8 +72,13 @@ int main() {
 	    hos.remove(op2);
             op2 = 0;
 	}
-	if (!op1 && !op2) break;
-	boinc_sleep(1);
+	if (op3 && op3->http_op_done()) {
+	    printf("op3 done; status %d\n", op3->hrh.status);
+	    hos.remove(op3);
+            op3 = 0;
+	}
+	if (!op1 && !op2 && !op3) break;
+	sleep(1);
     }
     printf("all done\n");
 }

@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "../sched/parse.h"
 #include "api.h"
 
 int MFILE::open(char* path, char* mode) {
@@ -80,4 +81,78 @@ int MFILE::flush() {
     fwrite(buf, 1, len, f);
     len = 0;
     return fflush(f);
+}
+
+void write_core_file(FILE* f, APP_IN& ai) {
+    fprintf(f,
+        "<graphics_xsize>%d</graphics_xsize>\n"
+        "<graphics_ysize>%d</graphics_ysize>\n"
+        "<graphics_refresh_period>%f</graphics_refresh_period>\n"
+        "<checkpoint_period>%f</checkpoint_period>\n"
+        "<poll_period>%f</poll_period>\n",
+        ai.graphics.xsize,
+        ai.graphics.ysize,
+        ai.graphics.refresh_period,
+        ai.checkpoint_period,
+        ai.poll_period
+    );
+}
+
+void parse_core_file(FILE* f, APP_IN& ai) {
+    char buf[256];
+
+    while (fgets(buf, 256, f)) {
+        if (match_tag(buf, "<app_specific_prefs>")) {
+            strcpy(ai.app_preferences, "");
+            while (fgets(buf, 256, f)) {
+                if (match_tag(buf, "</app_specific_prefs>")) break;
+                strcat(ai.app_preferences, buf);
+            }
+            continue;
+        }
+        else if (parse_int(buf, "<graphics_xsize>", ai.graphics.xsize)) continue;
+        else if (parse_int(buf, "<graphics_ysize>", ai.graphics.ysize)) continue;
+        else if (parse_double(buf, "<graphics_refresh_period>", ai.graphics.refresh_period)) continue;
+        else if (parse_double(buf, "<checkpoint_period>", ai.checkpoint_period)) continue;
+        else if (parse_double(buf, "<poll_period>", ai.poll_period)) continue;
+        else fprintf(stderr, "read_core_file: unrecognized %s", buf);
+    }
+}
+
+void write_app_file(FILE* f, APP_OUT& ao) {
+    fprintf(f,
+        "<percent_done>%f</percent_done>\n"
+        "<cpu_time_at_checkpoint>%f</cpu_time_at_checkpoint>\n",
+        ao.percent_done,
+        ao.cpu_time_at_checkpoint
+    );
+    if (ao.checkpointed) {
+        fprintf(f, "<checkpointed/>\n");
+    }
+}
+
+void parse_app_file(FILE* f, APP_OUT& ao) {
+}
+
+void boinc_init(APP_IN& ai) {
+    FILE* f;
+
+    memset(&ai, 0, sizeof(ai));
+    f = fopen(CORE_TO_APP_FILE, "r");
+    if (f) {
+        parse_core_file(f, ai);
+        unlink(CORE_TO_APP_FILE);
+    }
+}
+
+double boinc_time() {
+    return double_time();
+}
+
+void boinc_poll(APP_IN& ai, APP_OUT& ao) {
+    FILE* f;
+
+    f = fopen("_app_temp", "w");
+    write_app_file(f, ao);
+    rename("_app_temp", APP_TO_CORE_FILE);
 }

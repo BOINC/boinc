@@ -1,14 +1,5 @@
 Abstractions
 
-"Project": each is described by a URL.
-Each has its own database and control server.
-
-"Application": a particular program.
-A project may have several applications.
-
-"Account": each user has a separate account with each project.
-Each account has a unique email address and a server-assigned authenticator.
-
 --------------------
 Client files
 two files:
@@ -58,41 +49,6 @@ write events to log file:
 
 logging flag is part of preferences
 --------------------
-division between database and XML
-proposal: move as much info as possible out of the DB into XML files.
-examples:
-- workunits and results
-    WUs and results are described by XML files listing
-    their inputs, outputs, etc.
-    The DB entry for a WU contains only info relevant to scheduling:
-        memory/disk/communication requirement
-- user info
-    A configuration is an XML file, opaque to the scheduling server
-    
---------------------
-WUs and results
-- WUs and results are desribed by XML files that describe their
-    input and output files.
-- each client computation is represented by a "result" DB record,
-    which is created BEFORE the client requests it.
-    The application server system must keep the DB supplied
-    with result records, or clients will starve.
-
-    NOTE: this is necessary to control where output files go.
-    Could also have a scheme where each application has a
-    "template" result file.
-    This instructs the client to create its own output file names.
-    When the client returns the result,
-    the server creates the result record and plugs in file names.
---------------------
-File info
-    input files
-        "sticky": don't delete after result done
-        URL (if not already on client)
-    output files
-        "sticky": don't delete after result done
-        URL (optional; send here after result done)
---------------------
 file xfer commands
     implemented as WU/result pairs whose app is "file_xfer".
     Can have just one input file, one output.
@@ -123,122 +79,6 @@ WU attributes in DB, sched server
         all input files are available
         not all input files available
 
---------------------
-Workunit affinity
-
-This mechanism allows a sequence of WUs to get executed on the same host,
-but allows the sequence to migrate (or be duplicated) if needed.
-
-result attributes:
-previous_resultid
-    This result is a "successor" to the previous one.
-    If all the sticky input and output files of the previous WU are present,
-    this WU can be executed efficiently.
-has_successor
-    This result has a successor.
-
-How it works:
-The project generates a sequence of WUs,
-each with one or more results.
-It chains the results together into sequences.
-
-When a client completes a result with successor,
-it retains the result record.
-
-NOTE: one goal of this design is to avoid the scheduler
-having to know about individual files
---------------------
-Scheduler request
-
-The client sends all its results with successors
-
-scheduler algorithm:
-    if there any results with predecessors
-    for which the client has all sticky files,
-    send them in preference to any other results
-
-
-
---------------------
-database tables
-
-application
-platform
-app_version
-core_version
-account
-file
-workunit
-    applicationid
-    file1 name1
-    file2 name2
-    nresults
-result
-    workunitid
-    accountid
-    fileid
-    boolean verified
-host
---------------------
-State maintained on client
-Config file (XML)
-
-<config>
-    <update-time>123123</update-time>
-        // last time user added project or changed CPU shares
-    <max-disk-mb>1000</max-disk-mb>
-    <min-work-hrs>10</min-work-hrs>
-        // if estimated work falls below this, try to get more
-    <max-work-hrs>10</max-work-hrs>
-        // don't get more work if estimate is above this
-    <max_ram_while_user_active>20</max_ram_while_user_active>
-        // zero means don't work while user active
-    <projects>
-        <project>
-            <url>http://wjwjwj</url>
-            <dont-contact-until>123123</dont_contact_until>
-            <control-server>blah.blah</control-server>
-            </control-server>blah.blah</control-server>
-            <cpu-share>1</cpu-share>
-            <max-disk-mb>100</max-disk-mb>
-            <cpu-total>5.44</cpu-total>
-                // this is zeroed out each time shares updated
-            <password>123123123</password>
-                // stored on client only; not sent to server in general
-            <email-address>foo@bar</email-address>
-            </home-project>
-
-            <file>
-                <md5>sfkjf</md5>
-                <url>akdjsfd</url>
-                <size>123123</size>
-                <complete/>
-            </file>
-            <workunit>
-                <name>skdjf</name>
-                <file>
-                    <name>foo</name>
-                    <appname>blah</appname>
-                        // name by which app refers to file
-                </file>
-            </workunit>
-            <result>
-                <workunit-name>12938</workunit-name>
-            <result>
-        </project>
-        ...
-    </projects>
-</config>
-
---------------------
-Security notes:
---------------------
-Client directory structure
-top-level dir
-    project dir (one per project)
-    CPU dir (one per CPU)
-        contains symbolic links to application file,
-        all input and output files
 --------------------
 Client logic
     ["network xfer" object encapsulates a set of file xfers in progress]
@@ -331,10 +171,67 @@ Disk usage
 
 Projects
     For each project:
-        master URL
+        user name
+        project's master URL
         email address
         authenticator
         resource %
         show email address on web site?
         accept emails from project?
         project-specific prefs
+------------------------------
+retry policies:
+general issues:
+    when and where to retry?
+    when to declare overall failure?
+    what to do if overall failure?
+    what needs to be saved in state file?
+
+file xfer
+    download
+        round-robin through URLs with random exponential backoff
+        after connection failure or HTTP error.
+        2X from 1 minute up to 256 minutes
+        Overall failure after 1 week since last successful xfer
+            flag result as "file download failed",
+            abort other file xfers,
+            delete other files.
+            write log entry
+        State file:
+            record time of last successful xfer
+    upload
+        same as for download?
+        Use HTTP features to find file size on server
+
+scheduler RPC
+    order projects according to hosts's "debt" to them.
+    Attempt to contact them in this order.
+    For each project, try all URLs in sequence with no delay.
+    If still need more work after a given RPC,
+    keep going to next project.
+    If still not enough work after a given "round",
+        do exponential backoff
+        2X from 1 minute up to 256 minutes
+        If reach 256 minutes, show error message to user and write to log
+    nothing saved in state file
+------------------
+Core/App connection
+    two unidirectional message streams.
+    files "core_to_app.xml" and "app_to_core.xml".
+
+    core->app:
+        initially:
+            requested frequency of app->core messages
+            app preferences
+            name of graphics shared-mem segment
+            recommended graphics parameters
+                frame rate
+                size
+            recommended checkpoint period
+            whether to do graphics
+        thereafter:
+            recommended graphics params
+    app->core
+        percent done
+        I just checkpointed
+        CPU time so far

@@ -224,6 +224,9 @@ int CLIENT_STATE::write_state_file() {
     FILE* f = fopen(STATE_FILE_TEMP, "w");
     int retval;
 
+    if (log_flags.state_debug) {
+        printf("Writing state file\n");
+    }
     if (!f) {
         fprintf(stderr, "can't open temp state file: %s\n", STATE_FILE_TEMP);
         return ERR_FOPEN;
@@ -264,6 +267,9 @@ int CLIENT_STATE::write_state_file() {
     fprintf(f, "</client_state>\n");
     fclose(f);
     retval = rename(STATE_FILE_TEMP, STATE_FILE_NAME);
+    if (log_flags.state_debug) {
+        printf("Done writing state file\n");
+    }
     if (retval) return ERR_RENAME;
     return 0;
 }
@@ -497,7 +503,9 @@ bool CLIENT_STATE::garbage_collect() {
     while (wu_iter != workunits.end()) {
         wup = *wu_iter;
         if (wup->ref_cnt == 0) {
-            if (log_flags.state_debug) printf("deleting workunit %s\n", wup->name);
+            if (log_flags.state_debug) {
+                printf("deleting workunit %s\n", wup->name);
+            }
             delete wup;
             wu_iter = workunits.erase(wu_iter);
             action = true;

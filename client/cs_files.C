@@ -55,17 +55,20 @@ bool CLIENT_STATE::start_file_xfers() {
         if (!fip->generated_locally && !fip->file_present && !fxp) {
             fxp = new FILE_XFER;
             get_pathname(fip, pathname);
-            fxp->init_download( fip->url, pathname);
+            fxp->init_download(fip->urls[0].text, pathname);
             retval = file_xfers->insert(fxp);
             if (retval) {
                 fprintf(stderr,
                     "couldn't start download for %s: error %d\n",
-                    fip->url, retval
+                    fip->urls[0].text, retval
                 );
             } else {
                 fip->file_xfer = fxp;
                 if (log_flags.file_xfer) {
-                    printf("started download of %s to %s\n", fip->url, pathname);
+                    printf(
+                        "started download of %s to %s\n",
+                        fip->urls[0].text, pathname
+                    );
                 }
             }
             action = true;
@@ -75,17 +78,20 @@ bool CLIENT_STATE::start_file_xfers() {
         ) {
             fxp = new FILE_XFER;
             get_pathname(fip, pathname);
-            fxp->init_upload( fip->url, pathname);
+            fxp->init_upload( fip->urls[0].text, pathname);
             retval = file_xfers->insert(fxp);
             if (retval) {
                 fprintf(stderr,
                     "couldn't start upload for %s: error %d\n",
-                    fip->url, retval
+                    fip->urls[0].text, retval
                 );
             } else {
                 fip->file_xfer = fxp;
                 if (log_flags.file_xfer) {
-                    printf("started upload of %s to %s\n", pathname, fip->url);
+                    printf(
+                        "started upload of %s to %s\n",
+                        pathname, fip->urls[0].text
+                    );
                 }
             }
             action = true;
@@ -95,7 +101,7 @@ bool CLIENT_STATE::start_file_xfers() {
                 if (log_flags.file_xfer) {
                     printf(
                         "file transfer done for %s; retval %d\n",
-                        fip->url, fxp->file_xfer_retval
+                        fip->urls[0].text, fxp->file_xfer_retval
                     );
                 }
                 file_xfers->remove(fxp);

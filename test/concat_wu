@@ -11,13 +11,13 @@
 <workunit>
     <name><WU_NAME/></name>
     <app_name>concat</app_name>
-    <input_file>
+    <file_ref>
         <file_name><INFILE_0/></file_name>
         <open_name>in1</open_name>
-    </input_file>
-    <input_file>
+    </file_ref>
+    <file_ref>
         <file_name><INFILE_1/></file_name>
         <open_name>in2</open_name>
-    </input_file>
+    </file_ref>
     <command_line>in1 in2 out</command_line>
 </workunit>

@@ -32,7 +32,9 @@
 #ifdef _WIN32
 #include <windows.h>
 #else
+#if HAVE_SYS_SYSTEMINFO_H
 #include <sys/systeminfo.h>
+#endif
 #include <sys/utsname.h>
 #include <unistd.h>
 #include <netdb.h>

@@ -35,11 +35,6 @@
     while ($res = mysql_fetch_object($result)) {
         show_result($res);
     }
-    echo "<hr>Prefs";
-    $result = mysql_query("select * from prefs");
-    while ($prefs = mysql_fetch_object($result)) {
-        show_prefs($prefs);
-    }
     echo "<hr>Users";
     $result = mysql_query("select * from user");
     while ($user = mysql_fetch_object($result)) {

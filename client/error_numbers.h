@@ -31,3 +31,5 @@
 #define ERR_OPENDIR     -111
 #define ERR_XML_PARSE   -112
 #define ERR_GETHOSTBYNAME   -113
+#define ERR_GIVEUP      -114
+    // too much time has elapsed without progress on file xfer

@@ -17,16 +17,16 @@
 // Contributor(s):
 //
 
+#include <stdio.h>
+
+#ifndef BOINC_API
+#define BOINC_API
+
 // MFILE supports a primitive form of checkpointing.
 // Write all your output (and restart file) to MFILEs.
 // The output is buffered in memory.
 // Then close all the MFILEs;
 // all the buffers will be flushed to disk, almost atomically.
-
-#include <stdio.h>
-
-#ifndef BOINC_API
-#define BOINC_API
 
 class MFILE {
     char* buf;
@@ -41,5 +41,45 @@ public:
     int close();
     int flush();
 };
+
+// An application that wants to be well-behaved should do the following:
+//
+// - call boinc_init() at startup
+// - call boinc_time() periodically.
+//   This is cheap - it gets the time of day.
+// - checkpoint as often as requested by core
+// - boinc_poll(): 
+//   Call this as often as requested by core
+
+struct APP_IN_GRAPHICS {
+    int xsize;
+    int ysize;
+    double refresh_period;
+    char shmem_seg_name[32];
+};
+
+struct APP_OUT_GRAPHICS {
+};
+
+struct APP_IN {
+    char app_preferences[4096];
+    APP_IN_GRAPHICS graphics;
+    double checkpoint_period;     // recommended checkpoint period
+    double poll_period;           // recommended poll period
+};
+
+struct APP_OUT {
+    double percent_done;
+    double cpu_time_at_checkpoint;
+    bool checkpointed;              // true iff checkpointed since last call
+};
+
+void boinc_init(APP_IN&);
+double boinc_time();
+void boinc_poll(APP_IN&, APP_OUT&);
+double boinc_cpu_time();
+
+#define CORE_TO_APP_FILE    "core_to_app.xml"
+#define APP_TO_CORE_FILE    "app_to_core.xml"
 
 #endif

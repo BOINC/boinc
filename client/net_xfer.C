@@ -217,7 +217,7 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
 #ifdef _WIN32
                 getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, (int *)&intsize);
 #else
-                getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
+                getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (unsigned int *)&intsize);
 #endif
                 if (n) {
                     if (log_flags.net_xfer_debug) {

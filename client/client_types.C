@@ -113,11 +113,18 @@ int APP::write(FILE* out) {
     return 0;
 }
 
+FILE_INFO::FILE_INFO() {
+}
+
+FILE_INFO::~FILE_INFO() {
+}
+
 int FILE_INFO::parse(FILE* in) {
     char buf[256];
+    STRING256 url;
 
     strcpy(name, "");
-    strcpy(url, "");
+    //strcpy(url, "");
     strcpy(md5_cksum, "");
     nbytes = 0;
     generated_locally = false;
@@ -128,10 +135,14 @@ int FILE_INFO::parse(FILE* in) {
     sticky = false;
     project = NULL;
     file_xfer = NULL;
+    urls.clear();
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file_info>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
-        else if (parse_str(buf, "<url>", url)) continue;
+        else if (parse_str(buf, "<url>", url.text)) {
+            urls.push_back(url);
+            continue;
+        }
         else if (parse_str(buf, "<md5_cksum>", md5_cksum)) continue;
         else if (parse_double(buf, "<nbytes>", nbytes)) continue;
         else if (match_tag(buf, "<generated_locally/>")) generated_locally = true;
@@ -146,13 +157,13 @@ int FILE_INFO::parse(FILE* in) {
 }
 
 int FILE_INFO::write(FILE* out, bool to_server) {
+    unsigned int i;
     fprintf(out,
         "<file_info>\n"
         "    <name>%s</name>\n"
-        "    <url>%s</url>\n"
         "    <md5_cksum>%s</md5_cksum>\n"
         "    <nbytes>%f</nbytes>\n",
-        name, url, md5_cksum, nbytes
+        name, md5_cksum, nbytes
     );
     if (!to_server) {
         if (generated_locally) fprintf(out, "    <generated_locally/>\n");
@@ -161,6 +172,9 @@ int FILE_INFO::write(FILE* out, bool to_server) {
         if (uploaded) fprintf(out, "    <uploaded/>\n");
         if (upload_when_present) fprintf(out, "    <upload_when_present/>\n");
         if (sticky) fprintf(out, "    <sticky/>\n");
+    }
+    for (i=0; i<urls.size(); i++) {
+        fprintf(out, "<url>%s</url>\n", urls[i].text);
     }
     fprintf(out, "</file_info>\n");
     return 0;
@@ -180,17 +194,14 @@ int APP_VERSION::parse(FILE* in) {
     FILE_REF file_ref;
 
     strcpy(app_name, "");
-    //strcpy(file_name, "");
     version_num = 0;
     app = NULL;
     project = NULL;
-    //file_info = NULL;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</app_version>")) return 0;
         else if (parse_str(buf, "<app_name>", app_name)) continue;
-        //else if (parse_str(buf, "<file_name>", file_name)) continue;
         else if (match_tag(buf, "<file_ref>")) {
-            file_ref.parse(in, "</file_ref>");
+            file_ref.parse(in);
             app_files.push_back(file_ref);
             continue;
         }
@@ -205,14 +216,12 @@ int APP_VERSION::write(FILE* out) {
     fprintf(out,
         "<app_version>\n"
         "    <app_name>%s</app_name>\n"
-        //"    <file_name>%s</file_name>\n"
         "    <version_num>%d</version_num>\n",
         app_name,
-        //file_name,
         version_num
     );
     for (i=0; i<app_files.size(); i++) {
-        app_files[i].write(out, "file_assoc");
+        app_files[i].write(out);
     }
     fprintf(out,
         "</app_version>\n"
@@ -220,7 +229,7 @@ int APP_VERSION::write(FILE* out) {
     return 0;
 }
 
-int FILE_REF::parse(FILE* in, char* end_tag) {
+int FILE_REF::parse(FILE* in) {
     char buf[256];
 
     strcpy(file_name, "");
@@ -228,7 +237,7 @@ int FILE_REF::parse(FILE* in, char* end_tag) {
     fd = -1;
     main_program = false;
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, end_tag)) return 0;
+        if (match_tag(buf, "</file_ref>")) return 0;
         else if (parse_str(buf, "<file_name>", file_name)) continue;
         else if (parse_str(buf, "<open_name>", open_name)) continue;
         else if (parse_int(buf, "<fd>", fd)) continue;
@@ -238,12 +247,12 @@ int FILE_REF::parse(FILE* in, char* end_tag) {
     return 1;
 }
 
-int FILE_REF::write(FILE* out, char* tag) {
-    fprintf(out, "    <%s>\n", tag);
+int FILE_REF::write(FILE* out) {
     if (strlen(open_name)) {
         fprintf(out, "        <open_name>%s</open_name>\n", open_name);
     }
     fprintf(out,
+        "    <file_ref>\n"
         "        <file_name>%s</file_name>\n",
         file_name
     );
@@ -253,7 +262,7 @@ int FILE_REF::write(FILE* out, char* tag) {
     if (main_program) {
         fprintf(out, "        <main_program/>\n");
     }
-    fprintf(out, "    </%s>\n", tag);
+    fprintf(out, "    </file_ref>\n");
     return 0;
 }
 
@@ -272,10 +281,11 @@ int WORKUNIT::parse(FILE* in) {
         if (match_tag(buf, "</workunit>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
         else if (parse_str(buf, "<app_name>", app_name)) continue;
+        else if (parse_int(buf, "<version_num>", version_num)) continue;
         else if (parse_str(buf, "<command_line>", command_line)) continue;
         else if (parse_str(buf, "<env_vars>", env_vars)) continue;
-        else if (match_tag(buf, "<input_file>")) {
-            file_ref.parse(in, "</input_file>");
+        else if (match_tag(buf, "<file_ref>")) {
+            file_ref.parse(in);
             input_files.push_back(file_ref);
             continue;
         }
@@ -296,7 +306,7 @@ int WORKUNIT::write(FILE* out) {
         name, app_name, version_num, command_line, env_vars
     );
     for (i=0; i<input_files.size(); i++) {
-        input_files[i].write(out, "input_file");
+        input_files[i].write(out);
     }
     fprintf(out, "</workunit>\n");
     return 0;
@@ -321,8 +331,8 @@ int RESULT::parse(FILE* in, char* end_tag) {
         if (match_tag(buf, end_tag)) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
         else if (parse_str(buf, "<wu_name>", wu_name)) continue;
-        else if (match_tag(buf, "<output_file>")) {
-            file_ref.parse(in, "</output_file>");
+        else if (match_tag(buf, "<file_ref>")) {
+            file_ref.parse(in);
             output_files.push_back(file_ref);
             continue;
         }
@@ -372,7 +382,7 @@ int RESULT::write(FILE* out, bool to_server) {
             wu_name
         );
         for (i=0; i<output_files.size(); i++) {
-            output_files[i].write(out, "output_file");
+            output_files[i].write(out);
         }
     } else {
         for (i=0; i<output_files.size(); i++) {

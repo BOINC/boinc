@@ -86,7 +86,7 @@ void add_app_version() {
     strcpy(app.name, app_name);
     retval = db_app_lookup_name(app);
     if (retval) {
-        fprintf(stderr, "can't find app %s\n", app_name);
+        fprintf(stderr, "add_app_version(): can't find app %s\n", app_name);
         db_print_error("db_app_lookup_name");
         return;
     }
@@ -94,7 +94,7 @@ void add_app_version() {
     strcpy(platform.name, platform_name);
     retval = db_platform_lookup_name(platform);
     if (retval) {
-        fprintf(stderr, "can't find platform %s\n", platform_name);
+        fprintf(stderr, "add_app_version(): can't find platform %s\n", platform_name);
         db_print_error("db_platform_lookup_name");
         return;
     }

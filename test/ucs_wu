@@ -6,8 +6,8 @@
 <workunit>
     <name><WU_NAME/></name>
     <app_name>uc_slow</app_name>
-    <input_file>
+    <file_ref>
         <file_name><INFILE_0/></file_name>
         <open_name>in</open_name>
-    </input_file>
+    </file_ref>
 </workunit>

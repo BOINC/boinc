@@ -143,16 +143,10 @@ function show_user($user) {
     row("email_addr", $user->email_addr);
     row("country", $user->country);
     row("postal_code", $user->postal_code);
-    echo "</table>\n";
-}
-
-function show_prefs($prefs) {
-    start_table();
-    row("ID", $prefs->id);
-    row("created", time_str($prefs->create_time));
-    row("modified", time_str($prefs->modified_time));
-    row("userid", $prefs->userid);
-    row("XML doc", "<pre>".htmlspecialchars($prefs->xml_doc)."</pre>");
+    row("total credit", $user->total_credit);
+    row("recent average credit", $user->expavg_credit);
+    row("preferences", "<pre>".htmlspecialchars($user->prefs)."</pre>");
+    row("prefs mod time", time_str($user->prefs_mod_time));
     echo "</table>\n";
 }
 

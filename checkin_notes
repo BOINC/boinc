@@ -434,3 +434,48 @@ Michael Gary		June 08, 2002
 	server_types.C (added)
 	server_types.h (added)
 	show_shmem.C (added)
+
+David A     June 9 2002
+    - added support for multiple URLs in a FILE_INFO
+        (e.g. multiple servers from which the file can be downloaded)
+    - started work on "persistent file transfer": a layer on top of
+        FILE_XFER that manages restarting from failed connections,
+        and that implements a give-up policy
+    - added offset arguments to GET and PUT HTTP operations.
+        NOTE: this will work fine for downloading files (GET)
+        but we'll have to use something else for upload,
+        since the standard PUT handler doesn't do offsets,
+        and we need security functionality in any case.
+    - added preliminary version of application API for
+        communicating with core client.
+    - use <file_ref> tags instead of <input_file> and <output_file>
+        (makes things simpler)
+
+    TODO
+    notes
+    api/
+        api.C,h
+    client/
+        configure.in
+        client_state.C
+        client_types.C,h
+        cs_files.C
+        error_numbers.h
+        file_xfer.h
+        http.C,h
+        pers_file_xfer.C,h
+        test_http.C
+    html_ops/
+        db.php
+    html_user/
+        db.inc
+    test/
+        1sec_result
+        account2.xml
+        *_result
+        *_wu
+        init.inc
+        laptop_prefs.xml
+        test_*.php
+    tools/
+        add.C

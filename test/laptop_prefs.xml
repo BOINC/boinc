@@ -1,3 +1,17 @@
-<stop_on_batteries/>
-<hi_water_secs>10</hi_water_secs>
-<lo_water_secs>1</lo_water_secs>
+<preferences>
+    <dont_run_on_batteries/>
+    <high_water_days>10</high_water_days>
+    <low_water_days>1</low_water_days>
+    <disk_max_used_gb>0.4</disk_max_used_gb>
+    <disk_max_used_pct>50</disk_max_used_pct>
+    <disk_min_free_gb>0.4</disk_min_free_gb>
+    <project>
+        <master_url>http://localhost.localdomain</master_url>
+        <email_addr>david@localdomain</email_addr>
+        <authenticator>123892398</authenticator>
+        <resource_share>10</resource_share>
+        <project_specific>
+            <color-scheme>Tahiti Sunset</color-scheme>
+        </project_specific>
+    </project>\n"
+</preferences>

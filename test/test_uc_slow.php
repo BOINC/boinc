@@ -1,10 +1,12 @@
 #! /usr/local/bin/php
 <?php
-    // test the uc_slow  application
+    // test the client checkpoint/restart mechanism,
+    // using the uc_slow application
     //
 
     include_once("init.inc");
 
+    check_env_vars();
     clear_db();
     clear_data_dirs();
     init_client_dirs("account1.xml");
