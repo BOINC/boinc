@@ -34,8 +34,8 @@
 // if there are no global prefs yet
 //
 GLOBAL_PREFS::GLOBAL_PREFS() {
-    run_on_batteries = false;
-    run_if_user_active = false;
+    run_on_batteries = true;
+    run_if_user_active = true;
     run_minimized = false;
     run_on_startup = false;
     confirm_before_connecting = false;

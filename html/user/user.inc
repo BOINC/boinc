@@ -3,7 +3,7 @@
 function show_user_stats($user) {
     echo TABLE2."\n";
     echo "<tr>".TD2.LG_FONT."<b>User stats</b></font></td></tr>\n";
-    $row = sprintf("%s user since", $project);
+    $row = sprintf("%s User since", $project);
     row2($row, time_str($user->create_time));
     row2("Total credit", $user->total_credit);
     row2("Recent average credit", $user->expavg_credit);
@@ -32,10 +32,10 @@ function show_user_profile($user) {
     }
     echo TABLE2."\n";
     echo "<tr>".TD2.LG_FONT."<b>User information</b></font></td></tr>\n";
-    row2("name", $user->name.edit_link());
-    row2("email address", $email_text.edit_email_link());
-    row2("country", $user->country.edit_link());
-    row2("postal (ZIP) code", $user->postal_code.edit_link());
+    row2("Name", $user->name.edit_link());
+    row2("Email address", $email_text.edit_email_link());
+    row2("Country", $user->country.edit_link());
+    row2("Postal code", $user->postal_code.edit_link());
     echo "</table>\n";
 }
 

@@ -3601,3 +3601,24 @@ David  Mar 2 2003
         mysql_util.C,h
     sched/
         handle_request.C
+
+David  Mar 3 2003
+    - run_on_batteries defaults to true
+        (else can't run test_uc.php on batteries)
+    - show correct time diffs in client out
+    - In user_html, use row2() uniformly, and added shading
+    - laid some groundwork for multiple prefs sets
+
+    client/
+        client_state.C
+        main.C
+        prefs.C
+    html_user/
+        prefs.inc
+        prefs_edit_global_form.php
+        project_specific_prefs.inc
+        show_hosts.php
+        user.inc
+        util.inc
+    test/
+        test_uc.php

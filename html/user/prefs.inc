@@ -9,7 +9,7 @@
 // - As XML (usually called $prefs_xml)
 //
 // This XML has the general structure
-// <global_preferences>
+// <global_preferences [venue=x] >
 //    <run_if_user_active/>
 //    <work_buf_min_days>1.3</work_buf_min_days>
 //    ...
@@ -17,7 +17,7 @@
 //
 // and
 //
-// <project_preferences>
+// <project_preferences [venue=x] >
 //    <resource_share>4</resource_share>
 //    <project-specific>
 //            ... (arbitrary project-specific XML)
@@ -239,80 +239,94 @@ function print_prefs_display($user) {
 // Functions to display preference subsets as forms
 //
 function prefs_form_global($user, $prefs) {
-    echo   "<tr>
-        <td align=right>Should ".PROJECT." run while the computer is on battery power?
+    $x = "Should ".PROJECT." run while the computer is on battery power?
         <br><font size=-1>(This matters only for portable computers)</font>
-        </td><td valign=top>
     ";
-    printf("Yes <input type=radio name=run_on_batteries value=yes %s>\n", $prefs->run_on_batteries?"checked":"");
-    printf("No <input type=radio name=run_on_batteries value=no %s>\n", $prefs->run_on_batteries?"":"checked");
-    echo   "</td></tr>
-        <tr>
-        <td align=right>Should ".PROJECT." run while you're using the computer?
-        </td><td valign=top>
+    $y = "Yes <input type=radio name=run_on_batteries value=yes "
+        .($prefs->run_on_batteries?"checked":"")
+        ."> No <input type=radio name=run_on_batteries value=no "
+        .($prefs->run_on_batteries?"":"checked")
+        .">
     ";
-    printf("Yes <input type=radio name=run_if_user_active value=yes %s>\n", $prefs->run_if_user_active?"checked":"");
-    printf("No <input type=radio name=run_if_user_active value=no %s>\n", $prefs->run_if_user_active?"":"checked");
-    echo   "</td></tr>
-        <tr>
-        <td align=right>Ask you before connecting to Internet?
+    row2($x, $y);
+
+    $x = "Should ".PROJECT." run while you're using the computer?";
+    $y = "Yes <input type=radio name=run_if_user_active value=yes "
+        .($prefs->run_if_user_active?"checked":"")
+        ."> No <input type=radio name=run_if_user_active value=no "
+        .($prefs->run_if_user_active?"":"checked")
+        .">
+    ";
+    row2($x, $y);
+
+    $x = "Ask you before connecting to Internet?
         <br><font size=-1>(This matters only if you use a modem)</font>
-        </td><td valign=top>
     ";
-    printf("Yes <input type=radio name=confirm_before_connecting value=yes %s>\n", $prefs->confirm_before_connecting?"checked":"");
-    printf("No <input type=radio name=confirm_before_connecting value=no %s>\n", $prefs->confirm_before_connecting?"":"checked");
-    echo   "</td></tr>
-        <tr>
-        <td align=right>Keep enough to work on disk to last between
-        </td><td>
-        <input size=5 name=work_buf_min_days value='$prefs->work_buf_min_days'>
+    $y = "Yes <input type=radio name=confirm_before_connecting value=yes "
+        .($prefs->confirm_before_connecting?"checked":"")
+        ."> No <input type=radio name=confirm_before_connecting value=no "
+        .($prefs->confirm_before_connecting?"":"checked")
+        .">
+    ";
+    row2($x, $y);
+
+    $x = "Keep enough to work on disk to last between";
+    $y = "<input size=5 name=work_buf_min_days value='$prefs->work_buf_min_days'>
         and
         <input size=5 name=work_buf_max_days value='$prefs->work_buf_max_days'> days
-        </td></tr>
-        <tr><td colspan=2>
+    ";
+    row2($x, $y);
+
+    echo "<tr><td colspan=2>
         You can limit the disk space used by ".PROJECT." in three different ways:
         </td></tr>
-        <tr>
-        <td align=right valign=top>Use no more than</td>
-        <td><input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'> Gbytes</td>
-        </tr>
-        <tr><td align=right valign=top>Leave at least</td>
-        <td><input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'> Gbytes free</td></tr>
-        <tr>
-        <td align=right valign=top>Use no more than</td>
-        <td><input size=5 name=disk_max_used_pct value='$prefs->disk_max_used_pct'> % of total space</td>
-        </tr>
     ";
+
+    row2("Use no more than",
+        "<input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'> Gbytes"
+    );
+
+    row2("Leave at least",
+        "<input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'> Gbytes free"
+    );
+    row2("Use no more than",
+        "<input size=5 name=disk_max_used_pct value='$prefs->disk_max_used_pct'> % of total space"
+    );
+
+    echo "<tr><td colspan=2>You can limit BOINC's network traffic</td></tr>\n";
     $d = $prefs->max_bytes_sec_down;
     $dt = $d?"$d":"";
     $u = $prefs->max_bytes_sec_up;
     $ut = $u?"$u":"";
-    echo "
-        <tr><td align=right valign=top>Maximum bytes/sec download</td>
-        <td><input size=7 name=max_bytes_sec_down value='$dt'></td></tr>
-        <tr><td align=right valign=top>Maximum bytes/sec upload</td>
-        <td><input size=7 name=max_bytes_sec_up value='$ut'></td></tr>
-    ";
+    row2("Maximum bytes/sec download",
+        "<input size=7 name=max_bytes_sec_down value='$dt'>"
+    );
+    row2("Maximum bytes/sec upload",
+        "<input size=7 name=max_bytes_sec_up value='$ut'>"
+    );
 }
 
 function prefs_form_email($prefs) {
-    echo "<tr>
-        <td align=right>Should ".PROJECT." send you email newsletters?</td><td>
+    $y = "Yes <input type=radio name=send_email value=yes "
+        .($prefs->send_email?"checked":"")
+        ."> No <input type=radio name=send_email value=no "
+        .($prefs->send_email?"":"checked")
+        .">
     ";
-    printf("Yes <input type=radio name=send_email value=yes %s>\n", $prefs->send_email?"checked":"");
-    printf("No <input type=radio name=send_email value=no %s>\n", $prefs->send_email?"":"checked");
-     echo "   </td></tr><tr>
-        <td align=right>Should ".PROJECT." show your email address on its web site?</td><td>
+    row2("Should ".PROJECT." send you email newsletters?", $y);
+
+    $y = "Yes <input type=radio name=show_email value=yes "
+        .($prefs->show_email?"checked":"")
+        ."> No <input type=radio name=show_email value=no "
+        .($prefs->show_email?"":"checked")
+        .">
     ";
-    printf("Yes <input type=radio name=show_email value=yes %s>\n", $prefs->show_email?"checked":"");
-    printf("No <input type=radio name=show_email value=no %s>\n", $prefs->show_email?"":"checked");
-    echo" </td></tr>
-    ";
+    row2("Should ".PROJECT." show your email address on its web site?", $y);
 }
 
 function prefs_form_resource($prefs) {
-    echo "<tr>
-        <td width=50% valign=top align=right><b>Resource share:</b>
+    row2(
+        "<b>Resource share:</b>
         <font size=-1><br>The proportion of your computer's resources
         (processing time and disk space)
         allocated to ".PROJECT."
@@ -321,9 +335,9 @@ function prefs_form_resource($prefs) {
         For example, if you participate in two projects and
         give them resource shares of 100 and 200,
         the first will get 1/3 of our resources and the second will get 2/3.
-        </font></td>
-        <td valign=top><input name=resource_share value='$prefs->resource_share'></td>
-    ";
+        </font>",
+        "<input name=resource_share value='$prefs->resource_share'"
+    );
 }
 
 function prefs_form_project($prefs_xml) {
@@ -339,14 +353,14 @@ function venue_form($user) {
     if ($user->venue == "home") $h = "selected";
     if ($user->venue == "work") $w = "selected";
     if ($user->venue == "school") $s = "selected";
-    echo "<tr><td align=right>Computer location</td><td>
-        <select name=venue>
+    row2("Computer location",
+        "<select name=venue>
         <option value=home $h>Home
         <option value=work $w>Work
         <option value=school $s>School
         </select>
-        </td></tr>
-        ";
+        </td></tr>"
+    );
 }
 
 function venue_parse(&$user) {

@@ -102,7 +102,7 @@ function start_table() {
 }
 
 function row2($x, $y) {
-    echo "<tr><td width=50% align=right valign=top>$x</td><td valign=top><b>$y</b></td></tr>\n";
+    echo "<tr><td bgcolor=eeeeee width=50% align=right valign=top>$x</td><td valign=top><b>$y</b></td></tr>\n";
 }
 
 function row3($x, $y, $z) {

@@ -21,7 +21,7 @@
 
     $user = new User();
     $user->project_prefs = "<project_specific>\nfoobar\n</project_specific>\n";
-    $user->global_prefs = "<max_bytes_sec_down>400000</max_bytes_sec_down>\n";
+    $user->global_prefs = "<run_on_batteries/>\n<max_bytes_sec_down>400000</max_bytes_sec_down>\n";
 
     $project->add_user($user);
     $project->install();      // must install projects before adding to hosts

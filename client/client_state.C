@@ -84,7 +84,7 @@ CLIENT_STATE::CLIENT_STATE() {
     strcpy(socks_user_name,"");
     strcpy(socks_user_passwd,"");
     suspend_requested = false;
-	start_saver = false;
+    start_saver = false;
 #ifdef _WIN32
     time_tests_handle = NULL;
 #endif
@@ -364,8 +364,11 @@ int CLIENT_STATE::current_disk_usage(double& size) {
 int CLIENT_STATE::check_suspend_activities() {
     bool should_suspend = false;
     if (!global_prefs.run_on_batteries && host_is_running_on_batteries()) {
+        printf("suspending - on batteries\n");
         should_suspend = true;
     }
+
+    // TODO: is the following set anywhere??
     if (!user_idle) {
         should_suspend = true;
     }
@@ -1167,7 +1170,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-min")) {
             global_prefs.run_minimized = true;
         } else if (!strcmp(argv[i], "-saver")) {
-			start_saver = true;
+            start_saver = true;
 
         // the above options are private (i.e. not shown by -help)
 

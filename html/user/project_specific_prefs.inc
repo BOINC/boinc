@@ -10,7 +10,7 @@ function option($name, $val) {
     } else {
         $x = "";
     }
-    echo "<option name='$name' $x>$name\n";
+    return "<option name='$name' $x>$name\n";
 }
 
 function project_specific_prefs_default() {
@@ -21,16 +21,12 @@ function project_specific_prefs_default() {
 //
 function project_specific_prefs_edit($prefs) {
     $x = $prefs->color_scheme;
-    echo "<tr>\n
-        <td align=right>Color scheme:</td>\n
-        <td>\n
-            <select name=color_scheme>\n";
-                option("Tahiti Sunset", $x);
-                option("Desert Sands", $x);
-    echo "
-            </select>\n
-        </td>\n
-        </tr>";
+    $y = "<select name=color_scheme>
+            ".option("Tahiti Sunset", $x)
+            .option("Desert Sands", $x)."
+        </select>
+    ";
+    row2("Color scheme", $y);
 }
 
 // Return XML version of project-specific prefs
@@ -43,15 +39,12 @@ function project_specific_prefs_parse_form() {
 // show non-editable version of prefs
 //
 function project_specific_prefs_show($prefs) {
-    echo "<tr>\n
-        <td>Color scheme:</td>\n
-        <td>";
     if ($prefs->color_scheme) {
-        echo $prefs->color_scheme;
+        $x = $prefs->color_scheme;
     } else {
-        echo "None selected";
+        $x = "None selected";
     }
-    echo "</td></tr>\n";
+    row2("Color scheme", $x);
 }
 
 // parse XML, fill in struct

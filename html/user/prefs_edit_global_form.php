@@ -12,9 +12,9 @@ if ($user == NULL) {
     print_login_form();
     exit();
 }
-page_head("Edit global preferences", $user);
+page_head("Edit BOINC preferences", $user);
 $prefs = prefs_parse($user->global_prefs);
-echo "<h3>Edit global preferences</h3>
+echo "<h3>Edit BOINC preferences</h3>
     These preferences apply to all the BOINC projects
     in which you participate.
     <br>If you participate in multiple BOINC projects,
