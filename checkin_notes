@@ -6591,3 +6591,19 @@ David  Oct 6 2003
 
     sched/
         wu_check.C
+
+David  Oct 8 2003
+    - added "present" flag to TEXTURE_DESC
+    - fixed function names:
+        double_to_ydhms() -> ndays_to_string()
+        get_byte_string -> nbytes_to_string()
+
+    api/
+        boinc_api.C
+        gutil.C,h
+    client/
+        win/
+            wingui_mainwindow.cpp
+            wingui_piecectrl.cpp
+    lib/
+        util.C,h

@@ -494,7 +494,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
 		    // size
 		    char size_buf[256];
-		    get_byte_string(xSent, pfx->fip->nbytes, size_buf, 256);
+		    nbytes_to_string(xSent, pfx->fip->nbytes, size_buf, 256);
             if (strcmp(m_XferListCtrl.GetItemText(i, 3).GetBuffer(0), size_buf))
 		        m_XferListCtrl.SetItemText(i, 3, size_buf);
 

@@ -149,6 +149,7 @@ extern void replaceStar(Star* tmpStar);
 #define IMAGE_TYPE_TGA      3
 
 struct TEXTURE_DESC {
+    bool present;
     unsigned int id;
     double xsize;          // size of underlying image
     double ysize;

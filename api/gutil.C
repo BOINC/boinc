@@ -1059,20 +1059,23 @@ static int getFileType(char* file) {
 }
 
 int create_texture(char* filename, TEXTURE_DESC& td) {
+    int retval=-1;
+
     switch (getFileType(filename)) {
     case IMAGE_TYPE_JPG:
-        return CreateTextureJPG(filename, td); 
+        retval = CreateTextureJPG(filename, td); 
         break;
     case IMAGE_TYPE_PPM:
-        return CreateTexturePPM(filename, td);    
+        retval = CreateTexturePPM(filename, td);    
         break;
     case IMAGE_TYPE_BMP:
-        return CreateTextureBMP(filename, td);
+        retval = CreateTextureBMP(filename, td);
         break;
     case IMAGE_TYPE_TGA:
-        return CreateTextureTGA(filename, td);
+        retval = CreateTextureTGA(filename, td);
         break;
     }
+    if (!retval) td.present = true;
     return -1;
 }
 

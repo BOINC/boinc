@@ -52,7 +52,7 @@ using std::min;
 // unit of time division used
 // smallest_timescale: 0=seconds, 1=minutes, 2=hours, 3=days, 4=years
 //
-int double_to_ydhms (double x, int smallest_timescale, char *buf) {
+int ndays_to_string (double x, int smallest_timescale, char *buf) {
     double years, days, hours, minutes, seconds;
     char year_buf[64], day_buf[16], hour_buf[16], min_buf[16], sec_buf[16];
 
@@ -114,7 +114,7 @@ int double_to_ydhms (double x, int smallest_timescale, char *buf) {
 // Convert nbytes into a string.  If total_bytes is non-zero,
 // convert the two into a fractional display (i.e. 4/16 KB)
 //
-void get_byte_string(double nbytes, double total_bytes, char* str, int len) {
+void nbytes_to_string(double nbytes, double total_bytes, char* str, int len) {
     char buf[256];
     double xTera = (1024.0*1024.0*1024.0*1024.0);
     double xGiga = (1024.0*1024.0*1024.0);

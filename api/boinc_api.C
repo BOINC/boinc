@@ -322,8 +322,8 @@ int boinc_child_done(double cpu) {
 int boinc_cpu_time(double &cpu_t, double &ws_t) {
     double cpu_secs;
 
-    // Start with the CPU time from previous runs, then
-    // add the CPU time of the current run
+    // Start with the CPU time from previous runs,
+    // then add the CPU time of the current run
     cpu_secs = aid.wu_cpu_time;
 
 #ifdef HAVE_SYS_RESOURCE_H
