@@ -29,6 +29,8 @@ using namespace std;
 #include <stdio.h>
 #include <unistd.h>
 #include <assert.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "boinc_db.h"
 #include "parse.h"
@@ -56,7 +58,7 @@ void get_log_path(char* p) {
     gethostname(buf, 256);
     sprintf(path, "log_%s", buf);
     sprintf(p, "../%s/cgi.log", path);
-    boinc_mkdir(path);
+    mkdir(path, 0777);
 }
 
 #define REQ_FILE_PREFIX "boinc_req_"
