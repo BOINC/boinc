@@ -72,7 +72,9 @@ typedef int socklen_t;
 #elif defined ( __APPLE__)
 typedef int32_t socklen_t;
 #elif !GETSOCKOPT_SOCKLEN_T
+#ifndef socklen_t
 typedef size_t socklen_t;
+#endif
 #endif
 
 int get_socket_error(int fd) {
