@@ -237,6 +237,9 @@ FILE_INFO::FILE_INFO() {
 }
 
 FILE_INFO::~FILE_INFO() {
+    if (xml_signature) free(xml_signature);
+    if (file_signature) free(file_signature);
+    if (signed_xml) free(signed_xml);
 }
 
 // Set the appropriate permissions depending on whether

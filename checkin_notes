@@ -3131,3 +3131,10 @@ David   Feb 8 2003
     
     html_user/
         various
+
+David  Feb 10 2003
+    - fix memory leaks
+
+    client/
+        client_types.C
+        net_xfer.C

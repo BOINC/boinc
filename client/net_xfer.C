@@ -268,7 +268,7 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred, struct timeva
 #elif __APPLE__
                 getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
 #else
-                getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (unsigned int *)&intsize);
+                getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, (int *)&intsize);
 #endif
                 if (n) {
                     if (log_flags.net_xfer_debug) {
