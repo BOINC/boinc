@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -55,10 +55,6 @@ void clear_host_info(HOST_INFO& host) {
     strcpy(host.serialnum, "");
     strcpy(host.ip_addr, "");
 
-    host.on_frac = 0;
-    host.conn_frac = 0;
-    host.active_frac = 0;
-
     host.p_ncpus = 0;
     strcpy(host.p_vendor, "");
     strcpy(host.p_model, "");
@@ -69,7 +65,7 @@ void clear_host_info(HOST_INFO& host) {
     host.p_iop_err = 0;
     host.p_membw_err = 0;
     host.p_calculated = 0;
-    
+
     strcpy(host.os_name, "");
     strcpy(host.os_version, "");
 
@@ -152,7 +148,7 @@ int HOST_INFO::write(FILE* out) {
         p_fpop_err,
         p_iop_err,
         p_membw_err,
-        p_calculated, 
+        p_calculated,
         os_name,
         os_version,
         m_nbytes,
@@ -206,7 +202,7 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
         p_fpop_err,
         p_iop_err,
         p_membw_err,
-        p_calculated, 
+        p_calculated,
         m_cache
     );
     return 0;
