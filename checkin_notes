@@ -6359,3 +6359,23 @@ David  Sept 23 2003
         client_types.C,h
         cs_scheduler.C
         check_state.C (new)
+
+Eric K	9/24/03
+    - Create an XML entity encoder/decoder for single byte entities.  In new
+      files lib/xml_util.[Ch].  Encoder will make the following translations.
+        '>' => "&gt;"
+	'<' => "&lt;"
+	'&' => "&amp;"
+	"'" => "&apos;"
+	'"' => "&quot;"
+	other unprintable -> "&#nnnd;"
+      The decoder recognizes a larger number of translations for single byte
+      entities found in XML/HTML.
+    - Added check for <map> header to configure scripts.  
+      (Used by xml_util.[Ch] if found).
+
+      lib/xml_util.[Ch]
+      lib/Makefile.am
+      configure.ac
+
+

@@ -15,6 +15,7 @@ libboinc_a_SOURCES =				\
         app_ipc.C				\
         countries.C				\
         parse.C					\
+	xml_util.C                              \
         filesys.C				\
         language.C				\
         util.C					\
@@ -31,6 +32,7 @@ libboinc_a_SOURCES =				\
 	md5_file.h				\
 	msg_queue.h				\
 	parse.h					\
+	xml_util.h				\
 	shmem.h					\
 	synch.h					\
 	util.h
