@@ -6738,10 +6738,11 @@ Karl 2003-10-13
         Makefile.am
 
 Oliver Oct 13 2003
-    - stars now draw in visible pyramid
+    - stars now draw in visible pyramid 
 
     api/
 	gutil.C,h
+
 
 David  Oct 14 2003
 	- don't call boinc_finish_opengl() in boinc_finish()!!
@@ -6758,3 +6759,12 @@ David  Oct 14 2003
 		graphics_api.C,h
 		gutil.C
 		windows_opengl.C
+
+Oliver Oct 14 2003
+    - stars now draw in visible pyramid with original coordinate system
+    - axis draws vertices in correct CCW order
+
+    api/
+	gutil.C,h
+ 	reduce.c
+

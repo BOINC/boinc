@@ -133,18 +133,18 @@ public:
 // a colored panel with some text, that can move cyclically
 //
 class MOVING_TEXT_PANEL {
-    float base_pos[3];
-    float size[3];
+    float base_pos[3];    
     float theta;
     float dtheta;
-    float char_height;
-    float line_width;
-    float line_spacing;
-    double margin;
     COLOR color;
 public:
+	float char_height;
+    float line_width;
+    float line_spacing;    
     char text[1024];
     float pos[3];
+	float size[3];
+	double margin;
     void init(float* pos, float* size, COLOR& color, double dtheta, double ch, double lw, double ls, double margin);
     void draw();
     static void sort(MOVING_TEXT_PANEL* tp, int n);
@@ -160,7 +160,7 @@ struct STAR {
 };
 
 class STARFIELD {
-    void replace_star(int, bool);
+    void replace_star(int, bool,float[3],float[3],float[3],float[3]);
     STAR* stars;
 public:
     void build_stars(int, float);

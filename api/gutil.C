@@ -325,13 +325,18 @@ GLfloat text_width(char* text) {
     return sum/STROKE_SCALE;
 }
 
-GLfloat text_width_new(char* text) {
-	GLfloat sum=0;
-	char* p;	
-	float w = .01;	
-	for(p=text;*p;p++) {
-		sum += w;
+#ifdef _WIN32
+extern float get_char_width(unsigned char c);
+#endif
+
+float text_width_new(char* text) {
+	float sum=0;
+#ifdef _WIN32	
+	char* p;				
+	for(p=text;*p;p++) {		
+		sum += get_char_width(p[0]);
 	}
+#endif
 	return sum;
 }
 
@@ -489,13 +494,49 @@ void draw_text_new_right(
 	strcpy(buf,text);
 	p=buf;
 	float l;
+#if 0
+	strcpy(buf2,text);
+	strcpy(buf3,text);	
+	t=buf2;
+	a=buf3;	
+	int lines=0;
+	while(*t)
+	{
+		u = strchr(t, '\n');
+		if (u) *u = 0;
+		lines++;
+		if (!u) break;
+        t = u+1;
+	}
 
+	float* line_ratios;
+	line_ratios = (float*)malloc(sizeof(float)*lines);	
+	int count=0;
+	float total_length=0;
+	while(*a)
+	{
+		b = strchr(a, '\n');
+		if (b) *b = 0;
+		line_ratios[count]=text_width_new(a);
+		total_length+=line_ratios[count];
+		count++;
+		if (!b) break;
+        a = b+1;
+	}
+
+	
+	for(int i=0;i<lines;i++)
+	{
+		line_ratios[i]/=total_length;	
+	}
+	count=0;
+#endif
 	while(*p)
 	{
 		q = strchr(p, '\n');
         if (q) *q = 0;
 		l=text_width_new(p);
-		glRasterPos3d(pos[0]-l,pos[1],pos[2]);
+		glRasterPos3d(pos[0]-.3,pos[1],pos[2]);
 		print_text(p);
         pos[1] -= line_spacing;
         if (!q) break;
@@ -786,18 +827,43 @@ void RIBBON_GRAPH::add_tick(float x, int index) {
 
 //moves stars towards the eye vector, and replaces ones that go behind z=0
 
+void normalize(float a[3])
+{
+	float mag = sqrt(a[0]*a[0] + a[1]*a[1] + a[2]*a[2]);
+	if(mag!=0)  {
+		a[0]/=mag;
+		a[1]/=mag;
+		a[2]/=mag;	
+	}
+	else {
+		a[0]=0;
+		a[1]=0;
+		a[2]=0;
+	}
+}
+
 float dotProd(float a, float b, float c, float x, float y, float z)
 {
 	return(a*x+b*y+c*z);
 }
 
+void crossProd(float a[3], float b[3], float out[3])
+{
+	out[0] = a[1]*b[2] - a[2]*b[1];
+	out[1] = a[2]*b[0] - a[0]*b[2];
+	out[2] = a[0]*b[1] - a[1]*b[0];
+
+	normalize(out);
+}
 
 //makes a list of stars that lie on cocentric circles (inefficient, most will be out of sight)
 //
 void STARFIELD::build_stars(int size, float speed) {
 	float modelview[16];
 	float eye[3];
+	float up[3];
 	float camera[3];
+	float right[3];
 
     stars = (STAR*)calloc(sizeof(STAR), size);
 	
@@ -808,27 +874,22 @@ void STARFIELD::build_stars(int size, float speed) {
 	eye[1]=modelview[6];
 	eye[2]=modelview[10];
 
+	//this shortcut only works if the modelview has not been rotated around the z axis
+	up[0]=eye[0];
+	up[1]=eye[2];
+	up[2]=-eye[1];
+
 	camera[0]=modelview[2];
 	camera[1]=modelview[6];
 	camera[2]=modelview[10];
+
+	crossProd(eye,up,right);	
 
 	int i=0;	
 	float fov=45.0f;
 	for(i=0;i<size;i++)
 	{		
-		float z = -frand()*2000;		
-		float x = 2.0f*-z*TAN22_5*frand();		
-		float y = 2.0f*-z*TAN22_5*frand();
-		
-		x-=-z*TAN22_5;
-		y-=-z*TAN22_5;
-
-		stars[i].x=x;
-		stars[i].y=y;
-		stars[i].z=z;
-
-		float v = frand();
-		stars[i].v=v;
+		replace_star(i,false,eye,up,right,camera);
 	}	
 }
 
@@ -839,6 +900,8 @@ void STARFIELD::update_stars(int size, float speed, float dt)
 	float dist;
 	float eye[3];
 	float camera[3];
+	float up[3];
+	float right[3];
 	
 	if(get_matrix_invert(modelview)==false)
 		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");			
@@ -846,6 +909,12 @@ void STARFIELD::update_stars(int size, float speed, float dt)
 	eye[0]=modelview[2];
 	eye[1]=modelview[6];
 	eye[2]=modelview[10];
+
+	up[0]=eye[0];
+	up[1]=eye[2];
+	up[2]=-eye[1];
+
+	crossProd(eye,up,right);	
 
 	camera[0]=modelview[2];
 	camera[1]=modelview[6];
@@ -858,17 +927,19 @@ void STARFIELD::update_stars(int size, float speed, float dt)
 
 	for(int i=0;i<size;i++)
 	{	
-		dist=sqrt((camera[0]-stars[i].x)*(camera[0]-stars[i].x) + 
-				  (camera[1]-stars[i].y)*(camera[1]-stars[i].y) + 
-				  (camera[2]-stars[i].z)*(camera[2]-stars[i].z));
+		float d[3] = {(camera[0]-stars[i].x),
+					  (camera[1]-stars[i].y),
+				   	  (camera[2]-stars[i].z)};
 
+		dist=sqrt(d[0]*d[0] + d[1]*d[1] + d[2]*d[2]);
+		normalize(d);
 
-		if(speed>0 && dotProd(eye[0],eye[1],eye[2],stars[i].x,stars[i].y,stars[i].z)>0)  {
- 			replace_star(i,false);
+		if(speed>0 && dotProd(eye[0],eye[1],eye[2],d[0],d[1],d[2])<0)  {
+ 			replace_star(i,false,eye,up,right,camera);
 			continue;
 		}		
 		else if(speed <=0 && dist>2000) {
-			replace_star(i,true);
+			replace_star(i,true,eye,up,right,camera);
 			continue;
 		}
 		
@@ -877,9 +948,9 @@ void STARFIELD::update_stars(int size, float speed, float dt)
 		stars[i].z+=(eye[2])*stars[i].v*speed*dt;
 
 		
-		//grow objects as the approach you
-		if(dist>900) glPointSize(1.0f);
-		else if(dist>600) glPointSize(2.0f);
+		//grow objects as they approach you
+		if(dist>800) glPointSize(1);
+		else glPointSize(2);
 		
 		glBegin(GL_POINTS);
 		glVertex3f(stars[i].x,stars[i].y,stars[i].z);	
@@ -890,20 +961,18 @@ void STARFIELD::update_stars(int size, float speed, float dt)
 	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION, no_mat );		
 }
 
-void STARFIELD::replace_star(int i, bool front) {
-	int viewport[4];
-	get_viewport(viewport);
+void STARFIELD::replace_star(int i, bool front,float eye[3], float up[3], float right[3], float camera[3]) {
+
 	if(front) {
-		float z = 0;
-		float alpha = 2.0*PI*(float)((rand()%359)/359.0) ;
-		float beta = asin(z/1000.0f);
-		float x = 1000.0f * cos(beta) * cos(alpha);
-		float y = 1000.0f * cos(beta) * sin(alpha);				
-		stars[i].x=x;
-		stars[i].y=y;
-		stars[i].z=z;			
-		float v = (float)((rand()%1000)/1000.0f);
-		stars[i].v=v;
+		float x = frand()*500.0f;
+		float y = frand()*500.0f;
+		float z = frand()*100.0f;
+
+		x-=250.f;
+		y-=250.f;
+		stars[i].x=eye[0]*z + up[0]*y + right[0]*x;
+		stars[i].y=eye[1]*z + up[1]*y + right[1]*x;
+		stars[i].z=eye[2]*z + up[2]*y + right[2]*x;
 	}
 	else {
 		float z = -frand()*2000;		
@@ -913,10 +982,12 @@ void STARFIELD::replace_star(int i, bool front) {
 		x-=-z*TAN22_5;
 		y-=-z*TAN22_5;
 
-		stars[i].x=x;
-		stars[i].y=y;
-		stars[i].z=z;
+		stars[i].x=eye[0]*z + up[0]*y + right[0]*x;
+		stars[i].y=eye[1]*z + up[1]*y + right[1]*x;
+		stars[i].z=eye[2]*z + up[2]*y + right[2]*x;
 	}	
+	float v = frand();
+	stars[i].v=v;
 }
 
 // ------------  TEXTURE STUFF --------------------

@@ -649,6 +649,8 @@ void REDUCED_ARRAY::draw_axes() {
 	//float adj2=-.18f;
 	float adj2=-(draw_size[2]*1)/rdimy;
 	float adj=0.0f;
+
+	float adj3=0;
 	// box
 	mode_unshaded();
 	
@@ -717,16 +719,16 @@ void REDUCED_ARRAY::draw_axes() {
     glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
     glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
 
-	glEnd();
-
-    glBegin(GL_QUADS);
-    glColor4d(1,1,1,.2);
-
-    glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
-    glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
-    glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);
-    glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj2);	
+	glEnd();	
+	
+	glColor4d(1,1,1,.2);
+    glBegin(GL_QUADS);  
+	glVertex3f(draw_pos[0], draw_pos[1]-adj3, draw_pos[2]+draw_size[2]+adj2);		
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]-adj3, draw_pos[2]+draw_size[2]+adj2);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]-adj3, draw_pos[2]+adj);
+    glVertex3f(draw_pos[0], draw_pos[1]-adj3, draw_pos[2]+adj); 
     glEnd();
+
 	glDisable(GL_LINE_SMOOTH);
 }
 
