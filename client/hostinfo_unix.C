@@ -63,6 +63,7 @@
 #include "filesys.h"
 #include "error_numbers.h"
 #include "util.h"
+#include "client_state.h"
 
 // functions to get name/addr of local host
 
