@@ -49,6 +49,7 @@
     $work->redundancy = 5;
     array_push($work->input_files, "03au00ab_20575_00000.wu");
     $work->install($project);
+    $project->http_password("admin","mypass");
 
     $project->start_servers();
 ?>

@@ -43,6 +43,7 @@
     $project->project_prefs_php_file = "project_specific_prefs_ap.inc";
 
     $project->install();
+    $project->http_password("admin","mypass");
 
     $work = new Work($app);
     $work->wu_template = "pulse_wu";

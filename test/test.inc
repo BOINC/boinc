@@ -415,6 +415,18 @@ class Project {
         echo "Admin URL: $admin_url\n";
     }
     
+    // Adds http password protection to the html_ops directory
+    // 
+    function http_password($user,$password) {
+        $f = fopen($this->project_dir."/html_ops/.htaccess", "w");
+        fputs($f,"AuthName \"$this->long_name Administration\"\n");
+        fputs($f,"AuthType Basic\n");
+        fputs($f,"AuthUserFile $this->project_dir/html_ops/.htpasswd\n\n");
+        fputs($f,"require valid-user\n");
+        fclose($f);
+
+        PassThru("htpasswd -bc $this->project_dir/html_ops/.htpasswd $user $password");
+    }
     // moves the master web page to temp
     // This is used to test exponential backoff on the client side.
     //
