@@ -8551,3 +8551,11 @@ David  17 Dec 2003
     sched/
         feeder.C
         start
+
+Karl 2003-12-18
+    - fixed CRLF bug in *.dsw, *.dsp
+
+    Makefile.am
+    win_build/
+        *.dsp
+        *.dsw
