@@ -5849,3 +5849,12 @@ Karl 2003/08/18
     test/*.py
 
     astropulse/*/*.C
+
+Karl 2003/08/19
+    - misc test case updates
+
+Karl 2003/08/20
+    - changed 'active_frac' initial assumption to "on" instead of the current
+      state 
+
+    time_stats.C
