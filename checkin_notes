@@ -7154,6 +7154,11 @@ Karl 2003-10-27
     py/Boinc/
         tools.py
 
+    - upgrade: restart BOINC scheduler daemons automatically
+
+    tools/
+        upgrade
+
     - BOINC 2.07 release
     - Astropulse 2.07 release
     - SETI@Home 2.01 release
