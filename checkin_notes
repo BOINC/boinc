@@ -12104,3 +12104,12 @@ David  May 5 2004
         scheduler_op.C
     lib/
         error_numbers.h
+
+David  May 5 2004
+    - get "make dist" to work again
+
+    Makefile.am,in
+    client/
+        Makefile.am,in
+    sched/
+        Makefile.am,in

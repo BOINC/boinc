@@ -271,6 +271,10 @@ transitioner_SOURCES = transitioner.C
 transitioner_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 transitioner_LDADD = $(LDADD) $(RSA_LIBS)
 
+trickle_handler_SOURCES = trickle_handler.C
+trickle_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+trickle_handler_LDADD = $(LDADD) $(RSA_LIBS)
+
 fcgi_SOURCES = \
         handle_request.C			\
         main.C					\
@@ -373,10 +377,8 @@ show_shmem_LDFLAGS =
 am_transitioner_OBJECTS = transitioner.$(OBJEXT)
 transitioner_OBJECTS = $(am_transitioner_OBJECTS)
 transitioner_LDFLAGS =
-trickle_handler_SOURCES = trickle_handler.c
-trickle_handler_OBJECTS = trickle_handler.$(OBJEXT)
-trickle_handler_LDADD = $(LDADD)
-trickle_handler_DEPENDENCIES =
+am_trickle_handler_OBJECTS = trickle_handler.$(OBJEXT)
+trickle_handler_OBJECTS = $(am_trickle_handler_OBJECTS)
 trickle_handler_LDFLAGS =
 am_update_stats_OBJECTS = update_stats.$(OBJEXT)
 update_stats_OBJECTS = $(am_update_stats_OBJECTS)
@@ -462,11 +464,12 @@ DIST_SOURCES = $(libsched_a_SOURCES) $(assimilator_SOURCES) \
 	$(cgi_SOURCES) $(db_dump_SOURCES) $(fcgi_SOURCES) \
 	$(feeder_SOURCES) $(file_deleter_SOURCES) \
 	$(file_upload_handler_SOURCES) $(make_work_SOURCES) \
-	$(show_shmem_SOURCES) $(transitioner_SOURCES) trickle_handler.c \
-	$(update_stats_SOURCES) $(validate_test_SOURCES) \
-	$(validate_trivial_SOURCES) $(wu_check_SOURCES)
+	$(show_shmem_SOURCES) $(transitioner_SOURCES) \
+	$(trickle_handler_SOURCES) $(update_stats_SOURCES) \
+	$(validate_test_SOURCES) $(validate_trivial_SOURCES) \
+	$(wu_check_SOURCES)
 DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in
-SOURCES = $(libsched_a_SOURCES) $(assimilator_SOURCES) $(cgi_SOURCES) $(db_dump_SOURCES) $(fcgi_SOURCES) $(feeder_SOURCES) $(file_deleter_SOURCES) $(file_upload_handler_SOURCES) $(make_work_SOURCES) $(show_shmem_SOURCES) $(transitioner_SOURCES) trickle_handler.c $(update_stats_SOURCES) $(validate_test_SOURCES) $(validate_trivial_SOURCES) $(wu_check_SOURCES)
+SOURCES = $(libsched_a_SOURCES) $(assimilator_SOURCES) $(cgi_SOURCES) $(db_dump_SOURCES) $(fcgi_SOURCES) $(feeder_SOURCES) $(file_deleter_SOURCES) $(file_upload_handler_SOURCES) $(make_work_SOURCES) $(show_shmem_SOURCES) $(transitioner_SOURCES) $(trickle_handler_SOURCES) $(update_stats_SOURCES) $(validate_test_SOURCES) $(validate_trivial_SOURCES) $(wu_check_SOURCES)
 
 all: all-am
 
@@ -560,7 +563,7 @@ transitioner$(EXEEXT): $(transitioner_OBJECTS) $(transitioner_DEPENDENCIES)
 	$(CXXLINK) $(transitioner_LDFLAGS) $(transitioner_OBJECTS) $(transitioner_LDADD) $(LIBS)
 trickle_handler$(EXEEXT): $(trickle_handler_OBJECTS) $(trickle_handler_DEPENDENCIES) 
 	@rm -f trickle_handler$(EXEEXT)
-	$(LINK) $(trickle_handler_LDFLAGS) $(trickle_handler_OBJECTS) $(trickle_handler_LDADD) $(LIBS)
+	$(CXXLINK) $(trickle_handler_LDFLAGS) $(trickle_handler_OBJECTS) $(trickle_handler_LDADD) $(LIBS)
 update_stats$(EXEEXT): $(update_stats_OBJECTS) $(update_stats_DEPENDENCIES) 
 	@rm -f update_stats$(EXEEXT)
 	$(CXXLINK) $(update_stats_LDFLAGS) $(update_stats_OBJECTS) $(update_stats_LDADD) $(LIBS)

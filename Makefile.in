@@ -145,7 +145,7 @@ target_vendor = @target_vendor@
 
 AUTOMAKE_OPTIONS = foreign
 
-SUBDIRS = RSAEuro db lib api apps client sched tools test py zip unzip
+SUBDIRS = RSAEuro db lib api apps client sched tools test py
 
 
 # Putting a directory name recursively copies the entire contents - the

@@ -84,7 +84,7 @@ EXTRA_DIST =					\
 	mac/*.h mac/*.cpp			\
     win/*.h win/*.cpp win/*.rc		\
     win/*.def win/res/*.*			\
-    translation/language.* 
+    translation/*/*
 
 clean-local:
 	rm -f @CLIENT_BIN_FILENAME@ @CLIENT_BIN_FILENAME@.gz

@@ -235,7 +235,7 @@ EXTRA_DIST = \
 	mac/*.h mac/*.cpp			\
     win/*.h win/*.cpp win/*.rc		\
     win/*.def win/res/*.*			\
-    translation/language.* 
+    translation/*/*
 
 subdir = client
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -1509,7 +1509,7 @@ top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/$(top_srcdir) $(distdir)/mac $(distdir)/translation $(distdir)/win $(distdir)/win/res
+	$(mkinstalldirs) $(distdir)/$(top_srcdir) $(distdir)/mac $(distdir)/translation/* $(distdir)/win $(distdir)/win/res
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
 	  case $$file in \

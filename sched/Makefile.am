@@ -99,6 +99,10 @@ transitioner_SOURCES = transitioner.C
 transitioner_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 transitioner_LDADD = $(LDADD) $(RSA_LIBS)
 
+trickle_handler_SOURCES = trickle_handler.C
+trickle_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
+trickle_handler_LDADD = $(LDADD) $(RSA_LIBS)
+
 fcgi_SOURCES =					\
         handle_request.C			\
         main.C					\
