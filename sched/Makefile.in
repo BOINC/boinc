@@ -153,7 +153,6 @@ AM_CFLAGS = -g -Wall
 AM_CXXFLAGS = -g -Wall
 
 AM_CPPFLAGS = \
-        -DHOSTTYPE=\"@host@\"			\
         -I$(top_srcdir)/lib			\
         -I$(top_srcdir)/api			\
         -I$(top_srcdir)/db			\
@@ -178,7 +177,10 @@ noinst_PROGRAMS = \
 
 
 EXTRA_PROGRAMS = fcgi
-EXTRA_DIST = watch_tcp wd.php wd_nresults_changing.php
+EXTRA_DIST = wd.php wd_nresults_changing.php 
+
+# scripts that 'make install' should put in bindir
+bin_SCRIPTS = watch_tcp kill_server
 
 cgi_SOURCES = \
         handle_request.C			\
@@ -452,6 +454,8 @@ am_validate_test_OBJECTS = validate.$(OBJEXT) validate_test.$(OBJEXT) \
 validate_test_OBJECTS = $(am_validate_test_OBJECTS)
 validate_test_DEPENDENCIES =
 validate_test_LDFLAGS =
+SCRIPTS = $(bin_SCRIPTS)
+
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -578,6 +582,26 @@ update_stats$(EXEEXT): $(update_stats_OBJECTS) $(update_stats_DEPENDENCIES)
 validate_test$(EXEEXT): $(validate_test_OBJECTS) $(validate_test_DEPENDENCIES) 
 	@rm -f validate_test$(EXEEXT)
 	$(CXXLINK) $(validate_test_LDFLAGS) $(validate_test_OBJECTS) $(validate_test_LDADD) $(LIBS)
+binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+install-binSCRIPTS: $(bin_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(binSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(bindir)/$$f"; \
+	    $(binSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(bindir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-binSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
+	done
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -1201,10 +1225,10 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(PROGRAMS) $(SCRIPTS)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(bindir)
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -1249,7 +1273,7 @@ info-am:
 
 install-data-am:
 
-install-exec-am: install-binPROGRAMS
+install-exec-am: install-binPROGRAMS install-binSCRIPTS
 
 install-info: install-info-am
 
@@ -1273,18 +1297,20 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-info-am
+uninstall-am: uninstall-binPROGRAMS uninstall-binSCRIPTS \
+	uninstall-info-am
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-binPROGRAMS \
 	clean-generic clean-noinstPROGRAMS ctags distclean \
 	distclean-compile distclean-depend distclean-generic \
 	distclean-tags distdir dvi dvi-am info info-am install \
-	install-am install-binPROGRAMS install-data install-data-am \
-	install-exec install-exec-am install-info install-info-am \
-	install-man install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic pdf pdf-am \
-	ps ps-am tags uninstall uninstall-am uninstall-binPROGRAMS \
+	install-am install-binPROGRAMS install-binSCRIPTS install-data \
+	install-data-am install-exec install-exec-am install-info \
+	install-info-am install-man install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
+	uninstall-am uninstall-binPROGRAMS uninstall-binSCRIPTS \
 	uninstall-info-am
 
 
