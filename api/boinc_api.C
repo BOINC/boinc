@@ -72,7 +72,7 @@ static	bool				time_to_quit = false;
 static	double				last_wu_cpu_time;
 static	bool				standalone = false;
 static	double				initial_wu_cpu_time;
-static	bool				have_new_trickle = false;
+static	bool				have_new_trickle_up = false;
 
 #ifdef _WIN32
 HANDLE				hErrorNotification;
@@ -233,9 +233,9 @@ static int update_app_progress(
         "<working_set_size>%f</working_set_size>\n",
         frac_done, cpu_t, cp_cpu_t, ws_t
     );
-    if (have_new_trickle) {
-        strcat(msg_buf, "<have_new_trickle/>\n");
-        have_new_trickle = false;
+    if (have_new_trickle_up) {
+        strcat(msg_buf, "<have_new_trickle_up/>\n");
+        have_new_trickle_up = false;
     }
 
     return app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);
@@ -431,13 +431,13 @@ static void cleanup_shared_mem() {
 }
 
 
-int boinc_trickle(char* p) {
-    FILE* f = boinc_fopen("trickle", "wb");
+int boinc_send_trickle_up(char* p) {
+    FILE* f = boinc_fopen(TRICKLE_UP_FILENAME, "wb");
     if (!f) return ERR_FOPEN;
     size_t n = fwrite(p, strlen(p), 1, f);
     fclose(f);
     if (n != 1) return ERR_WRITE;
-    have_new_trickle = true;
+    have_new_trickle_up = true;
     return 0;
 }
 

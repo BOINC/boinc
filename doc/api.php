@@ -149,10 +149,10 @@ An application may call
 This excludes CPU time used to render graphics.
 
 <h3>Trickle messages</h3>
-The application may send a <a href=trickle.php>trickle message</a> using
-<pre>
-    int boinc_trickle(char* p);
-</pre>
+<p>
+'Trickle messages' allow applications with long (multi-day)
+work units to communicate with the server during execution.
+This mechanism is described <a href=trickle.php>here</a>.
 <h3>Multi-program applications</h3>
 Some applications consist of multiple programs:
 a <b>main program</b> that acts as coordinator,

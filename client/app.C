@@ -191,7 +191,7 @@ int ACTIVE_TASK::link_user_files() {
 
 int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     FILE *f;
-    char init_data_path[256];
+    char init_data_path[256], project_dir[256], project_path[256];
     int retval;
 
     memset(&aid, 0, sizeof(aid));
@@ -202,6 +202,10 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     if (wup->project->project_specific_prefs.length()) {
         strcpy(aid.app_preferences, wup->project->project_specific_prefs.c_str());
     }
+    get_project_dir(wup->project, project_dir);
+    relative_to_absolute(project_dir, project_path);
+    strcpy(aid.project_dir, project_path);
+    strcpy(aid.wu_name, wup->name);
     aid.user_total_credit = wup->project->user_total_credit;
     aid.user_expavg_credit = wup->project->user_expavg_credit;
     aid.host_total_credit = wup->project->host_total_credit;
@@ -405,7 +409,7 @@ int ACTIVE_TASK::start(bool first_time) {
     // NOTE: in Windows, stderr is redirected within boinc_init();
 
     sprintf(cmd_line, "%s %s", exec_path, wup->command_line);
-    full_path(slot_dir, slotdirpath);
+    relative_to_absolute(slot_dir, slotdirpath);
     if (!CreateProcess(exec_path,
         cmd_line,
         NULL,
@@ -471,7 +475,9 @@ int ACTIVE_TASK::start(bool first_time) {
         debug_print_argv(argv);
         sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, exec_path );
         retval = execv(buf, argv);
-        msg_printf(wup->project, MSG_ERROR, "execv failed: %d\n", retval);
+        msg_printf(wup->project, MSG_ERROR,
+            "execv(%s) failed: %d\n", buf, retval
+        );
         perror("execv");
         _exit(errno);
     }

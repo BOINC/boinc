@@ -24,10 +24,9 @@
 #ifndef _WIN32
 #include <stdio.h>
 #include <fcntl.h>
-
+#include <errno.h>
 #include <sys/stat.h>
 #include <sys/file.h>
-
 #include <time.h>
 #include <string.h>
 #include <stdlib.h>
@@ -332,21 +331,29 @@ int dir_size(const char* dirpath, double& size) {
     return 0;
 }
 
-// on Windows: if fopen fails, try again for 5 seconds
-// (since the file might be open by FastFind, Diskeeper etc.)
-//
 FILE* boinc_fopen(const char* path, const char* mode) {
     FILE* f;
 
     f = fopen(path, mode);
 #ifdef _WIN32
+    // on Windows: if fopen fails, try again for 5 seconds
+    // (since the file might be open by FastFind, Diskeeper etc.)
+    //
     if (!f) {
-        for (int i = 0; i < 5; i++) {
+        for (int i=0; i<5; i++) {
             boinc_sleep(1.0);
             f = fopen(path, mode);
-            if (f) {
-                break;
-            }
+            if (f) break;
+        }
+    }
+#else
+    // Unix - if call was interrupted, retry a few times
+    //
+    if (!f) {
+        for (int i=0; i<5; i++) {
+            if (errno != EINTR) break;
+            f = fopen(path, mode);
+            if (f) break;
         }
     }
 #endif
@@ -451,13 +458,15 @@ int lock_file(char* filename) {
     return retval;
 }
 
+void relative_to_absolute(char* relname, char* path) {
 #ifdef _WIN32
-void full_path(char* relname, char* path) {
     _getcwd(path, 256);
+#else
+    getcwd(path, 256);
+#endif
     strcat(path, PATH_SEPARATOR);
     strcat(path, relname);
 }
-#endif
 
 // get total and free space on current filesystem (in bytes)
 //

@@ -71,9 +71,7 @@ extern int boinc_rename(const char* old, const char* newf);
 extern int boinc_mkdir(const char*);
 extern int boinc_rmdir(const char*);
 extern int lock_file(char*);
-#ifdef _WIN32
-extern void full_path(char* relname, char* path);
-#endif
+extern void relative_to_absolute(char* relname, char* path);
 extern int get_filesystem_info(double& total, double& free);
 extern int boinc_make_dirs(char*, char*);
 

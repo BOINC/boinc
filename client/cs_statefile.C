@@ -297,7 +297,9 @@ void CLIENT_STATE::check_anonymous() {
 		sprintf(path, "%s%s%s", dir, PATH_SEPARATOR, APP_INFO_FILE_NAME);
 		f = fopen(path, "r");
 		if (!f) continue;
-        msg_printf(p, MSG_INFO, "Found app info; using anonymous platform\n");
+        msg_printf(p, MSG_INFO,
+            "Found %s; using anonymous platform\n", APP_INFO_FILE_NAME
+        );
 
 		p->anonymous_platform = true;
 			// flag as anonymous even if can't parse file

@@ -90,13 +90,15 @@ struct APP_INIT_DATA {
     char app_preferences[4096];
     char user_name[256];
     char team_name[256];
+    char project_dir[256];
+    char wu_name[256];
     double user_total_credit;
     double user_expavg_credit;
     double host_total_credit;
     double host_expavg_credit;
 
     // Items below here are for implementation only
-    // (not used by app writers)
+    // (not used by app developers)
     //
     double checkpoint_period;     // recommended checkpoint period
 #ifdef _WIN32
@@ -127,6 +129,7 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define GRAPHICS_DATA_FILE    "graphics.xml"
 #define FD_INIT_FILE    "fd_init.xml"
 #define BOINC_FINISH_CALLED_FILE "boinc_finish_called"
+#define TRICKLE_UP_FILENAME "trickle_up.xml"
 
 #define STDERR_FILE           "stderr.txt"
 #define STDOUT_FILE           "stdout.txt"

@@ -59,10 +59,18 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
 		xml_escape(str1, str2);
         fprintf(f, "<user_name>%s</user_name>\n", str2.c_str());
     }
+    if (strlen(ai.project_dir)) {
+        fprintf(f, "<project_dir>%s</project_dir>\n", ai.project_dir);
+    }
+    if (strlen(ai.wu_name)) {
+        fprintf(f, "<wu_name>%s</wu_name>\n", ai.wu_name);
+    }
 #ifdef _WIN32
     if (strlen(ai.comm_obj_name)) {
         fprintf(f, "<comm_obj_name>%s</comm_obj_name>\n", ai.comm_obj_name);
     }
+#else
+    fprintf(f, "<shm_key>%d</shm_key>\n", ai.shm_key);
 #endif
     fprintf(f,
         "<wu_cpu_time>%f</wu_cpu_time>\n"
@@ -70,9 +78,6 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<user_expavg_credit>%f</user_expavg_credit>\n"
         "<host_total_credit>%f</host_total_credit>\n"
         "<host_expavg_credit>%f</host_expavg_credit>\n"
-#ifndef _WIN32
-        "<shm_key>%d</shm_key>\n"
-#endif
         "<checkpoint_period>%f</checkpoint_period>\n"
         "<fraction_done_update_period>%f</fraction_done_update_period>\n",
         ai.wu_cpu_time,
@@ -80,9 +85,6 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.user_expavg_credit,
         ai.host_total_credit,
         ai.host_expavg_credit,
-#ifndef _WIN32
-        ai.shm_key,
-#endif
         ai.checkpoint_period,
         ai.fraction_done_update_period
     );
@@ -97,24 +99,25 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
             safe_strncpy(ai.app_preferences, "", sizeof(ai.app_preferences));
             while (fgets(buf, 256, f)) {
                 if (match_tag(buf, "</app_preferences>")) break;
-                strcat(ai.app_preferences, buf);
+                safe_strcat(ai.app_preferences, buf);
             }
             continue;
         }
         else if (parse_str(buf, "<app_name>", ai.app_name, sizeof(ai.app_name))) continue;
         else if (parse_str(buf, "<user_name>", ai.user_name, sizeof(ai.user_name))) continue;
         else if (parse_str(buf, "<team_name>", ai.team_name, sizeof(ai.team_name))) continue;
+        else if (parse_str(buf, "<project_dir>", ai.project_dir, sizeof(ai.project_dir))) continue;
+        else if (parse_str(buf, "<wu_name>", ai.wu_name, sizeof(ai.wu_name))) continue;
 #ifdef _WIN32
         else if (parse_str(buf, "<comm_obj_name>", ai.comm_obj_name, sizeof(ai.comm_obj_name))) continue;
+#else
+        else if (parse_int(buf, "<shm_key>", ai.shm_key)) continue;
 #endif
         else if (parse_double(buf, "<user_total_credit>", ai.user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", ai.user_expavg_credit)) continue;
         else if (parse_double(buf, "<host_total_credit>", ai.host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", ai.host_expavg_credit)) continue;
         else if (parse_double(buf, "<wu_cpu_time>", ai.wu_cpu_time)) continue;
-#ifndef _WIN32
-        else if (parse_int(buf, "<shm_key>", ai.shm_key)) continue;
-#endif
         else if (parse_double(buf, "<checkpoint_period>", ai.checkpoint_period)) continue;
         else if (parse_double(buf, "<fraction_done_update_period>", ai.fraction_done_update_period)) continue;
         //else fprintf(stderr, "parse_init_data_file: unrecognized %s", buf);

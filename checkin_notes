@@ -11752,3 +11752,23 @@ Rom    April 22 2004
 
 Jeff   April 22 2004
 	- tagged as boinc_core_release_3_01
+
+David  April 22 2004
+    - boinc_fopen(): add a Unix-specific #ifdef case that,
+        in case of failure, sees if errno is EINTR and if so retries the fopen.
+        This fixes a problem in the SETI@home app,
+        where an initial fopen() gets interrupted by the timer (I think)
+    - add project_dir and wu_name elements to the APP_INIT_DATA structure;
+        add corresponding elements to the app_init_data.xml file;
+        populate these in the core client, and parse in the API
+    - rename boinc_trickle() to boinc_trickle_up()
+    - rename full_path() to relative_to_absolute()
+
+    api/
+        boinc_api.C
+    client/
+        app.C
+        cs_statefile.C
+    lib/
+        app_ipc.C,h
+        filesys.C,h

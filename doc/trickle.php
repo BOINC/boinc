@@ -28,6 +28,11 @@ so that server logic can decide if the computation should be aborted.
 <li>
 The server sends a trickle-down message
 telling the application to abort.
+
+<li>
+The server sends a trickle-down message
+containing the user's current total credit.
+
 </ul>
 
 <p>
@@ -41,7 +46,7 @@ To handle trickle-down messages a project must include the line
 <pre>
 &lt;trickle_down/>
 </pre>
-in the configuration (config.xml) file.
+in the <a href=configuration.php>configuration</a> (config.xml) file.
 
 
 <h3>API (client)</h3>

@@ -39,9 +39,12 @@ you can add new computers in either of two ways:
 and cut and paste the project URL and account ID as above.
 
 <li> If the new computer is the same type as an existing computer,
-copy the contents of the BOINC installation directory,
-minus the file 'client_state.xml',
+create a BOINC directory on the new computer,
+and copy the core client executable and all 'account_*' files
 from the existing computer to the new computer.
+Do not copy 'client_state.xml'.
+NOTE: this does not work on Windows,
+because it does not copy registry entries and other information.
 
 </ol>
 
