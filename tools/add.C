@@ -35,7 +35,7 @@
 //      [ -signed_exec_files file1 sign1 file2 sign2 ... ]
 //      create DB record
 //      copy exec to data directory
-// add user -email_addr x -name y -web_password z -authenticator a
+// add user -email_addr x -name y -authenticator a
 //      [ -global_prefs_file y ]
 
 #include <string.h>
@@ -61,7 +61,7 @@ char *db_name=0, *db_passwd=0, *app_name=0, *platform_name=0;
 char *project_short_name=0, *project_long_name=0;
 char* user_friendly_name=0;
 char* exec_dir=0, *exec_files[10], *signature_files[10];
-char *email_addr=0, *user_name=0, *web_password=0, *authenticator=0;
+char *email_addr=0, *user_name=0, *authenticator=0;
 char *global_prefs_file=0, *download_dir, *download_url;
 char* code_sign_keyfile=0;
 char *message=0, *message_priority=0;
@@ -245,7 +245,6 @@ void add_user() {
     user.create_time = time(0);
     strcpy(user.email_addr, email_addr);
     strcpy(user.name, user_name);
-    strcpy(user.web_password, web_password);
     strcpy(user.authenticator, authenticator);
     strcpy(user.country, "United States");
     strcpy(user.postal_code, "94703");
@@ -272,21 +271,17 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-db_passwd")) {
             db_passwd = argv[++i];
         } else if (!strcmp(argv[i], "-project_long_name")) {
-            i++;
-            project_long_name = argv[i];
+            project_long_name = argv[++i];
         } else if (!strcmp(argv[i], "-project_short_name")) {
-            i++;
-            project_short_name = argv[i];
+            project_short_name = argv[++i];
         } else if (!strcmp(argv[i], "-app_name")) {
-            i++;
-            app_name = argv[i];
+            app_name = argv[++i];
         } else if (!strcmp(argv[i], "-platform_name")) {
             platform_name = argv[++i];
         } else if (!strcmp(argv[i], "-user_friendly_name")) {
             user_friendly_name = argv[++i];
         } else if (!strcmp(argv[i], "-exec_dir")) {
-            i++;
-            exec_dir = argv[i];
+            exec_dir = argv[++i];
         } else if (!strcmp(argv[i], "-exec_files")) {
             signed_exec_files = false;
             i++;
@@ -306,41 +301,27 @@ int main(int argc, char** argv) {
             }
             break;
         } else if (!strcmp(argv[i], "-exec_dir")) {
-            i++;
-            exec_dir = argv[i];
+            exec_dir = argv[++i];
         } else if (!strcmp(argv[i], "-email_addr")) {
-            i++;
-            email_addr = argv[i];
+            email_addr = argv[++i];
         } else if (!strcmp(argv[i], "-user_name")) {
-            i++;
-            user_name = argv[i];
-        } else if (!strcmp(argv[i], "-web_password")) {
-            i++;
-            web_password = argv[i];
+            user_name = argv[++i];
         } else if (!strcmp(argv[i], "-authenticator")) {
-            i++;
-            authenticator = argv[i];
+            authenticator = argv[++i];
         } else if (!strcmp(argv[i], "-global_prefs_file")) {
-            i++;
-            global_prefs_file = argv[i];
+            global_prefs_file = argv[++i];
         } else if (!strcmp(argv[i], "-download_url")) {
-            i++;
-            download_url = argv[i];
+            download_url = argv[++i];
         } else if (!strcmp(argv[i], "-download_dir")) {
-            i++;
-            download_dir = argv[i];
+            download_dir = argv[++i];
         } else if (!strcmp(argv[i], "-version")) {
-            i++;
-            version = atoi(argv[i]);
+            version = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-message")) {
-            i++;
-            message = argv[i];
+            message = argv[++i];
         } else if (!strcmp(argv[i], "-message_priority")) {
-            i++;
-            message_priority = argv[i];
+            message_priority = argv[++i];
         } else if (!strcmp(argv[i], "-code_sign_keyfile")) {
-            i++;
-            code_sign_keyfile = argv[i];
+            code_sign_keyfile = argv[++i];
         }
     }
     retval = boinc_db_open(db_name, db_passwd);

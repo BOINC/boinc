@@ -19,7 +19,7 @@ function location_form($host) {
 
 function show_host($host, $private) {
     start_table();
-    row1("Host Information");
+    row1("Computer information");
     if ($private) {
         row2("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
         row2("Domain name", $host->domain_name);
@@ -91,12 +91,16 @@ function show_host($host, $private) {
 function host_table_start($title, $private) {
     start_table();
     row1($title, 6);
-    echo "<tr>
-        <th>Rank<br><font size=-2>Click for more info</font></th>
-    ";
     if ($private) {
-        echo "<th>Name</th>\n";
+        echo "<th>Name
+            <br><font size=-2>Click for more info</font>
+            </th>\n
+        ";
     } else {
+        echo "<th>
+            Rank<br><font size=-2>Click for more info</font>
+            </th>
+        ";
         echo "<th>Owner</th>\n";
     }
     echo "
@@ -113,12 +117,15 @@ function show_host_row($host, $i, $private) {
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
     echo "<tr>
-        <td><a href=show_host_public.php?hostid=$host->id>$i</a></td>
     ";
     if ($private) {
-        echo"<td>$host->domain_name</td>";
+        echo"<td>
+            <a href=show_host_detail.php?hostid=$host->id>
+            $host->domain_name</a></td>
+        ";
     } else {
-        echo"<td><a href=show_user.php?userid=$user->id>$user->name</a></td>";
+        echo "<td><a href=show_host_detail.php?hostid=$host->id>$i</a></td>\n";
+        echo "<td><a href=show_user.php?userid=$user->id>$user->name</a></td>\n";
     }
     echo"
         <td>$host->total_credit</td>

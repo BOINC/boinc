@@ -110,7 +110,7 @@ private:
     int core_client_major_version;
     int core_client_minor_version;
     char* platform_name;
-    unsigned int nslots;
+    int nslots;
     bool run_time_test;
     bool activities_suspended;
     int exit_after_app_start_secs;

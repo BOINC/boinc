@@ -27,12 +27,13 @@
 //    <project-specific>
 //            ... (arbitrary project-specific XML)
 //    </project-specific>
-//    <send_email/>
-//    <show_email/>
 //    <home>
 //       ...
 //    </home>
 // </project_preferences>
+//
+// In addition there are some fields of the user table
+// (send_email and show_hosts) that are treated as project preferences
 
 // Various functions are defined below for converting between these forms,
 // and also to/from HTML form elements
@@ -109,12 +110,6 @@ function element_end_project($parser, $name) {
     case "resource_share":
         $parse_result->resource_share = $text;
         break;
-    case "show_email":
-        $parse_result->show_email = true;
-        break;
-    case "send_email":
-        $parse_result->send_email = true;
-        break;
     case "project_preferences":
         break;
     default:
@@ -154,6 +149,12 @@ function element_end_global($parser, $name) {
         break;
     case "work_buf_max_days":
         $parse_result->work_buf_max_days = $text;
+        break;
+    case "max_cpus":
+        $parse_result->max_cpus = $text;
+        break;
+    case "disk_interval":
+        $parse_result->disk_interval = $text;
         break;
     case "disk_max_used_gb":
         $parse_result->disk_max_used_gb = $text;
@@ -195,6 +196,8 @@ function default_prefs_global() {
     $p->hangup_if_dialed = true;
     $p->work_buf_min_days = 1;
     $p->work_buf_max_days = 3;
+    $p->max_cpus = 2;
+    $p->disk_interval = 60;
     $p->disk_max_used_gb = 100;
     $p->disk_max_used_pct = 50;
     $p->disk_min_free_gb = 1;
@@ -206,8 +209,6 @@ function default_prefs_global() {
 function default_prefs_project() {
     $p = null;
     $p->resource_share = 100;
-    $p->show_email = false;
-    $p->send_email = true;
     $p->project_specific = project_specific_prefs_default();
     return $p;
 }
@@ -225,8 +226,6 @@ function initialize_prefs_before_parsing_global() {
 
 function initialize_prefs_before_parsing_project() {
     $p = default_prefs_project();
-    $p->show_email = false;
-    $p->send_email = false;
     return $p;
 }
 
@@ -264,6 +263,8 @@ function prefs_show_global($prefs) {
     row2("Confirm before connecting to network?", $prefs->confirm_before_connecting?"Yes":"No");
     row2("Disconnect when connection complete?", $prefs->hangup_if_dialed?"Yes":"No");
     row2("Amount of work to buffer:", "$prefs->work_buf_min_days to $prefs->work_buf_max_days days");
+    row2("Use at most", "$prefs->max_cpus processors");
+    row2("Write to disk at most every", "$prefs->disk_interval seconds");
     row2("Maximum disk space to use:", "$prefs->disk_max_used_gb GB");
     row2("Minimum disk space to leave free:", "$prefs->disk_min_free_gb GB");
     row2("Maximum % of disk allowed to used:", "$prefs->disk_max_used_pct %");
@@ -281,9 +282,9 @@ function prefs_show_resource($prefs) {
     );
 }
 
-function prefs_show_email($prefs) {
-    row2("Should ".PROJECT." send you email newsletters?", $prefs->send_email?"Yes":"No");
-    row2("Should ".PROJECT." show your email address on its web site?", $prefs->show_email?"Yes":"No");
+function prefs_show_privacy($user) {
+    row2("Should ".PROJECT." send you email newsletters?", $user->send_email?"Yes":"No");
+    row2("Should ".PROJECT." show your computers on its web site?", $user->show_hosts?"Yes":"No");
 }
 
 function prefs_show_project($prefs) {
@@ -320,7 +321,7 @@ function print_prefs_display_project($user) {
     row1(PROJECT." preferences");
     prefs_show_resource($project_prefs);
     prefs_show_project($project_prefs);
-    prefs_show_email($project_prefs);
+    prefs_show_privacy($user);
     venue_show($user);
     row2("", "<a href=prefs_edit_form.php?subset=project>Edit ".PROJECT." preferences</a>");
     prefs_display_venue($project_prefs, "home", "project");
@@ -407,6 +408,9 @@ function prefs_form_global($user, $prefs) {
     ";
     row2($x, $y);
 
+    row2("Use at most", "<input size=4 name=max_cpus value=$prefs->max_cpus> processors");
+    row2("Write to disk at most every", "<input size=6 name=disk_interval value=$prefs->disk_interval> seconds");
+
     row1("Limit the disk space used by BOINC:");
 
     row2("Use no more than",
@@ -433,22 +437,22 @@ function prefs_form_global($user, $prefs) {
     );
 }
 
-function prefs_form_email($prefs) {
+function prefs_form_privacy($user) {
     $y = "Yes <input type=radio name=send_email value=yes "
-        .($prefs->send_email?"checked":"")
+        .($user->send_email?"checked":"")
         ."> No <input type=radio name=send_email value=no "
-        .($prefs->send_email?"":"checked")
+        .($user->send_email?"":"checked")
         .">
     ";
     row2("Should ".PROJECT." send you email newsletters?", $y);
 
-    $y = "Yes <input type=radio name=show_email value=yes "
-        .($prefs->show_email?"checked":"")
-        ."> No <input type=radio name=show_email value=no "
-        .($prefs->show_email?"":"checked")
+    $y = "Yes <input type=radio name=show_hosts value=yes "
+        .($user->show_hosts?"checked":"")
+        ."> No <input type=radio name=show_hosts value=no "
+        .($user->show_hosts?"":"checked")
         .">
     ";
-    row2("Should ".PROJECT." show your email address on its web site?", $y);
+    row2("Should ".PROJECT." show your computers on its web site?", $y);
 }
 
 function prefs_form_resource($prefs) {
@@ -509,6 +513,8 @@ function prefs_global_parse_form(&$prefs) {
     $hangup_if_dialed = $_GET["hangup_if_dialed"];
     $work_buf_min_days = $_GET["work_buf_min_days"];
     $work_buf_max_days = $_GET["work_buf_max_days"];
+    $max_cpus = $_GET["max_cpus"];
+    $disk_interval = $_GET["disk_interval"];
     $disk_max_used_gb = $_GET["disk_max_used_gb"];
     $disk_max_used_pct = $_GET["disk_max_used_pct"];
     $disk_min_free_gb = $_GET["disk_min_free_gb"];
@@ -523,8 +529,12 @@ function prefs_global_parse_form(&$prefs) {
     if ($work_buf_min_days<0) $work_buf_min_days = 0;
     if ($work_buf_max_days<0) $work_buf_max_days = 0;
     if ($work_buf_min_days > $work_buf_max_days) $work_buf_min_days = $work_buf_max_days;
+    if ($max_cpus<1) $max_cpus = 1;
+    if ($disk_interval<0) $disk_interval = 0;
     $prefs->work_buf_min_days = $work_buf_min_days;
     $prefs->work_buf_max_days = $work_buf_max_days;
+    $prefs->max_cpus = $max_cpus;
+    $prefs->disk_interval = $disk_interval;
 
     if ($disk_max_used_gb<0) $disk_max_used_gb = 0;
     if ($disk_max_used_pct<0) $disk_max_used_pct = 0;
@@ -541,9 +551,9 @@ function prefs_resource_parse_form(&$prefs) {
     $prefs->resource_share = $_GET['resource_share'];
 }
 
-function prefs_email_parse_form(&$prefs) {
-    $prefs->send_email = ($_GET['send_email'] == "yes");
-    $prefs->show_email = ($_GET['show_email'] == "yes");
+function prefs_privacy_parse_form(&$user) {
+    $user->send_email = ($_GET['send_email'] == "yes")?1:0;
+    $user->show_hosts = ($_GET['show_hosts'] == "yes")?1:0;
 }
 
 function prefs_project_parse_form(&$prefs) {
@@ -575,7 +585,9 @@ function global_prefs_make_xml($prefs, $primary=true) {
     }
     $xml = $xml
         ."<work_buf_min_days>$prefs->work_buf_min_days</work_buf_min_days>\n"
-        ."<work_buf_max_days>$prefs->work_buf_max_days</work_buf_max_days>\n";
+        ."<work_buf_max_days>$prefs->work_buf_max_days</work_buf_max_days>\n"
+        ."<max_cpus>$prefs->max_cpus</max_cpus>\n"
+        ."<disk_interval>$prefs->disk_interval</disk_interval>\n";
     $xml = $xml
         ."<disk_max_used_gb>$prefs->disk_max_used_gb</disk_max_used_gb>\n"
         ."<disk_max_used_pct>$prefs->disk_max_used_pct</disk_max_used_pct>\n"
@@ -601,12 +613,6 @@ function project_prefs_make_xml($prefs, $primary=true) {
     $xml = "";
     if ($primary) {
         $xml = "<project_preferences>\n";
-        if ($prefs->show_email == 1) {
-            $xml = $xml."<show_email/>\n";
-        }
-        if ($prefs->send_email == 1) {
-            $xml = $xml."<send_email/>\n";
-        }
     }
     if ($prefs->resource_share) {
         $xml = $xml
@@ -638,14 +644,20 @@ function project_prefs_make_xml($prefs, $primary=true) {
 //
 function global_prefs_update(&$user, $prefs) {
     $prefs_xml = global_prefs_make_xml($prefs);
-    $retval = mysql_query("update user set global_prefs='$prefs_xml' where id=$user->id");
+    $query = "update user set global_prefs='$prefs_xml' where id=$user->id";
+    $retval = mysql_query($query);
+    if (!$retval) {
+        echo "Update failed: ".htmlspecialchars($query)."\n";
+        echo mysql_error();
+        exit();
+    }
     $user->global_prefs = $prefs_xml;
     return $retval;
 }
 
 function project_prefs_update(&$user, $prefs) {
     $prefs_xml = project_prefs_make_xml($prefs);
-    $retval = mysql_query("update user set project_prefs='$prefs_xml' where id=$user->id");
+    $retval = mysql_query("update user set project_prefs='$prefs_xml', send_email=$user->send_email, show_hosts=$user->show_hosts where id=$user->id");
     $user->project_prefs = $prefs_xml;
     return $retval;
 }

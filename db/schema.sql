@@ -42,7 +42,6 @@ create table user (
     create_time     integer     not null,
     email_addr      varchar(254) not null,
     name            varchar(254),
-    web_password    varchar(254),
     authenticator   varchar(254),
     country         varchar(254),
     postal_code     varchar(254),
@@ -53,6 +52,9 @@ create table user (
     project_prefs   blob,
     teamid          integer not null,
     venue           varchar(254)    not null,
+    url             varchar(254),
+    send_email      smallint    not null,
+    show_hosts      smallint    not null,
     primary key (id)
 );
 

@@ -18,10 +18,17 @@ function show_user_stats($user, $private) {
         row2("Team", "None");
     }
     row2("Country", $user->country);
+    if (strlen($user->url)) {
+        row2("URL", "<a href=http://$user->url>http://$user->url</a>");
+    }
     if ($private) {
         row2("Computers", "<a href=hosts_user.php>View</a>");
     } else {
-        row2("Computers", "<a href=hosts_user.php?userid=$user->id>View</a>");
+        if ($user->show_hosts) {
+            row2("Computers", "<a href=hosts_user.php?userid=$user->id>View</a>");
+        } else {
+            row2("Computers", "hidden");
+        }
     }
 }
 
@@ -37,6 +44,7 @@ function show_user_profile_private($user) {
         $email_text
     );
     row2("Name", $user->name);
+    row2("URL", "http://$user->url");
     row2("Country", $user->country);
     row2("Postal code", $user->postal_code);
     row2("", "<a href=edit_user_info_form.php>Edit account info</a>");

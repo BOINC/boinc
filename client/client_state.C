@@ -224,13 +224,14 @@ int CLIENT_STATE::init() {
 #endif
     }
 
-    // Set nslots to actual # of CPUs (or less, depending on prefs?)
+    // Set nslots to actual # of CPUs (or less, depending on prefs)
     //
     if (gstate.host_info.p_ncpus > 0) {
         nslots = gstate.host_info.p_ncpus;
     } else {
         nslots = 1;
     }
+    if (nslots > global_prefs.max_cpus) nslots = global_prefs.max_cpus;
 
     // set up the project and slot directories
     //

@@ -81,10 +81,14 @@ void write_host(HOST& host, FILE* f, bool detail, bool show_user) {
         host.id
     );
     if (show_user) {
-        fprintf(f,
-            "    <userid>%d</userid>\n",
-            host.userid
-        );
+        USER user;
+        db_user(host.userid, user);
+        if (user.show_hosts) {
+            fprintf(f,
+                "    <userid>%d</userid>\n",
+                host.userid
+            );
+        }
     }
     fprintf(f,
         "    <total_credit>%f</total_credit>\n"
@@ -141,10 +145,12 @@ void write_user(USER& user, FILE* f, bool detail, bool show_team) {
         "<user>\n"
         " <id>%d</id>\n"
         " <name>%s</name>\n"
+        " <url>%s</url>\n"
         " <total_credit>%f</total_credit>\n"
         " <expavg_credit>%f</expavg_credit>\n",
         user.id,
         user.name,
+        user.url,
         user.total_credit,
         user.expavg_credit
     );
@@ -154,7 +160,7 @@ void write_user(USER& user, FILE* f, bool detail, bool show_team) {
             user.teamid
         );
     }
-    if (detail) {
+    if (detail && user.show_hosts) {
         host.userid = user.id;
         while (!db_host_enum_userid(host)) {
             write_host(host, f, false, false);
@@ -423,6 +429,7 @@ void host_total_credit() {
         if (zip_files) system(cmd_line);
     }
 }
+
 void host_expavg_credit() {
     HOST host;
     FILE* f = NULL;

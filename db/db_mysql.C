@@ -149,23 +149,22 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
         up = (USER*)vp;
         escape_single_quotes(up->email_addr);
         escape_single_quotes(up->name);
-        escape_single_quotes(up->web_password);
         escape_single_quotes(up->country);
         escape_single_quotes(up->postal_code);
         escape_single_quotes(up->global_prefs);
         escape_single_quotes(up->project_prefs);
+        escape_single_quotes(up->url);
         sprintf(q,
             "id=%d, create_time=%d, email_addr='%s', name='%s', "
-            "web_password='%s', authenticator='%s', "
+            "authenticator='%s', "
             "country='%s', postal_code='%s', "
             "total_credit=%.12e, expavg_credit=%.12e, expavg_time=%f, "
             "global_prefs='%s', project_prefs='%s', "
-            "teamid=%d, venue='%s'",
+            "teamid=%d, venue='%s', url='%s', send_email=%d, show_hosts=%d",
             up->id,
             up->create_time,
             up->email_addr,
             up->name,
-            up->web_password,
             up->authenticator,
             up->country,
             up->postal_code,
@@ -175,15 +174,18 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             up->global_prefs,
             up->project_prefs,
             up->teamid,
-            up->venue
+            up->venue,
+            up->url,
+            up->send_email,
+            up->show_hosts
         );
         unescape_single_quotes(up->email_addr);
         unescape_single_quotes(up->name);
-        unescape_single_quotes(up->web_password);
         unescape_single_quotes(up->country);
         unescape_single_quotes(up->postal_code);
         unescape_single_quotes(up->global_prefs);
         unescape_single_quotes(up->project_prefs);
+        unescape_single_quotes(up->url);
         break;
     case TYPE_TEAM:
         tp = (TEAM*)vp;
@@ -387,7 +389,6 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         up->create_time = atoi(r[i++]);
         strcpy2(up->email_addr, r[i++]);
         strcpy2(up->name, r[i++]);
-        strcpy2(up->web_password, r[i++]);
         strcpy2(up->authenticator, r[i++]);
         strcpy2(up->country, r[i++]);
         strcpy2(up->postal_code, r[i++]);
@@ -398,6 +399,9 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         strcpy2(up->project_prefs, r[i++]);
         up->teamid = atoi(r[i++]);
         strcpy2(up->venue, r[i++]);
+        strcpy2(up->url, r[i++]);
+        up->send_email = atoi(r[i++]);
+        up->show_hosts = atoi(r[i++]);
         break;
     case TYPE_TEAM:
         tp = (TEAM*)vp;

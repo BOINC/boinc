@@ -107,7 +107,6 @@ struct USER {
     unsigned int create_time;
     char email_addr[256];
     char name[256];
-    char web_password[256];         // optional
     char authenticator[256];
     char country[256];
     char postal_code[256];
@@ -118,8 +117,11 @@ struct USER {
         // global preferences, within <global_preferences> tag
     char project_prefs[MAX_BLOB_SIZE];
         // project preferences, within <project_preferences> tag
-    int teamid;                     // if user is part of a team
+    int teamid;                     // team ID if any
     char venue[256];                // home/work/school (default)
+    char url[256];                  // user's web page if any
+    bool send_email;
+    bool show_hosts;
 };
 
 #define TEAM_TYPE_CLUB                  1

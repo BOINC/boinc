@@ -10,8 +10,11 @@ page_head("Edit user information", $user);
 echo "<form method=post action=edit_user_info_action.php>";
 start_table();
 row1("Edit account info");
-row2("User name",
+row2("Name",
     "<input name=user_name size=30 value='$user->name'>"
+);
+row2("URL",
+    "http://<input name=url size=30 value='$user->url'>"
 );
 row2_init("Country",
     "<select name=country>"

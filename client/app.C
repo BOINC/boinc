@@ -151,7 +151,7 @@ int ACTIVE_TASK::start(bool first_time) {
     aid.user_expavg_credit = wup->project->user_expavg_credit;
     aid.host_total_credit = wup->project->host_total_credit;
     aid.host_expavg_credit = wup->project->host_expavg_credit;
-    aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
+    aid.checkpoint_period = gstate.global_prefs.disk_interval;
     aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
     aid.shm_key = 0;
     aid.wu_cpu_time = checkpoint_cpu_time;

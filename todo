@@ -28,17 +28,12 @@ THINGS TO TEST (preferably with test scripts)
 - credit is granted even if result arrives very late
 - multiple preference sets
 - shared memory and CPU time measurement, with and without the BOINC API
+- HD write frequency
+- timezone on all platforms
+
 -----------------------
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
-
-add to user table:
-    URL field (in XML)
-    "show hosts to others" flag (in XML)
-    move "send email" flag from XML to DB
-    remove "show email" flag
-
-add user control for HD write frequency
 
 decide what to do with invalid result files in upload directory
 
@@ -54,8 +49,6 @@ Devise system for porting applications
     XXX should do this manually since need to sign
 
 Add 2-D waterfall display to Astropulse
-
-get timezone working on all platforms
 
 Deadline mechanism for results
     - use in result dispatching

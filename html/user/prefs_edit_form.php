@@ -51,7 +51,7 @@ if ($subset == "global") {
     prefs_form_resource($prefs);
     prefs_form_project($prefs->project_specific);
     if (!$venue) {
-        prefs_form_email($prefs);
+        prefs_form_privacy($user);
         venue_form($user);
     }
 }

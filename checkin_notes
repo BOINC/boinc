@@ -3877,3 +3877,37 @@ David  Mar 19 2003
         *
         show_hosts.php (removed)
 
+David  Mar 19 2003
+    - added global pref for max CPUs
+    - added global pref for min interval between disk writes
+        (applies to checkpoint writes only)
+    - added URL field to user table
+    - moved "send_email" field from XML to DB
+    - added "show_hosts" field to user table
+
+    show_host_public.php (removed)
+    client/
+        app.C
+        client_state.C,h
+        cs_apps.C
+        prefs.C,h
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    doc/
+        index.html
+    html_user/
+        edit_user_info*
+        host.inc
+        prefs.inc
+        prefs_edit_*
+        show_host_detail.php
+        user.inc
+        util.inc
+    sched/
+        db_dump.C
+    test/
+        test.inc
+    tools/
+        add.C

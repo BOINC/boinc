@@ -27,12 +27,13 @@ if ($subset == "global") {
     prefs_project_parse_form($prefs);
     prefs_resource_parse_form($prefs);
 
-    if ($venue) $main_prefs->$venue = $prefs;
-    else $main_prefs = $prefs;
-
-    if (!$venue) {
-        prefs_email_parse_form($main_prefs);
+    if ($venue) {
+        $main_prefs->$venue = $prefs;
+    } else {
+        $main_prefs = $prefs;
+        prefs_privacy_parse_form($user);
     }
+
     project_prefs_update($user, $main_prefs);
 
     if (!$venue) {

@@ -42,6 +42,8 @@ void GLOBAL_PREFS::init() {
     hangup_if_dialed = true;
     work_buf_max_days = 3;
     work_buf_min_days = 1;
+    max_cpus = 2;
+    disk_interval = 60;
     disk_max_used_gb = 1;
     disk_max_used_pct = 0.5;
     disk_min_free_gb = 0.1;
@@ -114,6 +116,12 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
         } else if (parse_double(buf, "<work_buf_max_days>", work_buf_max_days)) {
             continue;
         } else if (parse_double(buf, "<work_buf_min_days>", work_buf_min_days)) {
+            continue;
+        } else if (parse_int(buf, "<max_cpus>", max_cpus)) {
+            if (max_cpus < 1) max_cpus = 1;
+            continue;
+        } else if (parse_double(buf, "<disk_interval>", disk_interval)) {
+            if (disk_interval<0) disk_interval = 0;
             continue;
         } else if (parse_double(buf, "<disk_max_used_gb>", disk_max_used_gb)) {
             continue;
