@@ -7392,4 +7392,11 @@ David  2 Nov 2003
         server_types.C,h
 
 Karl 2003-11-02
+     - changed GUI titles:
+        - "computation done" is now "computation error"
+        - "results uploaded" is now "ready to report"
+
+    client/
+        gui_titles.C
+
     - BOINC core client release 2.09

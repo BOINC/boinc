@@ -30,8 +30,8 @@ char g_szMiscItems[MAX_MISC_STR][256] = {
     "New",
     "Running",
     "Ready to run",
-    "Computation done",
-    "Outputs uploaded",
+    "Computation error", // Computation done
+    "Ready to report", // Files uploaded
     "Acknowledged",
     "Error: invalid state",
     "Completed",
