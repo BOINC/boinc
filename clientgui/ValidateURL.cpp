@@ -77,7 +77,11 @@ bool CValidateURL::Validate(wxWindow *parent)
         if      ( wxURL_SNTXERR == val.GetError() )
             m_errormsg = _("No URL supplied; please enter a valid project URL.");
         else if ( wxURL_NOPROTO == val.GetError() )
-            m_errormsg = _("'%s' does not start with http://");
+        {
+            // Special case: we want to allow the user to specify the URL without
+            //   specifing the protocol.
+            ok = TRUE;
+        }
         else if ( wxURL_NOHOST == val.GetError() )
             m_errormsg = _("'%s' does not contain a valid host name.");
         else if ( wxURL_NOPATH == val.GetError() )
