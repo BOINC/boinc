@@ -6945,4 +6945,6 @@ David  20 Oct 2003
 
 Karl 2003-10-20
     - BOINC client release 2.05
+        - added glut32.dll to BOINC distribution
+
     - Astropulse client release 2.05
