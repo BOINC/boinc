@@ -132,8 +132,8 @@ Function GrantServiceExecutionRight()
 	Set oShell = CreateObject("WScript.Shell")
     Set oRecord = Installer.CreateRecord(2)
 
-    strCommand = Property("SOURCEDIR") & "grant.exe add SeServiceLogonRight " & Property("SERVICE_DOMAINUSERNAME")
-
+    strCommand = CHR(34) & Property("BOINCCOMMONFILES") & "grant.exe" & CHR(34) & "add SeServiceLogonRight " & Property("SERVICE_DOMAINUSERNAME")
+    MsgBox strCommand
     iExitCode = oShell.Run(strCommand, 0, true)
     If ( iExitCode <> 0 ) Then
 	    oRecord.StringData(0) = "Attempting to execute '[1]' returned with the following exit code '[2]'"
@@ -267,7 +267,10 @@ Function ValidateServiceAccount()
 
     Set oRecord = Installer.CreateRecord(2)
 
+    strInitialServiceUsername = Property("SERVICE_USERNAME")
+    strInitialServiceDomain = Property("SERVICE_DOMAIN")
     strInitialServicePassword = Property("SERVICE_PASSWORD")
+    strInitialServiceDomainUsername = Property("SERVICE_DOMAINUSERNAME")
     
     If ( Property("SETUPTYPE") <> "ServiceGUI" ) Then 
 	    If ( Len(strInitialServicePassword) = 0 ) Then
@@ -277,11 +280,18 @@ Function ValidateServiceAccount()
 	        ValidateServiceAccount = msiDoActionStatusFailure
 	        Exit Function
 	    End If
+	Else
+	    If ( Len(strInitialServicePassword) = 0 ) Then
+            If ( (Not(Instr(strInitialServiceDomainUsername, "LOCALSYSTEM"))) And (Not(Instr(strInitialServiceDomainUsername, "NetworkService"))) ) Then
+			    oRecord.IntegerData(1) = 25006
+		        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
+		
+		        ValidateServiceAccount = msiDoActionStatusFailure
+		        Exit Function
+            End If
+	    End If
 	End If
 
-    strInitialServiceUsername = Property("SERVICE_USERNAME")
-    strInitialServiceDomain = Property("SERVICE_DOMAIN")
-    strInitialServiceDomainUsername = Property("SERVICE_DOMAINUSERNAME")
 
     If ( Len(strInitialServiceDomainUsername) = 0 ) Then
         If ( (Len(strInitialServiceUsername) = 0) Or (Len(strInitialServiceDomain) = 0) ) Then

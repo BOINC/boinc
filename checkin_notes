@@ -21478,3 +21478,17 @@ David  17 Dec 2004
         boinc_db.C
     sched/
         transitioner.C
+
+Rom    17 Dec 2004
+    - Bug Fix: Should prereq the grant.exe tool for rights management
+    - Bug Fix: Redirect the grant rights vbscript to point to grant.exe
+        new location
+    - Now we can install the service via the commandline, need to hookup
+        the rights change confirmation dialog box
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/windows
+        BOINC.vbs
+
+    < Added a bunch of files required for various setup things >
