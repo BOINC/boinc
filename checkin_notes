@@ -6507,3 +6507,15 @@ Karl 2003/10/02
         constraints.sql
     doc/
         single_host_server.php
+
+Karl 2003/10/02
+    - made C parsing of config.xml more flexible (allow multiple tags per
+      line or tags on multiple lines)
+
+    sched/
+        sched_config.C
+        sched_config.h
+    lib/
+        parse.C
+        parse.h
+
