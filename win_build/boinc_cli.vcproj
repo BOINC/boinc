@@ -1025,6 +1025,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\client\whetstone.C">
+			</File>
+			<File
 				RelativePath="..\Client\win\Win_net.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">

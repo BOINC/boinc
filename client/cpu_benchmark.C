@@ -412,7 +412,7 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
 // One iteration == 1,000,000 integer operations
 
 int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
-    int a[NUM_INTS], b[NUM_INTS], dp, temp;
+    int a[NUM_INTS], b[NUM_INTS], dp;
     double actual_iters;
     double start, end, elapsed;
     int i, j, error = 0;

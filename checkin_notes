@@ -12378,3 +12378,14 @@ Rom    May 18 2004
     - Tag for 3.05 release, all platforms
       boinc_core_release_3_05
 
+David  May 19 2004
+	- Added code for Whetstone benchmark.
+		This produces a result several times larger than our own floating-point
+		benchmark (e.g., 750MFLOPS versus 160MFLOPS).
+		But it's not clear that the Whetstone number
+		should be interpreted as MFLOPS.
+		If you want to check it out, add a call to whetstone(10, x) somewhere,
+		and look at the result in the debugger.
+
+	client/
+		whetstone.C (new)
