@@ -70,6 +70,10 @@
 // #endif
 
 #include "gutil.h"
+
+extern HDC myhDC;
+unsigned int listBase;
+
 GLfloat mat_diffuse[] = {0.7, 0.5, 1.0, 0.4};
 GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
 GLfloat mat_shininess[] = {40.0};
@@ -150,6 +154,7 @@ bool get_projection(double src[16])
 
 bool get_viewport(int view[4])
 {
+	glMatrixMode(GL_MODELVIEW);
 	glGetIntegerv(GL_VIEWPORT,view);
 	return true;
 }
@@ -159,8 +164,6 @@ void get_2d_positions(float p1,float p2,float p3,
 {
 	gluProject(p1,p2,p3,model,proj,viewport,&proj_pos[0],&proj_pos[1],&proj_pos[2]);	
 }
-
-
 
 
 bool get_matrix_invert(float src[16])
@@ -434,6 +437,31 @@ void draw_text(
         draw_text_start(pos, char_height, line_width);
         draw_text_line_aux(p);
         draw_text_end();
+        pos[1] -= line_spacing;
+        if (!q) break;
+        p = q+1;
+    }
+}
+
+void draw_text_new(
+	GLfloat* _pos, GLfloat char_height, GLfloat line_width,
+    GLfloat line_spacing, char* text)
+{
+	char* q, *p;
+    char buf[4096];
+    GLfloat pos[3];
+    memcpy(pos, _pos, sizeof(pos));
+    strcpy(buf, text);
+
+    p = buf;
+    while (*p) {
+        q = strchr(p, '\n');
+        if (q) *q = 0;
+		glRasterPos3d(pos[0],pos[1],pos[2]);
+		print_text(listBase, p);
+//        draw_text_start(pos, char_height, line_width);
+  ///      draw_text_line_aux(p);
+     //   draw_text_end();
         pos[1] -= line_spacing;
         if (!q) break;
         p = q+1;
@@ -731,7 +759,7 @@ void draw_texture(float* p, float* size) {
 
 //star drawing functions -<oliver wang>-
 #define STARFIELD_SIZE 1000
-#define STAR_SPEED 40.0f
+#define STAR_SPEED 80.0f
 #define PI 3.14159265358979323846264
 
 //pointer to the begining of the list
@@ -769,15 +797,29 @@ void build_stars()
 //moves stars towards the eye vector, and replaces ones that go behind z=0
 void update_stars()
 {
-	float modelview[16];	
+	float modelview[16];
+
 	float dist;
 	float eye[3];
 	float camera[3];
+	
 	Star* tmpStar = stars;	
+
+//	double model[16];
+//	double proj[16];
+//	int viewport[4];
+//	double newpos[3];
+//	glMatrixMode(GL_MODELVIEW);
+//	get_matrix(model);
+//	get_viewport(viewport);
+//	get_projection(proj);
 
 	if(get_matrix_invert(modelview)==false)
 		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");		
-		
+
+	if(get_matrix_invert(modelview)==false)
+		fprintf(stderr,"ERROR: 0 determinant in modelview matrix");		
+
 	eye[0]=modelview[2];
 	eye[1]=modelview[6];
 	eye[2]=modelview[10];
@@ -792,12 +834,13 @@ void update_stars()
 				  (camera[1]-tmpStar->y)*(camera[1]-tmpStar->y) + 
 				  (camera[2]-tmpStar->z)*(camera[2]-tmpStar->z));
 
+
 		if(tmpStar->z>0)  //replace it if its behind the camera
 		{
 			replaceStar(tmpStar);
 			continue;
-		}		
-
+		}
+		
 		tmpStar->x+=(eye[0])*tmpStar->v*STAR_SPEED;
 		tmpStar->y+=(eye[1])*tmpStar->v*STAR_SPEED;
 		tmpStar->z+=(eye[2])*tmpStar->v*STAR_SPEED;
@@ -943,3 +986,43 @@ bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int textureID)
 	return true;
 }
 
+//text
+
+void print_text(unsigned int base, char *string)
+{   
+   if((base == 0 || string == NULL))
+      return;
+
+   glPushAttrib(GL_LIST_BIT);
+   glListBase(base - 32);
+   glCallLists(strlen(string), GL_UNSIGNED_BYTE, string);
+   glPopAttrib();
+}
+
+void MyCreateFont(unsigned int &base, char *fontName, int Size)
+{
+   // windows font
+   HFONT hFont;   
+
+   // Create space for 96 characters.
+   base = glGenLists(96);
+
+   if(stricmp(fontName, "symbol")==0)
+      {
+         hFont = CreateFont(Size, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
+                            SYMBOL_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
+                            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName);
+      }
+   else
+      {
+         hFont = CreateFont(Size, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
+                            ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
+                            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName);
+      }
+
+   if(!hFont)
+      return;
+   	
+   SelectObject(myhDC, hFont);
+   wglUseFontBitmaps(myhDC, 32, 96, base);   
+}

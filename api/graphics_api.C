@@ -152,7 +152,8 @@ GLenum InitGL(GLvoid) {					// All Setup For OpenGL Goes Here
     
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
     if (err=glGetError()) return err;
-    
+   	
+
     return GL_NO_ERROR;					// Initialization Went OK
 }
 

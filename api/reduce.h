@@ -25,6 +25,8 @@
 #define REDUCE_METHOD_MAX	2		// Take the maximum of reduced elements
 #define REDUCE_METHOD_MIN	3		// Take the minimum of reduced elements
 
+enum DrawType {TYPE_QUAD,TYPE_STRIP,TYPE_WAVE,TYPE_SURFACE};
+
 class REDUCED_ARRAY {
 public:
     int sdimx, sdimy;           // size of the source array
@@ -65,14 +67,14 @@ public:
         return rdata + j*rdimx;
     }
     void draw_row_quad(int);
-    void draw_row_rect_x(int);
+    void draw_row_rect_x(DrawType,int);
     void draw_row_rect_y(int);
     void draw_row_line(int);
-    void draw(int, int);
+    void draw(DrawType,int, int);
     void draw_new();
     void draw_all();
-    void draw_part(double frac);
+    void draw_part(DrawType,double frac);
     void draw_axes();
 	void draw_axis_labels();
-	void draw_labels();
+	void draw_labels();	
 };

@@ -17,6 +17,8 @@
 #include "gutil.h"
 #include "reduce.h"
 
+extern unsigned int listBase;
+
 REDUCED_ARRAY::REDUCED_ARRAY() {
     rdata = 0;
     ftemp = 0;
@@ -259,128 +261,263 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
 #endif
 }
 
-void REDUCED_ARRAY::draw_row_rect_x(int row) {	
-    float z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
-	float z1 = z0+.14f;
-    float x0, x1, y0, y1;
-    float* row0 = rrow(row);
-    int i; 
+void REDUCED_ARRAY::draw_row_rect_x(DrawType type,int row) 
+{	
+	float z0=0,z1=0,x0=0,x1=0,y0=0,y1=0,h=0;
+	int i=0; 	
+	float* row0=0;
+	int trow=row-1;
+	float* trow0=0;
+	switch(type)
+	{
+		case TYPE_QUAD:
+			z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
+			z1 = z0+.14f;			
+			row0 = rrow(row);
+			
+			glBegin(GL_QUADS);
+			for (i=0; i<rdimx; i++) {
+				x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
+				x1 = x0 + draw_deltax*.8f;
+				h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
 
-    glBegin(GL_QUADS);
-    for (i=0; i<rdimx; i++) {
-        x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
-        x1 = x0 + draw_deltax*.8f;
-        float h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
+				y0 = draw_pos[1];
+				y1 = draw_pos[1] + draw_size[1]*h;
 
-        y0 = draw_pos[1];
-        y1 = draw_pos[1] + draw_size[1]*h;
+				double hue = hue0 + (dhue*i)/rdimx;
+				if (hue > 1) hue -= 1;
+				double sat = 1.;
+				double lum = .5 + h/2;
+				COLOR color;
+				HLStoRGB(hue, lum, sat, color);
+				glColor4f(color.r, color.g, color.b, alpha);
 
-        double hue = hue0 + (dhue*i)/rdimx;
-        if (hue > 1) hue -= 1;
-        double sat = 1.;
-        double lum = .5 + h/2;
-        COLOR color;
-        HLStoRGB(hue, lum, sat, color);
-        glColor4f(color.r, color.g, color.b, alpha);
+				//front
+				
+				glVertex3f(x0, y0, z0);
+				glVertex3f(x1, y0, z0);
+				glVertex3f(x1, y1, z0);
+				glVertex3f(x0, y1, z0);
+		/*
+				//back
+				glVertex3f(x0, y0, z1);
+				glVertex3f(x1, y0, z1);
+				glVertex3f(x1, y1, z1);
+				glVertex3f(x0, y1, z1);
+
+				//left
+				glVertex3f(x0, y0, z0);
+				glVertex3f(x0, y0, z1);
+				glVertex3f(x0, y1, z1);
+				glVertex3f(x0, y1, z0);
+
+				//right
+				glVertex3f(x1, y0, z0);
+				glVertex3f(x1, y0, z1);
+				glVertex3f(x1, y1, z1);
+				glVertex3f(x1, y1, z0);
+
+				//top
+				glVertex3f(x0, y1, z0);
+				glVertex3f(x0, y1, z1);
+				glVertex3f(x1, y1, z1);
+				glVertex3f(x1, y1, z0);
+		*/
+			}
+			glEnd();
+			
+
+			//draw lines
+			mode_unshaded();    
+			glLineWidth(.8f);
+			glBegin(GL_LINES);
+			glColor4f(0,0,0,1);
+			for (i=0; i<rdimx; i++) {
+				x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
+				x1 = x0 + draw_deltax*.8f;
+				float h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
+
+				y1 = draw_pos[1] + draw_size[1]*h;
 
 		//front
-        glVertex3f(x0, y0, z0);
-        glVertex3f(x1, y0, z0);
-        glVertex3f(x1, y1, z0);
-        glVertex3f(x0, y1, z0);
-/*
+				
+				glVertex3f(x0, y0, z0);
+				glVertex3f(x0, y1, z0);
+
+				glVertex3f(x0, y0, z0);
+				glVertex3f(x1, y0, z0);
+
+				glVertex3f(x1, y0, z0);
+				glVertex3f(x1, y1, z0);
+
+				glVertex3f(x0, y1, z0);
+				glVertex3f(x1, y1, z0);
+		/*
 		//back
-		glVertex3f(x0, y0, z1);
-        glVertex3f(x1, y0, z1);
-        glVertex3f(x1, y1, z1);
-        glVertex3f(x0, y1, z1);
+				glVertex3f(x0, y0, z1);
+				glVertex3f(x0, y1, z1);
 
-		//left
-		glVertex3f(x0, y0, z0);
-        glVertex3f(x0, y0, z1);
-        glVertex3f(x0, y1, z1);
-        glVertex3f(x0, y1, z0);
+				glVertex3f(x0, y0, z1);
+				glVertex3f(x1, y0, z1);
 
+				glVertex3f(x1, y0, z1);
+				glVertex3f(x1, y1, z1);
+
+				glVertex3f(x0, y1, z1);
+				glVertex3f(x1, y1, z1);
 		//right
-		glVertex3f(x1, y0, z0);
-        glVertex3f(x1, y0, z1);
-        glVertex3f(x1, y1, z1);
-        glVertex3f(x1, y1, z0);
+				glVertex3f(x0, y0, z0);
+				glVertex3f(x0, y1, z0);
 
-		//top
-		glVertex3f(x0, y1, z0);
-        glVertex3f(x0, y1, z1);
-        glVertex3f(x1, y1, z1);
-        glVertex3f(x1, y1, z0);
-*/
-    }
-    glEnd();
-	
-	mode_unshaded();
-    //draw lines
-	glLineWidth(.8f);
-    glBegin(GL_LINES);
-//	glEnable(GL_LINE_SMOOTH);
-    glColor4f(0,0,0,1);
-    for (i=0; i<rdimx; i++) {
-        x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
-        x1 = x0 + draw_deltax*.8f;
-        float h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
+				glVertex3f(x0, y1, z0);
+				glVertex3f(x0, y1, z1);
 
-        y1 = draw_pos[1] + draw_size[1]*h;
+				glVertex3f(x0, y1, z1);
+				glVertex3f(x0, y0, z1);
 
-//front
-        glVertex3f(x0, y0, z0);
-        glVertex3f(x0, y1, z0);
+				glVertex3f(x0, y0, z1);
+				glVertex3f(x0, y0, z0);
+		//left
+				glVertex3f(x1, y0, z0);
+				glVertex3f(x1, y1, z0);
 
-		glVertex3f(x0, y0, z0);
-        glVertex3f(x1, y0, z0);
+				glVertex3f(x1, y1, z0);
+				glVertex3f(x1, y1, z1);
 
-		glVertex3f(x1, y0, z0);
-        glVertex3f(x1, y1, z0);
+				glVertex3f(x1, y1, z1);
+				glVertex3f(x1, y0, z1);
 
-		glVertex3f(x0, y1, z0);
-        glVertex3f(x1, y1, z0);
-/*
-//back
-		glVertex3f(x0, y0, z1);
-        glVertex3f(x0, y1, z1);
+				glVertex3f(x1, y0, z1);
+				glVertex3f(x1, y0, z0);
+		*/
+			}
+			glEnd();	
+		break;
+		case TYPE_SURFACE:
+			z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
+			z1 = z0+.14f;
+			row0 = rrow(row);
+			trow=row-1;			
+			if(row!=0) trow0 = rrow(trow);
+			int i; 
+				
+			for (i=0; i<rdimx; i++) {
+				x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
+				x1 = x0 + draw_deltax*.8f;
+				h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
 
-		glVertex3f(x0, y0, z1);
-        glVertex3f(x1, y0, z1);
+				y0 = draw_pos[1];
+				y1 = draw_pos[1] + draw_size[1]*h;
 
-		glVertex3f(x1, y0, z1);
-        glVertex3f(x1, y1, z1);
+				double hue = hue0 + (dhue*i)/rdimx;
+				if (hue > 1) hue -= 1;
+				double sat = 1.;
+				double lum = .5 + h/2;
+				COLOR color;
+				HLStoRGB(hue, lum, sat, color);
+				glColor4f(color.r, color.g, color.b, alpha);		
+				
+				glVertex3f(x0+((x1-x0)/2.0f), y1, z0);  		
+			}	
+		break;
+		case TYPE_WAVE:
+			z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
+			z1 = z0+.14f;			
+			row0 = rrow(row);			
+			if(row!=0) trow0 = rrow(trow);			
+			
+			glBegin(GL_LINES);
+			glVertex3f(draw_pos[0],draw_pos[1],z0);  
+			for (i=0; i<rdimx; i++) {
+				x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
+				x1 = x0 + draw_deltax*.8f;
+				h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
 
-		glVertex3f(x0, y1, z1);
-        glVertex3f(x1, y1, z1);
-//right
-		glVertex3f(x0, y0, z0);
-        glVertex3f(x0, y1, z0);
+				y0 = draw_pos[1];
+				y1 = draw_pos[1] + draw_size[1]*h;
 
-		glVertex3f(x0, y1, z0);
-        glVertex3f(x0, y1, z1);
+				double hue = hue0 + (dhue*i)/rdimx;
+				if (hue > 1) hue -= 1;
+				double sat = 1.;
+				double lum = .5 + h/2;
+				COLOR color;
+				HLStoRGB(hue, lum, sat, color);
+				glColor4f(color.r, color.g, color.b, alpha);		
+				
+				glVertex3f(x0+((x1-x0)/2.0f), y1, z0);  
+				
+				//connect to the row before		
+				if(row!=0)
+				{
+					float h2 = (trow0[i]-rdata_min)/(rdata_max-rdata_min);
+					float z2 = draw_pos[2] + (draw_size[2]*trow)/rdimy;
+					float y2 = draw_pos[1] + draw_size[1]*h2;
+					glVertex3f(x0+((x1-x0)/2.0f), y1, z0);  
+					glVertex3f(x0+((x1-x0)/2.0f), y2, z2);					
+				}
 
-		glVertex3f(x0, y1, z1);
-        glVertex3f(x0, y0, z1);
+				if(row==0)
+				{					
+					float z2 = draw_pos[2] + (draw_size[2]*row-1)/rdimy;
+					float y2 = draw_pos[1];
+					glVertex3f(x0+((x1-x0)/2.0f), y1, z0);  
+					glVertex3f(x0+((x1-x0)/2.0f), y2, z2);
+				}
 
-		glVertex3f(x0, y0, z1);
-        glVertex3f(x0, y0, z0);
-//left
-		glVertex3f(x1, y0, z0);
-        glVertex3f(x1, y1, z0);
+				if(row==rdimy-1)
+				{					
+					float z2 = draw_pos[2] + (draw_size[2]*row+1)/rdimy;
+					float y2 = draw_pos[1];
+					glVertex3f(x0+((x1-x0)/2.0f), y1, z0);  
+					glVertex3f(x0+((x1-x0)/2.0f), y2, z2);
+				}
+				
+				glVertex3f(x0+((x1-x0)/2.0f), y1, z0);
+			}
+			glVertex3f(x1,y0,z0);
+			glEnd();
+		break;
+		case TYPE_STRIP:
+			z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
+			z1 = z0+.14f;			
+			row0 = rrow(row);						
+			i=0;			
 
-		glVertex3f(x1, y1, z0);
-        glVertex3f(x1, y1, z1);
+			x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
+			x1 = x0 + draw_deltax*.8f;
+			h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
 
-		glVertex3f(x1, y1, z1);
-        glVertex3f(x1, y0, z1);
+			y0 = draw_pos[1];
+			y1 = draw_pos[1] + draw_size[1]*h;
 
-		glVertex3f(x1, y0, z1);
-        glVertex3f(x1, y0, z0);
-*/
-    }
-    glEnd();	
+			glVertex3d(x0,y0,z0);
+			glVertex3d(x0,y1,z0);
+
+			glBegin(GL_QUAD_STRIP);
+			for (i=0; i<rdimx; i++) {
+				x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
+				x1 = x0 + draw_deltax*.8f;
+				h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
+
+				y0 = draw_pos[1];
+				y1 = draw_pos[1] + draw_size[1]*h;
+
+				double hue = hue0 + (dhue*i)/rdimx;
+				if (hue > 1) hue -= 1;
+				double sat = 1.;
+				double lum = .5 + h/2;
+				COLOR color;
+				HLStoRGB(hue, lum, sat, color);
+				glColor4f(color.r, color.g, color.b, alpha);
+
+				glVertex3d(x1,y0,z0);
+				glVertex3d(x1,y1,z0);
+			}
+			glEnd();		
+		break;
+		default: 
+		break;
+	}
 }
 
 void REDUCED_ARRAY::draw_row_rect_y(int row) {
@@ -415,6 +552,7 @@ void REDUCED_ARRAY::draw_row_rect_y(int row) {
 
     // draw a black line on top of rectangle
     //
+	/*
     glBegin(GL_LINES);
     glColor4f(0., 0., 0., 1.0);
     for (i=0; i<rdimx-1; i++) {
@@ -427,31 +565,34 @@ void REDUCED_ARRAY::draw_row_rect_y(int row) {
         glVertex3f(x0, y1, z1);
     }
     glEnd();
+	*/
 }
+
+
 
 void REDUCED_ARRAY::draw_row_line(int row) {
 }
 
-void REDUCED_ARRAY::draw(int r0, int rn) {
+void REDUCED_ARRAY::draw(DrawType type, int r0, int rn) {
     int i;
     if (rdimx == sdimx) {
         if (rdimy == sdimy) {
             for (i=r0; i<rn; i++) {
-                draw_row_rect_x(i);
+                draw_row_rect_x(type,i);
             }
         } else {
             for (i=r0; i<rn; i++) {
-                draw_row_rect_x(i);
+                draw_row_rect_x(type,i);
             }
         }
     } else {
         if (rdimy == sdimy) {
             for (i=r0; i<rn; i++) {
-                draw_row_rect_x(i);
+                draw_row_rect_x(type,i);
             }
         } else {
             for (i=r0; i<rn; i++) {
-                draw_row_rect_x(i);
+                draw_row_rect_x(type,i);
             }
         }
     }
@@ -460,18 +601,17 @@ void REDUCED_ARRAY::draw(int r0, int rn) {
 }
 
 void REDUCED_ARRAY::draw_all() {
-    draw(0, nvalid_rows);
+    draw(TYPE_QUAD,0, nvalid_rows);
 }
 
 void REDUCED_ARRAY::draw_new() {
-    draw(ndrawn_rows, nvalid_rows);
+    draw(TYPE_QUAD,ndrawn_rows, nvalid_rows);
 }
 
-void REDUCED_ARRAY::draw_part(double frac) {
+void REDUCED_ARRAY::draw_part(DrawType type, double frac) {
     int nr = (int)(nvalid_rows*frac);
-    draw(0, nr);
+    draw(type,0, nr);
 }
-
 
 void REDUCED_ARRAY::draw_axis_labels()
 {	
@@ -510,7 +650,6 @@ void REDUCED_ARRAY::draw_axes() {
 	mode_unshaded();
 	
 	glLineWidth(.5);
-//	glEnable(GL_LINE_SMOOTH);
 	glBegin(GL_LINES);
 	glColor4d(1,1,1,.5);	
 	
@@ -600,11 +739,10 @@ void REDUCED_ARRAY::draw_labels()
 	double xmax_corner[3];
 
 	int viewport[4];
-		
-	glMatrixMode(GL_MODELVIEW);
+			
 	get_matrix(model);				
-	get_projection(proj);		
-	get_viewport(viewport);    
+	get_projection(proj);
+	get_viewport(viewport);
 
 	float offset = 0;
 
@@ -650,12 +788,27 @@ void REDUCED_ARRAY::draw_labels()
 	float xmaxpos[3]={(float)xmax_corner[0]/(float)(viewport[2]),(float)xmax_corner[1]/(float)(viewport[3])+below_x,(float)xmax_corner[2]};
 	float zminpos[3]={(float)xzmin_corner[0]/(float)(viewport[2])+left_of_z2,(float)xzmin_corner[1]/(float)(viewport[3]),(float)xzmin_corner[2]};
 	float zmaxpos[3]={(float)zmax_corner[0]/(float)(viewport[2])+left_of_z2,(float)zmax_corner[1]/(float)(viewport[3]),(float)zmax_corner[2]};
-	draw_text_line(zpos, w, l, zlabel);	
-	draw_text_line(xpos, w, l, xlabel);	
+	//draw_text_line(zpos, w, l, zlabel);	
+	//draw_text_line(xpos, w, l, xlabel);	
 //	draw_text_line(xminpos, w, l, xmin);	
 //	draw_text_line(xmaxpos, w, l, xmax);	
 //	draw_text_line(zminpos, w, l, zmin);	
 //	draw_text_line(zmaxpos, w, l, zmax);	
+	
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+  	
+	glRasterPos3d(zpos[0],zpos[1],-1);//zpos[2]);
+	print_text(listBase, "Time(sec)");
+
+	glRasterPos3d(xpos[0],xpos[1],-1);//xpos[2]);
+	print_text(listBase, "Frequency(HZ)");
+
+	glPopMatrix();
 
 	ortho_done();
 }
+
+
+

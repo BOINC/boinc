@@ -36,6 +36,8 @@ extern bool using_opengl;
 extern bool standalone;
 extern HANDLE hQuitEvent;
 
+void SetupPixelFormat(HDC hDC);
+
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 BOOL reg_win_class();
@@ -114,42 +116,11 @@ void SetMode(int mode) {
 	SetForegroundWindow(hWnd);
 
 	GetCursorPos(&mousePos);
-//
-//	hDC = GetDC(hWnd);
-//	SetupPixelFormat(hDC);        
-//	ClearGLFont(listBase);
-//	listBase = CreateFont("Arial", 24);
-//
 	
-	PIXELFORMATDESCRIPTOR pfd=				// pfd Tells Windows How We Want Things To Be
-	{
-		sizeof(PIXELFORMATDESCRIPTOR),				// Size Of This Pixel Format Descriptor
-		1,											// Version Number
-		PFD_DRAW_TO_WINDOW |						// Format Must Support Window
-		PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
-		PFD_DOUBLEBUFFER,							// Format Must Support OpenGL
-		PFD_TYPE_RGBA,								// Request An RGBA Format
-		16,											// Select Our Color Depth
-		0, 0, 0, 0, 0, 0,							// Color Bits Ignored
-		0,											// No Alpha Buffer
-		0,											// Shift Bit Ignored
-		0,											// No Accumulation Buffer
-		0, 0, 0, 0,									// Accumulation Bits Ignored
-		16,											// 16Bit Z-Buffer (Depth Buffer)
-		0,											// No Stencil Buffer
-		0,											// No Auxiliary Buffer
-		PFD_MAIN_PLANE,								// Main Drawing Layer
-		0,											// Reserved
-		0, 0, 0										// Layer Masks Ignored
-	};
-
 	hDC = GetDC(hWnd);
 	myhDC=hDC;
-	int PixelFormat;
-	PixelFormat = ChoosePixelFormat(hDC, &pfd);
-	SetPixelFormat(hDC, PixelFormat, &pfd);
+	SetupPixelFormat(myhDC);
 	
-
 	if(!(hRC = wglCreateContext(hDC))) {
 		ReleaseDC(hWnd, hDC);
 		return;
@@ -171,11 +142,12 @@ void SetMode(int mode) {
 		SetFocus(hWnd);
 	} else {
 		ShowWindow(hWnd, SW_HIDE);
-	}
+	}	
 
-	ReSizeGLScene(width, height);
+	ReSizeGLScene(width, height);	
 	InitGL();
 	app_init_gl();
+	
 
 	app_client_shm->send_graphics_mode_msg(APP_CORE_GFX_SEG, current_graphics_mode);
 }
@@ -333,3 +305,39 @@ BOOL unreg_win_class() {
 	return TRUE;
 }
 
+void SetupPixelFormat(HDC hDC)
+{
+   int nPixelFormat;
+
+   static PIXELFORMATDESCRIPTOR pfd = {
+         sizeof(PIXELFORMATDESCRIPTOR),   // size of structure.
+         1,                               // always 1.
+         PFD_DRAW_TO_WINDOW |             // support window
+         PFD_SUPPORT_OPENGL |             // support OpenGl
+         PFD_DOUBLEBUFFER,                // support double buffering
+         PFD_TYPE_RGBA,                   // support RGBA
+         32,                              // 32 bit color mode
+         0, 0, 0, 0, 0, 0,                // ignore color bits
+         0,                               // no alpha buffer
+         0,                               // ignore shift bit
+         0,                               // no accumulation buffer
+         0, 0, 0, 0,                      // ignore accumulation bits.
+         16,                              // number of depth buffer bits.
+         0,                               // number of stencil buffer bits.
+         0,                               // 0 means no auxiliary buffer
+         PFD_MAIN_PLANE,                  // The main drawing plane
+         0,                               // this is reserved
+         0, 0, 0 };                       // layer masks ignored.
+
+
+
+   // this chooses the best pixel format and returns index.
+   nPixelFormat = ChoosePixelFormat(hDC, &pfd);
+
+   // This set pixel format to device context.
+   SetPixelFormat(hDC, nPixelFormat, &pfd);
+
+   // Remember that its not important to fully understand the pixel format,
+   // just remember to include in all of your applications and you'll be
+   // good to go.
+}

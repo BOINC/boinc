@@ -49,6 +49,10 @@ extern void draw_text(
     GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, char *text
 );
 
+extern void draw_text_new(
+    GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, char *text
+);
+
 extern void draw_rotated_text(
 	GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, char *text, GLfloat rotation, GLfloat* rotation_vector
 );
@@ -125,3 +129,5 @@ extern bool CreateTextureJPG(UINT textureArray[], LPSTR strFileName, int texture
 extern bool CreateTextureBMP(UINT textureArray[], LPSTR strFileName, int textureID);
 extern bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int textureID);
 extern tImageJPG *LoadJPG(const char *filename);
+extern void print_text(unsigned int base, char *string);
+extern void MyCreateFont(unsigned int &base, char *fontName, int Size);
