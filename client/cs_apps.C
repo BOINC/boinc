@@ -30,7 +30,6 @@
 //
 int CLIENT_STATE::make_slot_dirs() {
     unsigned int i;
-    printf("num slots is: %d\n",nslots);
     for (i=0; i<nslots; i++) {
         make_slot_dir(i);
     }
