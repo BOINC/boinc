@@ -19780,7 +19780,18 @@ Bruce  18 Nov 2004
       to a random string if it is currently 0 (empty).  It should be safe to run this
       script any number of times, on a damanged or undamaged user database, with no side
       effects.
+    - 'Fixed' py/Boinc/add_util.py so that it takes cross_project_id value out of XML
+      file.  Current default value is '0'.  Karl, could you fix this to make it a random
+      string?
+    - validator.c sets global variable int boinc_validator_debuglevel for use by check_set
+      and check_match functions.
 
     html/ops/
       create_account_action.php 
       make_emails_lowercase.php
+
+    py/Boinc/
+      add_util.py
+
+    sched/
+      validator.C

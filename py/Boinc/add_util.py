@@ -34,6 +34,11 @@ class XAppVersion(database.AppVersion):
 #       'arg'
 #       '?arg'    optional
 #       [ 'arg', default_value ]
+
+# NOTE TO KARL: If cross_project_id is not supplied, the default value
+# should be a random 32 character script obtained by doing the md5sum
+# hash of (say) 512 bytes from /dev/urandom or similar.
+
 list_objects_to_add = [
     [ database.Platform,   'name', 'user_friendly_name', CREATE_TIME ],
     [ XCoreVersion, 'platform', 'version_num', 'exec_file',
@@ -42,7 +47,7 @@ list_objects_to_add = [
     [ XAppVersion, 'app', 'platform', 'version_num', 'exec_file', '?signature_file',
       CREATE_TIME ],
     [ database.User,       'name', 'email_addr', 'authenticator',
-      ['?country','United States'], ['?postal_code','94703'],
+      ['?country','United States'], ['?postal_code','0'], ['?cross_project_id', '0'],
       '?global_prefs', '?global_prefs_file',
       CREATE_TIME ],
     # [ database.Workunit,   'zzzz' ],

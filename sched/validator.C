@@ -475,6 +475,9 @@ int main_loop(bool one_pass) {
     return 0;
 }
 
+// For use by user routines check_set() and check_match() that link to
+// this code.
+int boinc_validator_debuglevel=0;
 
 int main(int argc, char** argv) {
     int i, retval;
@@ -490,9 +493,11 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-app")) {
             strcpy(app_name, argv[++i]);
         } else if (!strcmp(argv[i], "-d")) {
-            log_messages.set_debug_level(atoi(argv[++i]));
+	    boinc_validator_debuglevel=atoi(argv[++i]);
+            log_messages.set_debug_level(boinc_validator_debuglevel);
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "unrecognized arg: %s\n", argv[i]);
+	    exit(1);
         }
     }
 
