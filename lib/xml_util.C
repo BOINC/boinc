@@ -542,7 +542,7 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
   for (i=0;i<(nelements-1);i++) {
     unsigned int ival=bin[i];
     rv << ival << ',';
-    if ((rv.str().size()-lastlen-std::min(xml_indent_level,XML_MAX_INDENT))>73) {
+    if ((static_cast<int>(rv.str().size())-lastlen-std::min(xml_indent_level,XML_MAX_INDENT))>73) {
       rv << std::endl << xml_indent();
       lastlen=rv.str().size();
     }
@@ -554,6 +554,9 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
 
 //
 // $Log$
+// Revision 1.22  2003/10/27 23:07:34  korpela
+// *** empty log message ***
+//
 // Revision 1.21  2003/10/27 20:07:11  korpela
 // *** empty log message ***
 //
