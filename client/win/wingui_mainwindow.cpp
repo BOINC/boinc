@@ -668,7 +668,7 @@ void CMainWindow::MessageUser(char* szProject, char* szMessage, int szPriority)
     int nNewPos = m_MessageListCtrl.GetItemCount();
     m_MessageListCtrl.InsertItem(nNewPos, szProject);
 
-    m_MessageListCtrl.Scroll(m_MessageListCtrl.ApproximateViewRect());
+    m_MessageListCtrl.Scroll(CSize(0, m_MessageListCtrl.ApproximateViewRect().cy));
 
     m_MessageListCtrl.SetItemText(nNewPos, 1, GetStrTime());
     m_MessageListCtrl.SetItemText(nNewPos, 2, szMessage);
