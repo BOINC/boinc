@@ -16341,3 +16341,15 @@ David  12 Aug 2004
         db_dump.C
     tools/
         dir_hier_move.C
+
+David  13 Aug 2004
+    - use 0 (not -1) as null value for unix times
+    - comment out remaining disk management code
+    - compile error
+
+    client/
+        client_types.C,h
+        cs_scheduler.C
+        scheduler_op.C
+    sched/
+        server_types.C

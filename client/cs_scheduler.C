@@ -529,7 +529,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (sr.user_expavg_credit >= 0) {
         project->user_expavg_credit = sr.user_expavg_credit;
     }
-    if (sr.user_create_time >= 0) {
+    if (sr.user_create_time > 0) {
         project->user_create_time = sr.user_create_time;
     }
     if (sr.host_total_credit >= 0) {

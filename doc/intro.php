@@ -8,7 +8,8 @@ using volunteer computer resources.
 <p>
 A paper about BOINC's design goals is here:
 <a href=http://boinc.berkeley.edu/talks/madrid_03/madrid.html>HTML</a> |
-<a href=boinc2.pdf>PDF</a>.
+<a href=boinc2.pdf>PDF</a> |
+<a href=http://boinc.de/madrid_de.htm>HTML German</a>.
 <p>
 The BOINC's features fall into several areas:
 

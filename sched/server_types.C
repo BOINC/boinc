@@ -255,7 +255,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
             host.venue,
             host.create_time
         );
-    );
+    }
 
     // might want to send team credit too.
     //

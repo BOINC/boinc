@@ -554,9 +554,11 @@ FILE_INFO::FILE_INFO() {
     strcpy(signed_xml, "");
     strcpy(xml_signature, "");
     strcpy(file_signature, "");
+#if 0
     priority = P_LOW;
     time_last_used = time(0);
     exp_date = time(0) + 60*SECONDS_PER_DAY;
+#endif
 }
 
 FILE_INFO::~FILE_INFO() {
@@ -615,7 +617,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
     char buf[256], buf2[1024];
     STRING256 url;
     PERS_FILE_XFER *pfxp;
-    int retval, exp_days;
+    int retval;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
@@ -662,12 +664,15 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         else if (match_tag(buf, "<upload_when_present/>")) upload_when_present = true;
         else if (match_tag(buf, "<sticky/>")) sticky = true;
         else if (match_tag(buf, "<signature_required/>")) signature_required = true;
+#if 0
         else if (parse_int(buf, "<time_last_used>", (int&)time_last_used)) continue;
         else if (parse_int(buf, "<priority>", priority)) continue;
         else if (parse_int(buf, "<exp_date>", (int&)exp_date)) continue;
         else if (parse_int(buf, "<exp_days>", exp_days)) {
-                exp_date = time(0) + exp_days*SECONDS_PER_DAY;
-        } else if (match_tag(buf, "<persistent_file_xfer>")) {
+            exp_date = time(0) + exp_days*SECONDS_PER_DAY;
+        }
+#endif
+        else if (match_tag(buf, "<persistent_file_xfer>")) {
             pfxp = new PERS_FILE_XFER;
             retval = pfxp->parse(in);
             if (!retval) {
@@ -722,9 +727,11 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (sticky) out.printf("    <sticky/>\n");
         if (signature_required) out.printf("    <signature_required/>\n");
         if (strlen(file_signature)) out.printf("    <file_signature>\n%s</file_signature>\n", file_signature);
+#if 0
         if (time_last_used) out.printf("    <time_last_used>%d</time_last_used>\n", time_last_used);
         if (priority) out.printf("    <priority>%d</priority>\n", priority);
         if (exp_date) out.printf("    <exp_date>%ld</exp_date>\n", exp_date);
+#endif
     }
     for (i=0; i<urls.size(); i++) {
         out.printf("    <url>%s</url>\n", urls[i].text);
@@ -746,8 +753,10 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         out.printf("    <error_msg>\n%s</error_msg>\n", error_msg.c_str());
     }
     out.printf("</file_info>\n");
+#if 0
     if (to_server)
-        update_time();
+        update_time();      // huh??
+#endif
     return 0;
 }
 
@@ -855,6 +864,7 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
 
     upload_when_present = new_info.upload_when_present;
 
+#if 0
     if (new_info.priority > priority) {
         priority = new_info.priority;
     }
@@ -862,6 +872,7 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
     if (new_info.exp_date > exp_date) {
         exp_date = new_info.exp_date;
     }
+#endif
     if (max_nbytes <= 0 && new_info.max_nbytes) {
         max_nbytes = new_info.max_nbytes;
         sprintf(buf, "    <max_nbytes>%.0f</max_nbytes>\n", new_info.max_nbytes);
@@ -893,11 +904,13 @@ bool FILE_INFO::had_failure(int& failnum) {
     return false;
 }
 
+#if 0
 // Sets the time_last_used to be equal to the current time
 int FILE_INFO::update_time() {
     time_last_used = time(0);
     return 0;
 }
+#endif
 
 // Parse XML based app_version information, usually from client_state.xml
 //
@@ -1318,10 +1331,14 @@ void RESULT::reset_files() {
         if (fip->upload_when_present) {
             fip->uploaded = false;
         }
+#if 0
         fip->update_time();
+#endif
     }
     for (i=0; i < wup->input_files.size(); i++) {
         fip = wup->input_files[i].file_info;
+#if 0
         fip->update_time();
+#endif
     }
 }
