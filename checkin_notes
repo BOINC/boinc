@@ -17179,3 +17179,10 @@ Jeff  09 Sep 2004
                 validator.C
         db/
                 boinc_db.h
+
+Rom    8 Sep 2004 ( for Sebastian Masch )
+    - Don't cause the core client to rewrite the state file for every block transfered
+      during a network operation.
+
+    client/
+        pers_file_xfer.C

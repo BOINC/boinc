@@ -190,7 +190,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
             last_time = dtime();
             fip->upload_offset = -1;
             retval = start_xfer();
-            return true;
+            return (retval == 0);
         } else {
             return false;
         }
