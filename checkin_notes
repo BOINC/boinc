@@ -20544,3 +20544,15 @@ Rom    2 Dec 2004
         taskbarex.cpp
     lib/
         stackwalker_win.cpp
+
+David  2 Dec 2004
+    - added script for fixing the problem where some workunits
+        have target_nresults successful results and no consensus.
+        The script finds WUs in this state and sets their need_validate flag;
+        the validator (MAKE SURE YOU'VE RECOMPILED WITH CURRENT SOURCE)
+        will increment target_nresults and trigger the transitioner,
+        which will create a new result.
+
+
+    html/ops/
+        repair_validator_problem.php
