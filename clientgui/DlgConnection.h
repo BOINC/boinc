@@ -20,11 +20,7 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.4  2004/05/17 22:15:09  rwalton
-// *** empty log message ***
-//
-//
+
 
 #ifndef _DLGCONNECTION_H_
 #define _DLGCONNECTION_H_

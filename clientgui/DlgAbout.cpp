@@ -20,14 +20,7 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.5  2004/10/22 22:55:28  rwalton
-// *** empty log message ***
-//
-// Revision 1.4  2004/05/17 22:15:09  rwalton
-// *** empty log message ***
-//
-//
+
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "DlgAbout.h"

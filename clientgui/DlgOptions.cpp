@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/10/24 21:29:07  rwalton
+// *** empty log message ***
+//
 // Revision 1.6  2004/10/24 21:21:39  rwalton
 // *** empty log message ***
 //
@@ -95,7 +98,7 @@ bool CDlgOptions::Create( wxWindow* parent, wxWindowID id, const wxString& capti
 void CDlgOptions::CreateControls()
 {    
 
-    CDlgToolsOptions* itemDialog1 = this;
+    CDlgOptions* itemDialog1 = this;
 
     wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
     itemDialog1->SetSizer(itemBoxSizer2);

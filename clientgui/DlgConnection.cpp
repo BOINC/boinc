@@ -20,11 +20,6 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.4  2004/05/17 22:15:09  rwalton
-// *** empty log message ***
-//
-//
 
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "DlgConnection.h"
