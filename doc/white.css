@@ -3,6 +3,14 @@ h1 {
     font-size: 24pt;
 }
 
+pre {
+    font-size: medium;
+}
+
+code {
+    font-size: medium;
+}
+
 a:link {
 	color: blue;
 }

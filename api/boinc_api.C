@@ -103,14 +103,18 @@ int boinc_parse_init_data_file() {
             aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
             aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
         } else {
-            fprintf(stderr, "boinc_init(): can't open init data file\n");
+            fprintf(stderr,
+                "boinc_parse_init_data_file(): can't open init data file\n"
+            );
             return ERR_FOPEN;
         }
     } else {
         retval = parse_init_data_file(f, aid);
         fclose(f);
         if (retval) {
-            fprintf(stderr, "boinc_init(): can't parse init data file\n");
+            fprintf(stderr,
+                "boinc_parse_init_data_file(): can't parse init data file\n"
+            );
             return retval;
         }
     }

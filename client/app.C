@@ -83,8 +83,10 @@ static int debug_print_argv(char** argv) {
     log_messages.printf(ClientMessages::DEBUG_TASK, "Arguments:");
     ++log_messages;
     for (i=0; argv[i]; i++) {
-        log_messages.printf(ClientMessages::DEBUG_TASK,
-                            "argv[%d]: %s\n", i, argv[i]);
+        log_messages.printf(
+            ClientMessages::DEBUG_TASK,
+            "argv[%d]: %s\n", i, argv[i]
+        );
     }
     --log_messages;
 

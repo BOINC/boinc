@@ -12,21 +12,28 @@ The BOINC graphics API is described <a href=graphics.php>separately</a>.
 <h3>Initialization and termination</h3>
 The application must call
 <pre>
-    int boinc_init();
+    int boinc_init(bool standalone=false);
 </pre>
 before calling other BOINC functions or doing I/O.
+If <code>standalone</code> is true,
+the application will function independently of the BOINC core client
+(this is useful for testing).
 <p>
 When the application has completed it must call
 <pre>
     int boinc_finish(int status);
 </pre>
-<tt>status</tt> is nonzero if an error was encountered.
+<code>status</code> is nonzero if an error was encountered.
 This call does not return.
 
 <h3>Resolving file names</h3>
 Applications that use named input or output files must call
 <pre>
-    int boinc_resolve_filename(char *logical_name, char *physical_name);</tt>
+    int boinc_resolve_filename(char *logical_name, char *physical_name, int len);
+</pre>
+or
+<pre>
+    int boinc_resolve_filename(char *logical_name, string& physical_name);
 </pre>
 to convert logical file names to physical names.
 For example, instead of
@@ -36,12 +43,12 @@ For example, instead of
 </p>
 the application might use
 <pre>
-    char resolved_name[256];
+    string resolved_name;
     retval = boinc_resolve_filename(\"my_file\", resolved_name);
     if (retval) fail(\"can't resolve filename\");
-    f = fopen(resolved_name, \"r\");
+    f = fopen(resolved_name.c_str(), \"r\");
 </pre>
-<tt>boinc_resolve_filename()</tt> doesn't need to be used for temporary files.
+<code>boinc_resolve_filename()</code> doesn't need to be used for temporary files.
 
 <h3>Checkpointing</h3>
 
@@ -69,21 +76,13 @@ then call
 <pre>
     void boinc_checkpoint_completed();
 </pre>
-<tt>boinc_time_to_checkpoint()</tt> is fast
-(it usually makes no system calls),
-so can be called frequently (hundreds or thousands of times a second).
-
-<p>
-<tt>boinc_time_to_checkpoint()</tt> performs other time-based functions;
-e.g. it periodically measures the application's CPU time and
-reports it to the core client.
-So, even for applications that don't do checkpointing,
-it should be called at least once a second.
+<code>boinc_time_to_checkpoint()</code> is fast,
+so it can be called frequently (hundreds or thousands of times a second).
 
 <h3>Atomic file update</h3>
 <p>
 To facilitate atomic checkpoint, an application can write to output and
-state files using the <tt>MFILE</tt> class.
+state files using the <code>MFILE</code> class.
 <pre>
 class MFILE {
 public:
@@ -97,7 +96,7 @@ public:
 };
 </pre>
 MFILE buffers data in memory
-and writes to disk only on <tt>flush()</tt> or <tt>close()</tt>.
+and writes to disk only on <code>flush()</code> or <code>close()</code>.
 This lets you write output files and state files more or less atomically.
 
 <h3>Communicating with the core client</h3>
@@ -107,7 +106,7 @@ To keep this display current, an application should periodically call
 <pre>
    boinc_fraction_done(double fraction_done);
 </pre>
-The <tt>fraction_done</tt> argument is a rough estimate of the
+The <code>fraction_done</code> argument is a rough estimate of the
 workunit fraction complete (0 to 1).
 This function is fast and can be called frequently.
 
@@ -143,12 +142,11 @@ echo "
 <p>
 An application may call
 <pre>
-    int boinc_cpu_time(double &cpu_time, double& working_set_size);
+    int boinc_wu_cpu_time(double &cpu_time);
 </pre>
 to get its total CPU time
-(i.e., from the beginning of the work unit,
-not just since the last restart).
-This also returns the virtual memory working set size in bytes.
+(from the beginning of the work unit, not just since the last restart).
+This excludes CPU time used to render graphics.
 
 <h3>Multi-program applications</h3>
 Some applications consist of multiple programs:

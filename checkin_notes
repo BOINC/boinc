@@ -7585,3 +7585,14 @@ David  7 Nov 2003
         prefs.inc
         util.inc
         logout.php
+
+David  7 Nov 2003
+    - Were using the wrong block size in disk size calculation
+        (off by a factor of 16 on Solaris)
+
+    api/
+        boinc_api.C
+    client/
+        app.C
+    lib/
+        filesys.C

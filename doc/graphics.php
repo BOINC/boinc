@@ -12,7 +12,7 @@ Applications that do graphics must call
 </pre>
 at the start and
 <pre>
-    void boinc_finish_opengl();
+    void boinc_finish_graphics();
 </pre>
 prior to exiting.
 <p>
@@ -23,6 +23,7 @@ The two threads communicate through application-defined
 shared memory structures.
 Typically these structures contain information about the computation,
 which is used to generate graphics.
+<br>
 <img vspace=10 src=graphics.png>
 <br>
 The worker must initialize the shared data structure
@@ -75,6 +76,45 @@ The following global variables control frame rate:
 <b>boinc_max_gfx_cpu_frac</b> is an upper bound on the fraction
 of CPU time used for graphics (default 0.5).
 
+<h3>Support classes</h3>
+<p>
+Several graphics-related classes were developed for SETI@home/BOINC.
+They may be of general utility.
+
+<dl>
+<dt>
+REDUCED_ARRAY
+<dd>
+Represents a two-dimensional array of data,
+which is reduced to a smaller dimension by averaging or taking extrema.
+Includes member functions for drawing the reduced data as a 3D graph.
+<dt>
+PROGRESS and PROGRESS_2D
+<dd>
+Represent progress bars, depicted in 3 or 2 dimensions.
+
+<dt>
+RIBBON_GRAPH
+<dd>
+Represents of 3D graph of a function of 1 variable.
+
+<dt>
+MOVING_TEXT_PANEL
+<dd>
+Represents a flanged 3D panel, moving cyclically in 3 dimentions,
+on which text is displayed.
+<dt>
+STARFIELD
+<dd>
+Represents a set of randomly-generated stars
+that move forwards or backwards in 3 dimensions.
+
+<dt>
+TEXTURE_DESC
+<dd>
+Represents an image (JPEG, Targa, BMP or PNG)
+displayed in 3 dimensions.
+</dl>
 ";
 page_tail();
 ?>
