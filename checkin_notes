@@ -12995,3 +12995,9 @@ Daniel June 3 2004
 		cs_files.C
 		pers_file_xfer.C
 
+Karl 2004-04-04
+    - start: fixed bug where Python 2.3.3 writes 'True' instead of '1' to
+      run_state.xml
+
+    sched/
+        start

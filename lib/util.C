@@ -40,6 +40,7 @@
 #include <fstream>
 using std::min;
 #endif
+#include <cstdio>
 
 #include "error_numbers.h"
 #include "util.h"
