@@ -109,7 +109,7 @@ def get_task_output_name(task):
     return os.path.join(log_dir,
                         task.__dict__.get('output') or get_task_command_basename(task) + '.out')
 
-def get_daemon_command_basename(task):
+def get_daemon_output_name(task):
     return os.path.join(log_dir,
                         task.__dict__.get('output') or get_task_command_basename(task) + '.log')
 
@@ -389,7 +389,7 @@ def command_enable_start():
     run_daemons()
 
 def command_cron_start():
-    if verbose: print "Cron-start (verbose) mode (enabled=%s)"%run_state.enabled
+    if verbose: print "Verbose cron-start: status ==", (run_state.enabled and 'ENABLED' or 'DISABLED')
     if run_state.enabled:
         global verbose_daemon_run
         verbose_daemon_run = 1
@@ -413,13 +413,13 @@ def command_status():
         print "BOINC is DISABLED"
     if verbose:
         print
-        print "DAEMON  pid  status  lockfile    commandline"
+        print "DAEMON  pid  status   lock file  commandline"
         n = 0
         for task in config.daemons:
             n += 1
             pid = safe_read_int(get_daemon_pid_name(task)) or 0
             if not pid:
-                rs = "           "
+                rs = "         "
             elif is_pid_running(pid):
                 rs = " running "
             else:
@@ -430,7 +430,7 @@ def command_status():
                 lu = "UNLOCKED"
             print "  %2d"%n, " %5d"%pid, rs, lu, " ", task.cmd
         print
-        print "TASK       last run       period          next run        lockfile   commandline"
+        print "TASK       last run       period          next run        lock file  commandline"
         n = 0
         for task in config.tasks:
             n += 1
@@ -451,10 +451,6 @@ def command_show_config():
     # TODO: - all config items (e.g. where's logdir?)
     raise SystemExit('TODO')
 
-def command_run_tasks_now():
-    # TODO
-    raise SystemExit('TODO')
-
 program_name = os.path.basename(sys.argv[0])
 if program_name == 'start':
     command = command_enable_start
@@ -473,21 +469,26 @@ Commands:
                       Intended to be run from real cron every 5 min.
    --disable (-d)     Set BOINC to DISABLED mode and stop daemons
    --status  (-s)     Show status.
-   --show-config      Show configuration.
+   --show-config      Show configuration
 
 Options:
    --quiet   (-q)     Operate quietly, even if STDOUT is a tty.
    --verbose (-v)     Operate verbosely, even if STDOUT is not a tty.
 
-   --fork-delay=N     Seconds to sleep between daemon forks
+   --config-file=     Use specified file instead of program-path/../config.xml
+   --run-state-file=  Use specified file instead of program-path/../run_state.xml
+   --fork-delay=      Seconds to sleep between daemon forks
    --ignore-timestamps    Ignore timestamps; for cron mode, runs all tasks now
-
 """
     if program_name == 'start':
         print >>sys.stderr, "Based on the invocation name as `start', the default action is --enable."
     elif program_name == 'stop':
         print >>sys.stderr, "Based on the invocation name as `stop', the default action is --disable."
     sys.exit(1)
+
+program_path = os.path.realpath(os.path.dirname(sys.argv[0]))
+config_filename = os.path.realpath(os.path.join(program_path, '../config.xml'))
+run_state_filename = os.path.realpath(os.path.join(program_path, '../run_state.xml'))
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], 'cedskqvh?',
@@ -496,6 +497,7 @@ try:
                                 'show-config',
                                 'ignore-timestamps',
                                 'fork-delay=',
+                                'config-file=', 'run-state-file=',
                                 'quiet', 'verbose', 'help'))
 except Exception, e:
     print >>sys.stderr, e
@@ -520,16 +522,16 @@ for opt,v in opts:
         command = command_show_config
     elif opt == '--ignore-timestamps':
         ignore_timestamps = True
+    elif opt == '--config-file':
+        config_filename = v
+    elif opt == '--run-state-file':
+        run_state_filename = v
     elif opt == '--fork-delay':
         fork_delay = v
     else: assert(False)
 
 if not command:
     raise SystemExit('No command specified and script name is not "start" or "stop"')
-
-program_path = os.path.realpath(os.path.dirname(sys.argv[0]))
-config_filename = os.path.realpath(os.path.join(program_path, '../config.xml'))
-run_state_filename = os.path.realpath(os.path.join(program_path, '../run_state.xml'))
 
 config = BoincConfig(config_filename).read()
 run_state = BoincRunState(run_state_filename).read(failopen_ok = True)
