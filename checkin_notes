@@ -15449,3 +15449,12 @@ Karl 2004-07-20
 
     lib/
         md5_file.C
+
+Rom    19 July 2004
+    - Increase the heartbeat give-up period from 5 seconds, to 30 seconds.
+      It looks as though we were hitting the give-up period when name resolution
+      was taking longer than expected.
+    - Increase the heartbeat timeout period to be greater than the timeout period.
+
+    api/
+        boinc_api.C

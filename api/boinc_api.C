@@ -83,8 +83,10 @@ static bool           have_trickle_down   = true;
 static double         heartbeat_giveup_time;
 static bool           heartbeat_active;             // if false, suppress heartbeat mechanism
 
-#define HEARTBEAT_GIVEUP_PERIOD 5.0
+#define HEARTBEAT_GIVEUP_PERIOD 30.0
     // quit if no heartbeat from core in this #secs
+#define HEARTBEAT_TIMEOUT_PERIOD 35.0
+    // quit if we cannot aquire slot resource in this #secs
 
 #ifdef _WIN32
 HANDLE   hErrorNotification;
@@ -114,7 +116,7 @@ int boinc_init(bool is_worker /* = true */) {
         if (retval) {
             // give any previous occupant a chance to timeout and exit
             //
-            boinc_sleep(7.0);
+            boinc_sleep(HEARTBEAT_TIMEOUT_PERIOD);
             retval = lock_file(LOCKFILE);
         }
         if (retval) {
