@@ -25,7 +25,7 @@ lib_LIBRARIES = libboinc_api.a libboinc_graphics_api.a
 libboinc_api_a_SOURCES = $(api_files)
 
 libboinc_graphics_api_a_SOURCES = $(graphics_api_files)
-libboinc_graphics_api_a_CPPFLAGS = -I$(top_srcdir)/boincglut/include -I$(top_srcdir)/lib 
+libboinc_graphics_api_a_CPPFLAGS = -I$(top_srcdir)/lib 
 
 ## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
 includedir = ${prefix}/include/BOINC/

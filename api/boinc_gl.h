@@ -28,7 +28,7 @@
 
 #elif defined(__APPLE_CC__)
 
-#  include "GL/glut.h"
+#  include "GLUT/glut.h"
 
 #else // !_WIN32, !__APPLE_CC__
 

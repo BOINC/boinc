@@ -113,9 +113,8 @@ int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*_worker_main)()) {
 
     graphics_inited = true;
     win_graphics_event_loop();
-#endif
+#else
 
-#ifdef _PTHREAD_H
     pthread_t worker_thread;
     pthread_attr_t worker_thread_attr;
     sched_param param;
@@ -149,6 +148,7 @@ int boinc_init_options_graphics(BOINC_OPTIONS& opt, void (*_worker_main)()) {
     pthread_attr_destroy( &worker_thread_attr );
     graphics_inited = true;
     xwin_graphics_event_loop();
+	fprintf(stderr, "Graphics event loop returned\n");
     pthread_exit(0);
 #endif
 

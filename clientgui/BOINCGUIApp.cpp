@@ -158,7 +158,7 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser)
 void CBOINCGUIApp::DetectDefaultWindowStation()
 {
     wxChar szWindowStation[256];
-    memset(szWindowStation, NULL, sizeof(szWindowStation));
+    memset(szWindowStation, 0, sizeof(szWindowStation));
 
 #ifdef __WXMSW__
 
@@ -183,7 +183,7 @@ void CBOINCGUIApp::DetectDefaultWindowStation()
 void CBOINCGUIApp::DetectDefaultDesktop()
 {
     wxChar szDesktop[256];
-    memset(szDesktop, NULL, sizeof(szDesktop));
+    memset(szDesktop, 0, sizeof(szDesktop));
 
 #ifdef __WXMSW__
 

@@ -356,8 +356,8 @@ public:
 };
 
 class RPC_CLIENT {
-    int sock;
 public:
+    int sock;
     int send_request(char*);
     int get_reply(char*&);
 

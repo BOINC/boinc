@@ -893,6 +893,7 @@ void RPC_CLIENT::close() {
 #else
     ::close(sock);
 #endif
+	sock = 0;
 }
 
 int RPC_CLIENT::init(const char* host) {
@@ -927,6 +928,7 @@ int RPC_CLIENT::init(const char* host) {
         printf( "Windows Socket Error '%d'\n", WSAGetLastError() );
 #endif
         perror("connect");
+		close();
         return ERR_CONNECT;
     }
     return 0;
@@ -977,6 +979,7 @@ RPC::~RPC() {
 int RPC::do_rpc(char* req) {
     int retval;
 
+	if (rpc_client->sock == 0) return ERR_CONNECT;
     retval = rpc_client->send_request(req);
     if (retval) return retval;
     retval = rpc_client->get_reply(mbuf);

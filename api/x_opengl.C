@@ -104,7 +104,11 @@ static void close_func() {
 }
 
 static void make_new_window(int mode){
+	char* args[] = {"foobar", 0};
+	int one=1;
+
     if (mode == MODE_WINDOW || mode == MODE_FULLSCREEN){
+		glutInit(&one, args);
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
         glutInitWindowPosition(xpos, ypos);
         glutInitWindowSize(600, 400); 
@@ -225,8 +229,8 @@ void xwin_graphics_event_loop() {
     } else {
         wait_for_initial_message();
         timer_handler(0);
+		atexit(restart);
     }
-    atexit(restart);
     int retval = setjmp(jbuf);
     if (retval) {
         fprintf(stderr, "graphics thread restarted\n");

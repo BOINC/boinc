@@ -61,12 +61,12 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
 
     if (!app_client_shm.shm) return;
     if (app_client_shm.shm->graphics_reply.get_msg(buf)) {
-        mode = app_client_shm.decode_graphics_msg(buf, NULL, 0, NULL, 0);
+        app_client_shm.decode_graphics_msg(buf, gm);
         //BOINCTRACE("got graphics ack %s for %s", buf, result->name);
-        if (mode != MODE_REREAD_PREFS) {
-            graphics_mode_acked = mode;
+        if (gm.mode != MODE_REREAD_PREFS) {
+            graphics_mode_acked = gm.mode;
         }
-        if (mode == MODE_QUIT) {
+        if (gm.mode == MODE_QUIT) {
             gstate.ss_logic.stop_ss();
         }
     }

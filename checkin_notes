@@ -19696,3 +19696,25 @@ David  17 Nov 2004
 
     api/
         x_opengl.C
+
+David  17 Nov 2004
+	- compile fixes for Mac OS X
+		Applications graphics (at least for SETI@home) work on Mac now.
+		The close button is disabled when launch from cmdline (why??)
+	- remove references to boincglut/
+	- GUI RPC client: don't try to send RPC request if not connected
+
+	api/
+		Makefile.am
+		boinc_gl.h
+		graphics_api.C
+		x_opengl.C
+	client/
+		app_graphics.C
+	clientgui/
+		BOINCGUIApp.cpp
+		MainDocument.cpp,h
+		Makefile.old
+		ViewWork.cpp
+	lib/
+		gui_rpc_client.C,h

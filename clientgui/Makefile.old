@@ -1,7 +1,7 @@
 CXX = $(shell wx-config --cxx)
 
 # comment out the following as needed
-OTHER_LIBS = -lsocket -lnsl
+#OTHER_LIBS = -lsocket -lnsl
 
 CFLAGS = -g -I ../ -I ../lib  -DNOTASKBAR -DNOCLIPBOARD
 
@@ -37,9 +37,11 @@ OBJS = \
 
 # change the following as needed
 
-#WLIBS = -framework QuickTime -framework IOKit -framework Carbon -framework Cocoa -framework System    -L../../wxMac-2.5.3/lib    -lwx_mac_core-2.5  -lwx_base_carbon-2.5   -lwxtiff-2.5 -lwxjpeg-2.5 -lwxpng-2.5    -lwxexpat-2.5 -framework QuickTime -framework IOKit -framework Carbon -framework Cocoa -framework System  -lz -lpthread -liconv  -framework WebKit
+# Mac version:
+WLIBS = -framework QuickTime -framework IOKit -framework Carbon -framework Cocoa -framework System    -L../../wxMac-2.5.3/lib    -lwx_mac_adv-2.5 -lwx_mac_core-2.5  -lwx_mac_html-2.5 -lwx_base_carbon-2.5  -lwx_base_carbon_net-2.5 -lwxtiff-2.5 -lwxjpeg-2.5 -lwxpng-2.5    -lwxexpat-2.5 -framework QuickTime -framework IOKit -framework Carbon -framework Cocoa -framework System  -lz -lpthread -liconv  -framework WebKit
 
-WLIBS = `wx-config --libs`
+# all others:
+#WLIBS = `wx-config --libs`
 
 boincmgr: $(OBJS)
 	$(CXX) -o $(PROGRAM) $(OBJS) $(WLIBS) $(OTHER_LIBS)

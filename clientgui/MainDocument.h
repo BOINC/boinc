@@ -179,7 +179,7 @@ public:
 
     wxInt32                     WorkSuspend( wxInt32 iIndex );
     wxInt32                     WorkResume( wxInt32 iIndex );
-    wxInt32                     WorkShowGraphics( wxInt32 iIndex, bool bFullScreen, wxString& strWindowStation, wxString& strDesktop );
+    wxInt32                     WorkShowGraphics( wxInt32 iIndex, bool bFullScreen, wxString , wxString );
     wxInt32                     WorkAbort( wxInt32 iIndex );
 
 

@@ -564,8 +564,9 @@ wxInt32 CMainDocument::GetProjectMinRPCTime( wxInt32 iIndex, wxInt32& iBuffer )
         pProject = NULL;
     }
 
-    if ( NULL != pProject )
+    if ( NULL != pProject ) {
         iBuffer = pProject->min_rpc_time;
+	}
 
     return 0;
 }
@@ -1362,7 +1363,7 @@ wxInt32 CMainDocument::WorkResume( wxInt32 iIndex )
 }
 
 
-wxInt32 CMainDocument::WorkShowGraphics( wxInt32 iIndex, bool bFullScreen, wxString& strWindowStation, wxString& strDesktop )
+wxInt32 CMainDocument::WorkShowGraphics( wxInt32 iIndex, bool bFullScreen, wxString strWindowStation, wxString strDesktop )
 {
     RESULT* pResult = NULL;
     wxInt32 iRetVal = 0;

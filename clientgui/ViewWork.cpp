@@ -255,8 +255,9 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 
         if ( wxYES == iAnswer )
         {
+			int foo = iProjectIndex;
             pDoc->WorkShowGraphics(
-                iProjectIndex,
+                foo,
                 false,
                 wxGetApp().GetDefaultWindowStation(),
                 wxGetApp().GetDefaultDesktop()
