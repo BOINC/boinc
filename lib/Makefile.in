@@ -13,8 +13,8 @@ CC = @CC@ $(CFLAGS) -I ../RSAEuro/source
 
 CLIBS = @LIBS@
 
-PROGS = md5_test shmem_test msg_test crypt_prog
-# PROGS = md5_test shmem_test synch_test crypt_prog
+PROGS = md5_test shmem_test crypt_prog
+# PROGS = md5_test shmem_test msg_test synch_test crypt_prog
 
 OBJS = \
     countries.o \
