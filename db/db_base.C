@@ -68,7 +68,7 @@ int DB_CONN::commit_transaction() {
     return do_query("COMMIT");
 }
 
-DB_BASE::DB_BASE(DB_CONN& p, char *tn) : db(&p), table_name(tn) {
+DB_BASE::DB_BASE(char *tn, DB_CONN* p) : db(p), table_name(tn) {
     is_high_priority = false;
 }
 
@@ -290,7 +290,7 @@ int DB_BASE::sum(double& x, char* field, char* clause) {
 }
 
 
-DB_BASE_SPECIAL::DB_BASE_SPECIAL(DB_CONN& p) : db(&p) {
+DB_BASE_SPECIAL::DB_BASE_SPECIAL(DB_CONN* p) : db(p) {
 }
 
 // convert a string into a form that allows it to be used

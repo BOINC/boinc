@@ -77,7 +77,7 @@ public:
 //
 class DB_BASE {
 public:
-    DB_BASE(DB_CONN&, char *table_name);
+    DB_BASE(char *table_name, DB_CONN*);
     int insert();
     int insert_batch(const char*);
     int update();
@@ -107,7 +107,7 @@ public:
 //
 class DB_BASE_SPECIAL {
 public:
-    DB_BASE_SPECIAL(DB_CONN&);
+    DB_BASE_SPECIAL(DB_CONN*);
 
     DB_CONN* db;
     CURSOR cursor;

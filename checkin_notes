@@ -18025,3 +18025,18 @@ David  4 Oct 2004
         db_base.h
     client/
         cs_scheduler.C
+
+David  4 Oct 2004
+    - changed DB code to allow for the use of read-only DB replicas
+        Here's what you can do now:
+
+        DB_CONN replica;
+        replica.open(name, host, user, passwd);
+        DB_USER user(replica);
+        user.enumerate(...)
+
+        ... and this can be intermixed with access to the master DB (boinc_db).
+
+    db/
+        boinc_db.C,h
+        db_base.C,h

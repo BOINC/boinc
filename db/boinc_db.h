@@ -466,7 +466,7 @@ struct TRANSITIONER_ITEM {
 
 class DB_PLATFORM : public DB_BASE, public PLATFORM {
 public:
-    DB_PLATFORM();
+    DB_PLATFORM(DB_CONN* p=0);
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
@@ -474,7 +474,7 @@ public:
 
 class DB_CORE_VERSION : public DB_BASE, public CORE_VERSION {
 public:
-    DB_CORE_VERSION();
+    DB_CORE_VERSION(DB_CONN* p=0);
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
@@ -482,7 +482,7 @@ public:
 
 class DB_APP : public DB_BASE, public APP {
 public:
-    DB_APP();
+    DB_APP(DB_CONN* p=0);
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
@@ -490,7 +490,7 @@ public:
 
 class DB_APP_VERSION : public DB_BASE, public APP_VERSION {
 public:
-    DB_APP_VERSION();
+    DB_APP_VERSION(DB_CONN* p=0);
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
@@ -498,7 +498,7 @@ public:
 
 class DB_USER : public DB_BASE, public USER {
 public:
-    DB_USER();
+    DB_USER(DB_CONN* p=0);
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
@@ -507,7 +507,7 @@ public:
 
 class DB_TEAM : public DB_BASE, public TEAM {
 public:
-    DB_TEAM();
+    DB_TEAM(DB_CONN* p=0);
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
@@ -515,7 +515,7 @@ public:
 
 class DB_HOST : public DB_BASE, public HOST {
 public:
-    DB_HOST();
+    DB_HOST(DB_CONN* p=0);
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
@@ -524,7 +524,7 @@ public:
 
 class DB_RESULT : public DB_BASE, public RESULT {
 public:
-    DB_RESULT();
+    DB_RESULT(DB_CONN* p=0);
     int get_id();
     int update_subset();
     void db_print(char*);
@@ -535,7 +535,7 @@ public:
 
 class DB_WORKUNIT : public DB_BASE, public WORKUNIT {
 public:
-    DB_WORKUNIT();
+    DB_WORKUNIT(DB_CONN* p=0);
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
@@ -544,7 +544,7 @@ public:
 
 class DB_MSG_FROM_HOST : public DB_BASE, public MSG_FROM_HOST {
 public:
-    DB_MSG_FROM_HOST();
+    DB_MSG_FROM_HOST(DB_CONN* p=0);
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
@@ -552,7 +552,7 @@ public:
 
 class DB_MSG_TO_HOST : public DB_BASE, public MSG_TO_HOST {
 public:
-    DB_MSG_TO_HOST();
+    DB_MSG_TO_HOST(DB_CONN* p=0);
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
@@ -563,7 +563,7 @@ public:
 //
 class DB_TRANSITIONER_ITEM_SET : public DB_BASE_SPECIAL {
 public:
-    DB_TRANSITIONER_ITEM_SET();
+    DB_TRANSITIONER_ITEM_SET(DB_CONN* p=0);
     TRANSITIONER_ITEM last_item;
     int nitems_this_query;
 
@@ -586,7 +586,7 @@ struct WORK_ITEM {
 
 class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
 public:
-    DB_WORK_ITEM();
+    DB_WORK_ITEM(DB_CONN* p=0);
     // CURSOR cursor;
     int enumerate(int limit);
         // used by feeder
@@ -623,7 +623,7 @@ struct SCHED_RESULT_ITEM {
 
 class DB_SCHED_RESULT_ITEM_SET : public DB_BASE_SPECIAL {
 public:
-    DB_SCHED_RESULT_ITEM_SET();
+    DB_SCHED_RESULT_ITEM_SET(DB_CONN* p=0);
     std::vector<SCHED_RESULT_ITEM> results;
 
     int add_result(char* result_name);

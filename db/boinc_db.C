@@ -60,20 +60,34 @@ void MSG_TO_HOST::clear() {memset(this, 0, sizeof(*this));}
 void TRANSITIONER_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void SCHED_RESULT_ITEM::clear() {memset(this, 0, sizeof(*this));}
 
-DB_PLATFORM::DB_PLATFORM() : DB_BASE(boinc_db, "platform"){}
-DB_CORE_VERSION::DB_CORE_VERSION() : DB_BASE(boinc_db, "core_version"){}
-DB_APP::DB_APP() : DB_BASE(boinc_db, "app"){}
-DB_APP_VERSION::DB_APP_VERSION() : DB_BASE(boinc_db, "app_version"){}
-DB_USER::DB_USER() : DB_BASE(boinc_db, "user"){}
-DB_TEAM::DB_TEAM() : DB_BASE(boinc_db, "team"){}
-DB_HOST::DB_HOST() : DB_BASE(boinc_db, "host"){}
-DB_WORKUNIT::DB_WORKUNIT() : DB_BASE(boinc_db, "workunit"){}
-DB_RESULT::DB_RESULT() : DB_BASE(boinc_db, "result"){}
-DB_MSG_FROM_HOST::DB_MSG_FROM_HOST() : DB_BASE(boinc_db, "msg_from_host"){}
-DB_MSG_TO_HOST::DB_MSG_TO_HOST() : DB_BASE(boinc_db, "msg_to_host"){}
-DB_TRANSITIONER_ITEM_SET::DB_TRANSITIONER_ITEM_SET() : DB_BASE_SPECIAL(boinc_db){}
-DB_WORK_ITEM::DB_WORK_ITEM() : DB_BASE_SPECIAL(boinc_db){}
-DB_SCHED_RESULT_ITEM_SET::DB_SCHED_RESULT_ITEM_SET() : DB_BASE_SPECIAL(boinc_db){}
+DB_PLATFORM::DB_PLATFORM(DB_CONN* dc) :
+    DB_BASE("platform", dc?dc:&boinc_db){}
+DB_CORE_VERSION::DB_CORE_VERSION(DB_CONN* dc) :
+    DB_BASE("core_version", dc?dc:&boinc_db){}
+DB_APP::DB_APP(DB_CONN* dc) :
+    DB_BASE("app", dc?dc:&boinc_db){}
+DB_APP_VERSION::DB_APP_VERSION(DB_CONN* dc) :
+    DB_BASE("app_version", dc?dc:&boinc_db){}
+DB_USER::DB_USER(DB_CONN* dc) :
+    DB_BASE("user", dc?dc:&boinc_db){}
+DB_TEAM::DB_TEAM(DB_CONN* dc) :
+    DB_BASE("team", dc?dc:&boinc_db){}
+DB_HOST::DB_HOST(DB_CONN* dc) :
+    DB_BASE("host", dc?dc:&boinc_db){}
+DB_WORKUNIT::DB_WORKUNIT(DB_CONN* dc) :
+    DB_BASE("workunit", dc?dc:&boinc_db){}
+DB_RESULT::DB_RESULT(DB_CONN* dc) :
+    DB_BASE("result", dc?dc:&boinc_db){}
+DB_MSG_FROM_HOST::DB_MSG_FROM_HOST(DB_CONN* dc) :
+    DB_BASE("msg_from_host", dc?dc:&boinc_db){}
+DB_MSG_TO_HOST::DB_MSG_TO_HOST(DB_CONN* dc) :
+    DB_BASE("msg_to_host", dc?dc:&boinc_db){}
+DB_TRANSITIONER_ITEM_SET::DB_TRANSITIONER_ITEM_SET(DB_CONN* dc) :
+    DB_BASE_SPECIAL(dc?dc:&boinc_db){}
+DB_WORK_ITEM::DB_WORK_ITEM(DB_CONN* dc) :
+    DB_BASE_SPECIAL(dc?dc:&boinc_db){}
+DB_SCHED_RESULT_ITEM_SET::DB_SCHED_RESULT_ITEM_SET(DB_CONN* dc) :
+    DB_BASE_SPECIAL(dc?dc:&boinc_db){}
 
 int DB_PLATFORM::get_id() {return id;}
 int DB_CORE_VERSION::get_id() {return id;}
