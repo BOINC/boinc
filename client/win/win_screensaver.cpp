@@ -24,7 +24,7 @@ enum TScrMode {smNone,smConfig,smPassword,smPreview,smSaver};
 
 int WINAPI WinMain(HINSTANCE h,HINSTANCE,LPSTR,int)
 {
-	int BOINC_GFX_MODE_MSG;
+	int BOINC_SS_START_MSG;
 	UINT oldval;
 	TScrMode ScrMode=smNone;
 
@@ -54,9 +54,9 @@ int WINAPI WinMain(HINSTANCE h,HINSTANCE,LPSTR,int)
 	//if (ScrMode==smSaver)
 		SystemParametersInfo(SPI_SCREENSAVERRUNNING,1,&oldval,0);
 
-	BOINC_GFX_MODE_MSG = RegisterWindowMessage( "BOINC_GFX_MODE" );
+	BOINC_SS_START_MSG = RegisterWindowMessage( "BOINC_SS_START" );
 
-	PostMessage(HWND_BROADCAST, BOINC_GFX_MODE_MSG, 0, 0);
+	PostMessage(HWND_BROADCAST, BOINC_SS_START_MSG, 0, 0);
 
 	// Unset the system screensaver flag
 	//if (ScrMode==smSaver)

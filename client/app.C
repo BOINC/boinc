@@ -286,7 +286,7 @@ int ACTIVE_TASK::start(bool first_time) {
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
     char slotdirpath[256];
-	char cmd_line[512];
+    char cmd_line[512];
 
     memset( &process_info, 0, sizeof( process_info ) );
     memset( &startup_info, 0, sizeof( startup_info ) );
@@ -296,7 +296,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     // NOTE: in Windows, stderr is redirected within boinc_init();
 
-	sprintf( cmd_line, "%s %s", exec_path, wup->command_line );
+    sprintf( cmd_line, "%s %s", exec_path, wup->command_line );
     // Need to condense argv into a single string
     //if (log_flags.task_debug) print_argv(argv);
     //
@@ -313,22 +313,22 @@ int ACTIVE_TASK::start(bool first_time) {
         &process_info
     )) {
         state = GetLastError();
-		char *errorargs[] = {app_version->app_name,"","","",""};
-		LPVOID lpMsgBuf;
-		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM,
-			NULL, state, 0, (LPTSTR)&lpMsgBuf, 0, errorargs);
+        char *errorargs[] = {app_version->app_name,"","","",""};
+        LPVOID lpMsgBuf;
+        FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM,
+            NULL, state, 0, (LPTSTR)&lpMsgBuf, 0, errorargs);
 
-		// check for an error; if there is one, set error information for the currect result
-		if(state) {
-			gstate.report_project_error(*result, state, (LPTSTR)&lpMsgBuf);
-			LocalFree(lpMsgBuf);
-			return -1;
-		}
+        // check for an error; if there is one, set error information for the currect result
+        if(state) {
+            gstate.report_project_error(*result, state, (LPTSTR)&lpMsgBuf);
+            LocalFree(lpMsgBuf);
+            return -1;
+        }
         fprintf(stdout, "CreateProcess: %s\n", (LPCTSTR)lpMsgBuf);
-		LocalFree(lpMsgBuf);
+        LocalFree(lpMsgBuf);
     }
     pid_handle = process_info.hProcess;
-	thread_handle = process_info.hThread;
+    thread_handle = process_info.hThread;
 
 #endif
 
@@ -341,20 +341,26 @@ int ACTIVE_TASK::start(bool first_time) {
 //
 void ACTIVE_TASK::request_exit(int seconds) {
     int retval;
+    char susp_file[256];
     if(seconds<0) {
         fprintf(stderr, "error: ACTIVE_TASK.request_exit: negative seconds\n");
         seconds=0;
     }
+
+    get_slot_dir(slot, slot_dir);
+    sprintf( susp_file, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE );
+    FILE *fp = fopen( susp_file, "w" );
+    write_suspend_quit_file( fp, false, true );
+    fclose(fp);
+
+	// We shouldn't sleep the full amount if the process successfully quits
+    boinc_sleep(seconds);
 #if HAVE_SIGNAL_H
 #if HAVE_SYS_TYPES_H
-    retval = kill(pid, SIGTERM);
-    boinc_sleep(seconds);
     while(retval) retval=kill(pid, SIGKILL);
 #endif
 #endif
 #ifdef _WIN32
-    retval = TerminateProcess(pid_handle, -1);//exit codes should be changed
-    boinc_sleep(seconds);
     while(retval) retval=TerminateProcess(pid_handle, -1);
 #endif
 }
@@ -411,8 +417,8 @@ bool ACTIVE_TASK_SET::poll() {
                 atp->state = PROCESS_EXITED;
                 atp->exit_status = exit_code;
                 atp->result->exit_status = atp->exit_status;
-				CloseHandle(atp->pid_handle);
-				CloseHandle(atp->thread_handle);
+                CloseHandle(atp->pid_handle);
+                CloseHandle(atp->thread_handle);
             }
         }
     }
@@ -513,7 +519,7 @@ void ACTIVE_TASK_SET::exit_tasks() {
     ACTIVE_TASK *atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        atp->request_exit(0);
+        atp->request_exit(1);		// Give it 1 second to quit
         atp->check_app_status_files();
     }
 }
@@ -522,15 +528,25 @@ void ACTIVE_TASK_SET::exit_tasks() {
 // Send a suspend request to the ACTIVE_TASK
 //
 void ACTIVE_TASK::suspend() {
-    // figure out a way to do this, perhaps via trigger file?
-    //kill(atp->pid, SIGSTOP);
+    char susp_file[256];
+
+    get_slot_dir(slot, slot_dir);
+    sprintf( susp_file, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE );
+    FILE *fp = fopen( susp_file, "w" );
+    write_suspend_quit_file( fp, true, false );
+    fclose(fp);
 }
 
 // Send a resume request to the ACTIVE_TASK
 //
 void ACTIVE_TASK::unsuspend() {
-    // figure out a way to do this, perhaps via trigger file?
-    //kill(atp->pid, SIGCONT);
+    char susp_file[256];
+
+    get_slot_dir(slot, slot_dir);
+    sprintf( susp_file, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE );
+    FILE *fp = fopen( susp_file, "w" );
+    write_suspend_quit_file( fp, false, false );
+    fclose(fp);
 }
 #else
 // Send a suspend request to the ACTIVE_TASK

@@ -51,3 +51,5 @@
 // Error creating a thread
 #define ERR_THREAD          -123
 #define ERR_SIGNAL_CATCH    -124
+// The app exited due to user request and should be restarted later
+#define ERR_QUIT_REQUEST    -125

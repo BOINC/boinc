@@ -314,12 +314,12 @@ int boinc_checkpoint_completed() {
     // If it's time to quit, call boinc_finish which will
     // exit the app properly
     if (time_to_quit) {
-        boinc_finish(0);
+        boinc_finish(ERR_QUIT_REQUEST);
     }
     // If we're in a suspended state, sleep until instructed otherwise
     while (time_to_suspend) {
         if (time_to_quit) {
-            boinc_finish(0);
+            boinc_finish(ERR_QUIT_REQUEST);
         }
         boinc_sleep(1);  // Should this be a smaller value?
     }
