@@ -409,12 +409,14 @@ int CLIENT_STATE::compute_work_requests() {
         //
         if (estimated_time_to_starvation < work_min_period) {
             if (estimated_time_to_starvation == 0) {
-                msg_printf(p, MSG_INFO, "is starved");
+                //msg_printf(p, MSG_INFO, "is starved");
                 urgency = NEED_WORK_IMMEDIATELY;
             } else {
+#if 0
                 msg_printf(p, MSG_INFO, "will starve in %.2f sec",
                     estimated_time_to_starvation
                 );
+#endif
                 urgency = max(NEED_WORK, urgency);
             }
         }

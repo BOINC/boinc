@@ -2143,7 +2143,7 @@ void CMainWindow::OnTimer(UINT uEventID) {
         KillTimer(m_nGuiTimerID);
 
         // update state and gui
-        while(gstate.do_something());
+        while(gstate.do_something(dtime()));
         NetCheck(); // check if network connection can be terminated
 
         // TODO: check this after writing a message, not here!!!

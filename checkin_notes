@@ -18415,6 +18415,8 @@ David  14 Oct 2004
         net_xfer.C,h
         scheduler_op.C
         time_stats.h
+		win/
+			wingui_mainwindow.cpp
     lib/
         app_ipc.C,h
         makefile.gui_test
