@@ -36,18 +36,22 @@ echo "
     </ul>
     </p>
 ";
-$result = mysql_query("select * from app");
+
+$result = mysql_query("select id, name from app");
 while ($app = mysql_fetch_object($result)) {
     echo "<br>Result summary for $app->name:
         <ul>
         <li><a href=result_summary.php?appid=$app->id&nsecs=86400>last 24 hours</a>
+        <li><a href=pass_percentage_by_platform.php?appid=$app->id&nsecs=86400>last 24 hours - pass percentage by platform</a>
         <li><a href=failure_result_summary_by_platform.php?appid=$app->id&nsecs=86400>last 24 hours - failure by platform</a>
         <li><a href=result_summary.php?appid=$app->id&nsecs=604800>last week</a>
-        <li><a href=failure_result_summary_by_platform.php?appid=$app->id&nsecs=604800>last week - failure by platform</a>
+        <li><a href=failure_result_summary_by_platform.php?appid=$app->id&nsecs=604800>last week - pass percentage by platform</a>
+        <li><a href=pass_percentage_by_platform.php?appid=$app->id&nsecs=604800>last week - failure by platform</a>
         </ul>
     ";
 }
 mysql_free_result($result);
+
 echo "
     <a href=$stripchart_cgi_url/stripchart.cgi>Stripcharts</a>
     | <a href=show_log.php>Show/Grep all logs</a>

@@ -12121,3 +12121,20 @@ Rom    May 5 2004
 
     client/
         main.C
+
+Rom    May 6 2004
+    - Add a new report called pass percentage by platform which will allow us
+      to continue monitoring the pass percentages for the latest release of
+      each app version per platform.
+
+      NOTE: The query isn't smart enough yet to exclude invalid platform to
+            version combinations.  For instance currently Linux is on version
+            302 and Windows is on 301, but the report will still show results
+            for Linux 301
+
+    html/inc/
+        db_ops.inc
+    html/ops/
+        failure_result_summary_by_platform.php
+        index.php
+        pass_percentage_by_platform.php
