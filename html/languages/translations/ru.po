@@ -197,7 +197,7 @@ msgstr "и нажмите"
 
 
 #########################################
-# Account setup page (account_setuo.php)
+# Account setup page (account_setup.php)
 #########################################
 #also used in account_setup_nonfirst.php:
 msgid "AC_SETUP_TITLE"
@@ -221,6 +221,7 @@ msgstr "Нет - к данному моменту я учавствую как минимум в одном BOINC-проекте"
 
 #########################################
 # First Account setup page (account_setuo_first.php)
+# and (account_setup_nonfirst_done.php)
 #########################################
 msgid "AC_FIRST_TITLE"
 msgstr "Настройки Учетной Записи"
@@ -231,6 +232,33 @@ msgstr "Вы можете управлять когда и как Ваш компьютер будет использоваться проек
 msgid "AC_FIRST_DEFAULT"
 msgstr "Чтобы настройки по умолчанию, перейдите в конец стриницы и нажните OK."
 
+msgid "AC_DONE_TITLE"
+msgstr "Настройки Учетной Записи: Завершено"
+
+msgid "AC_DONE_COMPLETE"
+msgstr "Настройка Вашей учетной записи завершена."
+
+msgid "AC_DONE_BOINC"
+msgstr "Далее вы должны скачать и установить BOINC и настроить Ваш(и) компьютер(ы) "
+"для использования этой учетной записи."
+
+msgid "AC_DONE_URL"
+msgstr "Когда BOINC запускается впервые, он запросит у Вас <b>Project URL</b> и "
+"<b>Account key</b>."
+
+msgid "AC_DONE_COPYPASTE"
+msgstr "Скопируйте и вставите их от сюда:"
+
+msgid "AC_DONE_GETDOWNLOAD"
+msgstr "Сейчас Вы можете %s, чтобы завершить установку проекта $PROJECT."
+
+msgid "AC_DONE_DL_BOINC"	
+msgstr "загрузить BOINC"	
+
+msgid "AC_DONE_THANKS"	
+msgstr "Спасибо за участие в $PROJECT"
+
+
 
 #########################################
 # Non-first Account setup page (account_setup_nonfirst.php)
@@ -238,12 +266,30 @@ msgstr "Чтобы настройки по умолчанию, перейдите в конец стриницы и нажните OK."
 msgid "AC_NONFIRST_TITLE"
 msgstr "Настройки Учетной Записи: Разделение Ресурсов"
 
+msgid "AC_DONE_MUST_USE"
+msgstr "Далее вы должны настроить Ваш(и) компьютер(ы) для использования этой учетной записи."
 
-msgid ""
-msgstr ""
+msgid "AC_DONE_WIN"
+msgstr "Пользователи Windows:"
 
-msgid ""
-msgstr ""
+msgid "AC_DONE_WIN_TEXT"
+msgstr "Откройте окно приложения BOINC двойным щелчком мыши на иконке BOINC в панели задач. "
+"Выберите элемент 'Attach to Project' в меню Settings. BOINC попросит Вас ввести URL проекта (project URL) "
+"и ключ учетной записи (account key)."
+
+msgid "AC_DONE_UNIX"
+msgstr "Mac, Unix и Linux пользователи:"
+
+msgid "AC_DONE_UNIX_TEXT"
+msgstr "Закройте клиент BOINC. Запустите BOINC с опцией -attach_project. "
+"BOINC попросит Вас ввести URL проекта (project URL) и ключ учетной записи (account key)."
+
+msgid "AC_DONE_ANYCASE"
+msgstr "В обоих случаях скопируйте и свтавьте следующее:"
+
+msgid "AC_DONE_INSTALLED"
+msgstr "Это заветшит установку $PROJECT."
+
 
 
 #########################################
