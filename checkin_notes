@@ -4829,3 +4829,9 @@ David  June 18 2003
         file_upload_handler.C
         handle_request.C
         server_types.C,h
+
+David  June 18 2003
+    - upload: if exceed size limit, read and discard rest of request
+
+    sched/
+        file_upload_handler.C
