@@ -51,8 +51,6 @@ protected:
     wxString m_strMessage;
 };
 
-WX_DECLARE_OBJARRAY( CMessage, CMessageCache );
-
 
 class CViewMessages : public CBOINCBaseView
 {
@@ -78,7 +76,7 @@ protected:
     wxListItemAttr*         m_pMessageInfoAttr;
     wxListItemAttr*         m_pMessageErrorAttr;
 
-	CMessageCache           m_MessageCache;
+    std::vector<CMessage*>  m_MessageCache;
 
     virtual wxInt32         GetDocCount();
 

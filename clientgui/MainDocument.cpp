@@ -253,13 +253,14 @@ wxInt32 CMainDocument::GetActivityRunMode( wxInt32& iMode )
     {
         m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
 
-        iRetVal = rpc.get_run_mode( iMode );
-        if ( 0 == iRetVal )
+        if ( IsConnected() )
         {
-            m_iCachedActivityRunMode = iMode;
+            iRetVal = rpc.get_run_mode( iMode );
+            if ( 0 == iRetVal )
+            {
+                m_iCachedActivityRunMode = iMode;
+            }
         }
-        else
-            Connect( strEmpty );
     }
     else
     {
@@ -275,15 +276,15 @@ wxInt32 CMainDocument::SetActivityRunMode( wxInt32 iMode )
     wxInt32     iRetVal = 0;
     wxString    strEmpty = wxEmptyString;
 
-    iRetVal = rpc.set_run_mode( iMode );
-    if ( 0 == iRetVal )
+    if ( IsConnected() )
     {
-        m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
-        m_iCachedActivityRunMode = iMode;
+        iRetVal = rpc.set_run_mode( iMode );
+        if ( 0 == iRetVal )
+        {
+            m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
+            m_iCachedActivityRunMode = iMode;
+        }
     }
-    else
-        Connect( strEmpty );
-
 
     return iRetVal;
 }
@@ -299,13 +300,14 @@ wxInt32 CMainDocument::GetNetworkRunMode( wxInt32& iMode )
     {
         m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
 
-        iRetVal = rpc.get_network_mode( iMode );
-        if ( 0 == iRetVal )
+        if ( IsConnected() )
         {
-            m_iCachedNetworkRunMode = iMode;
+            iRetVal = rpc.get_network_mode( iMode );
+            if ( 0 == iRetVal )
+            {
+                m_iCachedNetworkRunMode = iMode;
+            }
         }
-        else
-            Connect( strEmpty );
     }
     else
     {
@@ -321,14 +323,15 @@ wxInt32 CMainDocument::SetNetworkRunMode( wxInt32 iMode )
     wxInt32     iRetVal = 0;
     wxString    strEmpty = wxEmptyString;
 
-    iRetVal = rpc.set_network_mode( iMode );
-    if ( 0 == iRetVal )
+    if ( IsConnected() )
     {
-        m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
-        m_iCachedNetworkRunMode = iMode;
+        iRetVal = rpc.set_network_mode( iMode );
+        if ( 0 == iRetVal )
+        {
+            m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
+            m_iCachedNetworkRunMode = iMode;
+        }
     }
-    else
-        Connect( strEmpty );
 
     return iRetVal;
 }

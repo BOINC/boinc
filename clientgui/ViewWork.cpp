@@ -29,8 +29,6 @@
 #include "ViewWork.h"
 #include "Events.h"
 
-#include "wx/arrimpl.cpp" 
-
 
 #include "res/result.xpm"
 #include "res/task.xpm"
@@ -45,9 +43,6 @@
 #define COLUMN_TOCOMPLETETION       5
 #define COLUMN_REPORTDEADLINE       6
 #define COLUMN_STATUS               7
-
-
-WX_DEFINE_OBJARRAY( CWorkCache );
 
 
 CWork::CWork()
@@ -306,34 +301,34 @@ wxInt32 CViewWork::GetDocCount()
 
 wxString CViewWork::OnListGetItemText( long item, long column ) const
 {
-    CWork&    work      = m_WorkCache.Item( item );
+    CWork*    work      = m_WorkCache.at( item );
     wxString  strBuffer = wxEmptyString;
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            work.GetProjectName( strBuffer );
+            work->GetProjectName( strBuffer );
             break;
         case COLUMN_APPLICATION:
-            work.GetApplicationName( strBuffer );
+            work->GetApplicationName( strBuffer );
             break;
         case COLUMN_NAME:
-            work.GetName( strBuffer );
+            work->GetName( strBuffer );
             break;
         case COLUMN_CPUTIME:
-            work.GetCPUTime( strBuffer );
+            work->GetCPUTime( strBuffer );
             break;
         case COLUMN_PROGRESS:
-            work.GetProgress( strBuffer );
+            work->GetProgress( strBuffer );
             break;
         case COLUMN_TOCOMPLETETION:
-            work.GetTimeToCompletion( strBuffer );
+            work->GetTimeToCompletion( strBuffer );
             break;
         case COLUMN_REPORTDEADLINE:
-            work.GetReportDeadline( strBuffer );
+            work->GetReportDeadline( strBuffer );
             break;
         case COLUMN_STATUS:
-            work.GetStatus( strBuffer );
+            work->GetStatus( strBuffer );
             break;
     }
 
@@ -517,7 +512,7 @@ wxInt32 CViewWork::AddCacheElement()
     wxASSERT( NULL != pItem );
     if ( NULL != pItem )
     {
-        m_WorkCache.Add( pItem );
+        m_WorkCache.push_back( pItem );
         return 0;
     }
     return -1;
@@ -526,53 +521,53 @@ wxInt32 CViewWork::AddCacheElement()
 
 wxInt32 CViewWork::EmptyCache()
 {
-    m_WorkCache.Empty();
+    m_WorkCache.clear();
     return 0;
 }
 
 
 wxInt32 CViewWork::GetCacheCount()
 {
-    return m_WorkCache.GetCount();
+    return m_WorkCache.size();
 }
 
 
 wxInt32 CViewWork::RemoveCacheElement()
 {
-    m_WorkCache.RemoveAt( m_WorkCache.GetCount() - 1 );
+    m_WorkCache.erase( m_WorkCache.end() );
     return 0;
 }
 
 
 wxInt32 CViewWork::UpdateCache( long item, long column, wxString& strNewData )
 {
-    CWork& work   = m_WorkCache.Item( item );
+    CWork* work   = m_WorkCache.at( item );
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            work.SetProjectName( strNewData );
+            work->SetProjectName( strNewData );
             break;
         case COLUMN_APPLICATION:
-            work.SetApplicationName( strNewData );
+            work->SetApplicationName( strNewData );
             break;
         case COLUMN_NAME:
-            work.SetName( strNewData );
+            work->SetName( strNewData );
             break;
         case COLUMN_CPUTIME:
-            work.SetCPUTime( strNewData );
+            work->SetCPUTime( strNewData );
             break;
         case COLUMN_PROGRESS:
-            work.SetProgress( strNewData );
+            work->SetProgress( strNewData );
             break;
         case COLUMN_TOCOMPLETETION:
-            work.SetTimeToCompletion( strNewData );
+            work->SetTimeToCompletion( strNewData );
             break;
         case COLUMN_REPORTDEADLINE:
-            work.SetReportDeadline( strNewData );
+            work->SetReportDeadline( strNewData );
             break;
         case COLUMN_STATUS:
-            work.SetStatus( strNewData );
+            work->SetStatus( strNewData );
             break;
     }
 

@@ -215,6 +215,7 @@ void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
                         iReturnValue = AddCacheElement();
                         wxASSERT( 0 == iReturnValue );
                     }
+                    wxASSERT( GetDocCount() == GetCacheCount() );
                 }
                 else
                 {
@@ -223,17 +224,18 @@ void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
                         iReturnValue = RemoveCacheElement();
                         wxASSERT( 0 == iReturnValue );
                     }
+                    wxASSERT( GetDocCount() == GetCacheCount() );
                 }
 
                 m_pListPane->SetItemCount( iDocCount );
             }
         }
 
-        if ( iCacheCount )
+        if ( iDocCount )
             SyncronizeCache();
 
-        if ( EnsureLastItemVisible() )
-            m_pListPane->EnsureVisible( iDocCount );
+        if ( _EnsureLastItemVisible() && ( iDocCount != iCacheCount ) )
+            m_pListPane->EnsureVisible( iDocCount - 1 );
 
         m_bProcessingListRenderEvent = false;
     }
@@ -445,6 +447,12 @@ wxInt32 CBOINCBaseView::SyncronizeCache()
 wxInt32 CBOINCBaseView::UpdateCache( long WXUNUSED(item), long WXUNUSED(column), wxString& WXUNUSED(strNewData) )
 {
     return -1;
+}
+
+
+bool CBOINCBaseView::_EnsureLastItemVisible()
+{
+    return EnsureLastItemVisible();
 }
 
 

@@ -29,8 +29,6 @@
 #include "ViewResources.h"
 #include "Events.h"
 
-#include "wx/arrimpl.cpp" 
-
 
 #include "res/usage.xpm"
 #include "res/task.xpm"
@@ -39,9 +37,6 @@
 
 #define COLUMN_PROJECT              0
 #define COLUMN_DISKSPACE            1
-
-
-WX_DEFINE_OBJARRAY( CResourceCache );
 
 
 CResource::CResource()
@@ -177,16 +172,16 @@ wxInt32 CViewResources::GetDocCount()
 
 wxString CViewResources::OnListGetItemText( long item, long column ) const
 {
-    CResource& resource   = m_ResourceCache.Item( item );
+    CResource* resource   = m_ResourceCache.at( item );
     wxString   strBuffer  = wxEmptyString;
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            resource.GetProjectName( strBuffer );
+            resource->GetProjectName( strBuffer );
             break;
         case COLUMN_DISKSPACE:
-            resource.GetDiskSpace( strBuffer );
+            resource->GetDiskSpace( strBuffer );
             break;
     }
 
@@ -268,7 +263,7 @@ wxInt32 CViewResources::AddCacheElement()
     wxASSERT( NULL != pItem );
     if ( NULL != pItem )
     {
-        m_ResourceCache.Add( pItem );
+        m_ResourceCache.push_back( pItem );
         return 0;
     }
     return -1;
@@ -277,35 +272,35 @@ wxInt32 CViewResources::AddCacheElement()
 
 wxInt32 CViewResources::EmptyCache()
 {
-    m_ResourceCache.Empty();
+    m_ResourceCache.clear();
     return 0;
 }
 
 
 wxInt32 CViewResources::GetCacheCount()
 {
-    return m_ResourceCache.GetCount();
+    return m_ResourceCache.size();
 }
 
 
 wxInt32 CViewResources::RemoveCacheElement()
 {
-    m_ResourceCache.RemoveAt( m_ResourceCache.GetCount() - 1 );
+    m_ResourceCache.erase( m_ResourceCache.end() );
     return 0;
 }
 
 
 wxInt32 CViewResources::UpdateCache( long item, long column, wxString& strNewData )
 {
-    CResource& resource   = m_ResourceCache.Item( item );
+    CResource* resource   = m_ResourceCache.at( item );
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            resource.SetProjectName( strNewData );
+            resource->SetProjectName( strNewData );
             break;
         case COLUMN_DISKSPACE:
-            resource.SetDiskSpace( strNewData );
+            resource->SetDiskSpace( strNewData );
             break;
     }
 

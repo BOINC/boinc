@@ -60,8 +60,6 @@ protected:
     wxString m_strStatus;
 };
 
-WX_DECLARE_OBJARRAY( CTransfer, CTransferCache );
-
 
 class CViewTransfers : public CBOINCBaseView
 {
@@ -86,7 +84,7 @@ protected:
 
     bool                    m_bItemSelected;
 
-	CTransferCache          m_TransferCache;
+    std::vector<CTransfer*> m_TransferCache;
 
     virtual wxInt32         GetDocCount();
 

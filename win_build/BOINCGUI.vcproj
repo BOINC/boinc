@@ -476,9 +476,6 @@
 			<File
 				RelativePath="..\clientgui\ViewWork.h">
 			</File>
-			<File
-				RelativePath="..\client\win\win_config.h">
-			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

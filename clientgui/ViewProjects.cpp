@@ -30,8 +30,6 @@
 #include "DlgAttachProject.h"
 #include "Events.h"
 
-#include "wx/arrimpl.cpp" 
-
 
 #include "res/boinc.xpm"
 #include "res/proj.xpm"
@@ -47,9 +45,6 @@
 #define COLUMN_AVGCREDIT            4
 #define COLUMN_RESOURCESHARE        5
 #define COLUMN_STATUS               6
-
-
-WX_DEFINE_OBJARRAY( CProjectCache );
 
 
 CProject::CProject()
@@ -332,31 +327,31 @@ wxInt32 CViewProjects::GetDocCount()
 
 wxString CViewProjects::OnListGetItemText(long item, long column) const 
 {
-    CProject& project     = m_ProjectCache.Item( item );
+    CProject* project     = m_ProjectCache.at( item );
     wxString  strBuffer   = wxEmptyString;
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            project.GetProjectName( strBuffer );
+            project->GetProjectName( strBuffer );
             break;
         case COLUMN_ACCOUNTNAME:
-            project.GetAccountName( strBuffer );
+            project->GetAccountName( strBuffer );
             break;
         case COLUMN_TEAMNAME:
-            project.GetTeamName( strBuffer );
+            project->GetTeamName( strBuffer );
             break;
         case COLUMN_TOTALCREDIT:
-            project.GetTotalCredit( strBuffer );
+            project->GetTotalCredit( strBuffer );
             break;
         case COLUMN_AVGCREDIT:
-            project.GetAVGCredit( strBuffer );
+            project->GetAVGCredit( strBuffer );
             break;
         case COLUMN_RESOURCESHARE:
-            project.GetResourceShare( strBuffer );
+            project->GetResourceShare( strBuffer );
             break;
         case COLUMN_STATUS:
-            project.GetStatus( strBuffer );
+            project->GetStatus( strBuffer );
             break;
     }
 
@@ -604,7 +599,7 @@ wxInt32 CViewProjects::AddCacheElement()
     wxASSERT( NULL != pItem );
     if ( NULL != pItem )
     {
-        m_ProjectCache.Add( pItem );
+        m_ProjectCache.push_back( pItem );
         return 0;
     }
     return -1;
@@ -613,50 +608,54 @@ wxInt32 CViewProjects::AddCacheElement()
 
 wxInt32 CViewProjects::EmptyCache()
 {
-    m_ProjectCache.Empty();
+    unsigned int i;
+    for (i=0; i<m_ProjectCache.size(); i++) {
+        delete m_ProjectCache[i];
+    }
+    m_ProjectCache.clear();
     return 0;
 }
 
 
 wxInt32 CViewProjects::GetCacheCount()
 {
-    return m_ProjectCache.GetCount();
+    return m_ProjectCache.size();
 }
 
 
 wxInt32 CViewProjects::RemoveCacheElement()
 {
-    m_ProjectCache.RemoveAt( m_ProjectCache.GetCount() - 1 );
+    m_ProjectCache.erase( m_ProjectCache.end() );
     return 0;
 }
 
 
 wxInt32 CViewProjects::UpdateCache( long item, long column, wxString& strNewData )
 {
-    CProject& project     = m_ProjectCache.Item( item );
+    CProject* project     = m_ProjectCache.at( item );
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            project.SetProjectName( strNewData );
+            project->SetProjectName( strNewData );
             break;
         case COLUMN_ACCOUNTNAME:
-            project.SetAccountName( strNewData );
+            project->SetAccountName( strNewData );
             break;
         case COLUMN_TEAMNAME:
-            project.SetTeamName( strNewData );
+            project->SetTeamName( strNewData );
             break;
         case COLUMN_TOTALCREDIT:
-            project.SetTotalCredit( strNewData );
+            project->SetTotalCredit( strNewData );
             break;
         case COLUMN_AVGCREDIT:
-            project.SetAVGCredit( strNewData );
+            project->SetAVGCredit( strNewData );
             break;
         case COLUMN_RESOURCESHARE:
-            project.SetResourceShare( strNewData );
+            project->SetResourceShare( strNewData );
             break;
         case COLUMN_STATUS:
-            project.SetStatus( strNewData );
+            project->SetStatus( strNewData );
             break;
     }
 

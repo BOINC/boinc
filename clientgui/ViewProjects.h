@@ -60,8 +60,6 @@ protected:
     wxString m_strStatus;
 };
 
-WX_DECLARE_OBJARRAY( CProject, CProjectCache );
-
 
 class CViewProjects : public CBOINCBaseView
 {
@@ -94,7 +92,7 @@ protected:
 
     bool                    m_bItemSelected;
 
-	CProjectCache           m_ProjectCache;
+    std::vector<CProject*>  m_ProjectCache;
 
     virtual wxInt32         GetDocCount();
 

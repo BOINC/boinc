@@ -45,8 +45,6 @@ protected:
     wxString m_strDiskSpace;
 };
 
-WX_DECLARE_OBJARRAY( CResource, CResourceCache );
-
 
 class CViewResources : public CBOINCBaseView
 {
@@ -69,7 +67,7 @@ protected:
 
     bool                    m_bItemSelected;
 
-	CResourceCache          m_ResourceCache;
+    std::vector<CResource*> m_ResourceCache;
 
     virtual wxInt32         GetDocCount();
 

@@ -100,6 +100,7 @@ protected:
     virtual wxInt32         SyncronizeCache();
     virtual wxInt32         UpdateCache( long item, long column, wxString& strNewData );
 
+    bool                    _EnsureLastItemVisible();
     virtual bool            EnsureLastItemVisible();
 
     virtual bool            UpdateQuickTip( const wxString& strCurrentLink, const wxString& strQuickTip, const wxString& strQuickTipText );

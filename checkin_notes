@@ -23407,3 +23407,25 @@ David  28 Jan 2005
 		time_stats.C,h
 		win
 			win_net.cpp,h
+
+Rom    28 Jan 2005
+    - Check to see if we are already connected to the core client before
+      attempting to get the activity state and network state.
+    - Change the dynamic object array for the view caches to a vector for
+      a perf increase, and to cleanup a possible crashing error.
+    - Add aditional asserts in the base view to check for a possible cache
+      inconsistency.
+    - Remove an out of date file from the build list.
+
+    clientgui/
+        BOINCBaseView.cpp, .h
+        MainDocument.cpp
+        ViewMessages.cpp, .h
+        ViewProjects.cpp, .h
+        ViewResources.cpp, .h
+        ViewTransfers.cpp, .h
+        ViewWork.cpp, .h
+    win_build/
+        BOINCGUI.vcproj
+    winbuild/installerv2/
+        BOINC.ism

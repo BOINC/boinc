@@ -45,9 +45,6 @@
 #define PRIORITY_ERROR              2
 
 
-WX_DEFINE_OBJARRAY( CMessageCache );
-
-
 CMessage::CMessage()
 {
 	m_strPriority = wxEmptyString;
@@ -239,19 +236,19 @@ wxInt32 CViewMessages::GetDocCount()
 
 wxString CViewMessages::OnListGetItemText( long item, long column ) const
 {
-    CMessage&       message     = m_MessageCache.Item( item );
+    CMessage*       message     = m_MessageCache.at( item );
     wxString        strBuffer   = wxEmptyString;
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            message.GetProjectName( strBuffer );
+            message->GetProjectName( strBuffer );
             break;
         case COLUMN_TIME:
-            message.GetTime( strBuffer );
+            message->GetTime( strBuffer );
             break;
         case COLUMN_MESSAGE:
-            message.GetMessage( strBuffer );
+            message->GetMessage( strBuffer );
             break;
     }
 
@@ -262,10 +259,10 @@ wxString CViewMessages::OnListGetItemText( long item, long column ) const
 wxListItemAttr* CViewMessages::OnListGetItemAttr( long item ) const
 {
     wxListItemAttr* pAttribute  = NULL;
-    CMessage&       message     = m_MessageCache.Item( item );
+    CMessage*       message     = m_MessageCache.at( item );
     wxString        strBuffer   = wxEmptyString;
 
-    message.GetPriority( strBuffer );
+    message->GetPriority( strBuffer );
 
     if ( wxT("E") == strBuffer )
     {
@@ -392,7 +389,7 @@ wxInt32 CViewMessages::AddCacheElement()
     wxASSERT( NULL != pItem );
     if ( NULL != pItem )
     {
-        m_MessageCache.Add( pItem );
+        m_MessageCache.push_back( pItem );
         return 0;
     }
     return -1;
@@ -406,7 +403,7 @@ wxInt32 CViewMessages::EmptyCache()
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
-    m_MessageCache.Empty();
+    m_MessageCache.clear();
     pDoc->ResetMessageState();
 
     return 0;
@@ -415,37 +412,37 @@ wxInt32 CViewMessages::EmptyCache()
 
 wxInt32 CViewMessages::GetCacheCount()
 {
-    return m_MessageCache.GetCount();
+    return m_MessageCache.size();
 }
 
 
 wxInt32 CViewMessages::RemoveCacheElement()
 {
-    m_MessageCache.RemoveAt( m_MessageCache.GetCount() - 1 );
+    m_MessageCache.erase( m_MessageCache.end() );
     return 0;
 }
 
     
 wxInt32 CViewMessages::UpdateCache( long item, long column, wxString& strNewData )
 {
-    CMessage& message     = m_MessageCache.Item( item );
+    CMessage* message     = m_MessageCache.at( item );
     wxString  strPriority = wxEmptyString;
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            message.SetProjectName( strNewData );
+            message->SetProjectName( strNewData );
             break;
         case COLUMN_TIME:
-            message.SetTime( strNewData );
+            message->SetTime( strNewData );
             break;
         case COLUMN_MESSAGE:
-            message.SetMessage( strNewData );
+            message->SetMessage( strNewData );
             break;
     }
 
     FormatPriority( item, strPriority );
-    message.SetPriority( strPriority );
+    message->SetPriority( strPriority );
 
     return 0;
 }
