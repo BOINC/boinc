@@ -353,7 +353,7 @@ int HOST_INFO::get_host_info() {
             minfo_buf[n] = '\0';
             if ((p = strstr(minfo_buf, "SwapTotal:"))) {
                 p += 10; // move past "SwapTotal:"
-                m_swap = (double) strtoul(p, NULL, 10);
+                m_swap = 1024.*(double) strtoul(p, NULL, 10);
             }
         }
         fclose(fp);
