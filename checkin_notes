@@ -26165,7 +26165,7 @@ Charlie	25 Mar 2005
 BOINC Manager: create BOINC Data directory in "/Library/Application Support/" 
 directory, not in user's "~/Library/Application Support/"
 Set working directory to "BOINC Data" before redirecting stdout and stderr
-Fixed BOINCTRACE compile error when non-debug build on Mac
+Fixed BOINCTRACE compile warning when non-debug build on Mac
 Fixed bug in CTaskBarIcon::OnNetworkSelection
 Implemented Dock popup menu using CTaskBarIcon class
 Implemented System Menubar Icon menu using CMacSystemMenu class derived from 

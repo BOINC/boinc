@@ -148,8 +148,8 @@ extern void boinc_info_release(const char *pszFormat, ...);
 
 #else  // _DEBUG
 
-#define BOINCASSERT         
-#define BOINCTRACE          
+#define BOINCASSERT(expr)         
+#define BOINCTRACE(...)          
 #define BOINCINFO           boinc_info_release
 
 #endif // _DEBUG
