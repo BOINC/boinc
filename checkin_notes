@@ -407,4 +407,13 @@ Eric Heien    June 07, 2002
         gfx_interface.C
         gfx_interface.h
 
+Michael Gary		June 08, 2002
+    - Moved fast cgi Makefile.in to boinc/sched_fcgi
+    - Still need to modify configure to create makefiles for the fast cgi
+	version of the scheduling server
 
+    sched/
+	Makefile.nofcgi.in (removed)
+	Makefile.fcgi.in (removed)
+    sched_fcgi/ (added)
+	Makefile.in (added)
