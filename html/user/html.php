@@ -13,7 +13,9 @@ signatures, etc.:
 <li> &lt;p> (paragraph)
 <li> &lt;br> (break)
 <li> &lt;pre> (preformatted)
-<li> &lt;img> (image; height cannot exceed 450 pixels)
+<li> &lt;img> (image; height cannot exceed 450 pixels.
+Please do not link to images without
+permission of the web site where the image is hosted.)
 </ul>
 ";
 

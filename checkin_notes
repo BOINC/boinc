@@ -20434,3 +20434,15 @@ David  1 Dec 2004
 	lib/
 		util.C,h
 
+David  1 Dec 2004
+    - UOTD screening: only show active users
+    - fix log grep pages
+
+    html/
+        ops/
+            profile_ops.php
+            show_log.php
+        user/
+            html.php
+    sched/
+        validator.C

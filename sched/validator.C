@@ -408,6 +408,7 @@ void handle_wu(
                 //
                 if ((int)results.size() == wu.target_nresults) {
                     wu.target_nresults++;
+                    need_immediate_transition = true;
                 }
             }
         }
