@@ -20,8 +20,9 @@
 // Functions to check the integrity of core client data structures.
 // Not currently used, but might be handy if *0 type crashes occur
 
-#include "windows_cpp.h"
+#include <assert.h>
 
+#include "windows_cpp.h"
 #include "client_state.h"
 
 void CLIENT_STATE::check_project_pointer(PROJECT* p) {
