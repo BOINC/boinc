@@ -23,6 +23,9 @@
 #define CPU_BENCHMARKS_NOT_RUNNING	2	
 #define CPU_BENCHMARKS_ERROR		3
 
+#define BM_TYPE_FP       0
+#define BM_TYPE_INT      1
+
 extern int check_cache_size(int mem_size);
 extern int double_flop_test(
     int iterations, double &flops_per_sec, int print_debug
@@ -40,3 +43,5 @@ extern int destroy_benchmark_timer();
 
 extern void dhrystone(double& dps, double& vax_mips);
 extern void whetstone(double& flops);
+extern void benchmark_wait_to_start(int which);
+extern bool benchmark_time_to_stop(int which);

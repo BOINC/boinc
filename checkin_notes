@@ -12468,3 +12468,18 @@ David  May 21 2004
 		boinc_api.C
     client/
         app.C,h
+
+David  May 21 2004
+	- Core client: attempted to make benchmarks more accurate
+		and reproducible on multiprocessor or HT machines
+		be forcing each phase (floating point, integer)
+		to be more or less concurrent across processors.
+		This is done using trigger files.
+		Each benchmark waits for its trigger file before starting,
+		and stops when the file goes away.
+
+	client/
+		cpu_benchmark.h
+		cs_benchmark.C
+		dhrystone.C
+		whetstone.C

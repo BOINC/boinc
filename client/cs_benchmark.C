@@ -17,6 +17,18 @@
 // Contributor(s):
 //
 
+// Manage a (perhaps multi-processor) benchmark.
+// Because of hyperthreaded CPUs we can't just benchmark 1 CPU;
+// we have to run parallel benchmarks,
+// and we have to ensure that they run more or less concurrently.
+// Here's our scheme:
+// - the main program forks N benchmarks threads or processes
+// - after FP_START seconds it creates a file "do_fp"
+// - after FP_END seconds it deletes do_fp
+// - after INT_START seconds it creates do_int
+// - after INT_END seconds it deletes do_int and starts waiting for processes
+// Each thread/process checks for the relevant file before
+//  starting or stopping each benchmark
 
 #include "cpp.h"
 
@@ -62,6 +74,18 @@
 #define DEFAULT_MEMBW   1e8
 #define DEFAULT_CACHE   1e6
 
+#define FP_START    1
+#define FP_END      5
+#define INT_START   6
+#define INT_END     10
+
+#define BM_INIT     0
+#define BM_FP       1
+#define BM_FP_DONE  2
+#define BM_INT      3
+#define BM_DONE     4
+static int bm_state;
+
 #define BENCHMARK_PERIOD        (SECONDS_PER_DAY*30)
     // rerun CPU benchmarks this often (hardware may have been upgraded)
 
@@ -87,6 +111,33 @@ struct BENCHMARK_DESC {
 static BENCHMARK_DESC* benchmark_descs=0;
 static bool benchmarks_running=false;    // at least 1 benchmark thread running
 static double cpu_benchmarks_start;
+
+char *file_names[2] = {"do_fp", "do_int"};
+
+static void remove_benchmark_file(int which) {
+    boinc_delete_file(file_names[which]);
+}
+
+static void make_benchmark_file(int which) {
+    FILE* f = boinc_fopen(file_names[which], "w");
+    fclose(f);
+}
+
+void benchmark_wait_to_start(int which) {
+    while (1) {
+        if (boinc_file_exists(file_names[which])) {
+            break;
+        }
+        boinc_sleep(0.1);
+    }
+}
+
+bool benchmark_time_to_stop(int which) {
+    if (boinc_file_exists(file_names[which])) {
+        return false;
+    }
+    return true;
+}
 
 // benchmark a single CPU
 // This takes 10-20 seconds,
@@ -140,6 +191,10 @@ void CLIENT_STATE::start_cpu_benchmarks() {
     }
 
 	cpu_benchmarks_start = dtime();
+    bm_state = BM_INIT;
+    remove_benchmark_file(BM_TYPE_FP);
+    remove_benchmark_file(BM_TYPE_INT);
+
 	msg_printf(NULL, MSG_INFO, "Running CPU benchmarks");
     if (!benchmark_descs) {
         benchmark_descs = (BENCHMARK_DESC*)calloc(
@@ -239,9 +294,40 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     int i;
     if (!benchmarks_running) return false;
 
+    double now = dtime();
+
+    // do transitions through benchmark states
+    //
+    switch (bm_state) {
+    case BM_INIT:
+        if (now - cpu_benchmarks_start > FP_START) {
+            make_benchmark_file(BM_TYPE_FP);
+            bm_state = BM_FP;
+        }
+        return false;
+    case BM_FP:
+        if (now - cpu_benchmarks_start > FP_END) {
+            remove_benchmark_file(BM_TYPE_FP);
+            bm_state = BM_FP_DONE;
+        }
+        return false;
+    case BM_FP_DONE:
+        if (now - cpu_benchmarks_start > INT_START) {
+            make_benchmark_file(BM_TYPE_INT);
+            bm_state = BM_INT;
+        }
+        return false;
+    case BM_INT:
+        if (now - cpu_benchmarks_start > INT_END) {
+            remove_benchmark_file(BM_TYPE_INT);
+            bm_state = BM_DONE;
+        }
+        return false;
+    }
+
     // check for timeout
     //
-    if (dtime() > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
+    if (now > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
         msg_printf(NULL, MSG_ERROR, "CPU benchmarks timed out, using default values");
         abort_cpu_benchmarks();
         host_info.p_fpops = DEFAULT_FPOPS;
@@ -303,7 +389,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         );
 #endif
 
-        host_info.p_calculated = dtime();
+        host_info.p_calculated = now;
         guiOnBenchmarksEnd();
         benchmarks_running = false;
 	    msg_printf(NULL, MSG_INFO, "Finished CPU benchmarks");

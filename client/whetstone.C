@@ -66,6 +66,7 @@ C**********************************************************************
 #include <time.h>
 
 #include "util.h"
+#include "cpu_benchmark.h"
 
 /* map the FORTRAN math functions, etc. to the C versions */
 #define DSIN	sin
@@ -107,6 +108,9 @@ void whetstone(double& flops) {
     II = 32;
 
 	loopstart = 1000;		/* see the note about LOOP below */
+
+    benchmark_wait_to_start(BM_TYPE_FP);
+
 /*
 C
 C	Start benchmark timing at this point.
@@ -303,9 +307,14 @@ C
 C      THIS IS THE END OF THE MAJOR LOOP.
 C
 */
+#if 0
 	if (++JJ <= II)
 		goto IILOOP;
+#endif
 
+    if (!benchmark_time_to_stop(BM_TYPE_FP)) {
+        goto IILOOP;
+    }
 /*
 C
 C      Stop benchmark timing at this point.

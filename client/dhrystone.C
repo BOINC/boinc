@@ -158,6 +158,7 @@
 #include <string.h>
 
 #include "util.h"
+#include "cpu_benchmark.h"
 
 #define structassign(d, s)      d = s
 
@@ -248,18 +249,21 @@ void dhrystone(
 
     //printf ("Dhrystone Benchmark, Version 1.1 (Language: C or C++)\n");
     
-    Loops = 16000000;       // determines runtime
+    Loops = 160000;       // determines runtime
 
    do
      {
        Array2Glob[8][7] = 10;
+
+       benchmark_wait_to_start(BM_TYPE_INT);
 
       /*****************
       -- Start Timer --
       *****************/
       
         startclock = dtime();
-        
+        int bigloops = 0;
+restart:
         for (i = 0; i < Loops; ++i)
         {
                 Proc5();
@@ -285,6 +289,11 @@ void dhrystone(
                 IntLoc2 = 7 * (IntLoc3 - IntLoc2) - IntLoc1;
                 Proc2(&IntLoc1);
         }
+        bigloops++;
+        if (!benchmark_time_to_stop(BM_TYPE_INT)) {
+            goto restart;
+        }
+        Loops *= bigloops;
 
         /*****************
         -- Stop Timer --
