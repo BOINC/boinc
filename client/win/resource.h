@@ -67,6 +67,7 @@
 #define ID_FILE_HIDE                    40020
 #define ID_PROJECT_RELOGIN              40021
 #define ID_PROJECT_QUIT                 40022
+#define ID_PROJECT_DETACH               40022
 #define ID_PROJECT_CLEAR                40023
 #define ID_RESULT_CLEAR                 40024
 #define ID_XFER_CLEAR                   40025
@@ -82,13 +83,16 @@
 #define ID_CONNECTION_CONFIRMBEFORECONNECTING 40034
 #define ID_CONNECTION_CONNECTNOW        40035
 #define ID_WORK_SHOWGRAPHICS            40036
+#define ID_PROJECT_WEB_SITE             40037
+#define ID_PROJECT_GET_PREFS            40038
+#define ID_PROJECT_RESET                40039
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        130
-#define _APS_NEXT_COMMAND_VALUE         40037
+#define _APS_NEXT_COMMAND_VALUE         40040
 #define _APS_NEXT_CONTROL_VALUE         1035
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

@@ -45,26 +45,6 @@ protected:
 };
 
 //////////
-// class:		CQuitDialog
-// parent:		CDialog
-// description:	gets project quit information from user.
-class CQuitDialog : public CDialog
-{
-public:
-							CQuitDialog(UINT);
-	afx_msg BOOL			OnInitDialog();
-	int						m_nSel;
-
-protected:
-	CString					m_strSelTT;
-	void					LoadLanguage();
-
-	afx_msg void			OnOK();
-	afx_msg BOOL			OnToolTipNotify(UINT, NMHDR*, LRESULT*);
-	DECLARE_MESSAGE_MAP()
-};
-
-//////////
 // class:		CProxyDialog
 // parent:		CDialog
 // description:	allows user to set up proxy information

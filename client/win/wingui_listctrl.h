@@ -95,7 +95,6 @@ public:
 	CString					GetItemTextOrPos(int, int);
 	BOOL					SetColumnWidth(int, int);
 	void					SetItemColor(int, COLORREF);
-	void					SetProjectURL(int, char*);
 	void					SetMenuItems(char**, int);
 	void					SaveInactive(char*, char*);
 	void					LoadInactive(char*, char*);
@@ -107,8 +106,6 @@ protected:
 	CArray<int,int>			m_ColWidths;			// column widths for hiding and unhiding; a[i] > 0: col i shown; a[i] < 0: col i hidden, previous width -(a[i] - 1)
 	int						m_nSort;				// column and order of last sort: i = 0: no sort; i > 0: sorted ascending by col i - 1; < 0 sorted descending by col -(i-1)
 	CFont*					m_OldFont;				// old font for setting subitem font
-	CArray<COLORREF,COLORREF>		m_ItemColors;	// special colors of items
-	CArray<CString,CString>			m_ProjectURLs;	// urls for project links
 
 	void					SwapItems(int, int);
 	void					QSort(int, int, int, int);
@@ -121,7 +118,6 @@ protected:
 	afx_msg BOOL			OnNotify(WPARAM, LPARAM, LRESULT*);
 	afx_msg void			OnCustomDraw(NMHDR*, LRESULT*);
 	afx_msg void			OnPaint();
-	afx_msg BOOL			OnSetCursor(CWnd*, UINT, UINT);
 	afx_msg void			OnLButtonDown(UINT, CPoint);
 	afx_msg void			OnRButtonDown(UINT, CPoint);
     DECLARE_MESSAGE_MAP()

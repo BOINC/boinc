@@ -70,12 +70,13 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_COMMAND(ID_FILE_SUSPEND, OnCommandSuspend)
     ON_COMMAND(ID_FILE_RESUME, OnCommandResume)
     ON_COMMAND(ID_FILE_EXIT, OnCommandExit)
-    ON_COMMAND(ID_CONNECTION_CONNECTNOW, OnCommandConnectionConnectNow)
     ON_COMMAND(ID_SETTINGS_LOGIN, OnCommandSettingsLogin)
-    ON_COMMAND(ID_SETTINGS_QUIT, OnCommandSettingsQuit)
     ON_COMMAND(ID_SETTINGS_PROXYSERVER, OnCommandSettingsProxyServer)
     ON_COMMAND(ID_HELP_ABOUT, OnCommandHelpAbout)
-    ON_COMMAND(ID_PROJECT_QUIT, OnCommandProjectQuit)
+	ON_COMMAND(ID_PROJECT_WEB_SITE, OnCommandProjectWebSite)
+	ON_COMMAND(ID_PROJECT_GET_PREFS, OnCommandProjectGetPrefs)
+	ON_COMMAND(ID_PROJECT_DETACH, OnCommandProjectDetach)
+	ON_COMMAND(ID_PROJECT_RESET, OnCommandProjectReset)
     ON_COMMAND(ID_WORK_SHOWGRAPHICS, OnCommandWorkShowGraphics)
     ON_COMMAND(ID_STATUSICON_HIDE, OnCommandHide)
     ON_COMMAND(ID_STATUSICON_SUSPEND, OnCommandSuspend)
@@ -942,24 +943,6 @@ void CMainWindow::OnClose()
 }
 
 //////////
-// CMainWindow::OnCommandSettingsQuit
-// arguments:	void
-// returns:		void
-// function:	shows the account quit dialog box
-void CMainWindow::OnCommandSettingsQuit()
-{
-    CQuitDialog dlg(IDD_QUIT);
-    int nResult = dlg.DoModal();
-	if(nResult == IDOK) {
-		CString str;
-		str.Format("Are you sure you want to quit the project %s?", gstate.projects[dlg.m_nSel]->get_project_name());
-		if(AfxMessageBox(str, MB_YESNO, 0) == IDYES) {
-			gstate.quit_project(gstate.projects[dlg.m_nSel]);
-		}
-	}
-}
-
-//////////
 // CMainWindow::OnCommandSettingsLogin
 // arguments:	void
 // returns:		void
@@ -1044,37 +1027,83 @@ void CMainWindow::OnCommandFileClearMessages()
 // arguments:	void
 // returns:		void
 // function:	causes the client to connect to the network
-void CMainWindow::OnCommandConnectionConnectNow()
+/*void CMainWindow::OnCommandConnectionConnectNow()
 {
 	for(int ii = 0; ii < gstate.projects.size(); ii ++) {
 		gstate.projects[ii]->sched_rpc_pending = true;
 	}
+}*/
+
+//////////
+// CMainWindow::GetProjectFromContextMenu
+// arguments:	void
+// returns:		PROJECT *
+// function:	returns the project associated with the most
+//				recently selected context menu item
+PROJECT* CMainWindow::GetProjectFromContextMenu() {
+	if(m_nContextItem < 0 || m_nContextItem > m_ProjectListCtrl.GetItemCount()) return NULL;
+	PROJECT* proj = (PROJECT*)m_ProjectListCtrl.GetItemData(m_nContextItem);
+	m_nContextItem = -1;
+	return proj;
 }
 
 //////////
-// CMainWindow::OnCommandProjectQuit
+// CMainWindow::OnCommandProjectWebSite
 // arguments:	void
 // returns:		void
 // function:	lets the user quit a project
-void CMainWindow::OnCommandProjectQuit()
+void CMainWindow::OnCommandProjectWebSite()
 {
-	if(m_nContextItem < 0 || m_nContextItem > m_ProjectListCtrl.GetItemCount()) return;
-	PROJECT* pToQuit = (PROJECT*)m_ProjectListCtrl.GetItemData(m_nContextItem);
-	m_nContextItem = -1;
-	if(!pToQuit) return;
+	PROJECT *proj;
+	proj = GetProjectFromContextMenu();
+	if (proj) ShellExecute(GetSafeHwnd(), "open", proj->master_url, "", "", SW_SHOWNORMAL);
+}
 
-	// find project index
-	int i;
-	for(i = 0; i < gstate.projects.size(); i ++) {
-		if(gstate.projects[i] == pToQuit) break;
-	}
-	if(i == gstate.projects.size()) return;
+//////////
+// CMainWindow::OnCommandProjectGetPrefs
+// arguments:	void
+// returns:		void
+// function:	lets the user quit a project
+void CMainWindow::OnCommandProjectGetPrefs()
+{
+	PROJECT *proj;
+	proj = GetProjectFromContextMenu();
+	if (proj) proj->sched_rpc_pending = true;
+}
 
-	// confirm and quit
+//////////
+// CMainWindow::OnCommandProjectDetach
+// arguments:	void
+// returns:		void
+// function:	lets the user quit a project
+void CMainWindow::OnCommandProjectDetach()
+{
+	PROJECT *proj;
 	CString strBuf;
-	strBuf.Format("Are you sure you want to quit the project %s?", gstate.projects[i]->get_project_name());
+	proj = GetProjectFromContextMenu();
+	if (!proj) return;
+	strBuf.Format("Are you sure you want to detach from the project %s?",
+		proj->get_project_name());
 	if(AfxMessageBox(strBuf, MB_YESNO, 0) == IDYES) {
-		gstate.quit_project(gstate.projects[i]);
+		gstate.detach_project(proj);
+	}
+}
+
+//////////
+// CMainWindow::OnCommandProjectReset
+// arguments:	void
+// returns:		void
+// function:	lets the user quit a project
+void CMainWindow::OnCommandProjectReset()
+{
+	PROJECT *proj;
+	CString strBuf;
+	proj = GetProjectFromContextMenu();
+	if (!proj) return;
+	strBuf.Format("Are you sure you want to reset the project %s?",
+		proj->get_project_name());
+	if(AfxMessageBox(strBuf, MB_YESNO, 0) == IDYES) {
+		gstate.reset_project(proj);
 	}
 }
 
@@ -1488,9 +1517,10 @@ void CMainWindow::OnSetFocus(CWnd* pOldWnd)
 		m_bMessage = false;
 		SetStatusIcon(ICON_NORMAL);
 	}
+	// TODO: review this
 	if(m_bRequest) {
 		m_bRequest = false;
-		if(RequestNetConnect()) OnCommandConnectionConnectNow();
+//		if(RequestNetConnect()) OnCommandConnectionConnectNow();
 	}
 }
 

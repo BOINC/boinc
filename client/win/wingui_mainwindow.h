@@ -122,6 +122,7 @@ protected:
     void					SaveUserSettings();
     void					LoadUserSettings();
 	void					LoadLanguage();
+	PROJECT*				GetProjectFromContextMenu();
 	DWORD					GetUserIdleTime();
 	void					Syncronize(CProgressListCtrl*, vector<void*>*);
     virtual void			PostNcDestroy();
@@ -132,11 +133,14 @@ protected:
 	afx_msg void			OnCommandSettingsLogin();
 	afx_msg void			OnCommandSettingsProxyServer();
 	afx_msg void			OnCommandHelpAbout();
-	afx_msg void			OnCommandProjectQuit();
+	afx_msg void			OnCommandProjectWebSite();
+	afx_msg void			OnCommandProjectGetPrefs();
+	afx_msg void			OnCommandProjectDetach();
+	afx_msg void			OnCommandProjectReset();
 	afx_msg void			OnCommandWorkShowGraphics();
 	afx_msg void			OnCommandFileClearInactive();
 	afx_msg void			OnCommandFileClearMessages();
-	afx_msg void			OnCommandConnectionConnectNow();
+//	afx_msg void			OnCommandConnectionConnectNow();
 	afx_msg void			OnCommandConnectionHangupIfDialed();
 	afx_msg void			OnCommandConnectionConfirmBeforeConnecting();
 	afx_msg void			OnCommandHide();

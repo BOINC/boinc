@@ -205,13 +205,8 @@ BEGIN
     POPUP "&Settings"
     BEGIN
         MENUITEM "&Login to Project...",        ID_SETTINGS_LOGIN
-        MENUITEM "&Quit Project...",            ID_SETTINGS_QUIT
         MENUITEM SEPARATOR
         MENUITEM "&Proxy Server...",            ID_SETTINGS_PROXYSERVER
-    END
-    POPUP "&Connection"
-    BEGIN
-        MENUITEM "&Connect To Scheduling Server", ID_CONNECTION_CONNECTNOW
     END
     POPUP "&Help"
     BEGIN
@@ -230,7 +225,10 @@ BEGIN
     END
     POPUP "Project"
     BEGIN
-        MENUITEM "Quit Project...",             ID_PROJECT_QUIT
+        MENUITEM "Web site",                    ID_PROJECT_WEB_SITE
+        MENUITEM "Get preferences",             ID_PROJECT_GET_PREFS
+        MENUITEM "Detach...",                   ID_PROJECT_DETACH
+        MENUITEM "Reset project...",            ID_PROJECT_RESET
     END
     POPUP "Work"
     BEGIN

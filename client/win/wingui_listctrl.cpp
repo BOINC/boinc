@@ -296,9 +296,9 @@ int CProgressListCtrl::InsertColumn(int nCol, LPCTSTR lpszColumnHeading, int nFo
 // function:	adds a new item to the list control
 int CProgressListCtrl::InsertItem(int nItem, LPCTSTR lpszItem)
 {
-	m_ItemColors.InsertAt(nItem, RGB(0, 0, 0));
-	CString StrEmpty;
-	m_ProjectURLs.InsertAt(nItem, StrEmpty);
+	//m_ItemColors.InsertAt(nItem, RGB(0, 0, 0));
+	//CString StrEmpty;
+	//m_ProjectURLs.InsertAt(nItem, StrEmpty);
 	return CListCtrl::InsertItem(nItem, lpszItem);
 }
 
@@ -372,11 +372,6 @@ BOOL CProgressListCtrl::SetColumnWidth(int nCol, int cx)
 BOOL CProgressListCtrl::DeleteItem(int nItem)
 {
 	int i, si;
-
-	// remove array info
-	m_ItemColors.RemoveAt(nItem);
-	CString empty;
-	m_ProjectURLs.RemoveAt(nItem);
 
 	CString strbuf;
 	CProgressBarCtrl* pProgCtrl = NULL;
@@ -500,51 +495,6 @@ void CProgressListCtrl::SwapItems(int nItem1, int nItem2)
 	// check item indicies
 	if(nItem1 >= GetItemCount() || nItem2 >= GetItemCount()) {
 		return;
-	}
-
-	// swap url data
-	bool bOk1 = false, bOk2 = false;
-	CString StrTemp1, StrTemp2, StrEmpty;
-	if(nItem1 < m_ProjectURLs.GetSize()) {
-		StrTemp1 = m_ProjectURLs.GetAt(nItem1);
-		bOk1 = true;
-	}
-	if(nItem2 < m_ProjectURLs.GetSize()) {
-		StrTemp2 = m_ProjectURLs.GetAt(nItem2);
-		bOk2 = true;
-	}
-	if(bOk1) {
-		m_ProjectURLs.SetAtGrow(nItem2, StrTemp1);
-	} else {
-		m_ProjectURLs.SetAtGrow(nItem2, StrEmpty);
-	}
-	if(bOk2) {
-		m_ProjectURLs.SetAtGrow(nItem1, StrTemp2);
-	} else {
-		m_ProjectURLs.SetAtGrow(nItem1, StrEmpty);
-	}
-
-	// swap color data
-	bOk1 = false;
-	bOk2 = false;
-	COLORREF tempclr1, tempclr2, emptyclr = RGB(0, 0, 0);
-	if(nItem1 < m_ItemColors.GetSize()) {
-		tempclr1 = m_ItemColors.GetAt(nItem1);
-		bOk1 = true;
-	}
-	if(nItem2 < m_ItemColors.GetSize()) {
-		tempclr2 = m_ItemColors.GetAt(nItem2);
-		bOk2 = true;
-	}
-	if(bOk1) {
-		m_ItemColors.SetAtGrow(nItem2, tempclr1);
-	} else {
-		m_ItemColors.SetAtGrow(nItem2, emptyclr);
-	}
-	if(bOk2) {
-		m_ItemColors.SetAtGrow(nItem1, tempclr2);
-	} else {
-		m_ItemColors.SetAtGrow(nItem1, emptyclr);
 	}
 
 	// swap indices
@@ -673,7 +623,7 @@ void CProgressListCtrl::SwapColumnVisibility(int nCol)
 // function:	causes an item to be displayed in the given color
 void CProgressListCtrl::SetItemColor(int nItem, COLORREF newclr)
 {
-	m_ItemColors.SetAtGrow(nItem, newclr);
+	//m_ItemColors.SetAtGrow(nItem, newclr);
 
 	CProgressBarCtrl *pProgCtrl;
 	CString strBuf;
@@ -686,21 +636,6 @@ void CProgressListCtrl::SetItemColor(int nItem, COLORREF newclr)
 			pProgCtrl->SetTextColor(newclr);
 		}
 	}
-}
-
-//////////
-// CProgressListCtrl::SetProjectURL
-// arguments:	nItem: the item to set the url for
-//				szUrl: the url for the link
-// returns:		void
-// function:	sets the url for a project's link, causing the text of
-//				the first subitem for the given item to be displayed
-//				as a link
-void CProgressListCtrl::SetProjectURL(int nItem, char* szUrl)
-{
-	CString StrUrl;
-	StrUrl.Format("%s", szUrl);
-	m_ProjectURLs.SetAtGrow(nItem, StrUrl);
 }
 
 //////////
@@ -853,15 +788,6 @@ void CProgressListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 		CFont* curFont = cdc->GetCurrentFont();
 		LOGFONT lf;
 		curFont->GetLogFont(&lf);
-		if(pLVCD->nmcd.dwItemSpec < m_ItemColors.GetSize()) {
-			pLVCD->clrText = m_ItemColors.GetAt(pLVCD->nmcd.dwItemSpec);
-		}
-		if(pLVCD->nmcd.dwItemSpec < m_ProjectURLs.GetSize() && !m_ProjectURLs.GetAt(pLVCD->nmcd.dwItemSpec).IsEmpty()) {
-			if(pLVCD->iSubItem == 0) {
-				lf.lfUnderline = true;
-				pLVCD->clrText = RGB(0, 0, 255);
-			}
-		}
 		CFont* pNewFont = new CFont;
 		pNewFont->CreateFontIndirect(&lf);
 		m_OldFont = cdc->SelectObject(pNewFont);
@@ -900,35 +826,6 @@ void CProgressListCtrl::OnDestroy()
 }
 
 //////////
-// CProgressListCtrl::OnSetCursor
-// arguments:	pWnd: window containing the cursor
-//				nHitTest: hit test area code
-//				message: mouse message number
-// returns:		true if the message should not be processed further, false otherwise
-// function:	checks if the cursor is over a link, if so,
-//				changes it to the hand
-BOOL CProgressListCtrl::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
-{
-	CPoint point;
-	GetCursorPos(&point);
-	ScreenToClient(&point);
-	CRect hit;
-	for(int i = 0; i < GetItemCount(); i ++) {
-		if(i < m_ProjectURLs.GetSize() && !m_ProjectURLs.GetAt(i).IsEmpty()) {
-			GetTextRect(i, 0, &hit);
-			if(hit.PtInRect(point)) {
-				HCURSOR hand = LoadCursor(NULL, IDC_HAND);
-				if(hand) {
-					SetCursor(hand);
-					return TRUE;
-				}
-			}
-		}
-	}
-	return CWnd::OnSetCursor(pWnd, nHitTest, message);
-}
-
-//////////
 // CProgressListCtrl::OnLButtonDown
 // arguments:	nFlags: message flags (keys down)
 //				point: mouse's point
@@ -936,15 +833,6 @@ BOOL CProgressListCtrl::OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message)
 // function:	stops control from highlighting items, opens links
 void CProgressListCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	CRect hit;
-	for(int i = 0; i < GetItemCount(); i ++) {
-		if(i < m_ProjectURLs.GetSize() && !m_ProjectURLs.GetAt(i).IsEmpty()) {
-			GetTextRect(i, 0, &hit);
-			if(hit.PtInRect(point)) {
-				ShellExecute(GetSafeHwnd(), "open", m_ProjectURLs.GetAt(i).GetBuffer(0), "", "", SW_SHOWNORMAL);
-			}
-		}
-	}
 }
 
 //////////
