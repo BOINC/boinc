@@ -802,7 +802,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
         atp = active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         if (atp->state == PROCESS_IN_LIMBO ||
-            atp->state == PROCSES_UNINITIALIZED
+            atp->state == PROCESS_UNINITIALIZED
         ) continue;
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             if (exit_code != STILL_ACTIVE) {
