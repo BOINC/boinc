@@ -75,6 +75,7 @@ extern int lock_file(char*);
 extern void full_path(char* relname, char* path);
 #endif
 extern int get_filesystem_info(double& total, double& free);
+extern int boinc_make_dirs(char*, char*);
 
 class DirScanner {
 #ifdef _WIN32

@@ -64,6 +64,9 @@ int SCHED_CONFIG::parse(istream& f) {
     if (match_tag(buf.c_str(), "<one_result_per_user_per_wu/>")) {
         one_result_per_user_per_wu = true;
     }
+    if (match_tag(buf.c_str(), "<non_cpu_intensive/>")) {
+        non_cpu_intensive = true;
+    }
     if (match_tag(buf.c_str(), "<trickle_down/>")) {
         trickle_down = true;
     }

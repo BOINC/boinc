@@ -11454,7 +11454,7 @@ David  April 8 2004
 
 David  April 8 2004
     - If an active task is in limbo, don't mark its result as done!
-        (from James Drew)
+        (from James Drews)
 
     client/
         cs_apps.C
@@ -11600,3 +11600,15 @@ David  April 14 2004
             top_hosts.php
             top_teams.php
             top_users.php
+
+David  April 14 2004
+    - added boinc_make_dirs()
+        (preliminary support for projects subdirs for CPDN)
+    - If <non_cpu_intensive/> is in config file, send it in sched replies
+
+    lib/
+        app_ipc.C
+        filesys.C,h
+    sched/
+        sched_config.C,h
+        server_types.C

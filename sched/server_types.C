@@ -310,6 +310,9 @@ int SCHEDULER_REPLY::write(FILE* fout) {
             td.xml
         );
     }
+    if (config.non_cpu_intensive) {
+        fprintf(fout, "<non_cpu_intensive/>\n");
+    }
 end:
     fprintf(fout,
         "</scheduler_reply>\n"

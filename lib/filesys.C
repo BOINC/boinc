@@ -401,6 +401,31 @@ int boinc_rmdir(const char* name) {
 #endif
 }
 
+// if "filepath" is of the form a/b/c,
+// create directories dirpath/a, dirpath/a/b etc.
+//
+int boinc_make_dirs(const char* dirpath, const char* filepath) {
+    char buf[1024], oldpath[1024], newpath[1024];
+    int retval;
+    char *p, *q;
+
+    if (strlen(filepath) + strlen(dirpath) > 1023) return ERR_BUFFER_OVERFLOW;
+    strcpy(buf, filepath);
+
+    q = buf;
+    while(*q) {
+        p = strchr(q, '/');
+        if (!p) break;
+        *p = 0;
+        sprintf(newpath, "%s%s%s", oldpath, PATH_SEPARATOR, q);
+        retval = boinc_mkdir(newpath);
+        if (retval) return retval;
+        strcpy(oldpath, newpath);
+        q = p+1;
+    }
+    return 0;
+}
+
 int lock_file(char* filename) {
     int retval;
 

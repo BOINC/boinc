@@ -117,7 +117,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
 #endif
         else if (parse_double(buf, "<checkpoint_period>", ai.checkpoint_period)) continue;
         else if (parse_double(buf, "<fraction_done_update_period>", ai.fraction_done_update_period)) continue;
-        else fprintf(stderr, "parse_init_data_file: unrecognized %s", buf);
+        //else fprintf(stderr, "parse_init_data_file: unrecognized %s", buf);
     }
     return 0;
 }

@@ -81,31 +81,29 @@ int make_project_dir(PROJECT& p) {
 
     boinc_mkdir(PROJECTS_DIR);
     get_project_dir(&p, buf);
-    boinc_mkdir(buf);
-    return 0;
+    return boinc_mkdir(buf);
 }
 
 int remove_project_dir(PROJECT& p) {
     char buf[256];
+    int retval;
 
     get_project_dir(&p, buf);
     clean_out_dir(buf);
-    boinc_rmdir(buf);
-    return 0;
+    return boinc_rmdir(buf);
 }
 
 // Create the slot directory for the specified slot #
 //
 int make_slot_dir(int slot) {
     char buf[256];
-    if(slot<0) {
+    if (slot<0) {
         msg_printf(NULL, MSG_ERROR, "make_slot_dir(): negative slot\n");
         return ERR_NEG;
     }
     boinc_mkdir(SLOTS_DIR);
     get_slot_dir(slot, buf);
-    boinc_mkdir(buf);
-    return 0;
+    return boinc_mkdir(buf);
 }
 
 void get_account_filename(char* master_url, char* path) {

@@ -41,6 +41,7 @@ public:
     bool trickle_down;
     int min_sendwork_interval;
     int max_wus_to_send;
+    bool non_cpu_intensive;
 
     int parse(istream& f);
     int parse_file(char* dir=".");
