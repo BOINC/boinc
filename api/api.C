@@ -103,12 +103,14 @@ void write_core_file(FILE* f, APP_IN& ai) {
         "<graphics_refresh_period>%f</graphics_refresh_period>\n"
         "<checkpoint_period>%f</checkpoint_period>\n"
         "<poll_period>%f</poll_period>\n"
+        "<checkpoint_period>%f</checkpoint_period>\n"
         "<cpu_time>%f</cpu_time>\n",
         ai.graphics.xsize,
         ai.graphics.ysize,
         ai.graphics.refresh_period,
         ai.checkpoint_period,
 	ai.poll_period,
+        ai.checkpoint_period,
         ai.cpu_time
     );
 }
@@ -130,6 +132,7 @@ void parse_core_file(FILE* f, APP_IN& ai) {
         else if (parse_double(buf, "<graphics_refresh_period>", ai.graphics.refresh_period)) continue;
         else if (parse_double(buf, "<checkpoint_period>", ai.checkpoint_period)) continue;
         else if (parse_double(buf, "<poll_period>", ai.poll_period)) continue;
+        else if (parse_double(buf, "<checkpoint_period>", ai.checkpoint_period)) continue;
 	else if (parse_double(buf, "<cpu_time>", ai.cpu_time)) continue;
         else fprintf(stderr, "parse_core_file: unrecognized %s", buf);
     }

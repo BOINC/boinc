@@ -25,10 +25,11 @@ int main() {
     MFILE mf;
     unsigned long int i = 0;
     int temp=0;
+    APP_IN ai;
+    boinc_init(ai);
     mf.open("foobar", "w");
     mf.printf("blah %d %f\n", 17, 34.5);
     mf.printf("foo\n");
-    set_timer(1);
     for(; i<100000000; i++) {
 	if(time_to_checkpoint()) {
 	    mf.printf("checkpoint: %ld\n", i);
