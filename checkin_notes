@@ -15519,7 +15519,7 @@ David  21 July 2004
         in result templates.
         Restore this, using the info in the config file.
     - transitioner: if anything fails (result creation, WU update), quit.
-    - result.random must be initialize by caller on insert
+    - result.random must be initialized by caller on insert
         (not too relevant since we don't use it anymore)
     - start/commit_transaction are now members of DB_CONN
         rather than DB_BASE_SPECIAL
