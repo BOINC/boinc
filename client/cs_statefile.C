@@ -158,6 +158,24 @@ done:
     return retval;
 }
 
+// read just the venue from the state file.
+//
+int CLIENT_STATE::parse_venue() {
+    char buf[256];
+    FILE* f = fopen(STATE_FILE_NAME, "r");
+    while (fgets(buf, 256, f)) {
+        if (match_tag(buf, "</client_state>")) {
+            break;
+        } 
+        if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) {
+            break;
+        }
+    }
+    fclose(f);
+    return 0;
+}
+
+
 // Write the client_state.xml file
 //
 int CLIENT_STATE::write_state_file() {

@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 
+#ifndef _PERS_FILE_XFER_H
+#define _PERS_FILE_XFER_H
+
 #include <time.h>
 #include "client_types.h"
 #include "file_xfer.h"
@@ -75,3 +78,5 @@ public:
     bool poll();
     void suspend();
 };
+
+#endif

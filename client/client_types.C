@@ -28,6 +28,7 @@
 #include "message.h"
 #include "parse.h"
 #include "util.h"
+#include "client_state.h"
 #include "pers_file_xfer.h"
 
 #include "client_types.h"
@@ -87,6 +88,9 @@ int PROJECT::write_account_file() {
         master_url,
         authenticator
     );
+    if (strlen(project_name)) {
+        fprintf(f, "    <project_name>%s</project_name>\n", project_name);
+    }
     if (strlen(project_specific_prefs)) {
         fprintf(f, "%s", project_specific_prefs);
     }
@@ -100,11 +104,13 @@ int PROJECT::write_account_file() {
     return 0;
 }
 
-// parse project fields from account_*.xml
+// parse account_*.xml file
 //
 int PROJECT::parse_account(FILE* in) {
-    char buf[256];//, venue[256];
+    char buf[256], venue[256];
+    char temp[MAX_BLOB_LEN];
     int retval;
+    bool got_venue_prefs = false;
     // bool in_venue = false, in_correct_venue;
 
     // Assume master_url_fetch_pending, sched_rpc_pending are
@@ -116,31 +122,41 @@ int PROJECT::parse_account(FILE* in) {
     strcpy(authenticator, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<account>")) continue;
-
-        /*
-        if (in_venue) {
-            if (match_tag(buf, "</venue>")) {
-                if (in_correct_venue)
-                    return 0;
-                else {
-                    in_venue = false;
-                    continue;
+        if (match_tag(buf, "</account>")) {
+            if (strlen(gstate.host_venue)) {
+                if (!got_venue_prefs) {
+                    msg_printf(this, MSG_INFO,
+                        "Projects prefs for %s not found; using default prefs",
+                        gstate.host_venue
+                    );
                 }
-            } else if (!in_correct_venue)
-                continue;
-        } else if (match_tag(buf, "<venue")) {
-            in_venue = true;
+            } else {
+                msg_printf(this, MSG_INFO,
+                    "Using default project prefs"
+                );
+            }
+            return 0;
+        }
+
+        else if (match_tag(buf, "<venue")) {
             parse_attr(buf, "name", venue, sizeof(venue));
             if (!strcmp(venue, gstate.host_venue)) {
-                init();
-                in_correct_venue = true;
-            } else
-                in_correct_venue = false;
+                msg_printf(this, MSG_INFO,
+                    "Using project preferences for %s",
+                    gstate.host_venue
+                );
+                got_venue_prefs = true;
+                copy_element_contents(
+                    in, "</venue>",
+                    project_specific_prefs,
+                    sizeof(project_specific_prefs)
+                );
+            } else {
+                copy_element_contents(in, "</venue>", temp, sizeof(temp));
+            }
             continue;
         }
-        */
 
-        if (match_tag(buf, "</account>")) return 0;
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
             canonicalize_master_url(master_url);
             continue;
@@ -149,6 +165,7 @@ int PROJECT::parse_account(FILE* in) {
         else if (parse_double(buf, "<resource_share>", resource_share)) continue;
         else if (match_tag(buf, "<send_email/>")) continue;
         else if (match_tag(buf, "<show_email/>")) continue;
+        else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
         else if (match_tag(buf, "<tentative/>")) {
             tentative = true;
             continue;

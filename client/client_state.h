@@ -52,7 +52,8 @@ enum SUSPEND_REASON_t {
     SUSPEND_REASON_BENCHMARKS = 16
 };
 
-// CLIENT_STATE encapsulates the global variables of the core client
+// CLIENT_STATE encapsulates the global variables of the core client.
+// If you add anything here, initialize it in the constructor
 //
 class CLIENT_STATE {
 public:
@@ -253,7 +254,7 @@ public:
     int parse_state_file();
     int write_state_file();
     int write_state_file_if_needed();
-
+    int parse_venue();
 
 // --------------- check_state.C:
 // stuff related to data-structure integrity checking

@@ -87,7 +87,6 @@ bool KillWindow() {
 // - when get mode change msg (via shared mem)
 // - when in SS mode and get user input
 //
-extern FILE* gf();
 void SetMode(int mode) {
 	RECT WindowRect = {0,0,0,0};
 	int width, height;

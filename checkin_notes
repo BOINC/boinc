@@ -7096,3 +7096,24 @@ Karl 2003-10-25
 
     py/Boinc/
         tools.py
+
+David  27 Oct 2003
+	- Parse project-specific prefs correctly (i.e. based on venue)
+		These prefs are read from account files.
+		Account files are read before the client state file is parsed.
+		This presented a problem because the host venue,
+		which is needed to decide which project prefs to use,
+		is kept in the client state file.
+		So I added a new function, parse_venue(), that gets the
+		host venue from the state file; this is done before parsing account files.
+	- Also added <project_name> element to account file so that we can
+		display that correctly in message about project prefs
+
+	api/
+		windows_opengl.C
+	client/
+		client_state.C,h
+		client_types.C
+		cs_statefile.C
+		pers_file_xfer.h
+		prefs.C

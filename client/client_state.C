@@ -181,6 +181,11 @@ int CLIENT_STATE::init() {
         core_client_major_version, core_client_minor_version, platform_name
     );
 
+    // we need the host venue while parsing account files.
+    // Get it from the client state file
+    //
+    parse_venue();
+
     // parse account files.
     // If there are none, prompt user for project URL and create file
     //
