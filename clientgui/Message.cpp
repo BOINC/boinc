@@ -21,9 +21,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/07/12 08:46:25  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.1  2004/06/25 22:50:57  rwalton
 // Client spamming server hotfix
-//
 //
 //
 
@@ -32,17 +34,45 @@
 #endif
 
 #include "stdwx.h"
+#include <wx/arrimpl.cpp>
 #include "Message.h"
+#include "error_numbers.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CMessage, CXMLParser)
+WX_DEFINE_OBJARRAY(CArrayMessage);
 
 
 CMessage::CMessage(void)
 {
+    seq_no = 0;
+    project = _T("");
+    priority = 0;
+    timestamp = 0;
+    body = _T("");
 }
+
 
 CMessage::~CMessage(void)
 {
 }
+
+
+wxInt32 CMessage::Parse(wxTextInputStream* input)
+{
+    wxString buf;
+    while (buf = input->ReadLine()) {
+        if (match_tag(buf, "</msg>")) return 0;
+        if (parse_str(buf, "<project>", project)) continue;
+        if (match_tag(buf, "<body>" )) {
+            copy_element_contents(input, "</body>", body);
+            continue;
+        }
+        if (parse_int(buf, "<seq_no>", priority)) continue;
+        if (parse_int(buf, "<pri>", priority)) continue;
+        if (parse_int(buf, "<time>", timestamp)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
 

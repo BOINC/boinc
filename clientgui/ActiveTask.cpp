@@ -21,9 +21,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/07/12 08:46:25  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.1  2004/06/25 22:50:56  rwalton
 // Client spamming server hotfix
-//
 //
 //
 
@@ -32,17 +34,43 @@
 #endif
 
 #include "stdwx.h"
+#include <wx/arrimpl.cpp>
 #include "ActiveTask.h"
+#include "error_numbers.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CActiveTask, CXMLParser)
+WX_DEFINE_OBJARRAY(CArrayActiveTask);
 
 
 CActiveTask::CActiveTask(void)
 {
+    result_name = _T("");
+    app_version_num = 0;
+    checkpoint_cpu_time = 0.0;
+    current_cpu_time = 0.0;
+    fraction_done = 0.0;
+    project = NULL;
+    result = NULL;
 }
+
 
 CActiveTask::~CActiveTask(void)
 {
+}
+
+
+wxInt32 CActiveTask::Parse(wxTextInputStream* input)
+{
+    wxString buf;
+    while (buf = input->ReadLine()) {
+        if (match_tag(buf, "</active_task>")) return 0;
+        else if (parse_str(buf, "<result_name>", result_name)) continue;
+        else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
+        else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
+        else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
+        else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
+    }
+    return ERR_XML_PARSE;
 }
 

@@ -21,9 +21,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/07/12 08:46:25  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.1  2004/06/25 22:50:57  rwalton
 // Client spamming server hotfix
-//
 //
 //
 
@@ -63,22 +65,52 @@ public:
 
     wxInt32         Parse(wxTextInputStream* input);
 
-    wxString        GetName()                       { return name; }
-    bool            IsGeneratedLocally()            { return generated_locally; }
-    bool            IsUploaded()                    { return uploaded; }
-    bool            IsUploadWhenPresent()           { return upload_when_present; }
-    bool            IsSticky()                      { return sticky; }
-    bool            IsPersXferActive()              { return pers_xfer_active; }
-    bool            IsXferActive()                  { return xfer_active; }
-    wxInt32         GetNumberOfRetries()            { return num_retries; }
-    double          GetBytesXfered()                { return bytes_xferred; }
-    double          GetFileOffset()                 { return file_offset; }
-    double          GetXferSpeed()                  { return xfer_speed; }
-    wxString        GetHostname()                   { return hostname; }
-    CProject*       GetProject()                    { return project; }
+    wxString&       GetName()
+                    { return name; }
+
+    bool            IsGeneratedLocally()
+                    { return generated_locally; }
+
+    bool            IsUploaded()
+                    { return uploaded; }
+
+    bool            IsUploadWhenPresent()
+                    { return upload_when_present; }
+
+    bool            IsSticky()
+                    { return sticky; }
+
+    bool            IsPersXferActive()
+                    { return pers_xfer_active; }
+
+    bool            IsXferActive()
+                    { return xfer_active; }
+
+    wxInt32         GetNumberOfRetries()
+                    { return num_retries; }
+
+    double          GetBytesXfered()
+                    { return bytes_xferred; }
+
+    double          GetFileOffset()
+                    { return file_offset; }
+
+    double          GetXferSpeed()
+                    { return xfer_speed; }
+
+    wxString&       GetHostname()
+                    { return hostname; }
+
+    CProject*       GetProject()
+                    { return project; }
+
+    void            SetProject(CProject* pProject)
+                    { project = pProject; }
 
 };
 
+
+WX_DECLARE_OBJARRAY(CFileInfo, CArrayFileInfo);
 
 #endif
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/07/12 08:46:26  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.1  2004/06/25 22:50:58  rwalton
 // Client spamming server hotfix
 //
@@ -44,9 +47,11 @@ public:
     ~CXMLParser();
 
     bool    match_tag(const wxString &strBuffer, const wxString &strTag);
-    bool    parse_int(const wxString &strBuffer, const wxString &strTag, long &lValue);
+    bool    parse_int(const wxString &strBuffer, const wxString &strTag, wxInt32 &lValue);
     bool    parse_double(const wxString &strBuffer, const wxString &strTag, double &dValue);
-    bool    parse_string(const wxString &strBuffer, const wxString &strTag, wxString &strValue);
+    bool    parse_str(const wxString &strBuffer, const wxString &strTag, wxString &strValue);
+
+    wxInt32 copy_element_contents(wxTextInputStream* input, const wxString &strTag, wxString &strValue);
 
     void    xml_escape(const wxString& in, wxString& out);
     void    xml_unescape(const wxString& in, wxString& out);

@@ -21,9 +21,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/07/12 08:46:25  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.1  2004/06/25 22:50:56  rwalton
 // Client spamming server hotfix
-//
 //
 //
 
@@ -32,16 +34,37 @@
 #endif
 
 #include "stdwx.h"
+#include <wx/arrimpl.cpp>
 #include "AppVersion.h"
+#include "error_numbers.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CAppVersion, CXMLParser)
+WX_DEFINE_OBJARRAY(CArrayAppVersion);
 
 
 CAppVersion::CAppVersion(void)
 {
+    name = _T("");
+    version_num = 0;
+    app = NULL;
+    project = NULL;
 }
+
 
 CAppVersion::~CAppVersion(void)
 {
 }
+
+
+wxInt32 CAppVersion::Parse(wxTextInputStream* input)
+{
+    wxString buf;
+    while (buf = input->ReadLine()) {
+        if (match_tag(buf, "</app_version>")) return 0;
+        else if (parse_str(buf, "<app_name>", name)) continue;
+        else if (parse_int(buf, "<version_num>", version_num)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+

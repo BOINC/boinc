@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.7  2004/07/12 08:46:26  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.6  2004/06/25 22:50:56  rwalton
 // Client spamming server hotfix
 //
@@ -62,6 +65,8 @@
 #include <wx/socket.h>   // socket support
 #include <wx/sckstrm.h>  // socket streams support
 #include <wx/txtstrm.h>  // text streams support
+#include <wx/datetime.h> // date/time support
+#include <wx/dynarray.h> // dynamic array support
 
 
 // On the Win32 platform include file and line number information for each

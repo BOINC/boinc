@@ -21,9 +21,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/07/12 08:46:25  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.1  2004/06/25 22:50:56  rwalton
 // Client spamming server hotfix
-//
 //
 //
 
@@ -52,11 +54,19 @@ public:
 
     wxInt32         Parse(wxTextInputStream* input);
 
-    wxString        GetName()                       { return name; }
-    CProject*       GetProject()                    { return project; }
+    wxString&       GetName()
+                    { return name; }
+
+    CProject*       GetProject()
+                    { return project; }
+
+    void            SetProject(CProject* pProject)
+                    { project = pProject; }
 
 };
 
+
+WX_DECLARE_OBJARRAY(CApp, CArrayApp);
 
 #endif
 

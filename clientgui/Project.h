@@ -21,9 +21,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/07/12 08:46:26  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.1  2004/06/25 22:50:57  rwalton
 // Client spamming server hotfix
-//
 //
 //
 
@@ -64,24 +66,55 @@ public:
 
     wxInt32         Parse(wxTextInputStream* input);
 
-    wxString        GetMasterURL()                  { return master_url; }
-    double          GetResourceShare()              { return resource_share; }
-    wxString        GetProjectName()                { return project_name; }
-    wxString        GetUserName()                   { return user_name; }
-    wxString        GetTeamName()                   { return team_name; }
-    double          GetUserTotalCredit()            { return user_total_credit; }
-    double          GetUserExpAvgCredit()           { return user_expavg_credit; }
-    double          GetHostTotalCredit()            { return host_total_credit; }
-    double          GetHostExpAvgCredit()           { return host_expavg_credit; }
-    wxInt32         GetRPCFailureCount()            { return nrpc_failures; }
-    wxInt32         GetMasterFetchFailureCount()    { return master_fetch_failures; }
-    wxInt32         GetNextRPCTime()                { return min_rpc_time; }
-    bool            IsMasterURLFetchPending()       { return master_url_fetch_pending; }
-    bool            IsSchedRPCPending()             { return sched_rpc_pending; }
-    bool            IsTentative()                   { return tentative; }
+    wxString&       GetMasterURL()
+                    { return master_url; }
+
+    double          GetResourceShare()
+                    { return resource_share; }
+
+    wxString&       GetProjectName()
+                    { return project_name; }
+
+    wxString&       GetUserName()
+                    { return user_name; }
+
+    wxString&       GetTeamName()
+                    { return team_name; }
+
+    double          GetUserTotalCredit()
+                    { return user_total_credit; }
+
+    double          GetUserExpAvgCredit()
+                    { return user_expavg_credit; }
+
+    double          GetHostTotalCredit()
+                    { return host_total_credit; }
+
+    double          GetHostExpAvgCredit()
+                    { return host_expavg_credit; }
+
+    wxInt32         GetRPCFailureCount()
+                    { return nrpc_failures; }
+
+    wxInt32         GetMasterFetchFailureCount()
+                    { return master_fetch_failures; }
+
+    wxInt32         GetNextRPCTime()
+                    { return min_rpc_time; }
+
+    bool            IsMasterURLFetchPending()
+                    { return master_url_fetch_pending; }
+
+    bool            IsSchedRPCPending()
+                    { return sched_rpc_pending; }
+
+    bool            IsTentative()
+                    { return tentative; }
 
 };
 
+
+WX_DECLARE_OBJARRAY(CProject, CArrayProject);
 
 #endif
 

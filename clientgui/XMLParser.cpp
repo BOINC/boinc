@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/07/12 08:46:26  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.1  2004/06/25 22:50:57  rwalton
 // Client spamming server hotfix
 //
@@ -33,6 +36,7 @@
 
 #include "stdwx.h"
 #include "XMLParser.h"
+#include "error_numbers.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CXMLParser, wxObject)
@@ -55,14 +59,14 @@ bool CXMLParser::match_tag(const wxString &strBuffer, const wxString &strTag)
     return false;
 }
 
-bool CXMLParser::parse_int(const wxString &strBuffer, const wxString &strTag, long &lValue)
+bool CXMLParser::parse_int(const wxString &strBuffer, const wxString &strTag, wxInt32 &lValue)
 {
     wxString    strTemp;
     
-    if (!parse_string(strBuffer, strTag, strTemp))
+    if (!parse_str(strBuffer, strTag, strTemp))
         return false;
 
-    return strTemp.ToLong(&lValue);
+    return strTemp.ToLong((long*)&lValue);
 }
 
 
@@ -70,14 +74,14 @@ bool CXMLParser::parse_double(const wxString &strBuffer, const wxString &strTag,
 {
     wxString    strTemp;
     
-    if (!parse_string(strBuffer, strTag, strTemp))
+    if (!parse_str(strBuffer, strTag, strTemp))
         return false;
 
     return strTemp.ToDouble(&dValue);
 }
 
 
-bool CXMLParser::parse_string(const wxString &strBuffer, const wxString &strTag, wxString &strValue)
+bool CXMLParser::parse_str(const wxString &strBuffer, const wxString &strTag, wxString &strValue)
 {
     wxInt32     iStart = strBuffer.First(strTag) + (wxInt32)strTag.Length();
     wxInt32     iEnd = strValue.Find('<', true);
@@ -91,6 +95,17 @@ bool CXMLParser::parse_string(const wxString &strBuffer, const wxString &strTag,
     } else {
         return false;
     }
+}
+
+
+int CXMLParser::copy_element_contents(wxTextInputStream* input, const wxString &strTag, wxString &strValue)
+{
+    wxString buf;
+    while (buf = input->ReadLine()) {
+        if (match_tag(buf, strTag)) return 0;
+        strValue += buf;
+    }
+    return ERR_XML_PARSE;
 }
 
 

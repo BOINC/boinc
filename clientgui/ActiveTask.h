@@ -21,9 +21,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/07/12 08:46:25  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.1  2004/06/25 22:50:56  rwalton
 // Client spamming server hotfix
-//
 //
 //
 
@@ -58,16 +60,37 @@ public:
 
     wxInt32         Parse(wxTextInputStream* input);
 
-    wxString        GetName()                       { return result_name; }
-    wxInt32         GetAppVersionNumber()           { return app_version_num; }
-    double          GetCheckpointCPUTime()          { return checkpoint_cpu_time; }
-    double          GetCurrentCPUTime()             { return current_cpu_time; }
-    double          GetFractionDone()               { return fraction_done; }
-    CProject*       GetProject()                    { return project; }
-    CResult*        GetResult()                     { return result; }
+    wxString&       GetName()
+                    { return result_name; }
+
+    wxInt32         GetAppVersionNumber()
+                    { return app_version_num; }
+
+    double          GetCheckpointCPUTime()
+                    { return checkpoint_cpu_time; }
+
+    double          GetCurrentCPUTime()
+                    { return current_cpu_time; }
+
+    double          GetFractionDone()
+                    { return fraction_done; }
+
+    CProject*       GetProject()
+                    { return project; }
+
+    CResult*        GetResult()
+                    { return result; }
+
+    void            SetProject(CProject* pProject)
+                    { project = pProject; }
+
+    void            SetResult(CResult* pResult)
+                    { result = pResult; }
 
 };
 
+
+WX_DECLARE_OBJARRAY(CActiveTask, CArrayActiveTask);
 
 #endif
 

@@ -21,9 +21,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/07/12 08:46:25  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.1  2004/06/25 22:50:56  rwalton
 // Client spamming server hotfix
-//
 //
 //
 
@@ -32,17 +34,34 @@
 #endif
 
 #include "stdwx.h"
+#include <wx/arrimpl.cpp>
 #include "App.h"
+#include "error_numbers.h"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CApp, CXMLParser)
+WX_DEFINE_OBJARRAY(CArrayApp);
 
 
 CApp::CApp(void)
 {
+    name = _T("");
+    project = NULL;
 }
+
 
 CApp::~CApp(void)
 {
+}
+
+
+wxInt32 CApp::Parse(wxTextInputStream* input)
+{
+    wxString buf;
+    while (buf = input->ReadLine()) {
+        if (match_tag(buf, "</app>")) return 0;
+        else if (parse_str(buf, "<name>", name)) continue;
+    }
+    return ERR_XML_PARSE;
 }
 

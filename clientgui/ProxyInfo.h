@@ -21,9 +21,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/07/12 08:46:26  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.1  2004/06/25 22:50:57  rwalton
 // Client spamming server hotfix
-//
 //
 //
 
@@ -43,6 +45,7 @@ class CProxyInfo : public CXMLParser
 
 private:
     bool            use_http_proxy;
+    bool            use_http_authenticaton;
     wxString        http_server_name;
     wxInt32         http_server_port;
     wxString        http_server_username;
@@ -60,17 +63,38 @@ public:
 
     wxInt32         Parse(wxTextInputStream* input);
 
-    bool            IsHTTPProxyEnabled()            { return use_http_proxy; }
-    wxString        GetHTTPServerName()             { return http_server_name; }
-    wxInt32         GetHTTPServerPort()             { return http_server_port; }
-    wxString        GetHTTPServerUsername()         { return http_server_username; }
-    wxString        GetHTTPServerPassword()         { return http_server_password; }
-    bool            IsSOCKSProxyEnabled()           { return use_socks_proxy; }
-    wxInt32         GetSOCKSServerVersion()         { return socks_version; }
-    wxString        GetSOCKSServerName()            { return socks_server_name; }
-    wxInt32         GetSOCKSServerPort()            { return socks_server_port; }
-    wxString        GetSOCKSServerUsername()        { return socks_server_username; }
-    wxString        GetSOCKSServerPassword()        { return socks_server_password; }
+    bool            IsHTTPProxyEnabled()
+                    { return use_http_proxy; }
+
+    wxString&       GetHTTPServerName()
+                    { return http_server_name; }
+
+    wxInt32         GetHTTPServerPort()
+                    { return http_server_port; }
+
+    wxString&       GetHTTPServerUsername()
+                    { return http_server_username; }
+
+    wxString&       GetHTTPServerPassword()
+                    { return http_server_password; }
+
+    bool            IsSOCKSProxyEnabled()
+                    { return use_socks_proxy; }
+
+    wxInt32         GetSOCKSServerVersion()
+                    { return socks_version; }
+
+    wxString&       GetSOCKSServerName()
+                    { return socks_server_name; }
+
+    wxInt32         GetSOCKSServerPort()
+                    { return socks_server_port; }
+
+    wxString&       GetSOCKSServerUsername()
+                    { return socks_server_username; }
+
+    wxString&       GetSOCKSServerPassword()
+                    { return socks_server_password; }
 
 };
 

@@ -21,9 +21,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/07/12 08:46:25  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.1  2004/06/25 22:50:57  rwalton
 // Client spamming server hotfix
-//
 //
 //
 
@@ -42,6 +44,7 @@ class CMessage : public CXMLParser
     DECLARE_DYNAMIC_CLASS(CMessage)
 
 private:
+    wxInt32         seq_no;
     wxString        project;
     wxInt32         priority;
     wxInt32         timestamp;
@@ -53,13 +56,25 @@ public:
 
     wxInt32         Parse(wxTextInputStream* input);
 
-    wxString        GetProject()                    { return project; }
-    wxInt32         GetPriority()                   { return priority; }
-    wxInt32         GetTimestamp()                  { return timestamp; }
-    wxString        GetHostname()                   { return body; }
+    wxInt32         GetSequenceNumber()
+                    { return seq_no; }
+
+    wxString&       GetProject()
+                    { return project; }
+
+    wxInt32         GetPriority()
+                    { return priority; }
+
+    wxInt32         GetTimestamp()
+                    { return timestamp; }
+
+    wxString&       GetHostname()
+                    { return body; }
 
 };
 
+
+WX_DECLARE_OBJARRAY(CMessage, CArrayMessage);
 
 #endif
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.6  2004/07/12 08:46:25  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.5  2004/06/25 22:50:56  rwalton
 // Client spamming server hotfix
 //
@@ -37,17 +40,58 @@
 #endif
 
 #include "XMLParser.h"
+#include "ActiveTask.h"
+#include "App.h"
+#include "AppVersion.h"
+#include "FileInfo.h"
+#include "Message.h"
+#include "Project.h"
+#include "ProxyInfo.h"
+#include "Result.h"
+#include "Workunit.h"
 
 
 class CMainDocument : public CXMLParser
 {
     DECLARE_DYNAMIC_CLASS(CMainDocument)
 
+private:
+    wxSocketClient*         m_pSocket;
+
+    wxDateTime              m_dtCachedStateTimestamp;
+    wxDateTime              m_dtCachedStateLockTimestamp;
+    bool                    m_bCachedStateLocked;
+
+    CArrayActiveTask        m_ActiveTasks;
+    CArrayApp               m_Apps;
+    CArrayAppVersion        m_AppVersions;
+    CArrayFileInfo          m_FileInfos;
+    CArrayProject           m_Projects;
+    CArrayResult            m_Results;
+    CArrayWorkunit          m_Workunits;
+
+    CArrayMessage           m_Messages;
+    
+    CProxyInfo              m_ProxyInfo;
+
+    wxInt32                 SendMessageToCore(wxString& strMessage, wxSocketInputStream** pSocketInput);
+
+    wxInt32                 CachedStateUpdate();
+
+    CApp*                   LookupApp(wxString& strName);
+    CAppVersion*            LookupAppVersion(wxString& strName, wxInt32 iVersionNumber);
+    CWorkunit*              LookupWorkunit(wxString& strName);
+    CResult*                LookupResult(wxString& strName);
+
 public:
     CMainDocument();
     ~CMainDocument();
-};
 
+    wxInt32                 CachedStateLock();
+    wxInt32                 CachedStateUnlock();
+
+
+};
 
 #endif
 

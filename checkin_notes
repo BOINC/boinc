@@ -15032,3 +15032,25 @@ David  11 July 2004
 	lib/
 		error_numbers.h
 		util.C,h
+
+Rom    11 July 2004
+    - Checkin the document class stuff for the new GUI, right now the 
+      SendMessageToCore function is hard coded to do a <get_state/> message 
+      until I get around to figuring out why the compiler complains about
+      an attempt to cast to a void *.
+      NOTE: Still debugging the UI portion of the code, it'll follow shortly
+
+    clientgui/
+        ActiveTask.cpp, .h
+        App.cpp, .h
+        AppVersion.cpp, .h
+        BOINCGUI.vcproj
+        FileInfo.cpp, .h
+        MainDocument.cpp, .h
+        Message.cpp, .h
+        Project.cpp, .h
+        ProxyInfo.cpp, .h
+        Result.cpp, .h
+        stdwx.h
+        Workunit.cpp, .h
+        XMLParser.cpp, .h

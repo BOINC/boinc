@@ -21,9 +21,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/07/12 08:46:26  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.1  2004/06/25 22:50:57  rwalton
 // Client spamming server hotfix
-//
 //
 //
 
@@ -62,19 +64,49 @@ public:
 
     wxInt32         Parse(wxTextInputStream* input);
 
-    wxString        GetName()                       { return name; }
-    wxString        GetApplicationName()            { return app_name; }
-    wxInt32         GetApplicationVersion()         { return version_num; }
-    double          GetFPOPSEstimated()             { return rsc_fpops_est; }
-    double          GetFPOPSBound()                 { return rsc_fpops_bound; }
-    double          GetMemoryBound()                { return rsc_memory_bound; }
-    double          GetDiskBound()                  { return rsc_disk_bound; }
-    CProject*       GetProject()                    { return project; }
-    CApp*           GetApp()                        { return app; }
-    CAppVersion*    GetAppVersion()                 { return avp; }
+    wxString&       GetName()
+                    { return name; }
+
+    wxString&       GetApplicationName()
+                    { return app_name; }
+
+    wxInt32         GetApplicationVersion()
+                    { return version_num; }
+
+    double          GetFPOPSEstimated()
+                    { return rsc_fpops_est; }
+
+    double          GetFPOPSBound()
+                    { return rsc_fpops_bound; }
+
+    double          GetMemoryBound()
+                    { return rsc_memory_bound; }
+
+    double          GetDiskBound()
+                    { return rsc_disk_bound; }
+
+    CProject*       GetProject()
+                    { return project; }
+
+    CApp*           GetApp()
+                    { return app; }
+
+    CAppVersion*    GetAppVersion()
+                    { return avp; }
+
+    void            SetProject(CProject* pProject)
+                    { project = pProject; }
+
+    void            SetApp(CApp* pApp)
+                    { app = pApp; }
+
+    void            SetAppVersion(CAppVersion* pAppVersion)
+                    { avp = pAppVersion; }
 
 };
 
+
+WX_DECLARE_OBJARRAY(CWorkunit, CArrayWorkunit);
 
 #endif
 

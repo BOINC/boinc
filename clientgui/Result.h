@@ -21,9 +21,11 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/07/12 08:46:26  rwalton
+// Document parsing of the <get_state/> message
+//
 // Revision 1.1  2004/06/25 22:50:57  rwalton
 // Client spamming server hotfix
-//
 //
 //
 
@@ -66,23 +68,61 @@ public:
 
     wxInt32         Parse(wxTextInputStream* input);
 
-    wxString        GetName()                       { return name; }
-    wxString        GetWorkunitName()               { return wu_name; }
-    wxInt32         GetReportDeadline()             { return report_deadline; }
-    bool            IsReadyToReport()               { return ready_to_report; }
-    bool            IsAcknowledged()                { return got_server_ack; }
-    double          GetFinalCPUTime()               { return final_cpu_time; }
-    wxInt32         GetState()                      { return state; }
-    wxInt32         GetExitStatus()                 { return exit_status; }
-    wxInt32         GetSignal()                     { return signal; }
-    wxInt32         GetActiveTaskState()            { return active_task_state; }
-    wxString        GetSTDERROut()                  { return stderr_out; }
-    CApp*           GetApp()                        { return app; }
-    CWorkunit*      GetWorkunit()                   { return wup; }
-    CProject*       GetProject()                    { return project; }
+    wxString&       GetName()
+                    { return name; }
+
+    wxString&       GetWorkunitName()
+                    { return wu_name; }
+
+    wxInt32         GetReportDeadline()
+                    { return report_deadline; }
+
+    bool            IsReadyToReport()
+                    { return ready_to_report; }
+
+    bool            IsAcknowledged()
+                    { return got_server_ack; }
+
+    double          GetFinalCPUTime()
+                    { return final_cpu_time; }
+
+    wxInt32         GetState()
+                    { return state; }
+
+    wxInt32         GetExitStatus()
+                    { return exit_status; }
+
+    wxInt32         GetSignal()
+                    { return signal; }
+
+    wxInt32         GetActiveTaskState()
+                    { return active_task_state; }
+
+    wxString&       GetSTDERROut()
+                    { return stderr_out; }
+
+    CApp*           GetApp()
+                    { return app; }
+
+    CWorkunit*      GetWorkunit()
+                    { return wup; }
+
+    CProject*       GetProject()
+                    { return project; }
+
+    void            SetApp(CApp* pApp)
+                    { app = pApp; }
+
+    void            SetWorkunit(CWorkunit* pWorkunit)
+                    { wup = pWorkunit; }
+
+    void            SetProject(CProject* pProject)
+                    { project = pProject; }
 
 };
 
+
+WX_DECLARE_OBJARRAY(CResult, CArrayResult);
 
 #endif
 
