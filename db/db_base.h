@@ -105,12 +105,8 @@ public:
 
     DB_CONN* db;
     CURSOR cursor;
-    char transactional_query[MAX_QUERY_LEN];
 
-    // NOTE: This transaction implementation does NOT
-    // ssuport nested transactions.
     int start_transaction();
-    int append_transaction(char* next_query);
     int commit_transaction();
 };
 

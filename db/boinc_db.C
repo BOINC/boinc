@@ -717,7 +717,7 @@ int DB_TRANSITIONER_ITEM_SET::update_result(TRANSITIONER_ITEM& ti) {
         ti.res_file_delete_state,
         ti.res_id
     );
-    return append_transaction(query);
+    return db->do_query(query);
 }
 
 int DB_TRANSITIONER_ITEM_SET::update_workunit(TRANSITIONER_ITEM& ti) {
@@ -732,7 +732,7 @@ int DB_TRANSITIONER_ITEM_SET::update_workunit(TRANSITIONER_ITEM& ti) {
         ti.transition_time,
         ti.id
     );
-    return append_transaction(query);
+    return db->do_query(query);
 }
 
 void WORK_ITEM::parse(MYSQL_ROW& r) {

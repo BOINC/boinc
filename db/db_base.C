@@ -41,9 +41,9 @@ int DB_CONN::insert_id() {
     MYSQL_RES* rp;
 
     if (mysql) {
-        retval = do_query("select HIGH_PRIORITY LAST_INSERT_ID()");
+        retval = do_query("select HIGH_PRIORITY LAST_INSERT_ID();");
     } else {
-        retval = do_query("select LAST_INSERT_ID()");
+        retval = do_query("select LAST_INSERT_ID();");
     }
 
     if (retval) return retval;
@@ -77,7 +77,7 @@ void DB_BASE::db_parse(MYSQL_ROW&) {}
 int DB_BASE::insert() {
     char vals[MAX_QUERY_LEN], query[MAX_QUERY_LEN];
     db_print(vals);
-    sprintf(query, "insert into %s set %s", table_name, vals);
+    sprintf(query, "insert into %s set %s;", table_name, vals);
     return db->do_query(query);
 }
 
@@ -86,7 +86,7 @@ int DB_BASE::insert() {
 int DB_BASE::update() {
     char vals[MAX_QUERY_LEN], query[MAX_QUERY_LEN];
     db_print(vals);
-    sprintf(query, "update %s set %s where id=%d", table_name, vals, get_id());
+    sprintf(query, "update %s set %s where id=%d;", table_name, vals, get_id());
     return db->do_query(query);
 }
 
@@ -95,7 +95,7 @@ int DB_BASE::update() {
 //
 int DB_BASE::update_field(char* clause) {
     char query[MAX_QUERY_LEN];
-    sprintf(query, "update %s set %s where id=%d", table_name, clause, get_id());
+    sprintf(query, "update %s set %s where id=%d;", table_name, clause, get_id());
     return db->do_query(query);
 }
 
@@ -106,9 +106,9 @@ int DB_BASE::lookup(char* clause) {
     MYSQL_RES* rp;
 
     if (db->mysql && is_high_priority) {
-        sprintf(query, "select HIGH_PRIORITY * from %s %s", table_name, clause);
+        sprintf(query, "select HIGH_PRIORITY * from %s %s;", table_name, clause);
     } else {
-        sprintf(query, "select * from %s %s", table_name, clause);
+        sprintf(query, "select * from %s %s;", table_name, clause);
     }
 
     retval = db->do_query(query);
@@ -134,9 +134,9 @@ int DB_BASE::lookup_id(int id) {
     MYSQL_RES* rp;
 
     if (db->mysql && is_high_priority) {
-        sprintf(query, "select HIGH_PRIORITY * from %s where id=%d", table_name, id);
+        sprintf(query, "select HIGH_PRIORITY * from %s where id=%d;", table_name, id);
     } else {
-        sprintf(query, "select * from %s where id=%d", table_name, id);
+        sprintf(query, "select * from %s where id=%d;", table_name, id);
     }
 
     retval = db->do_query(query);
@@ -161,9 +161,9 @@ int DB_BASE::enumerate(char* clause) {
         cursor.active = true;
 
         if (db->mysql && is_high_priority) {
-            sprintf(query, "select HIGH_PRIORITY * from %s %s", table_name, clause);
+            sprintf(query, "select HIGH_PRIORITY * from %s %s;", table_name, clause);
         } else {
-            sprintf(query, "select * from %s %s", table_name, clause);
+            sprintf(query, "select * from %s %s;", table_name, clause);
         }
 
         x = db->do_query(query);
@@ -230,9 +230,9 @@ int DB_BASE::count(int& n, char* clause) {
     char query[MAX_QUERY_LEN];
 
     if (db->mysql && is_high_priority) {
-        sprintf(query, "select HIGH_PRIORITY count(*) from %s %s", table_name, clause);
+        sprintf(query, "select HIGH_PRIORITY count(*) from %s %s;", table_name, clause);
     } else {
-        sprintf(query, "select count(*) from %s %s", table_name, clause);
+        sprintf(query, "select count(*) from %s %s;", table_name, clause);
     }
 
     return get_integer(query, n);
@@ -242,9 +242,9 @@ int DB_BASE::sum(double& x, char* field, char* clause) {
     char query[MAX_QUERY_LEN];
 
     if (db->mysql && is_high_priority) {
-        sprintf(query, "select HIGH_PRIORITY sum(%s) from %s %s", field, table_name, clause);
+        sprintf(query, "select HIGH_PRIORITY sum(%s) from %s %s;", field, table_name, clause);
     } else {
-        sprintf(query, "select sum(%s) from %s %s", field, table_name, clause);
+        sprintf(query, "select sum(%s) from %s %s;", field, table_name, clause);
     }
 
     return get_double(query, x);
@@ -256,24 +256,11 @@ DB_BASE_SPECIAL::DB_BASE_SPECIAL(DB_CONN& p) : db(&p) {
 }
 
 int DB_BASE_SPECIAL::start_transaction() {
-    if (!strcpy(transactional_query, "START TRANSACTION;")) {
-        return -1;
-    }
-    return 0;
-}
-
-int DB_BASE_SPECIAL::append_transaction(char* next_query) {
-    if (!strcat(transactional_query, next_query)) {
-        return -1;
-    }
-    return 0;
+    return db->do_query("START TRANSACTION;");;
 }
 
 int DB_BASE_SPECIAL::commit_transaction() {
-    if (!strcat(transactional_query, "COMMIT;")) {
-        return -1;
-    }
-    return db->do_query(transactional_query);
+    return db->do_query("COMMIT;");
 }
 
 // convert a string into a form that allows it to be used
