@@ -67,7 +67,7 @@ include_HEADERS = 	\
 	boinc_api.h   	\
 	graphics_api.h	\
 	gutil.h         \
-	grahpics_lib.h  \
+	graphics_lib.h  \
     graphics_impl.h
 
 
