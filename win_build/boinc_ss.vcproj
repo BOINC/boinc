@@ -221,9 +221,6 @@
 						PreprocessorDefinitions=""/>
 				</FileConfiguration>
 			</File>
-			<File
-				RelativePath="..\client\win\win_util.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -269,9 +266,6 @@
 			</File>
 			<File
 				RelativePath="..\client\win\win_screensaver.h">
-			</File>
-			<File
-				RelativePath="..\client\win\win_util.h">
 			</File>
 		</Filter>
 		<Filter

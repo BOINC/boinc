@@ -22559,3 +22559,11 @@ David  12 Jan 2005
 
     lib/
         parse.C
+
+Rom    12 Jan 2005
+    - Bug Fix: Fix the bug where the screensaver wasn't saving the 
+        configuration settings to the registry without the prep
+        work done by the previous installer.
+
+    client/win/
+        win_screensaver.cpp, .h

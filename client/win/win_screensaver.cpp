@@ -708,77 +708,6 @@ VOID CScreensaver::DoConfig()
 
 
 //-----------------------------------------------------------------------------
-// Name: ConfigureDialogProcStub()
-// Desc: 
-//-----------------------------------------------------------------------------
-INT_PTR CALLBACK CScreensaver::ConfigureDialogProcStub( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
-{
-    return gs_pScreensaver->ConfigureDialogProc( hwndDlg, uMsg, wParam, lParam );
-}
-
-
-
-
-//-----------------------------------------------------------------------------
-// Name: ConfigureDialogProc()
-// Desc: 
-//-----------------------------------------------------------------------------
-INT_PTR CScreensaver::ConfigureDialogProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
-	DWORD screen_blank=0, blank_time=0;
-	char buf[256];
-	int retval;
-
-	switch (msg) {
-		case WM_INITDIALOG:
-			// make sure you check return value of registry queries
-			// in case the item in question doesn't happen to exist.
-			retval = UtilGetRegKey( REG_BLANK_NAME, screen_blank );
-			if ( retval < 0 ) { screen_blank=0; }
-			CheckDlgButton(hwnd, IDC_BLANK, screen_blank);
-
-			retval = UtilGetRegKey( REG_BLANK_TIME, blank_time );
-			if ( retval < 0 ) { blank_time=0; }
-			_ltot(blank_time, buf, 10);
-			SetDlgItemText(hwnd, IDC_BLANK_TIME, buf);
-
-			return TRUE;
-		case WM_COMMAND:
-			int id=LOWORD(wParam);
-			if (id==IDOK) {
-
-				screen_blank=( IsDlgButtonChecked(hwnd,IDC_BLANK) == BST_CHECKED );
-				UtilSetRegKey( REG_BLANK_NAME, screen_blank );
-
-				GetDlgItemText(hwnd, IDC_BLANK_TIME, buf, 256 );
-				blank_time = atoi(buf);
-				UtilSetRegKey( REG_BLANK_TIME, blank_time );
-
-			}
-			if (id==IDOK || id==IDCANCEL)
-				EndDialog(hwnd,id);
-			break;
-	}
-	return FALSE;
-}
-
-
-
-
-//-----------------------------------------------------------------------------
-// Name: PrimarySaverProcStub()
-// Desc: This function forwards all window messages to SaverProc, which has
-//       access to the "this" pointer.
-//-----------------------------------------------------------------------------
-LRESULT CALLBACK CScreensaver::PrimarySaverProcStub( HWND hWnd, UINT uMsg,
-                                                 WPARAM wParam, LPARAM lParam )
-{
-    return gs_pScreensaver->PrimarySaverProc( hWnd, uMsg, wParam, lParam );
-}
-
-
-
-
-//-----------------------------------------------------------------------------
 // Name: PrimarySaverProc()
 // Desc: Handle window messages for main screensaver windows (one per screen).
 //-----------------------------------------------------------------------------
@@ -1020,20 +949,6 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 
 
 //-----------------------------------------------------------------------------
-// Name: GenericSaverProcStub()
-// Desc: This function forwards all window messages to SaverProc, which has
-//       access to the "this" pointer.
-//-----------------------------------------------------------------------------
-LRESULT CALLBACK CScreensaver::GenericSaverProcStub( HWND hWnd, UINT uMsg,
-                                                 WPARAM wParam, LPARAM lParam )
-{
-    return gs_pScreensaver->GenericSaverProc( hWnd, uMsg, wParam, lParam );
-}
-
-
-
-
-//-----------------------------------------------------------------------------
 // Name: GenericSaverProc()
 // Desc: Handle window messages for main screensaver windows (one per screen).
 //-----------------------------------------------------------------------------
@@ -1158,6 +1073,237 @@ LRESULT CScreensaver::GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 	BOINCTRACE(_T("GenericSaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
 
 	return DefWindowProc( hWnd, uMsg, wParam, lParam );
+}
+
+
+
+
+//-----------------------------------------------------------------------------
+// Name: ConfigureDialogProc()
+// Desc: 
+//-----------------------------------------------------------------------------
+INT_PTR CScreensaver::ConfigureDialogProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
+	DWORD screen_blank=0, blank_time=0;
+	char buf[256];
+	int retval;
+
+	switch (msg) {
+		case WM_INITDIALOG:
+			// make sure you check return value of registry queries
+			// in case the item in question doesn't happen to exist.
+			retval = UtilGetRegKey( REG_BLANK_NAME, screen_blank );
+			if ( retval < 0 ) { screen_blank=0; }
+			CheckDlgButton( hwnd, IDC_BLANK, screen_blank );
+
+			retval = UtilGetRegKey( REG_BLANK_TIME, blank_time );
+			if ( retval < 0 ) { blank_time=0; }
+			_ltot(blank_time, buf, 10);
+			SetDlgItemText( hwnd, IDC_BLANK_TIME, buf );
+
+			return TRUE;
+		case WM_COMMAND:
+			int id=LOWORD(wParam);
+			if (id==IDOK) {
+
+				screen_blank=( IsDlgButtonChecked( hwnd, IDC_BLANK ) == BST_CHECKED );
+				UtilSetRegKey( REG_BLANK_NAME, screen_blank );
+
+				GetDlgItemText( hwnd, IDC_BLANK_TIME, buf, 256 );
+				blank_time = atoi( buf );
+				UtilSetRegKey( REG_BLANK_TIME, blank_time );
+
+			}
+			if ( id == IDOK || id == IDCANCEL )
+				EndDialog( hwnd, id );
+			break;
+	}
+	return FALSE;
+}
+
+
+
+
+//-----------------------------------------------------------------------------
+// Name: PrimarySaverProcStub()
+// Desc: This function forwards all window messages to SaverProc, which has
+//       access to the "this" pointer.
+//-----------------------------------------------------------------------------
+LRESULT CALLBACK CScreensaver::PrimarySaverProcStub( HWND hWnd, UINT uMsg,
+                                                 WPARAM wParam, LPARAM lParam )
+{
+    return gs_pScreensaver->PrimarySaverProc( hWnd, uMsg, wParam, lParam );
+}
+
+
+
+
+//-----------------------------------------------------------------------------
+// Name: GenericSaverProcStub()
+// Desc: This function forwards all window messages to SaverProc, which has
+//       access to the "this" pointer.
+//-----------------------------------------------------------------------------
+LRESULT CALLBACK CScreensaver::GenericSaverProcStub( HWND hWnd, UINT uMsg,
+                                                 WPARAM wParam, LPARAM lParam )
+{
+    return gs_pScreensaver->GenericSaverProc( hWnd, uMsg, wParam, lParam );
+}
+
+
+
+
+//-----------------------------------------------------------------------------
+// Name: ConfigureDialogProcStub()
+// Desc: 
+//-----------------------------------------------------------------------------
+INT_PTR CALLBACK CScreensaver::ConfigureDialogProcStub( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
+{
+    return gs_pScreensaver->ConfigureDialogProc( hwndDlg, uMsg, wParam, lParam );
+}
+
+
+
+
+//////////
+// Function:    UtilSetRegKey
+// arguments:	name: name of key, keyval: where to store value of key
+// returns:		int indicating error
+// function:	reads string value in specified key
+int CScreensaver::UtilSetRegKey(char *name, DWORD value)
+{
+	LONG error;
+	HKEY boinc_key;
+
+	if ( m_bIs9x ) {
+		error = RegCreateKeyEx( 
+            HKEY_LOCAL_MACHINE, 
+            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Screensaver"),  
+			0,
+            NULL,
+            REG_OPTION_NON_VOLATILE,
+            KEY_READ | KEY_WRITE,
+            NULL,
+            &boinc_key,
+            NULL
+        );
+		if ( error != ERROR_SUCCESS ) return -1;
+	} else {
+		error = RegCreateKeyEx( 
+            HKEY_CURRENT_USER,
+            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Screensaver"),  
+			0,
+            NULL,
+            REG_OPTION_NON_VOLATILE,
+            KEY_READ | KEY_WRITE,
+            NULL,
+            &boinc_key,
+            NULL
+        );
+		if ( error != ERROR_SUCCESS ) return -1;
+	}
+
+	error = RegSetValueEx( boinc_key, name, 0, REG_DWORD, (CONST BYTE *)&value, 4 );
+
+	RegCloseKey( boinc_key );
+
+	return 0;
+}
+
+
+
+
+//////////
+// Function:    UtilGetRegKey
+// arguments:	name: name of key, keyval: where to store value of key
+// returns:		int indicating error
+// function:	reads string value in specified key
+int CScreensaver::UtilGetRegKey(char *name, DWORD &keyval)
+{
+	LONG error;
+	DWORD type = REG_DWORD;
+	DWORD size = sizeof( DWORD );
+	char str[2048];
+	DWORD value;
+	HKEY boinc_key;
+
+	strncpy( str, _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Screensaver\\"), sizeof(str) );
+	strcat( str, name );
+
+	if ( m_bIs9x ) {
+		error = RegOpenKeyEx( 
+            HKEY_LOCAL_MACHINE, 
+            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Screensaver"),  
+			0, 
+            KEY_ALL_ACCESS,
+            &boinc_key
+        );
+		if ( error != ERROR_SUCCESS ) return -1;
+	} else {
+		error = RegOpenKeyEx(
+            HKEY_CURRENT_USER,
+            _T("SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Screensaver"),  
+			0,
+            KEY_ALL_ACCESS,
+            &boinc_key
+        );
+		if ( error != ERROR_SUCCESS ) return -1;
+	}
+
+	error = RegQueryValueEx( boinc_key, name, NULL, &type, (BYTE *)&value, &size );
+
+	keyval = value;
+
+	RegCloseKey( boinc_key );
+
+	if ( error != ERROR_SUCCESS ) return -1;
+
+	return 0;
+}
+
+
+
+
+//////////
+// Function:    UtilGetRegStartupStr
+// arguments:	name: name of key, str: value of string to store
+//				if str is empty, attepts to delete the key
+// returns:		int indicating error
+// function:	sets string value in specified key in windows startup dir
+int CScreensaver::UtilGetRegStartupStr(char *name, char *str)
+{
+	LONG error;
+	DWORD type = REG_SZ;
+	DWORD size = 128;
+	HKEY boinc_key;
+
+	*str = 0;
+
+	if ( m_bIs9x ) {
+		error = RegOpenKeyEx( 
+            HKEY_LOCAL_MACHINE, 
+            _T("Software\\Microsoft\\Windows\\CurrentVersion\\Run"),
+			0, 
+            KEY_ALL_ACCESS,
+            &boinc_key
+        );
+		if ( error != ERROR_SUCCESS ) return -1;
+	} else {
+		error = RegOpenKeyEx( 
+            HKEY_CURRENT_USER, 
+            _T("Software\\Microsoft\\Windows\\CurrentVersion\\Run"),
+			0, 
+            KEY_ALL_ACCESS, 
+            &boinc_key
+        );
+		if ( error != ERROR_SUCCESS ) return -1;
+	}
+
+	error = RegQueryValueEx( boinc_key, name, NULL, &type, (BYTE*)str, &size );
+
+	RegCloseKey( boinc_key );
+
+	if ( error != ERROR_SUCCESS ) return -1;
+
+	return ERROR_SUCCESS;
 }
 
 
