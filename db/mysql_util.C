@@ -129,9 +129,9 @@ int MYSQL_DB::db_update(void* vp, int type) {
     char buf[MAX_QUERY_LEN], sbuf[MAX_QUERY_LEN];
     struct_to_str(vp, sbuf, type);
     sprintf(
-	buf,
-	"update %s set %s where id=%d",
-	table_name[type], sbuf, *id(vp, type)
+        buf,
+        "update %s set %s where id=%d",
+        table_name[type], sbuf, *id(vp, type)
     );
     return mysql_query(mp, buf);
 }
@@ -139,43 +139,43 @@ int MYSQL_DB::db_update(void* vp, int type) {
 int MYSQL_DB::db_enum(ENUM& e, void* p, int type, char* clause, int limit) {
     char buf[MAX_QUERY_LEN], buf2[256];
     if (!e.active) {
-	e.active = 1;
-	sprintf(buf, "select * from %s %s", table_name[type], clause?clause:"");
+        e.active = 1;
+        sprintf(buf, "select * from %s %s", table_name[type], clause?clause:"");
         if (limit) {
             sprintf(buf2, " limit %d", limit);
             strcat(buf, buf2);
         }
-	mysql_query(mp, buf);
-	e.rp = mysql_store_result(mp);
-	if (!e.rp) return -1;
+        mysql_query(mp, buf);
+        e.rp = mysql_store_result(mp);
+        if (!e.rp) return -1;
     }
     row = mysql_fetch_row(e.rp);
     if (!row) {
-	mysql_free_result(e.rp);
-	e.active = 0;
-	return 1;
+        mysql_free_result(e.rp);
+        e.active = 0;
+        return 1;
     } else {
-	row_to_struct(row, p, type);
-	return 0;
+        row_to_struct(row, p, type);
+        return 0;
     }
 }
 
 int MYSQL_DB::db_enum_field(ENUM& e, int type, char* field, char* clause) {
     char buf[MAX_QUERY_LEN];
     if (!e.active) {
-	e.active = 1;
-	sprintf(buf, "select %s from %s %s", field, table_name[type], clause);
-	mysql_query(mp, buf);
-	e.rp = mysql_store_result(mp);
-	if (!e.rp) return -1;
+        e.active = 1;
+        sprintf(buf, "select %s from %s %s", field, table_name[type], clause);
+        mysql_query(mp, buf);
+        e.rp = mysql_store_result(mp);
+        if (!e.rp) return -1;
     }
     row = mysql_fetch_row(e.rp);
     if (!row) {
-	mysql_free_result(e.rp);
-	e.active = 0;
-	return 1;
+        mysql_free_result(e.rp);
+        e.active = 0;
+        return 1;
     } else {
-	return 0;
+        return 0;
     }
 }
 

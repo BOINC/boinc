@@ -4,7 +4,9 @@
 <p>
 Workunits and results can be created using either a utility program
 or a C++ function.
-<p>
+In either case you must first <a href=key_setup.html>generate a key pair</a>
+for file upload authentication.
+<hr>
 The utility program is
 <pre>
 create_work
@@ -37,7 +39,7 @@ the filename, download URL, MD5 checksum, and size.
 file.
 <li>
 Within a &lt;file_ref> element,
-&lt;file_number>x&lt;/number> is replaced with the filename.
+&lt;file_number>x&lt;/file_number> is replaced with the filename.
 </ul>
 <p>
 The result file template is macro-substituted as follows:
@@ -52,22 +54,37 @@ the ordinal number of the result (0, 1, ...).
 <p>
 <hr>
 <p>
-The C++ library (backend_lib.C,h) provides the function:
+The C++ library (backend_lib.C,h) provides the functions:
 <pre>
+int read_key_file(char* path, R_RSA_PRIVATE_KEY& key);
+
 int create_work(
     WORKUNIT&,
-    char* wu_template,
-    char* result_template_filename,
+    char* wu_template,                  // contents, not path
+    char* result_template_filename,     // path
     int nresults,
-    char* infile_dir,
-    char** infiles,
+    char* infile_dir,                   // where input files are
+    char** infiles,                     // array of input file names
     int ninfiles
-    R_RSA_PRIVATE_KEY& key,
+    R_RSA_PRIVATE_KEY& key,             // upload authentication key
     char* upload_url,
     char* download_url
 );
 </pre>
 <p>
-This creates a workunit and one or more results.
+<b>read_key_file()</b> reads a private key from a file.
+Use this to read the file upload authentication key.
+<p>
+<b>create_work()</b>
+creates a workunit and one or more results.
 The arguments are similar to those of the utility program;
-some of the information is passed in the WORKUNIT structure.
+some of the information is passed in the WORKUNIT structure,
+namely the following fields:
+<pre>
+name
+rsc_fpops
+rsc_iops
+rsc_memory
+rsc_disk
+delay_bound
+</pre>

@@ -50,7 +50,7 @@ static char* boinc_table_name[] = {
     "workseq",
 };
 
-class BOINC_MYSQL_DB : virtual public MYSQL_DB {
+class BOINC_MYSQL_DB : public MYSQL_DB {
 public:
     BOINC_MYSQL_DB();
     void struct_to_str(void* vp, char* q, int type);

@@ -162,7 +162,7 @@ void make_work() {
             while (p) {
                 if (parse_str(p, "<name>", file_name, sizeof(file_name))) {
                     sprintf(
-                        new_file_name, "%s_%d_%d", file_name, start_time, seqno++
+                        new_file_name, "%s__%d_%d", file_name, start_time, seqno++
                     );
                     sprintf(pathname, "%s/%s", config.download_dir, file_name);
                     sprintf(
