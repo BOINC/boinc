@@ -1,28 +1,28 @@
 vers = @BOINC_MAJOR_VERSION@.@BOINC_MINOR_VERSION@_@target@
-sea = boinc_$(vers)_sea.sh
+sea = boinc_$(vers).sh
 
 all: $(sea)
 
 $(sea): sea.tar make-sea.sh Makefile
-	./make-sea.sh $< $@ BOINC/binstall.sh
+    ./make-sea.sh $< $@ BOINC/binstall.sh
 
-sea.tar: BOINC/boinc_client BOINC/boinc_gui BOINC/binstall.sh
-	tar cf $@ $^
+sea.tar: BOINC BOINC/boinc BOINC/boincmgr BOINC/binstall.sh
+    tar cf $@ $^
 
-BOINC/boinc_client: ../client/boinc_client BOINC
-	cp $< $@
+BOINC/boinc: ../client/boinc_client BOINC/boinc
+    cp $< $@
 
-BOINC/boinc_gui: ../clientgui/boinc_gui BOINC
-	cp $< $@
+BOINC/boincmgr: ../clientgui/boinc_gui BOINC/boincmgr
+    cp $< $@
 
 BOINC/binstall.sh: BOINC
-	echo 'cd BOINC &&\
-	echo "cd \"`pwd`\" && ./boinc_client" > run_client &&\
-	chmod +x run_client &&\
-	echo now run `pwd`/run_client to run the client and `pwd`/boinc_gui to run the GUI' > $@
+    echo 'cd BOINC &&\
+    echo "cd \"`pwd`\" && ./boinc" > run_client &&\
+    chmod +x run_client &&\
+    echo now run `pwd`/run_client to run the client and `pwd`/boincmgr to run the GUI' > $@
 
 BOINC:
-	mkdir -p BOINC
+    mkdir -p BOINC
 
 clean:
-	rm -rf BOINC sea.tar $(sea)
+    rm -rf BOINC sea.tar $(sea)
