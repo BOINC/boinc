@@ -15,6 +15,8 @@ def read_url(url, quiet=False):
     except IOError, e:
         if not quiet:
             error("couldn't access url: %s %s" % (url, e))
+        else:
+            verbose_echo(2, "couldn't access url: %s %s" % (url, e))
         return ''
 
 if __name__ == '__main__':
@@ -56,7 +58,7 @@ if __name__ == '__main__':
         else:
             proxy.stop()
 
-            proxy = Proxy('exit 1 if $nconnections < 2; if_done_kill(); if_done_ping();')
+            proxy = Proxy('close_connection if $nconnections < 2')
             if read_url(html_proxy_url, quiet=True):
                 error("Proxy should have closed connection #1")
                 if read_url(html_proxy_url) != magic:
