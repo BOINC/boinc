@@ -137,14 +137,10 @@ OK=OK
 Cancel=CANCEL
 
 [DIALOG-RESET]
-Title=RESET PROJECT
-Are you sure you want to reset the project =ARE YOU SURE YOU WANT TO RESET THE PROJECT 
-?=???
+Are you sure you want to reset the project %1?=ARE YOU SURE YOU WANT TO RESET THE PROJECT %1?
 
 [DIALOG-DETACH]
-Title=DETACH PROJECT
-Are you sure you want to detach from the project =ARE YOU SURE YOU WANT TO DETACH FROM THE PROJECT 
-?=???
+Are you sure you want to detach from the project %1?=ARE YOU SURE YOU WANT TO DETACH FROM THE PROJECT %1?
 
 [DIALOG-ABOUT]
 Title=Boinc Beta Version
