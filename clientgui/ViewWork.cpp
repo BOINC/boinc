@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.4  2004/09/25 21:33:24  rwalton
+// *** empty log message ***
+//
 // Revision 1.3  2004/09/24 22:19:01  rwalton
 // *** empty log message ***
 //
@@ -85,7 +88,8 @@ CViewWork::CViewWork()
 CViewWork::CViewWork(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook, ID_HTML_WORKVIEW, ID_LIST_WORKVIEW)
 {
-    m_bProcessingRenderEvent = false;
+    m_bProcessingTaskRenderEvent = false;
+    m_bProcessingListRenderEvent = false;
 
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
@@ -140,18 +144,13 @@ char** CViewWork::GetViewIcon()
 }
 
 
-void CViewWork::OnRender(wxTimerEvent &event)
+void CViewWork::OnTaskRender(wxTimerEvent &event)
 {
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
-
-    wxLogTrace("CViewWork::OnRender - Processing Render Event...");
-    if (!m_bProcessingRenderEvent)
+    if (!m_bProcessingTaskRenderEvent)
     {
-        m_bProcessingRenderEvent = true;
+        m_bProcessingTaskRenderEvent = true;
 
-        wxInt32 iProjectCount = wxGetApp().GetDocument()->GetWorkCount();
-        m_pListPane->SetItemCount(iProjectCount);
+        wxASSERT(NULL != m_pListPane);
 
         long lSelected = m_pListPane->GetFirstSelected();
         if ( (-1 == lSelected) && m_bItemSelected )
@@ -159,7 +158,27 @@ void CViewWork::OnRender(wxTimerEvent &event)
             UpdateSelection();
         }
 
-        m_bProcessingRenderEvent = false;
+        m_bProcessingTaskRenderEvent = false;
+    }
+    else
+    {
+        event.Skip();
+    }
+}
+
+
+void CViewWork::OnListRender(wxTimerEvent &event)
+{
+    if (!m_bProcessingListRenderEvent)
+    {
+        m_bProcessingListRenderEvent = true;
+
+        wxASSERT(NULL != m_pListPane);
+
+        wxInt32 iCount = wxGetApp().GetDocument()->GetWorkCount();
+        m_pListPane->SetItemCount(iCount);
+
+        m_bProcessingListRenderEvent = false;
     }
     else
     {
@@ -170,7 +189,6 @@ void CViewWork::OnRender(wxTimerEvent &event)
 
 void CViewWork::OnListSelected ( wxListEvent& event )
 {
-    wxLogTrace("CViewWork::OnListSelected - Processing Event...");
     UpdateSelection();
     event.Skip();
 }
@@ -178,7 +196,6 @@ void CViewWork::OnListSelected ( wxListEvent& event )
 
 void CViewWork::OnListDeselected ( wxListEvent& event )
 {
-    wxLogTrace("CViewWork::OnListDeselected - Processing Event...");
     UpdateSelection();
     event.Skip();
 }

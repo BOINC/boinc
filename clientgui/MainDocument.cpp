@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.13  2004/09/25 21:33:23  rwalton
+// *** empty log message ***
+//
 // Revision 1.12  2004/09/10 23:17:07  rwalton
 // *** empty log message ***
 //
@@ -72,8 +75,10 @@ CMainDocument::CMainDocument()
     }
 #endif
 
+    m_bCachedProjectStatusLocked = false;
     m_bCachedStateLocked = false;
     m_bIsConnected = false;
+
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
     m_dtCachedStateTimestamp = 0;
 }
@@ -85,6 +90,7 @@ CMainDocument::~CMainDocument()
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
     m_bIsConnected = false;
     m_bCachedStateLocked = false;
+    m_bCachedProjectStatusLocked = false;
 
 #ifdef __WIN32__
     WSACleanup();
@@ -92,46 +98,129 @@ CMainDocument::~CMainDocument()
 }
 
 
-wxInt32 CMainDocument::GetProjectCount() {
-    CachedStateUpdate();
-    wxInt32 iCount = state.projects.size();
+wxInt32 CMainDocument::CachedProjectStatusUpdate()
+{
+    wxInt32 retval = 0;
+
+    if (!m_bIsConnected)
+    {
+        retval = rpc.init(NULL);
+        if (retval)
+        {
+            wxLogTrace("CMainDocument::CachedStateUpdate - RPC Initialization Failed '%d'", retval);
+            return retval;
+        }
+
+        m_bIsConnected = true;
+    }
+
+    retval = rpc.get_project_status(project_status);
+    if (retval)
+    {
+        wxLogTrace("CMainDocument::CachedStateUpdate - Get State Failed '%d'", retval);
+    }
+
+    return retval;
+}
+
+
+wxInt32 CMainDocument::GetProjectCount()
+{
+    CachedProjectStatusUpdate();
+    wxInt32 iCount = project_status.projects.size();
+
     return iCount;
 }
 
 
-wxString CMainDocument::GetProjectProjectName(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return state.projects[iIndex]->project_name.c_str();
+wxInt32 CMainDocument::GetProjectProjectName(wxInt32 iIndex, wxString& strBuffer)
+{
+    PROJECT* pProject = project_status.projects[iIndex];
+    if ( NULL != pProject )
+        strBuffer = pProject->project_name.c_str();
+
+    return 0;
 }
 
 
-wxString CMainDocument::GetProjectAccountName(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return state.projects[iIndex]->user_name.c_str();
+wxInt32 CMainDocument::GetProjectProjectURL(wxInt32 iIndex, wxString& strBuffer)
+{
+    PROJECT* pProject = project_status.projects[iIndex];
+    if ( NULL != pProject )
+        strBuffer = pProject->master_url.c_str();
+
+    return 0;
 }
 
 
-wxString CMainDocument::GetProjectTeamName(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return state.projects[iIndex]->team_name.c_str();
+wxInt32 CMainDocument::GetProjectAccountName(wxInt32 iIndex, wxString& strBuffer)
+{
+    PROJECT* pProject = project_status.projects[iIndex];
+    if ( NULL != pProject )
+        strBuffer = pProject->user_name.c_str();
+
+    return 0;
 }
 
 
-wxString CMainDocument::GetProjectTotalCredit(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return wxString::Format(_T("%0.2f"), state.projects[iIndex]->user_total_credit);
+wxInt32 CMainDocument::GetProjectTeamName(wxInt32 iIndex, wxString& strBuffer)
+{
+    PROJECT* pProject = project_status.projects[iIndex];
+    if ( NULL != pProject )
+        strBuffer = pProject->team_name.c_str();
+
+    return 0;
 }
 
 
-wxString CMainDocument::GetProjectAvgCredit(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return wxString::Format(_T("%0.2f"), state.projects[iIndex]->user_expavg_credit);
+wxInt32 CMainDocument::GetProjectTotalCredit(wxInt32 iIndex, wxString& strBuffer)
+{
+    PROJECT* pProject = project_status.projects[iIndex];
+    if ( NULL != pProject )
+        strBuffer.Printf(wxT("%0.2f"), pProject->user_total_credit);
+
+    return 0;
 }
 
 
-wxString CMainDocument::GetProjectResourceShare(wxInt32 iIndex) {
-    CachedStateUpdate();
-    return wxString::Format(_T("%0.2f%%"), state.projects[iIndex]->resource_share);
+wxInt32 CMainDocument::GetProjectAvgCredit(wxInt32 iIndex, wxString& strBuffer)
+{
+    PROJECT* pProject = project_status.projects[iIndex];
+    if ( NULL != pProject )
+        strBuffer.Printf(wxT("%0.2f"), pProject->user_expavg_credit);
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::GetProjectResourceShare(wxInt32 iIndex, wxString& strBuffer)
+{
+    PROJECT* pProject = project_status.projects[iIndex];
+    if ( NULL != pProject )
+        strBuffer.Printf(wxT("%0.2f%%"), pProject->resource_share);
+
+    return 0;
+}
+
+
+wxInt32 CMainDocument::ProjectAttach( wxString& strURL, wxString& strAccountKey )
+{
+    return rpc.project_attach((char *)strURL.c_str(), (char *)strAccountKey.c_str());
+}
+
+wxInt32 CMainDocument::ProjectDetach( wxString& strURL )
+{
+    return rpc.project_detach((char *)strURL.c_str());
+}
+
+wxInt32 CMainDocument::ProjectUpdate( wxString& strURL )
+{
+    return rpc.project_update((char *)strURL.c_str());
+}
+
+wxInt32 CMainDocument::ProjectReset( wxString& strURL )
+{
+    return rpc.project_reset((char *)strURL.c_str());
 }
 
 

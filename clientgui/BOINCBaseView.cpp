@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.6  2004/09/25 21:33:22  rwalton
+// *** empty log message ***
+//
 // Revision 1.5  2004/09/24 22:18:53  rwalton
 // *** empty log message ***
 //
@@ -120,10 +123,17 @@ char** CBOINCBaseView::GetViewIcon()
 }
 
 
-void CBOINCBaseView::OnRender (wxTimerEvent& event)
+void CBOINCBaseView::OnTaskRender (wxTimerEvent& event)
 {
-    wxLogTrace("CBOINCBaseView::OnRender - Function Begining");
-    wxLogTrace("CBOINCBaseView::OnRender - Function Ending");
+    wxLogTrace("CBOINCBaseView::OnTaskRender - Function Begining");
+    wxLogTrace("CBOINCBaseView::OnTaskRender - Function Ending");
+}
+
+
+void CBOINCBaseView::OnListRender (wxTimerEvent& event)
+{
+    wxLogTrace("CBOINCBaseView::OnListRender - Function Begining");
+    wxLogTrace("CBOINCBaseView::OnListRender - Function Ending");
 }
 
 

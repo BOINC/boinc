@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.4  2004/09/25 21:33:23  rwalton
+// *** empty log message ***
+//
 // Revision 1.3  2004/09/24 22:19:01  rwalton
 // *** empty log message ***
 //
@@ -82,7 +85,8 @@ CViewTransfers::CViewTransfers()
 CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook, ID_HTML_TRANSFERSVIEW, ID_LIST_TRANSFERSVIEW)
 {
-    m_bProcessingRenderEvent = false;
+    m_bProcessingTaskRenderEvent = false;
+    m_bProcessingListRenderEvent = false;
 
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
@@ -136,16 +140,13 @@ char** CViewTransfers::GetViewIcon()
 }
 
 
-void CViewTransfers::OnRender(wxTimerEvent &event)
+void CViewTransfers::OnTaskRender(wxTimerEvent &event)
 {
-    wxLogTrace("CViewTransfers::OnRender - Processing Render Event...");
-    if (!m_bProcessingRenderEvent)
+    if (!m_bProcessingTaskRenderEvent)
     {
-        m_bProcessingRenderEvent = true;
+        m_bProcessingTaskRenderEvent = true;
 
-        wxInt32 iProjectCount = wxGetApp().GetDocument()->GetTransferCount();
         wxASSERT(NULL != m_pListPane);
-        m_pListPane->SetItemCount(iProjectCount);
 
         long lSelected = m_pListPane->GetFirstSelected();
         if ( (-1 == lSelected) && m_bItemSelected )
@@ -153,7 +154,27 @@ void CViewTransfers::OnRender(wxTimerEvent &event)
             UpdateSelection();
         }
 
-        m_bProcessingRenderEvent = false;
+        m_bProcessingTaskRenderEvent = false;
+    }
+    else
+    {
+        event.Skip();
+    }
+}
+
+
+void CViewTransfers::OnListRender(wxTimerEvent &event)
+{
+    if (!m_bProcessingListRenderEvent)
+    {
+        m_bProcessingListRenderEvent = true;
+
+        wxASSERT(NULL != m_pListPane);
+
+        wxInt32 iCount = wxGetApp().GetDocument()->GetTransferCount();
+        m_pListPane->SetItemCount(iCount);
+
+        m_bProcessingListRenderEvent = false;
     }
     else
     {
@@ -164,7 +185,6 @@ void CViewTransfers::OnRender(wxTimerEvent &event)
 
 void CViewTransfers::OnListSelected ( wxListEvent& event )
 {
-    wxLogTrace("CViewTransfers::OnListSelected - Processing Event...");
     UpdateSelection();
     event.Skip();
 }
@@ -172,7 +192,6 @@ void CViewTransfers::OnListSelected ( wxListEvent& event )
 
 void CViewTransfers::OnListDeselected ( wxListEvent& event )
 {
-    wxLogTrace("CViewTransfers::OnListDeselected - Processing Event...");
     UpdateSelection();
     event.Skip();
 }

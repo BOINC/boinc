@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  2004/09/25 21:33:22  rwalton
+// *** empty log message ***
+//
 // Revision 1.4  2004/09/24 22:18:53  rwalton
 // *** empty log message ***
 //
@@ -59,7 +62,8 @@ public:
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
 
-    virtual void            OnRender( wxTimerEvent& event );
+    virtual void            OnTaskRender( wxTimerEvent& event );
+    virtual void            OnListRender( wxTimerEvent& event );
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
@@ -80,7 +84,8 @@ public:
     virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();
 
-    bool                    m_bProcessingRenderEvent;
+    bool                    m_bProcessingTaskRenderEvent;
+    bool                    m_bProcessingListRenderEvent;
     wxInt32                 m_iCacheFrom;
     wxInt32                 m_iCacheTo;
 

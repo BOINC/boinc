@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.6  2004/09/25 21:33:23  rwalton
+// *** empty log message ***
+//
 // Revision 1.5  2004/09/24 22:18:58  rwalton
 // *** empty log message ***
 //
@@ -102,7 +105,8 @@ CViewProjects::CViewProjects()
 CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook, ID_HTML_PROJECTSVIEW, ID_LIST_PROJECTSVIEW)
 {
-    m_bProcessingRenderEvent = false;
+    m_bProcessingTaskRenderEvent = false;
+    m_bProcessingListRenderEvent = false;
 
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
@@ -161,18 +165,13 @@ char** CViewProjects::GetViewIcon()
 }
 
 
-void CViewProjects::OnRender(wxTimerEvent &event)
+void CViewProjects::OnTaskRender(wxTimerEvent &event)
 {
-    wxASSERT(NULL != m_pTaskPane);
-    wxASSERT(NULL != m_pListPane);
-
-    wxLogTrace(wxT("CViewProjects::OnRender - Processing Render Event..."));
-    if (!m_bProcessingRenderEvent)
+    if (!m_bProcessingTaskRenderEvent)
     {
-        m_bProcessingRenderEvent = true;
+        m_bProcessingTaskRenderEvent = true;
 
-        wxInt32 iProjectCount = wxGetApp().GetDocument()->GetProjectCount();
-        m_pListPane->SetItemCount(iProjectCount);
+        wxASSERT(NULL != m_pListPane);
 
         long lSelected = m_pListPane->GetFirstSelected();
         if ( (-1 == lSelected) && m_bItemSelected )
@@ -180,7 +179,27 @@ void CViewProjects::OnRender(wxTimerEvent &event)
             UpdateSelection();
         }
 
-        m_bProcessingRenderEvent = false;
+        m_bProcessingTaskRenderEvent = false;
+    }
+    else
+    {
+        event.Skip();
+    }
+}
+
+
+void CViewProjects::OnListRender(wxTimerEvent &event)
+{
+    if (!m_bProcessingListRenderEvent)
+    {
+        m_bProcessingListRenderEvent = true;
+
+        wxASSERT(NULL != m_pListPane);
+
+        wxInt32 iCount = wxGetApp().GetDocument()->GetProjectCount();
+        m_pListPane->SetItemCount(iCount);
+
+        m_bProcessingListRenderEvent = false;
     }
     else
     {
@@ -191,7 +210,6 @@ void CViewProjects::OnRender(wxTimerEvent &event)
 
 void CViewProjects::OnListSelected ( wxListEvent& event )
 {
-    wxLogTrace("CViewProjects::OnListSelected - Processing Event...");
     UpdateSelection();
     event.Skip();
 }
@@ -199,7 +217,6 @@ void CViewProjects::OnListSelected ( wxListEvent& event )
 
 void CViewProjects::OnListDeselected ( wxListEvent& event )
 {
-    wxLogTrace("CViewProjects::OnListDeselected - Processing Event...");
     UpdateSelection();
     event.Skip();
 }
@@ -209,24 +226,22 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const {
     wxString strBuffer;
     switch(column) {
         case COLUMN_PROJECT:
-            if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
-            strBuffer = wxGetApp().GetDocument()->GetProjectProjectName(item);
+            wxGetApp().GetDocument()->GetProjectProjectName(item, strBuffer);
             break;
         case COLUMN_ACCOUNTNAME:
-            strBuffer = wxGetApp().GetDocument()->GetProjectAccountName(item);
+            wxGetApp().GetDocument()->GetProjectAccountName(item, strBuffer);
             break;
         case COLUMN_TEAMNAME:
-            strBuffer = wxGetApp().GetDocument()->GetProjectTeamName(item);
+            wxGetApp().GetDocument()->GetProjectTeamName(item, strBuffer);
             break;
         case COLUMN_TOTALCREDIT:
-            strBuffer = wxGetApp().GetDocument()->GetProjectTotalCredit(item);
+            wxGetApp().GetDocument()->GetProjectTotalCredit(item, strBuffer);
             break;
         case COLUMN_AVGCREDIT:
-            strBuffer = wxGetApp().GetDocument()->GetProjectAvgCredit(item);
+            wxGetApp().GetDocument()->GetProjectAvgCredit(item, strBuffer);
             break;
         case COLUMN_RESOURCESHARE:
-            strBuffer = wxGetApp().GetDocument()->GetProjectResourceShare(item);
-            if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
+            wxGetApp().GetDocument()->GetProjectResourceShare(item, strBuffer);
             break;
     }
     return strBuffer;
@@ -238,7 +253,12 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
+    wxInt32  iAnswer; 
+    wxInt32  iProject; 
+    wxString strProjectName;
+    wxString strProjectURL;
     wxString strMessage;
+
 
     if ( link.GetHref() == wxT(SECTION_TASK) )
         m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
@@ -249,7 +269,15 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         CDlgAttachProject* pDlg = new CDlgAttachProject(this);
         wxASSERT(NULL != pDlg);
 
-        pDlg->ShowModal();
+        iAnswer = pDlg->ShowModal();
+ 
+        if ( wxOK == iAnswer )
+        {
+            wxGetApp().GetDocument()->ProjectAttach(
+                pDlg->m_strProjectAddress, 
+                pDlg->m_strProjectAccountKey
+            );
+        }
 
         if (pDlg)
             pDlg->Destroy();
@@ -257,11 +285,15 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 
     if ( link.GetHref() == wxT(LINK_TASKDETACH) )
     {
+        iProject = m_pListPane->GetFirstSelected();
+        wxGetApp().GetDocument()->GetProjectProjectName(iProject, strProjectName);
+        wxGetApp().GetDocument()->GetProjectProjectURL(iProject, strProjectURL);
+
         strMessage.Printf(
             _("Are you sure you wish to detach from project '%s'?"), 
-            wxGetApp().GetDocument()->GetProjectProjectName(m_pListPane->GetFirstSelected()).c_str());
+            strProjectName.c_str());
 
-        int iAnswer = wxMessageBox(
+        iAnswer = wxMessageBox(
             strMessage,
             _("Detach from Project"),
             wxYES_NO | wxICON_QUESTION, 
@@ -270,22 +302,33 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 
         if ( wxYES == iAnswer )
         {
-
+            wxGetApp().GetDocument()->ProjectDetach(
+                strProjectURL 
+            );
         }
     }
 
     if ( link.GetHref() == wxT(LINK_TASKUPDATE) )
     {
-        
+        iProject = m_pListPane->GetFirstSelected();
+        wxGetApp().GetDocument()->GetProjectProjectURL(iProject, strProjectURL);
+
+        wxGetApp().GetDocument()->ProjectUpdate(
+            strProjectURL 
+        );
     }
 
     if ( link.GetHref() == wxT(LINK_TASKRESET) )
     {
+        iProject = m_pListPane->GetFirstSelected();
+        wxGetApp().GetDocument()->GetProjectProjectName(iProject, strProjectName);
+        wxGetApp().GetDocument()->GetProjectProjectURL(iProject, strProjectURL);
+
         strMessage.Printf(
             _("Are you sure you wish to reset project '%s'?"), 
-            wxGetApp().GetDocument()->GetProjectProjectName(m_pListPane->GetFirstSelected()).c_str());
+            strProjectName.c_str());
 
-        int iAnswer = wxMessageBox(
+        iAnswer = wxMessageBox(
             strMessage,
             _("Reset Project"),
             wxYES_NO | wxICON_QUESTION, 
@@ -294,7 +337,9 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 
         if ( wxYES == iAnswer )
         {
-
+            wxGetApp().GetDocument()->ProjectReset(
+                strProjectURL 
+            );
         }
     }
 

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.10  2004/09/25 21:33:22  rwalton
+// *** empty log message ***
+//
 // Revision 1.9  2004/09/24 02:01:47  rwalton
 // *** empty log message ***
 //
@@ -40,17 +43,18 @@
 #define ID_STATUSBAR                        6000
 #define ID_COMMANDSATTACHPROJECT            6001
 #define ID_TOOLSOPTIONS                     6002
-#define ID_FRAMERENDERTIMER                 6003
-#define ID_LIST_PROJECTSVIEW                6004
-#define ID_LIST_WORKVIEW                    6005
-#define ID_LIST_TRANSFERSVIEW               6006
-#define ID_LIST_MESSAGESVIEW                6007
-#define ID_LIST_RESOURCEUTILIZATIONVIEW     6008
-#define ID_HTML_PROJECTSVIEW                6009
-#define ID_HTML_WORKVIEW                    6010
-#define ID_HTML_TRANSFERSVIEW               6011
-#define ID_HTML_MESSAGESVIEW                6012
-#define ID_HTML_RESOURCEUTILIZATIONVIEW     6013
+#define ID_FRAMETASKRENDERTIMER             6003
+#define ID_FRAMELISTRENDERTIMER             6004
+#define ID_LIST_PROJECTSVIEW                6005
+#define ID_LIST_WORKVIEW                    6006
+#define ID_LIST_TRANSFERSVIEW               6007
+#define ID_LIST_MESSAGESVIEW                6008
+#define ID_LIST_RESOURCEUTILIZATIONVIEW     6009
+#define ID_HTML_PROJECTSVIEW                6010
+#define ID_HTML_WORKVIEW                    6011
+#define ID_HTML_TRANSFERSVIEW               6012
+#define ID_HTML_MESSAGESVIEW                6013
+#define ID_HTML_RESOURCEUTILIZATIONVIEW     6014
 
 
 #endif

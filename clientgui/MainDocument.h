@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.12  2004/09/25 21:33:23  rwalton
+// *** empty log message ***
+//
 // Revision 1.11  2004/09/14 15:52:06  rwalton
 // *** empty log message ***
 //
@@ -61,8 +64,45 @@ class CMainDocument : public wxObject
 {
     DECLARE_DYNAMIC_CLASS(CMainDocument)
 
+public:
+    CMainDocument();
+    ~CMainDocument();
+
+    //
+    // Project Tab
+    //
 private:
     RPC_CLIENT                  rpc;
+
+    PROJECTS                    project_status;
+    bool                        m_bCachedProjectStatusLocked;
+
+    wxInt32                     CachedProjectStatusUpdate();
+
+public:
+
+    wxInt32                     CachedProjectStatusLock();
+    wxInt32                     CachedProjectStatusUnlock();
+
+    wxInt32                     GetProjectCount();
+    wxInt32                     GetProjectProjectName(wxInt32 iIndex, wxString& strBuffer);
+    wxInt32                     GetProjectProjectURL(wxInt32 iIndex, wxString& strBuffer);
+    wxInt32                     GetProjectAccountName(wxInt32 iIndex, wxString& strBuffer);
+    wxInt32                     GetProjectTeamName(wxInt32 iIndex, wxString& strBuffer);
+    wxInt32                     GetProjectTotalCredit(wxInt32 iIndex, wxString& strBuffer);
+    wxInt32                     GetProjectAvgCredit(wxInt32 iIndex, wxString& strBuffer);
+    wxInt32                     GetProjectResourceShare(wxInt32 iIndex, wxString& strBuffer);
+
+    wxInt32                     ProjectAttach( wxString& strURL, wxString& strAccountKey );
+    wxInt32                     ProjectDetach( wxString& strURL );
+    wxInt32                     ProjectUpdate( wxString& strURL );
+    wxInt32                     ProjectReset( wxString& strURL );
+
+
+
+
+private:
+
     CC_STATE                    state;
     RESULTS                     results;
     FILE_TRANSFERS              ft;
@@ -70,24 +110,15 @@ private:
     wxDateTime                  m_dtCachedStateTimestamp;
     wxDateTime                  m_dtCachedStateLockTimestamp;
     bool                        m_bCachedStateLocked;
+
     bool                        m_bIsConnected;
 
     wxInt32                     CachedStateUpdate();
 
 public:
-    CMainDocument();
-    ~CMainDocument();
 
     wxInt32                     CachedStateLock();
     wxInt32                     CachedStateUnlock();
-
-    wxInt32                     GetProjectCount();
-    wxString                    GetProjectProjectName(wxInt32 iIndex);
-    wxString                    GetProjectAccountName(wxInt32 iIndex);
-    wxString                    GetProjectTeamName(wxInt32 iIndex);
-    wxString                    GetProjectTotalCredit(wxInt32 iIndex);
-    wxString                    GetProjectAvgCredit(wxInt32 iIndex);
-    wxString                    GetProjectResourceShare(wxInt32 iIndex);
 
     wxInt32                     GetWorkCount();
     wxString                    GetWorkProjectName(wxInt32 iIndex);

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.4  2004/09/25 21:33:24  rwalton
+// *** empty log message ***
+//
 // Revision 1.3  2004/09/24 22:19:02  rwalton
 // *** empty log message ***
 //
@@ -55,7 +58,8 @@ public:
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
 
-    virtual void            OnRender( wxTimerEvent& event );
+    virtual void            OnTaskRender( wxTimerEvent& event );
+    virtual void            OnListRender( wxTimerEvent& event );
 
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );

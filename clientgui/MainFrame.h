@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.11  2004/09/25 21:33:23  rwalton
+// *** empty log message ***
+//
 // Revision 1.10  2004/09/24 02:01:49  rwalton
 // *** empty log message ***
 //
@@ -65,14 +68,16 @@ public:
     void OnToolsOptions(wxCommandEvent &event);
     void OnAbout(wxCommandEvent &event);
 
-    void OnFrameRender(wxTimerEvent &event);
+    void OnTaskPanelRender(wxTimerEvent &event);
+    void OnListPanelRender(wxTimerEvent &event);
 
 private:
 
     wxMenuBar*      m_pMenubar;
     wxNotebook*     m_pNotebook;
     wxStatusBar*    m_pStatusbar;
-    wxTimer*        m_pFrameRenderTimer;
+    wxTimer*        m_pFrameTaskPanelRenderTimer;
+    wxTimer*        m_pFrameListPanelRenderTimer;
 
     wxString        m_strStatusMessage;
 
@@ -101,7 +106,9 @@ private:
 
     // Render management
     template < class T >
-        void        FireRenderEvent( T pPage, wxTimerEvent &event );
+        void        FireTaskPanelRenderEvent( T pPage, wxTimerEvent &event );
+    template < class T >
+        void        FireListPanelRenderEvent( T pPage, wxTimerEvent &event );
 
 
     DECLARE_EVENT_TABLE()
