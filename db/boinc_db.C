@@ -1021,7 +1021,7 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     strcpy2(wu.result_template_file, r[i++]);
 }
 
-int DB_WORK_ITEM::enumerate(int limit, char* order_clause) {
+int DB_WORK_ITEM::enumerate(int limit, const char* order_clause) {
     char query[MAX_QUERY_LEN];
     int retval;
     MYSQL_ROW row;

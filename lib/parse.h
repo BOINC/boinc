@@ -41,10 +41,10 @@ extern int copy_element_contents(FILE* in, const char* end_tag, char* p, int len
 extern int copy_element_contents(FILE* in, const char* end_tag, std::string&);
 extern int read_file_malloc(const char* pathname, char*& str);
 extern void replace_element_contents(
-    char* buf, char* start, char* end, char* replacement
+    char* buf, const char* start, const char* end, const char* replacement
 );
-extern bool remove_element(char* buf, char* start, char* end);
-extern bool str_replace(char* str, char* old, char* neww);
+extern bool remove_element(char* buf, const char* start, const char* end);
+extern bool str_replace(char* str, const char* old, const char* neww);
 extern char* sgets(char* buf, int len, char* &in);
 extern void xml_escape(std::string&, std::string&);
 extern void xml_escape(char*, std::string&);

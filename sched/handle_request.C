@@ -252,7 +252,7 @@ make_new_host:
 // somewhat arbitrary formula for credit as a function of CPU time.
 // Could also include terms for RAM size, network speed etc.
 //
-static void compute_credit_rating(HOST& host, SCHEDULER_REQUEST& sreq) {
+static void compute_credit_rating(HOST& host) {
     double cobblestone_factor = 100;
     host.credit_per_cpu_sec =
         (fabs(host.p_fpops)/1e9 + fabs(host.p_iops)/1e9)
@@ -293,7 +293,7 @@ static int modify_host_struct(SCHEDULER_REQUEST& sreq, HOST& host) {
     host.n_bwdown = sreq.host.n_bwdown;
     host.fix_nans();
 
-    compute_credit_rating(host, sreq);
+    compute_credit_rating(host);
     return 0;
 }
 
@@ -474,7 +474,7 @@ int handle_results(
                 reply.host.id, srip->id, srip->name, srip->hostid
             );
             DB_HOST result_host;
-            int retval = result_host.lookup_id(srip->hostid);
+            retval = result_host.lookup_id(srip->hostid);
 
             if (retval) {
                 log_messages.printf(
@@ -799,7 +799,7 @@ void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     }
 }
 
-void handle_msgs_to_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+void handle_msgs_to_host(SCHEDULER_REPLY& reply) {
     DB_MSG_TO_HOST mth;
     char buf[256];
     sprintf(buf, "where hostid = %d and handled = %d", reply.host.id, 0);
@@ -987,7 +987,7 @@ void process_request(
 
     handle_msgs_from_host(sreq, reply);
     if (config.msg_to_host) {
-        handle_msgs_to_host(sreq, reply);
+        handle_msgs_to_host(reply);
     }
 
     update_host_record(reply.host, reply.user);

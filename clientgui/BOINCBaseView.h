@@ -50,7 +50,7 @@ public:
     ~CBOINCBaseView();
 
     virtual wxString        GetViewName();
-    virtual char**          GetViewIcon();
+    virtual const char**          GetViewIcon();
     virtual wxInt32         GetListRowCount();
 
     void                    FireOnListRender( wxTimerEvent& event );

@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* XPM */
-static char *proj_xpm[] = {
+static const char *proj_xpm[] = {
 "16 16 4 1",
 " 	c #FF00FF",
 ".	c #000000",

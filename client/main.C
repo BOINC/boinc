@@ -75,7 +75,7 @@ void project_add_failed(PROJECT* project) {
 // Depending on the priority, the message may be more or less obtrusive
 //
 void show_message(PROJECT *p, char* msg, int priority) {
-    char* x;
+    const char* x;
     char message[1024];
     time_t now = time(0);
     char* time_string = time_to_string(now);

@@ -36,7 +36,7 @@
 
 using std::string;
 
-char* xml_graphics_modes[NGRAPHICS_MSGS] = {
+const char* xml_graphics_modes[NGRAPHICS_MSGS] = {
     "<mode_unsupported/>",
     "<mode_hide_graphics/>",
     "<mode_window/>",
@@ -48,6 +48,14 @@ char* xml_graphics_modes[NGRAPHICS_MSGS] = {
 
 GRAPHICS_MSG::GRAPHICS_MSG() {
     memset(this, 0, sizeof(GRAPHICS_MSG));
+}
+
+APP_INIT_DATA::APP_INIT_DATA() {
+    project_preferences = 0;
+}
+
+APP_INIT_DATA::~APP_INIT_DATA() {
+    if (project_preferences) free(project_preferences);
 }
 
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
@@ -187,14 +195,14 @@ bool MSG_CHANNEL::has_msg() {
     return false;
 }
 
-bool MSG_CHANNEL::send_msg(char *msg) {
+bool MSG_CHANNEL::send_msg(const char *msg) {
     if (buf[0]) return false;
     safe_strncpy(buf+1, msg, MSG_CHANNEL_SIZE-1);
     buf[0] = 1;
     return true;
 }
 
-void MSG_CHANNEL::send_msg_overwrite(char* msg) {
+void MSG_CHANNEL::send_msg_overwrite(const char* msg) {
     safe_strncpy(buf+1, msg, MSG_CHANNEL_SIZE-1);
     buf[0] = 1;
 }

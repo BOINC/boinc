@@ -154,7 +154,7 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
 }
 
 
-static void handle_project_op(char* buf, MIOFILE& fout, char* op) {
+static void handle_project_op(char* buf, MIOFILE& fout, const char* op) {
     PROJECT* p = get_project(buf, fout);
     if (!p) {
         fout.printf("<error>no such project</error>\n");
@@ -324,7 +324,8 @@ void handle_get_messages(char* buf, MIOFILE& fout) {
 //    <project_url>XXX</project_url>
 //    <filename>XXX</filename>
 // </retry_file_transfer>
-static void handle_file_transfer_op(char* buf, MIOFILE& fout, char* op) {
+//
+static void handle_file_transfer_op(char* buf, MIOFILE& fout, const char* op) {
     string filename;
 
     PROJECT* p = get_project(buf, fout);
@@ -361,7 +362,7 @@ static void handle_file_transfer_op(char* buf, MIOFILE& fout, char* op) {
     fout.printf("<success/>\n");
 }
 
-static void handle_result_op(char* buf, MIOFILE& fout, char* op) {
+static void handle_result_op(char* buf, MIOFILE& fout, const char* op) {
     RESULT* rp;
     char result_name[256];
     ACTIVE_TASK* atp;
@@ -586,14 +587,14 @@ int GUI_RPC_CONN_SET::get_allowed_hosts() {
         );
  
         // read in each line, if it is not a comment
-        // then resolve the address and add to our
-        // allowed list
+        // then resolve the address and add to our allowed list
+         //
         memset(buf,0,sizeof(buf));
         while (fgets(buf, 256, f) != NULL) {
             strip_whitespace(buf);
             if (!(buf[0] =='#' || buf[0] == ';') && strlen(buf) > 0 ) {
-                // resolve and add
-                if (temp.get_ip_addr(buf, ipaddr) == 0) {
+                strcpy(temp.hostname, buf);
+                if (temp.get_ip_addr(ipaddr) == 0) {
                     allowed_remote_ip_addresses.push_back((int)ntohl(ipaddr));
                 }
             }
@@ -729,7 +730,7 @@ bool GUI_RPC_CONN_SET::poll(double) {
             show_connect_error(ia);
             boinc_close_socket(sock);
         } else {
-            GUI_RPC_CONN* gr = new GUI_RPC_CONN(sock);
+            gr = new GUI_RPC_CONN(sock);
             insert(gr);
         }
     }

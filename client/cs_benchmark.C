@@ -108,7 +108,7 @@ static BENCHMARK_DESC* benchmark_descs=0;
 static bool benchmarks_running=false;    // at least 1 benchmark thread running
 static double cpu_benchmarks_start;
 
-char *file_names[2] = {"do_fp", "do_int"};
+const char *file_names[2] = {"do_fp", "do_int"};
 
 static void remove_benchmark_file(int which) {
     boinc_delete_file(file_names[which]);

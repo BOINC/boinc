@@ -201,7 +201,7 @@ int CLIENT_STATE::parse_account_files() {
 
     DirScanner dir(".");
     while (dir.scan(name)) {
-        if (is_account_file((char*)name.c_str())) {
+        if (is_account_file(name.c_str())) {
             f = fopen(name.c_str(), "r");
             if (!f) continue;
             project = new PROJECT;

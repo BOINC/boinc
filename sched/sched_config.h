@@ -65,7 +65,7 @@ public:
     bool cache_md5_info;
 
     int parse(char*);
-    int parse_file(char* dir=".");
+    int parse_file(const char* dir=".");
 };
 
 // get the project's home directory

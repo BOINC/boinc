@@ -227,7 +227,10 @@ int wu_is_infeasible(
         reason |= INFEASIBLE_DISK;
     }
 
-    if (!config.ignore_delay_bound && 0.0<request.estimated_delay) {
+    // skip delay check if host currently doesn't have any work
+    // (i.e. everyone gets one result, no matter how slow they are)
+    //
+    if (!config.ignore_delay_bound && request.estimated_delay>0) {
         double ewd = estimate_wallclock_duration(wu, request, reply);
         if (request.estimated_delay + ewd > wu.delay_bound) {
             log_messages.printf(
@@ -246,7 +249,7 @@ int wu_is_infeasible(
 
 // insert "text" right after "after" in the given buffer
 //
-int insert_after(char* buffer, char* after, char* text) {
+int insert_after(char* buffer, const char* after, const char* text) {
     char* p;
     char temp[LARGE_BLOB_SIZE];
 
@@ -556,7 +559,7 @@ int add_result_to_reply(
     // the file OR the file was not already sent.
     //
     if (!config.locality_scheduling ||
-        decrement_disk_space_locality(result, wu, request, reply)
+        decrement_disk_space_locality(wu, request, reply)
     ) {
         reply.wreq.disk_available -= wu.rsc_disk_bound;
     }
@@ -854,8 +857,8 @@ int send_work(
 
     if (reply.wreq.nresults == 0) {
         reply.set_delay(3600);
-        USER_MESSAGE um("No work available", "high");
-        reply.insert_message(um);
+        USER_MESSAGE um2("No work available", "high");
+        reply.insert_message(um2);
         if (reply.wreq.no_app_version) {
             USER_MESSAGE um("(there was work for other platforms)", "high");
             reply.insert_message(um);
@@ -883,11 +886,11 @@ int send_work(
             );
             reply.insert_message(um);
             if (!config.ignore_delay_bound && sreq.resource_share_fraction<1.0) {
-                 USER_MESSAGE um(
+                USER_MESSAGE um3 (
                     "Review preferences for this project's Resource Share",
                     "high"
                 );
-                reply.insert_message(um);
+                reply.insert_message(um3);
             }
         }
         if (reply.wreq.homogeneous_redundancy_reject) {

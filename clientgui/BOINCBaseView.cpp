@@ -101,7 +101,7 @@ wxString CBOINCBaseView::GetViewName()
 // The user friendly icon of the view.
 //   If it has not been defined by the view the BOINC icon is returned.
 //
-char** CBOINCBaseView::GetViewIcon()
+const char** CBOINCBaseView::GetViewIcon()
 {
     wxASSERT(NULL != boinc_xpm);
     return boinc_xpm;

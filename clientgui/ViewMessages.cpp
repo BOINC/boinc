@@ -149,7 +149,7 @@ wxString CViewMessages::GetViewName()
 }
 
 
-char** CViewMessages::GetViewIcon()
+const char** CViewMessages::GetViewIcon()
 {
     return mess_xpm;
 }

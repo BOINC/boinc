@@ -36,7 +36,7 @@ const char* CONFIG_FILE = "config.xml";
 
 // look for a boolean; accepts either <foobar/> or <foobar>1</foobar>
 //
-static void parse_bool(char* buf, char* tag, bool& result) {
+static void parse_bool(char* buf, const char* tag, bool& result) {
     char single_tag[256], start_tag[256];
     int x;
 
@@ -104,7 +104,7 @@ int SCHED_CONFIG::parse(char* buf) {
     return ERR_XML_PARSE;
 }
 
-int SCHED_CONFIG::parse_file(char* dir) {
+int SCHED_CONFIG::parse_file(const char* dir) {
     char* p;
     char path[256];
     int retval;

@@ -52,18 +52,26 @@ int sprint_hex_data(char* p, DATA_BLOCK&);
 int scan_hex_data(FILE* f, DATA_BLOCK&);
 int print_key_hex(FILE*, KEY* key, int len);
 int scan_key_hex(FILE*, KEY* key, int len);
-int sscan_key_hex(char*, KEY* key, int len);
+int sscan_key_hex(const char*, KEY* key, int len);
 int encrypt_private(
     R_RSA_PRIVATE_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out, int&
 );
 int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out);
-int sign_file(char* path, R_RSA_PRIVATE_KEY&, DATA_BLOCK& signature);
+int sign_file(const char* path, R_RSA_PRIVATE_KEY&, DATA_BLOCK& signature);
 int sign_block(DATA_BLOCK& data, R_RSA_PRIVATE_KEY&, DATA_BLOCK& signature);
-int verify_file(char* path, R_RSA_PUBLIC_KEY&, DATA_BLOCK& signature, bool&);
-int verify_file2(char* path, char* signature, char* key, bool&);
-int verify_string(char* text, char* signature, R_RSA_PUBLIC_KEY&, bool&);
-int verify_string2(char* text, char* signature, char* key, bool&);
+int verify_file(
+    const char* path, R_RSA_PUBLIC_KEY&, DATA_BLOCK& signature, bool&
+);
+int verify_file2(
+    const char* path, const char* signature, const char* key, bool&
+);
+int verify_string(
+    const char* text, const char* signature, R_RSA_PUBLIC_KEY&, bool&
+);
+int verify_string2(
+    const char* text, const char* signature, const char* key, bool&
+);
 
-int read_key_file(char* keyfile, R_RSA_PRIVATE_KEY& key);
+int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key);
 
 #endif

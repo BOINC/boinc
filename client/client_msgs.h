@@ -88,6 +88,6 @@ public:
 
 extern CLIENT_MSG_LOG log_messages;
 
-extern void msg_printf(PROJECT *p, int priority, char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
+extern void msg_printf(PROJECT *p, int priority, const char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
 
 #endif

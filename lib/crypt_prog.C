@@ -38,7 +38,7 @@
 
 #include "crypt.h"
 
-void die(char* p) {
+void die(const char* p) {
     fprintf(stderr, "Error: %s\n", p);
     exit(1);
 }
@@ -145,7 +145,8 @@ int main(int argc, char** argv) {
         if (!fpub) die("fopen");
         retval = scan_key_hex(fpub, (KEY*)&public_key, sizeof(public_key));
         if (retval) die("read_public_key");
-        in.data = (unsigned char*) "foobar";
+        strcpy((char*)buf2, "foobar");
+        in.data = buf2;
         in.len = strlen((char*)in.data);
         out.data = buf;
         encrypt_private(private_key, in, out, n);

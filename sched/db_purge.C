@@ -105,7 +105,7 @@ int max_number_workunits_to_purge=0;
 #define COMPRESSION_ZIP     2
 
 // subscripts MUST be in agreement with defines above
-char *suffix[3]={"", ".gz", ".zip"};
+const char *suffix[3]={"", ".gz", ".zip"};
 
 // default is no compression
 int compression_type=COMPRESSION_NONE;
@@ -128,7 +128,7 @@ bool time_to_quit() {
 // asked for compression, then we popen(2) a pipe to gzip or zip.
 // This does 'in place' compression.
 //
-void open_archive(char* filename_prefix, FILE*& f){
+void open_archive(const char* filename_prefix, FILE*& f){
     char path[256];
     char command[512];
 
@@ -174,7 +174,7 @@ void open_archive(char* filename_prefix, FILE*& f){
     return;
 }
 
-void close_archive(char *filename, FILE*& fp){
+void close_archive(const char *filename, FILE*& fp){
     char path[256];
 
     // Set file pointer to NULL after closing file to indicate that it's closed.

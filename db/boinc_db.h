@@ -117,7 +117,7 @@ struct APP_VERSION {
     int max_core_version;   // if <>0, max core version this will run with
     bool deprecated;
 
-    int write(FILE*, APP&);
+    int write(FILE*);
     void clear();
 };
 
@@ -633,7 +633,7 @@ class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
 public:
     DB_WORK_ITEM(DB_CONN* p=0);
     // CURSOR cursor;
-    int enumerate(int limit, char* order_clause);
+    int enumerate(int limit, const char* order_clause);
         // used by feeder
     int read_result();
         // used by scheduler to read result server state

@@ -141,7 +141,7 @@ int ACTIVE_TASK::write_app_init_file() {
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);
     if (wup->project->project_specific_prefs.length()) {
-        aid.project_preferences = (char*)wup->project->project_specific_prefs.c_str();
+        aid.project_preferences = strdup(wup->project->project_specific_prefs.c_str());
     }
     get_project_dir(wup->project, project_dir);
     relative_to_absolute(project_dir, project_path);
@@ -267,7 +267,7 @@ int ACTIVE_TASK::start(bool first_time) {
     //
     strcpy(exec_name, "");
     for (i=0; i<app_version->app_files.size(); i++) {
-        FILE_REF fref = app_version->app_files[i];
+        fref = app_version->app_files[i];
         fip = fref.file_info;
         get_pathname(fip, file_path);
         if (fref.main_program) {
@@ -447,7 +447,7 @@ int ACTIVE_TASK::start(bool first_time) {
 // Postcondition: "state" is set correctly
 //
 int ACTIVE_TASK::resume_or_start() {
-    char* str = "??";
+    const char* str = "??";
     int retval;
 
     switch (task_state) {

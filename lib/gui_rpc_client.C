@@ -981,7 +981,7 @@ int RPC_CLIENT::init(const char* host) {
     return 0;
 }
 
-int RPC_CLIENT::send_request(char* p) {
+int RPC_CLIENT::send_request(const char* p) {
     char buf[4096];
     sprintf(buf,
         "<boinc_gui_rpc_request>\n"
@@ -1023,7 +1023,7 @@ RPC::~RPC() {
     if (mbuf) free(mbuf);
 }
 
-int RPC::do_rpc(char* req) {
+int RPC::do_rpc(const char* req) {
     int retval;
 
     if (rpc_client->sock == 0) return ERR_CONNECT;
@@ -1222,8 +1222,9 @@ int RPC_CLIENT::show_graphics(
     return rpc.do_rpc(buf);
 }
 
-int RPC_CLIENT::project_op(PROJECT& project, char* op) {
-    char buf[256], *tag;
+int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
+    char buf[256];
+    const char *tag;
     RPC rpc(this);
 
     if (!strcmp(op, "reset")) {
@@ -1268,8 +1269,8 @@ int RPC_CLIENT::project_attach(char* url, char* auth) {
     return rpc.do_rpc(buf);
 }
 
-char* RPC_CLIENT::mode_name(int mode) {
-    char* p = NULL;
+const char* RPC_CLIENT::mode_name(int mode) {
+    const char* p = NULL;
     switch (mode) {
     case RUN_MODE_ALWAYS: p="<always/>"; break;
     case RUN_MODE_NEVER: p="<never/>"; break;
@@ -1448,8 +1449,9 @@ int RPC_CLIENT::get_messages(int seqno, MESSAGES& msgs) {
     return 0;
 }
 
-int RPC_CLIENT::file_transfer_op(FILE_TRANSFER& ft, char* op) {
-    char buf[4096], *tag;
+int RPC_CLIENT::file_transfer_op(FILE_TRANSFER& ft, const char* op) {
+    char buf[4096];
+    const char *tag;
     RPC rpc(this);
 
     if (!strcmp(op, "retry")) {
@@ -1472,8 +1474,9 @@ int RPC_CLIENT::file_transfer_op(FILE_TRANSFER& ft, char* op) {
     return rpc.do_rpc(buf);
 }
 
-int RPC_CLIENT::result_op(RESULT& result, char* op) {
-    char buf[4096], *tag;
+int RPC_CLIENT::result_op(RESULT& result, const char* op) {
+    char buf[4096];
+    const char *tag;
     RPC rpc(this);
 
     if (!strcmp(op, "abort")) {

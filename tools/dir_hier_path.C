@@ -28,7 +28,7 @@
 #include "sched_config.h"
 #include "sched_util.h"
 
-int main(int argc, char** argv) {
+int main(int /*argc*/, char** argv) {
     SCHED_CONFIG config;
     char path[256];
     int retval;

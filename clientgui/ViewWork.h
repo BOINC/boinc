@@ -75,7 +75,7 @@ public:
     ~CViewWork();
 
     virtual wxString        GetViewName();
-    virtual char**          GetViewIcon();
+    virtual const char**          GetViewIcon();
 
 protected:
 

@@ -90,7 +90,7 @@ bool check_stop_sched() {
 //     (this is generally a recoverable error,
 //     like NFS mount failure, that may go away later)
 //
-int try_fopen(char* path, FILE*& f, char* mode) {
+int try_fopen(const char* path, FILE*& f, const char* mode) {
     char* p;
     DIR* d;
     char dirpath[256];
@@ -114,7 +114,7 @@ int try_fopen(char* path, FILE*& f, char* mode) {
     return 0;
 }
 
-void get_log_path(char* p, char* filename) {
+void get_log_path(char* p, const char* filename) {
     char buf[256];
     char path[256];
     gethostname(buf, 256);

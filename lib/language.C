@@ -40,7 +40,7 @@ LANGUAGE::~LANGUAGE() {
     language_file_contents = NULL;
 }
 
-int LANGUAGE::read_language_file(char *file_name) {
+int LANGUAGE::read_language_file(const char *file_name) {
     int retval;
 
     // TODO: put in a size limitation here?

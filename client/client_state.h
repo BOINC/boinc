@@ -129,7 +129,7 @@ private:
     bool client_state_dirty;
     int old_major_version;
     int old_minor_version;
-    char* platform_name;
+    const char* platform_name;
     bool skip_cpu_benchmarks;
         // if set, use hardwired numbers rather than running benchmarks
     bool run_cpu_benchmarks;
@@ -279,7 +279,7 @@ private:
 
 // --------------- cs_statefile.C:
 public:
-    void set_client_state_dirty(char*);
+    void set_client_state_dirty(const char*);
     int parse_state_file();
     int write_state(MIOFILE&);
     int write_state_file();

@@ -51,8 +51,8 @@ static int hostid=0;
 // earth.  This function finds the 'shortest way around'
 //
 static int compare(const void *x, const void *y) {
-    URLTYPE *a=(URLTYPE *)x;
-    URLTYPE *b=(URLTYPE *)y;
+    const URLTYPE *a=(const URLTYPE *)x;
+    const URLTYPE *b=(const URLTYPE *)y;
     
     char longname[512];
     
@@ -168,12 +168,12 @@ URLTYPE* read_download_list() {
 
 // return number of bytes written, or <0 to indicate an error
 //
-int make_download_list(char *buffer, char *path, int timezone) {
+int make_download_list(char *buffer, char *path, int tz) {
     char *start=buffer;
     int i;
 
     // global variable used in the compare() function
-    tzone=timezone;
+    tzone=tz;
     URLTYPE *serverlist=read_download_list();
     
     if (!serverlist) return -1;
@@ -196,7 +196,7 @@ int make_download_list(char *buffer, char *path, int timezone) {
 
 // returns zero on success, non-zero to indicate an error
 //
-int add_download_servers(char *old_xml, char *new_xml, int timezone) {
+int add_download_servers(char *old_xml, char *new_xml, int tz) {
     char *p, *q, *r;
     
     p=r=old_xml;
@@ -232,7 +232,7 @@ int add_download_servers(char *old_xml, char *new_xml, int timezone) {
         
         // insert new download list in place of the original one
         //
-        len = make_download_list(new_xml, s, timezone);
+        len = make_download_list(new_xml, s, tz);
         if (len<0) {
             return 1;
         }

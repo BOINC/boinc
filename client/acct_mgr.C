@@ -118,7 +118,8 @@ void ACCT_MGR::handle_reply() {
 		if (pp) {
 			if (strcmp(pp->authenticator, acct.authenticator.c_str())) {
 				msg_printf(NULL, MSG_ERROR,
-					"You're attached to project %s with a different account"
+					"You're attached to project %s with a different account",
+                    pp->get_project_name()
 				);
 			}
 		} else {

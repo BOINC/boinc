@@ -471,7 +471,7 @@ typedef int HANDLE;
 #endif
 HANDLE app_lockfile_handle;
 
-int lock_file(char* filename) {
+int lock_file(const char* filename) {
     int retval=0;
 #ifdef _WIN32
     app_lockfile_handle = CreateFile(
@@ -517,7 +517,7 @@ int lock_file(char* filename) {
     return retval;
 }
 
-void relative_to_absolute(char* relname, char* path) {
+void relative_to_absolute(const char* relname, char* path) {
 #ifdef _WIN32
     _getcwd(path, 256);
 #else

@@ -36,7 +36,7 @@ using std::vector;
 using std::string;
 
 int assimilate_handler(
-    WORKUNIT& wu, vector<RESULT>& results, RESULT& canonical_result
+    WORKUNIT& wu, vector<RESULT>& /*results*/, RESULT& canonical_result
 ) {
     SCOPE_MSG_LOG scope_messages(log_messages, SCHED_MSG_LOG::NORMAL);
     scope_messages.printf("[%s] Assimilating\n", wu.name);

@@ -63,8 +63,8 @@ struct GLOBAL_PREFS {
     GLOBAL_PREFS();
     void defaults();
     void clear_bools();
-    int parse(FILE*, char* venue, bool& found_venue);
-    int parse_file(char* filename, char* venue, bool& found_venue);
+    int parse(FILE*, const char* venue, bool& found_venue);
+    int parse_file(const char* filename, const char* venue, bool& found_venue);
     int write(FILE*);
 };
 

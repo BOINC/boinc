@@ -26,7 +26,7 @@ using std::vector;
 
 static const double MIN_CPU_TIME = 0;
 
-int init_result_trivial(RESULT const& result, void*& data) {
+int init_result_trivial(RESULT const& /*result*/, void*& /*data*/) {
     return 0;
 }
 

@@ -114,10 +114,6 @@ int get_socket_error(int fd) {
 }
 
 int NET_XFER::get_ip_addr(int &ip_addr) {
-    return get_ip_addr(hostname, ip_addr);
-}
-
-int NET_XFER::get_ip_addr(char *hostname, int &ip_addr) {
 
 #ifdef WIN32
     int retval;
@@ -207,7 +203,7 @@ int NET_XFER::open_server() {
     sockaddr_in addr;
     int fd=0, ipaddr, retval=0;
 
-    retval = get_ip_addr(hostname, ipaddr);
+    retval = get_ip_addr(ipaddr);
     if (retval) return retval;
 
     fd = ::socket(AF_INET, SOCK_STREAM, 0);

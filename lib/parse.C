@@ -226,7 +226,7 @@ int read_file_malloc(const char* pathname, char*& str) {
 // replace XML element contents (element must be present)
 //
 void replace_element_contents(
-    char* buf, char* start, char* end, char* replacement
+    char* buf, const char* start, const char* end, const char* replacement
 ) {
     char temp[4096], *p, *q;
 
@@ -240,7 +240,7 @@ void replace_element_contents(
 
 // if the string contains a substring of the form X...Y,
 // remove the first such.
-bool remove_element(char* buf, char* start, char* end) {
+bool remove_element(char* buf, const char* start, const char* end) {
     char* p, *q;
     p = strstr(buf, start);
     if (!p) return false;
@@ -252,7 +252,7 @@ bool remove_element(char* buf, char* start, char* end) {
 
 // replace a substring.  Do at most one instance.
 //
-bool str_replace(char* str, char* substr, char* replacement) {
+bool str_replace(char* str, const char* substr, const char* replacement) {
     char temp[4096], *p;
 
     p = strstr(str, substr);

@@ -485,8 +485,8 @@ bool CMainFrame::RestoreState()
     wxInt32         iPageCount = 0;
     bool            bWindowIconized = false;
     bool            bWindowMaximized = false;
-    wxInt32         iTop = 0;
-    wxInt32         iLeft = 0;
+    //wxInt32         iTop = 0;
+    //wxInt32         iLeft = 0;
     wxInt32         iHeight = 0;
     wxInt32         iWidth = 0;
 

@@ -283,7 +283,7 @@ bool PERS_FILE_XFER::poll(double now) {
 // If there are more URLs to try, the file_xfer is restarted with these new
 // urls until a good transfer is made or it completely gives up.
 //
-void PERS_FILE_XFER::check_giveup(char* why) {
+void PERS_FILE_XFER::check_giveup(const char* why) {
     if (fip->get_next_url(fip->upload_when_present) == NULL) {
         // the file has no appropriate download location
         // remove the file from the directory and delete the file xfer object

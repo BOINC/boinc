@@ -460,7 +460,7 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
     return 0;
 }
 
-void MSG_QUEUE::msg_queue_send(char* msg, MSG_CHANNEL& channel) {
+void MSG_QUEUE::msg_queue_send(const char* msg, MSG_CHANNEL& channel) {
     if (channel.send_msg(msg)) {
         //msg_printf(NULL, MSG_INFO, "sent %s to %s", msg, name);
         return;
@@ -470,8 +470,8 @@ void MSG_QUEUE::msg_queue_send(char* msg, MSG_CHANNEL& channel) {
 
 void MSG_QUEUE::msg_queue_poll(MSG_CHANNEL& channel) {
     if (msgs.size() > 0) {
-        if (channel.send_msg((char*)(msgs[0].c_str()))) {
-            //msg_printf(NULL, MSG_INFO, "sent %s to %s (delayed)", (char*)(msgs[0].c_str()), name);
+        if (channel.send_msg(msgs[0].c_str())) {
+            //msg_printf(NULL, MSG_INFO, "sent %s to %s (delayed)", (msgs[0].c_str()), name);
             msgs.erase(msgs.begin());
         }
     }

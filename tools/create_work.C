@@ -54,16 +54,14 @@
 #include "backend_lib.h"
 #include "sched_config.h"
 
-int main(int argc, char** argv) {
+int main(int argc, const char** argv) {
     DB_APP app;
     DB_WORKUNIT wu;
     int retval;
     char wu_template[LARGE_BLOB_SIZE];
     char wu_template_file[256], result_template_file[256], result_template_path[1024];
-    char keyfile[256];
-    char** infiles = NULL;
+    const char** infiles = NULL;
     int i, ninfiles;
-    R_RSA_PRIVATE_KEY key;
     char download_dir[256], db_name[256], db_passwd[256],db_user[256],db_host[256];
     char buf[256];
     SCHED_CONFIG config;
@@ -71,8 +69,7 @@ int main(int argc, char** argv) {
     strcpy(result_template_file, "");
     strcpy(app.name, "");
     strcpy(db_passwd, "");
-    strcpy(keyfile, "");
-    char* config_dir = ".";
+    const char* config_dir = ".";
     i = 1;
     ninfiles = 0;
     wu.clear();
@@ -159,7 +156,6 @@ int main(int argc, char** argv) {
         strcpy(db_user, config.db_user);
         strcpy(db_host, config.db_host);
         strcpy(download_dir, config.download_dir);
-        sprintf(keyfile, "%s/upload_private", config.key_dir);
     }
 
     retval = boinc_db.open(db_name, db_host, db_user, db_passwd);
@@ -182,12 +178,6 @@ int main(int argc, char** argv) {
 
     wu.appid = app.id;
 
-    retval = read_key_file(keyfile, key);
-    if (retval) {
-        fprintf(stderr, "create_work: can't read key: %d", retval);
-        exit(1);
-    }
-
     strcpy(result_template_path, "./");
     strcat(result_template_path, result_template_file);
     retval = create_work(
@@ -197,7 +187,6 @@ int main(int argc, char** argv) {
         result_template_path,
         const_cast<const char **>(infiles),
         ninfiles,
-        key,
         config
     );
     if (retval) {

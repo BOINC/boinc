@@ -283,7 +283,7 @@ wxString CViewWork::GetViewName()
 }
 
 
-char** CViewWork::GetViewIcon()
+const char** CViewWork::GetViewIcon()
 {
     return result_xpm;
 }

@@ -154,7 +154,7 @@ wxString CViewResources::GetViewName()
 }
 
 
-char** CViewResources::GetViewIcon()
+const char** CViewResources::GetViewIcon()
 {
     return usage_xpm;
 }

@@ -29,5 +29,5 @@ extern int g_pid;
 extern void lock_sema();
 extern void unlock_sema();
 
-extern void send_message(char*, int);
+extern void send_message(const char*, int);
 extern int open_database();

@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* XPM */
-static char *boincsm_xpm[] = {
+static const char *boincsm_xpm[] = {
 "50 50 84 1",
 " 	c None",
 ".	c #94B5D6",

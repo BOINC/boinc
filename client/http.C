@@ -115,7 +115,7 @@ static void http_get_request_header(
 }
 
 static void http_get_request_header_proxy(
-    char* buf, char* host, int port, char* file, double offset, char* encstr
+    char* buf, char* host, int port, char* file, double offset, const char* encstr
 ) {
     char offset_info[256];
     char user_agent_string[256];
@@ -155,7 +155,7 @@ static void http_head_request_header(
 }
 
 static void http_head_request_header_proxy(
-    char* buf, char* host, int port, char* file, char* encstr
+    char* buf, char* host, int port, char* file, const char* encstr
 ) {
     char user_agent_string[256];
     get_user_agent_string(user_agent_string);
@@ -191,7 +191,7 @@ static void http_post_request_header(
 }
 
 static void http_post_request_header_proxy(
-    char* buf, char* host, int port, char* file, int size, char* encstr
+    char* buf, char* host, int port, char* file, int size, const char* encstr
 ) {
     sprintf(buf,
         "POST %s HTTP/1.0\015\012"
@@ -377,7 +377,7 @@ int HTTP_OP::init_head(const char* url) {
         strcat(id_passwd,pi.http_user_passwd);
         encstr = r_base64_encode(id_passwd,strlen(id_passwd));
         http_head_request_header_proxy(
-            request_header, url_hostname, port, proxy_buf, (char*)encstr.c_str()
+            request_header, url_hostname, port, proxy_buf, encstr.c_str()
         );
     }
     return 0;
@@ -385,7 +385,7 @@ int HTTP_OP::init_head(const char* url) {
 
 // Initialize HTTP GET operation
 //
-int HTTP_OP::init_get(const char* url, char* out, bool del_old_file, double off) {
+int HTTP_OP::init_get(const char* url, const char* out, bool del_old_file, double off) {
     char proxy_buf[256];
 
     if (del_old_file) {
@@ -418,7 +418,7 @@ int HTTP_OP::init_get(const char* url, char* out, bool del_old_file, double off)
         encstr = r_base64_encode(id_passwd,strlen(id_passwd));
         http_get_request_header_proxy(
             request_header, url_hostname,
-            port, proxy_buf, (int)file_offset, (char*)encstr.c_str()
+            port, proxy_buf, (int)file_offset, encstr.c_str()
         );
     }
     return 0;
@@ -426,7 +426,9 @@ int HTTP_OP::init_get(const char* url, char* out, bool del_old_file, double off)
 
 // Initialize HTTP POST operation
 //
-int HTTP_OP::init_post(const char* url, char* in, char* out) {
+int HTTP_OP::init_post(
+    const char* url, const char* in, const char* out
+) {
     int retval;
     double size;
     char proxy_buf[256];
@@ -464,7 +466,7 @@ int HTTP_OP::init_post(const char* url, char* in, char* out) {
         encstr = r_base64_encode(id_passwd,strlen(id_passwd));
         http_post_request_header_proxy(
             request_header, url_hostname, port, proxy_buf, content_length,
-            (char*)encstr.c_str()
+            encstr.c_str()
         );
     }
     scope_messages.printf("HTTP_OP::init_post(): %p io_done %d\n", this, io_done);
@@ -474,7 +476,7 @@ int HTTP_OP::init_post(const char* url, char* in, char* out) {
 // Initialize HTTP POST operation
 //
 int HTTP_OP::init_post2(
-    const char* url, char* r1, char* in, double offset
+    const char* url, char* r1, const char* in, double offset
 ) {
     int retval;
     double size;
@@ -516,7 +518,7 @@ int HTTP_OP::init_post2(
         encstr = r_base64_encode(id_passwd,strlen(id_passwd));
         http_post_request_header_proxy(
             request_header, url_hostname, port, proxy_buf, content_length,
-            (char*)encstr.c_str()
+            encstr.c_str()
         );
     }
     return 0;

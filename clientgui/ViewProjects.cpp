@@ -309,7 +309,7 @@ wxString CViewProjects::GetViewName()
 }
 
 
-char** CViewProjects::GetViewIcon()
+const char** CViewProjects::GetViewIcon()
 {
     return proj_xpm;
 }

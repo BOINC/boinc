@@ -79,8 +79,8 @@ using std::vector;
 #define TABLE_HOST  2
 
 // must match the above
-char* table_name[3] = {"user", "team", "host"};
-char* tag_name[3] = {"users", "teams", "hosts"};
+const char* table_name[3] = {"user", "team", "host"};
+const char* tag_name[3] = {"users", "teams", "hosts"};
 
 struct OUTPUT {
     int recs_per_file;
@@ -366,7 +366,7 @@ void write_host(HOST& host, FILE* f, bool detail) {
     );
 }
 
-void write_user(USER& user, FILE* f, bool detail) {
+void write_user(USER& user, FILE* f, bool /*detail*/) {
     char buf[1024];
     char cpid[MD5_LEN];
 

@@ -67,7 +67,7 @@ int SCHED_SHMEM::verify() {
     return 0;
 }
 
-static void overflow(char* table, char* param_name) {
+static void overflow(const char* table, const char* param_name) {
     log_messages.printf(
         SCHED_MSG_LOG::CRITICAL,
         "The SCHED_SHMEM structure is too small for the %s table.\n"
@@ -183,6 +183,7 @@ APP_VERSION* SCHED_SHMEM::lookup_app_version(
     return best_avp;
 }
 
+#if 0
 // find the latest core version for a given platform
 //
 CORE_VERSION* SCHED_SHMEM::lookup_core_version(int platformid) {
@@ -197,6 +198,7 @@ CORE_VERSION* SCHED_SHMEM::lookup_core_version(int platformid) {
     }
     return best;
 }
+#endif
 
 bool SCHED_SHMEM::no_work(int pid) {
     int i;

@@ -133,7 +133,7 @@ void get_account_filename(char* master_url, char* path) {
     sprintf(path, "account_%s.xml", buf);
 }
 
-bool is_account_file(char* filename) {
+bool is_account_file(const char* filename) {
     return (strstr(filename, "account_") == filename);
 }
 

@@ -371,7 +371,7 @@ struct DISPLAY_INFO {
 class RPC_CLIENT {
 public:
     int sock;
-    int send_request(char*);
+    int send_request(const char*);
     int get_reply(char*&);
 
 public:
@@ -389,7 +389,7 @@ public:
         const char* project, const char* result_name, bool full_screen,
         DISPLAY_INFO&
     );
-    int project_op(PROJECT&, char* op);
+    int project_op(PROJECT&, const char* op);
     int project_attach(char* url, char* auth);
     int set_run_mode(int mode);
     int get_run_mode(int& mode);
@@ -403,12 +403,12 @@ public:
     int set_proxy_settings(PROXY_INFO&);
     int get_proxy_settings(PROXY_INFO&);
     int get_messages(int seqno, MESSAGES&);
-    int file_transfer_op(FILE_TRANSFER&, char*);
-    int result_op(RESULT&, char*);
+    int file_transfer_op(FILE_TRANSFER&, const char*);
+    int result_op(RESULT&, const char*);
     int get_host_info(HOST_INFO&);
     int quit();
     int acct_mgr_rpc(char* url, char* name, char* passwd);
-    char* mode_name(int mode);
+    const char* mode_name(int mode);
 };
 
 struct RPC {
@@ -418,5 +418,5 @@ struct RPC {
 
     RPC(RPC_CLIENT*);
     ~RPC();
-    int do_rpc(char*);
+    int do_rpc(const char*);
 };

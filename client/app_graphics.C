@@ -129,7 +129,6 @@ void ACTIVE_TASK_SET::hide_apps() {
 void ACTIVE_TASK_SET::restore_apps() {
     unsigned int i;
     ACTIVE_TASK* atp;
-    GRAPHICS_MSG gm;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];

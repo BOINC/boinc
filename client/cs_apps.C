@@ -357,7 +357,7 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     ACTIVE_TASK *atp;
     PROJECT *p;
     bool some_app_started = false, first;
-    double total_resource_share;
+    double local_total_resource_share;
     int retval, j;
     double min_debt=0;
     double vm_limit, elapsed_time;
@@ -417,12 +417,12 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     // compute total resource share among projects with runnable results
     //
     assign_results_to_projects();   // see which projects have work
-    total_resource_share = 0;
+    local_total_resource_share = 0;
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->non_cpu_intensive) continue;
         if (p->next_runnable_result) {
-            total_resource_share += projects[i]->resource_share;
+            local_total_resource_share += projects[i]->resource_share;
         }
     }
 
@@ -439,7 +439,7 @@ bool CLIENT_STATE::schedule_cpus(double now) {
             p->anticipated_debt = 0;
         } else {
             p->debt +=
-                (p->resource_share/total_resource_share)
+                (p->resource_share/local_total_resource_share)
                 * cpu_sched_work_done_this_period
                 - p->work_done_this_period;
             if (first) {
@@ -535,9 +535,9 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     }
 
     // debts and active_tasks can only change if some project had a runnable result
-    // (and thus if total_resource_share is positive)
+    // (and thus if local_total_resource_share is positive)
     //
-    if (total_resource_share > 0) {
+    if (local_total_resource_share > 0) {
         set_client_state_dirty("schedule_cpus");
         return true;
     } else {

@@ -50,7 +50,7 @@ void DB_CONN::close() {
     if (mysql) mysql_close(mysql);
 }
 
-int DB_CONN::do_query(char* p) {
+int DB_CONN::do_query(const char* p) {
     int retval;
 #ifdef SHOW_QUERIES
     fprintf(stderr, "query: %s\n", p);
@@ -75,7 +75,7 @@ int DB_CONN::insert_id() {
     return atoi(row[0]);
 }
 
-void DB_CONN::print_error(char* p) {
+void DB_CONN::print_error(const char* p) {
     fprintf(stderr, "%s: Database error: %s\n", p, error_string());
 }
 
@@ -91,7 +91,7 @@ int DB_CONN::commit_transaction() {
     return do_query("COMMIT");
 }
 
-DB_BASE::DB_BASE(char *tn, DB_CONN* p) : db(p), table_name(tn) {
+DB_BASE::DB_BASE(const char *tn, DB_CONN* p) : db(p), table_name(tn) {
     is_high_priority = false;
 }
 
@@ -110,7 +110,7 @@ int DB_BASE::insert() {
 int DB_BASE::insert_batch(std::string& values) {
     std::string query;
     query = "insert into " + std::string(table_name) + " values " + values;
-    return db->do_query((char*)query.c_str());
+    return db->do_query(query.c_str());
 }
 
 // update an entire record
@@ -125,7 +125,7 @@ int DB_BASE::update() {
 // update one or more fields
 // "clause" is something like "foo=5, blah='xxx'" or "foo=foo+5"
 //
-int DB_BASE::update_field(char* clause) {
+int DB_BASE::update_field(const char* clause) {
     char query[MAX_QUERY_LEN];
     sprintf(query, "update %s set %s where id=%d", table_name, clause, get_id());
     return db->do_query(query);
@@ -140,7 +140,7 @@ int DB_BASE::delete_from_db() {
     return db->do_query(query);
 }
 
-int DB_BASE::get_field_int(char* field, int& val) {
+int DB_BASE::get_field_int(const char* field, int& val) {
     char query[MAX_QUERY_LEN];
     int retval;
     MYSQL_ROW row;
@@ -158,7 +158,7 @@ int DB_BASE::get_field_int(char* field, int& val) {
     return 0;
 }
 
-int DB_BASE::lookup(char* clause) {
+int DB_BASE::lookup(const char* clause) {
     char query[MAX_QUERY_LEN];
     int retval;
     MYSQL_ROW row;
@@ -206,7 +206,7 @@ int DB_BASE::lookup_id(int id) {
     return 0;
 }
 
-int DB_BASE::enumerate(char* clause, bool use_use_result) {
+int DB_BASE::enumerate(const char* clause, bool use_use_result) {
     int x;
     char query[MAX_QUERY_LEN];
     MYSQL_ROW row;
@@ -237,7 +237,7 @@ int DB_BASE::enumerate(char* clause, bool use_use_result) {
     if (!row) {
         mysql_free_result(cursor.rp);
         cursor.active = false;
-        int x = mysql_errno(db->mysql);
+        x = mysql_errno(db->mysql);
         if (x) return x;
         return ERR_DB_NOT_FOUND;
     } else {
@@ -256,7 +256,7 @@ int DB_BASE::end_enumerate() {
     return 0;
 }
 
-int DB_BASE::get_integer(char* query, int& n) {
+int DB_BASE::get_integer(const char* query, int& n) {
     int retval;
     MYSQL_ROW row;
     MYSQL_RES* resp;
@@ -273,7 +273,7 @@ int DB_BASE::get_integer(char* query, int& n) {
     return 0;
 }
 
-int DB_BASE::get_double(char* query, double& x) {
+int DB_BASE::get_double(const char* query, double& x) {
     int retval;
     MYSQL_ROW row;
     MYSQL_RES* resp;
@@ -290,7 +290,7 @@ int DB_BASE::get_double(char* query, double& x) {
     return 0;
 }
 
-int DB_BASE::count(int& n, char* clause) {
+int DB_BASE::count(int& n, const char* clause) {
     char query[MAX_QUERY_LEN];
 
     if (is_high_priority) {
@@ -302,13 +302,13 @@ int DB_BASE::count(int& n, char* clause) {
     return get_integer(query, n);
 }
 
-int DB_BASE::max_id(int& n, char* clause) {
+int DB_BASE::max_id(int& n, const char* clause) {
     char query[MAX_QUERY_LEN];
     sprintf(query, "select max(id) from %s %s", table_name, clause);
     return get_integer(query, n);
 }
 
-int DB_BASE::sum(double& x, char* field, char* clause) {
+int DB_BASE::sum(double& x, const char* field, const char* clause) {
     char query[MAX_QUERY_LEN];
 
     if (is_high_priority) {

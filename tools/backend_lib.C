@@ -415,7 +415,6 @@ int create_work(
     const char* result_template_filepath,
     const char** infiles,
     int ninfiles,
-    R_RSA_PRIVATE_KEY& key,
     SCHED_CONFIG& config
 ) {
     int retval;

@@ -535,7 +535,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 // If process is running, send it a kill signal
 // This is done when app has exceeded CPU, disk, or mem limits
 //
-int ACTIVE_TASK::abort_task(char* msg) {
+int ACTIVE_TASK::abort_task(const char* msg) {
     if (task_state == PROCESS_EXECUTING || task_state == PROCESS_SUSPENDED) {
         task_state = PROCESS_ABORT_PENDING;
         kill_task();

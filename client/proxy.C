@@ -91,9 +91,9 @@ PROXY::PROXY() {
     proxy_retval = 0;
 }
 
-void PROXY::init(char *dst_host, int port) {
+void PROXY::init(char *dst_host, int _port) {
     strcpy(dest_serv_name, dst_host);
-    dest_serv_port = port;
+    dest_serv_port = _port;
     proxy_state = PROXY_STATE_CONNECTING;
 }
 

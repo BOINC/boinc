@@ -78,10 +78,10 @@ struct SCHEDULER_OP {
     int init_op_project(double ns);
     int init_master_fetch(PROJECT*);
     int set_min_rpc_time(PROJECT*);
-    bool update_urls(PROJECT& project, std::vector<STRING256> &urls);
+    bool update_urls(std::vector<STRING256> &urls);
     int start_op(PROJECT*);
     bool check_master_fetch_start();
-    void backoff(PROJECT* p, char *error_msg);
+    void backoff(PROJECT* p, const char *error_msg);
     int start_rpc();
     int parse_master_file(std::vector<STRING256>&);
 };

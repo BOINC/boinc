@@ -38,7 +38,7 @@ inline float safe_atof(const char* s) {
 
 #define strcpy2(x, y) \
     { \
-        char* z = y; \
+        const char* z = y; \
         if (!z) { \
             x[0]=0; \
         } else { \
@@ -61,10 +61,10 @@ class DB_CONN {
 public:
     DB_CONN();
     int open(char* name, char* host, char* user, char* passwd);
-    int do_query(char*);
+    int do_query(const char*);
     void close();
     int insert_id();
-    void print_error(char*);
+    void print_error(const char*);
     const char* error_string();
 
     MYSQL* mysql;
@@ -77,22 +77,22 @@ public:
 //
 class DB_BASE {
 public:
-    DB_BASE(char *table_name, DB_CONN*);
+    DB_BASE(const char *table_name, DB_CONN*);
     int insert();
     int insert_batch(std::string&);
     int update();
-    int update_field(char*);
+    int update_field(const char*);
     int delete_from_db();
-    int get_field_int(char*, int&);
+    int get_field_int(const char*, int&);
     int lookup_id(int id);
-    int lookup(char*);
-    int enumerate(char* clause="", bool use_use_result=false);
+    int lookup(const char*);
+    int enumerate(const char* clause="", bool use_use_result=false);
     int end_enumerate();
-    int count(int&, char* clause="");
-    int max_id(int&, char* clause="");
-    int sum(double&, char* field, char* clause="");
-    int get_double(char* query, double&);
-    int get_integer(char* query, int&);
+    int count(int&, const char* clause="");
+    int max_id(int&, const char* clause="");
+    int sum(double&, const char* field, const char* clause="");
+    int get_double(const char* query, double&);
+    int get_integer(const char* query, int&);
     bool is_high_priority;
 
     DB_CONN* db;

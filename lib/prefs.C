@@ -90,7 +90,7 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
 // where X==host_venue, then parse that and ignore the rest.
 // Otherwise ignore <venue> elements.
 //
-int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
+int GLOBAL_PREFS::parse(FILE* in, const char* host_venue, bool& found_venue) {
     char buf[256], buf2[256];
     bool in_venue = false, in_correct_venue=false;
 
@@ -206,7 +206,7 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
 // Parse global prefs file
 //
 int GLOBAL_PREFS::parse_file(
-    char* filename, char* host_venue, bool& found_venue
+    const char* filename, const char* host_venue, bool& found_venue
 ) {
     FILE* f;
     int retval;

@@ -331,8 +331,8 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     );
 
     if (request_delay) {
-        fprintf(fout, "<request_delay>%d</request_delay>\n", request_delay);
-        log_messages.printf(SCHED_MSG_LOG::NORMAL, "sending delay request %d\n", request_delay);
+        fprintf(fout, "<request_delay>%f</request_delay>\n", request_delay);
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "sending delay request %f\n", request_delay);
     }
     if (wreq.core_client_version < 462) {
         std::string msg;
@@ -455,7 +455,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     for (i=0; i<app_versions.size(); i++) {
         for (j=0; j<apps.size(); j++) {
             if (apps[j].id == app_versions[i].appid) {
-                app_versions[i].write(fout, apps[j]);
+                app_versions[i].write(fout);
                 break;
             }
         }
@@ -525,9 +525,10 @@ end:
     return 0;
 }
 
-void SCHEDULER_REPLY::set_delay(int delay) {
-    // set delay to the MAX of the existing value or the requested value
-    // never send a delay request longer than two days.
+// set delay to the MAX of the existing value or the requested value
+// never send a delay request longer than two days.
+//
+void SCHEDULER_REPLY::set_delay(double delay) {
     if (request_delay < delay) {
         request_delay = delay;
     }
@@ -570,7 +571,7 @@ void SCHEDULER_REPLY::insert_message(USER_MESSAGE& um) {
     messages.push_back(um);
 }
 
-USER_MESSAGE::USER_MESSAGE(char* m, char* p) {
+USER_MESSAGE::USER_MESSAGE(const char* m, const char* p) {
     message = m;
     priority = p;
 }
@@ -585,7 +586,7 @@ int APP::write(FILE* fout) {
     return 0;
 }
 
-int APP_VERSION::write(FILE* fout, APP& app) {
+int APP_VERSION::write(FILE* fout) {
     fputs(xml_doc, fout);
     return 0;
 }

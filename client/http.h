@@ -82,12 +82,12 @@ public:
 ////    bool proxy_auth_done;
 
     int init_head(const char* url);
-    int init_get(const char* url, char* outfile, bool del_old_file, double offset=0);
-    int init_post(const char* url, char* infile, char* outfile);
+    int init_get(const char* url, const char* outfile, bool del_old_file, double offset=0);
+    int init_post(const char* url, const char* infile, const char* outfile);
     int init_post2(
         const char* url,
         char* req1,     // first part of request.  ALSO USED FOR REPLY
-        char* infile, double offset     // infile is NULL if no file sent
+        const char* infile, double offset     // infile is NULL if no file sent
     );
     bool http_op_done();
 };

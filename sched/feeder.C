@@ -124,7 +124,7 @@
 SCHED_CONFIG config;
 SCHED_SHMEM* ssp;
 key_t sema_key;
-char* order_clause="";
+const char* order_clause="";
 
 void cleanup_shmem() {
     detach_shmem((void*)ssp);
@@ -195,7 +195,7 @@ static int remove_infeasible(int i) {
 
 static void scan_work_array(
     DB_WORK_ITEM& wi,
-    int& nadditions, int& ncollisions, int& ninfeasible,
+    int& nadditions, int& ncollisions, int& /*ninfeasible*/,
     bool& no_wus
 ) {
     int i, j, retval;

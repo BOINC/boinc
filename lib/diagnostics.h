@@ -136,7 +136,9 @@ extern int boinc_init_diagnostics(int flags);
 extern int boinc_finish_diag();
 extern int boinc_install_signal_handlers();
 
-extern int diagnostics_init(int flags, char* stdout_prefix, char* stderr_prefix);
+extern int diagnostics_init(
+    int flags, const char* stdout_prefix, const char* stderr_prefix
+);
 extern int diagnostics_cycle_logs();
 
 #ifdef __cplusplus

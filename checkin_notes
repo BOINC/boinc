@@ -24879,3 +24879,32 @@ David  16 Feb 2005
     html/user/
         account_setup_first_done.php
         team_display.php
+
+David  16 Feb 2005
+    - Giant checkin to remove warnings when compiled with
+        all known warnings enabled.
+        This consisted of:
+        1) string literals ("foo") are type const char*,
+            so any variables or args that you assign them to
+            must be const char*
+        2) shadowed variables
+        3) unused params (removed or commented out)
+        4) a couple of printf format/var mismatches
+            (nothing that would cause a problem at this point)
+
+    api/
+        x_opengl.C
+    client/
+        (most .C, .h)
+    clientgui/
+        (most .C, .h)
+        res/
+            *.xpm
+    db/
+        (most .C, .h)
+    lib/
+        (most .C, .h)
+    sched/
+        (most .C, .h)
+    tools/
+        (most .C, .h)

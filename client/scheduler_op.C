@@ -189,7 +189,7 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
 // Back off contacting this project's schedulers,
 // and output an error msg if needed
 //
-void SCHEDULER_OP::backoff(PROJECT* p, char *error_msg ) {
+void SCHEDULER_OP::backoff(PROJECT* p, const char *error_msg ) {
     msg_printf(p, MSG_ERROR, error_msg);
 
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
@@ -319,15 +319,15 @@ int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
 // transfer scheduler urls to project.
 // Return true if any of them is new
 //
-bool SCHEDULER_OP::update_urls(PROJECT& project, vector<STRING256> &urls) {
+bool SCHEDULER_OP::update_urls(vector<STRING256> &urls) {
     unsigned int i, j;
     bool found, any_new;
 
     any_new = false;
     for (i=0; i<urls.size(); i++) {
         found = false;
-        for (j=0; j<project.scheduler_urls.size(); j++) {
-            if (!strcmp(urls[i].text, project.scheduler_urls[i].text)) {
+        for (j=0; j<project->scheduler_urls.size(); j++) {
+            if (!strcmp(urls[i].text, project->scheduler_urls[i].text)) {
                 found = true;
                 break;
             }
@@ -335,9 +335,9 @@ bool SCHEDULER_OP::update_urls(PROJECT& project, vector<STRING256> &urls) {
         if (!found) any_new = true;
     }
 
-    project.scheduler_urls.clear();
+    project->scheduler_urls.clear();
     for (i=0; i<urls.size(); i++) {
-        project.scheduler_urls.push_back(urls[i]);
+        project->scheduler_urls.push_back(urls[i]);
     }
 
     return any_new;
@@ -386,7 +386,7 @@ bool SCHEDULER_OP::poll() {
                 } else {
                     // everything succeeded.  Clear error counters
                     //
-                    changed = update_urls(*project, urls);
+                    changed = update_urls(urls);
                     if (changed) {
                         project->min_rpc_time = 0;
                         project->nrpc_failures = 0;

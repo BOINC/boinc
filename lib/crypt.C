@@ -113,7 +113,7 @@ int scan_hex_data(FILE* f, DATA_BLOCK& x) {
 
 // same, but read from buffer
 //
-static int sscan_hex_data(char* p, DATA_BLOCK& x) {
+static int sscan_hex_data(const char* p, DATA_BLOCK& x) {
     int m, n, nleft=x.len;
 
     x.len = 0;
@@ -189,7 +189,7 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
 
 // parse a text-encoded key from a memory buffer
 //
-int sscan_key_hex(char* buf, KEY* key, int size) {
+int sscan_key_hex(const char* buf, KEY* key, int size) {
     int n, retval,num_bits;
     DATA_BLOCK db;
 
@@ -234,7 +234,7 @@ int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
     return RSAPublicDecrypt(out.data, &out.len, in.data, in.len, &key);
 }
 
-int sign_file(char* path, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {
+int sign_file(const char* path, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {
     char md5_buf[MD5_LEN];
     double file_length;
     DATA_BLOCK in_block;
@@ -266,7 +266,7 @@ int sign_block(DATA_BLOCK& data_block, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signa
 }
 
 int verify_file(
-    char* path, R_RSA_PUBLIC_KEY& key, DATA_BLOCK& signature, bool& answer
+    const char* path, R_RSA_PUBLIC_KEY& key, DATA_BLOCK& signature, bool& answer
 ) {
     char md5_buf[MD5_LEN], clear_buf[MD5_LEN];
     double file_length;
@@ -291,7 +291,7 @@ int verify_file(
 }
 
 int verify_file2(
-    char* path, char* signature_text, char* key_text, bool& answer
+    const char* path, const char* signature_text, const char* key_text, bool& answer
 ) {
     R_RSA_PUBLIC_KEY key;
     unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
@@ -313,7 +313,7 @@ int verify_file2(
 // verify, where both text and signature are char strings
 //
 int verify_string(
-    char* text, char* signature_text, R_RSA_PUBLIC_KEY& key, bool& answer
+    const char* text, const char* signature_text, R_RSA_PUBLIC_KEY& key, bool& answer
 ) {
     char md5_buf[MD5_LEN];
     unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
@@ -321,7 +321,7 @@ int verify_string(
     int retval, n;
     DATA_BLOCK signature, clear_signature;
 
-    retval = md5_block((unsigned char*)text, strlen(text), md5_buf);
+    retval = md5_block((const unsigned char*)text, strlen(text), md5_buf);
     if (retval) return retval;
     n = strlen(md5_buf);
     signature.data = signature_buf;
@@ -339,7 +339,7 @@ int verify_string(
 // Same, where public key is also encoded as text
 //
 int verify_string2(
-    char* text, char* signature_text, char* key_text, bool& answer
+    const char* text, const char* signature_text, const char* key_text, bool& answer
 ) {
     R_RSA_PUBLIC_KEY key;
     int retval;
@@ -349,7 +349,7 @@ int verify_string2(
     return verify_string(text, signature_text, key, answer);
 }
 
-int read_key_file(char* keyfile, R_RSA_PRIVATE_KEY& key) {
+int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key) {
     int retval;
     FILE* fkey = fopen(keyfile, "r");
     if (!fkey) {

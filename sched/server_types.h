@@ -142,7 +142,7 @@ struct SCHEDULER_REQUEST {
 struct USER_MESSAGE {
     std::string message;
     std::string priority;
-    USER_MESSAGE(char* m, char*p);
+    USER_MESSAGE(const char* m, const char*p);
 };
 
 // NOTE: if any field requires initialization,
@@ -150,7 +150,7 @@ struct USER_MESSAGE {
 //
 struct SCHEDULER_REPLY {
     WORK_REQ wreq;
-    int request_delay;          // don't request again until this time elapses
+    double request_delay;       // don't request again until this time elapses
     std::vector<USER_MESSAGE> messages;
     int hostid;
         // nonzero only if a new host record was created.
@@ -185,7 +185,7 @@ struct SCHEDULER_REPLY {
     void insert_result(RESULT&);
     void insert_message(USER_MESSAGE&);
     bool work_needed(bool locality_sched=false);
-    void set_delay(int delay);
+    void set_delay(double);
 };
 
 #endif

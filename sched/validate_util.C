@@ -134,7 +134,6 @@ int generic_check_set(
     size_t min_valid)
 {
     assert (!results.empty());
-    assert (min_valid >= 0);
 
     vector<void*> data;
     vector<RESULT>::size_type i, j, neq = 0, n = results.size();

@@ -35,7 +35,7 @@ class LANGUAGE {
 public:
     LANGUAGE();
     ~LANGUAGE();
-    int read_language_file(char *);
+    int read_language_file(const char *);
     int get_translation(char *, char *, char *, int );
 };
 

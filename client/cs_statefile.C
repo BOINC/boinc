@@ -28,7 +28,7 @@
 #include "client_msgs.h"
 #include "client_state.h"
 
-void CLIENT_STATE::set_client_state_dirty(char* source) {
+void CLIENT_STATE::set_client_state_dirty(const char* source) {
     log_messages.printf(CLIENT_MSG_LOG::DEBUG_STATE, "set dirty: %s\n", source);
     client_state_dirty = true;
 }
@@ -40,7 +40,7 @@ int CLIENT_STATE::parse_state_file() {
     PROJECT *project=NULL;
     int retval=0;
     int failnum;
-    char *fname;
+    const char *fname;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 

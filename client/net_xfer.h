@@ -37,9 +37,8 @@
 // or being transferred to/from a file
 //
 class NET_XFER {
-    char hostname[256];
-        // The host we're connecting to (possibly a proxy)
 public:
+    char hostname[256];     // The host we're connecting to (possibly a proxy)
     int socket;
     bool is_connected;
     bool want_download;     // at most one should be true
@@ -73,7 +72,6 @@ public:
 
     void init(char* host, int port, int blocksize);
     int get_ip_addr(int &ip_addr);
-    int get_ip_addr(char *hostname, int &ip_addr);
     int open_server();
     void close_socket();
     int do_xfer(int&);

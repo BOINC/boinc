@@ -152,7 +152,7 @@ public:
     int kill_task();                    // send a SIGKILL signal or equivalent
     int suspend();                      // send a SIGSTOP signal or equivalent
     int unsuspend();                    // send a SIGCONT signal or equivalent
-    int abort_task(char*);       // flag as abort pending and send kill signal
+    int abort_task(const char*);        // flag as abort pending and send kill signal
     bool has_task_exited();             // return true if this task has exited
     int preempt(bool quit_task);        // preempt (via suspend or quit) a running task
     int resume_or_start();

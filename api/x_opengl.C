@@ -69,17 +69,17 @@ int xwin_glut_is_initialized() {
     return glut_is_initialized;
 }
 
-void app_debug_msg (char *fmt, ...);
+void app_debug_msg (const char *fmt, ...);
 
 // This callback is invoked when a user presses a key.
 //
-void keyboardD(unsigned char key, int x, int y) {
+void keyboardD(unsigned char /*key*/, int /*x*/, int /*y*/) {
     if (current_graphics_mode == MODE_FULLSCREEN) {
         set_mode(MODE_HIDE_GRAPHICS);
     }
 }
 
-void keyboardU(unsigned char key, int x, int y) {
+void keyboardU(unsigned char /*key*/, int /*x*/, int /*y*/) {
     if (current_graphics_mode == MODE_FULLSCREEN) {
         set_mode(MODE_HIDE_GRAPHICS);
     }
@@ -159,10 +159,10 @@ static void make_new_window(int mode) {
 // this should only called once, even if restarted by user-exit
 //
 static void boinc_glut_init() {
-    char* args[2] = {"screensaver", NULL};
+    const char* args[2] = {"screensaver", NULL};
     int one=1;
     app_debug_msg("Calling glutInit()... \n");
-    glutInit (&one, args);
+    glutInit (&one, (char**)args);
     app_debug_msg("...survived glutInit(). \n");
      
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
@@ -225,7 +225,6 @@ static void timer_handler(int) {
     char buf[MSG_CHANNEL_SIZE];
     GRAPHICS_MSG m;
 
-    int new_mode;
     if (*g_bmsp->app_client_shmp) {
         if ((*g_bmsp->app_client_shmp)->shm->graphics_request.get_msg(buf)) {
             (*g_bmsp->app_client_shmp)->decode_graphics_msg(buf, m);
@@ -301,7 +300,7 @@ void restart() {
 // into xwin_graphics_event_loop.  If we are in the main thread, then
 // restore the old signal handler and raise SIGABORT.
 //
-void restart_sig(int signal_number) {
+void restart_sig(int /*signal_number*/) {
     if (pthread_equal(pthread_self(), graphics_thread)) {
         // alternative approach is for the signal hander to call exit().
         fprintf(stderr, "Caught SIGABRT in graphics thread\n");
@@ -401,7 +400,7 @@ void xwin_graphics_event_loop() {
 
 
 
-void app_debug_msg (char *fmt, ...) {
+void app_debug_msg (const char* /*fmt*/, ...) {
 #ifndef _DEBUG
     return;
 #else

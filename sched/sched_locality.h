@@ -22,6 +22,6 @@ extern void send_work_locality(
     SCHED_SHMEM& ss
 );
 extern int decrement_disk_space_locality(
-    DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REQUEST& request,
+    WORKUNIT& wu, SCHEDULER_REQUEST& request,
     SCHEDULER_REPLY& reply
 );

@@ -477,7 +477,7 @@ int HOST_INFO::get_host_info() {
 
 // returns true iff device was last accessed before t
 // or if an error occurred looking at the device.
-inline bool device_idle(time_t t, char *device) {
+inline bool device_idle(time_t t, const char *device) {
     struct stat sbuf;
     return stat(device, &sbuf) || (sbuf.st_atime < t);
 }

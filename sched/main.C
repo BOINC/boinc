@@ -68,7 +68,7 @@ GUI_URLS gui_urls;
 key_t sema_key;
 int g_pid;
 
-void send_message(char* msg, int delay) {
+void send_message(const char* msg, int delay) {
     printf(
         "Content-type: text/plain\n\n"
         "<scheduler_reply>\n"

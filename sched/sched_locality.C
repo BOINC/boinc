@@ -118,7 +118,7 @@ bool host_has_file(
 // routine, in the same way as if there was no scheduling locality.
 //
 int decrement_disk_space_locality(
-    DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REQUEST& request,
+    WORKUNIT& wu, SCHEDULER_REQUEST& request,
     SCHEDULER_REPLY& reply
 ) {
     char filename[256], path[512];
@@ -385,7 +385,7 @@ static int send_results_for_file(
     int& nsent,
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     SCHED_SHMEM& ss,
-    bool in_working_set
+    bool /*in_working_set*/
 ) {
     DB_RESULT result, prev_result;
     char buf[256], query[1024];
@@ -481,7 +481,6 @@ static int send_results_for_file(
                 if (config.one_result_per_user_per_wu) {
 
                     // do an EXPENSIVE db query 
-                    char query[256];
 #ifdef USE_REGEXP
                     sprintf(query,
                         "where server_state=%d and name like '%s__%%' limit 1",
@@ -585,7 +584,7 @@ static int send_results_for_file(
 //
 static int send_new_file_work_deterministic_seeded(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    SCHED_SHMEM& ss, int& nsent, char *start_f, char *end_f
+    SCHED_SHMEM& ss, int& nsent, const char *start_f, const char *end_f
 ) {
     DB_RESULT result;
     char filename[256], min_resultname[256], query[1024];
@@ -651,7 +650,9 @@ static int send_new_file_work_deterministic(
     // continue deterministic search at lexically first possible
     // filename, continue to randomly choosen one
     if (!getfile_retval && reply.work_needed(true)) {
-        send_new_file_work_deterministic_seeded(sreq, reply, platform, ss, nsent, "", start_filename);
+        send_new_file_work_deterministic_seeded(
+            sreq, reply, platform, ss, nsent, "", start_filename
+        );
         if (nsent) {
             return 0;
         }

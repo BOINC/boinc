@@ -104,7 +104,9 @@ int boinc_install_signal_handlers() {
 
 // initialize the diagnostics environment.
 //
-int diagnostics_init(int _flags, char* stdout_prefix, char* stderr_prefix) {
+int diagnostics_init(
+    int _flags, const char* stdout_prefix, const char* stderr_prefix
+) {
 
     flags = _flags;
     snprintf(stdout_log, sizeof(stdout_log), "%s.txt", stdout_prefix);

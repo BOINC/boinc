@@ -93,7 +93,6 @@ int main(int argc, char** argv) {
     MESSAGES messages;
     int retval;
     char* hostname=0;
-    PROJECT project;
 
 #ifdef _WIN32
     WSADATA wsdata;

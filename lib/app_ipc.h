@@ -54,9 +54,9 @@ struct MSG_CHANNEL {
     char buf[MSG_CHANNEL_SIZE];
     bool get_msg(char*);    // returns a message and clears pending flag
     bool has_msg();
-    bool send_msg(char*);   // if there is not a message in the segment,
+    bool send_msg(const char*);   // if there is not a message in the segment,
                             // writes specified message and sets pending flag
-    void send_msg_overwrite(char*);
+    void send_msg_overwrite(const char*);
                             // write message, overwriting any msg already there
 };
 
@@ -101,7 +101,7 @@ struct SHARED_MEM {
 struct MSG_QUEUE {
     std::vector<std::string> msgs;
     char name[256];
-    void msg_queue_send(char*, MSG_CHANNEL& channel);
+    void msg_queue_send(const char*, MSG_CHANNEL& channel);
     void msg_queue_poll(MSG_CHANNEL& channel);
 };
 
@@ -186,6 +186,9 @@ struct APP_INIT_DATA {
         // fraction of the total.
     double fraction_done_start;
     double fraction_done_end;
+
+    APP_INIT_DATA();
+    ~APP_INIT_DATA();
 };
 
 struct GRAPHICS_INFO {
@@ -210,7 +213,7 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define STDOUT_FILE           "stdout.txt"
 #define LOCKFILE               "boinc_lockfile"
 
-extern char* xml_graphics_modes[NGRAPHICS_MSGS];
+extern const char* xml_graphics_modes[NGRAPHICS_MSGS];
 int boinc_link(const char* existing, const char* new_link);
 
 #endif

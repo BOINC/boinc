@@ -114,7 +114,7 @@ int return_error(bool transient, const char* message, ...) {
     return 1;
 }
 
-int return_success(char* text) {
+int return_success(const char* text) {
     printf(
         "Content-type: text/plain\n\n"
         "<data_server_reply>\n"
@@ -413,7 +413,7 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
     return 0;
 }
 
-void boinc_catch_signal(int x) {
+void boinc_catch_signal(int ) {
 }
 
 void installer() {
