@@ -24,6 +24,7 @@ using namespace std;
 #include <unistd.h>
 
 #include "filesys.h"
+#include "error_numbers.h"
 #include "sched_msgs.h"
 #include "sched_util.h"
 
@@ -73,4 +74,36 @@ void check_stop_daemons() {
 
 bool check_stop_sched() {
     return boinc_file_exists(STOP_SCHED_FILENAME);
+}
+
+// try to open a file.
+// On failure:
+//   return ERR_FOPEN if the dir is there but not file
+//     (this is generally a nonrecoverable failure)
+//   return ERR_OPENDIR if dir is not there.
+//     (this is generally a recoverable error,
+//     like NFS mount failure, that may go away later)
+//
+int try_fopen(char* path, FILE*& f, char* mode) {
+    char* p;
+    DIR* d;
+    char dirpath[256];
+
+    f = fopen(path, mode);
+    if (!f) {
+	memset(dirpath, '\0', sizeof(dirpath));
+        p = strrchr(path, '/');
+        if (p) {
+            strncpy(dirpath, path, (int)(p-path));
+        } else {
+            strcpy(dirpath, ".");
+        }
+        if ((d = opendir(dirpath)) == NULL) {
+            return ERR_OPENDIR;
+        } else {
+            closedir(d);
+            return ERR_FOPEN;
+        }
+    }
+    return 0;
 }

@@ -17332,3 +17332,35 @@ David  12 Sept 2004
 		ss_logic.C
 	lib/
 		app_ipc.h
+
+David  13 Sept 2004
+    - Preliminary checkin for "GUI URLs" feature
+        (allows projects to send URLs to be use as links in GUIs)
+        This is implemented in a new class GUI_URLS.
+        Its init() member reads template file.
+        Its get_gui_urls() member macro-substitutes user/team/host IDs
+        into the URLs, and produces XML to be included in scheduler replies.
+    - renamed replace_element() to replace_element_contents()
+    - moved try_fopen() from lib/util.C to sched/sched_util.C
+    - added old and new docs to CVS
+
+    doc/ (all new)
+       sched_locality.php
+       client_mac.php
+       delete_file.php
+       get_file.php
+       get_file_list.php
+       gui_rpc_control.php
+       gui_urls.php
+       info.php
+       send_file.php
+    lib/
+        parse.C,h
+        util.C,h
+    sched/
+        handle_request.C
+        main.C,h
+        make_work.C
+        sched_locality.C
+        sched_util.C,h
+        server_types.C,h

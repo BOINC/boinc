@@ -6,7 +6,7 @@ page_head("Community and resources");
 echo "
 <h2>Participants</h2>
 <p>
-To ask questions or report bugs in the BOINC client software,
+To ask questions, or to report bugs in the BOINC client software,
 please go to the
 <a href=http://setiweb.ssl.berkeley.edu/sah/forum_help_desk.php>Message
 board area</a> of SETI@home.
@@ -50,8 +50,7 @@ At any given point there are two different versions
 of the BOINC source code (maintained as separate CVS projects):
 <ul>
 <li> <b>boinc</b> is the development version.
-It may be unstable,
-and it may not be compatible with publicly-deployed BOINC projects.
+It may be unstable, and it may not be compatible with public BOINC projects.
 <li> <b>boinc_public</b> is the stable version.
 It generally is the version being used
 (on both client and server) by public BOINC projects.

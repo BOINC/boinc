@@ -213,6 +213,7 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 int SCHEDULER_REPLY::write(FILE* fout) {
     unsigned int i, j;
     string u1, u2, t1, t2;
+    char buf[LARGE_BLOB_SIZE];
 
     fprintf(fout,
         "<scheduler_reply>\n"
@@ -370,6 +371,10 @@ int SCHEDULER_REPLY::write(FILE* fout) {
             file_deletes[i].name
         );
     }
+
+    gui_urls.get_gui_urls(user, team, host, buf);
+    fputs(buf, fout);
+
 end:
     fprintf(fout,
         "</scheduler_reply>\n"
@@ -554,4 +559,29 @@ void GLOBAL_PREFS::parse(char* buf, char* venue) {
     parse_double(buf2, "<disk_max_used_gb>", disk_max_used_gb);
     parse_double(buf2, "<disk_max_used_pct>", disk_max_used_pct);
     parse_double(buf2, "<disk_min_free_gb>", disk_min_free_gb);
+}
+
+void GUI_URLS::init() {
+    text = 0;
+    read_file_malloc("../gui_urls.xml", text);
+}
+
+void GUI_URLS::get_gui_urls(USER& user, TEAM& team, HOST& host, char* buf) {
+    bool found;
+    char userid[256], teamid[256], hostid[256];
+    strcpy(buf, "");
+    if (!text) return;
+    strcpy(buf, text);
+
+    sprintf(userid, "%d", user.id);
+    sprintf(teamid, "%d", team.id);
+    sprintf(hostid, "%d", host.id);
+    while (1) {
+        found = false;
+        found |= str_replace(buf, "<userid/>", userid);
+        found |= str_replace(buf, "<hostid/>", hostid);
+        found |= str_replace(buf, "<teamid/>", teamid);
+        found |= str_replace(buf, "<authenticator/>", user.authenticator);
+        if (!found) break;
+    }
 }

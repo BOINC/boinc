@@ -25,11 +25,7 @@ results of the same workunit,
 in an attempt to obtain unearned credit
 or have erroneous results accepted as correct.
 </ul>
-In general, the BOINC scheduler responds to a work request
-by enumerating unsent results from the database,
-sending them to the host,
-and continuing until requested duration X is reached.
-However, this process is limited in various ways:
+Work distribution is constrained by a number of rules:
 <ul>
 <li> A result is sent only if an application version
 is available for the host's platform.
@@ -62,7 +58,17 @@ No results are sent of the core client has a different
 major version than the scheduling server.
 </ul>
 
+In general, the BOINC scheduler responds to a work request
+by enumerating unsent results from the database,
+filtering them by the above criteria,
+sending them to the host,
+and continuing until requested duration X is reached.
 
+<p>
+For projects that have very large input files,
+each of which is used by many workunit,
+BOINC offers an alternative work distribution policy
+called <a href=sched_locality.php>locality scheduling</a>.
 ";
 page_tail();
 ?>

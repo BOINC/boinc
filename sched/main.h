@@ -20,8 +20,10 @@
 #include "boinc_db.h"
 #include "sched_config.h"
 #include "synch.h"
+#include "server_types.h"
 
 extern SCHED_CONFIG config;
+extern GUI_URLS gui_urls;
 extern key_t sema_key;
 extern int g_pid;
 extern void lock_sema();

@@ -84,6 +84,12 @@ struct GLOBAL_PREFS {
     void parse(char* buf, char* venue);
 };
 
+struct GUI_URLS {
+    char* text;
+    void init();
+    void get_gui_urls(USER& user, TEAM& team, HOST& host, char*);
+};
+
 struct SCHEDULER_REQUEST {
     char authenticator[256];
     char platform_name[256];

@@ -68,15 +68,21 @@ void replace_file_name(
     while (p) {
         if (parse_str(p, "<name>", temp, sizeof(temp))) {
             if(!strcmp(filename, temp)) {
-                replace_element(xml_doc + (p - buf),"<name>","</name>",new_filename);
+                replace_element_contents(
+                    xml_doc + (p - buf),"<name>","</name>", new_filename
+                );
             }
         } else if (parse_str(p, "<file_name>", temp, sizeof(temp))) {
             if(!strcmp(filename, temp)) {
-                replace_element(xml_doc + (p - buf),"<file_name>","</file_name>",new_filename);
+                replace_element_contents(
+                    xml_doc+(p-buf), "<file_name>","</file_name>", new_filename
+                );
             }
         } else if (parse_str(p, "<url>", temp, sizeof(temp))) {
             if(!strcmp(temp, download_path)) {
-                replace_element(xml_doc + (p - buf),"<url>","</url>",new_download_path);
+                replace_element_contents(
+                    xml_doc + (p - buf),"<url>","</url>", new_download_path
+                );
             }
         }
         p = strtok(0, "\n");

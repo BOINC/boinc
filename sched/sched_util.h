@@ -33,5 +33,6 @@ extern void set_debug_level(int);
 extern void check_stop_daemons();
 extern bool check_stop_sched();
 extern void install_stop_signal_handler();
+extern int try_fopen(char* path, FILE*& f, char* mode);
 
 #endif

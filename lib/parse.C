@@ -206,9 +206,11 @@ int read_file_malloc(const char* pathname, char*& str) {
 }
 
 
-// replace XML element contents.  not currently used
+// replace XML element contents (element must be present)
 //
-void replace_element(char* buf, char* start, char* end, char* replacement) {
+void replace_element_contents(
+    char* buf, char* start, char* end, char* replacement
+) {
     char temp[4096], *p, *q;
 
     p = strstr(buf, start);
@@ -219,6 +221,20 @@ void replace_element(char* buf, char* start, char* end, char* replacement) {
     strcat(p, temp);
 }
 
+// replace a substring.  Do at most one instance.
+//
+bool str_replace(char* str, char* substr, char* replacement) {
+    char temp[4096], *p;
+
+    p = strstr(str, substr);
+    if (!p) return false;
+    int n = strlen(substr);
+    strcpy(temp, p+n);
+    strcpy(p, replacement);
+    strcat(p, temp);
+    return true;
+}
+    
 // if the given XML has an element of the form
 // <venue name="venue_name">
 //   ...

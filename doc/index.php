@@ -81,6 +81,7 @@ Solve biomedical questions of protein-related diseases.
 Analyze radio-telescope data,
 looking for evidence of extraterrestrial life.
 </ul>
+Visit any of these sites to download BOINC client software.
 We encourage you to participate in multiple projects,
 so that your computer will be kept busy even
 while projects are down or out of work.

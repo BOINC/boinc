@@ -66,6 +66,7 @@ void get_log_path(char* p) {
 bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 
 SCHED_CONFIG config;
+GUI_URLS gui_urls;
 key_t sema_key;
 int g_pid;
 
@@ -128,6 +129,8 @@ int main() {
         send_message("Server can't parse configuration file", 3600);
         exit(0);
     }
+
+    gui_urls.init();
 
     sprintf(path, "%s/code_sign_public", config.key_dir);
     retval = read_file_malloc(path, code_sign_key);
