@@ -373,6 +373,7 @@ int FILE_TRANSFER::parse(MIOFILE& in) {
         if (match_tag(buf, "</file_transfer>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
         else if (parse_str(buf, "<project_url>", project_url)) continue;
+        else if (parse_double(buf, "<nbytes>", nbytes)) continue;
         else if (match_tag(buf, "<generated_locally/>")) {
             generated_locally = true;
             continue;

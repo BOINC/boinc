@@ -18734,3 +18734,9 @@ David 21 Oct 2004
         ViewProjects.cpp
     lib/
         gui_rpc_client.C
+
+David  21 Oct 2004
+    - add "nbytes" (i.e., file size) to FILE_TRANSFER in GUI RPC
+
+    lib/
+        gui_rpc_client.C,h

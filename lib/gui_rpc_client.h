@@ -161,6 +161,7 @@ class FILE_TRANSFER {
 public:
     std::string name;
     std::string project_url;
+    double nbytes;
     bool generated_locally;
     bool uploaded;
     bool upload_when_present;
