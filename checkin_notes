@@ -5709,6 +5709,7 @@ Karl 2003/08/13
       validate_test, but more efficiently and safer (from buffer overruns and
       allows NULL character in files).  Rewrote validate_test using this, and
       created validate_trivial which grants credit to all results.
+    - more greppability
 
     Sched/
         Makefile.am
