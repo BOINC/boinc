@@ -127,13 +127,10 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             if (!retval) {
                 trickles.push_back(td);
             }
-        }
-        else {
+        } else {
             log_messages.printf(SchedMessages::NORMAL, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
         }
     }
-    log_messages.printf(SchedMessages::NORMAL,
-			"SCHEDULER_REQUEST::parse(): xml not correctly closed\n");
     return ERR_XML_PARSE;
 }
 

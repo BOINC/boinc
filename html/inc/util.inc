@@ -167,13 +167,12 @@ function date_str($x) {
 
 function time_str($x) {
     if ($x == 0) return "---";
-    // return strftime("%T %b %e, %Y", $x);
-    return strftime("%Y-%m-%d %H:%M:%S", $x);
+    //return strftime("%j %m-%d %H:%M:%S", $x)";
+    return gmdate('j M Y G:i:s', $x) . " UTC";
 }
 
 function pretty_time_str($x) {
-    if ($x == 0) return "&nbsp;";
-    return gmdate('j M Y g:i a', $x) . " UTC";
+    return time_str($x);
 }
 
 function start_table($extra="") {

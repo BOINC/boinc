@@ -10600,8 +10600,8 @@ David  Mar 19 2004
             white.css
 
 kevin	March 19 2004
-	check for result of	status request parse.  Should avoid problem of
-	partial communication from client to server.
+    - Scheduler: don't handle partial requests
+        (i.e. missing </scheduler_request> tag)
 	lib/
 		error_numbers.h
 	sched/
@@ -10662,17 +10662,43 @@ Rom    Mar 22 2004
         app_ipc.h
 
 kevin Mon Mar 22 2004
-    ensure that </stderr_txt> is included in
+    - ensure that </stderr_txt> is included in
     stderr_out, even if stderr_out is too long.
      client/
         app.C
 
 Rom    Mar 22 2004
-    - Attempt to force load glut32.dll in a specific location, if it fails catch the SEH exception
-        and just disable grapgics.
+    - Attempt to force load glut32.dll in a specific location,
+        if it fails catch the SEH exception and just disable grapgics.
 
     api/
         graphics_api.c
+
+David  Mar 22 2004
+    - Web: Show mod time when display global prefs
+    - Client: when write global prefs to a file,
+        tag with source project and scheduler only if not already tagged
+        (otherwise get multiple tags)
+    - Client messages: show source project and mod time of global prefs
+    - Web: show all date/time strings in same format, use UTC
+    - Client messages: don't list "BOINC" as a project.
+        Indicate non-project-specific by "---"
+    
+    client/
+        app.C
+        cs_scheduler.C
+        main.C
+        prefs.C,h
+        win/
+            wingui.cpp
+    html/
+        inc/
+            prefs.inc
+            util.inc
+        user/
+            prefs_edit_form.php
+    lib/
+        util.C,h
 
 kevin Mar 22 2004
     handle_results().  result.exit_status

@@ -434,7 +434,16 @@ function print_prefs_display_project($user) {
 function print_prefs_display_global($user) {
     $global_prefs = prefs_parse_global($user->global_prefs);
 
-    echo "<font size=+2>General preferences</font><br><font size=-2>These apply to all BOINC projects in which you participate</font><br><br>";
+    echo "<font size=+2>General preferences</font><br><font size=-2>
+        These apply to all BOINC projects in which you participate.
+        <br>
+        On computers attached to multiple projects,
+        the most recently modified preferences will be used.
+        </font>
+        <br><br>
+        Last modified: ", pretty_time_str($global_prefs->mod_time), "
+        <br><br>
+    ";
 
     start_table();
     if ($global_prefs->home || $global_prefs->work || $global_prefs->school) {

@@ -626,12 +626,12 @@ int handle_results(
         strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
         parse_int(result.stderr_out, "<app_version>", result.app_version_num);
 
-	// look for exit status in stderr_out
+        // look for exit status in stderr_out
         // exit_status is now returned separately
-	// This line should be unused in older core clients.
-	// This line can be safely deleted later
+        // This line should be unused in older core clients.
+        // This line can be safely deleted later
         //
-	parse_int(result.stderr_out, "<exit_status>", result.exit_status);
+        parse_int(result.stderr_out, "<exit_status>", result.exit_status);
 
         if ((result.client_state == RESULT_FILES_UPLOADED) && (result.exit_status == 0)) {
             result.outcome = RESULT_OUTCOME_SUCCESS;
@@ -1216,19 +1216,22 @@ void handle_request(
     SCHEDULER_REPLY sreply;
 
     memset(&sreq, 0, sizeof(sreq));
-    // check return of sreq.parse
+
     if (sreq.parse(fin) == 0){
-    
-      log_messages.printf(
-			  SchedMessages::NORMAL, "Handling request: IP %s, auth %s, platform %s, version %d.%d\n",
-			  get_remote_addr(), sreq.authenticator, sreq.platform_name,
-			  sreq.core_client_major_version, sreq.core_client_minor_version
-			  );
-      process_request(sreq, sreply, ss, code_sign_key);
+        log_messages.printf(
+             SchedMessages::NORMAL, "Handling request: IP %s, auth %s, platform %s, version %d.%d\n",
+             get_remote_addr(), sreq.authenticator, sreq.platform_name,
+             sreq.core_client_major_version, sreq.core_client_minor_version
+        );
+        process_request(sreq, sreply, ss, code_sign_key);
     } else {
-      strcpy(sreply.message, "Incomplete request received.");
-      strcpy(sreply.message_priority, "low");
-      return;
+        SchedMessages::NORMAL, "Incomplete request received from IP %s, auth %s, platform %s, version %d.%d\n",
+             get_remote_addr(), sreq.authenticator, sreq.platform_name,
+             sreq.core_client_major_version, sreq.core_client_minor_version
+        );
+        strcpy(sreply.message, "Incomplete request received.");
+        strcpy(sreply.message_priority, "low");
+        return;
     }
     
     sreply.write(fout);

@@ -846,7 +846,11 @@ bool ACTIVE_TASK::read_stderr_file() {
         result->stderr_out += "<stderr_txt>\n";
         result->stderr_out += stderr_file;
         const char* stderr_txt_close = "\n</stderr_txt>\n";
-        result->stderr_out = result->stderr_out.substr(0,MAX_BLOB_LEN-1-strlen(stderr_txt_close));
+
+        // truncate stderr output to 64KB;
+        // it's unlikely that more than that will be useful
+        //
+        result->stderr_out = result->stderr_out.substr(0, MAX_BLOB_LEN-1-strlen(stderr_txt_close));
         result->stderr_out += stderr_txt_close;
         return true;
     }
