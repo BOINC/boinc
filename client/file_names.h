@@ -41,4 +41,3 @@ extern int make_prefs_backup_name(PREFS&, char*);
 #define SCHED_OP_REQUEST_FILE   "sched_request.xml"
 #define SCHED_OP_RESULT_FILE    "sched_reply.xml"
 #define LOG_FLAGS_FILE          "log_flags.xml"
-#define STDERR_FILE             "stderr.txt"

@@ -90,6 +90,7 @@ int parse_fraction_done_file(FILE*, double&, double&);
 #define FD_INIT_FILE    "fd_init.xml"
 #define CHECKPOINT_CPU_FILE     "checkpoint_cpu.xml"
 #define FRACTION_DONE_FILE  "fraction_done.xml"
+#define STDERR_FILE             "stderr.txt"
 
 int set_timer(double period);
 
