@@ -72,7 +72,6 @@ struct INTERNALMONITORINFO
     FLOAT          heightError;
     FLOAT          xVelError;
     FLOAT          yVelError;
-    time_t         tLastRefresh;
 };
 
 
@@ -104,16 +103,68 @@ public:
     HRESULT         DisplayErrorMsg( HRESULT hr );
 
 
+    //
+    // Infrastructure layer 
+    //
 protected:
-	VOID			StartupBOINC();
-	VOID			ShutdownBOINC();
-
 	SaverMode       ParseCommandLine( TCHAR* pstrCommandLine );
 	VOID            EnumMonitors( VOID );
 
+    int             UtilGetRegKey(LPCTSTR name, DWORD &keyval);
+    int             UtilSetRegKey(LPCTSTR name, DWORD value);
+    int             UtilGetRegStartupStr(LPCTSTR name, LPTSTR str);
+
+	BOOL			IsConfigStartupBOINC();
+
+    BOOL            CreateInfrastructureMutexes();
+
+    BOOL            GetError( BOOL& bErrorMode, HRESULT& hrError, TCHAR* pszError, size_t iErrorSize );
+    BOOL            SetError( BOOL bErrorMode, HRESULT hrError );
+	VOID            UpdateErrorBoxText();
+	virtual BOOL    GetTextForError( HRESULT hr, TCHAR* pszError, DWORD dwNumChars );
+
+
+    // Variables for non-fatal error management
+    HANDLE          m_hErrorManagementMutex;
+    BOOL			m_bErrorMode;        // Whether to display an error
+    HRESULT			m_hrError;           // Error code to display
+    TCHAR			m_szError[400];      // Error message text
+
+    BOOL            m_bBOINCConfigChecked;
+    BOOL            m_bBOINCStartupConfigured;
+    DWORD           m_dwBlankScreen;
+    DWORD           m_dwBlankTime;
+
+
+    //
+    // Data management layer
+    //
+protected:
+    BOOL            CreateDataManagementThread();
+    BOOL            DestoryDataManagementThread();
+
+    DWORD WINAPI    DataManagementProc();
+    static DWORD WINAPI DataManagementProcStub( LPVOID lpParam );
+
+    VOID			StartupBOINC();
+	VOID			ShutdownBOINC();
+
+    RPC_CLIENT      rpc;
+    CC_STATE        state;
+
+    HANDLE          m_hDataManagementThread;
+
+    BOOL			m_bCoreNotified;
+    BOOL            m_bResetCoreState;
+    int             m_iStatus;
+
+
+    //
+    // Presentation layer
+    //
+protected:
 	HRESULT         CreateSaverWindow();
 	VOID            UpdateErrorBox();
-	VOID            UpdateErrorBoxText();
     VOID            InterruptSaver();
     VOID            ShutdownSaver();
 	VOID            ChangePassword();
@@ -124,23 +175,13 @@ protected:
 
 	void			DrawTransparentBitmap(HDC hdc, HBITMAP hBitmap, LONG xStart, LONG yStart, COLORREF cTransparentColor);
 
-	virtual BOOL    GetTextForError( HRESULT hr, TCHAR* pszError, DWORD dwNumChars );
-	BOOL			IsConfigStartupBOINC();
-
 	LRESULT         SaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 	INT_PTR         ConfigureDialogProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
     static LRESULT CALLBACK SaverProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 	static INT_PTR CALLBACK ConfigureDialogProcStub( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
-    int             UtilGetRegKey(LPCTSTR name, DWORD &keyval);
-    int             UtilSetRegKey(LPCTSTR name, DWORD value);
-    int             UtilGetRegStartupStr(LPCTSTR name, LPTSTR str);
-
 protected:
-    RPC_CLIENT              rpc;
-    CC_STATE                state;
-
     SaverMode				m_SaverMode;         // sm_config, sm_full, sm_preview, etc.
     BOOL					m_bAllScreensSame;   // If TRUE, show same image on all screens
     HWND					m_hWnd;              // Focus window and device window on primary
@@ -154,11 +195,6 @@ protected:
     BOOL					m_bCheckingSaverPassword;
     BOOL					m_bWindowed;
 
-    // Variables for non-fatal error management
-    BOOL					m_bErrorMode;        // Whether to display an error
-    HRESULT					m_hrError;           // Error code to display
-    TCHAR					m_szError[400];      // Error message text
-
     INTERNALMONITORINFO		m_Monitors[MAX_DISPLAYS];
     DWORD					m_dwNumMonitors;
     RECT					m_rcRenderTotal;     // Rect of entire area to be rendered
@@ -166,15 +202,8 @@ protected:
 	BOOL					m_bPaintingInitialized;
 
     TCHAR					m_strWindowTitle[200]; // Title for the app's window
-	BOOL					m_bCoreNotified;
-    BOOL                    m_bResetCoreState;
-    DWORD                   m_dwTimerCounter;
-    int                     m_iStatus;
-    DWORD                   m_dwBlankScreen;
-    DWORD                   m_dwBlankTime;
 
-    BOOL                    m_bBOINCConfigChecked;
-    BOOL                    m_bBOINCStartupConfigured;
+
 };
 
 #endif

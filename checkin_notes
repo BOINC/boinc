@@ -26681,3 +26681,11 @@ David  4 April 2005
 	lib/
 		gui_rpc_client.h
 		prefs.C
+
+Rom    5 April 2005
+    - Moved the daemon communication to a seperate thread so that the screensaver
+        can be more responsive to the system since it cannot now be blocked on
+        network IO.
+
+    client/win/
+        win_screensaver.cpp,h
