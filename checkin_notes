@@ -14083,6 +14083,9 @@ David 22 June 2004
         trickle_handler.C
 
 Karl 2004-06-24
+
+    OpenBSD compile fixes from Daniel Hartmeier <daniel@benzedrine.cx>
+
     lib/
         util.C
         filesys.C
