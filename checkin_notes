@@ -9596,25 +9596,31 @@ David  Jan 26 2004
         error_numbers.h
 
 David  Jan 30 2004
-	- replaced a bunch of "return 1"s with meaningful codes
-		(mostly ERR_NOT_FOUND); fixed comments; added license text here and there
-	client/
-		app.C
-		client_state.C
-		cs_apps.C
-		cs_cmdline.C
-		cs_files.C
-		cs_prefs.C
-		cs_scheduler.C
-		file_xfer.C
-		gui_rpc_server.C,h
-		http.C
-		message.C
-		net_stats.C
-		net_xfer.C
-		pers_file_xfer.C
-	doc/
-		account.php
-	lib/
-		app_ipc.C
-		error_numbers.h
+    - replaced a bunch of "return 1"s with meaningful codes
+        (mostly ERR_NOT_FOUND); fixed comments; added license text here and there
+    client/
+        app.C
+        client_state.C
+        cs_apps.C
+        cs_cmdline.C
+        cs_files.C
+        cs_prefs.C
+        cs_scheduler.C
+        file_xfer.C
+        gui_rpc_server.C,h
+        http.C
+        message.C
+        net_stats.C
+        net_xfer.C
+        pers_file_xfer.C
+    doc/
+        account.php
+    lib/
+        app_ipc.C
+        error_numbers.h
+
+David  Jan 30 2004
+    - mark result as OUTCOME_SUCCESS only if exit status is zero (from Rom Walton)
+
+    sched/
+        handle_request.C

@@ -604,21 +604,24 @@ int handle_results(
         result.cpu_time = rp->cpu_time;
         result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
         result.server_state = RESULT_SERVER_STATE_OVER;
-        // TODO: if client application aborted e.g. exceeded resource limits,
-        // should client_state be RESULT_OUTCOME_CLIENT_ERROR ?
-        if (result.client_state == RESULT_FILES_UPLOADED) {
+
+		strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
+        strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
+        parse_int(result.stderr_out, "<app_version>", result.app_version_num);
+
+		// look for exit status in stderr_out
+        // TODO: return separately
+        //
+        parse_int(result.stderr_out, "<exit_status>", result.exit_status);
+
+		// Success can only be declared if all the result files have been successfully uploaded
+		// and the client exit status returns 0
+        if ( (result.client_state == RESULT_FILES_UPLOADED) && (0 == result.exit_status) ) {
             result.outcome = RESULT_OUTCOME_SUCCESS;
         } else {
             result.outcome = RESULT_OUTCOME_CLIENT_ERROR;
             result.validate_state = VALIDATE_STATE_INVALID;
         }
-        strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
-        strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
-        parse_int(result.stderr_out, "<app_version>", result.app_version_num);
-        // look for exit status in stderr_out
-        // TODO: return separately
-        //
-        parse_int(result.stderr_out, "<exit_status>", result.exit_status);
 
         result.teamid = reply.user.teamid;
         retval = result.update();
