@@ -9,7 +9,6 @@ db_init();
 $logged_in_user = get_logged_in_user(true);
 $logged_in_user = getForumPreferences($logged_in_user);
 
-
 if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content'])) {
     $_GET['id'] = stripslashes(strip_tags($_GET['id']));
 
