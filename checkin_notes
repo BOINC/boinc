@@ -23026,3 +23026,9 @@ David  20 Jan 2005
         handle_request.C
         server_types.C
         start
+
+David  20 Jan 2005
+    - scheduler compile fix for Solaris
+
+    sched/
+        sched_locality.C

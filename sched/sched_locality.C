@@ -21,6 +21,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <strings.h>
 #include <glob.h>
 
 #include "boinc_db.h"
