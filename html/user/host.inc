@@ -188,8 +188,6 @@ function show_host_row($host, $i, $private) {
     $nresults = host_nresults($host);
     $nresults_success = host_nresults_success($host);
     $nresults_valid = host_nresults_valid($host);
-    echo "<td><a href=results_host.php?hostid=$host->id>$nresults</a>";
-
     echo "$nresults_valid / $nresults_success / <a href=results_host.php?hostid=$host->id>$nresults</a>";
     if ($last_result) {
         $date_last_result = date_str($last_result->received_time);
