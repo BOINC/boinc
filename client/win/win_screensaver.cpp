@@ -195,12 +195,17 @@ void DoPreviewWindow(HWND hparwnd)
 BOOL CALLBACK ConfigDialogProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam) {
 	unsigned long screen_blank=0, blank_time=0;
 	char buf[256];
+	int retval;
 
 	switch (msg) {
 		case WM_INITDIALOG:
-			UtilGetRegKey( REG_BLANK_NAME, screen_blank );
+			// make sure you check return value of registry queries
+			// in case the item in question doesn't happen to exist.
+			retval=UtilGetRegKey( REG_BLANK_NAME, screen_blank );
+			if ( retval < 0 ) { screen_blank=0; }
 			CheckDlgButton(hwnd,IDC_BLANK,screen_blank);
-			UtilGetRegKey( REG_BLANK_TIME, blank_time );
+			retval=UtilGetRegKey( REG_BLANK_TIME, blank_time );
+			if ( retval < 0 ) { blank_time=0; }
 			sprintf( buf, "%d", blank_time );
 			SetDlgItemText(hwnd,IDC_BLANK_TIME,buf);
 			return TRUE;
