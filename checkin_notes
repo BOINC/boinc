@@ -8137,3 +8137,11 @@ David  4 Dec 2003
             forum.php
             index.php
             reply.php
+
+Gary	05 Dec 2003
+	- in check_app_exited() look for most recent checkpoint_cpu_time
+      and use it to calculate final_cpu_time for result.
+
+	client/
+		app.C
+
