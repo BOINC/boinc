@@ -7788,3 +7788,18 @@ Karl 2003-11-24
     test/
         testbase.py
         cgiserver.py
+
+David  25 Nov 2003
+    - added host.rpc_time to DB dump
+    - made seti_* fields "not null" in schema
+
+    client/
+        hostinfo_unix.C
+    db/
+        schema.sql
+    doc/
+        db_dump.php
+        index.html
+        software.php
+    sched/
+        db_dump.C
