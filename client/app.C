@@ -98,7 +98,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     graphics_request_time = time(0);
     graphics_acked_mode = MODE_UNSUPPORTED;
     graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
-	last_status_msg_time = 0;
+    last_status_msg_time = 0;
+    current_cpu_time = working_set_size = 0;
 }
 
 int ACTIVE_TASK::init(RESULT* rp) {
@@ -107,6 +108,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
     app_version = wup->avp;
     max_cpu_time = gstate.estimate_cpu_time(*rp->wup)*2;
     max_disk_usage = rp->wup->rsc_disk;
+    max_mem_usage = rp->wup->rsc_memory;
     
     return 0;
 }
@@ -476,9 +478,7 @@ bool ACTIVE_TASK_SET::poll() {
     get_cpu_times();
     action = check_app_exited();
     if (action) return true;
-    action = check_max_cpu_exceeded();
-    if (action) return true;
-    action = check_max_disk_exceeded();
+    action = check_rsc_limits_exceeded();
     if (action) return true;
     return false;
 }
@@ -597,7 +597,6 @@ bool ACTIVE_TASK_SET::check_app_exited() {
         }
         destroy_shmem(atp->shm_key);
 
-
         return true;
     }
 #endif
@@ -606,61 +605,87 @@ bool ACTIVE_TASK_SET::check_app_exited() {
 
 // if an app has exceeded its maximum CPU time, abort it
 //
-bool ACTIVE_TASK_SET::check_max_cpu_exceeded() {
-    unsigned int j;
-    ACTIVE_TASK* atp;
+bool ACTIVE_TASK::check_max_cpu_exceeded() {
     char buf[256];
 
-    for (j=0; j<active_tasks.size(); j++) {
-        atp = active_tasks[j];
-        if (atp->current_cpu_time > atp->max_cpu_time) {
-            sprintf(buf,
-                "Aborting result %s: exceeded CPU time limit %f\n",
-                atp->result->name,
-                atp->max_cpu_time
-            );
-            show_message(atp->result->project, buf, MSG_INFO);
-            atp->abort();
-            return true;
-        }
+    if (current_cpu_time > max_cpu_time) {
+        sprintf(buf,
+            "Aborting result %s: exceeded CPU time limit %f\n",
+            result->name,
+            max_cpu_time
+        );
+        show_message(result->project, buf, MSG_INFO);
+        abort();
+        return true;
     }
     return false;
 }
 
 // if an app has exceeded its maximum disk usage, abort it
 //
-bool ACTIVE_TASK_SET::check_max_disk_exceeded() {
-    unsigned int j;
-    ACTIVE_TASK* atp;
+bool ACTIVE_TASK::check_max_disk_exceeded() {
     char buf[256];
-    static time_t last_check_time;
     double disk_usage;
     int retval;
 
-// don't do disk check too often
-//
-    if (time(0)>last_check_time + gstate.global_prefs.disk_interval) {
-        last_check_time = time(0);
-        for (j=0; j<active_tasks.size(); j++) {
-            atp = active_tasks[j];
-            retval = atp->current_disk_usage(disk_usage);
-            if (retval) {
-                show_message(0, "Can't get application disk usage", MSG_ERROR);
-            } else {
-                fprintf(stderr, "using %f bytes; max is %f bytes\n", disk_usage, atp->max_disk_usage);
-                if (disk_usage > atp->max_disk_usage) {
-                    sprintf(buf,
-                        "Aborting result %s: exceeded disk limit %f\n",
-                        atp->result->name,
-                        atp->max_disk_usage
-                    );
-                    show_message(atp->result->project, buf, MSG_INFO);
-                    atp->abort();
-                    return true;
-                }
-            }
+    // don't do disk check too often
+    //
+    retval = current_disk_usage(disk_usage);
+    if (retval) {
+        show_message(0, "Can't get application disk usage", MSG_ERROR);
+    } else {
+        //fprintf(stderr, "using %f bytes; max is %f bytes\n", disk_usage, max_disk_usage);
+        if (disk_usage > max_disk_usage) {
+            sprintf(buf,
+                "Aborting result %s: exceeded disk limit %f\n",
+                result->name,
+                max_disk_usage
+                );
+            show_message(result->project, buf, MSG_INFO);
+            abort();
+            return true;
         }
     }
+    return false;
+}
+
+// if an app has exceeded its maximum allowed memory, abort it
+//
+bool ACTIVE_TASK::check_max_mem_exceeded() {
+    char buf[256];
+
+    // TODO: 
+    if (working_set_size > max_mem_usage) {
+        sprintf(buf,
+            "Aborting result %s: exceeded memory limit %f\n",
+            result->name,
+            max_mem_usage
+        );
+        show_message(result->project, buf, MSG_INFO);
+        abort();
+        return true;
+    }
+    return false;
+}
+
+// Check if any of the active tasks have exceeded their
+// resource limits on disk, CPU time or memory
+//
+bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
+    unsigned int j;
+    ACTIVE_TASK *atp;
+    static time_t last_disk_check_time = 0;
+
+    for (j=0;j<active_tasks.size();j++) {
+        atp = active_tasks[j];
+        if (atp->check_max_cpu_exceeded()) return true;
+        else if (atp->check_max_mem_exceeded()) return true;
+        else if (time(0)>last_disk_check_time + gstate.global_prefs.disk_interval) {
+            last_disk_check_time = time(0);
+            if (atp->check_max_disk_exceeded()) return true;
+        }
+    }
+
     return false;
 }
 
@@ -940,6 +965,7 @@ int ACTIVE_TASK::get_cpu_time_via_shmem(time_t now) {
         parse_double(msg_buf, "<fraction_done>", fraction_done);
         parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
         parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
+        parse_double(msg_buf, "<working_set_size>", working_set_size);
         return 0;
     }
 

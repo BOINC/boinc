@@ -77,11 +77,14 @@ public:
         // total CPU at the last checkpoint
     double current_cpu_time;
         // most recent total CPU time reported by app
+    double working_set_size;
+	    // most recent size of RAM working set in bytes
     int current_disk_usage(double&);
         // disk used by output files and temp files of this task
     char slot_dir[256];      // directory where process runs
     double max_cpu_time;    // abort if total CPU exceeds this
     double max_disk_usage;  // abort if disk usage (in+out+temp) exceeds this
+    double max_mem_usage;   // abort if memory usage exceeds this
 
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
     time_t last_status_msg_time;
@@ -102,8 +105,12 @@ public:
     int kill_task();                    // send a SIGKILL signal or equivalent
     int suspend();                      // send a SIGSTOP signal or equivalent
     int unsuspend();                    // send a SIGCONT signal or equivalent
-    int abort();             // flag as abort pending and send kill signal
+    int abort();                        // flag as abort pending and send kill signal
     bool task_exited();                 // return true if this task has exited
+
+    bool check_max_cpu_exceeded();
+    bool check_max_disk_exceeded();
+    bool check_max_mem_exceeded();
 
     int get_cpu_time_via_shmem(time_t);
     int get_cpu_time_via_os();
@@ -129,10 +136,8 @@ public:
     int exit_tasks();
     void kill_tasks();
     void get_cpu_times();
-    int check_max_disk_usage();
     bool check_app_exited();
-    bool check_max_cpu_exceeded();
-    bool check_max_disk_exceeded();
+	bool check_rsc_limits_exceeded();
     int get_free_slot(int total_slots);
 
     // screensaver-related functions
