@@ -18529,3 +18529,21 @@ David  18 Oct 2004
             clone.php
             sample_rss_main.php
             team.php
+
+David  18 Oct 2004
+    - more Makfile cleanup
+    - removed #ifdef HAVE_DIRENT stuff from filesys.h
+        so apps can use it
+
+    Graphics.Readme (removed)
+    configure.ac
+    boincglut/lib/glut/
+        Makefile (removed)
+    api/
+        Makefile.Readme (removed)
+        Makefile.graphics (removed)
+    clientgui/
+        Makefile (removed)
+    lib/
+        Makefile.am
+        filesys.h

@@ -1,8 +1,0 @@
-This file will explain how to create a Makefile.graphics file for your
-own specific system once a configure has been run on boinc. The following things must be added to the Makefile so as to create it with graphics:
-
-
-GRXLIBS: add -lboincglut
-AM_CPPFLAGS: add -I$(top_srcdir)/boincglut/include
-am_libboinc_api_a_OBJECTS: add x_opengl, graphics_data, graphics_api, reduce,
-  			   gutil, all with extension .$(OBJEXT)

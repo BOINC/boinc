@@ -40,11 +40,8 @@ typedef DIR_DESC *DIRREF;
 
 #include <cstdio>
 #include <string>
-
-#ifdef HAVE_DIRENT_H
 #include <dirent.h>
 typedef DIR *DIRREF;
-#endif
 
 #define PATH_SEPARATOR "/"
 
@@ -79,11 +76,10 @@ extern char boinc_failed_file[256];
 
 class DirScanner {
 #ifdef _WIN32
-  std::string dir;
+    std::string dir;
     bool first;
     void* handle;
-#endif
-#ifdef HAVE_DIRENT_H
+#else
     DIR* dirp;
 #endif
 public:

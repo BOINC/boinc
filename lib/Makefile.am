@@ -3,9 +3,9 @@
 
 include $(top_srcdir)/Makefile.incl
 
-if HAVE_NSL
+#if HAVE_NSL
 nslprogs=gui_test
-endif
+#endif
 
 bin_PROGRAMS = crypt_prog $(nslprogs)
 

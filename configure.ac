@@ -113,9 +113,11 @@ dnl Checks for libraries.
 AC_CHECK_LIB(gen, main)
 AC_CHECK_LIB(m, sin)
 AC_CHECK_LIB(socket, main)
-AC_CHECK_LIB(nsl, gethostbyaddr, [have_nsl=yes])
-
-AM_CONDITIONAL([HAVE_NSL], [test x$have_nsl = xyes])
+AC_CHECK_LIB(nsl, gethostbyaddr)
+dnl AC_CHECK_LIB(socket, main)
+dnl AC_CHECK_LIB(nsl, gethostbyaddr, [have_nsl=yes])
+dnl AM_CONDITIONAL([HAVE_NSL], [test x$have_nsl = xyes])
+dnl AC_SEARCH_LIBS(gethostbyname, nsl, , AC_SEARCH_LIBS(gethostbyname, nsl, ,, -lsocket), , )
 
 AC_CHECK_LIB(stdc++, main)
 AC_CHECK_LIB(z, gzopen)

@@ -4,7 +4,7 @@ page_head("The BOINC diagnostics API");
 echo"
 BOINC applications can call
 <pre>
-boinc_init_diagnostics(int flags)
+int boinc_init_diagnostics(int flags)
 </pre>
 to initialize various diagnostic functions.
 <b>This call should be made early in the program - before boinc_init() -
