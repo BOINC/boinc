@@ -14180,3 +14180,15 @@ David  27 June 2004
 
     sched/
         transitioner.C
+
+David  27 June 2004
+	- changes (from Carl C.) to get rid of signal usage in zip/unzip code
+
+	zip/unzip
+		fileio.c
+		unzip.c
+	zip/zip
+		zip.c
+		zipcloak.c
+		zipnote.c
+		zipsplit.c

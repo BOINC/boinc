@@ -459,10 +459,6 @@ char **argv;            /* command line tokens */
   init_upper();           /* build case map table */
 
   /* Go through args */
-  signal(SIGINT, handler);
-#ifdef SIGTERM                 /* Amiga has no SIGTERM */
-  signal(SIGTERM, handler);
-#endif
   k = h = x = d = u = 0;
   c = DEFSIZ;
   for (r = 1; r < argc; r++)

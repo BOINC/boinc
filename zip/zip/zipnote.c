@@ -321,10 +321,6 @@ char **argv;            /* command line tokens */
   /* Go through args */
   zipfile = tempzip = NULL;
   tempzf = NULL;
-  signal(SIGINT, handler);
-#ifdef SIGTERM              /* AMIGA has no SIGTERM */
-  signal(SIGTERM, handler);
-#endif
   k = w = 0;
   for (r = 1; r < argc; r++)
     if (*argv[r] == '-') {

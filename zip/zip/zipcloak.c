@@ -231,12 +231,6 @@ int main(argc, argv)
     /* Go through args */
     zipfile = tempzip = NULL;
     tempzf = NULL;
-#ifdef SIGINT
-    signal(SIGINT, handler);
-#endif
-#ifdef SIGTERM                  /* Some don't have SIGTERM */
-    signal(SIGTERM, handler);
-#endif
     temp_path = decrypt = 0;
     for (r = 1; r < argc; r++) {
         if (*argv[r] == '-') {

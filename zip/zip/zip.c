@@ -42,7 +42,6 @@
 #  endif
 #endif
 
-#include <signal.h>
 
 #define MAXCOM 256      /* Maximum one-line comment size */
 
@@ -1043,12 +1042,6 @@ int zip_main(int argc, char** argv)
   zipfile = tempzip = NULL;
   tempzf = NULL;
   d = 0;                        /* disallow adding to a zip file */
-#if (!defined(MACOS) && !defined(WINDLL))
-  signal(SIGINT, handler);
-#ifdef SIGTERM                  /* AMIGADOS and others have no SIGTERM */
-  signal(SIGTERM, handler);
-#endif
-#endif /* !MACOS && !WINDLL */
   k = 0;                        /* Next non-option argument type */
   s = 0;                        /* set by -@ if -@ is early */
 

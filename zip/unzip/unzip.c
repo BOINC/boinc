@@ -650,16 +650,6 @@ int unzip(__G__ argc, argv)
     int i;
 #endif
     int retcode,error=FALSE;
-#ifdef REENTRANT
-    savsigs_info *oldsighandlers = NULL;
-#   define SET_SIGHANDLER(sigtype, newsighandler) \
-      if ((retcode = setsignalhandler(__G__ &oldsighandlers, (sigtype), \
-                                      (newsighandler))) > PK_WARN) \
-          goto cleanup_and_exit
-#else
-#   define SET_SIGHANDLER(sigtype, newsighandler) \
-      signal((sigtype), (newsighandler))
-#endif
 
     SETLOCALE(LC_CTYPE,"");
 
@@ -699,19 +689,6 @@ int unzip(__G__ argc, argv)
   if (jmperrcode) {
     return jmperrcode;
   }
-
-#ifdef SIGINT
-    SET_SIGHANDLER(SIGINT, handler);
-#endif
-#ifdef SIGTERM                 /* some systems really have no SIGTERM */
-    SET_SIGHANDLER(SIGTERM, handler);
-#endif
-#ifdef SIGBUS
-    SET_SIGHANDLER(SIGBUS, handler);
-#endif
-#ifdef SIGSEGV
-    SET_SIGHANDLER(SIGSEGV, handler);
-#endif
 
 #if (defined(WIN32) && defined(__RSXNT__))
     for (i = 0 ; i < argc; i++) {
@@ -1026,41 +1003,6 @@ cleanup_and_exit:
 
 
 
-
-
-#ifdef REENTRANT
-/*******************************/
-/* Function setsignalhandler() */
-/*******************************/
-
-static int setsignalhandler(__G__ p_savedhandler_chain, signal_type,
-                            newhandler)
-    __GDEF
-    savsigs_info **p_savedhandler_chain;
-    int signal_type;
-    void (*newhandler)(int);
-{
-    savsigs_info *savsig;
-
-    savsig = malloc(sizeof(savsigs_info));
-    if (savsig == NULL) {
-        /* error message and break */
-        Info(slide, 0x401, ((char *)slide, LoadFarString(CantSaveSigHandler)));
-        return PK_MEM;
-    }
-    savsig->sigtype = signal_type;
-    savsig->sighandler = signal(SIGINT, newhandler);
-    if (savsig->sighandler == SIG_ERR) {
-        free(savsig);
-    } else {
-        savsig->previous = *p_savedhandler_chain;
-        *p_savedhandler_chain = savsig;
-    }
-    return PK_OK;
-
-} /* end function setsignalhandler() */
-
-#endif /* REENTRANT */
 
 
 
