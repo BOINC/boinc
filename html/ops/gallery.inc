@@ -26,7 +26,7 @@ function build_picture_pages($width, $height) {
   //echo "Result has $numIds rows.<br>";
 
   // Build an array of IDs of all users with pictures in their profiles.
-  while ($row = mysql_fetch_array($result, MYSQL_NUM)) {  // NUM is supposedly faster than ASSOC.
+  while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
     $userIds[] = $row[0];
   }
 
@@ -174,7 +174,7 @@ function build_alpha_pages() {
         // TODO: Make sure array indexing is not case sensitive.
         $letter = strtoupper($letter);
         $filePath = "../html_user/" . PROFILE_PATH;
-        build_profile_pages($members[$letter], "User Profiles - Names beginning with $letter", "Names beginning with $letter", 5, 2, $filePath, "profile_$letter", "../html_user/");
+        build_profile_pages($members[$letter], "User Profiles - Names beginning with $letter", "Names beginning with $letter", 5, 2, $filePath, "profile_$letter");
     }
     
     build_alpha_summary_page($letters);
@@ -183,7 +183,7 @@ function build_alpha_pages() {
 // A generalized function to produce some number of pages summarizing a
 // set of user profiles.
 
-function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $colsPerPage, $filePath, $baseFileName, $pathMod=NULL) {
+function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $colsPerPage, $filePath, $baseFileName) {
     $numMembers = count($members);
     $numPerPage = $rowsPerPage * $colsPerPage;
     $numPages = ceil(count($members) / $numPerPage);
@@ -203,7 +203,7 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
         
         $offset = (($page-1) * $rowsPerPage * $colsPerPage);
         
-        show_user_table($members, $offset, $numPerPage, $colsPerPage, $descriptor, $pathMod);
+        show_user_table($members, $offset, $numPerPage, $colsPerPage, $descriptor);
  
         write_page_links($baseFileName, $page, $numPages, $descriptor);
         
@@ -266,13 +266,19 @@ function build_uotd_page() {
     $result = mysql_query("SELECT * FROM profile ORDER BY uotd_time DESC LIMIT 1");
     if (mysql_num_rows($result) > 0) {
         $current_uotd = mysql_fetch_assoc($result);
-        
-        if (time() - $current_uotd['uotd_time'] < 86400) {
+        $assigned = getdate($current_uotd['uotd_time']);
+        $now = getdate(time());
+        if ($assigned['mday'] == $now['mday']) {
             exit();
         }
     }
+    // TODO: Verify that adding RAND() didn't screw this up.
+    $result = mysql_query("SELECT * FROM profile WHERE verification = 1 AND uotd_time IS NULL ORDER BY RAND()"); 
     
-    $result = mysql_query("SELECT * FROM profile WHERE verification = 1 AND uotd_time IS NULL LIMIT 1");
+    // If the number of approved profiles dips below a threshold, email the sys admin every time we pick a new one.
+    if ($result && mysql_num_rows($result) < UOTD_THRESHOLD) {
+        mail(SYS_ADMIN_EMAIL, PROJECT . ": User of the Day pool is running low!", "The pool of approved candidates for User of the Day has reached your assigned threshold: there are now only " . mysql_num_rows($result) . " approved users.\n\nTo approve more candidates for User of the Day, direct your web browser to the " . PROJECT . " administration page and click \"Unrated profile\"");
+    }
     
     if ($result && mysql_num_rows($result) == 0) {
         // If all verified profiles have been selected as UOTD, reshow the one that was shown least recently.
@@ -295,11 +301,13 @@ function build_uotd_page() {
     if ($profile['has_picture']) {
         fwrite($descriptor, "<a href=\"view_profile?userid=" . $user['id'] . "\"><img align=\"left\" src=\"" . IMAGE_PATH . $user['id'] . "_sm.jpg\"</img></a>");
     }
-    fwrite($descriptor, "The " . PROJECT . " User of the Day is <a href=\"view_profile?userid=" . $user['id'] . "\">" . $user['name'] . "</a>");    
+    fwrite($descriptor, "The " . PROJECT . " User of the Day is <a href=\"view_profile?userid=" . $user['id'] . "\">" . $user['name'] . "</a>!");    
     fclose($descriptor);
     
     $sql = "UPDATE profile SET uotd_time = " . time() . " WHERE userid = " . $user['id'];
     mysql_query($sql);
+    
+    mail($user['email_addr'], "You're the " . PROJECT . " user of the day!", "Congratulations!\n\nYou've been chosen as the " . PROJECT . " user of the day!  Your profile will be featured on the " . PROJECT . " website for the next 24 hours.  Thanks again for supporting us- it's members like you that make distributed computing projects like ours such a success.\n\nBest regards and much thanks,\n\nThe " . PROJECT . " team.");
 }
 
 ?>
