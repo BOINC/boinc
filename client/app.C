@@ -604,7 +604,14 @@ int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
     int retval;
 
     get_slot_dir(atp->slot, atp->slot_dir);
-    clean_out_dir(atp->slot_dir);
+    retval = clean_out_dir(atp->slot_dir);
+    if (retval) {
+        msg_printf(atp->result->project, MSG_ERROR,
+            "ACTIVE_TASK_SET::insert(): can't delete file %s",
+            boinc_failed_file
+        );
+        return retval;
+    }
     retval = atp->start(true);
     if (retval) return retval;
     active_tasks.push_back(atp);

@@ -145,9 +145,6 @@ bool benchmark_time_to_stop(int which) {
 //
 int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     HOST_INFO host_info;
-    double fpop_test_secs = 3.3;
-    double iop_test_secs = 3.3;
-    double mem_test_secs = 3.3;
     double x, y;
 
     host_info.clear_host_info();
@@ -155,9 +152,6 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     dhrystone(x, y);
     host_info.p_iops = y*1e6;
     host_info.p_membw = 1e9;
-    //host_info.p_fpop_err = run_double_prec_test(fpop_test_secs, host_info.p_fpops);
-    //host_info.p_iop_err = run_int_test(iop_test_secs, host_info.p_iops);
-    //host_info.p_membw_err = run_mem_bandwidth_test(mem_test_secs, host_info.p_membw);
     host_info.m_cache = 1e6;    // TODO: measure the cache
 
 #ifdef _WIN32

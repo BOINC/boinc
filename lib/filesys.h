@@ -74,6 +74,7 @@ extern int lock_file(char*);
 extern void relative_to_absolute(char* relname, char* path);
 extern int get_filesystem_info(double& total, double& free);
 extern int boinc_make_dirs(char*, char*);
+extern char boinc_failed_file[256];
 
 class DirScanner {
 #ifdef _WIN32

@@ -12582,3 +12582,19 @@ David  May 24 2004
         whetstone.C
     lib/
         util.C,h
+
+David  May 24 2004
+    - boinc_delete_file(): Windows: retry 5 times w/ 1 second delay
+        (in case virus-check program has file locked).
+        This may fix a problem where slot directories
+        weren't getting cleaned up.
+    - if clean_out_dirs() fails when starting app,
+        print error message and return error (so app won't start)
+
+    client/
+        app.C
+        cpu_benchmark.h
+        cs_benchmark.C
+        file_names.C
+    lib/
+        filesys.C,h

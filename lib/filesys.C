@@ -73,7 +73,7 @@ typedef BOOL (CALLBACK* FreeFn)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULAR
 #include "fcgi_stdio.h"
 #endif
 
-char failed_file[256];
+char boinc_failed_file[256];
 
 // routines for enumerating the entries in a directory
 
@@ -254,14 +254,17 @@ int boinc_delete_file(const char* path) {
     if (!boinc_file_exists(path)) {
         return 0;
     }
-#ifdef HAVE_UNISTD_H
+#ifdef _WIN32
+    for (int i=0; i<5; i++) {
+        retval = remove(path);
+        if (!retval) break;
+        boinc_sleep(1.0);
+    }
+#else
     retval = unlink(path);
 #endif
-#if ( defined(_WIN32) || defined(macintosh) )
-    retval = remove(path);
-#endif
     if (retval) {
-        safe_strcpy(failed_file, path);
+        safe_strcpy(boinc_failed_file, path);
         return ERR_UNLINK;
     }
     return 0;
