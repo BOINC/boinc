@@ -106,7 +106,6 @@ int main(int argc, char **argv) {
     char resolved_name[512];
     MFILE out;
     FILE* state, *in;
-    bool standalone = false;
     int flags = 0;
 
     my_start_time = time(0);
@@ -116,10 +115,10 @@ int main(int argc, char **argv) {
         BOINC_DIAG_DUMPCALLSTACKENABLED |
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_REDIRECTSTDERR;
-
+#if 0
     if (standalone)
         flags |= BOINC_DIAG_TRACETOSTDERR;
-
+#endif
     boinc_init_diagnostics(flags);
 
 
@@ -132,10 +131,9 @@ int main(int argc, char **argv) {
         if (!strcmp(argv[i], "-cpu_time")) cpu_time = 1;
         if (!strcmp(argv[i], "-signal")) raise_signal = true;
         if (!strcmp(argv[i], "-exit")) random_exit = true;
-        if (!strcmp(argv[i], "-standalone")) standalone = true;
     }
 
-    retval = boinc_init(standalone);
+    retval = boinc_init();
     if (retval) exit(retval);
 
     // can't write to stderr until after boinc_init()

@@ -22,6 +22,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "win_config.h"
 #else
 #include <cstdlib>
 #include <cstdio>
@@ -92,13 +93,13 @@ static bool           heartbeat_active;             // if false, suppress heartb
     // quit if we cannot aquire slot resource in this #secs
 
 #ifdef _WIN32
-HANDLE   hErrorNotification;
-HANDLE   hQuitRequest;
-HANDLE   hSuspendRequest;
-HANDLE   hResumeRequest;
-HANDLE   hSharedMem;
-HANDLE   worker_thread_handle;
-MMRESULT timer_id;
+//HANDLE   hErrorNotification;
+//HANDLE   hQuitRequest;
+//HANDLE   hSuspendRequest;
+//HANDLE   hResumeRequest;
+static HANDLE   hSharedMem;
+static HANDLE   worker_thread_handle;
+static MMRESULT timer_id;
 #endif
 
 static int  setup_shared_mem();
@@ -106,14 +107,28 @@ static void cleanup_shared_mem();
 static int  update_app_progress(double cpu_t, double cp_cpu_t, double ws_t);
 static int  set_timer(double period);
 static int  mem_usage(unsigned long& vm_kb, unsigned long& rs_kb);
+static BOINC_OPTIONS options;
+static BOINC_STATUS boinc_status;
 
-// Timer will be installed iff is_worker=true.
-//
-int boinc_init(bool is_worker /* = true */) {
+int boinc_init() {
+    options.main_program = true;
+    options.check_heartbeat = true;
+    options.handle_trickle_ups = true;
+    options.handle_trickle_downs = true;
+    options.handle_process_control = true;
+    options.send_status_msgs = true;
+    options.direct_process_action = true;
+    return boinc_init_options(options);
+}
+
+int boinc_init_options(BOINC_OPTIONS& opt) {
     FILE* f;
     int retval;
+    options = opt;
 
-    if (is_worker) {
+    memset(&boinc_status, 0, sizeof(boinc_status));
+
+    if (options.main_program) {
         // make sure we're the only app running in this slot
         //
         retval = lock_file(LOCKFILE);
@@ -145,6 +160,12 @@ int boinc_init(bool is_worker /* = true */) {
     if (retval) {
         standalone = true;
     } else {
+        if (aid.core_version && (aid.core_version/100 != BOINC_MAJOR_VERSION)) {
+            fprintf(stderr, "Core client has wrong major version: wanted %d, got %d\n",
+                BOINC_MAJOR_VERSION, aid.core_version/100
+            );
+            exit(ERR_MAJOR_VERSION);
+        }
         retval = setup_shared_mem();
         if (retval) {
             fprintf(stderr, "Can't set up shared mem: %d\n", retval);
@@ -163,40 +184,56 @@ int boinc_init(bool is_worker /* = true */) {
         fclose(f);
     }
 
+    // the following may not be needed, but do it anyway
+    //
     fraction_done = -1;
     time_until_checkpoint = aid.checkpoint_period;
     last_checkpoint_cpu_time = aid.wu_cpu_time;
     time_until_fraction_done_update = aid.fraction_done_update_period;
-    //this_process_active = true;
     last_wu_cpu_time = aid.wu_cpu_time;
 
     heartbeat_active = !standalone;
     heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
 
-    if (is_worker) {
-        set_timer(timer_period);
-    }
+    set_timer(timer_period);
 
     return 0;
 }
 
+int boinc_get_status(BOINC_STATUS& s) {
+    s = boinc_status;
+    return 0;
+}
 
-int boinc_finish(int status, bool is_worker /* = true */) {
+static void send_trickle_up_msg() {
+    if (have_new_trickle_up) {
+        if (app_client_shm->shm->trickle_up.send_msg("<have_new_trickle_up/>\n")) {
+            have_new_trickle_up = false;
+        }
+    }
+}
+
+int boinc_finish(int status) {
     double cur_mem;
-    if (is_worker) {
+    if (options.send_status_msgs) {
         boinc_calling_thread_cpu_time(last_checkpoint_cpu_time, cur_mem);
         last_checkpoint_cpu_time += aid.wu_cpu_time;
         update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
+    }
+    if (options.handle_trickle_ups) {
+        send_trickle_up_msg();
+    }
 #ifdef _WIN32
-        // Stop the timer
-        timeKillEvent(timer_id);
-        CloseHandle(worker_thread_handle);
+    // Stop the timer
+    timeKillEvent(timer_id);
+    CloseHandle(worker_thread_handle);
 #endif
-        cleanup_shared_mem();
-        if (status == 0) {
-            FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
-            if (f) fclose(f);
-        }
+    cleanup_shared_mem();
+    if (options.main_program && status==0) {
+        FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
+        if (f) fclose(f);
+    }
+    if (options.send_status_msgs) {
         aid.wu_cpu_time = last_checkpoint_cpu_time;
         boinc_write_init_data_file();
     }
@@ -268,18 +305,9 @@ static int update_app_progress(
 ) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[256];
     unsigned long vm = 0, rs = 0;
-    bool sent;
 
     if (!app_client_shm) return 0;
 
-#if 0
-    sprintf(msg_buf,
-        "<current_cpu_time>%10.4f</current_cpu_time>\n"
-        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n"
-        "<working_set_size>%f</working_set_size>\n",
-        cpu_t, cp_cpu_t, ws_t
-    );
-#endif
     sprintf(msg_buf,
         "<current_cpu_time>%10.4f</current_cpu_time>\n"
         "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n",
@@ -299,14 +327,7 @@ static int update_app_progress(
         );
         strcat(msg_buf, buf);
     }
-    if (have_new_trickle_up) {
-        strcat(msg_buf, "<have_new_trickle_up/>\n");
-    }
-
-    sent = app_client_shm->shm->app_status.send_msg(msg_buf);
-    if (sent) {
-        have_new_trickle_up = false;
-    }
+    app_client_shm->shm->app_status.send_msg(msg_buf);
     return 0;
 }
 
@@ -339,9 +360,8 @@ int boinc_worker_thread_cpu_time(double& cpu, double& ws) {
 
 #endif  // _WIN32
 
-static void handle_core_app_msgs() {
+static void handle_heartbeat_msg() {
     char buf[MSG_CHANNEL_SIZE];
-
     if (app_client_shm->shm->heartbeat.get_msg(buf)) {
         if (match_tag(buf, "<heartbeat/>")) {
             heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
@@ -353,34 +373,56 @@ static void handle_core_app_msgs() {
             heartbeat_active = false;
         }
     }
+}
+
+static void handle_trickle_down_msg() {
+    char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->trickle_down.get_msg(buf)) {
         if (match_tag(buf, "<have_trickle_down/>")) {
             have_trickle_down = true;
         }
     }
+}
+
+static void handle_process_control_msg() {
+    char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
- #ifdef _WIN32
         if (match_tag(buf, "<suspend/>")) {
-            SuspendThread(worker_thread_handle);
-        }
-        if (match_tag(buf, "<resume/>")) {
-            ResumeThread(worker_thread_handle);
-        }
+            if (options.direct_process_action) {
+#ifdef _WIN32
+                SuspendThread(worker_thread_handle);
 #else
-        if (match_tag(buf, "<suspend/>")) {
-            while (1) {
-                if (app_client_shm->shm->process_control_request.get_msg(buf)) {
-                    if (match_tag(buf, "<resume/>")) {
-                        break;
+                while (1) {
+                    if (app_client_shm->shm->process_control_request.get_msg(buf)) {
+                        if (match_tag(buf, "<resume/>")) {
+                            break;
+                        }
                     }
+                    boinc_sleep(1.0);
                 }
-                boinc_sleep(1.0);
-            }
-            heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
-        }
+                heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
 #endif
+            } else {
+                boinc_status.suspended = true;
+            }
+        }
+
+        if (match_tag(buf, "<resume/>")) {
+            if (options.direct_process_action) {
+#ifdef _WIN32
+                ResumeThread(worker_thread_handle);
+#endif
+            } else {
+                boinc_status.suspended = false;
+            }
+        }
+
         if (match_tag(buf, "<quit/>")) {
-            exit(0);
+            if (options.direct_process_action) {
+                exit(0);
+            } else {
+                boinc_status.quit_request = true;
+            }
         }
     }
 }
@@ -401,26 +443,43 @@ static void on_timer(int a) {
     // handle messages from the core client
     //
     if (app_client_shm) {
-        handle_core_app_msgs();
+        if (options.check_heartbeat) {
+            handle_heartbeat_msg();
+        }
+        if (options.handle_trickle_downs) {
+            handle_trickle_down_msg();
+        }
+        if (options.handle_process_control) {
+            handle_process_control_msg();
+        }
     }
 
     // see if the core client has died, and we need to die too
     //
-    if (heartbeat_active) {
+    if (options.check_heartbeat && heartbeat_active) {
         if (heartbeat_giveup_time < dtime()) {
             fprintf(stderr, "No heartbeat from core client - exiting\n");
-            exit(0);
+            if (options.direct_process_action) {
+                exit(0);
+            } else {
+                boinc_status.no_heartbeat = true;
+            }
         }
     }
 
-    time_until_fraction_done_update -= timer_period;
-    if (time_until_fraction_done_update <= 0) {
-        double cur_cpu;
-        double cur_mem;
-        boinc_worker_thread_cpu_time(cur_cpu, cur_mem);
-        last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
-        update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time, cur_mem);
-        time_until_fraction_done_update = aid.fraction_done_update_period;
+    if (options.send_status_msgs) {
+        time_until_fraction_done_update -= timer_period;
+        if (time_until_fraction_done_update <= 0) {
+            double cur_cpu;
+            double cur_mem;
+            boinc_worker_thread_cpu_time(cur_cpu, cur_mem);
+            last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
+            update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time, cur_mem);
+            time_until_fraction_done_update = aid.fraction_done_update_period;
+        }
+    }
+    if (options.handle_trickle_ups) {
+        send_trickle_up_msg();
     }
 }
 
@@ -428,7 +487,6 @@ static void on_timer(int a) {
 static int set_timer(double period) {
     int retval=0;
 #ifdef _WIN32
-    char buf[256];
 
     // Use Windows multimedia timer, since it is more accurate
     // than SetTimer and doesn't require an associated event loop
@@ -440,8 +498,6 @@ static int set_timer(double period) {
         NULL, // dwUser
         TIME_PERIODIC  // fuEvent
     );
-    sprintf(buf, "%s%s", QUIT_PREFIX, aid.comm_obj_name);
-    hQuitRequest = OpenEvent(EVENT_ALL_ACCESS, FALSE, buf);
 #endif
 
 #if HAVE_SIGNAL_H
@@ -505,6 +561,7 @@ static void cleanup_shared_mem() {
 }
 
 int boinc_send_trickle_up(char* variety, char* p) {
+    if (!options.handle_trickle_ups) return ERR_NO_OPTION;
     FILE* f = boinc_fopen(TRICKLE_UP_FILENAME, "wb");
     if (!f) return ERR_FOPEN;
     fprintf(f, "<variety>%s</variety>\n", variety);
@@ -516,18 +573,6 @@ int boinc_send_trickle_up(char* variety, char* p) {
 }
 
 bool boinc_time_to_checkpoint() {
-#ifdef _WIN32
-    DWORD eventState;
-    // Check if core client has requested us to exit
-    eventState = WaitForSingleObject(hQuitRequest, 0L);
-
-    switch (eventState) {
-    case WAIT_OBJECT_0:
-    case WAIT_ABANDONED:
-        time_to_quit = true;
-        break;
-    }
-#endif
 
     // If the application has received a quit request it should checkpoint
     //
@@ -564,9 +609,11 @@ int boinc_fraction_done(double x) {
 bool boinc_receive_trickle_down(char* buf, int len) {
     std::string filename;
     char path[256];
-    relative_to_absolute("", path);
-    fprintf(stderr, "receive trickle down\n");
+
+    if (!options.handle_trickle_downs) return false;
+
     if (have_trickle_down) {
+        relative_to_absolute("", path);
         DirScanner dirscan(path);
         fprintf(stderr, "starting scan of %s\n", path);
         while (dirscan.scan(filename)) {

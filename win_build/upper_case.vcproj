@@ -360,6 +360,9 @@
 			<File
 				RelativePath="..\lib\util.h">
 			</File>
+			<File
+				RelativePath="..\client\win\win_config.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="App Source Files"

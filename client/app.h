@@ -151,7 +151,7 @@ public:
     bool check_max_mem_exceeded();
 
     void estimate_frac_rate_of_change(double);
-    bool get_status_msg();
+    bool get_msg();
     double est_time_to_completion();
     bool read_stderr_file();
     bool finish_file_present();
@@ -179,7 +179,7 @@ public:
     int exit_tasks(PROJECT* p=0);
     void kill_tasks(PROJECT* p=0);
     int abort_project(PROJECT*);
-    bool get_status_msgs();
+    bool get_msgs();
     bool check_app_exited();
     bool check_rsc_limits_exceeded();
     int get_free_slot();

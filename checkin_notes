@@ -15750,3 +15750,36 @@ Noaa  30 July 2004
 
 	client/
 		Makefile.Readme(new)
+
+David  3 Aug 2004
+	- changed the API to handle compound applications.
+		API tasks are broken down into a number of boolean
+		"options" (struct BOINC_OPTIONS).
+		For compound apps, the controller and worker call a new
+		function boinc_init_options(), specifying which tasks
+		they're going to handle.
+		This reads the API init file, attaches shared memory,
+		and starts a timer (which does only the requested tasks).
+
+		The old boinc_init() still exists (with no args now).
+		It is to be used by single-process apps.
+		It calls boinc_init_options() with all options turned on.
+	- Add the core client version to the API init file;
+		if the app has the wrong API version file, it quits.
+	- Core client: if an app gives us a trickle-up message,
+		do a scheduler RPC.
+	- Fixed API bug where trickle-up msgs were being read
+		from the wrong message channel
+	- Removed old code from API involving windows events
+
+	api/
+		boinc_api.C,h
+	apps/
+		upper_case.C
+	client/
+		app.C,h
+	lib/
+		app_ipc.C,h
+		error_numbers.h
+	win_build/
+		upper_case.vcproj

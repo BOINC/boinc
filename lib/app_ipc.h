@@ -122,6 +122,7 @@ public:
 // parsed version of main init file
 //
 struct APP_INIT_DATA {
+    int core_version;
     char app_name[256];
     char project_preferences[65536];
     char user_name[256];

@@ -210,6 +210,7 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
 
     memset(&aid, 0, sizeof(aid));
 
+    aid.core_version = gstate.core_client_major_version*100 + gstate.core_client_minor_version;
     safe_strcpy(aid.app_name, wup->app->name);
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);
@@ -732,7 +733,7 @@ bool ACTIVE_TASK_SET::poll() {
     send_trickle_downs();
     graphics_poll();
     action |= check_rsc_limits_exceeded();
-    if (get_status_msgs()) {
+    if (get_msgs()) {
         action = true;
     }
     if (action) {
@@ -798,7 +799,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             if (exit_code != STILL_ACTIVE) {
                 scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): Process exited with code %d\n", exit_code);
-                atp->get_status_msg();
+                atp->get_msg();
                 atp->result->final_cpu_time = atp->checkpoint_cpu_time;
                 found = true;
                 if (atp->state == PROCESS_ABORT_PENDING) {
@@ -847,7 +848,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK_SET::check_app_exited(): pid %d not found\n", pid);
             return true;
         }
-        atp->get_status_msg();
+        atp->get_msg();
         atp->result->final_cpu_time = atp->checkpoint_cpu_time;
         if (atp->state == PROCESS_ABORT_PENDING) {
             atp->state = PROCESS_ABORTED;
@@ -1120,7 +1121,7 @@ int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
 
     // get final checkpoint_cpu_times
     //
-    get_status_msgs();
+    get_msgs();
 
     return 0;
 }
@@ -1418,8 +1419,11 @@ int ACTIVE_TASK::move_trickle_file() {
 // (with CPU done, frac done etc.)
 // If so parse it and return true.
 //
-bool ACTIVE_TASK::get_status_msg() {
+bool ACTIVE_TASK::get_msg() {
     char msg_buf[MSG_CHANNEL_SIZE];
+    bool found = false;
+    int retval;
+
     if (app_client_shm.shm->app_status.get_msg(msg_buf)) {
         fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
         parse_double(msg_buf, "<fraction_done>", fraction_done);
@@ -1427,19 +1431,25 @@ bool ACTIVE_TASK::get_status_msg() {
         parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
         parse_double(msg_buf, "<vm_size>", vm_size);
         parse_double(msg_buf, "<resident_set_size>", resident_set_size);
-        if (match_tag(msg_buf, "<have_new_trickle_up/>")) {
-            move_trickle_file();
-        }
-        return true;
+        found = true;
     }
-    return false;
+    if (app_client_shm.shm->trickle_up.get_msg(msg_buf)) {
+        if (match_tag(msg_buf, "<have_new_trickle_up/>")) {
+            retval = move_trickle_file();
+            if (!retval) {
+                wup->project->sched_rpc_pending = true;
+            }
+        }
+        found = true;
+    }
+    return found;
 }
 
-// check for CPU-time msgs from active tasks.
+// check for msgs from active tasks.
 // Return true if any of them has changed its checkpoint_cpu_time
 // (since in that case we need to write state file)
 //
-bool ACTIVE_TASK_SET::get_status_msgs() {
+bool ACTIVE_TASK_SET::get_msgs() {
     unsigned int i;
     ACTIVE_TASK *atp;
     double now = dtime(), old_time;
@@ -1453,7 +1463,7 @@ bool ACTIVE_TASK_SET::get_status_msgs() {
             continue;
         }
         old_time = atp->checkpoint_cpu_time;
-        if (atp->get_status_msg()) {
+        if (atp->get_msg()) {
             atp->estimate_frac_rate_of_change(now);
             if (old_time != atp->checkpoint_cpu_time) {
                 action = true;
