@@ -14,7 +14,9 @@ noinst_PROGRAMS =                               \
     transitioner                                \
     message_handler                             \
     update_stats                                \
+    assimilator_placeholder			\
     sample_dummy_assimilator                    \
+    validator_placeholder                       \
     sample_bitwise_validator                    \
     sample_trivial_validator                    \
     get_file					\
@@ -99,8 +101,14 @@ sample_bitwise_validator_DEPENDENCIES = $(LIB_SCHED)
 sample_trivial_validator_SOURCES = validator.C sample_trivial_validator.C validate_util.C validate_util.h
 sample_trivial_validator_DEPENDENCIES = $(LIB_SCHED)
 
+validator_placeholder_SOURCES = validator.C validator_placeholder.C validate_util.C validate_util.h
+validator_placeholder_DEPENDENCIES = $(LIB_SCHED)
+
 sample_dummy_assimilator_SOURCES = assimilator.C sample_dummy_assimilator.C
 sample_dummy_assimilator_DEPENDENCIES = $(LIB_SCHED)
+
+assimilator_placeholder_SOURCES = assimilator.C assimilator_placeholder.C
+assimilator_placeholder_DEPENDENCIES = $(LIB_SCHED)
 
 db_dump_SOURCES = db_dump.C
 db_dump_DEPENDENCIES = $(LIB_SCHED)

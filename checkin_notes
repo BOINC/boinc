@@ -20256,6 +20256,8 @@ Bruce and Reinhard 2004-11-26
      under Mac OSX. Also make dist now works (make distcheck still
      broken).  Karl, since you were the last
      person to fix up this mess, how about taking a look??
+   - Added placeholders in sched/ for user: assimilator_placeholder.C and validator_placeholder.C.
+     These are built by the build system, but can be replaced by user code as desired.
 
   Makefile.am
   configure.ac
