@@ -14,6 +14,7 @@ fi
 
 CVSROOT=/usr/local/warez/cvsroot                                               \
     CHECKOUT='cvs export boinc'                                                \
+    DIR=boinc                                                                  \
     FILENAME_TGZ="boinc-cvs-TODAY.tar.gz"                                      \
     FILENAME_ZIP="boinc-cvs-TODAY.zip"                                         \
     DESTINATION="/disks/milkyway/a/users/anderson/boinc/doc/source/nightly/"   \
