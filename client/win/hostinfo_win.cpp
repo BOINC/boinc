@@ -203,18 +203,33 @@ int get_host_info(HOST_INFO& host) {
 	host.m_swap = (double)mStatus.dwTotalPageFile;
 	
 	// gets processor vendor name from registry, works for intel
-	char vendorName[256];
+	char vendorName[256], procNameString[256];
 	HKEY hKey;
 	LONG retval;
-	DWORD nameSize;
+	DWORD nameSize, procSpeed;
+	bool gotProcName = false, gotMHz = false, gotVendIdent = false;
+
 	retval = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Hardware\\Description\\System\\CentralProcessor\\0", 0, KEY_QUERY_VALUE, &hKey);
 	if(retval == ERROR_SUCCESS) {
+		// Look in various places for processor information, add'l
+		// entries suggested by mark mcclure
+		nameSize = sizeof(procNameString);
+		retval = RegQueryValueEx(hKey, "ProcessorNameString", NULL, NULL, (LPBYTE)procNameString, &nameSize);
+		if (retval == ERROR_SUCCESS) gotProcName = true;
+
 		nameSize = sizeof(vendorName);
 		retval = RegQueryValueEx(hKey, "VendorIdentifier", NULL, NULL, (LPBYTE)vendorName, &nameSize);
-		if(retval == ERROR_SUCCESS) {
-			safe_strncpy(host.p_vendor, vendorName, sizeof(host.p_vendor));
-		}
+		if (retval == ERROR_SUCCESS) gotVendIdent = true;
+		else strcpy( "Unknown", vendorName );
+
+		nameSize = sizeof(DWORD);
+		retval = RegQueryValueEx(hKey, "~MHz", NULL, NULL, (LPBYTE)&procSpeed, &nameSize);
+		if (retval == ERROR_SUCCESS) gotMHz = true;
 	}
+	if (gotProcName) safe_strncpy( host.p_vendor, procNameString, sizeof(host.p_vendor) );
+	else if (gotMHz) sprintf( host.p_vendor, "%s %dMHz", vendorName, procSpeed );
+	else safe_strncpy( host.p_vendor, vendorName, sizeof(host.p_vendor) );
+
 	RegCloseKey(hKey);
     return 0;
 }
