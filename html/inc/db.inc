@@ -75,6 +75,16 @@ function lookup_wu($id) {
     return null;
 }
 
+function lookup_result($id) {
+    $result = mysql_query("select * from result where id=$id");
+    if ($result) {
+        $r = mysql_fetch_object($result);
+        mysql_free_result($result);
+        return $r;
+    }
+    return null;
+}
+
 function lookup_app($id) {
     $result = mysql_query("select * from app where id=$id");
     if ($result) {

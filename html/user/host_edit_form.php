@@ -7,16 +7,13 @@ require_once("../inc/host.inc");
 db_init();
 $user = get_logged_in_user();
 
-page_head("Merge host");
-
-$hostid = $_GET["hostid"];
-$result = mysql_query("select * from host where id=$hostid");
-$host = mysql_fetch_object($result);
-mysql_free_result($result);
+$hostid = get_int("hostid");
+$host = lookup_host($hostid);
 if (!$host || $host->userid != $user->id) {
-    echo "We have no record of that computer";
-    exit();
+    error_page("We have no record of that computer");
 }
+
+page_head("Merge host");
 
 $t = time_str($host->create_time);
 echo "

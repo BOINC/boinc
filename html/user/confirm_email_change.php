@@ -9,30 +9,25 @@
     $id = get_int("id");
     $str = process_user_text(get_str("str"));
 
-    $user = null;
-    $result = mysql_query("select * from user where id=$id");
-    if ($result) {
-        $user = mysql_fetch_object($result);
+    $user = lookup_user_id($id);
+    if (!$user) {
+        error_page("No such user");
     }
 
     page_head("Verify email address change");
-    if ($user) {
-        if (split_munged_email_addr($user->email_addr, $str, $new_email)) {
-            $new_email = trim(strtolower($new_email));
-            $result = mysql_query("update user set email_addr='$new_email' where id=$user->id");
-            if ($result) {
-                echo "Email address change verified";
-            } else {
-                echo "Verification failed due to database error.  Please try again later.";
-            }
+    if (split_munged_email_addr($user->email_addr, $str, $new_email)) {
+        $new_email = trim(strtolower($new_email));
+        $result = mysql_query("update user set email_addr='$new_email' where id=$user->id");
+        if ($result) {
+            echo "Email address change verified";
         } else {
-            $user = null;
+            echo "Verification failed due to database error.  Please try again later.";
         }
     } else {
-        echo "User not found";
-    }
-    if (!$user) {
-        echo "We weren't expecting a verification of this account's email address.  Please request the change again.";
+        echo "
+            We weren't expecting a verification of this account's email address.
+            Please request the change again.
+        ";
     }
     page_tail();
 

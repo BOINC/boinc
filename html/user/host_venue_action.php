@@ -6,20 +6,15 @@
 
     $user = get_logged_in_user();
 
-    $venue = $_GET["venue"];
-    $hostid = $_GET["hostid"];
+    $venue = get_venue("venue");
+    $hostid = get_int("hostid");
 
-    $result = mysql_query("select * from host where id = $hostid");
-    $host = mysql_fetch_object($result);
-    mysql_free_result($result);
-
+    $host = lookup_host($hostid);
     if (!$host) {
-        echo "Couldn't find host.";
-        exit();
+        error_page("No such host");
     }
     if ($host->userid != $user->id) {
-        echo "Not your host\n";
-        exit();
+        error_page("Not your host");
     }
 
     $retval = mysql_query("update host set venue='$venue' where id = $hostid");

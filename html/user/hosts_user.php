@@ -8,14 +8,15 @@
     require_once("../inc/cache.inc");
 
     db_init();
-    $userid = $_GET["userid"];
+    $userid = get_int("userid", true);
     if ($userid) {
+        $user = lookup_user_id($userid);
+        if (!$user) {
+            error_page("No such user");
+        }
         $cache_args = "userid=$userid";
         $caching=true;
         start_cache(USER_PAGE_TTL, $cache_args);
-        $result = mysql_query("select * from user where id=$userid");
-        $user = mysql_fetch_object($result);
-        mysql_free_result($result);
         if ($user->show_hosts) {
             page_head("Computers belonging to $user->name");
             user_host_table_start(false);

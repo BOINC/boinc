@@ -4,20 +4,22 @@
 
     $id = get_int("userid");
     $format = get_str("format", true);
-    $cache_args = "userid=$id";
-    if ($format=="xml") {
-        $cache_args .= "&format=xml";
-    }
-    start_cache(USER_PAGE_TTL, $cache_args);
 
     require_once("../inc/db.inc");
     require_once("../inc/user.inc");
     require_once("../inc/forum.inc");
     db_init();
 
-    $result = mysql_query("select * from user where id = $id");
-    $user = mysql_fetch_object($result);
-    mysql_free_result($result);
+    $user = lookup_user_id($id);
+    if (!$user) {
+        error_page("no such user");
+    }
+
+    $cache_args = "userid=$id";
+    if ($format=="xml") {
+        $cache_args .= "&format=xml";
+    }
+    start_cache(USER_PAGE_TTL, $cache_args);
 
     $user = getForumPreferences($user);
 

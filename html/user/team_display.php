@@ -3,9 +3,9 @@ require_once("../inc/cache.inc");
 
 $sort_by = $_GET["sort_by"];
 if (!$sort_by) $sort_by = "expavg_credit";
-$offset = $_GET["offset"];
+$offset = get_int("offset", true);
 if (!$offset) $offset=0;
-$teamid = $_GET["teamid"];
+$teamid = get_int("teamid");
 
 if ($offset > 1000) {
     page_head("Limit exceeded");
@@ -24,13 +24,9 @@ require_once("../inc/team.inc");
 db_init();
 $user = get_logged_in_user(false);
 
-$result = mysql_query("select * from team where id=$teamid");
-if ($result) {
-    $team = mysql_fetch_object($result);
-}
+$team = lookup_team($teamid);
 if (!$team) {
-    echo ("Can't find team in database");
-    exit();
+    error_page("No such team");
 }
 
 display_team_page($team, $offset, $sort_by);

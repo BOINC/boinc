@@ -24818,4 +24818,23 @@ Bruce 15 Feb 2005
         sched_send.C
         server_types.h
  
-    
+David  15 Feb 2005
+    - User web: security-related PHP cleanup
+        Replace $_GET["id"] with getint("id) here and there.
+        Use lookup_x() instead of explicit SQL
+
+    html/
+        inc/
+            db.inc
+            util.inc
+        user/
+            confirm_email_change.php
+            edit_email_action.php
+            host_edit_form.php
+            host_venue_action.php
+            hosts_user.php
+            results.php
+            show_user.php
+            team_display.php
+            team_quit_form.php
+            userw.php

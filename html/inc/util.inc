@@ -442,6 +442,15 @@ function get_str($name, $optional=false) {
     return $x;
 }
 
+function get_venue($name) {
+    $x = $_GET[$name];
+    if ($x == "") return $x;
+    if ($x == "home") return $x;
+    if ($x == "work") return $x;
+    if ($x == "school") return $x;
+    error_page("no such venue: $x");
+}
+
 function post_str($name, $optional=false) {
     $x = $_POST[$name];
     if (!$x && !optional) {
