@@ -86,15 +86,7 @@ static void close_func() {
 }
 
 static void make_new_window(int mode){
-	char* args[] = {"foobar", 0};
-	int one=1;
-    static bool first=true;
-
     if (mode == MODE_WINDOW || mode == MODE_FULLSCREEN){
-        if (first) {
-            glutInit(&one, args);
-            first = false;
-        }
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
         glutInitWindowPosition(xpos, ypos);
         glutInitWindowSize(600, 400); 
@@ -198,18 +190,32 @@ void restart() {
 }
 
 void xwin_graphics_event_loop() {
+	char* args[] = {"foobar", 0};
+	int one=1;
+    static bool first=true;
+
     graphics_thread = pthread_self();
-    if (boinc_is_standalone()) {
-        set_mode(MODE_WINDOW);
-    } else {
-        wait_for_initial_message();
-        timer_handler(0);
-		atexit(restart);
+    int restarted = setjmp(jbuf);
+
+#ifdef __APPLE_CC__
+    first = true;
+#endif
+    if (first) {
+        glutInit(&one, args);
+        first = false;
     }
-    int retval = setjmp(jbuf);
-    if (retval) {
+
+    if (restarted) {
         //fprintf(stderr, "graphics thread restarted\n"); fflush(stderr);
         set_mode(MODE_HIDE_GRAPHICS);
+    } else {
+        if (boinc_is_standalone()) {
+            set_mode(MODE_WINDOW);
+        } else {
+            wait_for_initial_message();
+            timer_handler(0);
+            atexit(restart);
+        }
     }
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
     glutMainLoop();

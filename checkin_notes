@@ -21695,3 +21695,10 @@ David  20 Dec 2004
 
     sched/
         handle_request.C
+
+David  20 Dec 2004
+    - app graphics: on Mac, reinit GLUT on each restart
+        Bruce: please test
+
+    api/
+        x_opengl.C
