@@ -63,6 +63,20 @@ void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_
 
     SCOPE_MSG_LOG scope_messages(log_messages, SCHED_MSG_LOG::NORMAL);
 
+    log_messages.printf(
+        SCHED_MSG_LOG::DEBUG,
+        "[WU#%d %s] Starting Transaction...\n",
+        items[0].id, items[0].name
+    );
+    retval = transitioner.start_transaction();
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "[WU#%d %s] transitioner.start_transaction() == %d\n",
+            items[0].id, items[0].name, retval
+            );
+    }
+
     // count up the number of results in various states,
     // and check for timed-out results
     //
@@ -349,6 +363,20 @@ void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_
             SCHED_MSG_LOG::CRITICAL,
             "[WU#%d %s] workunit.update() == %d\n", items[0].id, items[0].name, retval
         );
+    }
+
+    log_messages.printf(
+        SCHED_MSG_LOG::DEBUG,
+        "[WU#%d %s] Committing Transaction...\n",
+        items[0].id, items[0].name
+    );
+    retval = transitioner.commit_transaction();
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "[WU#%d %s] transitioner.commit_transaction() == %d\n",
+            items[0].id, items[0].name, retval
+            );
     }
 }
 

@@ -14583,3 +14583,14 @@ Daniel 2004-07-03
     api/
         boinc_api.C
 
+Rom    3 July 2004
+    - Introduce basic transaction support for performance DB class.
+    - Implement basic transsction support for the transitioner.
+      NOTE: Creating new results is not currently supported by the transaction.
+
+    db/
+        boinc_db.C
+        db_base.C, .h
+    sched/
+        transitioner.C
+    

@@ -255,6 +255,27 @@ DB_BASE_SPECIAL::DB_BASE_SPECIAL(DB_CONN& p) : db(&p) {
     cursor.active = false;
 }
 
+int DB_BASE_SPECIAL::start_transaction() {
+    if (!strcpy2(transactional_query, "START TRANSACTION;")) {
+        return -1;
+    }
+    return 0;
+}
+
+int DB_BASE_SPECIAL::append_transaction(char* next_query) {
+    if (!strcat(transactional_query, next_query)) {
+        return -1;
+    }
+    return 0;
+}
+
+int DB_BASE_SPECIAL::commit_transaction() {
+    if (!strcpy2(transactional_query, "COMMIT;")) {
+        return -1;
+    }
+    return db->do_query(transactional_query);
+}
+
 // convert a string into a form that allows it to be used
 // in SQL queries delimited by single quotes:
 // replace ' with \', \ with \\  

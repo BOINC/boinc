@@ -710,21 +710,21 @@ int DB_TRANSITIONER_ITEM_SET::update_result(TRANSITIONER_ITEM& ti) {
     char query[MAX_QUERY_LEN];
 
     sprintf(query,
-        "update result set server_state=%d, outcome=%d, validate_state=%d, file_delete_state=%d where id=%d",
+        "update result set server_state=%d, outcome=%d, validate_state=%d, file_delete_state=%d where id=%d;",
         ti.res_server_state,
         ti.res_outcome,
         ti.res_validate_state,
         ti.res_file_delete_state,
         ti.res_id
     );
-    return db->do_query(query);
+    return append_transaction(query);
 }
 
 int DB_TRANSITIONER_ITEM_SET::update_workunit(TRANSITIONER_ITEM& ti) {
     char query[MAX_QUERY_LEN];
 
     sprintf(query,
-        "update workunit set need_validate=%d, error_mask=%d, assimilate_state=%d, file_delete_state=%d, transition_time=%d where id=%d",
+        "update workunit set need_validate=%d, error_mask=%d, assimilate_state=%d, file_delete_state=%d, transition_time=%d where id=%d;",
         ti.need_validate,
         ti.error_mask,
         ti.assimilate_state,
@@ -732,7 +732,7 @@ int DB_TRANSITIONER_ITEM_SET::update_workunit(TRANSITIONER_ITEM& ti) {
         ti.transition_time,
         ti.id
     );
-    return db->do_query(query);
+    return append_transaction(query);
 }
 
 void WORK_ITEM::parse(MYSQL_ROW& r) {
