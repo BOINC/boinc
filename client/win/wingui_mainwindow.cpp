@@ -862,7 +862,7 @@ void CMainWindow::SaveListControls()
     GetCurrentDirectory(256, szPath);
     strcat(szPath, "\\");
     strcat(szPath, LIST_STATE_FILE_NAME);
-    file_delete(szPath);
+    boinc_delete_file(szPath);
     m_ProjectListCtrl.SaveInactive(szPath, "PROJECTS");
     m_ResultListCtrl.SaveInactive(szPath, "WORK");
     m_XferListCtrl.SaveInactive(szPath, "TRANSFERS");
@@ -941,7 +941,7 @@ void CMainWindow::SaveUserSettings()
     strcat(szPath, INI_FILE_NAME);
 
     // get rid of old lists
-    file_delete(szPath);
+    boinc_delete_file(szPath);
 
     // save window size/position
     CRect rt;

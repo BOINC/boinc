@@ -8918,6 +8918,12 @@ David  5 Jan 2004
         hosts_user.php
         util.inc
 
+Gary	5 Jan 2004
+	- changed file_delete() function calls to boinc_delete_file()
+	  as a result of the 2004-01-03 change to filesys.C,h
+	client/win
+		wingui_mainwindow.cpp
+
 Gary    5 Jan 2004
     - BOINC release 2.17 for windows, linux, solaris, mac os x
       (os x version supports both 10.2 <jaguar> and 10.3 <panther>)
