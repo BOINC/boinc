@@ -19876,12 +19876,13 @@ Rom    19 Nov 2004
 
 Bruce  19 Nov 2004 UTC (from Reinhard Prix)
 
-    - Added nice macro (acinclude.m4) to CVS for detection of wxWidgets. Any additional
-      non-standard macros should be added to this file. Now switch off
-      clientgui build (with nice warning) if wxWidgets is not found.  Add
+    - Added nice macro (wxWidgets.m4) to CVS for detection of wxWidgets.
+      Now switch off clientgui build (with nice warning) if wxWidgets is
+      not found.
     - Use outcome of pthread tests and corresponding flags to set pthreads
       CFLAGS correctly.
 
     configure.ac
     Makefile.am
-    acinclude.m4
+    m4/
+     wxWidgets.m4
