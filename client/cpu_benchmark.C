@@ -528,7 +528,7 @@ int set_benchmark_timer(double num_secs) {
     run_benchmark = true;
 #ifdef _WIN32
     speed_timer_id = timeSetEvent( (int)(num_secs*1000),
-        (int)(num_secs*1000), stop_test, NULL, TIME_ONESHOT );
+        (int)(num_secs*1000), stop_benchmark, NULL, TIME_ONESHOT );
 #else
     itimerval value;
     signal(SIGALRM, stop_benchmark);

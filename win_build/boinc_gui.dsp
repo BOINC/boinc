@@ -94,10 +94,6 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=..\client\account.C
-# End Source File
-# Begin Source File
-
 SOURCE=..\Client\app.C
 # End Source File
 # Begin Source File
@@ -118,7 +114,15 @@ SOURCE=..\Client\client_types.C
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\cpu_benchmark.C
+# End Source File
+# Begin Source File
+
 SOURCE=..\Lib\Crypt.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\client\cs_account.C
 # End Source File
 # Begin Source File
 
@@ -127,6 +131,10 @@ SOURCE=..\Client\cs_apps.C
 # Begin Source File
 
 SOURCE=..\client\cs_benchmark.C
+# End Source File
+# Begin Source File
+
+SOURCE=..\client\cs_cmdline.C
 # End Source File
 # Begin Source File
 
@@ -230,10 +238,6 @@ SOURCE=..\lib\shmem.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\Client\speed_stats.C
-# End Source File
-# Begin Source File
-
 SOURCE=..\client\ss_logic.C
 # End Source File
 # Begin Source File
@@ -294,10 +298,6 @@ SOURCE=..\client\win\wingui_sswindow.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=..\client\account.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\client\app.h
 # End Source File
 # Begin Source File
@@ -315,6 +315,10 @@ SOURCE=..\client\client_types.h
 # Begin Source File
 
 SOURCE=..\client\cpp.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\client\cpu_benchmark.h
 # End Source File
 # Begin Source File
 
@@ -391,10 +395,6 @@ SOURCE=..\client\scheduler_op.h
 # Begin Source File
 
 SOURCE=..\lib\shmem.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\client\speed_stats.h
 # End Source File
 # Begin Source File
 
