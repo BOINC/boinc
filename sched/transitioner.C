@@ -141,6 +141,7 @@ int handle_wu(
                 nsuccess++;
                 break;
             case RESULT_OUTCOME_CLIENT_ERROR:
+            case RESULT_OUTCOME_VALIDATE_ERROR:
                 nerrors++;
                 break;
             }

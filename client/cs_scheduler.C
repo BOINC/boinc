@@ -246,6 +246,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     }
     fprintf(f, "<cross_project_id>%s</cross_project_id>\n", cross_project_id);
 
+#if 0
+    // no reason to report other projects.
+    //
     fprintf(f, "<projects>\n");
     for (i=0; i<projects.size(); i++ ) {
         PROJECT* project = projects[i];
@@ -259,6 +262,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         );
     }
     fprintf(f, "</projects>\n");
+#endif
 
     retval = time_stats.write(mf, true);
     if (retval) return retval;
@@ -274,6 +278,20 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     }
 
     read_trickle_files(p, f);
+
+    // report sticky files as needed
+    //
+    for (i=0; i<file_infos.size(); i++) {
+        FILE_INFO* fip = file_infos[i];
+        if (fip->project != p) continue;
+        if (!fip->report_on_rpc) continue;
+        fprintf(f,
+            "    <file_info>\n"
+            "        <name>%s</name>\n"
+            "    </file_info>\n",
+            fip->name
+        );
+    }
     fprintf(f, "</scheduler_request>\n");
 
     fclose(f);

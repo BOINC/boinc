@@ -67,6 +67,7 @@ public:
     bool uploaded;          // file has been uploaded
     bool upload_when_present;
     bool sticky;            // don't delete unless instructed to do so
+    bool report_on_rpc;     // include this in each scheduler request
     bool signature_required;    // true iff associated with app version
     bool is_user_file;
     class PERS_FILE_XFER* pers_file_xfer;   // nonzero if in the process of being up/downloaded

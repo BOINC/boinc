@@ -30,7 +30,7 @@ list_item("transition_time",
     when send a result for this WU
     <li>Set to min(x.sent_time + wu.delay_bound) over IN_PROGRESS results x
     by transitioner when done handling this WU
-    <li>Set to now by validater if it finds canonical result,
+    <li>Set to now by validator if it finds canonical result,
     or if there is already a canonical result
     and some other results have validate_state = INIT,
     or if there is no consensus and the number of successful results
@@ -55,7 +55,7 @@ list_item("assimilate_state",
     <li> Initially INIT
     <li> Set to READY by transitioner if wu.assimilate_state=INIT
         and WU has error condition
-    <li> Set to READY by validater when find canonical result
+    <li> Set to READY by validator when find canonical result
         and wu.assimilate_state=INIT
     <li> Set to DONE by assimilator when done
     </ul>
@@ -69,7 +69,7 @@ list_item("need_validate",
     <li> Set to TRUE by transitioner if the number of success results
         is at least wu.min_quorum and there is a success result
         not validated yet
-    <li> Set to FALSE by validater
+    <li> Set to FALSE by validator
     </ul>
     "
 );
@@ -137,7 +137,7 @@ list_item("server_state",
     <li> Set by transitioner to OVER if now > result.report_deadline
     <li> Set by transitioner to OVER if WU has error condition
         and result.server_state=UNSENT
-    <li> Set by validater to OVER if WU has canonical result
+    <li> Set by validator to OVER if WU has canonical result
         and result.server_state=UNSENT
     </ul>
     "
@@ -152,7 +152,7 @@ list_item("outcome",
         and now<report_deadline
     <li> Set by transitioner to DIDNT_NEED if WU has error condition
         and result.server_state=UNSENT
-    <li> Set by validater to DIDNT_NEED if WU has canonical result
+    <li> Set by validator to DIDNT_NEED if WU has canonical result
         and result.server_state=UNSENT
     </ul>
     "
@@ -182,8 +182,10 @@ list_item("validate_state",
     Defined iff result.outcome=SUCCESS
     <ul>
     <li> Initially INIT
-    <li> Set by validater to VALID if outcome=SUCCESS and matches canonical result
-    <li> Set by validater to INVALID if outcome=SUCCESS and doesn't match canonical result
+    <li> Set by validator to VALID if outcome=SUCCESS and matches canonical result
+    <li> Set by validator to INVALID if outcome=SUCCESS and doesn't match canonical result
+    <li> Set by validator to ERROR if outcome=SUCCESS and
+        had a permanent error trying to read an output file.
     "
 );
 list_end();

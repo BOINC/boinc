@@ -17236,3 +17236,9 @@ David  9 Sept 2004
 		user/
 			opsw.php
 			userw.php
+
+David  9 Sept 2004
+    - In transitioner, count RESULT_OUTCOME_VALIDATE_ERROR as an error
+
+    sched/
+        transitioner.C

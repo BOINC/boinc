@@ -43,25 +43,6 @@ const int MAX_SECONDS_TO_SEND = (28*SECONDS_IN_DAY);
 
 const double MIN_POSSIBLE_RAM = 64000000;
 
-struct WORK_REQ {
-    bool infeasible_only;
-    double seconds_to_fill;
-    double disk_available;
-    int nresults;
-    int core_client_version;
-
-    // the following flags are set whenever a result is infeasible;
-    // used to construct explanatory message to user
-    //
-    bool insufficient_disk;
-    bool insufficient_mem;
-    bool insufficient_speed;
-    bool no_app_version;
-    bool homogeneous_redundancy_reject;
-    bool outdated_core;
-    bool daily_result_quota_exceeded;
-};
-
 bool anonymous(PLATFORM& platform) {
     return (!strcmp(platform.name, "anonymous"));
 }
@@ -301,7 +282,7 @@ bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av) {
 // Add the app and app_version to the reply also.
 //
 int add_wu_to_reply(
-    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform, SCHED_SHMEM& ss,
+    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform,
     WORK_REQ& wreq, APP* app, APP_VERSION* avp
 ) {
     int retval;
@@ -364,10 +345,10 @@ static int update_wu_transition_time(WORKUNIT wu, time_t x) {
 
 // return true iff a result for same WU is already being sent
 //
-static bool already_in_reply(WU_RESULT& wu_result, SCHEDULER_REPLY& reply) {
+static bool wu_already_in_reply(WORKUNIT& wu, SCHEDULER_REPLY& reply) {
     unsigned int i;
     for (i=0; i<reply.results.size(); i++) {
-        if (wu_result.workunit.id == reply.results[i].workunitid) {
+        if (wu.id == reply.results[i].workunitid) {
             return true;
         }
     }
@@ -459,6 +440,78 @@ void unlock_sema() {
     unlock_semaphore(sema_key);
 }
 
+bool WORK_REQ::work_needed(SCHEDULER_REPLY& reply) {
+    if (seconds_to_fill <= 0) return false;
+    if (disk_available <= 0) return false;
+    if (nresults >= config.max_wus_to_send) return false;
+    if (config.daily_result_quota) {
+        if (reply.host.nresults_today >= config.daily_result_quota) {
+            daily_result_quota_exceeded = true;
+            return false;
+        }
+    }
+    return true;
+}
+
+int add_result_to_reply(
+    DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    WORK_REQ& wreq, APP* app, APP_VERSION* avp
+) {
+    int retval;
+    double wu_seconds_filled;
+
+    retval = add_wu_to_reply(wu, reply, platform, wreq, app, avp);
+    if (retval) return retval;
+
+    wreq.disk_available -= wu.rsc_disk_bound;
+
+    // update the result in DB
+    //
+    result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
+    result.hostid = reply.host.id;
+    result.userid = reply.user.id;
+    result.sent_time = time(0);
+    result.report_deadline = result.sent_time + wu.delay_bound;
+    result.update_subset();
+
+    wu_seconds_filled = estimate_cpu_duration(wu, reply.host);
+    log_messages.printf(
+        SCHED_MSG_LOG::NORMAL,
+        "[HOST#%d] Sending [RESULT#%d %s] (fills %d seconds)\n",
+        reply.host.id, result.id, result.name, int(wu_seconds_filled)
+    );
+
+    retval = update_wu_transition_time(wu, result.report_deadline);
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "send_work: can't update WU transition time\n"
+        );
+    }
+
+    // The following overwrites the result's xml_doc field.
+    // But that's OK cuz we're done with DB updates
+    //
+    retval = insert_name_tags(result, wu);
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL, "send_work: can't insert name tags\n"
+        );
+    }
+    retval = insert_deadline_tag(result);
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "send_work: can't insert deadline tag\n"
+        );
+    }
+    reply.insert_result(result);
+    wreq.seconds_to_fill -= wu_seconds_filled;
+    wreq.nresults++;
+    reply.host.nresults_today++;
+    return 0;
+}
+
 // Make a pass through the wu/results array, sending work.
 // If "infeasible_only" is true, send only results that were
 // previously infeasible for some host
@@ -471,7 +524,6 @@ static void scan_work_array(
     int i, retval, n;
     WORKUNIT wu;
     DB_RESULT result;
-    double wu_seconds_filled;
     char buf[256];
     APP* app;
     APP_VERSION* avp;
@@ -481,15 +533,7 @@ static void scan_work_array(
 
     lock_sema();
     for (i=0; i<ss.nwu_results; i++) {
-        if (wreq.seconds_to_fill <= 0) break;
-        if (wreq.disk_available <= 0) break;
-        if (wreq.nresults >= config.max_wus_to_send) break;
-        if (config.daily_result_quota) {
-            if (reply.host.nresults_today >= config.daily_result_quota) {
-                wreq.daily_result_quota_exceeded = true;
-                break;
-            }
-        }
+        if (!wreq.work_needed(reply)) break;
 
         WU_RESULT& wu_result = ss.wu_results[i];
 
@@ -513,8 +557,10 @@ static void scan_work_array(
 
         // don't send if we're already sending a result for same WU
         //
-        if (already_in_reply(wu_result, reply)) {
-            continue;
+        if (config.one_result_per_user_per_wu) {
+            if (wu_already_in_reply(wu_result.workunit, reply)) {
+                continue;
+            }
         }
 
         // don't send if host can't handle it
@@ -639,57 +685,10 @@ static void scan_work_array(
         // ****** HERE WE'VE COMMITTED TO SENDING THIS RESULT TO HOST ******
         //
 
-        retval = add_wu_to_reply(wu, reply, platform, ss, wreq, app, avp);
-        if (retval) goto done;
-
-        wreq.disk_available -= wu.rsc_disk_bound;
-
-        // update the result in DB
-        //
-        result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
-        result.hostid = reply.host.id;
-        result.userid = reply.user.id;
-        result.sent_time = time(0);
-        result.report_deadline = result.sent_time + wu.delay_bound;
-        result.update_subset();
-
-        wu_seconds_filled = estimate_cpu_duration(wu, reply.host);
-        log_messages.printf(
-            SCHED_MSG_LOG::NORMAL,
-            "[HOST#%d] Sending [RESULT#%d %s] (fills %d seconds)\n",
-            reply.host.id, result.id, result.name, int(wu_seconds_filled)
+        retval = add_result_to_reply(
+            result, wu, reply, platform, wreq, app, avp
         );
-
-        retval = update_wu_transition_time(wu, result.report_deadline);
-        if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
-                "send_work: can't update WU transition time\n"
-            );
-        }
-
-        // The following overwrites the result's xml_doc field.
-        // But that's OK cuz we're done with DB updates
-        //
-        retval = insert_name_tags(result, wu);
-        if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL, "send_work: can't insert name tags\n"
-            );
-        }
-        retval = insert_deadline_tag(result);
-        if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
-                "send_work: can't insert deadline tag\n"
-            );
-        }
-        reply.insert_result(result);
-
-        wreq.seconds_to_fill -= wu_seconds_filled;
-        wreq.nresults++;
-        reply.host.nresults_today++;
-        goto done;
+        if (!retval) goto done;
 
 dont_send:
         // here we couldn't send the result for some reason --

@@ -27,9 +27,39 @@
 #include "result_state.h"
 #include "md5_file.h"
 
+// summary of a client's request for work
+//
+struct WORK_REQ {
+    bool infeasible_only;
+    double seconds_to_fill;
+    double disk_available;
+    int nresults;
+    int core_client_version;
+
+    // the following flags are set whenever a result is infeasible;
+    // used to construct explanatory message to user
+    //
+    bool insufficient_disk;
+    bool insufficient_mem;
+    bool insufficient_speed;
+    bool no_app_version;
+    bool homogeneous_redundancy_reject;
+    bool outdated_core;
+    bool daily_result_quota_exceeded;
+
+    bool work_needed(struct SCHEDULER_REPLY&);
+    void update_for_result(double seconds_filled);
+};
+
+// a description of a sticky file on host.
+//
+struct FILE_INFO {
+    char name[256];
+};
+
 struct MSG_FROM_HOST_DESC {
     char variety[256];
-    string msg_text;
+    std::string msg_text;
     int parse(FILE*);
 };
 
@@ -82,14 +112,15 @@ struct SCHEDULER_REQUEST {
 #endif
 
     bool anonymous_platform;
-    vector<CLIENT_APP_VERSION> client_app_versions;
+    std::vector<CLIENT_APP_VERSION> client_app_versions;
     GLOBAL_PREFS global_prefs;
     char global_prefs_source_email_hash[MD5_LEN];
 
     HOST host;      // request message is parsed into here.
                     // does NOT contain the full host record.
-    vector<RESULT> results;
-    vector<MSG_FROM_HOST_DESC> msgs_from_host;
+    std::vector<RESULT> results;
+    std::vector<MSG_FROM_HOST_DESC> msgs_from_host;
+    std::vector<FILE_INFO> file_infos;   // sticky files reported by host
 
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST();
@@ -113,12 +144,13 @@ struct SCHEDULER_REPLY {
     char email_hash[MD5_LEN];
     HOST host;                  // after validation, contains full host rec
     TEAM team;
-    vector<APP> apps;
-    vector<APP_VERSION> app_versions;
-    vector<WORKUNIT>wus;
-    vector<RESULT>results;
-    vector<RESULT>result_acks;
-    vector<MSG_TO_HOST>msgs_to_host;
+    std::vector<APP> apps;
+    std::vector<APP_VERSION> app_versions;
+    std::vector<WORKUNIT>wus;
+    std::vector<RESULT>results;
+    std::vector<RESULT>result_acks;
+    std::vector<MSG_TO_HOST>msgs_to_host;
+    std::vector<FILE_INFO>file_deletes;
     char code_sign_key[4096];
     char code_sign_key_signature[4096];
     bool send_msg_ack;
