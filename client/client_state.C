@@ -47,7 +47,7 @@
 #include "speed_stats.h"
 #include "client_state.h"
 
-#define SECONDS_PER_MONTH (SECONDS_PER_DAY*30)
+#define SECONDS_PER_MONTH		(SECONDS_PER_DAY*30)
 
 CLIENT_STATE gstate;
 
@@ -133,6 +133,7 @@ int CLIENT_STATE::init() {
     get_host_info(host_info);       // this is platform dependent
 
     if (gstate.should_run_time_tests()) {
+		time_tests_start = time(NULL);
         show_message("Running time tests", "low");
 #ifdef _WIN32
         time_tests_handle = CreateThread(
@@ -238,6 +239,7 @@ int CLIENT_STATE::time_tests() {
     if(!finfo) return ERR_FOPEN;
     host_info.write_time_tests(finfo);
     fclose(finfo);
+
     return 0;
 }
 
@@ -249,17 +251,49 @@ int CLIENT_STATE::check_time_tests() {
 #ifdef _WIN32
         DWORD exit_code = 0;
         GetExitCodeThread(time_tests_handle, &exit_code);
-        if(exit_code == STILL_ACTIVE) return TIME_TESTS_RUNNING;
+        if(exit_code == STILL_ACTIVE) {
+			if(time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
+				show_message("Time tests timed out, using default values", "low");
+				TerminateThread(time_tests_handle, 0);
+		        CloseHandle(time_tests_handle);
+				host_info.p_fpops = 1e9;
+				host_info.p_iops = 1e9;
+				host_info.p_membw = 4e9;
+				host_info.m_cache = 1e6;
+		        time_tests_id = 0;
+				return TIME_TESTS_ERROR;
+			}
+			return TIME_TESTS_RUNNING;
+		}
         CloseHandle(time_tests_handle);
 #else
         int retval, exit_code = 0;
         retval = waitpid(time_tests_id, &exit_code, WNOHANG);
-        if(retval == 0) return TIME_TESTS_RUNNING;
+        if(retval == 0) {
+			if(time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
+				show_message("Time tests timed out, using default values", "low");
+				kill(pid, SIGKILL);
+				host_info.p_fpops = 1e9;
+				host_info.p_iops = 1e9;
+				host_info.p_membw = 4e9;
+				host_info.m_cache = 1e6;
+		        time_tests_id = 0;
+				return TIME_TESTS_ERROR;
+			}
+			return TIME_TESTS_RUNNING;
+		}
 #endif
         time_tests_id = 0;
         show_message("Time tests complete", "low");
         finfo = fopen(TIME_TESTS_FILE_NAME, "r");
-        if(!finfo) return TIME_TESTS_COMPLETE;
+        if(!finfo) {
+			show_message("Error in time tests file, using default values", "low");
+			host_info.p_fpops = 1e9;
+			host_info.p_iops = 1e9;
+			host_info.p_membw = 4e9;
+			host_info.m_cache = 1e6;
+			return TIME_TESTS_ERROR;
+		}
         host_info.parse_time_tests(finfo);
         fclose(finfo);
         file_delete(TIME_TESTS_FILE_NAME);

@@ -20,9 +20,11 @@
 #define SAMPLE 10						/* to get a larger time sample */
 #define SECS_PER_RUN 0.2
 
+#define MAX_TIME_TESTS_SECONDS	60
 #define TIME_TESTS_RUNNING		0
 #define TIME_TESTS_COMPLETE		1
 #define TIME_TESTS_NOT_RUNNING	2	
+#define TIME_TESTS_ERROR		3
 
 int check_cache_size( int mem_size );
 clock_t double_flop_test( int iterations, int print_debug );
