@@ -1,5 +1,8 @@
 <?php
 
+$light_blue="#d8e8ff";
+$med_blue="#c0d0f0";
+
 function last_mod() {
     return gmdate("g:i A \U\T\C, F d Y", filemtime($_SERVER["SCRIPT_FILENAME"]));
 }
@@ -69,9 +72,10 @@ function list_heading_array($x) {
 }
 
 function list_item($x, $y, $z=null) {
+    global $light_blue;
     echo "
         <tr>
-            <td bgcolor=d8d8ff valign=top><b>$x</b></td>
+            <td bgcolor=$light_blue valign=top><b>$x</b></td>
             <td valign=top>$y</td>
 ";
     if ($z) {
@@ -93,8 +97,9 @@ function list_item_func($x, $y) {
 }
 
 function list_bar($x) {
+    global $med_blue;
     echo "
-        <tr><td colspan=8 bgcolor=b8b8ff><center><b>$x</b></center></td></tr>
+        <tr><td colspan=8 bgcolor=$med_blue><center><b>$x</b></center></td></tr>
     ";
 }
 

@@ -136,34 +136,6 @@ void show_message(PROJECT *p, char* msg, int priority) {
     }
 }
 
-// Prompt user for project URL and authenticator,
-// and create an account file
-//
-int add_new_project() {
-#if defined(__WXMAC__)    // If we have a GUI BOINC Manager
-    return 0;
-#else
-    PROJECT project;
-
-    printf("Enter the URL of the project: ");
-    scanf("%s", project.master_url);
-    printf(
-        "You should have already registered with the project\n"
-        "and received an account key by email.\n"
-        "Paste the account key here: "
-    );
-    scanf("%s", project.authenticator);
-
-    if (!strlen(project.master_url) || !strlen(project.authenticator)) {
-        printf("URL and account key must be nonempty\n");
-        return ERR_INVALID_URL;
-    }
-
-    project.tentative = true;
-    return project.write_account_file();
-#endif
-}
-
 #ifdef WIN32
 void quit_client() {
     gstate.requested_exit = true;

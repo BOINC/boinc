@@ -54,6 +54,8 @@ static void print_options(char* prog) {
 // Parse the command line arguments passed to the client
 // NOTE: init() has not been called at this point
 // (i.e. client_state.xml has not been parsed)
+// So just record the args here.
+// The actions get done in do_cmdline_actions()
 //
 #define ARGX2(s1,s2) (!strcmp(argv[i], s1)||!strcmp(argv[i], s2))
 #define ARG(S) ARGX2("-"#S, "--"#S)
@@ -143,7 +145,13 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(run_cpu_benchmarks)) {
             run_cpu_benchmarks = true;
         } else if (ARG(attach_project)) {
-            add_new_project();
+            if (i > argc-2) {
+                show_options = true;
+            } else {
+                strcpy(attach_project_url, argv[i+1]);
+                strcpy(attach_project_auth, argv[i+1]);
+                i += 2;
+            }
         } else if (ARG(version)) {
             printf(BOINC_VERSION_STRING " " HOSTTYPE "\n");
             exit(0);
@@ -256,6 +264,10 @@ void CLIENT_STATE::do_cmdline_actions() {
         } else {
             msg_printf(NULL, MSG_ERROR, "project %s not found\n", update_prefs_url);
         }
+    }
+
+    if (strlen(attach_project_url)) {
+        add_project(attach_project_url, attach_project_auth);
     }
 }
 

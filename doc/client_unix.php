@@ -2,26 +2,75 @@
 require_once("docutil.php");
 page_head("The BOINC command-line client");
 echo "
-<h3>Components</h3>
+<h2>Components</h2>
 <p>
 The BOINC client software can be run in a command-line
 (non-graphical) environment.
-This involves two components:
+This involves two programs:
 <ul>
 <li> The <b>core client</b> (boinc_client),
-intended to be run as a background or daemon process.
+a non-interactive program intended to be run as a background or daemon process.
 <li> A <b>command tool</b> (boinc_cmd) that provides
-an interactive command-line interface to the core client.
+an interactive command-line interface to a running core client.
 </ul>
+Instructions for installing these programs,
+and for automatic startup of the core client, are
+<a href=bare_core.php>here</a>.
+<h2>The core client (boinc_client)</h2>
 <p>
-Install the BOINC client software by using gunzip to decompress it.
-Use 'chmod' to make the programs executable if needed.
-Put the core client in a directory by itself.
-Run it manually, from your login script,
-or from system startup files.
-<p>
-A set of instructions for running BOINC on Unix systems is
-<a href=http://noether.vassar.edu/~myers/help/boinc/unix.html>here</a>.
+<h3>command-line options</h3>
+";
+list_start();
+list_item("-attach_project URL account_key",
+    "Attach this computer to a new project."
+);
+list_item("-show_projects",
+    "Print a list of projects to which this computer is attached."
+);
+
+list_item("-detach_project URL",
+    "Detach this computer from a project."
+);
+
+list_item("-reset_project URL",
+    "Clear pending work for a project.
+    Use this if there is a problem that is preventing
+    your computer from working."
+);
+
+list_item("-update_prefs URL",
+    "Contact a project's server to obtain new preferences.
+    This will also report completed results
+    and get new work if needed."
+);
+
+list_item("-return_results_immediately",
+    "Contact scheduler as soon as any result done."
+);
+list_item("-run_cpu_benchmarks",
+    "Run CPU benchmarks.
+    Do this if you have modified your computer's hardware."
+);
+list_item("-check_all_logins",
+    "If 'run if user active' preference is off,
+    check for input activity on all current logins;
+    default is to check only local mouse/keyboard"
+);
+list_item("-exit_when_idle",
+    "Get, process and report work, then exit."
+);
+list_item("-allow_remote_gui_rpc",
+    "Allow GUI RPCs from remote hosts"
+);
+list_item("-help",
+    "Show client options."
+);
+
+list_item("-version",
+    "Show client version."
+);
+list_end();
+echo "
 <p>
 The core client has the following optional environment variables:
 ";
@@ -35,7 +84,7 @@ list_item("SOCKS5_USER", "User name for SOCKS authentication");
 list_item("SOCKS5_PASSWD", "Password for SOCKS authentication");
 list_end();
 echo "
-<h3>Command-line interface</h3>
+<h2>The command tool (boinc_cmd)</h2>
 <p>
 The command-line interface program has the following interface:
 <pre>
@@ -136,62 +185,6 @@ list_item(
     "
 );
 list_item("--quit", "");
-list_end();
-echo "
-<p>
-<h3>Core client command-line options</h3>
-";
-list_start();
-list_item("-attach_project",
-    "Attach this computer to a new project.
-    You must have an account with that project.
-    You will be asked for the project URL and the account key."
-);
-list_item("-show_projects",
-    "Print a list of projects to which this computer is attached."
-);
-
-list_item("-detach_project URL",
-    "Detach this computer from a project."
-);
-
-list_item("-reset_project URL",
-    "Clear pending work for a project.
-    Use this if there is a problem that is preventing
-    your computer from working."
-);
-
-list_item("-update_prefs URL",
-    "Contact a project's server to obtain new preferences.
-    This will also report completed results
-    and get new work if needed."
-);
-
-list_item("-return_results_immediately",
-    "Contact scheduler as soon as any result done."
-);
-list_item("-run_cpu_benchmarks",
-    "Run CPU benchmarks.
-    Do this if you have modified your computer's hardware."
-);
-list_item("-check_all_logins",
-    "If 'run if user active' preference is off,
-    check for input activity on all current logins;
-    default is to check only local mouse/keyboard"
-);
-list_item("-exit_when_idle",
-    "Get, process and report work, then exit."
-);
-list_item("-allow_remote_gui_rpc",
-    "Allow GUI RPCs from remote hosts"
-);
-list_item("-help",
-    "Show client options."
-);
-
-list_item("-version",
-    "Show client version."
-);
 list_end();
 page_tail();
 ?>

@@ -90,6 +90,8 @@ CLIENT_STATE::CLIENT_STATE() {
     show_projects = false;
     strcpy(detach_project_url, "");
     strcpy(main_host_venue, "");
+    strcpy(attach_project_url, "");
+    strcpy(attach_project_auth, "");
     user_run_request = USER_RUN_REQUEST_AUTO;
     user_network_request = USER_RUN_REQUEST_AUTO;
     started_by_screensaver = false;
@@ -196,12 +198,8 @@ int CLIENT_STATE::init() {
 #endif
 
 
-    // print out any options which may help out during support issues
-    //
-    if ( executing_as_daemon ) {
-        msg_printf(
-            NULL, MSG_INFO, "Option: Executing as a daemon"
-        );
+    if (executing_as_daemon) {
+        msg_printf(NULL, MSG_INFO, "Option: Executing as a daemon");
     }
 
 
@@ -218,7 +216,7 @@ int CLIENT_STATE::init() {
     LPTSTR pbuf = buf;
     
     GetUserName( pbuf, &buf_size );
-    if ( executing_as_daemon && ( 0 != strcmp( "SYSTEM", pbuf ) ) ) {
+    if (executing_as_daemon && (0 != strcmp("SYSTEM", pbuf))) {
         msg_printf(
             NULL, MSG_INFO, 
             "NOTE: A condition has been detected which will keep graphics from "
@@ -228,8 +226,6 @@ int CLIENT_STATE::init() {
 #endif
 
 
-    // parse account files.
-    //
     parse_account_files();
 
     // check for app_info.xml file in project dirs.

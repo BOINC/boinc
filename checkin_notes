@@ -26108,3 +26108,13 @@ David  22 Mar 2005
     html/user/
         forum_thread.php
         mail_passwd.php
+
+David  22 Mar 2005
+    - core client:  the -attach_project option now must be followed
+        by the URL and account key.
+        It no longer prompts for these.
+
+    client/
+        client_state.C,h
+        cs_cmdline.C
+        main.C

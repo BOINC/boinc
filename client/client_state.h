@@ -110,6 +110,8 @@ public:
         // stores URL for -update_prefs option
     char main_host_venue[256];
         // venue from project that gave us general prefs
+    char attach_project_url[256];
+    char attach_project_auth[256];
     bool exit_before_upload;
         // exit when about to upload a file
     // exponential backoff variables

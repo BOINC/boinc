@@ -187,7 +187,7 @@ list_item("locality_scheduling",
      this case, to reduce download demands on the server, it may be
      advantageous to retain the data files on the hosts, and send
      them work for the files that they already have.
-     See <a href=sched_locality.php>Scheduling Locality</a>."
+     See <a href=sched_locality.php>Locality Scheduling</a>."
 );
 list_item("locality_scheduling_wait_period",
     "This element only has an effect when used in conjunction with the
@@ -197,7 +197,7 @@ list_item("locality_scheduling_wait_period",
      which the scheduler will wait to see if the project can create
      additional work. Together with project-specific daemons or
      scripts this can be used for 'just-in-time' workunit
-     creation. See <a href=sched_locality.php>Scheduling Locality</a>."
+     creation. See <a href=sched_locality.php>Locality Scheduling</a>."
 );
 list_item("min_core_client_version",
     "If the scheduler gets a request from a client with

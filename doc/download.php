@@ -5,6 +5,10 @@ require_once("docutil.php");
 $xml = $_GET["xml"];
 
 if ($xml) {
+    header('Content-type: text/xml');
+    echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
+<versions>
+";
 } else {
     page_head("Download BOINC client software");
 }
@@ -17,12 +21,15 @@ function xecho($x) {
 }
 
 function dl_item($x, $y) {
-    echo "<tr><td valign=top  align=right width=30% bgcolor=d8d8ff>$x</td>
+    global $light_blue;
+    echo "<tr><td valign=top  align=right width=30% bgcolor=$light_blue>$x</td>
         <td>$y</td></tr>
     ";
 }
 
-function version($number, $desc, $filename, $date, $installer, $issues=null) {
+function version(
+    $platform, $number, $desc, $filename, $date, $installer, $issues=null
+) {
     global $xml;
     $path = "dl/$filename";
     $url = "http://boinc.berkeley.edu/$path";
@@ -33,6 +40,7 @@ function version($number, $desc, $filename, $date, $installer, $issues=null) {
     if ($xml) {
         echo "
 <version>
+    <platform>$platform</platform>
     <description>$desc</description>
     <date>$date</date>
     <version_num>$number</version_num>
@@ -60,35 +68,68 @@ function version($number, $desc, $filename, $date, $installer, $issues=null) {
 }
 
 function win_old() {
-    return "<a href=client_windows.php>Single-mode Windows installer</a>";
+    global $xml;
+    if ($xml) {
+        return "Single-mode Windows installer";
+    } else {
+        return "<a href=client_windows.php>Single-mode Windows installer</a>";
+    }
 }
 
 function win_new() {
-    return "<a href=win_install.php>Multi-mode Windows installer</a>";
+    global $xml;
+    if ($xml) {
+        return "Multi-mode Windows installer";
+    } else {
+        return "<a href=win_install.php>Multi-mode Windows installer</a>";
+    }
 }
 
 function bare_core() {
-    return "<a href=bare_core.php>Core client only (command-line)</a>";
+    global $xml;
+    if ($xml) {
+        return "Core client only (command-line)";
+    } else {
+        return "<a href=bare_core.php>Core client only (command-line)</a>";
+    }
 }
 
 function sea() {
-    return "<a href=sea.php>Self-extracting archive</a>";
+    global $xml;
+    if ($xml) {
+        return "Self-extracting archive";
+    } else {
+        return "<a href=sea.php>Self-extracting archive</a>";
+    }
 }
 
 function mac_simple() {
-    return "<a href=menubar.php>Menubar (simple GUI)</a>";
+    global $xml;
+    if ($xml) {
+        return "Menubar (simple GUI)";
+    } else {
+        return "<a href=menubar.php>Menubar (simple GUI)</a>";
+    }
 }
 
 function mac_advanced() {
-    return "<a href=mac_advanced.php>Advanced GUI</a>";
+    global $xml;
+    if ($xml) {
+        return "Advanced GUI";
+    } else {
+        return "<a href=mac_advanced.php>Advanced GUI</a>";
+    }
 }
 
 xecho( "
 BOINC client software is available for
-<a href=#windows>Windows</a>,
-<a href=#mac>Mac OS X</a>,
-<a href=#linux>Linux/x86</a> and
-<a href=#solaris>SPARC/Solaris</a>.
+<ul>
+<li> <a href=#windows>Windows</a>
+<li> <a href=#mac>Mac OS X</a>
+<li> <a href=#linux>Linux/x86</a>
+<li> <a href=#solaris>SPARC/Solaris</a>
+</ul>
+<p>
 Click on your computer type, or scroll down.
 <p>
     If your computer is not of one of these types, you can
@@ -97,25 +138,29 @@ Click on your computer type, or scroll down.
     <li> <a href=download_other.php>download executables from a third-party site</a>.
     </ul>
     <p>
+    Download information is also available in
+    <a href=download.php?xml=1>XML format</a>.
+    <hr>
 
 <a name=windows>
 <h2>Microsoft Windows (all versions, Windows 95 and later)</h2>
-)";
+");
 version(
+    "Windows",
     "4.25",
     "Recommended version",
     "boinc_4.25_windows_intelx86.exe",
     "3 Mar 2005",
     win_new(),
     "<ul>
-    <li> The BOINC screensaver conflicts with Microsoft Intellitype software.
-    <li>
+    <li/> The BOINC screensaver conflicts with Microsoft Intellitype software.
+    <li/>
     Applications that were built before October 2004 do not
     display screensaver graphics
     with the Service or Shared install type,
     or the Single-user install type with the password protect screensaver
     option on NT based machines.
-    <li>
+    <li/>
     If BOINC runs at the same time as Windows XP 3D screensavers,
     the system becomes sluggish and unresponsive.
     </ul>
@@ -124,21 +169,26 @@ version(
     "
 );
 version(
+    "Windows",
     "4.19",
     "Older version",
     "boinc_4.19_windows_intelx86.exe",
     "25 Jan 2005",
     win_old(),
     "<ul>
-    <li> Doesn't work with some HTTP proxies (fixed in later versions).
+    <li/> Doesn't work with some HTTP proxies (fixed in later versions).
+    <li/>
+    If BOINC runs at the same time as Windows XP 3D screensavers,
+    the system becomes sluggish and unresponsive.
     </ul>
     "
 );
 xecho( "
 <a name=mac>
 <h2>Macintosh OS/X (10.2 and later)</h2>
-)";
+");
 version(
+    "Mac",
     "4.19",
     "Recommended version",
     "boinc_4.19_powerpc-apple-darwin.gz",
@@ -146,13 +196,16 @@ version(
     bare_core()
 );
 version(
+    "Mac",
     "4.25",
     "Development version (simple GUI)",
-    "BOINC_Menubar_4.25_mac.zip",
-    "10 Mar 2005",
-    mac_simple()
+    "BOINC_Menubar_4.25a_mac.zip",
+    "21 Mar 2005",
+    mac_simple(),
+    "Now includes proxy support"
 );
 version(
+    "Mac",
     "4.25",
     "Development version (command line)",
     "boinc_4.25_powerpc-apple-darwin.gz",
@@ -163,8 +216,9 @@ version(
 xecho("
 <a name=linux>
 <h2>Linux/x86</h2>
-)";
+");
 version(
+    "Linux/x86",
     "4.19",
     "Recommended version",
     "boinc_4.19_i686-pc-linux-gnu.gz",
@@ -172,6 +226,7 @@ version(
     bare_core()
 );
 version(
+    "Linux/x86",
     "4.27",
     "Development version",
     "boinc_4.27_i686-pc-linux-gnu.sh",
@@ -181,8 +236,9 @@ version(
 xecho( "
 <a name=solaris>
 <h2>Solaris/SPARC</h2>
-)";
+");
 version(
+    "Solaris/SPARC",
     "4.19",
     "Recommended version",
     "boinc_4.19_sparc-sun-solaris2.7.gz",
@@ -190,6 +246,7 @@ version(
     bare_core()
 );
 version(
+    "Solaris/SPARC",
     "4.26",
     "Development version",
     "boinc_4.26_sparc-sun-solaris2.7.sh",
@@ -230,7 +287,7 @@ The source code may be obtained
 from the BOINC web site (http://boinc.berkeley.edu).
 
     </pre>
-)";
+");
 if ($xml) {
     echo "</versions>\n";
 } else {

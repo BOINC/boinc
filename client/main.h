@@ -17,8 +17,6 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-extern int add_new_project();
-
 #ifdef _WIN32
 extern int boinc_main_loop();
 extern void quit_client();

@@ -1,7 +1,7 @@
 <?php
+require_once("docutil.php");
 require_once("boinc_news.inc");
 require_once("../html/inc/news.inc");
-$light_blue = "dde8ff";
 
 echo "
 <head>
