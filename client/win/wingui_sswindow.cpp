@@ -92,7 +92,7 @@ void CSSWindow::SetMode(int nMode)
 
 	if(nMode == MODE_FULLSCREEN || nMode == MODE_WINDOW || nMode == MODE_BLANK_SCREEN) {
 		ShowWindow(SW_SHOW);
-		if(nMode == MODE_FULLSCREEN) SetForegroundWindow();
+		if(nMode == MODE_FULLSCREEN || nMode == MODE_BLANK_SCREEN) SetForegroundWindow();
 	} else {
 		ShowWindow(SW_HIDE);
 	}
