@@ -727,7 +727,7 @@ int send_work(
 
     log_messages.printf(
         SCHED_MSG_LOG::NORMAL,
-        "[HOST#%d] got request for %d seconds of work; available disk %f GB\n",
+        "[HOST#%d] got request for %f seconds of work; available disk %f GB\n",
         reply.host.id, sreq.work_req_seconds, wreq.disk_available/1e9
     );
 

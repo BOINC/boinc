@@ -62,6 +62,21 @@ int result_suffix(char* name) {
     return 0;
 }
 
+// The given result just timed out.
+// update the host's avg_turnaround.
+//
+int penalize_host(int hostid, double delay_bound) {
+    DB_HOST host;
+    int retval = host.lookup_id(hostid);
+    if (retval) return retval;
+    if (host.avg_turnaround == 0) {
+        host.avg_turnaround = delay_bound;
+    } else {
+        host.avg_turnaround = .7*host.avg_turnaround + .3*delay_bound;
+    }
+    return host.update();
+}
+
 int handle_wu(
     DB_TRANSITIONER_ITEM_SET& transitioner,
     std::vector<TRANSITIONER_ITEM>& items
@@ -121,6 +136,7 @@ int handle_wu(
                         res_item.res_name, retval
                     );
                 }
+                penalize_host(res_item.res_hostid, wu_item.delay_bound);
                 nover++;
             } else {
                 ninprogress++;

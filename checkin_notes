@@ -21400,3 +21400,14 @@ David  16 Dec 2004
             team_change_founder_action.php (new)
             team_change_founder_form.php (new)
             team_manage.php
+
+David  16 Dec 2004
+    - transitioner: if a result times out, update the hosts'
+        avg_turnaround (charge it with the full delay bound)
+    - scheduler: print work_req_seconds as a double, not int
+
+    db/
+        boinc_db.C,h
+    sched/
+        sched_send.C
+        transitioner.C
