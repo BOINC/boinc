@@ -75,6 +75,18 @@ def _set_element(node, new_data):
         new_data_node.ownerDocument = node.ownerDocument
         node.appendChild(new_data_node)
 
+def strip_white_space(node):
+    ''' strip white space from text nodes, and remove empty nodes. '''
+    # the [:] below is to copy the list since removing children modifies the
+    # list.
+    for child in node.childNodes[:]:
+        if child.nodeType == child.TEXT_NODE:
+            child.data = child.data.strip()
+            if not child.data:# and (child.nextSibling or child.previousSibling):
+                node.removeChild(child)
+        else:
+            strip_white_space(child)
+
 class ConfigDict:
     def __init__(self, dom_node):
         self._node = dom_node
@@ -117,6 +129,7 @@ class XMLConfig:
         """Read the XML object's file source and return self."""
         try:
             self.xml     = xml.dom.minidom.parse(self.filename)
+            strip_white_space(self.xml)
         except IOError, e:
             if not failopen_ok:
                 # raise
