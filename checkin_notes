@@ -2688,3 +2688,22 @@ David   Dec 17 2002
     test/
         test.inc
         test_uc.php
+
+Seth Dec 18 2002
+	- net_xfers in windows will get permission before connecting if needed
+	- added global pref for whether or not to hang up the modem if BOINC dialed
+	- client state saves global prefs confirm_before_connecting and hangup_if_dialed locally for now
+	- wingui split into different files, bug fixes
+
+	client/
+		net_xfer.C,h
+		prefs.C,h
+		client_state.C
+	client/win
+		win_net.cpp,h
+		wingui.cpp,h
+		wingui_mainwindow.cpp,h (new)
+		wingui_dialog.cpp,h (new)
+		wingui_listctrl.cpp,h (new)
+		wingui_pictrl.cpp,h (new)
+
