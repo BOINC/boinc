@@ -50,6 +50,6 @@ sign_executable_SOURCES =			\
         ../lib/crypt.C
 
 sign_executable_DEPENDENCIES = $(LIBRSA)
-sign_executable_LDSIGN_EXECUTABLE = $(RSA_LIBS) $(MYSQL_LIBS)
+sign_executable_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 
 country_select_SOURCES = country_select.C ../lib/countries.C

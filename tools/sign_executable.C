@@ -20,12 +20,14 @@
 // syntax: sign_executable <exectuable_path> <code_sign_file>
 
 #include "crypt.h"
+#include "backend_lib.h"
+#include <cstdlib>
 
-int sign_executable(char* path, char* signature_text) {
+int sign_executable(char* path, char* code_sign_keyfile, char* signature_text) {
     DATA_BLOCK signature;
     unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
     R_RSA_PRIVATE_KEY code_sign_key;
-    retval = read_key_file(code_sign_keyfile, code_sign_key);
+    int retval = read_key_file(code_sign_keyfile, code_sign_key);
     if (retval) {
         fprintf(stderr, "add: can't read key\n");
         exit(1);
@@ -37,8 +39,6 @@ int sign_executable(char* path, char* signature_text) {
 }
 
 int main(int argc, char** argv) {
-    int i, retval;
-
     if (argc != 3) {
         fprintf(stderr, "syntax: sign_executable <path> <code_sign_file>\n"
                 "\n"
@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
     }
 
     char signature_text[1024];
-    if (sign_executable(argv[1], argv[2])) {
+    if (sign_executable(argv[1], argv[2], signature_text)) {
         return 1;
     }
     printf("%s", signature_text);

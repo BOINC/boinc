@@ -49,22 +49,6 @@ int read_filename(char* path, char* buf) {
     return retval;
 }
 
-int read_key_file(char* keyfile, R_RSA_PRIVATE_KEY& key) {
-    int retval;
-    FILE* fkey = fopen(keyfile, "r");
-    if (!fkey) {
-        fprintf(stderr, "can't open key file (%s)\n", keyfile);
-        return -1;
-    }
-    retval = scan_key_hex(fkey, (KEY*)&key, sizeof(key));
-    fclose(fkey);
-    if (retval) {
-        fprintf(stderr, "can't parse key\n");
-        return -1;
-    }
-    return 0;
-}
-
 
 // process WU template
 //
