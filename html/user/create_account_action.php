@@ -5,7 +5,7 @@ include_once("../inc/util.inc");
 include_once("../inc/email.inc");
 
 function show_error($str) {
-    page_head("Create account: error");
+    page_head("Can't create account");
     echo "$str<br>\n";
     echo mysql_error();
     echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
@@ -58,7 +58,7 @@ if (!is_valid_email_addr($new_email_addr)) {
         name@domain"
     );
 }
-$query = "select * from user where email_addr='$new_email_addr'";
+$query = "select * from user where email_addr='$new_email_addr' or email_addr like '@$new_email_addr_%' limit 1";
 $result = mysql_query($query);
 if ($result) {
     $user = mysql_fetch_object($result);

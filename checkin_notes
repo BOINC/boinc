@@ -25342,3 +25342,10 @@ David  25 Feb 2005
 
     client/
         cs_files.C
+
+David  25 Feb 2005
+    - allow only one account per email address,
+        including munged email addresses (from Bruce Allen)
+
+    html/user/
+        create_account_action.php
