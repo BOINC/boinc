@@ -1070,11 +1070,10 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		m_ResultListCtrl.SetItemText(i, 3, buf);
 
 		// progress
-		ACTIVE_TASK* at = gstate.lookup_active_task_by_workunit(re->wup);
+		ACTIVE_TASK* at = gstate.lookup_active_task_by_result(re);
 		if(!at) {
 			buf.Format("no active task");
 		} else {
-//			at->check_app_status_files();
 			buf.Format("%d%%", (int)(at->fraction_done * 100));
 		}
 		m_ResultListCtrl.SetItemText(i, 4, buf);
