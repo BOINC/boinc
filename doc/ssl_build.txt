@@ -7,13 +7,20 @@ COMPILING
 =========
 
 On Koloth, use these flags to link with mysql:
-     -L /usr/local/mysql/lib -lmysqlclient -lsocket -lnsl -lm -m64
+     -L /usr/local/mysql/lib -lmysqlclient -lsocket -lnsl -lm -m64 -Wl,-R,/usr/local/gcc/lib/sparcv9
 
-The -m64 compile flag generates 64-bit code and is necessary because the libraries are 64-bit.
+Therefore configure like this:
+      ./configure CFLAGS=-m64 CXXFLAGS=-m64 LDFLAGS='-Wl,-R,/usr/local/gcc/lib/sparcv9'
+
+The -m64 compile flag generates 64-bit code and is necessary because the
+libraries are 64-bit.
+
+The -Wl,-R tells the linker to set the dynamic library search path (for C++)
+to the 64-bit versions
 
 
 
-INSTALLING
+CRON SETUP
 ==========
 
 Need to set PATH to include python executable; need to set PYTHONPATH to
@@ -22,7 +29,6 @@ include PyXML module.
 crontab:
 
 0,5,10,15,20,25,30,35,40,45,50,55 * * * * /mydisks/a/users/boincadm/projects/cron/cron-astropulse
-
 
 cron-astropulse:
 

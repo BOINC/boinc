@@ -172,7 +172,7 @@ void handle_wu(DB_WORKUNIT& wu) {
             }
         }
         log_messages.printf(SchedMessages::DEBUG, "[%s] Found %d successful results\n",
-                            wu.name, results.size());
+                            wu.name, (int)results.size());
         if (results.size() >= (unsigned int)min_quorum) {
             log_messages.printf(SchedMessages::DEBUG, "[%s] Enough for quorum, checking set.\n", wu.name);
             retval = check_set(results, canonicalid, credit);
