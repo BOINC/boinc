@@ -13832,3 +13832,7 @@ David  16 June 2004
         client_msgs.C,h
         gui_rpc_client.C,h
         makefile.gui_test
+
+Rom    June 16 2004
+    - Tag for 3.10 release, all platforms
+      boinc_core_release_3_10
