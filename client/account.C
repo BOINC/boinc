@@ -61,7 +61,7 @@ int CLIENT_STATE::parse_account_files() {
     FILE* f;
 
     dir = dir_open(".");
-    while (dir_scan(name, dir) == 0) {
+    while (dir_scan(name, dir, sizeof(name)) == 0) {
         if (is_account_file(name)) {
             f = fopen(name, "r");
             if (!f) continue;

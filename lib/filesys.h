@@ -34,7 +34,7 @@ struct DIR_DESC {
 #endif
 
 extern DIRREF dir_open(char*);
-extern int dir_scan(char*, DIRREF);
+extern int dir_scan(char*, DIRREF, int);
 extern void dir_close(DIRREF);
 extern int file_delete(char*);
 extern int file_size(char*, double&);

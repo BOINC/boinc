@@ -80,7 +80,7 @@ DIRREF dir_open(char* p) {
     if(!is_dir(p)) return NULL;
     dirp = (DIR_DESC*) calloc(sizeof(DIR_DESC), 1);
     dirp->first = true;
-    strcpy(dirp->path, p);
+    safe_strncpy(dirp->path, p, sizeof(dirp->path));
     strcat(dirp->path, "\\*");
     dirp->handle = INVALID_HANDLE_VALUE;
 #endif
@@ -89,13 +89,13 @@ DIRREF dir_open(char* p) {
 
 // Scan through a directory and return the next file name in it
 //
-int dir_scan(char* p, DIRREF dirp) {
+int dir_scan(char* p, DIRREF dirp, int p_len) {
 #ifdef HAVE_DIRENT_H
     while (1) {
         dirent* dp = readdir(dirp);
         if (dp) {
             if (dp->d_name[0] == '.') continue;
-            if (p) strcpy(p, dp->d_name);
+            if (p) safe_strncpy(p, dp->d_name, p_len);
             return 0;
         } else {
             return -1;
@@ -112,13 +112,13 @@ int dir_scan(char* p, DIRREF dirp) {
                 return -1;
             } else {
                 if (data.cFileName[0] == '.') continue;
-                if (p) strcpy(p, data.cFileName);
+                if (p) safe_strncpy(p, data.cFileName, p_len);
                 return 0;
             }
         } else {
             if (FindNextFile(dirp->handle, &data)) {
                 if (data.cFileName[0] == '.') continue;
-                if (p) strcpy(p, data.cFileName);
+                if (p) safe_strncpy(p, data.cFileName, p_len);
                 return 0;
             } else {
                 FindClose(dirp->handle);
@@ -201,8 +201,8 @@ int clean_out_dir(char* dirpath) {
     dirp = dir_open(dirpath);
     if (!dirp) return -1;
     while (1) {
-        strcpy(filename,"");
-        retval = dir_scan(filename, dirp);
+        safe_strncpy(filename,"",sizeof(filename));
+        retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
         sprintf(path, "%s%s%s", dirpath, PATH_SEPARATOR, filename);
         clean_out_dir(path);
@@ -234,7 +234,7 @@ int dir_size(char* dirpath, double& size) {
     dirp = dir_open(dirpath);
     if (!dirp) return -1;
     while (1) {
-        retval = dir_scan(filename, dirp);
+        retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;
         sprintf(subdir, "%s%s%s", dirpath, PATH_SEPARATOR, filename);
 

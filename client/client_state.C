@@ -976,8 +976,7 @@ bool CLIENT_STATE::garbage_collect() {
     vector<FILE_INFO*>::iterator fi_iter;
     vector<APP_VERSION*>::iterator avp_iter;
     bool action = false, found;
-  
-
+    
     // zero references counts on WUs, FILE_INFOs and APP_VERSIONs
     for (i=0; i<workunits.size(); i++) {
         wup = workunits[i];

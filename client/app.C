@@ -644,6 +644,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
     vector<ACTIVE_TASK*>::iterator iter;
     ACTIVE_TASK* atp;
     int retval;
+    char buf[256];
 
     iter = active_tasks.begin();
     while (iter != active_tasks.end()) {
@@ -656,7 +657,8 @@ int ACTIVE_TASK_SET::restart_tasks() {
             printf("restarting application for result %s\n", atp->result->name);
         }
         if (retval) {
-            fprintf(stderr, "ACTIVE_TASKS::restart_tasks(); restart failed: %d\n", retval);
+            sprintf(buf, "ACTIVE_TASKS::restart_tasks(); restart failed: %d\n", retval);
+            show_message(atp->wup->project, buf, MSG_ERROR);
             atp->result->active_task_state = PROCESS_COULDNT_START;
             gstate.report_project_error(
                 *(atp->result), retval,

@@ -72,7 +72,6 @@ bool parse_str(char* buf, char* tag, char* dest, int len) {
     if (!q) return false;
     *q = 0;
     safe_strncpy(dest, p+1, len);
-    dest[len-1] = 0;
     *q = '<';
     return true;
 }
@@ -91,7 +90,6 @@ void parse_attr(char* buf, char* name, char* dest, int len) {
     if (!q) return;
     *q = 0;
     safe_strncpy(dest, p+1, len);
-    dest[len-1] = 0;
 }
 
 void copy_stream(FILE* in, FILE* out) {
