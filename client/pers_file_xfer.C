@@ -49,6 +49,7 @@ int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
     next_request_time = first_request_time;
     is_upload = is_file_upload;
     xfer_done = false;
+	time_so_far = 0;
 
     return 0;
 }
@@ -122,11 +123,18 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
         // See if it's time to try again.
         //
         if (now >= (unsigned int)next_request_time) {
-            return start_xfer();
+			bool ok = start_xfer();
+			last_time = dtime();
+			return ok;
         } else {
             return false;
         }
     }
+
+	if(dtime() - last_time <= 2) {
+		time_so_far += dtime() - last_time;
+	}
+	last_time = dtime();
 
     if (fxp->file_xfer_done) {
         if (log_flags.file_xfer) {
@@ -249,6 +257,7 @@ int PERS_FILE_XFER::parse(FILE* fin) {
         else if (parse_int(buf, "<num_retries>", nretry)) continue;
         else if (parse_int(buf, "<first_request_time>", first_request_time)) continue;
         else if (parse_int(buf, "<next_request_time>", next_request_time)) continue;
+        else if (parse_double(buf, "<time_so_far>", time_so_far)) continue;
         else fprintf(stderr, "PERS_FILE_XFER::parse(): unrecognized: %s\n", buf);
     }
     return -1;
@@ -262,8 +271,9 @@ int PERS_FILE_XFER::write(FILE* fout) {
         "        <num_retries>%d</num_retries>\n"
         "        <first_request_time>%d</first_request_time>\n"
         "        <next_request_time>%d</next_request_time>\n"
+        "        <time_so_far>%f</time_so_far>\n"
         "    </persistent_file_xfer>\n",
-        nretry, first_request_time, next_request_time
+        nretry, first_request_time, next_request_time, time_so_far
     );
     return 0;
 }

@@ -52,6 +52,7 @@ class PERS_FILE_XFER {
     bool is_upload;
 
 public:
+	double last_time, time_so_far;
     bool xfer_done;
     FILE_XFER* fxp;     // nonzero if file xfer in progress
     FILE_INFO* fip;
