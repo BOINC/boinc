@@ -166,6 +166,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			EndPaint(hWnd, &ps);
 			return 0;
 		case WM_TIMER:
+			if(nMode == MODE_NO_GRAPHICS) return 0;
 			HDC hdc = GetDC(hWnd);
 
 			HGLRC hRC;
