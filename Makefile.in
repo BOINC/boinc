@@ -126,6 +126,7 @@ ARCHIVE_TARGETS = \
         client/*.C client/*.cpp client/*.h client/configure \
         client/install-sh client/*.in client/*.sub client/*.guess \
         client/mac/*.h client/mac/*.cpp \
+        client/win/*.h client/win/*.cpp \
         apps/*.C apps/*.h apps/*.in \
         db/*.sql db/*.h db/*.C db/*.in db/init_db \
         doc/*.* \

@@ -75,6 +75,7 @@ ARCHIVE_TARGETS = \
         client/*.C client/*.cpp client/*.h client/configure \
         client/install-sh client/*.in client/*.sub client/*.guess \
         client/mac/*.h client/mac/*.cpp \
+        client/win/*.h client/win/*.cpp \
         lib/*.C lib/*.c lib/*.h \
         api/*.C api/*.h \
         RSAEuro/*/*.c RSAEuro/*/*.h RSAEuro/*/*.in RSAEuro/*/*.mak \
