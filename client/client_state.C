@@ -225,6 +225,17 @@ int CLIENT_STATE::init() {
     host_info.clear_host_info();
     parse_state_file();
 
+    // Check to see if we can write the state file afterwords, if not,
+    // return an error
+    retval = write_state_file();
+    if (retval) {
+        msg_printf(NULL, MSG_INFO,
+            "Couldn't modify the state file, please make sure you have permissions configured for "
+            "BOINC to run on this system under this user account\n"
+        );
+        return retval;
+    }
+
     // scan user prefs; create file records
     //
     parse_preferences_for_user_files();

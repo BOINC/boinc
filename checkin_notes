@@ -20833,3 +20833,11 @@ David  7 Dec 2004
 
 	api/
 		reduce.C
+
+Rom    7 Dec 2004
+    - Fix a bug exposed by mikey2345 configuration that would create a bunch of 
+      host records, basically if the state file cannot be written to, BOINC should
+      not run.
+
+    client/
+        client_state.C
