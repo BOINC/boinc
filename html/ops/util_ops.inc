@@ -98,6 +98,9 @@ function row($x, $y) {
 function row2($x, $y) {
     echo "<tr><td align=right>$x</td><td>$y</td></tr>\n";
 }
+function c_row2($color, $x, $y) {
+    echo "<tr bgcolor=$color><td align=right>$x</td><td>$y</td></tr>\n";
+}
 
 function row3($x, $y, $z) {
     echo "<tr><td width=30% valign=top align=right>$x</td><td>$y</td><td>$z</td></tr>\n";

@@ -4,6 +4,14 @@
 
     require_once("util_ops.inc");
 
+    function link_results($n, $query) {
+        if ($n == 0) {
+            return "0";
+        } else {
+            return "<a href=db_action.php?table=result&$query&sort_by=received_time&detail=low>$n</a>";
+        }
+    }
+
     db_init();
     page_head("Result summary");
 
@@ -24,7 +32,7 @@
     }
 
     $x = $nsecs/3600.;
-    echo "Results that have finished in last $x hours\n";
+    echo "Results that have finished in last $x hours: $x\n";
     $y = time() - $nsecs;
     $result = mysql_query("select * from result where received_time > $y");
     while ($res = mysql_fetch_object($result)) {
@@ -38,42 +46,34 @@
     }
     mysql_free_result($result);
 
-    // start_table();
-    echo "<table border=2 cellpadding=4 width=400\n";
+    echo "<table width=100%><tr valign=top>";
+    echo "<td><table border=2 cellpadding=4\n";
+    echo "<h3>&nbsp;</h3>";
     echo "<tr><th>Server state</th><th># results</th></tr>\n";
     for ($ss=1; $ss<6; $ss++) {
-        if ($server_state[$ss] == 0) {
-            $x = "0";
-        } else {
-            $x = "<a href=db_action.php?table=result&received_time=$y&result_server_state=$ss&sort_by=received_time&detail=low>".$server_state[$ss]."</a>";
-        }
-        row2(result_server_state_string($ss), $x);
+        row2(result_server_state_string($ss), 
+             link_results($server_state[$ss], "result_server_state=$ss"));
     }
-    echo "<tr></tr>";
-
-    echo "<tr><th>Outcome of 'Over' results</th><th># results</th></tr>\n";
+    echo "</table></td>";
+    
+    echo "<td><table border=2 cellpadding=4\n";
+    echo "<h3>'Over' results:</h3>";
+    echo "<tr><th>Outcome</th><th># results</th></tr>\n";
     for ($ro=0; $ro<6; $ro++) {
-        if ($outcome[$ro] == 0) {
-            $x = "0";
-        } else {
-            $x = "<a href=db_action.php?table=result&received_time=$y&result_outcome=$ro&sort_by=received_time&detail=low>".$outcome[$ro]."</a>";
-        }
-        $h = result_outcome_string($ro);
-        $color = outcome_color($ro);
-        echo "<tr bgcolor=$color><td align=right>$h</td><td>$x</td></tr>\n";
+        c_row2(outcome_color($ro), result_outcome_string($ro),
+               link_results($outcome[$ro], "result_outcome=$ro"));
     }
-    echo "<tr></tr>";
-
-    echo "<tr><th>Client state of 'Client error' results</th><th># results</th></tr>\n";
+    echo "</table></td>";
+    
+    echo "<td><table border=2 cellpadding=4\n";
+    echo "<h3>'Client error' results:</h3>";
+    echo "<tr><th>Client state</th><th># results</th></tr>\n";
     for ($cs=1; $cs<6; $cs++) {
-        if ($client_state[$cs] == 0) {
-            $x = "0";
-        } else {
-            $x = "<a href=db_action.php?table=result&received_time=$y&result_client_state=$cs&sort_by=received_time&detail=low>".$client_state[$cs]."</a>";
-        }
-        row2(result_client_state_string($cs), $x);
+        row2(result_client_state_string($cs), 
+             link_results($client_state[$cs], "result_client_state=$cs"));
     }
-    end_table();
+    print "</td></table>";
+    print "</table>";
 
     page_tail();
 } ?>
