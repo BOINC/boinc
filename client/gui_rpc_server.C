@@ -404,20 +404,20 @@ static void handle_get_screensaver_mode(char*, MIOFILE& fout) {
 
 static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
     double blank_time = 0.0;
-    string window_station;
-    string desktop;
+    char window_station[256];
+    char desktop[256];
 
     if (match_tag(buf, "<blank_time")) {
         parse_double(buf, "<blank_time>", blank_time);
     }
     if (match_tag(buf, "<desktop")) {
-        parse_str(buf, "<desktop>", desktop);
+        parse_str(buf, "<desktop>", desktop, sizeof(desktop));
     }
     if (match_tag(buf, "<window_station")) {
-        parse_str(buf, "<window_station>", window_station);
+        parse_str(buf, "<window_station>", window_station, sizeof(window_station));
     }
     if (match_tag(buf, "<enabled")) {
-        gstate.ss_logic.start_ss( blank_time );
+        gstate.ss_logic.start_ss( window_station, desktop, blank_time );
     }
     fout.printf("<success/>\n");
 }

@@ -27,7 +27,7 @@
 #include "wingui_piectrl.h"
 #include "wingui_dialog.h"
 #include "wingui_proxydlg.h"
-#include "wingui_sswindow.h"
+//#include "wingui_sswindow.h"
 #include "gui_titles.h"
 
 // constants
@@ -99,7 +99,7 @@ public:
     BOOL					IsUserSuspended();
     BOOL					RequestNetConnect();
 	void					DetachProject(PROJECT *);
-	CSSWindow*				m_pSSWnd;				// default graphics window
+	//CSSWindow*				m_pSSWnd;				// default graphics window
 
 protected:
 	CMenu					m_MainMenu;				// window's main menu

@@ -42,21 +42,31 @@
 #include <ctime>
 #endif
 
+#define SS_STATUS_ENABLED                    1
+#define SS_STATUS_RESTARTREQUEST             2
+#define SS_STATUS_BLANKED                    3
+#define SS_STATUS_BOINCSUSPENDED             4
+#define SS_STATUS_NOTGRAPHICSCAPABLE         5
+#define SS_STATUS_NOAPPSEXECUTING            6
+#define SS_STATUS_NOGRAPHICSAPPSEXECUTING    7
+
 class SS_LOGIC {
-    double blank_time;          // 0 or time to blank screen
-    double ack_deadline;        // when to give up on graphics app
 public:
+
     SS_LOGIC();
 
-    char ss_msg[256];           // message to display on BOINC screensaver
-
-    void start_ss(double blank_time);
+    void start_ss(char* window_station, char* desktop, double blank_time);
     void stop_ss();
     void poll();
     void reset();
+    int  get_ss_status() { return ss_status; };
+
+private:
+    double blank_time;          // 0 or time to blank screen
+    double ack_deadline;        // when to give up on graphics app
+    int  ss_status;             // the status of the screensaver from the core
+                                // client perspective.
     bool do_ss;                 // true if we're acting like a screensaver
-    bool do_boinc_logo_ss;      // true if we're bouncing the logo
-    bool do_blank;              // true if we're drawing black
 
 // invariants
 //

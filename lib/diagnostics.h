@@ -105,11 +105,11 @@ extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
 #endif
 
 #ifndef BOINCTRACE
-#define BOINCTRACE			((int)0)
+#define BOINCTRACE			__noop
 #endif
 
 #ifndef BOINCINFO
-#define BOINCINFO			((int)0)
+#define BOINCINFO			__noop
 #endif
 
 extern int boinc_init_diagnostics(int flags);

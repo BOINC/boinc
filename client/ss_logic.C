@@ -27,8 +27,6 @@
 
 SS_LOGIC::SS_LOGIC() {
     do_ss = false;
-    do_boinc_logo_ss = false;
-    do_blank = false;
     blank_time = 0;
     ack_deadline = 0;
 }
@@ -36,24 +34,24 @@ SS_LOGIC::SS_LOGIC() {
 // this is called when the core client receives a message
 // from the screensaver module.
 //
-void SS_LOGIC::start_ss(double new_blank_time) {
+void SS_LOGIC::start_ss(char* window_station, char* desktop, double new_blank_time) {
     ACTIVE_TASK* atp;
 
     if (do_ss) return;
+    
     do_ss = true;
-    do_blank = do_boinc_logo_ss = false;
-    strcpy(ss_msg, "");
+
+    ss_status = SS_STATUS_ENABLED;
     blank_time = new_blank_time;
     gstate.active_tasks.save_app_modes();
     gstate.active_tasks.hide_apps();
+
     if (!gstate.activities_suspended) {
         atp = gstate.get_next_graphics_capable_app();
         if (atp) {
             atp->request_graphics_mode(MODE_FULLSCREEN);
             atp->is_ss_app = true;
             ack_deadline = time(0) + 5;
-        } else {
-            do_boinc_logo_ss = true;
         }
     }
 }
@@ -61,7 +59,7 @@ void SS_LOGIC::start_ss(double new_blank_time) {
 void SS_LOGIC::stop_ss() {
     if (!do_ss) return;
     reset();
-    do_ss = do_boinc_logo_ss = do_blank = false;
+    do_ss = false;
     gstate.active_tasks.restore_apps();
 }
 
@@ -91,8 +89,7 @@ void SS_LOGIC::poll() {
 
     if (gstate.activities_suspended) {
         reset();
-        do_boinc_logo_ss = true;
-        strcpy(ss_msg, "BOINC activities suspended");
+        ss_status = SS_STATUS_BOINCSUSPENDED;
         return;
     }
 
@@ -100,22 +97,16 @@ void SS_LOGIC::poll() {
     // check if it's time to go to black screen
     //
     if (blank_time && (time(0) > blank_time)) {
-        if (!do_blank) {
+        if (SS_STATUS_BLANKED != ss_status) {
             reset();
-            do_blank = true;
+            ss_status = SS_STATUS_BLANKED;
         }
-        do_boinc_logo_ss = false;
-        strcpy(ss_msg, "");
     } else {
         atp = gstate.active_tasks.get_ss_app();
         if (atp) {
-            if (atp->graphics_mode_acked == MODE_FULLSCREEN) {
-                do_boinc_logo_ss = false;
-                strcpy(ss_msg, "");
-            } else {
+            if (atp->graphics_mode_acked != MODE_FULLSCREEN) {
                 if (time(0)>ack_deadline) {
-                    do_boinc_logo_ss = true;
-                    strcpy(ss_msg, "App can't display graphics");
+                    ss_status = SS_STATUS_NOTGRAPHICSCAPABLE;
                     atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
                     atp->is_ss_app = false;
                 }
@@ -123,15 +114,12 @@ void SS_LOGIC::poll() {
         } else {
             atp = gstate.get_next_graphics_capable_app();
             if (atp) {
-                atp->request_graphics_mode(MODE_FULLSCREEN);
-                atp->is_ss_app = true;
-                ack_deadline = time(0) + 5;
+                ss_status = SS_STATUS_RESTARTREQUEST;
             } else {
-                do_boinc_logo_ss = true;
                 if (gstate.active_tasks.active_tasks.size()==0) {
-                    strcpy(ss_msg, "No applications are running");
+                    ss_status = SS_STATUS_NOAPPSEXECUTING;
                 } else {
-                    strcpy(ss_msg, "No graphics-capable applications are running");
+                    ss_status = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
                 }
             }
         }

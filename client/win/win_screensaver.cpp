@@ -122,7 +122,6 @@ CScreensaver::CScreensaver()
 
 	m_bPaintingInitialized = FALSE;
 	m_bBOINCCoreNotified = FALSE;
-	m_bLogMessagePump = FALSE;
 
 	ZeroMemory( m_Monitors, sizeof(m_Monitors) );
     m_dwNumMonitors = 0;
@@ -912,8 +911,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 			InterruptSaver();
 	}
 
-	if (m_bLogMessagePump)
-		BOINCTRACE(TEXT("PrimarySaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
+    BOINCTRACE(TEXT("PrimarySaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
 
     return DefWindowProc( hWnd, uMsg, wParam, lParam );
 }
@@ -1063,8 +1061,7 @@ LRESULT CScreensaver::GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 			InterruptSaver();
 	}
 
-	if (m_bLogMessagePump)
-		BOINCTRACE(TEXT("GenericSaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
+	BOINCTRACE(TEXT("GenericSaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
 
 	return DefWindowProc( hWnd, uMsg, wParam, lParam );
 }

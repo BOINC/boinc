@@ -19517,3 +19517,25 @@ David  15 Nov 2004
 
     sched/
         assimilator.C
+
+Rom    15 Nov 2004
+    - Update screensaver logic in the core client to pass back the error
+      code to the screensaver instead of trying to also be a screensaver
+    - Remove the screensaver code from the old GUI
+    - Update the new setup to include the symbol files by default
+    - Update the diagnostics header so that BOINCTRACE is __noop in cases
+      where files are part of the STL or MS CRT when being compiled as part
+      of a wxwidget application like the boincmgr application.
+ 
+    client/
+        gui_rpc_server.C
+        ss_logic.C, .h
+    client/win/
+        win_screensaver.cpp
+        win_mainwindow.cpp, .h
+    lib/
+        diagnostics.h
+    win_build/
+        boinc_gui.vcproj
+    win_build/installerv2/
+        BOINC.ism

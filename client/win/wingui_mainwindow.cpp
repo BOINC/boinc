@@ -1709,7 +1709,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     m_bMessage = false;
     m_bRequest = false;
     m_nContextItem = -1;
-    m_pSSWnd = new CSSWindow();
+//    m_pSSWnd = new CSSWindow();
 
     // load menus
     m_ContextMenu.LoadMenu(IDR_CONTEXT);
@@ -2201,7 +2201,7 @@ LRESULT CMainWindow::OnStartScreensaver(WPARAM wParam, LPARAM lParam)
     } else {
         blank_time = 0;
     }
-    gstate.ss_logic.start_ss(blank_time);
+    gstate.ss_logic.start_ss( "", "", blank_time );
     return TRUE;
 }
 
@@ -2249,11 +2249,11 @@ LRESULT CMainWindow::OnSystemLogoff(WPARAM wParam, LPARAM lParam)
 }
 
 void create_curtain() {
-    g_myWnd->m_pSSWnd->ShowSSWindow(true);
+//    g_myWnd->m_pSSWnd->ShowSSWindow(true);
 }
 
 void delete_curtain() {
-    g_myWnd->m_pSSWnd->ShowSSWindow(false);
+//    g_myWnd->m_pSSWnd->ShowSSWindow(false);
 }
 
 void project_add_failed(PROJECT* project) {
