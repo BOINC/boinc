@@ -328,6 +328,7 @@ function result_short_header() {
         <th>outcome</th>
         <th>client state</th>
         <th>host</th>
+        <th>received</th>
         </tr>
     ";
 }
@@ -336,6 +337,8 @@ function show_result_short($result) {
     $ss = result_server_state_string($result->server_state);
     $cs = result_client_state_string($result->client_state);
     $oc = result_outcome_string($result->outcome);
+    $received = time_str($result->received_time);
+
     echo "
         <tr>
         <td><a href=db_action.php?table=result&id=$result->id>$result->id</a></td>
@@ -351,6 +354,7 @@ function show_result_short($result) {
     } else {
         echo "<td>---</td>\n";
     }
+    echo "<td>$received</td>";
     echo "
         </tr>
     ";
