@@ -387,8 +387,11 @@ create table forum_preferences (
     link_popup          tinyint(1) unsigned not null default 0,
     mark_as_read_timestamp integer not null default 0,
     special_user        integer not null default 0,
-    jump_to_unread      tinyint(1) unsigned not null default 1,
+    jump_to_unread      tinyint(1) unsigned not null default 0,
     hide_signatures     tinyint(1) unsigned not null default 0,
+    rated_posts         varchar(254) not null,
+    low_rating_threshold integer not null,
+    high_rating_threshold integer not null,
     primary key (userid)
 ) type=MyISAM; 
 

@@ -19019,3 +19019,9 @@ David  1 Nov 2004
             util.C
         user/
             download.inc
+
+David  2 Nov 2004
+    - update schema.sql with forum-related changes
+
+    db/
+        schema.sql
