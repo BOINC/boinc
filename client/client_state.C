@@ -1214,7 +1214,13 @@ bool CLIENT_STATE::garbage_collect() {
                     if (!rp->ready_to_ack) {
                         // had an error uploading a file for this result
                         //
-                        report_result_error(*rp, 0, "Couldn't upload files");
+                        switch(failnum) {
+                        case ERR_FILE_TOO_BIG:
+                            report_result_error(*rp, 0, "Output file exceeded size limit");
+                            break;
+                        default:
+                            report_result_error(*rp, 0, "Couldn't upload files or other output file error");
+                        }
                     }
                 }
                 rp->output_files[i].file_info->ref_cnt++;
