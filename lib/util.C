@@ -40,6 +40,7 @@
 #ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
 #endif
+#include "config.h"
 using namespace std;
 #endif
 
@@ -408,7 +409,7 @@ void canonicalize_master_url(string& url) {
     string::size_type p = url.find("://");
     // lowercase http://
     if (p != string::npos) {
-        transform(url.begin(), url.begin()+p, url.begin(), tolower);
+        std::transform(url.begin(), url.begin()+p, url.begin(), tolower);
         p += 3;
     } else {
         p = 0;
