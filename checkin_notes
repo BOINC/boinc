@@ -5910,3 +5910,17 @@ David  Aug 21 2003
     html_ops/
         create_account_form.php (new)
         create_acction_action.php (new)
+
+Karl 2003/08/21
+    - various website and documentation fixes and updates
+    - 
+
+    doc/*
+    tools/
+        update_versions
+
+Karl,ChrisZ 2003/08/21
+    - changed url_encode_readable from '%zz' to '_'
+
+    lib/
+        util.C
