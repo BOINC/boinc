@@ -46,11 +46,11 @@ Message=
 #USAGE_ID
 [HEADER-Disk]
 Title=Disk
-Free space: not available for use=
-Free space: available for use=
-Used space: other than BOINC=
+Free space=
+Used space: non-BOINC=
 Used space: BOINC=
-Used space:=
+BOINC Core Client=
+Astropulse Beta=
 
 #miscellaneous text
 [HEADER-MISC]
@@ -82,7 +82,6 @@ Exit=
 [MENU-Settings]
 Title=Settings
 Login to Project...=
-Quit Project...=
 Proxy Server...=
 
 [MENU-Help]
