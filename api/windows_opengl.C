@@ -3,12 +3,12 @@
 // Platform-independent code should NOT be here.
 //
 
-/*		This Code Was Created By Jeff Molofee 2000
- *		A HUGE Thanks To Fredric Echols For Cleaning Up
- *		And Optimizing This Code, Making It More Flexible!
- *		If You've Found This Code Useful, Please Let Me Know.
- *		Visit My Site At nehe.gamedev.net
- *		Adapted to BOINC by Eric Heien
+/* This Code Was Created By Jeff Molofee 2000.
+ * A HUGE thanks to fredric echols for cleaning up
+ * and optimizing this code, making it more flexible!
+ * If you've found this code useful, please let me know.
+ * Visit My Site At nehe.gamedev.net
+ * Adapted to BOINC by Eric Heien
  */
 #include "boinc_win.h"
 
@@ -20,16 +20,16 @@
 
 #define BOINC_WINDOW_CLASS_NAME "BOINC_app"
 
-static HDC			hDC=NULL;
-static HGLRC		hRC=NULL;
-static HWND			hWnd=NULL;		// Holds Our Window Handle
-static HINSTANCE	hInstance;		// Holds The Instance Of The Application
-static RECT			rect = {50, 50, 50+640, 50+480};
-static int			current_graphics_mode = MODE_HIDE_GRAPHICS;
-static POINT		mousePos;
-static UINT			m_uEndSSMsg;
-static HDC myhDC;
-BOOL		win_loop_done;
+static HDC		 hDC                   = NULL;
+static HGLRC	 hRC                   = NULL;
+static HWND		 hWnd                  = NULL;		// Holds Our Window Handle
+static HINSTANCE hInstance;		                    // Holds The Instance Of The Application
+static RECT		 rect                  = {50, 50, 50+640, 50+480};
+static int		 current_graphics_mode = MODE_HIDE_GRAPHICS;
+static POINT	 mousePos;
+static UINT		 m_uEndSSMsg;
+static HDC       myhDC;
+BOOL		     win_loop_done;
 
 static bool visible = true;
 
@@ -105,11 +105,11 @@ static void make_new_window(int mode) {
 	SetForegroundWindow(hWnd);
 
 	GetCursorPos(&mousePos);
-	
+
 	hDC = GetDC(hWnd);
 	myhDC=hDC;
 	SetupPixelFormat(myhDC);
-	
+
 	if(!(hRC = wglCreateContext(hDC))) {
 		ReleaseDC(hWnd, hDC);
 		return;
@@ -129,12 +129,12 @@ static void make_new_window(int mode) {
 		SetFocus(hWnd);
 	} else {
 		KillWindow();
-	}	
-	
+	}
+
     app_graphics_init();
 }
 
-void KillWindow() {	
+void KillWindow() {
 	wglMakeCurrent(NULL,NULL);  // release GL rendering context
 	if (hRC) {
 		wglDeleteContext(hRC);
@@ -188,7 +188,7 @@ void parse_mouse_event(UINT uMsg, int& which, bool& down) {
 	case WM_RBUTTONUP: which = 2; down = false; break;
     }
 }
-    
+
 // message handler (includes timer, Windows msgs)
 //
 LRESULT CALLBACK WndProc(
@@ -199,7 +199,7 @@ LRESULT CALLBACK WndProc(
 ) {
 	switch(uMsg) {
 	case WM_ERASEBKGND:		// Check To See If Windows Is Trying To Erase The Background
-			return 0;	
+			return 0;
 	case WM_KEYDOWN:
 	case WM_KEYUP:
 		if (current_graphics_mode == MODE_FULLSCREEN) {
@@ -386,33 +386,45 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	return (DWORD)msg.wParam;		// Exit The thread
 }
 
+static inline bool osIsNT()
+{
+    OSVERSIONINFO osv;
+    osv.dwOSVersionInfoSize = sizeof(osv);
+    GetVersionEx(&osv);
+    return (osv.dwPlatformId == VER_PLATFORM_WIN32_NT);
+}
+
 BOOL VerifyPassword(HWND hwnd)
-{ // Under NT, we return TRUE immediately. This lets the saver quit,
-  // and the system manages passwords. Under '95, we call VerifyScreenSavePwd.
-  // This checks the appropriate registry key and, if necessary,
-  // pops up a verify dialog
-  OSVERSIONINFO osv; osv.dwOSVersionInfoSize=sizeof(osv); GetVersionEx(&osv);
-  if (osv.dwPlatformId==VER_PLATFORM_WIN32_NT) return TRUE;
-  HINSTANCE hpwdcpl=::LoadLibrary("PASSWORD.CPL");
-  if (hpwdcpl==NULL) {return TRUE;}
-  typedef BOOL (WINAPI *VERIFYSCREENSAVEPWD)(HWND hwnd);
-  VERIFYSCREENSAVEPWD VerifyScreenSavePwd;
-  VerifyScreenSavePwd=
-      (VERIFYSCREENSAVEPWD)GetProcAddress(hpwdcpl,"VerifyScreenSavePwd");
-  if (VerifyScreenSavePwd==NULL)
-  {
-    FreeLibrary(hpwdcpl);return TRUE;
-  }
-  BOOL bres=VerifyScreenSavePwd(hwnd); FreeLibrary(hpwdcpl);
-  return bres;
+{
+    // Under NT, we return TRUE immediately. This lets the saver quit, and the
+    // system manages passwords. Under '95, we call VerifyScreenSavePwd.  This
+    // checks the appropriate registry key and, if necessary, pops up a verify
+    // dialog
+
+    if (osIsNT())
+        return TRUE;
+
+    HINSTANCE hpwdcpl=::LoadLibrary("PASSWORD.CPL");
+    if (hpwdcpl==NULL) return TRUE;
+    typedef BOOL (WINAPI *VERIFYSCREENSAVEPWD)(HWND hwnd);
+    VERIFYSCREENSAVEPWD VerifyScreenSavePwd;
+    VerifyScreenSavePwd =
+        (VERIFYSCREENSAVEPWD)GetProcAddress(hpwdcpl,"VerifyScreenSavePwd");
+    if (VerifyScreenSavePwd==NULL)
+    {
+        FreeLibrary(hpwdcpl);return TRUE;
+    }
+    BOOL bres = VerifyScreenSavePwd(hwnd); 
+    FreeLibrary(hpwdcpl);
+    return bres;
 }
 
 #if 0
 float txt_widths[256];
 
-unsigned int MyCreateFont(char *fontName, int Size, int weight) {	
+unsigned int MyCreateFont(char *fontName, int Size, int weight) {
     // windows font
-    HFONT hFont;   
+    HFONT hFont;
     unsigned int mylistbase =0;
 
     // Create space for 96 characters.
@@ -435,21 +447,21 @@ unsigned int MyCreateFont(char *fontName, int Size, int weight) {
     if(!hFont) return -1;
     SelectObject(myhDC, hFont);
 #if 1 //no idea why this has to be twice
-    wglUseFontBitmaps(myhDC, 0, 256, mylistbase);   
-    wglUseFontBitmaps(myhDC, 0, 256, mylistbase);   
-#endif 
-#if 0
-    wglUseFontOutlines(hDC,0,255,mylistbase,0.0f,0.2f,WGL_FONT_POLYGONS,gmf);   
+    wglUseFontBitmaps(myhDC, 0, 256, mylistbase);
+    wglUseFontBitmaps(myhDC, 0, 256, mylistbase);
 #endif
- 
+#if 0
+    wglUseFontOutlines(hDC,0,255,mylistbase,0.0f,0.2f,WGL_FONT_POLYGONS,gmf);
+#endif
+
      TEXTMETRIC met;
-     GetTextMetrics(myhDC,&met);   
+     GetTextMetrics(myhDC,&met);
      GetCharWidthFloat(myhDC,met.tmFirstChar,met.tmLastChar,txt_widths);
 
     return mylistbase;
 }
 
 float get_char_width(unsigned char c) {
-	return txt_widths[c];	
+	return txt_widths[c];
 }
 #endif
