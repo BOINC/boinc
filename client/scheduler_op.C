@@ -136,7 +136,6 @@ done:
 int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
     double x;
     int exp_backoff;
-    char buf[256];
 
     int n = p->nrpc_failures;
     if (n > RETRY_CAP) n = RETRY_CAP;
@@ -154,17 +153,14 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
         exp_backoff =  (int)max(SCHED_RETRY_DELAY_MIN, min(SCHED_RETRY_DELAY_MAX, (int) x));
     }
     p->min_rpc_time = time(0) + exp_backoff;
-    sprintf(buf,
-        "Deferring communication with project for %d seconds\n", exp_backoff
-    );
-    show_message(p, buf, MSG_ERROR);
+    msg_printf(p, MSG_ERROR, "Deferring communication with project for %d seconds\n", exp_backoff);
     return 0;
 }
 
 // Back off on the scheduler and output an error msg if needed
 //
 void SCHEDULER_OP::backoff(PROJECT* p, char *error_msg ) {
-    show_message(p, error_msg, MSG_ERROR);
+    msg_printf(p, MSG_ERROR, error_msg);
     
     if (p->master_fetch_failures >= MASTER_FETCH_RETRY_CAP) {
         p->master_url_fetch_pending = true;
@@ -190,12 +186,10 @@ void SCHEDULER_OP::backoff(PROJECT* p, char *error_msg ) {
 int SCHEDULER_OP::start_rpc() {
     FILE *f;
     int retval;
-    char msg_buf[256];
 
     safe_strcpy(scheduler_url, project->scheduler_urls[url_index].text);
     if (log_flags.sched_ops) {
-        sprintf(msg_buf, "Sending request to scheduler: %s\n", scheduler_url);
-        show_message(project,msg_buf,MSG_INFO);
+        msg_printf(project,MSG_INFO,"Sending request to scheduler: %s\n", scheduler_url);
     }
     if (log_flags.sched_op_debug) {
         f = fopen(SCHED_OP_REQUEST_FILE, "r");
@@ -369,7 +363,7 @@ bool SCHEDULER_OP::poll() {
                         "Could not contact any schedulers for %s.",
                         err_url
                     );
-                    show_message(project, err_msg, MSG_ERROR);
+                    msg_printf(project, MSG_ERROR, err_msg);
                     project->master_fetch_failures++;
                     backoff(project, err_msg);
                 }

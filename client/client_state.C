@@ -38,6 +38,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <time.h>
 
 #include "parse.h"
@@ -169,7 +170,6 @@ void CLIENT_STATE::install_global_prefs() {
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
-    char buf[256];
 
     srand(time(NULL));
 
@@ -244,17 +244,12 @@ int CLIENT_STATE::init() {
         }
     }
 
-    sprintf(buf, "Starting BOINC client version %d.%02d",
-        core_client_major_version, core_client_minor_version
-    );
-    show_message(NULL, buf, MSG_INFO);
+    msg_printf(NULL, MSG_INFO, "Starting BOINC client version %d.%02d",
+        core_client_major_version, core_client_minor_version);
 
     if (core_client_major_version != old_major_version) {
-        sprintf(buf,
-            "State file has different major version (%d.%02d); resetting projects\n",
-            old_major_version, old_minor_version
-        );
-        show_message(NULL, buf, MSG_INFO);
+        msg_printf(NULL, MSG_INFO, "State file has different major version (%d.%02d); resetting projects\n",
+            old_major_version, old_minor_version);
         for (i=0; i<projects.size(); i++) {
             reset_project(projects[i]);
         }
@@ -265,7 +260,7 @@ int CLIENT_STATE::init() {
     //
     retval = global_prefs.parse_file(host_venue);
     if (retval) {
-        show_message(NULL, "Using default preferences", MSG_INFO);
+        msg_printf(NULL, MSG_INFO, "Using default preferences");
     }
     install_global_prefs();
 
@@ -277,7 +272,7 @@ int CLIENT_STATE::init() {
     //
     if (should_run_cpu_benchmarks()) {
         cpu_benchmarks_start = time(0);
-        show_message(NULL, "Running CPU benchmarks", MSG_INFO);
+        msg_printf(NULL, MSG_INFO, "Running CPU benchmarks");
 #ifdef _WIN32
         cpu_benchmarks_handle = CreateThread(
             NULL, 0, win_cpu_benchmarks, NULL, 0, &cpu_benchmarks_id
@@ -355,7 +350,7 @@ int CLIENT_STATE::cpu_benchmarks() {
     }
     if (skip_cpu_benchmarks) {
         if (log_flags.measurement_debug) {
-            show_message(0, "Skipping CPU benchmarks\n", MSG_INFO);
+            msg_printf(0, MSG_INFO, "Skipping CPU benchmarks\n");
         }
         host_info.p_fpops = 1e9;
         host_info.p_iops = 1e9;
@@ -411,7 +406,7 @@ int CLIENT_STATE::check_cpu_benchmarks() {
         GetExitCodeThread(cpu_benchmarks_handle, &exit_code);
         if(exit_code == STILL_ACTIVE) {
             if(time(NULL) > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
-                show_message(NULL, "CPU benchmarks timed out, using default values", MSG_ERROR);
+                msg_printf(NULL, MSG_ERROR, "CPU benchmarks timed out, using default values");
                 TerminateThread(cpu_benchmarks_handle, 0);
                 CloseHandle(cpu_benchmarks_handle);
                 host_info.p_fpops = 1e9;
@@ -429,7 +424,7 @@ int CLIENT_STATE::check_cpu_benchmarks() {
         retval = waitpid(cpu_benchmarks_id, &exit_code, WNOHANG);
         if(retval == 0) {
             if((unsigned int)time(NULL) > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
-                show_message(NULL, "CPU benchmarks timed out, using default values", MSG_ERROR);
+                msg_printf(NULL, MSG_ERROR, "CPU benchmarks timed out, using default values");
                 kill(cpu_benchmarks_id, SIGKILL);
                 host_info.p_fpops = 1e9;
                 host_info.p_iops = 1e9;
@@ -442,10 +437,10 @@ int CLIENT_STATE::check_cpu_benchmarks() {
         }
 #endif
         cpu_benchmarks_id = 0;
-        show_message(NULL, "CPU benchmarks complete", MSG_INFO);
+        msg_printf(NULL, MSG_INFO, "CPU benchmarks complete");
         finfo = fopen(CPU_BENCHMARKS_FILE_NAME, "r");
         if (!finfo) {
-            show_message(NULL, "Can't open CPU benchmark file, using default values", MSG_ERROR);
+            msg_printf(NULL, MSG_ERROR, "Can't open CPU benchmark file, using default values");
             host_info.p_fpops = 1e9;
             host_info.p_iops = 1e9;
             host_info.p_membw = 4e9;
@@ -553,12 +548,12 @@ int CLIENT_STATE::check_suspend_activities() {
     if (should_suspend) {
         if (!activities_suspended) {
             active_tasks.suspend_all();
-            show_message(NULL, susp_msg, MSG_INFO);
+            msg_printf(NULL, MSG_INFO, susp_msg);
         }
     } else {
         if (activities_suspended) {
             active_tasks.unsuspend_all();
-            show_message(NULL, "Resuming activity", MSG_INFO);
+            msg_printf(NULL, MSG_INFO, "Resuming activity");
         }
     }
     activities_suspended = should_suspend;
@@ -640,7 +635,7 @@ bool CLIENT_STATE::do_something() {
         if (x) {action=true; print_log("update_results\n"); }
 
         if (write_state_file_if_needed()) {
-            show_message(NULL, "Couldn't write state file", MSG_ERROR);
+            msg_printf(NULL, MSG_ERROR, "Couldn't write state file");
         }
     }
     print_log("End poll\n");
@@ -653,7 +648,7 @@ bool CLIENT_STATE::do_something() {
 // Parse the client_state.xml file
 //
 int CLIENT_STATE::parse_state_file() {
-    char buf[256], ebuf[256];
+    char buf[256];
     FILE* f = fopen(STATE_FILE_NAME, "r");
     PROJECT temp_project, *project;
     int retval=0;
@@ -685,11 +680,8 @@ int CLIENT_STATE::parse_state_file() {
             if (project) {
                 project->copy_state_fields(temp_project);
             } else {
-                sprintf(ebuf,
-                    "Project %s found in state file but not prefs.\n",
-                    temp_project.master_url
-                );
-                show_message(NULL, ebuf, MSG_ERROR);
+                msg_printf(NULL, MSG_ERROR, "Project %s found in state file but not prefs.\n",
+                    temp_project.master_url);
             }
         } else if (match_tag(buf, "<app>")) {
             APP* app = new APP;
@@ -745,8 +737,8 @@ int CLIENT_STATE::parse_state_file() {
                 retval = link_result(project, rp);
                 if (!retval) results.push_back(rp);
             } else {
-                show_message(NULL,
-                    "<result> found before any project\n", MSG_ERROR
+                msg_printf(NULL, MSG_ERROR,
+                    "<result> found before any project\n"
                 );
                 delete rp;
             }
@@ -779,8 +771,7 @@ int CLIENT_STATE::parse_state_file() {
             suspend_requested = true;
         } else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) {
         } else {
-            sprintf(buf, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
-            show_message(NULL, buf, MSG_ERROR);
+            msg_printf(NULL, MSG_ERROR, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
         }
     }
 done:
@@ -793,7 +784,6 @@ done:
 //
 int CLIENT_STATE::write_state_file() {
     unsigned int i, j;
-    char buf[256];
     FILE* f = fopen(STATE_FILE_TEMP, "w");
     int retval;
 
@@ -801,8 +791,7 @@ int CLIENT_STATE::write_state_file() {
         printf("Writing state file\n");
     }
     if (!f) {
-        sprintf(buf, "can't open temp state file: %s\n", STATE_FILE_TEMP);
-        show_message(0, buf, MSG_ERROR);
+        msg_printf(0, MSG_ERROR, "Can't open temp state file: %s\n", STATE_FILE_TEMP);
         return ERR_FOPEN;
     }
     fprintf(f, "<client_state>\n");
@@ -988,15 +977,11 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     FILE_INFO* fip;
     FILE_REF file_ref;
     unsigned int i;
-    char buf[256];
 
     avp->project = p;
     app = lookup_app(p, avp->app_name);
     if (!app) {
-        sprintf(buf,
-            "app_version refers to nonexistent app: %s\n", avp->app_name
-        );
-        show_message(0, buf, MSG_ERROR);
+        msg_printf(0, MSG_ERROR, "app_version refers to nonexistent app: %s\n", avp->app_name);
         return 1;
     }
     avp->app = app;
@@ -1005,11 +990,8 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
         file_ref = avp->app_files[i];
         fip = lookup_file_info(p, file_ref.file_name);
         if (!fip) {
-            sprintf(buf,
-                "app_version refers to nonexistent file: %s\n",
-                file_ref.file_name
-            );
-            show_message(0, buf, MSG_ERROR);
+            msg_printf(0, MSG_ERROR, "app_version refers to nonexistent file: %s\n",
+                file_ref.file_name);
             return 1;
         }
 
@@ -1025,14 +1007,10 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
 
 int CLIENT_STATE::link_file_ref(PROJECT* p, FILE_REF* file_refp) {
     FILE_INFO* fip;
-    char buf[256];
 
     fip = lookup_file_info(p, file_refp->file_name);
     if (!fip) {
-        sprintf(buf,
-            "File ref refers to nonexistent file: %s\n", file_refp->file_name
-        );
-        show_message(0, buf, MSG_ERROR);
+        msg_printf(0, MSG_ERROR, "File ref refers to nonexistent file: %s\n", file_refp->file_name);
         return 1;
     }
     file_refp->file_info = fip;
@@ -1044,23 +1022,16 @@ int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
     APP_VERSION* avp;
     unsigned int i;
     int retval;
-    char buf[256];
 
     app = lookup_app(p, wup->app_name);
     if (!app) {
-        sprintf(buf,
-            "WU refers to nonexistent app: %s\n", wup->app_name
-        );
-        show_message(0, buf, MSG_ERROR);
+        msg_printf(0, MSG_ERROR, "WU refers to nonexistent app: %s\n", wup->app_name);
         return 1;
     }
     avp = lookup_app_version(app, wup->version_num);
     if (!avp) {
-        sprintf(buf,
-            "WU refers to nonexistent app_version: %s %d\n",
-            wup->app_name, wup->version_num
-        );
-        show_message(0, buf, MSG_ERROR);
+        msg_printf(0, MSG_ERROR, "WU refers to nonexistent app_version: %s %d\n",
+            wup->app_name, wup->version_num);
         return 1;
     }
     wup->project = p;
@@ -1077,7 +1048,6 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     WORKUNIT* wup;
     unsigned int i;
     int retval;
-    char buf[256];
 
     wup = lookup_workunit(p, rp->wu_name);
     if (!wup) {
@@ -1090,8 +1060,7 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     for (i=0; i<rp->output_files.size(); i++) {
         retval = link_file_ref(p, &rp->output_files[i]);
         if (retval) {
-            sprintf(buf, "link_result: link_file_ref failed\n");
-            show_message(0, buf, MSG_ERROR);
+            msg_printf(0, MSG_ERROR, "link_result: link_file_ref failed\n");
             return retval;
         }
     }
@@ -1102,7 +1071,6 @@ int CLIENT_STATE::latest_version_num(char* app_name) {
     unsigned int i;
     int best = -1;
     APP_VERSION* avp;
-    char buf[256];
 
     for (i=0; i<app_versions.size(); i++) {
         avp = app_versions[i];
@@ -1111,8 +1079,7 @@ int CLIENT_STATE::latest_version_num(char* app_name) {
         best = avp->version_num;
     }
     if (best < 0) {
-        sprintf(buf, "CLIENT_STATE::latest_version_num: no version\n");
-        show_message(0, buf, MSG_ERROR);
+        msg_printf(0, MSG_ERROR, "CLIENT_STATE::latest_version_num: no version\n");
     }
     return best;
 }
@@ -1682,4 +1649,21 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     write_state_file();
 
     return 0;
+}
+
+// Takes a printf style formatted string, inserts the proper values,
+// and passes it to show_message
+// TODO: add translation functionality
+//
+void msg_printf(PROJECT *p, int priority, const char *fmt, ...) {
+    char		buf[512];
+    va_list		ap;
+
+    if (fmt == NULL) return;
+
+    va_start(ap, fmt); // Parses string for variables
+    vsnprintf(buf, sizeof(buf), fmt, ap); // And convert symbols To actual numbers
+    va_end(ap); // Results are stored in text
+    
+    show_message(p, buf, priority);
 }

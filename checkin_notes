@@ -4391,3 +4391,19 @@ Karl    2003/06/02
         road_map.html
         sequence.html
         single_host_server.html
+
+Eric   June 3, 2002
+    - Added msg_printf function.  Use this function rather than show_message, since it
+      doesn't require a locally allocated buffer for formatted strings.
+
+    client/
+        account.C
+        app.C
+        client_state.C,h
+        cs_apps.C
+        cs_scheduler.C
+        file_xfer.C
+        net_xfer.C
+        pers_file_xfer.C
+        scheduler_op.C
+

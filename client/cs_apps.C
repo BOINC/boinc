@@ -76,7 +76,7 @@ int CLIENT_STATE::cleanup_and_exit() {
         kill(cpu_benchmarks_id, SIGKILL);
 #endif
     }
-    show_message(NULL, "Exiting BOINC client", MSG_INFO);
+    msg_printf(NULL, MSG_INFO, "Exiting BOINC client");
     return 0;
 }
 
@@ -89,7 +89,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     RESULT* rp = at.result;
     FILE_INFO* fip;
     unsigned int i;
-    char path[256], buf[256];
+    char path[256];
     int retval;
     double size;
 
@@ -103,12 +103,8 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
             fip->status = retval;
         } else {
             if (size > fip->max_nbytes) {
-                sprintf(buf,
-                    "Output file %s for result %s exceeds size limit.",
-                    fip->name,
-                    at.result->name
-                );
-                show_message(at.result->project, buf, MSG_INFO);
+                msg_printf(at.result->project, MSG_INFO, "Output file %s for result %s exceeds size limit.",
+                    fip->name, at.result->name);
 
                 fip->delete_file();
                 fip->status = ERR_FILE_TOO_BIG;
@@ -140,7 +136,6 @@ bool CLIENT_STATE::handle_finished_apps() {
     unsigned int i;
     ACTIVE_TASK* atp;
     bool action = false;
-    char buf[256];
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
@@ -149,8 +144,7 @@ bool CLIENT_STATE::handle_finished_apps() {
         case PROCESS_ABORT_PENDING:
             break;
         default:
-            sprintf(buf, "Computation for result %s finished", atp->wup->name);
-            show_message(atp->wup->project, buf, MSG_INFO);
+            msg_printf(atp->wup->project, MSG_INFO, "Computation for result %s finished", atp->wup->name);
             if (log_flags.task_debug) {
                 printf(
                     "task finished; pid %d, status %d\n",
@@ -196,7 +190,6 @@ bool CLIENT_STATE::start_apps() {
     ACTIVE_TASK* atp;
     bool action = false;
     int open_slot, retval;
-    char buf[256];
 
     for (i=0; i<results.size(); i++) {
 
@@ -215,8 +208,7 @@ bool CLIENT_STATE::start_apps() {
         //
         if (rp->state == RESULT_FILES_DOWNLOADED && !rp->is_active ) {
             if (log_flags.task) {
-                sprintf(buf, "Starting computation for result %s", rp->name);
-                show_message(rp->project, buf, MSG_INFO);
+                msg_printf(rp->project, MSG_INFO, "Starting computation for result %s", rp->name);
             }
             rp->is_active = true;
             atp = new ACTIVE_TASK;

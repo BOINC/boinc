@@ -164,11 +164,8 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(init_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, INIT_DATA_FILE);
     f = fopen(init_data_path, "w");
     if (!f) {
-        sprintf(
-            buf, "Failed to open core-to-app prefs file %s",
-            init_data_path
-        );
-        show_message(wup->project, buf, MSG_ERROR);
+        msg_printf(wup->project, MSG_ERROR, "Failed to open core-to-app prefs file %s",
+            init_data_path);
         return ERR_FOPEN;
     }
 
@@ -192,11 +189,8 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(graphics_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, GRAPHICS_DATA_FILE);
     f = fopen(graphics_data_path, "w");
     if (!f) {
-        sprintf(
-            buf, "Failed to open core-to-app graphics prefs file %s",
-            graphics_data_path
-        );
-        show_message(wup->project, buf, MSG_ERROR);
+        msg_printf(wup->project, MSG_ERROR, "Failed to open core-to-app graphics prefs file %s",
+            graphics_data_path);
         return ERR_FOPEN;
     }
     retval = write_graphics_file(f, &gi);
@@ -205,8 +199,7 @@ int ACTIVE_TASK::start(bool first_time) {
     sprintf(fd_init_path, "%s%s%s", slot_dir, PATH_SEPARATOR, FD_INIT_FILE);
     f = fopen(fd_init_path, "w");
     if (!f) {
-        sprintf(buf, "Failed to open init file %s", fd_init_path);
-        show_message(wup->project, buf, MSG_ERROR);
+        msg_printf(wup->project, MSG_ERROR, "Failed to open init file %s", fd_init_path);
         return ERR_FOPEN;
     }
 
@@ -228,8 +221,7 @@ int ACTIVE_TASK::start(bool first_time) {
                 printf("link %s to %s\n", file_path, link_path);
             }
             if (retval) {
-                sprintf(buf, "Can't link %s to %s", file_path, link_path);
-                show_message(wup->project, buf, MSG_ERROR);
+                msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
                 fclose(f);
                 return retval;
             }
@@ -250,8 +242,7 @@ int ACTIVE_TASK::start(bool first_time) {
                 }
                 retval = boinc_link(buf, link_path);
                 if (retval) {
-                    sprintf(buf, "Can't link %s to %s", file_path, link_path);
-                    show_message(wup->project, buf, MSG_ERROR);
+                    msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
                     fclose(f);
                     return retval;
                 }
@@ -277,8 +268,7 @@ int ACTIVE_TASK::start(bool first_time) {
                 }
                 retval = boinc_link(buf, link_path);
                 if (retval) {
-                    sprintf(buf, "Can't link %s to %s", file_path, link_path);
-                    show_message(wup->project, buf, MSG_ERROR);
+                    msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
                     fclose(f);
                     return retval;
                 }
@@ -345,8 +335,7 @@ int ACTIVE_TASK::start(bool first_time) {
             LocalFree(lpMsgBuf);
             return -1;
         }
-        sprintf(buf, "CreateProcess: %s", (LPCTSTR)lpMsgBuf);
-        show_message(wup->project, buf, MSG_ERROR);
+        msg_printf(wup->project, MSG_ERROR, "CreateProcess: %s", (LPCTSTR)lpMsgBuf);
         LocalFree(lpMsgBuf);
     }
     pid = process_info.dwProcessId;
@@ -385,7 +374,7 @@ int ACTIVE_TASK::start(bool first_time) {
         argv[0] = exec_name;
         parse_command_line(wup->command_line, argv+1);
         if (log_flags.task_debug) print_argv(argv);
-        sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, exec_path );
+        sprintf(buf, "..%s.%s%s", PATH_SEPARATOR, PATH_SEPARATOR, exec_path );
         retval = execv(buf, argv);
         fprintf(stderr, "execv failed: %d\n", retval);
         perror("execv");
@@ -615,15 +604,10 @@ bool ACTIVE_TASK_SET::check_app_exited() {
 // if an app has exceeded its maximum CPU time, abort it
 //
 bool ACTIVE_TASK::check_max_cpu_exceeded() {
-    char buf[256];
-
     if (current_cpu_time > max_cpu_time) {
-        sprintf(buf,
+        msg_printf(result->project, MSG_INFO,
             "Aborting result %s: exceeded CPU time limit %f\n",
-            result->name,
-            max_cpu_time
-        );
-        show_message(result->project, buf, MSG_INFO);
+            result->name, max_cpu_time);
         abort();
         return true;
     }
@@ -633,7 +617,6 @@ bool ACTIVE_TASK::check_max_cpu_exceeded() {
 // if an app has exceeded its maximum disk usage, abort it
 //
 bool ACTIVE_TASK::check_max_disk_exceeded() {
-    char buf[256];
     double disk_usage;
     int retval;
 
@@ -641,16 +624,12 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
     //
     retval = current_disk_usage(disk_usage);
     if (retval) {
-        show_message(0, "Can't get application disk usage", MSG_ERROR);
+        msg_printf(0, MSG_ERROR, "Can't get application disk usage");
     } else {
         //fprintf(stderr, "using %f bytes; max is %f bytes\n", disk_usage, max_disk_usage);
         if (disk_usage > max_disk_usage) {
-            sprintf(buf,
-                "Aborting result %s: exceeded disk limit %f\n",
-                result->name,
-                max_disk_usage
-                );
-            show_message(result->project, buf, MSG_INFO);
+            msg_printf(result->project, MSG_INFO, "Aborting result %s: exceeded disk limit %f\n",
+                result->name, max_disk_usage);
             abort();
             return true;
         }
@@ -661,16 +640,10 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
 // if an app has exceeded its maximum allowed memory, abort it
 //
 bool ACTIVE_TASK::check_max_mem_exceeded() {
-    char buf[256];
-
-    // TODO: 
+    // TODO: calculate working set size elsewhere
     if (working_set_size > max_mem_usage) {
-        sprintf(buf,
-            "Aborting result %s: exceeded memory limit %f\n",
-            result->name,
-            max_mem_usage
-        );
-        show_message(result->project, buf, MSG_INFO);
+        msg_printf(result->project, MSG_INFO, "Aborting result %s: exceeded memory limit %f\n",
+            result->name, max_mem_usage);
         abort();
         return true;
     }
@@ -803,10 +776,10 @@ void ACTIVE_TASK_SET::suspend_all() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->suspend()) {
-            show_message(
+            msg_printf(
                 atp->wup->project,
-                "ACTIVE_TASK_SET::suspend_all(): could not suspend active_task",
-                MSG_ERROR
+                MSG_ERROR,
+                "ACTIVE_TASK_SET::suspend_all(): could not suspend active_task"
             );
         }
     }
@@ -820,10 +793,10 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->unsuspend()) {
-            show_message(
+            msg_printf(
                 atp->wup->project,
-                "ACTIVE_TASK_SET::unsuspend_all(): could not unsuspend active_task",
-                MSG_ERROR
+                MSG_ERROR,
+                "ACTIVE_TASK_SET::unsuspend_all(): could not unsuspend active_task"
             );
         }
     } 
@@ -837,9 +810,9 @@ void ACTIVE_TASK_SET::request_tasks_exit() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if(atp->request_exit()) {
-            show_message(atp->wup->project,
-                "ACTIVE_TASK_SET::exit_tasks(): could not request exit of active_task",
-                MSG_ERROR
+            msg_printf(atp->wup->project,
+                MSG_ERROR,
+                "ACTIVE_TASK_SET::exit_tasks(): could not request exit of active_task"
             );
         }
     }
@@ -902,7 +875,6 @@ int ACTIVE_TASK_SET::restart_tasks() {
     vector<ACTIVE_TASK*>::iterator iter;
     ACTIVE_TASK* atp;
     int retval;
-    char buf[256];
 
     iter = active_tasks.begin();
     while (iter != active_tasks.end()) {
@@ -912,12 +884,10 @@ int ACTIVE_TASK_SET::restart_tasks() {
         atp->result->is_active = true;
         retval = atp->start(false);
         if (log_flags.task) {
-            sprintf(buf, "Restarting computation for result %s", atp->result->name);
-            show_message(atp->wup->project, buf, MSG_INFO);
+            msg_printf(atp->wup->project, MSG_INFO, "Restarting computation for result %s", atp->result->name);
         }
         if (retval) {
-            sprintf(buf, "ACTIVE_TASKS::restart_tasks(); restart failed: %d\n", retval);
-            show_message(atp->wup->project, buf, MSG_ERROR);
+            msg_printf(atp->wup->project, MSG_ERROR, "ACTIVE_TASKS::restart_tasks(); restart failed: %d\n", retval);
             atp->result->active_task_state = PROCESS_COULDNT_START;
             gstate.report_result_error(
                 *(atp->result), retval,

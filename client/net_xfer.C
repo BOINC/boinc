@@ -65,6 +65,7 @@
 #include "net_xfer.h"
 #include "util.h"
 #include "client_types.h"
+#include "client_state.h"
 #include "message.h"
 
 //  If socklen_t isn't defined, define it here as size_t
@@ -74,15 +75,13 @@
 
 int NET_XFER::get_ip_addr( char *hostname, int &ip_addr ) {
     hostent* hep;
-    char buf[256];
 
 #ifdef _WIN32
     if(NetOpen()) return -1;
 #endif
     hep = gethostbyname(hostname);
     if (!hep) {
-        sprintf(buf, "can't resolve hostname %s\n", hostname);
-        show_message(0, buf, MSG_ERROR);
+        msg_printf(0, MSG_ERROR, "Can't resolve hostname %s\n", hostname);
 #ifdef _WIN32
         NetClose();
 #endif
@@ -387,7 +386,7 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
             if (nxp) {
                 nxp->got_error();
             } else {
-                show_message(0, "do_select(): nxp not found\n", MSG_ERROR);
+                msg_printf(0, MSG_ERROR, "do_select(): nxp not found\n");
             }
         }
     }

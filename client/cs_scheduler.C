@@ -324,7 +324,6 @@ int CLIENT_STATE::handle_scheduler_reply(
     int retval;
     unsigned int i;
     bool signature_valid;
-    char buf[256];
 
     nresults = 0;
     contacted_sched_server = true;
@@ -356,7 +355,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     project->user_create_time = sr.user_create_time;
     if (strlen(sr.message)) {
         int prio = (!strcmp(sr.message_priority, "high"))?MSG_ERROR:MSG_INFO;
-        show_message(project, sr.message, prio);
+        msg_printf(project, prio, sr.message);
     }
 
     if (sr.request_delay) {
@@ -491,8 +490,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             rp->state = RESULT_NEW;
             nresults++;
         } else {
-            sprintf(buf, "Already have result %s\n", sr.results[i].name);
-            show_message(project, buf, MSG_ERROR);
+            msg_printf(project, MSG_ERROR, "Already have result %s\n", sr.results[i].name);
         }
     }
 
@@ -506,10 +504,8 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (rp) {
             rp->server_ack = true;
         } else {
-            sprintf(buf, "Got ack for result %s, can't find\n",
-                sr.result_acks[i].name
-            );
-            show_message(project, buf, MSG_ERROR);
+            msg_printf(project, MSG_ERROR, "Got ack for result %s, can't find\n",
+                sr.result_acks[i].name);
         }
     }
     project->sched_rpc_pending = false;

@@ -42,6 +42,7 @@
 
 // project includes ---------------------------------------------------------
 
+#include "app_ipc.h"
 #include "graphics_api.h"
 
 // statics/globals (internal only) ------------------------------------------
