@@ -14431,9 +14431,11 @@ Daniel 2004-07-01
         cs_apps.C
 
 Daniel 2004-07-01
-    - Yet another file that needs "using std::string".
-
+    - Yet more fixes related to recent "using" directive checkins...
 
     client/
+        app.C
+        cs_scheduler.C
+        gui_rpc_client.C
         hostinfo_unix.C
 

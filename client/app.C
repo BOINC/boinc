@@ -82,6 +82,7 @@
 
 using std::vector;
 using std::max;
+using std::min;
 
 
 // value for setpriority(2)

@@ -39,6 +39,9 @@
 #include "miofile.h"
 #include "gui_rpc_client.h"
 
+using std::string;
+using std::vector;
+
 int RPC_CLIENT::init(char* path) {
     int retval;
     sockaddr_in addr;
@@ -195,7 +198,7 @@ int RPC_CLIENT::set_proxy_settings(PROXY_INFO& pi) {
 }
 
 int RPC_CLIENT::get_messages(
-    int nmessages, int seqno, std::vector<MESSAGE_DESC>& msgs
+    int nmessages, int seqno, vector<MESSAGE_DESC>& msgs
 ) {
     char buf[256];
     char* mbuf;
@@ -486,7 +489,7 @@ void ACTIVE_TASK::print() {
     printf("   fraction done: %f\n", fraction_done);
 }
 
-APP* RPC_CLIENT::lookup_app(std::string& str) {
+APP* RPC_CLIENT::lookup_app(string& str) {
     unsigned int i;
     for (i=0; i<apps.size(); i++) {
         if (apps[i]->name == str) return apps[i];
@@ -495,7 +498,7 @@ APP* RPC_CLIENT::lookup_app(std::string& str) {
     return 0;
 }
 
-WORKUNIT* RPC_CLIENT::lookup_wu(std::string& str) {
+WORKUNIT* RPC_CLIENT::lookup_wu(string& str) {
     unsigned int i;
     for (i=0; i<wus.size(); i++) {
         if (wus[i]->name == str) return wus[i];
@@ -504,7 +507,7 @@ WORKUNIT* RPC_CLIENT::lookup_wu(std::string& str) {
     return 0;
 }
 
-RESULT* RPC_CLIENT::lookup_result(std::string& str) {
+RESULT* RPC_CLIENT::lookup_result(string& str) {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
         if (results[i]->name == str) return results[i];
@@ -514,7 +517,7 @@ RESULT* RPC_CLIENT::lookup_result(std::string& str) {
 }
 
 
-APP_VERSION* RPC_CLIENT::lookup_app_version(std::string& str, int version_num) {
+APP_VERSION* RPC_CLIENT::lookup_app_version(string& str, int version_num) {
     unsigned int i;
     for (i=0; i<app_versions.size(); i++) {
         if (app_versions[i]->app_name == str && app_versions[i]->version_num == version_num) return app_versions[i];

@@ -47,6 +47,7 @@
 
 #include "client_state.h"
 
+using std::max;
 using std::vector;
 using std::string;
 
