@@ -88,30 +88,52 @@ APP_CLIENT_SHM *app_client_shm;
 // read the INIT_DATA and FD_INIT files
 //
 int boinc_init() {
+    bool standalone = false;
+    FILE* f;
+    int retval;
+
 #ifdef _WIN32
     freopen(STDERR_FILE, "a", stderr);
 #endif
 
-#ifndef API_STANDALONE
-    FILE* f;
-    int retval;
+#ifdef API_STANDALONE
+    standalone = true;
+#endif
+
+    // If in standalone mode, use init files if they're there,
+    // but don't demand that they exist
+    //
     f = fopen(INIT_DATA_FILE, "r");
     if (!f) {
-        fprintf(stderr, "boinc_init(): can't open init data file\n");
-        return ERR_FOPEN;
+        if (standalone) {
+            safe_strncpy(aid.app_preferences, "", sizeof(aid.app_preferences));
+            safe_strncpy(aid.user_name, "John Smith", sizeof(aid.user_name));
+            safe_strncpy(aid.team_name, "The A-Team", sizeof(aid.team_name));
+            aid.wu_cpu_time = 1000;
+            aid.user_total_credit = 1000;
+            aid.user_expavg_credit = 500;
+            aid.host_total_credit = 1000;
+            aid.host_expavg_credit = 500;
+            aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
+            aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
+        } else {
+            fprintf(stderr, "boinc_init(): can't open init data file\n");
+            return ERR_FOPEN;
+        }
+    } else {
+        retval = parse_init_data_file(f, aid);
+        fclose(f);
+        if (retval) {
+            fprintf(stderr, "boinc_init(): can't parse init data file\n");
+            return retval;
+        }
     }
-    retval = parse_init_data_file(f, aid);
-    if (retval) {
-        fprintf(stderr, "boinc_init(): can't parse init data file\n");
-        return retval;
-    }
-    fclose(f);
 
     f = fopen(GRAPHICS_DATA_FILE, "r");
     if (!f) {
         fprintf(stderr, "boinc_init(): can't open graphics data file\n");
         fprintf(stderr, "Using default graphics settings.\n");
-        gi.refresh_period = 0.5;
+        gi.refresh_period = 0.1; // 1/10th of a second
         gi.xsize = 640;
         gi.ysize = 480;
     } else {
@@ -128,22 +150,7 @@ int boinc_init() {
         parse_fd_init_file(f);
         fclose(f);
     }
-#else
-    safe_strncpy(aid.app_preferences, "", sizeof(aid.app_preferences));
-    safe_strncpy(aid.user_name, "John Smith", sizeof(aid.user_name));
-    safe_strncpy(aid.team_name, "The A-Team", sizeof(aid.team_name));
-    aid.wu_cpu_time = 1000;
-    aid.user_total_credit = 1000;
-    aid.user_expavg_credit = 500;
-    aid.host_total_credit = 1000;
-    aid.host_expavg_credit = 500;
-    aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
-    aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
 
-    gi.refresh_period = 0.1; // 1/10th of a second
-    gi.xsize = 640;
-    gi.ysize = 480;
-#endif
     time_until_checkpoint = aid.checkpoint_period;
     time_until_fraction_done_update = aid.fraction_done_update_period;
     this_process_active = true;

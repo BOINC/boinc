@@ -4376,6 +4376,12 @@ Eric   May 30, 2003
         client_state.C,h
         cs_scheduler.C
 
+David  June 2 2003
+    In client API, standalone mode uses init files if they're there
+
+    api/
+        boinc_api.C
+
 Karl    2003/06/02
     - fixed some spelling and grammar
 

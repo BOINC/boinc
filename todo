@@ -1,114 +1,83 @@
+DON'T ADD ANYTHING TO HERE.  USE THE TASKBASE INSTEAD.
 -----------------------
 BUGS (arranged from high to low priority)
 -----------------------
-Matt's Bugs:
-1. suddenly slow graphics (graphics are plotting smoothly, but after
-several "show graphics" the plots become really slow). Graphics getting
-reeeeeally slow over time. Even after stop/restart.
 
-2. after minimizing graphics window it behaves strangely - the only way
-to maximize it again is to right click and select "maximize". Even then
-the resize buttons, etc. don't work as they are supposed to.
-
-3. After running all night (on Win98) I shook the mouse to wake up the
-blank screen, and all I saw was the top half of the screen was solid
-gray, and the bottom half the bottom half of the astropulse graphics.
-They weren't moving. The computer was frozen. I had to ctrl-alt-del
-to restart.
-
-- Graphics window should open in front of others
-- Corrupted floating hover text
-- Resetting project should delete old project files
 - Test BOINC error handling on UNIX if app can't start up (use bad path name)
-- GUI client should display "Upload failed" and "Download failed"
-    in transfers tab when failure occurs
-- GUI: Result status should say "downloading files", "uploading files", etc.
-- message window should reposition to bottom when new message
-- Win GUI: line between menus and tabs
-- win GUI: reduce flicker?
-- labels on disk graph are not clear
-- document and add to global prefs?
-    run_minimized
-    hangup_if_dialed
+
+- reset/quit
+    - Resetting project should delete old project files
 
 -----------------------
 HIGH-PRIORITY (should do for beta test)
 -----------------------
 
-"Add project" behavior:
-    Goal: give user timely feedback if bad project URL or account ID;
-    don't leave bad project files sitting around
 
-    A project addition is "successful" when
-    1) the client fetches the master page,
-    2) the master page has at least one scheduler URL
-    3) the client contacts a scheduler and gets a user name back.
+- suspend/resume functionality on Windows/UNIX
 
-    The cmdline and GUI clients need to inform the user if a project
-    add is not successful, since it probably means the master URL
-    or account ID were typed in wrong.
+HTTP stuff
+    test HTTP redirect mechanism for all types of ops
+    finish SOCKS implementation, test
+    use HTTP 1.1
+    test w/ Apache 2.x
 
-    A project is "tentative" if the above hasn't happened yet.
-    This is flagged in the project file (<tentative/>) and in memory
-
-    A "failure event" is
-        - master fetch fails
-        - master page has no scheduler URLs
-        - scheduler RPC fails
-        - scheduler RPC returns no user name
-    A "success event" is
-        - scheduler RPC returns user name
-
-    cmdline client
-        first time (no projects initially) or -add_new_project flag:
-        new project is tentative (write flag to project file)
-        if failure event occurs for tentative project:
-            project_add_fail(PROJECT&)
-                print "check URL and account ID" message
-                delete project file
-                exit
-        If success event occurs for tentative project
-            project_add_succeed(PROJECT&)
-                clear tentative flag, rewrite account file
-            
-    GUI client:
-        first-time dialog or "attach to project" command:
-        show a modal dialog
-            ("verifying account" w/ "cancel" button)
-        project_add_fail(PROJECT&) 
-            replace w/ modal error dialog w/ retry, cancel
-        project_add_succeed(PROJECT&)
-
-Delete files if needed to honor disk usage constraint
-    should include per-result constraints (e.g. giant stderr files)
-    inform user if files deleted
-
-implement server watchdogs
 
 -----------------------
 THINGS TO TEST (preferably with test scripts)
 -----------------------
-time-of-day limitation
-Limit frequency of disk writes
-    make sure it actually works
-- Test suspend/resume functionality on Windows/UNIX
-- verify that if file xfer is interrupted, it resumes at right place
-- result reissue
-- WU failure: too many errors
-- WU failure: too many good results
-- credit is granted even if result arrives very late
-- multiple preference sets
+server stuff
+    implement server watchdogs
+
+Add project w/ bad URL or account ID should report error
+    test this on Win, UNIX
+
+Preferences
+    test time-of-day limitation
+    Limit frequency of disk writes: make sure it actually works
+    - multiple preference sets
+    - preference propagation between projects
+    - document and add to global prefs?
+        run_minimized
+        hangup_if_dialed
+    Delete files if needed to honor disk usage constraint
+        should include per-result constraints (e.g. giant stderr files)
+        inform user if files deleted
+    preference flag for confirm before accepting executable file
+    memory restrictions
+    process priority, CPU affinity
+    show disk usage as two pie charts (one for overall, one for per project)
+
+backend stuff
+    - result reissue
+        (timeout_check should eventually create new results)
+    - WU failure: too many errors
+    - WU failure: too many good results
+    - credit is granted even if result arrives very late
+
 - shared memory and CPU time measurement, with and without the BOINC API
-- timezone on all platforms
-- preference propagation between projects
-- ensure cpu time doesn't reset if app is killed rather than quitting
-- detach/reset project (especially in CLI)
-- CPU accounting in the presence of checkpoint/restart
+    - ensure cpu time doesn't reset if app is killed rather than quitting
+    - CPU accounting in the presence of checkpoint/restart
+
+Platform-specific stuff
+    - timezone on all platforms
+    - make get_local_ip_addr() work in all cases
+
+per-WU limits
+    abort result if any file exceeds max_nbytes
+    max disk
+    max CPU
+    max VM size
+        abort app if excess memory used
+
+Windows screensaver functionality
+    idle-only behavior without screensaver - test
+
 -----------------------
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
-more accurate time to completion calculation - perhaps use recent change in percent done?
+more accurate time to completion calculation
+    - perhaps use recent change in percent done?
 
 change show_message to use vsprintf
 
@@ -123,14 +92,6 @@ all RPCs should return a "user-specific project URL"
 in GUI, project name should hyperlink to a project-specified URL
     (typically user page for that project)
 
-preference flag for confirm before accepting executable file
-
-abort result if any file exceeds max_nbytes
-
-per-WU limits
-    max disk
-    max CPU
-    max VM size
 
 let user choose language files in installation process
 
@@ -139,19 +100,13 @@ write general language file manipulation functions
 use https to secure login pages, do we care about authenticator
     being transmitted without encryption from the client?
 
-abort app if excess memory used
-
 write docs for project management
     how to start/stop server complex
     what needs to be backed up and how
 
 account creation: show privacy/usage policies
 
-finish SOCKS implementation, test
-
 decide what to do with invalid result files in upload directory
-
-make get_local_ip_addr() work in all cases
 
 think about sh_fopen related functionality in BOINC client
 
@@ -176,20 +131,6 @@ Testing framework
     better mechanisms to simulate large load
     do client/server on separate hosts?
 
-Global preferences
-    test propagation mechanism
-        set up multi-project, multi-host test;
-        change global prefs at one web site,
-        make sure they propagate to all hosts
-
-Per-project preferences
-    test project-specific prefs
-        make example web edit pages
-        make app that uses them
-    set up a test with multiple projects
-        test "add project" feature, GUI and cmdline
-        test resource share mechanism
-
 CPU benchmarking
     review CPU benchmarks - do they do what we want?
     what to do when tests show hardware problem?
@@ -204,18 +145,6 @@ Redundancy checking and validation
     test the validation mechanism
     make sure credit is granted correctly
     make sure average, total credit maintained correctly for user, host
-
-Windows screensaver functionality
-    idle-only behavior without screensaver - test
-
-Data transfer
-    make sure restart of downloads works
-    make sure restart of uploads works
-    test download/upload with multiple data servers
-        make sure it tries servers in succession,
-        does exponential backoff if all fail
-    review and document prioritization of transfers
-    review protocol; make sure error returns are possible and handled correctly
 
 Scheduler
     Should dispatch results based on deadline?
@@ -239,13 +168,6 @@ Application graphics
     
 Work generation
     generation of upload signature is very slow
-
-prevent file_xfer->req1 from overflowing. This problems seems to be
-    happening when the file_upload_handler returnes a message to the
-    client that is large. This causes project->parsefile to get wrong
-    input and so on.
-
-test HTTP redirect mechanism for all types of ops
 
 Add batch features to ops web
 
@@ -272,8 +194,6 @@ for CPU time.
 LONG-TERM IDEAS AND PROJECTS
 -----------------------
 
-use https for login (don't sent account ID or password in clear)
-
 CPU benchmarking
     This should be done by a pseudo-application
     rather than by the core client.
@@ -285,9 +205,6 @@ CPU benchmarking
 investigate binary diff mechanism for updating persistent files
 
 verify support for > 4 GB files everywhere
-
-use FTP instead of HTTP for file xfer??
-    measure speed diff
 
 Local scheduling
     more intelligent decision about when/what to work on
@@ -309,10 +226,6 @@ User/host "reputation"
 Storage validation
     periodic rehash of persistent files;
     compare results between hosts
-
-Include account ID in URL for file xfers
-    This would let you verify network xfers by scanning web logs
-    (could use that to give credit for xfers)
 
 WU/result sequence mechanism
     design/implement/document
@@ -336,8 +249,3 @@ Persistent files
 
 NET_XFER_SET
     review logic; prevent one stream for starving others
-
-Other user preferences:
-    memory restrictions
-    process priority, CPU affinity
-    show disk usage as two pie charts (one for overall, one for per project)
