@@ -15742,3 +15742,11 @@ Noaa  29 July 2004
 	 api/
 		x_opengl.C
 		
+Noaa  30 July 2004
+	- added Makefile.Readme to explain how to make a Makefile.graphics
+	for a system since at the moment Makefile.graphics is restricted
+	to the setup on Miner. This can be used when Makefile.in is changed
+	so that a correct Makefile is generated at configure time.
+
+	client/
+		Makefile.Readme(new)
