@@ -73,6 +73,26 @@ int get_local_network_info(
 
 #else
 
+// NEW POLICY: on UNIX, get just the hostname.
+// the rest (domain name, IP address) is a can of worms,
+// and doesn't really matter anyway
+
+int get_local_network_info(
+    char* domain_name, int domlen, char* ip_addr, int iplen
+) {
+    char hostname[256];
+    char buf[256];
+    int retval;
+
+    strcpy(domain_name, "unknown");
+    strcpy(ip_addr, "unknown");
+    if (!gethostname(hostname, 256)) {
+        safe_strncpy(domain_name, hostname, domlen);
+    }
+    return 0;
+}
+
+#if 0
 // gethostbyname() is a linkage nightmare on UNIX systems (go figure)
 // so use a kludge instead: run ping and parse the output.
 // The output should have a line like
@@ -106,7 +126,7 @@ static int try_ping(
         if (!p) continue;
         p++;
         if (!strchr(p, '.')) continue;
-        safe_strncpy(domain_name, p, sizeof(domain_name));
+        safe_strncpy(domain_name, p, domlen);
         return 0;
     }
     return ERR_NULL;
@@ -141,5 +161,6 @@ int get_local_network_info(
 
     return 0;
 }
+#endif
 
 #endif

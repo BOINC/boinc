@@ -41,6 +41,7 @@ static void print_options(char* prog) {
 #endif
         "    -exit_when_idle        Get/process/report work, then exit\n"
         "    -show_projects         show attached projects\n"
+        "    -return_results_immediately   contact server when have results\n"
         "    -detach_project URL    detach from a project\n"
         "    -reset_project URL     reset (clear) a project\n"
         "    -attach_project        attach to a project (will prompt for URL, account key)\n"
