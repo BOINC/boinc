@@ -75,7 +75,7 @@ int boinc_init_graphics_impl(
     void (*worker)(), int (*init_func)(BOINC_OPTIONS&)
 ) {
     BOINC_OPTIONS opt;
-    opt.defaults();
+    options_defaults(opt);
     return boinc_init_options_graphics_impl(opt, worker, init_func);
 }
 

@@ -21088,7 +21088,7 @@ David  10 Dec 2004
         even in pathological cases (e.g. nsuccess_results > target_nresults)
 
     sched/
-        transitioner.C
+        validator.C
 
 Bruce 10 Dec 2004
                                                                                                                                     
@@ -21107,3 +21107,16 @@ Bruce 10 Dec 2004
                                                                                                                                     
     api/
         graphics_lib.C
+
+David  10 Dec 2004
+    - Spiffed up Bruce's code a little and got it compile.
+        The DLL handle is now available as a global variable
+            (graphics_lib_handle)
+    - change BOINC_OPTIONS::defaults() to a regular function,
+        options_defaults(BOINC_OPTIONS&).
+        More of the API (e.g. boinc_init_options()) is now "pure C"
+
+    api/
+        boinc_api.C,h
+        grpahics_impl.C
+        graphics_lib.C,h

@@ -112,20 +112,20 @@ static int  mem_usage(unsigned long& vm_kb, unsigned long& rs_kb);
 static BOINC_OPTIONS options;
 static BOINC_STATUS boinc_status;
 
-void BOINC_OPTIONS::defaults() {
-    main_program = true;
-    check_heartbeat = true;
-    handle_trickle_ups = true;
-    handle_trickle_downs = true;
-    handle_process_control = true;
-    send_status_msgs = true;
-    direct_process_action = true;
+void options_defaults(BOINC_OPTIONS& b) {
+    b.main_program = true;
+    b.check_heartbeat = true;
+    b.handle_trickle_ups = true;
+    b.handle_trickle_downs = true;
+    b.handle_process_control = true;
+    b.send_status_msgs = true;
+    b.direct_process_action = true;
 }
 
 // the following 2 functions are used when there's no graphics
 //
 int boinc_init() {
-    options.defaults();
+    options_defaults(options);
     return boinc_init_options(options);
 }
 
