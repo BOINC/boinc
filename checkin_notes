@@ -10801,3 +10801,12 @@ kevin    Mar 24 2004
 	declaration. 
 	lib/
 		exception.h 
+
+Rom    Mar 24 2004
+     - I was a little to agressive in cleaning up boinc_api.c and removed some
+         signal handling code, added that back in.
+     - The new exceptions use string's, so include <string> in the exception header.
+
+    lib/
+        diagnostics.c
+        exception.h

@@ -20,6 +20,11 @@
 #ifndef _BOINC_EXCEPTIONS_
 #define _BOINC_EXCEPTIONS_
 
+#ifndef _WIN32
+#include <string>
+using namespace std;
+#endif
+
 
 // BOINC Base Exception Class
 //

@@ -48,8 +48,8 @@ unsigned long g_BOINCDIAG_dwDiagnosticsFlags;
 //
 
 // Forward declare implementation specific functions - Windows Platform Only.
-LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
-int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal );
+LONG CALLBACK     boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
+int __cdecl       boinc_message_reporting( int reportType, char *szMsg, int *retVal );
 
 #else
 
@@ -57,9 +57,9 @@ int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal );
 //
 
 // Forward declare implementation functions - POSIX Platform Only.
-extern void boinc_catch_signal(int signal);
-extern void boinc_set_signal_handler(int sig);
-extern void boinc_quit(int sig);
+extern RETSIGTYPE boinc_catch_signal(int signal);
+extern void       boinc_set_signal_handler(int sig, RETSIGTYPE (*handler)(int));
+extern void       boinc_quit(int sig);
 
 #endif
 
@@ -168,15 +168,15 @@ int boinc_install_signal_handlers() {
 
 #else  //_WIN32
 
-    boinc_set_signal_handler(SIGHUP);
-    boinc_set_signal_handler(SIGINT);
-    boinc_set_signal_handler(SIGQUIT);
-    boinc_set_signal_handler(SIGILL);
-    boinc_set_signal_handler(SIGABRT);
-    boinc_set_signal_handler(SIGBUS);
-    boinc_set_signal_handler(SIGSEGV);
-    boinc_set_signal_handler(SIGSYS);
-    boinc_set_signal_handler(SIGPIPE);
+    boinc_set_signal_handler(SIGHUP, boinc_catch_signal);
+    boinc_set_signal_handler(SIGINT, boinc_catch_signal);
+    boinc_set_signal_handler(SIGQUIT, boinc_catch_signal);
+    boinc_set_signal_handler(SIGILL, boinc_catch_signal);
+    boinc_set_signal_handler(SIGABRT, boinc_catch_signal);
+    boinc_set_signal_handler(SIGBUS, boinc_catch_signal);
+    boinc_set_signal_handler(SIGSEGV, boinc_catch_signal);
+    boinc_set_signal_handler(SIGSYS, boinc_catch_signal);
+    boinc_set_signal_handler(SIGPIPE, boinc_catch_signal);
 
 #endif //_WIN32
 
@@ -443,14 +443,15 @@ void boinc_info_release(const char *pszFormat, ...)
 
 #ifdef HAVE_SIGNAL_H
 
-// Set a signal handler but only if it is not currently ignored
-void boinc_set_signal_handler(int sig)
-{
+
+// Set a signal handler only if it is not currently ignored
+//
+void boinc_set_signal_handler(int sig, RETSIGTYPE (*handler)(int)) {
 #ifdef HAVE_SIGACTION
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
     if (temp.sa_handler != SIG_IGN) {
-        temp.sa_handler = boinc_catch_signal;
+        temp.sa_handler = handler;
         sigemptyset(&temp.sa_mask);
         sigaction(sig, &temp, NULL);
     }
@@ -460,10 +461,28 @@ void boinc_set_signal_handler(int sig)
     if (temp == SIG_IGN) {
         signal(sig, SIG_IGN);
     }
-#endif
+#endif /* HAVE_SIGACTION */
 }
 
-void boinc_catch_signal(int signal) {
+
+// Set a signal handler even if it is currently ignored
+//
+void boinc_set_signal_handler_force(int sig, RETSIGTYPE (*handler)(int)) {
+#ifdef HAVE_SIGACTION
+    struct sigaction temp;
+    sigaction(sig, NULL, &temp);
+    temp.sa_handler = handler;
+    sigemptyset(&temp.sa_mask);
+    sigaction(sig, &temp, NULL);
+#else
+    void (*temp)(int);
+    temp = signal(sig, boinc_catch_signal);
+    signal(sig, SIG_IGN);
+#endif /* HAVE_SIGACTION */
+}
+
+
+RETSIGTYPE boinc_catch_signal(int signal) {
     switch(signal) {
         case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup"); break;
         case SIGINT: fprintf(stderr, "SIGINT: interrupt program"); break;
@@ -479,9 +498,11 @@ void boinc_catch_signal(int signal) {
     exit(ERR_SIGNAL_CATCH);
 }
 
+
 void boinc_quit(int sig) {
     signal(SIGQUIT, boinc_quit);    // reset signal
     time_to_quit = true;
 }
+
 
 #endif
