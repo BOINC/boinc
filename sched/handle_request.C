@@ -47,20 +47,16 @@ using namespace std;
 // return true if the WU can be executed on the host
 //
 bool wu_is_feasible(WORKUNIT& wu, HOST& host) {
-    char buf[256];
-
     if(host.d_free && wu.rsc_disk > host.d_free) {
-        sprintf(buf, "WU %d needs %f disk; host %d has %f\n",
-            wu.id, wu.rsc_disk, host.id, host.d_free
-        );
-        write_log(buf, MSG_DEBUG);
+        write_log(MSG_DEBUG, "WU %d needs %f disk; host %d has %f\n",
+                  wu.id, wu.rsc_disk, host.id, host.d_free
+            );
         return false;
     }
     if (host.m_nbytes && wu.rsc_memory > host.m_nbytes) {
-        sprintf(buf, "WU %d needs %f mem; host %d has %f\n",
-            wu.id, wu.rsc_memory, host.id, host.m_nbytes
-        );
-        write_log(buf, MSG_DEBUG);
+        write_log(MSG_DEBUG, "WU %d needs %f mem; host %d has %f\n",
+                  wu.id, wu.rsc_memory, host.id, host.m_nbytes
+            );
         return false;
     }
     return true;
@@ -84,13 +80,12 @@ int insert_after(char* buffer, char* after, char* text) {
     char temp[MAX_BLOB_SIZE];
 
     if (strlen(buffer) + strlen(text) > MAX_BLOB_SIZE-1) {
-        write_log("insert_after: overflow\n", MSG_NORMAL);
+        write_log(MSG_NORMAL, "insert_after: overflow\n");
         return -1;
     }
     p = strstr(buffer, after);
     if (!p) {
-        sprintf(temp, "insert_after: %s not found in %s\n", after, buffer);
-        write_log(temp, MSG_CRITICAL);
+        write_log(MSG_CRITICAL, "insert_after: %s not found in %s\n", after, buffer);
         return -1;
     }
     p += strlen(after);
@@ -198,22 +193,18 @@ int add_wu_to_reply(
     APP_VERSION* avp, app_version;
     int retval;
     WORKUNIT wu2;
-    char buf[256];
 
     app = ss.lookup_app(wu.appid);
     if (!app) {
-        sprintf(buf, "Can't find app w/ ID %d\n", wu.appid);
-        write_log(buf, MSG_CRITICAL);
+        write_log(MSG_CRITICAL, "Can't find app w/ ID %d\n", wu.appid);
         return -1;
     }
     avp = ss.lookup_app_version(app->id, platform.id, app->min_version);
     if (!avp) {
-        sprintf(buf,
-            "Can't find app version: appid %d platformid %d min_version %d\n",
-            app->id, platform.id, app->min_version
-        );
-
-        write_log(buf, MSG_CRITICAL);
+        write_log(MSG_CRITICAL,
+                  "Can't find app version: appid %d platformid %d min_version %d\n",
+                  app->id, platform.id, app->min_version
+            );
         return -1;
     }
 
@@ -229,7 +220,7 @@ int add_wu_to_reply(
     app_version = *avp;
     retval = insert_app_file_tags(app_version, reply.user);
     if (retval) {
-        write_log("insert_app_file_tags failed\n", MSG_NORMAL);
+        write_log(MSG_NORMAL, "insert_app_file_tags failed\n");
         return retval;
     }
 
@@ -240,7 +231,7 @@ int add_wu_to_reply(
     wu2 = wu;       // make copy since we're going to modify its XML field
     retval = insert_wu_tags(wu2, *app);
     if (retval) {
-        write_log("insert_wu_tags failed\n", MSG_NORMAL);
+        write_log(MSG_NORMAL, "insert_wu_tags failed\n");
         return retval;
     }
     reply.insert_workunit_unique(wu2);
@@ -263,8 +254,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (retval) {
             strcpy(reply.message, "Can't find host record");
             strcpy(reply.message_priority, "low");
-            sprintf(buf, "can't find host %d\n", sreq.hostid);
-            write_log(buf, MSG_NORMAL);
+            write_log(MSG_NORMAL, "can't find host %d\n", sreq.hostid);
             sreq.hostid = 0;
             goto new_host;
         }
@@ -276,8 +266,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
             reply.nucleus_only = true;
-            sprintf(buf, "can't find user %d\n", reply.host.userid);
-            write_log(buf, MSG_NORMAL);
+            write_log(MSG_NORMAL, "can't find user %d\n", reply.host.userid);
             return -1;
         }
         reply.user = user;
@@ -289,8 +278,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
             reply.nucleus_only = true;
-            sprintf(buf, "Bad authenticator [%s]\n", sreq.authenticator);
-            write_log(buf, MSG_CRITICAL);
+            write_log(MSG_CRITICAL, "Bad authenticator [%s]\n", sreq.authenticator);
             return -1;
         }
 
@@ -319,8 +307,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
-            sprintf(buf, "Bad authenticator [%s]\n", sreq.authenticator);
-            write_log(buf, MSG_CRITICAL);
+            write_log(MSG_CRITICAL, "Bad authenticator [%s]\n", sreq.authenticator);
             return -1;
         }
         reply.user = user;
@@ -339,7 +326,7 @@ new_host:
             strcpy(reply.message, "server database error");
             strcpy(reply.message_priority, "low");
             boinc_db_print_error("host.insert()");
-            write_log("host.insert() failed\n", MSG_CRITICAL);
+            write_log(MSG_CRITICAL, "host.insert() failed\n");
             return -1;
         }
         host.id = boinc_db_insert_id();
@@ -368,7 +355,6 @@ static void compute_credit_rating(HOST& host) {
 //
 int update_host_record(SCHEDULER_REQUEST& sreq, HOST& xhost) {
     int retval;
-    char buf[256];
     DB_HOST host;
     host = xhost;
 
@@ -405,8 +391,7 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& xhost) {
 
     retval = host.update();
     if (retval) {
-        sprintf(buf, "host.update() failed: %d\n", retval);
-        write_log(buf, MSG_CRITICAL);
+        write_log(MSG_CRITICAL, "host.update() failed: %d\n", retval);
     }
     return 0;
 }
@@ -468,24 +453,21 @@ int handle_results(
         //
         reply.result_acks.push_back(*rp);
 
-        sprintf(buf, "got result %s\n", rp->name);
-        write_log(buf, MSG_DEBUG);
+        write_log(MSG_DEBUG, "got result %s\n", rp->name);
 
         strncpy(result.name, rp->name, sizeof(result.name));
         sprintf(buf, "where name='%s'", result.name);
         retval = result.lookup(buf);
         if (retval) {
-            sprintf(buf, "can't find result %s\n", rp->name);
-            write_log(buf, MSG_DEBUG);
+            write_log(MSG_DEBUG, "can't find result %s\n", rp->name);
             continue;
         }
 
         if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
-            sprintf(buf,
-                "got unexpected result for %s: server state is %d\n",
-                rp->name, result.server_state
-            );
-            write_log(buf, MSG_NORMAL);
+            write_log(MSG_NORMAL,
+                      "got unexpected result for %s: server state is %d\n",
+                      rp->name, result.server_state
+                );
             continue;
         }
         if (result.server_state == RESULT_SERVER_STATE_OVER) {
@@ -493,11 +475,10 @@ int handle_results(
         }
 
         if (result.hostid != sreq.hostid) {
-            sprintf(buf,
-                "got result from wrong host: %d %d\n",
-                result.hostid, sreq.hostid
-            );
-            write_log(buf, MSG_NORMAL);
+            write_log(MSG_NORMAL,
+                      "got result from wrong host: %d %d\n",
+                      result.hostid, sreq.hostid
+                );
             continue;
         }
 
@@ -513,16 +494,15 @@ int handle_results(
             result.outcome = RESULT_OUTCOME_SUCCESS;
             retval = wu.lookup_id(result.workunitid);
             if (retval) {
-                sprintf(buf,
-                    "can't find WU %d for result %d\n",
-                    result.workunitid, result.id
-                );
-                write_log(buf, MSG_NORMAL);
+                write_log(MSG_NORMAL,
+                          "can't find WU %d for result %d\n",
+                          result.workunitid, result.id
+                    );
             } else {
                 wu.need_validate = 1;
                 retval = wu.update();
                 if (retval) {
-                    write_log("Can't update WU\n", MSG_CRITICAL);
+                    write_log(MSG_CRITICAL, "Can't update WU\n");
                 }
             }
         } else {
@@ -534,11 +514,10 @@ int handle_results(
         strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
         retval = result.update();
         if (retval) {
-            sprintf(buf,
-                "can't update result %d: %s\n",
-                result.id, boinc_db_error_string()
-            );
-            write_log(buf, MSG_NORMAL);
+            write_log(MSG_NORMAL,
+                      "can't update result %d: %s\n",
+                      result.id, boinc_db_error_string()
+                );
         }
 
     }
@@ -565,12 +544,10 @@ int send_work(
     int i, retval, nresults = 0, seconds_to_fill;
     WORKUNIT wu;
     DB_RESULT result, result_copy;
-    char buf[256];
 
     if (sreq.work_req_seconds <= 0) return 0;
 
-    sprintf(buf, "got request for %d seconds of work\n", sreq.work_req_seconds);
-    write_log(buf, MSG_DEBUG);
+    write_log(MSG_DEBUG, "got request for %d seconds of work\n", sreq.work_req_seconds);
 
     seconds_to_fill = sreq.work_req_seconds;
     if (seconds_to_fill > MAX_SECONDS_TO_SEND) {
@@ -588,8 +565,7 @@ int send_work(
             continue;
         }
         if (!wu_is_feasible(ss.wu_results[i].workunit, reply.host)) {
-            sprintf(buf, "WU %s is infeasible\n", ss.wu_results[i].workunit.name);
-            write_log(buf, MSG_DEBUG);
+            write_log(MSG_DEBUG, "WU %s is infeasible\n", ss.wu_results[i].workunit.name);
             continue;
         }
 
@@ -602,11 +578,10 @@ int send_work(
         );
         if (retval) continue;
 
-        sprintf(buf,
-            "sending result name %s, id %d\n",
-            result.name, result.id
-        );
-        write_log(buf, MSG_DEBUG);
+        write_log(MSG_DEBUG,
+                  "sending result name %s, id %d\n",
+                  result.name, result.id
+            );
 
         // copy the result so we don't overwrite its XML fields
         //
@@ -614,7 +589,7 @@ int send_work(
 
         retval = insert_name_tags(result_copy, wu);
         if (retval) {
-            write_log("send_work: can't insert name tags\n", MSG_NORMAL);
+            write_log(MSG_NORMAL, "send_work: can't insert name tags\n");
         }
         reply.insert_result(result_copy);
 
@@ -630,8 +605,7 @@ int send_work(
         if (nresults == MAX_WUS_TO_SEND) break;
     }
 
-    sprintf(buf, "sending %d results\n", nresults);
-    write_log(buf, MSG_DEBUG);
+    write_log(MSG_DEBUG, "sending %d results\n", nresults);
 
     if (nresults == 0) {
         strcpy(reply.message, "no work available");
@@ -654,7 +628,7 @@ void send_code_sign_key(
 
     if (strlen(sreq.code_sign_key)) {
         if (strcmp(sreq.code_sign_key, code_sign_key)) {
-            write_log("received old code sign key\n", MSG_NORMAL);
+            write_log(MSG_NORMAL, "received old code sign key\n");
 
             // look for a signature file
             //
@@ -692,7 +666,6 @@ void send_code_sign_key(
 }
 
 bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
-    char buf[256];
     if (sreq.core_client_major_version != MAJOR_VERSION) {
         reply.nucleus_only = true;
         sprintf(reply.message,
@@ -703,10 +676,9 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             sreq.core_client_major_version
         );
         strcpy(reply.message_priority, "low");
-        sprintf(buf, "Wrong major version: wanted %d, got %d\n",
-            MAJOR_VERSION, sreq.core_client_major_version
-        );
-        write_log(buf, MSG_NORMAL);
+        write_log(MSG_NORMAL, "Wrong major version: wanted %d, got %d\n",
+                  MAJOR_VERSION, sreq.core_client_major_version
+            );
         return true;
     }
     return false;
@@ -736,7 +708,7 @@ void process_request(
         sprintf(buf, "platform [%s] not found\n", sreq.platform_name);
         strcpy(reply.message, buf);
         strcpy(reply.message_priority, "low");
-        write_log(buf, MSG_NORMAL);
+        write_log(MSG_NORMAL, buf);
         return;
     }
 
@@ -755,7 +727,7 @@ void handle_request(
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
 
-    write_log("Handling request\n", MSG_DEBUG);
+    write_log(MSG_DEBUG, "Handling request\n");
     memset(&sreq, 0, sizeof(sreq));
     sreq.parse(fin);
     process_request(sreq, sreply, ss, code_sign_key);
