@@ -19,7 +19,7 @@ py:
 UNIX2DOS=unix2dos
 UNIX2DOSDIR = /disks/philmor/a/users/quarl/bin
 
-UNIX2DOS = /disks/philmor/a/users/quarl/bin/unix2dos
+# UNIX2DOS = /disks/philmor/a/users/quarl/bin/unix2dos
 
 dist-hook:
 	rm -rf `find $(distdir) -name .backup -prune -o -name '*~'`
