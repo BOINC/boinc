@@ -194,7 +194,7 @@ void handle_wu(DB_WORKUNIT& wu) {
             case RESULT_OUTCOME_COULDNT_SEND:
                 log_messages.printf(
                     SchedMessages::NORMAL,
-                    "[WU#%d %s] [RESULT#%d %s] result coulnd't be sent\n",
+                    "[WU#%d %s] [RESULT#%d %s] result couldn't be sent\n",
                     wu.id, wu.name, result.id, result.name
                 );
                 wu.error_mask |= WU_ERROR_COULDNT_SEND_RESULT;
