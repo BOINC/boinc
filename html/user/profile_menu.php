@@ -21,6 +21,15 @@ User profiles provide a way for individuals to share backgrounds and opinions wi
 If you haven't already, you can <a href=create_profile.php>create your own user profile</a> for others to see!
 ");
 rowify("<br>");
+
+$today = getdate(time());
+$UOTD_heading = "User of the Day -- " . $today['month'] . " " . $today['mday'] . ", " . $today['year'];
+row1($UOTD_heading);
+echo "<tr><td>";
+include("uotd.html");
+echo "</td></tr>";
+
+rowify("<br>");
 row1("User Profile Explorer");
 echo "<tr><td>
 <ul>
@@ -99,11 +108,15 @@ function execute_command() {
   }
 }
 
+// TODO: This function should generate multiple pages, and should possibly take the number
+// of results to display from a user-input parameter.  Look at build_profile_pages for an
+// example of a good way to do this (albeit writing to a file in that case).
+
 function show_search_results($members) {
   page_head("Profile Search Results");
   
   if (count($members) > 0) {
-    show_user_table($members, 0, 10, 2);
+    show_user_table($members, 0, 20, 2);
   } else {
     echo "No profiles matched your query.<br>";
   }
