@@ -139,6 +139,7 @@ protected:
 	void					ClearProjectItems(char *);
 	void					Syncronize(CProgressListCtrl*, vector<void*>*);
     virtual void			PostNcDestroy();
+	bool					should_request_global_prefs();
 	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
     afx_msg void			OnClose();
@@ -182,7 +183,6 @@ protected:
 public:
 	void OnBenchmarksBegin();
 	void OnBenchmarksEnd();
-
 };
 
 // globals
