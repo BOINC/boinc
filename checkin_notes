@@ -7695,3 +7695,23 @@ David  11 Nov 2003
         sched_shmem.C
     tools/
         backend_lib.C
+
+David  11 Nov 2003
+    - modify the scheduler so that if a client requests work,
+        and there are unsent results, but none can be sent,
+        then the client gets an explanatory message: either
+            - no app version available
+            - insufficient disk
+            - insufficient memory
+            - host is too slow
+        This involved creating a WORK_REQ structure that gets passed
+        around, to avoid huge numbers of arguments
+    - modify the scheduler so that if either
+        1) the shared-mem segment is absent or
+        2) the DB can't be opened
+        then it writes a "project temporarily down for maintenance"
+        message instead of just exiting
+
+    sched/
+        handle_request.C
+        main.C

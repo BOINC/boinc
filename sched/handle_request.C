@@ -47,6 +47,21 @@ const int MAX_WUS_TO_SEND     = 10;
 
 const double COBBLESTONE_FACTOR = 300.0;
 
+struct WORK_REQ {
+    bool infeasible_only;
+    double seconds_to_fill;
+    double disk_available;
+    int nresults;
+
+    // the following flags are set whenever a result is infeasible;
+    // used to construct explanatory message to user
+    //
+    bool insufficient_disk;
+    bool insufficient_mem;
+    bool insufficient_speed;
+    bool no_app_version;
+};
+
 // compute the max disk usage we can request of the host
 //
 double max_allowable_disk(USER& user, SCHEDULER_REQUEST& req) {
@@ -58,7 +73,7 @@ double max_allowable_disk(USER& user, SCHEDULER_REQUEST& req) {
 
     // fill in default values for missing prefs
     //
-    if (prefs.disk_max_used_gb == 0) prefs.disk_max_used_gb = 0.01;   // 10 MB
+    if (prefs.disk_max_used_gb == 0) prefs.disk_max_used_gb = 0.1;   // 100 MB
     if (prefs.disk_max_used_pct == 0) prefs.disk_max_used_pct = 10;
     // min_free_gb can be zero
 
@@ -124,19 +139,13 @@ inline double estimate_wallclock_duration(WORKUNIT& wu, HOST& host) {
 
 // return true if the WU can be executed on the host
 //
-bool wu_is_feasible(WORKUNIT& wu, HOST& host) {
-    if(host.d_free && wu.rsc_disk_bound > host.d_free) {
-        log_messages.printf(
-            SchedMessages::DEBUG, "[WU#%d %s] needs %f disk; [HOST#%d] has %f\n",
-            wu.id, wu.name, wu.rsc_disk_bound, host.id, host.d_free
-        );
-        return false;
-    }
+bool wu_is_feasible(WORKUNIT& wu, HOST& host, WORK_REQ& wreq) {
     if (host.m_nbytes && wu.rsc_memory_bound > host.m_nbytes) {
         log_messages.printf(
             SchedMessages::DEBUG, "[WU#%d %s] needs %f mem; [HOST#%d] has %f\n",
             wu.id, wu.name, wu.rsc_memory_bound, host.id, host.m_nbytes
         );
+        wreq.insufficient_mem = true;
         return false;
     }
 
@@ -148,6 +157,7 @@ bool wu_is_feasible(WORKUNIT& wu, HOST& host) {
             SchedMessages::DEBUG, "[WU#%d %s] needs requires %d seconds on [HOST#%d]; delay_bound is %d\n",
             wu.id, wu.name, (int)wu_wallclock_time, host.id, wu.delay_bound
         );
+        wreq.insufficient_speed = true;
         return false;
     }
 
@@ -204,7 +214,8 @@ int insert_wu_tags(WORKUNIT& wu, APP& app) {
 // Add the app and app_version to the reply also.
 //
 int add_wu_to_reply(
-    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform, SCHED_SHMEM& ss
+    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform, SCHED_SHMEM& ss,
+    WORK_REQ& wreq
 ) {
     APP* app;
     APP_VERSION* avp;
@@ -221,10 +232,11 @@ int add_wu_to_reply(
     avp = ss.lookup_app_version(app->id, platform.id, app->min_version);
     if (!avp) {
         log_messages.printf(
-            SchedMessages::CRITICAL,
-            "Can't find app version: APP#%d PLATFORM#%d min_version %d\n",
+            SchedMessages::DEBUG,
+            "no app version available: APP#%d PLATFORM#%d min_version %d\n",
             app->id, platform.id, app->min_version
         );
+        wreq.no_app_version = true;
         return ERR_NULL;
     }
 
@@ -640,10 +652,9 @@ static bool already_in_reply(WU_RESULT& wu_result, SCHEDULER_REPLY& reply) {
 // previously infeasible for some host
 //
 static void scan_work_array(
-    bool infeasible_only, double& seconds_to_fill, double& disk_available,
-    int& nresults,
+    WORK_REQ& wreq,
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    SCHED_SHMEM& ss, bool& insufficient_disk
+    SCHED_SHMEM& ss
 ) {
     int i, retval, n;
     WORKUNIT wu;
@@ -651,12 +662,12 @@ static void scan_work_array(
     double wu_seconds_filled;
     char buf[256];
 
-    if (disk_available < 0) insufficient_disk = true;
+    if (wreq.disk_available < 0) wreq.insufficient_disk = true;
 
     for (i=0; i<ss.nwu_results; i++) {
 
-        if (seconds_to_fill <= 0) break;
-        if (disk_available <= 0) break;
+        if (wreq.seconds_to_fill <= 0) break;
+        if (wreq.disk_available <= 0) break;
 
         WU_RESULT& wu_result = ss.wu_results[i];
 
@@ -666,13 +677,13 @@ static void scan_work_array(
             continue;
         }
 
-        if (wu_result.workunit.rsc_disk_bound > disk_available) {
-            insufficient_disk = true;
+        if (wu_result.workunit.rsc_disk_bound > wreq.disk_available) {
+            wreq.insufficient_disk = true;
             wu_result.infeasible_count++;
             continue;
         }
 
-        if (infeasible_only && wu_result.infeasible_count==0) {
+        if (wreq.infeasible_only && wu_result.infeasible_count==0) {
             continue;
         }
 
@@ -713,7 +724,7 @@ static void scan_work_array(
         // don't send if host can't handle it
         //
         wu = wu_result.workunit;
-        if (!wu_is_feasible(wu, reply.host)) {
+        if (!wu_is_feasible(wu, reply.host, wreq)) {
             log_messages.printf(
                 SchedMessages::DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
                 reply.host.id, wu.id, wu.name
@@ -726,7 +737,7 @@ static void scan_work_array(
         // for the client's platform.
         // Treat the same as the WU being infeasible
         //
-        retval = add_wu_to_reply(wu, reply, platform, ss);
+        retval = add_wu_to_reply(wu, reply, platform, ss, wreq);
         if (retval) {
             wu_result.infeasible_count++;
             continue;
@@ -749,7 +760,7 @@ static void scan_work_array(
         // ****** HERE WE'VE COMMITTED TO SENDING THIS RESULT TO HOST ******
         //
 
-        disk_available -= wu.rsc_disk_bound;
+        wreq.disk_available -= wu.rsc_disk_bound;
 
         // update the result in DB
         //
@@ -793,10 +804,10 @@ static void scan_work_array(
         }
         reply.insert_result(result);
 
-        seconds_to_fill -= wu_seconds_filled;
+        wreq.seconds_to_fill -= wu_seconds_filled;
 
-        nresults++;
-        if (nresults == MAX_WUS_TO_SEND) break;
+        wreq.nresults++;
+        if (wreq.nresults == MAX_WUS_TO_SEND) break;
     }
 }
 
@@ -805,49 +816,63 @@ int send_work(
     SCHED_SHMEM& ss
 ) {
     int nresults = 0;
-    double seconds_to_fill;
-    double disk_available;
-    bool insufficient_disk = false;
+    WORK_REQ wreq;
 
-    disk_available = max_allowable_disk(reply.user, sreq);
+    wreq.disk_available = max_allowable_disk(reply.user, sreq);
+    wreq.insufficient_disk = false;
+    wreq.insufficient_mem = false;
+    wreq.insufficient_speed = false;
+    wreq.no_app_version = false;
 
     log_messages.printf(
         SchedMessages::NORMAL,
         "[HOST#%d] got request for %d seconds of work; available disk %f GB\n",
-        reply.host.id, sreq.work_req_seconds, disk_available/1e9
+        reply.host.id, sreq.work_req_seconds, wreq.disk_available/1e9
     );
 
     if (sreq.work_req_seconds <= 0) return 0;
 
-    seconds_to_fill = sreq.work_req_seconds;
-    if (seconds_to_fill > MAX_SECONDS_TO_SEND) {
-        seconds_to_fill = MAX_SECONDS_TO_SEND;
+    wreq.seconds_to_fill = sreq.work_req_seconds;
+    if (wreq.seconds_to_fill > MAX_SECONDS_TO_SEND) {
+        wreq.seconds_to_fill = MAX_SECONDS_TO_SEND;
     }
-    if (seconds_to_fill < MIN_SECONDS_TO_SEND) {
-        seconds_to_fill = MIN_SECONDS_TO_SEND;
+    if (wreq.seconds_to_fill < MIN_SECONDS_TO_SEND) {
+        wreq.seconds_to_fill = MIN_SECONDS_TO_SEND;
     }
 
     // give priority to results that were infeasible for some other host
     //
-    scan_work_array(
-        true, seconds_to_fill, disk_available,
-        nresults, sreq, reply, platform, ss, insufficient_disk
-    );
-    scan_work_array(
-        false, seconds_to_fill, disk_available,
-        nresults, sreq, reply, platform, ss, insufficient_disk
-    );
+    wreq.infeasible_only = true;
+    scan_work_array(wreq, sreq, reply, platform, ss);
+
+    wreq.infeasible_only = false;
+    scan_work_array(wreq, sreq, reply, platform, ss);
 
     log_messages.printf(
         SchedMessages::NORMAL, "[HOST#%d] Sent %d results\n",
         reply.host.id, nresults
     );
 
-    if (nresults == 0) {
+    if (wreq.nresults == 0) {
         strcpy(reply.message, "No work available");
-        if (insufficient_disk) {
+        if (wreq.no_app_version) {
             strcat(reply.message,
-                " (you may need to increase disk limits in global prefs)"
+                " (there was work for other platforms)"
+            );
+        }
+        if (wreq.insufficient_disk) {
+            strcat(reply.message,
+                " (there was work but you don't have enough disk space allocated)"
+            );
+        }
+        if (wreq.insufficient_mem) {
+            strcat(reply.message,
+                " (there was work but your computer doesn't have enough memory)"
+            );
+        }
+        if (wreq.insufficient_mem) {
+            strcat(reply.message,
+                " (there was work but your computer would not finish it before it is due"
             );
         }
         strcpy(reply.message_priority, "low");

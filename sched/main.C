@@ -57,11 +57,12 @@ int main() {
     FILE* fin, *fout;
     int i, retval, pid;
     char req_path[256], reply_path[256], path[256];
-    SCHED_SHMEM* ssp;
+    SCHED_SHMEM* ssp=0;
     void* p;
     unsigned int counter=0;
     char* code_sign_key;
     bool found;
+    bool project_stopped = false;
 
     if (!freopen(STDERR_FILENAME, "a", stderr)) {
         fprintf(stderr, "Can't redirect stderr\n");
@@ -79,45 +80,52 @@ int main() {
     sprintf(path, "%s/code_sign_public", config.key_dir);
     retval = read_file_malloc(path, code_sign_key);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "Can't read code sign key file (%s)\n", path);
+        log_messages.printf(SchedMessages::CRITICAL,
+            "Can't read code sign key file (%s)\n", path
+        );
         exit(1);
     }
 
     retval = attach_shmem(config.shmem_key, &p);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "Can't attach shmem (feeder not running?)\n");
-        exit(1);
-    }
-    ssp = (SCHED_SHMEM*)p;
-    retval = ssp->verify();
-    if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "shmem has wrong struct sizes - recompile\n");
-        exit(1);
-    }
+        log_messages.printf(SchedMessages::CRITICAL,
+            "Can't attach shmem (feeder not running?)\n"
+        );
+        project_stopped = true;
+    } else {
+        ssp = (SCHED_SHMEM*)p;
+        retval = ssp->verify();
+        if (retval) {
+            log_messages.printf(SchedMessages::CRITICAL,
+                "shmem has wrong struct sizes - recompile\n"
+            );
+            exit(1);
+        }
 
-    for (i=0; i<10; i++) {
-        if (ssp->ready) break;
-        log_messages.printf(SchedMessages::DEBUG, "waiting for ready flag\n");
-        sleep(1);
-    }
-    if (!ssp->ready) {
-        log_messages.printf(SchedMessages::CRITICAL, "feeder doesn't seem to be running\n");
-        exit(1);
+        for (i=0; i<10; i++) {
+            if (ssp->ready) break;
+            log_messages.printf(SchedMessages::DEBUG, "waiting for ready flag\n");
+            sleep(1);
+        }
+        if (!ssp->ready) {
+            log_messages.printf(SchedMessages::CRITICAL, "feeder doesn't seem to be running\n");
+            exit(1);
+        }
     }
 
     retval = boinc_db.open(config.db_name, config.db_passwd);
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "can't open database\n");
-        exit(1);
-    }
-
-    found = false;
-    while (!gproject.enumerate("")) {
-        found = true;
-    }
-    if (!found) {
-        log_messages.printf(SchedMessages::CRITICAL, "can't find project\n");
-        exit(1);
+        project_stopped = true;
+    } else {
+        found = false;
+        while (!gproject.enumerate("")) {
+            found = true;
+        }
+        if (!found) {
+            log_messages.printf(SchedMessages::CRITICAL, "can't find project\n");
+            exit(1);
+        }
     }
 
     pid = getpid();
@@ -126,6 +134,14 @@ int main() {
     counter++;
 #endif
     printf("Content-type: text/plain\n\n");
+    if (project_stopped) {
+        printf(
+            "<scheduler_reply>\n"
+            "    <message priority=\"low\">Project is temporarily shut down for maintenance</message>\n"
+            "</scheduler_reply>\n"
+        );
+        goto done;
+    }
     if (use_files) {
         // the code below is convoluted because,
         // instead of going from stdin to stdout directly,
@@ -167,6 +183,7 @@ int main() {
     } else {
         handle_request(stdin, stdout, *ssp, code_sign_key);
     }
+done:
 #ifdef _USING_FCGI_
     }
 #endif
