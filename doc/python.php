@@ -150,7 +150,7 @@ usage such as custom SQL queries (anything is possible :) see the pydoc.
 <pre>
   all_apps = database.Apps.find()
   finished_yeti_wus = database.Workunits.find(
-      app = database.Apps.find(name='YETI@home')[0]
+      app = database.Apps.find(name='YETI@home')[0],
       assimilate_state = ASSIMILATE_DONE)
 </pre>
 

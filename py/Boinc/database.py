@@ -304,14 +304,16 @@ class DatabaseObject:
             if key == 'id':
                 # self.id = value
                 continue
-            if not key in columns:
+            if key or key+'id' in columns:
+                if key.endswith('id'):
+                    xkey = key[:-2]
+                    self.__dict__[xkey] = self.id_lookups[xkey]._table[value]
+                else:
+                    self.__dict__[key] = value
+            else:
+                # print '### columns=%s'%columns
                 raise ValueError("database '%s' object doesn't take argument '%s'"%(
                     self._table.table, key))
-            elif key.endswith('id'):
-                xkey = key[:-2]
-                self.__dict__[xkey] = self.id_lookups[xkey]._table[value]
-            else:
-                self.__dict__[key] = value
 
     def do_init(self, kwargs):
         try:

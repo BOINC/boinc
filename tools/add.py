@@ -33,10 +33,9 @@ add.py workunit  (TODO)
 add.py result    (TODO) '''
 
 import boinc_path_config
-from Boinc import database, db_mid, util
-import sys, os, getopt, md5, time
-
-database.connect_default_config()
+from Boinc import database, db_mid, configxml
+from Boinc.util import *
+import sys, os, getopt, md5, time, pprint, shutil
 
 CREATE_TIME = ['?create_time', int(time.time())]
 
@@ -68,12 +67,12 @@ class XAppVersion(database.AppVersion):
         xml_doc += ('<app_version>\n'+
                          '    <app_name>%s</app_name>\n'+
                          '    <version_num>%d</version_num>\n') %(
-            self.name, self.version_num)
+            kwargs['app'].name, int(kwargs['version_num']))
 
         first = True
         for exec_file in exec_files:
             xml_doc += ('    <file_ref>\n'+
-                             '         <file_name>%s</filename>\n') %(
+                             '       <file_name>%s</filename>\n') %(
                 os.path.basename(exec_file))
             if first:
                 xml_doc += '       <main_program/>\n'
@@ -112,7 +111,7 @@ def translate_arg(object, arg, value, args_dict):
     '''Translate various arguments'''
     database_table = None
     try:
-        database_table = database.__dict__[arg.capitalize]._table
+        database_table = database.__dict__[arg.capitalize()]._table
     except:
         pass
     if database_table:
@@ -148,9 +147,12 @@ def translate_database_arg(database_table, arg, value):
     except:
         results = database_table.find(name=value)
     if len(results) == 0:
-        raise SystemExit('No %s %s found' %(arg,value))
+        raise SystemExit('No %s "%s" found' %(arg,value))
     if len(results) > 1:
-        raise SystemExit('Too many %s match "%s"'%(arg,value))
+        print >>sys.stderr, 'Too many %ss match "%s": '%(arg,value)
+        for result in results:
+            print  >>sys.stderr, '   ', result.name
+        raise SystemExit
     return results[0]
 
 def ambiguous_lookup(string, dict):
@@ -248,16 +250,21 @@ def add_object(object, args):
         if not arg in args_dict:
             help_object(object, 'required argument --%s not given'%arg)
 
-    print "## args_dict=",args_dict
-
     object = apply(object.DatabaseObject, [], args_dict)
     object.commit()
-    print "Committed", object
+    print "Committed", object, "with args:"
+    pprint.pprint(object.__dict__)
 
 def sign_executable(executable_path):
     '''Returns signed text for executable'''
     print 'Signing', executable_path
-    return os.popen('sign_executable %s %s'%(executable_path,config.config.code_sign_key)).read()
+    code_sign_key = os.path.join(config.config.key_dir, 'code_sign_private')
+    sign_executable_path = os.path.join(boinc_path_config.TOP_BUILD_DIR,
+                                        'tools','sign_executable')
+    if not os.path.exists(sign_executable_path):
+        raise SystemExit("tools/sign_executable not found! did you `make' it?")
+    return os.popen('%s %s %s'%(sign_executable_path,
+                                executable_path,code_sign_key)).read()
 
 class Dict:
     pass
@@ -325,4 +332,8 @@ if len(possible_objects) > 1:
 
 args = sys.argv[2:]
 parse_global_options(args)
+
+config = configxml.default_config()
+database.connect(config.config)
+
 add_object(possible_objects[0], args)
