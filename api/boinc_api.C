@@ -21,10 +21,10 @@
 // graphics-related code goes in graphics_api.C, not here
 
 #ifdef _WIN32
-#include <windows.h>
-#include "win/Stackwalker.h"
+#include "stdafx.h"
 #endif
 
+#ifndef _WIN32
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -44,6 +44,7 @@
 #include <sys/types.h>
 
 using namespace std;
+#endif
 
 #include "parse.h"
 #include "shmem.h"

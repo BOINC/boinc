@@ -17,12 +17,10 @@
 // Contributor(s):
 //
 
-#ifndef _WIN32
 #include <cstdio>
 #include <cstdlib>
 #include <string>
-using std::string;
-#endif
+using namespace std;
 
 
 extern bool parse(char* , char* );

@@ -293,7 +293,7 @@ void strip_whitespace(char *str) {
         strcpy(str, str+1);
     }
     while (1) {
-        n = strlen(str);
+        n = (int)strlen(str);
         if (n == 0) break;
         if (!isascii(str[n-1])) break;
         if (!isspace(str[n-1])) break;
@@ -307,7 +307,7 @@ void strip_whitespace(string& str) {
         str.erase(0, 1);
     }
     while (1) {
-        n = str.length();
+        n = (int)str.length();
         if (n == 0) break;
         if (!isascii(str[n-1])) break;
         if (!isspace(str[n-1])) break;

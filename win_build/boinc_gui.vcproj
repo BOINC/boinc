@@ -24,12 +24,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				AdditionalIncludeDirectories="../lib/,../api/,../api/win/,../RSAEuro/source/,../client/win/,../client"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="../client/StdAfx.h"
 				PrecompiledHeaderFile=".\Build\Release\boinc_gui\obj/boinc_gui.pch"
 				AssemblerListingLocation=".\Build\Release\boinc_gui\obj/"
 				ObjectFile=".\Build\Release\boinc_gui\obj/"
@@ -91,11 +92,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MT"
+				AdditionalIncludeDirectories="../lib/,../api/,../api/win/,../RSAEuro/source/,../client/win/,../client"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="../client/StdAfx.h"
 				PrecompiledHeaderFile=".\Build\Debug\boinc_gui\obj/boinc_gui.pch"
 				AssemblerListingLocation=".\Build\Debug\boinc_gui\obj/"
 				ObjectFile=".\Build\Debug\boinc_gui\obj/"
@@ -109,12 +111,14 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wsock32.lib wininet.lib winmm.lib nafxcwd.lib libcmtd.lib"
+				AdditionalDependencies="nafxcwd.lib atlsd.lib libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib comdlg32.lib comctl32.lib shell32.lib shlwapi.lib ole32.lib oleaut32.lib oleacc.lib winspool.lib oldnames.lib uuid.lib"
 				OutputFile=".\Build\Debug/boinc_gui.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\boinc_dll\Debug"
-				IgnoreDefaultLibraryNames="libc,libcd,nafxcwd,libcmtd"
+				IgnoreAllDefaultLibraries="TRUE"
+				IgnoreDefaultLibraryNames=""
+				DelayLoadDLLs="oleacc.dll"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Debug/boinc_gui.pdb"
 				GenerateMapFile="TRUE"
@@ -992,27 +996,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\Stackwalker.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
+				RelativePath="..\api\win\Stackwalker.cpp">
 			</File>
 			<File
 				RelativePath="..\client\stdafx.cpp">
@@ -1359,7 +1343,7 @@
 				RelativePath="..\client\ss_logic.h">
 			</File>
 			<File
-				RelativePath="..\client\win\Stackwalker.h">
+				RelativePath="..\api\win\Stackwalker.h">
 			</File>
 			<File
 				RelativePath="..\client\stdafx.h">

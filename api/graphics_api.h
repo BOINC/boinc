@@ -1,18 +1,7 @@
 #ifndef BOINC_GRAPHICS_API_H
 #define BOINC_GRAPHICS_API_H
 
-#ifdef __APPLE_CC__
-#ifndef HAVE_GL_LIB 
-#define HAVE_GL_LIB 1
-#endif
-#ifndef HAVE_OPENGL_GL_H
-#define HAVE_OPENGL_GL_H
-#endif
-#include <Carbon/Carbon.h>
-#endif
-
 #ifdef _WIN32
-#include <windows.h>
 #ifndef HAVE_GL_LIB
 #define HAVE_GL_LIB 1
 #endif
@@ -25,6 +14,16 @@
 #ifndef HAVE_GL_GLAUX_H
 #define HAVE_GL_GLAUX_H 1
 #endif
+#endif
+
+#ifdef __APPLE_CC__
+#ifndef HAVE_GL_LIB 
+#define HAVE_GL_LIB 1
+#endif
+#ifndef HAVE_OPENGL_GL_H
+#define HAVE_OPENGL_GL_H
+#endif
+#include <Carbon/Carbon.h>
 #endif
 
 #ifdef HAVE_GL_H

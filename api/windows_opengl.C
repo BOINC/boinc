@@ -14,13 +14,7 @@
  *		Adapted to BOINC by Eric Heien
  */
 
-//remove if there are windows problems
-#define WIN32_LEAN_AND_MEAN   // This trims down the windows libraries.
-#define WIN32_EXTRA_LEAN      // Trims even farther.
-
-#include <windows.h>
-#include <stdio.h>
-#include <winuser.h>
+#include "stdafx.h"
 
 #include "boinc_api.h"
 #include "graphics_api.h"

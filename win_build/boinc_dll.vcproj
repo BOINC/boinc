@@ -25,6 +25,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="..\client\StdAfx.h"
 				PrecompiledHeaderFile=".\Build\Debug\boinc_dll\obj/boinc_dll.pch"
 				AssemblerListingLocation=".\Build\Debug\boinc_dll\obj/"
 				ObjectFile=".\Build\Debug\boinc_dll\obj/"
@@ -37,9 +38,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="kernel32.lib user32.lib LIBCMTD.LIB"
 				OutputFile="Build\Debug/boinc.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				IgnoreAllDefaultLibraries="TRUE"
 				ModuleDefinitionFile="..\client\win\win_idle_tracker.def"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Debug/boinc_dll.pdb"
@@ -92,6 +95,7 @@
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="..\client\StdAfx.h"
 				PrecompiledHeaderFile=".\Build\Release\boinc_dll\obj/boinc_dll.pch"
 				AssemblerListingLocation=".\Build\Release\boinc_dll\obj/"
 				ObjectFile=".\Build\Release\boinc_dll\obj/"
@@ -103,9 +107,11 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="kernel32.lib user32.lib LIBCMT.LIB"
 				OutputFile="Build\Release/boinc.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				IgnoreAllDefaultLibraries="TRUE"
 				ModuleDefinitionFile="..\client\win\win_idle_tracker.def"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Release/boinc_dll.pdb"

@@ -19,6 +19,9 @@
 //
 // Revision History
 // $Log$
+// Revision 1.28  2004/03/06 09:45:25  rwalton
+// *** empty log message ***
+//
 // Revision 1.27  2004/01/22 17:57:41  davea
 // *** empty log message ***
 //
@@ -32,12 +35,14 @@
 //
 //
 #include "config.h"
+
 #include <cctype>
 #include <vector>
 #include <string>
 #include <sstream>
 #include <cstring>
 #include <cstdio>
+
 #include "std_fixes.h"
 #include "xml_util.h"
 
@@ -562,7 +567,7 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
     rv << ival << ',';
     if ((static_cast<int>(rv.str().size())-lastlen-std::min(xml_indent_level,XML_MAX_INDENT))>73) {
       rv << std::endl << xml_indent();
-      lastlen=rv.str().size();
+      lastlen=(long)rv.str().size();
     }
   }
   unsigned int ival=bin[i];
@@ -644,6 +649,9 @@ bool extract_xml_record(const std::string &field, const char *tag, std::string &
 
 //
 // $Log$
+// Revision 1.28  2004/03/06 09:45:25  rwalton
+// *** empty log message ***
+//
 // Revision 1.27  2004/01/22 17:57:41  davea
 // *** empty log message ***
 //

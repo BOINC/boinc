@@ -60,6 +60,7 @@
 #include <process.h>
 #include <commctrl.h>
 #include <raserror.h>
+#include <mmsystem.h>
 
 #include "Stackwalker.h"
 

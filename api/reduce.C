@@ -1,17 +1,35 @@
+// Copyright 2003 Regents of the University of California
+
+// SETI_BOINC is free software; you can redistribute it and/or modify it under
+// the terms of the GNU General Public License as published by the Free
+// Software Foundation; either version 2, or (at your option) any later
+// version.
+
+// SETI_BOINC is distributed in the hope that it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+// more details.
+
+// You should have received a copy of the GNU General Public License along
+// with SETI_BOINC; see the file COPYING.  If not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+#ifdef _WIN32
+#include "stdafx.h"
+#include <GL/gl.h>
+#endif
+
+#ifndef _WIN32
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
-#ifdef _WIN32
-#include <windows.h>
-#include <GL/gl.h>
-#endif
-
 #ifdef __APPLE_CC__
 #include <OpenGL/gl.h>
 #define max(a,b)  (a>b?a:b)
 #define min(a,b)  (a>b?b:a)
+#endif
 #endif
 
 #include "gutil.h"

@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="boinc_cli"
+	RootNamespace="boinc_cli"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -21,11 +22,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CONSOLE"
+				AdditionalIncludeDirectories="../lib/,../api/,../api/win/,../RSAEuro/source/,../client/win/,../client"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="0"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="../client/StdAfx.h"
 				PrecompiledHeaderFile=".\Build\Debug\boinc_cli\obj/boinc_cli.pch"
 				AssemblerListingLocation=".\Build\Debug\boinc_cli\obj/"
 				ObjectFile=".\Build\Debug\boinc_cli\obj/"
@@ -39,11 +41,12 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="wsock32.lib wininet.lib winmm.lib nafxcwd.lib libcmtd.lib"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib oldnames.lib"
 				OutputFile=".\Build\Debug/boinc_cli.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				IgnoreDefaultLibraryNames="libc,nafxcwd,libcmtd,libcmt,libcd"
+				IgnoreAllDefaultLibraries="TRUE"
+				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Debug/boinc_cli.pdb"
 				SubSystem="1"
@@ -82,19 +85,20 @@
 			OutputDirectory=".\Build\Release"
 			IntermediateDirectory=".\Build\Release\boinc_cli\obj"
 			ConfigurationType="1"
-			UseOfMFC="2"
+			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE"
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_CONSOLE"
+				AdditionalIncludeDirectories="../lib/,../api/,../api/win/,../RSAEuro/source/,../client/win/,../client"
+				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE"
 				StringPooling="TRUE"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="TRUE"
 				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="../client/StdAfx.h"
 				PrecompiledHeaderFile=".\Build\Release\boinc_cli\obj/boinc_cli.pch"
 				AssemblerListingLocation=".\Build\Release\boinc_cli\obj/"
 				ObjectFile=".\Build\Release\boinc_cli\obj/"
@@ -107,11 +111,13 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="Advapi32.lib wsock32.lib wininet.lib winmm.lib"
+				AdditionalDependencies="kernel32.lib user32.lib advapi32.lib wsock32.lib wininet.lib winmm.lib libcmt.lib libcpmt.lib oldnames.lib"
+				ShowProgress="0"
 				OutputFile=".\Build\Release/boinc_cli.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				IgnoreDefaultLibraryNames="libc"
+				IgnoreAllDefaultLibraries="TRUE"
+				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Release/boinc_cli.pdb"
 				SubSystem="1"
@@ -987,7 +993,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\Stackwalker.cpp">
+				RelativePath="..\api\win\Stackwalker.cpp">
 			</File>
 			<File
 				RelativePath="..\client\stdafx.cpp">
@@ -1171,6 +1177,9 @@
 			</File>
 			<File
 				RelativePath="..\client\win\Stackwalker.h">
+			</File>
+			<File
+				RelativePath="..\api\win\Stackwalker.h">
 			</File>
 			<File
 				RelativePath="..\client\stdafx.h">

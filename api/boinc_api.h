@@ -20,16 +20,13 @@
 #ifndef _BOINC_API_
 #define _BOINC_API_
 
+#ifndef _WIN32
 #include <string>
 #include <assert.h>
-
-#ifdef _WIN32
-#include <crtdbg.h>
 #endif
 
 #include "app_ipc.h"
 
-using namespace std;
 
 // ****************************************************************************
 // ****************************************************************************

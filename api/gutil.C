@@ -17,27 +17,18 @@
 // Contributor(s):
 //
 
-#ifndef _WIN32
 #include "config.h"
+
+#ifdef _WIN32
+#include "stdafx.h"
 #endif
 
+#ifndef _WIN32
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include <setjmp.h>
-
-#ifdef _WIN32
-#include <windows.h>
-#include "jpeglib.h"
-#include "bmplib.h"
-#include "tgalib.h"
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <GLUT/glut.h>
-#else
-#include <jpeglib.h>
-#endif
 
 #ifdef HAVE_GL_H
 #include "gl.h"
@@ -64,6 +55,18 @@
 #include <OpenGL/glut.h>
 #elif defined(HAVE_GLUT_GLUT_H)
 #include <GLUT/glut.h>
+#endif
+#endif
+
+#ifdef _WIN32
+#include "jpeglib.h"
+#include "bmplib.h"
+#include "tgalib.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GLUT/glut.h>
+#else
+#include <jpeglib.h>
 #endif
 
 #include "gutil.h"
@@ -1350,7 +1353,7 @@ void print_text(char* string) {
 	if(string==NULL) return;
 	glPushAttrib(GL_LIST_BIT);
 	glListBase(listBase);
-	glCallLists(strlen(string), GL_UNSIGNED_BYTE, string);
+	glCallLists((GLsizei)strlen(string), GL_UNSIGNED_BYTE, string);
 	glPopAttrib();
 }
 

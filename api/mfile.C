@@ -17,6 +17,11 @@
 // Contributor(s):
 //
 
+#ifdef _WIN32
+#include "stdafx.h"
+#endif
+
+#ifndef _WIN32
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -28,6 +33,7 @@
 #endif
 
 using namespace std;
+#endif
 
 #include "filesys.h"
 #include "error_numbers.h"
@@ -49,7 +55,7 @@ int MFILE::printf(const char* format, ...) {
     va_start(ap, format);
     k = vsprintf(buf2, format, ap);
     va_end(ap);
-    n = strlen(buf2);
+    n = (int)strlen(buf2);
     buf = (char*)realloc(buf, len+n);
     if (!buf) {
         errno = ERR_MALLOC;
@@ -67,7 +73,7 @@ size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
         return 0;
     }
     memcpy( buf+len, ptr, size*nitems );
-    len += size*nitems;
+    len += (int)size*(int)nitems;
     return nitems;
 }
 
@@ -83,7 +89,7 @@ int MFILE::_putchar(char c) {
 }
 
 int MFILE::puts(const char* p) {
-    int n = strlen(p);
+    int n = (int)strlen(p);
     buf = (char*)realloc(buf, len+n);
     if (!buf) {
         errno = ERR_MALLOC;

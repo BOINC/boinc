@@ -20,14 +20,15 @@
 // The part of the BOINC app lib having to do with graphics.
 // This code is NOT linked into the core client.
 
+#include "config.h"
+
 #ifdef _WIN32
-#include <windows.h>
+#include "stdafx.h"
 extern DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 HANDLE graphics_threadh=NULL;
-#else
-#include "config.h"
 #endif
 
+#ifndef _WIN32
 #ifdef __APPLE_CC__
 #include "mac_app_opengl.h"
 #endif
@@ -37,6 +38,7 @@ HANDLE graphics_threadh=NULL;
 
 #ifdef HAVE_PTHREAD
 #include <pthread.h>
+#endif
 #endif
 
 #include "parse.h"

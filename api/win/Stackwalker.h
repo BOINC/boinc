@@ -26,7 +26,7 @@
 #endif
 
 // Only MS VC++ 5 to 7
-#if (_MSC_VER < 1100) || (_MSC_VER > 1400)
+#if (_MSC_VER < 1100) || (_MSC_VER > 1310)
 #error Only MS VC++ 5/6/7 supported. Check if the '_CrtMemBlockHeader' has not changed with this compiler!
 #endif
 
@@ -41,10 +41,6 @@ typedef enum eAllocCheckOutput
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern int InitAllocCheckWN(eAllocCheckOutput eOutput, LPCTSTR pszFilename, ULONG ulShowStackAtAlloc = 0);
-extern int InitAllocCheck(eAllocCheckOutput eOutput = ACOutput_Simple, BOOL bSetUnhandledExeptionFilter = TRUE, ULONG ulShowStackAtAlloc = 0);  // will create the filename by itself
-
-extern ULONG DeInitAllocCheck();
 
 extern DWORD StackwalkFilter( EXCEPTION_POINTERS *ep, DWORD status, LPCTSTR pszLogFile);
 

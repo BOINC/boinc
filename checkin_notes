@@ -10319,7 +10319,7 @@ Rom    Mar 4 2004
       boinc.dll     (Before Changes)       136KB         44KB
 
       boinc_gui.exe (After Changes)        1.716MB       428KB
-      boinc_cli.exe (After Changes)        1.508MB       272KB
+      boinc_cli.exe (After Changes)        1.508MB       412KB
       boinc.scr     (After Changes)        188KB         116KB
       boinc.dll     (After Changes)        140KB         58KB
 
@@ -10356,8 +10356,18 @@ Rom    Mar 4 2004
         util.h
 
 Rom    Mar 5 2004
-    - Fix profile path problem that I didn't check-in after fixing it in the alpha project
-        the first time.
+    - Include file overhaul for the Windows platform ( Part 2 )
 
-    html/user/
-        profile_menu.php
+      Compiled Source Sizes:               Debug         Release
+      boinc_gui.exe (Before Changes)       1.732MB       328KB
+      boinc_cli.exe (Before Changes)       2.080MB       Unknown
+      boinc.scr     (Before Changes)       244KB         88KB
+      boinc.dll     (Before Changes)       136KB         44KB
+
+      boinc_gui.exe (After Changes)        1.716MB       428KB
+      boinc_cli.exe (After Changes)        624KB         412KB
+      boinc.scr     (After Changes)        188KB         116KB
+      boinc.dll     (After Changes)        140KB         58KB
+
+    I pretty much touched all the source and header files.  This checkin should not have any
+    effect on any platform other than Windows.

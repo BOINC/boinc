@@ -120,8 +120,8 @@ void copy_stream(FILE* in, FILE* out) {
     char buf[1024];
     int n, m;
     while (1) {
-        n = fread(buf, 1, 1024, in);
-        m = fwrite(buf, 1, n, out);
+        n = (int)fread(buf, 1, 1024, in);
+        m = (int)fwrite(buf, 1, n, out);
         if (n < 1024) break;
     }
 }
