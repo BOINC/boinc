@@ -172,6 +172,7 @@ int main(int argc, char** argv) {
     int i, retval;
     bool asynch = false;
     void* p;
+    char* barry;
 
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-asynch")) {
@@ -191,7 +192,7 @@ int main(int argc, char** argv) {
     }
     ssp = (SCHED_SHMEM*)p;
     ssp->init();
-    retval = db_open(BOINC_DB_NAME);
+    retval = db_open(getenv("BOINC_DB_NAME"));
     if (retval) {
         fprintf(stderr, "feeder: db_open: %d\n", retval);
         exit(1);

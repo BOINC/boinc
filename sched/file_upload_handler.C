@@ -19,14 +19,12 @@
 // <error>bad file size</error>
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 
 #include "parse.h"
 #include "crypt.h"
-
-/* #define BOINC_UPLOAD_DIR "/home/david/html/upload" */
-/* #define BOINC_PUBLIC_KEY_PATH "/home/david/boinc_keys/upload_public" */
 
 #define MAX_FILES 32
 
@@ -156,7 +154,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 return -1;
             }
 
-            sprintf(path, "%s/%s", BOINC_UPLOAD_DIR, file_info.name);
+            sprintf(path, "%s/%s", getenv("BOINC_UPLOAD_DIR"), file_info.name);
             retval = copy_socket_to_file(in, path, offset, nbytes);
             break;
         }
@@ -168,7 +166,7 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
     FILE* f;
     int retval;
 
-    f = fopen(BOINC_PUBLIC_KEY_PATH, "r");
+    f = fopen(strcat(getenv("BOINC_KEY_DIR"), "/upload_public"), "r");
     if (!f) return -1;
     retval = scan_key_hex(f, (KEY*)&key, sizeof(key));
     fclose(f);
