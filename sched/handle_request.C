@@ -29,6 +29,7 @@ using namespace std;
 #include <sys/wait.h>
 #include <time.h>
 #include <assert.h>
+#include <math.h>
 
 #include "db.h"
 #include "backend_lib.h"
@@ -259,7 +260,7 @@ new_host:
 //
 static void compute_credit_rating(HOST& host) {
     host.credit_per_cpu_sec = 
-        (host.p_fpops/1e9 + host.p_iops/1e9 + host.p_membw/4e9)/(3*SECONDS_PER_DAY);
+        (fabs(host.p_fpops)/1e9 + fabs(host.p_iops)/1e9 + fabs(host.p_membw)/4e9)/(3*SECONDS_PER_DAY);
 }
 
 // Update host record based on request.

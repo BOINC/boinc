@@ -18,11 +18,7 @@ Delete files if needed to honor disk usage constraint
 - "Connect Now" command should apply to a particular project,
     and should override the backoff on that project
 
-- Implement Screensaver "blank screen" functionality
-
 implement server watchdogs
-
-est_time_to_completion doesn't work for non-running tasks
 
 -----------------------
 THINGS TO TEST (preferably with test scripts)
@@ -38,10 +34,25 @@ Limit frequency of disk writes
 - multiple preference sets
 - shared memory and CPU time measurement, with and without the BOINC API
 - timezone on all platforms
+- preference propagation between projects
+- ensure cpu time doesn't reset if app is killed rather than quitting
 
 -----------------------
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
+
+let user choose language files in installation process
+
+write general language file manipulation functions
+
+use https to secure login pages, do we care about authenticator
+    being transmitted without encryption from the client?
+
+abort app if excess memory used
+
+Astropulse memory leak on Linux/Solaris?
+
+Windows 9x CPU time calculated incorrectly
 
 write docs for project management
     how to start/stop server complex
