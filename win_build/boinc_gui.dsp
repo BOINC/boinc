@@ -482,11 +482,23 @@ SOURCE=..\client\win\res\mess.bmp
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\win\res\proj.bmp
+# End Source File
+# Begin Source File
+
+SOURCE=..\client\win\res\result.bmp
+# End Source File
+# Begin Source File
+
 SOURCE=..\client\win\res\small.ico
 # End Source File
 # Begin Source File
 
 SOURCE=..\client\win\res\smallico.ico
+# End Source File
+# Begin Source File
+
+SOURCE=..\client\win\res\xfer.bmp
 # End Source File
 # End Group
 # End Target

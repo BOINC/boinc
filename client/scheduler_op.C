@@ -240,6 +240,25 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     return 0;
 }
 
+inline void trim(STRING256& str)
+{
+	char* last_char = str.text + strlen(str.text);
+	while (isspace(*(last_char-1)) && last_char > str.text) {
+		--last_char;
+	}
+	*last_char = '\0';
+	char *first_char = str.text;
+	if (isspace(*first_char)) {
+		while (isspace(*first_char))
+			++first_char;
+		char* dest = str.text;
+		while (*first_char) {
+			*dest++ = *first_char++;
+		}
+		*dest = '\0';
+	}
+}
+
 // parse a master file.
 //
 int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
@@ -257,6 +276,7 @@ int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
     project->scheduler_urls.clear();
     while (fgets(buf, 256, f)) {
         if (parse_str(buf, "<scheduler>", str.text, sizeof(str.text))) {
+			trim(str);
             urls.push_back(str);
         }
     }
