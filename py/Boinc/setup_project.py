@@ -260,7 +260,6 @@ def install_boinc_files(dest_dir):
     def dir(*dirs):
         return apply(os.path.join,(dest_dir,)+dirs)
 
-    install_glob(srcdir('html/forum/*.php'), dir('html/forum/'))
     install_glob(srcdir('html/inc/*.inc'), dir('html/inc/'))
     install_glob(srcdir('html/inc/*.php'), dir('html/inc/'))
     install_glob(srcdir('html/ops/*.php'), dir('html/ops/'))
@@ -364,7 +363,7 @@ class Project:
         map(lambda dir: os.mkdir(self.dir(dir)),
             [ '', 'cgi-bin', 'bin', 'upload', 'download', 'apps', self.logdir(),
               'html', 'html/ops', 'html/user', 'html/project',
-              'html/inc', 'html/stats', 'html/user_profile', 'html/forum',
+              'html/inc', 'html/stats', 'html/user_profile',
               'html/user_profile/images'
               ])
         map(lambda dir: os.chmod(self.dir(dir), 0777),
@@ -389,11 +388,9 @@ class Project:
                 self.dir('html', 'project', 'project_specific_prefs.inc'))
 
         my_symlink(self.config.config.download_dir, self.dir('html', 'user', 'download'))
-        my_symlink('../forum', self.dir('html/user/forum'))
         my_symlink('../stats', self.dir('html/user/stats'))
         my_symlink('../user_profile', self.dir('html/user/user_profile'))
         my_symlink('../user_profile', self.dir('html/user_profile/user_profile'))
-        my_symlink('../user/login_action.php', self.dir('html/forum/login_action.php'))
 
 
         # Copy the sched server in the cgi directory with the cgi names given

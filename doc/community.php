@@ -8,7 +8,7 @@ echo "
 <p>
 To ask questions or report bugs in the BOINC client software,
 please go to the
-<a href=http://setiboinc.ssl.berkeley.edu/ap/forum/help_desk.php>Message
+<a href=http://setiboinc.ssl.berkeley.edu/ap/forum_help_desk.php>Message
 board area</a> of the BOINC beta test.
 
 <p>

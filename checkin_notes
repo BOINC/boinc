@@ -12904,3 +12904,9 @@ David  May 31 2004
 
     lib/
         diagnostics.C
+
+David  June 1 2004
+    - remove references to html/forum in setup script
+
+    py/Boinc/
+        setup_project.py

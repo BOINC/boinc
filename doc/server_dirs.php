@@ -13,7 +13,6 @@ PROJECT/
     pid/
     download/
     html/
-        forum/
         inc/
         ops/
         project/
