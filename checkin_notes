@@ -21893,3 +21893,20 @@ David  27 Dec 2004
             login_action.php
     tools/
         upgrade
+
+David  27 Dec 2004
+    - UNIX app graphics: if glutInit() fails, keep retrying periodically
+        (in case user runs X server, e.g.)
+    - scheduler: scan the work array from a random point,
+        instead of always from the start.
+        This prevents a result from getting stuck at the end
+        of the array, and possibly never getting sent.
+        (from Ben Herndon)
+
+    api/
+        x_opengl.C
+    lib/
+        util.h
+    sched/
+        main.C
+        sched_send.C

@@ -88,7 +88,7 @@ static inline double drand() {
     return (double)rand()/(double)RAND_MAX;
 }
 
-// return a random integer in the range [rmin,rmax)
+// return a random double in the range [rmin,rmax)
 static inline double rand_range(double rmin, double rmax) {
     if (rmin < rmax) {
         return drand() * (rmax-rmin) + rmin;

@@ -193,23 +193,31 @@ void xwin_graphics_event_loop() {
 	char* args[] = {"foobar", 0};
 	int one=1;
     static bool glut_inited = false;
+    int restarted;
 
     graphics_thread = pthread_self();
 
     atexit(restart);
-    int restarted = setjmp(jbuf);
+
+try_again:
+    restarted = setjmp(jbuf);
 
     if (restarted) {
-        if (!glut_inited) {
-            // here glutInit() must have failed and called exit().
-            // returning will cause the graphics thread to exit.
-            return;
-        }
         //fprintf(stderr, "graphics thread restarted\n"); fflush(stderr);
+        if (glut_inited) {
+            // here the user must have closed the window,
+            // which causes GLUT to call exit().
+            //
 #ifdef __APPLE_CC__
-        glutInit(&one, args);
+            glutInit(&one, args);
 #endif
-        set_mode(MODE_HIDE_GRAPHICS);
+            set_mode(MODE_HIDE_GRAPHICS);
+        } else {
+            // here glutInit() must have failed and called exit().
+            //
+            sleep(60);
+            goto try_again;
+        }
     } else {
         glutInit(&one, args);
         glut_inited = true;

@@ -523,7 +523,7 @@ static void scan_work_array(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     SCHED_SHMEM& ss
 ) {
-    int i, retval, n;
+    int i, j, retval, n, rnd_off;
     WORKUNIT wu;
     DB_RESULT result;
     char buf[256];
@@ -534,7 +534,10 @@ static void scan_work_array(
     if (wreq.disk_available < 0) wreq.insufficient_disk = true;
 
     lock_sema();
-    for (i=0; i<ss.nwu_results; i++) {
+    
+    rnd_off = rand() % ss.nwu_results;
+    for (j=0; j<ss.nwu_results; j++) {
+        i = (j+rnd_off) % ss.nwu_results;
         if (!wreq.work_needed(reply)) break;
 
         WU_RESULT& wu_result = ss.wu_results[i];

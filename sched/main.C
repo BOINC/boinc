@@ -108,6 +108,7 @@ int main() {
     }
 #endif
 
+    srand(time(0)+getpid());
     log_messages.set_debug_level(DEBUG_LEVEL);
 
     if (check_stop_sched()) {
