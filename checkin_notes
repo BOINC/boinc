@@ -7060,3 +7060,9 @@ Karl 2003-10-24
     db/
         constraints.sql
 
+Karl 2003-10-25
+    - client GUI: fixed context menu bug
+
+    client/win/
+        wingui_mainwindow.cpp
+

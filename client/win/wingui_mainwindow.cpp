@@ -1861,32 +1861,21 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 	int nMenuId = -1;
 	GetCursorPos(&point);
 
-	if(m_ProjectListCtrl.IsWindowVisible()) {
+	int currentSelection = m_TabCtrl.GetCurSel();
+
+	if(currentSelection == PROJECT_ID) {
 		pMenuCtrl = &m_ProjectListCtrl;
 		nMenuId = PROJECT_MENU;
-	} else if(m_ResultListCtrl.IsWindowVisible()) {
+	} else if(currentSelection == RESULT_ID) {
 		pMenuCtrl = &m_ResultListCtrl;
 		nMenuId = RESULT_MENU;
-	} else if(m_XferListCtrl.IsWindowVisible()) {
+	} else if(currentSelection == XFER_ID) {
 		pMenuCtrl = &m_XferListCtrl;
 		nMenuId = XFER_MENU;
-    } else if(m_MessageListCtrl.IsWindowVisible()) {
+    } else if(currentSelection == MESSAGE_ID) {
 		pMenuCtrl = &m_MessageListCtrl;
 		nMenuId = MESSAGE_MENU;
 	}
-
-	// " pMenuCtrl->OnLButtonDown(nFlags, point) "
-	/*{
-		_AFX_THREAD_STATE* pThreadState = _afxThreadState.GetData();
-		pMenuCtrl->SendMessage(WM_LBUTTONUP, pThreadState->m_lastSentMsg.wParam,
-			pThreadState->m_lastSentMsg.lParam);
-		pMenuCtrl->SendMessage(WM_LBUTTONDOWN, pThreadState->m_lastSentMsg.wParam,
-			pThreadState->m_lastSentMsg.lParam);
-		pMenuCtrl->SendMessage(WM_LBUTTONUP, pThreadState->m_lastSentMsg.wParam,
-			pThreadState->m_lastSentMsg.lParam);
-		pMenuCtrl->SendMessage(WM_LBUTTONDOWN, nFlags, MAKELPARAM(point.x,point.y));
-	}*/
-
 
     if(pMenuCtrl) {
 		pMenuCtrl->SetFocus();
