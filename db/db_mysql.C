@@ -144,6 +144,10 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
         escape(up->email_addr);
         escape(up->name);
         escape(up->web_password);
+        escape(up->country);
+        escape(up->postal_code);
+        escape(up->global_prefs);
+        escape(up->project_prefs);
         sprintf(q,
             "id=%d, create_time=%d, email_addr='%s', name='%s', "
             "web_password='%s', authenticator='%s', "
@@ -169,9 +173,18 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
         unescape(up->email_addr);
         unescape(up->name);
         unescape(up->web_password);
+        unescape(up->country);
+        unescape(up->postal_code);
+        unescape(up->global_prefs);
+        unescape(up->project_prefs);
         break;
     case TYPE_TEAM:
         tp = (TEAM*)vp;
+        escape(tp->name);
+        escape(tp->name_lc);
+        escape(tp->url);
+        escape(tp->name_html);
+        escape(tp->description);
         sprintf(q,
             "id=%d, create_time=%d, userid=%d, name='%s', "
             "name_lc='%s', url='%s', "
@@ -191,9 +204,21 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             tp->total_credit,
             tp->expavg_credit
         );
+        unescape(tp->name);
+        unescape(tp->name_lc);
+        unescape(tp->url);
+        unescape(tp->name_html);
+        unescape(tp->description);
         break;
     case TYPE_HOST:
         hp = (HOST*)vp;
+        escape(hp->domain_name);
+        escape(hp->serialnum);
+        escape(hp->last_ip_addr);
+        escape(hp->p_vendor);
+        escape(hp->p_model);
+        escape(hp->os_name);
+        escape(hp->os_version);
         sprintf(q,
             "id=%d, create_time=%d, userid=%d, "
             "rpc_seqno=%d, rpc_time=%d, "
@@ -222,6 +247,13 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             hp->n_bwup, hp->n_bwdown,
             hp->credit_per_cpu_sec
         );
+        unescape(hp->domain_name);
+        unescape(hp->serialnum);
+        unescape(hp->last_ip_addr);
+        unescape(hp->p_vendor);
+        unescape(hp->p_model);
+        unescape(hp->os_name);
+        unescape(hp->os_version);
         break;
     case TYPE_WORKUNIT:
         wup = (WORKUNIT*)vp;
@@ -352,7 +384,7 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         up->teamid = atoi(r[i++]);
         break;
     case TYPE_TEAM:
-        tp = (TEAM*)tp;
+        tp = (TEAM*)vp;
         memset(tp, 0, sizeof(TEAM));
         tp->id = atoi(r[i++]);
         tp->create_time = atoi(r[i++]);
@@ -360,6 +392,7 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         strcpy2(tp->name, r[i++]);
         strcpy2(tp->name_lc, r[i++]);
         strcpy2(tp->url, r[i++]);
+        tp->type = atoi(r[i++]);
         strcpy2(tp->name_html, r[i++]);
         strcpy2(tp->description, r[i++]);
         tp->nusers = atoi(r[i++]);

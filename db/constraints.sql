@@ -13,13 +13,13 @@ alter table user
     add unique(email_addr),
     add unique(authenticator),
     add index ind_tid (teamid),
-    add index user_tot (total_credit),
-    add index user_avg (expavg_credit);
+    add index user_tot (total_credit desc),
+    add index user_avg (expavg_credit desc);
 
 alter table team
     add unique(name),
-    add index team_avg (expavg_credit),
-    add index team_tot (total_credit);
+    add index team_avg (expavg_credit desc),
+    add index team_tot (total_credit desc);
 
 alter table workunit
     add unique(name),
@@ -35,5 +35,6 @@ alter table result
     add index res_filedel (file_delete_state);
 
 alter table host
-    add index host_avg (expavg_credit),
-    add index host_tot (total_credit);
+    add index host_user (userid),
+    add index host_avg (expavg_credit desc),
+    add index host_tot (total_credit desc);

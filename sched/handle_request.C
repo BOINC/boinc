@@ -40,7 +40,7 @@ using namespace std;
 #define MIN_SECONDS_TO_SEND 0
 #define SECONDS_PER_DAY (3600*24)
 #define MAX_SECONDS_TO_SEND (28*SECONDS_PER_DAY)
-#define MAX_WUS_TO_SEND     2
+#define MAX_WUS_TO_SEND     10
 
 // return true if the WU can be executed on the host
 //

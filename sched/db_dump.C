@@ -53,6 +53,8 @@
 // We may change to short tag names to save bandwidth.
 
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #include "db.h"
@@ -226,7 +228,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
 
 void team_total_credit() {
     TEAM team;
-    FILE* f;
+    FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256];
 
@@ -244,11 +246,15 @@ void team_total_credit() {
             f = 0;
         }
     }
+
+    if (f) {
+        fclose(f);
+    }
 }
 
 void team_expavg_credit() {
     TEAM team;
-    FILE* f;
+    FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256];
 
@@ -266,11 +272,15 @@ void team_expavg_credit() {
             f = 0;
         }
     }
+
+    if (f) {
+        fclose(f);
+    }
 }
 
 void team_id() {
     TEAM team;
-    FILE* f;
+    FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256];
 
@@ -288,11 +298,15 @@ void team_id() {
             f = 0;
         }
     }
+
+    if (f) {
+        fclose(f);
+    }
 }
 
 void user_total_credit() {
     USER user;
-    FILE* f;
+    FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256];
 
@@ -310,11 +324,15 @@ void user_total_credit() {
             f = 0;
         }
     }
+
+    if (f) {
+        fclose(f);
+    }
 }
 
 void user_expavg_credit() {
     USER user;
-    FILE* f;
+    FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256];
 
@@ -332,11 +350,15 @@ void user_expavg_credit() {
             f = 0;
         }
     }
+
+    if (f) {
+        fclose(f);
+    }
 }
 
 void user_id() {
     USER user;
-    FILE* f;
+    FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256];
 
@@ -354,11 +376,15 @@ void user_id() {
             f = 0;
         }
     }
+
+    if (f) {
+        fclose(f);
+    }
 }
 
 void host_total_credit() {
     HOST host;
-    FILE* f;
+    FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256];
 
@@ -376,10 +402,14 @@ void host_total_credit() {
             f = 0;
         }
     }
+
+    if (f) {
+        fclose(f);
+    }
 }
 void host_expavg_credit() {
     HOST host;
-    FILE* f;
+    FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256];
 
@@ -397,11 +427,15 @@ void host_expavg_credit() {
             f = 0;
         }
     }
+
+    if (f) {
+        fclose(f);
+    }
 }
 
 void host_id() {
     HOST host;
-    FILE* f;
+    FILE* f = NULL;
     int nfile=0, nrec;
     char buf[256];
 
@@ -419,12 +453,16 @@ void host_id() {
             f = 0;
         }
     }
+
+    if (f) {
+        fclose(f);
+    }
 }
 
 int tables_file() {
     int nusers, nteams, nhosts;
     int retval;
-    FILE* f;
+    FILE* f = NULL;
 
     f = fopen("tables.xml", "w");
     if (!f) return -1;

@@ -55,7 +55,7 @@ void escape(char* field) {
     char* q = buf, *p = field;
     while (*p) {
         if (*p == '\'') {
-            *q++ = '\'';
+            *q++ = '\\';
             *q++ = '\'';
         } else {
             *q++ = *p;

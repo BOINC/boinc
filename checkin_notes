@@ -3064,3 +3064,18 @@ David  Jan 30 2003
     sched/
         Makefile.in
         db_dump.C
+
+David  Jan 30 2003
+    - got db_dump working
+    - scheduler: change max WUs from 2 to 10
+
+    NOTE: for any DB field that could conceivable contain a ',
+    you must escape and unescape it in struct_to_str()
+
+    db/
+        constraints.sql
+        db_mysql.C
+        mysql_util.C
+    sched/
+        db_dump.C
+        handle_request.C
