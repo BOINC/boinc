@@ -104,7 +104,9 @@ void project_add_failed(PROJECT* project) {
 void show_message(PROJECT *p, char* msg, int priority) {
     char* x;
     char message[1024];
+#if defined(WIN32) && defined(_CONSOLE)
     char event_message[2048];
+#endif
 
     strcpy(message, msg);
     if (message[strlen(message)-1] == '\n') {
@@ -122,7 +124,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
         printf("%s [%s] %s\n", timestamp(), x, message);
 		if (gstate.executing_as_windows_service)
 		{
-#if defined(_WIN32) && defined(_CONSOLE)
+#if defined(WIN32) && defined(_CONSOLE)
 		    _stprintf(event_message, TEXT("%s [%s] %s\n"), timestamp(), x, message);
 			LogEventErrorMessage(event_message);
 #endif
@@ -132,7 +134,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
         printf("%s [%s] %s\n", timestamp(), x, message);
 		if (gstate.executing_as_windows_service)
 		{
-#if defined(_WIN32) && defined(_CONSOLE)
+#if defined(WIN32) && defined(_CONSOLE)
 		    _stprintf(event_message, TEXT("%s [%s] %s\n"), timestamp(), x, message);
 			LogEventWarningMessage(event_message);
 #endif
@@ -142,7 +144,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
         printf("%s [%s] %s\n", timestamp(), x, message);
 		if (gstate.executing_as_windows_service)
 		{
-#if defined(_WIN32) && defined(_CONSOLE)
+#if defined(WIN32) && defined(_CONSOLE)
 		    _stprintf(event_message, TEXT("%s [%s] %s\n"), timestamp(), x, message);
 			LogEventInfoMessage(event_message);
 #endif
@@ -178,7 +180,7 @@ void quit_client(int a) {
 void susp_client(int a) {
     gstate.active_tasks.suspend_all();
     msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
-#ifndef _WIN32
+#ifndef WIN32
 	signal(SIGTSTP, SIG_DFL);
     raise(SIGTSTP);
 #endif
@@ -189,7 +191,7 @@ void resume_client(int a) {
     msg_printf(NULL, MSG_INFO, "Resuming activity");
 }
 
-#ifdef _WIN32
+#ifdef WIN32
 BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
 	BOOL bReturnStatus = FALSE;
 	switch( dwCtrlType ){
@@ -292,7 +294,7 @@ int boinc_execution_engine(int argc, char** argv) {
 }
 
 
-#if defined(_WIN32) && defined(_CONSOLE)
+#if defined(WIN32) && defined(_CONSOLE)
 
 //
 // On Windows, we support running as a Windows Service which requires

@@ -9481,3 +9481,12 @@ Karl 2004-01-21
         language.ini.template
         language.ini.th (new)
         language.ini.tr (new)
+
+David  Jan 21 2004
+	- small changes to get console version to compile
+
+	client/
+		cs_cmdline.C
+		main.C
+	win_builc/
+		boinc_cli.vcproj
