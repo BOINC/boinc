@@ -65,9 +65,9 @@ int double_to_ydhms (double x, int smallest_timescale, char *buf) {
     }
     
     if (smallest_timescale==3) {
-        sprintf( day_buf, "%.2f day ", days );
+        sprintf( day_buf, "%.2f day%s ", days, (days>1?"s":"") );
     } else if (days > 1 && smallest_timescale < 3) {
-        sprintf( day_buf, "%d day ", (int)days );
+        sprintf( day_buf, "%d day%s ", (int)days, (days>1?"s":"") );
     } else {
         strcpy( day_buf, "" );
     }
@@ -280,9 +280,12 @@ void escape_url(char *in, char*out) {
     out[y] = 0;
 }
 
-void safe_strncpy(char* dst, char* src, int len) {
-    strncpy(dst, src, len);
+char * safe_strncpy(char* dst, char* src, int len) {
+    char *retval;
+
+    retval = strncpy(dst, src, len);
     dst[len-1]=0;
+    return retval;
 }
 
 char* timestamp() {
