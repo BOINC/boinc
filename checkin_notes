@@ -11749,3 +11749,6 @@ Rom    April 22 2004
 
     client/
         hostinfo_unix.c
+
+Jeff   April 22 2004
+	- tagged as boinc_core_release_3_01
