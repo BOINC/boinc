@@ -250,7 +250,7 @@ INT CScreensaver::Run()
 //-----------------------------------------------------------------------------
 VOID CScreensaver::StartupBOINC()
 {
-    int iStatus;
+    int iStatus = 0;
 
 	if( m_SaverMode != sm_preview )
 	{
@@ -796,6 +796,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                     if (m_bBOINCCoreNotified)
                     {
                         rpc.get_screensaver_mode( iStatus );
+                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Screensaver Status = '%d'\n"), iStatus);
                         switch (iStatus)
                         {
                             case SS_STATUS_RESTARTREQUEST:
@@ -820,18 +821,21 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 
 					if( m_bErrorMode )
 					{
+                        BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Updating Error Box\n"));
 						UpdateErrorBox();
 					}
 					else
 					{
                         if (!m_bBOINCCoreNotified)
                         {
+                            BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Startup BOINC Screensaver\n"));
                             StartupBOINC();
                         }
                         else
                         {
                             if (SS_STATUS_DISABLED  == iStatus)
                             {
+                                BOINCTRACE(_T("CScreensaver::PrimarySaverProc - Shutdown BOINC Screensaver\n"));
                                 ShutdownSaver();
                             }
                         }

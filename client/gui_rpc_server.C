@@ -430,6 +430,8 @@ static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
     }
     if (match_tag(buf, "<enabled")) {
         gstate.ss_logic.start_ss( (char*)window_station.c_str(), (char*)desktop.c_str(), blank_time );
+    } else {
+        gstate.ss_logic.stop_ss();
     }
     fout.printf("<success/>\n");
 }

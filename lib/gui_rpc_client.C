@@ -1271,7 +1271,7 @@ int RPC_CLIENT::get_screensaver_mode(int& status) {
         if (match_tag(buf, "</screensaver_mode>")) break;
         else if (parse_int(buf, "<status>", status)) continue;
     }
-
+    BOINCTRACE(_T("Receiving: get_screensaver_mode\nstatus = %d\n"), status);
     return 0;
 }
 
@@ -1291,7 +1291,7 @@ int RPC_CLIENT::set_screensaver_mode(bool enabled, const char* window_station, c
         desktop ? desktop : "", 
         blank_time
     );
-    //BOINCTRACE(_T("Sending: set_screensaver_mode\n%s"), buf);
+    BOINCTRACE(_T("Sending: set_screensaver_mode\n%s\n"), buf);
     return rpc.do_rpc(buf);
 }
 

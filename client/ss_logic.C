@@ -29,6 +29,7 @@ SS_LOGIC::SS_LOGIC() {
     do_ss = false;
     blank_time = 0;
     ack_deadline = 0;
+    ss_status = 0;
 }
 
 // this is called when the core client receives a message
@@ -69,7 +70,6 @@ void SS_LOGIC::reset() {
     if (atp) {
         atp->request_graphics_mode(MODE_HIDE_GRAPHICS, "", "");
         atp->is_ss_app = false;
-        ss_status = SS_STATUS_DISABLED;
     }
 }
 
@@ -106,9 +106,9 @@ void SS_LOGIC::poll() {
         if (atp) {
             if (atp->graphics_mode_acked != MODE_FULLSCREEN) {
                 if (time(0)>ack_deadline) {
-                    ss_status = SS_STATUS_NOTGRAPHICSCAPABLE;
                     atp->request_graphics_mode(MODE_HIDE_GRAPHICS, "", "");
                     atp->is_ss_app = false;
+                    ss_status = SS_STATUS_NOTGRAPHICSCAPABLE;
                 }
             }
         } else {
