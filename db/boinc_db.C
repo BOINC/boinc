@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 static volatile const char *BOINCrcsid="$Id$";
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
@@ -1062,7 +1063,17 @@ int DB_SCHED_RESULT_ITEM_SET::enumerate() {
         "   server_state, "
         "   hostid, "
         "   userid, "
-        "   received_time "
+        "   received_time, "
+        "   outcome, "
+        "   client_state, "
+        "   exit_status, "
+        "   cpu_time, "
+        "   xml_doc_out, "
+        "   stderr_out, "
+        "   validate_state, "
+        "   claimed_credit, "
+        "   app_version_num, "
+        "   teamid "
         "FROM "
         "   result "
         "WHERE "
@@ -1133,7 +1144,8 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
         "    stderr_out='%s', "
         "    xml_doc_out='%s', "
         "    validate_state=%d, "
-        "    teamid=%d "
+        "    teamid=%d, "
+        "    userid=%d "
         "WHERE "
         "    id=%d",
         ri.hostid,
@@ -1149,6 +1161,7 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
         ri.xml_doc_out,
         ri.validate_state,
         ri.teamid,
+        ri.userid,
         ri.id
     );
     retval = db->do_query(query);

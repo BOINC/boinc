@@ -20591,4 +20591,22 @@ Rom    2 Dec 2004
 
     win_build/installerv2/
         BOINC.ism
-  
+
+Bruce   3 Dec 2004
+    - Fixed a nasty bug in the scheduler.  Under a number of possible
+      error conditions, handle_request.C would read only some fields of
+      and existing request into memory, and then write more of those fields,
+      some of which were null, back into memory.  This had the effect of nulling
+      out outcome, client_state, exit_status, cpu_time, xml_doc_out, stderr_out,
+      validate_state, claimed_credit and client_version.  The point is that
+      DB_SCHED_RESULT_ITEM_SET::enumerate() followed by
+      DB_SCHED_RESULT_ITEM_SET::update_result
+      did not preserve an 'existing result'.  It wiped out the fields above.
+
+    db/
+        boinc_db.C
+
+
+
+
+
