@@ -432,9 +432,9 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         if (exit_when_idle && contacted_sched_server) {
             should_get_work = false;
         } else {
-            below_work_buf_min = (current_work_buf_days() <= global_prefs.work_buf_min_days);
             current_work_buf_days(work_buf_days, nactive_results);
-            below_work_buf_min = nactive_results < host_info.p_ncpus;
+            below_work_buf_min = (work_buf_days < global_prefs.work_buf_min_days) || 
+                                 (nactive_results < host_info.p_ncpus);
             should_get_work = below_work_buf_min && some_project_rpc_ok();
         }
         if (should_get_work) {
