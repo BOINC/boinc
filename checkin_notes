@@ -13508,3 +13508,16 @@ David  14 June 2004
         edit_email_action.php
         login_action.php
         mail_passwd.php
+
+Daniel 14 June 2004
+    - changed uses of mysql_fetch_assoc() to mysql_fetch_object()
+    - removed utility function get_profile_from_userid() (not used
+      anywhere)
+
+    html/inc/
+        subscribe.inc
+        util.inc
+    html/ops/
+        migrate_tables.php
+        profile_ops.php
+

@@ -55,16 +55,6 @@ function get_user_from_id($id) {
     return NULL;
 }
 
-function get_profile_from_userid($userid) {
-    if ($userid) {
-        $result = mysql_query("SELECT * FROM profile WHERE userid = $userid");
-        if ($result) {
-            return mysql_fetch_assoc($result);
-        }
-    }
-    return null;
-}
-
 function get_logged_in_user($must_be_logged_in=true) {
     $authenticator = init_session();
     if (!$authenticator) {

@@ -71,8 +71,8 @@ function notify_subscribers($threadID) {
     $sql = "SELECT DISTINCT * FROM subscriptions WHERE threadid = " . $threadID;
     $result = mysql_query($sql);
 
-    while ($row = mysql_fetch_assoc($result)) {
-        send_notice_email($row['userid'], $threadID);
+    while ($row = mysql_fetch_object($result)) {
+        send_notice_email($row->userid, $threadID);
     }
 
 }
@@ -81,14 +81,14 @@ function send_notice_email($userId, $threadID) {
     $thread = getThread($threadID);
 
     $result = mysql_query("SELECT * FROM user WHERE id = $userId");
-    $row = mysql_fetch_assoc($result);
+    $row = mysql_fetch_object($result);
 
     $title = PROJECT . ": A user has posted to your subscribed thread.";
     $link = URL_BASE . "forum_thread.php?id=" . $threadID;
     $body = "Another " . PROJECT . " user has posted to the thread \"" . stripslashes($thread->title) . "\".\n"
         ."To view the updated thread, visit the following URL:\n\n$link";
 
-    mail($row['email_addr'], $title, $body);
+    mail($row->email_addr, $title, $body);
 }
 
 ?>

@@ -102,13 +102,13 @@ function migrate_tables() {
                 if ($feedback_field_map[$i] == 'userid') {
                     $result = mysql_query("SELECT * FROM user WHERE seti_id = " . $feedback_data[$i]);
                     if ($result) {
-                        $row = mysql_fetch_assoc($result);
+                        $row = mysql_fetch_object($result);
                     } else {
                         print "DB error.\n";
                         exit();
                     }
-                    $feedback_data[$i] = $row['id'];
-                    $new_userid = $row['id'];
+                    $feedback_data[$i] = $row->id;
+                    $new_userid = $row->id;
                 } else if ($feedback_field_map[$i] == 'has_picture') {
 
                     // Because the userid field comes before the picture
@@ -158,13 +158,13 @@ function migrate_tables() {
 
                     $result = mysql_query("SELECT * FROM user WHERE seti_id = " . $team_data[$i]);
                     if ($result) {
-                        $row = mysql_fetch_assoc($result);
+                        $row = mysql_fetch_object($result);
                     } else {
                         print "DB error.\n";
                         exit();
                     }
 
-                    $team_data[$i] = $row['id'];
+                    $team_data[$i] = $row->id;
                 }
 
                 print $team_field_map[$i] . ": " . addslashes(clean_newlines(trim($team_data[$i]))) . "\n";
@@ -188,18 +188,18 @@ function migrate_tables() {
 
     $result = mysql_query("SELECT * FROM user WHERE seti_id IS NOT NULL");
 
-    while ($user = mysql_fetch_assoc($result)) {
+    while ($user = mysql_fetch_object($result)) {
         // Relink team ID.
-        if (!is_null($user['teamid'])) {
-            $result2 = mysql_query("SELECT * FROM team WHERE seti_id = " . $user['teamid']);
-            $team = mysql_fetch_assoc($result2);
-            $result2 = mysql_query("UPDATE user SET teamid = " . $team['id'] . " WHERE id = " . $user['id']);
+        if (!is_null($user->teamid)) {
+            $result2 = mysql_query("SELECT * FROM team WHERE seti_id = " . $user->teamid);
+            $team = mysql_fetch_object($result2);
+            $result2 = mysql_query("UPDATE user SET teamid = " . $team->id . " WHERE id = " . $user->id);
         }
 
         // Send out email.
-        split_munged_email_addr($user['email_addr'], $user['authenticator'], $address);
+        split_munged_email_addr($user->email_addr, $user->authenticator, $address);
 
-        $body = "Your SETI@Home account has been transferred to BOINC.  Your authenticator is\n\n" . $user['authenticator'];
+        $body = "Your SETI@Home account has been transferred to BOINC.  Your authenticator is\n\n" . $user->authenticator;
         //mail($address, "Your SETI@Home BOINC account is ready!", $body);
 
     }

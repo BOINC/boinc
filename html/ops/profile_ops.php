@@ -38,7 +38,7 @@ if (array_key_exists('num', $_GET) && array_key_exists('set', $_GET)) {
     if (!$result) {
         // TODO: DB error page;
     } else {
-        $profile = mysql_fetch_assoc($result);
+        $profile = mysql_fetch_object($result);
         if (!$profile) {
             echo $sql;
             echo "<br>No more profiles in this category.<p><a href=index.php>Return to ", PROJECT, " Project Management</a>";
@@ -57,7 +57,7 @@ if (array_key_exists('num', $_GET) && array_key_exists('set', $_GET)) {
             }
 
             if ($vote == -1 || $vote == 1) {
-                $sql = "UPDATE profile SET verification = $vote WHERE userid = " . $profile['userid'];
+                $sql = "UPDATE profile SET verification = $vote WHERE userid = " . $profile->userid;
                 mysql_query($sql);
             }
                 $header = "Location: profile_ops.php?set=" . $set . "&num=" . ($num+1);
@@ -70,7 +70,7 @@ if (array_key_exists('num', $_GET) && array_key_exists('set', $_GET)) {
 
         // Put the profile itself into a table to separate it visually from the controls.
         echo "<br><center><table border = 1><tr><td align=\"center\">";
-        show_profile($profile['userid'], true);
+        show_profile($profile->userid, true);
         echo "</td></tr></table>";
         echo "<p><a href=index.php>Return to ", PROJECT, " Project Management</a></center>";
 
@@ -104,18 +104,18 @@ function show_verify_tools($num, $profile) {
     echo "
 <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" bgcolor=\"#C0C0C0\">
   <tr>
-    <td>User ID: <b>", $profile['userid'], "</b><br>
+    <td>User ID: <b>", $profile->userid, "</b><br>
         Last selected UOTD: <b>";
 
-    if ($profile['uotd_time']) {
-        echo date("F jS, Y", $profile['uotd_time']);
+    if ($profile->uotd_time) {
+        echo date("F jS, Y", $profile->uotd_time);
     } else {
         echo "Never";
     }
 
-    echo "</td>\n<td align=\"center\">", $profile['recommend'], " recommendation(s), ", $profile['reject'], " rejection(s).<br>";
+    echo "</td>\n<td align=\"center\">", $profile->recommend, " recommendation(s), ", $profile->reject, " rejection(s).<br>";
 
-    echo "Current status: ", $verification[$profile['verification']];
+    echo "Current status: ", $verification[$profile->verification];
 
     echo"
     </td>\n<td align=\"right\">
