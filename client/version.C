@@ -20,5 +20,6 @@
 #include "version.h"
 #include "windows_cpp.h"
 
-int gversion = VERSION;
+int gmajor_version = MAJOR_VERSION;
+int gminor_version = MINOR_VERSION;
 char* gplatform_name = HOSTTYPE;

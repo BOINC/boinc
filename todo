@@ -1,14 +1,10 @@
-<<<<<<< todo
-user PHP session mechanism
+scheduler and file upload handler: return error if wrong major version
 
-protection mechanism for project admin web
-=======
 use PHP session mechanism instead of our own cookies
 
 use https for login (don't sent account key or password in clear)
 
 protect project admin web pages (htaccess)
->>>>>>> 1.6
 
 Deadline mechanism for results
     - use in result dispatching

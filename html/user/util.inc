@@ -57,7 +57,8 @@ function page_tail() {
 
     // put your copyright notice etc. here
 
-    echo "<hr>Copyright (c) 2002 Sample Project\n";
+    echo "<hr><center><a href=index.php>Astropulse home page</a>\n";
+    echo "<br>Copyright (c) 2002 Astropulse\n";
 }
 
 function date_str($when) {

@@ -5,8 +5,6 @@ VPATH           = @srcdir@
 
 INSTALL_DIR = /usr/local/boinc
 
-VERSION = 2
-
 CFLAGS = -g -Wall @DEFS@ \
     -I @srcdir@ \
     -I @srcdir@/../api \
@@ -15,7 +13,8 @@ CFLAGS = -g -Wall @DEFS@ \
     -I @srcdir@/win \
     -I /usr/local/mysql/include \
     -DHOST=\"@host@\" \
-    -DVERSION=$(VERSION)
+    -DMAJOR_VERSION=$(BOINC_MAJOR_VERSION) \
+    -DMINOR_VERSION=$(BOINC_MINOR_VERSION)
 
 CC = @CC@ $(CFLAGS)
 

@@ -49,7 +49,8 @@ CLIENT_STATE::CLIENT_STATE() {
     giveup_after = PERS_GIVEUP;
     contacted_sched_server = false;
     activities_suspended = false;
-    core_client_version = VERSION;
+    core_client_major_version = MAJOR_VERSION;
+    core_client_minor_version = MINOR_VERSION;
     platform_name = HOST;
     exit_after = -1;
     app_started = 0;
@@ -462,9 +463,11 @@ int CLIENT_STATE::write_state_file() {
     active_tasks.write(f);
     fprintf(f,
         "<platform_name>%s</platform_name>\n"
-        "<core_client_version>%d</core_client_version>\n",
+        "<core_client_major_version>%d</core_client_major_version>\n"
+        "<core_client_minor_version>%d</core_client_minor_version>\n",
         platform_name,
-        core_client_version
+        core_client_major_version,
+        core_client_minor_version
     );
     fprintf(f, "</client_state>\n");
     fclose(f);

@@ -74,7 +74,8 @@ public:
 private:
     bool client_state_dirty;
     TIME_STATS time_stats;
-    int core_client_version;
+    int core_client_major_version;
+    int core_client_minor_version;
     char* platform_name;
     unsigned int nslots;
     bool exit_when_idle;

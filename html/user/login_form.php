@@ -5,7 +5,7 @@
     echo "<form method=post action=login_action.php>
         <table cellpadding=8>
         <tr><td align=right>
-        Your account key:
+        Your account ID:
         </td><td>
         <input name=authenticator size=40>
         </td></tr>

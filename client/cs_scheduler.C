@@ -176,13 +176,15 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         "    <hostid>%d</hostid>\n"
         "    <rpc_seqno>%d</rpc_seqno>\n"
         "    <platform_name>%s</platform_name>\n"
-        "    <core_client_version>%d</core_client_version>\n"
+        "    <core_client_major_version>%d</core_client_major_version>\n"
+        "    <core_client_minor_version>%d</core_client_minor_version>\n"
         "    <work_req_seconds>%f</work_req_seconds>\n",
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
         platform_name,
-        core_client_version,
+        core_client_major_version,
+        core_client_minor_version,
         work_req
     );
     if (p->code_sign_key) {

@@ -2438,3 +2438,11 @@ Seth/Eric  Nov 18, 2002
         boinc_gui/
             boinc_gui.dsp
 
+David   Nov 30 2002
+    - use the major/minor version from env vars to identify the core client
+        (rather than the single version in Makefile)
+
+    client/
+        Makefile.in
+        client_state.C,h
+        cs_scheduler.C

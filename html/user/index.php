@@ -33,6 +33,7 @@ and give it your account key.
 <li><a href=login_form.php>Log in</a>
 <li><a href=home.php>User page</a> - view stats, modify preferences
 <li><a href=team.php>Teams</a> - create or join a team
+<li><a href=bug_report_form.php>Report problems</a>
 <li><a href=top_users.php>Top users</a>
 <li><a href=top_hosts.php>Top hosts</a>
 <li><a href=top_teams.php>Top teams</a>
