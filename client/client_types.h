@@ -236,7 +236,7 @@ struct RESULT {
     bool got_server_ack;
         // we're received the ack for this result from the server
     double final_cpu_time;
-    int state;              // state of this result, see above
+    int state;              // state of this result, see lib/result_state.h
     int exit_status;        // return value from the application
     int signal;             // the signal caught by the active_task,
                 // defined only if active_task_state is PROCESS_SIGNALED

@@ -1,3 +1,5 @@
+Don't render graphics if minimized
+------------------------
 DON'T ADD ANYTHING TO HERE.  USE THE TASKBASE INSTEAD.
 
 encrypt IDs in URLs (e.g. host)

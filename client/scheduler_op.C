@@ -160,10 +160,14 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
     return 0;
 }
 
-// Back off on the scheduler and output an error msg if needed
+// Back off contacting scheduler and output an error msg if needed
 //
 void SCHEDULER_OP::backoff(PROJECT* p, char *error_msg ) {
     msg_printf(p, MSG_ERROR, error_msg);
+
+    // Don't back off more if already backed off
+    //
+    if (p->min_rpc_time > 0) return;
 
     if (p->master_fetch_failures >= gstate.master_fetch_retry_cap) {
         p->master_url_fetch_pending = true;
