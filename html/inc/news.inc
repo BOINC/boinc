@@ -2,9 +2,9 @@
 
 function news_item($date, $text) {
     echo "<font color=666666>$date</font>
-        <br>
+        <br />
         $text
-        <br><br>
+        <br /><br />
     ";
 }
 
