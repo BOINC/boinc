@@ -54,6 +54,7 @@
 using std::string;
 using std::istringstream;
 using std::vector;
+using std::getline;
 
 // Breaks a HTTP url down into its server and file path components
 //
@@ -198,7 +199,7 @@ void HTTP_REPLY_HEADER::parse() {
     istringstream h(recv_buf);
     string line, w;
 
-    if (getline(h, line)) {
+	if (getline(h, line)) {
         istringstream iline(line);
 
         iline >> w;
