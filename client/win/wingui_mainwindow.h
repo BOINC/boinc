@@ -118,6 +118,8 @@ protected:
 	UINT					m_uScreenSaverMsg;		// ID of screensaver message
 	UINT					m_uEndSSMsg;			// ID of end screensaver request message
 
+	void UpdateRunRequestMenu(CMenu* pMenu);
+	void UpdateRunRequestFileMenu();
 	COLORREF				GetPieColor(int);
 	void					CheckIdle();
     void					ShowTab(int);
@@ -153,8 +155,10 @@ protected:
 	afx_msg void			OnCommandConnectionConfirmBeforeConnecting();
 	afx_msg void			OnCommandShow();
 	afx_msg void			OnCommandHide();
-	afx_msg void			OnCommandSuspend();
-	afx_msg void			OnCommandResume();
+	afx_msg void OnCommandRunRequestAlways();
+	afx_msg void OnCommandRunRequestAuto();
+	afx_msg void OnCommandRunRequestNever();
+
 	afx_msg void			OnCommandExit();
 	afx_msg int				OnCommandMessageCopyToClip();
     afx_msg int				OnCreate(LPCREATESTRUCT);

@@ -127,9 +127,11 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
 	ON_WM_DESTROY()
     //ON_COMMAND(ID_FILE_CLEARINACTIVE, OnCommandFileClearInactive)
     //ON_COMMAND(ID_FILE_CLEARMESSAGES, OnCommandFileClearMessages)
-    ON_COMMAND(ID_FILE_SUSPEND, OnCommandSuspend)
-    ON_COMMAND(ID_FILE_RESUME, OnCommandResume)
+	ON_COMMAND(ID_FILE_RUN_REQUEST_ALWAYS, OnCommandRunRequestAlways)
+	ON_COMMAND(ID_FILE_RUN_REQUEST_AUTO, OnCommandRunRequestAuto)
+	ON_COMMAND(ID_FILE_RUN_REQUEST_NEVER, OnCommandRunRequestNever)
 	ON_COMMAND(ID_FILE_RUN_BENCHMARKS, OnCommandRunBenchmarks)
+    ON_COMMAND(ID_FILE_HIDE, OnCommandHide)
     ON_COMMAND(ID_FILE_EXIT, OnCommandExit)
     ON_COMMAND(ID_SETTINGS_LOGIN, OnCommandSettingsLogin)
     ON_COMMAND(ID_SETTINGS_PROXYSERVER, OnCommandSettingsProxyServer)
@@ -140,8 +142,6 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
 	ON_COMMAND(ID_PROJECT_RESET, OnCommandProjectReset)
     ON_COMMAND(ID_STATUSICON_SHOW, OnCommandShow)
     ON_COMMAND(ID_STATUSICON_HIDE, OnCommandHide)
-    ON_COMMAND(ID_STATUSICON_SUSPEND, OnCommandSuspend)
-    ON_COMMAND(ID_STATUSICON_RESUME, OnCommandResume)
     ON_COMMAND(ID_STATUSICON_EXIT, OnCommandExit)
 	ON_COMMAND(ID_WORK_SHOWGRAPHICS, OnCommandWorkShowGraphics)
 	ON_COMMAND(ID_TRANSFERS_RETRYNOW, OnCommandTransfersRetryNow)
@@ -594,16 +594,6 @@ void CMainWindow::MessageUser(char* szProject, char* szMessage, int szPriority)
 	if((szPriority == MSG_ERROR) && (m_TabCtrl.GetCurSel() != MESSAGE_ID || GetForegroundWindow() != this)) {
 		m_bMessage = true;
 	}
-}
-
-//////////
-// CMainWindow::IsSuspended
-// arguments:	void
-// returns:		true if the window is suspended, false otherwise
-// function:	tells if the window is suspended
-BOOL CMainWindow::IsUserSuspended()
-{
-	return gstate.suspend_requested;
 }
 
 //////////
@@ -1369,46 +1359,60 @@ void CMainWindow::OnCommandHide()
     pMainMenu->GetSubMenu(0)->EnableMenuItem(ID_STATUSICON_SHOW, MF_ENABLED);
 }
 
-//////////
-// CMainWindow::OnCommandSuspend
-// arguments:	void
-// returns:		void
-// function:	suspends client
-void CMainWindow::OnCommandSuspend()
+void CMainWindow::UpdateRunRequestMenu(CMenu* pMenu)
 {
-	gstate.suspend_requested = true;
+	if (!pMenu) return;
 
-	CMenu* pMainMenu;
-	CMenu* pFileMenu;
-	pMainMenu = GetMenu();
-	if(pMainMenu) {
-		pFileMenu = pMainMenu->GetSubMenu(0);
-	}
-	if(pFileMenu) {
-		pFileMenu->EnableMenuItem(ID_FILE_SUSPEND, MF_GRAYED);
-		pFileMenu->EnableMenuItem(ID_FILE_RESUME, MF_ENABLED);
-	}
+	/*switch(gstate.user_run_request) {
+	case USER_RUN_REQUEST_ALWAYS:
+		pMenu->EnableMenuItem(ID_FILE_RUN_REQUEST_ALWAYS, MF_GRAYED);
+		pMenu->EnableMenuItem(ID_FILE_RUN_REQUEST_AUTO, MF_ENABLED);
+		pMenu->EnableMenuItem(ID_FILE_RUN_REQUEST_NEVER, MF_ENABLED);
+		break;
+	case USER_RUN_REQUEST_AUTO:
+		pMenu->EnableMenuItem(ID_FILE_RUN_REQUEST_ALWAYS, MF_ENABLED);
+		pMenu->EnableMenuItem(ID_FILE_RUN_REQUEST_AUTO, MF_GRAYED);
+		pMenu->EnableMenuItem(ID_FILE_RUN_REQUEST_NEVER, MF_ENABLED);
+		break;
+	case USER_RUN_REQUEST_NEVER:
+		pMenu->EnableMenuItem(ID_FILE_RUN_REQUEST_ALWAYS, MF_ENABLED);
+		pMenu->EnableMenuItem(ID_FILE_RUN_REQUEST_AUTO, MF_ENABLED);
+		pMenu->EnableMenuItem(ID_FILE_RUN_REQUEST_NEVER, MF_GRAYED);
+		break;
+	}*/
+
+	// NOTE: 
+	//     ID_FILE_RUN_REQUEST_ALWAYS, ID_FILE_RUN_REQUEST_AUTO, ID_FILE_RUN_REQUEST_NEVER
+	// and
+	//     USER_RUN_REQUEST_ALWAYS, USER_RUN_REQUEST_AUTO, USER_RUN_REQUEST_NEVER
+	// must be #defined sequentially
+
+	pMenu->CheckMenuRadioItem(ID_FILE_RUN_REQUEST_ALWAYS, ID_FILE_RUN_REQUEST_NEVER,
+		ID_FILE_RUN_REQUEST_ALWAYS+gstate.user_run_request-USER_RUN_REQUEST_ALWAYS,
+		MF_BYCOMMAND);
 }
 
-//////////
-// CMainWindow::OnCommandResume
-// arguments:	void
-// returns:		void
-// function:	resumes client
-void CMainWindow::OnCommandResume()
+void CMainWindow::UpdateRunRequestFileMenu()
 {
-	gstate.suspend_requested = false;
+	UpdateRunRequestMenu(GetMenu()->GetSubMenu(0));
+}
 
-	CMenu* pMainMenu;
-	CMenu* pFileMenu;
-	pMainMenu = GetMenu();
-	if(pMainMenu) {
-		pFileMenu = pMainMenu->GetSubMenu(0);
-	}
-	if(pFileMenu) {
-		pFileMenu->EnableMenuItem(ID_FILE_SUSPEND, MF_ENABLED);
-		pFileMenu->EnableMenuItem(ID_FILE_RESUME, MF_GRAYED);
-	}
+void CMainWindow::OnCommandRunRequestAlways()
+{
+	gstate.user_run_request = USER_RUN_REQUEST_ALWAYS;
+	UpdateRunRequestFileMenu();
+}
+
+void CMainWindow::OnCommandRunRequestAuto()
+{
+	gstate.user_run_request = USER_RUN_REQUEST_AUTO;
+	UpdateRunRequestFileMenu();
+}
+
+void CMainWindow::OnCommandRunRequestNever()
+{
+	gstate.user_run_request = USER_RUN_REQUEST_NEVER;
+	UpdateRunRequestFileMenu();
 }
 
 void CMainWindow::OnCommandRunBenchmarks()
@@ -1760,8 +1764,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 		ShowWindow(SW_SHOW);
 	}
 
-	if(gstate.suspend_requested) OnCommandSuspend();
-	else OnCommandResume();
+	UpdateRunRequestFileMenu();
 
     return 0;
 }
@@ -1986,13 +1989,7 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 		GetCursorPos(&point);
 		CMenu* pSubmenu;
 		pSubmenu = m_ContextMenu.GetSubMenu(STATUS_MENU);
-		if(IsUserSuspended()) {
-			pSubmenu->EnableMenuItem(ID_STATUSICON_SUSPEND, MF_GRAYED);
-			pSubmenu->EnableMenuItem(ID_STATUSICON_RESUME, MF_ENABLED);
-		} else {
-			pSubmenu->EnableMenuItem(ID_STATUSICON_SUSPEND, MF_ENABLED);
-			pSubmenu->EnableMenuItem(ID_STATUSICON_RESUME, MF_GRAYED);
-		}
+		UpdateRunRequestMenu(pSubmenu);
         if (IsWindowVisible()) {
             pSubmenu->EnableMenuItem(ID_STATUSICON_SHOW, MF_GRAYED);
             pSubmenu->EnableMenuItem(ID_STATUSICON_HIDE, MF_ENABLED);
@@ -2048,7 +2045,7 @@ void CMainWindow::OnTimer(UINT uEventID)
 		// update state and gui
 		while(gstate.do_something());
 		NetCheck(); // check if network connection can be terminated
-		if (IsUserSuspended()) {
+		if (gstate.user_run_request == USER_RUN_REQUEST_NEVER) {
 			// user suspended - don't bother checking idle
 		} else if (gstate.is_suspended()) {
 			// otherwise suspended, possibly due to not being idle

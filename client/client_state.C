@@ -1560,7 +1560,7 @@ int CLIENT_STATE::report_result_error(
 
     res.ready_to_ack = true;
 
-    sprintf(buf, "Unrecoverable error for result %s", res.name);
+    sprintf(buf, "Unrecoverable error for result %s (%s)", res.name, err_msg);
     scheduler_op->backoff(res.project, buf);
 
     sprintf(

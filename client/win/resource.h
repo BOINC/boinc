@@ -91,13 +91,16 @@
 #define ID_MESSAGE_COPY_TO_CLIP         40043
 #define ID_FILE_RUN_BENCHMARKS          40044
 #define ID_TRANSFERS_RETRYNOW           40045
+#define ID_FILE_RUN_REQUEST_ALWAYS      40100
+#define ID_FILE_RUN_REQUEST_AUTO        40101
+#define ID_FILE_RUN_REQUEST_NEVER       40102
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        134
-#define _APS_NEXT_COMMAND_VALUE         40046
+#define _APS_NEXT_COMMAND_VALUE         40051
 #define _APS_NEXT_CONTROL_VALUE         1035
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
