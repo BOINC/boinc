@@ -112,6 +112,12 @@ int ACTIVE_TASK::start(bool first_time) {
     gi->draw_offscreen = 1;
     gi->shared_mem_key = ftok(dirname, 'B'); // Generate a unique identifier
 
+    // Write out the app prefs
+    sprintf( prefs_path, "%s/%s", dirname, "prefs.xml" );
+    prefs_fd = fopen( prefs_path, "w" );
+    gi->write_prefs(prefs_fd);
+    fclose(prefs_fd);
+
 #ifdef unix
     pid = fork();
     if (pid == 0) {
@@ -141,12 +147,6 @@ int ACTIVE_TASK::start(bool first_time) {
             }
         }
         
-        // Write out the app prefs
-        sprintf( prefs_path, "%s/%s", dirname, "prefs.xml" );
-        prefs_fd = fopen( prefs_path, "w" );
-        gi->write_prefs(prefs_fd);
-        fclose(prefs_fd);
-
         // create symbolic links, and hook up descriptors, for input files
         //
         for (i=0; i<wup->input_files.size(); i++) {
