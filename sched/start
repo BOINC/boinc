@@ -498,6 +498,7 @@ def command_enable_start():
             print "Entering ENABLED mode"
     run_state.enabled = True
     run_daemons()
+    time.sleep(10)      # give feeder time to start up and create shmem
 
 def command_cron_start():
     if verbose: print "Verbose cron-start: status ==", (run_state.enabled and 'ENABLED' or 'DISABLED')

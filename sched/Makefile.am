@@ -105,7 +105,10 @@ transitioner_LDADD = $(LDADD) $(RSA_LIBS)
 fcgi_SOURCES =					\
         handle_request.C			\
         main.C					\
-        server_types.C
+        sched_send.C					\
+        server_types.C  \
+        ../lib/synch.C
+
 fcgi_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 fcgi_CPPFLAGS = -include /usr/local/include/fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi -lfcgi++ $(MYSQL_LIBS)

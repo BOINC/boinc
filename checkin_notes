@@ -11858,3 +11858,18 @@ David  April 30 2004
         handle_request.C
         main.C,h
         server_types.C,h
+
+David  April 30 2004
+    - Add a 10 second delay in "start", after starting daemons
+        but before writing run_state.xml file.
+        This lets the feeder delete the shared-mem segment
+        (if there is one) before CGI programs are created
+        and create new attachments
+    - get Fast CGI to compile (but not link)
+
+    sched/
+        Makefile.am
+        handle_request.C
+        main.C
+        server_types.C
+        start

@@ -44,6 +44,15 @@ using namespace std;
 #include "sched_msgs.h"
 #include "main.h"
 
+#ifdef _USING_FCGI_
+#include "/usr/local/include/fcgi_stdio.h"
+#define freopen  FCGI_freopen
+#define fprintf  FCGI_fprintf
+#define fclose  FCGI_fclose
+#define fopen  FCGI_fopen
+#endif
+
+
 #define DEBUG_LEVEL  999
 
 void get_log_path(char* p) {
@@ -73,6 +82,9 @@ void send_shut_message() {
 int open_database() {
     int retval;
     bool found;
+    static bool db_opened=false;
+
+    if (db_opened) return 0;
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
@@ -88,6 +100,7 @@ int open_database() {
             return ERR_DB_NOT_FOUND;
         }
     }
+    db_opened = true;
     return 0;
 }
 
@@ -211,6 +224,7 @@ int main() {
         handle_request(stdin, stdout, *ssp, code_sign_key);
     }
 done:
+    continue;
 #ifdef _USING_FCGI_
     }
 #endif
