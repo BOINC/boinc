@@ -17,23 +17,6 @@
 // Contributor(s):
 //
 
-#define THOUSAND    1000
-#define MILLION     THOUSAND*THOUSAND
-
-#define D_LOOP_ITERS			1*MILLION
-#define I_LOOP_ITERS			1*MILLION
-#define MEM_SIZE			1*MILLION
-
-#define NUM_DOUBLES       28
-#define NUM_INTS          28
-
-#define CACHE_MIN 1024			// smallest cache (in words)
-#define CACHE_MAX 512*1024		// largest cache
-#define STRIDE_MIN 1            // smallest stride (in words)
-#define STRIDE_MAX 128          // largest stride
-#define SAMPLE 10			    // to get a larger time sample
-#define SECS_PER_RUN 0.2
-
 #define MAX_CPU_BENCHMARKS_SECONDS	60
 #define CPU_BENCHMARKS_RUNNING		0
 #define CPU_BENCHMARKS_COMPLETE		1

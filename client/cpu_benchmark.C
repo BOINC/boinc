@@ -42,6 +42,20 @@ UINT speed_timer_id;
 void stop_benchmark(int a);
 #endif
 
+#define D_LOOP_ITERS		1000000
+#define I_LOOP_ITERS		1000000
+#define MEM_SIZE			1000000
+
+#define NUM_DOUBLES       28
+#define NUM_INTS          28
+
+#define CACHE_MIN 1024			// smallest cache (in words)
+#define CACHE_MAX 512*1024		// largest cache
+#define STRIDE_MIN 1            // smallest stride (in words)
+#define STRIDE_MAX 128          // largest stride
+#define SAMPLE 10			    // to get a larger time sample
+#define SECS_PER_RUN 0.2
+
 // run_benchmark is volatile so the test loops will notice changes
 // made by stop_test
 //
@@ -294,15 +308,11 @@ int run_mem_bandwidth_test(double num_secs, double &bytes_per_sec) {
     return retval;
 }
 
-// One iteration == D_LOOP_ITERS (1,000,000) floating point operations
-// If time_total is negative, there was an error in the calculation,
-// meaning there is probably something wrong with the CPU
-
 int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
     double a[NUM_DOUBLES], b[NUM_DOUBLES], dp, temp;
-    int i,n,j,actual_iters, error = 0;
+    int i, n, j, error = 0;
+    double actual_iters;
     double start, end, elapsed;
-    //clock_t time_start, time_total;
     
     if (iterations<0) {
         msg_printf(NULL, MSG_ERROR, "double_flop_test: negative iterations\n");
@@ -310,6 +320,7 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
     }
     
     // If iterations is 0, assume we're using the timer
+    //
     if (iterations == 0) {
         run_benchmark = true;
         iterations = 200000000;
@@ -326,8 +337,11 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
     
     start = cpu_time();
     
-    for (n=0;(n<iterations)&&run_benchmark;n++) {
-        for (j=0;j<D_LOOP_ITERS;j+=((NUM_DOUBLES*4)+1)) {
+    for (n=0; (n<iterations)&&run_benchmark; n++) {
+
+        // do roughly 1 million FP ops
+        //
+        for (j=0; j<D_LOOP_ITERS; j+=((NUM_DOUBLES*4)+1)) {
             dp = 0;
             for (i=0;i<NUM_DOUBLES;i++) {    // 2*NUM_DOUBLES flops
                 dp += a[i]*b[i];             // 2 flops
@@ -338,6 +352,7 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
                 b[i] *= dp;                  // 1 flop
             }
         }
+
         actual_iters++;
     }
     
@@ -346,8 +361,9 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
         
     flops_per_sec = D_LOOP_ITERS*actual_iters/elapsed;
     
-    temp = 1;
     // Check to make sure all the values are the same as when we started
+    //
+    temp = 1;
     for (i=0;i<NUM_DOUBLES;i++) {
         if ((double)a[i] != (float)temp) error = ERR_BENCHMARK_FAILED;
         temp /= 2;
@@ -367,10 +383,11 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
 // meaning there is probably something wrong with the CPU
 
 int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
-    int a[NUM_INTS], temp, actual_iters;
-    //clock_t time_start, time_total;
+    int a[NUM_INTS], temp;
+    double actual_iters;
     double start, end, elapsed;
-    int i,j,k,error = 0;
+    int i, j, k, error = 0;
+
     if (iterations<0) {
         msg_printf(NULL, MSG_ERROR, "int_op_test: negative iterations\n");
         return ERR_NEG;
@@ -430,8 +447,9 @@ int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
     
     iops_per_sec = I_LOOP_ITERS*actual_iters/elapsed;
     
-    temp = 1;
     // Check to make sure all the values are the same as when we started
+    //
+    temp = 1;
     for (i=0;i<NUM_INTS;i++) {
         if (a[i] != temp) error = ERR_BENCHMARK_FAILED;
         temp *= 2;
@@ -455,9 +473,9 @@ int bandwidth_test(int iterations, double &bytes_per_sec, int print_debug) {
     // aVal and bVal are the values of all elements of a and b.
     double aVal, bVal;
     double start, end, elapsed;
-    // Start and stop times for the clock
-    //clock_t time_start, time_total;
-    int i,j,n,actual_iters, error = 0;
+    int i, j, n, error = 0;
+    double actual_iters;
+
     if (iterations<0) {
         msg_printf(NULL, MSG_ERROR, "bandwidth_test: negative iterations\n");
         return ERR_NEG;

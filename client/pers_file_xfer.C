@@ -342,12 +342,10 @@ void PERS_FILE_XFER::retry_or_backoff() {
         );
         next_request_time = now + backoff;
     }
-    msg_printf(fip->project, MSG_INFO, "Backing off %s on transfer of file %s",
-               timediff_format(backoff).c_str(), fip->name);
-    // scope_messages.printf(
-    //     "PERS_FILE_XFER::retry_or_backoff(): Backing off %d seconds on transfer of file %s\n",
-    //     backoff, fip->name
-    // );
+    msg_printf(fip->project, MSG_INFO,
+        "Backing off %s on transfer of file %s",
+        timediff_format(backoff).c_str(), fip->name
+    );
 }
 
 // Parse XML information about a single persistent file transfer
@@ -365,7 +363,7 @@ int PERS_FILE_XFER::parse(FILE* fin) {
             msg_printf(fip->project, MSG_ERROR, "PERS_FILE_XFER::parse(): unrecognized: %s", buf);
         }
     }
-    return -1;
+    return ERR_XML_PARSE;
 }
 
 // Write XML information about a particular persistent file transfer

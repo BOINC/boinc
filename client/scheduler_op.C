@@ -290,7 +290,7 @@ int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
     // couldn't find any urls in the master file?
     //
     if ((int) urls.size() == 0) {
-        return -1;
+        return ERR_XML_PARSE;
     }
 
     return 0;
