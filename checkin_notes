@@ -9182,3 +9182,9 @@ David  Jan 14 2004
         boincxml.py
     sched/
         start
+
+David  Jan 14 2004
+	- don't blink sys tray icon more than 10 sec (from Rom Walton)
+
+	client/win/
+		wingui_mainwindow.cpp,h

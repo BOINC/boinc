@@ -84,7 +84,6 @@ BOOL CMyApp::InitInstance()
         UINT nStartSaver = RegisterWindowMessage(START_SS_MSG);
         ((CMainWindow*)m_pMainWnd)->SendMessage(nStartSaver, 0);
     }
-
 #ifdef DEBUG
     fprintf(fout, "returning from initInstance\n");
     fflush(fout);
@@ -661,22 +660,38 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 				m_nToggleIconState = ICON_NORMAL;
 			}
 		} else {
-			if(m_nToggleIconState == ICON_NORMAL){
-				SetStatusIcon(ICON_NORMAL);
+			if(m_nIconBlinkCount < (ICON_BLINKCOUNT * 2)) // blink the icon to grab users attention
+			{
+				if(m_nToggleIconState == ICON_NORMAL){
+					SetStatusIcon(ICON_NORMAL);
+					m_nIconBlinkCount++;
+					switch(m_nMessage)
+					{
+					case MSG_INFO: m_nToggleIconState = ICON_INFO; break;
+					case MSG_ERROR: m_nToggleIconState = ICON_ERROR; break;
+					case MSG_WARNING: m_nToggleIconState = ICON_WARNING; break;
+					}
+				} else {
+					SetStatusIcon(m_nToggleIconState);
+					tcItem.dwState = TCIS_HIGHLIGHTED;
+					m_nToggleIconState = ICON_NORMAL;
+				}
+			}
+			else // We should only display the message icon now instead of blinking
+			{
 				switch(m_nMessage)
 				{
 				case MSG_INFO: m_nToggleIconState = ICON_INFO; break;
 				case MSG_ERROR: m_nToggleIconState = ICON_ERROR; break;
 				case MSG_WARNING: m_nToggleIconState = ICON_WARNING; break;
 				}
-			} else {
 				SetStatusIcon(m_nToggleIconState);
 				tcItem.dwState = TCIS_HIGHLIGHTED;
-				m_nToggleIconState = ICON_NORMAL;
 			}
 		}
 	} else {
 		SetStatusIcon(ICON_NORMAL);
+		m_nIconBlinkCount = 0;
 	}
 	m_TabCtrl.SetItem(3, &tcItem);
 }
@@ -1373,7 +1388,7 @@ void CMainWindow::OnCommandProjectWebSite()
 // CMainWindow::OnCommandProjectGetPrefs
 // arguments:   void
 // returns:     void
-// function:    reset rpc time to get preferences now
+// function:    reset rpc time to get prefences now
 void CMainWindow::OnCommandProjectGetPrefs()
 {
     PROJECT *proj;
@@ -1836,7 +1851,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     //LoadListControls();
 
 
-	int retval = gstate.init();
+    int retval = gstate.init();
         if (retval) {
             OnCommandExit();
             return 0;
@@ -1855,7 +1870,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     char* argv[100];
     int argc;
 
-	command_line = GetCommandLine();
+    command_line = GetCommandLine();
     argc = parse_command_line( command_line, argv );
 #ifdef DEBUG
     for (i=0; i<argc; i++) {
@@ -2265,4 +2280,3 @@ void guiOnBenchmarksEnd()
 {
     g_myWnd->OnBenchmarksEnd();
 }
-

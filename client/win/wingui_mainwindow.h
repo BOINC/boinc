@@ -40,6 +40,9 @@
 #define ICON_INFO			4			// info icon
 #define ICON_WARNING		5			// warning icon
 
+#define ICON_BLINKCOUNT		10			// Number of times the icon should blink
+										//   in the system tray before becoming solid
+
 #define DEF_COL_WIDTH		80			// default width of list columns
 
 #define TOP_BUFFER			5			// buffer pixels around edge of client
@@ -114,6 +117,7 @@ protected:
 	int						m_nIconState;			// state of the status icon
 	int						m_nDesiredIconState;	// desired state of the status icon
 	int						m_nToggleIconState;		// next icon state
+	int						m_nIconBlinkCount;		// number of times the icon has blinked
 	BOOL					m_bMessage;				// does the user have a new message?
 	int						m_nMessage;				// desired message type
 	BOOL					m_bRequest;				// does the user have a net connection request?
