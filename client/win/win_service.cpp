@@ -137,7 +137,6 @@ VOID WINAPI service_ctrl(DWORD dwCtrlCode)
 		case SERVICE_CONTROL_SHUTDOWN:
             ReportStatus(SERVICE_STOP_PENDING, ERROR_SUCCESS, 10000);
 			quit_client();
-            ReportStatus(SERVICE_STOPPED, ERROR_SUCCESS, 10000);
             return;
 
         // Pause the service.
