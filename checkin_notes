@@ -8190,3 +8190,39 @@ David  6 Dec 2003
     sched/
         main.C
         start
+
+David  7 Dec 2003
+    - Fixed bugs involving buffer overflow of BLOB fields.
+        These can be up to 65536 bytes in MySQL.
+        MAX_BLOB_SIZE was defined as 4K.
+        strcpy2() didn't do any buffer size checking.
+        A team description was over 8K long.
+        This caused db_dump to crash.
+        Solution:
+        - strcpy2() now defined as a macro that uses the sizeof()
+            its destination, and doesn't overwrite it.
+        - MAX_BLOB_SIZE replaced with 2 symbols:
+            MEDIUM_BLOB_SIZE for fields used by BOINC
+                defined as 4K so as to not increase shmem usage
+            LARGE_BLOB_SIZE for fields with user-supplied text
+                defined as 64K
+
+    db/
+        boinc_db.h
+        db_base.C,h
+    html_user/
+        result.inc
+        white.css
+    sched/
+        assimilator.C
+        db_dump.C
+        file_deleter.C
+        handle_request.C
+        make_work.C
+        server_types.C
+        transitioner.C
+    tools/
+        add.C
+        backend_lib.C
+        create_work.C
+        process_result_template.C

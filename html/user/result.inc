@@ -56,13 +56,13 @@ function result_table_start($show_wu_link, $show_host_link) {
         <th>Sent</th>
         <th>Received</th>
         <th>Server state
-            <br><font size=2><a href=explain_state.php?field=result_server_state>Explain</a>
+            <br><font size=-2><a href=explain_state.php?field=result_server_state>explain</a>
         </th>
         <th>Outcome
-            <br><font size=2><a href=explain_state.php?field=result_outcome>Explain</a>
+            <br><font size=-2><a href=explain_state.php?field=result_outcome>explain</a>
         </th>
         <th>Client state
-            <br><font size=2><a href=explain_state.php?field=result_client_state>Explain</a>
+            <br><font size=-2><a href=explain_state.php?field=result_client_state>explain</a>
         </th>
         <th>CPU time (sec)</th>
         <th>claimed credit</th>
@@ -84,7 +84,11 @@ function show_result_row($result, $show_wu_link, $show_host_link) {
         echo "<td><a href=workunit.php?wuid=$result->workunitid>$result->workunitid</a></td>\n";
     }
     if ($show_host_link) {
-        echo "<td><a href=show_host_detail.php?hostid=$result->hostid>$result->hostid</a></td>\n";
+        if ($result->hostid) {
+            echo "<td><a href=show_host_detail.php?hostid=$result->hostid>$result->hostid</a></td>\n";
+        } else {
+            echo "<td>---</td>\n";
+        }
     }
     $result_claimed_credit = format_credit($result->claimed_credit);
     $result_granted_credit = format_credit($result->granted_credit);

@@ -34,9 +34,9 @@ struct SCHEDULER_REQUEST {
     int core_client_minor_version;
     int rpc_seqno;
     int work_req_seconds;
-    char global_prefs_xml[MAX_BLOB_SIZE];
-    char projects_xml[MAX_BLOB_SIZE];
-    char code_sign_key[MAX_BLOB_SIZE];
+    char global_prefs_xml[LARGE_BLOB_SIZE];
+    char projects_xml[MEDIUM_BLOB_SIZE];
+    char code_sign_key[MEDIUM_BLOB_SIZE];
     double total_disk_usage;
     double project_disk_usage;
 
@@ -68,8 +68,8 @@ struct SCHEDULER_REPLY {
     vector<WORKUNIT>wus;
     vector<RESULT>results;
     vector<RESULT>result_acks;
-    char code_sign_key[MAX_BLOB_SIZE];
-    char code_sign_key_signature[MAX_BLOB_SIZE];
+    char code_sign_key[MEDIUM_BLOB_SIZE];
+    char code_sign_key_signature[MEDIUM_BLOB_SIZE];
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();

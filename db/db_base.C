@@ -197,10 +197,12 @@ int DB_BASE::sum(double& x, char* field, char* clause) {
     return get_double(query, x);
 }
 
+#if 0
 void strcpy2(char* dest, char* src) {
     if (!src) *dest = 0;
     else strcpy(dest, src);
 }
+#endif
 
 // convert ' to \' in place
 void escape_single_quotes(char* field) {

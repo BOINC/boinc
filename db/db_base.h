@@ -65,7 +65,16 @@ public:
     virtual void db_parse(MYSQL_ROW&);
 };
 
-void strcpy2(char* dest, char* src);
+#define strcpy2(x, y) \
+    { \
+        char* z = y; \
+        if (!z) { \
+            x[0]=0; \
+        } else { \
+            strlcpy(x, z, sizeof(x)); \
+        } \
+    }
+//void strcpy2(char* dest, char* src);
 void escape_single_quotes(char* field);
 void unescape_single_quotes(char* p);
 

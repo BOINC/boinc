@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
     DB_APP app;
     DB_WORKUNIT wu;
     int retval;
-    char wu_template[MAX_BLOB_SIZE];
+    char wu_template[MEDIUM_BLOB_SIZE];
     char wu_template_file[256], result_template_file[256];
     char keyfile[256];
     char** infiles = NULL;

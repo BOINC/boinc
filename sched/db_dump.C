@@ -286,7 +286,7 @@ void write_user(USER& user, FILE* f, bool detail, bool show_team) {
 
 void write_team(TEAM& team, FILE* f, bool detail) {
     DB_USER user;
-    char buf[MAX_BLOB_SIZE*2];
+    char buf[256];
 
     string name;
     xml_escape(team.name, name);

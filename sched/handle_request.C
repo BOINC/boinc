@@ -168,9 +168,9 @@ bool wu_is_feasible(WORKUNIT& wu, HOST& host, WORK_REQ& wreq) {
 //
 int insert_after(char* buffer, char* after, char* text) {
     char* p;
-    char temp[MAX_BLOB_SIZE];
+    char temp[MEDIUM_BLOB_SIZE];
 
-    if (strlen(buffer) + strlen(text) > MAX_BLOB_SIZE-1) {
+    if (strlen(buffer) + strlen(text) > MEDIUM_BLOB_SIZE-1) {
         log_messages.printf(SchedMessages::NORMAL, "insert_after: overflow\n");
         return ERR_BUFFER_OVERFLOW;
     }
@@ -190,7 +190,7 @@ int insert_after(char* buffer, char* after, char* text) {
 // it to a client
 //
 int insert_wu_tags(WORKUNIT& wu, APP& app) {
-    char buf[MAX_BLOB_SIZE];
+    char buf[MEDIUM_BLOB_SIZE];
 
     sprintf(buf,
         "    <rsc_fpops_est>%f</rsc_fpops_est>\n"

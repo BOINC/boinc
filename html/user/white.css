@@ -29,14 +29,12 @@ table.bordered {
 }
 
 th {
-    border-bottom: 2px solid white;
 	background-color: ffffcc;
 	font-weight: bold;
 }
 
 td {
     border: 1px solid white;
-    
 }
 
 td.bordered {

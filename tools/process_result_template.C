@@ -36,7 +36,7 @@ int generate_signature(
 )  {
     DATA_BLOCK block, signature;
     unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
-    char buf[MAX_BLOB_SIZE];
+    char buf[MEDIUM_BLOB_SIZE];
     int retval;
 
     block.data = (unsigned char*)signed_xml;
@@ -60,8 +60,8 @@ int generate_signature(
 // add a signature of its contents up to that point.
 //
 int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
-    char* p = xml, *q1, *q2, buf[MAX_BLOB_SIZE], buf2[MAX_BLOB_SIZE];;
-    char signature[MAX_BLOB_SIZE];
+    char* p = xml, *q1, *q2, buf[MEDIUM_BLOB_SIZE], buf2[MEDIUM_BLOB_SIZE];;
+    char signature[MEDIUM_BLOB_SIZE];
     int retval, len;
 
     while (1) {
@@ -116,7 +116,7 @@ int process_result_template(
     char* upload_url
 ) {
     char* p,*q;
-    char temp[MAX_BLOB_SIZE];
+    char temp[MEDIUM_BLOB_SIZE];
     char num;
     int i;
 
@@ -151,7 +151,7 @@ int process_result_template_upload_url_only(
     const char* upload_url
 ) {
     char *p;
-    char temp[MAX_BLOB_SIZE];
+    char temp[MEDIUM_BLOB_SIZE];
 
     while (1) {
         p = strstr(result_template, UPLOAD_URL_MACRO);

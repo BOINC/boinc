@@ -160,7 +160,7 @@ int sign_executable(char* path, char* signature_text) {
 static int process_executable_file(
     char* filename, char* signature_text, char* xml_doc
 ) {
-    char longbuf[MAX_BLOB_SIZE];
+    char longbuf[MEDIUM_BLOB_SIZE];
     char path[256];
 
     sprintf(path, "%s/%s", exec_dir, filename);
@@ -243,7 +243,7 @@ void add_core_version() {
 
 void add_app_version() {
     char path[256];
-    char longbuf[MAX_BLOB_SIZE];
+    char longbuf[MEDIUM_BLOB_SIZE];
     char signature_text[1024];
     int i;
     DB_APP app;

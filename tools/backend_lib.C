@@ -33,7 +33,7 @@
 int read_file(FILE* f, char* buf) {
     assert(f);
     assert(buf);
-    int n = fread(buf, 1, MAX_BLOB_SIZE, f);
+    int n = fread(buf, 1, MEDIUM_BLOB_SIZE, f);
     buf[n] = 0;
     return 0;
 }
@@ -58,7 +58,7 @@ static int process_wu_template(
     const char* upload_url, const char* download_url
 ) {
     char* p;
-    char buf[MAX_BLOB_SIZE], md5[33], path[256];
+    char buf[MEDIUM_BLOB_SIZE], md5[33], path[256];
     int retval, file_number;
     double nbytes;
     char open_name[256];
@@ -154,7 +154,7 @@ int create_result(
 ) {
     DB_RESULT result;
     char base_outfile_name[256];
-    char result_template_copy[MAX_BLOB_SIZE];
+    char result_template_copy[MEDIUM_BLOB_SIZE];
     int retval;
 
     result.clear();
@@ -210,8 +210,8 @@ int create_work(
     const char* upload_url, const char* download_url
 ) {
     int retval;
-    char _result_template[MAX_BLOB_SIZE];
-    char wu_template[MAX_BLOB_SIZE];
+    char _result_template[MEDIUM_BLOB_SIZE];
+    char wu_template[MEDIUM_BLOB_SIZE];
 
 #if 0
     retval = check_files(infiles, ninfiles, download_dir);
