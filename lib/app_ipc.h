@@ -87,7 +87,7 @@ public:
 //
 struct APP_INIT_DATA {
     char app_name[256];
-    char app_preferences[4096];
+    char project_preferences[4096];
     char user_name[256];
     char team_name[256];
     char project_dir[256];

@@ -46,8 +46,8 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     if (strlen(ai.app_name)) {
         fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);
     }
-    if (strlen(ai.app_preferences)) {
-        fprintf(f, "<app_preferences>\n%s</app_preferences>\n", ai.app_preferences);
+    if (strlen(ai.project_preferences)) {
+        fprintf(f, "<project_preferences>\n%s</project_preferences>\n", ai.project_preferences);
     }
     if (strlen(ai.team_name)) {
 		str1 = ai.team_name;
@@ -103,11 +103,11 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     char buf[256];
     memset(&ai, 0, sizeof(ai));
     while (fgets(buf, 256, f)) {
-        if (match_tag(buf, "<app_preferences>")) {
-            safe_strncpy(ai.app_preferences, "", sizeof(ai.app_preferences));
+        if (match_tag(buf, "<project_preferences>")) {
+            safe_strncpy(ai.project_preferences, "", sizeof(ai.project_preferences));
             while (fgets(buf, 256, f)) {
-                if (match_tag(buf, "</app_preferences>")) break;
-                safe_strcat(ai.app_preferences, buf);
+                if (match_tag(buf, "</project_preferences>")) break;
+                safe_strcat(ai.project_preferences, buf);
             }
             continue;
         }

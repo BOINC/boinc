@@ -133,6 +133,10 @@ html_text("
         char project_preferences[4096];
         char user_name[256];
         char team_name[256];
+        char project_dir[256];
+        char boinc_dir[256];
+        char wu_name[256];
+        char authenticator[256];
         double user_total_credit;
         double user_expavg_credit;
         double team_total_credit;
@@ -146,6 +150,10 @@ list_item("project_preferences", "An XML string containing
 the user's project-specific preferences.");
 list_item("user_name", " the user's 'screen name' on this project.");
 list_item("team_name", " the user's team name, if any.");
+list_item("project_dir", "absolute path of project directory");
+list_item("boinc_dir", "absolute path of BOINC root directory");
+list_item("wu_name", "name of workunit being processed");
+list_item("authenticator", "user's authenticator for this project");
 list_item("user_total_credit", " user's total work for this project.");
 list_item("user_expavg_credit", " user's recent average work per day.");
 list_item("team_total_credit", " team's total work for this project.");

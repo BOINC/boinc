@@ -185,7 +185,7 @@ int boinc_parse_init_data_file() {
     //
     if (!boinc_file_exists(INIT_DATA_FILE)) {
         if (standalone) {
-            safe_strncpy(aid.app_preferences, "", sizeof(aid.app_preferences));
+            safe_strncpy(aid.project_preferences, "", sizeof(aid.project_preferences));
             safe_strncpy(aid.user_name, "Unknown user", sizeof(aid.user_name));
             safe_strncpy(aid.team_name, "Unknown team", sizeof(aid.team_name));
             aid.wu_cpu_time = 1000;

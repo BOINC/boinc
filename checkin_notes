@@ -11774,11 +11774,14 @@ David  April 22 2004
         filesys.C,h
 
 David  April 23 2004
-    - added new items to APP_INIT_DATE (for Folding@home):
+    - added new items to APP_INIT_DATA (for Folding@home):
         slot
         boinc_dir
         authenticator
+    - rename app_preferences to project_preferences in APP_INIT_DATA
 
+    api/
+        boinc_api.C
     client/
         app.C
     lib/
