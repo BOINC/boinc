@@ -2,3 +2,159 @@
 <h2>Setting up a single-host server</h2>
 
 <p>
+BOINC provides a set of scripts for setting up
+and controlling a BOINC server complex.
+These scripts require all the server components to run on a single host.
+This has been tested only on Linux and Solaris hosts;
+it may work with small modifications on Windows also.
+<p>
+The scripts can be used to create multiple BOINC projects on the same host.
+This can be handy for creating separate projects for testing and debugging.
+In fact, the scripts are part of a general
+<a href=test.html>testing framework</a>
+that allows multiple developers to work independently on
+a single host, with each developer able to create multiple projects.
+<p>
+Install the following software on the server host:
+<ul>
+<li> MySQL, version 3.23 or later
+<li> PHP, version 4.2.3 or later
+<li> Apache, linked with the PHP module
+</ul>
+
+<h3>Directory structure</h3>
+
+Designate a "BOINC projects" directory on the server host.
+The scripts will create subdirectories as follows:
+<pre>
+boinc_projects/
+    proj1/
+        cgi/
+        download/
+        html_ops/
+        html_user/
+        keys/
+        upload/
+    proj2/
+    ...
+</pre>
+where proj1, proj2 etc. are the names of the projects you create.
+Each project directory contains:
+<ul>
+<li> cgi: copies of the BOINC server programs, and a configuration file.
+<li> download: storage for data server downloads.
+<li> html_ops: copies of PHP files for project management.
+<li> html_user: copies of PHP files for the public web site.
+<li> keys: encryption keys used by the project.
+<li> upload: storage for data server uploads.
+</ul>
+
+<h3>Web server configuration</h3>
+<p>
+Create two directories, used to store symbolic links
+to project-specific HTML and CGI directories.
+You might call these boinc_html and boinc_cgi.
+Then edit your Apache configuration file,
+adding something like the following:
+
+<pre>
+Alias /david/ "/users/david/boinc_html/"
+&lt;Directory "/users/david/boinc_html">
+    Options Indexes FollowSymlinks MultiViews
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+&lt;/Directory>
+
+ScriptAlias /david_cgi/ "/users/david/boinc_cgi/"
+&lt;Directory "/users/david/boinc_cgi">
+    AllowOverride None
+    Options FollowSymLinks
+    Order allow,deny
+    Allow from all
+&lt;/Directory>
+
+</pre>
+
+<h3>Environment variabless</h3>
+
+Define the following environment variables:
+<p>
+<table border=1 cellpadding=8>
+<tr><td>BOINC_PROJECTS_DIR</td>
+
+<tr><td> BOINC_USER_NAME</td>
+<td> This is used as a component of database names,
+and is prepended to web error log entries.
+Relevant if multiple developers share one host.
+/td></tr>
+<tr><td> BOINC_SRC_DIR</td>
+<td> Path of directory where BOINC source code is</td></tr>
+<tr><td> BOINC_CGI_DIR</td>
+<td> Path of the CGI symbolic-link directory (see above).</td></tr>
+<tr><td> BOINC_CGI_URL</td>
+<td> URL of the CGI symbolic-link directory.</td></tr>
+<tr><td> BOINC_HTML_DIR</td>
+<td> path of a HTML symbolic-link directory (see above)</td></tr>
+<tr><td> BOINC_HTML_URL</td>
+<td> URL of the HTML symbolic-link directory</td></tr>
+<tr><td> BOINC_SHMEM_KEY</td>
+<td> Identifier for shared-memory segment (use any 31-bit number
+that doesn't conflict with current segments)</td></tr>
+</table>
+
+<p>
+For example, you might execute the following shell script:
+<pre>
+setenv BOINC_PROJECTS_DIR   /home/david/boinc_projects
+setenv BOINC_USER_NAME      david
+setenv BOINC_SRC_DIR        /home/david/boinc_cvs/boinc
+setenv BOINC_CGI_DIR        /home/david/cgi-bin
+setenv BOINC_CGI_URL        http://localhost/cgi-bin
+setenv BOINC_HTML_DIR       /home/david/html
+setenv BOINC_HTML_URL       http://localhost
+setenv BOINC_SHMEM_KEY      0x3abc1234
+</pre>
+
+<h3>Creating the server</h3>
+<p>
+Once you've done all the above steps,
+edit the script make_project.php
+in the test directory of the BOINC source tree,
+adding your application name.
+Then execute this script.
+This does the following:
+
+<ul>
+<li> Create the project directory and its subdirectories.
+<li> Create the project's encryption keys.
+NOTE: before making the project publicly visible,
+you must move the code-signing private key
+to a highly secure (preferably non-networked) host,
+and delete it from the server host.
+<li> Create a MySQL database for this project,
+named (BOINC_USER_NAME)_(project-name).
+<li> Insert initial records in the project, platform, user, and app tables.
+<li> Copy the server programs (cgi, feeder, file_upload_handler)
+from the source directory to the project/cgi directory.
+<li> Generate the configuration file (config.xml) used by
+the server programs.
+<li> Copy the user and administrative PHP files to the
+project directories html_user and html_ops.
+<li> Create a file "db_name" in project/html_user and project/html_ops
+so that the project web sites access the right database.
+<li> Macro-process html_user/index.html to insert the correct scheduler URL.
+<li> Create symbolic links (with the project name)
+from the main HTML and CGI directories to the project directory.
+</ul>
+
+<p>
+At this point you hopefully have a functioning BOINC server,
+but it has no applications or work to distribute.
+The remaining steps to make a public project include:
+<ul>
+<li> Develop, debug and test your application.
+<li> Develop back-end systems for generating work and processing results.
+<li> Using the "add" utility, add application versions to the BOINC database.
+<li> Develop your web site.
+</ul>
