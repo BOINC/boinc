@@ -71,17 +71,17 @@ $answer_sort = $HTTP_POST_VARS["answer_sort"];
 $forum_sorting=mysql_escape_string(implode("|",array($forum_sort,$thread_sort,$faq_sort,$answer_sort)));
 $has_prefs=mysql_query("select * from forum_preferences where userid='".$user->id."'");
 
+$ignorelist = $user->ignorelist;
 if ($add_user_to_filter){					//see if we should add any users to the ignorelist
     $user_to_add = $HTTP_POST_VARS["forum_filter_user"];
     if ($user_to_add!="" and $user_to_add==strval(intval($user_to_add))){
-	$ignorelist = $user->ignorelist."|".$user_to_add;
-    } else {
-	$ignorelist = $user->ignorelist;
+	$ignorelist.="|".$user_to_add;
     }
 }
+
 $ignored_users = explode("|",$ignorelist);
 for ($i=1;$i<sizeof($ignored_users);$i++){
-    if ($HTTP_POST_VARS["remove".$ignored_users[$i]]!=""){
+    if ($ignored_users[$i]!="" and $HTTP_POST_VARS["remove".$ignored_users[$i]]!=""){
 	//this user will be removed
     } else {
 	//the user should be in the new list
