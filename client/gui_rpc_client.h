@@ -13,6 +13,13 @@ struct FILE_INFO {
     bool uploaded;
     bool upload_when_present;
     bool sticky;
+    bool pers_xfer_active;
+    bool xfer_active;
+    int num_retries;
+    double bytes_xferred;
+    double file_offset;
+    double xfer_speed;
+    string hostname;
     PROJECT* project;
 
     int parse(FILE*);
@@ -96,6 +103,19 @@ struct RESULT {
     void print();
 };
 
+struct ACTIVE_TASK {
+    string result_name;
+    int app_version_num;
+    double checkpoint_cpu_time;
+    double current_cpu_time;
+    double fraction_done;
+    PROJECT* project;
+    RESULT* result;
+
+    int parse(FILE*);
+    void print();
+};
+
 class RPC_CLIENT {
     int sock;
     FILE* fin;
@@ -107,10 +127,12 @@ public:
     vector<APP_VERSION*> app_versions;
     vector<WORKUNIT*> wus;
     vector<RESULT*> results;
+    vector<ACTIVE_TASK*> active_tasks;
 
     APP* lookup_app(string&);
     WORKUNIT* lookup_wu(string&);
     APP_VERSION* lookup_app_version(string&, int);
+    RESULT* lookup_result(string&);
 
     void link();
 

@@ -55,7 +55,7 @@ public:
     double xfer_speed;      // exponentially-smoother avg of recent throughput
                             // in bytes per second
     double last_speed_update;  // when xfer_speed was last computed
-    double bytes_xferred;
+    double bytes_xferred;   // bytes transferred in this session
     char file_read_buf[MAX_BLOCKSIZE];
     int file_read_buf_offset, file_read_buf_len;
 

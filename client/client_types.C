@@ -554,8 +554,6 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     return ERR_XML_PARSE;
 }
 
-// Write out XML based file info
-//
 int FILE_INFO::write(FILE* out, bool to_server) {
     unsigned int i;
     int retval;

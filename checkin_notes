@@ -9624,3 +9624,18 @@ David  Jan 30 2004
 
     sched/
         handle_request.C
+
+David  Jan 31 2004
+    - GUI RPC: get_state RPC now returns active tasks and file xfers
+    - remove "hostname" field from HTTP_OP.
+        There was already a field of this name in NET_XFER,
+        a base class of HTTP_OP.
+
+    client/
+        client_types.C
+        gui_rpc_client.C,h
+        gui_rpc_server.C
+        http.h
+        net_xfer.C,h
+        pers_file_xfer.C
+        makefile.gui_test

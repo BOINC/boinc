@@ -16,34 +16,6 @@
 //
 // Contributor(s):
 //
-// Revision History:
-// $Log$
-// Revision 1.81  2004/01/30 22:19:19  davea
-// *** empty log message ***
-//
-// Revision 1.80  2004/01/17 21:34:52  davea
-// new screensaver (Rom Walton)
-//
-// Revision 1.79  2004/01/15 01:42:48  davea
-// *** empty log message ***
-//
-// Revision 1.77  2003/12/12 23:13:01  davea
-// *** empty log message ***
-//
-// Revision 1.76  2003/12/12 22:20:02  davea
-// *** empty log message ***
-//
-// Revision 1.75  2003/12/08 23:04:51  boincadm
-// *** empty log message ***
-//
-// Revision 1.74  2003/12/08 21:15:19  jeffc
-// *** empty log message ***
-//
-// Revision 1.73  2003/12/01 23:22:13  korpela
-// Fix for cases where socklen_t is #defined in system headers rather than
-// typedefed.
-//
-//
 
 #include "cpp.h"
 

@@ -84,6 +84,13 @@ int RPC_CLIENT::get_state() {
             file_infos.push_back(fip);
             continue;
         }
+        else if (match_tag(buf, "<active_task>")) {
+            ACTIVE_TASK* atp = new ACTIVE_TASK;
+            atp->parse(fin);
+            atp->result = lookup_result(atp->result_name);
+            active_tasks.push_back(atp);
+            continue;
+        }
     }
     return 0;
 }
@@ -121,6 +128,11 @@ void RPC_CLIENT::print() {
         printf("%d) -----------\n", i+1);
         results[i]->print();
     }
+    printf("\n======== Active tasks ========\n");
+    for (i=0; i<active_tasks.size(); i++) {
+        printf("%d) -----------\n", i+1);
+        active_tasks[i]->print();
+    }
 }
 
 int FILE_INFO::parse(FILE* in) {
@@ -144,6 +156,19 @@ int FILE_INFO::parse(FILE* in) {
             sticky = true;
             continue;
         }
+        else if (match_tag(buf, "<persistent_file_xfer>")) {
+            pers_xfer_active = true;
+            continue;
+        }
+        else if (match_tag(buf, "<file_xfer>")) {
+            xfer_active = true;
+            continue;
+        }
+        else if (parse_int(buf, "<num_retries>", num_retries)) continue;
+        else if (parse_double(buf, "<bytes_xferred>", bytes_xferred)) continue;
+        else if (parse_double(buf, "<file_offset>", file_offset)) continue;
+        else if (parse_double(buf, "<xfer_speed>", xfer_speed)) continue;
+        else if (parse_str(buf, "<hostname>", hostname)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -299,6 +324,27 @@ void RESULT::print() {
     printf("   stderr_out: %s\n", stderr_out.c_str());
 }
 
+int ACTIVE_TASK::parse(FILE* in) {
+    char buf[256];
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "</active_task>")) return 0;
+        else if (parse_str(buf, "<result_name>", result_name)) continue;
+        else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
+        else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
+        else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
+        else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
+void ACTIVE_TASK::print() {
+    printf("   result name: %s\n", result_name.c_str());
+    printf("   app version num: %d\n", app_version_num);
+    printf("   checkpoint CPU time: %f\n", checkpoint_cpu_time);
+    printf("   current CPU time: %f\n", current_cpu_time);
+    printf("   fraction done: %f\n", fraction_done);
+}
+
 APP* RPC_CLIENT::lookup_app(string& str) {
     unsigned int i;
     for (i=0; i<apps.size(); i++) {
@@ -316,6 +362,16 @@ WORKUNIT* RPC_CLIENT::lookup_wu(string& str) {
     printf("CAN'T FIND WU %s\n", str.c_str());
     return 0;
 }
+
+RESULT* RPC_CLIENT::lookup_result(string& str) {
+    unsigned int i;
+    for (i=0; i<results.size(); i++) {
+        if (results[i]->name == str) return results[i];
+    }
+    printf("CAN'T FIND RESULT %s\n", str.c_str());
+    return 0;
+}
+
 
 APP_VERSION* RPC_CLIENT::lookup_app_version(string& str, int version_num) {
     unsigned int i;

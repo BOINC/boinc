@@ -18,8 +18,8 @@
 //
 
 // HTTP_OP represents an HTTP operation.
-// There are variants for GET, POST etc.
-// as well as for the data source/sink.
+// There are variants for GET and POST,
+// and for the data source/sink (see below).
 
 #ifndef _HTTP_
 #define _HTTP_
@@ -59,7 +59,6 @@ public:
     HTTP_OP();
     ~HTTP_OP();
 
-    char hostname[256];
     int port;
     char filename[256];
     char* req1;

@@ -351,6 +351,20 @@ int PERS_FILE_XFER::write(FILE* fout) {
         "    </persistent_file_xfer>\n",
         nretry, first_request_time, next_request_time, time_so_far
     );
+    if (fxp) {
+        fprintf(fout,
+            "    <file_xfer>\n"
+            "        <bytes_xferred>%f</bytes_xferred>\n"
+            "        <file_offset>%f</file_offset>\n"
+            "        <xfer_speed>%f</xfer_speed>\n"
+            "        <hostname>%s</hostname/>\n"
+            "    </file_xfer>\n",
+            fxp->bytes_xferred,
+            fxp->file_offset,
+            fxp->xfer_speed,
+            fxp->hostname
+        );
+    }
     return 0;
 }
 

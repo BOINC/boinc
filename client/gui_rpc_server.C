@@ -47,7 +47,6 @@ int GUI_RPC_CONN::handle_rpc() {
 #ifndef _WIN32
     char buf[256];
     int n;
-    unsigned int i;
 
 	// read the request message in one read()
 	// so that the core client won't hang because
