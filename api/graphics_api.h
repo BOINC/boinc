@@ -2,9 +2,10 @@
 #define BOINC_GRAPHICS_API_H
 
 // The API (functions called by the app)
+extern "C"{
 extern int boinc_init_graphics();
 extern int boinc_finish_graphics();
-
+}
 // Functions that must be supplied by the app
 // application needs to define mouse, keyboard handlers
 //
