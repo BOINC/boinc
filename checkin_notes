@@ -16855,3 +16855,9 @@ Rom    31 Aug 2004
 Rom    31 Aug 2004
     - Tag for 4.06 release, all platforms
       boinc_core_release_4_06
+
+Rom    1 Sep 2004
+    - Language File Updates across all languages.
+
+    client/translations/
+        <Many Files>

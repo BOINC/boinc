@@ -1,8 +1,8 @@
 # 简体中文 language.ini 文件
 # BOINC International Language Pack - Chinese Simplified
 # Code GB / www.equn.com/boinchina/
-# Translated by Qiangsheng (VERs.0.xx) & Whitecat (VERs.2.xx)
-# Design for BOINC 2.10 - language.ini.cn V.2.1.0
+# Translated&edited by Qiangsheng Whitecat Equn
+# Design for BOINC 3.07 - language.ini.cn V.307
 # 
 # 
 
@@ -79,6 +79,7 @@ Title=文件(&F)
 Run always=一直运行(&R)
 Run based on preferences=基于个人设定运行(&P)
 Suspend=挂起(&S)
+Disable BOINC Network Access=禁止BOINC访问网络
 Run Benchmarks=运行基准测试(&B)
 Hide=隐藏(&H)
 Exit=退出(&E)
@@ -87,7 +88,7 @@ Exit=退出(&E)
 [MENU-Settings]
 
 Title=设置(&S)
-Login to Project...=登录项目(&L)...
+Attach to Project...=登录项目(&A)...
 Proxy Server...=代理服务器(&P)...
 
 
@@ -171,7 +172,7 @@ Cancel=取消
 [DIALOG-ABOUT]
 
 Title=BOINC Beta 版
-Berkeley Open Infrastructure for Network Computing=伯克利开放式网络计算体系(BOINC)
+Berkeley Open Infrastructure for Network Computing=伯克利开放式网络计算平台(BOINC)
 Open Beta=公开测试 (Open Beta)
 
 OK=确定
