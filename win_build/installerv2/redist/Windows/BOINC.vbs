@@ -264,20 +264,20 @@ Function ValidateServiceAccount()
 	Dim strInitialServiceDomain
 	Dim strInitialServiceDomainUsername
 	Dim strInitialServicePassword
-	Dim strUsername
-	Dim strDomain
 
     Set oRecord = Installer.CreateRecord(2)
 
     strInitialServicePassword = Property("SERVICE_PASSWORD")
-
-    If ( Len(strInitialServicePassword) = 0 ) Then
-	    oRecord.IntegerData(1) = 25006
-        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
-
-        ValidateServiceAccount = msiDoActionStatusFailure
-        Exit Function
-    End If
+    
+    If ( Property("SETUPTYPE") <> "ServiceGUI" ) Then 
+	    If ( Len(strInitialServicePassword) = 0 ) Then
+		    oRecord.IntegerData(1) = 25006
+	        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
+	
+	        ValidateServiceAccount = msiDoActionStatusFailure
+	        Exit Function
+	    End If
+	End If
 
     strInitialServiceUsername = Property("SERVICE_USERNAME")
     strInitialServiceDomain = Property("SERVICE_DOMAIN")
