@@ -96,7 +96,7 @@ while ($res = mysql_fetch_object($result)) {
     echo "</td>";
 
     echo "<td align=left valign=top>";
-    echo $res->error_count;
+    echo $res->Error_Count;
     echo "</td>";
 
     echo "</tr>\n";
