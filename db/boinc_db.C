@@ -852,6 +852,7 @@ int DB_SCHED_RESULT_ITEM_SET::add_result(char* result_name) {
 
 int DB_SCHED_RESULT_ITEM_SET::enumerate() {
     char                query[MAX_QUERY_LEN];
+    int                 x;
     unsigned int        i;
     unsigned int        result_count;
     MYSQL_RES*          rp;
