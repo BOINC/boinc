@@ -358,6 +358,7 @@ __declspec(dllexport) BOOL IdleTrackerInit()
  				"BoincIdleTracker"
             );
  	}
+	_ASSERT( g_hMemoryMappedData );
 
  	if( NULL != g_hMemoryMappedData )
  	{
@@ -372,6 +373,8 @@ __declspec(dllexport) BOOL IdleTrackerInit()
                 0,
                 0
             );
+
+        _ASSERT( g_pSystemWideIdleData );
     }
 
  	if( !bExists )

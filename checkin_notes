@@ -23866,3 +23866,7 @@ Rom    2 Feb 2005
 
     clientgui/
         MainDocument.cpp
+
+Rom    2 Feb 2005
+    - Tag for 4.64 release, all platforms
+      boinc_core_release_4_64
