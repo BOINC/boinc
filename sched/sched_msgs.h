@@ -25,9 +25,9 @@ class SCHED_MSG_LOG : public MSG_LOG {
     bool v_message_wanted(int kind) const;
 public:
     enum Kind {
-        CRITICAL,
-        NORMAL,
-        DEBUG
+        CRITICAL=1,
+        NORMAL=2,
+        DEBUG=3
     };
     SCHED_MSG_LOG(): MSG_LOG(stderr) {}
     void set_debug_level(int new_level) { debug_level = new_level; }

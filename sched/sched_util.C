@@ -208,4 +208,18 @@ int extract_filename(char* in, char* out) {
     return 0;
 }
 
+void compute_avg_turnaround(HOST& host, double turnaround) {
+    double new_avg;
+    if (host.avg_turnaround == 0) {
+        new_avg = turnaround;
+    } else {
+        new_avg = .7*host.avg_turnaround + .3*turnaround;
+    }
+    log_messages.printf(SCHED_MSG_LOG::NORMAL,
+        "turnaround %f; old %f; new %f\n",
+        turnaround, host.avg_turnaround, new_avg
+    );
+    host.avg_turnaround = new_avg;
+}
+
 const char *BOINC_RCSID_affa6ef1e4 = "$Id$";

@@ -69,12 +69,7 @@ int penalize_host(int hostid, double delay_bound) {
     char buf[256];
     int retval = host.lookup_id(hostid);
     if (retval) return retval;
-    if (host.avg_turnaround == 0) {
-        host.avg_turnaround = delay_bound;
-    } else {
-        host.avg_turnaround = .7*host.avg_turnaround + .3*delay_bound;
-    }
-
+    compute_avg_turnaround(host, delay_bound);
     sprintf(buf, "avg_turnaround=%f", host.avg_turnaround);
     return host.update_field(buf);
 }

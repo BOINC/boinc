@@ -112,11 +112,7 @@ int grant_credit(RESULT& result, double credit) {
     update_average(result.sent_time, credit, CREDIT_HALF_LIFE, host.expavg_credit, host.expavg_time);
 
     double turnaround = result.received_time - result.sent_time;
-    if (host.avg_turnaround == 0) {
-        host.avg_turnaround = turnaround;
-    } else {
-        host.avg_turnaround = .7*host.avg_turnaround + .3*turnaround;
-    }
+    compute_avg_turnaround(host, turnaround);
 
     sprintf(
         buf,

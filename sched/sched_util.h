@@ -20,6 +20,8 @@
 #ifndef SCHED_UTIL_H
 #define SCHED_UTIL_H
 
+#include "boinc_db.h"
+
 // "average credit" uses an exponential decay so that recent
 // activity is weighted more heavily.
 // CREDIT_HALF_LIFE is the "half-life" period:
@@ -53,5 +55,7 @@ extern int dir_hier_url(
 // extract filename from result name, needed for locality scheduling.
 //
 extern int extract_filename(char* in, char* out);
+
+extern void compute_avg_turnaround(HOST& host, double turnaround);
 
 #endif

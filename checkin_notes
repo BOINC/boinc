@@ -25175,3 +25175,15 @@ Rom    22 Feb 2005
         MainFrame.cpp
     lib/
         gui_rpc_client.C, .h
+
+David  22 Feb 2005
+    - backend processes: centralize avg_turnaround updating,
+        and write log messages
+    - backend programs: define CRITICAL/NORMAL/DEBUG as 1/2/3
+        so that message logging works as advertised
+
+    sched/
+        sched_msgs.h
+        sched_util.C,h
+        transitioner.C
+        validator.C
