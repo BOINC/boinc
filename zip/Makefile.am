@@ -1,0 +1,46 @@
+## $Id$
+
+## note:  -D flags taken from a zip config build under Linux
+
+AM_CPPFLAGS = \
+ -I./zip \
+ -I./unzip \
+ -I../lib \
+ -DUNIX
+
+##noinst_PROGRAMS = test
+noinst_LIBRARIES = libboinc_zip.a
+
+libboinc_zip_a_SOURCES = boinc_zip.cpp \
+./unzip/apihelp.c \
+./unzip/crc32.c \
+./unzip/crctab.c \
+./unzip/envargs.c \
+./unzip/explode.c \
+./unzip/extract.c \
+./unzip/fileio.c \
+./unzip/globals.c \
+./unzip/inflate.c \
+./unzip/list.c \
+./unzip/match.c \
+./unzip/process.c \
+./unzip/ttyio.c \
+./unzip/unreduce.c \
+./unzip/unshrink.c \
+./unzip/unzip.c \
+./unzip/zipinfo.c \
+./zip/deflate.c \
+./zip/mktime.c \
+./zip/trees.c \
+./zip/util.c \
+./zip/z_fileio.c \
+./zip/z_globals.c \
+./zip/zip.c \
+./zip/zipfile.c \
+./zip/zipup.c \
+./zip/unix/z_unix.c \
+./unzip/unix/unix.c 
+
+##test_SOURCES = test.c
+##test_LDADD = boinc_zip
+##g++ -o test -DHAVE_DIRENT_H -I./ test.c ../lib/filesys.C ../lib/util.C -L./ -lboinc_zip

@@ -1,0 +1,181 @@
+HOW TO INSTALL ZIP
+
+     Zip is distributed as C source code that can be compiled on a
+     wide range of systems: Unix, VMS, MSDOS, OS/2, NT, Amiga, Atari,
+     BeOS, VM/CMS, ...  You will need Unzip 5.0p1 (under any system) or
+     PKUNZIP 2.04g or later (under MSDOS) to unpack the distribution
+     file, zip23.zip. But since you read this, you have unpacked it
+     already, or you cheated and got a tar.Z file...
+
+Installation on Unix
+
+     Let's assume that you start from scratch and have not yet
+     unpacked the sources. First, unpack the source as follows,
+     assuming that you have zip23.zip in the current directory.
+
+          mkdir zipsrc
+          cd zipsrc
+          unzip ../zip23
+
+     This extracts all source files and documentation in the
+     directory called "zipsrc". If you wish to build a version
+     of zip with encryption capabilities, you must also get the
+     separate package zcrypt28.zip and overwrite the dummy files
+     crypt.c and crypt.h.
+
+     You then do:
+
+          make -f unix/Makefile system
+
+     where "system" is one of: generic, generic_gcc,
+     att6300, coherent, cray_v3, minix, sco_x286, xenix, zilog.
+
+     Try "make -f unix/Makefile generic" first, this works on many systems.
+     If this fails, then use one of the special targets given above.
+
+     Among other special systems are Cray Unicos, Zilog Zeus and MINIX.
+
+     If you get error messages "constant expected" in deflate.c, add
+     -DDYN_ALLOC to CFLAGS in your makefile entry.
+
+     If you have lots of memory, try compiling with -DBIG_MEM. If your
+     system supports mmap(), try compiling with -DMMAP. This generally
+     gives faster compression but uses more memory. See the unix/Makefile
+     entry mmap_gcc for an example.
+
+     If none of these compiles, links, and functions properly on
+     your Unix system, see the file README for how to get help.
+
+     If the appropriate system was selected, then the executables
+     zip, zipnote and zipsplit will be created.  You can copy them
+     to an appropriate directory in the search path using:
+
+          make -f unix/Makefile install
+
+     The defaults are /usr/local/bin for the executables and
+     /usr/local/man/man1 for the manual page. Change the macros
+     BINDIR and MANDIR in makefile if appropriate.
+
+     You can use the command "set" to see the current search
+     path.  If you are using the C-Shell (csh), enter the com-
+     mand:
+
+          rehash
+
+     so csh can find the new command in the path.  You are now
+     ready to use Zip.
+
+     You can get rid of the now unnecessary source and object
+     files with:
+
+          cd ..
+          rm -r zipsrc
+
+     This will remove the directory zip and its contents created
+     by unzip.  You should keep the zip20.zip file around though,
+     in case you need to build it again or want to give it to a
+     colleague.
+
+     You can add the following lines to the file /etc/magic for
+     usage by the 'file' command:
+
+0       string          PK              Zip archive
+>4      byte            011             (at least v0.9 to extract)
+>4      byte            012             (at least v1.0 to extract)
+>4      byte            013             (at least v1.1 to extract)
+>4      byte            024             (at least v2.0 to extract)
+>4      byte            025             (at least v2.1 to extract)
+
+
+Installation on other systems
+
+     The steps for installation under VMS, MSDOS, OS/2, NT, Amiga and
+     Atari are similar to the above: first unzip the distribution
+     files into their own directory. The system dependant files are
+     stored in special subdirectories.
+
+     For all the non-unix ports which support the creation of "UT" extra
+     fields (these ports contain USE_EF_UT_TIME in the list of optional
+     features displayed with "zip -v"), the timezone environment variable TZ
+     should be set according to the local timezone in order for the -f,
+     -u and -o options to work correctly.
+
+  MSDOS:
+
+     Do one of:
+
+          make msdos\makefile.msc               (Microsoft C 5.1)
+          nmake -f msdos\makefile.msc           (Microsoft C 6.0 and newer)
+          make -fmsdos\makefile.bor -DCC_REV=1  (Borland Turbo C++ 1.0)
+          make -fmsdos\makefile.bor             (Borland C++ 2.0 and newer)
+          make -fmsdos\makefile.tc              (Borland Turbo C 2.0)
+          make -f msdos/makefile.dj1            (DJGPP v1.12m4)
+          make -f msdos/makefile.dj2            (DJGPP v2.01 and newer)
+          make -f msdos/makefile.emx            (gcc/emx 0.9b and newer)
+          make -f os2/makefile.os2 gccdos       (gcc/emx 0.9b and newer)
+          wmake -f msdos\makefile.wat           (Watcom C 11.x 16-bit)
+          wmake -f msdos\makefile.wat PM=1      (Watcom C 11.x 32-bit, PMODE/W)
+
+
+     for Microsoft, Borland C++ and Turbo C, Watcom C/C++ and the various
+     free GNU C implementations, respectively. More detailed instructions
+     can be found in the respective makefiles.
+
+
+  WIN32 (Windows NT and Windows 95):
+
+     Supported compilers are Microsoft Visual C++, Watcom C/C++ and
+     the free GNU C implementation gcc/emx+rsxnt. The makefiles supplied
+     in the win32/ subdirectory contain further information.
+
+
+  Windows DLL (Windows 3.1 16-bit and WIN32):
+
+     Supported environments are Visual C++ 5.x (32-bit only) and
+     Borland C++ (4.52, and newer). For instructions how to build
+     the DLLs and where find the makefiles, look into windll/contents.
+
+
+  OS/2:
+
+     Type
+
+          {make} -f os2/makefile.os2
+
+     to get a list of supported targets/compiling environments.
+     (replace "{make}" with the name of your OS/2 make utility.)
+
+     To initiate the actual compiling process, you have to specify
+     a system target:
+
+          {make} -f os2/makefile.os2 {system}
+
+     An example: type
+
+          nmake -f os2/makefile.os2 msc
+
+     for Microsoft C 6.00.
+
+
+  VMS (OpenVMS):
+
+     Apply
+
+          @[.vms]make_zip
+
+     or use DEC's MMS make utility (or the MMK clone) if available:
+
+          mms /descr=[.vms]descrip.mms /macro=(__ALPHA__=1)   for Alpha AXP
+          mms /descr=[.vms]descrip.mms /macro=(__DECC__=1)    for DEC C on VAX
+          mms /descr=[.vms]descrip.mms /macro=(__VAXC__=1)    for VAX C
+          mms /descr=[.vms]descrip.mms /macro=(__GNUC__=1)    for GNU C on VAX
+
+     (If you have installed both DEC C and VAX C on your VAX and want to use
+      the latter compiler, you should define the macro "__FORCE_VAXC__"
+      instead of "__VAXC__".)
+
+     For further information please consult 00readme.txt in the vms/
+     subdirectory.
+
+For command help on any of the zip* utilities, simply enter
+the name with no arguments.

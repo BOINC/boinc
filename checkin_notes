@@ -12160,3 +12160,9 @@ David  May 10 2004
 
     api/
         windows_opengl.cpp
+
+David  May 11 2004
+    - replaced zip/unzip libraries with new code from Carl Christensen
+
+    zip/
+        *
