@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 // test program for message queue functions
 
 // -d       destroy

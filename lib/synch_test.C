@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 // -c       create semaphore
 // -d       destroy semaphore
 // -l       lock semaphore, sleep 10 secs, unlock

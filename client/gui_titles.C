@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 #include "gui_titles.h"
 
 // TODO: the code is riddles with constants that are indices

@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 // Copyright 2003 Regents of the University of California
 
 // SETI_BOINC is free software; you can redistribute it and/or modify it under

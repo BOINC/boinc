@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 // dir_hier_move src_dir dst_dir fanout
 //
 // move files from src_dir (flat) into dst_dir (hierarchical)

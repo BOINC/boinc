@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 // utility program for projects that use homogeneous redundancy.
 // Converts old-style info (in result table)
 // to new style (using workseq_next field of workunit)

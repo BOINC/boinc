@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 #include <stdio.h>
 
 #include "util.h"

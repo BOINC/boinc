@@ -19890,3 +19890,14 @@ Bruce  19 Nov 2004 UTC
      wxWidgets.m4
     html/ops/
      make_emails_lowercase.php
+
+Bruce  20 Nov 2004 UTC
+
+    - Added static volatile const char *BOINCrcsid="$Id$"; string to
+      the top of all .C files.  This means that 'string' or 'ident'
+      run on an executable will tell you the exact file versions used
+      in building it, since CVS replaces $Id$ with a complete version ID
+      string.  Declaration is volatile so that the compiler won't remove
+      it even under agressive optimizations.
+
+    ALL files of form *.C affected.

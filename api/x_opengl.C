@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 #include <stdlib.h>
 #include <stdio.h>    
 #include <setjmp.h>    

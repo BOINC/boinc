@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>

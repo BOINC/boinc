@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 // Include this file in a BOINC application to display
 // a static image (JPEG, GIFF, BMP, Targa) as its graphics.
 //

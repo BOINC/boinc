@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 /*
 *     C/C++ Whetstone Benchmark Single or Double Precision
 *

@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 #include <cstdio>
 
 #include "md5_file.h"

@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
