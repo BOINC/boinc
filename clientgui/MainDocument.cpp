@@ -126,6 +126,14 @@ wxInt32 CMainDocument::CachedStateUpdate()
 }
 
 
+wxInt32 CMainDocument::ForceCacheUpdate()
+{
+    m_dtCachedStateLockTimestamp = wxDateTime::Now();
+    m_dtCachedStateTimestamp = wxDateTime( (time_t)0 );
+    return 0;
+}
+
+
 wxInt32 CMainDocument::OnInit()
 {
     wxInt32 iRetVal = -1;
@@ -379,8 +387,15 @@ wxInt32 CMainDocument::GetProjectProjectName( wxInt32 iIndex, wxString& strBuffe
 {
     PROJECT* pProject = NULL;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
         strBuffer = pProject->project_name.c_str();
@@ -393,8 +408,15 @@ wxInt32 CMainDocument::GetProjectProjectURL( wxInt32 iIndex, wxString& strBuffer
 {
     PROJECT* pProject = NULL;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
         strBuffer = pProject->master_url.c_str();
@@ -407,8 +429,15 @@ wxInt32 CMainDocument::GetProjectAccountName( wxInt32 iIndex, wxString& strBuffe
 {
     PROJECT* pProject = NULL;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
         strBuffer = pProject->user_name.c_str();
@@ -421,8 +450,15 @@ wxInt32 CMainDocument::GetProjectTeamName( wxInt32 iIndex, wxString& strBuffer )
 {
     PROJECT* pProject = NULL;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
         strBuffer = pProject->team_name.c_str();
@@ -435,8 +471,15 @@ wxInt32 CMainDocument::GetProjectTotalCredit( wxInt32 iIndex, float& fBuffer )
 {
     PROJECT* pProject = NULL;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
         fBuffer = pProject->user_total_credit;
@@ -449,8 +492,15 @@ wxInt32 CMainDocument::GetProjectAvgCredit( wxInt32 iIndex, float& fBuffer )
 {
     PROJECT* pProject = NULL;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
         fBuffer = pProject->user_expavg_credit;
@@ -463,8 +513,15 @@ wxInt32 CMainDocument::GetProjectResourceShare( wxInt32 iIndex, float& fBuffer )
 {
     PROJECT* pProject = NULL;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
         fBuffer = pProject->resource_share;
@@ -484,8 +541,15 @@ wxInt32 CMainDocument::GetProjectMinRPCTime( wxInt32 iIndex, wxInt32& iBuffer )
 {
     PROJECT* pProject = NULL;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
         iBuffer = pProject->min_rpc_time;
@@ -588,8 +652,15 @@ bool CMainDocument::IsProjectSuspended( wxInt32 iIndex )
     PROJECT* pProject = NULL;
     bool     bRetVal  = false;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
         bRetVal = pProject->suspended_via_gui;
@@ -603,8 +674,15 @@ bool CMainDocument::IsProjectRPCPending( wxInt32 iIndex )
     PROJECT* pProject = NULL;
     bool     bRetVal  = false;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
         bRetVal = pProject->sched_rpc_pending;
@@ -624,8 +702,15 @@ wxInt32 CMainDocument::ProjectDetach( wxInt32 iIndex )
     PROJECT* pProject = NULL;
     wxInt32 iRetVal = -1;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
         iRetVal = rpc.project_op( (*pProject), wxT("detach") );
@@ -639,8 +724,15 @@ wxInt32 CMainDocument::ProjectUpdate( wxInt32 iIndex )
     PROJECT* pProject = NULL;
     wxInt32 iRetVal = -1;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
         iRetVal = rpc.project_op( (*pProject), wxT("update") );
@@ -654,8 +746,15 @@ wxInt32 CMainDocument::ProjectReset( wxInt32 iIndex )
     PROJECT* pProject = NULL;
     wxInt32 iRetVal = -1;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
         iRetVal = rpc.project_op( (*pProject), wxT("reset") );
@@ -670,8 +769,15 @@ wxInt32 CMainDocument::ProjectSuspend( wxInt32 iIndex )
     PROJECT* pStateProject = NULL;
     wxInt32 iRetVal = -1;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
     {
@@ -682,6 +788,8 @@ wxInt32 CMainDocument::ProjectSuspend( wxInt32 iIndex )
             pStateProject = state.lookup_project( pProject->master_url );
             if ( NULL != pStateProject )
                 pStateProject->suspended_via_gui = true;
+            else
+                ForceCacheUpdate();
         }
     }
 
@@ -695,8 +803,15 @@ wxInt32 CMainDocument::ProjectResume( wxInt32 iIndex )
     PROJECT* pStateProject = NULL;
     wxInt32 iRetVal = -1;
 
-    if ( !project_status.projects.empty() )
-        pProject = project_status.projects.at( iIndex );
+    try
+    {
+        if ( !project_status.projects.empty() )
+            pProject = project_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
     {
@@ -707,6 +822,8 @@ wxInt32 CMainDocument::ProjectResume( wxInt32 iIndex )
             pStateProject = state.lookup_project( pProject->master_url );
             if ( NULL != pStateProject )
                 pStateProject->suspended_via_gui = false;
+            else
+                ForceCacheUpdate();
         }
     }
 
@@ -750,8 +867,15 @@ wxInt32 CMainDocument::GetWorkProjectName( wxInt32 iIndex, wxString& strBuffer )
     RESULT* pStateResult = NULL;
     PROJECT* pProject = NULL;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
     {
@@ -764,6 +888,8 @@ wxInt32 CMainDocument::GetWorkProjectName( wxInt32 iIndex, wxString& strBuffer )
                 strBuffer = pProject->project_name.c_str();
             }
         }
+        else
+            ForceCacheUpdate();
     }
 
     return 0;
@@ -774,8 +900,15 @@ wxInt32 CMainDocument::GetWorkProjectURL( wxInt32 iIndex, wxString& strBuffer )
 {
     RESULT* pResult = NULL;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         strBuffer = pResult->project_url.c_str();
@@ -791,8 +924,15 @@ wxInt32 CMainDocument::GetWorkApplicationName( wxInt32 iIndex, wxString& strBuff
     WORKUNIT* pWorkunit = NULL;
     APP_VERSION* pAppVersion = NULL;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
     {
@@ -809,6 +949,8 @@ wxInt32 CMainDocument::GetWorkApplicationName( wxInt32 iIndex, wxString& strBuff
                 }
             }
         }
+        else
+            ForceCacheUpdate();
     }
 
     return 0;
@@ -822,8 +964,15 @@ wxInt32 CMainDocument::GetWorkApplicationVersion( wxInt32 iIndex, wxInt32& iBuff
     WORKUNIT* pWorkunit = NULL;
     APP_VERSION* pAppVersion = NULL;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
     {
@@ -840,6 +989,8 @@ wxInt32 CMainDocument::GetWorkApplicationVersion( wxInt32 iIndex, wxInt32& iBuff
                 }
             }
         }
+        else
+            ForceCacheUpdate();
     }
 
     return 0;
@@ -850,8 +1001,15 @@ wxInt32 CMainDocument::GetWorkName( wxInt32 iIndex, wxString& strBuffer )
 {
     RESULT* pResult = NULL;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         strBuffer = pResult->name.c_str();
@@ -864,8 +1022,15 @@ wxInt32 CMainDocument::GetWorkCurrentCPUTime( wxInt32 iIndex, float& fBuffer )
 {
     RESULT* pResult = NULL;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         fBuffer = pResult->current_cpu_time;
@@ -878,8 +1043,15 @@ wxInt32 CMainDocument::GetWorkEstimatedCPUTime( wxInt32 iIndex, float& fBuffer )
 {
     RESULT* pResult = NULL;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         fBuffer = pResult->estimated_cpu_time_remaining;
@@ -892,8 +1064,15 @@ wxInt32 CMainDocument::GetWorkFinalCPUTime( wxInt32 iIndex, float& fBuffer )
 {
     RESULT* pResult = NULL;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         fBuffer = pResult->final_cpu_time;
@@ -906,8 +1085,15 @@ wxInt32 CMainDocument::GetWorkFractionDone( wxInt32 iIndex, float& fBuffer )
 {
     RESULT* pResult = NULL;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         fBuffer = pResult->fraction_done;
@@ -920,8 +1106,15 @@ wxInt32 CMainDocument::GetWorkReportDeadline( wxInt32 iIndex, wxInt32& iBuffer )
 {
     RESULT* pResult = NULL;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         iBuffer = pResult->report_deadline;
@@ -935,8 +1128,15 @@ wxInt32 CMainDocument::GetWorkState( wxInt32 iIndex )
     wxInt32 iBuffer = 0;
     RESULT* pResult = NULL;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         iBuffer = pResult->state;
@@ -950,8 +1150,15 @@ wxInt32 CMainDocument::GetWorkSchedulerState( wxInt32 iIndex )
     wxInt32 iBuffer = 0;
     RESULT* pResult = NULL;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         iBuffer = pResult->scheduler_state;
@@ -965,8 +1172,15 @@ bool CMainDocument::IsWorkAcknowledged( wxInt32 iIndex )
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         bRetVal = pResult->got_server_ack;
@@ -980,8 +1194,15 @@ bool CMainDocument::IsWorkActive( wxInt32 iIndex )
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         bRetVal = pResult->active_task;
@@ -995,8 +1216,15 @@ bool CMainDocument::IsWorkReadyToReport( wxInt32 iIndex )
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         bRetVal = pResult->ready_to_report;
@@ -1010,8 +1238,15 @@ bool CMainDocument::IsWorkSuspended( wxInt32 iIndex )
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         bRetVal = pResult->suspended_via_gui;
@@ -1025,8 +1260,15 @@ bool CMainDocument::IsWorkGraphicsSupported( wxInt32 iIndex )
     RESULT* pResult = NULL;
     bool bRetVal    = false;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         bRetVal = pResult->supports_graphics;
@@ -1041,8 +1283,15 @@ wxInt32 CMainDocument::WorkSuspend( wxInt32 iIndex )
     RESULT* pStateResult = NULL;
     wxInt32 iRetVal = 0;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
     {
@@ -1056,6 +1305,8 @@ wxInt32 CMainDocument::WorkSuspend( wxInt32 iIndex )
                 pStateResult->suspended_via_gui = true;
             }
         }
+        else
+            ForceCacheUpdate();
     }
 
     return iRetVal;
@@ -1068,8 +1319,15 @@ wxInt32 CMainDocument::WorkResume( wxInt32 iIndex )
     RESULT* pStateResult = NULL;
     wxInt32 iRetVal = 0;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
     {
@@ -1083,6 +1341,8 @@ wxInt32 CMainDocument::WorkResume( wxInt32 iIndex )
                 pStateResult->suspended_via_gui = false;
             }
         }
+        else
+            ForceCacheUpdate();
     }
 
     return iRetVal;
@@ -1094,8 +1354,15 @@ wxInt32 CMainDocument::WorkShowGraphics( wxInt32 iIndex, bool bFullScreen )
     RESULT* pResult = NULL;
     wxInt32 iRetVal = 0;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
         iRetVal = rpc.show_graphics( pResult->project_url.c_str(), pResult->name.c_str(), bFullScreen );
@@ -1110,8 +1377,15 @@ wxInt32 CMainDocument::WorkAbort( wxInt32 iIndex )
     RESULT* pStateResult = NULL;
     wxInt32 iRetVal = 0;
 
-    if ( !results.results.empty() )
-        pResult = results.results.at( iIndex );
+    try
+    {
+        if ( !results.results.empty() )
+            pResult = results.results.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pResult = NULL;
+    }
 
     if ( NULL != pResult )
     {
@@ -1120,6 +1394,8 @@ wxInt32 CMainDocument::WorkAbort( wxInt32 iIndex )
         {
             iRetVal = rpc.result_op( (*pStateResult), wxT("abort") );
         }
+        else
+            ForceCacheUpdate();
     }
 
     return iRetVal;
@@ -1163,8 +1439,15 @@ wxInt32 CMainDocument::GetMessageProjectName( wxInt32 iIndex, wxString& strBuffe
 {
     MESSAGE* pMessage = NULL;
 
-    if ( !messages.messages.empty() )
-        pMessage = messages.messages.at( iIndex );
+    try
+    {
+        if ( !messages.messages.empty() )
+            pMessage = messages.messages.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pMessage = NULL;
+    }
 
     if ( NULL != pMessage )
         strBuffer = pMessage->project.c_str();
@@ -1177,8 +1460,15 @@ wxInt32 CMainDocument::GetMessageTime( wxInt32 iIndex, wxDateTime& dtBuffer )
 {
     MESSAGE* pMessage = NULL;
 
-    if ( !messages.messages.empty() )
-        pMessage = messages.messages.at( iIndex );
+    try
+    {
+        if ( !messages.messages.empty() )
+            pMessage = messages.messages.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pMessage = NULL;
+    }
 
     if ( NULL != pMessage )
     {
@@ -1194,8 +1484,15 @@ wxInt32 CMainDocument::GetMessagePriority( wxInt32 iIndex, wxInt32& iBuffer )
 {
     MESSAGE* pMessage = NULL;
 
-    if ( !messages.messages.empty() )
-        pMessage = messages.messages.at( iIndex );
+    try
+    {
+        if ( !messages.messages.empty() )
+            pMessage = messages.messages.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pMessage = NULL;
+    }
 
     if ( NULL != pMessage )
         iBuffer = pMessage->priority;
@@ -1208,8 +1505,15 @@ wxInt32 CMainDocument::GetMessageMessage( wxInt32 iIndex, wxString& strBuffer )
 {
     MESSAGE* pMessage = NULL;
 
-    if ( !messages.messages.empty() )
-        pMessage = messages.messages.at( iIndex );
+    try
+    {
+        if ( !messages.messages.empty() )
+            pMessage = messages.messages.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pMessage = NULL;
+    }
 
     if ( NULL != pMessage )
         strBuffer = pMessage->body.c_str();
@@ -1252,8 +1556,15 @@ wxInt32 CMainDocument::GetTransferProjectName( wxInt32 iIndex, wxString& strBuff
 {
     FILE_TRANSFER* pFT = NULL;
 
-    if ( !ft.file_transfers.empty() )
-        pFT = ft.file_transfers.at( iIndex );
+    try
+    {
+        if ( !ft.file_transfers.empty() )
+            pFT = ft.file_transfers.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pFT = NULL;
+    }
 
     if ( NULL != pFT )
         strBuffer = pFT->project_name.c_str();
@@ -1266,8 +1577,15 @@ wxInt32 CMainDocument::GetTransferFileName( wxInt32 iIndex, wxString& strBuffer 
 {
     FILE_TRANSFER* pFT = NULL;
 
-    if ( !ft.file_transfers.empty() )
-        pFT = ft.file_transfers.at( iIndex );
+    try
+    {
+        if ( !ft.file_transfers.empty() )
+            pFT = ft.file_transfers.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pFT = NULL;
+    }
 
     if ( NULL != pFT )
         strBuffer = pFT->name.c_str();
@@ -1280,8 +1598,15 @@ wxInt32 CMainDocument::GetTransferFileSize( wxInt32 iIndex, float& fBuffer )
 {
     FILE_TRANSFER* pFT = NULL;
 
-    if ( !ft.file_transfers.empty() )
-        pFT = ft.file_transfers.at( iIndex );
+    try
+    {
+        if ( !ft.file_transfers.empty() )
+            pFT = ft.file_transfers.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pFT = NULL;
+    }
 
     if ( NULL != pFT )
         fBuffer = pFT->nbytes;
@@ -1294,8 +1619,15 @@ wxInt32 CMainDocument::GetTransferBytesXfered( wxInt32 iIndex, float& fBuffer )
 {
     FILE_TRANSFER* pFT = NULL;
 
-    if ( !ft.file_transfers.empty() )
-        pFT = ft.file_transfers.at( iIndex );
+    try
+    {
+        if ( !ft.file_transfers.empty() )
+            pFT = ft.file_transfers.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pFT = NULL;
+    }
 
     if ( NULL != pFT )
         fBuffer = pFT->bytes_xferred;
@@ -1308,8 +1640,15 @@ wxInt32 CMainDocument::GetTransferSpeed( wxInt32 iIndex, float& fBuffer )
 {
     FILE_TRANSFER* pFT = NULL;
 
-    if ( !ft.file_transfers.empty() )
-        pFT = ft.file_transfers.at( iIndex );
+    try
+    {
+        if ( !ft.file_transfers.empty() )
+            pFT = ft.file_transfers.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pFT = NULL;
+    }
 
     if ( NULL != pFT )
         fBuffer = pFT->xfer_speed;
@@ -1322,8 +1661,15 @@ wxInt32 CMainDocument::GetTransferTime( wxInt32 iIndex, float& fBuffer )
 {
     FILE_TRANSFER* pFT = NULL;
 
-    if ( !ft.file_transfers.empty() )
-        pFT = ft.file_transfers.at( iIndex );
+    try
+    {
+        if ( !ft.file_transfers.empty() )
+            pFT = ft.file_transfers.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pFT = NULL;
+    }
 
     if ( NULL != pFT )
         fBuffer = pFT->time_so_far;
@@ -1336,8 +1682,15 @@ wxInt32 CMainDocument::GetTransferNextRequestTime( wxInt32 iIndex, wxInt32& iBuf
 {
     FILE_TRANSFER* pFT = NULL;
 
-    if ( !ft.file_transfers.empty() )
-        pFT = ft.file_transfers.at( iIndex );
+    try
+    {
+        if ( !ft.file_transfers.empty() )
+            pFT = ft.file_transfers.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pFT = NULL;
+    }
 
     if ( NULL != pFT )
         iBuffer = pFT->next_request_time;
@@ -1350,8 +1703,15 @@ wxInt32 CMainDocument::GetTransferStatus( wxInt32 iIndex, wxInt32& iBuffer )
 {
     FILE_TRANSFER* pFT = NULL;
 
-    if ( !ft.file_transfers.empty() )
-        pFT = ft.file_transfers.at( iIndex );
+    try
+    {
+        if ( !ft.file_transfers.empty() )
+            pFT = ft.file_transfers.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pFT = NULL;
+    }
 
     if ( NULL != pFT )
         iBuffer = pFT->status;
@@ -1365,8 +1725,15 @@ bool CMainDocument::IsTransferActive( wxInt32 iIndex )
     FILE_TRANSFER* pFT = NULL;
     bool bRetVal    = false;
 
-    if ( !ft.file_transfers.empty() )
-        pFT = ft.file_transfers.at( iIndex );
+    try
+    {
+        if ( !ft.file_transfers.empty() )
+            pFT = ft.file_transfers.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pFT = NULL;
+    }
 
     if ( NULL != pFT )
         bRetVal = pFT->pers_xfer_active;
@@ -1379,8 +1746,15 @@ bool CMainDocument::IsTransferGeneratedLocally( wxInt32 iIndex )
     FILE_TRANSFER* pFT = NULL;
     bool bRetVal    = false;
 
-    if ( !ft.file_transfers.empty() )
-        pFT = ft.file_transfers.at( iIndex );
+    try
+    {
+        if ( !ft.file_transfers.empty() )
+            pFT = ft.file_transfers.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pFT = NULL;
+    }
 
     if ( NULL != pFT )
         bRetVal = pFT->generated_locally;
@@ -1394,8 +1768,15 @@ wxInt32 CMainDocument::TransferRetryNow( wxInt32 iIndex )
     FILE_TRANSFER* pFT = NULL;
     wxInt32 iRetVal = 0;
 
-    if ( !ft.file_transfers.empty() )
-        pFT = ft.file_transfers.at( iIndex );
+    try
+    {
+        if ( !ft.file_transfers.empty() )
+            pFT = ft.file_transfers.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pFT = NULL;
+    }
 
     if ( NULL != pFT )
         iRetVal = rpc.file_transfer_op( (*pFT), wxT("retry") );
@@ -1409,8 +1790,15 @@ wxInt32 CMainDocument::TransferAbort( wxInt32 iIndex )
     FILE_TRANSFER* pFT = NULL;
     wxInt32 iRetVal = 0;
 
-    if ( !ft.file_transfers.empty() )
-        pFT = ft.file_transfers.at( iIndex );
+    try
+    {
+        if ( !ft.file_transfers.empty() )
+            pFT = ft.file_transfers.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pFT = NULL;
+    }
 
     if ( NULL != pFT )
         iRetVal = rpc.file_transfer_op( (*pFT), wxT("abort") );
@@ -1454,8 +1842,15 @@ wxInt32 CMainDocument::GetResourceProjectName( wxInt32 iIndex, wxString& strBuff
     PROJECT* pProject = NULL;
     PROJECT* pStateProject = NULL;
 
-    if ( !resource_status.projects.empty() )
-        pProject = resource_status.projects.at( iIndex );
+    try
+    {
+        if ( !resource_status.projects.empty() )
+            pProject = resource_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
     {
@@ -1464,6 +1859,8 @@ wxInt32 CMainDocument::GetResourceProjectName( wxInt32 iIndex, wxString& strBuff
         {
             strBuffer = pStateProject->project_name.c_str();
         }
+        else
+            ForceCacheUpdate();
     }
 
     return 0;
@@ -1474,8 +1871,15 @@ wxInt32 CMainDocument::GetResourceDiskspace( wxInt32 iIndex, float& fBuffer )
 {
     PROJECT* pProject = NULL;
 
-    if ( !resource_status.projects.empty() )
-        pProject = resource_status.projects.at( iIndex );
+    try
+    {
+        if ( !resource_status.projects.empty() )
+            pProject = resource_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
 
     if ( NULL != pProject )
         fBuffer = pProject->disk_usage;

@@ -85,6 +85,7 @@ private:
     wxInt32                     m_iCachedNetworkRunMode;
 
     wxInt32                     CachedStateUpdate();
+    wxInt32                     ForceCacheUpdate();
 
 public:
 
