@@ -703,6 +703,7 @@ void handle_msgs_to_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     }
 }
 
+#if 0
 void notify_if_newer_core_version(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply,
     PLATFORM& platform, SCHED_SHMEM& ss
@@ -724,6 +725,7 @@ void notify_if_newer_core_version(
         strcpy(reply.message_priority, "low");
     }
 }
+#endif
 
 void process_request(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss,
@@ -827,7 +829,9 @@ void process_request(
         goto leave;
     }
     
+#if 0
     notify_if_newer_core_version(sreq, reply, *platform, ss);
+#endif
 
     handle_global_prefs(sreq, reply);
 

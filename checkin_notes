@@ -23264,3 +23264,11 @@ Rom    25 Jan 2005
         BOINCGUI.pjd
         BOINCGUIApp.cpp
         DlgOptions.cpp
+
+David  26 Jan 2005
+    - commented out code in scheduler that notifies user
+        if a newer core client exists in this project's DB.
+        Projects don't generally keep track of CC versions any more
+
+    sched/
+        handle_request.C
