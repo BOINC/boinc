@@ -102,21 +102,24 @@ def is_daemon(task):
     '''returns true if task is a daemon'''
     return task._name == 'daemon'
 
+def get_task_command_basename(task):
+    return os.path.basename(task.cmd.split()[0])
+
 def get_task_output_name(task):
     return os.path.join(log_dir,
-                        task.__dict__.get('output') or task.cmd.split()[0] + '.out')
+                        task.__dict__.get('output') or get_task_command_basename(task) + '.out')
 
-def get_daemon_output_name(task):
+def get_daemon_command_basename(task):
     return os.path.join(log_dir,
-                        task.__dict__.get('output') or task.cmd.split()[0] + '.log')
+                        task.__dict__.get('output') or get_task_command_basename(task) + '.log')
 
 def get_daemon_pid_name(task):
     return os.path.join(pid_dir,
-                        task.__dict__.get('pid_file') or task.cmd.split()[0] + '.pid')
+                        task.__dict__.get('pid_file') or get_task_command_basename(task) + '.pid')
 
 def get_task_lock_name(task):
     return os.path.join(pid_dir,
-                        task.__dict__.get('lock_file') or task.cmd.split()[0] + '.lock')
+                        task.__dict__.get('lock_file') or get_task_command_basename(task) + '.lock')
 
 def ensure_dir(filename):
     try:
@@ -265,10 +268,9 @@ def lookup_task_run_state(task):
     for run_state_task in run_state.tasks:
         if run_state_task.cmd == task.cmd:
             return run_state_task
-    run_state_task = newConfigDict('task')
+    run_state_task = run_state.tasks.make_node_and_append('task')
     run_state_task.cmd = task.cmd
     run_state_task.last_run = 0
-    run_state.tasks.append(run_state_task)
     return run_state_task
 
 def interpret_period(str):
@@ -298,7 +300,7 @@ def interpret_period(str):
 
 
 def when_will_task_next_run(task, task_run_state):
-    return task_run_state.last_run + interpret_period(task.period)
+    return float(task_run_state.last_run) + interpret_period(task.period)
 
 def time_to_run_task(task, task_run_state):
     return (ignore_timestamps or
@@ -316,11 +318,11 @@ def run_task(task):
         return
     if verbose:
         print "  Running task:", task.cmd
-    update_task_timestamp(task)
+    update_task_timestamp(task_run_state)
     # we don't need the full double-fork because this should finish quickly
     if fork() > 0: return
     if lock_file(get_task_lock_name(task)):
-        print >>sys.stderr, "Task currently running!"
+        print >>sys.stderr, "    Task currently running! (%s)"%task.cmd
         sys.exit(1)
     redirect(get_task_output_name(task))
     exec_command_string(task.cmd)
@@ -428,19 +430,21 @@ def command_status():
                 lu = "UNLOCKED"
             print "  %2d"%n, " %5d"%pid, rs, lu, " ", task.cmd
         print
-        print "TASK   last-run  next-run  lockfile   commandline"
+        print "TASK       last run       period          next run        lockfile   commandline"
         n = 0
         for task in config.tasks:
             n += 1
             task_run_state = lookup_task_run_state(task)
-            last_run = task_run_state.last_run and timestamp(task_run_state.last_run) or '?'
+            when_last_run = float(task_run_state.last_run)
+            last_run = when_last_run and timestamp(when_last_run) or '?'
             when_next_run = when_will_task_next_run(task, lookup_task_run_state(task))
             next_run = (when_next_run <=time.time()) and 'NOW' or timestamp(when_next_run)
             if is_lock_file_locked(get_task_lock_name(task)):
-                lu = "[ locked ]"
+                lu = " LOCKED "
             else:
-                lu = "[UNLOCKED]"
-            print "  %2d"%n, last_run, next_run, lu, task.cmd
+                lu = "unlocked"
+            print "  %2d"%n, last_run.center(20), task.period.ljust(10), \
+                  next_run.center(20), lu, " ", task.cmd
         pass
 
 def command_show_config():
