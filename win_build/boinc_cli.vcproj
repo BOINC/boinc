@@ -123,7 +123,7 @@
 				IgnoreAllDefaultLibraries="TRUE"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\Build\Release/boinc_cli.pdb"
+				ProgramDatabaseFile=".\Build\Release/boinc_exe.pdb"
 				SubSystem="1"
 				OptimizeReferences="2"
 				TargetMachine="1"/>
