@@ -38,6 +38,10 @@ typedef void (CALLBACK* IdleTrackerTerm)();
 //#include "synch.h"
 #endif
 
+#ifdef __APPLE__
+#include <sys/stat.h>   // for umask()
+#endif
+
 #include "diagnostics.h"
 #include "error_numbers.h"
 #include "util.h"
@@ -237,10 +241,15 @@ static void init_core_client(int argc, char** argv) {
 
 #endif
 
+#ifdef __APPLE__
+
+    umask(0);   // Set file creation mask to make all files world-writable
+                // Our umask will be inherited by all our child processes
+#endif
+
     read_log_flags();
     gstate.parse_cmdline(argc, argv);
     gstate.parse_env_vars();
-
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =

@@ -29,7 +29,6 @@
 
 #include "res/boinc.xpm"
 
-
 IMPLEMENT_DYNAMIC_CLASS(CTaskBarIcon, wxTaskBarIconEx)
 
 BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
@@ -45,26 +44,35 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
 
     EVT_IDLE(CTaskBarIcon::OnIdle)
     EVT_CLOSE(CTaskBarIcon::OnClose)
+#ifdef __WXMSW__
     EVT_TASKBAR_MOVE(CTaskBarIcon::OnMouseMove)
+#endif
     EVT_TASKBAR_LEFT_DCLICK(CTaskBarIcon::OnLButtonDClick)
 
 #ifdef __WXMSW__
     EVT_TASKBAR_CONTEXT_MENU(CTaskBarIcon::OnContextMenu)
-#endif
-
+    
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
+#endif
+
 END_EVENT_TABLE ()
 
 
 CTaskBarIcon::CTaskBarIcon() : 
+#ifdef __WXMAC__
+    wxTaskBarIcon( DOCK )
+#else
     wxTaskBarIconEx( wxT("BOINCManagerSystray") )
+#endif
 {
     m_iconTaskBarIcon = wxIcon( boinc_xpm );
     m_dtLastHoverDetected = wxDateTime( (time_t)0 );
     m_dtLastBalloonDisplayed = wxDateTime( (time_t)0 );
 
+#ifndef __WXMAC__
     SetIcon( m_iconTaskBarIcon, wxEmptyString );
+#endif
 }
 
 
@@ -127,9 +135,9 @@ void CTaskBarIcon::OnNetworkSelection( wxCommandEvent& event )
     {
         case ID_TB_NETWORKSUSPEND:
             if ( event.IsChecked() )
-                pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
-            else
                 pDoc->SetNetworkRunMode( CMainDocument::MODE_NEVER );
+            else
+                pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
             break;
         case ID_TB_NETWORKRUNALWAYS:
         case ID_TB_NETWORKRUNBASEDONPREPERENCES:
@@ -214,6 +222,8 @@ void CTaskBarIcon::OnClose( wxCloseEvent& event )
 }
 
 
+#ifdef __WXMSW__
+
 void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
 {
 
@@ -270,6 +280,8 @@ void CTaskBarIcon::OnMouseMove( wxTaskBarIconEvent& event )
     }
 }
 
+#endif // __WXMSW__
+
 
 void CTaskBarIcon::OnLButtonDClick( wxTaskBarIconEvent& event )
 {
@@ -288,14 +300,15 @@ void CTaskBarIcon::OnLButtonDClick( wxTaskBarIconEvent& event )
 
 
 #ifdef __WXMSW__
-
-
 void CTaskBarIcon::OnContextMenu( wxTaskBarIconExEvent& event )
 {
     CreateContextMenu();
 }
-
-
+#else
+void CTaskBarIcon::OnContextMenu( wxTaskBarIconEvent& event )
+{
+    CreateContextMenu();
+}
 #endif
 
 
@@ -326,28 +339,55 @@ void CTaskBarIcon::ResetTaskBar()
 #ifdef __WXMSW___
     SetBalloon( m_iconTaskBarIcon, wxT(""), wxT("") );
 #else
+#ifndef __WXMAC__
     SetIcon( m_iconTaskBarIcon, wxT("") );
+#endif
 #endif
 
     m_dtLastBalloonDisplayed = wxDateTime::Now();
 }
 
 
+#ifdef __WXMAC__
+
+// The mac version of WxWidgets will delete this menu when 
+//  done with it; we must not delete it.  See the comments
+//  in wxTaskBarIcon::PopupMenu() and DoCreatePopupMenu() 
+//  in WxMac/src/mac/carbon/taskbar.cpp for details
+
+// Overridables
+wxMenu *CTaskBarIcon::CreatePopupMenu()
+{
+    wxMenu *menu = BuildContextMenu();
+    return menu;
+}
+
+#endif
+
 void CTaskBarIcon::CreateContextMenu()
 {
     ResetTaskBar();
 
-    CMainDocument* pDoc          = wxGetApp().GetDocument();
-    wxMenu*        menu          = new wxMenu;
-    wxMenuItem*    menuItem      = NULL;
-    wxInt32        iActivityMode = -1;
-    wxInt32        iNetworkMode  = -1;
+    wxMenu *menu = BuildContextMenu();
 
-    wxASSERT(NULL != pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    // These should be in Windows Task Bar Menu but not in Mac's Dock menu
+    menu->AppendSeparator();
+    menu->Append( wxID_EXIT, _("E&xit"), wxEmptyString );
+
+    PopupMenu( menu );
+
+    delete menu;
+}
+
+
+wxMenu *CTaskBarIcon::BuildContextMenu()
+{
+    wxMenu*        menu          = new wxMenu;
     wxASSERT(NULL != menu);
 
 #ifdef __WXMSW__
+
+    wxMenuItem*    menuItem      = NULL;
 
     wxFont font = wxSystemSettings::GetFont( wxSYS_DEFAULT_GUI_FONT );
     font.SetWeight( wxBOLD );
@@ -370,8 +410,20 @@ void CTaskBarIcon::CreateContextMenu()
     menu->AppendCheckItem( ID_TB_NETWORKSUSPEND, _("&Disable BOINC network access"), wxEmptyString );
     menu->AppendSeparator();
     menu->Append( wxID_ABOUT, _("&About BOINC Manager..."), wxEmptyString );
-    menu->AppendSeparator();
-    menu->Append( wxID_EXIT, _("E&xit"), wxEmptyString );
+
+    AdjustMenuItems(menu);
+    
+    return menu;
+}
+
+void CTaskBarIcon::AdjustMenuItems(wxMenu* menu)
+{
+    CMainDocument* pDoc          = wxGetApp().GetDocument();
+    wxInt32        iActivityMode = -1;
+    wxInt32        iNetworkMode  = -1;
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     pDoc->GetActivityRunMode( iActivityMode );
     switch( iActivityMode )
@@ -392,11 +444,6 @@ void CTaskBarIcon::CreateContextMenu()
         menu->Check( ID_TB_NETWORKSUSPEND, true );
     else
         menu->Check( ID_TB_NETWORKSUSPEND, false );
-
-    PopupMenu( menu );
-
-    delete menu;
 }
-
 
 const char *BOINC_RCSID_531575eeaa = "$Id$";

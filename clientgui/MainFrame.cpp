@@ -264,12 +264,19 @@ bool CMainFrame::CreateMenu()
     // File menu
     wxMenu *menuFile = new wxMenu;
 
+#ifdef __WXMAC__
+    menuFile->Append(
+        ID_HIDE, 
+        _("Close"),
+        _("Closes the main BOINC Manager window")
+    );
+#else
     menuFile->Append(
         ID_HIDE, 
         _("&Hide"),
         _("Hides the main BOINC Manager window")
     );
-
+#endif
     menuFile->AppendSeparator();
 
     menuFile->AppendRadioItem(

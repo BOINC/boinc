@@ -24,6 +24,10 @@
 #pragma interface "BOINCTaskBar.cpp"
 #endif
 
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
+#endif
+
 #ifdef __WXMSW__
 #include "msw/taskbarex.h"
 #else
@@ -51,15 +55,30 @@ public:
     void OnIdle( wxIdleEvent& event );
     void OnClose( wxCloseEvent& event );
 
+#ifdef __WXMSW__
     void OnMouseMove( wxTaskBarIconEvent& event );
+#endif
     void OnLButtonDClick( wxTaskBarIconEvent& event );
 
 #ifdef __WXMSW__
     void OnContextMenu( wxTaskBarIconExEvent& event );
+#else
+    void OnContextMenu( wxTaskBarIconEvent& event );
 #endif
 
     void OnRButtonDown( wxTaskBarIconEvent& event );
     void OnRButtonUp( wxTaskBarIconEvent& event );
+
+    wxMenu *BuildContextMenu();
+    void AdjustMenuItems(wxMenu* menu);
+
+#ifdef __APPLE__
+    wxMenu *CreatePopupMenu();
+
+    inline bool CTaskBarIcon::IsBalloonsSupported() {
+        return false;
+    }
+#endif
 
 private:
 
@@ -71,7 +90,7 @@ private:
 
     void       ResetTaskBar();
     void       CreateContextMenu();
-
+    
     DECLARE_EVENT_TABLE()
 
 };

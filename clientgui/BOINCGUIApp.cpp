@@ -59,6 +59,36 @@ bool CBOINCGUIApp::OnInit()
 
 #endif
 
+#ifdef __WXMAC__
+
+    wxString strDirectory = wxEmptyString;
+    bool success;
+
+    umask(0);   // Set file creation mask to make all files world-writable
+                // Our umask will be inherited by all our child processes
+
+    // Set the current directory ahead of the application launch so the core
+    //   client can find its files
+#if 0   // Code for data in user's private directory
+    wxChar buf[1024];
+    wxExpandPath(buf, "~/Library/Application Support");
+    strDirectory = wxT(buf);
+#else   // Code for data in shared directory
+    strDirectory = wxT("/Library/Application Support");
+#endif
+
+    success = ::wxSetWorkingDirectory( strDirectory );
+    if (success)            // If SetWD failed, don't create a directory in wrong place
+    {
+        strDirectory += wxT("/BOINC Data");
+        if (! wxPathExists(strDirectory))
+            success = wxMkdir( wxT("BOINC Data"), 0777);    // Does nothing if dir exists
+        success = ::wxSetWorkingDirectory( strDirectory );
+//    wxChar *wd = wxGetWorkingDirectory(buf, 1000);  // For debugging
+    }
+
+#endif  // __WXMAC__
+
     // Setup application and company information
     SetVendorName(wxT("Space Sciences Laboratory, U.C. Berkeley"));
     SetAppName(wxT("BOINC Manager"));
@@ -143,6 +173,10 @@ bool CBOINCGUIApp::OnInit()
     // Initialize the task bar icon
     m_pTaskBarIcon = new CTaskBarIcon();
     wxASSERT(NULL != m_pTaskBarIcon);
+#ifdef __WXMAC__
+    m_pMacSystemMenu = new CMacSystemMenu();
+    wxASSERT(NULL != m_pMacSystemMenu);
+#endif
 #endif
 
     // Detect the display info and store for later use.
@@ -180,6 +214,11 @@ int CBOINCGUIApp::OnExit()
 #ifndef NOTASKBAR
     if (m_pTaskBarIcon)
         delete m_pTaskBarIcon;
+#ifdef __WXMAC__
+    if (m_pMacSystemMenu)
+        delete m_pMacSystemMenu;
+#endif
+
 #endif
 
     if (m_pDocument)
@@ -285,7 +324,10 @@ void CBOINCGUIApp::StartupBOINCCore()
 {
     if ( !IsBOINCCoreRunning() )
     {
+#ifndef __WXMAC__
         wxString strDirectory = wxEmptyString;
+#endif  // ! __WXMAC__
+
         wxString strExecute = wxEmptyString;
         wxChar   szExecutableDirectory[4096];
 
@@ -311,21 +353,10 @@ void CBOINCGUIApp::StartupBOINCCore()
 
         {
             wxChar buf[1024];
-            bool success;
             ProcessSerialNumber ourPSN;
             FSRef ourFSRef;
             OSErr err;
 
-            // Set the current directory ahead of the application launch so the core
-            //   client can find its files
-            wxExpandPath(buf, "~/Library/Application Support");
-            strDirectory = wxT(buf);
-            success = ::wxSetWorkingDirectory( strDirectory );
-            if (success)            // If SetWD failed, don't create a directory in wrong place
-                success = wxMkdir( wxT("BOINC Data"), 0777);    // Does nothing if dir exists
-            strDirectory += wxT("/BOINC Data");
-            success = ::wxSetWorkingDirectory( strDirectory );
-//          wxChar *wd = wxGetWorkingDirectory(buf, 1000);  // For debugging
             // Get the full path to core client inside this application's bundle
             err = GetCurrentProcess (&ourPSN);
             if (err == noErr)

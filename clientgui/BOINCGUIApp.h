@@ -30,6 +30,9 @@
 #include "MainDocument.h"
 #ifndef NOTASKBAR
 #include "BOINCTaskBar.h"
+#ifdef __APPLE__
+#include "MacSysMenu.h"
+#endif
 #endif
 
 
@@ -62,6 +65,9 @@ protected:
     CMainDocument*  m_pDocument;
 #ifndef NOTASKBAR
     CTaskBarIcon*   m_pTaskBarIcon;
+#ifdef __APPLE__
+    CMacSystemMenu* m_pMacSystemMenu;
+#endif
 #endif
 
     bool            m_bBOINCStartedByManager;
@@ -92,6 +98,9 @@ public:
     CMainDocument*  GetDocument()                { return m_pDocument; };
 #ifndef NOTASKBAR
     CTaskBarIcon*   GetTaskBarIcon()             { return m_pTaskBarIcon; };
+#ifdef __APPLE__
+    CMacSystemMenu* GetMacSystemMenu()           { return m_pMacSystemMenu; };
+#endif
 #endif
 
     wxString*       GetSupportedLanguages()      { return (wxString*)&m_strLanguages; };
