@@ -42,10 +42,6 @@ public:
     void OnCommandsAttachProject(wxCommandEvent &event);
     void OnToolsOptions(wxCommandEvent &event);
     void OnAbout(wxCommandEvent &event);
-    void OnStatusbar(wxCommandEvent &event);
-
-    void OnToolbarsUI(wxUpdateUIEvent &event);
-    void OnStatusbarUI(wxUpdateUIEvent &event);
 
 private:
 

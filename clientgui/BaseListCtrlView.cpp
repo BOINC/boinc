@@ -23,6 +23,7 @@
 
 #include "stdwx.h"
 #include "BaseListCtrlView.h"
+#include "res/boinc.xpm"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBaseListCtrlView, wxListCtrl)
@@ -50,5 +51,14 @@ CBaseListCtrlView::~CBaseListCtrlView(void)
 wxString CBaseListCtrlView::GetViewName(void)
 {
     return wxString(_T("Undefined"));
+}
+
+
+// The user friendly icon of the view.
+//   If it has not been defined by the view the BOINC icon is returned.
+//
+char** CBaseListCtrlView::GetViewIcon(void)
+{
+    return boinc_xpm;
 }
 

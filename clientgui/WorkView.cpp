@@ -24,6 +24,8 @@
 #include "stdwx.h"
 #include "WorkView.h"
 
+#include "res/result.xpm"
+
 
 IMPLEMENT_DYNAMIC_CLASS(CWorkView, CBaseListCtrlView)
 
@@ -55,5 +57,11 @@ CWorkView::~CWorkView(void)
 wxString CWorkView::GetViewName(void)
 {
     return wxString(_("Work"));
+}
+
+
+char** CWorkView::GetViewIcon(void)
+{
+    return result_xpm;
 }
 

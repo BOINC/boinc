@@ -24,6 +24,8 @@
 #include "stdwx.h"
 #include "TransfersView.h"
 
+#include "res/xfer.xpm"
+
 
 IMPLEMENT_DYNAMIC_CLASS(CTransfersView, CBaseListCtrlView)
 
@@ -54,5 +56,11 @@ CTransfersView::~CTransfersView(void)
 wxString CTransfersView::GetViewName(void)
 {
     return wxString(_("Transfers"));
+}
+
+
+char** CTransfersView::GetViewIcon(void)
+{
+    return xfer_xpm;
 }
 

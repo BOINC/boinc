@@ -23,6 +23,7 @@
 
 #include "stdwx.h"
 #include "BaseWindowView.h"
+#include "res/boinc.xpm"
 
 
 IMPLEMENT_DYNAMIC_CLASS(CBaseWindowView, wxPanel)
@@ -50,5 +51,14 @@ CBaseWindowView::~CBaseWindowView(void)
 wxString CBaseWindowView::GetViewName(void)
 {
     return wxString(_T("Undefined"));
+}
+
+
+// The user friendly icon of the view.
+//   If it has not been defined by the view the BOINC icon is returned.
+//
+char** CBaseWindowView::GetViewIcon(void)
+{
+    return boinc_xpm;
 }
 

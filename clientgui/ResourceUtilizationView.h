@@ -38,6 +38,7 @@ public:
     ~CResourceUtilizationView(void);
 
     virtual wxString GetViewName(void);
+    virtual char**   GetViewIcon(void);
 };
 
 

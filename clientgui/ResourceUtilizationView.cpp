@@ -24,6 +24,8 @@
 #include "stdwx.h"
 #include "ResourceUtilizationView.h"
 
+#include "res/usage.xpm"
+
 
 IMPLEMENT_DYNAMIC_CLASS(CResourceUtilizationView, CBaseWindowView)
 
@@ -51,5 +53,11 @@ CResourceUtilizationView::~CResourceUtilizationView(void)
 wxString CResourceUtilizationView::GetViewName(void)
 {
     return wxString(_("Disk"));
+}
+
+
+char** CResourceUtilizationView::GetViewIcon(void)
+{
+    return usage_xpm;
 }
 

@@ -36,6 +36,7 @@ public:
     ~CBaseListCtrlView(void);
 
     virtual wxString GetViewName(void);
+    virtual char**   GetViewIcon(void);
 };
 
 

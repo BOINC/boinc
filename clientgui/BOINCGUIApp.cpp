@@ -94,7 +94,8 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser)
             wxDefaultPosition
             );
 
-        pDlg->ShowModal();
+        if (pDlg)
+            pDlg->ShowModal();
 
         return false;
     } else {

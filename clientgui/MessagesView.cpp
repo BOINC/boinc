@@ -24,6 +24,8 @@
 #include "stdwx.h"
 #include "MessagesView.h"
 
+#include "res/mess.xpm"
+
 
 IMPLEMENT_DYNAMIC_CLASS(CMessagesView, CBaseListCtrlView)
 
@@ -50,5 +52,11 @@ CMessagesView::~CMessagesView(void)
 wxString CMessagesView::GetViewName(void)
 {
     return wxString(_("Messages"));
+}
+
+
+char** CMessagesView::GetViewIcon(void)
+{
+    return mess_xpm;
 }
 

@@ -24,6 +24,8 @@
 #include "stdwx.h"
 #include "ProjectsView.h"
 
+#include "res/proj.xpm"
+
 
 IMPLEMENT_DYNAMIC_CLASS(CProjectsView, CBaseListCtrlView)
 
@@ -52,5 +54,11 @@ CProjectsView::~CProjectsView(void)
 wxString CProjectsView::GetViewName(void)
 {
     return wxString(_("Projects"));
+}
+
+
+char** CProjectsView::GetViewIcon(void)
+{
+    return proj_xpm;
 }
 

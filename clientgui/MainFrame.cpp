@@ -38,6 +38,7 @@
 
 #include "res/BOINCGUIApp.xpm"
 
+
 IMPLEMENT_DYNAMIC_CLASS(CMainFrame, wxFrame)
 
 
@@ -48,8 +49,6 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU        (ID_COMMANDSATTACHPROJECT,  CMainFrame::OnCommandsAttachProject)
     EVT_MENU        (ID_TOOLSOPTIONS,           CMainFrame::OnToolsOptions)
     EVT_MENU        (wxID_ABOUT,                CMainFrame::OnAbout)
-    EVT_MENU        (ID_STATUSBAR,              CMainFrame::OnStatusbar)
-    EVT_UPDATE_UI   (ID_STATUSBAR,              CMainFrame::OnStatusbarUI)
 END_EVENT_TABLE ()
 
 
@@ -134,6 +133,7 @@ bool CMainFrame::CreateNotebook() {
     pPanelSizer->Add(new wxStaticLine(pPanel, -1), 0, wxEXPAND);
     pPanelSizer->Add(0, 4);
     pPanelSizer->Add(pNotebookSizer, 1, wxEXPAND);
+    pPanel->SetAutoLayout(true);
     pPanel->SetSizerAndFit(pPanelSizer);
 
     CreateNotebookPage(new CProjectsView(m_pNotebook));
@@ -148,18 +148,44 @@ bool CMainFrame::CreateNotebook() {
 
 bool CMainFrame::CreateNotebookPage(wxWindow* pwndNewNotebookPage) {
 
+    wxImageList*    pImageList;
+    wxBitmap        bmpTabImage;
+    int             iImageIndex = 0;
+
     wxASSERT(pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseListCtrlView)) ||
              pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseWindowView)));
 
+
+    pImageList = m_pNotebook->GetImageList();
+    if (!pImageList) {
+        pImageList = new wxImageList(16, 16, true, 0);
+        wxASSERT(pImageList != NULL);
+    }
+    
     if(pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseListCtrlView))) {
+
         CBaseListCtrlView* pPage = (CBaseListCtrlView*)pwndNewNotebookPage;
-        m_pNotebook->AddPage(pPage, pPage->GetViewName(), true, -1);
+
+        bmpTabImage = wxBitmap(pPage->GetViewIcon());
+        iImageIndex = pImageList->Add(bmpTabImage, wxColour(255, 0, 255));
+
+        m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
+
     } else {
+
         if(pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseWindowView))) {
+
             CBaseWindowView* pPage = (CBaseWindowView*)pwndNewNotebookPage;
-            m_pNotebook->AddPage(pPage, pPage->GetViewName(), true, -1);
+
+            bmpTabImage = wxBitmap(pPage->GetViewIcon());
+            iImageIndex = pImageList->Add(bmpTabImage, wxColour(255, 0, 255));
+
+            m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
+
         }
     }
+
+    m_pNotebook->SetImageList(pImageList);
 
     return true;
 }
@@ -190,6 +216,13 @@ bool CMainFrame::DeleteMenu() {
 
 
 bool CMainFrame::DeleteNotebook() {
+
+    wxImageList*    pImageList;
+
+    pImageList = m_pNotebook->GetImageList();
+    if (pImageList)
+        delete pImageList;
+
     return true;
 }
 
@@ -251,20 +284,5 @@ void CMainFrame::OnExit(wxCommandEvent &WXUNUSED(event)) {
 
 
 void CMainFrame::OnIdle (wxIdleEvent &event) {
-}
-
-
-void CMainFrame::OnStatusbar (wxCommandEvent &WXUNUSED(event)) {
-
-    if (!m_pStatusbar)
-        CreateStatusbar();
-    else
-        DeleteStatusbar();
-
-}
-
-
-void CMainFrame::OnStatusbarUI (wxUpdateUIEvent &event) {
-    event.Check(m_pStatusbar != NULL);
 }
 
