@@ -654,7 +654,7 @@ bool CLIENT_STATE::do_something() {
 int CLIENT_STATE::parse_state_file() {
     char buf[256];
     FILE* f = fopen(STATE_FILE_NAME, "r");
-    PROJECT temp_project, *project;
+    PROJECT temp_project, *project=NULL;
     int retval=0;
     int failnum;
 

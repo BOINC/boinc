@@ -24,18 +24,7 @@
 #include <vector>
 
 #include "boinc_db.h"
-
-//The following are the states that the client is in according to the result. 
-#define RESULT_NEW              0
-    // New result, files may still need to be downloaded
-#define RESULT_FILES_DOWNLOADING 1
-#define RESULT_FILES_DOWNLOADED 2
-    // Files are downloaded, result can be computed
-#define RESULT_COMPUTE_DONE     3
-    // Computation is done, if no error then files need to be uploaded
-#define RESULT_FILES_UPLOADING  4
-#define RESULT_FILES_UPLOADED   5
-    // Files are uploaded, notify scheduling server
+#include "result_state.h"
 
 struct SCHEDULER_REQUEST {
     char authenticator[256];
