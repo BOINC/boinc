@@ -166,12 +166,11 @@ static int remove_infeasible(int i) {
 #endif
 
 static void scan_work_array(
-    DB_RESULT& result, char* clause,
+    DB_WORK_ITEM& wi, int limit,
     int& nadditions, int& ncollisions, int& ninfeasible,
     bool& no_wus
 ) {
     int i, j, retval;
-    DB_WORKUNIT wu;
     bool collision, restarted_enum = false;
 
     for (i=0; i<ssp->nwu_results; i++) {
@@ -185,8 +184,8 @@ static void scan_work_array(
             }
 #endif
         } else {
-try_again:
-            retval = result.enumerate(clause);
+//try_again:
+            retval = wi.enumerate(limit);
             if (retval) {
 
                 // if we already restarted the enum on this array scan,
@@ -202,7 +201,7 @@ try_again:
                 // restart the enumeration
                 //
                 restarted_enum = true;
-                retval = result.enumerate(clause);
+                retval = wi.enumerate(limit);
                 log_messages.printf(SCHED_MSG_LOG::DEBUG,
                     "restarting enumeration\n"
                 );
@@ -242,7 +241,7 @@ try_again:
             collision = false;
             for (j=0; j<ssp->nwu_results; j++) {
                 if (ssp->wu_results[j].state != WR_STATE_EMPTY
-                    && ssp->wu_results[j].resultid == result.id
+                    && ssp->wu_results[j].resultid == wi.res_id
                 ) {
                     ncollisions++;
                     collision = true;
@@ -252,23 +251,14 @@ try_again:
             if (!collision) {
                 log_messages.printf(
                     SCHED_MSG_LOG::NORMAL,
-                    "[%s] adding result in slot %d\n",
-                    result.name, i
+                    "adding result [RESULT#%d] in slot %d\n",
+                    wi.res_id, i
                 );
-                retval = wu.lookup_id(result.workunitid);
-                if (retval) {
-                    log_messages.printf(
-                        SCHED_MSG_LOG::CRITICAL,
-                        "[%s] can't read workunit #%d: %d\n",
-                        result.name, result.workunitid, retval
-                    );
+                if (!ssp->have_app(wi.wu.appid)) {
                     continue;
                 }
-                if (!ssp->have_app(wu.appid)) {
-                    continue;
-                }
-                wu_result.resultid = result.id;
-                wu_result.workunit = wu;
+                wu_result.resultid = wi.res_id;
+                wu_result.workunit = wi.wu;
                 wu_result.state = WR_STATE_PRESENT;
                 wu_result.infeasible_count = 0;
                 nadditions++;
@@ -297,13 +287,8 @@ static int remove_most_infeasible() {
 
 void feeder_loop() {
     int nadditions, ncollisions, ninfeasible;
-    DB_RESULT result;
+    DB_WORK_ITEM wi;
     bool no_wus;
-    char clause[256];
-
-    sprintf(clause, "where server_state=%d order by random limit 1000",
-        RESULT_SERVER_STATE_UNSENT
-    );
 
     while (1) {
         nadditions = 0;
@@ -312,7 +297,7 @@ void feeder_loop() {
         no_wus = false;
 
         scan_work_array(
-            result, clause, nadditions, ncollisions, ninfeasible, no_wus
+            wi, 1000, nadditions, ncollisions, ninfeasible, no_wus
         );
 
         ssp->ready = true;

@@ -14545,3 +14545,14 @@ David  2 July 2004
         sched_config.C
     tools/
         create_work.C
+
+David  3 July 2004
+    - Changed feeder to use DB_WORK_ITEM for database fetch.
+        This gets a stream of (result ID, WU) pairs
+        instead of getting a stream of results and then
+        fetching the WUs separately (avoid all those round-trips to DB)
+
+    sched/
+        feeder.C
+    db/
+        boinc_db.C,h

@@ -746,36 +746,36 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     strcpy2(wu_name, r[i++]);
     strcpy2(wu_xml_doc, r[i++]);
 #else
-    id=atol(r[i++]);
-    create_time = atoi(r[i++]);
-    appid = atoi(r[i++]);
-    strcpy2(name, r[i++]);
-    strcpy2(xml_doc, r[i++]);
-    batch = atoi(r[i++]);
-    rsc_fpops_est = atof(r[i++]);
-    rsc_fpops_bound = atof(r[i++]);
-    rsc_memory_bound = atof(r[i++]);
-    rsc_disk_bound = atof(r[i++]);
-    need_validate = atoi(r[i++]);
-    canonical_resultid = atoi(r[i++]);
-    canonical_credit = atof(r[i++]);
-    transition_time = atoi(r[i++]);
-    delay_bound = atoi(r[i++]);
-    error_mask = atoi(r[i++]);
-    file_delete_state = atoi(r[i++]);
-    assimilate_state = atoi(r[i++]);
-    workseq_next = atoi(r[i++]);
-    opaque = atof(r[i++]);
-    min_quorum = atoi(r[i++]);
-    target_nresults = atoi(r[i++]);
-    max_error_results = atoi(r[i++]);
-    max_total_results = atoi(r[i++]);
-    max_success_results = atoi(r[i++]);
-    strcpy2(result_template_file, r[i++]);
+    wu.id=atol(r[i++]);
+    wu.create_time = atoi(r[i++]);
+    wu.appid = atoi(r[i++]);
+    strcpy2(wu.name, r[i++]);
+    strcpy2(wu.xml_doc, r[i++]);
+    wu.batch = atoi(r[i++]);
+    wu.rsc_fpops_est = atof(r[i++]);
+    wu.rsc_fpops_bound = atof(r[i++]);
+    wu.rsc_memory_bound = atof(r[i++]);
+    wu.rsc_disk_bound = atof(r[i++]);
+    wu.need_validate = atoi(r[i++]);
+    wu.canonical_resultid = atoi(r[i++]);
+    wu.canonical_credit = atof(r[i++]);
+    wu.transition_time = atoi(r[i++]);
+    wu.delay_bound = atoi(r[i++]);
+    wu.error_mask = atoi(r[i++]);
+    wu.file_delete_state = atoi(r[i++]);
+    wu.assimilate_state = atoi(r[i++]);
+    wu.workseq_next = atoi(r[i++]);
+    wu.opaque = atof(r[i++]);
+    wu.min_quorum = atoi(r[i++]);
+    wu.target_nresults = atoi(r[i++]);
+    wu.max_error_results = atoi(r[i++]);
+    wu.max_total_results = atoi(r[i++]);
+    wu.max_success_results = atoi(r[i++]);
+    strcpy2(wu.result_template_file, r[i++]);
 #endif
 }
 
-int DB_WORK_ITEM::enumerate(char* clause) {
+int DB_WORK_ITEM::enumerate(int limit) {
     char query[MAX_QUERY_LEN];
     int retval;
     MYSQL_ROW row;
@@ -799,10 +799,11 @@ int DB_WORK_ITEM::enumerate(char* clause) {
         );
 #else
         sprintf(query,
-            "select result.id, workunit.* from result, workunit "
-            "where workunit.id == result.workunitid "
-            "and result.server_state=2 order by result.random "
-            "limit 10"
+            "select result.id, workunit.* from result left join workunit "
+            "on workunit.id = result.workunitid "
+            "where result.server_state=%d order by result.random "
+            "limit %d",
+            RESULT_SERVER_STATE_UNSENT, limit
         );
 #endif
         retval = db->do_query(query);
@@ -821,6 +822,7 @@ int DB_WORK_ITEM::enumerate(char* clause) {
     return 0;
 }
 
+#if 0
 int DB_WORK_ITEM::read_result() {
     char query[MAX_QUERY_LEN];
     int retval;
@@ -849,3 +851,4 @@ int DB_WORK_ITEM::update() {
     );
     return db->do_query(query);
 }
+#endif
