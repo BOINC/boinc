@@ -1,15 +1,17 @@
 <?php
 
+require_once('util.inc');
+
 // database-related functions.
 // Presentation code (HTML) shouldn't be here
 
-function db_init() {
+function db_init($pathMod='') {
     $retval = mysql_connect();
     if (!$retval) {
         echo "Unable to connect to database - please try again later";
         exit();
     }
-    $db_name = parse_config("<db_name>");  // TODO: Change to a specific db for testing.
+    $db_name = parse_config("<db_name>", $pathMod);
     if(!mysql_select_db($db_name)) {
 	    echo "Unable to select database - please try again later";
 	    exit();
