@@ -37,8 +37,8 @@
 #define DOWNLOAD_URL_MACRO      "<DOWNLOAD_URL/>"
 
 int read_file(FILE* f, char* buf) {
-    assert(f!=NULL);
-    assert(buf!=NULL);
+    assert(f);
+    assert(buf);
     int n = fread(buf, 1, MAX_BLOB_SIZE, f);
     buf[n] = 0;
     return 0;
@@ -46,8 +46,8 @@ int read_file(FILE* f, char* buf) {
 
 int read_filename(char* path, char* buf) {
     int retval;
-    assert(path!=NULL);
-    assert(buf!=NULL);
+    assert(path);
+    assert(buf);
     FILE* f = fopen(path, "r");
     if (!f) return -1;
     retval = read_file(f, buf);

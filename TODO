@@ -1,24 +1,27 @@
 HIGH-PRIORITY (must be done to support SETI@home)
 
 - Code-signing
-    In progress - David
+    Done - David
 
 - Upload authentication (David)
     Each result contains a "certificate", signed with project key, giving
         - list of: file name, max size
         - min, max times to xfer
     modify put program to decrypt certificate, enforce name/size/time limits
-    In progress - David
+    Done - David
 
-- Network retry policies (Eric?)
+- File retry policies (Eric?)
     can't download file: when to give up? how to retry?
         exponential backoff
     can't upload file: when to give up/retry?
+
+- scheduler RPC retry
     can't connect to sched server
     error return from sched server
+    Done - David
 
 - make scheduling server use fast CGI
-    In progress - Michael
+    Done - Michael
 
 - proxy support
     HTTP, Socks

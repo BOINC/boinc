@@ -79,6 +79,7 @@ private:
     int link_app_version(PROJECT*, APP_VERSION*);
     int link_workunit(PROJECT*, WORKUNIT*);
     int link_result(PROJECT*, RESULT*);
+    int latest_version_num(char*);
     int check_suspend_activities();
     int make_project_dirs();
     int make_slot_dirs();

@@ -35,7 +35,7 @@
 // return true if the WU can be executed on the host
 //
 bool wu_is_feasible(WORKUNIT& wu, HOST& host) {
-    return ((wu.rsc_disk < host.d_free) && (wu.rsc_memory < host.m_nbytes));
+    return ((wu.rsc_disk <= host.d_free) && (wu.rsc_memory <= host.m_nbytes));
 }
 
 // estimate the time that a WU will take on a host
@@ -44,8 +44,9 @@ double estimate_duration(WORKUNIT& wu, HOST& host) {
     return wu.rsc_fpops/host.p_fpops + wu.rsc_iops/host.p_iops;
 }
 
-//inserts an xml tag in xml_doc with an estimation of how many seconds
-//a workunit will take to complete
+// insert an element in xml_doc with an estimation of how many seconds
+// a workunit will take to complete
+//
 int insert_time_tag(WORKUNIT& wu, double seconds) {
     assert(seconds>=0);
     char *location;
@@ -75,7 +76,7 @@ int add_wu_to_reply(
     assert(seconds_to_complete>=0);
     app = ss.lookup_app(wu.appid);
     if (!app) return -1;
-    app_version = ss.lookup_app_version(app->id, platform.id, app->prod_vers);
+    app_version = ss.lookup_app_version(app->id, platform.id, app->min_version);
     if (!app_version) return -1;
 
     // add the app, app_version, and workunit to the reply,
@@ -84,9 +85,10 @@ int add_wu_to_reply(
     reply.insert_app_unique(*app);
     reply.insert_app_version_unique(*app_version);
 
-    retval = insert_time_tag(wu, seconds_to_complete); //add time estimate
-                                                       //to reply
-    if (retval) return -1;
+    // add time estimate to reply
+    //
+    retval = insert_time_tag(wu, seconds_to_complete);
+    if (retval) return retval;
     reply.insert_workunit_unique(wu);
     return 0;
 }
@@ -285,10 +287,12 @@ int send_work(
 #endif
 
     seconds_to_fill = sreq.work_req_seconds;
-    if(seconds_to_fill > MAX_SECONDS_TO_SEND)
+    if (seconds_to_fill > MAX_SECONDS_TO_SEND) {
         seconds_to_fill = MAX_SECONDS_TO_SEND;
-    else if(seconds_to_fill < MIN_SECONDS_TO_SEND)
+    }
+    if (seconds_to_fill < MIN_SECONDS_TO_SEND) {
         seconds_to_fill = MIN_SECONDS_TO_SEND;
+    }
 
     for (i=0; i<ss.nwu_results && seconds_to_fill>0; i++) {
 

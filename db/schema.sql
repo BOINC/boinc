@@ -11,9 +11,7 @@ create table app (
     id              integer     not null auto_increment,
     create_time     integer     not null,
     name            varchar(254) not null,
-    alpha_vers      integer     not null,
-    beta_vers       integer     not null,
-    prod_vers       integer     not null,
+    min_version     integer     not null,
     result_xml_template blob,
     primary key (id)
 );

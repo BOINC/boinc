@@ -26,8 +26,11 @@
 // add platform -platform_name x
 //      create DB record
 // add app_version
-//      -app_name x -platform_name y -version a -exec_dir b -exec_file c
+//      -app_name x -platform_name y -version a
 //      -download_dir d -url_base e
+//      -exec_dir b 
+//      [ -exec_files file1 file2 ... ]
+//      [ -signed_exec_files file1 sign1 file2 sign2 ... ]
 //      create DB record
 //      copy exec to data directory
 // add user -email_addr x -name y -web_password z -authenticator a
@@ -46,10 +49,12 @@ APP app;
 PLATFORM platform;
 APP_VERSION app_version;
 USER user;
-int version, retval;
+int version, retval, nexec_files;
 double nbytes;
+bool signed_exec_files;
 char buf[256], md5_cksum[64];
-char *app_name=0, *platform_name=0, *exec_dir=0, *exec_file=0;
+char *app_name=0, *platform_name=0;
+char* exec_dir=0, *exec_files[10], *signature_files[10];
 char *email_addr=0, *user_name=0, *web_password=0, *authenticator=0;
 char *prefs_file=0, *download_dir, *url_base;
 char* code_sign_keyfile;
@@ -61,9 +66,7 @@ void add_app() {
     memset(&app, 0, sizeof(app));
     strcpy(app.name, app_name);
     app.create_time = time(0);
-    app.alpha_vers = version;
-    app.beta_vers = version;
-    app.prod_vers = version;
+    app.min_version = version;
     retval = db_app_new(app);
     if (retval) {
         db_print_error("db_app_new");
@@ -82,11 +85,31 @@ void add_platform() {
     }
 }
 
-void add_app_version() {
-    char path[256];
+int sign_executable(char* path, char* signature_text) {
     DATA_BLOCK signature;
     unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
-    char signature_text[1024];
+    R_RSA_PRIVATE_KEY code_sign_key;
+    FILE* fkey = fopen(code_sign_keyfile, "r");
+    if (!fkey) {
+        fprintf(stderr, "add: can't open key file (%s)\n", code_sign_keyfile);
+        exit(1);
+    }
+    retval = scan_key_hex(fkey, (KEY*)&code_sign_key, sizeof(code_sign_key));
+    fclose(fkey);
+    if (retval) {
+        fprintf(stderr, "add: can't parse key\n");
+        exit(1);
+    }
+    signature.data = signature_buf;
+    sign_file(path, code_sign_key, signature);
+    sprint_hex_data(signature_text, signature);
+    return 0;
+}
+
+void add_app_version() {
+    char path[256];
+    char signature_text[1024], longbuf[MAX_BLOB_SIZE];
+    int i;
 
     memset(&app_version, 0, sizeof(app_version));
 
@@ -110,68 +133,71 @@ void add_app_version() {
     if (message) strcpy(app_version.message, message);
     if (message_priority) strcpy(app_version.message, message_priority);
 
-    // copy executable to download directory
+    strcpy(app_version.xml_doc, "");
+
+    // copy executables to download directory and sign them
     //
-    sprintf(
-        buf,
-        "cp %s/%s %s/%s",
-        exec_dir, exec_file, download_dir, exec_file
-    );
-    retval = system(buf);
-    if (retval) {
-        printf("failed: %s\n", buf);
-        return;
+    for (i=0; i<nexec_files; i++) {
+        sprintf(
+            buf,
+            "cp %s/%s %s/%s",
+            exec_dir, exec_files[i], download_dir, exec_files[i]
+        );
+        retval = system(buf);
+        if (retval) {
+            printf("failed: %s\n", buf);
+            return;
+        }
+
+        if (signed_exec_files) {
+            read_filename(signature_files[i], signature_text);
+        } else {
+            sprintf(path, "%s/%s", exec_dir, exec_files[i]);
+            sign_executable(path, signature_text);
+        }
+
+        md5_file(path, md5_cksum, nbytes);
+
+        // generate the XML doc directly.
+        // TODO: use a template, as in create_work (??)
+        //
+        sprintf(longbuf,
+            "<file_info>\n"
+            "    <name>%s</name>\n"
+            "    <url>%s/%s</url>\n"
+            "    <executable/>\n"
+            "    <file_signature>\n%s"
+            "    </file_signature>\n"
+            "    <nbytes>%f</nbytes>\n"
+            "</file_info>\n",
+            exec_files[i],
+            url_base, exec_files[i],
+            signature_text,
+            nbytes
+        );
+        strcat(app_version.xml_doc, longbuf);
     }
 
-    // sign the executable
-    //
-    R_RSA_PRIVATE_KEY code_sign_key;
-    FILE* fkey = fopen(code_sign_keyfile, "r");
-    if (!fkey) {
-        fprintf(stderr, "add: can't open key file (%s)\n", code_sign_keyfile);
-        exit(1);
-    }
-    retval = scan_key_hex(fkey, (KEY*)&code_sign_key, sizeof(code_sign_key));
-    fclose(fkey);
-    if (retval) {
-        fprintf(stderr, "add: can't parse key\n");
-        exit(1);
-    }
-    sprintf(path, "%s/%s", exec_dir, exec_file);
-    signature.data = signature_buf;
-    sign_file(path, code_sign_key, signature);
-    sprint_hex_data(signature_text, signature);
-
-    md5_file(path, md5_cksum, nbytes);
-
-    // generate the XML doc directly.
-    // TODO: use a template, as in create_work
-    //
-    sprintf(app_version.xml_doc,
-        "<file_info>\n"
-        "    <name>%s</name>\n"
-        "    <url>%s/%s</url>\n"
-        "    <executable/>\n"
-        "    <file_signature>\n%s"
-        "    </file_signature>\n"
-        "    <nbytes>%f</nbytes>\n"
-        "</file_info>\n"
+    sprintf(longbuf,
         "<app_version>\n"
         "    <app_name>%s</app_name>\n"
-        "    <version_num>%d</version_num>\n"
-        "    <file_ref>\n"
-        "        <file_name>%s</file_name>\n"
-        "        <main_program/>\n"
-        "    </file_ref>\n"
-        "</app_version>\n",
-        exec_file,
-        url_base, exec_file,
-        signature_text,
-        nbytes,
+        "    <version_num>%d</version_num>\n",
         app_name,
-        version,
-        exec_file
+        version
     );
+    strcat(app_version.xml_doc, longbuf);
+    for (i=0; i<nexec_files; i++) {
+        sprintf(longbuf,
+            "    <file_ref>\n"
+            "        <file_name>%s</file_name>\n"
+            "%s"
+            "    </file_ref>\n",
+            exec_files[i],
+            i?"":"        <main_program/>\n"
+        );
+        strcat(app_version.xml_doc, longbuf);
+    }
+    strcat(app_version.xml_doc, "</app_version>\n");
 
     app_version.create_time = time(0);
     retval = db_app_version_new(app_version);
@@ -238,9 +264,24 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-exec_dir")) {
             i++;
             exec_dir = argv[i];
-        } else if (!strcmp(argv[i], "-exec_file")) {
+        } else if (!strcmp(argv[i], "-exec_files")) {
+            signed_exec_files = false;
             i++;
-            exec_file= argv[i];
+            nexec_files = 0;
+            while (i < argc) {
+                exec_files[nexec_files++] = argv[i++];
+            }
+            break;
+        } else if (!strcmp(argv[i], "-signed_exec_files")) {
+            signed_exec_files = true;
+            i++;
+            nexec_files = 0;
+            while (i < argc) {
+                exec_files[nexec_files] = argv[i++];
+                signature_files[nexec_files] = argv[i++];
+                nexec_files++;
+            }
+            break;
         } else if (!strcmp(argv[i], "-exec_dir")) {
             i++;
             exec_dir = argv[i];

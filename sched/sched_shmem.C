@@ -55,7 +55,6 @@ int SCHED_SHMEM::scan_tables() {
     }
     nplatforms = n;
 
-
     n = 0;
     while (!db_app_enum(app)) {
         apps[n++] = app;
@@ -94,17 +93,22 @@ APP* SCHED_SHMEM::lookup_app(int id) {
     return 0;
 }
 
+// find the latest version for a given platform
+//
 APP_VERSION* SCHED_SHMEM::lookup_app_version(
-    int appid, int platformid, int version
+    int appid, int platformid, int min_version
 ) {
-    int i;
-    APP_VERSION* avp;
-    assert(version>=0);
+    int i, best_version=-1;
+    APP_VERSION* avp, *best_avp = 0;
+    assert(min_version>=0);
     for (i=0; i<napp_versions; i++) {
         avp = &app_versions[i];
-        if (avp->appid == appid && avp->platformid == platformid && avp->version_num == version) {
-            return avp;
+        if (avp->appid == appid && avp->platformid == platformid) {
+            if (avp->version_num >= min_version && avp->version_num > best_version) {
+                best_avp = avp;
+                best_version = avp->version_num;
+            }
         }
     }
-    return 0;
+    return best_avp;
 }

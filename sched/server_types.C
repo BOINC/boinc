@@ -210,9 +210,8 @@ int APP::write(FILE* fout) {
     fprintf(fout,
         "<app>\n"
         "    <name>%s</name>\n"
-        "    <version_num>%d</version_num>\n"
         "</app>\n",
-        name, prod_vers         // TODO: handle other phases
+        name
     );
     return 0;
 }

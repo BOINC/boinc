@@ -52,9 +52,7 @@ struct APP {
     int id;
     unsigned int create_time;   // UNIX time of record creation
     char name[256];     // application name (i.e. "setiathome_4.0"), preferably short
-    int alpha_vers;     // Alpha version number
-    int beta_vers;      // Beta version number
-    int prod_vers;      // Production version number
+    int min_version;    // don't use versions before this
     char result_xml_template[MAX_BLOB_SIZE];
         // if any workunits have dynamic results,
         // XML template for results comes from here

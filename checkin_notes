@@ -1271,4 +1271,67 @@ Michael Gary	7/24/2002
 	uc_cpu.C (added)
 	Makefile.in
 
+David   July 28 2002
+    - Changed the "add" utility so that, when adding an app version,
+        you can give it the signature files (computed offline, presumably)
+    - Changed the "add" utility so that an app version can consist
+        of multiple files
+    - Removed the notion of alpha/beta/production versions of an app.
+        The same effect can be achieved by making separate projects
+        for alpha and beta testing.
+    - Apps now have a "minimum version number" on the server side -
+        Don't send a WU unless there's an app version of that number or greater.
+        Send the latest available version for the platform.
+    - Clarified app version semantics:
+        - Workunits don't have a version# on the server
+        - When a client gets a workunit, it associates it with
+            the most recent version of the application that it knows about
+            (possibly one it received in the same reply message).
+            It continues to use this version for this WU,
+            even if it receives a later version while the WU is in progress.
+        - On the client, no version #s are associated with apps
+    
+    PROGRAMMERS NOTE:
+    - Removed checking of args in client_state.C
+        This gunks up the code too much.  Let's do checking at higher level.
+    - Comments should be in the imperative mood.
+        "Write the state file", not "Writes the state file"
+    - Comments should not be vague, e.g.
+        // See if the application (name) associated with project p is
+        // around here
+        ... what does "around here" mean?
+    - Leave a space between "if" and "("
+    - When asserting that a pointer is non-NULL, just say "assert(p)".
+        Saying "assert(p!=NULL)" is like saying if (flag==true)
+    - Linux doesn't have -lsocket and -lnsl.
+        Don't put them in Makefile.in.
 
+    TODO
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_scheduler.C
+        main.C
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    doc/
+        app.html
+        index.html
+        intro.html
+        project.html
+        tools_other.html
+    html_user/
+        db.inc
+    sched/
+        handle_request.C
+        sched_shmem.C
+        server_types.C
+    test/
+        init.inc
+        master.html
+    tools/
+        Makefile.in
+        add.C
+        backend_lib.C

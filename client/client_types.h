@@ -87,8 +87,6 @@ public:
 
 struct APP {
     char name[256];
-    int version_num;
-        // use this version number for new results
     PROJECT* project;
 
     int parse(FILE*);
@@ -157,8 +155,7 @@ struct WORKUNIT {
     char app_name[256];
     int version_num;
         // This isn't sent from the server.
-        // Instead, the client picks an app version
-        // (TODO: use alpha/beta/prod scheme)
+        // Instead, the client picks the latest app version
     char command_line[256];
     char env_vars[256];         // environment vars in URL format
     vector<FILE_REF> input_files;

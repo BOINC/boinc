@@ -71,14 +71,12 @@ void struct_to_str(void* vp, char* q, int type) {
         app = (APP*)vp;
         sprintf(q,
             "id=%d, create_time=%d, name='%s', "
-            "alpha_vers=%d, beta_vers=%d, prod_vers=%d, "
+            "min_version=%d, "
             "result_xml_template='%s'",
             app->id,
             app->create_time,
             app->name,
-            app->alpha_vers,
-            app->beta_vers,
-            app->prod_vers,
+            app->min_version,
             app->result_xml_template
         );
 	break;
@@ -236,9 +234,7 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
 	app->id = atoi(r[i++]);
 	app->create_time = atoi(r[i++]);
         strcpy(app->name, r[i++]);
-	app->alpha_vers = atoi(r[i++]);
-	app->beta_vers = atoi(r[i++]);
-	app->prod_vers = atoi(r[i++]);
+	app->min_version = atoi(r[i++]);
         strcpy(app->result_xml_template, r[i++]);
 	break;
     case TYPE_APP_VERSION:

@@ -5,7 +5,9 @@ function db_init() {
     if (!$retval) {
         exit();
     }
-    mysql_select_db(getenv("BOINC_DB_NAME"));
+    $name = getenv("BOINC_DB_NAME");
+    if ($name == NULL) $name = "boinc";
+    mysql_select_db($name);
 }
 
 function lookup_user_auth($auth) {
@@ -28,9 +30,7 @@ function show_app($app) {
     row("ID", $app->id);
     row("created", time_str($app->create_time));
     row("name", $app->name);
-    row("alpha version", $app->alpha_vers);
-    row("beta version", $app->beta_vers);
-    row("production version", $app->prod_vers);
+    row("minimum version", $app->min_version);
     row("result template", "<pre>".htmlspecialchars($app->result_xml_template)."</pre>");
     echo "</table>";
 }

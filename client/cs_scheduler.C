@@ -544,8 +544,11 @@ void CLIENT_STATE::handle_scheduler_reply(
         if (!lookup_workunit(project, sr.workunits[i].name)) {
             WORKUNIT* wup = new WORKUNIT;
             *wup = sr.workunits[i];
+            wup->version_num = latest_version_num(wup->app_name);
             retval = link_workunit(project, wup);
-            if (!retval) workunits.push_back(wup);
+            if (!retval) {
+                workunits.push_back(wup);
+            }
         }
     }
     for (i=0; i<sr.results.size(); i++) {
