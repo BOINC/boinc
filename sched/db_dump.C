@@ -68,7 +68,7 @@
 #define LOCKFILE "db_dump.out"
 
 #define DEFAULT_NRECS_PER_FILE_SUMMARY 1000
-#define DEFAULT_NRECS_PER_FILE_DETAIL 100
+#define DEFAULT_NRECS_PER_FILE_DETAIL 1000
 
 int nrecs_per_file_summary;
 int nrecs_per_file_detail;
@@ -383,96 +383,123 @@ void write_team(TEAM& team, FILE* f, bool detail) {
 void team_total_credit() {
     DB_TEAM team;
     NUMBERED_ZFILE f("teams", "team_total_credit_%d", nrecs_per_file_summary);
+    ZFILE g("teams", true);
+    g.open("team_total_credit");
 
     int i=0;
     while (!team.enumerate("order by total_credit desc")) {
         f.set_id(i++);
         write_team(team, f, false);
+        write_team(team, g, false);
     }
 }
 
 void team_expavg_credit() {
     DB_TEAM team;
     NUMBERED_ZFILE f("teams", "team_expavg_credit_%d", nrecs_per_file_summary);
+    ZFILE g("teams", true);
+    g.open("team_expavg_credit");
 
     int i=0;
     while (!team.enumerate("order by expavg_credit desc")) {
         f.set_id(i++);
         write_team(team, f, false);
+        write_team(team, g, false);
     }
 }
 
 void team_id() {
     DB_TEAM team;
     NUMBERED_ZFILE f("teams", "team_id_%d", nrecs_per_file_detail);
+    ZFILE g("teams", true);
+    g.open("team_id");
 
     while (!team.enumerate("order by id")) {
         f.set_id(team.id);
         write_team(team, f, true);
+        write_team(team, g, true);
     }
 }
 
 void user_total_credit() {
     DB_USER user;
     NUMBERED_ZFILE f("users", "user_total_credit_%d", nrecs_per_file_summary);
+    ZFILE g("users", true);
+    g.open("user_total_credit");
 
     int i=0;
     while (!user.enumerate("order by total_credit desc")) {
         f.set_id(i++);
         write_user(user, f, false, true);
+        write_user(user, g, false, true);
     }
 }
 
 void user_expavg_credit() {
     DB_USER user;
     NUMBERED_ZFILE f("users", "user_expavg_credit_%d", nrecs_per_file_summary);
+    ZFILE g("users", true);
+    g.open("user_expavg_credit");
 
     int i=0;
     while (!user.enumerate("order by expavg_credit desc")) {
         f.set_id(i++);
         write_user(user, f, false, true);
+        write_user(user, g, false, true);
     }
 }
 
 void user_id() {
     DB_USER user;
     NUMBERED_ZFILE f("users", "user_id_%d", nrecs_per_file_detail);
+    ZFILE g("users", true);
+    g.open("user_id");
 
     while (!user.enumerate("order by id")) {
         f.set_id(user.id);
         write_user(user, f, true, true);
+        write_user(user, g, true, true);
     }
 }
 
 void host_total_credit() {
     DB_HOST host;
     NUMBERED_ZFILE f("hosts", "host_total_credit_%d", nrecs_per_file_summary);
+    ZFILE g("hosts", true);
+    g.open("host_total_credit");
 
     int i=0;
     while (!host.enumerate("order by total_credit desc")) {
         f.set_id(i++);
         write_host(host, f, false, true);
+        write_host(host, g, false, true);
     }
 }
 
 void host_expavg_credit() {
     DB_HOST host;
     NUMBERED_ZFILE f("hosts", "host_expavg_credit_%d", nrecs_per_file_summary);
+    ZFILE g("hosts", true);
+    g.open("host_expavg_credit");
 
     int i=0;
     while (!host.enumerate("order by expavg_credit desc")) {
         f.set_id(i++);
         write_host(host, f, false, true);
+        write_host(host, g, false, true);
     }
 }
 
 void host_id() {
     DB_HOST host;
     NUMBERED_ZFILE f("hosts", "host_id_%d", nrecs_per_file_detail);
+    ZFILE g("hosts", true);
+    g.open("host_id");
 
     while (!host.enumerate("order by id")) {
         f.set_id(host.id);
         write_host(host, f, true, true);
+        write_host(host, g, true, true);
     }
 }
 
