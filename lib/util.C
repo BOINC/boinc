@@ -397,7 +397,7 @@ void escape_url_readable(char *in, char* out) {
     }
     out[y] = 0;
 }
-
+#if 0
 inline void replace_string(
     string& s, string const& src,
     string const& dest, string::size_type start=0
@@ -457,6 +457,30 @@ void canonicalize_master_url(char *xurl) {
     canonicalize_master_url(url);
     strcpy(xurl, url.c_str());
 }
+#endif
+
+void canonicalize_master_url(char* url) {
+    char buf[1024];
+    int n;
+
+    char *p = strstr(url, "//");
+    if (p) {
+        strcpy(buf, p+2);
+    } else {
+        strcpy(buf, url);
+    }
+    while (1) {
+        p = strstr(buf, "//");
+        if (!p) break;
+        strcpy(p, p+1);
+    }
+    n = strlen(buf);
+    if (buf[n-1] != '/') {
+        strcat(buf, "/");
+    }
+    sprintf(url, "http://%s", buf);
+}
+
 
 bool invalid_url(char* p) {
     if (strstr(p, "http://") != p) return true;

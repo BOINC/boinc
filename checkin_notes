@@ -16318,3 +16318,10 @@ David  12 Aug 2004
     sched/
         handle_request.C
         server_types.C
+
+David  12 Aug 2004
+	- canonicalize_master_url(): prepend http:// if it's not there.
+		And replace messy std::string code with nice stdlib code
+
+	lib/
+		util.C
