@@ -146,6 +146,10 @@ SOURCE=..\..\api\graphics_api.C
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\client\gui_titles.C
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\Client\Hostinfo.c
 # End Source File
 # Begin Source File
@@ -287,6 +291,10 @@ SOURCE=..\..\lib\filesys.h
 # Begin Source File
 
 SOURCE=..\..\api\graphics_api.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\client\gui_titles.h
 # End Source File
 # Begin Source File
 

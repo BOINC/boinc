@@ -18,7 +18,6 @@
 //
 
 #include "wingui_mainwindow.h"
-#include "gui_titles.h"
 
 CMyApp g_myApp;
 CMainWindow* g_myWnd = NULL;
@@ -230,10 +229,11 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		}
 
 		// to completion
+		double tocomp;
 		if(!at || at->fraction_done == 0) {
-			double tocomp = re->wup->seconds_to_complete;
+			tocomp = re->wup->seconds_to_complete;
 		} else {
-			double tocomp = at->est_time_to_completion();
+			tocomp = at->est_time_to_completion();
 		}
 		cpuhour = (int)(tocomp / (60 * 60));
 		cpumin = (int)(tocomp / 60) % 60;
