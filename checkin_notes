@@ -26752,3 +26752,12 @@ Rom    6 April 2005
         BOINCTaskCtrl.cpp
         MainDocument.cpp, .h
         stdwx.h
+
+David  6 April 2005
+	- screensaver tweaks
+
+	client/win/
+		boinc_ss.rc
+		win_screensaver.cpp
+		res/
+			boinc.cmp

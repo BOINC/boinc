@@ -71,8 +71,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_TRACETOSTDERR
     );
-    if (retval) 
-    {
+    if (retval) {
         BOINCTRACE("WinMain - BOINC Screensaver Diagnostic Error '%d'\n", retval);
         MessageBox(NULL, NULL, "BOINC Screensaver Diagnostic Error", MB_OK);
     }
@@ -1913,7 +1912,7 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc)
 	FillRect(hdc, &rc, hbrushBlack);
 
     // Draw a frame in red.
-	FrameRect(hdc, &rc, hbrushRed);
+	//FrameRect(hdc, &rc, hbrushRed);
 
     // Draw the bitmap rectangle and copy the bitmap into 
     // it. the bitmap is centered in the rectangle by adding 2

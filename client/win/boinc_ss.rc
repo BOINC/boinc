@@ -131,7 +131,7 @@ IDB_BOINCSPLAT          BITMAP                  "res\\boinc.bmp"
 
 STRINGTABLE 
 BEGIN
-    IDS_ERR_GENERIC         "There was an unspecified problem\nwith this screen saver."
+    IDS_ERR_GENERIC         "There was an unspecified problem\nwith the BOINC screensaver."
     IDS_ERR_BOINCNOTDETECTED 
                             "BOINC is not running.\n\nPlease launch BOINC to display graphics."
     IDS_ERR_BOINCNOTDETECTEDSTARTUP 
@@ -140,11 +140,11 @@ BEGIN
     IDS_ERR_BOINCNOAPPSEXECUTING
                             "BOINC is currently idle."
     IDS_ERR_BOINCNOAPPSEXECUTINGNOPROJECTSDETECTED
-                            "BOINC is currently idle.\n(No projects detected)\n\nWe recommend running the BOINC Manager\nand attaching to one or more projects\nto receive work to process."
+                            "BOINC is not attached to any projects.\nYou can attach to projects using\nthe BOINC Manager."
     IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING
-                            "BOINC System Status:\n\n"
+                            "BOINC system status:\n\n"
     IDS_ERR_BOINCSCREENSAVERLOADING
-                            "BOINC Screensaver Loading\n\nPlease Wait..."
+                            "BOINC screensaver loading"
     IDS_ERR_OUTOFMEMORY     "Not enough memory."
 END
 
