@@ -598,7 +598,7 @@ bool ACTIVE_TASK::check_app_status_files() {
     bool found = false;
     int retval;
 
-    sprintf(path, "%s/%s", slot_dir, CHECKPOINT_CPU_FILE);
+    sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, CHECKPOINT_CPU_FILE);
     f = fopen(path, "r");
     if (f) {
         found = true;
@@ -613,11 +613,11 @@ bool ACTIVE_TASK::check_app_status_files() {
         }
     }
 
-    sprintf(path, "%s/%s", slot_dir, FRACTION_DONE_FILE);
+    sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, FRACTION_DONE_FILE);
     f = fopen(path, "r");
     if (f) {
         found = true;
-        parse_fraction_done_file(f, current_cpu_time, fraction_done);
+        parse_fraction_done_file(f, fraction_done, current_cpu_time);
         fclose(f);
         retval = file_delete(path);
         if (retval) {
