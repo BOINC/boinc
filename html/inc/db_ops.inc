@@ -130,6 +130,13 @@ class SqlQueryString {
             $this->urlquery .= "&$name=".urlencode($value);
         }
     }
+    function addeqn100($name) {
+        $value = $_GET[$name];
+        if (strlen($value) && $value != 100) {
+            $this->add("$name = '$value'");
+            $this->urlquery .= "&$name=".urlencode($value);
+        }
+    }
     function addgt($name) {
         $value = $_GET[$name];
         if (strlen($value) && $value > 0) {
@@ -185,7 +192,7 @@ class SqlQueryString {
         }
         $this->addgt('received_time');
         $this->addeqnz('server_state');
-        $this->addeqnz('outcome');
+        $this->addeqn100('outcome');
         $this->addeqnz('client_state');
         $this->addeqnz('validate_state');
         if ($_GET['clauses']) {
@@ -236,7 +243,7 @@ function show_result_summary() {
     for ($ss=1; $ss<6; $ss++) {
         $server_state[$ss] = 0;
     }
-    for ($ro=1; $ro<7; $ro++) {
+    for ($ro=0; $ro<7; $ro++) {
         $outcome[$ro] = 0;
     }
     for ($cs=1; $cs<6; $cs++) {
@@ -310,6 +317,7 @@ if ($query_wuid)
         $server_state[4] = $res->serverstate_inprogress;
         $server_state[5] = $res->serverstate_over;
 
+        $outcome[0]      = $res->outcome_init;
         $outcome[1]      = $res->outcome_success;
         $outcome[2]      = $res->outcome_couldntsend;
         $outcome[3]      = $res->outcome_failure;
@@ -349,7 +357,8 @@ if ($query_wuid)
 
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
-    for ($ro=1; $ro<7; $ro++) {
+
+    for ($ro=0; $ro<7; $ro++) {
         c_row2($outcome[$ro]?outcome_color($ro):'', outcome_string($ro),
             link_results("$outcome[$ro]", $urlquery, "outcome=$ro", '')
         );
@@ -358,8 +367,8 @@ if ($query_wuid)
 
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Validate state</th><th># results</th></tr>\n";
-    row2("Valid", link_results("$nvalid", $urlquery, "validate_state=1", "outcome=1"));
-    row2("Invalid", link_results("$ninvalid", $urlquery, "validate_state=2", "outcome=1"));
+    c_row2($nvalid?validate_color(1):'', "Valid", link_results("$nvalid", $urlquery, "validate_state=1", "outcome=1"));
+    c_row2($ninvalid?validate_color(2):'', "Invalid", link_results("$ninvalid", $urlquery, "validate_state=2", "outcome=1"));
     echo "</table>";
     echo "<table border=2 cellpadding=4\n";
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
@@ -392,9 +401,9 @@ function server_state_select() {
 function outcome_select() {
     echo "
         <select name=outcome>
-        <option value=0 selected> Any
+        <option value=100 selected> Any
     ";
-    for($i=1; $i<=6; $i++) {
+    for($i=0; $i<=6; $i++) {
         echo "<option value=$i> ".outcome_string($i) . "\n";
     }
     echo "</select>\n";
@@ -676,6 +685,7 @@ function server_state_string($s) {
 
 function outcome_string($s) {
     switch($s) {
+    case 0: return "Init";
     case 1: return "Success";
     case 2: return "Couldn't send";
     case 3: return "Client error";
@@ -725,11 +735,20 @@ function host_user_link($hostid)
     return "$h<br><small>(<a href=db_action.php?table=user&id=$user->id>$user->name</a>)</small>";
 }
 
-function outcome_color($s) {
-    switch($s) {
-    // case 0: return 'eeeeee'; // unknown (server state not over probably)
-    case 1: return '33cc33'; // "Success"
-    case 3: return 'ff3333'; // "Client error"
+function validate_color($validate_state) {
+    switch ($validate_state) {
+       case 1: return '33cc33'; // valid, green
+       case 2: return 'ffa500'; // invalid result, orange
+    }
+    return '';
+}
+
+function outcome_color($outcome) {
+    switch($outcome) {
+      // case 0: return 'eeeeee'; // unknown (server state not over probably)
+         case 1: return '33cc33'; // "Success", green
+         case 3: return 'ff3333'; // "Client error", red
+         case 6: return 'ffff33'; // "Validate error", yellow
     }
     return '';
 }
@@ -780,11 +799,12 @@ function result_short_header() {
         <tr>
         <th>result ID</th>
         <th>WU ID</th>
-        <th>server state</th>
+        <th>server<br>state</th>
         <th>outcome</th>
-        <th>exit status</th>
-        <th>host (user)</th>
-        <th>client ver</th>
+        <th>validate<br>state</th>
+        <th>exit<br>status</th>
+        <th>host<br>(user)</th>
+        <th>client<br>ver</th>
         <th>received</th>
         <th>CPU hours</th>
         <th>claimed<br>credit</th>
@@ -796,6 +816,7 @@ function result_short_header() {
 function show_result_short($result) {
     $ss = server_state_string($result->server_state);
     $oc = outcome_string($result->outcome);
+    $vs = validate_state_str($result->validate_state);
     if ($result->outcome == 3) {
         $cs = client_state_string($result->client_state);
         $oc = "$oc ($cs)";
@@ -803,6 +824,7 @@ function show_result_short($result) {
     $received = time_str($result->received_time);
     $version = $result->app_version_num;
     $outcome_color = outcome_color($result->outcome);
+    $validate_color = validate_color($result->validate_state);
     $host_user = host_user_link($result->hostid);
     $cpu_hours = sprintf("%.1f",$result->cpu_time / 3600);
     $claimed_credit = credit_str($result->claimed_credit);
@@ -814,7 +836,8 @@ function show_result_short($result) {
         <td><a href=db_action.php?table=workunit&id=$result->workunitid>$result->workunitid</a></td>
         <td>$ss</td>
         <td bgcolor=$outcome_color>$oc</td>
-        <td>", exit_status_string($result), "</td>
+        <td bgcolor=$validate_color>$vs</td>
+	<td>", exit_status_string($result), "</td>
         <td>$host_user</td>
         <td>$version</td>
         <td>$received</td>

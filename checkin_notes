@@ -19551,6 +19551,7 @@ Bruce 16 Nov 2004
        names such as name='first_workunit'
      - Result summary pages corrected for boundary condition errors in arrays and to cover
        additional result.outcome==6 case.  Result summaries now sum correctly over outcomes!
+     - Add validate state to result tables, color code for validate state information
       html/inc/
         db_ops.inc
         util_ops.inc
