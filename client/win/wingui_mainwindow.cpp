@@ -469,7 +469,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	    for(i = 0; i < gstate.projects.size(); i ++) {
 		    double xUsage;
 		    CString strLabel;
-		    strLabel.Format("%s %s", g_szUsageItems[4], gstate.projects[i]->project_name);
+		    strLabel.Format("%s", gstate.projects[i]->project_name);
 		    gstate.project_disk_usage(gstate.projects[i], xUsage);
 		    m_UsageBOINCPieCtrl.SetPieceLabel(i + 1, strLabel.GetBuffer(0));
 		    m_UsageBOINCPieCtrl.SetPiece(i + 1, xUsage);
@@ -1263,6 +1263,7 @@ void CMainWindow::OnCommandShow()
 	pMainMenu = GetMenu();
 
 	ShowWindow(SW_SHOW);
+
     pMainMenu->GetSubMenu(0)->EnableMenuItem(ID_STATUSICON_HIDE, MF_ENABLED);
     pMainMenu->GetSubMenu(0)->EnableMenuItem(ID_STATUSICON_SHOW, MF_GRAYED);
 }
@@ -1278,6 +1279,7 @@ void CMainWindow::OnCommandHide()
 	pMainMenu = GetMenu();
 
 	ShowWindow(SW_HIDE);
+
     pMainMenu->GetSubMenu(0)->EnableMenuItem(ID_STATUSICON_HIDE, MF_GRAYED);
     pMainMenu->GetSubMenu(0)->EnableMenuItem(ID_STATUSICON_SHOW, MF_ENABLED);
 }
@@ -1661,22 +1663,18 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 void CMainWindow::OnSetFocus(CWnd* pOldWnd)
 {
 	if(m_TabCtrl.GetSafeHwnd() && m_bMessage) {
-		m_TabCtrl.SetCurSel(MESSAGE_ID);
-		m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_MessageListCtrl.ModifyStyle(0, WS_VISIBLE);
-		m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_UsageBOINCPieCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_MessageListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+        ShowTab(MESSAGE_ID);
 		m_bMessage = false;
 		SetStatusIcon(ICON_NORMAL);
 	}
+
 	// TODO: review this
 	if(m_bRequest) {
 		m_bRequest = false;
 //		if(RequestNetConnect()) OnCommandConnectionConnectNow();
 	}
+
+    UpdateGUI(&gstate);
 }
 
 //////////
@@ -1714,7 +1712,7 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy)
 		}
 		if(m_MessageListCtrl.GetSafeHwnd()) {
 			m_MessageListCtrl.MoveWindow(&srt, false);
-            m_MessageListCtrl.Scroll(m_MessageListCtrl.ApproximateViewRect());
+            m_MessageListCtrl.Scroll(CSize(0, m_MessageListCtrl.ApproximateViewRect().cy));
 			m_MessageListCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		}
 		if(m_UsagePieCtrl.GetSafeHwnd()) {
@@ -1730,13 +1728,6 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy)
 		m_TabCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 
 		RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
-
-        /*
-        // draw line between menu and tabs
-        RECT rect = {0, 0, 0, 0}; GetClientRect(&rect);
-        GetDC()->MoveTo(0, 0);
-        GetDC()->LineTo(rect.right, 0);
-        */
 	}
 }
 

@@ -4956,7 +4956,11 @@ Karl    2003/06/20
 
 Tim     June 23, 2003
     - Windows GUI
-        UpdateGUI only refreshes active tab
+        UpdateGUI only refreshes active tab (reduces Windows CPU time by 85%)
+        Fixed m_MessageListCtrl scrolling issue
+        Changed pie chart labels
 
+    client/
+        gui_title.c
     client/win/
         wingui_mainwindow.cpp
