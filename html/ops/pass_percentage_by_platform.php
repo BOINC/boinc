@@ -1,4 +1,13 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+
+require_once("../inc/util_ops.inc");
+
+db_init();
+admin_page_head("Pass percentage by platform");
+
+$query_appid = $_GET['appid'];
+$query_received_time = time() - $_GET['nsecs'];
 
 // First lets get the most recent version numbers per platform
 $valid_app_versions = "";
@@ -10,7 +19,7 @@ SELECT DISTINCT
 FROM   app_version
            left join platform on app_version.platformid = platform.id
 WHERE
-       platform.deprecated <> 1 and
+       app_version.deprecated <> 1 and
        appid = '$query_appid'
 GROUP BY
        platformid
@@ -31,13 +40,14 @@ mysql_free_result($result);
 
 $main_query = "
 SELECT
-       DATE_FORMAT(FROM_UNIXTIME(received_time), '%m-%d-%y') AS date,
        app_version_num AS version,
        case
            when INSTR(host.os_name, 'Darwin') then 'Darwin'
            when INSTR(host.os_name, 'Linux') then 'Linux'
            when INSTR(host.os_name, 'Windows') then 'Windows'
            when INSTR(host.os_name, 'SunOS') then 'SunOS'
+           when INSTR(host.os_name, 'Solaris') then 'Solaris'
+           when INSTR(host.os_name, 'Mac') then 'Mac'
            else 'Unknown'
        end AS platform,
        COUNT(*) AS total_results,
@@ -51,42 +61,36 @@ WHERE
        app_version_num IN ( $valid_app_versions ) and
        received_time > '$query_received_time'
 GROUP BY
-       date,
        version DESC,
        platform
 ";
-
 $result = mysql_query($main_query);
 
-
 echo "<table>\n";
-echo "<tr><th>Date</th><th>Version</th><th>Platform</th><th>Total Results</th><th>Pass Rate</th><th>Fail Rate</th></tr>\n";
+echo "<tr><th>Version</th><th>OS</th><th>Total Results</th><th>Pass Rate</th><th>Fail Rate</th></tr>\n";
 
 while ($res = mysql_fetch_object($result)) {
 
     echo "<tr>";
 
-    echo "<td align=left valign=top>";
-    echo $res->date;
-    echo "</td>";
 
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     echo $res->version;
     echo "</td>";
 
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     echo $res->platform;
     echo "</td>";
 
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     echo $res->total_results;
     echo "</td>";
 
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     echo $res->pass_rate;
     echo "</td>";
 
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     echo $res->fail_rate;
     echo "</td>";
 
@@ -97,6 +101,6 @@ mysql_free_result($result);
 
 echo "</table>\n";
 
-page_tail();
+admin_page_tail();
 
 ?>

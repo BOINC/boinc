@@ -1,4 +1,10 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+
+require_once("../inc/util_ops.inc");
+
+db_init();
+admin_page_head("Result Failure Summary by Platform");
 
 $query_appid = $_GET['appid'];
 $query_received_time = time() - $_GET['nsecs'];
@@ -14,16 +20,10 @@ SELECT
         when INSTR(host.os_name, 'Linux') then 'Linux'
         when INSTR(host.os_name, 'Windows') then 'Windows'
         when INSTR(host.os_name, 'SunOS') then 'SunOS'
+        when INSTR(host.os_name, 'Solaris') then 'Solaris'
+        when INSTR(host.os_name, 'Mac') then 'Mac'
         else 'Unknown'
     end AS OS_Name,
-    case
-        when INSTR(host.os_name, 'Linux') then
-            case
-                when INSTR(LEFT(host.os_version, 6), '-') then LEFT(host.os_version, (INSTR(LEFT(host.os_version, 6), '-') - 1))
-                else LEFT(host.os_version, 6)
-            end
-        else host.os_version
-    end AS OS_Version,
     exit_status,
     COUNT(*) AS error_count
 FROM   result
@@ -36,7 +36,6 @@ WHERE
 GROUP BY
     app_version_num DESC,
     OS_Name,
-    OS_Version,
     exit_status
 ";
 
@@ -44,30 +43,26 @@ $urlquery = $q->urlquery;
 $result = mysql_query($main_query);
 
 echo "<table>\n";
-echo "<tr><th>App Version</th><th>OS Name</th><th>OS Version</th><th>Exit Status</th><th>Error Count</th></tr>\n";
+echo "<tr><th>App Version</th><th>OS</th><th>Exit Status</th><th>Error Count</th></tr>\n";
 
 while ($res = mysql_fetch_object($result)) {
 
     echo "<tr>";
 
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     echo $res->App_Version;
     echo "</td>";
 
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     echo $res->OS_Name;
     echo "</td>";
 
-    echo "<td align=left valign=top>";
-    echo $res->OS_Version;
-    echo "</td>";
-
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     $exit_status_condition = "exit_status=$res->exit_status";
     echo link_results(exit_status_string($res), $urlquery, "$exit_status_condition", "");
     echo "</td>";
 
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     echo $res->error_count;
     echo "</td>";
 
@@ -78,6 +73,6 @@ mysql_free_result($result);
 
 echo "</table>\n";
 
-page_tail();
+admin_page_tail();
 
 ?>

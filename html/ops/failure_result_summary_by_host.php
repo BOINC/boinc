@@ -1,10 +1,10 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/util_ops.inc");
 
 db_init();
-page_head("Result Failure Summary by Host");
-
+admin_page_head("Result Failure Summary by Host");
 
 $query_appid = $_GET['appid'];
 $query_received_time = time() - $_GET['nsecs'];
@@ -18,6 +18,8 @@ SELECT
            when INSTR(host.os_name, 'Linux') then 'Linux'
            when INSTR(host.os_name, 'Windows') then 'Windows'
            when INSTR(host.os_name, 'SunOS') then 'SunOS'
+           when INSTR(host.os_name, 'Solaris') then 'Solaris'
+           when INSTR(host.os_name, 'Mac') then 'Mac'
            else 'Unknown'
        end AS OS_Name,
        case
@@ -54,27 +56,27 @@ while ($res = mysql_fetch_object($result)) {
 
     echo "<tr>";
     
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     echo $res->App_Version;
     echo "</td>";
 
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     echo $res->Host_ID;
     echo "</td>";
 
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     echo $res->OS_Name;
     echo "</td>";
 
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     echo $res->OS_Version;
     echo "</td>";
 
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     echo $res->Results_Today;
     echo "</td>";
 
-    echo "<td align=left valign=top>";
+    echo "<td align=\"left\" valign=\"top\">";
     echo $res->error_count;
     echo "</td>";
 
@@ -85,6 +87,6 @@ mysql_free_result($result);
 
 echo "</table>\n";
 
-page_tail();
+admin_page_tail();
 
 ?>

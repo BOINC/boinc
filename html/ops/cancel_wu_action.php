@@ -1,5 +1,5 @@
 <?php
-echo "<!--\$Id$ -->";
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 // cancel a WU:
 // - mark unsent results as OVER, outcome DIDNT_NEED
@@ -30,6 +30,7 @@ function cancel_wu($wuid1, $wuid2) {
 }
 
 require_once("../inc/db.inc");
+require_once("../inc/util_ops.inc");
 
 // REMOVE THE FOLLOWING ONLY AFTER PASSWORD-PROTECTING html/ops
 //
@@ -41,6 +42,7 @@ if (1) {
     exit();
 }
 
+admin_page_head("Cancel WU");
 
 db_init();
 
@@ -65,4 +67,5 @@ if (cancel_wu($wuid1, $wuid2)) {
 }
 echo " cancelling workunits $wuid1 <= WUID <= $wuid2</h2>";
 
+admin_page_tail();
 ?>

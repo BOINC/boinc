@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/db_ops.inc");
 require_once("../inc/util_ops.inc");
@@ -7,7 +8,7 @@ $n = $_GET["n"];
 
 db_init();
 
-page_head("screen profile action");
+admin_page_head("screen profile action");
 for ($i=0; $i<$n; $i++) {
     $y = "user".$i;
     $val = $_GET[$y];
@@ -29,9 +30,9 @@ for ($i=0; $i<$n; $i++) {
 }
 
 echo "
-    <a href=profile_screen_form.php>next 20</a>
+    <a href=\"profile_screen_form.php\">next 20</a>
 ";
 
-page_tail();
+admin_page_tail();
 
 ?>
