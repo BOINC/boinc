@@ -21,12 +21,18 @@ function start_cache($max_age, $params=""){
        //
        ob_start();
        ob_implicit_flush(0);
+       Header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+       Header("Expires: " . gmdate("D, d M Y H:i:s",time()+$max_age) . " GMT");
+       Header("Cache-Control: public, max-age=" . $max_age . ", must-revalidate");
    } else {
        // Otherwise serve the cached version and exit
        //
        if (strstr($params, "format=xml")) {
            header('Content-type: text/xml');
        }
+       Header("Last-Modified: " . gmdate("D, d M Y H:i:s",@filemtime($path)) . " GMT");
+       Header("Expires: " . gmdate("D, d M Y H:i:s",@filemtime($path)+$max_age) . " GMT");
+       Header("Cache-Control: public, max-age=" . $max_age . ", must-revalidate");
        readfile($path);
        exit;
    }
