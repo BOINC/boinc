@@ -34,6 +34,8 @@
 #include "util.h"
 #include "win_idle_tracker.h"
 
+HDC			hdc;
+HGLRC		hRC;
 HWND		hWnd=NULL;		// Holds Our Window Handle
 HINSTANCE	hInstance;		// Holds The Instance Of The Application
 RECT		rect = {50, 50, 50+640, 50+480};
@@ -55,12 +57,16 @@ BOOL unreg_win_class();
 void SetMode(int mode, int pmode)
 {
 	RECT WindowRect = {0,0,0,0};
+	int width, height;
 
 	if(pmode == MODE_DEFAULT) nPrevMode = nMode;
 	else nPrevMode = pmode;
 	nMode = mode;
 
 	if(hWnd) {
+		if (hRC) wglDeleteContext(hRC);
+		if (hdc) ReleaseDC(hWnd, hdc);
+
 		if(nPrevMode != MODE_FULLSCREEN) GetWindowRect(hWnd, &rect);
 		KillTimer(hWnd, 1);
 		DestroyWindow(hWnd);
@@ -116,11 +122,28 @@ void SetMode(int mode, int pmode)
 		0, 0, 0										// Layer Masks Ignored
 	};
 
-	HDC hdc = GetDC(hWnd);
+	hdc = GetDC(hWnd);
 	int PixelFormat;
 	PixelFormat = ChoosePixelFormat(hdc, &pfd);
 	SetPixelFormat(hdc, PixelFormat, &pfd);
-	ReleaseDC(hWnd, hdc);
+
+	if(!(hRC = wglCreateContext(hdc))) {
+		ReleaseDC(hWnd, hdc);
+		return;
+	}
+
+	if(!wglMakeCurrent(hdc, hRC)) {
+		ReleaseDC(hWnd, hdc);
+		wglDeleteContext(hRC);
+		return;
+	}
+
+	width = WindowRect.right-WindowRect.left;
+	height = WindowRect.bottom-WindowRect.top;
+
+	ReSizeGLScene(width, height);
+	InitGL();
+	app_init_gl();
 
 	if(nMode == MODE_FULLSCREEN || nMode == MODE_WINDOW) {
 		ShowWindow(hWnd, SW_SHOW);
@@ -138,6 +161,9 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 							WPARAM	wParam,			// Additional Message Information
 							LPARAM	lParam)			// Additional Message Information
 {
+	RECT rt;
+	int width, height;
+
 	switch(uMsg) {
 		case WM_KEYDOWN:
 		case WM_KEYUP:
@@ -165,42 +191,19 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			FillRect(pdc, &winRect, (HBRUSH)GetStockObject(BLACK_BRUSH));
 			EndPaint(hWnd, &ps);
 			return 0;
+		case WM_SIZE:
+			ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));
+			return 0;
 		case WM_TIMER:
 			if(nMode == MODE_NO_GRAPHICS) return 0;
-			HDC hdc = GetDC(hWnd);
 
-			HGLRC hRC;
-			if(!(hRC = wglCreateContext(hdc))) {
-				ReleaseDC(hWnd, hdc);
-				return 0;
-			}
-
-			if(!wglMakeCurrent(hdc, hRC)) {
-				ReleaseDC(hWnd, hdc);
-				wglDeleteContext(hRC);
-				return 0;
-			}
-
-			RECT rt;
 			GetClientRect(hWnd, &rt);
-			int width = rt.right-rt.left;
-			int height = rt.bottom-rt.top;
-
-			ReSizeGLScene(width, height);
-			InitGL();
-			app_init_gl();
+			width = rt.right-rt.left;
+			height = rt.bottom-rt.top;
 
 			app_render(width, height, dtime());
 
 			SwapBuffers(hdc);
-
-			if(!wglMakeCurrent(NULL, NULL)) {
-				ReleaseDC(hWnd, hdc);
-				wglDeleteContext(hRC);
-			}
-
-			wglDeleteContext(hRC);
-			ReleaseDC(hWnd, hdc);
 			return 0;
 	}
 
