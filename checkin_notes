@@ -16100,7 +16100,8 @@ Daniel 2004-08-06
 Noaa	9 August 2004
 		- changed version of x_opengl no print statements handles
 		fullscreen
+		- added extern "C" around protos in graphics_api.h
 
 		api/
 			x_opengl.C
-
+			graphics_api.h
