@@ -2,8 +2,7 @@
 
 function print_login_form() {
     page_head("Log in");
-    echo(
-        "<form method=post action=login_action.php>\n"
+    echo "<form method=post action=login_action.php>\n"
         .TABLE2."\n
         <tr><td colspan=2><b>Enter the email address and password of your account to login:</b></td></tr>\n
         <tr><td><br></td></tr>\n
@@ -21,9 +20,9 @@ function print_login_form() {
         </tr>\n
         </table>\n
         </form>\n
-	<br>\n
-	.TABLE2."\n
-	<tr><td>If you don't have an account, please <a href=create_account.php>create a new one</a></td</tr>\n
+	<br>\n"
+        .TABLE2."\n
+        <tr><td>If you don't have an account, please <a href=create_account.php>create a new one</a></td</tr>\n
 	</table>\n";
     page_tail();
 }

@@ -65,14 +65,14 @@ int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
     int retval, len;
 
     while (1) {
-        q1 = strstr(p, "<file_info>");
+        q1 = strstr(p, "<file_info>\n");
         if (!q1) break;
         q2 = strstr(q1, "</file_info>");
         if (!q2) {
             fprintf(stderr, "add_signatures: malformed XML: %s\n", xml);
             return ERR_XML_PARSE;
         }
-        q1 += strlen("<file_info>");
+        q1 += strlen("<file_info>\n");
         len = q2 - q1;
         memcpy(buf, q1, len);
         buf[len] = 0;

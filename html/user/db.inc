@@ -3,17 +3,16 @@
 // database-related functions.
 // Presentation code (HTML) shouldn't be here
 
+// TODO: add support for host, user, password
+
 function db_init() {
     $retval = mysql_pconnect();
     if (!$retval) {
         exit();
     }
-    $fp = fopen("db_name", "r");
-    $db_name = fgets($fp, 1024);
-    $db_name = rtrim($db_name);
+
+    $db_name = parse_config("<db_name>");
     mysql_select_db($db_name);
-    fclose($fp);
-    return $db_name;
 }
 
 function lookup_user_auth($auth) {

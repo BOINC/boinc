@@ -6,11 +6,11 @@
     $user = get_user_from_cookie();
     printf(
 	"<head>\n"
-	."<title>".PROJECT." Distributed Computing Project</title>\n"
+	."<title>".PROJECT."</title>\n"
 	."</head>\n"
 	."<body text=#000000 link=#0000cc vlink=#551a8b alink=#ff0000>\n"
 	."<table width=780>\n"
-	."<tr><td><h1 align=center>".PROJECT." Distributed Computing Project</h1></td></tr>\n"
+	."<tr><td><h1 align=center>".PROJECT."</h1></td></tr>\n"
     );
     if ($user) {
         echo "<tr><td><h3>Welcome $user->name</h3>\n";

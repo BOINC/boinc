@@ -23,13 +23,7 @@ define("BODY_COLOR", " bgcolor=ffffff ");
 define("NOLOGIN", "Not logged in. Click <a href=login.php>here</a> to login.\n");
 define("BADPASS", "The password you entered is incorrect. Click the <b>Back</b> button on your browser to re-enter your password or try again later.");
 define("DIFFPASS", "You've typed two different passwords. Click the <b>Back</b> button on your browser to edit your information, making sure you type the same password in both password fields."); 
-
-function get_project_name() {
-    $fp = fopen(db_name, "r");
-    $db_name = fgets($fp, 1024);
-    $db_name = rtrim($db_name);
-    return $db_name;
-}
+define("PROJECT", "Sample project");
 
 function get_user_from_cookie() {
     $auth = "";
@@ -44,8 +38,6 @@ function show_login($user) {
     if ($user) {
         printf("Logged in as %s.\n", $user->name);
         printf("<br><a href=login.php>Log in as someone else.</a>\n");
-        $project = get_project_name();
-        printf("<br><a href=this_user.php>My %s</a>\n", $project);
     } else {
 	echo NOLOGIN;
     }
@@ -53,8 +45,7 @@ function show_login($user) {
 
 function page_head($title) {
     echo "<head><title>$title</title><body " . BG_COLOR . ">\n";
-    $project = get_project_name();
-    echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b><a href=index.php>".$project.":</a>  $title</b></font></td></tr></table>\n";
+    echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b><a href=index.php>".PROJECT.":</a>  $title</b></font></td></tr></table>\n";
 }
 
 function page_tail() {
@@ -141,7 +132,7 @@ function random_string() {
 }
 
 function print_country_select() {
-    PassThru("/disks/milkyway/a/users/anderson/boinc/tools/country_select");
+    PassThru("country_select");
 }
 
 function print_page_header($title) {
@@ -157,6 +148,36 @@ function print_page_header($title) {
 
 function print_page_end() {
     echo "</body></html>";
+}
+
+// look for an element in some XML text
+//
+function parse_element($xml, $tag) {
+    $element = null;
+    $x = strstr($xml, $tag);
+    if ($x) {
+        $y = substr($x, strlen($tag));
+        $n = strpos($y, "<");
+        if ($n) {
+            $element = substr($y, 0, $n);
+        }
+    }
+    return $element;
+}
+
+// look for a particular element in the config.xml file
+//
+function parse_config($tag) {
+    $element = null;
+    $fp = fopen("config.xml", "r");
+    while (1) {
+        $buf = fgets($fp, 1024);
+        if ($buf == null) break;
+        $element = parse_element($buf, $tag);
+        if ($element) break;
+    }
+    fclose($fp);
+    return $element;
 }
 
 ?>

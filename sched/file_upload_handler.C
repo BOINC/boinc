@@ -52,7 +52,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <errno.h>
@@ -76,7 +75,7 @@ struct FILE_INFO {
 int FILE_INFO::parse(FILE* in) {
     char buf[256];
     int retval;
-    assert(in!=NULL);
+
     memset(this, 0, sizeof(FILE_INFO));
     signed_xml = strdup("");
     while (fgets(buf, 256, in)) {
@@ -115,14 +114,9 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     FILE* out;
     int retval, n, m;
     double bytes_left;
-    assert(in!=NULL);
-    assert(path!=NULL);
-    assert(offset>=0);
-    assert(nbytes>=0);
-    // printf("path is %s",path);
+
     out = fopen(path, "ab");
     if (!out) {
-  
         print_status(-1, "can't open file");
         return -1;
     }
@@ -171,7 +165,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     FILE_INFO file_info;
     int retval;
     bool is_valid;
-    assert(in!=NULL);
+
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<file_info>")) {
             retval = file_info.parse(in);
@@ -187,7 +181,12 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
             );
             if (retval || !is_valid) {
                 print_status(-1, "invalid XML signature");
-		//     return -1;
+                fprintf(stderr,
+                    "signed xml:\n%s"
+                    "signature:\n%s",
+                    file_info.signed_xml, file_info.xml_signature
+                );
+		return -1;
             }
             continue;
         }

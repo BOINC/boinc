@@ -360,7 +360,9 @@ int handle_results(
                 if (retval) {
                     fprintf(stderr, "Can't update WU\n");
                 }
-                fprintf(stderr, "updated WU %d\n", wu.id);
+                fprintf(stderr,
+                    "BOINC scheduler: set need_validate for WU %d\n", wu.id
+                );
             }
         }
     }

@@ -54,7 +54,7 @@ function db_query($query) {
 function run_tool($cmd) {
     $tool_dir = get_env_var("BOINC_SRC_DIR")."/tools/";
     $cmd = $tool_dir.$cmd;
-    //echo $cmd;
+    echo "$cmd\n";
     PassThru($cmd);
 }
 
@@ -196,7 +196,14 @@ class Project {
         for ($i=0; $i<sizeof($this->app_versions); $i++) {
             $app_version = $this->app_versions[$i];
             $app = $app_version->app;
-            run_tool("add app_version -db_name $this->db_name -app_name $app->name -platform_name $app_version->platform_name -version $app_version->version -download_dir $this->project_dir/download -download_url $this->download_url -code_sign_keyfile $this->key_dir/code_sign_private -exec_dir $source_dir/apps -exec_files $app_version->exec_name");
+            if ($app->name == "core client") {
+                $dir = "$source_dir/client";
+                $exec_name = sprintf("boinc_%d.%02d_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $app_version->platform_name);
+            } else {
+                $dir = "$source_dir/apps";
+                $exec_name = $app_version->exec_name;
+            }
+            run_tool("add app_version -db_name $this->db_name -app_name '$app->name' -platform_name $app_version->platform_name -version $app_version->version -download_dir $this->project_dir/download -download_url $this->download_url -code_sign_keyfile $this->key_dir/code_sign_private -exec_dir $dir -exec_files $exec_name");
         }
 
         // copy the server programs to the project /cgi dir,
@@ -224,16 +231,17 @@ class Project {
         // copy the user and administrative PHP files to the project dir,
         //
         PassThru("cp -f $source_dir/html_user/* $this->project_dir/html_user");
+        PassThru("cp -f $source_dir/tools/country_select $this->project_dir/html_user");
         PassThru("cp -f $source_dir/html_ops/* $this->project_dir/html_ops");
 
-        // put a file with the database name in each directory
+        // put a file with the database name and other info in each directory
         //
-        $f = fopen("$this->project_dir/html_user/db_name", "w");
-        fputs($f, "$this->db_name\n");
+        $f = fopen("$this->project_dir/html_user/config.xml", "w");
+        fputs($f, "<db_name>$this->db_name</db_name>\n");
+        fputs($f, "<db_passwd>$this->db_name</db_passwd>\n");
+        fputs($f, "<download_url>$this->download_url</download_url>\n");
         fclose($f);
-        $f = fopen("$this->project_dir/html_ops/db_name", "w");
-        fputs($f, "$this->db_name\n");
-        fclose($f);
+        PassThru("cp $this->project_dir/html_user/config.xml $this->project_dir/html_ops");
 
         // edit "index.html" in the user directory to have
         // the right scheduler URL
@@ -286,20 +294,16 @@ class Project {
         $result = mysql_query("select * from result");
         while ($x = mysql_fetch_object($result)) {
             $n++;
-            if ($result->state != null) {
-                if ($result->state != $x->state) {
-                    echo "ERROR: result $x->id: unexpected state $x->state\n";
-                }
+            if ($result->state != null && $result->state != $x->state) {
+                echo "ERROR: result $x->id: unexpected state $x->state\n";
             }
             if ($result->stderr_out != null) {
                 if (substr($result->stderr_out, $x->stderr_out)==0) {
                     echo "ERROR: result $x->id: unexpected stderr_out $x->stderr_out\n";
                 }
             }
-            if ($result->exit_status != null) {
-                if ($result->exit_status != $x->exit_status) {
-                    echo "ERROR: result $x->id: unexpected exit_status $x->exit_status\n";
-                }
+            if ($result->exit_state != null && $result->exit_status != $x->exit_status) {
+                echo "ERROR: result $x->id: unexpected exit_status $x->exit_status\n";
             }
         }
         if ($n != $ntarget) {

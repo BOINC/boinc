@@ -87,7 +87,7 @@
                 if ($result) {
                     setcookie("auth", $authenticator);
                     page_head("Creating Account");
-                    echo( TABLE2."\n
+                    echo TABLE2."\n
                         <tr><td>
                         Your account has been created successfully.
                         In order to run the client you will need a BOINC key.
@@ -102,7 +102,7 @@
                     mail($email_addr, "BOINC key", "Your BOINC key is " . $authenticator);
                 } else {
                     page_head("Creating Account");
-                    echo(TABLE2."\n
+                    echo TABLE2."\n
                         <tr><td>Couldn't create account.
                         Please try again later.</td></tr>\n
                         </table>\n";

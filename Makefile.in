@@ -5,18 +5,13 @@ topsrcdir	= @top_srcdir@
 srcdir	= @srcdir@
 VPATH	= @srcdir@
 
-INSTALL_DIR = /usr/local/boinc
-
-MINOR_VERSION = 02
-MAJOR_VERSION = 0
-
 #
 #	The ../$(srcdir)/client/configure
 #	only works when the original configure is relative path
 #	it doesn't work when it is an absolute path
 #	This needs to be fixed
 #
-all: messages
+all:
 	cd RSAEuro/source; ${MAKE}; cd ../..; \
 	cd db; ${MAKE}; cd ..; \
 	cd lib; ${MAKE}; cd ..; \
@@ -25,10 +20,6 @@ all: messages
 	cd client; ../$(srcdir)/client/configure; ${MAKE}; cd ..; \
 	cd sched; ${MAKE}; cd ..; \
 	cd tools; ${MAKE}; cd ..;
-
-messages:
-	@echo $(ENV_MESSAGES)
-	$(EXIT_IF_NEEDED)
 
 clean:
 	rm -f boinc.tar.gz config.cache; \
@@ -40,25 +31,6 @@ clean:
 	cd client; ${MAKE} clean; cd ..; \
 	cd sched; ${MAKE} clean; cd ..; \
 	cd tools; ${MAKE} clean; cd ..;
-
-install: all
-	-mkdir -p $(INSTALL_DIR);
-	cd sched; ${MAKE} install;
-	cd lib; ${MAKE} install;
-	cd api; ${MAKE} install;
-	cd apps; ${MAKE} install;
-	cd client; ${MAKE} install;
-	cd tools; ${MAKE} install;
-	$(CP) -r test /usr/local/boinc;
-
-uninstall:
-	cd sched; ${MAKE} uninstall;
-	cd lib; ${MAKE} uninstall;
-	cd api; ${MAKE} uninstall;
-	cd apps; ${MAKE} uninstall;
-	cd client; ${MAKE} uninstall;
-	cd tools; ${MAKE} uninstall;
-	$(RM) -r $(INSTALL_DIR)/tools;
 
 ARCHIVE_TARGETS = \
         client/*.C client/*.h client/configure \
@@ -86,10 +58,10 @@ ARCHIVE_TARGETS = \
         *.in *.sub *.guess
 
 tar: 
-	tar cf boinc_$(MAJOR_VERSION).$(MINOR_VERSION).tar $(ARCHIVE_TARGETS) ; gzip boinc_$(MAJOR_VERSION).$(MINOR_VERSION).tar
+	tar cf boinc_$(BOINC_MAJOR_VERSION).$(BOINC_MINOR_VERSION).tar $(ARCHIVE_TARGETS) ; gzip boinc_$(BOINC_MAJOR_VERSION).$(BOINC_MINOR_VERSION).tar
 
 zip:
-	zip -q boinc_$(MAJOR_VERSION).$(MINOR_VERSION).zip $(ARCHIVE_TARGETS)
+	zip -q boinc_$(BOINC_MAJOR_VERSION).$(BOINC_MINOR_VERSION).zip $(ARCHIVE_TARGETS)
 
 client_tar: clean
 	cd client; ./configure; ${MAKE} tar;
