@@ -24960,3 +24960,11 @@ David  17 Feb 2005
         setup_project.py
     tools/
         make_project
+
+David  17 Feb 2005
+	- Win core client: retry CreateProcess() 5 times with random delay,
+		in case some other process has executable file open
+		(from Bruce Allen)
+
+	client/
+		app_start.C

@@ -141,7 +141,7 @@ int ACTIVE_TASK::write_app_init_file() {
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);
     if (wup->project->project_specific_prefs.length()) {
-        aid.project_preferences = strdup(wup->project->project_specific_prefs.c_str());
+        aid.project_preferences = (char*)wup->project->project_specific_prefs.c_str();
     }
     get_project_dir(wup->project, project_dir);
     relative_to_absolute(project_dir, project_path);
@@ -267,11 +267,11 @@ int ACTIVE_TASK::start(bool first_time) {
     //
     strcpy(exec_name, "");
     for (i=0; i<app_version->app_files.size(); i++) {
-        fref = app_version->app_files[i];
+        FILE_REF fref = app_version->app_files[i];
         fip = fref.file_info;
         get_pathname(fip, file_path);
         if (fref.main_program) {
-            if (!wup->project->anonymous_platform && !fip->executable) {
+            if (!fip->executable) {
                 msg_printf(wup->project, MSG_ERROR,
                     "Main program %s is not executable", fip->name
                 );
@@ -323,6 +323,7 @@ int ACTIVE_TASK::start(bool first_time) {
     STARTUPINFO startup_info;
     char slotdirpath[256];
     std::string cmd_line;
+    char error_msg[1024];
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
@@ -351,23 +352,29 @@ int ACTIVE_TASK::start(bool first_time) {
 
     cmd_line = exec_path + std::string(" ") + wup->command_line;
     relative_to_absolute(slot_dir, slotdirpath);
-    if (!CreateProcess(exec_path,
-        (LPSTR)cmd_line.c_str(),
-        NULL,
-        NULL,
-        FALSE,
-        CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
-        NULL,
-        slotdirpath,
-        &startup_info,
-        &process_info
-    )) {
-        char szError[1024];
-        windows_error_string(szError, sizeof(szError));
-
+    bool success = false;
+    for (i=0; i<5; i++) {
+        if (CreateProcess(exec_path,
+            (LPSTR)cmd_line.c_str(),
+            NULL,
+            NULL,
+            FALSE,
+            CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+            NULL,
+            slotdirpath,
+            &startup_info,
+            &process_info
+        )) {
+            success = true;
+            break;
+        }
+        windows_error_string(error_msg, sizeof(error_msg));
+        msg_printf(wup->project, MSG_ERROR, "CreateProcess() failed - %s", error_msg);
+        boinc_sleep(drand());
+    }
+    if (!success) {
         task_state = PROCESS_COULDNT_START;
-        gstate.report_result_error(*result, "CreateProcess() failed - %s", szError);
-        msg_printf(wup->project, MSG_ERROR, "CreateProcess() failed - %s", szError);
+        gstate.report_result_error(*result, "CreateProcess() failed - %s", error_msg);
         return ERR_EXEC;
     }
     pid = process_info.dwProcessId;
@@ -447,7 +454,7 @@ int ACTIVE_TASK::start(bool first_time) {
 // Postcondition: "state" is set correctly
 //
 int ACTIVE_TASK::resume_or_start() {
-    const char* str = "??";
+    char* str = "??";
     int retval;
 
     switch (task_state) {
