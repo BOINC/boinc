@@ -13166,6 +13166,15 @@ David  9 June 2004
         util.C,h
         xml_util.C,h (removed)
 
+Daniel 9 June 2004
+    - client: added check_idle() to update user_idle in unix.
+        only checks /dev/kbd and /dev/mouse for activity.
+
+    client/
+        client_state.C
+        client_state.h
+        cs_prefs.C
+
 David  9 June 2004
     - separation of functionality:
         update_profile_pages.php rebuilds profile directory
@@ -13191,3 +13200,4 @@ David  9 June 2004
         user/
             explain_state.php
             info.php
+
