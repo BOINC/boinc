@@ -21870,3 +21870,11 @@ David  27 Dec 2004
         setup_project.py
     sched/
         db_purge.C
+
+David  27 Dec 2004
+    - small fixes
+
+    html/inc/
+        uotd.inc
+    sched/
+        db_purge.C

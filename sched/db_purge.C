@@ -108,7 +108,7 @@ int max_number_workunits_to_purge=0;
 char *suffix[3]={"", ".gz", ".zip"};
 
 // default is no compression
-int compress=COMPRESSION_NONE;
+int compression_type=COMPRESSION_NONE;
 
 // set on command line if archive files should be closed and re-opened
 // after getting some max no of WU in the file
@@ -134,14 +134,14 @@ void open_archive(char* filename_prefix, FILE*& f){
 
     // append appropriate suffix for file type
     sprintf(path, "../archives/%s_%d.xml", filename_prefix, time_int);
-    strcat(path, suffix[compress]);
+    strcat(path, suffix[compression_type]);
 
     // and construct appropriate command if needed
-    if (compress==COMPRESSION_GZIP) {
+    if (compression_type==COMPRESSION_GZIP) {
         sprintf(command, "gzip - > %s", path);
     }
    
-    if (compress==COMPRESSION_ZIP) {
+    if (compression_type==COMPRESSION_ZIP) {
         sprintf(command, "zip %s -", path);
     }
 
@@ -150,7 +150,7 @@ void open_archive(char* filename_prefix, FILE*& f){
     // in the case with no compression, just open the file, else open
     // a pipe to the compression executable.
     //
-    if (compress==COMPRESSION_NONE) {   
+    if (compression_type==COMPRESSION_NONE) {   
         if (!(f = fopen( path,"w"))) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,"Can't open archive file %s %s\n",
@@ -183,7 +183,7 @@ void close_archive(char *filename, FILE*& fp){
 
     // In case of errors, carry on anyway.  This is deliberate, not lazy
     //
-    if (compress==COMPRESSION_NONE) {
+    if (compression_type==COMPRESSION_NONE) {
         fclose(fp);
     } else {
         pclose(fp);
@@ -193,7 +193,7 @@ void close_archive(char *filename, FILE*& fp){
 
     // append appropriate file type
     sprintf(path, "../archives/%s_%d.xml", filename, time_int);
-    strcat(path, suffix[compress]);
+    strcat(path, suffix[compression_type]);
     
     log_messages.printf(SCHED_MSG_LOG::NORMAL,
         "Closed archive file %s containing records of %d workunits\n",
@@ -549,9 +549,9 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-max")) {
             max_number_workunits_to_purge= atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-zip")) {
-            compress=COMPRESSION_ZIP;
+            compression_type=COMPRESSION_ZIP;
         } else if (!strcmp(argv[i], "-gzip")) {
-            compress=COMPRESSION_GZIP;
+            compression_type=COMPRESSION_GZIP;
         } else if (!strcmp(argv[i], "-max_wu_per_file")) {
             max_wu_per_file = atoi(argv[++i]);
         } else {

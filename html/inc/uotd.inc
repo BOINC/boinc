@@ -38,6 +38,7 @@ function get_current_uotd() {
 // Either way, generate the UOTD page
 //
 function build_uotd_page() {
+    echo date("F d Y", time())."\n";
     $current_uotd = get_current_uotd();
     if ($current_uotd) {
         $assigned = getdate($current_uotd->uotd_time);
@@ -45,6 +46,7 @@ function build_uotd_page() {
         if ($assigned['mday'] == $now['mday']) {
             $user = lookup_user_id($current_uotd->userid);
             generate_uotd_page($current_uotd, $user);
+            echo "Already have UOTD for today\n";
             exit();
         }
     }
@@ -65,12 +67,15 @@ function build_uotd_page() {
     }
 
     if ($result && mysql_num_rows($result) == 0) {
-        // If all verified profiles have been selected as UOTD, reshow the one that was shown least recently.
+        // If all verified profiles have been selected as UOTD,
+        // reshow the one that was shown least recently.
+        //
         $result = mysql_query("SELECT * FROM profile WHERE verification = 1 ORDER BY uotd_time ASC LIMIT 1");
     }
 
     if (!$result || mysql_num_rows($result) == 0) {
         // No valid users of the day - do something.
+        echo "No screened users found\n";
         exit();
     }
     $profile = mysql_fetch_object($result);
@@ -86,6 +91,7 @@ function build_uotd_page() {
         . PROJECT . " user of the day!
         Your profile will be featured on the " . PROJECT . " website for the next 24 hours."
     );
+    echo "Chose user $user->id as UOTD\n";
 }
 
 ?>
