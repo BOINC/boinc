@@ -128,16 +128,18 @@ I am continuing now as if --disable-server had been specified.
 fi
 
 dnl Checks for libraries.
-AC_CHECK_LIB(gen, main)
 AC_CHECK_LIB(m, sin)
-AC_CHECK_LIB(socket, main)
-AC_CHECK_LIB(nsl, gethostbyaddr)
-dnl AC_CHECK_LIB(socket, main)
-dnl AC_CHECK_LIB(nsl, gethostbyaddr, [have_nsl=yes])
-dnl AM_CONDITIONAL([HAVE_NSL], [test x$have_nsl = xyes])
-dnl AC_SEARCH_LIBS(gethostbyname, nsl, , AC_SEARCH_LIBS(gethostbyname, nsl, ,, -lsocket), , )
+AC_CHECK_LIB(cygipc, shmget)
 
-AC_CHECK_LIB(z, gzopen)
+dnl  NOTE: we might want to link the following libs statically on linux
+dnl for building portable binaries, so we store them in a separate variable
+dnl BOINC_EXTRA_LIBS for later post-processing instead of the default-action,
+dnl which would prepend them to LIBS
+dnl (note, we also don't define HAVE_LIBXXX, because currently they aren't used
+AC_CHECK_LIB(nsl, gethostbyname, [BOINC_EXTRA_LIBS="-lnsl ${BOINC_EXTRA_LIBS}"])
+AC_CHECK_LIB(socket, setservent, [BOINC_EXTRA_LIBS="-lsocket ${BOINC_EXTRA_LIBS}"])
+AC_CHECK_LIB(z, gzopen, [BOINC_EXTRA_LIBS="-lz ${BOINC_EXTRA_LIBS}"])
+
 dnl check for pthread
 ACX_PTHREAD(AC_DEFINE(HAVE_PTHREAD,1, [Have pthread]))
 CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
@@ -182,12 +184,6 @@ fi
 AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes ])
 
 dnl --------------------------------------------------------------------------------
-
-AC_CHECK_LIB(socket, setservent)
-AC_CHECK_LIB(gen, strfind)
-AC_CHECK_LIB(gen, strfind, [ AC_DEFINE(HAVE_STRFIND, 1, [Have strfind]) ] )
-AC_CHECK_LIB(cygipc, shmget)
-
 dnl put double-inclusion protection into config.h
 AH_TOP([
 /* double-inclusion protection for config.h */
@@ -202,6 +198,7 @@ AH_BOTTOM([
 /* end double-inclusion protection for config.h */
 #endif /* #ifndef BOINC_CONFIG_H */
 ])
+dnl ----------------------------------------------------------------------
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
@@ -234,7 +231,7 @@ dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
 AC_FUNC_WAIT3
-AC_CHECK_FUNCS(gethostname gettimeofday mkdir select socket strstr uname lockf flock strftime setpriority wait4 strlcpy strlcat sigaction getutent setutent)
+AC_CHECK_FUNCS(lockf flock setpriority wait4 strlcpy strlcat sigaction getutent setutent)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -307,11 +304,6 @@ fi
 
 AM_CONDITIONAL(BUILD_CLIENTGUI, [ test "$wxWin" = 1 -a "${enable_client}" = yes ])
 
-if ( test "${enable_client}" = yes ) && ( test "$wxWin" = 1 ); then
-   CLIENTGUIFLAGS="-DNOCLIPBOARD -DNOTASKBAR"
-   AC_SUBST(CLIENTGUIFLAGS)
-fi
-
 dnl --------------------------------------------------------------------------------
 
 dnl Here's another way to set up host-specific stuff
@@ -325,8 +317,9 @@ AM_CONDITIONAL(ENABLE_SERVER, [test "${enable_server}" = yes])
 AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
 
 
-##----------------------------------------------------------------------
-dnl vodoo for building portable linux-binary (client, clientgui)
+dnl ======================================================================
+dnl some vodoo required for building portable linux-binary (client, clientgui)
+dnl ======================================================================
 AC_ARG_ENABLE([linux-release], AS_HELP_STRING([--enable-linux-release],
 	[Try building a portable "release-candidate" for Linux: \
 	this links libstd++ statically. You will probably need gcc-3.0 for 
@@ -342,6 +335,9 @@ case $target in
 --------------------------------------------------
 The switch --enable-linux-release is only useful for building the client and will be ignored
 --------------------------------------------------]) 
+        else
+            LDSTATIC="-Wl,-Bstatic"
+	    LDDYNAMIC="-Wl,-Bdynamic"
         fi
 	;;
    *)	## in the non-linux case, --enable-linux-release is not allowed
@@ -365,13 +361,50 @@ if ( test "${enable_linux_release}" = yes ) && ( test "${enable_client}" = yes )
    else
       GCC_EH_LIB=
    fi
-   LINUXLIBS="-nodefaultlibs -Wl,-Bstatic -lstdc++ -lgcc $GCC_EH_LIB -Wl,-Bdynamic -lpthread -lm  -lc"	
+   LINUXLIBS="-nodefaultlibs $LDSTATIC -lstdc++ -lgcc $GCC_EH_LIB $LDDYNAMIC -lpthread -lm  -lc"	
 else
    LINUXLIBS=
 fi
 AC_SUBST(LINUXLIBS)
 
-##----------------------------------------------------------------------
+## --------------------
+## some more tweaking to turn non-standard libs into statically linked ones
+CLIENTGUIFLAGS="-DNOCLIPBOARD -DNOTASKBAR"
+CLIENTGUILIBS=${WX_LIBS}
+
+if test "${enable_linux_release}" = yes; then
+   ## list of possible libraries, which we have to link statically against 
+   ## on Linux in order to avoid portability problems
+      
+   ## extend this list as necessary if you find additional libs required on your system
+   ## ****************************************
+   blacklist="gtk gdk gmodule gthread glib Xi png jpeg tiff nsl z socket"
+   ## ****************************************
+
+   ## now we walk through the blacklist and turn all matching libs found in 
+   ## WX_LIBS_STATIC into a static link-command
+   CLIENTGUILIBS="-L. ${WX_LIBS_STATIC} -L."  ## dummy -L's to make sure the regexp always works
+   echo "DEBUG: before mangling CLIENTGUILIBS='$CLIENTGUILIBS'" 
+   for somelib in ${blacklist}; do
+       CLIENTGUILIBS=`echo $CLIENTGUILIBS | sed -e"s/ -l${somelib} / $LDSTATIC -l${somelib} $LDDYNAMIC /g"`
+   done
+   echo "DEBUG: final link-line for CLIENTGUILIBS = $CLIENTGUILIBS"
+
+   ## do exactly the same for all BOINC_EXTRA_LIBS
+   BOINC_EXTRA_LIBS="-L. ${BOINC_EXTRA_LIBS} -L."    ## dummy -L's to make sure the regexp always works
+   echo "DEBUG: before mangling BOINC_EXTRA_LIBS='$BOINC_EXTRA_LIBS'"
+   for somelib in ${blacklist}; do
+       BOINC_EXTRA_LIBS=`echo $BOINC_EXTRA_LIBS | sed -e"s/ -l${somelib} / $LDSTATIC -l${somelib} $LDDYNAMIC /g"`
+   done
+   echo "DEBUG: final BOINC_EXTRA_LIBS= $BOINC_EXTRA_LIBS"
+fi
+
+## prepend BOINC_EXTRA_LIBS (mangled or not) to LIBS for standard linking
+LIBS="${BOINC_EXTRA_LIBS} $LIBS"
+
+AC_SUBST(CLIENTGUIFLAGS)
+AC_SUBST(CLIENTGUILIBS)
+dnl ======================================================================
 
 
 AC_CONFIG_FILES([

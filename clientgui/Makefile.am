@@ -3,8 +3,7 @@
 
 include $(top_srcdir)/Makefile.incl
 
-# by default, "-static -static-libgcc" on linux.
-#STATIC_FLAGS=@STATIC_FLAGS@
+LIBS += @LINUXLIBS@
 
 bin_PROGRAMS = boinc_gui
 
@@ -46,7 +45,7 @@ EXTRA_DIST = BOINCBaseView.h  DlgAttachProject.h  ValidateAccountKey.h  ViewWork
 
 boinc_gui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS)
 boinc_gui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS)
-boinc_gui_LDADD = $(PTHREAD_LIBS) $(WX_LIBS)
+boinc_gui_LDADD = $(CLIENTGUILIBS)
 
 all-local: client_gui-bin
 client_gui-bin: @CLIENT_GUI_BIN_FILENAME@

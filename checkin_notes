@@ -22987,8 +22987,7 @@ Bruce 20 Jan 2005
       Linux client using static rather than
       dynamic linking to the gcc C++ lib.  Note that modifying
       this to do the same whenever gcc is used (not just under
-      Linux) might be desirable. Also modifying the clientgui
-      build in the same way might also be desirable.
+      Linux) might be desirable.
 
     configure.ac
     client/
