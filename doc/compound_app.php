@@ -42,10 +42,11 @@ with values ranging from 0 to 1.
 
 <p>
 If the graphics is handled in a program that runs concurrently with
-the subsidiary applications, it can call boinc_init(false) to
-designate it as a non-worker thread. This program can then use the
-BOINC graphics API, but not the API calls that handle checkpointing
-and status updates to BOINC.
+the subsidiary applications, it can call
+<code>boinc_init(false)</code> to designate it as a non-worker thread.
+This program can then use the BOINC graphics API, but not the API
+calls that handle checkpointing and status updates to BOINC.
+It must call <code>boinc_finish(false)</code> to terminate.
 
 
 ";
