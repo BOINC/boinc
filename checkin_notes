@@ -6942,3 +6942,7 @@ David  20 Oct 2003
 	- fixed bug that prevented screensaver from launching core client
 
 	win_screensaver.cpp
+
+Karl 2003-10-20
+    - BOINC client release 2.05
+    - Astropulse client release 2.05
