@@ -295,6 +295,15 @@ function client_version_string($client_version_num) {
     }
 }
 
+function outcome_color($outcome) {
+    switch($s) {
+    switch($s) {
+    case 1: return 'darkgreen'; // "Success"
+    case 3: return 'darkred'; // "Client error"
+    }
+    return 'white';
+}
+
 function show_result($result, $hide_xml_docs, $hide_stderr, $hide_times) {
     start_table();
     if (!$hide_times) {
@@ -349,12 +358,7 @@ function show_result_short($result) {
     $oc = result_outcome_string($result->outcome);
     $received = time_str($result->received_time);
     $version = client_version_string($result->client_version_num);
-
-    if ($result->outcome == 3) {
-        $outcome_color = 'red';
-    } else {
-        $outcome_color = 'white';
-    }
+    $outcome_color = outcome_color($result->outcome);
 
     echo "
         <tr>

@@ -1,4 +1,4 @@
-<?php
+<?php {
 
     // show summary of results that have been received or timed out recently
 
@@ -48,9 +48,8 @@
         }
         row2(result_server_state_string($ss), $x);
     }
-    end_table();
+    echo "<tr></tr>";
 
-    start_table();
     echo "<tr><th>Outcome of 'Over' results</th><th># results</th></tr>\n";
     for ($ro=0; $ro<6; $ro++) {
         if ($outcome[$ro] == 0) {
@@ -58,11 +57,12 @@
         } else {
             $x = "<a href=db_action.php?table=result&received_time=$y&result_outcome=$ro&sort_by=received_time&detail=low>".$outcome[$ro]."</a>";
         }
-        row2(result_outcome_string($ro), $x);
+        $h = result_outcome_string($ro);
+        $color = outcome_color($ro);
+        echo "<tr><td align=right bgcolor=$color>$h</td><td>$x</td></tr>\n";
     }
-    end_table();
+    echo "<tr></tr>";
 
-    start_table();
     echo "<tr><th>Client state of 'Client error' results</th><th># results</th></tr>\n";
     for ($cs=1; $cs<6; $cs++) {
         if ($client_state[$cs] == 0) {
