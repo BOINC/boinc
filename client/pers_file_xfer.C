@@ -27,6 +27,7 @@
 #include "error_numbers.h"
 #include "file_names.h"
 #include "log_flags.h"
+#include "md5_file.h"
 #include "parse.h"
 #include "util.h"
 
@@ -149,6 +150,35 @@ bool PERS_FILE_XFER::poll(time_t now) {
     last_time = dtime();
 
     if (fxp->file_xfer_done) {
+        if (gstate.global_prefs.confirm_executable && fip->executable && !is_upload) {
+            char msg[256];
+            int n;
+
+            get_pathname(fip, pathname);
+            md5_file(pathname, fip->md5_cksum, fip->nbytes);
+
+            n = sprintf(msg, "BOINC has downloaded the executable file \"%s\" for project \"%s\".\n\n", fip->name, fip->project->project_name);
+            n += sprintf(msg+n, "MD5: %s\n", fip->md5_cksum);
+            n += sprintf(msg+n, "URL: %s\n", fip->get_url());
+            n += sprintf(msg+n, "\nWould you like to accept this file?");
+
+            if (AfxMessageBox(msg, MB_ICONQUESTION|MB_YESNO|MB_APPLMODAL|MB_DEFBUTTON2, 0) == IDNO) {
+                if (log_flags.file_xfer)
+                    msg_printf(fip->project, MSG_INFO, "User rejected \"%s\" of project \"%s\"", fip->name, fip->project->project_name);
+                if (log_flags.file_xfer_debug)
+                    msg_printf(fip->project, MSG_INFO, "file transfer status %d", fxp->file_xfer_retval);
+
+                fip->delete_file();
+
+                handle_xfer_failure();
+
+                gstate.file_xfers->remove(fxp);
+                delete fxp;
+                fxp = NULL;
+
+                return true;
+            }
+        }
         if (log_flags.file_xfer) {
             msg_printf(fip->project, MSG_INFO, "Finished %s of %s",
                 is_upload?"upload":"download", fip->name);
@@ -222,13 +252,11 @@ void PERS_FILE_XFER::giveup() {
 void PERS_FILE_XFER::handle_xfer_failure() {
     time_t now = time(0);
 
-    /*
     // for handling user-declined download of executable files
     if (fxp == NULL) {
         giveup();
         return;
     }
-    */
 
     // If it was a bad range request, delete the file and start over
     //

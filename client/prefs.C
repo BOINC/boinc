@@ -54,6 +54,7 @@ void GLOBAL_PREFS::init() {
     max_bytes_sec_down = 1e9;
     max_memory_mbytes = 128;
     cpu_affinity = -1;
+    confirm_executable = true;
 };
 
 GLOBAL_PREFS::GLOBAL_PREFS() {
@@ -148,6 +149,9 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
         } else if (parse_int(buf, "<max_memory_mbytes>", max_memory_mbytes)) {
             continue;
         } else if (parse_int(buf, "<cpu_affinity>", cpu_affinity)) {
+            continue;
+        } else if (match_tag(buf, "<confirm_executable/>")) {
+            confirm_executable = true;
             continue;
         }
     }

@@ -44,23 +44,6 @@ FILE_XFER::~FILE_XFER() {
 int FILE_XFER::init_download(FILE_INFO& file_info) {
     double f_size;
 
-    /*
-    if (file_info.executable) {
-        char msg[256];
-        int n;
-
-        n = sprintf(msg, "BOINC is about to download the executable file \"%s\" for project \"%s\".\n\n", file_info.name, file_info.project->project_name);
-        n += sprintf(msg+n, "MD5: %s\n", file_info.md5_cksum);
-        n += sprintf(msg+n, "URL: %s\n", file_info.get_url());
-        n += sprintf(msg+n, "Would you like to accept this file?");
-
-        if (AfxMessageBox(msg, MB_ICONQUESTION|MB_YESNO|MB_APPLMODAL|MB_DEFBUTTON2, 0) == IDNO) {
-            file_info.status = -1;
-            return -1;
-        }
-    }
-    */
-
     is_upload = false;
     fip = &file_info;
     get_pathname(fip, pathname);

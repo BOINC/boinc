@@ -54,6 +54,7 @@ struct GLOBAL_PREFS {
     double max_bytes_sec_down;
     int max_memory_mbytes;
     int cpu_affinity;
+    bool confirm_executable;
 
     GLOBAL_PREFS();
     void init();
