@@ -1113,7 +1113,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
 int ACTIVE_TASK::get_cpu_time_via_shmem(double now) {
     char msg_buf[SHM_SEG_SIZE];
     if (app_client_shm.get_msg(msg_buf, APP_CORE_WORKER_SEG)) {
-        last_status_msg_time = now;
+        last_status_msg_time = (time_t)now;
         fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
         parse_double(msg_buf, "<fraction_done>", fraction_done);
         parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
@@ -1126,7 +1126,7 @@ int ACTIVE_TASK::get_cpu_time_via_shmem(double now) {
             recent_change = 0;
         } else {
             recent_change += (fraction_done - last_frac_done);
-            int tdiff = now-last_frac_update;
+            int tdiff = (int)(now-last_frac_update);
             if (tdiff>0) {
                 double recent_frac_rate_of_change = max(0.0, recent_change) / tdiff;
                 if (frac_rate_of_change == 0) {
