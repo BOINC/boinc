@@ -128,17 +128,19 @@ int PERS_FILE_XFER::start_xfer() {
     } else {
         retval = file_xfer->init_download(*fip);
     }
+    fxp = file_xfer;
     if (retval) {
         msg_printf(
             fip->project, MSG_ERROR, "Couldn't start %s for %s: error %d",
             (is_upload ? "upload" : "download"), fip->get_url(), retval
         );
         handle_xfer_failure();
+		delete fxp;
+		fxp = NULL;
         return retval;
         // TODO: do we need to do anything here?
     }
     retval = gstate.file_xfers->insert(file_xfer);
-    fxp = file_xfer;
     if (retval) {
         msg_printf(
             fip->project, MSG_ERROR, "Couldn't start %s for %s: error %d",

@@ -12984,3 +12984,15 @@ David  June 2 2004
 
 	api/
 		boinc_api.C
+
+Daniel June 3 2004
+	- client: handle_pers_file_xfers(): if file transfer fails,
+		then don't verify the file
+	- client: start_xfer(): need to assign fxp in order for
+		handle_xfer_failure() to work
+
+	client/
+		cs_files.C
+		pers_file_xfer.C
+
+
