@@ -233,12 +233,23 @@ version(
 );
 version(
     "Mac",
-    "4.25",
+    "4.25 (v2)",
     "Development version (simple GUI)",
-    "BOINC_Menubar_4.25a_mac.zip",
-    "21 Mar 2005",
+    "BOINC_Menubar_4.25_v2_mac.zip",
+    "29 Mar 2005",
     mac_simple(),
-    "Now includes proxy support"
+    "<ul>
+     <li>
+     Adds support for HTTP and SOCKS proxies.
+     <li>
+     Adds support for  dual processor machines.
+     <li>
+     Fixes a bug which caused the menubar to disappear while leaving BOINC running in the background.
+     <li>
+     Fixes a bug which caused the application to freeze when choosing &quot;Stop&quot; or &quot;Quit BOINC Menubar&quot;.
+     <li>
+     Various other fixes and improvements.
+"
 );
 version(
     "Mac",

@@ -26306,6 +26306,7 @@ David  29 Mar 2005
 	client/
 		client_state.C
 		hostinfo_network.h
+        hostinfo_unix.C
 		time_stats.C
 		win/
 			win_net.cpp,h (removed)

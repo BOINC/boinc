@@ -186,4 +186,13 @@ void NetCheck(bool hangup_if_dialed) {
 
     }
 }
+
+#else
+
+// anyone know how to see if this host has physical network connection?
+//
+int get_connected_state() {
+    return CONNECTED_STATE_UNKNOWN;
+}
+
 #endif
