@@ -219,5 +219,8 @@ bool FILE_XFER_SET::poll() {
             }
         }
     }
+    if (log_flags.file_xfer_debug) {
+	if (action) printf("FILE_XFER_SET poll true\n");
+    }
     return action;
 }

@@ -700,6 +700,7 @@ bool CLIENT_STATE::garbage_collect() {
 
     // TODO: delete obsolete APP_VERSIONs
 
+    if (log_flags.state_debug && action) printf("garbage_collect\n");
     return action;
 }
 
@@ -750,6 +751,7 @@ bool CLIENT_STATE::update_results() {
         }
         result_iter++;
     }
+    if (log_flags.state_debug && action) printf("update_results\n");
     return action;
 }
 

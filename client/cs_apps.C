@@ -113,6 +113,7 @@ bool CLIENT_STATE::handle_running_apps() {
             action = true;
         }
     }
+    if (log_flags.task_debug && action) printf("CS::handle_running_apps\n");
     return action;
 }
 

@@ -127,5 +127,6 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
         }
     }
     
+    if (log_flags.file_xfer_debug && action) printf("CS::handle_pers_file_xfers\n");
     return action;
 }

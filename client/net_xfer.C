@@ -189,6 +189,9 @@ int NET_XFER_SET::poll(int max_bytes, int& bytes_transferred) {
         bytes_transferred += n;
         if (max_bytes < 0) break;
     }
+    if (log_flags.net_xfer_debug && bytes_transferred) {
+    	printf("NET_XFER_SET::poll bytes_transferred %d\n", bytes_transferred);
+    }
     return 0;
 }
 
@@ -341,9 +344,9 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
 	offset = 0;
 	while (nleft) {
 #ifdef _WIN32
-        n = send(socket, buf+offset, nleft, 0);
+	    n = send(socket, buf+offset, nleft, 0);
 #else
-        n = write(socket, buf+offset, nleft);
+	    n = write(socket, buf+offset, nleft);
 #endif
             if (log_flags.net_xfer_debug) {
                 printf("wrote %d bytes to socket %d\n", n, socket);

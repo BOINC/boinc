@@ -260,6 +260,7 @@ bool PERS_FILE_XFER_SET::poll() {
 
     if (action) gstate.set_client_state_dirty("pers_file_xfer_set poll");
 
+    if (log_flags.file_xfer_debug && action) printf("PERS_FILE_XFER_SET::poll\n");
     return action;
 }
 

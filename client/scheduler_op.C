@@ -203,16 +203,18 @@ bool SCHEDULER_OP::update_urls(PROJECT& project, vector<STRING256> &urls) {
 
 // poll routine.  If an operation is in progress, check for completion
 //
-int SCHEDULER_OP::poll() {
+bool SCHEDULER_OP::poll() {
     int retval;
     vector<STRING256> urls;
     bool changed, scheduler_op_done;
+    bool action = false;
 
     switch(state) {
     case SCHEDULER_OP_STATE_GET_MASTER:
         // here we're fetching the master file for a project
         //
         if (http_op.http_op_state == HTTP_STATE_DONE) {
+	    action = true;
             project->master_url_fetch_pending = false;
             http_ops->remove(&http_op);
             if (http_op.http_op_retval == 0) {
@@ -263,6 +265,7 @@ int SCHEDULER_OP::poll() {
         //
         scheduler_op_done = false;
         if (http_op.http_op_state == HTTP_STATE_DONE) {
+	    action = true;
             http_ops->remove(&http_op);
             if (http_op.http_op_retval) {
                 if (log_flags.sched_op_debug) {
@@ -330,7 +333,8 @@ int SCHEDULER_OP::poll() {
     default:
         break;
     }
-    return 0;
+    if (log_flags.sched_op_debug && action) printf("SCHEDULER_OP::poll\n);
+    return action;
 }
 
 SCHEDULER_REPLY::SCHEDULER_REPLY() {

@@ -380,7 +380,7 @@ int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
 // Checks if any child processes have exited and records their final CPU time
 //
 bool ACTIVE_TASK_SET::poll() {
-    ACTIVE_TASK* atp = NULL;
+    ACTIVE_TASK* atp;
     char path[256];
     int n;
 
@@ -390,10 +390,12 @@ bool ACTIVE_TASK_SET::poll() {
     FILETIME creation_time, exit_time, kernel_time, user_time;
     ULARGE_INTEGER tKernel, tUser;
     LONGLONG totTime;
+    bool found = false;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
+	    found = true;
             // Get the elapsed CPU time
             if (GetProcessTimes(atp->pid_handle, &creation_time, &exit_time, &kernel_time, &user_time)) {
                 tKernel.LowPart = kernel_time.dwLowDateTime;
@@ -416,14 +418,11 @@ bool ACTIVE_TASK_SET::poll() {
                 atp->exit_status = exit_code;
                 atp->result->exit_status = atp->exit_status;
             }
-        } else {
-            // Not sure what to do here
         }
     }
 
-    if( atp == NULL ) {
-        return false;
-    }
+    if (log_flags.task_debug && found) printf("ACTIVE_TASK_SET::poll\n");
+    return found;
 #endif
 
 #if HAVE_SYS_RESOURCE_H
@@ -473,6 +472,7 @@ bool ACTIVE_TASK_SET::poll() {
 
     clean_out_dir(atp->dirname);
 
+    if (log_flags.task_debug) printf("ACTIVE_TASK_SET::poll\n");
     return true;
 }
 
@@ -639,10 +639,12 @@ bool ACTIVE_TASK_SET::poll_time() {
     unsigned int i;
     bool updated = false;
 
-    for(i=0; i<active_tasks.size(); i++) {
+    for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         updated |= atp->check_app_status_files();
     }
+
+    if (log_flags.task_debug && updated) printf("ACTIVE_TASK_SET::poll_time\n");
     return updated;
 }
 

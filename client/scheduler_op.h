@@ -58,7 +58,7 @@ struct SCHEDULER_OP {
     unsigned int url_index;         // index within project's URL list
 
     SCHEDULER_OP(HTTP_OP_SET*);
-    int poll();
+    bool poll();
     int init_get_work();
     int init_return_results(PROJECT*, double nsecs);
     int init_op_project(double ns);

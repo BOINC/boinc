@@ -35,11 +35,11 @@ PREFS::PREFS() {
     dont_run_on_batteries = false;
     dont_run_if_user_active = false;
     confirm_before_connecting = false;
-    high_water_days = false;
-    low_water_days = false;
-    disk_max_used_gb = 0;
-    disk_max_used_pct = 0;
-    disk_min_free_gb = 0;
+    high_water_days = 3;
+    low_water_days = 1;
+    disk_max_used_gb = 1;
+    disk_max_used_pct = 0.5;
+    disk_min_free_gb = 0.1;
 };
 
 // Parse XML based prefs, usually from prefs.xml
