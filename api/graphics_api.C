@@ -7,6 +7,7 @@ static BOINC_MAIN_STATE boinc_main_state;
 static void init_main_state() {
     boinc_main_state.boinc_init_options_general_hook = boinc_init_options_general;
     boinc_main_state.boinc_is_standalone_hook = boinc_is_standalone;
+    boinc_main_state.boinc_get_init_data_hook = boinc_get_init_data;
     boinc_main_state.app_client_shm = app_client_shm;
 }
 

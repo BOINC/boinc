@@ -97,7 +97,7 @@ static void make_new_window(int mode){
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
         glutInitWindowPosition(xpos, ypos);
         glutInitWindowSize(600, 400); 
-        boinc_get_init_data(aid);
+        bmsp->boinc_get_init_data_hook(aid);
         if (!strlen(aid.app_name)) {
             strcpy(aid.app_name, "BOINC Application");
         }
