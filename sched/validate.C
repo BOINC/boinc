@@ -20,7 +20,7 @@
 //
 // validate - check and validate new results, and grant credit
 //
-// validate appname min_quorum
+// validate -app appname -quorum n [-asynch]
 //
 // This program must be linked with two project-specific functions:
 //
@@ -46,10 +46,12 @@ using namespace std;
 #include "db.h"
 #include "config.h"
 
-extern int check_set(vector<RESULT>, int& canonical, double& credit);
+extern int check_set(vector<RESULT>&, int& canonical, double& credit);
 extern int check_pair(RESULT&, RESULT&, bool&);
 
 CONFIG config;
+char app_name[256];
+int min_quorum;
 
 #define SECONDS_IN_DAY (3600*24)
 #define EXP_DECAY_RATE  (1./(SECONDS_IN_DAY*7))
@@ -63,7 +65,7 @@ void update_average(double credit, double& avg, double& avg_time) {
         double deltat = now - avg_time;
         avg *= exp(-deltat*EXP_DECAY_RATE);
     }
-    avg += credit/EXP_DECAY_RATE;
+    avg += credit*EXP_DECAY_RATE;
     avg_time = now;
 }
 
@@ -106,6 +108,7 @@ bool do_validate_scan(APP& app, int min_quorum) {
 
     wu.appid = app.id;
     while(!db_workunit_enum_app_need_validate(wu)) {
+        printf("validating WU %s\n", wu.name);
         found = true;
         if (wu.canonical_resultid) {
 
@@ -139,6 +142,7 @@ bool do_validate_scan(APP& app, int min_quorum) {
                         result.validate_state = VALIDATE_STATE_INVALID;
                     }
                 }
+                printf("setting result %d to %d\n", result.id, result.validate_state);
                 retval = db_result_update(result);
                 retval = grant_credit(result, wu.canonical_credit);
             }
@@ -153,6 +157,7 @@ bool do_validate_scan(APP& app, int min_quorum) {
                     results.push_back(result);
                 }
             }
+            printf("found %d results\n", results.size());
             if (results.size() >= (unsigned int)min_quorum) {
                 retval = check_set(results, canonicalid, credit);
                 if (!retval && canonicalid) {
@@ -161,8 +166,20 @@ bool do_validate_scan(APP& app, int min_quorum) {
                     for (i=0; i<results.size(); i++) {
                         if (results[i].validate_state == VALIDATE_STATE_VALID) {
                             retval = grant_credit(results[i], credit);
+                            if (retval) {
+                                fprintf(stderr,
+                                    "validate: grant_credit %d\n", retval
+                                );
+                            }
+                            results[i].granted_credit = credit;
                         }
+                        printf("updating result %d to %d\n", results[i].id, results[i].validate_state);
                         retval = db_result_update(results[i]);
+                        if (retval) {
+                            fprintf(stderr,
+                                "validate: db_result_update %d\n", retval
+                            );
+                        }
                     }
                 }
             }
@@ -179,37 +196,64 @@ bool do_validate_scan(APP& app, int min_quorum) {
     return found;
 }
 
-int main(int argc, char** argv) {
-    int retval, min_quorum;
+int main_loop() {
+    int retval;
     APP app;
     bool did_something;
 
-    retval = config.parse_file();
-    if (retval) {
-        fprintf(stderr, "Can't parse config file\n");
-        exit(1);
-    }
     retval = db_open(config.db_name, config.db_passwd);
     if (retval) {
         fprintf(stderr, "validate: db_open: %d\n", retval);
         exit(1);
     }
 
-    strcpy(app.name, argv[1]);
+    strcpy(app.name, app_name);
     retval = db_app_lookup_name(app);
     if (retval) {
         fprintf(stderr, "can't find app %s\n", app.name);
         exit(1);
     }
 
-    min_quorum = atoi(argv[2]);
+    while (1) {
+        did_something = do_validate_scan(app, min_quorum);
+        if (!did_something) {
+            printf("sleeping\n");
+            sleep(1);
+        }
+    }
+}
+
+
+int main(int argc, char** argv) {
+    int i, retval;
+    bool asynch = false;
+
+    for (i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "-asynch")) {
+            asynch = true;
+        } else if (!strcmp(argv[i], "-app")) {
+            strcpy(app_name, argv[++i]);
+        } else if (!strcmp(argv[i], "-quorum")) {
+            min_quorum = atoi(argv[++i]);
+        }
+    }
+
     if (min_quorum < 1 || min_quorum > 10) {
         fprintf(stderr, "bad min_quorum: %d\n", min_quorum);
         exit(1);
     }
 
-    while (1) {
-        did_something = do_validate_scan(app, min_quorum);
-        if (!did_something) sleep(1);
+    retval = config.parse_file();
+    if (retval) {
+        fprintf(stderr, "Can't parse config file\n");
+        exit(1);
+    }
+
+    if (asynch) {
+        if (!fork()) {
+            main_loop();
+        }
+    } else {
+        main_loop();
     }
 }

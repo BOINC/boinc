@@ -68,9 +68,11 @@ bool parse_str(char* buf, char* tag, char* dest, int len) {
     if (!p) return false;
     p = strchr(p, '>');
     char* q = strchr(p+1, '<');
+    if (!q) return false;
     *q = 0;
     strncpy(dest, p+1, len);
     dest[len-1] = 0;
+    *q = '<';
     return true;
 }
 

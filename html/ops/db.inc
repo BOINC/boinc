@@ -145,10 +145,20 @@ function res_state_string($s) {
     }
 }
 
+function validate_state_string($s) {
+    switch($s) {
+    case 0: return "Initial";
+    case 1: return "Needs check";
+    case 2: return "Valid";
+    case 3: return "Invalid";
+    }
+}
+
 function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
     start_table();
     if ($show_times) {
         row("created", time_str($result->create_time));
+        row("deadline", time_str($result->report_deadline));
         row("sent", time_str($result->sent_time));
         row("received", time_str($result->received_time));
     }
@@ -166,7 +176,9 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
         row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
     }
     row("batch", $result->batch);
-    row("validated", $result->validated);
+    row("validate state", validate_state_string($result->validate_state));
+    row("claimed credit", $result->claimed_credit);
+    row("granted credit", $result->granted_credit);
     end_table();
     echo "<p>";
 }

@@ -205,6 +205,7 @@ class Project {
         PassThru("cp $source_dir/sched/file_upload_handler $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/make_work $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/feeder $this->project_dir/cgi/");
+        PassThru("cp $source_dir/sched/validate_test $this->project_dir/cgi/");
         $f = fopen("$this->project_dir/cgi/config.xml", "w");
         fputs($f, "<config>\n");
         fputs($f, "    <db_name>$this->db_name</db_name>\n");
@@ -265,6 +266,10 @@ class Project {
     function start_make_work($work){
         $result_template_path = realpath($work->result_template);
         PassThru("cd $this->project_dir/cgi; make_work -asynch -result_template $result_template_path -wu_name $work->wu_template > make_work_out");
+    }
+
+    function start_validate($app, $quorum) {
+        PassThru("cd $this->project_dir/cgi; validate_test -asynch -app $app->name -quorum $quorum > validate_out");
     }
 
     function stop() {

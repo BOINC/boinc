@@ -28,22 +28,21 @@ extern CONFIG config;
 
 // get the name of a result's (first) output file
 //
-void get_output_file_path(RESULT& result, char* path) {
+int get_output_file_path(RESULT& result, char* path) {
     char buf[256];
-    int retval;
+    bool flag;
 
-    strcpy(path, "");
-    retval = parse_str(result.xml_doc_in, "<name>", buf, sizeof(buf));
-    if (retval) return;
-    char* upload_dir = config.upload_dir;
-    sprintf(path, "%s/%s", upload_dir, buf);
+    flag = parse_str(result.xml_doc_in, "<name>", buf, sizeof(buf));
+    if (!flag) return -1;
+    sprintf(path, "%s/%s", config.upload_dir, buf);
+    return 0;
 }
 
 // crude example of a validation function.
 // See if there's a strict majority under equality.
 //
-int check_set(vector<RESULT> results, int& canonical, double& credit) {
-    int i, j, n, neq, retval, ilow, ihigh;
+int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
+    int i, j, n, neq, retval, ilow, ihigh, canonical;
     char* files[100];
     char path[256];
     bool found;
@@ -55,7 +54,15 @@ int check_set(vector<RESULT> results, int& canonical, double& credit) {
     // read the result files into malloc'd memory buffers
     //
     for (i=0; i<n; i++) {
-        get_output_file_path(results[i], path);
+        retval = get_output_file_path(results[i], path);
+        if (retval) {
+            fprintf(
+                stderr,
+                "check_set: can't get output filename for %s\n",
+                results[i].name
+            );
+            return retval;
+        }
         retval = read_file_malloc(path, files[i]);
         if (retval) {
             fprintf(stderr, "read_file_malloc %s %d\n", path, retval);
@@ -73,7 +80,8 @@ int check_set(vector<RESULT> results, int& canonical, double& credit) {
         }
         if (neq > n/2) {
             found = true;
-            canonical = results[i].id;
+            canonical = i;
+            canonicalid = results[i].id;
             break;
         }
     }
