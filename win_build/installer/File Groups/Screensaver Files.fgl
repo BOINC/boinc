@@ -1,5 +1,5 @@
 [TopDir]
-file0=..\Build\Debug\boinc.scr
+file0=..\Build\Release\boinc.scr
 
 [General]
 Type=FILELIST
