@@ -2,6 +2,7 @@
 
 require_once("project_specific/project.inc");
 require_once("profile.inc");
+require_once("sanitize_html.inc");
 
 // Generates the html files which comprise the photo gallery.
 //   $room: which gallery to generate (user, computer).
@@ -301,7 +302,7 @@ function get_profile_summary($userid) {
 
   if (strlen($row['response1']) != 0) {
   
-    $description = "(\"" . substr($row['response1'], 0, MAX_DESC_LENGTH);
+    $description = "(\"" . sanitize_html(substr($row['response1'], 0, MAX_DESC_LENGTH));
     if (strlen($row['response1']) >= MAX_DESC_LENGTH) {
       $description = $description . "...";
     }
