@@ -197,93 +197,36 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo) {
     char  status[256];
     
     switch (exceptionCode) {
-        case STATUS_WAIT_0:
-            strcpy(status,"Wait 0");
-            break;
-        case STATUS_ABANDONED_WAIT_0:
-            strcpy(status,"Abandoned Wait 0");
-            break;
-        case STATUS_USER_APC:
-            strcpy(status,"User APC");
-            break;
-        case STATUS_TIMEOUT:
-            strcpy(status,"Timeout");
-            break;
-        case STATUS_PENDING:
-            strcpy(status,"Pending");
-            break;
-        case STATUS_SEGMENT_NOTIFICATION:
-            return DBG_EXCEPTION_NOT_HANDLED;
-        case STATUS_GUARD_PAGE_VIOLATION:
-            strcpy(status,"Guard Page Violation");
-            break;
-        case STATUS_DATATYPE_MISALIGNMENT:
-            strcpy(status,"Data Type Misalignment");
-            break;
-        case STATUS_BREAKPOINT:
-            return DBG_EXCEPTION_NOT_HANDLED;
-        case STATUS_SINGLE_STEP:
-            return DBG_EXCEPTION_NOT_HANDLED;
-        case STATUS_ACCESS_VIOLATION:
-            strcpy(status,"Access Violation");
-            break;
-        case STATUS_IN_PAGE_ERROR:
-            strcpy(status,"In Page Error");
-            break;
-        case STATUS_NO_MEMORY:
-            strcpy(status,"No Memory");
-            break;
-        case STATUS_ILLEGAL_INSTRUCTION:
-            strcpy(status,"Illegal Instruction");
-            break;
-        case STATUS_NONCONTINUABLE_EXCEPTION:
-            strcpy(status,"Noncontinuable Exception");
-            break;
-        case STATUS_INVALID_DISPOSITION:
-            strcpy(status,"Invalid Disposition");
-            break;
-        case STATUS_ARRAY_BOUNDS_EXCEEDED:
-            strcpy(status,"Array Bounds Exceeded");
-            break;
-        case STATUS_FLOAT_DENORMAL_OPERAND:
-            strcpy(status,"Float Denormal Operand");
-            break;
-        case STATUS_FLOAT_DIVIDE_BY_ZERO:
-            strcpy(status,"Divide by Zero");
-            break;
-        case STATUS_FLOAT_INEXACT_RESULT:
-            strcpy(status,"Float Inexact Result");
-            break;
-        case STATUS_FLOAT_INVALID_OPERATION:
-            strcpy(status,"Float Invalid Operation");
-            break;
-        case STATUS_FLOAT_OVERFLOW:
-            strcpy(status,"Float Overflow");
-            break;
-        case STATUS_FLOAT_STACK_CHECK:
-            strcpy(status,"Float Stack Check");
-            break;
-        case STATUS_FLOAT_UNDERFLOW:
-            strcpy(status,"Float Uderflow");
-            break;
-        case STATUS_INTEGER_DIVIDE_BY_ZERO:
-            strcpy(status,"Integer Divide by Zero");
-            break;
-        case STATUS_INTEGER_OVERFLOW:
-            strcpy(status,"Integer Overflow");
-            break;
-        case STATUS_PRIVILEGED_INSTRUCTION:
-            strcpy(status,"Privileged Instruction");
-            break;
-        case STATUS_STACK_OVERFLOW:
-            strcpy(status,"Stack Overflow");
-            break;
-        case STATUS_CONTROL_C_EXIT:
-            strcpy(status,"Ctrl+C Exit");
-            break;
-        default:
-            strcpy(status,"Unknown exception");
-            break;
+        case STATUS_WAIT_0: strcpy(status,"Wait 0"); break;
+        case STATUS_ABANDONED_WAIT_0: strcpy(status,"Abandoned Wait 0"); break;
+        case STATUS_USER_APC: strcpy(status,"User APC"); break;
+        case STATUS_TIMEOUT: strcpy(status,"Timeout"); break;
+        case STATUS_PENDING: strcpy(status,"Pending"); break;
+        case STATUS_SEGMENT_NOTIFICATION: return DBG_EXCEPTION_NOT_HANDLED;
+        case STATUS_GUARD_PAGE_VIOLATION: strcpy(status,"Guard Page Violation"); break;
+        case STATUS_DATATYPE_MISALIGNMENT: strcpy(status,"Data Type Misalignment"); break;
+        case STATUS_BREAKPOINT: return DBG_EXCEPTION_NOT_HANDLED;
+        case STATUS_SINGLE_STEP: return DBG_EXCEPTION_NOT_HANDLED;
+        case STATUS_ACCESS_VIOLATION: strcpy(status,"Access Violation"); break;
+        case STATUS_IN_PAGE_ERROR: strcpy(status,"In Page Error"); break;
+        case STATUS_NO_MEMORY: strcpy(status,"No Memory"); break;
+        case STATUS_ILLEGAL_INSTRUCTION: strcpy(status,"Illegal Instruction"); break;
+        case STATUS_NONCONTINUABLE_EXCEPTION: strcpy(status,"Noncontinuable Exception"); break;
+        case STATUS_INVALID_DISPOSITION: strcpy(status,"Invalid Disposition"); break;
+        case STATUS_ARRAY_BOUNDS_EXCEEDED: strcpy(status,"Array Bounds Exceeded"); break;
+        case STATUS_FLOAT_DENORMAL_OPERAND: strcpy(status,"Float Denormal Operand"); break;
+        case STATUS_FLOAT_DIVIDE_BY_ZERO: strcpy(status,"Divide by Zero"); break;
+        case STATUS_FLOAT_INEXACT_RESULT: strcpy(status,"Float Inexact Result"); break;
+        case STATUS_FLOAT_INVALID_OPERATION: strcpy(status,"Float Invalid Operation"); break;
+        case STATUS_FLOAT_OVERFLOW: strcpy(status,"Float Overflow"); break;
+        case STATUS_FLOAT_STACK_CHECK: strcpy(status,"Float Stack Check"); break;
+        case STATUS_FLOAT_UNDERFLOW: strcpy(status,"Float Uderflow"); break;
+        case STATUS_INTEGER_DIVIDE_BY_ZERO: strcpy(status,"Integer Divide by Zero"); break;
+        case STATUS_INTEGER_OVERFLOW: strcpy(status,"Integer Overflow"); break;
+        case STATUS_PRIVILEGED_INSTRUCTION: strcpy(status,"Privileged Instruction"); break;
+        case STATUS_STACK_OVERFLOW: strcpy(status,"Stack Overflow"); break;
+        case STATUS_CONTROL_C_EXIT: strcpy(status,"Ctrl+C Exit"); break;
+        default: strcpy(status,"Unknown exception"); break;
     }
     // TODO: also output info in CONTEXT structure?
     fprintf( stderr, "\n***UNHANDLED EXCEPTION****\n");
@@ -298,36 +241,16 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo) {
 #ifdef HAVE_SIGNAL_H
 void boinc_catch_signal(int signal) {
     switch(signal) {
-        case SIGHUP: // terminal line hangup
-            fprintf( stderr, "SIGHUP: terminal line hangup" );
-            break;
-        case SIGINT: // interrupt program
-            fprintf( stderr, "SIGINT: interrupt program" );
-            break;
-        case SIGQUIT: // quit program
-            fprintf( stderr, "SIGQUIT: quit program" );
-            break;
-        case SIGILL: // illegal instruction
-            fprintf( stderr, "SIGILL: illegal instruction" );
-            break;
-        case SIGABRT: // abort(2) call
-            fprintf( stderr, "SIGABRT: abort called" );
-            break;
-        case SIGBUS: // bus error
-            fprintf( stderr, "SIGBUS: bus error" );
-            break;
-        case SIGSEGV: // segmentation violation
-            fprintf( stderr, "SIGSEGV: segmentation violation" );
-            break;
-        case SIGSYS: // system call given invalid argument
-            fprintf( stderr, "SIGSYS: system call given invalid argument" );
-            break;
-        case SIGPIPE: // write on a pipe with no reader
-            fprintf( stderr, "SIGPIPE: write on a pipe with no reader" );
-            break;
-        default:
-            fprintf( stderr, "unknown signal %d", signal );
-            break;
+        case SIGHUP: fprintf( stderr, "SIGHUP: terminal line hangup" ); break;
+        case SIGINT: fprintf( stderr, "SIGINT: interrupt program" ); break;
+        case SIGQUIT: fprintf( stderr, "SIGQUIT: quit program" ); break;
+        case SIGILL: fprintf( stderr, "SIGILL: illegal instruction" ); break;
+        case SIGABRT: fprintf( stderr, "SIGABRT: abort called" ); break;
+        case SIGBUS: fprintf( stderr, "SIGBUS: bus error" ); break;
+        case SIGSEGV: fprintf( stderr, "SIGSEGV: segmentation violation" ); break;
+        case SIGSYS: fprintf( stderr, "SIGSYS: system call given invalid argument" ); break;
+        case SIGPIPE: fprintf( stderr, "SIGPIPE: write on a pipe with no reader" ); break;
+        default: fprintf( stderr, "unknown signal %d", signal ); break;
     }
     fprintf( stderr, "\nExiting...\n" );
     exit(ERR_SIGNAL_CATCH);
@@ -667,7 +590,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (match_tag(buf, "<app_preferences>")) {
             strcpy(ai.app_preferences, "");
             while (fgets(buf, 256, f)) {
-                if (match_tag(buf, "</app_specific_prefs>")) break;
+                if (match_tag(buf, "</app_preferences>")) break;
                 strcat(ai.app_preferences, buf);
             }
             continue;
