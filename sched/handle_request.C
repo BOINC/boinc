@@ -33,6 +33,7 @@ using namespace std;
 
 #include "boinc_db.h"
 #include "backend_lib.h"
+#include "error_numbers.h"
 #include "parse.h"
 #include "util.h"
 #include "server_types.h"
@@ -111,12 +112,12 @@ int insert_after(char* buffer, char* after, char* text) {
 
     if (strlen(buffer) + strlen(text) > MAX_BLOB_SIZE-1) {
         log_messages.printf(SchedMessages::NORMAL, "insert_after: overflow\n");
-        return -1;
+        return ERR_BUFFER_OVERFLOW;
     }
     p = strstr(buffer, after);
     if (!p) {
         log_messages.printf(SchedMessages::CRITICAL, "insert_after: %s not found in %s\n", after, buffer);
-        return -1;
+        return ERR_NULL;
     }
     p += strlen(after);
     strcpy(temp, p);
@@ -235,7 +236,7 @@ int add_wu_to_reply(
         log_messages.printf(
             SchedMessages::CRITICAL, "Can't find APP#%d\n", wu.appid
         );
-        return -1;
+        return ERR_NULL;
     }
     avp = ss.lookup_app_version(app->id, platform.id, app->min_version);
     if (!avp) {
@@ -244,7 +245,7 @@ int add_wu_to_reply(
             "Can't find app version: APP#%d PLATFORM#%d min_version %d\n",
             app->id, platform.id, app->min_version
         );
-        return -1;
+        return ERR_NULL;
     }
 
     // add the app, app_version, and workunit to the reply,
@@ -314,7 +315,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "[HOST#%d] [USER#%d?] can't find user record\n",
                 host.id, reply.host.userid
             );
-            return -1;
+            return retval;
         }
         reply.user = user;
         if (strcmp(sreq.authenticator, reply.user.authenticator)) {
@@ -330,7 +331,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "[HOST#%d] [USER#%d] Bad authenticator '%s'\n",
                 host.id, user.id, sreq.authenticator
             );
-            return -1;
+            return ERR_AUTHENTICATOR;
         }
 
         // If the seqno from the host is less than what we expect,
@@ -363,7 +364,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "[HOST#<none>] Bad authenticator '%s'\n",
                 sreq.authenticator
             );
-            return -1;
+            return ERR_AUTHENTICATOR;
         }
         reply.user = user;
 new_host:
@@ -382,7 +383,7 @@ new_host:
             strcpy(reply.message_priority, "low");
             boinc_db.print_error("host.insert()");
             log_messages.printf(SchedMessages::CRITICAL, "host.insert() failed\n");
-            return -1;
+            return retval;
         }
         host.id = boinc_db.insert_id();
 

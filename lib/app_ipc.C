@@ -231,7 +231,7 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi) {
         else if (parse_double(buf, "<graphics_refresh_period>", gi->refresh_period)) continue;
         else fprintf(stderr, "parse_graphics_file: unrecognized %s", buf);
     }
-    return -1;
+    return ERR_XML_PARSE;
 }
 
 // create a file (new_link) which contains an XML

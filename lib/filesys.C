@@ -115,7 +115,7 @@ int dir_scan(char* p, DIRREF dirp, int p_len) {
             if (p) safe_strncpy(p, dp->d_name, p_len);
             return 0;
         } else {
-            return -1;
+            return ERR_READDIR;
         }
     }
 #endif
@@ -126,7 +126,7 @@ int dir_scan(char* p, DIRREF dirp, int p_len) {
             dirp->first = false;
             dirp->handle = FindFirstFile(dirp->path, &data);
             if (dirp->handle == INVALID_HANDLE_VALUE) {
-                return -1;
+                return ERR_READDIR;
             } else {
                 if (data.cFileName[0] == '.') continue;
                 if (p) safe_strncpy(p, data.cFileName, p_len);
@@ -275,7 +275,7 @@ int clean_out_dir(char* dirpath) {
     DIRREF dirp;
 
     dirp = dir_open(dirpath);
-    if (!dirp) return -1;
+    if (!dirp) return ERR_OPENDIR;
     while (1) {
         strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));
@@ -303,7 +303,7 @@ int dir_size(char* dirpath, double& size) {
 
     size = 0;
     dirp = dir_open(dirpath);
-    if (!dirp) return -1;
+    if (!dirp) return ERR_OPENDIR;
     while (1) {
         retval = dir_scan(filename, dirp, sizeof(filename));
         if (retval) break;

@@ -38,6 +38,7 @@
 #endif
 #include <assert.h>
 
+#include "error_numbers.h"
 #include "shmem.h"
 
 #ifdef _WIN32
@@ -92,7 +93,7 @@ int create_shmem(key_t key, int size, void** pp) {
     if (id < 0) {
         sprintf(buf, "create_shmem: shmget: key: %x size: %d", (unsigned int)key, size);
         perror(buf);
-        return -1;
+        return ERR_SHMGET;
     }
     return attach_shmem(key, pp);
 
@@ -105,18 +106,18 @@ int destroy_shmem(key_t key){
     id = shmget(key, 0, 0);
     if (id < 0) return 0;           // assume it doesn't exist
     retval = shmctl(id, IPC_STAT, &buf);
-    if (retval) return -1;
+    if (retval) return ERR_SHMCTL;
     if (buf.shm_nattch > 0) {
         fprintf(stderr,
             "destroy_shmem: can't destroy segment; %d attachments\n",
             (int)buf.shm_nattch
         );
-        return -1;
+        return ERR_SHMCTL;
     }
     retval = shmctl(id, IPC_RMID, 0);
     if (retval) {
         fprintf(stderr, "destroy_shmem: remove failed %d\n", retval);
-        return -1;
+        return ERR_SHMCTL;
     }
     return 0;
 }
@@ -130,13 +131,13 @@ int attach_shmem(key_t key, void** pp){
     if (id < 0) {
         sprintf(buf, "attach_shmem: shmget: key: %x mem_addr: %p", (unsigned int)key, (void*)pp);
         perror(buf);
-        return -1;
+        return ERR_SHMGET;
     }
     p = shmat(id, 0, 0);
-    if ((long)p == -1) {
+    if ((long)p == ERR_SHMAT) {
         sprintf(buf, "attach_shmem: shmat: key: %x mem_addr: %p", (unsigned int)key, (void*)pp);
         perror(buf);
-        return -1;
+        return ERR_SHMAT;
     }
     *pp = p;
     return 0;
@@ -159,7 +160,7 @@ int shmem_info(key_t key) {
     if (id < 0) {
         sprintf(buf2, "shmem_info: shmget: key: %x", (unsigned int)key);
         perror(buf2);
-        return -1;
+        return ERR_SHMGET;
     }
     shmctl(id, IPC_STAT, &buf);
     fprintf( stderr, "shmem key: %x\t\tid: %d, size: %d, nattach: %d\n",

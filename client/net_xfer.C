@@ -90,7 +90,9 @@ int NET_XFER::get_ip_addr(char *hostname, int &ip_addr) {
     hostent* hep;
 
 #ifdef _WIN32
-    if(NetOpen()) return -1;
+    int retval;
+    retval = NetOpen();
+    if (retval) return retval;
 #endif
     hep = gethostbyname(hostname);
     if (!hep) {
@@ -171,7 +173,7 @@ int NET_XFER::open_server() {
 #ifdef _WIN32
         NetClose();
 #endif
-        return -1;
+        return ERR_SOCKET;
     }
 
 #ifdef _WIN32
@@ -180,8 +182,8 @@ int NET_XFER::open_server() {
 #else
     int flags;
     flags = fcntl(fd, F_GETFL, 0);
-    if (flags < 0) return -1;
-    else if (fcntl(fd, F_SETFL, flags|O_NONBLOCK) < 0 ) return -1;
+    if (flags < 0) return ERR_FCNTL;
+    else if (fcntl(fd, F_SETFL, flags|O_NONBLOCK) < 0 ) return ERR_FCNTL;
 #endif
 
     addr.sin_family = AF_INET;
@@ -194,7 +196,7 @@ int NET_XFER::open_server() {
         if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
             closesocket(fd);
             NetClose();
-            return -1;
+            return ERR_CONNECT;
         }
 #ifndef WIN_CLI
         if (WSAAsyncSelect( fd, g_myWnd->GetSafeHwnd(), g_myWnd->m_nNetActivityMsg, FD_READ|FD_WRITE )) {
@@ -202,7 +204,7 @@ int NET_XFER::open_server() {
             if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
                 closesocket(fd);
                 NetClose();
-                return -1;
+                return ERR_ASYNCSELECT;
             }
         }
 #endif
@@ -210,7 +212,7 @@ int NET_XFER::open_server() {
         if (errno != EINPROGRESS) {
             close(fd);
             perror("connect");
-            return -1;
+            return ERR_CONNECT;
         }
 #endif
     } else {

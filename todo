@@ -1,8 +1,9 @@
-hook up graphics prefs to graphics
+reject spamming clients w/o DB lookup
+message window is slightly scrolled
 Don't render graphics if minimized
 add executable approval to win GUI
-prevent one host from marking results as CANT_SEND
 add a mechanism for server to send messages to client, shown in graphics
+    use "external app" mechanism (Karl)?
 ------------------------
 DON'T ADD ANYTHING TO HERE.  USE THE TASKBASE INSTEAD.
 

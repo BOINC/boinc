@@ -44,7 +44,7 @@
     // unexpected NULL pointer
 #define ERR_NEG             -117
     // unexpected negative value
-#define ERR_BUFF_OVERFLOW   -118
+#define ERR_BUFFER_OVERFLOW -118
     // caught buffer overflow
 #define ERR_MD5_FAILED      -119
     // MD5 checksum failed for a file
@@ -77,3 +77,27 @@
 #define ERR_DB_NOT_UNIQUE   -137
     // not unique in lookup()
 #define ERR_DB_CANT_CONNECT -138
+#define ERR_GETS            -139
+    // gets() or fgets()
+#define ERR_SCANF           -140
+    // scanf() or fscanf()
+#define ERR_STRCHR          -141
+#define ERR_STRSTR          -142
+#define ERR_READDIR         -143
+#define ERR_SHMGET          -144
+#define ERR_SHMCTL          -145
+#define ERR_SHMAT           -146
+#define ERR_FORK            -147
+#define ERR_EXEC            -148
+#define ERR_NOT_EXITED      -149
+    // a process didn't exit that was supposed to
+#define ERR_NOT_IMPLEMENTED -150
+    // a system call not implemented on this platform
+#define ERR_GETHOSTNAME     -151
+#define ERR_NETOPEN         -152
+#define ERR_SOCKET          -153
+#define ERR_FCNTL           -154
+#define ERR_AUTHENTICATOR   -155
+    // scheduler request host ID doesn't match authenticator
+#define ERR_SCHED_SHMEM     -156
+    // sched shmem has bad contents

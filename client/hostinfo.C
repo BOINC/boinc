@@ -224,9 +224,9 @@ int HOST_INFO::write_cpu_benchmarks(FILE* out) {
 int get_local_domain_name(char* p, int len) {
     char buf[256];
 
-    if (gethostname(buf, 256)) return -1;
+    if (gethostname(buf, 256)) return ERR_GETHOSTBYNAME;
     struct hostent* he = gethostbyname(buf);
-    if (!he) return -1;
+    if (!he) return ERR_GETHOSTBYNAME;
     safe_strncpy(p, he->h_name, len);
     return 0;
 }
@@ -240,12 +240,12 @@ int get_local_ip_addr_str(char* p, int len) {
     struct in_addr addr;
     if (gethostname(buf, 256)) {
         printf("gethostname() didn't return name\n");
-        return -1;
+        return ERR_GETHOSTNAME;
     }
     struct hostent* he = gethostbyname(buf);
     if (!he || !he->h_addr_list[0]) {
         printf("gethostbyname() didn't return any IP addresses\n");
-        return -1;
+        return ERR_GETHOSTBYNAME;
     }
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
     safe_strncpy(p, inet_ntoa(addr), len);
@@ -261,10 +261,11 @@ int get_local_ip_addr(int& p) {
 #if HAVE_NETDB_H || _WIN32
     char buf[256];
     struct in_addr addr;
-    if (gethostname(buf, 256))
-        return -1;
+    if (gethostname(buf, 256)) {
+        return ERR_GETHOSTNAME;
+    }
     struct hostent* he = gethostbyname(buf);
-    if (!he) return -1;
+    if (!he) return ERR_GETHOSTBYNAME;
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
     p = addr.s_addr;
 #endif

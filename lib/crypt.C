@@ -80,7 +80,7 @@ int scan_hex_data(FILE* f, DATA_BLOCK& x) {
     int i, j;
     while (1) {
         p = fgets(buf, 256, f);
-        if (!p) return -1;
+        if (!p) return ERR_GETS;
         n = strlen(p)/2;
         if (n == 0) break;
         for (i=0; i<n; i++) {
@@ -152,12 +152,12 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
     len = size - sizeof(key->bits);
     while (1) {
         p = fgets(buf, 256, f);
-        if (!p) return -1;
+        if (!p) return ERR_GETS;
         n = strlen(p)/2;
         if (n == 0) break;
         for (i=0; i<n; i++) {
             sscanf(buf+i*2, "%2x", &b);
-            if (j >= len) return -1;
+            if (j >= len) return ERR_SCANF;
             key->data[j++] = b;
         }
     }
@@ -188,9 +188,9 @@ int sscan_key_hex(char* buf, KEY* key, int size) {
     key->bits = num_bits; //key->bits is a short
     //fprintf(stderr, "key->bits = %d\n", key->bits);
 
-    if (n != 1) return -1;
+    if (n != 1) return ERR_SCANF;
     buf = strchr(buf, '\n');
-    if (!buf) return -1;
+    if (!buf) return ERR_STRCHR;
     buf += 1;
     db.data = key->data;
     db.len = size - sizeof(key->bits); //huh???
@@ -344,13 +344,13 @@ int read_key_file(char* keyfile, R_RSA_PRIVATE_KEY& key) {
     FILE* fkey = fopen(keyfile, "r");
     if (!fkey) {
         fprintf(stderr, "can't open key file (%s)\n", keyfile);
-        return -1;
+        return ERR_FOPEN;
     }
     retval = scan_key_hex(fkey, (KEY*)&key, sizeof(key));
     fclose(fkey);
     if (retval) {
         fprintf(stderr, "can't parse key\n");
-        return -1;
+        return retval;
     }
     return 0;
 }

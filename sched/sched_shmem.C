@@ -26,6 +26,7 @@
 #include <assert.h>
 
 #include "boinc_db.h"
+#include "error_numbers.h"
 
 #include "sched_shmem.h"
 #include "sched_util.h"
@@ -45,15 +46,15 @@ void SCHED_SHMEM::init() {
 }
 
 int SCHED_SHMEM::verify() {
-    if (ss_size != sizeof(SCHED_SHMEM)) return -1;
-    if (platform_size != sizeof(PLATFORM)) return -1;
-    if (app_size != sizeof(APP)) return -1;
-    if (app_version_size != sizeof(APP_VERSION)) return -1;
-    if (wu_result_size != sizeof(WU_RESULT)) return -1;
-    if (max_platforms != MAX_PLATFORMS) return -1;
-    if (max_apps != MAX_APPS) return -1;
-    if (max_app_versions != MAX_APP_VERSIONS) return -1;
-    if (max_wu_results != MAX_WU_RESULTS) return -1;
+    if (ss_size != sizeof(SCHED_SHMEM)) return ERR_SCHED_SHMEM;
+    if (platform_size != sizeof(PLATFORM)) return ERR_SCHED_SHMEM;
+    if (app_size != sizeof(APP)) return ERR_SCHED_SHMEM;
+    if (app_version_size != sizeof(APP_VERSION)) return ERR_SCHED_SHMEM;
+    if (wu_result_size != sizeof(WU_RESULT)) return ERR_SCHED_SHMEM;
+    if (max_platforms != MAX_PLATFORMS) return ERR_SCHED_SHMEM;
+    if (max_apps != MAX_APPS) return ERR_SCHED_SHMEM;
+    if (max_app_versions != MAX_APP_VERSIONS) return ERR_SCHED_SHMEM;
+    if (max_wu_results != MAX_WU_RESULTS) return ERR_SCHED_SHMEM;
     return 0;
 }
 

@@ -359,7 +359,7 @@ int ACTIVE_TASK::start(bool first_time) {
         if (win_error) {
             gstate.report_result_error(*result, win_error, (LPTSTR)&lpMsgBuf);
             LocalFree(lpMsgBuf);
-            return -1;
+            return ERR_EXEC;
         }
         msg_printf(wup->project, MSG_ERROR, "CreateProcess: %s", (LPCTSTR)lpMsgBuf);
         LocalFree(lpMsgBuf);
@@ -385,7 +385,7 @@ int ACTIVE_TASK::start(bool first_time) {
         result->active_task_state = PROCESS_COULDNT_START;
         gstate.report_result_error(*result, -1, strerror(errno));
         msg_printf(wup->project, MSG_ERROR, "fork(): %s", strerror(errno));
-        return -1;
+        return ERR_FORK;
     }
     if (pid == 0) {
         // from here on we're running in a new process.
@@ -859,7 +859,7 @@ int ACTIVE_TASK_SET::wait_for_exit(double wait_time, PROJECT* proj) {
         boinc_sleep(wait_time/10.0);
     }
 
-    return -1;
+    return ERR_NOT_EXITED;
 }
 
 int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
@@ -1060,7 +1060,7 @@ int ACTIVE_TASK::get_cpu_time_via_os() {
 #else
     // On UNIX, we can't get CPU time before process has exited for some reason
 #endif
-    return -1;
+    return ERR_NOT_IMPLEMENTED;
 }
 
 // See if the app has generated a new fraction-done message in shared mem.
@@ -1106,7 +1106,7 @@ int ACTIVE_TASK::get_cpu_time_via_shmem(time_t now) {
         last_status_msg_time = now;
         return get_cpu_time_via_os();
     }
-    return -1;
+    return ERR_NOT_IMPLEMENTED;
 }
 
 // get CPU times of active tasks
@@ -1215,14 +1215,14 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
                     "ACTIVE_TASK::parse(): project not found: %s\n",
                     project_master_url
                 );
-                return -1;
+                return ERR_NULL;
             }
             result = cs->lookup_result(project, result_name);
             if (!result) {
                 msg_printf(
                     NULL, MSG_ERROR, "ACTIVE_TASK::parse(): result not found\n"
                 );
-                return -1;
+                return ERR_NULL;
             }
             wup = result->wup;
             app_version = cs->lookup_app_version(
@@ -1244,7 +1244,7 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK::parse(): unrecognized %s\n", buf);
     }
-    return -1;
+    return ERR_XML_PARSE;
 }
 
 // Write XML information about this active task set

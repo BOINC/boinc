@@ -56,7 +56,7 @@ int ndays_to_string (double x, int smallest_timescale, char *buf) {
     double years, days, hours, minutes, seconds;
     char year_buf[64], day_buf[16], hour_buf[16], min_buf[16], sec_buf[16];
 
-    if (x < 0 || buf == NULL) return -1;
+    if (x < 0 || buf == NULL) return ERR_NULL;
 
     years = x / 365.25;
     days = fmod(x, 365.25);
@@ -498,7 +498,7 @@ string timediff_format(long tdiff) {
 int read_file_string(const char* pathname, string& result) {
     result.erase();
     ifstream f(pathname);
-    if (!f) return -1;
+    if (!f) return ERR_FOPEN;
 
     char c;
     while (f.get(c)) result += c;

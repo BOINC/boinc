@@ -154,7 +154,7 @@ int dup_element_contents(FILE* in, const char* end_tag, char** pp) {
         strcatdup(p, buf);
     }
     fprintf(stderr, "dup_element_contents(): no end tag\n");
-    return 1;
+    return ERR_XML_PARSE;
 }
 
 // copy from a file to static buffer
@@ -170,7 +170,7 @@ int copy_element_contents(FILE* in, const char* end_tag, char* p, int len) {
         strcat(p, buf);
     }
     fprintf(stderr, "copy_element_contents(): no end tag\n");
-    return 1;
+    return ERR_XML_PARSE;
 }
 
 // read a file into a malloc'd string
@@ -180,7 +180,7 @@ int read_file_malloc(const char* pathname, char*& str) {
     FILE* f;
 
     f = fopen(pathname, "r");
-    if (!f) return -1;
+    if (!f) return ERR_FOPEN;
     str = strdup("");
     while (fgets(buf, 256, f)) {
         strcatdup(str, buf);

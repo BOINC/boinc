@@ -40,7 +40,7 @@ int get_file_path(WORKUNIT& wu, char* path) {
     char buf[256];
     bool flag;
     flag = parse_str(wu.xml_doc, "<name>", buf, sizeof(buf));
-    if (!flag) return -1;
+    if (!flag) return ERR_XML_PARSE;
     sprintf(path, "%s/%s", config.download_dir, buf);
     return 0;
 }

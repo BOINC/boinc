@@ -22,12 +22,13 @@
 // (see validate_trivial.C),
 // or that requires strict or fuzzy equality.
 
+#include <cassert>
 
-#include "validate_util.h"
 #include "sched_util.h"
 #include "sched_config.h"
+#include "error_numbers.h"
 #include "parse.h"
-#include <cassert>
+#include "validate_util.h"
 
 extern SCHED_CONFIG config;
 
@@ -38,7 +39,7 @@ int get_output_file_path(RESULT const& result, string& path) {
     bool flag;
 
     flag = parse_str(result.xml_doc_in, "<name>", buf, sizeof(buf));
-    if (!flag) return -1;
+    if (!flag) return ERR_XML_PARSE;
     path = config.upload_dir;
     path += '/';
     path += buf;
