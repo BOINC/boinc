@@ -70,6 +70,7 @@ double CLIENT_STATE::current_work_buf_days() {
 double CLIENT_STATE::work_needed_secs() {
     double x = current_work_buf_days();
     if (x > global_prefs.work_buf_max_days) return 0;
+	// TODO: take into account preference # CPUS
     return (global_prefs.work_buf_max_days - x)*SECONDS_PER_DAY
         *  time_stats.active_frac * host_info.p_ncpus;
 }

@@ -389,10 +389,14 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		    } else {
 			    tocomp = at->est_time_to_completion();
 		    }
-		    cpuhour = (int)(tocomp / (60 * 60));
-		    cpumin = (int)(tocomp / 60) % 60;
-		    cpusec = (int)(tocomp) % 60;
-		    strBuf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
+			if (tocomp > 0) {
+				cpuhour = (int)(tocomp / (60 * 60));
+				cpumin = (int)(tocomp / 60) % 60;
+				cpusec = (int)(tocomp) % 60;
+				strBuf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
+			} else {
+				strBuf = "---";
+			}
             if (m_ResultListCtrl.GetItemText(i, 5) != strBuf)
     		    m_ResultListCtrl.SetItemText(i, 5, strBuf);
 

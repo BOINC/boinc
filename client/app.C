@@ -107,6 +107,16 @@ ACTIVE_TASK::ACTIVE_TASK() {
     graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
     last_status_msg_time = 0;
     current_cpu_time = working_set_size = 0;
+
+	fraction_done = 0;
+	frac_rate_of_change = 0;
+	last_frac_done = 0;
+	recent_change = 0;
+	last_frac_update = 0;
+	starting_cpu_time = 0;
+	checkpoint_cpu_time = 0;
+	current_cpu_time = 0;
+	working_set_size = 0;
 }
 
 int ACTIVE_TASK::init(RESULT* rp) {
@@ -985,7 +995,6 @@ int ACTIVE_TASK::get_cpu_time_via_os() {
 //
 int ACTIVE_TASK::get_cpu_time_via_shmem(time_t now) {
     char msg_buf[SHM_SEG_SIZE];
-    double x;
     if (app_client_shm.get_msg(msg_buf, APP_CORE_WORKER_SEG)) {
         last_status_msg_time = now;
         fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
@@ -994,16 +1003,25 @@ int ACTIVE_TASK::get_cpu_time_via_shmem(time_t now) {
         parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
         parse_double(msg_buf, "<working_set_size>", working_set_size);
 
-        recent_change += (fraction_done - last_frac_done);
-        if (last_frac_update==0) last_frac_update = now;
-        if ((now-last_frac_update)>0) {
-            x = exp(-(now-last_frac_update)*log(2.0)/20.0);
-            frac_rate_of_change *= x;
-            frac_rate_of_change += recent_change*(1-x);
-            last_frac_update = now;
-            recent_change = 0;
-            last_frac_done = fraction_done;
-        }
+		if (last_frac_update == 0) {
+			last_frac_update = now;
+			last_frac_done = fraction_done;
+			recent_change = 0;
+		} else {
+			recent_change += (fraction_done - last_frac_done);
+			if ((now-last_frac_update)>0) {
+				recent_change = max(0, recent_change);
+				if (frac_rate_of_change == 0) {
+					frac_rate_of_change = recent_change;
+				} else {
+					double x = exp(-(now-last_frac_update)*log(2.0)/20.0);
+					frac_rate_of_change = frac_rate_of_change*x + recent_change*(1-x);
+				}
+				last_frac_update = now;
+				last_frac_done = fraction_done;
+				recent_change = 0;
+			}
+		}
 
         return 0;
     }
@@ -1033,7 +1051,7 @@ void ACTIVE_TASK_SET::get_cpu_times() {
 // based on current reported CPU time and fraction done
 //
 double ACTIVE_TASK::est_time_to_completion() {
-    if (fraction_done <= 0 || fraction_done > 1) {
+    if (fraction_done <= 0 || fraction_done > 1 || frac_rate_of_change <= 0) {
         return -1;
     }
     return (1.0-fraction_done)/frac_rate_of_change;
