@@ -23724,3 +23724,7 @@ Rom    1 Feb 2005
         ViewWork.cpp
     lib/
         gui_rpc_client.C
+
+Rom    1 Feb 2005 (boinc)
+    - Tag for 4.63 release, all platforms
+      boinc_core_release_4_63
