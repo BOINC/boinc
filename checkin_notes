@@ -13893,3 +13893,7 @@ David  June 17 2004
 
     sched/
         sched_send.C
+
+Rom    June 16 2004
+    - Tag for 3.12 release, all platforms
+      boinc_core_release_3_12
