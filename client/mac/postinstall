@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Run BoincLaunch
+
+open ./BoincLaunch.app
+
+exit 0
