@@ -44,7 +44,7 @@
         if ($server_state[$ss] == 0) {
             $x = "0";
         } else {
-            $x = "<a href=db_action.php?table=result&received_time=$y&result_server_state=$ss&detail=low>".$server_state[$ss]."</a>";
+            $x = "<a href=db_action.php?table=result&received_time=$y&result_server_state=$ss&sortby=received_time&detail=low>".$server_state[$ss]."</a>";
         }
         row2(result_server_state_string($ss), $x);
     }
@@ -56,7 +56,7 @@
         if ($outcome[$ro] == 0) {
             $x = "0";
         } else {
-            $x = "<a href=db_action.php?table=result&received_time=$y&result_outcome=$ro&detail=low>".$outcome[$ro]."</a>";
+            $x = "<a href=db_action.php?table=result&received_time=$y&result_outcome=$ro&sortby=received_time&detail=low>".$outcome[$ro]."</a>";
         }
         row2(result_outcome_string($ro), $x);
     }
@@ -68,7 +68,7 @@
         if ($client_state[$cs] == 0) {
             $x = "0";
         } else {
-            $x = "<a href=db_action.php?table=result&received_time=$y&result_client_state=$cs&detail=low>".$client_state[$cs]."</a>";
+            $x = "<a href=db_action.php?table=result&received_time=$y&result_client_state=$cs&sortby=received_time&detail=low>".$client_state[$cs]."</a>";
         }
         row2(result_client_state_string($cs), $x);
     }

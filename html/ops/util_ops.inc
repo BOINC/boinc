@@ -64,7 +64,8 @@ function time_str($x) {
 }
 
 function start_table() {
-    echo "<table border=2 cellpadding=4 width=700>\n";
+    // echo "<table border=2 cellpadding=4 width=700>\n";
+    echo "<table border=2 cellpadding=4 width=100%>\n";
 }
 
 function end_table() {
