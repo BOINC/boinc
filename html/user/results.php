@@ -23,7 +23,7 @@
     if ($hostid) {
         $host = lookup_host($hostid);
         $type = "host";
-        $link = "<a href=show_host_detail.php?hostid=$hostid>host $hostid</a>";
+        $link = "<a href=\"show_host_detail.php?hostid=$hostid\">host $hostid</a>";
         $clause = "hostid=$hostid";
     } else {
         $user = get_logged_in_user();
@@ -52,7 +52,7 @@
     if ($number_of_results > $results_per_page) {
         $offset = $offset+$results_per_page;
         echo "
-            <br><center><a href=results.php?$clause&offset=$offset>Next $results_per_page results</a></center>
+            <br><center><a href=\"results.php?$clause&offset=$offset\">Next $results_per_page results</a></center>
         ";
     }
 
