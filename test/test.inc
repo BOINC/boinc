@@ -347,7 +347,7 @@ class Project {
 
         // write the server config file
         //
-        $f = fopen("$this->project_dir/cgi/config.xml", "w");
+        $f = fopen("$this->project_dir/cgi/.htconfig.xml", "w");
         fputs($f, "<config>\n");
         fputs($f, "<db_name>$this->db_name</db_name>\n");
         fputs($f, "<db_passwd>$this->db_passwd</db_passwd>\n");
@@ -384,13 +384,13 @@ class Project {
         // put a file with the database name and other info
         // in each HTML directory
         //
-        $f = fopen("$this->project_dir/html_user/config.xml", "w");
+        $f = fopen("$this->project_dir/html_user/.htconfig.xml", "w");
         fputs($f, "<db_name>$this->db_name</db_name>\n");
         fputs($f, "<db_passwd>$this->db_name</db_passwd>\n");
         fputs($f, "<download_url>$this->download_url</download_url>\n");
         fputs($f, "<cgi_url>$cgi_url</cgi_url>\n");
         fclose($f);
-        PassThru("cp $this->project_dir/html_user/config.xml $this->project_dir/html_ops");
+        PassThru("cp $this->project_dir/html_user/.htconfig.xml $this->project_dir/html_ops");
 
         // edit "index.php" in the user HTML directory to have
         // the right file as the source for scheduler_urls;

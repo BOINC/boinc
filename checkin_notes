@@ -3950,6 +3950,8 @@ David  Mar 24 2003
 David  Mar 25 2003
     - account creation is now turned off by putting
         "<disable_account_creation/>" in html_user/config.xml
+    - change name of config file to .htconfig.xml
+        (so can't read via HTTP)
 
     html_user/
         create_account*

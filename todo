@@ -11,6 +11,13 @@ BUGS (arranged from high to low priority)
 HIGH-PRIORITY (should do for beta test)
 -----------------------
 
+Delete files if needed to honor disk usage constraint
+    should include per-result constraints (e.g. giant stderr files)
+    inform user if files deleted
+
+- "Connect Now" command should apply to a particular project,
+    and should override the backoff on that project
+
 - Implement Screensaver "blank screen" functionality
 
 implement server watchdogs
@@ -20,6 +27,8 @@ est_time_to_completion doesn't work for non-running tasks
 -----------------------
 THINGS TO TEST (preferably with test scripts)
 -----------------------
+Limit frequency of disk writes
+    make sure it actually works
 - Test suspend/resume functionality on Windows/UNIX
 - verify that if file xfer is interrupted, it resumes at right place
 - result reissue
@@ -28,16 +37,15 @@ THINGS TO TEST (preferably with test scripts)
 - credit is granted even if result arrives very late
 - multiple preference sets
 - shared memory and CPU time measurement, with and without the BOINC API
-- HD write frequency
 - timezone on all platforms
 
 -----------------------
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
-global prefs:
-    hours to compute
-    hours to transfer
+write docs for project management
+    how to start/stop server complex
+    what needs to be backed up and how
 
 account creation: show privacy/usage policies
 
@@ -68,17 +76,11 @@ Testing framework
     better mechanisms to simulate large load
     do client/server on separate hosts?
 
-Delete files if needed to honor disk usage constraint
-    inform user if this happens
-
 Global preferences
-    implement disk usage prefs
-    time-of-day prefs?
     test propagation mechanism
         set up multi-project, multi-host test;
         change global prefs at one web site,
         make sure they propagate to all hosts
-    limit on frequency of disk writes?
 
 Per-project preferences
     test project-specific prefs
@@ -225,5 +227,3 @@ Other user preferences:
     memory restrictions
     process priority/affinity
     show disk usage as two pie charts (one for overall, one for per project)
-    disk write frequency
-
