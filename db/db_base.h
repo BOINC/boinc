@@ -89,6 +89,7 @@ public:
     int enumerate(char* clause="", bool use_use_result=false);
     int end_enumerate();
     int count(int&, char* clause="");
+    int max_id(int&, char* clause="");
     int sum(double&, char* field, char* clause="");
     int get_double(char* query, double&);
     int get_integer(char* query, int&);

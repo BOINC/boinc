@@ -22471,3 +22471,28 @@ David  10 Jan 2005
     client/
         client_types.h
         cs_scheduler.C
+
+David  10 Jan 2005
+    - locality scheduling changes:
+        Changed the algorithms a bit to avoid lots of DB queries
+        Invariant: for a given file/user pair,
+            results are sent in order of increasing ID
+        send_results_for_file():
+            1) of results for this file sent to this user,
+                find the one R with largest ID
+            2) find unsent result R2 for this file with next ID greater than R,
+                and (if one result per use per WU) different workunitid
+            3) if need more results, set R = R2 and go to 2)
+        send_new_file_work():
+            min_id = 0
+            while need more work
+                find unsent result R with id>min_id of least ID
+                min_id = R.id
+            (Note: this is necessary to preserve the invariant)
+        Changed make_more_work_for_file() to return zero for success
+            (BOINC convention)
+
+    db/
+        db_base.C,h
+    sched/
+        sched_locality.C

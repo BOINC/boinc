@@ -281,6 +281,12 @@ int DB_BASE::count(int& n, char* clause) {
     return get_integer(query, n);
 }
 
+int DB_BASE::max_id(int& n, char* clause) {
+    char query[MAX_QUERY_LEN];
+    sprintf(query, "select max(id) from %s %s", table_name, clause);
+    return get_integer(query, n);
+}
+
 int DB_BASE::sum(double& x, char* field, char* clause) {
     char query[MAX_QUERY_LEN];
 
