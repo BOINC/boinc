@@ -608,7 +608,7 @@ char* windows_format_error_string( unsigned long dwError, char* pszBuf, int iSiz
     else
     {
         lpszTemp[lstrlen(lpszTemp)-2] = TEXT('\0');  //remove cr and newline character
-        sprintf( pszBuf, TEXT("%s (0x%x)"), lpszTemp, GetLastError() );
+        sprintf( pszBuf, TEXT("%s (0x%x)"), lpszTemp, dwError );
     }
 
     if ( lpszTemp )
