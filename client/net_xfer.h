@@ -39,8 +39,6 @@ class NET_XFER {
     char hostname[256];
         // The host we're connecting to (possibly a proxy)
 public:
-    int net_xfer_state;
-            // client-defined; better to define state in parent class
     int socket;
     bool is_connected;
     bool want_download;     // at most one should be true

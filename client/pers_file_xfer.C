@@ -205,10 +205,14 @@ bool PERS_FILE_XFER::poll(time_t now) {
                     fip->project, MSG_INFO, "Finished %s of %s",
                     is_upload?"upload":"download", fip->name
                 );
-                msg_printf(
-                    fip->project, MSG_INFO, "Approximate throughput %f bytes/sec",
-                    fxp->xfer_speed
-                );
+                if (fxp->xfer_speed < 0) {
+                    msg_printf(fip->project, MSG_INFO, "No data transferred");
+                } else {
+                    msg_printf(
+                        fip->project, MSG_INFO, "Approximate throughput %f bytes/sec",
+                        fxp->xfer_speed
+                    );
+                }
             }
             xfer_done = true;
         } else if (fxp->file_xfer_retval == ERR_UPLOAD_PERMANENT) {

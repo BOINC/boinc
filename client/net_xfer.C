@@ -269,6 +269,7 @@ void NET_XFER::init(char* host, int p, int b) {
     file_read_buf_offset = 0;
     file_read_buf_len = 0;
     bytes_xferred = 0;
+    xfer_speed = -1;
 }
 
 char* NET_XFER::get_hostname() {

@@ -12598,3 +12598,16 @@ David  May 24 2004
         file_names.C
     lib/
         filesys.C,h
+
+David  May 24 2004
+	- client: initialize NET_XFER::xfer_speed to -1,
+		and when we print it out check for this value
+		and print "no bytes transferred"
+		(this happens e.g. if upload a file that's
+		already been uploaded)
+	- removed NET_XFER::net_xfer_state (not used)
+
+	client/
+		net_xfer.C,h
+		pers_file_xfer.h
+
