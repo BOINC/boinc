@@ -126,7 +126,10 @@ void SetMode(int mode) {
 	// Do not do AdjustWindowRectEx here, this will
 	// cause the window to creep upwards
 
-	hWnd = CreateWindowEx(dwExStyle, "BOINC_OpenGL", "BOINC Graphics",
+    APP_INIT_DATA aid;
+    boinc_get_init_data(aid);
+    if (!strlen(aid.app_name)) strcpy(aid.app_name, "BOINC Application");
+	hWnd = CreateWindowEx(dwExStyle, "BOINC_OpenGL", aid.app_name,
 		dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect.left, WindowRect.top,
 		WindowRect.right-WindowRect.left,WindowRect.bottom-WindowRect.top,
 		NULL, NULL, hInstance, NULL);

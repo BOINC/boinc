@@ -163,6 +163,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
     memset(&aid, 0, sizeof(aid));
 
+    safe_strcpy(aid.app_name, wup->app->name);
     safe_strcpy(aid.user_name, wup->project->user_name);
     safe_strcpy(aid.team_name, wup->project->team_name);
     if (wup->project->project_specific_prefs) {
@@ -272,7 +273,7 @@ int ACTIVE_TASK::start(bool first_time) {
             }
         } else {
             sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
-            retval = write_fd_init_file(f, buf, file_ref.fd, 1);
+            retval = write_fd_init_file(f, buf, file_ref.fd, true);
             if (retval) return retval;
         }
     }
@@ -296,7 +297,7 @@ int ACTIVE_TASK::start(bool first_time) {
             }
         } else {
             sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
-            retval = write_fd_init_file(f, buf, file_ref.fd, 0);
+            retval = write_fd_init_file(f, buf, file_ref.fd, false);
             if (retval) return retval;
         }
     }

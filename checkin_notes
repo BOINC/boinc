@@ -6378,4 +6378,15 @@ Eric K	9/24/03
       lib/Makefile.am
       configure.ac
 
-
+David  Sept 27 2003
+    - add app_name to APP_INIT_DATA structure
+        (so that an app can know its own name,
+        and in particular so that we can use it to title its window)
+    
+    api/
+        boinc_api.h
+        windows_opengl.C
+    client/
+        app.C
+    lib/
+        app_ipc.C,h

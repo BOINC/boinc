@@ -86,8 +86,7 @@ bool using_opengl = false;
 bool standalone = false;
 APP_CLIENT_SHM *app_client_shm;
 
-bool boinc_is_standalone()
-{
+bool boinc_is_standalone() {
     return standalone;
 }
 
@@ -299,10 +298,10 @@ bool boinc_time_to_checkpoint() {
     eventState = WaitForSingleObject(hQuitRequest, 0L);
 
     switch (eventState) {
-        case WAIT_OBJECT_0:
-        case WAIT_ABANDONED:
-            time_to_quit = true;
-            break;
+    case WAIT_OBJECT_0:
+    case WAIT_ABANDONED:
+        time_to_quit = true;
+        break;
     }
 #endif
 
@@ -379,7 +378,7 @@ int boinc_cpu_time(double &cpu_t, double &ws_t) {
     int retval, pid = getpid();
     struct rusage ru;
     retval = getrusage(RUSAGE_SELF, &ru);
-    if(retval) {
+    if (retval) {
         fprintf(stderr, "error: could not get cpu time for %d\n", pid);
     	return ERR_GETRUSAGE;
 	}

@@ -1,6 +1,6 @@
 <? // -*-html -*-
 require_once("docutil.php");
-page_head("Creating a BOINC project");
+page_head("Creating BOINC projects");
 ?>
 
 <font size=+1><b>

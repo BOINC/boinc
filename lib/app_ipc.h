@@ -53,12 +53,12 @@ class APP_CLIENT_SHM {
 public:
     char *shm;
 
-    bool pending_msg(int);    // returns true a message is waiting
+    bool pending_msg(int);    // returns true if a message is waiting
                               // in the specified segment
-    bool get_msg(char *,int);  // returns the message from the specified
-                              // segment and resets the message flag
-    bool send_msg(char *,int); // if there is not already a message in the segment,
-                              // writes specified message and sets message flag
+    bool get_msg(char*, int); // returns the message from the specified
+                              // segment and clears pending flag
+    bool send_msg(char*, int); // if there is not a message in the segment,
+                              // writes specified message and sets pending flag
     bool send_graphics_mode_msg(int seg, int mode);
     bool get_graphics_mode_msg(int seg, int& mode);
     void reset_msgs();        // resets all messages and clears their flags
@@ -68,6 +68,7 @@ public:
 // parsed version of main init file
 //
 struct APP_INIT_DATA {
+    char app_name[256];
     char app_preferences[4096];
     char user_name[256];
     char team_name[256];
@@ -81,7 +82,7 @@ struct APP_INIT_DATA {
     //
     double checkpoint_period;     // recommended checkpoint period
     int shm_key;
-    char comm_obj_name[256];  // name to identify shared memory segments, signals, etc
+    char comm_obj_name[256];  // identifies shared memory segments, signals, etc
     double wu_cpu_time;       // cpu time from previous sessions
     double fraction_done_update_period;
 };
@@ -96,7 +97,7 @@ typedef struct GRAPHICS_INFO GRAPHICS_INFO;
 
 int write_init_data_file(FILE* f, APP_INIT_DATA&);
 int parse_init_data_file(FILE* f, APP_INIT_DATA&);
-int write_fd_init_file(FILE*, char*, int, int);
+int write_fd_init_file(FILE*, char*, int, bool);
 int parse_fd_init_file(FILE*);
 int write_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);

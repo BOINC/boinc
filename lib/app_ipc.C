@@ -34,6 +34,9 @@ char* xml_graphics_modes[5] = {
 };
 
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
+    if (strlen(ai.app_name)) {
+        fprintf(f, "<app_name>%s</app_name>\n", ai.app_name);
+    }
     if (strlen(ai.app_preferences)) {
         fprintf(f, "<app_preferences>\n%s</app_preferences>\n", ai.app_preferences);
     }
@@ -79,6 +82,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
             }
             continue;
         }
+        else if (parse_str(buf, "<app_name>", ai.app_name, sizeof(ai.app_name))) continue;
         else if (parse_str(buf, "<user_name>", ai.user_name, sizeof(ai.user_name))) continue;
         else if (parse_str(buf, "<team_name>", ai.team_name, sizeof(ai.team_name))) continue;
         else if (parse_str(buf, "<comm_obj_name>", ai.comm_obj_name, sizeof(ai.comm_obj_name))) continue;
@@ -97,7 +101,8 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
 
 // TODO: this should handle arbitrarily many fd/filename pairs.
 // Also, give the tags better names
-int write_fd_init_file(FILE* f, char *file_name, int fdesc, int input_file ) {
+//
+int write_fd_init_file(FILE* f, char *file_name, int fdesc, bool input_file) {
     if (input_file) {
         fprintf(f, "<fdesc_dup_infile>%s</fdesc_dup_infile>\n", file_name);
         fprintf(f, "<fdesc_dup_innum>%d</fdesc_dup_innum>\n", fdesc);
