@@ -1392,7 +1392,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             printf(
                 "Usage: %s [options]\n"
                 "    -version                show version info\n"
-                "    -add_new_project        add project (will prompt for URL, account key)\n"
+                "    -attach_project         attach to a project (will prompt for URL, account key)\n"
                 "    -update_prefs           contact all projects to update preferences\n"
                 "    -run_cpu_benchmarks     run the CPU benchmarks\n",
                 argv[0]
