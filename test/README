@@ -11,12 +11,12 @@ PREREQUISITES
    on localhost but that could be changed.
 2. Python 2.2, Python module MySQLdb
 3. Perl
-4. PHP
 
 COREQUISITES
 ------------
-1. Webserver.  Normally boinc.py will use the included miniserv.pl but any
-   webserver could be used if configured. See below.
+1. Webserver.  Normally boinc.py will use an included custom webserver
+   cgiserver.py, but any webserver could be used if configured. See below.
+2. PHP.  Used if found, otherwise uses fake_php.py
 
 OTHER RECOMMENDED TOOLS
 -----------------------
@@ -53,9 +53,9 @@ BOINC_TEST_VERBOSE
         2            print all
 
 BOINC_TEST_DELETE
-    Specifies whether or not to delete testbed after the test finishes. Case
-    doesn't matter.  Only relevant when BOINC_TEST_AUTO_SETUP=0.  Possible
-    values:
+    Specifies whether or not to delete testbed after the test finishes.  Only
+    relevant when BOINC_TEST_AUTO_SETUP=0.  Possible values (case doesn't
+    matter):
         No
         If-Successful   [default]
         Always
@@ -76,9 +76,10 @@ BOINC_TEST_INSTALL_METHOD
 
 WEB SERVER
 ----------
-By default, the test script will use the "miniserv" program to set up a web
-server testing environment.  You can also use Apache or some other webserver
-with manually set-up directories by setting these environment variables:
+By default, the test script will use a custom web server that has no security
+and minimal cgi/php capability.  You can also use Apache or some other
+web server with manually initialized directories by setting these environment
+variables:
 
 BOINC_TEST_AUTO_SETUP=0   [default=1]
 BOINC_TEST_KEY_DIR
@@ -88,3 +89,36 @@ BOINC_TEST_HTML_URL
 BOINC_TEST_CGI_DIR
 BOINC_TEST_HTML_DIR
 BOINC_TEST_HOSTS_DIR
+
+Example:
+
+Bourne shell:
+    
+    QHOME=/disks/philmor/a/users/quarl/proj
+    TOP=$QHOME/test-boinc
+    URL=http://milhouse.ssl.berkeley.edu/quarl
+    
+    export BOINC_TEST_PROJECTS_DIR=$TOP/projects
+    export BOINC_TEST_USER_NAME=quarl
+    export BOINC_TEST_SRC_DIR=$QHOME/boinc
+    export BOINC_TEST_CGI_DIR=$TOP/boinc_cgi
+    export BOINC_TEST_CGI_URL=$URL/boinc_cgi
+    export BOINC_TEST_HTML_DIR=$TOP/boinc_html
+    export BOINC_TEST_HTML_URL=$URL/boinc_html
+    export BOINC_TEST_SHMEM_KEY=0x1717f00f
+    export BOINC_TEST_KEY_DIR=$TOP/keys
+    export BOINC_TEST_HOSTS_DIR=$TOP/host
+
+Apache config:
+    
+    <Directory /disks/philmor/a/users/quarl/proj/test-boinc>
+            AllowOverride FileInfo AuthConfig Limit
+            Options Indexes SymLinksIfOwnerMatch IncludesNoExec ExecCGI
+        <Limit GET POST OPTIONS PROPFIND>
+            Order allow,deny
+            Allow from all
+        </Limit>
+    </Directory>
+    
+    ScriptAlias /quarl/boinc_cgi/ "/disks/philmor/a/users/quarl/proj/test-boinc/boinc_cgi/"
+    Alias /quarl/ "/disks/philmor/a/users/quarl/proj/test-boinc/"
