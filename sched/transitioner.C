@@ -48,21 +48,24 @@ SCHED_CONFIG config;
 R_RSA_PRIVATE_KEY key;
 
 void handle_wu(DB_WORKUNIT& wu) {
-    vector<RESULT> results;
-    DB_RESULT result;
-    DB_RESULT canonical_result;
+    vector<DB_RESULT> results;
+    DB_RESULT* p_canonical_result = NULL;
     int nerrors, retval, ninprogress, nsuccess;
     int nunsent, ncouldnt_send, nover;
     unsigned int i, n;
-    char buf[256], suffix[256], result_template[MAX_BLOB_SIZE];
+    char suffix[256], result_template[MAX_BLOB_SIZE];
     time_t now = time(0), x;
     bool all_over, have_result_to_validate, do_delete;
 
-    // scan the results for the WU
-    //
-    sprintf(buf, "where workunitid=%d", wu.id);
-    while (!result.enumerate(buf)) {
-        results.push_back(result);
+    {
+        char buf[256];
+        // scan the results for the WU
+        //
+        DB_RESULT result;
+        sprintf(buf, "where workunitid=%d", wu.id);
+        while (!result.enumerate(buf)) {
+            results.push_back(result);
+        }
     }
 
     log_messages.printf(
@@ -81,7 +84,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     ncouldnt_send = 0;
     have_result_to_validate = false;
     for (i=0; i<results.size(); i++) {
-        result = results[i];
+        DB_RESULT& result = results[i];
 
         switch (result.server_state) {
         case RESULT_SERVER_STATE_UNSENT:
@@ -164,7 +167,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     //
     if (wu.error_mask) {
         for (i=0; i<results.size(); i++) {
-            result = results[i];
+            DB_RESULT& result = results[i];
             if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
                 result.server_state = RESULT_SERVER_STATE_OVER;
                 result.outcome = RESULT_OUTCOME_DIDNT_NEED;
@@ -202,17 +205,16 @@ void handle_wu(DB_WORKUNIT& wu) {
     // scan results, see if all over, look for canonical result
     //
     all_over = true;
-    canonical_result.id = 0;
     for (i=0; i<results.size(); i++) {
-        result = results[i];
+        DB_RESULT& result = results[i];
         if (result.server_state != RESULT_SERVER_STATE_OVER) {
             all_over = false;
         }
         if (result.id == wu.canonical_resultid) {
-            canonical_result = result;
+            p_canonical_result = &result;
         }
     }
-    if (wu.canonical_resultid && canonical_result.id == 0) {
+    if (wu.canonical_resultid && p_canonical_result == 0) {
         log_messages.printf(
             SchedMessages::CRITICAL,
             "[WU#%d %s] can't find canonical result\n",
@@ -246,11 +248,11 @@ void handle_wu(DB_WORKUNIT& wu) {
         // output of success results can be deleted if validated
         //
         for (i=0; i<results.size(); i++) {
-            result = results[i];
+            DB_RESULT& result = results[i];
             // can delete canonical result outputs only if all successful
             // results have been validated
-            if (result.id == canonical_result.id && !all_over) continue;
-            
+            if (&result == p_canonical_result && !all_over) continue;
+
             do_delete = false;
             switch(result.outcome) {
             case RESULT_OUTCOME_CLIENT_ERROR:
@@ -269,7 +271,7 @@ void handle_wu(DB_WORKUNIT& wu) {
 
     wu.transition_time = MAXINT;
     for (i=0; i<results.size(); i++) {
-        result = results[i];
+        DB_RESULT& result = results[i];
         if (result.server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
             x = result.sent_time + wu.delay_bound;
             if (x < wu.transition_time) {

@@ -6251,6 +6251,8 @@ Karl 2003/09/07
 
 Karl 2003/09/10
     - fixed transitioner bug where canonical result output files got deleted.
+    - changed all forms of "DB_RESULT result = results[I]" to "DB_RESULTS&
+      result = results[I]"
 
     Sched/
         transitioner.C
