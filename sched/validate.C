@@ -312,7 +312,7 @@ bool do_validate_scan(APP& app) {
     char buf[256];
     bool found=false;
 
-    sprintf(buf, "where appid=%d and need_validate<>0", app.id);
+    sprintf(buf, "where appid=%d and need_validate > 0", app.id);
     while (!wu.enumerate(buf)) {
         handle_wu(wu);
         found = true;
