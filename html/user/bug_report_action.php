@@ -15,7 +15,7 @@ if ($user == NULL) {
 parse_str(getenv("QUERY_STRING"));
 
 $f = fopen("bug_reports.xml", "a");
-$x = sprintf("<bug
+$x = sprintf("<bug>
     <userid>$user->id</userid>
     <platform>%s</platform>
     <problem>
