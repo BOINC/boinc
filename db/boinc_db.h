@@ -442,7 +442,7 @@ struct TRANSITIONER_ITEM {
     int  file_delete_state;
     int  assimilate_state;
     int  target_nresults;
-    char result_template_file[256];
+    char result_template_file[64];
     int  res_id;
     char res_name[256];
     int  res_report_deadline;
