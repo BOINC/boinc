@@ -1,0 +1,9 @@
+/* Major part of version number */
+#undef MAJOR_VERSION
+
+/* Minor part of version number */
+#undef MINOR_VERSION
+
+/* Version number of package */
+#undef VERSION
+
