@@ -4,7 +4,7 @@ require_once("db_ops.inc");
 require_once("util_ops.inc");
 
 $cgi_url = parse_config("<cgi_url>");
-$stripchart_cgi_utl = parse_config("<stripchart_cgi_url>");
+$stripchart_cgi_url = parse_config("<stripchart_cgi_url>");
 
 db_init();
 
