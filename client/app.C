@@ -495,7 +495,8 @@ int ACTIVE_TASK::start(bool first_time) {
 //
 int ACTIVE_TASK::request_exit() {
 #ifdef _WIN32
-    return !SetEvent(quitRequestEvent);
+    //return !SetEvent(quitRequestEvent);
+    return !TerminateProcess(pid_handle, -1);
 #else
     return kill(pid, SIGQUIT);
 #endif

@@ -11371,3 +11371,18 @@ David  April 4 2004
     client/
         net_xfer.C,h
         pers_file_xfer.h
+
+David  April 4 2004
+	- ACTIVE_TASK::request_exit() (win): kill the process immediately,
+		instead of sending it a quit request event,
+		waiting a few seconds, then killing it.
+		Currently the quit request event is checked only in
+		boinc_time_to_checkpoint(),
+		which (at least, in SETI@home) isn't called very often.
+		So it always takes 5 seconds to exit the core client.
+
+	NOTE: when the new app management-thread stuff is done,
+	we can change this back
+
+	client/
+		app.C
