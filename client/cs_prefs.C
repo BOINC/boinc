@@ -94,6 +94,21 @@ int CLIENT_STATE::total_disk_usage(double& size) {
     return dir_size(".", size);
 }
 
+int CLIENT_STATE::allowed_project_disk_usage(double& size) {
+    double other_disk_used;
+    double total_disk_available;
+    double project_disk_used;
+    total_disk_usage(other_disk_used);
+    allowed_disk_usage(total_disk_available);
+    for(unsigned int i=0; i<projects.size(); i++) {
+        project_disk_usage(projects[i], project_disk_used);
+        other_disk_used -= project_disk_used;
+    }
+    size = total_disk_available - other_disk_used;
+    return 0;
+}
+
+
 // returns true if start_hour == end_hour or start_hour <= now < end_hour
 //
 inline bool now_between_two_hours(int start_hour, int end_hour) {
@@ -170,6 +185,9 @@ int CLIENT_STATE::suspend_activities(int reason) {
     }
     if (reason & SUSPEND_REASON_BENCHMARKS) {
         s_reason += " - running CPU benchmarks";
+    }
+    if (reason & SUSPEND_REASON_DISK_SIZE) {
+        s_reason += " - projects have grown too large, increase BOINC disk space prefs";
     }
     msg_printf(NULL, MSG_INFO, const_cast<char*>(s_reason.c_str()));
     active_tasks.suspend_all();
