@@ -20,6 +20,7 @@ CPU time=Temps CPU
 Progress=Progression
 To Completion=Temps restant
 Status=Etat
+Report Deadline=Date limite de renvoi
 
 #XFER_ID
 [HEADER-Transfers]
@@ -43,12 +44,12 @@ Message=Message
 
 #USAGE_ID
 [HEADER-Disk]
-Title=Utilisation disque
-Free space: not available for use=Espace libre: non utilisable
-Free space: available for use=Espace libre: utilisable
-Used space: other than BOINC=Espace utilisé: autres que BOINC
-Used space: BOINC=Espace utilisé: par BOINC
+Title=Espace disque
+Free space=Espace libre
+Used space: non-BOINC=Espace utilisé par d'autres que BOINC
+Used space: BOINC=Espace utilisé par BOINC
 Used space:=Espace utilisé:
+BOINC Core Client=BOINC Programme principal
 
 #miscellaneous text
 [HEADER-MISC]
@@ -69,10 +70,9 @@ Download failed=Réception échouée
 #menu items
 [MENU-File]
 Title=Fichier
-Show Graphics=Montrer les graphiques
-Force run=Forcer l'utilisation
-Run based on preferences=Utiliser suivant les préférences
-Pause=Pause
+Run always=Fonctionner continuellement
+Run based on preferences=Fonctionner selon les préférences
+Suspend=Mettre en attente
 Run Benchmarks=Lancer le test de la machine
 Hide=Cacher
 Exit=Quitter
@@ -88,7 +88,11 @@ About...=A propos...
 
 [MENU-StatusIcon]
 Suspend=Mettre en attente
+Show=Afficher
+Hide=Cacher
 Resume=Reprendre
+Run Always=Fonctionner continuellement
+Run based on preferences=Fonctionner selon les préférences
 Exit=Quitter
 
 [MENU-Project]
