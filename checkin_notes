@@ -8311,3 +8311,9 @@ Gary	09 Dec 2003
     html_user/
         prefs.inc
 
+
+Karl 2003-12-09
+    - don't run the scheduler cgi if stop_server trigger exists.
+
+    sched/
+        main.C

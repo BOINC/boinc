@@ -83,6 +83,8 @@ int main() {
         exit(1);
     }
 
+    check_stop_trigger();
+
     sprintf(path, "%s/code_sign_public", config.key_dir);
     retval = read_file_malloc(path, code_sign_key);
     if (retval) {
