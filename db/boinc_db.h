@@ -136,7 +136,20 @@ struct USER {
     char global_prefs[MAX_BLOB_SIZE];
         // global preferences, within <global_preferences> tag
     char project_prefs[MAX_BLOB_SIZE];
-        // project preferences, within <project_preferences> tag
+        // project preferences; format:
+        // <project_preferences>
+        //    <resource_share>X</resource_share>
+        //    <project_specific>
+        //        ...
+        //    </project_specific>
+        //    <venue name="x">
+        //       <resource_share>x</resource_share>
+        //       <project_specific>
+        //           ...
+        //       </project_specific>
+        //    </venue>
+        //    ...
+        // </project_preferences>
     int teamid;                     // team ID if any
     char venue[256];                // home/work/school (default)
     char url[256];                  // user's web page if any
