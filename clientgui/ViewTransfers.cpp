@@ -135,6 +135,17 @@ char** CViewTransfers::GetViewIcon()
 }
 
 
+wxInt32 CViewTransfers::GetListRowCount()
+{
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    return pDoc->GetTransferCount();
+}
+
+
 wxString CViewTransfers::OnListGetItemText(long item, long column) const
 {
     wxString       strBuffer = wxEmptyString;

@@ -142,19 +142,26 @@ char** CViewMessages::GetViewIcon()
 }
 
 
+wxInt32 CViewMessages::GetListRowCount()
+{
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    return pDoc->GetMessageCount();
+}
+
+
 void CViewMessages::OnListRender(wxTimerEvent &event)
 {
     if (!m_bProcessingListRenderEvent)
     {
         m_bProcessingListRenderEvent = true;
 
-        CMainDocument*  pDoc = wxGetApp().GetDocument();
-
-        wxASSERT(NULL != pDoc);
-        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
         wxASSERT(NULL != m_pListPane);
 
-        wxInt32 iCount = pDoc->GetMessageCount();
+        wxInt32 iCount = _GetListRowCount();
         if ( iCount != m_iCount )
         {
             m_iCount = iCount;

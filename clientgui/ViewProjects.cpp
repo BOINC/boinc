@@ -186,6 +186,17 @@ char** CViewProjects::GetViewIcon()
 }
 
 
+wxInt32 CViewProjects::GetListRowCount()
+{
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    return pDoc->GetProjectCount();
+}
+
+
 wxString CViewProjects::OnListGetItemText(long item, long column) const 
 {
     wxString       strBuffer = wxEmptyString;

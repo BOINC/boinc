@@ -111,6 +111,18 @@ char** CBOINCBaseView::GetViewIcon()
 }
 
 
+wxInt32 CBOINCBaseView::_GetListRowCount()
+{
+    return GetListRowCount();
+}
+
+
+wxInt32 CBOINCBaseView::GetListRowCount()
+{
+    return 0;
+}
+
+
 void CBOINCBaseView::_OnTaskRender (wxTimerEvent& event)
 {
     OnTaskRender( event );
@@ -151,13 +163,9 @@ void CBOINCBaseView::OnListRender (wxTimerEvent& event)
     {
         m_bProcessingListRenderEvent = true;
 
-        CMainDocument*  pDoc = wxGetApp().GetDocument();
-
-        wxASSERT(NULL != pDoc);
-        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
         wxASSERT(NULL != m_pListPane);
 
-        wxInt32 iCount = pDoc->GetProjectCount();
+        wxInt32 iCount = _GetListRowCount();
         if ( iCount != m_iCount )
         {
             m_iCount = iCount;

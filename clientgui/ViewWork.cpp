@@ -147,6 +147,17 @@ char** CViewWork::GetViewIcon()
 }
 
 
+wxInt32 CViewWork::GetListRowCount()
+{
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    return pDoc->GetWorkCount();
+}
+
+
 wxString CViewWork::OnListGetItemText( long item, long column ) const
 {
     wxString       strBuffer = wxEmptyString;

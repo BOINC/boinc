@@ -43,6 +43,7 @@ public:
 
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
+    virtual wxInt32         GetListRowCount();
 
     virtual void            OnListRender( wxTimerEvent& event );
 
