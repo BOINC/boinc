@@ -180,7 +180,8 @@ TESTS = test_sanity.php				\
 # test_sticky.php
 EXTRA_DIST = \
         *.xml *.php *wu *result *output		\
-        *input *.inc *.py *.in
+        *input *.inc *.py *.in 			\
+	db_def_to_php db_def_to_py
 
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4

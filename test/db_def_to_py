@@ -11,6 +11,6 @@ system('date');
 
 while (<>) {
     if (/^\s*#define\s+([^\s]+)\s+([0-9]+)\s*$/) {
-        print qq/$1 = $2;\n/;
+        print qq/$1 = $2\n/;
     }
 }
