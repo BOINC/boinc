@@ -43,9 +43,7 @@
 #define EDGE_BUFFER			2			// buffer pixels around edge of client
 
 #define GUI_TIMER			104			// gui refresh
-#define APP_TIMER			105			// app check
 #define GUI_WAIT			1000		// timeout sleep time (in milliseconds)
-#define APP_WAIT			100			// timeout sleep time (in milliseconds)
 
 #define STATUS_ICON_ID		(WM_USER + 1)	// id for notifications from status icon
 
@@ -110,16 +108,8 @@ protected:
 	BOOL					m_bRequest;				// does the user have a net connection request?
 	int						m_nContextItem;			// item selected for context menu
 	UINT					m_nGuiTimerID;			// ID of current GUI timer	
-	UINT					m_nAppTimerID;			// ID of current app timer	
 	CSSWindow*				m_pSSWnd;				// default graphics window
-	UINT					m_nScreenSaverMsg;		// ID of screensaver message
 	UINT					m_nShowMsg;				// ID of show window request message
-	UINT					m_nSetMsg;
-	UINT					m_nGetMsg;
-
-	DWORD					m_dwAppId;
-	CRect					m_AppRect;
-	int						m_AppMode;
 
 	COLORREF				GetPieColor(int);
     void					ShowTab(int);
@@ -131,7 +121,6 @@ protected:
 	void					LoadLanguage();
 	DWORD					GetUserIdleTime();
 	void					Syncronize(CProgressListCtrl*, vector<void*>*);
-	void					CheckAppWnd();
     virtual void			PostNcDestroy();
 	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 

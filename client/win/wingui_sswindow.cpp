@@ -34,7 +34,7 @@ END_MESSAGE_MAP()
 // CSSWindow::CSSWindow
 // arguments:	void
 // returns:		void
-// function:	sets initial rect for window and refresh timer
+// function:	sets initial rect for window and other members
 CSSWindow::CSSWindow()
 {
 	int nX = rand() % 50;
@@ -43,6 +43,11 @@ CSSWindow::CSSWindow()
 	SetMode(MODE_NO_GRAPHICS, MODE_NO_GRAPHICS);
 
 	m_hBOINCIcon = LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_ICON));
+	m_uScreenSaverMsg = RegisterWindowMessage(START_SS_MSG);
+	m_uSetMsg = RegisterWindowMessage(APP_SET_MSG);
+	m_uGetMsg = RegisterWindowMessage(APP_GET_MSG);
+	m_dwAppId = 0;
+	m_uStartTime = 0;
 }
 
 // CMainWindow::SetMode
@@ -58,7 +63,7 @@ void CSSWindow::SetMode(int nMode, int nPrev)
 	m_nMode = nMode;
 
 	if(GetSafeHwnd()) {
-		if((m_nPrevMode != MODE_FULLSCREEN) && (m_nPrevMode != MODE_BLANK_SCREEN))
+		if(m_nPrevMode != MODE_FULLSCREEN)
 			GetWindowRect(&m_Rect);
 		DestroyWindow();
 	}
@@ -67,7 +72,7 @@ void CSSWindow::SetMode(int nMode, int nPrev)
 	DWORD dwExStyle;
 	DWORD dwStyle;
 
-	if (nMode == MODE_FULLSCREEN || nMode == MODE_BLANK_SCREEN) {
+	if (nMode == MODE_FULLSCREEN) {
 		HDC screenDC=::GetDC(NULL);
 		WindowRect.left = WindowRect.top = 0;
 		WindowRect.right=GetDeviceCaps(screenDC, HORZRES);
@@ -77,6 +82,7 @@ void CSSWindow::SetMode(int nMode, int nPrev)
 		dwStyle=WS_POPUP;
 		while(ShowCursor(false) >= 0);
 	} else {
+		m_uStartTime = 0;
 		if(m_Rect.IsRectEmpty()) m_Rect.SetRect(CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT);
 		WindowRect = m_Rect;
 		dwExStyle=WS_EX_APPWINDOW|WS_EX_WINDOWEDGE;
@@ -88,9 +94,9 @@ void CSSWindow::SetMode(int nMode, int nPrev)
 		dwStyle|WS_CLIPSIBLINGS|WS_CLIPCHILDREN, WindowRect,
 		NULL, 0, NULL);
 
-	if(nMode == MODE_FULLSCREEN || nMode == MODE_WINDOW || nMode == MODE_BLANK_SCREEN) {
+	if(nMode == MODE_FULLSCREEN || nMode == MODE_WINDOW) {
 		ShowWindow(SW_SHOW);
-		if(nMode == MODE_FULLSCREEN || nMode == MODE_BLANK_SCREEN) SetForegroundWindow();
+		if(nMode == MODE_FULLSCREEN) SetForegroundWindow();
 	} else {
 		ShowWindow(SW_HIDE);
 	}
@@ -115,18 +121,69 @@ int CSSWindow::GetPrevMode()
 	return m_nPrevMode;
 }
 
-void CSSWindow::PaintDefault()
+//////////
+// CSSWindow::CheckAppWnd
+// arguments:	void
+// returns:		void
+// function:	polls application windows to see if the currently shown
+//				window needs to be switched, or if an app has closed
+void CSSWindow::CheckAppWnd()
 {
-	PAINTSTRUCT ps;
-	CDC* pdc;
-	RECT winRect;
-	CBrush cb;
-	cb.CreateSolidBrush(RGB(0,0,0));
+	CWnd* pAppWnd;
 
-	pdc = BeginPaint(&ps);
-	GetClientRect(&winRect);
-	pdc->FillRect(&winRect, &cb);
-	EndPaint(&ps);
+	if (m_dwAppId == 0) {
+		if(BlankScreen()) return;
+		if(gstate.active_tasks.active_tasks.size() == 0) return;
+		m_dwAppId = gstate.active_tasks.active_tasks[0]->pid;
+		pAppWnd = GetWndFromProcId(m_dwAppId);
+		if(pAppWnd) {
+			int mode = SendMessage(m_uGetMsg, 0, 0);
+			pAppWnd->PostMessage(m_uSetMsg, LOWORD(mode), HIWORD(mode));
+			SendMessage(m_uSetMsg, MODE_NO_GRAPHICS, MODE_DEFAULT);
+		} else {
+			m_dwAppId = 0;
+		}
+	} else {
+		if(BlankScreen()) {
+			pAppWnd = GetWndFromProcId(m_dwAppId);
+			if(pAppWnd && IsWindow(pAppWnd->m_hWnd)) {
+				pAppWnd->PostMessage(m_uSetMsg, MODE_NO_GRAPHICS, MODE_NO_GRAPHICS);
+			}
+			m_dwAppId = 0;
+			SendMessage(m_uSetMsg, MODE_FULLSCREEN, MODE_DEFAULT);
+		} else {
+			pAppWnd = GetWndFromProcId(m_dwAppId);
+			if(!pAppWnd || !IsWindow(pAppWnd->m_hWnd)) {
+				m_dwAppId = 0;
+				if(gstate.active_tasks.active_tasks.size() > 0) {
+					m_dwAppId = gstate.active_tasks.active_tasks[0]->pid;
+				}
+				pAppWnd = GetWndFromProcId(m_dwAppId);
+				if(!pAppWnd || !IsWindow(pAppWnd->m_hWnd)) {
+					m_dwAppId = 0;
+					pAppWnd = this;
+				}
+				pAppWnd->PostMessage(m_uSetMsg, LOWORD(m_AppMode), HIWORD(m_AppMode));
+			}
+		}
+		return;
+	}
+}
+
+//////////
+// CSSWindow::ShowGraphics
+// arguments:	void
+// returns:		void
+// function:	brings up the current app's graphics window by
+//				broadcasting a message
+void CSSWindow::ShowGraphics()
+{
+	CWnd* pAppWnd = GetWndFromProcId(m_dwAppId);
+	if(pAppWnd) {
+		pAppWnd->SendMessage(m_uSetMsg, MODE_WINDOW, MODE_DEFAULT);
+		return;
+	}
+	SetMode(MODE_WINDOW, MODE_DEFAULT);
 }
 
 // CMainWindow::DefWindowProc
@@ -144,11 +201,11 @@ LRESULT CSSWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		case WM_LBUTTONDOWN:
 		case WM_MBUTTONDOWN:
 		case WM_RBUTTONDOWN:
-			if(m_nMode == MODE_FULLSCREEN || m_nMode == MODE_BLANK_SCREEN)
+			if(m_nMode == MODE_FULLSCREEN)
 				SetMode(m_nPrevMode, MODE_DEFAULT);
 			return 0;
 		case WM_MOUSEMOVE:
-			if(m_nMode == MODE_FULLSCREEN || m_nMode == MODE_BLANK_SCREEN) {
+			if(m_nMode == MODE_FULLSCREEN) {
 				GetCursorPos(&mousePos);
 				if(mousePos != m_MousePos) SetMode(m_nPrevMode, MODE_DEFAULT);
 			}
@@ -158,10 +215,23 @@ LRESULT CSSWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 	if(m_uSetMsg == message) {
 		SetMode(wParam, lParam);
 		return 0;
-	}
-
-	if(m_uGetMsg == message) {
+	} else if(m_uGetMsg == message) {
 		return MAKELONG(GetMode(), GetPrevMode());
+	} else if(m_uScreenSaverMsg == message) {
+		m_uStartTime = time(0);
+		CWnd* pAppWnd = GetWndFromProcId(m_dwAppId);
+		if(pAppWnd) {
+			pAppWnd->SendMessage(m_uSetMsg, MODE_FULLSCREEN, MODE_DEFAULT);
+			return 0;
+		}
+		SetMode(MODE_FULLSCREEN, MODE_DEFAULT);
+		return 0;
+	} else if(message == RegisterWindowMessage("BOINC_APP_MODE")) {
+		if(lParam == m_dwAppId) {
+			m_AppMode = wParam;
+			if(m_AppMode != MODE_FULLSCREEN) m_uStartTime = 0;
+		}
+		return 0;
 	}
 
 	return CWnd::DefWindowProc(message, wParam, lParam);
@@ -187,19 +257,17 @@ int CSSWindow::OnCreate(LPCREATESTRUCT lpcs)
     if (CWnd::OnCreate(lpcs) == -1) {
 		return -1;
 	}
-	m_uSetMsg = RegisterWindowMessage("BOINC_APP_SET");
-	m_uGetMsg = RegisterWindowMessage("BOINC_APP_GET");
 
 	GetCursorPos(&m_MousePos);
-	SetTimer(1, 100, NULL);
+	m_uPaintTimerID = SetTimer(PAINT_TIMER, PAINT_WAIT, (TIMERPROC) NULL);
+	m_uAppTimerID = SetTimer(APP_TIMER, APP_WAIT, (TIMERPROC) NULL);
 
 	m_nPosX = m_nPosY = 0;
 	m_nDX = m_nDY = 5;
 
 	UtilGetRegKey("Blank", m_bBlankScreen);
 	UtilGetRegKey("Blank Time", m_uBlankTime);
-	m_uBlankTime *= 10;
-	m_uBlankTime += time(0);
+	m_uBlankTime *= 60;
 
     return 0;
 }
@@ -211,7 +279,8 @@ int CSSWindow::OnCreate(LPCREATESTRUCT lpcs)
 // function:	kills timer
 void CSSWindow::OnDestroy()
 {
-	KillTimer(1);
+	KillTimer(m_uPaintTimerID);
+	KillTimer(m_uAppTimerID);
 }
 
 //////////
@@ -231,7 +300,7 @@ void CSSWindow::OnPaint()
 	GetClientRect(&winRect);
 	pdc->FillRect(&winRect, &cb);
 
-	if (m_nMode == MODE_FULLSCREEN || m_nMode == MODE_WINDOW) {
+	if ((m_nMode == MODE_FULLSCREEN || m_nMode == MODE_WINDOW) && !BlankScreen()) {
 		pdc->DrawIcon(m_nPosX, m_nPosY, m_hBOINCIcon);
 		m_nPosX += m_nDX;
 		m_nPosY += m_nDY;
@@ -254,18 +323,22 @@ void CSSWindow::OnPaint()
 bool CSSWindow::BlankScreen()
 {
 	return	(m_bBlankScreen) &&
-			(m_nMode == MODE_FULLSCREEN) &&
-			(time(0) >= m_uBlankTime);
+			(m_uStartTime != 0) &&
+			(time(0) >= m_uBlankTime + m_uStartTime);
 }
 
 //////////
 // CSSWindow::OnTimer
-// arguments:	null
+// arguments:	uEventID: id of timer signaling event
 // returns:		null
 // function:	redraw the window if needed
-void CSSWindow::OnTimer()
+void CSSWindow::OnTimer(UINT uEventID)
 {
-	if (m_nMode == MODE_FULLSCREEN || m_nMode == MODE_WINDOW) {
+	if(uEventID == m_uAppTimerID) {
+		CheckAppWnd();
+	}
+
+	if(uEventID == m_uPaintTimerID) {
 		Invalidate();
 		OnPaint();
 	}

@@ -26,6 +26,13 @@
 #include <gl\gl.h>			// Header File For The OpenGL32 Library
 #include <gl\glu.h>			// Header File For The GLu32 Library
 
+// constants
+
+#define APP_TIMER			104			// app check
+#define APP_WAIT			100			// timeout sleep time (in milliseconds)
+#define PAINT_TIMER			105			// paint timer
+#define PAINT_WAIT			100			// timeout sleep time (in milliseconds)
+
 //////////
 // class:		CSSWindow
 // parent:		CWnd
@@ -37,34 +44,40 @@ public:
 	void					SetMode(int, int);
 	int						GetMode();
 	int						GetPrevMode();
+	void					CheckAppWnd();
 	bool					BlankScreen();
+	void					ShowGraphics();
 
 private:
 	int						m_nMode;
 	int						m_nPrevMode;
 	CPoint					m_MousePos;
 	CRect					m_Rect;
-	UINT					m_uSetMsg;
-	UINT					m_uGetMsg;
 	unsigned long			m_bBlankScreen;
 	unsigned long			m_uBlankTime;
+	unsigned long			m_uStartTime;
+
+	UINT					m_uAppTimerID;			// ID of current app timer	
+	UINT					m_uPaintTimerID;			// ID of current app timer	
+	UINT					m_uScreenSaverMsg;		// ID of screensaver message
+	UINT					m_uSetMsg;
+	UINT					m_uGetMsg;
+
+	DWORD					m_dwAppId;
+	CRect					m_AppRect;
+	int						m_AppMode;
 
 	HICON					m_hBOINCIcon;
 	int						m_nPosX, m_nPosY;
 	int						m_nDX, m_nDY;
 
-	HDC hdc;
-	HGLRC hrc;
-
-
-	void					PaintDefault();
 	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
     afx_msg int				OnCreate(LPCREATESTRUCT);
     afx_msg void			OnDestroy();
     afx_msg void			OnClose();
     afx_msg void			OnPaint();
-    afx_msg void			OnTimer();
+    afx_msg void			OnTimer(UINT);
 
     DECLARE_MESSAGE_MAP()
 };
