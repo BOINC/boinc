@@ -20,20 +20,12 @@
 // Code that's in the BOINC app library (but NOT in the core client)
 // graphics-related code goes in graphics_api.C, not here
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-
 #ifdef _WIN32
-#include <io.h>
-#include <sys/stat.h>
 #include <windows.h>
-#include <winuser.h>
-#include <mmsystem.h>    // for timing
 #include "win/Stackwalker.h"
 #endif
 
-#if HAVE_UNISTD_H
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 #ifdef HAVE_SYS_TIME_H
@@ -41,6 +33,10 @@
 #include <sys/resource.h>
 #endif
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
 #include <signal.h>
 #include <fcntl.h>
 #include <sys/types.h>
@@ -51,37 +47,486 @@
 #include "filesys.h"
 #include "error_numbers.h"
 #include "app_ipc.h"
-
 #include "boinc_api.h"
 
+
+//
+// Declare global variables
+//
+static	APP_INIT_DATA		aid;
+		APP_CLIENT_SHM		*app_client_shm;
+
+static	double				timer_period = 1.0/50.0;    // 50 Hz timer
+static	double				time_until_checkpoint;
+static	double				time_until_fraction_done_update;
+static	double				fraction_done;
+static	double				last_checkpoint_cpu_time;
+static	bool				ready_to_checkpoint = false;
+static	bool				this_process_active;
+static	bool				time_to_quit = false;
+static	double				last_wu_cpu_time;
+static	bool				standalone = false;
+static	double				initial_wu_cpu_time;
+static	bool				have_new_trickle = false;
+
+
+
 #ifdef _WIN32
-HANDLE hQuitRequest, hSharedMem, worker_thread_handle;
-LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
-MMRESULT timer_id;
-#else
-extern void boinc_catch_signal(int signal);
-extern void boinc_quit(int sig);
+
+// Declare global variables - Windows Platform Only
+		HANDLE				hErrorNotification;
+		HANDLE				hQuitRequest;
+		HANDLE				hSuspendRequest;
+		HANDLE				hResumeRequest;
+		HANDLE				hSharedMem;
+		HANDLE				worker_thread_handle;
+		MMRESULT			timer_id;
+
 #endif
 
-static APP_INIT_DATA aid;
-static double timer_period = 1.0/50.0;    // 50 Hz timer
-static double time_until_checkpoint;
-static double time_until_fraction_done_update;
-static double fraction_done;
-static double last_checkpoint_cpu_time;
-static bool ready_to_checkpoint = false;
-static bool this_process_active;
-static bool time_to_quit = false;
-static double last_wu_cpu_time;
-static bool standalone = false;
-static double initial_wu_cpu_time;
-static bool have_new_trickle = false;
 
-APP_CLIENT_SHM *app_client_shm;
+//
+// Forward declare implementation functions.
+//
+static void		setup_shared_mem();
+static void		cleanup_shared_mem();
+static int		update_app_progress(double frac_done, double cpu_t, double cp_cpu_t, double ws_t);
+static int		set_timer(double period);
+
+#ifdef _WIN32
+
+// Forward declare implementation functions - Windows Platform Only.
+LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
+
+#else
+
+// Forward declare implementation functions - POSIX Platform Only.
+extern void boinc_catch_signal(int signal);
+extern void boinc_quit(int sig);
+
+#endif
+
+
+// ****************************************************************************
+// ****************************************************************************
+//
+// Diagnostics Support for Windows 95/98/ME/2000/XP/2003
+//
+// ****************************************************************************
+// ****************************************************************************
+
+#ifdef _WIN32
+
+//
+// Function: boinc_install_signal_handlers
+//
+// Purpose:  Used to setup an unhandled exception filter on Windows
+//
+// Date:     01/29/04
+//
+int boinc_install_signal_handlers() {
+
+	SetUnhandledExceptionFilter( boinc_catch_signal );
+
+	return 0;
+}
+
+//
+// Function: boinc_catch_signal
+//
+// Purpose:  Used to unwind the stack and spew the callstack to stderr. Terminate the
+//               process afterwards and return the exception code as the exit code.
+//
+// Date:     01/29/04
+//
+LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
+
+	// Snagged from the latest stackwalker code base.  This allows us to grab
+	//   callstacks even in a stack overflow scenario
+	if ( pExPtrs->ExceptionRecord->ExceptionCode == EXCEPTION_STACK_OVERFLOW )
+	{
+		static char MyStack[1024*128];  // be sure that we have enought space...
+		// it assumes that DS and SS are the same!!! (this is the case for Win32)
+		// change the stack only if the selectors are the same (this is the case for Win32)
+		//__asm push offset MyStack[1024*128];
+		//__asm pop esp;
+		__asm mov eax,offset MyStack[1024*128];
+		__asm mov esp,eax;
+	}
+
+	PVOID exceptionAddr = pExPtrs->ExceptionRecord->ExceptionAddress;
+    DWORD exceptionCode = pExPtrs->ExceptionRecord->ExceptionCode;
+
+	LONG  lReturnValue = NULL;
+	char  status[256];
+	char  substatus[256];
+    
+	static long   lDetectNestedException = 0;
+
+    // If we've been in this procedure before, something went wrong so we immediately exit
+	if ( InterlockedIncrement(&lDetectNestedException) > 1 ) {
+		TerminateProcess( GetCurrentProcess(), ERR_SIGNAL_CATCH );
+	}
+
+    switch ( exceptionCode ) {
+        case EXCEPTION_ACCESS_VIOLATION:
+			safe_strncpy( status, "Access Violation", sizeof(status) );
+			if ( pExPtrs->ExceptionRecord->NumberParameters == 2 ) {
+				switch( pExPtrs->ExceptionRecord->ExceptionInformation[0] ) {
+				case 0: // read attempt
+					sprintf( substatus, "read attempt to address 0x%8.8X", pExPtrs->ExceptionRecord->ExceptionInformation[1] );
+					break;
+				case 1: // write attempt
+					sprintf( substatus, "write attempt to address 0x%8.8X", pExPtrs->ExceptionRecord->ExceptionInformation[1] );
+					break;
+				}
+			}
+			break;
+        case EXCEPTION_DATATYPE_MISALIGNMENT: 
+			safe_strncpy( status, "Data Type Misalignment", sizeof(status) );
+			break;
+        case EXCEPTION_BREAKPOINT: 
+			safe_strncpy( status, "Breakpoint Encountered", sizeof(status) );
+			break;
+        case EXCEPTION_SINGLE_STEP: 
+			safe_strncpy( status, "Single Instruction Executed", sizeof(status) );
+			break;
+        case EXCEPTION_ARRAY_BOUNDS_EXCEEDED: 
+			safe_strncpy( status, "Array Bounds Exceeded", sizeof(status) );
+			break;
+        case EXCEPTION_FLT_DENORMAL_OPERAND: 
+			safe_strncpy( status, "Float Denormal Operand", sizeof(status) );
+			break;
+        case EXCEPTION_FLT_DIVIDE_BY_ZERO: 
+			safe_strncpy( status, "Divide by Zero", sizeof(status) ); 
+			break;
+        case EXCEPTION_FLT_INEXACT_RESULT: 
+			safe_strncpy( status, "Float Inexact Result", sizeof(status) ); 
+			break;
+        case EXCEPTION_FLT_INVALID_OPERATION: 
+			safe_strncpy( status, "Float Invalid Operation", sizeof(status) );
+			break;
+        case EXCEPTION_FLT_OVERFLOW: 
+			safe_strncpy( status, "Float Overflow", sizeof(status) );
+			break;
+        case EXCEPTION_FLT_STACK_CHECK: 
+			safe_strncpy( status, "Float Stack Check", sizeof(status) );
+			break;
+        case EXCEPTION_FLT_UNDERFLOW: 
+			safe_strncpy( status, "Float Underflow", sizeof(status) );
+			break;
+        case EXCEPTION_INT_DIVIDE_BY_ZERO: 
+			safe_strncpy( status, "Integer Divide by Zero", sizeof(status) );
+			break;
+        case EXCEPTION_INT_OVERFLOW: 
+			safe_strncpy( status, "Integer Overflow", sizeof(status) );
+			break;
+        case EXCEPTION_PRIV_INSTRUCTION: 
+			safe_strncpy( status, "Privileged Instruction", sizeof(status) );
+			break;
+        case EXCEPTION_IN_PAGE_ERROR: 
+			safe_strncpy( status, "In Page Error", sizeof(status) );
+			break;
+        case EXCEPTION_ILLEGAL_INSTRUCTION: 
+			safe_strncpy( status, "Illegal Instruction", sizeof(status) );
+			break;
+        case EXCEPTION_NONCONTINUABLE_EXCEPTION: 
+			safe_strncpy( status, "Noncontinuable Exception", sizeof(status) );
+			break;
+        case EXCEPTION_STACK_OVERFLOW: 
+			safe_strncpy( status, "Stack Overflow", sizeof(status) );
+			break;
+        case EXCEPTION_INVALID_DISPOSITION: 
+			safe_strncpy( status, "Invalid Disposition", sizeof(status) );
+			break;
+        case EXCEPTION_GUARD_PAGE: 
+			safe_strncpy( status, "Guard Page Violation", sizeof(status) );
+			break;
+        case EXCEPTION_INVALID_HANDLE: 
+			safe_strncpy( status, "Invalid Handle", sizeof(status) );
+			break;
+        case CONTROL_C_EXIT: 
+			safe_strncpy( status, "Ctrl+C Exit", sizeof(status) );
+			break;
+        default: 
+			safe_strncpy( status, "Unknown exception", sizeof(status) );
+			break;
+    }
+
+	fprintf( stderr, "\n***UNHANDLED EXCEPTION****\n" );
+	if ( EXCEPTION_ACCESS_VIOLATION == exceptionCode ) {
+		fprintf( stderr, "Reason: %s (0x%x) at address 0x%p %s\n\n", status, exceptionCode, exceptionAddr, substatus );
+	} else {
+		fprintf( stderr, "Reason: %s (0x%x) at address 0x%p\n\n", status, exceptionCode, exceptionAddr );
+	}
+    fflush(stderr);
+
+#ifdef _DEBUG
+	// Unwind the stack and spew it to stderr
+	StackwalkFilter(pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL);
+#endif
+
+	fprintf(stderr, "Exiting...\n");
+    fflush(stderr);
+
+	// Force terminate the app letting BOINC know an unknown exception has occurred.
+	TerminateProcess(GetCurrentProcess(), pExPtrs->ExceptionRecord->ExceptionCode);
+
+	// We won't make it to this point, but make the compiler happy anyway.
+	return 1;
+}
+
+
+//
+// Function: boinc_message_reporting
+//
+// Purpose:  Trap ASSERTs and TRACEs from the CRT and spew them to stderr.
+//
+// Date:     01/29/04
+//
+int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){ 
+	(*retVal) = 0; 
+
+	switch(reportType){
+
+		case _CRT_WARN:
+			fprintf( stderr, "TRACE: %s", szMsg );
+			fflush( stderr );
+			break;
+		case _CRT_ERROR:
+			fprintf( stderr, "ERROR: %s", szMsg );
+			fflush( stderr );
+			break;
+		case _CRT_ASSERT:
+			fprintf( stderr, "ASSERT: %s\n", szMsg );
+			fflush( stderr );
+			(*retVal) = 1;
+			break;
+
+	}
+
+	return(TRUE);
+} 
+
+
+#ifdef _DEBUG
+
+//
+// Function: boinc_trace
+//
+// Purpose:  Converts the BOINCTRACE macro into a single string and report it
+//             to the CRT so it can be reported via the normal means.
+//
+// Date:     01/29/04
+//
+void boinc_trace(const char *pszFormat, ...)
+{
+	static char szBuffer[4096];
+
+	memset(szBuffer, 0, sizeof(szBuffer));
+
+	va_list ptr;
+	va_start(ptr, pszFormat);
+
+	BOINCASSERT( -1 != _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr) );
+
+	va_end(ptr);
+
+	_CrtDbgReport(_CRT_WARN, NULL, NULL, NULL, "%s", szBuffer);
+}
+
+
+//
+// Function: boinc_error_debug
+//
+// Purpose:  Converts the BOINCERROR macro into a single string and report it
+//             to the CRT so it can be reported via the normal means.
+//
+// Date:     01/29/04
+//
+void boinc_error_debug(int iExitCode, const char *pszFormat, ...)
+{
+	static char szBuffer[4096];
+
+	memset(szBuffer, 0, sizeof(szBuffer));
+
+	va_list ptr;
+	va_start(ptr, pszFormat);
+
+	BOINCASSERT( -1 != _vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr) );
+
+	va_end(ptr);
+
+	_CrtDbgReport(_CRT_ERROR, NULL, NULL, NULL, "%s", szBuffer);
+}
+
+#else // _DEBUG
+
+//
+// Function: boinc_error_release
+//
+// Purpose:  Converts the BOINCERROR macro into a single string and report it
+//             to stderr so it can be reported via the normal means.
+//
+// Date:     01/29/04
+//
+void boinc_error_release(int iExitCode, const char *pszFormat, ...)
+{
+	static char szBuffer[4096];
+
+	memset(szBuffer, 0, sizeof(szBuffer));
+
+	va_list ptr;
+	va_start(ptr, pszFormat);
+
+	_vsnprintf(szBuffer, sizeof(szBuffer), pszFormat, ptr);
+
+	va_end(ptr);
+
+	fprintf( stderr, "ERROR: %s", szBuffer );
+	fflush( stderr );
+}
+
+
+#endif // _DEBUG
+
+#endif // _WIN32
+
+
+// ****************************************************************************
+// ****************************************************************************
+//
+// Diagnostics for POSIX Compatible systems.
+//
+// ****************************************************************************
+// ****************************************************************************
+
+#ifdef HAVE_SIGNAL_H
+
+int boinc_install_signal_handlers() {
+    signal(SIGHUP, boinc_catch_signal);  // terminal line hangup
+    signal(SIGINT, boinc_catch_signal);  // interrupt program
+    signal(SIGQUIT, boinc_quit);         // quit program
+    signal(SIGILL, boinc_catch_signal);  // illegal instruction
+    signal(SIGABRT, boinc_catch_signal); // abort(2) call
+    signal(SIGBUS, boinc_catch_signal);  // bus error
+    signal(SIGSEGV, boinc_catch_signal); // segmentation violation
+    signal(SIGSYS, boinc_catch_signal);  // system call given invalid argument
+    signal(SIGPIPE, boinc_catch_signal); // write on a pipe with no reader
+    return 0;
+}
+
+void boinc_catch_signal(int signal) {
+    switch(signal) {
+        case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup"); break;
+        case SIGINT: fprintf(stderr, "SIGINT: interrupt program"); break;
+        case SIGILL: fprintf(stderr, "SIGILL: illegal instruction"); break;
+        case SIGABRT: fprintf(stderr, "SIGABRT: abort called"); break;
+        case SIGBUS: fprintf(stderr, "SIGBUS: bus error"); break;
+        case SIGSEGV: fprintf(stderr, "SIGSEGV: segmentation violation"); break;
+        case SIGSYS: fprintf(stderr, "SIGSYS: system call given invalid argument"); break;
+        case SIGPIPE: fprintf(stderr, "SIGPIPE: write on a pipe with no reader"); break;
+        default: fprintf(stderr, "unknown signal %d", signal); break;
+    }
+    fprintf(stderr, "\nExiting...\n");
+    exit(ERR_SIGNAL_CATCH);
+}
+
+void boinc_quit(int sig) {
+    signal(SIGQUIT, boinc_quit);    // reset signal
+    time_to_quit = true;
+}
+
+#endif
+
+
+// ****************************************************************************
+// ****************************************************************************
+//
+// Standard BOINC API's
+//
+// ****************************************************************************
+// ****************************************************************************
+
+
+int boinc_init(bool standalone_ /* = false */) {
+    FILE* f;
+    int retval;
+
+#ifdef _WIN32
+
+	// Redirect stderr earlier then boinc_init so we can trap errors earlier.
+    freopen(STDERR_FILE, "a", stderr);
+
+	// Define how messages should me formatted to sdterr
+	_CrtSetReportHook( boinc_message_reporting );
+
+	DuplicateHandle(
+        GetCurrentProcess(),
+        GetCurrentThread(),
+        GetCurrentProcess(),
+        &worker_thread_handle,
+        0,
+        FALSE,
+        DUPLICATE_SAME_ACCESS
+    );
+
+#endif
+
+	// Install unhandled exception filters and signal traps.
+    boinc_install_signal_handlers();
+
+    // Store startup mode for later use.
+    standalone = standalone_;
+
+	// Parse initial data file.
+    retval = boinc_parse_init_data_file();
+    if (retval) return retval;
+
+    // copy the WU CPU time to a separate var,
+    // since we may reread the structure again later.
+    //
+    initial_wu_cpu_time = aid.wu_cpu_time;
+
+    f = boinc_fopen(FD_INIT_FILE, "r");
+    if (f) {
+        parse_fd_init_file(f);
+        fclose(f);
+    }
+
+    time_until_checkpoint = aid.checkpoint_period;
+    last_checkpoint_cpu_time = aid.wu_cpu_time;
+    time_until_fraction_done_update = aid.fraction_done_update_period;
+    this_process_active = true;
+    last_wu_cpu_time = aid.wu_cpu_time;
+
+    set_timer(timer_period);
+    setup_shared_mem();
+
+    return 0;
+}
+
+
+int boinc_finish(int status) {
+    double cur_mem;
+
+    boinc_thread_cpu_time(last_checkpoint_cpu_time, cur_mem);
+    last_checkpoint_cpu_time += aid.wu_cpu_time;
+    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
+#ifdef _WIN32
+    // Stop the timer
+    timeKillEvent(timer_id);
+#endif
+    cleanup_shared_mem();
+    exit(status);
+    return 0;
+}
+
 
 bool boinc_is_standalone() {
     return standalone;
 }
+
 
 // parse the init data file.
 // This is done at startup, and also if a "reread prefs" message is received
@@ -125,125 +570,6 @@ int boinc_parse_init_data_file() {
     return 0;
 }
 
-
-// Install signal handlers to aid in debugging
-// TODO: write Windows equivalent error handlers?
-//
-int boinc_install_signal_handlers() {
-#ifdef HAVE_SIGNAL_H
-    signal(SIGHUP, boinc_catch_signal);  // terminal line hangup
-    signal(SIGINT, boinc_catch_signal);  // interrupt program
-    signal(SIGQUIT, boinc_quit);         // quit program
-    signal(SIGILL, boinc_catch_signal);  // illegal instruction
-    signal(SIGABRT, boinc_catch_signal); // abort(2) call
-    signal(SIGBUS, boinc_catch_signal);  // bus error
-    signal(SIGSEGV, boinc_catch_signal); // segmentation violation
-    signal(SIGSYS, boinc_catch_signal);  // system call given invalid argument
-    signal(SIGPIPE, boinc_catch_signal); // write on a pipe with no reader
-#endif
-#ifdef _WIN32
-    SetUnhandledExceptionFilter(boinc_catch_signal);
-#endif
-    return 0;
-}
-
-#ifdef _WIN32
-LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
-
-	// Snagged from the latest stackwalker code base.  This allows us to grab
-	//   callstacks even in a stack overflow scenario
-	if (pExPtrs->ExceptionRecord->ExceptionCode == EXCEPTION_STACK_OVERFLOW)
-	{
-		static char MyStack[1024*128];  // be sure that we have enought space...
-		// it assumes that DS and SS are the same!!! (this is the case for Win32)
-		// change the stack only if the selectors are the same (this is the case for Win32)
-		//__asm push offset MyStack[1024*128];
-		//__asm pop esp;
-		__asm mov eax,offset MyStack[1024*128];
-		__asm mov esp,eax;
-	}
-
-	PVOID exceptionAddr = pExPtrs->ExceptionRecord->ExceptionAddress;
-    DWORD exceptionCode = pExPtrs->ExceptionRecord->ExceptionCode;
-
-	LONG  lReturnValue = NULL;
-	char  status[256];
-    
-	static long   lDetectNestedException = 0;
-
-    // If we've been in this procedure before, something went wrong so we immediately exit
-	if (InterlockedIncrement(&lDetectNestedException) > 1) {
-		TerminateProcess(GetCurrentProcess(), ERR_SIGNAL_CATCH);
-	}
-
-    switch (exceptionCode) {
-        case EXCEPTION_ACCESS_VIOLATION: safe_strncpy(status,"Access Violation",sizeof(status)); break;
-        case EXCEPTION_DATATYPE_MISALIGNMENT: safe_strncpy(status,"Data Type Misalignment",sizeof(status)); break;
-        case EXCEPTION_BREAKPOINT: safe_strncpy(status,"Breakpoint Encountered",sizeof(status)); break;
-        case EXCEPTION_SINGLE_STEP: safe_strncpy(status,"Single Instruction Executed",sizeof(status)); break;
-        case EXCEPTION_ARRAY_BOUNDS_EXCEEDED: safe_strncpy(status,"Array Bounds Exceeded",sizeof(status)); break;
-        case EXCEPTION_FLT_DENORMAL_OPERAND: safe_strncpy(status,"Float Denormal Operand",sizeof(status)); break;
-        case EXCEPTION_FLT_DIVIDE_BY_ZERO: safe_strncpy(status,"Divide by Zero",sizeof(status)); break;
-        case EXCEPTION_FLT_INEXACT_RESULT: safe_strncpy(status,"Float Inexact Result",sizeof(status)); break;
-        case EXCEPTION_FLT_INVALID_OPERATION: safe_strncpy(status,"Float Invalid Operation",sizeof(status)); break;
-        case EXCEPTION_FLT_OVERFLOW: safe_strncpy(status,"Float Overflow",sizeof(status)); break;
-        case EXCEPTION_FLT_STACK_CHECK: safe_strncpy(status,"Float Stack Check",sizeof(status)); break;
-        case EXCEPTION_FLT_UNDERFLOW: safe_strncpy(status,"Float Underflow",sizeof(status)); break;
-        case EXCEPTION_INT_DIVIDE_BY_ZERO: safe_strncpy(status,"Integer Divide by Zero",sizeof(status)); break;
-        case EXCEPTION_INT_OVERFLOW: safe_strncpy(status,"Integer Overflow",sizeof(status)); break;
-        case EXCEPTION_PRIV_INSTRUCTION: safe_strncpy(status,"Privileged Instruction",sizeof(status)); break;
-        case EXCEPTION_IN_PAGE_ERROR: safe_strncpy(status,"In Page Error",sizeof(status)); break;
-        case EXCEPTION_ILLEGAL_INSTRUCTION: safe_strncpy(status,"Illegal Instruction",sizeof(status)); break;
-        case EXCEPTION_NONCONTINUABLE_EXCEPTION: safe_strncpy(status,"Noncontinuable Exception",sizeof(status)); break;
-        case EXCEPTION_STACK_OVERFLOW: safe_strncpy(status,"Stack Overflow",sizeof(status)); break;
-        case EXCEPTION_INVALID_DISPOSITION: safe_strncpy(status,"Invalid Disposition",sizeof(status)); break;
-        case EXCEPTION_GUARD_PAGE: safe_strncpy(status,"Guard Page Violation",sizeof(status)); break;
-        case EXCEPTION_INVALID_HANDLE: safe_strncpy(status,"Invalid Handle",sizeof(status)); break;
-        case CONTROL_C_EXIT: safe_strncpy(status,"Ctrl+C Exit",sizeof(status)); break;
-        default: safe_strncpy(status,"Unknown exception",sizeof(status)); break;
-    }
-
-	fprintf(stderr, "\n***UNHANDLED EXCEPTION****\n");
-    fprintf(stderr, "Reason: %s (0x%x) at address 0x%p\n\n", status, exceptionCode, exceptionAddr);
-
-#ifdef _DEBUG
-	// Unwind the stack and spew it to stderr
-	StackwalkFilter(pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL);
-#endif
-
-	fprintf(stderr, "Exiting...\n");
-    fflush(stderr);
-
-	// Force terminate the app letting BOINC know an unknown exception has occurred.
-	TerminateProcess(GetCurrentProcess(), pExPtrs->ExceptionRecord->ExceptionCode);
-
-	// We won't make it to this point, but make the compiler happy anyway.
-	return 1;
-}
-#endif
-
-#ifdef HAVE_SIGNAL_H
-void boinc_catch_signal(int signal) {
-    switch(signal) {
-        case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup"); break;
-        case SIGINT: fprintf(stderr, "SIGINT: interrupt program"); break;
-        case SIGILL: fprintf(stderr, "SIGILL: illegal instruction"); break;
-        case SIGABRT: fprintf(stderr, "SIGABRT: abort called"); break;
-        case SIGBUS: fprintf(stderr, "SIGBUS: bus error"); break;
-        case SIGSEGV: fprintf(stderr, "SIGSEGV: segmentation violation"); break;
-        case SIGSYS: fprintf(stderr, "SIGSYS: system call given invalid argument"); break;
-        case SIGPIPE: fprintf(stderr, "SIGPIPE: write on a pipe with no reader"); break;
-        default: fprintf(stderr, "unknown signal %d", signal); break;
-    }
-    fprintf(stderr, "\nExiting...\n");
-    exit(ERR_SIGNAL_CATCH);
-}
-
-void boinc_quit(int sig) {
-    signal(SIGQUIT, boinc_quit);    // reset signal
-    time_to_quit = true;
-}
-#endif
 
 // communicate to the core client (via shared mem)
 // the current CPU time and fraction done
@@ -459,50 +785,6 @@ static void cleanup_shared_mem() {
 #endif
 }
 
-int boinc_init(bool standalone_ /* = false */) {
-    FILE* f;
-    int retval;
-
-#ifdef _WIN32
-    DuplicateHandle(
-        GetCurrentProcess(),
-        GetCurrentThread(),
-        GetCurrentProcess(),
-        &worker_thread_handle,
-        0,
-        FALSE,
-        DUPLICATE_SAME_ACCESS
-    );
-#endif
-
-    standalone = standalone_;
-
-    retval = boinc_parse_init_data_file();
-    if (retval) return retval;
-
-    // copy the WU CPU time to a separate var,
-    // since we may reread the structure again later.
-    //
-    initial_wu_cpu_time = aid.wu_cpu_time;
-
-    f = boinc_fopen(FD_INIT_FILE, "r");
-    if (f) {
-        parse_fd_init_file(f);
-        fclose(f);
-    }
-
-    time_until_checkpoint = aid.checkpoint_period;
-    last_checkpoint_cpu_time = aid.wu_cpu_time;
-    time_until_fraction_done_update = aid.fraction_done_update_period;
-    this_process_active = true;
-    last_wu_cpu_time = aid.wu_cpu_time;
-
-    boinc_install_signal_handlers();
-    set_timer(timer_period);
-    setup_shared_mem();
-
-    return 0;
-}
 
 int boinc_trickle(char* p) {
     FILE* f = boinc_fopen("trickle", "wb");
@@ -514,20 +796,6 @@ int boinc_trickle(char* p) {
     return 0;
 }
 
-int boinc_finish(int status) {
-    double cur_mem;
-
-    boinc_thread_cpu_time(last_checkpoint_cpu_time, cur_mem);
-    last_checkpoint_cpu_time += aid.wu_cpu_time;
-    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
-#ifdef _WIN32
-    // Stop the timer
-    timeKillEvent(timer_id);
-#endif
-    cleanup_shared_mem();
-    exit(status);
-    return 0;
-}
 
 
 bool boinc_time_to_checkpoint() {

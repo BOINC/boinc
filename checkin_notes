@@ -9872,3 +9872,21 @@ Rom    Feb 5 2004
         boincdiag.cpp
     api/win/
         stackwalker.cpp,h (Added)
+
+Rom    Feb 6 2004
+    - Removed boincdiag.cpp,h from build and encorporated all its functionality into
+        boinc_api.c, h
+    - Improved unhandled exception filter to handle STACK_OVERFLOW exceptions, using
+        new stackwalker code base, STACK_OVERFLOWs would have caused a nested
+        exception issue that would have masked the real error.
+    - Improved unhandled exception filter to handle ACCESS_VIOLATIONs better, using
+        stackwalker code base, giving some of the same information for release builds
+        that is given in debug builds
+    - Created a new macro called BOINCERROR which will trip the management thread into
+        gracefully exiting the process with the correct exit code.  This macro will work
+        across debug/release builds.  Some more work has to go into the base function,
+        hopefully in tomorrow.
+
+    api/
+        boinc_api.c,h
+        boincdiag.cpp,h (deleted)

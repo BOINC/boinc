@@ -21,9 +21,76 @@
 #define _BOINC_API_
 
 #include <string>
-using std::string;
+#include <assert.h>
+
+#ifdef _WIN32
+#include <crtdbg.h>
+#endif
 
 #include "app_ipc.h"
+
+using std::string;
+
+// ****************************************************************************
+// ****************************************************************************
+//
+// Diagnostics Support for Windows 95/98/ME/2000/XP/2003
+//
+// ****************************************************************************
+// ****************************************************************************
+
+#ifdef _WIN32
+
+//
+// Define macros for both debug and release builds.
+//
+// We are using the native debugging technology built into the Microsoft
+//   C Runtime Libraries to trap and report the asserts and traces.
+//
+
+#ifdef _DEBUG
+
+// Forward declare so we can assign a macro to it.
+void	boinc_trace(const char *pszFormat, ...);
+void	boinc_error_debug(int iExitCode, const char *pszFormat, ...);
+
+#define BOINCASSERT(expr)	_ASSERT_BASE((expr), #expr)
+#define BOINCTRACE			boinc_trace
+#define BOINCERROR			boinc_error_debug
+
+#else // _DEBUG
+
+// Forward declare so we can assign a macro to it.
+void	boinc_error_release(int iExitCode, const char *pszFormat, ...);
+
+#define BOINCASSERT(expr)	((void)0)
+#define BOINCTRACE			((void)0)
+#define BOINCERROR			boinc_error_release
+
+#endif // _DEBUG
+
+#endif // _WIN32
+
+
+// ****************************************************************************
+// ****************************************************************************
+//
+// Diagnostics Support for Undefined Platform
+//
+// ****************************************************************************
+// ****************************************************************************
+#ifndef BOINCASSERT
+#define BOINCASSERT			assert
+#endif
+
+#ifndef BOINCTRACE
+#define BOINCTRACE			((int)0)
+#endif
+
+#ifndef BOINCERROR
+#define BOINCERROR			((int)0)
+#endif
+
 
 // MFILE supports a primitive form of checkpointing.
 // Write all your output (and restart file) to MFILEs.
@@ -46,24 +113,40 @@ public:
     long tell() const;
 };
 
-extern int boinc_init(bool standalone = false);
-extern int boinc_parse_init_data_file();
-extern int boinc_get_init_data(APP_INIT_DATA&);
-extern int boinc_trickle(char*);
-extern int boinc_finish(int);
-extern int boinc_resolve_filename(const char*, char*, int len);
-extern int boinc_resolve_filename(const char*, string&);
-extern bool boinc_time_to_checkpoint();
-extern int boinc_checkpoint_completed();
-extern int boinc_fraction_done(double);
-extern int boinc_child_start();
-extern int boinc_child_done(double);
-extern bool boinc_is_standalone();
-extern int boinc_wu_cpu_time(double&);
 
-/////////// API ENDS HERE - IMPLEMENTATION STUFF FOLLOWS
+/////////// API BEGINS HERE 
 
-extern int boinc_thread_cpu_time(double&, double&);
+extern int	boinc_set_error(int exit_code);
+
+extern int	boinc_init(bool standalone = false);
+extern int	boinc_finish(int);
+
+extern bool	boinc_is_standalone();
+
+extern int	boinc_resolve_filename(const char*, char*, int len);
+extern int	boinc_resolve_filename(const char*, string&);
+
+extern int	boinc_parse_init_data_file();
+extern int	boinc_get_init_data(APP_INIT_DATA&);
+
+extern int	boinc_trickle(char*);
+
+extern bool	boinc_time_to_checkpoint();
+extern int	boinc_checkpoint_completed();
+
+extern int	boinc_fraction_done(double);
+extern int	boinc_child_start();
+extern int	boinc_child_done(double);
+
+extern int	boinc_wu_cpu_time(double&);
+extern int	boinc_thread_cpu_time(double&, double&);
+
+/////////// API ENDS HERE
+
+/////////// APPLICATION GLOBALLY DEFINED VARIABLES BEGINS HERE
+
 extern APP_CLIENT_SHM *app_client_shm;
+
+/////////// APPLICATION GLOBALLY DEFINED VARIABLES ENDS HERE
 
 #endif
