@@ -46,10 +46,10 @@ language(
     site("http://www.seti.nl/content.php?c=boinc_berkeley_main",
         "SETI@Netherlands")
 ));
-//language("English", array(
-//    site("http://www.geocities.com/boinc_volunteers/",
-//    "BOINC Volunteers")
-//));
+language("English", array(
+    site("http://boinc.mundayweb.com", "boinc.mundayweb.com - stats counters and more")
+    //site("http://www.geocities.com/boinc_volunteers/", "BOINC Volunteers")
+));
 language("Estonian", array(
     site("http://boinc.tmac.pri.ee", "boinc.tmac.pri.ee")
 ));

@@ -23355,3 +23355,9 @@ David  27 Jan 2005
         boinc_api.C
         boinc_api_fortran.C
         graphics_impl.C
+
+David  27 Jan 2005
+    - core client: initialize PROJECT structure more thoroughly
+
+    client/
+        client_types.C

@@ -29,7 +29,7 @@ boinc_3.17_i686-pc-linux-gnu.gz
 astropulse_7.17_windows_intelx86.exe
 </pre>
 <p>
-Important notes:
+Notes:
 <ul>
 <li>
 <b>Platform strings must match the names of platforms in the database.</b>
@@ -42,7 +42,7 @@ as your BOINC server software</b>.
 <p>
 If a file of the form
 <pre>
-EXEC_FILENAME.sig
+FILENAME.sig
 </pre>
 is found, its contents will be used as a digital signature
 for the corresponding file.
@@ -53,19 +53,11 @@ Recommended code-signing practices are described
 <p>
 If a file of the form
 <pre>
-EXEC_FILENAME.file_ref_info
+FILENAME.file_ref_info
 </pre>
-is found, its contents will be added to the &lt;file_info>
+is found, its contents will be added to the &lt;file_ref>
 element describing the file
 (you can use this for attributes like &lt;copy_file>).
-<h3>Min/max core version</h3>
-Application versions have fields <code>min_core_version</code>
-and <code>max_core_version</code> which, if nonzero,
-indicates the range of core client version numbers
-to which the application version should be sent.
-Update_versions, by default, sets this to the largest
-core client version number in the database.
-To change this, you can manually update the app_version record.
 
 <h3>Multiple-file application versions</h3>
 
@@ -75,6 +67,10 @@ To create a multiple-file application version,
 create a directory with the same name as the main program
 (of the form NAME_VERSION_PLATFORM[.ext]).
 and put the files in that directory.
+<p>
+If your application includes executable files other than
+the main file, make sure that their protection flags
+include the user execute (u+x) bit.
 
 
 <h2>Releasing core client versions</h2>
@@ -82,12 +78,9 @@ and put the files in that directory.
 The same mechanism is used to release core client versions:
 Create a subdirectory 'boinc' in the apps directory,
 put new core client installer files there, and run update_versions.
-Core client versions will be visible to participants
-on your project's 'Download BOINC' web page.
 
 <p>
-<b>NOTE</b>: the files distributed in this way are installers,
-not executables.
+<b>NOTE</b>: the files distributed in this way are installers, not executables.
 Instructions for creating installers are
 <a href=ssl_client_release_instructions.txt>here</a>.
 <p>

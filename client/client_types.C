@@ -51,12 +51,16 @@ void PROJECT::init() {
     strcpy(master_url, "");
     strcpy(authenticator, "");
 #if 0
+    deletion_policy_priority = false;
+    deletion_policy_expire = false;
     share_size = 0;
     size = 0;
 #endif
     project_specific_prefs = "";
     gui_urls = "";
     resource_share = 100;
+    strcpy(host_venue, "");
+    scheduler_urls.clear();
     strcpy(project_name, "");
     strcpy(user_name, "");
     strcpy(team_name, "");
@@ -72,28 +76,25 @@ void PROJECT::init() {
     host_create_time = 0;
     exp_avg_cpu = 0;
     exp_avg_mod_time = 0;
-    strcpy(code_sign_key, "");
     nrpc_failures = 0;
+    master_fetch_failures = 0;
     min_rpc_time = 0;
     min_report_min_rpc_time = 0;
-    master_fetch_failures = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
     tentative = false;
     anonymous_platform = false;
+    non_cpu_intensive = false;
     debt = 0;
+    send_file_list = false;
+    suspended_via_gui = false;
+    dont_request_more_work = false;
+    strcpy(code_sign_key, "");
+    user_files.clear();
     anticipated_debt = 0;
     work_done_this_period = 0;
     next_runnable_result = NULL;
     work_request = 0;
-    send_file_list = false;
-    non_cpu_intensive = false;
-    suspended_via_gui = false;
-    dont_request_more_work = false;
-#if 0
-    deletion_policy_priority = false;
-    deletion_policy_expire = false;
-#endif
 }
 
 PROJECT::~PROJECT() {
@@ -112,23 +113,7 @@ int PROJECT::parse_state(MIOFILE& in) {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
-    strcpy(project_name, "");
-    strcpy(user_name, "");
-    strcpy(team_name, "");
-    strcpy(email_hash, "");
-    strcpy(cross_project_id, "");
-    resource_share = 100;
-    exp_avg_cpu = 0;
-    exp_avg_mod_time = 0;
-    min_rpc_time = 0;
-    min_report_min_rpc_time = 0;
-    nrpc_failures = 0;
-    master_url_fetch_pending = false;
-    sched_rpc_pending = false;
-    send_file_list = false;
-    non_cpu_intensive = false;
-    suspended_via_gui = false;
-    scheduler_urls.clear();
+    init();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project>")) return 0;
         else if (parse_str(buf, "<scheduler_url>", sched_url.text, sizeof(sched_url.text))) {

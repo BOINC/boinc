@@ -137,15 +137,21 @@ Using disk space on participant hosts
 </ul>
 
 <font size=+1><b>
-Miscellaneous
+Web site
 </b></font>
 <br> &nbsp; &nbsp; &nbsp;
 <font size=-1>
-Communicating with participants
+Communicating with participants via the web
 </font>
 <ul>
 <li> <a href=web.php>Managing the project web site</a>
 <li> <a href=gui_urls.php>Add project-specific links to the client GUI</a>
+</ul>
+<font size=+1><b>
+Miscellaneous
+</b></font>
+<ul>
+<li> <a href=grid.php>Integrating BOINC projects with Grids</a>
 </ul>
 ";
 page_tail();
