@@ -76,6 +76,7 @@
 
 #include "client_types.h"
 #include "error_numbers.h"
+#include "util.h"
 
 // functions to get name/addr of local host
 
