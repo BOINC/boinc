@@ -5,15 +5,14 @@
 
     init_session();
     db_init();
-    $id = $HTTP_GET_VARS["id"];
+    $id = $HTTP_GET_VARS["userid"];
 
     $result = mysql_query("select * from user where id = $id");
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
 
     if ($user) {
-      	page_head("User stats for $user->name");
-      	echo("<h2>Account stats for $user->name</h2>");
+      	page_head("Account data for $user->name");
         start_table();
     	show_user_stats($user);
         end_table();

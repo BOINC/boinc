@@ -3,26 +3,6 @@
 require_once("db.inc");
 require_once("project.inc");
 
-define("EMAIL_EXISTS", -1);
-define("EMAIL_UPDATED", 1);
-define("EMAIL_FAIL", -2);
-
-define("LG_FONT", "<font size=+1>");
-define("SM_FONT", "<font size=-1>");
-
-define("TD", "<td bgcolor=cccccc>");
-define("TD2", "<td colspan=2 bgcolor=cccccc>");
-define("TD3", "<td colspan=3 bgcolor=cccccc>");
-
-define("TABLE", "<table cellpadding=10 cellspacing=4 border=0 width=100%>");
-define("VISTABLE", "<table cellpadding=2 cellspacing=0 border=1 width=100%>");
-define("TABLE2", "<table width=580 cellpadding=3>");
-
-define("BG_COLOR", " bgcolor=ffffff ");
-define("TITLE_COLOR", " bgcolor=000000 ");
-define("TITLE_FONT", " <font color=ffffff> ");
-define("BODY_COLOR", " bgcolor=ffffff ");
-
 // Sends the authenticator to the given email address
 //
 function send_auth_email($email_addr, $auth) {
@@ -70,7 +50,7 @@ function show_login($user) {
 }
 
 function page_head($title, $user=null) {
-    echo "<head><title>$title</title><body ".BG_COLOR.">\n";
+    echo "<head><title>$title</title><body bgcolor=ffffff>\n";
 
     project_banner($user);
 
@@ -106,15 +86,15 @@ function time_str($x) {
 }
 
 function start_table() {
-    echo "<table width=600 border=1 cellpadding=5>";
+    echo "<table border=1 cellpadding=5>";
 }
 
 function end_table() {
     echo "</table>\n";
 }
 
-function row1($x) {
-    echo "<tr><td bgcolor=cccccc colspan=2><b>$x</b></td></tr>\n";
+function row1($x, $ncols=2) {
+    echo "<tr><td bgcolor=cccccc colspan=$ncols><b>$x</b></td></tr>\n";
 }
 
 function row2($x, $y) {
@@ -254,8 +234,4 @@ function split_munged_email_addr($addr, $string, &$email) {
     return true;
 }
 
-// remove all HTML tags except vanilla formatting
-//
-function cleanse_html($text) {
-}
 ?>

@@ -4,8 +4,9 @@
 
     $authenticator = init_session();
     db_init();
-    page_head("Top users");
-    $result = mysql_query("select * from user order by expavg_credit desc,total_credit desc");
+    $numusers = 100;
+    page_head("Top $numusers users");
+    $result = mysql_query("select * from user order by expavg_credit desc,total_credit desc limit $numusers");
     user_table_start();
     while ($user = mysql_fetch_object($result)) {
         show_user_row($user);

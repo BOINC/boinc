@@ -1,7 +1,7 @@
 <?php
 
 function show_user_stats($user) {
-    row1("Account statistics");
+    row1("Account data for $user->name");
     $row = sprintf("%s User since", $project);
     row2($row, time_str($user->create_time));
     row2("Total credit", $user->total_credit);
@@ -13,6 +13,8 @@ function show_user_stats($user) {
     } else {
         row2("Team", "None");
     }
+    row2("Country", $user->country);
+    row2("Hosts", "<a href=hosts_user.php?userid=$user->id>Click to view</a>");
 }
 
 function show_user_profile($user) {
@@ -71,18 +73,24 @@ function show_user_page_private($user) {
 function user_table_start() {
     start_table();
     echo "
-        <tr><th>Name</th><th>Average credit</th><th>Total credit</th>
-        <th>Participant since</th></tr>
+        <tr>
+        <th>Name</th>
+        <th>Recent average credit</th>
+        <th>Total credit</th>
+        <th>Country</th>
+        <th>Participant since</th>
+        </tr>
     ";
 }
 
 function show_user_row($user) {
     echo "<tr>
-        <td>$user->name</td>
+        <td><a href=show_user.php?userid=$user->id>$user->name</a></td>
         <td>$user->expavg_credit</td>
         <td>$user->total_credit</td>
+        <td>$user->country</td>
         <td>".time_str($user->create_time)."</td>
-    <tr>\n";
+    </tr>\n";
 }
 
 ?>

@@ -4,11 +4,9 @@
     require_once("user.inc");
     require_once("host.inc");
 
-    $authenticator = init_session();
     db_init();
-    $user = get_user_from_auth($authenticator);
     $hostid = $HTTP_GET_VARS["hostid"];
-    if ($user && $hostid) {
+    if ($hostid) {
         page_head("Host stats");
 
         $result = mysql_query("select * from host where id = $hostid");
@@ -16,16 +14,12 @@
         mysql_free_result($result);
 
         if ($host) {
-            if ($host->userid != $user->id) {
-                echo "Not your host\n";
-            } else {
-                show_host($host, true);
-            }
+            show_host($host, false);
         } else {
-            echo "Couldn't find host or user.<p>";
+            echo "Couldn't find host.<p>";
         }
-        page_tail();
     } else {
-        print_login_form();
+        echo "Couldn't find host.<p>";
     }
+    page_tail();
 ?>
