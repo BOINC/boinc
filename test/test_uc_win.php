@@ -10,10 +10,13 @@
     $host = new Host($user);
     $app = new App("upper_case");
     $app_version = new App_Version($app);
+    $app_version->platform_name = "windows_intelx86";
+    $app_version->exec_name = "upper_case.exe";
 
     $project->add_user($user);
     $project->add_app($app);
     $project->add_app_version($app_version);
+    $project->add_platform("windows_intelx86");
     $project->install();      // must install projects before adding to hosts
 
     echo "adding work\n";
