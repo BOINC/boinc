@@ -8774,6 +8774,24 @@ Gary    25 Dec 2003
     - BOINC release 2.16 for windows, Linux, solaris, mac os x 10.3
        (os x 10.2 compatability will come soon)
 
+Jeff  30 Dec 2003
+    - Check for buffer reallocation errors in MFILE functions and return values 
+      that mimic the normal system versions of these functions. 
+
+      Functions that were changed:  * indicates a change.
+	function		successful return	failure return
+	--------------		------------------	--------------
+	MFILE::printf()		num bytes output	-1 *
+	MFILE::write()		num bytes output	-1 *
+	MFILE::putchar(c)	c     			EOF *
+	MFILE::puts(s)		strlen(s) *		EOF *
+
+      MFILE::puts() used to return 0 on success.  I greped both astropulse
+      and seti_boinc code and found no current use of this function.
+
+    api/
+	mfile.C
+     
 David  30 Dec 2003
     - added optional <disabled>1</disabled> flag to daemons and tasks
         in config.xml.  (would prefer "<disabled/>", but couldn't

@@ -46,6 +46,7 @@ int MFILE::printf(const char* format, ...) {
     va_end(ap);
     n = strlen(buf2);
     buf = (char*)realloc(buf, len+n);
+    if(!buf) return -1;
     strncpy(buf+len, buf2, n);
     len += n;
     return k;
@@ -53,6 +54,7 @@ int MFILE::printf(const char* format, ...) {
 
 size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
     buf = (char *)realloc( buf, len+(size*nitems) );
+    if(!buf) return -1;
     memcpy( buf+len, ptr, size*nitems );
     len += size*nitems;
     return nitems;
@@ -60,6 +62,7 @@ size_t MFILE::write(const void *ptr, size_t size, size_t nitems) {
 
 int MFILE::_putchar(char c) {
     buf = (char*)realloc(buf, len+1);
+    if(!buf) return EOF;
     buf[len] = c;
     len++;
     return c;
@@ -68,9 +71,10 @@ int MFILE::_putchar(char c) {
 int MFILE::puts(const char* p) {
     int n = strlen(p);
     buf = (char*)realloc(buf, len+n);
+    if(!buf) return EOF;
     strncpy(buf+len, p, n);
     len += n;
-    return 0;
+    return n;
 }
 
 int MFILE::close() {
