@@ -20841,3 +20841,12 @@ Rom    7 Dec 2004
 
     client/
         client_state.C
+
+Bruce   7 Dec 2004
+    - Added additional options -gzip, -zip, -max_wu_per_file to db_purge.  The
+      compression options are 'efficient' in that they do not write an uncompressed
+      file then compress -- they go straight to compressed.  SIGHUP and lockfile
+      shutdown signals are properly caught and close compressed files and DB cleanly.
+
+    sched/
+        db_purge.C
