@@ -10660,3 +10660,9 @@ Rom    Mar 20 2004
         boinc_api.c
     lib/
         app_ipc.h
+
+kevin Mon Mar 22 2004
+    ensure that </stderr_txt> is included in
+    stderr_out, even if stderr_out is too long.
+     client/
+        app.C
