@@ -994,7 +994,7 @@ int send_work(
                 "Not sending work because core client is outdated\n"
             );
         }
-        strcpy(reply.message_priority, "low");
+        strcpy(reply.message_priority, "high");
         reply.request_delay = 10;
 
         log_messages.printf(

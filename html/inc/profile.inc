@@ -28,7 +28,8 @@ function show_profile_creation_page($usr) {
     global $profile_info;
     $user = $usr;
 
-    // If the user already has a profile, fill in the fields with their current values.
+    // If the user already has a profile,
+    // fill in the fields with their current values.
     $result = mysql_query("SELECT * FROM profile WHERE userid = $user->id");
     if ($result) {
         $profile_info = mysql_fetch_array($result, MYSQL_ASSOC);
@@ -154,13 +155,11 @@ function show_finale() {
     global $profile_info;
 
     row1("Submit Your Profile");
-    $email_check = "<input type=\"checkbox\" name=\"hide_email\"";
-    if ($profile_info['hide_email']) {
-        $email_check = $email_check . " checked";
-    }
-    $email_check = $email_check . ">Please do NOT show my email address in my profile.";
-    rowify($email_check . "<p>
-            <input type=\"submit\" value=\"Submit\" name=\"submit\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type=\"reset\" value=\"Clear\" name=\"clear\">");
+    rowify("<p>
+        <input type=submit value=Submit name=submit>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type=reset value=Clear name=clear>"
+    );
 }
 
 // If the user with id = $userid has uploaded a picture his/herself,
@@ -186,13 +185,10 @@ function process_create_results() {
     $response2 = $_POST['response2'];
     $language = $_POST['language'];
     $delete_pic = $_POST['delete_pic'];
-    $hide_email = ($_POST['hide_email'] == "on");
 
     if (strlen($response1)==0 &&
         strlen($response2)==0 &&
         $delete_pic != "on" &&
-        $hide_email != "on" &&
-
         !is_uploaded_file($_FILES['picture']['tmp_name'])
     ) {
         profile_error_page("Your profile submission was empty.");
@@ -232,8 +228,7 @@ function process_create_results() {
             ." response1 = '$response1',"
             ." response2 = '$response2',"
             ." language = '$language',"
-            ." has_picture = '$hasPicture',"
-            ." hide_email = '$hide_email'"
+            ." has_picture = '$hasPicture'"
             ." WHERE userid = '$user->id'";
         $result = mysql_query($query);
         if (!$result) {
@@ -246,8 +241,7 @@ function process_create_results() {
             ." language = '$language',"
             ." response1 = '$response1',"
             ." response2 = '$response2',"
-            ." has_picture = '$hasPicture',"
-            ." hide_email = '$hide_email'";
+            ." has_picture = '$hasPicture'";
         $result = mysql_query($query);
         if (!$result) {
             profile_error_page("Couldn't create profile: database error");
@@ -496,9 +490,6 @@ function show_profile_summary($user, $profile_info, $can_edit, $verify_mode) {
         <b>Country:</b> ", $user->country,
         "<br><b>Language:</b> ", $profile_info['language'], "<br>
     ";
-    if (!$profile_info['hide_email']) {
-        echo "<b>Email:</b> <a href=\"mailto:", $user->email_addr, "\">", $user->email_addr, "</a><br>";
-    }
     echo "<b>Total Credit:</b> ", $user->total_credit, "<br>";
 
     if ($user->teamid) {

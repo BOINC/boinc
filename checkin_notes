@@ -10825,3 +10825,14 @@ Rom    Mar 24 2004
 
     api/
      windows_opengl.C
+
+David  Mar 24 2004
+    - change priority of "no work" messages in scheduler reply
+        from low to high
+    - remove "hide_email" field from profile table and associated web pages
+        (BOINC should never show email addresses)
+
+    html/inc/
+        profile.inc
+    sched/
+        handle_request.C

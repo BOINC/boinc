@@ -281,9 +281,9 @@ create table profile (
     recommend           integer     not null,
     reject              integer     not null,
     posts               integer     not null,
-    hide_email          integer,
     uotd_time           integer,
     verification        integer,
+        -- UOD screening status: -1 denied, 0 unrated, 1 approved
     primary key (userid)
 );
 
