@@ -3,34 +3,30 @@ require_once("docutil.php");
 page_head("The BOINC application programming interface (API)");
 echo "
 <p>
-The BOINC API is a set of C++ functions.
+The BOINC API is a set of C functions.
 Unless otherwise specified,
 the functions return an integer error code; zero indicates success.
-On an error return, the application should exit with that status.
-The BOINC graphics API is described <a href=graphics.php>separately</a>.
+<p>
+BOINC applications may generate graphics,
+allowing them to provide a screensaver.
+This API is described <a href=graphics.php>here</a>.
+<p>
+BOINC applications may consist of several programs that are
+executed in sequence;
+the API for this is described <a href=compound_app.php>here</a>.
+
 
 <h3>Initialization and termination</h3>
 The application must call
 <pre>
-    int boinc_init(bool is_worker=true);
+    int boinc_init();
 </pre>
 before calling other BOINC functions or doing I/O.
-<p>
-If <code>is_worker</code> is true,
-the application will periodically report CPU time and fraction_done to
-the BOINC core client.
-<p>
-An application will detect that it is standalone if it cannot parse
-the init data file, or if it cannot setup the shared memory.
-A standalone application will function independently of the BOINC core client
-(this is useful for testing).
-<p>
 When the application has completed it must call
 <pre>
-    int boinc_finish(int status, is_worker=true);
+    int boinc_finish(int status);
 </pre>
 <code>status</code> is nonzero if an error was encountered.
-<code>is_worker</code> is true iff it was true for boinc_init.
 This call does not return.
 
 <h3>Resolving file names</h3>
@@ -137,22 +133,28 @@ html_text("
     int boinc_get_init_data(APP_INIT_DATA&);
 
     struct APP_INIT_DATA {
-        char project_preferences[4096];
+        int core_version;
+        char app_name[256];
+        char project_preferences[65536];
         char user_name[256];
         char team_name[256];
         char project_dir[256];
         char boinc_dir[256];
         char wu_name[256];
         char authenticator[256];
+        int slot;
         double user_total_credit;
         double user_expavg_credit;
         double team_total_credit;
         double team_expavg_credit;
+        HOST_INFO host_info;
     };
 "), "
 to get the following information:
 ";
 list_start();
+list_item("core version", "The version number of the core client");
+list_item("app_name", "The application name (from the server's DB)");
 list_item("project_preferences", "An XML string containing
 the user's project-specific preferences.");
 list_item("user_name", " the user's 'screen name' on this project.");
@@ -161,10 +163,12 @@ list_item("project_dir", "absolute path of project directory");
 list_item("boinc_dir", "absolute path of BOINC root directory");
 list_item("wu_name", "name of workunit being processed");
 list_item("authenticator", "user's authenticator for this project");
+list_item("slot", "The number of the app's 'slot' (0, 1, ...)");
 list_item("user_total_credit", " user's total work for this project.");
 list_item("user_expavg_credit", " user's recent average work per day.");
 list_item("team_total_credit", " team's total work for this project.");
 list_item("team_expavg_credit", " team's recent average work per day.");
+list_item("host_info", "A structure describing the host hardware and OS");
 list_end();
 echo "
 <p>

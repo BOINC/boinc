@@ -7,11 +7,11 @@ echo "
 <h3>Compound applications</h3>
 
 A <b>compound application</b> consists of a <b>main program</b>
-and one or more <b>subsidiary programs</b>.
-The main program executes the subsidiary programs in sequence.
+and one or more <b>worker programs</b>.
+The main program executes the worker programs in sequence.
 It maintains a state file that records
 which subsidiary programs have already completed.
-It assigns to each subsidiary application
+It assigns to each worker application
 a subrange of the overall 'fraction done' range of 0..1.
 For example, if there are two subsidiary applications
 with equal runtime,
@@ -20,14 +20,24 @@ would have range 0.5 to 1.
 
 
 <p>
-The main program must not call boinc_init() or boinc_finish().
-Its logic is as follows:
+The BOINC API provides a number of functions,
+and in developing a compound application you must decide
+whether these
+how these functions are to be divided between
+the main and worker programs.
+
 <pre>
+struct BOINC_OPTIONS {
+};
+<p>
+The main program logic is as follows:
+<pre>
+boinc_init_options(...)
 read state file
 for each remaining subsidiary application:
     boinc_parse_init_data_file()
-    aip.fraction_done_start = x
-    aip.fraction_done_end = y
+    aid.fraction_done_start = x
+    aid.fraction_done_end = y
     boinc_write_init_data_file()
     run the app
     write state file
