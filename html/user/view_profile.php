@@ -4,8 +4,6 @@ require_once("project_specific/project.inc");
 require_once("util.inc");
 require_once("db.inc");
 
-// TODO: Fix javascript popup tables- they are currently wrapping past
-// the edge of the screen.
 
 db_init();
 
