@@ -184,6 +184,7 @@ char *countries[NUM_COUNTRIES] = {
     "Sao Tome and Principe",
     "Saudi Arabia",
     "Senegal",
+    "Serbia and Montenegro",
     "Seychelles",
     "Sierra Leone",
     "Singapore",
@@ -227,7 +228,6 @@ char *countries[NUM_COUNTRIES] = {
     "West Bank",
     "Western Sahara",
     "Yemen",
-    "Yugoslavia",
     "Zambia",
     "Zimbabwe"
 };

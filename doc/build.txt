@@ -52,32 +52,6 @@ Get the source
 
 - released distribution from http://boinc.berkeley.edu/
 
-- CVS:
-
-     CVSROOT=anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc
-     authentication: pserver, password=(blank)
-
-  - Command-Line CVS (UNIX/CygWin):
-
-    1  At command line, enter:
-
-       cvs -d:pserver:anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc login
-
-       Enter a blank password.
-    2  At command line, enter:
-
-       cvs -z3 -d:pserver:anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc co boinc
-
-  - WinCVS
-
-    1  Menu item Create->Checkout module
-    2  Under General Tab, set CVSROOT to "anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc"
-    3  Under General Tab, Set authentication to "'passwd' file on the cvs server"
-    4  Under Checkout settings tab, set module name to "boinc"
-    5  Under Checkout settings tab, checkout location to "C:\", click OK
-
-
-
 -------------------------------------------------------------------------
 Setup Build Environments
 
@@ -118,16 +92,7 @@ Macintosh
 
 Build Source Release
 
-0   Get latest source using CVS
-
-  0.1  At command line, enter:
-
-       cvs -d:pserver:anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc login
-
-       Enter a blank password.
-  0.2  At command line, enter:
-
-       cvs -z3 -d:pserver:anonymous@cvs.boinc.sourceforge.net:/cvsroot/boinc co boinc
+0   Get latest source
 
 1   Make source distributions (.tar.gz, .tar.bz2, .zip)
 

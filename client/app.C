@@ -705,9 +705,10 @@ bool ACTIVE_TASK::read_stderr_file() {
     sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, STDERR_FILE);
     FILE* f = fopen(path, "r");
     if (f) {
-        n = fread(stderr_file, 1, sizeof(stderr_file), f);
+        n = fread(stderr_file, 1, sizeof(stderr_file)-1, f);
         fclose(f);
-        stderr_file[n-1] = '\0';
+        if (n < 0) return false;
+        stderr_file[n] = '\0';
         result->stderr_out += "<stderr_txt>\n";
         result->stderr_out += stderr_file;
         result->stderr_out += "\n</stderr_txt>\n";

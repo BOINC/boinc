@@ -207,6 +207,27 @@ public:
     WORKUNIT* lookup_workunit(PROJECT*, char*);
     APP_VERSION* lookup_app_version(APP*, int);
     ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
+
+    void check_project_pointer(PROJECT*);
+    void check_app_pointer(APP*);
+    void check_file_info_pointer(FILE_INFO*);
+    void check_app_version_pointer(APP_VERSION*);
+    void check_workunit_pointer(WORKUNIT*);
+    void check_result_pointer(RESULT*);
+    void check_pers_file_xfer_pointer(PERS_FILE_XFER*);
+    void check_file_xfer_pointer(FILE_XFER*);
+
+    void check_app(APP&);
+    void check_file_info(FILE_INFO&);
+    void check_file_ref(FILE_REF&);
+    void check_app_version(APP_VERSION&);
+    void check_workunit(WORKUNIT&);
+    void check_result(RESULT&);
+    void check_active_task(ACTIVE_TASK&);
+    void check_pers_file_xfer(PERS_FILE_XFER&);
+    void check_file_xfer(FILE_XFER&);
+
+    void check_all();
 };
 
 extern CLIENT_STATE gstate;
