@@ -545,7 +545,6 @@ int handle_results(
         result.client_state = rp->client_state;
         result.cpu_time = rp->cpu_time;
         result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
-fprintf(stderr, "cpu %e, cps %e, cc %e\n", result.cpu_time, host.credit_per_cpu_sec, result.claimed_credit);
         result.server_state = RESULT_SERVER_STATE_OVER;
         // TODO: if client application aborted e.g. exceeded resource limits,
         // should client_state be RESULT_OUTCOME_CLIENT_ERROR ?
@@ -591,7 +590,7 @@ fprintf(stderr, "cpu %e, cps %e, cc %e\n", result.cpu_time, host.credit_per_cpu_
     return 0;
 }
 
-int insert_name_tags(RESULT& result, WORKUNIT& wu) {
+int insert_name_tags(RESULT& result, WORKUNIT const& wu) {
     char buf[256];
     int retval;
 
@@ -600,6 +599,14 @@ int insert_name_tags(RESULT& result, WORKUNIT& wu) {
     if (retval) return retval;
     sprintf(buf, "<wu_name>%s</wu_name>\n", wu.name);
     retval = insert_after(result.xml_doc_in, "<result>\n", buf);
+    if (retval) return retval;
+    return 0;
+}
+
+int insert_deadline_tag(RESULT& result) {
+    char buf[256];
+    sprintf(buf, "<report_deadline>%d</report_deadline>\n", result.report_deadline);
+    int retval = insert_after(result.xml_doc_in, "<result>\n", buf);
     if (retval) return retval;
     return 0;
 }
@@ -652,11 +659,19 @@ int send_work(
         );
         if (retval) continue;
 
+        int wu_seconds_filled = (int) estimate_duration(wu, reply.host);
+
         log_messages.printf(
             SchedMessages::NORMAL,
-            "[HOST#%d] Sending [RESULT#%d %s]\n",
-            reply.host.id, result.id, result.name
+            "[HOST#%d] Sending [RESULT#%d %s] (fills %d seconds)\n",
+            reply.host.id, result.id, result.name, wu_seconds_filled
         );
+
+        result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
+        result.hostid = reply.host.id;
+        result.sent_time = time(0);
+        result.report_deadline = result.sent_time + wu.delay_bound;
+        result.update();
 
         // copy the result so we don't overwrite its XML fields
         //
@@ -664,17 +679,15 @@ int send_work(
 
         retval = insert_name_tags(result_copy, wu);
         if (retval) {
-            log_messages.printf(SchedMessages::NORMAL, "send_work: can't insert name tags\n");
+            log_messages.printf(SchedMessages::CRITICAL, "send_work: can't insert name tags\n");
+        }
+        retval = insert_deadline_tag(result_copy);
+        if (retval) {
+            log_messages.printf(SchedMessages::CRITICAL, "send_work: can't insert deadline tag\n");
         }
         reply.insert_result(result_copy);
 
-        seconds_to_fill -= (int)estimate_duration(wu, reply.host);
-
-        result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
-        result.hostid = reply.host.id;
-        result.sent_time = time(0);
-        result.report_deadline = result.sent_time + wu.delay_bound;
-        result.update();
+        seconds_to_fill -= wu_seconds_filled;
 
         nresults++;
         if (nresults == MAX_WUS_TO_SEND) break;
