@@ -650,8 +650,8 @@ void CMainFrame::OnToolsOptions( wxCommandEvent& WXUNUSED(event) )
         pDoc->SetProxyHTTPUserName( strBuffer );
         strBuffer = pDlg->m_HTTPPasswordCtrl->GetValue();
         pDoc->SetProxyHTTPPassword( strBuffer );
-        bBuffer = pDlg->m_EnableHTTPProxyCtrl->GetValue();
 
+        bBuffer = pDlg->m_EnableSOCKSProxyCtrl->GetValue();
         pDoc->SetProxySOCKSProxyEnabled( bBuffer );
         strBuffer = pDlg->m_SOCKSAddressCtrl->GetValue();
         pDoc->SetProxySOCKSServerName( strBuffer );

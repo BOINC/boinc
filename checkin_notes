@@ -20515,6 +20515,9 @@ Rom    2 Dec 2004
         message was logged.
     - Cleanup some of the statusbar update code, wxWidgets already had a function
         to do that work.
+    - Bug Fix: Fix the socks proxy enable button, it was referencing the HTTP proxy
+        control instead of the socks proxy control.  ( I thought I had fixed this
+        awhile ago )
 
     client/win/
         win_screensaver.cpp
