@@ -278,7 +278,7 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool initially
 	SetFocus(hWnd);									// Sets Keyboard Focus To The Window
 	ReSizeGLScene(width, height);					// Set Up Our Perspective GL Screen
 
-	if (!InitGL()) {								// Initialize Our Newly Created GL Window
+	if (InitGL() != GL_NO_ERROR) {					// Initialize Our Newly Created GL Window
 		KillGLWindow();								// Reset The Display
 		MessageBox(NULL,"Initialization Failed.","ERROR",MB_OK|MB_ICONEXCLAMATION);
 		return FALSE;								// Return FALSE
