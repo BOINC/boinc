@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+using namespace std;
+
 #include <strings.h>
 
 #include "parse.h"
