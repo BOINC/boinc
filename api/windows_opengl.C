@@ -294,7 +294,14 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
                 SetMode(new_mode);
                 break;
             case GRAPHICS_MSG_REREAD_PREFS:
-                app_graphics_reread_prefs();
+				// only reread graphics prefs if we have a window open
+				//
+				switch(current_graphics_mode) {
+				case MODE_WINDOW:
+				case MODE_FULLSCREEN:
+					app_graphics_reread_prefs();
+					break;
+				}
                 break;
             }
         }
@@ -341,7 +348,7 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	unreg_win_class();
 
 	SetEvent(hQuitEvent);		// Signal to the worker thread that we're quitting
-	return (msg.wParam);		// Exit The thread
+	return (DWORD)msg.wParam;		// Exit The thread
 }
 
 BOOL VerifyPassword(HWND hwnd)

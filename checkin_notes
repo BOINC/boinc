@@ -9745,3 +9745,15 @@ Rom    Feb 4 2004
     client
         win/
             win_screensaver.cpp
+
+David  Feb 4 2004
+	- BOINC API: if get a REREAD_PREFS message from core client,
+		only call the app's reread_prefs function if there's a window open
+		(the SETI@home reread_prefs function goes into an infinite loop
+		if there's not a window open)
+	- change copyright year to 2004
+
+	api/
+		windows_opengl.C
+	client/win/
+		resource.rc

@@ -302,12 +302,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Space Sciences Laboratory"
             VALUE "FileDescription", "boinc_gui"
-            VALUE "FileVersion", "2, 0, 23, 0\0"
+            VALUE "FileVersion", "2, 0, 23, 0"
             VALUE "InternalName", "boinc_gui"
-            VALUE "LegalCopyright", "Copyright © 2003 SETI@home"
+            VALUE "LegalCopyright", "Copyright © 2004 University of California"
             VALUE "OriginalFilename", "boinc_gui.exe"
             VALUE "ProductName", "BOINC Core Client"
-            VALUE "ProductVersion", "2, 0, 23, 0\0"
+            VALUE "ProductVersion", "2, 0, 23, 0"
         END
     END
     BLOCK "VarFileInfo"

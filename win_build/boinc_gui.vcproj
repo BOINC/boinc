@@ -1463,6 +1463,9 @@
 				RelativePath="..\client\win\res\smallico.ico">
 			</File>
 			<File
+				RelativePath="..\client\win\res\usage.bmp">
+			</File>
+			<File
 				RelativePath="..\client\win\res\xfer.bmp">
 			</File>
 		</Filter>
