@@ -167,7 +167,14 @@ def _remove_trail(s, suffix):
         return s
 
 def _url_to_filename(url):
-    return _remove_trail(url.replace('http://','').replace('/','_'),'_')
+    s=""
+    for c in url.replace('http://',''):
+	if (c.isalnum()):
+	    s += c
+	else:
+	    s += '_' 
+    return _remove_trail(s,'_')
+
 def account_file_name(url):
     return 'account_' + _url_to_filename(url) + '.xml'
 

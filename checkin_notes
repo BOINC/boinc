@@ -5924,3 +5924,9 @@ Karl,ChrisZ 2003/08/21
 
     lib/
         util.C
+
+Chrisz 2003/08/25
+    - changed _url_to_filename from nonalnum to '_'
+
+    py/
+	boinc.py
