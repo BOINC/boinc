@@ -27,6 +27,9 @@
 #include "server_types.h"
 #include "handle_request.h"
 
+#define MIN_SECONDS_TO_SEND 3600 //1 hour
+#define MAX_SECONDS_TO_SEND 2419200 //4 weeks
+
 // return true if the WU can be executed on the host
 //
 bool wu_is_feasible(WORKUNIT& wu, HOST& host) {
@@ -39,6 +42,17 @@ bool wu_is_feasible(WORKUNIT& wu, HOST& host) {
 //
 double estimate_duration(WORKUNIT& wu, HOST& host) {
     return wu.rsc_fpops/host.p_fpops + wu.rsc_iops/host.p_iops;
+}
+
+// estimate the number of seconds that a WU will take on a host
+//
+int estimate_seconds(WORKUNIT& wu, HOST& host) {
+    int calculations, memory_accesses;
+    calculations = wu.rsc_fpops/host.p_fpops + wu.rsc_iops/host.p_iops;
+    memory_accesses = wu.rsc_membw/host.p_membw;
+    if(memory_accesses > calculations)
+	return memory_accesses;
+    return calculations;
 }
 
 // add the given workunit to a reply.
@@ -247,7 +261,7 @@ int handle_results(
 
 int send_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    HOST& host, SCHED_SHMEM& ss
+    HOST& host, SCHED_SHMEM& ss, WORKUNIT& wu_sending
 ) {
     int i, retval, nresults = 0;
     WORKUNIT wu;
@@ -269,6 +283,7 @@ int send_work(
         retval = add_wu_to_reply(wu, reply, platform, ss);
         if (retval) continue;
         reply.insert_result(result);
+	wu_sending = wu;
         nresults++;
 
         result.state = RESULT_STATE_IN_PROGRESS;
@@ -326,8 +341,9 @@ void process_request(
     HOST host;
     USER user;
     PLATFORM* platform;
-    int retval;
+    int retval, seconds_to_fill;
     char buf[256];
+    WORKUNIT wu;
 
     retval = authenticate_user(sreq, reply, user, host);
     if (retval) return;
@@ -350,7 +366,15 @@ void process_request(
 
     handle_results(sreq, reply, host);
 
-    send_work(sreq, reply, *platform, host, ss);
+    seconds_to_fill = sreq.work_req_seconds;
+    if(seconds_to_fill > MAX_SECONDS_TO_SEND)
+	seconds_to_fill = MAX_SECONDS_TO_SEND;
+    else if(seconds_to_fill < MIN_SECONDS_TO_SEND)
+	seconds_to_fill = MIN_SECONDS_TO_SEND;
+    while(seconds_to_fill > 0) {
+	send_work(sreq, reply, *platform, host, ss, wu);
+	seconds_to_fill -= estimate_seconds(wu, host);
+    }
 }
 
 void handle_request(FILE* fin, FILE* fout, SCHED_SHMEM& ss) {
