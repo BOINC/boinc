@@ -631,8 +631,14 @@ class Work:
 
         run_tool(cmd)
 
+RESULT_METER_DELAY = 0.5
+# Note: if test script errors with:
+#   _mysql_exceptions.OperationalError: 2013, 'Lost connection to MySQL server
+#   during query'
+# Then your mysql server can't handle the load -- increase the RESULT_METER_DELAY
+
 class ResultMeter:
-    def __init__(self, func, args=[], delay=.1):
+    def __init__(self, func, args=[], delay=RESULT_METER_DELAY):
         '''Forks to print a progress meter'''
         self.pid = os.fork()
         if self.pid:

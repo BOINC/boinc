@@ -13014,3 +13014,8 @@ Karl 2004-04-04
     py/Boinc/
         setup_project.py
 
+    - changed the default delay between requests for ResultMeter from 0.1 to
+      0.5 - this should help MySQL servers that disconnect under load.  Also
+      added a message on how to change it.
+
+    test/tesetbase.py
