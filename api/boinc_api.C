@@ -25,26 +25,25 @@
 #endif
 
 #ifndef _WIN32
-#include "config.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
+#include <string>
+#include <fcntl.h>
+#include <algorithm>
+#include <sys/types.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <string.h>
-#include <string>
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>
 #endif
-#include <fcntl.h>
-#include <algorithm>
-#include <sys/types.h>
 
+#include "config.h"
 using namespace std;
 #endif
 

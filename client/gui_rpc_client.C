@@ -68,6 +68,7 @@ RPC_CLIENT::~RPC_CLIENT() {
 
 int RPC_CLIENT::send_request(char* p) {
     send(sock, p, strlen(p), 0);
+    return 0;
 }
 
 int RPC_CLIENT::get_reply(char*& mbuf) {
@@ -83,6 +84,7 @@ int RPC_CLIENT::get_reply(char*& mbuf) {
         if (strchr(buf, '\003')) break;
     }
     mf.get_buf(mbuf, n);
+    return 0;
 }
 
 int RPC_CLIENT::get_state() {

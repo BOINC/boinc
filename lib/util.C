@@ -33,14 +33,14 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <unistd.h>
+#include <algorithm>
+#include <fstream>
+#include <cstdio>
 #ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
 #endif
-#include <algorithm>
-#include <fstream>
 using std::min;
 #endif
-#include <cstdio>
 
 #include "error_numbers.h"
 #include "util.h"

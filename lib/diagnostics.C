@@ -40,7 +40,6 @@
 #include "filesys.h"
 #include "util.h"
 
-
 static int flags;
 
 #ifdef _WIN32

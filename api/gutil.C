@@ -21,6 +21,12 @@
 
 #ifdef _WIN32
 #include "stdafx.h"
+#include "jpeglib.h"
+#include "bmplib.h"
+#include "tgalib.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <glut.h>
 #endif
 
 #ifndef _WIN32
@@ -56,16 +62,6 @@
 #elif defined(HAVE_GLUT_GLUT_H)
 #include <GLUT/glut.h>
 #endif
-#endif
-
-#ifdef _WIN32
-#include "jpeglib.h"
-#include "bmplib.h"
-#include "tgalib.h"
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <glut.h>
-#else
 #include <jpeglib.h>
 #endif
 

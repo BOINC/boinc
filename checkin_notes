@@ -13401,3 +13401,22 @@ David  11 June 2004
         gui_rpc_client.C
         gui_rpc_server.C
         hostinfo_unix.C
+
+Rom    June 12 2004
+    - Cleanup build errors on Windows
+    - Fix the <run_benchmarks/> gui rpc to match documentation
+
+    api/
+        boinc_api.C, .h
+        gutil.C
+    client/
+        gui_rpc_client.C
+        gui_rpc_server.C
+    lib/
+        diagnostics.C
+        parse.h
+        shmem.C
+        util.C, .h
+    win_build/
+        boinc_guirpc_test.vcproj
+        upper_case.vcproj

@@ -28,11 +28,15 @@
 #include <cstring>
 #include <algorithm>
 #include <string>
-using std::string;
+using namespace std;
 #endif
 
 #if !defined(HAVE_STRLCPY)
 extern size_t strlcpy(char*, const char*, size_t);
+#endif
+
+#if !defined(HAVE_STRLCAT)
+extern size_t strlcat(char *dst, const char *src, size_t size);
 #endif
 
 extern int ndays_to_string(double x, int smallest_timescale, char *buf);

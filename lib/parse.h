@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 
+#ifndef PARSE_H
+#define PARSE_H
+
 #ifndef _WIN32
 #include <cstdio>
 #include <cstdlib>
@@ -43,3 +46,5 @@ extern char* sgets(char* buf, int len, char* &in);
 extern void xml_escape(string&, string&);
 extern void xml_unescape(string&, string&);
 extern void extract_venue(char*, char*, char*);
+
+#endif

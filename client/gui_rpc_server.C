@@ -265,7 +265,7 @@ int GUI_RPC_CONN::handle_rpc() {
 		handle_project_update(request_msg, mf);
 	} else if (match_tag(request_msg, "<set_run_mode>")) {
 		handle_set_run_mode(request_msg, mf);
-	} else if (match_tag(request_msg, "<run_benchmarks>")) {
+	} else if (match_tag(request_msg, "<run_benchmarks")) {
 		handle_run_benchmarks(request_msg, mf);
 	} else if (match_tag(request_msg, "<set_proxy_settings>")) {
 		handle_set_proxy_settings(request_msg, mf);

@@ -26,8 +26,9 @@
 #ifndef _WIN32
 #include <stdio.h>
 #include <string.h>
-
 #include <sys/types.h>
+#include <assert.h>
+
 #if HAVE_SYS_IPC_H
 #include <sys/ipc.h>
 #endif
@@ -37,7 +38,6 @@
 #endif
 #include <sys/shm.h>
 #endif
-#include <assert.h>
 #endif
 
 #include "error_numbers.h"

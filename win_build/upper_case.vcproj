@@ -226,27 +226,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\api\mfile.C">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
+				RelativePath="..\lib\mfile.C">
 			</File>
 			<File
 				RelativePath="..\lib\parse.C">
@@ -347,6 +327,9 @@
 			</File>
 			<File
 				RelativePath="..\api\graphics_api.h">
+			</File>
+			<File
+				RelativePath="..\lib\mfile.h">
 			</File>
 			<File
 				RelativePath="..\lib\parse.h">

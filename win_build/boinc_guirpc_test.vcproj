@@ -162,10 +162,19 @@
 			Name="Source Files"
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
 			<File
+				RelativePath="..\lib\filesys.C">
+			</File>
+			<File
 				RelativePath="..\client\gui_rpc_client.C">
 			</File>
 			<File
 				RelativePath="..\client\gui_test.C">
+			</File>
+			<File
+				RelativePath="..\lib\mfile.C">
+			</File>
+			<File
+				RelativePath="..\client\miofile.C">
 			</File>
 			<File
 				RelativePath="..\Lib\parse.C">
@@ -204,7 +213,16 @@
 				RelativePath="..\lib\error_numbers.h">
 			</File>
 			<File
+				RelativePath="..\lib\filesys.h">
+			</File>
+			<File
 				RelativePath="..\client\gui_rpc_client.h">
+			</File>
+			<File
+				RelativePath="..\lib\mfile.h">
+			</File>
+			<File
+				RelativePath="..\client\miofile.h">
 			</File>
 			<File
 				RelativePath="..\lib\parse.h">
