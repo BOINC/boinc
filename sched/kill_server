@@ -31,8 +31,6 @@ quiet = False
 verbose = False
 try:
     opts, args = getopt.getopt(sys.argv[1:], 'qvh')
-    if not args:
-        raise Exception, "No daemons specified"
 except Exception, e:
     print >>sys.stderr, e
     print >>sys.stderr, "Use '%s -h' for help" % sys.argv[0]
@@ -42,6 +40,10 @@ for opt,v in opts:
     elif opt == '-v': verbose = True
     elif opt == '-h': help()
     else: assert(False)
+if not args:
+    print >>sys.stderr, "No daemons specified"
+    print >>sys.stderr, "Use '%s -h' for help" % sys.argv[0]
+    sys.exit(1)
 
 if 'ALL' in args:
     args = daemons
