@@ -66,6 +66,10 @@ create table user (
     send_email          smallint    not null,
     show_hosts          smallint    not null,
     posts               smallint    not null,
+    seti_id             integer,
+    seti_nresults       integer,
+    seti_last_result_time   integer,
+    seti_total_cpu      integer,
     primary key (id)
 );
 
@@ -83,6 +87,7 @@ create table team (
     country             varchar(254),
     total_credit        double      not null,   /* temp */
     expavg_credit       double      not null,   /* temp */
+    seti_id             integer,
     primary key (id)
 );
 

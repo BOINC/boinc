@@ -716,11 +716,13 @@ static void scan_work_array(
                 continue;
             } else {
                 if (n>0) {
+#if 0
                     log_messages.printf(
                         SchedMessages::NORMAL,
                         "send_work: user %d already has %d result(s) for WU %d\n",
                         reply.user.id, n, wu_result.workunit.id
                     );
+#endif
                     continue;
                 }
             }

@@ -182,7 +182,9 @@ void DB_USER::db_print(char* buf){
         "total_credit=%.15e, expavg_credit=%.15e, expavg_time=%.15e, "
         "global_prefs='%s', project_prefs='%s', "
         "teamid=%d, venue='%s', url='%s', send_email=%d, show_hosts=%d, "
-        "posts=%d",
+        "posts=%d, "
+        "seti_id=%d, seti_nresults=%d, seti_last_result_time=%d, "
+        "seti_total_cpu=%d",
         id,
         create_time,
         email_addr,
@@ -200,7 +202,11 @@ void DB_USER::db_print(char* buf){
         url,
         send_email,
         show_hosts,
-        posts
+        posts,
+        seti_id,
+        seti_nresults,
+        seti_last_result_time,
+        seti_total_cpu
     );
     unescape_single_quotes(email_addr);
     unescape_single_quotes(name);
@@ -232,6 +238,10 @@ void DB_USER::db_parse(MYSQL_ROW &r) {
     send_email = atoi(r[i++]);
     show_hosts = atoi(r[i++]);
     posts = atoi(r[i++]);
+    seti_id = atoi(r[i++]);
+    seti_nresults = atoi(r[i++]);
+    seti_last_result_time = atoi(r[i++]);
+    seti_total_cpu = atoi(r[i++]);
 }
 
 void DB_TEAM::db_print(char* buf){
@@ -257,7 +267,8 @@ void DB_TEAM::db_print(char* buf){
         nusers,
         country,
         total_credit,
-        expavg_credit
+        expavg_credit,
+        seti_id
     );
     unescape_single_quotes(name);
     unescape_single_quotes(name_lc);
@@ -282,6 +293,7 @@ void DB_TEAM::db_parse(MYSQL_ROW &r) {
     strcpy2(country, r[i++]);
     total_credit = atof(r[i++]);
     expavg_credit = atof(r[i++]);
+    seti_id = atof(r[i++]);
 }
 
 void DB_HOST::db_print(char* buf){

@@ -142,7 +142,14 @@ struct USER {
     char url[256];                  // user's web page if any
     bool send_email;
     bool show_hosts;
-    int posts;
+    int posts;                      // number of messages posted (redundant)
+
+    // The following are specific to SETI@home;
+    // they record info about the user's involvement in a prior project
+    int seti_id;                    // ID in old DB
+    int seti_nresults;              // number of WUs completed
+    int seti_last_result_time;      // time of last result (UNIX)
+    int seti_total_cpu;             // number of CPU seconds
     void clear();
 };
 
@@ -168,6 +175,9 @@ struct TEAM {
     char country[256];
     double total_credit;    // UNDEFINED BY DEFAULT
     double expavg_credit;   // UNDEFINED BY DEFAULT
+
+    // The following is specific to SETI@home
+    int seti_id;            // ID in old DB
     void clear();
 };
 

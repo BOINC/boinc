@@ -7027,3 +7027,13 @@ David  22 Oct 2003
 			wingui_mainwindow.cpp
 		lib/
 			filesys.C
+
+David  24 Oct 2003
+    - complete Bob's addition of SETI@home "grandfather" fields to DB
+
+    db/
+        boinc_db.C,h
+        constraints.sql
+        schema.sql
+    sched/
+        handle_request.C
