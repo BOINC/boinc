@@ -38,7 +38,7 @@ int write_account_file(char* master_url, char* authenticator) {
         "<account>\n"
         "    <master_url>%s</master_url>\n"
         "    <authenticator>%s</authenticator>\n"
-        "    <resource_share>1</resource_share>"
+        "    <resource_share>1</resource_share>\n"
         "</account>\n",
         master_url,
         authenticator

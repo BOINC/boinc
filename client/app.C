@@ -306,7 +306,7 @@ int ACTIVE_TASK::start(bool first_time) {
         NULL,
         NULL,
         FALSE,
-        CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|NORMAL_PRIORITY_CLASS,
+        CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
         NULL,
         slotdirpath,
         &startup_info,
