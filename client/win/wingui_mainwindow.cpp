@@ -1119,7 +1119,7 @@ void CMainWindow::OnCommandWorkShowGraphics()
 		if(at) {
 			CWnd* pAppWnd = GetWndFromProcId(at->pid);
 			if(pAppWnd && IsWindow(pAppWnd->m_hWnd)) {
-				pAppWnd->PostMessage(RegisterWindowMessage(APP_SET_MSG), MODE_WINDOW, MODE_DEFAULT);
+				pAppWnd->PostMessage(RegisterWindowMessage(APP_SET_MSG), MODE_WINDOW, 0);
 			}
 		}
 	}

@@ -54,13 +54,12 @@ DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 BOOL reg_win_class();
 BOOL unreg_win_class();
 
-void SetMode(int mode, int pmode)
+void SetMode(int mode)
 {
 	RECT WindowRect = {0,0,0,0};
 	int width, height;
 
-	if(pmode == MODE_DEFAULT) nPrevMode = nMode;
-	else nPrevMode = pmode;
+	nPrevMode = nMode;
 	nMode = mode;
 
 	if(hWnd) {
@@ -169,17 +168,17 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 		case WM_LBUTTONDOWN:
 		case WM_MBUTTONDOWN:
 		case WM_RBUTTONDOWN:
-			if(nMode == MODE_FULLSCREEN) SetMode(nPrevMode, MODE_DEFAULT);
+			if(nMode == MODE_FULLSCREEN) SetMode(nPrevMode);
 			return 0;
 		case WM_MOUSEMOVE:
 			if(nMode == MODE_FULLSCREEN) {
 				POINT cPos;
 				GetCursorPos(&cPos);
-				if(cPos.x != mousePos.x || cPos.y != mousePos.y) SetMode(nPrevMode, MODE_DEFAULT);
+				if(cPos.x != mousePos.x || cPos.y != mousePos.y) SetMode(nPrevMode);
 			}
 			return 0;
 		case WM_CLOSE:
-			SetMode(MODE_NO_GRAPHICS, MODE_DEFAULT);
+			SetMode(MODE_NO_GRAPHICS);
 			return 0;
 		case WM_PAINT:
 			PAINTSTRUCT ps;
@@ -207,7 +206,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 	}
 
 	if(uMsg == SET_MODE) {
-		SetMode(wParam, lParam);
+		SetMode(wParam);
 		return 0;
 	}
 
@@ -229,7 +228,7 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	GET_MODE = RegisterWindowMessage( "BOINC_APP_GET" );
 	SET_MODE = RegisterWindowMessage( "BOINC_APP_SET" );
 
-	SetMode(MODE_NO_GRAPHICS, MODE_NO_GRAPHICS);
+	SetMode(MODE_NO_GRAPHICS);
 
 	win_loop_done = false;
 	using_opengl = true;

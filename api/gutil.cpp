@@ -6,7 +6,7 @@
 #include <windows.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include <GL/glut.h>
+#include <glut.h>
 #endif
 #ifdef __APPLE_CC__
 #include <OpenGL/gl.h>

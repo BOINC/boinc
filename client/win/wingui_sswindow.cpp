@@ -46,6 +46,7 @@ CSSWindow::CSSWindow()
 	m_uScreenSaverMsg = RegisterWindowMessage(START_SS_MSG);
 	m_uSetMsg = RegisterWindowMessage(APP_SET_MSG);
 	m_uGetMsg = RegisterWindowMessage(APP_GET_MSG);
+	m_uAppModeMsg = RegisterWindowMessage("BOINC_APP_MODE");
 	m_dwAppId = 0;
 	m_uStartTime = 0;
 	m_bCleared = false;
@@ -120,7 +121,7 @@ void CSSWindow::CheckAppWnd()
 		m_dwAppId = gstate.active_tasks.active_tasks[0]->pid;
 		pAppWnd = GetWndFromProcId(m_dwAppId);
 		if(pAppWnd) {
-			pAppWnd->PostMessage(m_uSetMsg, MODE_FULLSCREEN, MODE_DEFAULT);
+			pAppWnd->PostMessage(m_uSetMsg, MODE_FULLSCREEN, 0);
 		} else {
 			m_dwAppId = 0;
 		}
@@ -129,7 +130,7 @@ void CSSWindow::CheckAppWnd()
 			pAppWnd = GetWndFromProcId(m_dwAppId);
 			if(pAppWnd && IsWindow(pAppWnd->m_hWnd)) {
 				SetMode(MODE_FULLSCREEN);
-				pAppWnd->PostMessage(m_uSetMsg, MODE_NO_GRAPHICS, MODE_DEFAULT);
+				pAppWnd->PostMessage(m_uSetMsg, MODE_NO_GRAPHICS, 0);
 			}
 			m_dwAppId = 0;
 		} else {
@@ -177,11 +178,11 @@ LRESULT CSSWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		SetMode(MODE_FULLSCREEN);
 		CWnd* pAppWnd = GetWndFromProcId(m_dwAppId);
 		if(pAppWnd && IsWindow(pAppWnd->m_hWnd)) {
-			pAppWnd->PostMessage(m_uSetMsg, MODE_FULLSCREEN, MODE_DEFAULT);
+			pAppWnd->PostMessage(m_uSetMsg, MODE_FULLSCREEN, 0);
 		}
 		return 0;
-	} else if(message == RegisterWindowMessage("BOINC_APP_MODE")) {
-		if(lParam == m_dwAppId && wParam != MODE_FULLSCREEN && m_nMode == MODE_FULLSCREEN) {
+	} else if(m_uAppModeMsg == message) {
+		if(lParam == m_dwAppId && wParam != MODE_FULLSCREEN) {
 			SetMode(MODE_NO_GRAPHICS);
 			m_dwAppId = 0;
 			m_uStartTime = 0;

@@ -60,6 +60,7 @@ private:
 	UINT					m_uScreenSaverMsg;		// ID of screensaver message
 	UINT					m_uSetMsg;
 	UINT					m_uGetMsg;
+	UINT					m_uAppModeMsg;
 
 	DWORD					m_dwAppId;
 	CRect					m_AppRect;

@@ -3,8 +3,6 @@
 #define MODE_NO_GRAPHICS        1
 #define MODE_WINDOW             2
 #define MODE_FULLSCREEN         3
-#define MODE_DEFAULT			4
-#define MODE_BLANK_SCREEN		5
 
 struct GRAPHICS_INFO {
     int xsize;
