@@ -261,10 +261,8 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 	}
     fflush(stderr);
 
-#ifdef _DEBUG
 	// Unwind the stack and spew it to stderr
 	StackwalkFilter(pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL);
-#endif
 
 	fprintf(stderr, "Exiting...\n");
     fflush(stderr);

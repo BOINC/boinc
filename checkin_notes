@@ -10075,3 +10075,10 @@ David  Feb 16 2004
         handle_request.C
         sched_shmem.C
         server_types.C
+
+Rom    Feb 19 2004
+    - Removed #ifdef around stackwalker dump so it'll dump release builds as well
+
+	api/
+		boinc_api.C
+
