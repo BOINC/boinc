@@ -24627,3 +24627,17 @@ David  11 Feb 2005
 
     api/
         graphics_lib.C
+
+Janus 12 Feb 2005
+    - Added "Delete forum thread" feature
+    - Added "Double post" to the list of reasons why a post is deleted
+
+    /html/
+        inc/
+             email.inc
+        user/
+             forum_moderate_post.php
+             forum_moderate_thread.php (new)
+             forum_moderate_thread_action.php (new)
+             forum_thread.php
+
