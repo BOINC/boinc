@@ -296,6 +296,15 @@
 /* Define to 1 if /dev/tty1 exists */
 #undef HAVE__DEV_TTY1
 
+/* Define to 1 if you have the file `/etc/utmp'. */
+#undef HAVE__ETC_UTMP
+
+/* Define to 1 if you have the file `/var/adm/utmp'. */
+#undef HAVE__VAR_ADM_UTMP
+
+/* Define to 1 if you have the file `/var/run/utmp'. */
+#undef HAVE__VAR_RUN_UTMP
+
 /* Host for this compilation */
 #undef HOSTTYPE
 

@@ -120,6 +120,8 @@ AC_TYPE_SIZE_T
 AC_STRUCT_TM
 AC_STRUCT_TIMEZONE
 
+AC_CHECK_FILES(/var/run/utmp /var/adm/utmp /etc/utmp)
+
 dnl Checks for device files
 if test -e "/dev/mouse"; then
     AC_DEFINE(HAVE__DEV_MOUSE, 1, [Define to 1 if /dev/mouse exists])
