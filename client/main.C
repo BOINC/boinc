@@ -86,7 +86,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
 #endif
 
     strcpy(message, msg);
-    if (message[strlen(message)-1] == '\n') {
+    while (strlen(message)&&message[strlen(message)-1] == '\n') {
         message[strlen(message)-1] = 0;
     }
 
