@@ -41,6 +41,12 @@ int GUI_RPC_CONN::handle_rpc() {
             p->write_state(fout);
         }
         fprintf(fout, "</projects>\n");
+    } else if match_tag(buf, "<get_results">)) {
+        fprintf(fout, "<results>\n");
+        for (i=0; i<gstate.projects.size(); i++) {
+            PROJECT* p = gstate.projects[i];
+            p->write_state(fout);
+        }
     } else {
         fprintf(fout, "<unrecognized/>\n");
     }

@@ -19,6 +19,9 @@
 //
 // Revision History
 // $Log$
+// Revision 1.27  2004/01/22 17:57:41  davea
+// *** empty log message ***
+//
 // Revision 1.26  2004/01/20 02:51:50  korpela
 // VC 7 mods
 //
@@ -35,6 +38,7 @@
 #include <sstream>
 #include <cstring>
 #include <cstdio>
+#include "std_fixes.h"
 #include "xml_util.h"
 
 int xml_indent_level=0;
@@ -566,8 +570,83 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
   return rv.str();
 }
 
+// test if a character is an xml tag delimiter
+bool isxmldelim(char c) {
+  return ((c==' ') || (c=='\n') || (c=='\r') || 
+          (c==',') || (c=='<') || (c=='>') || 
+	  (c==0));
+}
+
+// return true if the tag appears in the line
+//
+bool xml_match_tag(const char* buf, const char* tag) {
+    char tmp_tag[BUFSIZ]={'<',0};
+    if (tag[0] == '<') {
+      strlcpy(tmp_tag,tag,BUFSIZ);
+    } else {
+      strlcat(tmp_tag,tag,BUFSIZ);
+    }
+    char *p=tmp_tag+strlen(tmp_tag);
+    do {
+      *(p--)=0;
+    } while (isxmldelim(*p));
+    while ((buf=strstr(buf,tmp_tag))) {
+      if (isxmldelim(buf[strlen(tmp_tag)])) return true;
+      buf++;
+    }
+    return false;
+}
+
+bool xml_match_tag(const std::string &s, const char* tag) {
+  return xml_match_tag(s.c_str(),tag);
+}
+
+bool extract_xml_record(const std::string &field, const char *tag, std::string &record) {
+    std::string::size_type start_pos,end_pos;
+    char end_tag[256];
+    sprintf(end_tag,"/%s",tag);
+    std::string::size_type j=0;
+
+    // find the end tag
+    do {
+      j=field.find(">",j+1);
+      end_pos=field.rfind(end_tag,j);
+      if ((end_pos != std::string::npos) && isxmldelim(field[end_pos+strlen(end_tag)+1])) {
+	end_pos=j;
+      }
+    } while ((end_pos==std::string::npos) && (j!=std::string::npos));
+
+    if (std::string::npos==end_pos) {
+      return false;
+    }
+
+    // find the start tag
+    j=field.rfind("<",end_pos);
+
+    do {
+      j=field.rfind(">",j-1);
+      start_pos=field.rfind(tag,j);
+      if ((start_pos != std::string::npos) && (field[start_pos-1]!='/') &&
+	  isxmldelim(field[start_pos+strlen(tag)])) {
+        start_pos=field.rfind("<",start_pos);
+      } else {
+	start_pos=std::string::npos;
+      }
+    } while ((start_pos==std::string::npos) && (j!=std::string::npos));
+
+    if (std::string::npos==start_pos) {
+      return false;
+    }
+
+    record=std::string(field,start_pos,end_pos-start_pos+1);
+    return true;
+}
+
 //
 // $Log$
+// Revision 1.27  2004/01/22 17:57:41  davea
+// *** empty log message ***
+//
 // Revision 1.26  2004/01/20 02:51:50  korpela
 // VC 7 mods
 //

@@ -38,6 +38,4 @@ extern int copy_element_contents(FILE* in, const char* end_tag, char* p, int len
 extern int copy_element_contents(FILE* in, const char* end_tag, string&);
 extern int read_file_malloc(const char* pathname, char*& str);
 extern void replace_element(char* buf, char* start, char* end, char* replacement);
-//extern void extract_venue(const char* in, const char* venue_name, char* out);
 extern char* sgets(char* buf, int len, char* &in);
-extern bool extract_xml_record(const std::string &field, const char *tag, std::string &record);

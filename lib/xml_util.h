@@ -21,6 +21,9 @@
 //
 // Revision History:
 // $Log$
+// Revision 1.18  2004/01/22 17:57:41  davea
+// *** empty log message ***
+//
 // Revision 1.17  2003/12/01 23:42:05  korpela
 // Under some compilers template parameters of type char [] weren't getting
 // cast to char *.  Template functions now use &(array[0]) to ensure correct
@@ -826,9 +829,16 @@ std::string xml_encode_string(const T *input,
   }
 }
 
+extern bool xml_match_tag(const char*, const char*);
+extern bool xml_match_tag(const std::string &, const char*);
+extern bool extract_xml_record(const std::string &field, const char *tag, std::string &record);
+
 #endif
 //
 // $Log$
+// Revision 1.18  2004/01/22 17:57:41  davea
+// *** empty log message ***
+//
 // Revision 1.17  2003/12/01 23:42:05  korpela
 // Under some compilers template parameters of type char [] weren't getting
 // cast to char *.  Template functions now use &(array[0]) to ensure correct

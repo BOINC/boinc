@@ -9490,3 +9490,12 @@ David  Jan 21 2004
 		main.C
 	win_builc/
 		boinc_cli.vcproj
+
+David  Jan 22 2004
+    - match_tag() changes broke Win compile.
+        Moved new match_tag() to xml_match_tag() in xml_util.C,
+        put old match_tag() back.
+    
+    lib/
+        util.C,h
+        xml_util.C,h
