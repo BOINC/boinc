@@ -204,7 +204,7 @@ int CLIENT_STATE::init() {
     //
     retval = global_prefs.parse_file(host_venue);
     if (retval) {
-        printf("Using default preferences.\n");
+        show_message(NULL, "Using default preferences", MSG_INFO);
     }
     install_global_prefs();
 
