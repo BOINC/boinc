@@ -3,7 +3,7 @@
     <generated_locally/>
     <upload_when_present/>
     <url><UPLOAD_URL/></url>
-    <max_nbytes>100000</max_nbytes>
+    <max_nbytes>120000</max_nbytes>
 </file_info>
 <result>
     <name><RESULT_NAME/></name>
