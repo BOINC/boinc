@@ -4,9 +4,10 @@
     require_once("team.inc");
     require_once("db.inc");
 
+    $authenticator = init_session();
     db_init();
 
-    $user = get_user_from_cookie();
+    $user = get_user_from_auth($authenticator);
     if (!$user) {
         print_login_form();
     } else {

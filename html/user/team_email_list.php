@@ -4,9 +4,10 @@ require_once("util.inc");
 require_once("team.inc");
 require_once("db.inc");
 
+$authenticator = init_session();
 db_init();
 
-$user = get_user_from_cookie();
+$user = get_user_from_auth($authenticator);
 
 $query = sprintf(
     "select * from team where id=%d",
@@ -22,7 +23,7 @@ if (!$team) {
     page_tail();
 } else if ($user->id != $team->userid) {
     page_head("Permission denied");
-    echo "Only a team's founder may view a team's email list.";
+    echo "Only a team's founder may view a team's email list.\n<br>\n";
 } else {
     page_head("$team->name Email List");
     echo "<p>";

@@ -4,7 +4,8 @@
     require_once("util.inc");
 
     db_init();
-    $user = get_user_from_cookie();
+    $authenticator = init_session();
+    $user = get_user_from_auth($authenticator);
 
     if ($user) {
     	$head = sprintf("Edit %s's User Information", $user->name);

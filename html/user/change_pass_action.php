@@ -4,8 +4,9 @@
     require_once("edit.inc");
     require_once("util.inc");
 
+    $authenticator = init_session();
     db_init();
-    $user = get_user_from_cookie();
+    $user = get_user_from_auth($authenticator);
 
     page_head("Change Password");
     if (!$user) {

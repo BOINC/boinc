@@ -2,6 +2,7 @@
     require_once("util.inc");
     require_once("user.inc");
 
+    $authenticator = init_session();
     db_init();
     page_head("Top users");
     $result = mysql_query("select * from user order by expavg_credit desc");

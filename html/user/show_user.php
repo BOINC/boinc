@@ -3,8 +3,9 @@
     require_once("user.inc");
     require_once("db.inc");
 
+    $authenticator = init_session();
     db_init();
-    $user = get_user_from_cookie();
+    $user = get_user_from_auth($authenticator);
     if ($user) {
       	page_head("User stats");
     	show_user($user);

@@ -5,8 +5,9 @@
 
     // show the home page of whoever's logged in
 
+    $authenticator = init_session();
     db_init();
-    $user = get_user_from_cookie();
+    $user = get_user_from_auth($authenticator);
     if ($user) {
         page_head("Member page for $user->name");
         show_user_page_private($user);

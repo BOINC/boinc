@@ -31,6 +31,7 @@ function platform_downloads($platform, $core_app) {
 }
 
 
+    $authenticator = init_session();
     db_init();
     page_head("Download the BOINC client");
 

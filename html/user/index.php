@@ -2,6 +2,7 @@
     require_once("util.inc");
     require_once("db.inc");
 
+    init_session();
     page_head("Home page");
 ?>
 

@@ -3,6 +3,7 @@
     require_once("user.inc");
     require_once("db.inc");
 
+    $authenticator = init_session();
     db_init();
     $authenticator = $HTTP_POST_VARS["authenticator"];
     $email_addr = $HTTP_POST_VARS["email_addr"];
@@ -29,7 +30,6 @@
             echo "Bad password.";
         }
     } else {
-        setcookie("auth", $user->authenticator, time()+100000000);
         page_head("User Page");   
         show_user_page_private($user);
     }

@@ -11,6 +11,7 @@ function show_error($str) {
     exit();
 }
 
+    $authenticator = init_session();
     db_init();
 
     $new_email_addr = $HTTP_POST_VARS["new_email_addr"];
@@ -52,7 +53,6 @@ function show_error($str) {
     if (!$result) {
         show_error("Couldn't create account");
     }
-    setcookie("auth", $authenticator);
     page_head("Account created");
     echo "Your account has been created,
         and an <b>account key</b> is being emailed to you.

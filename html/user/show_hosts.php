@@ -45,8 +45,9 @@ function show_host($host) {
     echo "</table>\n";
 
 }
+    $authenticator = init_session();
     db_init();
-    $user = get_user_from_cookie();
+    $user = get_user_from_auth($authenticator);
     if ($user) {
         page_head("Hosts stats");
         show_hosts($user);

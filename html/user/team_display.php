@@ -4,6 +4,7 @@ require_once("util.inc");
 require_once("team.inc");
 require_once("db.inc");
 
+$authenticator = init_session();
 db_init();
 
 $query = sprintf(

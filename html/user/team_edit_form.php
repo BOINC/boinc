@@ -2,6 +2,8 @@
 
 require_once("util.inc");
 require_once("team.inc");
+
+$authenticator = init_session();
 db_init();
 
     $query = "select * from team where id = $id";

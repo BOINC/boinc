@@ -2,6 +2,7 @@
 
 require_once("util.inc");
 require_once("team.inc");
+$authenticator = init_session();
 db_init();
 $id = $HTTP_GET_VARS["id"];
 
