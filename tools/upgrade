@@ -24,4 +24,7 @@ install_boinc_files(boinc_project_path.PROGRAM_PARENT_DIR)
 
 print "Upgrading files... done"
 print
-print "Run `start' to resume BOINC."
+# print "Run `start' to resume BOINC."
+
+if os.system(os.path.join(boinc_project_path.PROGRAM_PARENT_DIR,'bin/start')):
+    raise SystemExit("Couldn't start BOINC!")

@@ -7147,6 +7147,9 @@ Karl 2003-10-27
     win_build/
         boinc_installshield.zip
 
+    - process_app_version: write <open_name> tags; open_name is parsed from
+      disk filename 'open_name=url_filename' (url_filename is the basename of
+      file as copied to download/)
 
     - BOINC 2.07 release
     - Astropulse 2.07 release

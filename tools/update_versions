@@ -176,7 +176,7 @@ def find_versions(app, dir):
                 continue
             add_files(app=app, match=match, exec_file=filepath)
 
-for appdir in os.listdir(config.app_dir,'*'):
+for appdir in os.listdir(config.app_dir):
     if not os.path.isdir(appdir): continue
     dirname = os.path.basename(appdir)
     if dirname == 'boinc':

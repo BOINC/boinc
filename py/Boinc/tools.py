@@ -14,6 +14,19 @@ def file_size(path):
     f.seek(0,2)
     return f.tell()
 
+def get_kludge_open_name(filename):
+    """return part before '=' (or entire filename if none)"""
+    assert ('/' not in filename)
+    return filename.split('=')[0]
+
+def get_kludge_url_filename(filename):
+    """return part after '=' (or entire filename if none)"""
+    assert ('/' not in filename)
+    if '=' in filename:
+        return filename.split('=',1)[1]
+    else:
+        return filename
+
 def sign_executable(executable_path, quiet=False):
     '''Returns signed text for executable'''
     config = configxml.default_config()
@@ -30,26 +43,34 @@ def sign_executable(executable_path, quiet=False):
     return signature_text
 
 def process_executable_file(file, signature_text=None, quiet=False, executable=True):
-    '''Handle a new executable file to be added to the database.
+    '''Handle a new executable (or non-executable) file to be added to the
+    database.
+
+    0. If filename contains a "=", target filename is the text after the "="
+       (before "=" is used for app open name)
 
     1. Copy file to download_dir if necessary.
     2. Return <file_info> XML.
-        - if signature_text specified, include it; else generate md5sum.
+        - if signature_text specified, use it
+        - if no signature_text specified, generate md5sum.
     '''
 
     config = configxml.default_config()
 
-    file_dir, file_base = os.path.split(file)
-    target_path = os.path.join(config.config.download_dir, file_base)
-    if file_dir != config.config.download_dir:
-        if not quiet: print "Copying %s to %s"%(file_base, config.config.download_dir)
+    source_dir, source_file_base = os.path.split(file)
+    target_file_base = get_kludge_url_filename(source_file_base)
+    target_dir = config.config.download_dir
+    target_path = os.path.join(target_dir, target_file_base)
+    if file != target_path:
+        if not quiet:
+            print "Copying %s to %s"%(file_base, target_dir)
         shutil.copy(file, target_path)
 
     xml = '''<file_info>
     <name>%s</name>
     <url>%s</url>
 ''' %(file_base,
-      os.path.join(config.config.download_url, file_base))
+      os.path.join(config.config.download_url, target_file_base))
     if executable:
         xml += '    <executable/>\n'
     if signature_text:
@@ -68,7 +89,7 @@ def process_app_version(app, version_num, exec_files, non_exec_files=[], signatu
     version_num     is an integer such as 102 for version 1.02
 
     exec_files      is a list of full-path executables.
-                    The first one is the <main_program/>
+                    exec_file[0] (the first one) is the <main_program/>
 
     non_exec_files  is a list of full-path non-executables.
 
@@ -80,6 +101,11 @@ def process_app_version(app, version_num, exec_files, non_exec_files=[], signatu
                     the same machine (requiring having the private key stored
                     on this machine) is a SECURITY RISK (since this machine
                     probably has network visibility)!
+
+    exec_files[1:] and non_exec_files should be named like 'open_name=url_filename'.
+                    If there is no '=', then the entire filename is used as
+                    both the open_name and the filename.
+
     """
     assert(exec_files)
     xml_doc = ''
@@ -103,12 +129,15 @@ def process_app_version(app, version_num, exec_files, non_exec_files=[], signatu
 
     first = True
     for exec_file in exec_files + non_exec_files:
-        xml_doc += ('    <file_ref>\n'+
-                         '       <file_name>%s</filename>\n') %(
-            os.path.basename(exec_file))
+        file_base = os.path.basename(exec_file)
+        open_name = get_kludge_open_name(file_base)
+        url_filename = get_kludge_url_filename(file_base)
+        xml_doc += '    <file_ref>\n'
+        xml_doc += '       <file_name>%s</filename>\n' % url_filename
         if first:
             xml_doc += '       <main_program/>\n'
-
+        else:
+            xml_doc += '       <open_name>%s</open_name>\n' % open_name
         xml_doc += '    </file_ref>\n'
         first = False
 
