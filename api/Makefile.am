@@ -9,19 +9,19 @@ api_files= \
 graphics_api_files = 	\
 	graphics_api.C 		\
 	graphics_data.C 	\
-    graphics_impl.o     \
+    graphics_impl.C     \
 	reduce.C			\
 	gutil.C	            \
 	x_opengl.C
 
 graphics_lib_files =    \
-    graphics_lib.o      \
-    graphics_data.o     \
-    reduce.o
+    graphics_lib.C      \
+    graphics_data.C     \
+    reduce.C
 
-graphics_impl_file=     \
+graphics_impl_files =   \
 	graphics_data.C 	\
-    graphics_impl.o     \
+    graphics_impl.C     \
 	gutil.C	            \
 	reduce.C			\
 	x_opengl.C

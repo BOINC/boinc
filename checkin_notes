@@ -21132,3 +21132,9 @@ David  10 Dec 2004
 	clientgui/
 		Makefile.mac (new)
 		stdwx.h
+
+David  11 Dec 2004
+    - Fixed Makefile.am for building graphics libs
+
+    api/
+        Makefile.am
