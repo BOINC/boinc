@@ -46,9 +46,7 @@ def process_executable_file(file, signature_text=None, quiet=False, executable=T
     '''Handle a new executable (or non-executable) file to be added to the
     database.
 
-    0. If filename contains a "=", target filename is the text after the "="
-       (before "=" is used for app open name)
-
+    0. target filename is url_filename as described in process_app_version
     1. Copy file to download_dir if necessary.
     2. Return <file_info> XML.
         - if signature_text specified, use it
@@ -103,8 +101,9 @@ def process_app_version(app, version_num, exec_files, non_exec_files=[], signatu
                     probably has network visibility)!
 
     exec_files[1:] and non_exec_files should be named like 'open_name=url_filename'.
-                    If there is no '=', then the entire filename is used as
-                    both the open_name and the filename.
+                    (url_filename is the basename of file as copied to
+                    download/) If there is no '=', then the entire filename is
+                    used as both the open_name and the filename.
 
     """
     assert(exec_files)
