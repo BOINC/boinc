@@ -16076,7 +16076,13 @@ Rom    6 Aug 2004
        boinc_db.C
 
 David  7 Aug 2004
+    - changed table type to InnoDB
+        (except for tables that need fulltext indices,
+        which apparently only works w/ ISAM)
     - fixed bug w/ graphics GUI RPC
 
+    db/
+        schema.sql
+        constraints.sql
     client/
         gui_rpc_server.C
