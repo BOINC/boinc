@@ -29,7 +29,7 @@ The project directory contains all files (inputs,
 outputs, executables) related to the project.
 <li>
 <b>slots</b>: this directory contains one subdirectory for each
-CPU 'slot' (normally there are as many slots as the host has CPUs).
+result in progress.
 The subdirectories are named 0, 1, ... N-1.
 </ul>
 <p>

@@ -73,15 +73,19 @@ void app_debug_msg (const char *fmt, ...);
 
 // This callback is invoked when a user presses a key.
 //
-void keyboardD(unsigned char /*key*/, int /*x*/, int /*y*/) {
+void keyboardD(unsigned char key, int /*x*/, int /*y*/) {
     if (current_graphics_mode == MODE_FULLSCREEN) {
         set_mode(MODE_HIDE_GRAPHICS);
+    } else {
+        boinc_app_key_press((int) key, 0);
     }
 }
 
-void keyboardU(unsigned char /*key*/, int /*x*/, int /*y*/) {
+void keyboardU(unsigned char key, int /*x*/, int /*y*/) {
     if (current_graphics_mode == MODE_FULLSCREEN) {
         set_mode(MODE_HIDE_GRAPHICS);
+    } else {
+        boinc_app_key_press((int) key, 0);
     }
 }
 

@@ -25937,3 +25937,9 @@ David  13 Mar 2005
 
 David  13 Mar 2005
     - db_dump: name archive dirs X_YYYY_mm_dd_hh_mm_ss
+
+David  14 Mar 2005
+    - API: implement keyboard handling in X11 (from Eric Myers)
+
+    api/
+        x_opengl.C
