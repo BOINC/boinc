@@ -837,3 +837,7 @@ bool CLIENT_STATE::time_to_exit() {
     }
     return false;
 }
+
+void CLIENT_STATE::set_client_state_dirty() {
+    client_state_dirty = true;
+}

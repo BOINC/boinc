@@ -51,7 +51,6 @@ public:
     void update_net_stats(bool is_upload, double nbytes, double nsecs);
     int insert_file_xfer( FILE_XFER *fxp );
     unsigned int giveup_after;
-    bool client_state_dirty;
 
     vector<PROJECT*> projects;
     vector<APP*> apps;
@@ -68,6 +67,7 @@ public:
     HOST_INFO host_info;
     PREFS* prefs;
 private:
+    bool client_state_dirty;
     TIME_STATS time_stats;
     NET_STATS net_stats;
     int version;
@@ -114,6 +114,7 @@ public:
     double work_needed_secs();
     int make_scheduler_request(PROJECT*, double);
     void handle_scheduler_reply(PROJECT*, char* scheduler_url);
+    void set_client_state_dirty();
 private:
     PROJECT* find_project_with_overdue_results();
     bool some_project_rpc_ok();

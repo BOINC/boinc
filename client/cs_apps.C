@@ -73,7 +73,7 @@ bool CLIENT_STATE::handle_running_apps() {
             app_finished(*atp);
             active_tasks.remove(atp);
             delete atp;
-            client_state_dirty = true;
+            set_client_state_dirty();
             action = true;
         }
     }
@@ -132,7 +132,7 @@ bool CLIENT_STATE::start_apps() {
             atp->init(rp);
             active_tasks.insert(atp);
             action = true;
-            client_state_dirty = true;
+            set_client_state_dirty();
 	    app_started = time(0);
         }
     }

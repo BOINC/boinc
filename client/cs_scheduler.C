@@ -361,7 +361,7 @@ bool CLIENT_STATE::get_work() {
                     break;
                 } else {
                     handle_scheduler_reply(*scheduler_op);
-                    client_state_dirty = true;
+                    set_client_state_dirty();
                 }
             }
             break;
