@@ -640,6 +640,12 @@ void process_request(
     last_rpc_time = reply.host.rpc_time;
     reply.host.rpc_time = time(0);
     if (((int)last_rpc_time/SECONDS_PER_DAY) != ((int)reply.host.rpc_time/SECONDS_PER_DAY)) {
+        log_messages.printf(
+            SCHED_MSG_LOG::NORMAL, "Processing request from [USER#%d] [HOST#%d] [IP %s] [RPC#%d] Resetting nresults_today...\n",
+            reply.user.id, reply.host.id,
+            get_remote_addr(),
+            sreq.rpc_seqno);
+
         reply.host.nresults_today = 0;
     }
     retval = modify_host_struct(sreq, reply.host);
