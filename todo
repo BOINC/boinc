@@ -99,6 +99,8 @@ Limit frequency of disk writes
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
+fix bug in test_backend.php where result gets sent twice
+
 add an RPC to verify an account ID (returns DB ID for user)
     needed for multi-project stats sites
 
