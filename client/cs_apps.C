@@ -153,7 +153,7 @@ bool CLIENT_STATE::start_apps() {
             if (log_flags.task_debug) {
                 printf("start_apps(): all slots full\n");
             }
-            return 0;
+            return false;
         }
         rp = results[i];
         // Start the application to compute a result if the result
@@ -173,6 +173,7 @@ bool CLIENT_STATE::start_apps() {
 	    app_started = time(0);
         }
     }
+    if (log_flags.task_debug && action) printf("CS::start_apps\n");
     return action;
 }
 
