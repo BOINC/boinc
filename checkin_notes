@@ -237,3 +237,11 @@ Hiram C.  Thu May 30 01:28:47 PDT 2002
 	and statvfs() is not available on the Mac for
 	the client/hostinfo_unix.C compile.  Need a substitute for
 	that function on the Mac.
+
+Eric H.  May 30, 2002
+     Added safeguard to avoid removing root directory when
+     BOINC_DOWNLOAD_DIR and BOINC_UPLOAD_ DIR environment
+     variables aren't declared.
+     test/
+        init.inc
+
