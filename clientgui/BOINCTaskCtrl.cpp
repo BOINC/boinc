@@ -123,7 +123,7 @@ void CBOINCTaskCtrl::BeginTaskSection( const wxString& strLink, const wxString& 
         m_strTaskPage += wxT("    <td>&nbsp;</td>");
         m_strTaskPage += wxT("  </tr>");
         m_strTaskPage += wxT("  <tr>");
-        m_strTaskPage += wxT("    <td align=\"right\">");
+        m_strTaskPage += wxT("    <td align=\"center\">");
         m_strTaskPage += wxT("      <table border=\"0\" width=\"90%\" cellpadding=\"0\" cellspacing=\"0\">");
     }
 }
@@ -185,11 +185,7 @@ void CBOINCTaskCtrl::CreateTaskSeperator( bool  bHidden )
 {
     if ( !bHidden )
     {
-        m_strTaskPage += wxT("        <tr>");
-        m_strTaskPage += wxT("          <td>");
-        m_strTaskPage += wxT("            <hr><br>");
-        m_strTaskPage += wxT("          </td>");
-        m_strTaskPage += wxT("        </tr>");
+        m_strTaskPage += wxT("            <hr>");
     }
 }
 

@@ -21742,6 +21742,8 @@ Rom    22 Dec 2004
     - Fix a flicker bug when no item is selected on the project tab
         and you hover over the 'attach to new project' or 'BOINC' links
     - Remove the ability to expand or collapse the various headers
+    - Per comunity feedback, reorder the project tasks and put a
+        horizonal rule between the three groups of actions.
 
     clientgui/
         BOINCBaseView.cpp, .h

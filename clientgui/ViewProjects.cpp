@@ -748,12 +748,18 @@ void CViewProjects::UpdateTaskPane()
     m_pTaskPane->BeginTaskSection( BITMAP_TASKHEADER, m_bTaskHeaderHidden );
     if (!m_bTaskHeaderHidden)
     {
-        m_pTaskPane->CreateTask( LINK_TASKATTACH, _("Attach to new project"), m_bTaskAttachHidden );
-        m_pTaskPane->CreateTask( LINK_TASKDETACH, _("Detach from project"), m_bTaskDetachHidden );
-        m_pTaskPane->CreateTask( LINK_TASKRESET, _("Reset project"), m_bTaskResetHidden );
+        m_pTaskPane->CreateTask( LINK_TASKUPDATE, _("Update project"), m_bTaskUpdateHidden );
         m_pTaskPane->CreateTask( LINK_TASKSUSPEND, _("Suspend project"), m_bTaskSuspendHidden );
         m_pTaskPane->CreateTask( LINK_TASKRESUME, _("Resume project"), m_bTaskResumeHidden );
-        m_pTaskPane->CreateTask( LINK_TASKUPDATE, _("Update project"), m_bTaskUpdateHidden );
+
+        m_pTaskPane->CreateTaskSeperator( m_bTaskUpdateHidden || (m_bTaskSuspendHidden && m_bTaskResumeHidden) );
+
+        m_pTaskPane->CreateTask( LINK_TASKDETACH, _("Detach from project"), m_bTaskDetachHidden );
+        m_pTaskPane->CreateTask( LINK_TASKRESET, _("Reset project"), m_bTaskResetHidden );
+
+        m_pTaskPane->CreateTaskSeperator( m_bTaskDetachHidden || m_bTaskResetHidden );
+
+        m_pTaskPane->CreateTask( LINK_TASKATTACH, _("Attach to new project"), m_bTaskAttachHidden );
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 
