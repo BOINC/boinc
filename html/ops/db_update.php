@@ -237,6 +237,10 @@ function update_1_20_2005() {
     mysql_query("alter table host add host_cpid varchar(254)");
 }
 
+function update_1_20a_2005() {
+    mysql_query("alter table host add external_ip_addr varchar(254)");
+}
+
 //update_10_25_2004();
 
 ?>

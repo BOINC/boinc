@@ -359,7 +359,7 @@ void DB_HOST::db_print(char* buf){
         "credit_per_cpu_sec=%.15e, "
         "venue='%s', nresults_today=%d, "
         "avg_turnaround=%f, "
-        "host_cpid='%s' ",
+        "host_cpid='%s', external_ip_addr='%s' ",
         create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
@@ -376,7 +376,7 @@ void DB_HOST::db_print(char* buf){
         credit_per_cpu_sec,
         venue, nresults_today,
         avg_turnaround,
-        host_cpid
+        host_cpid, external_ip_addr
     );
     UNESCAPE(domain_name);
     UNESCAPE(serialnum);
@@ -430,6 +430,7 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     nresults_today = atoi(r[i++]);
     avg_turnaround = atof(r[i++]);
     strcpy2(host_cpid, r[i++]);
+    strcpy2(external_ip_addr, r[i++]);
 }
 
 void DB_WORKUNIT::db_print(char* buf){

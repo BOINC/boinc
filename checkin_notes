@@ -23096,3 +23096,20 @@ Rom    20 Jan 2005 (boinc)
     - Tag for 4.60 release, all platforms
       boinc_core_release_4_60
 
+David  20 Jan 2005
+    - Add external_ip_addr field to host table.
+        This is the REMOTE_ADDR reported by Apache
+        when the host contacts the scheduler.
+        May be different from the IP address reported by the host
+        (e.g. if the host is behind a NAT)
+
+    NOTE: project must update their databases
+        (html/ops/db_update.php, update_1_20a_2005())
+        to use this code.
+
+    db/
+        boinc_db.C,h
+    html/ops/
+        db_update.php
+    sched/
+        handle_request.C

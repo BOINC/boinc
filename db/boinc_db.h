@@ -214,7 +214,7 @@ struct HOST {
     int timezone;           // hours difference from GMT
     char domain_name[256];
     char serialnum[256];
-    char last_ip_addr[256]; // IP address as of last RPC
+    char last_ip_addr[256]; // internal IP address as of last RPC
     int nsame_ip_addr;      // # of RPCs with same IP address
 
     double on_frac;         // Fraction of time (0-1) that BOINC is running
@@ -262,6 +262,7 @@ struct HOST {
     int nresults_today;     // results sent since midnight
     double avg_turnaround;  // recent average result turnaround time
     char host_cpid[256];    // host cross-project ID
+    char external_ip_addr[256]; // IP address seen by scheduler
 
     int parse(FILE*);
     int parse_time_stats(FILE*);

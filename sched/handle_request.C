@@ -265,6 +265,11 @@ static int update_host_record(HOST& xhost, USER& user) {
         sprintf(buf, "%s%s", host.host_cpid, user.email_addr);
         md5_block((const unsigned char*)buf, strlen(buf), host.host_cpid);
     }
+
+    char* p = getenv("REMOTE_ADDR");
+    if (p) {
+        strlcpy(host.external_ip_addr, p, sizeof(host.external_ip_addr));
+    }
     retval = host.update();
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "host.update() failed: %d\n", retval);
