@@ -19751,6 +19751,9 @@ Rom    17 Nov 2004
     - Bug Fix: Screensaver now works even when BOINC is running as a service.
         NOTE: This currently only works if the account is LocalSystem and
         Interact with Desktop is checked.
+    - Bug Fix: When the service account is switched to an account that cannot
+        support interact with desktop make sure the screensaver can display
+        the project status.
 
     api/
         windows_opengl.C

@@ -190,18 +190,14 @@ static void set_mode(int mode) {
             }
         }
 
-        hInteractiveWindowStation = OpenWindowStation(
-            graphics_msg.window_station, FALSE, GENERIC_READ | GENERIC_EXECUTE
-        );
+        hInteractiveWindowStation = OpenWindowStation( graphics_msg.window_station, FALSE, GENERIC_READ );
         if (NULL == hInteractiveWindowStation) {
             BOINCTRACE(_T("Failed to retrieve the required window station\n"));
+            new_mode = MODE_UNSUPPORTED;
         } else {
             BOINCTRACE(_T("Retrieved the required window station\n"));
             SetProcessWindowStation(hInteractiveWindowStation);
-            hInteractiveDesktop = OpenDesktop(
-                graphics_msg.desktop, NULL, FALSE,
-                GENERIC_READ | DESKTOP_CREATEWINDOW | DESKTOP_CREATEMENU
-            );
+            hInteractiveDesktop = OpenDesktop( graphics_msg.desktop, NULL, FALSE, GENERIC_READ | DESKTOP_CREATEWINDOW | DESKTOP_CREATEMENU );
             if (NULL == hInteractiveDesktop) {
                 BOINCTRACE(_T("Failed to retrieve the required desktop\n"));
                 new_mode = MODE_UNSUPPORTED;
