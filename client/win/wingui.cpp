@@ -2201,8 +2201,8 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// 
     NetOpen();
 	// Redirect stdout and stderr to files
-    freopen("stdout.txt", "w", stdout);
-    freopen("stderr.txt", "w", stderr);
+    freopen(STDOUT_FILE_NAME, "w", stdout);
+    freopen(STDERR_FILE_NAME, "w", stderr);
 	// Check what (if any) activities should be logged
     read_log_flags();
     int retval = gstate.init();

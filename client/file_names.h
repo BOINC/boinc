@@ -45,4 +45,6 @@ extern bool is_account_file(char*);
 #define SCHED_OP_RESULT_FILE    "sched_reply.xml"
 #define LOG_FLAGS_FILE          "log_flags.xml"
 #define TEMP_FILE_NAME          "temp.xml"
+#define STDERR_FILE_NAME        "stderr.txt"
+#define STDOUT_FILE_NAME        "stdout.txt"
 #define TIME_TESTS_FILE_NAME	"time_tests.xml"
