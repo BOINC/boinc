@@ -21452,3 +21452,20 @@ David  16 Dec 2004
 
     lib/
         mem_usage.C
+
+Rom    17 Dec 2004
+    - Bug Fix: Windows Scripting host needs to be installed before our setup
+        can work, so install it.
+    - Bug Fix: If the SETUPTYPE is Service or ServiceGUI perform validation
+        on the service account username and password
+    - Bug Fix: If the service useraccount doesn't already have the 
+        'Logon As A Service' right grant it.
+    - Bug Fix: If the SETUPTYPE is Service, install it as a Windows service
+         under the specified user account
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/windows
+        BOINC.vbs
+
+    < Added a bunch of files required for various setup things >

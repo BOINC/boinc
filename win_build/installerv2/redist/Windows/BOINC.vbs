@@ -18,6 +18,7 @@
 '' 
 '' Contributor(s):
 ''
+Option Explicit
 
 Const msiMessageTypeFatalExit      = &H00000000
 Const msiMessageTypeError          = &H01000000 
@@ -118,53 +119,45 @@ End Function
 
 
 ''
-'' Detect the username of the user executing setup, and populate
-''   SERVICE_USERNAME if it is empty
+'' Grant the 'Run As A Service' right to the selected account
 ''
-Function DetectUsername()
+Function GrantServiceExecutionRight()
     On Error Resume Next
 
-	Dim oNetwork
-	Dim strValue
-	Dim strNewValue
-	Dim strUserName
-	Dim strUserDomain
-	Dim strUserComputerName
+	Dim oShell
+    Dim oRecord
+    Dim strCommand
+    Dim iExitCode
 
-	Set oNetwork = CreateObject("WScript.Network")
+	Set oShell = CreateObject("WScript.Shell")
+    Set oRecord = Installer.CreateRecord(2)
 
-    strValue = Property("SERVICE_USERNAME")
-    If ( Len(strValue) = 0 ) Then
-        strUserName = oNetwork.UserName
-        If ( Err.Number <> 0 ) Then
-            DetectUsername = msiDoActionStatusFailure
-            Exit Function
-        End If
-        
-        strUserDomain = oNetwork.UserDomain
-        If ( Err.Number <> 0 ) Then
-            DetectUsername = msiDoActionStatusFailure
-            Exit Function
-        End If
-        
-        strComputerName = oNetwork.ComputerName
-        If ( Err.Number <> 0 ) Then
-            DetectUsername = msiDoActionStatusFailure
-            Exit Function
-        End If
-                   
-        If ( strUserDomain = strComputerName ) Then
-            strNewValue = ".\" & strUserName
-        Else
-            strNewValue = strUserDomain & "\" & strUserName
-        End If
-                      
-        Property("SERVICE_USERNAME") = strNewValue
+    strCommand = Property("SOURCEDIR") & "grant.exe add SeServiceLogonRight " & Property("SERVICE_DOMAINUSERNAME")
+
+    iExitCode = oShell.Run(strCommand, 0, true)
+    If ( iExitCode <> 0 ) Then
+	    oRecord.StringData(0) = "Attempting to execute '[1]' returned with the following exit code '[2]'"
+	    oRecord.StringData(1) = strCommand
+	    oRecord.IntegerData(2) = iExitCode
+        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
+    
+        GrantServiceExecutionRight = msiDoActionStatusFailure
+        Exit Function
+    Else
+	    If ( Err.Number <> 0 ) Then
+		    oRecord.IntegerData(1) = Err.Number
+		    oRecord.StringData(2) = Err.Description
+	        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
+	    
+	        GrantServiceExecutionRight = msiDoActionStatusFailure
+	        Exit Function
+	    End If
     End If
 
-    Set oNetwork = Nothing
+    Set oShell = Nothing
+    Set oRecord = Nothing
 
-    DetectUsername = msiDoActionStatusSuccess
+    GrantServiceExecutionRight = msiDoActionStatusSuccess 
 End Function
 
 
@@ -179,17 +172,148 @@ Function LaunchReadme()
     Dim strFileToLaunch
 
 	Set oShell = CreateObject("WScript.Shell")
-    Set oRecord = Installer.CreateRecord(0)
+    Set oRecord = Installer.CreateRecord(2)
 
     oRecord.StringData(0) = Property("READMEFILETOLAUNCHATEND")
     strFileToLaunch = "notepad.exe " & FormatRecord(oRecord)
 
     oShell.Run(strFileToLaunch)
+    If ( Err.Number <> 0 ) Then
+	    oRecord.IntegerData(1) = Err.Number
+	    oRecord.StringData(2) = Err.Description
+        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
+    
+        LaunchReadme = msiMessageTypeError
+        Exit Function
+    End If
 
     Set oShell = Nothing
     Set oRecord = Nothing
 
 	LaunchReadme = msiDoActionStatusSuccess
+End Function
+
+
+''
+'' Detect the username of the user executing setup, and populate
+''   SERVICE_USERNAME if it is empty
+''
+Function PopulateServiceAccount()
+    On Error Resume Next
+
+	Dim oNetwork
+    Dim oRecord
+	Dim strInitialServiceUsername
+	Dim strInitialServiceDomain
+	Dim strDomainUsername
+	Dim strUserName
+	Dim strUserDomain
+
+	Set oNetwork = CreateObject("WScript.Network")
+    Set oRecord = Installer.CreateRecord(2)
+
+    strInitialServiceUsername = Property("SERVICE_USERNAME")
+    If ( Len(strInitialServiceUsername) = 0 ) Then
+        strUserName = oNetwork.UserName
+        If ( Err.Number <> 0 ) Then
+		    oRecord.IntegerData(1) = Err.Number
+		    oRecord.StringData(2) = Err.Description
+	        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
+        
+            PopulateServiceAccount = msiDoActionStatusFailure
+            Exit Function
+        End If
+    End If
+    
+    strInitialServiceDomain = Property("SERVICE_DOMAIN")
+    If ( Len(strInitialServiceDomain) = 0 ) Then
+        strUserDomain = oNetwork.UserDomain
+        If ( Err.Number <> 0 ) Then
+		    oRecord.IntegerData(1) = Err.Number
+		    oRecord.StringData(2) = Err.Description
+	        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
+        
+            PopulateServiceAccount = msiDoActionStatusFailure
+            Exit Function
+        End If
+    End If
+        
+    If ( strUserDomain = Property("ComputerName") ) Then
+        strDomainUsername = ".\" & strUserName
+    Else
+        strDomainUsername = strUserDomain & "\" & strUserName
+    End If
+                      
+    Property("SERVICE_DOMAINUSERNAME") = strDomainUsername
+
+    Set oNetwork = Nothing
+
+    PopulateServiceAccount = msiDoActionStatusSuccess
+End Function
+
+
+''
+'' Validate the service username and domain name being passed
+''   into the execution phase
+''
+Function ValidateServiceAccount()
+    On Error Resume Next
+
+    Dim oRecord
+	Dim strInitialServiceUsername
+	Dim strInitialServiceDomain
+	Dim strInitialServiceDomainUsername
+	Dim strInitialServicePassword
+	Dim strUsername
+	Dim strDomain
+
+    Set oRecord = Installer.CreateRecord(2)
+
+    strInitialServicePassword = Property("SERVICE_PASSWORD")
+
+    If ( Len(strInitialServicePassword) = 0 ) Then
+	    oRecord.IntegerData(1) = 25006
+        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
+
+        ValidateServiceAccount = msiDoActionStatusFailure
+        Exit Function
+    End If
+
+    strInitialServiceUsername = Property("SERVICE_USERNAME")
+    strInitialServiceDomain = Property("SERVICE_DOMAIN")
+    strInitialServiceDomainUsername = Property("SERVICE_DOMAINUSERNAME")
+
+    If ( Len(strInitialServiceDomainUsername) = 0 ) Then
+        If ( (Len(strInitialServiceUsername) = 0) Or (Len(strInitialServiceDomain) = 0) ) Then
+		    oRecord.IntegerData(1) = 25007
+	        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
+	
+	        ValidateServiceAccount = msiDoActionStatusFailure
+	        Exit Function
+        End If
+    Else
+        Property("SERVICE_DOMAIN") = Left( strInitialServiceDomainUsername, InStr( strInitialServiceDomainUsername, "\" ) - 1 )
+        If ( Err.Number <> 0 ) Then
+		    oRecord.IntegerData(1) = Err.Number
+		    oRecord.StringData(2) = Err.Description
+	        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
+        
+            ValidateServiceAccount = msiDoActionStatusFailure
+            Exit Function
+        End If
+
+        Property("SERVICE_USERNAME") = Right( strInitialServiceDomainUsername, (Len( strInitialServiceDomainUsername ) - (InStr( strInitialServiceDomainUsername, "\" ))) )
+        If ( Err.Number <> 0 ) Then
+		    oRecord.IntegerData(1) = Err.Number
+		    oRecord.StringData(2) = Err.Description
+	        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
+        
+            ValidateServiceAccount = msiDoActionStatusFailure
+            Exit Function
+        End If
+    End If
+
+    ValidateServiceAccount = msiDoActionStatusSuccess
 End Function
 
 
