@@ -87,9 +87,9 @@ extern int boinc_child_done(double);
 #define SHM_PREFIX          "shm_"
 #define QUIT_PREFIX         "quit_"
 
-extern double boinc_cpu_time();     // CPU time for this process
+extern int boinc_cpu_time(double &, double &); // CPU time and memory usage for this process
 extern int boinc_install_signal_handlers();
-extern int update_app_progress(double, double, double);
+extern int update_app_progress(double, double, double, double);
 
 #define STDERR_FILE             "stderr.txt"
 

@@ -64,3 +64,5 @@
 #define ERR_ALREADY_ATTACHED    -130
 #define ERR_FILE_TOO_BIG    -131
     // an output file was bigger than max_nbytes
+#define ERR_GETRUSAGE       -132
+    // getrusage failed

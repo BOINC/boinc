@@ -253,8 +253,10 @@ void boinc_quit(int sig) {
 #endif
 
 int boinc_finish(int status) {
-    last_checkpoint_cpu_time = boinc_cpu_time();
-    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time);
+    double cur_mem;
+
+    boinc_cpu_time(last_checkpoint_cpu_time, cur_mem);
+    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
 #ifdef _WIN32
     // Stop the timer
     timeKillEvent(timer_id);
@@ -315,7 +317,9 @@ bool boinc_time_to_checkpoint() {
 #endif
 
     if (write_frac_done) {
-        update_app_progress(fraction_done, boinc_cpu_time(), last_checkpoint_cpu_time);
+        double cur_cpu, cur_mem;
+        boinc_cpu_time(cur_cpu, cur_mem);
+        update_app_progress(fraction_done, cur_cpu, last_checkpoint_cpu_time, cur_mem);
         time_until_fraction_done_update = aid.fraction_done_update_period;
         write_frac_done = false;
     }
@@ -330,8 +334,9 @@ bool boinc_time_to_checkpoint() {
 }
 
 int boinc_checkpoint_completed() {
-    last_checkpoint_cpu_time = boinc_cpu_time();
-    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time);
+    double cur_mem;
+    boinc_cpu_time(last_checkpoint_cpu_time, cur_mem);
+    update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
     ready_to_checkpoint = false;
     time_until_checkpoint = aid.checkpoint_period;
     // If it's time to quit, call boinc_finish which will
@@ -357,7 +362,7 @@ int boinc_child_done(double cpu) {
     return 0;
 }
 
-double boinc_cpu_time() {
+int boinc_cpu_time(double &cpu_t, double &ws_t) {
     double cpu_secs;
 
     // Start with the CPU time from previous runs, then
@@ -368,11 +373,16 @@ double boinc_cpu_time() {
     int retval, pid = getpid();
     struct rusage ru;
     retval = getrusage(RUSAGE_SELF, &ru);
-    if(retval) fprintf(stderr, "error: could not get cpu time for %d\n", pid);
+    if(retval) {
+        fprintf(stderr, "error: could not get cpu time for %d\n", pid);
+    	return ERR_GETRUSAGE;
+	}
     // Sum the user and system time spent in this process
     cpu_secs += (double)ru.ru_utime.tv_sec + (((double)ru.ru_utime.tv_usec) / ((double)1000000.0));
     cpu_secs += (double)ru.ru_stime.tv_sec + (((double)ru.ru_stime.tv_usec) / ((double)1000000.0));
-    return cpu_secs;
+    cpu_t = cpu_secs;
+	ws_t = getpagesize()*ru.ru_maxrss;
+	return 0;
 #else
 #ifdef _WIN32
     HANDLE hProcess;
@@ -398,7 +408,9 @@ double boinc_cpu_time() {
         cpu_secs += totTime / 1.e7;
 
         // Convert to seconds and return
-        return cpu_secs;
+		cpu_t = cpu_secs;
+		ws_t = 0;
+        return 0;
     }
     CloseHandle(hProcess);
 
@@ -411,11 +423,14 @@ double boinc_cpu_time() {
         first = false;
     }
     DWORD cur = GetTickCount();
-    return cpu_secs + ((cur - first_count)/1000.);
+	cpu_t = cpu_secs + ((cur - first_count)/1000.);
+	ws_t = 0;
+    return 0;
 #endif  // _WIN32
 #endif
 
     fprintf(stderr, "boinc_cpu_time(): not implemented\n");
+	return -1;
 }
 
 // This function should be as fast as possible, and shouldn't make any system calls
@@ -538,14 +553,15 @@ void cleanup_shared_mem(void) {
 }
 
 
-int update_app_progress(double frac_done, double cpu_t, double cp_cpu_t) {
+int update_app_progress(double frac_done, double cpu_t, double cp_cpu_t, double ws_t) {
     char msg_buf[SHM_SEG_SIZE];
     
     sprintf( msg_buf,
         "<fraction_done>%2.8f</fraction_done>\n"
         "<current_cpu_time>%10.4f</current_cpu_time>\n"
         "<checkpoint_cpu_time>%10.4f</checkpoint_cpu_time>\n",
-        frac_done, cpu_t, cp_cpu_t
+        "<working_set_size>%10.4f</working_set_size>\n",
+        frac_done, cpu_t, cp_cpu_t, ws_t
     );
 
     return app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);

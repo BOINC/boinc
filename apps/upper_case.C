@@ -101,13 +101,15 @@ int do_checkpoint(MFILE& mf, int nchars) {
     // hopefully atomic part ends here
 
     if (cpu_time) {
+		double cur_mem, cur_cpu;
         // print our own information about cpu time
         fprintf(app_time, "%f\n", difftime(time(0), my_start_time));
         fflush(app_time);
         fclose(app_time);
 
+		boinc_cpu_time(cur_cpu, cur_mem);
         // print what the client thinks is our cpu time
-        fprintf(client_time, "%f\n", uc_aid.wu_cpu_time + boinc_cpu_time());
+        fprintf(client_time, "%f\n", uc_aid.wu_cpu_time + cur_cpu);
         fflush(client_time);
         fclose(client_time);
     }
@@ -226,7 +228,9 @@ int main(int argc, char **argv) {
         exit(1);
     }
     fprintf(stderr, "APP: upper_case ending, wrote %d chars\n", nchars);
-    time_file.printf("%f\n", boinc_cpu_time());
+	double cur_cpu, cur_mem;
+	boinc_cpu_time(cur_cpu, cur_mem);
+    time_file.printf("%f\n", cur_cpu);
     time_file.flush();
     time_file.close();
     
