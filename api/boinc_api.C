@@ -252,6 +252,7 @@ int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
 
 bool boinc_time_to_checkpoint() {
     // Tell the graphics thread it's OK to draw now
+#ifdef BOINC_APP_GRAPHICS
     if (ready_to_redraw) {
         ok_to_draw = 1;
         // And wait for the graphics thread to notify us that it's done drawing
@@ -262,17 +263,18 @@ bool boinc_time_to_checkpoint() {
             // possibility of deadlock (which was happening with an infinite wait value)
             WaitForSingleObject( hGlobalDrawEvent, 10 );
         }
-#endif
+#endif _WIN32
 #ifdef __APPLE_CC__
         while (ok_to_draw) {
             MPWaitOnQueue( drawQueue, NULL, NULL, NULL, kDurationImmediate );
             YieldToAnyThread();
         }
-#endif
+#endif  // __APPLE_CC__
         // Reset the refresh counter
         time_until_redraw = gi.refresh_period;
         ready_to_redraw = false;
     }
+#endif  // BOINC_APP_GRAPHICS
 
     return ready_to_checkpoint;
 }
@@ -391,7 +393,8 @@ void on_timer(int a) {
         }
     }
 
-#ifdef __APPLE_CC__
+#if defined __APPLE_CC__ && defined BOINC_APP_GRAPHICS
+    // Yield to the graphics thread to let it draw if needed
     YieldToAnyThread();
 #endif
 }
@@ -419,7 +422,7 @@ int set_timer(double period) {
             NULL);    // object not named
 #endif
 
-#ifdef __APPLE_CC__
+#if defined BOINC_APP_GRAPHICS && defined __APPLE_CC__
     // Create notification queue for drawing
     MPCreateQueue( &drawQueue );
 #endif
