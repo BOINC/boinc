@@ -12494,6 +12494,18 @@ Rom    May 21 2004
         dhrystone.C
         whetstone.C
 
+David  May 21 2004
+	- Core client: in FILE_XFER_SET::poll(), when completed a file-size query,
+		close the socket before iniating the file transfer.
+		Otherwise we have a socket that's never closed.
+
+	Note: some aspects of the FILE_XFER/HTTP_OP/NET_XFER hierarchy
+		seem absurdly complex, like the issue of when sockets are closed.
+		The whole thing should be reexamined at some point (but not now).
+
+	client/
+		file_xfer.X
+		
 Rom    May 22 2004
     - Somehow the boinc release build switched over to using shared libraries on
       Windows instead of static, so now i'm switching it back to static libraries.

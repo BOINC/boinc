@@ -223,6 +223,7 @@ bool FILE_XFER_SET::poll() {
                         } else {
                             // Restart the upload, using the newly obtained
                             // upload_offset
+                            fxp->close_socket();
                             fxp->file_xfer_retval = fxp->init_upload(*fxp->fip);
 
                             if (!fxp->file_xfer_retval) {
