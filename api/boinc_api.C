@@ -99,6 +99,7 @@ static bool ready_to_redraw = false;
 static bool this_process_active;
 static bool time_to_suspend = false,time_to_quit = false;
 int ok_to_draw = 0;
+bool using_opengl = false;
 
 // read the INIT_DATA and FD_INIT files
 //
@@ -160,8 +161,8 @@ int boinc_init() {
     time_until_suspend_check = 1;  // check every 1 second for suspend request from core client
     this_process_active = true;
     
-    set_timer(timer_period);
     boinc_install_signal_handlers();
+    set_timer(timer_period);
 
     return 0;
 }
@@ -338,10 +339,12 @@ int boinc_finish(int status) {
     // Stop the timer
     timeKillEvent(timer_id);
 #ifdef BOINC_APP_GRAPHICS
-    // If the graphics thread is running, tell it to quit and wait for it
-    win_loop_done = TRUE;
-    if (hQuitEvent != NULL) {
-        WaitForSingleObject(hQuitEvent, 1000);  // Wait up to 1000 ms
+    if (using_opengl) {
+        // If the graphics thread is running, tell it to quit and wait for it
+        win_loop_done = TRUE;
+        if (hQuitEvent != NULL) {
+            WaitForSingleObject(hQuitEvent, 1000);  // Wait up to 1000 ms
+        }
     }
 #endif
 #endif
@@ -379,7 +382,7 @@ int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
 bool boinc_time_to_checkpoint() {
     // Tell the graphics thread it's OK to draw now
 #ifdef BOINC_APP_GRAPHICS
-    if (ready_to_redraw) {
+    if (ready_to_redraw && using_opengl) {
         ok_to_draw = 1;
         // And wait for the graphics thread to notify us that it's done drawing
 #ifdef _WIN32
@@ -660,6 +663,9 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
 
 int write_fraction_done_file(double pct, double cpu, double checkpoint_cpu) {
     FILE* f = fopen(FRACTION_DONE_FILE, "w");
+
+	if (!f)
+		return -1;
 
     fprintf(f,
         "<fraction_done>%f</fraction_done>\n"

@@ -47,6 +47,7 @@ GLuint	main_font;			// Base Display List For The Font Set
 GLfloat	cnt1;				// 1st Counter Used To Move Text & For Coloring
 GLfloat	cnt2;				// 2nd Counter Used To Move Text & For Coloring
 
+extern bool using_opengl;
 bool	keys[256];
 bool	active=TRUE;		// Window Active Flag Set To TRUE By Default
 bool	fullscreen=TRUE;	// Fullscreen Flag Set To Fullscreen Mode By Default
@@ -442,6 +443,7 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 		return 0;									// Quit this thread if window was not created
 	}
 	cur_gfx_mode = MODE_NO_GRAPHICS;
+	using_opengl = true;
 
 	while(!win_loop_done)							// Loop That Runs While done=FALSE
 	{
