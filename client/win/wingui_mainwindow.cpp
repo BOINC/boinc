@@ -21,11 +21,41 @@
 
 CMyApp g_myApp;
 CMainWindow* g_myWnd = NULL;
-char* g_szColumnTitles[MAX_LIST_ID][MAX_COLS] = {
-        {"Project",	"Account",		"Total Credit",	"Avg. Credit",	"Resource Share",	NULL,				NULL},
+
+char g_szTabItems[MAX_TABS][256] = {
+	"Projects",
+	"Work",
+	"Transfers",
+	"Messages",
+	"Disk"
+};
+
+char g_szColumnTitles[MAX_LIST_ID][MAX_COLS][256] = {
+        {"Project",	"Account",		"Total Credit",	"Avg. Credit",	"Resource Share",	"",					""},
         {"Project",	"Application",	"Name",			"CPU time",		"Progress",			"To Completion",	"Status"},
-        {"Project",	"File",			"Progress",		"Size",			"Time",				"Direction",		NULL},
-        {"Project",	"Time",			"Message",		NULL,			NULL,				NULL,				NULL}
+        {"Project",	"File",			"Progress",		"Size",			"Time",				"Direction",		""},
+        {"Project",	"Time",			"Message",		"",				"",					"",					""}
+};
+
+char g_szUsageItems[MAX_USAGE_STR][256] = {
+	"Free space: not available for use",
+	"Free space: available for use",
+	"Used space: other than BOINC",
+	"Used space: BOINC",
+	"Used space:"
+};
+
+char g_szMiscItems[MAX_MISC_STR][256] = {
+	"New",
+	"Running",
+	"Ready to run",
+	"Computation done",
+	"Results uploaded",
+	"Acknowledged",
+	"Error: invalid state",
+	"Completed",
+	"Upload",
+	"Download"
 };
 
 /////////////////////////////////////////////////////////////////////////
@@ -250,21 +280,21 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		// status
 		switch(re->state) {
 			case RESULT_NEW:
-				strBuf.Format("%s", "New"); break;
+				strBuf.Format(g_szMiscItems[0]); break;
 			case RESULT_FILES_DOWNLOADED:
 				if (at)
-					strBuf.Format("%s", "Running");
+					strBuf.Format(g_szMiscItems[1]);
 				else
-					strBuf.Format("%s", "Ready to run");
+					strBuf.Format(g_szMiscItems[2]);
 				break;
 			case RESULT_COMPUTE_DONE:
-				strBuf.Format("%s", "Computation done"); break;
+				strBuf.Format(g_szMiscItems[3]); break;
 			case RESULT_READY_TO_ACK:
-				strBuf.Format("%s", "Results uploaded"); break;
+				strBuf.Format(g_szMiscItems[4]); break;
 			case RESULT_SERVER_ACK:
-				strBuf.Format("%s", "Acknowledged"); break;
+				strBuf.Format(g_szMiscItems[5]); break;
 			default:
-				strBuf.Format("%s", "Error: invalid state"); break;
+				strBuf.Format(g_szMiscItems[6]); break;
 		}
 		m_ResultListCtrl.SetItemText(i, 6, strBuf);
 	}
@@ -278,7 +308,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		if(!fi) {
 			m_XferListCtrl.SetItemColor(i, RGB(128, 128, 128));
 			m_XferListCtrl.SetItemProgress(i, 2, 100);
-			m_XferListCtrl.SetItemText(i, 3, "Completed");
+			m_XferListCtrl.SetItemText(i, 3, g_szMiscItems[7]);
 			continue;
 		}
 
@@ -315,7 +345,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		m_XferListCtrl.SetItemText(i, 4, strBuf.GetBuffer(0));
 
 		// direction
-		m_XferListCtrl.SetItemText(i, 5, fi->fip->generated_locally?"Upload":"Download");
+		m_XferListCtrl.SetItemText(i, 5, fi->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9]);
 	}
 	m_XferListCtrl.SetRedraw(TRUE);
 
@@ -341,7 +371,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	for(i = 0; i < gstate.projects.size(); i ++) {
 		double xUsage;
 		CString strLabel;
-		strLabel.Format("Used space: %s", gstate.projects[i]->project_name);
+		strLabel.Format("%s: %s", g_szUsageItems[4], gstate.projects[i]->project_name);
 		gstate.project_disk_usage(gstate.projects[i], xUsage);
 		m_UsagePieCtrl.SetPieceLabel(i + 4, strLabel.GetBuffer(0));
 		m_UsagePieCtrl.SetPiece(i + 4, xUsage);
@@ -522,13 +552,14 @@ void CMainWindow::SetStatusIcon(DWORD dwMessage)
 // CMainWindow::SaveUserSettings
 // arguments:	void
 // returns:		void
-// function:	saves relevant user settings to boinc.ini
+// function:	saves relevant user settings to boinc ini file
 void CMainWindow::SaveUserSettings()
 {
 	char szPath[256];
 	CString strKey, strVal;
 	GetCurrentDirectory(256, szPath);
-	strcat(szPath, "\\boinc.ini");
+	strcat(szPath, "\\");
+	strcat(szPath, INI_FILE_NAME);
 	int colorder[MAX_COLS];
 	int i;
 
@@ -596,13 +627,14 @@ void CMainWindow::SaveUserSettings()
 // CMainWindow::LoadUserSettings
 // arguments:	void
 // returns:		void
-// function:	loads relevant user settings from boinc.ini
+// function:	loads relevant user settings from boinc ini file
 void CMainWindow::LoadUserSettings()
 {
 	char szPath[256], szVal[256];
 	CString strKey;
 	GetCurrentDirectory(256, szPath);
-	strcat(szPath, "\\boinc.ini");
+	strcat(szPath, "\\");
+	strcat(szPath, INI_FILE_NAME);
 	int i, nBuf;
 	int colorder[MAX_COLS];
 
@@ -668,6 +700,93 @@ void CMainWindow::LoadUserSettings()
 		if(i == 2) nWidth *= 4;
 		nBuf = GetPrivateProfileInt("HEADERS", strKey.GetBuffer(0), nWidth, szPath);
 		m_MessageListCtrl.SetColumnWidth(i, nBuf);
+	}
+}
+
+//////////
+// CMainWindow::LoadLanguage
+// arguments:	void
+// returns:		void
+// function:	loads new captions from language file
+void CMainWindow::LoadLanguage()
+{
+	char szPath[256];
+	int col;
+	CString strSection;
+	GetCurrentDirectory(256, szPath);
+	strcat(szPath, "\\");
+	strcat(szPath, LANGUAGE_FILE_NAME);
+
+	// load column headers
+	strSection.Format("HEADER-%s", g_szTabItems[PROJECT_ID]);
+	for(col = 0; col < PROJECT_COLS; col ++) {
+		GetPrivateProfileString(strSection, g_szColumnTitles[PROJECT_ID][col], g_szColumnTitles[PROJECT_ID][col], g_szColumnTitles[PROJECT_ID][col], 256, szPath);
+	}
+	GetPrivateProfileString(strSection, "Title", g_szTabItems[PROJECT_ID], g_szTabItems[PROJECT_ID], 16, szPath);
+	strSection.Format("HEADER-%s", g_szTabItems[RESULT_ID]);
+	for(col = 0; col < RESULT_COLS; col ++) {
+		GetPrivateProfileString(strSection, g_szColumnTitles[RESULT_ID][col], g_szColumnTitles[RESULT_ID][col], g_szColumnTitles[RESULT_ID][col], 256, szPath);
+	}
+	GetPrivateProfileString(strSection, "Title", g_szTabItems[RESULT_ID], g_szTabItems[RESULT_ID], 16, szPath);
+	strSection.Format("HEADER-%s", g_szTabItems[XFER_ID]);
+	for(col = 0; col < XFER_COLS; col ++) {
+		GetPrivateProfileString(strSection, g_szColumnTitles[XFER_ID][col], g_szColumnTitles[XFER_ID][col], g_szColumnTitles[XFER_ID][col], 256, szPath);
+	}
+	GetPrivateProfileString(strSection, "Title", g_szTabItems[XFER_ID], g_szTabItems[XFER_ID], 16, szPath);
+	strSection.Format("HEADER-%s", g_szTabItems[MESSAGE_ID]);
+	for(col = 0; col < MESSAGE_COLS; col ++) {
+		GetPrivateProfileString(strSection, g_szColumnTitles[MESSAGE_ID][col], g_szColumnTitles[MESSAGE_ID][col], g_szColumnTitles[MESSAGE_ID][col], 256, szPath);
+	}
+	GetPrivateProfileString(strSection, "Title", g_szTabItems[MESSAGE_ID], g_szTabItems[MESSAGE_ID], 16, szPath);
+
+	// load usage labels
+	strSection.Format("HEADER-%s", g_szTabItems[USAGE_ID]);
+	for(col = 0; col < MAX_USAGE_STR; col ++) {
+		GetPrivateProfileString(strSection, g_szUsageItems[col], g_szUsageItems[col], g_szUsageItems[col], 256, szPath);
+	}
+	GetPrivateProfileString(strSection, "Title", g_szTabItems[USAGE_ID], g_szTabItems[USAGE_ID], 16, szPath);
+
+	// load miscellaneous text
+	strSection.Format("HEADER-MISC");
+	for(col = 0; col < MAX_MISC_STR; col ++) {
+		GetPrivateProfileString(strSection, g_szMiscItems[col], g_szMiscItems[col], g_szMiscItems[col], 256, szPath);
+	}
+
+	// load menu items
+	CString strItem, strItemNoAmp;
+	char szItem[256];
+	int i, is;
+	for(i = 0; i < m_MainMenu.GetMenuItemCount(); i ++) {
+		m_MainMenu.GetMenuString(i, strItem, MF_BYPOSITION);
+		strItemNoAmp = strItem;	strItemNoAmp.Remove('&');
+		strSection.Format("MENU-%s", strItemNoAmp);
+		GetPrivateProfileString(strSection, "Title", strItem, szItem, 256, szPath);
+		m_MainMenu.ModifyMenu(i, MF_BYPOSITION|MF_STRING, 0, szItem); 
+		CMenu* pSubMenu = m_MainMenu.GetSubMenu(i);
+		if(!pSubMenu) continue;
+		for(is = 0; is < pSubMenu->GetMenuItemCount(); is ++) {
+			pSubMenu->GetMenuString(is, strItem, MF_BYPOSITION);
+			if(strItem.IsEmpty()) continue;
+			strItemNoAmp = strItem;	strItemNoAmp.Remove('&');
+			GetPrivateProfileString(strSection, strItemNoAmp, strItem, szItem, 256, szPath);
+			pSubMenu->ModifyMenu(is, MF_BYPOSITION|MF_STRING, pSubMenu->GetMenuItemID(is), szItem); 
+		}
+	}
+	for(i = 0; i < m_ContextMenu.GetMenuItemCount(); i ++) {
+		m_ContextMenu.GetMenuString(i, strItem, MF_BYPOSITION);
+		strItemNoAmp = strItem;	strItemNoAmp.Remove('&');
+		strSection.Format("MENU-%s", strItemNoAmp);
+		GetPrivateProfileString(strSection, "Title", strItem, szItem, 256, szPath);
+		m_ContextMenu.ModifyMenu(i, MF_BYPOSITION|MF_STRING, 0, szItem); 
+		CMenu* pSubMenu = m_ContextMenu.GetSubMenu(i);
+		if(!pSubMenu) continue;
+		for(is = 0; is < pSubMenu->GetMenuItemCount(); is ++) {
+			pSubMenu->GetMenuString(is, strItem, MF_BYPOSITION);
+			if(strItem.IsEmpty()) continue;
+			strItemNoAmp = strItem;	strItemNoAmp.Remove('&');
+			GetPrivateProfileString(strSection, strItemNoAmp, strItem, szItem, 256, szPath);
+			pSubMenu->ModifyMenu(is, MF_BYPOSITION|MF_STRING, pSubMenu->GetMenuItemID(is), szItem); 
+		}
 	}
 }
 
@@ -742,51 +861,6 @@ void CMainWindow::Syncronize(CProgressListCtrl* pProg, vector<void*>* pVect)
 			pProg->SetItemData(i, (DWORD)NULL);
 		}
 	}
-}
-
-//////////
-// CMainWindow::SyncronizePie
-// arguments:	pPie: pointer to a pie chart control
-//				pVect: pointer to a vector of projects
-// returns:		void
-// function:	like syncronize but for pie charts
-void CMainWindow::SyncronizePie(CPieChartCtrl* pPie, vector<PROJECT*>* pVect)
-{
-	/*
-	int i, j;
-
-	// add items to list that are not already in it
-	for(i = 0; i < pVect->size(); i ++) {
-		PROJECT* item = (*pVect)[i];
-		BOOL contained = false;
-		for(j = 0; j < pPie->GetItemCount(); j ++) {
-			if((DWORD)item == pPie->GetPieceData(j)) {
-				contained = true;
-				break;
-			}
-		}
-		if(!contained) {
-			pPie->AddPiece(item->project_name, RGB());
-			pPie->SetPieceData(i, (DWORD)item);
-		}
-	}
-
-	// remove items from list that are not in vector
-	// now just set the pointer to NULL but leave the item in the list
-	for(i = 0; i < pPie->GetItemCount(); i ++) {
-		DWORD item = pPie->GetItemData(i);
-		BOOL contained = false;
-		for(j = 0; j < pVect->size(); j ++) {
-			if(item == (DWORD)(*pVect)[j]) {
-				contained = true;
-				break;
-			}
-		}
-		if(!contained) {
-			pPie->SetPieceData(i, (DWORD)NULL);
-		}
-	}
-	*/
 }
 
 //////////
@@ -1120,7 +1194,7 @@ void CMainWindow::OnCommandResume()
 void CMainWindow::OnCommandExit()
 {
 	// quit
-	gstate.exit();
+	gstate.cleanup_and_exit();
 	PostQuitMessage(0);
 	KillTimer(ID_TIMER);
 
@@ -1136,6 +1210,7 @@ void CMainWindow::OnCommandExit()
 	m_TabBMP[4].DeleteObject();
 	m_TabIL.DeleteImageList();
 	m_MainMenu.DestroyMenu();
+	m_ContextMenu.DestroyMenu();
 
 	// free dll and idle detection
 	if(m_hIdleDll) {
@@ -1164,6 +1239,8 @@ void CMainWindow::OnCommandExit()
 int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 {
 	char curDir[512];
+	char* szTitles[MAX_COLS];
+	int i;
 
     if (CWnd::OnCreate(lpcs) == -1) {
 		return -1;
@@ -1175,15 +1252,19 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_bRequest = false;
 	m_nContextItem = -1;
 
-	// load main menu
+	// load menus
+	m_ContextMenu.LoadMenu(IDR_CONTEXT);
 	m_MainMenu.LoadMenu(IDR_MAINFRAME);
 	SetMenu(&m_MainMenu);
+
+	LoadLanguage();
 
 	// create project list control
 	m_ProjectListCtrl.Create(LVS_REPORT|WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, PROJECT_ID);
 	m_ProjectListCtrl.SetExtendedStyle(m_ProjectListCtrl.GetExtendedStyle()|LVS_EX_HEADERDRAGDROP|LVS_EX_FULLROWSELECT);
-	m_ProjectListCtrl.SetMenuItems(g_szColumnTitles[PROJECT_ID], PROJECT_COLS);
-	for(int i = 0; i < PROJECT_COLS; i ++) {
+	for(i = 0; i < MAX_COLS; i ++) szTitles[i] = g_szColumnTitles[PROJECT_ID][i];
+	m_ProjectListCtrl.SetMenuItems(szTitles, PROJECT_COLS);
+	for(i = 0; i < PROJECT_COLS; i ++) {
 		m_ProjectListCtrl.InsertColumn(i, g_szColumnTitles[PROJECT_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH, -1);
 	}
 
@@ -1191,7 +1272,8 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_ResultListCtrl.Create(LVS_REPORT|WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, RESULT_ID);
 	m_ResultListCtrl.SetExtendedStyle(m_ResultListCtrl.GetExtendedStyle()|LVS_EX_HEADERDRAGDROP|LVS_EX_FULLROWSELECT);
 	m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
-	m_ResultListCtrl.SetMenuItems(g_szColumnTitles[RESULT_ID], RESULT_COLS);
+	for(i = 0; i < MAX_COLS; i ++) szTitles[i] = g_szColumnTitles[RESULT_ID][i];
+	m_ResultListCtrl.SetMenuItems(szTitles, RESULT_COLS);
 	for(i = 0; i < RESULT_COLS; i ++) {
 		m_ResultListCtrl.InsertColumn(i, g_szColumnTitles[RESULT_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH, -1);
 	}
@@ -1200,7 +1282,8 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_XferListCtrl.Create(LVS_REPORT|WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, XFER_ID);
 	m_XferListCtrl.SetExtendedStyle(m_XferListCtrl.GetExtendedStyle()|LVS_EX_HEADERDRAGDROP|LVS_EX_FULLROWSELECT);
 	m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
-	m_XferListCtrl.SetMenuItems(g_szColumnTitles[XFER_ID], XFER_COLS);
+	for(i = 0; i < MAX_COLS; i ++) szTitles[i] = g_szColumnTitles[XFER_ID][i];
+	m_XferListCtrl.SetMenuItems(szTitles, XFER_COLS);
 	for(i = 0; i < XFER_COLS; i ++) {
 		m_XferListCtrl.InsertColumn(i, g_szColumnTitles[XFER_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH, -1);
 	}
@@ -1210,7 +1293,8 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_MessageListCtrl.Create(LVS_REPORT|WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, MESSAGE_ID);
 	m_MessageListCtrl.SetExtendedStyle(m_MessageListCtrl.GetExtendedStyle()|LVS_EX_HEADERDRAGDROP|LVS_EX_FULLROWSELECT);
 	m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
-	m_MessageListCtrl.SetMenuItems(g_szColumnTitles[MESSAGE_ID], MESSAGE_COLS);
+	for(i = 0; i < MAX_COLS; i ++) szTitles[i] = g_szColumnTitles[MESSAGE_ID][i];
+	m_MessageListCtrl.SetMenuItems(szTitles, MESSAGE_COLS);
 	for(i = 0; i < MESSAGE_COLS; i ++) {
 		int width = DEF_COL_WIDTH;
 		if(i == 1) width *= 1.5;
@@ -1221,13 +1305,13 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// create usage pie control
 	m_UsagePieCtrl.Create(WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, USAGE_ID);
 	m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-	m_UsagePieCtrl.AddPiece("Free space: not available for use", GetPieColor(0), 0);
-	m_UsagePieCtrl.AddPiece("Free space: available for use", GetPieColor(1), 0);
-	m_UsagePieCtrl.AddPiece("Used space: other than BOINC", GetPieColor(2), 0);
-	m_UsagePieCtrl.AddPiece("Used space: BOINC", GetPieColor(3), 0);
+	m_UsagePieCtrl.AddPiece(g_szUsageItems[0], GetPieColor(0), 0);
+	m_UsagePieCtrl.AddPiece(g_szUsageItems[1], GetPieColor(1), 0);
+	m_UsagePieCtrl.AddPiece(g_szUsageItems[2], GetPieColor(2), 0);
+	m_UsagePieCtrl.AddPiece(g_szUsageItems[3], GetPieColor(3), 0);
 
 	// set up image list for tab control
-	m_TabIL.Create(16, 16, ILC_COLOR8|ILC_MASK, 5, 1);
+	m_TabIL.Create(16, 16, ILC_COLOR8|ILC_MASK, MAX_TABS, 1);
 	m_TabBMP[0].LoadBitmap(IDB_PROJ);
 	m_TabIL.Add(&m_TabBMP[0], RGB(255, 0, 255));
 	m_TabBMP[1].LoadBitmap(IDB_RESULT);
@@ -1242,11 +1326,11 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// create tab control
 	m_TabCtrl.Create(TCS_FIXEDWIDTH|TCS_BUTTONS|TCS_FLATBUTTONS|TCS_FOCUSNEVER|WS_CHILD|WS_VISIBLE, CRect(0,0,0,0), this, TAB_ID);
 	m_TabCtrl.SetImageList(&m_TabIL);
-	m_TabCtrl.InsertItem(1, "Projects", 0);
-	m_TabCtrl.InsertItem(2, "Work", 1);
-	m_TabCtrl.InsertItem(3, "Transfers", 2);
-	m_TabCtrl.InsertItem(4, "Messages", 3);
-	m_TabCtrl.InsertItem(5, "Disk", 4);
+	m_TabCtrl.InsertItem(1, g_szTabItems[0], 0);
+	m_TabCtrl.InsertItem(2, g_szTabItems[1], 1);
+	m_TabCtrl.InsertItem(3, g_szTabItems[2], 2);
+	m_TabCtrl.InsertItem(4, g_szTabItems[3], 3);
+	m_TabCtrl.InsertItem(5, g_szTabItems[4], 4);
 
 	// make all fonts the same nice font
 	CFont* pFont;
@@ -1357,7 +1441,6 @@ BOOL CMainWindow::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 // function:	shows context menu for list items
 void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 {
-	CMenu WholeMenu;
 	CMenu* pContextMenu = NULL;
 	GetCursorPos(&point);
 	CRect rt;
@@ -1378,8 +1461,7 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 			pMenuCtrl->GetItemRect(i, &rt, LVIR_BOUNDS);
 			pMenuCtrl->ClientToScreen(&rt);
 			if(rt.PtInRect(point)) {
-				WholeMenu.LoadMenu(IDR_CONTEXT);
-				pContextMenu = WholeMenu.GetSubMenu(nMenuId);
+				pContextMenu = m_ContextMenu.GetSubMenu(nMenuId);
 				if(pContextMenu) {
 					pContextMenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
 					m_nContextItem = i;
@@ -1476,22 +1558,16 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 		CPoint point;
 		SetForegroundWindow();
 		GetCursorPos(&point);
-		CMenu Menu, *pSubmenu;
-		if(!Menu.LoadMenu(IDR_CONTEXT)) {
-			return FALSE;
-		}
-		pSubmenu = Menu.GetSubMenu(STATUS_MENU);
-		if(!pSubmenu) {
-			Menu.DestroyMenu();
-			return FALSE;
-		}
+		CMenu* pSubmenu;
+		pSubmenu = m_ContextMenu.GetSubMenu(STATUS_MENU);
 		if(m_bSuspend) {
 			pSubmenu->EnableMenuItem(ID_STATUSICON_SUSPEND, MF_GRAYED);
+			pSubmenu->EnableMenuItem(ID_STATUSICON_RESUME, MF_ENABLED);
 		} else {
+			pSubmenu->EnableMenuItem(ID_STATUSICON_SUSPEND, MF_ENABLED);
 			pSubmenu->EnableMenuItem(ID_STATUSICON_RESUME, MF_GRAYED);
 		}
 		pSubmenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
-		Menu.DestroyMenu();
 	} else if(lParam == WM_LBUTTONDOWN) {
 		if(IsWindowVisible()) {
 			SetForegroundWindow();

@@ -35,6 +35,10 @@ public:
 	CString					m_strAuth;
 
 protected:
+	CString					m_strUrlTT;
+	CString					m_strAuthTT;
+	void					LoadLanguage();
+
 	afx_msg void			OnOK();
 	afx_msg BOOL			OnToolTipNotify(UINT, NMHDR*, LRESULT*);
 	DECLARE_MESSAGE_MAP()
@@ -52,6 +56,9 @@ public:
 	int						m_nSel;
 
 protected:
+	CString					m_strSelTT;
+	void					LoadLanguage();
+
 	afx_msg void			OnOK();
 	afx_msg BOOL			OnToolTipNotify(UINT, NMHDR*, LRESULT*);
 	DECLARE_MESSAGE_MAP()
@@ -70,6 +77,8 @@ public:
 protected:
 	void					EnableHttp(BOOL bEnable);
 	void					EnableSocks(BOOL bEnable);
+	void					LoadLanguage();
+
 	afx_msg void			OnHttp();
 	afx_msg void			OnSocks();
 	afx_msg void			OnOK();
@@ -84,8 +93,12 @@ class CConnectDialog : public CDialog
 {
 public:
 							CConnectDialog(UINT);
+	afx_msg BOOL			OnInitDialog();
+
 	BOOL					m_bDontAsk;
 protected:
+	void					LoadLanguage();
+
 	afx_msg void			OnOK();
 	DECLARE_MESSAGE_MAP()
 };
@@ -101,6 +114,8 @@ public:
 	afx_msg BOOL			OnInitDialog();
 	
 protected:
+	void					LoadLanguage();
+
 	DECLARE_MESSAGE_MAP()
 };
 

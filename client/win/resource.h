@@ -31,9 +31,24 @@
 #define IDC_EDIT_SOCKS_NAME             1017
 #define IDC_EDIT_SOCKS_PASS             1018
 #define IDC_DONTASK                     1019
+#define IDC_STATIC_URL                  1020
+#define IDC_STATIC_AUTH                 1021
 #define IDC_CHECK_SOCKS                 1022
+#define IDC_STATIC_ASK                  1022
 #define IDC_EDIT_SOCKS_ADDR             1023
+#define IDC_STATIC_TOP                  1023
 #define IDC_EDIT_SOCKS_PORT             1024
+#define IDC_STATIC_BOTTOM               1024
+#define IDC_STATIC_PROXY                1025
+#define IDC_STATIC_HTTP                 1026
+#define IDC_STATIC_SOCKS                1027
+#define IDC_STATIC_HTTP_ADDR            1028
+#define IDC_STATIC_HTTP_PORT            1029
+#define IDC_STATIC_SOCKS_ADDR           1030
+#define IDC_STATIC_SOCKS_PORT           1031
+#define IDC_STATIC_SOCKS_BLANK          1032
+#define IDC_STATIC_SOCKS_NAME           1033
+#define IDC_STATIC_SOCKS_PASS           1034
 #define ID_ACCT_LOGIN                   40001
 #define ID_SETTINGS_LOGIN               40001
 #define ID_HELP_ABOUT                   40002
@@ -73,7 +88,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        130
 #define _APS_NEXT_COMMAND_VALUE         40036
-#define _APS_NEXT_CONTROL_VALUE         1020
+#define _APS_NEXT_CONTROL_VALUE         1035
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -64,6 +64,10 @@
 #define MESSAGE_COLS		3
 #define MAX_COLS			7
 
+#define MAX_TABS			5
+#define MAX_USAGE_STR		5
+#define MAX_MISC_STR		10
+
 //////////
 // class:		CMyApp
 // parent:		CWinApp
@@ -90,6 +94,7 @@ public:
 
 protected:
 	CMenu					m_MainMenu;				// window's main menu
+	CMenu					m_ContextMenu;			// context menu for status icon and lists
 	CProgressListCtrl		m_ProjectListCtrl;		// list control
 	CProgressListCtrl		m_XferListCtrl;			// list control
 	CProgressListCtrl		m_ResultListCtrl;		// list control
@@ -98,7 +103,7 @@ protected:
 	CFont					m_Font;					// window's font
 	CTabCtrl				m_TabCtrl;				// tab control for choosing display
 	CImageList				m_TabIL;				// image list for tab control
-	CBitmap					m_TabBMP[5];			// bitmaps for tab image list
+	CBitmap					m_TabBMP[MAX_TABS];		// bitmaps for tab image list
 	HINSTANCE				m_hIdleDll;				// handle to dll for user idle
 	int						m_nIconState;			// state of the status icon
 	BOOL					m_bMessage;				// does the user have a new message?
@@ -111,6 +116,7 @@ protected:
     void					SetStatusIcon(DWORD);
     void					SaveUserSettings();
     void					LoadUserSettings();
+	void					LoadLanguage();
 	DWORD					GetUserIdleTime();
 	void					Syncronize(CProgressListCtrl*, vector<void*>*);
 	void					SyncronizePie(CPieChartCtrl*, vector<PROJECT*>*);
