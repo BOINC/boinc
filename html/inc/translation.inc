@@ -13,7 +13,7 @@ function parseLanguageInterface($file){
     $interface_file=file($file);
     for ($i=0;$i<sizeof($interface_file);$i++){				//For each line in the language interface
 	$token = ltrim(trim($interface_file[$i]));			//Get the token
-	if (substr($token,0,1)!="#"){					//If not comment
+	if (substr($token,0,1)!="#" && strlen($token)>0){		//If not comment or newline
 	    if (strpos($token," ") or strpos($token, "<")){		//If token is malformed
 		echo "Unexpected letters/spaces in line ".($i+1)." - token (".$token.") malformed and not recognized<br>\n";
 	    } else {							//Else
@@ -54,8 +54,9 @@ function buildLanguages($langdir,$transdir,$compdir){
 		    if (!$fh = fopen($langdir.$compdir.$file.".inc","w")) { echo "ERROR: could not access $langdir $compdir - please check permissions"; exit;};
 		    fwrite($fh, "<?php\n");
 		    $keys = array_keys($language);
-		    for ($i=0;$i<sizeof($interface)-1;$i++){
-			fwrite($fh, "\$language_lookup_array[".$keys[$i]."] = \"".addslashes($language[$keys[$i]])."\";\n");		//Translate to PHP
+		    for ($i=0;$i<sizeof($interface);$i++){
+			if ($language[$keys[$i]]!="")
+			    fwrite($fh, "\$language_lookup_array[".$keys[$i]."] = \"".addslashes($language[$keys[$i]])."\";\n");		//Translate to PHP
 		    }
 		    fwrite($fh, '?>');
 		    fclose($fh);
@@ -82,6 +83,9 @@ function buildLanguages($langdir,$transdir,$compdir){
  * Have some of the files changed?
  **************************/
 function languagesNeedsRebuild($langdir,$transdir,$compdir){
+//    return true;
+    
+    
     $last_compile = filemtime($langdir."last_compile_timer");		//This file gets touched each time a compile finishes
     if (filemtime($langdir."language_interface")>$last_compile) return true;
     
@@ -123,7 +127,7 @@ function parseLanguage($file, $interface){
 	    $current_token = getPOLineContent($entry);
 	    $current_token_text="";
 	    $first_entry=false;			//Now it is no longer the first entry
-	} elseif (substr($translation_file,0,1)!="#") {
+	} elseif (substr($translation_file[$i],0,1)!="#") {
 	    //echo "Else";
 	    $current_token_text.=getPOLineContent($entry);
 	}
@@ -179,14 +183,16 @@ function tr($tokennumber){
 	echo "Language token used which is not defined in language interface! DEVELOPER: please check your spelling or add the token to the interface.";
 	echo "<br>If you are a user of this system please contact an administrator right away and tell what URL you got this error on";
     }
-    if (!array_key_exists($tokennumber,$language_lookup_array)){		//If language hasn't got this token
-	if (!array_key_exists($tokennumber, $default_language_lookup_array)){	//Fallback to a lookup in the project default language
-	    return "[MISSING TEXT]";						//If not found there either, display "MISSING TEXT"
-	} else {								//If found:
-	    return stripslashes($default_language_lookup_array[$tokennumber]);		//Return from default language
-	}
+    
+    if (array_key_exists($tokennumber,$language_lookup_array)){		//If language has got the token
+	return stripslashes($language_lookup_array[$tokennumber]);	//If found in client language, return that
     }
-    return stripslashes($language_lookup_array[$tokennumber]);				//If found in client language, return that
+    
+    if (array_key_exists($tokennumber, $default_language_lookup_array)){	//Fallback to a lookup in the project default language
+        return stripslashes($default_language_lookup_array[$tokennumber]);	//Return from default language
+    }
+    
+    return "[MISSING TEXT]";							//If not found there either, display "MISSING TEXT"
 }
 
 
