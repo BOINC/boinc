@@ -119,8 +119,6 @@ int FILE_XFER::parse_server_response(double &nbytes) {
         fprintf(stderr, "%s\n", buf);
     }
 
-    printf("status: %d nbytes: %f\n", status, nbytes);
-
     return status;
 }
 
