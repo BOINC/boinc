@@ -137,6 +137,9 @@ function element_end_global($parser, $name) {
     case "run_if_user_active":
         $parse_result->run_if_user_active = true;
         break;
+    case "idle_time_to_run":
+        $parse_result->idle_time_to_run = $text;
+        break;
     case "start_hour":
         $parse_result->start_hour = $text;
         break;
@@ -197,6 +200,7 @@ function default_prefs_global() {
     $p = null;
     $p->run_on_batteries = false;
     $p->run_if_user_active = true;
+    $p->idle_time_to_run = 3;
     $p->start_hour = 0;
     $p->end_hour = 0;
     $p->confirm_before_connecting = false;
@@ -283,6 +287,7 @@ function hour_select($x, $name) {
 function prefs_show_global($prefs) {
     row2("Work if computer on batteries?", $prefs->run_on_batteries?"Yes":"No");
     row2("Work if computer in use?", $prefs->run_if_user_active?"Yes":"No");
+    row2("Idle time before running", "$prefs->idle_time_to_run minutes".($prefs->run_if_user_active?" (ignored)":""));
     if ($prefs->start_hour == $prefs->end_hour) {
         $x = "no restriction";
     } else {
@@ -408,6 +413,11 @@ function prefs_form_global($user, $prefs) {
         .($prefs->run_if_user_active?"":"checked")
         .">
     ";
+    row2($x, $y);
+
+    $x = "How many minutes should ".PROJECT." wait for you to not use the computer?";
+    $y = "<input size=5 name=idle_time_to_run value='$prefs->idle_time_to_run'>
+        minutes (ignored unless above is No)";
     row2($x, $y);
 
     $x = "Use my computer only between the hours of
@@ -545,6 +555,7 @@ function venue_update($user) {
 function prefs_global_parse_form(&$prefs) {
     $run_on_batteries = $_GET["run_on_batteries"];
     $run_if_user_active = $_GET["run_if_user_active"];
+    $idle_time_to_run = $_GET["idle_time_to_run"];
     $confirm_before_connecting = $_GET["confirm_before_connecting"];
     $hangup_if_dialed = $_GET["hangup_if_dialed"];
     $work_buf_min_days = $_GET["work_buf_min_days"];
@@ -559,6 +570,7 @@ function prefs_global_parse_form(&$prefs) {
 
     $prefs->run_on_batteries = ($run_on_batteries == "yes");
     $prefs->run_if_user_active = ($run_if_user_active == "yes");
+    $prefs->idle_time_to_run = $idle_time_to_run;
     $prefs->start_hour = $_GET["start_hour"];
     $prefs->end_hour = $_GET["end_hour"];
     $prefs->confirm_before_connecting = ($confirm_before_connecting == "yes");
@@ -617,6 +629,7 @@ function global_prefs_make_xml($prefs, $primary=true) {
     if ($prefs->run_if_user_active) {
         $xml = $xml."<run_if_user_active/>\n";
     }
+    $xml = $xml."<idle_time_to_run>$prefs->idle_time_to_run</idle_time_to_run>\n";
     if ($prefs->start_hour != $prefs->end_hour) {
         $xml = $xml."<start_hour>$prefs->start_hour</start_hour>\n"
             ."<end_hour>$prefs->end_hour</end_hour>\n";
