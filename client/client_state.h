@@ -126,7 +126,7 @@ private:
     bool start_apps();
     bool handle_running_apps();
     bool handle_pers_file_xfers();
-    void print_counts();
+    void print_summary();
     bool garbage_collect();
     bool update_results();
 

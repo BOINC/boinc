@@ -42,11 +42,16 @@ bool do_pass(APP app) {
     RESULT result;
     bool did_something = false;
     int retval;
+    char buf[MAX_BLOB_SIZE];
 
     wu.appid = app.id;
     wu.assimilate_state = ASSIMILATE_READY;
     while (!db_workunit_enum_app_assimilate_state(wu)) {
         did_something = true;
+
+        sprintf(buf, "Assimilating WU %s, assim state\n", wu.name, wu.assimilate_state);
+        write_log(buf);
+
         switch(wu.main_state) {
         case WU_MAIN_STATE_INIT:
             write_log("ERROR; WU shouldn't be in init state\n");
@@ -61,7 +66,9 @@ bool do_pass(APP app) {
                 write_log("can't get canonical result\n");
                 break;
             }
-            printf("canonical result for WU %s:\n%s", wu.name, result.xml_doc_out);
+            sprintf(buf, "canonical result for WU %s:\n%s", wu.name, result.xml_doc_out);
+            write_log(buf);
+
             result.file_delete_state = FILE_DELETE_READY;
             db_result_update(result);
             break;

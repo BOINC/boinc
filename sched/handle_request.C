@@ -252,7 +252,7 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
 
     retval = db_host_update(host);
     if (retval) {
-        sprintf(buf, "db_host_update: %d\n", retval);
+        sprintf(buf, "db_host_update() failed: %d\n", retval);
         write_log(buf);
     }
     return 0;
@@ -313,65 +313,71 @@ int handle_results(
         //
         reply.result_acks.push_back(*rp);
 
+        sprintf(buf, "got ack for result %s\n", rp->name);
+        write_log(buf);
+
         strncpy(result.name, rp->name, sizeof(result.name));
         retval = db_result_lookup_name(result);
         if (retval) {
-            printf("can't find result %s\n", rp->name);
+            sprintf(buf, "can't find result %s\n", rp->name);
+            write_log(buf);
+            continue;
+        }
+        if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
+            sprintf(buf,
+                "got unexpected result for %s: server state is %d\n",
+                rp->name, result.server_state
+            );
+            write_log(buf);
+            continue;
+        }
+
+        if (result.hostid != sreq.hostid) {
+            sprintf(buf,
+                "got result from wrong host: %d %d\n",
+                result.hostid, sreq.hostid
+            );
+            write_log(buf);
+            continue;
+        }
+
+        // TODO: handle error returns
+        //
+        result.hostid = reply.host.id;
+        result.received_time = time(0);
+        result.client_state = rp->client_state;
+        result.cpu_time = rp->cpu_time;
+        result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
+        result.validate_state = VALIDATE_STATE_NEED_CHECK;
+        if (result.client_state != CLIENT_DONE) {
+            result.validate_state = VALIDATE_STATE_INVALID;
+                //so we won't try to validate this result anymore
+            result.server_state = RESULT_SERVER_STATE_ERROR;
         } else {
-            if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
-                sprintf(buf,
-                    "got unexpected result for %s: server state is %d\n",
-                    rp->name, result.server_state
-                );
-                write_log(buf);
-                continue;
-            }
+            result.server_state = RESULT_SERVER_STATE_DONE;
+        }
 
-            if (result.hostid != sreq.hostid) {
-                sprintf(buf,
-                    "got result from wrong host: %d %d\n",
-                    result.hostid, sreq.hostid
-                );
-                write_log(buf);
-                continue;
-            }
+     
+        strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
+        strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
+        retval = db_result_update(result);
+        if (retval) {
+            sprintf(buf, "can't update result %d\n", result.id);
+            write_log(buf);
+        }
 
-            // TODO: handle error returns
-            //
-            result.hostid = reply.host.id;
-            result.received_time = time(0);
-            result.client_state = rp->client_state;
-            result.cpu_time = rp->cpu_time;
-            result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
-            result.validate_state = VALIDATE_STATE_NEED_CHECK;
-            if (result.client_state != CLIENT_DONE) {
-                result.validate_state = VALIDATE_STATE_INVALID;
-                    //so we won't try to validate this result anymore
-                result.server_state = RESULT_SERVER_STATE_ERROR;
-            } else {
-                result.server_state = RESULT_SERVER_STATE_DONE;
-            }
-
-         
-            strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
-            strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
-            retval = db_result_update(result);
+        retval = db_workunit(result.workunitid, wu);
+        if (retval) {
+            sprintf(buf,
+                "can't find WU %d for result %d\n",
+                result.workunitid, result.id
+            );
+            write_log(buf);
+        } else {
+            wu.need_validate = 1;
+            retval = db_workunit_update(wu);
             if (retval) {
-                fprintf(stderr, "can't update result %d\n", result.id);
-            }
-
-            retval = db_workunit(result.workunitid, wu);
-            if (retval) {
-                fprintf(stderr,
-                    "can't find WU %d for result %d\n",
-                    result.workunitid, result.id
-                );
-            } else {
-                wu.need_validate = 1;
-                retval = db_workunit_update(wu);
-                if (retval) {
-                    write_log("Can't update WU\n");
-                }
+                write_log("Can't update WU\n");
             }
         }
     }
@@ -398,6 +404,10 @@ int send_work(
     int i, retval, nresults = 0, seconds_to_fill;
     WORKUNIT wu;
     RESULT result, result_copy;
+    char buf[256];
+
+    sprintf(buf, "got request for %d seconds of work\n", sreq.work_req_seconds);
+    write_log(buf);
 
     seconds_to_fill = sreq.work_req_seconds;
     if (seconds_to_fill > MAX_SECONDS_TO_SEND) {
@@ -455,6 +465,9 @@ int send_work(
         nresults++;
         if (nresults == MAX_WUS_TO_SEND) break;
     }
+
+    sprintf(buf, "sending %d results\n", nresults);
+    write_log(buf);
 
     if (nresults == 0) {
         strcpy(reply.message, "no work available");
@@ -569,6 +582,7 @@ void handle_request(
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
 
+    write_log("Handling request\n");
     memset(&sreq, 0, sizeof(sreq));
     sreq.parse(fin);
     process_request(sreq, sreply, ss, code_sign_key);

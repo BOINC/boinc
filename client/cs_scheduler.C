@@ -462,6 +462,8 @@ int CLIENT_STATE::handle_scheduler_reply(
             if (!retval) results.push_back(rp);
             rp->state = RESULT_NEW;
             nresults++;
+        } else {
+            fprintf(stderr, "ERROR: already have result %s\n", sr.results[i].name);
         }
     }
 
@@ -484,7 +486,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     set_client_state_dirty("handle_scheduler_reply");
     if (log_flags.state_debug) {
         printf("State after handle_scheduler_reply():\n");
-        print_counts();
+        print_summary();
     }
     return 0;
 }

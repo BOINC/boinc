@@ -124,7 +124,7 @@ int CLIENT_STATE::init() {
     parse_state_file();
 
     if (log_flags.state_debug) {
-        print_counts();
+        print_summary();
     }
 
     // Run the time tests and host information check if needed
@@ -332,20 +332,23 @@ static void print_log(char* p) {
     }
 }
 
-// do_something is where all the action happens.  This is part of the
-// finite state machine abstraction of the client.  Each of the key
-// elements of the client is given a chance to perform work here.
-// return true if something happened
-// TODO: handle errors passed back up to here?
+// do_something is where all the action happens.
+// Each of the client's finite-state machine layers is polled,
+// possibly triggering state transitions.
+// Returns true if something happened
 //
 bool CLIENT_STATE::do_something() {
     int nbytes=0;
     bool action = false, x;
 
-        if(check_time_tests() == TIME_TESTS_RUNNING) return action;
+    if (check_time_tests() == TIME_TESTS_RUNNING) return action;
 
     check_suspend_activities();
-    if (!activities_suspended) {
+
+    print_log("Polling; active layers:\n");
+    if (activities_suspended) {
+    print_log("None (suspended)\n");
+    } else {
         // Call these functions in bottom to top order with
         // respect to the FSM hierarchy
 
@@ -354,10 +357,10 @@ bool CLIENT_STATE::do_something() {
         if (nbytes) { max_bytes -= nbytes; action=true; print_log("net_xfers\n"); }
 
         x = http_ops->poll();
-        if (x) {action=true; print_log("http_ops::poll\n"); }
+        if (x) {action=true; print_log("http_ops\n"); }
 
         x = file_xfers->poll();
-        if (x) {action=true; print_log("file_xfers::poll\n"); }
+        if (x) {action=true; print_log("file_xfers\n"); }
 
         x = active_tasks.poll();
         if (x) {action=true; print_log("active_tasks::poll\n"); }
@@ -366,13 +369,13 @@ bool CLIENT_STATE::do_something() {
         if (x) {action=true; print_log("active_tasks::poll_time\n"); }
 
         x = scheduler_rpc_poll();
-        if (x) {action=true; print_log("scheduler_rpc_poll\n"); }
+        if (x) {action=true; print_log("scheduler_rpc\n"); }
 
         x = start_apps();
         if (x) {action=true; print_log("start_apps\n"); }
 
         x = pers_xfers->poll();
-        if (x) {action=true; print_log("pers_xfers->poll\n"); }
+        if (x) {action=true; print_log("pers_xfers\n"); }
 
         x = handle_running_apps();
         if (x) {action=true; print_log("handle_running_apps\n"); }
@@ -386,11 +389,11 @@ bool CLIENT_STATE::do_something() {
         x = update_results();
         if (x) {action=true; print_log("update_results\n"); }
 
-        if(write_state_file_if_needed())
-          {
-             fprintf(stderr, "CLIENT_STATE::do_something(): could not write state file");
-          }
+        if (write_state_file_if_needed()) {
+            fprintf(stderr, "CLIENT_STATE::do_something(): could not write state file");
+        }
     }
+    print_log("End poll\n");
     if (!action) {
         time_stats.update(true, !activities_suspended);
         max_bytes = max_transfer_rate;
@@ -818,28 +821,47 @@ int CLIENT_STATE::latest_version_num(char* app_name) {
         if (avp->version_num < best) continue;
         best = avp->version_num;
     }
-    if (best < 0) fprintf(stderr, "CLIENT_STATE::latest_version_num: no version\n");
+    if (best < 0) {
+        fprintf(stderr, "CLIENT_STATE::latest_version_num: no version\n");
+    }
     return best;
 }
 
 // Print debugging information about how many projects/files/etc
 // are currently in the client state record
 //
-void CLIENT_STATE::print_counts() {
-    if (log_flags.state_debug) {
-        printf(
-            "Client state file:\n"
-            "%d projects\n"
-            "%d file_infos\n"
-            "%d app_versions\n"
-            "%d workunits\n"
-            "%d results\n",
-            (int)projects.size(),
-            (int)file_infos.size(),
-            (int)app_versions.size(),
-            (int)workunits.size(),
-            (int)results.size()
-        );
+void CLIENT_STATE::print_summary() {
+    unsigned int i;
+    if (!log_flags.state_debug) return;
+
+    printf("Client state summary:\n");
+    printf("  %d projects\n", (int)projects.size());
+    for (i=0; i<projects.size(); i++) {
+        printf("    %s\n", projects[i]->master_url);
+    }
+    printf("  %d file_infos\n", (int)file_infos.size());
+    for (i=0; i<file_infos.size(); i++) {
+        printf("    %s status:%d %s\n", file_infos[i]->name, file_infos[i]->status, file_infos[i]->pers_file_xfer?"active":"inactive");
+    }
+    printf("  %d app_versions\n", (int)app_versions.size());
+    for (i=0; i<app_versions.size(); i++) {
+        printf("    %s %d\n", app_versions[i]->app_name, app_versions[i]->version_num);
+    }
+    printf("  %d workunits\n", (int)workunits.size());
+    for (i=0; i<workunits.size(); i++) {
+        printf("    %s\n", workunits[i]->name);
+    }
+    printf("  %d results\n", (int)results.size());
+    for (i=0; i<results.size(); i++) {
+        printf("    %s state:%d\n", results[i]->name, results[i]->state);
+    }
+    printf("  %d persistent file xfers\n", (int)pers_xfers->pers_file_xfers.size());
+    for (i=0; i<pers_xfers->pers_file_xfers.size(); i++) {
+        printf("    %s\n", pers_xfers->pers_file_xfers[i]->fip->name);
+    }
+    printf("  %d active tasks\n", (int)active_tasks.active_tasks.size());
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
+        printf("    %s\n", active_tasks.active_tasks[i]->result->name);
     }
 }
 
@@ -962,7 +984,10 @@ bool CLIENT_STATE::garbage_collect() {
 
     // TODO: delete obsolete APP_VERSIONs
 
-    if (log_flags.state_debug && action) printf("garbage_collect\n");
+    if (action && log_flags.state_debug) {
+        print_summary();
+    }
+
     return action;
 }
 

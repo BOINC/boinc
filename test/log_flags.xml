@@ -3,6 +3,7 @@
     <file_xfer/>
     <sched_ops/>
     <state_debug/>
+    <poll_debug/>
     <task_debug/>
     <file_xfer_debug/>
     <sched_op_debug/>

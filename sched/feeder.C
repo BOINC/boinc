@@ -105,13 +105,14 @@ int check_triggers(SCHED_SHMEM* ssp) {
 //  - We must avoid excessive re-enumeration,
 //    especially when the number of results is less than the array size.
 //    Crude approach: if a "collision" (as above) occurred on
-//    a pass through the array, wait a long time (60 sec)
+//    a pass through the array, wait a long time (5 sec)
 //
 void feeder_loop(SCHED_SHMEM* ssp) {
     int i, j, nadditions, ncollisions, retval;
     RESULT result;
     WORKUNIT wu;
     bool no_wus, collision, restarted_enum;
+    char buf[256];
 
     while (1) {
         nadditions = 0;
@@ -120,6 +121,7 @@ void feeder_loop(SCHED_SHMEM* ssp) {
         restarted_enum = false;
         for (i=0; i<ssp->nwu_results; i++) {
             if (!ssp->wu_results[i].present) {
+try_again:
                 result.server_state = RESULT_SERVER_STATE_UNSENT;
                 retval = db_result_enum_server_state(result, RESULTS_PER_ENUM);
                 if (retval) {
@@ -128,7 +130,7 @@ void feeder_loop(SCHED_SHMEM* ssp) {
                     // there's no point in doing it again.
                     //
                     if (restarted_enum) {
-                        printf("feeder: already restarted enum\n");
+                        write_log("already restarted enum on this pass\n");
                         break;
                     }
 
@@ -137,12 +139,17 @@ void feeder_loop(SCHED_SHMEM* ssp) {
                     restarted_enum = true;
                     result.server_state = RESULT_SERVER_STATE_UNSENT;
                     retval = db_result_enum_server_state(result, RESULTS_PER_ENUM);
-                    printf("feeder: restarting enumeration: %d\n", retval);
+                    write_log("restarting enumeration\n");
                     if (retval) {
-                        printf("feeder: enumeration returned nothing\n");
+                        write_log("enumeration restart returned nothing\n");
                         no_wus = true;
                         break;
                     }
+                }
+                if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
+                    sprintf(buf, "RESULT STATE CHANGED: %s\n", result.name);
+                    write_log(buf);
+                    goto try_again;
                 }
                 collision = false;
                 for (j=0; j<ssp->nwu_results; j++) {
@@ -155,10 +162,12 @@ void feeder_loop(SCHED_SHMEM* ssp) {
                     }
                 }
                 if (!collision) {
-                    printf("feeder: adding result %d in slot %d\n", result.id, i);
+                    sprintf(buf, "adding result %d in slot %d\n", result.id, i);
+                    write_log(buf);
                     retval = db_workunit(result.workunitid, wu);
                     if (retval) {
-                        printf("feeder: can't read workunit %d: %d\n", result.workunitid, retval);
+                        sprintf(buf, "can't read workunit %d: %d\n", result.workunitid, retval);
+                        write_log(buf);
                         continue;
                     }
                     ssp->wu_results[i].result = result;
@@ -169,17 +178,18 @@ void feeder_loop(SCHED_SHMEM* ssp) {
             }
         }
         if (nadditions == 0) {
-            printf("feeder: no results added\n");
+            write_log("no results added\n");
             sleep(1);
         } else {
-            printf("feeder: added %d results to array\n", nadditions);
+            sprintf(buf, "added %d results to array\n", nadditions);
+            write_log(buf);
         }
         if (no_wus) {
-            printf("feeder: no results available\n");
+            write_log("feeder: no results available\n");
             sleep(5);
         }
         if (ncollisions) {
-            printf("feeder: some results already in array - sleeping\n");
+            write_log("feeder: some results already in array - sleeping\n");
             sleep(5);
         }
         fflush(stdout);

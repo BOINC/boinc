@@ -59,7 +59,7 @@ int CLIENT_STATE::cleanup_and_exit() {
 int CLIENT_STATE::exit_tasks() {
     active_tasks.exit_tasks();
 
-	// for now just kill them
+        // for now just kill them
     unsigned int i;
     ACTIVE_TASK *atp;
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
@@ -121,7 +121,7 @@ bool CLIENT_STATE::handle_running_apps() {
                 );
             }
             app_finished(*atp);
-            active_tasks.remove(atp);	
+            active_tasks.remove(atp);        
             delete atp;
             set_client_state_dirty("handle_running_apps");
             action = true;
@@ -170,7 +170,7 @@ bool CLIENT_STATE::start_apps() {
             if (log_flags.task_debug) {
                 printf("start_apps(): all slots full\n");
             }
-            return false;
+            return action;
         }
         rp = results[i];
 
@@ -188,12 +188,18 @@ bool CLIENT_STATE::start_apps() {
             atp->slot = open_slot;
             atp->init(rp);
             retval = active_tasks.insert(atp);
-	    //couldn't start process
-	    if(retval) {
-		atp->state = PROCESS_COULDNT_START;
-		atp->result->active_task_state = PROCESS_COULDNT_START;
-		report_project_error(*(atp->result),retval,"Couldn't start the app for this result.\n",CLIENT_COMPUTING);
-	    }
+
+            // couldn't start process
+            //
+            if (retval) {
+                atp->state = PROCESS_COULDNT_START;
+                atp->result->active_task_state = PROCESS_COULDNT_START;
+                report_project_error(
+                    *(atp->result),retval,
+                    "Couldn't start the app for this result.\n",
+                    CLIENT_COMPUTING
+                );
+            }
             action = true;
             set_client_state_dirty("start_apps");
             app_started = time(0);
