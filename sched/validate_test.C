@@ -57,10 +57,11 @@ int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
     for (i=0; i<n; i++) {
         retval = get_output_file_path(results[i], path);
         if (retval) {
-            log_messages.printf(SchedMessages::CRITICAL,
-                      "check_set: can't get output filename for %s\n",
-                      results[i].name
-                );
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "check_set: can't get output filename for %s\n",
+                results[i].name
+            );
             return retval;
         }
         retval = read_file_malloc(path, files[i]);
