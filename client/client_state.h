@@ -21,6 +21,7 @@
 #define _CLIENT_STATE_
 
 #include <vector>
+#include <time.h>
 
 #include "app.h"
 #include "client_types.h"
@@ -38,7 +39,7 @@ public:
     CLIENT_STATE();
     int init(PREFS*);
     int restart_tasks();
-    int exit_tasks();
+    int exit();
     bool do_something();
     void parse_cmdline(int argc, char** argv);
     bool time_to_exit();
@@ -69,6 +70,7 @@ private:
     bool run_time_test;
     bool activities_suspended;
     int exit_after;
+    time_t app_started;
 
     int parse_state_file();
     int write_state_file();
@@ -83,6 +85,7 @@ private:
     int check_suspend_activities();
     int make_project_dirs();
     int make_slot_dirs();
+    int exit_tasks();
     bool input_files_available(RESULT*);
     int app_finished(ACTIVE_TASK&);
     bool start_apps();

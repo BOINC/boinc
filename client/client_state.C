@@ -49,6 +49,7 @@ CLIENT_STATE::CLIENT_STATE() {
     version = VERSION;
     platform_name = HOST;
     exit_after = -1;
+    app_started = 0;
 }
 
 int CLIENT_STATE::init(PREFS* p) {
@@ -156,7 +157,6 @@ bool CLIENT_STATE::do_something() {
         write_state_file_if_needed();
     }
     if (!action) time_stats.update(true, !activities_suspended);
-    if (exit_after > 0) exit_after--;
     return action;
 }
 
@@ -165,7 +165,7 @@ bool CLIENT_STATE::do_something() {
 int CLIENT_STATE::parse_state_file() {
     char buf[256];
     FILE* f = fopen(STATE_FILE_NAME, "r");
-    PROJECT* project=0, *p2;
+    PROJECT temp_project, *project;
     int retval;
 
     if (!f) {
@@ -180,17 +180,15 @@ int CLIENT_STATE::parse_state_file() {
         if (match_tag(buf, "</client_state>")) {
             return 0;
         } else if (match_tag(buf, "<project>")) {
-            project = new PROJECT;
-            project->parse_state(f);
-            p2 = lookup_project(project->master_url);
-            if (p2) {
-                p2->copy_state_fields(*project);
+            temp_project.parse_state(f);
+            project = lookup_project(temp_project.master_url);
+            if (project) {
+                project->copy_state_fields(temp_project);
             } else {
                 fprintf(stderr,
                     "Project %s found in state file but not prefs.\n",
-                    project->master_url
+                    temp_project.master_url
                 );
-                project = 0;
             }
         } else if (match_tag(buf, "<app>")) {
             APP* app = new APP;
@@ -235,6 +233,7 @@ int CLIENT_STATE::parse_state_file() {
                 retval = link_result(project, rp);
                 if (!retval) results.push_back(rp);
             } else {
+		fprintf(stderr, "error: link_result failed\n");
                 delete rp;
             }
         } else if (match_tag(buf, "<host_info>")) {
@@ -252,9 +251,10 @@ int CLIENT_STATE::parse_state_file() {
             // after core client update
         } else {
             fprintf(stderr, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
+	    return ERR_XML_PARSE;
         }
     }
-    return ERR_XML_PARSE;
+    return 0;
 }
 
 // Make a directory for each of the projects present
@@ -283,15 +283,25 @@ int CLIENT_STATE::make_slot_dirs() {
 // all applications, checking their final status, and writing
 // the client_state.xml file
 //
+int CLIENT_STATE::exit() {
+    int retval;
+    active_tasks.poll_time();
+    retval = write_state_file();
+    if (retval) { 
+	fprintf(stderr, "error: CLIENT_STATE.exit: write_state_file failed\n");
+        return retval;
+    }
+    retval = exit_tasks();
+    if (retval) {
+	fprintf(stderr, "error: CLIENT_STATE.exit: exit_tasks failed\n");
+        return retval;
+    }
+    return 0;
+}
+
 int CLIENT_STATE::exit_tasks() {
     int retval;
     active_tasks.exit_tasks();
-    active_tasks.poll_time();
-    retval = write_state_file();
-    if (retval) {
-        fprintf(stderr, "error: CLIENT_STATE.exit_tasks: write_state_file failed\n");
-        return retval;
-    }
     return 0;
 }
 
@@ -357,9 +367,11 @@ int CLIENT_STATE::write_state_file() {
 PROJECT* CLIENT_STATE::lookup_project(char* master_url) {
     for (unsigned int i=0; i<projects.size(); i++) {
         if (!strcmp(master_url, projects[i]->master_url)) {
+	    fprintf(stderr, "project found: %s\n", master_url);
             return projects[i];
         }
     }
+    fprintf(stderr, "project not found: %s\n", master_url);
     return 0;
 }
 
@@ -372,8 +384,12 @@ APP* CLIENT_STATE::lookup_app(PROJECT* p, char* name) {
 }
 
 RESULT* CLIENT_STATE::lookup_result(PROJECT* p, char* name) {
+    fprintf(stderr, "p: %p\n", p);
     for (unsigned int i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
+	fprintf(stderr, "rp->name: %s\nrp->project: %p\n", rp->name,
+            rp->project
+        );
         if (rp->project == p && !strcmp(name, rp->name)) return rp;
     }
     return 0;
@@ -515,7 +531,10 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     rp->app = wup->app;
     for (i=0; i<rp->output_files.size(); i++) {
         retval = link_file_ref(p, &rp->output_files[i]);
-        if (retval) return retval;
+        if (retval) {
+	    fprintf(stderr, "error: link_result: link_file_ref failed\n");
+	    return retval;
+	}
     }
     return 0;
 }
@@ -678,8 +697,11 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
 // Returns true if the core client should exit
 //
 bool CLIENT_STATE::time_to_exit() {
-    if (!exit_when_idle && (exit_after != 0)) return false;
-    if (results.size() == 0 && contacted_sched_server) return true;
-    if (exit_after == 0) return true;
+    if (!exit_when_idle && (exit_after == -1)) return false;
+    if ((exit_after != -1) && app_started &&
+        (difftime(time(0), app_started) >= exit_after)) return true;
+    if (exit_when_idle && (results.size() == 0) && contacted_sched_server) {
+	return true;
+    }
     return false;
 }

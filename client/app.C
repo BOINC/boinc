@@ -69,6 +69,10 @@
 #include "app.h"
 #include "api.h"
 
+extern void write_core_file(FILE *f, APP_IN& ai);
+extern void write_init_file(FILE *f, char *file_name, int fdesc, int input_file);
+extern void parse_app_file(FILE *f, APP_OUT& ao);
+
 // take a string containing some space separated words.
 // return an array of pointers to the null-terminated words.
 // Modifies the string arg.

@@ -251,20 +251,35 @@ function clean_api() {
     PassThru("rm -f counter app_to_core.xml core_to_app.xml foobar");
 }
 
-function compare_time() {
+function get_time($file_name) {
+    $time_file = fopen($file_name, "r");
+    if($time_file == NULL) return 0;
+    fscanf($time_file, "%f", $app_time);
+    PassThru("rm -f ".$file_name);
+    return $app_time;
+}
+
+function compare_time($app_time) {
     $epsilon = 0.0001;
     db_init();
     $data = mysql_query("select cpu_time from result where name = 'uccpu_wu_0'");
     $result = mysql_fetch_object($data);
     $db_time = $result->cpu_time;
-    $time_file = fopen("time.xml", "r");
-    fscanf($time_file, "%f", $app_time);
-    if(abs($db_time - $app_time) > $epsilon) {
-        printf("Time mismatch: app %f server %f\n", $app_time, $db_time);
+    $client_time = get_time("client_time");
+    if(abs($app_time - $client_time) > $epsilon) {
+	printf("Time mismatch: app %f client %f\n", $app_time, $client_time);
+    } 
+    else {
+        printf("Client time %f matches app time %f\n", $client_time, $app_time)
+;
     }
-    else printf("Times match\n");
-    fclose($time_file);
-    PassThru("rm -f time.xml");
+    if(abs($db_time - $app_time) > $epsilon) {
+        printf("Time mismatch: client %f server %f\n", $client_time, $db_time);
+    }
+    else {
+        printf("Reported time %f matches client time %f\n", $db_time, $client_time);
+    }
+    PassThru("rm -f client_time app_time");
 }
 
 ?>

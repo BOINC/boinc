@@ -15,9 +15,13 @@
     add_core_client(null);
     add_user("prefs.xml");
     add_app("uc_cpu", null, null);
-    create_work("-appname uc_cpu -wu_name uccpu_wu -wu_template uccpu_wu -result_template uccpu_result -nresults 1 small_input");
+    create_work("-appname uc_cpu -rsc_fpops 4500000000 -rsc_iops 500000000 -wu_name uccpu_wu -wu_template uccpu_wu -result_template uccpu_result -nresults 1 small_input");
     start_feeder();
+    run_client("-exit_after 12");
+    $app_time = get_time("app_time");
+    PassThru("cp client_state.xml client_state.xml.one");
     run_client("-exit_when_idle");
+    $app_time += get_time("app_time");
     compare_file("uccpu_wu_0_0", "uc_small_correct_output");
-    compare_time();
+    compare_time($app_time);
 ?>

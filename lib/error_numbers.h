@@ -37,3 +37,5 @@
     // unexpected NULL pointer
 #define ERR_NEG		-116
     // unexpected negative value
+#define ERR_BUFF_OVERFLOW -117
+    // caught buffer overflow

@@ -137,6 +137,7 @@ bool CLIENT_STATE::start_apps() {
             active_tasks.insert(atp);
             action = true;
             client_state_dirty = true;
+	    app_started = time(0);
         }
     }
     return action;

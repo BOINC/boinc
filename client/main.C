@@ -132,7 +132,6 @@ int main(int argc, char** argv) {
             break;
         }
     }
-
-    gstate.exit_tasks();
+    gstate.exit();
     return 0;
 }
