@@ -129,49 +129,6 @@ End Function
 
 
 ''
-'' Grant the 'Run As A Service' right to the selected account
-''
-Function GrantServiceExecutionRight()
-    On Error Resume Next
-
-	Dim oShell
-    Dim oRecord
-    Dim strCommand
-    Dim iExitCode
-
-	Set oShell = CreateObject("WScript.Shell")
-    Set oRecord = Installer.CreateRecord(2)
-
-    strCommand = CHR(34) & Property("BOINCCOMMONFILES") & "grant.exe" & CHR(34) & "add SeServiceLogonRight " & Property("SERVICE_DOMAINUSERNAME")
-
-    iExitCode = oShell.Run(strCommand, 0, true)
-    If ( iExitCode <> 0 ) Then
-	    oRecord.StringData(0) = "Attempting to execute '[1]' returned with the following exit code '[2]'"
-	    oRecord.StringData(1) = strCommand
-	    oRecord.IntegerData(2) = iExitCode
-        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
-    
-        GrantServiceExecutionRight = msiDoActionStatusFailure
-        Exit Function
-    Else
-	    If ( Err.Number <> 0 ) Then
-		    oRecord.IntegerData(1) = Err.Number
-		    oRecord.StringData(2) = Err.Description
-	        Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
-	    
-	        GrantServiceExecutionRight = msiDoActionStatusFailure
-	        Exit Function
-	    End If
-    End If
-
-    Set oShell = Nothing
-    Set oRecord = Nothing
-
-    GrantServiceExecutionRight = msiDoActionStatusSuccess 
-End Function
-
-
-''
 '' Launch the BOINC Readme when requested to do so
 ''
 Function LaunchReadme()
