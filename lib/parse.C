@@ -227,10 +227,10 @@ char* sgets(char* buf, int len, char*& in) {
 }
 
 bool extract_xml_record(const std::string &field, const char *tag, std::string &record) {
-    std::string::size_type start_pos,end_pos,m;
+    std::string::size_type start_pos,end_pos;
     char end_tag[256];
     sprintf(end_tag,"/%s",tag);
-    std::string::size_type i=0,j=0;
+    std::string::size_type j=0;
 
     // find the end tag
     do {
