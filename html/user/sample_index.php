@@ -31,7 +31,7 @@ function show_nav() {
         <h3>Community</h3>
         <ul>
         <li><a href=".URL_BASE."profile_menu.php>Participant profiles</a>
-        <li><a href=forum_main.php/>Message boards</a>
+        <li><a href=forum_index.php>Message boards</a>
         <li><a href=forum_help_desk.php>Questions and problems</a>
         </ul>
         <h3>Project totals and leader boards</h3>

@@ -15492,3 +15492,8 @@ Karl 2004-07-21
 
     tools/
         update_versions
+
+    - fixed html/php bugs
+
+    html/user/
+        team_manage.php

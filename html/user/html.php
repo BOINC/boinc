@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("../inc/util.inc");
 
 page_head("Allowed HTML tags");
