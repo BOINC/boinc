@@ -228,31 +228,33 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             "rsc_fpops=%f, rsc_iops=%f, rsc_memory=%f, rsc_disk=%f, "
             "need_validate=%d, "
             "canonical_resultid=%d, canonical_credit=%f, "
-            "retry_check_time=%f, delay_bound=%d, main_state=%d, "
-            "error=%d, file_delete_state=%d, assimilate_state=%d, "
+            "timeout_check_time=%d, delay_bound=%d, "
+            "error_mask=%d, file_delete_state=%d, assimilate_state=%d, "
             "workseq_next=%d",
             wup->id, wup->create_time, wup->appid,
             wup->name, wup->xml_doc, wup->batch,
             wup->rsc_fpops, wup->rsc_iops, wup->rsc_memory, wup->rsc_disk, 
             wup->need_validate,
             wup->canonical_resultid, wup->canonical_credit,
-            wup->retry_check_time, wup->delay_bound, wup->main_state,
-            wup->error, wup->file_delete_state, wup->assimilate_state,
+            wup->timeout_check_time, wup->delay_bound,
+            wup->error_mask, wup->file_delete_state, wup->assimilate_state,
             wup->workseq_next
         );
         break;
     case TYPE_RESULT:
         rp = (RESULT*)vp;
         sprintf(q,
-            "id=%d, create_time=%d, workunitid=%d, server_state=%d, "
+            "id=%d, create_time=%d, workunitid=%d, "
+            "server_state=%d, outcome=%d, client_state=%d, "
             "hostid=%d, report_deadline=%d, sent_time=%d, received_time=%d, "
-            "name='%s', client_state=%d, cpu_time=%f, "
+            "name='%s', cpu_time=%f, "
             "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
             "batch=%d, file_delete_state=%d, validate_state=%d, "
             "claimed_credit=%f, granted_credit=%f",
-            rp->id, rp->create_time, rp->workunitid, rp->server_state,
+            rp->id, rp->create_time, rp->workunitid,
+            rp->server_state, rp->outcome, rp->client_state,
             rp->hostid, rp->report_deadline, rp->sent_time, rp->received_time,
-            rp->name, rp->client_state, rp->cpu_time,
+            rp->name, rp->cpu_time,
             rp->xml_doc_in, rp->xml_doc_out, rp->stderr_out,
             rp->batch, rp->file_delete_state, rp->validate_state,
             rp->claimed_credit, rp->granted_credit
@@ -411,10 +413,9 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         wup->need_validate = atoi(r[i++]);
         wup->canonical_resultid = atoi(r[i++]);
         wup->canonical_credit = atof(r[i++]);
-        wup->retry_check_time = atof(r[i++]);
+        wup->timeout_check_time = atoi(r[i++]);
         wup->delay_bound = atoi(r[i++]);
-        wup->main_state = atoi(r[i++]);
-        wup->error = atoi(r[i++]);
+        wup->error_mask = atoi(r[i++]);
         wup->file_delete_state = atoi(r[i++]);
         wup->assimilate_state = atoi(r[i++]);
         wup->workseq_next = atoi(r[i++]);
@@ -426,12 +427,13 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         rp->create_time = atoi(r[i++]);
         rp->workunitid = atoi(r[i++]);
         rp->server_state = atoi(r[i++]);
+        rp->outcome = atoi(r[i++]);
+        rp->client_state = atoi(r[i++]);
         rp->hostid = atoi(r[i++]);
         rp->report_deadline = atoi(r[i++]);
         rp->sent_time = atoi(r[i++]);
         rp->received_time = atoi(r[i++]);
         strcpy2(rp->name, r[i++]);
-        rp->client_state = atoi(r[i++]);
         rp->cpu_time = atof(r[i++]);
         strcpy2(rp->xml_doc_in, r[i++]);
         strcpy2(rp->xml_doc_out, r[i++]);
@@ -655,14 +657,14 @@ int db_workunit_enum_app_assimilate_state(WORKUNIT& p) {
     return boinc_db.db_enum(e, &p, TYPE_WORKUNIT, buf);
 }
 
-int db_workunit_enum_retry_check_time(WORKUNIT& p) {
+int db_workunit_enum_timeout_check_time(WORKUNIT& p) {
     static ENUM e;
     char buf[256];
 
     if (!e.active) {
         sprintf(buf,
-            "where appid=%d and retry_check_time > 0 and retry_check_time < %f",
-            p.appid, p.retry_check_time
+            "where appid=%d and timeout_check_time > 0 and timeout_check_time < %d",
+            p.appid, p.timeout_check_time
         );
     }
     return boinc_db.db_enum(e, &p, TYPE_WORKUNIT, buf);

@@ -10,3 +10,6 @@
 #
 get_load_out:machine load:3
 count_results_out:Number of results:3
+assimilated_wus_out:Number of assimilated workunits:3
+download_size_out:Bytes in download dir:3
+upload_size_out:Bytes in upload dir:3

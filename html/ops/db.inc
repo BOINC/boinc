@@ -112,22 +112,13 @@ function show_host($host) {
 
 }
 
-function main_state_str($s) {
-    switch($s) {
-    case 0: return "Initial";
-    case 1: return "Done";
-    case 2: return "Error";
-    }
-}
-
-function error_str($s) {
-    switch($s) {
-    case 0: return "No error";
-    case 1: return "Send failed";
-    case 2: return "Too many errors (may have bug)";
-    case 3: return "Too many done (may be nondeterministic)";
-    }
-    return "unknown";
+function wu_error_mask_str($s) {
+    $x = "";
+    if ($s & 1) $x = $x."Couldn't send result; ";
+    if ($s & 2) $x = $x."Too many errors (may have bug); ";
+    if ($s & 4) $x = $x."Too many results (may be nondeterministic)";
+    $x = $x."<br>";
+    return $x;
 }
 
 function assimilate_state_str($s) {
@@ -162,10 +153,9 @@ function show_workunit($wu,$show_xml_doc) {
     row("Need validate?", $wu->need_validate?"yes":"no");
     row("Canonical resultid", $wu->canonical_resultid);
     row("Canonical credit", $wu->canonical_credit);
-    row("Retry check time", time_str($wu->retry_check_time));
+    row("Timeout check time", time_str($wu->timeout_check_time));
     row("Delay bound", $wu->delay_bound);
-    row("Main state", main_state_str($wu->main_state));
-    row("Error", error_str($wu->error));
+    row("Error mask", wu_error_mask_str($wu->error_mask));
     row("File delete state", file_delete_state_str($wu->file_delete_state));
     row("Assimilation state", assimilate_state_str($wu->assimilate_state));
     row("","<a href=db.php?show=result&wu_id=$wu->id>Show associated results</a>");
@@ -173,19 +163,28 @@ function show_workunit($wu,$show_xml_doc) {
     echo "<p>";
 }
 
-function res_server_state_string($s) {
+function result_server_state_string($s) {
     switch($s) {
     case 1: return "Inactive";
     case 2: return "Unsent";
-    case 3: return "In Progress";
-    case 4: return "Done";
-    case 5: return "Timeout";
-    case 6: return "Error";
+    case 4: return "In Progress";
+    case 5: return "Over";
     }
     return "unknown";
 }
 
-function result_client_state_str($s) {
+function result_outcome_string($s) {
+    switch($s) {
+    case 1: return "Success";
+    case 2: return "Couldn't send";
+    case 3: return "Client error";
+    case 4: return "No reply";
+    case 5: return "Didn't need";
+    }
+    return "unknown";
+}
+
+function result_client_state_string($s) {
     switch($s) {
     case 1: return "Downloading";
     case 2: return "Computing";
@@ -197,9 +196,8 @@ function result_client_state_str($s) {
 function validate_state_str($s) {
     switch($s) {
     case 0: return "Initial";
-    case 1: return "Need check";
-    case 2: return "Valid";
-    case 3: return "Invalid";
+    case 1: return "Valid";
+    case 2: return "Invalid";
     }
     return "unknown";
 }
@@ -213,10 +211,11 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
     }
     row("Name", $result->name);
     row("Workunit", "<a href=db.php?show=workunit&id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
-    row("Server state", res_server_state_string($result->server_state));
-    row("Deadline", time_str($result->report_deadline));
+    row("Server state", result_server_state_string($result->server_state));
+    row("Outcome", result_outcome_string($result->outcome));
+    row("Client state", result_client_state_string($result->client_state));
     row("Host ID", "<a href=db.php?show=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
-    row("Client state", result_client_state_str($result->client_state));
+    row("Report deadline", time_str($result->report_deadline));
     row("CPU time", $result->cpu_time);
     if ($show_xml_docs) {
         row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");

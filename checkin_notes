@@ -2981,3 +2981,51 @@ David  Jan 15 2003
         test.inc
     tools/
         backend_lib.C
+
+David  Jan 22 2003
+    - Changed some of the state fields of workunit and result,
+        to accommodate new policies about when to delete files
+        See doc/backend_* for details
+    - Split off dummy assimilation function from the main program.
+    - Added new stripchart scripts for logging DB counts
+        and directory sizes
+
+    NOTE: it looks like shared memory segment is at same address
+    in feeder and cgi.  So it's OK to use pointers in it.
+
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    doc/
+        backend.html (removed)
+        backend_functions.html (new)
+        backend_programs.html (new)
+        backend_state.html (new)
+        backend_work_sequence.html (new)
+        create_project.html
+        garbage.html (removed)
+        retry.html (removed)
+        work.html
+        work_states.html (removed)
+    html_ops/
+        db.inc
+        db.php
+    sched/
+        Makefile.in
+        assimilate_handler.C,h (new)
+        assimilator.C
+        handle_request.C
+        result_retry.C
+        validate.C
+    strichart/samples/
+        datafiles
+        db_count (new)
+        db_looper (new)
+        dir_size (new)
+    test/
+        test.inc
+        test_loop.php
+    tools/
+        backend_lib.C
+        create_work.C

@@ -33,16 +33,9 @@
     $project->start_feeder();
     $project->start_make_work($work);
     $project->start_validate($app, 3);
-    //$project->start_file_delete();
+    $project->start_file_delete();
     $project->start_assimilator($app);
     $project->start_stripchart();
     $host->run();
-    //$project->stop();
-
-    //$result->state = RESULT_STATE_DONE;
-    //$result->stderr_out = "APP: upper_case: starting, argc 1";
-    //$result->exit_status = 0;
-    //$project->check_results(2, $result);
-    //$project->compare_file("uc_wu_0_0", "uc_correct_output");
-    //$project->compare_file("uc_wu_1_0", "uc_correct_output");
+    $project->stop();
 ?>

@@ -332,12 +332,13 @@ int handle_results(
 
     for (i=0; i<sreq.results.size(); i++) {
         rp = &sreq.results[i];
+
         // acknowledge the result even if we couldn't find it --
         // don't want it to keep coming back
         //
         reply.result_acks.push_back(*rp);
 
-        sprintf(buf, "got ack for result %s\n", rp->name);
+        sprintf(buf, "got result %s\n", rp->name);
         write_log(buf);
 
         strncpy(result.name, rp->name, sizeof(result.name));
@@ -347,13 +348,20 @@ int handle_results(
             write_log(buf);
             continue;
         }
-        if (result.server_state != RESULT_SERVER_STATE_IN_PROGRESS) {
+
+        if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
             sprintf(buf,
                 "got unexpected result for %s: server state is %d\n",
                 rp->name, result.server_state
             );
             write_log(buf);
             continue;
+        }
+        if (result.server_state == RESULT_SERVER_STATE_OVER) {
+            result.file_delete_state = FILE_DELETE_READY;
+        }
+        if (result.server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
+            result.server_state = RESULT_SERVER_STATE_OVER;
         }
 
         if (result.hostid != sreq.hostid) {
@@ -365,22 +373,32 @@ int handle_results(
             continue;
         }
 
-        // TODO: handle error returns
-        //
         result.hostid = reply.host.id;
         result.received_time = time(0);
         result.client_state = rp->client_state;
         result.cpu_time = rp->cpu_time;
         result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
-        result.validate_state = VALIDATE_STATE_NEED_CHECK;
-        if (result.client_state != CLIENT_DONE) {
-            result.validate_state = VALIDATE_STATE_INVALID;
-                //so we won't try to validate this result anymore
-            result.server_state = RESULT_SERVER_STATE_ERROR;
+        result.server_state = RESULT_SERVER_STATE_OVER;
+        if (result.client_state == CLIENT_DONE) {
+            result.outcome = RESULT_OUTCOME_SUCCESS;
+            retval = db_workunit(result.workunitid, wu);
+            if (retval) {
+                sprintf(buf,
+                    "can't find WU %d for result %d\n",
+                    result.workunitid, result.id
+                );
+                write_log(buf);
+            } else {
+                wu.need_validate = 1;
+                retval = db_workunit_update(wu);
+                if (retval) {
+                    write_log("Can't update WU\n");
+                }
+            }
         } else {
-            result.server_state = RESULT_SERVER_STATE_DONE;
+            result.outcome = RESULT_OUTCOME_CLIENT_ERROR;
+            result.validate_state = VALIDATE_STATE_INVALID;
         }
-
      
         strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
         strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
@@ -390,20 +408,6 @@ int handle_results(
             write_log(buf);
         }
 
-        retval = db_workunit(result.workunitid, wu);
-        if (retval) {
-            sprintf(buf,
-                "can't find WU %d for result %d\n",
-                result.workunitid, result.id
-            );
-            write_log(buf);
-        } else {
-            wu.need_validate = 1;
-            retval = db_workunit_update(wu);
-            if (retval) {
-                write_log("Can't update WU\n");
-            }
-        }
     }
     return 0;
 }
@@ -487,6 +491,7 @@ int send_work(
         result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;
         result.hostid = reply.host.id;
         result.sent_time = time(0);
+        result.report_deadline = result.sent_time + wu.delay_bound;
         db_result_update(result);
 
         nresults++;

@@ -122,43 +122,37 @@ int grant_credit(RESULT& result, double credit) {
     return 0;
 }
 
-// make one pass through the workunits with need_validate set.
-// return true if there were any
-//
-bool do_validate_scan(APP& app, int min_quorum) {
-    WORKUNIT wu;
+void handle_wu(WORKUNIT& wu) {
     RESULT result, canonical_result;
-    bool found=false, match;
+    bool match, update_result;
     int retval, canonicalid;
     double credit;
     unsigned int i;
     char buf[256];
 
-    wu.appid = app.id;
-    while(!db_workunit_enum_app_need_validate(wu)) {
-        found = true;
-        if (wu.canonical_resultid) {
-            sprintf(buf,
-                "validating WU %s; already have canonical result\n", wu.name
-            );
-            write_log(buf);
+    if (wu.canonical_resultid) {
+        sprintf(buf,
+            "validating WU %s; already have canonical result\n", wu.name
+        );
+        write_log(buf);
 
-            // Here if WU already has a canonical result.
-            // Get unchecked results and see if they match the canonical result
-            //
-            retval = db_result(wu.canonical_resultid, canonical_result);
-            if (retval) {
-                write_log("can't read canonical result\n");
-                continue;
-            }
+        // Here if WU already has a canonical result.
+        // Get unchecked results and see if they match the canonical result
+        //
+        retval = db_result(wu.canonical_resultid, canonical_result);
+        if (retval) {
+            write_log("can't read canonical result\n");
+            return;
+        }
 
-            // scan this WU's results, and check any that need checking
-            //
-            result.workunitid = wu.id;
-            while (!db_result_enum_wuid(result)) {
-                if (result.validate_state != VALIDATE_STATE_NEED_CHECK) {
-                    continue;
-                }
+        // scan this WU's results, and check the unchecked ones
+        //
+        result.workunitid = wu.id;
+        while (!db_result_enum_wuid(result)) {
+            if (result.validate_state == VALIDATE_STATE_INIT 
+                && result.server_state == RESULT_SERVER_STATE_OVER
+                && result.outcome == RESULT_OUTCOME_SUCCESS
+            ) {
                 retval = check_pair(result, canonical_result, match);
                 if (retval) {
                     sprintf(buf,
@@ -188,55 +182,66 @@ bool do_validate_scan(APP& app, int min_quorum) {
                     continue;
                 }
             }
-        } else {
-            // Here if WU doesn't have a canonical result yet.
-            // Try to get one
+        }
+    } else {
+        vector<RESULT> results;
 
-            sprintf(buf, "validating WU %s; no canonical result\n", wu.name);
-            write_log(buf);
+        // Here if WU doesn't have a canonical result yet.
+        // Try to get one
 
-            vector<RESULT> results;
-            result.workunitid = wu.id;
-            while (!db_result_enum_wuid(result)) {
-                if (result.server_state == RESULT_SERVER_STATE_DONE) {
-                    results.push_back(result);
-                }
+        sprintf(buf, "validating WU %s; no canonical result\n", wu.name);
+        write_log(buf);
+
+        result.workunitid = wu.id;
+        while (!db_result_enum_wuid(result)) {
+            if (result.server_state == RESULT_SERVER_STATE_OVER
+                && result.outcome == RESULT_OUTCOME_SUCCESS
+            ) {
+                results.push_back(result);
             }
-            sprintf(buf, "found %d results\n", results.size());
-            write_log(buf);
-            if (results.size() >= (unsigned int)min_quorum) {
-                retval = check_set(results, canonicalid, credit);
-                if (!retval && canonicalid) {
-                    write_log("found a canonical result\n");
-                    wu.canonical_resultid = canonicalid;
-                    wu.canonical_credit = credit;
-                    wu.main_state = WU_MAIN_STATE_DONE;
-                    wu.file_delete_state = FILE_DELETE_READY;
-                    wu.assimilate_state = ASSIMILATE_READY;
-                    for (i=0; i<results.size(); i++) {
+        }
+        sprintf(buf, "found %d successful results\n", results.size());
+        write_log(buf);
+        if (results.size() >= (unsigned int)min_quorum) {
+            retval = check_set(results, canonicalid, credit);
+            if (!retval && canonicalid) {
+                write_log("found a canonical result\n");
+                wu.canonical_resultid = canonicalid;
+                wu.canonical_credit = credit;
+                wu.assimilate_state = ASSIMILATE_READY;
+                for (i=0; i<results.size(); i++) {
+                    result = results[i];
+                    update_result = false;
 
-                        // if result is not canonical, arrange to delete
-                        // its output files
-                        //
-                        if (results[i].id != canonicalid) {
-                            results[i].file_delete_state = FILE_DELETE_READY;
+                    // grant credit for valid results
+                    //
+                    if (result.validate_state == VALIDATE_STATE_VALID) {
+                        update_result = true;
+                        retval = grant_credit(result, credit);
+                        if (retval) {
+                            sprintf(buf,
+                                "validate: grant_credit %d\n", retval
+                            );
+                            write_log(buf);
                         }
-
-                        // grant credit for valid results
-                        //
-                        if (results[i].validate_state == VALIDATE_STATE_VALID) {
-                            retval = grant_credit(results[i], credit);
-                            if (retval) {
-                                sprintf(buf,
-                                    "validate: grant_credit %d\n", retval
-                                );
-                                write_log(buf);
-                            }
-                            results[i].granted_credit = credit;
-                        }
-                        sprintf(buf, "updating result %d to %d; credit %f\n", results[i].id, results[i].validate_state, credit);
+                        result.granted_credit = credit;
+                        sprintf(buf,
+                            "updating result %d to %d; credit %f\n",
+                            result.id, result.validate_state, credit
+                        );
                         write_log(buf);
-                        retval = db_result_update(results[i]);
+                    }
+
+                    // don't send any unsent results
+                    //
+                    if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
+                        update_result = true;
+                        result.server_state = RESULT_SERVER_STATE_OVER;
+                        result.outcome = RESULT_OUTCOME_DIDNT_NEED;
+                    }
+
+                    if (update_result) {
+                        retval = db_result_update(result);
                         if (retval) {
                             sprintf(buf,
                                 "validate: db_result_update %d\n", retval
@@ -247,15 +252,29 @@ bool do_validate_scan(APP& app, int min_quorum) {
                 }
             }
         }
+    }
 
-        // we've checked all results for this WU, so turn off flag
-        //
-        wu.need_validate = 0;
-        retval = db_workunit_update(wu);
-        if (retval) {
-            sprintf(buf, "db_workunit_update: %d\n", retval);
-            write_log(buf);
-        }
+    // we've checked all results for this WU, so turn off flag
+    //
+    wu.need_validate = 0;
+    retval = db_workunit_update(wu);
+    if (retval) {
+        sprintf(buf, "db_workunit_update: %d\n", retval);
+        write_log(buf);
+    }
+}
+
+// make one pass through the workunits with need_validate set.
+// return true if there were any
+//
+bool do_validate_scan(APP& app, int min_quorum) {
+    WORKUNIT wu;
+    bool found=false;
+
+    wu.appid = app.id;
+    while(!db_workunit_enum_app_need_validate(wu)) {
+        handle_wu(wu);
+        found = true;
     }
     return found;
 }

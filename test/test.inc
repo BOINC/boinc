@@ -424,12 +424,17 @@ class Project {
         PassThru("cp $source_dir/stripchart/stripchart $this->project_dir/cgi/");
         PassThru("cp $source_dir/stripchart/stripchart.cnf $this->project_dir/cgi/");
         PassThru("cp $source_dir/stripchart/samples/looper $this->project_dir/cgi/");
+        PassThru("cp $source_dir/stripchart/samples/db_looper $this->project_dir/cgi/");
         PassThru("cp $source_dir/stripchart/samples/datafiles $this->project_dir/cgi/");
         PassThru("cp $source_dir/stripchart/samples/get_load $this->project_dir/cgi/");
-        macro_substitute("BOINC_DB_NAME", $this->db_name, "$source_dir/stripchart/samples/count_results", "$this->project_dir/cgi/count_results");
-        make_executable("$this->project_dir/cgi/count_results");
+        PassThru("cp $source_dir/stripchart/samples/dir_size $this->project_dir/cgi/");
+        macro_substitute("BOINC_DB_NAME", $this->db_name, "$source_dir/stripchart/samples/db_count", "$this->project_dir/cgi/db_count");
+        make_executable("$this->project_dir/cgi/db_count");
         PassThru("cd $this->project_dir/cgi; looper get_load 1 > get_load_out &");
-        PassThru("cd $this->project_dir/cgi; looper count_results 1 > count_results_out &");
+        PassThru("cd $this->project_dir/cgi; db_looper 'result' 1 > count_results_out &");
+        PassThru("cd $this->project_dir/cgi; db_looper 'workunit where assimilate_state=2' 1 > assimilated_wus_out &");
+        PassThru("cd $this->project_dir/cgi; looper 'dir_size ../download' 1 > download_size_out &");
+        PassThru("cd $this->project_dir/cgi; looper 'dir_size ../upload' 1 > upload_size_out &");
     }
 
     // this should stop the feeder and any other daemons

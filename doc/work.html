@@ -2,6 +2,9 @@
 <body bgcolor=ffffff>
 <h2>Workunits</h2> 
 <p>
+TODO: don't separate into XML/other parts;
+describe XML format only in the tools doc.
+<p>
 A <b>workunit</b> describes a computation to be performed.
 Workunits are maintained in the <b>workunit</b> table in the BOINC DB.
 The attributes of a workunit include:
@@ -13,13 +16,6 @@ The attributes of a workunit include:
 (see below).
 <li> The estimated resource requirements of the work unit
 (computation, memory, disk space).
-<li> The maximum processing
-(measured in <a href=credit.html>Cobblestones</a>)
-and maximum disk space to be used for the computation.
-An instance of the computation that exceeds either of these bounds
-will be aborted.
-This mechanism is used to prevent an infinite-loop bug from
-indefinitely incapacitating a host.
 <li> A <b>delay bound</b>: upper bound on how long (in real time)
 a result associated with this work unit should take to complete.
 This determines which hosts the workunit can be sent to,
@@ -49,8 +45,12 @@ The components are:
 <td>A list of environment variables in the form
 name=value&name=value&name=value.
 </td></tr>
-<tr><td>&lt;max_processing></td>
-<td>Maximum processing (in Cobblestones).
+<tr><td valign=top>&lt;max_processing></td>
+<td>Maximum processing
+(measured in <a href=credit.html>Cobblestones</a>).
+An instance of the computation that exceeds this bound will be aborted.
+This mechanism prevents an infinite-loop bug from
+indefinitely incapacitating a host.
 The default is determined by the client; typically it is 1.
 </td></tr>
 <tr><td>&lt;max_disk></td>

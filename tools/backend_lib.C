@@ -153,15 +153,16 @@ void initialize_result(RESULT& result, WORKUNIT& wu) {
     result.workunitid = wu.id;
     result.server_state = RESULT_SERVER_STATE_UNSENT;
     result.hostid = 0;
-    result.report_deadline = time(0) + wu.delay_bound;
+    result.report_deadline = 0;
     result.sent_time = 0;
     result.received_time = 0;
     result.client_state = 0;
     result.cpu_time = 0;
     strcpy(result.xml_doc_out, "");
     strcpy(result.stderr_out, "");
+    result.outcome = RESULT_OUTCOME_INIT;
     result.file_delete_state = ASSIMILATE_INIT;
-    result.validate_state = VALIDATE_STATE_INITIAL;
+    result.validate_state = VALIDATE_STATE_INIT;
     result.claimed_credit = 0;
     result.granted_credit = 0;
 }

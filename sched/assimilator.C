@@ -21,10 +21,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
+#include <vector>
 
 #include "db.h"
 #include "parse.h"
 #include "config.h"
+#include "assimilate_handler.h"
 
 CONFIG config;
 
@@ -35,48 +37,75 @@ void write_log(char* p) {
     fprintf(stderr, "%s: %s", timestr, p);
 }
 
+// assimilate all WUs that need it
 // return nonzero if did anything
 //
-bool do_pass(APP app) {
+bool do_pass(APP& app) {
     WORKUNIT wu;
-    RESULT result;
-    bool did_something = false;
-    int retval;
+    RESULT canonical_result, result;
+    vector<RESULT> results;
+    bool did_something = false, delete_inputs, delete_outputs;
     char buf[MAX_BLOB_SIZE];
+    unsigned int i;
 
     wu.appid = app.id;
     wu.assimilate_state = ASSIMILATE_READY;
     while (!db_workunit_enum_app_assimilate_state(wu)) {
         did_something = true;
 
-        sprintf(buf, "Assimilating WU %s, assim state %d\n", wu.name, wu.assimilate_state);
+        sprintf(buf,
+            "Assimilating WU %s, assim state %d\n",
+            wu.name, wu.assimilate_state
+        );
         write_log(buf);
 
-        switch(wu.main_state) {
-        case WU_MAIN_STATE_INIT:
-            write_log("ERROR; WU shouldn't be in init state\n");
-            break;
-        case WU_MAIN_STATE_DONE:
-            if (!wu.canonical_resultid) {
-                write_log("ERROR: canonical resultid zero\n");
-                break;
+        result.workunitid = wu.id;
+        while (!db_result_enum_wuid(result)) {
+            results.push_back(result);
+            if (result.id == wu.canonical_resultid) {
+                canonical_result = result;
             }
-            retval = db_result(wu.canonical_resultid, result);
-            if (retval) {
-                write_log("can't get canonical result\n");
-                break;
-            }
-            sprintf(buf, "canonical result for WU %s:\n%s", wu.name, result.xml_doc_out);
-            write_log(buf);
-
-            result.file_delete_state = FILE_DELETE_READY;
-            db_result_update(result);
-            break;
-        case WU_MAIN_STATE_ERROR:
-            printf("WU %s had an error\n", wu.name);
-            break;
         }
+
+        assimilate_handler(wu, results, canonical_result);
+
+        delete_outputs = true;
+        delete_inputs = true;
+        for (i=0; i<results.size(); i++) {
+            result = results[i];
+            if (result.server_state != RESULT_SERVER_STATE_OVER
+                || (result.outcome != RESULT_OUTCOME_SUCCESS && result.outcome != RESULT_OUTCOME_CLIENT_ERROR)
+            ) {
+                delete_outputs = false;
+            }
+            if (result.server_state != RESULT_SERVER_STATE_OVER) {
+                delete_inputs = false;
+            }
+        }
+
+        if (delete_outputs) {
+            for (i=0; i<results.size(); i++) {
+                result = results[i];
+                result.file_delete_state = FILE_DELETE_READY;
+                db_result_update(result);
+            }
+        } else {
+            for (i=0; i<results.size(); i++) {
+                result = results[i];
+                if (result.server_state == RESULT_SERVER_STATE_OVER
+                    && result.id != wu.canonical_resultid
+                    && (result.outcome == RESULT_OUTCOME_SUCCESS || result.outcome == RESULT_OUTCOME_CLIENT_ERROR)
+                ) {
+                    result.file_delete_state = FILE_DELETE_READY;
+                    db_result_update(result);
+                }
+            }
+        }
+
         wu.assimilate_state = ASSIMILATE_DONE;
+        if (delete_inputs) {
+            wu.file_delete_state = FILE_DELETE_READY;
+        }
         db_workunit_update(wu);
     }
     return did_something;

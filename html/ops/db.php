@@ -66,7 +66,7 @@
 
     if (strlen($result_state) && $result_state != 0) {
         $query = append_sql_query( $query, "server_state = $result_state", $first );
-        $english_query = append_sql_query( $english_query, "server state is ".res_server_state_string($result_state), $first );
+        $english_query = append_sql_query( $english_query, "server state is ".result_server_state_string($result_state), $first );
         $rstate = $result_state;
         $first = 0;
     } else {
@@ -172,7 +172,7 @@
             . "<option value=\"0\"" . ($rstate == 0 ? "selected" : "") . "> All\n"
         );
         for( $i=1;$i<=6;$i++ ) {
-            printf( "<option value=\"$i\"" . ($rstate == $i ? "selected" : "") . ">" . res_server_state_string($i) . "\n" );
+            printf( "<option value=\"$i\"" . ($rstate == $i ? "selected" : "") . ">" . result_server_state_string($i) . "\n" );
         }
         printf( "</select>\n<p>\n" );
         print_text_field( "Result in batch number:", "batch", $batch );

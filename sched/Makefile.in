@@ -77,6 +77,7 @@ FILE_DELETER_OBJS = \
 
 ASSIMILATOR_OBJS = \
     assimilator.o \
+    assimilate_handler.o \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \

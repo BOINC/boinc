@@ -1,0 +1,220 @@
+<title>Back end state transitions</title>
+<h2>Back end state transitions</h2>
+
+<p>
+The processing of workunits and results involves
+several independent activities.
+To keep track of these activities,
+workunit and result database records have several "state" fields,
+and their processing can be viewed as the combination
+of several finite-state machines.
+
+<p>
+A workunit has the following state fields:
+<ul>
+<li>
+<b>delay_bound</b>.
+upper bound for the interval between sending this WU to a host
+and getting the result
+Should be several times the execution time on an average host.
+If it's exceeded, the server "gives up" on the result
+and may delete its input files.
+If the result is returned later,
+it will still be validated and credited.
+
+<li>
+<b>canonical_resultid</b>.
+<li>
+<b>timeout_check_time</b>.
+
+<li>
+<b>file_delete_state</b>:
+Initially INIT.
+When the main state transitions to either DONE or ERROR,
+it transitions to READY,
+indicating that input files can be deleted.
+When file deletion is completed (by file_deleter)
+it transitions to DONE.
+
+<li>
+<b>assimilate_state</b>:
+Initially INIT.
+When the main state transitions to either DONE or ERROR,
+it transitions to READY,
+indicating that the workunit can be assimilated.
+When assimplateion is completed (by assimilator)
+it transitions to DONE.
+
+<li>
+<b>need_validate</b>:
+A boolean, true whenever
+the workunit has a result whose validate state is NEED_CHECK.
+The validate program sets it back to false.
+<li>
+<b>error_mask</b>.
+bit mask for error conditions
+
+</ul>
+Invariants:
+<ul>
+<li> eventually either canonical_resultid or error_mask is set
+<li> eventually timeout_check_time=0
+<li> WUs are eventually assimilated
+<li> input files are eventually deleted,
+but only when all results have state=OVER
+            (since may need to validate results that arrive after assimilation)
+        and wu.assimilate_state = DONE
+            (since project may want to do something with WU in error case)
+
+
+</ul>
+
+
+<p>
+
+A result has the following state fields:
+<ul>
+<li> <b>report_deadline</b>:
+        give up on result (and possibly delete input files)
+        if don't get reply by this time.
+        Assignment: when send result; now + WU.delay_bound
+
+<li> <b>server_state</b>:
+UNSENT, IN_PROGRESS, OVER.
+Initially UNSENT.
+Becomes IN_PROGRESS when the result has been sent to a client.
+Becomes OVER if we get a host reply,
+or the result times out, or we decide not to send it.
+<li> <b>outcome</b>:
+SUCCESS, COULDNT_SEND, CLIENT_ERROR, NO_REPLY, DIDNT_NEED.
+Defined if server_state = OVER.
+<li>
+<b>client_state</b>:
+Records the client state (upload, process, or download)
+where an error occurred.
+Defined if outcome is CLIENT_ERROR.
+<li>
+<b>file_delete_state</b>:
+INIT, READY, DONE.
+<li>
+<b>validate_state</b>:
+INITIAL, VALID, INVALID.
+When a canonical result has been found for the workunit,
+becomes either VALID or INVALID.
+</ul>
+
+Invariants:
+<ul>
+<li> results eventually have server_state = OVER.
+<li> output files are eventually deleted.
+Non-canonical results can be deleted as soon as the WU is assimilated.
+Canonical results can be deleted only when all results have server_state=OVER.
+If a result reply arrives after its timeout,
+the output files can be immediately deleted.
+How do we delete output files that arrive REALLY late?
+(e.g. uploaded after all results have timed out, and never reported)?
+Let X = create time of oldest unassimilated WU.
+Any output files created before X can be deleted.
+</ul>
+<h3>A note on scheduling</h3>
+<p>
+    - when is it feasible to send a result to a host?
+        Request msg should include X = amount of work currently queued.
+        TODO: include % time active in calculation??
+        Decision for each WU:
+            is X + time for WUs sent so far < delay_bound?
+    - When is a result declared "unsendable"?
+        Not a good idea to do on the basis of time;
+        do it only if a result is flushed from FIFO (see below)
+
+<h3>State transitions</h3>
+<pre>
+
+fields of "result" table:
+
+server_state
+    UNSENT
+        (on creation)
+    IN_PROGRESS
+        from UNSENT
+            scheduler: when send
+    OVER
+        from IN_PROGRESS
+            scheduler: get reply from host
+            timeout_check: now > report_deadline
+        from UNSENT
+            validate: got canonical result for this WU and server_state=UNSENT
+            timeout_check: WU has error
+
+file_delete_state
+    INIT
+        (on creation)
+    READY
+        from INIT:
+            scheduler: got reply and server_state = OVER
+            timeout_check: all results are OVER
+            assimilator: all results are OVER or result is not canonical
+        from DONE:
+            scheduler: got reply and server_state = OVER
+    DONE
+        from READY
+            file_deleter: tried to delete files
+
+validate_state
+    INIT
+    VALID
+        from INIT:
+            validate: outcome = SUCCESS and matched canonical result
+    INVALID
+        from INIT:
+            scheduler: got reply, client error
+            validate: didn't match canonical result
+
+-------------
+fields of "workunit" table
+
+need_validate
+    FALSE
+        (on creation)
+        from TRUE:
+            validate: done checking
+    TRUE
+        from FALSE:
+            scheduler: got reply w/ client_state = DONE (i.e. no error)
+
+file_delete_state
+    INIT
+        (on creation)
+    READY
+        timeout_check: all results haver server_state=OVER
+            and wu.assimilate_state = DONE
+        assimilate:
+            all results have server_state = OVER
+            (and wu.assimilate_state = DONE)
+    DONE
+
+assimilate_state
+    INIT
+        (on creation)
+    READY
+        from INIT:
+            timeout_check: WU has error
+            validate: found canonical result
+    DONE
+        from READY:
+            assimilator: done
+
+error_mask
+    COULDNT_SEND
+        timeout_check: some result has outcome COULDNT_SEND
+    TOO_MANY_ERROR_RESULTS
+        timeout_check: too many error results
+    TOO_MANY_RESULTS
+        timeout_check: too many results
+
+timeout_check_time:
+    nonzero
+        (on creation)
+    zero
+        timeout_check: all results are OVER and validate_state = DONE
+</pre>

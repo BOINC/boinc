@@ -183,11 +183,6 @@ struct HOST {
     int parse_net_stats(FILE*);
 };
 
-// values for main_state
-#define WU_MAIN_STATE_INIT      0
-#define WU_MAIN_STATE_DONE      1
-#define WU_MAIN_STATE_ERROR     2
-
 // values for file_delete state
 #define FILE_DELETE_INIT        0
 #define FILE_DELETE_READY       1
@@ -198,13 +193,15 @@ struct HOST {
 #define ASSIMILATE_READY        1
 #define ASSIMILATE_DONE         2
 
-// values for error
-#define SEND_FAIL               1
-    // failed to send results for this WU
-#define TOO_MANY_ERRORS         2
-    // too many errors; may have bug
-#define TOO_MANY_DONE           3
-    // too many results without consensus; may be nondeterministic
+// NOTE: there is no overall state for a WU
+// (like done/not done)
+// There's just a bunch of independent substates
+// (file delete, assimilate, and states of results, error flags)
+
+// bit fields of error_mask
+#define WU_ERROR_COULDNT_SEND_RESULT        1
+#define WU_ERROR_TOO_MANY_ERROR_RESULTS     2
+#define WU_ERROR_TOO_MANY_RESULTS            4
 
 struct WORKUNIT {
     int id;
@@ -218,13 +215,14 @@ struct WORKUNIT {
     double rsc_memory;          // estimated size of RAM working set (bytes)
     double rsc_disk;            // estimated amount of disk needed (bytes)
     bool need_validate;         // this WU has at least 1 result in
-                                // VALIDATE_STATE_NEED_CHECK state
+                                // validate state = NEED_CHECK
     int canonical_resultid;     // ID of canonical result, or zero
     double canonical_credit;    // credit that all correct results get
-    double retry_check_time;    // when to check for result retry
-    int delay_bound;            // determines result deadline, retry check time
-    int main_state;             // see values above
-    int error;
+    unsigned int timeout_check_time;  // when to check for timeouts
+                                // zero if no need to check
+    int delay_bound;            // determines result deadline,
+                                // timeout check time
+    int error_mask;             // bitmask of errors (see above)
     int file_delete_state;
     int assimilate_state;
     int workseq_next;           // if part of a sequence, the next WU
@@ -235,30 +233,39 @@ struct WORKUNIT {
 
 #define RESULT_SERVER_STATE_INACTIVE       1
 #define RESULT_SERVER_STATE_UNSENT         2
-#define RESULT_SERVER_STATE_IN_PROGRESS    3
-#define RESULT_SERVER_STATE_DONE           4
-#define RESULT_SERVER_STATE_TIMEOUT        5
-#define RESULT_SERVER_STATE_ERROR          6
-#define RESULT_SERVER_STATE_UNSENT_SEQ     7
+#define RESULT_SERVER_STATE_UNSENT_SEQ     3
     // unsent, part of a work sequence
+#define RESULT_SERVER_STATE_IN_PROGRESS    4
+#define RESULT_SERVER_STATE_OVER           5
+    // we received a reply, timed out, or decided not to send.
+    // Note: we could get a reply even after timing out.
 
-#define VALIDATE_STATE_INITIAL      0
-#define VALIDATE_STATE_NEED_CHECK   1
-#define VALIDATE_STATE_VALID        2
-#define VALIDATE_STATE_INVALID      3
+#define RESULT_OUTCOME_INIT             0
+#define RESULT_OUTCOME_SUCCESS          1
+#define RESULT_OUTCOME_COULDNT_SEND     2
+#define RESULT_OUTCOME_CLIENT_ERROR     3
+#define RESULT_OUTCOME_NO_REPLY         4
+#define RESULT_OUTCOME_DIDNT_NEED       5
+
+#define VALIDATE_STATE_INIT         0
+#define VALIDATE_STATE_VALID        1
+#define VALIDATE_STATE_INVALID      2
 
 struct RESULT {
     int id;
     unsigned int create_time;
     int workunitid;
-    int server_state;               // server state (see above)
+    int server_state;               // see above
+    int outcome;                    // see above; defined if server state OVER
+    int client_state;               // phase when client error happened
+                                    // (download, compute, upload)
+                                    // Defined if outcome is CLIENT_ERROR
+                                    // and error details are in stderr_out
     int hostid;                     // host processing this result
     unsigned int report_deadline;   // deadline for receiving result
     unsigned int sent_time;         // when result was sent to host
     unsigned int received_time;     // when result was received from host
     char name[256];
-    int client_state;               // records phase when error happened
-                                    // (download, compute, upload)
     double cpu_time;                // CPU time used to complete result
     char xml_doc_in[MAX_BLOB_SIZE];     // descriptions of output files
     char xml_doc_out[MAX_BLOB_SIZE];    // MD5s of output files
@@ -333,7 +340,7 @@ extern int db_workunit(int id, WORKUNIT&);
 extern int db_workunit_update(WORKUNIT& p);
 extern int db_workunit_lookup_name(WORKUNIT&);
 extern int db_workunit_enum_app_need_validate(WORKUNIT&);
-extern int db_workunit_enum_retry_check_time(WORKUNIT&);
+extern int db_workunit_enum_timeout_check_time(WORKUNIT&);
 extern int db_workunit_enum_file_delete_state(WORKUNIT&);
 extern int db_workunit_enum_app_assimilate_state(WORKUNIT&);
 

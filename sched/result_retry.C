@@ -17,9 +17,12 @@
 // Contributor(s):
 //
 
-// result_retry - create new results to make up for lost ones
+// timeout_check - do various time-based tasks
+//    - time out results
+//    - create new results to make up for lost ones
+//    - check for WU error conditions
 //
-// result_retry
+// timeout_check
 //   -app appname
 //   [ -nerror n ]          if get this many errors, bail on WU
 //   [ -ndet n ]            if get this results w/o consensus, bail
@@ -155,95 +158,92 @@ int assign_new_names(char* in) {
     return 0;
 }
 
-bool do_pass(APP& app) {
-    WORKUNIT wu;
+void handle_wu(WORKUNIT& wu) {
+    vector<RESULT> results;
     RESULT result;
     int nerrors, ndone, retval;
     unsigned int i, n;
-    bool did_something = false;
     char buf[256];
+    unsigned int now = time(0);
+    bool wu_error = false, all_over;
 
-    wu.retry_check_time = time(0);
-    wu.appid = app.id;
-
-    // loop over WUs that are due to be checked
+    // scan the results for the WU
     //
-    while (!db_workunit_enum_retry_check_time(wu)) {
-        vector<RESULT> results;
+    result.workunitid = wu.id;
+    while (!db_result_enum_wuid(result)) {
+        results.push_back(result);
+    }
 
-        did_something = true;
-        // if this WU has a canonical result, we're done
-        // (this normally doesn't happen since the retry check time
-        // is zeroed when canonical result found, but just in case).
-        //
-        if (wu.canonical_resultid) {
-            wu.retry_check_time = 0;
-            goto update_wu;
+    nerrors = 0;
+    ndone = 0;
+    for (i=0; i<results.size(); i++) {
+        result = results[i];
+
+        switch (result.server_state) {
+        case RESULT_SERVER_STATE_IN_PROGRESS:
+            if (result.report_deadline < now) {
+                result.server_state = RESULT_SERVER_STATE_OVER;
+                result.outcome = RESULT_OUTCOME_NO_REPLY;
+                db_result_update(result);
+            }
+            break;
+        case RESULT_SERVER_STATE_OVER:
+            switch (result.outcome) {
+            case RESULT_OUTCOME_COULDNT_SEND:
+                sprintf(buf, "WU %s has couldn't-send result\n", wu.name);
+                write_log(buf);
+                wu.error_mask |= WU_ERROR_COULDNT_SEND_RESULT;
+                wu_error = true;
+                break;
+            case RESULT_OUTCOME_SUCCESS:
+                ndone++;
+                break;
+            default:
+                nerrors++;
+                break;
+            }
+            break;
         }
+    }
 
-        // enumerate all the results for the WU
-        //
-        result.workunitid = wu.id;
-        while (!db_result_enum_wuid(result)) {
-            results.push_back(result);
-        }
+    // check for too many errors or too many results
+    //
+    if (nerrors > max_errors) {
+        sprintf(buf, "WU %s has too many errors\n", wu.name);
+        write_log(buf);
+        wu.error_mask |= WU_ERROR_TOO_MANY_ERROR_RESULTS;
+        wu_error = true;
+    }
+    if (ndone > max_done) {
+        sprintf(buf, "WU %s has too many answers\n", wu.name);
+        write_log(buf);
+        wu.error_mask |= WU_ERROR_TOO_MANY_RESULTS;
+        wu_error = true;
+    }
 
-        nerrors = 0;
-        ndone = 0;
+    // if this WU had an error, don't send any unsent results
+    //
+    if (wu_error) {
         for (i=0; i<results.size(); i++) {
             result = results[i];
-
-            // if any result is unsent, give up on the WU
-            //
             if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
-                sprintf(buf, "WU %s has unsent result\n", wu.name);
-                write_log(buf);
-                wu.main_state = WU_MAIN_STATE_ERROR;
-                wu.error = SEND_FAIL;
-                wu.file_delete_state = FILE_DELETE_READY;
-                wu.assimilate_state = ASSIMILATE_READY;
-                wu.retry_check_time = 0;
-                goto update_wu;
-            }
-            if (result.server_state == RESULT_SERVER_STATE_ERROR) {
-                nerrors++;
-            }
-            if (result.server_state == RESULT_SERVER_STATE_DONE) {
-                ndone++;
+                result.server_state = RESULT_SERVER_STATE_OVER;
+                result.outcome = RESULT_OUTCOME_DIDNT_NEED;
+                db_result_update(result);
             }
         }
-
-        // it too many errors or too many different results, bail
-        //
-        if (nerrors > max_errors) {
-            sprintf(buf, "WU %s has too many errors\n", wu.name);
-            write_log(buf);
-            wu.main_state = WU_MAIN_STATE_ERROR;
-            wu.error = TOO_MANY_ERRORS;
-            wu.file_delete_state = FILE_DELETE_READY;
+        if (wu.assimilate_state == ASSIMILATE_INIT) {
             wu.assimilate_state = ASSIMILATE_READY;
-            wu.retry_check_time = 0;
-            goto update_wu;
         }
-        if (ndone > max_done) {
-            sprintf(buf, "WU %s has too many answers\n", wu.name);
-            write_log(buf);
-            wu.main_state = WU_MAIN_STATE_ERROR;
-            wu.error = TOO_MANY_DONE;
-            wu.file_delete_state = FILE_DELETE_READY;
-            wu.assimilate_state = ASSIMILATE_READY;
-            wu.retry_check_time = 0;
-            goto update_wu;
-        }
-
-        // Generate new results if needed.
+    } else {
+        // If no error, generate new results if needed.
         // Munge the XML of an existing result
         // to create unique new output filenames.
         //
         if (nredundancy > ndone) {
             n = nredundancy - ndone;
             
-	    for (i=0; i<n; i++) {
+            for (i=0; i<n; i++) {
                 result = results[0];
                 make_unique_name(result.name);
                 initialize_result(result, wu);
@@ -258,16 +258,45 @@ bool do_pass(APP& app) {
                 }
             }
         }
+    }
 
-        // update the WU's result retry check time
-        //
-        wu.retry_check_time = time(0) + wu.delay_bound;
-update_wu:
-        retval = db_workunit_update(wu);
-        if (retval) {
-            sprintf(buf, "db_workunit_update %d\n", retval);
-            write_log(buf);
+    // see if all results are OVER and result is assimilated;
+    // if so we don't need to check this WU ever again.
+    //
+    all_over = true;
+    for (i=0; i<results.size(); i++) {
+        result = results[i];
+        if (result.server_state != RESULT_SERVER_STATE_OVER) {
+            all_over = false;
+            break;
         }
+    }
+
+    if (all_over && wu.assimilate_state == ASSIMILATE_DONE) {
+        wu.file_delete_state = FILE_DELETE_READY;
+        wu.timeout_check_time = 0;
+    } else {
+        wu.timeout_check_time = now + wu.delay_bound;
+    }
+
+    retval = db_workunit_update(wu);
+    if (retval) {
+        sprintf(buf, "db_workunit_update %d\n", retval);
+        write_log(buf);
+    }
+}
+
+bool do_pass(APP& app) {
+    WORKUNIT wu;
+    bool did_something = false;
+
+    // loop over WUs that are due to be checked
+    //
+    wu.timeout_check_time = time(0);
+    wu.appid = app.id;
+    while (!db_workunit_enum_timeout_check_time(wu)) {
+        did_something = true;
+        handle_wu(wu);
     }
     return did_something;
 }
