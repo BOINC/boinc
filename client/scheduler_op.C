@@ -167,6 +167,7 @@ int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
             urls.push_back(str);
         }
     }
+    fclose(f);
     if (log_flags.sched_op_debug) {
         printf("Parsed master file; got %d scheduler URLs\n", urls.size());
     }

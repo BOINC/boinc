@@ -351,7 +351,7 @@ int HTTP_OP_SET::insert(HTTP_OP* ho) {
 bool HTTP_OP_SET::poll() {
     unsigned int i;
     HTTP_OP* htp;
-    int n;
+    int n, retval;
     bool action = false;
 
     for (i=0; i<http_ops.size(); i++) {
