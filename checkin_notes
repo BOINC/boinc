@@ -25385,3 +25385,10 @@ David  27 Feb 2005
 		file_names.C
 	lib/
 		util.C,h
+
+David  27 Feb 2005
+	- when scanning account files, make sure a project has
+		a unique master URL before adding to list of projects
+
+	client/
+		cs_account.C

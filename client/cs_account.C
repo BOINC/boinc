@@ -207,15 +207,20 @@ int CLIENT_STATE::parse_account_files() {
             if (!f) continue;
             project = new PROJECT;
             retval = project->parse_account(f);
+            fclose(f);
             if (retval) {
                 msg_printf(NULL, MSG_ERROR,
-                    "Couldn't parse account file %s",
-                    name.c_str()
+                    "Couldn't parse account file %s", name.c_str()
                 );
             } else {
-                projects.push_back(project);
+                if (lookup_project(project.master_url)) {
+                    msg_printf(NULL, MSG_ERROR,
+                        "Duplicate account file %s - ignoring", name.c_str()
+                    );
+                } else {
+                    projects.push_back(project);
+                }
             }
-            fclose(f);
         }
     }
     return 0;
