@@ -229,11 +229,12 @@ struct RESULT {
     int report_deadline;
     vector<FILE_REF> output_files;
     bool is_active;         // an app is currently running for this
-    bool ready_to_ack;      // all the files have been uploaded or there
-                            // was an error and we are ready to report this to
-                            // the server
-    bool server_ack;        // received the ack for the report of
-                            // the status of the result from server
+    bool ready_to_report;
+        // we're ready to report this result to the server;
+        // either computation is done and all the files have been uploaded
+        // or there was an error
+    bool got_server_ack;
+        // we're received the ack for this result from the server
     double final_cpu_time;
     int state;              // state of this result, see above
     int exit_status;        // return value from the application
@@ -244,6 +245,7 @@ struct RESULT {
 
     APP* app;
     WORKUNIT* wup;
+        // this may be NULL after result is finished
     PROJECT* project;
 
     void clear();

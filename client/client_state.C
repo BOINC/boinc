@@ -1228,6 +1228,7 @@ bool CLIENT_STATE::garbage_collect() {
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
 
     // zero references counts on WUs, FILE_INFOs and APP_VERSIONs
+
     for (i=0; i<workunits.size(); i++) {
         wup = workunits[i];
         wup->ref_cnt = 0;
@@ -1241,58 +1242,59 @@ bool CLIENT_STATE::garbage_collect() {
         avp->ref_cnt = 0;
     }
 
-    // delete RESULTs that have been finished and reported;
-    // reference-count files referred to by other results
+    // Scan through RESULTs.
+    // delete RESULTs that have been reported and acked.
+    // Check for results whose WUs had download failures
+    // Check for resultw that had upload failures
+    // Reference-count output files
+    // Reference-count WUs referred to by results in progress
     //
     result_iter = results.begin();
     while (result_iter != results.end()) {
         rp = *result_iter;
-        if (rp->server_ack) {
+        if (rp->got_server_ack) {
             scope_messages.printf("CLIENT_STATE::garbage_collect(): deleting result %s\n", rp->name);
             delete rp;
             result_iter = results.erase(result_iter);
             action = true;
-        } else {
-            // See if the files for this result's workunit had
-            // any errors (MD5, RSA, etc)
+            continue;
+        }
+        // See if the files for this result's workunit had
+        // any errors (download failure, MD5, RSA, etc)
+        // and we don't already have an error for this file
+        //
+        if (!rp->ready_to_report && rp->wup && rp->wup->had_failure(failnum)) {
+            rp->wup->get_file_errors(error_msgs);
+            report_result_error(*rp, 0, error_msgs.c_str());
+        }
+        for (i=0; i<rp->output_files.size(); i++) {
+            // If one of the output files had an upload failure,
+            // mark the result as done and report the error.
+            // The result, workunits, and file infos
+            // will be cleaned up after the server is notified
             //
-            if (rp->wup->had_failure(failnum)) {
-                // If we don't already have an error for this file
-                if (!rp->ready_to_ack) {
-                    // the wu corresponding to this result
-                    // had an error downloading some input file(s).
+            if (rp->output_files[i].file_info->had_failure(failnum)) {
+                if (!rp->ready_to_report) {
+                    // had an error uploading a file for this result
                     //
-                    rp->wup->get_file_errors(error_msgs);
-                    report_result_error(*rp, 0, error_msgs.c_str());
-                }
-            }
-            rp->wup->ref_cnt++;
-            for (i=0; i<rp->output_files.size(); i++) {
-                // If one of the file infos had a failure,
-                // mark the result as done and report the error.
-                // The result, workunits, and file infos
-                // will be cleaned up after the server is notified
-                //
-                if(rp->output_files[i].file_info->had_failure(failnum)) {
-                    if (!rp->ready_to_ack) {
-                        // had an error uploading a file for this result
-                        //
-                        switch(failnum) {
-                        case ERR_FILE_TOO_BIG:
-                            report_result_error(*rp, 0, "Output file exceeded size limit");
-                            break;
-                        default:
-                            report_result_error(*rp, 0, "Couldn't upload files or other output file error");
-                        }
+                    switch(failnum) {
+                    case ERR_FILE_TOO_BIG:
+                        report_result_error(*rp, 0, "Output file exceeded size limit");
+                        break;
+                    default:
+                        report_result_error(*rp, 0, "Couldn't upload files or other output file error");
                     }
                 }
-                rp->output_files[i].file_info->ref_cnt++;
             }
-            result_iter++;
+            rp->output_files[i].file_info->ref_cnt++;
         }
+        if (!rp->ready_to_report && rp->wup) {
+            rp->wup->ref_cnt++;
+        }
+        result_iter++;
     }
 
-    // delete WORKUNITs not referenced by any result;
+    // delete WORKUNITs not referenced by any in-progress result;
     // reference-count files and APP_VERSIONs referred to by other WUs
     //
     wu_iter = workunits.begin();
@@ -1391,7 +1393,7 @@ bool CLIENT_STATE::update_results() {
         // server.  It will be deleted on the next
         // garbage collection, which we trigger by
         // setting action to true
-        if (rp->server_ack)
+        if (rp->got_server_ack)
             action = true;
 
         switch (rp->state) {
@@ -1419,8 +1421,9 @@ bool CLIENT_STATE::update_results() {
         case RESULT_FILES_UPLOADING:
             // Once the computation has been done, check that the necessary
             // files have been uploaded before moving on
+            //
             if (rp->is_upload_done()) {
-                rp->ready_to_ack = true;
+                rp->ready_to_report = true;
                 rp->state = RESULT_FILES_UPLOADED;
                 action = true;
             }
@@ -1624,11 +1627,11 @@ int CLIENT_STATE::report_result_error(
 
     // only do this once per result
     //
-    if (res.ready_to_ack) {
+    if (res.ready_to_report) {
         return 0;
     }
 
-    res.ready_to_ack = true;
+    res.ready_to_report = true;
 
     sprintf(buf, "Unrecoverable error for result %s (%s)", res.name, err_msg);
     scheduler_op->backoff(res.project, buf);
@@ -1732,7 +1735,7 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         if (rp->project == project) {
-            rp->server_ack = true;
+            rp->got_server_ack = true;
         }
     }
 
@@ -1797,148 +1800,4 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     write_state_file();
 
     return 0;
-}
-
-void CLIENT_STATE::check_project_pointer(PROJECT* p) {
-    unsigned int i;
-    for (i=0; i<projects.size(); i++) {
-        if (p == projects[i]) return;
-    }
-    assert(0);
-}
-void CLIENT_STATE::check_app_pointer(APP* p) {
-    unsigned int i;
-    for (i=0; i<apps.size(); i++) {
-        if (p == apps[i]) return;
-    }
-    assert(0);
-}
-void CLIENT_STATE::check_file_info_pointer(FILE_INFO* p) {
-    unsigned int i;
-    for (i=0; i<file_infos.size(); i++) {
-        if (p == file_infos[i]) return;
-    }
-    assert(0);
-}
-void CLIENT_STATE::check_app_version_pointer(APP_VERSION* p) {
-    unsigned int i;
-    for (i=0; i<app_versions.size(); i++) {
-        if (p == app_versions[i]) return;
-    }
-    assert(0);
-}
-void CLIENT_STATE::check_workunit_pointer(WORKUNIT* p) {
-    unsigned int i;
-    for (i=0; i<workunits.size(); i++) {
-        if (p == workunits[i]) return;
-    }
-    assert(0);
-}
-void CLIENT_STATE::check_result_pointer(RESULT* p) {
-    unsigned int i;
-    for (i=0; i<results.size(); i++) {
-        if (p == results[i]) return;
-    }
-    assert(0);
-}
-
-void CLIENT_STATE::check_pers_file_xfer_pointer(PERS_FILE_XFER* p) {
-    unsigned int i;
-    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
-        if (p == pers_file_xfers->pers_file_xfers[i]) return;
-    }
-    assert(0);
-}
-void CLIENT_STATE::check_file_xfer_pointer(FILE_XFER* p) {
-    unsigned int i;
-    for (i=0; i<file_xfers->file_xfers.size(); i++) {
-        if (p == file_xfers->file_xfers[i]) return;
-    }
-    assert(0);
-}
-
-void CLIENT_STATE::check_app(APP& p) {
-    check_project_pointer(p.project);
-}
-
-void CLIENT_STATE::check_file_info(FILE_INFO& p) {
-    if (p.pers_file_xfer) check_pers_file_xfer_pointer(p.pers_file_xfer);
-    if (p.result) check_result_pointer(p.result);
-    check_project_pointer(p.project);
-}
-
-void CLIENT_STATE::check_file_ref(FILE_REF& p) {
-    check_file_info_pointer(p.file_info);
-}
-
-void CLIENT_STATE::check_app_version(APP_VERSION& p) {
-    unsigned int i;
-    check_app_pointer(p.app);
-    check_project_pointer(p.project);
-    for (i=0; i<p.app_files.size(); i++) {
-        check_file_ref(p.app_files[i]);
-    }
-}
-
-void CLIENT_STATE::check_workunit(WORKUNIT& p) {
-    unsigned int i;
-    for (i=0; i<p.input_files.size(); i++) {
-        check_file_ref(p.input_files[i]);
-    }
-    check_project_pointer(p.project);
-    check_app_pointer(p.app);
-    check_app_version_pointer(p.avp);
-}
-
-void CLIENT_STATE::check_result(RESULT& p) {
-    unsigned int i;
-    for (i=0; i<p.output_files.size(); i++) {
-        check_file_ref(p.output_files[i]);
-    }
-    check_app_pointer(p.app);
-    check_workunit_pointer(p.wup);
-    check_project_pointer(p.project);
-}
-
-void CLIENT_STATE::check_active_task(ACTIVE_TASK& p) {
-    check_result_pointer(p.result);
-    check_workunit_pointer(p.wup);
-    check_app_version_pointer(p.app_version);
-}
-
-void CLIENT_STATE::check_pers_file_xfer(PERS_FILE_XFER& p) {
-    check_file_xfer_pointer(p.fxp);
-    check_file_info_pointer(p.fip);
-}
-
-void CLIENT_STATE::check_file_xfer(FILE_XFER& p) {
-    check_file_info_pointer(p.fip);
-}
-
-void CLIENT_STATE::check_all() {
-    unsigned int i;
-    for (i=0; i<apps.size(); i++) {
-        check_app(*apps[i]);
-    }
-    for (i=0; i<file_infos.size(); i++) {
-        check_file_info(*file_infos[i]);
-    }
-    for (i=0; i<app_versions.size(); i++) {
-        check_app_version(*app_versions[i]);
-    }
-    for (i=0; i<workunits.size(); i++) {
-        check_workunit(*workunits[i]);
-    }
-    for (i=0; i<results.size(); i++) {
-        check_result(*results[i]);
-    }
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        check_active_task(*active_tasks.active_tasks[i]);
-    }
-    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
-        check_pers_file_xfer(*pers_file_xfers->pers_file_xfers[i]);
-    }
-    for (i=0; i<file_xfers->file_xfers.size(); i++) {
-        check_file_xfer(*file_xfers->file_xfers[i]);
-    }
 }

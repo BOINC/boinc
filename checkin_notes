@@ -6341,3 +6341,21 @@ Eric K  9/22/03
 
     db/db_base.C
 
+David  Sept 23 2003
+    - Don't reference-count WUs for results that are ready to report
+        (since don't need their input files anymore)
+        NOTE: this means that RESULT.wup may be zero.
+        Much check before dereferencing.
+    - Changed "ready_to_ack" to "ready_to_report"
+        (Ack is server->client, not client->server)
+    - Changed "server_ack" to "got_server_ack"
+    - Moved CLIENT_STATE integrity-check code to a new file (check_state.C)
+        In general it would be nice to move stuff out of client_state.C;
+        It's a hodge-podge currently
+
+    client/
+        Makefile.am
+        client_state.h
+        client_types.C,h
+        cs_scheduler.C
+        check_state.C (new)

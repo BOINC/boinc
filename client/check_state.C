@@ -1,0 +1,169 @@
+// The contents of this file are subject to the BOINC Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://boinc.berkeley.edu/license_1.0.txt
+// 
+// Software distributed under the License is distributed on an "AS IS"
+// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+// License for the specific language governing rights and limitations
+// under the License. 
+// 
+// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
+// 
+// The Initial Developer of the Original Code is the SETI@home project.
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved. 
+// 
+// Contributor(s):
+//
+
+// Functions to check the integrity of core client data structures.
+// Not currently used, but might be handy if *0 type crashes occur
+
+#include "windows_cpp.h"
+
+#include "client_state.h"
+
+void CLIENT_STATE::check_project_pointer(PROJECT* p) {
+    unsigned int i;
+    for (i=0; i<projects.size(); i++) {
+        if (p == projects[i]) return;
+    }
+    assert(0);
+}
+void CLIENT_STATE::check_app_pointer(APP* p) {
+    unsigned int i;
+    for (i=0; i<apps.size(); i++) {
+        if (p == apps[i]) return;
+    }
+    assert(0);
+}
+void CLIENT_STATE::check_file_info_pointer(FILE_INFO* p) {
+    unsigned int i;
+    for (i=0; i<file_infos.size(); i++) {
+        if (p == file_infos[i]) return;
+    }
+    assert(0);
+}
+void CLIENT_STATE::check_app_version_pointer(APP_VERSION* p) {
+    unsigned int i;
+    for (i=0; i<app_versions.size(); i++) {
+        if (p == app_versions[i]) return;
+    }
+    assert(0);
+}
+void CLIENT_STATE::check_workunit_pointer(WORKUNIT* p) {
+    unsigned int i;
+    for (i=0; i<workunits.size(); i++) {
+        if (p == workunits[i]) return;
+    }
+    assert(0);
+}
+void CLIENT_STATE::check_result_pointer(RESULT* p) {
+    unsigned int i;
+    for (i=0; i<results.size(); i++) {
+        if (p == results[i]) return;
+    }
+    assert(0);
+}
+
+void CLIENT_STATE::check_pers_file_xfer_pointer(PERS_FILE_XFER* p) {
+    unsigned int i;
+    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
+        if (p == pers_file_xfers->pers_file_xfers[i]) return;
+    }
+    assert(0);
+}
+void CLIENT_STATE::check_file_xfer_pointer(FILE_XFER* p) {
+    unsigned int i;
+    for (i=0; i<file_xfers->file_xfers.size(); i++) {
+        if (p == file_xfers->file_xfers[i]) return;
+    }
+    assert(0);
+}
+
+void CLIENT_STATE::check_app(APP& p) {
+    check_project_pointer(p.project);
+}
+
+void CLIENT_STATE::check_file_info(FILE_INFO& p) {
+    if (p.pers_file_xfer) check_pers_file_xfer_pointer(p.pers_file_xfer);
+    if (p.result) check_result_pointer(p.result);
+    check_project_pointer(p.project);
+}
+
+void CLIENT_STATE::check_file_ref(FILE_REF& p) {
+    check_file_info_pointer(p.file_info);
+}
+
+void CLIENT_STATE::check_app_version(APP_VERSION& p) {
+    unsigned int i;
+    check_app_pointer(p.app);
+    check_project_pointer(p.project);
+    for (i=0; i<p.app_files.size(); i++) {
+        check_file_ref(p.app_files[i]);
+    }
+}
+
+void CLIENT_STATE::check_workunit(WORKUNIT& p) {
+    unsigned int i;
+    for (i=0; i<p.input_files.size(); i++) {
+        check_file_ref(p.input_files[i]);
+    }
+    check_project_pointer(p.project);
+    check_app_pointer(p.app);
+    check_app_version_pointer(p.avp);
+}
+
+void CLIENT_STATE::check_result(RESULT& p) {
+    unsigned int i;
+    for (i=0; i<p.output_files.size(); i++) {
+        check_file_ref(p.output_files[i]);
+    }
+    check_app_pointer(p.app);
+    check_workunit_pointer(p.wup);
+    check_project_pointer(p.project);
+}
+
+void CLIENT_STATE::check_active_task(ACTIVE_TASK& p) {
+    check_result_pointer(p.result);
+    check_workunit_pointer(p.wup);
+    check_app_version_pointer(p.app_version);
+}
+
+void CLIENT_STATE::check_pers_file_xfer(PERS_FILE_XFER& p) {
+    check_file_xfer_pointer(p.fxp);
+    check_file_info_pointer(p.fip);
+}
+
+void CLIENT_STATE::check_file_xfer(FILE_XFER& p) {
+    check_file_info_pointer(p.fip);
+}
+
+void CLIENT_STATE::check_all() {
+    unsigned int i;
+    for (i=0; i<apps.size(); i++) {
+        check_app(*apps[i]);
+    }
+    for (i=0; i<file_infos.size(); i++) {
+        check_file_info(*file_infos[i]);
+    }
+    for (i=0; i<app_versions.size(); i++) {
+        check_app_version(*app_versions[i]);
+    }
+    for (i=0; i<workunits.size(); i++) {
+        check_workunit(*workunits[i]);
+    }
+    for (i=0; i<results.size(); i++) {
+        check_result(*results[i]);
+    }
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
+        check_active_task(*active_tasks.active_tasks[i]);
+    }
+    for (i=0; i<pers_file_xfers->pers_file_xfers.size(); i++) {
+        check_pers_file_xfer(*pers_file_xfers->pers_file_xfers[i]);
+    }
+    for (i=0; i<file_xfers->file_xfers.size(); i++) {
+        check_file_xfer(*file_xfers->file_xfers[i]);
+    }
+}

@@ -7,7 +7,10 @@ function last_mod() {
 function page_head($title) {
     $d = last_mod();
     echo "
+        <head>
+        <link rel='shortcut icon' href='iconsmall.ico'>
         <title>$title</title>
+        </head>
         <body bgcolor=ffffff>
         <table width=100%>
         <tr>

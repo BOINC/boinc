@@ -13,6 +13,7 @@ boinc_client_SOURCES =				\
     main.C					\
     account.C					\
     app.C					\
+    check_state.C           \
     client_state.C				\
     client_types.C				\
     cs_apps.C					\

@@ -58,8 +58,12 @@ double CLIENT_STATE::current_work_buf_days() {
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         // Don't count result if we've already computed it
+        //
         if (rp->state >= RESULT_COMPUTE_DONE) continue;
+        if (!rp->wup) continue;
+
         // TODO: subtract time already finished for WUs in progress
+
         seconds_remaining += estimate_cpu_time(*rp->wup) * (1.0-get_percent_done(rp));
     }
     return (seconds_remaining / SECONDS_PER_DAY);
@@ -266,7 +270,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     if (retval) return retval;
     for (i=0; i<results.size(); i++) {
         rp = results[i];
-        if (rp->project == p && rp->ready_to_ack) {
+        if (rp->project == p && rp->ready_to_report) {
             rp->write(f, true);
         }
     }
@@ -287,14 +291,18 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         r = results[i];
         // return the project for this result to report if:
         //    - we're not backing off a scheduler request for its project
-        //    - we're ready_to_ack (compute done; files uploaded)
+        //    - we're ready_to_report (compute done; files uploaded)
         //    - we're almost at the report_deadline (6 hours)
+        //
+
         if (r->project->waiting_until_min_rpc_time(now)) continue;
+
         // NOTE: early versions of scheduler (<2003/08/07) did not send
         // report_deadline (in which case it is 0)
         // 'return_results_immediately' is a debug flag that makes the client
         // ignore the report deadline when deciding when to report a result
-        if (r->ready_to_ack &&
+        //
+        if (r->ready_to_report &&
             (return_results_immediately ||
              r->report_deadline <= now+SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT))
         {
@@ -560,7 +568,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         RESULT* rp = lookup_result(project, sr.result_acks[i].name);
         scope_messages.printf("CLIENT_STATE::handle_scheduler_reply(): got ack for result %s\n", sr.result_acks[i].name);
         if (rp) {
-            rp->server_ack = true;
+            rp->got_server_ack = true;
         } else {
             sprintf(buf, "Got ack for result %s, can't find\n",
                 sr.result_acks[i].name
