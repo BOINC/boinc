@@ -8744,3 +8744,18 @@ David  24 Dec 2003
     sched/
         handle_request.C
         sched_shmem.C
+
+David  23 Dec 2003 (supplied by Rom Walton)
+	- new message class: warnings and network (with corresponding icons)
+
+	client/
+		message.h
+		win/
+			resource.h
+			resource.rc
+			wingui_mainwindow.cpp,h
+			res/
+				iconnetwork.ico (new)
+				iconwarning.ico (new)
+	win_build/
+		boinc_gui.dsp

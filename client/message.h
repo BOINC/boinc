@@ -31,6 +31,7 @@
 #define MSG_ERROR   2
     // cmdline: write to stderr
     // GUI: write to msg window in bold or red
+#define MSG_WARNING 3
 
 extern void show_message(class PROJECT *p, char* message, int priority);
 

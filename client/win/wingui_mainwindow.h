@@ -35,9 +35,10 @@
 
 #define ICON_OFF			0			// remove icon
 #define ICON_NORMAL			1			// normal icon
-#define ICON_HIGHLIGHT		2			// highlighted icon
+#define ICON_NETWORK		2			// network icon
 #define ICON_ERROR			3			// error icon
 #define ICON_INFO			4			// info icon
+#define ICON_WARNING		5			// warning icon
 
 #define DEF_COL_WIDTH		80			// default width of list columns
 

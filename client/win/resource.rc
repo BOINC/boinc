@@ -275,6 +275,8 @@ IDI_ICONHIGHLIGHT       ICON    DISCARDABLE     "res\\iconhigh.ico"
 IDI_ICONSMALL           ICON    DISCARDABLE     "res\\iconsmall.ico"
 IDI_ICONERROR           ICON    DISCARDABLE     "res\\iconerror.ico"
 IDI_ICONINFO            ICON    DISCARDABLE     "res\\iconinfo.ico"
+IDI_ICONNETWORK         ICON    DISCARDABLE     "res\\iconnetwork.ico"
+IDI_ICONWARNING         ICON    DISCARDABLE     "res\\iconwarning.ico"
 
 #ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////

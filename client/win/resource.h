@@ -25,6 +25,8 @@
 #define IDI_ICONSMALL                   132
 #define IDI_ICONERROR                   134
 #define IDI_ICONINFO                    135
+#define IDI_ICONNETWORK                 138
+#define IDI_ICONWARNING                 139
 #define IDC_LOGIN_URL                   1000
 #define IDC_LOGIN_AUTH                  1002
 #define IDC_LIST                        1006
@@ -101,7 +103,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        136
+#define _APS_NEXT_RESOURCE_VALUE        140
 #define _APS_NEXT_COMMAND_VALUE         40051
 #define _APS_NEXT_CONTROL_VALUE         1035
 #define _APS_NEXT_SYMED_VALUE           101

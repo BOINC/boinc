@@ -647,47 +647,37 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
     // make icon flash if needed
 	TCITEM tcItem;
     memset(&tcItem, 0, sizeof(TCITEMW));   // start with NULL defaults
+	tcItem.mask = TCIF_STATE;
+	tcItem.dwStateMask = TCIS_HIGHLIGHTED;
 
 	if(m_bMessage || m_bRequest) {
 		if(m_bRequest){
 			if(m_nToggleIconState == ICON_NORMAL){
 	            SetStatusIcon(ICON_NORMAL);
-				m_nToggleIconState = ICON_HIGHLIGHT;
+				m_nToggleIconState = ICON_NETWORK;
 			} else {
-	            SetStatusIcon(ICON_HIGHLIGHT);
+	            SetStatusIcon(ICON_NETWORK);
 				m_nToggleIconState = ICON_NORMAL;
 			}
 		} else {
 			if(m_nToggleIconState == ICON_NORMAL){
-
 				SetStatusIcon(ICON_NORMAL);
-				tcItem.mask = TCIF_STATE;
-				tcItem.dwStateMask = TCIS_HIGHLIGHTED;
-				m_TabCtrl.SetItem(3, &tcItem);
-
 				switch(m_nMessage)
 				{
 				case MSG_INFO: m_nToggleIconState = ICON_INFO; break;
 				case MSG_ERROR: m_nToggleIconState = ICON_ERROR; break;
+				case MSG_WARNING: m_nToggleIconState = ICON_WARNING; break;
 				}
-
 			} else {
-
 				SetStatusIcon(m_nToggleIconState);
-				tcItem.mask = TCIF_STATE;
 				tcItem.dwState = TCIS_HIGHLIGHTED;
-				tcItem.dwStateMask = TCIS_HIGHLIGHTED;
-				m_TabCtrl.SetItem(3, &tcItem);
-
 				m_nToggleIconState = ICON_NORMAL;
 			}
 		}
 	} else {
 		SetStatusIcon(ICON_NORMAL);
-		tcItem.mask = TCIF_STATE;
-		tcItem.dwStateMask = TCIS_HIGHLIGHTED;
-		m_TabCtrl.SetItem(3, &tcItem);
 	}
+	m_TabCtrl.SetItem(3, &tcItem);
 }
 
 //////////
@@ -714,7 +704,9 @@ void CMainWindow::MessageUser(char* szProject, char* szMessage, int nPriority)
 
 		if (nPriority == MSG_ERROR){
             m_nMessage = nPriority;
-		} else if ((nPriority == MSG_INFO) && (m_nMessage != MSG_ERROR)){
+		} else if ((nPriority == MSG_WARNING) && (m_nMessage != MSG_ERROR)){
+            m_nMessage = nPriority;
+		} else if ((nPriority == MSG_INFO) && ((m_nMessage != MSG_WARNING) || (m_nMessage != MSG_ERROR))){
             m_nMessage = nPriority;
 		}
     }
@@ -795,10 +787,10 @@ bool CMainWindow::SetStatusIcon(DWORD dwMessage)
 
     if((dwMessage != ICON_OFF) &&
 	   (dwMessage != ICON_NORMAL) &&
-	   (dwMessage != ICON_HIGHLIGHT) &&
+	   (dwMessage != ICON_NETWORK) &&
 	   (dwMessage != ICON_ERROR) &&
-	   (dwMessage != ICON_INFO)
-	){
+	   (dwMessage != ICON_INFO) &&
+	   (dwMessage != ICON_WARNING)) {
         return false;
     }
 
@@ -822,8 +814,8 @@ bool CMainWindow::SetStatusIcon(DWORD dwMessage)
         } else {
             success = Shell_NotifyIcon(NIM_MODIFY, &icon_data);
         }
-    } else if(dwMessage == ICON_HIGHLIGHT) {
-        icon_data.hIcon = g_myApp.LoadIcon(IDI_ICONHIGHLIGHT);
+    } else if(dwMessage == ICON_NETWORK) {
+        icon_data.hIcon = g_myApp.LoadIcon(IDI_ICONNETWORK);
         if(m_nIconState == ICON_OFF) {
             success = Shell_NotifyIcon(NIM_ADD, &icon_data);
         } else {
@@ -838,6 +830,13 @@ bool CMainWindow::SetStatusIcon(DWORD dwMessage)
         }
     } else if(dwMessage == ICON_INFO) {
         icon_data.hIcon = g_myApp.LoadIcon(IDI_ICONINFO);
+        if(m_nIconState == ICON_OFF) {
+            success = Shell_NotifyIcon(NIM_ADD, &icon_data);
+        } else {
+            success = Shell_NotifyIcon(NIM_MODIFY, &icon_data);
+        }
+    } else if(dwMessage == ICON_WARNING) {
+        icon_data.hIcon = g_myApp.LoadIcon(IDI_ICONWARNING);
         if(m_nIconState == ICON_OFF) {
             success = Shell_NotifyIcon(NIM_ADD, &icon_data);
         } else {
@@ -2128,9 +2127,11 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
             SetForegroundWindow();
         }
     } else if(lParam == WM_LBUTTONDBLCLK) {
-        if(IsWindowVisible()) {
-            ShowWindow(SW_HIDE);
-        } else {
+        if (IsIconic()) {
+            ShowWindow(SW_RESTORE);
+		} else if(IsWindowVisible()) {
+			ShowWindow(SW_HIDE);
+		} else {
             ShowWindow(SW_SHOWNORMAL);
         }
     }

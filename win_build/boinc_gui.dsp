@@ -486,11 +486,27 @@ SOURCE=..\client\win\res\icon.ico
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\win\res\iconerror.ico
+# End Source File
+# Begin Source File
+
 SOURCE=..\client\win\res\iconhigh.ico
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\win\res\iconinfo.ico
+# End Source File
+# Begin Source File
+
+SOURCE=..\client\win\res\iconnetwork.ico
+# End Source File
+# Begin Source File
+
 SOURCE=..\client\win\res\iconsmall.ico
+# End Source File
+# Begin Source File
+
+SOURCE=..\client\win\res\iconwarning.ico
 # End Source File
 # Begin Source File
 
