@@ -77,6 +77,7 @@ public:
         DEBUG_NET_XFER,
         DEBUG_MEASUREMENT, // host measurement notices
         DEBUG_POLL,        // show what polls are responding
+        DEBUG_GUIRPC
     };
     CLIENT_MSG_LOG(): MSG_LOG(stdout) {}
 };

@@ -13302,3 +13302,14 @@ David  11 June 2004
         setup_project.py
     sched/
         db_dump.C
+
+Rom    11 June 2004
+    - Change debug messages in the GUI RPC interface to log flags.
+    - Add log flag <guirpc_bug/>
+
+    client/
+        client_msgs.C, .h
+        gui_rpc_server.C
+        log_flags.C, .h
+    doc/
+        client_debug.php

@@ -57,6 +57,7 @@ LOG_FLAGS::LOG_FLAGS() {
     time_debug = false;
     net_xfer_debug = false;
     measurement_debug = false;
+    guirpc_debug = false;
     dont_check_file_sizes = false;
 }
 
@@ -107,6 +108,9 @@ int LOG_FLAGS::parse(FILE* in) {
             continue;
         } else if (match_tag(buf, "<poll_debug/>")) {
             poll_debug = true;
+            continue;
+        } else if (match_tag(buf, "<guirpc_debug/>")) {
+            guirpc_debug = true;
             continue;
         } else if (match_tag(buf, "<dont_check_file_sizes/>")) {
             dont_check_file_sizes = true;

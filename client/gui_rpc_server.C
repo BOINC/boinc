@@ -242,7 +242,9 @@ int GUI_RPC_CONN::handle_rpc() {
     char buf[1024];
     int n;
 
-	// read the request message in one read()
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_GUIRPC);
+
+    // read the request message in one read()
 	// so that the core client won't hang because
 	// of malformed request msgs
 	//
@@ -253,7 +255,9 @@ int GUI_RPC_CONN::handle_rpc() {
 #endif
     if (n <= 0) return -1;
     buf[n] = 0;
-    msg_printf( NULL, MSG_ERROR, "GUI RPC Command = '%s'\n", buf);
+
+    scope_messages.printf("GUI RPC Command = '%s'\n", buf);
+
     if (match_tag(buf, "<get_state")) {
         gstate.write_state(fout);
 	} else if (match_tag(buf, "<result_show_graphics>")) {
@@ -296,20 +300,14 @@ int GUI_RPC_CONN_SET::init() {
 	sockaddr_in addr;
     int retval;
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_GUIRPC);
+
     lsock = socket(AF_INET, SOCK_STREAM, 0);
     if (lsock < 0)
     {
-        msg_printf(
-            NULL, MSG_ERROR,
-            "GUI RPC failed to initialize socket (retval = '%d')\n",
-            lsock
-        );
+        scope_messages.printf("GUI RPC failed to initialize socket (retval = '%d')\n", lsock);
 #ifdef _WIN32
-        msg_printf(
-            NULL, MSG_ERROR,
-            "Windows Socket Error = '%d')\n",
-            WSAGetLastError()
-        );
+        scope_messages.printf("Windows Socket Error = '%d')\n", WSAGetLastError());
 #endif
         return ERR_SOCKET;
     }
@@ -320,33 +318,17 @@ int GUI_RPC_CONN_SET::init() {
 
     retval = bind(lsock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
-        msg_printf(
-            NULL, MSG_ERROR,
-            "GUI RPC failed to bind to socket (retval = '%d')\n",
-            retval
-        );
+        scope_messages.printf("GUI RPC failed to bind to socket (retval = '%d')\n", retval);
 #ifdef _WIN32
-        msg_printf(
-            NULL, MSG_ERROR,
-            "Windows Socket Error = '%d')\n",
-            WSAGetLastError()
-        );
+        scope_messages.printf("Windows Socket Error = '%d')\n", WSAGetLastError());
 #endif
         return ERR_BIND;
     }
     retval = listen(lsock, 999);
     if (retval) {
-        msg_printf(
-            NULL, MSG_ERROR,
-            "GUI RPC failed to put socket into listening state (retval = '%d')\n",
-            retval
-        );
+        scope_messages.printf("GUI RPC failed to put socket into listening state (retval = '%d')\n", retval);
 #ifdef _WIN32
-        msg_printf(
-            NULL, MSG_ERROR,
-            "Windows Socket Error = '%d')\n",
-            WSAGetLastError()
-        );
+        scope_messages.printf("Windows Socket Error = '%d')\n", WSAGetLastError());
 #endif
         return ERR_LISTEN;
     }
@@ -364,6 +346,8 @@ bool GUI_RPC_CONN_SET::poll() {
         vector<GUI_RPC_CONN*>::iterator iter;
         GUI_RPC_CONN* gr;
         struct timeval tv;
+
+        sprintf(buf, "\r\nBOINC RPC Interface %d.%.2d\r\n\r\n", MAJOR_VERSION, MINOR_VERSION);
 
         FD_ZERO(&read_fds);
         FD_ZERO(&error_fds);
@@ -386,7 +370,7 @@ bool GUI_RPC_CONN_SET::poll() {
             sock = accept(lsock, (struct sockaddr*)&addr, &addr_len);
 #endif
             int peer_ip = (int) ntohl(addr.sin_addr.s_addr);
-            if (!gstate.allow_remote_gui_rpc && peer_ip != 0x7f000001) {
+            if ((!gstate.allow_remote_gui_rpc) && (peer_ip != 0x7f000001)) {
                 msg_printf(
                     NULL, MSG_ERROR,
                     "GUI RPC request from non-local address 0x%x\n",
@@ -395,8 +379,6 @@ bool GUI_RPC_CONN_SET::poll() {
             } else {
                 GUI_RPC_CONN* gr = new GUI_RPC_CONN(sock);
                 insert(gr);
-
-                sprintf(buf, "\r\nBOINC RPC Interface %d.%.2d\r\n\r\n", MAJOR_VERSION, MINOR_VERSION);
 #ifdef WIN32
                 send(gr->sock, buf, strlen(buf), NULL);
 #else
@@ -424,8 +406,6 @@ bool GUI_RPC_CONN_SET::poll() {
                     gui_rpcs.erase(iter);
                     continue;
                 }
-
-                sprintf(buf, "\r\nBOINC RPC Interface %d.%.2d\r\n\r\n", MAJOR_VERSION, MINOR_VERSION);
 #ifdef WIN32
                 send(gr->sock, buf, strlen(buf), NULL);
 #else
