@@ -469,10 +469,18 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		        m_XferListCtrl.SetItemText(i, 1, pfx->fip->name);
 
 		    // progress
-		    double xSent = 0;
+		    double xSent = 0, f_size;
+			char pathnm[256];
 		    if (pfx->fxp) {
 			    xSent = pfx->fxp->bytes_xferred;
 		    }
+			else {
+				get_pathname(pfx->fip, pathnm);
+				if (file_size(pathnm, f_size)) {
+					f_size = 0;
+				}
+				xSent = f_size;
+			}
 //            if (m_XferListCtrl.GetItemProgress(i, 2) != 100 * xSent / pfx->fip->nbytes)
 		        m_XferListCtrl.SetItemProgress(i, 2, 100 * xSent / pfx->fip->nbytes);
 
