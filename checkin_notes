@@ -25660,3 +25660,16 @@ Rom    7 Mar 2005
         cs_cmdline.C
         main.C, .h
 
+David  8 Mar 2005
+    - fixed bug where, if a trickle-up file arrives from app
+        while a scheduler RPC is in progress,
+        it gets deleted when the RPC concludes
+        (and therefore is never sent).
+
+        Solution: when put a trickle-up message in RPC request,
+        append ".sent" to its filename if not there already.
+        When get trickle-up ack, delete files of form trickle_up*.sent
+    client/
+        cs_trickle.C
+    lib/
+        util.C,h
