@@ -28,12 +28,16 @@ struct xml_entity {
   const char *s;
 }; 
 
-// decode an XML character string.  Return a pointer to the decoded string
-// (null not necessarily a terminator) on success, NULL on failure.
+// change the xml indent level (number of spaces) by adding or subtracting
+// "i" spaces.  return a string of spaces corresponding to the current xml 
+// indent level.
+std::string xml_indent(int i=0);
+
+// decode an XML character string.  Return a the decoded string in a vector
+// (null not necessarily a terminator).
 std::vector<unsigned char> xml_decode_string(const unsigned char *input, size_t length=0);
 
-// encode an XML character string.  Return a pointer to the encoded string
-// (null not necessarily a terminator) on success, NULL on failure.
+// encode an XML character string.  Return the encoded string.
 std::string xml_encode_string(const unsigned char *input, size_t length=0);
 
 #endif

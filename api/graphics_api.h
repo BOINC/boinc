@@ -73,7 +73,10 @@
 // The API (functions called by the app)
 extern int boinc_init_opengl();
 extern int boinc_finish_opengl();
+
+#ifdef HAVE_GL_LIB
 extern GLvoid glPrint(GLuint font, const char *fmt, ...);
+#endif
 
 // Functions that must be supplied by the app
 //
@@ -83,8 +86,10 @@ extern void app_resize(int width, int height);
 
 // Implementation stuff
 //
+#ifdef HAVE_GL_LIB
 extern GLenum InitGL(GLvoid);
 extern GLenum ReSizeGLScene(GLsizei width, GLsizei height);
+#endif
 extern void throttled_app_render(int, int, double);
 
 #ifdef _WIN32

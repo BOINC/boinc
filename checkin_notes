@@ -6467,6 +6467,16 @@ Eric   Oct 1 2003  11:15 am
        config.h.in
        configure
        configure.ac
-           graphics_api.C
-	   graphics_api.h
+       graphics_api.C
+       graphics_api.h
        m4/sah_grx.m4
+
+Eric   Oct 2 2003
+
+      -moved xml_indent() from seti_boinc/db/sqlrow.[cpp,h] to i
+       boinc/lib/xml_util.[C,h]
+      -fixed problems with graphics_api.h 
+      
+      api/graphics_api.h
+      lib/xml_util.[Ch]
+

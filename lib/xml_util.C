@@ -183,6 +183,7 @@ const xml_entity xml_trans[]= {
 #ifdef HAVE_MAP
 #include <map>
 
+
 std::multimap<unsigned char,const char *> encode_map;
 std::map<std::string, unsigned char> decode_map;
 
@@ -201,6 +202,13 @@ void populate_decode_map() {
 }
 #endif
 
+static int xml_indent_level=0;
+
+std::string xml_indent(int i) {
+  if (i) xml_indent_level+=i;
+  xml_indent_level=std::max(xml_indent_level,0);
+  return std::string(xml_indent_level,' ');
+}
 
 std::string encode_char(unsigned char c) {
 #ifdef HAVE_MAP
@@ -290,7 +298,7 @@ std::string xml_encode_string(const unsigned char *input, size_t length) {
   unsigned int i;
   if (!length) {
     // This is bad form.  Are you sure there are no nulls in the input?
-    length=strlen((const char *)input)+1;
+    length=strlen((const char *)input);
   }
   std::string rv;
   rv.reserve(length);
