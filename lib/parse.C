@@ -227,7 +227,7 @@ char* sgets(char* buf, int len, char*& in) {
 }
 
 bool extract_xml_record(const std::string &field, const char *tag, std::string &record) {
-  std::string::size_type start_pos,end_pos,m;
+    std::string::size_type start_pos,end_pos,m;
     char end_tag[256];
     sprintf(end_tag,"/%s",tag);
     std::string::size_type i=0,j=0;
@@ -235,26 +235,30 @@ bool extract_xml_record(const std::string &field, const char *tag, std::string &
     // find the end tag
     do {
       j=field.find(">",j+1);
-      end_pos=field.rfind(end_tag,j,j-i+1);
-      i=field.rfind("<",j,j-i);
+      end_pos=field.rfind(end_tag,j);
+      if (end_pos != std::string::npos) {
+	end_pos=j;
+      }
     } while ((end_pos==std::string::npos) && (j!=std::string::npos));
-    if (j!=std::string::npos) {
-      end_pos=j;
-    } else {
+
+    if (std::string::npos==end_pos) {
       return false;
     }
 
     // find the start tag
-    j--; i=0;
+    j=field.rfind("<",end_pos);
+
     do {
       j=field.rfind(">",j-1);
-      start_pos=field.rfind(tag,j,j-i+1);
-      i=field.rfind("<",j,j-i+1);
-      m=field.rfind("/",j,j-i+1);
-    } while (((m!=std::string::npos) || (start_pos==std::string::npos)) && (i!=std::string::npos));
-    if (i!=std::string::npos) {
-      start_pos=i;
-    } else {
+      start_pos=field.rfind(tag,j);
+      if ((start_pos != std::string::npos) && (field[start_pos-1]!='/')) { 
+        start_pos=field.rfind("<",start_pos);
+      } else {
+	start_pos=std::string::npos;
+      }
+    } while ((start_pos==std::string::npos) && (j!=std::string::npos));
+
+    if (std::string::npos==start_pos) {
       return false;
     }
 

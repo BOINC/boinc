@@ -24,6 +24,7 @@
 #include <cstdio>
 #include <ctime>
 #include <cmath>
+#include <cctype>
 #include <cstring>
 #include <cstdarg>
 #include <string>
