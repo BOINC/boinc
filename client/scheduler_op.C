@@ -556,6 +556,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     char buf[256], *p;
     int retval;
     MIOFILE mf;
+    char delete_file_name[256];
     mf.init_file(in);
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
@@ -581,6 +582,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     message_ack = false;
     project_is_down = false;
     send_file_list = false;
+    deletion_policy_priority = false;     
+    deletion_policy_expire = false;
 
     p = fgets(buf, 256, in);
     if (!p) {
@@ -628,6 +631,12 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             if (retval) return ERR_XML_PARSE;
             // TODO: display message below if project preferences have changed.
             // msg_printf(project, MSG_INFO, "Project preferences have been updated\n");
+        } else if (match_tag(buf, "<deletion_policy_priority/>")) {
+            deletion_policy_priority = true;
+            continue;
+        } else if (match_tag(buf, "<deletion_policy_expire>")) {
+            deletion_policy_expire = true;
+            continue;
         } else if (match_tag(buf, "<code_sign_key>")) {
             retval = dup_element_contents(
                 in,
@@ -670,6 +679,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             RESULT result;
             result.parse_ack(in);
             result_acks.push_back(result);
+        } else if (parse_str(buf, "<delete_file_info>", delete_file_name, sizeof(delete_file_name))) {
+            STRING256 delete_file;
+            strcpy(delete_file.text, delete_file_name);
+            file_deletes.push_back(delete_file);
         } else if (parse_str(buf, "<message", message, sizeof(message))) {
             parse_attr(buf, "priority", message_priority, sizeof(message_priority));
             continue;

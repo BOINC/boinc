@@ -105,6 +105,7 @@ struct SCHEDULER_REPLY {
     unsigned int user_create_time;
     std::vector<APP> apps;
     std::vector<FILE_INFO> file_infos;
+    std::vector<STRING256> file_deletes;
     std::vector<APP_VERSION> app_versions;
     std::vector<WORKUNIT> workunits;
     std::vector<RESULT> results;
@@ -113,7 +114,9 @@ struct SCHEDULER_REPLY {
     char* code_sign_key_signature;
     bool message_ack;
     bool project_is_down;
-    bool send_file_list;
+    bool send_file_list;      
+    bool deletion_policy_priority;       
+    bool deletion_policy_expire; 
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();

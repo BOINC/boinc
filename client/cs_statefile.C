@@ -86,7 +86,7 @@ int CLIENT_STATE::parse_state_file() {
             FILE_INFO* fip = new FILE_INFO;
             fip->parse(mf, false);
             if (project) {
-                retval = link_file_info(project, fip);
+                retval = link_file_info(project, fip, false);
                 if (!retval) file_infos.push_back(fip);
                 // If the file had a failure before, there's no reason
                 // to start another file transfer
@@ -336,7 +336,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
 				delete fip;
 				continue;
 			}
-			if (link_file_info(p, fip)) {
+			if (link_file_info(p, fip, true)) {
 				delete fip;
 				continue;
 			}

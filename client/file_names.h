@@ -63,5 +63,6 @@ extern void escape_project_url(char *in, char* out);
 #define LIST_STATE_FILE_NAME        "list.ini"
 #define APP_INFO_FILE_NAME			"app_info.xml"
 #define REMOTEHOST_FILE_NAME        "remote_hosts.cfg"
+#define FILE_LIST_NAME              "file_list.xml"
 
 #endif
