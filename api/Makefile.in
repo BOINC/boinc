@@ -1,3 +1,8 @@
+DEPTH   = ..
+topsrcdir       = @top_srcdir@
+srcdir          = @srcdir@
+VPATH           = @srcdir@
+
 VERSION = 1
 
 CFLAGS = -g -Wall
@@ -23,7 +28,7 @@ api_test: $(OBJS)
 clean:
 	rm -f *.o $(PROGS) core dependencies
 
-dependencies: *.C
-	$(CC) -M *.C > dependencies
+dependencies: @srcdir@/*.C
+        $(CC) -M @srcdir@/*.C > dependencies
 
 include dependencies

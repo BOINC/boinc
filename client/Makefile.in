@@ -1,10 +1,15 @@
+DEPTH   = ..
+topsrcdir       = @top_srcdir@
+srcdir          = @srcdir@
+VPATH           = @srcdir@
+
 VERSION = 1
 
 CFLAGS = -g -Wall @DEFS@ \
     -DHOST=\"@host@\" \
     -DVERSION=$(VERSION)
 
-CC = @CC@ $(CFLAGS) -I ../lib
+CC = @CC@ $(CFLAGS) -I @top_srcdir@/lib
 
 CLIBS = @LIBS@
 
@@ -75,7 +80,7 @@ tar:
 clean:
 	rm -f *.o $(PROGS) core dependencies Makefile config.cache
 
-dependencies: *.C
-	$(CC) -M *.C > dependencies
+dependencies: @srcdir@/*.C
+        $(CC) -M @srcdir@/*.C > dependencies
 
 include dependencies

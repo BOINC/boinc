@@ -1,3 +1,8 @@
+DEPTH   = ..
+topsrcdir       = @top_srcdir@
+srcdir          = @srcdir@
+VPATH           = @srcdir@
+
 VERSION = 1
 
 MYSQL_DIR = /usr/local/mysql/include
@@ -22,8 +27,8 @@ all: db_mysql.o mysql_util.o
 clean:
 	rm -f dependencies *.o
 
-dependencies: *.C
-	$(CC) -M *.C > dependencies
+dependencies: @srcdir@/*.C
+        $(CC) -M @srcdir@/*.C > dependencies
 
 include dependencies
 

@@ -115,3 +115,33 @@ Hiram C.	Fri May 24 23:34:59 PDT 2002
 	files db/dependencies and client/config.status and client/config.log
 		removed.  These are build time files and should not belong
 		in the source tree.  They confuse subsequent builds.
+	files updated: configure configure.in api/Makefile.in
+		apps/Makefile.in client/Makefile.in db/Makefile.in
+		db/mysql.h lib/Makefile.in sched/Makefile.in
+		tools/Makefile.in
+
+	These Makefile.in changes will allow the build to be performed
+	outside the source tree.  This is convenient for several
+	reasons.  The number one reason is that this allows the source
+	tree to remain untouched by the build and therefore clean.
+	This will prevent garbage build files from being checked in
+	during a 'cvs commit'
+
+	To run a build outside the source tree, simply make an object
+	directory anywhere else that you would like to work, then just
+	execute the configure script in the top-level boinc directory.
+		$ mkdir boincobj
+		$ cd boincobj
+		$ <... path to source tree ...>/boinc/configure
+		$ make > make.out 2>&1 &
+
+	Note the examples in apps/Makefile.in and sched/Makefile.in
+	of how to use the top_srcdir variable to locate include files
+	in the source tree outside of the current directory.  Local
+	references to other object files and libraries produced by
+	the build remain as local .. references.
+
+	The change to configure.in, (and thus configure) and db/mysql.h
+	allow a proper identification of where the mysql .h files live.
+	The SSL location of /usr/local/mysql/include is a bit non-standard.
+	Most systems will have these in /usr/local/include/mysql

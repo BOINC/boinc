@@ -1,6 +1,11 @@
+DEPTH   = ..
+topsrcdir       = @top_srcdir@
+srcdir          = @srcdir@
+VPATH           = @srcdir@
+
 all: cgi
 
-CFLAGS = -g -Wall -I ../db -I ../lib -I ../tools
+CFLAGS = -g -Wall -I @top_srcdir@/db -I @top_srcdir@/lib -I @top_srcdir@/tools
 CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
@@ -44,8 +49,8 @@ cgi: $(CGI_OBJS)
 feeder: $(FEEDER_OBJS)
 	$(CC) $(FEEDER_OBJS) $(MYSQL_LIBS) $(CLIBS) -o feeder
 
-dependencies: *.C
-	$(CC) -M *.C > dependencies
+dependencies: @srcdir@/*.C
+        $(CC) -M @srcdir@/*.C > dependencies
 
 include dependencies
 

@@ -1,10 +1,15 @@
+DEPTH   = ..
+topsrcdir       = @top_srcdir@
+srcdir          = @srcdir@
+VPATH           = @srcdir@
+
 VERSION = 1
 
 CFLAGS = -g -Wall @DEFS@ \
     -DHOSTTYPE=\"@host@\" \
     -DVERSION=$(VERSION)
 
-CC = @CC@ $(CFLAGS) -I ../api
+CC = @CC@ $(CFLAGS) -I @top_srcdir@/api
 
 LIBS = ../api/api.o
 
@@ -34,8 +39,8 @@ uc_slow: uc_slow.o
 clean:
 	rm -f *.o $(APPS) dependencies
 
-dependencies: *.C
-	$(CC) -M *.C > dependencies
+dependencies: @srcdir@/*.C
+        $(CC) -M @srcdir@/*.C > dependencies
 
 include dependencies
 
