@@ -55,6 +55,12 @@ public:
 
 extern ClientMessages log_messages;
 
-extern void msg_printf(PROJECT *p, int priority, char *fmt, ...);
+// the __attribute((format...)) tags are GCC extensions that let the compiler
+// do like-checking on printf-like arguments
+#if !defined(__GNUC__) && !defined(__attribute__)
+#define __attribute__(x) /*nothing*/
+#endif
+
+extern void msg_printf(PROJECT *p, int priority, char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
 
 #endif

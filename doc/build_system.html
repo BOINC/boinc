@@ -121,8 +121,9 @@
           To test the code:
           <pre>
             make check
-          </pre>
-          (This runs the php-based tests in the <code>test</code> directory)
+          </pre> This runs the python tests in the <code>test/</code>
+          directory; requires Python2.2, MySQLdb.  Old PHP-based tests in
+          <code>test/</code>are also available to be run individually.
         </p>
       </li>
       <li><b>Version number</b>
@@ -131,11 +132,12 @@
           <pre>
             AC_INIT(BOINC, 1.03)
           </pre>
-          in <code>configure.ac</code>.  If you change this,
-          run <code>make</code> and it will rebuild any files necessary to
-          propagate the version number into source files and scripts.  This is
-          the only location the version number is set; all other uses of it
-          come from here (no environment variables used).
+          in <code>configure.ac</code>.  If you change this, run
+          <code>make</code> and it will rebuild any files necessary to
+          propagate the version number into source files and scripts (if
+          maintainer-mode is on).  This is the only location the version
+          number is set (in unix); all other uses of it come from here (no
+          environment variables used).
         </p>
       </li>
       <li><b>Archiving</b>

@@ -289,6 +289,9 @@ Building client only:
 
   ./configure && cd client && make
 
+Testing (requires Python 2, MySQLdb) after build:
+
+  make check
 
 -------------------------------------------------------------------------
 Build X11
