@@ -5,15 +5,13 @@ require_once("../inc/profile.inc");
 require_once("../inc/util.inc");
 
 
-// OK, so it's not quite the alphabet,
-// but alphanumerabet is a bad variable name.
-//
 $alphabet = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9');
 
 // Generates the html files which comprise the photo gallery.
 //   $room: which gallery to generate (user, computer).
 //   $width: the width of the table of images.
 //   $height: the height of the table of images.
+//
 function build_picture_pages($width, $height) {
 
     // TODO: Add support for a computer image gallery.
@@ -298,43 +296,63 @@ function build_alpha_summary_page($characters) {
     fclose($descriptor);
 }
 
-function generate_uod_page($profile, $user) {
+function uotd_thumbnail($profile, $user) {
+    return "<a href=view_profile?userid=$user->id><img align=left src=" . IMAGE_URL . $user->id . "_sm.jpg></a>";
+}
+
+function generate_uotd_page($profile, $user) {
     $filename = PROFILE_PATH."uotd.html";
     $descriptor = fopen($filename, "w");
 
     if ($profile->has_picture) {
-        fwrite($descriptor,
-            "<a href=view_profile?userid=$user->id><img align=left src=" . IMAGE_URL . $user->id . "_sm.jpg></a>"
-        );
+        fwrite($descriptor, uotd_thumbnail($profile, $user));
     }
     $x = user_links($user);
     fwrite($descriptor, "The " . PROJECT . " User of the Day is $x");
     fclose($descriptor);
 }
 
-// see if it's time to pick a new UOD.
-// Either way, generate the UOD page
+// return the last UOTD profile, or null
 //
-function build_uotd_page() {
-    // Check if the current UOTD has had their 24 hours of fame - if so, pick a new one.
-
+function get_current_uotd() {
     $result = mysql_query("SELECT * FROM profile ORDER BY uotd_time DESC LIMIT 1");
     if (mysql_num_rows($result) > 0) {
-        $current_uotd = mysql_fetch_object($result);
+        $p = mysql_fetch_object($result);
+    } else {
+        $p = null;
+    }
+    return mysql_free_result($result);
+    return $p;
+}
+
+// see if it's time to pick a new UOTD.
+// Either way, generate the UOTD page
+//
+function build_uotd_page() {
+    $current_utod = get_current_uotd();
+    if ($current_utod) {
         $assigned = getdate($current_uotd->uotd_time);
         $now = getdate(time());
         if ($assigned['mday'] == $now['mday']) {
             $user = lookup_user_id($current_uotd->userid);
-            generate_uod_page($current_uotd, $user);
+            generate_uotd_page($current_uotd, $user);
             exit();
         }
     }
     // TODO: Verify that adding RAND() didn't screw this up.
     $result = mysql_query("SELECT * FROM profile WHERE verification = 1 AND uotd_time IS NULL ORDER BY RAND()");
 
-    // If the number of approved profiles dips below a threshold, email the sys admin every time we pick a new one.
+    // If the number of approved profiles dips below a threshold,
+    // email the sys admin every time we pick a new one.
+    //
     if ($result && mysql_num_rows($result) < UOTD_THRESHOLD) {
-        mail(SYS_ADMIN_EMAIL, PROJECT . ": User of the Day pool is running low!", "The pool of approved candidates for User of the Day has reached your assigned threshold: there are now only " . mysql_num_rows($result) . " approved users.\n\nTo approve more candidates for User of the Day, direct your web browser to the " . PROJECT . " administration page and click \"Unrated profile\"");
+        mail(SYS_ADMIN_EMAIL,
+            PROJECT . ": User of the Day pool is running low!",
+            "The pool of approved candidates for User of the Day has
+            reached your assigned threshold: there are now only " . mysql_num_rows($result) . " approved users.\n\n
+            To approve more candidates for User of the Day,
+            direct your web browser to the " . PROJECT . " administration page and click \"Unrated profile\""
+        );
     }
 
     if ($result && mysql_num_rows($result) == 0) {
@@ -348,7 +366,7 @@ function build_uotd_page() {
     }
     $profile = mysql_fetch_object($result);
     $user = lookup_user_id($profile->userid);
-    generate_uod_page($profile, $user);
+    generate_uotd_page($profile, $user);
 
     $sql = "UPDATE profile SET uotd_time = " . time() . " WHERE userid=$user->id";
     mysql_query($sql);
@@ -356,7 +374,8 @@ function build_uotd_page() {
     mail($user->email_addr,
         "You're the " . PROJECT . " user of the day!",
         "Congratulations!\n\nYou've been chosen as the "
-        . PROJECT . " user of the day!  Your profile will be featured on the " . PROJECT . " website for the next 24 hours.  Thanks again for supporting us- it's members like you that make distributed computing projects like ours such a success.\n\nBest regards and much thanks,\n\nThe " . PROJECT . " team."
+        . PROJECT . " user of the day!
+        Your profile will be featured on the " . PROJECT . " website for the next 24 hours."
     );
 }
 
