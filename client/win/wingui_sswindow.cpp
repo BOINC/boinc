@@ -55,6 +55,9 @@ CSSWindow::CSSWindow()
 void CSSWindow::ShowSSWindow(bool show_win)
 {
 	RECT WindowRect = {0,0,0,0};
+	PAINTSTRUCT ps;
+	CDC* pdc;
+	RECT winRect;
 
 	if (!show_win) {
 		// If there's a window, destroy it
@@ -85,6 +88,13 @@ void CSSWindow::ShowSSWindow(bool show_win)
 
 	ShowWindow(SW_SHOW);
 	SetFocus();
+
+	// Fill the window with black
+	pdc = BeginPaint(&ps);
+	pdc->SetBkColor(RGB(0,0,0));
+	GetClientRect(&winRect);
+	pdc->FillSolidRect(&winRect, RGB(0,0,0));
+	EndPaint(&ps);
 }
 
 // CMainWindow::DefWindowProc
@@ -146,6 +156,8 @@ int CSSWindow::OnCreate(LPCREATESTRUCT lpcs)
 	// Initial velocity is (1-5,1-5)
 	m_nDX = (rand() % 5)+1;
 	m_nDY = (rand() % 5)+1;
+	SetRect(&oldWinRect, 0, 0, 0, 0);
+	SetRect(&oldTextRect, 0, 0, 0, 0);
 
     return 0;
 }
@@ -175,10 +187,10 @@ void CSSWindow::OnPaint()
 	pdc = BeginPaint(&ps);
 	pdc->SetBkColor(RGB(0,0,0));
 	GetClientRect(&winRect);
-	pdc->FillSolidRect(&winRect, RGB(0,0,0));
 
 	// Draw the bouncing BOINC icon if we're not in blank screen mode
 	if (gstate.ss_logic.do_boinc_logo_ss) {
+		pdc->FillSolidRect(&oldTextRect, RGB(0,0,0));
 		pdc->SetTextColor(RGB(255,255,255));
 		// Draw status text
 		SetRect(&textRect, m_nTextPosX, m_nTextPosY, m_nTextPosX, m_nTextPosY);
@@ -191,6 +203,7 @@ void CSSWindow::OnPaint()
 			m_nTextPosX = -10000;
 			m_nTextPosY = rand() % (winRect.bottom-winRect.top);
 		}
+		CopyRect(&oldTextRect, &textRect);
 
 		// Draw the bouncing icon
 		m_nPosX += m_nDX;
@@ -201,7 +214,9 @@ void CSSWindow::OnPaint()
 		if ((m_nPosX+32) > winRect.right) m_nPosX = winRect.right-32;
 		if (m_nPosY < winRect.top) m_nPosY = winRect.top;
 		if ((m_nPosY+32) > winRect.bottom) m_nPosY = winRect.bottom-32;
+		pdc->FillSolidRect(&oldWinRect, RGB(0,0,0));
 		pdc->DrawIcon(m_nPosX, m_nPosY, m_hBOINCIcon);
+		SetRect(&oldWinRect, m_nPosX, m_nPosY, m_nPosX+32, m_nPosY+32);
 	}
 
 	EndPaint(&ps);

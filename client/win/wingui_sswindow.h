@@ -57,6 +57,7 @@ private:
 	int						m_nDX, m_nDY;
 
 	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+	RECT					oldWinRect, oldTextRect;
 
     afx_msg int				OnCreate(LPCREATESTRUCT);
     afx_msg void			OnDestroy();
