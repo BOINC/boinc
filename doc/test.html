@@ -88,61 +88,56 @@ class Project {                 // represents a project
     function add_user($user);   // add a User to project's DB
     function add_app($app);     // add an application
     function add_app_version($app_version);     // add an app version
-    function install(optional: $echeduler_file);         
-    //set up directories and DB. If $scheduler_file is provided, then
-    //there will be installed schedulers at the directories pointed by
-    //the schedulers
+    function install(optional: $scheduler_file);         
+        //set up directories and DB. If $scheduler_file is provided, then
+        //there will be installed schedulers at the directories pointed by
+        //the schedulers
     function start();           // start feeder
     function stop();            // stop feeder
-    function compare_file($out, $correct);  // verify that a result file
-                                // matches a known-correct file
-    function check_results($n, $result);    // check that there are n results
-                                // and that they match "result"
-                                // (for all fields that are defined)
+    function compare_file($out, $correct);
+                // verify that a result file matches a known-correct file
+    function check_results($n, $result);
+                // check that there are n results
+                // and that they match "result"
+                // (for all fields that are defined)
 
-    //The functions below are used to interrupt or remove certain
-    //functionalities of the project for a desired time in order to be
-    //able to test persistance across these failures. All the
-    //parameters of the functions below are optional. If $time is not
-    //then action will be taken immediately, otherwise we sleep for 
-    //$time seconds and then take action. $cgi_num,$download_dir_num,
-    //$handler_num refer to the number of the corresponding parts of
-    //the system  to be disabled temporarily. if they are not
-    //the default cgi, download, and file_upload_handler respectively.
-    //multiple cgis can be handles with passing in a file with
-    //scheduler_urls to project->install. Multiple download URLS are
-    //handled by adding a numer in between the download_url and the
-    //file to be downloaded in the wu_template file of the Work class 
-    //for example: <url><DOWNLOAD_URL/>0/<INFILE_0/></url>, in which
-    //a link from project_dir/download0/ will be added to project_dir/download
-    //Similiar action can be taken by modifying the result_template file
-    //of a Work class to handle multiple upload URLs: 
-    //for example: <url><UPLOAD_URL/>0</url>, in which case
-    //file_upload_handler0 will be added to project_dir/cgi
+    // The functions below are used to interrupt or remove certain
+    // functionalities of the project for a desired time in order to be
+    // able to test persistence across these failures. All the
+    // parameters of the functions below are optional.
+    // $cgi_num,$download_dir_num,
+    // $handler_num refer to the number of the corresponding parts of
+    // the system  to be disabled temporarily. if they are not
+    // the default cgi, download, and file_upload_handler respectively.
+    // multiple cgis can be handles with passing in a file with
+    // scheduler_urls to project->install. Multiple download URLS are
+    // handled by adding a numer in between the download_url and the
+    // file to be downloaded in the wu_template file of the Work class 
+    // for example: <url><DOWNLOAD_URL/>0/<INFILE_0/></url>, in which
+    // a link from project_dir/download0/ will be added to project_dir/download
+    // Similiar action can be taken by modifying the result_template file
+    // of a Work class to handle multiple upload URLs: 
+    // for example: <url><UPLOAD_URL/>0</url>, in which case
+    // file_upload_handler0 will be added to project_dir/cgi
  
-    function delete_masterindex($time) //deletes the index.php for
-                                       //this project 
-    function reestablish_masterindex($time) //reestablished the master
-                                            //index.php
-    function delete_scheduler($time,$cgi_num) 
-                                 //deletes project_dir/cgi/cgi$cgi$num
-    function reinstall_scheduler($time,$cgi_num)
-                                 //copies the cgi program into 
-				 //project_dir/cgi/cgi$cgi$num
-    function delete_downloaddir($time,$download_dir_number)
-                                 //removes
-                                 //project_dir/download$download_dir_num
-    function reinstall_downloaddir($time,$download_dir_num)
-                                 //reestablished 
-				 //project_dir/download$download_dir_num
-    function remove_file_upload_handler($time,$handler_num)
-                                 //deletes 
-				 //project_dir/cgi/file_upload_handdler$handler_num	
-    function reinstall_file_upload_handler($time, $handler_num)	 
-                                 //reinstalls
-				 //project_dir/cgi/file_upload_handdler$handler_num
-    function kill_file_upload_hanlder() //blocks until a file_upload_handler is 
-				        //running in the system, kills it and returns
+    function delete_masterindex()
+                //deletes the index.php for this project 
+    function reestablish_masterindex()
+                //reestablished the master index.php
+    function delete_scheduler($cgi_num) 
+                 //deletes project_dir/cgi/cgi$cgi$num
+    function reinstall_scheduler($cgi_num)
+                 //copies the cgi program into project_dir/cgi/cgi$cgi$num
+    function delete_downloaddir($download_dir_number)
+                 //removes project_dir/download$download_dir_num
+    function reinstall_downloaddir($download_dir_num)
+                 //reestablished project_dir/download$download_dir_num
+    function remove_file_upload_handler($handler_num)
+                 //deletes project_dir/cgi/file_upload_handler$handler_num	
+    function reinstall_file_upload_handler($handler_num)	 
+                 //reinstalls project_dir/cgi/file_upload_handler$handler_num
+    function kill_file_upload_handler() //blocks until a file_upload_handler is 
+                 //running in the system, kills it and returns
 }
 
 class User {                    // represents an account on a project
@@ -157,9 +152,9 @@ class Host {                    // represents a (virtual) host
     function install();
 
     //There are two run functions, one that blocks until the client
-    //being run by this host finishes exection: run() and then there
+    //being run by this host finishes execution: run() and then there
     //run_asynch which spawns a new php process running the client 
-    //and returns to the thread of exection of the parent php process
+    //and returns to the thread of execution of the parent php process
     //the php process_id of the child. This process_id can then be
     //used for a call to pcntl_waitpid() to block until the execution 
     //of the client.
@@ -352,18 +347,21 @@ You have to run the client yourself, kill and restart it a few times.
 feasible work units. 
 <li>
 <b>test_pers.php</b>: tests the persistent file transfers for
-download and upload. It interrupts them in the middle and makes 
+download and upload.
+It interrupts them in the middle and makes 
 sure that the filesize never decreases along interrupted transfers.
 <li>
 <b>test_masterurl_failure.php</b>: tests the exponential backoff  
 mechanism on the client in case of master IURL failures.
-This test is not automated. It has to be run, and then client.out 
-(in the host directory) must be looked at to examine wether everything 
+This test is not automated.
+It has to be run, and then client.out 
+(in the host directory) must be looked at to examine whether everything 
 is working correctly.
 <li>
 <b>test_sched_failure.php</b>:tests the exponential backoff mechanism 
-on the client in case of scheduling server failures.This test is not
-automated. It has to be run, and then client.out (in the host
-directory) must be looked at to examine wether everything 
+on the client in case of scheduling server failures.
+This test is not automated.
+It has to be run, and then client.out (in the host
+directory) must be looked at to examine whether everything 
 is working correctly.
 </ul>

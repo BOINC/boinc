@@ -2,28 +2,21 @@
 <body bgcolor=ffffff>
 <h2>Source code road map</h2>
 <p>
-Unpacking the BOINC source code
-creates the following directories:
-<pre>
-boinc/
-    RSAEuro/
-    api/
-    apps/
-    client/
-        win/
-        mac/
-    db/
-    doc/
-    html_ops/
-    html_user/
-    lib/
-    sched/
-    sched_fcgi/
-    test/
-    tools/
-</pre>
+BOINC is distributed via CVS, tarballs compressed with gzip, and Windows
+zip files.
+<ul>
+<li>
+If installing from CVS, download the entire CVS tree.
+<li>
+If installing on Windows, unzip boinc.zip or boinc.tar.gz,
+and unzip win_build.zip inside the BOINC directory.
+<li>
+If installing on Mac OS X, unzip boinc.zip or boinc.tar.gz,
+and unstuff mac_build.sit inside the BOINC directory.
+</ul>
 
-The directory contents are as follows:
+<p>
+Unpacking the BOINC source code creates the following directories:
 <dl>
 <dt> RSAEuro/
 <dd> A public-domain RSA implementation.
@@ -59,3 +52,11 @@ and file upload handler as Fast CGI programs.
 <dt> tools/
 <dd> Operational utility programs.
 </dl>
+<p>
+On UNIX systems, the BOINC software (both server and client)
+can be built by typing
+<pre>
+  configure
+  make
+</pre>
+in the top directory.

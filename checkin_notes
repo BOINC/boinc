@@ -2938,3 +2938,17 @@ David  Jan 13 2003
     test/
         test.inc
         test_loop.php
+
+David  Jan 14 2003
+    - Removed INSTALL_CLIENT and gutted INSTALL
+
+    NOTE: all docs should be in HTML
+    NOTE: spell-check all new documents
+
+    INSTALL
+    INSTALL_CLIENT (removed)
+    doc/
+        boinc_dev.html
+        road_map.html
+        single_host_server.html
+        test.html
