@@ -25,6 +25,9 @@
 
 #include <stdio.h>
 
+#ifndef BOINC_API
+#define BOINC_API
+
 class MFILE {
     char* buf;
     int len;
@@ -34,6 +37,9 @@ public:
     int _putchar(char);
     int puts(char*);
     int printf(char* format, ...);
+    size_t write(const void *,size_t,size_t);
     int close();
     int flush();
 };
+
+#endif

@@ -47,6 +47,13 @@ int MFILE::printf(char* format, ...) {
     return k;
 }
 
+size_t MFILE::write(const void *ptr,size_t size,size_t nitems) {
+    buf = (char *)realloc( buf, len+(size*nitems) );
+    memcpy( buf+len, ptr, size*nitems );
+    len += size*nitems;
+    return 0;
+}
+
 int MFILE::_putchar(char c) {
     buf = (char*)realloc(buf, len+1);
     buf[len] = c;
