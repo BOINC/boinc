@@ -393,7 +393,7 @@ bool CMainFrame::SaveState()
         strConfigLocation = strPreviousLocation + pView->GetViewName();
 
         pConfig->SetPath(strConfigLocation);
-        pView->_OnSaveState( pConfig );
+        pView->FireOnSaveState( pConfig );
         pConfig->SetPath(strPreviousLocation);
     }
 
@@ -448,7 +448,7 @@ bool CMainFrame::RestoreState()
         strConfigLocation = strPreviousLocation + pView->GetViewName();
 
         pConfig->SetPath(strConfigLocation);
-        pView->_OnRestoreState( pConfig );
+        pView->FireOnRestoreState( pConfig );
         pConfig->SetPath(strPreviousLocation);
 
     }
@@ -647,8 +647,8 @@ void CMainFrame::OnNotebookSelectionChanged( wxNotebookEvent& event )
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
         wxASSERT(NULL != pView);
 
-        pView->_OnTaskRender( timerEvent );
-        pView->_OnListRender( timerEvent );
+        pView->FireOnTaskRender( timerEvent );
+        pView->FireOnListRender( timerEvent );
     }
 
     event.Skip();
@@ -670,7 +670,7 @@ void CMainFrame::OnListCacheHint( wxListEvent& event )
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
         wxASSERT(NULL != pView);
 
-        pView->_OnListCacheHint( event );
+        pView->FireOnListCacheHint( event );
     }
 
     event.Skip();
@@ -692,7 +692,7 @@ void CMainFrame::OnListSelected( wxListEvent& event )
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
         wxASSERT(NULL != pView);
 
-        pView->_OnListSelected( event );
+        pView->FireOnListSelected( event );
     }
 
     event.Skip();
@@ -714,7 +714,7 @@ void CMainFrame::OnListDeselected( wxListEvent& event )
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
         wxASSERT(NULL != pView);
 
-        pView->_OnListDeselected( event );
+        pView->FireOnListDeselected( event );
     }
 
     event.Skip();
@@ -736,7 +736,7 @@ void CMainFrame::OnListPanelRender ( wxTimerEvent &event )
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
         wxASSERT(NULL != pView);
 
-        pView->_OnListRender( event );
+        pView->FireOnListRender( event );
     }
 
     event.Skip();
@@ -758,7 +758,7 @@ void CMainFrame::OnTaskPanelRender ( wxTimerEvent &event )
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
         wxASSERT(NULL != pView);
 
-        pView->_OnTaskRender( event );
+        pView->FireOnTaskRender( event );
     }
 
     event.Skip();

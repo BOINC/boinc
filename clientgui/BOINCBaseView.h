@@ -50,22 +50,22 @@ public:
     wxInt32                 _GetListRowCount();
     virtual wxInt32         GetListRowCount();
 
-    void                    _OnTaskRender( wxTimerEvent& event );
-    void                    _OnListRender( wxTimerEvent& event );
+    void                    FireOnTaskRender( wxTimerEvent& event );
+    void                    FireOnListRender( wxTimerEvent& event );
     virtual void            OnTaskRender( wxTimerEvent& event );
     virtual void            OnListRender( wxTimerEvent& event );
 
-    bool                    _OnSaveState( wxConfigBase* pConfig );
-    bool                    _OnRestoreState( wxConfigBase* pConfig );
+    bool                    FireOnSaveState( wxConfigBase* pConfig );
+    bool                    FireOnRestoreState( wxConfigBase* pConfig );
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
-    void                    _OnListCacheHint( wxListEvent& event );
-    void                    _OnListSelected( wxListEvent& event );
-    void                    _OnListDeselected( wxListEvent& event );
-    wxString                _OnListGetItemText( long item, long column ) const;
-    int                     _OnListGetItemImage( long item ) const;
-    wxListItemAttr*         _OnListGetItemAttr( long item ) const;
+    void                    FireOnListCacheHint( wxListEvent& event );
+    void                    FireOnListSelected( wxListEvent& event );
+    void                    FireOnListDeselected( wxListEvent& event );
+    wxString                FireOnListGetItemText( long item, long column ) const;
+    int                     FireOnListGetItemImage( long item ) const;
+    wxListItemAttr*         FireOnListGetItemAttr( long item ) const;
     virtual void            OnListCacheHint( wxListEvent& event );
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );
@@ -73,8 +73,8 @@ public:
     virtual int             OnListGetItemImage( long item ) const;
     virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
-    void                    _OnTaskLinkClicked( const wxHtmlLinkInfo& link );
-    void                    _OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
+    void                    FireOnTaskLinkClicked( const wxHtmlLinkInfo& link );
+    void                    FireOnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
     virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
     virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
 

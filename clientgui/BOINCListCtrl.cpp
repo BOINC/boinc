@@ -143,7 +143,7 @@ wxString CBOINCListCtrl::OnGetItemText( long item, long column ) const
     wxASSERT(NULL != m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
-    return m_pParentView->_OnListGetItemText( item, column );
+    return m_pParentView->FireOnListGetItemText( item, column );
 }
 
 
@@ -152,7 +152,7 @@ int CBOINCListCtrl::OnGetItemImage( long item ) const
     wxASSERT(NULL != m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
-    return m_pParentView->_OnListGetItemImage( item );
+    return m_pParentView->FireOnListGetItemImage( item );
 }
 
 
@@ -161,6 +161,6 @@ wxListItemAttr* CBOINCListCtrl::OnGetItemAttr( long item ) const
     wxASSERT(NULL != m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
-    return m_pParentView->_OnListGetItemAttr( item );
+    return m_pParentView->FireOnListGetItemAttr( item );
 }
 

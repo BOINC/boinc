@@ -254,7 +254,7 @@ void CBOINCTaskCtrl::OnLinkClicked( const wxHtmlLinkInfo& link )
     wxASSERT(NULL != m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
-    m_pParentView->_OnTaskLinkClicked( link );
+    m_pParentView->FireOnTaskLinkClicked( link );
 }
 
 
@@ -263,7 +263,7 @@ void CBOINCTaskCtrl::OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
     wxASSERT(NULL != m_pParentView);
     wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
 
-    m_pParentView->_OnTaskCellMouseHover( cell, x, y );
+    m_pParentView->FireOnTaskCellMouseHover( cell, x, y );
 }
 
 

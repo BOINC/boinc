@@ -123,13 +123,13 @@ wxInt32 CBOINCBaseView::GetListRowCount()
 }
 
 
-void CBOINCBaseView::_OnTaskRender (wxTimerEvent& event)
+void CBOINCBaseView::FireOnTaskRender (wxTimerEvent& event)
 {
     OnTaskRender( event );
 }
 
 
-void CBOINCBaseView::_OnListRender (wxTimerEvent& event)
+void CBOINCBaseView::FireOnListRender (wxTimerEvent& event)
 {
     OnListRender( event );
 }
@@ -226,13 +226,13 @@ void CBOINCBaseView::OnListRender (wxTimerEvent& event)
 }
 
 
-bool CBOINCBaseView::_OnSaveState( wxConfigBase* pConfig )
+bool CBOINCBaseView::FireOnSaveState( wxConfigBase* pConfig )
 {
     return OnSaveState( pConfig );
 }
 
 
-bool CBOINCBaseView::_OnRestoreState( wxConfigBase* pConfig )
+bool CBOINCBaseView::FireOnRestoreState( wxConfigBase* pConfig )
 {
     return OnRestoreState( pConfig );
 }
@@ -274,37 +274,37 @@ bool CBOINCBaseView::OnRestoreState( wxConfigBase* pConfig )
 }
 
 
-void CBOINCBaseView::_OnListCacheHint( wxListEvent& event )
+void CBOINCBaseView::FireOnListCacheHint( wxListEvent& event )
 {
     OnListCacheHint( event );
 }
 
 
-void CBOINCBaseView::_OnListSelected( wxListEvent& event )
+void CBOINCBaseView::FireOnListSelected( wxListEvent& event )
 {
     OnListSelected( event );
 }
 
 
-void CBOINCBaseView::_OnListDeselected( wxListEvent& event )
+void CBOINCBaseView::FireOnListDeselected( wxListEvent& event )
 {
     OnListDeselected( event );
 }
 
 
-wxString CBOINCBaseView::_OnListGetItemText(long item, long column) const
+wxString CBOINCBaseView::FireOnListGetItemText(long item, long column) const
 {
     return OnListGetItemText( item, column );
 }
 
 
-int CBOINCBaseView::_OnListGetItemImage(long item) const
+int CBOINCBaseView::FireOnListGetItemImage(long item) const
 {
     return OnListGetItemImage( item );
 }
 
 
-wxListItemAttr* CBOINCBaseView::_OnListGetItemAttr(long item) const
+wxListItemAttr* CBOINCBaseView::FireOnListGetItemAttr(long item) const
 {
     return OnListGetItemAttr( item );
 }
@@ -359,13 +359,13 @@ wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long item) const
 }
 
 
-void CBOINCBaseView::_OnTaskLinkClicked( const wxHtmlLinkInfo& link )
+void CBOINCBaseView::FireOnTaskLinkClicked( const wxHtmlLinkInfo& link )
 {
     OnTaskLinkClicked( link );
 }
 
 
-void CBOINCBaseView::_OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
+void CBOINCBaseView::FireOnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
 {
     OnTaskCellMouseHover( cell, x, y );
 }
