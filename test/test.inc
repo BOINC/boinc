@@ -248,6 +248,8 @@ class Project {
         PassThru("cp $source_dir/sched/feeder $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/result_retry $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/validate_test $this->project_dir/cgi/");
+        PassThru("cp $source_dir/sched/file_deleter $this->project_dir/cgi/");
+        PassThru("cp $source_dir/sched/assimilator $this->project_dir/cgi/");
         PassThru("cp $source_dir/html_ops/stripchart.cgi $this->project_dir/cgi/");
         $f = fopen("$this->project_dir/cgi/config.xml", "w");
         fputs($f, "<config>\n");
@@ -418,6 +420,18 @@ class Project {
     //
     function validate($app, $quorum) {
         PassThru("cd $this->project_dir/cgi; ./validate_test -one_pass -app $app->name -quorum $quorum > validate_out");
+    }
+
+    // do one pass of file_deleter
+    //
+    function file_delete() {
+        PassThru("cd $this->project_dir/cgi; ./file_deleter -one_pass > file_deleter_out");
+    }
+
+    // do one pass of assimilator
+    //
+    function assimilate($app) {
+        PassThru("cd $this->project_dir/cgi; ./assimilator -one_pass -app $app->name > assimilator_out");
     }
 
     // this should stop the feeder and any other daemons

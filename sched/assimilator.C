@@ -10,14 +10,15 @@ CONFIG config;
 
 // return nonzero if did anything
 //
-bool do_pass() {
+bool do_pass(APP app) {
     WORKUNIT wu;
     RESULT result;
     bool did_something = false;
     int retval;
 
+    wu.appid = app.id;
     wu.assimilate_state = ASSIMILATE_READY;
-    while (db_workunit_enum_assimilate_state(wu)) {
+    while (!db_workunit_enum_app_assimilate_state(wu)) {
         did_something = true;
         switch(wu.main_state) {
         case WU_MAIN_STATE_INIT:
@@ -50,6 +51,7 @@ bool do_pass() {
 int main(int argc, char** argv) {
     int retval;
     bool asynch = false, one_pass = false;
+    APP app;
     int i;
 
     for (i=1; i<argc; i++) {
@@ -57,6 +59,8 @@ int main(int argc, char** argv) {
             asynch = true;
         } else if (!strcmp(argv[i], "-one_pass")) {
             one_pass = true;
+        } else if (!strcmp(argv[i], "-app")) {
+            strcpy(app.name, argv[++i]);
         } else {
             fprintf(stderr, "Unrecognized arg: %s\n", argv[i]);
         }
@@ -75,11 +79,20 @@ int main(int argc, char** argv) {
     }
 
     retval = db_open(config.db_name, config.db_passwd);
+    if (retval) {
+        fprintf(stderr, "Can't open DB\n");
+        exit(1);
+    }
+    retval = db_app_lookup_name(app);
+    if (retval) {
+        fprintf(stderr, "Can't find app\n");
+        exit(1);
+    }
     if (one_pass) {
-        do_pass();
+        do_pass(app);
     } else {
         while (1) {
-            if (!do_pass()) sleep(10);
+            if (!do_pass(app)) sleep(10);
         }
     }
 }

@@ -620,12 +620,12 @@ int db_workunit_enum_file_delete_state(WORKUNIT& p) {
     return db_enum(e, &p, TYPE_WORKUNIT, buf);
 }
 
-int db_workunit_enum_assimilate_state(WORKUNIT& p) {
+int db_workunit_enum_app_assimilate_state(WORKUNIT& p) {
     static ENUM e;
     char buf[256];
 
     if (!e.active) {
-        sprintf(buf, "where assimilate_state=%d", p.assimilate_state);
+        sprintf(buf, "where appid=%d and assimilate_state=%d", p.appid, p.assimilate_state);
     }
     return db_enum(e, &p, TYPE_WORKUNIT, buf);
 }

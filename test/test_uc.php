@@ -49,4 +49,9 @@
     $project->check_results(2, $result);
     $project->compare_file("uc_wu_0_0", "uc_correct_output");
     $project->compare_file("uc_wu_1_0", "uc_correct_output");
+
+    $project->file_delete();
+    // input file should be gone here
+    $project->assimilate($app);
+    $project->file_delete();
 ?>

@@ -32,7 +32,7 @@ Existing applications in common languages (C, C++, Fortran)
 can run as BOINC applications with little or no modification.
 An application can consist of several files
 (e.g. multiple programs and a coordinating script).
-New versions of applications can be deployed with minimal participant involvement.
+New versions of applications can be deployed with no participant involvement.
 <li>
 <b>Security</b>
 <br>
@@ -45,7 +45,14 @@ to protect against the distribution of viruses.
 Projects can have separate scheduling and data servers,
 with multiple servers of each type.
 Clients automatically try alternate servers;
-if all servers are unavailable, they do exponential backoff.
+if all servers are down, clients do exponential backoff
+to avoid flooding the servers when they come back up.
+<li>
+<b>System monitoring tools</b>
+<br>
+BOINC includes a web-based system for displaying time-varying
+measurements (CPU load, network traffic, database table sizes).
+This simplifies the task of diagnosing performance problems.
 <li>
 <b>Open source</b>
 <br>
@@ -80,7 +87,7 @@ Windows, Linux and other Unix systems).
 The client can use multiple CPUs.
 
 <li>
-<b>Web-based administrative interfaces</b>
+<b>Web-based participant interfaces</b>
 <br>
 BOINC provides web-based interfaces for
 account creation, preference editing, and participant status display.
@@ -92,6 +99,6 @@ making it easy to manage large numbers of hosts.
 <br>
 The core client downloads enough work to keep its host
 busy for a user-specifiable amount of time.
-This allows the host to continue to function during project downtimes,
-and decreases the frequency of connections.
+This can be used to decrease the frequency of connections or to
+allow the host to keep working during project downtime.
 </ul>

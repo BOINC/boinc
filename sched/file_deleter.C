@@ -16,9 +16,7 @@ int wu_delete_files(WORKUNIT& wu) {
     p = strtok(wu.xml_doc, "\n");
     strcpy(filename, "");
     while (p) {
-        p = strtok(0, "\n");
         if (parse_str(p, "<name>", filename, sizeof(filename))) {
-            continue;
         } else if (match_tag(p, "<file_info>")) {
             no_delete = false;
             strcpy(filename, "");
@@ -27,9 +25,11 @@ int wu_delete_files(WORKUNIT& wu) {
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.download_dir, filename);
+                printf("deleting %s\n", pathname);
                 unlink(pathname);
             }
         }
+        p = strtok(0, "\n");
     }
     return 0;
 }
@@ -41,9 +41,7 @@ int result_delete_files(RESULT& result) {
 
     p = strtok(result.xml_doc_in, "\n");
     while (p) {
-        p = strtok(0, "\n");
         if (parse_str(p, "<name>", filename, sizeof(filename))) {
-            continue;
         } else if (match_tag(p, "<file_info>")) {
             no_delete = false;
             strcpy(filename, "");
@@ -52,9 +50,11 @@ int result_delete_files(RESULT& result) {
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.upload_dir, filename);
+                printf("deleting %s\n", pathname);
                 unlink(pathname);
             }
         }
+        p = strtok(0, "\n");
     }
     return 0;
 }
@@ -67,7 +67,7 @@ bool do_pass() {
     bool did_something = false;
 
     wu.file_delete_state = FILE_DELETE_READY;
-    while (db_workunit_enum_file_delete_state(wu)) {
+    while (!db_workunit_enum_file_delete_state(wu)) {
         did_something = true;
         wu_delete_files(wu);
         wu.file_delete_state = FILE_DELETE_DONE;
@@ -75,7 +75,7 @@ bool do_pass() {
     }
 
     result.file_delete_state = FILE_DELETE_READY;
-    while (db_result_enum_file_delete_state(result)) {
+    while (!db_result_enum_file_delete_state(result)) {
         did_something = true;
         result_delete_files(result);
         result.file_delete_state = FILE_DELETE_DONE;

@@ -38,16 +38,12 @@ struct PROJECT {
 };
 
 // A compilation target, i.e. a architecture/OS combination.
-// Currently the core client will be given only applications
-// that match its platform exactly.
-// This could be generatlized to allow, say, an app compiled
-// for AMD to be run on a "generic Intel x86" core client.
-// In this case we'd need a 1 to N mapping from APP_VERSION to PLATFORM
+// The core client will be given only applications with the same platform
 //
 struct PLATFORM {
     int id;
     unsigned int create_time;
-    char name[256];             // i.e. "sparc-sun-solaris2.7"
+    char name[256];             // i.e. "sparc-sun-solaris"
 };
 
 // An application.
@@ -341,7 +337,7 @@ extern int db_workunit_lookup_name(WORKUNIT&);
 extern int db_workunit_enum_app_need_validate(WORKUNIT&);
 extern int db_workunit_enum_retry_check_time(WORKUNIT&);
 extern int db_workunit_enum_file_delete_state(WORKUNIT&);
-extern int db_workunit_enum_assimilate_state(WORKUNIT&);
+extern int db_workunit_enum_app_assimilate_state(WORKUNIT&);
 
 extern int db_result_new(RESULT& p);
 extern int db_result(int id, RESULT&);

@@ -1,36 +1,130 @@
-write garbage collector
-
-prevent 2 core clients from running at once
-
-support for HTTP and SOCKS proxies
+-----------------------
+HIGH-PRIORITY (should do for beta test)
+-----------------------
 make get_local_ip_addr() work in all cases
 est_time_to_completion doesn't work for non-running tasks
-get timezone working on all platforms
-get benchmark working as separate process
-    must do this before send first scheduler request
 
-validate in crontab
+run backend programs (validate/file_deleter/assimilate)
+    from crontab; document
 
 Windows client
     make mini-logo
     fix "unable to calculate"
     completed results: show final CPU time
+
+Messages from core client
+    decide what messages should be shown to user, and how
+    log file?  GUI?  dialog?
+
+-----------------------
+MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
-use https for login (don't sent account ID or password in clear)
-
 protect project admin web pages (htaccess)
+get timezone working on all platforms
 
 Deadline mechanism for results
     - use in result dispatching
     - use in file uploading (decide what to upload next)
     - use in deciding when to make scheduler RPC (done already?)
 
-create "result adder" program that detects WUs that don't have
-    a canonical result yet, and should,
-    and creates more results for them.
-    This should detect situations where we're getting lots
-    of error results, and skip over those WUs
+Testing framework
+    better mechanisms to model server/client/communication failure
+    better mechanisms to simulate large load
+    do client/server on separate hosts?
+
+Delete files if needed to honor disk usage constraint
+    inform user if this happens
+
+implement max bytes/sec network preferences
+
+Global preferences
+    implement disk usage prefs
+    time-of-day prefs?
+    test propagation mechanism
+        set up multi-project, multi-host test;
+        change global prefs at one web site,
+        make sure they propagate to all hosts
+    limit on frequency of disk writes?
+    max net traffic per day?
+        implement in client
+
+Per-project preferences
+    test project-specific prefs
+        make example web edit pages
+        make app that uses them
+    set up a test with multiple projects
+        test "add project" feature, GUI and cmdline
+        test resource share mechanism
+
+CPU benchmarking
+    review CPU benchmarks - do they do what we want?
+    what to do when tests show hardware problem?
+    How should we weight factors for credit?
+    run CPU tests unobtrusively, periodically
+    check that on/conn/active fracs are maintainted correctly
+    check that bandwidth is measured correctly
+    measure disk/mem size on all platforms
+    get timezone to work
+
+CPU accounting in the presence of checkpoint/restart
+    test
+
+Test nslots > 1
+
+Redundancy checking and validation
+    test the validation mechanism
+    make sure credit is granted correctly
+    make sure average, total credit maintained correctly for user, host
+
+Windows screensaver functionality
+    idle-only behavior without screensaver - test
+
+Data transfer
+    make sure restart of downloads works
+    make sure restart of uploads works
+    test download/upload with multiple data servers
+        make sure it tries servers in succession,
+        does exponential backoff if all fail
+    review and document prioritization of transfers
+    review protocol; make sure error returns are possible and handled correctly
+
+Scheduler
+    Should dispatch results based on deadline?
+    test that scheduler estimates WU completion time correctly
+    test that scheduler sends right amount of work
+    test that client estimates remaining work correctly,
+        requests correct # of seconds
+    test that hi/low water mark system works
+    test that scheduler sends only feasible WUs
+
+Scheduler RPC
+    formalize notion of "permanent failure" (e.g. can't download file)
+    report perm failures to scheduler, record in DB
+    make sure RPC backoff is done for any perm failure
+        (in general, should never make back-to-back RPCs to a project)
+    make sure that client eventually reloads master URL
+
+Application graphics
+    finish design, implementation, doc, testing
+        size, frame rate, whether to generate
+    
+Work generation
+    generation of upload signature is very slow
+
+prevent file_xfer->req1 from overflowing. This problems seems to be
+    happening when the file_upload_handler returnes a message to the
+    client that is large. This causes project->parsefile to get wrong
+    input and so on.
+
+test HTTP redirect mechanism for all types of ops
+
+Add batch features to ops web
+-----------------------
+LONG-TERM IDEAS AND PROJECTS
+-----------------------
+
+use https for login (don't sent account ID or password in clear)
 
 CPU benchmarking
     This should be done by a pseudo-application
@@ -40,25 +134,12 @@ CPU benchmarking
     benchmarking programs (e.g. for graphics coprocessor)
     or project-specific programs.
 
-Testing framework
-    better mechanisms to model server/client/communication failure
-    better mechanisms to simulate large load
-    do client/server on separate hosts?
-
-Add "garbage-collect state" fields to WU, result
-    whether deletion of files is OK, is done
-
 investigate binary diff mechanism for updating persistent files
 
 verify support for > 4 GB files everywhere
 
 use FTP instead of HTTP for file xfer??
     measure speed diff
-
-Delete files if needed to honor disk usage constraint
-    inform user if this happens
-
-implement max bytes/sec network preferences
 
 Local scheduling
     more intelligent decision about when/what to work on
@@ -85,98 +166,11 @@ Include account ID in URL for file xfers
     This would let you verify network xfers by scanning web logs
     (could use that to give credit for xfers)
 
-Global preferences
-    implement disk usage prefs
-    time-of-day prefs?
-    test propagation mechanism
-        set up multi-project, multi-host test;
-        change global prefs at one web site,
-        make sure they propagate to all hosts
-    limit on frequency of disk writes?
-    max net traffic per day?
-        implement in client
-
-Per-project preferences
-    test project-specific prefs
-        make example web edit pages
-        make app that uses them
-    set up a test with multiple projects
-        test "add project" feature, GUI and cmdline
-        test resource share mechanism
-
-Proxies
-    work through HTTP, Socks proxies
-    look at other open-source code (Mozilla?)
-
-Documentation
-    simplify/finish docs on server installation
-    get rid of text in INSTALL and INSTALL_CLIENT;
-        they should just refer to .html files
-
-Testing in general
-    figure out how to set up multi-project, multi-host tests
-        from a single script
-    automate some simple test cases
-
-Messages from core client
-    decide what messages should be shown to user, and how
-    log file?  GUI?  dialog?
-
-CPU benchmarking
-    review CPU benchmarks - do they do what we want?
-    what to do when tests show hardware problem?
-    How should we weight factors for credit?
-    run CPU tests unobtrusively, periodically
-    check that on/conn/active fracs are maintainted correctly
-    check that bandwidth is measured correctly
-    measure disk/mem size on all platforms
-    get timezone to work
-
 WU/result sequence mechanism
     design/implement/document
 
 Multiple application files
     document, test
-
-CPU accounting in the presence of checkpoint/restart
-    test
-
-Test nslots > 1
-
-Redundancy checking and validation
-    test the validation mechanism
-    make sure credit is granted correctly
-    make sure average, total credit maintained correctly for user, host
-
-Scheduler RPC
-    formalize notion of "permanent failure" (e.g. can't download file)
-    report perm failures to scheduler, record in DB
-    make sure RPC backoff is done for any perm failure
-        (in general, should never make back-to-back RPCs to a project)
-    make sure that client eventually reloads master URL
-
-Data transfer
-    make sure restart of downloads works
-    make sure restart of uploads works
-    test download/upload with multiple data servers
-        make sure it tries servers in succession,
-        does exponential backoff if all fail
-    review and document prioritization of transfers
-    review protocol; make sure error returns are possible and handled correctly
-
-Application graphics
-    finish design, implementation, doc, testing
-        size, frame rate, whether to generate
-    
-Work generation
-    generation of upload signature is very slow
-
-Windows GUI
-    finish design/implement
-    display credit info, team
-
-Windows screensaver functionality
-    idle-only behavior without screensaver - test
 
 Versioning
     think through issues involved in:
@@ -187,29 +181,10 @@ Versioning
     Need version numbers for protocols/interfaces?
     What messages to show user?  Project?
 
-Scheduler
-    Should dispatch results based on deadline?
-    test that scheduler estimates WU completion time correctly
-    test that scheduler sends right amount of work
-    test that client estimates remaining work correctly,
-        requests correct # of seconds
-    test that hi/low water mark system works
-    test that scheduler sends only feasible WUs
-
 Persistent files
     test
     design/implement test reporting, retrieval mechanisms
     (do this using WU/results with null application?)
 
-User HTML
-    leader boards
-
 NET_XFER_SET
     review logic; prevent one stream for starving others
-
-test HTTP redirect mechanism for all types of ops
-
-prevent file_xfer->req1 from overflowing. This problems seems to be
-happening when the file_upload_handler returnes a message to the
-client that is large. This causes project->parsefile to get wrong
-input and so on.

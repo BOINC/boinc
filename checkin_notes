@@ -2660,3 +2660,31 @@ David  Dec. 17 2002
         test.inc
     tools/
         backend_lib.C
+
+David   Dec 17 2002
+    - The assimilator takes a -app argument
+    - Added execution of file_delete and assimilator to test_uc.php
+        this should delete all input and output files
+        TODO: check that it actually does
+    - fixed bugs in file_deleter
+
+    todo
+    db/
+        db.h
+        db_mysql.C
+    doc/
+        backend.gif (new)
+        backend.html
+        backend.png (new)
+        work_states.html
+    html_ops/
+        db.inc
+    html_user/
+        user.inc
+    sched/
+        assimilator.C
+        file_deleter.C
+        handle_request.C
+    test/
+        test.inc
+        test_uc.php

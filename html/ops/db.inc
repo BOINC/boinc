@@ -37,8 +37,8 @@ function show_platform($platform) {
     start_table();
     row("ID", $platform->id);
     row("Created", time_str($platform->create_time));
-    row("Platform Name", $platform->name);
-    row("","<a href=db.php?show=app_version&plat_id=$platform->id>Application Versions for Platform $platform->name </a>");
+    row("Name", $platform->name);
+    row("","<a href=db.php?show=app_version&plat_id=$platform->id>App versions for this platform</a>");
     end_table();
 }
 
@@ -46,9 +46,9 @@ function show_app($app) {
     start_table();
     row("ID", $app->id);
     row("Created", time_str($app->create_time));
-    row("Application Name", $app->name);
-    row("","<a href=db.php?show=app_version&app_id=$app->id>Application Versions for Application $app->name</a>");
-    row("","<a href=db.php?show=workunit&app_id=$app->id>Workunits for this Application</a>");
+    row("Name", $app->name);
+    row("","<a href=db.php?show=app_version&app_id=$app->id>App Versions for this application</a>");
+    row("","<a href=db.php?show=workunit&app_id=$app->id>Workunits for this application</a>");
     end_table();
 }
 
@@ -109,14 +109,38 @@ function show_host($host) {
 
 }
 
-function retry_state_str($s) {
+function main_state_str($s) {
     switch($s) {
-    case 0: return "Default";
+    case 0: return "Initial";
+    case 1: return "Done";
+    case 2: return "Error";
+    }
+}
+
+function error_str($s) {
+    switch($s) {
+    case 0: return "No error";
     case 1: return "Send failed";
     case 2: return "Too many errors (may have bug)";
     case 3: return "Too many done (may be nondeterministic)";
     }
     return "unknown";
+}
+
+function assimilate_state_str($s) {
+    switch($s) {
+    case 0: return "Initial";
+    case 1: return "Ready to assimilate";
+    case 2: return "Assimilated";
+    }
+}
+
+function file_delete_state_str($s) {
+    switch($s) {
+    case 0: return "Initial";
+    case 1: return "Ready to delete";
+    case 2: return "Deleted";
+    }
 }
 
 function show_workunit($wu,$show_xml_doc) {
@@ -136,8 +160,11 @@ function show_workunit($wu,$show_xml_doc) {
     row("Canonical resultid", $wu->canonical_resultid);
     row("Canonical credit", $wu->canonical_credit);
     row("Retry check time", time_str($wu->retry_check_time));
-    row("Retry state", retry_state_str($wu->state));
     row("Delay bound", $wu->delay_bound);
+    row("Main state", main_state_str($wu->main_state));
+    row("Error", error_str($wu->error));
+    row("File delete state", file_delete_state_str($wu->file_delete_state));
+    row("Assimilation state", assimilate_state_str($wu->assimilate_state));
     row("","<a href=db.php?show=result&wu_id=$wu->id>Show associated results</a>");
     end_table();
     echo "<p>";
@@ -168,16 +195,16 @@ function validate_state_str($s) {
 function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
     start_table();
     if ($show_times) {
-        row("created", time_str($result->create_time));
-        row("sent", time_str($result->sent_time));
-        row("received", time_str($result->received_time));
+        row("Created", time_str($result->create_time));
+        row("Sent", time_str($result->sent_time));
+        row("Received", time_str($result->received_time));
     }
     row("Name", $result->name);
     row("Workunit", "<a href=db.php?show=workunit&id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
-    row("state", res_state_string($result->server_state));
+    row("Server state", res_state_string($result->server_state));
     row("Deadline", time_str($result->report_deadline));
     row("Host ID", "<a href=db.php?show=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
-    row("Client_state: ", $result->client_state);
+    row("Client state", $result->client_state);
     row("CPU time", $result->cpu_time);
     if ($show_xml_docs) {
         row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
@@ -186,42 +213,42 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
     if ($show_stderr) {
         row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
     }
-    row("batch", $result->batch);
-    row("project state", $result->project_state);
+    row("Batch", $result->batch);
+    row("File delete state", file_delete_state_str($result->file_delete_state));
     row("Validate state", validate_state_str($result->validate_state));
     row("claimed credit", $result->claimed_credit);
-    row("granted credit", $result->granted_credit);
+    row("Granted credit", $result->granted_credit);
     end_table();
     echo "<p>";
 }
 
 function show_user($user) {
     start_table();
-    row("created", time_str($user->create_time));
-    row("total credit", $user->total_credit);
-    row("recent averaged credit:", $user->expavg_credit);
-    row("name", $user->name);
-    row("email address", $user->email_addr);
-    row("country", $user->country);
-    row("postal code", $user->postal_code);
-    row("total credit", $user->total_credit);
-    row("average credit", $user->expavg_credit);
-    row("last average time", time_str($user->expavg_time));
+    row("Created", time_str($user->create_time));
+    row("Total credit", $user->total_credit);
+    row("Recent averaged credit:", $user->expavg_credit);
+    row("Name", $user->name);
+    row("Email address", $user->email_addr);
+    row("Country", $user->country);
+    row("Postal code", $user->postal_code);
+    row("Total credit", $user->total_credit);
+    row("Average credit", $user->expavg_credit);
+    row("Last average time", time_str($user->expavg_time));
     end_table();
 }
 
 function team_type_string($s) {
     switch ($s) {
-        case 1: return "Small Company";
-        case 2: return "Medium Company";
-        case 3: return "Large Company";
-        case 4: return "Club";
-        case 5: return "Primary School";
-        case 6: return "Secondary School";
-        case 7: return "Junior College";
-        case 8: return "University or Department";
-        case 9: return "Government Agency";
-        default: return "Unknown";
+    case 1: return "Small Company";
+    case 2: return "Medium Company";
+    case 3: return "Large Company";
+    case 4: return "Club";
+    case 5: return "Primary School";
+    case 6: return "Secondary School";
+    case 7: return "Junior College";
+    case 8: return "University or Department";
+    case 9: return "Government Agency";
+    default: return "Unknown";
     }
 }
 

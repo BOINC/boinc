@@ -8,11 +8,17 @@ for generating work and handling results.
 Some of these components are supplied by BOINC;
 other parts are project- or application-specific:
 
+<br>
+<img vspace=10 src=backend.png>
+<br>
+
 <p>
 <table border=1 cellpadding=8>
+<tr>
 <th>Component</th>
 <th>BOINC-supplied part</th>
 <th>project-supplied part</th>
+</tr>
 <tr>
 <td valign=top>
 <b>Work generator</b>: generates work units, work sequences, results,
@@ -46,6 +52,36 @@ basic logic for validation.</td>
 that compares sets of redundant results.</td>
 </tr>
 <tr>
+<td valign=top><b>Assimilator</b>: parse output files of
+completed results, and take appropriate action
+(record results in a database, and/or generate more work)</td>
+<td valign=top>
+A main program that enumerates unassimilated workunits
+and updates the database.
+</td>
+<td valign=top>
+A function that assimilates a workunit,
+either by processing its canonical result
+or handling an error return.
+</td>
+</tr>
+<tr>
+<td valign=top><b>File deleter</b>: delete input and output files
+when they are no longer needed.</td>
+<td valign=top>A program, <b>file_deleter</b>, that does the job.</td>
+<td valign=top>None.</td>
+</tr>
+</table>
+<p>
+Project that use work sequences will need two additional processes:
+<p>
+<table border=1 cellpadding=8>
+<tr>
+<th>Component</th>
+<th>BOINC-supplied part</th>
+<th>project-supplied part</th>
+</tr>
+<tr>
 <td valign=top><b>Work sequence relocater</b>:
 detects work sequences whose hosts have failed,
 and relocates them to other hosts.</td>
@@ -59,23 +95,5 @@ Similar to result validation, but for work sequences.
 <td valign=top>A program <b>seq_validate</b></td>
 <td valign=top>An application-specific function,
 linked with <b>seq_validate</b>, that compares sets of redundant results.</td>
-</tr>
-<tr>
-<td valign=top><b>Result processing</b>: parse output files of
-completed results, and take appropriate action
-(record results in a database, and/or generate more work)</td>
-<td valign=top>Function for enumerating unprocessed results.
-Functions and programs that handle the details of
-creating workunit, work sequence, and result database records.
-</td>
-<td valign=top>
-The rest.
-</td>
-</tr>
-<tr>
-<td valign=top><b>Garbage collector</b>: delete input and output files
-when they are no longer needed.</td>
-<td valign=top>A program, <b>garbage_collect</b>, that does the job.</td>
-<td valign=top>None.</td>
 </tr>
 </table>
