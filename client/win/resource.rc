@@ -227,18 +227,22 @@ BEGIN
     END
     POPUP "Project"
     BEGIN
-        MENUITEM "Web site",                    ID_PROJECT_WEB_SITE
-        MENUITEM "Get preferences",             ID_PROJECT_GET_PREFS
-        MENUITEM "Detach...",                   ID_PROJECT_DETACH
-        MENUITEM "Reset project...",            ID_PROJECT_RESET
+        MENUITEM "&Web site",                   ID_PROJECT_WEB_SITE
+        MENUITEM "Get &preferences",            ID_PROJECT_GET_PREFS
+        MENUITEM "&Detach...",                  ID_PROJECT_DETACH
+        MENUITEM "&Reset project...",           ID_PROJECT_RESET
     END
     POPUP "Work"
     BEGIN
-        MENUITEM "Show Graphics",               ID_WORK_SHOWGRAPHICS
+        MENUITEM "Show &Graphics",              ID_WORK_SHOWGRAPHICS
+    END
+    POPUP "Transfers"
+    BEGIN
+        MENUITEM "&Retry now",                  ID_TRANSFERS_RETRYNOW
     END
     POPUP "Message"
     BEGIN
-        MENUITEM "Copy to clipboard",           ID_MESSAGE_COPY_TO_CLIP
+        MENUITEM "&Copy to clipboard",          ID_MESSAGE_COPY_TO_CLIP
     END
 END
 
