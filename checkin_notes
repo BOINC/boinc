@@ -23630,3 +23630,16 @@ David  31 Jan 2005
         client_state.C
         client_types.C,h
         cs_scheduler.C
+
+David  31 Jan 2005
+    - Core client: moved initialization stuff to new boinc_init();
+        change main() so that it calls boinc_init(),
+        then does platform-specific stuff,
+        then calls boinc_main_loop()
+        This ensures, e.g. that check_unique_instance() is called
+        before most other stuff
+
+    client/
+        main.C,h
+        win/
+            win_service.cpp

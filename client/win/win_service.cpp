@@ -68,7 +68,7 @@ void WINAPI service_main(DWORD dwArgc, LPTSTR *lpszArgv)
         SetCurrentDirectory(szPath);
     }
 
-    dwErr = boinc_main_loop(dwArgc, lpszArgv);
+    dwErr = boinc_main_loop();
 
 
 cleanup:

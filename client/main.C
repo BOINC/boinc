@@ -223,9 +223,8 @@ static void signal_handler(int signum) {
 }
 #endif
 
-int boinc_main_loop(int argc, char** argv) {
+void boinc_init(int argc, char** argv) {
     int retval;
-    double dt;
 
     setbuf(stdout, 0);
 
@@ -244,7 +243,6 @@ int boinc_main_loop(int argc, char** argv) {
 #endif
     );
 
-
     retval = check_unique_instance();
     if (retval) {
         msg_printf(NULL, MSG_INFO, "Another instance of BOINC is running");
@@ -252,7 +250,7 @@ int boinc_main_loop(int argc, char** argv) {
     }
 
 // Unix/Linux console controls
-#ifndef WIN32
+#ifndef _WIN32
     // Handle quit signals gracefully
     boinc_set_signal_handler(SIGHUP, signal_handler);
     boinc_set_signal_handler(SIGINT, signal_handler);
@@ -266,7 +264,7 @@ int boinc_main_loop(int argc, char** argv) {
 #endif
 
 // Windows console controls
-#ifdef WIN32
+#ifdef _WIN32
     if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)ConsoleControlHandler, TRUE)){
         fprintf(stderr, "Failed to register the console control handler\n");
         exit(1);
@@ -277,12 +275,17 @@ int boinc_main_loop(int argc, char** argv) {
     }
 #endif
 
+}
+
+int boinc_main_loop() {
+    int retval;
+    double dt;
+
     retval = gstate.init();
     if (retval) {
         fprintf(stderr, "gstate.init() failed: %d\n", retval);
         exit(retval);
     }
-
 
     while (1) {
         dt = dtime();
@@ -308,16 +311,12 @@ int boinc_main_loop(int argc, char** argv) {
     return 0;
 }
 
-
-#if defined(WIN32) && defined(_CONSOLE)
-
-//
-// On Windows, we support running as a Windows Service which requires
-//     a different startup method
-//
 int main(int argc, char** argv) {
     int retval = 0;
 
+    boinc_init(argc, argv);
+
+#ifdef _WIN32
     // Initialize WinSock
     if ( WinsockInitialize() != 0 ) {
         printf(
@@ -329,8 +328,7 @@ int main(int argc, char** argv) {
     }
 
     g_hIdleDetectionDll = LoadLibrary("boinc.dll");
-    if(!g_hIdleDetectionDll)
-    {
+    if(!g_hIdleDetectionDll) {
         printf(
             "BOINC Core Client Error Message\n"
             "Failed to initialize the BOINC Idle Detection Interface\n"
@@ -338,19 +336,14 @@ int main(int argc, char** argv) {
         );
     }
 
-    if(g_hIdleDetectionDll)
-    {
+    if(g_hIdleDetectionDll) {
         IdleTrackerInit fnIdleTrackerInit;
         fnIdleTrackerInit = (IdleTrackerInit)GetProcAddress(g_hIdleDetectionDll, _T("IdleTrackerInit"));
-        if(!fnIdleTrackerInit)
-        {
+        if(!fnIdleTrackerInit) {
             FreeLibrary(g_hIdleDetectionDll);
             g_hIdleDetectionDll = NULL;
-        }
-        else 
-        {
-            if(!fnIdleTrackerInit())
-            {
+        } else {
+            if(!fnIdleTrackerInit()) {
                 FreeLibrary(g_hIdleDetectionDll);
                 g_hIdleDetectionDll = NULL;
             }
@@ -377,22 +370,23 @@ int main(int argc, char** argv) {
                 LogEventErrorMessage(TEXT("StartServiceCtrlDispatcher failed."));
             }
         } else {
-            retval = boinc_main_loop(argc, argv);
+            retval = boinc_main_loop();
         }
     } else {
-        retval = boinc_main_loop(argc, argv);
+        retval = boinc_main_loop();
     }
+#else
+    boinc_main_loop();
+#endif
 
-    if(g_hIdleDetectionDll)
-    {
+#ifdef _WIN32
+    if(g_hIdleDetectionDll) {
         IdleTrackerTerm fnIdleTrackerTerm;
         fnIdleTrackerTerm = (IdleTrackerTerm)GetProcAddress(g_hIdleDetectionDll, _T("IdleTrackerTerm"));
-        if(fnIdleTrackerTerm)
-        {
+        if(fnIdleTrackerTerm) {
             fnIdleTrackerTerm();
         }
-        if(!FreeLibrary(g_hIdleDetectionDll))
-        {
+        if(!FreeLibrary(g_hIdleDetectionDll)) {
             printf(
                 "BOINC Core Client Error Message\n"
                 "Failed to cleanup the BOINC Idle Detection Interface\n"
@@ -408,21 +402,9 @@ int main(int argc, char** argv) {
         );
         return ERR_IO;
     }
-
+#endif
     return retval;
 }
-
-#else
-
-//
-// For platforms other than windows just treat it as a console application
-//
-int main(int argc, char** argv) {
-    return boinc_main_loop(argc, argv);
-}
-
-#endif
-
 
 
 const char *BOINC_RCSID_f02264aefe = "$Id$";

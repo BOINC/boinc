@@ -18,7 +18,7 @@
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #ifdef _WIN32
-extern int boinc_main_loop(int argc, char** argv);
+extern int boinc_main_loop();
 extern void quit_client();
 extern void suspend_client();
 extern void resume_client();
