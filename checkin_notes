@@ -16530,3 +16530,11 @@ David  20 Aug 2004
         stats.php
     lib/
         shmem.C
+
+Daniel 2004-08-20
+    - client: fixed file xfer bug that caused null pointer dereference upon
+      some xfer failures
+
+    client/
+        pers_file_xfer.C
+
