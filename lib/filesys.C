@@ -44,7 +44,7 @@
 #include <sys/resource.h>
 #endif
 #ifdef HAVE_SYS_MOUNT_H
-#ifdef __FreeBSD__
+#if defined(__FreeBSD__) || defined(__OpenBSD__)
 #include <sys/param.h>
 #endif
 #include <sys/mount.h>

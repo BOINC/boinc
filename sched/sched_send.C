@@ -21,9 +21,9 @@
 
 #include <vector>
 #include <string>
+#include <ctime>
+#include <cstdio>
 using namespace std;
-
-#include <stdio.h>
 
 #include "error_numbers.h"
 #include "server_types.h"
