@@ -45,6 +45,16 @@ function lookup_user_id($id) {
     return null;
 }
 
+function lookup_user_email_addr($email_addr) {
+    $result = mysql_query("select * from user where email_addr='$email_addr'");
+    if ($result) {
+        $user = mysql_fetch_object($result);
+        mysql_free_result($result);
+        return $user;
+    }
+    return null;
+}
+
 function lookup_host($id) {
     $result = mysql_query("select * from host where id=$id");
     if ($result) {
@@ -95,6 +105,15 @@ function lookup_app($id) {
     return null;
 }
 
+function lookup_tentative_user($nonce) {
+    $result = mysql_query("select * from tentative_user where nonce='$nonce'");
+    if ($result) {
+        $tu = mysql_fetch_object($result);
+        mysql_free_result($result);
+        return $tu;
+    }
+    return null;
+}
 
 // apply this to any user-supplied strings used in queries
 //

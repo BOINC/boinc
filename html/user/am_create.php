@@ -1,17 +1,41 @@
 <?php
 
 require_once("../inc/db.inc");
+require_once("../inc/xml.inc");
 
 db_init();
 
-$nonce = process_user_text($_POST["nonce"]);
-$email_addr = process_user_text($_POST["email_addr"]);
+$nonce = process_user_text($_GET["nonce"]);
+$email_addr = process_user_text($_GET["email_addr"]);
+
+xml_header();
+
+function reply($x) {
+    echo "<am_create_reply>
+    $x
+</am_create_reply>
+";
+    exit();
+}
+
+function error($x) {
+    reply("<error>$x</error>");
+}
+
+function success() {
+    reply("<success/>");
+}
 
 if (strlen($nonce)==0) {
-    echo "status=".urlencode("no nonce ID");
+    error("missing nonce ID");
 }
 if (strlen($email_addr)==0) {
-    echo "status=".urlencode("no email addr");
+    error("missing email addr");
+}
+
+$config = get_config();
+if (parse_bool($config, "disable_account_creation")) {
+    error("account creation disabled");
 }
 
 $result = mysql_query(
@@ -25,9 +49,9 @@ if ($result) {
     ";
     $headers = "";
     mail($email_addr, $subject, $body, $headers);
-    echo "status=OK";
+    success();
 } else {
-    echo "status=".urlencode("error");
+    error("database error");
 }
 
 ?>

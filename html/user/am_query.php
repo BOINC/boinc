@@ -1,20 +1,37 @@
 <?php
 
 require_once("../inc/db.inc");
+require_once("../inc/xml.inc");
 
-$nonce = process_user_text($_POST["nonce"]);
+$nonce = process_user_text($_GET["nonce"]);
 
-$tuser = lookup_tentative_user($nonce);
+xml_header();
 
-if (!$tuser) {
-    $x = urlencode("nonce not found");
-    echo "status=$x\n";
+function reply($x) {
+    echo "<am_query_reply>
+    $x
+</am_query_reply>
+";
     exit();
 }
 
+function error($x) {
+    reply("<error>$x</error>");
+}
+
+function success($x) {
+    reply("<success/>\n$x");
+}
+
+db_init();
+$tuser = lookup_tentative_user($nonce);
+
+if (!$tuser) {
+    error("nonce not found");
+}
+
 if (!$tuser->confirmed) {
-    echo "status=OK&confirmed=0\n";
-    exit();
+    success("<confirmed>0</confirmed>");
 }
 
 $user = lookup_user_email_addr($tuser->email_addr);
@@ -29,11 +46,8 @@ if (!$user) {
 }
 
 if (!$user) {
-    $x = urlencode("couldn't create user record");
-    echo "status=$x\n";
-    exit();
+    error("couldn't create user record");
 }
-
-echo "status=OK&account_key=$user->authenticator\n";
+success("<account_key>$user->authenticator</account_key>");
 
 ?>

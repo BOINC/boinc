@@ -25283,3 +25283,16 @@ Janus 24 Feb 2005
         user/
             account_*_done.php
 
+David  24 Feb 2005
+    - Finish server-side support for account management.
+        Changed all inputs to GET, all outputs to XML
+        Added get_info and set_info functions
+
+    html/
+        inc/
+            db.inc
+        user/
+            am_create.php
+            am_get_info.php (new)
+            am_query.php
+            am_set_info.php (new)
