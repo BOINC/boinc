@@ -398,6 +398,11 @@ class Project {
         PassThru("cd $this->project_dir/cgi; ./feeder -asynch > feeder_out");
     }
 
+    function start_result_retry($app){
+       PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror 10 -ndet 10 -nredundancy 10 -asynch > result_retry_out");
+    }
+      
+
     function start_make_work($work){
         $result_template_path = realpath($work->result_template);
         PassThru("cd $this->project_dir/cgi; ./make_work -asynch -result_template $result_template_path -wu_name $work->wu_template > make_work_out");

@@ -160,9 +160,9 @@ bool do_pass(APP& app) {
     //
     while (!db_workunit_enum_retry_check_time(wu)) {
         vector<RESULT> results;
-
+	
         did_something = true;
-
+	printf("inside while loop of result_retry");
         // if this WU has a canonical result, we're done
         // (this normally doesn't happen since the retry check time
         // is zeroed when canonical result found, but just in case).
@@ -230,7 +230,9 @@ bool do_pass(APP& app) {
         //
         if (nredundancy > ndone) {
             n = nredundancy - ndone;
-            for (i=0; i<n; i++) {
+	    printf("nredundancy is: %d, ndone is %d",nredundancy,ndone);
+            
+	    for (i=0; i<n; i++) {
                 result = results[0];
                 make_unique_name(result.name);
                 initialize_result(result, wu);

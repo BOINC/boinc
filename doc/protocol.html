@@ -97,12 +97,41 @@ Request elements include
 &lt;/host_info&gt;
 &lt;result&gt;
     &lt;name&gt;uc_wu_0&lt;/name&gt;
-    &lt;exit_status&gt;0&lt;/exit_status&gt;
-    &lt;cpu_time&gt;0.020000&lt;/cpu_time&gt;
-    &lt;output_file&gt;
-        &lt;md5_cksum&gt;3f7b90793a0175ad0bda68684e8bd136&lt;/md5_cksum&gt;
+    &lt;client_state&gt;4&lt;/client_state&gt;
+    &lt;final_cpu_time&gt;0.020000&lt;/final_cpu_time&gt;
+    &lt;stderr_out&gt;
+    The following fields are used to report errors to the server, They
+    are not present if there is no error while downloading, computing
+    or uploading files for this result.
+    [ &lt;message&gt; some text describing the error &lt;/message&gt;]   ]
+    The state of the active_task assigned to compute this result at
+    the time of the error
+    [ &lt;active_task_state&gt;0&lt;/active_task_state&gt; ]
+    The exit_status of the application running the computation for the result
+    [ &lt;exit_status&gt;0&lt;/exit_status&gt; ]
+    The signal raised by the application if any.
+    [ &lt;signal&gt;0&lt;/signal&gt; ]
+    If the error corresponds to downloading input files for the
+    work_unit for this result, then:
+    &lt;download_error&gt;
+        &lt;file_name&gt;input&lt;/file_name&gt;
+	&lt;error_code&gt;-114&lt;/error_code&gt;
+    &lt;/download_error&gt;
+    If the error corresponds to uploading outfiles for this results
+    then:
+    &lt;upload_error&gt;
+        &lt;file_name&gt;output&lt;/file_name&gt;
+	&lt;error_code&gt;-114&lt;/error_code&gt;
+    &lt;/upload_error&gt;
+    the std_err output of the application, if any, goes here.
+    &lt;/stderr_out&gt; 
+    &lt;file_info&gt;
         &lt;file_name&gt;uc_wu_0_0&lt;/file_name&gt;
-    &lt;/output_file&gt;
+        &lt;md5_cksum&gt;3f7b90793a0175ad0bda68684e8bd136&lt;/md5_cksum&gt;
+	&lt;nbytes&gt;54691.0000000&lt;/nbytes&gt;
+	&lt;max_nbytes&gt;1000000.00000&lt;/max_nbytes&gt;
+	&lt;url&gt;http://localhost/hamid_cgi/test/file_upload_handler&lt;/url&gt;
+    &lt;/file_info&gt;
 &lt;/result&gt;
 </pre>
 

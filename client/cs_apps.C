@@ -30,6 +30,7 @@
 //
 int CLIENT_STATE::make_slot_dirs() {
     unsigned int i;
+    printf("num slots is: %d\n",nslots);
     for (i=0; i<nslots; i++) {
         make_slot_dir(i);
     }
@@ -191,7 +192,6 @@ bool CLIENT_STATE::start_apps() {
 	    if(retval) {
 		atp->state = PROCESS_COULDNT_START;
 		atp->result->active_task_state = PROCESS_COULDNT_START;
-	
 		report_project_error(*(atp->result),retval,"Couldn't start the app for this result.\n",CLIENT_COMPUTING);
 	    }
             action = true;

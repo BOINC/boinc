@@ -177,7 +177,7 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
     row("state", res_state_string($result->server_state));
     row("Deadline", time_str($result->report_deadline));
     row("Host ID", "<a href=db.php?show=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
-    row("Client State", $result->client_state);
+    row("Client_state: ", $result->client_state);
     row("CPU time", $result->cpu_time);
     if ($show_xml_docs) {
         row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
