@@ -1,20 +1,14 @@
 ## $Id$
 
 # module for setting up a new project (either a real project or a test project
-# - see testbase.py).
-#
-# (This used to be boinc/py/boinc.py.)
+# see tools/makeproject, test/testbase.py).
 
-# TODO: make things work if build_dir != src_dir
-
-# TODO: use database.py
+# TODO: make sure things work if build_dir != src_dir
 
 import boinc_path_config
-import version
 from Boinc import database, db_mid, configxml, tools
 from Boinc.boinc_db import *
 import os, sys, glob, time, shutil, re, random
-# import MySQLdb
 
 class Options:
     pass
@@ -27,7 +21,6 @@ options.have_init = False
 options.install_method = None
 options.echo_verbose = 1
 options.is_test = False
-options.client_bin_filename = version.CLIENT_BIN_FILENAME
 options.drop_db_first = False
 
 def init():
@@ -164,8 +157,11 @@ def force_symlink(src, dest):
         os.unlink(dest)
     my_symlink(src, dest)
 def rmtree(dir):
-    if os.path.exists(dir):
-        shutil.rmtree(dir)
+    # if os.path.exists(dir):
+    #     shutil.rmtree(dir)
+    if not dir or dir == '/' or dir == '.' or ' ' in dir:
+        raise Exception
+    os.system("rm -rf %s"%dir)
 
 def _remove_trail(s, suffix):
     if s.endswith(suffix):
@@ -240,122 +236,91 @@ def _check_vars(dict, **names):
 #     result = db.use_result()
 #     return result and result.fetch_row(0,1)
 
-def num_results(db):
+def num_results():
     return database.Results.count()
-def num_results_unsent(db):
+def num_results_unsent():
     return database.Results.count(server_state = RESULT_SERVER_STATE_UNSENT)
-def num_results_in_progress(db):
+def num_results_in_progress():
     return database.Results.count(server_state = RESULT_SERVER_STATE_IN_PROGRESS)
-def num_results_over(db):
+def num_results_over():
     return database.Results.count(server_state = RESULT_SERVER_STATE_OVER)
-def num_wus(db):
+def num_wus():
     return database.Workunits.count()
-def num_wus_assimilated(db):
+def num_wus_assimilated():
     return database.Workunits.count(assimilate_state = ASSIMILATE_DONE)
-def num_wus_to_transition(db):
+def num_wus_to_transition():
     return database.Workunits.count(_extra_params = 'transition_time<%d'%(time.time()+30*86400))
-
-def query_yesno(str):
-    '''Query user; default Yes'''
-    verbose_echo(0,'')
-    print str, "[Y/n] ",
-    return not raw_input().strip().lower().startswith('n')
-
-def query_noyes(str):
-    '''Query user; default No'''
-    verbose_echo(0,'')
-    print str, "[y/N] ",
-    return raw_input().strip().lower().startswith('y')
 
 def build_command_line(cmd, **kwargs):
     for (key, value) in kwargs.items():
         cmd += " -%s '%s'" %(key,value)
     return cmd
 
-# class Platform:
-#     def __init__(self, name, user_friendly_name=None):
-#         self.name = name
-#         self.user_friendly_name = user_friendly_name or name
+def install_boinc_files(dest_dir):
+    def dir(*dirs):
+        return apply(os.path.join,(dest_dir,)+dirs)
 
-# class CoreVersion:
-#     def __init__(self):
-#         self.version = 1
-#         self.platform = Platform(version.PLATFORM)
-#         self.exec_dir = builddir('client')
-#         self.exec_name = options.client_bin_filename
+    install_glob(srcdir('html_user/*.php'), dir('html_user/'))
+    install_glob(srcdir('html_user/*.inc'), dir('html_user/'))
+    install_glob(srcdir('html_user/class/*.inc'), dir('html_user/class/'))
+    install_glob(srcdir('html_user/include/*.inc'), dir('html_user/include/'))
+    install_glob(srcdir('html_ops/*.php'), dir('html_ops/'))
+    install_glob(srcdir('html_ops/*.inc'), dir('html_ops/'))
+    install(builddir('tools/country_select'), dir('html_user/'))
 
-# class App:
-#     def __init__(self, name):
-#         assert(name)
-#         self.name = name
+    # copy all the backend programs
+    map(lambda (s): install(builddir('sched',s), dir('cgi-bin',s)),
+        [ 'cgi', 'file_upload_handler'])
+    map(lambda (s): install(builddir('sched',s), dir('bin',s)),
+        [ 'make_work', 'feeder', 'transitioner', 'validate_test',
+          'file_deleter', 'assimilator' ])
+    map(lambda (s): install(srcdir('sched',s), dir('bin',s)),
+        [ 'start', 'stop', 'status',
+          'grep_logs' ])
+    map(lambda (s): install(srcdir('tools',s), dir('bin',s)),
+        [ 'boinc_path_config.py', 'add', 'dbcheck_files_exist',
+          'upgrade' ])
 
-# class AppVersion:
-#     def __init__(self, app, appversion = 1, exec_names=None):
-#         self.exec_names = []
-#         self.exec_dir = builddir('apps')
-#         self.exec_names = exec_names or [app.name]
-#         self.app = app
-#         self.version = appversion
-#         self.platform = Platform(version.PLATFORM)
 
 class Project:
     def __init__(self,
-                 short_name, long_name, appname=None,
-                 project_dir=None, master_url=None, cgi_url=None,
-                 core_versions=None, key_dir=None,
-                 apps=None, app_versions=None,
-                 resource_share=None):
+                 short_name, long_name,
+                 project_dir=None,key_dir=None,
+                 master_url=None, cgi_url=None,
+                 db_name=None):
         init()
-        self.config_options = []
-        self.config_daemons = []
-        self.short_name     = short_name or 'test_'+appname
-        self.long_name      = long_name or 'Project ' + self.short_name.replace('_',' ').capitalize()
-        self.db_passwd      = ''
-        self.shmem_key      = generate_shmem_key()
-        self.resource_share = resource_share or 1
-        self.output_level   = 3
 
-        self.master_url    = master_url or os.path.join(options.html_url , self.short_name , '')
-        self.download_url  = os.path.join(self.master_url, 'download')
-        self.cgi_url       = cgi_url or os.path.join(options.cgi_url, self.short_name)
-        self.upload_url    = os.path.join(self.cgi_url     , 'file_upload_handler')
-        self.scheduler_url = os.path.join(self.cgi_url     , 'cgi')
-        self.project_dir   = project_dir or os.path.join(options.projects_dir     , self.short_name)
-        self.download_dir  = os.path.join(self.project_dir , 'download')
-        self.upload_dir    = os.path.join(self.project_dir , 'upload')
-        self.key_dir       = key_dir or os.path.join(self.project_dir , 'keys')
-        self.user_name     = options.user_name
-        self.db_name       = self.user_name + '_' + self.short_name
+        self.short_name     = short_name
+        self.long_name      = long_name or 'Project ' + self.short_name.replace('_',' ').capitalize()
+
+        self.project_dir   = project_dir or os.path.join(options.projects_dir, self.short_name)
+
+        self.config = configxml.ConfigFile(self.dir('config.xml')).init_empty()
+        config = self.config.config
+
+        config.user_name     = options.user_name
+        config.db_name = db_name or config.user_name + '_' + self.short_name
+        config.db_passwd = ''
+        config.shmem_key = generate_shmem_key()
+        config.output_level = 3
+
+        config.master_url    = master_url or os.path.join(options.html_url , self.short_name , '')
+        config.download_url  = os.path.join(config.master_url, 'download')
+        config.cgi_url       = cgi_url or os.path.join(options.cgi_url, self.short_name)
+        config.upload_url    = os.path.join(config.cgi_url     , 'file_upload_handler')
+        self.scheduler_url = os.path.join(config.cgi_url     , 'cgi')
+        config.download_dir  = os.path.join(self.project_dir , 'download')
+        config.upload_dir    = os.path.join(self.project_dir , 'upload')
+        config.key_dir       = key_dir or os.path.join(self.project_dir , 'keys')
         self.project_php_file                  = srcdir('html_user/project.inc.sample')
         self.project_specific_prefs_php_file   = srcdir('html_user/project_specific_prefs.inc.sample')
 
-        self.core_versions = core_versions or [CoreVersion()]
-        self.app_versions  = app_versions or [AppVersion(App(appname))]
-        self.apps          = apps or unique(map(lambda av: av.app, self.app_versions))
-        self.platforms     = [Platform(version.PLATFORM)]
-        # convenience vars:
-        self.app_version   = self.app_versions[0]
-        self.app           = self.apps[0]
 
     def dir(self, *dirs):
         return apply(os.path.join,(self.project_dir,)+dirs)
 
     def keydir(self, *dirs):
-        return apply(os.path.join,(self.key_dir,)+dirs)
-
-    def run_db_script(self, script):
-        shell_call('mysql %s < %s' % (self.db_name,srcdir('db', script)))
-
-    def drop_db_if_exists(self):
-        shell_call('echo "drop database if exists %s" | mysql' % self.db_name)
-
-    def create_db(self):
-        if options.drop_db_first:
-            self.drop_db_if_exists()
-        shell_call('echo "create database %s" | mysql' % self.db_name)
-
-    def db_open(self):
-        return MySQLdb.connect(db=self.db_name)
+        return apply(os.path.join,(self.config.config.key_dir,)+dirs)
 
     def create_keys(self):
         if not os.path.exists(self.keydir()):
@@ -364,7 +329,7 @@ class Project:
         _gen_key(self.keydir('code_sign'))
 
     def query_create_keys(self):
-        return query_yesno("Keys don't exist in %s; generate them?"%self.key_dir)
+        return query_yesno("Keys don't exist in %s; generate them?"%self.keydir())
 
     def keys_exist(self):
         keys = ['upload_private', 'upload_public',
@@ -395,28 +360,23 @@ class Project:
                 self.create_keys()
 
         # copy the user and administrative PHP files to the project dir,
-        verbose_echo(1, "Setting up server files: copying html directories")
+        verbose_echo(1, "Setting up server files: copying files")
 
-        install_glob(srcdir('html_user/*.php'), self.dir('html_user/'))
-        install_glob(srcdir('html_user/*.inc'), self.dir('html_user/'))
-        install_glob(srcdir('html_user/class/*.inc'), self.dir('html_user/class/'))
-        install_glob(srcdir('html_user/include/*.inc'), self.dir('html_user/include/'))
+        install_boinc_files(self.dir())
+
         install_glob(srcdir('html_user/*.txt'), self.dir('html_user/'))
-        install_glob(srcdir('html_ops/*.php'), self.dir('html_ops/'))
-        install_glob(srcdir('html_ops/*.inc'), self.dir('html_ops/'))
-        install(builddir('tools/country_select'), self.dir('html_user/'))
         install(self.project_php_file,
                 self.dir('html_user', 'project_specific', 'project.inc'))
         install(self.project_specific_prefs_php_file,
                 self.dir('html_user', 'project_specific', 'project_specific_prefs.inc'))
 
-        my_symlink(self.download_dir, self.dir('html_user', 'download'))
+        my_symlink(self.config.config.download_dir, self.dir('html_user', 'download'))
+
 
         # Copy the sched server in the cgi directory with the cgi names given
         # source_dir/html_usr/schedulers.txt
         #
 
-        verbose_echo(1, "Setting up server files: copying cgi programs");
         if scheduler_file:
             r = re.compile('<scheduler>([^<]+)</scheduler>', re.IGNORECASE)
             f = open(self.dir('html_user', scheduler_file))
@@ -432,91 +392,20 @@ class Project:
         else:
             scheduler_file = 'schedulers.txt'
             f = open(self.dir('html_user', scheduler_file), 'w')
-            print >>f, "<scheduler>" + self.scheduler_url, "</scheduler>"
+            print >>f, "<scheduler>" + self.scheduler_url.strip(), "</scheduler>"
             f.close()
 
-        # copy all the backend programs
-        map(lambda (s): install(builddir('sched',s), self.dir('cgi-bin',s)),
-            [ 'cgi', 'file_upload_handler'])
-        map(lambda (s): install(builddir('sched',s), self.dir('bin',s)),
-            [ 'make_work', 'feeder', 'transitioner', 'validate_test',
-              'file_deleter', 'assimilator' ])
-        map(lambda (s): install(srcdir('sched',s), self.dir('bin',s)),
-            [ 'start', 'stop', 'status',
-              'boinc_config.py', 'grep_logs' ])
-
         verbose_echo(1, "Setting up database")
-        self.create_db()
-        map(self.run_db_script, [ 'schema.sql' ])
-
-        database.connect()
+        database.create_database(config = self.config.config,
+                                 drop_first = options.drop_db_first)
 
         self.project = database.Project(short_name = self.short_name,
                                         long_name = self.long_name)
         self.project.commit()
 
-        verbose_echo(1, "Setting up database: adding %d apps(s)" % len(self.apps))
-        for app in self.apps:
-            db.query("insert into app(name, create_time) values ('%s', %d)" %(
-                app.name, time.time()))
+        verbose_echo(1, "Setting up server files: writing config files")
 
-        self.platforms = unique(map(lambda a: a.platform, self.app_versions))
-        verbose_echo(1, "Setting up database: adding %d platform(s)" % len(self.platforms))
-
-        db.close()
-
-        for platform in self.platforms:
-            cmd = build_command_line("old_add platform",
-                                     db_name = self.db_name,
-                                     platform_name = platform.name,
-                                     user_friendly_name = platform.user_friendly_name)
-            run_tool(cmd)
-
-        verbose_echo(1, "Setting up database: adding %d core version(s)" % len(self.core_versions))
-        for core_version in self.core_versions:
-            cmd = build_command_line("old_add core_version",
-                                     db_name = self.db_name,
-                                     platform_name = core_version.platform.name,
-                                     version = core_version.version,
-                                     download_dir = self.download_dir,
-                                     download_url = self.download_url,
-                                     exec_dir = core_version.exec_dir,
-                                     exec_files = core_version.exec_name)
-            run_tool(cmd)
-
-        verbose_echo(1, "Setting up database: adding %d app version(s)" % len(self.app_versions))
-        for app_version in self.app_versions:
-            app = app_version.app
-            cmd = ("old_add app_version -db_name %s -app_name '%s'" +
-                   " -platform_name %s -version %s -download_dir %s -download_url %s" +
-                   " -code_sign_keyfile %s -exec_dir %s -exec_files") % (
-                self.db_name, app.name, app_version.platform.name,
-                app_version.version,
-                self.download_dir,
-                self.download_url,
-                os.path.join(self.key_dir, 'code_sign_private'),
-                app_version.exec_dir)
-            for exec_name in app_version.exec_names:
-                check_app_executable(exec_name)
-                cmd += ' ' + exec_name
-            run_tool(cmd)
-
-        verbose_echo(1, "Setting up server files: writing config files");
-
-        config = map_xml(self,
-                         [ 'db_name', 'db_passwd', 'shmem_key',
-                           'key_dir', 'download_url', 'download_dir',
-                           'upload_url', 'upload_dir', 'project_dir', 'user_name',
-                           'cgi_url',
-                           'output_level' ])
-        self.config_options = config.split('\n')
-        self.write_config()
-
-        # edit "index.php" in the user HTML directory to have the right file
-        # as the source for scheduler_urls; default is schedulers.txt
-
-        macro_substitute_inplace('FILE_NAME', scheduler_file,
-                                 self.dir('html_user', 'index.php'))
+        self.config.write()
 
         # create symbolic links to the CGI and HTML directories
         verbose_echo(1, "Setting up server files: linking cgi programs")
@@ -525,12 +414,6 @@ class Project:
         if options.__dict__.get('html_dir'):
             force_symlink(self.dir('html_user'), os.path.join(options.html_dir, self.short_name))
             force_symlink(self.dir('html_ops'), os.path.join(options.html_dir, self.short_name+'_admin'))
-
-        # show the URLs for user and admin sites
-        # admin_url = os.path.join("html_user", self.short_name+'_admin/')
-
-        # verbose_echo(2, "Master URL: " + self.master_url)
-        # verbose_echo(2, "Admin URL:  " + admin_url)
 
     def http_password(self, user, password):
         'Adds http password protection to the html_ops directory'
@@ -585,11 +468,11 @@ class Project:
             self._run_sched_prog(prog, '-d 3 -one_pass '+cmdline)
     def sched_install(self, prog, **kwargs):
         for cmdline in self._build_sched_commandlines(prog, kwargs):
-            self.config_daemons.append("%s -d 3 %s" %(prog, cmdline))
-            self.write_config()
-    def sched_uninstall(self, prog):
-        self.config_daemons = filter(lambda l: l.find(prog)==-1, self.config_daemons)
-        self.write_config()
+            self.config.daemons.make_node_and_append("daemon").cmd = "%s -d 3 %s" %(prog, cmdline)
+        self.config.write()
+    # def sched_uninstall(self, prog):
+    #     self.config_daemons = XXX filter(lambda l: l.find(prog)==-1, self.config_daemons)
+    #     self.config.write()
 
     def start_stripcharts(self):
         map(lambda l: self.copy(os.path.join('stripchart', l), 'cgi-bin/'),
@@ -613,15 +496,10 @@ class Project:
     def maybe_stop(self):
         if self.started: self.stop()
 
-    def write_config(self):
-        f = open(self.dir('config.xml'), 'w')
-        print >>f, '<boinc>'
-        print >>f, '  <config>'
-        for line in self.config_options:
-            print >>f, "     ", line
-        print >>f, '  </config>'
-        print >>f, '  <daemons>'
-        for daemon in self.config_daemons:
-            print >>f, "       <daemon><cmd>%s</cmd></daemon>"%daemon
-        print >>f, '  </daemons>'
-        print >>f, '</boinc>'
+def query_noyes(str):
+    verbose_echo(0,'')
+    return tools.query_noyes(str)
+
+def query_yesno(str):
+    verbose_echo(0,'')
+    return tools.query_yesno(str)

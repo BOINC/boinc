@@ -6480,3 +6480,30 @@ Eric   Oct 2 2003
       api/graphics_api.h
       lib/xml_util.[Ch]
 
+Karl 2003/10/02
+    - rewrote make_project and related; a lot of restructuring:
+
+        - make_project only creates the project and database but doesn't add
+          platform, app, app_version, or core_version.  Use `add' for these.
+        - database actions are through MySQLdb, removing need for mysql client
+          binary.
+
+    tools/
+        make_project
+        add
+        update_versions
+        upgrade (new)
+    py/Boinc/
+        configxml.py
+        database.py
+        setup_project.py
+        tools.py
+    test/
+        testbase.py
+        test_uc.py
+    sched/
+        boinc_config.py (removed)
+    db/
+        constraints.sql
+    doc/
+        single_host_server.php

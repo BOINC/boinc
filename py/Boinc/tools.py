@@ -14,10 +14,10 @@ def file_size(path):
     f.seek(0,2)
     return f.tell()
 
-def sign_executable(executable_path):
+def sign_executable(executable_path, quiet=False):
     '''Returns signed text for executable'''
     config = configxml.default_config()
-    print 'Signing', executable_path
+    if not quiet: print 'Signing', executable_path
     code_sign_key = os.path.join(config.config.key_dir, 'code_sign_private')
     sign_executable_path = os.path.join(boinc_path_config.TOP_BUILD_DIR,
                                         'tools','sign_executable')
@@ -29,7 +29,7 @@ def sign_executable(executable_path):
         raise SystemExit("Couldn't sign executable %s"%executable_path)
     return signature_text
 
-def process_executable_file(file, signature_text=None):
+def process_executable_file(file, signature_text=None, quiet=False):
     '''Handle a new executable file to be added to the database.
 
     1. Copy file to download_dir if necessary.
@@ -42,7 +42,7 @@ def process_executable_file(file, signature_text=None):
     file_dir, file_base = os.path.split(file)
     target_path = os.path.join(config.config.download_dir, file_base)
     if file_dir != config.config.download_dir:
-        print "Copying %s to %s"%(file_base, config.config.download_dir)
+        if not quiet: print "Copying %s to %s"%(file_base, config.config.download_dir)
         shutil.copy(file, target_path)
 
     xml = '''<file_info>
@@ -60,7 +60,7 @@ def process_executable_file(file, signature_text=None):
     xml += '    <nbytes>%f</nbytes>\n</file_info>\n' % file_size(target_path)
     return xml
 
-def process_app_version(app, version_num, exec_files, signature_files={}):
+def process_app_version(app, version_num, exec_files, signature_files={}, quiet=False):
     """Return xml for application version
 
     app             is an instance of database.App
@@ -80,8 +80,8 @@ def process_app_version(app, version_num, exec_files, signature_files={}):
         if signature_file:
             signature_text = open(signature_file).read()
         else:
-            signature_text = sign_executable(exec_file)
-        xml_doc += process_executable_file(exec_file, signature_text)
+            signature_text = sign_executable(exec_file, quiet=quiet)
+        xml_doc += process_executable_file(exec_file, signature_text, quiet=quiet)
 
     xml_doc += ('<app_version>\n'+
                      '    <app_name>%s</app_name>\n'+
@@ -101,3 +101,13 @@ def process_app_version(app, version_num, exec_files, signature_files={}):
 
     xml_doc += '</app_version>\n'
     return xml_doc
+
+def query_yesno(str):
+    '''Query user; default Yes'''
+    print str, "[Y/n] ",
+    return not raw_input().strip().lower().startswith('n')
+
+def query_noyes(str):
+    '''Query user; default No'''
+    print str, "[y/N] ",
+    return raw_input().strip().lower().startswith('y')

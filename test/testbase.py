@@ -19,15 +19,16 @@ import cgiserver
 
 options.have_init_t = False
 options.echo_overwrite = False
+options.client_bin_filename = version.CLIENT_BIN_FILENAME
 
 def test_init():
     if options.have_init_t: return
     options.have_init_t = True
 
-    if not os.path.exists('test_uc.py'):
+    if not os.path.exists('testbase.py'):
         os.chdir(os.path.join(boinc_path_config.TOP_SOURCE_DIR,'test'))
-    if not os.path.exists('test_uc.py'):
-        raise SystemExit('Could not find boinc_db.py anywhere')
+    if not os.path.exists('testbase.py'):
+        raise SystemExit('Could not find testbase.py anywhere')
 
     #options.program_path = os.path.realpath(os.path.dirname(sys.argv[0]))
     options.program_path = os.getcwd()
@@ -170,13 +171,13 @@ def dict_match(dic, resultdic):
                 format = "result %s: unexpected %s '%s' (expected '%s')"
             error( format % (id, key, found, expected))
 
-class Result:
+class ExpectedResult:
     def __init__(self):
         self.server_state = RESULT_SERVER_STATE_OVER
         self.client_state = RESULT_FILES_UPLOADED
         self.outcome      = RESULT_OUTCOME_SUCCESS
 
-class ResultComputeError:
+class ExpectedResultComputeError:
     def __init__(self):
         self.server_state = RESULT_SERVER_STATE_OVER
         self.client_state = RESULT_COMPUTE_DONE
@@ -228,24 +229,38 @@ def get_redundancy_args(num_wu = None, redundancy = None):
     return (num_wu, redundancy)
 
 class TestProject(Project):
-    def __init__(self, works, expected_result,
+    def __init__(self, works, expected_result, appname=None,
                  num_wu=None, redundancy=None,
                  users=None, hosts=None,
                  add_to_list=True,
+                 apps=None, app_versions=None, core_versions=None,
+                 resource_share=None,
                  **kwargs):
         test_init()
         if add_to_list:
             all_projects.append(self)
 
-        kwargs['short_name'] = kwargs.get('short_name') or 'test_'+kwargs['appname']
+        kwargs['short_name'] = kwargs.get('short_name') or 'test_'+appname
         kwargs['long_name'] = kwargs.get('long_name') or 'Project ' + kwargs['short_name'].replace('_',' ').capitalize()
         (num_wu, redundancy) = get_redundancy_args(num_wu, redundancy)
+        self.resource_share = resource_share or 1
         self.num_wu = num_wu
         self.redundancy = redundancy
         self.expected_result = expected_result
         self.works = works
         self.users = users or [User()]
         self.hosts = hosts or [Host()]
+
+        self.platforms     = [Platform()]
+        self.core_versions = core_versions or [CoreVersion(self.platforms[0])]
+        self.app_versions  = app_versions or [AppVersion(App(appname),
+                                                         self.platforms[0],
+                                                         appname)]
+        self.apps          = apps or unique(map(lambda av: av.app, self.app_versions))
+        # convenience vars:
+        self.app_version   = self.app_versions[0]
+        self.app           = self.apps[0]
+
         # convenience vars:
         self.work  = self.works[0]
         self.user  = self.users[0]
@@ -263,28 +278,6 @@ class TestProject(Project):
         '''Overrides Project::query_create_keys() to always return true'''
         return True
 
-    def install_project_users(self):
-        db = self.db_open()
-        verbose_echo(1, "Setting up database: adding %d user(s)" % len(self.users))
-        for user in self.users:
-            if user.project_prefs:
-                pp = "<project_preferences>\n%s\n</project_preferences>\n" % user.project_prefs
-            else:
-                pp = ''
-            if user.global_prefs:
-                gp = "<global_preferences>\n%s\n</global_preferences>\n" % user.global_prefs
-            else:
-                gp = ''
-
-            db.query(("insert into user values (0, %d, '%s', '%s', '%s', " +
-                      "'Peru', '12345', 0, 0, 0, '%s', '%s', 0, 'home', '', 0, 1, 0)") % (
-                time.time(),
-                user.email_addr,
-                user.name,
-                user.authenticator,
-                gp,
-                pp))
-
     def install_works(self):
         for work in self.works:
             work.install(self)
@@ -295,10 +288,30 @@ class TestProject(Project):
                 host.add_user(user, self)
             host.install()
 
+    def install_platforms_versions(self):
+        def commit(list):
+            for item in list: item.commit()
+
+        self.platforms = unique(map(lambda a: a.platform, self.app_versions))
+        verbose_echo(1, "Setting up database: adding %d platform(s)" % len(self.platforms))
+        commit(self.platforms)
+
+        verbose_echo(1, "Setting up database: adding %d core version(s)" % len(self.core_versions))
+        commit(self.core_versions)
+
+        verbose_echo(1, "Setting up database: adding %d apps(s)" % len(self.apps))
+        commit(self.apps)
+
+        verbose_echo(1, "Setting up database: adding %d app version(s)" % len(self.app_versions))
+        commit(self.app_versions)
+
+        verbose_echo(1, "Setting up database: adding %d user(s)" % len(self.users))
+        commit(self.users)
+
     def install(self):
         self.init_install()
         self.install_project()
-        self.install_project_users()
+        self.install_platforms_versions()
         self.install_works()
         self.install_hosts()
 
@@ -318,14 +331,12 @@ class TestProject(Project):
 
         If more than X seconds have passed than just assume something is broken and return.'''
 
-        db = self.db_open()
         timeout = time.time() + 3*60
-        while (num_wus_assimilated(db) < self.num_wu) or num_wus_to_transition(db):
+        while (num_wus_assimilated() < self.num_wu) or num_wus_to_transition():
             time.sleep(.5)
             if time.time() > timeout:
                 error("run_finish_wait(): timed out waiting for workunits to assimilate/transition")
                 break
-        db.close()
 
     def check(self):
         # verbose_sleep("Sleeping to allow server daemons to finish", 5)
@@ -337,17 +348,16 @@ class TestProject(Project):
         # self.check_deleted("upload/uc_wu_%d_0", count=self.num_wu)
 
     def progress_meter_ctor(self):
-        self.db = self.db_open()
+        pass
     def progress_meter_status(self):
         return "WUs: [%dassim/%dtotal/%dtarget]  Results: [%dunsent,%dinProg,%dover/%dtotal]" % (
-            num_wus_assimilated(self.db), num_wus(self.db), self.num_wu,
-            num_results_unsent(self.db),
-            num_results_in_progress(self.db),
-            num_results_over(self.db),
-            num_results(self.db))
+            num_wus_assimilated(), num_wus(), self.num_wu,
+            num_results_unsent(),
+            num_results_in_progress(),
+            num_results_over(),
+            num_results())
     def progress_meter_dtor(self):
-        self.db.close()
-        self.db = None
+        pass
 
     def _disable(self, *path):
         '''Temporarily disable a file to test exponential backoff'''
@@ -382,13 +392,11 @@ class TestProject(Project):
         exit_status
         '''
         expected_count = expected_count or self.redundancy
-        db = self.db_open()
-        rows = db_query(db,"select * from result")
-        for row in rows:
-            dict_match(matchresult, row)
-        db.close()
-        if len(rows) != expected_count:
-            error("expected %d results, but found %d" % (expected_count, len(rows)))
+        results = database.Results.find()
+        for result in results:
+            dict_match(matchresult, result.__dict__)
+        if len(results) != expected_count:
+            error("expected %d results, but found %d" % (expected_count, len(results)))
 
     def check_files_match(self, result, correct, count=None):
         '''if COUNT is specified then [0,COUNT) is mapped onto the %d in RESULT'''
@@ -414,16 +422,47 @@ class TestProject(Project):
             return errs
         return check_exists(self.dir(file))
 
+class Platform(database.Platform):
+    def __init__(self, name=None, user_friendly_name=None):
+        database.Platform.__init__(self)
+        self.name = name or version.PLATFORM
+        self.user_friendly_name = user_friendly_name or name
 
+class CoreVersion(database.CoreVersion):
+    def __init__(self, platform):
+        database.CoreVersion.__init__(self)
+        self.version_num = 1
+        self.platform = platform
+        self.xml_doc = tools.process_executable_file(
+            os.path.join(boinc_path_config.TOP_BUILD_DIR,'client',
+                         options.client_bin_filename),
+            quiet=True)
 
-class User:
-    '''represents an account on a particular project'''
+class User(database.User):
     def __init__(self):
+        database.User.__init__(self,id=None)
         self.name = 'John'
         self.email_addr = 'john@boinc.org'
         self.authenticator = "3f7b90793a0175ad0bda68684e8bd136"
-        self.project_prefs = None
-        self.global_prefs = None
+
+class App(database.App):
+    def __init__(self, name):
+        database.App.__init__(self,id=None)
+        self.name = name
+        self.min_version = 1
+
+class AppVersion(database.AppVersion):
+    def __init__(self, app, platform, exec_file):
+        database.AppVersion.__init__(self,id=None)
+        self.app = app
+        self.version_num = 1
+        self.platform = platform
+        self.xml_doc = tools.process_app_version(
+            app, self.version_num,
+            [os.path.join(boinc_path_config.TOP_BUILD_DIR,'apps',exec_file)],
+            quiet=True)
+        self.min_core_version = 1
+        self.max_core_version = 999
 
 class HostList(list):
     def run(self, asynch=False): map(lambda i: i.run(asynch=asynch), self)
@@ -457,12 +496,12 @@ class Host:
 
         verbose_echo(1, "Setting up host '%s': creating account files" % self.name);
         for (user,project) in map(None,self.users,self.projects):
-            filename = self.dir(account_file_name(project.master_url))
+            filename = self.dir(account_file_name(project.config.config.master_url))
             verbose_echo(2, "Setting up host '%s': writing %s" % (self.name, filename))
 
             f = open(filename, "w")
             print >>f, "<account>"
-            print >>f, map_xml(project, ['master_url'])
+            print >>f, map_xml(project.config.config, ['master_url'])
             print >>f, map_xml(user, ['authenticator'])
             if user.project_prefs:
                 print >>f, user.project_prefs
@@ -509,6 +548,7 @@ class Host:
                               _url_to_filename(project.master_url),
                               filename))
 
+        # TODO: do this in Python
 class Work:
     def __init__(self, redundancy, **kwargs):
         self.input_files = []
@@ -534,7 +574,8 @@ class Work:
             self.app = project.app_versions[0].app
         for input_file in unique(self.input_files):
             install(os.path.realpath(input_file),
-                    os.path.join(project.download_dir,os.path.basename(input_file)))
+                    os.path.join(project.config.config.download_dir,
+                                 os.path.basename(input_file)))
 
         # simulate multiple data servers by making symbolic links to the
         # download directory
@@ -558,11 +599,11 @@ class Work:
                 os.symlink(handler, newhandler)
 
         cmd = build_command_line("create_work",
-                                 db_name             = project.db_name,
-                                 download_dir        = project.download_dir,
-                                 upload_url          = project.upload_url,
-                                 download_url        = project.download_url,
-                                 keyfile             = os.path.join(project.key_dir,'upload_private'),
+                                 db_name             = project.config.config.db_name,
+                                 download_dir        = project.config.config.download_dir,
+                                 upload_url          = project.config.config.upload_url,
+                                 download_url        = project.config.config.download_url,
+                                 keyfile             = os.path.join(project.config.config.key_dir,'upload_private'),
                                  appname             = self.app.name,
                                  rsc_fpops_est       = self.rsc_fpops_est,
                                  rsc_fpops_bound     = self.rsc_fpops_bound,

@@ -631,38 +631,41 @@ def _connectp(dbname, user, passwd, host='localhost'):
     boincdb = MySQLdb.connect(db=dbname,host=host,user=user,passwd=passwd,
                                cursorclass=MySQLdb.cursors.DictCursor)
 
-# def _connectm(module):
-#     _connectp(module.database, module.username, module.password)
-
-# def connect(readonly = False):
-#     """Connect if not already connected or if we're adding write permissions"""
-#     global boincdb
-#     if boincdb:
-#         if not readonly and boincdb.readonly:
-#             # re-open with write access
-#             boincdb.close()
-#             boincdb = None
-#         else:
-#             return 0
-#     if readonly:
-#         import password_settings_r
-#         _connectm(password_settings_r)
-#     else:
-#         import password_settings
-#         _connectm(password_settings)
-#     boincdb.readonly = readonly
-#     return 1
-
-def connect(config = None):
+def connect(config = None, nodb = False):
     """Connect if not already connected, using config values."""
     global boincdb
     if boincdb:
         return 0
     config = config or configxml.default_config().config
-    _connectp(config.db_name,
+    if nodb:
+        db = ''
+    else:
+        db = config.db_name
+    _connectp(db,
               config.__dict__.get('db_user',''),
               config.__dict__.get('db_passwd', ''))
     return 1
+
+def _execute_sql_script(cursor, filename):
+    for query in open(filename).read().split(';'):
+        query = query.strip()
+        if not query: continue
+        cursor.execute(query)
+
+def create_database(config = None, drop_first = False):
+    ''' creates a new database. '''
+    global boincdb
+    config = config or configxml.default_config().config
+    connect(config, nodb=True)
+    cursor = boincdb.cursor()
+    if drop_first:
+        cursor.execute("drop database if exists %s"%config.db_name)
+    cursor.execute("create database %s"%config.db_name)
+    cursor.execute("use %s"%config.db_name)
+    schema_path = os.path.join(boinc_path_config.TOP_SOURCE_DIR, 'db')
+    for file in ['schema.sql', 'constraints.sql']:
+        _execute_sql_script(cursor, os.path.join(schema_path, file))
+    cursor.close()
 
 # alias
 connect_default_config = connect

@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+
+# $Id$
+
+'''
+This program upgrades the project (created using make_project) with current
+source/build files.  Useful if you are a BOINC developer or closely following
+BOINC development.
+'''
+
+import boinc_path_config
+from Boinc import boinc_project_path
+from Boinc.setup_project import *
+import os
+
+if os.system(os.path.join(boinc_project_path.PROGRAM_PARENT_DIR,'bin/stop')):
+    raise SystemExit("Couldn't stop BOINC!")
+
+print "Upgrading files... "
+
+options.install_method = 'copy'
+init()
+install_boinc_files(boinc_project_path.PROGRAM_PARENT_DIR)
+
+print "Upgrading files... done"
+print
+print "Run `start' to resume BOINC."

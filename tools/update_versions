@@ -36,11 +36,6 @@ assert(config.app_dir
        config.download_url
        )
 
-def query_yesno(msg):
-    '''Query y/n; default Y'''
-    print msg, "[Y/n]? ",
-    return not raw_input().lower().startswith('n')
-
 objects_to_commit = []
 
 def xsort(list):
@@ -131,7 +126,7 @@ print "Commit %d items:" %len(objects_to_commit)
 for object in objects_to_commit:
     print "   ", object
 
-if not query_yesno("Continue"):
+if not tools.query_yesno("Continue"):
     raise SystemExit
 
 for object in objects_to_commit:

@@ -9,16 +9,24 @@
 from testbase import *
 
 class UserUC(User):
-    def __init__(self):
-        User.__init__(self)
-        self.project_prefs = "<project_specific>\nfoobar\n</project_specific>"
-        self.global_prefs  = """<venue name=\"home\">
+    def init(self):
+        self.User.__init__()
+        self.project_prefs = """<project_preferences>
+<project_specific>
+foobar
+</project_specific>
+</project_preferences>
+"""
+        self.global_prefs  = """<global_preferences>
+<venue name=\"home\">
 <work_buf_min_days>0</work_buf_min_days>
 <work_buf_max_days>2</work_buf_max_days>
 <disk_interval>1</disk_interval>
 <run_on_batteries/>
 <max_bytes_sec_down>400000</max_bytes_sec_down>
-</venue>"""
+</venue>
+</global_preferences>
+"""
 
 class WorkUC(Work):
     def __init__(self, redundancy, **kwargs):
@@ -28,7 +36,7 @@ class WorkUC(Work):
         self.input_files = ['input']
         self.__dict__.update(kwargs)
 
-class ResultUC(Result):
+class ResultUC(ExpectedResult):
     def __init__(self):
         self.stderr_out   = MATCH_REGEXPS([
             "<stderr_txt>",
@@ -36,7 +44,7 @@ class ResultUC(Result):
             "APP: upper_case: argv[[]0[]] is upper_case",
             "APP: upper_case ending, wrote \\d+ chars"])
 
-class ResultComputeErrorUC(ResultComputeError):
+class ResultComputeErrorUC(ExpectedResultComputeError):
     def __init__(self):
         self.stderr_out   = MATCH_REGEXPS([ """<stderr_txt>
 APP: upper_case: starting, argc \\d+"""])

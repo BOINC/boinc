@@ -2,6 +2,9 @@
 
 # $Id$
 
+
+#XXX TODO: add app should modify config.xml to add application-specific daemons
+
 '''
 add items to the BOINC database.
 
