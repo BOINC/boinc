@@ -12,11 +12,10 @@ if ($user == NULL) {
     print_login_form();
     exit();
 }
-page_head("Edit project preferences", $user);
+page_head("Edit resource share", $user);
 parse_str(getenv("QUERY_STRING"));
 $prefs = prefs_parse($user->project_prefs);
-prefs_form_project($prefs, "prefs.php");
-echo "<p>\n";
+prefs_form_resource($prefs, "prefs.php");
 page_tail();
 
 ?>

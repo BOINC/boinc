@@ -10,7 +10,7 @@
     db_init();
     $user = get_user_from_auth($authenticator);
     if ($user) {
-        page_head("User page for $user->name");
+        page_head("User page", $user);
         show_user_page_private($user);
         page_tail();
     } else {

@@ -2,15 +2,15 @@
 
 function show_user_stats($user) {
     echo TABLE2."\n";
-    echo "<tr>".TD2.LG_FONT."<b>User Stats:</b></font></td></tr>\n";
-    $row = sprintf("<b>%s user since:   </b>", $project);
+    echo "<tr>".TD2.LG_FONT."<b>User stats</b></font></td></tr>\n";
+    $row = sprintf("<b>%s user since</b>", $project);
     row($row, time_str($user->create_time));
-    row("<b>Total credit:   </b>", $user->total_credit);
-    row("<b>Recent average credit:   </b>", $user->expavg_credit);
+    row("<b>Total credit</b>", $user->total_credit);
+    row("<b>Recent average credit</b>", $user->expavg_credit);
     if ($user->teamid) {
         $result = mysql_query("select * from team where id = $user->teamid");
         $team = mysql_fetch_object($result);
-        row("<b>Team:   </b>", "<a href=team_display.php?id=$team->id>$team->name</a>");
+        row("<b>Team</b>", "<a href=team_display.php?id=$team->id>$team->name</a>");
     } else {
         row("<b>Team:   </b>", "None");
     }
@@ -19,7 +19,8 @@ function show_user_stats($user) {
 
 function show_user_profile($user) {
     echo TABLE2."\n";
-    echo "<tr>".TD2.LG_FONT."<b>User Information:</b></font></td></tr>\n";
+    echo "<tr>".TD2.LG_FONT."<b>User information</b></font></td></tr>\n";
+    row("<b>name</b>", $user->name);
     row("<b>email address</b>", $user->email_addr);
     row("<b>country</b>", $user->country);
     row("<b>postal (ZIP) code</b>", $user->postal_code);
@@ -46,10 +47,11 @@ function show_hosts($user) {
 
 function show_host_brief($host) {
     echo "<tr>
-              <td><a href=show_host_detail.php?hostid=$host->id>$host->domain_name</a></td>
-              <td>$host->total_credit</td>
-              <td>$host->expavg_credit</td>
-          </tr>";
+        <td><a href=show_host_detail.php?hostid=$host->id>$host->domain_name</a></td>
+        <td>$host->total_credit</td>
+        <td>$host->expavg_credit</td>
+        </tr>
+    ";
 }
 
 // show a summary of the user.

@@ -13,21 +13,21 @@ if ($user == NULL) {
     exit();
 }
 
-page_head("Account configuration");
+page_head("Account setup", $user);
 echo "
-    <h3>Account configuration</h3>
-    Thank you for allowing ".PROJECT." to use part of your computer power.
+    <h3>Account setup</h3>
+    Thank you for letting ".PROJECT." use part of your computer power.
     <br>
-    You control when and how your computer is used.
+    You can control when and how your computer is used.
     <br>
-    We suggest using the defaults -
+    We suggest using the defaults settings -
     just go to the bottom and click OK.
 ";
 $prefs = default_prefs();
 global_prefs_update($user, $prefs);
 project_prefs_update($user, $prefs);
 
-prefs_form_global($user, $prefs, "account_setup_first_project.php");
+prefs_form_global($user, $prefs, "account_setup_first_email.php");
 page_tail();
 
 ?>

@@ -12,7 +12,7 @@ if ($user == NULL) {
     print_login_form();
     exit();
 }
-page_head("Edit preferences");
+page_head("Edit preferences", $user);
 parse_str(getenv("QUERY_STRING"));
 $prefs = prefs_parse($user->project_prefs);
 prefs_form_project($prefs);

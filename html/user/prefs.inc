@@ -130,7 +130,7 @@ function default_prefs() {
     $p->confirm_before_connecting = 0;
     $p->low_water_days = 1;
     $p->high_water_days = 3;
-    $p->disk_max_used_gb = 1000;
+    $p->disk_max_used_gb = 100;
     $p->disk_max_used_pct = 50;
     $p->disk_min_free_gb = 1;
 
@@ -158,9 +158,6 @@ function prefs_parse($prefs_xml) {
 // display preference subsets, with Edit buttons
 //
 function prefs_show_global($prefs) {
-
-    echo "<p>";
-    echo "<table width=580 cellpadding=4>\n";
     echo "<tr>".TD2.LG_FONT."<b>Global preferences</b></font>
         <br><font size=-1>These apply to all BOINC projects in which you participate</font></td></tr>\n";
     if ($prefs->dont_run_on_batteries) {
@@ -178,37 +175,50 @@ function prefs_show_global($prefs) {
     } else {
         $confirm = "No";
     }
-    row2a("<b>Work if computer on batteries:   </b>", $batteries);
-    row2a("<b>Work if computer in use:   </b>", $in_use);
-    row2a("<b>Confirm before connecting to network:   </b>", $confirm);
-    row2a("<b>Minimum amount of work to buffer:   </b>", "$prefs->low_water_days days");
-    row2a("<b>Maximum amount of work to buffer:   </b>", "$prefs->high_water_days days");
-    
-    
-    echo "<p>";
-    row2a("<b>Maximum disk space to use:   </b>", "$prefs->disk_max_used_gb GB");
-    row2a("<b>Minimum disk space to leave free:   </b>", "$prefs->disk_min_free_gb GB");
-    row2a("<b>Maximum % of disk allowed to used:   </b>", "$prefs->disk_max_used_pct %");
+    row2a("Work if computer on batteries:", $batteries);
+    row2a("Work if computer in use:", $in_use);
+    row2a("Confirm before connecting to network:", $confirm);
+    row2a("Minimum amount of work to buffer:", "$prefs->low_water_days days");
+    row2a("Maximum amount of work to buffer:", "$prefs->high_water_days days");
+    row2a("Maximum disk space to use:", "$prefs->disk_max_used_gb GB");
+    row2a("Minimum disk space to leave free:", "$prefs->disk_min_free_gb GB");
+    row2a("Maximum % of disk allowed to used:", "$prefs->disk_max_used_pct %");
     echo "<tr><td><a href=prefs_edit_global_form.php>Edit global preferences</a></td></tr>\n";
-    echo "</table>\n";
+}
+
+function prefs_show_resource($prefs) {
+    echo "<tr>".TD2.LG_FONT."<b>Resource share</b></font>
+        <br><font size=-1>Control how your resources are divided among BOINC projects</font></td></tr>\n";
+    row2a(PROJECT." resource share:", $prefs->resource_share);
+    echo "<tr><td><a href=prefs_edit_resource_form.php>Edit resource share</a></td></tr>\n";
+}
+
+function prefs_show_email($prefs) {
+    echo "<tr>".TD2.LG_FONT."<b>Email options</b></font>
+        <br><font size=-1>Control how ".PROJECT." uses your email address</font></td></tr>\n";
+    row2a("Should ".PROJECT." send you email newsletters?", $prefs->send_email?"Yes":"No");
+    row2a("Should ".PROJECT." show your email address on its web site?", $prefs->show_email?"Yes":"No");
+    echo "<tr><td><a href=prefs_edit_email_form.php>Edit email options</a></td></tr>\n";
 }
 
 function prefs_show_project($prefs) {
-    echo "<p>";
-    echo "<table width=580 cellpadding=4>\n";
-    echo "<tr>".TD2.LG_FONT."<b>Project preferences</b></font>
-        <br><font size=-1>These apply only to this project</font></td></tr>\n";
-    row2a("<b>Resource Share:   </b>", $prefs->resource_share);
-    $prefs = project_specific_prefs_parse($prefs->project_specific);
+    echo "<tr>".TD2.LG_FONT."<b>Graphics preferences</b></font>
+        <br><font size=-1>Customize ".PROJECT." screensaver graphics</font></td></tr>\n";
     project_specific_prefs_show($prefs);
-    echo "<tr><td><a href=prefs_edit_project_form.php>Edit project preferences</a></td></tr>\n";
-    echo "</table>";
+    echo "<tr><td><a href=prefs_edit_project_form.php>Edit graphics preferences</a></td></tr>\n";
 }
 
 function print_prefs_display($user) {
-    prefs_show_project(prefs_parse($user->project_prefs));
-    prefs_show_resource(prefs_parse($user->project_prefs));
-    prefs_show_global(prefs_parse($user->global_prefs));
+    echo "<table width=580 cellpadding=4>\n";
+    $global_prefs = prefs_parse($user->global_prefs);
+    $project_prefs = prefs_parse($user->project_prefs);
+    $project_specific_prefs = project_specific_prefs_parse($project_prefs->project_specific);
+
+    prefs_show_resource($project_prefs);
+    prefs_show_project($project_specific_prefs);
+    prefs_show_email($global_prefs);
+    prefs_show_global($global_prefs);
+    echo "</table>";
 }
 
 ////////////////////////////////////////////
@@ -270,8 +280,27 @@ function prefs_form_global($user, $prefs, $next_url) {
     ";
 }
 
-function prefs_form_resource($prefs_xml, $next_url) {
-    $prefs = project_specific_prefs_parse($prefs_xml);
+function prefs_form_email($prefs, $next_url) {
+    echo "<form action=prefs_edit_email_action.php>
+        <input type=hidden name=next_url value=$next_url>
+        <table cellpadding=6>
+        <tr>
+        <td align=right>Should ".PROJECT." send you email newsletters?</td><td>
+    ";
+    printf("Yes <input type=radio name=send_email %s>\n", $prefs->send_email?"checked":"");
+    printf("No <input type=radio name=send_email %s>\n", $prefs->send_email?"":"checked");
+     echo "   </td></tr><tr>
+        <td align=right>Should ".PROJECT." show your email address on its web site?</td><td>
+    ";
+    printf("Yes <input type=radio name=show_email %s>\n", $prefs->show_email?"checked":"");
+    printf("No <input type=radio name=show_email %s>\n", $prefs->show_email?"":"checked");
+    echo" </td></tr>
+        <tr><td><br></td><td><input type=submit value=OK></td></tr>
+        </table></form>
+    ";
+}
+
+function prefs_form_resource($prefs, $next_url) {
     echo "<form action=prefs_edit_resource_action.php>
         <input type=hidden name=next_url value=$next_url>
         <table cellpadding=6>
@@ -318,6 +347,12 @@ function prefs_global_parse_form(&$prefs) {
 function prefs_resource_parse_form(&$prefs) {
     parse_str(getenv("QUERY_STRING"));
     $prefs->resource_share = $resource_share;
+}
+
+function prefs_email_parse_form(&$prefs) {
+    parse_str(getenv("QUERY_STRING"));
+    $prefs->send_email = isset($send_email)?1:0;
+    $prefs->show_email = isset($show_email)?1:0;
 }
 
 function prefs_project_parse_form(&$prefs) {

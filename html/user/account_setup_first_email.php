@@ -12,11 +12,13 @@ if ($user == NULL) {
     print_login_form();
     exit();
 }
-page_head("Edit project preferences", $user);
-parse_str(getenv("QUERY_STRING"));
-$prefs = prefs_parse($user->project_prefs);
-prefs_form_project($prefs, "prefs.php");
-echo "<p>\n";
+page_head("Account setup: email options", $user);
+echo "
+    <h3>Account setup: email options</h3>
+    <br>
+";
+$prefs = null;
+prefs_form_email($prefs, "account_setup_first_download.php");
 page_tail();
 
 ?>

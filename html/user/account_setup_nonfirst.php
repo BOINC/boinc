@@ -12,9 +12,9 @@ if ($user == NULL) {
     print_login_form();
     exit();
 }
-page_head("Account configuration");
+page_head("Account setup: resource share", $user);
 echo "
-    <h3>Account configuration</h3>
+    <h3>Account setup: resource share</h3>
     <br>
     You can control how your resources
     (computer time and disk space) are divided
@@ -25,7 +25,7 @@ echo "
     The default resource share is 100.
 ";
 $prefs = prefs_parse($user->project_prefs);
-prefs_form_resource($prefs, "account_setup_nonfirst_done.php");
+prefs_form_resource($prefs, "account_setup_nonfirst_email.php");
 page_tail();
 
 ?>

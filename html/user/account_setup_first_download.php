@@ -12,15 +12,12 @@ if ($user == NULL) {
     exit();
 }
 
-page_head("Download BOINC software");
+page_head("Download BOINC software", $user);
 
 echo "
-    Your account is now configured according to your preferences
-    (you can return to our web site to change your preferences later).
-    <p>
-    The next step is to download the BOINC software.
-    Click on the kind of computer that you have to download
-    the appropriate version of BOINC.
+    Your account setup is complete.
+    <br>Next you must download the BOINC software.
+    <br>Click on the type of computer that you have:
     <p>
 ";
 
@@ -33,23 +30,23 @@ echo "
     <li><b>Windows users</b>:
         double-click on the downloaded file.
         This will install BOINC on your computer.
-    <li><b>Macintosh OS/X users</b>: xxx
+    <li><b>Macintosh OS/X users</b>: BOINC will install itself automatically.
     <li><b>Unix and Linux users</b>:
         Use gunzip and tar to extract BOINC.
     </ul>
 
-    When the BOINC software first runs,
+    When BOINC first runs,
     it will ask you for a project URL and an account key.
     Copy and paste the following:
 
     <ul>
     <li>Project URL: <b>".MASTER_URL."</b>
-    <li>Account key: $user->authenticator
+    <li>Account key: <b>$user->authenticator</b>
     </ul>
 
-    That's it - you're done.
-    Thanks for participating in ".PROJECT.".
-    Visit our main page for more information.
+    This completes the ".PROJECT." installation.
+    <br>Thanks for participating in ".PROJECT.".
+    <br>Visit our <a href=index.php>main page</a> for more information.
 ";
 
 page_tail();

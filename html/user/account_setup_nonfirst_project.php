@@ -19,7 +19,7 @@ echo "
     ".PROJECT." lets you control the following properties of its graphics.
 ";
 $prefs = null;
-prefs_form_project($prefs, "account_setup_first_download.php");
+prefs_form_project($prefs, "account_setup_nonfirst_done.php");
 page_tail();
 
 ?>

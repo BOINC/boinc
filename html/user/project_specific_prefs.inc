@@ -41,7 +41,7 @@ function project_specific_prefs_parse_form() {
 //
 function project_specific_prefs_show($prefs) {
     echo "<tr>\n
-        <td><b>Color scheme:</b></td>\n
+        <td>Color scheme:</td>\n
         <td>$prefs->color_scheme</td>\n
         </tr>\n";
 }

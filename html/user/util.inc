@@ -15,7 +15,7 @@ define("TD3", "<td colspan=3 bgcolor=cccccc>");
 
 define("TABLE", "<table cellpadding=10 cellspacing=4 border=0 width=100%>");
 define("VISTABLE", "<table cellpadding=2 cellspacing=0 border=1 width=100%>");
-define("TABLE2", "<table width=580>");
+define("TABLE2", "<table width=580 cellpadding=3>");
 
 define("BG_COLOR", " bgcolor=ffffff ");
 define("TITLE_COLOR", " bgcolor=000000 ");
@@ -79,13 +79,18 @@ function show_login($user) {
     }
 }
 
-function page_head($title) {
+function page_head($title, $user=null) {
     echo "<head><title>$title</title><body ".BG_COLOR.">\n";
 
     // Put your project title and logo here
 
-    echo "<h2>".PROJECT."</h2><hr>\n";
-    //echo "<h3>$title</h3>\n";
+    echo "<table width=100%><tr><td><h2>".PROJECT."</h2></td><td align=right>\n";
+    if ($user) {
+        echo "Logged in as $user->name";
+    } else {
+        echo "<br>";
+    }
+    echo "</td></tr></table><hr>\n";
 }
 
 function page_tail() {

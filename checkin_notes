@@ -3123,3 +3123,11 @@ David  Feb 7 2003
     
     html_user/
         account_setup* (new)
+
+David   Feb 8 2003
+    - Work on account creation a bit more.
+        Removed project graphics prefs.
+        Added email prefs.
+    
+    html_user/
+        various

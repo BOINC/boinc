@@ -9,18 +9,19 @@
     $user = get_user_from_auth($authenticator);
     require_login($user);
 
-    page_head("Account configuration");
+    page_head("Account setup", $user);
     echo "
-        <h3>Account configuration</h3>
+        <h3>Account setup</h3>
         ".PROJECT." uses the BOINC software system.
         <br>BOINC lets you divide your computer time between several
         distributed computing projects.
-        <br>Are you currently participating in other projects that use BOINC?
+        <br>Is this your first BOINC project?
+        <blockquote>
+        <a href=account_setup_first.php><b>This is my first BOINC project</b></a>
         <p>
-        <a href=account_setup_nonfirst.php>Yes</a>
-        <p>
-        <a href=account_setup_first.php>No</a>
+        <a href=account_setup_nonfirst.php><b>I'm currently participating in another BOINC project</b></a>
 
+        </blockquote>
     ";
     page_tail();
 

@@ -13,7 +13,7 @@
         <form method=post action=login_action.php>
         <input type=hidden name=url value=account_setup.php>
         <table cellpadding=8>
-        <tr><td align=right>Copy and paste the account key here:</td>
+        <tr><td align=right>Then copy and paste the account key here:</td>
         <td><input name=authenticator size=40></td>
         </tr><tr>
         <td align=right>and click here:</td>

@@ -12,12 +12,12 @@ if ($user == NULL) {
     print_login_form();
     exit();
 }
-page_head("Account configuration: last step");
+page_head("Account setup: done", $user);
 echo "
-    <h3>Account configuration: last step</h3>
+    <h3>Account setup: done</h3>
 
-    Your ".PROJECT." account is now set up.
-    <br>Now you must tell your computer about it.
+    Your account setup is complete.
+    <br>Next you must tell your computer(s) to use this account.
     <ul>
     <li><b>Windows users:</b>
         Open the BOINC application window by
@@ -39,9 +39,9 @@ echo "
     <li>Account key: $user->authenticator
     </ul>
                             
-    That's it - you're done.
-    Thanks for participating in ".PROJECT.".
-    Visit our main page for more information.
+    This completes the ".PROJECT." installation.
+    <br>Thanks for participating in ".PROJECT.".
+    <br>Visit our <a href=index.php>main page</a> for more information.
 ";
 
 page_tail();
