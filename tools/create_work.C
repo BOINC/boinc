@@ -202,6 +202,7 @@ int main(int argc, char** argv) {
     }
 
     if (sequence) {
+#if 0
         retval = create_sequence_group(
             wu,
             wu_template,
@@ -214,6 +215,7 @@ int main(int argc, char** argv) {
             download_url,
             sequence
         );
+#endif
     } else {
         retval = create_work(
             wu,
