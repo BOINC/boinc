@@ -22554,4 +22554,8 @@ Bruce 12 Jan 2005
     sched/
         sched_locality.C
    
+David  12 Jan 2005
+    - xml_escape() and xml_unescape(): handle non-ASCII characters
 
+    lib/
+        parse.C

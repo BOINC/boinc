@@ -90,7 +90,7 @@ bool parse_str(const char* buf, const char* tag, string& dest) {
 
     // sanity check on NULL and empty cases. 
     if (!buf || !tag || !strlen(tag))
-	return false;
+    return false;
 
     p = strstr(buf, tag);
     if (!p) return false;
@@ -304,23 +304,24 @@ char* sgets(char* buf, int len, char*& in) {
 }
 
 void xml_escape(string& in, string& out) {
-	int i;
-	out = "";
-	for (i=0; i<(int)in.length(); i++) {
-		if (in[i] == '<') {
-			out += "&lt;";
-		} else if (in[i] == '&') {
-			out += "&amp;";
-		} else if (in[i] == '\n') {
-            out += " ";
-		} else if (in[i] == 13) {
-            out += " ";
-		} else if (in[i] == '\r') {
-            out += " ";
-		} else {
-			out += in[i];
-		}
-	}
+    int i;
+    char buf[256];
+
+    out = "";
+    for (i=0; i<(int)in.length(); i++) {
+        int x = (int) in[i];
+        x &= 0xff;   // just in case
+        if (in[i] == '<') {
+            out += "&lt;";
+        } else if (in[i] == '&') {
+            out += "&amp;";
+        } else if (x < 32 || x>127) {
+            sprintf(buf, "&#%d;", x);
+            out += buf;
+        } else {
+            out += in[i];
+        }
+    }
 }
 
 void xml_escape(char* in, string& out) {
@@ -329,19 +330,22 @@ void xml_escape(char* in, string& out) {
 }
 
 void xml_unescape(string& in, string& out) {
-	int i;
-	 out = "";
-	 for (i=0; i<(int)in.length(); i++) {
-		 if (in.substr(i, 4) == "&lt;") {
-			 out += "<";
-			 i += 3;
-		 } else if (in.substr(i, 5) == "&amp;") {
-			 out += "&";
-			 i += 4;
-		 } else {
-			 out += in[i];
-		 }
-	 }
+    int i;
+    out = "";
+    for (i=0; i<(int)in.length(); i++) {
+        if (in.substr(i, 4) == "&lt;") {
+            out += "<";
+            i += 3;
+        } else if (in.substr(i, 5) == "&amp;") {
+            out += "&";
+            i += 4;
+        } else if (in.substr(i, 2) == "&#") {
+            char c = atoi(in.substr(i+2, 3).c_str());
+            out += c;
+        } else {
+            out += in[i];
+        }
+    }
 }
 
 
