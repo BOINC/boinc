@@ -98,22 +98,15 @@ int __cdecl BoincReportingFunction( int reportType, char *szMsg, int *retVal ){
 	(*retVal) = 0; 
 
 	if ( _CRT_ASSERT == reportType ){
-
 		fprintf( stderr, "ASSERT: %s\n", szMsg );
 		fflush( stderr );
-
 		(*retVal) = 1;
-		return(TRUE);
-
-	} else if ( _CRT_WARN == reportType ) {
-
+	} else { 
 		fprintf( stderr, "TRACE: %s", szMsg );
 		fflush( stderr );
-		return(TRUE);
-
 	}
 
-	return(FALSE); 
+	return(TRUE);
 } 
 
 
