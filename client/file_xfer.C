@@ -175,7 +175,6 @@ bool FILE_XFER_SET::poll() {
     unsigned int i;
     FILE_XFER* fxp;
     bool action = false;
-    int retval;
 
     for (i=0; i<file_xfers.size(); i++) {
         fxp = file_xfers[i];
@@ -195,7 +194,7 @@ bool FILE_XFER_SET::poll() {
                 //
                 if (fxp->file_size_query) {
                     if (fxp->file_xfer_retval) {
-                        printf("ERROR: file upload returned %d\n", retval);
+                        printf("ERROR: file upload returned %d\n", fxp->file_xfer_retval);
                         fxp->fip->upload_offset = -1;
                     } else {
                         remove(fxp);
