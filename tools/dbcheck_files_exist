@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 
 import os, re, boinc_path_config
-from Boinc import database, db_mid, boinc_db
-
-def get_file_path(wu):
-    return re.search('<name>(.*)</name>',wu.xml_doc).group(1)
+from Boinc import database, db_mid, boinc_db, configxml
 
 database.connect()
+config = configxml.default_config().config
+
+def get_file_path(wu):
+    return os.path.join(config.upload_dir,
+                        re.search('<name>(.*)</name>',wu.xml_doc).group(1))
 
 print "Checking for missing input files ...\n"
 
