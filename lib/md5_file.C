@@ -11,7 +11,7 @@ int md5_file(char* path, char* output, double& nbytes) {
     int i, n;
 
     nbytes = 0;
-    f = fopen(path, "r");
+    f = fopen(path, "rb");
     if (!f) {
         fprintf(stderr, "md5_file: can't open %s\n", path);
         perror("md5_file");
