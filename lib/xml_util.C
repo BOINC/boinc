@@ -503,7 +503,8 @@ std::string encode_char(unsigned char c) {
 unsigned char decode_char(const char *s) {
   char code[32];
   int i=0;
-  while (*s && (*s != ';')) {
+  code[31]=0;
+  while (*s && (*s != ';') && i<31) {
     code[i]=*s;
     s++;
     i++;
@@ -555,6 +556,10 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
 
 //
 // $Log$
+// Revision 1.20  2003/10/27 19:41:23  korpela
+//
+// Fixed potential buffer overrun in decode_char()
+//
 // Revision 1.19  2003/10/27 17:52:49  korpela
 // *** empty log message ***
 //
