@@ -179,9 +179,14 @@ BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
         break;
     case CTRL_BREAK_EVENT:
     case CTRL_CLOSE_EVENT:
-    case CTRL_LOGOFF_EVENT:
     case CTRL_SHUTDOWN_EVENT:
         quit_client();
+        bReturnStatus =  TRUE;
+        break;
+    case CTRL_LOGOFF_EVENT:
+        if (!gstate.executing_as_windows_service) {
+           quit_client();
+        }
         bReturnStatus =  TRUE;
         break;
 	}

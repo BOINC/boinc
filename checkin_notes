@@ -14790,3 +14790,12 @@ Rom    6 July 2004
 
     client/win/
         wingui_mainwindow.cpp, .h
+
+Rom    7 July 2004
+    - Adjust the console control handler such that when a logoff event has occurred check to
+      see if we are running as a service and if so, ignore the event, otherwise quit.
+
+      Thanks to Fernando Vinan-Cano via John McLeod
+
+    client/
+        main.C
