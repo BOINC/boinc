@@ -288,8 +288,13 @@ try_again:
         if (boinc_is_standalone()) {
             set_mode(MODE_WINDOW);
         } else {
-            wait_for_initial_message();
-            timer_handler(0);
+            // don't proceed until we've opened a window;
+            // otherwise glutMainLoop() will abort
+            //
+            while (current_graphics_mode == MODE_HIDE_GRAPHICS) {
+                wait_for_initial_message();
+                timer_handler(0);
+            }
         }
     }
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);

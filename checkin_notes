@@ -21985,3 +21985,13 @@ David  29 Dec 2004
 	win_build/
 		config.h
 		win-config.h (removed)
+
+David  29 Dec 2004
+    - (from Reinhard Prix)
+        X app graphics: check that a window actually has been opened
+        prior to calling glutMainLoop()
+        (just waiting for a message is not enough -
+        the message might be REREAD_PREFS)
+
+    api/
+        x_opengl.C

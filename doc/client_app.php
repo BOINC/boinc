@@ -3,7 +3,7 @@ require_once("docutil.php");
 page_head("Core/app interaction (basic)");
 echo "
 
-TO BE WRITTEN.
+INCOMPLETE AND OUT OF DATE
 <p>
 Explain startup files
 <p>

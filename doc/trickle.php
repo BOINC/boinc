@@ -2,8 +2,6 @@
 require_once("docutil.php");
 page_head("Trickle messages");
 echo "
-<h2>Trickle messages</h2>
-<p>
 <b>Trickle messages</b>
 let applications communicate with the server
 during the execution of a workunit.

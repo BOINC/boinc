@@ -10,7 +10,7 @@ A paper about BOINC's design goals is here:
 <a href=http://boinc.berkeley.edu/talks/madrid_03/madrid.html>HTML</a> |
 <a href=boinc2.pdf>PDF</a> |
 <a href=http://boinc.de/madrid_de.htm>HTML/German</a> |
-<a href=http://www.seti-nl.org/content.php?c=boinc_berkeley_madrid>HTML/Dutch</a>
+<a href=http://www.seti.nl/content.php?c=boinc_berkeley_madrid>HTML/Dutch</a>
 <p>
 A technical paper about BOINC is
 <a href=grid_paper_04.pdf>here</a>.

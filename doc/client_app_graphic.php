@@ -3,7 +3,7 @@ require_once("docutil.php");
 page_head("Screensaver/core/app interaction (graphics)");
 echo "
 
-TO BE WRITTEN
+INCOMPLETE AND OUT OF DATE
 
 <p>
 The graphics API uses a file <b>graphics.xml</b>

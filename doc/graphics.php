@@ -49,7 +49,7 @@ BOINC supports process structures where graphics is done:
 This works fine for Windows.
 Not recommended for Unix because of the dynamic linking problem
 described above.
-<li> In a <a href=#shared_lib>shared library</a>
+<li> In a <a href=#shared_library>shared library</a>
 that is dynamically linked by your main program.
 This works well on Unix.
 <li> In a <a href=#separate>separate program</a>.

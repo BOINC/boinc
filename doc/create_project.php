@@ -47,6 +47,7 @@ How to develop or port an application program for use with BOINC.
 <li><a href=fortran.php>FORTRAN applications</a>
 <li><a href=compound_app.php>Compound applications</a>
 <li><a href=trickle_api.php>Trickle messages</a>
+<li> <a href=app_debug.php>Application debugging</a>
 <li><a href=myers.txt>App development cookbook</a> (courtesy of Eric Myers from Vassar)
 </ul>
 
@@ -81,7 +82,7 @@ The components of a BOINC project, and how to create them.
 <li> <a href=server_dirs.php>Directory structure</a>
 <li> <a href=configuration.php>The project configuration file</a>
 <li> <a href=make_project.php>The make_project script</a>
-<li> <a href=tool_start.php>Project control scripts</a>
+<li> <a href=tool_start.php>Project control</a>
 <li> <a href=tool_xadd.php>Adding applications/platforms</a>
 <li> <a href=code_signing.php>Code signing</a>
 <li> <a href=tool_update_versions.php>Adding application versions</a>
