@@ -33,6 +33,7 @@
 #endif
 
 #include "md5_file.h"
+#include "util.h"
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
@@ -141,8 +142,14 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         // can now upload files.
         rp->state = RESULT_FILES_UPLOADING;
     }
-    update_avg_cpu(rp->project);
-    rp->project->exp_avg_cpu += rp->final_cpu_time;
+    PROJECT* p = rp->project;
+    update_average(
+        dtime()-rp->final_cpu_time,    // KLUDGE - should be result start time
+        rp->final_cpu_time,
+        CPU_HALF_LIFE,
+        p->exp_avg_cpu,
+        p->exp_avg_mod_time
+    );
     return 0;
 }
 

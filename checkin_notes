@@ -11416,3 +11416,14 @@ David  April 6 2004
         update_stats.C
         validate.C
         validate_test.C
+
+David April 7 2004
+    - Client: replace the buggy update_avg_cpu()
+        with the tried-and-true update_average()
+        to estimate average CPU rate per project
+
+    client/
+        client_state.h
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C

@@ -296,7 +296,7 @@ int PROJECT::parse_state(FILE* in) {
         else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
         else if (parse_int(buf, "<host_create_time>", (int &)host_create_time)) continue;
         else if (parse_double(buf, "<exp_avg_cpu>", exp_avg_cpu)) continue;
-        else if (parse_int(buf, "<exp_avg_mod_time>", exp_avg_mod_time)) continue;
+        else if (parse_double(buf, "<exp_avg_mod_time>", exp_avg_mod_time)) continue;
         else if (match_tag(buf, "<code_sign_key>")) {
             copy_element_contents(
                 in,
@@ -348,7 +348,7 @@ int PROJECT::write_state(FILE* out) {
         "    <host_expavg_credit>%f</host_expavg_credit>\n"
         "    <host_create_time>%d</host_create_time>\n"
         "    <exp_avg_cpu>%f</exp_avg_cpu>\n"
-        "    <exp_avg_mod_time>%d</exp_avg_mod_time>\n"
+        "    <exp_avg_mod_time>%f</exp_avg_mod_time>\n"
         "    <nrpc_failures>%d</nrpc_failures>\n"
         "    <master_fetch_failures>%d</master_fetch_failures>\n"
         "    <min_rpc_time>%d</min_rpc_time>\n"

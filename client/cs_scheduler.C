@@ -107,19 +107,6 @@ double CLIENT_STATE::work_needed_secs() {
     return y;
 }
 
-// update exponentially-averaged CPU times of all projects
-//
-void CLIENT_STATE::update_avg_cpu(PROJECT* p) {
-    time_t now = time(0);
-    double deltat = now - p->exp_avg_mod_time;
-    if (deltat > 0) {
-        if (p->exp_avg_cpu != 0) {
-            p->exp_avg_cpu *= exp(-deltat*EXP_DECAY_RATE);
-        }
-        p->exp_avg_mod_time = now;
-    }
-}
-
 void PROJECT::set_min_rpc_time(time_t future_time) {
 	if (future_time > min_rpc_time) {
 		min_rpc_time = future_time;
@@ -213,7 +200,9 @@ void CLIENT_STATE::compute_resource_debts() {
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-        update_avg_cpu(p);
+        update_average(
+            0, 0, CPU_HALF_LIFE, p->exp_avg_cpu, p->exp_avg_mod_time
+        );
         if (p->exp_avg_cpu == 0) {
             p->resource_debt = p->resource_share;
         } else {

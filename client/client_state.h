@@ -55,6 +55,8 @@ enum SUSPEND_REASON_t {
     SUSPEND_REASON_BENCHMARKS = 16
 };
 
+#define CPU_HALF_LIFE (86400*7)
+
 // CLIENT_STATE encapsulates the global variables of the core client.
 // If you add anything here, initialize it in the constructor
 //
@@ -243,7 +245,6 @@ private:
 
     PROJECT* find_project_with_overdue_results();
     void current_work_buf_days(double& work_buf, int& nactive_results);
-    void update_avg_cpu(PROJECT*);
     PROJECT* next_project_sched_rpc_pending();
     bool some_project_rpc_ok();
     bool scheduler_rpc_poll();
