@@ -56,17 +56,17 @@ function show_result_page($success, $post, $choice) {
 
 		if ($success) {
 	    if ($choice) {
-		    page_head('Input Recorded', $logged_in_user);
+		    page_head('Input Recorded');
 				echo "<span class=\"title\">Helpdesk Input Recorded</span>";
 				echo "<p>Your input has been successfully recorded.  Thank you for your help.</p>";
 	    } else {
-		    page_head('Vote Registered', $logged_in_user);
+		    page_head('Vote Registered');
         echo "<span class=\"title\">Vote Registered</span>";
         echo "<p>Your rating has been successfully recorded.  Thank you for your input.</p>";
     	}
     	echo "<a href=\"thread.php?id=", $post->thread, "#", $post->id, "\">Return to thread</a>";
     } else {
-	    	page_head('Vote Submission Problem', $logged_in_user);	
+	    	page_head('Vote Submission Problem');	
         echo "<span class=\"title\">Vote submission failed</span>";
         if ($post) {
             echo "<p>There was a problem recording your vote in our database.  Please try again later.</p>";

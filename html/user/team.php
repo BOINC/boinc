@@ -22,7 +22,7 @@ echo "<p>".PROJECT." participants may form <b>teams</b>.
     <li> disband a team if it has no members.
     </ul>
     <p>
-    <form method=post action=team_lookup.php>
+    <form method=get action=team_lookup.php>
     Search for a team whose name contains:
     <input name=team_name>
     <input type=submit name=search value=Search>

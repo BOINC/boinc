@@ -30,9 +30,9 @@ $logged_in_user = get_logged_in_user(true);
 // TODO: Write a function to do this.
 
 if ($category->is_helpdesk) {
-	page_head('Help Desk', $logged_in_user);
+	page_head('Help Desk');
 } else {
-	page_head('Forum', $logged_in_user);
+	page_head('Forum');
 }
 
 show_forum_title($forum, NULL, $category->is_helpdesk);
@@ -66,39 +66,32 @@ if ($category->is_helpdesk) {
 }
 start_forum_table(array($cell), 2);
 
-echo "<tr><td class=fieldname><b>Title</b>";
+$x = "Title".
+    "<br><a href=../html.php><font size=-2>May contain HTML tags</font></a>";
 
 if ($category->is_helpdesk) {
-	echo "<p>
+	$x .="<br>
         Describe your question in a few words.
         A brief, clear summary will help others with the same
         question (or an answer) find it.
-        <p></p>
     ";
 }
 
-echo "
-    </td>
-    <td><input type=text name=title size=62></td>
-    </tr>
-    <tr>
-    <td class=fieldname style=\"vertical-align:top\"><b>Message</b>
-";
+$y = "<input type=text name=title size=62>";
+row2($x, $y);
+$x = "Message".
+    "<br><a href=../html.php><font size=-2>May contain HTML tags</font></a>";
 
 if ($category->is_helpdesk) {
-	echo "<p>
-        If you are having software problems,
+	$x .= " If you are having software problems,
         mention the version number of the software,
         your computer type and operating system.
-        </td>
     ";
 }
     
 
-echo "
-    <td><textarea name=content rows=12 cols=54></textarea></td>
-    </tr>
-";
+$y = "<textarea name=content rows=12 cols=54></textarea>";
+row2($x, $y);
 row2("", "<input name=add_signature value=add_it checked=true type=checkbox>Add my signature to this post");
 row2("", "<input type=submit value=\"OK\">");
 

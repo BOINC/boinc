@@ -22,7 +22,7 @@ function print_platform_select() {
 
     $user = get_logged_in_user();
 
-    page_head("Problem Report Form", $user);
+    page_head("Problem Report Form");
 
     echo "
         <h3>Problem Report Form</h3>

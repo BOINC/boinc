@@ -18,7 +18,7 @@
         $private = true;
     }
 
-    page_head("Computer summary", $user);
+    page_head("Computer summary");
     show_host($host, $private, $ipprivate);
     page_tail();
 ?>

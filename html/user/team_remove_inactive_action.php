@@ -18,7 +18,7 @@
     }
     require_founder_login($user, $team);
 
-    page_head("Removing users from $team->name", $user);
+    page_head("Removing users from $team->name");
     $nmembers = 0;
     for ($i=0; $i<$_POST["ninactive_users"]; $i++) {
         if ($_POST["remove_$i"] != 0) {

@@ -34,9 +34,9 @@ if (!$sort_style) {
 }
 
 if ($category->is_helpdesk) {
-	page_head(PROJECT.': Questions and problems', $logged_in_user);
+	page_head(PROJECT.': Questions and problems');
 } else {
-	page_head(PROJECT.': Message boards', $logged_in_user);
+	page_head(PROJECT.': Message boards');
 }
 
 // TODO: Constant for default sort style and filter values.

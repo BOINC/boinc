@@ -44,9 +44,9 @@ $helpdesk = $category->is_helpdesk;
 
 // TODO: Write a function for this.
 if ($helpdesk) {
-	page_head('Questions and problems', $logged_in_user);
+	page_head('Questions and problems');
 } else {
-	page_head('Message boards', $logged_in_user);
+	page_head('Message boards');
 }
 
 show_forum_title($forum, $thread, $helpdesk);

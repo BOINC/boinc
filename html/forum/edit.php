@@ -30,7 +30,7 @@ if ($_POST['submit']) {
 }
 
 
-page_head('Forum', $logged_in_user);
+page_head('Forum');
 
 if (!empty($_GET['id'])) {
     $post = getPost($_GET['id']);

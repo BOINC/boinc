@@ -13,7 +13,7 @@ if ($user == NULL) {
     exit();
 }
 
-page_head("Account setup", $user);
+page_head("Account setup");
 echo "
     <h3>Account setup</h3>
     Thank you for letting ".PROJECT." use part of your computer power.

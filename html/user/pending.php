@@ -6,7 +6,7 @@
 
     db_init();
     $user = get_logged_in_user();
-    page_head("Pending credit", $user);
+    page_head("Pending credit");
     $res = mysql_query("select * from result where userid=$user->id and validate_state=0");
     $sum = 0;
     start_table();

@@ -13,7 +13,7 @@ $venue = $_GET["venue"];
 
 $title = "Edit ".subset_name($subset)." preferences";
 if ($venue) $title = "$title for $venue";
-page_head($title, $user);
+page_head($title);
 
 echo "<h3>$title</h3>\n";
 

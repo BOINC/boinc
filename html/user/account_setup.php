@@ -6,7 +6,7 @@
 
     $user = get_logged_in_user();
 
-    page_head("Account setup", $user);
+    page_head("Account setup");
     echo "
         <h3>Account setup</h3>
         ".PROJECT." uses the BOINC software system.

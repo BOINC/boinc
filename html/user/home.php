@@ -7,7 +7,7 @@
 
     db_init();
     $user = get_logged_in_user();
-    page_head("User page", $user);
+    page_head("User page");
     show_user_page_private($user);
     page_tail();
 ?>

@@ -4,7 +4,7 @@ require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 require_once('../inc/time.inc');
 
-page_head('Message boards', NULL, NULL);
+page_head('Message boards');
 
 show_forum_title(NULL, NULL, false);
 

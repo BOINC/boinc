@@ -7,7 +7,7 @@ include_once("../inc/prefs.inc");
 db_init();
 
 $user = get_logged_in_user();
-page_head("Account setup: resource share", $user);
+page_head("Account setup: resource share");
 echo "
     <h3>Account setup</h3>
 ";

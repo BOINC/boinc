@@ -7,7 +7,7 @@
     db_init();
     init_session();
 
-    $team_name = $_POST["team_name"];
+    $team_name = $_GET["team_name"];
     $words = preg_split("/[\s,]+/", $team_name);
     $length = count($words);
     $name_lc = strtolower($team_name);

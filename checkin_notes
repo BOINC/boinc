@@ -12139,6 +12139,16 @@ Rom    May 6 2004
         index.php
         pass_percentage_by_platform.php
 
+David  May 9 2004
+    html/
+        inc/
+            gallery.inc
+            uotd.inc (new)
+        user/
+            index.php
+            team.php
+            team_lookup.php
+
 David  May 10 2004
     - extend the set of signals that are treated as "external",
         i.e. if an app exits with one of these, put it in limbo
@@ -12165,4 +12175,10 @@ David  May 11 2004
     - replaced zip/unzip libraries with new code from Carl Christensen
 
     zip/
+        *
+
+David  May 11 2004
+    - remove "user" argument from page_head()
+
+    html/
         *

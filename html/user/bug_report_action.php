@@ -22,7 +22,7 @@ include_once("../inc/util.inc");
     fputs($f, $x);
     fclose($f);
 
-    page_head("Problem report recorded", $user);
+    page_head("Problem report recorded");
     echo "
         Your problem report has been recorded.
         We apologize for any inconvience you may have experienced.

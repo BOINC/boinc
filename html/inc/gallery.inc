@@ -3,6 +3,7 @@
 require_once("../project/project.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/util.inc");
+require_once("../inc/uotd.inc");
 
 
 $alphabet = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9');
@@ -57,7 +58,7 @@ function build_picture_pages($width, $height) {
         $file = PROFILE_PATH . "user_gallery_" . $page . ".html";
         $descriptor = fopen($file, "w");
 
-        page_head("User Picture Gallery: Page $page of $numPages", null, $descriptor, false);
+        page_head("User Picture Gallery: Page $page of $numPages", $descriptor);
 
         fwrite($descriptor,
             "<h2>User Profile Pictures</h2>Last updated "
@@ -229,7 +230,7 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
         $descriptor = fopen($filename, "w");
 
         $head = $pageHead . ": Page $page of $numPages";
-        page_head($pageHead, null, $descriptor, false);
+        page_head($pageHead, $descriptor);
 
         fwrite($descriptor, "<h2>$pageTitle</h2>\n");
         fwrite($descriptor, "Last updated " . pretty_time_str(time()) . "<p>\n");
@@ -252,7 +253,7 @@ function build_country_summary_page($countryMembers) {
     $filename = PROFILE_PATH . "profile_country.html";
     $descriptor = fopen($filename, "w");
 
-    page_head("User Profiles by Country", null, $descriptor, false);
+    page_head("User Profiles by Country", $descriptor);
     fwrite($descriptor, "<h2>User Profiles by Country</h2>Last updated " . pretty_time_str(time()) . "<p>");
 
     fwrite($descriptor, "<table border=0>\n");
@@ -294,89 +295,6 @@ function build_alpha_summary_page($characters) {
         fwrite($descriptor, "<a href=" . URL_BASE . PROFILE_URL . "profile_other_1.html>Other</a>&nbsp;");
     }
     fclose($descriptor);
-}
-
-function uotd_thumbnail($profile, $user) {
-    return "<a href=view_profile?userid=$user->id><img align=left src=" . IMAGE_URL . $user->id . "_sm.jpg></a>";
-}
-
-function generate_uotd_page($profile, $user) {
-    $filename = PROFILE_PATH."uotd.html";
-    $descriptor = fopen($filename, "w");
-
-    if ($profile->has_picture) {
-        fwrite($descriptor, uotd_thumbnail($profile, $user));
-    }
-    $x = user_links($user);
-    fwrite($descriptor, "The " . PROJECT . " User of the Day is $x");
-    fclose($descriptor);
-}
-
-// return the last UOTD profile, or null
-//
-function get_current_uotd() {
-    $result = mysql_query("SELECT * FROM profile ORDER BY uotd_time DESC LIMIT 1");
-    if (mysql_num_rows($result) > 0) {
-        $p = mysql_fetch_object($result);
-    } else {
-        $p = null;
-    }
-    return mysql_free_result($result);
-    return $p;
-}
-
-// see if it's time to pick a new UOTD.
-// Either way, generate the UOTD page
-//
-function build_uotd_page() {
-    $current_utod = get_current_uotd();
-    if ($current_utod) {
-        $assigned = getdate($current_uotd->uotd_time);
-        $now = getdate(time());
-        if ($assigned['mday'] == $now['mday']) {
-            $user = lookup_user_id($current_uotd->userid);
-            generate_uotd_page($current_uotd, $user);
-            exit();
-        }
-    }
-    // TODO: Verify that adding RAND() didn't screw this up.
-    $result = mysql_query("SELECT * FROM profile WHERE verification = 1 AND uotd_time IS NULL ORDER BY RAND()");
-
-    // If the number of approved profiles dips below a threshold,
-    // email the sys admin every time we pick a new one.
-    //
-    if ($result && mysql_num_rows($result) < UOTD_THRESHOLD) {
-        mail(SYS_ADMIN_EMAIL,
-            PROJECT . ": User of the Day pool is running low!",
-            "The pool of approved candidates for User of the Day has
-            reached your assigned threshold: there are now only " . mysql_num_rows($result) . " approved users.\n\n
-            To approve more candidates for User of the Day,
-            direct your web browser to the " . PROJECT . " administration page and click \"Unrated profile\""
-        );
-    }
-
-    if ($result && mysql_num_rows($result) == 0) {
-        // If all verified profiles have been selected as UOTD, reshow the one that was shown least recently.
-        $result = mysql_query("SELECT * FROM profile WHERE verification = 1 ORDER BY uotd_time ASC LIMIT 1");
-    }
-
-    if (!$result || mysql_num_rows($result) == 0) {
-        // No valid users of the day - do something.
-        exit();
-    }
-    $profile = mysql_fetch_object($result);
-    $user = lookup_user_id($profile->userid);
-    generate_uotd_page($profile, $user);
-
-    $sql = "UPDATE profile SET uotd_time = " . time() . " WHERE userid=$user->id";
-    mysql_query($sql);
-
-    mail($user->email_addr,
-        "You're the " . PROJECT . " user of the day!",
-        "Congratulations!\n\nYou've been chosen as the "
-        . PROJECT . " user of the day!
-        Your profile will be featured on the " . PROJECT . " website for the next 24 hours."
-    );
 }
 
 ?>

@@ -5,10 +5,6 @@
 
     // don't want to use DB here, because master page won't be visible
     // if DB is down
-    //
-    //db_init();
-    //$user = get_logged_in_user(false);
-    //page_head("Home page", $user);
 
     page_head(PROJECT);
 
@@ -37,7 +33,7 @@ if (project_is_stopped()) {
 
         <h3>Returning participants</h3>
         <ul>
-        <li><a href=".URL_BASE."login_form.php>Log in</a>
+        <li><a href=".URL_BASE."login_form.php>Log in or out</a>
         <li><a href=".URL_BASE."home.php>User page</a> - view stats, modify preferences
         <li><a href=".URL_BASE."team.php>Teams</a> - create or join a team
         <li><a href=".URL_BASE."download.php>Download BOINC</a>
@@ -47,8 +43,6 @@ if (project_is_stopped()) {
         <li><a href=".URL_BASE."profile_menu.php>User profiles</a>
         <li><a href=".URL_BASE."forum/>Message boards</a>
         <li><a href=".URL_BASE."forum/help_desk.php>Questions and problems</a>
-        <li>  User-supplied FAQ by
-            <a href=http://users.iafrica.com/c/ch/chrissu/boinc-README.html>Chris Sutton</a>
 
 
     ";

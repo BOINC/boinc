@@ -10,7 +10,7 @@
         $user = get_user_from_auth($authenticator);
     }
 
-    page_head("Log in", $user);
+    page_head("Log in");
     print_login_form_aux($next_url, $user);
 
     page_tail();

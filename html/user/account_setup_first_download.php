@@ -7,7 +7,7 @@ require_once("../inc/download.inc");
 db_init();
 $user = get_logged_in_user();
 
-page_head("Download BOINC software", $user);
+page_head("Download BOINC software");
 
 echo "
     Your account setup is complete.

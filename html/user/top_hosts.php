@@ -19,7 +19,7 @@
     $n = 10;
 
     db_init();
-    page_head("Top computers", null, null, false);
+    page_head("Top computers");
     if ($sort_by == "total_credit") {
         $sort_clause = "total_credit desc, total_credit desc";
     } else {

@@ -7,7 +7,7 @@ require_once("../inc/host.inc");
 db_init();
 $user = get_logged_in_user();
 
-page_head("Merge host", $user);
+page_head("Merge host");
 
 $hostid = $_GET["hostid"];
 $result = mysql_query("select * from host where id=$hostid");

@@ -122,7 +122,7 @@ function write_fd($fd, $str) {
     }
 }
 
-function page_head($title, $user=null, $fd=null) {
+function page_head($title, $fd=null) {
     $styleSheet = URL_BASE . STYLESHEET;
 
     write_fd($fd,
@@ -132,7 +132,7 @@ function page_head($title, $user=null, $fd=null) {
         <body bgcolor=ffffff>
         "
     );
-    project_banner($user, $fd);
+    project_banner($fd);
 }
 
 function page_tail($is_main=false, $fd=null) {
