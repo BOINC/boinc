@@ -176,6 +176,7 @@ int create_result(
     rewind(tempfile);
     read_file(tempfile, r.xml_doc_in);
     fclose(tempfile);
+    fclose(result_template_file);
 
     retval = db_result_new(r);
     if (retval) {
