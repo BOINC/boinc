@@ -1056,4 +1056,12 @@ Barry Luong    July 11, 2002
 
     html_user/
         db.inc
-        
+
+Barry Luong    July 12, 2002
+    - Changed error messages in main.C so user names are printed out also
+    - took out a debugging variable I accidentally left in feeder.C
+
+    sched/
+        main.C
+        Makefile.in
+        feeder.C
