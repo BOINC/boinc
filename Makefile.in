@@ -135,7 +135,8 @@ ARCHIVE_TARGETS = \
         tools/*.C tools/*.h tools/*.in \
         api/*.C api/*.h api/*.in \
         RSAEuro/*/*.c RSAEuro/*/*.h RSAEuro/*/*.in RSAEuro/*/*.mak \
-        mac_build.sit win_build.zip INSTALL LICENSE configure install-sh \
+        mac_build/*.*/*.* mac_build/*.*/*.*/*.* \
+        win_build.zip INSTALL LICENSE configure install-sh \
         *.in *.sub *.guess *.m4
 
 tar: 

@@ -81,7 +81,8 @@ ARCHIVE_TARGETS = \
         lib/*.C lib/*.c lib/*.h \
         api/*.C api/*.h \
         RSAEuro/*/*.c RSAEuro/*/*.h RSAEuro/*/*.in RSAEuro/*/*.mak \
-        mac_build.sit win_build.zip INSTALL_CLIENT LICENSE
+        mac_build/*.*/*.* mac_build/*.*/*.*/*.* \
+        win_build.zip INSTALL_CLIENT LICENSE
 
 .C.o:
 	$(CC) -c -o $*.o $<
