@@ -5,6 +5,7 @@ require_once('../inc/db.inc');
 require_once('../inc/sanitize_html.inc');
 require_once('../inc/time.inc');
 require_once('../inc/forum_moderators.inc');
+require_once('../inc/credit.inc');
 
 define('AVATAR_WIDTH', 100);
 define('AVATAR_HEIGHT',100);
@@ -274,7 +275,11 @@ function getHasRated($user, $postid){
 	// Check the user's credit average to see if it is greater than 5.0, if not,
 	//   treat them as though they have already rated the post.  This should keep
 	//   people from creating multiple accounts just to harass forum members.
-    return ( strstr($user->rated_posts,"|".$postid) || ($user->expavg_credit <= 5.0) );
+    $avg = $user->expavg_credit;
+    $avg_time = $user->expavg_time;
+    $now = time(0);
+    update_average($now, 0, 0, $avg, $avg_time);
+    return ( strstr($user->rated_posts,"|".$postid) || ($avg <= 5.0) );
 }
 
 function setHasRated($user, $postid){
