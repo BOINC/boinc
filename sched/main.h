@@ -24,5 +24,5 @@
 extern SCHED_CONFIG config;
 extern key_t sema_key;
 
-extern void send_shut_message();
+extern void send_message(char*, int);
 extern int open_database();

@@ -13733,3 +13733,10 @@ David  16 June 2004
 		boinc_gui.vcproj
 		boinc_guirpc_test.vcproj
 
+David  16 June 2004
+    - scheduler returns message to client in case of internal errors
+
+    sched/
+        main.C,h
+        handle_request.C
+

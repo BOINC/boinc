@@ -68,13 +68,14 @@ bool use_files = false;     // use disk files for req/reply msgs (for debugging)
 SCHED_CONFIG config;
 key_t sema_key;
 
-void send_shut_message() {
+void send_message(char* msg, int delay) {
     printf(
         "Content-type: text/plain\n\n"
         "<scheduler_reply>\n"
-        "    <message priority=\"low\">Project is temporarily shut down for maintenance</message>\n"
-        "    <request_delay>3600</request_delay>\n"
-        "</scheduler_reply>\n"
+        "    <message priority=\"low\">%s</message>\n"
+        "    <request_delay>%d</request_delay>\n"
+        "</scheduler_reply>\n",
+        msg, delay
     );
 }
 
@@ -106,20 +107,22 @@ int main() {
     get_log_path(path);
     if (!freopen(path, "a", stderr)) {
         fprintf(stderr, "Can't redirect stderr\n");
-        exit(1);
+        send_message("Server can't open log file", 3600);
+        exit(0);
     }
 
     log_messages.set_debug_level(DEBUG_LEVEL);
 
     if (check_stop_sched()) {
-        send_shut_message();
+        send_message("Project is temporarily shut down for maintenance", 3600);
         goto done;
     }
 
     retval = config.parse_file("..");
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't parse config file\n");
-        exit(1);
+        send_message("Server can't parse configuration file", 3600);
+        exit(0);
     }
 
     sprintf(path, "%s/code_sign_public", config.key_dir);
@@ -128,7 +131,8 @@ int main() {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL,
             "Can't read code sign key file (%s)\n", path
         );
-        exit(1);
+        send_message("Server can't find key file", 3600);
+        exit(0);
     }
 
     get_project_dir(path, sizeof(path));
@@ -147,7 +151,8 @@ int main() {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "shmem has wrong struct sizes - recompile\n"
             );
-            exit(1);
+            send_message("Server has software problem", 3600);
+            exit(0);
         }
 
         for (i=0; i<10; i++) {
@@ -157,7 +162,8 @@ int main() {
         }
         if (!ssp->ready) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "feeder doesn't seem to be running\n");
-            exit(1);
+            send_message("Server has software problem", 3600);
+            exit(0);
         }
     }
 
@@ -167,7 +173,7 @@ int main() {
     counter++;
 #endif
     if (project_stopped) {
-        send_shut_message();
+        send_message("Project is temporarily shut down for maintenance", 3600);
         goto done;
     }
     printf("Content-type: text/plain\n\n");

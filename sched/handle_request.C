@@ -630,7 +630,7 @@ void process_request(
     //
     retval = open_database();
     if (retval) {
-        send_shut_message();
+        send_message("Server can't open database", 3600);
         return;
     }
 
