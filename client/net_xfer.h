@@ -50,6 +50,7 @@ public:
     int blocksize;
 
     void init(char* host, int port, int blocksize);
+    int get_ip_addr(char *hostname, int &ip_addr);
     int open_server();
     void close_socket();
     int do_xfer(int&);

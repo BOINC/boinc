@@ -66,6 +66,26 @@
 #define socklen_t size_t
 #endif
 
+int NET_XFER::get_ip_addr( char *hostname, int &ip_addr ) {
+    hostent* hep;
+
+#ifdef _WIN32
+    if(NetOpen()) return -1;
+#endif
+    hep = gethostbyname(hostname);
+    if (!hep) {
+        fprintf(stderr, "can't resolve hostname %s\n", hostname);
+#ifdef _WIN32
+        NetClose();
+#endif
+        return ERR_GETHOSTBYNAME;
+    }
+    ip_addr = *(int*)hep->h_addr_list[0];
+
+    return 0;
+}
+
+
 // Attempt to open a nonblocking socket to a server
 //
 int NET_XFER::open_server() {
@@ -73,30 +93,15 @@ int NET_XFER::open_server() {
     hostent* hep;
     int fd=0, ipaddr, retval=0;
 
-#ifdef _WIN32
-	if(NetOpen()) return -1;
-#endif
-    hep = gethostbyname(hostname);
-    if (!hep) {
-        fprintf(stderr, "can't resolve hostname %s\n", hostname);
-#ifdef _WIN32
-		NetClose();
-#endif
-        return ERR_GETHOSTBYNAME;
-    }
-    ipaddr = *(int*)hep->h_addr_list[0];
-    if (retval) {
-#ifdef _WIN32
-		NetClose();
-#endif
-		return -1;
-	}
+    retval = get_ip_addr(hostname, ipaddr);
+    if (retval) return retval;
+
     fd = ::socket(AF_INET, SOCK_STREAM, 0);
     if (fd < 0) {
 #ifdef _WIN32
-		NetClose();
+        NetClose();
 #endif
-		return -1;
+        return -1;
 	}
 
 #ifdef _WIN32
