@@ -13,9 +13,7 @@ function platform_downloads($platform, $core_app) {
         if (!$filename) {
             echo "CAN'T FIND FILENAMEn $app_version->xml_doc\n";
         }
-        $version = sprintf(
-            $app_version->version_num/100
-        );
+        $version = sprintf("%.2f", $app_version->version_num/100);
         echo "<tr><td><a href=$download_url/$filename><b>$platform->user_friendly_name $version</b></td></tr>\n";
         //$app_version->md5_cksum";
         $found = true;

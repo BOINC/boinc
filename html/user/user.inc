@@ -90,13 +90,15 @@ function user_table_start() {
 }
 
 function show_user_row($user) {
-    echo "<tr>
-        <td><a href=show_user.php?userid=$user->id>$user->name</a></td>
-        <td>$user->expavg_credit</td>
-        <td>$user->total_credit</td>
-        <td>$user->country</td>
-        <td>".time_str($user->create_time)."</td>
-    </tr>\n";
+    printf(
+      "<tr>
+        <td><a href=show_user.php?userid=%d>%s</a></td>
+        <td>%.4f</td>
+        <td>%.4f</td>
+        <td>%s</td>
+        <td>%s</td>
+    </tr>\n", $user->id, $user->name, $user->expavg_credit,
+        $user->total_credit, $user->country, time_str($user->create_time));
 }
 
 ?>

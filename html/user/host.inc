@@ -105,8 +105,8 @@ function host_table_start($title, $private) {
         echo "<th>Owner</th>\n";
     }
     echo "
-        <th>Total credit</th>
         <th>Recent average credit</th>
+        <th>Total credit</th>
         <th>CPU type</th>
         <th>Operating system</th>
         </tr>
@@ -128,13 +128,14 @@ function show_host_row($host, $i, $private) {
         echo "<td><a href=show_host_detail.php?hostid=$host->id>$i</a></td>\n";
         echo "<td><a href=show_user.php?userid=$user->id>$user->name</a></td>\n";
     }
-    echo"
-        <td>$host->total_credit</td>
-        <td>$host->expavg_credit</td>
-        <td>$host->p_vendor $host->p_model</td>
-        <td>$host->os_name $host->os_version</td>
-        </tr>
-    ";
+    printf("
+        <td>%.4f</td>
+        <td>%.4f</td>
+        <td>%s %s</td>
+        <td>%s %s</td>
+        </tr>\n",
+        $host->expavg_credit, $host->total_credit, $host->p_vendor, $host->p_model,
+        $host->os_name, $host->os_version );
 }
 
 // return true iff it's possible that the hosts are actually
