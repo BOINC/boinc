@@ -28,7 +28,7 @@ File names must be of the form <code>NAME_VERSION_PLATFORM[.ext]</code>, e.g.:
 boinc_3.17_i686-pc-linux-gnu.gz
 astropulse_7.17_windows_intelx86.exe
 </pre>
-The prefix name and extensions .gz, .exe, .sit are ignored.
+The prefix name and extensions .gz, .exe, .sig are ignored.
 <p>
 Important notes:
 <ul>
