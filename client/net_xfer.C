@@ -18,6 +18,9 @@
 //
 // Revision History:
 // $Log$
+// Revision 1.75  2003/12/08 23:04:51  boincadm
+// *** empty log message ***
+//
 // Revision 1.74  2003/12/08 21:15:19  jeffc
 // *** empty log message ***
 //
@@ -79,6 +82,8 @@
 
 #if defined(_WIN32) 
 typedef int socklen_t;
+#elif defined ( __APPLE__)
+typedef int32_t socklen_t;
 #elif !GETSOCKOPT_SOCKLEN_T
 typedef size_t socklen_t;
 #endif
