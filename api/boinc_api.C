@@ -173,8 +173,10 @@ bool boinc_time_to_checkpoint() {
 	if (ready_to_redraw) {
 		ok_to_draw = 1;
 		// And wait for the graphics thread to notify us that it's done drawing
+#ifdef _WIN32
 		ResetEvent(hGlobalDrawEvent);
 		WaitForSingleObject( hGlobalDrawEvent, INFINITE );
+#endif
 		// Reset the refresh counter
 		time_until_redraw = gi.refresh_period;
 		ready_to_redraw = false;
