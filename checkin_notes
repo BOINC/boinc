@@ -5649,3 +5649,11 @@ Karl 2003/08/12
         cs_scheduler.C
     client/win/
         wingui_mainwindow.cpp
+
+Karl 2003/08/12
+    - Astropulse: changed timeout_check_time to time(0)+delay_bound instead
+      of time(0)+1day
+    - Astropulse: rsc_fpops calculation: reduced fudge factor by 3 
+
+    Astropulse/split/pulse_split.C
+
