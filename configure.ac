@@ -146,6 +146,7 @@ AC_CONFIG_FILES([Makefile
                  py/Boinc/version.py
                  py/Boinc/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  py/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
+                 client/win/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  sched/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  tools/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  test/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
