@@ -27,7 +27,7 @@ if (parse_bool($config, "disable_account_creation")) {
 init_session();
 db_init();
 
-$teamid = post_int("teamid");
+$teamid = post_int("teamid", true);
 if ($teamid) {
     $team = lookup_team($teamid);
     $clone_user = lookup_user_id($team->userid);

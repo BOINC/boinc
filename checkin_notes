@@ -24717,3 +24717,10 @@ David  13 Feb 2005
         cs_files.C
     py/Boinc/
         tools.py
+
+David  14 Feb 2005
+    - user web fixes
+
+    html/user/
+        create_account_form.php
+        account_created.php

@@ -5,6 +5,8 @@ include_once("../inc/email.inc");
 
 $email_addr = get_str("email_addr", true);
 
+db_init();
+
 if ($email_addr) {
     // here when this page is reached via create_account_action.php
     //
