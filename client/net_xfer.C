@@ -81,10 +81,61 @@ int NET_XFER::get_ip_addr( char *hostname, int &ip_addr ) {
 #endif
     hep = gethostbyname(hostname);
     if (!hep) {
-        msg_printf(0, MSG_ERROR, "Can't resolve hostname %s\n", hostname);
+        char msg[256];
+        int n;
+
+        n = sprintf(msg, "Can't resolve hostname %s ", hostname);
 #ifdef _WIN32
+
+        switch (WSAGetLastError()) {
+        case WSANOTINITIALISED:
+            break;
+        case WSAENETDOWN:
+            sprintf(msg+n, "(the network subsystem has failed)");
+            break;
+        case WSAHOST_NOT_FOUND:
+            sprintf(msg+n, "(host name not found)");
+            break;
+        case WSATRY_AGAIN:
+            sprintf(msg+n, "(no response from server)");
+            break;
+        case WSANO_RECOVERY:
+            sprintf(msg+n, "(a nonrecoverable error occurred)");
+            break;
+        case WSANO_DATA:
+            sprintf(msg+n, "(valid name, no data record of requested type)");
+            break;
+        case WSAEINPROGRESS:
+            sprintf(msg+n, "(a blocking socket call in progress)");
+            break;
+        case WSAEFAULT:
+            sprintf(msg+n, "(invalid part of user address space)");
+            break;
+        case WSAEINTR:
+            sprintf(msg+n, "(a blocking socket call was canceled)");
+            break;
+        }
         NetClose();
+
+#else
+
+        switch (h_errno()) {
+        case HOST_NOT_FOUND:
+            sprintf(msg+n, "(authoritative answer not found)");
+            break;
+        case NO_DATA:
+            sprintf(msg+n, "(valid name, no data record of requested type)");
+            break;
+        case NO_RECOVERY:
+            sprintf(msg+n, "(a nonrecoverable error occurred)");
+            break;
+        case TRY_AGAIN:
+            sprintf(msg+n, "(nonauthoritative host not found, or server failure)");
+            break;
+        }
+
 #endif
+        msg_printf(0, MSG_ERROR, "%s\n", msg);
         return ERR_GETHOSTBYNAME;
     }
     ip_addr = *(int*)hep->h_addr_list[0];
