@@ -332,9 +332,13 @@ bool SCHEDULER_OP::poll() {
                 if (retval) {
                     // master file parse failed.
                     //
-                    project->master_fetch_failures++;
-                    backoff(project, "Master file parse failed\n");
-                    err_url = project->master_url;
+                    if (project->tentative) {
+                        project_add_failed(project);
+                    } else {
+                        project->master_fetch_failures++;
+                        backoff(project, "Master file parse failed\n");
+                        err_url = project->master_url;
+                    }
                 } else {
                     // everything succeeded.  Clear error counters
                     //

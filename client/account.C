@@ -49,14 +49,18 @@ int CLIENT_STATE::parse_account_files() {
 }
 
 int CLIENT_STATE::add_project(char* master_url, char* authenticator) {
-    char path[256];
+    char path[256], buf[256];
     PROJECT* project;
     FILE* f;
     int retval;
 
     // check if this project is already running
     //
-    if (lookup_project(master_url)) return -1;
+    if (lookup_project(master_url)) {
+        sprintf(buf, "Already attached to %s", master_url);
+        show_message(0, buf, MSG_ERROR);
+        return ERR_ALREADY_ATTACHED;
+    }
 
     // create project state
     //

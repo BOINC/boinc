@@ -61,3 +61,4 @@
 #define ERR_UPLOAD_PERMANENT    -128
 #define ERR_IDLE_PERIOD     -129
     // can't start work because of user prefs
+#define ERR_ALREADY_ATTACHED    -130

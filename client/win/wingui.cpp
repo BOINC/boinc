@@ -22,10 +22,16 @@
 #include "wingui.h"
 #include "wingui_mainwindow.h"
 
-void show_message(PROJECT* p, char* message, int priority) {
+void show_message(PROJECT* p, char* msg, int priority) {
 	char* x;
+    char message[1024];
 
-	if (p) {
+
+    strcpy(message, msg);
+    if (message[strlen(message)-1] == '\n') {
+        message[strlen(message)-1] = 0;
+    }    
+    if (p) {
         x = p->get_project_name();
 	} else {
 		x = "BOINC";

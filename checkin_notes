@@ -4281,3 +4281,24 @@ Eric  May 20, 2003
         team_create_action.php
         team_join_action.php
 
+Erik  May 21 2003
+    - in application w/ graphics, make sure worker thread is lower
+        priority than GUI thread
+    - show error msg if attach to existing project
+    - trim CR from end of message strings
+    - consider it a failure if tentative project master page
+        downloads OK but has no scheduler URLs
+    - clean up formatting of download page
+
+    api/
+        graphics_api.C
+    client/
+        account.C
+        main.C
+        scheduler_op.C
+        win/
+            wingui.cpp
+    html_user/
+        download.inc
+    lib/
+        error_numbers.h

@@ -14,7 +14,7 @@ function platform_downloads($platform, $core_app) {
             echo "CAN'T FIND FILENAMEn $app_version->xml_doc\n";
         }
         $version = sprintf("%.2f", $app_version->version_num/100);
-        echo "<tr><td><a href=$download_url/$filename><b>$platform->user_friendly_name $version</b></td></tr>\n";
+        row2("<a href=$download_url/$filename>$platform->user_friendly_name", $version);
         //$app_version->md5_cksum";
         $found = true;
     }
@@ -29,6 +29,7 @@ function print_download_links() {
     $core_app = mysql_fetch_object($result);
     mysql_free_result($result);
 
+    echo "<tr><th>Computer type</th><td>Version</th></tr>\n";
     $result = mysql_query("select * from platform");
     while ($platform = mysql_fetch_object($result)) {
         platform_downloads($platform, $core_app);

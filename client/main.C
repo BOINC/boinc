@@ -65,9 +65,15 @@ void project_add_failed(PROJECT* project) {
 // Display a message to the user.
 // Depending on the priority, the message may be more or less obtrusive
 //
-void show_message(PROJECT *p, char* message, int priority) {
+void show_message(PROJECT *p, char* msg, int priority) {
     char* x;
-    
+    char message[1024];
+
+    strcpy(message, msg);
+    if (message[strlen(message)-1] == '\n') {
+        message[strlen(message)-1] = 0;
+    }
+
     if (p) {
         x = p->get_project_name();
     } else {

@@ -52,14 +52,22 @@ int boinc_init_opengl() {
 
     // Create the graphics thread, passing it the graphics info
     // TODO: is it better to use _beginthreadex here?
+    //
     graphics_threadh = CreateThread(
         NULL, 0, win_graphics_event_loop, &gi, CREATE_SUSPENDED, &threadId
     );
 
-    // Set it to idle priority
+    // lower priority of worker thread (i.e. current thread)
+    //
+    HANDLE h = GetCurrentThread();
+    SetThreadPriority(h, THREAD_PRIORITY_LOWEST);
+
+    // Raise graphics thread priority
+    //
     SetThreadPriority(graphics_threadh, THREAD_PRIORITY_HIGHEST);
 
     // Start the graphics thread
+    //
     ResumeThread(graphics_threadh);
 #endif
 
