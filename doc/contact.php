@@ -72,6 +72,7 @@ show_name("Comatose");
 show_name("Jay Curtis");
 show_name("Fons Maartens");
 show_name("Rob Hague");
+show_name("Fred Harmon");
 show_name("Darrell Holz");
 show_name("John McLeod VII");
 show_name("Dennis Peters");
