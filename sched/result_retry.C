@@ -36,6 +36,8 @@ using namespace std;
 #include "backend_lib.h"
 #include "config.h"
 
+#define TRIGGER_FILENAME      "stop_server"
+
 int max_errors = 999;
 int max_done = 999;
 int nredundancy = 0;
@@ -43,6 +45,12 @@ int startup_time;
 CONFIG config;
 R_RSA_PRIVATE_KEY key;
 char app_name[256];
+
+void check_trigger() {
+    FILE* f = fopen(TRIGGER_FILENAME, "r");
+    if (!f) return;
+    exit(0);
+}
 
 // The scheme for generating unique output filenames is as follows.
 // If the original filename is of the form x__y,
@@ -261,6 +269,7 @@ void main_loop() {
     while (1) {
         did_something = do_pass(app);
         if (!did_something) sleep(1);
+        check_trigger();
     }
 }
 

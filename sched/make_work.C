@@ -119,6 +119,7 @@ void make_work() {
         );
         printf("make_work: added a result\n");
         nresults_left--;
+        check_trigger();
     }
 }
 
