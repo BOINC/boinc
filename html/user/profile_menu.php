@@ -22,7 +22,7 @@ If you haven't already, you can <a href=create_profile.php>create your own user 
 ");
 rowify("<br>");
 row1("User Profile Explorer");
-rowify("
+echo "<tr><td>
 <ul>
 <li>View the <a href=" . PROFILE_PATH . "user_gallery_1.html>User Picture Gallery</a>.
 <li>Browse profiles <a href=" . PROFILE_PATH . "profile_country.html>by country</a>.
@@ -30,17 +30,15 @@ rowify("
 <a href=" . $_SERVER['PHP_SELF'] . "?cmd=rand&pic=1>at random with pictures</a>, or 
 <a href=" . $_SERVER['PHP_SELF'] . "?cmd=rand&pic=0>at random without pictures</a>. 
 
-<li>Alphabetical profile listings <i>(Coming Soon)</i>:<br>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z<BR>
-</ul>");
-
-// TODO: Create management page with links to generate galleries.
-// <a href=generate_picture_pages.php>[Generate]</a>
-// <a href=generate_country_pages.php>[Generate]</a>
+<li>Alphabetical profile listings <i></i>:<br>";
+include "profile_alpha.html";
+echo "<br></ul></td></tr>";
 
 rowify("<br>");
 row1("Name Search");
 rowify("<br>");
 end_table();
+
 
 echo "
 <form action=", $_SERVER['PHP_SELF'], " method=\"GET\">
