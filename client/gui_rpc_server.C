@@ -33,6 +33,7 @@
 #endif
 
 #include "util.h"
+#include "error_numbers.h"
 #include "parse.h"
 
 #include "client_msgs.h"
@@ -278,14 +279,14 @@ int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
     return 0;
 }
 
-void GUI_RPC_CONN_SET::init() {
+int GUI_RPC_CONN_SET::init() {
 	sockaddr_in addr;
     int retval;
 
     lsock = socket(AF_INET, SOCK_STREAM, 0);
     if (lsock < 0) {
         perror("socket");
-        exit(1);
+        return ERR_SOCKET;
     }
 
     addr.sin_family = AF_INET;
@@ -295,12 +296,12 @@ void GUI_RPC_CONN_SET::init() {
     retval = bind(lsock, (const sockaddr*)(&addr), sizeof(addr));
     if (retval) {
         perror("bind");
-        exit(1);
+        return ERR_BIND;
     }
     retval = listen(lsock, 999);
     if (retval) {
         perror("listen");
-        exit(1);
+        return ERR_LISTEN;
     }
 }
 

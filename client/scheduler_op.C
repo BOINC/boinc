@@ -80,6 +80,14 @@ int SCHEDULER_OP::init_get_work() {
     char err_msg[256];
     double ns = gstate.work_needed_secs();
 
+    // in some cases we get work to keep all CPUs busy,
+    // even though we have at least the min buf.
+    // In this case just ask for 1 sec
+    //
+    if (ns == 0) {
+        ns = 1.0;
+    }
+
     must_get_work = true;
     project = gstate.next_project(0);
     if (project) {

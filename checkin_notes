@@ -12086,6 +12086,21 @@ David  May 5 2004
         backend_lib.C
         create_work.C
 
-Rom    May 4 2004
+Rom    May 5 2004
     - Tag for 3.03 release, all platforms
       boinc_core_release_3_04
+
+David  May 5 2004
+    - core client: if there are errors in GUI_RPC setup
+        (e.g. the port is already in use),
+        just print the error, don't exit
+    - In some cases we ask for work in order to keep
+        all processors busy;
+        make sure we ask for at least 1 second in this case.
+
+    client/
+        cs_scheduler.C
+        gui_rpc_server.C,h
+        scheduler_op.C
+    lib/
+        error_numbers.h

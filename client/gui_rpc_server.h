@@ -32,7 +32,7 @@ class GUI_RPC_CONN_SET {
     int lsock;
 public:
     bool poll();
-    void init();
+    int init();
 };
 
 #define GUI_RPC_PORT 31416

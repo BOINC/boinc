@@ -53,19 +53,22 @@
 
 const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 
-// default value to be changed in the program
-float SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT = 60*60*6;
 
 // values used in adjusting the deadline to report
-// These values should be changed to produce approximately one week maximum warning
-// in the release version of the client. Recomended base=60*60*12, multiplier=14.0
+// These values should be changed to produce approximately
+// one week maximum warning in the release version of the client.
+// Recomended base=60*60*12, multiplier=14.0
+//
+float SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT = 60*60*6;
 const int SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT_BASE = 60*60*6;
 const float DEADLINE_TO_REPORT_MULTIPLIER = 2.0;
 
 
 // estimate the days of work remaining
 //
-void CLIENT_STATE::current_work_buf_days(double& work_buf, int& nactive_results) {
+void CLIENT_STATE::current_work_buf_days(
+    double& work_buf, int& nactive_results
+) {
     unsigned int i;
     RESULT* rp;
     double seconds_remaining=0, x;
@@ -484,6 +487,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
             should_get_work = below_work_buf_min && some_project_rpc_ok();
         }
         if (should_get_work) {
+            msg_printf(NULL, MSG_INFO, "Fewer active results than CPUs; requesting more work");
             compute_resource_debts();
             scheduler_op->init_get_work();
             action = true;
