@@ -147,3 +147,5 @@ AC_CONFIG_FILES([RSAEuro/source/Makefile
 AC_CONFIG_HEADER([config.h])
 
 AC_OUTPUT
+
+(cd test && ./test_sanity.py)
