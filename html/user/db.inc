@@ -5,7 +5,8 @@ function db_init() {
     if (!$retval) {
         exit();
     }
-    mysql_select_db("boinc");
+    //mysql_select_db("boinc_barry");
+    mysql_select_db(getenv("BOINC_DB_NAME"));
 }
 
 function lookup_user_auth($auth) {
@@ -148,6 +149,17 @@ function show_user($user) {
     row("preferences", "<pre>".htmlspecialchars($user->prefs)."</pre>");
     row("prefs mod time", time_str($user->prefs_mod_time));
     echo "</table>\n";
+}
+
+function show_team($team) {
+    start_table();
+    row("ID", $team->id);
+    row("founder", $team->userid);
+    row("name", $team->name);
+    row("url", $team->url);
+    row("type", $team->type);
+    row("name_html", $team->name_html);
+    row("description", $team->description);
 }
 
 ?>
