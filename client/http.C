@@ -433,6 +433,9 @@ bool HTTP_OP_SET::poll() {
                     htp->http_op_state = HTTP_STATE_REPLY_HEADER;
                     htp->want_upload = false;
                     htp->want_download = true;
+                    // We don't need to write to the socket anymore.  This
+                    // closes the read fd on the receiving side.
+                    shutdown(htp->socket, SHUT_WR);
                     break;
                 case HTTP_OP_POST2:
                     htp->http_op_state = HTTP_STATE_REQUEST_BODY1;
