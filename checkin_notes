@@ -10397,3 +10397,16 @@ Rom    Mar 6 2004
 
     lib/
         util.c, .h
+
+Rom    Mar 6 2004
+    - Updated the version setting code so that it will include the new file resources for Windows
+
+    /
+        set-verson
+    client/
+        makefile.am
+    client/win/
+        update-boinc-cli-version
+        update-boinc-dll-version
+        update-boinc-gui-version
+        update-boinc-ss-version
