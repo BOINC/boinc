@@ -14927,9 +14927,16 @@ Karl 2004-07-08
         boinc_api_fortran.C
     client/
         dhrystone.C
+        whetstone.C
 
 Karl 2004-07-09
     - fixed CURSOR initialization problem (found by Carl Christensen)
+
+    - removed superfluous 'CURSOR cursor' in DB_WORK_ITEM -- is this correct?
+        - if there should be two cursors, they should be named differently --
+          otherwise it is way too easy to use the wrong one in multiple
+          inheritance 
+    
 
     db/
         boinc_db.h
