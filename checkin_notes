@@ -16174,3 +16174,21 @@ David  11 Aug 2004
 	win_build/
 		boinc_cli.vcproj
 		boinc_gui.vcproj
+
+David  11 Aug 2004
+    - Make <copy_file/> work for application files as well as input files
+        (this copies files to the slot dir instead of making symbolic link).
+        This should make it possible to use shared-library files in Mac OS/X
+        that have to reside in the slot dir.
+        This was done by factoring out file-setup code into a function
+        (setup_file()) that's used for all files (app, input and output)
+    - Deleted code for file-descriptor-based application access to
+        input and output files.
+        This feature wasn't well-designed, and no one was using it.
+
+    api/
+        boinc_api.C
+    client/
+        app_start.C
+    lib/
+        app_ipc.C,h

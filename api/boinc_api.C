@@ -178,12 +178,6 @@ int boinc_init_options(BOINC_OPTIONS& opt) {
     //
     initial_wu_cpu_time = aid.wu_cpu_time;
 
-    f = boinc_fopen(FD_INIT_FILE, "r");
-    if (f) {
-        parse_fd_init_file(f);
-        fclose(f);
-    }
-
     // the following may not be needed, but do it anyway
     //
     fraction_done = -1;

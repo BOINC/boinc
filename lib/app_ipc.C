@@ -159,46 +159,6 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     return 0;
 }
 
-// TODO: this should handle arbitrarily many fd/filename pairs.
-// Also, give the tags better names
-//
-int write_fd_init_file(FILE* f, char *file_name, int fdesc, bool input_file) {
-    if (input_file) {
-        fprintf(f, "<fdesc_dup_infile>%s</fdesc_dup_infile>\n", file_name);
-        fprintf(f, "<fdesc_dup_innum>%d</fdesc_dup_innum>\n", fdesc);
-    } else {
-        fprintf(f, "<fdesc_dup_outfile>%s</fdesc_dup_outfile>\n", file_name);
-        fprintf(f, "<fdesc_dup_outnum>%d</fdesc_dup_outnum>\n", fdesc);
-    }
-    return 0;
-}
-
-// TODO: this should handle arbitrarily many fd/filename pairs.
-// Also, this shouldn't be doing the actual duping!
-//
-int parse_fd_init_file(FILE* f) {
-    char buf[256],filename[256];
-    int filedesc;
-    while (fgets(buf, 256, f)) {
-        if (parse_str(buf, "<fdesc_dup_infile>", filename, sizeof(filename))) {
-            if (fgets(buf, 256, f)) {
-                if (parse_int(buf, "<fdesc_dup_innum>", filedesc)) {
-                    freopen(filename, "r", stdin);
-                    fprintf(stderr, "opened input file %s\n", filename);
-                }
-            }
-        } else if (parse_str(buf, "<fdesc_dup_outfile>", filename, sizeof(filename))) {
-            if (fgets(buf, 256, f)) {
-                if (parse_int(buf, "<fdesc_dup_outnum>", filedesc)) {
-                    freopen(filename, "w", stdout);
-                    fprintf(stderr, "opened output file %s\n", filename);
-                }
-            }
-        } else fprintf(stderr, "parse_fd_init_file: unrecognized %s", buf);
-    }
-    return 0;
-}
-
 APP_CLIENT_SHM::APP_CLIENT_SHM() {
     shm = 0;
 }

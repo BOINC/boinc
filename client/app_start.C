@@ -174,6 +174,37 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     return retval;
 }
 
+// set up a 'symbolic link' in the slot dir to the given file
+// (or copy the file to slot dir)
+//
+static int setup_file(
+    WORKUNIT* wup, FILE_INFO* fip, FILE_REF& fref,
+    char* file_path, char* slot_dir
+) {
+    char link_path[256], buf[256];
+    int retval;
+
+    sprintf(link_path,
+        "%s%s%s", slot_dir, PATH_SEPARATOR,
+        strlen(fref.open_name)?fref.open_name:fip->name
+    );
+    sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
+    if (fref.copy_file) {
+        retval = boinc_copy(file_path, link_path);
+        if (retval) {
+            msg_printf(wup->project, MSG_ERROR, "Can't copy %s to %s", file_path, link_path);
+            return retval;
+        }
+    } else {
+        retval = boinc_link(buf, link_path);
+        if (retval) {
+            msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
+            return retval;
+        }
+    }
+    return 0;
+}
+
 // Start a task in a slot directory.
 // This includes setting up soft links,
 // passing preferences, and starting the process
@@ -181,13 +212,12 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
 // Current dir is top-level BOINC dir
 //
 int ACTIVE_TASK::start(bool first_time) {
-    char exec_name[256], file_path[256], link_path[256], buf[256], exec_path[256];
+    char exec_name[256], file_path[256], buf[256], exec_path[256];
     unsigned int i;
-    FILE_REF file_ref;
+    FILE_REF fref;
     FILE_INFO* fip;
     int retval;
-    char graphics_data_path[256], fd_init_path[256];
-    FILE *f;
+    char graphics_data_path[256];
     GRAPHICS_INFO gi;
     APP_INIT_DATA aid;
 
@@ -210,25 +240,18 @@ int ACTIVE_TASK::start(bool first_time) {
     if (retval) return retval;
 
     sprintf(graphics_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, GRAPHICS_DATA_FILE);
-    f = boinc_fopen(graphics_data_path, "w");
-    if (!f) {
+    FILE* gf = boinc_fopen(graphics_data_path, "w");
+    if (!gf) {
         msg_printf(wup->project, MSG_ERROR,
             "Failed to open core-to-app graphics prefs file %s",
             graphics_data_path
         );
         return ERR_FOPEN;
     }
-    retval = write_graphics_file(f, &gi);
-    fclose(f);
+    retval = write_graphics_file(gf, &gi);
+    fclose(gf);
 
-    sprintf(fd_init_path, "%s%s%s", slot_dir, PATH_SEPARATOR, FD_INIT_FILE);
-    f = boinc_fopen(fd_init_path, "w");
-    if (!f) {
-        msg_printf(wup->project, MSG_ERROR, "Failed to open init file %s", fd_init_path);
-        return ERR_FOPEN;
-    }
-
-    // make soft links to the executable(s)
+    // set up applications files
     //
     for (i=0; i<app_version->app_files.size(); i++) {
         FILE_REF fref = app_version->app_files[i];
@@ -239,76 +262,34 @@ int ACTIVE_TASK::start(bool first_time) {
             safe_strcpy(exec_path, file_path);
         }
         if (first_time) {
-            sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, strlen(fref.open_name)?fref.open_name:fip->name);
-            sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
-            retval = boinc_link(buf, link_path);
-            scope_messages.printf("ACTIVE_TASK::start(): Linking %s to %s\n", file_path, link_path);
-            if (retval) {
-                msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
-                fclose(f);
-                return retval;
-            }
+            retval = setup_file(wup, fip, fref, file_path, slot_dir);
+            if (retval) return retval;
         }
     }
 
-    // create symbolic links, and hook up descriptors, for input files
+    // set up input files
     //
     for (i=0; i<wup->input_files.size(); i++) {
-        file_ref = wup->input_files[i];
-        get_pathname(file_ref.file_info, file_path);
-        if (strlen(file_ref.open_name)) {
-            if (first_time) {
-                sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, file_ref.open_name);
-                sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
-                scope_messages.printf("ACTIVE_TASK::start(): link %s to %s\n", file_path, link_path);
-                if (file_ref.copy_file) {
-                    retval = boinc_copy(file_path, link_path);
-                    if (retval) {
-                        msg_printf(wup->project, MSG_ERROR, "Can't copy %s to %s", file_path, link_path);
-                        fclose(f);
-                        return retval;
-                    }
-                } else {
-                    retval = boinc_link(buf, link_path);
-                    if (retval) {
-                        msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
-                        fclose(f);
-                        return retval;
-                    }
-                }
-            }
-        } else {
-            sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
-            retval = write_fd_init_file(f, buf, file_ref.fd, true);
+        fref = wup->input_files[i];
+        fip = fref.file_info;
+        get_pathname(fref.file_info, file_path);
+        if (first_time) {
+            retval = setup_file(wup, fip, fref, file_path, slot_dir);
             if (retval) return retval;
         }
     }
 
-    // hook up the output files using BOINC soft links
+    // set up output files
     //
     for (i=0; i<result->output_files.size(); i++) {
-        file_ref = result->output_files[i];
-        get_pathname(file_ref.file_info, file_path);
-        if (strlen(file_ref.open_name)) {
-            if (first_time) {
-                sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, file_ref.open_name);
-                sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path );
-                scope_messages.printf("ACTIVE_TASK::start(): link %s to %s\n", file_path, link_path);
-                retval = boinc_link(buf, link_path);
-                if (retval) {
-                    msg_printf(wup->project, MSG_ERROR, "Can't link %s to %s", file_path, link_path);
-                    fclose(f);
-                    return retval;
-                }
-            }
-        } else {
-            sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
-            retval = write_fd_init_file(f, buf, file_ref.fd, false);
+        fref = result->output_files[i];
+        fip = fref.file_info;
+        get_pathname(fref.file_info, file_path);
+        if (first_time) {
+            retval = setup_file(wup, fip, fref, file_path, slot_dir);
             if (retval) return retval;
         }
     }
-
-    fclose(f);
 
     link_user_files();
 

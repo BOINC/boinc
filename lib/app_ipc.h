@@ -166,8 +166,6 @@ typedef struct GRAPHICS_INFO GRAPHICS_INFO;
 
 int write_init_data_file(FILE* f, APP_INIT_DATA&);
 int parse_init_data_file(FILE* f, APP_INIT_DATA&);
-int write_fd_init_file(FILE*, char*, int, bool);
-int parse_fd_init_file(FILE*);
 int write_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 
@@ -175,7 +173,6 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 //
 #define INIT_DATA_FILE    "init_data.xml"
 #define GRAPHICS_DATA_FILE    "graphics.xml"
-#define FD_INIT_FILE    "fd_init.xml"
 #define BOINC_FINISH_CALLED_FILE "boinc_finish_called"
 #define TRICKLE_UP_FILENAME "trickle_up.xml"
 #define STDERR_FILE           "stderr.txt"
