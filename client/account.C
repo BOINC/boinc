@@ -23,6 +23,7 @@
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
+#include "util.h"
 
 #include "account.h"
 
@@ -62,6 +63,8 @@ int CLIENT_STATE::add_project(char* master_url, char* authenticator) {
     project = new PROJECT;
     strcpy(project->master_url, master_url);
     strcpy(project->authenticator, authenticator);
+	// Strip any whitespace out of the authenticator
+	strip_whitespace(project->authenticator);
     project->tentative = true;
     retval = project->write_account_file();
     if (retval) return retval;

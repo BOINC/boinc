@@ -258,6 +258,7 @@ void strip_whitespace(char *str) {
         }
         read_pos++;
     }
+	str[write_pos] = '\0';
 }
 
 void unescape_url(char *url) {

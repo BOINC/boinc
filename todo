@@ -17,7 +17,6 @@ BUGS (arranged from high to low priority)
     run_minimized
     run_on_startup
     hangup_if_dialed
-- trim leading/trailing spaces from account ID (Win GUI)
 - when i quit a project, I have to exit and restart the client, which is ugly.
 - after quitting a project, the project name still showed up in gray
     in the projects list - I could right click on it to "relogin"
