@@ -623,7 +623,8 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                     if (exit_code) {
                         gstate.report_result_error(
                             *(atp->result), 0,
-                            "process exited with code %d", exit_code
+                            "process exited with code %d (0x%x)",
+                            exit_code, exit_code
                         );
                     }
                 }
@@ -679,7 +680,8 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                 if(atp->exit_status) {
                     gstate.report_result_error(
                         *(atp->result), 0,
-                        "process exited with code %d", atp->exit_status
+                        "process exited with code %d (0x%x)",
+                        atp->exit_status, atp->exit_status
                     );
                 }
                 scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process exited: status %d\n", atp->exit_status);

@@ -47,13 +47,44 @@ const int MAX_WUS_TO_SEND     = 10;
 
 const double COBBLESTONE_FACTOR = 300.0;
 
+// compute the max disk usage we can request of the host
+//
+double max_allowable_disk(USER& user, SCHEDULER_REQUEST& req) {
+    GLOBAL_PREFS prefs;
+    HOST host = req.host;
+    double x1, x2, x3;
+
+    prefs.parse(user.global_prefs);
+
+    // fill in default values for missing prefs
+    //
+    if (prefs.disk_max_used_gb == 0) prefs.disk_max_used_gb = 0.01;   // 10 MB
+    if (prefs.disk_max_used_pct == 0) prefs.disk_max_used_pct = 10;
+    // min_free_gb can be zero
+
+    // default values for BOINC disk usage (project and total) is zero
+    //
+
+    // no defaults for total/free disk space (host.d_total, d_free)
+    // if they're zero, project will get no work.
+    //
+
+    x1 = prefs.disk_max_used_gb*1e9 - req.total_disk_usage;
+    x2 = host.d_total*prefs.disk_max_used_pct/100.;
+    x3 = host.d_free - prefs.disk_min_free_gb*1e9;      // may be negative
+
+    return min(x1, min(x2, x3));
+}
+
 // if a host has active_frac < 0.5, assume 0.5 so we don't deprive it of work.
+//
 const double HOST_ACTIVE_FRAC_MIN = 0.5;
 
 // estimate the number of seconds that a workunit requires running 100% on a
 // single CPU of this host.
 //
 // TODO: improve this.  take memory bandwidth into account
+// Also take "on fraction" etc. into account
 //
 inline double estimate_duration(WORKUNIT& wu, HOST& host) {
     if (host.p_fpops <= 0) host.p_fpops = 1e9;
@@ -61,8 +92,8 @@ inline double estimate_duration(WORKUNIT& wu, HOST& host) {
     return wu.rsc_fpops_est/host.p_fpops;
 }
 
-// estimate the amount of real time for this WU based on active_frac and
-// #cpus.
+// estimate the amount of real time for this WU based on active_frac and #cpus.
+//
 inline double estimate_wallclock_duration(WORKUNIT& wu, HOST& host) {
     if (host.p_ncpus < 1) host.p_ncpus = 1;
 
@@ -590,7 +621,8 @@ static bool already_in_reply(WU_RESULT& wu_result, SCHEDULER_REPLY& reply) {
 // previously infeasible for some host
 //
 static void scan_work_array(
-    bool infeasible_only, double& seconds_to_fill, int& nresults,
+    bool infeasible_only, double& seconds_to_fill, double& disk_available,
+    int& nresults,
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     SCHED_SHMEM& ss
 ) {
@@ -600,12 +632,21 @@ static void scan_work_array(
     double wu_seconds_filled;
     char buf[256];
 
-    for (i=0; i<ss.nwu_results && seconds_to_fill>0; i++) {
+    for (i=0; i<ss.nwu_results; i++) {
+
+        if (seconds_to_fill <= 0) break;
+        if (disk_available <= 0) break;
+
         WU_RESULT& wu_result = ss.wu_results[i];
 
         // the following should be a critical section
         //
         if (!wu_result.present) {
+            continue;
+        }
+
+        if (wu_result.workunit.rsc_disk_bound > disk_available) {
+            wu_result.infeasible_count++;
             continue;
         }
 
@@ -672,6 +713,7 @@ static void scan_work_array(
         result = wu_result.result;
 
         // mark slot as empty AFTER we've copied out of it
+        // (since otherwise feeder might overwrite it)
         //
         wu_result.present = false;
 
@@ -681,6 +723,11 @@ static void scan_work_array(
         retval = result.lookup_id(result.id);
         if (retval) continue;
         if (result.server_state != RESULT_SERVER_STATE_UNSENT) continue;
+
+        // ****** HERE WE'VE COMMITTED TO SENDING THIS RESULT TO HOST ******
+        //
+
+        disk_available -= wu.rsc_disk_bound;
 
         // update the result in DB
         //
@@ -737,11 +784,14 @@ int send_work(
 ) {
     int nresults = 0;
     double seconds_to_fill;
+    double disk_available;
+
+    disk_available = max_allowable_disk(reply.user, sreq);
 
     log_messages.printf(
         SchedMessages::NORMAL,
-        "[HOST#%d] got request for %d seconds of work\n",
-        reply.host.id, sreq.work_req_seconds
+        "[HOST#%d] got request for %d seconds of work; available disk %f GB\n",
+        reply.host.id, sreq.work_req_seconds, disk_available/1e9
     );
 
     if (sreq.work_req_seconds <= 0) return 0;
@@ -756,8 +806,14 @@ int send_work(
 
     // give priority to results that were infeasible for some other host
     //
-    scan_work_array(true, seconds_to_fill, nresults, sreq, reply, platform, ss);
-    scan_work_array(false, seconds_to_fill, nresults, sreq, reply, platform, ss);
+    scan_work_array(
+        true, seconds_to_fill, disk_available,
+        nresults, sreq, reply, platform, ss
+    );
+    scan_work_array(
+        false, seconds_to_fill, disk_available,
+        nresults, sreq, reply, platform, ss
+    );
 
     log_messages.printf(
         SchedMessages::NORMAL, "[HOST#%d] Sent %d results\n",

@@ -59,6 +59,8 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_int(buf, "<core_client_major_version>", core_client_major_version)) continue;
         else if (parse_int(buf, "<core_client_minor_version>", core_client_minor_version)) continue;
         else if (parse_int(buf, "<work_req_seconds>", work_req_seconds)) continue;
+        else if (parse_double(buf, "<project_disk_usage>", project_disk_usage)) continue;
+        else if (parse_double(buf, "<total_disk_usage>", total_disk_usage)) continue;
         else if (match_tag(buf, "<global_preferences>")) {
             strcpy(global_prefs_xml, "<global_preferences>\n");
             while (fgets(buf, 256, fin)) {
@@ -398,4 +400,14 @@ int HOST::parse_net_stats(FILE* fin) {
         }
     }
     return 1;
+}
+
+void GLOBAL_PREFS::parse(char* buf) {
+    disk_max_used_gb = 0;
+    disk_max_used_pct = 0;
+    disk_min_free_gb = 0;
+
+    parse_double(buf, "<disk_max_used_gb>", disk_max_used_gb);
+    parse_double(buf, "<disk_max_used_pct>", disk_max_used_pct);
+    parse_double(buf, "<disk_min_free_gb>", disk_min_free_gb);
 }

@@ -7422,3 +7422,33 @@ Karl 2003-11-04
     sched/
         validate_trivial.C
 
+David  4 Nov 2003
+    - scheduler now respects disk usage limits.
+        Scheduler request message now includes BOINC disk usage,
+        both total and for this project.
+        The scheduler parses user's global preferences
+        to get disk-related prefs,
+        and computes the max storage that can be used.
+        It will send only as many results as fit within this limit.
+        NOTE: this is still deficient in several ways:
+            - it assumes that all results will use all their storage
+                simultaneously.  It doesn't take into account that
+                some results may use large storage while running,
+                but not before or after.
+            - it doesn't take into account storage that has been
+                committed (to this or other projects) but not yet in use.
+            - there's no mechanism for enforcing resource shares for storage,
+                or for dynamic adjustment
+    - print exit codes in both dec and hex
+
+    client/
+        app.C
+        client_state.h
+        cs_prefs.C
+        cs_scheduler.C
+        pers_file_xfer.C
+        win/
+            wingui_mainwindow.cpp
+    sched/
+        handle_request.C
+        server_types.C,h

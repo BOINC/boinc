@@ -217,6 +217,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     unsigned int i;
     RESULT* rp;
     int retval;
+    double size;
 
     if (!f) return ERR_FOPEN;
     fprintf(f,
@@ -236,6 +237,12 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         core_client_minor_version,
         work_req
     );
+    if (!project_disk_usage(p, size)) {
+        fprintf(f, "<project_disk_usage>%f</project_disk_usage>\n", size);
+    }
+    if (!total_disk_usage(size)) {
+        fprintf(f, "<total_disk_usage>%f</total_disk_usage>\n", size);
+    }
     if (strlen(p->code_sign_key)) {
         fprintf(f, "<code_sign_key>\n%s</code_sign_key>\n", p->code_sign_key);
     }

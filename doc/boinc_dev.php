@@ -1,9 +1,8 @@
-<? // -*- html -*-
-   // $Id$
+<?
    require_once("docutil.php");
-   page_head("Implementation and debugging of BOINC");
-?>
+   page_head("Development and debugging");
 
+   echo "
 <p>
 The BOINC source code is <a href=source/>here</a>.
 <p>
@@ -12,10 +11,12 @@ to help us maintain and enhance BOINC.
 In any case, you are welcome to browse the source code and
 give us feedback.
 <p>
-Be sure that you understand exactly how BOINC is intended
-to work (for both <a href=participate.php>participants</a>
+You should understand exactly how BOINC is supposed to work
+(for both <a href=participate.php>participants</a>
 and <a href=create_project.php>developers</a>)
 before getting into the source code.
+<p>
+<a href=http://setiathome.berkeley.edu/taskbase>View database of bugs and feature requests</a>
 <p>
 <font size=+1><b>
 Core client
@@ -57,7 +58,7 @@ Miscellaneous
 <li> <a href=prefs_impl.php>Preferences</a>
 </ul>
 
-<?
+";
    page_tail();
 ?>
 

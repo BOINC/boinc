@@ -221,7 +221,7 @@ private:
 // --------------- cs_prefs.C:
 public:
     int project_disk_usage(PROJECT*, double&);
-    int current_disk_usage(double&);
+    int total_disk_usage(double&);
         // returns the total disk usage of BOINC on this host
     int allowed_disk_usage(double&);
 private:

@@ -596,7 +596,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	    double xDiskFree; get_filesystem_info(xDiskTotal, xDiskFree);
 	    double xDiskUsed = xDiskTotal - xDiskFree;
 	    double xDiskAllow; gstate.allowed_disk_usage(xDiskAllow); xDiskAllow = xDiskFree - xDiskAllow;
-	    double xDiskUsage; gstate.current_disk_usage(xDiskUsage);
+	    double xDiskUsage; gstate.total_disk_usage(xDiskUsage);
 
 	    m_UsagePieCtrl.SetTotal(xDiskTotal);
 	    m_UsagePieCtrl.SetPiece(0, xDiskFree); // Free space

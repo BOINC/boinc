@@ -161,7 +161,6 @@ int PERS_FILE_XFER::start_xfer() {
 //
 bool PERS_FILE_XFER::poll(time_t now) {
     int retval;
-    char pathname[256];
 
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_FILE_XFER);
 
