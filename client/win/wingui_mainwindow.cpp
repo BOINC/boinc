@@ -286,12 +286,14 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 				break;
 			case RESULT_COMPUTE_DONE:
 				strBuf.Format(g_szMiscItems[3]); break;
-			case RESULT_READY_TO_ACK:
-				strBuf.Format(g_szMiscItems[4]); break;
-			case RESULT_SERVER_ACK:
-				strBuf.Format(g_szMiscItems[5]); break;
 			default:
-				strBuf.Format(g_szMiscItems[6]); break;
+				if (re->server_ack) {
+					strBuf.Format(g_szMiscItems[5]); break;
+				} else if (re->ready_to_ack) {
+					strBuf.Format(g_szMiscItems[4]); break;
+				} else {
+					strBuf.Format(g_szMiscItems[6]); break;
+				}
 		}
 		m_ResultListCtrl.SetItemText(i, 6, strBuf);
 	}
