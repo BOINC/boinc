@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+// a C++ interface to BOINC GUI RPC
+
 #ifndef _WIN32
 #include <stdio.h>
 #include <string>
@@ -289,6 +291,7 @@ public:
     RPC_CLIENT();
     ~RPC_CLIENT();
     int init(char* host);
+    void close();
     int get_state(CC_STATE&);
     int get_results(RESULTS&);
     int get_file_transfers(FILE_TRANSFERS&);

@@ -17911,3 +17911,11 @@ David  30 Sept 2004
 		gui_test.C
 	win_build/
 		boinc_guirpc_test.vcproj
+
+David  30 Sept 2004
+	- added GUI_RPC_CLIENT::close() function.
+		Call this if any RPC returns ERR_READ or ERR_WRITE.
+		Then call init() again to reconnect
+
+	lib/
+		gui_rpc_client.C,h

@@ -715,6 +715,17 @@ RPC_CLIENT::RPC_CLIENT() {
 RPC_CLIENT::~RPC_CLIENT() {
 }
 
+// if any RPC returns ERR_READ or ERR_WRITE,
+// call this and then call init() again.
+//
+void RPC_CLIENT::close() {
+#ifdef _WIN32
+    closesocket(sock);
+#else
+    close(sock);
+#endif
+}
+
 int RPC_CLIENT::init(char* host) {
     int retval;
     sockaddr_in addr;
