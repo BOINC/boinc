@@ -317,7 +317,7 @@ int main(int argc, char** argv) {
 // For platforms other than windows just treat it as a console application
 //
 int main(int argc, char** argv) {
-	return main_loop(argc, argv);
+	return boinc_main_loop(argc, argv);
 }
 
 #endif
