@@ -34,8 +34,11 @@ class PERS_FILE_XFER {
 public:
     int write(FILE* fout);
     int parse(FILE* fin);
+    PERS_FILE_XFER();
 };
 
+PERS_FILE_XFER::PERS_FILE_XFER() {
+}
 
 int main() {
     NET_XFER_SET nxs;
