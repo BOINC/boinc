@@ -18,7 +18,7 @@ CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
 
-PROGS = cgi feeder show_shmem file_upload_handler validate_test make_work result_retry file_deleter assimilator db_dump update_stats start_servers
+PROGS = cgi feeder show_shmem file_upload_handler validate_test make_work timeout_check file_deleter assimilator db_dump update_stats start_servers
 
 all: $(PROGS)
 
@@ -111,8 +111,8 @@ MAKE_WORK_OBJS = \
     ../lib/crypt.o \
     ../RSAEuro/source/rsaeuro.a
 
-RESULT_RETRY_OBJS = \
-    result_retry.o \
+TIMEOUT_CHECK_OBJS = \
+    timeout_check.o \
     sched_util.o \
     config.o \
     ../db/db_mysql.o \
@@ -203,8 +203,8 @@ validate_test: $(VALIDATE_OBJS)
 make_work: $(MAKE_WORK_OBJS)
 	$(CC) $(MAKE_WORK_OBJS) $(MYSQL_LIBS) $(CLIBS) -o make_work
 
-result_retry: $(RESULT_RETRY_OBJS)
-	$(CC) $(RESULT_RETRY_OBJS) $(MYSQL_LIBS) $(CLIBS) -o result_retry
+timeout_check: $(TIMEOUT_CHECK_OBJS)
+	$(CC) $(TIMEOUT_CHECK_OBJS) $(MYSQL_LIBS) $(CLIBS) -o timeout_check
 
 file_deleter: $(FILE_DELETER_OBJS)
 	$(CC) $(FILE_DELETER_OBJS) $(MYSQL_LIBS) $(CLIBS) -o file_deleter

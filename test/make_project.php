@@ -32,7 +32,7 @@
     $project->start_feeder = true;
     $project->start_file_deleter = true;
     $project->start_make_work = true;
-    $project->start_result_retry = true;
+    $project->start_timeout_check = true;
     $project->start_validate = true;
     $project->shmem_key = 0x31415926;
 

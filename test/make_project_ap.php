@@ -36,7 +36,7 @@
     $project->start_make_work = true;
     $project->make_work_wu_template = "pulse_wu";
     $project->make_work_result_template = "pulse_result";
-    $project->start_result_retry = false;
+    $project->start_timeout_check = false;
     $project->start_validate = false;
     $project->shmem_key = 0x31415927;
     $project->project_php_file = "project_ap.inc";

@@ -41,7 +41,7 @@ using namespace std;
 #include "config.h"
 #include "sched_util.h"
 
-#define LOCKFILE                "result_retry.out"
+#define LOCKFILE                "timeout_check.out"
 
 int max_errors = 999;
 int max_done = 999;
@@ -362,7 +362,7 @@ int main(int argc, char** argv) {
     }
 
     if (lock_file(LOCKFILE)) {
-        fprintf(stderr, "Another copy of result_retry is already running\n");
+        fprintf(stderr, "Another copy of timeout_check is already running\n");
         exit(1);
     }
 

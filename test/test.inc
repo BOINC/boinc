@@ -152,7 +152,7 @@ class Project {
     var $start_feeder;
     var $start_file_deleter;
     var $start_make_work;
-    var $start_result_retry;
+    var $start_timeout_check;
     var $start_validate;
     var $project_php_file;
     var $project_prefs_php_file;
@@ -175,7 +175,7 @@ class Project {
         $this->start_feeder = false;
         $this->start_file_deleter = false;
         $this->start_make_work = false;
-        $this->start_result_retry = false;
+        $this->start_timeout_check = false;
         $this->start_validate = false;
     }
 
@@ -339,7 +339,7 @@ class Project {
         PassThru("cp $source_dir/sched/file_upload_handler $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/make_work $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/feeder $this->project_dir/cgi/");
-        PassThru("cp $source_dir/sched/result_retry $this->project_dir/cgi/");
+        PassThru("cp $source_dir/sched/timeout_check $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/validate_test $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/file_deleter $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/assimilator $this->project_dir/cgi/");
@@ -371,8 +371,8 @@ class Project {
             $result_template_path = realpath($this->make_work_result_template);
             fputs($f, "<start>make_work -asynch -result_template $result_template_path -wu_name $this->make_work_wu_template >> make_work.out 2>&1</start>\n");
         }
-        if ($this->start_result_retry) {
-            fputs($f, "<start>result_retry -asynch >> result_retry.out 2>&1</start>\n");
+        if ($this->start_timeout_check) {
+            fputs($f, "<start>timeout_check -asynch >> timeout_check.out 2>&1</start>\n");
         }
         if ($this->start_validate) {
             fputs($f, "<start>validate -asynch >> validate.out 2>&1</start>\n");
@@ -491,8 +491,8 @@ class Project {
         PassThru("cd $this->project_dir/cgi; ./feeder -asynch >> feeder_out 2>&1");
     }
 
-    function start_result_retry($app, $nerror = 5,$ndet = 5, $nredundancy = 5){
-        PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy -asynch >> result_retry_out 2>&1");
+    function start_timeout_check($app, $nerror = 5,$ndet = 5, $nredundancy = 5){
+        PassThru("cd $this->project_dir/cgi; ./timeout_check -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy -asynch >> timeout_check_out 2>&1");
     }
 
     function start_make_work($work){
