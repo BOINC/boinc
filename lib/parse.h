@@ -48,4 +48,8 @@ class InvalidBase64Exception
 
 string base64_encode (const char* from, size_t length) throw(InvalidBase64Exception);
 string base64_decode (const char* from, size_t length) throw(InvalidBase64Exception);
+inlie string base64_decode (string const& from) throw(InvalidBase64Exception)
+{
+    return base64_decode(from.c_str(), from.length());
+}
 
