@@ -15706,3 +15706,13 @@ Daniel 2004-07-27
     client/
         pers_file_xfer.C
 
+Rom    July 27 2004
+    - Create a tmp folder off of the project root so tasks and stuff can begin execution
+      from there, it was the log folder but the problem with that, is now our log directories
+      are symbolic links to a local volume so when we try to traverse back up to the project
+      folder we are missing a bunch of folders.
+
+    py/boinc/
+        setup_project.py
+    sched/
+        start

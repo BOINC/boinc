@@ -366,9 +366,9 @@ class Project:
         # TODO: that is a security risk; don't do this in the future - write
         # req/reply files somewhere else
         map(lambda dir: os.mkdir(self.dir(dir)),
-            [ '', 'cgi-bin', 'bin', 'upload', 'download', 'apps', self.logdir(),
+            [ '', 'cgi-bin', 'bin', 'templates', 'upload', 'download', 'apps', self.logdir(),
               'html', 'html/cache', 'html/ops', 'html/user', 'html/project',
-              'html/inc', 'html/stats', 'html/user_profile',
+              'html/inc', 'html/stats', 'html/stats_tmp', 'html/user_profile',
               'html/user_profile/images'
               ])
         map(lambda dir: os.chmod(self.dir(dir), 0777),

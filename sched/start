@@ -312,7 +312,7 @@ def exec_command_string(command):
     args = command.strip().split()
     # set default path for program to <bin_dir>:
     args[0] = os.path.realpath(os.path.join( bin_dir, args[0] ))
-    os.chdir(log_dir)
+    os.chdir(tmp_dir)
     try:
         if contains_shell_characters(command):
             os.execl('/bin/sh', 'sh', '-c', ' '.join(args))
@@ -682,6 +682,7 @@ project_dir = os.path.realpath(config.config.__dict__.get('project_dir') or
 os.chdir(project_dir)
 bin_dir = get_dir('bin')
 cgi_bin_dir = get_dir('cgi_bin')
+tmp_dir = ensure_get_dir('tmp+local_hostname')
 log_dir = ensure_get_dir('log_'+local_hostname)
 pid_dir = ensure_get_dir('pid_'+local_hostname)
 
