@@ -1,19 +1,44 @@
 <title>The BOINC Application Program Interface (API)</title> 
 <h2>The BOINC Application Programming Interface (API)</h2>
 
-The BOINC API is a library of C++ functions.
-All the functions return an integer error code; zero indicates success.
+The BOINC API is a set of C++ functions.
+Unless otherwise specified,
+the functions return an integer error code; zero indicates success.
+The graphics API is described <a href=graphics.html>separately</a>.
 
 <h3>Initialization and termination</h3>
-An application must call
+The application must call
 <pre>
-    int boinc_init(bool is_main_program, char* app_preferences)
+    int boinc_init(bool is_main_program, char** init_data_xml)
 </pre>
 before calling other BOINC functions or doing I/O.
 <tt>is_main_program</tt> indicates whether the program
 is the application's main program (normally true - see below).
-The user's application-specific preferences, if any,
-are returned in <tt>app_preferences</tt>.
+Various information is returned in the malloced <tt>init_data_xml</tt>,
+an XML string that may contain the following elements:
+<pre>
+    &lt;init_data>
+        &lt;app_preferences>...&lt;/app_preferences>
+        &lt;user_name>...&lt;/user_name>
+        &lt;team_name>...&lt;/team_name>
+        &lt;wu_cpu_time>...&lt;/wu_cpu_time>
+        &lt;total_cobblestones>...&lt;/total_cobblestones>
+        &lt;recent_avg_cobblestones>...&lt;/recent_avg_cobblestones>
+    &lt;/init_data>
+</pre>
+<ul>
+<li><b>app_preferences</b>: arbitrary text (generally XML);
+the participant's preferences for this project.
+<li><b>user_name</b>: the user's account name for this project
+<li><b>team_name</b>: the user's team name, if any, for this project
+<li><b>wu_cpu_time</b>: the CPU time used so far for this work unit
+<li><b>total_cobblestones</b>: the user's total credit
+<li><b>recent_avg_cobblestones</b>: the user's recent average credit
+</ul>
+<p>
+These items might be used by the application in its graphics.
+They can be parsed using the functions in lib/parse.C.
+<p>
 When the application has completed successfully it must call
 <pre>
     int boinc_finish();
@@ -27,7 +52,7 @@ An application that encounters a fatal error must call
 <h3>Resolving file names</h3>
 Applications that use named input or output files must call
 <pre>
-    int boinc_resolve_link(char *logical_name, char *physical_name);</tt>
+    int boinc_resolve_filename(char *logical_name, char *physical_name);</tt>
 </pre>
 to convert logical file names to physical names.
 For example, instead of
@@ -39,11 +64,11 @@ the application might use
 <p>
 <pre>
     char resolved_name[256];
-    retval = boinc_resolve_link("my_file", resolved_name);
+    retval = boinc_resolve_filename("my_file", resolved_name);
     if (retval) fail("can't resolve filename");
     f = fopen(resolved_name, "r");
 </pre>
-<tt>boinc_resolve_link()</tt> doesn't need to be used for temporary files.
+<tt>boinc_resolve_filename()</tt> doesn't need to be used for temporary files.
 
 <h3>Checkpointing</h3>
 
@@ -81,14 +106,14 @@ Frequency of checkpointing is a user preference
 (e.g. laptop users might want to checkpoint infrequently).
 An application must call
 <pre>
-bool time_to_checkpoint();
+    bool boinc_time_to_checkpoint();
 </pre>
 whenever it reaches a point where it is able to checkpoint.
 If this returns true,
 the application should write the state file and flush all output files,
 then call
 <pre>
-void checkpoint_completed();
+    void boinc_checkpoint_completed();
 </pre>
 
 <h3>Fraction done</h3>
@@ -99,7 +124,7 @@ periodically call
    boinc_percent_done(double fraction_done);
 </pre>
 The <tt>fraction_done</tt> argument is a rough estimate of the
-workunit percentage complete.
+workunit fraction complete (0 to 1).
 
 <h3>Multi-program applications</h3>
 Some applications consist of multiple programs:
@@ -116,17 +141,28 @@ To correctly implement percent done,
 the main program should pass information to subsidiary programs
 (perhaps as command-line arguments) the starting and ending
 fractions for that program.
+<p>
+The coordinator must call
+<pre>
+    boinc_child_start();
+</pre>
+prior to forking a child process.
+When the child is done, the coordinator
+must get the child's CPU time, then call
+<pre>
+    boinc_child_done(double total_CPU);
+</pre>
+before forking the next child process.
 
 
 <hr>
 <h3>Implementation</h3>
 <p>
-Application are executed in separate "sandbox" directories,
-allowing them to create and use temporary files without
-concern about name conflicts.
-Input and output files are kept outside the sandbox.
-The mappings from virtual to physical filenames are
-done using "symbolic link" files in the sandbox directory.
+Application are executed in separate "catbox" directories,
+allowing them to create and use temporary files without name conflicts.
+Input and output files are kept outside the catbox.
+The mappings from virtual to physical filenames use
+"symbolic link" files in the catbox directory.
 The name of such a file is the virtual name,
 and it contains an XML tag with the physical name.
 This scheme is necessary because of the lack of filesystem links
@@ -134,34 +170,40 @@ in Windows.
 
 <p>
 Communication between the core client and applications
-is done through XML files in the sandbox directory.
+is done through XML files in the catbox directory.
 Several files are used.
 <p>
 <b>Files created by the core client, read by the app:</b>
+(Once, at start of app)
 <ul>
-<li> <b>boinc_init.xml</b>:
+<li> Symbolic link files
+<li> <b>fd_init.xml</b>:
 specifies the mappings of file descriptors (stdin/stdout/stderr)
 to physical files.
 
-<li> <b>core_to_app.xml</b>
-    app prefs
-    graphics settings (x/y, refresh rate)
-    checkpoint period
-    total CPU time previous (?)
-
+<li> <b>init_data.xml</b>: this contains the initialization data
+returned by <tt>boinc_init()</tt> (see above),
+as well as the minimum checkpoint period.
 </ul>
 <p>
-<b>Files created by the app, read by the core client:</b>
+<b>Files created by the API implementation, read by the core client:</b>
 <ul>
 <li>
-<b>app_to_core.xml</b>
-    percent done
-    CPU time at last checkpoint
-    checkpointed?
+<b>percent_done.xml</b>:
+contains the WU percent done.
+Written by the timer routine as needed.
 
-    written by checkpoint_completed
-    read by core
+<b>checkpoint_cpu.xml</b>
+CPU time (from start of WU) at last checkpoint.
+Written by checkpoint_completed.
 
 </ul>
 <p>
-The implementation of the API uses timers
+The API implementation uses a timer (60Hz);
+the real-time clock is not available to applications.
+This timer is used for several purposes:
+<ul>
+<li> To tell the app when to checkpoint;
+<li> To regenerate the percent done file
+<li> To refresh graphics
+</ul>

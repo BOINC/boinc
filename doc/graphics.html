@@ -1,23 +1,58 @@
-<title>BOINC Graphics</title> 
+<title>The graphics API</title> 
 
-<h2>BOINC Graphics</h2> 
+<h2>The graphics API</h2> 
 <p>
 Applications can optionally generate graphics,
-which are displayed by the core client in either
-its application (window) or screensaver (full-screen) form.
+which are displayed either in an application window,
+or in full-screen mode (screensaver).
+<p>
+If an application is able to generate graphics, it should call
+<pre>
+    void boinc_init_opengl();
+</pre>
+at the start and
+<pre>
+    void boinc_finish_opengl();
+</pre>
+at the end.
+It must also supply a function
+<pre>
+    bool app_render(int xs, ys, double time_of_day);
+</pre>
+which will be called periodically.
+This should make openGL calls to generate the current graphic.
+<tt>xs</tt> and <tt>ys</tt> are the X and Y sizes of the window,
+and <tt>time_of_day</tt> is the relative time.
+The function should return true if it actually drew anything.
+It can refer to the user name, CPU time etc. obtained from
+<tt>boinc_init()</tt>.
+<p>
+<b>Give example here</b>
+<p>
+Applications that don't do graphics must also supply a
+dummy <tt>app_render</tt> to link with the API.
+<tt>boinc_draw_gl</tt> is called to draw grpahics
 
-<h3>Graphics</h3>
+<hr>
+<h3>Implementation</h3>
+
+<p>
+The graphics API uses a file <b>graphics.xml</b>
+that is created and occasionally modified by the
+core client or screensaver.
+This file has the format
 <pre>
-    void init_opengl(APP_IN_GRAPHICS);
-    void draw_opengl();
-    void gl_done();
-<br>
+    &lt;graphics_info>
+        &lt;do_graphics/>
+        &lt;xsize>500&lt;/xsize>
+        &lt;ysize>400&lt;/ysize>
+        &lt;full_screen/>
+    &lt;/graphics_info>
 </pre>
-The application must supply a function
-<pre>
-    draw_gl();
-</pre>
-The <tt>draw_gl</tt> function is called when graphics
-need to be drawn to the screen.
-At the completion of the <tt>draw_gl</tt> function,
-<tt>gl_done</tt> must be called.
+
+<p>
+The graphics API implementation uses a 60 Hz timer.
+Every 0.5 sec, it sees if graphics.xml has been modified,
+and if so parses it.
+Every 1/60 sec, it sees if it's time for a new frame,
+and if so calls <tt>app_render()</tt>.

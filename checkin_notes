@@ -1359,3 +1359,14 @@ David A.    July 30 2002
         api.html
         graphics.html
         index.html
+
+David A.    July 30, 2002
+    - Revised API and graphics docs
+    - removed error checks from parse.C
+
+    doc/
+        api.html
+        graphics.html
+        index.html
+    lib/
+        parse.C
