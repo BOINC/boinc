@@ -166,10 +166,17 @@ htmlspecialchars("
  <name>John Keck</name>
  <total_credit>42698.813543</total_credit>
  <expavg_credit>117348.653646</expavg_credit>
+ <cpid>283472938743489759837498347</cpid>
  [ <teamid>5</teamid> ]
  [ <has_profile/> ]
 </user>
 "), "</pre>
+<p>
+Note: &lt;cpid&gt; ('<a href=cpid.php>cross-project identifier</a>')
+is a unique identifier across multiple projects.
+Accounts with the same email address on different projects
+will have the same cross-project identifier
+(as long as at least one computer is attached to both accounts).
 <p>
 <b>User detail</b>
 <pre>",

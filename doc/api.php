@@ -32,9 +32,9 @@ Applications that use named input or output files must call
     int boinc_resolve_filename(char *logical_name, char *physical_name, int len);
 </pre>
 or
-<pre>
+", html_text("
     int boinc_resolve_filename(char *logical_name, string& physical_name);
-</pre>
+"), "
 to convert logical file names to physical names.
 For example, instead of
 <pre>
@@ -42,12 +42,12 @@ For example, instead of
 </pre>
 </p>
 the application might use
-<pre>
+", html_text("
     string resolved_name;
     retval = boinc_resolve_filename(\"my_file\", resolved_name);
     if (retval) fail(\"can't resolve filename\");
     f = fopen(resolved_name.c_str(), \"r\");
-</pre>
+"), "
 <code>boinc_resolve_filename()</code> doesn't need to be used for temporary files.
 
 <h3>Checkpointing</h3>
@@ -113,7 +113,8 @@ This function is fast and can be called frequently.
 <p>
 The following functions get information from the core client;
 this information may be useful for graphics.
-<pre>
+",
+html_text("
     int boinc_get_init_data(APP_INIT_DATA&);
 
     struct APP_INIT_DATA {
@@ -125,7 +126,7 @@ this information may be useful for graphics.
         double team_total_credit;
         double team_expavg_credit;
     };
-</pre>
+"), "
 to get the following information:
 ";
 list_start();
@@ -141,10 +142,9 @@ list_end();
 echo "
 <p>
 An application may call
-<pre>
+", html_text("
     int boinc_wu_cpu_time(double &cpu_time);
-</pre>
-to get its total CPU time
+"), "to get its total CPU time
 (from the beginning of the work unit, not just since the last restart).
 This excludes CPU time used to render graphics.
 

@@ -31,7 +31,7 @@ list_item("Italian",
     "<a href=http://boinc.homeunix.org/>boinc.homeunix.org</a>"
 );
 list_item("Japanese",
-    "<a href=http://je2bwm.hp.infoseek.co.jp/boinc/indexj.html#next2ads>fortunecity.com</a> (by Komori Hitoshi)"
+    "<a href=http://boinc.oocp.org/>translation by Komori Hitoshi</a>"
 );
 list_item("Russian",
     "<a href=http://www.boinc.narod.ru>www.boinc.narod.ru</a>"

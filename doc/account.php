@@ -39,7 +39,8 @@ you can add new computers in either of two ways:
 and cut and paste the project URL and account ID as above.
 
 <li> If the new computer is the same type as an existing computer,
-copy the contents of the BOINC installation directory
+copy the contents of the BOINC installation directory,
+minus the file 'client_state.xml',
 from the existing computer to the new computer.
 
 </ol>

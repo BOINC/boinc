@@ -218,7 +218,7 @@ function rowify($string) {
 }
 
 function random_string() {
-    return md5(uniqid(rand()));
+    return md5(uniqid(rand(), true));
 }
 
 function print_login_form_aux($next_url, $user) {

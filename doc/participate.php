@@ -27,6 +27,7 @@ echo "
 <li> <a href=guis.php>Separate GUIs</a>
 <li> <a href=db_dump.php>Downloading statistics data</a>
 <li> <a href=proxy_server.php>Proxy servers</a> (why BOINC doesn't have them).
+<li> <a href=cpid.php>Cross-project identification</a>
 </ul>
 ";
 page_tail();
