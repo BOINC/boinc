@@ -3260,6 +3260,14 @@ David  Feb 17 2003
         next_xfer.C,h
 
 David  Feb 18 2003
+    - fixed formatting; changed vector remove to use iterator
+
+    client/
+        app.C
+        cs_files.C
+        app.C
+
+David  Feb 18 2003
     - added "opaque" fields to result and workunit tables.
         (allows projects to cross-reference to their science DB)
     - added "venue" field to host (home/school/work)
@@ -3363,3 +3371,42 @@ David  Feb 20 2003
     test/
         test.inc
         test_uc.php
+
+David  Feb 22
+    - API now passes both host and user credit to apps
+    - API now passes team name to apps (scheduler RPC now returns it)
+    - don't use malloc in get_free_slot
+    - added fancier project-specific prefs for astropulse
+    - fixed bugs in account creation
+    - imported code to remove dangerous HTML tags from user-supplied text
+
+    api/
+        boinc_api.C,h
+    client/
+        app.C
+        client_state.C
+        client_types.C,h
+        cs_scheduler.C
+        hostinfo.C,h
+        hostinfo_unix.C
+        time_stats.C
+    html_user/
+        account_setup.php
+        account_setup_first_action.php
+        download.inc
+        htmlfilter.inc
+        logout.php (new)
+        prefs.inc
+        project.inc
+        project_specific_prefs_ap.inc (new)
+        sanitize_html.inc
+        team.inc
+        team_edit_action.php
+        util.inc
+    sched/
+        handle_request.C
+        server_types.C,h
+    test/
+        make_project_ap.php
+        test.inc
+
