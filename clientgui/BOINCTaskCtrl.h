@@ -40,9 +40,11 @@ public:
     virtual void                BeginTaskPage();
     virtual void                BeginTaskSection(  const wxString& strTaskHeaderFilename, 
                                                    bool  bHidden );
+#if 0
     virtual void                BeginTaskSection(  const wxString& strLink,
                                                    const wxString& strTaskHeaderFilename, 
                                                    bool  bHidden );
+#endif
     virtual void                CreateTask(        const wxString& strLink,
                                                    const wxString& strTaskName,
                                                    bool  bHidden );
@@ -50,15 +52,17 @@ public:
                                                    const wxString& strTaskIconFilename, 
                                                    const wxString& strTaskName,
                                                    bool  bHidden );
-    virtual void                CreateTaskSeperator( bool  bHidden );
+    virtual void                CreateTaskSeparator( bool  bHidden );
     virtual void                EndTaskSection(    bool  bHidden );
     virtual void                UpdateQuickTip(    const wxString& strIconFilename,
                                                    const wxString& strTip,
                                                    bool  bHidden );
+#if 0
     virtual void                UpdateQuickTip(    const wxString& strLink,
                                                    const wxString& strIconFilename,
                                                    const wxString& strTip,
                                                    bool  bHidden );
+#endif
     virtual void                EndTaskPage();
 
 

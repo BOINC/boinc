@@ -25912,3 +25912,12 @@ David  11 Mar 2005
 		acct_mgr_client.C
 		gui_rpc_client.C
 
+David  12 Mar 2005
+	- Change the appearance of the Task area of the BOINC manager.
+		Use white background instead of blue.
+		Surround tasks with bordered boxes.
+	- commented out some unused code.  Delete?
+
+	clientgui/
+		BOINCTaskCtrl.cpp,h
+		VewProjects.cpp

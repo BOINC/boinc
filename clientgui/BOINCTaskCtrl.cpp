@@ -33,6 +33,7 @@
 #include "res/visibleheader.xpm"
 #include "res/hiddenheader.xpm"
 
+#define BGCOLOR "#ffffff"
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCTaskCtrl, wxHtmlWindow)
 
@@ -61,12 +62,11 @@ void CBOINCTaskCtrl::BeginTaskPage()
     m_strTaskPage += wxT("<head>");
     m_strTaskPage += wxT("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">");
     m_strTaskPage += wxT("</head>");
-    m_strTaskPage += wxT("<body bgcolor=\"#0080FF\">");
+    m_strTaskPage += wxT("<body bgcolor=" BGCOLOR ">");
 }
 
 
-void CBOINCTaskCtrl::BeginTaskSection( const wxString& strTaskHeaderFilename, bool bHidden )
-{
+void CBOINCTaskCtrl::BeginTaskSection( const wxString& strTaskHeaderFilename, bool bHidden ) {
     wxString strModifiedTaskHeaderFilename;
 
     if ( bHidden )
@@ -74,25 +74,45 @@ void CBOINCTaskCtrl::BeginTaskSection( const wxString& strTaskHeaderFilename, bo
     else
         strModifiedTaskHeaderFilename = strTaskHeaderFilename + wxT(".visible");
 
-    m_strTaskPage += wxT("<table border=\"0\" bgcolor=\"White\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">");
-    m_strTaskPage += wxT("  <tr bgcolor=\"#0080FF\">");
-    m_strTaskPage += wxT("    <td width=\"100%\">");
+    m_strTaskPage += wxT("<table border=0 width=100% cellpadding=0 cellspacing=0>");
+    m_strTaskPage += wxT("  <tr>");
+    m_strTaskPage += wxT("    <td width=100%>");
     m_strTaskPage += wxT("        <img src=\"memory:") + strModifiedTaskHeaderFilename + wxT("\">");
     m_strTaskPage += wxT("    </td>");
     m_strTaskPage += wxT("  </tr>");
 
-    if ( !bHidden )
-    {
-        m_strTaskPage += wxT("  <tr>");
-        m_strTaskPage += wxT("    <td>&nbsp;</td>");
-        m_strTaskPage += wxT("  </tr>");
-        m_strTaskPage += wxT("  <tr>");
-        m_strTaskPage += wxT("    <td align=\"right\">");
-        m_strTaskPage += wxT("      <table border=\"0\" width=\"90%\" cellpadding=\"0\" cellspacing=\"0\">");
+    if ( !bHidden ) {
+        m_strTaskPage += wxT(
+            "    <tr><td>"
+            "     <table border=1 cellpadding=0 cellspacing=0>"
+            "      <tr><td>"
+            "       <table width=100% border=0 cellpadding=0 cellspacing=0>"
+            "        <tr><td>&nbsp;</td></tr>"
+        );
     }
 }
 
+void CBOINCTaskCtrl::EndTaskSection( bool bHidden ) {
+    if ( !bHidden ) {
+        m_strTaskPage += wxT(
+            "       <tr><td>&nbsp;</td></tr>"
+            "      </table>"
+            "     </td></tr>"
+            "   </table>"
+        );
+    }
 
+    m_strTaskPage += wxT("</table>");
+    m_strTaskPage += wxT("<p></p>");
+}
+
+void CBOINCTaskCtrl::CreateTaskSeparator( bool  bHidden ) {
+    if ( !bHidden ) {
+        m_strTaskPage += wxT("<tr><td><hr></td></tr>");
+    }
+}
+
+#if 0
 void CBOINCTaskCtrl::BeginTaskSection( const wxString& strLink, const wxString& strTaskHeaderFilename, bool bHidden )
 {
     wxString strModifiedTaskHeaderFilename;
@@ -103,7 +123,7 @@ void CBOINCTaskCtrl::BeginTaskSection( const wxString& strLink, const wxString& 
         strModifiedTaskHeaderFilename = strTaskHeaderFilename + wxT(".visible");
 
     m_strTaskPage += wxT("<table border=\"0\" bgcolor=\"White\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">");
-    m_strTaskPage += wxT("  <tr bgcolor=\"#0080FF\">");
+    m_strTaskPage += wxT("  <tr bgcolor=" BGCOLOR ">");
     m_strTaskPage += wxT("    <td width=\"100%\">");
 
     if ( !strLink.empty() )
@@ -127,14 +147,14 @@ void CBOINCTaskCtrl::BeginTaskSection( const wxString& strLink, const wxString& 
         m_strTaskPage += wxT("      <table border=\"0\" width=\"90%\" cellpadding=\"0\" cellspacing=\"0\">");
     }
 }
-
+#endif
 
 void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTaskName, bool  bHidden )
 {
     if ( !bHidden )
     {
         m_strTaskPage += wxT("        <tr>");
-        m_strTaskPage += wxT("          <td valign=\"center\" width=\"100%\">");
+        m_strTaskPage += wxT("          <td valign=\"center\" width=\"100%\">&nbsp;&nbsp;");
 
         if ( !strLink.empty() )
             m_strTaskPage += wxT("            <a href=\"") + strLink + wxT("\">");
@@ -181,53 +201,34 @@ void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTas
 }
 
 
-void CBOINCTaskCtrl::CreateTaskSeperator( bool  bHidden )
-{
-    if ( !bHidden )
-    {
-        m_strTaskPage += wxT("            <hr>");
-    }
-}
 
 
-void CBOINCTaskCtrl::EndTaskSection( bool bHidden )
-{
-    if ( !bHidden )
-    {
-        m_strTaskPage += wxT("      </table>");
-        m_strTaskPage += wxT("    </td>");
-        m_strTaskPage += wxT("  </tr>");
-        m_strTaskPage += wxT("  <tr>");
-        m_strTaskPage += wxT("    <td width=\"100%\">&nbsp;</td>");
-        m_strTaskPage += wxT("  </tr>");
-    }
-
-    m_strTaskPage += wxT("</table>");
-    m_strTaskPage += wxT("<p></p>");
-}
-
-
-void CBOINCTaskCtrl::UpdateQuickTip( const wxString& strIconFilename, const wxString& strTip, bool bHidden )
-{
-    if (!strTip.empty())
-    {
-        BeginTaskSection(
-            strIconFilename,
-            bHidden
-        );
-        if (!bHidden)
-        {
-            m_strTaskPage += wxT("        <tr>");
-            m_strTaskPage += wxT("          <td width=\"100%\">");
-            m_strTaskPage += wxT("            ") + strTip;
-            m_strTaskPage += wxT("          </td>");
-            m_strTaskPage += wxT("        </tr>");
+void CBOINCTaskCtrl::UpdateQuickTip( const wxString& strIconFilename, const wxString& strTip, bool bHidden ) {
+    if (!strTip.empty()) {
+        BeginTaskSection(strIconFilename, bHidden);
+        if (!bHidden) {
+            m_strTaskPage += wxT(
+                "<tr>"
+                " <td width=\"100%\">"
+                "  <table border=0 cellpadding=0 cellspacing=0>"
+                "   <tr>"
+                "    <td width=1%><nobr>&nbsp;&nbsp;</nobr></td>"
+                "    <td>"
+            );
+            m_strTaskPage += strTip;
+            m_strTaskPage += wxT(
+                "    </td>"
+                "   </tr>"
+                "  </table>"
+                " </td>"
+                "</tr>"
+            );
         }
         EndTaskSection(bHidden);
     }
 }
 
-
+#if 0
 void CBOINCTaskCtrl::UpdateQuickTip( const wxString& strLink, const wxString& strIconFilename, const wxString& strTip, bool bHidden )
 {
     if (!strTip.empty())
@@ -248,7 +249,7 @@ void CBOINCTaskCtrl::UpdateQuickTip( const wxString& strLink, const wxString& st
         EndTaskSection(bHidden);
     }
 }
-
+#endif
 
 void CBOINCTaskCtrl::EndTaskPage()
 {
