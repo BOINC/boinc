@@ -158,14 +158,18 @@ class Post {
     var $content;
     var $modified;
     
-    function Post($id = -1, $thread = -1, $user = -1, $timestamp = 0, $content = "", $modified = NULL, $parent_post = NULL) {
+    function Post($id = -1, $thread = -1, $user = -1, $timestamp = 0, $content = "", $modified=NULL, $parent_post=NULL) {
         $vars = get_class_vars('Post');
         foreach ($vars as $var => $value)
             $this->$var = $$var;
     }
     
     function insert() {
-        $sql = "INSERT INTO post (thread, user, timestamp, content, parent_post) VALUES (".$this->thread.", ".$this->user.", UNIX_TIMESTAMP(), '".$this->content."', ".$this->parent_post.")";
+        if ($this->parent_post) {
+            $sql = "INSERT INTO post (thread, user, timestamp, content, parent_post) VALUES (".$this->thread.", ".$this->user.", UNIX_TIMESTAMP(), '".$this->content."', ".$this->parent_post.")";
+        } else {
+            $sql = "INSERT INTO post (thread, user, timestamp, content) VALUES (".$this->thread.", ".$this->user.", UNIX_TIMESTAMP(), '".$this->content."')";
+        }
         $result = sql_query($sql);
         if (!$result)
             return false;
