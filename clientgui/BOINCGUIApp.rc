@@ -117,7 +117,7 @@ BEGIN
             VALUE "FileDescription", "BOINC Manager for Windows"
             VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boincmgr"
-            VALUE "LegalCopyright", "Copyright © 2003-2004 University of California"
+            VALUE "LegalCopyright", "Copyright © 2003-2005 University of California"
             VALUE "OriginalFilename", "boincmgr.exe"
             VALUE "ProductName", "BOINC Manager"
             VALUE "ProductVersion", BOINC_VERSION_STRING "\0"
