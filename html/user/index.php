@@ -12,25 +12,25 @@
 <h3>Join ".PROJECT." </h3>
 <p>
 <ul>
-<li><a href=info.php>Rules and policies <b>[read this first]</b></a>
-<li><a href=create_account_form.php>Create an account</a>
+<li><a href=".URL_BASE."/info.php>Rules and policies <b>[read this first]</b></a>
+<li><a href=".URL_BASE."/create_account_form.php>Create an account</a>
 </ul>
 
 <h3>Returning participants</h3>
 <ul>
-<li><a href=login_form.php>Log in</a>
-<li><a href=home.php>User page</a> - view stats, modify preferences
-<li><a href=team.php>Teams</a> - create or join a team
-<li><a href=download.php>Download BOINC</a>
-<li><a href=bug_report_form.php>Report problems</a>
-<li><a href=clone.php>Create a custom signup page</a>
+<li><a href=".URL_BASE."/login_form.php>Log in</a>
+<li><a href=".URL_BASE."/home.php>User page</a> - view stats, modify preferences
+<li><a href=".URL_BASE."/team.php>Teams</a> - create or join a team
+<li><a href=".URL_BASE."/download.php>Download BOINC</a>
+<li><a href=".URL_BASE."/bug_report_form.php>Report problems</a>
+<li><a href=".URL_BASE."/clone.php>Create a custom signup page</a>
 </ul>
 <h3>Project totals and leader boards</h3>
 <ul>
-<li><a href=totals.php>Project totals</a>
-<li><a href=top_users.php>Top users</a>
-<li><a href=top_hosts.php>Top computers</a>
-<li><a href=top_teams.php>Top teams</a>
+<li><a href=".URL_BASE."/totals.php>Project totals</a>
+<li><a href=".URL_BASE."/top_users.php>Top users</a>
+<li><a href=".URL_BASE."/top_hosts.php>Top computers</a>
+<li><a href=".URL_BASE."/top_teams.php>Top teams</a>
 </ul>
 <!--
 ";
