@@ -1,13 +1,6 @@
 #ifndef BOINC_GRAPHICS_API_H
 #define BOINC_GRAPHICS_API_H
 
-// The API (functions called by the app)
-
-extern "C"{
-extern int boinc_init_graphics(void (*worker)());
-extern int boinc_finish_graphics();
-}
-
 // Functions that must be supplied by the app
 // application needs to define mouse, keyboard handlers
 //
@@ -26,6 +19,7 @@ extern void boinc_app_key_release(int, int);
 
 // Implementation stuff
 //
+extern int boinc_init_graphics(void (*worker)());
 extern double boinc_max_fps;
 extern double boinc_max_gfx_cpu_frac;
 extern bool throttled_app_render(int, int, double);

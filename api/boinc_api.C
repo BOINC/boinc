@@ -53,6 +53,7 @@ using namespace std;
 #include "filesys.h"
 #include "error_numbers.h"
 #include "app_ipc.h"
+#include "graphics_api.h"
 #include "boinc_api.h"
 
 // The BOINC API communicates CPU time and fraction done to the core client.
@@ -71,9 +72,9 @@ static double         timer_period        = 1.0;    // period of API timer
 // to the core client, and of checkpoint enabling.
 // It doesn't influence graphics, so 1 sec is enough.
 static double         time_until_checkpoint;
-// countdown timer until enable checkpoint
+    // time until enable checkpoint
 static double         time_until_fraction_done_update;
-// countdown timer until report fraction done to core
+    // time until report fraction done to core client
 static double         fraction_done;
 static double         last_checkpoint_cpu_time;
 static bool           ready_to_checkpoint = false;
@@ -104,12 +105,11 @@ static MMRESULT timer_id;
 
 static int  setup_shared_mem();
 static int  update_app_progress(double cpu_t, double cp_cpu_t, double ws_t);
-static int  set_timer(double period);
 static int  mem_usage(unsigned long& vm_kb, unsigned long& rs_kb);
 static BOINC_OPTIONS options;
 static BOINC_STATUS boinc_status;
 
-int boinc_init() {
+int boinc_init(void (*worker)()) {
     options.main_program = true;
     options.check_heartbeat = true;
     options.handle_trickle_ups = true;
@@ -117,10 +117,10 @@ int boinc_init() {
     options.handle_process_control = true;
     options.send_status_msgs = true;
     options.direct_process_action = true;
-    return boinc_init_options(options);
+    return boinc_init_options(options, worker);
 }
 
-int boinc_init_options(BOINC_OPTIONS& opt) {
+int boinc_init_options(BOINC_OPTIONS& opt, void (*worker)()) {
     int retval;
     options = opt;
 
@@ -187,7 +187,11 @@ int boinc_init_options(BOINC_OPTIONS& opt) {
     heartbeat_active = !standalone;
     heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
 
-    set_timer(timer_period);
+    if (worker) {
+        boinc_init_graphics(worker);
+    } else {
+        set_worker_timer();
+    }
 
     return 0;
 }
@@ -337,8 +341,6 @@ int boinc_worker_thread_cpu_time(double& cpu, double& ws) {
 
 #else
 
-// For now, the UNIX API involves only one thread.
-//
 int boinc_worker_thread_cpu_time(double& cpu, double& ws) {
     return boinc_calling_thread_cpu_time(cpu, ws);
 }
@@ -416,9 +418,11 @@ static void handle_process_control_msg() {
 }
 
 #ifdef _WIN32
-static void CALLBACK on_timer(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2) {
+static void CALLBACK worker_timer(
+    UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2
+) {
 #else
-static void on_timer(int a) {
+static void worker_timer(int a) {
 #endif
 
     if (!ready_to_checkpoint) {
@@ -459,12 +463,17 @@ static void on_timer(int a) {
         }
     }
 
+    static FILE* f=0;
+    if (!f) f = fopen("foo", "w");
+    fprintf(f, "in timer\n"); fflush(f);
+
     if (options.send_status_msgs) {
         time_until_fraction_done_update -= timer_period;
         if (time_until_fraction_done_update <= 0) {
             double cur_cpu;
             double cur_mem;
             boinc_worker_thread_cpu_time(cur_cpu, cur_mem);
+        fprintf(f, "CPU time is %f\n", cur_cpu); fflush(f);
             last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
             update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time, cur_mem);
             time_until_fraction_done_update = aid.fraction_done_update_period;
@@ -476,7 +485,7 @@ static void on_timer(int a) {
 }
 
 
-static int set_timer(double period) {
+int set_worker_timer() {
     int retval=0;
 #ifdef _WIN32
 
@@ -484,9 +493,9 @@ static int set_timer(double period) {
     // than SetTimer and doesn't require an associated event loop
     //
     timer_id = timeSetEvent(
-        (int)(period*1000), // uDelay
-        (int)(period*1000), // uResolution
-        on_timer, // lpTimeProc
+        (int)(timer_period*1000), // uDelay
+        (int)(timer_period*1000), // uResolution
+        worker_timer, // lpTimeProc
         NULL, // dwUser
         TIME_PERIODIC  // fuEvent
     );
@@ -496,19 +505,19 @@ static int set_timer(double period) {
 #if HAVE_SYS_TIME_H
     struct sigaction sa;
     itimerval value;
-    sa.sa_handler = on_timer;
+    sa.sa_handler = worker_timer;
     sa.sa_flags = SA_RESTART;
     retval = sigaction(SIGALRM, &sa, NULL);
     if (retval) {
-        perror("boinc set_timer() sigaction");
+        perror("boinc set_worker_timer() sigaction");
         return retval;
     }
-    value.it_value.tv_sec = (int)period;
-    value.it_value.tv_usec = ((int)(period*1000000))%1000000;
+    value.it_value.tv_sec = (int)timer_period;
+    value.it_value.tv_usec = ((int)(timer_period*1000000))%1000000;
     value.it_interval = value.it_value;
     retval = setitimer(ITIMER_REAL, &value, NULL);
     if (retval) {
-        perror("boinc set_timer() setitimer");
+        perror("boinc set_worker_timer() setitimer");
     }
 #endif
 #endif

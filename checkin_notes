@@ -18862,3 +18862,25 @@ David  25 Oct 2004
             edit_forum_preferences_form.php
             forum_rate.php
             forum_thread.php
+
+David  26 Oct 2004
+    - Fixed the following problem with graphics apps on Unix:
+        - the worker timer handler (on_timer) was set up in boinc_init();
+            this is called in the main thread,
+            which for graphics apps ends up being the graphics thread.
+        - the call to getrusage() in on_timer() was returning
+            the CPU time of the graphics thread, not the worker thread
+        - there doesn't seem to be a way for one thread to
+            get the CPU time of another thread
+        Solution: (unfortunately requires a change to the API):
+            - got rid of boinc_init_graphics()
+            - boinc_init() and boinc_init_options() take an
+                optional void(*worker)() argument.
+                This is nonzero only if the app does graphics.
+            This way boinc_init() can set up the timer itself
+            (in the non-graphics case) or wait for the worker
+            thread to do it (in the graphics case)
+
+    api/
+        boinc_api.C,h
+        graphics_api.C,h

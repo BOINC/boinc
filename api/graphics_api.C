@@ -71,6 +71,7 @@ DWORD WINAPI foobar(LPVOID) {
 #endif
 #ifdef _PTHREAD_H
 void* foobar(void*) {
+    set_timer();
     worker_main();
     return 0;
 }
@@ -187,19 +188,6 @@ void glut_quit() {
 }
 }
 #endif
-
-int boinc_finish_graphics() {
-#ifdef _WIN32
-    if (graphics_inited) {
-        win_loop_done = TRUE;
-        if (hQuitEvent != NULL) {
-            WaitForSingleObject(hQuitEvent, 1000);  // Wait up to 1000 ms
-        }
-    }
-#endif
-
-    return 0;
-}
 
 bool throttled_app_render(int x, int y, double t) {
     static double total_render_time = 0;

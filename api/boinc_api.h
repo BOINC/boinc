@@ -54,8 +54,8 @@ struct BOINC_STATUS {
 };
 
 extern "C" {
-    extern int boinc_init();
-    extern int boinc_init_options(BOINC_OPTIONS&);
+    extern int boinc_init(void (*worker)()=0);
+    extern int boinc_init_options(BOINC_OPTIONS&, void (*worker)()=0);
     extern int boinc_finish(int status);
     extern int boinc_get_status(BOINC_STATUS&);
     extern bool boinc_is_standalone();
@@ -90,6 +90,7 @@ extern APP_CLIENT_SHM *app_client_shm;
 #ifdef _WIN32
 extern HANDLE worker_thread_handle;
 #endif
+extern int set_worker_timer();
 
 /////////// IMPLEMENTATION STUFF ENDS HERE
 
