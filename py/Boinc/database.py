@@ -593,8 +593,8 @@ def connect(config):
     if boincdb:
         return 0
     _connectp(config.db_name,
-              config.__dict__.get('db_user'),
-              config.__dict__.get('db_passwd'))
+              config.__dict__.get('db_user',''),
+              config.__dict__.get('db_passwd', ''))
     return 1
 
 def connect_default_config():
