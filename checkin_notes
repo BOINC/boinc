@@ -11644,3 +11644,9 @@ David  April 15 2004
 
     client/
         cs_scheduler.C
+
+Rom    April 15 2004
+    - Increase benchmark timeout from 60 seconds to 120 seconds
+
+    client/
+        cpu_benchmark.h
