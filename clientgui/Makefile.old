@@ -5,7 +5,7 @@ CXX = $(shell wx-config --cxx)
 
 CFLAGS = -g -I ../lib -DNOTASKBAR
 
-PROGRAM = boinc_gui
+PROGRAM = boincmgr
 
 all: $(PROGRAM)
 
@@ -35,7 +35,7 @@ OBJS = \
     ../lib/filesys.o \
     ../lib/util.o
 
-boinc_gui: $(OBJS)
+boincmgr: $(OBJS)
 	$(CXX) -o $(PROGRAM) $(OBJS) `wx-config --libs` $(OTHER_LIBS)
 
 .cpp.o:

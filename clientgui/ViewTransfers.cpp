@@ -108,6 +108,7 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 150);
 
     m_bTipsHeaderHidden = false;
+    m_bItemSelected = false;
 
     SetCurrentQuickTip(
         LINK_DEFAULT, 

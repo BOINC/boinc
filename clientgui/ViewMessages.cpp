@@ -104,6 +104,7 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
     m_pMessageErrorAttr = new wxListItemAttr( *wxRED, *wxWHITE, wxNullFont );
 
     m_bTipsHeaderHidden = false;
+    m_bItemSelected = false;
 
     SetCurrentQuickTip(
         LINK_DEFAULT, 

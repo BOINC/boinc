@@ -86,6 +86,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_DISKSPACE, _("Disk Space"), wxLIST_FORMAT_LEFT, -1);
 
     m_bTipsHeaderHidden = false;
+    m_bItemSelected = false;
 
     SetCurrentQuickTip(
         LINK_DEFAULT, 
