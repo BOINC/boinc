@@ -23908,3 +23908,13 @@ David  3 Feb 2005
 
     client/
         client_types.C
+
+David  3 Feb 2005
+    - include platform name and client version in all GET and HEAD
+        HTTP request headers.
+        (but not POST - not needed since included in request body)
+        Note: would be nice to include host ID, but that info
+        isn't available at the HTTP level
+
+    client/
+        http.C

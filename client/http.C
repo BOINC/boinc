@@ -84,6 +84,12 @@ void parse_url(const char* url, char* host, int &port, char* file) {
     strcpy(host, buf);
 }
 
+void get_user_agent_string(char* p) {
+    sprintf(p, "BOINC client (%s %d.%02d)",
+        HOSTTYPE, BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION
+    );
+}
+
 // Prints an HTTP 1.1 GET request header into buf
 // Hopefully there won't be chunked transfers in a GET
 //
@@ -91,17 +97,19 @@ static void http_get_request_header(
     char* buf, char* host, int port, char* file, double offset
 ) {
     char offset_info[256];
+    char user_agent_string[256];
+    get_user_agent_string(user_agent_string);
     if (offset) sprintf( offset_info, "Range: bytes=%.0f-\015\012", offset );
     sprintf(buf,
         "GET %s HTTP/1.0\015\012"
-        "User-Agent: BOINC client (%s %d.%02d)\015\012"
+        "User-Agent: %s\015\012"
         "Host: %s:%d\015\012"
         "%s"
         "Connection: close\015\012"
         "Accept: */*\015\012"
         "\015\012",
         file,
-        HOSTTYPE, BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION,
+        user_agent_string,
         host, port, offset?offset_info:""
     );
 }
@@ -110,10 +118,12 @@ static void http_get_request_header_proxy(
     char* buf, char* host, int port, char* file, double offset, char* encstr
 ) {
     char offset_info[256];
+    char user_agent_string[256];
+    get_user_agent_string(user_agent_string);
     if (offset) sprintf( offset_info, "Range: bytes=%.0f-\015\012", offset );
     sprintf(buf,
         "GET %s HTTP/1.0\015\012"
-        "User-Agent: BOINC client (%s %d.%02d)\015\012"
+        "User-Agent: %s\015\012"
         "Host: %s:%d\015\012"
         "%s"
         "Connection: close\015\012"
@@ -121,36 +131,43 @@ static void http_get_request_header_proxy(
         "Proxy-Authorization: Basic %s\015\012"
         "\015\012",
         file,
-        HOSTTYPE, BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION,
+        user_agent_string,
         host, port, offset?offset_info:"", encstr
     );
 }
 
 // Prints an HTTP 1.1 HEAD request header into buf
 //
-static void http_head_request_header(char* buf, char* host, int port, char* file) {
+static void http_head_request_header(
+    char* buf, char* host, int port, char* file
+) {
+    char user_agent_string[256];
+    get_user_agent_string(user_agent_string);
     sprintf(buf,
         "HEAD %s HTTP/1.0\015\012"
-        "User-Agent: BOINC client\015\012"
+        "User-Agent: %s\015\012"
         "Host: %s:%d\015\012"
         "Connection: close\015\012"
         "Accept: */*\015\012"
         "\015\012",
-        file, host, port
+        file, user_agent_string, host, port
     );
 }
 
-static void http_head_request_header_proxy(char* buf, char* host, int port, char* file, char* encstr
+static void http_head_request_header_proxy(
+    char* buf, char* host, int port, char* file, char* encstr
 ) {
+    char user_agent_string[256];
+    get_user_agent_string(user_agent_string);
     sprintf(buf,
         "HEAD %s HTTP/1.0\015\012"
-        "User-Agent: BOINC client\015\012"
+        "User-Agent: %s\015\012"
         "Host: %s:%d\015\012"
         "Connection: close\015\012"
         "Accept: */*\015\012"
         "Proxy-Authorization: Basic %s\015\012"
         "\015\012",
-        file, host, port, encstr
+        file, user_agent_string, host, port, encstr
     );
 }
 
