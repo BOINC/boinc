@@ -2,6 +2,7 @@
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
+require_once("../inc/translation.inc");
 
 function nresults($app, $state) {
     $r = mysql_query("select count(*) as nresults from result where appid=$app->id and server_state=$state");
@@ -21,16 +22,8 @@ while ($platform = mysql_fetch_object($r2)) {
 }
 mysql_free_result($r2);
 
-page_head("Applications");
-echo "
-    ".PROJECT." currently has the following applications.
-    When you participate in ".PROJECT.", work for one or
-    more of these applications will be assigned to your computer.
-    The current version of the application will be downloaded
-    to your computer.
-    This happens automatically;
-    you don't have to do anything.
-    <br><br>
+page_head(tr(APPS_TITLE));
+echo tr(APPS_DESCRIPTION)."<br><br>
 ";
 $result = mysql_query("select * from app");
 start_table();
@@ -50,7 +43,7 @@ if (0) {    // this is too inefficient
     ";
 }
 
-    echo "<tr><th>Platform</th><th>Current version</th><th>Installed</th></tr>\n";
+    echo "<tr><th>".tr(APPS_PLATFORM)."</th><th>".tr(APPS_VERSION)."</th><th>".tr(APPS_INSTALLTIME)."</th></tr>\n";
     for ($i=0; $i<sizeof($platforms); $i++) {
         $platform = $platforms[$i];
         $newest = null;
