@@ -33,7 +33,7 @@ and any running applications exit.
 <p>
 Files (in the BOINC directory) are owned by user X.
 <p>
-Detection of mouse/keyboard is done by the core client.
+Detection of mouse/keyboard is done by the manager.
 <p>
 The screensaver works as it currently does,
 except that we'll pass window-station/desktop info
@@ -41,7 +41,7 @@ so that the password-protected screensaver mechanism will work.
 <p>
 Other users can't run the BOINC manager.
 
-<h2>Run-while-logged-in mode</h2>
+<h2>Shared mode</h2>
 <p>
 This is the same as single-user mode except
 that the BOINC manager (and core client)
@@ -53,7 +53,7 @@ If someone logs in while BOINC is already running,
 it will not start a new instance of BOINC.
 
 
-<h2>Run-always nongraphical mode</h2>
+<h2>Service mode</h2>
 <p>
 This is for situations, such as a PC lab in a school,
 where the administrator wants BOINC to run on the machine
@@ -64,13 +64,13 @@ The core client runs as a service, started at boot time.
 On Windows 2003 and greater is runs under the 'network service' account.
 Otherwise it runs as the installing user.
 <p>
-There is no mouse/keyboard checking,
-so run-when-idle is not supported.
+The manager checks mouse/keyboard input
+and conveys idle state to the core client.
 There is no screensaver capability.
 Only the installing user can run the BOINC manager.
 Files are accessable only to the installing user.
 
-<h2>Run-always graphical mode</h2>
+<h2>Service graphical mode</h2>
 <p>
 This is for PCs that have multiple users,
 all of whom want to see graphics and have control over BOINC.
