@@ -548,7 +548,7 @@ void CLIENT_STATE::handle_file_xfer_apps() {
         RESULT* rp = *i;
         if(rp->wup->avp->app_files.size() == 0 && rp->state == RESULT_FILES_DOWNLOADED) {
             rp->state = RESULT_FILES_UPLOADING;
-            rp->reset_result_files();
+            rp->reset_files();
         }
     }
 }
