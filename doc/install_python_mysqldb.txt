@@ -80,8 +80,8 @@ Unix/Linux: compiled statically into Python
     9. Install
        $ make install
 
-Windows: pre-packaged binary
-----------------------------
+Windows: pre-built binary
+-------------------------
     There is a built python executable available at the URL listed.
 
 Does it work?
