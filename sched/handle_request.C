@@ -143,7 +143,7 @@ int add_wu_to_reply(
     app_version = ss.lookup_app_version(app->id, platform.id, app->min_version);
     if (!app_version) {
         sprintf(buf,
-            "Can't find app version: appid %d platformid %d min_version %d"\n,
+            "Can't find app version: appid %d platformid %d min_version %d\n",
             app->id, platform.id, app->min_version
         );
 
