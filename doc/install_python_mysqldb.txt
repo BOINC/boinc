@@ -8,8 +8,8 @@ http://sourceforge.net/projects/mysql-python
 INSTALLATION INSTRUCTIONS
 =========================
 
-Lines beginning with "$" indicate example commands to execute the instructed
-step.
+Lines beginning with "$" indicate example commands to type in shell.
+Lines beginning with ">>> " indicate example commands to type in Python.
 
 The `shared module' options build a shared library for the Python-MySQLdb
 module that is loaded at Python run-time.  This requires that you have a
@@ -68,6 +68,15 @@ Unix/Linux: compiled statically into Python
        the program `mysql_config'
     8. Build
        $ make
+
+    8T. Check
+       You can check if your MySQLdb was compiled correctly like this:
+       
+       $ cd ../Python-MySQLdb-0.9.2
+       $ ../Python-2.3/python
+       >>> import MySQLdb
+       >>> MySQLdb.connect(db='databasename', user='username')
+
     9. Install
        $ make install
 
@@ -77,9 +86,9 @@ Windows: pre-packaged binary
 
 Does it work?
 =============
-    You can check if your MySQLdb was compiled correctly like this:
+    You can check if your Python and/orMySQLdb was compiled and installed
+    correctly like this:
     
-    $ cd ../Python-MySQLdb-0.9.2
-    $ ../Python-2.3/python
+    $ python
     >>> import MySQLdb
     >>> MySQLdb.connect(db='databasename', user='username')
