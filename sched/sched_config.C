@@ -20,6 +20,7 @@
 // Parse a server configuration file
 
 #include <cstring>
+#include <unistd.h>
 #include <string>
 #include <fstream>
 using std::ifstream;

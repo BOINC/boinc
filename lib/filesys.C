@@ -26,6 +26,7 @@
 #include <fcntl.h>
 
 #include <sys/stat.h>
+#include <sys/file.h>
 
 #include <time.h>
 #include <string.h>
