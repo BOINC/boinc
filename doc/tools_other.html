@@ -1,24 +1,24 @@
-<title>Operational tools: applications and versions</title> 
+<title>Operational tools: applications and versions</title>
 <body bgcolor=ffffff>
-<h2>Operational tools: applications and versions</h2> 
+<h2>Operational tools: applications and versions</h2>
 <p>
-BOINC provides a few tools for creating and operating projects: 
+BOINC provides a few tools for creating and operating projects:
 <ul>
 <li>
 Utility programs (such as <b>add</b> and <b>create_work</b>).
-These can be run manually or invoked from scripts. 
+These can be run manually or invoked from scripts.
 <li>
-C++ functions (such as <b>create_work()</b>). 
+C++ functions (such as <b>create_work()</b>).
 <li>
-Web interfaces (currently these provide only read access). 
+Web interfaces (currently these provide only read access).
 </ul>
 Projects can create their own tools, either at a low level (e.g.
 directly accessing the BOINC DB from PHP or Perl scripts) or by using
 the BOINC DB C++ API (db/db.h).
 
-<h3>The Add utility program</h3> 
+<h3>The Add utility program</h3>
 <p>
-The program <b>add</b> performs various types of initialization: 
+The program <b>add</b> performs various types of initialization:
 <dl>
 <dt>
 add app -app_name name
@@ -74,7 +74,15 @@ Create a preference set, and make it the default preferences for
 the given user.
 </dl>
 
-<h3>Web Interfaces</h3> 
+Common options:
+<dl>
+  <dd>
+    -db_name name
+  <dd>
+    -db_passwd password
+</dl>    
+
+<h3>Web Interfaces</h3>
 <p>
 The file <b>show_db.php</b> in the operational web site directory
-displays the contents of the BOINC DB. 
+displays the contents of the BOINC DB.
