@@ -1618,7 +1618,12 @@ void CMainWindow::OnCommandExit()
     m_ContextMenu.DestroyMenu();
 
     // free dll and idle detection
-    if(g_hIdleDetectionDll) {
+#ifdef 1
+	if(g_hIdleDetectionDll) {
+	    FreeLibrary(g_hIdleDetectionDll);
+	}
+#else
+	if(g_hIdleDetectionDll) {
         typedef void (CALLBACK* TermFn)();
         TermFn fn;
         fn = (TermFn)GetProcAddress(g_hIdleDetectionDll, "IdleTrackerTerm");
@@ -1630,6 +1635,7 @@ void CMainWindow::OnCommandExit()
         FreeLibrary(g_hIdleDetectionDll);
         g_hIdleDetectionDll = NULL;
     }
+#endif
 
     SaveUserSettings();
     //SaveListControls();
@@ -1868,7 +1874,9 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     g_hIdleDetectionDll = LoadLibrary("boinc.dll");
     if(!g_hIdleDetectionDll) {
         show_message(NULL,"Can't load \"boinc.dll\", will not be able to determine idle time", MSG_ERROR);
-    } else {
+    }
+#ifdef 0
+	else {
         typedef BOOL (CALLBACK* InitFn)();
         InitFn fn;
         fn = (InitFn)GetProcAddress(g_hIdleDetectionDll, "IdleTrackerInit");
@@ -1884,6 +1892,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
             }
         }
     }
+#endif
 
     UpdateGUI(&gstate);
 
