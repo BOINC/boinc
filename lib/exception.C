@@ -21,6 +21,10 @@
 #include "stdafx.h"
 #endif
 
+#ifndef _WIN32
+#include "stdlib.h"
+#endif
+
 #include "exception.h"
 #include "error_numbers.h"
 

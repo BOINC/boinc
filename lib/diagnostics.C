@@ -32,6 +32,7 @@
 #endif
 
 #include "diagnostics.h"
+#include "error_numbers.h"
 #include "filesys.h"
 #include "util.h"
 
@@ -476,7 +477,7 @@ void boinc_set_signal_handler_force(int sig, RETSIGTYPE (*handler)(int)) {
     sigaction(sig, &temp, NULL);
 #else
     void (*temp)(int);
-    temp = signal(sig, boinc_catch_signal);
+    temp = signal(sig, handler);
     signal(sig, SIG_IGN);
 #endif /* HAVE_SIGACTION */
 }
@@ -499,10 +500,11 @@ RETSIGTYPE boinc_catch_signal(int signal) {
 }
 
 
+/*
 void boinc_quit(int sig) {
     signal(SIGQUIT, boinc_quit);    // reset signal
     time_to_quit = true;
 }
-
+*/
 
 #endif

@@ -10812,4 +10812,4 @@ Rom    Mar 24 2004
         makefile.am
     lib/
         diagnostics.c
-        exception.h
+        exception.c, .h
