@@ -62,6 +62,8 @@
 
 #include "gutil.h"
 
+#define MAX_DRAW_DISTANCE 2250000
+
 GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
 GLfloat mat_shininess[] = {40.0};
 
@@ -897,8 +899,13 @@ void crossProd(float a[3], float b[3], float out[3])
 
 //makes a list of stars that lie on cocentric circles (inefficient, most will be out of sight)
 //
-void STARFIELD::build_stars(int sz, float sp) {
-	float modelview[16];
+void STARFIELD::build_stars(int sz, float sp) {	
+	float modelview[16];	
+	int i=0;
+	float fov=45.0f;	
+	double proj[16];
+	double model[16];
+	int view[] = {0,0,1,1};
 
 	speed=sp;
 	size=sz;
@@ -922,29 +929,21 @@ void STARFIELD::build_stars(int sz, float sp) {
 	camera[2]=modelview[11];
 
 	crossProd(eye,up,right);
+			
+	get_matrix(model);
+	get_projection(proj);		
+	glMatrixMode(GL_MODELVIEW);
 
-	int i=0;
-	float fov=45.0f;
 	for(i=0;i<size;i++)
-	{		
-		replace_star(i);
-		while(!is_visible(i)) replace_star(i);
+	{				
+		replace_star(i);		
+		while(!is_visible(i,model,proj,view)) replace_star(i);
 	}	
 }
 
-bool STARFIELD::is_visible(int i)
+bool STARFIELD::is_visible(int i,double model[16],double proj[16],int view[4])
 {	
 	bool inside;
-	double model[16];
-	double proj[16];
-	int view[4];
-	get_matrix(model);
-	get_projection(proj);	
-	glMatrixMode(GL_MODELVIEW);
-	view[0]=0;
-	view[1]=0;
-	view[2]=1;
-	view[3]=1;
 	
 	double out[3];
 	get_2d_positions(stars[i].x,stars[i].y,stars[i].z,model,proj,view,out);
@@ -952,34 +951,38 @@ bool STARFIELD::is_visible(int i)
 	   out[1]>0 && out[1]<1 && out[2]<1) inside=true;
 	else inside=false;
 
-	if(speed>0)
-	{
-		return inside;
-	}
-	else
-	{
+	if(speed>0)	return inside;
+	else {
 		float dist;
 		float d[3] = {(camera[0]-stars[i].x),
 			          (camera[1]-stars[i].y),
 		   	          (camera[2]-stars[i].z)};
 
-		dist=sqrt(d[0]*d[0] + d[1]*d[1] + d[2]*d[2]);				
-		return(inside && dist<1500);
+		dist=(d[0]*d[0] + d[1]*d[1] + d[2]*d[2]);				
+		return(inside && dist<MAX_DRAW_DISTANCE);
 	}	
 }
 
 void STARFIELD::update_stars(float dt)
 {
+	glMatrixMode(GL_MODELVIEW);
 	float dist;
+	double model[16];
+	double proj[16];
+	int view[] = {0,0,1,1};
 	
 	GLfloat mat_emission[] = {1, 1, 1, 1};
 	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emission );
 
-	glColor3f(1.0, 1.0, 1.0);
+	glColor3f(1.0, 1.0, 1.0);	
+
+	get_matrix(model);
+	get_projection(proj);			
+	glMatrixMode(GL_MODELVIEW);	
 
 	for(int i=0;i<size;i++)
-	{	
-		while(!is_visible(i)) replace_star(i); 										
+	{				
+		while(!is_visible(i,model,proj,view)) replace_star(i); 										
 	
 		stars[i].x+=(eye[0])*stars[i].v*speed*dt;
 		stars[i].y+=(eye[1])*stars[i].v*speed*dt;

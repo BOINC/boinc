@@ -179,7 +179,7 @@ class STARFIELD {
     float speed;
 	float size;
 	void replace_star(int);
-	bool is_visible(int);
+	bool is_visible(int,double[16],double[16],int[4]);
     STAR* stars;
 public:	
     void build_stars(int, float);

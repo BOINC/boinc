@@ -7117,3 +7117,8 @@ David  27 Oct 2003
 		cs_statefile.C
 		pers_file_xfer.h
 		prefs.C
+
+Oliver 27 Oct 2003
+	- Fixed efficiency bugs in starfield
+	api/
+		gutil.C,h
