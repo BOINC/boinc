@@ -108,7 +108,7 @@ SOURCE=..\..\api\graphics_api.h
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # Begin Source File
 
-SOURCE=..\boinc_ss.rc
+SOURCE=..\..\client\win\boinc_ss.rc
 # End Source File
 # End Group
 # End Target
