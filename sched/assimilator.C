@@ -45,6 +45,7 @@ using std::vector;
 
 SCHED_CONFIG config;
 bool update_db = true;
+bool noinsert = false;
 
 
 #define SLEEP_INTERVAL 10
@@ -135,6 +136,11 @@ int main(int argc, char** argv) {
           // your assimilator over and over again without affecting
           // your project.
             update_db = false;
+        } else if (!strcmp(argv[i], "-noinsert")) {
+	   // This option is also for testing and is used to 
+	   // prevent the inserting of results into the *backend*
+	   // (as opposed to the boinc) DB.
+            noinsert = true;
         } else {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }

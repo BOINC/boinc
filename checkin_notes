@@ -20355,3 +20355,10 @@ Jeff  29 Nov 2004
 
     sched/
 	assimilator.C
+
+Jeff  29 Nov 2004
+    - Added back the "-noinsert" option, which had somehow disappeared.
+
+    sched/
+        assimilator.C
+
