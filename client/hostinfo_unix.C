@@ -123,17 +123,19 @@ char* ip_addr_string(int ip_addr) {
 int get_timezone( void ) {
     tzset();
     // TODO: take daylight savings time into account
-#ifdef __timezone
-    tz = __timezone;
-#elif timezone
-    tz = timezone;
-#else
+#ifdef mac
     time_t cur_time;
     struct tm *time_data;
 
     cur_time = time(NULL);
     time_data = localtime( &cur_time );
     return time_data->tm_gmtoff;
+#else
+#ifdef __timezone
+    return __timezone;
+#else
+    return timezone;
+#endif
 #endif
 }
 
