@@ -224,6 +224,18 @@
 				RelativePath="..\clientgui\MainFrame.cpp">
 			</File>
 			<File
+				RelativePath="..\lib\md5.c">
+			</File>
+			<File
+				RelativePath="..\lib\md5_file.C">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\lib\mfile.C">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -409,6 +421,12 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\MainFrame.h">
+			</File>
+			<File
+				RelativePath="..\lib\md5.h">
+			</File>
+			<File
+				RelativePath="..\lib\md5_file.h">
 			</File>
 			<File
 				RelativePath="..\lib\mfile.h">
