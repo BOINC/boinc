@@ -4624,3 +4624,8 @@ Karl    2003/06/09
 
 Karl    2003/06/09
     - enabled automake maintainer mode - less rebuilding of Makefiles
+    - updated doc
+
+    configure.ac
+    doc/
+        build_system.html
