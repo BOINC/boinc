@@ -119,7 +119,7 @@ Account Key:=ACCOUNT KEY:
 OK=OK
 Cancel=CANCEL
 The URL for the website of the project.=THE URL FOR THE WEBSITE OF THE PROJECT.
-The authorization code recieved in your confirmation email.=THE AUTHORIZATION CODE RECIEVED IN YOUR CONFIRMATION EMAIL.
+The authorization code received in your confirmation email.=THE AUTHORIZATION CODE RECIEVED IN YOUR CONFIRMATION EMAIL.
 
 [DIALOG-QUIT]
 Title=QUIT PROJECT
