@@ -11,7 +11,7 @@
     clear_data_dirs();
     init_client_dirs("account1.xml");
     copy_to_download_dir("input");
-    add_platform();
+    add_platform(null);
     add_core_client();
     add_user(null);
     add_app("concat");

@@ -108,10 +108,14 @@ function add_prefs($file) {
     PassThru("../tools/add prefs -email_addr $BOINC_EMAIL -prefs_file $file");
 }
 
-function add_platform() {
+function add_platform($platform) {
     global $BOINC_PLATFORM;
 
-    PassThru("../tools/add platform -platform_name $BOINC_PLATFORM");
+    if( $platform ) {
+        PassThru("../tools/add platform -platform_name $platform");
+    } else {
+        PassThru("../tools/add platform -platform_name $BOINC_PLATFORM");
+    }
 }
 
 function add_core_client_message($message, $priority) {
