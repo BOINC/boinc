@@ -230,7 +230,7 @@ boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS)
 boinc_client_LDADD = $(RSA_LIBS)
 
 #boinc_client_LDFLAGS = $(STATIC_FLAGS)
-cpu_benchmark_SOURCES = cpu_benchmark.C
+cpu_benchmark_SOURCES = cpu_benchmark.C whetstone.C dhrystone.C
 cpu_benchmark_CFLAGS = -O6 $(AM_CFLAGS)
 
 EXTRA_DIST = \
@@ -285,7 +285,8 @@ am_boinc_client_OBJECTS = boinc_client-app.$(OBJEXT) \
 	boinc_client-util.$(OBJEXT)
 boinc_client_OBJECTS = $(am_boinc_client_OBJECTS)
 boinc_client_LDFLAGS =
-am_cpu_benchmark_OBJECTS = cpu_benchmark.$(OBJEXT)
+am_cpu_benchmark_OBJECTS = cpu_benchmark.$(OBJEXT) whetstone.$(OBJEXT) \
+	dhrystone.$(OBJEXT)
 cpu_benchmark_OBJECTS = $(am_cpu_benchmark_OBJECTS)
 cpu_benchmark_LDADD = $(LDADD)
 cpu_benchmark_DEPENDENCIES =
@@ -339,7 +340,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-time_stats.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-util.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-whetstone.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/cpu_benchmark.Po
+@AMDEP_TRUE@	./$(DEPDIR)/cpu_benchmark.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/dhrystone.Po ./$(DEPDIR)/whetstone.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -491,6 +493,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-whetstone.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cpu_benchmark.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dhrystone.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/whetstone.Po@am__quote@
 
 distclean-depend:
 	-rm -rf ./$(DEPDIR)
