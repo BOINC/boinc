@@ -7242,3 +7242,13 @@ David  30 Oct 2003
         client_state.C
         cs_apps.C
         cs_scheduler.C
+
+David  30 Oct 2003
+    - When get new project preferences, notify (via shared-memory msg)
+        all running apps of that project.
+        New graphics prefs will take effect immediately.
+
+    lib/
+        app_ipc.C,h
+    client/
+        app.C

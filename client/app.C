@@ -798,17 +798,27 @@ bool ACTIVE_TASK::read_stderr_file() {
     return false;
 }
 
+void ACTIVE_TASK::request_reread_prefs() {
+    app_client_shm.send_graphics_msg(
+        CORE_APP_GFX_SEG, GRAPHICS_MSG_REREAD_PREFS, 0
+    );
+}
+
 void ACTIVE_TASK::request_graphics_mode(int mode) {
-    app_client_shm.send_graphics_mode_msg(CORE_APP_GFX_SEG, mode);
+    app_client_shm.send_graphics_msg(
+        CORE_APP_GFX_SEG, GRAPHICS_MSG_SET_MODE, mode
+    );
     graphics_requested_mode = mode;
 }
 
 void ACTIVE_TASK::check_graphics_mode_ack() {
-    int mode;
-    if (app_client_shm.get_graphics_mode_msg(APP_CORE_GFX_SEG, mode)) {
-        graphics_acked_mode = mode;
-        if (mode != MODE_FULLSCREEN) {
-            graphics_mode_before_ss = mode;
+    int msg, mode;
+    if (app_client_shm.get_graphics_msg(APP_CORE_GFX_SEG, msg, mode)) {
+        if (msg == GRAPHICS_MSG_SET_MODE) {
+            graphics_acked_mode = mode;
+            if (mode != MODE_FULLSCREEN) {
+                graphics_mode_before_ss = mode;
+            }
         }
     }
 }

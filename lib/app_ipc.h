@@ -49,6 +49,19 @@
 #define SHM_PREFIX          "shm_"
 #define QUIT_PREFIX         "quit_"
 
+// graphics modes of an application
+//
+#define MODE_UNSUPPORTED        0
+#define MODE_HIDE_GRAPHICS      1
+#define MODE_WINDOW             2
+#define MODE_FULLSCREEN         3
+
+// graphics messages
+//
+#define GRAPHICS_MSG_SET_MODE       1
+#define GRAPHICS_MSG_REREAD_PREFS   2
+
+
 class APP_CLIENT_SHM {
 public:
     char *shm;
@@ -59,8 +72,8 @@ public:
                               // segment and clears pending flag
     bool send_msg(char*, int); // if there is not a message in the segment,
                               // writes specified message and sets pending flag
-    bool send_graphics_mode_msg(int seg, int mode);
-    bool get_graphics_mode_msg(int seg, int& mode);
+    bool send_graphics_msg(int seg, int msg, int mode);
+    bool get_graphics_msg(int seg, int& msg, int& mode);
     void reset_msgs();        // resets all messages and clears their flags
     void reset_msg(int);      // resets specified message and clears its flag
 };
@@ -105,13 +118,6 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define INIT_DATA_FILE    "init_data.xml"
 #define GRAPHICS_DATA_FILE    "graphics.xml"
 #define FD_INIT_FILE    "fd_init.xml"
-
-// possible graphics modes of an application
-//
-#define MODE_UNSUPPORTED        0
-#define MODE_HIDE_GRAPHICS      1
-#define MODE_WINDOW             2
-#define MODE_FULLSCREEN         3
 
 #define END_SS_MSG            "BOINC_SS_END"
 

@@ -188,20 +188,33 @@ void APP_CLIENT_SHM::reset_msg(int seg_num) {
     memset(&shm[seg_num*SHM_SEG_SIZE], 0, sizeof(char)*SHM_SEG_SIZE);
 }
 
-bool APP_CLIENT_SHM::send_graphics_mode_msg(int seg, int mode) {
-    return send_msg(xml_graphics_modes[mode], seg);
+bool APP_CLIENT_SHM::send_graphics_msg(int seg, int msg, int mode) {
+    switch (msg) {
+    case GRAPHICS_MSG_SET_MODE:
+        return send_msg(xml_graphics_modes[mode], seg);
+        break;
+    case GRAPHICS_MSG_REREAD_PREFS:
+        return send_msg(REREAD_PREFS_MSG, seg);
+        break;
+    }
+    return false;
 }
 
-bool APP_CLIENT_SHM::get_graphics_mode_msg(int seg, int& mode) {
+bool APP_CLIENT_SHM::get_graphics_msg(int seg, int& msg, int& mode) {
     char buf[SHM_SEG_SIZE];
     int i;
 
     if (!get_msg(buf, seg)) return false;
     for (i=0; i<5; i++) {
         if (match_tag(buf, xml_graphics_modes[i])) {
+            msg = GRAPHICS_MSG_SET_MODE;
             mode = i;
             return true;
         }
+    }
+    if (match_tag(buf, REREAD_PREFS_MSG)) {
+        msg = GRAPHICS_MSG_REREAD_PREFS;
+        return true;
     }
     return false;
 }

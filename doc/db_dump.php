@@ -1,12 +1,11 @@
 <?
 require_once("docutil.php");
-page_head("Exporting statistics data");
+page_head("Downloadable statistics data");
 echo "
 
 <p>
 BOINC projects may export data describing teams, users and hosts.
-This data is exported in XML files that can be downloaded
-by HTTP from a designated server.
+This data is exported in XML files that can be downloaded via HTTP.
 
 <p>
 The data is presented in several different 'views':
@@ -18,9 +17,6 @@ each containing a fixed number of records.
 The entries in a given file are in either 'summary' or 'detail' form.
 For example, the summary of a team gives its ID, name, and credit,
 while the detailed from also contains a list of its members.
-<p>
-These files can be zipped or gzipped by passing the '-zip' or '-gzip'
-command to the db_dump program.
 <p>
 The files are as follows:
 
