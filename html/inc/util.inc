@@ -204,7 +204,7 @@ function pretty_time_str($x) {
 // @return String A user readable DateTime-String in UTC
 // @param Integer $x The mysql-Timestamp to convert
 function mysqltime_str($x) {
-	// Syntax of supplied mysql-timestamp is YYYYMMDDHHMMSS
+	// Syntax of supplied mysql-timestamp is YYYY-MM-DD HH:MM:SS
 	$year = substr($x,0,4);
 	$month = substr($x,5,2);
 	$day = substr($x,8,2);
