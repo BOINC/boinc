@@ -50,7 +50,9 @@
 #define STATUS_MENU			0			// submenus for context menus
 #define PROJECT_MENU		1
 #define RESULT_MENU			2
-#define XFER_MENU			3
+#define MESSAGE_MENU		3			// Added by JBK
+#define XFER_MENU			4
+
 
 #define PROJECT_ID			0			// child control ids
 #define RESULT_ID			1
@@ -152,6 +154,7 @@ protected:
 	afx_msg void			OnCommandSuspend();
 	afx_msg void			OnCommandResume();
 	afx_msg void			OnCommandExit();
+	afx_msg int				OnCommandMessageCopyToClip();
     afx_msg int				OnCreate(LPCREATESTRUCT);
 	afx_msg BOOL			OnNotify(WPARAM, LPARAM, LRESULT*);
 	afx_msg void			OnRButtonDown(UINT, CPoint);

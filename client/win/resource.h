@@ -88,7 +88,7 @@
 #define ID_PROJECT_GET_PREFS            40038
 #define ID_PROJECT_RESET                40039
 #define ID_STATUSICON_SHOW              40042
-#define ID_MESSAGE_COPY                 40043
+#define ID_MESSAGE_COPY_TO_CLIP         40043
 
 // Next default values for new objects
 // 

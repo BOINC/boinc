@@ -234,6 +234,10 @@ BEGIN
     BEGIN
         MENUITEM "Show Graphics",               ID_WORK_SHOWGRAPHICS
     END
+    POPUP "Message"
+    BEGIN
+        MENUITEM "Copy to clipboard",           ID_MESSAGE_COPY_TO_CLIP
+    END
 END
 
 

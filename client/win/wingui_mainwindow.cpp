@@ -82,6 +82,7 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_COMMAND(ID_STATUSICON_SUSPEND, OnCommandSuspend)
     ON_COMMAND(ID_STATUSICON_RESUME, OnCommandResume)
     ON_COMMAND(ID_STATUSICON_EXIT, OnCommandExit)
+	ON_COMMAND(ID_MESSAGE_COPY_TO_CLIP, OnCommandMessageCopyToClip)  // Added by JBK.
     ON_WM_CREATE()
     ON_WM_RBUTTONDOWN()
     ON_WM_SIZE()
@@ -1389,6 +1390,71 @@ void CMainWindow::OnCommandExit()
 }
 
 //////////
+// CMainWindow::OnCommandMessageCopyToClip
+// arguments:	void
+// returns:		0 if successful, otherwise -1
+// function:	copies the selected message(s) to the clipboard as
+//				formatted text
+int CMainWindow::OnCommandMessageCopyToClip() 
+{
+	HGLOBAL hClipboardData;
+	POSITION pos;
+	char * pchData;
+	CString strData = "";
+
+	if (!OpenClipboard())
+		return -1;
+	EmptyClipboard();
+	
+	/* Get strings from selected items:
+	     - If GetFirstSelectedItem() returns null, the user
+	       right-clicked a single item without selecting it first.
+		   Use click location to determine the chosen item.
+		 - Otherwise, iterate through the selected items.
+    */
+
+	pos = m_MessageListCtrl.GetFirstSelectedItemPosition();
+	if (pos == NULL) {
+		if(m_nContextItem < 0 || m_nContextItem > m_MessageListCtrl.GetItemCount()) return -1;
+		
+		// TODO: Allow arbitrary # of columns instead of hardcoding 3.
+		for (int i = 0; i < 2; i++) {
+			strData += m_MessageListCtrl.GetItemTextOrPos(m_nContextItem, i);
+			strData += " - ";  
+		}
+		// Add last column here to avoid concatenating an extra delimiter to the end.
+		// NOTE: Carriage-return/Newline combination is required to separate lines
+		//       in the CF_TEXT clipboard format.
+		strData += m_MessageListCtrl.GetItemTextOrPos(m_nContextItem, i) + "\r\n";
+	} else {
+		while (pos) {
+			int nItem = m_MessageListCtrl.GetNextSelectedItem(pos);
+
+			for (int i = 0; i < 2; i++) {
+				strData += m_MessageListCtrl.GetItemTextOrPos(nItem, i);
+				strData += " - ";  // TODO: don't add this after the last column.
+			}
+			strData += m_MessageListCtrl.GetItemTextOrPos(nItem, i) + "\r\n";
+		}
+	}
+
+	// allocate a global memory block to hold the copied text
+	// (size is +1 due to null terminator).
+	hClipboardData = GlobalAlloc(GMEM_DDESHARE, strData.GetLength()+1);
+	pchData = (char*)GlobalLock(hClipboardData);
+
+	// copy the string to the allocated memory block.
+	strcpy(pchData, LPCSTR(strData));
+
+	// let go of the memory and let the clipboard know about it.
+	GlobalUnlock(hClipboardData);
+	SetClipboardData(CF_TEXT,hClipboardData);
+
+	CloseClipboard();
+	return 0;
+}
+
+//////////
 // CMainWindow::OnCreate
 // arguments:	lpcs: a pointer to the create structure
 // returns:		0 if successful, otherwise -1
@@ -1624,6 +1690,7 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 	CRect rt;
 	CListCtrl* pMenuCtrl = NULL;
 	int nMenuId = -1;
+
 	if(m_ProjectListCtrl.IsWindowVisible()) {
 		pMenuCtrl = &m_ProjectListCtrl;
 		nMenuId = PROJECT_MENU;
@@ -1633,7 +1700,11 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 	} else if(m_XferListCtrl.IsWindowVisible()) {
 		pMenuCtrl = &m_XferListCtrl;
 		nMenuId = XFER_MENU;
-    }
+    } else if(m_MessageListCtrl.IsWindowVisible()) {
+		pMenuCtrl = &m_MessageListCtrl;
+		nMenuId = MESSAGE_MENU;
+	}
+
     if(pMenuCtrl) {
 		for(int i = 0; i < pMenuCtrl->GetItemCount(); i ++) {
 			pMenuCtrl->GetItemRect(i, &rt, LVIR_BOUNDS);
