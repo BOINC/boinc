@@ -11047,3 +11047,9 @@ Rom   Mar 28 2004
     client/translation/
         <deleted old layout>
         <created new layout>
+
+Rom   Mar 29 2004
+    - Issue fix that Janus gave for the parsing error.
+
+    html/user/
+        host_edit_action.php

@@ -33,7 +33,7 @@ function merge_hosts($old_host, $new_host) {
    // - delete old host
    $total_credit = $old_host->total_credit + $new_host->total_credit;
    $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
-   $result = mysql_query("update host set total_credit=$total_credit, expavg_credit=$recent_credit where id=$new_h
+   $result = mysql_query("update host set total_credit=$total_credit, expavg_credit=$recent_credit where id=$new_host->id");
    if (!result) {
        fail("Couldn't update credit of new host");
    }
