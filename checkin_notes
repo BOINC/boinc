@@ -23156,3 +23156,15 @@ David  21 Jan 2005
 		app_start.C
 	lib/
 		gui_rpc_client.C,h
+
+Rom    22 Jan 2005
+    - Bug Fix: Upgrades of BOINC should now work correctly, any new
+        version of BOINC should automatically uninstall the previous
+        version before installing the new version.
+
+      NOTE: The ProductCode has to be changed between each version or
+        the installer will believe it is a minor version change and
+        not prompt the UI, it'll just overwrite the files.
+
+    win_build/installerv2/
+        BOINC.ism
