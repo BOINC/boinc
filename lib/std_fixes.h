@@ -75,7 +75,7 @@ o_iterator transform(i_iterator first, i_iterator last, o_iterator res, OP op) {
 #endif /* HAVE_STD_TRANSFORM */
 #endif /* CONFIG_TEST */
 
-#if defined(LARGEFILE_BREAKS_CXX) && (defined(_LARGE_FILES) || (_FILE_OFFSET_BITS==64))
+#if defined(LARGEFILE_BREAKS_CXX) && (defined(_LARGE_FILES) || (_FILE_OFFSET_BITS==64)) && !defined(_USING_FCGI_)
 
 #include <stdio.h>
 #include <fcntl.h>
