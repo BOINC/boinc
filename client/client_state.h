@@ -52,7 +52,6 @@ public:
     int insert_file_xfer( FILE_XFER *fxp );
     int giveup_after;
 
-private:
     vector<PROJECT*> projects;
     vector<APP*> apps;
     vector<FILE_INFO*> file_infos;
@@ -60,6 +59,7 @@ private:
     vector<WORKUNIT*> workunits;
     vector<RESULT*> results;
 
+private:
     int version;
     char* platform_name;
     NET_XFER_SET* net_xfers;
