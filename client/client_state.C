@@ -270,9 +270,9 @@ int CLIENT_STATE::check_time_tests() {
         int retval, exit_code = 0;
         retval = waitpid(time_tests_id, &exit_code, WNOHANG);
         if(retval == 0) {
-			if(time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
+			if((unsigned int)time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
 				show_message("Time tests timed out, using default values", "low");
-				kill(pid, SIGKILL);
+				kill(time_tests_id, SIGKILL);
 				host_info.p_fpops = 1e9;
 				host_info.p_iops = 1e9;
 				host_info.p_membw = 4e9;
