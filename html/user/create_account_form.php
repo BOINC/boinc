@@ -22,6 +22,9 @@ echo "<h3>Create an account with ".PROJECT."</h3>
     <p>
 ";
 
+if (!empty($_GET['mirror']))
+	echo '<input type="hidden" name="mirror" value="'.$_GET['mirror'].'">';
+
 
 start_table();
 row2("<b>Name</b>

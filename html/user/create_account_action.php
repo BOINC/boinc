@@ -48,15 +48,29 @@ function show_error($str) {
 
     $authenticator = random_string();
     $munged_email_addr = munge_email_addr($new_email_addr, $authenticator);
-    $query = sprintf(
-       "insert into user (create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, teamid, venue, url, send_email, show_hosts) values(%d, '%s', '%s', '%s', '%s', '%s', 0, 0, 0, 0, 'home', '', 1, 1)",
-        time(),
-        $munged_email_addr,
-        $new_name,
-        $authenticator,
-        $HTTP_POST_VARS["country"],
-        $HTTP_POST_VARS["postal_code"]
-    );
+    
+    if (!empty($_POST['mirror']) && is_int($_POST['mirror'])) {
+    	$sql = "SELECT project_prefs, teamid FROM user WHERE id = ".$_POST['mirror']." LIMIT 1";
+    	$result = mysql_query($sql);
+    	if ($result)
+	    	$myrow = mysql_fetch_array($result);
+	}
+	$query = 'INSERT INTO user SET '
+	        .' create_time = NOW(),'
+	        ." email_addr = '$munged_email_addr',"
+	        ." name = '$new_name',"'
+	        ." authenticator = '$authenticator',"
+	        ." country = '$_POST[country]',"
+	        ." postal_code = '$_POST[postal_code]',"
+	        ." total_credit = 0,"
+	        ." expavg_credit = 0,"
+	        ." expavg_time = 0,"
+	        .(!empty($myrow['project_prefs']))?" project_prefs = '$myrow[project_prefs]',":""
+	        ." teamid = '".(!empty($myrow['teamid']))?$myrow['teamid']:'0'."',"
+	        ." venue = 'home',"
+	        ." url = '',"
+	        ." send_email = 1,"
+	        ." show_hosts = 1";
     $result = mysql_query($query);
     if (!$result) {
         show_error("Couldn't create account");

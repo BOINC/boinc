@@ -4793,3 +4793,11 @@ Karl    2003/06/17
         test_uc.py
         testproxy
         version.py.in
+
+Tim     June 18, 2003
+    - project preference
+        implemented account mirroring
+
+    html_user/
+        create_account_action.php
+        create_account_form.php
