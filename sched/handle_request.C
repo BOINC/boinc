@@ -768,7 +768,7 @@ void process_request(
 
     send_code_sign_key(sreq, reply, code_sign_key);
 
-
+    handle_msgs_from_host(sreq, reply);
     if (config.msg_to_host) {
         handle_msgs_to_host(sreq, reply);
     }

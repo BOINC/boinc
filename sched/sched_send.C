@@ -431,11 +431,11 @@ bool same_platform(DB_HOST& host, SCHEDULER_REQUEST& sreq) {
 static bool already_sent_to_different_platform(
     SCHEDULER_REQUEST& sreq, WORKUNIT& workunit, WORK_REQ& wreq
 ) {
+    wreq.homogeneous_redundancy_reject = false;
     if (workunit.workseq_next != unspec) {
         if (OS(sreq) + CPU(sreq) != workunit.workseq_next)
             wreq.homogeneous_redundancy_reject = true;
-    }
-    else {
+    } else {
       workunit.workseq_next = OS(sreq) + CPU(sreq);
       DB_WORKUNIT db_wu;
       db_wu = workunit;

@@ -16475,3 +16475,10 @@ David  17 Aug 2004
 		net_xfer.C
 	lib/
 		util.C,h
+Rom    17 Aug 2004
+    - BugFix: Fix trickle messages from host.
+    - BugFix: HR fix for the scheduler.
+
+    sched/
+        handle_request.C
+        sched_send.C
