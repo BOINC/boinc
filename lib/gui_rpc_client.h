@@ -64,6 +64,17 @@ struct GUI_URL {
     void print();
 };
 
+// statistics at a specific day
+//
+struct STATISTIC {
+    double user_total_credit;
+    double user_expavg_credit;
+    double host_total_credit;
+    double host_expavg_credit;
+    double day;
+};
+
+
 class PROJECT {
 public:
     std::string master_url;
@@ -87,7 +98,7 @@ public:
     bool tentative;             // master URL and account ID not confirmed
     bool non_cpu_intensive;
     bool suspended_via_gui;
-	bool dont_request_more_work;
+    bool dont_request_more_work;
 
     PROJECT();
     ~PROJECT();
@@ -95,6 +106,9 @@ public:
     int parse(MIOFILE&);
     void print();
     void clear();
+    
+    // statistic of the last x days
+    std::vector<STATISTIC> statistics;
 };
 
 class APP {
@@ -411,6 +425,7 @@ public:
     int quit();
     int acct_mgr_rpc(const char* url, const char* name, const char* passwd);
     const char* mode_name(int mode);
+    int get_statistics(PROJECTS&);
 };
 
 struct RPC {

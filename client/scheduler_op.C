@@ -593,7 +593,28 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         }
         if (match_tag(buf, "</scheduler_reply>")) {
-            return 0;
+
+			// update statistics after parsing the scheduler reply
+
+			// check if vector is empty or we have a new day
+			if (project->statistics.empty() || project->statistics.back().day!=dday()) {
+				// check if max. number of statistics already saved
+				while (project->statistics.size()>30) {
+					project->statistics.erase(project->statistics.begin());
+				}
+
+				project->statistics.push_back(STATISTIC());
+			}
+
+			project->statistics.back().day=dday();
+			project->statistics.back().user_total_credit=project->user_total_credit;
+			project->statistics.back().user_expavg_credit=project->user_expavg_credit;
+			project->statistics.back().host_total_credit=project->host_total_credit;
+			project->statistics.back().host_expavg_credit=project->host_expavg_credit;
+
+			project->write_statistics_file();
+
+			return 0;
         }
         else if (parse_str(buf, "<project_name>", project->project_name, sizeof(project->project_name))) continue;
         else if (parse_str(buf, "<user_name>", project->user_name, sizeof(project->user_name))) continue;
@@ -760,6 +781,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     } else {
         msg_printf(project, MSG_ERROR, "No start tag in scheduler reply\n");
     }
+
     return ERR_XML_PARSE;
 }
 

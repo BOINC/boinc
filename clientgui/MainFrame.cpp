@@ -31,6 +31,7 @@
 #include "ViewTransfers.h"
 #include "ViewMessages.h"
 #include "ViewResources.h"
+#include "ViewStatistics.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 #include "DlgAttachProject.h"
@@ -398,7 +399,7 @@ bool CMainFrame::CreateNotebook()
     wxBoxSizer *pPanelSizer = new wxBoxSizer(wxVERTICAL);
 
     pPanelSizer->Add(new wxStaticLine(pPanel, -1), 0, wxEXPAND);
-    pPanelSizer->Add(0, 4);
+	pPanelSizer->Add(0, 5);
     pPanelSizer->Add(pNotebookSizer, 1, wxEXPAND);
 
 
@@ -407,6 +408,7 @@ bool CMainFrame::CreateNotebook()
     CreateNotebookPage( new CViewWork( m_pNotebook ) );
     CreateNotebookPage( new CViewTransfers( m_pNotebook ) );
     CreateNotebookPage( new CViewMessages( m_pNotebook ) );
+	CreateNotebookPage( new CViewStatistics( m_pNotebook ) );
     CreateNotebookPage( new CViewResources( m_pNotebook ) );
 
 

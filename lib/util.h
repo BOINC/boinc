@@ -39,6 +39,7 @@ extern size_t strlcat(char *dst, const char *src, size_t size);
 extern int ndays_to_string(double x, int smallest_timescale, char *buf);
 extern void nbytes_to_string(double nbytes, double total_bytes, char* str, int len);
 extern double dtime();
+extern double dday();
 extern void validate_time(double&);
 extern void boinc_sleep(double);
 extern int parse_command_line( char *, char ** );

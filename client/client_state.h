@@ -190,6 +190,8 @@ public:
 private:
     int parse_account_files();
     int parse_preferences_for_user_files();
+    int parse_statistics_files();
+        // should be move to a new file, but this will do it for testing
 
 // --------------- cs_apps.C:
 public:

@@ -38,49 +38,50 @@ CBOINCBaseView::CBOINCBaseView()
 {
 }
 
-
-CBOINCBaseView::CBOINCBaseView( wxNotebook* pNotebook, wxWindowID iHtmlWindowID, wxInt32 iHtmlWindowFlags, wxWindowID iListWindowID, wxInt32 iListWindowFlags ) :
+CBOINCBaseView::CBOINCBaseView( wxNotebook* pNotebook, wxWindowID iHtmlWindowID, wxInt32 iHtmlWindowFlags, wxWindowID iListWindowID, wxInt32 iListWindowFlags, bool donothing ) :
     wxPanel( pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL )
 {
-    wxASSERT(NULL != pNotebook);
+    if (!donothing) {
+        wxASSERT(NULL != pNotebook);
 
-    m_bProcessingTaskRenderEvent = false;
-    m_bProcessingListRenderEvent = false;
+        m_bProcessingTaskRenderEvent = false;
+        m_bProcessingListRenderEvent = false;
 
-    m_bItemSelected = false;
+        m_bItemSelected = false;
 
-    m_strQuickTip = wxEmptyString;
-    m_strQuickTipText = wxEmptyString;
+        m_strQuickTip = wxEmptyString;
+        m_strQuickTipText = wxEmptyString;
 
-    //
-    // Globalization/Localization
-    //
-    LINK_DEFAULT             = wxT("default");
+        //
+        // Globalization/Localization
+        //
+        LINK_DEFAULT             = wxT("default");
 
-    //
-    // Setup View
-    //
-    m_pTaskPane = NULL;
-    m_pListPane = NULL;
+        //
+        // Setup View
+        //
+        m_pTaskPane = NULL;
+        m_pListPane = NULL;
 
-    SetAutoLayout(TRUE);
+        SetAutoLayout(TRUE);
 
-    wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(2, 0, 0);
-    wxASSERT(NULL != itemFlexGridSizer);
+        wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(2, 0, 0);
+        wxASSERT(NULL != itemFlexGridSizer);
 
-    itemFlexGridSizer->AddGrowableRow(0);
-    itemFlexGridSizer->AddGrowableCol(1);
-    
-    m_pTaskPane = new CBOINCTaskCtrl( this, iHtmlWindowID, iHtmlWindowFlags );
-    wxASSERT(NULL != m_pTaskPane);
+        itemFlexGridSizer->AddGrowableRow(0);
+        itemFlexGridSizer->AddGrowableCol(1);
+        
+        m_pTaskPane = new CBOINCTaskCtrl( this, iHtmlWindowID, iHtmlWindowFlags );
+        wxASSERT(NULL != m_pTaskPane);
 
-    m_pListPane = new CBOINCListCtrl( this, iListWindowID, iListWindowFlags );
-    wxASSERT(NULL != m_pListPane);
+        m_pListPane = new CBOINCListCtrl( this, iListWindowID, iListWindowFlags );
+        wxASSERT(NULL != m_pListPane);
 
-    itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
-    itemFlexGridSizer->Add(m_pListPane, 1, wxGROW|wxALL, 1);
+        itemFlexGridSizer->Add(m_pTaskPane, 1, wxGROW|wxALL, 1);
+        itemFlexGridSizer->Add(m_pListPane, 1, wxGROW|wxALL, 1);
 
-    SetSizerAndFit(itemFlexGridSizer);
+        SetSizerAndFit(itemFlexGridSizer);
+    }
 }
 
 

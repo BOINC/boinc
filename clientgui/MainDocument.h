@@ -253,6 +253,24 @@ public:
 
 
 	//
+	// Statistics Tab
+	//
+private:
+
+    //PROJECTS                    statistics_status;
+
+    wxInt32                     CachedStatisticsStatusUpdate();
+
+public:
+
+    wxInt32                     GetStatisticsCount();
+    wxInt32                     GetStatisticsProjectName( wxInt32 iIndex, wxString& strBuffer );
+	
+	//Should be private, but functions to access currently not implemented
+	PROJECTS                    statistics_status;
+
+
+	//
 	// Proxy Configuration
 	//
 private:

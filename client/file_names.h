@@ -38,6 +38,9 @@ extern int remove_project_dir(PROJECT&);
 extern int make_slot_dir(int);
 extern void get_account_filename(char* master_url, char* path);
 extern bool is_account_file(const char*);
+extern bool is_statistics_file(const char*);
+extern void get_statistics_filename(char* master_url, char* path);
+
 extern void escape_project_url(char *in, char* out);
 extern void get_sched_request_filename(PROJECT&, char*);
 extern void get_sched_reply_filename(PROJECT&, char*);

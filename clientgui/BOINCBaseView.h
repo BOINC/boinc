@@ -44,7 +44,8 @@ public:
         wxWindowID iHtmlWindowID,
         wxInt32 iHtmlWindowFlags,
         wxWindowID iListWindowID,
-        wxInt32 iListWindowFlags
+        wxInt32 iListWindowFlags,
+		bool donothing=false
     );
 
     ~CBOINCBaseView();

@@ -2017,6 +2017,64 @@ wxInt32 CMainDocument::GetResourceDiskspace( wxInt32 iIndex, float& fBuffer )
     return 0;
 }
 
+wxInt32 CMainDocument::CachedStatisticsStatusUpdate()
+{
+    wxInt32     iRetVal = 0;
+    wxString    strEmpty = wxEmptyString;
+
+    iRetVal = rpc.get_statistics(statistics_status);
+    if (iRetVal)
+    {
+        wxLogTrace("CMainDocument::CachedStatisticsStatusUpdate - Get Statistics Failed '%d'", iRetVal);
+        Connect( strEmpty );
+    }
+
+    return iRetVal;
+}
+
+
+wxInt32 CMainDocument::GetStatisticsCount()
+{
+    wxInt32 iCount = 0;
+
+    CachedStateUpdate();
+    CachedStatisticsStatusUpdate();
+
+    if ( !statistics_status.projects.empty() )
+        iCount = statistics_status.projects.size();
+
+    return iCount;
+}
+
+
+wxInt32 CMainDocument::GetStatisticsProjectName( wxInt32 iIndex, wxString& strBuffer )
+{
+    PROJECT* pProject = NULL;
+    PROJECT* pStateProject = NULL;
+
+    try
+    {
+        if ( !statistics_status.projects.empty() )
+            pProject = statistics_status.projects.at( iIndex );
+    }
+    catch ( std::out_of_range e )
+    {
+        pProject = NULL;
+    }
+
+    if ( NULL != pProject )
+    {
+        pStateProject = state.lookup_project( pProject->master_url );
+        if ( NULL != pStateProject )
+        {
+            strBuffer = pStateProject->project_name.c_str();
+        }
+        else
+            ForceCacheUpdate();
+    }
+
+    return 0;
+}
 
 wxInt32 CMainDocument::GetProxyConfiguration()
 {

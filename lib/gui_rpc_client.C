@@ -182,8 +182,9 @@ void PROJECT::clear() {
     tentative = false;
     non_cpu_intensive = false;
     suspended_via_gui = false;
-	dont_request_more_work = false;
+    dont_request_more_work = false;
     gui_urls.clear();
+    statistics.clear();
 }
 
 APP::APP() {
@@ -1225,6 +1226,45 @@ int RPC_CLIENT::get_disk_usage(PROJECTS& p) {
     return 0;
 }
 
+int RPC_CLIENT::get_statistics(PROJECTS& p) {
+    char buf[256];
+    RPC rpc(this);
+    int retval;
+
+    retval = rpc.do_rpc("<get_statistics/>\n");
+    if (retval) return retval;
+
+    p.clear();
+
+    while (rpc.fin.fgets(buf, 256)) {
+        if (match_tag(buf, "</statistics>")) break;
+        else if (match_tag(buf, "<project_statistics>")) {
+            PROJECT* project = new PROJECT();
+            p.projects.push_back(project);
+
+            while (rpc.fin.fgets(buf, 256)) {
+                if (match_tag(buf, "</project_statistics>")) break;
+                else if (parse_str(buf, "<master_url>", p.projects.back()->master_url)) continue;
+                else if (match_tag(buf, "<daily_statistics>")) {
+                    p.projects.back()->statistics.push_back(STATISTIC());
+
+                    while (rpc.fin.fgets(buf, 256)) {
+                        if (match_tag(buf, "</daily_statistics>")) break;
+                        else if (parse_double(buf, "<day>", p.projects.back()->statistics.back().day)) continue;
+                        else if (parse_double(buf, "<user_total_credit>", p.projects.back()->statistics.back().user_total_credit)) continue;
+                        else if (parse_double(buf, "<user_expavg_credit>", p.projects.back()->statistics.back().user_expavg_credit)) continue;
+                        else if (parse_double(buf, "<host_total_credit>", p.projects.back()->statistics.back().host_total_credit)) continue;
+                        else if (parse_double(buf, "<host_expavg_credit>", p.projects.back()->statistics.back().host_expavg_credit)) continue;
+                    }
+                }
+            }
+
+        }
+    }
+
+    return 0;
+}
+
 void DISPLAY_INFO::print_str(char* p) {
     char buf[256];
     if (strlen(window_station)) {
@@ -1388,24 +1428,24 @@ int RPC_CLIENT::get_activity_state(bool& activities_suspended, bool& network_sus
     int retval;
 
     activities_suspended = false;
-	network_suspended = false;
+    network_suspended = false;
 
     retval = rpc.do_rpc("<get_activity_state/>\n");
     if (retval) return retval;
 
     while (rpc.fin.fgets(buf, 256)) {
         if (match_tag(buf, "</activity_state>")) break;
-		else if (match_tag(buf, "<activities_suspended/>")) {
-			activities_suspended = true;
-			continue;
-		}
-		else if (match_tag(buf, "<network_suspended/>")) {
-			network_suspended = true;
-			continue;
-		}
+        else if (match_tag(buf, "<activities_suspended/>")) {
+            activities_suspended = true;
+            continue;
+        }
+        else if (match_tag(buf, "<network_suspended/>")) {
+            network_suspended = true;
+            continue;
+        }
     }
 
-	return 0;
+    return 0;
 }
 
 int RPC_CLIENT::get_screensaver_mode(int& status) {

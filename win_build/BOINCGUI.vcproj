@@ -409,6 +409,9 @@
 				RelativePath="..\clientgui\ViewResources.cpp">
 			</File>
 			<File
+				RelativePath="..\clientgui\ViewStatistics.cpp">
+			</File>
+			<File
 				RelativePath="..\clientgui\ViewTransfers.cpp">
 			</File>
 			<File
@@ -529,6 +532,9 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\ViewResources.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\ViewStatistics.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\ViewTransfers.h">

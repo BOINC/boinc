@@ -223,6 +223,122 @@ int CLIENT_STATE::parse_account_files() {
     return 0;
 }
 
+// parse an statistics_*.xml file
+//
+int PROJECT::parse_statistics(FILE* in) {
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+
+    bool open_daily_statistics=false;
+    char buf[256];
+
+    while (fgets(buf, 256, in)) {
+        if (match_tag(buf, "</project_statistics>")) return 0;
+        else if (match_tag(buf, "<project_statistics>")) continue;
+        else if (match_tag(buf, "<daily_statistics>")) {
+            if (open_daily_statistics) break;
+            open_daily_statistics=true;
+            statistics.push_back(STATISTIC());
+            continue;
+        }
+        else if (parse_double(buf, "<day>", statistics.back().day)) continue;
+        else if (parse_double(buf, "<user_total_credit>", statistics.back().user_total_credit)) continue;
+        else if (parse_double(buf, "<user_expavg_credit>", statistics.back().user_expavg_credit)) continue;
+        else if (parse_double(buf, "<host_total_credit>", statistics.back().host_total_credit)) continue;
+        else if (parse_double(buf, "<host_expavg_credit>", statistics.back().host_expavg_credit)) continue;
+        else if (match_tag(buf, "</daily_statistics>")) {
+            if (!open_daily_statistics) break;
+            open_daily_statistics=false;
+            continue;
+        }
+        else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
+            canonicalize_master_url(master_url);
+            continue;
+        }
+        else scope_messages.printf("PROJECT::parse_statistics(): unrecognized: %s\n", buf);
+    }
+    return ERR_XML_PARSE;
+}
+
+int CLIENT_STATE::parse_statistics_files() {
+    string name;
+    PROJECT* project;
+    FILE* f;
+    int retval;
+
+    DirScanner dir(".");
+    while (dir.scan(name)) {
+        if (is_statistics_file(name.c_str())) {
+            f = boinc_fopen(name.c_str(), "r");
+            if (!f) continue;
+            PROJECT* temp = new PROJECT;
+            retval = temp->parse_statistics(f);
+            fclose(f);
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR,
+                    "Couldn't parse statistics file %s", name.c_str()
+                );
+            } else {
+                project=lookup_project(temp->master_url);
+                if (project==NULL) {
+                    msg_printf(NULL, MSG_ERROR,
+                        "Project for statistic file %s not found - ignoring", name.c_str()
+                    );
+                } else {
+                    for (std::vector<STATISTIC>::const_iterator i=temp->statistics.begin();
+                        i!=temp->statistics.end(); ++i
+                    ) {
+                        project->statistics.push_back(*i);
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+int PROJECT::write_statistics_file() {
+    char path[256];
+    FILE* f;
+    int retval;
+
+    get_statistics_filename(master_url, path);
+    f = boinc_fopen(TEMP_FILE_NAME, "w");
+    if (!f) return ERR_FOPEN;
+    fprintf(f, 
+        "<project_statistics>\n"
+        "    <master_url>%s</master_url>\n",
+        master_url
+    );
+
+    for (std::vector<STATISTIC>::iterator i=statistics.begin();
+        i!=statistics.end(); ++i
+    ) {
+        fprintf(f, 
+            "    <daily_statistics>\n"
+            "        <day>%f</day>\n"
+            "        <user_total_credit>%f</user_total_credit>\n"
+            "        <user_expavg_credit>%f</user_expavg_credit>\n"
+            "        <host_total_credit>%f</host_total_credit>\n"
+            "        <host_expavg_credit>%f</host_expavg_credit>\n"
+            "    </daily_statistics>\n",
+            i->day,
+            i->user_total_credit,
+            i->user_expavg_credit,
+            i->host_total_credit,
+            i->host_expavg_credit
+        );
+    }
+
+    fprintf(f, 
+        "</project_statistics>\n"
+    );
+
+    fclose(f);
+    retval = boinc_rename(TEMP_FILE_NAME, path);
+    if (retval) return ERR_RENAME;
+    return 0;
+}
+
 int CLIENT_STATE::add_project(const char* master_url, const char* _auth) {
     char path[256], canonical_master_url[256], auth[256];
     PROJECT* project;

@@ -32,7 +32,7 @@ SS_LOGIC::SS_LOGIC() {
     ss_status = 0;
 }
 
-// this is called when the core client receives a message
+// this is called when the core client receives a set_screensaver_mode RPC
 // from the screensaver module.
 //
 void SS_LOGIC::start_ss(GRAPHICS_MSG& m, double new_blank_time) {

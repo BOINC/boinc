@@ -324,6 +324,39 @@ void PROJECT::copy_state_fields(PROJECT& p) {
 #endif
 }
 
+// Write project statistic to project statistics file
+//
+int PROJECT::write_statistics(MIOFILE& out, bool gui_rpc) {
+    out.printf(
+        "<project_statistics>\n"
+		"    <master_url>%s</master_url>\n",
+		master_url
+	);
+
+	for (std::vector<STATISTIC>::iterator i=statistics.begin();
+		i!=statistics.end(); ++i
+    ) {
+        out.printf(
+            "    <daily_statistics>\n"
+            "        <day>%f</day>\n"
+            "        <user_total_credit>%f</user_total_credit>\n"
+            "        <user_expavg_credit>%f</user_expavg_credit>\n"
+            "        <host_total_credit>%f</host_total_credit>\n"
+            "        <host_expavg_credit>%f</host_expavg_credit>\n"
+            "    </daily_statistics>\n",
+            i->day,
+            i->user_total_credit,
+            i->user_expavg_credit,
+            i->host_total_credit,
+            i->host_expavg_credit
+        );
+	}
+    out.printf(
+        "</project_statistics>\n"
+    );
+    return 0;
+}
+
 char* PROJECT::get_project_name() {
     if (strlen(project_name)) {
         return project_name;

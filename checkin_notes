@@ -26575,3 +26575,60 @@ Rom    3 Apr 2005
         win_screensaver.cpp, .h
     lib/
         gui_rpc_client.h
+
+David  3 April 2005
+    - BOINC manager: new "statistics" tab (from Jens Breitbart)
+        Here's Jens' summary of changes:
+        - Client
+          * Statistics are stored on a daily basis
+            ~ Statistics := {User & host total credit, user & host avg. credit}
+            ~ max. 30 days are stored
+          * Statistics are gathered after the client has contacted the scheduler
+            ~ No extra call to the scheduler is made, just information already
+              provided are stored
+          * Added support for the RPC call "<get_statistics/>"
+            ~ Answer include all saved statistics from all projects
+            ~ Syntax of the answer:
+              <statistics>
+                  <project_statistics>
+                     <master_url>%s</master_url>
+                     <daily_statistics>
+                        <day>%f</day>
+                        <user_total_credit>%f</user_total_credit>
+                        <user_expavg_credit>%f</user_expavg_credit>
+                        <host_total_credit>%f</host_total_credit>
+                        <host_expavg_credit>%f</host_expavg_credit>
+                     </daily_statistics> <- repeated for each day
+                  </project_statistics> <- repeated for each project
+              </statistics>
+          * Statistics are saved in files called "statistics_master_url.xml"
+            ~ Syntax is similar to the one shown above except every project is
+              saved in its own file
+            ~ Files are saved after every scheduler reply
+            ~ Files are read at client start
+            ~ Files are deleted on project detach
+        - Manager
+          * Added a statistic tab
+            ~ Drawing the graph on a wxPanel using the paint event.
+            ~ wxPlottWindow not working very reliable...
+            ~ Design is looking quite simple
+          * Using the RPC "<get_statistics/>" to get the Information from the client
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_account.C
+        file_names.C,h
+        gui_rpc_server.C
+        scheduler_op.C
+        ss_logic.C
+    clientgui/
+        BOINCBaseView.cpp.h
+        MainDocument.cpp,h
+        MainFrame.cpp
+        ViewStatistics.cpp,h
+    lib/
+        gui_rpc_client.C,h
+        util.C,h
+    win_build/
+        BOINCGUI.vcproj

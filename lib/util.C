@@ -211,6 +211,15 @@ double dtime() {
 #endif
 }
 
+// return time today 0:00 in seconds since 1970 as a double
+//
+double dday() {
+    const double seconds_per_day=24*60*60;
+    const double now=dtime();
+
+    return (now-fmod(now,seconds_per_day));
+}
+
 // do sanity check on a time, replace with now if bad
 // We switched to using all UNIX times on 12/1/04.
 // During the transition, times in client_state.xml may be
@@ -736,7 +745,7 @@ int boinc_calling_thread_cpu_time(double &cpu_t) {
     struct rusage ru;
     retval = getrusage(RUSAGE_SELF, &ru);
     if (retval) {
-    	return ERR_GETRUSAGE;
+        return ERR_GETRUSAGE;
     }
     // Sum the user and system time
     //

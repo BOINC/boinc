@@ -131,6 +131,17 @@ struct FILE_REF {
     int write(MIOFILE&);
 };
 
+// statistics at a specific day
+//
+struct STATISTIC {
+    double user_total_credit;
+    double user_expavg_credit;
+    double host_total_credit;
+    double host_expavg_credit;
+    double day;
+};
+
+
 class PROJECT {
 public:
     // the following items come from the account file
@@ -254,6 +265,13 @@ public:
     void set_min_rpc_time(double future_time);
     // returns true if min_rpc_time > now; may print a message
     bool waiting_until_min_rpc_time(double now);
+
+	// statistic of the last x days
+	std::vector<STATISTIC> statistics;
+    int parse_statistics(MIOFILE&);
+    int parse_statistics(FILE*);
+    int write_statistics(MIOFILE&, bool gui_rpc=false);
+    int write_statistics_file();
 };
 
 struct APP {

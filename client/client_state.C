@@ -228,6 +228,8 @@ int CLIENT_STATE::init() {
 
     parse_account_files();
 
+	parse_statistics_files();
+
     // check for app_info.xml file in project dirs.
     // If find, read app info from there, set project.anonymous_platform
     //
@@ -1263,6 +1265,14 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
             projects.erase(project_iter);
             break;
         }
+    }
+
+	//delete statistics file
+	//
+	get_statistics_filename(project->master_url, path);
+    retval = boinc_delete_file(path);
+    if (retval) {
+        msg_printf(project, MSG_ERROR, "Can't delete statistics file: %d\n", retval);
     }
 
     // delete account file

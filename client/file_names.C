@@ -169,4 +169,35 @@ bool is_account_file(const char* filename) {
     return true;
 }
 
+// statistics filenames are of the form
+// statistics_URL.xml
+// where URL is master URL with slashes replaced by underscores
+//
+bool is_statistics_file(const char* filename) {
+    const char* p, *q;
+    p = strstr(filename, "statistics_");
+    if (p != filename) return false;
+    q = filename + strlen("statistics_");
+
+    p = strstr(q, ".");
+    if (!p) return bad_account_filename(filename);
+    if (p == q) return bad_account_filename(filename);
+
+    q = p+1;
+    p = strstr(q, ".xml");
+    if (!p) return bad_account_filename(filename);
+    if (p == q) return bad_account_filename(filename);
+
+    q = p + strlen(".xml");
+    if (strlen(q)) return bad_account_filename(filename);
+    return true;
+}
+
+void get_statistics_filename(char* master_url, char* path) {
+    char buf[256];
+    escape_project_url(master_url, buf);
+    sprintf(path, "statistics_%s.xml", buf);
+}
+
+
 const char *BOINC_RCSID_7d362a6a52 = "$Id$";
