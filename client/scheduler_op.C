@@ -16,7 +16,8 @@
 // 
 // Contributor(s):
 //
-
+#include <math.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -53,7 +54,7 @@ int SCHEDULER_OP::init_get_work() {
     else {
         project = gstate.next_project_master_pending();
         if (project) {
-            if (retval=init_master_fetch(project)) {
+            if ((retval=init_master_fetch(project))) {
                 sprintf(err_msg, "init_master_fetch failed, error %d\n", retval);
                 backoff(project, err_msg);
             }
@@ -103,8 +104,8 @@ int SCHEDULER_OP::init_op_project(double ns) {
 // TODO: integrate with other backoff sources
 //
 int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
-    int x = RETRY_BASE_PERIOD;
-    int i;
+    double x;
+    int exp_backoff;
 
     int n = p->nrpc_failures;
     if (n > RETRY_CAP) n = RETRY_CAP;
@@ -114,17 +115,22 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
         if (log_flags.sched_op_debug) {
             printf("we've hit the limit on master_url fetches\n");
         }
-        p->min_rpc_time = time(0) + MASTER_FETCH_INTERVAL;
-        x = MASTER_FETCH_INTERVAL;
+	//backoff e^MASTER_FETCH_INTERVAL * random
+	exp_backoff = (int) exp(((double)rand()/(double)RAND_MAX)*MASTER_FETCH_INTERVAL);
+        p->min_rpc_time = time(0) + exp_backoff;
+        
     }   
     else {
-        for (i=0; i<n; i++) x *= 2;
-        p->min_rpc_time = time(0) + x;
+      //backoff RETRY_BASE_PERIOD * e^nrpc_failures * random
+        x = RETRY_BASE_PERIOD * exp(((double)rand()/(double)RAND_MAX) * n);
+	exp_backoff =  (int)max(PERS_RETRY_DELAY_MIN,min(PERS_RETRY_DELAY_MAX,(int) x));
+	p->min_rpc_time = time(0) + exp_backoff;
+	
     }
     if (log_flags.sched_op_debug) {
         printf(
             "setting min RPC time for %s to %d seconds from now\n",
-            p->master_url, x
+            p->master_url, exp_backoff
         );
     }
     return 0;
@@ -305,7 +311,7 @@ bool SCHEDULER_OP::poll() {
             }
             project = gstate.next_project_master_pending();
             if (project) {
-                if (retval = init_master_fetch(project))
+                if ((retval = init_master_fetch(project)))
                     backoff(project, "Master file fetch failed\n");
             } else {
                 state = SCHEDULER_OP_STATE_IDLE;
@@ -389,7 +395,7 @@ bool SCHEDULER_OP::poll() {
         if (scheduler_op_done) {
            project = gstate.next_project_master_pending();
             if (project) {
-                if (retval = init_master_fetch(project)) {
+                if ((retval = init_master_fetch(project))) {
                     if (log_flags.sched_op_debug) {
                         printf("Scheduler op: init_master_fetch failed.\n" );
                     }

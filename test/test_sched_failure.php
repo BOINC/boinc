@@ -42,7 +42,7 @@
     $project->delete_scheduler();
     $pid = $host->run_asynch("-exit_when_idle");
     //reinstall scheduler after 500 seconds
-    $project->reinstall_scheduler();
+    $project->reinstall_scheduler(100);
     $status = 0;
     //wait until the host has stopped running
     pcntl_waitpid($pid,$status,0);

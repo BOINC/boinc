@@ -2,7 +2,6 @@
 <?php
 //This tests the exponential backoff mechanism on the client in case of master IURL failures
 //This test is not automated. It has to be run, and then client.out (in the host directory) must be looked at to examine wether everything is working correctly.    
-
     include_once("test.inc");
 
     $project = new Project;

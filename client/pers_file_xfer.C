@@ -225,7 +225,7 @@ int PERS_FILE_XFER::retry_and_backoff(unsigned int cur_time) {
     }
     if (log_flags.file_xfer_debug) {
       printf(
-	     "exponential back off is %f, current_time is %s\n", exp_backoff,asctime( newtime ) 
+	     "exponential back off is %d, current_time is %s\n", (int) exp_backoff,asctime( newtime ) 
 	     );
     }
     return 0;

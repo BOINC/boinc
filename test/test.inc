@@ -348,15 +348,14 @@ class Project {
       }
     
     //moves the download directory to temp. This is used to test exponential backoff on the client side.
-    function delete_downloaddir($time = null,$download_dir_number = null)
+    function delete_downloaddir($time = null,$download_dir_num = null)
       {
 	if($time != null)
 	  {
 	    echo "\nsleeping for $time seconds";
 	    PassThru("sleep $time");
 	  }
-       
-	PassThru("mv $this->project_dir/download$download_dir_num $this->project_dir/download_moved$download_dir_num");
+       PassThru("mv $this->project_dir/download$download_dir_num $this->project_dir/download_moved$download_dir_num");
 	 
       }
     
