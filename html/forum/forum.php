@@ -7,7 +7,14 @@ require_once('../util.inc');
 define("EXCERPT_LENGTH", "120");
 
 // Number of forum topics per page.
+// TODO: Make this a constant.
 $n = 50;
+
+if (empty($_GET['id'])) {
+	// TODO: Standard error page
+	echo "Invalid forum ID.<br>";
+	exit();
+}
 
 /* sanitize variable */
 $_GET['id'] = stripslashes(strip_tags($_GET['id']));
@@ -67,9 +74,9 @@ if ($category->is_helpdesk) {
 	start_forum_table(array("Titles", "Replies", "Author", "Views", "Last Post"), array(NULL, 50, 150, 50, 170));
 }
 
-$threads = $forum->getThreads($_GET['start'], $n, $sort_style);
+$threads = getThreads($forum->id, $_GET['start'], $n, $sort_style);
 
-while($thread = getNextThread($threads)) {
+while($thread = mysql_fetch_object($threads)) {
 	$user = lookup_user_id($thread->owner);
 	$first_post = getFirstPost($thread->id);
 	$excerpt = sub_sentence($first_post->content, ' ', EXCERPT_LENGTH, true);

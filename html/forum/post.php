@@ -11,14 +11,9 @@ if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content']))
 
 	$user = get_logged_in_user(true);
 
-	$thread = new Thread();
-	$thread->forum = $_GET['id'];
-	$thread->owner = $user->id;
-	$thread->title = $_POST['title'];
-
-	$thread->post($_POST['content']);
-        
-	header('Location: thread.php?id='.$thread->id);
+	$threadID = createThread($_GET['id'], $user->id, $_POST['title'], $_POST['content']);
+  
+	header('Location: thread.php?id=' . $threadID);
 }
 
 if (!empty($_GET['id'])) {

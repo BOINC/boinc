@@ -4,13 +4,19 @@ require_once('forum.inc');
 require_once('../util.inc');
 require_once('../include/template.inc');
 
-if ($_POST['submit']) {
-    
+if ($_POST['submit']) {    
+	
+		if (empty($_GET['id'])) {
+			// TODO: Standard error page
+			echo "Invalid post ID.<br>";
+			exit();
+		}
+		
     $post = getPost($_GET['id']);
     $thread = getThread($post->thread);
     
-    $post->update($_POST['content']);
-        
+    updatePost($post->id, $_POST['content']);
+
     header('Location: thread.php?id='.$thread->id);
 }
 

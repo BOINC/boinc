@@ -16,13 +16,11 @@ if (!empty($_GET['thread']) && !empty($_POST['content'])) {
   }
 
 	$user = get_logged_in_user(true, '../');
-
-	$thread = getThread($_GET['thread']);
-	$thread->reply($user->id, $_POST['content'], $parent_post);
+	
+	replyToThread($_GET['thread'], $user->id, $_POST['content'], $parent_post);
+	notify_subscribers($_GET['thread']);
         
-	notify_subscribers($thread);
-        
-	header('Location: thread.php?id='.$thread->id);
+	header('Location: thread.php?id='.$_GET['thread']);
 }
 
 $logged_in_user = get_logged_in_user(true, '../');
@@ -31,6 +29,12 @@ $logged_in_user = get_logged_in_user(true, '../');
 //    get_logged_in_user(true, '../');
         
 doHeader('Forum');
+
+if (empty($_GET['thread'])) {
+	// TODO: Standard error page.
+	echo "No thread ID specified.<br>";
+	exit();
+}
 
 if (!empty($_GET['post'])) {
     $post = getPost($_GET['post']);

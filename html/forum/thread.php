@@ -6,6 +6,12 @@ require_once('../util.inc');
 
 
 /* sanitize variable */
+if (empty($_GET['id'])) {
+	// TODO: Standard error page
+	echo "No thread was specified.<br>";
+	exit();
+}
+
 $_GET['id'] = stripslashes(strip_tags($_GET['id']));
 
 $sort_style = $_GET['sort'];
@@ -16,7 +22,7 @@ if ($filter_min == NULL || $filter_min < -2 || $filter_min > 2) {
 }
 
 $thread = getThread($_GET['id']);
-$thread->incView();
+incThreadViews($thread->id);
 
 $forum = getForum($thread->forum);
 $category = getCategory($forum->category);

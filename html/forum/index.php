@@ -18,15 +18,15 @@ doFooter();
 
 function show_forums() {
 	$categories = getCategories();
-	while ($category = getNextCategory($categories)) {
+	while ($category = mysql_fetch_object($categories)) {
 		echo "
 			<tr class=\"subtitle\">
 				<td colspan=\"4\">",  $category->name, "</td>
 			</tr>
 		";
 		
-		$forums = $category->getForums();
-		while ($forum = getNextForum($forums)) {
+		$forums = getForums($category->id);
+		while ($forum = mysql_fetch_object($forums)) {
 			echo "
 				<tr style=\"font-size:8pt; text-align:right\">
 				<td style=\"text-align:left\">
