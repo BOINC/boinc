@@ -75,6 +75,9 @@ TAR_TARGETS = client/* lib/* api/* RSAEuro/* INSTALL_CLIENT
 .c.o:
 	$(CC) -c -o $*.o $<
 
+../RSAEuro/source/rsaeuro.a: 
+	cd ../RSAEuro/source; ${MAKE}
+
 $(CLIENT_PROG): main.o $(OBJS)
 	$(CC) main.o $(OBJS) $(CLIBS) -o $(CLIENT_PROG)
 
@@ -93,6 +96,9 @@ tar:
 
 clean:
 	rm -f *.o $(PROGS) core dependencies Makefile config.cache
+	cd ../RSAEuro/source; ${MAKE} clean;
+	cd ../lib; ${MAKE} clean;
+	cd ../api; ${MAKE} clean;
 
 install: all
 	-mkdir -p $(INSTALL_DIR)/client
