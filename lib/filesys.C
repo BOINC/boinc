@@ -337,7 +337,7 @@ FILE* boinc_fopen(const char* path, const char* mode) {
 
     f = fopen(path, mode);
 #ifdef _WIN32
-    if (!f) && (strchr(mode, 'w') || strchr(mode, 'a'))) {
+    if ((!f) && (strchr(mode, 'w') || strchr(mode, 'a'))) {
         boinc_sleep(3.0);
         f = fopen(path, mode);
     }
