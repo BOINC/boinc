@@ -7,7 +7,7 @@ require_once("../inc/team.inc");
 db_init();
 $user = get_logged_in_user();
 
-$teamid get_int("teamid");
+$teamid = get_int("teamid");
 $team = lookup_team($teamid);
 require_founder_login($user, $team);
 

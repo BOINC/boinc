@@ -45,6 +45,10 @@ $new_name = process_user_text($_POST["new_name"]);
 if (strlen($new_name)==0) {
     show_error("You must supply a name for your account");
 }
+if ($new_name != strip_tags($new_name)) {
+    show_error("HTML tags not allowed in name");
+}
+
 
 $new_email_addr = process_user_text($HTTP_POST_VARS["new_email_addr"]);
 $new_email_addr = strtolower($new_email_addr);
@@ -70,7 +74,7 @@ if (!is_valid_country($country)) {
     exit();
 }
 
-$postal_code = process_user_text($_POST["postal_code"]);
+$postal_code = strip_tags(process_user_text($_POST["postal_code"]));
 
 $authenticator = random_string();
 $cross_project_id = random_string();

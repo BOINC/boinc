@@ -9,13 +9,15 @@ db_init();
 $user = get_logged_in_user();
 
 $name = process_user_text(post_str("user_name"));
+$name = strip_tags($name);
 $url = process_user_text(post_str("url"));
+$url = strip_tags($url;
 $country = post_str("country");
 if (!is_valid_country($country)) {
-    echo "bad country";
-    exit();
+    error_page("bad country");
 }
 $postal_code = process_user_text(post_str("postal_code"));
+$postal_code = strip_tags($postal_code);
 
 $result = mysql_query("update user set name='$name', url='$url', country='$country', postal_code='$postal_code' where id=$user->id");
 if ($result) {

@@ -106,7 +106,9 @@ function boinc_real_escape_string($x) {
     //}
 }
 
-// process user-supplied text prior to using in query
+// Process user-supplied text prior to using in query;
+// trims whitespace and escapes quotes.
+// Does NOT remove HTML tags.
 //
 function process_user_text($value) {
     $value = trim($value);
