@@ -101,8 +101,15 @@ void	boinc_info_release(const char *pszFormat, ...);
 
 #else   // non-Win starts here
 #include <signal.h>
-extern void boinc_set_signal_handler(int sig, void(*handler)(int));
-extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
+
+#ifdef __cpluplus
+extern "C" {
+#endif // __cpluplus
+    extern void boinc_set_signal_handler(int sig, void(*handler)(int));
+    extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
+#ifdef __cpluplus
+}
+#endif // __cpluplus
 #endif // ! _WIN32
 
 
