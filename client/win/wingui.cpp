@@ -25,37 +25,12 @@
 
 CMainWindow* g_myWnd = NULL;
 CMyApp g_myApp;
-
-#define STATUS_ICON_ID		(WM_USER + 1)
-
-#define STATUS_MENU			0
-#define PROJECT_MENU		1
-#define RESULT_MENU			2
-#define XFER_MENU			3
-
-#define PROJECT_ID			0
-#define RESULT_ID			1
-#define XFER_ID				2
-#define MESSAGE_ID			3
-#define MAX_LIST_ID			4
-#define USAGE_ID			4
-#define TAB_ID				5
-
-#define PROJECT_COLS		5
-#define RESULT_COLS			7
-#define XFER_COLS			6
-#define MESSAGE_COLS		3
-#define MAX_COLS			7
-
-char* column_titles[MAX_LIST_ID][MAX_COLS] = {
+char* g_szColumnTitles[MAX_LIST_ID][MAX_COLS] = {
         {"Project",	"Account",		"Total Credit",	"Avg. Credit",	"Resource Share",	NULL,				NULL},
         {"Project",	"Application",	"Name",			"CPU time",		"Progress",			"To Completion",	"Status"},
         {"Project",	"File",			"Progress",		"Size",			"Time",				"Direction",		NULL},
         {"Project",	"Time",			"Message",		NULL,			NULL,				NULL,				NULL}
 };
-
-double GetDiskSize();
-double GetDiskFree();
 
 void show_message(char* message, char* priority) {
 	if(g_myWnd) {
@@ -78,14 +53,18 @@ int get_initial_project() {
 }
 
 void GetByteString(double nbytes, CString* str) {
-    if (nbytes > 1e12) {
-        str->Format("%0.2f TB", nbytes/(1024.0*1024*1024*1024));
-    } else if (nbytes > 1e9) {
-        str->Format("%0.2f GB", nbytes/(1024.0*1024*1024));
-    } else if (nbytes > 1e6) {
-        str->Format("%0.2f MB", nbytes/(1024.0*1024));
-    } else if (nbytes > 1e3) {
-        str->Format("%0.2f KB", nbytes/(1024.0));
+	double xTera = (1024.0*1024*1024*1024);
+	double xGiga = (1024.0*1024*1024);
+	double xMega = (1024.0*1024);
+	double xKilo = (1024.0);
+    if (nbytes >= xTera) {
+        str->Format("%0.2f TB", nbytes/xTera);
+    } else if (nbytes >= xGiga) {
+        str->Format("%0.2f GB", nbytes/xGiga);
+    } else if (nbytes >= xMega) {
+        str->Format("%0.2f MB", nbytes/xMega);
+    } else if (nbytes >= xKilo) {
+        str->Format("%0.2f KB", nbytes/xKilo);
     } else {
         str->Format("%0.0f bytes", nbytes);
     }
@@ -120,12 +99,12 @@ void CProgressBarCtrl::OnLButtonDown(UINT nFlags, CPoint point)
 	CProgressCtrl::OnLButtonDown(nFlags, point);
 
 	// if this control has a parent, repackage this message and forward it
-	CWnd* parent = GetParent();
-	if(parent) {
-		MapWindowPoints(parent,&point,1);
+	CWnd* pWndParent = GetParent();
+	if(pWndParent) {
+		MapWindowPoints(pWndParent, &point, 1);
 		WPARAM wParam = nFlags;
 		LPARAM lParam = MAKELPARAM(point.x, point.y);
-		parent->SendMessage(WM_LBUTTONDOWN, wParam, lParam);
+		pWndParent->SendMessage(WM_LBUTTONDOWN, wParam, lParam);
 	}
 }
 
@@ -140,12 +119,12 @@ void CProgressBarCtrl::OnLButtonUp(UINT nFlags, CPoint point)
 	CProgressCtrl::OnLButtonUp(nFlags, point);
 
 	// if this control has a parent, repackage this message and forward it
-	CWnd* parent = GetParent();
-	if(parent) {
-		MapWindowPoints(parent,&point,1);
+	CWnd* pWndParent = GetParent();
+	if(pWndParent) {
+		MapWindowPoints(pWndParent, &point, 1);
 		WPARAM wParam = nFlags;
 		LPARAM lParam = MAKELPARAM(point.x, point.y);
-		parent->SendMessage(WM_LBUTTONUP, wParam, lParam);
+		pWndParent->SendMessage(WM_LBUTTONUP, wParam, lParam);
 	}
 }
 
@@ -160,12 +139,12 @@ void CProgressBarCtrl::OnRButtonDown(UINT nFlags, CPoint point)
 	CProgressCtrl::OnRButtonDown(nFlags, point);
 
 	// if this control has a parent, repackage this message and forward it
-	CWnd* parent = GetParent();
-	if(parent) {
-		MapWindowPoints(parent,&point,1);
+	CWnd* pWndParent = GetParent();
+	if(pWndParent) {
+		MapWindowPoints(pWndParent, &point, 1);
 		WPARAM wParam = nFlags;
 		LPARAM lParam = MAKELPARAM(point.x, point.y);
-		parent->SendMessage(WM_RBUTTONDOWN, wParam, lParam);
+		pWndParent->SendMessage(WM_RBUTTONDOWN, wParam, lParam);
 	}
 }
 
@@ -197,12 +176,12 @@ void CProgressHeaderCtrl::OnRButtonDown(UINT nFlags, CPoint point)
 	CHeaderCtrl::OnRButtonDown(nFlags, point);
 
 	// if this control has a parent, repackage this message and forward it
-	CWnd* parent = GetParent();
-	if(parent) {
-		MapWindowPoints(parent,&point,1);
+	CWnd* pWndParent = GetParent();
+	if(pWndParent) {
+		MapWindowPoints(pWndParent, &point, 1);
 		WPARAM wParam = nFlags;
 		LPARAM lParam = MAKELPARAM(point.x, point.y);
-		parent->SendMessage(WM_RBUTTONDOWN, wParam, lParam);
+		pWndParent->SendMessage(WM_RBUTTONDOWN, wParam, lParam);
 	}
 }
 
@@ -217,12 +196,12 @@ void CProgressHeaderCtrl::OnRButtonUp(UINT nFlags, CPoint point)
 	CHeaderCtrl::OnRButtonUp(nFlags, point);
 
 	// if this control has a parent, repackage this message and forward it
-	CWnd* parent = GetParent();
-	if(parent) {
-		MapWindowPoints(parent,&point,1);
+	CWnd* pWndParent = GetParent();
+	if(pWndParent) {
+		MapWindowPoints(pWndParent, &point, 1);
 		WPARAM wParam = nFlags;
 		LPARAM lParam = MAKELPARAM(point.x, point.y);
-		parent->SendMessage(WM_RBUTTONUP, wParam, lParam);
+		pWndParent->SendMessage(WM_RBUTTONUP, wParam, lParam);
 	}
 }
 
@@ -282,8 +261,8 @@ int CProgressListCtrl::InsertColumn(int nCol, LPCTSTR lpszColumnHeading, int nFo
 int CProgressListCtrl::InsertItem(int nItem, LPCTSTR lpszItem)
 {
 	m_ItemColors.InsertAt(nItem, RGB(0, 0, 0));
-	CString empty;
-	m_ProjectURLs.InsertAt(nItem, empty);
+	CString StrEmpty;
+	m_ProjectURLs.InsertAt(nItem, StrEmpty);
 	return CListCtrl::InsertItem(nItem, lpszItem);
 }
 
@@ -336,17 +315,17 @@ BOOL CProgressListCtrl::DeleteItem(int nItem)
 	CString empty;
 	m_ProjectURLs.RemoveAt(nItem);
 
-	CString str;
-	CProgressCtrl* progCtrl = NULL;
+	CString strbuf;
+	CProgressCtrl* pProgCtrl = NULL;
 
 	// go through all the subitems and see if they have a progess control
 	for(si = 0; si < GetHeaderCtrl()->GetItemCount(); si ++) {
-		str.Format("%d:%d", nItem, si);
-		progCtrl = NULL;
-		m_Progs.Lookup(str, (CObject*&)progCtrl);
-		if(progCtrl) {
-			m_Progs.RemoveKey(str);
-			delete progCtrl;
+		strbuf.Format("%d:%d", nItem, si);
+		pProgCtrl = NULL;
+		m_Progs.Lookup(strbuf, (CObject*&)pProgCtrl);
+		if(pProgCtrl) {
+			m_Progs.RemoveKey(strbuf);
+			delete pProgCtrl;
 		}
 	}
 
@@ -354,13 +333,13 @@ BOOL CProgressListCtrl::DeleteItem(int nItem)
 	// move other progress controls up
 	for(i = nItem + 1; i < GetItemCount(); i ++) {
 		for(si = 0; si < GetHeaderCtrl()->GetItemCount(); si ++) {
-			str.Format("%d:%d", i, si);
-			progCtrl = NULL;
-			m_Progs.Lookup(str, (CObject*&)progCtrl);
-			if(progCtrl) {
-				m_Progs.RemoveKey(str);
-				str.Format("%d:%d", i - 1, si);
-				m_Progs.SetAt(str, progCtrl);
+			strbuf.Format("%d:%d", i, si);
+			pProgCtrl = NULL;
+			m_Progs.Lookup(strbuf, (CObject*&)pProgCtrl);
+			if(pProgCtrl) {
+				m_Progs.RemoveKey(strbuf);
+				strbuf.Format("%d:%d", i - 1, si);
+				m_Progs.SetAt(strbuf, pProgCtrl);
 			}
 		}
 	}
@@ -370,36 +349,36 @@ BOOL CProgressListCtrl::DeleteItem(int nItem)
 
 //////////
 // CProgressListCtrl::SetItemProgress
-// arguments:	item: item index
-//				subitem: item's subitem to set progress for
-//				prog: position to set progress control
+// arguments:	nItem: item index
+//				nSubitem: item's subitem to set progress for
+//				nProg: position to set progress control
 // returns:		void
 // function:	sets the position of a progress control for a given
 //				item and subitem; if there is none there, creates a new 
 //				one, otherwise sets the progress of the one it finds.
-void CProgressListCtrl::SetItemProgress(int item, int subitem, int prog)
+void CProgressListCtrl::SetItemProgress(int nItem, int nSubItem, int nProg)
 {
 	CRect rt;
-	CString str;
-	CProgressCtrl* progCtrl = NULL;
-	if(prog < 0) prog = 0;
-	if(prog > 100) prog = 100;
+	CString strbuf;
+	CProgressCtrl* pProgCtrl = NULL;
+	if(nProg < 0) nProg = 0;
+	if(nProg > 100) nProg = 100;
 
 	// lookup the position of the progress control
-	str.Format("%d:%d", item, subitem);
-	m_Progs.Lookup(str, (CObject*&)progCtrl);
-	if(progCtrl) {
+	strbuf.Format("%d:%d", nItem, nSubItem);
+	m_Progs.Lookup(strbuf, (CObject*&)pProgCtrl);
+	if(pProgCtrl) {
 
 		// found, so just update it's progress
-		progCtrl->SetPos(prog);
+		pProgCtrl->SetPos(nProg);
 	} else {
 
 		// not found, create one and put it in the map
-		GetSubItemRect(item, subitem, LVIR_BOUNDS, rt);
-		progCtrl = new CProgressBarCtrl();
-		progCtrl->Create(PBS_SMOOTH|WS_CHILD|WS_VISIBLE, rt, this, 0);
-		progCtrl->SetPos(prog);
-		m_Progs.SetAt(str, progCtrl);
+		GetSubItemRect(nItem, nSubItem, LVIR_BOUNDS, rt);
+		pProgCtrl = new CProgressBarCtrl();
+		pProgCtrl->Create(PBS_SMOOTH|WS_CHILD|WS_VISIBLE, rt, this, 0);
+		pProgCtrl->SetPos(nProg);
+		m_Progs.SetAt(strbuf, pProgCtrl);
 	}
 }
 
@@ -411,10 +390,10 @@ void CProgressListCtrl::SetItemProgress(int item, int subitem, int prog)
 //				to the current window, fitting them into their given subitem.
 void CProgressListCtrl::RepositionProgress()
 {
-	int item, subitem;
+	int nItem, nSubItem;
 	CRect rt, hrt;
-	CString str;
-	CProgressCtrl* progCtrl = NULL;
+	CString strbuf;
+	CProgressCtrl* pProgCtrl = NULL;
     GetHeaderCtrl()->GetClientRect(hrt);
 
 	// iterate through each progress control
@@ -422,9 +401,9 @@ void CProgressListCtrl::RepositionProgress()
 	while (pos != NULL) {
 
 		// look at the progress control and move it
-		m_Progs.GetNextAssoc(pos, str, (CObject*&)progCtrl);
-		sscanf(str.GetBuffer(0), "%d:%d", &item, &subitem);
-		GetSubItemRect(item, subitem, LVIR_BOUNDS, rt);
+		m_Progs.GetNextAssoc(pos, strbuf, (CObject*&)pProgCtrl);
+		sscanf(strbuf.GetBuffer(0), "%d:%d", &nItem, &nSubItem);
+		GetSubItemRect(nItem, nSubItem, LVIR_BOUNDS, rt);
 		rt.top ++; rt.left ++;
 		rt.bottom --; rt.right --;
 
@@ -433,125 +412,125 @@ void CProgressListCtrl::RepositionProgress()
 			rt.top = -10;
 			rt.bottom = 0;
 		}
-		progCtrl->MoveWindow(rt, false);
+		pProgCtrl->MoveWindow(rt, false);
 	}
 }
 
 //////////
 // CProgressListCtrl::SwapItems
-// arguments:	i1: index of the first item to swap
-//				i2: index of the second item to swap
+// arguments:	nItem1: index of the first item to swap
+//				nItem2: index of the second item to swap
 // returns:		void
 // function:	swaps all relevant information of the two given items. this
 //				includes text and progress controls of subitems and 
 //				item data
-void CProgressListCtrl::SwapItems(int i1, int i2)
+void CProgressListCtrl::SwapItems(int nItem1, int nItem2)
 {
 	int nCols = GetHeaderCtrl()->GetItemCount();
-	CProgressCtrl* progCtrl1;
-	CProgressCtrl* progCtrl2;
-	CString txt1, txt2;
-	DWORD data1, data2;
-	int si;
+	CProgressCtrl* pProgCtrl1;
+	CProgressCtrl* pProgCtrl2;
+	CString StrTxt1, StrTxt2;
+	DWORD dwData1, dwData2;
+	int nSubItem;
 
 	// check item indicies
-	if(i1 >= GetItemCount() || i2 >= GetItemCount()) {
+	if(nItem1 >= GetItemCount() || nItem2 >= GetItemCount()) {
 		return;
 	}
 
 	// swap url data
-	bool ok1 = false, ok2 = false;
-	CString stemp1, stemp2, sempty;
-	if(i1 < m_ProjectURLs.GetSize()) {
-		stemp1 = m_ProjectURLs.GetAt(i1);
-		ok1 = true;
+	bool bOk1 = false, bOk2 = false;
+	CString StrTemp1, StrTemp2, StrEmpty;
+	if(nItem1 < m_ProjectURLs.GetSize()) {
+		StrTemp1 = m_ProjectURLs.GetAt(nItem1);
+		bOk1 = true;
 	}
-	if(i2 < m_ProjectURLs.GetSize()) {
-		stemp2 = m_ProjectURLs.GetAt(i2);
-		ok2 = true;
+	if(nItem2 < m_ProjectURLs.GetSize()) {
+		StrTemp2 = m_ProjectURLs.GetAt(nItem2);
+		bOk2 = true;
 	}
-	if(ok1) {
-		m_ProjectURLs.SetAtGrow(i2, stemp1);
+	if(bOk1) {
+		m_ProjectURLs.SetAtGrow(nItem2, StrTemp1);
 	} else {
-		m_ProjectURLs.SetAtGrow(i2, sempty);
+		m_ProjectURLs.SetAtGrow(nItem2, StrEmpty);
 	}
-	if(ok2) {
-		m_ProjectURLs.SetAtGrow(i1, stemp2);
+	if(bOk2) {
+		m_ProjectURLs.SetAtGrow(nItem1, StrTemp2);
 	} else {
-		m_ProjectURLs.SetAtGrow(i1, sempty);
+		m_ProjectURLs.SetAtGrow(nItem1, StrEmpty);
 	}
 
 	// swap color data
-	ok1 = false;
-	ok2 = false;
-	COLORREF ctemp1, ctemp2, cempty = RGB(0, 0, 0);
-	if(i1 < m_ItemColors.GetSize()) {
-		ctemp1 = m_ItemColors.GetAt(i1);
-		ok1 = true;
+	bOk1 = false;
+	bOk2 = false;
+	COLORREF tempclr1, tempclr2, emptyclr = RGB(0, 0, 0);
+	if(nItem1 < m_ItemColors.GetSize()) {
+		tempclr1 = m_ItemColors.GetAt(nItem1);
+		bOk1 = true;
 	}
-	if(i2 < m_ItemColors.GetSize()) {
-		ctemp2 = m_ItemColors.GetAt(i2);
-		ok2 = true;
+	if(nItem2 < m_ItemColors.GetSize()) {
+		tempclr2 = m_ItemColors.GetAt(nItem2);
+		bOk2 = true;
 	}
-	if(ok1) {
-		m_ItemColors.SetAtGrow(i2, ctemp1);
+	if(bOk1) {
+		m_ItemColors.SetAtGrow(nItem2, tempclr1);
 	} else {
-		m_ItemColors.SetAtGrow(i2, cempty);
+		m_ItemColors.SetAtGrow(nItem2, emptyclr);
 	}
-	if(ok2) {
-		m_ItemColors.SetAtGrow(i1, ctemp2);
+	if(bOk2) {
+		m_ItemColors.SetAtGrow(nItem1, tempclr2);
 	} else {
-		m_ItemColors.SetAtGrow(i1, cempty);
+		m_ItemColors.SetAtGrow(nItem1, emptyclr);
 	}
 
 	// swap indices
-	data1 = GetItemData(i1);
-	data2 = GetItemData(i2);
-	SetItemData(i1, data2);
-	SetItemData(i2, data1);
-	for(si = 0; si < nCols; si ++) {
+	dwData1 = GetItemData(nItem1);
+	dwData2 = GetItemData(nItem2);
+	SetItemData(nItem1, dwData2);
+	SetItemData(nItem2, dwData1);
+	for(nSubItem = 0; nSubItem < nCols; nSubItem ++) {
 
 		// swap text
-		txt1 = GetItemText(i1, si);
-		txt2 = GetItemText(i2, si);
-		SetItemText(i1, si, txt2);
-		SetItemText(i2, si, txt1);
+		StrTxt1 = GetItemText(nItem1, nSubItem);
+		StrTxt2 = GetItemText(nItem2, nSubItem);
+		SetItemText(nItem1, nSubItem, StrTxt2);
+		SetItemText(nItem2, nSubItem, StrTxt1);
 
 		// swap progress control if found
-		txt1.Format("%d:%d", i1, si);
-		txt2.Format("%d:%d", i2, si);
-		progCtrl1 = NULL;
-		progCtrl2 = NULL;
-		m_Progs.Lookup(txt1, (CObject*&)progCtrl1);
-		m_Progs.Lookup(txt2, (CObject*&)progCtrl2);
-		if(progCtrl1) {
-			m_Progs.RemoveKey(txt2);
-			m_Progs.SetAt(txt2, (CObject*&)progCtrl1);
+		StrTxt1.Format("%d:%d", nItem1, nSubItem);
+		StrTxt2.Format("%d:%d", nItem2, nSubItem);
+		pProgCtrl1 = NULL;
+		pProgCtrl2 = NULL;
+		m_Progs.Lookup(StrTxt1, (CObject*&)pProgCtrl1);
+		m_Progs.Lookup(StrTxt2, (CObject*&)pProgCtrl2);
+		if(pProgCtrl1) {
+			m_Progs.RemoveKey(StrTxt2);
+			m_Progs.SetAt(StrTxt2, (CObject*&)pProgCtrl1);
 		}
-		if(progCtrl2) {
-			m_Progs.RemoveKey(txt1);
-			m_Progs.SetAt(txt1, (CObject*&)progCtrl2);
+		if(pProgCtrl2) {
+			m_Progs.RemoveKey(StrTxt1);
+			m_Progs.SetAt(StrTxt1, (CObject*&)pProgCtrl2);
 		}
 	}
 }
 
 //////////
 // CProgressListCtrl::Sort
-// arguments:	si: subitem to sort by
-//				order: the order to sort by, either SORT_ASCEND or SORT_DESCEND
+// arguments:	nSubItem: subitem to sort by
+//				nOrder: the order to sort by, either SORT_ASCEND or SORT_DESCEND
 // returns:		void
 // function:	sorts items by the given subitem into the given order. if there
 //				is a progress control, converts the position to a string for 
 //				comparison, otherwise sorts by the string at that subitem.
-void CProgressListCtrl::Sort(int si, int order)
+void CProgressListCtrl::Sort(int nSubItem, int nOrder)
 {
 	int i, j, min, z;
-	CString stri, strj;
-	CProgressCtrl* progi = NULL;
-	CProgressCtrl* progj = NULL;
+	CString Stri, Strj;
+	CProgressCtrl* pProgCtrli = NULL;
+	CProgressCtrl* pProgCtrlj = NULL;
 
 	// check subitem is in bounds
-	if(si >= GetHeaderCtrl()->GetItemCount()) {
+	if(nSubItem >= GetHeaderCtrl()->GetItemCount()) {
 		return;
 	}
 
@@ -565,24 +544,24 @@ void CProgressListCtrl::Sort(int si, int order)
 				// see if there is a progress control here, and set its
 				// progress as the comparison string, otherwise,
 				// just get the text
-				stri.Format("%d:%d", i, si);
-				strj.Format("%d:%d", j, si);
-				progi = NULL;
-				progj = NULL;
-				m_Progs.Lookup(stri, (CObject*&)progi);
-				m_Progs.Lookup(strj, (CObject*&)progj);
-				if(progi) {
-					stri.Format("%0.3d", progi->GetPos());
+				Stri.Format("%d:%d", i, nSubItem);
+				Strj.Format("%d:%d", j, nSubItem);
+				pProgCtrli = NULL;
+				pProgCtrlj = NULL;
+				m_Progs.Lookup(Stri, (CObject*&)pProgCtrli);
+				m_Progs.Lookup(Strj, (CObject*&)pProgCtrlj);
+				if(pProgCtrli) {
+					Stri.Format("%0.3d", pProgCtrli->GetPos());
 				} else {
-					stri = GetItemText(i, si);
+					Stri = GetItemText(i, nSubItem);
 				}
-				if(progj) {
-					strj.Format("%0.3d", progj->GetPos());
+				if(pProgCtrlj) {
+					Strj.Format("%0.3d", pProgCtrlj->GetPos());
 				} else {
-					strj = GetItemText(j, si);
+					Strj = GetItemText(j, nSubItem);
 				}
-				if(order == SORT_ASCEND && strcmp(stri, strj) > 0) min = j;
-				if(order == SORT_DESCEND && strcmp(stri, strj) < 0) min = j;
+				if(nOrder == SORT_ASCEND && strcmp(Stri, Strj) > 0) min = j;
+				if(nOrder == SORT_DESCEND && strcmp(Stri, Strj) < 0) min = j;
 			}
 			SwapItems(i, min);
 		}
@@ -592,24 +571,24 @@ void CProgressListCtrl::Sort(int si, int order)
 
 //////////
 // CProgressListCtrl::SwapColumnVisibility
-// arguments:	col: the column whose visibility to swap
+// arguments:	nCol: the column whose visibility to swap
 // returns:		void
 // function:	if the given column is visible, makes it invisible, otherwise
 //				makes it visible.
-void CProgressListCtrl::SwapColumnVisibility(int col)
+void CProgressListCtrl::SwapColumnVisibility(int nCol)
 {
-	int oldw;
+	int nOldWidth;
 	CHeaderCtrl* header = GetHeaderCtrl();
-	if(header && col < header->GetItemCount()) {
-		oldw = m_ColWidths.GetAt(col);
-		if(oldw < 0) {
-			CListCtrl::SetColumnWidth(col, -1 * (oldw - 1));
-			m_ColWidths.SetAtGrow(col, -1 * (oldw - 1));
-			m_PopupMenu.CheckMenuItem(col, MF_CHECKED);
+	if(header && nCol < header->GetItemCount()) {
+		nOldWidth = m_ColWidths.GetAt(nCol);
+		if(nOldWidth < 0) {
+			CListCtrl::SetColumnWidth(nCol, -1 * (nOldWidth - 1));
+			m_ColWidths.SetAtGrow(nCol, -1 * (nOldWidth - 1));
+			m_PopupMenu.CheckMenuItem(nCol, MF_CHECKED);
 		} else {
-			CListCtrl::SetColumnWidth(col, 0);
-			m_ColWidths.SetAtGrow(col, -1 * (oldw + 1));
-			m_PopupMenu.CheckMenuItem(col, MF_UNCHECKED);
+			CListCtrl::SetColumnWidth(nCol, 0);
+			m_ColWidths.SetAtGrow(nCol, -1 * (nOldWidth + 1));
+			m_PopupMenu.CheckMenuItem(nCol, MF_UNCHECKED);
 		}
 	}
 }
@@ -617,27 +596,27 @@ void CProgressListCtrl::SwapColumnVisibility(int col)
 //////////
 // CProgressListCtrl::SetItemColor
 // arguments:	nItem: item whose color is to be set
-//				clr: the new color
+//				crNew: the new color
 // returns:		void
 // function:	causes an item to be displayed in the given color
-void CProgressListCtrl::SetItemColor(int nItem, COLORREF clr)
+void CProgressListCtrl::SetItemColor(int nItem, COLORREF newclr)
 {
-	m_ItemColors.SetAtGrow(nItem, clr);
+	m_ItemColors.SetAtGrow(nItem, newclr);
 }
 
 //////////
 // CProgressListCtrl::SetProjectURL
 // arguments:	nItem: the item to set the url for
-//				url: the url for the link
+//				szUrl: the url for the link
 // returns:		void
 // function:	sets the url for a project's link, causing the text of
 //				the first subitem for the given item to be displayed
 //				as a link
-void CProgressListCtrl::SetProjectURL(int nItem, char* url)
+void CProgressListCtrl::SetProjectURL(int nItem, char* szUrl)
 {
-	CString str;
-	str.Format("%s", url);
-	m_ProjectURLs.SetAtGrow(nItem, str);
+	CString StrUrl;
+	StrUrl.Format("%s", szUrl);
+	m_ProjectURLs.SetAtGrow(nItem, StrUrl);
 }
 
 //////////
@@ -681,23 +660,23 @@ int CProgressListCtrl::OnCreate(LPCREATESTRUCT lpcs)
 	// load popup menu
 	m_PopupMenu.CreatePopupMenu();
 	for(int i = 0; i < MAX_COLS; i ++) {
-		if(column_titles[GetDlgCtrlID()][i]) {
-			m_PopupMenu.AppendMenu(MF_STRING, i, column_titles[GetDlgCtrlID()][i]);
+		if(g_szColumnTitles[GetDlgCtrlID()][i]) {
+			m_PopupMenu.AppendMenu(MF_STRING, i, g_szColumnTitles[GetDlgCtrlID()][i]);
 			m_PopupMenu.CheckMenuItem(i, MF_CHECKED);
 		}
 	}
 
 	// subclass header
-	CHeaderCtrl* header = GetHeaderCtrl();
-	if(header) {
-		HWND hWnd = header->GetSafeHwnd();
+	CHeaderCtrl* pHeader = GetHeaderCtrl();
+	if(pHeader) {
+		HWND hWnd = pHeader->GetSafeHwnd();
 		if(hWnd) {
 			m_Header.SubclassWindow(hWnd);
 		}
 	}
 
 	m_OldFont = NULL;
-	m_iSort = 0;
+	m_nSort = 0;
     return 0;
 }
 
@@ -738,15 +717,15 @@ void CProgressListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 				pLVCD->clrText = RGB(0, 0, 255);
 			}
 		}
-		CFont* newFont = new CFont;
-		newFont->CreateFontIndirect(&lf);
-		m_OldFont = cdc->SelectObject(newFont);
+		CFont* pNewFont = new CFont;
+		pNewFont->CreateFontIndirect(&lf);
+		m_OldFont = cdc->SelectObject(pNewFont);
 		*pResult = CDRF_NOTIFYPOSTPAINT;
 	} else if(pLVCD->nmcd.dwDrawStage == (CDDS_ITEMPOSTPAINT | CDDS_SUBITEM)) {
 
 		// after subitem, restore font
-		CDC* cdc = CDC::FromHandle(pLVCD->nmcd.hdc);
-		m_OldFont = cdc->SelectObject(m_OldFont);
+		CDC* pDC = CDC::FromHandle(pLVCD->nmcd.hdc);
+		m_OldFont = pDC->SelectObject(m_OldFont);
 		m_OldFont->DeleteObject();
 		delete m_OldFont;
 		m_OldFont = NULL;
@@ -761,17 +740,17 @@ void CProgressListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 // function:	deletes progress controls
 void CProgressListCtrl::OnDestroy()
 {
-	CString str;
-	CProgressCtrl* progCtrl = NULL;
+	CString sKey;
+	CProgressCtrl* pProgCtrl = NULL;
 
 	// iterate through each progress control
 	POSITION pos = m_Progs.GetStartPosition();
 	while (pos != NULL) {
 
 		// remove the control and delete it
-		m_Progs.GetNextAssoc(pos, str, (CObject*&)progCtrl);
-		m_Progs.RemoveKey(str);
-		delete progCtrl;
+		m_Progs.GetNextAssoc(pos, sKey, (CObject*&)pProgCtrl);
+		m_Progs.RemoveKey(sKey);
+		delete pProgCtrl;
 	}
 }
 
@@ -845,12 +824,12 @@ void CProgressListCtrl::OnRButtonDown(UINT nFlags, CPoint point)
 		}
 	}
 
-	CWnd* parent = GetParent();
-	if(parent) {
-		MapWindowPoints(parent,&point,1);
+	CWnd* pParentWnd = GetParent();
+	if(pParentWnd) {
+		MapWindowPoints(pParentWnd, &point, 1);
 		WPARAM wParam = nFlags;
 		LPARAM lParam = MAKELPARAM(point.x, point.y);
-		parent->SendMessage(WM_RBUTTONDOWN, wParam, lParam);
+		pParentWnd->SendMessage(WM_RBUTTONDOWN, wParam, lParam);
 	}
 	//CListCtrl::OnRButtonDown(nFlags, point);
 }
@@ -874,13 +853,13 @@ BOOL CProgressListCtrl::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		int newSort = phdn->iItem + 1;
 
 		// if this header was clicked before, alternate sorts, other wise just sort
-		if(newSort == abs(m_iSort)) {
-			m_iSort *= -1;
-			if(m_iSort < 0) Sort(abs(m_iSort)-1, SORT_DESCEND);
-			else Sort(abs(m_iSort)-1, SORT_ASCEND);
+		if(newSort == abs(m_nSort)) {
+			m_nSort *= -1;
+			if(m_nSort < 0) Sort(abs(m_nSort)-1, SORT_DESCEND);
+			else Sort(abs(m_nSort)-1, SORT_ASCEND);
 		} else {
-			m_iSort = newSort;
-			Sort(abs(m_iSort)-1, SORT_ASCEND);
+			m_nSort = newSort;
+			Sort(abs(m_nSort)-1, SORT_ASCEND);
 		}
 	}
 
@@ -896,8 +875,8 @@ BOOL CProgressListCtrl::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 	if(phdn->hdr.code == HDN_BEGINTRACKA || phdn->hdr.code == HDN_BEGINTRACKW) {
 
 		// stop the header from tracking
-		int col = phdn->iItem;
-		if(m_ColWidths.GetAt(col) < 0) {
+		int nCol = phdn->iItem;
+		if(m_ColWidths.GetAt(nCol) < 0) {
 			*pResult = TRUE;
 			return TRUE;
 		}
@@ -955,41 +934,38 @@ END_MESSAGE_MAP()
 // function:	initializes members
 CPieChartCtrl::CPieChartCtrl()
 {
-	m_total = 0;
-	m_Font = NULL;
+	m_xTotal = 0;
+	m_pFont = NULL;
 }
 
 //////////
 // CPieChartCtrl::AddPiece
-// arguments:	label: label for the piece
-//				color: color of the piece
-//				percent: percent of the pie the piece takes
-//				base: sets base units for whole pie
+// arguments:	szLabel: label for the piece
+//				clr: color of the piece
+//				xValue: the initial value for the piece
 // returns:		void
-// function:	adds a piece to the pie, truncating at 100%, starting at
-//				index 0, the first piece is the base piece that changes
-//				size to complete the pie and its percent is meaningless
-void CPieChartCtrl::AddPiece(LPTSTR label, COLORREF color, double value)
+// function:	adds a piece to the pie
+void CPieChartCtrl::AddPiece(LPTSTR szLabel, COLORREF clr, double xValue)
 {
-	if(value < 0) value = 0;
-	m_Values.Add(value);
-	m_Colors.Add(color);
-	CString str;
-	str.Format("%s", label);
-	m_Labels.Add(str);
+	if(xValue < 0) xValue = 0;
+	m_xValues.Add(xValue);
+	m_colors.Add(clr);
+	CString strLabel;
+	strLabel.Format("%s", szLabel);
+	m_strLabels.Add(strLabel);
 }
 
 //////////
 // CPieChartCtrl::SetPiece
-// arguments:	index: index of piece to change
-//				percent: percent of the pie the piece takes
+// arguments:	nIndex: index of piece to change
+//				xValue: the new value for the piece
 // returns:		void
 // function:	changes the piece's value
-void CPieChartCtrl::SetPiece(int index, double value)
+void CPieChartCtrl::SetPiece(int nIndex, double xValue)
 {
-	if(index < 0 || index >= m_Values.GetSize()) return;
-	if(value < 0) value = 0;
-	m_Values.SetAt(index, value);
+	if(nIndex < 0 || nIndex >= m_xValues.GetSize()) return;
+	if(xValue < 0) xValue = 0;
+	m_xValues.SetAt(nIndex, xValue);
 }
 
 //////////
@@ -1008,12 +984,12 @@ BOOL CPieChartCtrl::Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UI
 
 //////////
 // CPieChartCtrl::DrawPiece
-// arguments:	dc: pointer to dc to draw in
+// arguments:	pDC: pointer to dc to draw in
 //				xStartAngle: starting angle of piece
 //				xEndAngle: ending angle of piece
 // returns:		void
 // function:	draws a pie piece in the dc
-void CPieChartCtrl::DrawPiePiece(CDC* dc, double xStartAngle, double xEndAngle)
+void CPieChartCtrl::DrawPiePiece(CDC* pDC, double xStartAngle, double xEndAngle)
 {
 	if(xEndAngle - xStartAngle <= 0.05) return;
 
@@ -1030,8 +1006,8 @@ void CPieChartCtrl::DrawPiePiece(CDC* dc, double xStartAngle, double xEndAngle)
 	CPoint cp;
 	int major = (int)((rt.Width() - 2 * PIE_BUFFER) * 0.5);
 	int minor = (int)((rt.Height() - 2 * PIE_BUFFER) * 0.25);
-	int maxmajor = dc->GetDeviceCaps(HORZRES) * PIE_MAJOR_MAX;
-	int maxminor = dc->GetDeviceCaps(VERTRES) * PIE_MINOR_MAX;
+	int maxmajor = pDC->GetDeviceCaps(HORZRES) * PIE_MAJOR_MAX;
+	int maxminor = pDC->GetDeviceCaps(VERTRES) * PIE_MINOR_MAX;
 	if(major > maxmajor) major = maxmajor;
 	if(minor > maxminor) minor = maxminor;
 
@@ -1058,14 +1034,14 @@ void CPieChartCtrl::DrawPiePiece(CDC* dc, double xStartAngle, double xEndAngle)
 	rangle.CreatePolygonRgn(poly, 8, ALTERNATE);
 	rpie.CreateRectRgnIndirect(&rt);
 	rpie.CombineRgn(&rellipse, &rangle, RGN_AND);
-	dc->FillRgn(&rpie, dc->GetCurrentBrush());
+	pDC->FillRgn(&rpie, pDC->GetCurrentBrush());
 
 	// outline
-	dc->MoveTo(rt.CenterPoint());
-	dc->LineTo(poly[1]);
-	dc->Arc(&rt, poly[1], poly[7]);
-	dc->MoveTo(poly[7]);
-	dc->LineTo(rt.CenterPoint());
+	pDC->MoveTo(rt.CenterPoint());
+	pDC->LineTo(poly[1]);
+	pDC->Arc(&rt, poly[1], poly[7]);
+	pDC->MoveTo(poly[7]);
+	pDC->LineTo(rt.CenterPoint());
 
 	// clean up
 	rellipse.DeleteObject();
@@ -1101,15 +1077,15 @@ void CPieChartCtrl::DrawPiePiece(CDC* dc, double xStartAngle, double xEndAngle)
 		rdepthcurve.CombineRgn(&rellipselow, &rellipsehi, RGN_DIFF);
 		rdepth.CreateRectRgnIndirect(&rt2);
 		rdepth.CombineRgn(&rdepthcurve, &rrect, RGN_AND);
-		dc->FillRgn(&rdepth, dc->GetCurrentBrush());
+		pDC->FillRgn(&rdepth, pDC->GetCurrentBrush());
 		
 		// ouline
-		dc->Arc(&rt, pt1, pt2);
-		dc->Arc(&rt2, pt3, pt4);
-		dc->MoveTo(pt1);
-		dc->LineTo(pt3);
-		dc->MoveTo(pt4);
-		dc->LineTo(pt2);
+		pDC->Arc(&rt, pt1, pt2);
+		pDC->Arc(&rt2, pt3, pt4);
+		pDC->MoveTo(pt1);
+		pDC->LineTo(pt3);
+		pDC->MoveTo(pt4);
+		pDC->LineTo(pt2);
 
 		// clean up
 		rellipsehi.DeleteObject();
@@ -1122,50 +1098,50 @@ void CPieChartCtrl::DrawPiePiece(CDC* dc, double xStartAngle, double xEndAngle)
 //////////
 // CPieChartCtrl::CirclePoint
 // arguments:	center: center point of circle
-//				rad: radius of circle
-//				angle: angle of radius
-//				pt: pointer to CPoint to put result in
+//				nRadius: radius of circle
+//				xAngle: angle of radius
+//				pResult: pointer to CPoint to put result in
 // returns:		void
 // function:	calculates the point on the circle at the given angle
-void CPieChartCtrl::CirclePoint(CPoint* center, int rad, double angle, CPoint* pt)
+void CPieChartCtrl::CirclePoint(CPoint* center, int nRadius, double xAngle, CPoint* pResult)
 {
-	pt->x = center->x + rad * cos(angle * (PI / 180));
-	pt->y = center->y - rad * sin(angle * (PI / 180));
+	pResult->x = center->x + nRadius * cos(xAngle * (PI / 180));
+	pResult->y = center->y - nRadius * sin(xAngle * (PI / 180));
 }
 
 //////////
 // CPieChartCtrl::EllipsePoint
 // arguments:	rt: pointer to rect of ellipse
-//				angle: angle of radius
-//				pt: pointer to CPoint to put result in
+//				xAngle: angle of radius
+//				pResult: pointer to CPoint to put result in
 // returns:		void
 // function:	calculates the point on the ellipse in the given rect at
 //				the given angle
-void CPieChartCtrl::EllipsePoint(CRect* rt, double angle, CPoint* pt)
+void CPieChartCtrl::EllipsePoint(CRect* rt, double xAngle, CPoint* pResult)
 {
-	pt->x = rt->CenterPoint().x + (rt->Width() / 2) * cos(angle * (PI / 180));
-	pt->y = rt->CenterPoint().y - (rt->Height() / 2) * sin(angle * (PI / 180));
+	pResult->x = rt->CenterPoint().x + (rt->Width() / 2) * cos(xAngle * (PI / 180));
+	pResult->y = rt->CenterPoint().y - (rt->Height() / 2) * sin(xAngle * (PI / 180));
 }
 
 //////////
 // CPieChartCtrl::SetFont
-// arguments:	pcf: pointer to font to set
+// arguments:	pFont: pointer to font to set
 // returns:		void
 // function:	sets this control's font
-void CPieChartCtrl::SetFont(CFont* pcf)
+void CPieChartCtrl::SetFont(CFont* pFont)
 {
-	m_Font = pcf;
+	m_pFont = pFont;
 }
 
 //////////
 // CPieChartCtrl::SetTotal
-// arguments:	tag: the string to be set as the tag
+// arguments:	xTotal: the total amount of the pie chart
 // returns:		void
 // function:	sets the tag for data, which is a string that will be displayed
 //				after the numbers in the label
-void CPieChartCtrl::SetTotal(double total)
+void CPieChartCtrl::SetTotal(double xTotal)
 {
-	if(total >= 0) m_total = total;
+	if(xTotal >= 0) m_xTotal = xTotal;
 }
 
 //////////
@@ -1179,40 +1155,40 @@ void CPieChartCtrl::OnPaint()
 	CWnd::OnPaint();
 
 	// no pieces, so dont do anything
-	if(m_Values.GetSize() == 0) return;
+	if(m_xValues.GetSize() == 0) return;
 
 	// gdi objects needed
 	CClientDC cdc(this);
 	CRect rt;
-	CDC memdc;
-	CBitmap membmp;
-	CBrush cb;
-	CPen cp;
-	CBitmap* oldbmp = NULL;
-	CBrush* oldbrush = NULL;
-	CPen* oldpen = NULL;
-	CFont* oldfont = NULL;
+	CDC MemDC;
+	CBitmap MemBmp;
+	CBrush MemBrush;
+	CPen MemPen;
+	CBitmap* pOldBmp = NULL;
+	CBrush* pOldBrush = NULL;
+	CPen* pOldPen = NULL;
+	CFont* pOldFont = NULL;
 
 	// create offscreen buffer
 	GetClientRect(&rt);
-	memdc.CreateCompatibleDC(&cdc);
-	membmp.CreateCompatibleBitmap(&cdc, rt.Width(), rt.Height());
-	cp.CreatePen(PS_SOLID, 0, RGB(0, 0, 0));
+	MemDC.CreateCompatibleDC(&cdc);
+	MemBmp.CreateCompatibleBitmap(&cdc, rt.Width(), rt.Height());
+	MemPen.CreatePen(PS_SOLID, 0, RGB(0, 0, 0));
 
 	// select gdi objects
-	oldbmp = memdc.SelectObject(&membmp);
-	oldpen = memdc.SelectObject(&cp);
-	oldfont = memdc.SelectObject(m_Font);
-	memdc.FillSolidRect(&rt, RGB(255, 255, 255));
+	pOldBmp = MemDC.SelectObject(&MemBmp);
+	pOldPen = MemDC.SelectObject(&MemPen);
+	pOldFont = MemDC.SelectObject(m_pFont);
+	MemDC.FillSolidRect(&rt, RGB(255, 255, 255));
 
-	// go through each percent and draw its label and pie
-	double sofar = 0;
+	// go through each xPercent and draw its label and pie
+	double xSoFar = 0;
 	CRect wndrect;
 	CRect textrect;
 	GetWindowRect(&wndrect);
-	for(int i = 0; i < m_Values.GetSize(); i ++) {
-		cb.CreateSolidBrush(m_Colors.GetAt(i));
-		oldbrush = memdc.SelectObject(&cb);
+	for(int i = 0; i < m_xValues.GetSize(); i ++) {
+		MemBrush.CreateSolidBrush(m_colors.GetAt(i));
+		pOldBrush = MemDC.SelectObject(&MemBrush);
 
 		int texti = i;
 		if(texti == 2) texti = 3;
@@ -1220,42 +1196,42 @@ void CPieChartCtrl::OnPaint()
 
 		// display color box and label
 		if(PIE_BUFFER + 20 + texti * 20 < wndrect.Height() / 2) {
-			textrect.SetRect(PIE_BUFFER + 0, PIE_BUFFER + texti * 20 + 2, PIE_BUFFER + 10, PIE_BUFFER + 20 + texti * 20 - 2);
-			memdc.FillRect(&textrect, &cb);
-			memdc.MoveTo(textrect.left, textrect.top);
-			memdc.LineTo(textrect.right, textrect.top);
-			memdc.LineTo(textrect.right, textrect.bottom);
-			memdc.LineTo(textrect.left, textrect.bottom);
-			memdc.LineTo(textrect.left, textrect.top);
-			textrect.SetRect(PIE_BUFFER + 15, PIE_BUFFER + texti * 20, wndrect.Width() - PIE_BUFFER, PIE_BUFFER + 20 + texti * 20);
-			CString sbytes;
-			GetByteString(m_Values.GetAt(i), &sbytes);
-			CString str;
-			str.Format("%s (%s)", m_Labels.GetAt(i).GetBuffer(0), sbytes.GetBuffer(0));
-			memdc.DrawText(str, textrect, DT_SINGLELINE|DT_VCENTER|DT_LEFT);
+			textrect.SetRect(PIE_BUFFER + 0, PIE_BUFFER + texti * 20 + 4, PIE_BUFFER + 11, PIE_BUFFER + 20 + texti * 20 - 4);
+			MemDC.FillRect(&textrect, &MemBrush);
+			MemDC.MoveTo(textrect.left, textrect.top);
+			MemDC.LineTo(textrect.right, textrect.top);
+			MemDC.LineTo(textrect.right, textrect.bottom);
+			MemDC.LineTo(textrect.left, textrect.bottom);
+			MemDC.LineTo(textrect.left, textrect.top);
+			textrect.SetRect(PIE_BUFFER + 16, PIE_BUFFER + texti * 20, wndrect.Width() - PIE_BUFFER, PIE_BUFFER + 20 + texti * 20);
+			CString strBytes;
+			GetByteString(m_xValues.GetAt(i), &strBytes);
+			CString strBuf;
+			strBuf.Format("%s (%s)", m_strLabels.GetAt(i).GetBuffer(0), strBytes.GetBuffer(0));
+			MemDC.DrawText(strBuf, textrect, DT_SINGLELINE|DT_VCENTER|DT_LEFT);
 		}
 
 		// display pie piece
-		double percent = 0;
-		if(m_total > 0) percent = m_Values.GetAt(i) / m_total;
-		DrawPiePiece(&memdc, sofar * 360, (sofar + percent) * 360);
-		sofar += percent;
+		double xPercent = 0;
+		if(m_xTotal > 0) xPercent = m_xValues.GetAt(i) / m_xTotal;
+		DrawPiePiece(&MemDC, xSoFar * 360, (xSoFar + xPercent) * 360);
+		xSoFar += xPercent;
 
-		memdc.SelectObject(oldbrush);
-		cb.DeleteObject();
+		MemDC.SelectObject(pOldBrush);
+		MemBrush.DeleteObject();
 	}
 
 	// copy offscreen buffer to screen
-	cdc.BitBlt(0, 0, rt.Width(), rt.Height(), &memdc, 0, 0, SRCCOPY);
+	cdc.BitBlt(0, 0, rt.Width(), rt.Height(), &MemDC, 0, 0, SRCCOPY);
 
 	// clean up
-	memdc.SelectObject(oldbmp);
-	memdc.SelectObject(oldpen);
-	memdc.SelectObject(oldfont);
-	cp.DeleteObject();
-	membmp.DeleteObject();
-	cb.DeleteObject();
-	memdc.DeleteDC();
+	MemDC.SelectObject(pOldBmp);
+	MemDC.SelectObject(pOldPen);
+	MemDC.SelectObject(pOldFont);
+	MemPen.DeleteObject();
+	MemBmp.DeleteObject();
+	MemBrush.DeleteObject();
+	MemDC.DeleteDC();
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -1269,12 +1245,12 @@ void CPieChartCtrl::OnPaint()
 //				otherwise shows the currently running window
 BOOL CMyApp::InitInstance()
 {
-	CWnd* boincWnd;
-	boincWnd = CWnd::FindWindow(NULL, WND_TITLE);
-	if(boincWnd) {
-		if(boincWnd->GetStyle() & WS_EX_TOOLWINDOW) {
-			boincWnd->ShowWindow(SW_SHOW);
-			boincWnd->SetForegroundWindow();
+	CWnd* pBoincWnd;
+	pBoincWnd = CWnd::FindWindow(NULL, WND_TITLE);
+	if(pBoincWnd) {
+		if(pBoincWnd->GetExStyle() & WS_EX_TOOLWINDOW) {
+			pBoincWnd->ShowWindow(SW_SHOW);
+			pBoincWnd->SetForegroundWindow();
 			return FALSE;
 		}
 	}
@@ -1289,6 +1265,7 @@ BOOL CMyApp::InitInstance()
 
 BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_WM_CLOSE()
+    ON_COMMAND(ID_FILE_SHOWGRAPHICS, OnCommandFileShowGraphics)
     ON_COMMAND(ID_FILE_CLEARINACTIVE, OnCommandFileClearInactive)
     ON_COMMAND(ID_FILE_CLEARMESSAGES, OnCommandFileClearMessages)
     ON_COMMAND(ID_FILE_HIDE, OnCommandHide)
@@ -1325,6 +1302,7 @@ CMainWindow::CMainWindow()
     CreateEx(0, strWndClass, WND_TITLE, WS_OVERLAPPEDWINDOW|WS_EX_OVERLAPPEDWINDOW|WS_CLIPCHILDREN,
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 		NULL, NULL, NULL);
+
     CRect rect(0, 0, 600, 400);
     CalcWindowRect(&rect);
     SetWindowPos(NULL, 0, 0, rect.Width(), rect.Height(), SWP_NOZORDER|SWP_NOMOVE|SWP_NOREDRAW);
@@ -1332,14 +1310,14 @@ CMainWindow::CMainWindow()
 
 //////////
 // CMainWindow::TimerProc
-// arguments:	h: the window assosciated with the timer
-//				msg: the WM_TIMER message
-//				id: the timer's id
-//				time: milliseconds since system started
+// arguments:	hWnd: the window assosciated with the timer
+//				uMsg: the WM_TIMER message
+//				uID: the timer's id
+//				dwTime: milliseconds since system started
 // returns:		void
 // function:	checks idle time, updates client state, flushed output streams,
 //				and updates gui display.
-void CALLBACK CMainWindow::TimerProc(HWND h, UINT msg, UINT id, DWORD time)
+void CALLBACK CMainWindow::TimerProc(HWND hWnd, UINT uMsg, UINT uID, DWORD dwTime)
 {
 	// update state and gui
     while(gstate.do_something());
@@ -1363,20 +1341,20 @@ void CALLBACK CMainWindow::TimerProc(HWND h, UINT msg, UINT id, DWORD time)
 
 //////////
 // CMainWindow::UpdateGUI
-// arguments:	cs: pointer to the client state for the gui to display
+// arguments:	pcs: pointer to the client state for the gui to display
 // returns:		void
 // function:	syncronizes list controls with vectors in client state
 //				and displays them.
-void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
+void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 {
-	CString buf;
+	CString strBuf;
 	int i;
 
 	// display projects
 	float totalres = 0;
-	Syncronize(&m_ProjectListCtrl, (vector<void*>*)(&cs->projects));
-	for(i = 0; i < cs->projects.size(); i ++) {
-		totalres += cs->projects[i]->resource_share;
+	Syncronize(&m_ProjectListCtrl, (vector<void*>*)(&pcs->projects));
+	for(i = 0; i < pcs->projects.size(); i ++) {
+		totalres += pcs->projects[i]->resource_share;
 	}
 	for(i = 0; i < m_ProjectListCtrl.GetItemCount(); i ++) {
 		PROJECT* pr = (PROJECT*)m_ProjectListCtrl.GetItemData(i);
@@ -1399,12 +1377,12 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		m_ProjectListCtrl.SetItemText(i, 1, pr->user_name);
 
 		// total credit
-		buf.Format("%0.2f", pr->user_total_credit);
-		m_ProjectListCtrl.SetItemText(i, 2, buf);
+		strBuf.Format("%0.2f", pr->user_total_credit);
+		m_ProjectListCtrl.SetItemText(i, 2, strBuf);
 
 		// avg credit
-		buf.Format("%0.2f", pr->user_expavg_credit);
-		m_ProjectListCtrl.SetItemText(i, 3, buf);
+		strBuf.Format("%0.2f", pr->user_expavg_credit);
+		m_ProjectListCtrl.SetItemText(i, 3, strBuf);
 
 		// resource share
 		if(totalres <= 0) {
@@ -1415,12 +1393,13 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 	}
 
 	// update results
-	Syncronize(&m_ResultListCtrl, (vector<void*>*)(&cs->results));
+	Syncronize(&m_ResultListCtrl, (vector<void*>*)(&pcs->results));
 	for(i = 0; i < m_ResultListCtrl.GetItemCount(); i ++) {
 		RESULT* re = (RESULT*)m_ResultListCtrl.GetItemData(i);
 		if(!re) {
 			m_ResultListCtrl.SetItemColor(i, RGB(128, 128, 128));
 			m_ResultListCtrl.SetItemProgress(i, 4, 100);
+			m_ResultListCtrl.SetItemText(i, 5, "00:00:00");
 			continue;
 		}
 
@@ -1439,13 +1418,14 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		if (at) {
 			cur_cpu = at->current_cpu_time;
 		} else {
-			cur_cpu = 0;
+			if(re->state < RESULT_COMPUTE_DONE) cur_cpu = 0;
+			else cur_cpu = re->final_cpu_time;
 		}
 		int cpuhour = (int)(cur_cpu / (60 * 60));
 		int cpumin = (int)(cur_cpu / 60) % 60;
 		int cpusec = (int)(cur_cpu) % 60;
-		buf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
-		m_ResultListCtrl.SetItemText(i, 3, buf);
+		strBuf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
+		m_ResultListCtrl.SetItemText(i, 3, strBuf);
 
 		// progress
 		if(!at) {
@@ -1466,33 +1446,33 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 			cpumin = (int)(tocomp / 60) % 60;
 			cpusec = (int)(tocomp) % 60;
 		}
-		buf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
-		m_ResultListCtrl.SetItemText(i, 5, buf);
+		strBuf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
+		m_ResultListCtrl.SetItemText(i, 5, strBuf);
 
 		// status
 		switch(re->state) {
 			case RESULT_NEW:
-				buf.Format("%s", "New"); break;
+				strBuf.Format("%s", "New"); break;
 			case RESULT_FILES_DOWNLOADED:
 				if (at)
-					buf.Format("%s", "Running");
+					strBuf.Format("%s", "Running");
 				else
-					buf.Format("%s", "Ready to run");
+					strBuf.Format("%s", "Ready to run");
 				break;
 			case RESULT_COMPUTE_DONE:
-				buf.Format("%s", "Computation done"); break;
+				strBuf.Format("%s", "Computation done"); break;
 			case RESULT_READY_TO_ACK:
-				buf.Format("%s", "Results uploaded"); break;
+				strBuf.Format("%s", "Results uploaded"); break;
 			case RESULT_SERVER_ACK:
-				buf.Format("%s", "Acknowledged"); break;
+				strBuf.Format("%s", "Acknowledged"); break;
 			default:
-				buf.Format("%s", "Error: invalid state"); break;
+				strBuf.Format("%s", "Error: invalid state"); break;
 		}
-		m_ResultListCtrl.SetItemText(i, 6, buf);
+		m_ResultListCtrl.SetItemText(i, 6, strBuf);
 	}
 
 	// update xfers
-	Syncronize(&m_XferListCtrl, (vector<void*>*)(&cs->pers_xfers->pers_file_xfers));
+	Syncronize(&m_XferListCtrl, (vector<void*>*)(&pcs->pers_xfers->pers_file_xfers));
 	for(i = 0; i < m_XferListCtrl.GetItemCount(); i ++) {
 		PERS_FILE_XFER* fi = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(i);
 		if(!fi) {
@@ -1517,11 +1497,11 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 
 		// size
 		if(fi->fxp) {
-			buf.Format("%0.0f/%0.0fKB", fi->fxp->nbytes_xfered / 1024, fi->fip->nbytes / 1024);
+			strBuf.Format("%0.0f/%0.0fKB", fi->fxp->nbytes_xfered / 1024, fi->fip->nbytes / 1024);
 		} else {
-			buf.Format("%0.0f/%0.0fKB", 0, fi->fip->nbytes / 1024);
+			strBuf.Format("%0.0f/%0.0fKB", 0, fi->fip->nbytes / 1024);
 		}
-		m_XferListCtrl.SetItemText(i, 3, buf.GetBuffer(0));
+		m_XferListCtrl.SetItemText(i, 3, strBuf.GetBuffer(0));
 
 		// time
 		double xtime;
@@ -1533,30 +1513,30 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		int xhour = (int)(xtime / (60 * 60));
 		int xmin = (int)(xtime / 60) % 60;
 		int xsec = (int)(xtime) % 60;
-		buf.Format("%0.2d:%0.2d:%0.2d", xhour, xmin, xsec);
-		m_XferListCtrl.SetItemText(i, 4, buf.GetBuffer(0));
+		strBuf.Format("%0.2d:%0.2d:%0.2d", xhour, xmin, xsec);
+		m_XferListCtrl.SetItemText(i, 4, strBuf.GetBuffer(0));
 
 		// direction
 		m_XferListCtrl.SetItemText(i, 5, fi->fip->generated_locally?"Upload":"Download");
 	}
 
 	// update usage
-	double disktotal = GetDiskSize();
-	double diskfree = GetDiskFree();
-	double diskused = disktotal - diskfree;
-	double diskallow; gstate.allowed_disk_usage(diskallow);
-	double diskusage; gstate.current_disk_usage(diskusage);
-	m_UsagePieCtrl.SetTotal(disktotal);
-	m_UsagePieCtrl.SetPiece(0, diskfree - (diskallow - diskusage)); // Free not available for BOINC
-	m_UsagePieCtrl.SetPiece(1, diskused - diskusage); // Space used
-	m_UsagePieCtrl.SetPiece(2, diskusage); // Used by BOINC
-	m_UsagePieCtrl.SetPiece(3, diskallow - diskusage); // Space available to BOINC
+	double xDiskTotal;
+	double xDiskFree; get_host_disk_info(xDiskTotal, xDiskFree);
+	double xDiskUsed = xDiskTotal - xDiskFree;
+	double xDiskAllow; gstate.allowed_disk_usage(xDiskAllow);
+	double xDiskUsage; gstate.current_disk_usage(xDiskUsage);
+	m_UsagePieCtrl.SetTotal(xDiskTotal);
+	m_UsagePieCtrl.SetPiece(0, xDiskUsed - xDiskUsage); // Used (non-BOINC)
+	m_UsagePieCtrl.SetPiece(1, xDiskFree - (xDiskAllow - xDiskUsage)); // Free (non-BOINC)
+	m_UsagePieCtrl.SetPiece(2, xDiskAllow - xDiskUsage); // Free (non-BOINC)
+	m_UsagePieCtrl.SetPiece(3, xDiskUsage); // Used (BOINC)
 
 	// make icon flash if needed
-	if(m_Message) {
-		if(m_IconState == ICON_NORMAL) {
+	if(m_bMessage) {
+		if(m_nIconState == ICON_NORMAL) {
 			SetStatusIcon(ICON_HIGHLIGHT);
-		} else if(m_IconState == ICON_HIGHLIGHT) {
+		} else if(m_nIconState == ICON_HIGHLIGHT) {
 			SetStatusIcon(ICON_NORMAL);
 		}
 	}
@@ -1569,22 +1549,22 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 // returns:		void
 // function:	if message is "high" priority, flashes the status icon, then
 //				adds to message edit control.
-void CMainWindow::MessageUser(char* project, char* message, char* priority)
+void CMainWindow::MessageUser(char* szProject, char* szMessage, char* szPriority)
 {
 	if(!m_MessageListCtrl.GetSafeHwnd()) return;
 
-	m_MessageListCtrl.InsertItem(0, project);
+	m_MessageListCtrl.InsertItem(0, szProject);
 
 	CTime curTime = CTime::GetCurrentTime();
-	CString timeStr;
-	timeStr = curTime.Format("%c");
-	m_MessageListCtrl.SetItemText(0, 1, timeStr);
+	CString strTime;
+	strTime = curTime.Format("%c");
+	m_MessageListCtrl.SetItemText(0, 1, strTime);
 
-	m_MessageListCtrl.SetItemText(0, 2, message);
+	m_MessageListCtrl.SetItemText(0, 2, szMessage);
 	
 	// set status icon to flash
-	if(!strcmp(priority, "high") && (m_TabCtrl.GetCurSel() != MESSAGE_ID || GetForegroundWindow() != this)) {
-		m_Message = true;
+	if(!strcmp(szPriority, "high") && (m_TabCtrl.GetCurSel() != MESSAGE_ID || GetForegroundWindow() != this)) {
+		m_bMessage = true;
 	}
 }
 
@@ -1595,7 +1575,7 @@ void CMainWindow::MessageUser(char* project, char* message, char* priority)
 // function:	tells if the window is suspended
 BOOL CMainWindow::IsSuspended()
 {
-	return m_Suspend;
+	return m_bSuspend;
 }
 
 //////////
@@ -1609,7 +1589,7 @@ void CMainWindow::SetStatusIcon(DWORD dwMessage)
 		return;
 	}
 	// if icon is in that state already, there is nothing to do
-	if(dwMessage == m_IconState) return;
+	if(dwMessage == m_nIconState) return;
 	NOTIFYICONDATA icon_data;
 	icon_data.cbSize = sizeof(icon_data);
     icon_data.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
@@ -1622,20 +1602,20 @@ void CMainWindow::SetStatusIcon(DWORD dwMessage)
 		Shell_NotifyIcon(NIM_DELETE, &icon_data);
 	} else if(dwMessage == ICON_NORMAL) {
 		icon_data.hIcon = g_myApp.LoadIcon(IDI_ICON);
-		if(m_IconState == ICON_OFF) {
+		if(m_nIconState == ICON_OFF) {
 			Shell_NotifyIcon(NIM_ADD, &icon_data);
 		} else {
 			Shell_NotifyIcon(NIM_MODIFY, &icon_data);
 		}
 	} else if(dwMessage == ICON_HIGHLIGHT) {
 		icon_data.hIcon = g_myApp.LoadIcon(IDI_ICONHIGHLIGHT);
-		if(m_IconState == ICON_OFF) {
+		if(m_nIconState == ICON_OFF) {
 			Shell_NotifyIcon(NIM_ADD, &icon_data);
 		} else {
 			Shell_NotifyIcon(NIM_MODIFY, &icon_data);
 		}
 	}
-	m_IconState = dwMessage;
+	m_nIconState = dwMessage;
 }
 
 //////////
@@ -1645,47 +1625,47 @@ void CMainWindow::SetStatusIcon(DWORD dwMessage)
 // function:	saves relevant user settings to boinc.ini
 void CMainWindow::SaveUserSettings()
 {
-	char path[256];
-	CString keybuf, valbuf;
-	GetCurrentDirectory(256, path);
-	strcat(path, "\\boinc.ini");
+	char szPath[256];
+	CString strKey, strVal;
+	GetCurrentDirectory(256, szPath);
+	strcat(szPath, "\\boinc.ini");
 	int colorder[MAX_COLS];
 	int i;
 
 	// save project columns
 	m_ProjectListCtrl.GetColumnOrderArray(colorder, PROJECT_COLS);
-	WritePrivateProfileStruct("HEADERS", "projects-order", colorder, sizeof(colorder), path);
+	WritePrivateProfileStruct("HEADERS", "projects-order", colorder, sizeof(colorder), szPath);
 	for(i = 0; i < m_ProjectListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		keybuf.Format("projects-%d", i);
-		valbuf.Format("%d", m_ProjectListCtrl.GetColumnWidth(i));
-		WritePrivateProfileString("HEADERS", keybuf.GetBuffer(0), valbuf.GetBuffer(0), path);
+		strKey.Format("projects-%d", i);
+		strVal.Format("%d", m_ProjectListCtrl.GetColumnWidth(i));
+		WritePrivateProfileString("HEADERS", strKey.GetBuffer(0), strVal.GetBuffer(0), szPath);
 	}
 
 	// save result columns
 	m_ResultListCtrl.GetColumnOrderArray(colorder, RESULT_COLS);
-	WritePrivateProfileStruct("HEADERS", "results-order", colorder, sizeof(colorder), path);
+	WritePrivateProfileStruct("HEADERS", "results-order", colorder, sizeof(colorder), szPath);
 	for(i = 0; i < m_ResultListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		keybuf.Format("results-%d", i);
-		valbuf.Format("%d", m_ResultListCtrl.GetColumnWidth(i));
-		WritePrivateProfileString("HEADERS", keybuf.GetBuffer(0), valbuf.GetBuffer(0), path);
+		strKey.Format("results-%d", i);
+		strVal.Format("%d", m_ResultListCtrl.GetColumnWidth(i));
+		WritePrivateProfileString("HEADERS", strKey.GetBuffer(0), strVal.GetBuffer(0), szPath);
 	}
 
 	// save xfer columns
 	m_XferListCtrl.GetColumnOrderArray(colorder, XFER_COLS);
-	WritePrivateProfileStruct("HEADERS", "xfers-order", colorder, sizeof(colorder), path);
+	WritePrivateProfileStruct("HEADERS", "xfers-order", colorder, sizeof(colorder), szPath);
 	for(i = 0; i < m_XferListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		keybuf.Format("xfers-%d", i);
-		valbuf.Format("%d", m_XferListCtrl.GetColumnWidth(i));
-		WritePrivateProfileString("HEADERS", keybuf.GetBuffer(0), valbuf.GetBuffer(0), path);
+		strKey.Format("xfers-%d", i);
+		strVal.Format("%d", m_XferListCtrl.GetColumnWidth(i));
+		WritePrivateProfileString("HEADERS", strKey.GetBuffer(0), strVal.GetBuffer(0), szPath);
 	}
 
 	// save xfer columns
 	m_MessageListCtrl.GetColumnOrderArray(colorder, MESSAGE_COLS);
-	WritePrivateProfileStruct("HEADERS", "messages-order", colorder, sizeof(colorder), path);
+	WritePrivateProfileStruct("HEADERS", "messages-order", colorder, sizeof(colorder), szPath);
 	for(i = 0; i < m_MessageListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		keybuf.Format("messages-%d", i);
-		valbuf.Format("%d", m_MessageListCtrl.GetColumnWidth(i));
-		WritePrivateProfileString("HEADERS", keybuf.GetBuffer(0), valbuf.GetBuffer(0), path);
+		strKey.Format("messages-%d", i);
+		strVal.Format("%d", m_MessageListCtrl.GetColumnWidth(i));
+		WritePrivateProfileString("HEADERS", strKey.GetBuffer(0), strVal.GetBuffer(0), szPath);
 	}
 }
 
@@ -1696,54 +1676,54 @@ void CMainWindow::SaveUserSettings()
 // function:	loads relevant user settings from boinc.ini
 void CMainWindow::LoadUserSettings()
 {
-	char path[256];
-	CString keybuf;
-	GetCurrentDirectory(256, path);
-	strcat(path, "\\boinc.ini");
-	int i, intbuf;
+	char szPath[256];
+	CString strKey;
+	GetCurrentDirectory(256, szPath);
+	strcat(szPath, "\\boinc.ini");
+	int i, nBuf;
 	int colorder[MAX_COLS];
 
 	// load project columns
-	if(GetPrivateProfileStruct("HEADERS", "projects-order", colorder, sizeof(colorder), path)) {
+	if(GetPrivateProfileStruct("HEADERS", "projects-order", colorder, sizeof(colorder), szPath)) {
 		m_ProjectListCtrl.SetColumnOrderArray(PROJECT_COLS, colorder);
 	}
 	for(i = 0; i < m_ProjectListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		keybuf.Format("projects-%d", i);
-		intbuf = GetPrivateProfileInt("HEADERS", keybuf.GetBuffer(0), DEF_COL_WIDTH, path);
-		m_ProjectListCtrl.SetColumnWidth(i, intbuf);
+		strKey.Format("projects-%d", i);
+		nBuf = GetPrivateProfileInt("HEADERS", strKey.GetBuffer(0), DEF_COL_WIDTH, szPath);
+		m_ProjectListCtrl.SetColumnWidth(i, nBuf);
 	}
 
 	// load result columns
-	if(GetPrivateProfileStruct("HEADERS", "results-order", colorder, sizeof(colorder), path)) {
+	if(GetPrivateProfileStruct("HEADERS", "results-order", colorder, sizeof(colorder), szPath)) {
 		m_ResultListCtrl.SetColumnOrderArray(RESULT_COLS, colorder);
 	}
 	for(i = 0; i < m_ResultListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		keybuf.Format("results-%d", i);
-		intbuf = GetPrivateProfileInt("HEADERS", keybuf.GetBuffer(0), DEF_COL_WIDTH, path);
-		m_ResultListCtrl.SetColumnWidth(i, intbuf);
+		strKey.Format("results-%d", i);
+		nBuf = GetPrivateProfileInt("HEADERS", strKey.GetBuffer(0), DEF_COL_WIDTH, szPath);
+		m_ResultListCtrl.SetColumnWidth(i, nBuf);
 	}
 
 	// load xfer columns
-	if(GetPrivateProfileStruct("HEADERS", "xfers-order", colorder, sizeof(colorder), path)) {
+	if(GetPrivateProfileStruct("HEADERS", "xfers-order", colorder, sizeof(colorder), szPath)) {
 		m_XferListCtrl.SetColumnOrderArray(XFER_COLS, colorder);
 	}
 	for(i = 0; i < m_XferListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		keybuf.Format("xfers-%d", i);
-		intbuf = GetPrivateProfileInt("HEADERS", keybuf.GetBuffer(0), DEF_COL_WIDTH, path);
-		m_XferListCtrl.SetColumnWidth(i, intbuf);
+		strKey.Format("xfers-%d", i);
+		nBuf = GetPrivateProfileInt("HEADERS", strKey.GetBuffer(0), DEF_COL_WIDTH, szPath);
+		m_XferListCtrl.SetColumnWidth(i, nBuf);
 	}
 
 	// load message columns
-	if(GetPrivateProfileStruct("HEADERS", "messages-order", colorder, sizeof(colorder), path)) {
+	if(GetPrivateProfileStruct("HEADERS", "messages-order", colorder, sizeof(colorder), szPath)) {
 		m_MessageListCtrl.SetColumnOrderArray(MESSAGE_COLS, colorder);
 	}
 	for(i = 0; i < m_MessageListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
-		keybuf.Format("messages-%d", i);
-		int width = DEF_COL_WIDTH;
-		if(i == 1) width *= 1.5;
-		if(i == 2) width *= 4;
-		intbuf = GetPrivateProfileInt("HEADERS", keybuf.GetBuffer(0), width, path);
-		m_MessageListCtrl.SetColumnWidth(i, intbuf);
+		strKey.Format("messages-%d", i);
+		int nWidth = DEF_COL_WIDTH;
+		if(i == 1) nWidth *= 1.5;
+		if(i == 2) nWidth *= 4;
+		nBuf = GetPrivateProfileInt("HEADERS", strKey.GetBuffer(0), nWidth, szPath);
+		m_MessageListCtrl.SetColumnWidth(i, nBuf);
 	}
 }
 
@@ -1754,19 +1734,19 @@ void CMainWindow::LoadUserSettings()
 // function:	calls a dll function to determine the the user's idle time
 DWORD CMainWindow::GetUserIdleTime()
 {
-	if(m_IdleDll) {
+	if(m_hIdleDll) {
 		GetFn fn;
-		fn = (GetFn)GetProcAddress(m_IdleDll, "IdleTrackerGetLastTickCount");
+		fn = (GetFn)GetProcAddress(m_hIdleDll, "IdleTrackerGetLastTickCount");
 		if(fn) {
 			return GetTickCount() - fn();
 		} else {
 			TermFn tfn;
-			tfn = (TermFn)GetProcAddress(m_IdleDll, "IdleTrackerTerm");
+			tfn = (TermFn)GetProcAddress(m_hIdleDll, "IdleTrackerTerm");
 			if(tfn) {
 				tfn();
 			}
-			FreeLibrary(m_IdleDll);
-			m_IdleDll = NULL;
+			FreeLibrary(m_hIdleDll);
+			m_hIdleDll = NULL;
 		}
 	}
 	return 0;
@@ -1774,46 +1754,46 @@ DWORD CMainWindow::GetUserIdleTime()
 
 //////////
 // CMainWindow::Syncronize
-// arguments:	prog: pointer to a progress list control
-//				vect: pointer to a vector of pointers
+// arguments:	pProg: pointer to a progress list control
+//				pVect: pointer to a vector of pointers
 // returns:		void
 // function:	first, goes through the vector and adds items to the list
 //				control for any pointers it does not already contain, then
 //				goes through the list control and removes any pointers the
 //				vector does not contain.
-void CMainWindow::Syncronize(CProgressListCtrl* prog, vector<void*>* vect)
+void CMainWindow::Syncronize(CProgressListCtrl* pProg, vector<void*>* pVect)
 {
 	int i, j;
 
 	// add items to list that are not already in it
-	for(i = 0; i < vect->size(); i ++) {
-		void* item = (*vect)[i];
+	for(i = 0; i < pVect->size(); i ++) {
+		void* item = (*pVect)[i];
 		BOOL contained = false;
-		for(j = 0; j < prog->GetItemCount(); j ++) {
-			if((DWORD)item == prog->GetItemData(j)) {
+		for(j = 0; j < pProg->GetItemCount(); j ++) {
+			if((DWORD)item == pProg->GetItemData(j)) {
 				contained = true;
 				break;
 			}
 		}
 		if(!contained) {
-			prog->InsertItem(i, "");
-			prog->SetItemData(i, (DWORD)item);
+			pProg->InsertItem(i, "");
+			pProg->SetItemData(i, (DWORD)item);
 		}
 	}
 
 	// remove items from list that are not in vector
 	// now just set the pointer to NULL but leave the item in the list
-	for(i = 0; i < prog->GetItemCount(); i ++) {
-		DWORD item = prog->GetItemData(i);
+	for(i = 0; i < pProg->GetItemCount(); i ++) {
+		DWORD item = pProg->GetItemData(i);
 		BOOL contained = false;
-		for(j = 0; j < vect->size(); j ++) {
-			if(item == (DWORD)(*vect)[j]) {
+		for(j = 0; j < pVect->size(); j ++) {
+			if(item == (DWORD)(*pVect)[j]) {
 				contained = true;
 				break;
 			}
 		}
 		if(!contained) {
-			prog->SetItemData(i, (DWORD)NULL);
+			pProg->SetItemData(i, (DWORD)NULL);
 		}
 	}
 }
@@ -1846,16 +1826,16 @@ void CMainWindow::OnClose()
 void CMainWindow::OnCommandSettingsQuit()
 {
     CQuitDialog dlg(IDD_QUIT);
-    int retval = dlg.DoModal();
-	if(retval == IDOK) {
+    int nResult = dlg.DoModal();
+	if(nResult == IDOK) {
 		CString str;
-		if(strcmp(gstate.projects[dlg.m_sel]->project_name, "")) {
-			str.Format("Are you sure you want to quit the project %s?", gstate.projects[dlg.m_sel]->project_name);
+		if(strcmp(gstate.projects[dlg.m_nSel]->project_name, "")) {
+			str.Format("Are you sure you want to quit the project %s?", gstate.projects[dlg.m_nSel]->project_name);
 		} else {
-			str.Format("Are you sure you want to quit the project %s?", gstate.projects[dlg.m_sel]->master_url);
+			str.Format("Are you sure you want to quit the project %s?", gstate.projects[dlg.m_nSel]->master_url);
 		}
 		if(AfxMessageBox(str, MB_YESNO, 0) == IDYES) {
-			gstate.quit_project(dlg.m_sel);
+			gstate.quit_project(dlg.m_nSel);
 		}
 	}
 }
@@ -1868,9 +1848,9 @@ void CMainWindow::OnCommandSettingsQuit()
 void CMainWindow::OnCommandSettingsLogin()
 {
     CLoginDialog dlg(IDD_LOGIN, "", "");
-    int retval = dlg.DoModal();
-	if(retval == IDOK) {
-	    gstate.add_project(dlg.m_url.GetBuffer(0), dlg.m_auth.GetBuffer(0));
+    int nResult = dlg.DoModal();
+	if(nResult == IDOK) {
+	    gstate.add_project(dlg.m_strUrl.GetBuffer(0), dlg.m_strAuth.GetBuffer(0));
 	}
 }
 
@@ -1882,7 +1862,7 @@ void CMainWindow::OnCommandSettingsLogin()
 void CMainWindow::OnCommandSettingsProxyServer()
 {
 	CProxyDialog dlg(IDD_PROXY);
-	int retval = dlg.DoModal();
+	int nResult = dlg.DoModal();
 }
 
 //////////
@@ -1893,7 +1873,19 @@ void CMainWindow::OnCommandSettingsProxyServer()
 void CMainWindow::OnCommandHelpAbout()
 {
 	CDialog dlg(IDD_ABOUTBOX);
-	int retval = dlg.DoModal();
+	int nResult = dlg.DoModal();
+}
+
+//////////
+// CMainWindow::OnCommandFileShowGraphics
+// arguments:	void
+// returns:		void
+// function:	brings up the current app's graphics window by
+//				broadcasting a message
+void CMainWindow::OnCommandFileShowGraphics()
+{
+	int nGraphicsMsg = RegisterWindowMessage("BOINC_GFX_MODE");
+	::PostMessage(HWND_BROADCAST, nGraphicsMsg, 0, MODE_WINDOW);	
 }
 
 //////////
@@ -1944,15 +1936,15 @@ void CMainWindow::OnCommandFileClearMessages()
 // function:	lets a user change the properties for an account
 void CMainWindow::OnCommandProjectRelogin()
 {
-	if(m_ContextItem < 0 || m_ContextItem > m_ProjectListCtrl.GetItemCount()) return;
-	PROJECT* toRelogin = (PROJECT*)m_ProjectListCtrl.GetItemData(m_ContextItem);
-	m_ContextItem = -1;
-	if(!toRelogin) return;
+	if(m_nContextItem < 0 || m_nContextItem > m_ProjectListCtrl.GetItemCount()) return;
+	PROJECT* pToRelogin = (PROJECT*)m_ProjectListCtrl.GetItemData(m_nContextItem);
+	m_nContextItem = -1;
+	if(!pToRelogin) return;
 
 	// find project index
 	int i;
 	for(i = 0; i < gstate.projects.size(); i ++) {
-		if(gstate.projects[i] == toRelogin) break;
+		if(gstate.projects[i] == pToRelogin) break;
 	}
 	if(i == gstate.projects.size()) return;
 
@@ -1960,7 +1952,7 @@ void CMainWindow::OnCommandProjectRelogin()
     CLoginDialog dlg(IDD_LOGIN, gstate.projects[i]->master_url, gstate.projects[i]->authenticator);
     int retval = dlg.DoModal();
 	if(retval == IDOK) {
-		gstate.change_project(i, dlg.m_url.GetBuffer(0), dlg.m_auth.GetBuffer(0));
+		gstate.change_project(i, dlg.m_strUrl.GetBuffer(0), dlg.m_strAuth.GetBuffer(0));
 	}
 }
 
@@ -1971,26 +1963,26 @@ void CMainWindow::OnCommandProjectRelogin()
 // function:	lets the user quit a project
 void CMainWindow::OnCommandProjectQuit()
 {
-	if(m_ContextItem < 0 || m_ContextItem > m_ProjectListCtrl.GetItemCount()) return;
-	PROJECT* toQuit = (PROJECT*)m_ProjectListCtrl.GetItemData(m_ContextItem);
-	m_ContextItem = -1;
-	if(!toQuit) return;
+	if(m_nContextItem < 0 || m_nContextItem > m_ProjectListCtrl.GetItemCount()) return;
+	PROJECT* pToQuit = (PROJECT*)m_ProjectListCtrl.GetItemData(m_nContextItem);
+	m_nContextItem = -1;
+	if(!pToQuit) return;
 
 	// find project index
 	int i;
 	for(i = 0; i < gstate.projects.size(); i ++) {
-		if(gstate.projects[i] == toQuit) break;
+		if(gstate.projects[i] == pToQuit) break;
 	}
 	if(i == gstate.projects.size()) return;
 
 	// confirm and quit
-	CString str;
+	CString strBuf;
 	if(strcmp(gstate.projects[i]->project_name, "")) {
-		str.Format("Are you sure you want to quit the project %s?", gstate.projects[i]->project_name);
+		strBuf.Format("Are you sure you want to quit the project %s?", gstate.projects[i]->project_name);
 	} else {
-		str.Format("Are you sure you want to quit the project %s?", gstate.projects[i]->master_url);
+		strBuf.Format("Are you sure you want to quit the project %s?", gstate.projects[i]->master_url);
 	}
-	if(AfxMessageBox(str, MB_YESNO, 0) == IDYES) {
+	if(AfxMessageBox(strBuf, MB_YESNO, 0) == IDYES) {
 		gstate.quit_project(i);
 	}
 }
@@ -2002,21 +1994,21 @@ void CMainWindow::OnCommandProjectQuit()
 // function:	hides or shows the window
 void CMainWindow::OnCommandHide()
 {
-	CMenu* mainMenu;
-	CMenu* fileMenu;
-	mainMenu = GetMenu();
-	if(mainMenu) {
-		fileMenu = mainMenu->GetSubMenu(0);
+	CMenu* pMainMenu;
+	CMenu* pFileMenu;
+	pMainMenu = GetMenu();
+	if(pMainMenu) {
+		pFileMenu = pMainMenu->GetSubMenu(0);
 	}
 	if(IsWindowVisible()) {
 		ShowWindow(SW_HIDE);
-		if(fileMenu) {
-			fileMenu->CheckMenuItem(ID_FILE_HIDE, MF_CHECKED);
+		if(pFileMenu) {
+			pFileMenu->CheckMenuItem(ID_FILE_HIDE, MF_CHECKED);
 		}
 	} else {
 		ShowWindow(SW_SHOW);
-		if(fileMenu) {
-			fileMenu->CheckMenuItem(ID_FILE_HIDE, MF_UNCHECKED);
+		if(pFileMenu) {
+			pFileMenu->CheckMenuItem(ID_FILE_HIDE, MF_UNCHECKED);
 		}
 	}
 }
@@ -2028,23 +2020,23 @@ void CMainWindow::OnCommandHide()
 // function:	suspends or unsuspends the window
 void CMainWindow::OnCommandSuspend()
 {
-	CMenu* mainMenu;
-	CMenu* fileMenu;
-	mainMenu = GetMenu();
-	if(mainMenu) {
-		fileMenu = mainMenu->GetSubMenu(0);
+	CMenu* pMainMenu;
+	CMenu* pFileMenu;
+	pMainMenu = GetMenu();
+	if(pMainMenu) {
+		pFileMenu = pMainMenu->GetSubMenu(0);
 	}
-	if(m_Suspend) {
+	if(m_bSuspend) {
 		gstate.suspend_requested = false;
-		m_Suspend = false;
-		if(fileMenu) {
-			fileMenu->CheckMenuItem(ID_FILE_SUSPEND, MF_UNCHECKED);
+		m_bSuspend = false;
+		if(pFileMenu) {
+			pFileMenu->CheckMenuItem(ID_FILE_SUSPEND, MF_UNCHECKED);
 		}
 	} else {
 		gstate.suspend_requested = true;
-		m_Suspend = true;
-		if(fileMenu) {
-			fileMenu->CheckMenuItem(ID_FILE_SUSPEND, MF_CHECKED);
+		m_bSuspend = true;
+		if(pFileMenu) {
+			pFileMenu->CheckMenuItem(ID_FILE_SUSPEND, MF_CHECKED);
 		}
 	}
 }
@@ -2074,16 +2066,16 @@ void CMainWindow::OnCommandExit()
 	m_MainMenu.DestroyMenu();
 
 	// free dll and idle detection
-	if(m_IdleDll) {
+	if(m_hIdleDll) {
 		TermFn fn;
-		fn = (TermFn)GetProcAddress(m_IdleDll, "IdleTrackerTerm");
+		fn = (TermFn)GetProcAddress(m_hIdleDll, "IdleTrackerTerm");
 		if(!fn) {
 			MessageUser("", "Error in DLL \"boinc.dll\"", "low");
 		} else {
 			fn();
 		}
-		FreeLibrary(m_IdleDll);
-		m_IdleDll = NULL;
+		FreeLibrary(m_hIdleDll);
+		m_hIdleDll = NULL;
 	}
 
 	SaveUserSettings();
@@ -2103,10 +2095,10 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	}
 
     g_myWnd = this;
-	m_IconState = ICON_OFF;
-	m_Message = false;
-	m_Suspend = false;
-	m_ContextItem = -1;
+	m_nIconState = ICON_OFF;
+	m_bMessage = false;
+	m_bSuspend = false;
+	m_nContextItem = -1;
 
 	// load main menu
 	m_MainMenu.LoadMenu(IDR_MAINFRAME);
@@ -2116,7 +2108,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_ProjectListCtrl.Create(LVS_REPORT|WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, PROJECT_ID);
 	m_ProjectListCtrl.SetExtendedStyle(m_ProjectListCtrl.GetExtendedStyle()|LVS_EX_HEADERDRAGDROP|LVS_EX_FULLROWSELECT);
 	for(int i = 0; i < PROJECT_COLS; i ++) {
-		m_ProjectListCtrl.InsertColumn(i, column_titles[PROJECT_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH);
+		m_ProjectListCtrl.InsertColumn(i, g_szColumnTitles[PROJECT_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH);
 	}
 
 	// create result list control
@@ -2124,7 +2116,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_ResultListCtrl.SetExtendedStyle(m_ResultListCtrl.GetExtendedStyle()|LVS_EX_HEADERDRAGDROP|LVS_EX_FULLROWSELECT);
 	m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
 	for(i = 0; i < RESULT_COLS; i ++) {
-		m_ResultListCtrl.InsertColumn(i, column_titles[RESULT_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH);
+		m_ResultListCtrl.InsertColumn(i, g_szColumnTitles[RESULT_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH);
 	}
 
 	// create xfer list control
@@ -2132,7 +2124,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_XferListCtrl.SetExtendedStyle(m_XferListCtrl.GetExtendedStyle()|LVS_EX_HEADERDRAGDROP|LVS_EX_FULLROWSELECT);
 	m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
 	for(i = 0; i < XFER_COLS; i ++) {
-		m_XferListCtrl.InsertColumn(i, column_titles[XFER_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH);
+		m_XferListCtrl.InsertColumn(i, g_szColumnTitles[XFER_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH);
 	}
 
 	// create message edit control
@@ -2144,7 +2136,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 		int width = DEF_COL_WIDTH;
 		if(i == 1) width *= 1.5;
 		if(i == 2) width *= 4;
-		m_MessageListCtrl.InsertColumn(i, column_titles[MESSAGE_ID][i], LVCFMT_LEFT, width);
+		m_MessageListCtrl.InsertColumn(i, g_szColumnTitles[MESSAGE_ID][i], LVCFMT_LEFT, width);
 	}
 
 	// create usage pie control
@@ -2156,10 +2148,10 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_UsagePieCtrl.AddPiece("Used space (BOINC)", RGB(255, 255, 0), 0);
 	m_UsagePieCtrl.AddPiece("Free space (BOINC)", RGB(255, 128, 0), 0);
 	*/
-	m_UsagePieCtrl.AddPiece("Free space (Non-BOINC)", RGB(255, 0, 255), 0);
 	m_UsagePieCtrl.AddPiece("Used space (Non-BOINC)", RGB(0, 0, 255), 0);
-	m_UsagePieCtrl.AddPiece("Used space (BOINC)", RGB(0, 0, 192), 0);
+	m_UsagePieCtrl.AddPiece("Free space (Non-BOINC)", RGB(255, 0, 255), 0);
 	m_UsagePieCtrl.AddPiece("Free space (BOINC)", RGB(192, 0, 192), 0);
+	m_UsagePieCtrl.AddPiece("Used space (BOINC)", RGB(0, 0, 192), 0);
 
 	// set up image list for tab control
 	m_TabIL.Create(16, 16, ILC_COLOR8|ILC_MASK, 5, 1);
@@ -2184,11 +2176,11 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_TabCtrl.InsertItem(5, "Usage", 4);
 
 	// make all fonts the same nice font
-	CFont* pcf;
-	pcf = m_ProjectListCtrl.GetFont();
+	CFont* pFont;
+	pFont = m_ProjectListCtrl.GetFont();
 	LOGFONT lf;
 	ZeroMemory(&lf, sizeof(LOGFONT));
-	pcf->GetLogFont(&lf);
+	pFont->GetLogFont(&lf);
 	m_Font.CreateFontIndirect(&lf);
 	m_TabCtrl.SetFont(&m_Font);
 	m_UsagePieCtrl.SetFont(&m_Font);
@@ -2213,21 +2205,21 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     SetTimer(ID_TIMER, 1000, TimerProc);
 
 	// load dll and start idle detection
-	m_IdleDll = LoadLibrary("boinc.dll");
-	if(!m_IdleDll) {
+	m_hIdleDll = LoadLibrary("boinc.dll");
+	if(!m_hIdleDll) {
 		MessageUser("", "Can't load \"boinc.dll\", will not be able to determine idle time", "high");
 	} else {
 		InitFn fn;
-		fn = (InitFn)GetProcAddress(m_IdleDll, "IdleTrackerInit");
+		fn = (InitFn)GetProcAddress(m_hIdleDll, "IdleTrackerInit");
 		if(!fn) {
 			MessageUser("", "Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
-			FreeLibrary(m_IdleDll);
-			m_IdleDll = NULL;
+			FreeLibrary(m_hIdleDll);
+			m_hIdleDll = NULL;
 		} else {
 			if(!fn()) {
 				MessageUser("", "Error in DLL \"boinc.dll\", will not be able to determine idle time", "low");
-				FreeLibrary(m_IdleDll);
-				m_IdleDll = NULL;
+				FreeLibrary(m_hIdleDll);
+				m_hIdleDll = NULL;
 			}
 		}
 	}
@@ -2282,8 +2274,8 @@ BOOL CMainWindow::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_MessageListCtrl.ModifyStyle(0, WS_VISIBLE);
 			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-			if(m_Message) {
-				m_Message = false;
+			if(m_bMessage) {
+				m_bMessage = false;
 				SetStatusIcon(ICON_NORMAL);
 			}
 			m_MessageListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
@@ -2309,32 +2301,32 @@ BOOL CMainWindow::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 // function:	shows context menu for list items
 void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 {
-	CMenu wholeMenu;
-	CMenu* contextMenu = NULL;
+	CMenu WholeMenu;
+	CMenu* pContextMenu = NULL;
 	GetCursorPos(&point);
 	CRect rt;
-	CListCtrl* menuCtrl = NULL;
-	int menuId = -1;
+	CListCtrl* pMenuCtrl = NULL;
+	int nMenuId = -1;
 	if(m_ProjectListCtrl.IsWindowVisible()) {
-		menuCtrl = &m_ProjectListCtrl;
-		menuId = PROJECT_MENU;
+		pMenuCtrl = &m_ProjectListCtrl;
+		nMenuId = PROJECT_MENU;
 	} else if(m_ResultListCtrl.IsWindowVisible()) {
-		menuCtrl = &m_ResultListCtrl;
-		menuId = RESULT_MENU;
+		pMenuCtrl = &m_ResultListCtrl;
+		nMenuId = RESULT_MENU;
 	} else if(m_XferListCtrl.IsWindowVisible()) {
-		menuCtrl = &m_XferListCtrl;
-		menuId = XFER_MENU;
+		pMenuCtrl = &m_XferListCtrl;
+		nMenuId = XFER_MENU;
 	}
-	if(menuCtrl) {
-		for(int i = 0; i < menuCtrl->GetItemCount(); i ++) {
-			menuCtrl->GetItemRect(i, &rt, LVIR_BOUNDS);
-			menuCtrl->ClientToScreen(&rt);
+	if(pMenuCtrl) {
+		for(int i = 0; i < pMenuCtrl->GetItemCount(); i ++) {
+			pMenuCtrl->GetItemRect(i, &rt, LVIR_BOUNDS);
+			pMenuCtrl->ClientToScreen(&rt);
 			if(rt.PtInRect(point)) {
-				wholeMenu.LoadMenu(IDR_CONTEXT);
-				contextMenu = wholeMenu.GetSubMenu(menuId);
-				if(contextMenu) {
-					contextMenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
-					m_ContextItem = i;
+				WholeMenu.LoadMenu(IDR_CONTEXT);
+				pContextMenu = WholeMenu.GetSubMenu(nMenuId);
+				if(pContextMenu) {
+					pContextMenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
+					m_nContextItem = i;
 				}
 				break;
 			}
@@ -2351,7 +2343,7 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 //				gets the focus, selects the message tab
 void CMainWindow::OnSetFocus(CWnd* pOldWnd)
 {
-	if(m_TabCtrl.GetSafeHwnd() && m_Message) {
+	if(m_TabCtrl.GetSafeHwnd() && m_bMessage) {
 		m_TabCtrl.SetCurSel(MESSAGE_ID);
 		m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
 		m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
@@ -2359,7 +2351,7 @@ void CMainWindow::OnSetFocus(CWnd* pOldWnd)
 		m_MessageListCtrl.ModifyStyle(0, WS_VISIBLE);
 		m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
 		m_MessageListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
-		m_Message = false;
+		m_bMessage = false;
 		SetStatusIcon(ICON_NORMAL);
 	}
 }
@@ -2379,7 +2371,6 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy)
 	// calculate the main rect for the tab control
 	RECT rt = {EDGE_BUFFER, EDGE_BUFFER, cx-EDGE_BUFFER, cy-EDGE_BUFFER*2};
 	RECT irt = {0, 0, 0, 0};
-	float szDiv = (rt.bottom-rt.top)/100.0;
 	if(m_TabCtrl.GetSafeHwnd()) {
 		m_TabCtrl.MoveWindow(&rt, false);
 		m_TabCtrl.GetItemRect(0, &irt);
@@ -2425,27 +2416,27 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 		CPoint point;
 		SetForegroundWindow();
 		GetCursorPos(&point);
-		CMenu menu, *submenu;
-		if(!menu.LoadMenu(IDR_CONTEXT)) {
+		CMenu Menu, *pSubmenu;
+		if(!Menu.LoadMenu(IDR_CONTEXT)) {
 			return FALSE;
 		}
-		submenu = menu.GetSubMenu(STATUS_MENU);
-		if(!submenu) {
-			menu.DestroyMenu();
+		pSubmenu = Menu.GetSubMenu(STATUS_MENU);
+		if(!pSubmenu) {
+			Menu.DestroyMenu();
 			return FALSE;
 		}
 		if(IsWindowVisible()) {
-			submenu->CheckMenuItem(ID_STATUSICON_HIDE, MF_UNCHECKED);
+			pSubmenu->CheckMenuItem(ID_STATUSICON_HIDE, MF_UNCHECKED);
 		} else {
-			submenu->CheckMenuItem(ID_STATUSICON_HIDE, MF_CHECKED);
+			pSubmenu->CheckMenuItem(ID_STATUSICON_HIDE, MF_CHECKED);
 		}
-		if(m_Suspend) {
-			submenu->CheckMenuItem(ID_STATUSICON_SUSPEND, MF_CHECKED);
+		if(m_bSuspend) {
+			pSubmenu->CheckMenuItem(ID_STATUSICON_SUSPEND, MF_CHECKED);
 		} else {
-			submenu->CheckMenuItem(ID_STATUSICON_SUSPEND, MF_UNCHECKED);
+			pSubmenu->CheckMenuItem(ID_STATUSICON_SUSPEND, MF_UNCHECKED);
 		}
-		submenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
-		menu.DestroyMenu();
+		pSubmenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
+		Menu.DestroyMenu();
 	} else if(lParam == WM_LBUTTONDOWN) {
 		if(IsWindowVisible()) {
 			SetForegroundWindow();
@@ -2472,12 +2463,14 @@ END_MESSAGE_MAP()
 //////////
 // CLoginDialog::CLoginDialog
 // arguments:	y: dialog box resource id
+//				szUrl: the initial url
+//				szAuth: the initial autorization
 // returns:		void
-// function:	calls parents contructor.
-CLoginDialog::CLoginDialog(UINT y, LPCTSTR url, LPCTSTR auth) : CDialog(y)
+// function:	calls parents contructor, sets member variables
+CLoginDialog::CLoginDialog(UINT y, LPCTSTR szUrl, LPCTSTR szAuth) : CDialog(y)
 {
-	m_url.Format("%s", url);
-	m_auth.Format("%s", auth);
+	m_strUrl.Format("%s", szUrl);
+	m_strAuth.Format("%s", szAuth);
 }
 
 //////////
@@ -2488,16 +2481,16 @@ CLoginDialog::CLoginDialog(UINT y, LPCTSTR url, LPCTSTR auth) : CDialog(y)
 BOOL CLoginDialog::OnInitDialog() 
 {
     CDialog::OnInitDialog();
-	CWnd* wurl = GetDlgItem(IDC_LOGIN_URL);
-	if(wurl) {
-		wurl->SetWindowText(m_url);
+	CWnd* pWndUrl = GetDlgItem(IDC_LOGIN_URL);
+	if(pWndUrl) {
+		pWndUrl->SetWindowText(m_strUrl);
 	}
-	CWnd* wauth = GetDlgItem(IDC_LOGIN_AUTH);
-	if(wauth) {
-		wauth->SetWindowText(m_auth);
+	CWnd* pWndAuth = GetDlgItem(IDC_LOGIN_AUTH);
+	if(pWndAuth) {
+		pWndAuth->SetWindowText(m_strAuth);
 	}
-	CWnd* toFocus = GetDlgItem(IDC_LOGIN_URL);
-	if(toFocus) toFocus->SetFocus();
+	CWnd* pWndFocus = GetDlgItem(IDC_LOGIN_URL);
+	if(pWndFocus) pWndFocus->SetFocus();
     CenterWindow();
 	EnableToolTips(TRUE);
     return FALSE;
@@ -2510,8 +2503,8 @@ BOOL CLoginDialog::OnInitDialog()
 // function:	copies strings from edit controls to member variables.
 void CLoginDialog::OnOK() 
 {
-    GetDlgItemText(IDC_LOGIN_URL, m_url);
-    GetDlgItemText(IDC_LOGIN_AUTH, m_auth);
+    GetDlgItemText(IDC_LOGIN_URL, m_strUrl);
+    GetDlgItemText(IDC_LOGIN_AUTH, m_strAuth);
     CDialog::OnOK();
 }
 
@@ -2577,16 +2570,16 @@ CQuitDialog::CQuitDialog(UINT y) : CDialog(y)
 BOOL CQuitDialog::OnInitDialog() 
 {
     CDialog::OnInitDialog();
-	CListBox* List = (CListBox*)GetDlgItem(IDC_LIST);
-	if(List) {
+	CListBox* pListBox = (CListBox*)GetDlgItem(IDC_LIST);
+	if(pListBox) {
 		for(int i = 0; i < gstate.projects.size(); i ++) {
 			if(!strcmp(gstate.projects[i]->project_name, "")) {
-				List->AddString(gstate.projects[i]->master_url);
+				pListBox->AddString(gstate.projects[i]->master_url);
 			} else {
-				List->AddString(gstate.projects[i]->project_name);
+				pListBox->AddString(gstate.projects[i]->project_name);
 			}
 		}
-		List->SetFocus();
+		pListBox->SetFocus();
 	}
     CenterWindow();
 	EnableToolTips(TRUE);
@@ -2600,13 +2593,12 @@ BOOL CQuitDialog::OnInitDialog()
 // function:	sets member variables, selected project to quit
 void CQuitDialog::OnOK() 
 {
-	CString buf;
-	m_sel = -1;
-	CListBox* List = (CListBox*)GetDlgItem(IDC_LIST);
-	if(List) {
-		m_sel = List->GetCurSel();
+	m_nSel = -1;
+	CListBox* pListBox = (CListBox*)GetDlgItem(IDC_LIST);
+	if(pListBox) {
+		m_nSel = pListBox->GetCurSel();
 	}
-    if(m_sel >= 0) CDialog::OnOK();
+    if(m_nSel >= 0) CDialog::OnOK();
 	else CDialog::OnCancel();
 }
 
@@ -2671,11 +2663,11 @@ CProxyDialog::CProxyDialog(UINT y) : CDialog(y)
 BOOL CProxyDialog::OnInitDialog() 
 {
     CDialog::OnInitDialog();
-	CButton* btnTmp;
+	CButton* pBtn;
 
 	// fill in http
-	btnTmp = (CButton*)GetDlgItem(IDC_CHECK_HTTP);
-	if(btnTmp) btnTmp->SetCheck(gstate.use_proxy?BST_CHECKED:BST_UNCHECKED);
+	pBtn = (CButton*)GetDlgItem(IDC_CHECK_HTTP);
+	if(pBtn) pBtn->SetCheck(gstate.use_proxy?BST_CHECKED:BST_UNCHECKED);
 	SetDlgItemText(IDC_EDIT_HTTP_ADDR, gstate.proxy_server_name);
 	CString portBuf;
 	if(gstate.proxy_server_port > 0) portBuf.Format("%d", gstate.proxy_server_port);
@@ -2684,8 +2676,8 @@ BOOL CProxyDialog::OnInitDialog()
 	EnableHttp(gstate.use_proxy);
 	
 	// fill in socks
-	btnTmp = (CButton*)GetDlgItem(IDC_CHECK_SOCKS);
-	if(btnTmp) btnTmp->EnableWindow(false);
+	pBtn = (CButton*)GetDlgItem(IDC_CHECK_SOCKS);
+	if(pBtn) pBtn->EnableWindow(false);
 	SetDlgItemText(IDC_EDIT_SOCKS_PORT, "1080");
 	EnableSocks(false);
     CenterWindow();
@@ -2699,11 +2691,11 @@ BOOL CProxyDialog::OnInitDialog()
 // function:	enables or disables the http section of the dialog
 void CProxyDialog::EnableHttp(BOOL bEnable)
 {
-	CEdit* editTmp;
-	editTmp = (CEdit*)GetDlgItem(IDC_EDIT_HTTP_ADDR);
-	if(editTmp) editTmp->EnableWindow(bEnable);
-	editTmp = (CEdit*)GetDlgItem(IDC_EDIT_HTTP_PORT);
-	if(editTmp) editTmp->EnableWindow(bEnable);
+	CEdit* pEdit;
+	pEdit = (CEdit*)GetDlgItem(IDC_EDIT_HTTP_ADDR);
+	if(pEdit) pEdit->EnableWindow(bEnable);
+	pEdit = (CEdit*)GetDlgItem(IDC_EDIT_HTTP_PORT);
+	if(pEdit) pEdit->EnableWindow(bEnable);
 }
 
 //////////
@@ -2713,15 +2705,15 @@ void CProxyDialog::EnableHttp(BOOL bEnable)
 // function:	enables or disables the socks section of the dialog
 void CProxyDialog::EnableSocks(BOOL bEnable)
 {
-	CEdit* editTmp;
-	editTmp = (CEdit*)GetDlgItem(IDC_EDIT_SOCKS_ADDR);
-	if(editTmp) editTmp->EnableWindow(bEnable);
-	editTmp = (CEdit*)GetDlgItem(IDC_EDIT_SOCKS_PORT);
-	if(editTmp) editTmp->EnableWindow(bEnable);
-	editTmp = (CEdit*)GetDlgItem(IDC_EDIT_SOCKS_NAME);
-	if(editTmp) editTmp->EnableWindow(bEnable);
-	editTmp = (CEdit*)GetDlgItem(IDC_EDIT_SOCKS_PASS);
-	if(editTmp) editTmp->EnableWindow(bEnable);
+	CEdit* pEdit;
+	pEdit = (CEdit*)GetDlgItem(IDC_EDIT_SOCKS_ADDR);
+	if(pEdit) pEdit->EnableWindow(bEnable);
+	pEdit = (CEdit*)GetDlgItem(IDC_EDIT_SOCKS_PORT);
+	if(pEdit) pEdit->EnableWindow(bEnable);
+	pEdit = (CEdit*)GetDlgItem(IDC_EDIT_SOCKS_NAME);
+	if(pEdit) pEdit->EnableWindow(bEnable);
+	pEdit = (CEdit*)GetDlgItem(IDC_EDIT_SOCKS_PASS);
+	if(pEdit) pEdit->EnableWindow(bEnable);
 }
 
 //////////
@@ -2731,10 +2723,10 @@ void CProxyDialog::EnableSocks(BOOL bEnable)
 // function:	handles http check box
 void CProxyDialog::OnHttp() 
 {
-	CButton* btnTmp;
-	btnTmp = (CButton*)GetDlgItem(IDC_CHECK_HTTP);
-	if(btnTmp) {
-		if(btnTmp->GetCheck() == BST_CHECKED) {
+	CButton* pBtn;
+	pBtn = (CButton*)GetDlgItem(IDC_CHECK_HTTP);
+	if(pBtn) {
+		if(pBtn->GetCheck() == BST_CHECKED) {
 			EnableHttp(true);
 		} else {
 			EnableHttp(false);
@@ -2758,21 +2750,21 @@ void CProxyDialog::OnSocks()
 // function:	sets member variables, selected project to quit
 void CProxyDialog::OnOK() 
 {
-	CButton* btnTmp;
-	CString strTmp;
+	CButton* pBtn;
+	CString strbuf;
 
 	// get http info
-	btnTmp = (CButton*)GetDlgItem(IDC_CHECK_HTTP);
-	if(btnTmp) {
-		if(btnTmp->GetCheck() == BST_CHECKED) {
+	pBtn = (CButton*)GetDlgItem(IDC_CHECK_HTTP);
+	if(pBtn) {
+		if(pBtn->GetCheck() == BST_CHECKED) {
 			gstate.use_proxy = true;
 		} else {
 			gstate.use_proxy = false;
 		}
 	}
-	GetDlgItemText(IDC_EDIT_HTTP_ADDR, strTmp);
-	strcpy(gstate.proxy_server_name, strTmp.GetBuffer(0));
-	GetDlgItemText(IDC_EDIT_HTTP_PORT, strTmp);
-	gstate.proxy_server_port = atoi(strTmp.GetBuffer(0));
+	GetDlgItemText(IDC_EDIT_HTTP_ADDR, strbuf);
+	strcpy(gstate.proxy_server_name, strbuf.GetBuffer(0));
+	GetDlgItemText(IDC_EDIT_HTTP_PORT, strbuf);
+	gstate.proxy_server_port = atoi(strbuf.GetBuffer(0));
 	CDialog::OnOK();
 }

@@ -175,6 +175,7 @@ IDR_MAINFRAME MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
+        MENUITEM "Show &Graphics",              ID_FILE_SHOWGRAPHICS
         MENUITEM "Clear &Messages",             ID_FILE_CLEARMESSAGES
         MENUITEM "Clear &Inactive",             ID_FILE_CLEARINACTIVE
         MENUITEM SEPARATOR

@@ -27,8 +27,9 @@
 #include <afxtempl.h>
 #include <afxcoll.h>
 #include <afxext.h>
-#include <Tlhelp32.h>
 #include <math.h>
+#include "graphics_api.h"
+#include "file_names.h"
 #include "filesys.h"
 #include "log_flags.h"
 #include "client_state.h"
@@ -64,6 +65,27 @@
 #define PIE_BUFFER			20			// buffer pixels around edge of pie chart
 #define PIE_DEPTH			0.25		// depth of pie chart
 #define PI					3.14159		// pi
+
+#define STATUS_ICON_ID		(WM_USER + 1)	// id for notifications from status icon
+
+#define STATUS_MENU			0			// submenus for context menus
+#define PROJECT_MENU		1
+#define RESULT_MENU			2
+#define XFER_MENU			3
+
+#define PROJECT_ID			0			// child control ids
+#define RESULT_ID			1
+#define XFER_ID				2
+#define MESSAGE_ID			3
+#define MAX_LIST_ID			4			// for column titles
+#define USAGE_ID			4
+#define TAB_ID				5
+
+#define PROJECT_COLS		5			// number of columns for each control
+#define RESULT_COLS			7
+#define XFER_COLS			6
+#define MESSAGE_COLS		3
+#define MAX_COLS			7
 
 // typedefs
 
@@ -131,7 +153,7 @@ protected:
 	CMapStringToOb			m_Progs;				// maps coordinate string to progress control
 	CProgressHeaderCtrl		m_Header;				// header for subclassing
 	CArray<int,int>			m_ColWidths;			// column widths for hiding and unhiding; a[i] > 0: col i shown; a[i] < 0: col i hidden, previous width -(a[i] - 1)
-	int						m_iSort;				// column and order of last sort: i = 0: no sort; i > 0: sorted ascending by col i - 1; < 0 sorted descending by col -(i-1)
+	int						m_nSort;				// column and order of last sort: i = 0: no sort; i > 0: sorted ascending by col i - 1; < 0 sorted descending by col -(i-1)
 	CFont*					m_OldFont;				// old font for setting subitem font
 	CArray<COLORREF,COLORREF>		m_ItemColors;	// special colors of items
 	CArray<CString,CString>			m_ProjectURLs;	// urls for project links
@@ -169,11 +191,11 @@ public:
 	void					SetTotal(double);
 
 protected:
-	double					m_total;				// total amount of pie
-	CArray<double,double>	m_Values;				// specific values of pieces
-	CArray<COLORREF,COLORREF>		m_Colors;		// colors of pieces
-	CArray<CString,CString>			m_Labels;		// labels of pieces
-	CFont*					m_Font;					// font for control
+	double					m_xTotal;				// total amount of pie
+	CArray<double,double>	m_xValues;				// specific values of pieces
+	CArray<COLORREF,COLORREF>	m_colors;			// colors of pieces
+	CArray<CString,CString>		m_strLabels;		// labels of pieces
+	CFont*					m_pFont;				// font for control
 
 	void					DrawPiePiece(CDC*, double, double);
 	void					CirclePoint(CPoint*, int, double, CPoint*);
@@ -218,11 +240,11 @@ protected:
 	CTabCtrl				m_TabCtrl;				// tab control for choosing display
 	CImageList				m_TabIL;				// image list for tab control
 	CBitmap					m_TabBMP[5];			// bitmaps for tab image list
-	HINSTANCE				m_IdleDll;				// handle to dll for user idle
-	int						m_IconState;			// state of the status icon
-	BOOL					m_Message;				// does the user have a new message?
-	BOOL					m_Suspend;				// should apps be suspended?
-	int						m_ContextItem;			// item selected for context menu
+	HINSTANCE				m_hIdleDll;				// handle to dll for user idle
+	int						m_nIconState;			// state of the status icon
+	BOOL					m_bMessage;				// does the user have a new message?
+	BOOL					m_bSuspend;				// should apps be suspended?
+	int						m_nContextItem;			// item selected for context menu
 
     void					SetStatusIcon(DWORD);
     void					SaveUserSettings();
@@ -238,6 +260,7 @@ protected:
 	afx_msg void			OnCommandHelpAbout();
 	afx_msg void			OnCommandProjectRelogin();
 	afx_msg void			OnCommandProjectQuit();
+	afx_msg void			OnCommandFileShowGraphics();
 	afx_msg void			OnCommandFileClearInactive();
 	afx_msg void			OnCommandFileClearMessages();
 	afx_msg void			OnCommandHide();
@@ -261,8 +284,8 @@ class CLoginDialog : public CDialog
 public:
 							CLoginDialog(UINT, LPCTSTR, LPCTSTR);
 	afx_msg BOOL			OnInitDialog();
-	CString					m_url;
-	CString					m_auth;
+	CString					m_strUrl;
+	CString					m_strAuth;
 
 protected:
 	afx_msg void			OnOK();
@@ -279,7 +302,7 @@ class CQuitDialog : public CDialog
 public:
 							CQuitDialog(UINT);
 	afx_msg BOOL			OnInitDialog();
-	int						m_sel;
+	int						m_nSel;
 
 protected:
 	afx_msg void			OnOK();
