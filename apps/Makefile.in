@@ -17,7 +17,7 @@ LIBS = ../api/boinc_api.o ../api/mfile.o ../lib/parse.o ../lib/filesys.o ../lib/
 
 CLIBS = @LIBS@
 
-APPS = upper_case concat uc_slow concat_slow 1sec uc_cpu
+APPS = upper_case concat 1sec
 
 .C.o:
 	$(CC) -c -o $*.o $<
@@ -32,15 +32,6 @@ upper_case: upper_case.o
 concat: concat.o
 	$(CC) concat.o $(LIBS) -o concat
 
-concat_slow: concat_slow.o
-	$(CC) concat_slow.o $(LIBS) -o concat_slow
-
-uc_slow: uc_slow.o
-	$(CC) uc_slow.o $(LIBS) -o uc_slow
-
-uc_cpu: uc_cpu.o
-	$(CC) uc_cpu.o $(LIBS) -o uc_cpu
-
 1sec: 1sec.o
 	$(CC) 1sec.o $(LIBS) -o 1sec
 
@@ -48,8 +39,6 @@ install: all
 	-mkdir -p $(INSTALL_DIR)/apps
 	cp upper_case $(INSTALL_DIR)/apps/upper_case
 	cp concat $(INSTALL_DIR)/apps/concat
-	cp uc_slow $(INSTALL_DIR)/apps/uc_slow
-	cp concat_slow $(INSTALL_DIR)/apps/concat_slow
 	cp 1sec $(INSTALL_DIR)/apps/1sec
 
 uninstall: 

@@ -1826,17 +1826,21 @@ David   August 30 2002
         md5_file.C
 
 Eric    September 4, 2002
-    - condensed uc_slow, uc_cpu into upper_case, using command line arguments
+    - condensed uc_slow, uc_cpu into upper_case, concat_slow into concat, using command line arguments
     - changed test_uc to use files rather than stdin/stdout
 
     apps/
         uc_slow.C (removed)
+        concat_slow.C (removed)
         uc_cpu.C (removed)
         upper_case.C
+        concat.C
+        Makefile.in
     lib/
         error_numbers.h
     test/
         test_uc_slow.php
+        test_concat.php
         uc_result
         uc_wu
         ucs_wu
