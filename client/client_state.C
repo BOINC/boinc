@@ -378,8 +378,8 @@ bool CLIENT_STATE::do_something(double now) {
                 resume_activities();
             }
         }
-        activities_suspended = (suspend_reason != 0);
     }
+    activities_suspended = (suspend_reason != 0);
 
     // if we're doing CPU benchmarks, don't do much else
     //

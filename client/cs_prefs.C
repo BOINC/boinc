@@ -132,7 +132,6 @@ inline bool now_between_two_hours(int start_hour, int end_hour) {
 // we should suspend activities.
 //
 void CLIENT_STATE::check_suspend_activities(double now, int& reason) {
-    static double last_time = 0;
     reason = 0;
 
     // Don't work while we're running CPU benchmarks
@@ -147,9 +146,6 @@ void CLIENT_STATE::check_suspend_activities(double now, int& reason) {
         reason |= SUSPEND_REASON_USER_REQ;
         return;
     }
-
-    if (now - last_time < 5.0) return;
-    last_time = now;
 
     if (!global_prefs.run_on_batteries
         && host_info.host_is_running_on_batteries()

@@ -23048,3 +23048,38 @@ David  20 Jan 2005
     - converted code to LGPL license
 
     (essentially all files)
+
+Rom    20 Jan 2005
+    - Bug Fix: Remove some code that was keeping half of the
+        check_suspend_activities conditions to be skipped.
+
+      NOTE: basically this was causing BOINC to alternate
+        between suspended mode and non-suspended mode twice
+        a second because the check for user idle activity
+        happened after we returned from the function which
+        means that reason was returning 0, meaning we shouldn't
+        be suspended.
+
+    - Bug Fix: Setting activities_suspended should happen outside
+        the check for tasks_restarted, since it is used later in
+        the function, and activities_suspended may not be what
+        we expect it to be.
+    - Cleanup: In the idle detection routine save the needed values
+        to a variable so we can see them as we are steping though
+        the code, let the optimizer deal with it on release builds.
+    - Bug Fix: Remove the Modify option in setup, our setup is an
+        all or nothing deal.
+    - Bug Fix: Configure setup for automatic upgrades, this requires
+        the previous MSI databases from the builds we release to
+        public.
+
+      NOTE: I need to talk to David about this a little bit, but
+        I think it is doable.
+
+    client/
+         client_state.C
+         cs_prefs.C
+    client/win
+         hostinfo_win.cpp
+    win_build/installerv2/
+         BOINC.ism
