@@ -181,10 +181,6 @@ function process_results() {
         exit();
     }
 
-    // TODO: Having the delete checkbox and pic file form might confuse users.
-    // Should figure out a better way to handle this.    Also might want to
-    // present some sort of verification dialog (javascript).
-
     if ($delete_pic == "on") {
 
         delete_user_pictures($profile_info['userid']);
@@ -332,6 +328,9 @@ Your profile was successfully entered into our database.<br><br>
 //   $numToDisplay indicates how many profiles to display in this table
 //   $cols indicates how many profile summaries should be written per row
 //   $descriptor is an optional file descriptor to write the table to.
+//   $pathMod is an optional path which is prepended to the image path.  Useful
+//     when the image path is not relative to the directory from which this
+//     function is called.
 
 function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=null, $pathMod=null) {
 
