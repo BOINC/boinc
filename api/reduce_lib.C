@@ -20,6 +20,7 @@
 // shared-library part of the implementation of REDUCE
 
 #ifdef _WIN32
+#include "boinc_win.h"
 #include <GL/gl.h>
 #endif
 

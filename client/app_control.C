@@ -625,6 +625,7 @@ int ACTIVE_TASK_SET::exit_tasks(PROJECT* proj) {
     //
     get_msgs();
 
+    gstate.must_schedule_cpus = true;
     return 0;
 }
 

@@ -193,6 +193,7 @@ public:
         // Reschedule CPUs ASAP.  Set when:
         // - core client starts (CS::init())
         // - an app exits (ATS::check_app_exited())
+        // - Tasks are killed (ATS::exit_tasks())
         // - a result's input files finish downloading (CS::update_results())
         // - an app fails to start (CS::schedule_cpus())
         // - any project op is done via RPC (suspend/resume)

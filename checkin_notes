@@ -24347,3 +24347,15 @@ Bruce 8 Feb 2005
             repair_validator_problem.php
             team_repair.php
 
+David  9 Feb 2005
+	- small bug fix: set must_reschedule_cpus in
+		ACTIVE_TASK_SET::exit_tasks().
+		This fixes a (rare) situation where you detach from a project,
+		other projects' tasks are not run, and the CPU is idle.
+	- win graphics compile fix
+
+	api/
+		reduce_lib.C
+	client/
+		app_control.C
+		client_state.h
