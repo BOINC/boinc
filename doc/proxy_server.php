@@ -15,20 +15,20 @@ Unlike SETI@home, with its 'one size fits all' work units,
 BOINC allows work units that have extreme requirements
 (memory, disk, CPU) and makes sure they're sent only
 to hosts that can handle them.
-In BOINC, a client talks directly to server,
+In BOINC, a client communicates directly with the server,
 telling the server about its hardware (memory size, CPU speed etc.)
-and the server choosing work for it accordingly.
+and the server chooses work for it accordingly.
 Furthermore, BOINC has separate scheduling and data servers
 (in SETI@home, a single server played both roles).
 <p>
-So a BOINC proxy would have to include replicate much
+So a BOINC proxy would have to replicate much
 of the functionality of the BOINC core client
 (so that it can download and upload files)
-and the BOINC scheduling server (since it would have to implement
-the work-distribution policy).
+and the BOINC scheduling server
+(since it would have to implement the work-distribution policy).
 This is possible but it would be a lot of work.
 <p>
-BOINC has some mechanisms - such as work buffering
+BOINC has mechanisms - such as work buffering
 and the ability to participate in multiple projects -
 that reduce the importance of proxy servers.
 ";

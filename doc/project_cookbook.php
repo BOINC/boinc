@@ -11,6 +11,9 @@ echo "
 <li> paste text into httpd.conf
 <li> insert cron job
 <li> xadd project.xml
+<li> Edit html/project/project.inc to use the right
+master URL and copyright holder.
+<li> Add .htaccess and .htpasswd files to html/ops.
 </ul>
 
 Visible result: the project web site is up.
@@ -67,9 +70,13 @@ instead of the place-holder programs.
 </ul>
 
 
-<h2>Make the core client available from your site</h2>
+<h2>Extras</h2>
 
-<h2>Add message board categories</h2>
+<ul>
+<li> Make the core client available from your site
+<li> Add message board categories: see html/ops/create_forums.php
+</ul>
+
 ";
 
 page_tail();

@@ -9,20 +9,44 @@ Preferences are divided into two groups:
 <h3>General preferences</h3>
 <b>General preferences</b> apply to all BOINC projects in which you participate.
 They include:
-<ul>
-<li> Whether work (computation and network transfer) should be done
-while the host is being used (i.e. during keyboard and mouse input).
-<li> Whether work should be done while the computer is being powered
+";
+list_start();
+list_item("When to work",
+"You can specify whether work (computation and network transfer) should be done
+1) while the host is being used (i.e. during keyboard and mouse input);
+2) while the computer is being powered
 by batteries (for laptop users).
-<li> Whether to wait for user confirmation before making network connections.
-<li> Min and max days of work to keep on disk.
+");
+list_item("Confirm before connect",
+"Whether to wait for confirmation before making network connections.");
+list_item("Work buffering min and max",
+"
+Your computer maintains an estimate of the amount of work remaining
+(i.e. the time until one of its processors will be idle).
+You can choose the <b>minimum work</b> and the
+<b>maximum work</b> to keep.
+Normally the work remaining is between these two limits.
+When the work remaining reaches minimum level,
+your computer contacts one or more scheduling servers,
+and attempts to get enough work to exceed the maximum level.
+<p>
+This scheme allows computers that are sporadically connected
+(because they're portable or have modem-based connections)
+to avoid becoming idle due to lack of work. 
 If the host is frequently disconnected from the Internet, the min
 should be at least as long as the typical period of disconnection.
 The larger the difference between min and max, the less often
 the BOINC client will connect to the Internet.
-<li> Maximum disk space used by BOINC.
-<li> Maximum percentage of free space used by BOINC.
-<li> Minimum disk space to keep free.
+?>
+");
+list_item("Disk usage limits",
+"You can limit the disk space used by BOINC in any of three ways:
+1) Maximum disk space used by BOINC;
+2) Maximum percentage of free space used by BOINC.
+3) Minimum disk space to keep free.
+");
+list_end();
+echo "
 </ul>
 You can view and edit your general preferences through a web interface,
 at the site of any project in which you participate.

@@ -10049,6 +10049,23 @@ David  Feb 15 2004
         setup_project.py
 
 David  Feb 16 2004
+    - removed references to Workseq table from python code
+    - commented out shutdown()s in http.C.
+        These seemed to be causing problems.
+    - doc updates
+
+    client/
+        http.C
+    html/user/
+        index.php
+        stats.php
+    doc/
+        (various)
+    py/Boinc/
+        database.py
+        db_mid.py
+
+David  Feb 16 2004
     - enable the min_core_version attribute of app_version:
         don't send a result to a host whose core version is too low.
         (Note: this is a no-op unless you set min_core_version
@@ -10082,3 +10099,14 @@ Rom    Feb 19 2004
 	api/
 		boinc_api.C
 
+David  Feb 19 2004
+    - FILE_XFER_SET::insert(): check for error BEFORE inserting in set.
+    - fix time zone display
+
+    client/
+        file_xfer.C
+        http.C
+    doc/
+        (various)
+    html/inc/
+        host.inc

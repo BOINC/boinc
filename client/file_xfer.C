@@ -144,14 +144,15 @@ FILE_XFER_SET::FILE_XFER_SET(HTTP_OP_SET* p) {
     http_ops = p;
 }
 
-// Insert a FILE_XFER object into the set
+// start a FILE_XFER going (connect to server etc.)
+// If successful, add to the set
 //
 int FILE_XFER_SET::insert(FILE_XFER* fxp) {
     int retval;
 
-    file_xfers.push_back(fxp);
     retval = http_ops->insert(fxp);
     if (retval) return retval;
+    file_xfers.push_back(fxp);
     return 0;
 }
 

@@ -434,12 +434,15 @@ bool HTTP_OP_SET::poll() {
                     htp->http_op_state = HTTP_STATE_REPLY_HEADER;
                     htp->want_upload = false;
                     htp->want_download = true;
-                    // We don't need to write to the socket anymore.  This
-                    // closes the read fd on the receiving side.
-                    // NOTE: in Windows this exercises a problem with
-                    // Norton Firewall
+
+                    // We don't need to write to the socket anymore.
+                    // Close the read fd on the receiving side.
+                    // This is needed by the scheduler "use_file" mechanism
+                    // NOTE: this is commented out because
+                    // - it seems to cause problems on all platforms
+                    // in Windows it exercises a problem with Norton Firewall
 #ifndef _WIN32
-                    shutdown(htp->socket, SHUT_WR);
+                    //shutdown(htp->socket, SHUT_WR);
 #endif
                     break;
                 case HTTP_OP_POST2:
@@ -488,12 +491,14 @@ bool HTTP_OP_SET::poll() {
                 htp->io_ready = false;
                 htp->io_done = false;
 
-                // We don't need to write to the socket anymore.  This closes
-                // the read fd on the receiving side.
-                // NOTE: in Windows this exercises a problem with
-                // Norton Firewall
+                // We don't need to write to the socket anymore.
+                // Close the read fd on the receiving side.
+                // This is needed by the scheduler "use_file" mechanism
+                // NOTE: this is commented out because
+                // - it seems to cause problems on all platforms
+                // in Windows it exercises a problem with Norton Firewall
 #ifndef _WIN32
-                shutdown(htp->socket, SHUT_WR);
+                //shutdown(htp->socket, SHUT_WR);
 #endif
             }
             break;

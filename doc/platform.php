@@ -41,7 +41,7 @@ list_start();
 list_heading("name", "description");
 list_item("windows_intelx86", "Microsoft Windows (95 or later) running on an Intel x86-compatible processor");
 list_item("linux_x86", "Linux running on an Intel x86-compatible processor");
-list_item("macos_ppc", ">Mac OS 9.0 or later running on Motorola PowerPC");
+list_item("macos_ppc", "Mac OS 9.0 or later running on Motorola PowerPC");
 list_item("sparc_solaris", "Solaris 2.1 or later running on a SPARC-compatible processor");
 list_end();
 echo"

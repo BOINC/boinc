@@ -24,7 +24,7 @@ A WU template file has the form
     </file_ref>
     [ ... ]
     [ <command_line>-flags xyz</command_line> ]
-    [ <env_vars>name=val&amp;name=val</env_vars> ]
+    [ <env_vars>name=val&name=val</env_vars> ]
 </workunit>
 "), "
 </pre>
@@ -47,7 +47,6 @@ Within a &lt;file_info> element,
 &lt;number>x&lt;/number> identifies the order of the file.
 It is replaced with elements giving
 the filename, download URL, MD5 checksum, and size.
-file.
 <li>
 Within a &lt;file_ref> element,
 &lt;file_number>x&lt;/file_number> is replaced with the filename.

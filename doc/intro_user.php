@@ -29,30 +29,34 @@ echo "
     </center>
     <br>
     <ol>
-    <li> Your PC gets a list of instructions from the project's
+    <li> Your PC gets a set of instructions from the project's
     <b>scheduling server</b>.
     The instructions depend on your PC: for example, 
     the server won't give it work that requires more RAM than you have.
-    The instructions may include many separate pieces of work.
+    The instructions may include many multiple pieces of work.
     Projects can support several <b>applications</b>,
     and the server may send you work from any of them.
-    <li> Your PC downloads executable and input files
+    <li>
+    Your PC downloads executable and input files
     from the project's <b>data server</b>.
     If the project releases new versions of its applications,
     the executable files are downloaded automatically to your PC.
     <li> Your PC runs the application programs, producing output files.
     <li> Your PC uploads the output files to the data server.
-    <li> Your PC reports the completed results to the scheduling server,
+    <li>
+    Later (up to several days later, depending on your
+    <a href=prefs.php>work buffer preferences</a>)
+    your PC reports the completed results to the scheduling server,
     and gets instructions for more work.
-    This cycle is repeated indefinitely.
     </ol>
+    This cycle is repeated indefinitely.
     BOINC does this all automatically; you don't have to do anything.
     <h2>Credit</h2>
     The project's server keeps track of how much work
-    each participant has contributed; this is called <b>credit</b>.
-    The following system is used to ensure that credit is granted fairly:
+    your computer has done; this is called <b>credit</b>.
+    To ensure that credit is granted fairly, BOINC works as follows:
     <ul>
-    <li> Each work unit is sent to at least two computers.
+    <li> Each work unit may be sent to several computers.
     <li> When a computer reports a result,
         it claims a certain amount of credit,
         based on how much CPU time was used.
@@ -66,11 +70,24 @@ echo "
     <img src=http://boinc.berkeley.edu/credit.png>
     </center>
     <br>
+
+    Please keep in mind:
+    <ul>
+    <li> 
     There may be a delay of several days between
     when your computer reports a result
     and when it is granted credit for the result.
     Your <a href=home.php>User page</a> shows you how much credit is 'pending'
     (claimed but not granted).
+    <li>
+    The credit-granting process starts when your computer reports
+    a result to the server
+    (not when it finishes computing the result
+    or uploading the output files).
+    <li>
+    In rare cases (e.g. if errors occur on one or more computers)
+    you may never receive credit for a computation.
+    </ul>
 ";
 page_tail();
 

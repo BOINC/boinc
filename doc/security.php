@@ -51,8 +51,8 @@ application-specific comparison) then they are classified as correct.
 <p>
 This can be probabilistically detected using redundant computing and
 credit verification: each participant is given the minimum credit from
-among the correct results (or some other algorithm, such as the mean of the
-median claimed credits).
+among the correct results (or some other algorithm, such as the mean or
+median of claimed credits).
 <p>
 <b>Malicious executable distribution</b>
 <p>
@@ -106,9 +106,11 @@ attack could discredit all BOINC-based projects, and
 public-participation computing in general.
 <p>
 <b>Theft of participant account information by network attack</b>
+<p>
 Attackers sniffing network traffic could get user's account IDs,
 and use them to get the user's email address,
 or change the user's preferences.
+BOINC does nothing to prevent this.
 
 <p>
 <b>Theft of project files</b>
