@@ -1581,7 +1581,7 @@ void CMainWindow::OnCommandExit()
     if (already_exited) return;
     already_exited = true;
 
-    gstate.cleanup_and_exit();
+    gstate.quit_activities();
     PostQuitMessage(0);
     KillTimer(m_nGuiTimerID);
 

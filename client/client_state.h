@@ -178,7 +178,7 @@ private:
 // --------------- cs_apps.C:
 public:
     int restart_tasks();
-    int cleanup_and_exit();
+    int quit_activities();
     int set_nslots();
     double estimate_cpu_time(WORKUNIT&);
     double get_fraction_done(RESULT* result);

@@ -54,27 +54,22 @@ int CLIENT_STATE::make_slot_dirs() {
     return 0;
 }
 
-// Perform a graceful shutdown of the client, including quitting
-// all applications, checking their final status, and writing
-// the client_state.xml file (should we also terminate net_xfers here?)
+// Quit running applications, quit benchmarks,
+// write the client_state.xml file
+// (should we also terminate net_xfers here?)
 //
-int CLIENT_STATE::cleanup_and_exit() {
+int CLIENT_STATE::quit_activities() {
     int retval;
 
     retval = active_tasks.exit_tasks();
     if (retval) {
-        msg_printf(NULL, MSG_ERROR, "CLIENT_STATE.cleanup_and_exit: exit_tasks failed\n");
-        // don't return here - we'll exit anyway
+        msg_printf(NULL, MSG_ERROR, "CLIENT_STATE.quit_activities: exit_tasks failed\n");
     }
     retval = write_state_file();
     if (retval) {
-        msg_printf(NULL, MSG_ERROR, "CLIENT_STATE.cleanup_and_exit: write_state_file failed\n");
-        // don't return here - we'll exit anyway
+        msg_printf(NULL, MSG_ERROR, "CLIENT_STATE.quit_activities: write_state_file failed\n");
     }
-
     abort_cpu_benchmarks();
-
-    msg_printf(NULL, MSG_INFO, "Exiting BOINC client");
     return 0;
 }
 

@@ -155,22 +155,36 @@ int add_new_project() {
     return 0;
 }
 
-void quit_client(int a) {
-    gstate.cleanup_and_exit();
+void quit_client(int signum) {
+    if (signum) {
+        msg_printf(NULL, MSG_INFO, "Received signal %d - exiting", signum);
+    } else {
+        msg_printf(NULL, MSG_INFO, "Exiting - user request");
+    }
+    gstate.quit_activities();
+    exit(0);
 }
 
-void susp_client(int a) {
+void susp_client(int signum) {
+    if (signum) {
+        msg_printf(NULL, MSG_INFO, "Received signal %d - Suspending activity", signum);
+    } else {
+        msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
+    }
     gstate.active_tasks.suspend_all();
-    msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
 #ifndef WIN32
 	signal(SIGTSTP, SIG_DFL);
     raise(SIGTSTP);
 #endif
 }
 
-void resume_client(int a) {
+void resume_client(int signum) {
     gstate.active_tasks.unsuspend_all();
-    msg_printf(NULL, MSG_INFO, "Resuming activity");
+    if (signum) {
+        msg_printf(NULL, MSG_INFO, "Received signal %d: resuming activity", signum);
+    } else {
+        msg_printf(NULL, MSG_INFO, "Resuming activity");
+    }
 }
 
 #ifdef WIN32
@@ -179,7 +193,7 @@ BOOL WINAPI ConsoleControlHandler ( DWORD dwCtrlType ){
 	switch( dwCtrlType ){
     case CTRL_C_EVENT:
         if(gstate.activities_suspended) {
-            resume_client(NULL);
+            resume_client(0);
         } else {
             susp_client(NULL);
         }
@@ -276,11 +290,11 @@ int boinc_main_loop(int argc, char** argv) {
             break;
         }
         if (gstate.requested_exit) {
-            msg_printf(NULL, MSG_INFO, "Exit requested by signal");
+            msg_printf(NULL, MSG_INFO, "Exit requested by user");
             break;
         }
     }
-    gstate.cleanup_and_exit();
+    gstate.quit_activities();
 
 	return 0;
 }

@@ -8,15 +8,19 @@ echo "
 <li> <a href=projects.php>Choosing project(s)</a>
 <li> <a href=host_requirements.php>System requirements</a>
 <li> <a href=account.php>Joining a project</a>
-<li> <a href=client.php>Running the BOINC client</a>
+<li> Installing and running the BOINC client
+<ul>
+<li> <a href=client_windows.php>Windows GUI</a>
+<li> <a href=client_unix.php>Command-line version (Unix, Mac OS/X)</a>
+<li> <a href=service.php>Windows service</a>
+</ul>
 <li> <a href=prefs.php>Preferences</a>
 <li> <a href=host_id.php>Host identification and merging</a>
 <li> <a href=startup.php>Participating in multiple projects</a>
 <li> <a href=credit.php>Computation credit</a>
 <li> <a href=teams.php>Teams</a>
 <li> <a href=anonymous_platform.php>Compiling BOINC software yourself</a>
-<li> User-supplied FAQs by
-    <a href=http://homepage.mac.com/pauldbuck/>Paul D. Buck</a> and
+<li> User-supplied FAQ by
     <a href=http://users.iafrica.com/c/ch/chrissu/boinc-README.html>Chris Sutton</a>
 <li> <a href=http://setiboinc.ssl.berkeley.edu/ap/stats.php>Leader boards</a>
 </ul>

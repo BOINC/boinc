@@ -748,10 +748,18 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                     atp->exit_status
                 );
             } else if (WIFSIGNALED(stat)) {
+                int signal = WTERMSIG(stat);
+
+                // if the process was externally killed, allow it to restart.
+                //
+                if (signal==SIGKILL || signal==SIGQUIT) {
+                    atp->state = PROCESS_IN_LIMBO;
+                    return true;
+                }
                 atp->exit_status = stat;
                 atp->result->exit_status = atp->exit_status;
                 atp->state = PROCESS_WAS_SIGNALED;
-                atp->signal = WTERMSIG(stat);
+                atp->signal = signal;
                 atp->result->signal = atp->signal;
                 atp->result->active_task_state = PROCESS_WAS_SIGNALED;
                 gstate.report_result_error(

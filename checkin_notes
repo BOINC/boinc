@@ -11907,6 +11907,10 @@ David  May 2 2004
         Its only role was to store the project name.
         This is now in the config file instead.
 
+    NOTE: if you upgrade to this code, you must add an entry
+        <long_name>...</long_name>
+    to your config.xml file.
+
     db/
         boinc_db.C,h
         schema.sql
@@ -11966,6 +11970,13 @@ David  May 3 2004
         *.C
         start
 
+David  May 3 2004
+    - core client, Unix: if app is killed by SIGKILL,
+        put it in limbo (same as if exited zero without writing finish file).
+
+    client/
+        app.C
+
 Rom    May 3 2004
     - Try to cleanup a recursive failure during a dump to stderr by changing
       the fprintf call in diagnostics.c
@@ -12013,8 +12024,8 @@ Rom    May 4 2004
         db_ops.inc
 
 Rom    May 4 2004
-     - Use a more optimized query for the results summary page, load times go from
-       8-10 seconds to 1-2 seconds
+     - Use a more optimized query for the results summary page,
+         load times go from 8-10 seconds to 1-2 seconds
      - Fix client_version_num bug after field was renamed to app_version_num
 
     html/inc/
@@ -12051,3 +12062,26 @@ Rom    May 4 2004
     - Tag for 3.03 release, all platforms
       boinc_core_release_3_03
       seti_boinc_app_release_3_03
+
+David  May 5 2004
+    - fixed bug where Unix client ignored QUIT signal
+        - rename CLIENT_STATE::cleanup_and_exit()
+            to CLIENT_STATE::quit_activities()
+            (this function does NOT exit!!!!)
+        - quit_client(): exit() after quitting activities
+            (this is why the client wasn't exiting)
+        - quit_client(), susp_client(), resume_client():
+            print messages about which signal was received
+    - core client, Unix: if app is killed by SIGQUIT,
+        put it in limbo (same as if exited zero without writing finish file).
+
+    client/
+        app.C
+        client_state.h
+        cs_apps.C
+        main.C
+        win/
+            wingui_mainwindow.cpp
+    tools/
+        backend_lib.C
+        create_work.C

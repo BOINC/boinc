@@ -22,7 +22,8 @@
 //  -wu_name name
 //  -wu_template filename
 //  -result_template filename
-//  [ -db_name x ]          // read the following from config.xml if available
+//            the following are read from config.xml if available
+//  [ -db_name x ]
 //  [ -db_passwd x ]
 //  [ -db_user x]
 //  [ -db_host x]
@@ -30,7 +31,8 @@
 //  [ -download_url x ]
 //  [ -download_dir x ]
 //  [ -keyfile path ]
-//  [ -rsc_fpops_est n ]        // see defaults below
+//            the following can be supplied in WU template; see defaults below
+//  [ -rsc_fpops_est n ]
 //  [ -rsc_fpops_bound n ]
 //  [ -rsc_memory_bound n ]
 //  [ -rsc_disk_bound n ]
@@ -40,14 +42,11 @@
 //  [ -max_error_results x ]
 //  [ -max_total_results x ]
 //  [ -max_success_results x ]
-//  [ -sequence n ]
 //  infile1 infile2 ...
 //
-// Create a workunit and results.
+// Create a workunit.
 // Input files must be in the download dir.
-// template-doc is an XML WU description file, with the following macros:
-// INFILEn  gets replaced by the name of input file n
-// MD5n     gets replaced by the MD5 checksum of input file n
+// See the docs for a description of WU and result template files
 //
 
 #include <stdio.h>
@@ -68,7 +67,7 @@ int main(int argc, char** argv) {
     char wu_template_file[256], result_template_file[256];
     char keyfile[256];
     char** infiles = NULL;
-    int i, ninfiles, sequence=0;
+    int i, ninfiles;
     R_RSA_PRIVATE_KEY key;
     char download_dir[256], db_name[256], db_passwd[256],db_user[256],db_host[256];
     char upload_url[256], download_url[256];
@@ -100,8 +99,8 @@ int main(int argc, char** argv) {
     } else {
         strcpy(db_name, config.db_name);
         strcpy(db_passwd, config.db_passwd);
-	strcpy(db_user, config.db_user);
-	strcpy(db_host, config.db_host);
+        strcpy(db_user, config.db_user);
+        strcpy(db_host, config.db_host);
         strcpy(download_url, config.download_url);
         strcpy(download_dir, config.download_dir);
         strcpy(upload_url, config.upload_url);
@@ -153,8 +152,6 @@ int main(int argc, char** argv) {
             wu.max_total_results = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-max_success_results")) {
             wu.max_success_results = atoi(argv[++i]);
-        } else if (!strcmp(argv[i], "-sequence")) {
-            sequence = atoi(argv[++i]);
         } else {
             if (!strncmp("-",argv[i],1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);
@@ -174,12 +171,6 @@ int main(int argc, char** argv) {
     CHKARG_STR(wu.name              , "need -wu_name");
     CHKARG_STR(wu_template_file     , "need -wu_template");
     CHKARG_STR(result_template_file , "need -result_template");
-    CHKARG(wu.delay_bound           , "need -delay_bound");
-    CHKARG(wu.min_quorum            , "need -min_quorum");
-    CHKARG(wu.target_nresults       , "need -target_nresults");
-    CHKARG(wu.max_error_results     , "need -max_error_results");
-    CHKARG(wu.max_total_results     , "need -max_total_results");
-    CHKARG(wu.max_success_results   , "need -max_success_results");
 #undef CHKARG
 #undef CHKARG_STR
 
@@ -209,37 +200,20 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    if (sequence) {
-#if 0
-        retval = create_sequence_group(
-            wu,
-            wu_template,
-            result_template_file,
-            download_dir,
-            infiles,
-            ninfiles,
-            key,
-            upload_url,
-            download_url,
-            sequence
-        );
-#endif
-    } else {
-        retval = create_work(
-            wu,
-            wu_template,
-            result_template_file,
-            download_dir,
-            const_cast<const char **>(infiles),
-            ninfiles,
-            key,
-            upload_url,
-            download_url
-        );
-        if (retval) {
-		fprintf(stderr, "create_work: %d\n", retval);
-		exit(1);
-	}
+    retval = create_work(
+        wu,
+        wu_template,
+        result_template_file,
+        download_dir,
+        const_cast<const char **>(infiles),
+        ninfiles,
+        key,
+        upload_url,
+        download_url
+    );
+    if (retval) {
+        fprintf(stderr, "create_work: %d\n", retval);
+        exit(1);
     }
     boinc_db.close();
 }
