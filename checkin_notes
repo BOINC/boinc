@@ -13589,3 +13589,23 @@ Daniel 15 June 2004
         user/
             project.inc.sample
 
+Rom    15 June 2004
+    - Move shell scripts that were in the sched folder to the tools folder
+    - remove start_servers.C and kill_server
+    - Move watchdog scripts to ops folder
+
+    html/ops/
+        watchdogs.php (added)
+        wd_nresults_changing.php (added)
+    py/boinc/
+        setup_project.py
+    sched/
+        kill_server (removed)
+        start_servers.C (removed)
+        wd.php (removed)
+        wd_nresults_changing.php (removed)
+        watch_tcp (removed)
+        grep_logs (removed)
+    tools/
+        watch_tcp (added)
+        grep_logs (added)

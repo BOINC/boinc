@@ -279,10 +279,11 @@ def install_boinc_files(dest_dir):
         [ 'make_work', 'feeder', 'transitioner', 'validate_test', 'validate_trivial',
           'file_deleter', 'assimilator', 'update_stats', 'db_dump' ])
     map(lambda (s): install(srcdir('sched',s), dir('bin',s)),
-        [ 'start', 'stop', 'status', 'grep_logs' ])
+        [ 'start', 'stop', 'status' ])
     map(lambda (s): install(srcdir('tools',s), dir('bin',s)),
         [ 'boinc_path_config.py', 'create_work', 'add', 'xadd', 'dbcheck_files_exist',
-          'update_versions', 'upgrade', 'parse_config', 'db_query' ])
+          'update_versions', 'upgrade', 'parse_config', 'grep_logs', 'db_query', 
+          'watch_tcp' ])
 
 
 class Project:
