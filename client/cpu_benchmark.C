@@ -31,20 +31,21 @@
 #include "error_numbers.h"
 #include "message.h"
 
-#include "speed_stats.h"
+#include "cpu_benchmark.h"
 
 #ifdef _WIN32
 #include <afxwin.h>
 #include <mmsystem.h>    // for timing
-void CALLBACK stop_test(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2);
+void CALLBACK stop_benchmark(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2);
 UINT speed_timer_id;
 #else
-void stop_test(int a);
+void stop_benchmark(int a);
 #endif
 
-// Speed test global variables
-// run_test is volatile so the test loops will notice changes made by stop_test
-volatile bool run_test;
+// run_benchmark is volatile so the test loops will notice changes
+// made by stop_test
+//
+static volatile bool run_benchmark;
 
 //#define RUN_TEST
 
@@ -55,14 +56,14 @@ int main(void) {
     
     cache_size = check_cache_size(CACHE_MAX);
     
-    run_test_suite(4);
+    run_benchmark_suite(4);
     
     return 0;
 }
 
-void run_test_suite(double num_secs_per_test) {
+void run_benchmark_suite(double num_secs_per_test) {
     if (num_secs_per_test<0) {
-        msg_printf(NULL, MSG_ERROR, "error: run_test_suite: negative num_seconds_per_test\n");
+        msg_printf(NULL, MSG_ERROR, "error: run_benchmark_suite: negative num_seconds_per_test\n");
     }
     printf(
         "Running tests.  This will take about %.1lf seconds.\n\n",
@@ -233,11 +234,11 @@ int run_double_prec_test(double num_secs, double &flops_per_sec) {
     }
     
     // Setup a timer to interrupt the tests in num_secs
-    set_test_timer(num_secs);
+    set_benchmark_timer(num_secs);
 
     retval = (int)double_flop_test(0, flops_per_sec, 0);
         
-    destroy_test_timer();
+    destroy_benchmark_timer();
     
     return retval;
 }
@@ -253,11 +254,11 @@ int run_int_test(double num_secs, double &iops_per_sec) {
     }
     
     // Setup a timer to interrupt the tests in num_secs
-    set_test_timer(num_secs);
+    set_benchmark_timer(num_secs);
 
     retval = (int)int_op_test(0, iops_per_sec, 0);
     
-    destroy_test_timer();
+    destroy_benchmark_timer();
     
     return retval;
 }
@@ -273,11 +274,11 @@ int run_mem_bandwidth_test(double num_secs, double &bytes_per_sec) {
     }
     
     // Setup a timer to interrupt the tests in num_secs
-    set_test_timer(num_secs);
+    set_benchmark_timer(num_secs);
     
     retval = (int)bandwidth_test(0, bytes_per_sec, 0);
     
-    destroy_test_timer();
+    destroy_benchmark_timer();
     
     return retval;
 }
@@ -298,7 +299,7 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
     
     // If iterations is 0, assume we're using the timer
     if (iterations == 0) {
-        run_test = true;
+        run_benchmark = true;
         iterations = 200000000;
     }
     
@@ -313,7 +314,7 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
     
     time_start = clock();
     
-    for (n=0;(n<iterations)&&run_test;n++) {
+    for (n=0;(n<iterations)&&run_benchmark;n++) {
         for (j=0;j<D_LOOP_ITERS;j+=((NUM_DOUBLES*4)+1)) {
             dp = 0;
             for (i=0;i<NUM_DOUBLES;i++) {    // 2*NUM_DOUBLES flops
@@ -370,7 +371,7 @@ int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
     
     // If iterations is 0, assume we're using the timer
     if (iterations == 0) {
-        run_test = true;
+        run_benchmark = true;
         iterations = 200000000;
     }
 
@@ -382,7 +383,7 @@ int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
     actual_iters = 0;
    
     time_start = clock();
-    for (i=0;(i<iterations) && run_test;i++) {
+    for (i=0;(i<iterations) && run_benchmark;i++) {
         // The contents of the array "a" should be the same at the
         // beginning and end of each loop iteration.  Most compilers will
         // partially unroll the individual loops within this one, so
@@ -463,7 +464,7 @@ int bandwidth_test(int iterations, double &bytes_per_sec, int print_debug) {
     
     // If iterations is 0, assume we're using the timer
     if (iterations == 0) {
-        run_test = true;
+        run_benchmark = true;
         iterations = 200000000;
     }
     
@@ -488,7 +489,7 @@ int bandwidth_test(int iterations, double &bytes_per_sec, int print_debug) {
     
     // One iteration == Read of 6,000,000*sizeof(double), Write of 6,000,000*sizeof(double)
     // 6 read, 6 write operations per iteration which will preserve a and b
-    for (i=0;(i<iterations) && run_test;i++) {
+    for (i=0;(i<iterations) && run_benchmark;i++) {
         for (n=0;n<2;n++) {
             for (j=0;j<MEM_SIZE;j++) {
                 c[j] = a[j];
@@ -523,14 +524,14 @@ int bandwidth_test(int iterations, double &bytes_per_sec, int print_debug) {
 }
 
 // TODO: handle errors here
-int set_test_timer(double num_secs) {
-    run_test = true;
+int set_benchmark_timer(double num_secs) {
+    run_benchmark = true;
 #ifdef _WIN32
     speed_timer_id = timeSetEvent( (int)(num_secs*1000),
         (int)(num_secs*1000), stop_test, NULL, TIME_ONESHOT );
 #else
     itimerval value;
-    signal(SIGALRM, stop_test);
+    signal(SIGALRM, stop_benchmark);
     value.it_value.tv_sec = (int)num_secs;
     value.it_value.tv_usec = ((int)(num_secs*1000000))%1000000;
     value.it_interval = value.it_value;
@@ -540,7 +541,7 @@ int set_test_timer(double num_secs) {
     return 0;
 }
 
-int destroy_test_timer() {
+int destroy_benchmark_timer() {
 #ifdef _WIN32
     timeKillEvent(speed_timer_id);
 #endif
@@ -548,9 +549,9 @@ int destroy_test_timer() {
 }
 
 #ifdef _WIN32
-void CALLBACK stop_test(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2) {
+void CALLBACK stop_benchmark(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2) {
 #else
-void stop_test(int a) {
+void stop_benchmark(int a) {
 #endif
-    run_test = false;
+    run_benchmark = false;
 }

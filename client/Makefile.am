@@ -7,15 +7,16 @@ STATIC_FLAGS=@STATIC_FLAGS@
 
 bin_PROGRAMS = boinc_client
 
-EXTRA_PROGRAMS = speed_stats
+EXTRA_PROGRAMS = cpu_benchmark
 
-boinc_client_SOURCES =				\
-    main.C					\
-    app.C					\
-    check_state.C           \
+boinc_client_SOURCES =			\
+    app.C				    	\
+    check_state.C               \
+    client_messages.C			\
     client_state.C				\
     client_types.C				\
-    cs_account.C					\
+    cpu_benchmark.C				\
+    cs_account.C				\
     cs_apps.C					\
     cs_benchmark.C				\
     cs_cmdline.C				\
@@ -27,24 +28,23 @@ boinc_client_SOURCES =				\
     file_xfer.C					\
     hostinfo.C					\
     hostinfo_unix.C				\
-    http.C					\
+    http.C					    \
     log_flags.C					\
+    main.C					    \
     message.C					\
     net_stats.C					\
     net_xfer.C					\
-    pers_file_xfer.C				\
-    prefs.C					\
+    pers_file_xfer.C			\
+    prefs.C					    \
     scheduler_op.C				\
-    speed_stats.C				\
     ss_logic.C					\
     time_stats.C				\
-    client_messages.C				\
-    ../lib/app_ipc.C				\
-    ../lib/filesys.C				\
-    ../lib/language.C				\
+    ../lib/app_ipc.C			\
+    ../lib/filesys.C			\
+    ../lib/language.C			\
     ../lib/parse.C				\
     ../lib/shmem.C				\
-    ../lib/md5_file.C				\
+    ../lib/md5_file.C			\
     ../lib/md5.c				\
     ../lib/crypt.C				\
     ../lib/util.C				\
@@ -55,8 +55,8 @@ boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS)
 boinc_client_LDADD = $(RSA_LIBS)
 boinc_client_LDFLAGS = $(STATIC_FLAGS)
 
-speed_stats_SOURCES = speed_stats.C
-speed_stats_CFLAGS = -O6 $(AM_CFLAGS)
+cpu_benchmark_SOURCES = cpu_benchmark.C
+cpu_benchmark_CFLAGS = -O6 $(AM_CFLAGS)
 
 all-local: client-bin-gz
 client-bin: @CLIENT_BIN_FILENAME@.gz

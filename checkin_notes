@@ -6919,3 +6919,10 @@ David  18 Oct 2003
 		scheduler_op.C
 		win/
 			wingui.h
+
+David  19 Oct 2003
+    - fixed file names
+
+    client/
+        speed_stats.C,h (old)
+        cpu_benchmark.C,h (new)

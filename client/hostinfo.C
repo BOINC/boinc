@@ -91,9 +91,20 @@ int HOST_INFO::parse(FILE* in) {
         else if (parse_int(buf, "<p_ncpus>", p_ncpus)) continue;
         else if (parse_str(buf, "<p_vendor>", p_vendor, sizeof(p_vendor))) continue;
         else if (parse_str(buf, "<p_model>", p_model, sizeof(p_model))) continue;
-        else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
-        else if (parse_double(buf, "<p_iops>", p_iops)) continue;
-        else if (parse_double(buf, "<p_membw>", p_membw)) continue;
+        else if (parse_double(buf, "<p_fpops>", p_fpops)) {
+            // fix foolishness that could result in negative value here
+            //
+            if (p_fpops < 0) p_fpops = -p_fpops;
+            continue;
+        }
+        else if (parse_double(buf, "<p_iops>", p_iops)) {
+            if (p_iops < 0) p_iops = -p_iops;
+            continue;
+        }
+        else if (parse_double(buf, "<p_membw>", p_membw)) {
+            if (p_membw < 0) p_membw = -p_membw;
+            continue;
+        }
         else if (parse_int(buf, "<p_fpop_err>", p_fpop_err)) continue;
         else if (parse_int(buf, "<p_iop_err>", p_iop_err)) continue;
         else if (parse_int(buf, "<p_membw_err>", p_membw_err)) continue;

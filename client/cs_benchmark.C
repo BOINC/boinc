@@ -43,7 +43,7 @@
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
-#include "speed_stats.h"
+#include "cpu_benchmark.h"
 #include "client_state.h"
 
 extern void guiOnBenchmarksBegin();

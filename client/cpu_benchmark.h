@@ -17,8 +17,6 @@
 // Contributor(s):
 //
 
-//#define RUN_TEST
-
 #define THOUSAND    1000
 #define MILLION     THOUSAND*THOUSAND
 
@@ -31,9 +29,9 @@
 
 #define CACHE_MIN 1024			// smallest cache (in words)
 #define CACHE_MAX 512*1024		// largest cache
-#define STRIDE_MIN 1   // smallest stride (in words)
-#define STRIDE_MAX 128 // largest stride
-#define SAMPLE 10			// to get a larger time sample
+#define STRIDE_MIN 1            // smallest stride (in words)
+#define STRIDE_MAX 128          // largest stride
+#define SAMPLE 10			    // to get a larger time sample
 #define SECS_PER_RUN 0.2
 
 #define MAX_CPU_BENCHMARKS_SECONDS	60
@@ -42,15 +40,17 @@
 #define CPU_BENCHMARKS_NOT_RUNNING	2	
 #define CPU_BENCHMARKS_ERROR		3
 
-int check_cache_size( int mem_size );
-int double_flop_test( int iterations, double &flops_per_sec, int print_debug );
-int int_op_test( int iterations, double &iops_per_sec, int print_debug );
-int bandwidth_test( int iterations, double &bytes_per_sec, int print_debug );
-void run_test_suite( double num_secs_per_test );
-int run_double_prec_test( double num_secs, double &flops_per_sec );
-int run_int_test( double num_secs, double &iops_per_sec );
-int run_mem_bandwidth_test( double num_secs, double &bytes_per_sec );
-int set_test_timer(double num_secs);
-int destroy_test_timer();
-
-
+extern int check_cache_size(int mem_size);
+extern int double_flop_test(
+    int iterations, double &flops_per_sec, int print_debug
+);
+extern int int_op_test(int iterations, double &iops_per_sec, int print_debug);
+extern int bandwidth_test(
+    int iterations, double &bytes_per_sec, int print_debug
+);
+extern void run_benchmark_suite(double num_secs_per_test);
+extern int run_double_prec_test(double num_secs, double &flops_per_sec);
+extern int run_int_test(double num_secs, double &iops_per_sec);
+extern int run_mem_bandwidth_test(double num_secs, double &bytes_per_sec);
+extern int set_benchmark_timer(double num_secs);
+extern int destroy_benchmark_timer();
