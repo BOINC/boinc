@@ -113,8 +113,7 @@ class Project {
         $this->plat_names = array();
         $this->db_passwd = "";
         $this->generate_keys = false;
-        $this->shmem_key = "0xbeefacafe";
-        //$this->shmem_key = "0x" . rand(0,6) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9);
+        $this->shmem_key = get_env_var("BOINC_SHMEM_KEY");
         $this->resource_share = 1;
     }
 
