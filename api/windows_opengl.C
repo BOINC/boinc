@@ -128,12 +128,8 @@ static void make_new_window(int mode) {
 	width = WindowRect.right-WindowRect.left;
 	height = WindowRect.bottom-WindowRect.top;
 
-	if(current_graphics_mode == MODE_FULLSCREEN || current_graphics_mode == MODE_WINDOW) {
-		ShowWindow(hWnd, SW_SHOW);
-		SetFocus(hWnd);
-	} else {
-		ShowWindow(hWnd, SW_HIDE);
-	}	
+	ShowWindow(hWnd, SW_SHOW);
+	SetFocus(hWnd);
 	
     app_graphics_init();
 }
@@ -193,20 +189,13 @@ LRESULT CALLBACK WndProc(
 	switch(uMsg) {
 	case WM_ERASEBKGND:		// Check To See If Windows Is Trying To Erase The Background
 			return 0;	
-    case WM_SHOWWINDOW:
-        // this is an attempt to avoid wasting CPU time on rendering
-        // when the window is minimized or hidden.
-        // Doesn't seem to work though - never get this message
-        //
-        visible = (wParam == TRUE);
-        return 0;
 	case WM_KEYDOWN:
 	case WM_KEYUP:
 	case WM_LBUTTONDOWN:
 	case WM_MBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 		if(current_graphics_mode == MODE_FULLSCREEN) {
-			SetMode(MODE_HIDE_GRAPHICS);
+		    KillWindow();
 			PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
 		}
 		return 0;
@@ -215,7 +204,7 @@ LRESULT CALLBACK WndProc(
 			POINT cPos;
 			GetCursorPos(&cPos);
 			if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
-				SetMode(MODE_HIDE_GRAPHICS);
+    		    KillWindow();
 				PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
 			}
 		}
@@ -224,7 +213,7 @@ LRESULT CALLBACK WndProc(
         if (boinc_is_standalone()) {
             exit(0);
         } else {
-		    SetMode(MODE_HIDE_GRAPHICS);
+		    KillWindow();
 		    return 0;
         }
 	case WM_PAINT:
@@ -237,6 +226,11 @@ LRESULT CALLBACK WndProc(
 		EndPaint(hWnd, &ps);
 		return 0;
 	case WM_SIZE:
+        if ( SIZE_MINIMIZED == wParam ) {
+            visible = FALSE;
+        } else {
+            visible = TRUE;
+        }
 		ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));
 		return 0;
 	}
@@ -285,7 +279,11 @@ static VOID CALLBACK timer_handler(HWND, UINT, UINT, DWORD) {
         if (app_client_shm->get_graphics_msg(CORE_APP_GFX_SEG, msg, new_mode)) {
             switch (msg) {
             case GRAPHICS_MSG_SET_MODE:
-                SetMode(new_mode);
+                if (new_mode == MODE_HIDE_GRAPHICS) {
+                    KillWindow();
+                } else {
+                    SetMode(new_mode);
+                }
                 break;
             case GRAPHICS_MSG_REREAD_PREFS:
 				// only reread graphics prefs if we have a window open

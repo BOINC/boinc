@@ -10813,3 +10813,15 @@ Rom    Mar 24 2004
     lib/
         diagnostics.c
         exception.c, .h
+
+Rom    Mar 24 2004
+    - Taskbase#1029 - graphics API bugs 
+        * App graphics window sometimes becomes invisible
+        Not Repro
+        * App graphics window doesn't restore to original size
+          if you maximize, close window, and show graphics again.
+        Fixed
+    - When window is in minimized state switch the visibility flag to false
+
+    api/
+     windows_opengl.C
