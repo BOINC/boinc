@@ -38,6 +38,7 @@ echo "
     <li><a href=\"update_uotd.php\">Update user of the day</a> (Should run as cron-job)
     <li><a href=\"create_account_form.php\">Create account</a>
     <li><a href=\"cancel_wu_form.php\">Cancel workunits</a>
+    <li><a href=\"manage_special_users.php\">Manage special users</a>
 
     </ul>
     </table>

@@ -25462,3 +25462,13 @@ Rom    3 Mar 2005
 
     win_build/installerv2/
         < numerous files and folders >
+
+Bruce  3 March 2005
+    - Added ops page for managing special users (from Christian Beer)
+
+    html/
+        ops/
+            index.php
+            manage_special_users.php
+            manage_special_users_action.php
+
