@@ -27,7 +27,7 @@
 #include "server_types.h"
 #include "handle_request.h"
 
-#define MIN_SECONDS_TO_SEND 1 //testing 3600 //1 hour
+#define MIN_SECONDS_TO_SEND 3600 //1 hour
 #define MAX_SECONDS_TO_SEND 2419200 //4 weeks
 
 // return true if the WU can be executed on the host
