@@ -55,7 +55,7 @@ int get_file_path(char *buf, char* upload_dir, int fanout, bool newhash, char* p
     // TODO: get rid of the old hash in about 3/2005
     //
     dir_hier_path(buf, upload_dir, fanout, false, path);
-    if (!boinc_file_exists(path))
+    if (boinc_file_exists(path))
         return 0;
 
     return 1;
