@@ -16,7 +16,8 @@
 //
 // Contributor(s):
 //
-// High-level logic involving task execution
+// The "policy" part of task execution is here.
+// The "mechanism" part is in app.C
 //
 
 #include "cpp.h"

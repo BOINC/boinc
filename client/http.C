@@ -622,5 +622,5 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
         iter++;
     }
     msg_printf(NULL, MSG_ERROR, "HTTP_OP_SET::remove(): not found\n");
-    return 1;
+    return ERR_NOT_FOUND;
 }

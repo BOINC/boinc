@@ -273,7 +273,7 @@ int boinc_resolve_filename(const char *virtual_name, char *physical_name, int le
 
     // Open the file and load the first line
     fp = fopen(virtual_name, "r");
-    if (!fp) return 1;
+    if (!fp) return ERR_FOPEN;
 
     fgets(buf, 512, fp);
     fclose(fp);
@@ -293,7 +293,7 @@ int boinc_resolve_filename(const char *virtual_name, string& physical_name) {
     physical_name = virtual_name;
     // Open the file and load the first line
     FILE *fp = fopen(virtual_name, "r");
-    if (!fp) return 1;
+    if (!fp) return ERR_FOPEN;
 
     char buf[512];
     fgets(buf, 512, fp);

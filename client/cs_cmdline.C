@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+// command-line parsing, and handling of 1-time actions
+
 #include <stdio.h>
 
 #include "client_state.h"

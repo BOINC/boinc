@@ -1058,7 +1058,7 @@ int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
         iter++;
     }
     msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK_SET::remove(): not found\n");
-    return 1;
+    return ERR_NOT_FOUND;
 }
 
 // Restart active tasks without wiping and reinitializing slot directories

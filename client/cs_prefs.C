@@ -17,6 +17,10 @@
 // Contributor(s):
 //
 
+// Logic related to general (also known as global) preferences:
+// when to compute, how much disk to use, etc.
+//
+
 #include "filesys.h"
 #include "file_names.h"
 #include "cpu_benchmark.h"

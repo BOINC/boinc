@@ -18,6 +18,9 @@
 //
 // Revision History:
 // $Log$
+// Revision 1.81  2004/01/30 22:19:19  davea
+// *** empty log message ***
+//
 // Revision 1.80  2004/01/17 21:34:52  davea
 // new screensaver (Rom Walton)
 //
@@ -318,7 +321,7 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
         iter++;
     }
     msg_printf(NULL, MSG_ERROR, "NET_XFER_SET::remove(): not found\n");
-    return 1;
+    return ERR_NOT_FOUND;
 }
 
 // Transfer data to/from active sockets.

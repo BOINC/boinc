@@ -1,3 +1,22 @@
+// The contents of this file are subject to the BOINC Public License
+// Version 1.0 (the "License"); you may not use this file except in
+// compliance with the License. You may obtain a copy of the License at
+// http://boinc.berkeley.edu/license_1.0.txt
+// 
+// Software distributed under the License is distributed on an "AS IS"
+// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+// License for the specific language governing rights and limitations
+// under the License. 
+// 
+// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
+// 
+// The Initial Developer of the Original Code is the SETI@home project.
+// Portions created by the SETI@home project are Copyright (C) 2002
+// University of California at Berkeley. All Rights Reserved. 
+// 
+// Contributor(s):
+//
+
 #include <stdio.h>
 #ifndef _WIN32
 #include <unistd.h>
@@ -30,12 +49,24 @@ int GUI_RPC_CONN::handle_rpc() {
     int n;
     unsigned int i;
 
+	// read the request message in one read()
+	// so that the core client won't hang because
+	// of malformed request msgs
+	//
     n = read(sock, buf, 256);
     if (n <= 0) return -1;
     buf[n] = 0;
     printf("got %s\n", buf);
     if (match_tag(buf, "<get_state")) {
         gstate.write_state(fout);
+	} else if (match_tag(buf, "<result_show_graphics>")) {
+	} else if (match_tag(buf, "<project_reset>")) {
+	} else if (match_tag(buf, "<project_attach>")) {
+	} else if (match_tag(buf, "<project_detach>")) {
+	} else if (match_tag(buf, "<project_update>")) {
+	} else if (match_tag(buf, "<set_run_mode>")) {
+	} else if (match_tag(buf, "<run_benchmarks>")) {
+	} else if (match_tag(buf, "<set_proxy_settings>")) {
     } else {
         fprintf(fout, "<unrecognized/>\n");
     }

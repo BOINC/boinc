@@ -171,7 +171,7 @@ int FILE_XFER_SET::remove(FILE_XFER* fxp) {
         iter++;
     }
     msg_printf(NULL, MSG_ERROR, "FILE_XFER_SET::remove(): not found\n");
-    return 1;
+    return ERR_NOT_FOUND;
 }
 
 // Run through the FILE_XFER_SET and determine if any of the file

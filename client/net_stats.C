@@ -120,5 +120,5 @@ int NET_STATS::parse(FILE* in) {
         }
         else msg_printf(NULL, MSG_ERROR, "NET_STATS::parse(): unrecognized: %s\n", buf);
     }
-    return 1;
+    return ERR_XML_PARSE;
 }

@@ -480,7 +480,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     app = lookup_app(p, avp->app_name);
     if (!app) {
         msg_printf(0, MSG_ERROR, "app_version refers to nonexistent app: %s\n", avp->app_name);
-        return ERR_NULL;
+        return ERR_NOT_FOUND;
     }
     avp->app = app;
 
@@ -494,7 +494,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
                 "app_version refers to nonexistent file: %s\n",
                 file_ref.file_name
             );
-            return ERR_NULL;
+            return ERR_NOT_FOUND;
         }
 
         // any executable file associated with an app version must be signed
@@ -513,7 +513,7 @@ int CLIENT_STATE::link_file_ref(PROJECT* p, FILE_REF* file_refp) {
     fip = lookup_file_info(p, file_refp->file_name);
     if (!fip) {
         msg_printf(0, MSG_ERROR, "File ref refers to nonexistent file: %s\n", file_refp->file_name);
-        return ERR_NULL;
+        return ERR_NOT_FOUND;
     }
     file_refp->file_info = fip;
     return 0;
@@ -528,7 +528,7 @@ int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
     app = lookup_app(p, wup->app_name);
     if (!app) {
         msg_printf(0, MSG_ERROR, "WU refers to nonexistent app: %s\n", wup->app_name);
-        return ERR_NULL;
+        return ERR_NOT_FOUND;
     }
     avp = lookup_app_version(app, wup->version_num);
     if (!avp) {
@@ -536,7 +536,7 @@ int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
             "WU refers to nonexistent app_version: %s %d\n",
             wup->app_name, wup->version_num
         );
-        return ERR_NULL;
+        return ERR_NOT_FOUND;
     }
     wup->project = p;
     wup->app = app;
@@ -556,7 +556,7 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     wup = lookup_workunit(p, rp->wu_name);
     if (!wup) {
         fprintf(stderr, "result refers to nonexistent WU: %s\n", rp->wu_name);
-        return ERR_NULL;
+        return ERR_NOT_FOUND;
     }
     rp->project = p;
     rp->wup = wup;

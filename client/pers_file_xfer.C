@@ -417,7 +417,7 @@ int PERS_FILE_XFER_SET::remove(PERS_FILE_XFER* pfx) {
         pfx->fip->project, MSG_ERROR,
         "PERS_FILE_XFER_SET::remove(): not found"
     );
-    return 1;
+    return ERR_NOT_FOUND;
 }
 
 // suspend all PERS_FILE_XFERs

@@ -106,3 +106,5 @@
 #define ERR_DB_CANT_INIT    -159
 #define ERR_NOT_UNIQUE		-160
 	// state files had redundant entries
+#define ERR_NOT_FOUND		-161
+	// inconsistent client state

@@ -20,7 +20,7 @@
 // High-level logic for communicating with scheduling servers,
 // and for merging the result of a scheduler RPC into the client state
 
-// Note: code for actually doing a scheduler RPC is in scheduler_op.C
+// The scheduler RPC mechanism is in scheduler_op.C
 
 #include "cpp.h"
 #include <stdio.h>
