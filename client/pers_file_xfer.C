@@ -262,18 +262,10 @@ void PERS_FILE_XFER::handle_xfer_failure() {
     }
 }
 
-// return a random number in the range [0,1)
-static inline double rand_fraction()
-{
-    // rand() / RAND_MAX is not always reliable
-    static const int MODULUS = 1357;
-    return double(rand() % MODULUS) / double(MODULUS);
-}
-
 // return a random integer in the range [min,max)
 static inline double rand_range(int min, int max)
 {
-    return rand_fraction() * (max-min) + min;
+    return drand() * (max-min) + min;
 }
 
 // return a random integer in the range [max(MIN,e^n),min(MAX,e^n))
