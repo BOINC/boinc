@@ -179,5 +179,21 @@ function check_results_done() {
     }
 }
 
+function compare_files($out, $correct) {
+    PassThru("diff $out $correct", $retval);
+    if ($retval) {
+        echo "File mismatch: $out $correct\n";
+    } else {
+        echo "Files match: $out $correct\n";
+    }
+}
+
+function initialize_api() {
+    PassThru("cp core_to_app.xml.in core_to_app.xml");
+}
+
+function run_api_test() {
+    PassThru("../api/api_test");
+}
 
 ?>
