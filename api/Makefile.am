@@ -14,8 +14,8 @@ libboinc_api_a_SOURCES =			\
 	../lib/parse.C				\
 	../lib/app_ipc.C			\
 	../lib/base64.C                         \
-        ../lib/diagnostics.c                    \
-        ../lib/exception.c
+        ../lib/diagnostics.C                    \
+        ../lib/exception.C
 
 libboinc_graphics_api_a_SOURCES =		\
 	graphics_api.C				\
