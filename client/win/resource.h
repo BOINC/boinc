@@ -9,6 +9,8 @@
 #define IDD_ABOUTBOX                    108
 #define IDB_LOGOSM                      110
 #define IDR_POPUP                       111
+#define IDI_ICON                        114
+#define IDI_ICONSM                      115
 #define IDC_LOGIN_URL                   1000
 #define IDC_LOGIN_AUTH                  1002
 #define ID_ACCT_LOGIN                   40001
@@ -22,7 +24,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        112
+#define _APS_NEXT_RESOURCE_VALUE        115
 #define _APS_NEXT_COMMAND_VALUE         40014
 #define _APS_NEXT_CONTROL_VALUE         1005
 #define _APS_NEXT_SYMED_VALUE           101

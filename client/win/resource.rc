@@ -52,15 +52,17 @@ END
 // Dialog
 //
 
-IDD_LOGIN DIALOG DISCARDABLE  0, 0, 186, 90
+IDD_LOGIN DIALOG DISCARDABLE  0, 0, 231, 70
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Login"
 FONT 8, "MS Sans Serif"
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,129,7,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,129,24,50,14
-    EDITTEXT        IDC_LOGIN_URL,31,18,40,14,ES_AUTOHSCROLL
-    EDITTEXT        IDC_LOGIN_AUTH,34,50,40,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,174,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,174,24,50,14
+    EDITTEXT        IDC_LOGIN_URL,66,7,96,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LOGIN_AUTH,65,32,98,14,ES_AUTOHSCROLL
+    LTEXT           "URL:",IDC_STATIC,7,7,18,8
+    LTEXT           "Authentication:",IDC_STATIC,7,32,48,8
 END
 
 IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 230, 65
@@ -70,7 +72,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,173,7,50,14
     LTEXT           "Info about BOINC goes here.",IDC_STATIC,56,17,96,31
-    CONTROL         110,IDC_STATIC,"Static",SS_BITMAP,17,16,33,31
+    CONTROL         110,IDC_STATIC,"Static",SS_BITMAP,13,17,33,31
 END
 
 
@@ -85,9 +87,9 @@ BEGIN
     IDD_LOGIN, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 179
+        RIGHTMARGIN, 224
         TOPMARGIN, 7
-        BOTTOMMARGIN, 83
+        BOTTOMMARGIN, 63
     END
 
     IDD_ABOUTBOX, DIALOG
@@ -145,6 +147,24 @@ BEGIN
     END
 END
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_LOGO                BITMAP  DISCARDABLE     "res\\boinc.bmp"
+IDB_LOGOSM              BITMAP  DISCARDABLE     "res\\boincsm.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON                ICON    DISCARDABLE     "res\\icon.ico"
+IDI_ICONSM              ICON    DISCARDABLE     "res\\iconsm.ico"
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
