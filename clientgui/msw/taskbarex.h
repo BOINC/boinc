@@ -75,6 +75,7 @@ public:
     static void RemoveObject(wxTaskBarIconEx* obj);
     static bool RegisterWindowClass();
     static WXHWND CreateTaskBarWindow();
+    static bool IsBalloonsSupported();
     long WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wParam, long lParam );
 
 // Data members

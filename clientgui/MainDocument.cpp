@@ -360,6 +360,12 @@ wxInt32 CMainDocument::RunBenchmarks()
 }
 
 
+wxInt32 CMainDocument::CoreClientQuit()
+{
+    return rpc.quit();
+}
+
+
 wxInt32 CMainDocument::CachedProjectStatusUpdate()
 {
     wxInt32     iRetVal = 0;

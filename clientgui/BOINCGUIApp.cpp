@@ -38,14 +38,16 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 bool CBOINCGUIApp::OnInit()
 {
     // Setup variables with default values
+    m_bBOINCStartedByManager = false;
     m_bFrameVisible = true;
+    m_lBOINCCoreProccessId = 0;
 
     // Setup application and company information
     SetVendorName(wxT("Space Sciences Laboratory, U.C. Berkeley"));
     SetAppName(wxT("BOINC Manager"));
 
     // Commandline parsing is done in wxApp::OnInit()
-    if (!Inherited::OnInit())
+    if (!wxApp::OnInit())
         return false;
 
     // Enable the in memory virtual file system for
@@ -93,6 +95,9 @@ bool CBOINCGUIApp::OnInit()
     DetectDefaultWindowStation();
     DetectDefaultDesktop();
 
+    // Detect if we need to start the BOINC Core Client due to configuration
+    StartupBOINCCore();
+
     // Show the UI
     SetTopWindow(m_pFrame);
     if (m_bFrameVisible)
@@ -104,6 +109,9 @@ bool CBOINCGUIApp::OnInit()
 
 int CBOINCGUIApp::OnExit()
 {
+    // Detect if we need to stop the BOINC Core Client due to configuration
+    ShutdownBOINCCore();
+
 #ifndef NOTASKBAR
     if (m_pTaskBarIcon)
         delete m_pTaskBarIcon;
@@ -118,13 +126,13 @@ int CBOINCGUIApp::OnExit()
     if (m_pLocale)
         delete m_pLocale;
 
-    return Inherited::OnExit();
+    return wxApp::OnExit();
 }
 
 
 void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser)
 {
-    Inherited::OnInitCmdLine(parser);
+    wxApp::OnInitCmdLine(parser);
     static const wxCmdLineEntryDesc cmdLineDesc[] = {
         { wxCMD_LINE_SWITCH, wxT("s"), wxT("systray"), _("Startup BOINC so only the system tray icon is visible")},
         { wxCMD_LINE_NONE}  //DON'T forget this line!!
@@ -136,7 +144,7 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser)
 bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser)
 {
     // Give default processing (-?, --help and --verbose) the chance to do something.
-    Inherited::OnCmdLineParsed(parser);
+    wxApp::OnCmdLineParsed(parser);
     if (parser.Found(wxT("systray")))
     {
         m_bFrameVisible = false;
@@ -152,7 +160,7 @@ void CBOINCGUIApp::DetectDefaultWindowStation()
 
 #ifdef __WXMSW__
 
-    if ( wxWIN95 != wxGetOsVersion( NULL, NULL) )
+    if ( wxWIN95 != wxGetOsVersion( NULL, NULL ) )
     {
         // Retrieve the current window station and desktop names
         GetUserObjectInformation( 
@@ -177,7 +185,7 @@ void CBOINCGUIApp::DetectDefaultDesktop()
 
 #ifdef __WXMSW__
 
-    if ( wxWIN95 != wxGetOsVersion( NULL, NULL) )
+    if ( wxWIN95 != wxGetOsVersion( NULL, NULL ) )
     {
         GetUserObjectInformation( 
             GetThreadDesktop(GetCurrentThreadId()), 
@@ -191,5 +199,118 @@ void CBOINCGUIApp::DetectDefaultDesktop()
 #endif
 
     m_strDefaultDesktop = szDesktop;
+}
+
+
+bool CBOINCGUIApp::IsBOINCCoreRunning()
+{
+    wxInt32 iMode = -1;
+    return ( 0 == m_pDocument->GetActivityRunMode(iMode));
+}
+
+
+void CBOINCGUIApp::StartupBOINCCore()
+{
+    if ( !IsBOINCCoreRunning() )
+    {
+        wxString strExecute = wxEmptyString;
+        wxChar   szExecutableDirectory[4096];
+
+        memset(szExecutableDirectory, 0, sizeof(szExecutableDirectory));
+
+#ifdef __WXMSW__
+
+        // On the surface it would seem that GetCurrentDirectory would be a better choice
+        //   for determing which directory we should prepend to the execution string before
+        //   starting BOINC, except that we cannot depend on any shortcuts being configured
+        //   to startup in the correct directory, since the user may have created the
+        //   shortcut themselves.  So determine where boinc.exe is based off of our
+        //   current execution location and then execute it.
+        GetModuleFileName( 
+            NULL, 
+            szExecutableDirectory,
+            (sizeof(szExecutableDirectory) / sizeof(wxChar) )
+        );
+
+#endif
+
+        // We are only interested in the path component of the fully qualified path.
+        wxFileName::SplitPath( szExecutableDirectory, &strExecute, NULL, NULL );
+
+        // Set the current directory ahead of the application launch so the core
+        //   client can find its files
+        ::wxSetWorkingDirectory( strExecute );
+
+#ifdef __WXMSW__
+
+        // Append boinc.exe to the end of the strExecute string and get ready to rock
+        strExecute += wxT("\\boinc.exe");
+
+        PROCESS_INFORMATION pi;
+        STARTUPINFO         si;
+        BOOL                bProcessStarted;
+
+        memset(&pi, 0, sizeof(pi));
+        memset(&si, 0, sizeof(si));
+ 
+        si.cb = sizeof(si);
+        si.dwFlags = STARTF_USESHOWWINDOW;
+        si.wShowWindow = SW_HIDE;
+
+        bProcessStarted = CreateProcess(
+            NULL,
+            (LPTSTR)strExecute.c_str(),
+            NULL,
+            NULL,
+            FALSE,
+            CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW,
+            NULL,
+            NULL,
+            &si,
+            &pi
+        );
+        if (bProcessStarted)
+        {
+            m_lBOINCCoreProccessId = pi.dwProcessId;
+        }
+
+#else
+
+        // Append boinc.exe to the end of the strExecute string and get ready to rock
+        strExecute += wxT("/boinc");
+        m_lBOINCCoreProccessId = ::wxExecute( strExecute );
+
+#endif
+
+        if ( 0 != m_lBOINCCoreProccessId )
+            m_bBOINCStartedByManager = true;
+    }
+}
+
+
+void CBOINCGUIApp::ShutdownBOINCCore()
+{
+    wxInt32 iCount = 0;
+    bool    bClientQuit = false;
+
+    if ( m_bBOINCStartedByManager )
+    {
+        if ( wxProcess::Exists( m_lBOINCCoreProccessId ) )
+        {
+            m_pDocument->CoreClientQuit();
+            for ( iCount = 0; iCount <= 10; iCount++ )
+            {
+                if ( !wxProcess::Exists( m_lBOINCCoreProccessId ) )
+                {
+                    bClientQuit = true;
+                    continue;
+                }
+                ::wxSleep(1);
+            }
+
+            if ( !bClientQuit )
+                ::wxKill( m_lBOINCCoreProccessId );
+        }
+    }
 }
 

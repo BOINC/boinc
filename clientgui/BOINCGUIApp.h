@@ -40,8 +40,6 @@ class CBOINCGUIApp : public wxApp
 {
     DECLARE_DYNAMIC_CLASS(CBOINCGUIApp)
 
-    typedef wxApp Inherited;
-
 protected:
     int             OnExit();
 
@@ -50,6 +48,10 @@ protected:
 
     void            DetectDefaultWindowStation();
     void            DetectDefaultDesktop();
+
+    bool            IsBOINCCoreRunning();
+    void            StartupBOINCCore();
+    void            ShutdownBOINCCore();
 
     wxLocale*       m_pLocale;
     wxConfig*       m_pConfig;
@@ -60,7 +62,10 @@ protected:
     CTaskBarIcon*   m_pTaskBarIcon;
 #endif
 
+    bool            m_bBOINCStartedByManager;
     bool            m_bFrameVisible;
+
+    long            m_lBOINCCoreProccessId;
 
     wxString        m_strDefaultWindowStation;
     wxString        m_strDefaultDesktop;

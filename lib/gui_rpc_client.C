@@ -1302,7 +1302,6 @@ int RPC_CLIENT::set_screensaver_mode(bool enabled, const char* window_station, c
 
 int RPC_CLIENT::run_benchmarks() {
     RPC rpc(this);
-
     return rpc.do_rpc("<run_benchmarks/>\n");
 }
 
@@ -1436,3 +1435,10 @@ int RPC_CLIENT::get_host_info(HOST_INFO& h) {
 
     return h.parse(rpc.fin);
 }
+
+
+int RPC_CLIENT::quit() {
+    RPC rpc(this);
+    return rpc.do_rpc("<quit/>\n");
+}
+

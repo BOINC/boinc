@@ -48,9 +48,10 @@ BEGIN_EVENT_TABLE (CTaskBarIcon, wxTaskBarIconEx)
 
 #ifdef __WXMSW__
     EVT_TASKBAR_CONTEXT_MENU(CTaskBarIcon::OnContextMenu)
-#else
-    EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
 #endif
+
+    EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
+    EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
 END_EVENT_TABLE ()
 
 
@@ -255,16 +256,29 @@ void CTaskBarIcon::OnContextMenu( wxTaskBarIconExEvent& event )
 }
 
 
-#else
+#endif
 
 
 void CTaskBarIcon::OnRButtonDown( wxTaskBarIconEvent& event )
 {
-    CreateContextMenu();
+    if (!IsBalloonsSupported())
+    {
+        m_bButtonPressed = true;
+    }
 }
 
 
-#endif
+void CTaskBarIcon::OnRButtonUp( wxTaskBarIconEvent& event )
+{
+    if (!IsBalloonsSupported())
+    {
+        if (m_bButtonPressed)
+        {
+            CreateContextMenu();
+            m_bButtonPressed = false;
+        }
+    }
+}
 
 
 void CTaskBarIcon::ResetTaskBar()

@@ -56,15 +56,18 @@ public:
 
 #ifdef __WXMSW__
     void OnContextMenu( wxTaskBarIconExEvent& event );
-#else
-    void OnRButtonDown( wxTaskBarIconEvent& event );
 #endif
+
+    void OnRButtonDown( wxTaskBarIconEvent& event );
+    void OnRButtonUp( wxTaskBarIconEvent& event );
 
 private:
 
     wxIcon     m_iconTaskBarIcon;
     wxDateTime m_dtLastHoverDetected;
     wxDateTime m_dtLastBalloonDisplayed;
+
+    bool       m_bButtonPressed;
 
     void       ResetTaskBar();
     void       CreateContextMenu();

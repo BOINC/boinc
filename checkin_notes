@@ -20005,3 +20005,24 @@ Karl 2004-11-22
 
     client/
         scheduler_op.C
+
+Rom    22 Nov 2004
+    - Fix a warning with the scheduler_op file
+    - Bug Fix: Context menu should now work on Win9x machines
+    - Bug Fix: Tooltip should now work of Win9x machines
+    - Bug Fix: BOINC Manager should now startup when the core client is not detected
+    - Bug Fix: Service setup has been temporarily disabled
+
+    client/
+        scheduler_op.C
+    clientgui/
+        BOINCGUIApp.cpp, .h
+        BOINCTaskBar.cpp, .h
+        MainDocument.cpp, .h
+        stdwx.h
+    clientgui/msw/
+        taskbarex.cpp, .h
+    lib/
+        gui_rpc_client.C, .h
+    win_build/installerv2/
+        BOINC.ism

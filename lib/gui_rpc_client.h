@@ -388,6 +388,7 @@ public:
     int file_transfer_op(FILE_TRANSFER&, char*);
     int result_op(RESULT&, char*);
     int get_host_info(HOST_INFO&);
+    int quit();
     char* mode_name(int mode);
 };
 

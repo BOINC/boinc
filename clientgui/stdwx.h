@@ -90,6 +90,8 @@
 #include <wx/event.h>
 #include <wx/utils.h>
 #include <wx/settings.h>
+#include <wx/process.h>
+
 
 // Standard Libraries
 //

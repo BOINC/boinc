@@ -20,7 +20,7 @@
 LRESULT APIENTRY wxTaskBarIconExWindowProc( HWND hWnd, unsigned msg, UINT wParam, LONG lParam );
 
 wxChar *wxTaskBarExWindowClass = (wxChar*) wxT("wxTaskBarExWindowClass");
-const UINT WM_TASKBARCREATED   = ::RegisterWindowMessage(_T("TaskbarCreated"));
+const UINT WM_TASKBARCREATED   = ::RegisterWindowMessage(wxT("TaskbarCreated"));
 
 wxList wxTaskBarIconEx::sm_taskBarIcons;
 bool   wxTaskBarIconEx::sm_registeredClass = FALSE;
@@ -111,7 +111,7 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& tooltip)
     if (((const wxChar*) tooltip != NULL) && (tooltip != wxT("")))
     {
         notifyData.uFlags |= NIF_TIP ;
-                lstrcpyn(notifyData.szTip, WXSTRINGCAST tooltip, sizeof(notifyData.szTip));
+        lstrcpyn(notifyData.szTip, WXSTRINGCAST tooltip, sizeof(notifyData.szTip));
     }
 
 
@@ -120,25 +120,32 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& tooltip)
     else
     {
         m_iconAdded = (Shell_NotifyIcon(NIM_ADD, &notifyData) != 0);
-        Shell_NotifyIcon(NIM_SETVERSION, &notifyData);
+        if (IsBalloonsSupported())
+            Shell_NotifyIcon(NIM_SETVERSION, &notifyData);
         return m_iconAdded;
     }
 }
 
 bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const wxString message, unsigned int timeout, ICONTYPES iconballoon)
 {
-   if (!IsOK())
-      return false;
+    if (!IsOK())
+        return false;
+
+    wxString strTip = wxEmptyString;
+
+    if (!IsBalloonsSupported())
+        strTip = title + wxT(" - ") + message;
 
     memset(&notifyData, 0, sizeof(notifyData));
     notifyData.cbSize           = sizeof(notifyData);
     notifyData.hWnd             = (HWND) m_hWnd;
     notifyData.uID              = 99;
     notifyData.uCallbackMessage = sm_taskbarMsg;
-    notifyData.uFlags           = NIF_MESSAGE | NIF_INFO;
+    notifyData.uFlags           = NIF_MESSAGE | NIF_TIP | NIF_INFO;
     notifyData.dwInfoFlags      = iconballoon | NIIF_NOSOUND;
     notifyData.uTimeout         = timeout;
     notifyData.uVersion         = NOTIFYICON_VERSION;
+    lstrcpyn(notifyData.szTip, WXSTRINGCAST strTip, sizeof(notifyData.szTip));
     lstrcpyn(notifyData.szInfo, WXSTRINGCAST message, sizeof(notifyData.szInfo));
     lstrcpyn(notifyData.szInfoTitle, WXSTRINGCAST title, sizeof(notifyData.szInfoTitle));
 
@@ -153,7 +160,8 @@ bool wxTaskBarIconEx::SetBalloon(const wxIcon& icon, const wxString title, const
     else
     {
         m_iconAdded = (Shell_NotifyIcon(NIM_ADD, & notifyData) != 0);
-        Shell_NotifyIcon(NIM_SETVERSION, &notifyData);
+        if (IsBalloonsSupported())
+            Shell_NotifyIcon(NIM_SETVERSION, &notifyData);
         return m_iconAdded;
     }
 }
@@ -293,6 +301,19 @@ WXHWND wxTaskBarIconEx::CreateTaskBarWindow()
             NULL);
 
     return (WXHWND) hWnd;
+}
+
+bool wxTaskBarIconEx::IsBalloonsSupported()
+{
+#ifdef __WXMSW__
+    wxInt32 iMajor = 0, iMinor = 0;
+    if ( wxWINDOWS_NT == wxGetOsVersion( &iMajor, &iMinor ) )
+    {
+        if ( (5 >= iMajor) && (0 >= iMinor) )
+            return true;
+    }
+#endif
+    return false;
 }
 
 long wxTaskBarIconEx::WindowProc( WXHWND hWnd, unsigned int msg, unsigned int wParam, long lParam )

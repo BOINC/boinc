@@ -108,6 +108,7 @@ public:
 
 
     wxInt32                     RunBenchmarks();
+    wxInt32                     CoreClientQuit();
 
 
     //
