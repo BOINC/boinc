@@ -16500,3 +16500,12 @@ David  19 Aug 2004
 
     client/
         pers_file_xfer.C
+
+David  20 Aug 2004
+    - strip_whitespace() did infinite loop on empty string!!
+    - removed old code in db_boinc
+
+    db/
+        boinc_db.C,h
+    lib/
+        util.C

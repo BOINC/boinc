@@ -766,17 +766,6 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     int i=0;
     memset(this, 0, sizeof(WORK_ITEM));
     res_id = atoi(r[i++]);
-#if 0
-    strcpy2(res_xml_doc_in, r[i++]);
-    workunitid = atoi(r[i++]);
-    wu_rsc_memory_bound = atof(r[i++]);
-    wu_delay_bound = atof(r[i++]);
-    wu_rsc_fpops_est = atof(r[i++]);
-    wu_rsc_fpops_bound = atof(r[i++]);
-    wu_rsc_disk_bound = atof(r[i++]);
-    strcpy2(wu_name, r[i++]);
-    strcpy2(wu_xml_doc, r[i++]);
-#else
     wu.id=atol(r[i++]);
     wu.create_time = atoi(r[i++]);
     wu.appid = atoi(r[i++]);
@@ -803,7 +792,6 @@ void WORK_ITEM::parse(MYSQL_ROW& r) {
     wu.max_total_results = atoi(r[i++]);
     wu.max_success_results = atoi(r[i++]);
     strcpy2(wu.result_template_file, r[i++]);
-#endif
 }
 
 int DB_WORK_ITEM::enumerate(int limit) {
@@ -812,23 +800,6 @@ int DB_WORK_ITEM::enumerate(int limit) {
     MYSQL_ROW row;
 
     if (!cursor.active) {
-#if 0
-        sprintf(query,
-            "select result.id as res_id, "
-            "result.xml_doc_in as res_xml_doc_in, "
-            "result.workunit as workunitid, "
-            "workunit.rsc_memory_bound as wu_rsc_memory_bound, "
-            "workunit.delay_bound as wu_delay_bound, "
-            "workunit.rsc_fpops_set as wu_rsc_fpops_set, "
-            "workunit.rsc_fpops_bound as wu_rsc_fpops_bound, "
-            "workunit.rsc_disk_bound as wu_rsc_disk_bound, "
-            "workunit.name as wu_name, "
-            "workunit.xml_doc as wu_xml_doc "
-            "from result, workunit "
-            "where workunit.id = result.id %s",
-            clause
-        );
-#else
         sprintf(query,
             "select high_priority result.id, workunit.* from result left join workunit "
             "on workunit.id = result.workunitid "
@@ -836,7 +807,6 @@ int DB_WORK_ITEM::enumerate(int limit) {
             "limit %d",
             RESULT_SERVER_STATE_UNSENT, limit
         );
-#endif
         retval = db->do_query(query);
         if (retval) return mysql_errno(db->mysql);
         cursor.rp = mysql_store_result(db->mysql);
@@ -1001,34 +971,3 @@ int DB_SCHED_RESULT_ITEM_SET::update_workunits() {
     strcat(query, ")");
     return db->do_query(query);
 }
-
-#if 0
-int DB_WORK_ITEM::read_result() {
-    char query[MAX_QUERY_LEN];
-    int retval;
-    MYSQL_RES* rp;
-    MYSQL_ROW row;
-
-    sprintf(query, "select server_state from result where id=%d", res_id);
-    retval = db->do_query(query);
-    rp = mysql_store_result(db->mysql);
-    if (!rp) {
-        return mysql_errno(db->mysql);
-    }
-    row = mysql_fetch_row(rp);
-    if (!row) {
-        return mysql_errno(db->mysql);
-    }
-    res_server_state = atoi(row[0]);
-    return 0;
-}
-
-int DB_WORK_ITEM::update() {
-    char query[MAX_QUERY_LEN];
-
-    sprintf(query, "update workunit set transition_time=%f where id=%d",
-        wu_transition_time, workunitid
-    );
-    return db->do_query(query);
-}
-#endif

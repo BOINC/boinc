@@ -312,7 +312,10 @@ void c2x(char *what) {
 //
 void strip_whitespace(char *str) {
     int n;
-    while (isascii(str[0]) && isspace(str[0])) {
+    while (1) {
+        if (!str[0]) break;
+        if (!isascii(str[0])) break;
+        if (!isspace(str[0])) break;
         strcpy(str, str+1);
     }
     while (1) {
@@ -326,7 +329,10 @@ void strip_whitespace(char *str) {
 
 void strip_whitespace(string& str) {
     int n;
-    while (isascii(str[0]) && isspace(str[0])) {
+    while (1) {
+        if (str.length() == 0) break;
+        if (!isascii(str[0])) break;
+        if (!isspace(str[0])) break;
         str.erase(0, 1);
     }
     while (1) {

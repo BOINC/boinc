@@ -458,23 +458,6 @@ struct TRANSITIONER_ITEM {
     void parse(MYSQL_ROW&);
 };
 
-#if 0
-#define WORKSEQ_STATE_UNASSIGNED    0
-#define WORKSEQ_STATE_ASSIGNED      1
-#define WORKSEQ_STATE_DONE          2
-
-struct WORKSEQ {
-    int id;
-    int create_time;
-    int state;
-    int hostid;                     // host this seq is assigned to
-    int wuid_last_done;             // last validated WU or zero
-    int wuid_last_sent;             // last sent WU or zero
-    int workseqid_master;           // if part of a redundant group, master ID
-    void clear();
-};
-#endif
-
 class DB_PLATFORM : public DB_BASE, public PLATFORM {
 public:
     DB_PLATFORM();
@@ -590,23 +573,8 @@ public:
 // used by the feeder and scheduler for outgoing work
 //
 struct WORK_ITEM {
-#if 0
-    int res_id;
-    int res_server_state;
-    char res_xml_doc_in[LARGE_BLOB_SIZE];
-    int workunitid;
-    double wu_rsc_memory_bound;
-    double wu_delay_bound;
-    double wu_rsc_fpops_est;
-    double wu_rsc_fpops_bound;
-    double wu_rsc_disk_bound;
-    double wu_transition_time;
-    char wu_name[256];
-    char wu_xml_doc[LARGE_BLOB_SIZE];
-#else
     int res_id;
     WORKUNIT wu;
-#endif
     void parse(MYSQL_ROW& row);
 };
 
@@ -661,15 +629,5 @@ public:
     int update_result(SCHED_RESULT_ITEM& result);
     int update_workunits();
 };
-
-#if 0
-class DB_WORKSEQ : public DB_BASE, public WORKSEQ {
-public:
-    DB_WORKSEQ();
-    int get_id();
-    void db_print(char*);
-    void db_parse(MYSQL_ROW &row);
-};
-#endif
 
 #endif
