@@ -614,7 +614,10 @@ void ACTIVE_TASK::request_graphics_mode(int mode) {
 void ACTIVE_TASK::check_graphics_mode_ack() {
 	int mode;
 	if (app_client_shm.get_graphics_mode_msg(APP_CORE_GFX_SEG, mode)) {
-		this->graphics_acked_mode = mode;
+		graphics_acked_mode = mode;
+		if (mode != MODE_FULLSCREEN) {
+			graphics_mode_before_ss = mode;
+		}
 	}
 }
 
@@ -1074,9 +1077,7 @@ void ACTIVE_TASK_SET::hide_apps() {
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        atp->app_client_shm.send_graphics_mode_msg(
-            CORE_APP_GFX_SEG, MODE_HIDE_GRAPHICS
-        );
+        atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
     }
 }
 
@@ -1087,9 +1088,7 @@ void ACTIVE_TASK_SET::restore_apps() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (atp->graphics_requested_mode != atp->graphics_mode_before_ss) {
-            atp->app_client_shm.send_graphics_mode_msg(
-                CORE_APP_GFX_SEG, atp->graphics_mode_before_ss
-            );
+            atp->request_graphics_mode(atp->graphics_mode_before_ss);
         }
     }
 }

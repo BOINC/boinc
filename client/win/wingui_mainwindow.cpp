@@ -1119,7 +1119,7 @@ void CMainWindow::OnCommandWorkShowGraphics()
 	if(resToShow) {
 		ACTIVE_TASK* at = gstate.lookup_active_task_by_result(resToShow);
 		if(at) {
-			at->app_client_shm.send_graphics_mode_msg(CORE_APP_GFX_SEG, MODE_WINDOW);
+			at->request_graphics_mode(MODE_WINDOW);
 		}
 	}
 }
