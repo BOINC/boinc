@@ -23936,6 +23936,17 @@ Rom    3 Feb 2005
     - Bug Fix: Change the default blank time to 5 minutes.
     - Bug Fix: Remove the ability for us to affect the secure password
         option on NT based machines.
+    - Bug Fix: Check to see if we are running setup on an NT 4.0 box
+        acting as a Domain Controller, if we are warn the admin that
+        they'll have to manually set the 'LogonAsService' right themselves
+        with the User Manager for Domains, and then set the setup flag to
+        false.
+    - Bug Fix: Reorder the Service setup dialog so that there are entries
+        after the password confirmation edit box which gives us the extra
+        step needed to enable the next button.
+    - Bug Fix: Enable the 'Property as Integer' bit of the various checkboxes
+        we use in setup so that when somebody unchecks the damn checkbox it
+        finally does what I expected it to do in the first place.
 
     client/win/
         win_screensaver.cpp, .h

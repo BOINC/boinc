@@ -310,6 +310,18 @@ Function VerifyServiceExecutionRight()
     If ( msiMessageStatusYes = iReturnValue ) Then
         Property("SERVICE_GRANTEXECUTIONRIGHT") = "1"    
     End If
+    
+    ''    
+    '' Check if we are running on Windows NT 4.0 and we are either
+    ''   a primary domain controller or backup domain controller
+    ''
+    If ( 400 = Property("VersionNT") ) Then
+        If ( 2 = Property("MsiNTProductType") ) Then
+            oRecord.IntegerData(1) = 25009
+		    Message msiMessageTypeUser Or vbExclamation Or vbOKOnly, oRecord
+    	 	Property("SERVICE_GRANTEXECUTIONRIGHT") = "0"    
+        End If
+    End If  
 
 	VerifyServiceExecutionRight = msiDoActionStatusSuccess
 End Function
