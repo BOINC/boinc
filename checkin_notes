@@ -25961,3 +25961,9 @@ David  15 Mar 2005
     lib/
         boinc_cmd.C
         parse.C
+
+David  15 Mar 2005
+	- BOINC manager: if project doesn't have a name yet, use its URL
+
+	clientgui/
+		MainDocument.cpp

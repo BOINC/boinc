@@ -440,6 +440,7 @@ wxInt32 CMainDocument::GetProjectCount()
 wxInt32 CMainDocument::GetProjectProjectName( wxInt32 iIndex, wxString& strBuffer )
 {
     PROJECT* pProject = NULL;
+    strBuffer = "";
 
     try
     {
@@ -451,9 +452,13 @@ wxInt32 CMainDocument::GetProjectProjectName( wxInt32 iIndex, wxString& strBuffe
         pProject = NULL;
     }
 
-    if ( NULL != pProject )
-        strBuffer = pProject->project_name.c_str();
+    if (!pProject) return 0;
 
+    if (pProject->project_name.length() == 0) {
+        strBuffer = pProject->master_url.c_str();
+    } else {
+        strBuffer = pProject->project_name.c_str();
+    }
     return 0;
 }
 
