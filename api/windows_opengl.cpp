@@ -124,7 +124,7 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 
 GLvoid KillGLWindow(GLvoid)								// Properly Kill The Window
 {
-	ShowCursor(TRUE);								// Show Mouse Pointer
+	while(ShowCursor(true) < 0);						// Show Mouse Pointer
 
 	if (hRC)											// Do We Have A Rendering Context?
 	{
@@ -162,11 +162,11 @@ void ChangeMode( int mode ) {
 
 	switch (mode) {
 		case MODE_NO_GRAPHICS:
-			if (fullscreen) ShowCursor(TRUE);				// Show Mouse Pointer
+			if (fullscreen) while(ShowCursor(true) < 0);		// Show Mouse Pointer
 			fullscreen = false;
 			break;
 		case MODE_WINDOW:
-			if (fullscreen) ShowCursor(TRUE);				// Show Mouse Pointer
+			if (fullscreen) while(ShowCursor(true) < 0);		// Show Mouse Pointer
 			fullscreen = false;
 			WindowRect.left = old_left;
 			WindowRect.top = old_top;
@@ -186,8 +186,8 @@ void ChangeMode( int mode ) {
 			WindowRect.right=GetDeviceCaps(screenDC, HORZRES);
 			WindowRect.bottom=GetDeviceCaps(screenDC, VERTRES);
 			ReleaseDC(NULL, screenDC);
-			ShowCursor(FALSE);								// Hide Mouse Pointer
 			GetCursorPos(&initCursorPos);					// Store the current mouse pos
+			while(ShowCursor(false) >= 0);
 			initially_visible = true;
 			break;
 	}
