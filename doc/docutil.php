@@ -1,7 +1,7 @@
 <?php
 
 function last_mod() {
-    return date("g:i A, F d Y", filemtime($_SERVER["SCRIPT_FILENAME"]));
+    return date("g:i A T, F d Y", filemtime($_SERVER["SCRIPT_FILENAME"]));
 }
 
 function page_head($title) {

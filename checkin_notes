@@ -19475,6 +19475,8 @@ Rom    14 Nov 2004
         boinc_ss.vcproj
 
 Bruce  15 Nov 2004
-    - Work on documentation.  Add explanation, missing material.  More work needed.
-    doc/configuration.php
-
+    - Work on documentation for config.xml file.  Add explanation, missing material.  More work needed.
+    - Added time zone to 'last modified' date.
+    doc/
+      configuration.php
+      docutil.php
