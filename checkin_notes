@@ -5629,3 +5629,9 @@ Karl 2003/08/10
     db/
         boinc_db.C
         boinc_db.h
+
+Karl 2003/08/11
+    - astropulse: change delay_bound from 2 days to 14 days
+    - astropulse: validator fixes
+
+    astropulse/result/*
