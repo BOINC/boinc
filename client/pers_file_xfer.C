@@ -155,12 +155,6 @@ bool PERS_FILE_XFER::poll(time_t now) {
     last_time = dtime();
 
     if (fxp->file_xfer_done) {
-        if (log_flags.file_xfer) {
-            msg_printf(
-                fip->project, MSG_INFO, "Finished %s of %s",
-                is_upload?"upload":"download", fip->name
-            );
-        }
         scope_messages.printf(
             "PERS_FILE_XFER::poll(): file transfer status %d",
             fxp->file_xfer_retval
@@ -168,6 +162,12 @@ bool PERS_FILE_XFER::poll(time_t now) {
         if (fxp->file_xfer_retval == 0) {
             // The transfer finished with no errors.
             //
+            if (log_flags.file_xfer) {
+                msg_printf(
+                    fip->project, MSG_INFO, "Successfully finished %s of %s",
+                    is_upload?"upload":"download", fip->name
+                    );
+            }
             if (fip->generated_locally) {
                 // file has been uploaded - delete if not sticky
                 //
@@ -196,8 +196,20 @@ bool PERS_FILE_XFER::poll(time_t now) {
                 xfer_done = true;
             }
         } else if (fxp->file_xfer_retval == ERR_UPLOAD_PERMANENT) {
+            if (log_flags.file_xfer) {
+                msg_printf(
+                    fip->project, MSG_INFO, "Permanently failed %s of %s",
+                    is_upload?"upload":"download", fip->name
+                    );
+            }
             giveup();
         } else {
+            if (log_flags.file_xfer) {
+                msg_printf(
+                    fip->project, MSG_INFO, "Failed %s of %s",
+                    is_upload?"upload":"download", fip->name
+                    );
+            }
             handle_xfer_failure();
         }
         // remove fxp from file_xfer_set and deallocate it
@@ -278,10 +290,12 @@ void PERS_FILE_XFER::retry_or_backoff() {
         );
         next_request_time = now + backoff;
     }
-    scope_messages.printf(
-        "PERS_FILE_XFER::retry_or_backoff(): Backing off %d seconds on transfer of file %s\n",
-        backoff, fip->name
-    );
+    msg_printf(fip->project, MSG_INFO, "Backing off %s on transfer of file %s",
+               timediff_format(backoff).c_str(), fip->name);
+    // scope_messages.printf(
+    //     "PERS_FILE_XFER::retry_or_backoff(): Backing off %d seconds on transfer of file %s\n",
+    //     backoff, fip->name
+    // );
 }
 
 // Parse XML information about a single persistent file transfer
