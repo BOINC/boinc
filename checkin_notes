@@ -12046,3 +12046,8 @@ Rom    May 4 2004
 
     client/win/
         hostinfo_win.C
+
+Rom    May 4 2004
+    - Tag for 3.03 release, all platforms
+      boinc_core_release_3_03
+      seti_boinc_app_release_3_03
