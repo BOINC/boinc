@@ -496,7 +496,7 @@ static void scan_work_array(
         // i.e. ones that don't require DB access
         // if any check fails, continue
 
-        if (wu_result.state != WR_STATE_PRESENT || wu_result.state != g_pid) {
+        if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
             continue;
         }
 

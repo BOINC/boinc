@@ -15668,3 +15668,11 @@ Karl 2004-07-23
 
     tools/
         backend_lib.C
+
+Daniel 2004-07-26
+    - Fixed fast wu_result check (broken by mysterious commit of
+      2004-07-24) that caused work to never be sent.
+
+    sched/
+        sched_send.C
+
