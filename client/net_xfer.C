@@ -20,6 +20,7 @@
 #include "windows_cpp.h"
 
 #include <stdio.h>
+#include <math.h>
 
 #ifdef _WIN32
 #include <afxwin.h>
@@ -171,6 +172,8 @@ void NET_XFER::init(char* host, int p, int b) {
     strcpy(hostname, host);
     port = p;
     blocksize = b;
+    xfer_speed = 0;
+    last_speed_update = 0;
 }
 
 // Insert a NET_XFER object into the set
@@ -314,6 +317,7 @@ int NET_XFER_SET::do_select(
                     retval = nxp->do_xfer(n);
                     max_bytes -= n;
                     bytes_transferred += n;
+                    nxp->update_speed(n);
                 }
             } else {
                 nxp->io_ready = true;
@@ -413,6 +417,22 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
 done:
     free(buf);
     return 0;
+}
+
+// Update the transfer speed for this NET_XFER
+// Decay speed by 1/e every second
+//
+void NET_XFER::update_speed(int nbytes) {
+    clock_t now,delta_t;
+    double x;
+
+    now = clock();
+    if (last_speed_update==0) last_speed_update = now;
+    delta_t = now-last_speed_update;
+    if (delta_t<=0) delta_t = 0;
+    x = exp(-(double)delta_t/(double)CLOCKS_PER_SEC);
+    xfer_speed = (x*xfer_speed)+nbytes;
+    last_speed_update = now;
 }
 
 void NET_XFER::got_error() {

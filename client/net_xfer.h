@@ -49,12 +49,15 @@ public:
     char hostname[256];
     int port;
     int blocksize;
+    double xfer_speed;      // in bytes per second
+    clock_t last_speed_update;
 
     void init(char* host, int port, int blocksize);
     int get_ip_addr(char *hostname, int &ip_addr);
     int open_server();
     void close_socket();
     int do_xfer(int&);
+    void update_speed(int);
     void got_error();
 };
 
