@@ -21,16 +21,11 @@
 // scheduling servers,
 // and for merging the result of a scheduler RPC into the client state
 
-// Note: code for actually doing a scheduler RPC is elsewhere,
-// namely scheduler_op.C
+// Note: code for actually doing a scheduler RPC is in scheduler_op.C
 
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
-
-#ifdef _USING_FCGI_
-#undef _USING_FCGI_
-#endif
 
 #include "crypt.h"
 #include "error_numbers.h"
@@ -476,7 +471,7 @@ void CLIENT_STATE::handle_scheduler_reply(
             delete prefs;
             prefs = new_prefs;
         } else {
-            fprintf(stderr, "New preferences don't look reasonable, ignoring\n");
+            fprintf(stdout, "New preferences don't look reasonable, ignoring\n");
         }
     }
 
@@ -489,19 +484,23 @@ void CLIENT_STATE::handle_scheduler_reply(
         if (!project->code_sign_key) {
             project->code_sign_key = strdup(sr.code_sign_key);
         } else {
-            retval = verify_string2(
-                sr.code_sign_key, sr.code_sign_key_signature,
-                project->code_sign_key, signature_valid
-            );
-            if (!retval && signature_valid) {
-                free(project->code_sign_key);
-                project->code_sign_key = strdup(sr.code_sign_key);
-            } else {
-                fprintf(stderr,
-                    "New code signing key from %s doesn't validate\n",
-                    project->project_name
-                );
-            }
+			if (sr.code_sign_key_signature) {
+				retval = verify_string2(
+					sr.code_sign_key, sr.code_sign_key_signature,
+					project->code_sign_key, signature_valid
+				);
+				if (!retval && signature_valid) {
+					free(project->code_sign_key);
+					project->code_sign_key = strdup(sr.code_sign_key);
+				} else {
+					fprintf(stdout,
+						"New code signing key from %s doesn't validate\n",
+						project->project_name
+					);
+				}
+			} else {
+				fprintf(stdout, "Missing code sign key signature\n");
+			}
         }
     }
 

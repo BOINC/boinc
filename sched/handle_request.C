@@ -1,7 +1,7 @@
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
+// http://www.mozilla.org/MPL/
 // 
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
@@ -48,8 +48,8 @@ double estimate_duration(WORKUNIT& wu, HOST& host) {
 // a workunit will take to complete
 //
 int insert_time_tag(WORKUNIT& wu, double seconds) {
-    assert(seconds>=0);
     char *location;
+
     location = strstr(wu.xml_doc, "</workunit>");
     if ((location - wu.xml_doc) > (MAX_BLOB_SIZE - 64)) {
 	return -1; //not enough space to include time info
@@ -73,7 +73,7 @@ int add_wu_to_reply(
     APP* app;
     APP_VERSION* app_version;
     int retval;
-    assert(seconds_to_complete>=0);
+
     app = ss.lookup_app(wu.appid);
     if (!app) return -1;
     app_version = ss.lookup_app_version(app->id, platform.id, app->min_version);
@@ -452,13 +452,9 @@ void handle_request(
 ) {
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
-    assert(fin!=NULL);
-    assert(fout!=NULL);
+
     memset(&sreq, 0, sizeof(sreq));
     sreq.parse(fin);
-
     process_request(sreq, sreply, ss, code_sign_key);
-
     sreply.write(fout);
 }
-

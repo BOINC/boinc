@@ -129,8 +129,7 @@ int ACTIVE_TASK::init(RESULT* rp) {
 // Start a task in a slot directory.  This includes setting up soft links,
 // passing preferences, and starting the process
 //
-// WHAT ARE ASSUMPTIONS ABOUT CURRENT DIR??
-// SHOULD REPLACE ../.. stuff
+// Current dir is top-level BOINC dir
 //
 int ACTIVE_TASK::start(bool first_time) {
     char exec_name[256], file_path[256], link_path[256], temp[256];
@@ -294,6 +293,7 @@ int ACTIVE_TASK::start(bool first_time) {
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
     //HINSTANCE inst;
+	char exec_path[256];
 
     memset( &process_info, 0, sizeof( process_info ) );
     memset( &startup_info, 0, sizeof( startup_info ) );
@@ -308,14 +308,13 @@ int ACTIVE_TASK::start(bool first_time) {
     // Need to condense argv into a single string
     //if (log_flags.task_debug) print_argv(argv);
     //
-    sprintf( temp, "%s/%s", dirname, exec_name );
-    boinc_resolve_filename( temp, exec_name );
-    if( !CreateProcess( exec_name,
+    sprintf(exec_path, "%s/%s", dirname, exec_name);
+    if( !CreateProcess(exec_path,
         wup->command_line,
         NULL, // not sure about this for security
         NULL, // not sure about this for security
         FALSE,
-        CREATE_NEW_PROCESS_GROUP|NORMAL_PRIORITY_CLASS,
+        CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|NORMAL_PRIORITY_CLASS,
         NULL,
         dirname,
         &startup_info,
@@ -334,7 +333,8 @@ int ACTIVE_TASK::start(bool first_time) {
             0,
             NULL
         );
-        MessageBox( NULL, (LPCTSTR)lpMsgBuf, "Error", MB_OK | MB_ICONINFORMATION );
+		fprintf(stdout, "CreateProcess: %s\n", (LPCTSTR)lpMsgBuf);
+        //MessageBox( NULL, (LPCTSTR)lpMsgBuf, "Error", MB_OK | MB_ICONINFORMATION );
     }
     pid_handle = process_info.hProcess;
 

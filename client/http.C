@@ -553,7 +553,7 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
 	}
 	iter++;
     }
-    fprintf(stderr, "HTTP_OP_SET::remove(): not found\n");
+    fprintf(stdout, "HTTP_OP_SET::remove(): not found\n");
     return 1;
 }
 

@@ -119,8 +119,8 @@ int main() {
     }
     copy_stream(fin, stdout);
     fclose(fin);
-    unlink(req_path);
-    unlink(reply_path);
+    //unlink(req_path);
+    //unlink(reply_path);
 #ifdef _USING_FCGI_
     }
 #endif
