@@ -67,6 +67,7 @@
 #endif
 
 #include "gutil.h"
+#include "filesys.h"
 
 #define MAX_DRAW_DISTANCE 2250000
 

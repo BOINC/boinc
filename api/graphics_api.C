@@ -45,6 +45,7 @@ HANDLE graphics_threadh=NULL;
 #include "error_numbers.h"
 #include "boinc_api.h"
 #include "graphics_api.h"
+#include "filesys.h"
 
 double boinc_max_fps = 30.;
 double boinc_max_gfx_cpu_frac = 0.5;

@@ -105,7 +105,7 @@ string r_base64_encode (const char* from, size_t length) throw(InvalidBase64Exce
   ((Character) == ' ' || (Character) == '\t' || (Character) == '\n' \
    || (Character) == '\f' || (Character) == '\r')
 
-#define READ_QUADRUPLET_BYTE(retval)                              \
+#define READ_QUADRUPLET_BYTE()                                    \
     do {                                                          \
         if (i == length) return result;                           \
         c = from[i++];                                            \
