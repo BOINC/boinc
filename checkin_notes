@@ -17044,3 +17044,17 @@ David  4 Sept 2004
         prefs.C,h
     html/inc/
         prefs.inc
+
+
+David  5 Sept 2004
+    - Added new GUI RPCs and fixed bugs (from Sebastian Masch)
+        get_network_mode()
+        set_network_mode()
+        retry_file_transfer()
+
+    client/
+        client_types.C
+        cs_statefile.C
+        gui_rpc_server.C
+    lib/
+        gui_rpc_client.C,h
