@@ -54,7 +54,6 @@ bool SCHEDULER_OP::check_master_fetch_start() {
             } else {
                 project->master_fetch_failures++;
                 backoff(project, "Master file fetch failed\n");
-                // fprintf(stderr, "## retval=%d\n", retval);
             }
         }
         return true;
@@ -147,14 +146,18 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
         }
         exp_backoff = calculate_exponential_backoff("scheduler_op/master_url",
             p->master_fetch_failures, gstate.sched_retry_delay_min,
-            gstate.master_fetch_interval);
+            gstate.master_fetch_interval
+        );
     } else {
         exp_backoff = calculate_exponential_backoff("scheduler_op",
             n, gstate.sched_retry_delay_min, gstate.sched_retry_delay_max,
-            gstate.retry_base_period);
+            gstate.retry_base_period
+        );
     }
     p->min_rpc_time = time(0) + exp_backoff;
-    msg_printf(p, MSG_ERROR, "Deferring communication with project for %d seconds\n", exp_backoff);
+    msg_printf(p, MSG_ERROR,
+        "Deferring communication with project for %d seconds\n", exp_backoff
+    );
     return 0;
 }
 
@@ -190,7 +193,10 @@ int SCHEDULER_OP::start_rpc() {
 
     safe_strcpy(scheduler_url, project->scheduler_urls[url_index].text);
     if (log_flags.sched_ops) {
-        msg_printf(project,MSG_INFO,"Sending request to scheduler: %s\n", scheduler_url);
+        msg_printf(
+            project, MSG_INFO,
+            "Sending request to scheduler: %s\n", scheduler_url
+        );
     }
     if (log_flags.sched_op_debug) {
         f = fopen(SCHED_OP_REQUEST_FILE, "r");
@@ -222,7 +228,7 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     int retval;
 
     project = p;
-    if (log_flags.sched_op_debug) {
+    if (log_flags.sched_ops) {
         printf("Fetching master file for %s\n", project->master_url);
     }
     if (gstate.use_http_proxy) {
@@ -247,7 +253,7 @@ int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
 
     f = fopen(MASTER_FILE_NAME, "r");
     if (!f) {
-        fprintf(stderr, "Can't open master file\n");
+        msg_printf(project, MSG_ERROR, "Can't open master file\n");
         return ERR_FOPEN;
     }
     project->scheduler_urls.clear();
@@ -349,7 +355,6 @@ bool SCHEDULER_OP::poll() {
                 // master file fetch failed.
                 //
                 project->master_fetch_failures++;
-                // fprintf(stderr, "## http_op_retval=%d",http_op.http_op_retval);
                 backoff(project, "Master file fetch failed\n");
                 err_url = project->master_url;
             }
@@ -392,8 +397,8 @@ bool SCHEDULER_OP::poll() {
             action = true;
             http_ops->remove(&http_op);
             if (http_op.http_op_retval) {
-                if (log_flags.sched_op_debug) {
-                    printf(
+                if (log_flags.sched_ops) {
+                    msg_printf(project, MSG_ERROR,
                         "scheduler RPC to %s failed\n",
                         project->scheduler_urls[url_index].text
                     );
@@ -418,8 +423,9 @@ bool SCHEDULER_OP::poll() {
                     }
                 }
             } else {
-                if (log_flags.sched_op_debug) {
-                    printf(
+                if (log_flags.sched_ops) {
+                    msg_printf(
+                        project, MSG_INFO,
                         "scheduler RPC to %s succeeded\n",
                         project->scheduler_urls[url_index].text
                     );
