@@ -6,153 +6,155 @@
 #PROJECT_ID
 [HEADER-Projects]
 Title=Projects
-Project=
-Account=
-Total Credit=
-Avg. Credit=
-Resource Share=
+Project=PROJECT
+Account=ACCOUNT
+Total Credit=TOTAL CREDIT
+Avg. Credit=AVG. CREDIT
+Resource Share=RESOURCE SHARE
 
 #RESULT_ID
 [HEADER-Work]
 Title=Work
-Project=
-Application=
-Name=
-CPU time=
-Progress=
-To Completion=
-Status=
+Project=PROJECT
+Application=APPLICATION
+Name=NAME
+CPU time=CPU TIME
+Progress=PROGRESS
+To Completion=TO COMPLETION
+Status=STATUS
 
 #XFER_ID
 [HEADER-Transfers]
 Title=Transfers
-Project=
-File=
-Progress=
-Size=
-Time=
-Direction=
-Speed=
-Status=
-Type=
+Project=PROJECT
+File=FILE
+Progress=PROGRESS
+Size=SIZE
+Time=TIME
+Direction=DIRECTION
+Speed=SPEED
+Status=STATUS
+Type=TYPE
 
 #MESSAGE_ID
 [HEADER-Messages]
 Title=Messages
-Project=
-Time=
-Message=
+Project=PROJECT
+Time=TIME
+Message=MESSAGE
 
 #USAGE_ID
 [HEADER-Disk]
 Title=Disk
-Free space=
-Used space: non-BOINC=
-Used space: BOINC=
-BOINC Core Client=
-Astropulse Beta=
+Free space=FREE SPACE
+Used space: non-BOINC=USED SPACE: NON-BOINC
+Used space: BOINC=USED SPACE: BOINC
+BOINC Core Client=BOINC CORE CLIENT
 
 #miscellaneous text
 [HEADER-MISC]
-New=
-Running=
-Ready to run=
-Computation done=
-Results uploaded=
-Acknowledged=
-Error: invalid state=
-Completed=
-Upload=
-Download=
-Retry in=
-Upload failed=
-Download failed=
+New=NEW
+Running=RUNNING
+Ready to run=READY TO RUN
+Computation done=COMPUTATION DONE
+Results uploaded=RESULTS UPLOADED
+Acknowledged=ACKNOWLEDGED
+Error: invalid state=ERROR: INVALID STATE
+Completed=COMPLETED
+Upload=UPLOAD
+Download=DOWNLOAD
+Retry in=RETRY IN
+Upload failed=UPLOAD FAILED
+Download failed=DOWNLOAD FAILED
 
 #menu items
 [MENU-File]
 Title=File
-Show Graphics=
-Force run=
-Run based on preferences=
-Pause=
-Run Benchmarks=
-Hide=
-Exit=
+Show Graphics=SHOW GRAPHICS
+Force run=FORCE RUN
+Run based on preferences=RUN BASED ON PREFERENCES
+Suspend=SUSPEND
+Run Benchmarks=RUN BENCHMARKS
+Hide=HIDE
+Exit=EXIT
 
 [MENU-Settings]
 Title=Settings
-Login to Project...=
-Proxy Server...=
+Login to Project...=LOGIN TO PROJECT...
+Proxy Server...=PROXY SERVER...
 
 [MENU-Help]
 Title=Help
-About...=
+About...=ABOUT...
 
 [MENU-StatusIcon]
-Suspend=
-Resume=
-Exit=
+Show=SHOW
+Hide=HIDE
+Force run=FORCE RUN
+Run based on preferences=RUN BASED ON PREFERENCES
+Suspend=SUSPEND
+Exit=EXIT
 
 [MENU-Project]
-Relogin...=
-Get preferences=
-Retry now=
-Detach...=
-Reset project...=
-Quit Project...=
+Web site=WEB SITE
+Get preferences=GET PREFERENCES
+Retry now=RETRY NOW
+Detach...=DETACH...
+Reset project...=RESET PROJECT...
+Quit Project...=QUIT PROJECT...
 
 [MENU-Work]
-Show Graphics=
+Show Graphics=SHOW GRAPHICS
 
 [MENU-Transfers]
-Retry now=
+Retry now=RETRY NOW
 
 [MENU-Messages]
-Copy to clipboard=
+Copy to clipboard=COPY TO CLIPBOARD
 
 [DIALOG-LOGIN]
 Title=Login to Project
-URL:=
-Account Key:=
-OK=
-Cancel=
-The URL for the website of the project.=
-The authorization code recieved in your confirmation email.=
+URL:=URL:
+Account Key:=ACCOUNT KEY:
+OK=OK
+Cancel=CANCEL
+The URL for the website of the project.=THE URL FOR THE WEBSITE OF THE PROJECT.
+The authorization code recieved in your confirmation email.=THE AUTHORIZATION CODE RECIEVED IN YOUR CONFIRMATION EMAIL.
 
 [DIALOG-QUIT]
 Title=Quit Project
-URL:=
-Account Key:=
-OK=
-Cancel=
-Select the project you wish to quit.=
+URL:=URL:
+Account Key:=ACCOUNT KEY:
+OK=OK
+Cancel=CANCEL
+Select the project you wish to quit.=SELECT THE PROJECT YOU WISH TO QUIT.
 
 [DIALOG-CONNECT]
 Title=Connect to Network
-BOINC needs to connect to the network.  May it do so now?=
-Don't ask this again (connect automatically)=
-OK=
-Cancel=
+BOINC needs to connect to the network.  May it do so now?=BOINC NEEDS TO CONNECT TO THE NETWORK.  MAY IT DO SO NOW?
+Don't ask this again (connect automatically)=DON'T ASK THIS AGAIN (CONNECT AUTOMATICALLY)
+OK=OK
+Cancel=CANCEL
 
 [DIALOG-ABOUT]
 Title=Boinc Beta Version
 Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
-Open Beta=
-OK=
+Open Beta=OPEN BETA
+OK=OK
 
 [DIALOG-PROXY]
 Title=Proxy Server Setup
 Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=
-HTTP Proxy=
-Connect via HTTP Proxy Server=
-http://=
-Port Number:=
-SOCKS Proxy=
-Connect via SOCKS Proxy Server=
-SOCKS Host:=
-Port Number:=
-Leave these blank if not needed=
-SOCKS User Name:=
-SOCKS Password:=
-OK=
-Cancel=
+HTTP Proxy=HTTP PROXY
+Connect via HTTP Proxy Server=CONNECT VIA HTTP PROXY SERVER
+http://=http://
+Port Number:=PORT NUMBER:
+SOCKS Proxy=SOCKS PROXY
+Connect via SOCKS Proxy Server=CONNECT VIA SOCKS PROXY SERVER
+SOCKS Host:=SOCKS HOST:
+Port Number:=PORT NUMBER:
+Leave these blank if not needed=LEAVE THESE BLANK IF NOT NEEDED
+SOCKS User Name:=SOCKS USER NAME:
+SOCKS Password:=SOCKS PASSWORD:
+OK=OK
+Cancel=CANCEL
