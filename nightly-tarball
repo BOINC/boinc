@@ -7,47 +7,14 @@
 # need to set PATH because we might be running from a cron job.
 # on our Solaris servers, cvs is in /opt/misc/bin
 
-# Note: requires GNU tar (if you want to use other tar need to separate gzip
-# step)
-
 if [ -d /disks/asimov ]; then
-    PATH=/disks/philmor/a/users/quarl/local/Node-SOLARIS/bin:/disks/philmor/a/users/quarl/local/bin:/disks/philmor/a/users/quarl/bin:/usr/local/gcc/bin:/usr/local/gdb/bin:/usr/ccs/bin:/usr/local/cygnus:/disks/milkyway/a/users/anderson/seti/bin:/disks/cyclops/c/users/seti/s4/siren/bin:/disks/cyclops/c/users/seti/s4/siren/scripts:/disks/cyclops/c/users/seti/s4/siren/scripts/s4pipeline:/opt/misc/bin:/usr/ucb:/usr/bin:/usr/sbin:/usr/openwin/bin:/usr/dt/bin:/opt/misc/rsi/idl/bin:/opt/misc/lib/teTeX/bin:/disks/asimov/a/lang/gcc/bin:.:/usr/local/sbin:/usr/local/bin:/sbin:/usr/games
+    PATH=/disks/philmor/a/users/quarl/local/Node-SOLARIS/bin:/disks/philmor/a/users/quarl/local/bin:/disks/philmor/a/users/quarl/bin:/usr/ccs/bin:/usr/local/cygnus:/disks/milkyway/a/users/anderson/seti/bin:/opt/misc/bin:/usr/ucb:/usr/bin:/usr/local/bin
     export PATH
 fi
 
-CHECKOUT="CVSROOT=/disks/milkyway/a/users/anderson/seti/cvsroot cvs co boinc"
-TMPDIR=/tmp/nightly-tarball
-
-FILENAME_TGZ="boinc-cvs-`date +%Y-%m-%d`.tar.gz"
-FILENAME_ZIP="boinc-cvs-`date +%Y-%m-%d`.zip"
-DESTINATION="/disks/milkyway/a/users/anderson/boinc/doc/source/nightly/"
-
-die()
-{
-    echo "ERROR in $0 on `hostname`:"
-    echo "$1"
-    [ "$2" ] && cat "$2"
-    exit 1
-}
-
-reqeval()
-{
-    eval "$1" || die "error executing: $1"
-}
-
-reqeval_log()
-{
-    eval "$1" > $2 2>&1 || die "error executing: $1" $2
-}
-
-if [ -z "$USER" ]; then
-    USER=$LOGNAME
-fi
-
-reqeval "rm -rf $TMPDIR"
-reqeval "mkdir -p $TMPDIR"
-reqeval "cd $TMPDIR"
-reqeval_log "$CHECKOUT"      checkout.log
-reqeval_log "tar czvf $FILENAME_TGZ boinc" tar.log
-reqeval_log "zip -r9 $FILENAME_ZIP boinc" zip.log
-reqeval "mv $FILENAME_TGZ $FILENAME_ZIP $DESTINATION"
+CVSROOT=/usr/local/warez/cvsroot                                               \
+    CHECKOUT='cvs export boinc'                                                \
+    FILENAME_TGZ="boinc-cvs-TODAY.tar.gz"                                      \
+    FILENAME_ZIP="boinc-cvs-TODAY.zip"                                         \
+    DESTINATION="/disks/milkyway/a/users/anderson/boinc/doc/source/nightly/"   \
+    /disks/philmor/a/users/quarl/bin/export-tarball
