@@ -281,7 +281,7 @@ IDI_ICONSMALL           ICON    DISCARDABLE     "res\\iconsmall.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,0,13,0
+ FILEVERSION 2,0,14,0
  PRODUCTVERSION 1,0,8,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
@@ -300,14 +300,14 @@ BEGIN
             VALUE "Comments", "\0"
             VALUE "CompanyName", "Space Sciences Laboratory\0"
             VALUE "FileDescription", "boinc_gui\0"
-            VALUE "FileVersion", "2, 0, 13, 0\0"
+            VALUE "FileVersion", "2, 0, 14, 0\0"
             VALUE "InternalName", "boinc_gui\0"
             VALUE "LegalCopyright", "Copyright © 2003 SETI@home\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "boinc_gui.exe\0"
             VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "BOINC Core Client\0"
-            VALUE "ProductVersion", "2, 0, 13, 0\0"
+            VALUE "ProductVersion", "2, 0, 14, 0\0"
             VALUE "SpecialBuild", "\0"
         END
     END
