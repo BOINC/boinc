@@ -1,6 +1,7 @@
 <?php
 
 require_once('../db.inc');
+require_once('../sanitize_html.inc');
 
 define('NO_CONTROLS', 0);
 define('FORUM_CONTROLS', 1);
@@ -174,8 +175,8 @@ function incThreadViews($threadID) {
 
 function createThread($forumID, $ownerID, $title, $content) {
 
-    $title = addslashes(htmlentities($title));
-    $content = addslashes(htmlentities($content));
+    $title = addslashes(sanitize_html($title));
+    $content = addslashes(sanitize_html($content));
 
     $sql = "INSERT INTO thread (forum, owner, title, timestamp) VALUES (" . $forumID . ", " . $ownerID . ", '" . $title . "', UNIX_TIMESTAMP())";
     $result = mysql_query($sql);
@@ -196,7 +197,7 @@ function createThread($forumID, $ownerID, $title, $content) {
 function replyToThread($threadID, $userID, $content, $parent_post=NULL) {
     $thread = getThread($threadID);
 
-    $content = addslashes(htmlentities($content));
+    $content = addslashes(sanitize_html($content));
 
     addPost($threadID, $userID, $parent_post, $content);
 
@@ -224,7 +225,8 @@ function addPost($threadID, $userID, $parentID, $content) {
 }
 
 function updatePost($postID, $content) {
-    $sql = "UPDATE post SET content = \"$content\", modified = UNIX_TIMESTAMP() WHERE id = " . $postID;
+    $x = addslashes(sanitize_html(stripslashes($content)));
+    $sql = "UPDATE post SET content = \"$x\", modified = UNIX_TIMESTAMP() WHERE id = " . $postID;
     $result = mysql_query($sql);
     if (!$result) return false;
     return true;

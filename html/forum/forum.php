@@ -92,12 +92,13 @@ while($thread = mysql_fetch_object($threads)) {
 
     if ($category->is_helpdesk) {
         echo "<span style=\"font-size:8pt\">", stripslashes($excerpt), "</span>";
-        echo "<br>Times asked: $thread->sufferers";
+        $na = $thread->sufferers + 1;
+        echo "<br>Times asked: $na";
     }
 
     echo "</td>";
+    $x = time_diff_str($thread->timestamp, time());
     if ($category->is_helpdesk) {
-        $x = time_diff_str($thread->timestamp, time());
         echo "<td align=left>
             Total: $thread->replies
             <br>Last: $x
@@ -108,7 +109,7 @@ while($thread = mysql_fetch_object($threads)) {
             <td>", $thread->replies, "</td>
             <td><a href=\"../show_user.php?userid=", $thread->owner, "\">", $user->name, "</a></td>
             <td>", $thread->views, "</td>
-            <td style=\"text-align:right\">", pretty_time_str($thread->timestamp), "</td>
+            <td style=\"text-align:right\">", $x, "</td>
         ";
     }
 

@@ -2,6 +2,7 @@
 
 require_once('forum.inc');
 require_once('../util.inc');
+require_once('../time.inc');
 
 page_head('Message boards', NULL, NULL);
 
@@ -28,6 +29,7 @@ function show_forums() {
 
 		$forums = getForums($category->id);
 		while ($forum = mysql_fetch_object($forums)) {
+            $x = time_diff_str($forum->timestamp, time());
 			echo "
 				<tr class=row1 style=\"font-size:8pt; text-align:right\">
 				<td class=indent style=\"text-align:left\">
@@ -38,7 +40,7 @@ function show_forums() {
 				</td>
 				<td>", $forum->threads, "</td>
 				<td>", $forum->posts, "</td>
-				<td>", pretty_time_str($forum->timestamp), "</td>
+				<td>", $x, "</td>
 			</tr>
 			";
 		}

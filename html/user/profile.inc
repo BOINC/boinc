@@ -106,13 +106,19 @@ function show_picture_option() {
 <td><a href=\"" . IMAGE_PATH . $profile_info['userid'] . '.jpg' . "\"><img src=\"" . IMAGE_PATH . $profile_info['userid'] . '_sm.jpg' . "\"></a><p>
 <input type=\"checkbox\" name=\"delete_pic\">Delete
 </td>
-<td>You have previously uploaded a picture of yourself to accompany your profile, shown at left.
-If you would like to replace it, please click the \"Browse\" button and select the JPEG or PNG file
-you would like to use instead.  If you would rather not have a picture
-with your profile, click the \"Delete\" checkbox; your picture will be deleted as soon as you submit
-this form.  If you're happy with your current picture, there is no need to do anything.<p>
+<td>You have previously uploaded a picture of yourself
+to accompany your profile, shown at left.
+If you would like to replace it,
+please click the \"Browse\" button and select the JPEG or PNG file
+you would like to use instead.
+If you would rather not have a picture with your profile,
+click the \"Delete\" checkbox;
+your picture will be deleted as soon as you submit this form.
+If you're happy with your current picture,
+there is no need to do anything.<p>
 <input name=\"picture\" type=\"file\"><br>
-<font size=2><b>NOTE: </b>Please keep your image small (less than 50K bytes)<br></font></td></tr>";
+<font size=2>
+<b>NOTE: </b>Please keep your image small (less than 50K bytes)<br></font></td></tr>";
         rowify("<br>");
         end_table();
         echo "</td></tr>";
@@ -218,6 +224,8 @@ function process_create_results() {
             ImageJPEG($images[0], IMAGE_PATH . $user->id . '.jpg');
             ImageJPEG($images[1], IMAGE_PATH . $user->id . '_sm.jpg');
     }
+    $response1 = sanitize_html($response1);
+    $response2 = sanitize_html($response2);
     if ($profile_info) {
 
         $query = 'UPDATE profile SET '

@@ -6,7 +6,7 @@ require_once('../util.inc');
 require_once('subscribe.inc');
 
 if (!empty($_GET['thread']) && !empty($_POST['content'])) {
-	$_GET['thread'] = stripslashes(strip_tags($_GET['thread']));
+	$_GET['thread'] = stripslashes($_GET['thread']);
 
   if (!empty($_GET['post'])) {
     $parent_post = $_GET['post'];
@@ -100,7 +100,7 @@ function show_message_row($thread, $category, $post=NULL) {
         echo "&post=", $post->id;
     }
 
-    echo "' method=post><textarea name=\"content\" rows=\"18\" cols=\"80\"> ";
+    echo "' method=post><textarea name=\"content\" rows=\"18\" cols=\"80\">";
     if ($post) echo quote_text(stripslashes($post->content), 80);
     echo "</textarea><p>
 	    <input type=\"submit\" value=\"Post reply\">

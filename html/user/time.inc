@@ -18,17 +18,17 @@ function time_diff_str($t1, $t2) {
     if ($diff > 3600) {
         $n = (int) ($diff/3600);
         if ($n == 1) {
-            $x .= "1 hour ";
+            $x .= "1h ";
         } else {
-            $x .= "$n hours ";
+            $x .= $n."h ";
         }
         $diff -= $n*3600;
     }
     $n = (int) ($diff/60);
     if ($n == 1) {
-        $x .= "1 minute ";
+        $x .= "1m ";
     } else {
-        $x .= "$n minutes";
+        $x .= $n."m";
     }
     return $x." ago";
 }

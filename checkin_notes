@@ -8113,3 +8113,27 @@ Gary	04 Dec 2003
 Gary	04 Dec 2003
     - BOINC release 2.13 for windows, Linux, solaris2.7, solaris2.8
 
+David  4 Dec 2003
+    - Use a different PHP HTML filter; the old one was buggy.
+    - Add HTML filtering of user-supplied text
+        (user profiles, message boards, etc.)
+        NOTE: should be explicit about what things
+            cannot contain ANY html tags
+            (user names, team names)
+        what about team descriptions? user URLs etc.
+    NOTE: someone should figure out exactly where we should
+    be using stripslashes() and addslashes().
+
+    html_user/
+        htmlfilter.inc (removed)
+        profile.inc
+        sanitize_html.inc
+        team.inc
+        time.inc
+        kses.php (new)
+        forum/
+            edit.php
+            forum.inc
+            forum.php
+            index.php
+            reply.php
