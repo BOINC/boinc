@@ -68,7 +68,7 @@ If this happens, stop running ", PROJECT ," or use a
 <a href=download_network.php>utility program</a> that limits CPU usage.
 
 <p>
-", PROJECT, " was developed at ".COPYRIGHT_HOLDER.".
+", PROJECT, " was developed by ".COPYRIGHT_HOLDER.".
 BOINC was developed at the University of California.
 
 <h3>Liability</h3>
