@@ -62,6 +62,8 @@ function show_app_version($app_version) {
 function show_host($host) {
 
     echo TABLE2."\n";
+    echo "<tr>Below is information on all the hosts you have running the BOINC core client.";
+    echo "<p>";
     echo "<tr>".TD2.LG_FONT."<b>Host Information:</b></font></td></tr>\n";
     row("<b>IP address:   </b>", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
     row("<b>Domain name:   <b>", $host->domain_name);
@@ -72,19 +74,19 @@ function show_host($host) {
     row("<b>Number of CPUs:   </b>", $host->p_ncpus);
     row("<b>Operating System:   </b>", "$host->os_name $host->os_version");
     $x = $host->m_nbytes/(1024*1024);
-    $y = round($x, 3);
+    $y = round($x, 2);
     row("<b>Memory:   </b>", "$y MB");
     $x = $host->m_cache/1024;
-    $y = round($x);
+    $y = round($x, 2);
     row("<b>Cache:   </b>", "$y KB");
     $x = $host->m_swap/(1024*1024);
-    $y = round($x);
+    $y = round($x, 2);
     row("<b>Swap Space:   </b>", "$y MB");
     $x = $host->d_total/(1024*1024*1024);
-    $y = round($x);
+    $y = round($x, 2);
     row("<b>Total Disk Space:   </b>", "$y GB");
     $x = $host->d_free/(1024*1024*1024);
-    $y = round($x);
+    $y = round($x, 2);
     row("<b>Free Disk Space:   </b>", "$y GB");
     row("<b>Avg network bandwidth:<br>(upstream)   </b>", "$host->n_bwup bytes/sec");
     row("<b>Avg network bandwidth:<br>(downstream)   </b>", "$host->n_bwdown bytes/sec");

@@ -87,7 +87,7 @@ if (strlen($team->description)) {
     row("<b>Description:   </b>", $team->description);
 }
 if (strlen($team->url)) {;
-    row("<b>Web site:   </b>", "<a href=http://$team->url>click here</a>");
+    row("<b>Web site:   </b>", "<a href=http://$team->url>http://$team->url</a>");
 }
 row("<b>Members:   </b>", $team->nusers);
 
