@@ -23990,4 +23990,8 @@ Rom    4 Feb 2005
         boinc_win.h
         parse.C
 
-    
+Rom    4 Feb 2005
+    - Bug Fix: Don't record the blank time as Epoch time in the registry.
+
+    client/win/
+        win_screensaver.cpp

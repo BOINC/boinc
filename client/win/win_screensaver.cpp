@@ -170,13 +170,13 @@ HRESULT CScreensaver::Create( HINSTANCE hInstance )
 	bReturnValue = UtilGetRegKey( REG_BLANK_TIME, m_dwBlankTime );
 	if ( bReturnValue != 0 ) m_dwBlankTime = 5;
 
-    // Calculate the estimated blank time by adding the current time
-    //   and and the user specified time which is in minutes
-    m_dwBlankTime = time(0) + (m_dwBlankTime * 60);
-
     // Save the value back to the registry in case this is the first
     // execution and so we need the default value later.
 	UtilSetRegKey( REG_BLANK_TIME, m_dwBlankTime );
+
+    // Calculate the estimated blank time by adding the current time
+    //   and and the user specified time which is in minutes
+    m_dwBlankTime = time(0) + (m_dwBlankTime * 60);
 
 
     // Create the screen saver window(s)
