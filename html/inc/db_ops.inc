@@ -846,7 +846,8 @@ function show_result($result) {
     row("Outcome", outcome_string($result->outcome));
     row("Client state", client_state_string($result->client_state));
     row("Exit status", exit_status_string($result));
-    row("Host ID", "<a href=db_action.php?table=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
+    row("Host ID", "<a href=db_action.php?table=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a> [$result->hostid]");
+    row("User ID", "<a href=db_action.php?table=user&id=$result->userid>" . host_name_by_id($result->userid) . "</a> [$result->userid]");
     row("Report deadline", time_str($result->report_deadline));
     row("CPU time", $result->cpu_time);
     row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
@@ -857,7 +858,7 @@ function show_result($result) {
     row("Validate state", validate_state_str($result->validate_state));
     row("claimed credit", $result->claimed_credit);
     row("Granted credit", $result->granted_credit);
-    row("Client version", $result->app_version_num);
+    row("App version", $result->app_version_num);
     row("Random",$result->random);
     row("","<a href='show_log.php?s=$result->name'>Grep logs</a>");
     end_table();
