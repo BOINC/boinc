@@ -44,6 +44,34 @@ Function IsOldInstallDeteted()
     On Error GoTo 0
 End Function
 
+
+''
+'' If we are the 'Shared' SETUPTYPE then we must change ALLUSERS = 1
+''
+Function DetermineSetuptypeFlags()
+
+    Dim strSetupType
+	Dim iReturnValue
+
+    On Error Resume Next
+
+    strSetupType = Property("SETUPTYPE")
+	If (Not( IsEmpty(strSetupType) )) And (Not( IsNull(strSetupType) )) Then
+        If ( strSetupType = "Shared" )
+            Property("ALLUSERS") = 2
+        End If
+	    iReturnValue = IDOK
+    Else
+	    MsgBox("SETUPTYPE cannot be null or empty, aborting SETUP.")
+	    iReturnValue = IDABORT 
+    End If    
+
+	DetermineSetuptypeFlags = iReturnValue
+    On Error GoTo 0
+End Function
+
+
+
 ''
 '' This function is called right after all the files have been copied to the
 '' destination folder and before the BOINC service is started.  We basically

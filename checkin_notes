@@ -21317,3 +21317,10 @@ David  14 Dec 2004
         Makefile.am
         graphics_impl.C
         graphics_impl_lib.C (new)
+
+Rom    15 Dec 2004
+    - Setup should now be able to handle both the Single and Shared installation
+        types.
+
+    win_build/installerv2/
+        boinc.ism
