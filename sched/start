@@ -226,14 +226,23 @@ def lock_file(filename):
     except IOError:
         return -1
 
+def contains_shell_characters(command):
+    return ('"' in command or "'" in command or
+            '\\' in command or '|' in command or
+            '>' in command)
+
 def exec_command_string(command):
-    args = command.split()
+    args = command.strip().split()
     # set default path for program to <bin_dir>:
     args[0] = os.path.realpath(os.path.join( bin_dir, args[0] ))
     os.chdir(log_dir)
     try:
-        os.execv( args[0], args )
+        if contains_shell_characters(command):
+            os.execl('/bin/sh', 'sh', '-c', ' '.join(args))
+        else:
+            os.execv( args[0], args )
         # on success we don't reach here
+        print >>sys.stderr, "Couldn't exec '%s'"%command
     except OSError, e:
         print >>sys.stderr, "Couldn't execute '%s':" %command, e
     os._exit(1)
