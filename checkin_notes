@@ -21611,6 +21611,12 @@ David  18 Dec 2004
 
 David  19 Dec 2004
 	- fix compile of old Win GUI
+    - update BOINC manager messages a little
 
 	client/win/
 		wingui_mainwindow.cpp
+    clientgui/
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewTransfers.cpp

@@ -46,7 +46,9 @@ Run the scheduler under the debugger, giving it this file as stdin,
                       
 <li>
  You may have to doctor the database as follows:
+ <pre>
    update host set rpc_seqno=0, rpc_time=0 where hostid=N
+ </pre>
    to keep the scheduler from rejecting the request.
 </ul>
 This is useful for figuring out why your project is generating

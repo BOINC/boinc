@@ -66,7 +66,7 @@
 
 
 const wxString LINKDESC_DEFAULT         = 
-     _("Please click a project to see additional options.");
+     _("Click a project to see additional options.");
 
 const wxString LINK_TASKATTACH      = wxT(SECTION_TASK "attach");
 const wxString LINKDESC_TASKATTACH  = 
@@ -79,14 +79,16 @@ const wxString LINK_TASKDETACH      = wxT(SECTION_TASK "detach");
 const wxString LINKDESC_TASKDETACH  = 
      _("<b>Detach from project</b><br>"
        "Detach this computer from this project.  "
-       "You may wish to update the project first to report "
+       "Work in progress will be lost. "
+       "You can update the project first to report "
        "any completed work.");
 
 const wxString LINK_TASKRESET       = wxT(SECTION_TASK "reset");
 const wxString LINKDESC_TASKRESET   = 
      _("<b>Reset project</b><br>"
-       "Remove all workunits and applications from this project.  "
-       "You may wish to update the project "
+       "Delete all files and work associated with this project, "
+       "and get new work.  "
+       "You can update the project "
        "first to report any completed work.");
 
 const wxString LINK_TASKSUSPEND     = wxT(SECTION_TASK "suspend");
@@ -275,14 +277,14 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 
     m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
     m_pTaskPane->CreateTaskHeader(BITMAP_WEBHEADER, bmpWeb, _("Web sites"));
-    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Quick Tips"));
+    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Tips"));
 
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 150);
     m_pListPane->InsertColumn(COLUMN_ACCOUNTNAME, _("Account"), wxLIST_FORMAT_LEFT, 80);
     m_pListPane->InsertColumn(COLUMN_TEAMNAME, _("Team"), wxLIST_FORMAT_LEFT, 80);
-    m_pListPane->InsertColumn(COLUMN_TOTALCREDIT, _("Total Credit"), wxLIST_FORMAT_RIGHT, 80);
-    m_pListPane->InsertColumn(COLUMN_AVGCREDIT, _("Avg. Credit"), wxLIST_FORMAT_RIGHT, 80);
-    m_pListPane->InsertColumn(COLUMN_RESOURCESHARE, _("Resource Share"), wxLIST_FORMAT_CENTRE, 85);
+    m_pListPane->InsertColumn(COLUMN_TOTALCREDIT, _("Total credit"), wxLIST_FORMAT_RIGHT, 80);
+    m_pListPane->InsertColumn(COLUMN_AVGCREDIT, _("Avg. credit"), wxLIST_FORMAT_RIGHT, 80);
+    m_pListPane->InsertColumn(COLUMN_RESOURCESHARE, _("Resource share"), wxLIST_FORMAT_CENTRE, 85);
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 150);
 
     m_bTipsHeaderHidden = false;

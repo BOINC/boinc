@@ -59,19 +59,19 @@
 
 
 const wxString LINKDESC_DEFAULT         = 
-     _("Please click a message to see additional options.");
+     _("Click a message to see additional options.");
 
 const wxString LINK_TASKCOPYALL         = wxT(SECTION_TASK "copyall");
 const wxString LINKDESC_TASKCOPYALL     = 
      _("<b>Copy all</b><br>"
-       "Copy all the messages to the system clipboard.");
+       "Copy all the messages to the clipboard.");
 
 const wxString LINK_TASKCOPYMESSAGE     = wxT(SECTION_TASK "copymessage");
 const wxString LINKDESC_TASKCOPYMESSAGE = 
-     _("<b>Copy selection</b><br>"
-       "Copy the selected message(s) to the system clipboard.  "
-       "You can select multiple items by holding down the shift key "
-       " or control key while clicking on the next desired message.");
+     _("<b>Copy selected messages</b><br>"
+       "Copy the selected messages to the clipboard.  "
+       "You can select multiple messages by holding down the shift "
+       " or control key while clicking on messages.");
 
 
 WX_DEFINE_OBJARRAY( CMessageCache );
@@ -176,7 +176,7 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
     m_pTaskPane->AddVirtualFile(BITMAP_MESSAGE, bmpMessage, wxBITMAP_TYPE_XPM);
 
     m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
-    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Quick Tips"));
+    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Tips"));
 
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 115);
     m_pListPane->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, 145);
@@ -501,8 +501,8 @@ void CViewMessages::UpdateTaskPane()
     m_pTaskPane->BeginTaskSection( SECTION_TASK, BITMAP_TASKHEADER, m_bTaskHeaderHidden );
     if (!m_bTaskHeaderHidden)
     {
-        m_pTaskPane->CreateTask( LINK_TASKCOPYALL, BITMAP_MESSAGE, _("Copy all"), m_bTaskCopyAllHidden );
-        m_pTaskPane->CreateTask( LINK_TASKCOPYMESSAGE, BITMAP_MESSAGE, _("Copy selection"), m_bTaskCopyMessageHidden );
+        m_pTaskPane->CreateTask( LINK_TASKCOPYALL, BITMAP_MESSAGE, _("Copy all messages"), m_bTaskCopyAllHidden );
+        m_pTaskPane->CreateTask( LINK_TASKCOPYMESSAGE, BITMAP_MESSAGE, _("Copy selected messages"), m_bTaskCopyMessageHidden );
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 

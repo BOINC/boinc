@@ -10,6 +10,7 @@ function language($lang, $sites) {
     foreach ($sites as $s) {
         echo "$s<br>\n";
     }
+    echo "</td></tr>\n";
 }
 
 function site($url, $name) {
@@ -24,11 +25,11 @@ Information for BOINC participants is available in several languages
 
 ";
 
+list_start();
 echo "
 <tr><th>Language</th><th>Site</th></tr>
 ";
 
-list_start();
 language("Chinese", array(
     site("http://www.equn.com/boinchina", "www.equn.com/boinchina")
 ));

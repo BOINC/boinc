@@ -224,7 +224,7 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     m_pTaskPane->AddVirtualFile(BITMAP_TRANSFER, bmpTransfer, wxBITMAP_TYPE_XPM);
 
     m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
-    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Quick Tips"));
+    m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Tips"));
 
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
     m_pListPane->InsertColumn(COLUMN_FILE, _("File"), wxLIST_FORMAT_LEFT, 205);
