@@ -260,4 +260,46 @@ function build_alpha_summary_page($characters) {
 }
 
 
+function build_uotd_page() {
+    // Check if the current UOTD has had their 24 hours of fame - if so, pick a new one.
+    
+    $result = mysql_query("SELECT * FROM profile ORDER BY uotd_time DESC LIMIT 1");
+    if (mysql_num_rows($result) > 0) {
+        $current_uotd = mysql_fetch_assoc($result);
+        
+        if (time() - $current_uotd['uotd_time'] < 86400) {
+            exit();
+        }
+    }
+    
+    $result = mysql_query("SELECT * FROM profile WHERE verification = 1 AND uotd_time IS NULL LIMIT 1");
+    
+    if ($result && mysql_num_rows($result) == 0) {
+        // If all verified profiles have been selected as UOTD, reshow the one that was shown least recently.
+        $result = mysql_query("SELECT * FROM profile WHERE verification = 1 ORDER BY uotd_time ASC LIMIT 1");
+    }
+    
+    if (!$result || mysql_num_rows($result) == 0) {
+        // No valid users of the day - do something.
+        exit();
+    }
+    $profile = mysql_fetch_assoc($result);
+    
+    $sql = "SELECT * FROM user where id = " . $profile['userid'];
+    $result2 = mysql_query($sql);
+    $user = mysql_fetch_assoc($result2);
+    
+    $filename = "../html_user/uotd.html";
+    $descriptor = fopen($filename, "w");
+    
+    if ($profile['has_picture']) {
+        fwrite($descriptor, "<a href=\"view_profile?userid=" . $user['id'] . "\"><img align=\"left\" src=\"" . IMAGE_PATH . $user['id'] . "_sm.jpg\"</img></a>");
+    }
+    fwrite($descriptor, "The " . PROJECT . " User of the Day is <a href=\"view_profile?userid=" . $user['id'] . "\">" . $user['name'] . "</a>");    
+    fclose($descriptor);
+    
+    $sql = "UPDATE profile SET uotd_time = " . time() . " WHERE userid = " . $user['id'];
+    mysql_query($sql);
+}
+
 ?>
