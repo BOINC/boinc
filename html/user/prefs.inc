@@ -222,11 +222,11 @@ function prefs_form_global($user, $prefs) {
     printf("        <td><input size=5 name=high_water_days value='$prefs->high_water_days'></td>\n");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right><b>Maximum disk space allowed<br>to be used for BOINC (in MB)</b></td>\n";
+    echo   "        <td align=right><b>Maximum disk space allowed<br>to be used for BOINC (in GB)</b></td>\n";
     echo   "        <td><input size=7 name=disk_max_used_gb value='$prefs->disk_max_used_gb'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right><b>Minimum disk space to leave<br>free (in MB)</b></td>\n";
+    echo   "        <td align=right><b>Minimum disk space to leave<br>free (in GB)</b></td>\n";
     echo   "        <td><input size=7 name=disk_min_free_gb value='$prefs->disk_min_free_gb'></td>\n";
     echo   "    </tr>\n";
     echo   "    <tr>\n";

@@ -30,7 +30,8 @@
             echo "Bad password.";
         }
     } else {
-        page_head("User Page");   
+        $_SESSION["authenticator"] = $user->authenticator;
+        page_head("User Page");
         show_user_page_private($user);
     }
     page_tail();

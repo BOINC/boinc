@@ -34,8 +34,8 @@ function send_auth_email($email_addr, $auth) {
 // for the session (if any)
 function init_session() {
     session_start();
-    if (!session_is_registered("authenticator")) {
-        session_register("authenticator");
+    if (!isset($_SESSION["authenticator"])) {
+        $_SESSION["authenticator"] = "";
     }
     return $_SESSION["authenticator"];
 }
@@ -63,11 +63,6 @@ function show_login($user) {
     }
 }
 
-function home_page_head() {
-    echo "<head><title>".PROJECT."</title><body ".BG_COLOR.">\n";
-    echo "<h2>".PROJECT."</h2><hr>\n";
-}
-
 function page_head($title) {
     echo "<head><title>$title</title><body ".BG_COLOR.">\n";
 
@@ -77,11 +72,8 @@ function page_head($title) {
     echo "<h3>$title</h3>\n";
 }
 
-function home_page_tail() {
-    echo "<hr>Copyright (c) 2002 ".PROJECT."\n";
-}
-
 function page_tail() {
+
     echo "<a href=index.php>Return to main ".PROJECT." page</a><br>\n";
 
     // put your copyright notice etc. here
