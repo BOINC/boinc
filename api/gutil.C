@@ -1,4 +1,3 @@
-//#include <afx.h> // for ASSERT 
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
@@ -462,7 +461,7 @@ int init_texture(char* filename) {
     );
     err = glGetError();
     if (err) {
-		fprintf(stderr, "glTexImage2D returned error # %d: %s\n", err, gluErrorString(err)); 
+		fprintf(stderr, "glTexImage2D returned error # %d: %s\n", err, gluErrorString(err));
 		return err;
 	}
     return 0;
