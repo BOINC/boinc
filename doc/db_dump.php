@@ -6,6 +6,13 @@ echo "
 <p>
 BOINC projects may export data describing teams, users and hosts.
 This data is exported in XML files that can be downloaded via HTTP.
+<p>
+This data can be summarized and represented as Web pages.
+An example (implemented using PHP) is at
+<a href=http://www.boinc.dk/index.php?page=statistics>http://www.boinc.dk</a>.
+If you are interested in using or contributing to this code,
+please contact the developer,
+<a href=mailto:stats@boinc.dk>Janus Kristensen</a>.
 
 <p>
 The data is presented in several different 'views':

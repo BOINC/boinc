@@ -29,6 +29,8 @@ Janus Kristensen
 <br>
 Tim Lan
 <br>
+Stephen Pellicer
+<br>
 Rom Walton
 <br>
 Oliver Wang

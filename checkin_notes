@@ -8840,3 +8840,15 @@ David  31 Dec 2003
         validate.C
     test/
         testbase.py
+
+David  31 Dec 2003
+    - Added Python assimilator, courtesy of Stephen Pellicer
+        All the back-end programs could be implemented in Python;
+        CPU usage is a non-factor.
+        Some people might prefer this to C++.
+        No reason not to have both, as long as the logic stays in synch.
+
+    py/Boinc/
+        sched_messages.py
+    sched/
+        assimilator.py

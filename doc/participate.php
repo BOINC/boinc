@@ -13,6 +13,8 @@ echo "
 <li> <a href=credit.php>Computation credit</a>
 <li> <a href=teams.php>Teams</a>
 <li> <a href=db_dump.php>Downloading statistics data</a>
+<li> <a href=language.php>Language customization</a>
+<li> <a href=anonymous_platform.php>Compile-it-yourself BOINC</a>
 </ul>
 ";
 page_tail();
