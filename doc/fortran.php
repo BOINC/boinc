@@ -4,9 +4,9 @@ page_head("FORTRAN applications");?>
 
 <h2>How to use BOINC with FORTRAN and Visual Developer Studio</h2>
 
-<p><font color=red>2004-06-16 note: this page is outdated
+<p><font color=red>2004-06-16 note: this page is outdated; will update
     (functions are now declared <code>extern"C"</code> so
-     no C++ mangling is done; there is a boinc_api_fortran.C wrapper)
+     no C++ mangling is done; there is a boinc_api_fortran.C wrapper) -- quarl@ssl
     </font></p>
 
 <p>
