@@ -206,10 +206,10 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     if (!anything_free(free)){
         fprintf(f, "    <project_disk_free>%f</project_disk_free>\n", free);
     }
-    if (!total_potentially_offender(p, possible)) {
+    if (!total_potential_offender(p, possible)) {
         fprintf(f, "    <potentially_free_offender>%f</potentially_free_offender>\n", possible);
     }
-    if (!total_potentially_self(p, possible)) {
+    if (!total_potential_self(p, possible)) {
         fprintf(f, "    <potentially_free_self>%f</potentially_free_self>\n", possible);
     }
     if (strlen(p->code_sign_key)) {

@@ -323,8 +323,8 @@ public:
     int calc_proj_size(PROJECT*);
     int calc_all_proj_size();
     int compute_share_disk_size(PROJECT*);
-    int total_potentially_offender(PROJECT*, double &);
-    int total_potentially_self(PROJECT*, double &);
+    int total_potential_offender(PROJECT*, double &);
+    int total_potential_self(PROJECT*, double &);
     double select_delete(PROJECT*, double, int);
     double delete_results(PROJECT*, double);
     double compute_resource_share(PROJECT*);
