@@ -263,30 +263,11 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     return 0;
 }
 
-static void trim(STRING256& str) {
-	char* last_char = str.text + strlen(str.text);
-	while (isspace(*(last_char-1)) && last_char > str.text) {
-		--last_char;
-	}
-	*last_char = '\0';
-	char *first_char = str.text;
-	if (isspace(*first_char)) {
-		while (isspace(*first_char)) {
-			++first_char;
-        }
-		char* dest = str.text;
-		while (*first_char) {
-			*dest++ = *first_char++;
-		}
-		*dest = '\0';
-	}
-}
-
 // parse a master file.
 //
-int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
+int SCHEDULER_OP::parse_master_file(vector<std::string> &urls) {
     char buf[256];
-    STRING256 str;
+    std::string str;
     FILE* f;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
@@ -298,8 +279,8 @@ int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
     }
     project->scheduler_urls.clear();
     while (fgets(buf, 256, f)) {
-        if (parse_str(buf, "<scheduler>", str.text, sizeof(str.text))) {
-			trim(str);
+        if (parse_str(buf, "<scheduler>", str)) {
+			strip_whitespace(str);
             urls.push_back(str);
         }
     }
@@ -316,10 +297,10 @@ int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
 }
 
 // A master file has just been read.
-// transfer scheduler urls to project.
+// transfer scheduler URLs to project.
 // Return true if any of them is new
 //
-bool SCHEDULER_OP::update_urls(vector<STRING256> &urls) {
+bool SCHEDULER_OP::update_urls(vector<std::string> &urls) {
     unsigned int i, j;
     bool found, any_new;
 
@@ -327,7 +308,7 @@ bool SCHEDULER_OP::update_urls(vector<STRING256> &urls) {
     for (i=0; i<urls.size(); i++) {
         found = false;
         for (j=0; j<project->scheduler_urls.size(); j++) {
-            if (!strcmp(urls[i].text, project->scheduler_urls[i].text)) {
+            if (urls[i] == project->scheduler_urls[j]) {
                 found = true;
                 break;
             }
@@ -347,7 +328,7 @@ bool SCHEDULER_OP::update_urls(vector<STRING256> &urls) {
 //
 bool SCHEDULER_OP::poll() {
     int retval, nresults;
-    vector<STRING256> urls;
+    vector<std::string> urls;
     bool changed, scheduler_op_done;
     bool action = false, err = false;
     char err_msg[256], *err_url=NULL;
@@ -442,7 +423,7 @@ bool SCHEDULER_OP::poll() {
                 if (log_flags.sched_ops) {
                     msg_printf(project, MSG_ERROR,
                         "Scheduler RPC to %s failed\n",
-                        project->scheduler_urls[url_index].text
+                        project->scheduler_urls[url_index].c_str()
                     );
                 }
 
@@ -470,7 +451,7 @@ bool SCHEDULER_OP::poll() {
                     msg_printf(
                         project, MSG_INFO,
                         "Scheduler RPC to %s succeeded\n",
-                        project->scheduler_urls[url_index].text
+                        project->scheduler_urls[url_index].c_str()
                     );
                 }
                 retval = gstate.handle_scheduler_reply(project, scheduler_url, nresults);
@@ -578,7 +559,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     char buf[256], msg_buf[1024], pri_buf[256];
     int retval, x;
     MIOFILE mf;
-    char delete_file_name[256];
+    std::string delete_file_name;
     mf.init_file(in);
     bool found_start_tag = false;
 
@@ -734,10 +715,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             } else {
                 result_acks.push_back(result);
             }
-        } else if (parse_str(buf, "<delete_file_info>", delete_file_name, sizeof(delete_file_name))) {
-            STRING256 delete_file;
-            strcpy(delete_file.text, delete_file_name);
-            file_deletes.push_back(delete_file);
+        } else if (parse_str(buf, "<delete_file_info>", delete_file_name)) {
+            file_deletes.push_back(delete_file_name);
         } else if (parse_str(buf, "<message", msg_buf, sizeof(msg_buf))) {
             parse_attr(buf, "priority", pri_buf, sizeof(pri_buf));
             USER_MESSAGE um(msg_buf, pri_buf);

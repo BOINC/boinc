@@ -106,7 +106,7 @@ PROJECT::~PROJECT() {
 //
 int PROJECT::parse_state(MIOFILE& in) {
     char buf[256];
-    STRING256 sched_url;
+    std::string sched_url;
     string str1, str2;
     int retval;
     double x;
@@ -116,7 +116,7 @@ int PROJECT::parse_state(MIOFILE& in) {
     init();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project>")) return 0;
-        else if (parse_str(buf, "<scheduler_url>", sched_url.text, sizeof(sched_url.text))) {
+        else if (parse_str(buf, "<scheduler_url>", sched_url)) {
             scheduler_urls.push_back(sched_url);
             continue;
         }
@@ -268,7 +268,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
        for (i=0; i<scheduler_urls.size(); i++) {
             out.printf(
                 "    <scheduler_url>%s</scheduler_url>\n",
-                scheduler_urls[i].text
+                scheduler_urls[i].c_str()
             );
         }
         if (strlen(code_sign_key)) {
@@ -283,7 +283,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     return 0;
 }
 
-// copy fields from "p" into "this" that are stored in client_state.xml
+// Some project data is stored in account file, other in client_state.xml
+// Copy fields that are stored in client_state.xml from "p" into "this"
 //
 void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
@@ -471,7 +472,7 @@ bool FILE_INFO::verify_existing_file() {
 //
 int FILE_INFO::parse(MIOFILE& in, bool from_server) {
     char buf[256], buf2[1024];
-    STRING256 url;
+    std::string url;
     PERS_FILE_XFER *pfxp;
     int retval;
 
@@ -506,7 +507,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         }
         strcat(signed_xml, buf);
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        else if (parse_str(buf, "<url>", url.text, sizeof(url.text))) {
+        else if (parse_str(buf, "<url>", url)) {
             urls.push_back(url);
             continue;
         }
@@ -598,7 +599,7 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
 #endif
     }
     for (i=0; i<urls.size(); i++) {
-        out.printf("    <url>%s</url>\n", urls[i].text);
+        out.printf("    <url>%s</url>\n", urls[i].c_str());
     }
     if (!to_server && pers_file_xfer) {
         retval = pers_file_xfer->write(out);
@@ -692,7 +693,7 @@ char* FILE_INFO::get_init_url(bool is_upload) {
             }
         } else {
             start_url = current_url;
-            return urls[current_url].text;
+            return urls[current_url].c_str();
         }
     }
 }
@@ -707,7 +708,7 @@ char* FILE_INFO::get_next_url(bool is_upload) {
             return NULL;
         }
         if (is_correct_url_type(is_upload, urls[current_url])) {
-            return urls[current_url].text;
+            return urls[current_url].c_str();
         }
     }
 }
@@ -716,14 +717,14 @@ char* FILE_INFO::get_current_url(bool is_upload) {
     if (current_url < 0) {
         return get_init_url(is_upload);
     }
-    return urls[current_url].text;
+    return urls[current_url].c_str();
 }
 
-// Checks if the url includes the phrase "file_upload_handler"
-// The inclusion of this phrase indicates the url is an upload url
+// Checks if the URL includes the phrase "file_upload_handler"
+// This indicates the URL is an upload url
 // 
-bool FILE_INFO::is_correct_url_type(bool is_upload, STRING256 url) {
-    char* has_str = strstr(url.text, "file_upload_handler");
+bool FILE_INFO::is_correct_url_type(bool is_upload, std::string& url) {
+    char* has_str = strstr(url.c_str(), "file_upload_handler");
     if ((is_upload && !has_str) || (!is_upload && has_str)) {
         return false;
     } else {

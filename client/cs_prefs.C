@@ -274,7 +274,6 @@ int PROJECT::parse_preferences_for_user_files() {
     string timestamp, open_name, url, filename;
     FILE_INFO* fip;
     FILE_REF fr;
-    STRING256 url_str;
     char prefs_buf[MAX_BLOB_LEN];
     strcpy(prefs_buf, project_specific_prefs.c_str());
     p = prefs_buf;
@@ -290,14 +289,13 @@ int PROJECT::parse_preferences_for_user_files() {
         if (!parse_str(buf, "<timestamp>", timestamp)) break;
         if (!parse_str(buf, "<open_name>", open_name)) break;
         if (!parse_str(buf, "<url>", url)) break;
-        strcpy(url_str.text, url.c_str());
 
         filename = open_name + "_" + timestamp;
         fip = gstate.lookup_file_info(this, filename.c_str());
         if (!fip) {
             fip = new FILE_INFO;
             fip->project = this;
-            fip->urls.push_back(url_str);
+            fip->urls.push_back(url);
             strcpy(fip->name, filename.c_str());
             fip->is_user_file = true;
             gstate.file_infos.push_back(fip);

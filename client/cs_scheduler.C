@@ -696,7 +696,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
     }
     for (i=0; i<sr.file_deletes.size(); i++) {
-        fip = lookup_file_info(project, sr.file_deletes[i].text);
+        fip = lookup_file_info(project, sr.file_deletes[i].c_str());
         if (fip) {
             msg_printf(project, MSG_INFO, "Got server request to delete file %s\n", fip->name);
             fip->marked_for_delete = true;

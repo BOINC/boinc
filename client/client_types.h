@@ -42,10 +42,6 @@
 #define P_MEDIUM 3
 #define P_HIGH 5
 
-struct STRING256 {
-    char text[256];
-};
-
 // If the status is neither of these two,
 // it will be an error code defined in error_numbers.h,
 // indicating an unrecoverable error in the upload or download of the file,
@@ -77,7 +73,7 @@ public:
     struct RESULT* result;         // for upload files (to authenticate)
     class PROJECT* project;
     int ref_cnt;
-    std::vector<STRING256> urls;
+    std::vector<std::string> urls;
     int start_url;
     int current_url;
     char signed_xml[MAX_BLOB_LEN];
@@ -109,7 +105,7 @@ public:
     char* get_init_url(bool);
     char* get_next_url(bool);
     char* get_current_url(bool);
-    bool is_correct_url_type(bool, STRING256);
+    bool is_correct_url_type(bool, std::string&);
     bool had_failure(int& failnum, char* buf=0);
     bool verify_existing_file();
     int merge_info(FILE_INFO&);
@@ -170,7 +166,8 @@ public:
     // They may depend on the host as well as user and project
     // NOTE: if you add anything, add it to copy_state_fields() also!!!
     //
-    std::vector<STRING256> scheduler_urls;       // where to find scheduling servers
+    std::vector<std::string> scheduler_urls;
+        // where to find scheduling servers
     char project_name[256];             // descriptive.  not unique
     char user_name[256];
     char team_name[256];

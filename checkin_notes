@@ -25741,3 +25741,14 @@ David  9 Mar 2005
 
 	client/
 		gui_rpc_server.C
+
+David  9 Mar 2005
+    - get rid of the STRING256 type, and change things to std::string
+    - subscript error in SCHEDULER_OP::update_urls().
+        Not sure if this could cause the project-clobber bug
+
+    client/
+        client_types.C,h
+        cs_prefs.C
+        cs_scheduler.C
+        scheduler_op.C,h
