@@ -15588,3 +15588,13 @@ Jeff  21 July 2004
 
     sched/
 	validator.C
+
+Noaa 	21 July 2004
+
+	- changed frand's type from extern to static to match the .C definition
+	in gutil.h
+	- added gutil.C to the api's Makefile.graphics
+	
+	api/
+		gutil.h
+		Makefile.graphics

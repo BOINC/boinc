@@ -207,7 +207,7 @@ am_libboinc_api_a_OBJECTS = boinc_api.$(OBJEXT) app_ipc.$(OBJEXT) \
 	base64.$(OBJEXT) diagnostics.$(OBJEXT) exception.$(OBJEXT) \
 	parse.$(OBJEXT) shmem.$(OBJEXT) synch.$(OBJEXT) util.$(OBJEXT) \
 	x_opengl.$(OBJEXT) graphics_data.$(OBJEXT) graphics_api.$(OBJEXT) \
-	reduce.$(OBJEXT)
+	reduce.$(OBJEXT) gutil.$(OBJEXT)
 libboinc_api_a_OBJECTS = $(am_libboinc_api_a_OBJECTS)
 EXTRA_PROGRAMS = api_app$(EXEEXT) api_test$(EXEEXT)
 am_api_app_OBJECTS = api_app.$(OBJEXT) boinc_api.$(OBJEXT) \

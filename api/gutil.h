@@ -33,7 +33,7 @@ struct COLOR {
 
 extern void HLStoRGB( double H, double L, double S, COLOR& c);
 
-extern float frand();
+static float frand();
 extern void scale_screen(int w,int h);
 extern void center_screen(int w,int h);
 
