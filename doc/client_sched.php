@@ -240,11 +240,85 @@ min_results(P) = ceil(ncpus * P.resource_share)
 
 <p>
 results for project P to avoid starvation.
-The client can estimate the amount of time that will elapse until
-the number of runnable results falls below min_results(P)
-for some project P.
-When this length of time is less than T,
-it is time to get more work for project P.
+
+<p>
+Let
+<blockquote>
+ETTRC(RS, k)
+[<u>e</u>stimated <u>t</u>ime <u>t</u>o <u>r</u>esult <u>c</u>ount]
+</blockquote>
+
+be the amount of time that will elapse until the number of results in
+the set RS reaches k,
+given CPU speed, # CPUs, resource share, and active fraction.
+(The 'active fraction' is the fraction of time in which the core client
+is running.
+This statistic is continually updated.)
+
+<br>
+Let
+<blockquote>
+ETTPRC(P, k) = ETTRC(P.runnable_results, k)
+<br>
+(<u>e</u>stimated <u>t</u>ime <u>t</u>o <u>p</u>roject <u>r</u>esult
+<u>c</u>ount)
+</blockquote>
+
+<p>
+Then the amount of time that will elapse until starvation is estimated as
+<blockquote>
+min { ETTPRC(P, min_results(P)-1) } over all P.
+</blockquote>
+
+<p>
+It is time to get work for project P when
+<blockquote>
+ETTPRC(P, min_results(P)-1) < T
+</blockquote>
+where T is the connection period defined above.
+
+<h3>Computing ETTPRC(P, k)</h3>
+
+<p>
+First, define estimated_cpu_time(S) to be the total FLOP estimate for
+the results in S divided by single CPU FLOPS.
+
+<p>
+Let ordered set of results RS(P) = { R_1, R_2, ..., R_N } for project
+P be ordered by increasing deadline.
+The CPU scheduler will schedule these results in the same order.
+ETTPRC(P, k) can be approximated by
+<blockquote>
+estimated_cpu_time(R_1, R_2, ..., R_N-k) / avg_proc_rate(P)
+</blockquote>
+
+where avg_proc_rate(P) is the average number of CPU seconds completed by
+the client for project P in a second of (wall-clock) time:
+<blockquote>
+avg_proc_rate(P) = P.resource_share * ncpus * 'active fraction'.
+</blockquote>
+
+<h3>How much work to get</h3>
+
+<p>
+To only contact scheduling servers about every T days, the client
+should request enough work so that <i>for each project P</i>:
+
+<blockquote>
+ETTPRC(P, min_results(P)-1) >= 2T.
+</blockquote>
+
+More specifically, we want to get a set of results REQUEST such
+that
+<blockquote>
+ETTRC(REQUEST, 0) = 2T - ETTPRC(P, min_results(P)-1).
+</blockquote>
+
+Since requests are in terms of CPU seconds, we make a request of
+<blockquote>
+estimated_cpu_time(REQUEST) =
+avg_proc_rate * (2T - ETTPRC(P, min_results(P)-1).
+</blockquote>
 
 <h3>A sketch of the work fetch algorithm</h3>
 
@@ -262,26 +336,23 @@ DONT_NEED_WORK
 It can be called whenever the client can make a scheduler RPC.
 <p>
 <ol>
+<li>urgency = DONT_NEED_WORK
 <li>
 For each project P
 <ol>
 <li>
-Let R0...Rn-1 be P's runnable results ordered by decreasing deadline.
+Let RS(P) be P's runnable results ordered by increasing deadline.
 <li>
-Let S be the sum of estimated duration E(R) of R(min_results-1),...Rn-1,
-where E(R) is R's FLOPS estimate
-divided by this host's average processing rate times P.resource_share.
-(i.e., S is the expected time until starvation for P).
+Let S = ETTPRC(RS(P), min_results(P)-1).
 <li>
 If S < T
 <ol>
 <li>If S == 0: urgency = NEED_WORK_IMMEDIATELY
-<li>P.work_request = (2T - S) * P.resource_share * average processing rate
-<li>urgency = max(urgency, NEED_WORK)
+<li>else: urgency = max(urgency, NEED_WORK)
 </ol>
-<li>
-Else, P.work_request = 0
+<li>P.work_request = (2T - S) * avg_proc_rate(P)
 </ol>
+<li>If urgency == DONT_NEED_WORK: reset P.work_request = 0 for each P
 <li>
 Return urgency
 </ol>
@@ -298,28 +369,39 @@ data structures:
 PROJECT:
     double work_request
 
+avg_proc_rate(P):
+    return P.resource_share * ncpus * time_stats.active_frac
+
+ettprc(P, k):
+    results_to_skip = k
+    est = 0
+    foreach result R for P in order of DECREASING deadline:
+        if results_to_skip > 0:
+            results_to_skip--
+            continue
+        est += estimated_cpu_time(R) / avg_proc_rate(P)
+    return est
+
 compute_work_request():
 
-    urgency = 0
+    urgency = DONT_NEED_WORK
 
     foreach project P:
         project_active_frac = active_frac * P.resource_share
-        time_to_starvation = 0
-        results_to_skip = min_results(P) - 1
         P.work_request = 0
+        est_time_to_starvation = ettprc(P, min_results(P)-1)
 
-        foreach result R for P in order of decreasing deadline:
-            if results_to_skip > 0:
-                results_to_skip--
-                continue
-            time_to_starvation += cpu_time(R) / project_active_frac
-
-        if time_to_starvation < T:
-            if time_to_starvation == 0:
+        if est_time_to_starvation < T:
+            if est_time_to_starvation == 0:
                 urgency = NEED_WORK_IMMEDIATELY
-            P.work_request =
-                (2*T - time_to_starvation)*project_active_frac
-            urgency = max(NEED_WORK, urgency)
+            else:
+                urgency = max(NEED_WORK, urgency)
+        P.work_request =
+            (2*T - est_time_to_starvation)*avg_proc_rate(P)
+    
+    if urgnecy == DONT_NEED_WORK:
+        foreach project P:
+            P.work_request = 0
 
     return urgency
 
