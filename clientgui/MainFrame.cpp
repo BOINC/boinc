@@ -1027,19 +1027,18 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
 
                 wxString strBuffer = wxEmptyString;
                 wxString strConnectedMachine = wxEmptyString;
+                wxString strStatusText = wxEmptyString;
                 wxString strTitle = m_strBaseTitle;
                 wxString strLocale = setlocale(LC_NUMERIC, NULL);
-                wxString strStatusText = _("Connected to ");
  
                 pDoc->GetConnectedComputerName( strConnectedMachine );
                 if ( strConnectedMachine.empty() )
                 {
                     strTitle += wxT(" - (localhost)");
-                    strStatusText += wxT("localhost");
+                    strConnectedMachine += wxT("localhost");
                 }
                 else
                 {
-                    strTitle += wxT(" - (") + strConnectedMachine + wxT(")");
                     strStatusText += strConnectedMachine;
                 }
 
@@ -1047,7 +1046,8 @@ void CMainFrame::OnFrameRender( wxTimerEvent &event )
                 strBuffer.Printf(wxT("%.2f"), pDoc->GetCoreClientVersion()/100.0);
                 setlocale(LC_NUMERIC, strLocale.c_str());
 
-                strStatusText += wxT(" (") + strBuffer + wxT(")");
+                strTitle.Printf(_("%s - (%s)"), m_strBaseTitle.c_str(), strConnectedMachine.c_str());
+                strStatusText.Printf(_("Connected to %s (%s)"), strConnectedMachine.c_str(), strBuffer.c_str());
 
                 SetTitle( strTitle );
                 m_pStatusbar->m_ptxtConnected->SetLabel( strStatusText );

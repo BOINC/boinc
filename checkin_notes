@@ -25787,3 +25787,13 @@ Rom    9 Mar 2005
 
     clientgui/
         MainFrame.cpp, .h
+
+Rom    10 Mar 2005 ( On behalf of Komori H. )
+    - Bug Fix: Allow the proper translation of the status bar for languages
+        that change the ordering of works depending on context.
+    - Bug Fix: Include a meta tag in the task pane that specifies that the
+        task pane is UTF8.
+
+    clientgui/
+        MainFrame.cpp
+        BOINCTaskCtrl.cpp

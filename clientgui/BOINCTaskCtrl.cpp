@@ -57,7 +57,11 @@ CBOINCTaskCtrl::~CBOINCTaskCtrl()
 void CBOINCTaskCtrl::BeginTaskPage()
 {
     m_strTaskPage.Clear();
-    m_strTaskPage += wxT("<html><body bgcolor=\"#0080FF\">");
+    m_strTaskPage += wxT("<html>");
+    m_strTaskPage += wxT("<head>");
+    m_strTaskPage += wxT("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">");
+    m_strTaskPage += wxT("</head>");
+    m_strTaskPage += wxT("<body bgcolor=\"#0080FF\">");
 }
 
 
