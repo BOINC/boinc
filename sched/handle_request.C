@@ -614,6 +614,54 @@ void send_code_sign_key(
     }
 }
 
+// This routine examines the <min_core_client_version_announced> value
+// from config.xml.  If set, and the core client version is less than
+// this version, send a warning to users to upgrade before deadline
+// given in <min_core_client_upgrade_deadline> in Unix time(2) format
+// expires.
+//
+void warn_user_if_core_client_upgrade_scheduled(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
+) {
+
+    int core_ver;
+    
+    core_ver  = sreq.core_client_major_version*100;
+    core_ver += sreq.core_client_minor_version;
+    
+    if (core_ver < config.min_core_client_version_announced) {
+
+        // time remaining in hours, before upgrade required
+        int remaining = config.min_core_client_upgrade_deadline-time(0);
+        remaining /= 3600;
+        
+        if (0 < remaining) {
+            
+            char msg[512];
+            int days  = remaining / 24;
+            int hours = remaining % 24;
+      
+            sprintf(msg,
+                "Starting in %d days and %d hours, project will require a minimum "
+                "BOINC core client version of %d.%02d.  You are currently using"
+                "version %d.%02d; please upgrade before this time.",
+                days, hours,
+                config.min_core_client_version_announced / 100, 
+                config.min_core_client_version_announced % 100,
+                sreq.core_client_major_version,
+                sreq.core_client_minor_version
+            );
+            // perhaps we should make this low priority until (say)
+            // three days are left.  Then bump to high.
+            //           
+            USER_MESSAGE um(msg, "high");
+            reply.insert_message(um);
+        }
+    }
+    return;
+}
+
+
 bool wrong_core_client_version(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
 ) {
@@ -758,8 +806,10 @@ void process_request(
         if (sreq.results.size() == 0) {
             return;
         }
+    } else {
+        warn_user_if_core_client_upgrade_scheduled(sreq, reply);
     }
-
+  
     // if there's no work, and client isn't returning results,
     // this isn't an initial RPC,
     // and client is requesting work, return without accessing DB
@@ -1048,6 +1098,9 @@ void handle_request(
 		//
         delete_file_from_host(sreq, sreply);
     }
+
+    // If host has a BOINC core client version that is set to expire 
+
     
 #if 1
     // You can call debug_sched() for whatever situation is of

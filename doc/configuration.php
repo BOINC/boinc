@@ -34,18 +34,21 @@ htmlspecialchars("
     <stripchart_cgi_url>    http://A/URL          </stripchart_cgi_url>
     <log_dir>               /path/to/directory    </log_dir>
 
-    [ <disable_account_creation/>                                               ]
-    [ <show_results/>                                                           ]
-    [ <one_result_per_user_per_wu/>                                             ]
-    [ <max_wus_to_send>                  N   </max_wus_to_send>                 ]
-    [ <min_sendwork_interval>            N   </min_sendwork_interval>           ]
-    [ <daily_result_quota>               N   </daily_result_quota>              ]
-    [ <enforce_delay_bound/>                                                    ]
-    [ <locality_scheduling/>                                                    ]
-    [ <locality_scheduling_wait_period>  N   </locality_scheduling_wait_period> ]
-    [ <min_core_client_version>          N   </min_core_client_version          ]
-    [ <choose_download_url_by_timezone/>                                        ]
-    [ <cache_md5_info/>                                                         ]
+    [ <disable_account_creation/>                                                ]
+    [ <show_results/>                                                            ]
+    [ <one_result_per_user_per_wu/>                                              ]
+    [ <max_wus_to_send>                  N    </max_wus_to_send>                 ]
+    [ <min_sendwork_interval>            N    </min_sendwork_interval>           ]
+    [ <daily_result_quota>               N    </daily_result_quota>              ]
+    [ <enforce_delay_bound/>                                                     ]
+    [ <locality_scheduling/>                                                     ]
+    [ <locality_scheduling_wait_period>  N    </locality_scheduling_wait_period> ]
+    [ <min_core_client_version>          N    </min_core_client_version          ]
+    [ <choose_download_url_by_timezone/>                                         ]
+    [ <cache_md5_info/>                                                          ]
+    [ <min_core_client_version_announced> N </min_core_client_version_announced> ]
+    [ <min_core_client_upgrade_deadline>  N </min_core_client_upgrade_deadline>  ]
+
 
     <!-- optional; defaults as indicated: -->
     <project_dir>  ../      </project_dir>  <!-- relative to location of 'start' -->
@@ -216,6 +219,18 @@ list_item("cache_md5_info",
       greatly reduce the time needed to create work, if (1) these files
       are re-used, and (2) there are many of these files, and (3) reading
       the files from disk is time-consuming."
+);
+list_item("min_core_client_version_announced",
+     "Announce a new version of the BOINC core client, which in the future
+      will be the minimum required version.  In conjunction with the next
+      tag, you can warn users with version below this to upgrade by a
+      specified deadline.  Example value: 419."
+);
+list_item("min_core_client_upgrade_deadline",
+    "Use in conjunction with the previous tag.  The value given here is the
+     Unix epoch returned by time(2) until which hosts can update their
+     core client.  After this time, they may be shut out of the project.
+     Before this time, they will receive messages warning them to upgrade."
 );
 list_end();
 

@@ -59,6 +59,8 @@ public:
     int locality_scheduling_wait_period;
     int locality_scheduling_send_timeout;
     int min_core_client_version;
+    int min_core_client_version_announced;
+    int min_core_client_upgrade_deadline;
     bool choose_download_url_by_timezone;
     bool cache_md5_info;
 

@@ -24317,4 +24317,18 @@ Rom    8 Feb 2005
         stdafx.cpp, .h ( added )
     win_build/installerv2/Windows/x86/
         shutdown.dll
-    
+
+Bruce 8 Feb 2005
+    Added new tag pair to config.xml:
+    <min_core_client_version_announced> N </min_core_client_version_announced>
+    <min_core_client_upgrade_deadline>  M </min_core_client_upgrade_deadline>
+    This is used to warn users in advance if a new minimum core client is going
+    to be required.  Users have until time 'M' (Unix epoch time(2) format)
+    to upgrade. Not yet tested.
+
+    doc/
+        configuration.php
+    sched/
+        handle_request.C
+        sched_config.C
+        sched_config.h
