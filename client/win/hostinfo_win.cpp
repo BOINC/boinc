@@ -18,6 +18,7 @@
 //
 
 #include <afxwin.h>
+#include <winsock.h>
 #include "client_types.h"
 #include "hostinfo.h"
 
@@ -175,9 +176,19 @@ int get_host_info(HOST_INFO& host) {
     }
         
 	get_host_disk_info(host.d_total, host.d_free);
-      
+    
+	// Open the WinSock dll so we can get host info
+    WORD    wVersionRequested;
+	WSADATA wsdata;
+	wVersionRequested = MAKEWORD(1, 1);
+	WSAStartup(wVersionRequested, &wsdata);
+
+	// Get host name/ip info
     get_local_domain_name(host.domain_name);
     get_local_ip_addr_str(host.ip_addr);
+
+	// Close the WinSock dll
+	WSACleanup();
 
 	host.timezone = get_timezone();
 
