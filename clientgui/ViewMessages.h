@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.4  2004/09/29 22:20:43  rwalton
+// *** empty log message ***
+//
 // Revision 1.3  2004/09/25 21:33:23  rwalton
 // *** empty log message ***
 //
@@ -75,6 +78,9 @@ private:
     bool                    m_bTipsHeaderHidden;
 
     bool                    m_bItemSelected;
+
+    wxListItemAttr*         m_pMessageInfoAttr;
+    wxListItemAttr*         m_pMessageErrorAttr;
 
     virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();

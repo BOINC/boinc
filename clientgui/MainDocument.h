@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.14  2004/09/29 22:20:43  rwalton
+// *** empty log message ***
+//
 // Revision 1.13  2004/09/28 01:19:46  rwalton
 // *** empty log message ***
 //
@@ -72,29 +75,37 @@ public:
     ~CMainDocument();
 
     //
+    // Global
+    //
+private:
+
+    RPC_CLIENT                  rpc;
+
+
+    //
     // Project Tab
     //
 private:
-    RPC_CLIENT                  rpc;
 
     PROJECTS                    project_status;
-    bool                        m_bCachedProjectStatusLocked;
+    float                       m_fProjectTotalResourceShare;
 
     wxInt32                     CachedProjectStatusUpdate();
 
 public:
-
-    wxInt32                     CachedProjectStatusLock();
-    wxInt32                     CachedProjectStatusUnlock();
 
     wxInt32                     GetProjectCount();
     wxInt32                     GetProjectProjectName(wxInt32 iIndex, wxString& strBuffer);
     wxInt32                     GetProjectProjectURL(wxInt32 iIndex, wxString& strBuffer);
     wxInt32                     GetProjectAccountName(wxInt32 iIndex, wxString& strBuffer);
     wxInt32                     GetProjectTeamName(wxInt32 iIndex, wxString& strBuffer);
-    wxInt32                     GetProjectTotalCredit(wxInt32 iIndex, wxString& strBuffer);
-    wxInt32                     GetProjectAvgCredit(wxInt32 iIndex, wxString& strBuffer);
-    wxInt32                     GetProjectResourceShare(wxInt32 iIndex, wxString& strBuffer);
+    wxInt32                     GetProjectTotalCredit(wxInt32 iIndex, float& fBuffer);
+    wxInt32                     GetProjectAvgCredit(wxInt32 iIndex, float& fBuffer);
+    wxInt32                     GetProjectResourceShare(wxInt32 iIndex,  float& fBuffer);
+    wxInt32                     GetProjectTotalResourceShare(wxInt32 iIndex,  float& fBuffer);
+    wxInt32                     GetProjectMinRPCTime(wxInt32 iIndex, wxInt32& iBuffer);
+    bool                        IsProjectSuspended(wxInt32 iIndex);
+    bool                        IsProjectRPCPending(wxInt32 iIndex);
 
     wxInt32                     ProjectAttach( wxString& strURL, wxString& strAccountKey );
     wxInt32                     ProjectDetach( wxString& strURL );
@@ -103,12 +114,31 @@ public:
     wxInt32                     ProjectSuspend( wxString& strURL );
     wxInt32                     ProjectResume( wxString& strURL );
 
+
+    //
+    // Messages Tab
+    //
+private:
+
+    MESSAGES                    messages;
+    wxInt32                     m_iMessageSequenceNumber;
+
+    wxInt32                     CachedMessageUpdate();
+
+public:
+
+    wxInt32                     GetMessageCount();
+    wxInt32                     GetMessageProjectName(wxInt32 iIndex, wxString& strBuffer);
+    wxInt32                     GetMessageTime(wxInt32 iIndex, wxDateTime& dtBuffer);
+    wxInt32                     GetMessagePriority(wxInt32 iIndex, wxInt32& iBuffer);
+    wxInt32                     GetMessageMessage(wxInt32 iIndex, wxString& strBuffer);
+
+
 private:
 
     CC_STATE                    state;
     RESULTS                     results;
     FILE_TRANSFERS              ft;
-    MESSAGES                    messages;
     wxDateTime                  m_dtCachedStateTimestamp;
     wxDateTime                  m_dtCachedStateLockTimestamp;
     bool                        m_bCachedStateLocked;
@@ -140,12 +170,6 @@ public:
     wxString                    GetTransferSpeed(wxInt32 iIndex);
     wxString                    GetTransferStatus(wxInt32 iIndex);
     wxString                    GetTransferTime(wxInt32 iIndex);
-
-    wxInt32                     GetMessageCount();
-    wxString                    GetMessageProjectName(wxInt32 iIndex);
-    wxString                    GetMessageTime(wxInt32 iIndex);
-    wxInt32                     GetMessagePriority(wxInt32 iIndex);
-    wxString                    GetMessageMessage(wxInt32 iIndex);
 
 };
 

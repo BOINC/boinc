@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/09/29 22:20:43  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/09/28 01:19:46  rwalton
 // *** empty log message ***
 //
@@ -97,6 +100,7 @@
 #define COLUMN_TOTALCREDIT          3
 #define COLUMN_AVGCREDIT            4
 #define COLUMN_RESOURCESHARE        5
+#define COLUMN_STATUS               6
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewProjects, CBOINCBaseView)
@@ -141,6 +145,7 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_TOTALCREDIT, _("Total Credit"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_AVGCREDIT, _("Avg. Credit"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_RESOURCESHARE, _("Resource Share"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, -1);
 
     m_bTipsHeaderHidden = false;
 
@@ -228,7 +233,11 @@ void CViewProjects::OnListDeselected ( wxListEvent& event )
 
 
 wxString CViewProjects::OnListGetItemText(long item, long column) const {
+
     wxString strBuffer;
+    float fBuffer;
+    float fBuffer2;
+
     switch(column) {
         case COLUMN_PROJECT:
             wxGetApp().GetDocument()->GetProjectProjectName(item, strBuffer);
@@ -240,13 +249,36 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const {
             wxGetApp().GetDocument()->GetProjectTeamName(item, strBuffer);
             break;
         case COLUMN_TOTALCREDIT:
-            wxGetApp().GetDocument()->GetProjectTotalCredit(item, strBuffer);
+            wxGetApp().GetDocument()->GetProjectTotalCredit(item, fBuffer);
+            strBuffer.Printf(wxT("%0.2f"), fBuffer);
             break;
         case COLUMN_AVGCREDIT:
-            wxGetApp().GetDocument()->GetProjectAvgCredit(item, strBuffer);
+            wxGetApp().GetDocument()->GetProjectAvgCredit(item, fBuffer);
+            strBuffer.Printf(wxT("%0.2f"), fBuffer);
             break;
         case COLUMN_RESOURCESHARE:
-            wxGetApp().GetDocument()->GetProjectResourceShare(item, strBuffer);
+            wxGetApp().GetDocument()->GetProjectResourceShare(item, fBuffer);
+            wxGetApp().GetDocument()->GetProjectTotalResourceShare(item, fBuffer2);
+            strBuffer.Printf(wxT("%0.0f ( %0.2f%% )"), fBuffer, ((fBuffer / fBuffer2) * 100));
+            break;
+        case COLUMN_STATUS:
+            if      (wxGetApp().GetDocument()->IsProjectSuspended(item))
+            {
+                strBuffer = _("Project Suspended");
+            } 
+            else if (wxGetApp().GetDocument()->IsProjectRPCPending(item))
+            {
+                wxInt32 iNextRPC;
+                wxGetApp().GetDocument()->GetProjectMinRPCTime(item, iNextRPC);
+
+                wxDateTime dtNextRPC((time_t)iNextRPC);
+
+                if (dtNextRPC > wxDateTime::Now())
+                {
+                    wxTimeSpan tsNextRPC(dtNextRPC - wxDateTime::Now());
+                    strBuffer = _("Retry in ") + tsNextRPC.Format();
+                }
+            }
             break;
     }
     return strBuffer;
@@ -599,8 +631,18 @@ void CViewProjects::UpdateSelection()
         m_bTaskAttachToProjectHidden = false;
         m_bTaskDetachFromProjectHidden = false;
         m_bTaskResetProjectHidden = false;
-        m_bTaskSuspendProjectHidden = false;
-        m_bTaskResumeProjectHidden = false;
+
+        if ( wxGetApp().GetDocument()->IsProjectSuspended(lSelected) )
+        {
+            m_bTaskSuspendProjectHidden = true;
+            m_bTaskResumeProjectHidden = false;
+        }
+        else
+        {
+            m_bTaskSuspendProjectHidden = false;
+            m_bTaskResumeProjectHidden = true;
+        }
+
         m_bTaskUpdateProjectHidden = false;
 
         m_bWebsiteHeaderHidden = false;

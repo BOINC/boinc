@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  2004/09/29 22:20:43  rwalton
+// *** empty log message ***
+//
 // Revision 1.4  2004/09/25 21:33:23  rwalton
 // *** empty log message ***
 //
@@ -70,6 +73,9 @@
 #define COLUMN_TIME                 1
 #define COLUMN_MESSAGE              2
 
+#define PRIORITY_INFO               1
+#define PRIORITY_ERROR              2
+
 
 IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)
 
@@ -105,6 +111,9 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, -1);
     m_pListPane->InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, -1);
 
+    m_pMessageInfoAttr = new wxListItemAttr( *wxBLACK, *wxWHITE, wxNullFont );
+    m_pMessageErrorAttr = new wxListItemAttr( *wxRED, *wxWHITE, wxNullFont );
+
     m_bTipsHeaderHidden = false;
 
     SetCurrentQuickTip(
@@ -118,6 +127,17 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
 
 CViewMessages::~CViewMessages()
 {
+    if ( m_pMessageInfoAttr )
+    {
+        delete m_pMessageInfoAttr;
+        m_pMessageInfoAttr = NULL;
+    }
+
+    if ( m_pMessageErrorAttr )
+    {
+        delete m_pMessageErrorAttr;
+        m_pMessageErrorAttr = NULL;
+    }
 }
 
 
@@ -192,27 +212,45 @@ void CViewMessages::OnListDeselected ( wxListEvent& event )
 
 wxString CViewMessages::OnListGetItemText( long item, long column ) const
 {
-    wxString strBuffer;
-    switch(column) {
+    wxString   strBuffer;
+    wxDateTime dtBuffer(wxDateTime::Now());
+
+    switch(column)
+    {
         case COLUMN_PROJECT:
-            if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
-            strBuffer = wxGetApp().GetDocument()->GetMessageProjectName(item);
+            wxGetApp().GetDocument()->GetMessageProjectName(item, strBuffer);
             break;
         case COLUMN_TIME:
-            strBuffer = wxGetApp().GetDocument()->GetMessageTime(item);
+            wxGetApp().GetDocument()->GetMessageTime(item, dtBuffer);
+            strBuffer = dtBuffer.Format();
             break;
         case COLUMN_MESSAGE:
-            strBuffer = wxGetApp().GetDocument()->GetMessageMessage(item);
-            if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
+            wxGetApp().GetDocument()->GetMessageMessage(item, strBuffer);
             break;
     }
+
     return strBuffer;
 }
 
 
 wxListItemAttr* CViewMessages::OnListGetItemAttr( long item ) const
 {
-    return NULL;
+    wxListItemAttr* pAttribute = NULL;
+    wxInt32 iBuffer = 0;
+
+    wxGetApp().GetDocument()->GetMessagePriority(item, iBuffer);
+
+    switch(iBuffer)
+    {
+        case PRIORITY_INFO:
+            pAttribute = m_pMessageInfoAttr;
+            break;
+        case PRIORITY_ERROR:
+            pAttribute = m_pMessageErrorAttr;
+            break;
+    }
+
+    return pAttribute;
 }
 
 

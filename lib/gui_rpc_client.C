@@ -1109,8 +1109,6 @@ int RPC_CLIENT::get_messages( int nmessages, int seqno, MESSAGES& msgs) {
     RPC rpc(this);
     int retval;
 
-    msgs.clear();
-
     sprintf(buf,
         "<get_messages>\n"
         "  <nmessages>%d</nmessages>\n"
