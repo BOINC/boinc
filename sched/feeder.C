@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -139,7 +139,7 @@ try_again:
                     retval = result.enumerate(clause);
                     log_messages.printf(SchedMessages::DEBUG, "restarting enumeration\n");
                     if (retval) {
-                        log_messages.printf(SchedMessages::NORMAL, "enumeration restart returned nothing\n");
+                        log_messages.printf(SchedMessages::DEBUG, "enumeration restart returned nothing\n");
                         no_wus = true;
                         break;
                     }
@@ -155,7 +155,8 @@ try_again:
                     goto try_again;
                 }
                 if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
-                    log_messages.printf(SchedMessages::NORMAL, "RESULT STATE CHANGED: %s\n", result.name);
+                    log_messages.printf(SchedMessages::NORMAL, "[%s] RESULT STATE CHANGED\n",
+                                        result.name);
                     goto try_again;
                 }
                 collision = false;
@@ -169,10 +170,14 @@ try_again:
                     }
                 }
                 if (!collision) {
-                    log_messages.printf(SchedMessages::DEBUG, "adding result %d in slot %d\n", result.id, i);
+                    log_messages.printf(SchedMessages::DEBUG,
+                                        "[%s] adding result in slot %d\n",
+                                        result.name, i);
                     retval = wu.lookup_id(result.workunitid);
                     if (retval) {
-                        log_messages.printf(SchedMessages::CRITICAL, "can't read workunit %d: %d\n", result.workunitid, retval);
+                        log_messages.printf(SchedMessages::CRITICAL,
+                                            "[%s] can't read workunit #%d: %d\n",
+                                            result.name, result.workunitid, retval);
                         continue;
                     }
                     ssp->wu_results[i].result = result;
@@ -184,17 +189,17 @@ try_again:
         }
         ssp->ready = true;
         if (nadditions == 0) {
-            log_messages.printf(SchedMessages::DEBUG, "no results added\n");
+            log_messages.printf(SchedMessages::DEBUG, "No results added; sleeping 1 sec\n");
             sleep(1);
         } else {
-            log_messages.printf(SchedMessages::DEBUG, "added %d results to array\n", nadditions);
+            log_messages.printf(SchedMessages::DEBUG, "Added %d results to array\n", nadditions);
         }
         if (no_wus) {
-            log_messages.printf(SchedMessages::DEBUG, "feeder: no results available\n");
+            log_messages.printf(SchedMessages::DEBUG, "No results available; sleeping 5 sec\n");
             sleep(5);
         }
         if (ncollisions) {
-            log_messages.printf(SchedMessages::DEBUG, "feeder: some results already in array - sleeping\n");
+            log_messages.printf(SchedMessages::DEBUG, "Some results already in array - sleeping 5 sec\n");
             sleep(5);
         }
         fflush(stdout);

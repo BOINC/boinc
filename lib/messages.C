@@ -11,7 +11,7 @@
 // The Original Code is the Berkeley Open Infrastructure for Network Computing.
 //
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// Portions created by the SETI@home project are Copyright (C) 2002
 // University of California at Berkeley. All Rights Reserved.
 //
 // Contributor(s):
@@ -23,6 +23,36 @@
 #include <string>
 #include <fstream>
 using namespace std;
+
+//////////////////////////////////////////////////////////////////////
+//
+// Messages is a base class for writing messages not intended for the end
+// user.  This includes all server messages and client debugging messages.
+// SchedMessages (in sched/sched_messages.C) decides which scheduler messages
+// to print and formats the "kind" keyword; ClientMessages does the same thing
+// for client debugging output.
+//
+// Messages has an "indent_level" state for how many spaces to indent output.
+// This corresponds in general to the function-call recursion level.  Call
+// Messages::enter_level() to increase by 1 level and leave_level() to
+// decrease by 1 level.  The ScopeMessages class takes care of calling
+// leave_level() for you.  Create a ScopeMessages object on the stack at the
+// beginning of a function; it will increment the level by 1 on construction,
+// and decrement the level by 1 on destruction at end of scope.  This way you
+// don't have to worry about decrementing before mid-function returns,
+// exceptions, etc.
+
+// Each [v]printf* function prints the timestamp, the formatted KIND string,
+// indentation level, then the specified string.  The string to print can be
+// a one-line string (including the trailing \n), a multi-line string (it's
+// broken up into lines to get the prefix on each line), or a file (also
+// broken up into lines).
+
+// Scheduler functions should use "log_messages" which is an instance of
+// SchedMessages.  Client functions should use "log_messages" (also) which is
+// an instance of ClientMessages.
+
+// See sched/sched_messages.C and client/client_messages.C for those classes.
 
 Messages::Messages(FILE* output_)
 {
@@ -119,6 +149,11 @@ void Messages::printf_file(int kind, const char* filename, const char* prefix_fo
     vprintf_file(kind, filename, prefix_format, va);
     va_end(va);
 }
+
+//////////////////////////////////////////////////////////////////////
+// These ScopeMessages functions are utility functions that call their
+// corresponding Messages functions with the same name, passing the KIND that
+// was specified on creation of the ScopeMessages object.
 
 void ScopeMessages::printf(const char* format, ...)
 {

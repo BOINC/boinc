@@ -5178,7 +5178,7 @@ David  July 1 2003
         db_form.php
         index.php
 
-Karl    2003/07/01
+Karl    2003/07/01-02
     - redesigned logging facilities for both scheduler servers and client
         It is now easy to see the flow of events from looking at client.out
 

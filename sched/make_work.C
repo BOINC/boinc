@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -163,12 +163,12 @@ void make_work() {
                         new_pathname, "%s/%s",config.download_dir, new_file_name
                     );
                     sprintf(command,"ln %s %s", pathname, new_pathname);
+                    log_messages.printf(SchedMessages::DEBUG, "executing command: %s\n", command);
                     if (system(command)) {
                         log_messages.printf(SchedMessages::CRITICAL, "system() error\n");
                         perror(command);
                         exit(1);
                     }
-                    log_messages.printf(SchedMessages::NORMAL, "%s\n", command);
                     strcpy(new_buf, starting_xml);
                     replace_file_name(
                         new_buf, file_name, new_file_name, config.download_url
@@ -183,14 +183,14 @@ void make_work() {
             wu.create_time = time(0);
             retval = wu.insert();
             wu.id = boinc_db_insert_id();
-            log_messages.printf(SchedMessages::DEBUG, "Created new WU: %s\n", wu.name);
+            log_messages.printf(SchedMessages::DEBUG, "[%s] Created new WU\n", wu.name, wu.id);
         }
         sprintf(suffix, "%d_%d", start_time, seqno++);
         create_result(
             wu, result_template, suffix, key,
             config.upload_url, config.download_url
         );
-        log_messages.printf(SchedMessages::DEBUG, "added result: %s_%s\n", wu.name, suffix);
+        log_messages.printf(SchedMessages::DEBUG, "[%s_%s] Added result\n", wu.name, suffix);
         nresults_left--;
     }
 }

@@ -11,7 +11,7 @@
 // The Original Code is the Berkeley Open Infrastructure for Network Computing.
 //
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// Portions created by the SETI@home project are Copyright (C) 2002
 // University of California at Berkeley. All Rights Reserved.
 //
 // Contributor(s):

@@ -8,20 +8,21 @@ void assimilate_handler(
     WORKUNIT& wu, vector<RESULT>& results, RESULT& canonical_result
     )
 {
-    log_messages.printf(SchedMessages::NORMAL, "[%s] Assimilating\n", wu.name);
+    ScopeMessages scope_messages(log_messages, SchedMessages::NORMAL);
+    scope_messages.printf("[%s] Assimilating\n", wu.name);
     if (wu.canonical_resultid) {
-        log_messages.printf(SchedMessages::NORMAL, "canonical result:\n");
-        log_messages.printf_multiline(SchedMessages::NORMAL, canonical_result.xml_doc_out, "[%s] ", wu.name);
+        scope_messages.printf("[%s] Found canonical result\n", wu.name);
+        log_messages.printf_multiline(SchedMessages::DEBUG, canonical_result.xml_doc_out, "[%s] canonical result", wu.name);
     } else {
-        log_messages.printf(SchedMessages::NORMAL, "no canonical result\n");
+        scope_messages.printf("[%s] No canonical result\n", wu.name);
     }
     if (wu.error_mask&WU_ERROR_COULDNT_SEND_RESULT) {
-        log_messages.printf(SchedMessages::NORMAL, "Error: couldn't send a result\n");
+        log_messages.printf(SchedMessages::CRITICAL, "[%s] Error: couldn't send a result\n", wu.name);
     }
     if (wu.error_mask&WU_ERROR_TOO_MANY_ERROR_RESULTS) {
-        log_messages.printf(SchedMessages::NORMAL, "Error: too many error results\n");
+        log_messages.printf(SchedMessages::CRITICAL, "[%s] Error: too many error results\n", wu.name);
     }
     if (wu.error_mask&WU_ERROR_TOO_MANY_RESULTS) {
-        log_messages.printf(SchedMessages::NORMAL, "Error: too many total results\n");
+        log_messages.printf(SchedMessages::CRITICAL, "[%s] Error: too many total results\n", wu.name);
     }
 }

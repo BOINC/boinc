@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -96,15 +96,17 @@ void handle_wu(DB_WORKUNIT& wu) {
 
     if (wu.canonical_resultid) {
         log_messages.printf(SchedMessages::NORMAL,
-                  "validating WU %s; already have canonical result\n", wu.name
-            );
+                            "[%s] handle_wu(): Already has canonical result\n", wu.name);
+        ++log_messages;
 
         // Here if WU already has a canonical result.
         // Get unchecked results and see if they match the canonical result
         //
         retval = canonical_result.lookup_id(wu.canonical_resultid);
         if (retval) {
-            log_messages.printf(SchedMessages::NORMAL, "can't read canonical result\n");
+            log_messages.printf(SchedMessages::CRITICAL,
+                                "[%s] Can't read canonical result; marking as validated\n",
+                                wu.name);
             // Mark this WU as validated, otherwise we'll keep checking it
             goto mark_validated;
         }
@@ -120,26 +122,33 @@ void handle_wu(DB_WORKUNIT& wu) {
                 retval = check_pair(result, canonical_result, match);
                 if (retval) {
                     log_messages.printf(SchedMessages::DEBUG,
-                              "validate: pair_check failed for result %d\n", result.id);
+                                        "[%s]: pair_check() failed for result\n",
+                                        result.name);
                     continue;
                 } else {
                     if (match) {
                         result.validate_state = VALIDATE_STATE_VALID;
                         result.granted_credit = wu.canonical_credit;
-                        printf("setting result %d to valid; credit %f\n", result.id, result.granted_credit);
+                        log_messages.printf(SchedMessages::NORMAL,
+                                            "[%s] pair_check() matched: setting result to valid; credit %f\n",
+                                            result.name, result.granted_credit);
                     } else {
                         result.validate_state = VALIDATE_STATE_INVALID;
-                        printf("setting result %d to invalid\n", result.id);
+                        log_messages.printf(SchedMessages::NORMAL,
+                                            "[%s] pair_check() didn't match: setting result to invalid\n",
+                                            result.name);
                     }
                 }
                 retval = result.update();
                 if (retval) {
-                    log_messages.printf(SchedMessages::CRITICAL, "Can't update result\n");
+                    log_messages.printf(SchedMessages::CRITICAL,
+                                        "[%s] Can't update result\n", result.name);
                     continue;
                 }
                 retval = grant_credit(result, result.granted_credit);
                 if (retval) {
-                    log_messages.printf(SchedMessages::NORMAL, "Can't grant credit\n");
+                    log_messages.printf(SchedMessages::NORMAL,
+                                        "[%s] Can't grant credit\n", result.name);
                     continue;
                 }
             }
@@ -150,7 +159,9 @@ void handle_wu(DB_WORKUNIT& wu) {
         // Here if WU doesn't have a canonical result yet.
         // Try to get one
 
-        log_messages.printf(SchedMessages::DEBUG, "validating WU %s; no canonical result\n", wu.name);
+        log_messages.printf(SchedMessages::NORMAL,
+                            "[%s] handle_wu(): No canonical result yet\n", wu.name);
+        ++log_messages;
 
         sprintf(buf, "where workunitid=%d", wu.id);
         while (!result.enumerate(buf)) {
@@ -160,11 +171,15 @@ void handle_wu(DB_WORKUNIT& wu) {
                 results.push_back(result);
             }
         }
-        log_messages.printf(SchedMessages::DEBUG, "found %d successful results\n", results.size());
+        log_messages.printf(SchedMessages::DEBUG, "[%s] Found %d successful results\n",
+                            wu.name, results.size());
         if (results.size() >= (unsigned int)min_quorum) {
+            log_messages.printf(SchedMessages::DEBUG, "[%s] Enough for quorum, checking set.\n", wu.name);
             retval = check_set(results, canonicalid, credit);
             if (!retval && canonicalid) {
-                log_messages.printf(SchedMessages::DEBUG, "found a canonical result\n");
+                log_messages.printf(SchedMessages::DEBUG,
+                                    "[%s] Found a canonical result: id=%d\n",
+                                    wu.name, canonicalid);
                 wu.canonical_resultid = canonicalid;
                 wu.canonical_credit = credit;
                 wu.assimilate_state = ASSIMILATE_READY;
@@ -178,12 +193,13 @@ void handle_wu(DB_WORKUNIT& wu) {
                         update_result = true;
                         retval = grant_credit(result, credit);
                         if (retval) {
-                            log_messages.printf(SchedMessages::DEBUG, "validate: grant_credit %d\n", retval );
+                            log_messages.printf(SchedMessages::DEBUG,
+                                                "[%s] grant_credit() returned %d\n", result.name, retval );
                         }
                         result.granted_credit = credit;
                         log_messages.printf(SchedMessages::NORMAL,
-                                  "updating result %d to %d; credit %f\n",
-                                  result.id, result.validate_state, credit );
+                                            "[%s] Granted %f credit to valid result\n",
+                                            result.name, result.granted_credit);
                     }
 
                     // don't send any unsent results
@@ -198,7 +214,8 @@ void handle_wu(DB_WORKUNIT& wu) {
                     if (update_result) {
                         retval = result.update();
                         if (retval) {
-                            log_messages.printf(SchedMessages::CRITICAL, "validate: boinc_db_result_update %d\n", retval );
+                            log_messages.printf(SchedMessages::CRITICAL,
+                                                "[%s] result.update() = %d\n", result.name, retval );
                         }
                     }
                 }
@@ -206,13 +223,16 @@ void handle_wu(DB_WORKUNIT& wu) {
         }
     }
 
+    --log_messages;
+
     mark_validated:
     // we've checked all results for this WU, so turn off flag
     //
     wu.need_validate = 0;
     retval = wu.update();
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "db_workunit_update: %d\n", retval);
+        log_messages.printf(SchedMessages::CRITICAL,
+                            "[%s] wu.update() = %d\n", wu.name, retval);
     }
 }
 
@@ -308,7 +328,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
     write_pid_file(PIDFILE);
-    log_messages.printf(SchedMessages::NORMAL, "Starting validator; min_quorum %d\n", min_quorum);
+    log_messages.printf(SchedMessages::NORMAL, "Starting validator: min_quorum %d\n", min_quorum);
 
     install_sigint_handler();
 
