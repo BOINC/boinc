@@ -237,7 +237,7 @@ int main(int argc, char** argv) {
 
     // Call lock_file after fork(), because file locks are not always inherited
     if (lock_file(LOCKFILE)) {
-        fprintf(stderr, "Another copy of feeder is already running\n");
+        write_log("Another copy of feeder is already running\n", MSG_NORMAL);
         exit(1);
     }
 

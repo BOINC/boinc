@@ -569,7 +569,7 @@ int main(int argc, char** argv) {
     }
 
     if (lock_file(LOCKFILE)) {
-        fprintf(stderr, "Another copy of db_dump is already running\n");
+        write_log("Another copy of db_dump is already running\n", MSG_NORMAL);
         exit(1);
     }
 
