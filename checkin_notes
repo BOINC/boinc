@@ -8344,9 +8344,16 @@ Eric K.  12/11/2003
 
 	Added check for strlcpy() to configure.ac and definition of
 	strlcpy() to std_fixes.h.
+	Added C++ header and namespace checks to m4 and config.h
+	Added include of "std_fixes.h" to boinc_db.C
 
+   aclocal.m4
    configure.ac 
    configure 
-   config.h
+   config.h.in
    lib/std_fixes.h
+   m4/sah_namespace.m4
+   m4/sah_header_stdcxx.m4
+
+
 

@@ -1064,3 +1064,108 @@ AC_SUBST(MYSQL_LIBS)
 AC_SUBST(MYSQL_CFLAGS)
 ])
 
+# SETI_BOINC is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free
+# Software Foundation; either version 2, or (at your option) any later
+# version.
+
+AC_PREREQ([2.54])
+	
+AC_DEFUN([SAH_HEADER_STDCXX],[
+  save_inc="$ac_includes_default"
+  ac_includes_default="$ac_includes_default 
+#define CONFIG_TEST
+#include \"lib/std_fixes.h\" 
+"
+  sah_stdcxx_headers="algorithm bitset cassert cctype cerrno cfloat climits clocale cmath complex csetjmp csignal cstdarg cstddef cstdio cstdlib cstring ctime deque fstream functional iomanip ios iosfwd iostream istream iterator limits list locale map memory numeric ostream queue set sstream stack stdexcept streambuf string utility valarray vector"
+  AC_LANG_PUSH(C++) 
+  AC_CHECK_HEADERS([$sah_stdcxx_headers])
+  for header in $sah_stdcxx_headers 
+  do
+    eval tmp_var=\$ac_cv_header_${header}
+    if test "$tmp_var" = "yes"
+    then 
+      sah_cxx_includes="$sah_cxx_includes 
+#include <$header>
+"
+    fi
+  done
+  AC_CACHE_SAVE
+  AC_LANG_POP
+  ac_includes_default="$save_inc"
+  CONFIG_TEST=
+])
+
+
+# The contents of this file are subject to the BOINC Public License
+# Version 1.0 (the "License"); you may not use this file except in
+# compliance with the License. You may obtain a copy of the License at
+# http://boinc.berkeley.edu/license_1.0.txt
+#
+# Revision Log:
+# $Log$
+# Revision 1.55  2003/12/11 18:37:40  korpela
+# Added C++ namespace and header checks
+#
+# Revision 1.5  2003/12/03 23:46:11  korpela
+# Fixed "sah_namespaces.m4" not to rely on "tr".
+#
+#
+
+AC_PREREQ([2.54])
+
+
+AC_DEFUN([SAH_LC_TO_DEFN],[
+  $1=`echo $2 | $AWK '{split($[]1,a,"(");print a[[ 1 ]]}' | $as_tr_cpp`
+])
+
+AC_DEFUN([SAH_NS_TO_DEFN],[
+  $1=`echo $2 | $as_tr_cpp`
+])
+
+AC_DEFUN([SAH_CHECK_NAMESPACES],[
+  AC_LANG_PUSH(C++)
+  AC_MSG_CHECKING(for C++ namespaces)
+  AC_COMPILE_IFELSE([
+    AC_LANG_PROGRAM([
+      #define CONFIG_TEST
+      namespace foo {
+        int foo(void) { return(0); }
+      }
+    ],[
+      return foo::foo();
+    ])
+  ], [AC_DEFINE(HAVE_NAMESPACES,[1],[Define if your C++ compiler supports namespaces]) sah_cv_have_namespaces="yes"], [sah_cv_have_namespaces="no"])
+  AC_MSG_RESULT($sah_cv_have_namespaces)
+  AC_LANG_POP
+])
+
+AC_DEFUN([SAH_FUNCS_IN_NAMESPACE],[
+  AC_LANG_PUSH(C++)
+  for func_name in $1 
+  do
+    func_name=m4_quote($func_name)
+    t_ns=m4_quote($2)
+    AC_MSG_CHECKING([$func_name in namespace $t_ns])
+    SAH_LC_TO_DEFN(ac_func_upper,[$func_name]) 
+    SAH_LC_TO_DEFN(ac_namespace_upper,[$t_ns]) 
+    ac_uc_defn=`echo HAVE_"$ac_namespace_upper"_$ac_func_upper`
+    AC_LINK_IFELSE(
+	[AC_LANG_PROGRAM([[
+	          #define CONFIG_TEST
+	          $sah_cxx_includes
+		]],
+		[[
+		 $2::$func_name ;
+		]])],
+        [AC_DEFINE_UNQUOTED([$ac_uc_defn], [1], 
+	["Define to 1 if $func_name is in namespace $t_ns::"  ] ) tmp_res=yes],
+	[tmp_res=no])
+    eval sah_cv_func_$2_$ac_func_upper=$tmp_res
+    AC_MSG_RESULT($tmp_res)
+  done
+  AC_LANG_POP
+])
+
+
+

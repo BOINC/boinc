@@ -84,9 +84,6 @@
 /* Define to 1 if you have the <malloc.h> header file. */
 #undef HAVE_MALLOC_H
 
-/* Define to 1 if you have the <map> header file. */
-#undef HAVE_MAP
-
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
@@ -104,6 +101,9 @@
 
 /* Define to 1 if you have the `mkdir' function. */
 #undef HAVE_MKDIR
+
+/* Define if your C++ compiler supports namespaces */
+#undef HAVE_NAMESPACES
 
 /* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
 #undef HAVE_NDIR_H
@@ -149,6 +149,15 @@
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
+
+/* Define to 1 if max is in namespace std:: */
+#undef HAVE_STD_MAX
+
+/* Define to 1 if min is in namespace std:: */
+#undef HAVE_STD_MIN
+
+/* Define to 1 if transform is in namespace std:: */
+#undef HAVE_STD_TRANSFORM
 
 /* Have strfind */
 #undef HAVE_STRFIND
