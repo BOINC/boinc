@@ -391,6 +391,8 @@ static int send_results_for_file(
     char buf[256], query[1024];
     int i, maxid, retval_max, retval_lookup;
 
+    nsent = 0;
+
     if (!reply.work_needed(true)) {
         return 0;
     }
@@ -416,7 +418,6 @@ static int send_results_for_file(
         if (retval_lookup) return ERR_DB_NOT_FOUND;
     }
 
-    nsent = 0;
     for (i=0; i<100; i++) {     // avoid infinite loop
         int query_retval;
 
@@ -630,6 +631,9 @@ static int send_new_file_work_deterministic_seeded(
         retval = send_results_for_file(
             filename, nsent, sreq, reply, platform, ss, false
         );
+
+        if (retval==ERR_NO_APP_VERSION) return retval;
+
         if (nsent>0 || !reply.work_needed(true)) break; 
         // construct a name which is lexically greater than the name of any result
         // which uses this file.
@@ -709,8 +713,8 @@ static int send_new_file_work(
 ) {
 
     while (reply.work_needed(true)) {
+        int retval_sow, retval_snfwws;
         double frac=((double)rand())/(double)RAND_MAX;
-
         int now   = time(0);
         int end   = now - config.locality_scheduling_send_timeout/2;
         int start = end - (int)(0.5*frac*config.locality_scheduling_send_timeout);
@@ -725,13 +729,17 @@ static int send_new_file_work(
             "send_new_file_work(): try to send old work\n"
         );
 
-        send_old_work(sreq, reply, platform, ss, start, end);
+        retval_sow=send_old_work(sreq, reply, platform, ss, start, end);
+
+        if (retval_sow==ERR_NO_APP_VERSION) return retval_sow;
     
         if (reply.work_needed(true)) {
             log_messages.printf(SCHED_MSG_LOG::DEBUG,
                 "send_new_file_work(): try to send from working set\n"
             );
-            send_new_file_work_working_set(sreq, reply, platform, ss);
+            retval_snfwws=send_new_file_work_working_set(sreq, reply, platform, ss);
+            if (retval_snfwws==ERR_NO_APP_VERSION) return retval_snfwws;
+
         }    
 
         if (reply.work_needed(true)) {
@@ -806,6 +814,9 @@ static int send_old_work(
                     "Note: sent NON-LOCALITY result %s\n", result.name
                 );
             }
+        } else if (retval == ERR_NO_APP_VERSION) {
+            // if no app version found, give up completely!
+            return ERR_NO_APP_VERSION;
         }
 
     } else {
@@ -839,8 +850,7 @@ void send_work_locality(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     SCHED_SHMEM& ss
 ) {
-    int i;
-    int nsent, nfiles, j, k;
+    int i, nsent, nfiles, j;
 
     // seed the random number generator
     unsigned int seed=time(0)+getpid();
@@ -863,18 +873,23 @@ void send_work_locality(
     //
     if (config.locality_scheduling_send_timeout && sreq.host.n_bwdown>100000) {
         int until=time(0)-config.locality_scheduling_send_timeout;
-        send_old_work(sreq, reply, platform, ss, INT_MIN, until);
+        int retval_sow=send_old_work(sreq, reply, platform, ss, INT_MIN, until);
+        if (retval_sow==ERR_NO_APP_VERSION) return;
     }
 
     // send work for existing files
     //
     for (i=0; i<(int)sreq.file_infos.size(); i++) {
-        k = (i+j)%nfiles;
+        int k = (i+j)%nfiles;
+        int retval_srff;
+
         if (!reply.work_needed(true)) break;
         FILE_INFO& fi = sreq.file_infos[k];
-        send_results_for_file(
+        retval_srff=send_results_for_file(
             fi.name, nsent, sreq, reply, platform, ss, false
         );
+
+        if (retval_srff==ERR_NO_APP_VERSION) return;
 
         // if we couldn't send any work for this file, and we STILL need work,
         // then it must be that there was no additional work remaining for this
