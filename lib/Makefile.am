@@ -20,6 +20,7 @@ libboinc_a_SOURCES =				\
         util.C					\
         md5.c					\
         md5_file.C				\
+	shmem.C					\
 	app_ipc.h				\
 	countries.h				\
 	crypt.h					\

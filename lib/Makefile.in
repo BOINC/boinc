@@ -188,6 +188,7 @@ libboinc_a_SOURCES = \
         util.C					\
         md5.c					\
         md5_file.C				\
+	shmem.C					\
 	app_ipc.h				\
 	countries.h				\
 	crypt.h					\
@@ -223,7 +224,7 @@ am_libboinc_a_OBJECTS = boinc_api.$(OBJEXT) graphics_api.$(OBJEXT) \
 	graphics_data.$(OBJEXT) mfile.$(OBJEXT) app_ipc.$(OBJEXT) \
 	countries.$(OBJEXT) parse.$(OBJEXT) filesys.$(OBJEXT) \
 	language.$(OBJEXT) util.$(OBJEXT) md5.$(OBJEXT) \
-	md5_file.$(OBJEXT)
+	md5_file.$(OBJEXT) shmem.$(OBJEXT)
 libboinc_a_OBJECTS = $(am_libboinc_a_OBJECTS)
 EXTRA_PROGRAMS = msg_test$(EXEEXT) synch_test$(EXEEXT)
 bin_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) crypt_prog$(EXEEXT)
