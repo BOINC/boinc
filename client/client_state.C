@@ -105,7 +105,7 @@ CLIENT_STATE::CLIENT_STATE() {
     pers_retry_delay_max = PERS_RETRY_DELAY_MAX;
     pers_giveup = PERS_GIVEUP;
 	executing_as_windows_service = false;
-    cpu_sched_last_time = (long) 0;
+    cpu_sched_last_time = 0;
     cpu_sched_period = 3600; // 1 hour
     cpu_sched_work_done_this_period = 0;
 }
@@ -750,7 +750,7 @@ bool CLIENT_STATE::garbage_collect() {
     // Scan through RESULTs.
     // delete RESULTs that have been reported and acked.
     // Check for results whose WUs had download failures
-    // Check for resultw that had upload failures
+    // Check for results that had upload failures
     // Reference-count output files
     // Reference-count WUs
     //
@@ -768,9 +768,19 @@ bool CLIENT_STATE::garbage_collect() {
         // any errors (download failure, MD5, RSA, etc)
         // and we don't already have an error for this file
         //
-        if (!rp->ready_to_report && rp->wup->had_failure(failnum)) {
-            rp->wup->get_file_errors(error_msgs);
-            report_result_error(*rp, 0, "file transfer error: %s", error_msgs.c_str());
+        if (!rp->ready_to_report) {
+            wup = rp->wup;
+            if (wup->had_failure(failnum)) {
+                wup->get_file_errors(error_msgs);
+                report_result_error(
+                    *rp, 0, "WU download error: %s", error_msgs.c_str()
+                );
+            } else if (wup->avp && wup->avp->had_failure(failnum)) {
+                avp->get_file_errors(error_msgs);
+                report_result_error(
+                    *rp, 0, "app_version download error: %s", error_msgs.c_str()
+                );
+            }
         }
         for (i=0; i<rp->output_files.size(); i++) {
             // If one of the output files had an upload failure,

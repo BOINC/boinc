@@ -104,7 +104,7 @@ int PERS_FILE_XFER::start_xfer() {
         double existing_size = 0;
         if (!file_size(pathname, existing_size) && existing_size == fip->nbytes) {
             // file exists already and has the right size
-            retval = verify_downloaded_file(pathname, *fip);
+            retval = fip->verify_downloaded_file();
             if (!retval) {
                 // signature and checksum match
                 retval = fip->set_permissions();

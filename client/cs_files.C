@@ -104,50 +104,55 @@ int CLIENT_STATE::make_project_dirs() {
 // Verify the validity of a downloaded file,
 // through MD5 checksum or an RSA signature
 //
-int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
-    char cksum[64];
-    PROJECT* project = file_info.project;
+int FILE_INFO::verify_downloaded_file() {
+    char cksum[64], pathname[256];
     bool verified;
     int retval;
 
-    if (file_info.signature_required) {
-        if (!file_info.file_signature) {
-            fprintf(stdout, "ERROR: file %s missing signature\n", file_info.name);
+    get_pathname(this, pathname);
+    if (signature_required) {
+        if (!file_signature) {
+            msg_printf(project, MSG_ERROR, "file %s missing signature", name);
+            error_msg = "missing signature";
             return ERR_NO_SIGNATURE;
         }
         retval = verify_file2(
-            pathname, file_info.file_signature, project->code_sign_key, verified
+            pathname, file_signature, project->code_sign_key, verified
         );
         if (retval) {
             msg_printf(project, MSG_ERROR,
-                "verify_downloaded_file(): %s: internal error\n",
-                pathname
+                "signature verification error for %s",
+                name
             );
+            error_msg = "signature verification error";
             return ERR_RSA_FAILED;
         }
         if (!verified) {
             msg_printf(project, MSG_ERROR,
-                "verify_downloaded_file(): %s: file not verified\n",
-                pathname
+                "signature verification failed for %s",
+               name
             );
+            error_msg = "signature verification failed";
             return ERR_RSA_FAILED;
         }
-    } else if (strlen(file_info.md5_cksum)) {
-        retval = md5_file(pathname, cksum, file_info.nbytes);
+    } else if (strlen(md5_cksum)) {
+        retval = md5_file(pathname, cksum, nbytes);
         if (retval) {
             msg_printf(project, MSG_ERROR,
-                "verify_downloaded_file(): %s: MD5 computation failed: %d\n",
-                pathname, retval
+                "MD5 computation error for %s: %d\n",
+                name, retval
             );
+            error_msg = "MD5 computation error";
             return retval;
         }
-        if (strcmp(cksum, file_info.md5_cksum)) {
+        if (strcmp(cksum, md5_cksum)) {
             msg_printf(project, MSG_ERROR,
-                "verify_downloaded_file(): %s: MD5 check failed\n", pathname
+                "MD5 check failed for %s", name
             );
             msg_printf(project, MSG_ERROR,
-                "expected %s, got %s\n", file_info.md5_cksum, cksum
+                "expected %s, got %s\n", md5_cksum, cksum
             );
+            error_msg = "MD5 check failed";
             return ERR_MD5_FAILED;
         }
     }
@@ -162,7 +167,6 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
     FILE_INFO* fip;
     PERS_FILE_XFER *pfx;
     bool action = false;
-    char pathname[256];
     int retval;
 
     // Look for FILE_INFOs for which we should start a transfer,
@@ -214,8 +218,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
 
                 // verify the file with RSA or MD5, and change permissions
                 //
-                get_pathname(fip, pathname);
-                retval = verify_downloaded_file(pathname, *fip);
+                retval = fip->verify_downloaded_file();
                 if (retval) {
                     msg_printf(fip->project, MSG_ERROR, "Checksum or signature error for %s", fip->name);
                     fip->status = retval;

@@ -565,6 +565,12 @@ FILE_INFO::~FILE_INFO() {
     }
 }
 
+void FILE_INFO::reset() {
+    status = FILE_NOT_PRESENT;
+    delete_file();
+    error_msg = "";
+}
+
 // Set the appropriate permissions depending on whether
 // it's an executable file
 // This doesn't seem to exist in Windows
@@ -955,6 +961,42 @@ int APP_VERSION::write(MIOFILE& out) {
     );
     return 0;
 }
+
+bool APP_VERSION::had_failure(int& failnum) {
+    unsigned int i;
+
+    for (i=0; i<app_files.size();i++) {
+        if (app_files[i].file_info->had_failure(failnum)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void APP_VERSION::get_file_errors(string& str) {
+    int x;
+    unsigned int i;
+    FILE_INFO* fip;
+    str = "couldn't get input files:\n";
+    for (i=0; i<app_files.size();i++) {
+        fip = app_files[i].file_info;
+        if (fip->had_failure(x)) {
+            str = str + fip->name + ": " + fip->error_msg + "\n";
+        }
+    }
+}
+
+void APP_VERSION::clear_errors() {
+    int x;
+    unsigned int i;
+    for (i=0; i<app_files.size();i++) {
+        FILE_INFO* fip = app_files[i].file_info;
+        if (fip->had_failure(x)) {
+            fip->reset();
+        }
+    }
+}
+
 
 int FILE_REF::parse(MIOFILE& in) {
     char buf[256];

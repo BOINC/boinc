@@ -687,7 +687,12 @@ int CLIENT_STATE::handle_scheduler_reply(
     for (i=0; i<sr.app_versions.size(); i++) {
         APP* app = lookup_app(project, sr.app_versions[i].app_name);
         APP_VERSION* avp = lookup_app_version(app, sr.app_versions[i].version_num);
-        if (avp) continue;
+        if (avp) {
+            // if we had download failures, clear them
+            //
+            avp->clear_errors();
+            continue;
+        }
         avp = new APP_VERSION;
         *avp = sr.app_versions[i];
         retval = link_app_version(project, avp);

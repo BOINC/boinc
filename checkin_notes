@@ -16871,3 +16871,27 @@ David  1 Sep 2004
 
     html/inc
         cache.inc
+
+David  2 Sept 2004
+	- If an executable file failed validation, any results using
+		that app version would hang forever in the "downloading" state.
+		Two changes were needed to fix this:
+		1) garbage_collect(): when scanning results,
+			check for download failures of APP_VERSION files (as well as WU files),
+			and if so mark the result as failed.
+			Added new functions APP_VERSION::had_failure() and get_file_errors().
+		2) handle_scheduler_reply(): if get an APP_VERSION that we already have,
+			reset any errored-out FILE_INFOs,
+			i.e. give it a chance to download again.
+			There are various ways to do this, but this seems the cleanest.
+			Added new functions FILE_INFO::reset() and APP_VERSION::clear_errors()
+	- made verify_downloaded_file() into a member function of FILE_INFO.
+		It now sets the error_msg field to a descriptive string
+		so that failures will be reported to project
+
+	client/
+		client_state.C
+		client_types.C,h
+		cs_files.C
+		cs_scheduler.C
+		pers_file_xfer.C

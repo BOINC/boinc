@@ -94,6 +94,7 @@ public:
 
     FILE_INFO();
     ~FILE_INFO();
+    void reset();
     int set_permissions();
     int parse(MIOFILE&, bool from_server);
     int write(MIOFILE&, bool to_server);
@@ -106,6 +107,7 @@ public:
     bool had_failure(int& failnum);
     bool verify_existing_file();
     int merge_info(FILE_INFO&);
+    int verify_downloaded_file();
     int update_time();       // updates time last used to the current time
 };
 
@@ -243,6 +245,9 @@ struct APP_VERSION {
 
     int parse(MIOFILE&);
     int write(MIOFILE&);
+    bool had_failure(int& failnum);
+    void get_file_errors(std::string&);
+    void clear_errors();
 };
 
 struct WORKUNIT {
