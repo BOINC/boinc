@@ -254,9 +254,7 @@ int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
 }
 
 bool boinc_time_to_checkpoint() {
-#ifdef __APPLE_CC__
-    //YieldToAnyThread();
-#elif _WIN32
+#ifdef _WIN32
     DWORD eventState;
     // Check if core client has requested us to exit
     eventState = WaitForSingleObject(hQuitRequest, 0L);
@@ -410,14 +408,6 @@ void on_timer(int a) {
             write_frac_done = true;
         }
     }
-
-#if 0
-    // ???? shouldn't have graphics-related stuff here
-#if defined __APPLE_CC__ && defined BOINC_APP_GRAPHICS
-    // Yield to the graphics thread to let it draw if needed
-    YieldToAnyThread();
-#endif
-#endif
 }
 
 
