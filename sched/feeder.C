@@ -170,7 +170,7 @@ try_again:
                     }
                 }
                 if (!collision) {
-                    log_messages.printf(SchedMessages::DEBUG,
+                    log_messages.printf(SchedMessages::NORMAL,
                                         "[%s] adding result in slot %d\n",
                                         result.name, i);
                     retval = wu.lookup_id(result.workunitid);
