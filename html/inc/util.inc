@@ -22,6 +22,11 @@ You will need your account ID to log in to the ".PROJECT." web site."
 // for the session (if any)
 //
 function init_session() {
+    $url = parse_url(MASTER_URL);
+    $path = $url['path'];
+    if (strlen($path)) {
+        session_set_cookie_params(0, $path);
+    }
     session_start();
 // NOTE: in PHP 4.1+, s/key_exists/array_key_exists/
     if (key_exists('authenticator', $_SESSION)) {

@@ -10945,3 +10945,14 @@ David  Mar 26 2004
         user/
             create_account_form.php
             edit_user_info_form.php
+
+David  Mar 26 2004
+    - Give the PHP session mechanism a "path" (last component of project URL)
+        to disambiguate multiple projects on same host,
+        so you can log into both at once w/ separate cookies
+        (suggested by Janus)
+    - Change "Most often asked" to "Most frequently asked"
+
+    html/inc/
+        forum.inc
+        util.inc

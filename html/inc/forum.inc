@@ -21,7 +21,7 @@ $forum_sort_styles['replies-most'] = "Most posts first";
 
 $faq_sort_styles['create_time'] = "Most recent question first";
 $faq_sort_styles['timestamp'] = "Most recent answer first";
-$faq_sort_styles['activity'] = "Most often asked first";
+$faq_sort_styles['activity'] = "Most frequently asked first";
 
 $answer_sort_styles['score'] = "Highest score first";
 $answer_sort_styles['timestamp'] = "Most recent first";
