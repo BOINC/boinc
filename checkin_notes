@@ -20036,7 +20036,7 @@ Bruce 23 Nov 2004 UTC
       causes any pain, please just modify CLIENT_BIN_FILENAME in configure.ac
     - Removed -O3 as required compilation flag in building client gui.  Only needed for
       client (to optimize benchmarking routines).
-    - Removed un-necessary zip/configure.ac and zip/Makefile
+    - Removed un-necessary zip/configure.ac and zip/Makefile and zip/config.h
     - Added .cvsignore file for zip/ directory.
 
     configure.ac
@@ -20048,4 +20048,4 @@ Bruce 23 Nov 2004 UTC
      configure.ac (removed)
      Makefile (removed)
      .cvsignore (added)
-     
+     config.h (shouldn't be here anyway) 
