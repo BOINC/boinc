@@ -369,14 +369,29 @@ def stop_daemon(pid):
         print "  Killed process", pid
     return 1
 
+def wait_for_process_to_end(pid):
+    '''if process is still running, wait for it to end.'''
+    if is_pid_running(pid):
+        if verbose:
+            print "  Waiting for process",pid,"to end: ",
+        while is_pid_running(pid):
+            if verbose:
+                print '.',
+            time.sleep(.5)
+        if verbose:
+            print ' ok'
+
 def stop_daemons():
     if verbose: print "Stopping all daemons"
     write_stop_trigger()
     pid_files = glob.glob(os.path.join(pid_dir, '*.pid'))
     count = 0
-    for pid_file in pid_files:
-        count += stop_daemon(safe_read_int(pid_file))
-        safe_unlink(pid_file)
+    pids = map(safe_read_int, pid_files)
+    map(safe_unlink, pid_file)
+    for pid in pids:
+        count += stop_daemon(pid)
+    for pid in pids:
+        wait_for_process_to_end(pid)
     if verbose:
         if not count:
             print "  (No processes stopped)"

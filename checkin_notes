@@ -5391,7 +5391,12 @@ Karl 2003/07/25
     New tools/update_core_client_versions script that scans apps/ for client
     versions and updates the database
 
+    improved start/stop program
+
+    added "run benchmarks now" File menu command, and display results.    
+
     db/*
     sched/*
     py/*
     tools/*
+    client/*
