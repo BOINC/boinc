@@ -21,7 +21,7 @@ echo "
         It will ask you for a project URL and an account ID.
     <li><b>Mac, Unix and Linux users:</b>
         Quit the BOINC client.
-        Then run the BOINC client program with the -add_project option.
+        Then run the BOINC client program with the -attach_project option.
         It will ask you for a project URL and an account ID.
     </ul>
     In each case copy and paste the following:
