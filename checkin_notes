@@ -3767,3 +3767,22 @@ Seth  March 10, 2003
 	client/win/
 		wingui_sswindow.cpp,h
 		wingui_mainwindow.cpp,h
+
+Eric  March 11, 2003
+    - changed client exit to send a quit request to the apps, wait 1
+      second for them to quit, then kill them if they're still open.
+      This allows applications to do a final checkpoint before
+      quitting, rather than lose their recent work
+    - changed boinc_sleep to accept fractional sleep values
+
+    apps/
+        concat.C
+        upper_case.C
+    client/
+        app.C,h
+        client_state.C
+        cs_apps.C
+        test_*.C
+    lib/
+        util.C,h
+

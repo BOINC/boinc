@@ -59,15 +59,15 @@ int CLIENT_STATE::cleanup_and_exit() {
 }
 
 int CLIENT_STATE::exit_tasks() {
-    active_tasks.exit_tasks();
+    // Send a request to the tasks to exit
+    active_tasks.request_tasks_exit();
 
-        // for now just kill them
-    unsigned int i;
-    ACTIVE_TASK *atp;
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        atp = active_tasks.active_tasks[i];
-        atp->kill_task();
-    }
+    // Wait a second for them to exit normally
+    active_tasks.wait_for_exit(1);
+
+    // And then just kill them
+    active_tasks.kill_tasks();
+
     return 0;
 }
 

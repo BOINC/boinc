@@ -124,11 +124,12 @@ double dtime() {
 
 // sleep for a specified number of seconds
 //
-void boinc_sleep(int seconds) {
+void boinc_sleep(double seconds) {
 #ifdef _WIN32
-    ::Sleep(1000*seconds);
+    ::Sleep((int)(1000*seconds));
 #else
-    sleep(seconds);
+    sleep((int)seconds);
+	usleep((int)fmod(seconds*1000000,1000000));
 #endif
 }
 

@@ -91,7 +91,7 @@ int main() {
             if (nxp->io_done) break;
         }
         if (nxp->io_done) break;
-        boinc_sleep(1);
+        boinc_sleep(1.);
     }
     nxs.remove(nxp);
     if (nxp->file) {

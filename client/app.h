@@ -90,6 +90,8 @@ public:
         // ask a task to pause.  doesn't wait for it to do so.
     int kill_task();
         // externally kill the task.  doesn't wait for exit
+    bool task_exited();
+        // return true if this task has exited
     int abort();
         // kill, and flag as abort pending
 
@@ -109,13 +111,15 @@ public:
     vector<ACTIVE_TASK*> active_tasks;
     int insert(ACTIVE_TASK*);
     int remove(ACTIVE_TASK*);
+    int wait_for_exit(double);
     ACTIVE_TASK* lookup_pid(int);
     bool poll();
     bool poll_time();
     void suspend_all();
     void unsuspend_all();
     int restart_tasks();
-    void exit_tasks();
+    void request_tasks_exit();
+    void kill_tasks();
     int get_free_slot(int total_slots);
 
     int write(FILE*);

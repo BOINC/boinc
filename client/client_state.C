@@ -412,7 +412,7 @@ static void print_log(char* p) {
 
 int CLIENT_STATE::net_sleep(double x) {
     if (activities_suspended) {
-        boinc_sleep((int)x);
+        boinc_sleep(x);
         return 0;
     } else {
         return net_xfers->net_sleep(x);

@@ -89,7 +89,7 @@ int main() {
             op3 = 0;
 	}
 	if (!op1 && !op2 && !op3) break;
-	boinc_sleep(1);
+	boinc_sleep(1.);
     }
     printf("all done\n");
 

@@ -201,7 +201,7 @@ int main(int argc, char **argv) {
         }
 
         if (run_slow) {
-            boinc_sleep(1);
+            boinc_sleep(1.);
         }
         
 #ifdef SIGNAL_H        

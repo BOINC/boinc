@@ -382,6 +382,25 @@ int ACTIVE_TASK::kill_task() {
 #endif
 }
 
+bool ACTIVE_TASK::task_exited() {
+#ifdef _WIN32
+    unsigned long exit_code;
+    if (GetExitCodeProcess(pid_handle, &exit_code)) {
+        if (exit_code != STILL_ACTIVE) {
+            return true;
+        }
+    }
+#else
+    int my_pid, stat;
+
+    my_pid = wait4(pid, &stat, WNOHANG, NULL);
+    if (my_pid == pid) {
+        return true;
+    }
+#endif
+	return false;
+}
+
 // Inserts an active task into the ACTIVE_TASK_SET and starts it up
 //
 int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
@@ -546,6 +565,33 @@ bool ACTIVE_TASK::read_stderr_file() {
     return false;
 }
 
+// Wait up to wait_time seconds for all processes in this set to exit
+//
+int ACTIVE_TASK_SET::wait_for_exit(double wait_time) {
+    bool             all_exited;
+	unsigned int     i,n;
+	ACTIVE_TASK      *atp;
+
+    for( i=0;i<10;i++ ) {
+        boinc_sleep(wait_time/10.0);
+        all_exited = true;
+
+        for (n=0;n<active_tasks.size();n++) {
+            atp = active_tasks[n];
+            if (!atp->task_exited()) {
+                all_exited = false;
+                break;
+            }
+        }
+
+        if (all_exited) {
+            return 0;
+        }
+    }
+
+    return -1;
+}
+
 // Find the ACTIVE_TASK in the current set with the matching PID
 //
 ACTIVE_TASK* ACTIVE_TASK_SET::lookup_pid(int pid) {
@@ -587,14 +633,25 @@ void ACTIVE_TASK_SET::unsuspend_all() {
 
 // initiate exit of all currently running tasks
 //
-void ACTIVE_TASK_SET::exit_tasks() {
+void ACTIVE_TASK_SET::request_tasks_exit() {
     unsigned int i;
     ACTIVE_TASK *atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if(atp->request_exit()) {
-            fprintf(stderr, "ACTIVE_TASK_SET::exit_tasks(): could not suspend active_task\n");
+            fprintf(stderr, "ACTIVE_TASK_SET::request_tasks_exit(): could not exit active_task\n");
         }
+    }
+}
+
+// Kills all currently running tasks without warning
+//
+void ACTIVE_TASK_SET::kill_tasks() {
+    unsigned int i;
+    ACTIVE_TASK *atp;
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        atp->kill_task();
     }
 }
 

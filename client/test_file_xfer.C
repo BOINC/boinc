@@ -116,7 +116,7 @@ int main() {
             fx2 = 0;
 	}
         if (!fx1 && !fx2) break;
-	boinc_sleep(1);
+	boinc_sleep(1.);
     }
     printf("all done\n");
 }

@@ -21,7 +21,7 @@
 
 extern int double_to_ydhms (double x, int smallest_timescale, char *buf);
 extern double dtime();
-extern void boinc_sleep( int seconds );
+extern void boinc_sleep(double);
 extern int parse_command_line( char *, char ** );
 extern int lock_file(char*);
 extern double drand();
