@@ -23,17 +23,11 @@
 require_once("../inc/util_ops.inc");
 
 db_init();
-page_head("Result Failure Summary by Platform");
+page_head("Result Failure Summary by Host");
 
-
-$_GET['table'] = 'result';
-$_GET['sort_by'] = ''; // ignore sort
 
 $query_appid = $_GET['appid'];
 $query_received_time = time() - $_GET['nsecs'];
-
-$q = new SqlQueryString();
-$q->process_form_items();
 
 $main_query = "
 SELECT
@@ -54,7 +48,7 @@ SELECT
                end
            else host.os_version
        end AS OS_Version,
-       COUNT(*) AS Error_Count
+       COUNT(*) AS error_count
 FROM   result
            left join host on result.hostid = host.id 
 WHERE
@@ -69,7 +63,6 @@ GROUP BY
        OS_Version
 ";
 
-$urlquery = $q->urlquery;
 $result = mysql_query($main_query);
 
 echo "<table>\n";
@@ -96,7 +89,7 @@ while ($res = mysql_fetch_object($result)) {
     echo "</td>";
 
     echo "<td align=left valign=top>";
-    echo $res->Error_Count;
+    echo $res->error_count;
     echo "</td>";
 
     echo "</tr>\n";
