@@ -43,9 +43,12 @@
 #define RETRY_CAP               10
     // cap on nrpc_failures in the above formula
 #define MASTER_FETCH_RETRY_CAP 3
-//cap on how many times we will contact master_url before moving into a state in which we will not exponentially backoff anymore but rather contact the master URL at the frequency below
+    // cap on how many times we will contact master_url
+    // before moving into a state in which we will not
+    // exponentially backoff anymore but rather contact the master URL
+    // at the frequency below
 #define MASTER_FETCH_INTERVAL (60*60*24*7*2)    // 2 weeks 
-//This is the Max on the time to wait after we've contacted the Master URL MASTER_FETCH_RETRY_CAP times.
+    // This is the Max on the time to wait after we've contacted the Master URL MASTER_FETCH_RETRY_CAP times.
 
 //The next two constants are used to bound RPC exponential waiting. 
 #define PERS_RETRY_DELAY_MIN    60                // 1 minute

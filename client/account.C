@@ -137,15 +137,14 @@ int CLIENT_STATE::change_project(int index, char* master_url, char* authenticato
 	return 0;
 }
 
-int CLIENT_STATE::quit_project(int index)
-{
+int CLIENT_STATE::quit_project(int index) {
 	PROJECT* project = NULL;
 	vector <PROJECT*>::iterator iter;
 	int curindex = 0;
 
 	// find project and remove it from the vector
 	for(iter = projects.begin(); iter != projects.end(); iter ++) {
-		if(curindex == index) {
+		if (curindex == index) {
 			project = *iter;
 			projects.erase(iter);
 			break;

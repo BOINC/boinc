@@ -38,7 +38,7 @@ void show_project_message(PROJECT* project, char* message, char* priority) {
 	}
 }
 
-int get_initial_project() {
+int add_new_project() {
 	return 0;
 }
 

@@ -2744,3 +2744,15 @@ David   Dec 19 2002
         util.inc
     tools/
         country_select.C
+
+David  Dec 19 2002
+    - added -add_new_project option to command line version
+        changed func name from get_initial_project() to add_new_project()
+
+    client/
+        account.C,h
+        client_state.C,h
+        main.C
+        scheduler_op.h
+    win/
+        wingui.cpp,h

@@ -50,7 +50,7 @@ void show_message(char* message, char* priority) {
 // and create an account file
 // TODO: use better input method here, backspace doesn't always seem to work
 //
-int get_initial_project() {
+int add_new_project() {
     char master_url[256];
     char authenticator[256];
 
