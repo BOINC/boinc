@@ -334,7 +334,7 @@ bool CLIENT_STATE::should_run_cpu_benchmarks() {
 
 #ifdef _WIN32
 DWORD WINAPI CLIENT_STATE::win_cpu_benchmarks(LPVOID) {
-    return cpu_benchmarks();
+    return gstate.cpu_benchmarks();
 }
 #endif
 
