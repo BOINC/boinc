@@ -5,7 +5,7 @@ include $(top_srcdir)/Makefile.incl
 noinst_PROGRAMS =							\
 	cgi feeder show_shmem file_upload_handler			\
         validate_test make_work timeout_check file_deleter		\
-        assimilator db_dump update_stats start_servers
+        assimilator db_dump update_stats
 
 noinst_LIBRARIES = libsched.a
 
@@ -13,7 +13,7 @@ EXTRA_PROGRAMS = fcgi
 EXTRA_DIST = wd.php wd_nresults_changing.php
 
 # scripts that 'make install' should put in bindir
-bin_SCRIPTS = watch_tcp kill_server
+bin_SCRIPTS = watch_tcp start stop
 
 LDADD = -L. -lsched $(MYSQL_LIBS)
 
@@ -67,8 +67,8 @@ db_dump_DEPENDENCIES = $(LIB_SCHED)
 update_stats_SOURCES = update_stats.C
 update_stats_DEPENDENCIES = $(LIB_SCHED)
 
-start_servers_SOURCES = start_servers.C
-start_servers_DEPENDENCIES = $(LIB_SCHED)
+# start_servers_SOURCES = start_servers.C
+# start_servers_DEPENDENCIES = $(LIB_SCHED)
 
 file_upload_handler_SOURCES = file_upload_handler.C
 file_upload_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
@@ -96,3 +96,6 @@ fcgi_SOURCES =					\
 fcgi_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
 fcgi_CPPFLAGS = -include /usr/local/include/fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi -lfcgi++ $(MYSQL_LIBS)
+
+stop:
+	ln -s start stop
