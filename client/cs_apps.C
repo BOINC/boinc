@@ -180,12 +180,12 @@ bool CLIENT_STATE::start_apps() {
             atp->init(rp);
             retval = active_tasks.insert(atp);
 	    //couldn't start process
-	    if(retval)
-	      {
+	    if(retval) {
 		atp->state = PROCESS_COULDNT_START;
 		atp->result->active_task_state = PROCESS_COULDNT_START;
-		report_project_error(*(atp->result),0,"Couldn't start the app for this result.\n");
-	      }
+	
+		report_project_error(*(atp->result),retval,"Couldn't start the app for this result.\n",CLIENT_COMPUTING);
+	    }
             action = true;
             set_client_state_dirty("start_apps");
             app_started = time(0);

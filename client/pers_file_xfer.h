@@ -37,7 +37,7 @@
 #define PERS_GIVEUP             (60*60*24*7*2)    // 2 weeks */
 #define PERS_RETRY_DELAY_MIN    1                
 #define PERS_RETRY_DELAY_MAX    30        
-#define PERS_GIVEUP             50      
+#define PERS_GIVEUP             30      
     // give up on xfer if this time elapses since last byte xferred
 
 class PERS_FILE_XFER {

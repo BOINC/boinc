@@ -2573,3 +2573,30 @@ Eric   Dec 8, 2002
         pers_file_xfer.C
         scheduler_op.C
 
+Hamid  Dec 9,2002	
+    - added field client_state to result, which is what is reported back to the sched server as the state of the client in regards to this result when the RPC was made
+
+    - added some more functionality to repor_project_error()
+      It now adds the following info to stderr_out of the result:
+
+      <message>message if any passed</mesage>
+      <active_task_state>%d</active_task_state>
+      <exit_status>%d</exit_status>
+      <signal>%d</signal>
+      if download had failures
+	 "<download_error>\
+          "    <file_name>%s</file_name>
+          "    <error_code>%d</error_code>\n"
+	  "    </download_error>\n"
+	
+      
+      if upload  had failures
+	same as above
+
+      if coudln't start active task for result (in which err_num should be set)
+	"<couldnt_start>%d</couldnt_start>\n"
+	
+
+    - The error mechanism right now is such that any failures regarding file_infos (download, upload or whatever) are recorded in the status of the file_infos and then garbage collect called report_project_error. However errors regarding starting and ending active tasks are reported from app.C and cs_apps.C.
+
+      

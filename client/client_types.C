@@ -599,6 +599,7 @@ void RESULT::clear() {
     exit_status = 0;
     active_task_state = 0;
     signal = 0;
+    client_state = CLIENT_UNINITIALIZED;
     strcpy(stderr_out, "");
     app = NULL;
     wup = NULL;
@@ -664,13 +665,15 @@ int RESULT::write(FILE* out, bool to_server) {
     FILE_INFO* fip;
     int n;
 
+    //if we didn't have an error with this result, (in which case we would have called report_project_error():
+   
     fprintf(out,
         "<result>\n"
         "    <name>%s</name>\n"
-        "    <exit_status>%d</exit_status>\n"
-        "    <final_cpu_time>%f</final_cpu_time>\n",
+  	"    <client_state>%d</client_state>\n"
+	"    <final_cpu_time>%f</final_cpu_time>\n",
         name,
-        exit_status,
+        client_state,
         final_cpu_time
     );
     n = strlen(stderr_out);

@@ -1,4 +1,4 @@
-// The contents of this file are subject to the Mozilla Public License
+ // The contents of this file are subject to the Mozilla Public License
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://www.mozilla.org/MPL/ 
@@ -206,6 +206,13 @@ struct WORKUNIT {
     // Received ack from server, can delete result
 #define RESULT_ERROR            5
 
+//The following are the states that the client is in according to the result. 
+#define CLIENT_UNINITIALIZED    0
+#define CLIENT_DOWNLOADING      1
+#define CLIENT_COMPUTING        2
+#define CLIENT_UPLOADING        3
+#define CLIENT_DONE             4
+
 struct RESULT {
     char name[256];
     char wu_name[256];
@@ -218,6 +225,8 @@ struct RESULT {
     int signal;             //the signal caught by the active_task, makes sense only if active_task_state is PROCESS_SIGNALED
     int active_task_state; // the state of the active task corresponding to this result
     char stderr_out[STDERR_MAX_LEN];
+    int client_state;     //the state of the client according to this result, as defined above. this information is passed back with the scheduler RPC to the scheduler server when there is any error related to the result or when the result is done.
+
     APP* app;
     WORKUNIT* wup;
     PROJECT* project;

@@ -762,7 +762,8 @@ bool CLIENT_STATE::garbage_collect() {
             if(rp->wup->had_failure(failnum)) {
                 // If we don't already have an error for this file
                 if (rp->state < RESULT_READY_TO_ACK) {
-                    report_project_error(*rp,failnum,"The work_unit corresponding to this result had an error");
+		  // the result wu corresponding to this result had an error downloading some input file(s).
+                    report_project_error(*rp,0,"The work_unit corresponding to this result had an error",CLIENT_DOWNLOADING);
                 }
             } else {
                 rp->wup->ref_cnt++;
@@ -774,8 +775,10 @@ bool CLIENT_STATE::garbage_collect() {
                 // will be cleaned up after the server is notified
                 //
                 if(rp->output_files[i].file_info->had_failure(failnum)) {
-                    if (rp->state < RESULT_READY_TO_ACK) {
-                        report_project_error(*rp,failnum,"The outputfile corresponding to this result had an error");
+		    if (rp->state < RESULT_READY_TO_ACK) {
+		      // had an error uploading a file for this result
+		        rp->client_state = CLIENT_UPLOADING;
+                        report_project_error(*rp,0,"The outputfile corresponding to this result had an error",CLIENT_UPLOADING);
                     }
                 } else {
                     rp->output_files[i].file_info->ref_cnt++;
@@ -860,6 +863,7 @@ bool CLIENT_STATE::update_results() {
                 // before moving on
                 if (rp->is_upload_done()) {
                     rp->state = RESULT_READY_TO_ACK;
+		    rp->client_state = CLIENT_DONE;
                     action = true;
                 }
                 break;
@@ -952,19 +956,74 @@ void CLIENT_STATE::set_client_state_dirty(char* source) {
 // Report error back to project, setting result state to finished and backing
 // off on the project.  The error will appear in the stderr_out field of
 // the result
-// 
-int CLIENT_STATE::report_project_error( RESULT &res,int err_num, char *err_msg ) {
+// state is the desired client_state of the result after the call to this function is made.
+int CLIENT_STATE::report_project_error( RESULT &res,int err_num, char *err_msg , int state) {
     char total_err[500];
     unsigned int i;
-    FILE_INFO* fip;
-
-    res.state = RESULT_READY_TO_ACK;
+    int failnum;
+    
+    //if this result is already in a state of error, then do nothing
+    if(res.state == RESULT_ERROR)
+      {
+	return 0;
+      }
+	
+    res.state = RESULT_ERROR;
     scheduler_op->backoff(res.project,"");
     
-    sprintf( total_err, "BOINC Core Client: Err %d: %s\n<active_task_state>%d</active_task_state>\n<exit_status>%d</exit_status>\n<signal>%d</signal>\n", err_num, err_msg,res.active_task_state,res.exit_status,res.signal );
-   
+    res.client_state = state;
 
+    sprintf( total_err, 
+	     "<message>%s</message>\n"
+	     "<active_task_state>%d</active_task_state>\n"
+	     "<exit_status>%d</exit_status>\n"
+	     "<signal>%d</signal>\n",
+	     err_msg,
+	     res.active_task_state,
+	     res.exit_status,
+	     res.signal );
+    
     if( strlen(res.stderr_out)+strlen(total_err) < STDERR_MAX_LEN ) {
+        strcat(res.stderr_out, total_err );
+    }
+    
+    if((res.client_state == CLIENT_COMPUTING) && (err_num))
+      {	    
+	sprintf(total_err,"<couldnt_start>%d</couldnt_start>\n",err_num);
+      }
+		    
+    if(res.client_state == CLIENT_DOWNLOADING)
+      {
+	for (i=0;i<res.wup->input_files.size();i++) {
+	  if(res.wup->input_files[i].file_info->had_failure(failnum))
+	    {
+	      sprintf(total_err,
+		      "<download_error>\n"
+		      "    <file_name>%s</file_name>\n"
+		      "    <error_code>%d</error_code>\n"
+		      "</download_error>\n"
+		      ,res.wup->input_files[i].file_info->name,failnum);
+	    }
+	}
+      }
+
+    if(res.client_state == CLIENT_UPLOADING)
+      {
+	for (i=0; i<res.output_files.size(); i++) {
+	  // If one of the file infos had a failure,
+	  if(res.output_files[i].file_info->had_failure(failnum)) {
+	    
+	    sprintf(total_err,
+		    "<upload_error>\n"
+		    "    <file_name>%s</file_name>\n"
+		    "    <error_code>%d</error_code>\n"
+		    "</upload_error>\n"    
+		    ,res.output_files[i].file_info->name,failnum);
+	  }
+	}
+      }
+    
+    if(strlen(res.stderr_out)+strlen(total_err) < STDERR_MAX_LEN ) {
         strcat( res.stderr_out, total_err );
     }
     

@@ -126,7 +126,20 @@ public:
     int make_scheduler_request(PROJECT*, double);
     void handle_scheduler_reply(PROJECT*, char* scheduler_url);
     void set_client_state_dirty(char*);
-    int report_project_error( RESULT &res, int err_num, char *err_msg );
+    int report_project_error( RESULT &res,int err_num, char *err_msg, int state);
+    //state corresponds to the client_state that the result should be in after the call
+    //This function gets called anytime there is an error regarding a result. 
+    //It appends all the error information necessary for the backend to stderr_out for res.
+    //It goes through all input and output files for this result and prints necessary error codes
+    //In the case of failure to start or restart an Active_task, err_num should be set.
+    //This function is called in the following situations:
+    //1.When the active_task could not start or restart , in which case
+    //err_num should be set to the appropriate error_code.
+    //2.It is called when we fail in downloading an input file for the work unit of res or uploading
+    //the outputfiles for res. in which case err_num and err_msg are irrelavent, the function will take care of reporting these
+    //3.When the active_task exits with a non_zero error code or it gets signaled, relavant info
+    //is printed to stderr_out of res.
+
 	int add_project(char* master_url, char* authenticator);
 	int change_project(int index, char* master_url, char* authenticator);
 	int quit_project(int index);
