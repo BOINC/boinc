@@ -44,7 +44,7 @@ downloading them from the project.  Here's how it works:
     <a href="community.php">Download</a> the source code for the BOINC core
     client and the project's applications, and compile them on your computer
     (instructions for compiling the core client are <a
-    href="build_client.php">here</a>).  Steffen Moeller has made <a
+    href="build_client.php">here</a>).  Steffen M&omul;ller has made <a
     href="http://bioinformatics.pzr.uni-rostock.de/~moeller/debian/boinc/">Debian
     packages</a>.  Or download executables from a server of your choosing.
   </li>
@@ -65,13 +65,13 @@ downloading them from the project.  Here's how it works:
         <name>setiathome</name>
     </app>
     <file_info>
-        <name>setiathome_2.18_windows_intelx86.exe</name>
+        <name>setiathome_4.07_windows_intelx86.exe</name>
     </file_info>
     <app_version>
         <app_name>setiathome</app_name>
-        <version_num>218</version_num>
+        <version_num>407</version_num>
         <file_ref>
-            <file_name>setiathome_2.18_windows_intelx86.exe</file_name>
+            <file_name>setiathome_4.07_windows_intelx86.exe</file_name>
             <main_program/>
         </file_ref>
     </app_version>
