@@ -18,7 +18,7 @@ class ProjectBackend(ProjectUC):
     def run(self):
         self.install()
 
-        self.sched_install('make_work', max_wus = self.num_wu, cushion=30)
+        self.sched_install('make_work', max_wus = self.num_wu)
         self.sched_install('assimilator')
         self.sched_install('file_deleter')
         self.sched_install('validate_test')
