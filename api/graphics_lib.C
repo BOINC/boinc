@@ -81,7 +81,10 @@ int boinc_init_options_graphics_lib(
         goto no_graphics;
     }
   
-    // get handle for shared library
+    // get handle for shared library.  Note that this handle is a
+    // global variable, so it can be declared 'extern' in worker() and
+    // thus worker() has access to functions from within this shared
+    // library, also.
     //
     graphics_lib_handle = dlopen(resolved_name,  RTLD_NOW);
     if (!graphics_lib_handle) {
@@ -92,6 +95,9 @@ int boinc_init_options_graphics_lib(
         goto no_graphics;
     }
     
+    // use handle from shared library to resolve the 'initialize
+    // graphics' routine from shared library
+    //
     boinc_init_options_graphics_impl_hook = (BIOGI_FUNC) dlsym(
         graphics_lib_handle,
         "boinc_init_options_graphics_impl"
@@ -99,12 +105,15 @@ int boinc_init_options_graphics_lib(
     if (!boinc_init_options_graphics_impl_hook) {
         errormsg = dlerror();
         fprintf(stderr,
-            "dlsym() couldn't find boinc_init_options_graphics_impl in %s\n",
-            resolved_name
+            "dlsym(): no boinc_init_options_graphics_impl() in %s\n%s\n",
+		resolved_name, errormsg?errormsg:""
         );
         goto no_graphics;
     }
 
+    // here's where we start the graphics thread and the worker
+    // thread.  Normally this function should not return.
+    //
     retval = boinc_init_options_graphics_impl_hook(
         opt, worker, boinc_init_options_general
     );
@@ -117,10 +126,13 @@ int boinc_init_options_graphics_lib(
     }
     
     boinc_finish(retval);
-   
+    // never get here...
+    return 1;
+    
 no_graphics:
     // unable to resolve the shared object file, or unable to resolve
-    // dependencies on machine, or unable to find needed symbol in library
+    // library dependencies on machine (eg, no X11, no GL libraries,
+    // etc) or unable to find needed symbol in library
     //
     boinc_init_options(opt);
     worker();
@@ -128,6 +140,6 @@ no_graphics:
     // worker() should call boinc_finish so we should NEVER get here!
     //
     boinc_finish(1);
+    // never get here...
     return 1;
 }
-

@@ -23,8 +23,16 @@ extern int boinc_init_graphics_impl(
     void (*worker)(), int (*init_func)(BOINC_OPTIONS&)
 );
 
-extern int boinc_init_options_graphics_impl(
+// This extern C is needed, even to make this code work correctly on a 100% C++
+// platoform, app, and build.  This is because we need to dlsym() resolve this
+// function.  That does not work unless the symbol is in the library in UNMANGED
+// form.  See http://www.isotton.com/howtos/C++-dlopen-mini-HOWTO/C++-dlopen-mini-HOWTO.html
+// for some additional discussion.
+
+extern "C" {
+    int boinc_init_options_graphics_impl(
     BOINC_OPTIONS& opt,
     void (*_worker_main)(),
     int (*init_func)(BOINC_OPTIONS&)
 );
+}

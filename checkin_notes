@@ -21138,3 +21138,20 @@ David  11 Dec 2004
 
     api/
         Makefile.am
+
+Bruce  12 Dec 2004
+      Added extern C declarations to a couple of header files:
+    - In graphics_lib.h, this is for compatibility with pure C
+      applications.
+    - In graphics_impl.h, this would be needed EVEN if we were
+      never building app or library with anything other than C++.
+      It's because dlsym() can only work if you pass it a non-name
+      mangled symbol. Please see:
+      http://www.isotton.com/howtos/C++-dlopen-mini-HOWTO/C++-dlopen-mini-HOWTO.html
+      for futher edetail.
+    - Comments added to graphics_lib.C, better error message.
+
+    api/
+        graphics_lib.C
+        graphics_lib.h
+        graphics_impl.h
