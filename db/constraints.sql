@@ -63,7 +63,7 @@ alter table result
     add index res_hostid_id (hostid, id desc),
         -- html_user/results.php
 
-    add index res_wu_user (workunitid, userid),
+    add index res_wu_user (workunitid, userid);
         -- scheduler (avoid sending mult results of same WU to one user)
 
 alter table msg_from_host
