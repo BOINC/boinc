@@ -98,7 +98,7 @@ int main_loop(bool one_pass) {
     sprintf(buf, "where name='%s'", app_name);
     retval = app.lookup(buf);
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't find app %s\n", app.name);
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't find app %s\n", app_name);
         exit(1);
     }
 */
