@@ -21,13 +21,13 @@
 //
 // command-line options:
 
+#include <cassert>
+#include <cstdio>
 #include <vector>
 #include <string>
 using namespace std;
 
-#include <stdio.h>
 #include <unistd.h>
-#include <assert.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 

@@ -20,8 +20,8 @@
 // Parse a server configuration file
 
 #include <cstring>
-#include <unistd.h>
 #include <string>
+#include <unistd.h>
 
 #include "parse.h"
 #include "error_numbers.h"

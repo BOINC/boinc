@@ -17,12 +17,10 @@
 // Contributor(s):
 //
 
+#include <cassert>
 #include <vector>
 #include <string>
 using namespace std;
-
-// #include <strings.h>
-#include <cassert>
 
 #include "parse.h"
 #include "error_numbers.h"

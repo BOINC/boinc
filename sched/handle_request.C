@@ -19,16 +19,16 @@
 
 // Handle a scheduling server RPC
 
+#include <cassert>
+#include <cstdio>
 #include <vector>
 #include <string>
+#include <ctime>
+#include <cmath>
 using namespace std;
 
-#include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
-#include <ctime>
-#include <cassert>
-#include <cmath>
 
 #include "boinc_db.h"
 #include "backend_lib.h"

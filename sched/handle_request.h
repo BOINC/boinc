@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-#include <stdio.h>
+#include <cstdio>
 
 #include "sched_shmem.h"
 #include "server_types.h"
