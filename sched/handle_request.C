@@ -547,33 +547,40 @@ void handle_trickle_ups(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         TRICKLE_UP_DESC& td = sreq.trickles[i];
         sprintf(buf, "where name='%s'", td.result_name);
         retval = result.lookup(buf);
-        if (retval) continue;
-        if (reply.user.id != result.userid) {
+        if (retval) {
             log_messages.printf(SCHED_MSG_LOG::NORMAL,
-                "[HOST#%d] trickle up: wrong user ID %d, %d\n", 
-                sreq.host.id, reply.user.id, result.userid
+                "[HOST#%d] trickle up: no result %s\n", 
+                reply.host.id, td.result_name
             );
             continue;
         }
-        if (sreq.host.id != result.hostid) {
+        if (reply.user.id != result.userid) {
+            log_messages.printf(SCHED_MSG_LOG::NORMAL,
+                "[HOST#%d] trickle up: wrong user ID %d, %d\n", 
+                reply.host.id, reply.user.id, result.userid
+            );
+            continue;
+        }
+        if (reply.host.id != result.hostid) {
             log_messages.printf(SCHED_MSG_LOG::NORMAL,
                 "[HOST#%d] trickle up: wrong host ID %d\n", 
-                sreq.host.id, result.hostid
+                reply.host.id, result.hostid
             );
             continue;
         }
         tup.clear();
+        tup.create_time = time(0);
         tup.send_time = td.send_time;
         tup.resultid = result.id;
         tup.appid = result.appid;
-        tup.hostid = sreq.hostid;
+        tup.hostid = reply.host.id;
         tup.handled = false;
         safe_strcpy(tup.xml, td.trickle_text.c_str());
         retval = tup.insert();
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] trickle insert failed: %d\n", 
-                sreq.host.id, retval
+                reply.host.id, retval
             );
         }
     }
@@ -583,7 +590,7 @@ void handle_trickle_downs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     DB_TRICKLE_DOWN td;
     char buf[256];
 
-    sprintf(buf, "where hostid = %d", sreq.host.id);
+    sprintf(buf, "where hostid = %d", reply.host.id);
     while (!td.enumerate(buf)) {
         reply.trickle_downs.push_back(td);
         td.handled = true;
@@ -657,23 +664,25 @@ void process_request(
 
     // if last RPC was within config.min_sendwork_interval, don't send work
     //
-    if (config.min_sendwork_interval) {
-        double diff = dtime() - last_rpc_time;
-        if (diff < config.min_sendwork_interval) {
-            ok_to_send = false;
-            log_messages.printf(
-                SCHED_MSG_LOG::NORMAL,
-                "Not sending work - last RPC too recent: %f\n", diff
-            );
-            sprintf(reply.message,
-                "Not sending work - last RPC too recent: %d sec", (int)diff
-            );
-            strcpy(reply.message_priority, "low");
-            reply.request_delay = config.min_sendwork_interval;
+    if (sreq.work_req_seconds > 0) {
+        if (config.min_sendwork_interval) {
+            double diff = dtime() - last_rpc_time;
+            if (diff < config.min_sendwork_interval) {
+                ok_to_send = false;
+                log_messages.printf(
+                    SCHED_MSG_LOG::NORMAL,
+                    "Not sending work - last RPC too recent: %f\n", diff
+                );
+                sprintf(reply.message,
+                    "Not sending work - last RPC too recent: %d sec", (int)diff
+                );
+                strcpy(reply.message_priority, "low");
+                reply.request_delay = config.min_sendwork_interval;
+            }
         }
-    }
-    if (ok_to_send) {
-        send_work(sreq, reply, *platform, ss);
+        if (ok_to_send) {
+            send_work(sreq, reply, *platform, ss);
+        }
     }
 
     send_code_sign_key(sreq, reply, code_sign_key);
@@ -701,13 +710,14 @@ void handle_request(
         process_request(sreq, sreply, ss, code_sign_key);
     } else {
         log_messages.printf(
-            SCHED_MSG_LOG::NORMAL, "Incomplete request received from IP %s, auth %s, platform %s, version %d.%d\n",
-             get_remote_addr(), sreq.authenticator, sreq.platform_name,
-             sreq.core_client_major_version, sreq.core_client_minor_version
+            SCHED_MSG_LOG::NORMAL,
+            "Incomplete request received from IP %s, auth %s, platform %s, version %d.%d\n",
+            get_remote_addr(), sreq.authenticator, sreq.platform_name,
+            sreq.core_client_major_version, sreq.core_client_minor_version
         );
         strcpy(sreply.message, "Incomplete request received.");
         strcpy(sreply.message_priority, "low");
-        return;
+        sreply.nucleus_only = true;
     }
     
     sreply.write(fout);

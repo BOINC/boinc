@@ -72,7 +72,8 @@ struct SCHEDULER_REQUEST {
     GLOBAL_PREFS global_prefs;
     char global_prefs_source_email_hash[MD5_LEN];
 
-    HOST host;
+    HOST host;      // request message is parsed into here.
+                    // does NOT contain the full host record.
     vector<RESULT> results;
     vector<TRICKLE_UP_DESC> trickles;
 
@@ -96,7 +97,7 @@ struct SCHEDULER_REPLY {
     bool probable_user_browser;
     USER user;
     char email_hash[MD5_LEN];
-    HOST host;
+    HOST host;                  // after validation, contains full host rec
     TEAM team;
     vector<APP> apps;
     vector<APP_VERSION> app_versions;

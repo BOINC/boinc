@@ -76,7 +76,7 @@ bool do_trickle_scan(APP& app) {
     bool found=false;
     int retval;
 
-    sprintf(buf, "where appid=%d and handled == 0", app.id);
+    sprintf(buf, "where appid=%d and handled=0", app.id);
     while (!tup.enumerate(buf)) {
         retval = handle_trickle(tup);
         if (!retval) {

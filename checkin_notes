@@ -12215,3 +12215,24 @@ David  May 11 2004
     sched/
         handle_request.C
         trickle_handler.C
+
+David  May 11 2004
+    - bug fixes in trickle code.
+        Trickle-ups work correctly.
+        handle_trickles works correctly.
+        trickle-downs are getting sent back OK
+    - client: if scheduler reply gets parse error, backoff project
+        (fixed bug where we retry every second)
+    - sched server: if request message doesn't parse,
+        send an "incomplete request received" reply
+        (instead of just returning: uh, ????)
+    - sched server: if request is not asking for work,
+        don't check min_sendwork_interval or try to send work
+        (avoid spurious "last RPC too recent" messages)
+
+    client/
+        scheduler_op.C
+    sched/
+        handle_request.C
+        server_types.C,h
+        trickle_handler.C

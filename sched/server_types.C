@@ -128,7 +128,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (match_tag(buf, "<code_sign_key>")) {
             copy_element_contents(fin, "</code_sign_key>", code_sign_key, sizeof(code_sign_key));
         }
-        else if (match_tag(buf, "<trickle>")) {
+        else if (match_tag(buf, "<trickle_up>")) {
             TRICKLE_UP_DESC td;
             retval = td.parse(fin);
             if (!retval) {
@@ -146,13 +146,16 @@ int TRICKLE_UP_DESC::parse(FILE* fin) {
 
     trickle_text = "";
     while (fgets(buf, 256, fin)) {
-        if (match_tag(buf, "</trickle>")) return 0;
+        if (match_tag(buf, "</trickle_up>")) return 0;
         if (parse_int(buf, "<time>", send_time)) continue;
+        if (parse_str(buf, "<result_name>", result_name, sizeof(result_name))) continue;
         if (match_tag(buf, "<text>")) {
             while (fgets(buf, 256, fin)) {
                 if (match_tag(buf, "</text>")) break;
                 trickle_text += buf;
             }
+        } else {
+            log_messages.printf(SCHED_MSG_LOG::NORMAL, "TRICKLE_UP_DESC::parse(): unrecognized: %s\n", buf);
         }
     }
     return ERR_XML_PARSE;
@@ -215,19 +218,30 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         "<user_create_time>%d</user_create_time>\n"
         "<host_total_credit>%f</host_total_credit>\n"
         "<host_expavg_credit>%f</host_expavg_credit>\n"
-        "<host_venue>%s</host_venue>\n"
-        "<email_hash>%s</email_hash>\n"
-        "<cross_project_id>%s</cross_project_id>\n",
+        "<host_venue>%s</host_venue>\n",
         u2.c_str(),
         user.total_credit,
         user.expavg_credit,
         user.create_time,
         host.total_credit,
         host.expavg_credit,
-        host.venue,
-        email_hash,
-        user.cross_project_id
+        host.venue
     );
+
+    // be paranoid about the following to avoid sending null
+    //
+    if (strlen(email_hash)) {
+        fprintf(fout,
+            "<email_hash>%s</email_hash>\n",
+            email_hash
+        );
+    }
+    if (strlen(user.cross_project_id)) {
+        fprintf(fout,
+            "<cross_project_id>%s</cross_project_id>\n",
+            user.cross_project_id
+        );
+    }
 
     // might want to send team credit too.
     //
