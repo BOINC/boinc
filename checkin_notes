@@ -3250,6 +3250,7 @@ David  Feb 14 2003
         make_project_ap.php
         make_project_sah.php
         test.inc
+
 David  Feb 17 2003
     - restored some of the changes for faster network throughput
     
@@ -3258,3 +3259,52 @@ David  Feb 17 2003
         main.C
         next_xfer.C,h
 
+David  Feb 18 2003
+    - added "opaque" fields to result and workunit tables.
+        (allows projects to cross-reference to their science DB)
+    - added "venue" field to host (home/school/work)
+        This has two goals:
+        1) provides a basis for multiple preference sets
+            (one each for home/school/work)
+        2) provides another account breakdown for stats
+    - added "venue" field to user
+        This is the default venue, for newly created hosts
+    - simplified preferences:
+        For account setup, all preferences are now on one form
+        (different forms for new/return users)
+        For preference editing, preferences are now in two groups
+            - project preferences, including resource share,
+                venue, and per-project prefs
+            - global prefs (called "BOINC prefs" in user interface)
+    - fixed bug where user/host credits in client state file were giant numbers
+
+    todo
+    client/
+        scheduler_op.C
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    html_ops/
+        db.inc
+    html_user/
+        account_setup_first.php
+        account_setup_first_email.php (removed)
+        account_setup_first_project.php (removed)
+        account_setup_first_action.php (new)
+        account_setup_nonfirst.php
+        account_setup_nonfirst_email.php (removed)
+        account_setup_nonfirst_project.php (removed)
+        account_setup_nonfirst_action.php (new)
+        create_account_action.php
+        prefs.inc
+        prefs_edit_global_*
+        prefs_edit_email_* (removed)
+        prefs_edit_project_*
+        prefs_edit_resource_* (removed)
+        project_specific_prefs.php
+    sched/
+        handle_request.C
+        server_types.C
+    test/
+        test.inc

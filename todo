@@ -52,6 +52,10 @@ THINGS TO TEST (preferably with test scripts)
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
+implement max bytes/sec network preferences
+implement bandwidth limiting
+    current code assumes 1-second poll loop; wrong
+
 Implement FIFO mechanism in scheduler for results that can't be sent
 
 user profiles on web (borrow logic from SETI@home)
@@ -86,7 +90,6 @@ Testing framework
 Delete files if needed to honor disk usage constraint
     inform user if this happens
 
-implement max bytes/sec network preferences
 
 Global preferences
     implement disk usage prefs
