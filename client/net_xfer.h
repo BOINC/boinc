@@ -68,7 +68,7 @@ public:
     int open_server();
     void close_socket();
     int do_xfer(int&);
-    void update_speed(int);
+    void update_speed();
     void got_error();
     char* get_hostname();
     bool check_timeout(bool);

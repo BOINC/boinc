@@ -498,7 +498,7 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
                 time_t now = time(0);
                 do {
                     retval = nxp->do_xfer(n);
-                    nxp->update_speed(n);
+                    nxp->update_speed();
                     nxp->reset_timeout();
                     bytes_transferred += n;
                     if (nxp->want_download) {
@@ -629,7 +629,7 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
 // Update the transfer speed for this NET_XFER
 // called on every I/O
 //
-void NET_XFER::update_speed(int nbytes) {
+void NET_XFER::update_speed() {
     double delta_t = dtime() - start_time;
     if (delta_t > 0) {
         xfer_speed = bytes_xferred / delta_t;

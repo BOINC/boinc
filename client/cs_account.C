@@ -73,6 +73,7 @@ int CLIENT_STATE::parse_account_files() {
     string name;
     PROJECT* project;
     FILE* f;
+    int retval;
 
     DirScanner dir(".");
     while (dir.scan(name)) {
@@ -86,8 +87,15 @@ int CLIENT_STATE::parse_account_files() {
             f = fopen(name.c_str(), "r");
             if (!f) continue;
             project = new PROJECT;
-            project->parse_account(f);
-            projects.push_back(project);
+            retval = project->parse_account(f);
+            if (retval) {
+                msg_printf(NULL, MSG_ERROR,
+                    "Couldn't parse account file %s",
+                    name.c_str()
+                );
+            } else {
+                projects.push_back(project);
+            }
             fclose(f);
         }
     }

@@ -252,7 +252,7 @@ void Proc_1(DS_DATA& dd, REG Rec_Pointer Ptr_Val_Par)
 void Proc_2(DS_DATA& dd, One_Fifty *Int_Par_Ref)
 {
   One_Fifty  Int_Loc;
-  Enumeration   Enum_Loc;
+  Enumeration   Enum_Loc=Ident_1;
 
   Int_Loc = *Int_Par_Ref + 10;
   do /* executed once */
@@ -368,7 +368,7 @@ Enumeration Func_1(
 
 bool Func_2(DS_DATA& dd, Str_30  Str_1_Par_Ref, Str_30  Str_2_Par_Ref) {
   REG One_Thirty        Int_Loc;
-      Capital_Letter    Ch_Loc;
+      Capital_Letter    Ch_Loc=0;
 
   Int_Loc = 2;
   while (Int_Loc <= 2) /* loop body executed once */

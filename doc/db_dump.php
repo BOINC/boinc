@@ -15,6 +15,11 @@ http://setiweb.ssl.berkeley.edu/sah/stats.php</a>.
 
 <p>
 Statistics data is exported in XML-format files.
+XML schemas for these files are
+<a href=BOINCSchemas/>here</a>,
+and a graphical representation is
+<a href=BOINCSchemas/documentation/>here</a>.
+<p>
 These files are contained in a download directory,
 linked to from the project's web site.
 A project can decide what data to export,

@@ -149,8 +149,8 @@ int PROJECT::parse_account_file() {
     return retval;
 }
 
-// parse user's project preferences, generating
-// FILE_REF and FILE_INFO objects for each <app_file> element.
+// parse user's project preferences,
+// generating FILE_REF and FILE_INFO objects for each <app_file> element.
 //
 int PROJECT::parse_preferences_for_user_files() {
     char* p, *q, *q2;
@@ -197,8 +197,7 @@ int PROJECT::parse_preferences_for_user_files() {
     return 0;
 }
 
-// parse account_*.xml file; fill in files of
-// project_specific_prefs
+// parse an account_*.xml file
 //
 int PROJECT::parse_account(FILE* in) {
     char buf[256], venue[256];
@@ -243,7 +242,10 @@ int PROJECT::parse_account(FILE* in) {
                 );
                 got_venue_prefs = true;
             } else {
-                copy_element_contents(in, "</venue>", temp, sizeof(temp));
+                retval = copy_element_contents(
+                    in, "</venue>", temp, sizeof(temp)
+                );
+                if (retval) return retval;
             }
             continue;
         }
@@ -273,7 +275,7 @@ int PROJECT::parse_account(FILE* in) {
                 "</project_specific>",
                 project_specific_prefs
             );
-            if (retval) return ERR_XML_PARSE;
+            if (retval) return retval;
             continue;
         }
         else scope_messages.printf("PROJECT::parse_account(): unrecognized: %s\n", buf);
@@ -287,6 +289,7 @@ int PROJECT::parse_state(MIOFILE& in) {
     char buf[256];
     STRING256 sched_url;
     string str1, str2;
+    int retval;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
@@ -330,12 +333,13 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_double(buf, "<exp_avg_cpu>", exp_avg_cpu)) continue;
         else if (parse_double(buf, "<exp_avg_mod_time>", exp_avg_mod_time)) continue;
         else if (match_tag(buf, "<code_sign_key>")) {
-            copy_element_contents(
+            retval = copy_element_contents(
                 in,
                 "</code_sign_key>",
                 code_sign_key,
                 sizeof(code_sign_key)
             );
+            if (retval) return retval;
         }
         else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
         else if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
@@ -629,21 +633,23 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</file_info>")) return 0;
         else if (match_tag(buf, "<xml_signature>")) {
-            copy_element_contents(
+            retval = copy_element_contents(
                 in,
                 "</xml_signature>",
                 xml_signature,
                 sizeof(xml_signature)
             );
+            if (retval) return retval;
             continue;
         }
         else if (match_tag(buf, "<file_signature>")) {
-            copy_element_contents(
+            retval = copy_element_contents(
                 in,
                 "</file_signature>",
                 file_signature,
                 sizeof(file_signature)
             );
+            if (retval) return retval;
             if (from_server) {
                 strcat(signed_xml, "<file_signature>\n");
                 strcat(signed_xml, file_signature);
@@ -687,12 +693,13 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
                 delete pfxp;
             }
         } else if (!from_server && match_tag(buf, "<signed_xml>")) {
-            copy_element_contents(
+            retval = copy_element_contents(
                 in,
                 "</signed_xml>",
                 signed_xml,
                 sizeof(signed_xml)
             );
+            if (retval) return retval;
             continue;
         } else if (match_tag(buf, "<file_xfer>")) {
             while (in.fgets(buf, 256)) {
@@ -700,7 +707,10 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
             }
             continue;
         } else if (match_tag(buf, "<error_msg>")) {
-            copy_element_contents(in, "</error_msg>", buf2, sizeof(buf2));
+            retval = copy_element_contents(
+                in, "</error_msg>", buf2, sizeof(buf2)
+            );
+            if (retval) return retval;
             error_msg = buf2;
         } else scope_messages.printf("FILE_INFO::parse(): unrecognized: %s\n", buf);
     }

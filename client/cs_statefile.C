@@ -94,7 +94,7 @@ int CLIENT_STATE::parse_state_file() {
                     project->copy_state_fields(temp_project);
                 } else {
                     msg_printf(&temp_project, MSG_ERROR,
-                        "Project %s found in state file but not prefs",
+                        "Project %s is in state file but no account file found",
                         temp_project.get_project_name()
                     );
                 }
@@ -132,7 +132,7 @@ int CLIENT_STATE::parse_state_file() {
                 delete fip;
             } else {
                 if (project) {
-                    retval = link_file_info(project, fip, false);
+                    retval = link_file_info(project, fip);
                     if (project->anonymous_platform && retval == ERR_NOT_UNIQUE) {
                         continue;
                     }
@@ -342,7 +342,7 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
     if (retval) return retval;
     retval = time_stats.write(f, false);
     if (retval) return retval;
-    retval = net_stats.write(f, false);
+    retval = net_stats.write(f);
     if (retval) return retval;
     for (j=0; j<projects.size(); j++) {
         PROJECT* p = projects[j];
@@ -453,7 +453,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
 				delete fip;
 				continue;
 			}
-			if (link_file_info(p, fip, true)) {
+			if (link_file_info(p, fip)) {
 				delete fip;
 				continue;
 			}
@@ -503,7 +503,7 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
     if (retval) return retval;
     retval = time_stats.write(f, false);
     if (retval) return retval;
-    retval = net_stats.write(f, false);
+    retval = net_stats.write(f);
     if (retval) return retval;
 
 	for (j=0; j<projects.size(); j++) {

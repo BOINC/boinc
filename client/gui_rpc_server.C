@@ -206,7 +206,7 @@ static void handle_set_run_mode(char* buf, MIOFILE& fout) {
     fout.printf("<success/>\n");
 }
 
-static void handle_get_run_mode(char* buf, MIOFILE& fout) {
+static void handle_get_run_mode(char* , MIOFILE& fout) {
     fout.printf("<run_mode>\n");
     switch (gstate.user_run_request) {
     case USER_RUN_REQUEST_ALWAYS:
@@ -236,7 +236,7 @@ static void handle_set_network_mode(char* buf, MIOFILE& fout) {
     fout.printf("<success/>\n");
 }
 
-static void handle_get_network_mode(char* buf, MIOFILE& fout) {
+static void handle_get_network_mode(char* , MIOFILE& fout) {
     fout.printf("<network_mode>\n");
     switch (gstate.user_network_request) {
         case USER_RUN_REQUEST_ALWAYS:
@@ -251,7 +251,7 @@ static void handle_get_network_mode(char* buf, MIOFILE& fout) {
     fout.printf("</network_mode>\n");
 }
 
-static void handle_run_benchmarks(char* buf, MIOFILE& fout) {
+static void handle_run_benchmarks(char* , MIOFILE& fout) {
     // TODO: suspend activities; make sure run at right priority
     //
     gstate.start_cpu_benchmarks();

@@ -171,7 +171,7 @@ public:
     int reset_project(PROJECT*);
 private:
     int link_app(PROJECT*, APP*);
-    int link_file_info(PROJECT*, FILE_INFO*, bool);
+    int link_file_info(PROJECT*, FILE_INFO*);
     int link_file_ref(PROJECT*, FILE_REF*);
     int link_app_version(PROJECT*, APP_VERSION*);
     int link_workunit(PROJECT*, WORKUNIT*);

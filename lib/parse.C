@@ -162,13 +162,17 @@ int dup_element_contents(FILE* in, const char* end_tag, char** pp) {
 //
 int copy_element_contents(FILE* in, const char* end_tag, char* p, int len) {
     char buf[256];
+    int n;
 
     strcpy(p, "");
     while (fgets(buf, 256, in)) {
         if (strstr(buf, end_tag)) {
             return 0;
         }
+        n = strlen(buf);
+        if (n >= len-1) return ERR_XML_PARSE;
         strcat(p, buf);
+        len -= n;
     }
     fprintf(stderr, "copy_element_contents(): no end tag\n");
     return ERR_XML_PARSE;

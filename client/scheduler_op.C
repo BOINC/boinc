@@ -471,7 +471,10 @@ bool SCHEDULER_OP::poll() {
                         project_add_failed(project);
                     } else {
                         project->tentative = false;
-                        project->write_account_file();
+                        retval = project->write_account_file();
+                        if (retval) {
+                            project_add_failed(project);
+                        }
 #if 0
                         gstate.calc_all_proj_size();
 #endif

@@ -88,15 +88,18 @@ char* MIOFILE::fgets(char* dst, int len) {
 //
 int copy_element_contents(MIOFILE& in, const char* end_tag, char* p, int len) {
     char buf[256];
+    int n;
 
     strcpy(p, "");
     while (in.fgets(buf, 256)) {
         if (strstr(buf, end_tag)) {
             return 0;
         }
+        n = strlen(buf);
+        if (n >= len-1) return ERR_XML_PARSE;
         strcat(p, buf);
+        len -= n;
     }
-    fprintf(stderr, "copy_element_contents(): no end tag\n");
     return ERR_XML_PARSE;
 }
 

@@ -95,7 +95,7 @@ void NET_STATS::poll(NET_XFER_SET& nxs) {
 
 // Write XML based network statistics
 //
-int NET_STATS::write(MIOFILE& out, bool to_server) {
+int NET_STATS::write(MIOFILE& out) {
     out.printf(
         "<net_stats>\n"
         "    <bwup>%f</bwup>\n"

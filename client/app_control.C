@@ -245,7 +245,7 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
     return true;
 }
 #else
-bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
+bool ACTIVE_TASK::handle_exited_app(int stat) {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
     get_app_status_msg();
@@ -423,7 +423,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK_SET::check_app_exited(): pid %d not found\n", pid);
             return false;
         }
-        atp->handle_exited_app(stat, rs);
+        atp->handle_exited_app(stat);
         found = true;
     }
 #endif

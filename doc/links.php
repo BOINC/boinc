@@ -44,6 +44,11 @@ show_link(
     "http://www.seti-nl.org/content.php?c=boinc_berkeley_main"
 );
 show_link(
+    "English",
+    "BOINC Volunteers",
+    "http://www.geocities.com/boinc_volunteers/"
+);
+show_link(
     "Estonian",
     "boinc.tmac.pri.ee",
     "http://boinc.tmac.pri.ee"

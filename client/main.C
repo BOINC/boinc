@@ -153,8 +153,7 @@ int add_new_project() {
     scanf("%s", project.authenticator);
 
     project.tentative = true;
-    project.write_account_file();
-    return 0;
+    return project.write_account_file();
 }
 
 #ifdef WIN32

@@ -266,7 +266,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
 
     retval = time_stats.write(mf, true);
     if (retval) return retval;
-    retval = net_stats.write(mf, true);
+    retval = net_stats.write(mf);
     if (retval) return retval;
     retval = host_info.write(mf);
     if (retval) return retval;
@@ -685,7 +685,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         } else {
             fip = new FILE_INFO;
             *fip = sr.file_infos[i];
-            retval = link_file_info(project, fip, true);
+            retval = link_file_info(project, fip);
             if (retval) {
                 msg_printf(project, MSG_ERROR,
                     "Can't link file_info %s in sched reply", fip->name

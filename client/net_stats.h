@@ -50,6 +50,6 @@ public:
     NET_STATS();
     void poll(NET_XFER_SET&);
 
-    int write(MIOFILE&, bool to_server);
+    int write(MIOFILE&);
     int parse(MIOFILE&);
 };

@@ -346,8 +346,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     bool some_app_started = false, first;
     double total_resource_share;
     int retval, elapsed_time, j;
-    //double max_debt = SECONDS_PER_DAY * ncpus;
-    double min_debt;
+    double min_debt=0;
     double vm_limit;
     unsigned int i;
 
