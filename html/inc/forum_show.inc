@@ -89,8 +89,8 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
     while ($thread = mysql_fetch_object($threads)) {
         $user = lookup_user_id($thread->owner);
         echo "
-            <tr class=row$n style=\"font-size:8pt; text-align:center\">
-            <td style=\"font-size:10pt; text-align:left\"><a href=\"forum_thread.php?id=", $thread->id, "\"><b>", strip_tags(stripslashes($thread->title)), "</b></a><br>
+            <tr class=row$n style=\"text-align:center\">
+            <td style=\"text-align:left\"><a href=\"forum_thread.php?id=", $thread->id, "\"><b>", strip_tags(stripslashes($thread->title)), "</b></a><br>
         ";
         $n = ($n+1)%2;
 

@@ -481,10 +481,10 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         if ($user->create_time>time()-ST_NEW_TIME) $fstatus=ST_NEW;
         /*...*/
     }
-    if ($fstatus) echo "<br><font size=\"-2\">$fstatus</font>";
+    if ($fstatus) echo "<br><font size=-2>$fstatus</font>";
     
     if (!$filter || !$rated_below_threshold){
-        echo "<p style=\"font-size:8pt\">";
+        echo "<p>";
         if ($user->has_avatar and $logged_in_user->hide_avatars!=1) 
 	    echo "<img width=\"".AVATAR_WIDTH."\" height=\"".AVATAR_HEIGHT."\" src=\"".$user->avatar."\" alt=\"Avatar\"><br>";
 	echo "Joined: ", gmdate('M j, Y', $user->create_time), "<br>Posts: ", $user->posts, "</p>";
@@ -563,7 +563,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         echo "<p>", $posttext, "</p>";
         echo "<table width=100% cellspacing=0 cellpadding=0>
             <tr valign=\"bottom\">
-            <td align=\"left\" style=\"border:0px; font-size:7pt\"><i>ID: ", $post->id;
+            <td style=border:0px><font size=-2><i>ID: ", $post->id;
         if ($controls == HELPDESK_CONTROLS && $separate) {
             echo "</i></td>";
         } else if ($controls == HELPDESK_CONTROLS && !$separate) {
@@ -765,12 +765,12 @@ function show_post2($post, $n) {
 function show_forum_summary($forum) {
     $x = time_diff_str($forum->timestamp, time());
     echo "
-        <tr class=row1 style=\"font-size:8pt; text-align:right\">
+        <tr class=row1 style=\"text-align:right\">
         <td class=indent style=\"text-align:left\">
-            <span style=\"font-size:10pt; font-weight:bold\">
+            <span style=\"font-weight:bold\">
             <a href=forum_forum.php?id=$forum->id>", $forum->title,
             "</a></span>
-            <br>", $forum->description, "
+            <br><font size=-2>", $forum->description, "
         </td>
         <td>", $forum->threads, "</td>
         <td>", $forum->posts, "</td>

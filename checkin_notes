@@ -19369,11 +19369,15 @@ Rom   13 Nov 2004 (boinc)
       boinc_core_release_4_55
 
 Bruce Allen 13 Nov 2004
-    - Fixed, modified, tested script to remove workunits.  Linked to main ops page.
+    - Fixed, modified, tested script to remove workunits.
+        Linked to main ops page.
     - Fixed links at bottom of workunits page, showing outcomes of results.
-    - Added tabular description of tables to the database form page, longer clause box
-    - Added fix (commented out) to get pictures for systems without TrueColor support (GD v 2)
+    - Added tabular description of tables to the database form page,
+        longer clause box
+    - Added fix (commented out) to get pictures for systems without
+        TrueColor support (GD v 2)
     - Fix to db_action.inc so it works under PHP<4.3.0
+
     html/ops/
       cancel_wu.php  (removed)
       cancel_wu_form.php
@@ -19404,3 +19408,13 @@ Rom    14 Nov 2004
         win_util.cpp, .h
     lib/
         gui_rpc_client.C, .h
+
+David  14 Nov 2004
+    - remove hardwired font sizes from web code
+
+    html/
+        inc/
+            forum.inc
+            forum_show.inc
+        ops/
+            cancel_wu_action.php
