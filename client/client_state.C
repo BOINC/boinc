@@ -401,7 +401,7 @@ int CLIENT_STATE::cpu_benchmarks() {
 
 		msg_printf(NULL, MSG_INFO, "Benchmark results: FP: %.0f%s;  Int: %.0f%s;  Mem BW: %.0f%s",
 			host_info.p_fpops, (host_info.p_fpop_err?" [ERROR]":""),
-			host_info.p_iops,  (host_info.p_iops_err?" [ERROR]":""),
+			host_info.p_iops,  (host_info.p_iop_err?" [ERROR]":""),
 			host_info.p_membw, (host_info.p_membw_err?" [ERROR]":"")
         );
     }
