@@ -577,14 +577,7 @@ void ACTIVE_TASK_SET::exit_tasks() {
 //
 int ACTIVE_TASK::suspend() {
 #ifdef _WIN32
-    char susp_file[256];
-
-    get_slot_dir(slot, slot_dir);
-    sprintf(susp_file, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE);
-    FILE *fp = fopen(susp_file, "w");
-    if (!fp) return ERR_FOPEN;
-    write_suspend_quit_file(fp, true, false);
-    fclose(fp);
+	SuspendThread( thread_handle );
 #else
     kill(pid, SIGSTOP);
 #endif
@@ -595,14 +588,7 @@ int ACTIVE_TASK::suspend() {
 //
 int ACTIVE_TASK::unsuspend() {
 #ifdef _WIN32
-    char susp_file[256];
-
-    get_slot_dir(slot, slot_dir);
-    sprintf(susp_file, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE);
-    FILE *fp = fopen(susp_file, "w");
-    if (!fp) return ERR_FOPEN;
-    write_suspend_quit_file(fp, false, false);
-    fclose(fp);
+	ResumeThread( thread_handle );
 #else
     kill(pid, SIGCONT);
 #endif
