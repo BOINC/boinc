@@ -8,7 +8,7 @@ http://sourceforge.net/projects/mysql-python
 INSTALLATION INSTRUCTIONS
 =========================
 
-Lines beginning with "$" indicate example commands to type in shell.
+Lines beginning with "$" indicate example commands to type in bourne shell.
 
 Lines beginning with "#" indicate example commands to type with write access
 to the install location (i.e. su or sudo)
