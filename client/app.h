@@ -20,6 +20,8 @@
 #ifndef _TASK_
 #define _TASK_
 
+// Possible states of a process in an ACTIVE_TASK
+#define PROCESS_UNINITIALIZED   0
 #define PROCESS_RUNNING         1
 #define PROCESS_EXITED          2
 #define PROCESS_WAS_SIGNALED    3

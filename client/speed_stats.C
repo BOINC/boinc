@@ -6,9 +6,10 @@
 #include "speed_stats.h"
 #include "error_numbers.h"
 
-#define D_FLOP_ITERS    1
-#define I_OP_ITERS      1
-#define BANDWIDTH_ITERS 1
+// # of iterations of each test to run for initial timing purposes
+#define D_FLOP_ITERS    100
+#define I_OP_ITERS      100
+#define BANDWIDTH_ITERS 5
 
 //#define RUN_TEST
 
@@ -22,6 +23,29 @@ int main( void ) {
     run_test_suite( 4 );
     
     return 0;
+}
+
+void run_test_suite( double num_secs_per_test ) {
+    if(num_secs_per_test<0) {
+        fprintf(stderr, "error: run_test_suite: negative num_seconds_per_test\n");
+    }
+    printf(
+        "Running tests.  This will take about %.1lf seconds.\n\n",
+        num_secs_per_test*3
+    );
+    
+    printf(
+        "Speed: %.5lf million flops/sec\n\n",
+        run_double_prec_test(num_secs_per_test)/1000000
+    );
+    printf(
+        "Speed: %.5lf million integer ops/sec\n\n",
+        run_int_test(num_secs_per_test)/1000000
+    );
+    printf(
+        "Speed: %.5lf MB/sec\n\n",
+        12*sizeof(double)*run_mem_bandwidth_test(num_secs_per_test)/1000000
+    );
 }
 
 #endif
@@ -163,6 +187,8 @@ int check_cache_size( int mem_size ) {
     return 0;
 }
 
+// Run the test of double precision math speed for about num_secs seconds
+//
 double run_double_prec_test( double num_secs ) {
     int df_test_time, df_iters;
     double df_secs;
@@ -178,7 +204,7 @@ double run_double_prec_test( double num_secs ) {
     // Calculate the # of iterations based on these tests
     df_iters = (int)(D_FLOP_ITERS*num_secs/df_secs);
 
-    if( df_iters > D_FLOP_ITERS )  {    // no need to redo test
+    if( df_iters > D_FLOP_ITERS )  {    // no need to redo test if we already got enough
         df_test_time = (int)double_flop_test( df_iters, 0 );
     } else {
         df_iters = D_FLOP_ITERS;
@@ -189,6 +215,8 @@ double run_double_prec_test( double num_secs ) {
     return 1000000*df_iters/df_secs;
 }
 
+// Run the test of integer math speed for about num_secs seconds
+//
 double run_int_test( double num_secs ) {
     int int_test_time, int_iters;
     double int_secs;
@@ -215,6 +243,8 @@ double run_int_test( double num_secs ) {
     return 1000000*int_iters/int_secs;
 }
 
+// Run the test of memory bandwidth speed for about num_secs seconds
+//
 double run_mem_bandwidth_test( double num_secs ) {
     int bw_test_time;
     double bw_secs;
@@ -239,29 +269,6 @@ double run_mem_bandwidth_test( double num_secs ) {
 
     bw_secs = (double)bw_test_time/CLOCKS_PER_SEC;
     return 1000000*bw_iters/bw_secs;
-}
-
-void run_test_suite( double num_secs_per_test ) {
-    if(num_secs_per_test<0) {
-        fprintf(stderr, "error: run_test_suite: negative num_seconds_per_test\n");
-    }
-    printf(
-        "Running tests.  This will take about %.1lf seconds.\n\n",
-        num_secs_per_test*3
-    );
-    
-    printf(
-        "Speed: %.5lf million flops/sec\n\n",
-        run_double_prec_test(num_secs_per_test)/1000000
-    );
-    printf(
-        "Speed: %.5lf million integer ops/sec\n\n",
-        run_int_test(num_secs_per_test)/1000000
-    );
-    printf(
-        "Speed: %.5lf MB/sec\n\n",
-        12*sizeof(double)*run_mem_bandwidth_test(num_secs_per_test)/1000000
-    );
 }
 
 // One iteration == D_LOOP_ITERS (1,000,000) floating point operations
@@ -289,9 +296,10 @@ clock_t double_flop_test( int iterations, int print_debug ) {
         for( j=0;j<D_LOOP_ITERS;j+=((NUM_DOUBLES-1)*5) ) {
             temp = 1;
             t1 = a[0];
-            // These tests do a pretty good job of breaking the processor pipeline,
+            // These tests do a pretty good job of preventing optimization
             // since the result from all but one of the lines is required for the
-            // next line.
+            // next line.  At the end of each iteration through the for loop,
+            // the array should be the same as when it started
            
             for( k=0;k<NUM_DOUBLES-1;k++ ) {
                 t2 = a[k+1];
@@ -306,11 +314,20 @@ clock_t double_flop_test( int iterations, int print_debug ) {
         }
     }
     
-    time_total = clock()-time_start;
+    // Stop the clock
+    time_total = clock();
+    
+    // Accomodate for the possibility of clock wraparound
+    if( time_total > time_start ) {
+        time_total -= time_start;
+    } else {
+        time_total = 0; // this is just a kludge
+    }
+    
     
     calc_error = 0;
     temp = 1;
-    // Check to make sure all the values are the same
+    // Check to make sure all the values are the same as when we started
     for( i=0;i<NUM_DOUBLES;i++ ) {
         if( (float)a[i] != (float)temp ) {
             calc_error = 1;
@@ -351,6 +368,10 @@ clock_t int_op_test( int iterations, int print_debug ) {
    
     time_start = clock();
     for( i=0;i<iterations;i++ ) {
+        // The contents of the array "a" should be the same at the
+        // beginning and end of each loop iteration.  Most compilers will
+        // partially unroll the individual loops within this one, so
+        // those integer operations (incrementing k) are not counted
         for( j=0;j<I_LOOP_ITERS/(NUM_INTS*9);j++ ) {
             for( k=0;k<NUM_INTS;k++ ) {
                 a[k] *= 3;   // 1 int ops
@@ -380,11 +401,19 @@ clock_t int_op_test( int iterations, int print_debug ) {
         }
     }
 
-    time_total = clock()-time_start;
+    // Stop the clock
+    time_total = clock();
+    
+    // Accomodate for the possibility of clock wraparound
+    if( time_total > time_start ) {
+        time_total -= time_start;
+    } else {
+        time_total = 0; // this is just a kludge
+    }
     
     calc_error = 0;
     temp = 1;
-    // Check to make sure all the values are the same
+    // Check to make sure all the values are the same as when we started
     for( i=0;i<NUM_INTS;i++ ) {
         if( a[i] != temp ) {
             calc_error = 1;
@@ -406,7 +435,7 @@ clock_t int_op_test( int iterations, int print_debug ) {
     return time_total;
 }
 
-// One iteration == Read of 6M*sizeof(double), Write of 6M*sizeof(double)
+// One iteration == Read of 6,000,000*sizeof(double), Write of 6,000,000*sizeof(double)
 // If time_total is negative, there was an error in the copying,
 // meaning there is probably something wrong with the CPU
 
@@ -458,7 +487,7 @@ clock_t bandwidth_test( int iterations, int print_debug ) {
     if( time_total > time_start ) {
         time_total -= time_start;
     } else {
-        time_total -= time_start;
+        time_total = 0; // this is just a kludge
     }
     
     copy_error = 0;

@@ -24,6 +24,8 @@
 #include "hostinfo.h"
 #include "error_numbers.h"
 
+// Parse the host information, usually from the client state XML file
+//
 int HOST_INFO::parse(FILE* in) {
     char buf[256];
     if(in==NULL) {
@@ -55,6 +57,8 @@ int HOST_INFO::parse(FILE* in) {
     return 0;
 }
 
+// Write the host information, usually to the client state XML file
+//
 int HOST_INFO::write(FILE* out) {
     if(out==NULL) {
         fprintf(stderr, "error: HOST_INFO.write: unexpected NULL pointer out\n");

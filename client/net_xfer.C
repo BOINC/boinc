@@ -23,14 +23,31 @@
 
 #ifdef _WIN32
 #include "winsock.h"
-#else
+#endif
+
+#if HAVE_SYS_TIME_H
 #include <sys/time.h>
+#endif
+#if HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
+#endif
+#if HAVE_SYS_SELECT_H
 #include <sys/select.h>
+#endif
+#if HAVE_NETINET_IN_H
 #include <netinet/in.h>
+#endif
+#if HAVE_NETINET_TCP_H
 #include <netinet/tcp.h>
+#endif
+#if HAVE_NETDB_H
 #include <netdb.h>
+#endif
+#if HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+#if HAVE_FCNTL_H
+#include <fcntl.h>
 #endif
 
 #include <sys/types.h>
@@ -38,7 +55,6 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <time.h>
-#include <fcntl.h>
 #include <string.h>
 
 #include "error_numbers.h"
@@ -54,7 +70,8 @@
 #define socklen_t size_t
 #endif
 
-
+// Attempt to open a nonblocking socket to a server
+//
 int NET_XFER::open_server() {
     sockaddr_in addr;
     hostent* hep;
@@ -108,18 +125,23 @@ int NET_XFER::open_server() {
 
 
 void NET_XFER::init(char* host, int p, int b) {
-    strcpy(hostname, host);
-    port = p;
+    // net_xfer_state = ?
+    socket = -1;
     is_connected = false;
     want_download = false;
     want_upload = false;
     do_file_io = false;
     io_done = false;
+    file = NULL;
     io_ready = false;
     error = 0;
+    strcpy(hostname, host);
+    port = p;
     blocksize = b;
 }
 
+// Insert a NET_XFER object into the set
+//
 int NET_XFER_SET::insert(NET_XFER* nxp) {
     int retval = nxp->open_server();
     if (retval) return retval;
@@ -127,6 +149,8 @@ int NET_XFER_SET::insert(NET_XFER* nxp) {
     return 0;
 }
 
+// Remove a NET_XFER object from the set
+//
 int NET_XFER_SET::remove(NET_XFER* nxp) {
     vector<NET_XFER*>::iterator iter;
 
@@ -150,7 +174,7 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
 
 // transfer data to/from a list of active streams
 // transfer at most max_bytes bytes.
-//
+// TODO: implement other bandwidth constraints (ul/dl ratio, time of day)
 int NET_XFER_SET::poll(int max_bytes, int& bytes_transferred) {
     int n, retval;
 
@@ -252,6 +276,8 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
     return 0;
 }
 
+// Return the NET_XFER object whose socket matches fd
+//
 NET_XFER* NET_XFER_SET::lookup_fd(int fd) {
     for (unsigned int i=0; i<net_xfers.size(); i++) {
         if (net_xfers[i]->socket == fd) {

@@ -61,6 +61,9 @@
 
 // functions to get name/addr of local host
 
+// Returns the domain of the local host
+// TODO: Should the 256 be MAXHOSTNAMELEN instead?
+//
 int get_local_domain_name(char* p) {
     char buf[256];
     if(p==NULL) {
@@ -73,6 +76,8 @@ int get_local_domain_name(char* p) {
     return 0;
 }
 
+// Gets the ip address of the local host
+//
 int get_local_ip_addr(int& p) {
     char buf[256];
     struct in_addr addr;
@@ -85,6 +90,9 @@ int get_local_ip_addr(int& p) {
     return 0;
 }
 
+// Returns the name of the local host
+// TODO: Should the 256 be MAXHOSTNAMELEN instead?
+//
 int get_local_ip_addr_str(char* p) {
     char buf[256];
     if(p==NULL) {
@@ -101,6 +109,8 @@ int get_local_ip_addr_str(char* p) {
     return 0;
 }
 
+// Converts a int ip address to a string representation (i.e. "66.218.71.198")
+//
 char* ip_addr_string(int ip_addr) {
     in_addr ia;
 
@@ -108,7 +118,8 @@ char* ip_addr_string(int ip_addr) {
     return inet_ntoa(ia);
 }
 
-
+// What does this return?  # of seconds from GMT?
+//
 void get_timezone(int& tz) {
     tzset();
 
@@ -120,6 +131,9 @@ void get_timezone(int& tz) {
 #endif
 }
 
+// Returns true if the host is currently running off battery power
+// TODO: port this to other platforms (Windows, Mac OS X, others?)
+//
 bool host_is_running_on_batteries() {
     float x1, x2;
     int i1, i2;
@@ -139,6 +153,8 @@ bool host_is_running_on_batteries() {
 
 #ifdef linux
 
+// Determine the memory specifications for this host, including RAM and swap space
+//
 void parse_meminfo(HOST_INFO& host) {
     char buf[256];
     FILE* f = fopen("/proc/meminfo", "r");
@@ -157,7 +173,7 @@ void parse_meminfo(HOST_INFO& host) {
 // Unfortunately the format of /proc/cpuinfo is not standardized.
 // See http://people.nl.linux.org/~hch/cpuinfo/ for some examples.
 // The following is for Redhat Linux 2.2.14.
-//
+// TODO: get this to work on all platforms
 void parse_cpuinfo(HOST_INFO& host) {
     char buf[256];
     int n;
@@ -182,6 +198,8 @@ void parse_cpuinfo(HOST_INFO& host) {
 #endif
 
 #if HAVE_SYS_UTSNAME_H
+// Puts the operating system name and version into the HOST_INFO structure
+//
 void get_osinfo(HOST_INFO& host) {
     struct utsname u;
     uname(&u);
@@ -190,6 +208,8 @@ void get_osinfo(HOST_INFO& host) {
 }
 #endif
 
+// General function to get all relevant host information
+//
 int get_host_info(HOST_INFO& host) {
     host.m_nbytes = 0;
     host.m_cache = 0;

@@ -26,6 +26,7 @@
 #include "error_numbers.h"
 #include "net_stats.h"
 
+// Is this a reasonable cutoff?
 #define SMALL_FILE_CUTOFF 32000
 
 NET_STATS::NET_STATS() {
@@ -35,6 +36,7 @@ NET_STATS::NET_STATS() {
     bwdown = 0;
 }
 
+// Update network statistics
 void NET_STATS::update(bool is_upload, double nbytes, double nsecs) {
     double w1, w2, bw;
 
@@ -66,6 +68,8 @@ void NET_STATS::update(bool is_upload, double nbytes, double nsecs) {
     }
 }
 
+// Write XML based network statistics
+//
 int NET_STATS::write(FILE* out, bool to_server) {
     if(out==NULL) {
         fprintf(stderr, "error: NET_STATS.write: unexpected NULL pointer out\n");
@@ -89,6 +93,8 @@ int NET_STATS::write(FILE* out, bool to_server) {
     return 0;
 }
 
+// Read XML based network statistics
+//
 int NET_STATS::parse(FILE* in) {
     char buf[256];
     if(in==NULL) {

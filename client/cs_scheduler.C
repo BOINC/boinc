@@ -158,6 +158,10 @@ PROJECT* CLIENT_STATE::choose_project() {
 }
 #endif
 
+// Compute the "resource debt" of each project.  This is used
+// to determine what project we will focus on next, based on
+// the user specified resource share
+//
 void CLIENT_STATE::compute_resource_debts() {
     unsigned int i, j;
     PROJECT* p, *pbest;
@@ -190,6 +194,10 @@ void CLIENT_STATE::compute_resource_debts() {
     }
 }
 
+// Prepare the scheduler request.  This writes the request in XML to a
+// file (SCHED_OP_REQUEST_FILE) which is later sent to the scheduling
+// server
+//
 int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     FILE* f = fopen(SCHED_OP_REQUEST_FILE, "wb");
     unsigned int i;
@@ -371,15 +379,19 @@ bool CLIENT_STATE::get_work() {
 }
 #endif
 
-// see whether a new preferences set, obtained from
-// the given project, looks "reasonable".
+// see whether a new preferences set, obtained from the given
+// project, looks "reasonable".  This is to prevent accidental or
+// intentional preferences corruption
 // Currently this is primitive: just make sure there's at least 1 project
-//
+// TODO: figure out what else to look for here
 bool PREFS::looks_reasonable(PROJECT& project) {
     if (projects.size() > 0) return true;
     return false;
 }
 
+// Parse the reply from a scheduler and configure internal structures
+// appropriately
+//
 void CLIENT_STATE::handle_scheduler_reply(
     PROJECT* project, char* scheduler_url
 ) {

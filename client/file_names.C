@@ -30,6 +30,8 @@
 #include "file_names.h"
 #include "error_numbers.h"
 
+// Converts a character string of a decimal number to hexadecimal string
+//
 static void c2x(char *what) {
     char buf[3];
     char num = atoi(what);
@@ -50,6 +52,9 @@ static void c2x(char *what) {
     strcpy(what, buf);
 }
 
+// Escape a URL, converting the non alphanumeric characters to
+// %XY where XY is their hexadecimal equivalent
+//
 static void escape_url(char *in, char* out) {
     int x, y;
     if(in==NULL) {
@@ -77,6 +82,8 @@ static void escape_url(char *in, char* out) {
     out[y] = 0;
 }
 
+// Gets the pathname of a file
+//
 void get_pathname(FILE_INFO* fip, char* path) {
     if(fip==NULL) {
         fprintf(stderr, "error: get_pathname: unexpected NULL pointer fip\n");
@@ -97,6 +104,8 @@ void get_pathname(FILE_INFO* fip, char* path) {
     }
 }
 
+// Returns the location of a numbered slot directory
+//
 void get_slot_dir(int slot, char* path) {
     if(path==NULL) {
         fprintf(stderr, "error: get_slot_dir: unexpected NULL pointer path\n");
@@ -119,6 +128,8 @@ int make_project_dir(PROJECT& p) {
     return 0;
 }
 
+// Returns the location of a numbered slot directory
+//
 int make_slot_dir(int slot) {
     if(slot<0) {
         fprintf(stderr, "error: make_slot_dir: negative slot\n");
@@ -133,6 +144,8 @@ int make_slot_dir(int slot) {
 
 #else
 
+// Create the directory for the project p
+//
 int make_project_dir(PROJECT& p) {
     char buf[256];
 
@@ -141,6 +154,8 @@ int make_project_dir(PROJECT& p) {
     return 0;
 }
 
+// Create the slot directory for the specified slot #
+//
 int make_slot_dir(int slot) {
     char buf[256];
     if(slot<0) {
@@ -153,6 +168,8 @@ int make_slot_dir(int slot) {
     return 0;
 }
 
+// Returns a filename used for prefs backup
+//
 int make_prefs_backup_name(PREFS& prefs, char* name) {
     if(name==NULL) {
         fprintf(stderr, "error: make_prefs_backup_name: unexpected NULL pointer name\n");

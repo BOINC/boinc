@@ -25,6 +25,8 @@
 extern int get_local_domain_name(char* p);
 extern int get_local_ip_addr_str(char* p);
 
+// Gets windows specific host information (not complete)
+//
 int get_host_info(HOST_INFO& host) {
     OSVERSIONINFO OSVersionInfo;
     memset( &OSVersionInfo, NULL, sizeof( OSVersionInfo ) );

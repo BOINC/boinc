@@ -54,7 +54,7 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     return 0;
 }
 
-// poll and clean up after existing apps
+// poll status of existing apps and and clean up after them
 //
 bool CLIENT_STATE::handle_running_apps() {
     unsigned int i;
@@ -80,6 +80,9 @@ bool CLIENT_STATE::handle_running_apps() {
     return action;
 }
 
+// Returns true if all the input files for a result are available
+// locally, false otherwise
+//
 bool CLIENT_STATE::input_files_available(RESULT* rp) {
     if(rp==NULL) {
         fprintf(stderr, "error: CLIENT_STATE.input_files_available: unexpected NULL pointer rp\n");
@@ -111,6 +114,8 @@ bool CLIENT_STATE::start_apps() {
     bool action = false;
 
     for (i=0; i<results.size(); i++) {
+        // If all the app slots are already used, we can't start
+        // a new app
         if (active_tasks.active_tasks.size() == nslots) {
             if (log_flags.task_debug) {
                 printf("start_apps(): all slots full\n");
@@ -118,6 +123,10 @@ bool CLIENT_STATE::start_apps() {
             return 0;
         }
         rp = results[i];
+        // Start the application to compute a result if the result
+        // isn't done yet, the application isn't currently computing
+        // the result, and all the input files for the result are
+        // locally available
         if (!rp->is_compute_done && !rp->is_active && input_files_available(rp)) {
             if (log_flags.task_debug) {
                 printf("starting application for result %s\n", rp->name);
@@ -133,7 +142,7 @@ bool CLIENT_STATE::start_apps() {
     return action;
 }
 
-// This is called on initialization.
+// This is called when the client is initialized.
 // Try to restart any tasks that were running when we last shut down.
 //
 int CLIENT_STATE::restart_tasks() {

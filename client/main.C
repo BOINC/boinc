@@ -30,6 +30,9 @@
 #include "prefs.h"
 #include "util.h"
 
+// Display a message to the user.  Depending on the priority, the
+// message may be more or less obtrusive
+//
 void show_message(char* message, char* priority) {
     if(message==NULL) {
         fprintf(stderr, "error: show_message: unexpected NULL pointer message\n");
@@ -46,6 +49,7 @@ void show_message(char* message, char* priority) {
 
 // Prompt user for project URL and authenticator,
 // and create a prototype prefs file
+// TODO: use better input method here, backspace doesn't always seem to work
 //
 int initialize_prefs() {
     char master_url[256];
@@ -73,14 +77,19 @@ int main(int argc, char** argv) {
     FILE* f;
     int retval;
 
+    // Set the stdout buffer to 0, such that stdout output
+    // immediately gets written out
     setbuf(stdout, 0);
 
+    // Read any log flags preferences, used mainly for debugging
     f = fopen(LOG_FLAGS_FILE, "r");
     if (f) {
         log_flags.parse(f);
         fclose(f);
     }
 
+    // Read the user preferences file, if it exists.  If it doesn't,
+    // prompt user for project URL via initialize_prefs()
     prefs = new PREFS;
     retval = prefs->parse_file();
     if (retval) {
@@ -96,23 +105,34 @@ int main(int argc, char** argv) {
         }
     }
 
+    // Initialize the client state with the preferences
     gstate.init(prefs);
+    // Parse command line arguments
     gstate.parse_cmdline(argc, argv);
+    // Run the time tests and host information check if needed
+    // TODO: break time tests and host information check into two
+    //       separate functions?
     if(gstate.run_time_tests()) {
         gstate.time_tests();
     }
+    // Restart any tasks that were running when we last quit the client
     gstate.restart_tasks();
     while (1) {
+        // do_something is where the meat of the clients work is done
+        // it will return false if it had nothing to do, in which case
+        // client will go to sleep for a second
         if (!gstate.do_something()) {
             if (log_flags.time_debug) printf("SLEEP 1 SECOND\n");
             fflush(stdout);
             boinc_sleep(1);
         }
+        // If it's time to exit, break out of the while loop
         if (gstate.time_to_exit()) {
             printf("time to exit\n");
             break;
         }
     }
+    // Clean everything up and gracefully exit
     gstate.exit_tasks();
     return 0;
 }

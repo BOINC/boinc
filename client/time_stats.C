@@ -33,13 +33,15 @@
 #define ALPHA (3600.*24*7*30)
 
 TIME_STATS::TIME_STATS() {
-    first = true;
     last_update = 0;
+    first = true;
     on_frac = 1;
     connected_frac = 1;
     active_frac = 1;
 }
 
+// Update time statistics based on current activities
+//
 void TIME_STATS::update(bool is_connected, bool is_active) {
     int now = time(0), dt;
     double w1, w2;
@@ -78,6 +80,8 @@ void TIME_STATS::update(bool is_connected, bool is_active) {
     }
 }
 
+// Write XML based time statistics
+//
 int TIME_STATS::write(FILE* out, bool to_server) {
     fprintf(out,
         "<time_stats>\n"
@@ -98,6 +102,8 @@ int TIME_STATS::write(FILE* out, bool to_server) {
     return 0;
 }
 
+// Parse XML based time statistics, usually from client_state.xml
+//
 int TIME_STATS::parse(FILE* in) {
     char buf[256];
     if(in==NULL) {

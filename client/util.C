@@ -53,6 +53,8 @@ double dtime() {
 }
 
 #ifdef _WIN32
+// Goes to sleep for a specified number of seconds
+// TODO: allow for fractional second sleep times?
 void boinc_sleep( int seconds ) {
     if(seconds<0) {
         fprintf(stderr, "error: boinc_sleep: negative seconds\n");
@@ -63,6 +65,8 @@ void boinc_sleep( int seconds ) {
 
 #else
 
+// Goes to sleep for a specified number of seconds
+// TODO: allow for fractional second sleep times?
 void boinc_sleep( int seconds ) {
     if(seconds<0) {
         fprintf(stderr,"error: boinc_sleep: negative seconds\n");

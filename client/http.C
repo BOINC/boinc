@@ -36,6 +36,10 @@
 
 #define HTTP_BLOCKSIZE  4096
 
+// Breaks a url down into its server and file path components
+// TODO: deal with alternate protocols (ftp, gopher, etc) or disallow
+// them and parse accordingly
+//
 static void parse_url(char* url, char* host, char* file) {
     char* p;
     char buf[256];
@@ -64,6 +68,8 @@ static void parse_url(char* url, char* host, char* file) {
 // We use 1.0 so we don't have to count bytes.
 //
 
+// Prints an HTTP 1.0 GET request header into buf
+//
 static void http_get_request_header(
     char* buf, char* host, char* file, int offset
 ) {
@@ -102,6 +108,8 @@ static void http_get_request_header(
     }
 }
 
+// Prints an HTTP 1.0 HEAD request header into buf
+//
 static void http_head_request_header(char* buf, char* host, char* file) {
     if(buf==NULL) {
         fprintf(stderr, "error: http_head_request_header: unexpected NULL pointer buf\n");
@@ -122,6 +130,8 @@ static void http_head_request_header(char* buf, char* host, char* file) {
     );
 }
 
+// Prints an HTTP 1.0 POST request header into buf
+//
 static void http_post_request_header(
     char* buf, char* host, char* file, int size
 ) {
@@ -150,6 +160,8 @@ static void http_post_request_header(
 }
 
 #if 0
+// Do we still need this?
+//
 void http_put_request_header(
     char* buf, char* host, char* file, int size, int offset
 ) {
@@ -196,6 +208,8 @@ void http_put_request_header(
 }
 #endif
 
+// Parse an http reply header into the header struct
+//
 int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
     int i, n;
     char buf[1024], *p;
@@ -224,6 +238,8 @@ int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
     return 1;
 }
 
+// Read the contents of the socket into buf
+//
 static int read_reply(int socket, char* buf, int len) {
     int i, n;
     if(socket<0) {
@@ -248,11 +264,24 @@ static int read_reply(int socket, char* buf, int len) {
 
 HTTP_OP::HTTP_OP() {
     http_op_state = HTTP_STATE_IDLE;
+    strcpy(hostname,"");
+    strcpy(filename,"");
+    req1 = NULL;
+    strcpy(infile,"");
+    strcpy(outfile,"");
+    content_length = 0;
+    file_offset = 0;
+    strcpy(request_header,"");
+    http_op_state = HTTP_STATE_IDLE;
+    http_op_type = HTTP_OP_NONE;
+    http_op_retval = 0;
 }
 
 HTTP_OP::~HTTP_OP() {
 }
 
+// Initialize HTTP HEAD operation to url
+//
 int HTTP_OP::init_head(char* url) {
     if(url==NULL) {
         fprintf(stderr, "error: HTTP_OP.init_head: unexpected NULL pointer url\n");
@@ -266,6 +295,8 @@ int HTTP_OP::init_head(char* url) {
     return 0;
 }
 
+// Initialize HTTP GET operation to url
+//
 int HTTP_OP::init_get(char* url, char* out, int off) {
     if(url==NULL) {
         fprintf(stderr, "error: HTTP_OP.init_get: unexpected NULL pointer url\n");
@@ -289,6 +320,8 @@ int HTTP_OP::init_get(char* url, char* out, int off) {
     return 0;
 }
 
+// Initialize HTTP POST operation to url
+//
 int HTTP_OP::init_post(char* url, char* in, char* out) {
     int retval;
     if(url==NULL) {
@@ -317,6 +350,8 @@ int HTTP_OP::init_post(char* url, char* in, char* out) {
     return 0;
 }
 
+// Initialize HTTP POST operation to url including file offset
+//
 int HTTP_OP::init_post2(
     char* url, char* r1, char* in, double offset
 ) {
@@ -355,6 +390,7 @@ int HTTP_OP::init_post2(
 }
 
 #if 0
+// Is this still needed?
 int HTTP_OP::init_put(char* url, char* in, int off) {
     int retval;
 
@@ -373,6 +409,8 @@ int HTTP_OP::init_put(char* url, char* in, int off) {
 }
 #endif
 
+// Returns true if the HTTP operation is complete
+//
 bool HTTP_OP::http_op_done() {
     return (http_op_state == HTTP_STATE_DONE);
 }
@@ -384,6 +422,8 @@ HTTP_OP_SET::HTTP_OP_SET(NET_XFER_SET* p) {
     net_xfers = p;
 }
 
+// Inserts an hTTP_OP into the set
+//
 int HTTP_OP_SET::insert(HTTP_OP* ho) {
     int retval;
     if(ho==NULL) {
@@ -396,6 +436,10 @@ int HTTP_OP_SET::insert(HTTP_OP* ho) {
     return 0;
 }
 
+// Runs through the set of HTTP_OP objects in the set and decides
+// what operation is appropriate for each.  This section needs more
+// thorough documentation, as it is fairly complex
+//
 bool HTTP_OP_SET::poll() {
     unsigned int i;
     HTTP_OP* htp;
@@ -406,6 +450,8 @@ bool HTTP_OP_SET::poll() {
         htp = http_ops[i];
         switch(htp->http_op_state) {
         case HTTP_STATE_CONNECTING:
+            // If the op is in the connecting state, and we notice it is done
+            // connecting, move it to the HTTP_STATE_REQUEST_HEADER state
             if (htp->is_connected) {
                 htp->http_op_state = HTTP_STATE_REQUEST_HEADER;
                 htp->want_upload = true;
@@ -547,6 +593,8 @@ bool HTTP_OP_SET::poll() {
     return action;
 }
 
+// Remove an HTTP_OP from the set
+//
 int HTTP_OP_SET::remove(HTTP_OP* p) {
     vector<HTTP_OP*>::iterator iter;
     if(p==NULL) {
@@ -567,6 +615,8 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
     return 1;
 }
 
+// Returns the size of the set of HTTP_OP objects
+//
 int HTTP_OP_SET::size() {
     return http_ops.size();
 }

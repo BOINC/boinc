@@ -33,6 +33,7 @@
 
 #define SECONDS_IN_MONTH 2592000
 
+// Global CLIENT_STATE object
 CLIENT_STATE gstate;
 
 CLIENT_STATE::CLIENT_STATE() {
@@ -74,6 +75,9 @@ int CLIENT_STATE::init(PREFS* p) {
     if (log_flags.state_debug) {
         print_counts();
     }
+    
+    // Finally, set up the project and slot directories
+    //
     make_project_dirs();
     make_slot_dirs();
 
@@ -81,6 +85,8 @@ int CLIENT_STATE::init(PREFS* p) {
 }
 
 // Returns true if time tests should be run
+// This is determined by seeing if the user passed the "-no_time_test"
+// flag or if it's been a month since we last checked time stats
 //
 bool CLIENT_STATE::run_time_tests() {
     return (run_time_test && (
@@ -88,7 +94,7 @@ bool CLIENT_STATE::run_time_tests() {
     ));
 }
 
-// Updates computer statistics once per month
+// Updates computer statistics (roughly once a month)
 //
 int CLIENT_STATE::time_tests() {
     get_host_info(host_info); // this is platform dependent
@@ -124,6 +130,9 @@ int CLIENT_STATE::check_suspend_activities() {
     return 0;
 }
 
+// do_something is where all the action happens.  This is part of the
+// finite state machine abstraction of the client.  Each of the key
+// elements of the client is given a chance to perform work here.
 // return true if something happened
 //
 bool CLIENT_STATE::do_something() {
@@ -150,6 +159,8 @@ bool CLIENT_STATE::do_something() {
     return action;
 }
 
+// Parse the client_state.xml file
+//
 int CLIENT_STATE::parse_state_file() {
     char buf[256];
     FILE* f = fopen(STATE_FILE_NAME, "r");
@@ -245,6 +256,9 @@ int CLIENT_STATE::parse_state_file() {
     return ERR_XML_PARSE;
 }
 
+// Make a directory for each of the projects present
+// in the client state
+//
 int CLIENT_STATE::make_project_dirs() {
     unsigned int i;
     for (i=0; i<projects.size(); i++) {
@@ -253,6 +267,9 @@ int CLIENT_STATE::make_project_dirs() {
     return 0;
 }
 
+// Make a directory for each of the available slots specified
+// in the client state
+//
 int CLIENT_STATE::make_slot_dirs() {
     unsigned int i;
     for (i=0; i<nslots; i++) {
@@ -261,6 +278,10 @@ int CLIENT_STATE::make_slot_dirs() {
     return 0;
 }
 
+// Perform a graceful shutdown of the client, including quitting
+// all applications, checking their final status, and writing
+// the client_state.xml file
+//
 int CLIENT_STATE::exit_tasks() {
     int retval;
     active_tasks.exit_tasks();
@@ -273,6 +294,8 @@ int CLIENT_STATE::exit_tasks() {
     return 0;
 }
 
+// Writes the client_state.xml file
+//
 int CLIENT_STATE::write_state_file() {
     unsigned int i, j;
     FILE* f = fopen(STATE_FILE_TEMP, "wb");
@@ -327,6 +350,10 @@ int CLIENT_STATE::write_state_file() {
     return 0;
 }
 
+// See if the project specified by master_url already exists
+// in the client state record.
+// TODO: make this smarter (i.e. www.project.com is the same as project.com)
+//
 PROJECT* CLIENT_STATE::lookup_project(char* master_url) {
     if(master_url==NULL) {
         fprintf(stderr, "error: CLIENT_STATE.lookup_project: unexpected NULL pointer master_url\n");
@@ -340,6 +367,9 @@ PROJECT* CLIENT_STATE::lookup_project(char* master_url) {
     return 0;
 }
 
+// See if the application (name) associated with project p is
+// around here
+//
 APP* CLIENT_STATE::lookup_app(PROJECT* p, char* name) {
     if(p==NULL) {
         fprintf(stderr, "error: CLIENT_STATE.lookup_app: unexpected NULL pointer p\n");
@@ -356,6 +386,9 @@ APP* CLIENT_STATE::lookup_app(PROJECT* p, char* name) {
     return 0;
 }
 
+// See if the result (name) associated with project p is
+// around here
+//
 RESULT* CLIENT_STATE::lookup_result(PROJECT* p, char* name) {
     if(p==NULL) {
         fprintf(stderr, "error: CLIENT_STATE.lookup_result: unexpected NULL pointer p\n");
@@ -372,6 +405,9 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, char* name) {
     return 0;
 }
 
+// See if the workunit (name) associated with project p is
+// around here
+//
 WORKUNIT* CLIENT_STATE::lookup_workunit(PROJECT* p, char* name) {
     if(p==NULL) {
         fprintf(stderr, "error: CLIENT_STATE.lookup_workunit: unexpected NULL pointer p\n");
@@ -388,6 +424,9 @@ WORKUNIT* CLIENT_STATE::lookup_workunit(PROJECT* p, char* name) {
     return 0;
 }
 
+// See if the app_version (name) associated with project p is
+// around here
+//
 APP_VERSION* CLIENT_STATE::lookup_app_version(APP* app, int version_num) {
     if(app==NULL) {
         fprintf(stderr, "error: CLIENT_STATE.lookup_app_version: unexpected NULL pointer app\n");
@@ -406,6 +445,9 @@ APP_VERSION* CLIENT_STATE::lookup_app_version(APP* app, int version_num) {
     return 0;
 }
 
+// See if the file info (name) associated with project p is
+// around here
+//
 FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, char* name) {
     if(p==NULL) {
         fprintf(stderr, "error: CLIENT_STATE.lookup_file_info: unexpected NULL pointer p\n");
@@ -580,6 +622,9 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     return 0;
 }
 
+// Print debugging information about how many projects/files/etc
+// are currently in the client state record
+//
 void CLIENT_STATE::print_counts() {
     if (log_flags.state_debug) {
         printf(
@@ -696,6 +741,12 @@ int CLIENT_STATE::write_state_file_if_needed() {
     return 0;
 }
 
+// Parse the command line arguments passed to the client for specific flags:
+// -exit_when_idle:  the client will exit when it has no more work to do
+// -no_time_test:  the client will skip the speed and host information checks
+// -exit_after:  the client will exit after X iterations of the do_something loop
+//               (usually about X seconds)
+//
 void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     int i;
     if(argc<0) {
@@ -720,6 +771,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     }
 }
 
+// Returns true if the core client should exit
+//
 bool CLIENT_STATE::time_to_exit() {
     if (!exit_when_idle && (exit_after != 0)) return false;
     if (results.size() == 0 && contacted_sched_server) return true;

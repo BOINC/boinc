@@ -28,12 +28,21 @@
 FILE_XFER::FILE_XFER() {
     file_xfer_done = false;
     file_xfer_retval = 0;
+    start_time = 0;
+    end_time = 0;
+    fip = NULL;
+    strcpy(pathname,"");
+    strcpy(header,"");
+    //state = ?
 }
 
+// Do we need to do anything special when destroying the FILE_XFER object?
+//
 FILE_XFER::~FILE_XFER() {
 }
 
 #if 0
+// Is there any reason to keep this around?
 int FILE_XFER::init_download(char* url, char* outfile) {
     if(url==NULL) {
         fprintf(stderr, "error: FILE_XFER.init_download: unexpected NULL pointer url\n");
@@ -46,6 +55,7 @@ int FILE_XFER::init_download(char* url, char* outfile) {
     return HTTP_OP::init_get(url, outfile);
 }
 
+// Is there any reason to keep this around?
 int FILE_XFER::init_upload(char* url, char* infile) {
     if(url==NULL) {
         fprintf(stderr, "error: FILE_XFER.init_upload: unexpected NULL pointer url\n");
@@ -89,10 +99,14 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
     return HTTP_OP::init_post2((char*)(&fip->urls[0]), header, pathname, 0);
 }
 
+// Returns the total time that the file xfer has taken
+//
 double FILE_XFER::elapsed_time() {
     return end_time - start_time;
 }
 
+// Create a new empty FILE_XFER_SET
+//
 FILE_XFER_SET::FILE_XFER_SET(HTTP_OP_SET* p) {
     if(p==NULL) {
         fprintf(stderr, "error: FILE_XFER_SET: unexpected NULL pointer p\n");
@@ -100,6 +114,8 @@ FILE_XFER_SET::FILE_XFER_SET(HTTP_OP_SET* p) {
     http_ops = p;
 }
 
+// Insert a FILE_XFER object into the set
+//
 int FILE_XFER_SET::insert(FILE_XFER* fxp) {
     int retval;
     if(fxp==NULL) {
@@ -117,6 +133,8 @@ int FILE_XFER_SET::insert(FILE_XFER* fxp) {
     return 0;
 }
 
+// Remove a FILE_XFER object from the set
+//
 int FILE_XFER_SET::remove(FILE_XFER* fxp) {
     vector<FILE_XFER*>::iterator iter;
     if(fxp==NULL) {
@@ -138,6 +156,9 @@ int FILE_XFER_SET::remove(FILE_XFER* fxp) {
 
 }
 
+// Run through the FILE_XFER_SET and determine if any of the file
+// transfers are complete or had an error
+//
 bool FILE_XFER_SET::poll() {
     unsigned int i;
     FILE_XFER* fxp;

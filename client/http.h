@@ -31,6 +31,7 @@ struct HTTP_REPLY_HEADER {
     int content_length;
 };
 
+#define HTTP_OP_NONE    0
 // For the first 4, data source/sink are files
 #define HTTP_OP_GET     1
 #define HTTP_OP_POST    2

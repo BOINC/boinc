@@ -39,6 +39,9 @@
 #include "client_state.h"
 #include "error_numbers.h"
 
+// Verify the validity of a downloaded file, through MD5 checksum
+// or an RSA signature
+//
 int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
     char cksum[64];
     PROJECT* project;
@@ -77,6 +80,10 @@ int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
     return 0;
 }
 
+// scan all FILE_INFOs.
+// start downloads and uploads as needed.
+// check for completion of existing transfers
+//
 bool CLIENT_STATE::start_file_xfers() {
     unsigned int i;
     FILE_INFO* fip;
@@ -85,10 +92,6 @@ bool CLIENT_STATE::start_file_xfers() {
     int retval;
     bool action = false;
 
-    // scan all FILE_INFOs.
-    // start downloads and uploads as needed.
-    // check for completion of existing transfers
-    //
     for (i=0; i<file_infos.size(); i++) {
         fip = file_infos[i];
         fxp = fip->file_xfer;

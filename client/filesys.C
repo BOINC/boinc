@@ -73,6 +73,7 @@ char failed_file[256];
 
 // routines for enumerating the entries in a directory
 
+// Open a directory
 int dir_open(char* p) {
     if(p==NULL) {
         fprintf(stderr, "error: dir_open: unexpected NULL pointer p\n");
@@ -87,6 +88,7 @@ int dir_open(char* p) {
     strcat(path, "\\*");
     first = 1;
     handle = INVALID_HANDLE_VALUE;
+    // This is probably incomplete
 #endif
 #ifdef macintosh
     SayErr("\pdir_open called (empty function)");	/* CAF Temp */
@@ -94,6 +96,8 @@ int dir_open(char* p) {
     return 0;
 }
 
+// Scan through a directory and return the next file name in it
+//
 int dir_scan(char* p) {
     if(p==NULL) {
         fprintf(stderr, "error: dir_scan: unexpected NULL pointer p\n");
@@ -145,6 +149,8 @@ int dir_scan(char* p) {
 #endif
 }
 
+// Close a directory
+//
 void dir_close() {
 #ifdef HAVE_DIRENT_H
     if (dirp) {
@@ -163,6 +169,8 @@ void dir_close() {
 #endif
 }
 
+// Delete the file located at path
+//
 int file_delete(char* path) {
     int retval,i;
     if(path==NULL) {
@@ -200,8 +208,8 @@ int file_size(char* path, int& size) {
     return 0;
 }
 
-/* boinc_link creates a file (new) which contains an XML
-   reference to existing. */
+/* boinc_link creates a file (new_link) which contains an XML
+   reference (soft link) to existing. */
 
 int boinc_link( char *existing, char *new_link ) {
     FILE *fp;
@@ -222,6 +230,8 @@ int boinc_link( char *existing, char *new_link ) {
     return 0;
 }
 
+// Goes through directory specified by dirpath and removes all files from it
+//
 int clean_out_dir(char* dirpath) {
     char filename[256], path[256];
     int retval;

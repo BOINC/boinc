@@ -42,6 +42,8 @@ PREFS::PREFS() {
     disk_min_free_gb = 0;
 };
 
+// Parse XML based prefs, usually from prefs.xml
+//
 int PREFS::parse(FILE* in) {
     char buf[256];
     PROJECT* project;
@@ -76,6 +78,8 @@ int PREFS::parse(FILE* in) {
     return ERR_XML_PARSE;
 }
 
+// Parse prefs.xml for user preferences
+//
 int PREFS::parse_file() {
     FILE* f;
     int retval;
@@ -87,6 +91,8 @@ int PREFS::parse_file() {
     return retval;
 }
 
+// Write the default preference set for a project
+// TODO: should mod_time really be 1?
 int write_initial_prefs(char* master_url, char* authenticator) {
     FILE* f = fopen(PREFS_FILE_NAME, "w");
     if (!f) return ERR_FOPEN;

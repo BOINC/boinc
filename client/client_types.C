@@ -27,10 +27,26 @@
 #include "client_types.h"
 
 PROJECT::PROJECT() {
-    project_specific_prefs = 0;
-    code_sign_key = 0;
+    strcpy(master_url,"");
+    strcpy(authenticator,"");
+    project_specific_prefs = NULL;
+    resource_share = 0;
+    strcpy(project_name,"");
+    strcpy(user_name,"");
+    rpc_seqno = 0;
+    hostid = 0;
+    exp_avg_cpu = 0;
+    exp_avg_mod_time = 0;
+    code_sign_key = NULL;
+    nrpc_failures = 0;
+    min_rpc_time = 0;
+    resource_debt = 0;
+    debt_order = 0;
+    master_url_fetch_pending = 0;
 }
 
+// Destroy this project object
+//
 PROJECT::~PROJECT() {
     if (project_specific_prefs) free(project_specific_prefs);
     if (code_sign_key) free(code_sign_key);
@@ -103,6 +119,8 @@ int PROJECT::parse_state(FILE* in) {
     return ERR_XML_PARSE;
 }
 
+// Write the project information to prefs.xml
+//
 int PROJECT::write_state(FILE* out) {
     unsigned int i;
     if(out==NULL) {
@@ -172,6 +190,8 @@ void PROJECT::copy_prefs_fields(PROJECT& p) {
     resource_share = p.resource_share;
 }
 
+// Parse application XML information, usually found in client_state.xml
+//
 int APP::parse(FILE* in) {
     char buf[256];
     if(in==NULL) {
@@ -189,6 +209,8 @@ int APP::parse(FILE* in) {
     return ERR_XML_PARSE;
 }
 
+// Write application XML information, usually to client_state.xml
+//
 int APP::write(FILE* out) {
     if(out==NULL) {
         fprintf(stderr, "error: APP.write: unexpected NULL pointer out\n");
@@ -208,6 +230,8 @@ int APP::write(FILE* out) {
 FILE_INFO::FILE_INFO() {
 }
 
+// TODO: Determine what (if anything) needs to be done when destroying FILE_INFO
+//
 FILE_INFO::~FILE_INFO() {
 }
 
@@ -223,8 +247,8 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     }
     strcpy(name, "");
     strcpy(md5_cksum, "");
-    nbytes = 0;
     max_nbytes = 0;
+    nbytes = 0;
     generated_locally = false;
     file_present = false;
     executable = false;
@@ -232,15 +256,17 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     upload_when_present = false;
     sticky = false;
     signature_required = false;
-    project = NULL;
     file_xfer = NULL;
+    result = NULL;
+    project = NULL;
     urls.clear();
     if (from_server) {
         signed_xml = strdup("");
     } else {
-        signed_xml = 0;
+        signed_xml = NULL;
     }
-    xml_signature = 0;
+    xml_signature = NULL;
+    file_signature = NULL;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file_info>")) return 0;
         else if (match_tag(buf, "<xml_signature>")) {
@@ -279,6 +305,8 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     return 1;
 }
 
+// Write out XML based file info
+//
 int FILE_INFO::write(FILE* out, bool to_server) {
     unsigned int i;
     if(out==NULL) {
@@ -317,7 +345,7 @@ int FILE_INFO::write(FILE* out, bool to_server) {
     return 0;
 }
 
-// delete underlying file
+// delete physical underlying file associated with FILE_INFO
 //
 int FILE_INFO::delete_file() {
     char path[256];
@@ -326,6 +354,8 @@ int FILE_INFO::delete_file() {
     return file_delete(path);
 }
 
+// Parse XML based app_version information, usually from client_state.xml
+//
 int APP_VERSION::parse(FILE* in) {
     char buf[256];
     FILE_REF file_ref;
@@ -351,6 +381,8 @@ int APP_VERSION::parse(FILE* in) {
     return 1;
 }
 
+// Write XML based app_version information, usually to client_state.xml
+//
 int APP_VERSION::write(FILE* out) {
     unsigned int i;
     if(out==NULL) {
@@ -373,6 +405,8 @@ int APP_VERSION::write(FILE* out) {
     return 0;
 }
 
+// Parse XML based file_ref information, usually from client_state.xml
+//
 int FILE_REF::parse(FILE* in) {
     char buf[256];
     if(in==NULL) {
@@ -394,19 +428,21 @@ int FILE_REF::parse(FILE* in) {
     return 1;
 }
 
+// Write XML based file_ref information, usually to client_state.xml
+//
 int FILE_REF::write(FILE* out) {
     if(out==NULL) {
         fprintf(stderr, "error: FILE_REF.write: unexpected NULL pointer out\n");
         return ERR_NULL;
-    }
-    if (strlen(open_name)) {
-        fprintf(out, "        <open_name>%s</open_name>\n", open_name);
     }
     fprintf(out,
         "    <file_ref>\n"
         "        <file_name>%s</file_name>\n",
         file_name
     );
+    if (strlen(open_name)) {
+        fprintf(out, "        <open_name>%s</open_name>\n", open_name);
+    }
     if (fd >= 0) {
         fprintf(out, "        <fd>%d</fd>\n", fd);
     }
@@ -417,6 +453,8 @@ int FILE_REF::write(FILE* out) {
     return 0;
 }
 
+// Parse XML based workunit information, usually from client_state.xml
+//
 int WORKUNIT::parse(FILE* in) {
     char buf[256];
     FILE_REF file_ref;
@@ -450,6 +488,8 @@ int WORKUNIT::parse(FILE* in) {
     return 1;
 }
 
+// Write XML based workunit information, usually to client_state.xml
+//
 int WORKUNIT::write(FILE* out) {
     unsigned int i;
     if(out==NULL) {
@@ -612,6 +652,8 @@ int RESULT::write(FILE* out, bool to_server) {
 }
 
 // this is called only after is_compute_done is true.
+// returns true if the result and it's associated files
+// were successfully uploaded
 //
 bool RESULT::is_upload_done() {
     unsigned int i;
