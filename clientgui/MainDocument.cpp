@@ -56,6 +56,7 @@ CMainDocument::CMainDocument()
     m_bCachedStateLocked = false;
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
     m_dtCachedStateTimestamp = wxDateTime( (time_t)0 );
+    m_dtCachedActivityStateTimestamp = wxDateTime( (time_t)0 );
     m_dtCachedActivityRunModeTimestamp = wxDateTime( (time_t)0 );
     m_dtCachedNetworkRunModeTimestamp = wxDateTime( (time_t)0 );
 }
@@ -65,6 +66,7 @@ CMainDocument::~CMainDocument()
 {
     m_dtCachedNetworkRunModeTimestamp = wxDateTime::Now();
     m_dtCachedActivityRunModeTimestamp = wxDateTime::Now();
+    m_dtCachedActivityStateTimestamp = wxDateTime::Now();
     m_dtCachedStateTimestamp = wxDateTime::Now();
     m_dtCachedStateLockTimestamp = wxDateTime::Now();
     m_bCachedStateLocked = false;
