@@ -18,6 +18,7 @@
 //
 
 #include <string>
+#include <assert.h>
 #include "exception.h"
 
 #ifndef _BOINC_DIAGNOSTICS_
