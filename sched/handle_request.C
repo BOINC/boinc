@@ -676,9 +676,10 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             sreq.core_client_major_version
         );
         strcpy(reply.message_priority, "low");
-        write_log(MSG_NORMAL, "Wrong major version: wanted %d, got %d\n",
-                  MAJOR_VERSION, sreq.core_client_major_version
-            );
+        sprintf(buf, "Wrong major version from user [%s]: wanted %d, got %d\n",
+            sreq.authenticator, MAJOR_VERSION, sreq.core_client_major_version
+        );
+        write_log(buf, MSG_NORMAL);
         return true;
     }
     return false;

@@ -16,7 +16,6 @@ define("TD3", "<td colspan=3 bgcolor=#708090>");
 define("TABLE", "<table cellpadding=10 cellspacing=4 border=0 width=100%>");
 define("TABLE2", "<table width=580>");
 
-define("BG_COLOR", " bgcolor=cccccc ");
 define("TITLE_COLOR", " bgcolor=000000 ");
 define("TITLE_FONT", " <font color=ffffff> ");
 define("BODY_COLOR", " bgcolor=ffffff ");
@@ -44,34 +43,12 @@ function show_login($user) {
 }
 
 function page_head($title) {
-    echo "<head><title>$title</title><body " . BG_COLOR . ">\n";
+    echo "<head><title>$title</title><body " . BODY_COLOR . ">\n";
     echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b><a href=index.php>".PROJECT.":</a>  $title</b></font></td></tr></table>\n";
 }
 
 function page_tail() {
-    echo "<hr><table width=100%><tr><td align=center>|<a href=create_account.php> Create New Account </a>|<a href=login.php> Login </a>\n";
-    echo "|<a href=home.php> User Page </a>|<a href=team.php> Teams </a>|<a href=index.php> Main Project Page </a>|</td></tr></table>\n";
-}
-
-function print_form_header($table) {
-    echo "<form method=get action=db.php>\n";
-    echo "<p>\n";
-    echo "<input type=hidden name=show value=$table>\n";
-}
-
-function print_form_end() {
-    echo "<p>\n";
-    echo "<input type=submit name=\"new_query\" value=\"Query\">\n";
-    echo "<input type=submit name=\"show_more\" value=\"Show More\">\n";
-    echo "</form>\n";
-}
-
-function append_sql_query($original,$addition,$first) {
-    if ($first == 1) {
-        return $original . " where " . $addition;
-    } else {
-        return $original . " and " . $addition;
-    }
+    echo "<hr><a href=index.php> Main admin page </a>\n";
 }
 
 function date_str($when) {
@@ -115,7 +92,7 @@ function row($x, $y) {
 }
 
 function row2($x, $y) {
-    echo "<tr><td>$x</td><td>$y</td></tr>\n";
+    echo "<tr><td align=right>$x</td><td>$y</td></tr>\n";
 }
 
 function row3($x, $y, $z) {
@@ -135,21 +112,6 @@ function print_country_select() {
     PassThru("country_select");
 }
 
-function print_page_header($title) {
-    echo "<html>\n";
-    echo "<head>\n";
-    echo "<title>$title</title>\n";
-    echo "</head>\n";
-    echo "<body TEXT=000000 BGCOLOR=FFFFFF>\n";
-    echo "<h2>$title</h2>\n";
-    echo "<a href=db.php>Return to Main Page</a>\n";
-    echo "<br clear=all>\n";
-}
-
-function print_page_end() {
-    echo "</body></html>";
-}
-
 // look for an element in some XML text
 //
 function parse_element($xml, $tag) {
@@ -165,11 +127,11 @@ function parse_element($xml, $tag) {
     return $element;
 }
 
-// look for a particular element in the .htconfig.xml file
+// look for a particular element in the config.xml file
 //
 function parse_config($tag) {
     $element = null;
-    $fp = fopen(".htconfig.xml", "r");
+    $fp = fopen("config.xml", "r");
     while (1) {
         $buf = fgets($fp, 1024);
         if ($buf == null) break;
