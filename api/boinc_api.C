@@ -38,6 +38,7 @@
 #endif
 #ifdef HAVE_SIGNAL_H
 #include <signal.h>
+#endif
 
 #include "config.h"
 using namespace std;
