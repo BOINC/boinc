@@ -33,7 +33,7 @@ libsched_a_SOURCES =				\
     sched_shmem.C				\
     sched_util.C				\
     sched_config.C				\
-	sched_messages.C			\
+	sched_msgs.C			    \
 	../db/boinc_db.C			\
 	../db/db_base.C				\
     ../lib/util.C				\
@@ -44,7 +44,7 @@ libsched_a_SOURCES =				\
     ../lib/shmem.C				\
     ../lib/md5.c				\
     ../lib/md5_file.C			\
-	../lib/messages.C			\
+	../lib/msg_log.C			\
 	../tools/process_result_template.C	\
     ../tools/backend_lib.C			\
 	sched_config.h				\

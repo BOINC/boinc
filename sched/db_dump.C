@@ -61,9 +61,11 @@
 
 #include "boinc_db.h"
 #include "util.h"
+#include "parse.h"
+
 #include "sched_config.h"
 #include "sched_util.h"
-#include "parse.h"
+#include "sched_msgs.h"
 
 #define LOCKFILE "db_dump.out"
 
@@ -645,24 +647,24 @@ int main(int argc, char** argv) {
     }
 
     if (nrecs_per_file_summary <= 0 || nrecs_per_file_detail <= 0) {
-        log_messages.printf(SchedMessages::NORMAL, "Too few records per file.\n");
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Too few records per file.\n");
         exit(1);
     }
 
     if (lock_file(LOCKFILE)) {
-        log_messages.printf(SchedMessages::NORMAL, "Another copy of db_dump is already running\n");
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Another copy of db_dump is already running\n");
         exit(1);
     }
-    log_messages.printf(SchedMessages::NORMAL, "Starting\n");
+    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting\n");
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SchedMessages::NORMAL, "Can't parse config file\n");
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Can't parse config file\n");
         exit(1);
     }
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SchedMessages::NORMAL, "Can't open DB\n");
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Can't open DB\n");
         exit(1);
     }
 

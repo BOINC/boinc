@@ -55,6 +55,7 @@
 #include "hostinfo.h"
 #include "http.h"
 #include "log_flags.h"
+#include "client_msgs.h"
 #include "client_state.h"
 
 CLIENT_STATE gstate;
@@ -298,7 +299,7 @@ int CLIENT_STATE::init() {
 // This is inefficient but not a problem (I guess)
 //
 int CLIENT_STATE::net_sleep(double x) {
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_NET_XFER);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
     scope_messages.printf("CLIENT_STATE::net_sleep(%f)\n", x);
     if (activities_suspended || network_suspended) {
         boinc_sleep(x);
@@ -321,7 +322,7 @@ int CLIENT_STATE::net_sleep(double x) {
 //
 bool CLIENT_STATE::do_something() {
     int actions = 0, reason, retval;
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_POLL);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_POLL);
 
     check_suspend_activities(reason);
     if (reason) {
@@ -619,7 +620,7 @@ void CLIENT_STATE::print_summary() {
     int t;
     if (!log_flags.state_debug) return;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
     scope_messages.printf("CLIENT_STATE::print_summary(): Client state summary:\n");
     ++log_messages;
     scope_messages.printf("%d projects:\n", (int)projects.size());
@@ -675,7 +676,7 @@ bool CLIENT_STATE::garbage_collect() {
     string error_msgs;
     PROJECT* project;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
     // zero references counts on WUs, FILE_INFOs and APP_VERSIONs
 

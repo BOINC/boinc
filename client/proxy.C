@@ -45,7 +45,7 @@
 #include "error_numbers.h"
 #include "filesys.h"
 #include "util.h"
-#include "message.h"
+#include "client_msgs.h"
 #include "parse.h"
 
 #include "proxy.h"
@@ -386,7 +386,7 @@ bool PROXY::proxy_poll() {
     bool action = false;
     char buf[256];
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_PROXY);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_PROXY);
 
     switch(proxy_state) {
         case PROXY_STATE_CONNECTING:

@@ -42,7 +42,7 @@
 #include "parse.h"
 #include "util.h"
 
-#include "message.h"
+#include "client_msgs.h"
 #include "scheduler_op.h"
 
 #include "client_state.h"
@@ -504,7 +504,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     nresults = 0;
     contacted_sched_server = true;
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
     scope_messages.printf_file(SCHED_OP_RESULT_FILE, "reply: ");
 

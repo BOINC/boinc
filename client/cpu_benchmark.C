@@ -35,7 +35,7 @@
 #endif
 
 #include "error_numbers.h"
-#include "message.h"
+#include "client_msgs.h"
 
 #include "cpu_benchmark.h"
 

@@ -31,23 +31,23 @@ int main() {
     char* p;
 
     log_messages.set_debug_level(3);
-    log_messages.printf(SchedMessages::NORMAL, "Starting servers.\n");
+    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting servers.\n");
     ++log_messages;
 
     retval = config.parse_file();
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "Can't read config\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't read config\n");
         exit(1);
     }
 
     for (i=0; i<20; i++) {
         p = config.start_commands[i];
         if (!p) break;
-        log_messages.printf(SchedMessages::NORMAL, "Executing: %s\n", p);
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Executing: %s\n", p);
         system(p);
     }
 
     --log_messages;
-    log_messages.printf(SchedMessages::NORMAL, "Done.\n");
+    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Done.\n");
     return 0;
 }

@@ -28,15 +28,17 @@
 #include <stdlib.h>
 #endif
 
-#include "client_state.h"
-#include "client_types.h"
 #include "error_numbers.h"
-#include "file_names.h"
 #include "md5_file.h"
 #include "parse.h"
 #include "util.h"
-#include "log_flags.h"
 #include "filesys.h"
+
+#include "log_flags.h"
+#include "file_names.h"
+#include "client_state.h"
+#include "client_types.h"
+#include "client_msgs.h"
 
 // PERS_FILE_XFER represents a persistent file transfer.
 // A set of URLs is given.
@@ -79,7 +81,7 @@ int PERS_FILE_XFER::start_xfer() {
     FILE_XFER *file_xfer;
     int retval;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_FILE_XFER);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
 
     // Decide whether to start a new file transfer
     //
@@ -165,7 +167,7 @@ int PERS_FILE_XFER::start_xfer() {
 bool PERS_FILE_XFER::poll(time_t now) {
     int retval;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_FILE_XFER);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
 
     if (xfer_done) {
         return false;
@@ -292,7 +294,7 @@ void PERS_FILE_XFER::retry_or_backoff() {
     time_t now;
     int backoff = 0;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_FILE_XFER);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
 
     now = time(0);
     // newtime = localtime(&now);

@@ -36,12 +36,13 @@
 #include "md5_file.h"
 #include "crypt.h"
 
-#include "file_xfer.h"
+#include "filesys.h"
+#include "error_numbers.h"
 #include "file_names.h"
 #include "client_types.h"
 #include "client_state.h"
-#include "filesys.h"
-#include "error_numbers.h"
+#include "client_msgs.h"
+#include "file_xfer.h"
 
 #define MAX_TRANSFERS_PER_PROJECT   2
 

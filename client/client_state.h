@@ -32,7 +32,7 @@
 #include "hostinfo.h"
 #include "http.h"
 #include "language.h"
-#include "message.h"
+//#include "message.h"
 #include "net_stats.h"
 #include "net_xfer.h"
 #include "pers_file_xfer.h"

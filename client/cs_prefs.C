@@ -29,6 +29,7 @@
 #include "filesys.h"
 #include "file_names.h"
 #include "cpu_benchmark.h"
+#include "client_msgs.h"
 #include "client_state.h"
 
 void CLIENT_STATE::install_global_prefs() {

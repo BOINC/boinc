@@ -17,12 +17,11 @@
 // Contributor(s):
 //
 
-#include "sched_util.h"
-#include <cstdarg>
+#include "sched_msgs.h"
 
-SchedMessages log_messages;
+SCHED_MSG_LOG log_messages;
 
-const char* SchedMessages::v_format_kind(int kind) const {
+const char* SCHED_MSG_LOG::v_format_kind(int kind) const {
     switch(kind) {
     case CRITICAL: return "CRITICAL";
     case NORMAL:   return "normal  ";
@@ -31,6 +30,6 @@ const char* SchedMessages::v_format_kind(int kind) const {
     }
 }
 
-bool SchedMessages::v_message_wanted(int kind) const {
+bool SCHED_MSG_LOG::v_message_wanted(int kind) const {
     return ( kind <= debug_level );
 }

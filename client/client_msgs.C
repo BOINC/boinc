@@ -20,14 +20,16 @@
 #ifdef _WIN32
 #include "stdafx.h"
 #endif
+#ifndef _WIN32
+#include <stdarg.h>
+#endif
 
-#include "message.h"
 #include "log_flags.h"
+#include "client_msgs.h"
 
-ClientMessages log_messages;
+CLIENT_MSG_LOG log_messages;
 
-const char* ClientMessages::v_format_kind(int kind) const
-{
+const char* CLIENT_MSG_LOG::v_format_kind(int kind) const {
     switch(kind) {
     case DEBUG_STATE:       return "DEBUG_STATE      ";
     case DEBUG_TASK:        return "DEBUG_TASK       ";
@@ -43,8 +45,7 @@ const char* ClientMessages::v_format_kind(int kind) const
     }
 }
 
-bool ClientMessages::v_message_wanted(int kind) const
-{
+bool CLIENT_MSG_LOG::v_message_wanted(int kind) const {
     switch (kind) {
     case DEBUG_STATE:       return log_flags.state_debug;
     case DEBUG_TASK:        return log_flags.task_debug;
@@ -58,4 +59,28 @@ bool ClientMessages::v_message_wanted(int kind) const
     case DEBUG_POLL:        return log_flags.poll_debug;
     default: return false;
     }
+}
+
+
+vector<MESSAGE_DESC> message_descs;
+
+// Takes a printf style formatted string, inserts the proper values,
+// and passes it to show_message
+// TODO: add translation functionality
+//
+void msg_printf(PROJECT *p, int priority, char *fmt, ...) {
+    char        buf[512];
+    va_list     ap;
+
+    if (fmt == NULL) return;
+
+    // Since Windows doesn't support vsnprintf, we have to do a
+    // workaround to prevent buffer overruns
+    //
+    if (strlen(fmt) > 512) fmt[511] = '\0';
+    va_start(ap, fmt); // Parses string for variables
+    vsprintf(buf, fmt, ap); // And convert symbols To actual numbers
+    va_end(ap); // Results are stored in text
+
+    show_message(p, buf, priority);
 }

@@ -30,7 +30,7 @@
 #include "parse.h"
 #include "util.h"
 #include "error_numbers.h"
-#include "message.h"
+#include "client_msgs.h"
 
 #include "time_stats.h"
 

@@ -74,7 +74,7 @@
 #include "util.h"
 #include "client_types.h"
 #include "client_state.h"
-#include "message.h"
+#include "client_msgs.h"
 
 #if defined(_WIN32) 
 typedef int socklen_t;
@@ -366,7 +366,7 @@ int NET_XFER_SET::do_select(double& bytes_transferred, double timeout) {
     NET_XFER *nxp;
     struct timeval tv;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_NET_XFER);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
     // if a second has gone by, do rate-limit accounting
     //
@@ -512,7 +512,7 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
 
     nbytes_transferred = 0;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_NET_XFER);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_NET_XFER);
 
     if (want_download) {
 #ifdef WIN32
@@ -606,7 +606,7 @@ void NET_XFER::got_error() {
     error = ERR_IO;
     io_done = true;
     log_messages.printf(
-        ClientMessages::DEBUG_NET_XFER, "IO error on socket %d\n", socket
+        CLIENT_MSG_LOG::DEBUG_NET_XFER, "IO error on socket %d\n", socket
     );
 }
 

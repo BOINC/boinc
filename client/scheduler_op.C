@@ -34,6 +34,7 @@
 
 #include "client_state.h"
 #include "client_types.h"
+#include "client_msgs.h"
 #include "file_names.h"
 #include "log_flags.h"
 #include "scheduler_op.h"
@@ -114,7 +115,7 @@ int SCHEDULER_OP::init_op_project(double ns) {
     int retval;
     char err_msg[256];
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
     scope_messages.printf("SCHEDULER_OP::init_op_project(): starting op for %s\n", project->master_url);
 
@@ -152,7 +153,7 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
     int n = p->nrpc_failures;
     if (n > gstate.retry_cap) n = gstate.retry_cap;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
     // we've hit the limit on master_url fetches
     //
@@ -203,7 +204,7 @@ void SCHEDULER_OP::backoff(PROJECT* p, char *error_msg ) {
 int SCHEDULER_OP::start_rpc() {
     int retval;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
     safe_strcpy(scheduler_url, project->scheduler_urls[url_index].text);
     if (log_flags.sched_ops) {
@@ -233,7 +234,7 @@ int SCHEDULER_OP::start_rpc() {
 int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     int retval;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
     project = p;
     scope_messages.printf("SCHEDULER_OP::init_master_fetch(): Fetching master file for %s\n", project->master_url);
@@ -272,7 +273,7 @@ int SCHEDULER_OP::parse_master_file(vector<STRING256> &urls) {
     STRING256 str;
     FILE* f;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
     f = fopen(MASTER_FILE_NAME, "r");
     if (!f) {
@@ -335,7 +336,7 @@ bool SCHEDULER_OP::poll() {
     bool action = false, err = false;
     char err_msg[256], *err_url=NULL;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
     switch(state) {
     case SCHEDULER_OP_STATE_GET_MASTER:

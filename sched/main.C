@@ -39,8 +39,9 @@ using namespace std;
 #include "sched_config.h"
 #include "server_types.h"
 #include "handle_request.h"
-#include "main.h"
 #include "sched_util.h"
+#include "sched_msgs.h"
+#include "main.h"
 
 #define DEBUG_LEVEL  999
 
@@ -93,14 +94,14 @@ int main() {
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't parse config file\n");
         exit(1);
     }
 
     sprintf(path, "%s/code_sign_public", config.key_dir);
     retval = read_file_malloc(path, code_sign_key);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL,
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
             "Can't read code sign key file (%s)\n", path
         );
         exit(1);
@@ -111,7 +112,7 @@ int main() {
 
     retval = attach_shmem(config.shmem_key, &p);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL,
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
             "Can't attach shmem (feeder not running?)\n"
         );
         project_stopped = true;
@@ -119,7 +120,7 @@ int main() {
         ssp = (SCHED_SHMEM*)p;
         retval = ssp->verify();
         if (retval) {
-            log_messages.printf(SchedMessages::CRITICAL,
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "shmem has wrong struct sizes - recompile\n"
             );
             exit(1);
@@ -127,18 +128,18 @@ int main() {
 
         for (i=0; i<10; i++) {
             if (ssp->ready) break;
-            log_messages.printf(SchedMessages::DEBUG, "waiting for ready flag\n");
+            log_messages.printf(SCHED_MSG_LOG::DEBUG, "waiting for ready flag\n");
             sleep(1);
         }
         if (!ssp->ready) {
-            log_messages.printf(SchedMessages::CRITICAL, "feeder doesn't seem to be running\n");
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "feeder doesn't seem to be running\n");
             exit(1);
         }
     }
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "can't open database\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't open database\n");
         project_stopped = true;
     } else {
         found = false;
@@ -146,7 +147,7 @@ int main() {
             found = true;
         }
         if (!found) {
-            log_messages.printf(SchedMessages::CRITICAL, "can't find project\n");
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't find project\n");
             exit(1);
         }
     }
@@ -172,19 +173,19 @@ int main() {
         sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, pid, counter);
         fout = fopen(req_path, "w");
         if (!fout) {
-            log_messages.printf(SchedMessages::CRITICAL, "can't write request file\n");
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't write request file\n");
             exit(1);
         }
         copy_stream(stdin, fout);
         fclose(fout);
         fin = fopen(req_path, "r");
         if (!fin) {
-            log_messages.printf(SchedMessages::CRITICAL, "can't read request file\n");
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't read request file\n");
             exit(1);
         }
         fout = fopen(reply_path, "w");
         if (!fout) {
-            log_messages.printf(SchedMessages::CRITICAL, "can't write reply file\n");
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't write reply file\n");
             exit(1);
         }
         handle_request(fin, fout, *ssp, code_sign_key);
@@ -192,7 +193,7 @@ int main() {
         fclose(fout);
         fin = fopen(reply_path, "r");
         if (!fin) {
-            log_messages.printf(SchedMessages::CRITICAL, "can't read reply file\n");
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't read reply file\n");
             exit(1);
         }
         copy_stream(fin, stdout);

@@ -46,6 +46,7 @@
 #include "sched_config.h"
 #include "parse.h"
 #include "sched_util.h"
+#include "sched_msgs.h"
 
 #define LOCKFILE            "make_work.out"
 #define PIDFILE             "make_work.pid"
@@ -98,7 +99,7 @@ int count_results(char* query) {
     DB_RESULT result;
     int retval = result.count(n, query);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "can't count results\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't count results\n");
         exit(1);
     }
     return n;
@@ -109,7 +110,7 @@ int count_workunits(const char* query="") {
     DB_WORKUNIT workunit;
     int retval = workunit.count(n, const_cast<char*>(query));
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "can't count workunits\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't count workunits\n");
         exit(1);
     }
     return n;
@@ -129,20 +130,20 @@ void make_work() {
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "can't read config file\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't read config file\n");
         exit(1);
     }
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "can't open db\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't open db\n");
         exit(1);
     }
 
     sprintf(buf, "where name='%s'", wu_name);
     retval = wu.lookup(buf);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "can't find wu %s\n", wu_name);
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't find wu %s\n", wu_name);
         exit(1);
     }
 
@@ -151,13 +152,13 @@ void make_work() {
     sprintf(keypath, "%s/upload_private", config.key_dir);
     retval = read_key_file(keypath, key);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "can't read key\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't read key\n");
         exit(1);
     }
 
     retval = read_filename(result_template_file, result_template);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "can't open result template\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't open result template\n");
         exit(1);
     }
     while (1) {
@@ -170,7 +171,7 @@ void make_work() {
         int unsent_results = count_results(buf);
         int total_wus = count_workunits();
         if (max_wus && total_wus >= max_wus) {
-            log_messages.printf(SchedMessages::NORMAL, "Reached max_wus = %d\n", max_wus);
+            log_messages.printf(SCHED_MSG_LOG::NORMAL, "Reached max_wus = %d\n", max_wus);
             exit(0);
         }
         if (unsent_results > cushion) {
@@ -194,11 +195,11 @@ void make_work() {
                     new_pathname, "%s/%s",config.download_dir, new_file_name
                 );
                 sprintf(command,"ln %s %s", pathname, new_pathname);
-                log_messages.printf(SchedMessages::DEBUG, "executing command: %s\n", command);
+                log_messages.printf(SCHED_MSG_LOG::DEBUG, "executing command: %s\n", command);
                 retval = system(command);
                 if (retval) {
                     log_messages.printf(
-                        SchedMessages::CRITICAL, "system() error %d\n", retval
+                        SCHED_MSG_LOG::CRITICAL, "system() error %d\n", retval
                     );
                     perror(command);
                     exit(1);
@@ -233,13 +234,13 @@ void make_work() {
         process_result_template_upload_url_only(wu.result_template, config.upload_url);
         retval = wu.insert();
         if (retval) {
-            log_messages.printf(SchedMessages::CRITICAL,
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "Failed to created WU, error %d; exiting\n", retval
             );
             exit(retval);
         }
         wu.id = boinc_db.insert_id();
-        log_messages.printf(SchedMessages::DEBUG, "[%s] Created new WU\n", wu.name);
+        log_messages.printf(SCHED_MSG_LOG::DEBUG, "[%s] Created new WU\n", wu.name);
     }
 }
 
@@ -289,12 +290,12 @@ int main(int argc, char** argv) {
 
     // // Call lock_file after fork(), because file locks are not always inherited
     // if (lock_file(LOCKFILE)) {
-    //     log_messages.printf(SchedMessages::NORMAL, "Another copy of make_work is already running\n");
+    //     log_messages.printf(SCHED_MSG_LOG::NORMAL, "Another copy of make_work is already running\n");
     //     exit(1);
     // }
     // write_pid_file(PIDFILE);
     log_messages.printf(
-        SchedMessages::NORMAL,
+        SCHED_MSG_LOG::NORMAL,
         "Starting: min_quorum=%d target_nresults=%d max_error_results=%d max_total_results=%d max_success_results=%d\n",
         min_quorum, target_nresults, max_error_results, max_total_results, max_success_results
     );

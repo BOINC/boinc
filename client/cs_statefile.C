@@ -25,10 +25,11 @@
 #include "error_numbers.h"
 #include "filesys.h"
 #include "file_names.h"
+#include "client_msgs.h"
 #include "client_state.h"
 
 void CLIENT_STATE::set_client_state_dirty(char* source) {
-    log_messages.printf(ClientMessages::DEBUG_STATE, "set dirty: %s\n", source);
+    log_messages.printf(CLIENT_MSG_LOG::DEBUG_STATE, "set dirty: %s\n", source);
     client_state_dirty = true;
 }
 
@@ -40,7 +41,7 @@ int CLIENT_STATE::parse_state_file() {
     int retval=0;
     int failnum;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
     if (!boinc_file_exists(STATE_FILE_NAME)) {
         scope_messages.printf("CLIENT_STATE::parse_state_file(): No state file; will create one\n");
 
@@ -192,7 +193,7 @@ int CLIENT_STATE::write_state_file() {
     FILE* f = boinc_fopen(STATE_FILE_TEMP, "w");
     int retval;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
     scope_messages.printf("CLIENT_STATE::write_state_file(): Writing state file\n");
     if (!f) {
         msg_printf(0, MSG_ERROR, "Can't open temp state file: %s\n", STATE_FILE_TEMP);

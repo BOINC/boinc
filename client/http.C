@@ -46,7 +46,7 @@
 #include "error_numbers.h"
 #include "filesys.h"
 #include "util.h"
-#include "message.h"
+#include "client_msgs.h"
 
 #include "http.h"
 
@@ -141,7 +141,7 @@ void HTTP_REPLY_HEADER::init() {
 }
 
 void HTTP_REPLY_HEADER::parse() {
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_HTTP);
 
     istringstream h(recv_buf);
     string line, w;
@@ -180,7 +180,7 @@ const unsigned int MAX_HEADER_SIZE = 1024;
 // Returns 1 if not done yet, 0 if done (header.http_status indicates success)
 //
 int HTTP_REPLY_HEADER::read_reply(int socket) {
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_HTTP);
 
     while (recv_buf.size() < MAX_HEADER_SIZE) {
         char c;
@@ -304,7 +304,7 @@ int HTTP_OP::init_post(const char* url, char* in, char* out) {
     double size;
     char proxy_buf[256];
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_HTTP);
 
     parse_url(url, url_hostname, port, filename);
     PROXY::init(url_hostname, port);
@@ -392,7 +392,7 @@ bool HTTP_OP_SET::poll() {
     int n, retval;
     bool action = false;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_HTTP);
 
     for (i=0; i<http_ops.size(); i++) {
         htp = http_ops[i];

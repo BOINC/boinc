@@ -12,7 +12,7 @@ EXTRA_PROGRAMS = cpu_benchmark
 boinc_client_SOURCES =			\
     app.C				    	\
     check_state.C               \
-    client_messages.C			\
+    client_msgs.C			    \
     client_state.C				\
     client_types.C				\
     cpu_benchmark.C				\
@@ -32,7 +32,6 @@ boinc_client_SOURCES =			\
     http.C					    \
     log_flags.C					\
     main.C					    \
-    message.C					\
     net_stats.C					\
     net_xfer.C					\
     pers_file_xfer.C			\
@@ -49,7 +48,7 @@ boinc_client_SOURCES =			\
     ../lib/language.C			\
     ../lib/md5_file.C			\
     ../lib/md5.c				\
-    ../lib/messages.C           \
+    ../lib/msg_log.C            \
     ../lib/parse.C				\
     ../lib/shmem.C				\
     ../lib/synch.C				\

@@ -19,17 +19,12 @@
 
 using namespace std;
 
-#include <strings.h>
+#include <stdlib.h>
 #include <csignal>
-#include <cstdarg>
 #include <unistd.h>
-#include <math.h>
 
-#include "parse.h"
-#include "util.h"
-#include "main.h"
+#include "sched_msgs.h"
 #include "sched_util.h"
-#include "server_types.h"
 
 const char* STOP_TRIGGER_FILENAME = "../stop_servers";
     // NOTE: this be the same name as used by the "start" script
@@ -39,7 +34,7 @@ const int STOP_SIGNAL = SIGHUP;
 void write_pid_file(const char* filename) {
     FILE* fpid = fopen(filename, "w");
     if (!fpid) {
-        log_messages.printf(SchedMessages::NORMAL, "Couldn't write pid\n");
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Couldn't write pid\n");
         return;
     }
     fprintf(fpid, "%d\n", (int)getpid());
@@ -60,12 +55,12 @@ void install_stop_signal_handler() {
 
 void check_stop_trigger() {
     if (caught_stop_signal) {
-        log_messages.printf(SchedMessages::CRITICAL, "Quitting due to SIGINT\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Quitting due to SIGINT\n");
         exit(0);
     }
     FILE* f = fopen(STOP_TRIGGER_FILENAME, "r");
     if (f) {
-        log_messages.printf(SchedMessages::NORMAL, "Quitting due to stop trigger\n");
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "Quitting due to stop trigger\n");
         exit(0);
     }
 }

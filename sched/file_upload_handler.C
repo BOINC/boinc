@@ -22,6 +22,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.56  2004/04/08 08:15:20  davea
+// *** empty log message ***
+//
 // Revision 1.55  2004/01/22 01:35:09  boincadm
 // *** empty log message ***
 //
@@ -46,18 +49,20 @@
 #include <signal.h>
 #endif
 
+#include "crypt.h"
 #include "parse.h"
 #include "util.h"
+
 #include "sched_config.h"
 #include "sched_util.h"
-#include "crypt.h"
+#include "sched_msgs.h"
 
 SCHED_CONFIG config;
 
 #define ERR_TRANSIENT   true
 #define ERR_PERMANENT   false
 
-#define DEBUG_LEVEL     SchedMessages::NORMAL
+#define DEBUG_LEVEL     SCHED_MSG_LOG::NORMAL
 
 void get_log_path(char* p) {
     char buf[256];
@@ -80,7 +85,7 @@ int FILE_INFO::parse(FILE* in) {
     memset(this, 0, sizeof(FILE_INFO));
     signed_xml = strdup("");
     while (fgets(buf, 256, in)) {
-        log_messages.printf(SchedMessages::DEBUG, buf, "FILE_INFO::parse: ");
+        log_messages.printf(SCHED_MSG_LOG::DEBUG, buf, "FILE_INFO::parse: ");
         if (match_tag(buf, "</file_info>")) return 0;
         else if (match_tag(buf, "<xml_signature>")) {
             retval = dup_element_contents(in, "</xml_signature>", &xml_signature);
@@ -93,7 +98,7 @@ int FILE_INFO::parse(FILE* in) {
         if (match_tag(buf, "<generated_locally/>")) continue;
         if (match_tag(buf, "<upload_when_present/>")) continue;
         if (match_tag(buf, "<url>")) continue;
-        log_messages.printf(SchedMessages::NORMAL, "FILE_INFO::parse: unrecognized: %s \n", buf);
+        log_messages.printf(SCHED_MSG_LOG::NORMAL, "FILE_INFO::parse: unrecognized: %s \n", buf);
     }
     return 1;
 }
@@ -122,7 +127,7 @@ int return_error(bool transient, const char* message, ...) {
     va_end(va);
 
     log_messages.printf(
-        SchedMessages::NORMAL, "Returning error to client %s: %s (%s)\n",
+        SCHED_MSG_LOG::NORMAL, "Returning error to client %s: %s (%s)\n",
         get_remote_addr(), buf,
         transient?"transient":"permanent"
     );
@@ -170,7 +175,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     bytes_left = nbytes - offset;
     if (bytes_left == 0) {
         fclose(out);
-        log_messages.printf(SchedMessages::DEBUG, "offset == nbytes: %f\n", nbytes);
+        log_messages.printf(SCHED_MSG_LOG::DEBUG, "offset == nbytes: %f\n", nbytes);
         return return_success(0);
     }
 
@@ -225,12 +230,12 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 file_info.signed_xml, file_info.xml_signature, key, is_valid
             );
             if (retval || !is_valid) {
-                log_messages.printf(SchedMessages::CRITICAL,
+                log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                     "verify_string() = %d, is_valid = %d\n",
                     retval, is_valid
                 );
-                log_messages.printf(SchedMessages::NORMAL, file_info.signed_xml, "signed xml: ");
-                log_messages.printf(SchedMessages::NORMAL, file_info.xml_signature, "signature: ");
+                log_messages.printf(SCHED_MSG_LOG::NORMAL, file_info.signed_xml, "signed xml: ");
+                log_messages.printf(SCHED_MSG_LOG::NORMAL, file_info.xml_signature, "signature: ");
                 return return_error(ERR_PERMANENT, "invalid signature");
             }
             continue;
@@ -264,7 +269,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
 
             sprintf(path, "%s/%s", config.upload_dir, file_info.name);
             log_messages.printf(
-                SchedMessages::NORMAL,
+                SCHED_MSG_LOG::NORMAL,
                 "Handling upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
                 file_info.name,
                 get_remote_addr(),
@@ -272,14 +277,14 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             );
             if (offset >= nbytes) {
                 log_messages.printf(
-                    SchedMessages::CRITICAL,
+                    SCHED_MSG_LOG::CRITICAL,
                     "ERROR: offset >= nbytes!!\n"
                 );
                 return return_success(0);
             }
             return copy_socket_to_file(in, path, offset, nbytes);
         } else {
-            log_messages.printf(SchedMessages::CRITICAL,
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "unrecognized: %s", buf
             );
         }
@@ -300,14 +305,14 @@ int handle_get_file_size(char* file_name) {
     sprintf(path, "%s/%s", config.upload_dir, file_name );
     retval = stat( path, &sbuf );
     if (retval && errno != ENOENT) {
-        log_messages.printf(SchedMessages::DEBUG, "handle_get_file_size(): [%s] returning error\n", file_name);
+        log_messages.printf(SCHED_MSG_LOG::DEBUG, "handle_get_file_size(): [%s] returning error\n", file_name);
         return return_error(ERR_TRANSIENT, "cannot open file" );
     } else if (retval) {
-        log_messages.printf(SchedMessages::DEBUG, "handle_get_file_size(): [%s] returning zero\n", file_name);
+        log_messages.printf(SCHED_MSG_LOG::DEBUG, "handle_get_file_size(): [%s] returning zero\n", file_name);
         return return_success("<file_size>0</file_size>");
     } else {
         log_messages.printf(
-            SchedMessages::DEBUG, "handle_get_file_size(): [%s] returning %d\n",
+            SCHED_MSG_LOG::DEBUG, "handle_get_file_size(): [%s] returning %d\n",
             file_name, (int)sbuf.st_size
         );
         sprintf(buf, "<file_size>%d</file_size>", (int)sbuf.st_size);
@@ -326,7 +331,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     bool did_something = false;
 
     while (fgets(buf, 256, in)) {
-        log_messages.printf(SchedMessages::DEBUG, buf, "handle_request: ");
+        log_messages.printf(SCHED_MSG_LOG::DEBUG, buf, "handle_request: ");
         if (parse_int(buf, "<core_client_major_version>", major)) {
             if (major != MAJOR_VERSION) {
                 retval = return_error(ERR_PERMANENT,
@@ -357,11 +362,11 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
             did_something = true;
             break;
         } else {
-            log_messages.printf(SchedMessages::DEBUG, "handle_request: unrecognized %s\n", buf);
+            log_messages.printf(SCHED_MSG_LOG::DEBUG, "handle_request: unrecognized %s\n", buf);
         }
     }
     if (!did_something) {
-        log_messages.printf(SchedMessages::CRITICAL, "handle_request: no command\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "handle_request: no command\n");
         return return_error(ERR_PERMANENT, "no command");
     }
 

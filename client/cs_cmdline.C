@@ -28,6 +28,7 @@
 #endif
 
 #include "util.h"
+#include "client_msgs.h"
 #include "client_state.h"
 
 static void print_options(char* prog) {

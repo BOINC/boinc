@@ -44,7 +44,7 @@
 
 #include "util.h"
 #include "parse.h"
-#include "message.h"
+#include "client_msgs.h"
 #include "error_numbers.h"
 
 #include "hostinfo.h"

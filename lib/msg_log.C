@@ -30,46 +30,45 @@ using namespace std;
 #endif
 
 #include "util.h"
-#include "messages.h"
+#include "msg_log.h"
 
-//////////////////////////////////////////////////////////////////////
+// MSG_LOG is a base class for writing messages not intended for the end user.
+// This includes all server messages and client debugging messages.
+// SCHED_MSG_LOG (in sched/sched_msg_log.C) decides which scheduler messages
+// to print and formats the "kind" keyword;
+// CLIENT_MSG_LOG does the same thing for client debugging output.
 //
-// Messages is a base class for writing messages not intended for the end
-// user.  This includes all server messages and client debugging messages.
-// SchedMessages (in sched/sched_messages.C) decides which scheduler messages
-// to print and formats the "kind" keyword; ClientMessages does the same thing
-// for client debugging output.
-//
-// Messages has an "indent_level" state for how many spaces to indent output.
-// This corresponds in general to the function-call recursion level.  Call
-// Messages::enter_level() to increase by 1 level and leave_level() to
-// decrease by 1 level.  The ScopeMessages class takes care of calling
-// leave_level() for you.  Create a ScopeMessages object on the stack at the
-// beginning of a function; it will increment the level by 1 on construction,
-// and decrement the level by 1 on destruction at end of scope.  This way you
-// don't have to worry about decrementing before mid-function returns,
-// exceptions, etc.
+// MSG_LOG has an "indent_level" state for how many spaces to indent output.
+// This corresponds in general to the function-call recursion level.
+// Call MSG_LOG::enter_level() to increase by 1 level
+// and leave_level() to decrease by 1 level.
+// The SCOPE_MSG_LOG class takes care of calling leave_level() for you.
+// Create a SCOPE_MSG_LOG object on the stack at the beginning of a function;
+// it will increment the level by 1 on construction,
+// and decrement the level by 1 on destruction at end of scope.
+// This way you don't have to worry about decrementing
+// before mid-function returns, exceptions, etc.
 
 // Each [v]printf* function prints the timestamp, the formatted KIND string,
-// indentation level, then the specified string.  The string to print can be
-// a one-line string (including the trailing \n), a multi-line string (it's
-// broken up into lines to get the prefix on each line), or a file (also
-// broken up into lines).
+// indentation level, then the specified string.
+// The string to print can be a one-line string (including the trailing \n),
+// a multi-line string (it's broken up into lines
+// to get the prefix on each line), or a file (also broken up into lines).
 
-// Scheduler functions should use "log_messages" which is an instance of
-// SchedMessages.  Client functions should use "log_messages" (also) which is
-// an instance of ClientMessages.
+// Scheduler functions should use "sched_messages" which is an instance of
+// SCHED_MSG_LOG.  Client functions should use "client_messages",
+// which is an instance of CLIENT_MSG_LOG.
 
-// See sched/sched_messages.C and client/client_messages.C for those classes.
+// See sched/sched_msg_log.C and client/client_msg_log.C for those classes.
 
-Messages::Messages(FILE* output_) {
+MSG_LOG::MSG_LOG(FILE* output_) {
     output = output_;
     indent_level = 0;
     spaces[0] = 0;
     strcpy(spaces+1, "                                                                              ");
 }
 
-void Messages::enter_level(int diff) {
+void MSG_LOG::enter_level(int diff) {
     assert (indent_level >= 0);
     spaces[indent_level] = ' ';
     indent_level += diff*2;
@@ -77,7 +76,7 @@ void Messages::enter_level(int diff) {
     assert (indent_level >= 0);
 }
 
-void Messages::vprintf(int kind, const char* format, va_list va) {
+void MSG_LOG::vprintf(int kind, const char* format, va_list va) {
     const char* now_timestamp = time_to_string(time(0));
     if (!v_message_wanted(kind)) return;
     fprintf(output, "%s [%s]%s ", now_timestamp, v_format_kind(kind), spaces);
@@ -85,7 +84,7 @@ void Messages::vprintf(int kind, const char* format, va_list va) {
 }
 
 // break a multi-line string into lines (so that we show prefix on each line)
-void Messages::vprintf_multiline(
+void MSG_LOG::vprintf_multiline(
     int kind, const char* str, const char* prefix_format, va_list va
 ) {
     if (!v_message_wanted(kind)) return;
@@ -113,7 +112,7 @@ void Messages::vprintf_multiline(
     }
 }
 
-void Messages::vprintf_file(
+void MSG_LOG::vprintf_file(
     int kind, const char* filename, const char* prefix_format, va_list va
 ) {
     if (!v_message_wanted(kind)) return;
@@ -134,14 +133,14 @@ void Messages::vprintf_file(
     }
 }
 
-void Messages::printf(int kind, const char* format, ...) {
+void MSG_LOG::printf(int kind, const char* format, ...) {
     va_list va;
     va_start(va, format);
     vprintf(kind, format, va);
     va_end(va);
 }
 
-void Messages::printf_multiline(
+void MSG_LOG::printf_multiline(
     int kind, const char* str, const char* prefix_format, ...
 ) {
     va_list va;
@@ -150,7 +149,7 @@ void Messages::printf_multiline(
     va_end(va);
 }
 
-void Messages::printf_file(
+void MSG_LOG::printf_file(
     int kind, const char* filename, const char* prefix_format, ...
 ) {
     va_list va;
@@ -159,19 +158,18 @@ void Messages::printf_file(
     va_end(va);
 }
 
-//////////////////////////////////////////////////////////////////////
-// These ScopeMessages functions are utility functions that call their
-// corresponding Messages functions with the same name, passing the KIND that
-// was specified on creation of the ScopeMessages object.
+// These SCOPE_MSG_LOG functions are utility functions that call their
+// corresponding MSG_LOG functions with the same name, passing the KIND that
+// was specified on creation of the SCOPE_MSG_LOG object.
 
-void ScopeMessages::printf(const char* format, ...) {
+void SCOPE_MSG_LOG::printf(const char* format, ...) {
     va_list va;
     va_start(va, format);
     messages.vprintf(kind, format, va);
     va_end(va);
 }
 
-void ScopeMessages::printf_multiline(
+void SCOPE_MSG_LOG::printf_multiline(
     const char* str, const char* prefix_format, ...
 ) {
     va_list va;
@@ -180,7 +178,7 @@ void ScopeMessages::printf_multiline(
     va_end(va);
 }
 
-void ScopeMessages::printf_file(
+void SCOPE_MSG_LOG::printf_file(
     const char* filename, const char* prefix_format, ...
 ) {
     va_list va;

@@ -11427,3 +11427,27 @@ David April 7 2004
         client_types.C,h
         cs_apps.C
         cs_scheduler.C
+
+David  April 8 2004
+    - Clarify distinction between log messages (debugging)
+        and user messages (shown to user) in the client
+        and put both in one place (client_msgs.C,h)
+    - rename ClientMessages to CLIENT_MSG_LOG
+    - rename SchedMessages to SCHED_MSG_LOG
+    - rename Messages to MSG_LOG
+    - rename ScopeMessages to SCOPE_MSG_LOG
+
+    client/
+        Makefile.am
+        *.C
+        client_messages.C (removed)
+        message.h (removed)
+        client_msgs.C,h (new)
+    lib/
+        messages.C,h (removed)
+        msg_log.C,h (new)
+    sched/
+        Makefile.am
+        *.C
+        sched_messages.C (removed)
+        sched_msgs.C,h (new)

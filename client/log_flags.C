@@ -30,7 +30,7 @@
 
 #include "error_numbers.h"
 #include "file_names.h"
-#include "message.h"
+#include "client_msgs.h"
 #include "parse.h"
 
 #include "log_flags.h"

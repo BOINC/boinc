@@ -28,6 +28,7 @@
 #include "util.h"
 #include "sched_config.h"
 #include "sched_util.h"
+#include "sched_msgs.h"
 #include "assimilate_handler.h"
 
 #define LOCKFILE "assimilator.out"
@@ -53,7 +54,7 @@ bool do_pass(APP& app) {
         vector<RESULT> results;     // must be inside while()!
         did_something = true;
 
-        log_messages.printf(SchedMessages::DEBUG,
+        log_messages.printf(SCHED_MSG_LOG::DEBUG,
             "[%s] assimilating; state=%d\n", wu.name, wu.assimilate_state
         );
 
@@ -92,13 +93,13 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-app")) {
             strcpy(app.name, argv[++i]);
         } else {
-            log_messages.printf(SchedMessages::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't parse config file\n");
         exit(1);
     }
 
@@ -110,21 +111,21 @@ int main(int argc, char** argv) {
 
     // // Call lock_file after fork(), because file locks are not always inherited
     // if (lock_file(LOCKFILE)) {
-    //     log_messages.printf(SchedMessages::NORMAL, "Another copy of assimilator is already running\n");
+    //     log_messages.printf(SCHED_MSG_LOG::NORMAL, "Another copy of assimilator is already running\n");
     //     exit(1);
     // }
     // write_pid_file(PIDFILE);
-    log_messages.printf(SchedMessages::NORMAL, "Starting\n");
+    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting\n");
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "Can't open DB\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't open DB\n");
         exit(1);
     }
     sprintf(buf, "where name='%s'", app.name);
     retval = app.lookup(buf);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "Can't find app\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't find app\n");
         exit(1);
     }
     install_stop_signal_handler();

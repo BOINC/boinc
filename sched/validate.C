@@ -49,6 +49,7 @@ using namespace std;
 #include "util.h"
 #include "sched_config.h"
 #include "sched_util.h"
+#include "sched_msgs.h"
 
 #define LOCKFILE "validate.out"
 #define PIDFILE  "validate.pid"
@@ -105,7 +106,7 @@ void handle_wu(DB_WORKUNIT& wu) {
 
     if (wu.canonical_resultid) {
         log_messages.printf(
-            SchedMessages::NORMAL,
+            SCHED_MSG_LOG::NORMAL,
             "[WU#%d %s] handle_wu(): Already has canonical result\n",
             wu.id, wu.name
         );
@@ -117,7 +118,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         retval = canonical_result.lookup_id(wu.canonical_resultid);
         if (retval) {
             log_messages.printf(
-                SchedMessages::CRITICAL,
+                SCHED_MSG_LOG::CRITICAL,
                 "[WU#%d %s] Can't read canonical result; marking as validated: %d\n",
                 wu.id, wu.name, retval
             );
@@ -139,7 +140,7 @@ void handle_wu(DB_WORKUNIT& wu) {
             //
             if (canonical_result.file_delete_state == FILE_DELETE_DONE) {
                 log_messages.printf(
-                    SchedMessages::DEBUG,
+                    SCHED_MSG_LOG::DEBUG,
                     "[WU#%d]: Canonical result (%d) has been deleted\n",
                     wu.id, canonical_result.id
                 );
@@ -150,7 +151,7 @@ void handle_wu(DB_WORKUNIT& wu) {
             }
             if (retval) {
                 log_messages.printf(
-                    SchedMessages::DEBUG,
+                    SCHED_MSG_LOG::DEBUG,
                     "[RESULT#%d %s]: pair_check() failed for result: %d\n",
                     result.id, result.name, retval
                 );
@@ -160,14 +161,14 @@ void handle_wu(DB_WORKUNIT& wu) {
                     result.validate_state = VALIDATE_STATE_VALID;
                     result.granted_credit = wu.canonical_credit;
                     log_messages.printf(
-                        SchedMessages::NORMAL,
+                        SCHED_MSG_LOG::NORMAL,
                         "[RESULT#%d %s] pair_check() matched: setting result to valid; credit %f\n",
                         result.id, result.name, result.granted_credit
                     );
                 } else {
                     result.validate_state = VALIDATE_STATE_INVALID;
                     log_messages.printf(
-                        SchedMessages::NORMAL,
+                        SCHED_MSG_LOG::NORMAL,
                         "[RESULT#%d %s] pair_check() didn't match: setting result to invalid\n",
                         result.id, result.name
                     );
@@ -176,7 +177,7 @@ void handle_wu(DB_WORKUNIT& wu) {
             retval = result.update();
             if (retval) {
                 log_messages.printf(
-                    SchedMessages::CRITICAL,
+                    SCHED_MSG_LOG::CRITICAL,
                     "[RESULT#%d %s] Can't update result: %d\n",
                     result.id, result.name, retval
                 );
@@ -185,7 +186,7 @@ void handle_wu(DB_WORKUNIT& wu) {
             retval = grant_credit(result, result.granted_credit);
             if (retval) {
                 log_messages.printf(
-                    SchedMessages::NORMAL,
+                    SCHED_MSG_LOG::NORMAL,
                     "[RESULT#%d %s] Can't grant credit: %d\n",
                     result.id, result.name, retval
                 );
@@ -199,7 +200,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         // Try to get one
 
         log_messages.printf(
-            SchedMessages::NORMAL,
+            SCHED_MSG_LOG::NORMAL,
             "[WU#%d %s] handle_wu(): No canonical result yet\n", wu.id, wu.name
         );
         ++log_messages;
@@ -219,19 +220,19 @@ void handle_wu(DB_WORKUNIT& wu) {
             results.push_back(result);
         }
         log_messages.printf(
-            SchedMessages::DEBUG, "[WU#%d %s] Found %d successful results\n",
+            SCHED_MSG_LOG::DEBUG, "[WU#%d %s] Found %d successful results\n",
             wu.id, wu.name, (int)results.size()
         );
         if (results.size() >= (unsigned int)wu.min_quorum) {
             log_messages.printf(
-                SchedMessages::DEBUG,
+                SCHED_MSG_LOG::DEBUG,
                 "[WU#%d %s] Enough for quorum, checking set.\n", wu.id, wu.name
             );
             retval = check_set(results, canonicalid, credit);
             if (!retval && canonicalid) {
                 need_transition = true;
                 log_messages.printf(
-                    SchedMessages::DEBUG,
+                    SCHED_MSG_LOG::DEBUG,
                     "[WU#%d %s] Found a canonical result: id=%d\n",
                     wu.id, wu.name, canonicalid
                 );
@@ -249,14 +250,14 @@ void handle_wu(DB_WORKUNIT& wu) {
                         retval = grant_credit(result, credit);
                         if (retval) {
                             log_messages.printf(
-                                SchedMessages::DEBUG,
+                                SCHED_MSG_LOG::DEBUG,
                                 "[RESULT#%d %s] grant_credit() failed: %d\n",
                                 result.id, result.name, retval
                             );
                         }
                         result.granted_credit = credit;
                         log_messages.printf(
-                            SchedMessages::NORMAL,
+                            SCHED_MSG_LOG::NORMAL,
                             "[RESULT#%d %s] Granted %f credit to valid result [HOST#%d]\n",
                             result.id, result.name, result.granted_credit, result.hostid
                         );
@@ -266,7 +267,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                         retval = result.update();
                         if (retval) {
                             log_messages.printf(
-                                SchedMessages::CRITICAL,
+                                SCHED_MSG_LOG::CRITICAL,
                                 "[RESULT#%d %s] result.update() failed: %d\n",
                                 result.id, result.name, retval
                             );
@@ -284,7 +285,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                     retval = result.update();
                     if (retval) {
                         log_messages.printf(
-                            SchedMessages::CRITICAL,
+                            SCHED_MSG_LOG::CRITICAL,
                             "[RESULT#%d %s] result.update() failed: %d\n",
                             result.id, result.name, retval
                         );
@@ -315,7 +316,7 @@ mark_validated:
     retval = wu.update();
     if (retval) {
         log_messages.printf(
-            SchedMessages::CRITICAL,
+            SCHED_MSG_LOG::CRITICAL,
             "[WU#%d %s] wu.update() failed: %d\n", wu.id, wu.name, retval
         );
     }
@@ -345,14 +346,14 @@ int main_loop(bool one_pass) {
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "boinc_db.open failed: %d\n", retval);
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "boinc_db.open failed: %d\n", retval);
         exit(1);
     }
 
     sprintf(buf, "where name='%s'", app_name);
     retval = app.lookup(buf);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "can't find app %s\n", app.name);
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't find app %s\n", app.name);
         exit(1);
     }
 
@@ -384,13 +385,13 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else {
-            log_messages.printf(SchedMessages::CRITICAL, "unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "unrecognized arg: %s\n", argv[i]);
         }
     }
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL,
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL,
             "Can't parse config file: %d\n", retval
         );
         exit(1);
@@ -404,11 +405,11 @@ int main(int argc, char** argv) {
 
     // // Call lock_file after fork(), because file locks are not always inherited
     // if (lock_file(LOCKFILE)) {
-    //     log_messages.printf(SchedMessages::NORMAL, "Another copy of validate is already running\n");
+    //     log_messages.printf(SCHED_MSG_LOG::NORMAL, "Another copy of validate is already running\n");
     //     exit(1);
     // }
     // write_pid_file(PIDFILE);
-    log_messages.printf(SchedMessages::NORMAL, "Starting validator\n");
+    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting validator\n");
 
     install_stop_signal_handler();
 

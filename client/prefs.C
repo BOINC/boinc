@@ -32,7 +32,7 @@
 #include "parse.h"
 
 #include "error_numbers.h"
-#include "message.h"
+#include "client_msgs.h"
 #include "file_names.h"
 
 #include "client_state.h"

@@ -39,6 +39,7 @@ using namespace std;
 #include "backend_lib.h"
 #include "sched_config.h"
 #include "sched_util.h"
+#include "sched_msgs.h"
 
 #define LOCKFILE                "transitioner.out"
 #define PIDFILE                 "transitioner.pid"
@@ -67,7 +68,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         }
     }
 
-    ScopeMessages scope_messages(log_messages, SchedMessages::NORMAL);
+    SCOPE_MSG_LOG scope_messages(log_messages, SCHED_MSG_LOG::NORMAL);
 
     // count up the number of results in various states,
     // and check for timed-out results
@@ -89,7 +90,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         case RESULT_SERVER_STATE_IN_PROGRESS:
             if (result.report_deadline < now) {
                 log_messages.printf(
-                    SchedMessages::NORMAL,
+                    SCHED_MSG_LOG::NORMAL,
                     "[WU#%d %s] [RESULT#%d %s] result timed out (%d < %d) server_state:IN_PROGRESS=>OVER; outcome:NO_REPLY\n",
                     wu.id, wu.name, result.id, result.name,
                     result.report_deadline, (int)now
@@ -99,7 +100,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                 retval = result.update();
                 if (retval) {
                     log_messages.printf(
-                        SchedMessages::CRITICAL,
+                        SCHED_MSG_LOG::CRITICAL,
                         "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
                         wu.id, wu.name, result.id, result.name, retval
                         );
@@ -114,7 +115,7 @@ void handle_wu(DB_WORKUNIT& wu) {
             switch (result.outcome) {
             case RESULT_OUTCOME_COULDNT_SEND:
                 log_messages.printf(
-                    SchedMessages::NORMAL,
+                    SCHED_MSG_LOG::NORMAL,
                     "[WU#%d %s] [RESULT#%d %s] result couldn't be sent\n",
                     wu.id, wu.name, result.id, result.name
                 );
@@ -135,7 +136,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     }
 
     log_messages.printf(
-        SchedMessages::DEBUG,
+        SCHED_MSG_LOG::DEBUG,
         "[WU#%d %s] %d results: unsent %d, in_progress %d, over %d (success %d, error %d, couldnt_send %d)\n",
         wu.id, wu.name,
         (int)results.size(),
@@ -148,7 +149,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     if (nsuccess >= wu.min_quorum && have_result_to_validate) {
         wu.need_validate = true;
         log_messages.printf(
-            SchedMessages::NORMAL,
+            SCHED_MSG_LOG::NORMAL,
             "[WU#%d %s] need_validate:=>true [nsuccess=%d >= min_quorum=%d]\n",
             wu.id, wu.name, nsuccess, wu.min_quorum
         );
@@ -163,7 +164,7 @@ void handle_wu(DB_WORKUNIT& wu) {
 
     if (nerrors > wu.max_error_results) {
         log_messages.printf(
-            SchedMessages::NORMAL,
+            SCHED_MSG_LOG::NORMAL,
             "[WU#%d %s] WU has too many errors (%d errors for %d results)\n",
             wu.id, wu.name, nerrors, (int)results.size()
         );
@@ -171,7 +172,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     }
     if ((int)results.size() > wu.max_total_results) {
         log_messages.printf(
-            SchedMessages::NORMAL,
+            SCHED_MSG_LOG::NORMAL,
             "[WU#%d %s] WU has too many total results (%d)\n",
             wu.id, wu.name, (int)results.size()
         );
@@ -187,7 +188,7 @@ void handle_wu(DB_WORKUNIT& wu) {
             bool update_result = false;
             if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
                 log_messages.printf(
-                    SchedMessages::NORMAL,
+                    SCHED_MSG_LOG::NORMAL,
                     "[WU#%d %s] [RESULT#%d %s] server_state:UNSENT=>OVER; outcome:=>DIDNT_NEED\n",
                     wu.id, wu.name, result.id, result.name
                 );
@@ -203,7 +204,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                 retval = result.update();
                 if (retval) {
                     log_messages.printf(
-                        SchedMessages::CRITICAL,
+                        SCHED_MSG_LOG::CRITICAL,
                         "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
                         wu.id, wu.name, result.id, result.name, retval
                     );
@@ -213,7 +214,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         if (wu.assimilate_state == ASSIMILATE_INIT) {
             wu.assimilate_state = ASSIMILATE_READY;
             log_messages.printf(
-                SchedMessages::NORMAL,
+                SCHED_MSG_LOG::NORMAL,
                 "[WU#%d %s] error_mask:%d assimilate_state:INIT=>READY\n",
                 wu.id, wu.name, wu.error_mask
             );
@@ -224,7 +225,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         int n = wu.target_nresults - nunsent - ninprogress - nsuccess;
         if (n > 0) {
             log_messages.printf(
-                SchedMessages::NORMAL,
+                SCHED_MSG_LOG::NORMAL,
                 "[WU#%d %s] Generating %d more results (%d target - %d unsent - %d in progress - %d success)\n",
                 wu.id, wu.name, n, wu.target_nresults, nunsent, ninprogress, nsuccess
             );
@@ -234,7 +235,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                 retval = create_result(wu, result_template, suffix, key, "");
                 if (retval) {
                     log_messages.printf(
-                        SchedMessages::CRITICAL,
+                        SCHED_MSG_LOG::CRITICAL,
                         "[WU#%d %s] create_result() %d\n",
                         wu.id, wu.name, retval
                     );
@@ -258,7 +259,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     }
     if (wu.canonical_resultid && p_canonical_result == 0) {
         log_messages.printf(
-            SchedMessages::CRITICAL,
+            SCHED_MSG_LOG::CRITICAL,
             "[WU#%d %s] can't find canonical result\n",
             wu.id, wu.name
         );
@@ -272,7 +273,7 @@ void handle_wu(DB_WORKUNIT& wu) {
         if (all_over && wu.file_delete_state == FILE_DELETE_INIT) {
             wu.file_delete_state = FILE_DELETE_READY;
             log_messages.printf(
-                SchedMessages::DEBUG,
+                SCHED_MSG_LOG::DEBUG,
                 "[WU#%d %s] ASSIMILATE_DONE: file_delete_state:=>READY\n",
                 wu.id, wu.name
             );
@@ -300,7 +301,7 @@ void handle_wu(DB_WORKUNIT& wu) {
             }
             if (do_delete && result.file_delete_state == FILE_DELETE_INIT) {
                 log_messages.printf(
-                    SchedMessages::NORMAL,
+                    SCHED_MSG_LOG::NORMAL,
                     "[WU#%d %s] [RESULT#%d %s] file_delete_state:=>READY\n",
                     wu.id, wu.name, result.id, result.name
                 );
@@ -308,7 +309,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                 retval = result.update();
                 if (retval) {
                     log_messages.printf(
-                        SchedMessages::CRITICAL,
+                        SCHED_MSG_LOG::CRITICAL,
                         "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
                         wu.id, wu.name, result.id, result.name, retval
                         );
@@ -330,7 +331,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     retval = wu.update();
     if (retval) {
         log_messages.printf(
-            SchedMessages::CRITICAL,
+            SCHED_MSG_LOG::CRITICAL,
             "[WU#%d %s] workunit.update() == %d\n", wu.id, wu.name, retval
         );
     }
@@ -358,7 +359,7 @@ void main_loop(bool one_pass) {
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "boinc_db.open: %d\n", retval);
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "boinc_db.open: %d\n", retval);
         exit(1);
     }
 
@@ -390,14 +391,14 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "can't read config file\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't read config file\n");
         exit(1);
     }
 
     sprintf(path, "%s/upload_private", config.key_dir);
     retval = read_key_file(path, key);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "can't read key\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't read key\n");
         exit(1);
     }
 
@@ -409,11 +410,11 @@ int main(int argc, char** argv) {
 
     // // Call lock_file after fork(), because file locks are not always inherited
     // if (lock_file(LOCKFILE)) {
-    //     log_messages.printf(SchedMessages::NORMAL, "Another copy of transitioner is already running\n");
+    //     log_messages.printf(SCHED_MSG_LOG::NORMAL, "Another copy of transitioner is already running\n");
     //     exit(1);
     // }
     // write_pid_file(PIDFILE);
-    log_messages.printf(SchedMessages::NORMAL, "Starting\n");
+    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting\n");
 
     install_stop_signal_handler();
 

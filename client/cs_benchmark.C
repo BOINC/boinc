@@ -51,6 +51,7 @@
 #include "filesys.h"
 #include "util.h"
 #include "cpu_benchmark.h"
+#include "client_msgs.h"
 #include "client_state.h"
 
 // defaults in case benchmarks fail or time out.
@@ -123,7 +124,7 @@ DWORD WINAPI win_cpu_benchmarks(LPVOID p) {
 void CLIENT_STATE::start_cpu_benchmarks() {
     int i;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_MEASUREMENT);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_MEASUREMENT);
     if (skip_cpu_benchmarks) {
         scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Skipping CPU benchmarks.\n");
         host_info.p_fpops = DEFAULT_FPOPS;

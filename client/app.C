@@ -77,6 +77,7 @@
 #include "shmem.h"
 #include "util.h"
 
+#include "client_msgs.h"
 #include "app.h"
 
 // value for setpriority(2)
@@ -87,11 +88,11 @@ static const int PROCESS_IDLE_PRIORITY = 19;
 static int debug_print_argv(char** argv) {
     int i;
 
-    log_messages.printf(ClientMessages::DEBUG_TASK, "Arguments:");
+    log_messages.printf(CLIENT_MSG_LOG::DEBUG_TASK, "Arguments:");
     ++log_messages;
     for (i=0; argv[i]; i++) {
         log_messages.printf(
-            ClientMessages::DEBUG_TASK,
+            CLIENT_MSG_LOG::DEBUG_TASK,
             "argv[%d]: %s\n", i, argv[i]
         );
     }
@@ -258,7 +259,7 @@ int ACTIVE_TASK::start(bool first_time) {
     GRAPHICS_INFO gi;
     APP_INIT_DATA aid;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_TASK);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
     scope_messages.printf("ACTIVE_TASK::start(first_time=%d)\n", first_time);
 
     if (first_time) {
@@ -639,7 +640,7 @@ bool ACTIVE_TASK::finish_file_present() {
 bool ACTIVE_TASK_SET::check_app_exited() {
     ACTIVE_TASK* atp;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_TASK);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
 #ifdef _WIN32
     unsigned long exit_code;
@@ -1139,7 +1140,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
     RESULT* result;
     int retval;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_TASK);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
     iter = active_tasks.begin();
     while (iter != active_tasks.end()) {

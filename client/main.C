@@ -45,7 +45,7 @@
 #include "log_flags.h"
 #include "prefs.h"
 #include "util.h"
-#include "message.h"
+#include "client_msgs.h"
 
 // dummies
 void create_curtain(){}
@@ -264,7 +264,7 @@ int boinc_main_loop(int argc, char** argv) {
             dt = dtime();
             gstate.net_sleep(1.);
             dt = dtime() - dt;
-            log_messages.printf(ClientMessages::DEBUG_TIME, "SLEPT %f SECONDS\n", dt);
+            log_messages.printf(CLIENT_MSG_LOG::DEBUG_TIME, "SLEPT %f SECONDS\n", dt);
             fflush(stdout);
         }
 

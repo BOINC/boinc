@@ -31,7 +31,7 @@
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
-#include "message.h"
+#include "client_msgs.h"
 #include "log_flags.h"
 #include "parse.h"
 #include "util.h"

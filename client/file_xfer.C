@@ -27,7 +27,7 @@
 #include "file_names.h"
 #include "client_state.h"
 #include "filesys.h"
-#include "message.h"
+#include "client_msgs.h"
 #include "file_xfer.h"
 #include "parse.h"
 #include "error_numbers.h"
@@ -187,7 +187,7 @@ bool FILE_XFER_SET::poll() {
     FILE_XFER* fxp;
     bool action = false;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_FILE_XFER);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
 
     for (i=0; i<file_xfers.size(); i++) {
         fxp = file_xfers[i];

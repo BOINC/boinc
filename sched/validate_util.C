@@ -24,10 +24,12 @@
 
 #include <cassert>
 
-#include "sched_util.h"
-#include "sched_config.h"
 #include "error_numbers.h"
 #include "parse.h"
+
+#include "sched_util.h"
+#include "sched_config.h"
+#include "sched_msgs.h"
 #include "validate_util.h"
 
 extern SCHED_CONFIG config;
@@ -133,7 +135,7 @@ int generic_check_set_majority(
     for (i = 0; i != n; ++i) {
         if (init_result_f(results[i], data[i])) {
             log_messages.printf(
-                SchedMessages::CRITICAL,
+                SCHED_MSG_LOG::CRITICAL,
                 "check_set_majority: init_result([RESULT#%d %s]) failed\n",
                 results[i].id, results[i].name);
             goto cleanup;
@@ -152,7 +154,7 @@ int generic_check_set_majority(
                 matches[j] = true;
             } else if (check_pair_with_data_f(results[i], data[i], results[j], data[j], match)) {
                 log_messages.printf(
-                    SchedMessages::CRITICAL,
+                    SCHED_MSG_LOG::CRITICAL,
                     "check_set_majority: check_pair_with_data([RESULT#%d %s], [RESULT#%d %s]) failed\n",
                     results[i].id, results[i].name, results[j].id, results[j].name);
             } else if (match) {
@@ -192,7 +194,7 @@ int generic_check_pair(
     retval = init_result_f(r1, data1);
     if (retval) {
         log_messages.printf(
-            SchedMessages::CRITICAL,
+            SCHED_MSG_LOG::CRITICAL,
             "[RESULT#%d %s] [RESULT#%d %s] Couldn't initialize result 1\n",
             r1.id, r1.name, r2.id, r2.name
         );
@@ -202,7 +204,7 @@ int generic_check_pair(
     retval = init_result_f(r2, data2);
     if (retval) {
         log_messages.printf(
-            SchedMessages::CRITICAL,
+            SCHED_MSG_LOG::CRITICAL,
             "[RESULT#%d %s] [RESULT#%d %s] Couldn't initialize result 2\n",
             r1.id, r1.name, r2.id, r2.name
             );

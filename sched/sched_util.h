@@ -20,8 +20,6 @@
 #ifndef SCHED_UTIL_H
 #define SCHED_UTIL_H
 
-#include "messages.h"
-
 // "average credit" uses an exponential decay so that recent
 // activity is weighted more heavily.
 // CREDIT_HALF_LIFE is the "half-life" period:
@@ -37,21 +35,4 @@ extern bool is_stopfile_present();
 extern void install_stop_signal_handler();
 extern bool caught_stop_signal;
 
-
-class SchedMessages : public Messages {
-    int debug_level;
-    const char* v_format_kind(int kind) const;
-    bool v_message_wanted(int kind) const;
-public:
-    enum Kind {
-        CRITICAL,
-        NORMAL,
-        DEBUG
-    };
-    SchedMessages(): Messages(stderr) {}
-    void set_debug_level(int new_level) { debug_level = new_level; }
-};
-extern SchedMessages log_messages;
-
 #endif
-

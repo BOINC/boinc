@@ -26,11 +26,12 @@
 #include <cassert>
 #endif
 
-#include "client_state.h"
-#include "error_numbers.h"
-#include "file_names.h"
 #include "filesys.h"
 #include "util.h"
+#include "client_state.h"
+#include "client_msgs.h"
+#include "error_numbers.h"
+#include "file_names.h"
 
 static inline string filename_to_project_dirname(const string& filename) {
     assert(starts_with(filename, "account_"));

@@ -25,7 +25,7 @@
 #include <stdarg.h>
 #endif
 
-#include "message.h"
+//#include "client_msgs.h"
 
 vector<MESSAGE_DESC> message_descs;
 

@@ -39,6 +39,7 @@
 #include "filesys.h"
 #include "shmem.h"
 #include "log_flags.h"
+#include "client_msgs.h"
 #include "client_state.h"
 
 // Make a directory for each available slot
@@ -160,7 +161,7 @@ bool CLIENT_STATE::handle_finished_apps() {
     ACTIVE_TASK* atp;
     bool action = false;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_TASK);
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];

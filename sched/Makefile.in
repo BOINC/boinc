@@ -202,7 +202,7 @@ libsched_a_SOURCES = \
     sched_shmem.C				\
     sched_util.C				\
     sched_config.C				\
-	sched_messages.C			\
+	sched_msgs.C			    \
 	../db/boinc_db.C			\
 	../db/db_base.C				\
     ../lib/util.C				\
@@ -213,7 +213,7 @@ libsched_a_SOURCES = \
     ../lib/shmem.C				\
     ../lib/md5.c				\
     ../lib/md5_file.C			\
-	../lib/messages.C			\
+	../lib/msg_log.C			\
 	../tools/process_result_template.C	\
     ../tools/backend_lib.C			\
 	sched_config.h				\
@@ -291,12 +291,12 @@ LIBRARIES = $(noinst_LIBRARIES)
 libsched_a_AR = $(AR) cru
 libsched_a_LIBADD =
 am_libsched_a_OBJECTS = sched_shmem.$(OBJEXT) sched_util.$(OBJEXT) \
-	sched_config.$(OBJEXT) sched_messages.$(OBJEXT) \
-	boinc_db.$(OBJEXT) db_base.$(OBJEXT) util.$(OBJEXT) \
-	crypt.$(OBJEXT) filesys.$(OBJEXT) parse.$(OBJEXT) \
-	base64.$(OBJEXT) shmem.$(OBJEXT) md5.$(OBJEXT) \
-	md5_file.$(OBJEXT) messages.$(OBJEXT) \
-	process_result_template.$(OBJEXT) backend_lib.$(OBJEXT)
+	sched_config.$(OBJEXT) sched_msgs.$(OBJEXT) boinc_db.$(OBJEXT) \
+	db_base.$(OBJEXT) util.$(OBJEXT) crypt.$(OBJEXT) \
+	filesys.$(OBJEXT) parse.$(OBJEXT) base64.$(OBJEXT) \
+	shmem.$(OBJEXT) md5.$(OBJEXT) md5_file.$(OBJEXT) \
+	msg_log.$(OBJEXT) process_result_template.$(OBJEXT) \
+	backend_lib.$(OBJEXT)
 libsched_a_OBJECTS = $(am_libsched_a_OBJECTS)
 EXTRA_PROGRAMS = fcgi$(EXEEXT)
 noinst_PROGRAMS = assimilator$(EXEEXT) cgi$(EXEEXT) feeder$(EXEEXT) \
@@ -389,12 +389,11 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/filesys.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/handle_request.Po ./$(DEPDIR)/main.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/make_work.Po ./$(DEPDIR)/md5.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/messages.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/msg_log.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/parse.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/process_result_template.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_config.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sched_messages.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sched_send.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sched_msgs.Po ./$(DEPDIR)/sched_send.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_shmem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/sched_util.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/server_types.Po ./$(DEPDIR)/shmem.Po \
@@ -452,7 +451,7 @@ base64.$(OBJEXT): ../lib/base64.C
 shmem.$(OBJEXT): ../lib/shmem.C
 md5.$(OBJEXT): ../lib/md5.c
 md5_file.$(OBJEXT): ../lib/md5_file.C
-messages.$(OBJEXT): ../lib/messages.C
+msg_log.$(OBJEXT): ../lib/msg_log.C
 process_result_template.$(OBJEXT): ../tools/process_result_template.C
 backend_lib.$(OBJEXT): ../tools/backend_lib.C
 libsched.a: $(libsched_a_OBJECTS) $(libsched_a_DEPENDENCIES) 
@@ -558,11 +557,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/make_work.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5_file.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/messages.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msg_log.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/process_result_template.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_config.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_messages.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_msgs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_send.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_shmem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_util.Po@am__quote@
@@ -803,27 +802,27 @@ md5_file.obj: ../lib/md5_file.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o md5_file.obj `if test -f '../lib/md5_file.C'; then $(CYGPATH_W) '../lib/md5_file.C'; else $(CYGPATH_W) '$(srcdir)/../lib/md5_file.C'`
 
-messages.o: ../lib/messages.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT messages.o -MD -MP -MF "$(DEPDIR)/messages.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o messages.o `test -f '../lib/messages.C' || echo '$(srcdir)/'`../lib/messages.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/messages.Tpo" "$(DEPDIR)/messages.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/messages.Tpo"; exit 1; \
+msg_log.o: ../lib/msg_log.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT msg_log.o -MD -MP -MF "$(DEPDIR)/msg_log.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o msg_log.o `test -f '../lib/msg_log.C' || echo '$(srcdir)/'`../lib/msg_log.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/msg_log.Tpo" "$(DEPDIR)/msg_log.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/msg_log.Tpo"; exit 1; \
 @am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/messages.C' object='messages.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/messages.Po' tmpdepfile='$(DEPDIR)/messages.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/msg_log.C' object='msg_log.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/msg_log.Po' tmpdepfile='$(DEPDIR)/msg_log.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o messages.o `test -f '../lib/messages.C' || echo '$(srcdir)/'`../lib/messages.C
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o msg_log.o `test -f '../lib/msg_log.C' || echo '$(srcdir)/'`../lib/msg_log.C
 
-messages.obj: ../lib/messages.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT messages.obj -MD -MP -MF "$(DEPDIR)/messages.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o messages.obj `if test -f '../lib/messages.C'; then $(CYGPATH_W) '../lib/messages.C'; else $(CYGPATH_W) '$(srcdir)/../lib/messages.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/messages.Tpo" "$(DEPDIR)/messages.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/messages.Tpo"; exit 1; \
+msg_log.obj: ../lib/msg_log.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT msg_log.obj -MD -MP -MF "$(DEPDIR)/msg_log.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o msg_log.obj `if test -f '../lib/msg_log.C'; then $(CYGPATH_W) '../lib/msg_log.C'; else $(CYGPATH_W) '$(srcdir)/../lib/msg_log.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/msg_log.Tpo" "$(DEPDIR)/msg_log.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/msg_log.Tpo"; exit 1; \
 @am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/messages.C' object='messages.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/messages.Po' tmpdepfile='$(DEPDIR)/messages.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/msg_log.C' object='msg_log.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/msg_log.Po' tmpdepfile='$(DEPDIR)/msg_log.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o messages.obj `if test -f '../lib/messages.C'; then $(CYGPATH_W) '../lib/messages.C'; else $(CYGPATH_W) '$(srcdir)/../lib/messages.C'`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o msg_log.obj `if test -f '../lib/msg_log.C'; then $(CYGPATH_W) '../lib/msg_log.C'; else $(CYGPATH_W) '$(srcdir)/../lib/msg_log.C'`
 
 process_result_template.o: ../tools/process_result_template.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT process_result_template.o -MD -MP -MF "$(DEPDIR)/process_result_template.Tpo" \

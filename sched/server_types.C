@@ -29,8 +29,9 @@ using namespace std;
 #include "error_numbers.h"
 #include "util.h"
 #include "main.h"
-#include "server_types.h"
 #include "sched_util.h"
+#include "sched_msgs.h"
+#include "server_types.h"
 
 int CLIENT_APP_VERSION::parse(FILE* f) {
     char buf[256];
@@ -128,7 +129,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
                 trickles.push_back(td);
             }
         } else {
-            log_messages.printf(SchedMessages::NORMAL, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
+            log_messages.printf(SCHED_MSG_LOG::NORMAL, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
         }
     }
     return ERR_XML_PARSE;
@@ -397,7 +398,7 @@ int RESULT::parse_from_client(FILE* fin) {
             continue;
         } else {
             log_messages.printf(
-                SchedMessages::NORMAL,
+                SCHED_MSG_LOG::NORMAL,
                 "RESULT::parse_from_client(): unrecognized: %s\n",
                 buf
             );
@@ -438,7 +439,7 @@ int HOST::parse(FILE* fin) {
         else if (parse_double(buf, "<n_bwup>", n_bwup)) continue;
         else if (parse_double(buf, "<n_bwdown>", n_bwdown)) continue;
         else {
-            log_messages.printf(SchedMessages::NORMAL, "HOST::parse(): unrecognized: %s\n", buf);
+            log_messages.printf(SCHED_MSG_LOG::NORMAL, "HOST::parse(): unrecognized: %s\n", buf);
         }
     }
     return ERR_XML_PARSE;
@@ -455,7 +456,7 @@ int HOST::parse_time_stats(FILE* fin) {
         else if (parse_double(buf, "<active_frac>", active_frac)) continue;
         else {
             log_messages.printf(
-                SchedMessages::NORMAL,
+                SCHED_MSG_LOG::NORMAL,
                 "HOST::parse_time_stats(): unrecognized: %s\n",
                 buf
             );
@@ -473,7 +474,7 @@ int HOST::parse_net_stats(FILE* fin) {
         else if (parse_double(buf, "<bwdown>", n_bwdown)) continue;
         else {
             log_messages.printf(
-                SchedMessages::NORMAL,
+                SCHED_MSG_LOG::NORMAL,
                 "HOST::parse_net_stats(): unrecognized: %s\n",
                 buf
             );

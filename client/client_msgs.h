@@ -17,12 +17,22 @@
 // Contributor(s):
 //
 
-#ifndef MESSAGE_H
-#define MESSAGE_H
+#ifndef CLIENT_MSG_LOG_H
+#define CLIENT_MSG_LOG_H
+
+// Two types of messages are used in the BOINC client:
+//
+// - Log messages
+//   Debugging messages, not intended to be seen by users
+//   Write these using the log_messages object.
+//
+// - User messages
+//   Message intended for users, displayed in the Messages tab of the GUI
+//   Write these using the msg_printf() function
 
 #include <vector>
 
-#include "messages.h"
+#include "msg_log.h"
 #include "client_types.h"
 
 // Show a message, preceded by timestamp and project name
@@ -37,6 +47,8 @@
 #define MSG_WARNING 3
     // deprecated - do not use
 
+// the following stores a message in memory, where it can be retrieved via RPC
+//
 struct MESSAGE_DESC {
     PROJECT* project;
     int priority;
@@ -48,10 +60,11 @@ extern vector<MESSAGE_DESC> message_descs;
 
 extern void show_message(class PROJECT *p, char* message, int priority);
 
-class ClientMessages : public Messages {
+class CLIENT_MSG_LOG : public MSG_LOG {
     int debug_level;
     const char* v_format_kind(int kind) const;
     bool v_message_wanted(int kind) const;
+
 public:
     enum Kind {
         DEBUG_STATE,       // changes to CLIENT_STATE structure
@@ -65,17 +78,10 @@ public:
         DEBUG_MEASUREMENT, // host measurement notices
         DEBUG_POLL,        // show what polls are responding
     };
-    ClientMessages(): Messages(stdout) {}
+    CLIENT_MSG_LOG(): MSG_LOG(stdout) {}
 };
 
-extern ClientMessages log_messages;
-
-// the __attribute((format...)) tags are GCC extensions that let the compiler
-// do like-checking on printf-like arguments
-//
-#if !defined(__GNUC__) && !defined(__attribute__)
-#define __attribute__(x) /*nothing*/
-#endif
+extern CLIENT_MSG_LOG log_messages;
 
 extern void msg_printf(PROJECT *p, int priority, char *fmt, ...) __attribute__ ((format (printf, 3, 4)));
 

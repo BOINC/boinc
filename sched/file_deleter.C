@@ -30,6 +30,7 @@
 #include "util.h"
 #include "sched_config.h"
 #include "sched_util.h"
+#include "sched_msgs.h"
 
 #define LOCKFILE "file_deleter.out"
 #define PIDFILE  "file_deleter.pid"
@@ -56,14 +57,14 @@ int wu_delete_files(WORKUNIT& wu) {
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
                 sprintf(pathname, "%s/%s", config.download_dir, filename);
-                log_messages.printf(SchedMessages::NORMAL, "[%s] deleting download/%s\n", wu.name, filename);
+                log_messages.printf(SCHED_MSG_LOG::NORMAL, "[%s] deleting download/%s\n", wu.name, filename);
                 unlink(pathname);
                 ++count_deleted;
             }
         }
         p = strtok(0, "\n");
     }
-    log_messages.printf(SchedMessages::DEBUG, "[%s] deleted %d file(s)\n", wu.name, count_deleted);
+    log_messages.printf(SCHED_MSG_LOG::DEBUG, "[%s] deleted %d file(s)\n", wu.name, count_deleted);
     return 0;
 }
 
@@ -87,7 +88,7 @@ int result_delete_files(RESULT& result) {
                 sprintf(pathname, "%s/%s", config.upload_dir, filename);
                 retval = unlink(pathname);
                 ++count_deleted;
-                log_messages.printf(SchedMessages::NORMAL,
+                log_messages.printf(SCHED_MSG_LOG::NORMAL,
                     "[%s] unlinked %s; retval %d\n",
                     result.name, filename, retval
                 );
@@ -96,7 +97,7 @@ int result_delete_files(RESULT& result) {
         p = strtok(0, "\n");
     }
 
-    log_messages.printf(SchedMessages::DEBUG,
+    log_messages.printf(SCHED_MSG_LOG::DEBUG,
         "[%s] deleted %d file(s)\n", result.name, count_deleted
     );
     return 0;
@@ -144,13 +145,13 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
         } else {
-            log_messages.printf(SchedMessages::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't parse config file\n");
         exit(1);
     }
 
@@ -162,15 +163,15 @@ int main(int argc, char** argv) {
 
     // // Call lock_file after fork(), because file locks are not always inherited
     // if (lock_file(LOCKFILE)) {
-    //     log_messages.printf(SchedMessages::NORMAL, "Another copy of file deleter is running\n");
+    //     log_messages.printf(SCHED_MSG_LOG::NORMAL, "Another copy of file deleter is running\n");
     //     exit(1);
     // }
     // write_pid_file(PIDFILE);
-    log_messages.printf(SchedMessages::NORMAL, "Starting\n");
+    log_messages.printf(SCHED_MSG_LOG::NORMAL, "Starting\n");
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "can't open DB\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "can't open DB\n");
         exit(1);
     }
     install_stop_signal_handler();
