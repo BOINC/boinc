@@ -13,7 +13,7 @@
 
 #include "shmem.h"
 
-main(int argc, char** argv) {
+int main(int argc, char** argv) {
     void* p;
     int retval;
 
@@ -25,4 +25,6 @@ main(int argc, char** argv) {
     } else if (!strcmp(argv[1], "-c")) {
         create_shmem(KEY, 100, &p);
     }
+
+    return 0;
 }
