@@ -70,27 +70,66 @@ int grant_credit(DB_RESULT& result, double credit) {
     int retval;
 
     retval = host.lookup_id(result.hostid);
-    if (retval) return retval;
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "[RESULT#%d] lookup of host %d failed %d\n",
+            result.id, result.hostid, retval
+        );
+        return retval;
+    }
     retval = user.lookup_id(host.userid);
-    if (retval) return retval;
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "[RESULT#%d] lookup of user %d failed %d\n",
+            result.id, host.userid, retval
+        );
+        return retval;
+    }
 
     user.total_credit += credit;
     update_average(result.sent_time, credit, CREDIT_HALF_LIFE, user.expavg_credit, user.expavg_time);
     retval = user.update();
-    if (retval) return retval;
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "[RESULT#%d] update of user %d failed %d\n",
+            result.id, host.userid, retval
+        );
+    }
 
     host.total_credit += credit;
     update_average(result.sent_time, credit, CREDIT_HALF_LIFE, host.expavg_credit, host.expavg_time);
     retval = host.update();
-    if (retval) return retval;
+    if (retval) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "[RESULT#%d] update of host %d failed %d\n",
+            result.id, result.hostid, retval
+        );
+    }
 
     if (user.teamid) {
         retval = team.lookup_id(user.teamid);
-        if (retval) return retval;
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[RESULT#%d] lookup of team %d failed %d\n",
+                result.id, user.teamid, retval
+            );
+            return retval;
+        }
         team.total_credit += credit;
         update_average(result.sent_time, credit, CREDIT_HALF_LIFE, team.expavg_credit, team.expavg_time);
         retval = team.update();
-        if (retval) return retval;
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[RESULT#%d] update of team %d failed %d\n",
+                result.id, team.id, retval
+            );
+        }
     }
 
     return 0;

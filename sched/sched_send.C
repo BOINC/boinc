@@ -696,7 +696,7 @@ int send_work(
                 " (there was work but your computer doesn't have enough memory)"
             );
         }
-        if (wreq.insufficient_mem) {
+        if (wreq.insufficient_speed) {
             strcat(reply.message,
                 " (there was work but your computer would not finish it before it is due"
             );

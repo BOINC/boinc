@@ -12,6 +12,10 @@
     $length = count($words);
     $name_lc = strtolower($team_name);
      
+    echo "Team lookup disabled";
+    page_tail();
+    exit();
+
     $query = sprintf(
         "select * from team where name_lc like '%s'",
         "%$name_lc%"

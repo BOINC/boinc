@@ -209,22 +209,22 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             if (retval) {
                 return return_error(ERR_PERMANENT, "FILE_INFO::parse");
             }
-            if (!config.ignore_upload_certificates) {
-                retval = verify_string(
-                    file_info.signed_xml, file_info.xml_signature, key, is_valid
+            retval = verify_string(
+                file_info.signed_xml, file_info.xml_signature, key, is_valid
+            );
+            if (retval || !is_valid) {
+                log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                    "verify_string() [%s] [%s] retval %d, is_valid = %d\n",
+                    file_info.signed_xml, file_info.xml_signature,
+                    retval, is_valid
                 );
-                if (retval || !is_valid) {
-                    log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                        "verify_string() [%s] [%s] retval %d, is_valid = %d\n",
-                        file_info.signed_xml, file_info.xml_signature,
-                        retval, is_valid
-                    );
+                if (!config.ignore_upload_certificates) {
                     log_messages.printf(SCHED_MSG_LOG::NORMAL, file_info.signed_xml, "signed xml: ");
                     log_messages.printf(SCHED_MSG_LOG::NORMAL, file_info.xml_signature, "signature: ");
                     return return_error(ERR_PERMANENT, "invalid signature");
+                    continue;
                 }
             }
-            continue;
         }
         else if (parse_double(buf, "<offset>", offset)) continue;
         else if (parse_double(buf, "<nbytes>", nbytes)) continue;

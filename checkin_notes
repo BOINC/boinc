@@ -13087,3 +13087,37 @@ Karl 2004-06-08
         upper-case.C
     lib/
         app_ipc.C
+
+David  6 June 2004
+    - in strcpy2(), use strlcpy instead of strncpy
+        strncpy() always copies the full N bytes,
+        which is inefficient when there are long (64KB) fields
+        that are short or empty.
+        strlcpy() does what we want - it only copies significant bytes,
+        but doesn't go off the end of the destination buffer.
+        I also commented out the version of strlcpy in std_fixes.h -
+        this has the same performance problem.
+    - fixed "show team email addresses" function to not show auths
+    - temporarily turned off user search by name and team search by name;
+        we don't have indices on these fields
+    - file upload handler: show bad-certificate message even
+        if we're not enforcing it.
+    - scheduler: fix insufficient-speed message
+    - validator: print log messages if can't lookup/update anything
+
+    db/
+        db_base.h
+    html/
+        inc/
+            util.inc
+        user/
+            forum_text_search*
+            team_email_list.php
+            team_lookup.php
+            user_search_action.php
+    lib/
+        std_fixes.h
+    sched/
+        file_upload_handler.C
+        sched_send.C
+        validate.C

@@ -344,12 +344,12 @@ function munge_email_addr($email, $string) {
 // if email_addr is of the form @X_Y, split out the X and return true.
 // otherwise return false
 //
-function split_munged_email_addr($addr, $string, &$email) {
+function split_munged_email_addr($addr, $auth, &$email) {
     if (substr($addr, 0, 1) != "@") return false;
     $x = strrchr($addr, "_");
     if (!$x) return false;
     $y = substr($x, 1);
-    if ($y != $string) return false;
+    if ($auth && $y != $auth) return false;
     $email = substr($addr, 1, strlen($addr)-strlen($x)-1);
     return true;
 }

@@ -23,7 +23,7 @@ echo "
     <tr><td align=right>
     Search messages:
     </td><td>
-    <form action=text_search_action.php>
+    <form action=forum_text_search_action.php>
     <input name=search_string>
     <input type=submit name=bodies value=Search>
     </form>

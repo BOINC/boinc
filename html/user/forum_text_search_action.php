@@ -47,7 +47,7 @@ if ($n==$count) {
     $s = urlencode($search_string);
     $offset += $count;
     echo "
-        <a href=text_search_action.php?bodies=1&search_string=$s&offset=$offset>Next $count</a>
+        <a href=forum_text_search_action.php?bodies=1&search_string=$s&offset=$offset>Next $count</a>
     ";
 
 }
