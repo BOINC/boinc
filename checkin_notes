@@ -17975,3 +17975,12 @@ David  1 Oct 2004
 		cs_statefile.C
 		scheduler_op.C
 
+David  1 Oct 2004
+	- Bug fix for venue propagation
+	- Moved some account-file-related code to cs_account.C,
+		some prefs-related code to cs_prefs.C
+	client/
+		client_types.C
+		cs_account.C
+		cs_prefs.C
+		cs_scheduler.C
