@@ -356,7 +356,8 @@ mark_validated:
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
-            "[WU#%d %s] wu.update() failed: %d\n", wu.id, wu.name, retval
+            "[WU#%d %s] wu.update() failed: %d; exiting\n", wu.id, wu.name, retval
+            exit(1);
         );
     }
 }
