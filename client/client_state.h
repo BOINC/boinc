@@ -59,7 +59,6 @@ public:
     vector<WORKUNIT*> workunits;
     vector<RESULT*> results;
 
-private:
     int version;
     char* platform_name;
     NET_XFER_SET* net_xfers;
@@ -69,6 +68,7 @@ private:
     ACTIVE_TASK_SET active_tasks;
     HOST_INFO host_info;
     PREFS* prefs;
+private:
     TIME_STATS time_stats;
     NET_STATS net_stats;
     unsigned int nslots;

@@ -54,9 +54,9 @@ public:
 };
 
 class FILE_XFER_SET {
-    vector<FILE_XFER*> file_xfers;
     HTTP_OP_SET* http_ops;
 public:
+    vector<FILE_XFER*> file_xfers;
     FILE_XFER_SET(HTTP_OP_SET*);
     int insert(FILE_XFER*);
     int remove(FILE_XFER*);
