@@ -31,6 +31,7 @@ static UINT			m_uEndSSMsg;
 BOOL		win_loop_done;
 
 extern bool using_opengl;
+extern bool standalone;
 extern HANDLE hQuitEvent;
 
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
@@ -96,7 +97,7 @@ void SetMode(int mode) {
 		while(ShowCursor(true) < 0);
 	}
 
-	// Do not do AdjustWindowRectEx here, this will 
+	// Do not do AdjustWindowRectEx here, this will
 	// cause the window to creep upwards
 
 	hWnd = CreateWindowEx(dwExStyle, "BOINC_OpenGL", "BOINC Graphics",
@@ -122,7 +123,7 @@ void SetMode(int mode) {
 		0,											// Shift Bit Ignored
 		0,											// No Accumulation Buffer
 		0, 0, 0, 0,									// Accumulation Bits Ignored
-		16,											// 16Bit Z-Buffer (Depth Buffer)  
+		16,											// 16Bit Z-Buffer (Depth Buffer)
 		0,											// No Stencil Buffer
 		0,											// No Auxiliary Buffer
 		PFD_MAIN_PLANE,								// Main Drawing Layer
@@ -240,11 +241,11 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	// Register window class and graphics mode message
 	reg_win_class();
 
-#ifdef API_STANDALONE
-	SetMode(MODE_WINDOW);
-#else
-	SetMode(MODE_HIDE_GRAPHICS);
-#endif
+    if (standalone) {
+        SetMode(MODE_WINDOW);
+    } else {
+        SetMode(MODE_HIDE_GRAPHICS);
+    }
 
 	win_loop_done = false;
 	using_opengl = true;
@@ -277,7 +278,7 @@ BOOL VerifyPassword(HWND hwnd)
   VerifyScreenSavePwd=
       (VERIFYSCREENSAVEPWD)GetProcAddress(hpwdcpl,"VerifyScreenSavePwd");
   if (VerifyScreenSavePwd==NULL)
-  { 
+  {
     FreeLibrary(hpwdcpl);return TRUE;
   }
   BOOL bres=VerifyScreenSavePwd(hwnd); FreeLibrary(hpwdcpl);

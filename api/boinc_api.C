@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -83,12 +83,17 @@ static bool write_frac_done = false;
 static bool this_process_active;
 static bool time_to_quit = false;
 bool using_opengl = false;
+bool standalone = false;
 APP_CLIENT_SHM *app_client_shm;
+
+bool boinc_is_standalone()
+{
+    return standalone;
+}
 
 // read the INIT_DATA and FD_INIT files
 //
-int boinc_init() {
-    bool standalone = false;
+int boinc_init(bool standalone_ /* = false */) {
     FILE* f;
     int retval;
 
@@ -96,9 +101,7 @@ int boinc_init() {
     freopen(STDERR_FILE, "a", stderr);
 #endif
 
-#ifdef API_STANDALONE
-    standalone = true;
-#endif
+    standalone = standalone_;
 
     // If in standalone mode, use init files if they're there,
     // but don't demand that they exist
@@ -154,7 +157,7 @@ int boinc_init() {
     time_until_checkpoint = aid.checkpoint_period;
     time_until_fraction_done_update = aid.fraction_done_update_period;
     this_process_active = true;
-    
+
     boinc_install_signal_handlers();
     set_timer(timer_period);
     setup_shared_mem();
@@ -193,7 +196,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo) {
     // If we've been in this procedure before, something went wrong so we immediately exit
     if (already_caught_signal) _exit(ERR_SIGNAL_CATCH);
     already_caught_signal = 1;
-    
+
     switch (exceptionCode) {
         case STATUS_WAIT_0: safe_strncpy(status,"Wait 0",sizeof(status)); break;
         case STATUS_ABANDONED_WAIT_0: safe_strncpy(status,"Abandoned Wait 0",sizeof(status)); break;
@@ -294,7 +297,7 @@ bool boinc_time_to_checkpoint() {
     DWORD eventState;
     // Check if core client has requested us to exit
     eventState = WaitForSingleObject(hQuitRequest, 0L);
-    
+
     switch (eventState) {
         case WAIT_OBJECT_0:
         case WAIT_ABANDONED:
@@ -313,7 +316,7 @@ bool boinc_time_to_checkpoint() {
     }
 
     // If the application has received a quit request it should checkpoint
-    // 
+    //
     if (time_to_quit) {
         return true;
     }
@@ -470,7 +473,7 @@ int set_timer(double period) {
     // Create the event object used to signal between the
     // worker and event threads
 
-    hQuitEvent = CreateEvent( 
+    hQuitEvent = CreateEvent(
             NULL,     // no security attributes
             TRUE,    // manual reset event
             TRUE,     // initial state is signaled
@@ -503,11 +506,11 @@ int set_timer(double period) {
 
 void setup_shared_mem(void) {
 	app_client_shm = new APP_CLIENT_SHM;
-#ifdef API_STANDALONE
-    app_client_shm->shm = NULL;
-    fprintf( stderr, "Standalone mode, so not attaching to shared memory.\n" );
-    return;
-#endif
+    if (standalone) {
+        app_client_shm->shm = NULL;
+        fprintf( stderr, "Standalone mode, so not attaching to shared memory.\n" );
+        return;
+    }
 
 #ifdef _WIN32
     char buf[256];
@@ -528,7 +531,7 @@ void setup_shared_mem(void) {
 
 void cleanup_shared_mem(void) {
     if (!app_client_shm) return;
-    
+
 #ifdef _WIN32
     if (app_client_shm->shm != NULL)
         detach_shmem(hSharedMem, app_client_shm->shm);
@@ -545,7 +548,7 @@ void cleanup_shared_mem(void) {
 
 int update_app_progress(double frac_done, double cpu_t, double cp_cpu_t, double ws_t) {
     char msg_buf[SHM_SEG_SIZE];
-    
+
     sprintf( msg_buf,
         "<fraction_done>%2.8f</fraction_done>\n"
         "<current_cpu_time>%10.4f</current_cpu_time>\n"

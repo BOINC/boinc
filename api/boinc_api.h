@@ -20,10 +20,6 @@
 #ifndef _BOINC_API_
 #define _BOINC_API_
 
-// API_STANDALONE will allow the app to function without the core client.
-// this is useful for debugging just the application
-//#define API_STANDALONE
-
 #include <stdio.h>
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
@@ -55,7 +51,7 @@ public:
     long tell() const;
 };
 
-extern int boinc_init();
+extern int boinc_init(bool standalone = false);
 extern int boinc_get_init_data(APP_INIT_DATA&);
 extern int boinc_finish(int);
 extern int boinc_resolve_filename(char*, char*, int len);
@@ -64,6 +60,7 @@ extern int boinc_checkpoint_completed();
 extern int boinc_fraction_done(double);
 extern int boinc_child_start();
 extern int boinc_child_done(double);
+bool boinc_is_standalone();
 
 /////////// API ENDS HERE - IMPLEMENTATION STUFF FOLLOWS
 
