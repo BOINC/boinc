@@ -429,7 +429,7 @@ static void handle_quit(char* buf, MIOFILE& fout) {
 }
 
 int GUI_RPC_CONN::handle_rpc() {
-    char request_msg[1024];
+    char request_msg[4096];
     int n;
     MIOFILE mf;
     MFILE m;
@@ -444,9 +444,9 @@ int GUI_RPC_CONN::handle_rpc() {
     // of malformed request msgs
     //
 #ifdef _WIN32
-        n = recv(sock, request_msg, 1024, 0);
+        n = recv(sock, request_msg, 4095, 0);
 #else
-        n = read(sock, request_msg, 1024);
+        n = read(sock, request_msg, 4095);
 #endif
     if (n <= 0) return -1;
     request_msg[n] = 0;

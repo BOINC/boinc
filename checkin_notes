@@ -20226,3 +20226,11 @@ David  24 Nov 2004
         feeder.C
     tools/
         upgrade
+
+David  24 Nov 2004
+    - don't run benchmarks if activities suspended
+    - avoid buffer overrun in GUI RPC server
+
+    client/
+        cs_benchmark.C
+        gui_rpc_server.C

@@ -226,9 +226,11 @@ void CLIENT_STATE::start_cpu_benchmarks() {
 bool CLIENT_STATE::should_run_cpu_benchmarks() {
     // Note: if skip_cpu_benchmarks we still should "run" cpu benchmarks
     // (we'll just use default values in cpu_benchmarks())
+    //
+    if (activities_suspended) return false;
     return (
-        run_cpu_benchmarks ||
-        dtime() - host_info.p_calculated > BENCHMARK_PERIOD
+        (run_cpu_benchmarks ||
+        dtime() - host_info.p_calculated > BENCHMARK_PERIOD)
     );
 }
 
