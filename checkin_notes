@@ -23933,6 +23933,9 @@ Rom    3 Feb 2005
         to be consistent with the rest of the tabs.
     - Bug Fix: Additional check to see if any new messages have been added
         before changing the visible messages in the message tab.
+    - Bug Fix: Change the default blank time to 5 minutes.
+    - Bug Fix: Remove the ability for us to affect the secure password
+        option on NT based machines.
 
     client/win/
         win_screensaver.cpp, .h
@@ -23940,3 +23943,5 @@ Rom    3 Feb 2005
         ViewWork.cpp
         ViewTransfers.cpp
         ViewMessages.cpp
+    win_build/installerv2/
+        BOINC.ism
