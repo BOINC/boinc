@@ -465,6 +465,7 @@ bool valid_master_url(char* buf) {
     if (p == q) return false;
     n = strlen(buf);
     if (buf[n-1] != '/') return false;
+    return true;
 }
 
 void safe_strncpy(char* dst, const char* src, int len) {
