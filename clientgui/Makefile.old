@@ -1,5 +1,8 @@
 CXX = $(shell wx-config --cxx)
 
+# comment out the following as needed
+OTHER_LIBS = -lsocket -lnsl
+
 CFLAGS = -g -I ../lib
 
 PROGRAM = boinc_gui
@@ -33,7 +36,7 @@ OBJS = \
     ../lib/util.o
 
 boinc_gui: $(OBJS)
-	$(CXX) -o $(PROGRAM) $(OBJS) `wx-config --libs`
+	$(CXX) -o $(PROGRAM) $(OBJS) `wx-config --libs` $(OTHER_LIBS)
 
 .cpp.o:
 	$(CXX) -c $(CFLAGS) `wx-config --cxxflags` $<

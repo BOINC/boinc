@@ -18740,3 +18740,25 @@ David  21 Oct 2004
 
     lib/
         gui_rpc_client.C,h
+
+David  21 Oct 2004
+    - graphics API (UNIX):
+        replace assert(x) by
+        if (!x) {
+            userclose = 1;
+            return;
+        }
+        the goal is to exit gracefully if there's a graphics problem,
+        rather than aborting (and interfering with the computation)
+    - get clientgui to compile on Solaris
+
+    boincglut/
+        bglut_event.c
+        bglutint.h (removed)
+        boinc_glut.h (new)
+        glut_cmap.c
+        glut_fullscrn.c
+        glut_gamemode.c
+        glut_win.c
+    clientgui/
+        Makefile.old
