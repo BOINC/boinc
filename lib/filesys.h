@@ -39,11 +39,12 @@
 
 #ifdef _WIN32
 
-typedef struct DIR_DESC {
+typedef struct _DIR_DESC {
     char path[256];
     bool first;
     void* handle;
-};
+} DIR_DESC;
+
 typedef DIR_DESC *DIRREF;
 #define PATH_SEPARATOR "\\"
 

@@ -80,7 +80,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 #include <cassert>
 #include <cctype>
 #include <cerrno>
@@ -104,9 +104,10 @@
 #include <time.h>
 #endif
 
-
 // C++ headers
-#ifdef __cplusplus
+//
+
+#if defined(__cplusplus)
 #include <algorithm>
 #include <string>
 #include <iostream>
