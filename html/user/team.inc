@@ -56,7 +56,7 @@ function display_team_page($team, $user) {
     row2("Total credit", format_credit($total_credit));
     $result = mysql_query("select * from user where id=$team->userid");
     $user = mysql_fetch_object($result);
-    row2("Founder", "<a href=show_user.php?userid=$user->id>$user->name</a>");
+    row2("Founder", user_links($user));
     row2("Country", $team->country);
     echo "</table>";
     echo "<p>";
@@ -78,8 +78,9 @@ function display_team_page($team, $user) {
         if (!$user) break;
         $user_total_credit = format_credit($user->total_credit);
         $user_expavg_credit = format_credit($user->expavg_credit);
+        $x = user_links($user);
         echo "<tr class=row1>
-            <td align=left>$j) <a href=show_user.php?userid=$user->id>$user->name</a>
+            <td align=left>$j) $x
             <td align=center>$user_total_credit</td>
             <td align=center>$user_expavg_credit</td>
             <td align=center>$user->country</td>

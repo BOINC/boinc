@@ -280,6 +280,11 @@ void write_user(USER& user, FILE* f, bool detail, bool show_team) {
             user.teamid
         );
     }
+    if (user.has_profile) {
+        fprintf(f,
+            " <has_profile/>\n"
+        );
+    }
     if (detail && user.show_hosts) {
         sprintf(buf, "where userid=%d", user.id);
         while (!host.enumerate(buf)) {

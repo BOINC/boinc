@@ -8471,3 +8471,29 @@ David  12 Dec 2003
 
 	client/
 		app.C
+
+David  14 Dec 2003
+    - added "has_profile" flag to user table;
+        whenever a user has a profile,
+        display a "profile icon" linking to it.
+        Also write it to XML files
+    - Change file_upload_handler to put its log file
+        in the right directory
+
+    db/
+        boinc_db.C,h
+        scheme.sql
+    html_user/
+        host.inc
+        host_user.php
+        index.php
+        profile.inc
+        team.inc
+        top_hosts.php
+        user.inc
+        util.inc
+    py/Boinc/
+        database.py
+    sched/
+        db_dump.C
+        file_upload_handler.C

@@ -100,7 +100,8 @@ class User(DatabaseObject):
                     'seti_nresults',
                     'seti_last_result_time',
                     'seti_total_cpu',
-                    'signature'
+                    'signature',
+                    'has_profile'
                     ])
 
 class Team(DatabaseObject):

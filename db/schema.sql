@@ -1,10 +1,12 @@
-/* If you add/change anything, update
-   boinc_db.C,h
-   and if needed:
-   py/Boinc/database.py
-   html_user/
-       create_account_action.php
-       team_create_action.php
+/*  If you add/change anything, update
+    boinc_db.C,h
+    and if needed:
+    py/Boinc/database.py
+    html_user/
+        create_account_action.php
+        team_create_action.php
+    sched/
+        db_dump.C
 */
 /* Fields are documented in boinc_db.h */
 /* Do not replace this with an automatically generated schema */
@@ -82,6 +84,7 @@ create table user (
     seti_last_result_time   integer not null,
     seti_total_cpu      double      not null,
     signature           varchar(254),
+    has_profile         smallint    not null,
     primary key (id)
 );
 

@@ -42,10 +42,11 @@ SCHED_CONFIG config;
 
 #define DEBUG_LEVEL     SchedMessages::NORMAL
 
-// #define STDERR_FILENAME "file_upload_handler.out"
-static const char* STDERR_FILENAME = "../log/file_upload_handler.log";
-
-#define MAX_FILES 32
+void get_log_path(char* p) {
+    char buf[256];
+    gethostname(buf, 256);
+    sprintf(p, "../log_%s/file_upload_handler.log", buf);
+}
 
 struct FILE_INFO {
     char name[256];
@@ -335,9 +336,12 @@ int get_key(R_RSA_PUBLIC_KEY& key) {
 int main() {
     int retval;
     R_RSA_PUBLIC_KEY key;
+    char log_path[256];
 
-    if (!freopen(STDERR_FILENAME, "a", stderr)) {
-        fprintf(stderr, "Can't redirect stderr\n");
+    get_log_path(log_path);
+
+    if (!freopen(log_path, "a", stderr)) {
+        fprintf(stderr, "Can't open log file\n");
         exit(1);
     }
 

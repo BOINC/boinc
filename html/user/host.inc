@@ -37,7 +37,7 @@ function show_host($host, $private, $ipprivate) {
     if (!$private) {
         $user = lookup_user_id($host->userid);
         if ($user && $user->show_hosts) {
-            row2("Owner", "<a href=show_user.php?userid=$user->id>$user->name</a>");
+            row2("Owner", user_links($user));
         } else {
             row2("Owner", "Anonymous");
         }
@@ -106,21 +106,19 @@ function show_host($host, $private, $ipprivate) {
 
 }
 
-function host_table_start($title, $private) {
+function host_table_start($title, $private, $show_owner) {
     start_table();
     row1($title, 7);
     echo "<tr>";
+    echo "<th>ID<br><font size=-2>Click for more info</font></th>\n";
     if ($private) {
-        echo "<th>Name
-            <br><font size=-2>Click for more info</font>
-            </th>\n
+        echo "<th>Name</th>\n
         ";
     } else {
-        echo "<th>
-            Rank<br><font size=-2>Click for more info</font>
-            </th>
-        ";
-        echo "<th>Owner</th>\n";
+        echo "<th>Rank</th>";
+        if ($show_owner) {
+            echo "<th>Owner</th>\n";
+        }
     }
     echo "
         <th><a href=top_hosts.php?sort_by=expavg_credit>Recent average credit</a></th>
@@ -142,7 +140,7 @@ function host_nresults($host) {
 // so it's OK to show the domain name etc.
 // If private is false, show the owner's name only if they've given permission
 //
-function show_host_row($host, $i, $private) {
+function show_host_row($host, $i, $private, $show_owner) {
     $result = mysql_query("select * from user where id = $host->userid");
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
@@ -150,15 +148,22 @@ function show_host_row($host, $i, $private) {
     echo "<tr>";
     if ($private) {
         echo "<td>
-            <a href=show_host_detail.php?hostid=$host->id&private=1>
-            $host->domain_name</a></td>
+            <a href=show_host_detail.php?hostid=$host->id&private=1>$host->id</a>
+            </td>
         ";
+        echo "<td> $host->domain_name";
     } else {
-        echo "<td><a href=show_host_detail.php?hostid=$host->id>$i</a></td>\n";
-	if ($user->show_hosts) {
-	    echo "<td><a href=show_user.php?userid=$user->id>$user->name</a></td>\n";
-        } else {
-            echo "<td>Anonymous</td>\n";
+        echo "<td>
+            <a href=show_host_detail.php?hostid=$host->id>$host->id</a>
+            </td>
+            <td>$i</td>\n
+        ";
+        if ($show_owner) {
+            if ($user->show_hosts) {
+                echo "<td>", user_links($user), "</td>\n";
+            } else {
+                echo "<td>Anonymous</td>\n";
+            }
         }
     }
     printf("

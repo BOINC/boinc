@@ -16,10 +16,10 @@
         $sort_clause = "expavg_credit desc, total_credit desc";
     }
     $result = mysql_query("select * from host order by $sort_clause limit $n offset $offset");
-    host_table_start("Top computers", false);
+    host_table_start("Top computers", false, true);
     $i = $offset+1;
     while ($host = mysql_fetch_object($result)) {
-        show_host_row($host, $i, false);
+        show_host_row($host, $i, false, true);
         $i++;
     }
     mysql_free_result($result);

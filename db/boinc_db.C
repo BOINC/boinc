@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 // $Log$
+// Revision 1.27  2003/12/15 02:31:27  boincadm
+// *** empty log message ***
+//
 // Revision 1.26  2003/12/12 21:10:38  boincadm
 // *** empty log message ***
 //
@@ -212,7 +215,7 @@ void DB_USER::db_print(char* buf){
         "teamid=%d, venue='%s', url='%s', send_email=%d, show_hosts=%d, "
         "posts=%d, "
         "seti_id=%d, seti_nresults=%d, seti_last_result_time=%d, "
-        "seti_total_cpu=%.15e, signature='%s'",
+        "seti_total_cpu=%.15e, signature='%s', has_profile=%d",
         id,
         create_time,
         email_addr,
@@ -235,7 +238,8 @@ void DB_USER::db_print(char* buf){
         seti_nresults,
         seti_last_result_time,
         seti_total_cpu,
-        signature
+        signature,
+        has_profile
     );
     unescape_single_quotes(email_addr);
     unescape_single_quotes(name);
@@ -273,6 +277,7 @@ void DB_USER::db_parse(MYSQL_ROW &r) {
     seti_last_result_time = safe_atoi(r[i++]);
     seti_total_cpu = safe_atof(r[i++]);
     strcpy2(signature, r[i++]);
+    has_profile = atoi(r[i++]);
 }
 
 void DB_TEAM::db_print(char* buf){

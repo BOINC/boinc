@@ -228,7 +228,6 @@ function process_create_results() {
     $response1 = sanitize_html($response1);
     $response2 = sanitize_html($response2);
     if ($profile_info) {
-
         $query = 'UPDATE profile SET '
             ." response1 = '$response1',"
             ." response2 = '$response2',"
@@ -236,8 +235,12 @@ function process_create_results() {
             ." has_picture = '$hasPicture',"
             ." hide_email = '$hide_email'"
             ." WHERE userid = '$user->id'";
+        $result = mysql_query($query);
+        if (!$result) {
+            profile_error_page("Couldn't update profile: database error");
+            exit();
+        }
     } else {
-
         $query = 'INSERT INTO profile SET '
             ." userid = '$user->id',"
             ." language = '$language',"
@@ -245,13 +248,13 @@ function process_create_results() {
             ." response2 = '$response2',"
             ." has_picture = '$hasPicture',"
             ." hide_email = '$hide_email'";
-    }
-
-    $result = mysql_query($query);
-
-    if (!$result) {
-        profile_error_page("Couldn't create profile: database error!");
-        exit();
+        $result = mysql_query($query);
+        if (!$result) {
+            profile_error_page("Couldn't create profile: database error");
+            exit();
+        }
+        $q = "update user set has_profile=1 where id=$user->id";
+        mysql_query($q);
     }
 
     show_result_page();
@@ -399,42 +402,37 @@ function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=nu
 //   2) the first MAX_DESC_LENGTH characters from the response1 field of said user's profile.
 
 function get_profile_summary($profile) {
-  $sql = "SELECT * FROM profile WHERE userid = " . $profile['userid'];
-  $result = mysql_query($sql);
-  $sql = "SELECT name FROM user WHERE id = " . $profile['userid'];
-  $result2 = mysql_query($sql);
+    $sql = "SELECT * FROM profile WHERE userid = " . $profile['userid'];
+    $result = mysql_query($sql);
+    $sql = "SELECT name FROM user WHERE id = " . $profile['userid'];
+    $result2 = mysql_query($sql);
 
-  if (!$result || !$result2) {
-    echo "Database error!";  // Change this to a standard error page.
-    exit();
-  }
+    if (!$result || !$result2) {
+        echo "Database error!";  // Change this to a standard error page.
+        exit();
+    }
 
-  $row = mysql_fetch_assoc($result);
-  $row2 = mysql_fetch_assoc($result2);
+    $row = mysql_fetch_assoc($result);
+    $row2 = mysql_fetch_assoc($result2);
 
-  mysql_free_result($result);
-  mysql_free_result($result2);
+    mysql_free_result($result);
+    mysql_free_result($result2);
 
-  $description = "";
+    $description = "";
 
-  if (strlen($row['response1']) != 0) {
-    $temp = $row['response1'];
-    $description = "(\"" . sub_sentence(strip_tags($temp), ' ', MAX_DESC_LENGTH, true) . "\")";
+    if (strlen($row['response1']) != 0) {
+        $temp = $row['response1'];
+        $description = "(\"" . sub_sentence(strip_tags($temp), ' ', MAX_DESC_LENGTH, true) . "\")";
 
-  }
+    }
 
-  $summary = "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $profile['userid'] . "\">" . $row2['name'] . "</a> " . $description;
-  return $summary;
+    $summary = "<a href=\"" . URL_BASE . "view_profile.php?userid=" . $profile['userid'] . "\">" . $row2['name'] . "</a> " . $description;
+    return $summary;
 }
 
 // Displays a user's profile (if they have one);
 
 function show_profile($userid, $verify_mode=false) {
-    if (!$userid) {
-        profile_error_page("No user ID was specified.<p>");
-        exit();
-    }
-
     $user = get_user_from_id($userid);
 
     if (!$user) {
@@ -464,98 +462,97 @@ function show_profile($userid, $verify_mode=false) {
         echo "<a href=create_profile.php>[Edit Your Profile]</a>";
     }
 
-    start_table_noborder();
-    echo "<tr><td>";
     show_profile_summary($user, $profile_info, $can_edit, $verify_mode);
-    echo "</tr></td>";
+    echo "<br><br>";
     show_profile_heading1();
-    echo "<tr><td>", $profile_info['response1'], "<br><br></td></tr>";
+    echo ":", $profile_info['response1'];
+    echo "<br><br>";
     show_profile_heading2();
-    echo "<tr><td>", $profile_info['response2'], "</td></tr>";
-    end_table();
+    echo ":", $profile_info['response2'];
     if (!$verify_mode) {
         page_tail();
     }
 }
 
 function show_profile_summary($user, $profile_info, $can_edit, $verify_mode) {
-  echo "
-<table border=0 cellpadding = 1 width=100%>\n
-<tr><td><h1>$user->name</h1></td><td align=\"center\">";
+    echo "
+        <h2>User profile: $user->name</h2>
+    ";
 
-  if (!$can_edit && !$verify_mode) {
-    show_view_buttons($user->id);
-  }
+    if (!$can_edit && !$verify_mode) {
+        show_view_buttons($user->id);
+    }
 
-  echo "</td></tr>\n<tr><td colspan=\"2\">\n";
+    // Only display an image if the user has uploaded one;
+    if ($profile_info['has_picture']) {
+        //echo "<a href=\"" , URL_BASE, IMAGE_PATH , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_PATH , $user->id , '_sm.jpg' . "\"></a>\n";
+        echo "<br><img vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_PATH , $user->id , '.jpg' . "\">\n";
+    }
 
-  // Only display an image if the user has uploaded one;
-  if (!$verify_mode && $profile_info['has_picture']) {
-    echo "<a href=\"" , URL_BASE, IMAGE_PATH , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_PATH , $user->id , '_sm.jpg' . "\"></a>\n";
-  } else if ($verify_mode && $profile_info['has_picture']) {
-    echo "<a href=\"" , URL_BASE, IMAGE_PATH , $user->id , '.jpg' . "\"><img align=left vspace=6 hspace=9 src=\"" , URL_BASE, IMAGE_PATH , $user->id , '_sm.jpg' . "\"></a>\n";
-  }
+    echo "
+        <br>
+        <font size=-1>
+        <b>Country:</b> ", $user->country,
+        "<br><b>Language:</b> ", $profile_info['language'], "<br>
+    ";
+    if (!$profile_info['hide_email']) {
+        echo "<b>Email:</b> <a href=\"mailto:", $user->email_addr, "\">", $user->email_addr, "</a><br>";
+    }
+    echo "<b>Total Credit:</b> ", $user->total_credit, "<br>";
 
-  echo "
-<font size=\"-1\">
-<b>Country:</b> ", $user->country, "&nbsp&nbsp<b>Language:</b> ", $profile_info['language'], "<br>";
-  if (!$profile_info['hide_email']) {
-      echo "<b>Email:</b> <a href=\"mailto:", $user->email_addr, "\">", $user->email_addr, "</a><br>";
-  }
-  echo "<b>Total Credit:</b> ", $user->total_credit, "<br>";
-
-  if ($user->teamid) {
-    $result = mysql_query("select * from team where id = $user->teamid");
-    $team = mysql_fetch_object($result);
-    echo "<b>Team:</b> <a href=team_display.php?teamid=$team->id>$team->name</a><br>";
-  }
-  echo "
-<b>Date Registered:</b> ", date_str($user->create_time), "
-</font>
-</td></tr>
-</table>
-<br>\n";
+    if ($user->teamid) {
+        $result = mysql_query("select * from team where id = $user->teamid");
+        $team = mysql_fetch_object($result);
+        echo "<b>Team:</b> <a href=team_display.php?teamid=$team->id>$team->name</a><br>";
+    }
+    echo "
+        <b>Date Registered:</b> ", date_str($user->create_time), "
+        </font>
+        </td></tr>
+        </table>
+        <br>\n
+    ";
 }
 
 function show_view_buttons($userid) {
-  echo "
-<form action=view_profile.php?userid=$userid method=\"POST\">
-<input type=\"submit\" name=\"recommend\" value=\"RECOMMEND\">
-<font size=-1><a href=\"javascript:;\" onClick=\"window.open ('explanation.php?val=recommend','_blank','width=350,height=200,left=50,top=150,menubar=0,directories=0,scrollbars=0,resizable=0,status=0')\">what is recommend?</a></font>
-<br>
-<input type=\"submit\" name=\"reject\" value=\"VOTE TO REJECT\">
-<font size=-1><a href=\"javascript:;\" onClick=\"window.open ('explanation.php?val=reject','_blank','width=350,height=200,left=50,top=150,menubar=0,directories=0,scrollbars=0,resizable=0,status=0')\">what is vote to reject?</a></font>
-</form>
-";
+    echo "
+        <form action=view_profile.php?userid=$userid method=\"POST\">
+        <input type=submit name=recommend value=Recommend>
+        <font size=-1><a href=\"javascript:;\" onClick=\"window.open ('explanation.php?val=recommend','_blank','width=350,height=200,left=50,top=150,menubar=0,directories=0,scrollbars=0,resizable=0,status=0')\">what is recommend?</a></font>
+        <br>
+        <input type=submit name=reject value=\"Vote to reject\">
+        <font size=-1><a href=\"javascript:;\" onClick=\"window.open ('explanation.php?val=reject','_blank','width=350,height=200,left=50,top=150,menubar=0,directories=0,scrollbars=0,resizable=0,status=0')\">what is vote to reject?</a></font>
+        </form>
+    ";
 }
 
 function process_view_results($vote, $userid) {
-  if ($vote != "recommend" && $vote != "reject") {
-    echo "Invalid vote type.<br>";
-    exit();
-  }
+    if ($vote != "recommend" && $vote != "reject") {
+        echo "Invalid vote type.<br>";
+        exit();
+    }
 
-  $result = mysql_query("SELECT * FROM profile WHERE userid = $userid");
-  $profile = mysql_fetch_array($result);
+    $result = mysql_query("SELECT * FROM profile WHERE userid = $userid");
+    $profile = mysql_fetch_array($result);
 
-  $newValue = $profile[$vote] + 1;
-  $newresult = mysql_query("UPDATE profile SET $vote = $newValue WHERE userid = $userid");
+    $newValue = $profile[$vote] + 1;
+    $newresult = mysql_query("UPDATE profile SET $vote = $newValue WHERE userid = $userid");
 
-  page_head("Vote Recorded");
+    page_head("Vote Recorded");
 
-  start_table_noborder();
+    start_table_noborder();
 
-  row1("Thank you");
+    row1("Thank you");
 
-  if ($vote == "recommend") {
-    rowify("Your recommendation has been recorded.");
-  } else {
-    rowify("Your vote to reject has been recorded.");
-  }
-  end_table();
-  echo "<br><a href=\"view_profile.php?userid=", $userid ,"\">Return to profile.</a>";
+    if ($vote == "recommend") {
+        rowify("Your recommendation has been recorded.");
+    } else {
+        rowify("Your vote to reject has been recorded.");
+    }
+    end_table();
+    echo "<br><a href=\"view_profile.php?userid=", $userid ,"\">Return to profile.</a>";
 
-  page_tail();
+    page_tail();
 }
 
 ?>

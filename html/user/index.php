@@ -49,6 +49,11 @@ if (project_is_stopped()) {
         <li><a href=".URL_BASE."forum/help_desk.php>Questions and problems</a>
         </ul>
         <h3><a href=stats.php>Project totals and leader boards</a></h3>
+        <ul>
+        <li><a href=top_users.php>Top users</a>
+        <li><a href=top_hosts.php>Top hosts</a>
+        <li><a href=top_teams.php>Top teams</a>
+        </ul>
     ";
 }
 echo "

@@ -171,6 +171,7 @@ struct USER {
     int seti_last_result_time;      // time of last result (UNIX)
     double seti_total_cpu;          // number of CPU seconds
     char signature[256];
+    bool has_profile;
     void clear();
 };
 

@@ -125,16 +125,16 @@ function user_table_start() {
 }
 
 function show_user_row($user, $i) {
-    printf(
-        "<tr class=row1>
-        <td>%d</td>
-        <td><a href=show_user.php?userid=%d>%s</a></td>
-        <td>%s</td>
-        <td>%s</td>
-        <td>%s</td>
-        <td>%s</td>
-    </tr>\n", $i, $user->id, $user->name, format_credit($user->expavg_credit),
-      format_credit($user->total_credit), $user->country, time_str($user->create_time));
+    echo "
+        <tr class=row1>
+        <td>$i</td>
+        <td>", user_links($user), "</td>
+        <td>", format_credit($user->expavg_credit), "</td>
+        <td>", format_credit($user->total_credit), "</td>
+        <td>", $user->country, "</td>
+        <td>", time_str($user->create_time),"</td>
+        </tr>
+    ";
 }
 
 ?>
