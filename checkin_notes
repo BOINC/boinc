@@ -18172,3 +18172,10 @@ David  7 Oct 2004
     lib/
         prefs.C
         result_state.h
+
+David  7 Oct 2004
+    - Python DB code: don't treat a field as an external ID if
+        it ends with "_id" (like "seti_id")
+
+    py/Boinc/
+        db_base.py

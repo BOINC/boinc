@@ -21,6 +21,10 @@
    because it supports fulltext index
 */
 
+/* fields ending with id (but not _id) are treated specially
+   by the Python code (db_base.py)
+*/
+
 create table platform (
     id                  integer     not null auto_increment,
     create_time         integer     not null,

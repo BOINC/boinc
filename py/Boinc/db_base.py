@@ -395,7 +395,7 @@ class DatabaseObject:
         if options.LAZY_LOOKUPS is true, then possibly don't look up a value
         yet.
         """
-        if key.endswith('id'):
+        if key.endswith('id') and not key.endswith('_id'):
             xkey = key[:-2]
             table = self.id_lookups[xkey]._table
             id = value
