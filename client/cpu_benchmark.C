@@ -36,6 +36,7 @@
 
 #include "error_numbers.h"
 #include "client_msgs.h"
+#include "util.h"
 
 #include "cpu_benchmark.h"
 
@@ -48,8 +49,8 @@ UINT speed_timer_id;
 void stop_benchmark(int a);
 #endif
 
-#define D_LOOP_ITERS		1000000
-#define I_LOOP_ITERS		1000000
+#define FLOPS_PER_ITER		10000000
+#define IOPS_PER_ITER		10000000
 #define MEM_SIZE			1000000
 
 #define NUM_DOUBLES       28
@@ -66,19 +67,6 @@ void stop_benchmark(int a);
 // made by stop_test
 //
 static volatile bool run_benchmark;
-
-static double cpu_time() {
-    return (double)clock()/(double)CLOCKS_PER_SEC;
-}
-
-static double cpu_time_diff(double start, double end) {
-    // take wraparound into account
-    //
-    while (end < start) {
-        end += (double)(0x80000000)/(double)CLOCKS_PER_SEC;
-    }
-    return end-start;
-}
 
 //#define RUN_TEST
 
@@ -158,7 +146,7 @@ int check_cache_size(int mem_size) {
             limit = csize - stride + 1;                // cache size this loop
 
             steps = 0;
-            start = cpu_time();
+            start = dtime();
             do {                            // repeat until collect 1 second
                 for (i = SAMPLE * stride; i != 0; i--)    {    // larger sample
                     for (index = 0; index < limit; index += stride) {
@@ -166,15 +154,14 @@ int check_cache_size(int mem_size) {
                     }
                 }
                 steps++;                    // count while loop iterations
-            } while (cpu_time_diff(start, cpu_time()) < SECS_PER_RUN);    // until collect 1 second
-            end = cpu_time();
-            elapsed = cpu_time_diff(start, end);
-            //total_sec = clock()-sec;
+            } while ((dtime()-start) < SECS_PER_RUN);    // until collect 1 second
+            end = dtime();
+            elapsed = end-start;
 
             // Repeat empty loop to loop subtract overhead
             tsteps = 0;                        // used to match no. while iterations
             temp = 0;
-            start = cpu_time();
+            start = dtime();
             do {                            // repeat until same no. iterations as above
                 for (i = SAMPLE * stride; i != 0; i--)    {    // larger sample
                     for (index = 0; index < limit; index += stride) {
@@ -183,8 +170,8 @@ int check_cache_size(int mem_size) {
                 }
                 tsteps++;                    // count while iterations
             } while (tsteps < steps);                    // until = no. iterations
-            end = cpu_time();
-            elapsed -= cpu_time_diff(start, end);
+            end = dtime();
+            elapsed -= end-start;
                                     
             nanosecs = elapsed * 1e9 / (steps * SAMPLE * stride * ((limit - 1) / stride + 1));
             results[sind][cind] = nanosecs;
@@ -334,41 +321,96 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
         run_benchmark = true;
         iterations = 200000000;
     }
-    
+
+    // note: if the following is intended to test FPU correctness,
+    // it's a singularly poor design
+    // (all numbers are powers of 2, so mantissas are always one).
+    //
     a[0] = b[0] = 1.0;
-    
-    for (i=1;i<NUM_DOUBLES;i++) {
+    for (i=1; i<NUM_DOUBLES; i++) {
         a[i] = a[i-1] / 2.0;
         b[i] = b[i-1] * 2.0;
     }
     
     actual_iters = 0;
     
-    start = cpu_time();
+    start = dtime();
     
     for (n=0; (n<iterations)&&run_benchmark; n++) {
 
-        // do roughly 1 million FP ops
+        // do roughly 10 million FP ops
         //
-        for (j=0; j<D_LOOP_ITERS; j+=((NUM_DOUBLES*4)+1)) {
+        for (j=0; j<FLOPS_PER_ITER; j+=((NUM_DOUBLES*4)+1)) {
             dp = 0;
-            for (i=0;i<NUM_DOUBLES;i++) {    // 2*NUM_DOUBLES flops
-                dp += a[i]*b[i];             // 2 flops
-            }
+                // the following block is 2*NUM_DOUBLES flops
+            dp += a[0]*b[0];    // 2 flops
+            dp += a[1]*b[1];
+            dp += a[2]*b[2];
+            dp += a[3]*b[3];
+            dp += a[4]*b[4];
+            dp += a[5]*b[5];
+            dp += a[6]*b[6];
+            dp += a[7]*b[7];
+            dp += a[8]*b[8];
+            dp += a[9]*b[9];
+            dp += a[10]*b[10];
+            dp += a[11]*b[11];
+            dp += a[12]*b[12];
+            dp += a[13]*b[13];
+            dp += a[14]*b[14];
+            dp += a[15]*b[15];
+            dp += a[16]*b[16];
+            dp += a[17]*b[17];
+            dp += a[18]*b[18];
+            dp += a[19]*b[19];
+            dp += a[20]*b[20];
+            dp += a[21]*b[21];
+            dp += a[22]*b[22];
+            dp += a[23]*b[23];
+            dp += a[24]*b[24];
+            dp += a[25]*b[25];
+            dp += a[26]*b[26];
+            dp += a[27]*b[27];
+
             dp /= (float)NUM_DOUBLES;        // 1 flop
-            for (i=0;i<NUM_DOUBLES;i++) {    // 2*NUM_DOUBLES flops
-                a[i] *= dp;                  // 1 flop
-                b[i] *= dp;                  // 1 flop
-            }
+                // the following block is 2*NUM_DOUBLES flops
+            a[0] *= dp; b[0] *= dp;
+            a[1] *= dp; b[1] *= dp;
+            a[2] *= dp; b[2] *= dp;
+            a[3] *= dp; b[3] *= dp;
+            a[4] *= dp; b[4] *= dp;
+            a[5] *= dp; b[5] *= dp;
+            a[6] *= dp; b[6] *= dp;
+            a[7] *= dp; b[7] *= dp;
+            a[8] *= dp; b[8] *= dp;
+            a[9] *= dp; b[9] *= dp;
+            a[10] *= dp; b[10] *= dp;
+            a[11] *= dp; b[11] *= dp;
+            a[12] *= dp; b[12] *= dp;
+            a[13] *= dp; b[13] *= dp;
+            a[14] *= dp; b[14] *= dp;
+            a[15] *= dp; b[15] *= dp;
+            a[16] *= dp; b[16] *= dp;
+            a[17] *= dp; b[17] *= dp;
+            a[18] *= dp; b[18] *= dp;
+            a[19] *= dp; b[19] *= dp;
+            a[20] *= dp; b[20] *= dp;
+            a[21] *= dp; b[21] *= dp;
+            a[22] *= dp; b[22] *= dp;
+            a[23] *= dp; b[23] *= dp;
+            a[24] *= dp; b[24] *= dp;
+            a[25] *= dp; b[25] *= dp;
+            a[26] *= dp; b[26] *= dp;
+            a[27] *= dp; b[27] *= dp;
         }
 
         actual_iters++;
     }
     
-    end = cpu_time();
-    elapsed = cpu_time_diff(start, end);
+    end = dtime();
+    elapsed = end-start;
         
-    flops_per_sec = D_LOOP_ITERS*actual_iters/elapsed;
+    flops_per_sec = FLOPS_PER_ITER*actual_iters/elapsed;
     
     // Check to make sure all the values are the same as when we started
     //
@@ -388,14 +430,12 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
 }
 
 // One iteration == 1,000,000 integer operations
-// If time_total is negative, there was an error in the calculation,
-// meaning there is probably something wrong with the CPU
 
 int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
-    int a[NUM_INTS], temp;
+    int a[NUM_INTS], b[NUM_INTS], dp, temp;
     double actual_iters;
     double start, end, elapsed;
-    int i, j, k, error = 0;
+    int i, j, error = 0;
 
     if (iterations<0) {
         msg_printf(NULL, MSG_ERROR, "int_op_test: negative iterations\n");
@@ -408,53 +448,89 @@ int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
         iterations = 200000000;
     }
 
-    a[0] = 1;
-    for (i=1;i<NUM_INTS;i++) {
-        a[i] = 2*a[i-1];
+    for (i=0;i<NUM_INTS;i++) {
+        a[i] = i*3;
+        b[i] = i*4;
     }
    
     actual_iters = 0;
    
-    start = cpu_time();
+    start = dtime();
     for (i=0;(i<iterations) && run_benchmark;i++) {
         // The contents of the array "a" should be the same at the
         // beginning and end of each loop iteration.  Most compilers will
         // partially unroll the individual loops within this one, so
         // those integer operations (incrementing k) are not counted
-        for (j=0;j<I_LOOP_ITERS/(NUM_INTS*9);j++) {
-            for (k=0;k<NUM_INTS;k++) {
-                a[k] *= 3;   // 1 int ops
-            }
-            for (k=NUM_INTS-1;k>=0;k--) {
-                a[k] += 6;   // 2 int ops
-            }
-            for (k=0;k<NUM_INTS;k++) {
-                a[k] /= 3;   // 3 int ops
-            }
-            for (k=NUM_INTS-1;k>=0;k--) {
-                a[k] -= 2;   // 4 int ops
-            }
-            for (k=NUM_INTS-1;k>0;k--) {
-                a[k] -= a[k-1];  // 5 int ops
-            }
-            for (k=1;k<NUM_INTS;k++) {
-                a[k] = 2*a[k-1];   // 6 int ops
-            }
-            for (k=NUM_INTS-1;k>0;k--) {
-                if (a[k-1] != 0)    // 7 int ops
-                    a[k] /= a[k-1];    // 8 int ops
-            }
-            for (k=1;k<NUM_INTS;k++) {
-                a[k] = 2*a[k-1];    // 9 int ops
-            }
+        for (j=0;j<IOPS_PER_ITER;j += NUM_INTS*4+1) {
+            dp = 0;
+                // the following block is 2*NUM_INTS iops
+            dp += a[0]*b[0];    // 2 iops
+            dp += a[1]*b[1];
+            dp += a[2]*b[2];
+            dp += a[3]*b[3];
+            dp += a[4]*b[4];
+            dp += a[5]*b[5];
+            dp += a[6]*b[6];
+            dp += a[7]*b[7];
+            dp += a[8]*b[8];
+            dp += a[9]*b[9];
+            dp += a[10]*b[10];
+            dp += a[11]*b[11];
+            dp += a[12]*b[12];
+            dp += a[13]*b[13];
+            dp += a[14]*b[14];
+            dp += a[15]*b[15];
+            dp += a[16]*b[16];
+            dp += a[17]*b[17];
+            dp += a[18]*b[18];
+            dp += a[19]*b[19];
+            dp += a[20]*b[20];
+            dp += a[21]*b[21];
+            dp += a[22]*b[22];
+            dp += a[23]*b[23];
+            dp += a[24]*b[24];
+            dp += a[25]*b[25];
+            dp += a[26]*b[26];
+            dp += a[27]*b[27];
+
+            dp /= 1234;        // 1 iops
+                // the following block is 2*NUM_INTS iops
+            a[0] *= dp; b[0] *= dp;
+            a[1] *= dp; b[1] *= dp;
+            a[2] *= dp; b[2] *= dp;
+            a[3] *= dp; b[3] *= dp;
+            a[4] *= dp; b[4] *= dp;
+            a[5] *= dp; b[5] *= dp;
+            a[6] *= dp; b[6] *= dp;
+            a[7] *= dp; b[7] *= dp;
+            a[8] *= dp; b[8] *= dp;
+            a[9] *= dp; b[9] *= dp;
+            a[10] *= dp; b[10] *= dp;
+            a[11] *= dp; b[11] *= dp;
+            a[12] *= dp; b[12] *= dp;
+            a[13] *= dp; b[13] *= dp;
+            a[14] *= dp; b[14] *= dp;
+            a[15] *= dp; b[15] *= dp;
+            a[16] *= dp; b[16] *= dp;
+            a[17] *= dp; b[17] *= dp;
+            a[18] *= dp; b[18] *= dp;
+            a[19] *= dp; b[19] *= dp;
+            a[20] *= dp; b[20] *= dp;
+            a[21] *= dp; b[21] *= dp;
+            a[22] *= dp; b[22] *= dp;
+            a[23] *= dp; b[23] *= dp;
+            a[24] *= dp; b[24] *= dp;
+            a[25] *= dp; b[25] *= dp;
+            a[26] *= dp; b[26] *= dp;
+            a[27] *= dp; b[27] *= dp;
         }
         actual_iters++;
     }
 
-    end = cpu_time();
-    elapsed = cpu_time_diff(start, end);
+    end = dtime();
+    elapsed = end-start;
     
-    iops_per_sec = I_LOOP_ITERS*actual_iters/elapsed;
+    iops_per_sec = IOPS_PER_ITER*actual_iters/elapsed;
     
     // Check to make sure all the values are the same as when we started
     //
@@ -512,7 +588,7 @@ int bandwidth_test(int iterations, double &bytes_per_sec, int print_debug) {
     
     actual_iters = 0;
     
-    start = cpu_time();
+    start = dtime();
     
     // One iteration == Read of 6,000,000*sizeof(double), Write of 6,000,000*sizeof(double)
     // 6 read, 6 write operations per iteration which will preserve a and b
@@ -527,9 +603,8 @@ int bandwidth_test(int iterations, double &bytes_per_sec, int print_debug) {
         actual_iters++;
     }
 
-    end = cpu_time();
-    elapsed = cpu_time_diff(start, end);
-        
+    end = dtime();
+    elapsed = end-start;
     bytes_per_sec = 2.0*6.0*MEM_SIZE*actual_iters*sizeof(double)/elapsed;
     
     for (i=0;i<MEM_SIZE;i++) {

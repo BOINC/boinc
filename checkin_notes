@@ -12347,3 +12347,14 @@ David  May 18 2004
     sched/
         sched_config.C,h
         sched_send.C
+
+David  May 18 2004
+	- Various changes to benchmark code:
+		- unroll loops in FP benchmark
+		- use 10M instead of 1M ops per iteration
+		- use dtime() for timing
+		- get rid of wacky integer benchmark;
+			replace with integer counterpart to FP benchmark
+
+	client/
+		cpu_benchmark.C
