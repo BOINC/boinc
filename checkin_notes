@@ -13980,4 +13980,5 @@ David  2004.06.18
         this broke test_uc.py
 
     client/
+        client_state.h
         cs_scheduler.C

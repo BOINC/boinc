@@ -374,9 +374,9 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
         if (r->project->waiting_until_min_rpc_time(now)) continue;
 
         if (!r->ready_to_report) continue;
-        if (return_result_immediately ||
-             r->report_deadline <= (now + REPORT_DEADLINE_CUSHION)))
-        {
+        if (return_results_immediately ||
+             (r->report_deadline <= (now + REPORT_DEADLINE_CUSHION))
+        ) {
             return r->project;
         }
     }

@@ -248,7 +248,7 @@ private:
     bool contacted_sched_server;
     void compute_resource_debts();
 
-    PROJECT* find_project_with_overdue_results(bool& overdue);
+    PROJECT* find_project_with_overdue_results();
     void current_work_buf_days(double& work_buf, int& nactive_results);
     PROJECT* next_project_sched_rpc_pending();
     bool some_project_rpc_ok();
