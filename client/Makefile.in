@@ -12,6 +12,7 @@ CFLAGS = -g -Wall @DEFS@ \
     -I @srcdir@/../api \
     -I @srcdir@/../lib \
     -I @srcdir@/../RSAEuro/source \
+    -I @srcdir@/win \
     -I /usr/local/mysql/include \
     -DHOST=\"@host@\" \
     -DVERSION=$(VERSION)
