@@ -118,8 +118,8 @@ void handle_wu(DB_WORKUNIT& wu) {
         if (retval) {
             log_messages.printf(
                 SchedMessages::CRITICAL,
-                "[WU#%d %s] Can't read canonical result; marking as validated\n",
-                wu.id, wu.name
+                "[WU#%d %s] Can't read canonical result; marking as validated: %d\n",
+                wu.id, wu.name, retval
             );
             // Mark this WU as validated, otherwise we'll keep checking it
             goto mark_validated;
@@ -146,8 +146,8 @@ void handle_wu(DB_WORKUNIT& wu) {
             if (retval) {
                 log_messages.printf(
                     SchedMessages::DEBUG,
-                    "[RESULT#%d %s]: pair_check() failed for result\n",
-                    result.id, result.name
+                    "[RESULT#%d %s]: pair_check() failed for result: %d\n",
+                    result.id, result.name, retval
                 );
                 continue;
             } else {
@@ -172,7 +172,8 @@ void handle_wu(DB_WORKUNIT& wu) {
             if (retval) {
                 log_messages.printf(
                     SchedMessages::CRITICAL,
-                    "[RESULT#%d %s] Can't update result\n", result.id, result.name
+                    "[RESULT#%d %s] Can't update result: %d\n",
+                    result.id, result.name, retval
                 );
                 continue;
             }
@@ -180,7 +181,8 @@ void handle_wu(DB_WORKUNIT& wu) {
             if (retval) {
                 log_messages.printf(
                     SchedMessages::NORMAL,
-                    "[RESULT#%d %s] Can't grant credit\n", result.id, result.name
+                    "[RESULT#%d %s] Can't grant credit: %d\n",
+                    result.id, result.name, retval
                 );
                 continue;
             }
@@ -243,7 +245,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                         if (retval) {
                             log_messages.printf(
                                 SchedMessages::DEBUG,
-                                "[RESULT#%d %s] grant_credit() returned %d\n",
+                                "[RESULT#%d %s] grant_credit() failed: %d\n",
                                 result.id, result.name, retval
                             );
                         }
@@ -260,7 +262,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                         if (retval) {
                             log_messages.printf(
                                 SchedMessages::CRITICAL,
-                                "[RESULT#%d %s] result.update() = %d\n",
+                                "[RESULT#%d %s] result.update() failed: %d\n",
                                 result.id, result.name, retval
                             );
                         }
@@ -278,7 +280,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                     if (retval) {
                         log_messages.printf(
                             SchedMessages::CRITICAL,
-                            "[RESULT#%d %s] result.update() = %d\n",
+                            "[RESULT#%d %s] result.update() failed: %d\n",
                             result.id, result.name, retval
                         );
                     }
@@ -309,7 +311,7 @@ mark_validated:
     if (retval) {
         log_messages.printf(
             SchedMessages::CRITICAL,
-            "[WU#%d %s] wu.update() = %d\n", wu.id, wu.name, retval
+            "[WU#%d %s] wu.update() failed: %d\n", wu.id, wu.name, retval
         );
     }
 }
@@ -338,7 +340,7 @@ int main_loop(bool one_pass) {
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_user, config.db_passwd);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "boinc_db.open: %d\n", retval);
+        log_messages.printf(SchedMessages::CRITICAL, "boinc_db.open failed: %d\n", retval);
         exit(1);
     }
 
@@ -383,7 +385,9 @@ int main(int argc, char** argv) {
 
     retval = config.parse_file("..");
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "Can't parse config file\n");
+        log_messages.printf(SchedMessages::CRITICAL,
+            "Can't parse config file: %d\n", retval
+        );
         exit(1);
     }
 
