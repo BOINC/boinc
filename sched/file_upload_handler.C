@@ -97,6 +97,13 @@ inline static const char* get_remote_addr() {
 }
 
 int return_error(bool transient, const char* message, ...) {
+    va_list va;
+    va_start(va, message);
+    char buf[10240];
+
+    vsprintf(buf, message, va);
+    va_end(va);
+
     printf(
         "Content-type: text/plain\n\n"
         "<data_server_reply>\n"
@@ -104,14 +111,8 @@ int return_error(bool transient, const char* message, ...) {
         "    <message>%s</message>\n"
         "</data_server_reply>\n",
         transient?1:-1,
-        message
+        buf
     );
-
-    va_list va;
-    va_start(va, message);
-    char buf[10240];
-    vsprintf(buf, message, va);
-    va_end(va);
 
     log_messages.printf(
         SCHED_MSG_LOG::NORMAL, "Returning error to client %s: %s (%s)\n",
