@@ -1,0 +1,70 @@
+<title>Data server protocol</title>
+
+<h2>Data server protocol</h2>
+
+A BOINC data server is an HTTP server such as Apache.
+
+<h3>Download</h3>
+<p>
+File download is done by a standard GET request,
+using a URL from the FILE_INFO element.
+The file offset, if any, is given in the HTTP header.
+<p>
+TODO: is this right?
+
+<h3>Upload</h3>
+<p>
+File upload is done using POST operations to a CGI program.
+A security mechanism prevents unauthorized
+upload of large amounts of data to the server.
+Two RPC operations are used.
+<p>
+<b>1) Get file size</b>
+<p>
+The request message has the form:
+<pre>
+&lt;file_size_req>filename&lt;/file_size_req>
+</pre>
+
+TODO: should have a separate &lt;filename> tag
+<p>
+The reply message has the form:
+<pre>
+&lt;status>0&lt;/status>
+&lt;nbytes>1234&lt;/nbytes>
+</pre>
+Where nbytes is 0 if the file doesn't exist.
+There are no security mechanisms.
+
+<p>
+<b>2) Upload file</b>
+<p>
+Request message format:
+<pre>
+&lt;file_info>
+   ...
+&lt;xml_signature>
+   ...
+&lt;/xml_signature>
+&lt;/file_info>
+&lt;nbytes>x&lt;/nbytes>
+&lt;offset>x&lt;/offset>
+&lt;data>
+... (data)
+</pre>
+<p>
+The &lt;file_info> element is the exact text sent from the
+scheduling server to the client.
+It includes a signature based on the project's file upload
+authentication key pair.
+&lt;nbytes> is the amount of data being uploaded.
+&lt;offset> is the offset within the file.
+<p>
+TODO: this should all be within a request tag
+<p>
+Reply message format:
+<pre>
+&lt;status>x&lt;/status>
+[ &lt;error>bad file size&lt;/error> ]
+</pre>
+The status is zero if the operation succeeded.

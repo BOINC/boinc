@@ -1,0 +1,52 @@
+<title>Setting up a data server</title>
+<h2>Setting up a data server</h2>
+
+<p>
+The BOINC data server is implemented as an Apache
+or similar web server.
+Its upload function runs as a CGI program.
+It has been tested under Linux and Solaris.
+The host need not have access to the BOINC database.
+<p>
+You must copy the file upload authentication key
+to each data server.
+
+<h3>Compiling the file upload handler</h3>
+<p>
+The upload handler, file_upload_handler,
+is compiled by the makefile in sched/.
+The following environment variables must be defined first:
+<pre>
+setenv BOINC_UPLOAD_DIR     /users/barry/upload
+setenv BOINC_KEY_DIR        /users/barry/keys
+</pre>
+<p>
+BOINC_UPLOAD_DIR is that path of the upload directory.
+BOINC_KEY_DIR is a directory containing the
+file upload authentication public key.
+
+<h3>Web server configuration</h3>
+<p>
+You must edit your web server configuration file
+to allow access to the download directory
+and to the file-upload CGI program.
+For example, the addition to Apache's httpd.conf might be:
+<pre>
+Alias /barry/ "/users/barry/"
+
+&lt;Directory "/users/barry/">
+    Options Indexes FollowSymlinks MultiViews
+    AllowOverride None
+    Order allow,deny
+    Alias from all
+&lt;/Directory>
+
+ScriptAlias /boinc-cgi/ "/users/barry/cgi/"
+
+&lt;Directory "/users/barry/cgi/">
+    AllowOverride None
+    Options None
+    Order allow,deny
+    Allow from all
+&lt;/Directory>
+</pre>

@@ -5,12 +5,13 @@
 Designing distributed computations with BOINC
 </b></font>
 <font size=-1>
-<dd> How to use BOINC for resource-intensive applications.
+<dd> BOINC's abstractions of data and computation.
 </font>
 <ul>
-<li><a href=parallelize.html>Which applications are suitable for BOINC?</a>
+<li><a href=project.html>Anatomy of a BOINC project</a>
+<li><a href=parallelize.html>What applications are suitable for BOINC?</a>
 <li><a href=files.html>Files and file references</a>
-<li><a href=app.html>Applications, platforms and versions</a>
+<li><a href=app.html>Platforms, applications, and versions</a>
 <li><a href=work.html>Workunits</a>
 <li><a href=result.html>Results</a>
 <li><a href=batch.html>Batches</a>
@@ -19,6 +20,7 @@ Designing distributed computations with BOINC
 <li><a href=file_access.html>Remote file access</a>
 <li><a href=validation.html>Accounting and result validation</a>
 <li><a href=back_end.html>Back end examples</a>
+<li> <a href=security.html>Security</a>
 
 </ul>
 
@@ -37,17 +39,24 @@ Developing a BOINC application
 Setting up a BOINC server
 </b></font>
 <font size=-1>
-<dd> How to create a BOINC project.
+<dd> How to install and configure the BOINC server software.
 </font>
 <ul>
-<li><a href=project.html>Projects</a>
-<li> <a href=master_url.html>The master URL</a>
 <li> <a href=road_map.html>Road map of the BOINC software</a>
-<li> <a href=install.html>Installing a BOINC server</a>
-<li> <a href=database.html>The BOINC database</a>
-<li> <a href=project_startup.html>Project startup checklist</a>
-<li> <a href=sched_server.html>The BOINC scheduling server</a>
+<li> <a href=server_components.html>Server components</a>
+<li> <a href=database_setup.html>Setting up the BOINC database</a>
+<li> <a href=key_setup.html>Creating encryption keys</a>
+<li> <a href=sched_server_setup.html>Setting up a scheduling server</a>
+<li> <a href=web_site.html>Setting up a web site</a>
+<li> <a href=data_server_setup.html>Setting up a data server</a>
+<li> <a href=single_host_server>Setting up a single-host server</a>
 <li> <a href=test.html>Test applications and scripts</a>
+<li> <a href=project_startup.html>Project startup checklist</a>
+
+<!--
+<li> <a href=master_url.html>The master URL</a>
+<li> <a href=install.html>Installing a BOINC server</a>
+-->
 </ul>
 
 <font size=+1><b>
@@ -57,9 +66,8 @@ Developing and operating the back end of a BOINC project
 <dd> How to feed work into a BOINC system and collect the results.
 </font>
 <ul>
-<li> <a href=tools_security.html>Operational tools: security</a>
-<li> <a href=tools_other.html>Operational tools: applications and versions</a>
-<li> <a href=tools_work.html>Operational tools: work and results</a>
-<li> <a href=security.html>Security</a>
+<li> <a href=tools_security.html>Tools for key generation and encryption</a>
+<li> <a href=tools_other.html>Tools for creating applications and versions</a>
+<li> <a href=tools_work.html>Tools for creating work and results</a>
 </ul>
 

@@ -1,6 +1,8 @@
-<title>The master URL</title> 
-<body bgcolor=ffffff>
-<h2>The master URL</h2> 
+<title>Setting up a web site</title>
+
+<h2>Setting up a web site</h2>
+
+<h3>The master URL</h3> 
 <p>
 Each project is publicly identified by a <b>master URL</b>.
 The <b>master page</b> at this URL has two functions.
@@ -21,3 +23,11 @@ connect to any scheduling server for a project,
 it rereads the master page.
 This mechanism lets a project change the locations of its scheduling
 servers, or add new servers. 
+</ul>
+
+<h3>Database name</h3>
+<p>
+The web directories html_user/ there is a file called db_name containing the
+name of the database for that project.
+Each BOINC project will have a different database name.
+This allows for access to different databases through the webpages of projects.
