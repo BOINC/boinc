@@ -69,7 +69,7 @@ boinc_finish() ends with an exit(status);
 (note: in Unix, a parent can't get the CPU time of a child
 until the child exits.  So we're forced to measure it in the child.)
 The core passes the WU CPU time in init_data.xml.
-boinc_checkpoint_done() and boinc_finish() compute the new WU CPU time,
+boinc_checkpoint_completed() and boinc_finish() compute the new WU CPU time,
 and write it to checkpoint_cpu.xml.
 The core deletes this after reading.
 If on exit there is no checkpoint_cpu.xml, it means the app
@@ -83,7 +83,7 @@ The core client maintains
 The app library maintains time_until_checkpoint,
 decremented from the timer handler.
 boinc_time_to_checkpoint() returns true if this is zero or less.
-boinc_checkpoint_done() resets it.
+boinc_checkpoint_completed() resets it.
 
 <p>
 <b>Maintaining fraction done and current CPU</b>

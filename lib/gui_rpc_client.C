@@ -1297,7 +1297,7 @@ int RPC_CLIENT::set_screensaver_mode(bool enabled, const char* window_station, c
         desktop ? desktop : "", 
         blank_time
     );
-    BOINCTRACE(_T("Sending: set_screensaver_mode\n%s"), buf);
+    //BOINCTRACE(_T("Sending: set_screensaver_mode\n%s"), buf);
     return rpc.do_rpc(buf);
 }
 

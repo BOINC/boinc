@@ -19557,3 +19557,10 @@ Bruce 16 Nov 2004
 
       html/ops
         db_action.php
+
+David  16 Nov 2004
+    - compile fixes for Linux, Solaris
+
+    lib/
+        diagnostics.C
+        gui_rpc_client.C

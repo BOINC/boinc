@@ -26,14 +26,14 @@ computer resources
 <a href=intro.php>Overview of BOINC</a>
 
 <br><br>
-<a href=participate.php>Participating</a>
+<a href=participate.php>Participate</a>
 <br>
 &nbsp;&nbsp;&nbsp;
 <font size=-2>
 Donate computing power to BOINC-based projects.</font>
 
 <br><br>
-<a href=create_project.php>Creating BOINC projects</a>
+<a href=create_project.php>Create a BOINC project</a>
 <br>
 &nbsp;&nbsp;&nbsp;
 <font size=-2>
@@ -41,7 +41,7 @@ Use BOINC to develop distributed applications
 </font>
 
 <br><br>
-<a href=boinc_dev.php>Developing BOINC</a>
+<a href=boinc_dev.php>BOINC development</a>
 <br>
 &nbsp;&nbsp;&nbsp;
 <font size=-2>
@@ -85,7 +85,6 @@ Solve biomedical questions of protein-related diseases.
 Analyze radio-telescope data,
 looking for evidence of extraterrestrial life.
 </ul>
-Visit any of these sites to download BOINC client software.
 We encourage you to participate in multiple projects,
 so that your computer will be kept busy even
 while projects are down or out of work.

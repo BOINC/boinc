@@ -84,8 +84,7 @@ regards any two results as equivalent if their CPU time
 exceeds a given minimum.
 </ul>
 <p>
-<b>validate_util.C</b> contains support functions for
-both of the above.
+<b>validate_util.C</b> contains support functions for both of the above.
 
 <hr>
 <b>NOTE: the above code assumes that each result

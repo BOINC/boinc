@@ -37,6 +37,10 @@
 #include "config.h"
 #endif
 
+#ifdef __GLIBC__
+#include <execinfo.h>
+#endif
+
 #include "diagnostics.h"
 #include "error_numbers.h"
 #include "filesys.h"
@@ -517,7 +521,6 @@ void boinc_catch_signal(int signal) {
     }
 
 #ifdef __GLIBC__
-#include <execinfo.h>
     void *array[64];
     size_t size;
     size = backtrace (array, 64);
