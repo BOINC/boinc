@@ -22824,3 +22824,48 @@ Rom    17 Jan 2005
         readme.txt
     win_build/installerv2/redist/windows
         BOINC.vbs
+
+Janus 18 Jan 2005
+    - Initial test-version of the moderation system
+      Please test the current features (deleting posts, moving posts) and see 
+      if this is how it should be done.
+      The rest is mostly copy-paste work as the same design can be used for
+      threads as well.
+
+      This update includes:
+           - Deleting posts
+           - Moving posts
+           - Sending email notice to post author
+           - Users cannot edit their posts more than 1 hour after creating them
+           - Deleted posts are only shown to moderators
+           - Inversion of $filter_on in getThreads and getPosts (!)
+             Now the bit means "show deleted posts/threads" and defaults to off
+           - New special user bitfield
+
+      Due to the new special user bitfield you must redefine who is who in your
+      project. Currently this is done manually (idea for the ops page, anyone?)
+
+      This is how the bitfield is used:
+           1st bit = Moderator
+           2nd bit = Project Admin
+           3rd bit = Project dev
+           4th bit = Project tester
+           5th bit = Volunteer dev
+           6th bit = Volunteer tester
+           7th bit = Project Scientist
+           
+           So if I'm a project admin and want to be moderator as well, I would
+           do the following SQL query:
+           
+           Update forum_preferences set special_user = '1100000' where userid=42
+      html/
+        user/
+                forum_edit.php
+                +forum_moderate_post.php (new)
+                +forum_moderate_post_action.php (new)
+        inc/
+                forum.inc
+                email.inc
+                +forum_moderators.inc (new)
+        ops/
+                update_db.php
