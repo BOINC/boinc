@@ -85,16 +85,12 @@ function display_team_page($team) {
         $j = $i+1;
         echo "<tr><td align=left>$j) $user->name";
         echo "<td align=center>$user->total_credit</td>";
-        echo "<td align=center>$user->expavg_time</td>";
+        echo "<td align=center>$user->expavg_credit</td>";
         echo "<td align=center>$user->country</td>";
         echo "</tr>";
     }
     echo "</table>";
     page_tail();
 }
-
-
-
-
 
 ?>
