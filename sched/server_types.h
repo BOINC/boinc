@@ -49,7 +49,7 @@ struct GLOBAL_PREFS {
     double disk_max_used_pct;
     double disk_min_free_gb;
 
-    void parse(char*);
+    void parse(char* buf, char* venue);
 };
 
 struct SCHEDULER_REQUEST {

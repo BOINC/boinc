@@ -521,7 +521,7 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             reply.send_global_prefs = true;
         }
     }
-    sreq.global_prefs.parse(sreq.global_prefs_xml);
+    sreq.global_prefs.parse(sreq.global_prefs_xml, sreq.host.venue);
     return 0;
 }
 
@@ -627,9 +627,7 @@ int handle_results(
         parse_int(result.stderr_out, "<app_version>", result.app_version_num);
 
         // look for exit status in stderr_out
-        // exit_status is now returned separately
-        // This line should be unused in older core clients.
-        // This line can be safely deleted later
+        // (historical - can be deleted at some point)
         //
         parse_int(result.stderr_out, "<exit_status>", result.exit_status);
 

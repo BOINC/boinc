@@ -41,3 +41,4 @@ extern void replace_element(char* buf, char* start, char* end, char* replacement
 extern char* sgets(char* buf, int len, char* &in);
 extern void xml_escape(string&, string&);
 extern void xml_unescape(string&, string&);
+extern void extract_venue(char*, char*, char*);

@@ -30,35 +30,35 @@ LDADD = -L. -lsched $(MYSQL_LIBS)
 LIB_SCHED = libsched.a
 
 libsched_a_SOURCES =				\
-        sched_shmem.C				\
-        sched_util.C				\
-        sched_config.C				\
+    sched_shmem.C				\
+    sched_util.C				\
+    sched_config.C				\
 	sched_messages.C			\
 	../db/boinc_db.C			\
 	../db/db_base.C				\
-        ../lib/util.C				\
-        ../lib/crypt.C				\
-        ../lib/parse.C				\
-        ../lib/base64.C				\
-        ../lib/shmem.C				\
-        ../lib/md5.c				\
-        ../lib/md5_file.C			\
+    ../lib/util.C				\
+    ../lib/crypt.C				\
+    ../lib/parse.C				\
+    ../lib/base64.C				\
+    ../lib/shmem.C				\
+    ../lib/md5.c				\
+    ../lib/md5_file.C			\
 	../lib/messages.C			\
 	../tools/process_result_template.C	\
-        ../tools/backend_lib.C			\
+    ../tools/backend_lib.C			\
 	sched_config.h				\
 	sched_shmem.h				\
 	sched_util.h
 
 cgi_SOURCES =					\
-        handle_request.C			\
-        main.C					\
-        server_types.C				\
+    handle_request.C			\
+    main.C					\
+    server_types.C				\
 	assimilate_handler.h			\
 	handle_request.h			\
 	main.h					\
 	server_types.h
-cgi_DEPEDENCIES = $(LIB_SCHED)
+cgi_DEPENDENCIES = $(LIB_SCHED)
 
 feeder_SOURCES = feeder.C
 feeder_DEPENDENCIES = $(LIB_SCHED)
