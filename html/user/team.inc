@@ -166,7 +166,7 @@ echo "you should use <br>when searching for your Team.";
 echo "</td>";
 echo "</tr><tr>";
 echo "<td>Team name (HTML version):<br><br>&nbsp;</td>";
-echo "<td><textarea name=name_html cols=60 rows=6></textarea>";
+echo "<td><input name=name_html type=text size=50>";
 echo "<br><font size=2>This name will be printed as HTML source, so you may include any HTML";
 echo "<br>code that you want. This will only be displayed in your teams' page.";
 echo "<br>If you don't know HTML, just leave this box blank.";
