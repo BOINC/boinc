@@ -26,10 +26,12 @@
 CMainWindow* myWnd = NULL;
 CMyApp myApp;
 
+#define STATUS_ICON_ID		1313
+
 #define PROJECT_ID			0
 #define RESULT_ID			1
 #define XFER_ID				2
-#define MAX_ID				3
+#define MAX_ID				4
 
 #define PROJECT_COLS		5
 #define RESULT_COLS			6
@@ -187,6 +189,16 @@ END_MESSAGE_MAP()
 // function:	void
 CProgressListCtrl::CProgressListCtrl()
 {
+}
+
+//////////
+// CProgressListCtrl::~CProgressListCtrl
+// arguments:	void
+// returns:		void
+// function:	destroys menu
+CProgressListCtrl::~CProgressListCtrl()
+{
+	m_PopupMenu.DestroyMenu();
 }
 
 //////////
@@ -912,6 +924,8 @@ void CPieChartCtrl::OnPaint()
 	memdc.SelectObject(oldfont);
 	cp.DeleteObject();
 	membmp.DeleteObject();
+	cb.DeleteObject();
+	memdc.DeleteDC();
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -938,9 +952,13 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_COMMAND(ID_FILE_CLOSE, OnCommandFileClose)
     ON_COMMAND(ID_ACCT_LOGIN, OnCommandAccountLogin)
     ON_COMMAND(ID_HELP_ABOUT, OnCommandHelpAbout)
+    ON_COMMAND(ID_STATUSICON_HIDE, OnCommandStatusIconHide)
+    ON_COMMAND(ID_STATUSICON_QUIT, OnCommandStatusIconQuit)
+    ON_COMMAND(ID_STATUSICON_SHOW, OnCommandStatusIconShow)
     ON_WM_CREATE()
     ON_WM_PAINT()
     ON_WM_SIZE()
+    ON_MESSAGE(STATUS_ICON_ID, OnStatusIcon)
 END_MESSAGE_MAP()
 
 //////////
@@ -952,7 +970,7 @@ CMainWindow::CMainWindow()
 {
 	// register window class
     CString strWndClass = AfxRegisterWndClass (0, myApp.LoadStandardCursor(IDC_ARROW),
-        (HBRUSH)(COLOR_3DFACE+1), myApp.LoadIcon(IDI_ICONSM));
+        (HBRUSH)(COLOR_3DFACE+1), myApp.LoadIcon(IDI_ICON));
 
 	// create and position window
     CreateEx(0, strWndClass, "BOINC", WS_OVERLAPPEDWINDOW|WS_EX_OVERLAPPEDWINDOW,
@@ -1001,6 +1019,9 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 	}
 	for(i = 0; i < m_ProjectListCtrl.GetItemCount(); i ++) {
 		PROJECT* pr = (PROJECT*)m_ProjectListCtrl.GetItemData(i);
+		if(!pr) {
+			continue;
+		}
 
 		// project
 		m_ProjectListCtrl.SetItemText(i, 0, pr->project_name);
@@ -1028,6 +1049,9 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 	Syncronize(&m_ResultListCtrl, (vector<void*>*)(&cs->results));
 	for(i = 0; i < m_ResultListCtrl.GetItemCount(); i ++) {
 		RESULT* re = (RESULT*)m_ResultListCtrl.GetItemData(i);
+		if(!re) {
+			continue;
+		}
 
 		// project
 		m_ResultListCtrl.SetItemText(i, 0, re->project->project_name);
@@ -1077,6 +1101,10 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 	Syncronize(&m_XferListCtrl, (vector<void*>*)(&cs->file_xfers->file_xfers));
 	for(i = 0; i < m_XferListCtrl.GetItemCount(); i ++) {
 		FILE_XFER* fi = (FILE_XFER*)m_XferListCtrl.GetItemData(i);
+		if(!fi) {
+			m_XferListCtrl.SetItemProgress(i, 2, 100);
+			continue;
+		}
 
 		// project
 		m_XferListCtrl.SetItemText(i, 0, fi->fip->project->project_name);
@@ -1085,15 +1113,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 		m_XferListCtrl.SetItemText(i, 1, fi->fip->name);
 
 		// progress
-		int xferbytes, retval;
-		retval = file_size(fi->pathname, xferbytes);
-		if(retval) {
-			buf.Format("error");
-			xferbytes = 0;
-		} else {
-			buf.Format("%d", xferbytes);
-		}
-		m_XferListCtrl.SetItemProgress(i, 2, 100 * (xferbytes / fi->fip->nbytes));
+		m_XferListCtrl.SetItemProgress(i, 2, 100 * (fi->nbytes_xfered / fi->fip->nbytes));
 
 		// direction
 		m_XferListCtrl.SetItemText(i, 3, fi->fip->generated_locally?"Upload":"Download");
@@ -1147,6 +1167,33 @@ void CMainWindow::MessageUser(char* message, char* priority)
 }
 
 //////////
+// CMainWindow::StatusIcon
+// arguments:	dwMessage: hide or show the icon
+// returns:		void
+// function:	controls the status icon in the taskbar
+void CMainWindow::StatusIcon(DWORD dwMessage)
+{
+	// only handles adding and removing
+	if(dwMessage != NIM_ADD && dwMessage != NIM_DELETE) {
+		return;
+	}
+	NOTIFYICONDATA icon_data;
+	icon_data.cbSize = sizeof(icon_data);
+    icon_data.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
+    icon_data.hWnd = GetSafeHwnd();
+    icon_data.uID = STATUS_ICON_ID;
+    strcpy(icon_data.szTip, "BOINC");
+    icon_data.uCallbackMessage = STATUS_ICON_ID;
+	if(dwMessage == NIM_ADD) {
+		icon_data.hIcon = myApp.LoadIcon(IDI_ICON);
+		Shell_NotifyIcon(NIM_ADD, &icon_data);
+	} else {
+		icon_data.hIcon = NULL;
+		Shell_NotifyIcon(NIM_DELETE, &icon_data);
+	}
+}
+
+//////////
 // CMainWindow::SaveUserSettings
 // arguments:	void
 // returns:		void
@@ -1159,6 +1206,8 @@ void CMainWindow::SaveUserSettings()
 	strcat(path, "\\boinc.ini");
 	int colorder[MAX_COLS];
 	int i;
+
+	// save project columns
 	m_ProjectListCtrl.GetColumnOrderArray(colorder, PROJECT_COLS);
 	WritePrivateProfileStruct("HEADERS", "projects-order", colorder, sizeof(colorder), path);
 	for(i = 0; i < m_ProjectListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
@@ -1166,6 +1215,8 @@ void CMainWindow::SaveUserSettings()
 		valbuf.Format("%d", m_ProjectListCtrl.GetColumnWidth(i));
 		WritePrivateProfileString("HEADERS", keybuf.GetBuffer(0), valbuf.GetBuffer(0), path);
 	}
+
+	// save result columns
 	m_ResultListCtrl.GetColumnOrderArray(colorder, RESULT_COLS);
 	WritePrivateProfileStruct("HEADERS", "results-order", colorder, sizeof(colorder), path);
 	for(i = 0; i < m_ResultListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
@@ -1173,6 +1224,8 @@ void CMainWindow::SaveUserSettings()
 		valbuf.Format("%d", m_ResultListCtrl.GetColumnWidth(i));
 		WritePrivateProfileString("HEADERS", keybuf.GetBuffer(0), valbuf.GetBuffer(0), path);
 	}
+
+	// save xfer columns
 	m_XferListCtrl.GetColumnOrderArray(colorder, XFER_COLS);
 	WritePrivateProfileStruct("HEADERS", "xfers-order", colorder, sizeof(colorder), path);
 	for(i = 0; i < m_XferListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
@@ -1195,6 +1248,8 @@ void CMainWindow::LoadUserSettings()
 	strcat(path, "\\boinc.ini");
 	int i, intbuf;
 	int colorder[MAX_COLS];
+
+	// load project columns
 	if(GetPrivateProfileStruct("HEADERS", "projects-order", colorder, sizeof(colorder), path)) {
 		m_ProjectListCtrl.SetColumnOrderArray(PROJECT_COLS, colorder);
 	}
@@ -1203,6 +1258,8 @@ void CMainWindow::LoadUserSettings()
 		intbuf = GetPrivateProfileInt("HEADERS", keybuf.GetBuffer(0), DEF_COL_WIDTH, path);
 		m_ProjectListCtrl.SetColumnWidth(i, intbuf);
 	}
+
+	// load result columns
 	if(GetPrivateProfileStruct("HEADERS", "results-order", colorder, sizeof(colorder), path)) {
 		m_ResultListCtrl.SetColumnOrderArray(RESULT_COLS, colorder);
 	}
@@ -1211,6 +1268,8 @@ void CMainWindow::LoadUserSettings()
 		intbuf = GetPrivateProfileInt("HEADERS", keybuf.GetBuffer(0), DEF_COL_WIDTH, path);
 		m_ResultListCtrl.SetColumnWidth(i, intbuf);
 	}
+
+	// load xfer columns
 	if(GetPrivateProfileStruct("HEADERS", "xfers-order", colorder, sizeof(colorder), path)) {
 		m_XferListCtrl.SetColumnOrderArray(XFER_COLS, colorder);
 	}
@@ -1261,12 +1320,14 @@ int CMainWindow::GetDiskFree()
 //				vect: pointer to a vector of pointers
 // returns:		void
 // function:	first, goes through the vector and adds items to the list
-//				control for any pointers it doesn not already contain, then
+//				control for any pointers it does not already contain, then
 //				goes through the list control and removes any pointers the
 //				vector does not contain.
 void CMainWindow::Syncronize(CProgressListCtrl* prog, vector<void*>* vect)
 {
 	int i, j;
+
+	// add items to list that are not already in it
 	for(i = 0; i < vect->size(); i ++) {
 		void* item = (*vect)[i];
 		BOOL contained = false;
@@ -1281,6 +1342,9 @@ void CMainWindow::Syncronize(CProgressListCtrl* prog, vector<void*>* vect)
 			prog->SetItemData(i, (DWORD)item);
 		}
 	}
+
+	// remove items from list that are not in vector
+	// now just set the pointer to NULL but leave the item in the list
 	for(i = 0; i < prog->GetItemCount(); i ++) {
 		DWORD item = prog->GetItemData(i);
 		BOOL contained = false;
@@ -1291,7 +1355,8 @@ void CMainWindow::Syncronize(CProgressListCtrl* prog, vector<void*>* vect)
 			}
 		}
 		if(!contained) {
-			prog->DeleteItem(i);
+			prog->SetItemData(i, (DWORD)NULL);
+//			prog->DeleteItem(i);
 		}
 	}
 }
@@ -1310,19 +1375,10 @@ void CMainWindow::PostNcDestroy()
 // CMainWindow::OnClose
 // arguments:	void
 // returns:		void
-// function:	cleans up and closes window
+// function:	hides the window, keeps status icon
 void CMainWindow::OnClose()
 {
-	m_Font.DeleteObject();
-	m_TabBMP[0].DeleteObject();
-	m_TabBMP[1].DeleteObject();
-	m_TabBMP[2].DeleteObject();
-	m_TabBMP[3].DeleteObject();
-	m_TabBMP[4].DeleteObject();
-	m_TabIL.DeleteImageList();
-	gstate.active_tasks.exit_tasks();
-	SaveUserSettings();
-	CWnd::OnClose();
+	OnCommandStatusIconHide();
 }
 
 //////////
@@ -1340,10 +1396,10 @@ void CMainWindow::OnCommandAccountLogin()
 // CMainWindow::OnCommandFileClose
 // arguments:	void
 // returns:		void
-// function:	closes this window
+// function:	hides the window, keeps status icon
 void CMainWindow::OnCommandFileClose()
 {
-    SendMessage(WM_CLOSE, 0, 0);
+    OnClose();
 }
 
 //////////
@@ -1355,6 +1411,54 @@ void CMainWindow::OnCommandHelpAbout()
 {
 	CDialog dlg(IDD_ABOUTBOX);
 	int retval = dlg.DoModal();
+}
+
+//////////
+// CMainWindow::OnCommandStatusIconHide
+// arguments:	void
+// returns:		void
+// function:	hides the window
+void CMainWindow::OnCommandStatusIconHide()
+{
+	ShowWindow(SW_HIDE);
+}
+
+//////////
+// CMainWindow::OnCommandStatusIconQuit
+// arguments:	void
+// returns:		void
+// function:	cleans up, closes and quits everything
+void CMainWindow::OnCommandStatusIconQuit()
+{
+	PostQuitMessage(0);
+
+	// status icon in taskbar
+	StatusIcon(NIM_DELETE);
+
+	// clean up and delete objects
+	m_Font.DeleteObject();
+	m_TabBMP[0].DeleteObject();
+	m_TabBMP[1].DeleteObject();
+	m_TabBMP[2].DeleteObject();
+	m_TabBMP[3].DeleteObject();
+	m_TabBMP[4].DeleteObject();
+	m_TabIL.DeleteImageList();
+	m_MainMenu.DestroyMenu();
+
+	// kill child processes
+	gstate.active_tasks.exit_tasks();
+	SaveUserSettings();
+	CWnd::OnClose();
+}
+
+//////////
+// CMainWindow::OnCommandStatusIconHide
+// arguments:	void
+// returns:		void
+// function:	shows the window
+void CMainWindow::OnCommandStatusIconShow()
+{
+	ShowWindow(SW_SHOW);
 }
 
 //////////
@@ -1445,6 +1549,9 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_TabCtrl.SetFont(&m_Font);
 	m_UsagePieCtrl.SetFont(&m_Font);
 	m_MessageEditCtrl.SetFont(&m_Font);
+
+	// put status icon in taskbar
+	StatusIcon(NIM_ADD);
 
 	// take care of other things
     NetOpen();
@@ -1561,6 +1668,46 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy)
 	}
 }
 
+//////////
+// CMainWindow::OnStatusIcon
+// arguments:	wParam: id of icon clicked
+//				lParam: message from icon
+// returns:		true if the menu is shown, false otherwise
+// function:	handles messages from status icon, including:
+//				right click: shows popup menu
+//				double click: alternates visibility of window
+LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
+{
+	if(lParam == WM_RBUTTONDOWN) {
+		CPoint point;
+		SetForegroundWindow();
+		GetCursorPos(&point);
+		CMenu menu, *submenu;
+		if(!menu.LoadMenu(IDR_STATUS_ICON)) {
+			return FALSE;
+		}
+		submenu = menu.GetSubMenu(0);
+		if(!submenu) {
+			menu.DestroyMenu();
+			return FALSE;
+		}
+		if(IsWindowVisible()) {
+			submenu->EnableMenuItem(ID_STATUSICON_SHOW, MF_GRAYED);
+		} else {
+			submenu->EnableMenuItem(ID_STATUSICON_HIDE, MF_GRAYED);
+		}
+		submenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
+		menu.DestroyMenu();
+	} else if(lParam == WM_LBUTTONDBLCLK) {
+		if(IsWindowVisible()) {
+			ShowWindow(SW_HIDE);
+		} else {
+			ShowWindow(SW_SHOW);
+		}
+	}
+ 	return TRUE;
+}
+
 /////////////////////////////////////////////////////////////////////////
 // CLoginDialog message map and member functions
 
@@ -1602,4 +1749,3 @@ void CLoginDialog::OnOK()
     GetDlgItemText(IDC_LOGIN_AUTH, m_auth);
     CDialog::OnOK();
 }
-

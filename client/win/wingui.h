@@ -95,6 +95,7 @@ class CProgressListCtrl : public CListCtrl
 {
 public:
 							CProgressListCtrl();
+							~CProgressListCtrl();
 	BOOL					DeleteItem(int);
 	void					SetItemProgress(int, int, int);
 	void					RepositionProgress();
@@ -189,6 +190,7 @@ protected:
 	CImageList				m_TabIL;				// image list for tab control
 	CBitmap					m_TabBMP[5];			// bitmaps for tab image list
 
+    void					StatusIcon(DWORD);
     void					SaveUserSettings();
     void					LoadUserSettings();
     int						GetDiskSize();
@@ -200,10 +202,14 @@ protected:
 	afx_msg void			OnCommandAccountLogin();
 	afx_msg void			OnCommandHelpAbout();
 	afx_msg void			OnCommandFileClose();
+	afx_msg void			OnCommandStatusIconHide();
+	afx_msg void			OnCommandStatusIconQuit();
+	afx_msg void			OnCommandStatusIconShow();
     afx_msg int				OnCreate(LPCREATESTRUCT);
 	afx_msg BOOL			OnNotify(WPARAM, LPARAM, LRESULT*);
     afx_msg void			OnPaint();
     afx_msg void			OnSize(UINT, int, int);
+	afx_msg LRESULT			OnStatusIcon(WPARAM, LPARAM);
     DECLARE_MESSAGE_MAP()
 };
 

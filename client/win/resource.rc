@@ -124,26 +124,14 @@ BEGIN
     END
 END
 
-IDR_POPUP MENU DISCARDABLE 
+IDR_STATUS_ICON MENU DISCARDABLE 
 BEGIN
-    POPUP "&Projects"
+    POPUP "Status Icon"
     BEGIN
-        MENUITEM "&Name",                       ID_POPUP_0, CHECKED
-        MENUITEM "&URL",                        ID_POPUP_1, CHECKED
-        MENUITEM "&Total",                      ID_POPUP_2, CHECKED
-        MENUITEM "&Share",                      ID_POPUP_3, CHECKED
-    END
-    POPUP "&Xfers"
-    BEGIN
-        MENUITEM "&Project",                    ID_POPUP_0, CHECKED
-        MENUITEM "&Name",                       ID_POPUP_1, CHECKED
-        MENUITEM "&Completion",                 ID_POPUP_3, CHECKED
-    END
-    POPUP "&Workunits"
-    BEGIN
-        MENUITEM "&Project",                    ID_POPUP_0, CHECKED
-        MENUITEM "&Name",                       ID_POPUP_1, CHECKED
-        MENUITEM "&Completion",                 ID_POPUP_2, CHECKED
+        MENUITEM "Hide",                        ID_STATUSICON_HIDE
+        MENUITEM "Show",                        ID_STATUSICON_SHOW
+        MENUITEM SEPARATOR
+        MENUITEM "Quit",                        ID_STATUSICON_QUIT
     END
 END
 
@@ -169,7 +157,6 @@ IDB_MESS                BITMAP  DISCARDABLE     "res\\mess.bmp"
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_ICON                ICON    DISCARDABLE     "res\\icon.ico"
-IDI_ICONSM              ICON    DISCARDABLE     "res\\iconsm.ico"
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
