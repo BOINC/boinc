@@ -4,6 +4,7 @@ require_once("db_ops.inc");
 require_once("util_ops.inc");
 
 $cgi_url = parse_config("<cgi_url>");
+$stripchart_cgi_utl = parse_config("<stripchart_cgi_url>");
 
 db_init();
 
@@ -46,7 +47,7 @@ while ($app = mysql_fetch_object($result)) {
 }
 mysql_free_result($result);
 echo "
-    <a href=$cgi_url/stripchart.cgi>Stripcharts</a>
+    <a href=$stripchart_cgi_url/stripchart.cgi>Stripcharts</a>
     | <a href=show_log.php>Show/Grep all logs</a>
     | <a href=show_log.php?f=mysql*.log&l=-20>Tail MySQL logs</a>
     | <a href=create_account_form.php>Create account</a>
