@@ -59,9 +59,9 @@ using namespace std;
 static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
 APP_CLIENT_SHM* app_client_shm = 0;
-static volatile double time_until_checkpoint;
+static volatile int time_until_checkpoint;
     // time until enable checkpoint
-static volatile double time_until_fraction_done_update;
+static volatile int time_until_fraction_done_update;
     // time until report fraction done to core client
 static double fraction_done;
 static double last_checkpoint_cpu_time;
@@ -72,21 +72,21 @@ static double initial_wu_cpu_time;
 static volatile bool have_new_trickle_up = false;
 static volatile bool have_trickle_down   = true;
     // on first call, scan slot dir for msgs
-static volatile double heartbeat_giveup_time;
+static volatile int heartbeat_giveup_time;
 static volatile bool heartbeat_active;
     // if false, suppress heartbeat mechanism
 #ifdef _WIN32
 static volatile int nrunning_ticks = 0;
 #endif
 
-#define TIMER_PERIOD 1.0
-    // period of API timer
+#define TIMER_PERIOD 1
+    // period of worker-thread timer
     // This determines the resolution of fraction done and CPU time reporting
     // to the core client, and of checkpoint enabling.
     // It doesn't influence graphics, so 1 sec is enough.
-#define HEARTBEAT_GIVEUP_PERIOD 30.0
+#define HEARTBEAT_GIVEUP_PERIOD 30
     // quit if no heartbeat from core in this #secs
-#define HEARTBEAT_TIMEOUT_PERIOD 35.0
+#define HEARTBEAT_TIMEOUT_PERIOD 35
     // quit if we cannot aquire slot resource in this #secs
 
 #ifdef _WIN32
@@ -164,13 +164,13 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     // the following may not be needed, but do it anyway
     //
     fraction_done = -1;
-    time_until_checkpoint = aid.checkpoint_period;
+    time_until_checkpoint = (int)aid.checkpoint_period;
     last_checkpoint_cpu_time = aid.wu_cpu_time;
-    time_until_fraction_done_update = aid.fraction_done_update_period;
+    time_until_fraction_done_update = (int)aid.fraction_done_update_period;
     last_wu_cpu_time = aid.wu_cpu_time;
 
     heartbeat_active = !standalone;
-    heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
+    heartbeat_giveup_time = time(0) + HEARTBEAT_GIVEUP_PERIOD;
 
     return 0;
 }
@@ -376,7 +376,7 @@ static void handle_heartbeat_msg() {
     char buf[MSG_CHANNEL_SIZE];
     if (app_client_shm->shm->heartbeat.get_msg(buf)) {
         if (match_tag(buf, "<heartbeat/>")) {
-            heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
+            heartbeat_giveup_time = time(0) + HEARTBEAT_GIVEUP_PERIOD;
         }
         if (match_tag(buf, "<enable_heartbeat/>")) {
             heartbeat_active = true;
@@ -416,7 +416,7 @@ static void handle_process_control_msg() {
                     }
                     boinc_sleep(1.0);
                 }
-                heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
+                heartbeat_giveup_time = time(0) + HEARTBEAT_GIVEUP_PERIOD;
 #endif
             }
         }
@@ -470,10 +470,10 @@ static void worker_timer(int /*a*/) {
     // see if the core client has died, which means we need to die too
     //
     if (options.check_heartbeat && heartbeat_active) {
-        double now = dtime();
+        int now = time(0);
         if (heartbeat_giveup_time < now) {
             fprintf(stderr,
-                "No heartbeat from core client for %f sec - exiting\n",
+                "No heartbeat from core client for %d sec - exiting\n",
                 now - (heartbeat_giveup_time - HEARTBEAT_GIVEUP_PERIOD)
             );
             if (options.direct_process_action) {
@@ -491,7 +491,7 @@ static void worker_timer(int /*a*/) {
             boinc_worker_thread_cpu_time(cur_cpu);
             last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
             update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time, 0);
-            time_until_fraction_done_update = aid.fraction_done_update_period;
+            time_until_fraction_done_update = (int)aid.fraction_done_update_period;
         }
     }
     if (options.handle_trickle_ups) {
@@ -548,8 +548,8 @@ int set_worker_timer() {
         perror("boinc set_worker_timer() sigaction");
         return retval;
     }
-    value.it_value.tv_sec = (int)TIMER_PERIOD;
-    value.it_value.tv_usec = ((int)(TIMER_PERIOD*1000000))%1000000;
+    value.it_value.tv_sec = TIMER_PERIOD;
+    value.it_value.tv_usec = 0;
     value.it_interval = value.it_value;
     retval = setitimer(ITIMER_REAL, &value, NULL);
     if (retval) {
@@ -615,8 +615,8 @@ int boinc_checkpoint_completed() {
     last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
     last_checkpoint_cpu_time = last_wu_cpu_time;
     update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, 0);
+    time_until_checkpoint = (int)aid.checkpoint_period;
     ready_to_checkpoint = false;
-    time_until_checkpoint = aid.checkpoint_period;
 
     return 0;
 }

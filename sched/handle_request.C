@@ -796,8 +796,6 @@ bool wrong_core_client_version(
     if (wrong_version) {
         USER_MESSAGE um(msg, "low");
         reply.insert_message(um);
-        // IS THE FOLLOWING LINE CORRECT?  I DON'T UNDERSTAND IT.  Bruce
-        reply.probable_user_browser = true;
         reply.set_delay(3600*24);
         return true;
     }
@@ -1183,10 +1181,13 @@ void handle_request(
         );
         process_request(sreq, sreply, ss, code_sign_key);
     } else {
-        // BOINC scheduler requests use method POST.  So method GET
-        // means that someone is trying a browser.
+        // BOINC scheduler requests use method POST.
+        // So method GET means that someone is trying a browser.
+        //
         char *rm=getenv("REQUEST_METHOD");
-        if (rm && !strcmp(rm, "GET")) sreply.probable_user_browser=true;
+        if (rm && !strcmp(rm, "GET")) {
+            sreply.probable_user_browser=true;
+        }
         
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL,

@@ -58,6 +58,7 @@ show_name("Ian Hay");
 show_name("Eric Heien");
 show_name("Thomas Horsten");
 show_name("Daniel Hsu");
+show_name("Takafumi Kawana");
 show_name("John Keck");
 show_name("John Kirby");
 show_name("Eric Korpela");

@@ -26066,3 +26066,19 @@ David  19 Mar 2005
 
     api/
         boinc_api.C
+
+David  21 Mar 2005
+    - API: changed time variables in worker signal handler from double to int.
+        Apparently some platforms had atomicity problems
+        where accessing doubles uses multiple instructions
+        and a signal was happening in the middle.
+        Don't need fractional time because worker timer period is 1 sec.
+        From Takafumi Kawana and Bruce Allen.
+    - boinc_checkpoint_completed(): clear ready_to_checkpoint
+        AFTER resetting time_until_checkpoint
+        From Takafumi Kawana.
+
+    api/
+        boinc_api.C
+    sched/
+        handle_request.C

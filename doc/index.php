@@ -7,7 +7,7 @@ echo "
 <link rel=\"stylesheet\" type=text/css href=white.css>
 <title>Berkeley Open Infrastructure for Network Computing (BOINC)</title>
 <meta name=description content=\"BOINC is a software platform for developing public-participation distributed computing projects\">
-<meta name=keywords content=\"distributed scientific computing supercomputing grid SETI@home public\">
+<meta name=keywords content=\"distributed scientific computing supercomputing grid SETI@home public computing volunteer computing \">
 </head>
 <body bgcolor=ffffff text=000088 link=000088 vlink=000088>
 <img hspace=30 vspace=10 align=left src=boinc.gif>
