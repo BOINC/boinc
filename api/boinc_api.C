@@ -49,13 +49,14 @@ MMRESULT timer_id;
 #include <sys/types.h>
 
 #ifdef BOINC_APP_GRAPHICS
-
 #ifdef _WIN32
 HANDLE hQuitEvent;
 extern HANDLE graphics_threadh;
 extern BOOL    win_loop_done;
 #endif
-
+#ifdef __APPLE_CC__
+#include <Carbon/Carbon.h>
+#endif
 #endif
 
 #include "parse.h"

@@ -80,8 +80,8 @@ int do_checkpoint(MFILE& mf, int nchars) {
     FILE *app_time, *client_time;
 
     if (cpu_time) {
-        app_time = fopen("../../app.time", "w"), 
-        client_time = fopen("../../client.time", "w");
+        app_time = fopen("app.time", "w"), 
+        client_time = fopen("client.time", "w");
         boinc_get_init_data(uc_aid);
     }
     boinc_resolve_filename("temp", resolved_name, sizeof(resolved_name));
@@ -180,7 +180,7 @@ int main(int argc, char **argv) {
         fprintf(stderr, "APP: upper_case output open failed %d\n", retval);
         exit(1);
     }
-    time_file.open("../../time.xml", "w");
+    time_file.open("time.xml", "w");
     while (1) {
         c = fgetc(in);
         if (c == EOF) break;
@@ -232,13 +232,15 @@ int main(int argc, char **argv) {
     
     boinc_finish_opengl();
     boinc_finish(0);
-  
-  
+    
     return 0;
 }
 
 #ifdef BOINC_APP_GRAPHICS
 extern GLuint			main_font;
+
+void app_init_gl() {
+}
 
 bool app_render(int xs, int ys, double time_of_day)
 {
