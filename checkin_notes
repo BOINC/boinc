@@ -17503,3 +17503,10 @@ David  21 Sept 2004
 
     html/inc/
         profile.inc
+
+Lana   21 Sept 2004
+    - added getting value of the cpu_sched_period  for the client from the global prefs 
+   
+    client/
+       prefs.h 
+       prefs.C
