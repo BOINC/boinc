@@ -18,60 +18,35 @@
 //
 #include <stdio.h>
 
-#ifndef _WIN32
-#include <sys/time.h>
-#include <unistd.h>
-#else
+#ifdef _WIN32
 #include <time.h>
 #include <windows.h>
+#else
+#include <sys/time.h>
+#include <unistd.h>
+#endif
 
 #include "error_numbers.h"
 #include "util.h"
 
-/* Replacement gettimeofday 
-   Sets the microseconds to clock() * 1000 which is microseconds in Windows */
-void gettimeofday(timeval *t, void *tz) {
-    if(t==NULL) {
-        fprintf(stderr, "error: gettimeofday: unexpected NULL pointer t\n");
-    }
-    if(tz==NULL) {
-        fprintf(stderr, "error: gettimeofday: unexpected NULL pointer tz\n");
-    }
-    t->tv_sec = time(NULL);
-    t->tv_usec = 1000 * (long)(clock());
-}
-
-#endif
-
 // return time of day as a double
 //
 double dtime() {
+#ifdef _WIN32
+    return (double)time(0);
+#else
     struct timeval tv;
     gettimeofday(&tv, 0);
     return tv.tv_sec + (tv.tv_usec/1.e6);
-}
-
-#ifdef _WIN32
-// Goes to sleep for a specified number of seconds
-// TODO: allow for fractional second sleep times?
-void boinc_sleep( int seconds ) {
-    if(seconds<0) {
-        fprintf(stderr, "error: boinc_sleep: negative seconds\n");
-        seconds=0;
-    }
-    ::Sleep( 1000*seconds );
-}
-
-#else
-
-// Goes to sleep for a specified number of seconds
-// TODO: allow for fractional second sleep times?
-void boinc_sleep( int seconds ) {
-    if(seconds<0) {
-        fprintf(stderr,"error: boinc_sleep: negative seconds\n");
-        seconds=0;
-    }
-    sleep( seconds );
-}
-
 #endif
+}
+
+// sleep for a specified number of seconds
+//
+void boinc_sleep(int seconds) {
+#ifdef _WIN32
+    ::Sleep(1000*seconds);
+#else
+    sleep(seconds);
+#endif
+}

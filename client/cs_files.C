@@ -48,34 +48,25 @@ int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
     bool verified;
     int retval;
 
-    if(pathname==NULL) {
-        fprintf(stderr, "error: verify_downloaded_file: unexpected NULL pointer pathname\n");
-        return ERR_NULL;
-    }
     if (file_info.signature_required) {
-        if (!file_info.file_signature) {
-            fprintf(stderr, "error: verify_downloaded_file: unexpected NULL pointer file_signature\n");
-            return ERR_NULL;
-        }
         project = file_info.project;
         retval = verify_file2(
             pathname, file_info.file_signature, project->code_sign_key, verified
         );
-        if(retval) {
+        if (retval) {
             fprintf(stderr, "error: verify_file2: internal error\n");
-            //return -1;
+            return ERR_RSA_FAILED;
         }
-        if(!verified) {
+        if (!verified) {
             fprintf(stderr, "error: verify_file2: file not verified\n");
-            //return -1;
-        }
-        if (retval || !verified) {
-            fprintf(stderr, "error: verify_file2: could not verify file\n");
             return ERR_RSA_FAILED;
         }
     } else if (file_info.md5_cksum) {
         md5_file(pathname, cksum, file_info.nbytes);
-        if (strcmp(cksum, file_info.md5_cksum)) return ERR_MD5_FAILED;
+        if (strcmp(cksum, file_info.md5_cksum)) {
+            fprintf(stderr, "error: verify_file2: MD5 check failed\n");
+            return ERR_MD5_FAILED;
+        }
     }
     return 0;
 }
@@ -97,20 +88,18 @@ bool CLIENT_STATE::start_file_xfers() {
             // the download when there is available bandwidth
             //
             pfx = new PERS_FILE_XFER;
-            pfx->init( fip, false );
+            pfx->init(fip, false);
             fip->pers_file_xfer = pfx;
-            // Pop PERS_FILE_XFER onto pers_file_xfer stack
-            if (fip->pers_file_xfer) pers_xfers->insert( fip->pers_file_xfer );
+	    pers_xfers->insert( fip->pers_file_xfer );
             action = true;
-        } else if ( fip->upload_when_present && fip->status == FILE_PRESENT && !fip->uploaded && !pfx ) {
+        } else if (fip->upload_when_present && fip->status == FILE_PRESENT && !fip->uploaded && !pfx ) {
             // Set up the persistent file transfer object.  This will start
             // the upload when there is available bandwidth
             //
             pfx = new PERS_FILE_XFER;
             pfx->init( fip, true );
             fip->pers_file_xfer = pfx;
-            // Pop PERS_FILE_XFER onto pers_file_xfer stack
-            if (fip->pers_file_xfer) pers_xfers->insert( fip->pers_file_xfer );
+            pers_xfers->insert(fip->pers_file_xfer);
             action = true;
         }
     }
