@@ -84,7 +84,7 @@ void struct_to_str(void* vp, char* q, int type) {
         app = (APP*)vp;
         sprintf(q,
             "id=%d, create_time=%d, name='%s', "
-            "min_version=%d, ",
+            "min_version=%d ",
             app->id,
             app->create_time,
             app->name,
