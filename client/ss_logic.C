@@ -77,10 +77,10 @@ void SS_LOGIC::poll() {
                 if (atp) {
                     atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
                 }
+				do_blank = true;
             }
             do_boinc_logo_ss = false;
             strcpy(ss_msg, "");
-            do_blank = true;
         } else {
             atp = gstate.active_tasks.get_app_requested(MODE_FULLSCREEN);
             if (atp) {

@@ -188,6 +188,9 @@ void CSSWindow::OnPaint()
 	pdc->SetBkColor(RGB(0,0,0));
 	GetClientRect(&winRect);
 
+	if (gstate.ss_logic.do_blank) {
+		pdc->FillSolidRect(&winRect, RGB(0,0,0));
+	} else 
 	// Draw the bouncing BOINC icon if we're not in blank screen mode
 	if (gstate.ss_logic.do_boinc_logo_ss) {
 		pdc->FillSolidRect(&oldTextRect, RGB(0,0,0));

@@ -194,7 +194,7 @@ IDR_MAINFRAME MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "Force &run",                  ID_FILE_RUN_REQUEST_ALWAYS
+        MENUITEM "&Run always",                 ID_FILE_RUN_REQUEST_ALWAYS
         MENUITEM "Run based on &preferences",   ID_FILE_RUN_REQUEST_AUTO
         MENUITEM "&Suspend",                    ID_FILE_RUN_REQUEST_NEVER
         MENUITEM SEPARATOR
@@ -222,7 +222,7 @@ BEGIN
         MENUITEM "&Show",                       ID_STATUSICON_SHOW
         MENUITEM "&Hide",                       ID_STATUSICON_HIDE
         MENUITEM SEPARATOR
-        MENUITEM "Force &run",                  ID_FILE_RUN_REQUEST_ALWAYS
+        MENUITEM "&Run always",                 ID_FILE_RUN_REQUEST_ALWAYS
         MENUITEM "Run based on &preferences",   ID_FILE_RUN_REQUEST_AUTO
         MENUITEM "&Suspend",                    ID_FILE_RUN_REQUEST_NEVER
         MENUITEM SEPARATOR
