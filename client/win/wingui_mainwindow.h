@@ -26,6 +26,7 @@
 #include "wingui_listctrl.h"
 #include "wingui_piectrl.h"
 #include "wingui_dialog.h"
+#include "wingui_sswindow.h"
 #include "gui_titles.h"
 
 // constants
@@ -109,6 +110,7 @@ protected:
 	int						m_nContextItem;			// item selected for context menu
 	int						m_nRefreshCount;		// countdown for GUI refreshing
 	UINT					m_nTimerID;				// ID of current GUI timer	
+	CSSWindow*				m_pSSWnd;				// default graphics window
 
 	COLORREF				GetPieColor(int);
     void					ShowTab(int);

@@ -71,3 +71,23 @@ BOOL RequestNetConnect()
 	}
 	return FALSE;
 }
+
+BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
+{
+	DWORD* dwInfo = (DWORD*)lParam;
+	DWORD dwFoundId;
+	GetWindowThreadProcessId(hwnd, &dwFoundId);
+	if(dwFoundId == dwInfo[0]) {
+		dwInfo[1] = (DWORD)CWnd::FromHandle(hwnd);
+		return FALSE;
+	}
+	dwInfo[1] = NULL;
+	return TRUE;
+}
+
+CWnd* GetWndFromProcId(DWORD dwId)
+{
+	DWORD dwInfo[2] = {dwId, NULL};
+	EnumWindows(EnumWindowsProc, (LPARAM)dwInfo);
+	return (CWnd*)dwInfo[1];
+}

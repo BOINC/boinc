@@ -17,36 +17,45 @@
 // Contributor(s):
 //
 
-#ifndef __WINGUI_H_
-#define __WINGUI_H_
+#ifndef __WIN_SSWINDOW_H_
+#define __WIN_SSWINDOW_H_
 
 // includes
 
-#include <afxwin.h>
-#include <afxcmn.h>
-#include <afxtempl.h>
-#include <afxcoll.h>
-#include <afxext.h>
-#include <math.h>
-#include "graphics_api.h"
-#include "file_names.h"
-#include "filesys.h"
-#include "log_flags.h"
-#include "client_state.h"
-#include "account.h"
-#include "error_numbers.h"
-#include "resource.h"
-#include "util.h"
-#include "win_net.h"
-#include "win_util.h"
+#include "wingui.h"
+#include <gl\gl.h>			// Header File For The OpenGL32 Library
+#include <gl\glu.h>			// Header File For The GLu32 Library
 
-// functions
+//////////
+// class:		CSSWindow
+// parent:		CWnd
+// description:	window for the default boinc screen saver
+class CSSWindow : public CWnd
+{
+public:
+							CSSWindow();
+	void					SetMode(int);
+	int						GetMode();
 
-void show_message(PROJECT *p, char* message, char* priority);
-int add_new_project();
-void GetByteString(double nbytes, CString* str);
-BOOL RequestNetConnect();
-BOOL CALLBACK			EnumWindowsProc(HWND, LPARAM);
-CWnd*					GetWndFromProcId(DWORD);
+private:
+	int						m_nMode;
+	int						m_nPrevMode;
+	CPoint					m_MousePos;
+	CRect					m_Rect;
+	HDC hdc;
+	HGLRC hrc;
+
+
+	void					PaintDefault();
+	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+
+    afx_msg int				OnCreate(LPCREATESTRUCT);
+    afx_msg void			OnDestroy();
+    afx_msg void			OnClose();
+    afx_msg void			OnPaint();
+    afx_msg void			OnTimer();
+
+    DECLARE_MESSAGE_MAP()
+};
 
 #endif
