@@ -273,11 +273,11 @@ static inline double rand_fraction()
 // return a random integer in the range [min,max)
 static inline double rand_range(int min, int max)
 {
-    return rand_fraction() * (max-min) + min
+    return rand_fraction() * (max-min) + min;
 }
 
 // return a random integer in the range [max(MIN,e^n),min(MAX,e^n))
-static inline int calculate_exponential_backoff(MIN, MAX, int n)
+static inline int calculate_exponential_backoff(int MIN, int MAX, int n)
 {
     double e = exp(n);
     return rand_range(max(MIN, e), min(MAX, e));
@@ -289,6 +289,7 @@ static inline int calculate_exponential_backoff(MIN, MAX, int n)
 void PERS_FILE_XFER::retry_or_backoff() {
     struct tm *newtime;
     time_t now;
+	int backoff = 0;
     char buf[256];
     
     now = time(0);
@@ -308,9 +309,10 @@ void PERS_FILE_XFER::retry_or_backoff() {
         // keeping within the bounds of PERS_RETRY_DELAY_MIN and
         // PERS_RETRY_DELAY_MAX
         //
-        next_request_time = now + 
-            calculate_exponential_backoff(
+		backoff = calculate_exponential_backoff(
                 PERS_RETRY_DELAY_MIN, PERS_RETRY_DELAY_MAX, nretry);
+        next_request_time = now + backoff;
+            
     }
     if (log_flags.file_xfer_debug) {
         sprintf(buf,
