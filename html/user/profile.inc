@@ -2,6 +2,7 @@
 
 require_once("util.inc");
 require_once("project_specific/project.inc");
+require_once("sanitize_html.inc");
 
 // TODO: Determine if we can always assume these will be the same number.
 define('SMALL_IMG_WIDTH', 64);
@@ -10,7 +11,7 @@ define('SMALL_IMG_HEIGHT', 64);
 define('MAX_IMG_WIDTH', 800);
 define('MAX_IMG_HEIGHT', 600);
 
-define('MAX_DESC_LENGTH', 80);
+define('MAX_DESC_LENGTH', 90);
 
 define('GALLERY_WIDTH', 7);
 define('GALLERY_HEIGHT', 4);
@@ -108,8 +109,8 @@ you would like to use instead. (No animated GIFs, please!)    If you would rathe
 with your profile, click the \"Delete\" checkbox.    If you like your current picture, there is no need
 to do anything.<p>
 <input name=\"picture\" type=\"file\"><br> 
-<font size=2><b>NOTE: </b>Please keep your image small (less than 50K bytes)<br></font></td>
-</tr>";
+<font size=2><b>NOTE: </b>Please keep your image small (less than 50K bytes)<br></font></td></tr>";
+        rowify("<br>");
         end_table();
         echo "</td></tr>";
     }
@@ -120,9 +121,8 @@ If you would like us to include it with your profile,
 please click the \"Browse\" button and select the JPEG or PNG file
 you want to send. (No animated GIFs, please!)<br>
 <input name=\"picture\" type=\"file\"><br> 
-<font size=2><b>NOTE: </b>Please keep your image small (less than 50K bytes)<br></font>
-</td></tr>
-");
+<font size=2><b>NOTE: </b>Please keep your image small (less than 50K bytes)<br></font></td></tr>");
+        rowify("<br>");
     }
     
     
@@ -144,8 +144,8 @@ function show_language_selection() {
 
 function show_finale() {
     row1("Submit Your Profile");
-    rowify("
-    <br><input type=\"submit\" value=\"Submit\" name=\"submit\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type=\"reset\" value=\"Clear\" name=\"clear\">");
+    rowify("<input type=\"checkbox\" name=\"hide_email\">Please do NOT show my email address in my profile.<p>
+            <input type=\"submit\" value=\"Submit\" name=\"submit\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type=\"reset\" value=\"Clear\" name=\"clear\">");
 }
 
 // If the user with id = $userid has uploaded a picture his/herself,
@@ -171,10 +171,13 @@ function process_results() {
     $response2 = $_POST['response2'];
     $language = $_POST['language'];
     $delete_pic = $_POST['delete_pic']; 
-
+    $hide_email = ($_POST['hide_email'] == "on");
+    
     if (strlen($response1)==0 &&
         strlen($response2)==0 &&
         $delete_pic != "on" &&
+        $hide_email != "on" &&
+        
         !is_uploaded_file($_FILES['picture']['tmp_name'])
     ) {
         profile_error_page("Your profile submission was empty.");
@@ -213,7 +216,8 @@ function process_results() {
             ." response1 = '$response1',"
             ." response2 = '$response2',"
             ." language = '$language',"
-            ." has_picture = '$hasPicture'"
+            ." has_picture = '$hasPicture',"
+            ." hide_email = '$hide_email'"
             ." WHERE userid = '$user->id'";
     } else {
 
@@ -222,7 +226,8 @@ function process_results() {
             ." language = '$language',"
             ." response1 = '$response1',"
             ." response2 = '$response2',"
-            ." has_picture = '$hasPicture'";
+            ." has_picture = '$hasPicture',"
+            ." hide_email = '$hide_email'";
     }
 
     $result = mysql_query($query);
@@ -437,8 +442,9 @@ function get_profile_summary($userid) {
   $description = "";
 
   if (strlen($row['response1']) != 0) {
-  
-    $description = "(\"" . substr($row['response1'], 0, MAX_DESC_LENGTH);
+    $temp = $row['response1'];
+
+    $description = "(\"" . substr(sanitize_html($temp), 0, MAX_DESC_LENGTH);
     if (strlen($row['response1']) >= MAX_DESC_LENGTH) {
       $description = $description . "...";
     }
