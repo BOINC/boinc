@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <setjmp.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -1029,6 +1030,21 @@ void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData) {
 	jpeg_finish_decompress(cinfo);
 }
 
+struct my_error_mgr {
+  struct jpeg_error_mgr pub;
+  jmp_buf setjmp_buffer;
+};
+
+typedef struct my_error_mgr * my_error_ptr;
+
+METHODDEF(void)
+my_error_exit (j_common_ptr cinfo)
+{
+  my_error_ptr myerr = (my_error_ptr) cinfo->err;
+  (*cinfo->err->output_message) (cinfo);
+  longjmp(myerr->setjmp_buffer, 1);
+}
+
 tImageJPG *LoadJPG(const char *filename) {
 	struct jpeg_decompress_struct cinfo;
 	tImageJPG *pImageData = NULL;
@@ -1038,9 +1054,16 @@ tImageJPG *LoadJPG(const char *filename) {
 		fprintf(stderr,"Unable to load JPG File!");
 		return NULL;
 	}
-		
-	jpeg_error_mgr jerr;	
-	cinfo.err = jpeg_std_error(&jerr);	
+
+	struct my_error_mgr jerr;
+    cinfo.err = jpeg_std_error(&jerr.pub);
+    jerr.pub.error_exit = my_error_exit;    
+    if (setjmp(jerr.setjmp_buffer)) {
+      jpeg_destroy_decompress(&cinfo);
+      fclose(pFile);
+      return NULL;
+	}
+
 	jpeg_create_decompress(&cinfo);	
 	jpeg_stdio_src(&cinfo, pFile);	
 	pImageData = (tImageJPG*)malloc(sizeof(tImageJPG));	
@@ -1052,7 +1075,7 @@ tImageJPG *LoadJPG(const char *filename) {
 
 int TEXTURE_DESC::CreateTextureJPG(char* strFileName) {
 	if(!strFileName) return -1;	
-	tImageJPG *pImage = LoadJPG(strFileName);			// Load the image and store the data
+	tImageJPG *pImage = LoadJPG(strFileName);			// Load the image and store the data	
 	if(pImage == NULL) return -1;
 	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_2D, id);	
@@ -1178,14 +1201,15 @@ int TEXTURE_DESC::load_image_file(char* filename) {
     // for now, just try all the image types in turn
 
     present = true;
-    retval = CreateTexturePPM(filename);    
+	retval = CreateTextureJPG(filename);
     if (!retval) return 0;
-    retval = CreateTextureJPG(filename);
+    retval = CreateTexturePPM(filename);    
     if (!retval) return 0;
     retval = CreateTextureBMP(filename);
     if (!retval) return 0;
     retval = CreateTextureTGA(filename);
-    if (!retval) return 0;
+    if (!retval) return 0;    
+
 done:
     present = false;
     return -1;

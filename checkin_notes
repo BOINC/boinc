@@ -6632,3 +6632,8 @@ David  Oct 8 2003
 	api/
 		gutil.C,h
 		windows_opengl.C
+
+Oliver Oct 9 2003
+	- fixed error handling when jpeglib fails
+	api/
+		gutil.C
