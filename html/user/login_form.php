@@ -1,4 +1,5 @@
 <?php
+    require_once("db.inc");
     require_once("util.inc");
 
     $next_url = $_GET["next_url"];

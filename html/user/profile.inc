@@ -1,5 +1,6 @@
 <?php
 
+require_once("db.inc");
 require_once("util.inc");
 
 // TODO: Determine if we can always assume these will be the same number.

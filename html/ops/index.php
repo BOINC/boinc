@@ -1,13 +1,14 @@
 <?php
 
+require_once("db_ops.inc");
 require_once("util_ops.inc");
 
 $cgi_url = parse_config("<cgi_url>");
 
 $w = 7*86400;
 echo "
-    <title>BOINC Project Management</title>
-    <h2>BOINC Project Management</h2>
+    <title>BOINC Project Management for ".PROJECT."</title>
+    <h2>BOINC Project Management for ".PROJECT."</h2>
     <p>
     Browse database:
     <ul> 
@@ -38,6 +39,7 @@ echo "
     <a href=$cgi_url/stripchart.cgi>Stripcharts</a> |
     <a href=show_log.php>Show/Grep all logs</a> |
     <a href=show_log.php?f=mysql*.log&l=-20>Tail MySQL logs</a>
+    <br><a href=create_account_form.php>Create account</a>
 ";
 
 // TODO: Add functionality to list the number of recommends / rejects received

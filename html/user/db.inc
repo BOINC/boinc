@@ -13,8 +13,8 @@ function db_init($pathMod='') {
     }
     $db_name = parse_config("<db_name>", $pathMod);
     if(!mysql_select_db($db_name)) {
-	    echo "Unable to select database - please try again later";
-	    exit();
+        echo "Unable to select database - please try again later";
+        exit();
     }
 
     return 0;

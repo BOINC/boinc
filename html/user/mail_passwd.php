@@ -1,7 +1,7 @@
 <?php
 
-require_once("util.inc");
 require_once("db.inc");
+require_once("util.inc");
 
 db_init();
 

@@ -1,8 +1,8 @@
 <?php
 
+    require_once("db.inc");
     require_once("util.inc");
     require_once("user.inc");
-    require_once("db.inc");
 
 function send_verify_email($user, $email_addr, $key) {
     mail(

@@ -1,7 +1,6 @@
 <?php
 
-require_once("db.inc");
-require_once("project_specific/project.inc");
+    require_once("project_specific/project.inc");
 
 // Sends the authenticator to the given email address
 //

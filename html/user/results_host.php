@@ -1,6 +1,7 @@
 <?php
     // show recent results for a host
 
+    require_once("db.inc");
     require_once("util.inc");
     require_once("result.inc");
 

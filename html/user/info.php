@@ -1,4 +1,5 @@
 <?php
+require_once('db.inc');
 require_once('util.inc');
 db_init();
 page_head('Rules and Policies');

@@ -1,7 +1,7 @@
 <?php
+    require_once("db.inc");
     require_once("util.inc");
     require_once("team.inc");
-    require_once("db.inc");
 
     db_init();
     $user = get_logged_in_user();

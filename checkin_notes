@@ -5899,3 +5899,14 @@ Karl 2003/08/21
         boinc_api.C
         boinc_api.h
         windows_opengl.C
+
+David  Aug 21 2003
+    - added administrative function for adding accounts
+      (even if account creation is disabled in config)
+    - html_ops can now refer to project-specific stuff (e.g. PROJECT)
+    - removed include of db.inc in html_user/util.inc.
+      This lets you use util.inc from html_ops
+
+    html_ops/
+        create_account_form.php (new)
+        create_acction_action.php (new)

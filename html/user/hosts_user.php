@@ -2,6 +2,7 @@
     // show all the hosts for a user.
     // if $userid is absent, show hosts of logged-in user
 
+    require_once("db.inc");
     require_once("util.inc");
     require_once("host.inc");
 

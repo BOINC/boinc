@@ -1,6 +1,6 @@
 <?php
-    require_once("util.inc");
     require_once("db.inc");
+    require_once("util.inc");
     require_once("user.inc");
     require_once("host.inc");
 

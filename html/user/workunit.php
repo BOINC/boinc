@@ -1,6 +1,7 @@
 <?php
     // show summary of a workunit
 
+    require_once("db.inc");
     require_once("util.inc");
     require_once("result.inc");
 

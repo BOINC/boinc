@@ -1,5 +1,6 @@
 <?php
 
+require_once("db.inc");
 require_once("util.inc");
 require_once("project_specific/project.inc");
 require_once("profile.inc");
