@@ -103,7 +103,7 @@
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 				CompileAs="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -923,23 +923,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\resource.rc">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\Documents and Settings\Administrator\My Documents\Visual Studio Projects\BOINC\boinc\client\win"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCResourceCompilerTool"
-						PreprocessorDefinitions=""
-						AdditionalIncludeDirectories="\Documents and Settings\Administrator\My Documents\Visual Studio Projects\BOINC\boinc\client\win"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\Client\scheduler_op.C">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1295,6 +1278,9 @@
 				RelativePath="..\lib\app_ipc.h">
 			</File>
 			<File
+				RelativePath="..\client\win\boinc_gui.h">
+			</File>
+			<File
 				RelativePath="..\client\client_state.h">
 			</File>
 			<File
@@ -1361,9 +1347,6 @@
 				RelativePath="..\client\prefs.h">
 			</File>
 			<File
-				RelativePath="..\client\win\Resource.h">
-			</File>
-			<File
 				RelativePath="..\client\scheduler_op.h">
 			</File>
 			<File
@@ -1416,10 +1399,27 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
+				RelativePath="..\client\win\res\boinc.bmp">
+			</File>
+			<File
 				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\res\boinc.bmp">
+				RelativePath="..\client\win\boinc_gui.rc">
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions=""
+						AdditionalIncludeDirectories=""/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCResourceCompilerTool"
+						PreprocessorDefinitions=""
+						AdditionalIncludeDirectories=""/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\client\win\boincsm.bmp">

@@ -21,7 +21,7 @@
 #define _TASK_
 
 #ifdef _WIN32
-#include <afxwin.h>
+#include <windows.h>
 #endif
 
 #include <stdio.h>

@@ -23,10 +23,17 @@
 #include <math.h>
 
 #ifdef _WIN32
-#include <afxwin.h>
+
+#ifdef _CONSOLE
+#include <windows.h>
+#else
+#include "wingui_mainwindow.h"
+#endif
+
 #include <winsock.h>
 #include "Win_net.h"
-#include "wingui_mainwindow.h"
+#include "win_util.h"
+
 #endif
 
 #if HAVE_SYS_TIME_H
@@ -207,7 +214,7 @@ int NET_XFER::open_server() {
             return ERR_CONNECT;
         }
 #ifndef _CONSOLE
-        if (WSAAsyncSelect( fd, g_myWnd->GetSafeHwnd(), g_myWnd->m_nNetActivityMsg, FD_READ|FD_WRITE )) {
+        if (WSAAsyncSelect( fd, g_myWnd->GetSafeHwnd(), RegisterWindowMessage(NET_ACTIVITY_MSG), FD_READ|FD_WRITE )) {
             errno = WSAGetLastError();
             if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
                 closesocket(fd);

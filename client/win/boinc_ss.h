@@ -9,7 +9,6 @@
 #define IDC_BLANK                       1000
 #define IDC_BLANK_TIME                  1001
 #define IDS_ERR_GENERIC                 2100
-#define IDS_ERR_NOBOINCDETECTED         2101
 #define IDS_ERR_BOINCNOTDETECTED        2101
 #define IDS_ERR_BOINCNOTDETECTEDSTARTUP 2102
 #define IDS_ERR_BOINCNOTFOUND           2103

@@ -99,7 +99,7 @@
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 				CompileAs="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>

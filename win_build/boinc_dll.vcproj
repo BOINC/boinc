@@ -32,7 +32,7 @@
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"/>
+				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
@@ -43,6 +43,7 @@
 				ModuleDefinitionFile="..\client\win\win_idle_tracker.def"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Debug/boinc_dll.pdb"
+				SubSystem="2"
 				ImportLibrary=".\Build\Debug/boinc.lib"
 				TargetMachine="1"/>
 			<Tool
@@ -172,12 +173,18 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
+				RelativePath="..\client\win\boinc_dll.h">
+			</File>
+			<File
 				RelativePath="..\client\win\win_idle_tracker.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+			<File
+				RelativePath="..\client\win\boinc_dll.rc">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

@@ -34,7 +34,7 @@
 #include "log_flags.h"
 #include "client_state.h"
 #include "error_numbers.h"
-#include "resource.h"
+#include "boinc_gui.h"
 #include "util.h"
 #include "win_net.h"
 #include "win_util.h"

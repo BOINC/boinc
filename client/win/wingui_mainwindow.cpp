@@ -23,19 +23,6 @@
 CMyApp g_myApp;
 CMainWindow* g_myWnd = NULL;
 
-/*static struct _test
-{
-  _test()
-  {
-    InitAllocCheck();
-  }
-
-  ~_test()
-  {
-    DeInitAllocCheck();
-  }
-} _myLeakFinder;*/
-
 /////////////////////////////////////////////////////////////////////////
 // CMyApp member functions
 
@@ -136,9 +123,27 @@ inline CString GetStrTime(CTime timeObj = CTime::GetCurrentTime())
 /////////////////////////////////////////////////////////////////////////
 // CMainWindow message map and member functions
 
+// ID of show window request message
+const UINT	WM_BSHOWWINDOW = RegisterWindowMessage(SHOW_WIN_MSG);
+// ID of net activity message
+const UINT	WM_BNETACTIVITY = RegisterWindowMessage(NET_ACTIVITY_MSG);
+// ID of start screensaver request message
+const UINT	WM_BSTARTSCREENSAVER = RegisterWindowMessage(START_SS_MSG);
+// ID of end screensaver request message
+const UINT	WM_BENDSCREENSAVER = RegisterWindowMessage(STOP_SS_MSG);
+// ID of taskbar created message
+const UINT	WM_BTASKBARCREATED = RegisterWindowMessage(TEXT("TaskbarCreated"));
+
+
 BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_WM_CLOSE()
     ON_WM_DESTROY()
+    ON_WM_CREATE()
+    ON_WM_RBUTTONDOWN()
+    ON_WM_SIZE()
+    ON_WM_SETFOCUS()
+    ON_WM_TIMER()
+
     //ON_COMMAND(ID_FILE_CLEARINACTIVE, OnCommandFileClearInactive)
     //ON_COMMAND(ID_FILE_CLEARMESSAGES, OnCommandFileClearMessages)
     ON_COMMAND(ID_FILE_RUN_REQUEST_ALWAYS, OnCommandRunRequestAlways)
@@ -160,12 +165,15 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_COMMAND(ID_WORK_SHOWGRAPHICS, OnCommandWorkShowGraphics)
     ON_COMMAND(ID_TRANSFERS_RETRYNOW, OnCommandTransfersRetryNow)
     ON_COMMAND(ID_MESSAGE_COPY_TO_CLIP, OnCommandMessageCopyToClip)  // Added by JBK.
-    ON_WM_CREATE()
-    ON_WM_RBUTTONDOWN()
-    ON_WM_SIZE()
-    ON_WM_SETFOCUS()
-    ON_WM_TIMER()
+
     ON_MESSAGE(STATUS_ICON_ID, OnStatusIcon)
+
+    ON_REGISTERED_MESSAGE(WM_BSHOWWINDOW, OnShowWindow)
+    ON_REGISTERED_MESSAGE(WM_BNETACTIVITY, OnNetworkActivity)
+    ON_REGISTERED_MESSAGE(WM_BSTARTSCREENSAVER, OnStartScreensaver)
+    ON_REGISTERED_MESSAGE(WM_BENDSCREENSAVER, OnEndScreensaver)
+    ON_REGISTERED_MESSAGE(WM_BTASKBARCREATED, OnTaskbarCreated)
+
 END_MESSAGE_MAP()
 
 //////////
@@ -208,17 +216,6 @@ CMainWindow::CMainWindow()
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
         NULL, NULL, NULL);
 
-    m_nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
-    m_nNetActivityMsg = RegisterWindowMessage(NET_ACTIVITY_MSG);
-    m_uScreenSaverMsg = RegisterWindowMessage(START_SS_MSG);
-    m_uEndSSMsg = RegisterWindowMessage(STOP_SS_MSG);
-
-	// This message is sent by the shell everytime it is created
-	//   NOTE: This normally happens if/when the shell crashes and is
-	//         restarted.
-	m_uTaskbarCreatedMsg = RegisterWindowMessage(TEXT("TaskbarCreated"));
-	
-	TRACE(TEXT("CMainWIndow\n"));
 }
 
 //////////
@@ -1189,52 +1186,6 @@ void CMainWindow::PostNcDestroy()
     delete this;
 }
 
-//////////
-// CMainWindow::DefWindowProc
-// arguments:   message: message received
-//              wParam: message's wparam
-//              lParam: message's lparam
-// returns:     dependent on message
-// function:    handles any messages not handled by the window previously
-LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
-{
-    if(m_nShowMsg == message) {
-        ShowWindow(SW_SHOW);
-        SetForegroundWindow();
-        return 0;
-    } else if(m_nNetActivityMsg == message) {
-        gstate.net_sleep(0);
-        return 0;
-    } else if(m_uEndSSMsg == message) {
-        gstate.ss_logic.stop_ss();
-        return 0;
-    } else if(m_uScreenSaverMsg == message) {
-		// Get the current screen blanking information
-        unsigned long reg_time_until_blank = 0, reg_blank_screen = 0;
-        unsigned long blank_time = 0;
-
-        UtilGetRegKey(REG_BLANK_NAME, reg_blank_screen);
-        UtilGetRegKey(REG_BLANK_TIME, reg_time_until_blank);
-        if (reg_blank_screen && reg_time_until_blank>0) {
-            blank_time = time(0) + reg_time_until_blank*60;
-        } else {
-            blank_time = 0;
-        }
-        gstate.ss_logic.start_ss(blank_time);
-        return 0;
-    } else if (m_uTaskbarCreatedMsg == message) {
-		// Explorer has crashed, we need to re-register our icon with the shell
-		DWORD dwTempIconStatus;
-
-        dwTempIconStatus = m_nIconState;
-		m_nIconState = ICON_OFF;
-
-		SetStatusIcon(dwTempIconStatus);
-        return 0;
-	}
-
-    return CWnd::DefWindowProc(message, wParam, lParam);
-}
 
 //////////
 // CMainWindow::OnClose
@@ -2195,6 +2146,84 @@ void CMainWindow::OnTimer(UINT uEventID)
 
 
 //////////
+// CMainWindow::OnShowWindow
+// function:    
+// arguments:   
+// returns:     
+LRESULT CMainWindow::OnShowWindow(WPARAM wParam, LPARAM lParam)
+{
+    ShowWindow(SW_SHOW);
+    SetForegroundWindow();
+    return TRUE;
+}
+
+
+//////////
+// CMainWindow::OnNetworkActivity
+// function:    
+// arguments:   
+// returns:     
+LRESULT CMainWindow::OnNetworkActivity(WPARAM wParam, LPARAM lParam)
+{
+    gstate.net_sleep(0);
+    return TRUE;
+}
+
+
+//////////
+// CMainWindow::OnStartScreensaver
+// function:    
+// arguments:   
+// returns:     
+LRESULT CMainWindow::OnStartScreensaver(WPARAM wParam, LPARAM lParam)
+{
+	// Get the current screen blanking information
+    unsigned long reg_time_until_blank = 0, reg_blank_screen = 0;
+    unsigned long blank_time = 0;
+
+    UtilGetRegKey(REG_BLANK_NAME, reg_blank_screen);
+    UtilGetRegKey(REG_BLANK_TIME, reg_time_until_blank);
+    if (reg_blank_screen && reg_time_until_blank>0) {
+        blank_time = time(0) + reg_time_until_blank*60;
+    } else {
+        blank_time = 0;
+    }
+    gstate.ss_logic.start_ss(blank_time);
+    return TRUE;
+}
+
+
+//////////
+// CMainWindow::OnEndScreensaver
+// function:    
+// arguments:   
+// returns:     
+LRESULT CMainWindow::OnEndScreensaver(WPARAM wParam, LPARAM lParam)
+{
+    gstate.ss_logic.stop_ss();
+    return TRUE;
+}
+
+
+//////////
+// CMainWindow::OnTaskbarCreated
+// function:    
+// arguments:   
+// returns:     
+LRESULT CMainWindow::OnTaskbarCreated(WPARAM wParam, LPARAM lParam)
+{
+	// Explorer has crashed, we need to re-register our icon with the shell
+	DWORD dwTempIconStatus;
+
+    dwTempIconStatus = m_nIconState;
+	m_nIconState = ICON_OFF;
+
+	SetStatusIcon(dwTempIconStatus);
+    return TRUE;
+}
+
+
+//////////
 // CMainWindow::should_request_global_prefs
 // arguments:   void
 // returns:     true, if the global preferences file is missing
@@ -2203,13 +2232,11 @@ void CMainWindow::OnTimer(UINT uEventID)
 //              file.
 inline bool CMainWindow::should_request_global_prefs()
 {
-	// TODO: find a better way to test file existence on windows
 	bool missing = false;
-	FILE* f = fopen(GLOBAL_PREFS_FILE_NAME, "r");
-    if (!f)
+
+    if (boinc_file_exists(GLOBAL_PREFS_FILE_NAME))
 		missing = true;
-	else
-		fclose(f);
+
     return missing;
 }
 

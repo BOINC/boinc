@@ -10274,3 +10274,27 @@ David  Mar 3 2004
             get-passwd.php
             login_action.php
             mail_passwd.php
+
+Rom    Mar 3 2004
+    - Some house keeping with the Windows sources
+    - All Windows binaries now have a version resource assigned to them.
+    - The Windows CLI should no longer need to have references to afxwin.h
+    - project file cleanup work to get rid of some warnings
+
+    client/
+        app.h
+        net_xfer.c
+    client/win/
+        boinc_ss.rc, .h
+        boinc_cli.rc, .h (added)
+        boinc_dll.rc, .h (added)
+        boinc_gui.rc, .h (added)
+        resource.rc, .h (removed)
+        update-resource-version
+        win_idle_tracker.def
+        win_net.cpp
+        wingui.h
+        wingui_mainwindow.cpp, .h
+    winbuild/
+        *.vcproj
+        boinc.vcproj (removed)

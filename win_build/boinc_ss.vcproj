@@ -33,7 +33,7 @@
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -41,7 +41,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="winmm.lib"
 				OutputFile="Build\Debug\boinc.scr"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
@@ -182,6 +182,9 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
+				RelativePath="..\client\win\boinc_ss.h">
+			</File>
+			<File
 				RelativePath="..\client\win\win_screensaver.h">
 			</File>
 			<File
@@ -193,9 +196,6 @@
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
 				RelativePath="..\client\win\res\boinc.bmp">
-			</File>
-			<File
-				RelativePath="..\client\win\boinc_ss.h">
 			</File>
 			<File
 				RelativePath="..\client\win\boinc_ss.rc">

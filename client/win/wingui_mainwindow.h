@@ -72,6 +72,7 @@
 #define XFER_COLS			7
 #define MESSAGE_COLS		3
 
+
 //////////
 // class:		CMyApp
 // parent:		CWinApp
@@ -97,7 +98,6 @@ public:
     BOOL					IsUserSuspended();
     BOOL					RequestNetConnect();
 	void					DetachProject(PROJECT *);
-	UINT					m_nNetActivityMsg;		// ID of net activity message
 	CSSWindow*				m_pSSWnd;				// default graphics window
 
 protected:
@@ -123,10 +123,6 @@ protected:
 	BOOL					m_bRequest;				// does the user have a net connection request?
 	int						m_nContextItem;			// item selected for context menu
 	UINT					m_nGuiTimerID;			// ID of current GUI timer	
-	UINT					m_nShowMsg;				// ID of show window request message
-	UINT					m_uScreenSaverMsg;		// ID of screensaver message
-	UINT					m_uEndSSMsg;			// ID of end screensaver request message
-	UINT					m_uTaskbarCreatedMsg;	// ID of taskbar created message
 
 
 	void UpdateRunRequestMenu(CMenu* pMenu);
@@ -146,11 +142,17 @@ protected:
 	void					Syncronize(CProgressListCtrl*, vector<void*>*);
     virtual void			PostNcDestroy();
 	bool					should_request_global_prefs();
-	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
     afx_msg void			OnClose();
     afx_msg void			OnDestroy();
-	afx_msg void			OnCommandSettingsQuit();
+    afx_msg int				OnCreate(LPCREATESTRUCT);
+	afx_msg BOOL			OnNotify(WPARAM, LPARAM, LRESULT*);
+	afx_msg void			OnRButtonDown(UINT, CPoint);
+    afx_msg void			OnSetFocus(CWnd*);
+    afx_msg void			OnSize(UINT, int, int);
+	afx_msg void			OnTimer(UINT);
+
+    afx_msg void			OnCommandSettingsQuit();
 	afx_msg void			OnCommandSettingsLogin();
 	afx_msg void			OnCommandSettingsProxyServer();
 	afx_msg void			OnCommandHelpAbout();
@@ -162,24 +164,25 @@ protected:
 	afx_msg void            OnCommandTransfersRetryNow();
 	afx_msg void			OnCommandFileClearInactive();
 	afx_msg void			OnCommandFileClearMessages();
-	afx_msg void OnCommandRunBenchmarks();
+	afx_msg void            OnCommandRunBenchmarks();
 	afx_msg void			OnCommandConnectionHangupIfDialed();
 	afx_msg void			OnCommandConnectionConfirmBeforeConnecting();
 	afx_msg void			OnCommandShow();
 	afx_msg void			OnCommandHide();
-	afx_msg void OnCommandRunRequestAlways();
-	afx_msg void OnCommandRunRequestAuto();
-	afx_msg void OnCommandRunRequestNever();
+	afx_msg void            OnCommandRunRequestAlways();
+	afx_msg void            OnCommandRunRequestAuto();
+	afx_msg void            OnCommandRunRequestNever();
 
 	afx_msg void			OnCommandExit();
 	afx_msg void			OnCommandMessageCopyToClip();
-    afx_msg int				OnCreate(LPCREATESTRUCT);
-	afx_msg BOOL			OnNotify(WPARAM, LPARAM, LRESULT*);
-	afx_msg void			OnRButtonDown(UINT, CPoint);
-    afx_msg void			OnSetFocus(CWnd*);
-    afx_msg void			OnSize(UINT, int, int);
-	afx_msg LRESULT			OnStatusIcon(WPARAM, LPARAM);
-	afx_msg void			OnTimer(UINT); 
+
+    afx_msg LRESULT			OnStatusIcon( WPARAM, LPARAM );
+
+    afx_msg LRESULT         OnShowWindow( WPARAM, LPARAM );
+    afx_msg LRESULT         OnNetworkActivity( WPARAM, LPARAM );
+    afx_msg LRESULT         OnStartScreensaver( WPARAM, LPARAM );
+    afx_msg LRESULT         OnEndScreensaver( WPARAM, LPARAM );
+    afx_msg LRESULT         OnTaskbarCreated( WPARAM, LPARAM );
 
 	CString m_MenuLabelRetryNow, m_MenuLabelGetPreferences;
 	CString m_DialogResetQuery, m_DialogDetachQuery;

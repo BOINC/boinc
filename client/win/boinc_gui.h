@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by resource.rc
+// Microsoft Visual C++ generated include file.
+// Used by boinc_gui.rc
 //
 #define IDB_LOGO                        101
 #define IDD_LOGIN                       102

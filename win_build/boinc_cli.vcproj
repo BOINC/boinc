@@ -33,7 +33,7 @@
 				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 				CompileAs="2"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -41,7 +41,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="wsock32.lib wininet.lib winmm.lib nafxcwd.lib libcmtd.lib"
 				OutputFile=".\Build\Debug/boinc_cli.exe"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				IgnoreDefaultLibraryNames="libc,nafxcwd,libcmtd,libcmt,libcd"
 				GenerateDebugInformation="TRUE"
@@ -1095,6 +1095,9 @@
 				RelativePath="..\lib\app_ipc.h">
 			</File>
 			<File
+				RelativePath="..\client\win\boinc_cli.h">
+			</File>
+			<File
 				RelativePath="..\client\client_state.h">
 			</File>
 			<File
@@ -1188,6 +1191,9 @@
 		<Filter
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+			<File
+				RelativePath="..\client\win\boinc_cli.rc">
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

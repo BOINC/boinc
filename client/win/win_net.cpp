@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-#include <afxwin.h>
+#include <windows.h>
 #include <winsock.h>
 #include <string.h>
 #include <stdio.h>
@@ -25,7 +25,7 @@
 #include <raserror.h>
 
 #include "win_net.h"
-#include "wingui.h"
+//#include "wingui.h"
 #include "client_state.h"
 
 #define DIAL_WAIT               60 // seconds after dial to wait (in case of cancel)
