@@ -192,6 +192,7 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     for (i=0; i<apps.size(); i++) {
         apps[i].write(fout);
     }
+
     for (i=0; i<app_versions.size(); i++) {
         for (j=0; j<apps.size(); j++) {
             if (apps[j].id == app_versions[i].appid) {
@@ -200,17 +201,21 @@ int SCHEDULER_REPLY::write(FILE* fout) {
             }
         }
     }
+
     for (i=0; i<wus.size(); i++) {
         fputs(wus[i].xml_doc, fout);
     }
+
     for (i=0; i<results.size(); i++) {
         fputs(results[i].xml_doc_in, fout);
     }
+
     if (strlen(code_sign_key)) {
         fputs("<code_sign_key>\n", fout);
         fputs(code_sign_key, fout);
         fputs("</code_sign_key>\n", fout);
     }
+
     if (strlen(code_sign_key_signature)) {
         fputs("<code_sign_key_signature>\n", fout);
         fputs(code_sign_key_signature, fout);
@@ -355,6 +360,21 @@ int HOST::parse_net_stats(FILE* fin) {
         else if (parse_double(buf, "<bwdown>", n_bwdown)) continue;
         else {
             sprintf(ebuf, "HOST::parse_net_stats(): unrecognized: %s\n", buf);
+            write_log(ebuf);
+        }
+    }
+    return 1;
+}
+
+int APP_FILE::parse(char*& in) {
+    char buf[256], ebuf[256];
+
+    while (sgets(buf, 256, in)) {
+        if (match_tag(buf, "</app_file>")) return 0;
+        else if (parse_str(buf, "<url>", url, sizeof(url))) continue;
+        else if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
+        else {
+            sprintf(ebuf, "APP_FILE::parse(): unrecognized %s\n", buf);
             write_log(ebuf);
         }
     }

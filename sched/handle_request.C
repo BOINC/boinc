@@ -120,6 +120,68 @@ int insert_wu_tags(WORKUNIT& wu, double seconds, APP& app) {
     return insert_after(wu.xml_doc, "<workunit>\n", buf);
 }
 
+void parse_project_prefs(char* prefs, vector<APP_FILE>& app_files) {
+    char buf[256];
+    APP_FILE af;
+
+    while (sgets(buf, 256, prefs)) {
+        if (match_tag(buf, "<app_file>")) {
+            af.parse(prefs);
+            app_files.push_back(af);
+        }
+    }
+}
+
+// if the user's project prefs include elements of the form
+// <app_file>
+//     <url>X</url>
+//     <open_name>Y</open_name>
+// </app_file>
+// then insert appropriate elements in app_version XML doc, namely:
+// <file_info>
+//     <name>X'</name>
+//     <url>X</url>
+// </file_info>
+// ... (in the <app_version> element)
+//     <file_ref>
+//         <file_name>X'</file_name>
+//         <open_name>Y</open_name>
+//     </file_ref>
+// where X' is the escaped version of X
+//
+int insert_app_file_tags(APP_VERSION& av, USER& user) {
+    vector<APP_FILE> app_files;
+    APP_FILE af;
+    unsigned int i;
+    char buf[256], namebuf[256];
+    int retval;
+
+    parse_project_prefs(user.project_prefs, app_files);
+    for (i=0; i<app_files.size(); i++) {
+        af = app_files[i];
+        escape_url_readable(af.url, namebuf);
+        sprintf(buf,
+            "<file_info>\n"
+            "    <name>%s</name>\n"
+            "    <url>%s</url>\n"
+            "</file_info>\n",
+            namebuf, af.url
+        );
+        retval = insert_after(av.xml_doc, "", buf);
+        if (retval) return retval;
+        sprintf(buf,
+            "    <file_ref>\n"
+            "        <file_name>%s</file_name>\n"
+            "        <open_name>%s</open_name>\n"
+            "    </file_ref>\n",
+            namebuf, af.open_name
+        );
+        retval = insert_after(av.xml_doc, "<app_version>\n", buf);
+        if (retval) return retval;
+    }
+    return 0;
+}
+
 // add the given workunit to a reply.
 // look up its app, and make sure there's a version for this platform.
 // Add the app and app_version to the reply also.
@@ -153,8 +215,18 @@ int add_wu_to_reply(
 
     // add the app, app_version, and workunit to the reply,
     // but only if they aren't already there
-
+    //
     reply.insert_app_unique(*app);
+
+    // If the user's project prefs include any <app_file> tags,
+    // make appropriate modifications to the app_version XML
+    //
+    retval = insert_app_file_tags(*app_version, reply.user);
+    if (retval) {
+        write_log("insert_app_file_tags failed\n");
+        return retval;
+    }
+
     reply.insert_app_version_unique(*app_version);
 
     // add time estimate to reply

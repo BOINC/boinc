@@ -436,11 +436,16 @@ int FILE_INFO::write(FILE* out, bool to_server) {
     fprintf(out,
         "<file_info>\n"
         "    <name>%s</name>\n"
-        "    <md5_cksum>%s</md5_cksum>\n"
         "    <nbytes>%f</nbytes>\n"
         "    <max_nbytes>%f</max_nbytes>\n",
-        name, md5_cksum, nbytes, max_nbytes
+        name, nbytes, max_nbytes
     );
+    if (strlen(md5_cksum)) {
+        fprintf(out,
+            "    <md5_cksum>%s</md5_cksum>\n",
+            md5_cksum
+        );
+    }
     if (!to_server) {
         if (generated_locally) fprintf(out, "    <generated_locally/>\n");
         fprintf(out, "    <status>%d</status>\n", status);

@@ -211,9 +211,10 @@ int ACTIVE_TASK::start(bool first_time) {
     // make soft links to the executable(s)
     //
     for (i=0; i<app_version->app_files.size(); i++) {
-        fip = app_version->app_files[i].file_info;
+        FILE_REF fref = app_version->app_files[i];
+        fip = fref.file_info;
         get_pathname(fip, file_path);
-        if (i == 0) {
+        if (fref.main_program) {
             safe_strcpy(exec_name, fip->name);
             safe_strcpy(exec_path, file_path);
         }

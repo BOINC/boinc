@@ -93,17 +93,21 @@ int PERS_FILE_XFER::start_xfer() {
             (is_upload ? "upload" : "download"), fip->get_url(), retval
         );
         show_message(fip->project, buf, MSG_ERROR);
+        handle_xfer_failure();
         return retval;
         // TODO: do we need to do anything here?
     }
     retval = gstate.file_xfers->insert(file_xfer);
     fxp = file_xfer;
     if (retval) {
-        if (log_flags.file_xfer) {
-            show_message(fip->project, "file_xfer insert failed", MSG_ERROR);
-        }
+        sprintf(buf,
+            "Couldn't start %s for %s: error %d",
+            (is_upload ? "upload" : "download"), fip->get_url(), retval
+        );
+        show_message(fip->project, buf, MSG_ERROR);
         fxp->file_xfer_retval = retval;
-        handle_xfer_failure(time(0));
+        handle_xfer_failure();
+        delete fxp;
         fxp = NULL;
         return retval;
     }
@@ -209,7 +213,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
         } else if (fxp->file_xfer_retval == ERR_UPLOAD_PERMANENT) {
             giveup();
         } else {
-            handle_xfer_failure(now);
+            handle_xfer_failure();
         }
         // remove fxp from file_xfer_set and deallocate it
         //
@@ -240,7 +244,8 @@ void PERS_FILE_XFER::giveup() {
 
 // Handle a transfer failure
 //
-void PERS_FILE_XFER::handle_xfer_failure(time_t cur_time) {
+void PERS_FILE_XFER::handle_xfer_failure() {
+    time_t now = time(0);
 
     // If it was a bad range request, delete the file and start over
     //
@@ -248,11 +253,11 @@ void PERS_FILE_XFER::handle_xfer_failure(time_t cur_time) {
         fip->delete_file();
     }
 
-    retry_or_backoff(cur_time);
+    retry_or_backoff();
     
     // See if it's time to give up on the persistent file xfer
     //
-    if ((cur_time - first_request_time) > gstate.file_xfer_giveup_period) {
+    if ((now - first_request_time) > gstate.file_xfer_giveup_period) {
         giveup();
     }
 }
@@ -260,15 +265,15 @@ void PERS_FILE_XFER::handle_xfer_failure(time_t cur_time) {
 // Cycle to the next URL, or if we've hit all URLs in this cycle,
 // backoff and try again later
 //
-void PERS_FILE_XFER::retry_or_backoff(time_t cur_time) {
+void PERS_FILE_XFER::retry_or_backoff() {
     double exp_backoff;
     int backoff;
     struct tm *newtime;
-    time_t aclock;
+    time_t now;
     char buf[256];
     
-    time(&aclock);
-    newtime = localtime(&aclock);
+    now = time(0);
+    newtime = localtime(&now);
 
     // Cycle to the next URL to try
     //
@@ -286,7 +291,7 @@ void PERS_FILE_XFER::retry_or_backoff(time_t cur_time) {
         // PERS_RETRY_DELAY_MAX
         //
         backoff = (int)max(PERS_RETRY_DELAY_MIN, min(PERS_RETRY_DELAY_MAX, exp_backoff));
-        next_request_time = cur_time + backoff;
+        next_request_time = now + backoff;
     }
     if (log_flags.file_xfer_debug) {
         sprintf(buf,

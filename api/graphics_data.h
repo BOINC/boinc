@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-// The class GRAPHICS_DOUBLE_BUFFER provides a handy mechanism
+// The class GRAPHICS_DOUBLE_BUFFER provides a mechanism
 // for synchronizing the generation of graphics information
 // (done by the "science thread")
 // with the graphics rendering (done by the "GUI thread",

@@ -32,3 +32,4 @@ extern int copy_element_contents(FILE* in, char* end_tag, char* p, int len);
 extern int read_file_malloc(char* pathname, char*& str);
 extern void replace_element(char* buf, char* start, char* end, char* replacement);
 extern void extract_venue(char* in, char* venue_name, char* out);
+extern char* sgets(char* buf, int len, char* &in);

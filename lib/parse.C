@@ -204,3 +204,18 @@ void extract_venue(char* in, char* venue_name, char* out) {
         }
     }
 }
+
+// copy a line from the given string.
+// kinda like fgets() when you're reading from a string
+//
+char* sgets(char* buf, int len, char*& in) {
+    char* p;
+
+    p = strstr(in, "\n");
+    if (!p) return NULL;
+    *p = 0;
+    safe_strncpy(buf, in, len);
+    *p = '\n';
+    in = p+1;
+    return buf;
+}

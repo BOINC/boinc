@@ -291,6 +291,40 @@ void escape_url(char *in, char*out) {
     out[y] = 0;
 }
 
+// Escape a URL for the project directory, cutting off the "http://",
+// converting '\' '/' and ' ' to '_',
+// and converting the non alphanumeric characters to %XY
+// where XY is their hexadecimal equivalent
+//
+void escape_url_readable(char *in, char* out) {
+    int x, y;
+    char *temp;
+    char buf[256];
+    
+    temp = strstr(in,"://");
+    if (temp) {
+        in = temp + strlen("://");
+    }
+    for (x=0, y=0; in[x]; ++x) {
+        if (isalnum(in[x]) || in[x]=='.' || in[x]=='-' || in[x]=='_') {
+            out[y] = in[x];
+            ++y;
+        } else if (in[x] == '/' || in[x] == '\\' || in[x] == ' ') {
+            out[y] = '_';
+            ++y;
+        } else {
+            out[y] = '%';
+            ++y;
+            out[y] = 0;
+            sprintf(buf, "%d", (char)in[x]);
+            c2x(buf);
+            strcat(out, buf);
+            y += 2;
+        }
+    }
+    out[y] = 0;
+}
+
 void safe_strncpy(char* dst, char* src, int len) {
     strncpy(dst, src, len);
     dst[len-1]=0;

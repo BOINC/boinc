@@ -976,9 +976,11 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
             return 1;
         }
 
-        // any file associated with an app version must be signed
+        // any executable file associated with an app version must be signed
         //
-        fip->signature_required = true;
+        if (fip->executable) {
+            fip->signature_required = true;
+        }
         avp->app_files[i].file_info = fip;
     }
     return 0;

@@ -29,6 +29,7 @@ extern void c2x(char *what);
 extern void strip_whitespace(char *str);
 extern void unescape_url(char *url);
 extern void escape_url(char *in, char*out);
+extern void escape_url_readable(char* in, char* out);
 extern void safe_strncpy(char*, char*, int);
 #define safe_strcpy(x, y) safe_strncpy(x, y, sizeof(x))
 #define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)

@@ -9,7 +9,6 @@ BUGS (arranged from high to low priority)
 - Win GUI: line between menus and tabs
 - "show graphics" should not use right-click
 - win GUI: reduce flicker?
-- on major version change, should discard any pending WUs
 - labels on disk graph are not clear
 - document and add to global prefs?
     start_saver

@@ -103,7 +103,7 @@ int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
             fprintf(stderr, "error: verify_file2: file not verified\n");
             return ERR_RSA_FAILED;
         }
-    } else if (file_info.md5_cksum) {
+    } else if (strlen(file_info.md5_cksum)) {
         retval = md5_file(pathname, cksum, file_info.nbytes);
         if (strcmp(cksum, file_info.md5_cksum) || retval) {
             fprintf(stderr, "error: verify_file2: MD5 check failed\n");

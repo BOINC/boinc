@@ -32,38 +32,8 @@
 #include "file_names.h"
 #include "util.h"
 
-// Escape a URL for the project directory, cutting off the "http://",
-// converting '\' '/' and ' ' to '_',
-// and converting the non alphanumeric characters to %XY
-// where XY is their hexadecimal equivalent
-//
 void escape_project_url(char *in, char* out) {
-    int x, y;
-    char *temp;
-    char buf[256];
-    
-    temp = strstr(in,"://");
-    if (temp) {
-        in = temp + strlen("://");
-    }
-    for (x=0, y=0; in[x]; ++x) {
-        if (isalnum(in[x]) || in[x]=='.' || in[x]=='-' || in[x]=='_') {
-            out[y] = in[x];
-            ++y;
-        } else if (in[x] == '/' || in[x] == '\\' || in[x] == ' ') {
-            out[y] = '_';
-            ++y;
-        } else {
-            out[y] = '%';
-            ++y;
-            out[y] = 0;
-            sprintf(buf, "%d", (char)in[x]);
-            c2x(buf);
-            strcat(out, buf);
-            y += 2;
-        }
-    }
-    out[y] = 0;
+    escape_url_readable(in, out);
 }
 
 // Gets the pathname of a file

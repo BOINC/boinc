@@ -4212,3 +4212,63 @@ Eric  May 16, 2003
         net_xfer.C
         win/
             wingui_mainwindow.cpp
+
+Erik  May 19 2003
+    - added support for user-selected files to be included
+        as part of an app_version.
+        If there is an element of the form
+            <app_file>
+                <url>X</url>
+                <open_name>Y</open_name>
+            </app_file>
+        in a user's project preferences,
+        then for every APP_VERSION that is sent to the user,
+        elements of the form
+            <file_info>
+                <name>X'</name>
+                <url>X</url>
+            </file_info>
+            ... and in the <app_version> element
+            <file_ref>
+                <file_name>X'</file_name>
+                <open_name>Y</open_name>
+            </file_ref>
+        are added to the app version's XML description,
+        where X' is an escaped version of X.
+        This can be used (for example) to allow applications to
+        have user-specified images in their graphics
+    - Handle it correctly if the "insert" part of a file transfer fails
+    - The "main program" of an app version is the one labeled <main_program/>
+        (not necessarily the first one)
+    - Only files labeled <executable/> are required to be signed
+    - added copyright notice to some files
+    - added sgets() for parsing a string that is made up of multiple lines
+    - write MD5 checksum elements only if checksum is present
+    - created escape_url_readable
+
+    TODO: app_versions are currently treated as immutable by client.
+        Need to change this.
+
+    todo
+    api/
+        graphics_data.C,h
+        util.cpp,h
+    client/
+        app.C
+        client_state.C
+        client_types.C
+        cs_files.C
+        file_names.C
+        pers_file_xfer.C,h
+    doc/
+        api.html
+        boinc_dev.html
+        client_app.html
+        client_app_graphics.html
+        graphics.html
+    lib/
+        parse.C,h
+        util.C,h
+    sched/
+        handle_request.C
+        server_types.C,h
