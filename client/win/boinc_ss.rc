@@ -139,6 +139,8 @@ BEGIN
     IDS_ERR_BOINCSUSPENDED  "BOINC is currently suspended."
     IDS_ERR_BOINCNOAPPSEXECUTING
                             "BOINC is currently idle."
+    IDS_ERR_BOINCNOAPPSEXECUTINGNOPROJECTSDETECTED
+                            "BOINC is currently idle.\n(No projects detected)\n\nWe recommend running the BOINC Manager\nand attaching to one or more projects\nto receive work to process."
     IDS_ERR_BOINCNOGRAPHICSAPPSEXECUTING
                             "BOINC System Status:\n\n"
     IDS_ERR_BOINCSCREENSAVERLOADING

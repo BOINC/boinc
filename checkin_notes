@@ -26562,3 +26562,16 @@ David  3 April 2005
             prefs.php
     lib/
         boinc_cmd.C
+
+Rom    3 Apr 2005
+    - Add an additional error code to the screensaver framework to
+      report back the difference between BOINC being idle and BOINC
+      being idle and not being attached to any projects.
+
+    client/
+        ss_logic.C, .h
+        boinc_ss.h
+        boinc_ss.rc
+        win_screensaver.cpp, .h
+    lib/
+        gui_rpc_client.h

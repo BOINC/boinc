@@ -126,7 +126,11 @@ void SS_LOGIC::poll() {
                 ss_status = SS_STATUS_RESTARTREQUEST;
             } else {
                 if (gstate.active_tasks.active_tasks.size()==0) {
-                    ss_status = SS_STATUS_NOAPPSEXECUTING;
+                    if (gstate.projects.size()>0) {
+                        ss_status = SS_STATUS_NOAPPSEXECUTING;
+                    } else {
+                        ss_status = SS_STATUS_NOAPPSEXECUTINGNOPROJECTSDETECTED;
+                    }
                 } else {
                     ss_status = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
                 }

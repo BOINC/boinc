@@ -27,32 +27,33 @@
 
 #include "miofile.h"
 
-#define GUI_RPC_PORT                         1043
-#define GUI_RPC_PORT_ALT                     31416
+#define GUI_RPC_PORT                                1043
+#define GUI_RPC_PORT_ALT                            31416
 
-#define RUN_MODE_ALWAYS                      0
-#define RUN_MODE_NEVER                       1
-#define RUN_MODE_AUTO                        2
+#define RUN_MODE_ALWAYS                             0
+#define RUN_MODE_NEVER                              1
+#define RUN_MODE_AUTO                               2
 
-#define RESULT_NEW                           0
-#define RESULT_FILES_DOWNLOADING             1
-#define RESULT_FILES_DOWNLOADED              2
-#define RESULT_COMPUTE_ERROR                 3
-#define RESULT_FILES_UPLOADING               4
-#define RESULT_FILES_UPLOADED                5
+#define RESULT_NEW                                  0
+#define RESULT_FILES_DOWNLOADING                    1
+#define RESULT_FILES_DOWNLOADED                     2
+#define RESULT_COMPUTE_ERROR                        3
+#define RESULT_FILES_UPLOADING                      4
+#define RESULT_FILES_UPLOADED                       5
 
-#define CPU_SCHED_UNINITIALIZED              0
-#define CPU_SCHED_PREEMPTED                  1
-#define CPU_SCHED_SCHEDULED                  2
+#define CPU_SCHED_UNINITIALIZED                     0
+#define CPU_SCHED_PREEMPTED                         1
+#define CPU_SCHED_SCHEDULED                         2
 
-#define SS_STATUS_ENABLED                    1
-#define SS_STATUS_RESTARTREQUEST             2
-#define SS_STATUS_BLANKED                    3
-#define SS_STATUS_BOINCSUSPENDED             4
-#define SS_STATUS_NOTGRAPHICSCAPABLE         5
-#define SS_STATUS_NOAPPSEXECUTING            6
-#define SS_STATUS_NOGRAPHICSAPPSEXECUTING    7
-#define SS_STATUS_QUIT                       8
+#define SS_STATUS_ENABLED                           1
+#define SS_STATUS_RESTARTREQUEST                    2
+#define SS_STATUS_BLANKED                           3
+#define SS_STATUS_BOINCSUSPENDED                    4
+#define SS_STATUS_NOTGRAPHICSCAPABLE                5
+#define SS_STATUS_NOAPPSEXECUTING                   6
+#define SS_STATUS_NOGRAPHICSAPPSEXECUTING           7
+#define SS_STATUS_QUIT                              8
+#define SS_STATUS_NOAPPSEXECUTINGNOPROJECTSDETECTED 9
 
 struct GUI_URL {
     std::string name;
