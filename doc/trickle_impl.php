@@ -5,17 +5,19 @@ echo "
 <p>
 On the client,
 <code>boinc_send_trickle_up()</code>
-creates a file 'trickle' in the slot directory
+creates a file 'trickle_up' in the slot directory
 and signals the core client via shared memory.
 When the core client gets this signal,
 or when the application exits,
 it moves the file from 'slot/trickle'
-to 'project/trickle_resultid_time'.
+to 'project/trickle_up_resultid_time'.
 <p>
 When the core client sends an RPC to a server,
 it scans the project directory for these trickle-up files
-and includes them in the request.
-On successful RPC completion it deletes the files.
+includes them in the request,
+and appends '.sent' to their filenames.
+On successful RPC completion it deletes trickle-up files
+that were sent earlier.
 
 <p>
 On the server,

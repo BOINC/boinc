@@ -63,7 +63,7 @@ function sea() {
 }
 
 function mac_simple() {
-    return "<a href=mac_simple.php>Simple GUI (test version)</a>";
+    return "<a href=menubar.php>Menubar (simple GUI)</a>";
 }
 
 function mac_advanced() {
