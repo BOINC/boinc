@@ -717,6 +717,7 @@ void GRAPH_2D::draw(float* d, int ln) {
     for (i=0; i<len; i++) {
         if (data[i] > dmax) dmax = data[i];
     }
+    if (dmax ==0) dmax = 1;
 
     mode_shaded(color);
     glBegin(GL_QUADS);
@@ -840,7 +841,7 @@ void update_stars(int size, float speed, float dt)
 		
 		if(dotProd(eye[0],eye[1],eye[2],stars[i].x,stars[i].y,stars[i].z)>0) // behind camera
 		{
-//			replaceStar(i);
+ 			replaceStar(i);
 			continue;
 		}		
 		
