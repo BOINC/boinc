@@ -141,7 +141,7 @@ int make_project_dir(PROJECT& p) {
     CreateDirectory(PROJECTS_DIR, NULL);
     escape_project_url(p.master_url, buf);
     sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
-    CreateDirectory(buf, NULL);
+    CreateDirectory(buf2, NULL);
     return 0;
 }
 
