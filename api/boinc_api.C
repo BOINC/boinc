@@ -129,8 +129,7 @@ int boinc_init() {
         gi.refresh_period = 0.5;
         gi.xsize = 640;
         gi.ysize = 480;
-    }
-    if (f) {
+    } else {
         retval = parse_graphics_file(f, &gi);
         if (retval) {
             fprintf(stderr, "boinc_init(): can't parse graphics data file\n");
