@@ -158,7 +158,7 @@ int check_cache_size(int mem_size) {
             //if (stride==STRIDE_MIN) printf("\n");
             printf(
                 "Size (bytes): %7d Stride (bytes): %4d read+write: %4.0f ns, %d %d\n",
-                csize * sizeof (int), stride * sizeof(int), nanosecs, sind, cind
+                (int)(csize * sizeof (int)), (int)(stride * sizeof(int)), nanosecs, sind, cind
            );
         }
         printf(".");
@@ -200,11 +200,11 @@ int check_cache_size(int mem_size) {
     not_found = 2;
     while(not_found && i < logCache) {
         if (not_found == 1 && results[0][i] > 1.5) {
-            printf("Level 2 Data Cache is %d KB.\n", csize*sizeof(int)/CACHE_MIN);
+            printf("Level 2 Data Cache is %d KB.\n", (int)(csize*sizeof(int)/CACHE_MIN));
             not_found = 0;
         }
         if (not_found == 2 && results[0][i] > 1.5) {
-            printf("Level 1 Data Cache is %d KB.\n", csize*sizeof(int)/CACHE_MIN);
+            printf("Level 1 Data Cache is %d KB.\n", (int)(csize*sizeof(int)/CACHE_MIN));
             not_found = 1;
         }
         i++;
