@@ -75,7 +75,7 @@ static void handle_get_project_status(MIOFILE& fout) {
     fout.printf("<projects>\n");
     for (i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        p->write_state(fout);
+        p->write_state(fout, true);
     }
     fout.printf("</projects>\n");
 }
