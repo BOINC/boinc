@@ -26,6 +26,7 @@
 #include <windows.h>
 #endif
 
+#include <sys/types.h>
 #if HAVE_SYS_IPC_H
 #include <sys/ipc.h>
 #endif
