@@ -320,34 +320,34 @@ clock_t int_op_test( int iterations, int print_debug ) {
     for( i=1;i<NUM_INTS;i++ ) {
         a[i] = 2*a[i-1];
     }
-    
+   
     time_start = clock();
     for( i=0;i<iterations;i++ ) {
-        for( j=0;j<I_LOOP_ITERS/(NUM_INTS*8);j++ ) {
+        for( j=0;j<I_LOOP_ITERS/(NUM_INTS*9);j++ ) {
             for( k=0;k<NUM_INTS;k++ ) {
-                a[k] *= 3;   // 2 int ops
+                a[k] *= 3;   // 1 int ops
             }
             for( k=NUM_INTS-1;k>=0;k-- ) {
                 a[k] += 6;   // 2 int ops
             }
             for( k=0;k<NUM_INTS;k++ ) {
-                a[k] /= 3;   // 2 int ops
+                a[k] /= 3;   // 3 int ops
             }
             for( k=NUM_INTS-1;k>=0;k-- ) {
-                a[k] -= 2;   // 2 int ops
-            }
-            //for( k=NUM_INTS-1;k>0;k-- ) {
-            //    a[k] -= a[k-1];
-            //}
-            for( k=1;k<NUM_INTS;k++ ) {
-                a[k] = 2*a[k-1];
+                a[k] -= 2;   // 4 int ops
             }
             for( k=NUM_INTS-1;k>0;k-- ) {
-                a[k] /= a[k-1];
+                a[k] -= a[k-1];  // 5 int ops
             }
-            a[0] /= 2;
             for( k=1;k<NUM_INTS;k++ ) {
-                a[k] = 2*a[k-1];
+                a[k] = 2*a[k-1];   // 6 int ops
+            }
+            for( k=NUM_INTS-1;k>0;k-- ) {
+                if( a[k-1] != 0 )    // 7 int ops
+                    a[k] /= a[k-1];    // 8 int ops
+            }
+            for( k=1;k<NUM_INTS;k++ ) {
+                a[k] = 2*a[k-1];    // 9 int ops
             }
         }
     }
