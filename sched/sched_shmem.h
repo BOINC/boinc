@@ -51,7 +51,7 @@ struct WU_RESULT {
     int state;
     int infeasible_count;
     WORKUNIT workunit;
-    RESULT result;
+    int resultid;
 };
 
 struct SCHED_SHMEM {

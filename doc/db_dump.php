@@ -76,7 +76,7 @@ htmlspecialchars("<tables>
 list_start();
 list_item(
 "team_total_credit.xml<br> team_total_credit_N.xml",
-"Team summaries, ordered by decreasing <a href=credit.php>total credit</a><.
+"Team summaries, ordered by decreasing <a href=credit.php>total credit</a>.
 The first file is the complete list;
 the remaining files (for N = 0, 1, ...) is the list
 in limited-size chunks."

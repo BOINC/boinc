@@ -479,7 +479,7 @@ static void scan_work_array(
             }
         }
 
-        result = wu_result.result;
+        result.id = wu_result.resultid;
 
         // mark slot as empty AFTER we've copied out of it
         // (since otherwise feeder might overwrite it)
@@ -493,14 +493,14 @@ static void scan_work_array(
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
                 "[RESULT#%d] result.lookup_id() failed %d\n",
-                wu_result.result.id, retval
+                result.id, retval
             );
             goto done;
         }
         if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
             log_messages.printf(SCHED_MSG_LOG::DEBUG,
                 "[RESULT#%d] expected to be unsent; instead, state is %d\n",
-                wu_result.result.id, result.server_state
+                result.id, result.server_state
             );
             goto done;
         }

@@ -12319,3 +12319,15 @@ David  May 15 2004
 	api/
 		gutil.C,h
 		reduce.C
+
+David  May 17 2004
+    - In the scheduler shared-memory segment,
+        keep only the result ID (not the whole result record)
+        in each WU_RESULT.
+        This saves large amounts of memory,
+        and doesn't incur any DB overhead because we have to
+        reread the result record anyway.
+
+    sched/
+        sched_shmem.h
+        sched_send.C
