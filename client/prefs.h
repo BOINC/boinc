@@ -46,6 +46,7 @@ struct GLOBAL_PREFS {
     //double work_buf_max_days;
     double work_buf_min_days;
     int max_cpus;
+    double cpu_sched_period;
     double disk_interval;
     double disk_max_used_gb;
     double disk_max_used_pct;
