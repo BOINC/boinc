@@ -2,6 +2,34 @@
 
 ## this module is from quarl's HKN CourseSurvey database.py
 
+'''
+Defines database backend library and database table and object relationships.
+
+Example usage:
+
+from Boinc import database
+
+# get platform with id 7; will raise exception if no such platform.
+p7 = database.Platforms[7]
+
+# get platforms with friendly name "commodore 64"
+p_c64 = database.Platforms.find(user_friendly_name="commodore 64")
+
+# delete results of workunit with name "dead.wu", and email their users:
+wu_dead = database.Workunits.find(name="dead.wu")[0]
+results_dead = database.Results.find(wu=wu_dead)
+for result in results_dead:
+    print "Removing from db:", result
+    os.system("echo oeps | mail %s" % result.host.user.email_addr)
+    result.remove()
+
+# multiply the total_credit of each user by 17:
+for user in database.Users.find():
+    user.total_credit *= 17
+    user.commit()
+
+'''
+
 import MySQLdb, MySQLdb.cursors
 import sys, os
 from util import *
