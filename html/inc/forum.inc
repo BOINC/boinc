@@ -426,7 +426,7 @@ function show_posts($thread, $sort_style, $filter, $show_controls=true, $do_colo
 
     if ($is_helpdesk) {
         if ($firstPost) {
-            show_post($firstPost, $thread, $logged_in_user, $n, $controls, true);
+            show_post($firstPost, $thread, $logged_in_user, $n, $controls, true,$filter);
             if ($firstPost->timestamp>$logged_in_user->thread_last_visited){
                 $first_unread_post=$firstPost;
             }
@@ -586,7 +586,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         if ($controls == HELPDESK_CONTROLS && $separate) {
             echo "</i></font></td>";
         } else if ($controls == HELPDESK_CONTROLS && !$separate) {
-            echo " / Score: ", ($post->score * $post->votes), "</i></font></td>";
+            echo " / Score: ", round(($post->score * $post->votes),0), "</i></font></td>";
         } else {
             echo " / Rating: ", round(intval(($post->score * $post->votes)+0.01),0), "</i> - rate: <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p\">+</a> / <a href=\"forum_rate.php?post=".$post->id."&amp;choice=n\">-</a></font></td>";
         }
