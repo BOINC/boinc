@@ -9298,3 +9298,33 @@ David  Jan 19 2004
 			resource.rc
 	win_build/
 		boinc_gui.vcproj
+
+David  Jan 19 2004
+	- new screensaver (from Rom Walton)
+		works correctly on multiple monitors;
+		handles password protection correctly
+	- fix compile warnings
+	- removed redundant definition of BOINC_SS_END
+
+	client/
+		cs_benchmark.C
+		net_xfer.C
+		win/
+			Scricon3.ico (removed)
+			boinc_ss.h (new)
+			boinc_ss.rc
+			win_main.cpp (removed)
+			win_screensaver.cpp
+			win_screensaver.h (new)
+			win_util.h
+			wingui_listcrl.cpp
+			wingui_mainwindow.cpp
+			wingui_piectrl.cpp
+			res/
+				Scricon3.ico (new)
+	lib/
+		app_ipc.h
+	win_build/
+		boinc.vcproj
+		boinc_cli.vcproj
+		boinc_ss.vcproj

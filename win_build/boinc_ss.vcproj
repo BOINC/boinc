@@ -39,12 +39,16 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="winmm.lib"
 				OutputFile="Build\Debug\boinc.scr"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
+				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\Build\Debug/boinc.pdb"
 				SubSystem="2"
+				StackReserveSize="2097152"
+				StackCommitSize="2097152"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -104,6 +108,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="winmm.lib"
 				OutputFile="Build\Release/boinc.scr"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
@@ -169,31 +174,13 @@
 			</File>
 			<File
 				RelativePath="..\client\win\win_util.cpp">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""/>
-				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl">
 			<File
-				RelativePath="..\api\graphics_api.h">
+				RelativePath="..\client\win\win_screensaver.h">
 			</File>
 			<File
 				RelativePath="..\client\win\win_util.h">
@@ -202,6 +189,9 @@
 		<Filter
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
+			<File
+				RelativePath="..\client\win\boinc_ss.h">
+			</File>
 			<File
 				RelativePath="..\client\win\boinc_ss.rc">
 				<FileConfiguration
@@ -220,10 +210,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\win\boinc_ss_res.h">
-			</File>
-			<File
-				RelativePath="..\client\win\Scricon3.ico">
+				RelativePath="..\client\win\res\Scricon3.ico">
 			</File>
 		</Filter>
 	</Files>

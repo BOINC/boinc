@@ -140,13 +140,13 @@ void CPieChartCtrl::DrawPiePiece(CDC* pDC, double xStartAngle, double xEndAngle)
 	CPoint cp;
 	int major = (int)((rt.Width() - 2 * PIE_BUFFER) * 0.5);
 	int minor = (int)((rt.Height() - 2 * PIE_BUFFER) * 0.25);
-	int maxmajor = pDC->GetDeviceCaps(HORZRES) * PIE_MAJOR_MAX;
-	int maxminor = pDC->GetDeviceCaps(VERTRES) * PIE_MINOR_MAX;
+	int maxmajor = (int)(pDC->GetDeviceCaps(HORZRES) * PIE_MAJOR_MAX);
+	int maxminor = (int)(pDC->GetDeviceCaps(VERTRES) * PIE_MINOR_MAX);
 	if(major > maxmajor) major = maxmajor;
 	if(minor > maxminor) minor = maxminor;
 
-	int depth = minor * PIE_DEPTH;
-	cp.x = rt.Width() * 0.5;
+	int depth = (int)(minor * PIE_DEPTH);
+	cp.x = (int)(rt.Width() * 0.5);
 	cp.y = rt.Height() - minor - PIE_BUFFER - depth;
 	rt.SetRect(cp.x - major, cp.y - minor, cp.x + major, cp.y + minor);
 	rt2.SetRect(cp.x - major, cp.y - minor + depth, cp.x + major, cp.y + minor + depth);
@@ -186,9 +186,9 @@ void CPieChartCtrl::DrawPiePiece(CDC* pDC, double xStartAngle, double xEndAngle)
 	if(xStartAngle >= 180 || xEndAngle >= 180) {
 
 		// set up coordinates
-		int xLowerAngle = 180;
+		double xLowerAngle = 180;
 		if(xStartAngle > 180) xLowerAngle = xStartAngle;
-		int xHigherAngle = 360;
+		double xHigherAngle = 360;
 		if(xEndAngle < 360) xHigherAngle = xEndAngle;
 		EllipsePoint(&rt, xLowerAngle, &pt1);
 		EllipsePoint(&rt, xHigherAngle, &pt2);
@@ -239,8 +239,8 @@ void CPieChartCtrl::DrawPiePiece(CDC* pDC, double xStartAngle, double xEndAngle)
 // function:	calculates the point on the circle at the given angle
 void CPieChartCtrl::CirclePoint(CPoint* center, int nRadius, double xAngle, CPoint* pResult)
 {
-	pResult->x = center->x + nRadius * cos(xAngle * (PI / 180));
-	pResult->y = center->y - nRadius * sin(xAngle * (PI / 180));
+	pResult->x = (long)(center->x + nRadius * cos(xAngle * (PI / 180)));
+	pResult->y = (long)(center->y - nRadius * sin(xAngle * (PI / 180)));
 }
 
 //////////
@@ -253,8 +253,8 @@ void CPieChartCtrl::CirclePoint(CPoint* center, int nRadius, double xAngle, CPoi
 //				the given angle
 void CPieChartCtrl::EllipsePoint(CRect* rt, double xAngle, CPoint* pResult)
 {
-	pResult->x = rt->CenterPoint().x + (rt->Width() / 2) * cos(xAngle * (PI / 180));
-	pResult->y = rt->CenterPoint().y - (rt->Height() / 2) * sin(xAngle * (PI / 180));
+	pResult->x = (int)(rt->CenterPoint().x + (rt->Width() / 2) * cos(xAngle * (PI / 180)));
+	pResult->y = (int)(rt->CenterPoint().y - (rt->Height() / 2) * sin(xAngle * (PI / 180)));
 }
 
 //////////

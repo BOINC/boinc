@@ -18,6 +18,9 @@
 //
 // Revision History:
 // $Log$
+// Revision 1.80  2004/01/17 21:34:52  davea
+// new screensaver (Rom Walton)
+//
 // Revision 1.79  2004/01/15 01:42:48  davea
 // *** empty log message ***
 //
@@ -226,7 +229,7 @@ int NET_XFER::open_server() {
             NetClose();
             return ERR_CONNECT;
         }
-#ifndef WIN32 && _CONSOLE
+#ifndef _CONSOLE
         if (WSAAsyncSelect( fd, g_myWnd->GetSafeHwnd(), g_myWnd->m_nNetActivityMsg, FD_READ|FD_WRITE )) {
             errno = WSAGetLastError();
             if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {

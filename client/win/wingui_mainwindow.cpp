@@ -236,7 +236,7 @@ CMainWindow::CMainWindow()
     m_nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
     m_nNetActivityMsg = RegisterWindowMessage(NET_ACTIVITY_MSG);
     m_uScreenSaverMsg = RegisterWindowMessage(START_SS_MSG);
-    m_uEndSSMsg = RegisterWindowMessage(END_SS_MSG);
+    m_uEndSSMsg = RegisterWindowMessage(STOP_SS_MSG);
 #ifdef SS_DEBUG
     fprintf(fout, "CMainWIndow\n");
 #endif

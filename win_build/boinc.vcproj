@@ -91,7 +91,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;WINVER=0x501"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
@@ -1094,29 +1094,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\Client\win\Win_main.cpp">
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\Client\win\Win_net.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -1429,16 +1406,16 @@
 			Name="Resource Files"
 			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="..\client\win\boinc.bmp">
-			</File>
-			<File
 				RelativePath="..\client\win\res\boinc.bmp">
 			</File>
 			<File
-				RelativePath="..\client\win\boincsm.bmp">
+				RelativePath="..\client\win\boinc.bmp">
 			</File>
 			<File
 				RelativePath="..\client\win\res\boincsm.bmp">
+			</File>
+			<File
+				RelativePath="..\client\win\boincsm.bmp">
 			</File>
 			<File
 				RelativePath="..\res\CoreClient.ico">

@@ -861,7 +861,7 @@ void CProgressListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 		CFont* curFont = cdc->GetCurrentFont();
 		LOGFONT lf;
 		curFont->GetLogFont(&lf);
-		if(pLVCD->nmcd.dwItemSpec < m_ItemColors.GetSize()) {
+		if((int)pLVCD->nmcd.dwItemSpec < m_ItemColors.GetSize()) {
 			pLVCD->clrText = m_ItemColors.GetAt(pLVCD->nmcd.dwItemSpec);
 		}
 		CFont* pNewFont = new CFont;

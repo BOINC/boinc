@@ -122,8 +122,6 @@ int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 #define GRAPHICS_DATA_FILE    "graphics.xml"
 #define FD_INIT_FILE    "fd_init.xml"
 
-#define END_SS_MSG            "BOINC_SS_END"
-
 #define STDERR_FILE           "stderr.txt"
 
 extern char* xml_graphics_modes[NGRAPHICS_MODES];
