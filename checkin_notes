@@ -6014,7 +6014,7 @@ Karl 2003/08/25 - 2003/09/02
         Makefile.am
         add.py (added)
         sign_executable.C (added)
-        backend_lib.C        
+        backend_lib.C
         backend_lib.h
     lib/
         crypt.C
@@ -6024,7 +6024,7 @@ Karl 2003/08/25 - 2003/09/02
         db_mid.py (added)
         database.py (added)
         Makefile.am
-    
+
 
 Karl 2003/09/02
     - temporarily remove satellite test cases from 'make check'
@@ -6054,7 +6054,7 @@ David  Sept 3 2003
 
        This changes the client/server RPC format and the DB format,
        so it will require a major version number increment
-    
+
     client/
         app.C
         client_state.C
@@ -6075,7 +6075,7 @@ David  Sept 3 2003
         create_work.C
 
 quarl 2003/09/03
-    - overhauled python scripts 
+    - overhauled python scripts
         - reorganized directory structure. Now 'modules' are under
           boinc/py/Boinc (so you can do "from Boinc import *").
 
@@ -6114,7 +6114,7 @@ quarl 2003/09/03
 
     doc/
         python.php (added)
-        software.php    
+        software.php
         test.php
         tools.php (added)
         tool_add.php (added)
@@ -6157,7 +6157,7 @@ David  Sept 5 2003
         by a global object "boinc_db" of this class.
         You're free to have others
         (e.g. "app_db" in the work gen or assimilator for an app)
-    
+
     db/
         boinc_db.C,h
         db_base.C,h
@@ -6289,9 +6289,9 @@ Jeff 2003/09/17
 
         setiathome-4.xx_all_platforms_beta
 
-    for both seti_boinc and boinc.  They both make on solaris without serious 
-    error and the resulting seti client links without error with the resulting 
-    boinc libs. 
+    for both seti_boinc and boinc.  They both make on solaris without serious
+    error and the resulting seti client links without error with the resulting
+    boinc libs.
 
 Karl,Eric Heien 2003/09/18
     - fixed some pre-ANSI C
@@ -6371,7 +6371,7 @@ Eric K        9/24/03
         other unprintable -> "&#nnnd;"
       The decoder recognizes a larger number of translations for single byte
       entities found in XML/HTML.
-    - Added check for <map> header to configure scripts.  
+    - Added check for <map> header to configure scripts.
       (Used by xml_util.[Ch] if found).
 
       lib/xml_util.[Ch]
@@ -6382,7 +6382,7 @@ David  Sept 27 2003
     - add app_name to APP_INIT_DATA structure
         (so that an app can know its own name,
         and in particular so that we can use it to title its window)
-    
+
     api/
         boinc_api.h
         windows_opengl.C
@@ -6413,12 +6413,12 @@ Karl 2003/09/28
         setup_project.py
     tools/
         dbcheck_files_exist
-        
+
 David  Sept 30 2003
     - Core client: if get 404 error (not found) when downloading file,
         treat it as permanent error.
         (not tested)
-    
+
     api/
         boinc_api.C,h
     client/
@@ -6461,7 +6461,7 @@ Eric   Oct 1 2003  11:15 am
      - Moved OpenGL and header and library finding to a macro file
        sah_grx.m4 (an identical macro file exists in seti_boinc)
      - Will verify it works on windows in the next hour or so
-       
+
        Makefile.in
        aclocal.m4
        config.h.in
@@ -6486,8 +6486,8 @@ Eric   Oct 2 2003
 
       -moved xml_indent() from seti_boinc/db/sqlrow.[cpp,h] to i
        boinc/lib/xml_util.[C,h]
-      -fixed problems with graphics_api.h 
-      
+      -fixed problems with graphics_api.h
+
       api/graphics_api.h
       lib/xml_util.[Ch]
 
@@ -6582,7 +6582,7 @@ David  Oct 6 2003
         What's in shared memory may be way out of date.
         E.g. it may no longer be in server state UNSENT.
         Hopefully this fixes the missing-input-file bug!!
-    
+
     sched/
         handle_request.C
 
@@ -6650,7 +6650,7 @@ Karl 2003/10/08
         test_uc.py
 
     - transitioner: fixed bug in sscan_hex_data() with \r or other whitespace
-    - transitioner: log more 
+    - transitioner: log more
     - file_upload_handler: log more
 
     lib/
@@ -6687,7 +6687,7 @@ Oliver Oct 10 2003
                 graphics_api.c
                 reduce.c
                 windows_opengl.c
-                
+
 Karl 2003/10/11
     - Astropulse: output in index by samples, rather than bytes + fft bin;
     - indicate that output is finished; also make it valid XML
@@ -6738,7 +6738,7 @@ Karl 2003-10-13
         Makefile.am
 
 Oliver Oct 13 2003
-    - stars now draw in visible pyramid 
+    - stars now draw in visible pyramid
 
     api/
         gutil.C,h
@@ -6779,7 +6779,7 @@ David  Oct 14 2003
 		gutil.C,h
 
 Karl 2003-10-14
-    - makefiles: 
+    - makefiles:
         - fixed some issues when building outside of source tree
         - fixed some missing 'make dist' files
         - fixed "ln -s start stop" bug
@@ -6792,6 +6792,7 @@ Karl 2003-10-14
 
     lib/
         countries.C (removed)
+        Makefile.am
 
     tools/
         country_select.C (removed)
@@ -6800,3 +6801,15 @@ Karl 2003-10-14
     html_user/
         countries.inc (added)
         util.inc
+
+Karl 2003-10-14
+    - added Rank column to top users; made presentation consistent for top
+      teams/users/hosts
+
+    html_user/
+        top_teams.php
+        top_users.php
+        top_hosts.php
+        team.inc
+        user.inc
+        host.inc

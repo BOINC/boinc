@@ -101,6 +101,7 @@ function user_table_start() {
     start_table();
     echo "
         <tr>
+        <th>Rank</th>
         <th>Name</th>
         <th><a href=top_users.php?sort_by=expavg_credit>Recent average credit</a></th>
         <th><a href=top_users.php?sort_by=total_credit>Total credit</a></th>
@@ -110,15 +111,16 @@ function user_table_start() {
     ";
 }
 
-function show_user_row($user) {
+function show_user_row($i,$user) {
     printf(
-      "<tr class=row1>
+        "<tr class=row1>
+        <td>%d</td>
         <td><a href=show_user.php?userid=%d>%s</a></td>
         <td>%s</td>
         <td>%s</td>
         <td>%s</td>
         <td>%s</td>
-    </tr>\n", $user->id, $user->name, format_credit($user->expavg_credit),
+    </tr>\n", $i, $user->id, $user->name, format_credit($user->expavg_credit),
       format_credit($user->total_credit), $user->country, time_str($user->create_time));
 }
 

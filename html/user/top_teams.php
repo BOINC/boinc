@@ -16,7 +16,7 @@
     }
     $result = mysql_query("select * from team order by $sort_by");
     start_table();
-    row1("Teams", 5);
+    row1("Teams", 6);
     team_table_start();
     $i = 1;
     while ($team = mysql_fetch_object($result)) {

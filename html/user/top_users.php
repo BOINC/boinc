@@ -1,4 +1,4 @@
-<?php
+<?php {
     require_once("db.inc");
     require_once("util.inc");
     require_once("user.inc");
@@ -15,9 +15,10 @@
     }
     $result = mysql_query("select * from user order by $sort_by limit $numusers");
     user_table_start();
+    $i = 0;
     while ($user = mysql_fetch_object($result)) {
-        show_user_row($user);
+        show_user_row(++$i, $user);
     }
     echo "</table>\n";
     page_tail();
-?>
+} ?>

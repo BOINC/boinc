@@ -121,6 +121,7 @@ function require_founder_login($user, $team) {
 
 function team_table_start() {
     echo "<tr>
+        <th>Rank</th>
         <th>Name</th>
         <th>Members</th>
         <th><a href=top_teams.php?sort_by=expavg_credit>Recent average credit</a></th>
@@ -134,7 +135,8 @@ function show_team_row($team, $i) {
     $team_expavg_credit = format_credit($team->expavg_credit);
     $team_total_credit = format_credit($team->total_credit);
     echo"<tr class=row1>
-        <td>$i) <a href=team_display.php?teamid=$team->id>$team->name</a></td>
+        <td>$i</td>
+        <td><a href=team_display.php?teamid=$team->id>$team->name</a></td>
         <td>$team->nusers</td>
         <td>$team_expavg_credit</td>
         <td>$team_total_credit</td>

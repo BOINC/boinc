@@ -25,7 +25,7 @@ libsched_a_SOURCES =				\
         sched_config.C				\
 	sched_messages.C			\
 	../db/boinc_db.C			\
-	../db/db_base.C			\
+	../db/db_base.C				\
         ../lib/util.C				\
         ../lib/crypt.C				\
         ../lib/parse.C				\
@@ -75,9 +75,6 @@ db_dump_DEPENDENCIES = $(LIB_SCHED)
 
 update_stats_SOURCES = update_stats.C
 update_stats_DEPENDENCIES = $(LIB_SCHED)
-
-# start_servers_SOURCES = start_servers.C
-# start_servers_DEPENDENCIES = $(LIB_SCHED)
 
 file_upload_handler_SOURCES = file_upload_handler.C
 file_upload_handler_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)

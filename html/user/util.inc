@@ -217,7 +217,6 @@ function random_string() {
     return md5(uniqid(rand()));
 }
 
-// TODO: we should write this funciton in php --quarl
 function print_country_select($selected_country="None") {
     global $countries;
     $numCountries = count($countries);

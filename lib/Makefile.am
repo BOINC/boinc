@@ -12,7 +12,6 @@ libboinc_a_SOURCES =				\
         ../api/boinc_api.C			\
         ../api/mfile.C				\
         app_ipc.C				\
-        countries.C				\
         parse.C					\
 	xml_util.C                              \
         filesys.C				\
@@ -22,7 +21,6 @@ libboinc_a_SOURCES =				\
         md5_file.C				\
 	shmem.C					\
 	app_ipc.h				\
-	countries.h				\
 	crypt.h					\
 	error_numbers.h				\
 	filesys.h				\
