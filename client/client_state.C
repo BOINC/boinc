@@ -72,7 +72,7 @@ CLIENT_STATE::CLIENT_STATE() {
     core_client_major_version = MAJOR_VERSION;
     core_client_minor_version = MINOR_VERSION;
     platform_name = HOST;
-    exit_after = -1;
+    exit_after_app_start_secs = 0;
     app_started = 0;
     max_transfer_rate = 9999;
     max_bytes = 0;
@@ -1104,8 +1104,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             run_time_test = false;
             continue;
         }
-        if (!strcmp(argv[i], "-exit_after")) {
-            exit_after = atoi(argv[++i]);
+        if (!strcmp(argv[i], "-exit_after_app_start")) {
+            exit_after_app_start_secs = atoi(argv[++i]);
             continue;
         }
 
@@ -1172,13 +1172,16 @@ void CLIENT_STATE::parse_env_vars() {
     }
 }
 
-// Returns true if the core client should exit
+// Returns true if client should exit because of debugging criteria
+// (timeout or idle)
 //
 bool CLIENT_STATE::time_to_exit() {
-    if (!exit_when_idle && (exit_after == -1)) return false;
-    if ((exit_after != -1) && app_started &&
-        (difftime(time(0), app_started) >= exit_after)) {
-        printf("exiting because time is up: %d\n", exit_after);
+    if (!exit_when_idle && !exit_after_app_start_secs) return false;
+    if (exit_after_app_start_secs
+        && app_started
+        && (difftime(time(0), app_started) >= exit_after_app_start_secs)
+    ) {
+        printf("exiting because time is up: %d\n", exit_after_app_start_secs);
         return true;
     }
     if (exit_when_idle && (results.size() == 0) && contacted_sched_server) {

@@ -3179,3 +3179,18 @@ David  Feb 12 2003
         test.inc
     tools/
         add.C
+
+David  Feb 12 2003
+    - changed "exit_after" to "exit_after_app_started_secs"
+        and changed its null value from -1 to 0.
+    - don't ask a scheduler for work if in exit_when_idle mode
+        and we've already contacted scheduler
+    - remove exit_when_idle clause from backoff after no work available
+
+    client/
+        client_state.C,h
+        cs_apps.C
+        cs_scheduler.C
+        scheduler_op.C
+    test/
+        test_time.php

@@ -102,8 +102,10 @@ private:
     unsigned int nslots;
     bool run_time_test;
     bool activities_suspended;
-    int exit_after;
+    int exit_after_app_start_secs;
+        // if nonzero, exit this many seconds after starting an app
     time_t app_started;
+        // when the most recent app was started
     int max_transfer_rate, max_bytes;
 
     int parse_account_files();

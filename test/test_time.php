@@ -30,7 +30,7 @@
 
     $project->start_feeder();
     $app_time = 0;
-    $host->run("-exit_after 400");
+    $host->run("-exit_after_app_start 400");
     $app_time += $host->read_cpu_time_file("app.time");
     $host->run("-exit_when_idle");
     $project->stop();

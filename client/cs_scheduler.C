@@ -250,12 +250,17 @@ bool CLIENT_STATE::some_project_rpc_ok() {
 bool CLIENT_STATE::scheduler_rpc_poll() {
     double work_secs;
     PROJECT* p;
-    bool action=false, below_low_water;
+    bool action=false, below_low_water, should_get_work;
 
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:
-        below_low_water = (current_water_days() <= global_prefs.low_water_days);
-        if (below_low_water && some_project_rpc_ok()) {
+        if (exit_when_idle && contacted_sched_server) {
+            should_get_work = false;
+        } else {
+            below_low_water = (current_water_days() <= global_prefs.low_water_days);
+            should_get_work = below_low_water && some_project_rpc_ok();
+        }
+        if (should_get_work) {
             compute_resource_debts();
             scheduler_op->init_get_work();
             action = true;

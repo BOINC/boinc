@@ -419,7 +419,7 @@ bool SCHEDULER_OP::poll() {
                 // if we asked for work and didn't get any,
                 // back off this project
                 //
-                if (must_get_work && nresults==0 &&!gstate.exit_when_idle) {
+                if (must_get_work && nresults==0) {
                     backoff(project, "No work from project\n");
                 } else {
                     project->nrpc_failures = 0;
