@@ -255,7 +255,8 @@ int PROJECT::parse_account(FILE* in) {
 //
 int PROJECT::parse_state(FILE* in) {
     char buf[256];
-    STRING256 string;
+    STRING256 sched_url;
+    string str1, str2;
 
     strcpy(project_name, "");
     strcpy(user_name, "");
@@ -271,14 +272,22 @@ int PROJECT::parse_state(FILE* in) {
     scheduler_urls.clear();
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</project>")) return 0;
-        else if (parse_str(buf, "<scheduler_url>", string.text, sizeof(string.text))) {
-            scheduler_urls.push_back(string);
+        else if (parse_str(buf, "<scheduler_url>", sched_url.text, sizeof(sched_url.text))) {
+            scheduler_urls.push_back(sched_url);
             continue;
         }
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
-        else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
-        else if (parse_str(buf, "<team_name>", team_name, sizeof(team_name))) continue;
+        else if (parse_str(buf, "<user_name>", str1) {
+            xml_unescape(str1, str2);
+            safe_strcpy(user_name, str2.c_str());
+            continue;
+        }
+        else if (parse_str(buf, "<team_name>", str1)) {
+            xml_unescape(str1, str2);
+            safe_strcpy(team_name, str2.c_str());
+            continue;
+        }
         else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
         else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) continue;
@@ -311,6 +320,7 @@ int PROJECT::parse_state(FILE* in) {
 //
 int PROJECT::write_state(FILE* out) {
     unsigned int i;
+    string u1, u2, t1, t2;
 
     fprintf(out,
         "<project>\n"
@@ -321,6 +331,10 @@ int PROJECT::write_state(FILE* out) {
             scheduler_urls[i].text
         );
     }
+    u1 = user_name;
+    xml_escape(u1, u2);
+    t1 = team_name;
+    xml_escape(t1, t2);
     fprintf(out,
         "    <master_url>%s</master_url>\n"
         "    <project_name>%s</project_name>\n"
@@ -342,8 +356,8 @@ int PROJECT::write_state(FILE* out) {
         "%s%s",
         master_url,
         project_name,
-        user_name,
-        team_name,
+        u2.c_str(),
+        t2.c_str(),
         user_total_credit,
         user_expavg_credit,
         user_create_time,
