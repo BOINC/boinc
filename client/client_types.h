@@ -60,10 +60,20 @@ public:
     char user_name[256];
     int rpc_seqno;
     int hostid;
-    int next_request_time;      // don't contact server until this time
-    double exp_avg_cpu;         // exponentially weighted cpu time
+    double exp_avg_cpu;         // exponentially weighted CPU time
     int exp_avg_mod_time;       // last time average was changed
     char* code_sign_key;
+    int nrpc_failures;          // # of consecutive times we've failed to
+                                // contact all scheduling servers
+    int min_rpc_time;           // earliest time to contact any server
+                                // of this project (or zero)
+
+    // the following items are transient; not saved in state file
+    double resource_debt;       // How much CPU time we owe this project
+                                // (arbitrary scale)
+    int debt_order;             // 0 == largest debt
+    bool master_url_fetch_pending;
+                                // need to fetch and parse the master URL
 
     PROJECT();
     ~PROJECT();
@@ -164,6 +174,7 @@ struct WORKUNIT {
 struct RESULT {
     char name[256];
     char wu_name[256];
+    int report_deadline;
     vector<FILE_REF> output_files;
     bool is_active;         // an app is currently running for this
     bool is_compute_done;   // computation finished

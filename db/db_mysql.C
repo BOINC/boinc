@@ -196,12 +196,12 @@ void struct_to_str(void* vp, char* q, int type) {
         rp = (RESULT*)vp;
         sprintf(q,
             "id=%d, create_time=%d, workunitid=%d, state=%d, "
-            "hostid=%d, sent_time=%d, received_time=%d, "
+            "hostid=%d, report_deadline=%d, sent_time=%d, received_time=%d, "
             "name='%s', exit_status=%d, cpu_time=%f, "
             "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
             "batch=%d, project_state=%d, validated=%d",
             rp->id, rp->create_time, rp->workunitid, rp->state,
-            rp->hostid, rp->sent_time, rp->received_time,
+            rp->hostid, rp->report_deadline, rp->sent_time, rp->received_time,
             rp->name, rp->exit_status, rp->cpu_time,
             rp->xml_doc_in, rp->xml_doc_out, rp->stderr_out,
             rp->batch, rp->project_state, rp->validated
@@ -347,6 +347,7 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
 	rp->workunitid = atoi(r[i++]);
 	rp->state = atoi(r[i++]);
 	rp->hostid = atoi(r[i++]);
+	rp->report_deadline = atoi(r[i++]);
 	rp->sent_time = atoi(r[i++]);
 	rp->received_time = atoi(r[i++]);
         strcpy(rp->name, r[i++]);

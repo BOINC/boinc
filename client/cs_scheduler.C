@@ -18,10 +18,8 @@
 //
 
 // This file contains high-level logic for communicating with
-// scheduling servers:
-// - what project to ask for work
-// - how much work to ask for
-// - merging the result of a scheduler RPC into the client state
+// scheduling servers,
+// and for merging the result of a scheduler RPC into the client state
 
 // Note: code for actually doing a scheduler RPC is elsewhere,
 // namely scheduler_op.C
@@ -45,40 +43,41 @@
 #include "client_state.h"
 
 // quantities like avg CPU time decay by a factor of e every week
+//
 #define EXP_DECAY_RATE  (1./(3600*24*7))
 #define SECONDS_IN_DAY 86400
 
-//estimates the number of days of work remaining
+// estimate the days of work remaining
 //
 double CLIENT_STATE::current_water_days() {
     unsigned int i;
+    RESULT* rp;
     double seconds_remaining=0;
+
     for (i=0; i<results.size(); i++) {
-        RESULT* rp = results[i];
+        rp = results[i];
         if (rp->is_compute_done) continue;
-	if (rp->cpu_time > 0)
+	if (rp->cpu_time > 0) {
 	    seconds_remaining += (rp->wup->seconds_to_complete - rp->cpu_time);
-	else
+	} else {
 	    seconds_remaining += rp->wup->seconds_to_complete;
+        }
     }
     return (seconds_remaining * SECONDS_IN_DAY);
 }
 
-bool CLIENT_STATE::need_work() {
-    double temp;
-    if(prefs->high_water_days < prefs->low_water_days) {
-        temp = prefs->high_water_days;
-        prefs->high_water_days = prefs->low_water_days;
-        prefs->low_water_days = temp;
-    }
-    return (current_water_days() <= prefs->low_water_days);
+// seconds of work needed to come up to high-water mark
+//
+double CLIENT_STATE::work_needed_secs() {
+    double x = current_water_days();
+    if (x > prefs->high_water_days) return 0;
+    return (prefs->high_water_days - x)*86400;
 }
 
+// update exponentially-averaged CPU times of all projects
+//
 void CLIENT_STATE::update_avg_cpu(PROJECT* p) {
-    int now = time(0);
-    if(p==NULL) {
-        fprintf(stderr, "error: CLIENT_STATE.update_avg_cpu: unexpected NULL pointer p\n");
-    }
+    time_t now = time(0);
     double deltat = now - p->exp_avg_mod_time;
     if (deltat > 0) {
         if (p->exp_avg_cpu != 0) {
@@ -88,6 +87,45 @@ void CLIENT_STATE::update_avg_cpu(PROJECT* p) {
     }
 }
 
+// find a project that needs its master file parsed
+//
+PROJECT* CLIENT_STATE::next_project_master_pending() {
+    unsigned int i;
+    PROJECT* p;
+    time_t now = time(0);
+
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        if (p->min_rpc_time > now ) continue;
+        if (p->master_url_fetch_pending) {
+            return p;
+        }
+    }
+    return 0;
+}
+
+// return the next project after "old", in debt order,
+// that is eligible for a scheduler RPC
+//
+PROJECT* CLIENT_STATE::next_project(PROJECT* old) {
+    PROJECT* p, *pbest;
+    int best = 999;
+    time_t now = time(0);
+    unsigned int i;
+    pbest = 0;
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        if (p->min_rpc_time > now ) continue;
+        if (old && p->debt_order <= old->debt_order) continue;
+        if (p->debt_order < best) {
+            pbest = p;
+            best = p->debt_order;
+        }
+    }
+    return pbest;
+}
+
+#if 0
 // choose a project to ask for work
 //
 PROJECT* CLIENT_STATE::choose_project() {
@@ -118,8 +156,41 @@ PROJECT* CLIENT_STATE::choose_project() {
     }
     return bestp;
 }
+#endif
 
-int CLIENT_STATE::make_scheduler_request(PROJECT* p, int work_req) {
+void CLIENT_STATE::compute_resource_debts() {
+    unsigned int i, j;
+    PROJECT* p, *pbest;
+    double best;
+
+    for (i=0; i<projects.size(); i++) {
+        p = projects[i];
+        update_avg_cpu(p);
+        if (p->exp_avg_cpu == 0) {
+            p->resource_debt = p->resource_share;
+        } else {
+            p->resource_debt = p->resource_share/p->exp_avg_cpu;
+        }
+        p->debt_order = -1;
+    }
+
+    // put in decreasing order.  Should use qsort or some stdlib thang
+    //
+    for (i=0; i<projects.size(); i++) {
+        best = -2;
+        for (j=0; j<projects.size(); j++) {
+            p = projects[j];
+            if (p->debt_order >= 0) continue;
+            if (p->resource_debt > best) {
+                best = p->resource_debt;
+                pbest = p;
+            }
+        }
+        pbest->debt_order = i;
+    }
+}
+
+int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     FILE* f = fopen(SCHED_OP_REQUEST_FILE, "wb");
     unsigned int i;
     RESULT* rp;
@@ -139,7 +210,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, int work_req) {
         "    <rpc_seqno>%d</rpc_seqno>\n"
         "    <platform_name>%s</platform_name>\n"
         "    <core_client_version>%d</core_client_version>\n"
-        "    <work_req_seconds>%d</work_req_seconds>\n",
+        "    <work_req_seconds>%f</work_req_seconds>\n",
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
@@ -152,6 +223,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, int work_req) {
     }
 
     FILE* fprefs = fopen(PREFS_FILE_NAME, "r");
+    if (!fprefs) return ERR_FOPEN;
     copy_stream(fprefs, f);
     fclose(fprefs);
 
@@ -171,6 +243,77 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, int work_req) {
     return 0;
 }
 
+// find a project with results that are overdue to report,
+// and which we're allowed to contact.
+//
+PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
+    unsigned int i;
+    RESULT* r;
+    time_t now = time(0);
+
+    for (i=0; i<results.size(); i++) {
+        r = results[i];
+        if (r->is_compute_done && r->is_upload_done() && !r->is_server_ack) {
+            if (r->project->min_rpc_time < now) {
+                return r->project;
+            }
+        }
+    }
+    return 0;
+}
+
+// return true if we're allowed to do a scheduler RPC to at least one project
+//
+bool CLIENT_STATE::some_project_rpc_ok() {
+    unsigned int i;
+    time_t now = time(0);
+
+    for (i=0; i<projects.size(); i++) {
+        if (projects[i]->min_rpc_time < now) return true;
+    }
+    return false;
+}
+
+// called from the client's polling loop.
+// initiate scheduler RPC activity if needed and possible
+//
+bool CLIENT_STATE::scheduler_rpc_poll() {
+    double work_secs;
+    PROJECT* p;
+    bool action, below_low_water;
+
+    switch(scheduler_op->state) {
+    case SCHEDULER_OP_STATE_IDLE:
+        below_low_water = (current_water_days() <= prefs->low_water_days);
+        if (below_low_water && some_project_rpc_ok()) {
+            compute_resource_debts();
+            scheduler_op->init_get_work();
+            action = true;
+        } else {
+            p = find_project_with_overdue_results();
+            if (p) {
+                compute_resource_debts();
+                if (p->debt_order == 0) {
+                    work_secs = work_needed_secs();
+                } else {
+                    work_secs = 0;
+                }
+                scheduler_op->init_return_results(p, work_secs);
+                action = true;
+            }
+        }
+        break;
+    default:
+        scheduler_op->poll();
+        if (scheduler_op->state == SCHEDULER_OP_STATE_IDLE) {
+            action = true;
+        }
+        break;
+    }
+    return action;
+}
+
+#if 0
 // manage the task of maintaining an adequate supply of work.
 //
 bool CLIENT_STATE::get_work() {
@@ -226,6 +369,7 @@ bool CLIENT_STATE::get_work() {
     }
     return action;
 }
+#endif
 
 // see whether a new preferences set, obtained from
 // the given project, looks "reasonable".
@@ -236,21 +380,19 @@ bool PREFS::looks_reasonable(PROJECT& project) {
     return false;
 }
 
-void CLIENT_STATE::handle_scheduler_reply(SCHEDULER_OP& sched_op) {
+void CLIENT_STATE::handle_scheduler_reply(
+    PROJECT* project, char* scheduler_url
+) {
     SCHEDULER_REPLY sr;
     FILE* f;
     int retval;
     unsigned int i;
     char prefs_backup[256];
-    PROJECT *project, *pp, *sp;
+    PROJECT *pp, *sp;
     PREFS* new_prefs;
     bool signature_valid;
 
-    project = sched_op.project;
     contacted_sched_server = true;
-    if (log_flags.sched_ops) {
-        printf("Got reply from scheduler %s\n", sched_op.scheduler_url);
-    }
     if (log_flags.sched_op_debug) {
         f = fopen(SCHED_OP_RESULT_FILE, "r");
         printf("------------- SCHEDULER REPLY ----------\n");
@@ -267,7 +409,7 @@ void CLIENT_STATE::handle_scheduler_reply(SCHEDULER_OP& sched_op) {
     }
 
     if (sr.request_delay) {
-        project->next_request_time = time(0) + sr.request_delay;
+        project->min_rpc_time = time(0) + sr.request_delay;
     }
     if (sr.hostid) {
         project->hostid = sr.hostid;
@@ -298,7 +440,7 @@ void CLIENT_STATE::handle_scheduler_reply(SCHEDULER_OP& sched_op) {
             "    <from_scheduler>%s</from_scheduler>\n",
             sr.prefs_mod_time,
             project->master_url,
-            sched_op.scheduler_url
+            scheduler_url
         );
         fputs(sr.prefs_xml, f);
         fprintf(f,

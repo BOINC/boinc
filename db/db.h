@@ -220,6 +220,7 @@ struct RESULT {
     int workunitid;
     int state;
     int hostid;
+    unsigned int report_deadline;
     unsigned int sent_time;
     unsigned int received_time;
     char name[256];

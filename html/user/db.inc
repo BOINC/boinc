@@ -125,6 +125,7 @@ function show_result($result) {
     row("state", res_state_string($result->state));
     row("host ID", $result->hostid);
     row("sent", time_str($result->sent_time));
+    row("report deadline", time_str($result->report_deadline));
     row("received", time_str($result->received_time));
     row("exit status", $result->exit_status);
     row("CPU time", $result->cpu_time);

@@ -69,7 +69,6 @@ int initialize_prefs() {
 }
 
 int main(int argc, char** argv) {
-    CLIENT_STATE cs;
     PREFS* prefs;
     FILE* f;
     int retval;
@@ -97,23 +96,23 @@ int main(int argc, char** argv) {
         }
     }
 
-    cs.init(prefs);
-    cs.parse_cmdline(argc, argv);
-    if(cs.run_time_tests()) {
-        cs.time_tests();
+    gstate.init(prefs);
+    gstate.parse_cmdline(argc, argv);
+    if(gstate.run_time_tests()) {
+        gstate.time_tests();
     }
-    cs.restart_tasks();
+    gstate.restart_tasks();
     while (1) {
-        if (!cs.do_something()) {
+        if (!gstate.do_something()) {
             if (log_flags.time_debug) printf("SLEEP 1 SECOND\n");
             fflush(stdout);
             boinc_sleep(1);
         }
-        if (cs.time_to_exit()) {
+        if (gstate.time_to_exit()) {
             printf("time to exit\n");
             break;
         }
     }
-    cs.exit_tasks();
+    gstate.exit_tasks();
     return 0;
 }

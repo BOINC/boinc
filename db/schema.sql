@@ -132,6 +132,7 @@ create table result (
     workunitid      integer     not null,
     state           integer     not null,
     hostid          integer     not null,
+    report_deadline integer     not null,
     sent_time       integer     not null,
     received_time   integer     not null,
     name            varchar(254) not null,

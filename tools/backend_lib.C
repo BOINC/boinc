@@ -138,6 +138,8 @@ int create_result(
     FILE* result_template_file, *tempfile;
     assert(result_template_filename!=NULL);
     memset(&r, 0, sizeof(r));
+    r.report_deadline = time(0) + 1000;
+        // TODO: pass this in
     r.create_time = time(0);
     r.workunitid = wu.id;
     r.state = RESULT_STATE_UNSENT;

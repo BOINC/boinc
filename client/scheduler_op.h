@@ -20,36 +20,54 @@
 #ifndef _SCHEDULER_OP_
 #define _SCHEDULER_OP_
 
-// Logic for communicating with a scheduling server.
-// If we don't yet have the addresses a scheduling server,
-// we have to get the file from the project's master URL
-// and parse if for <scheduler> elements
-
-// TODO: try alternate scheduling servers;
-// implement backoff and give-up policies
+// SCHEDULER_OP encapsulates the policy and mechanism
+// for communicating with scheduling servers.
+// It is implemented as a finite-state machine.
+// It is active in one of two modes:
+//    get_work: the client wants to get work, and possibly to
+//       return results as a side-effect
+//    return_results: the client wants to return results, and possibly
+//       to get work as a side-effect
+// 
 
 #include "client_types.h"
 #include "http.h"
 #include "prefs.h"
 
+// constants related to scheduler RPC policy
+
+#define MASTER_FETCH_PERIOD     10
+    // fetch and parse master URL if nrpc_failures is a multiple of this
+#define RETRY_BASE_PERIOD       100
+    // after failure, back off 2^nrpc_failures times this times random
+#define RETRY_CAP               10
+    // cap on nrpc_failures in the above formula
+
 #define SCHEDULER_OP_STATE_IDLE         0
 #define SCHEDULER_OP_STATE_GET_MASTER   1
 #define SCHEDULER_OP_STATE_RPC          2
-#define SCHEDULER_OP_STATE_DONE         3
 
 struct SCHEDULER_OP {
     int state;
     int scheduler_op_retval;
     HTTP_OP http_op;
     HTTP_OP_SET* http_ops;
-    PROJECT* project;
+    PROJECT* project;               // project we're currently contacting
     char scheduler_url[256];
+    bool must_get_work;             // true iff in get_work mode
+    unsigned int url_index;         // index within project's URL list
 
     SCHEDULER_OP(HTTP_OP_SET*);
     int poll();
+    int init_get_work();
+    int init_return_results(PROJECT*, double nsecs);
+    int init_op_project(double ns);
+    int init_master_fetch(PROJECT*);
+    int set_min_rpc_time(PROJECT*);
+    bool update_urls(PROJECT& project, vector<STRING256> &urls);
     int start_op(PROJECT*);
     int start_rpc();
-    int parse_master_file();
+    int parse_master_file(vector<STRING256>&);
 };
 
 struct SCHEDULER_REPLY {

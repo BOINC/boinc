@@ -138,7 +138,7 @@ bool CLIENT_STATE::do_something() {
         action |= file_xfers->poll();
         action |= active_tasks.poll();
         action |= active_tasks.poll_time();
-        action |= get_work();
+        action |= scheduler_rpc_poll();
         action |= garbage_collect();
         action |= start_apps();
         action |= handle_running_apps();
@@ -173,14 +173,6 @@ int CLIENT_STATE::parse_state_file() {
             p2 = lookup_project(project->master_url);
             if (p2) {
                 p2->copy_state_fields(*project);
-                p2->scheduler_urls = project->scheduler_urls;
-                p2->project_name = project->project_name;
-                p2->user_name = project->user_name;
-                p2->rpc_seqno = project->rpc_seqno;
-                p2->hostid = project->hostid;
-                p2->next_request_time = project->next_request_time;
-                p2->exp_avg_cpu = project->exp_avg_cpu;
-                p2->exp_avg_mod_time = project->exp_avg_mod_time;
             } else {
                 fprintf(stderr,
                     "Project %s found in state file but not prefs.\n",

@@ -27,12 +27,13 @@
 #include "client_types.h"
 
 PROJECT::PROJECT() {
+    project_specific_prefs = 0;
+    code_sign_key = 0;
 }
 
 PROJECT::~PROJECT() {
-    if (project_specific_prefs) {
-        free(project_specific_prefs);
-    }
+    if (project_specific_prefs) free(project_specific_prefs);
+    if (code_sign_key) free(code_sign_key);
 }
 
 // parse project fields from prefs.xml
@@ -73,10 +74,11 @@ int PROJECT::parse_state(FILE* in) {
     }
     strcpy(project_name, "");
     strcpy(user_name, "");
-    next_request_time = 0;
     resource_share = 1;
     exp_avg_cpu = 0;
     exp_avg_mod_time = 0;
+    min_rpc_time = 0;
+    nrpc_failures = 0;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</project>")) return 0;
         else if (parse_str(buf, "<scheduler_url>", string.text)) {
@@ -88,13 +90,14 @@ int PROJECT::parse_state(FILE* in) {
         else if (parse_str(buf, "<user_name>", user_name)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
-        else if (parse_int(buf, "<next_request_time>", next_request_time)) continue;
         else if (parse_double(buf, "<exp_avg_cpu>", exp_avg_cpu)) continue;
         else if (parse_int(buf, "<exp_avg_mod_time>", exp_avg_mod_time)) continue;
         else if (match_tag(buf, "<code_sign_key>")) {
             dup_element_contents(in, "</code_sign_key>", &code_sign_key);
             //fprintf(stderr, "code_sign_key: %s\n", code_sign_key);
         }
+        else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
+        else if (parse_int(buf, "<min_rpc_time>", min_rpc_time)) continue;
         else fprintf(stderr, "PROJECT::parse_state(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
@@ -121,17 +124,19 @@ int PROJECT::write_state(FILE* out) {
         "    <user_name>%s</user_name>\n"
         "    <rpc_seqno>%d</rpc_seqno>\n"
         "    <hostid>%d</hostid>\n"
-        "    <next_request_time>%d</next_request_time>\n"
         "    <exp_avg_cpu>%f</exp_avg_cpu>\n"
-        "    <exp_avg_mod_time>%d</exp_avg_mod_time>\n",
+        "    <exp_avg_mod_time>%d</exp_avg_mod_time>\n"
+        "    <nrpc_failures>%d</nrpc_failures>\n"
+        "    <min_rpc_time>%d</min_rpc_time>\n",
         master_url,
         project_name,
         user_name,
         rpc_seqno,
         hostid,
-        next_request_time,
         exp_avg_cpu,
-        exp_avg_mod_time
+        exp_avg_mod_time,
+        nrpc_failures,
+        min_rpc_time
     );
     if (code_sign_key) {
         fprintf(out,
@@ -144,15 +149,19 @@ int PROJECT::write_state(FILE* out) {
     return 0;
 }
 
+// copy fields from "p" into "this" that are stored in client_state.xml
+//
 void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
     project_name = p.project_name;
     user_name = p.user_name;
     rpc_seqno = p.rpc_seqno;
     hostid = p.hostid;
-    next_request_time = p.next_request_time;
     exp_avg_cpu = p.exp_avg_cpu;
     exp_avg_mod_time = p.exp_avg_mod_time;
+    code_sign_key = strdup(p.code_sign_key);
+    nrpc_failures = p.nrpc_failures;
+    min_rpc_time = p.min_rpc_time;
 }
 
 void PROJECT::copy_prefs_fields(PROJECT& p) {
@@ -481,6 +490,7 @@ int RESULT::parse_ack(FILE* in) {
 void RESULT::clear() {
     strcpy(name, "");
     strcpy(wu_name, "");
+    report_deadline = 0;
     output_files.clear();
     is_active = false;
     is_compute_done = false;
@@ -506,6 +516,7 @@ int RESULT::parse_server(FILE* in) {
         if (match_tag(buf, "</result>")) return 0;
         if (parse_str(buf, "<name>", name)) continue;
         if (parse_str(buf, "<wu_name>", wu_name)) continue;
+        if (parse_int(buf, "<report_deadline>", report_deadline)) continue;
         if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             output_files.push_back(file_ref);
@@ -529,6 +540,7 @@ int RESULT::parse_state(FILE* in) {
         if (match_tag(buf, "</result>")) return 0;
         if (parse_str(buf, "<name>", name)) continue;
         if (parse_str(buf, "<wu_name>", wu_name)) continue;
+        if (parse_int(buf, "<report_deadline>", report_deadline)) continue;
         if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             output_files.push_back(file_ref);
@@ -579,8 +591,10 @@ int RESULT::write(FILE* out, bool to_server) {
     }
     if (!to_server) {
         fprintf(out,
-            "    <wu_name>%s</wu_name>\n",
-            wu_name
+            "    <wu_name>%s</wu_name>\n"
+            "    <report_deadline>%d</report_deadline>\n",
+            wu_name,
+            report_deadline
         );
         for (i=0; i<output_files.size(); i++) {
             output_files[i].write(out);

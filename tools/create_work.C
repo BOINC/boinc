@@ -139,14 +139,6 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-#if 0
-    retval = read_file(result_template_file, result_template);
-    if (retval) {
-        fprintf(stderr, "can't open result template\n");
-        exit(1);
-    }
-#endif
-
     if (wu.dynamic_results) {
         strcpy(app.result_xml_template, result_template);
         retval = db_app_update(app);

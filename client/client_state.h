@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 
+#ifndef _CLIENT_STATE_
+#define _CLIENT_STATE_
+
 #include <vector>
 
 #include "app.h"
@@ -55,7 +58,6 @@ private:
     NET_XFER_SET* net_xfers;
     HTTP_OP_SET* http_ops;
     FILE_XFER_SET* file_xfers;
-    SCHEDULER_OP* scheduler_op;
     ACTIVE_TASK_SET active_tasks;
     HOST_INFO host_info;
     PREFS* prefs;
@@ -65,7 +67,6 @@ private:
     bool client_state_dirty;
     bool exit_when_idle;
     bool run_time_test;
-    bool contacted_sched_server;
     bool activities_suspended;
     int exit_after;
 
@@ -79,12 +80,8 @@ private:
     int link_workunit(PROJECT*, WORKUNIT*);
     int link_result(PROJECT*, RESULT*);
     int check_suspend_activities();
-    bool need_work();
-    void update_avg_cpu(PROJECT*);
-    PROJECT* choose_project();
     int make_project_dirs();
     int make_slot_dirs();
-    bool get_work();
     bool input_files_available(RESULT*);
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
@@ -92,8 +89,23 @@ private:
     bool start_file_xfers();
     void print_counts();
     bool garbage_collect();
-    int make_scheduler_request(PROJECT*, int);
-    void handle_scheduler_reply(SCHEDULER_OP&);
+
+    // stuff related to scheduler RPCs
+    //
+    SCHEDULER_OP* scheduler_op;
+    bool contacted_sched_server;
+    void compute_resource_debts();
+public:
+    PROJECT* next_project(PROJECT*);
+    PROJECT* next_project_master_pending();
+    double work_needed_secs();
+    int make_scheduler_request(PROJECT*, double);
+    void handle_scheduler_reply(PROJECT*, char* scheduler_url);
+private:
+    PROJECT* find_project_with_overdue_results();
+    bool some_project_rpc_ok();
+    bool scheduler_rpc_poll();
+    void update_avg_cpu(PROJECT*);
     double estimate_duration(WORKUNIT*);
     double current_water_days();
 
@@ -109,3 +121,5 @@ public:
 };
 
 extern CLIENT_STATE gstate;
+
+#endif

@@ -1080,3 +1080,52 @@ Michael Gary	July 12, 2002
     test/
         prefs3.xml
         test_rsc.php
+
+David A     July 14 2002
+    - Added reasonable policies for making scheduler RPCs.  Summary:
+        - results now have a "report deadline".
+            This may be useful for various purposes; for now,
+            we use it to trigger scheduler RPCs to report results
+        - The client now tries all a project's scheduler URLs in turn.
+        - Projects have a "min_rpc_time", the earliest time to
+            attempt another RPC (replaces next_request_time)
+        - We maintain an RPC failure count for each project.
+            If RPCs to all its URLs fail, we increment the count
+            and set its min_rpc_time according to an exponential backoff
+        - If a project is getting repeated RPC failures,
+            reread and parse its master URL file every so often,
+            in case the set of scheduler URLs has changed
+        - When the client has a completed result past its deadline,
+            it attempts to report it to that project.
+        - When the client's estimated work falls below low water,
+            it ranks projects according to their "resource deficit",
+            then attempts RPCs to project in that order
+            until the estimated work is above high water.
+        NOTE: only the simplest case has been tested.
+        We need to write test scripts for many other cases.
+        NOTE: currently a result's report deadline is now+1000.
+        We need to add a mechanism for setting it.
+    - The CLIENT_STATE is now kept in a global variable instead of
+        a local var of main().
+        This is because SCHEDULER_OP needs to get at it.
+
+    client/
+        client_state.C,h
+        client_types.C,h
+        cs_scheduler.C
+        main.C
+        scheduler_op.C,h
+    db/
+        db.h
+        db_mysql.h
+        schema.sql
+    doc/
+        file_xfer_policy.html (new)
+        index.html
+        result.html
+        rpc_policy.html (new)
+    html_user/
+        db.inc
+    tools/
+        backend_lib.C
+        create_work.C

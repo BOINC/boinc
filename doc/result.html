@@ -8,9 +8,17 @@ The attributes of a result include:
 <ul>
 <li> The name of the result (unique across all results in the project).
 <li> The name of the associated workunit.
+<li> The time when the completed result
+should be reported to a scheduling server.
+This is assigned by the project, and
+is used by clients to prioritize operations,
+and to initiate scheduler RPCs.
+There is no guarantee that the result will actually
+be reported by this time.
+
 <li> An XML document listing the names of its output files; see below.
 <li> An XML document giving the sizes and checksums of its output files
-(this is filled in after the result is completed).
+(filled in after the result is completed).
 <li> The stderr output of the result.
 <li> The host that computed the result.
 <li> The times when the result was dispatched and received.
