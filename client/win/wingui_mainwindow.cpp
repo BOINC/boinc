@@ -377,7 +377,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
 	    // update xfers
 	    m_XferListCtrl.SetRedraw(FALSE);
-	    Syncronize(&m_XferListCtrl, (vector<void*>*)(&pcs->pers_xfers->pers_file_xfers));
+	    Syncronize(&m_XferListCtrl, (vector<void*>*)(&pcs->pers_file_xfers->pers_file_xfers));
 	    for(i = 0; i < m_XferListCtrl.GetItemCount(); i ++) {
 		    PERS_FILE_XFER* pfx = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(i);
 		    if(!pfx) {
