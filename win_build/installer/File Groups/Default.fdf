@@ -1,27 +1,11 @@
 [FileGroups]
 group0=Help Files
-group1=System DLL Files
-group2=Program Executable Files
-group3=Language Files
-group4=Screensaver Files
-group5=DLL Files
+group1=Program Executable Files
+group2=Language Files
+group3=Screensaver Files
+group4=DLL Files
 
 [Help Files]
-SELFREGISTERING=No
-HTTPLOCATION=
-LANGUAGE=
-OPERATINGSYSTEM=
-FTPLOCATION=
-FILETYPE=No
-INFOTYPE=Standard
-COMMENT=
-COMPRESS=Yes
-COMPRESSDLL=
-LINKTYPE=Dynamic Link
-POTENTIALLY=No
-MISC=
-
-[System DLL Files]
 SELFREGISTERING=No
 HTTPLOCATION=
 LANGUAGE=
@@ -77,7 +61,7 @@ INFOTYPE=Standard
 COMMENT=
 COMPRESS=Yes
 COMPRESSDLL=
-LINKTYPE=Dynamic Link
+LINKTYPE=Static Link
 POTENTIALLY=No
 MISC=
 
@@ -92,7 +76,7 @@ INFOTYPE=Standard
 COMMENT=
 COMPRESS=Yes
 COMPRESSDLL=
-LINKTYPE=Dynamic Link
+LINKTYPE=Static Link
 POTENTIALLY=No
 MISC=
 

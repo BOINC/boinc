@@ -1,7 +1,5 @@
-[DYNAMIC]
-WILDCARD0=*.scr
-INCLUDESUBDIR=NO
-FOLDER=..\Build\Debug\
+[TopDir]
+file0=..\Build\Debug\boinc.scr
 
 [General]
 Type=FILELIST

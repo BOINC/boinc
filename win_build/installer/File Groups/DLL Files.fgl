@@ -1,7 +1,6 @@
-[DYNAMIC]
-WILDCARD0=*.dll
-INCLUDESUBDIR=NO
-FOLDER=..\Build\Debug\
+[TopDir]
+file0=..\Build\Debug\boinc.dll
+file1=..\Build\Debug\dbghelp.dll
 
 [General]
 Type=FILELIST

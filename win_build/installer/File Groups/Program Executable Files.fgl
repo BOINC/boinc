@@ -1,5 +1,5 @@
 [TopDir]
-file0=C:\BOINCSRC\Main\boinc\win_build\Build\Debug\boinc_gui.exe
+file0=..\Build\Debug\boinc_gui.exe
 
 [General]
 Type=FILELIST
