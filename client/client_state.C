@@ -74,7 +74,7 @@ CLIENT_STATE::CLIENT_STATE() {
     activities_suspended = false;
     core_client_major_version = MAJOR_VERSION;
     core_client_minor_version = MINOR_VERSION;
-    platform_name = HOST;
+    platform_name = HOSTTYPE;
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
@@ -1427,7 +1427,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-attach_project")) {
             add_new_project();
         } else if (!strcmp(argv[i], "-version")) {
-            printf( "%.2f %s\n", MAJOR_VERSION+(MINOR_VERSION/100.0), HOST );
+            printf( "%.2f %s\n", MAJOR_VERSION+(MINOR_VERSION/100.0), HOSTTYPE );
             exit(0);
         } else if (!strcmp(argv[i], "-help")) {
             printf(

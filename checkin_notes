@@ -4981,3 +4981,14 @@ John Brian	2003/06/23
         gui_titles.C
         wingui_listctrl.h
         wingui_listctrl.cpp 
+
+Karl    2003/06/23
+    - changed uses of HOST to HOSTTYPE to simplify command line and fix
+      conflict with boinc_db.h's HOST
+
+    configure.ac
+    Makefile.incl
+    client/
+        client_state.C
+    db/
+        boinc_db.h

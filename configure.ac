@@ -47,7 +47,7 @@ AC_SUBST(MINOR_VERSION, `echo AC_PACKAGE_VERSION | sed 's/.*\.//'`)
 
 AC_DEFINE_UNQUOTED(MAJOR_VERSION, $MAJOR_VERSION, [Major part of version number])
 AC_DEFINE_UNQUOTED(MINOR_VERSION, $MINOR_VERSION, [Minor part of version number])
-AC_DEFINE_UNQUOTED(HOST, "$host", [Host for this compilation])
+AC_DEFINE_UNQUOTED(HOSTTYPE, "$host", [Host for this compilation])
 
 AC_SUBST(SOURCE_TOP_DIR, `pwd`)
 
