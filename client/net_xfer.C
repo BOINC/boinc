@@ -16,6 +16,13 @@
 //
 // Contributor(s):
 //
+// Revision History:
+// $Log$
+// Revision 1.73  2003/12/01 23:22:13  korpela
+// Fix for cases where socklen_t is #defined in system headers rather than
+// typedefed.
+//
+//
 
 #include "cpp.h"
 
@@ -67,10 +74,12 @@
 #include "client_state.h"
 #include "message.h"
 
-#ifdef _WIN32
+#ifndef socklen_t
+#if defined(_WIN32) 
 typedef int socklen_t;
 #elif !GETSOCKOPT_SOCKLEN_T
 typedef size_t socklen_t;
+#endif
 #endif
 
 int get_socket_error(int fd) {
