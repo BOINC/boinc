@@ -146,6 +146,10 @@ int parse_fd_init_file(FILE* f) {
     return 0;
 }
 
+APP_CLIENT_SHM::APP_CLIENT_SHM() {
+    shm = 0;
+}
+
 bool APP_CLIENT_SHM::pending_msg(int seg_num) {
     if (seg_num < 0 || seg_num >= NUM_SEGS || shm == NULL) return false;
     return (shm[seg_num*SHM_SEG_SIZE]?true:false);

@@ -9923,12 +9923,51 @@ David  Feb 6 2004
 		boinc_cli.vcproj
 		boinc_gui.vcproj
 
+David  Feb 6 2004
+    - Windows core client 2.25 release
+
+David  Feb 6 2004
+    - API: is we're not using shared memory,
+        then app_client_shm is NULL (not app_client_shm->shm)
+    - add constructor for APP_CLIENT_SHM
+
+    api/
+        boinc_api.C,h
+    lib/
+        app_ipc.C,h
+
 Rom    Feb 6 2004
-    - When reporting exit codes of the project application to the DB, use the exit code
-        that was reported from the application instead of the value from GetLastError()
+    - When reporting exit codes of the project application to the DB,
+        use the exit code that was reported from the application
+        instead of the value from GetLastError()
 
     lib/
         util.c,h
     client/
         app.c
 
+David  Feb 8 2004
+    - reorganized "Creating a BOINC project" and "Getting work done"
+        parts of docs
+    doc/
+        anonymous_platforms.php
+        assimilate.php (new)
+        back_end.php (removed)
+        backend_functions.php (removed)
+        backend_logic.php (new)
+        backend_programs.php
+        boinc_dev.php
+        build_system.php
+        configuration.php (new)
+        create_project.php
+        database.php
+        docutil.php
+        make_project.php
+        platform.php
+        server_components.php
+        software.php
+        tool_start.php
+        tool_xadd.php
+        tools_work.php
+        validate.php
+        web_site.php (removed)

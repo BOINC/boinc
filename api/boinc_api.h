@@ -143,10 +143,10 @@ extern int	boinc_thread_cpu_time(double&, double&);
 
 /////////// API ENDS HERE
 
-/////////// APPLICATION GLOBALLY DEFINED VARIABLES BEGINS HERE
+/////////// IMPLEMENTATION STUFF BEGINS HERE
 
 extern APP_CLIENT_SHM *app_client_shm;
 
-/////////// APPLICATION GLOBALLY DEFINED VARIABLES ENDS HERE
+/////////// IMPLEMENTATION STUFF ENDS HERE
 
 #endif

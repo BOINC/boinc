@@ -1,28 +1,28 @@
-<? // -*- html -*-
-   // $Id$
+<?php
    require_once("docutil.php");
-   page_head("<code>xadd</code> Tool");
-   ?>
+   page_head("xadd - tool for adding database items");
 
-`<code>xadd</code>' adds objects to the BOINC database through an XML
-file, <code><b>project.xml</b></code>.  This file should be in the same
-location as <code>config.xml</code>.
+echo "
+`<code>xadd</code>' adds records to the BOINC database through an XML file,
+<code><b>project.xml</b></code>.
+This file should be in the same location as <code>config.xml</code>.
 
+<p>
 The contents of <code>project.xml</code> should look like this:
 
-<pre>
-  &lt;boinc&gt;
-    &lt;project&gt;
-      &lt;short_name&gt;yah&lt;/short_name&gt;
-      &lt;long_name&gt;YETI @ Home&lt;/long_name&gt;
-    &lt;/project&gt;
-    &lt;platform&gt;
-      &lt;name&gt;c64&lt;/name&gt;
-      &lt;user_friendly_name&gt;Commodore 64&lt;/user_friendly_name&gt;
-    &lt;/platform&gt;
+<pre>", htmlspecialchars("
+  <boinc>
+    <project>
+      <short_name>setiathome</short_name>
+      <long_name>SETI@home</long_name>
+    </project>
+    <platform>
+      <name>windows_intel</name>
+      <user_friendly_name>Windows 95, 98, NT 2000, and XP</user_friendly_name>
+    </platform>
     ...
-  &lt;/boinc&gt;
-</pre>
+  </boinc>
+"), "</pre>
 
 Notes:
 <ul>
@@ -35,8 +35,7 @@ Notes:
         this includes entries that have changed.
     </ul>
 </ul>
-
-<?
+";
    page_tail();
 ?>
 

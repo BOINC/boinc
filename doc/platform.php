@@ -4,25 +4,24 @@ page_head("Platforms");
 echo "
 <h3>Goals</h3>
 <p>
-BOINC is intended to accommodate participant hosts
-with a wide range of operating systems and hardware architectures.
-For example, the hosts may run many versions of Windows
-(95, 98, ME, 2000, XP) on many processors
-(486, Pentium, AMD) with many architectural extensions
-(ATI or NVidia graphics coprocessors).
+The computers available to a public-resource computing project
+have a wide range of operating systems and hardware architectures.
+For example, they may run many versions of Windows
+(95, 98, ME, 2000, XP) on many processors variants (486, Pentium, AMD).
+Hosts may have multiple processors and/or graphics coprocessors.
+<p>
 BOINC addresses the following goals:
 <ul>
-<li> The system should avoid sending code that the host can't execute.
-
-<li> Applications should be able to exploit specific architectural features,
-i.e. to use nonstandard instructions or coprocessors if available.
-<li>
-Enough architectural information should be stored on the server
-so that statistics can be broken down
-according to specific features.
-<li> Simplicity.
+<li> <b>Resource heterogeneity.</b>
+It should be easy for projects to allow many types
+of hosts to participate.
+<li> <b>Simplicity</b>.
 The combinatorial explosion of versions and architectures should be
 excluded from the internals of BOINC.
+<li>
+<b>Accounting.</b>
+Enough architectural information should be stored on the server
+so that statistics can be broken down according to specific features.
 </ul>
 
 <h3>Design</h3>
@@ -36,15 +35,16 @@ Each BOINC program (core client and application) is linked to a platform.
 At the minimum, a platform is a combination
 of a CPU architecture and an operating system.
 Examples might include:
+";
 
-<p>
-<table cellpadding=8 border=1>
-<tr><th>name</th><th>description</th></tr>
-<tr><td>windows_intelx86</td><td>Microsoft Windows (95 or later) running on an Intel x86-compatible processor</td></tr>
-<tr><td>linux_xxx</td><td>Linux running on an Intel x86-compatible processor</td></tr>
-<tr><td>macos_ppc</td><td>Mac OS 9.0 or later running on Motorola PowerPC</td></tr>
-<tr><td>sparc_solaris</td><td>Solaris 2.1 or later running on a SPARC-compatible processor</td></tr>
-</table>
+list_start();
+list_heading("name", "description");
+list_item("windows_intelx86", "Microsoft Windows (95 or later) running on an Intel x86-compatible processor");
+list_item("linux_x86", "Linux running on an Intel x86-compatible processor");
+list_item("macos_ppc", ">Mac OS 9.0 or later running on Motorola PowerPC");
+list_item("sparc_solaris", "Solaris 2.1 or later running on a SPARC-compatible processor");
+list_end();
+echo"
 
 <p>
 
@@ -56,7 +56,7 @@ to SPARC machines running Solaris 2.8 or greater.
 <p>
 For simplicity, platforms are assumed to be mutually exclusive:
 i.e. an application for platform X is not assumed to work
-on a host running core client platform Y if X <> Y.
+on a host running core client platform Y if X &ne; Y.
 The BOINC scheduling server will send work to a host only
 if there is an application version for the same platform.
 

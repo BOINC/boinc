@@ -79,6 +79,8 @@ public:
     bool get_graphics_msg(int seg, int& msg, int& mode);
     void reset_msgs();        // resets all messages and clears their flags
     void reset_msg(int);      // resets specified message and clears its flag
+
+    APP_CLIENT_SHM();
 };
 
 // parsed version of main init file

@@ -53,8 +53,8 @@
 //
 // Declare global variables
 //
-static	APP_INIT_DATA		aid;
-		APP_CLIENT_SHM		*app_client_shm;
+static APP_INIT_DATA		aid;
+APP_CLIENT_SHM		*app_client_shm;
 
 static	double				timer_period = 1.0/50.0;    // 50 Hz timer
 static	double				time_until_checkpoint;
@@ -742,12 +742,11 @@ static int set_timer(double period) {
 }
 
 static void setup_shared_mem() {
-	app_client_shm = new APP_CLIENT_SHM;
     if (standalone) {
-        app_client_shm->shm = NULL;
-        fprintf(stderr, "Standalone mode, so not attaching to shared memory.\n");
+        fprintf(stderr, "Standalone mode, so not using shared memory.\n");
         return;
     }
+	app_client_shm = new APP_CLIENT_SHM;
 
 #ifdef _WIN32
     char buf[256];
@@ -771,16 +770,12 @@ static void cleanup_shared_mem() {
     if (!app_client_shm) return;
 
 #ifdef _WIN32
-    if (app_client_shm->shm != NULL) {
-        detach_shmem(hSharedMem, app_client_shm->shm);
-    }
+    detach_shmem(hSharedMem, app_client_shm->shm);
 #endif
 
 #ifdef HAVE_SYS_SHM_H
 #ifdef HAVE_SYS_IPC_H
-    if (app_client_shm->shm != NULL) {
-        detach_shmem(app_client_shm->shm);
-    }
+    detach_shmem(app_client_shm->shm);
 #endif
 #endif
 }

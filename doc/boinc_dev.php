@@ -18,9 +18,7 @@ before getting into the source code.
 <p>
 <a href=http://setiathome.berkeley.edu/taskbase>View database of bugs and feature requests</a>
 <p>
-<font size=+1><b>
-Core client
-</b></font>
+<h2>Core client</h2>
 <ul>
 <li> <a href=client_files.php>File structure</a>
 <li> <a href=client_fsm.php>FSM structure</a>
@@ -32,18 +30,20 @@ Core client
 <li> <a href=client_app.php>Core client/application interaction (basic)</a>
 <li> <a href=client_app_graphic.php>Core client/application interaction (graphics)</a>
 </ul>
-<font size=+1><b>
-Scheduling server
-</b></font>
+<h2>Scheduling server</h2>
 <ul>
 <li> <a href=database.php>The BOINC database</a>
 <li> <a href=sched_policy.php>Policy</a>
 <li> <a href=sched_impl.php>Implementation</a>
 <li> <a href=sched_debug.php>Debugging</a>
 </ul>
-<font size=+1><b>
-Protocols
-</b></font>
+<h2>Back end</h2>
+<ul>
+<li> <a href=backend_state.php>Backend state transitions</a>
+<li> <a href=backend_logic.php>The logic of backend programs</a>
+</ul>
+
+<h2>Protocols</h2>
 <ul>
 <li> <a href=comm.php>Protocol overview</a>
 <li> <a href=protocol.php>The scheduling server protocol</a>
@@ -51,9 +51,7 @@ Protocols
 <li> <a href=upload.php>Data server protocol</a>
 <li> <a href=pers_file_xfer.php>Persistent file transfers</a>
 </ul>
-<font size=+1><b>
-Miscellaneous
-</b></font>
+<h2>Miscellaneous</h2>
 <ul>
 <li> <a href=python.php>Python framework</a>
 <li> <a href=prefs_impl.php>Preferences</a>

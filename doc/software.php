@@ -71,7 +71,7 @@ Optional, required only if you change <code>*/Makefile.am</code>:
 <h1>Windows client software</h1>
 Required for compiling:
 <ul>
-  <li><b>Microsoft Visual C</b> 6.0
+  <li><b>Microsoft Visual C++</b> 7.0
 </ul>
 Required for creating install packages:
 <ul>

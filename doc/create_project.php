@@ -59,46 +59,48 @@ How to configure and compile the BOINC software.
 </ul>
 
 <font size=+1><b>
-Creating a BOINC server complex
+Creating a BOINC project
 </b></font>
 <br> &nbsp; &nbsp; &nbsp;
 <font size=-1>
-How to create the 'server complex' for a BOINC project.
+The components of a BOINC project, and how to create them.
 </font>
 <ul>
-<li> <a href=server_components.php>Server components</a>
-<li> <a href=make_project.php>Creating a server complex</a>
-<li> <a href=tools.php>Operational tools</a>
-<li> <a href=web_site.php>Creating a master page</a>
+<li> <a href=server_components.php>What is a project?</a>
+<li> <a href=database.php>The BOINC database</a>
+<li> <a href=server_dirs.php>Directory structure</a>
+<li> <a href=configuration.php>The project configuration file</a>
+<li> <a href=make_project.php>The make_project script</a>
+<li> <a href=tool_start.php>Project control scripts</a>
+<li> <a href=tool_xadd.php>Adding applications/platforms</a>
+<li> <a href=tool_update_versions.php>Adding versions</a>
+<li> <a href=tool_upgrade.php>Upgrading a project's server software</a>
 
 </ul>
 
 <font size=+1><b>
-Developing and operating a BOINC project back end
+Getting work done
 </b></font>
 <br> &nbsp; &nbsp; &nbsp;
 <font size=-1>
-How to feed work into a BOINC system and collect the results.
+How to generate tasks and handle the results.
 </font>
 <ul>
-<li> <a href=backend_functions.php>Back end functions</a>
-<li> <a href=backend_state.php>Back end state transitions</a>
-<li> <a href=backend_programs.php>Back end programs</a>
+<li> <a href=backend_programs.php>Back end functions</a>
 <li> <a href=tools_work.php>Generating work</a>
-<!--
-<li> <a href=backend_work_sequence.php>Back ends and work sequences</a>
--->
-<li> <a href=back_end.php>Back end examples</a>
+<li> <a href=validate.php>Result validation</a>
+<li> <a href=assimilate.php>Result assimilation</a>
 </ul>
 
 <font size=+1><b>
-Monitoring the performance of a BOINC project
+Monitoring a BOINC project
 </b></font>
 <br> &nbsp; &nbsp; &nbsp;
 <font size=-1>
-Tools for monitoring the system as a whole.
+Tools for monitoring a BOINC project
 </font>
 <ul>
+<li> <a href=html_ops.php>Administrative web interface</a>
 <li> <a href=watchdog.php>Watchdogs</a>
 <li> <a href=stripchart.php>Stripcharts: a tool for viewing time-varying data </a>
 <li> <a href=stripchart_data.php>Recording data for Stripcharts</a>

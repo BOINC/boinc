@@ -3,6 +3,27 @@ require_once("docutil.php");
 page_head("Validation");
 echo "
 <p>
+BOINC supplies a utility program <b>validate</b>
+to perform validation and credit-granting.
+This program must be linked with two project-specific functions:
+<pre>
+int check_set(vector<RESULT> results, int& canonicalid, double& credit);
+int check_pair(RESULT& r1, RESULT& r2, bool& match);
+</pre>
+<b>check_set()</b> takes a set of results.
+If there is sufficient agreement,
+it selects one of them as the canonical result
+(returning its ID) and also decides what credit should
+be granted for correct results for this workunit.
+<p>
+<b>check_pair()</b> compares two results and returns match=true
+if they agree.
+
+<p>
+The file <b>validate_test.C</b> contains an example
+implementation of check_set() and check_pair().
+
+<p>
 The XML document listing the output files has the form: <pre>
 &lt;file_info>...&lt;/file_info>
 [ ... ]

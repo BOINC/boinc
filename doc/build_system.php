@@ -1,8 +1,8 @@
-<? // -*- html -*-
+<?php
 require_once("docutil.php");
 page_head("The BOINC build system");
-?>
 
+echo "
 See the <a href=software.php>Software Prerequisites</a>.
 
 <p>
@@ -17,27 +17,30 @@ See the <a href=software.php>Software Prerequisites</a>.
 The BOINC configuration system enables an Automake feature
 called <b>maintainer-mode</b>.  This is enabled
 at <code>configure</code>-time.
-
-<table border=1><tr><th>command-line</th><th>Maintainer-mode?</th><th>Effect</th></tr>
-  <tr><td><code>configure</code></td><td>Disabled</td><td>
-      If you modify <code>Makefile.am</code>, you need to
+";
+list_start();
+list_heading("command line", "Maintainer mode?", "Effect");
+list_item("<code>configure</code>", "Disabled",
+      "If you modify <code>Makefile.am</code>, you need to
       regenerate <code>Makefile.in</code> using <code>automake</code>, and
       your machine-dependent <code>Makefile</code>
       using <code>config.status</code>.  (The <code>boinc/_autosetup</code>
       script takes care of all of these; run this script every time you modify
-      a makefile.)
-  </td></tr>
-  <tr><td nowrap><code>configure --enable-maintainer-mode</code></td>
-  <td>Enabled</td><td>
-      If you modify <code>Makefile.am</code>, a chain of dependencies
+      a makefile.)"
+);
+list_item("<nobr><code>configure --enable-maintainer-mode</code></nobr>",
+  "Enabled",
+  "If you modify <code>Makefile.am</code>, a chain of dependencies
       automatically generates <code>Makefile.in</code>
       and <code>Makefile</code> when you '<code>make</code>'.  This is useful
       if you modify Makefiles a lot but could be annoying if you don't have
       automake installed, have different versions of it among developers, or
       check in <code>Makefile.in</code> to CVS at the same time (in which
-      case the timestamp for it will confuse the automatic dependencies).
-</td></tr></table>
+      case the timestamp for it will confuse the automatic dependencies)."
+);
 
+list_end();
+echo "
 <h2>Source layout</h2>
 
 <p>
@@ -121,5 +124,6 @@ To make source distributions:
   gmake dist
 </pre>
 
-
-<? page_tail(); ?>
+";
+page_tail();
+?>

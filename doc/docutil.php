@@ -39,13 +39,28 @@ function list_start() {
     echo "<p><table border=1 cellpadding=6 width=100%>\n";
 }
 
-function list_item($x, $y) {
+function list_heading($x, $y, $z=null) {
+    echo "
+        <tr>
+            <th valign=top><b>$x</b></td>
+            <th valign=top>$y</td>
+";
+    if ($z) {
+        echo "       <th valign=top>$z</a>\n";
+    }
+echo " </tr>\n";
+}
+
+function list_item($x, $y, $z=null) {
     echo "
         <tr>
             <td bgcolor=ffffcc valign=top><b>$x</b></td>
             <td valign=top>$y</td>
-        </tr>
-    ";
+";
+    if ($z) {
+        echo "       <td valign=top>$z</a>\n";
+    }
+    echo " </tr>\n";
 }
 
 function list_end() {

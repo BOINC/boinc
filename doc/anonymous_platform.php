@@ -69,6 +69,7 @@ It has the following form:
         <version_num>218</version_num>
         <file_ref>
             <file_name>setiathome_2.18_windows_intelx86.exe</file_name>
+            <main_program/>
         </file_ref>
     </app_version>
 </app_info>
