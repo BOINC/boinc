@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -35,7 +35,12 @@
 struct HTTP_REPLY_HEADER {
     int status;
     int content_length;
-    char redirect_location[256];
+    string redirect_location;
+    string recv_buf;
+
+    void init();
+    int read_reply(int socket);
+    void parse();
 };
 
 #define HTTP_OP_NONE    0
@@ -70,11 +75,11 @@ public:
     int proxy_server_port;
     char proxy_server_name[256];
 
-    int init_head(char* url);
-    int init_get(char* url, char* outfile, bool del_old_file, double offset=0);
-    int init_post(char* url, char* infile, char* outfile);
+    int init_head(const char* url);
+    int init_get(const char* url, char* outfile, bool del_old_file, double offset=0);
+    int init_post(const char* url, char* infile, char* outfile);
     int init_post2(
-        char* url, char* req1, char* infile, double offset
+        const char* url, char* req1, char* infile, double offset
     );
     bool http_op_done();
 };
@@ -101,7 +106,6 @@ public:
 #define HTTP_STATE_REPLY_BODY       6
 #define HTTP_STATE_DONE             7
 
-extern int read_http_reply_header(int socket, HTTP_REPLY_HEADER&);
-extern void parse_url(char* url, char* host, int &port, char* file);
+extern void parse_url(const char* url, char* host, int &port, char* file);
 
 #endif

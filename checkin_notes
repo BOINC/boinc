@@ -5871,6 +5871,7 @@ Chrisz 2003/08/20
 Karl 2003/08/20
     - rewrote header parsing to be more robust:
         - allow for header to not have to be a single TCP message
+        - parse line-by-line instead of full-header strstr for efficiency
         - compare header names case insensitively
     - test scripts
 

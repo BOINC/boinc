@@ -19,8 +19,6 @@
 
 #include "windows_cpp.h"
 
-#include <string.h>
-
 #ifdef _WIN32
 #include "winsock.h"
 #endif
@@ -41,11 +39,15 @@
 
 #include "http.h"
 
+#include <cstring>
+#include <sstream>
+#include <algorithm>
+
 #define HTTP_BLOCKSIZE  16384
 
 // Breaks a HTTP url down into its server and file path components
 //
-void parse_url(char* url, char* host, int &port, char* file) {
+void parse_url(const char* url, char* host, int &port, char* file) {
     char* p;
     char buf[256];
 
@@ -124,46 +126,85 @@ static void http_post_request_header(
     );
 }
 
-// Parse an http reply header into the header struct
-//
-int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
-    int i, n;
-    char buf[1024], *p;
+void HTTP_REPLY_HEADER::init()
+{
+    status = 500;
+    content_length = 0;
+    redirect_location.erase();
+    recv_buf.erase();
+}
 
+void HTTP_REPLY_HEADER::parse()
+{
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
 
-    memset(buf, 0, sizeof(buf));
-    header.content_length = 0;
-    header.status = 404;        // default to failure
-    for (i=0; i<1024; i++) {
-        n = recv(socket, buf+i, 1, 0);
-        if (strstr(buf, "\r\n\r\n") || strstr(buf, "\n\n")) {
-            // scope_messages.printf("read_http_reply_header(): reply header on socket %d:\n", socket);
-            scope_messages.printf_multiline(buf, "read_http_reply_header(): header: ");
-            p = strchr(buf, ' ');
-            if (p) {
-                header.status = atoi(p+1);
-            }
-            p = strstr(buf, "Content-Length: ");
-            if (p) {
-                header.content_length = atoi(p+strlen("Content-Length: "));
-            }
-            p = strstr(buf, "Location: ");
-            if (p) {
-                // TODO: Is there a better way to do this?
-                n = 0;
-                p += strlen( "Location: " );
+    istringstream h(recv_buf);
+    string line, w;
 
-                while (p[n] != '\n' && p[n] != '\r') {
-                    header.redirect_location[n] = p[n];
-                    n++;
-                }
-                header.redirect_location[n] = 0;
-            }
+    if (getline(h, line)) {
+        istringstream iline(line);
+
+        iline >> w;
+        if (!starts_with(w,"HTTP/")) {
+            scope_messages.printf("HTTP_REPLY_HEADER::parse(): not HTTP\n");
+            return;
+        }
+        iline >> status;
+        scope_messages.printf("HTTP_REPLY_HEADER::parse(): status=%d\n", status);
+    }
+
+    while (getline(h, line)) {
+        istringstream iline(line);
+
+        iline >> w;
+        downcase_string(w);
+        if (w == "content-length:") {
+            iline >> content_length;
+            scope_messages.printf("HTTP_REPLY_HEADER::parse(): content_length=%d\n", content_length);
+        } else if (w == "location:") {
+            iline >> redirect_location;
+            scope_messages.printf("HTTP_REPLY_HEADER::parse(): redirect_location=%s\n", redirect_location.c_str());
+        }
+    }
+}
+
+const unsigned int MAX_HEADER_SIZE = 1024;
+
+// Parse an http reply header into the header struct
+//
+// Returns 1 if we are not done yet, 0 if done (header.status indicates
+// success)
+int HTTP_REPLY_HEADER::read_reply(int socket)
+{
+    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
+
+    while (recv_buf.size() < MAX_HEADER_SIZE) {
+        char c;
+        int n = recv(socket, &c, 1, 0);
+        if (n == -1 && errno == EAGAIN) {
+            scope_messages.printf("HTTP_REPLY_HEADER::read_reply(): recv() returned %d (EAGAIN)\n", n);
+            return 1;
+        }
+        if (n != 1) {
+            scope_messages.printf("HTTP_REPLY_HEADER::read_reply(): recv() returned %d\n", n);
+            break;
+        }
+
+        if (c == '\r') continue;
+        recv_buf += c;
+
+        if (ends_with(recv_buf, "\n\n")) {
+            scope_messages.printf_multiline(recv_buf.c_str(),
+                                            "HTTP_REPLY_HEADER::read_reply(): header: ");
+            parse();
             return 0;
         }
     }
-    return 1;
+
+    // error occurred
+    scope_messages.printf("HTTP_REPLY_HEADER::read_reply(): returning error (recv_buf.size=%d)\n",
+                          recv_buf.size());
+    return 0;
 }
 
 // Read the contents of the socket into buf
@@ -200,7 +241,7 @@ HTTP_OP::~HTTP_OP() {
 
 // Initialize HTTP HEAD operation
 //
-int HTTP_OP::init_head(char* url) {
+int HTTP_OP::init_head(const char* url) {
     char proxy_buf[256];
     parse_url(url, hostname, port, filename);
     NET_XFER::init(use_http_proxy?proxy_server_name:hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
@@ -217,7 +258,7 @@ int HTTP_OP::init_head(char* url) {
 
 // Initialize HTTP GET operation
 //
-int HTTP_OP::init_get(char* url, char* out, bool del_old_file, double off) {
+int HTTP_OP::init_get(const char* url, char* out, bool del_old_file, double off) {
     char proxy_buf[256];
 
     if (del_old_file) {
@@ -243,7 +284,7 @@ int HTTP_OP::init_get(char* url, char* out, bool del_old_file, double off) {
 
 // Initialize HTTP POST operation
 //
-int HTTP_OP::init_post(char* url, char* in, char* out) {
+int HTTP_OP::init_post(const char* url, char* in, char* out) {
     int retval;
     double size;
     char proxy_buf[256];
@@ -274,7 +315,7 @@ int HTTP_OP::init_post(char* url, char* in, char* out) {
 // Initialize HTTP POST operation
 //
 int HTTP_OP::init_post2(
-    char* url, char* r1, char* in, double offset
+    const char* url, char* r1, char* in, double offset
 ) {
     int retval;
     double size;
@@ -379,6 +420,7 @@ bool HTTP_OP_SET::poll() {
                     break;
                 case HTTP_OP_GET:
                 case HTTP_OP_HEAD:
+                    htp->hrh.init();
                     htp->http_op_state = HTTP_STATE_REPLY_HEADER;
                     htp->want_upload = false;
                     htp->want_download = true;
@@ -417,6 +459,7 @@ bool HTTP_OP_SET::poll() {
             if (htp->io_done) {
                 action = true;
                 scope_messages.printf("HTTP_OP_SET::poll(): finished sending request body\n");
+                htp->hrh.init();
                 htp->http_op_state = HTTP_STATE_REPLY_HEADER;
                 if (htp->file) {
                     fclose(htp->file);
@@ -433,7 +476,10 @@ bool HTTP_OP_SET::poll() {
             if (htp->io_ready) {
                 action = true;
                 scope_messages.printf("HTTP_OP_SET::poll(): got reply header; %p io_done %d\n", htp, htp->io_done);
-                read_http_reply_header(htp->socket, htp->hrh);
+                if (htp->hrh.read_reply(htp->socket)) {
+                    // not done yet
+                    break;
+                }
 
                 // TODO: handle all kinds of redirects here
 
@@ -441,16 +487,16 @@ bool HTTP_OP_SET::poll() {
                     htp->close_socket();
                     switch (htp->http_op_type) {
                         case HTTP_OP_HEAD:
-                            htp->init_head(htp->hrh.redirect_location);
+                            htp->init_head(htp->hrh.redirect_location.c_str());
                             break;
                         case HTTP_OP_GET:
-                            htp->init_get(htp->hrh.redirect_location, htp->outfile, false);
+                            htp->init_get(htp->hrh.redirect_location.c_str(), htp->outfile, false);
                             break;
                         case HTTP_OP_POST:
-                            htp->init_post(htp->hrh.redirect_location, htp->infile, htp->outfile);
+                            htp->init_post(htp->hrh.redirect_location.c_str(), htp->infile, htp->outfile);
                             break;
                         case HTTP_OP_POST2:
-                            htp->init_post2(htp->hrh.redirect_location, htp->req1, htp->infile, htp->file_offset);
+                            htp->init_post2(htp->hrh.redirect_location.c_str(), htp->req1, htp->infile, htp->file_offset);
                             break;
                     }
 
