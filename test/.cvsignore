@@ -1,3 +1,5 @@
-version.inc
-testproxy.log
+cgiserver.pyc
 run-*
+testbase.pyc
+testproxy.log
+version.inc
