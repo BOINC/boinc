@@ -59,6 +59,7 @@ Help debug and enhance BOINC software.
 <img align=left src=nsf.gif>
 BOINC is supported by the
 <a href=http://nsf.gov>National Science Foundation</a>
+through award SCI/0221529.
 </td>
 <td valign=top bgcolor=c8c8ff>
 <center>

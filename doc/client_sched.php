@@ -1,67 +1,58 @@
 <?php
 require_once("docutil.php");
-page_head("Result scheduling");
+page_head("Client scheduling policies");
 echo "
 
-This document describes BOINC's policies for the following:
+This document describes two interrelated scheduling policies
+in the BOINC client:
 
 <ul>
-<li> CPU scheduling policy: what result to run when.
-<li> Work fetch policy: when to contact scheduling servers,
-and which one(s) to contact.
+<li> <b>CPU scheduling policy</b>: what result to run when.
+<li> <b>Work fetch policy</b>: when to contact scheduling servers,
+which projects to contact, and how much work to task for.
 </ul>
 
 <h2>CPU scheduling</h2>
 
-<p>CPU scheduling aims to achieve the following goals
-(decreasing priority):</p>
+<p>The CPU scheduling policy aims to achieve the following goals
+(in decreasing priority):</p>
 
 <ol>
 
 <li>
-<b>Maximize CPU utilization</b>
+<b>Maximize CPU utilization</b>.
 
 <li>
-<b>Respect the resource share allocation for each project.</b>
-A project's resource share represents how much computing resources
-(CPU time, network bandwith, storage space) a user wants to allocate
-to the project relative to the resources allocated to all of the other
-projects in which he is participating. The client should respect this
-allocation to be faithful to the user. In the case of CPU time, the
-result computation scheduling should achieve the expected time shares
-over a reasonable time period.
+<b>Enforce resource shares.</b>
+The ratio of CPU time allocated to projects that have work,
+in a typical period of a day or two,
+should be approximately the same as the ratio of
+the user-specified resource shares.
+If a process has no work for some period,
+it does no accumulate a 'debt' of work.
 
 <li>
 <b>Satisfy result deadlines if possible.</b>
 
 <li>
-<b>Given a 'minimum variety' parameter MV (seconds),
-reschedule CPUs at least once every MV seconds.</b>
-The motivation for this goal stems from the potential
-orders-of-magnitude differences in expected completion time for
-results from different projects. Some projects will have results that
-complete in hours, while other projects may have results that take
-months to complete.  A scheduler that runs result computations to
-completion before starting a new computation will keep projects with
-short-running result computations stuck behind projects with
-long-running result computations. A participant in multiple projects
-will expect to see his computer work on each of these projects in a
-reasonable time period, not just the project with the long-running
-result computations.
+<b>Reschedule CPUs periodically.</b>
+This goal stems from the large differences in duration of
+results from different projects.
+Participant in multiple projects
+will expect to see their computers do work on each of these projects in a
+reasonable time period.
 
 <li>
-<b>Minimize mean time to completion for results.</b>
-This means that the number of active result computations for a project should be minimized.
+<b>Minimize mean time to completion.</b>
 For example, it's better to have one result from
-project P complete in time T than to have two results from project P
+a project complete in time T than to have two results
 simultaneously complete in time 2T.
 
 </ol>
 
 <p>
 A result is 'active' if there is a slot directory for it.
-A consequence of result preemption is that there can
-be more active results than CPUs.
+There can be more active results than CPUs.
 
 
 <h3>Debt</h3>
@@ -145,7 +136,7 @@ ready-to-compute result.
 <pre>
 data structures:
 ACTIVE_TASK:
-    double cpu_at_last_schedule_point
+    double period_start_cpu_time
     double current_cpu_time
     scheduler_state:
         PREEMPTED
@@ -155,7 +146,7 @@ PROJECT:
     double work_done_this_period    // temp
     double debt
     double anticipated_debt // temp
-    bool has_runnable_result
+    RESULT next_runnable_result
 
 schedule_cpus():
 
@@ -164,7 +155,7 @@ foreach project P
 
 total_work_done_this_period = 0
 foreach task T that is RUNNING:
-    x = current_cpu_time - T.cpu_at_last_schedule_point
+    x = T.current_cpu_time - T.period_start_cpu_time
     T.project.work_done_this_period += x
     total_work_done_this_period += x
 
@@ -186,7 +177,7 @@ do num_cpus times:
     if none:
         break
     if (some T in P is RUNNING):
-        t.next_scheduler_state = RUNNING
+        T.next_scheduler_state = RUNNING
         P.anticipated_debt -= expected_pay_off
         continue
     if (some T in P is PREEMPTED):
@@ -194,6 +185,7 @@ do num_cpus times:
         P.anticipated_debt -= expected_pay_off
         continue
     if (some R in results is for P, not active, and ready to run):
+        Choose R with the earliest deadline
         T = new ACTIVE_TASK for R
         T.next_scheduler_state = RUNNING
         P.anticipated_debt -= expected_pay_off
@@ -205,7 +197,7 @@ foreach task T
         suspend (or kill)
 
 foreach task T
-    T.cpu_at_last_schedule_point = current_cpu_time
+    T.period_start_cpu_time = T.current_cpu_time
 </pre>
 
 <h2>Work fetch policy</h2>
@@ -215,11 +207,19 @@ The work fetch policy has the following goal:
 
 <ul>
 <li>
-<b>Given a 'connection frequency' parameter 1/T (1/days), have enough
-work for each project to meet CPU scheduling needs for T days.</b>
-The client should expect to contact scheduling servers only every T
-days.
-So, it should try to maintain between T and 2T days worth of work.
+Maintain sufficient work so that the CPU scheduler
+is never 'starved' (i.e. a result is available for
+a particular project when one is needed).
+<li>
+More specifically:
+given a 'connection period' parameter T (days),
+always maintain sufficient work so that the CPU scheduler will
+not be starved for T days,
+given average work processing.
+The client should contact scheduling servers only about every T days.
+<li>
+Don't fetch more work than necessary, given the above goals.
+Thus, try to maintain between T and 2T days worth of work.
 </ul>
 
 <h3>When to get work</h3>

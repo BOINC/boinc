@@ -42,7 +42,7 @@ Here's how it works:
 
 <ul>
 <li>
-Download the source code for the BOINC core client
+<a href=community.php>Download</a> the source code for the BOINC core client
 and the project's applications, and compile them on your computer
 (instructions for compiling the core client are
 <a href=build_client.php>here</a>).

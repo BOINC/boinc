@@ -14172,3 +14172,11 @@ Karl 2004-06-27
     sched/
         main.C
 
+David  27 June 2004
+    - add a -mod N I option to the transitioner;
+        causes the transitioner to handle only WUs for which ID % N == I.
+        Can use this to parallelize the transitioner,
+        either on a single multi-CPU machine or across multiple machines
+
+    sched/
+        transitioner.C

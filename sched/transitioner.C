@@ -26,6 +26,7 @@
 //   [ -asynch ]            be asynchronous
 //   [ -one_pass ]          do one pass, then exit
 //   [ -d x ]               debug level x
+//   [ -mod n i ]           process only WUs with (id mod n) == i
 
 using namespace std;
 
@@ -44,9 +45,13 @@ using namespace std;
 #define LOCKFILE                "transitioner.out"
 #define PIDFILE                 "transitioner.pid"
 
+#define SELECT_LIMIT    100
+
 int startup_time;
 SCHED_CONFIG config;
 R_RSA_PRIVATE_KEY key;
+int mod_n, mod_i;
+bool do_mod = false;
 
 void handle_wu(DB_WORKUNIT& wu) {
     vector<DB_RESULT> results;
@@ -355,7 +360,11 @@ bool do_pass() {
     check_stop_daemons();
     // loop over WUs that are due to be checked
     //
-    sprintf(buf, "where transition_time<%d order by transition_time limit 5000", (int)time(0));
+    if (do_mod) {
+        sprintf(buf, "where transition_time<%d and (mod(id, %d)==%d) order by transition_time limit %d", (int)time(0), mod_n, mod_i, SELECT_LIMIT);
+    } else {
+        sprintf(buf, "where transition_time<%d order by transition_time limit %d", (int)time(0), SELECT_LIMIT);
+    }
     while (!wu.enumerate(buf)) {
         did_something = true;
         handle_wu(wu);
@@ -396,6 +405,10 @@ int main(int argc, char** argv) {
             one_pass = true;
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
+        } else if (!strcmp(argv[i], "-mod")) {
+            mod_n = atoi(argv[++i]);
+            mod_i = atoi(argv[++i]);
+            do_mod = true;
         }
     }
 

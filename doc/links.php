@@ -30,11 +30,12 @@ list_item("French",
     <br><a href=http://boinc-quebec.org>boinc-quebec.org</a> (Canadian)"
 );
 list_item("German",
-    "<a href=http://www.boinc.de/>www.boinc.de</a>"
+    "<a href=http://www.boinc.de/>www.boinc.de</a>
+    <br><a href=http://www.boinc-forum.de/>www.boinc-forum.de</a>"
 );
-list_item("Italian",
-    "<a href=http://boinc.homeunix.org/>boinc.homeunix.org</a>"
-);
+//list_item("Italian",
+//    "<a href=http://boinc.homeunix.org/>boinc.homeunix.org</a>"
+//);
 list_item("Japanese",
     "<a href=http://boinc.oocp.org/>translation by Komori Hitoshi</a>"
 );

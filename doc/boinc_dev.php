@@ -24,7 +24,7 @@ before getting into the source code.
 <li> <a href=client_fsm.php>FSM structure</a>
 <li> <a href=client_data.php>Data structures</a>
 <li> <a href=client_logic.php>Main loop logic</a>
-<li> <a href=client_sched.php>Result scheduling</a>
+<li> <a href=client_sched.php>Client scheduling policies</a>
 <li> <a href=client_debug.php>Debugging</a>
 <li> <a href=host_measure.php>Host measurements</a>
 <li> <a href=host_id.php>Host identification</a>
