@@ -20,7 +20,7 @@ EXTRA_DIST =							\
         *.xml *wu *result *output *input			\
 	test*.py						\
 	db_def_to_php *.php version.inc.in boinc_db.inc 	\
-	test*.inc init.inc boinc_db.inc
+	test*.inc init.inc boinc_db.inc cgiserver.py
 
 $(TESTS): $(top_srcdir)/py/Boinc/version.py $(top_srcdir)/py/Boinc/boinc_db.py
 
