@@ -8,10 +8,10 @@ define('AVATAR_WIDTH', 100);
 define('AVATAR_HEIGHT',100);
 define('ST_ADMIN', 'Project administrator');
 define('ST_MODERATOR', 'Forum moderator');
-define('ST_DEV', 'Project Developer');
-define('ST_TEST', 'Project Tester');
+define('ST_DEV', 'Project developer');
+define('ST_TEST', 'Project tester');
 define('ST_VOLDEV', 'Volunteer developer');
-define('ST_VOLTEST', 'Volunteer Tester');
+define('ST_VOLTEST', 'Volunteer tester');
 define('ST_SCIENT', 'Project scientist');
 define('ST_NEW_TIME', 1209600); //3600*24*14 - 14 days
 define('ST_NEW', 'New member');
