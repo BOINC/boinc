@@ -31,14 +31,33 @@
 #include <ctype.h>
 #include <time.h>
 
+#ifdef BOINC_APP_GRAPHICS
+#ifdef __APPLE_CC__
+    #include <Carbon/Carbon.h>
+    
+    #include <DrawSprocket/DrawSprocket.h>
+    #include <AGL/agl.h>
+    #include <AGL/aglRenderers.h>
+    #include <OpenGL/gl.h>
+    #include <OpenGL/glu.h>
+#include <GLUT/glut.h>
+#endif
+
+#ifdef _WIN32
 #include "glut.h"
 #include <gl\gl.h>			// Header File For The OpenGL32 Library
 #include <gl\glu.h>			// Header File For The GLu32 Library
 #include <gl\glaux.h>		// Header File For The Glaux Library
+#endif
+
+bool app_render(int xs, int ys, double time_of_day);
+void renderBitmapString( float x, float y, void *font, char *string);
+#endif
 
 #include "util.h"
 #include "filesys.h"
 #include "boinc_api.h"
+#include "graphics_api.h"
 
 int DrawGLScene(GLvoid);
 void renderBitmapString( float x, float y, void *font, char *string);
@@ -123,12 +142,17 @@ int main(int argc, char **argv) {
     char resolved_name[512];
     MFILE out, time_file;
     FILE* state, *in;
-
+    
     my_start_time = time(0);
 
-	strcpy( the_char, "(none)\0" );
+    strcpy( the_char, "(none)\0" );
     retval = boinc_init();
     if (retval) exit(retval);
+    
+    retval = boinc_init_opengl();
+    if (retval) exit(retval);
+
+    boinc_get_init_data(uc_aid);
 
     boinc_get_init_data(uc_aid);
 
@@ -139,7 +163,7 @@ int main(int argc, char **argv) {
         if (!strcmp(argv[i], "-run_slow")) run_slow = 1;
         if (!strcmp(argv[i], "-cpu_time")) cpu_time = 1;
     }
-	run_slow = 1;
+    run_slow = 1;
     in = fopen(resolved_name, "r");
     boinc_resolve_filename( CHECKPOINT_FILE, resolved_name );
     state = fopen(resolved_name, "r");
@@ -161,7 +185,7 @@ int main(int argc, char **argv) {
     while (1) {
         c = fgetc(in);
         if (c == EOF) break;
-		sprintf( the_char, "%c -> %c\0", c, toupper(c) );
+            sprintf( the_char, "%c -> %c\0", c, toupper(c) );
         c = toupper(c);
         out._putchar(c);
         nchars++;
@@ -200,30 +224,36 @@ int main(int argc, char **argv) {
     time_file.printf("%f\n", boinc_cpu_time());
     time_file.flush();
     time_file.close();
+    
+    //boinc_finish_opengl();
     boinc_finish(0);
+    
     return 0;
 }
 
+#ifdef BOINC_APP_GRAPHICS
 
 int DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 {
-	char text[1024];
+    char text[1024];
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
-	glLoadIdentity();									// Reset The Current Modelview Matrix
-	glColor3f(1,1,1);
-	renderBitmapString(xPos,yPos,GLUT_BITMAP_HELVETICA_12,the_char);
-	xPos += xDelta;
-	yPos += yDelta;
-	if( xPos < -1 || xPos > 1 ) xDelta *= -1;
-	if( yPos < -1 || yPos > 1 ) yDelta *= -1;
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
+    glLoadIdentity();									// Reset The Current Modelview Matrix
+    glColor3f(1,1,1);
+    renderBitmapString(xPos,yPos,GLUT_BITMAP_HELVETICA_12,the_char);
+    xPos += xDelta;
+    yPos += yDelta;
+    if( xPos < -1 || xPos > 1 ) xDelta *= -1;
+    if( yPos < -1 || yPos > 1 ) yDelta *= -1;
 
-	sprintf( text, "User: %s", uc_aid.user_name );
-	renderBitmapString(-1.3,1.1,GLUT_BITMAP_HELVETICA_12, text);
-	sprintf( text, "Team: %s", uc_aid.team_name );
-	renderBitmapString(-1.3,1.0,GLUT_BITMAP_HELVETICA_12, text);
-	sprintf( text, "CPU Time: %f", uc_aid.wu_cpu_time );
-	renderBitmapString(-1.3,0.9,GLUT_BITMAP_HELVETICA_12, text);
+    sprintf( text, "User: %s", uc_aid.user_name );
+    renderBitmapString(-1.3,1.1,GLUT_BITMAP_HELVETICA_12, text);
+    sprintf( text, "Team: %s", uc_aid.team_name );
+    renderBitmapString(-1.3,1.0,GLUT_BITMAP_HELVETICA_12, text);
+    sprintf( text, "CPU Time: %f", uc_aid.wu_cpu_time );
+    renderBitmapString(-1.3,0.9,GLUT_BITMAP_HELVETICA_12, text);
 
-	return TRUE;										// Everything Went OK
+    return TRUE;										// Everything Went OK
 }
+
+#endif
