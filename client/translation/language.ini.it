@@ -1,0 +1,144 @@
+# Italian language.ini file
+# Questo e' il file di inizializzazione
+# per BOINC in lingua italiana
+#
+# PROJECT_ID
+[HEADER-Projects]
+Title=Progetti
+Project=Progetto
+Account=Acconto
+Total Credit=Credito totale
+Avg. Credit=Credito medio
+Resource Share=Ripartizione  risorse
+
+# RESULT_ID
+[HEADER-Work]
+Title=Lavoro
+Project=Progetto
+Application=Applicazione
+Name=Nome
+CPU time=Tempo di CPU
+Progress=Progresso
+To Completion=Da completare
+Status=Stato
+
+# XFER_ID
+[HEADER-Transfers]
+Title=Transmissione
+Project=Progetto
+File=File
+Progress=Progresso
+Size=Dimensioni
+Time=Tempo
+Direction=Direzione
+
+# MESSAGE_ID
+[HEADER-Messages]
+Title=Messaggi
+Project=Progetto
+Time=Tempo
+Message=Messaggio
+
+# USAGE_ID
+[HEADER-Disk]
+Title=Disco
+Free space: not available for use=Spazio  libero: non disponibile
+Free space: available for use=Spazio libero: disponibile
+Used space: other than BOINC=Spazio usato: da altri programmi, non da BOINC
+Used space: BOINC=Spazio usato: BOINC
+Used space:=Spazio usato:
+
+# miscellaneous text
+[HEADER-MISC]
+New=Nuovo
+Running=Attivo
+Ready to run=Pronto per essere eseguito
+Computation done=Fine del calcolo
+Results uploaded=Risultati inviati
+Acknowledged=Comferma
+Error: invalid state=Errore: Stato invalido
+Completed=Completato
+Upload=Scaricato
+Download=Caricato
+
+# menu items
+[MENU-File]
+Title=&File
+Show Graphics=Mostra &grafici
+Clear Messages=Cancella &messaggi
+Clear Inactive=Cancella &inattivi
+Suspend=&Sospendere
+Resume=&Continuare
+Exit=&Terminare
+
+[MENU-Settings]
+Title=&Messa a punto
+Login to Project...=&Notificarsi al progetto...
+Quit Project...=Abban&donare progetto...
+Proxy Server...=Regolare il Prox&y...
+
+[MENU-Connection]
+Title=&Connessione
+Connect Now=Connetti &adesso
+Hangup Connection if Dialed=&Chiudere connessione
+Confirm Before Connecting=&Conferma prima di connettere
+
+[MENU-Help]
+Title=A&iuto
+About...=&Su...
+
+[MENU-StatusIcon]
+Suspend=&Sospendere
+Resume=&Continuare
+Exit=&Terminare
+
+[MENU-Project]
+Relogin...=&Notificarsi al progetto...
+Quit Project...=Abban&donare progetto...
+
+[DIALOG-LOGIN]
+Title=Entrare nel progetto
+URL:=URL:
+Account Key:=Chiave acconto:
+OK=Accettare
+Cancel=Cancellare
+The URL for the website of the project.=URL per la website del progetto.
+The authorization code recieved in your confirmation email.=Il codice di  autorizzazione che ha ricevuto nella email di conferma.
+
+[DIALOG-QUIT]
+Title=Abbandonare un progetto
+URL:=URL:
+Account Key:=Chiave acconto:
+OK=Accettare
+Cancel=Cancellare
+Select the project you wish to quit.=Selezioni il progetto che desidera abbandonare.
+
+[DIALOG-CONNECT]
+Title=Connessione alla rete
+BOINC needs to connect to the network.  May it do so now?=BOINC desidera connettersi  alla rete.  Puo' connettersi adesso?
+Don't ask this again (connect automatically)=Non chiedere nuovamente (connetti automaticamente)
+OK=Accettare
+Cancel=Cancellare
+
+[DIALOG-ABOUT]
+Title=BOINC versione beta
+Berkeley Open Infrastructure for Network Computing=Berkeley Open Infrastructure for Network Computing
+Open Beta=Beta aperto (Open Beta)
+OK=Accettare
+
+[DIALOG-PROXY]
+Title=Regolare il Server Proxy
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=Alcune organizzazioni utilizzano un "HTTP Proxy" o un "SOCKS Proxy" (o ambedue) per maggiore sicurezza. Se Lei deve utilizzare un proxy, completi le informazioni. Se necessita aiuto, si rivolga al suo amministratore del sistema o al suo fornitore internet. 
+HTTP Proxy=HTTP proxy
+Connect via HTTP Proxy Server=Connetti via Server HTTP Proxy
+http://=http://
+Port Number:=Porto di accesso:
+SOCKS Proxy=SOCKS Proxy
+Connect via SOCKS Proxy Server=Connetti via Server SOCKS Proxy
+SOCKS Host:=SOCKS Host:
+Port Number:=Porto di accesso:
+Leave these blank if not needed=Lasciare vuoto se non si ha di bisogno 
+SOCKS User Name:=SOCKS Nome:
+SOCKS Password:=SOCKS Password:
+OK=Accettare
+Cancel=Cancellare

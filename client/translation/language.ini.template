@@ -1,0 +1,141 @@
+#Template (empty) language.ini file
+#PROJECT_ID
+[HEADER-Projects]
+Title=Projects
+Project=
+Account=
+Total Credit=
+Avg. Credit=
+Resource Share=
+
+#RESULT_ID
+[HEADER-Work]
+Title=Work
+Project=
+Application=
+Name=
+CPU time=
+Progress=
+To Completion=
+Status=
+
+#XFER_ID
+[HEADER-Transfers]
+Title=Transfers
+Project=
+File=
+Progress=
+Size=
+Time=
+Direction=
+
+#MESSAGE_ID
+[HEADER-Messages]
+Title=Messages
+Project=
+Time=
+Message=
+
+#USAGE_ID
+[HEADER-Disk]
+Title=Disk
+Free space: not available for use=
+Free space: available for use=
+Used space: other than BOINC=
+Used space: BOINC=
+Used space:=
+
+#miscellaneous text
+[HEADER-MISC]
+New=
+Running=
+Ready to run=
+Computation done=
+Results uploaded=
+Acknowledged=
+Error: invalid state=
+Completed=
+Upload=
+Download=
+
+#menu items
+[MENU-File]
+Title=File
+Show Graphics=
+Clear Messages=
+Clear Inactive=
+Suspend=
+Resume=
+Exit=
+
+[MENU-Settings]
+Title=Settings
+Login to Project...=
+Quit Project...=
+Proxy Server...=
+
+[MENU-Connection]
+Title=Connection
+Connect Now=
+Hangup Connection if Dialed=
+Confirm Before Connecting=
+
+[MENU-Help]
+Title=Help
+About...=
+
+[MENU-StatusIcon]
+Suspend=
+Resume=
+Exit=
+
+[MENU-Project]
+Relogin...=
+Quit Project...=
+
+[DIALOG-LOGIN]
+Title=Login to Project
+URL:=
+Account Key:=
+OK=
+Cancel=
+The URL for the website of the project.=
+The authorization code recieved in your confirmation email.=
+
+[DIALOG-QUIT]
+Title=Quit Project
+URL:=
+Account Key:=
+OK=
+Cancel=
+Select the project you wish to quit.=
+
+[DIALOG-CONNECT]
+Title=Connect to Network
+BOINC needs to connect to the network.  May it do so now?=
+Don't ask this again (connect automatically)=
+OK=
+Cancel=
+
+[DIALOG-ABOUT]
+Title=Boinc Beta Version
+Berkeley Open Infrastructure for Network Computing=
+Open Beta=
+OK=
+
+[DIALOG-PROXY]
+Title=Proxy Server Setup
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=
+HTTP Proxy=
+Connect via HTTP Proxy Server=
+http://=
+Port Number:=
+SOCKS Proxy=
+Connect via SOCKS Proxy Server=
+SOCKS Host:=
+Port Number:=
+Leave these blank if not needed=
+SOCKS User Name:=
+SOCKS Password:=
+OK=
+Cancel=
