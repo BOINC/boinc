@@ -63,8 +63,8 @@ struct SCHEDULER_REQUEST {
     int rpc_seqno;
     int work_req_seconds;
     char global_prefs_xml[LARGE_BLOB_SIZE];
-    char projects_xml[MEDIUM_BLOB_SIZE];
-    char code_sign_key[MEDIUM_BLOB_SIZE];
+    char projects_xml[LARGE_BLOB_SIZE];
+    char code_sign_key[4096];
     double total_disk_usage;
     double project_disk_usage;
     bool anonymous_platform;
@@ -105,8 +105,8 @@ struct SCHEDULER_REPLY {
     vector<RESULT>results;
     vector<RESULT>result_acks;
     vector<TRICKLE_DOWN>trickle_downs;
-    char code_sign_key[MEDIUM_BLOB_SIZE];
-    char code_sign_key_signature[MEDIUM_BLOB_SIZE];
+    char code_sign_key[4096];
+    char code_sign_key_signature[4096];
     bool send_trickle_up_ack;
     bool update_user_record;
 

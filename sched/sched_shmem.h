@@ -24,8 +24,8 @@
 //
 #define MAX_PLATFORMS       50
 #define MAX_APPS            10
-#define MAX_APP_VERSIONS    1000
-#define MAX_WU_RESULTS      1000
+#define MAX_APP_VERSIONS    100
+#define MAX_WU_RESULTS      100
 
 // the following parameters apply to results in the work array
 //

@@ -53,7 +53,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     DB_RESULT* p_canonical_result = NULL;
     int nerrors, retval, ninprogress, nsuccess;
     int nunsent, ncouldnt_send, nover;
-    char suffix[256], result_template[MEDIUM_BLOB_SIZE];
+    char suffix[256], result_template[LARGE_BLOB_SIZE];
     time_t now = time(0), x;
     bool all_over_and_validated, have_result_to_validate, do_delete;
 

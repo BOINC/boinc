@@ -12236,3 +12236,41 @@ David  May 11 2004
         handle_request.C
         server_types.C,h
         trickle_handler.C
+
+David  May 12 2004
+    - Server: remove MEDIUM_BLOB_SIZE and use LARGE_BLOB_SIZE instead.
+        MEDIUM_BLOB_SIZE was used in various C structs
+        to hold database blobs for:
+            app_version.xml_doc (list of files in app)
+            result.xml_doc_in, xml_doc_out (output files)
+            result.stderr_out
+            wu.xml_doc (input files)
+        It was defined as 4KB, which overflowed if you had
+            more than 10 or so files (with signatures etc.)
+
+    Note 1: this greatly increases the size of WORKUNIT and RESULT,
+        to I decreased the number of WU_RESULTs in shared memory
+        from 1000 to 100.
+        Eventually we might want to redefine the shared memory
+        so that it doesn't store the entire structs
+    Note 2: these buffer overflows should have been caught early-on,
+        i.e. when the workunit, result or app_version was created.
+        We should never just do a strcpy() or even safe_strncpy();
+        instead, we should check for overflow, return error if so,
+        then do the copy.
+        I added some code to do this in workunit and result generation;
+        still need to do this for app_version (in Python)
+
+    db/
+        boinc_db.h
+    sched/
+        assimilator.C
+        file_deleter.C
+        make_work.C
+        sched_send.C
+        sched_shmem.C
+        server_types.h
+        transitioner.C
+    tools/
+        backend_lib.C
+        process_result_template.C

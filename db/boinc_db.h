@@ -34,11 +34,9 @@
 extern DB_CONN boinc_db;
 
 // Sizes of text buffers in memory, corresponding to database BLOBs.
-// Medium is for XML fields used by BOINC;
-// this has to be kept small to reduce shared mem usage.
 // Large is for fields with user-supplied text, and preferences
 
-#define MEDIUM_BLOB_SIZE   4096
+//#define MEDIUM_BLOB_SIZE   4096
 #define LARGE_BLOB_SIZE   65536
 
 
@@ -61,7 +59,7 @@ struct CORE_VERSION {
     int create_time;
     int version_num;
     int platformid;
-    char xml_doc[MEDIUM_BLOB_SIZE];      // a <file_info> for the download file
+    char xml_doc[LARGE_BLOB_SIZE];      // a <file_info> for the download file
     char message[256];      // if we get a request from this version,
                             // send this message
     bool deprecated;        // if we get a request from this version,
@@ -91,7 +89,7 @@ struct APP_VERSION {
     int appid;
     int version_num;
     int platformid;
-    char xml_doc[MEDIUM_BLOB_SIZE];
+    char xml_doc[LARGE_BLOB_SIZE];
     // describes app files. format:
     // <file_info>...</file_info>
     // ...
@@ -255,7 +253,7 @@ struct HOST {
     double credit_per_cpu_sec;
 
     char venue[256];        // home/work/school
-    char projects[MEDIUM_BLOB_SIZE];
+    char projects[LARGE_BLOB_SIZE];
                             // list of projects this host is attached to,
                             // and the resource shares (XML)
 
@@ -294,7 +292,7 @@ struct WORKUNIT {
     int create_time;
     int appid;                  // associated app
     char name[256];
-    char xml_doc[MEDIUM_BLOB_SIZE];
+    char xml_doc[LARGE_BLOB_SIZE];
     int batch;
     double rsc_fpops_est;       // estimated # of FP operations
         // used to estimate how long a result will take on a host
@@ -332,7 +330,7 @@ struct WORKUNIT {
         // (need this in case results never returned
     int max_success_results;    // WU error if < #success results
         // without consensus (i.e. WU is nondeterministic)
-    char result_template[MEDIUM_BLOB_SIZE];
+    char result_template[LARGE_BLOB_SIZE];
 
     // the following not used in the DB
     char app_name[256];
@@ -386,9 +384,9 @@ struct RESULT {
     int received_time;              // when result was received from host
     char name[256];
     double cpu_time;                // CPU time used to complete result
-    char xml_doc_in[MEDIUM_BLOB_SIZE];     // descriptions of output files
-    char xml_doc_out[MEDIUM_BLOB_SIZE];    // MD5s of output files
-    char stderr_out[MEDIUM_BLOB_SIZE];     // stderr output, if any
+    char xml_doc_in[LARGE_BLOB_SIZE];     // descriptions of output files
+    char xml_doc_out[LARGE_BLOB_SIZE];    // MD5s of output files
+    char stderr_out[LARGE_BLOB_SIZE];     // stderr output, if any
     int batch;
     int file_delete_state;	    // see above; values for file_delete_state
     int validate_state;

@@ -36,21 +36,17 @@
 #include "fcgi_stdio.h"
 #endif
 
-int read_file(FILE* f, char* buf) {
-    assert(f);
-    assert(buf);
-    int n = fread(buf, 1, MEDIUM_BLOB_SIZE, f);
+int read_file(FILE* f, char* buf, int len) {
+    int n = fread(buf, 1, len, f);
     buf[n] = 0;
     return 0;
 }
 
-int read_filename(const char* path, char* buf) {
+int read_filename(const char* path, char* buf, int len) {
     int retval;
-    assert(path);
-    assert(buf);
     FILE* f = fopen(path, "r");
     if (!f) return -1;
-    retval = read_file(f, buf);
+    retval = read_file(f, buf, len);
     fclose(f);
     return retval;
 }
@@ -64,7 +60,7 @@ static int process_wu_template(
     const char* upload_url, const char* download_url
 ) {
     char* p;
-    char buf[MEDIUM_BLOB_SIZE], md5[33], path[256];
+    char buf[LARGE_BLOB_SIZE], md5[33], path[256];
     char out[LARGE_BLOB_SIZE];
     int retval, file_number;
     double nbytes;
@@ -166,6 +162,13 @@ static int process_wu_template(
         fprintf(stderr, "create_work: bad WU template - no <workunit>\n");
         return -1;
     }
+    if (strlen(out) > sizeof(wu.xml_doc)-1) {
+        fprintf(stderr,
+            "create_work: WU XML field is too long (%d bytes; max is %d)\n",
+            strlen(out), sizeof(wu.xml_doc)-1
+        );
+        return ERR_BUFFER_OVERFLOW;
+    }
     safe_strncpy(wu.xml_doc, out, sizeof(wu.xml_doc));
     return 0;
 }
@@ -205,7 +208,7 @@ int create_result(
 ) {
     DB_RESULT result;
     char base_outfile_name[256];
-    char result_template_copy[MEDIUM_BLOB_SIZE];
+    char result_template_copy[LARGE_BLOB_SIZE];
     int retval;
 
     result.clear();
@@ -220,15 +223,23 @@ int create_result(
         base_outfile_name,
         upload_url
     );
-    strcpy(result.xml_doc_in, result_template_copy);
+    if (strlen(result_template_copy) > sizeof(result.xml_doc_in)-1) {
+        fprintf(stderr,
+            "result XML doc is too long: %d bytes, max is %d\n",
+            strlen(result_template_copy), sizeof(result.xml_doc_in)-1
+        );
+        return ERR_BUFFER_OVERFLOW;
+    }
+    safe_strncpy(result.xml_doc_in, result_template_copy, sizeof(result.xml_doc_in));
 
     // NOTE: result::insert() sets random
 
     retval = result.insert();
     if (retval) {
         fprintf(stderr, "result.insert(): %d\n", retval);
+        return retval;
     }
-    return retval;
+    return 0;
 }
 
 // make sure a WU's input files are actually there
@@ -261,8 +272,8 @@ int create_work(
     const char* upload_url, const char* download_url
 ) {
     int retval;
-    char _result_template[MEDIUM_BLOB_SIZE];
-    char wu_template[MEDIUM_BLOB_SIZE];
+    char _result_template[LARGE_BLOB_SIZE];
+    char wu_template[LARGE_BLOB_SIZE];
 
 #if 0
     retval = check_files(infiles, ninfiles, download_dir);
@@ -283,13 +294,21 @@ int create_work(
         return retval;
     }
 
-    retval = read_filename(result_template_filename, _result_template);
+    retval = read_filename(
+        result_template_filename, _result_template, sizeof(_result_template)
+    );
     if (retval) {
         fprintf(stderr, "create_work: can't read result template\n");
         return retval;
     }
 
-    strcpy(wu.result_template, _result_template);
+    if (strlen(_result_template) > sizeof(wu.result_template)-1) {
+        fprintf(stderr, "result template is too big: %d bytes, max is %d\n",
+            strlen(_result_template), sizeof(wu.result_template)-1
+        );
+        return ERR_BUFFER_OVERFLOW;
+    }
+    safe_strncpy(wu.result_template, _result_template, sizeof(wu.result_template));
     process_result_template_upload_url_only(wu.result_template, upload_url);
 
     wu.transition_time = time(0);

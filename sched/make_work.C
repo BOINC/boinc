@@ -57,7 +57,7 @@ char wu_name[256];
 void replace_file_name(
     char* xml_doc, char* filename, char* new_filename, char* download_url
 ) {
-    char buf[MEDIUM_BLOB_SIZE], temp[256], download_path[256],
+    char buf[LARGE_BLOB_SIZE], temp[256], download_path[256],
     new_download_path[256];
     char * p;
 
@@ -110,9 +110,9 @@ void make_work() {
     char * p;
     int retval, start_time=time(0);
     char keypath[256];
-    char file_name[256], buf[MEDIUM_BLOB_SIZE], pathname[256];
+    char file_name[256], buf[LARGE_BLOB_SIZE], pathname[256];
     char new_file_name[256], new_pathname[256], command[256];
-    char starting_xml[MEDIUM_BLOB_SIZE], new_buf[MEDIUM_BLOB_SIZE];
+    char starting_xml[LARGE_BLOB_SIZE], new_buf[LARGE_BLOB_SIZE];
     R_RSA_PRIVATE_KEY key;
     DB_WORKUNIT wu;
     int seqno = 0;

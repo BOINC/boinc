@@ -45,7 +45,7 @@ bool do_pass(APP& app) {
     DB_WORKUNIT wu;
     DB_RESULT canonical_result, result;
     bool did_something = false;
-    char buf[MEDIUM_BLOB_SIZE];
+    char buf[256];
 
     check_stop_daemons();
 
