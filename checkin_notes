@@ -15054,3 +15054,18 @@ Rom    11 July 2004
         stdwx.h
         Workunit.cpp, .h
         XMLParser.cpp, .h
+
+Daniel 2004-07-12
+    - bugfix: don't tell uninitalized apps to reread prefs
+    - only call set_client_state_dirty("schedule_cpus") if some
+      project had a runnable result. (if no such project, then debt
+      and active task set can't change.)
+    - tell apps to stop doing screensaver graphics when rescheduling
+      CPUs
+    - added ACTIVE_TASK_SET::get_next_graphics_capable_app(), not
+      currently used
+
+    client/
+        app.{C,h}
+        cs_apps.C
+

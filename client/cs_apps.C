@@ -236,7 +236,7 @@ void CLIENT_STATE::assign_results_to_projects() {
     // Before assigning a result to an active task, check if that result is a file xfer
     // this will be appearent by the lack of files associated with the workunit's app
     // Running this function will find these results and mark them as completed.
-
+    //
     handle_file_xfer_apps();
 
     for (unsigned int i=0; i<active_tasks.active_tasks.size(); ++i) {
@@ -262,6 +262,7 @@ void CLIENT_STATE::assign_results_to_projects() {
     // active tasks, but all of those were already been considered in the
     // previous loop.
     // So p->next_runnable_result will not be NULL if there were any.
+    //
     for (unsigned int i=0; i<results.size(); ++i) {
         if (results[i]->already_selected) continue;
         PROJECT *p = results[i]->wup->project;
@@ -335,6 +336,8 @@ bool CLIENT_STATE::schedule_largest_debt_project(double expected_pay_off) {
 bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     double expected_pay_off;
     vector<ACTIVE_TASK*>::iterator iter;
+    ACTIVE_TASK *atp;
+    PROJECT *p;
     bool some_app_started = false;
     double total_resource_share = 0;
     int retval, elapsed_time;
@@ -351,9 +354,16 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
         return false;
     }
 
+    // tell app doing screensaver (fullscreen) graphics to stop
+    //
+    if ((atp = gstate.active_tasks.get_app_requested(MODE_FULLSCREEN)) != 0) {
+        atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
+    }
+
     // finish work accounting for active tasks, reset temporary fields
+    //
     for (i=0; i < active_tasks.active_tasks.size(); ++i) {
-        ACTIVE_TASK *atp = active_tasks.active_tasks[i];
+        atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
         double task_cpu_time = atp->current_cpu_time - atp->cpu_time_at_last_sched;
         atp->result->project->work_done_this_period += task_cpu_time;
@@ -365,7 +375,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     //
     assign_results_to_projects(); // do this to see which projects have work
     for (i=0; i < projects.size(); ++i) {
-        PROJECT *p = projects[i];
+        p = projects[i];
         if (p->next_runnable_result != NULL) {
             total_resource_share += projects[i]->resource_share;
         }
@@ -374,8 +384,9 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     // adjust project debts
     // reset debts for projects with no runnable results
     // reset temporary fields
+    //
     for (i=0; i < projects.size(); ++i) {
-        PROJECT *p = projects[i];
+        p = projects[i];
         if (p->next_runnable_result == NULL) {
             p->debt = 0;
             p->anticipated_debt = 0;
@@ -395,6 +406,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     }
 
     // schedule tasks for projects in order of decreasing anticipated debt
+    //
     for (i=0; i<results.size(); ++i) {
         results[i]->already_selected = false;
     }
@@ -405,9 +417,10 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     }
 
     // preempt, start, and resume tasks
+    //
     iter = active_tasks.active_tasks.begin();
     while (iter != active_tasks.active_tasks.end()) {
-        ACTIVE_TASK *atp = *iter;
+        atp = *iter;
         if (atp->scheduler_state == CPU_SCHED_RUNNING
             && atp->next_scheduler_state == CPU_SCHED_PREEMPTED
         ) {
@@ -439,13 +452,17 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     // reset work accounting
     // doing this at the end of schedule_cpus() because
     // work_done_this_period's can change as apps finish
+    //
     for (i=0; i < projects.size(); ++i) {
-        projects[i]->work_done_this_period = 0;
+        p = projects[i];
+        p->work_done_this_period = 0;
     }
     cpu_sched_work_done_this_period = 0;
 
     cpu_sched_last_time = time(0);
-    set_client_state_dirty("schedule_cpus");
+    if (total_resource_share > 0.0) {
+        set_client_state_dirty("schedule_cpus");
+    }
     if (some_app_started) {
         app_started = cpu_sched_last_time;
     }
@@ -520,7 +537,7 @@ int CLIENT_STATE::choose_version_num(char* app_name, SCHEDULER_REPLY& sr) {
 
 // goes through results and checks if the associated apps has no app files
 // then there is nothing to do, never start the app, close the result
-
+//
 void CLIENT_STATE::handle_file_xfer_apps() {
     for(vector <RESULT*>::const_iterator i = results.begin();
         i!=results.end(); ++i)
@@ -532,4 +549,3 @@ void CLIENT_STATE::handle_file_xfer_apps() {
         }
     }
 }
-

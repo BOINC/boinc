@@ -180,6 +180,7 @@ public:
     void send_trickle_downs();
 
     // screensaver-related functions
+    ACTIVE_TASK* get_next_graphics_capable_app();
     ACTIVE_TASK* get_graphics_capable_app();
     ACTIVE_TASK* get_app_requested(int req_mode);
     void save_app_modes();
