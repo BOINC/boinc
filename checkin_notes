@@ -13609,3 +13609,8 @@ Rom    15 June 2004
     tools/
         watch_tcp (added)
         grep_logs (added)
+
+Rom    June 15 2004
+    - Tag for 3.08 release, all platforms
+      boinc_core_release_3_08
+      seti_boinc_app_release_3_08
