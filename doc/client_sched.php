@@ -72,7 +72,7 @@ For example, consider a system participating in two projects, A and B,
 with resource shares 75% and 25%, respectively.
 Suppose in some time period, the system devotes 25 minutes of CPU time to project A
 and 15 minutes of CPU time to project B.
-We decrease the debt to A by 20 minutes and increase it by 30 minutes (75% of 25 + 15).
+We decrease the debt to A by 25 minutes and increase it by 30 minutes (75% of 25 + 15).
 So the debt increases overall.
 This makes sense because we expected to devote a
 larger percentage of the system resources to project A than it
@@ -227,6 +227,8 @@ Thus, try to maintain between T and 2T days worth of work.
 <p>
 The CPU scheduler needs a minimum number of results from a project
 in order to respect the project's resource share.
+This is the number of active tasks that a project can potentially have
+running simultaneously, given its resource share.
 We effectively have too little work when the number of results for a
 project is less than this minimum number.
 
@@ -256,7 +258,9 @@ If the number of results for the project is too few
 <li>
 Set the project's work request to 2T
 <li>
-Return NEED WORK IMMEDIATELY
+Set request urgency to NEED WORK IMMEDIATELY
+<li>
+Continue
 </ol>
 <li>
 For all but the top (min_results - 1) results with the longest
@@ -270,11 +274,13 @@ and the project's resource share
 If the sum S is less than T
 <ol>
 <li>Set the project's work request to 2T - S
-<li>Return NEED WORK
+<li>Set request urgency to NEED WORK
 </ol>
 <li>
-Else, set the project's work request to 0 and return DON'T NEED WORK
+Else, set the project's work request to 0
 </ol>
+<li>
+Return the request urgency
 </ol>
 
 <p>
@@ -287,29 +293,40 @@ request the work.
 <pre>
 data structures:
 PROJECT:
-    double work_request_days
+    double work_request
+    double work_remaining // temp
+RESULT:
+    double cpu_time_remaining // temp
 
-check_work_needed(Project P):
+compute_work_request():
 
-if num_results(P) < min_results(P):
-    P.work_request_days = 2T
-    return NEED_WORK_IMMEDIATELY
+    foreach project P:
+        P.work_request = 0
+        P.work_remaining = 0
 
-top_results = top (min_results(P) - 1) results of P by expected
-completion time
+    foreach result R:
+        R.cpu_time_remaining = estimate_cpu_time_remaining(R)
 
-work_remaining = 0
-foreach result R of P that is not in top_results:
-    work_remaining += R.expected_completion_time
-work_remaining *= P.resource_share * active_frac / ncpus
+    // we ignore the top (min_results-1) by first subtracting
+    // their cpu_time_remaining from the sum
+    foreach project P:
+        do min_results(P) - 1 times:
+            R = argmax { R.cpu_time_remaining } over all results for P
+            P.work_remaining -= R.cpu_time_remaining
+            R.cpu_time_remaining = 0
 
-if work_remaining < T:
-    P.work_request_days = 2T - work_remaining / seconds_per_day
-    return NEED_WORK
-else:
-    P.work_request_days = 0
-    return DONT_NEED_WORK
+    foreach result R:
+        R.project.work_remaining += R.cpu_time_remaining
 
+    foreach project P:
+        if P.work_remaining < T:
+            if P.work_remaining == 0:
+                // no other results besides the top (min_results-1)
+                need_work_immediately = 1
+            P.work_request = 2*T - P.work_remaining / SECONDS_PER_DAY
+            need_work = 1
+
+    return need_work_immediately + need_work
 
 </pre>
 
