@@ -5,7 +5,7 @@ VPATH           = @srcdir@
 
 all: cgi
 
-CFLAGS = -g -Wall -I @top_srcdir@/db -I @top_srcdir@/lib -I @top_srcdir@/tools
+CFLAGS = -g -Wall @DEFS@ -I@top_srcdir@/db -I@top_srcdir@/lib -I@top_srcdir@/tools
 CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
@@ -34,7 +34,7 @@ FEEDER_OBJS = \
 
 MYSQL_DIR = /usr/local/mysql/lib
 MYSQL_LIBS = \
--L$(MYSQL_DIR) -L/sw/lib/mysql \
+-L$(MYSQL_DIR) -L/sw/lib/mysql -L/usr/local/lib/mysql \
 -lmysqlclient -L/usr/local/lib -lz \
 -lm $(NETLIBS)
 

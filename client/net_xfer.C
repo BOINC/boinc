@@ -149,6 +149,8 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
     NET_XFER *nxp;
 #if GETSOCKOPT_SIZE_T
     size_t intsize = sizeof(int);
+#elif GETSOCKOPT_SOCKLEN_T
+    socklen_t intsize = sizeof(int);
 #else
     int intsize = sizeof(int);
 #endif

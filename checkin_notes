@@ -226,3 +226,14 @@ David A.        May 29, 2002
     sched/
         feeder.C
         sched_shmem.C,h
+
+Hiram C.  Thu May 30 01:28:47 PDT 2002
+	updating: client/configure client/configure.in
+	client/net_xfer.C sched/Makefile.in sched/feeder.C
+
+	This now builds just fine on Solaris, Linux and OpenUnix8.
+	And only two tiny errors remain for a Mac OS X build.
+	That being the specification of g++ in the sched/Makefile
+	and statvfs() is not available on the Mac for
+	the client/hostinfo_unix.C compile.  Need a substitute for
+	that function on the Mac.
