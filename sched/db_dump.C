@@ -446,6 +446,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
     fprintf(f,
         "<team>\n"
         " <id>%d</id>\n"
+        " <type>%d</type>\n"
         " <name>%s</name>\n"
         " <userid>%d</userid>\n"
         " <total_credit>%f</total_credit>\n"
@@ -453,6 +454,7 @@ void write_team(TEAM& team, FILE* f, bool detail) {
         " <expavg_time>%f</expavg_time>\n"
         " <nusers>%d</nusers>\n",
         team.id,
+        team.type,
         name.c_str(),
         team.userid,
         team.total_credit,
@@ -460,6 +462,16 @@ void write_team(TEAM& team, FILE* f, bool detail) {
         team.expavg_time,
         team.nusers
     );
+
+    // show founder name since that user might not be active
+    //
+    retval = user.lookup_id(team.userid);
+    if (!retval) {
+        fprintf(f,
+            "  <founder_name>%s</founder_name>\n",
+            user.name
+        );
+    }
 
     fprintf(f,
         " <create_time>%d</create_time>\n",

@@ -22720,3 +22720,9 @@ David  14 Jan 2005
 
     html/inc/
         forum.inc
+
+David  14 Jan 2005
+    - fix to fix in msg board code
+
+    html/inc/
+        forum_show.inc
