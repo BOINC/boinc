@@ -84,7 +84,7 @@ function show_error($str) {
     // In success case, redirect to a fixed page so that user can
     // return to it without getting "Repost form data" stuff
 
-    $user->name = $name;
+    $user->name = $new_name;
     $user->email_addr = $new_email_addr;
     $user->authenticator = $authenticator;
     send_auth_email($user, true, false);

@@ -17,7 +17,7 @@ echo "
     <li><b>Windows users:</b>
         Open the BOINC application window by
         double-clicking the BOINC system tray icon.
-        Choose the 'Login to Project' item in the Settings menu.
+        Choose the 'Attach to Project' item in the Settings menu.
         It will ask you for a project URL and an account ID.
     <li><b>Mac, Unix and Linux users:</b>
         Quit the BOINC client.
@@ -32,7 +32,6 @@ echo "
                             
     This completes the ".PROJECT." installation.
     <br>Thanks for participating in ".PROJECT.".
-    <br>Visit our <a href=index.php>main page</a> for more information.
 ";
 
 page_tail();

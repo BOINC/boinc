@@ -20956,3 +20956,10 @@ Bruce 9 Dec 2004
         Makefile.am
     api/
 	Makefile.am
+
+David  9 Dec 2004
+    - put user name in confirmation email correctly
+
+    html/user/
+        account_setup_nonfirst_done.php
+        create_account_action.php
