@@ -82,7 +82,7 @@ server and client software:
   <li>Apache and PHP: can be used but not required
 </ul>
 
-Optional, required only if you change <code>*/Makefile.am</code>:
+Optional, required only if you are building from CVS, and not from a tarball, or wish to modify one of the <code>*/Makefile.am</code>:
 <ul>
   <li><b>automake</b> 1.7+
   <li><b>autoconf</b> 2.5+
