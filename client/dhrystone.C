@@ -234,7 +234,6 @@ void dhrystone(
     register unsigned long  i;
 
     int         count = 10;
-    char        general[9][80] = {" "};
 
  
 /***********************************************************************

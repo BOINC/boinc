@@ -25,6 +25,7 @@ boinc_client_SOURCES =			\
     cs_scheduler.C				\
     cs_statefile.C				\
     cs_trickle.C				\
+    dhrystone.C                 \
     file_names.C				\
     file_xfer.C					\
     gui_rpc_server.C			\
@@ -41,6 +42,7 @@ boinc_client_SOURCES =			\
     scheduler_op.C				\
     ss_logic.C					\
     time_stats.C				\
+    whetstone.C                 \
     ../lib/app_ipc.C			\
     ../lib/crypt.C				\
     ../lib/diagnostics.C		\

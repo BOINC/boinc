@@ -328,14 +328,18 @@ C--------------------------------------------------------------------
         goto restart;
 	}
 
+#if 0
 	printf("Loops: %ld, Iterations: %d, Duration: %f sec.\n",
 			LOOP, II, finisec-startsec);
+#endif
 
 	KIPS = (100.0*LOOP*II)/(double)(finisec-startsec);
+#if 0
 	if (KIPS >= 1000.0)
 		printf("C Converted Double Precision Whetstones: %.1f MIPS\n", KIPS/1000.0);
 	else
 		printf("C Converted Double Precision Whetstones: %.1f KIPS\n", KIPS);
+#endif
 
     flops = KIPS*1000.;
 }
@@ -375,3 +379,4 @@ P3(double X, double Y, double *Z)
 	Y1 = T * (X1 + Y1);
 	*Z  = (X1 + Y1) / T2;
 }
+
