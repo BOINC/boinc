@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  2004/06/25 22:50:56  rwalton
+// Client spamming server hotfix
+//
 // Revision 1.4  2004/05/17 22:15:09  rwalton
 // *** empty log message ***
 //
@@ -33,14 +36,16 @@
 #pragma interface "MainDocument.cpp"
 #endif
 
+#include "XMLParser.h"
 
-class CMainDocument : public wxObject
+
+class CMainDocument : public CXMLParser
 {
     DECLARE_DYNAMIC_CLASS(CMainDocument)
 
 public:
-    CMainDocument(void);
-    ~CMainDocument(void);
+    CMainDocument();
+    ~CMainDocument();
 };
 
 

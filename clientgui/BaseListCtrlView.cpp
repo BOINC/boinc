@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.12  2004/06/25 22:50:56  rwalton
+// Client spamming server hotfix
+//
 // Revision 1.11  2004/05/29 06:56:59  rwalton
 // *** empty log message ***
 //
@@ -61,7 +64,7 @@ CBaseListCtrlView::CBaseListCtrlView(void)
 
 
 CBaseListCtrlView::CBaseListCtrlView(wxNotebook* pNotebook) :
-    wxListView(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxLC_REPORT, wxDefaultValidator, _T("wxListView"))
+    wxListView(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_VIRTUAL, wxDefaultValidator, _T("wxListView"))
 {
     wxLogTrace("CBaseListCtrlView::CBaseListCtrlView - Function Begining");
     wxLogTrace("CBaseListCtrlView::CBaseListCtrlView - Function Ending");

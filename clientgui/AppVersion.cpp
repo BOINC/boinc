@@ -21,30 +21,27 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.6  2004/06/25 22:50:56  rwalton
+// Revision 1.1  2004/06/25 22:50:56  rwalton
 // Client spamming server hotfix
 //
-// Revision 1.5  2004/05/17 22:15:09  rwalton
-// *** empty log message ***
 //
 //
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "MainDocument.h"
+#pragma implementation "AppVersion.h"
 #endif
 
 #include "stdwx.h"
-#include "MainDocument.h"
+#include "AppVersion.h"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CMainDocument, CXMLParser)
+IMPLEMENT_DYNAMIC_CLASS(CAppVersion, CXMLParser)
 
 
-CMainDocument::CMainDocument(void)
+CAppVersion::CAppVersion(void)
 {
 }
 
-CMainDocument::~CMainDocument(void)
+CAppVersion::~CAppVersion(void)
 {
 }
-

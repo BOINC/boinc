@@ -21,30 +21,45 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.6  2004/06/25 22:50:56  rwalton
+// Revision 1.1  2004/06/25 22:50:57  rwalton
 // Client spamming server hotfix
 //
-// Revision 1.5  2004/05/17 22:15:09  rwalton
-// *** empty log message ***
 //
 //
+
+#ifndef _MESSAGE_H_
+#define _MESSAGE_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "MainDocument.h"
+#pragma interface "Message.cpp"
 #endif
 
-#include "stdwx.h"
-#include "MainDocument.h"
+#include "XMLParser.h"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CMainDocument, CXMLParser)
-
-
-CMainDocument::CMainDocument(void)
+class CMessage : public CXMLParser
 {
-}
+    DECLARE_DYNAMIC_CLASS(CMessage)
 
-CMainDocument::~CMainDocument(void)
-{
-}
+private:
+    wxString        project;
+    wxInt32         priority;
+    wxInt32         timestamp;
+    wxString        body;
+
+public:
+    CMessage();
+    ~CMessage();
+
+    wxInt32         Parse(wxTextInputStream* input);
+
+    wxString        GetProject()                    { return project; }
+    wxInt32         GetPriority()                   { return priority; }
+    wxInt32         GetTimestamp()                  { return timestamp; }
+    wxString        GetHostname()                   { return body; }
+
+};
+
+
+#endif
 

@@ -1,2 +1,0 @@
-app ICON "app.ico"
-#include "wx/msw/wx.rc"

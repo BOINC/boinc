@@ -21,30 +21,38 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.6  2004/06/25 22:50:56  rwalton
+// Revision 1.1  2004/06/25 22:50:58  rwalton
 // Client spamming server hotfix
 //
-// Revision 1.5  2004/05/17 22:15:09  rwalton
-// *** empty log message ***
 //
 //
+
+#ifndef _XMLPARSER_H_
+#define _XMLPARSER_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "MainDocument.h"
+#pragma interface "XMLParser.cpp"
 #endif
 
-#include "stdwx.h"
-#include "MainDocument.h"
 
-
-IMPLEMENT_DYNAMIC_CLASS(CMainDocument, CXMLParser)
-
-
-CMainDocument::CMainDocument(void)
+class CXMLParser : public wxObject
 {
-}
+    DECLARE_DYNAMIC_CLASS(CXMLParser)
 
-CMainDocument::~CMainDocument(void)
-{
-}
+public:
+    CXMLParser();
+    ~CXMLParser();
+
+    bool    match_tag(const wxString &strBuffer, const wxString &strTag);
+    bool    parse_int(const wxString &strBuffer, const wxString &strTag, long &lValue);
+    bool    parse_double(const wxString &strBuffer, const wxString &strTag, double &dValue);
+    bool    parse_string(const wxString &strBuffer, const wxString &strTag, wxString &strValue);
+
+    void    xml_escape(const wxString& in, wxString& out);
+    void    xml_unescape(const wxString& in, wxString& out);
+
+};
+
+
+#endif
 

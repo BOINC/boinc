@@ -14139,3 +14139,23 @@ Brian  24 June 2004
 
       Sched/
            server_types.C
+
+Rom    25 June 2004
+    - Numerious file additions to the new client gui
+    - Fixed a user feedback issue between restarting vs. resuming text when
+      describing restarting of a task.
+    - Limit the transitioner to a resultset of 5000 in it's workunit query so
+      it doesn't spend so much time waiting on the database and order by tansition_time
+      so we see the oldest to the newest.
+    - Include the prototypes of the new language translation files based off of
+      the standards used the wxWidgets, These files were constructed using an 
+      automated tool called poEdit.
+
+    client/
+        app.C
+    clientgui/
+        <Lots of various files>
+    clientgui/locale/
+        en_US.*
+    sched/
+        transitioner.C

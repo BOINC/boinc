@@ -1,0 +1,241 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BOINC Manager 3.x\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2004-06-25 12:21-0800\n"
+"Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
+"Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: clientgui/BOINCGUIApp.cpp:118
+msgid "You have specified -e on the commmand line. The application will exit now."
+msgstr ""
+
+#: clientgui/BOINCGUIApp.cpp:119
+msgid "Example command line option"
+msgstr ""
+
+#: clientgui/DlgAbout.cpp:137
+#: clientgui/DlgAttachProject.cpp:109
+#: clientgui/DlgConnection.cpp:92
+#: clientgui/DlgOptions.cpp:210
+msgid "&OK"
+msgstr ""
+
+#: clientgui/DlgAttachProject.cpp:88
+msgid "URL:"
+msgstr ""
+
+#: clientgui/DlgAttachProject.cpp:97
+msgid "Account Key:"
+msgstr ""
+
+#: clientgui/DlgAttachProject.cpp:114
+#: clientgui/DlgConnection.cpp:97
+#: clientgui/DlgOptions.cpp:215
+msgid "&Cancel"
+msgstr ""
+
+#: clientgui/DlgConnection.cpp:85
+msgid ""
+"BOINC needs to connect to the network.\n"
+"May it do so now?"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:101
+msgid "General"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:108
+msgid "Connect via HTTP proxy server"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:112
+msgid "HTTP Proxy Server Configuration"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:120
+#: clientgui/DlgOptions.cpp:171
+msgid "Address:"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:127
+#: clientgui/DlgOptions.cpp:178
+msgid "Port:"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:133
+#: clientgui/DlgOptions.cpp:184
+msgid "Leave these blank if not needed"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:139
+#: clientgui/DlgOptions.cpp:190
+msgid "User Name:"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:146
+#: clientgui/DlgOptions.cpp:197
+msgid "Password:"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:152
+msgid "HTTP Proxy"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:159
+msgid "Connect via SOCKS proxy server"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:163
+msgid "SOCKS Proxy Server Configuration"
+msgstr ""
+
+#: clientgui/DlgOptions.cpp:203
+msgid "SOCKS Proxy"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:163
+msgid "E&xit"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:167
+msgid "&Attach to Project..."
+msgstr ""
+
+#: clientgui/MainFrame.cpp:171
+msgid "&Options"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:175
+msgid "&About BOINC..."
+msgstr ""
+
+#: clientgui/MainFrame.cpp:179
+msgid "&File"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:180
+msgid "&Commands"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:181
+msgid "&Tools"
+msgstr ""
+
+#: clientgui/MainFrame.cpp:182
+msgid "&Help"
+msgstr ""
+
+#: clientgui/MessagesView.cpp:67
+#: clientgui/ProjectsView.cpp:67
+#: clientgui/TransfersView.cpp:67
+#: clientgui/WorkView.cpp:67
+msgid "Project"
+msgstr ""
+
+#: clientgui/MessagesView.cpp:68
+#: clientgui/TransfersView.cpp:71
+msgid "Time"
+msgstr ""
+
+#: clientgui/MessagesView.cpp:69
+msgid "Message"
+msgstr ""
+
+#: clientgui/MessagesView.cpp:88
+msgid "Messages"
+msgstr ""
+
+#: clientgui/ProjectsView.cpp:68
+msgid "Account"
+msgstr ""
+
+#: clientgui/ProjectsView.cpp:69
+msgid "Total Credit"
+msgstr ""
+
+#: clientgui/ProjectsView.cpp:70
+msgid "Avg. Credit"
+msgstr ""
+
+#: clientgui/ProjectsView.cpp:71
+msgid "Resource Share"
+msgstr ""
+
+#: clientgui/ProjectsView.cpp:90
+msgid "Projects"
+msgstr ""
+
+#: clientgui/ResourceUtilizationView.cpp:89
+msgid "Disk"
+msgstr ""
+
+#: clientgui/TransfersView.cpp:68
+msgid "File"
+msgstr ""
+
+#: clientgui/TransfersView.cpp:69
+#: clientgui/WorkView.cpp:71
+msgid "Progress"
+msgstr ""
+
+#: clientgui/TransfersView.cpp:70
+msgid "Size"
+msgstr ""
+
+#: clientgui/TransfersView.cpp:72
+msgid "Speed"
+msgstr ""
+
+#: clientgui/TransfersView.cpp:73
+#: clientgui/WorkView.cpp:74
+msgid "Status"
+msgstr ""
+
+#: clientgui/TransfersView.cpp:92
+msgid "Transfers"
+msgstr ""
+
+#: clientgui/WorkView.cpp:68
+msgid "Application"
+msgstr ""
+
+#: clientgui/WorkView.cpp:69
+msgid "Name"
+msgstr ""
+
+#: clientgui/WorkView.cpp:70
+msgid "CPU time"
+msgstr ""
+
+#: clientgui/WorkView.cpp:72
+msgid "To Completetion"
+msgstr ""
+
+#: clientgui/WorkView.cpp:73
+msgid "Report Deadline"
+msgstr ""
+
+#: clientgui/WorkView.cpp:93
+msgid "Work"
+msgstr ""
+
+#: clientgui/DlgAbout.h:39
+msgid "About BOINC"
+msgstr ""
+
+#: clientgui/DlgAttachProject.h:39
+msgid "Attach to Project"
+msgstr ""
+
+#: clientgui/DlgConnection.h:39
+msgid "Connection"
+msgstr ""
+
+#: clientgui/DlgOptions.h:39
+msgid "Options"
+msgstr ""
+

@@ -355,7 +355,7 @@ bool do_pass() {
     check_stop_daemons();
     // loop over WUs that are due to be checked
     //
-    sprintf(buf, "where transition_time<%d", (int)time(0));
+    sprintf(buf, "where transition_time<%d order by transition_time limit 5000", (int)time(0));
     while (!wu.enumerate(buf)) {
         did_something = true;
         handle_wu(wu);

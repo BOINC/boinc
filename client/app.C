@@ -1205,7 +1205,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
         }
         result->is_active = true;
         msg_printf(atp->wup->project, MSG_INFO,
-            "Restarting computation for result %s using %s version %.2f",
+            "Resuming computation for result %s using %s version %.2f",
             atp->result->name,
             atp->app_version->app->name,
             atp->app_version->version_num/100.

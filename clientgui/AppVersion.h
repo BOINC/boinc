@@ -21,30 +21,47 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.6  2004/06/25 22:50:56  rwalton
+// Revision 1.1  2004/06/25 22:50:57  rwalton
 // Client spamming server hotfix
 //
-// Revision 1.5  2004/05/17 22:15:09  rwalton
-// *** empty log message ***
 //
 //
+
+#ifndef _APPVERSION_H_
+#define _APPVERSION_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "MainDocument.h"
+#pragma interface "AppVersion.cpp"
 #endif
 
-#include "stdwx.h"
-#include "MainDocument.h"
+#include "XMLParser.h"
+#include "App.h"
+#include "Project.h"
 
 
-IMPLEMENT_DYNAMIC_CLASS(CMainDocument, CXMLParser)
-
-
-CMainDocument::CMainDocument(void)
+class CAppVersion : public CXMLParser
 {
-}
+    DECLARE_DYNAMIC_CLASS(CAppVersion)
 
-CMainDocument::~CMainDocument(void)
-{
-}
+private:
+    wxString        name;
+    wxInt32         version_num;
+    CApp*           app;
+    CProject*       project;
+
+public:
+    CAppVersion();
+    ~CAppVersion();
+
+    wxInt32         Parse(wxTextInputStream* input);
+
+    wxString        GetName()                       { return name; }
+    wxInt32         GetAppVersionNumber()           { return version_num; }
+    CApp*           GetApp()                        { return app; }
+    CProject*       GetProject()                    { return project; }
+
+};
+
+
+#endif
 
