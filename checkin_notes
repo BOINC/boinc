@@ -23478,3 +23478,9 @@ David  29 Jan 2005
         make_work.C
     tools/
         dir_hier_path.C
+
+David  30 Jan 2005
+	- fixed bug in xml_unescape().  Didn't parse special chars correctly
+
+	lib/
+		parse.C

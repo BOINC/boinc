@@ -339,18 +339,22 @@ void xml_escape(char* in, string& out) {
 void xml_unescape(string& in, string& out) {
     int i;
     out = "";
-    for (i=0; i<(int)in.length(); i++) {
+    for (i=0; i<(int)in.length();) {
         if (in.substr(i, 4) == "&lt;") {
             out += "<";
-            i += 3;
+            i += 4;
         } else if (in.substr(i, 5) == "&amp;") {
             out += "&";
-            i += 4;
+            i += 5;
         } else if (in.substr(i, 2) == "&#") {
             char c = atoi(in.substr(i+2, 3).c_str());
             out += c;
+            i = in.find(";", i);
+            if (i==std::string.npos) break;
+            i++;
         } else {
             out += in[i];
+            i++;
         }
     }
 }
