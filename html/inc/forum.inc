@@ -254,8 +254,12 @@ function updatePost($postID, $content) {
 }
 
 function updateThread($threadID, $title) {
-   $x = addslashes(sanitize_html(stripslashes($title)));
-   $sql = "UPDATE thread SET title = \"$x\" WHERE id = " . $threadID;
+   $title = addslashes(sanitize_html(stripslashes($title)));
+    $title = trim($title);
+    if (strlen($title) == 0) {
+        return false;
+    }
+   $sql = "UPDATE thread SET title = \"$title\" WHERE id = " . $threadID;
    $result = mysql_query($sql);
    if (!$result) return false;
    return true;

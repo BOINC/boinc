@@ -1,7 +1,7 @@
 <?php
 
 function news_item($date, $text) {
-    echo "<b>$date</b>
+    echo "<font color=666666>$date</font>
         <br>
         $text
         <br><br>

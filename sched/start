@@ -330,7 +330,7 @@ def lookup_task_run_state(task):
     run_state_task = run_state.tasks.make_node_and_append('task')
     run_state_task.cmd = task.cmd
     run_state_task.last_run = 0
-    task_run_state.prunable = False
+    run_state_task.prunable = False
     return run_state_task
 
 def interpret_period(str):

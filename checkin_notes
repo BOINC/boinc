@@ -13430,8 +13430,9 @@ David  June 12 2004
 David  June 12 2004
 	- added support for name/passwd authentication to HTTP proxies.
 		Includes changes to the proxy settings dialog,
-		and to the HTTP_OP class
-		Courtesy of Kenichi Miyoshi and his colleagues at NTT - thanks!
+		and to the HTTP_OP class.
+		All this courtesy of Kenichi Miyoshi and his colleagues
+        at NTT - thanks!
 
 	client/
 		http.C,h
@@ -13443,3 +13444,12 @@ David  June 12 2004
 		boinc_cli.vcproj
 		boinc_gui.vcproj
 
+David  13 June 2004
+    - fix typo on "start"
+    - don't allow empty thread titles
+
+    html/inc/
+        forum.inc
+        news.inc
+        uotd.inc
+    sched/start
