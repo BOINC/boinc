@@ -720,9 +720,9 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
 int ACTIVE_TASK_SET::exit_tasks() {
     request_tasks_exit();
 
-    // Wait a second for them to exit normally; if they don't then kill them
+    // Wait 5 seconds for them to exit normally; if they don't then kill them
     //
-    if (wait_for_exit(1)) {
+    if (wait_for_exit(5)) {
         kill_tasks();
     }
 
