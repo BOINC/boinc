@@ -599,7 +599,6 @@ void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     unsigned int i;
     DB_MSG_FROM_HOST mfh;
     int retval;
-    char buf[256];
 
     for (i=0; i<sreq.msgs_from_host.size(); i++) {
         reply.send_msg_ack = true;

@@ -68,7 +68,7 @@ DB_MSG_FROM_HOST::DB_MSG_FROM_HOST() : DB_BASE(boinc_db, "msg_from_host"){}
 DB_MSG_TO_HOST::DB_MSG_TO_HOST() : DB_BASE(boinc_db, "msg_to_host"){}
 DB_TRANSITIONER_ITEM_SET::DB_TRANSITIONER_ITEM_SET() : DB_BASE_SPECIAL(boinc_db){}
 DB_WORK_ITEM::DB_WORK_ITEM() : DB_BASE_SPECIAL(boinc_db){}
-DB_SCHED_RESULT_ITEM_SET::DB_SCHED_RESULT_ITEM_SET() : DB_BASE_SPECIAL(boinc_db), results.clear() {}
+DB_SCHED_RESULT_ITEM_SET::DB_SCHED_RESULT_ITEM_SET() : DB_BASE_SPECIAL(boinc_db){}
 
 int DB_PLATFORM::get_id() {return id;}
 int DB_CORE_VERSION::get_id() {return id;}
