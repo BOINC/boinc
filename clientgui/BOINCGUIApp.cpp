@@ -35,6 +35,8 @@ static volatile const char *BOINCrcsid="$Id$";
 IMPLEMENT_APP(CBOINCGUIApp)
 IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 
+wxLogStderr LogStdErr();
+
 
 bool CBOINCGUIApp::OnInit()
 {

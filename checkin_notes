@@ -20650,4 +20650,6 @@ Rom    3 Dec 2004
         wxWidgets
 
     clientgui/
+        BOINCGUIApp.cpp
+        MainFrame.cpp
         stdwx.h
