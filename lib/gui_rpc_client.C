@@ -720,9 +720,9 @@ RPC_CLIENT::~RPC_CLIENT() {
 //
 void RPC_CLIENT::close() {
 #ifdef _WIN32
-    closesocket(sock);
+    ::closesocket(sock);
 #else
-    close(sock);
+    ::close(sock);
 #endif
 }
 
