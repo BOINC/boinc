@@ -22102,9 +22102,12 @@ Janus 6 Jan 2005
       column:
 
       ALTER TABLE `forum_preferences` ADD `ignorelist` VARCHAR( 254 ) NOT NULL ;
+      Added thread name to page title in forums (from Athlonrob)
+
     /html/user
         edit_forum_preferences_form.php
         edit_forum_preferences_action.php
+        forum_thread.php
     /html/inc
         forum.inc
 

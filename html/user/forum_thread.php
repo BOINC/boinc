@@ -37,7 +37,7 @@ if ($category->is_helpdesk) {
 	} else {
     	    setSortStyle($logged_in_user,"answer", $sort_style);
 	}
-	page_head(PROJECT.': Questions and problems');	
+	page_head(PROJECT.': Questions and problems : '.$thread->title);	
 } else {
 	if (!$sort_style) {
     	    $sort_style = getSortStyle($logged_in_user,"thread");
@@ -45,9 +45,9 @@ if ($category->is_helpdesk) {
     	    setSortStyle($logged_in_user,"thread", $sort_style);
 	}
 	if ($logged_in_user->jump_to_unread){
-	    page_head(PROJECT.': Message boards', 'jumpToUnread();');
+	    page_head(PROJECT.': Message boards : '.$thread->title, 'jumpToUnread();');
 	} else {
-	    page_head(PROJECT.': Message boards');
+	    page_head(PROJECT.': Message boards : '.$thread->title);
 	}
 }
 
