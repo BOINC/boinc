@@ -255,12 +255,16 @@ void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
             }
         }
 
+        m_pListPane->Freeze();
+
         SyncronizeCache();
 
         m_pListPane->SetItemCount(iDocCount);
 
         if (EnsureLastItemVisible())
             m_pListPane->EnsureVisible(iCacheCount);
+
+        m_pListPane->Thaw();
 
         m_bProcessingListRenderEvent = false;
     }

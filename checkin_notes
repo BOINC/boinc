@@ -20917,3 +20917,12 @@ David  8 Dec 2004
             sample_index.php
             team.php
             top_teams.php
+
+Rom    8 Dec 2004
+    - While looking for something else about wxListCtrl in the source I found
+        references to Freeze()/Thaw() which should reduce flicker on platforms
+        other than Windows.  I'm going to try and implement the same thing with 
+        Windows in a roundabout fashion.
+
+    clientgui/
+        BOINCBaseView.cpp
