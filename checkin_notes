@@ -8339,3 +8339,14 @@ David  9 Dec 2003
     sched/
         main.C
         sched_util.C,h
+
+Eric K.  12/11/2003
+
+	Added check for strlcpy() to configure.ac and definition of
+	strlcpy() to std_fixes.h.
+
+   configure.ac 
+   configure 
+   config.h
+   lib/std_fixes.h
+
