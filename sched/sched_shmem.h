@@ -31,7 +31,8 @@
 #define MAX_PLATFORMS       50
 #define MAX_APPS            10
 #define MAX_APP_VERSIONS    100
-#define MAX_WU_RESULTS      100
+//#define MAX_WU_RESULTS      100
+#define MAX_WU_RESULTS      5000
 
 #define WR_STATE_EMPTY   0
 #define WR_STATE_PRESENT 1

@@ -294,7 +294,8 @@ void feeder_loop() {
         no_wus = false;
 
         scan_work_array(
-            wi, 1000, nadditions, ncollisions, ninfeasible, no_wus
+            //wi, 1000, nadditions, ncollisions, ninfeasible, no_wus
+            wi, 10000, nadditions, ncollisions, ninfeasible, no_wus
         );
 
         ssp->ready = true;

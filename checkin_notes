@@ -16752,3 +16752,11 @@ David  27 Aug 2004
 	html/inc/
 		db_ops.inc
 
+Rom    29 Aug 2004
+    - Increase the feeder buffer sizes so that whatever this fcgi problem is, 
+      we don't have to bounce the project so often.  This is a temporary hack
+      until I or somebody else figures out whats going on.
+
+    sched/
+        feeder.C
+        sched_shmem.h
