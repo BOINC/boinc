@@ -5,71 +5,47 @@ echo "
 <p>
 The BOINC project is based at the Space Sciences Laboratory
 at the University of California, Berkeley,
-and is led by <a href=mailto:davea@ssl.berkeley.edu>Dr. David P. Anderson</a>.
+and is led by <a href=mailto:davea_at_ssl_dot_berkeley_dot_edu>Dr. David P. Anderson</a>.
 <p>
 If you have problems with the BOINC software for Windows please email
 <a href=mailto:rwalton@ssl.berkeley.edu>Rom Walton</a>.
 <p>
-BOINC Developers include:
-<p>
-David Anderson
-<br>
-Karl Chen
-<br>
-Seth Cooper
-<br>
-James Drews
-<br>
-Michael Gary
-<br>
-Gary Gibson
-<br>
-Eric Heien
-<br>
-Thomas Horsten
-<br>
-John Keck
-<br>
-John Kirby
-<br>
-Eric Korpela
-<br>
-Janus Kristensen
-<br>
-Tim Lan
-<br>
-Stephen Pellicer
-<br>
-Jens Seidler
-<br>
-Christian Soettrup
-<br>
-Rom Walton
-<br>
+BOINC developers include:
+David Anderson,
+Karl Chen,
+Seth Cooper,
+James Drews,
+Michael Gary,
+Gary Gibson,
+Eric Heien,
+Thomas Horsten,
+John Keck,
+John Kirby,
+Eric Korpela,
+Janus Kristensen,
+Tim Lan,
+Stephen Pellicer,
+Jens Seidler,
+Christian Soettrup,
+Rom Walton,
 Oliver Wang
-<br>
 </p>
-BOINC Project Testers include:
-<p>
-Comatose
-<br>
-Jay Curtis
-<br>
-Fons Maartens
-<br>
-Rob Hague
-<br>
-Darrell Holz
-<br>
-John McLeod VII
-<br>
-Dennis Peters
-<br>
-Scott Sutherland
-<br>
+BOINC project testers include:
+Comatose,
+Jay Curtis,
+Fons Maartens,
+Rob Hague,
+Darrell Holz,
+John McLeod VII,
+Dennis Peters,
+Scott Sutherland,
 Chris Sutton
-<br>
 </p>
+The BOINC logo uses the Planet Benson font from
+<a href=http://www.larabiefonts.com>Larabie Fonts</a>.
+Hi-res logos:
+<a href=logo.png>PNG</a>, <a href=logo.jpg>JPEG</a>,
+<a href=logo.gif>GIFF</a>.
 ";
 page_tail();
 ?>

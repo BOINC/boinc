@@ -12,7 +12,8 @@ list_item("Estonian",
     "<a href=http://boinc.tmac.pri.ee>boinc.tmac.pri.ee</a>"
 );
 list_item("Danish",
-    "<a href=http://www.boinc.dk>www.boinc.dk</a>
+    "<a href=http://setiboinc.dk>setiboinc.dk</a>
+    <br><a href=http://www.boinc.dk>www.boinc.dk</a>
     <br><a href=http://www.setihome.dk>www.setihome.dk</a>"
 );
 list_item("Dutch",
@@ -22,7 +23,8 @@ list_item("Finnish",
     "<a href=http://www.universe-examiners.org/boinc_faq.php>Universe Examiners</a>"
 );
 list_item("French",
-    "<a href=http://www.boinc-fr.net>www.boinc-fr.net</a>"
+    "<a href=http://www.boinc-fr.net>www.boinc-fr.net</a>
+    <br><a href=http://boinc-quebec.org>boinc-quebec.org</a> (Canadian)"
 );
 list_item("German",
     "<a href=http://www.boinc.de/>www.boinc.de</a>"
