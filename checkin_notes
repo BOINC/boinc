@@ -25943,3 +25943,11 @@ David  14 Mar 2005
 
     api/
         x_opengl.C
+
+Rom    15 Mar 2005
+    - Backout the meta tag change that was made to support Japanese,
+        aparently the string encodings are not automatically converted
+        in Linux, or something to that effect.
+
+    clientgui/
+        BOINCTaskCtrl.cpp
