@@ -10372,9 +10372,15 @@ Rom    Mar 5 2004
     I pretty much touched all the source and header files.  This checkin should not have any
     effect on any platform other than Windows.
 
-Rom    Mar 4 2004 (from John Keck)
+Rom    Mar 5 2004 (from John Keck)
     - Adjust default values to download minimum work-unit load until the client can
         collect preferences from the server.
 
     client/
         perfs.c
+
+Rom    Mar 5 2004
+    - Add the Alpha project test team members names to the Contact Us page.
+
+    doc/
+        contact.php

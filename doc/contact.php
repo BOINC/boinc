@@ -24,6 +24,8 @@ Gary Gibson
 <br>
 Eric Heien
 <br>
+John Keck
+<br>
 John Kirby
 <br>
 Eric Korpela
@@ -39,6 +41,29 @@ Jens Seidler
 Rom Walton
 <br>
 Oliver Wang
+<br>
+</p>
+BOINC Project Testers include:
+<p>
+Comatose
+<br>
+Jay Curtis
+<br>
+James Drews
+<br>
+Fons
+<br>
+Rob Hague
+<br>
+Darrell Holz
+<br>
+John McLeod VII
+<br>
+Dennis Peters
+<br>
+Chris Sutton
+<br>
+</p>
 ";
 page_tail();
 ?>
