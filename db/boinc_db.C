@@ -646,6 +646,7 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             return -1;
         }
         last_item.parse(row);
+        nitems_this_query = 1;
     }
 
     items.clear();
@@ -654,9 +655,17 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
         row = mysql_fetch_row(cursor.rp);
         if (!row) {
             cursor.active = false;
-            return -1;
+
+            // if got fewer rows than requested, last group is complete
+            //
+            if (nitems_this_query < nresult_limit) {
+                return 0;
+            } else {
+                return -1;
+            }
         }
         new_item.parse(row);
+        nitems_this_query++;
         if (new_item.id != last_item.id) {
             last_item = new_item;
             return 0;

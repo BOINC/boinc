@@ -76,7 +76,7 @@ void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_
     for (unsigned int i=0; i<items.size(); i++) {
         switch (items[i].res_server_state) {
         case RESULT_SERVER_STATE_UNSENT:
-            if (items[i].res_id) { nunsent++ };
+            if (items[i].res_id) nunsent++;
             break;
         case RESULT_SERVER_STATE_IN_PROGRESS:
             if (items[i].res_id) { 
@@ -125,7 +125,7 @@ void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_
                 }
                 break;
             case RESULT_OUTCOME_CLIENT_ERROR:
-                if (items[i].res_id) { nerrors++ };
+                if (items[i].res_id)  nerrors++;
                 break;
             }
             break;

@@ -573,6 +573,7 @@ class DB_TRANSITIONER_ITEM_SET : public DB_BASE_SPECIAL {
 public:
     DB_TRANSITIONER_ITEM_SET();
     TRANSITIONER_ITEM last_item;
+    int nitems_this_query;
 
     int enumerate(
         int transition_time,
