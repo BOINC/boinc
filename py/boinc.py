@@ -290,7 +290,7 @@ class Project:
         self.output_level   = 3
 
         self.master_url    = master_url or os.path.join(options.html_url , self.short_name , '')
-        self.download_url  = os.path.join(master_url, 'download')
+        self.download_url  = os.path.join(self.master_url, 'download')
         self.cgi_url       = cgi_url or os.path.join(options.cgi_url, self.short_name)
         self.upload_url    = os.path.join(self.cgi_url     , 'file_upload_handler')
         self.scheduler_url = os.path.join(self.cgi_url     , 'cgi')

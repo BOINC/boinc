@@ -26,6 +26,7 @@
 #include <io.h>
 #endif
 
+#include <cassert>
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -155,10 +156,13 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
         // from the set and delete it
         //
         if (pfx->xfer_done) {
-            pfx->fip->pers_file_xfer = NULL;
+            // pfx->fip->pers_file_xfer = NULL;
+            FILE_INFO* DEBUG_fip = pfx->fip;
             iter = pers_xfers->pers_file_xfers.erase(iter);
             delete pfx;
             action = true;
+            // `delete pfx' should have set pfx->fip->pfx to NULL
+            assert (DEBUG_fip == NULL || DEBUG_fip->pers_file_xfer == NULL);
         } else {
             iter++;
         }

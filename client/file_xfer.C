@@ -38,6 +38,9 @@ FILE_XFER::FILE_XFER() {
 }
 
 FILE_XFER::~FILE_XFER() {
+    if (fip && fip->pers_file_xfer) {
+        fip->pers_file_xfer->fxp = NULL;
+    }
 }
 
 int FILE_XFER::init_download(FILE_INFO& file_info) {

@@ -348,6 +348,9 @@ FILE_INFO::FILE_INFO() {
 }
 
 FILE_INFO::~FILE_INFO() {
+    if (pers_file_xfer) {
+        pers_file_xfer->fip = NULL;
+    }
 }
 
 // Set the appropriate permissions depending on whether
