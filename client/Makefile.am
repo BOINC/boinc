@@ -51,7 +51,7 @@ boinc_client_SOURCES = \
     time_stats.C \
     whetstone.C
 
-boinc_client_DEPENDENCIES = $(LIBRSA) ../lib
+boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS) -O3
 boinc_client_LDADD = -L../lib -lboinc $(RSA_LIBS) $(PTHREAD_LIBS)
 #boinc_client_LDFLAGS = $(STATIC_FLAGS)

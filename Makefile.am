@@ -16,7 +16,9 @@ if BUILD_CLIENTGUI
    CLIENTGUI_SUBDIRS = clientgui
 endif
 
-SUBDIRS = m4 RSAEuro $(SERVER_SUBDIRS) $(CLIENT_SUBDIRS) $(CLIENTGUI_SUBDIRS) $(API_SUBDIRS)
+# ORDER MATTERS below.  One must build dependencies FIRST, then things
+# that depend on them later
+SUBDIRS = m4 RSAEuro $(API_SUBDIRS) $(SERVER_SUBDIRS) $(CLIENT_SUBDIRS) $(CLIENTGUI_SUBDIRS) 
 
 # Putting a directory name recursively copies the entire contents - the
 # dist-hook below gets rid of CVS directories.
