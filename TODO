@@ -4,11 +4,11 @@ HIGH-PRIORITY (must be done to support SETI@home)
     HTTP, Socks
     Look at other open source code
 
-- team system (Barry)
+- team system
     in PHP
     In progress - Barry
 
-- credit display (Barry)
+- credit display
     in PHP
     In progress - Barry
 
@@ -86,11 +86,6 @@ MEDIUM-PRIORITY (must be done for CM)
 --------------------------
 LOW-PRIORITY
 
-- implement checkpoint/restart for file transfers
-    use features of HTTP 1.1
-    Return an error to server if transfer fails
-    (store in DB in server)
-
 - implement and test the batch mechanism
 
 - test environment-var mechanism
@@ -144,6 +139,12 @@ LOW-PRIORITY
 
 --------------------------
 DONE (may need test)  Please document these!
+
+- implement checkpoint/restart for file transfers
+    use features of HTTP 1.1
+    Return an error to server if transfer fails
+    (store in DB in server)
+    - completed by Eric (needs to be tested)
 
 - File retry policies
     can't download file: when to give up? how to retry?

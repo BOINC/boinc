@@ -60,7 +60,6 @@ ENV_MESSAGES = "****************************************" \
     $(BOINC_UPLOAD_URL_MSG) \
     $(BOINC_PLATFORM_MSG) \
     $(BOINC_EMAIL_MSG) \
-    $(BOINC_URL_BASE_MSG) \
     $(BOINC_KEY_DIR_MSG) \
     $(BOINC_SHMEM_KEY_MSG) \
     $(BOINC_DB_NAME_MSG) \

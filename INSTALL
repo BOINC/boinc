@@ -70,19 +70,14 @@ BOINC_EMAIL mgary@ssl.berkeley.edu
 This is currently used by one of the test scripts. It is not critical for the
 running of BOINC. 
 
-BOINC_URL_BASE http://localhost/download
-This should be set to a url that points to the BOINC_DOWNLOAD_DIR. Currently, 
-this is the same as the BOINC_DOWNLOAD_URL, although it may change in the
-future. 
-
 BOINC_KEY_DIR /usr/local/boinc/key_dir
 This should be set to a directory in which the public and private keys for 
 BOINC are to be created. If you wish to place this in a different directory,
 change the variable appropriately. 
 
-BOINC_KEY 0xdadacafe
+BOINC_SHMEM_KEY 0xdadacafe
 This should be set to any 32 bit hex value desired. To run multiple instances
-of BOINC on one machine, each instance needs to have a different BOINC_KEY 
+of BOINC on one machine, each instance needs to have a different BOINC_SHMEM_KEY 
 compiled into it. 
 
 BOINC_DB_NAME boinc
