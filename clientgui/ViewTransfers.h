@@ -72,7 +72,7 @@ public:
     ~CViewTransfers();
 
     virtual wxString        GetViewName();
-    virtual const char**          GetViewIcon();
+    virtual const char**    GetViewIcon();
 
 protected:
 

@@ -256,7 +256,7 @@ wxString CViewTransfers::GetViewName()
 }
 
 
-char** CViewTransfers::GetViewIcon()
+const char** CViewTransfers::GetViewIcon()
 {
     return xfer_xpm;
 }
