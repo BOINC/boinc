@@ -4726,9 +4726,12 @@ Tim     June 17, 2003
         modified APP_FILE struct to include timestamp handling
         scheduler sends "openname_timestamp" as name
         open_name (if available) is used when creating a slot directory
+    - Windows GUI
+        finished items in results and transfers are now immediately removed
 
     client/
         app.c
+        wingui_mainwindow.cpp
     html_user/
         project_specific_prefs_ap.inc
     sched/
