@@ -55,7 +55,7 @@ bool do_pass(APP& app) {
     DB_RESULT canonical_result, result;
     bool did_something = false;
     char buf[256];
-    // int retval;
+    int retval;
 
 
     check_stop_daemons();
@@ -79,9 +79,17 @@ bool do_pass(APP& app) {
 
         assimilate_handler(wu, results, canonical_result);
 
-        wu.assimilate_state = ASSIMILATE_DONE;
-        wu.transition_time = time(0);
-        wu.update();
+        sprintf(
+	    buf, "assimilate_state=%d, transition_time=%d", 
+	    ASSIMILATE_DONE, time(0)
+        );
+        retval = wu.update_field(buf);
+        if (retval) {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "[%s] update failed: %d\n", wu.name, retval
+            );
+            exit(1);
+        }
     }
     return did_something;
 }

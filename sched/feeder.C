@@ -142,6 +142,7 @@ int check_reread_trigger() {
 
 #ifdef REMOVE_INFEASIBLE_ENTRIES
 static int remove_infeasible(int i) {
+    char buf[256]; 
     int retval;
     DB_RESULT result;
     DB_WORKUNIT wu;
@@ -159,7 +160,11 @@ static int remove_infeasible(int i) {
 
     result.server_state = RESULT_SERVER_STATE_OVER;
     result.outcome = RESULT_OUTCOME_COULDNT_SEND;
-    retval = result.update();
+    sprintf(
+        buf, "server_state=%d, outcome=%d",
+        result.server_state, result.outcome
+    ); 
+    retval = result.update_field(buf);
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
@@ -169,7 +174,8 @@ static int remove_infeasible(int i) {
         return retval;
     }
     wu.transition_time = time(0);
-    retval = wu.update();
+    sprintf(buf, "transition_time=%d", wu.transition_time); 
+    retval = wu.update_field(buf);
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,

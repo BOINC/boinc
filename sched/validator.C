@@ -63,6 +63,7 @@ int grant_credit(DB_RESULT& result, double credit) {
     DB_HOST host;
     DB_TEAM team;
     int retval;
+    char buf[256];
 
     retval = host.lookup_id(result.hostid);
     if (retval) {
@@ -85,7 +86,12 @@ int grant_credit(DB_RESULT& result, double credit) {
 
     user.total_credit += credit;
     update_average(result.sent_time, credit, CREDIT_HALF_LIFE, user.expavg_credit, user.expavg_time);
-    retval = user.update();
+    sprintf(
+        buf, "total_credit=%f, expavg_credit=%f, expavg_time=%f",
+        user.total_credit,  user.expavg_credit,
+        user.expavg_time
+    ); 
+    retval = user.update_field(buf);
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
@@ -96,7 +102,12 @@ int grant_credit(DB_RESULT& result, double credit) {
 
     host.total_credit += credit;
     update_average(result.sent_time, credit, CREDIT_HALF_LIFE, host.expavg_credit, host.expavg_time);
-    retval = host.update();
+    sprintf(
+        buf, "total_credit=%f, expavg_credit=%f, expavg_time=%f",
+        host.total_credit,  host.expavg_credit,
+        host.expavg_time
+    );
+    retval = host.update_field(buf);
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
@@ -117,7 +128,12 @@ int grant_credit(DB_RESULT& result, double credit) {
         }
         team.total_credit += credit;
         update_average(result.sent_time, credit, CREDIT_HALF_LIFE, team.expavg_credit, team.expavg_time);
-        retval = team.update();
+        sprintf(
+            buf, "total_credit=%f, expavg_credit=%f, expavg_time=%f",
+            team.total_credit,  team.expavg_credit,
+            team.expavg_time
+        );
+        retval = team.update_field(buf);
         if (retval) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
@@ -224,7 +240,18 @@ void handle_wu(DB_WORKUNIT& wu) {
                 );
             }
             if (update_result) {
-                retval = result.update();
+                sprintf(
+                    buf, "validate_state=%d, granted_credit=%f",
+                    result.validate_state, 
+                    result.granted_credit
+                );
+		log_messages.printf(
+                    SCHED_MSG_LOG::NORMAL,
+                    "[RESULT#%d %s] granted_credit %f", 
+		    result.id, result.name, result.granted_credit
+                );
+
+                retval = result.update_field(buf);
                 if (retval) {
                     log_messages.printf(
                         SCHED_MSG_LOG::CRITICAL,
@@ -332,7 +359,18 @@ void handle_wu(DB_WORKUNIT& wu) {
                         );
                     }
 
-                    retval = result.update();
+                    sprintf(buf, 
+                        "validate_state=%d, granted_credit=%f",
+                        result.validate_state, 
+                        result.granted_credit
+                    );
+		    log_messages.printf(
+                    	SCHED_MSG_LOG::NORMAL,
+                    	"[RESULT#%d %s] granted_credit %f",
+                    	result.id, result.name, result.granted_credit
+	       	    );
+
+                    retval = result.update_field(buf);
                     if (retval) {
                         log_messages.printf(
                             SCHED_MSG_LOG::CRITICAL,
@@ -351,7 +389,12 @@ void handle_wu(DB_WORKUNIT& wu) {
                 while (!result.enumerate(buf)) {
                     result.server_state = RESULT_SERVER_STATE_OVER;
                     result.outcome = RESULT_OUTCOME_DIDNT_NEED;
-                    retval = result.update();
+                    sprintf(buf, 
+                        "server_state=%d, outcome=%d",
+                        result.server_state, 
+                        result.outcome
+                    );
+                    retval = result.update_field(buf);
                     if (retval) {
                         log_messages.printf(
                             SCHED_MSG_LOG::CRITICAL,
@@ -383,7 +426,13 @@ void handle_wu(DB_WORKUNIT& wu) {
     // clear WU.need_validate
     //
     wu.need_validate = 0;
-    retval = wu.update();
+    sprintf(buf, 
+        "need_validate=%d, transition_time=%d, canonical_resultid=%d,
+        canonical_credit=%f, assimilate_state=%d",
+        wu.need_validate, wu.transition_time, wu.canonical_resultid, 
+        wu.canonical_credit, wu.assimilate_state
+    );
+    retval = wu.update_field(buf);
     if (retval) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,

@@ -48,11 +48,16 @@ double update_time_cutoff;
 int update_users() {
     DB_USER user;
     int retval;
+    char buf[256];
 
     while (!user.enumerate()) {
         if (user.expavg_time > update_time_cutoff) continue;
         update_average(0, 0, CREDIT_HALF_LIFE, user.expavg_credit, user.expavg_time);
-        retval = user.update();
+        sprintf(
+            buf,"expavg_credit=%f, expavg_time=%f",
+            user.expavg_credit, user.expavg_time
+        );
+        retval = user.update_field(buf);
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't update user %d\n", user.id);
             return retval;
@@ -65,11 +70,16 @@ int update_users() {
 int update_hosts() {
     DB_HOST host;
     int retval;
+    char buf[256];
 
     while (!host.enumerate()) {
         if (host.expavg_time > update_time_cutoff) continue;
         update_average(0, 0, CREDIT_HALF_LIFE, host.expavg_credit, host.expavg_time);
-        retval = host.update();
+        sprintf(
+            buf,"expavg_credit=%f, expavg_time=%f",
+            host.expavg_credit, host.expavg_time
+        );
+        retval = host.update_field(buf);
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't update host %d\n", host.id);
             return retval;
@@ -103,6 +113,7 @@ int get_team_totals(TEAM& team) {
 int update_teams() {
     DB_TEAM team;
     int retval;
+    char buf[256];
 
     while (!team.enumerate()) {
         retval = get_team_totals(team);
@@ -118,7 +129,11 @@ int update_teams() {
         if (team.expavg_time < update_time_cutoff) {
             update_average(0, 0, CREDIT_HALF_LIFE, team.expavg_credit, team.expavg_time);
         }
-        retval = team.update();
+        sprintf(
+            buf, "expavg_credit=%f, expavg_time=%f",
+            team.expavg_credit, team.expavg_time
+        );
+        retval = team.update_field(buf);
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't update team %d\n", team.id);
             return retval;

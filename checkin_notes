@@ -18040,3 +18040,16 @@ David  4 Oct 2004
     db/
         boinc_db.C,h
         db_base.C,h
+
+Lana    4 Oct 2004
+    - changed most of the update() statements to update_field() statements
+        to improve server performance
+
+    sched/
+        assimilator.C
+        feeder.C
+        file_deleter.C
+        update_stats.C
+        validator.C
+        wu_check.C
+

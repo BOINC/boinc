@@ -131,6 +131,7 @@ bool do_pass() {
     DB_RESULT result;
     bool did_something = false;
     char buf[256];
+    int retval;
 
     check_stop_daemons();
 
@@ -139,7 +140,14 @@ bool do_pass() {
         did_something = true;
         wu_delete_files(wu);
         wu.file_delete_state = FILE_DELETE_DONE;
-        wu.update();
+        sprintf(buf, "file_delete_state=%d", wu.file_delete_state);
+        retval= wu.update_field(buf);
+        if (retval) {
+             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "[%s] workunit failed to update file_delete_state with %d\n", 
+                wu.name, retval 
+             );
+        }
     }
 
     sprintf(buf, "where file_delete_state=%d limit 1000", FILE_DELETE_READY);
@@ -147,7 +155,14 @@ bool do_pass() {
         did_something = true;
         result_delete_files(result);
         result.file_delete_state = FILE_DELETE_DONE;
-        result.update();
+        sprintf(buf, "file_delete_state=%d", result.file_delete_state); 
+        retval= result.update_field(buf);
+        if (retval) {
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+                "[%s] result failed to update file_delete_state with %d\n",
+                result.name, retval
+            );
+        } 
     }
     return did_something;
 }

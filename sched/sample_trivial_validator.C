@@ -24,7 +24,7 @@
 
 using std::vector;
 
-static const double MIN_CPU_TIME = 10000;
+static const double MIN_CPU_TIME = 0;
 
 int init_result_trivial(RESULT const& result, void*& data) {
     return 0;

@@ -51,6 +51,7 @@ int handle_result(DB_RESULT& result) {
     DB_WORKUNIT wu;
     int retval;
     char path[256];
+    char buf[256];
     FILE* f;
 
     retval = wu.lookup_id(result.workunitid);
@@ -73,7 +74,18 @@ int handle_result(DB_RESULT& result) {
             if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
                 result.server_state = RESULT_SERVER_STATE_OVER;
                 result.outcome = RESULT_OUTCOME_COULDNT_SEND;
-                result.update();
+                sprintf(
+                    buf,"server_state=%d, outcome=%d",
+                    result.server_state, result.outcome
+                );
+                retval = result.update_field(buf);
+                if (retval) {
+                    printf(
+                        "ERROR: can't update result %d\n",
+                        result.id
+                    );
+                    return 1;
+                }
             }
         }
         return 1;
