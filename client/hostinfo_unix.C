@@ -70,12 +70,6 @@
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-#if HAVE_NETDB_H
-#include <netdb.h>
-#endif
-#if HAVE_ARPA_INET_H
-#include <arpa/inet.h>
-#endif
 #if HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
@@ -85,59 +79,14 @@
 
 // functions to get name/addr of local host
 
-// Returns the domain of the local host
-// TODO: Should the 256 be MAXHOSTNAMELEN instead?
-//
-int get_local_domain_name(char* p) {
-    char buf[256];
-
-    gethostname(buf, 256);
-    struct hostent* he = gethostbyname(buf);
-	if (!he) return -1;
-    strcpy(p, he->h_name);
-    return 0;
-}
-
-// Gets the ip address of the local host
-//
-int get_local_ip_addr(int& p) {
-    p = 0;
-
-#if HAVE_NETDB_H
-    char buf[256];
-    struct in_addr addr;
-    gethostname(buf, 256);
-    struct hostent* he = gethostbyname(buf);
-    memcpy(&addr, he->h_addr_list[0], sizeof(addr));
-    p = addr.s_addr;
-#endif
-    return 0;
-}
-
-// Returns the name of the local host
-// TODO: Should the 256 be MAXHOSTNAMELEN instead?
-//
-int get_local_ip_addr_str(char* p) {
-    strcpy( p,"" );
-#if HAVE_NETDB_H
-    char buf[256];
-    struct in_addr addr;
-    gethostname(buf, 256);
-    struct hostent* he = gethostbyname(buf);
-    memcpy(&addr, he->h_addr_list[0], sizeof(addr));
-    strcpy(p, inet_ntoa(addr));
-#endif
-    return 0;
-}
-
 // Converts a int ip address to a string representation (i.e. "66.218.71.198")
 //
-char* ip_addr_string(int ip_addr) {
+/*char* ip_addr_string(int ip_addr) {
     in_addr ia;
 
     ia.s_addr = ip_addr;
     return inet_ntoa(ia);
-}
+}*/
 
 // Returns the number of seconds difference from UTC
 //
@@ -240,8 +189,6 @@ void get_osinfo(HOST_INFO& host) {
 }
 #endif
 
-int get_host_info2(HOST_INFO &host);
-
 // Reset the host info struct to default values
 //
 void clear_host_info(HOST_INFO& host) {
@@ -288,10 +235,6 @@ void get_host_disk_info( double &total_space, double &free_space ) {
 // General function to get all relevant host information
 //
 int get_host_info(HOST_INFO& host) {
-#ifdef _WIN32
-    return get_host_info2( host );
-#endif
-
     get_host_disk_info( host.d_total, host.d_free );
     
 #if HAVE_SYS_SYSTEMINFO_H
