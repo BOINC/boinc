@@ -42,7 +42,6 @@
 #include <windows.h>
 #include <stdio.h>
 #include <stdarg.h>
-#include "stackwalker.h"
 #include "app_ipc.h"
 
 #ifdef _DEBUG
@@ -64,27 +63,6 @@ void boinc_trace(const char *pszFormat, ...)
 }
 
 #endif // _DEBUG
-
-
-//
-// Function: BoincUnhandledExceptionFilter
-//
-// Purpose:  Used to unwind the stack and spew the callstack to stderr. Terminate the
-//               process afterwards and return the exception code as the exit code.
-//
-// Date:     01/29/04
-//
-static LONG __stdcall BoincUnhandledExceptionFilter(EXCEPTION_POINTERS* pExPtrs){
-	LONG lReturnValue = NULL;
-
-	// Unwind the stack and spew it to stderr
-	lReturnValue = StackwalkFilter(pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL);
-    
-	// Force terminate the app letting BOINC know an unknown exception has occurred.
-	TerminateProcess(GetCurrentProcess(), pExPtrs->ExceptionRecord->ExceptionCode);
-
-   return lReturnValue;
-}
 
 
 //
@@ -124,10 +102,6 @@ int boinc_diag_init() {
 
 	// Define how messages should me formatted to sdterr
 	_CrtSetReportHook( BoincReportingFunction );
-
-	// Set an Unhandled Exception Filter so we can trap call-stacks on failing
-	//   sessions.
-	SetUnhandledExceptionFilter( BoincUnhandledExceptionFilter );
 
 	return TRUE;
 }

@@ -30,6 +30,7 @@
 #include <windows.h>
 #include <winuser.h>
 #include <mmsystem.h>    // for timing
+#include "win/Stackwalker.h"
 #endif
 
 #if HAVE_UNISTD_H
@@ -141,61 +142,83 @@ int boinc_install_signal_handlers() {
     signal(SIGPIPE, boinc_catch_signal); // write on a pipe with no reader
 #endif
 #ifdef _WIN32
-    //SetUnhandledExceptionFilter(boinc_catch_signal);
+    SetUnhandledExceptionFilter(boinc_catch_signal);
 #endif
     return 0;
 }
 
 #ifdef _WIN32
-LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo) {
-    PVOID exceptionAddr = ExceptionInfo->ExceptionRecord->ExceptionAddress;
-    DWORD exceptionCode = ExceptionInfo->ExceptionRecord->ExceptionCode;
-    char  status[256];
-    static int already_caught_signal = 0;
+LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
+
+	// Snagged from the latest stackwalker code base.  This allows us to grab
+	//   callstacks even in a stack overflow scenario
+	if (pExPtrs->ExceptionRecord->ExceptionCode == EXCEPTION_STACK_OVERFLOW)
+	{
+		static char MyStack[1024*128];  // be sure that we have enought space...
+		// it assumes that DS and SS are the same!!! (this is the case for Win32)
+		// change the stack only if the selectors are the same (this is the case for Win32)
+		//__asm push offset MyStack[1024*128];
+		//__asm pop esp;
+		__asm mov eax,offset MyStack[1024*128];
+		__asm mov esp,eax;
+	}
+
+	PVOID exceptionAddr = pExPtrs->ExceptionRecord->ExceptionAddress;
+    DWORD exceptionCode = pExPtrs->ExceptionRecord->ExceptionCode;
+
+	LONG  lReturnValue = NULL;
+	char  status[256];
+    
+	static long   lDetectNestedException = 0;
 
     // If we've been in this procedure before, something went wrong so we immediately exit
-    if (already_caught_signal) _exit(ERR_SIGNAL_CATCH);
-    already_caught_signal = 1;
+	if (InterlockedIncrement(&lDetectNestedException) > 1) {
+		TerminateProcess(GetCurrentProcess(), ERR_SIGNAL_CATCH);
+	}
 
     switch (exceptionCode) {
-        case STATUS_WAIT_0: safe_strncpy(status,"Wait 0",sizeof(status)); break;
-        case STATUS_ABANDONED_WAIT_0: safe_strncpy(status,"Abandoned Wait 0",sizeof(status)); break;
-        case STATUS_USER_APC: safe_strncpy(status,"User APC",sizeof(status)); break;
-        case STATUS_TIMEOUT: safe_strncpy(status,"Timeout",sizeof(status)); break;
-        case STATUS_PENDING: safe_strncpy(status,"Pending",sizeof(status)); break;
-        case STATUS_SEGMENT_NOTIFICATION: return DBG_EXCEPTION_NOT_HANDLED;
-        case STATUS_GUARD_PAGE_VIOLATION: safe_strncpy(status,"Guard Page Violation",sizeof(status)); break;
-        case STATUS_DATATYPE_MISALIGNMENT: safe_strncpy(status,"Data Type Misalignment",sizeof(status)); break;
-        case STATUS_BREAKPOINT: return DBG_EXCEPTION_NOT_HANDLED;
-        case STATUS_SINGLE_STEP: return DBG_EXCEPTION_NOT_HANDLED;
-        case STATUS_ACCESS_VIOLATION: safe_strncpy(status,"Access Violation",sizeof(status)); break;
-        case STATUS_IN_PAGE_ERROR: safe_strncpy(status,"In Page Error",sizeof(status)); break;
-        case STATUS_NO_MEMORY: safe_strncpy(status,"No Memory",sizeof(status)); break;
-        case STATUS_ILLEGAL_INSTRUCTION: safe_strncpy(status,"Illegal Instruction",sizeof(status)); break;
-        case STATUS_NONCONTINUABLE_EXCEPTION: safe_strncpy(status,"Noncontinuable Exception",sizeof(status)); break;
-        case STATUS_INVALID_DISPOSITION: safe_strncpy(status,"Invalid Disposition",sizeof(status)); break;
-        case STATUS_ARRAY_BOUNDS_EXCEEDED: safe_strncpy(status,"Array Bounds Exceeded",sizeof(status)); break;
-        case STATUS_FLOAT_DENORMAL_OPERAND: safe_strncpy(status,"Float Denormal Operand",sizeof(status)); break;
-        case STATUS_FLOAT_DIVIDE_BY_ZERO: safe_strncpy(status,"Divide by Zero",sizeof(status)); break;
-        case STATUS_FLOAT_INEXACT_RESULT: safe_strncpy(status,"Float Inexact Result",sizeof(status)); break;
-        case STATUS_FLOAT_INVALID_OPERATION: safe_strncpy(status,"Float Invalid Operation",sizeof(status)); break;
-        case STATUS_FLOAT_OVERFLOW: safe_strncpy(status,"Float Overflow",sizeof(status)); break;
-        case STATUS_FLOAT_STACK_CHECK: safe_strncpy(status,"Float Stack Check",sizeof(status)); break;
-        case STATUS_FLOAT_UNDERFLOW: safe_strncpy(status,"Float Underflow",sizeof(status)); break;
-        case STATUS_INTEGER_DIVIDE_BY_ZERO: safe_strncpy(status,"Integer Divide by Zero",sizeof(status)); break;
-        case STATUS_INTEGER_OVERFLOW: safe_strncpy(status,"Integer Overflow",sizeof(status)); break;
-        case STATUS_PRIVILEGED_INSTRUCTION: safe_strncpy(status,"Privileged Instruction",sizeof(status)); break;
-        case STATUS_STACK_OVERFLOW: safe_strncpy(status,"Stack Overflow",sizeof(status)); break;
-        case STATUS_CONTROL_C_EXIT: safe_strncpy(status,"Ctrl+C Exit",sizeof(status)); break;
+        case EXCEPTION_ACCESS_VIOLATION: safe_strncpy(status,"Access Violation",sizeof(status)); break;
+        case EXCEPTION_DATATYPE_MISALIGNMENT: safe_strncpy(status,"Data Type Misalignment",sizeof(status)); break;
+        case EXCEPTION_BREAKPOINT: safe_strncpy(status,"Breakpoint Encountered",sizeof(status)); break;
+        case EXCEPTION_SINGLE_STEP: safe_strncpy(status,"Single Instruction Executed",sizeof(status)); break;
+        case EXCEPTION_ARRAY_BOUNDS_EXCEEDED: safe_strncpy(status,"Array Bounds Exceeded",sizeof(status)); break;
+        case EXCEPTION_FLT_DENORMAL_OPERAND: safe_strncpy(status,"Float Denormal Operand",sizeof(status)); break;
+        case EXCEPTION_FLT_DIVIDE_BY_ZERO: safe_strncpy(status,"Divide by Zero",sizeof(status)); break;
+        case EXCEPTION_FLT_INEXACT_RESULT: safe_strncpy(status,"Float Inexact Result",sizeof(status)); break;
+        case EXCEPTION_FLT_INVALID_OPERATION: safe_strncpy(status,"Float Invalid Operation",sizeof(status)); break;
+        case EXCEPTION_FLT_OVERFLOW: safe_strncpy(status,"Float Overflow",sizeof(status)); break;
+        case EXCEPTION_FLT_STACK_CHECK: safe_strncpy(status,"Float Stack Check",sizeof(status)); break;
+        case EXCEPTION_FLT_UNDERFLOW: safe_strncpy(status,"Float Underflow",sizeof(status)); break;
+        case EXCEPTION_INT_DIVIDE_BY_ZERO: safe_strncpy(status,"Integer Divide by Zero",sizeof(status)); break;
+        case EXCEPTION_INT_OVERFLOW: safe_strncpy(status,"Integer Overflow",sizeof(status)); break;
+        case EXCEPTION_PRIV_INSTRUCTION: safe_strncpy(status,"Privileged Instruction",sizeof(status)); break;
+        case EXCEPTION_IN_PAGE_ERROR: safe_strncpy(status,"In Page Error",sizeof(status)); break;
+        case EXCEPTION_ILLEGAL_INSTRUCTION: safe_strncpy(status,"Illegal Instruction",sizeof(status)); break;
+        case EXCEPTION_NONCONTINUABLE_EXCEPTION: safe_strncpy(status,"Noncontinuable Exception",sizeof(status)); break;
+        case EXCEPTION_STACK_OVERFLOW: safe_strncpy(status,"Stack Overflow",sizeof(status)); break;
+        case EXCEPTION_INVALID_DISPOSITION: safe_strncpy(status,"Invalid Disposition",sizeof(status)); break;
+        case EXCEPTION_GUARD_PAGE: safe_strncpy(status,"Guard Page Violation",sizeof(status)); break;
+        case EXCEPTION_INVALID_HANDLE: safe_strncpy(status,"Invalid Handle",sizeof(status)); break;
+        case CONTROL_C_EXIT: safe_strncpy(status,"Ctrl+C Exit",sizeof(status)); break;
         default: safe_strncpy(status,"Unknown exception",sizeof(status)); break;
     }
-    // TODO: also output info in CONTEXT structure?
-    fprintf(stderr, "\n***UNHANDLED EXCEPTION****\n");
-    fprintf(stderr, "Reason: %s at address 0x%p\n",status,exceptionAddr);
-    fprintf(stderr, "Exiting...\n");
+
+	fprintf(stderr, "\n***UNHANDLED EXCEPTION****\n");
+    fprintf(stderr, "Reason: %s (0x%x) at address 0x%p\n\n", status, exceptionCode, exceptionAddr);
+
+#ifdef _DEBUG
+	// Unwind the stack and spew it to stderr
+	StackwalkFilter(pExPtrs, EXCEPTION_EXECUTE_HANDLER, NULL);
+#endif
+
+	fprintf(stderr, "Exiting...\n");
     fflush(stderr);
-    _exit(ERR_SIGNAL_CATCH);
-    return(EXCEPTION_EXECUTE_HANDLER);
+
+	// Force terminate the app letting BOINC know an unknown exception has occurred.
+	TerminateProcess(GetCurrentProcess(), pExPtrs->ExceptionRecord->ExceptionCode);
+
+	// We won't make it to this point, but make the compiler happy anyway.
+	return 1;
 }
 #endif
 

@@ -9860,3 +9860,15 @@ David  Feb 5 2004
 		client_types.C
 		win/
 			wingui_mainwindow.cpp
+
+Rom    Feb 5 2004
+    - Moved the unhandled exception filter back into boinc_api.c where it was orginally.
+    - Moved stackwalker that is used by BOINC Client applications into api folder since
+        the unhandled exception filter depends on it.
+    - Removed the unhandled exception filter init code from boincdiag.cpp
+
+    api/
+        boinc_api.c
+        boincdiag.cpp
+    api/win/
+        stackwalker.cpp,h (Added)
