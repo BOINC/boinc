@@ -432,18 +432,18 @@ def run_daemons():
         remove_stop_trigger()
     for task in config.daemons:
         if task.host != local_hostname:
-            continue;
+            continue
         if task.disabled:
-            continue;
+            continue
         run_daemon(task)
 
 def run_tasks():
     if verbose: print "Running tasks"
     for task in config.tasks:
         if task.host != local_hostname:
-            continue;
+            continue
         if task.disabled:
-            continue;
+            continue
         run_task(task)
 
 def stop_daemon(pid):
@@ -528,7 +528,7 @@ def command_status():
         n = 0
         for task in config.daemons:
             if task.host != local_hostname:
-                continue;
+                continue
             n += 1
             pid = safe_read_int(get_daemon_pid_name(task)) or 0
             if not pid:
@@ -553,7 +553,7 @@ def command_status():
         n = 0
         for task in config.tasks:
             if task.host != local_hostname:
-                continue;
+                continue
             n += 1
             task_run_state = lookup_task_run_state(task)
             when_last_run = float(task_run_state.last_run)
@@ -688,14 +688,14 @@ assign_task_defaults()
 apply(command)
 run_state.write()
 
-if (is_main_host):
+if is_main_host:
     other_hosts = get_host_list()
     for host in other_hosts:
         if host == local_hostname:
             continue
-        local_cmd = ' '.join(sys.argv);
-        remote_cmd = 'ssh '+host+' "cd '+cwd+';'+local_cmd;
-        if (verbose):
+        local_cmd = ' '.join(sys.argv)
+        remote_cmd = 'ssh '+host+' "cd '+cwd+';'+local_cmd
+        if verbose:
             remote_cmd += " -v"
         remote_cmd += '"'
         print 'running ', remote_cmd
