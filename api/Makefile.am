@@ -37,8 +37,6 @@ include_HEADERS = \
 	graphics_api.h   \
 	graphics_data.h   \
 	gutil.h   \
-	mac_app_opengl.h   \
-	mac_carbon_gl.h   \
 	reduce.h   \
 	x_opengl.h  
 

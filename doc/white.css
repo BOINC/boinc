@@ -34,9 +34,8 @@ body {
 }
 
 th {
-    border-bottom: 2px solid white;
-	background-color: navy;
-	color: gold;
+	background-color: #f8f0aa;
+	color: black;
 	font-weight: bold;
 }
 

@@ -135,7 +135,7 @@ class SqlQueryString {
         $this->addeqnz('client_state');
         $this->addeqnz('validate_state');
         if ($_GET['clauses']) {
-            $this->addclause(urldecode($_GET['clauses']));
+            $this->addclause("( " . urldecode($_GET['clauses']) . " )");
         }
         $this->addsort('sort_by');
     }

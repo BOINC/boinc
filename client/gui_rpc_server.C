@@ -558,7 +558,7 @@ int GUI_RPC_CONN_SET::init() {
     int one = 1;
     setsockopt(lsock, SOL_SOCKET, SO_REUSEADDR, (char*)&one, 4);
 
-    retval = bind(lsock, (const sockaddr*)(&addr), sizeof(addr));
+    retval = bind(lsock, (const sockaddr*)(&addr), (socklen_t)sizeof(addr));
     if (retval) {
         msg_printf(NULL, MSG_ERROR, "GUI RPC bind failed: %d\n", retval);
         boinc_close_socket(lsock);

@@ -114,7 +114,7 @@
             ";
         }
     }
-    $result = mysql_query($main_query);
+    $result = mysql_query(mysql_real_escape_string($main_query));
     if ($result) {
         if ($detail == "low") {
             start_table();

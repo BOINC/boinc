@@ -74,7 +74,7 @@ function list_item_func($x, $y) {
 
 function list_bar($x) {
     echo "
-        <tr><td colspan=2 bgcolor=eeeecc><center><b>$x</b></center></td></tr>
+        <tr><td colspan=3 bgcolor=f0d8a0><center><b>$x</b></center></td></tr>
     ";
 }
 

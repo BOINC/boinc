@@ -45,7 +45,7 @@ echo "
     <li> Your PC uploads the output files to the data server.
     <li>
     Later (up to several days later, depending on your
-    <a href=prefs.php>work buffer preferences</a>)
+    <a href=prefs.php>preferences</a>)
     your PC reports the completed results to the scheduling server,
     and gets instructions for more work.
     </ol>

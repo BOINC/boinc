@@ -38,4 +38,4 @@ public:
     int init();
 };
 
-#define GUI_RPC_PORT 31416
+#define GUI_RPC_PORT 1043

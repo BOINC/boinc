@@ -13,10 +13,6 @@ The contents of <b>project.xml</b> should look like this:
 
 <pre>", htmlspecialchars("
   <boinc>
-    <project>
-      <short_name>setiathome</short_name>
-      <long_name>SETI@home</long_name>
-    </project>
     <platform>
       <name>windows_intel</name>
       <user_friendly_name>Windows 95, 98, NT 2000, and XP</user_friendly_name>

@@ -6864,7 +6864,7 @@ Karl 2003-10-16
     - improved object caching and implemented lazy lookup of relational
       objects; database-heavy python programs should now be much faster
 
-    - added <one_result_per_user_per_wu>1</one_result_per_user_per_wu> to
+    - added <one_result_per_user_per_wu/> to
       config.XML in make_project (but not testbase)
 
     py/Boinc/
@@ -19291,11 +19291,28 @@ Rom    12 Nov 2004
  
 Rom    12 Nov 2004
     - On Windows, BOINC should not prompt for a project if non exist.
-    - On Windows, remove the -install and -uninstall from the commandline since the
-      installer now takes care of it.
+    - On Windows, remove the -install and -uninstall from the commandline
+        since the installer now takes care of it.
 
     client/
         main.C
         cd_cmdline.C
     client/win/
         win_service.cpp
+
+David  12 Nov 2004
+    - bug fixes for admin web interface (from Bruce Allen)
+    - change GUI RPC port number from 31416 to 1043
+    - remove Mac files from Makefile
+
+    api/
+        Makefile.am
+    client/
+        gui_rpc_server.C,h
+    html/
+        inc/
+            db_ops.inc
+        ops/
+            db_action.php
+    lib/
+        gui_rpc_client.h
