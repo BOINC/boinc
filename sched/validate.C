@@ -37,6 +37,8 @@
 // Both functions return nonzero if an error occurred,
 // in which case other outputs are undefined
 
+using namespace std;
+
 #include <unistd.h>
 #include <math.h>
 #include <vector>

@@ -160,7 +160,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
 
 int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     char buf[256];
-    double nbytes=0, offset=0;
+    double nbytes=-1, offset=0;
     char path[256],file_name[256];
     FILE_INFO file_info;
     int retval;
@@ -210,8 +210,8 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         else if (parse_double(buf, "<offset>", offset)) continue;
         else if (parse_double(buf, "<nbytes>", nbytes)) continue;
         else if (match_tag(buf, "<data>")) {
-            if (nbytes == 0) {
-                print_status(-1, "nbytes missing");
+            if (nbytes < 0) {
+                print_status(-1, "nbytes missing or negative");
                 return -1;
             }
 

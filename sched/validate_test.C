@@ -17,6 +17,7 @@
 // Contributor(s):
 //
 
+using namespace std;
 #include <vector>
 
 #include "db.h"

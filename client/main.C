@@ -36,7 +36,6 @@
 #include "log_flags.h"
 #include "prefs.h"
 #include "util.h"
-#include "win/wingui.h"
 
 // Display a message to the user.  Depending on the priority, the
 // message may be more or less obtrusive
