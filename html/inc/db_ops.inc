@@ -738,13 +738,14 @@ function show_workunit_short($wu) {
     } else {
         $cr = "none";
     }
+    $wu_link = "<a href=\"db_action.php?table=workunit&id=".$wu->id."&detail=high\">".$wu->id."</a>";
     $cr = $cr. " <a href=db_action.php?table=result&workunitid=$wu->id&detail=low>all</a>";
     $e = wu_error_mask_str($wu->error_mask);
     $f = file_delete_state_str($wu->file_delete_state);
     $a = assimilate_state_str($wu->assimilate_state);
     echo "
         <tr>
-        <td>$wu->id</td>
+        <td>$wu_link</td>
         <td>$cr</td>
         <td>$e</td>
         <td>$f</td>

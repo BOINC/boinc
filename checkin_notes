@@ -21940,6 +21940,12 @@ Bruce 29 Dec 2004
       David, note that when run standalone, killing the graphics
       window does NOT kill the process.  I think this is fine, but
       it doesn't correspond to what the documentation says.
+ 
+      Added hyperlink to WUs on ops pages (Hyperlink to WUs.  Thanks
+      to Christian (DjangoFett@gmx.net).
 
     api/
         x_opengl.C
+    html/
+        inc/
+            db_ops.inc
