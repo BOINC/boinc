@@ -40,7 +40,9 @@
 #include <stdarg.h>
 #include <string.h>
 #include <string>
+#ifdef HAVE_SIGNAL_H
 #include <signal.h>
+#endif
 #include <fcntl.h>
 #include <algorithm>
 #include <sys/types.h>
@@ -55,6 +57,7 @@ using namespace std;
 #include "error_numbers.h"
 #include "app_ipc.h"
 #include "boinc_api.h"
+#include "sighandle.h"
 
 
 //
@@ -104,12 +107,6 @@ static int		set_timer(double period);
 
 // Forward declare implementation functions - Windows Platform Only.
 LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo);
-
-#else
-
-// Forward declare implementation functions - POSIX Platform Only.
-extern void boinc_catch_signal(int signal);
-extern void boinc_quit(int sig);
 
 #endif
 
@@ -409,19 +406,19 @@ void boinc_error_release(int iExitCode, const char *pszFormat, ...)
 #ifdef HAVE_SIGNAL_H
 
 int boinc_install_signal_handlers() {
-    signal(SIGHUP, boinc_catch_signal);  // terminal line hangup
-    signal(SIGINT, boinc_catch_signal);  // interrupt program
-    signal(SIGQUIT, boinc_quit);         // quit program
-    signal(SIGILL, boinc_catch_signal);  // illegal instruction
-    signal(SIGABRT, boinc_catch_signal); // abort(2) call
-    signal(SIGBUS, boinc_catch_signal);  // bus error
-    signal(SIGSEGV, boinc_catch_signal); // segmentation violation
-    signal(SIGSYS, boinc_catch_signal);  // system call given invalid argument
-    signal(SIGPIPE, boinc_catch_signal); // write on a pipe with no reader
+    boinc_set_signal_handler(SIGHUP, boinc_catch_signal);
+    boinc_set_signal_handler(SIGINT, boinc_catch_signal);
+    boinc_set_signal_handler(SIGQUIT, boinc_catch_signal);
+    boinc_set_signal_handler(SIGILL, boinc_catch_signal);
+    boinc_set_signal_handler(SIGABRT, boinc_catch_signal);
+    boinc_set_signal_handler(SIGBUS, boinc_catch_signal);
+    boinc_set_signal_handler(SIGSEGV, boinc_catch_signal);
+    boinc_set_signal_handler(SIGSYS, boinc_catch_signal);
+    boinc_set_signal_handler(SIGPIPE, boinc_catch_signal);
     return 0;
 }
 
-void boinc_catch_signal(int signal) {
+RETSIGTYPE boinc_catch_signal(int signal) {
     switch(signal) {
         case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup"); break;
         case SIGINT: fprintf(stderr, "SIGINT: interrupt program"); break;
@@ -442,7 +439,7 @@ void boinc_quit(int sig) {
     time_to_quit = true;
 }
 
-#endif
+#endif /* HAVE_SIGNAL_H */
 
 
 // ****************************************************************************
@@ -681,7 +678,7 @@ int boinc_thread_cpu_time(double& cpu, double& ws) {
 #ifdef _WIN32
 static void CALLBACK on_timer(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2) {
 #else
-static void on_timer(int a) {
+static RETSIGTYPE on_timer(int a) {
 #endif
 
     if (!ready_to_checkpoint) {

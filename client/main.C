@@ -28,10 +28,12 @@
 #endif
 
 #ifndef _WIN32
+#include "config.h"
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 #ifdef HAVE_SIGNAL_H
+#include "sighandle.h"
 #include <signal.h>
 #endif
 #endif
@@ -228,14 +230,15 @@ int boinc_execution_engine(int argc, char** argv) {
 // Unix/Linux console controls
 #ifndef WIN32
     // Handle quit signals gracefully
-    signal(SIGHUP, quit_client);
-    signal(SIGINT, quit_client);
-    signal(SIGQUIT, quit_client);
+    boinc_set_signal_handler(SIGHUP, quit_client);
+    boinc_set_signal_handler(SIGINT, quit_client);
+    boinc_set_signal_handler(SIGQUIT, quit_client);
+    boinc_set_signal_handler(SIGTERM, quit_client);
 #ifdef SIGPWR
-    signal(SIGPWR, quit_client);
+    boinc_set_signal_handler(SIGPWR, quit_client);
 #endif
-    signal(SIGTSTP, susp_client);
-    signal(SIGCONT, resume_client);
+    boinc_set_signal_handler_force(SIGTSTP, susp_client);
+    boinc_set_signal_handler_force(SIGCONT, resume_client);
 #endif
 
 // Windows console controls

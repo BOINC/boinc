@@ -20,12 +20,16 @@
 #ifdef _WIN32
 #include <windows.h>
 #include "win/Stackwalker.h"
+#else
+#include "config.h"
 #endif
 
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#ifdef HAVE_SIGNAL_H
 #include <signal.h>
+#endif
 
 #include "boinc_diagnostics.h"
 #include "app_ipc.h"
@@ -381,20 +385,40 @@ void boinc_info_release(const char *pszFormat, ...)
 
 #ifdef HAVE_SIGNAL_H
 
-// Forward declare implementation specific functions - POSIX Platform Only.
-void boinc_catch_signal(int signal);
-void boinc_quit(int sig);
+// Forward declare implementation functions - POSIX Platform Only.
+extern void boinc_catch_signal(int signal);
+extern void boinc_quit(int sig);
+
+// Set a signal handler but only if it is not currently ignored
+void boinc_set_signal_handler(int sig)
+{
+#ifdef HAVE_SIGACTION
+    struct sigaction temp;
+    sigaction(sig, NULL, &temp);
+    if (temp.sa_handler != SIG_IGN) {
+	 temp.sa_handler = boinc_catch_signal;
+	 sigemptyset(&temp.sa_mask);
+	 sigaction(sig, &temp, NULL);
+    }
+#else
+    void (*temp)(int);
+    temp = signal(sig, boinc_catch_signal);
+    if (temp == SIG_IGN) {
+	signal(sig, SIG_IGN);
+    }
+#endif
+}
 
 int boinc_install_signal_handlers() {
-    signal(SIGHUP, boinc_catch_signal);  // terminal line hangup
-    signal(SIGINT, boinc_catch_signal);  // interrupt program
-    signal(SIGQUIT, boinc_quit);         // quit program
-    signal(SIGILL, boinc_catch_signal);  // illegal instruction
-    signal(SIGABRT, boinc_catch_signal); // abort(2) call
-    signal(SIGBUS, boinc_catch_signal);  // bus error
-    signal(SIGSEGV, boinc_catch_signal); // segmentation violation
-    signal(SIGSYS, boinc_catch_signal);  // system call given invalid argument
-    signal(SIGPIPE, boinc_catch_signal); // write on a pipe with no reader
+    boinc_set_signal_handler(SIGHUP);
+    boinc_set_signal_handler(SIGINT);
+    boinc_set_signal_handler(SIGQUIT);
+    boinc_set_signal_handler(SIGILL);
+    boinc_set_signal_handler(SIGABRT);
+    boinc_set_signal_handler(SIGBUS);
+    boinc_set_signal_handler(SIGSEGV);
+    boinc_set_signal_handler(SIGSYS);
+    boinc_set_signal_handler(SIGPIPE);
     return 0;
 }
 
