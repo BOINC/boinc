@@ -48,12 +48,8 @@ int main() {
     char req_path[256], reply_path[256];
     SCHED_SHMEM* ssp;
     void* p;
-    
-#ifdef _USING_FCGI_
+    unsigned int counter=0;
 
-    while(FCGI_Accept() >= 0) {
-
-#endif
     retval = attach_shmem(BOINC_KEY, &p);
     if (retval) {
         printf("can't attach shmem\n");
@@ -76,13 +72,18 @@ int main() {
         exit(1);
     }
     //fprintf(stderr, "got ready flag\n");
-
+    retval = db_open("boinc");
+    if (retval) {
+        exit(return_error("can't open database"));
+    }
     pid = getpid();
-    sprintf(req_path, "%s%d", REQ_FILE_PREFIX, pid);
-    sprintf(reply_path, "%s%d", REPLY_FILE_PREFIX, pid);
-
+#ifdef _USING_FCGI_
+    while(FCGI_Accept() >= 0) {
+    counter++;
+#endif
+    sprintf(req_path, "%s%d_%u", REQ_FILE_PREFIX, pid, counter);
+    sprintf(reply_path, "%s%d_%u", REPLY_FILE_PREFIX, pid, counter);
     fprintf(stdout, "Content-type: text/plain\n\n");
-
     fout = fopen(req_path, "w");
     if (!fout) {
         exit(return_error("can't write request file"));
@@ -97,14 +98,7 @@ int main() {
     if (!fout) {
         exit(return_error("can't write reply file"));
     }
-
-    retval = db_open("boinc");
-    if (retval) {
-        exit(return_error("can't open database"));
-    }
     handle_request(fin, fout, *ssp);
-    db_close();
-
     fclose(fin);
     fclose(fout);
     fin = fopen(reply_path, "r");
@@ -113,11 +107,10 @@ int main() {
     }
     copy_stream(fin, stdout);
     fclose(fin);
-
     unlink(req_path);
     unlink(reply_path);
 #ifdef _USING_FCGI_
-
     }
 #endif
+    db_close();
 }
