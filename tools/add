@@ -68,11 +68,96 @@ CREATE_TIME = ['?create_time', time.time()]
 list_objects_to_add = [
     [ database.Project,    'name', '?long_name' ],
     [ database.App,        'name', 'min_version', CREATE_TIME],
-    [ database.AppVersion, 'appname' ],
+    [ XAppVersion, 'app', 'platform', 'version_num',
+      'signed_exec_file', 'exec_file', 'signature_file'
+
+      ],
     [ database.Platform,   'name', 'user_friendly_name', CREATE_TIME ],
-    [ database.User,       'name', 'email_addr', 'authenticator' ],
+    [ database.User,       'name', 'email_addr', 'authenticator',
+      ['?country','United States'], ['?postal_code','94703'],
+      '?global_prefs', '?global_prefs_file'
+      CREATE_TIME ],
     [ database.Workunit,   'zzzz' ],
     ]
+
+def translate_arg(arg, value,args_dict):
+    '''Translate various arguments'''
+    database_table = None
+    try:
+        database_table = database.__dict__[arg.capitalize]._table
+    except:
+        pass
+    if database_table:
+        return (arg,translate_database_arg(database_table, arg, value))
+
+    if arg == 'global_prefs_file':
+        return ('global_prefs', open(value).read())
+
+    if arg == 'exec_file' or arg == 'signed_exec_file' or arg == 'signature_file':
+        args_dict[arg].append(value)
+        return (None,None)
+
+    return (arg,value)
+
+
+def translate_database_arg(database_table, arg, value):
+    '''Accept e.g. either --app Astropulse or --app 1'''
+    try:
+        id = int(value)
+        results = database_table.find(id=id)
+        if not results:
+            raise Exception("")
+    except:
+        results = database_table.find(name=value)
+    if len(results) == 0:
+        raise SystemExit('No %s %s found' %(arg,value))
+    if len(results) > 1:
+        raise SystemExit('Too many %s match "%s"'%(arg,value))
+    return results[0]
+
+class XAppVersion(database.AppVersion):
+    def __init__(**kwargs):
+        n_signed_file = 0
+        signed_exec_file = kwargs['signed_exec_files']
+        exec_file = kwargs['exec_files']
+        del kwargs['signed_exec_files']
+        del kwargs['exec_files']
+        for file in signed_exec_files:
+            signature_text = signature_files[n_signed_file].read()
+            n_signed_file += 1
+            kwargs['xml_doc'] = process_executable_file(file, signature_text)
+            apply(database.AppVersion.__init__,[],kwargs)
+        for file in exec_files:
+            signature_text = sign_executable(file)
+            kwargs['xml_doc'] = process_executable_file(file, signature_text)
+            apply(database.AppVersion.__init__,[],kwargs)
+
+        self.xml_doc += '''<app_version>
+    <app_name>%s</app_name>
+    <version_num>%d</version_num>''' %(self.name, self.version_num)
+
+        first = True
+        for file in exec_files+signed_exec_files:
+            if first:
+                m = '       <main_program/>\n'
+            self.xml_doc += '''
+    <file_ref>
+         <file_name>%s</filename>
+%s    </file_ref>'''%(os.path.basename(file), m)
+            first = False
+#     for (i=0; i<nexec_files; i++) {
+#         sprintf(longbuf,
+#             "    <file_ref>\n"
+#             "        <file_name>%s</file_name>\n"
+#             "%s"
+#             "    </file_ref>\n",
+#             exec_files[i],
+#             i?"":"        <main_program/>\n"
+#         );
+#         strcat(app_version.xml_doc, longbuf);
+#     }
+#     strcat(app_version.xml_doc, "</app_version>\n");
+
 
 def ambiguous_lookup(string, dict):
     results = []
@@ -109,7 +194,12 @@ def help_object(object, msg=None):
 
 def add_object(object, args):
     try:
-        parsed_opts, placement_args = getopt.getopt(args, '', object.args + object.optional_args)
+        parsed_opts, placement_args = \
+                     getopt.getopt(args, '',
+                                   map(lambda s: s+'=',
+                                       object.args + object.optional_args))
+        if placement_args:
+            raise 'Unknown args '+' '.join(placement_args)
     except Exception, e:
         help_object(object, e)
     args_dict = {}
@@ -117,14 +207,67 @@ def add_object(object, args):
         if not arg.startswith('--'):
             raise Exception('internal error: arg should start with "--"')
         arg = arg[2:]
+        (arg,value) = translate_arg(arg,value,args_dict)
+        if not arg: continue
         args_dict[arg] = value
     for arg in object.args:
         if not arg in args_dict:
             help_object(object, 'required argument --%s not given'%arg)
 
-    object = apply(object.DatabaseObject, placement_args, args_dict)
+    print '### adding %s %s'%(object.name, args_dict)
+    object = apply(object.DatabaseObject, [], args_dict)
     object.commit()
     print "Done"
+
+def code_sign_file(executable_path):
+    '''Returns signed text for executable'''
+    return os.popen('code_sign_file '+executable_path).read()
+
+# void add_app_version() {
+#     char path[256];
+#     char longbuf[MAX_BLOB_SIZE];
+#     int i;
+
+#     strcpy(app_version.xml_doc, "");
+
+#     // copy executables to download directory and sign them
+#     //
+#     for (i=0; i<nexec_files; i++) {
+#         if (signed_exec_files) {
+#             read_filename(signature_files[i], signature_text);
+#         } else {
+#             sprintf(path, "%s/%s", exec_dir, exec_files[i]);
+#             sign_executable(path, signature_text);
+#         }
+#         retval = process_executable_file(
+#             exec_files[i], signature_text, app_version.xml_doc
+#         );
+#         if (retval) {
+#             fprintf(stderr, "process_executable_file(): %d\n", retval);
+#             exit(1);
+#         }
+#     }
+#     for (i=0; i<nexec_files; i++) {
+#         sprintf(longbuf,
+#             "    <file_ref>\n"
+#             "        <file_name>%s</file_name>\n"
+#             "%s"
+#             "    </file_ref>\n",
+#             exec_files[i],
+#             i?"":"        <main_program/>\n"
+#         );
+#         strcat(app_version.xml_doc, longbuf);
+#     }
+#     strcat(app_version.xml_doc, "</app_version>\n");
+
+#     app_version.create_time = time(0);
+#     retval = app_version.insert();
+#     if (retval) {
+#         boinc_db_print_error("app_version.insert()");
+#         return;
+#     }
+# }
+
 
 class Dict:
     pass
@@ -191,21 +334,6 @@ args = sys.argv[2:]
 parse_global_options(args)
 add_object(possible_objects[0], args)
 
-
-# int sign_executable(char* path, char* signature_text) {
-#     DATA_BLOCK signature;
-#     unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
-#     R_RSA_PRIVATE_KEY code_sign_key;
-#     retval = read_key_file(code_sign_keyfile, code_sign_key);
-#     if (retval) {
-#         fprintf(stderr, "add: can't read key\n");
-#         exit(1);
-#     }
-#     signature.data = signature_buf;
-#     sign_file(path, code_sign_key, signature);
-#     sprint_hex_data(signature_text, signature);
-#     return 0;
-# }
 
 # // copy executable file to the download dir, generate XML
 # //
@@ -373,117 +501,4 @@ add_object(possible_objects[0], args)
 #         boinc_db_print_error("app_version.insert()");
 #         return;
 #     }
-# }
-
-# void add_user() {
-#     DB_USER user;
-
-#     user.clear();
-#     user.create_time = time(0);
-#     strcpy(user.email_addr, email_addr);
-#     strcpy(user.name, user_name);
-#     strcpy(user.authenticator, authenticator);
-#     strcpy(user.country, "United States");
-#     strcpy(user.postal_code, "94703");
-#     if (global_prefs_file) {
-#         retval = read_filename(global_prefs_file, user.global_prefs);
-#         if (retval) {
-#             printf("read_file: %s", global_prefs_file);
-#             return;
-#         }
-#     }
-#     retval = user.insert();
-#     if (retval) {
-#         boinc_db_print_error("user.insert()");
-#         return;
-#     }
-# }
-
-# int main(int argc, char** argv) {
-#     int i, retval;
-
-#     for (i=2; i<argc; i++) {
-#     next_arg:
-#         if (!strcmp(argv[i], "-db_name")) {
-#             db_name = argv[++i];
-#         } else if (!strcmp(argv[i], "-db_passwd")) {
-#             db_passwd = argv[++i];
-#         } else if (!strcmp(argv[i], "-project_long_name")) {
-#             project_long_name = argv[++i];
-#         } else if (!strcmp(argv[i], "-project_short_name")) {
-#             project_short_name = argv[++i];
-#         } else if (!strcmp(argv[i], "-app_name")) {
-#             app_name = argv[++i];
-#         } else if (!strcmp(argv[i], "-platform_name")) {
-#             platform_name = argv[++i];
-#         } else if (!strcmp(argv[i], "-user_friendly_name")) {
-#             user_friendly_name = argv[++i];
-#         } else if (!strcmp(argv[i], "-exec_dir")) {
-#             exec_dir = argv[++i];
-#         } else if (!strcmp(argv[i], "-exec_files")) {
-#             signed_exec_files = false;
-#             i++;
-#             nexec_files = 0;
-#             while (i < argc) {
-#                 if (!strncmp(argv[i],"-",1)) goto next_arg;
-#                 exec_files[nexec_files++] = argv[i++];
-#             }
-#             break;
-#         } else if (!strcmp(argv[i], "-signed_exec_files")) {
-#             signed_exec_files = true;
-#             i++;
-#             nexec_files = 0;
-#             while (i < argc) {
-#                 if (!strncmp(argv[i],"-",1)) goto next_arg;
-#                 exec_files[nexec_files] = argv[i++];
-#                 signature_files[nexec_files] = argv[i++];
-#                 nexec_files++;
-#             }
-#             break;
-#         } else if (!strcmp(argv[i], "-exec_dir")) {
-#             exec_dir = argv[++i];
-#         } else if (!strcmp(argv[i], "-email_addr")) {
-#             email_addr = argv[++i];
-#         } else if (!strcmp(argv[i], "-user_name")) {
-#             user_name = argv[++i];
-#         } else if (!strcmp(argv[i], "-authenticator")) {
-#             authenticator = argv[++i];
-#         } else if (!strcmp(argv[i], "-global_prefs_file")) {
-#             global_prefs_file = argv[++i];
-#         } else if (!strcmp(argv[i], "-download_url")) {
-#             download_url = argv[++i];
-#         } else if (!strcmp(argv[i], "-download_dir")) {
-#             download_dir = argv[++i];
-#         } else if (!strcmp(argv[i], "-version")) {
-#             version = atoi(argv[++i]);
-#         } else if (!strcmp(argv[i], "-message")) {
-#             message = argv[++i];
-#         } else if (!strcmp(argv[i], "-message_priority")) {
-#             message_priority = argv[++i];
-#         } else if (!strcmp(argv[i], "-code_sign_keyfile")) {
-#             code_sign_keyfile = argv[++i];
-#         }
-#     }
-#     retval = boinc_db_open(db_name, db_passwd);
-#     if (retval) {
-#     	fprintf(stderr, "can't open DB %s\n", db_name);
-#         exit(1);
-#     }
-#     if (!strcmp(argv[1], "project")) {
-# 	add_project();
-#     } else if (!strcmp(argv[1], "app")) {
-#         add_app();
-#     } else if (!strcmp(argv[1], "platform")) {
-#         add_platform();
-#     } else if (!strcmp(argv[1], "core_version")) {
-#         add_core_version();
-#     } else if (!strcmp(argv[1], "app_version")) {
-#         add_app_version();
-#     } else if (!strcmp(argv[1], "user")) {
-#         add_user();
-#     } else {
-#         printf("Unrecognized command\n");
-#     }
-#     boinc_db_close();
-#     exit(0);
 # }
