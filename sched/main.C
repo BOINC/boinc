@@ -17,17 +17,19 @@
 // Contributor(s):
 //
 
+
 #include <stdio.h>
 #include <unistd.h>
-
-#include "/usr/local/include/fcgi_stdio.h" 
-#define _USING_FCGI_ //used to tell lib to inlcude fcgi_stdio.h
 
 #include "db.h"
 #include "parse.h"
 #include "shmem.h"
 #include "server_types.h"
 #include "handle_request.h"
+
+#ifdef _USING_FCGI_
+#include "/usr/local/include/fcgi_stdio.h"
+#endif
 
 #define REQ_FILE_PREFIX "/tmp/boinc_req_"
 #define REPLY_FILE_PREFIX "/tmp/boinc_reply_"
@@ -50,8 +52,10 @@ int main() {
     char req_path[256], reply_path[256];
     SCHED_SHMEM* ssp;
     void* p;
-
-    while(FCGI_Accept() >= 0) {
+    
+    #ifdef _USING_FCGI_
+    while(FCGI_Accept >= 0) {
+    #endif
     retval = attach_shmem(BOINC_KEY, &p);
     if (retval) {
         printf("can't attach shmem\n");
@@ -114,5 +118,7 @@ int main() {
 
     unlink(req_path);
     unlink(reply_path);
+    #ifdef _USING_FCGI_
     }
+    #endif
 }

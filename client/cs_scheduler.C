@@ -21,6 +21,10 @@
 #include <math.h>
 #include <time.h>
 
+#ifdef _USING_FCGI_
+#undef _USING_FCGI_
+#endif
+
 #include "error_numbers.h"
 #include "file_names.h"
 #include "parse.h"

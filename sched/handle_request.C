@@ -21,11 +21,19 @@
 #include <sys/wait.h>
 #include <time.h>
 
+#ifdef _USING_FCGI_
 #include "/usr/local/include/fcgi_stdio.h"
+#endif
 
 #include "db.h"
 #include "backend_lib.h"
+
+#ifndef _USING_FCGI_
 #include "parse.h"
+#else
+#include "fcgi_parse.h"
+#endif
+
 #include "server_types.h"
 #include "handle_request.h"
 

@@ -5,10 +5,10 @@ VPATH           = @srcdir@
 
 all: cgi
 
-CFLAGS = -g -Wall @DEFS@ -I@top_srcdir@/db -I@top_srcdir@/lib -I@top_srcdir@/tools
+CFLAGS = -g -Wall -include /usr/local/include/fcgi_stdio.h -d _USING_FCGI_ @DEFS@ -I@top_srcdir@/db -I@top_srcdir@/lib -I@top_srcdir@/tools
 CC = g++ $(CFLAGS)
 
-CLIBS = @LIBS@
+CLIBS = @LIBS@ -lfcgi -lfcgi++
 
 PROGS = cgi feeder show_shmem
 
@@ -22,7 +22,7 @@ CGI_OBJS = \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
     ../lib/shmem.o \
-    ../lib/parse.o \
+    parse.o \
     ../tools/process_result_template.o
 
 FEEDER_OBJS = \

@@ -19,7 +19,9 @@
 
 #include <strings.h>
 
+#ifdef _USING_FCGI_
 #include "/usr/local/include/fcgi_stdio.h"
+#endif
 
 #include "parse.h"
 #include "server_types.h"
