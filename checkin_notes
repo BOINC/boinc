@@ -13992,3 +13992,8 @@ David  2004.06.18
     client/
         hostinfo_network.C
         net_xfer.C
+
+Rom    June 18 2004
+    - Tag for 3.16 release, all platforms
+      boinc_core_release_3_16
+
