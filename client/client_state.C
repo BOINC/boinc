@@ -387,8 +387,6 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, char* name) {
     fprintf(stderr, "p: %p\n", p);
     for (unsigned int i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
-	fprintf(stderr, "rp->name: %s\nrp->project: %p\n", rp->name,
-            rp->project
         );
         if (rp->project == p && !strcmp(name, rp->name)) return rp;
     }
