@@ -9897,30 +9897,30 @@ David  Feb 6 2004
         prefs.inc
 
 David  Feb 6 2004
-	- ask for more work when # of results in progress is less than # CPUs
-	- when get an APP_VERSION in a scheduler reply that's already in client state,
-		DON'T update the client state (it can't be any different anyway)
-		This fixes a garbage-collection crash
-	- Win client: added check_state.C to the project.
-		You can call check_all() to verify the integrity of client data.
-		This is commented out but useful for debugging.
-	- FILE_XFER_SET::insert() adds item to list, even if the underlying
-		HTTP_OP::insert() fails (because can't connect, e.g.)
-		This is necessary to make sure that the FILE_XFER remains in the
-		FILE_XFER_SET even in case of error, so that check_all() works.
+    - ask for more work when # of results in progress is less than # CPUs
+    - when get an APP_VERSION in a scheduler reply that's already in client state,
+        DON'T update the client state (it can't be any different anyway)
+        This fixes a garbage-collection crash
+    - Win client: added check_state.C to the project.
+        You can call check_all() to verify the integrity of client data.
+        This is commented out but useful for debugging.
+    - FILE_XFER_SET::insert() adds item to list, even if the underlying
+        HTTP_OP::insert() fails (because can't connect, e.g.)
+        This is necessary to make sure that the FILE_XFER remains in the
+        FILE_XFER_SET even in case of error, so that check_all() works.
 
-		NOTE: the semantics of insert() should be reexamined through the whole
-		FSM stack.  Does it initialize?  Is it guaranteed to insert?
-		Need consistency.
+        NOTE: the semantics of insert() should be reexamined through the whole
+        FSM stack.  Does it initialize?  Is it guaranteed to insert?
+        Need consistency.
 
-	client/
-		check_state.C
-		client_state.C,h
-		cs_scheduler.C
-		file_xfer.C
-	win_build/
-		boinc_cli.vcproj
-		boinc_gui.vcproj
+    client/
+        check_state.C
+        client_state.C,h
+        cs_scheduler.C
+        file_xfer.C
+    win_build/
+        boinc_cli.vcproj
+        boinc_gui.vcproj
 
 David  Feb 6 2004
     - Windows core client 2.25 release
@@ -9997,27 +9997,27 @@ David  Feb 9 2004
         handle_request.C
 
 David  Feb 9 2004
-	- ACTIVE_TASK_SET::poll(): set state file dirty flag whenever the
-		set of active tasks changes (e.g. app exited).
-	- rename ACTIVE_TASK::abort() to abort_task() (eliminate ambiguity)
-	- ACTIVE_TASK_SET::check_rsc_limits_exceeded():
-		check only running tasks
-	- CLIENT_STATE::reset_project(): don't delete apps, app_versions
-		if project is anonymous-platform
-	- PROJECT::set_min_rpc_time(): don't change min_rpc_time
-		if it's already later than requested time (from Jens)
+    - ACTIVE_TASK_SET::poll(): set state file dirty flag whenever the
+        set of active tasks changes (e.g. app exited).
+    - rename ACTIVE_TASK::abort() to abort_task() (eliminate ambiguity)
+    - ACTIVE_TASK_SET::check_rsc_limits_exceeded():
+        check only running tasks
+    - CLIENT_STATE::reset_project(): don't delete apps, app_versions
+        if project is anonymous-platform
+    - PROJECT::set_min_rpc_time(): don't change min_rpc_time
+        if it's already later than requested time (from Jens)
 
-	client/
-		app.C,h
-		client_state.C
-		cs_scheduler.C
+    client/
+        app.C,h
+        client_state.C
+        cs_scheduler.C
 
 David  Feb 11 2004
     - updated docs
-	- "request_delay" from server overrides exponential backoff
+    - "request_delay" from server overrides exponential backoff
 
-	client/
-		cs_scheduler.C
+    client/
+        cs_scheduler.C
 
 David  Feb 15 2004
     - updated docs
@@ -10075,8 +10075,8 @@ David  Feb 16 2004
         not within <stderr_out>
     - Scheduler: parse <exit_status> from within <result>
         Also parse it within <stderr_out> for backwards compat
-	- Client state file not parsed correctly when it contained a <file_xfer>
-		(because of active file xfer).
+    - Client state file not parsed correctly when it contained a <file_xfer>
+        (because of active file xfer).
     - add uniqueness constraints for category and forum
     - add a script to set up initial categories and forums
 
@@ -10095,8 +10095,8 @@ David  Feb 16 2004
 Rom    Feb 19 2004
     - Removed #ifdef around stackwalker dump so it'll dump release builds as well
 
-	api/
-		boinc_api.C
+    api/
+        boinc_api.C
 
 David  Feb 19 2004
     - FILE_XFER_SET::insert(): check for error BEFORE inserting in set.
@@ -10160,25 +10160,25 @@ David  Feb 28 2004
     - added some #includes for freeBSD compile
 
 David  Feb 28 2004
-	- made some stuff const
-	- added new GUI RPCs (for control)
-	- added GUI RPCs for Windows
-		NOTE: pipes don't work on Win. need to change to TCP
+    - made some stuff const
+    - added new GUI RPCs (for control)
+    - added GUI RPCs for Windows
+        NOTE: pipes don't work on Win. need to change to TCP
 
-	client/
-		client_state.C,h
-		cs_account.C
-		gui_rpc_server.C
-	doc/
-		gui_rpc.php
+    client/
+        client_state.C,h
+        cs_account.C
+        gui_rpc_server.C
+    doc/
+        gui_rpc.php
 
 David  Feb 28 2004
-	- (from Rom) fixes a bug reported by Matze in the forums 
-		where after an explorer crash the BOINC GUI doesn't re-register itself with 
-		the new explorer.
+    - (from Rom) fixes a bug reported by Matze in the forums 
+        where after an explorer crash the BOINC GUI doesn't re-register itself with 
+        the new explorer.
 
-	client/win/
-		wingui_mainwindow.cpp,h
+    client/win/
+        wingui_mainwindow.cpp,h
 
 Rom    Feb 28 2004
     - Added boinc_diagnostics.c,.h, boinc_exceptions.c,.h.  Not included in the build yet,
@@ -10253,12 +10253,12 @@ Rom    Mar 2 2004
     - CVS tagged as boinc_app_release_2_26.
 
 David  Mar 3 2004
-	- added "using namespace std;" a couple places to fix bizarre
-		link problems on Windows
+    - added "using namespace std;" a couple places to fix bizarre
+        link problems on Windows
 
-	client/
-		parse.C
-		util.C
+    client/
+        parse.C
+        util.C
 
 David  Mar 3 2004
     - "account key" -> "account ID" in the PHP code
@@ -10447,23 +10447,23 @@ Jeff  Mar 14 2004
       hack.  It turns out that a statically linked linux client gets the 
       following warning at build time:
 
-	hostinfo.C:230: warning: Using 'gethostbyname' in statically 
-	linked applications requires at runtime the shared libraries 
-	from the glibc version used for linking
+    hostinfo.C:230: warning: Using 'gethostbyname' in statically 
+    linked applications requires at runtime the shared libraries 
+    from the glibc version used for linking
 
       and sure enough, when such a client is run on a linux platform
       with a incompatible glibc, we saw the following:
 
-	2004-03-12 11:07:57 [BOINC] Can't resolve hostname setiboinc 
-	2004-03-12 11:07:57 [BOINC] Can't resolve hostname setiboinc 
-	2004-03-12 11:07:57 [http://setiboinc/ap/] Couldn't read master 
-	  page for http://setiboinc/ap/: error -113
-	2004-03-12 11:07:57 [http://setiboinc/ap/] Couldn't read master 
-	  page for http://setiboinc/ap/: error -113
-	2004-03-12 11:07:57 [http://setiboinc/ap/] Detaching from project - 
-	  check for URL error
-	2004-03-12 11:07:57 [http://setiboinc/ap/] Detaching from project - 
-	  check for URL error 
+    2004-03-12 11:07:57 [BOINC] Can't resolve hostname setiboinc 
+    2004-03-12 11:07:57 [BOINC] Can't resolve hostname setiboinc 
+    2004-03-12 11:07:57 [http://setiboinc/ap/] Couldn't read master 
+      page for http://setiboinc/ap/: error -113
+    2004-03-12 11:07:57 [http://setiboinc/ap/] Couldn't read master 
+      page for http://setiboinc/ap/: error -113
+    2004-03-12 11:07:57 [http://setiboinc/ap/] Detaching from project - 
+      check for URL error
+    2004-03-12 11:07:57 [http://setiboinc/ap/] Detaching from project - 
+      check for URL error 
 
       So we needed to link dynamically to libc but statically to libstdc++
       (for reasons described elsewhere in these notes).  The only way found
@@ -10479,11 +10479,11 @@ Jeff  Mar 14 2004
     configure.ac
     configure
     client
-	Makefile.am
-	Makefile.in
-	collect2_line_linux.csh		new file
-	collect2_line_solaris.csh	new file
-	collect2_line			removed
+    Makefile.am
+    Makefile.in
+    collect2_line_linux.csh        new file
+    collect2_line_solaris.csh    new file
+    collect2_line            removed
 
 Jeff  Mar 15 2004
     - CVS tagged boinc and seti_boinc as boinc_app_release_2_28.
@@ -10585,3 +10585,16 @@ Jeff  Mar 19 2004
     can specify the build name:
         configure --build powerpc-apple-darwin
 
+David  Mar 19 2004
+    - small web-site fixes (e.g. you can now set your country to Cote d'Ivoire)
+
+    html/
+        inc/
+            download.inc
+            prefs.inc
+            util.inc
+        user/
+            host_edit_form.php
+            index.php
+            profile_menu.php
+            white.css

@@ -17,7 +17,7 @@ function platform_downloads($platform) {
         if ($core_version->create_time > time()-($NEW_THRESHOLD*60*60*24)) {
             $date .= ' <font color=red>New!</font>';
         }
-        row3("<a href=$url>$platform->user_friendly_name", $version, $date);
+        row3("<a href=$url>$platform->user_friendly_name</a>", $version, $date);
         //$app_version->md5_cksum";
         $found = true;
     }

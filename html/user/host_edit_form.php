@@ -36,7 +36,11 @@ while ($host2 = mysql_fetch_object($result)) {
     //if ($host2->create_time > $host->create_time) continue;
     if (!hosts_compatible($host, $host2)) continue;
     $t = time_str($host2->create_time);
-    echo "<br><input type=checkbox name=id_$nhosts value=$host2->id> $host2->domain_name (created $t)\n";
+    $x = $host2->domain_name;
+    if ($x == "") {
+        $x = "[no hostname]";
+    }
+    echo "<br><input type=checkbox name=id_$nhosts value=$host2->id> $x (created $t)\n";
     $nhosts++;
     if ($nhosts==500) break;
 }

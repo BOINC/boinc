@@ -593,8 +593,7 @@ function venue_form($user) {
         <option value=home $h>Home
         <option value=work $w>Work
         <option value=school $s>School
-        </select>
-        </td></tr>"
+        </select>"
     );
 }
 

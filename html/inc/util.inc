@@ -223,7 +223,7 @@ function print_country_select($selected_country="None") {
     for ($i=0; $i<$numCountries; $i++) {
         $country = $countries[$i];
         $selected = ($selected_country == $country ? "selected":"");
-        echo "<option value='$country' $selected>$country</option>\n";
+        echo "<option value=\"$country\" $selected>$country</option>\n";
     }
 }
 

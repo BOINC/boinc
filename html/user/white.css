@@ -29,7 +29,7 @@ table.bordered {
 }
 
 th {
-	background-color: ffffcc;
+	background-color: #ffffcc;
 	font-weight: bold;
 }
 
@@ -73,7 +73,7 @@ tr.subtitle {
 }
 
 tr.message {
-           background-color:#E0E0EF;
+    background-color:#E0E0EF;
 }
 
 input , select {
