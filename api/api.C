@@ -302,6 +302,25 @@ int checkpoint_completed(APP_OUT &ao) {
     return 0;
 }
 
+int app_completed(APP_OUT& ao) {
+    int retval;
+    FILE* f=fopen(APP_TO_CORE_FILE, "w");
+    ao.cpu_time_at_checkpoint = get_cpu_time();
+    write_app_file(f, ao);
+    retval=fflush(f);
+    if(retval) {
+        fprintf(stderr, "error: could not flush %s\n", APP_TO_CORE_FILE);
+        return retval;
+    }
+    retval=fclose(f);
+    if(retval) {
+        fprintf(stderr, "error: could not close %s\n", APP_TO_CORE_FILE);
+        return retval;
+    }
+    _checkpoint = false;
+    return 0;
+}
+
 void on_timer(int a) {
     _checkpoint = true;
 }

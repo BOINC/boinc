@@ -195,12 +195,12 @@ function compare_files($out, $correct) {
     }
 }
 
-function initialize_api() {
-    PassThru("cp core_to_app.xml.in core_to_app.xml");
-}
-
 function run_api_test() {
     PassThru("../api/api_test");
+}
+
+function clean_api() {
+    PassThru("rm -f counter app_to_core.xml core_to_app.xml foobar");
 }
 
 ?>

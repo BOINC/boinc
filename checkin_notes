@@ -704,3 +704,24 @@ Michael Gary	7/01/2002
         main.C
     test/
         prefs1.xml
+
+Michael Gary 	7/03/2002
+    - api test is now more thorough, tests time accounting and restarting
+    - added app_completed function to api
+    - api_test.C was moved to api_app.C
+    - removed #ifdef solaris from hostinfo_unix.C
+
+    api/
+        Makefile.in
+        api.C
+        api.h
+        api_test.C
+        api_app.C (new)
+    test/
+        init.inc
+        ta_correct_f
+        test_api.php
+    client/
+        hostinfo_unix.C
+        configure
+

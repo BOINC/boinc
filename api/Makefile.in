@@ -9,13 +9,18 @@ CFLAGS = -g -Wall -I../lib/
 
 CC = @CC@ $(CFLAGS)
 
-PROGS = api_test
+PROGS = api_app api_test
 
 all: $(PROGS)
 
-OBJS = \
-    api_test.o \
+APP_OBJS = \
+    api_app.o \
     api.o \
+    ../lib/parse.o
+
+TEST_OBJS = \
+    api.o \
+    api_test.o \
     ../lib/parse.o
 
 .C.o:
@@ -23,12 +28,16 @@ OBJS = \
 .c.o:
 	$(CC) -c -o $*.o $<
 
-api_test: $(OBJS)
-	$(CC) $(OBJS) -o api_test
+api_app: $(APP_OBJS)
+	$(CC) $(APP_OBJS) -o api_app
+
+api_test: $(TEST_OBJS)
+	$(CC) $(TEST_OBJS) -o api_test
 
 install: all
 	-mkdir -p /usr/local/boinc/api
 	cp api_test /usr/local/boinc/api/api_test
+	cp api_app /usr/local/boinc/api/api_app
 
 clean:
 	rm -f *.o $(PROGS) core dependencies

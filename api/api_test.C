@@ -1,45 +1,86 @@
-// The contents of this file are subject to the Mozilla Public License
-// Version 1.0 (the "License"); you may not use this file except in
-// compliance with the License. You may obtain a copy of the License at
-// http://www.mozilla.org/MPL/ 
-// 
-// Software distributed under the License is distributed on an "AS IS"
-// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-// License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
-// The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
-// Contributor(s):
-//
-
-// test program for MFILE class
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "api.h"
 
+int get_run_info(double& time, unsigned long int& counter);
+void run_api_test(char* args);
+int print_results(double time1, double time2, 
+    unsigned long int counter1, unsigned long int counter2
+);
+int initialize_api();
+
 int main() {
-    MFILE mf;
-    unsigned long int i = 0;
-    int temp=0;
-    APP_IN ai;
-    APP_OUT ao;
-    boinc_init(ai);
-    mf.open("foobar", "w");
-    mf.printf("blah %d %f\n", 17, 34.5);
-    mf.printf("foo\n");
-    for(; i<100000000; i++) {
-	if(time_to_checkpoint()) {
-	    mf.printf("checkpoint: %d\n", temp);
-	    mf.flush();
-            ao.percent_done = 1;
-	    checkpoint_completed(ao);
-	}
-	temp++;
+    double time1, time2;
+    unsigned long int counter1, counter2;
+    if(initialize_api()) {
+        fprintf(stderr, "error: could not initialize api\n");
+        return 1;
     }
-    mf.close();
+    run_api_test("2 100");
+    get_run_info(time1, counter1);
+    if(initialize_api()) {
+        fprintf(stderr, "error: could not initialize api\n");
+        return 1;
+    }
+    run_api_test("0 0");
+    get_run_info(time2, counter2);
+    print_results(time1, time2, counter1, counter2);
+}
+
+int get_run_info(double& time, unsigned long int& counter) {
+    APP_OUT ao;
+    FILE* f=fopen(APP_TO_CORE_FILE, "r");
+    if(f == NULL) {
+        fprintf(stderr, "error: could not open %s\n", APP_TO_CORE_FILE);
+        return 1;
+    }
+    parse_app_file(f, ao);
+    time = ao.cpu_time_at_checkpoint;
+    if(fclose(f)) {
+        fprintf(stderr, "error: could not close %s\n", APP_TO_CORE_FILE);
+        return 1;
+    }
+    f=fopen("counter", "r");
+    fscanf(f, "%lu", &counter);
+    if(fclose(f)) {
+        fprintf(stderr, "error: could not close counter\n");
+        return 1;
+    }
+    return 0;
+}
+
+void run_api_test(char* args) {
+    char buf[256];
+    sprintf(buf, "../api/api_app %s", args);
+    system(buf);
+}
+
+int initialize_api() {
+    APP_IN ai;
+    FILE* f;
+    ai.graphics.xsize=0;
+    ai.graphics.ysize=0;
+    ai.graphics.refresh_period=0;
+    ai.checkpoint_period = 1.0;
+    ai.poll_period = 0;
+    ai.cpu_time = 0;
+    f = fopen(CORE_TO_APP_FILE, "w");
+    write_core_file(f, ai);
+    if(fclose(f)) {
+        fprintf(stderr, "error: could not close %s\n", CORE_TO_APP_FILE);
+        return 1;
+    }
+    return 0;
+}
+
+int print_results(double time1, double time2, unsigned long int counter1,
+    unsigned long int counter2
+) {
+    if(counter2 < counter1) printf("api test counter did not work properly\n");
+    if(time1 == 0) printf("api test did not work first time\n");
+    if(time2 == 0) printf("api test did not work second time\n");
+    if(counter1 == counter2) printf("api test did not resume from restart\n");
+    printf("total run time for api test was %f\n", time1+time2);
     return 0;
 }

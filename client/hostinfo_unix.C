@@ -89,10 +89,9 @@ void get_timezone(int& tz) {
     tzset();
 
     // TODO: take daylight savings time into account
-#ifdef linux
+#ifdef __timezone
     tz = __timezone;
-#endif
-#ifdef solaris
+#else
     tz = timezone;
 #endif
 }
@@ -170,7 +169,7 @@ int get_host_info(HOST_INFO& host) {
     host.m_nbytes = 0;
     host.m_cache = 0;
     host.m_swap = 0;
-#ifdef solaris
+#ifdef HAVE_SYS_SYSTEMINFO_H
     struct statvfs foo;
     char buf[256];
 
@@ -206,15 +205,15 @@ int get_host_info(HOST_INFO& host) {
 
 #ifdef linux
     memset(&host, 0, sizeof(host));
-      
+#endif      
     get_local_domain_name(host.domain_name);
     get_local_ip_addr_str(host.ip_addr);
-			    
+#ifdef linux			    
     parse_cpuinfo(host);
     parse_meminfo(host);
     get_osinfo(host);
-    get_timezone(host.timezone);
 #endif
+    get_timezone(host.timezone);
 
     return 0;
 }
