@@ -57,8 +57,11 @@ function show_profile_creation_page($user) {
 
 function setup_form($user, $profile) {
 
+    // <form action=", $_SERVER['PHP_SELF'], " method=\"POST\", ENCTYPE=\"multipart/form-data\">
+
+    // multipart/form-data doesn't always work (?)
     echo "
-<form action=", $_SERVER['PHP_SELF'], " method=\"POST\", ENCTYPE=\"multipart/form-data\">
+<form action=", $_SERVER['PHP_SELF'], " method=\"POST\">
 ";
 }
 
