@@ -10579,3 +10579,9 @@ Rom    Mar 18 2004
         wingui_dialog.cpp
     lib/
         sighandle.h
+
+Jeff  Mar 19 2004
+    BTW, here is how to buils the mac osx client/app in such a way that you
+    can specify the build name:
+        configure --build powerpc-apple-darwin
+
