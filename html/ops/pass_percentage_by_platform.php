@@ -48,10 +48,10 @@ GROUP BY
 
 $result = mysql_query($app_version_query);
 while ($res = mysql_fetch_object($result)) {
-	if (strlen($valid_app_versions) <= 0) {
+	if (strlen($valid_app_versions) == 0) {
 		$valid_app_versions = "$res->app_version_num";
 	} else {
-		$valid_app_versions += ", $res->app_version_num";
+		$valid_app_versions = "$valid_app_versions, $res->app_version_num";
 	}
 }
 mysql_free_result($result);
