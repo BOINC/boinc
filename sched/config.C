@@ -25,7 +25,7 @@
 #include "parse.h"
 #include "error_numbers.h"
 
-#include "config.h"
+#include "sched_config.h"
 
 const char* CONFIG_FILE = "../config.xml";
 

@@ -5730,6 +5730,22 @@ Karl 2003/08/13
         client_state.C
         client_state.h
 
+Karl 2003/08/14
+    - Astropulse: created autoconf and automake files
+    - Astropulse: if output file doesn't exist yet when opening, write a
+      version number.
+    - scheduler: renamed config.h to sched_config.h to avoid conflict with
+      default autoconf config.h
+
+    Astropulse/
+        configure.ac, configure (added)
+        _autosetup, aclocal.m4, config.h.in (added)
+        depcomp, install-sh, missing, mkinstalldirs (added)
+        */Makefile.am, */Makefile.in (added)
+        */Makefile
+        client/
+            ap_file_io.C
+
 Karl,Dave 2003/08/14
 
     - rewriting scheduler

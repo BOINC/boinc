@@ -31,7 +31,7 @@
 
 #include "parse.h"
 #include "util.h"
-#include "config.h"
+#include "sched_config.h"
 #include "sched_util.h"
 #include "crypt.h"
 

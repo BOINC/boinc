@@ -22,7 +22,7 @@
 #include <cstdio>
 #include <cstdlib>
 
-#include "config.h"
+#include "sched_config.h"
 #include "sched_util.h"
 
 int main() {

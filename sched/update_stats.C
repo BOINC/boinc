@@ -30,7 +30,7 @@
 
 #include "boinc_db.h"
 #include "util.h"
-#include "config.h"
+#include "sched_config.h"
 #include "sched_util.h"
 
 #define LOCKFILE "update_stats.out"

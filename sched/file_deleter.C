@@ -28,7 +28,7 @@
 #include "boinc_db.h"
 #include "parse.h"
 #include "util.h"
-#include "config.h"
+#include "sched_config.h"
 #include "sched_util.h"
 
 #define LOCKFILE "file_deleter.out"

@@ -35,7 +35,7 @@ using namespace std;
 #include "shmem.h"
 #include "util.h"
 
-#include "config.h"
+#include "sched_config.h"
 #include "server_types.h"
 #include "handle_request.h"
 #include "main.h"

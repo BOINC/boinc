@@ -55,7 +55,7 @@
 #include "boinc_db.h"
 #include "shmem.h"
 #include "util.h"
-#include "config.h"
+#include "sched_config.h"
 #include "sched_shmem.h"
 #include "sched_util.h"
 

@@ -19,7 +19,7 @@
 
 #include "validate_util.h"
 #include "sched_util.h"
-#include "config.h"
+#include "sched_config.h"
 #include "parse.h"
 #include <cassert>
 

@@ -39,7 +39,7 @@
 #include "crypt.h"
 #include "util.h"
 #include "backend_lib.h"
-#include "config.h"
+#include "sched_config.h"
 #include "parse.h"
 #include "sched_util.h"
 
