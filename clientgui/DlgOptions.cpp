@@ -89,6 +89,7 @@ void CDlgOptions::CreateControls()
     itemDialog1->SetAutoLayout(TRUE);
     wxNotebook* itemNotebook3 = new wxNotebook;
     itemNotebook3->Create( itemDialog1, ID_NOTEBOOK, wxDefaultPosition, wxSize(300, 265), wxNB_TOP );
+    wxNotebookSizer* itemNotebook3Sizer = new wxNotebookSizer(itemNotebook3);
     wxPanel* itemPanel4 = new wxPanel;
     itemPanel4->Create( itemNotebook3, ID_GENERAL, wxDefaultPosition, wxSize(99, 80), wxTAB_TRAVERSAL );
     wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxVERTICAL);
@@ -219,7 +220,7 @@ void CDlgOptions::CreateControls()
     itemFlexGridSizer34->Add(itemTextCtrl38, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemNotebook3->AddPage(itemPanel23, _("SOCKS Proxy"));
-    itemBoxSizer2->Add(itemNotebook3, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemBoxSizer2->Add(itemNotebook3Sizer, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer39 = new wxBoxSizer(wxHORIZONTAL);
     itemBoxSizer2->Add(itemBoxSizer39, 0, wxALIGN_RIGHT|wxALL, 5);

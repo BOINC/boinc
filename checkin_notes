@@ -23257,6 +23257,10 @@ David  25 Jan 2005
 Rom    25 Jan 2005
     - Allow BOINC Manager to search for it's localization catalog files in
       a sub directory called 'locale' like it does in Windows.
+    - The options dialog should grow in size with the different languages,
+      add a notebook sizer to the mix.
 
     clientgui/
+        BOINCGUI.pjd
         BOINCGUIApp.cpp
+        DlgOptions.cpp
