@@ -34,7 +34,7 @@
     if (strlen($f))
     	$f = "../log*/". $f;
     else
-        $f = "$log_dir/*.log";
+        $f = "../log*/*.log";
     
     passthru("cd $log_dir && ../bin/grep_logs -html -l $l '$s' $f 2>&1 $lines");
 
