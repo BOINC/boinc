@@ -9,7 +9,6 @@
     $user = get_user_from_cookie();
 
     page_head("Updating User Account");
-    printf("%d, %s\n", strlen($HTTP_POST_VARS["my_email"]), $HTTP_POST_VARS["my_email"]);
     if ($user) {
 	$my_email = $HTTP_POST_VARS["my_email"];
 	$my_name = $HTTP_POST_VARS["my_name"];

@@ -7,12 +7,11 @@
     $project = db_init();
     $user = get_user_from_cookie();
     if ($user) {
-        $head = sprintf("%s's User Page for %s", $user->name, $project);
+        $head = sprintf("%s's User Page", $user->name);
         page_head($head);
         show_user_page($user, $project);
     } else {
-        $head = sprintf("Login to %s", $project);
-        page_head($head);
+        page_head("Log in");
         print_login_form();
     }
     page_tail();

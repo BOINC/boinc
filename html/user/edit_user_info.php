@@ -12,7 +12,7 @@
     	print_edit_user_info($user);
     } else {
     	page_head("Edit User Information"); 
-    	printf("Not Logged in. Click <a href=login.php>here</a> to login.\n");
+	echo NOLOGIN;
     }
     page_tail();
 

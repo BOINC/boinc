@@ -9,6 +9,7 @@ define("EMAIL_FAIL", -2);
 define("LG_FONT", "<font size=+1>");
 define("SM_FONT", "<font size=-1>");
 
+define("TD", "<td bgcolor=#708090>");
 define("TD2", "<td colspan=2 bgcolor=#708090>");
 define("TD3", "<td colspan=3 bgcolor=#708090>");
 
@@ -19,8 +20,16 @@ define("BG_COLOR", " bgcolor=cccccc ");
 define("TITLE_COLOR", " bgcolor=000000 ");
 define("TITLE_FONT", " <font color=ffffff> ");
 define("BODY_COLOR", " bgcolor=ffffff ");
-define("NOLOGIN", "Not logged in. <a href=login.php>Login.</a>\n");
-define("PROJECT", "Sample Project");
+define("NOLOGIN", "Not logged in. Click <a href=login.php>here</a> to login.\n");
+define("BADPASS", "The password you entered is incorrect. Click the <b>Back</b> button on your browser to re-enter your password or try again later.");
+define("DIFFPASS", "You've typed two different passwords. Click the <b>Back</b> button on your browser to edit your information, making sure you type the same password in both password fields."); 
+
+function get_project_name() {
+    $fp = fopen(db_name, "r");
+    $db_name = fgets($fp, 1024);
+    $db_name = rtrim($db_name);
+    return $db_name;
+}
 
 function get_user_from_cookie() {
     $auth = "";
@@ -35,7 +44,8 @@ function show_login($user) {
     if ($user) {
         printf("Logged in as %s.\n", $user->name);
         printf("<br><a href=login.php>Log in as someone else.</a>\n");
-        printf("<br><a href=this_user.php>My %s</a>\n", PROJECT);
+        $project = get_project_name();
+        printf("<br><a href=this_user.php>My %s</a>\n", $project);
     } else {
 	echo NOLOGIN;
     }
@@ -43,12 +53,13 @@ function show_login($user) {
 
 function page_head($title) {
     echo "<head><title>$title</title><body " . BG_COLOR . ">\n";
-    echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b><a href=index.php>".PROJECT.":</a>  $title</b></font></td></tr></table>\n";
+    $project = get_project_name();
+    echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b><a href=index.php>".$project.":</a>  $title</b></font></td></tr></table>\n";
 }
 
 function page_tail() {
     echo "<hr><table width=100%><tr><td align=center>|<a href=create_account.php> Create New Account </a>|<a href=login.php> Login </a>\n";
-    echo "|<a href=home.php> User Page </a>|<a href=team.php> Teams </a>|<a href=index.html> Main Project Page </a>|</td></tr></table>\n";
+    echo "|<a href=home.php> User Page </a>|<a href=team.php> Teams </a>|<a href=index.php> Main Project Page </a>|</td></tr></table>\n";
 }
 
 function date_str($when) {

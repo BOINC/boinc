@@ -15,22 +15,18 @@
             mysql_free_result($result);
         }
         if (!$user) {
-	    $head = sprintf("Logging in to %s", $project);
-	    page_head($head);
+	    page_head("Logging in");
 	    echo "There is no account with the email address you have entered.\n";
 	    echo "Click the <b>Back</b> button to re-enter email address.\n"; 
 	} else if ($user->web_password != $HTTP_POST_VARS["existing_password"]) {
-	    $head = sprintf("Logging in to %s", $project);
-	    page_head($head);
-            echo "Invalid password. Click the <b>Back</b> button to re-enter password.";
+	    page_head("Logging in");
+            echo BADPASS; 
         } else {
             setcookie("auth", $user->authenticator, time()+100000000);
-            $head = sprintf("%s User Page", $project);
-            page_head($head);   
+            page_head("User Page");   
             show_user_page($user, $project);
         }
     } else if (strlen($HTTP_POST_VARS["new"])) {
-        $head = sprintf("Creating %s Account", $project);
         $query = sprintf(
             "select * from user where email_addr='%s'",
             $HTTP_POST_VARS["new_email_addr"]
@@ -41,7 +37,7 @@
             mysql_free_result($result);
         }
         if ($user) {
-            page_head($head);
+            page_head("Creating Account");
             printf(
                 TABLE2."\n"
                 ."<tr><td>There's already an account with that email address. Click the <b>Back</b> button\n"
@@ -51,12 +47,11 @@
             );
         } else {
             if ($HTTP_POST_VARS["new_password"] != $HTTP_POST_VARS["new_password2"]) {
-                page_head($head);
+                page_head("Creating Account");
                 printf(
                     TABLE2."\n"
-                    ."<tr><td>You've typed two different passwords. Click the <b>Back</b> button on your \n"
-                    ."browser to edit your information, making sure you type the same password in both password\n"
-                    ." fields.</td></tr>\n"
+                    ."<tr><td>".DIFFPASS
+                    ."</td></tr>\n"
                     ."</table>\n"
                 );
             } else {
@@ -75,7 +70,7 @@
                 $result = mysql_query($query);
                 if ($result) {
                     setcookie("auth", $authenticator);
-                    page_head($head);
+                    page_head("Creating Account");
                     printf(
                         TABLE2."\n"
                         ."<tr><td>Account has been created successfully. In order to run the client you will need a BOINC key. A key will be sent to \n"
@@ -87,7 +82,7 @@
                     );
                     mail($email_addr, "BOINC key", "Your BOINC key is " . $authenticator);
                 } else {
-                    page_head($head);
+                    page_head("Creating Account");
                     printf(
                         TABLE2."\n"
                         ."<tr><td>Couldn't create account. Please try again later.</td></tr>\n"

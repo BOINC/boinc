@@ -168,7 +168,8 @@ function show_user_profile($user) {
     row("<b>Email address:   <b>", $user->email_addr);
     row("<b>Country:   </b>", $user->country);
     row("<b>Postal (ZIP) code:   </b>", $user->postal_code);
-    echo "<tr><td align=right><a href=edit_user_info.php>Edit User Information</a></td></tr>\n";
+    echo "<tr><td align=right><a href=edit_user_info.php>Edit User Information</a></td>\n";
+    echo "<td align=center><a href=change_password.php>Change Password</a></td></tr>\n";
     echo "</table>\n";
 }
 
