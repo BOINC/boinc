@@ -18,6 +18,8 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string>
 
 extern bool parse(char*, char*);
 extern bool parse_int(char*, char*, int&);
@@ -33,3 +35,5 @@ extern int read_file_malloc(char* pathname, char*& str);
 extern void replace_element(char* buf, char* start, char* end, char* replacement);
 extern void extract_venue(char* in, char* venue_name, char* out);
 extern char* sgets(char* buf, int len, char* &in);
+extern bool extract_xml_record(const std::string &field, const char *tag, std::string &record);
+
