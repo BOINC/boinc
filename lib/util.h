@@ -40,12 +40,22 @@ extern void unescape_url(char *url);
 extern void escape_url(char *in, char*out);
 extern void escape_url_readable(char* in, char* out);
 extern void canonicalize_master_url(char *url);
-extern void safe_strncpy(char*, char*, int);
+extern void safe_strncpy(char*, const char*, int);
 #define safe_strcpy(x, y) safe_strncpy(x, y, sizeof(x))
 #define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)
 extern char* timestamp();
 string timediff_format(long tdiff);
 int read_file_string(const char* pathname, string& result);
+
+inline bool ends_with(string const& s, string const& suffix) {
+    return
+        s.size()>=suffix.size() &&
+        s.substr(s.size()-suffix.size()) == suffix;
+}
+
+inline bool starts_with(string const& s, string const& prefix) {
+    return s.substr(0, prefix.size()) == prefix;
+}
 
 // NOTE: use #include <functional>   to get max,min
 
