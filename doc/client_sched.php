@@ -70,20 +70,27 @@ resource share.
 <p>
 For example, consider a system participating in two projects, A and B,
 with resource shares 75% and 25%, respectively.
-Suppose in some time period, the system devotes 25 minutes of CPU time to project A
-and 15 minutes of CPU time to project B.
-We decrease the debt to A by 25 minutes and increase it by 30 minutes (75% of 25 + 15).
+Suppose in some time period, the system devotes 25 minutes of CPU time to
+project A and 15 minutes of CPU time to project B.
+We decrease the debt to A by 25 minutes and increase it by 30 minutes (75%
+of 25 + 15).
 So the debt increases overall.
-This makes sense because we expected to devote a
-larger percentage of the system resources to project A than it
-actually got.
+This makes sense because we expected to devote a larger percentage of the
+system resources to project A than it actually got.
 
 <p>
-The choice of projects for which to start result computations
-can simply follow the debt ordering of the projects.
-The algorithm computes the 'anticipated debt' to a project
-(the debt we expect to owe after the time period expires)
-as it chooses result computations to run.
+The choice of projects for which to start result computations can simply
+follow the debt ordering of the projects.
+The algorithm computes the 'anticipated debt' to a project (the debt we
+expect to owe after the time period expires) as it chooses result
+computations to run.
+
+<p>
+If a project has no runnable results, its resource share should not be
+considered when determining the debts for other projects.
+Furthermore, such a project should not be allowed to build-up debt while it
+has no work.
+Thus, its debt should be reset to zero.
 
 <h3>A sketch of the CPU scheduling algorithm</h3>
 
@@ -109,26 +116,46 @@ property, but we hope it will be close to achieving it.
 
 <ol>
 
-<li>Decrease debts to projects according to the amount of work done for
+<li>
+If a project has no runnable results:
+<ol>
+<li>
+Reset its debt to 0, and do not consider its resource share to
+determine relative resource shares.
+
+</ol>
+<li>
+Else:
+<ol>
+<li>
+Decrease debts to projects according to the amount of work done for
 the projects in the last period.
+<li>
+Increase debts to projects according to the projects' relative resource
+shares.
+</ol>
 
-<li>Increase debts to projects according to the projects' resource shares.
+<li>
+Let the anticipated debt for each project be initialized to its current
+debt.
 
-<li>Let the anticipated debt for each project be initialized to
-its current debt.
-
-<li>Repeat until we decide on a result to compute for each processor:
+<li>
+Repeat until we decide on a result to compute for each processor:
 
 <ol>
 
-<li>Choose the project that has the largest anticipated debt and a
+<li>
+Choose the project that has the largest anticipated debt and a
 ready-to-compute result.
 
-<li>Decrease the anticipated debt of the project by the expected amount of CPU time.
+<li>
+Decrease the anticipated debt of the project by the expected amount of CPU
+time.
 
 </ol>
 
-<li>Preempt current result computations, and start new ones.
+<li>
+Preempt current result computations, and start new ones.
 
 </ol>
 
@@ -161,8 +188,16 @@ foreach task T that is RUNNING:
     total_work_done_this_period += x
 
 foreach P in projects:
-    P.debt += P.resource_share * total_work_done_this_period
-            - P.work_done_this_period
+    if P has a runnable result:
+        adjusted_total_resource_share += P.resource_share
+
+foreach P in projects:
+    if P has no runnable result:
+        P.debt = 0
+    else:
+        P.debt += (P.resource_share / adjusted_total_resource_share)
+                * total_work_done_this_period
+                - P.work_done_this_period
 
 expected_pay_off = total_work_done_this_period / num_cpus
 
@@ -235,7 +270,7 @@ between T and 2T days from now.
 At a given time, the CPU scheduler may need as many as
 
 <blockquote>
-min_results(P) = ceil(ncpus * P.resource_share)
+min_results(P) = ceil(ncpus * P.resource_share / total_resource_share)
 </blockquote>
 
 <p>
@@ -296,7 +331,8 @@ estimated_cpu_time(R_1, R_2, ..., R_N-k) / avg_proc_rate(P)
 where avg_proc_rate(P) is the average number of CPU seconds completed by
 the client for project P in a second of (wall-clock) time:
 <blockquote>
-avg_proc_rate(P) = P.resource_share * ncpus * 'active fraction'.
+avg_proc_rate(P) = P.resource_share / total_resource_share * ncpus *
+'active fraction'.
 </blockquote>
 
 <h3>How much work to get</h3>
@@ -379,8 +415,11 @@ data structures:
 PROJECT:
     double work_request
 
+total_resource_share = sum of all projects' resource_share
+
 avg_proc_rate(P):
-    return P.resource_share * ncpus * time_stats.active_frac
+    return P.resource_share / total_resource_share
+           * ncpus * time_stats.active_frac
 
 ettprc(P, k):
     results_to_skip = k
