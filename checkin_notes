@@ -6186,3 +6186,9 @@ Karl 2003/09/05
         Makefile.am
         add.py -> add  (renamed)
 
+
+    - astropulse: use a protocol version number separate of the astropulse
+      client version
+
+    astropulse/client/
+        ap_file_io.C

@@ -159,12 +159,17 @@ echo "--- Configured BOINC AC_PACKAGE_VERSION ---"
 test/test_sanity.py || (
     cat <<EOF
 
-The framework sanity check failed.
-
-If you only want to compile the client or compile the server, this may be okay.
-
-If you want to develop BOINC and be able to run the automated tests, you need
-a MySQL server installed and running, with permission to create databases.
+******************************************************************************
+**  
+** The framework sanity check failed.
+**  
+** If you only want to compile (and run) the client or compile (and run) the
+** server, this may be okay.
+**  
+** If you are developing BOINC and want to run the automated tests, you need a
+** MySQL server installed and running, with permission to create databases.
+**  
+******************************************************************************
 
 EOF
 
