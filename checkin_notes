@@ -6121,3 +6121,27 @@ quarl 2003/09/03
         tools_other.php
         single_host_server.php
         create_project.php
+
+David  Sept 4 2003
+    - fix bug in scheduler: the buffer in insert_wu_tags() wasn't large enough.
+        This is a powerful argument in favor of using "string" everywhere!
+    NOTE: in spite of fix, test_uc.py isn't working.  Problem w/ proxy?
+    - HTTP_OP_SET::poll(): if header read_reply() returns nonzero,
+        set htp->io_ready to false (to avoid lots and lots of spurious recv()s)
+    - in test scripts: if TEST_STOP_BEFORE_RUN is set,
+        go into sleep loop rather than exiting
+        (to avoid deleting the test setup)
+    - factor out get_socket_error()
+
+    client/
+        client_state.C
+        cs_scheduler.C
+        http.C
+        main.C
+        net_xfer.C,h
+        scheduler_op.C
+    sched/
+        handle_request.C
+        main.C
+    test/
+        testbase.py

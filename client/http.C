@@ -126,16 +126,14 @@ static void http_post_request_header(
     );
 }
 
-void HTTP_REPLY_HEADER::init()
-{
+void HTTP_REPLY_HEADER::init() {
     status = 500;
     content_length = 0;
     redirect_location.erase();
     recv_buf.erase();
 }
 
-void HTTP_REPLY_HEADER::parse()
-{
+void HTTP_REPLY_HEADER::parse() {
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
 
     istringstream h(recv_buf);
@@ -172,21 +170,26 @@ const unsigned int MAX_HEADER_SIZE = 1024;
 
 // Parse an http reply header into the header struct
 //
-// Returns 1 if we are not done yet, 0 if done (header.status indicates
-// success)
-int HTTP_REPLY_HEADER::read_reply(int socket)
-{
+// Returns 1 if not done yet, 0 if done (header.status indicates success)
+//
+int HTTP_REPLY_HEADER::read_reply(int socket) {
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
 
     while (recv_buf.size() < MAX_HEADER_SIZE) {
         char c;
+        errno = 0;
         int n = recv(socket, &c, 1, 0);
+        scope_messages.printf(
+            "HTTP_REPLY_HEADER::read_reply(): recv() on socket %d returned %d errno %d sockerr %d\n",
+            socket, n, errno, get_socket_error(socket)
+        );
         if (n == -1 && errno == EAGAIN) {
-            scope_messages.printf("HTTP_REPLY_HEADER::read_reply(): recv() returned %d (EAGAIN)\n", n);
             return 1;
         }
+
+        // if n is zero, we've reached EOF (and that's an error)
+        //
         if (n != 1) {
-            scope_messages.printf("HTTP_REPLY_HEADER::read_reply(): recv() returned %d\n", n);
             break;
         }
 
@@ -195,15 +198,19 @@ int HTTP_REPLY_HEADER::read_reply(int socket)
 
         if (ends_with(recv_buf, "\n\n")) {
             scope_messages.printf_multiline(recv_buf.c_str(),
-                                            "HTTP_REPLY_HEADER::read_reply(): header: ");
+                "HTTP_REPLY_HEADER::read_reply(): header: "
+            );
             parse();
             return 0;
         }
     }
 
-    // error occurred
-    scope_messages.printf("HTTP_REPLY_HEADER::read_reply(): returning error (recv_buf.size=%d)\n",
-                          recv_buf.size());
+    // error occurred; status will be 500 (from constructor)
+    //
+    scope_messages.printf(
+        "HTTP_REPLY_HEADER::read_reply(): returning error (recv_buf=%s)\n",
+        recv_buf.c_str()
+    );
     return 0;
 }
 
@@ -471,13 +478,17 @@ bool HTTP_OP_SET::poll() {
                 htp->io_ready = false;
                 htp->io_done = false;
             }
-            // TODO: intentional no break here? -- quarl
+            break;
         case HTTP_STATE_REPLY_HEADER:
             if (htp->io_ready) {
                 action = true;
-                scope_messages.printf("HTTP_OP_SET::poll(): got reply header; %p io_done %d\n", htp, htp->io_done);
+                scope_messages.printf(
+                    "HTTP_OP_SET::poll(): reading reply header; io_ready %d io_done %d\n",
+                    htp->io_ready, htp->io_done
+                );
                 if (htp->hrh.read_reply(htp->socket)) {
                     // not done yet
+                    htp->io_ready = false;
                     break;
                 }
 

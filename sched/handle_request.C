@@ -127,7 +127,7 @@ int insert_after(char* buffer, char* after, char* text) {
 // it to a client
 //
 int insert_wu_tags(WORKUNIT& wu, APP& app) {
-    char buf[256];
+    char buf[MAX_BLOB_SIZE];
 
     sprintf(buf,
         "    <rsc_fpops_est>%f</rsc_fpops_est>\n"
@@ -186,7 +186,7 @@ int insert_app_file_tags(APP_VERSION& av, USER& user) {
     vector<APP_FILE> app_files;
     APP_FILE af;
     unsigned int i;
-    char buf[256], name[256];
+    char buf[1024], name[256];
     int retval;
 
     parse_project_prefs(user.project_prefs, app_files);
@@ -660,13 +660,13 @@ int send_work(
     WORKUNIT wu;
     DB_RESULT result, result_copy;
 
-    if (sreq.work_req_seconds <= 0) return 0;
-
     log_messages.printf(
         SchedMessages::NORMAL,
         "[HOST#%d] got request for %d seconds of work\n",
         reply.host.id, sreq.work_req_seconds
     );
+
+    if (sreq.work_req_seconds <= 0) return 0;
 
     seconds_to_fill = sreq.work_req_seconds;
     if (seconds_to_fill > MAX_SECONDS_TO_SEND) {

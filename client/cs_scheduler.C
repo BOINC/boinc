@@ -383,10 +383,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     contacted_sched_server = true;
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
 
-    scope_messages.printf_file(
-        SCHED_OP_RESULT_FILE,
-        "CLIENT_STATE::handle_scheduler_reply(): reply: "
-    );
+    scope_messages.printf_file(SCHED_OP_RESULT_FILE, "reply: ");
 
     f = fopen(SCHED_OP_RESULT_FILE, "r");
     if (!f) return ERR_FOPEN;

@@ -1585,11 +1585,11 @@ bool CLIENT_STATE::time_to_exit() {
         && app_started
         && (difftime(time(0), app_started) >= exit_after_app_start_secs)
     ) {
-        printf("exiting because time is up: %d\n", exit_after_app_start_secs);
+        msg_printf(NULL, MSG_INFO, "exiting because time is up: %d\n", exit_after_app_start_secs);
         return true;
     }
     if (exit_when_idle && (results.size() == 0) && contacted_sched_server) {
-        printf("exiting because no more results\n");
+        msg_printf(NULL, MSG_INFO, "exiting because no more results\n");
         return true;
     }
     return false;

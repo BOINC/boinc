@@ -94,4 +94,6 @@ public:
     void check_active(bool&, bool&);
 };
 
+extern int get_socket_error(int fd);
+
 #endif

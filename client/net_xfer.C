@@ -73,6 +73,19 @@ typedef int socklen_t;
 typedef size_t socklen_t;
 #endif
 
+int get_socket_error(int fd) {
+    socklen_t intsize = sizeof(int);
+    int n;
+#ifdef _WIN32
+    getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, &intsize);
+#elif __APPLE__
+    getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
+#else
+    getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, &intsize);
+#endif
+    return n;
+}
+
 int NET_XFER::get_ip_addr(char *hostname, int &ip_addr) {
     hostent* hep;
 
@@ -325,7 +338,6 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
     int n, fd, retval, nsocks_queried;
     socklen_t i;
     NET_XFER *nxp;
-    socklen_t intsize = sizeof(int);
 
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_NET_XFER);
 
@@ -392,14 +404,14 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
         nxp = net_xfers[i];
         fd = nxp->socket;
         if (FD_ISSET(fd, &read_fds) || FD_ISSET(fd, &write_fds)) {
+            if (FD_ISSET(fd, &read_fds)) {
+                scope_messages.printf("NET_XFER_SET::do_select(): read enabled on socket %d\n", fd);
+            }
+            if (FD_ISSET(fd, &write_fds)) {
+                scope_messages.printf("NET_XFER_SET::do_select(): write enabled on socket %d\n", fd);
+            }
             if (!nxp->is_connected) {
-#ifdef _WIN32
-                getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, &intsize);
-#elif __APPLE__
-                getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
-#else
-                getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, &intsize);
-#endif
+                n = get_socket_error(fd);
                 if (n) {
                     scope_messages.printf(
                         "NET_XFER_SET::do_select(): socket %d connection to %s failed\n",

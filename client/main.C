@@ -163,7 +163,12 @@ int main(int argc, char** argv) {
             fflush(stdout);
         }
 
-        if (gstate.time_to_exit() || gstate.requested_exit) {
+        if (gstate.time_to_exit()) {
+            msg_printf(NULL, MSG_INFO, "Time to exit");
+            break;
+        }
+        if (gstate.requested_exit) {
+            msg_printf(NULL, MSG_INFO, "Exit requested by signal");
             break;
         }
     }

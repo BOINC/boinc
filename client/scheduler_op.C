@@ -199,7 +199,7 @@ int SCHEDULER_OP::start_rpc() {
         );
     }
 
-    scope_messages.printf_file(SCHED_OP_REQUEST_FILE, "SCHEDULER_OP::start_rpc(): request xml: ");
+    scope_messages.printf_file(SCHED_OP_REQUEST_FILE, "req:");
 
     if (gstate.use_http_proxy) {
         http_op.use_http_proxy = true;

@@ -610,6 +610,11 @@ def run_check_all():
     all_projects.start_progress_meter()
     all_projects.run_init_wait()
     if os.environ.get('TEST_STOP_BEFORE_HOST_RUN'):
+        verbose_echo(1, 'stopped')
+        # wait instead of killing backend procs.
+        # (Is there a better way to do this?)
+        while (1):
+            time.sleep(1)
         raise SystemExit, 'Stopped due to $TEST_STOP_BEFORE_HOST_RUN'
     # all_hosts.run(asynch=True)
     all_hosts.run()
