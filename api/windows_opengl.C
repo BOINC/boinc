@@ -23,6 +23,11 @@
 #include "win_util.h"
 //#include "win_idle_tracker.h"
 
+// application needs to define mouse handlers
+//
+extern void boinc_app_mouse_button(int x, int y, bool is_down);
+extern void boinc_app_mouse_move(int x, int y);
+
 
 #define BOINC_WINDOW_CLASS_NAME "BOINC_app"
 
@@ -200,19 +205,28 @@ LRESULT CALLBACK WndProc(
 	case WM_LBUTTONDOWN:
 	case WM_MBUTTONDOWN:
 	case WM_RBUTTONDOWN:
+	case WM_LBUTTONUP:
+	case WM_MBUTTONUP:
+	case WM_RBUTTONUP:
 		if(current_graphics_mode == MODE_FULLSCREEN) {
 			SetMode(MODE_HIDE_GRAPHICS);
 			PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
+		} else  {
+			POINT cPos;
+			GetCursorPos(&cPos);
+			boinc_app_mouse_button(cPos.x, cPos.y, uMsg==WM_LBUTTONDOWN);
 		}
 		return 0;
 	case WM_MOUSEMOVE:
+		POINT cPos;
+		GetCursorPos(&cPos);
 		if(current_graphics_mode == MODE_FULLSCREEN) {
-			POINT cPos;
-			GetCursorPos(&cPos);
 			if(cPos.x != mousePos.x || cPos.y != mousePos.y) {
-			    SetMode(MODE_HIDE_GRAPHICS);
+				SetMode(MODE_HIDE_GRAPHICS);
 				PostMessage(HWND_BROADCAST, m_uEndSSMsg, 0, 0);
 			}
+		} else {
+			boinc_app_mouse_move(cPos.x, cPos.y);
 		}
 		return 0;
 	case WM_CLOSE:

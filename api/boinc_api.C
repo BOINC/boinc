@@ -126,10 +126,12 @@ int boinc_init(bool standalone_ /* = false */) {
     //
     initial_wu_cpu_time = aid.wu_cpu_time;
 
-    f = boinc_fopen(FD_INIT_FILE, "r");
-    if (f) {
-        parse_fd_init_file(f);
-        fclose(f);
+    if (boinc_file_exists(FD_INIT_FILE)) {
+        f = boinc_fopen(FD_INIT_FILE, "r");
+        if (f) {
+            parse_fd_init_file(f);
+            fclose(f);
+        }
     }
 
     time_until_checkpoint = aid.checkpoint_period;

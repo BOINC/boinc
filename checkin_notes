@@ -11203,3 +11203,14 @@ Rom    Mar 31 2004
 
     clientgui/proto/
         <Multiple Files>
+
+David  Mar 31 2004
+	- add support for mouse-event handling in apps
+		Apps that use graphics must now supply
+		boinc_app_mouse_move() and boinc_app_mouse_button functions
+	- check for file existence before opening for read, avoid 5-second delay
+
+	api/
+		boinc_api.C
+		graphics_api.C
+		windows_opengl.C
