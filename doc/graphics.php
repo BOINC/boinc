@@ -66,6 +66,31 @@ to get the new preferences.
 
 <p>
 
+<h3>Handling input</h3>
+<p>
+The application must supply the following input-handling functions:
+<pre>
+void boinc_app_mouse_move(
+    int x, int y,       // new coords of cursor
+    bool left,          // whether left mouse button is down
+    bool middle,
+    bool right
+);
+
+void boinc_app_mouse_button(
+    int x, int y,       // coords of cursor
+    int which,          // which button (0/1/2)
+    bool is_down        // true iff button is now down
+);
+
+void boinc_app_key_press(
+    int, int            // system-specific key encodings
+)
+
+void boinc_app_key_release(
+    int, int            // system-specific key encodings
+)
+</pre>
 <h3>Limiting frame rate</h3>
 <p>
 The following global variables control frame rate:
