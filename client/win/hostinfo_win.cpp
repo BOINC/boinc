@@ -158,8 +158,7 @@ int get_host_info(HOST_INFO& host) {
 
             // Display service pack (if any) and build number.
 
-            if( osvi.dwMajorVersion == 4 && 
-                lstrcmpi( osvi.szCSDVersion, "Service Pack 6" ) == 0 )
+            if( osvi.dwMajorVersion == 4 && lstrcmpi( osvi.szCSDVersion, "Service Pack 6" ) == 0 )
             {
                 HKEY hKey;
                 LONG lRet;
@@ -169,7 +168,11 @@ int get_host_info(HOST_INFO& host) {
                     "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Hotfix\\Q246009",
                     0, KEY_QUERY_VALUE, &hKey );
                 if( lRet == ERROR_SUCCESS )
-                    sprintf( host.os_name, "Service Pack 6a (Build %d)", osvi.dwBuildNumber & 0xFFFF );         
+                {
+                    sprintf( host.os_name, "%sService Pack 6a (Build %d)",
+                        host.os_name,
+                        osvi.dwBuildNumber & 0xFFFF );
+                }
                 else // Windows NT 4.0 prior to SP6a
                 {
                     if ( strlen(osvi.szCSDVersion) > 0 )

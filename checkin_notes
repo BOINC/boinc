@@ -10421,3 +10421,9 @@ Rom    Mar 9 2004
         project.inc
     html/user
         info.php
+
+Rom    Mar 9 2004
+    - Windows Product SKU was being over-written if the person was running with Service Pack 6a.
+
+    client/win/
+        hostinfo_win.cpp
