@@ -276,7 +276,9 @@ int CLIENT_STATE::init() {
     //
     set_client_state_dirty("init");
 
+#ifndef _WIN32
     gui_rpcs.init("gui_rpc");
+#endif
     return 0;
 }
 
@@ -343,7 +345,9 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
         POLL_ACTION(garbage_collect        , garbage_collect        );
         POLL_ACTION(update_results         , update_results         );
+#ifndef _WIN32
         POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
+#endif
     } else {
         net_stats.poll(*net_xfers);
         // Call these functions in bottom to top order with
@@ -360,7 +364,9 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(handle_pers_file_xfers , handle_pers_file_xfers );
         POLL_ACTION(garbage_collect        , garbage_collect        );
         POLL_ACTION(update_results         , update_results         );
+#ifndef _WIN32
         POLL_ACTION(gui_rpc                , gui_rpcs.poll          );
+#endif
     }
 
     retval = write_state_file_if_needed();

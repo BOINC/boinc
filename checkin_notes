@@ -10231,3 +10231,13 @@ Rom    Mar 1 2004
         boinc_ss.vsproj
         upper_case.vsproj
 
+Rom    Mar 2 2004
+    - Get the complete version string for the Windows OS and include Service Pack
+      Information if any exist.  An example is below:
+      <os_name>Microsoft Windows 2003 Standard Server Edition (Build 3790)</os_name>
+    - #ifdef out the GUI RPC stuff on Windows for right now, causes a crash on startup.
+
+    client/
+        client_state.C
+    client/win/
+        hostinfo_win.cpp

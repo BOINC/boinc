@@ -38,76 +38,215 @@ int get_timezone(void) {
 // Gets windows specific host information (not complete)
 //
 int get_host_info(HOST_INFO& host) {
-    OSVERSIONINFO OSVersionInfo;
-    memset( &OSVersionInfo, NULL, sizeof( OSVersionInfo ) );
-    OSVersionInfo.dwOSVersionInfoSize = sizeof( OSVersionInfo );
-    ::GetVersionEx( &OSVersionInfo );
-    switch ( OSVersionInfo.dwPlatformId ) {
-    case VER_PLATFORM_WIN32s:
-        strcpy( host.os_name, "Windows 3.1/Win32s" ); // does ANYBODY use this anymore?
-        break;
-    case VER_PLATFORM_WIN32_WINDOWS:
-        if ( OSVersionInfo.dwMajorVersion > 4
-	        || ( OSVersionInfo.dwMajorVersion == 4
-	        && OSVersionInfo.dwMinorVersion >= 90 ) )
-        {
-            strcpy( host.os_name, "Windows Me" );
-        }
-		else if ( OSVersionInfo.dwMajorVersion == 4
-            && OSVersionInfo.dwMinorVersion >= 10 )
-		{
-            strcpy( host.os_name, "Windows 98" );
-        }
-		else
-		{
-            strcpy( host.os_name, "Windows 95" );
-        }
-        break;
 
-    case VER_PLATFORM_WIN32_NT:
-		if ( OSVersionInfo.dwMajorVersion > 5
-            || (OSVersionInfo.dwMajorVersion == 5
-            && OSVersionInfo.dwMinorVersion >= 2) )
-		{
-		    strcpy( host.os_name, "Windows .NET Server" );
-		}
-		else if (OSVersionInfo.dwMajorVersion == 5
-			&& OSVersionInfo.dwMinorVersion == 1)
-		{
-		    strcpy( host.os_name, "Windows XP" );
-		}
-		else if (OSVersionInfo.dwMajorVersion == 5
-			&& OSVersionInfo.dwMinorVersion == 0)
-		{
-		    strcpy( host.os_name, "Windows 2000" );
-		}
-		else if (OSVersionInfo.dwMajorVersion == 4
-			&& OSVersionInfo.dwMinorVersion == 0)
-		{
-		    strcpy( host.os_name, "Windows NT 4.0" );
-		}
-		else if (OSVersionInfo.dwMajorVersion == 3
-			&& OSVersionInfo.dwMinorVersion == 51)
-		{
-		    strcpy( host.os_name, "Windows NT 3.51" );
-		}
-		else
-		{
-            strcpy( host.os_name, "Windows NT" );
-        }
-        break;
+    // This code snip-it was copied straight out of the MSDN Platform SDK
+    //   Getting the System Version example and modified to dump the output
+    //   into host.os_name.
 
-    default:
-        sprintf( host.os_name, "Unknown Win32 (%ld)", OSVersionInfo.dwPlatformId );
-        break;
+    OSVERSIONINFOEX osvi;
+    BOOL bOsVersionInfoEx;
+
+    // Try calling GetVersionEx using the OSVERSIONINFOEX structure.
+    // If that fails, try using the OSVERSIONINFO structure.
+
+    ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
+    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+
+    if( !(bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO *) &osvi)) )
+    {
+        osvi.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
+        GetVersionEx ( (OSVERSIONINFO *) &osvi );
     }
+
+    switch (osvi.dwPlatformId)
+    {
+        // Test for the Windows NT product family.
+        case VER_PLATFORM_WIN32_NT:
+
+            // Test for the specific product family.
+            if ( (osvi.dwMajorVersion >= 5) ||
+                 ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion >= 2)) )
+                strcpy( host.os_name, "Microsoft Windows Longhorn " );
+
+            if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 )
+                strcpy( host.os_name, "Microsoft Windows 2003 " );
+
+            if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1 )
+                strcpy( host.os_name, "Microsoft Windows XP " );
+
+            if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0 )
+                strcpy( host.os_name, "Microsoft Windows 2000 " );
+
+            if ( osvi.dwMajorVersion <= 4 )
+                strcpy( host.os_name, "Microsoft Windows NT " );
+
+            // Test for specific product on Windows NT 4.0 SP6 and later.
+            if( bOsVersionInfoEx )
+            {
+                // Test for the workstation type.
+                if ( osvi.wProductType == VER_NT_WORKSTATION )
+                {
+                    if( osvi.dwMajorVersion == 4 )
+                        strcat( host.os_name, "Workstation 4.0 " );
+                    else if( osvi.wSuiteMask & VER_SUITE_PERSONAL )
+                        strcat( host.os_name, "Home Edition " );
+                    else
+                        strcat( host.os_name, "Professional Edition " );
+                }
+            
+                // Test for the server type.
+                else if ( (osvi.wProductType == VER_NT_SERVER) || (osvi.wProductType == VER_NT_DOMAIN_CONTROLLER) )
+                {
+                    if( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 )
+                    {
+                        if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
+                            strcat( host.os_name, "Datacenter Server Edition " );
+                        else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
+                            strcat( host.os_name, "Enterprise Server Edition " );
+                        else if ( osvi.wSuiteMask == VER_SUITE_BLADE )
+                            strcat( host.os_name, "Web Server Edition " );
+                        else
+                            strcat( host.os_name, "Standard Server Edition " );
+                    }
+                    else if( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 0 )
+                    {
+                        if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
+                            strcat( host.os_name, "Datacenter Server Edition " );
+                        else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
+                            strcat( host.os_name, "Advanced Server Edition " );
+                        else
+                            strcat( host.os_name, "Standard Server Edition " );
+                    }
+                    else  // Windows NT 4.0 
+                    {
+                        if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
+                            strcat( host.os_name, "Server 4.0, Enterprise Edition " );
+                        else
+                            strcat( host.os_name, "Server 4.0 " );
+                    }
+                }
+            }
+            else  // Test for specific product on Windows NT 4.0 SP5 and earlier
+            {
+                HKEY hKey;
+                char szProductType[80];
+                DWORD dwBufLen=sizeof(szProductType);
+                LONG lRet;
+
+                lRet = RegOpenKeyEx( HKEY_LOCAL_MACHINE,
+                    "SYSTEM\\CurrentControlSet\\Control\\ProductOptions",
+                    0, KEY_QUERY_VALUE, &hKey );
+                if( lRet != ERROR_SUCCESS )
+                    return FALSE;
+
+                lRet = RegQueryValueEx( hKey, "ProductType", NULL, NULL,
+                    (LPBYTE) szProductType, &dwBufLen);
+                if( (lRet != ERROR_SUCCESS) || (dwBufLen > 80) )
+                    return FALSE;
+
+                RegCloseKey( hKey );
+
+                if ( lstrcmpi( "WINNT", szProductType) == 0 )
+                    strcat( host.os_name, "Workstation " );
+                if ( lstrcmpi( "LANMANNT", szProductType) == 0 )
+                    strcat( host.os_name, "Server " );
+                if ( lstrcmpi( "SERVERNT", szProductType) == 0 )
+                    strcat( host.os_name, "Advanced Server " );
+
+                sprintf( host.os_name, "%s%d.%d ",
+                    host.os_name,
+                    osvi.dwMajorVersion,
+                    osvi.dwMinorVersion );
+            }
+
+            // Display service pack (if any) and build number.
+
+            if( osvi.dwMajorVersion == 4 && 
+                lstrcmpi( osvi.szCSDVersion, "Service Pack 6" ) == 0 )
+            {
+                HKEY hKey;
+                LONG lRet;
+
+                // Test for SP6 versus SP6a.
+                lRet = RegOpenKeyEx( HKEY_LOCAL_MACHINE,
+                    "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Hotfix\\Q246009",
+                    0, KEY_QUERY_VALUE, &hKey );
+                if( lRet == ERROR_SUCCESS )
+                    sprintf( host.os_name, "Service Pack 6a (Build %d)", osvi.dwBuildNumber & 0xFFFF );         
+                else // Windows NT 4.0 prior to SP6a
+                {
+                    if ( strlen(osvi.szCSDVersion) > 0 )
+                    {
+                        sprintf( host.os_name, "%s%s (Build %d)",
+                            host.os_name,
+                            osvi.szCSDVersion,
+                            osvi.dwBuildNumber & 0xFFFF);
+                    }
+                    else
+                    {
+                        sprintf( host.os_name, "%s(Build %d)",
+                            host.os_name,
+                            osvi.dwBuildNumber & 0xFFFF);
+                    }
+                }
+
+                RegCloseKey( hKey );
+            }
+            else // Windows NT 3.51 and earlier or Windows 2000 and later
+            {
+                if ( strlen(osvi.szCSDVersion) > 0 )
+                {
+                    sprintf( host.os_name, "%s%s (Build %d)",
+                        host.os_name,
+                        osvi.szCSDVersion,
+                        osvi.dwBuildNumber & 0xFFFF);
+                }
+                else
+                {
+                    sprintf( host.os_name, "%s(Build %d)",
+                        host.os_name,
+                        osvi.dwBuildNumber & 0xFFFF);
+                }
+            }
+
+            break;
+
+        // Test for the Windows 95 product family.
+        case VER_PLATFORM_WIN32_WINDOWS:
+
+            if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 0)
+            {
+                strcpy( host.os_name, "Microsoft Windows 95 " );
+                if ( osvi.szCSDVersion[1] == 'C' || osvi.szCSDVersion[1] == 'B' )
+                   strcat( host.os_name, "OSR2 " );
+            } 
+
+            if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 10)
+            {
+                strcpy( host.os_name, "Microsoft Windows 98 " );
+                if ( osvi.szCSDVersion[1] == 'A' )
+                    strcat( host.os_name, "SE " );
+            } 
+
+            if (osvi.dwMajorVersion == 4 && osvi.dwMinorVersion == 90)
+            {
+                strcpy( host.os_name, "Microsoft Windows Millennium Edition" );
+            } 
+            break;
+
+        case VER_PLATFORM_WIN32s:
+
+            strcpy( host.os_name, "Microsoft Win32s" );
+            break;
+    }
+
 
     char Version[ 25 ];
     Version[ 0 ] = NULL;
-    sprintf(
-	Version, "%lu.%lu", OSVersionInfo.dwMajorVersion,
-        OSVersionInfo.dwMinorVersion
-    );
+    sprintf( Version, "%lu.%lu",
+        osvi.dwMajorVersion,
+        osvi.dwMinorVersion);
+
 	safe_strncpy( host.os_version, Version, sizeof(host.os_version) );
 
     SYSTEM_INFO SystemInfo;
