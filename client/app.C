@@ -141,11 +141,11 @@ ACTIVE_TASK::~ACTIVE_TASK() {
 #else
     // detach from and destroy share mem
     //
-    if (atp->app_client_shm.shm) {
-        detach_shmem(atp->app_client_shm.shm);
-        atp->app_client_shm.shm = NULL;
+    if (app_client_shm.shm) {
+        detach_shmem(app_client_shm.shm);
+        app_client_shm.shm = NULL;
     }
-    destroy_shmem(atp->shm_key);
+    destroy_shmem(shm_key);
 #endif
 }
 
