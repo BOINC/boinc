@@ -299,6 +299,7 @@ def create_project_dirs(dest_dir):
             'cgi-bin',
             'upload',
             'html/cache',
+            'html/inc',
             'html/languages',
             'html/languages/compiled',
             'html/user_profile/images'

@@ -26011,3 +26011,11 @@ David  17 Mar 2005
     client/
         client_types.C
         cs_account.C
+
+David  18 Mar 2005
+    - Web: make download network stuff work for new projects
+
+    html/inc/
+        download_network.inc
+    py/Boinc/
+        setup_project.py

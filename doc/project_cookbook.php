@@ -35,8 +35,8 @@ check the Apache access and error logs.
 <li> Create a BOINC application executable
 (if you're in a hurry, use the test application).
 <li> Copy the executable to HOME/projects/PROJECTNAME/apps/APPNAME
-<li> cd to HOME/projects/PROJECTNAME/bin
-<li> run ./update_versions, type y or return.
+<li> cd to HOME/projects/PROJECTNAME
+<li> run bin//update_versions, type y or return.
 <li> run ./stop && ./start
 </ul>
 
