@@ -340,7 +340,7 @@ int main(int argc, char** argv) {
     return iRetVal;
 }
 
-#elif
+#else
 
 //
 // For platforms other than windows just treat it as a console application
