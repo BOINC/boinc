@@ -344,6 +344,9 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (strlen(sr.user_name)) {
         strcpy(project->user_name, sr.user_name);
     }
+    if (strlen(sr.team_name)) {
+        strcpy(project->team_name, sr.team_name);
+    }
     project->user_total_credit = sr.user_total_credit;
     project->user_expavg_credit = sr.user_expavg_credit;
     project->user_create_time = sr.user_create_time;

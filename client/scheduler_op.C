@@ -530,6 +530,7 @@ int SCHEDULER_REPLY::parse(FILE* in) {
         else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
         else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) continue;
+        else if (parse_str(buf, "<team_name>", team_name, sizeof(team_name))) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;

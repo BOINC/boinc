@@ -103,7 +103,7 @@ struct SCHEDULER_REPLY {
     char project_name[256];
     char* global_prefs_xml;     // not including <global_preferences> tags
     char* project_prefs_xml;    // not including <project_preferences> tags
-    char user_name[256];
+    char user_name[256],team_name[256];
     double user_total_credit;
     double user_expavg_credit;
     unsigned int user_create_time;
