@@ -724,6 +724,7 @@ void process_request(
             SCHED_MSG_LOG::CRITICAL, "[HOST#%d] platform '%s' not found\n",
             reply.host.id, sreq.platform_name
         );
+        reply.request_delay = 3600*24;
         goto leave;
     }
 

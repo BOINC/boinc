@@ -17519,10 +17519,12 @@ David  21 Sept 2004
         If the resulting file is empty, try client_state_prev.xml
         This should hopefully fix cases of state file corruption on crash
     - change request delay from 1 hour to 1 day for:
+        - unknown platform
         - no work for this platform
         - core client out of date
 
     client/
         cs_statefile.C
     sched/
+        handle_request.C
         sched_send.C
