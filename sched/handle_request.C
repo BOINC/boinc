@@ -44,17 +44,6 @@ double estimate_duration(WORKUNIT& wu, HOST& host) {
     return wu.rsc_fpops/host.p_fpops + wu.rsc_iops/host.p_iops;
 }
 
-// estimate the number of seconds that a WU will take on a host
-//
-int estimate_seconds(WORKUNIT& wu, HOST& host) {
-    int calculations, memory_accesses;
-    calculations = wu.rsc_fpops/host.p_fpops + wu.rsc_iops/host.p_iops;
-    memory_accesses = wu.rsc_membw/host.p_membw;
-    if(memory_accesses > calculations)
-	return memory_accesses;
-    return calculations;
-}
-
 // add the given workunit to a reply.
 // look up its app, and make sure there's a version for this platform.
 // Add the app and app_version to the reply also.
@@ -373,7 +362,7 @@ void process_request(
 	seconds_to_fill = MIN_SECONDS_TO_SEND;
     while(seconds_to_fill > 0) {
 	send_work(sreq, reply, *platform, host, ss, wu);
-	seconds_to_fill -= estimate_seconds(wu, host);
+	seconds_to_fill -= (int)estimate_duration(wu, host);
     }
 }
 
