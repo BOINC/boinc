@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 // $Id$
 //
 // The contents of this file are subject to the BOINC Public License
@@ -21,6 +22,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.6  2004/12/02 20:17:34  rwalton
+// *** empty log message ***
+//
 // Revision 1.5  2004/11/22 19:17:06  davea
 // *** empty log message ***
 //

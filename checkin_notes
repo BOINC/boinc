@@ -20506,3 +20506,33 @@ Bruce	2 Dec 2004
         inc/
             db_ops.inc
             util_ops.inc
+
+Rom    2 Dec 2004
+    - Add in the rcsid tag to all the boincmgr source files and the screensaver
+        for windows.
+
+    client/win/
+        win_screensaver.cpp
+    clientgui/
+        BOINCBaseView.cpp
+        BOINCGUIApp.cpp
+        BOINCListCtrl.cpp
+        BOINCTaskCtrl.cpp
+        DlgAbout.cpp
+        DlgAttachProject.cpp
+        DlgConnection.cpp
+        DlgOptions.cpp
+        MainDocument.cpp
+        MainFrame.cpp
+        stdwx.cpp
+        ValidateAccountKey.cpp
+        ValidateURL.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+    clientgui/msw/
+        taskbarex.cpp
+    lib/
+        stackwalker_win.cpp

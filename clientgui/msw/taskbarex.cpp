@@ -1,3 +1,4 @@
+static volatile const char *BOINCrcsid="$Id$";
 /////////////////////////////////////////////////////////////////////////
 // File:        taskbar.cpp
 // Purpose:     Implements wxTaskBarIconEx class for manipulating icons on
