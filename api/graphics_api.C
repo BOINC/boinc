@@ -43,6 +43,7 @@ HANDLE graphics_threadh=NULL;
 #include "util.h"
 #include "app_ipc.h"
 #include "error_numbers.h"
+#include "filesys.h"
 #include "boinc_api.h"
 #include "graphics_api.h"
 #include "filesys.h"
