@@ -25236,3 +25236,24 @@ David  23 Feb 2005
         testbase.py
         uc_wu (removed)
         uc_wu_nodelete (new)
+
+Rom    23 Feb 2005
+    - Bug Fix: On localized machines the administrators and users groups
+        can be named something other than administrators and users.  This
+        is also the case if the administrators and users groups have been
+        renamed on english machines.  So thanks to some sample code from
+        MSDN we can now detect what names we should be using in both cases
+        during setup to set permissions on the BOINC folder.
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/GetGroupName
+        GetGroupName.cpp
+        GetGroupName.def
+        GetGroupName.sln, .vcproj
+        stdafx.cpp, .h
+    win_build/installerv2/redist/Windows/x86/
+        getgrpname.dll
+
+
+    
