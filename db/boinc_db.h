@@ -359,10 +359,14 @@ struct WORKUNIT {
 #define RESULT_OUTCOME_SUCCESS          1
 #define RESULT_OUTCOME_COULDNT_SEND     2
 #define RESULT_OUTCOME_CLIENT_ERROR     3
+    // an error happened on the client
 #define RESULT_OUTCOME_NO_REPLY         4
 #define RESULT_OUTCOME_DIDNT_NEED       5
     // we created the result but didn't need to send it because we already
     // got a quorum
+#define RESULT_OUTCOME_VALIDATE_ERROR   6
+    // The outcome was initially SUCCESS, but the validator
+    // had a permanent error reading a result file
 
 #define VALIDATE_STATE_INIT         0
 #define VALIDATE_STATE_VALID        1
@@ -370,8 +374,6 @@ struct WORKUNIT {
 #define VALIDATE_STATE_NO_CHECK     3
     // WU had error, so we'll never get around to validating its results
     // This lets us avoid showing the claimed credit as "pending"
-#define VALIDATE_STATE_ERROR        4
-    // Validation encountered an internal error (eg, file IO error).
 
 struct RESULT {
     int id;

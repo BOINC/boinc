@@ -18,26 +18,15 @@
 //
 
 //
-// validate - check and validate new results, and grant credit
+// validator - check and validate new results, and grant credit
 //  -app appname
 //  [-d debug_level]
 //  [-one_pass]     // make one pass through WU table, then exit
 //  [-asynch]       // fork, run in separate process
 //
 // This program must be linked with two project-specific functions:
-//
-// int check_set(vector<RESULT>, int& canonical, double& credit)
-//    Compare a set of results.
-//    If a canonical result is found, return its ID,
-//    and set the "validate_state" field of all the results
-//    according to whether they match the canonical result.
-//    Also return the "canonical credit" (e.g. the average or median)
-//
-// int pair_check(RESULT& new_result, RESULT& canonical, bool& valid);
-//    return valid=true iff the new result matches the canonical one
-//
-// Both functions return nonzero if an error occurred,
-// in which case other outputs are undefined
+// check_set() and check_pair().
+// See doc/validate.php for a description.
 
 using namespace std;
 
@@ -47,6 +36,7 @@ using namespace std;
 
 #include "boinc_db.h"
 #include "util.h"
+#include "error_numbers.h"
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
@@ -54,8 +44,13 @@ using namespace std;
 #define LOCKFILE "validate.out"
 #define PIDFILE  "validate.pid"
 
-extern int check_set(vector<RESULT>&, DB_WORKUNIT& wu, int& canonical, double& credit);
-extern int check_pair(RESULT const&, RESULT const&, bool&);
+extern int check_set(
+    vector<RESULT>&, DB_WORKUNIT& wu, int& canonical, double& credit,
+    bool& retry
+);
+extern int check_pair(
+    RESULT const& new_result, RESULT const& canonical_result, bool& retry
+);
 
 SCHED_CONFIG config;
 char app_name[256];
@@ -137,7 +132,9 @@ int grant_credit(DB_RESULT& result, double credit) {
 
 void handle_wu(DB_WORKUNIT& wu) {
     DB_RESULT result, canonical_result;
-    bool match, update_result, need_transition = false;
+    bool update_result, retry;
+    bool canonical_result_missing = false;
+    bool need_immediate_transition = false, need_delayed_transition = false;
     int retval, canonicalid = 0;
     double credit;
     unsigned int i;
@@ -155,14 +152,20 @@ void handle_wu(DB_WORKUNIT& wu) {
         // Get unchecked results and see if they match the canonical result
         //
         retval = canonical_result.lookup_id(wu.canonical_resultid);
-        if (retval) {
+        if (retval == ERR_DB_NOT_FOUND) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
-                "[WU#%d %s] Can't read canonical result; marking as validated: %d\n",
+                "[WU#%d %s] Canonical result not in DB %d",
                 wu.id, wu.name, retval
             );
-            // Mark this WU as validated, otherwise we'll keep checking it
-            goto mark_validated;
+            canonical_result_missing = true;
+        } else if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[WU#%d %s] Can't read canonical result %d; exiting",
+                wu.id, wu.name, retval
+            );
+            exit(retval);
         }
 
         // scan this WU's results, and check the unchecked ones
@@ -173,63 +176,56 @@ void handle_wu(DB_WORKUNIT& wu) {
             wu.id, VALIDATE_STATE_INIT, RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_SUCCESS
         );
         while (!result.enumerate(buf)) {
-            need_transition = true;
+            need_immediate_transition = true;
 
-            // it's possible that we've deleted canonical result outputs
-            //
-            if (canonical_result.file_delete_state == FILE_DELETE_DONE) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::DEBUG,
-                    "[WU#%d]: Canonical result (%d) has been deleted\n",
-                    wu.id, canonical_result.id
-                );
-                match = false;
-                retval = 0;
-            } else {
-                retval = check_pair(result, canonical_result, match);
-            }
+            retval = check_pair(
+                result, canonical_result, retry
+            );
             if (retval) {
                 log_messages.printf(
                     SCHED_MSG_LOG::DEBUG,
                     "[RESULT#%d %s]: pair_check() failed for result: %d\n",
                     result.id, result.name, retval
                 );
-                continue;
-            } else {
-                if (match) {
-                    result.validate_state = VALIDATE_STATE_VALID;
-                    result.granted_credit = wu.canonical_credit;
-                    log_messages.printf(
-                        SCHED_MSG_LOG::NORMAL,
-                        "[RESULT#%d %s] pair_check() matched: setting result to valid; credit %f\n",
-                        result.id, result.name, result.granted_credit
-                    );
-                } else {
-                    result.validate_state = VALIDATE_STATE_INVALID;
-                    log_messages.printf(
-                        SCHED_MSG_LOG::NORMAL,
-                        "[RESULT#%d %s] pair_check() didn't match: setting result to invalid\n",
-                        result.id, result.name
-                    );
-                }
+                exit(retval);
             }
-            retval = result.update();
-            if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL,
-                    "[RESULT#%d %s] Can't update result: %d\n",
-                    result.id, result.name, retval
-                );
-                continue;
-            }
-            retval = grant_credit(result, result.granted_credit);
-            if (retval) {
+            if (retry) need_delayed_transition = true;
+            update_result = false;
+            switch (result.validate_state) {
+            case VALIDATE_STATE_VALID:
+                update_result = true;
+                result.granted_credit = wu.canonical_credit;
                 log_messages.printf(
                     SCHED_MSG_LOG::NORMAL,
-                    "[RESULT#%d %s] Can't grant credit: %d\n",
-                    result.id, result.name, retval
+                    "[RESULT#%d %s] pair_check() matched: setting result to valid; credit %f\n",
+                    result.id, result.name, result.granted_credit
                 );
-                continue;
+                retval = grant_credit(result, result.granted_credit);
+                if (retval) {
+                    log_messages.printf(
+                        SCHED_MSG_LOG::NORMAL,
+                        "[RESULT#%d %s] Can't grant credit: %d\n",
+                        result.id, result.name, retval
+                    );
+                }
+                break;
+            case VALIDATE_STATE_INVALID:
+                update_result = true;
+                log_messages.printf(
+                    SCHED_MSG_LOG::NORMAL,
+                    "[RESULT#%d %s] pair_check() didn't match: setting result to invalid\n",
+                    result.id, result.name
+                );
+            }
+            if (update_result) {
+                retval = result.update();
+                if (retval) {
+                    log_messages.printf(
+                        SCHED_MSG_LOG::CRITICAL,
+                        "[RESULT#%d %s] Can't update result: %d\n",
+                        result.id, result.name, retval
+                    );
+                }
             }
         }
     } else {
@@ -266,9 +262,18 @@ void handle_wu(DB_WORKUNIT& wu) {
                 SCHED_MSG_LOG::DEBUG,
                 "[WU#%d %s] Enough for quorum, checking set.\n", wu.id, wu.name
             );
-            retval = check_set(results, wu, canonicalid, credit);
-            if (!retval && canonicalid) {
-                need_transition = true;
+            retval = check_set(results, wu, canonicalid, credit, retry);
+            if (retval) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::CRITICAL,
+                    "[WU#%d %s] check_set returned %d, exiting",
+                    wu.id, wu.name, retval
+                );
+                exit(retval);
+            }
+            if (retry) need_delayed_transition = true;
+            if (canonicalid) {
+                need_immediate_transition = true;
                 log_messages.printf(
                     SCHED_MSG_LOG::DEBUG,
                     "[WU#%d %s] Found a canonical result: id=%d\n",
@@ -279,12 +284,15 @@ void handle_wu(DB_WORKUNIT& wu) {
                 wu.assimilate_state = ASSIMILATE_READY;
                 for (i=0; i<results.size(); i++) {
                     result = results[i];
-                    update_result = false;
+
+                    // skip results that had file-read errors
+                    //
+                    if (result.outcome != RESULT_OUTCOME_SUCCESS) continue;
+                    if (result.validate_state == VALIDATE_STATE_INIT) continue;
 
                     // grant credit for valid results
                     //
                     if (result.validate_state == VALIDATE_STATE_VALID) {
-                        update_result = true;
                         retval = grant_credit(result, credit);
                         if (retval) {
                             log_messages.printf(
@@ -301,19 +309,19 @@ void handle_wu(DB_WORKUNIT& wu) {
                         );
                     }
 
-                    if (update_result) {
-                        retval = result.update();
-                        if (retval) {
-                            log_messages.printf(
-                                SCHED_MSG_LOG::CRITICAL,
-                                "[RESULT#%d %s] result.update() failed: %d\n",
-                                result.id, result.name, retval
-                            );
-                        }
+                    retval = result.update();
+                    if (retval) {
+                        log_messages.printf(
+                            SCHED_MSG_LOG::CRITICAL,
+                            "[RESULT#%d %s] result.update() failed: %d\n",
+                            result.id, result.name, retval
+                        );
                     }
                 }
 
-                // don't send any unsent results
+                // If found a canonical result, don't send any unsent results
+                // TODO: could do this in a single SQL statement
+                //
                 sprintf(buf, "where workunitid=%d and server_state=%d",
                     wu.id, RESULT_SERVER_STATE_UNSENT
                 );
@@ -334,7 +342,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                 //
                 if ((int)results.size() > wu.max_success_results) {
                     wu.error_mask |= WU_ERROR_TOO_MANY_SUCCESS_RESULTS;
-                    need_transition = true;
+                    need_immediate_transition = true;
                 }
             }
         }
@@ -342,13 +350,15 @@ void handle_wu(DB_WORKUNIT& wu) {
 
     --log_messages;
 
-mark_validated:
-
-    if (need_transition) {
+    if (need_immediate_transition) {
         wu.transition_time = time(0);
     }
+    if (need_delayed_transition) {
+        int x = time(0) + 6*3600;
+        if (x < wu.transition_time) wu.transition_time = x;
+    }
 
-    // we've checked all results for this WU, so turn off flag
+    // clear WU.need_validate
     //
     wu.need_validate = 0;
     retval = wu.update();
