@@ -137,26 +137,57 @@ void boinc_sleep(int seconds) {
 // Modifies the string arg.
 // Returns argc
 // TODO: use strtok here
+
+#define NOT_IN_TOKEN                0
+#define IN_SINGLE_QUOTED_TOKEN      1
+#define IN_DOUBLE_QUOTED_TOKEN      2
+#define IN_UNQUOTED_TOKEN           3
+
 int parse_command_line(char* p, char** argv) {
-    char** pp = argv;
-    bool space = true;
+    int state = NOT_IN_TOKEN;
     int argc=0;
 
     while (*p) {
-        if (isspace(*p)) {
-            *p = 0;
-            space = true;
-        } else {
-            if (space) {
-                *pp++ = p;
-                argc++;
-                space = false;
+        switch(state) {
+        case NOT_IN_TOKEN:
+            if (isspace(*p)) {
+            } else if (*p == '\'') {
+                p++;
+                argv[argc++] = p;
+                state = IN_SINGLE_QUOTED_TOKEN;
+                break;
+            } else if (*p == '\"') {
+                p++;
+                argv[argc++] = p;
+                state = IN_DOUBLE_QUOTED_TOKEN;
+                break;
+            } else {
+                argv[argc++] = p;
+                state = IN_UNQUOTED_TOKEN;
             }
+            break;
+        case IN_SINGLE_QUOTED_TOKEN:
+            if (*p == '\'') {
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
+        case IN_DOUBLE_QUOTED_TOKEN:
+            if (*p == '\"') {
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
+        case IN_UNQUOTED_TOKEN:
+            if (isspace(*p)) {
+                *p = 0;
+                state = NOT_IN_TOKEN;
+            }
+            break;
         }
         p++;
     }
-    *pp++ = 0;
-
+    argv[argc] = 0;
     return argc;
 }
 
