@@ -62,7 +62,6 @@ int CMyApp::ExitInstance()
 
 BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_WM_CLOSE()
-    ON_COMMAND(ID_FILE_SHOWGRAPHICS, OnCommandFileShowGraphics)
     ON_COMMAND(ID_FILE_CLEARINACTIVE, OnCommandFileClearInactive)
     ON_COMMAND(ID_FILE_CLEARMESSAGES, OnCommandFileClearMessages)
     ON_COMMAND(ID_FILE_HIDE, OnCommandHide)
@@ -76,6 +75,7 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_COMMAND(ID_HELP_ABOUT, OnCommandHelpAbout)
     ON_COMMAND(ID_PROJECT_RELOGIN, OnCommandProjectRelogin)
     ON_COMMAND(ID_PROJECT_QUIT, OnCommandProjectQuit)
+    ON_COMMAND(ID_WORK_SHOWGRAPHICS, OnCommandWorkShowGraphics)
     ON_COMMAND(ID_STATUSICON_HIDE, OnCommandHide)
     ON_COMMAND(ID_STATUSICON_SUSPEND, OnCommandSuspend)
     ON_COMMAND(ID_STATUSICON_RESUME, OnCommandResume)
@@ -989,17 +989,6 @@ void CMainWindow::OnCommandHelpAbout()
 }
 
 //////////
-// CMainWindow::OnCommandFileShowGraphics
-// arguments:	void
-// returns:		void
-// function:	brings up the current app's graphics window by
-//				broadcasting a message
-void CMainWindow::OnCommandFileShowGraphics()
-{
-	m_pSSWnd->ShowGraphics();
-}
-
-//////////
 // CMainWindow::OnCommandFileClearInactive
 // arguments:	void
 // returns:		void
@@ -1112,6 +1101,25 @@ void CMainWindow::OnCommandProjectQuit()
 	}
 	if(AfxMessageBox(strBuf, MB_YESNO, 0) == IDYES) {
 		gstate.quit_project(i);
+	}
+}
+
+//////////
+// CMainWindow::OnCommandWorkShowGraphics
+// arguments:	void
+// returns:		void
+// function:	brings up the graphics window for the selescted app
+void CMainWindow::OnCommandWorkShowGraphics()
+{
+	RESULT* resToShow =	(RESULT*)m_ResultListCtrl.GetItemData(m_nContextItem);
+	if(resToShow) {
+		ACTIVE_TASK* at = gstate.lookup_active_task_by_result(resToShow);
+		if(at) {
+			CWnd* pAppWnd = GetWndFromProcId(at->pid);
+			if(pAppWnd && IsWindow(pAppWnd->m_hWnd)) {
+				pAppWnd->PostMessage(RegisterWindowMessage(APP_SET_MSG), MODE_WINDOW, MODE_DEFAULT);
+			}
+		}
 	}
 }
 

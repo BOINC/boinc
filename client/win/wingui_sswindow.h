@@ -41,12 +41,9 @@ class CSSWindow : public CWnd
 {
 public:
 							CSSWindow();
-	void					SetMode(int, int);
-	int						GetMode();
-	int						GetPrevMode();
+	void					SetMode(int);
 	void					CheckAppWnd();
 	bool					BlankScreen();
-	void					ShowGraphics();
 
 private:
 	int						m_nMode;

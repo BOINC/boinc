@@ -131,7 +131,7 @@ protected:
 	afx_msg void			OnCommandHelpAbout();
 	afx_msg void			OnCommandProjectRelogin();
 	afx_msg void			OnCommandProjectQuit();
-	afx_msg void			OnCommandFileShowGraphics();
+	afx_msg void			OnCommandWorkShowGraphics();
 	afx_msg void			OnCommandFileClearInactive();
 	afx_msg void			OnCommandFileClearMessages();
 	afx_msg void			OnCommandConnectionConnectNow();
