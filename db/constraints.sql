@@ -68,7 +68,7 @@ alter table result
     add index res_userid_val(userid, validate_state),
         -- to show pending credit
 
-    add index res_hostid (hostid, id desc),
+    add index res_hostid_id (hostid, id desc),
         -- html_user/results.php
 
     add index res_wu_user (workunitid, userid),
@@ -90,3 +90,9 @@ alter table profile
 
 alter table subscriptions
     add unique sub_unique(userid, threadid);
+
+alter table thread
+    add fulltext index thread_title(title);
+        
+alter table post
+    add fulltext index post_content(content);

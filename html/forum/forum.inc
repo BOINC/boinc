@@ -6,6 +6,8 @@ require_once('../sanitize_html.inc');
 define('NO_CONTROLS', 0);
 define('FORUM_CONTROLS', 1);
 define('HELPDESK_CONTROLS', 2);
+define("EXCERPT_LENGTH", "120");
+
 
 define ('SOLUTION', 'This answered my question');
 define ('SUFFERER', 'I also have this question');
@@ -171,7 +173,7 @@ function getPost($postID) {
 
 // Returns the post that started the thread with id = $threadId
 function getFirstPost($threadID) {
-    $sql = "SELECT * FROM post WHERE thread = " . $threadID ." ORDER BY id ASC";
+    $sql = "SELECT * FROM post WHERE thread = " . $threadID ." ORDER BY id ASC limit 1";
     $result = mysql_query($sql);
     if ($result) {
         return mysql_fetch_object($result);

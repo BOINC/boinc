@@ -8260,3 +8260,14 @@ Jeff  8 Dec 2003
 
       client/
            net_xfer.C
+
+David  8 Dec 2003
+    - added full-text keyword search of message bodies and thread titles
+
+    html_user/forum/
+        forum.inc
+        forum.php
+        help_desk.php
+        index.php
+        text_search_action.php (new)
+        text_search_form.php (new)

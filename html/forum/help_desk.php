@@ -8,7 +8,10 @@ page_head('Questions and problems');
 
 show_forum_title(NULL, NULL, true);
 
-echo "<p style=\"text-align:center\">";
+echo "
+    <p>
+    Do a <a href=text_search_form.php>keyword search</a> of messages.
+";
 
 start_forum_table(array("Topic", "# Questions", "Last post"));
 

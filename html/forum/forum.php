@@ -4,8 +4,6 @@ require_once('forum.inc');
 require_once('../util.inc');
 require_once('../time.inc');
 
-define("EXCERPT_LENGTH", "120");
-
 // Number of forum topics per page.
 // TODO: Make this a constant.
 $n = 50;
@@ -49,7 +47,7 @@ show_forum_title($forum, NULL, $category->is_helpdesk);
 echo "<p>\n<a href=\"post.php?id=", $_GET['id'], "\">";
 
 if ($category->is_helpdesk) {
-    echo "Ask a question or report a problem";
+    echo "Submit a question or problem";
 } else  {
     echo "Create a new thread";
 }

@@ -8,9 +8,13 @@ page_head('Message boards', NULL, NULL);
 
 show_forum_title(NULL, NULL, false);
 
-echo "<p>Note: For questions or problems about the ".PROJECT."
-    client, server, or web site, please visit the
-    <a href=\"help_desk.php\">Help Desk / FAQ</a>.</p>
+echo "<p>
+    If you have a question or problem, please use the
+    <a href=help_desk.php>Questions/problems</a>
+    are instead of the Message boards.</p>
+    <p>
+    Do a <a href=text_search_form.php>keyword search</a>
+    of messages.
 ";
 
 start_forum_table(array("Topic", "Threads", "Posts", "Last post"));
