@@ -6,13 +6,11 @@ Matt's Bugs:
 several "show graphics" the plots become really slow). Graphics getting
 reeeeeally slow over time. Even after stop/restart.
 
-2. two Solaris Sun Solaris 1.01 clients in the astropulse download page.
-
-3. after minimizing graphics window it behaves strangely - the only way
+2. after minimizing graphics window it behaves strangely - the only way
 to maximize it again is to right click and select "maximize". Even then
 the resize buttons, etc. don't work as they are supposed to.
 
-4. After running all night (on Win98) I shook the mouse to wake up the
+3. After running all night (on Win98) I shook the mouse to wake up the
 blank screen, and all I saw was the top half of the screen was solid
 gray, and the bottom half the bottom half of the astropulse graphics.
 They weren't moving. The computer was frozen. I had to ctrl-alt-del
@@ -24,7 +22,6 @@ to restart.
 - GUI: Result status should say "downloading files", "uploading files", etc.
 - message window should reposition to bottom when new message
 - Win GUI: line between menus and tabs
-- "show graphics" should not use right-click
 - win GUI: reduce flicker?
 - labels on disk graph are not clear
 - document and add to global prefs?
