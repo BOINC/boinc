@@ -296,6 +296,7 @@ double double_flop_test(int iterations, int print_debug) {
     
     // If iterations is 0, assume we're using the timer
     if (iterations == 0) {
+        run_test = true;
         iterations = 200000000;
     }
     
@@ -322,6 +323,9 @@ double double_flop_test(int iterations, int print_debug) {
                 b[i] *= dp;			// 1 flop
             }
         }
+        // Do an impossible if statement here to prevent stop_test
+        // from being optimized out by the compiler
+        if (i < 0) stop_test(0);
         actual_iters++;
     }
     
@@ -376,6 +380,7 @@ double int_op_test(int iterations, int print_debug) {
     
     // If iterations is 0, assume we're using the timer
     if (iterations == 0) {
+        run_test = true;
         iterations = 200000000;
     }
 
@@ -419,6 +424,9 @@ double int_op_test(int iterations, int print_debug) {
                 a[k] = 2*a[k-1];    // 9 int ops
             }
         }
+        // Do an impossible if statement here to prevent stop_test
+        // from being optimized out by the compiler
+        if (i < 0) stop_test(0);
         actual_iters++;
     }
 
@@ -477,6 +485,7 @@ double bandwidth_test(int iterations, int print_debug) {
     
     // If iterations is 0, assume we're using the timer
     if (iterations == 0) {
+        run_test = true;
         iterations = 200000000;
     }
     
@@ -509,6 +518,9 @@ double bandwidth_test(int iterations, int print_debug) {
                 b[j] = c[j];
             }
         }
+        // Do an impossible if statement here to prevent stop_test
+        // from being optimized out by the compiler
+        if (i < 0) stop_test(0);
         actual_iters++;
     }
 

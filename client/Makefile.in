@@ -89,6 +89,8 @@ ARCHIVE_TARGETS = \
         win_build/*.* win_build/*/*.dsp win_build/*/*.rct \
         INSTALL LICENSE
 
+speed_stats.o:
+	$(CC) -O6 -c -o speed_stats.o speed_stats.C
 .C.o:
 	$(CC) -c -o $*.o $<
 .c.o:
