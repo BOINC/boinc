@@ -7200,3 +7200,10 @@ Oliver 29 Oct 2003
 	gutil.C,h
 	
 
+David  28 Oct 2003
+	- app library: don't access shared memory if it's not there
+		(should keep non-standalone version from crashing
+		when run in isolation)
+
+	api/
+		windows_opengl.C

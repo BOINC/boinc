@@ -167,9 +167,11 @@ void SetMode(int mode) {
 
     // tell the core client that we're entering new mode
     //
-    app_client_shm->send_graphics_mode_msg(
-        APP_CORE_GFX_SEG, current_graphics_mode
-    );
+    if (app_client_shm) {
+        app_client_shm->send_graphics_mode_msg(
+            APP_CORE_GFX_SEG, current_graphics_mode
+        );
+    }
 }
 
 // message handler (includes timer, Windows msgs)
@@ -233,7 +235,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 		ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));
 		return 0;
 	case WM_TIMER:
-		if (app_client_shm->get_graphics_mode_msg(CORE_APP_GFX_SEG, new_mode)) {
+		if (app_client_shm && app_client_shm->get_graphics_mode_msg(CORE_APP_GFX_SEG, new_mode)) {
 			SetMode(new_mode);
 		}
         if (!visible) return 0;
