@@ -30,6 +30,7 @@ boinc_client_SOURCES = \
     cs_statefile.C \
     cs_trickle.C \
     dhrystone.C \
+    dhrystone2.C \
     file_names.C \
     file_xfer.C \
     gui_rpc_server.C \

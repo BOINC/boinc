@@ -19076,3 +19076,10 @@ David  3 Nov 2004
         cs_scheduler.C
     sched/
         sample_trivial_validator.C
+
+David  4 Nov 2004
+	- compile fixes
+
+	configure.ac
+	client
+		Makefile.am

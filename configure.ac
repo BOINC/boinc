@@ -239,7 +239,8 @@ AC_CONFIG_FILES([Makefile
                  test/boinc_path_config.py:py/Boinc/boinc_path_config.py.in
                  ])
 
-AC_CONFIG_HEADER([config.h])
+dnl AC_CONFIG_HEADER([config.h])
+AM_CONFIG_HEADER([config.h])
 
 AC_OUTPUT
 
