@@ -83,8 +83,7 @@ public:
     PROJECT();
     ~PROJECT();
     void copy_state_fields(PROJECT&);
-    void copy_prefs_fields(PROJECT&);
-    int parse_prefs(FILE*);
+    int parse_account(FILE*);
     int parse_state(FILE*);
     int write_state(FILE*);
 };

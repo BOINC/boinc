@@ -14,8 +14,7 @@ if ($user == NULL) {
 } else {
     parse_str(getenv("QUERY_STRING"));
     $prefs = prefs_parse($user->prefs);
-    $i = project_index($prefs, $master_url);
-    prefs_form_project($prefs->projects[$i], "prefs_edit_project_action.php");
+    prefs_form_project($prefs->project, "prefs_edit_project_action.php");
 }
 echo "<p>\n";
 page_tail();

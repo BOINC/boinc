@@ -56,16 +56,17 @@ PROJECT::~PROJECT() {
     if (code_sign_key) free(code_sign_key);
 }
 
-// parse project fields from prefs.xml
+// parse project fields from account_*.xml
 //
-int PROJECT::parse_prefs(FILE* in) {
+int PROJECT::parse_account(FILE* in) {
     char buf[256], *p;
     int retval;
 
     strcpy(master_url, "");
     strcpy(authenticator, "");
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</project>")) return 0;
+        if (match_tag(buf, "<account>")) continue;
+        if (match_tag(buf, "</account>")) return 0;
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
         else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
         else if (parse_double(buf, "<resource_share>", resource_share)) continue;
@@ -75,7 +76,7 @@ int PROJECT::parse_prefs(FILE* in) {
             project_specific_prefs = p;
             continue;
         }
-        else fprintf(stderr, "PROJECT::parse_prefs(): unrecognized: %s\n", buf);
+        else fprintf(stderr, "PROJECT::parse_account(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -172,27 +173,19 @@ int PROJECT::write_state(FILE* out) {
 //
 void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
-    strcpy( project_name, p.project_name );
-    strcpy( user_name, p.user_name );
+    strcpy(project_name, p.project_name);
+    strcpy(user_name, p.user_name);
     total_credit = p.total_credit;
     expavg_credit = p.expavg_credit;
     rpc_seqno = p.rpc_seqno;
     hostid = p.hostid;
     exp_avg_cpu = p.exp_avg_cpu;
     exp_avg_mod_time = p.exp_avg_mod_time;
-    if( p.code_sign_key ) {
+    if (p.code_sign_key) {
         code_sign_key = strdup(p.code_sign_key);
     }
     nrpc_failures = p.nrpc_failures;
     min_rpc_time = p.min_rpc_time;
-}
-
-void PROJECT::copy_prefs_fields(PROJECT& p) {
-    strcpy( authenticator, p.authenticator );
-    if (p.project_specific_prefs) {
-        project_specific_prefs = strdup(p.project_specific_prefs);
-    }
-    resource_share = p.resource_share;
 }
 
 int APP::parse(FILE* in) {
@@ -379,7 +372,7 @@ int FILE_INFO::delete_file() {
 //
 char* FILE_INFO::get_url() {
     double temp;
-    if( current_url < 0 ) {
+    if (current_url < 0) {
         temp = rand();
         temp *= urls.size();
         temp /= RAND_MAX;
@@ -597,7 +590,7 @@ int RESULT::parse_state(FILE* in) {
         else if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
         else if (parse_int(buf, "<exit_status>", exit_status)) continue;
         else if (parse_int(buf, "<state>", state)) continue;
-        else if (match_tag(buf, "<stderr_out>" )) {
+        else if (match_tag(buf, "<stderr_out>")) {
             while (fgets(buf, 256, in)) {
                 if (match_tag(buf, "</stderr_out>")) break;
                 strcat(stderr_out, buf);

@@ -1897,3 +1897,62 @@ David   Sept 25 2002
         Makefile.in
         validate.C
         validate_test.C (new)
+
+David   Sept 25 2002
+    - Move account into (master URL, authenticator, per-project prefs)
+        from the prefs.xml file into separate files, one per project
+        (with names of the form account_XXX.xml, XXX = master URL).
+        Adding new projects is now done using the core client
+        (via GUI or command line) or by copying an existing account file,
+        but NOT via web site; this was a major security weakness
+        since bad guys could guess your web password,
+        then register you for a bogus project.
+
+        This change also involved the html_user files (not finished).
+    
+    - Further work on credit-granting.
+        On each RPC, the scheduler computes a "credit per CPU second"
+        for the host (linear combo of FP/int/mem speeds).
+        For each result received, the scheduler computes a "claimed credit",
+        the claimed CPU time times the credit per CPU second.
+        It also sets the "need validate" flag of the WU.
+
+    api/
+        boinc_api.C
+    apps/
+        upper_case.C
+    client/
+        Makefile.in
+        account.C,h (new)
+        client_state.C,h
+        client_types.C,h
+        cs_scheduler.C
+        file_names.C,h
+        file_xfer.C
+        main.C
+        prefs.C,h
+    db/
+        db.h
+    doc/
+        account.html
+        boinc_dev.html
+        client_files.html
+        client_logic.html
+        prefs.html
+        startup.html
+        validation.html
+    html_user/
+        prefs.inc
+        prefs.php
+        prefs_edit_project_form.php
+    sched/
+        handle_request.C
+        validate.C
+    test/
+        account1.xml (new)
+        init.inc
+        master.html
+        prefs1.xml
+        test_uc.php
+    tools/
+        backend_lib.C

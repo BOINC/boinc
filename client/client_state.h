@@ -53,7 +53,7 @@ public:
     FILE_XFER_SET* file_xfers;
     ACTIVE_TASK_SET active_tasks;
     HOST_INFO host_info;
-    PREFS* prefs;
+    PREFS prefs;
     NET_STATS net_stats;
 
     CLIENT_STATE();
@@ -81,6 +81,7 @@ private:
     int exit_after;
     time_t app_started;
 
+    int parse_account_files();
     int parse_state_file();
     int write_state_file();
     int write_state_file_if_needed();

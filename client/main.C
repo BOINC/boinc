@@ -26,6 +26,7 @@
 #endif
 
 
+#include "account.h"
 #include "client_state.h"
 #include "error_numbers.h"
 #include "file_names.h"
@@ -45,10 +46,10 @@ void show_message(char* message, char* priority) {
 }
 
 // Prompt user for project URL and authenticator,
-// and create a prototype prefs file
+// and create an account file
 // TODO: use better input method here, backspace doesn't always seem to work
 //
-int initialize_prefs() {
+int get_initial_project() {
     char master_url[256];
     char authenticator[256];
 
@@ -65,7 +66,7 @@ int initialize_prefs() {
     // by doing an RPC to a scheduling server.
     // But this would require fetching and parsing the master file
 
-    write_initial_prefs(master_url, authenticator);
+    write_account_file(master_url, authenticator);
     return 0;
 }
 
@@ -78,9 +79,9 @@ int main() {
     if (gstate.init()) return -1;
     
     // mac_setup won't return until the main application loop has quit
-    if (!mac_setup ()) return -1;
+    if (!mac_setup()) return -1;
     // Afterwards, we clean up and exit
-    mac_cleanup ();
+    mac_cleanup();
 }
 
 #else

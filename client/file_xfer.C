@@ -44,19 +44,6 @@ FILE_XFER::FILE_XFER() {
 FILE_XFER::~FILE_XFER() {
 }
 
-#if 0
-// Is there any reason to keep this around?
-int FILE_XFER::init_download(char* url, char* outfile) {
-
-    return HTTP_OP::init_get(url, outfile, file_size);
-}
-
-// Is there any reason to keep this around?
-int FILE_XFER::init_upload(char* url, char* infile) {
-    return HTTP_OP::init_put(url, infile);
-}
-#endif
-
 int FILE_XFER::init_download(FILE_INFO& file_info) {
     int f_size;
 

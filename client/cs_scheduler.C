@@ -64,8 +64,8 @@ double CLIENT_STATE::current_water_days() {
 //
 double CLIENT_STATE::work_needed_secs() {
     double x = current_water_days();
-    if (x > prefs->high_water_days) return 0;
-    return (prefs->high_water_days - x)*86400;
+    if (x > prefs.high_water_days) return 0;
+    return (prefs.high_water_days - x)*86400;
 }
 
 // update exponentially-averaged CPU times of all projects
@@ -247,7 +247,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:
-        below_low_water = (current_water_days() <= prefs->low_water_days);
+        below_low_water = (current_water_days() <= prefs.low_water_days);
         if (below_low_water && some_project_rpc_ok()) {
             compute_resource_debts();
             scheduler_op->init_get_work();
@@ -276,17 +276,6 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     return action;
 }
 
-// see whether a new preferences set, obtained from the given
-// project, looks "reasonable".  This is to prevent accidental or
-// intentional preferences corruption
-// Currently this is primitive: just make sure there's at least 1 project
-// TODO: figure out what else to look for here
-//
-bool PREFS::looks_reasonable(PROJECT& project) {
-    if (projects.size() > 0) return true;
-    return false;
-}
-
 // Parse the reply from a scheduler
 //
 void CLIENT_STATE::handle_scheduler_reply(
@@ -296,9 +285,6 @@ void CLIENT_STATE::handle_scheduler_reply(
     FILE* f;
     int retval;
     unsigned int i;
-    char prefs_backup[256];
-    PROJECT *pp, *sp;
-    PREFS* new_prefs;
     bool signature_valid;
 
     contacted_sched_server = true;
@@ -335,22 +321,11 @@ void CLIENT_STATE::handle_scheduler_reply(
     }
 
     // if the scheduler reply includes preferences
-    // that are newer than what we have on disk, then
-    // - verify that the new prefs look reasonable;
-    //   they should include at least one project.
-    // - rename the current prefs file
-    // - copy new preferences to prefs.xml
-    // - copy any new projects into the CLIENT_STATE structure
-    // - update the preferences info of projects already in CLIENT_STATE
-    //
-    // There may be projects in CLIENT_STATE that are not in the new prefs;
-    // i.e. the user has dropped out of these projects.
-    // We'll continue with any ongoing work for these projects,
-    // but they'll be dropped the next time the client starts up.
+    // that are newer than what we have on disk, write them to disk
     //
 
-    if (sr.prefs_mod_time > prefs->mod_time) {
-        f = fopen(PREFS_TEMP_FILE_NAME, "w");
+    if (sr.prefs_mod_time > prefs.mod_time) {
+        f = fopen(PREFS_FILE_NAME, "w");
         fprintf(f,
             "<preferences>\n"
             "    <prefs_mod_time>%d</prefs_mod_time>\n"
@@ -365,28 +340,7 @@ void CLIENT_STATE::handle_scheduler_reply(
             "</preferences>\n"
         );
         fclose(f);
-        f = fopen(PREFS_TEMP_FILE_NAME, "r");
-        new_prefs = new PREFS;
-        new_prefs->parse(f);
-        fclose(f);
-        if (new_prefs->looks_reasonable(*project)) {
-            make_prefs_backup_name(*prefs, prefs_backup);
-            boinc_rename(PREFS_FILE_NAME, prefs_backup);
-            boinc_rename(PREFS_TEMP_FILE_NAME, PREFS_FILE_NAME);
-            for (i=0; i<new_prefs->projects.size(); i++) {
-                pp = new_prefs->projects[i];
-                sp = lookup_project(pp->master_url);
-                if (sp) {
-                    sp->copy_prefs_fields(*pp);
-                } else {
-                    projects.push_back(pp);
-                }
-            }
-            delete prefs;
-            prefs = new_prefs;
-        } else {
-            fprintf(stdout, "New preferences don't look reasonable, ignoring\n");
-        }
+        prefs.parse_file();
     }
 
     // if the scheduler reply includes a code-signing key,

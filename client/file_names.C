@@ -74,13 +74,15 @@ static void escape_url(char *in, char* out) {
     out[y] = 0;
 }
 
-// Escape a URL for the project directory, cutting off the "http://", converting
-// '\' '/' and ' ' to '_', and converting the non alphanumeric characters to
-// %XY where XY is their hexadecimal equivalent
+// Escape a URL for the project directory, cutting off the "http://",
+// converting '\' '/' and ' ' to '_',
+// and converting the non alphanumeric characters to %XY
+// where XY is their hexadecimal equivalent
 //
 static void escape_project_url(char *in, char* out) {
     int x, y;
     char *temp;
+    char buf[256];
     
     temp = strstr(in,"://");
     if (temp) {
@@ -97,7 +99,6 @@ static void escape_project_url(char *in, char* out) {
             out[y] = '%';
             ++y;
             out[y] = 0;
-            char buf[256];
             sprintf(buf, "%d", (char)in[x]);
             c2x(buf);
             strcat(out, buf);
@@ -118,7 +119,7 @@ void get_pathname(FILE_INFO* fip, char* path) {
     //
     if (p) {
         escape_project_url(p->master_url, buf);
-        sprintf(path, "%s%s%s", buf, PATH_SEPARATOR, fip->name);
+        sprintf(path, "%s%s%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf, PATH_SEPARATOR, fip->name);
     } else {
         strcpy(path, fip->name);
     }
@@ -139,7 +140,7 @@ int make_project_dir(PROJECT& p) {
 
     CreateDirectory(PROJECTS_DIR, NULL);
     escape_project_url(p.master_url, buf);
-    sprintf( buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf );
+    sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
     CreateDirectory(buf, NULL);
     return 0;
 }
@@ -167,7 +168,7 @@ int make_project_dir(PROJECT& p) {
 
     mkdir(PROJECTS_DIR, 0777);
     escape_project_url(p.master_url, buf);
-    sprintf( buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf );
+    sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
     mkdir(buf2, 0777);
     return 0;
 }
@@ -195,3 +196,12 @@ int make_prefs_backup_name(PREFS& prefs, char* name) {
     return 0;
 }
 
+void get_account_filename(char* master_url, char* path) {
+    char buf[256];
+    escape_project_url(master_url, buf);
+    sprintf(path, "account_%s.xml", buf);
+}
+
+bool is_account_file(char* filename) {
+    return (strstr(filename, "account_") == filename);
+}

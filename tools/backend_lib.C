@@ -136,13 +136,16 @@ int create_result(
     char base_outfile_name[256];
     int retval;
     FILE* result_template_file, *tempfile;
+
     assert(result_template_filename!=NULL);
+
     memset(&r, 0, sizeof(r));
     r.report_deadline = time(0) + 1000;
         // TODO: pass this in
     r.create_time = time(0);
     r.workunitid = wu.id;
     r.state = RESULT_STATE_UNSENT;
+    r.validate_state = VALIDATE_STATE_INITIAL;
     sprintf(r.name, "%s_%d", wu.name, i);
     sprintf(base_outfile_name, "%s_", r.name);
 
@@ -182,6 +185,7 @@ int create_work(
     assert(infile_dir!=NULL);
     assert(infiles!=NULL);
     assert(ninfiles>=0);
+
     wu.create_time = time(0);
     retval = process_wu_template(
         wu.name, wu_template, wu.xml_doc, infile_dir, infiles, ninfiles
@@ -201,17 +205,4 @@ int create_work(
         }
     }
     return 0;
-}
-
-// not finished!
-int grant_credit(int resultid, double credit) {
-    RESULT result;
-    int retval;
-
-    retval = db_result(resultid, result);
-    if (retval) return retval;
-    result.granted_credit = credit;
-    result.validated = true;
-    retval = db_result_update(result);
-    return retval;
 }

@@ -49,11 +49,8 @@ int PREFS::parse(FILE* in) {
     PROJECT* project;
 
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</preferences>")) return 0;
-        else if (match_tag(buf, "<project>")) {
-            project = new PROJECT;
-            project->parse_prefs(in);
-            projects.push_back(project);
+        if (match_tag(buf, "</preferences>")) {
+            return 0;
         } else if (match_tag(buf, "<dont_run_on_batteries/>")) {
             dont_run_on_batteries = true;
             continue;
@@ -91,9 +88,10 @@ int PREFS::parse_file() {
     return retval;
 }
 
-// Write the default preference set for a project
+// Write the default preferences
 // TODO: should mod_time really be 1?
-int write_initial_prefs(char* master_url, char* authenticator) {
+//
+int write_initial_prefs() {
     FILE* f = fopen(PREFS_FILE_NAME, "w");
     if (!f) return ERR_FOPEN;
     fprintf(f,
@@ -101,14 +99,7 @@ int write_initial_prefs(char* master_url, char* authenticator) {
         "    <mod_time>1</mod_time>\n"
         "    <high_water_days>2</high_water_days>\n"
         "    <low_water_days>1</low_water_days>\n"
-        "    <project>\n"
-        "        <master_url>%s</master_url>\n"
-        "        <authenticator>%s</authenticator>\n"
-        "        <resource_share>1</resource_share>\n"
-        "    </project>\n"
-        "</preferences>\n",
-        master_url,
-        authenticator
+        "</preferences>\n"
     );
     fclose(f);
     return 0;

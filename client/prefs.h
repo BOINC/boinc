@@ -23,27 +23,18 @@
 #include <vector>
 #include "client_types.h"
 
-// Implementation notes on preferences:
-//
-// Preferences are edited and stored on BOINC servers.
+// Global preferences are edited and stored on BOINC servers.
 // The native representation of preferences is XML.
 // The client maintains the preferences (in XML form)
 // and mod time in the state file and in memory.
 // It includes these items in each scheduler request message.
 // A scheduler reply message may contain a more recent set of preferences.
 //
-// Some preference items are used by the core client.
-// The XML is parsed into a structure containing these items.
-//
-// Preferences may include project-specific elements.
-// When an application is run, the core client checks for project-specific
-// preferences and puts them in a file "prefs.xml" in the slot directory.
 
 // The following structure is a parsed version of the prefs file
 //
 struct PREFS {
     int mod_time;
-    vector<PROJECT*> projects;
     bool dont_run_on_batteries;
     bool dont_run_if_user_active;
     bool confirm_before_connecting;
@@ -56,11 +47,8 @@ struct PREFS {
     PREFS();
     int parse(FILE*);
     int parse_file();
-    bool looks_reasonable(PROJECT& project);
 };
 
-extern int write_initial_prefs(char* master_url, char* authenticator);
-extern int initialize_prefs();
-    // the implementation is different between CLI and GUI
+extern int write_initial_prefs();
 
 #endif

@@ -14,15 +14,9 @@
 //    <dont_run_if_user_active/>
 //    <low_water_days>1.3</low_water_days>
 //    ...
-//    <project>
-//        <url>...</url>
-//        <resource_share>45</resource_share>
-//        ...
-//        <project-specific>
+//    <project-specific>
 //            ... (arbitrary project-specific XML)
-//        </project-specific>
-//    </project>
-//    ... (other projects)
+//    </project-specific>
 // </preferences>
 
 global $text;
@@ -61,8 +55,7 @@ function element_end($parser, $name) {
 
     switch($name) {
     case "project":
-        $n = sizeof($parse_result->projects);
-        $parse_result->projects[$n] = $project;
+        $parse_result->project = $project;
         break;
     case "project_specific":
         $project->project_specific = $text;
@@ -200,24 +193,17 @@ function prefs_show_disk($prefs) {
     echo "</table>\n";
 }
 
-function prefs_show_project($project) {
+function show_project($project) {
     echo "<tr><td><hr></tr></td>";
-    row2a("<b>Master URL:   </b>", "$project->master_url");
-    row2a("<b>Email Address:   </b>", $project->email_addr);
-    row2a("<b>Authenticator:   </b>", $project->authenticator);
     row2a("<b>Resource Share:   </b>", $project->resource_share);
     row2a("<b>Project Specific Preferences:   </b>", htmlspecialchars($project->project_specific));
 }
 
-function prefs_show_projects($prefs) {
-
+function prefs_show_project($prefs) {
     echo "<p>";
     echo "<table width=580 cellpadding=4>\n";
     echo "<tr>".TD2.LG_FONT."<b>Project preferences:</b></font></td></tr>\n";
-    for ($i=0; $i<sizeof($prefs->projects); $i++) {
-        $project = $prefs->projects[$i];
-        prefs_show_project($project);
-    }
+    show_project($prefs->project);
     echo "<tr><td><hr></td></tr>";
     echo "<tr><td><a href=prefs_edit_projects.php>Edit project preferences</a></td></tr>\n";
     echo "</table>";
@@ -226,7 +212,7 @@ function prefs_show_projects($prefs) {
 function print_prefs_display($prefs) {
     prefs_show_work($prefs);
     prefs_show_disk($prefs);
-    prefs_show_projects($prefs);
+    prefs_show_project($prefs);
 }
 
 ////////////////////////////////////////////
@@ -282,18 +268,13 @@ function prefs_form_disk($user, $prefs) {
 }
 
 function prefs_form_projects($prefs) {
-    for ($i=0; $i<sizeof($prefs->projects); $i++) {
-        $project = $prefs->projects[$i];
-        echo "<table>";
-        prefs_show_project($project);
-        echo "<tr><td><a href=prefs_edit_project_form.php?master_url=$project->master_url>Edit project</a></td></tr>\n";
-        echo "<tr><td><a href=prefs_delete_project_confirm.php?master_url=$project->master_url>Delete project</a></td></tr>\n";
-        echo "</table>";
-    }
-    echo "<hr><a href=prefs_add_project_form.php>Add project</a>\n";
+    echo "<table>";
+    prefs_show_project($prefs->project);
+    echo "<tr><td><a href=prefs_edit_project_form.php?master_url=$project->master_url>Edit project</a></td></tr>\n";
+    echo "</table>";
+
     echo "<p>";
     echo "<table width=780><tr><td>";
-    echo "Whenever you join a new project, remember to add that project with the authenticator that you get from that project to your home project (the first project you joined).";
     echo "</td></tr></table>";
 }
 

@@ -166,6 +166,16 @@ new_host:
     return 0;
 }
 
+// somewhat arbitrary formula for credit as a function of CPU time.
+// Could also include terms for RAM size, network speed etc.
+//
+static void compute_credit_rating(HOST& host) {
+    host.credit_per_cpu_sec = 
+        host.p_fpops
+        + host.p_iops
+        + 0.1*host.p_membw;
+}
+
 // Update host record based on request.
 // Copy all fields that are determined by the client.
 //
@@ -199,6 +209,9 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
     host.d_free = sreq.host.d_free;
     host.n_bwup = sreq.host.n_bwup;
     host.n_bwdown = sreq.host.n_bwdown;
+
+    compute_credit_rating(host);
+
     retval = db_host_update(host);
     if (retval) {
         fprintf(stderr, "sched (%s): db_host_update: %d\n", BOINC_USER, retval);
@@ -227,7 +240,9 @@ int handle_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
 // handle completed results
 //
-int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+int handle_results(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, HOST& host
+) {
     unsigned int i;
     int retval;
     RESULT result, *rp;
@@ -263,6 +278,8 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             result.exit_status = rp->exit_status;
             result.cpu_time = rp->cpu_time;
             result.state = RESULT_STATE_DONE;
+            result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
+            result.validate_state = VALIDATE_STATE_NEED_CHECK;
             strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
             strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
             db_result_update(result);
@@ -276,6 +293,7 @@ int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             } else {
                 wu.nresults_done++;
                 if (result.exit_status) wu.nresults_fail++;
+                wu.need_validate = 1;
                 retval = db_workunit_update(wu);
             }
         }
@@ -454,7 +472,7 @@ void process_request(
 
     handle_prefs(sreq, reply);
 
-    handle_results(sreq, reply);
+    handle_results(sreq, reply, reply.host);
 
     send_work(sreq, reply, *platform, ss);
 

@@ -4,13 +4,13 @@
 <p>
 Participants are given <b>credit</b> for the computations performed
 by their hosts.
-These credits are used to generate "leaderboards" of
-individuals, teams, and categories (countries, CPU types, etc.).
-It is expected that some users will "cheat", i.e. attempt to get
+These credits are used to generate web-site "leaderboards" showing
+individuals, teams, and categories (countries, CPU types, etc.)
+ranked by credit.
+It is expected that some users will attempt to get
 undeserved credit.
 <p>
-BOINC's unit of credit is the "Cobblestone".
-Currently, it is CPU time times a weighted average
+BOINC's unit of credit is CPU time times a weighted average
 of FP and integer speed and memory bandwidth.
 In principle it should reflect network transfer and disk storage as well.
 But it's hard to verify these activities,
@@ -24,50 +24,70 @@ Output files may be wrong.
 This can happen because of hardware
 failures, or because of tampering.
 <p>
-Both problems - credit-cheating and wrong result - can be addressed
+Both problems - credit-cheating and wrong results - can be addressed
 by <b>redundant computing</b> and <b>result validation</b>.
-This means that each workunit is processed at least twice.
-The project back end
-waits until a minimum number of results have been returned, then
-compares the results and decides which are "correct".
-The notion of
-"equality" of results, and the policy for deciding which are correct,
+In this approach, each workunit is processed at least twice.
+The project back end waits until a minimum number of results have been returned,
+then compares the results and decides which are considered correct.
+The notion of equality of results,
+and the policy for deciding which are correct,
 are project-specific.
 <p>
-The back end then marks correct results as "validated", finds the
-minimum reported credit for the correct results of a given workunit, and
-assigns this amount of credit to all the correct results.
-This ensures
-that as long as a reasonable majority of participants don't falsify
-credit, almost all credit accounting will be correct.
+The back end then marks correct results as "validated",
+finds the minimum reported credit for the correct results of a given workunit,
+and assigns this amount of credit to all the correct results.
+This ensures that as long as a reasonable majority of participants
+don't falsify credit, almost all credit accounting will be correct.
+
+<h3>The validation program</h3>
+
+BOINC supplies a utility program <b>validate</b>
+to perform validation and credit-granting.
+This program must be linked with two project-specific functions:
+<pre>
+int check_set(vector<RESULT> results, int& canonicalid, double& credit);
+int check_pair(RESULT& r1, RESULT& r2, bool& match);
+</pre>
+<b>check_set()</b> takes a set of results.
+If there is sufficient agreement,
+it selects one of them as the "canonical" result
+(returning its ID) and also decides what credit should
+be granted for correct results for this workunit.
 <p>
-<b>To do</b>: database keeps track of two types of credit: validated
-and unvalidated.
-Users can see the workunits that didn't pass
-validation, or that were given reduced credit.
+<b>check_pair()</b> compares two results and returns match=true
+if they agree.
+
+<p>
+The file <b>validate_test.C</b> contains an example
+implementation of check_set() and check_pair().
+
 
 <hr>
 <h3>Implementation</h3>
 
-WORKUNIT
-    bool need_validate
+The following database fields are used:
+
+<p>
+<b>WORKUNIT</b>
+<dt> bool need_validate
+<dd>
         true iff this workunit has one or more results in state DONE
         and validate_state UNCHECKED
+<dt>
     int canonical_resultid
+<dd>
         nonzero if a conclusive check has been done for this WU;
         indicates the canonical result
                             
-RESULT
+<p>
+<b>RESULT</b>
+<dt>
     int state
-        NOT_READY
-        READY
-        ...
-        DONE (computation finished successfully)
-        TIMEOUT
-        ERROR
+<dd> INACTIVE, ..., DONE, ERROR
+<dt>
     int validate_state
-        NOT_DONE
-        UNCHECKED
-        VALID
+<dd>
+        NEED_CHECK,
+        VALID,
         INVALID
 

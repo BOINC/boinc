@@ -45,9 +45,9 @@
 
 #ifdef _WIN32
 #include "glut.h"
-#include <gl\gl.h>			// Header File For The OpenGL32 Library
-#include <gl\glu.h>			// Header File For The GLu32 Library
-#include <gl\glaux.h>		// Header File For The Glaux Library
+#include <gl\gl.h>            // Header File For The OpenGL32 Library
+#include <gl\glu.h>            // Header File For The GLu32 Library
+#include <gl\glaux.h>        // Header File For The Glaux Library
 #endif
 
 bool app_render(int xs, int ys, double time_of_day);
@@ -161,7 +161,6 @@ int main(int argc, char **argv) {
         if (!strcmp(argv[i], "-run_slow")) run_slow = 1;
         if (!strcmp(argv[i], "-cpu_time")) cpu_time = 1;
     }
-    run_slow = 1;
     in = fopen(resolved_name, "r");
     boinc_resolve_filename(CHECKPOINT_FILE, resolved_name, sizeof(resolved_name));
     state = fopen(resolved_name, "r");
@@ -183,7 +182,7 @@ int main(int argc, char **argv) {
     while (1) {
         c = fgetc(in);
         if (c == EOF) break;
-            sprintf(the_char, "%c -> %c\0", c, toupper(c));
+        sprintf(the_char, "%c -> %c", c, toupper(c));
         c = toupper(c);
         out._putchar(c);
         nchars++;
@@ -231,12 +230,12 @@ int main(int argc, char **argv) {
 
 #ifdef BOINC_APP_GRAPHICS
 
-int DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
+int DrawGLScene(GLvoid)      // Here's Where We Do All The Drawing
 {
     char text[1024];
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
-    glLoadIdentity();									// Reset The Current Modelview Matrix
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    // Clear Screen And Depth Buffer
+    glLoadIdentity();                                    // Reset The Current Modelview Matrix
     glColor3f(1,1,1);
     renderBitmapString(xPos,yPos,GLUT_BITMAP_HELVETICA_12,the_char);
     xPos += xDelta;
@@ -251,7 +250,7 @@ int DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
     sprintf(text, "CPU Time: %f", uc_aid.wu_cpu_time);
     renderBitmapString(-1.3,0.9,GLUT_BITMAP_HELVETICA_12, text);
 
-    return TRUE;										// Everything Went OK
+    return TRUE;                                        // Everything Went OK
 }
 
 #endif

@@ -4,9 +4,9 @@
 <p>
 You can specify <b>preferences</b> determining and limiting
 how BOINC uses your computers.
-Preferences are divided into three groups: 
-<ul>
-<li> <b>Work preferences</b>
+Preferences are divided into two groups: 
+<h3>Global preferences</h3>
+These preferences apply to all projects you subscribe to.
 <ul>
 <li> Whether work (computation and network transfer) should be done
 while the host is being used (i.e. during keyboard and mouse input).
@@ -18,32 +18,26 @@ If the host is frequently disconnected from the Internet, the min
 should be at least as long as the typical period of disconnection.
 The larger the difference between min and max, the less often
 the BOINC client will connect to the Internet.
-</ul>
-<li> <b>Disk-space preferences</b>
-<ul>
 <li> Maximum disk space used by BOINC.
 <li> Maximum percentage of free space used by BOINC.
 <li> Minimum disk space to keep free.
 </ul>
-<li> <b>Project preferences</b> (one set for each project)
-<ul>
-<li> Master URL of project
-<li> Email address
-<li> Account ID
-<li> Resource share: if projects contend for resources,
-the amount allocated to a project is proportional to this number.
-<li> Whether to show email address on web site
-<li> Whether project should send emails to user
-<li> Project-specific preferences
-</ul>
-</ul>
-<p>
-You can view and edit your preferences through a web interface,
+You can view and edit your global preferences through a web interface,
 at the site of any project in which you participate.
 Changes are automatically propagated to all your hosts;
 this is done the next time the host contacts the project's server,
 so there may be some delay.
+
+<h3>Per-project preferences</h3>
+There is a separate set of these for each project you subscribe to.
+<ul>
+<li> Resource share: if projects contend for resources,
+the amount allocated to a project is proportional to this number.
+<li> Whether to show email address on web site
+<li> Whether project should send emails to user
+<li> Project-specific preferences (defined by the project;
+e.g., to specify graphics color schemes).
+</ul>
 <p>
-Each account has a single set of preferences.
-If you want to have different preferences for different hosts,
-you must create separate accounts. 
+You can view and edit per-project preferences through
+a web interface at that particular project's web site.

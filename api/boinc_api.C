@@ -65,8 +65,6 @@ static bool this_process_active;
 // read the INIT_DATA and FD_INIT files
 //
 int boinc_init() {
-    FILE* f;
-    int retval;
 
 #ifdef _WIN32
     freopen(STDERR_FILE, "a", stderr);
@@ -74,6 +72,8 @@ int boinc_init() {
 #endif
 
 #ifndef API_IGNORE_CLIENT
+    FILE* f;
+    int retval;
     f = fopen(INIT_DATA_FILE, "r");
     if (!f) {
         fprintf(stderr, "boinc_init(): can't open init data file\n");

@@ -20,9 +20,9 @@
 #ifndef _DB_
 #define _DB_
 
-// Some of these types are similar to those in client/types.h
-// But we choose to keep them separate, since client and server have
-// different variants.
+// Structures corresponding to database records.
+// Some of these types have counterparts in client/types.h,
+// but don't be deceived - client and server have different variants.
 
 // The parse and write functions are for use in scheduler RPC.
 // They don't necessarily serialize the entire records.
@@ -166,10 +166,10 @@ struct HOST {
     int p_ncpus;            // Number of CPUs on host
     char p_vendor[256];     // Vendor name of CPU
     char p_model[256];      // Model of CPU
-    double p_fpops;         // Approximate floating point speed of CPU
-    double p_iops;          // Approximate integer op/sec speed of CPU
-    double p_membw;         // Approximate memory bandwidth of CPU
-    double p_calculated;
+    double p_fpops;         // measured floating point ops/sec of CPU
+    double p_iops;          // measured integer ops/sec of CPU
+    double p_membw;         // measured memory bandwidth (bytes/sec) of CPU
+    double p_calculated;    // when the above were calculated
 
     char os_name[256];      // Name of operating system
     char os_version[256];   // Version of operating system
@@ -237,14 +237,14 @@ struct RESULT {
     int id;
     unsigned int create_time;
     int workunitid;
-    int state;                  // state (see above)
-    int hostid;                 // host processing this result
+    int state;                      // state (see above)
+    int hostid;                     // host processing this result
     unsigned int report_deadline;   // deadline for receiving result
     unsigned int sent_time;         // when result was sent to host
     unsigned int received_time;     // when result was received from host
     char name[256];
     int exit_status;
-    double cpu_time;            // CPU time used to complete result
+    double cpu_time;                // CPU time used to complete result
     char xml_doc_in[MAX_BLOB_SIZE];     // descriptions of output files
     char xml_doc_out[MAX_BLOB_SIZE];    // MD5s of output files
     char stderr_out[MAX_BLOB_SIZE];     // stderr output, if any

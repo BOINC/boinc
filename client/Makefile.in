@@ -27,6 +27,7 @@ PROGS = $(CLIENT_PROG) test_net_xfer test_http test_file_xfer
 all: $(PROGS)
 
 OBJS = \
+    account.o \
     app.o \
     client_state.o \
     client_types.o \

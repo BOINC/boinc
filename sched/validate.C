@@ -1,4 +1,4 @@
-// validate - check and validate new results
+// validate - check and validate new results, and grant credit
 //
 // validate appname min_quorum
 //
@@ -31,9 +31,7 @@ extern int check_pair(RESULT&, RESULT&, bool&);
 
 // update an exponential average of credit per second
 //
-void update_average(
-    double credit, double& avg, double& avg_time
-) {
+void update_average(double credit, double& avg, double& avg_time) {
     time_t now = time(0);
 
     if (avg_time) {

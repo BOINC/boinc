@@ -32,6 +32,8 @@ extern void get_slot_dir(int slot, char* path);
 extern int make_project_dir(PROJECT&);
 extern int make_slot_dir(int);
 extern int make_prefs_backup_name(PREFS&, char*);
+extern void get_account_filename(char* master_url, char* path);
+extern bool is_account_file(char*);
 
 #define PROJECTS_DIR            "projects"
 #define SLOTS_DIR               "slots"

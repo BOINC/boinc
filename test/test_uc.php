@@ -15,7 +15,7 @@
         create_keys();
     }
     clear_client_dirs();
-    init_client_dirs("prefs1.xml");
+    init_client_dirs("prefs1.xml", "account1.xml");
     copy_to_download_dir("input");
     add_project("Test Project");
     add_platform(null);

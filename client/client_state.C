@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <time.h>
 
+#include "account.h"
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
@@ -55,40 +56,52 @@ CLIENT_STATE::CLIENT_STATE() {
 }
 
 int CLIENT_STATE::init() {
-    unsigned int i;
     int retval;
-
-    nslots = 1;
-
-    // Read the user preferences file, if it exists.
-    // If it doesn't, prompt user for project URL via initialize_prefs()
-    //
-    prefs = new PREFS;
-    retval = prefs->parse_file();
-    if (retval) {
-        retval = initialize_prefs();
-        if (retval) {
-            printf("can't initialize prefs.xml\n");
-            return retval;
-        }
-        retval = prefs->parse_file();
-        if (retval) {
-            printf("can't initialize prefs.xml\n");
-            return retval;
-        }
-    }
 
     srand(clock());
 
-    // copy all PROJECTs from the prefs to the client state.
+    // TODO: set this to actual # of CPUs (or less, depending on prefs?)
     //
-    for (i=0; i<prefs->projects.size(); i++) {
-        projects.push_back(prefs->projects[i]);
+    nslots = 1;
+
+    // Read the user preferences file, if it exists.
+    //
+    retval = prefs.parse_file();
+    if (retval) {
+        retval = write_initial_prefs();
+        if (retval) {
+            printf("can't initialize prefs.xml\n");
+            return retval;
+        }
+        retval = prefs.parse_file();
+        if (retval) {
+            printf("can't initialize prefs.xml\n");
+            return retval;
+        }
     }
 
-    // Then parse the client state file,
+    // parse account files.
+    // If there are none, prompt user for project URL and create file
+    // 
+    retval = parse_account_files();
+    if (projects.size() == 0) {
+        retval = get_initial_project();
+        if (retval) {
+            printf("can't get initial project\n");
+            return retval;
+        }
+        retval = parse_account_files();
+        if (projects.size() == 0) {
+            if (retval) {
+                printf("can't get initial project\n");
+                return retval;
+            }
+        }
+    }
+
+    // Parse the client state file,
     // ignoring any <project> tags (and associated stuff)
-    // for projects not in the prefs
+    // for projects with no account file
     //
     parse_state_file();
 
@@ -179,11 +192,11 @@ double CLIENT_STATE::allowed_disk_usage() {
     double percent_space, min_val;
 
     // Calculate allowed disk usage based on % pref
-    percent_space = host_info.d_total*prefs->disk_max_used_pct/100.0;
+    percent_space = host_info.d_total*prefs.disk_max_used_pct/100.0;
 
-    min_val = host_info.d_free - prefs->disk_min_free_gb*1e9;
+    min_val = host_info.d_free - prefs.disk_min_free_gb*1e9;
     // Return the minimum of the three
-    return min(min(prefs->disk_max_used_gb*1e9, percent_space), min_val);
+    return min(min(prefs.disk_max_used_gb*1e9, percent_space), min_val);
 }
 
 // See if (on the basis of user prefs) we should suspend activities.
@@ -191,7 +204,7 @@ double CLIENT_STATE::allowed_disk_usage() {
 //
 int CLIENT_STATE::check_suspend_activities() {
     bool should_suspend = false;
-    if (prefs->dont_run_on_batteries && host_is_running_on_batteries()) {
+    if (prefs.dont_run_on_batteries && host_is_running_on_batteries()) {
         should_suspend = true;
     }
 
@@ -830,12 +843,12 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             continue;
         };
         if (!strcmp(argv[i], "-exit_after")) {
-            exit_after = atoi(argv[i+1]);
+            exit_after = atoi(argv[++i]);
             continue;
         };
         // Give up on file transfers after x seconds.  Default value is 1209600 (2 weeks)
         if (!strcmp(argv[i], "-giveup_after")) {
-            giveup_after = atoi(argv[i+1]);
+            giveup_after = atoi(argv[++i]);
             continue;
         };
     }
@@ -846,8 +859,12 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
 bool CLIENT_STATE::time_to_exit() {
     if (!exit_when_idle && (exit_after == -1)) return false;
     if ((exit_after != -1) && app_started &&
-        (difftime(time(0), app_started) >= exit_after)) return true;
+        (difftime(time(0), app_started) >= exit_after)) {
+        printf("exiting because time is up: %d\n", exit_after);
+        return true;
+    }
     if (exit_when_idle && (results.size() == 0) && contacted_sched_server) {
+        printf("exiting because no more results\n");
         return true;
     }
     return false;

@@ -114,22 +114,17 @@ function clear_server_dirs($clear_key_dir) {
 }
 
 function clear_client_dirs() {
-    $MASTER_URL = urlencode(stripslashes(stripslashes(getenv("BOINC_MASTER_URL"))));
-    if ($MASTER_URL == null) {
-        echo "Must define BOINC_MASTER_URL\n";
-        $bad = true;
-    }
-    if ($bad) exit();
-    PassThru("rm -f $MASTER_URL/*" );
+    PassThru("rm -rf projects/*" );
 }
 
-function init_client_dirs($prefs_file) {
+function init_client_dirs($prefs_file, $account_file) {
     global $BOINC_MASTER_URL;
 
     PassThru("rm -f client_state.xml");
     PassThru("rm -rf ".PROJECTS);
     PassThru("rm -rf slots");
-    PassThru("sed -e s/BOINC_MASTER_URL/$BOINC_MASTER_URL/ $prefs_file > prefs.xml");
+    PassThru("cp $prefs_file prefs.xml");
+    PassThru("sed -e s/BOINC_MASTER_URL/$BOINC_MASTER_URL/ $account_file > account_foo.xml");
 }
 
 function copy_to_download_dir($f) {
