@@ -202,6 +202,9 @@ static void timer_handler(int) {
 void xwin_graphics_event_loop(){
     if (boinc_is_standalone()) {
         set_mode(MODE_WINDOW);
+        if (userclose) {
+            return;
+        }
     } else {
         wait_for_initial_message();
         timer_handler(0);

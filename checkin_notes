@@ -18568,3 +18568,12 @@ David  19 Oct 2004
     lib/
         gui_rpc_client.C,h
         makefile.gui_test
+
+David  19 Oct 2004
+    - if a Unix graphics-capable app is run standalone,
+        and it can't connect to X server,
+        the graphics thread exits but the worker thread continues.
+        
+    api/
+        graphics_api.C
+        x_opengl.C

@@ -135,8 +135,8 @@ int boinc_init_graphics(void (*_worker_main)()) {
     SetThreadState(workerThreadID, kReadyThreadState, kNoThreadID);
 
     YieldToAnyThread();
-    mac_graphics_event_loop();
     graphics_inited = true;
+    mac_graphics_event_loop();
 #endif
 
 #ifdef _PTHREAD_H
@@ -150,6 +150,7 @@ int boinc_init_graphics(void (*_worker_main)()) {
     pthread_attr_destroy( &worker_thread_attr );
     graphics_inited = true;
     xwin_graphics_event_loop();
+    pthread_exit(0);
 #endif
 
     // normally we never get here
