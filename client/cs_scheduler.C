@@ -52,7 +52,7 @@ const int SECONDS_BEFORE_REPORT_DEADLINE_TO_REPORT = 60*60*6;
 double CLIENT_STATE::current_work_buf_days() {
     unsigned int i;
     RESULT* rp;
-    double seconds_remaining=0;
+    double seconds_remaining=0, x;
 
     for (i=0; i<results.size(); i++) {
         rp = results[i];
@@ -66,17 +66,23 @@ double CLIENT_STATE::current_work_buf_days() {
 
         seconds_remaining += estimate_cpu_time(*rp->wup) * (1.0-get_percent_done(rp));
     }
-    return (seconds_remaining / SECONDS_PER_DAY);
+    x = seconds_remaining / SECONDS_PER_DAY;
+    x /= host_info.p_ncpus;
+    x /= time_stats.active_frac;
+    return x;
 }
 
-// seconds of work needed to come up to the max buffer level
+// seconds of CPU work needed to come up to the max buffer level
 //
 double CLIENT_STATE::work_needed_secs() {
     double x = current_work_buf_days();
     if (x > global_prefs.work_buf_max_days) return 0;
+
 	// TODO: take into account preference # CPUS
-    return (global_prefs.work_buf_max_days - x)*SECONDS_PER_DAY
-        *  time_stats.active_frac * host_info.p_ncpus;
+    double y = (global_prefs.work_buf_max_days - x)*SECONDS_PER_DAY;
+    y *= time_stats.active_frac;
+    y *= host_info.p_ncpus;
+    return y;
 }
 
 // update exponentially-averaged CPU times of all projects
@@ -553,7 +559,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (!lookup_workunit(project, sr.workunits[i].name)) {
             WORKUNIT* wup = new WORKUNIT;
             *wup = sr.workunits[i];
-            wup->version_num = latest_version_num(wup->app_name);
+            wup->version_num = choose_version_num(wup->app_name, sr);
             retval = link_workunit(project, wup);
             if (!retval) {
                 workunits.push_back(wup);

@@ -313,11 +313,24 @@ double CLIENT_STATE::get_percent_done(RESULT* result) {
     return atp ? force_fraction(atp->fraction_done) : 0.0;
 }
 
-int CLIENT_STATE::latest_version_num(char* app_name) {
+// Decide which app version to use for a WU.
+//
+int CLIENT_STATE::choose_version_num(char* app_name, SCHEDULER_REPLY& sr) {
     unsigned int i;
     int best = -1;
     APP_VERSION* avp;
 
+    // First look in the scheduler reply
+    //
+    for (i=0; i<sr.app_versions.size(); i++) {
+        avp = &sr.app_versions[i];
+        if (!strcmp(app_name, avp->app_name)) {
+            return avp->version_num;
+        }
+    }
+
+    // If not there, use the latest one in our state
+    //
     for (i=0; i<app_versions.size(); i++) {
         avp = app_versions[i];
         if (strcmp(avp->app_name, app_name)) continue;

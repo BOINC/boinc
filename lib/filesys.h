@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 
+#ifndef _FILESYS_
+#define _FILESYS_
+
 #include <string>
 using std::string;
 #ifdef HAVE_DIRENT_H
@@ -68,3 +71,5 @@ public:
     ~DirScanner();
     bool scan(string& name);    // return true if file returned
 };
+
+#endif

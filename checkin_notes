@@ -8568,18 +8568,18 @@ Jeff 18 Dec 2003
         parse.h
 
 David  19 Dec 2003
-	- new system tray icons, for "new message" and "new error message" situations,
-		contributed by Rom Walton.
-		NOTE: these are not actually used;
-		we need to add flags for when they should be displayed
+    - new system tray icons, for "new message" and "new error message" situations,
+        contributed by Rom Walton.
+        NOTE: these are not actually used;
+        we need to add flags for when they should be displayed
 
-	client/win/
-		resource.h
-		resource.rc
-		wingui_mainwindow.cpp,h
-		res/
-			iconerror.ico (new)
-			iconinfo.ico (new)
+    client/win/
+        resource.h
+        resource.rc
+        wingui_mainwindow.cpp,h
+        res/
+            iconerror.ico (new)
+            iconinfo.ico (new)
 
 Karl 2003-12-19
     - undid #ifndef for base64.  Renamed to r_base64.
@@ -8693,3 +8693,54 @@ David  23 Dec 2003
         (various)
     lib/
         filesys.C,h
+
+David  24 Dec 2003
+    - Fixed errors in deciding whether more work was needed,
+        and if so how much.
+        This caused a situation where hosts would repeatedly
+        ask the server for more work
+        (which, because of recent anti-spam mechanism, would return no work)
+        The error involved the confusion of two quantities:
+        1) work buffer
+            This is an estimate of the time (measured in days)
+            until this host will finish all current work.
+            It reflects the host's "active_frac" and the # of CPUs.
+        2) CPU time
+            This is an estimate of the CPU time a WU will take on this host.
+            It does not reflect active_frac or # of CPUs
+        Example error: current_work_buf_days() didn't reflect active_frac and ncpus.
+        So we underestimated the work buffer, and requested work inappropriately.
+
+        NOTE: the <work_req_seconds> field in a request message
+        is in units of CPU time, NOT work buffer
+
+    - Fixed errors in estimating the wallclock duration of a WU
+        (used in feasibility test in scheduler):
+        Should divide, not multiply, by active_frac;
+        should not multiply by # cpus
+    - add a "deprecated" flag to app_version.
+        If you decide that a particulate app_version has problems,
+        you can deprecate it.
+        The scheduler advertises the latest non-deprecated version.
+        NOTE: this only is effective if core clients have the following:
+    - Changed the policy assigning an app_version to a WU
+        Use the version included in the scheduler reply,
+        and if there is none, use the latest version.
+        This means that if a project deprecates an app_version,
+        clients won't use it.
+    client/
+        client_state.h
+        cs_apps.C
+        cs_scheduler.C
+        scheduler_op.C
+    db/
+        schema.sql
+        boinc_db.C,h
+    lib/
+        filesys.h
+        result_state.h
+    py/Boinc/
+        database.py
+    sched/
+        handle_request.C
+        sched_shmem.C

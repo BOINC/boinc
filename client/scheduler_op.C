@@ -76,6 +76,9 @@ int SCHEDULER_OP::init_get_work() {
     must_get_work = true;
     project = gstate.next_project(0);
     if (project) {
+        msg_printf(project, MSG_INFO,
+            "Requesting %f seconds of work", ns
+        );
         retval = init_op_project(ns);
         if (retval) {
             sprintf(err_msg, "init_op_project failed, error %d\n", retval);

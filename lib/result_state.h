@@ -21,6 +21,8 @@
 #define _RESULT_STATE_
 
 // States of a result on a client.
+// THESE MUST BE IN NUMERICAL ORDER
+// (because of the >= comparison in current_work_buf_days())
 //
 #define RESULT_NEW               0
     // New result, files may still need to be downloaded

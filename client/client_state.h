@@ -181,7 +181,7 @@ public:
 private:
     int nslots;
 
-    int latest_version_num(char*);
+    int choose_version_num(char*, SCHEDULER_REPLY&);
     bool input_files_available(RESULT*);
     int app_finished(ACTIVE_TASK&);
     bool start_apps();
