@@ -67,9 +67,6 @@ This verbose debugging output can be turned off by simply removing
 the '../debug_sched()' call.
 
 
-touch a file called 'debug_sched' in
-the project root directory.  
-
 <h2>MySQL interfaces</h2>
 You should become familiar with MySQL tools such as
 <ul>
