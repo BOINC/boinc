@@ -2599,4 +2599,7 @@ Hamid  Dec 9,2002
 
     - The error mechanism right now is such that any failures regarding file_infos (download, upload or whatever) are recorded in the status of the file_infos and then garbage collect called report_project_error. However errors regarding starting and ending active tasks are reported from app.C and cs_apps.C.
 
-      
+Seth  Dec 9, 2002
+	- time tests run in their own thread when needed, if they are global state
+	  won't do anything until they are done; threads communicate by a file
+	- windows host info complete except for cache

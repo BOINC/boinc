@@ -212,8 +212,8 @@ protected:
 	CProgressListCtrl		m_ProjectListCtrl;		// list control
 	CProgressListCtrl		m_XferListCtrl;			// list control
 	CProgressListCtrl		m_ResultListCtrl;		// list control
+	CProgressListCtrl		m_MessageListCtrl;		// list control for messages to user
 	CPieChartCtrl			m_UsagePieCtrl;			// pie chart control
-	CEdit					m_MessageEditCtrl;		// edit control for messages to user
 	CFont					m_Font;					// window's font
 	CTabCtrl				m_TabCtrl;				// tab control for choosing display
 	CImageList				m_TabIL;				// image list for tab control
@@ -232,12 +232,14 @@ protected:
     virtual void			PostNcDestroy();
 
     afx_msg void			OnClose();
-	afx_msg void			OnCommandAccountQuit();
-	afx_msg void			OnCommandAccountLogin();
+	afx_msg void			OnCommandSettingsQuit();
+	afx_msg void			OnCommandSettingsLogin();
+	afx_msg void			OnCommandSettingsProxyServer();
 	afx_msg void			OnCommandHelpAbout();
 	afx_msg void			OnCommandProjectRelogin();
 	afx_msg void			OnCommandProjectQuit();
-	afx_msg void			OnCommandClear();
+	afx_msg void			OnCommandFileClearInactive();
+	afx_msg void			OnCommandFileClearMessages();
 	afx_msg void			OnCommandHide();
 	afx_msg void			OnCommandSuspend();
 	afx_msg void			OnCommandExit();
@@ -282,6 +284,25 @@ public:
 protected:
 	afx_msg void			OnOK();
 	afx_msg BOOL			OnToolTipNotify(UINT, NMHDR*, LRESULT*);
+	DECLARE_MESSAGE_MAP()
+};
+
+//////////
+// class:		CProxyDialog
+// parent:		CDialog
+// description:	allows user to set up proxy information
+class CProxyDialog : public CDialog
+{
+public:
+							CProxyDialog(UINT);
+	afx_msg BOOL			OnInitDialog();
+	
+protected:
+	void					EnableHttp(BOOL bEnable);
+	void					EnableSocks(BOOL bEnable);
+	afx_msg void			OnHttp();
+	afx_msg void			OnSocks();
+	afx_msg void			OnOK();
 	DECLARE_MESSAGE_MAP()
 };
 

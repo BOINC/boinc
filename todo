@@ -5,7 +5,6 @@ get timezone working on all platforms
 get benchmark working as separate process
     must do this before send first scheduler request
 
-Windows hostinfo: memory, cache, swap
 validate in crontab
 
 Windows client
@@ -14,7 +13,6 @@ Windows client
     test uninstall
     fix "unable to calculate"
     xfers: show file size,
-    completed xfers: show elapsed time
     completed results: show final CPU time
 -----------------------
 
@@ -136,7 +134,6 @@ CPU benchmarking
     check that bandwidth is measured correctly
     measure disk/mem size on all platforms
     get timezone to work
-    batteries on windows
 
 WU/result sequence mechanism
     design/implement/document

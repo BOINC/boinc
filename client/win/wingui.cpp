@@ -36,20 +36,22 @@ CMyApp g_myApp;
 #define PROJECT_ID			0
 #define RESULT_ID			1
 #define XFER_ID				2
-#define MAX_LIST_ID			3
-#define USAGE_ID			3
-#define MESSAGE_ID			4
+#define MESSAGE_ID			3
+#define MAX_LIST_ID			4
+#define USAGE_ID			4
 #define TAB_ID				5
 
 #define PROJECT_COLS		5
 #define RESULT_COLS			7
 #define XFER_COLS			6
+#define MESSAGE_COLS		3
 #define MAX_COLS			7
 
 char* column_titles[MAX_LIST_ID][MAX_COLS] = {
         {"Project",	"Account",		"Total Credit",	"Avg. Credit",	"Resource Share",	NULL,				NULL},
         {"Project",	"Application",	"Name",			"CPU time",		"Progress",			"To Completion",	"Status"},
-        {"Project",	"File",			"Progress",		"Size",		"Time",				"Direction",		NULL}
+        {"Project",	"File",			"Progress",		"Size",			"Time",				"Direction",		NULL},
+        {"Project",	"Time",			"Message",		NULL,			NULL,				NULL,				NULL}
 };
 
 double GetDiskSize();
@@ -77,15 +79,15 @@ int get_initial_project() {
 
 void GetByteString(double nbytes, CString* str) {
     if (nbytes > 1e12) {
-        str->Format("%4.2f TB", nbytes/1e12);
+        str->Format("%0.2f TB", nbytes/(1024.0*1024*1024*1024));
     } else if (nbytes > 1e9) {
-        str->Format("%4.2f GB", nbytes/1e9);
+        str->Format("%0.2f GB", nbytes/(1024.0*1024*1024));
     } else if (nbytes > 1e6) {
-        str->Format("%4.2f MB", nbytes/1e6);
+        str->Format("%0.2f MB", nbytes/(1024.0*1024));
     } else if (nbytes > 1e3) {
-        str->Format("%4.2f KB", nbytes/1e3);
+        str->Format("%0.2f KB", nbytes/(1024.0));
     } else {
-        str->Format("%4f bytes", nbytes);
+        str->Format("%0.0f bytes", nbytes);
     }
 }
 
@@ -1212,16 +1214,20 @@ void CPieChartCtrl::OnPaint()
 		cb.CreateSolidBrush(m_Colors.GetAt(i));
 		oldbrush = memdc.SelectObject(&cb);
 
+		int texti = i;
+		if(texti == 2) texti = 3;
+		else if(texti == 3) texti = 2;
+
 		// display color box and label
-		if(PIE_BUFFER + 20 + i * 20 < wndrect.Height() / 2) {
-			textrect.SetRect(PIE_BUFFER + 0, PIE_BUFFER + i * 20 + 2, PIE_BUFFER + 10, PIE_BUFFER + 20 + i * 20 - 2);
+		if(PIE_BUFFER + 20 + texti * 20 < wndrect.Height() / 2) {
+			textrect.SetRect(PIE_BUFFER + 0, PIE_BUFFER + texti * 20 + 2, PIE_BUFFER + 10, PIE_BUFFER + 20 + texti * 20 - 2);
 			memdc.FillRect(&textrect, &cb);
 			memdc.MoveTo(textrect.left, textrect.top);
 			memdc.LineTo(textrect.right, textrect.top);
 			memdc.LineTo(textrect.right, textrect.bottom);
 			memdc.LineTo(textrect.left, textrect.bottom);
 			memdc.LineTo(textrect.left, textrect.top);
-			textrect.SetRect(PIE_BUFFER + 15, PIE_BUFFER + i * 20, wndrect.Width() - PIE_BUFFER, PIE_BUFFER + 20 + i * 20);
+			textrect.SetRect(PIE_BUFFER + 15, PIE_BUFFER + texti * 20, wndrect.Width() - PIE_BUFFER, PIE_BUFFER + 20 + texti * 20);
 			CString sbytes;
 			GetByteString(m_Values.GetAt(i), &sbytes);
 			CString str;
@@ -1283,12 +1289,14 @@ BOOL CMyApp::InitInstance()
 
 BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_WM_CLOSE()
-    ON_COMMAND(ID_FILE_CLEAR, OnCommandClear)
+    ON_COMMAND(ID_FILE_CLEARINACTIVE, OnCommandFileClearInactive)
+    ON_COMMAND(ID_FILE_CLEARMESSAGES, OnCommandFileClearMessages)
     ON_COMMAND(ID_FILE_HIDE, OnCommandHide)
     ON_COMMAND(ID_FILE_SUSPEND, OnCommandSuspend)
     ON_COMMAND(ID_FILE_EXIT, OnCommandExit)
-    ON_COMMAND(ID_ACCT_LOGIN, OnCommandAccountLogin)
-    ON_COMMAND(ID_ACCT_QUIT, OnCommandAccountQuit)
+    ON_COMMAND(ID_SETTINGS_LOGIN, OnCommandSettingsLogin)
+    ON_COMMAND(ID_SETTINGS_QUIT, OnCommandSettingsQuit)
+    ON_COMMAND(ID_SETTINGS_PROXYSERVER, OnCommandSettingsProxyServer)
     ON_COMMAND(ID_HELP_ABOUT, OnCommandHelpAbout)
     ON_COMMAND(ID_PROJECT_RELOGIN, OnCommandProjectRelogin)
     ON_COMMAND(ID_PROJECT_QUIT, OnCommandProjectQuit)
@@ -1448,14 +1456,17 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 
 		// to completion
 		if(!at || at->fraction_done == 0) {
-			buf.Format("unable to calculate");
+			double tocomp = at->wup->seconds_to_complete;
+			cpuhour = (int)(tocomp / (60 * 60));
+			cpumin = (int)(tocomp / 60) % 60;
+			cpusec = (int)(tocomp) % 60;
 		} else {
 			double tocomp = at->est_time_to_completion();
 			cpuhour = (int)(tocomp / (60 * 60));
 			cpumin = (int)(tocomp / 60) % 60;
 			cpusec = (int)(tocomp) % 60;
-			buf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
 		}
+		buf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
 		m_ResultListCtrl.SetItemText(i, 5, buf);
 
 		// status
@@ -1547,37 +1558,24 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 //				adds to message edit control.
 void CMainWindow::MessageUser(char* project, char* message, char* priority)
 {
+	if(!m_MessageListCtrl.GetSafeHwnd()) return;
+
+	if(strcmp(project, "")) {
+		m_MessageListCtrl.InsertItem(0, project);
+	} else {
+		m_MessageListCtrl.InsertItem(0, "BOINC");
+	}
+
 	CTime curTime = CTime::GetCurrentTime();
 	CString timeStr;
-	timeStr = curTime.Format("(%c) ");
-	if(strcmp(project, "")) {
-		timeStr.Insert(0, ": ");
-		timeStr.Insert(0, project);
-	} else {
-		timeStr.Insert(0, "BOINC: ");
-	}
+	timeStr = curTime.Format("%c");
+	m_MessageListCtrl.SetItemText(0, 1, timeStr);
 
+	m_MessageListCtrl.SetItemText(0, 2, message);
+	
+	// set status icon to flash
 	if(!strcmp(priority, "high") && (m_TabCtrl.GetCurSel() != MESSAGE_ID || GetForegroundWindow() != this)) {
 		m_Message = true;
-	}
-
-	// put message in control, removing older messages if necessary
-	if(m_MessageEditCtrl.GetSafeHwnd()) {
-		CString text;
-		m_MessageEditCtrl.GetWindowText(text);
-		if(m_MessageEditCtrl.GetLineCount() > MAX_MESSAGE_LINES) {
-			text.MakeReverse();
-			int first = text.Find("\n\r", 0);
-			if(first >= 0) {
-				text.Delete(0,first + 2);
-			}
-			text.MakeReverse();
-		}
-		text.Insert(0, "\r\n");
-		text.Insert(0, message);
-		text.Insert(0, timeStr);
-		m_MessageEditCtrl.SetWindowText(text);
-		m_MessageEditCtrl.RedrawWindow();
 	}
 }
 
@@ -1671,6 +1669,15 @@ void CMainWindow::SaveUserSettings()
 		valbuf.Format("%d", m_XferListCtrl.GetColumnWidth(i));
 		WritePrivateProfileString("HEADERS", keybuf.GetBuffer(0), valbuf.GetBuffer(0), path);
 	}
+
+	// save xfer columns
+	m_MessageListCtrl.GetColumnOrderArray(colorder, MESSAGE_COLS);
+	WritePrivateProfileStruct("HEADERS", "messages-order", colorder, sizeof(colorder), path);
+	for(i = 0; i < m_MessageListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
+		keybuf.Format("messages-%d", i);
+		valbuf.Format("%d", m_MessageListCtrl.GetColumnWidth(i));
+		WritePrivateProfileString("HEADERS", keybuf.GetBuffer(0), valbuf.GetBuffer(0), path);
+	}
 }
 
 //////////
@@ -1715,6 +1722,19 @@ void CMainWindow::LoadUserSettings()
 		keybuf.Format("xfers-%d", i);
 		intbuf = GetPrivateProfileInt("HEADERS", keybuf.GetBuffer(0), DEF_COL_WIDTH, path);
 		m_XferListCtrl.SetColumnWidth(i, intbuf);
+	}
+
+	// load message columns
+	if(GetPrivateProfileStruct("HEADERS", "messages-order", colorder, sizeof(colorder), path)) {
+		m_MessageListCtrl.SetColumnOrderArray(MESSAGE_COLS, colorder);
+	}
+	for(i = 0; i < m_MessageListCtrl.GetHeaderCtrl()->GetItemCount(); i ++) {
+		keybuf.Format("messages-%d", i);
+		int width = DEF_COL_WIDTH;
+		if(i == 1) width *= 1.5;
+		if(i == 2) width *= 4;
+		intbuf = GetPrivateProfileInt("HEADERS", keybuf.GetBuffer(0), width, path);
+		m_MessageListCtrl.SetColumnWidth(i, intbuf);
 	}
 }
 
@@ -1810,11 +1830,11 @@ void CMainWindow::OnClose()
 }
 
 //////////
-// CMainWindow::OnCommandAccountQuit
+// CMainWindow::OnCommandSettingsQuit
 // arguments:	void
 // returns:		void
 // function:	shows the account quit dialog box
-void CMainWindow::OnCommandAccountQuit()
+void CMainWindow::OnCommandSettingsQuit()
 {
     CQuitDialog dlg(IDD_QUIT);
     int retval = dlg.DoModal();
@@ -1832,17 +1852,28 @@ void CMainWindow::OnCommandAccountQuit()
 }
 
 //////////
-// CMainWindow::OnCommandAccountLogin
+// CMainWindow::OnCommandSettingsLogin
 // arguments:	void
 // returns:		void
 // function:	shows the account login dialog box
-void CMainWindow::OnCommandAccountLogin()
+void CMainWindow::OnCommandSettingsLogin()
 {
     CLoginDialog dlg(IDD_LOGIN, "", "");
     int retval = dlg.DoModal();
 	if(retval == IDOK) {
 	    gstate.add_project(dlg.m_url.GetBuffer(0), dlg.m_auth.GetBuffer(0));
 	}
+}
+
+//////////
+// CMainWindow::OnCommandSettingsProxyServer
+// arguments:	void
+// returns:		void
+// function:	shows the proxy dialog box
+void CMainWindow::OnCommandSettingsProxyServer()
+{
+	CProxyDialog dlg(IDD_PROXY);
+	int retval = dlg.DoModal();
 }
 
 //////////
@@ -1857,11 +1888,11 @@ void CMainWindow::OnCommandHelpAbout()
 }
 
 //////////
-// CMainWindow::OnCommandClear
+// CMainWindow::OnCommandFileClearInactive
 // arguments:	void
 // returns:		void
 // function:	clears inactive items from lists
-void CMainWindow::OnCommandClear()
+void CMainWindow::OnCommandFileClearInactive()
 {
 	int i;
 	for(i = 0; i < m_ProjectListCtrl.GetItemCount();) {
@@ -1885,7 +1916,16 @@ void CMainWindow::OnCommandClear()
 			i ++;
 		}
 	}
-	m_ContextItem = -1;
+}
+
+//////////
+// CMainWindow::OnCommandFileClearMessages
+// arguments:	void
+// returns:		void
+// function:	clears messages
+void CMainWindow::OnCommandFileClearMessages()
+{
+	m_MessageListCtrl.DeleteAllItems();
 }
 
 //////////
@@ -2067,7 +2107,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_ProjectListCtrl.Create(LVS_REPORT|WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, PROJECT_ID);
 	m_ProjectListCtrl.SetExtendedStyle(m_ProjectListCtrl.GetExtendedStyle()|LVS_EX_HEADERDRAGDROP|LVS_EX_FULLROWSELECT);
 	for(int i = 0; i < PROJECT_COLS; i ++) {
-		m_ProjectListCtrl.InsertColumn(i, column_titles[PROJECT_ID][i], LVCFMT_LEFT, 80);
+		m_ProjectListCtrl.InsertColumn(i, column_titles[PROJECT_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH);
 	}
 
 	// create result list control
@@ -2075,7 +2115,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_ResultListCtrl.SetExtendedStyle(m_ResultListCtrl.GetExtendedStyle()|LVS_EX_HEADERDRAGDROP|LVS_EX_FULLROWSELECT);
 	m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
 	for(i = 0; i < RESULT_COLS; i ++) {
-		m_ResultListCtrl.InsertColumn(i, column_titles[RESULT_ID][i], LVCFMT_LEFT, 80);
+		m_ResultListCtrl.InsertColumn(i, column_titles[RESULT_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH);
 	}
 
 	// create xfer list control
@@ -2083,20 +2123,34 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_XferListCtrl.SetExtendedStyle(m_XferListCtrl.GetExtendedStyle()|LVS_EX_HEADERDRAGDROP|LVS_EX_FULLROWSELECT);
 	m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
 	for(i = 0; i < XFER_COLS; i ++) {
-		m_XferListCtrl.InsertColumn(i, column_titles[XFER_ID][i], LVCFMT_LEFT, 80);
+		m_XferListCtrl.InsertColumn(i, column_titles[XFER_ID][i], LVCFMT_LEFT, DEF_COL_WIDTH);
+	}
+
+	// create message edit control
+	// create xfer list control
+	m_MessageListCtrl.Create(LVS_REPORT|WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, MESSAGE_ID);
+	m_MessageListCtrl.SetExtendedStyle(m_MessageListCtrl.GetExtendedStyle()|LVS_EX_HEADERDRAGDROP|LVS_EX_FULLROWSELECT);
+	m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
+	for(i = 0; i < MESSAGE_COLS; i ++) {
+		int width = DEF_COL_WIDTH;
+		if(i == 1) width *= 1.5;
+		if(i == 2) width *= 4;
+		m_MessageListCtrl.InsertColumn(i, column_titles[MESSAGE_ID][i], LVCFMT_LEFT, width);
 	}
 
 	// create usage pie control
 	m_UsagePieCtrl.Create(WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, USAGE_ID);
 	m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-	m_UsagePieCtrl.AddPiece("Free not available for BOINC", RGB(192, 192, 192), 0);
-	m_UsagePieCtrl.AddPiece("Space used", RGB(0, 0, 255), 0);
-	m_UsagePieCtrl.AddPiece("Used by BOINC", RGB(255, 255, 0), 0);
-	m_UsagePieCtrl.AddPiece("Space available to BOINC", RGB(255, 128, 0), 0);
-
-	// create message edit control
-	m_MessageEditCtrl.Create(ES_MULTILINE|ES_READONLY|WS_VSCROLL|WS_CHILD|WS_TABSTOP|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, MESSAGE_ID);
-	m_MessageEditCtrl.ModifyStyle(WS_VISIBLE, 0);
+	/*
+	m_UsagePieCtrl.AddPiece("Free space", RGB(192, 192, 192), 0);
+	m_UsagePieCtrl.AddPiece("Used space", RGB(0, 0, 255), 0);
+	m_UsagePieCtrl.AddPiece("Used space (BOINC)", RGB(255, 255, 0), 0);
+	m_UsagePieCtrl.AddPiece("Free space (BOINC)", RGB(255, 128, 0), 0);
+	*/
+	m_UsagePieCtrl.AddPiece("Free space (Non-BOINC)", RGB(255, 0, 255), 0);
+	m_UsagePieCtrl.AddPiece("Used space (Non-BOINC)", RGB(0, 0, 255), 0);
+	m_UsagePieCtrl.AddPiece("Used space (BOINC)", RGB(0, 0, 192), 0);
+	m_UsagePieCtrl.AddPiece("Free space (BOINC)", RGB(192, 0, 192), 0);
 
 	// set up image list for tab control
 	m_TabIL.Create(16, 16, ILC_COLOR8|ILC_MASK, 5, 1);
@@ -2106,9 +2160,9 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_TabIL.Add(&m_TabBMP[1], RGB(255, 0, 255));
 	m_TabBMP[2].LoadBitmap(IDB_XFER);
 	m_TabIL.Add(&m_TabBMP[2], RGB(255, 0, 255));
-	m_TabBMP[3].LoadBitmap(IDB_USAGE);
+	m_TabBMP[3].LoadBitmap(IDB_MESS);
 	m_TabIL.Add(&m_TabBMP[3], RGB(255, 0, 255));
-	m_TabBMP[4].LoadBitmap(IDB_MESS);
+	m_TabBMP[4].LoadBitmap(IDB_USAGE);
 	m_TabIL.Add(&m_TabBMP[4], RGB(255, 0, 255));
 
 	// create tab control
@@ -2117,8 +2171,8 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_TabCtrl.InsertItem(1, "Projects", 0);
 	m_TabCtrl.InsertItem(2, "Work", 1);
 	m_TabCtrl.InsertItem(3, "Transfers", 2);
-	m_TabCtrl.InsertItem(4, "Usage", 3);
-	m_TabCtrl.InsertItem(5, "Messages", 4);
+	m_TabCtrl.InsertItem(4, "Messages", 3);
+	m_TabCtrl.InsertItem(5, "Usage", 4);
 
 	// make all fonts the same nice font
 	CFont* pcf;
@@ -2129,7 +2183,6 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	m_Font.CreateFontIndirect(&lf);
 	m_TabCtrl.SetFont(&m_Font);
 	m_UsagePieCtrl.SetFont(&m_Font);
-	m_MessageEditCtrl.SetFont(&m_Font);
 
 	// remove button from taskbar and add status icon in taskbar
 	ModifyStyleEx(WS_EX_APPWINDOW, WS_EX_TOOLWINDOW);
@@ -2197,41 +2250,41 @@ BOOL CMainWindow::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 			m_ProjectListCtrl.ModifyStyle(0, WS_VISIBLE);
 			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
+			m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_MessageEditCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_ProjectListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		} else if(newTab == RESULT_ID) {
 			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_ResultListCtrl.ModifyStyle(0, WS_VISIBLE);
 			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
+			m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_MessageEditCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_ResultListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		} else if(newTab == XFER_ID) {
 			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_XferListCtrl.ModifyStyle(0, WS_VISIBLE);
+			m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_MessageEditCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_XferListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
-		} else if(newTab == USAGE_ID) {
-			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_UsagePieCtrl.ModifyStyle(0, WS_VISIBLE);
-			m_MessageEditCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		} else if(newTab == MESSAGE_ID) {
 			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
 			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
+			m_MessageListCtrl.ModifyStyle(0, WS_VISIBLE);
 			m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-			m_MessageEditCtrl.ModifyStyle(0, WS_VISIBLE);
 			if(m_Message) {
 				m_Message = false;
 				SetStatusIcon(ICON_NORMAL);
 			}
-			m_MessageEditCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+			m_MessageListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+		} else if(newTab == USAGE_ID) {
+			m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
+			m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
+			m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
+			m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
+			m_UsagePieCtrl.ModifyStyle(0, WS_VISIBLE);
+			m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		}
 		m_TabCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		RedrawWindow();
@@ -2294,8 +2347,8 @@ void CMainWindow::OnSetFocus(CWnd* pOldWnd)
 		m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
 		m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
 		m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
+		m_MessageListCtrl.ModifyStyle(0, WS_VISIBLE);
 		m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-		m_MessageEditCtrl.ModifyStyle(0, WS_VISIBLE);
 		m_Message = false;
 		SetStatusIcon(ICON_NORMAL);
 		Invalidate(false);
@@ -2336,13 +2389,13 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy)
 			m_XferListCtrl.MoveWindow(&srt, false);
 			m_XferListCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 		}
+		if(m_MessageListCtrl.GetSafeHwnd()) {
+			m_MessageListCtrl.MoveWindow(&srt, false);
+			m_MessageListCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+		}
 		if(m_UsagePieCtrl.GetSafeHwnd()) {
 			m_UsagePieCtrl.MoveWindow(&srt, false);
 			m_UsagePieCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
-		}
-		if(m_MessageEditCtrl.GetSafeHwnd()) {
-			m_MessageEditCtrl.MoveWindow(&srt, false);
-			m_MessageEditCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 		}
 		m_TabCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 		RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
@@ -2581,4 +2634,136 @@ BOOL CQuitDialog::OnToolTipNotify(UINT id, NMHDR *pNMHDR, LRESULT *pResult)
 
     // message was handled
 	return TRUE;
+}
+
+/////////////////////////////////////////////////////////////////////////
+// CProxyDialog message map and member functions
+
+BEGIN_MESSAGE_MAP(CProxyDialog, CDialog)
+    ON_BN_CLICKED(IDC_CHECK_HTTP, OnHttp)
+    ON_BN_CLICKED(IDC_CHECK_SOCKS, OnSocks)
+    ON_BN_CLICKED(IDOK, OnOK)
+END_MESSAGE_MAP()
+
+//////////
+// CProxyDialog::CProxyDialog
+// arguments:	y: dialog box resource id
+// returns:		void
+// function:	calls parents contructor.
+CProxyDialog::CProxyDialog(UINT y) : CDialog(y)
+{
+}
+
+//////////
+// CProxyDialog::OnInitDialog
+// arguments:	void
+// returns:		true if windows needs to give dialog focus, false if dialog has taken focus
+// function:	initializes and centers dialog box
+BOOL CProxyDialog::OnInitDialog() 
+{
+    CDialog::OnInitDialog();
+	CButton* btnTmp;
+
+	// fill in http
+	btnTmp = (CButton*)GetDlgItem(IDC_CHECK_HTTP);
+	if(btnTmp) btnTmp->SetCheck(gstate.use_proxy?BST_CHECKED:BST_UNCHECKED);
+	SetDlgItemText(IDC_EDIT_HTTP_ADDR, gstate.proxy_server_name);
+	CString portBuf;
+	if(gstate.proxy_server_port > 0) portBuf.Format("%d", gstate.proxy_server_port);
+	else portBuf.Format("80");
+	SetDlgItemText(IDC_EDIT_HTTP_PORT, portBuf.GetBuffer(0));
+	EnableHttp(gstate.use_proxy);
+	
+	// fill in socks
+	btnTmp = (CButton*)GetDlgItem(IDC_CHECK_SOCKS);
+	if(btnTmp) btnTmp->EnableWindow(false);
+	SetDlgItemText(IDC_EDIT_SOCKS_PORT, "1080");
+	EnableSocks(false);
+    CenterWindow();
+    return TRUE;
+}
+
+//////////
+// CProxyDialog::EnableHttp
+// arguments:	bEnable: true to enable, false to disable
+// returns:		void
+// function:	enables or disables the http section of the dialog
+void CProxyDialog::EnableHttp(BOOL bEnable)
+{
+	CEdit* editTmp;
+	editTmp = (CEdit*)GetDlgItem(IDC_EDIT_HTTP_ADDR);
+	if(editTmp) editTmp->EnableWindow(bEnable);
+	editTmp = (CEdit*)GetDlgItem(IDC_EDIT_HTTP_PORT);
+	if(editTmp) editTmp->EnableWindow(bEnable);
+}
+
+//////////
+// CProxyDialog::EnableSocks
+// arguments:	bEnable: true to enable, false to disable
+// returns:		void
+// function:	enables or disables the socks section of the dialog
+void CProxyDialog::EnableSocks(BOOL bEnable)
+{
+	CEdit* editTmp;
+	editTmp = (CEdit*)GetDlgItem(IDC_EDIT_SOCKS_ADDR);
+	if(editTmp) editTmp->EnableWindow(bEnable);
+	editTmp = (CEdit*)GetDlgItem(IDC_EDIT_SOCKS_PORT);
+	if(editTmp) editTmp->EnableWindow(bEnable);
+	editTmp = (CEdit*)GetDlgItem(IDC_EDIT_SOCKS_NAME);
+	if(editTmp) editTmp->EnableWindow(bEnable);
+	editTmp = (CEdit*)GetDlgItem(IDC_EDIT_SOCKS_PASS);
+	if(editTmp) editTmp->EnableWindow(bEnable);
+}
+
+//////////
+// CProxyDialog::OnOK
+// arguments:	void
+// returns:		void
+// function:	handles http check box
+void CProxyDialog::OnHttp() 
+{
+	CButton* btnTmp;
+	btnTmp = (CButton*)GetDlgItem(IDC_CHECK_HTTP);
+	if(btnTmp) {
+		if(btnTmp->GetCheck() == BST_CHECKED) {
+			EnableHttp(true);
+		} else {
+			EnableHttp(false);
+		}
+	}
+}
+
+//////////
+// CProxyDialog::OnSocks
+// arguments:	void
+// returns:		void
+// function:	handles socks check box
+void CProxyDialog::OnSocks() 
+{
+}
+
+//////////
+// CProxyDialog::OnOK
+// arguments:	void
+// returns:		void
+// function:	sets member variables, selected project to quit
+void CProxyDialog::OnOK() 
+{
+	CButton* btnTmp;
+	CString strTmp;
+
+	// get http info
+	btnTmp = (CButton*)GetDlgItem(IDC_CHECK_HTTP);
+	if(btnTmp) {
+		if(btnTmp->GetCheck() == BST_CHECKED) {
+			gstate.use_proxy = true;
+		} else {
+			gstate.use_proxy = false;
+		}
+	}
+	GetDlgItemText(IDC_EDIT_HTTP_ADDR, strTmp);
+	strcpy(gstate.proxy_server_name, strTmp.GetBuffer(0));
+	GetDlgItemText(IDC_EDIT_HTTP_PORT, strTmp);
+	gstate.proxy_server_port = atoi(strTmp.GetBuffer(0));
+	CDialog::OnOK();
 }

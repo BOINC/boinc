@@ -88,6 +88,40 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
 END
 
+IDD_PROXY DIALOG DISCARDABLE  0, 0, 212, 278
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "BOINC Proxy Server Setup"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,257,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,155,257,50,14
+    LTEXT           "Some organizations use an ""HTTP proxy"" or a ""SOCKS proxy"" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Serevice Provider.",
+                    IDC_STATIC,17,7,176,46
+    GROUPBOX        "HTTP Proxy",IDC_STATIC,7,59,198,62
+    CONTROL         "Connect via HTTP proxy server",IDC_CHECK_HTTP,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,19,71,115,10
+    LTEXT           "http://",IDC_STATIC,32,86,22,8
+    LTEXT           "Port number:",IDC_STATIC,32,104,41,8
+    EDITTEXT        IDC_EDIT_HTTP_ADDR,57,83,135,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_HTTP_PORT,77,101,40,14,ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    GROUPBOX        "SOCKS Proxy",IDC_STATIC,7,131,198,122
+    CONTROL         "Connect via SOCKS server",IDC_CHECK_SOCKS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,19,143,101,10
+    LTEXT           "SOCKS host:",IDC_STATIC,32,158,42,8
+    LTEXT           "Port number:",IDC_STATIC,32,176,41,8
+    EDITTEXT        IDC_EDIT_SOCKS_ADDR,77,155,115,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SOCKS_PORT,77,173,40,14,ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    GROUPBOX        "Leave these blank if not needed",IDC_STATIC,13,193,186,
+                    54
+    LTEXT           "SOCKS user name:",IDC_STATIC,32,209,62,8
+    LTEXT           "SOCKS password:",IDC_STATIC,32,230,59,8
+    EDITTEXT        IDC_EDIT_SOCKS_NAME,97,206,91,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SOCKS_PASS,97,227,91,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -120,6 +154,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 63
     END
+
+    IDD_PROXY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 205
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 271
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -133,17 +175,20 @@ IDR_MAINFRAME MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "Clear Inactive",              ID_FILE_CLEAR
+        MENUITEM "Clear &Messages",             ID_FILE_CLEARMESSAGES
+        MENUITEM "Clear &Inactive",             ID_FILE_CLEARINACTIVE
         MENUITEM SEPARATOR
         MENUITEM "&Hide",                       ID_FILE_HIDE
         MENUITEM "&Suspend",                    ID_FILE_SUSPEND
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_FILE_EXIT
     END
-    POPUP "&Account"
+    POPUP "&Settings"
     BEGIN
-        MENUITEM "&Login to Project...",        ID_ACCT_LOGIN
-        MENUITEM "&Quit Project...",            ID_ACCT_QUIT
+        MENUITEM "&Login to Project...",        ID_SETTINGS_LOGIN
+        MENUITEM "&Quit Project...",            ID_SETTINGS_QUIT
+        MENUITEM SEPARATOR
+        MENUITEM "&Proxy Server...",            ID_SETTINGS_PROXYSERVER
     END
     POPUP "&Help"
     BEGIN
