@@ -55,22 +55,21 @@ class ProjectUC(Project):
                          users = users or [UserUC()],
                          hosts = hosts,
                          short_name=short_name, long_name=long_name,
-                         resource_share=resource_share
+                         redundancy=redundancy, resource_share=resource_share
                          )
 
     def check(self):
-        redundancy = self.work.redundancy
-        self.validate(redundancy)
-        self.check_results(redundancy, ResultUC())
-        self.check_files_match("upload/uc_wu_%d_0", "uc_correct_output", count=redundancy)
-        self.assimilate()
-        self.file_delete()
+        self.sched_run('validate_test')
+        self.check_results(ResultUC())
+        self.check_files_match("upload/uc_wu_%d_0", "uc_correct_output", count=self.redundancy)
+        self.sched_run('assimilator')
+        self.sched_run('file_deleter')
         self.check_deleted("download/input")
-        self.check_deleted("upload/uc_wu_%d_0", count=redundancy)
+        self.check_deleted("upload/uc_wu_%d_0", count=self.redundancy)
 
     def run(self):
         self.install()
-        self.install_feeder()
+        self.sched_install('feeder')
         self.start_servers()
 
 if __name__ == '__main__':

@@ -5032,7 +5032,7 @@ John Brian	2003/06/24
         resource.rc
         resource.h
         
-Karl    2003/06/23
+Karl    2003/06/24
     - Got test_1sec working
 
     test/
@@ -5043,11 +5043,21 @@ Karl    2003/06/23
     sched/
         start_servers.C
 
-Karl    2003/06/24
+Karl    2003/06/25
     - if application exceeds disk space limit, output message "Exceeded size
       limit" instead of "Couldn't upload files"
+    - test that an aborted result due to file limit causes client_state =
+      RESULT_RESULT_OUTCOME_CLIENT_ERROR (currently this test FAILS!)
 
+    db/
+        boinc_db.h
     client/
         client_state.C
     sched/
         handle_request.C
+    test/
+        boinc.py
+        test_abort.py (new)
+        test_backend.py
+        test_concat.py
+        test_uc.py

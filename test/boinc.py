@@ -13,7 +13,7 @@
 
 from version import *
 from boinc_db import *
-import os, sys, time, shutil, re, atexit, traceback, random
+import os, sys, glob, time, shutil, re, atexit, traceback, random
 import MySQLdb
 
 errors = 0
@@ -193,6 +193,17 @@ def map_xml(dic, keys):
 def generate_shmem_key():
     return '0x1111%x' % random.randrange(0,2**16)
 
+def _check_vars(dict, **names):
+    for key in names:
+        value = names[key]
+        if not key in dict:
+            if value == None:
+                raise SystemExit('error in test script: required parameter "%s" not specified'%key)
+            dict[key] = value
+    for key in dict:
+        if not key in names:
+            raise SystemExit('error in test script: extraneous parameter "%s" unknown'%key)
+
 class STARTS_WITH(str):
     pass
 
@@ -283,18 +294,19 @@ class Project:
     def __init__(self, works, users=None, hosts=None,
                  short_name=None, long_name=None, core_versions=None,
                  apps=None, app_versions=None, appname=None,
-                 resource_share=1,
+                 resource_share=None, redundancy=None,
                  add_to_list=True):
         if add_to_list:
             all_projects.append(self)
-        self.configlines = []
-        self.short_name = short_name or 'test_'+appname
-        self.long_name = long_name or 'Project ' + self.short_name.replace('_',' ').capitalize()
-        self.db_passwd = ''
-        self.generate_keys = False
-        self.shmem_key = generate_shmem_key()
-        self.resource_share = resource_share
-        self.output_level = 3
+        self.configlines    = []
+        self.short_name     = short_name or 'test_'+appname
+        self.long_name      = long_name or 'Project ' + self.short_name.replace('_',' ').capitalize()
+        self.db_passwd      = ''
+        self.generate_keys  = False
+        self.shmem_key      = generate_shmem_key()
+        self.resource_share = resource_share or 1
+        self.redundancy     = redundancy or 2
+        self.output_level   = 3
 
         self.master_url    = os.path.join(HTML_URL         , self.short_name , '')
         self.download_url  = os.path.join(HTML_URL         , self.short_name , 'download')
@@ -307,22 +319,22 @@ class Project:
         self.key_dir       = os.path.join(self.project_dir , 'keys')
         self.user_name     = USER_NAME
         self.db_name       = self.user_name + '_' + self.short_name
-        self.project_php_file = None
+        self.project_php_file       = None
         self.project_prefs_php_file = None
 
         self.core_versions = core_versions or [CoreVersion()]
-        self.app_versions = app_versions or [AppVersion(App(appname))]
-        self.apps = apps or unique(map(lambda av: av.app, self.app_versions))
-        self.platforms = [Platform(PLATFORM)]
-        self.works = works
-        self.users = users or [User()]
-        self.hosts = hosts or [Host()]
+        self.app_versions  = app_versions or [AppVersion(App(appname))]
+        self.apps          = apps or unique(map(lambda av: av.app, self.app_versions))
+        self.platforms     = [Platform(PLATFORM)]
+        self.works         = works
+        self.users         = users or [User()]
+        self.hosts         = hosts or [Host()]
         # convenience vars:
-        self.app_version = self.app_versions[0]
-        self.app = self.apps[0]
-        self.host = self.hosts[0]
-        self.work = self.works[0]
-        self.user = self.users[0]
+        self.app_version   = self.app_versions[0]
+        self.app           = self.apps[0]
+        self.host          = self.hosts[0]
+        self.work          = self.works[0]
+        self.user          = self.users[0]
 
     def srcdir(self, *dirs):
         return apply(os.path.join,(SRC_DIR,)+dirs)
@@ -566,46 +578,67 @@ class Project:
     def _run_cgi_prog(self, prog, args='', logfile=None):
         verbose_shell_call("cd %s && ./%s %s >> %s.out 2>&1" %
                            (self.dir('cgi'), prog, args, (logfile or prog)))
-    def _run_cgi_onepass(self, prog, args=''):
-        self._run_cgi_prog(prog, '-d 3 -one_pass '+args)
     def start_servers(self):
         self.restart()
         self._run_cgi_prog('start_servers')
         verbose_sleep("Starting servers for project '%s'" % self.short_name, 1)
+        self.read_server_pids()
 
-    def _install_prog(self, prog, args=''):
-        self.append_config('<start>./%s -d 3 -asynch %s >>%s.out 2>&1</start>' % (
-            prog, args, prog))
-    def install_feeder(self):
-        self._install_prog('feeder')
-    def install_timeout_check(self, app, nerror=5, ndet=5, nredundancy=5):
-        self._install_prog('timeout_check', '-app %s -nerror %d -ndet %d -nredundancy %d' %(
-            app, nerror, ndet, nredundancy))
-    def install_make_work(self, work, cushion, redundancy):
-        self._install_prog('make_work', '-cushion %d -redundancy %d -result_template %s -wu_name %s' %(
-            cushion, redundancy,
-            os.path.realpath(work.result_template),
-            work.wu_template))
-    def uninstall_make_work(self):
-        self.remove_config('make_work')
-    def install_validate(self, app, quorum):
-        for app_version in self.app_versions:
-            self._install_prog('validate_test', '-app %s -quorum %d' %(
-                app_version.app.name, quorum))
-    def validate(self, quorum):
-        for app_version in self.app_versions:
-            self._run_cgi_onepass('validate_test', '-app %s -quorum %d' %(
-                app_version.app.name, quorum))
-    def install_file_delete(self):
-        self._install_prog('file_deleter')
-    def file_delete(self):
-        self._run_cgi_onepass('file_deleter')
-    def install_assimilator(self):
-        for app_version in self.app_versions:
-            self._install_prog('assimilator', '-app %s' % app_version.app.name)
-    def assimilate(self):
-        for app_version in self.app_versions:
-            self._run_cgi_onepass('assimilator', '-app %s' % app_version.app.name)
+    def read_server_pids(self):
+        pid_dir = self.dir('cgi')
+        self.pids = {}
+        for pidfile in glob.glob(os.path.join(pid_dir, '*.pid')):
+            try:
+                pid = int(open(pidfile).readline())
+            except:
+                pid = 0
+            if pid:
+                progname = os.path.split(pidfile)[1].split('.')[0]
+                self.pids[progname] = pid
+
+    def wait_server(self, progname, msg=None):
+        msg = msg or "Waiting for %s to finish..."%progname
+        verbose_echo(1, msg)
+        os.waitpid(self.pids[progname], 0)
+        verbose_echo(1, msg+" done.")
+
+    def _build_cgi_commandlines(self, progname, kwargs):
+        '''Given a KWARGS dictionary build a list of command lines string depending on the program.'''
+        each_app = False
+        if progname == 'feeder':
+            _check_vars(kwargs)
+        elif progname == 'timeout_check':
+            _check_vars(kwargs, app=self.app, nerror=5, ndet=5, nredundancy=5)
+        elif progname == 'make_work':
+            work = kwargs.get('work', self.work)
+            _check_vars(kwargs, cushion=None, redundancy=self.redundancy,
+                        result_template=os.path.realpath(work.result_template),
+                        wu_name=work.wu_template)
+        elif progname == 'validate_test':
+            _check_vars(kwargs, quorum=self.redundancy)
+            each_app = True
+        elif progname == 'file_deleter':
+            _check_vars(kwargs)
+        elif progname == 'assimilator':
+            _check_vars(kwargs)
+            each_app = True
+        else:
+            raise SystemExit("test script error: invalid progname '%s'"%progname)
+        cmdline = ' '.join(map(lambda k: '-%s %s'%(k,kwargs[k]), kwargs.keys()))
+        if each_app:
+            return map(lambda av: '-app %s %s'%(av.app.name,cmdline), self.app_versions)
+        else:
+            return [cmdline]
+
+    def sched_run(self, prog, **kwargs):
+        for cmdline in self._build_cgi_commandlines(prog, kwargs):
+            self._run_cgi_prog(prog, '-d 3 -one_pass '+cmdline)
+    def sched_install(self, prog, **kwargs):
+        for cmdline in self._build_cgi_commandlines(prog, kwargs):
+            self.append_config('<start>./%s -d 3 -asynch %s >>%s.out 2>&1</start>' % (
+                prog, cmdline, prog))
+    def sched_uninstall(self, prog):
+        self.remove_config(prog)
 
     def start_stripcharts(self):
         map(lambda l: self.copy(os.path.join('stripchart', l), 'cgi/'),
@@ -654,20 +687,21 @@ class Project:
         self.configlines = filter(lambda l: l.find(pattern)==-1, self.configlines)
         self.write_config()
 
-    def check_results(self, ntarget, matchresult):
+    def check_results(self, matchresult, expected_count=None):
         '''MATCHRESULT should be a dictionary of columns to check, such as:
 
         server_state
         stderr_out
         exit_status
         '''
+        expected_count = expected_count or self.redundancy
         db = self.db_open()
         rows = _db_query(db,"select * from result")
         for row in rows:
             dict_match(matchresult, row)
         db.close()
-        if len(rows) != ntarget:
-            error("expected %d results, but found %d" % (ntarget, len(rows)))
+        if len(rows) != expected_count:
+            error("expected %d results, but found %d" % (expected_count, len(rows)))
 
     def check_files_match(self, result, correct, count=None):
         '''if COUNT is specified then [0,COUNT) is mapped onto the %d in RESULT'''
@@ -775,14 +809,14 @@ class Host:
                               filename))
 
 class Work:
-    def __init__(self):
+    def __init__(self, redundancy=1):
         self.input_files = []
         self.rsc_iops = 1.8e12
         self.rsc_fpops = 1e13
         self.rsc_memory = 1e7
         self.rsc_disk = 1e7
         self.delay_bound = 1000
-        self.redundancy = 1
+        self.redundancy = redundancy
         self.app = None
 
     def install(self, project):
@@ -841,6 +875,7 @@ class ResultMeter:
 
 def run_check_all():
     '''Run all projects, run all hosts, check all projects, stop all projects.'''
+    atexit.register(all_projects.stop)
     all_projects.run()
     all_projects.open_dbs()             # for progress meter
     if os.environ.get('TEST_STOP_BEFORE_HOST_RUN'):
@@ -849,7 +884,7 @@ def run_check_all():
     all_hosts.run()
     rm.stop()
     all_projects.check()
-    all_projects.stop()
+    # all_projects.stop()
 
 proxy_pid = 0
 def start_proxy(code):
