@@ -44,7 +44,7 @@ const int MIN_SECONDS_TO_SEND = 0;
 const int MAX_SECONDS_TO_SEND = (28*SECONDS_PER_DAY);
 const int MAX_WUS_TO_SEND     = 10;
 
-const double COBBLESTONE_FACTOR = 100.0;
+const double COBBLESTONE_FACTOR = 300.0;
 
 // if a host has active_frac < 0.5, assume 0.5 so we don't deprive it of work.
 const double HOST_ACTIVE_FRAC_MIN = 0.5;
@@ -403,7 +403,7 @@ new_host:
 static void compute_credit_rating(HOST& host) {
     host.credit_per_cpu_sec =
         (fabs(host.p_fpops)/1e9 + fabs(host.p_iops)/1e9 + fabs(host.p_membw)/4e9)
-        * COBBLESTONE_FACTOR / (SECONDS_PER_DAY);
+        * COBBLESTONE_FACTOR / (3 * SECONDS_PER_DAY);
 }
 
 // Update host record based on request.
