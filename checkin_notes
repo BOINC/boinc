@@ -14917,3 +14917,11 @@ Brian  8 July 2004
     client/
         cs_prefs.C
       
+Karl 2004-07-08
+    - fixes for boinc_thread_cpu_time -> boinc_calling_thread_cpu_time
+
+    lib/
+        util.h
+    api/
+        boinc_api.h
+        boinc_api_fortran.C

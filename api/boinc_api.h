@@ -54,7 +54,7 @@ extern "C" {
     extern int	boinc_fraction_done(double);
 
     extern int	boinc_wu_cpu_time(double&);
-    extern int	boinc_thread_cpu_time(double&, double&);
+    extern int	boinc_calling_thread_cpu_time(double&, double&);
 
 } // extern "C"
 

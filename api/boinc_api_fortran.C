@@ -95,9 +95,9 @@ extern "C" {
         boinc_wu_cpu_time(*d_out);
     }
 
-    void boinc_thread_cpu_time_(double* d1_out, double* d2_out)
+    void boinc_calling_thread_cpu_time_(double* d1_out, double* d2_out)
     {
-        boinc_thread_cpu_time(*d1_out, *d2_out);
+        boinc_calling_thread_cpu_time(*d1_out, *d2_out);
     }
 
 }
