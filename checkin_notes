@@ -11509,3 +11509,13 @@ David  April 9 2004
         db_base.C,h
     html/user/
         stats.php
+
+Rom    April 10 2004
+    - Initial Snapshot of the new BOINC Universal GUI, this GUI will provide the
+        native interface for all supported platforms.
+    NOTE: This is just a bare bones skeleton.  Header file stuff still needs
+          to be moved around to support all the platforms.  stdwx.h should include
+          config.h or win_config.h depending on platform, etc.
+
+    clientgui/
+        * (new)
