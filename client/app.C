@@ -384,7 +384,7 @@ int ACTIVE_TASK::start(bool first_time) {
         debug_print_argv(argv);
         sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, exec_path );
         retval = execv(buf, argv);
-        fprintf(stderr, "execv failed: %d\n", retval);
+        msg_printf(wup->project, MSG_ERROR, "execv failed: %d\n", retval);
         perror("execv");
         exit(1);
     }
@@ -547,7 +547,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
         scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process %d is done\n", pid);
         atp = lookup_pid(pid);
         if (!atp) {
-            fprintf(stderr, "ACTIVE_TASK_SET::check_app_exited(): pid %d not found\n", pid);
+            msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK_SET::check_app_exited(): pid %d not found\n", pid);
             return true;
         }
         double x = rs.ru_utime.tv_sec + rs.ru_utime.tv_usec/1.e6;
@@ -633,10 +633,12 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
     if (retval) {
         msg_printf(0, MSG_ERROR, "Can't get application disk usage");
     } else {
-        //fprintf(stderr, "using %f bytes; max is %f bytes\n", disk_usage, max_disk_usage);
         if (disk_usage > max_disk_usage) {
-            msg_printf(result->project, MSG_INFO, "Aborting result %s: exceeded disk limit %f\n",
-                result->name, max_disk_usage);
+            msg_printf(
+                result->project, MSG_INFO,
+                "Aborting result %s: exceeded disk limit %f\n",
+                result->name, max_disk_usage
+            );
             abort();
             return true;
         }
@@ -650,8 +652,12 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
 bool ACTIVE_TASK::check_max_mem_exceeded() {
     // TODO: calculate working set size elsewhere
     if (working_set_size > max_mem_usage || working_set_size/1048576 > gstate.global_prefs.max_memory_mbytes) {
-        msg_printf(result->project, MSG_INFO, "Aborting result %s: exceeded memory limit %f\n",
-            result->name, min(max_mem_usage, gstate.global_prefs.max_memory_mbytes*1048576));
+        msg_printf(
+            result->project, MSG_INFO,
+            "Aborting result %s: exceeded memory limit %f\n",
+            result->name,
+            min(max_mem_usage, gstate.global_prefs.max_memory_mbytes*1048576)
+        );
         abort();
         return true;
     }
@@ -879,7 +885,7 @@ int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
         }
         iter++;
     }
-    fprintf(stderr, "ACTIVE_TASK_SET::remove(): not found\n");
+    msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK_SET::remove(): not found\n");
     return 1;
 }
 
@@ -1077,7 +1083,8 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
         if (match_tag(buf, "</active_task>")) {
             project = cs->lookup_project(project_master_url);
             if (!project) {
-                fprintf(stderr,
+                msg_printf(
+                    NULL, MSG_ERROR,
                     "ACTIVE_TASK::parse(): project not found: %s\n",
                     project_master_url
                 );
@@ -1085,7 +1092,9 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
             }
             result = cs->lookup_result(project, result_name);
             if (!result) {
-                fprintf(stderr, "ACTIVE_TASK::parse(): result not found\n");
+                msg_printf(
+                    NULL, MSG_ERROR, "ACTIVE_TASK::parse(): result not found\n"
+                );
                 return -1;
             }
             wup = result->wup;
@@ -1093,7 +1102,10 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
                 result->app, app_version_num
             );
             if (!app_version) {
-                fprintf(stderr, "ACTIVE_TASK::parse(): app_version not found\n");
+                msg_printf(
+                    NULL, MSG_ERROR,
+                    "ACTIVE_TASK::parse(): app_version not found\n"
+                );
                 return -1;
             }
             return 0;
@@ -1103,7 +1115,7 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
         else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         else if (parse_int(buf, "<slot>", slot)) continue;
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
-        else fprintf(stderr, "ACTIVE_TASK::parse(): unrecognized %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK::parse(): unrecognized %s\n", buf);
     }
     return -1;
 }
@@ -1138,7 +1150,7 @@ int ACTIVE_TASK_SET::parse(FILE* fin, CLIENT_STATE* cs) {
             if (!retval) active_tasks.push_back(atp);
             else delete atp;
         } else {
-            fprintf(stderr, "ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf);
+            msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf);
         }
     }
     return 0;

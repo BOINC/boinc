@@ -42,8 +42,10 @@
 
 #include "util.h"
 #include "parse.h"
-#include "hostinfo.h"
+#include "message.h"
 #include "error_numbers.h"
+
+#include "hostinfo.h"
 
 // Reset the host info struct to default values
 //
@@ -107,7 +109,7 @@ int HOST_INFO::parse(FILE* in) {
         else if (parse_double(buf, "<m_swap>", m_swap)) continue;
         else if (parse_double(buf, "<d_total>", d_total)) continue;
         else if (parse_double(buf, "<d_free>", d_free)) continue;
-        else fprintf(stderr, "HOST_INFO::parse(): unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "HOST_INFO::parse(): unrecognized: %s\n", buf);
     }
     return 0;
 }
@@ -181,7 +183,7 @@ int HOST_INFO::parse_cpu_benchmarks(FILE* in) {
         else if (parse_int(buf, "<p_membw_err>", p_membw_err)) continue;
         else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
         else if (parse_double(buf, "<m_cache>", m_cache)) continue;
-        else fprintf(stderr, "HOST_INFO::parse(): unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "HOST_INFO::parse(): unrecognized: %s\n", buf);
     }
     return 0;
 }

@@ -57,12 +57,12 @@ int CLIENT_STATE::cleanup_and_exit() {
 
     retval = active_tasks.exit_tasks();
     if (retval) {
-        fprintf(stderr, "error: CLIENT_STATE.exit: exit_tasks failed\n");
+        msg_printf(NULL, MSG_ERROR, "CLIENT_STATE.cleanup_and_exit: exit_tasks failed\n");
         // don't return here - we'll exit anyway
     }
     retval = write_state_file();
     if (retval) {
-        fprintf(stderr, "error: CLIENT_STATE.exit: write_state_file failed\n");
+        msg_printf(NULL, MSG_ERROR, "CLIENT_STATE.cleanup_and_exit: write_state_file failed\n");
         // don't return here - we'll exit anyway
     }
 

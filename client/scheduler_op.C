@@ -114,7 +114,7 @@ int SCHEDULER_OP::init_op_project(double ns) {
     }
     retval = gstate.make_scheduler_request(project, ns);
     if (retval) {
-        fprintf(stderr, "make_scheduler_request: %d\n", retval);
+        msg_printf(project, MSG_ERROR, "make_scheduler_request: %d\n", retval);
         goto done;
     }
     retval = start_rpc();
@@ -504,7 +504,7 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
     if (code_sign_key_signature) free(code_sign_key_signature);
 }
 
-int SCHEDULER_REPLY::parse(FILE* in) {
+int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     char buf[256], *p;
     int retval;
 
@@ -529,13 +529,13 @@ int SCHEDULER_REPLY::parse(FILE* in) {
 
     p = fgets(buf, 256, in);
     if (!p) {
-        fprintf(stderr, "SCHEDULER_REPLY::parse(): empty file\n");
+        msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY::parse(): empty file\n");
         return ERR_XML_PARSE;
     }
     // First part of content should either be tag (HTTP 1.0) or
     // hex length of response (HTTP 1.1)
     if (!match_tag(buf, "<scheduler_reply>")) {
-        fprintf(stderr, "SCHEDULER_REPLY::parse(): bad first tag %s\n", buf);
+        msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY::parse(): bad first tag %s\n", buf);
         return ERR_XML_PARSE;
     }
     while (fgets(buf, 256, in)) {
@@ -575,7 +575,7 @@ int SCHEDULER_REPLY::parse(FILE* in) {
                 &code_sign_key
             );
             if (retval) {
-                fprintf(stderr, "error: SCHEDULER_REPLY.parse: xml parsing error\n");
+                msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY.parse(): xml parsing error\n");
                 return ERR_XML_PARSE;
             }
         } else if (match_tag(buf, "<code_sign_key_signature>")) {
@@ -614,9 +614,9 @@ int SCHEDULER_REPLY::parse(FILE* in) {
             parse_attr(buf, "priority", message_priority, sizeof(message_priority));
             continue;
         } else {
-            fprintf(stderr, "SCHEDULER_REPLY::parse: unrecognized %s\n", buf);
+            msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY::parse(): unrecognized %s\n", buf);
         }
     }
-    fprintf(stderr, "SCHEDULER_REPLY::parse: no close tag\n");
+    msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY::parse(): no close tag\n");
     return ERR_XML_PARSE;
 }

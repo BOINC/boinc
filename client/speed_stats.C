@@ -28,8 +28,10 @@
 #include <signal.h>
 #endif
 
-#include "speed_stats.h"
 #include "error_numbers.h"
+#include "message.h"
+
+#include "speed_stats.h"
 
 #ifdef _WIN32
 #include <afxwin.h>
@@ -60,7 +62,7 @@ int main(void) {
 
 void run_test_suite(double num_secs_per_test) {
     if (num_secs_per_test<0) {
-        fprintf(stderr, "error: run_test_suite: negative num_seconds_per_test\n");
+        msg_printf(NULL, MSG_ERROR, "error: run_test_suite: negative num_seconds_per_test\n");
     }
     printf(
         "Running tests.  This will take about %.1lf seconds.\n\n",
@@ -91,7 +93,7 @@ int check_cache_size(int mem_size) {
     double secs, nanosecs, temp2;
     int not_found;
     if (mem_size<0) {
-        fprintf(stderr, "error: check_cache_size: negative mem_size\n");
+        msg_printf(NULL, MSG_ERROR, "check_cache_size: negative mem_size\n");
         return ERR_NEG;
     }
     logStride = (int)(log((double)(STRIDE_MAX/STRIDE_MIN))/log(2.0))+1;
@@ -226,7 +228,7 @@ int run_double_prec_test(double num_secs, double &flops_per_sec) {
     int retval;
     
     if (num_secs<0) {
-        fprintf(stderr, "error: run_double_prec_test: negative num_secs\n");
+        msg_printf(NULL, MSG_ERROR, "run_double_prec_test: negative num_secs\n");
         return ERR_NEG;
     }
     
@@ -246,7 +248,7 @@ int run_int_test(double num_secs, double &iops_per_sec) {
     int retval;
     
     if (num_secs<0) {
-        fprintf(stderr, "error: run_int_test: negative num_secs\n");
+        msg_printf(NULL, MSG_ERROR, "run_int_test: negative num_secs\n");
         return ERR_NEG;
     }
     
@@ -266,7 +268,7 @@ int run_mem_bandwidth_test(double num_secs, double &bytes_per_sec) {
     int retval;
     
     if (num_secs<0) {
-        fprintf(stderr, "error: run_mem_bandwidth_test: negative num_secs\n");
+        msg_printf(NULL, MSG_ERROR, "run_mem_bandwidth_test: negative num_secs\n");
         return ERR_NEG;
     }
     
@@ -290,7 +292,7 @@ int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
     clock_t time_start, time_total;
     
     if (iterations<0) {
-        fprintf(stderr, "error: double_flop_test: negative iterations\n");
+        msg_printf(NULL, MSG_ERROR, "double_flop_test: negative iterations\n");
         return ERR_NEG;
     }
     
@@ -362,7 +364,7 @@ int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
     clock_t time_start, time_total;
     int i,j,k,error = 0;
     if (iterations<0) {
-        fprintf(stderr, "error: int_op_test: negative iterations\n");
+        msg_printf(NULL, MSG_ERROR, "int_op_test: negative iterations\n");
         return ERR_NEG;
     }
     
@@ -455,7 +457,7 @@ int bandwidth_test(int iterations, double &bytes_per_sec, int print_debug) {
     clock_t time_start, time_total;
     int i,j,n,actual_iters, error = 0;
     if (iterations<0) {
-        fprintf(stderr, "error: bandwidth_test: negative iterations\n");
+        msg_printf(NULL, MSG_ERROR, "bandwidth_test: negative iterations\n");
         return ERR_NEG;
     }
     

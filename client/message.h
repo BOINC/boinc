@@ -34,7 +34,6 @@
 
 extern void show_message(class PROJECT *p, char* message, int priority);
 
-
 class ClientMessages : public Messages {
     int debug_level;
     const char* v_format_kind(int kind) const;
@@ -55,5 +54,7 @@ public:
 };
 
 extern ClientMessages log_messages;
+
+extern void msg_printf(PROJECT *p, int priority, char *fmt, ...);
 
 #endif

@@ -110,7 +110,7 @@ struct SCHEDULER_REPLY {
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();
-    int parse(FILE*);
+    int parse(FILE*, PROJECT*);
 };
 
 #endif

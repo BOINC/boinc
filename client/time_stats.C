@@ -24,6 +24,7 @@
 #include "parse.h"
 #include "util.h"
 #include "error_numbers.h"
+#include "message.h"
 
 #include "time_stats.h"
 
@@ -114,7 +115,7 @@ int TIME_STATS::parse(FILE* in) {
         else if (parse_double(buf, "<on_frac>", on_frac)) continue;
         else if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
         else if (parse_double(buf, "<active_frac>", active_frac)) continue;
-        else fprintf(stderr, "TIME_STATS:: parse(): unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "TIME_STATS::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }

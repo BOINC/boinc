@@ -167,7 +167,7 @@ int FILE_XFER_SET::remove(FILE_XFER* fxp) {
         }
         iter++;
     }
-    fprintf(stderr, "FILE_XFER_SET::remove(): not found\n");
+    msg_printf(NULL, MSG_ERROR, "FILE_XFER_SET::remove(): not found\n");
     return 1;
 }
 

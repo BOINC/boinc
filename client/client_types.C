@@ -25,6 +25,7 @@
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"
+#include "message.h"
 #include "parse.h"
 #include "util.h"
 #include "pers_file_xfer.h"
@@ -162,7 +163,7 @@ int PROJECT::parse_account(FILE* in) {
             if (retval) return ERR_XML_PARSE;
             continue;
         }
-        else fprintf(stderr, "PROJECT::parse_account(): unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "PROJECT::parse_account(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -212,14 +213,13 @@ int PROJECT::parse_state(FILE* in) {
                 code_sign_key,
                 sizeof(code_sign_key)
             );
-            //fprintf(stderr, "code_sign_key: %s\n", code_sign_key);
         }
         else if (parse_int(buf, "<nrpc_failures>", nrpc_failures)) continue;
         else if (parse_int(buf, "<master_fetch_failures>", master_fetch_failures)) continue;
         else if (parse_int(buf, "<min_rpc_time>", (int&)min_rpc_time)) continue;
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
         else if (match_tag(buf, "<sched_rpc_pending/>")) sched_rpc_pending = true;
-        else fprintf(stderr, "PROJECT::parse_state(): unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "PROJECT::parse_state(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -273,7 +273,7 @@ int PROJECT::write_state(FILE* out) {
         exp_avg_mod_time,
         nrpc_failures,
         master_fetch_failures,
-        min_rpc_time,
+        (int)min_rpc_time,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         sched_rpc_pending?"    <sched_rpc_pending/>\n":""
     );
@@ -329,7 +329,7 @@ int APP::parse(FILE* in) {
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</app>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        else fprintf(stderr, "APP::parse(): unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "APP::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -457,7 +457,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
             );
             continue;
         } else {
-            fprintf(stderr, "FILE_INFO::parse(): unrecognized: %s\n", buf);
+            msg_printf(NULL, MSG_ERROR, "FILE_INFO::parse(): unrecognized: %s\n", buf);
         }
     }
     if (from_server)
@@ -570,7 +570,7 @@ int APP_VERSION::parse(FILE* in) {
             continue;
         }
         else if (parse_int(buf, "<version_num>", version_num)) continue;
-        else fprintf(stderr, "APP_VERSION::parse(): unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "APP_VERSION::parse(): unrecognized: %s\n", buf);
     }
     return 1;
 }
@@ -611,7 +611,7 @@ int FILE_REF::parse(FILE* in) {
         else if (parse_int(buf, "<fd>", fd)) continue;
         else if (match_tag(buf, "<main_program/>")) main_program = true;
         else if (match_tag(buf, "<copy_file/>")) copy_file = true;
-        else fprintf(stderr, "FILE_REF::parse(): unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "FILE_REF::parse(): unrecognized: %s\n", buf);
     }
     return 1;
 }
@@ -672,7 +672,7 @@ int WORKUNIT::parse(FILE* in) {
             input_files.push_back(file_ref);
             continue;
         }
-        else fprintf(stderr, "WORKUNIT::parse(): unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "WORKUNIT::parse(): unrecognized: %s\n", buf);
     }
     return 1;
 }
@@ -726,7 +726,7 @@ int RESULT::parse_ack(FILE* in) {
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</result_ack>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        else fprintf(stderr, "RESULT::parse(): unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "RESULT::parse(): unrecognized: %s\n", buf);
     }
     return 1;
 }
@@ -767,7 +767,7 @@ int RESULT::parse_server(FILE* in) {
             output_files.push_back(file_ref);
             continue;
         }
-        else fprintf(stderr, "RESULT::parse(): unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "RESULT::parse(): unrecognized: %s\n", buf);
     }
     return 1;
 }
@@ -801,7 +801,7 @@ int RESULT::parse_state(FILE* in) {
             }
             continue;
         }
-        else fprintf(stderr, "RESULT::parse(): unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "RESULT::parse(): unrecognized: %s\n", buf);
     }
     return 1;
 }

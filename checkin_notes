@@ -5260,4 +5260,13 @@ Karl 2003/07/02
         scheduler_op.C
         scheduler_op.h
 
-        
+David  July 2 2003
+    - changed all "fprintf(stderr," in the client to msg_printf()
+        This will give better messages (timestamps, project names)
+        in the cmdline version, and more complete error messages
+        in the GUI version
+    - moved msg_printf() from client_state.C to message.C
+
+    client/
+        *.C
+        message.C (new)

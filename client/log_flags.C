@@ -23,6 +23,7 @@
 #include "windows_cpp.h"
 #include "error_numbers.h"
 #include "file_names.h"
+#include "message.h"
 #include "parse.h"
 
 #include "log_flags.h"
@@ -95,7 +96,7 @@ int LOG_FLAGS::parse(FILE* in) {
             poll_debug = true;
             continue;
         }
-        else fprintf(stderr, "LOG_FLAGS::parse: unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "LOG_FLAGS::parse: unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }

@@ -25,15 +25,17 @@
 // and maintains an exponential average of throughput.
 
 #include <string.h>
+#include <math.h>
 
 #include "windows_cpp.h"
 
-#include "math.h"
 #include "parse.h"
 #include "time.h"
 
 #include "util.h"
 #include "error_numbers.h"
+#include "message.h"
+
 #include "net_stats.h"
 
 #define EXP_DECAY_RATE (1./SECONDS_PER_DAY)
@@ -116,7 +118,7 @@ int NET_STATS::parse(FILE* in) {
             down.starting_throughput = bwdown;
             continue;
         }
-        else fprintf(stderr, "NET_STATS::parse(): unrecognized: %s\n", buf);
+        else msg_printf(NULL, MSG_ERROR, "NET_STATS::parse(): unrecognized: %s\n", buf);
     }
     return 1;
 }

@@ -32,6 +32,12 @@
 #include <vector>
 #include <stdio.h>
 
+#ifdef _WIN32
+#include <time.h>
+#else
+#include <sys/time.h>
+#endif
+
 #include "hostinfo.h"
 #include "result_state.h"
 

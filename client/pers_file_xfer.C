@@ -90,8 +90,10 @@ int PERS_FILE_XFER::start_xfer() {
         retval = file_xfer->init_download(*fip);
     }
     if (retval) {
-        msg_printf(fip->project, MSG_ERROR, "Couldn't start %s for %s: error %d",
-            (is_upload ? "upload" : "download"), fip->get_url(), retval);
+        msg_printf(
+            fip->project, MSG_ERROR, "Couldn't start %s for %s: error %d",
+            (is_upload ? "upload" : "download"), fip->get_url(), retval
+        );
         handle_xfer_failure();
         return retval;
         // TODO: do we need to do anything here?
@@ -99,8 +101,10 @@ int PERS_FILE_XFER::start_xfer() {
     retval = gstate.file_xfers->insert(file_xfer);
     fxp = file_xfer;
     if (retval) {
-        msg_printf(fip->project, MSG_ERROR, "Couldn't start %s for %s: error %d",
-            (is_upload ? "upload" : "download"), fip->get_url(), retval);
+        msg_printf(
+            fip->project, MSG_ERROR, "Couldn't start %s for %s: error %d",
+            (is_upload ? "upload" : "download"), fip->get_url(), retval
+        );
         fxp->file_xfer_retval = retval;
         handle_xfer_failure();
         delete fxp;
@@ -108,8 +112,10 @@ int PERS_FILE_XFER::start_xfer() {
         return retval;
     }
     if (log_flags.file_xfer) {
-        msg_printf(fip->project, MSG_INFO, "Started %s of %s",
-            (is_upload ? "upload" : "download"), fip->name);
+        msg_printf(
+            fip->project, MSG_INFO, "Started %s of %s",
+            (is_upload ? "upload" : "download"), fip->name
+        );
     }
     scope_messages.printf("PERS_FILE_XFER::start_xfer(): URL: %s\n",fip->get_url());
     return 0;
@@ -134,9 +140,6 @@ bool PERS_FILE_XFER::poll(time_t now) {
         // See if it's time to try again.
         //
         if (now >= next_request_time) {
-            // fprintf(stderr, "### PERS_FILE_XFER '%s'#%x::poll(): starting file transfer (now=%d, next_request_time=%d)\n",
-            //         fip->name, this,
-            //         now, next_request_time);
             last_time = dtime();
             fip->upload_offset = -1;
             retval = start_xfer();
@@ -153,11 +156,15 @@ bool PERS_FILE_XFER::poll(time_t now) {
 
     if (fxp->file_xfer_done) {
         if (log_flags.file_xfer) {
-            msg_printf(fip->project, MSG_INFO, "Finished %s of %s",
-                is_upload?"upload":"download", fip->name);
+            msg_printf(
+                fip->project, MSG_INFO, "Finished %s of %s",
+                is_upload?"upload":"download", fip->name
+            );
         }
-        scope_messages.printf("PERS_FILE_XFER::poll(): file transfer status %d",
-                              fxp->file_xfer_retval);
+        scope_messages.printf(
+            "PERS_FILE_XFER::poll(): file transfer status %d",
+            fxp->file_xfer_retval
+        );
         if (fxp->file_xfer_retval == 0) {
             // The transfer finished with no errors.
             //
@@ -212,8 +219,10 @@ void PERS_FILE_XFER::giveup() {
         fip->status = ERR_GIVEUP_DOWNLOAD;
     }
     xfer_done = true;
-    msg_printf(fip->project, MSG_ERROR, "Giving up on %s of %s",
-        is_upload?"upload":"download", fip->name);
+    msg_printf(
+        fip->project, MSG_ERROR, "Giving up on %s of %s",
+        is_upload?"upload":"download", fip->name
+    );
 }
 
 // Handle a transfer failure
@@ -263,15 +272,16 @@ void PERS_FILE_XFER::retry_or_backoff() {
         // keeping within the bounds of pers_retry_delay_min and
         // pers_retry_delay_max
         //
-        backoff = calculate_exponential_backoff("pers_file_xfer",
-            nretry, gstate.pers_retry_delay_min, gstate.pers_retry_delay_max);
+        backoff = calculate_exponential_backoff(
+            "pers_file_xfer",
+            nretry, gstate.pers_retry_delay_min, gstate.pers_retry_delay_max
+        );
         next_request_time = now + backoff;
-        // fprintf(stderr, "### PERS_FILE_XFER '%s'#%x::retry_or_backoff(): nretry=%d, backoff=%d, now=%d, next_request_time=%d\n",
-        //         fip->name, this, nretry,
-        //         backoff, now, next_request_time);
     }
-    scope_messages.printf("PERS_FILE_XFER::retry_or_backoff(): Backing off %d seconds on transfer of file %s",
-                          backoff, fip->name);
+    scope_messages.printf(
+        "PERS_FILE_XFER::retry_or_backoff(): Backing off %d seconds on transfer of file %s",
+        backoff, fip->name
+    );
 }
 
 // Parse XML information about a single persistent file transfer

@@ -36,9 +36,10 @@
 
 #include "error_numbers.h"
 #include "filesys.h"
-#include "http.h"
 #include "util.h"
 #include "message.h"
+
+#include "http.h"
 
 #define HTTP_BLOCKSIZE  16384
 
@@ -131,10 +132,6 @@ int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
 
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
 
-    if (socket<0) {
-        fprintf(stderr, "error: read_http_reply_header: negative socket\n");
-        return ERR_NEG;
-    }
     memset(buf, 0, sizeof(buf));
     header.content_length = 0;
     header.status = 404;        // default to failure
@@ -367,7 +364,7 @@ bool HTTP_OP_SET::poll() {
                     htp->http_op_state = HTTP_STATE_REQUEST_BODY;
                     htp->file = fopen(htp->infile, "rb");
                     if (!htp->file) {
-                        fprintf(stderr, "HTTP_OP: no input file %s\n", htp->infile);
+                        msg_printf(NULL, MSG_ERROR, "HTTP_OP_SET::poll(): no input file %s\n", htp->infile);
                         htp->io_done = true;
                         htp->http_op_retval = ERR_FOPEN;
                         htp->http_op_state = HTTP_STATE_DONE;
@@ -396,7 +393,7 @@ bool HTTP_OP_SET::poll() {
                 if (htp->infile && strlen(htp->infile) > 0) {
                     htp->file = fopen(htp->infile, "rb");
                     if (!htp->file) {
-                        fprintf(stderr, "HTTP_OP: no input2 file %s\n", htp->infile);
+                        msg_printf(NULL, MSG_ERROR, "HTTP_OP_SET::poll(): no input2 file %s\n", htp->infile);
                         htp->io_done = true;
                         htp->http_op_retval = ERR_FOPEN;
                         htp->http_op_state = HTTP_STATE_DONE;
@@ -477,8 +474,8 @@ bool HTTP_OP_SET::poll() {
 
                     htp->file = fopen(htp->outfile, "ab");
                     if (!htp->file) {
-                        fprintf(stderr,
-                            "HTTP_OP: can't open output file %s\n",
+                        msg_printf(NULL, MSG_ERROR,
+                            "HTTP_OP_SET::poll(): can't open output file %s\n",
                             htp->outfile
                         );
                         htp->io_done = true;

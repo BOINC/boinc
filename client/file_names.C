@@ -29,8 +29,10 @@
 
 #include "filesys.h"
 #include "error_numbers.h"
-#include "file_names.h"
+#include "message.h"
 #include "util.h"
+
+#include "file_names.h"
 
 void escape_project_url(char *in, char* out) {
     escape_url_readable(in, out);
@@ -91,7 +93,7 @@ int remove_project_dir(PROJECT& p) {
 int make_slot_dir(int slot) {
     char buf[256];
     if(slot<0) {
-        fprintf(stderr, "error: make_slot_dir: negative slot\n");
+        msg_printf(NULL, MSG_ERROR, "make_slot_dir(): negative slot\n");
         return ERR_NEG;
     }
     boinc_mkdir(SLOTS_DIR);

@@ -81,7 +81,7 @@ int CLIENT_STATE::make_project_dirs() {
 //
 int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
     char cksum[64];
-    PROJECT* project;
+    PROJECT* project = file_info.project;
     bool verified;
     int retval;
 
@@ -90,22 +90,21 @@ int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
             fprintf(stdout, "ERROR: file %s missing signature\n", file_info.name);
             return ERR_NO_SIGNATURE;
         }
-        project = file_info.project;
         retval = verify_file2(
             pathname, file_info.file_signature, project->code_sign_key, verified
         );
         if (retval) {
-            fprintf(stderr, "error: verify_file2: internal error\n");
+            msg_printf(project, MSG_ERROR, "verify_downloaded_file(): internal error\n");
             return ERR_RSA_FAILED;
         }
         if (!verified) {
-            fprintf(stderr, "error: verify_file2: file not verified\n");
+            msg_printf(project, MSG_ERROR, "verify_downloaded_file(): file not verified\n");
             return ERR_RSA_FAILED;
         }
     } else if (strlen(file_info.md5_cksum)) {
         retval = md5_file(pathname, cksum, file_info.nbytes);
         if (strcmp(cksum, file_info.md5_cksum) || retval) {
-            fprintf(stderr, "error: verify_file2: MD5 check failed\n");
+            msg_printf(project, MSG_ERROR, "verify_downloaded_file(): MD5 check failed\n");
             return ERR_MD5_FAILED;
         }
     }
