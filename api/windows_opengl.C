@@ -174,7 +174,10 @@ static void set_mode(int mode) {
 
     KillWindow();
 
-    if (!boinc_is_standalone()){
+    if (!boinc_is_standalone() && 
+        strlen(graphics_msg.window_station) > 0 &&
+        strlen(graphics_msg.desktop) > 0)
+    {
         GetDesktopWindow();
 
         if (NULL == hOriginalWindowStation) {

@@ -19921,3 +19921,19 @@ David  20 Nov 2004
     - web fix
 
     html/user/edit_email_form.php
+
+Rom    20 Nov 2004
+    - Bug Fix: Undue the change made this morning relating to the STARTUPINFO structure,
+        specifying the startup parameters causes the first call to ShowWindow to be
+        ignored, which means we would have to make a second call.  This however, isn't
+        the bug E@H ran into.
+    - Bug Fix: With older clients that didn't specify the window station and desktop in 
+        the share memory buffer, we ended up calling both OpenWindowStation and OpenDesktop 
+        with their lpszWindowStation and lpszDesktop parameters being an empty string, which
+        is an undefined behavior.  Apparently Windows returns a valid handle instead of NULL 
+        and sends the application into another window station and desktop.
+
+    api/
+        windows_opengl.C
+    client/
+        app_start.C

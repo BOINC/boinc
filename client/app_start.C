@@ -307,9 +307,9 @@ int ACTIVE_TASK::start(bool first_time) {
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
-    startup_info.cb = sizeof(startup_info);
-    startup_info.dwFlags = STARTF_USESHOWWINDOW;
-    startup_info.wShowWindow = SW_HIDE;
+    //startup_info.cb = sizeof(startup_info);
+    //startup_info.dwFlags = STARTF_USESHOWWINDOW;
+    //startup_info.wShowWindow = SW_HIDE;
 
     if (!quitRequestEvent) {
         sprintf(buf, "%s%s", QUIT_PREFIX, shmem_seg_name);
