@@ -46,6 +46,18 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iHtmlWindowID, 
 {
     wxASSERT(NULL != pNotebook);
 
+    m_bProcessingTaskRenderEvent = false;
+    m_bProcessingListRenderEvent = false;
+    m_iCacheFrom = 0;
+    m_iCacheTo = 0;
+    m_iCount = 0;
+
+    m_strQuickTip = wxEmptyString;
+    m_strQuickTipText = wxEmptyString;
+
+    m_pTaskPane = NULL;
+    m_pListPane = NULL;
+
     wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(2, 0, 0);
     wxASSERT(NULL != itemFlexGridSizer);
 

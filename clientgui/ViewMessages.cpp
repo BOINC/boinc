@@ -81,8 +81,6 @@ CViewMessages::CViewMessages()
 CViewMessages::CViewMessages(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook, ID_HTML_MESSAGESVIEW, ID_LIST_MESSAGESVIEW)
 {
-    m_bProcessingTaskRenderEvent = false;
-    m_bProcessingListRenderEvent = false;
     m_bItemSelected = false;
 
     wxASSERT(NULL != m_pTaskPane);
@@ -185,29 +183,37 @@ void CViewMessages::OnListRender(wxTimerEvent &event)
         if ( iCount != m_iCount )
         {
             m_iCount = iCount;
-            m_pListPane->SetItemCount(iCount);
-            m_pListPane->EnsureVisible(iCount-1);  
+            if ( 0 <= iCount )
+                m_pListPane->DeleteAllItems();
+            else
+            {
+                m_pListPane->SetItemCount(iCount);
+                m_pListPane->EnsureVisible(iCount-1);
+            }
         }
         else
         {
-            wxListItem liListItemMessage;
-            wxString   strListItemMessage;
-            wxString   strDocumentItemMessage;
-
-            FormatMessage(m_iCacheTo, strDocumentItemMessage);
-
-            liListItemMessage.SetId(m_iCacheTo);
-            liListItemMessage.SetColumn(COLUMN_MESSAGE);
-            liListItemMessage.SetMask(wxLIST_MASK_TEXT);
-
-            m_pListPane->GetItem(liListItemMessage);
-
-            strListItemMessage = liListItemMessage.GetText();
-
-            if ( !strDocumentItemMessage.IsSameAs(strListItemMessage) )
+            if ( 1 <= m_iCacheTo )
             {
-                m_pListPane->RefreshItems(m_iCacheFrom, m_iCacheTo);
-                m_pListPane->EnsureVisible(m_iCacheTo);
+                wxListItem liListItemMessage;
+                wxString   strListItemMessage;
+                wxString   strDocumentItemMessage;
+
+                FormatMessage(m_iCacheTo, strDocumentItemMessage);
+
+                liListItemMessage.SetId(m_iCacheTo);
+                liListItemMessage.SetColumn(COLUMN_MESSAGE);
+                liListItemMessage.SetMask(wxLIST_MASK_TEXT);
+
+                m_pListPane->GetItem(liListItemMessage);
+
+                strListItemMessage = liListItemMessage.GetText();
+
+                if ( !strDocumentItemMessage.IsSameAs(strListItemMessage) )
+                {
+                    m_pListPane->RefreshItems(m_iCacheFrom, m_iCacheTo);
+                    m_pListPane->EnsureVisible(m_iCacheTo);
+                }
             }
         }
 
@@ -246,12 +252,16 @@ void CViewMessages::OnListDeselected ( wxListEvent& event )
 
 wxString CViewMessages::OnListGetItemText( long item, long column ) const
 {
-    wxString   strBuffer;
+    wxString       strBuffer = wxEmptyString;
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
+            if (item == m_iCacheFrom) pDoc->CachedStateLock();
             FormatProjectName( item, strBuffer );
             break;
         case COLUMN_TIME:
@@ -259,7 +269,7 @@ wxString CViewMessages::OnListGetItemText( long item, long column ) const
             break;
         case COLUMN_MESSAGE:
             FormatMessage( item, strBuffer );
-            if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
+            if (item == m_iCacheTo) pDoc->CachedStateUnlock();
             break;
     }
 

@@ -172,7 +172,10 @@ void CViewTransfers::OnListRender(wxTimerEvent &event)
         if ( iCount != m_iCount )
         {
             m_iCount = iCount;
-            m_pListPane->SetItemCount(iCount);
+            if ( 0 <= iCount )
+                m_pListPane->DeleteAllItems();
+            else
+                m_pListPane->SetItemCount(iCount);
         }
         else
         {

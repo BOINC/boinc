@@ -190,9 +190,13 @@ wxInt32 CMainDocument::CachedProjectStatusUpdate()
 
 wxInt32 CMainDocument::GetProjectCount()
 {
+    wxInt32 iCount = 0;
+
     CachedStateUpdate();
     CachedProjectStatusUpdate();
-    wxInt32 iCount = project_status.projects.size();
+
+    if ( project_status.projects.size() != 0 )
+        iCount = project_status.projects.size();
 
     return iCount;
 }
@@ -555,9 +559,13 @@ wxInt32 CMainDocument::CachedResultsStatusUpdate()
 
 wxInt32 CMainDocument::GetWorkCount()
 {
+    wxInt32 iCount = 0;
+
     CachedStateUpdate();
     CachedResultsStatusUpdate();
-    wxInt32 iCount = results.results.size();
+
+    if ( results.results.size() != 0 )
+        iCount = results.results.size();
 
     return iCount;
 }
@@ -931,9 +939,13 @@ wxInt32 CMainDocument::CachedMessageUpdate()
 
 wxInt32 CMainDocument::GetMessageCount() 
 {
+    wxInt32 iCount = 0;
+
     CachedStateUpdate();
     CachedMessageUpdate();
-    wxInt32 iCount = messages.messages.size();
+
+    if ( messages.messages.size() != 0 )
+        iCount = messages.messages.size();
 
     return iCount;
 }

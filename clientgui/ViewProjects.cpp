@@ -129,8 +129,6 @@ CViewProjects::CViewProjects()
 CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     CBOINCBaseView(pNotebook, ID_HTML_PROJECTSVIEW, ID_LIST_PROJECTSVIEW)
 {
-    m_bProcessingTaskRenderEvent = false;
-    m_bProcessingListRenderEvent = false;
     m_bItemSelected = false;
 
     wxASSERT(NULL != m_pTaskPane);
@@ -229,68 +227,74 @@ void CViewProjects::OnListRender(wxTimerEvent &event)
         if ( iCount != m_iCount )
         {
             m_iCount = iCount;
-            m_pListPane->SetItemCount(iCount);
+            if ( 0 <= iCount )
+                m_pListPane->DeleteAllItems();
+            else
+                m_pListPane->SetItemCount(iCount);
         }
         else
         {
-            wxInt32         iRowIndex        = 0;
-            wxInt32         iColumnIndex     = 0;
-            wxInt32         iColumnTotal     = 0;
-            wxString        strDocumentText  = wxEmptyString;
-            wxString        strListPaneText  = wxEmptyString;
-            wxString        strBuffer        = wxEmptyString;
-            bool            bNeedRefreshData = false;
-            wxListItem      liItem;
-
-            liItem.SetMask(wxLIST_MASK_TEXT);
-            iColumnTotal = m_pListPane->GetColumnCount();
-
-            for ( iRowIndex = m_iCacheFrom; iRowIndex <= m_iCacheTo; iRowIndex++ )
+            if ( 1 <= m_iCacheTo )
             {
-                bNeedRefreshData = false;
-                liItem.SetId(iRowIndex);
+                wxInt32         iRowIndex        = 0;
+                wxInt32         iColumnIndex     = 0;
+                wxInt32         iColumnTotal     = 0;
+                wxString        strDocumentText  = wxEmptyString;
+                wxString        strListPaneText  = wxEmptyString;
+                wxString        strBuffer        = wxEmptyString;
+                bool            bNeedRefreshData = false;
+                wxListItem      liItem;
 
-                for ( iColumnIndex = 0; iColumnIndex < iColumnTotal; iColumnIndex++ )
+                liItem.SetMask(wxLIST_MASK_TEXT);
+                iColumnTotal = m_pListPane->GetColumnCount();
+
+                for ( iRowIndex = m_iCacheFrom; iRowIndex <= m_iCacheTo; iRowIndex++ )
                 {
-                    strDocumentText.Empty();
-                    strListPaneText.Empty();
+                    bNeedRefreshData = false;
+                    liItem.SetId(iRowIndex);
 
-                    switch(iColumnIndex)
+                    for ( iColumnIndex = 0; iColumnIndex < iColumnTotal; iColumnIndex++ )
                     {
-                        case COLUMN_PROJECT:
-                            FormatProjectName(iRowIndex, strDocumentText);
-                            break;
-                        case COLUMN_ACCOUNTNAME:
-                            FormatAccountName(iRowIndex, strDocumentText);
-                            break;
-                        case COLUMN_TEAMNAME:
-                            FormatTeamName(iRowIndex, strDocumentText);
-                            break;
-                        case COLUMN_TOTALCREDIT:
-                            FormatTotalCredit(iRowIndex, strDocumentText);
-                            break;
-                        case COLUMN_AVGCREDIT:
-                            FormatAVGCredit(iRowIndex, strDocumentText);
-                            break;
-                        case COLUMN_RESOURCESHARE:
-                            FormatResourceShare(iRowIndex, strDocumentText);
-                            break;
-                        case COLUMN_STATUS:
-                            FormatStatus(iRowIndex, strDocumentText);
-                            break;
+                        strDocumentText.Empty();
+                        strListPaneText.Empty();
+
+                        switch(iColumnIndex)
+                        {
+                            case COLUMN_PROJECT:
+                                FormatProjectName(iRowIndex, strDocumentText);
+                                break;
+                            case COLUMN_ACCOUNTNAME:
+                                FormatAccountName(iRowIndex, strDocumentText);
+                                break;
+                            case COLUMN_TEAMNAME:
+                                FormatTeamName(iRowIndex, strDocumentText);
+                                break;
+                            case COLUMN_TOTALCREDIT:
+                                FormatTotalCredit(iRowIndex, strDocumentText);
+                                break;
+                            case COLUMN_AVGCREDIT:
+                                FormatAVGCredit(iRowIndex, strDocumentText);
+                                break;
+                            case COLUMN_RESOURCESHARE:
+                                FormatResourceShare(iRowIndex, strDocumentText);
+                                break;
+                            case COLUMN_STATUS:
+                                FormatStatus(iRowIndex, strDocumentText);
+                                break;
+                        }
+
+                        liItem.SetColumn(iColumnIndex);
+                        m_pListPane->GetItem(liItem);
+                        strListPaneText = liItem.GetText();
+
+                        if ( !strBuffer.IsSameAs(strListPaneText) )
+                            bNeedRefreshData = true;
                     }
 
-                    liItem.SetColumn(iColumnIndex);
-                    m_pListPane->GetItem(liItem);
-                    strListPaneText = liItem.GetText();
-
-                    if ( !strBuffer.IsSameAs(strListPaneText) )
-                        bNeedRefreshData = true;
-                }
-
-                if ( bNeedRefreshData )
-                {
-                    m_pListPane->RefreshItem( iRowIndex );
+                    if ( bNeedRefreshData )
+                    {
+                        m_pListPane->RefreshItem( iRowIndex );
+                    }
                 }
             }
         }
@@ -330,12 +334,16 @@ void CViewProjects::OnListDeselected ( wxListEvent& event )
 
 wxString CViewProjects::OnListGetItemText(long item, long column) const 
 {
-    wxString strBuffer = wxEmptyString;
+    wxString       strBuffer = wxEmptyString;
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     switch(column)
     {
         case COLUMN_PROJECT:
-            if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
+            if (item == m_iCacheFrom) pDoc->CachedStateLock();
             FormatProjectName(item, strBuffer);
             break;
         case COLUMN_ACCOUNTNAME:
@@ -355,7 +363,7 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const
             break;
         case COLUMN_STATUS:
             FormatStatus(item, strBuffer);
-            if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
+            if (item == m_iCacheTo) pDoc->CachedStateUnlock();
             break;
     }
 
