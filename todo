@@ -1,6 +1,22 @@
 -----------------------
 BUGS (arranged from high to low priority)
 -----------------------
+- Allow change of email address, with verification
+    proposed scheme:
+    user enters new email address X
+    system generates random string Y,
+    changes user email address to @X_Y
+        syntactically invalid; can distinguish
+        must make sure that this isn't displayed on web site
+    emails message to X containing Y
+    at web site, user enters Y
+    system verifies that email address is of form @X_Y;
+    changes email address to X
+
+    Use this same scheme on account creation:
+    email is initially @X_Y; on first login, change to X
+
+- multiple preference sets
 - Test suspend/resume functionality on Windows,
     no way to suspend/resume on UNIX
 - "Show Graphics" menu item brings up minimized window,
