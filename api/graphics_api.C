@@ -35,6 +35,7 @@ HANDLE graphics_threadh=NULL;
 #ifndef _WIN32
 #include <cstring>
 #include <cstdarg>
+#include "x_opengl.h"
 
 #ifdef HAVE_PTHREAD
 #include <pthread.h>
@@ -48,7 +49,7 @@ HANDLE graphics_threadh=NULL;
 #include "filesys.h"
 #include "boinc_api.h"
 #include "graphics_api.h"
-#include "filesys.h"
+
 
 double boinc_max_fps = 30.;
 double boinc_max_gfx_cpu_frac = 0.5;
@@ -141,7 +142,7 @@ int boinc_init_graphics() {
     pthread_attr_t graphics_thread_attr;
 
     pthread_attr_init( &graphics_thread_attr );
-    retval = pthread_create( &graphics_thread, &graphics_thread_attr, p_graphics_loop, &gi );
+    retval = pthread_create( &graphics_thread, &graphics_thread_attr, xwin_graphics_event_loop, &gi );
     if (retval) return ERR_THREAD;
     pthread_attr_destroy( &graphics_thread_attr );
 #endif
@@ -216,4 +217,3 @@ bool throttled_app_render(int x, int y, double t) {
     }
     return false;
 }
-
