@@ -248,6 +248,21 @@ struct RESULT {
                 // defined only if active_task_state is PROCESS_SIGNALED
     int active_task_state; // the state of the active task corresponding to this result
     string stderr_out;
+        // the concatenation of:
+        //
+        // - if report_result_error() is called for this result:
+        //   <message>x</message>
+        //   <active_task_state>x</active_task_state>
+        //   <exit_status>x</exit_status>
+        //   <signal>x</signal>
+        //   - if called in FILES_DOWNLOADED state:
+        //     <couldnt_start>x</couldnt_start>
+        //   - if called in NEW state:
+        //     <download_error>x</download_error> for each failed download
+        //   - if called in COMPUTE_DONE state:
+        //     <upload_error>x</upload_error> for each failed upload
+        //
+        // - <stderr_txt>X</stderr_txt>, where X is the app's stderr output
 
     APP* app;
     WORKUNIT* wup;

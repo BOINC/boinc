@@ -8799,3 +8799,9 @@ David  30 Dec 2003
 
     sched/
         start
+
+David  30 Dec 2003
+    - added <app_version> element to <stderr_out> in RPC request message
+        
+    client/
+        client_types.C,h

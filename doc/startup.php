@@ -10,7 +10,7 @@ You can join a second and subsequent projects as follows.
 Note: if you wish, you can use different email and name
 than those of your first account.
 <li> Receive an email containing an account key (a long random string).
-<li> Run the BOINC client, and select the <b>Add Project</b> command.
+<li> Run the BOINC client, and select the <b>Attach to Project</b> command.
 Enter the project's URL and your account key.
 
 </ol>

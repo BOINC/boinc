@@ -938,6 +938,9 @@ int RESULT::write(FILE* out, bool to_server) {
     n = stderr_out.length();
     if (n) {
         fprintf(out, "<stderr_out>\n");
+        if (to_server) {
+            fprintf(out, "<app_version>%d</app_version>\n", wup->version_num);
+        }
 		fprintf(out, stderr_out.c_str());
         if (stderr_out[n-1] != '\n') fprintf(out, "\n");
         fprintf(out, "</stderr_out>\n");

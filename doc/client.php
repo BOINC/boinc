@@ -60,10 +60,10 @@ The work manager window has several tabs:
     <li>Downloading: input files are being downloaded.
     <li>Ready to run:
         An estimate of the total CPU time is shown.
-    <li>In progress: currently running.
+    <li>Running: currently running.
         Elapsed CPU time and estimated percent done is shown.
     <li>Uploading: output files are being uploaded.
-    <li>Done: waiting to notify the scheduling server.
+    <li>Ready to report: waiting to notify the scheduling server.
     </ul>
     Right-click on a work unit to:
     <ul>
@@ -108,6 +108,7 @@ The work manager's menu items are as follows:
         use this dialog to enter its address and port.
     </ul>
 <li> <b>Help</b>
+    <ul>
     <li> <b>About</b>: show work manage version number.
     </ul>
 </ul>
