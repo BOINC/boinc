@@ -303,6 +303,29 @@ int CProgressListCtrl::InsertItem(int nItem, LPCTSTR lpszItem)
 }
 
 //////////
+// CProgressListCtrl::GetColumnTitle
+// arguments:	nCol: column to get title of
+//				strTitle: reference to string to put title in
+// returns:		void
+// function:	gets the title of a column and puts it in a string,
+//				if the column is out of bounds, sets the empty string
+void CProgressListCtrl::GetColumnTitle(int nCol, CString& strTitle)
+{
+	if(nCol < 0 || nCol >= GetHeaderCtrl()->GetItemCount()) {
+		strTitle.Empty();
+		return;
+	}
+	char szTitle[256];
+	LVCOLUMN lvcol;
+	ZeroMemory(&lvcol, sizeof(LVCOLUMN));
+	lvcol.mask = LVCF_TEXT;
+	lvcol.pszText = szTitle;
+	lvcol.cchTextMax = 256;
+	GetColumn(nCol, &lvcol);
+	strTitle.Format("%s", szTitle);
+}
+
+//////////
 // CProgressListCtrl::GetColumnWidth
 // arguments:	nCol: column to get width of
 // returns:		width of column
@@ -719,6 +742,44 @@ void CProgressListCtrl::SetMenuItems(char** szTitles, int nLength)
 	}
 }
 
+void CProgressListCtrl::SaveInactive(char* szFile, char* szSection)
+{
+	CString strSection, strKey, strValue;
+	int nMax = 0;
+	for(int i = 0; i < GetItemCount(); i ++) {
+		if(GetItemData(i) != NULL) continue;
+		strSection.Format("%s-%d", szSection, nMax);
+		for(int si = 0; si < GetHeaderCtrl()->GetItemCount(); si ++) {
+			GetColumnTitle(si, strKey);
+			strValue = GetItemText(i, si);
+			WritePrivateProfileString(strSection, strKey, strValue, szFile);
+		}
+		nMax ++;
+	}
+
+	strValue.Format("%d", nMax);
+	WritePrivateProfileString(szSection, "max", strValue, szFile);
+}
+
+void CProgressListCtrl::LoadInactive(char* szFile, char* szSection)
+{
+	CString strSection, strKey;
+	char szValue[512];
+	int nMax = GetPrivateProfileInt(szSection, "max", 0, szFile);
+
+	for(int i = 0; i < nMax; i ++) {
+		strSection.Format("%s-%d", szSection, i);
+		GetColumnTitle(0, strKey);
+		GetPrivateProfileString(strSection, strKey, "", szValue, 512, szFile);
+		InsertItem(GetItemCount(), szValue);
+		for(int si = 1; si < GetHeaderCtrl()->GetItemCount(); si ++) {
+			GetColumnTitle(si, strKey);
+			GetPrivateProfileString(strSection, strKey, "", szValue, 512, szFile);
+			SetItemText(GetItemCount() - 1, si, szValue);
+		}
+	}
+}
+
 //////////
 // CProgressListCtrl::OnCreate
 // arguments:	lpcs: a pointer to the create structure
@@ -906,7 +967,7 @@ void CProgressListCtrl::OnRButtonDown(UINT nFlags, CPoint point)
 // returns:		true if the notification is processed, otherwise false
 // function:	handles notifications from children, including:
 //				user clicking a header sorts by that column.
-//				user double clicking a header does not resize it.
+//				user double clicking a header resizes it to longest string in that column.
 //				user tracking a hidden column does not resize it.
 BOOL CProgressListCtrl::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 {
@@ -937,15 +998,9 @@ BOOL CProgressListCtrl::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 		}
 
 		// find longest string and resize to its length
-		char szTitle[256];
-		int nMax = 0;
-		LVCOLUMN lvcol;
-		ZeroMemory(&lvcol, sizeof(LVCOLUMN));
-		lvcol.mask = LVCF_TEXT;
-		lvcol.pszText = szTitle;
-		lvcol.cchTextMax = 256;
-		GetColumn(phdn->iItem, &lvcol);
-		nMax = GetStringWidth(szTitle) + 12;
+		CString strTitle;
+		GetColumnTitle(phdn->iItem, strTitle);
+		int nMax = GetStringWidth(strTitle) + 12;
 		for(int i = 0; i < GetItemCount(); i ++) {
 			CString strBuf;
 			strBuf = GetItemText(i, phdn->iItem);

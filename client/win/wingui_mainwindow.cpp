@@ -549,6 +549,44 @@ void CMainWindow::SetStatusIcon(DWORD dwMessage)
 }
 
 //////////
+// CMainWindow::SaveListControls
+// arguments:	void
+// returns:		void
+// function:	saves relevant elements of list controls
+void CMainWindow::SaveListControls()
+{
+	char szPath[256];
+	CString strKey, strVal;
+	GetCurrentDirectory(256, szPath);
+	strcat(szPath, "\\");
+	strcat(szPath, LIST_STATE_FILE_NAME);
+	file_delete(szPath);
+	m_ProjectListCtrl.SaveInactive(szPath, "PROJECTS");
+	m_ResultListCtrl.SaveInactive(szPath, "WORK");
+	m_XferListCtrl.SaveInactive(szPath, "TRANSFERS");
+	m_MessageListCtrl.SaveInactive(szPath, "MESSAGES");
+}
+
+//////////
+// CMainWindow::LoadListControls
+// arguments:	void
+// returns:		void
+// function:	loads relevant elements of list controls
+void CMainWindow::LoadListControls()
+{
+	char szPath[256];
+	CString strKey, strVal;
+	GetCurrentDirectory(256, szPath);
+	strcat(szPath, "\\");
+	strcat(szPath, LIST_STATE_FILE_NAME);
+	m_ProjectListCtrl.LoadInactive(szPath, "PROJECTS");
+	m_ResultListCtrl.LoadInactive(szPath, "WORK");
+	m_XferListCtrl.LoadInactive(szPath, "TRANSFERS");
+	m_MessageListCtrl.LoadInactive(szPath, "MESSAGES");
+	file_delete(szPath);
+}
+
+//////////
 // CMainWindow::SaveUserSettings
 // arguments:	void
 // returns:		void
@@ -871,6 +909,29 @@ void CMainWindow::Syncronize(CProgressListCtrl* pProg, vector<void*>* pVect)
 void CMainWindow::PostNcDestroy()
 {
     delete this;
+}
+
+//////////
+// CMainWindow::SetTimeOut
+// arguments:	void
+// returns:		void
+// function:	creates a thread to signal a timeout
+void CMainWindow::SetTimeOut()
+{
+	CreateThread(NULL, 0, TimeOutThreadProc, GetSafeHwnd(), NULL, NULL);
+}
+
+//////////
+// CMainWindow::TimeOutThreadProc
+// arguments:	hWnd: handle to window to signal cast as LPVOID
+// returns:		true for success, false otherwise
+// function:	sleeps for some time then signals the given window
+DWORD CMainWindow::TimeOutThreadProc(LPVOID hWnd)
+{
+	CWnd* pWnd = CWnd::FromHandle((HWND)hWnd);
+	Sleep(GUI_REFRESH);
+	pWnd->SendMessage(WM_TIMER, 0, 0);
+	return 1;
 }
 
 //////////
@@ -1258,6 +1319,7 @@ void CMainWindow::OnCommandExit()
 	}
 
 	SaveUserSettings();
+	SaveListControls();
 	CWnd::OnClose();
 }
 
@@ -1406,7 +1468,7 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 		OnCommandExit();
 		return 0;
 	}
-    SetTimer(ID_TIMER, GUI_REFRESH, 0);
+	SetTimeOut();
 
 	// load dll and start idle detection
 	m_hIdleDll = LoadLibrary("boinc.dll");
@@ -1430,6 +1492,8 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	}
 
 	LoadUserSettings();
+	LoadListControls();
+
 	CMenu* ConMenu = NULL;
 	ConMenu = m_MainMenu.GetSubMenu(2);
 	if(ConMenu) {
@@ -1621,8 +1685,6 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 //				and updates gui display.
 void CMainWindow::OnTimer(UINT uEventID)
 {
-	KillTimer(ID_TIMER);
-
 	// update state and gui
 	while(gstate.do_something());
 	NetCheck(); // need to check if network connection can be terminated
@@ -1642,6 +1704,5 @@ void CMainWindow::OnTimer(UINT uEventID)
 
 		UpdateGUI(&gstate);
 	}
-
-    SetTimer(ID_TIMER, GUI_REFRESH, 0);
+	SetTimeOut();
 }

@@ -90,11 +90,14 @@ public:
 	int						InsertColumn(int, LPCTSTR, int, int, int);
 	int						InsertItem(int, LPCTSTR);
 	void					GetTextRect(int, int, LPRECT);
+	void					GetColumnTitle(int, CString&);
 	int						GetColumnWidth(int);
 	BOOL					SetColumnWidth(int, int);
 	void					SetItemColor(int, COLORREF);
 	void					SetProjectURL(int, char*);
 	void					SetMenuItems(char**, int);
+	void					SaveInactive(char*, char*);
+	void					LoadInactive(char*, char*);
 
 protected:
 	CMenu					m_PopupMenu;			// context menu for header

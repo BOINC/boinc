@@ -114,6 +114,8 @@ protected:
 	COLORREF				GetPieColor(int);
     void					ShowTab(int);
     void					SetStatusIcon(DWORD);
+    void					SaveListControls();
+    void					LoadListControls();
     void					SaveUserSettings();
     void					LoadUserSettings();
 	void					LoadLanguage();
@@ -121,6 +123,8 @@ protected:
 	void					Syncronize(CProgressListCtrl*, vector<void*>*);
 	void					SyncronizePie(CPieChartCtrl*, vector<PROJECT*>*);
     virtual void			PostNcDestroy();
+	void					SetTimeOut();
+	static DWORD WINAPI		TimeOutThreadProc(LPVOID);
 	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 
     afx_msg void			OnClose();
@@ -147,6 +151,7 @@ protected:
     afx_msg void			OnSize(UINT, int, int);
 	afx_msg LRESULT			OnStatusIcon(WPARAM, LPARAM);
 	afx_msg void			OnTimer(UINT); 
+
     DECLARE_MESSAGE_MAP()
 };
 
