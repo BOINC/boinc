@@ -861,7 +861,7 @@ bool ACTIVE_TASK::get_trickle_up_msg() {
 bool ACTIVE_TASK_SET::get_msgs() {
     unsigned int i;
     ACTIVE_TASK *atp;
-    double now = dtime(), old_time;
+    double old_time;
     bool action = false;
 
     for (i=0; i<active_tasks.size(); i++) {
@@ -869,7 +869,7 @@ bool ACTIVE_TASK_SET::get_msgs() {
         if (!atp->process_exists()) continue;
         old_time = atp->checkpoint_cpu_time;
         if (atp->get_app_status_msg()) {
-            //atp->estimate_frac_rate_of_change(now);
+            //atp->estimate_frac_rate_of_change(dtime());
             if (old_time != atp->checkpoint_cpu_time) {
                 action = true;
             }
