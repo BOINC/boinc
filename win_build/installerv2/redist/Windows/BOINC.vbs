@@ -268,7 +268,7 @@ Function ValidateSetupType()
 
     strSetupType = Property("SETUPTYPE")
     If (Len(strSetupType) <> 0) Then
-        If ( strSetupType = "Single" ) Then
+        If ( strSetupType = "Single" Or strSetupType = "Service" ) Then
             If (Property("ALLUSERS") <> "") Then
 			    oRecord.IntegerData(1) = 25002
 			    Message msiMessageTypeFatalExit, oRecord

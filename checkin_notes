@@ -24034,3 +24034,15 @@ Rom    5 Feb 2005
 Rom    5 Feb 2005
     - Tag for 4.66 release, all platforms
       boinc_core_release_4_66
+
+Rom    5 Feb 2005
+    - Bug Fix: Remove the Users group from the service install type ACL list.
+    - Bug Fix: Set ALLUSERS to null when either the Single or Service install
+        type is selected
+    - Bug Fix: Adjust the validate setup type script to account for the new
+        rules
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/windows
+        BOINC.vbs
