@@ -51,7 +51,8 @@ extern int create_result(
 extern int create_work(
     DB_WORKUNIT& wu,
     const char* wu_template,
-    const char* result_template,
+    const char* result_template_filename,
+    const char* result_template_filepath,
     const char* infile_dir,
     const char** infiles,
     int ninfiles,

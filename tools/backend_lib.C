@@ -279,6 +279,7 @@ int create_work(
     DB_WORKUNIT& wu,
     const char* _wu_template,
     const char* result_template_filename,
+    const char* result_template_filepath,
     const char* infile_dir,
     const char** infiles,
     int ninfiles,
@@ -309,10 +310,10 @@ int create_work(
     }
 
     retval = read_filename(
-        result_template_filename, _result_template, sizeof(_result_template)
+        result_template_filepath, _result_template, sizeof(_result_template)
     );
     if (retval) {
-        fprintf(stderr, "create_work: can't read result template\n");
+        fprintf(stderr, "create_work: can't read result template file %s\n", result_template_filepath);
         return retval;
     }
 

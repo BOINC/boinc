@@ -14981,3 +14981,13 @@ Brian  9 July 2004
 
     sched/
         sched_send.C
+
+Jeff  9 July 2004
+    - create_work() now take a new parameter - the path to the result template
+      file.  This was needed because some programs (eg the sah splitter) are
+      not run from the project root directory.
+
+    tools/
+	backend_lib.C 
+	backend_lib.h 
+	create_work.C

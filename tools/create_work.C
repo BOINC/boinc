@@ -61,7 +61,7 @@ int main(int argc, char** argv) {
     DB_WORKUNIT wu;
     int retval;
     char wu_template[LARGE_BLOB_SIZE];
-    char wu_template_file[256], result_template_file[256];
+    char wu_template_file[256], result_template_file[256], result_template_path[1024];
     char keyfile[256];
     char** infiles = NULL;
     int i, ninfiles;
@@ -182,10 +182,13 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
+    strcpy(result_template_path, "./");
+    strcat(result_template_path, result_template_file);
     retval = create_work(
         wu,
         wu_template,
         result_template_file,
+	result_template_path,
         download_dir,
         const_cast<const char **>(infiles),
         ninfiles,
