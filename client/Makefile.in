@@ -209,8 +209,9 @@ boinc_client_SOURCES = \
 
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
-boinc_client_LDADD = $(RSA_LIBS)
 boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS)
+boinc_client_LDADD = $(RSA_LIBS)
+boinc_client_LDFLAGS = -static -static-libgcc
 
 speed_stats_SOURCES = speed_stats.C
 speed_stats_CFLAGS = -O6 $(AM_CFLAGS)
@@ -256,7 +257,6 @@ am_boinc_client_OBJECTS = boinc_client-main.$(OBJEXT) \
 	boinc_client-md5.$(OBJEXT) boinc_client-crypt.$(OBJEXT) \
 	boinc_client-util.$(OBJEXT)
 boinc_client_OBJECTS = $(am_boinc_client_OBJECTS)
-boinc_client_LDFLAGS =
 am_speed_stats_OBJECTS = speed_stats.$(OBJEXT)
 speed_stats_OBJECTS = $(am_speed_stats_OBJECTS)
 speed_stats_LDADD = $(LDADD)
