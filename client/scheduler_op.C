@@ -333,7 +333,7 @@ bool SCHEDULER_OP::poll() {
     default:
         break;
     }
-    if (log_flags.sched_op_debug && action) printf("SCHEDULER_OP::poll\n);
+    if (log_flags.sched_op_debug && action) printf("SCHEDULER_OP::poll\n");
     return action;
 }
 

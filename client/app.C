@@ -395,7 +395,6 @@ bool ACTIVE_TASK_SET::poll() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
-	    found = true;
             // Get the elapsed CPU time
             if (GetProcessTimes(atp->pid_handle, &creation_time, &exit_time, &kernel_time, &user_time)) {
                 tKernel.LowPart = kernel_time.dwLowDateTime;
@@ -413,6 +412,7 @@ bool ACTIVE_TASK_SET::poll() {
                 atp->result->final_cpu_time = ((double)clock())/CLOCKS_PER_SEC;
             }
             if (exit_code != STILL_ACTIVE) {
+		found = true;
                 // Not sure how to incorporate the other states (WAS_SIGNALED, etc)
                 atp->state = PROCESS_EXITED;
                 atp->exit_status = exit_code;
