@@ -1,6 +1,24 @@
 <title>Core client: debugging</title> 
 <body bgcolor=ffffff>
 <h2>Core client: debugging</h2>
+<h3>Command-line options</h3> 
+<p>
+Some command-line options intended for debugging:
+<dl>
+<dt> -exit_when_idle 
+<dd> Exit when we're not working on anything and a scheduling server
+gives a "no work" return.
+<dt> -no_time_test
+<dd> Don't run performance benchmarks; used fixed numbers instead.
+<dt> -exit_after N
+<dd> Exit after about N seconds
+<dt> -giveup_after N
+<dd> Give up on file transfers after N seconds (default is 2 weeks)
+<dt> -limit_transfer_rate N
+<dd> Limit total network traffic to N bytes/sec.
+<dt> -min
+<dd> Put client in the background after starting up
+
 <h3>Logging and error output</h3> 
 <p>
 The core client writes error messages to stderr.

@@ -3,7 +3,6 @@ BUGS (arranged from high to low priority)
 -----------------------
 - Suspend/resume not fully functional on Windows,
     no way to suspend/resume on UNIX
-- Currently, if there are multiple CPUs they work on the same result
 - "Show Graphics" menu item brings up minimized window,
     client does not remember window size/pos after close/reopen,
     window closes and does not reopen when workunit finishes

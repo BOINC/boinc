@@ -1076,8 +1076,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             exit_after = atoi(argv[++i]);
             continue;
         }
-        // Give up on file transfers after x seconds.
-        // Default value is 1209600 (2 weeks)
+
         if (!strcmp(argv[i], "-giveup_after")) {
             giveup_after = atoi(argv[++i]);
             continue;
@@ -1088,7 +1087,6 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             continue;
         }
 
-        // Put the client in the background after starting up
         if (!strcmp(argv[i], "-min")) {
             minimize = true;
             continue;
