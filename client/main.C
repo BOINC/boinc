@@ -86,8 +86,11 @@ int main(int argc, char** argv) {
     if (retval) exit(retval);
     while (1) {
         if (!gstate.do_something()) {
-            boinc_sleep(1);
-            if (log_flags.time_debug) printf("SLEEP 1 SECOND\n");
+            double x;
+            gstate.net_sleep(1.);
+            x = 1;
+            //boinc_sleep(1);
+            if (log_flags.time_debug) printf("SLEPT %f SECONDS\n", x);
             fflush(stdout);
         }
 

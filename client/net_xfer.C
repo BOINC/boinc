@@ -191,8 +191,9 @@ int NET_XFER_SET::remove(NET_XFER* nxp) {
     return 1;
 }
 
-// transfer data to/from a list of active streams
-// transfer at most max_bytes bytes.
+// Transfer data to/from active streams
+// Nonblocking; keep doing I/O until would block.
+// Transfer at most max_bytes bytes.
 // TODO: implement other bandwidth constraints (ul/dl ratio, time of day)
 //
 int NET_XFER_SET::poll(int max_bytes, int& bytes_transferred) {
@@ -202,9 +203,6 @@ int NET_XFER_SET::poll(int max_bytes, int& bytes_transferred) {
     bytes_transferred = 0;
     while (1) {
 		timeout.tv_sec = timeout.tv_usec = 0;
-#ifndef _WIN32
-        timeout.tv_sec = 1;
-#endif
         retval = do_select(max_bytes, n, timeout);
         if (retval) return retval;
         if (n == 0) break;
@@ -215,9 +213,24 @@ int NET_XFER_SET::poll(int max_bytes, int& bytes_transferred) {
     return 0;
 }
 
+// Wait at most x seconds for network I/O to become possible,
+// then do some of it.
+//
+int NET_XFER_SET::net_sleep(double x) {
+    int n, retval;
+    struct timeval timeout;
+
+    timeout.tv_sec = (int)x;
+    timeout.tv_usec = (int)(1000000*(x - (int)x));
+    retval = do_select(100000000, n, timeout);
+    return retval;
+}
+
 // do a select and do I/O on as many sockets as possible.
 // 
-int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred, struct timeval timeout) {
+int NET_XFER_SET::do_select(
+    int max_bytes, int& bytes_transferred, timeval& timeout
+) {
     struct timeval zeros;
     int n, fd, retval;
     socklen_t i;
@@ -253,7 +266,8 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred, struct timeva
         }
         FD_SET(net_xfers[i]->socket, &error_fds);
     }
-    n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &zeros);
+    //n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &zeros);
+    n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &timeout);
     if (log_flags.net_xfer_debug) printf("select returned %d\n", n);
     if (n == 0) return 0;
     if (n < 0) return ERR_SELECT;

@@ -63,6 +63,13 @@ public:
     int restart_tasks();
     int cleanup_and_exit();
     bool do_something();
+        // Initiates and completes actions (file transfers, process executions)
+        // Never blocks.
+        // Returns true if it actually did something,
+        // in which case it should be called again immediately.
+    int net_sleep(double dt);
+        // sleeps until either dt seconds have elapsed,
+        // or until there's network activity.
     void parse_cmdline(int argc, char** argv);
     void parse_env_vars();
     bool time_to_exit();

@@ -38,12 +38,13 @@ public:
     bool want_download;     // at most one should be true
     bool want_upload;
     bool do_file_io;
-    // whether poll() should transfer data to/from file
-    // (in which case "file" and blocksize are relevant)
-    // or just set io_ready
+        // whether poll() should transfer data to/from file
+        // (in which case "file" and blocksize are relevant)
+        // or just set io_ready
     bool io_done;           // got error or EOF
     FILE* file;
     bool io_ready;
+        // can read or write socket now (used if !do_file_io)
     int error;
     char hostname[256];
     int port;
@@ -63,7 +64,8 @@ public:
     int insert(NET_XFER*);
     int remove(NET_XFER*);
     int poll(int max_bytes, int& bytes_transferred);
-    int do_select(int max_bytes, int& bytes_transferred, struct timeval timeout);
+    int net_sleep(double);
+    int do_select(int max_bytes, int& bytes_transferred, timeval& timeout);
     NET_XFER* lookup_fd(int);   // lookup by fd
 };
 

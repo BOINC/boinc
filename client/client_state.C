@@ -375,10 +375,14 @@ static void print_log(char* p) {
     }
 }
 
-// do_something is where all the action happens.
-// Each of the client's finite-state machine layers is polled,
+int CLIENT_STATE::net_sleep(double x) {
+    return net_xfers->net_sleep(x);
+}
+
+// do_something polls each of the client's finite-state machine layers,
 // possibly triggering state transitions.
 // Returns true if something happened
+// (in which case should call this again immediately)
 //
 bool CLIENT_STATE::do_something() {
     int nbytes=0;
@@ -390,14 +394,19 @@ bool CLIENT_STATE::do_something() {
 
     print_log("Polling; active layers:\n");
     if (activities_suspended) {
-    print_log("None (suspended)\n");
+        print_log("None (suspended)\n");
     } else {
         // Call these functions in bottom to top order with
         // respect to the FSM hierarchy
 
-        if (max_bytes > 0)
+        if (max_bytes > 0) {
             net_xfers->poll(max_bytes, nbytes);
-        if (nbytes) { max_bytes -= nbytes; action=true; print_log("net_xfers\n"); }
+        }
+        if (nbytes) {
+            max_bytes -= nbytes;
+            action=true;
+            print_log("net_xfers\n");
+        }
 
         x = http_ops->poll();
         if (x) {action=true; print_log("http_ops\n"); }
