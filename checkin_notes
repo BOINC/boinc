@@ -18707,3 +18707,9 @@ David  20 Oct 2004
 
     api/
         graphics_api.C
+
+David  21 Oct 2004
+    - fix to get_file_transfers RPC (from Sebastian Masch)
+
+    client/
+        gui_rpc_server.C
