@@ -15,11 +15,14 @@
     project_intro();
 
     echo "
+<br><br>
+<table cellpadding=8>
+<tr><td width=40%>
 <h3>Join ".PROJECT." </h3>
 <p>
 <ul>
 <li><a href=".URL_BASE."info.php>Rules and policies <b>[read this first]</b></a>
-<li><a href=".URL_BASE."create_account_form.php>Create an account</a>
+<li><a href=".URL_BASE."create_account_form.php>Create account</a>
 </ul>
 
 <h3>Returning participants</h3>
@@ -45,6 +48,16 @@
 <li><a href=".URL_BASE."stats.php>XML statistics data</a>
 </ul>
 -->
+</td>
+<td valign=top bgcolor=dddddd>
+<center>
+<h3>News</h3>
+</center>
+";
+project_news();
+echo "
+</td>
+</tr></table>
 <!--
 ";
 

@@ -198,10 +198,10 @@ function row1($x, $ncols=2) {
 function row2($x, $y) {
     if ($x=="") $x="<br>";
     if ($y=="") $y="<br>";
-    echo "<tr><td class=fieldname bgcolor=eeeeee width=50% align=right valign=top>$x</td><td valign=top><b>$y</b></td></tr>\n";
+    echo "<tr><td class=fieldname bgcolor=eeeeee width=40% align=right valign=top>$x</td><td valign=top><b>$y</b></td></tr>\n";
 }
 function row2_init($x, $y) {
-    echo "<tr><td class=fieldname bgcolor=eeeeee width=50% align=right valign=top>$x</td><td valign=top><b>$y\n";
+    echo "<tr><td class=fieldname bgcolor=eeeeee width=40% align=right valign=top>$x</td><td valign=top><b>$y\n";
 }
 
 function row2_plain($x, $y) {

@@ -163,6 +163,7 @@ struct USER {
     int seti_nresults;              // number of WUs completed
     int seti_last_result_time;      // time of last result (UNIX)
     double seti_total_cpu;          // number of CPU seconds
+    char signature[256];
     void clear();
 };
 

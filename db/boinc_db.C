@@ -186,6 +186,7 @@ void DB_USER::db_print(char* buf){
     escape_single_quotes(global_prefs);
     escape_single_quotes(project_prefs);
     escape_single_quotes(url);
+    escape_single_quotes(signature);
     sprintf(buf,
         "id=%d, create_time=%d, email_addr='%s', name='%s', "
         "authenticator='%s', "
@@ -195,7 +196,7 @@ void DB_USER::db_print(char* buf){
         "teamid=%d, venue='%s', url='%s', send_email=%d, show_hosts=%d, "
         "posts=%d, "
         "seti_id=%d, seti_nresults=%d, seti_last_result_time=%d, "
-        "seti_total_cpu=%.15e",
+        "seti_total_cpu=%.15e, signature='%s'",
         id,
         create_time,
         email_addr,
@@ -217,7 +218,8 @@ void DB_USER::db_print(char* buf){
         seti_id,
         seti_nresults,
         seti_last_result_time,
-        seti_total_cpu
+        seti_total_cpu,
+        signature
     );
     unescape_single_quotes(email_addr);
     unescape_single_quotes(name);
@@ -226,6 +228,7 @@ void DB_USER::db_print(char* buf){
     unescape_single_quotes(global_prefs);
     unescape_single_quotes(project_prefs);
     unescape_single_quotes(url);
+    unescape_single_quotes(signature);
 }
 
 void DB_USER::db_parse(MYSQL_ROW &r) {
@@ -253,6 +256,7 @@ void DB_USER::db_parse(MYSQL_ROW &r) {
     seti_nresults = safe_atoi(r[i++]);
     seti_last_result_time = safe_atoi(r[i++]);
     seti_total_cpu = safe_atof(r[i++]);
+    strcpy2(signature, r[i++]);
 }
 
 void DB_TEAM::db_print(char* buf){

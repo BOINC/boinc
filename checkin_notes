@@ -7916,3 +7916,17 @@ Karl 2003-11-28
 
     client/
         cs_cmdline.C
+
+David  28 Nov 2003
+    - added "signature" field to user table;
+        when making forum postings,
+        users have the option of appending signature
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    html_user/
+        edit_user_info_action.php
+        edit_user_info_form.php
+        index.php
+        util.inc
