@@ -122,7 +122,6 @@ int boinc_init() {
 }
 
 int boinc_init_options(BOINC_OPTIONS& opt) {
-    FILE* f;
     int retval;
     options = opt;
 
