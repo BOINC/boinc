@@ -326,7 +326,10 @@ int dir_size(char* dirpath, double& size) {
 
 int boinc_copy(char* orig, char* newf) {
 #ifdef _WIN32
-	return !CopyFile(orig, newf, FALSE);
+	if(CopyFile(orig, newf, FALSE))
+		return 0;
+	else
+		return GetLastError();
 #else
 	char cmd[256];
 	sprintf(cmd, "cp %s %s", orig, newf);

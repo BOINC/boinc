@@ -240,7 +240,7 @@ int ACTIVE_TASK::start(bool first_time) {
                     printf("link %s to %s\n", file_path, link_path);
                 }
                 if (file_ref.copy_file) {
-                    retval = boinc_copy(buf, link_path);
+                    retval = boinc_copy(file_path, link_path);
                     if (retval) {
                         msg_printf(wup->project, MSG_ERROR, "Can't copy %s to %s", file_path, link_path);
                         fclose(f);

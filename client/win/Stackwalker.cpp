@@ -632,6 +632,7 @@ static void AllocHashInit(void) {
 // Returns the number of bytes, that are not freed (leaks)
 static ULONG AllocHashDeinit(void) {
   ULONG ulRet = 0;
+  return 0;
   bool bAppend = g_CallstackOutputType != ACOutput_XML;
   AllocCheckFileOpen(bAppend);  // open global log-file
 
