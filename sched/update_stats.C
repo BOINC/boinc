@@ -98,7 +98,14 @@ int update_teams() {
 
     while (!team.enumerate()) {
         retval = get_team_credit(team);
-        if (retval) return retval;
+        if (retval) {
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "update_teams: get_team_credit([TEAM#%d]) failed: %d\n",
+                team.id,
+                retval);
+            return retval;
+        }
 
         // update the team record
         retval = team.update();
