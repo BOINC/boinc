@@ -5562,3 +5562,10 @@ David  Aug 7 2003
         login_action.php
         results_host.php
         workunit.php (new)
+
+Karl 2003/08/07
+    Start tasks in order of earliest report_deadline
+
+    client/
+        client_state.h
+        cs_apps.C
