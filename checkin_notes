@@ -19611,3 +19611,17 @@ Rom    17 Nov 2004
         app_ipc.C, .h
         gui_rpc_client.C, .h
         gui_test.C
+
+Bruce 17 Nov 2004
+     - Fixed RESULT form on ops page so that it now covers correctly
+       all possible states (including ones with value 0) and
+       eliminated the 'Unknown' values that previously appeared on the
+       form.  These were in error.  This is a clean fix, by defining (for example)
+       outcome='CHOOSE_ALL', eg a non-numerical value, for the 'select ALL' case.
+     - Added a select menu for validate_state to the RESULT form.
+     - In forms for outcome, validate_state, client_state and server_state, indicate
+       numeric values (helpful if using additional clauses for more sophisticated queries)
+    html/inc/
+        db_ops.inc
+    html/ops/
+        db_form.php

@@ -59,7 +59,9 @@ echo "<!--\$Id$ -->\n";
         echo "<tr><td align=right>Client state</td><td>";
         client_state_select();
         echo "</td></tr>\n";
-
+        echo "<tr><td align=right>Validate state</td><td>";
+        validate_state_select();
+        echo "</td></tr>\n";
         echo "<tr><td align=right>Sort by</td><td>";
         result_sort_select();
         echo "</td></tr>\n";

@@ -123,16 +123,12 @@ class SqlQueryString {
             $this->urlquery .= "&$name=".urlencode($value);
         }
     }
-    function addeqnz($name) {
+    function addeq_not_CHOOSE_ALL($name) {
         $value = $_GET[$name];
-        if (strlen($value) && $value > 0) {
-            $this->add("$name = '$value'");
-            $this->urlquery .= "&$name=".urlencode($value);
-        }
-    }
-    function addeqn100($name) {
-        $value = $_GET[$name];
-        if (strlen($value) && $value != 100) {
+        // On the selection menu, the ALL selection criteria sets (for example)
+        // outcome=='CHOOSE_ALL' rather than a numeric value.  This means that
+        // we enter no condition for this case.
+        if (strlen($value) && strcmp("CHOOSE_ALL", $value)) {
             $this->add("$name = '$value'");
             $this->urlquery .= "&$name=".urlencode($value);
         }
@@ -191,10 +187,10 @@ class SqlQueryString {
             $_GET['received_time'] = time() - $_GET['nsecs'];
         }
         $this->addgt('received_time');
-        $this->addeqnz('server_state');
-        $this->addeqn100('outcome');
-        $this->addeqnz('client_state');
-        $this->addeqnz('validate_state');
+        $this->addeq_not_CHOOSE_ALL('server_state');
+        $this->addeq_not_CHOOSE_ALL('outcome');
+        $this->addeq_not_CHOOSE_ALL('client_state');
+        $this->addeq_not_CHOOSE_ALL('validate_state');
         if ($_GET['clauses']) {
             $this->addclause("( " . urldecode($_GET['clauses']) . " )");
         }
@@ -390,10 +386,10 @@ if ($query_wuid)
 function server_state_select() {
     echo "
         <select name=server_state>
-        <option value=0 selected> Any
+        <option value='CHOOSE_ALL' selected> Any
     ";
-    for($i=1; $i<=6; $i++) {
-        echo "<option value=$i> ".server_state_string($i) . "\n";
+    for($i=1; $i<6; $i++) {
+        echo "<option value=$i> "."[$i]&nbsp;&nbsp;".'   '.server_state_string($i)."</option>\n";
     }
     echo "</select>\n";
 }
@@ -401,10 +397,21 @@ function server_state_select() {
 function outcome_select() {
     echo "
         <select name=outcome>
-        <option value=100 selected> Any
+        <option value='CHOOSE_ALL' selected> Any
     ";
-    for($i=0; $i<=6; $i++) {
-        echo "<option value=$i> ".outcome_string($i) . "\n";
+    for($i=0; $i<7; $i++) {
+        echo "<option value=$i> "."[$i]&nbsp;&nbsp;".'   '.outcome_string($i)."</option>\n";
+    }
+    echo "</select>\n";
+}
+
+function validate_state_select() {
+    echo "
+        <select name=validate_state>
+        <option value='CHOOSE_ALL' selected> Any
+    ";
+    for($i=0; $i<4; $i++) {
+        echo "<option value=$i> "."[$i]&nbsp;&nbsp;".'   '.validate_state_str($i)."</option>\n";
     }
     echo "</select>\n";
 }
@@ -412,10 +419,10 @@ function outcome_select() {
 function client_state_select() {
     echo "
         <select name=client_state>
-        <option value=0 selected> Any
+        <option value='CHOOSE_ALL' selected> Any
     ";
-    for($i=1; $i<=6; $i++) {
-        echo "<option value=$i> ".client_state_string($i) . "\n";
+    for($i=0; $i<6; $i++) {
+        echo "<option value=$i> "."[$i]&nbsp;&nbsp;".client_state_string($i)."</option>\n";
     }
     echo "</select>\n";
 }
@@ -680,6 +687,7 @@ function server_state_string($s) {
     case 4: return "In Progress";
     case 5: return "Over";
     }
+    echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
     return "Unknown";
 }
 
@@ -693,6 +701,7 @@ function outcome_string($s) {
     case 5: return "Didn't need";
     case 6: return "Validate error";
     }
+    echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
     return "Unknown";
 }
 
@@ -705,6 +714,7 @@ function client_state_string($s) {
     case 4: return "Uploading";
     case 5: return "Done";
     }
+    echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
     return "Unknown";
 }
 
@@ -715,6 +725,7 @@ function validate_state_str($s) {
     case 2: return "Invalid";
     case 3: return "Skipped";
     }
+    echo "<b>THIS IS AN INTERNAL BUG IN BOINC: PLEASE CONTACT BOINC DEVELOPERS</b><br/>";
     return "Unknown";
 }
 
