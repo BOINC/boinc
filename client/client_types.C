@@ -1079,6 +1079,7 @@ void WORKUNIT::clear_errors() {
         }
     }
 }
+
 int RESULT::parse_ack(FILE* in) {
     char buf[256];
 
