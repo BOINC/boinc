@@ -5,9 +5,7 @@ echo "
 <h2>Make skeletal project</h2>
 <ul>
 <li> Compile the BOINC software, say into HOME/boinc.
-<li> Create a directory <b>projects</b> in your home directory
-<li> cd into HOME/boinc/tools
-<li> run make_project
+<li> run HOME/boinc/tools/make_project
 <li> paste text into httpd.conf
 <li> insert cron job
 <li> xadd project.xml
@@ -24,9 +22,8 @@ Visible result: the project web site is up.
 (if you're in a hurry, use the test application).
 <li> Copy the executable to HOME/projects/PROJECTNAME>/apps/APPNAME
 <li> cd to HOME/projects/PROJECTNAME/bin
-<li> run update_versions, type y or return.
-<li> cd to HOME/projects/PROJECTNAME
-<li> type bin/stop, then bin/start
+<li> run ./update_versions, type y or return.
+<li> run ./stop && ./start
 </ul>
 
 Visible result: the web site's Applications page has an entry.
@@ -49,7 +46,7 @@ Visible result: 'status' shows everything running.
 
 <h2>Test the system</h2>
 <ul>
-<li> Create a client directory, say HOME/boinc_client.
+<li> Create a client directory (on the same computer or different computer), say HOME/boinc_client.
 Copy the core client there.
 <li> Using the web interface, create an account on the project.
 <li> Run the core client;

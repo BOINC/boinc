@@ -10119,3 +10119,9 @@ Rom    Feb 23 2004
 
 	api/win/
 		stackwalker.cpp
+
+Karl 2004-02-23
+    - cookbook changes
+
+    doc/
+        project_cookbook.php
