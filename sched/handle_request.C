@@ -702,8 +702,8 @@ bool wrong_core_client_version(
             wrong_version = true;
             sprintf(msg,
                 "To participate in this project, "
-                "you must use version %d.02%d or higher of the BOINC core client.  "
-                "Your core client is version %d.02%d.",
+                "you must use version %d.%02d or higher of the BOINC core client.  "
+                "Your core client is version %d.%02d.",
                 major, minor,
                 sreq.core_client_major_version, sreq.core_client_minor_version
             );
@@ -977,7 +977,7 @@ int delete_file_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& sreply) {
         );
 
         sprintf(buf,
-            "No disk space (BOINC needs %.1f MB more).  ",
+            "No disk space (you must free %.1f MB before BOINC gets space).  ",
             fabs(max_allowable_disk(sreq))/1.e6
         );
 
@@ -1106,9 +1106,9 @@ void handle_request(
 	//
     if (sreply.results.size()==0 && (sreply.wreq.insufficient_disk || sreply.wreq.disk_available<0)) {
         // try to delete a file to make more space.
-		// Also give some hints to the user about what's going wrong
-		// (lack of disk space).
-		//
+        // Also give some hints to the user about what's going wrong
+        // (lack of disk space).
+        //
         delete_file_from_host(sreq, sreply);
     }
     
