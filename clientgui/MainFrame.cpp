@@ -278,6 +278,8 @@ bool CMainFrame::CreateNotebook()
     pPanelSizer->Add(0, 4);
     pPanelSizer->Add(pNotebookSizer, 1, wxEXPAND);
 
+
+    // create the various notebook pages
     CreateNotebookPage( new CViewProjects( m_pNotebook ) );
     CreateNotebookPage( new CViewWork( m_pNotebook ) );
     CreateNotebookPage( new CViewTransfers( m_pNotebook ) );
@@ -285,10 +287,10 @@ bool CMainFrame::CreateNotebook()
     CreateNotebookPage( new CViewResources( m_pNotebook ) );
 
 
-    // Have the panel calculate everything after the6 pages are created so
+    // Have the panel calculate everything after the pages are created so
     //   the Mac can display the Html control width correctly
-    pPanel->SetAutoLayout(true);
     pPanel->SetSizerAndFit(pPanelSizer);
+    pPanel->SetAutoLayout(TRUE);
 
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateNotebook - Function End"));
