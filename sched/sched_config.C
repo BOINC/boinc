@@ -56,8 +56,8 @@ int SCHED_CONFIG::parse(char* buf) {
     if (match_tag(buf, "<homogeneous_redundancy/>")) {
         homogeneous_redundancy = true;
     }
-    if (match_tag(buf, "<trickle_down/>")) {
-        trickle_down = true;
+    if (match_tag(buf, "<msg_to_host/>")) {
+        msg_to_host = true;
     }
     if (match_tag(buf, "<ignore_upload_certificates/>")) {
         ignore_upload_certificates = true;

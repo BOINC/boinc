@@ -50,6 +50,8 @@ bool do_pass(APP& app) {
     DB_RESULT canonical_result, result;
     bool did_something = false;
     char buf[256];
+    // int retval;
+
 
     check_stop_daemons();
 

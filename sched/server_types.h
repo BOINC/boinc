@@ -27,10 +27,10 @@
 #include "result_state.h"
 #include "md5_file.h"
 
-struct TRICKLE_UP_DESC {
+struct MSG_FROM_HOST_DESC {
     char result_name[256];
     int send_time;
-    string trickle_text;
+    string msg_text;
     int parse(FILE*);
 };
 
@@ -75,7 +75,7 @@ struct SCHEDULER_REQUEST {
     HOST host;      // request message is parsed into here.
                     // does NOT contain the full host record.
     vector<RESULT> results;
-    vector<TRICKLE_UP_DESC> trickles;
+    vector<MSG_FROM_HOST_DESC> msgs_from_host;
 
     SCHEDULER_REQUEST();
     ~SCHEDULER_REQUEST();
@@ -107,7 +107,7 @@ struct SCHEDULER_REPLY {
     vector<MSG_TO_HOST>msgs_to_host;
     char code_sign_key[4096];
     char code_sign_key_signature[4096];
-    bool send_trickle_up_ack;
+    bool send_msg_ack;
     bool update_user_record;
 
     SCHEDULER_REPLY();

@@ -544,69 +544,69 @@ inline static const char* get_remote_addr() {
     return r ? r : "?.?.?.?";
 }
 
-void handle_trickle_ups(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+void handle_msgs_from_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     unsigned int i;
     DB_RESULT result;
     DB_MSG_FROM_HOST mfh;
     int retval;
     char buf[256];
 
-    for (i=0; i<sreq.trickles.size(); i++) {
-        reply.send_trickle_up_ack = true;
-        TRICKLE_UP_DESC& td = sreq.trickles[i];
-        sprintf(buf, "where name='%s'", td.result_name);
+    for (i=0; i<sreq.msgs_from_host.size(); i++) {
+        reply.send_msg_ack = true;
+        MSG_FROM_HOST_DESC& md = sreq.msgs_from_host[i];
+        sprintf(buf, "where name='%s'", md.result_name);
         retval = result.lookup(buf);
+        // Method for checking if message was linked to result
+        // no longer used, may have to find new way of checking validity
+        // of message
+        /*
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::NORMAL,
-                "[HOST#%d] trickle up: no result %s\n", 
-                reply.host.id, td.result_name
+                "[HOST#%d] msg_from_host: no result %s\n",
+                reply.host.id, md.result_name
             );
             continue;
         }
         if (reply.user.id != result.userid) {
             log_messages.printf(SCHED_MSG_LOG::NORMAL,
-                "[HOST#%d] trickle up: wrong user ID %d, %d\n", 
+                "[HOST#%d] msg_from_host: wrong user ID %d, %d\n",
                 reply.host.id, reply.user.id, result.userid
             );
             continue;
         }
         if (reply.host.id != result.hostid) {
             log_messages.printf(SCHED_MSG_LOG::NORMAL,
-                "[HOST#%d] trickle up: wrong host ID %d\n", 
+                "[HOST#%d] msg_from_host: wrong host ID %d\n",
                 reply.host.id, result.hostid
             );
             continue;
-        }
+            }
+        */
         mfh.clear();
         mfh.create_time = time(0);
-        mfh.send_time = td.send_time;
-        mfh.variety = result.appid;
+        mfh.send_time = md.send_time;
         mfh.hostid = reply.host.id;
         mfh.handled = false;
-        sprintf(buf, "<result_name>%s</result_name>\n", td.result_name);
-        string foobar;
-        foobar = buf;
-        foobar += td.trickle_text;
-        safe_strcpy(mfh.xml, foobar.c_str());
+        safe_strcpy(mfh.xml, md.msg_text.c_str());
         retval = mfh.insert();
         if (retval) {
             log_messages.printf(SCHED_MSG_LOG::CRITICAL,
-                "[HOST#%d] trickle insert failed: %d\n", 
+                "[HOST#%d] message insert failed: %d\n",
                 reply.host.id, retval
             );
         }
     }
 }
 
-void handle_trickle_downs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+void handle_msgs_to_host(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     DB_MSG_TO_HOST mth;
     char buf[256];
-
     sprintf(buf, "where hostid = %d", reply.host.id);
     while (!mth.enumerate(buf)) {
         reply.msgs_to_host.push_back(mth);
         mth.handled = true;
         mth.update();
+
     }
 }
 
@@ -713,9 +713,9 @@ void process_request(
 
     send_code_sign_key(sreq, reply, code_sign_key);
 
-    handle_trickle_ups(sreq, reply);
-    if (config.trickle_down) {
-        handle_trickle_downs(sreq, reply);
+    handle_msgs_from_host(sreq, reply);
+    if (config.msg_to_host) {
+        handle_msgs_to_host(sreq, reply);
     }
 
     update_host_record(reply.host);
@@ -747,6 +747,6 @@ void handle_request(
         strcpy(sreply.message_priority, "low");
         sreply.nucleus_only = true;
     }
-    
+
     sreply.write(fout);
 }

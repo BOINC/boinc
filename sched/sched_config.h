@@ -36,7 +36,7 @@ public:
     char upload_url[256];
     char upload_dir[256];
     bool one_result_per_user_per_wu;
-    bool trickle_down;
+    bool msg_to_host;
     int min_sendwork_interval;
     int max_wus_to_send;
     bool non_cpu_intensive;

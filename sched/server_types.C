@@ -128,11 +128,11 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (match_tag(buf, "<code_sign_key>")) {
             copy_element_contents(fin, "</code_sign_key>", code_sign_key, sizeof(code_sign_key));
         }
-        else if (match_tag(buf, "<trickle_up>")) {
-            TRICKLE_UP_DESC td;
-            retval = td.parse(fin);
+        else if (match_tag(buf, "<msg_from_host>")) {
+            MSG_FROM_HOST_DESC md;
+            retval = md.parse(fin);
             if (!retval) {
-                trickles.push_back(td);
+                msgs_from_host.push_back(md);
             }
         } else {
             log_messages.printf(SCHED_MSG_LOG::NORMAL, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
@@ -141,21 +141,20 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     return ERR_XML_PARSE;
 }
 
-int TRICKLE_UP_DESC::parse(FILE* fin) {
+int MSG_FROM_HOST_DESC::parse(FILE* fin) {
     char buf[256];
 
-    trickle_text = "";
+    msg_text = "";
     while (fgets(buf, 256, fin)) {
-        if (match_tag(buf, "</trickle_up>")) return 0;
+        if (match_tag(buf, "</msg_from_host>")) return 0;
         if (parse_int(buf, "<time>", send_time)) continue;
-        if (parse_str(buf, "<result_name>", result_name, sizeof(result_name))) continue;
         if (match_tag(buf, "<text>")) {
             while (fgets(buf, 256, fin)) {
                 if (match_tag(buf, "</text>")) break;
-                trickle_text += buf;
+                msg_text += buf;
             }
         } else {
-            log_messages.printf(SCHED_MSG_LOG::NORMAL, "TRICKLE_UP_DESC::parse(): unrecognized: %s\n", buf);
+            log_messages.printf(SCHED_MSG_LOG::NORMAL, "MSG_FROM_HOST_DESC::parse(): unrecognized: %s\n", buf);
         }
     }
     return ERR_XML_PARSE;
@@ -174,7 +173,7 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     memset(&team, 0, sizeof(team));
     nucleus_only = false;
     probable_user_browser = false;
-    send_trickle_up_ack = false;
+    send_msg_ack = false;
     strcpy(email_hash, "");
     update_user_record = false;
 }
@@ -313,12 +312,15 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         fputs(code_sign_key_signature, fout);
         fputs("</code_sign_key_signature>\n", fout);
     }
-    if (send_trickle_up_ack) {
-        fputs("<trickle_up_ack/>\n", fout);
+    if (send_msg_ack) {
+        fputs("<message_ack/>\n", fout);
     }
+    // changed implimentation so that messages have no flags
+    // that say they are messages unless specified in the xml
+    // portion in the MSG_TO_HOST object.
     for (i=0; i<msgs_to_host.size(); i++) {
-        MSG_TO_HOST& mth = msgs_to_host[i];
-        fprintf(fout, "%s", mth.xml);
+        MSG_TO_HOST& md = msgs_to_host[i];
+        fprintf(fout, "%s\n", md.xml);
     }
     if (config.non_cpu_intensive) {
         fprintf(fout, "<non_cpu_intensive/>\n");
@@ -388,7 +390,7 @@ int RESULT::parse_from_client(FILE* fin) {
     char buf[256];
 
     // should be non-zero if exit_status is not found
-    exit_status = ERR_NO_EXIT_STATUS; 
+    exit_status = ERR_NO_EXIT_STATUS;
     memset(this, 0, sizeof(RESULT));
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</result>")) return 0;
