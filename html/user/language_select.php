@@ -54,12 +54,17 @@ for ($i=0; $i<sizeof($languages);$i++){
 //    row3($im,
     row2(
         "<a href=\"language_select.php?set_lang=".$languages[$i]."\">".$languages[$i]."</a>",
-        "<a href=\"language_select.php?set_lang=".$languages[$i]."\">".$lang_international[$i]." (".$lang_native[$i].")</a>"
+        "<a href=\"language_select.php?set_lang=".$languages[$i]."\">".$lang_international[$i]."</a>"
     );
 }
 end_table();
-echo "<p>You can always go back to automatic language selection by pressing
-    <a href=\"language_select.php?set_lang=auto\">this link</a></p>
+$prefs = $HTTP_SERVER_VARS["HTTP_ACCEPT_LANGUAGE"];
+echo "
+    <p>
+    For language selection based on your Web browser preferences,
+    <a href=\"language_select.php?set_lang=auto\">click here</a>.
+    <p>
+    Your current Web browser preferences are: <pre>$prefs</pre>
 ";
 page_tail();
 ?>

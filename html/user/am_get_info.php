@@ -36,7 +36,8 @@ $postal_code = urlencode($user->postal_code);
 $url = urlencode($user->url);
 
 success(
-"<name>$name</name>
+"<id>$user->id</id>
+<name>$name</name>
 <country>$country</country>
 <postal_code>$postal_code</postal_code>
 <global_prefs>
