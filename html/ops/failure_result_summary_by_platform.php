@@ -1,4 +1,4 @@
-<?php {
+<?php
 
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
@@ -109,4 +109,4 @@ echo "</table>\n";
 
 page_tail();
 
-} ?>
+?>

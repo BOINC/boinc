@@ -1,4 +1,4 @@
-<?php {
+<?php
     require_once("../inc/util_ops.inc");
     require_once("../inc/db_ops.inc");
 
@@ -186,4 +186,4 @@
     }
 
     admin_page_tail();
-} ?>
+?>

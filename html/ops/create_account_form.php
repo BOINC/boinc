@@ -1,4 +1,4 @@
-<?
+<?php
 // use this to create accounts while regular account creation is disabled
 
 require_once("../inc/util_ops.inc");

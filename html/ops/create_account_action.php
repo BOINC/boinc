@@ -1,4 +1,4 @@
-<?
+<?php
     require_once("../inc/util_ops.inc");
     require_once("../inc/util.inc");
 

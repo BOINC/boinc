@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("../inc/db.inc");
 
 db_init();

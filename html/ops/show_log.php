@@ -1,6 +1,4 @@
-<?php {
-
-    // $Id$
+<?php
 
     // grep logs for a particular string
 
@@ -36,4 +34,4 @@
     passthru("cd $log_dir && ../bin/grep_logs -html -l $l '$s' $f 2>&1 $lines");
 
     page_tail();
-} ?>
+?>
