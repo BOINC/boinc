@@ -53,10 +53,6 @@ class front_Result:
     def __repr__(self):
         return '<Result#%s %s WU#%s %s>'%(self.id, self.name, self.workunit.id, self.workunit.name)
 
-class front_Workseq:
-    def __repr__(self):
-        return '<Workseq#%s>'%(self.id)
-
 MixIn(database.Project, front_Project)
 MixIn(database.Platform, front_Platform)
 MixIn(database.CoreVersion, front_CoreVersion)
@@ -67,4 +63,3 @@ MixIn(database.Team, front_Team)
 MixIn(database.Host, front_Host)
 MixIn(database.Workunit, front_Workunit)
 MixIn(database.Result, front_Result)
-MixIn(database.Workseq, front_Workseq)

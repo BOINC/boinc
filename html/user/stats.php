@@ -18,11 +18,18 @@ and the files are
 
 <p>
 This data can be summarized and represented as Web pages.
-An example (implemented using PHP) is at
-<a href=http://www.boinc.dk/index.php?page=statistics>http://www.boinc.dk</a>.
-If you are interested in using or contributing to this code,
-please contact the developer,
-<a href=mailto:stats@boinc.dk>Janus Kristensen</a>.
+Examples:
+<ul>
+<li>
+<a href=http://www.boinc.dk/index.php?page=statistics>http://www.boinc.dk</a>,
+developed by <a href=mailto:stats@boinc.dk>Janus Kristensen</a>.
+<li>
+<a href=http://www.saschapfalz.de/boincstats/boinc-stats.php>boincstats</a>,
+developed by Sascha Pfalz.
+</ul>
+Both systems are implemented using PHP.
+If you are interested in participating in these efforts,
+please contact the developers.
 ";
 
 page_tail();

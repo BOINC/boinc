@@ -267,8 +267,7 @@ database_classes_ = [ Project,
                       Team,
                       Host,
                       Workunit,
-                      Result,
-                      Workseq ]
+                      Result ]
 
 Projects     = Project._table
 Platforms    = Platform._table
@@ -280,6 +279,5 @@ Teams        = Team._table
 Hosts        = Host._table
 Workunits    = Workunit._table
 Results      = Result._table
-Workseqs     = Workseq._table
 
 init_table_classes(database_classes_,{'canonical_result': Result})
