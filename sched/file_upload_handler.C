@@ -144,7 +144,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
             // enforce limits in signed XML
             if (nbytes > file_info.max_nbytes) {
                 sprintf(buf,
-                    "nbytes too large: %f > %d",
+                    "nbytes too large: %f > %f",
                     nbytes, file_info.max_nbytes
                 );
                 print_status(-1, buf);

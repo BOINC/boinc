@@ -844,3 +844,9 @@ David Anderson      July 4, 2002
         create_work.C
         process_result_template.C
 
+David   July 4, 2002
+    - fixed compile problems on linux.
+        use kill() instead of sigsend()
+    
+    client/app.C
+    sched/file_upload_handler.C

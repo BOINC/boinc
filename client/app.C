@@ -33,7 +33,6 @@
 #endif
 #include <sys/types.h>
 #include <sys/signal.h>
-#include <sys/procset.h>
 #include <fcntl.h>
 #include <ctype.h>
 #include <signal.h>
@@ -254,15 +253,15 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
 
 #ifdef _WIN32
-		PROCESS_INFORMATION process_info;
-		STARTUPINFO startup_info;
-		HINSTANCE inst;
+    PROCESS_INFORMATION process_info;
+    STARTUPINFO startup_info;
+    HINSTANCE inst;
 
-		memset( &process_info, 0, sizeof( process_info ) );
-		memset( &startup_info, 0, sizeof( startup_info ) );
-		startup_info.cb = sizeof(startup_info);
-		startup_info.lpReserved = NULL;
-		startup_info.lpDesktop = "";
+    memset( &process_info, 0, sizeof( process_info ) );
+    memset( &startup_info, 0, sizeof( startup_info ) );
+    startup_info.cb = sizeof(startup_info);
+    startup_info.lpReserved = NULL;
+    startup_info.lpDesktop = "";
 
     // hook up stderr to a specially-named file (do this inside the new process)
     //
@@ -281,23 +280,24 @@ int ACTIVE_TASK::start(bool first_time) {
         NULL,
         dirname,
         &startup_info,
-        &process_info ) ) {
-    state = GetLastError();
-    LPVOID lpMsgBuf;
-    FormatMessage( 
-        FORMAT_MESSAGE_ALLOCATE_BUFFER | 
-				FORMAT_MESSAGE_FROM_SYSTEM | 
-				FORMAT_MESSAGE_IGNORE_INSERTS,
-				NULL,
-				state,
-				0, // Default language
-				(LPTSTR) &lpMsgBuf,
-				0,
-				NULL
-				);
-			MessageBox( NULL, (LPCTSTR)lpMsgBuf, "Error", MB_OK | MB_ICONINFORMATION );
-		}
-		pid_handle = process_info.hProcess;
+        &process_info )
+    ) {
+        state = GetLastError();
+        LPVOID lpMsgBuf;
+        FormatMessage( 
+            FORMAT_MESSAGE_ALLOCATE_BUFFER | 
+            FORMAT_MESSAGE_FROM_SYSTEM | 
+            FORMAT_MESSAGE_IGNORE_INSERTS,
+            NULL,
+            state,
+            0, // Default language
+            (LPTSTR) &lpMsgBuf,
+            0,
+            NULL
+        );
+        MessageBox( NULL, (LPCTSTR)lpMsgBuf, "Error", MB_OK | MB_ICONINFORMATION );
+    }
+    pid_handle = process_info.hProcess;
 
 
 #endif
@@ -311,9 +311,9 @@ int ACTIVE_TASK::start(bool first_time) {
 
 void ACTIVE_TASK::request_exit(int seconds) {
     int retval;
-    retval = sigsend(P_PID, pid, SIGTERM);
+    retval = kill(pid, SIGTERM);
     sleep(seconds);
-    if(retval) sigsend(P_PID, pid, SIGKILL);
+    if(retval) kill(pid, SIGKILL);
 }
 
 int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
@@ -336,45 +336,45 @@ bool ACTIVE_TASK_SET::poll() {
     int n;
 
 #ifdef _WIN32
-	unsigned long exit_code;
-	int i;
-	FILETIME creation_time, exit_time, kernel_time, user_time;
-	ULARGE_INTEGER tKernel, tUser;
-	LONGLONG totTime;
+    unsigned long exit_code;
+    int i;
+    FILETIME creation_time, exit_time, kernel_time, user_time;
+    ULARGE_INTEGER tKernel, tUser;
+    LONGLONG totTime;
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if( GetExitCodeProcess( atp->pid_handle,&exit_code ) ) {
-			// Get the elapsed CPU time
-			// Factor this into the equivalent of a S@H etime function?
-			if( GetProcessTimes( atp->pid_handle, &creation_time, &exit_time, &kernel_time, &user_time ) ) {
-				tKernel.LowPart = kernel_time.dwLowDateTime;
-				tKernel.HighPart = kernel_time.dwHighDateTime;
+            // Get the elapsed CPU time
+            // Factor this into the equivalent of a S@H etime function?
+            if( GetProcessTimes( atp->pid_handle, &creation_time, &exit_time, &kernel_time, &user_time ) ) {
+                tKernel.LowPart = kernel_time.dwLowDateTime;
+                tKernel.HighPart = kernel_time.dwHighDateTime;
 	
-				tUser.LowPart = user_time.dwLowDateTime;
-				tUser.HighPart = user_time.dwHighDateTime;
+                tUser.LowPart = user_time.dwLowDateTime;
+                tUser.HighPart = user_time.dwHighDateTime;
 	
-				// Runtimes in 100-nanosecond units
-				totTime = tKernel.QuadPart + tUser.QuadPart;
+                // Runtimes in 100-nanosecond units
+                totTime = tKernel.QuadPart + tUser.QuadPart;
 
-				atp->result->cpu_time = (totTime / 10000000.0);
-			} else {
-				atp->result->cpu_time = ((double)clock())/CLOCKS_PER_SEC;
-			}
-			if( exit_code != STILL_ACTIVE ) {
-				// Not sure how to incorporate the other states (WAS_SIGNALED, etc)
-				atp->state = PROCESS_EXITED;
-				atp->exit_status = exit_code;
-				atp->result->exit_status = atp->exit_status;
-			}
-		} else {
-			// Not sure what to do here
-		}
+                atp->result->cpu_time = (totTime / 10000000.0);
+            } else {
+                atp->result->cpu_time = ((double)clock())/CLOCKS_PER_SEC;
+            }
+            if( exit_code != STILL_ACTIVE ) {
+                // Not sure how to incorporate the other states (WAS_SIGNALED, etc)
+                atp->state = PROCESS_EXITED;
+                atp->exit_status = exit_code;
+                atp->result->exit_status = atp->exit_status;
+            }
+        } else {
+            // Not sure what to do here
+        }
     }
 
-	if( atp == NULL ) {
-		return false;
-	}
+    if( atp == NULL ) {
+        return false;
+    }
 #endif
 
 #ifdef unix
