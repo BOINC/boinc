@@ -133,3 +133,7 @@
 #define ERR_TIMEOUT         -182
 #define ERR_PROJECT_DOWN    -183
 #define ERR_HTTP_ERROR      -184
+#define ERR_RESULT_START    -185
+#define ERR_RESULT_DOWNLOAD -186
+#define ERR_RESULT_UPLOAD   -187
+

@@ -1000,6 +1000,9 @@ int CLIENT_STATE::report_result_error(
     if ((res.state == RESULT_FILES_DOWNLOADED) && err_num) {
         sprintf(buf,"<couldnt_start>%d</couldnt_start>\n", err_num);
         res.stderr_out.append(buf);
+        if (!res.exit_status) {
+            res.exit_status = ERR_RESULT_START;
+        }
     }
 
     if (res.state == RESULT_NEW) {
@@ -1014,6 +1017,9 @@ int CLIENT_STATE::report_result_error(
                 );
                 res.stderr_out.append(buf);
             }
+        }
+        if (!res.exit_status) {
+            res.exit_status = ERR_RESULT_DOWNLOAD;
         }
     }
 
@@ -1030,9 +1036,12 @@ int CLIENT_STATE::report_result_error(
                 res.stderr_out.append(buf);
             }
         }
+        if (!res.exit_status) {
+            res.exit_status = ERR_RESULT_UPLOAD;
+        }
     }
 
-	res.stderr_out = res.stderr_out.substr(0,MAX_BLOB_LEN-1);
+    res.stderr_out = res.stderr_out.substr(0,MAX_BLOB_LEN-1);
     return 0;
 }
 

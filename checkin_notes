@@ -14799,3 +14799,19 @@ Rom    7 July 2004
 
     client/
         main.C
+
+Daniel 2004-07-07
+    - client: set the result exit_code to a non-zero value when:
+          1. the result couldn't start
+          2. the result had a download error
+          3. the result had an upload error
+      (unless the exit_code was already non-zero)
+
+      This should get the validator to mark these results as invalid
+      and solve the problem the predictor@home people reported.
+
+    client/
+        client_state.C
+    lib/
+        error_numbers.h
+
