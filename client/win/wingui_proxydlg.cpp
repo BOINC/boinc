@@ -117,28 +117,28 @@ BOOL CProxyServerDlg::OnInitDialog()
 
     LoadLanguage();
 
-    m_strHTTPProxyServerAddress = gstate.pi.http_server_name;
-    m_uiHTTPProxyServerPort = gstate.pi.http_server_port;
-    m_strHTTPProxyServerUsername = gstate.pi.http_user_name;
-    m_strHTTPProxyServerPassword = gstate.pi.http_user_passwd;
-    m_strSOCKSProxyServerAddress = gstate.pi.socks_server_name;
-    m_uiSOCKSProxyServerPort = gstate.pi.socks_server_port;
-    m_strSOCKSProxyServerUsername = gstate.pi.socks5_user_name;
-    m_strSOCKSProxyServerPassword = gstate.pi.socks5_user_passwd;
+    m_strHTTPProxyServerAddress = gstate.proxy_info.http_server_name;
+    m_uiHTTPProxyServerPort = gstate.proxy_info.http_server_port;
+    m_strHTTPProxyServerUsername = gstate.proxy_info.http_user_name;
+    m_strHTTPProxyServerPassword = gstate.proxy_info.http_user_passwd;
+    m_strSOCKSProxyServerAddress = gstate.proxy_info.socks_server_name;
+    m_uiSOCKSProxyServerPort = gstate.proxy_info.socks_server_port;
+    m_strSOCKSProxyServerUsername = gstate.proxy_info.socks5_user_name;
+    m_strSOCKSProxyServerPassword = gstate.proxy_info.socks5_user_passwd;
 
-    if (gstate.pi.use_http_proxy) {
+    if (gstate.proxy_info.use_http_proxy) {
         m_UseHTTPProxyServerCtrl.SetCheck(BST_CHECKED);
     } else {
         m_UseHTTPProxyServerCtrl.SetCheck(BST_UNCHECKED);
     }
 
-    if (gstate.pi.use_socks_proxy) {
+    if (gstate.proxy_info.use_socks_proxy) {
         m_UseSOCKSProxyServerCtrl.SetCheck(BST_CHECKED);
     } else {
         m_UseSOCKSProxyServerCtrl.SetCheck(BST_UNCHECKED);
     }
 
-    if (gstate.pi.use_http_auth) {
+    if (gstate.proxy_info.use_http_auth) {
         m_UseHTTPProxyAuthenticationCtrl.SetCheck(BST_CHECKED);
     } else {
         m_UseHTTPProxyAuthenticationCtrl.SetCheck(BST_UNCHECKED);
@@ -203,19 +203,19 @@ void CProxyServerDlg::OnOK()
 {
     UpdateData(TRUE);
 
-    gstate.pi.use_http_proxy = (m_UseHTTPProxyServerCtrl.GetCheck() != BST_UNCHECKED);
-    safe_strncpy(gstate.pi.http_server_name, m_strHTTPProxyServerAddress.GetBuffer(), sizeof(gstate.pi.http_server_name));
-    gstate.pi.http_server_port = m_uiHTTPProxyServerPort;
+    gstate.proxy_info.use_http_proxy = (m_UseHTTPProxyServerCtrl.GetCheck() != BST_UNCHECKED);
+    safe_strncpy(gstate.proxy_info.http_server_name, m_strHTTPProxyServerAddress.GetBuffer(), sizeof(gstate.proxy_info.http_server_name));
+    gstate.proxy_info.http_server_port = m_uiHTTPProxyServerPort;
 
-    gstate.pi.use_http_auth = (m_UseHTTPProxyAuthenticationCtrl.GetCheck() != BST_UNCHECKED);
-    safe_strncpy(gstate.pi.http_user_name, m_strHTTPProxyServerUsername.GetBuffer(), sizeof(gstate.pi.http_user_name));
-    safe_strncpy(gstate.pi.http_user_passwd, m_strHTTPProxyServerPassword.GetBuffer(), sizeof(gstate.pi.http_user_passwd));
+    gstate.proxy_info.use_http_auth = (m_UseHTTPProxyAuthenticationCtrl.GetCheck() != BST_UNCHECKED);
+    safe_strncpy(gstate.proxy_info.http_user_name, m_strHTTPProxyServerUsername.GetBuffer(), sizeof(gstate.proxy_info.http_user_name));
+    safe_strncpy(gstate.proxy_info.http_user_passwd, m_strHTTPProxyServerPassword.GetBuffer(), sizeof(gstate.proxy_info.http_user_passwd));
 
-	gstate.pi.use_socks_proxy = (m_UseSOCKSProxyServerCtrl.GetCheck() != BST_UNCHECKED);
-    safe_strncpy(gstate.pi.socks_server_name, m_strSOCKSProxyServerAddress.GetBuffer(), sizeof(gstate.pi.socks_server_name));
-    gstate.pi.socks_server_port = m_uiSOCKSProxyServerPort;
-    safe_strncpy(gstate.pi.socks5_user_name, m_strSOCKSProxyServerUsername.GetBuffer(), sizeof(gstate.pi.socks5_user_name));
-    safe_strncpy(gstate.pi.socks5_user_passwd, m_strSOCKSProxyServerPassword.GetBuffer(), sizeof(gstate.pi.socks5_user_passwd));
+	gstate.proxy_info.use_socks_proxy = (m_UseSOCKSProxyServerCtrl.GetCheck() != BST_UNCHECKED);
+    safe_strncpy(gstate.proxy_info.socks_server_name, m_strSOCKSProxyServerAddress.GetBuffer(), sizeof(gstate.proxy_info.socks_server_name));
+    gstate.proxy_info.socks_server_port = m_uiSOCKSProxyServerPort;
+    safe_strncpy(gstate.proxy_info.socks5_user_name, m_strSOCKSProxyServerUsername.GetBuffer(), sizeof(gstate.proxy_info.socks5_user_name));
+    safe_strncpy(gstate.proxy_info.socks5_user_passwd, m_strSOCKSProxyServerPassword.GetBuffer(), sizeof(gstate.proxy_info.socks5_user_passwd));
 
     m_strHTTPProxyServerAddress.ReleaseBuffer();
     m_strHTTPProxyServerUsername.ReleaseBuffer();
@@ -225,9 +225,9 @@ void CProxyServerDlg::OnOK()
     m_strSOCKSProxyServerPassword.ReleaseBuffer();
 
     if (m_strSOCKSProxyServerUsername.IsEmpty()) {
-        gstate.pi.socks_version = SOCKS_VERSION_4;
+        gstate.proxy_info.socks_version = SOCKS_VERSION_4;
     } else {
-        gstate.pi.socks_version = SOCKS_VERSION_5;
+        gstate.proxy_info.socks_version = SOCKS_VERSION_5;
     }
 
     gstate.set_client_state_dirty(_T("CProxyServerDlg::OnOK"));

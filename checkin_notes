@@ -17783,6 +17783,8 @@ David  25 Sept 2004
         gui_rpc_server.C
         pers_file_xfer.C,h
         scheduler_op.C
+		win/
+			wingui_proxydlg.cpp
     lib/
         gui_rpc_client.C,h
         gui_test.C
