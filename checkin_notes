@@ -26248,3 +26248,9 @@ David  28 Mar 2005
             am_set_info.php
             confirm_email_change.php
             login_action.php
+
+Rom    28 Mar 2005
+    - Bug Fix: Keep people from rating posts if their RAC falls below 5.0
+
+    html/inc/
+        forum.inc
