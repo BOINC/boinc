@@ -27,7 +27,8 @@ Required on the <b>database</b> server:
 </ul>
 After installing and running the server,
 grant permissions for your own account and for
-the account under which Apache runs:
+the account under which Apache runs
+('nobody' in the following; may be different on your machine):
 <pre>
     mysql -u root
     grant all on *.* to yourname@localhost;

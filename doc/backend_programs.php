@@ -20,9 +20,9 @@ for registering the workunits in the database.
 <p>
 During testing, you can create a single workunit using
 <a href=tools_work.php#cmdline>create_work</a>,
-then use
+then use the daemon program
 <a href=tools_work.php#make_work>make_work</a>
-to make copies as needed to maintain a supply of work.
+to copy this workunit as needed to maintain a given supply of work.
 
 <h3>Transitioning</h3>
 <p>

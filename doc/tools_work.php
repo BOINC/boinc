@@ -14,17 +14,26 @@ A WU template file has the form
 <pre>",htmlspecialchars("
 <file_info>
     <number>0</number>
-    [ ... ]
+    [ <sticky/>, other attributes]
 </file_info>
 [ ... ]
 <workunit>
     <file_ref>
-        <number>0</number>
+        <file_number>0</file_number>
         <open_name>NAME</open_name>
     </file_ref>
     [ ... ]
     [ <command_line>-flags xyz</command_line> ]
     [ <env_vars>name=val&name=val</env_vars> ]
+    [ <rsc_fpops_est>x</rsc_fpops_est> ]
+    [ <rsc_fpops_bound>x</rsc_fpops_bound> ]
+    [ <rsc_memory_bound>x</rsc_memory_bounds> ]
+    [ <rsc_disk_bound>x</rsc_disk_bounds> ]
+    [ <delay_bound>x</delay_bound> ]
+    [ <min_quorum>x</min_quorum> ]
+    [ <target_nresults>x</target_nresults> ]
+    [ <max_error_results>x</max_error_results> ]
+    [ <max_total_results>x</max_total_results> ]
 </workunit>
 "), "
 </pre>
@@ -32,12 +41,15 @@ The components are:
 ";
 list_start();
 list_item(htmlspecialchars("<file_info>, <file_ref>"),
-"Each pair describes an input file");
+"Each pair describes an <a href=files.php>input file</a>");
 list_item(htmlspecialchars("<command_line>"),
 "The command-line arguments to be passed to the main program.");
 list_item(htmlspecialchars("<env_vars>"),
 "A list of environment variables in the form
 name=value&name=value&name=value.");
+list_item("Other elements",
+    "<a href=work.php>Work unit attributes</a>"
+);
 list_end();
 echo"
 When a workunit is created, the template file is processed as follows:
@@ -49,7 +61,8 @@ It is replaced with elements giving
 the filename, download URL, MD5 checksum, and size.
 <li>
 Within a &lt;file_ref> element,
-&lt;file_number>x&lt;/file_number> is replaced with the filename.
+&lt;file_number>x&lt;/file_number> is replaced with an element
+giving the filename.
 </ul>
 <h3>Result template files</h3>
 <p>
@@ -90,6 +103,8 @@ create_work
     -wu_name name                      // workunit name
     -wu_template filename              // WU template filename
     -result_template filename          // result template filename
+
+    // The following are normally supplied in config.xml:
     [ -db_name x ]                     // database name
     [ -db_passwd x ]                   // database password
     [ -db_host x ]                     // database host
@@ -97,17 +112,20 @@ create_work
     [ -upload_url x ]                  // URL for output file upload
     [ -download_url x ]                // base URL for input file download
     [ -download_dir x ]                // where to move input files
+    [ -keyfile x ]                     // path of upload private key
+
+    // The following are normally supplied in the WU template:
     [ -rsc_fpops_est x ]
     [ -rsc_fpops_bound x ]
     [ -rsc_memory_bound x ]
     [ -rsc_disk_bound x ]
-    [ -keyfile x ]                     // path of upload private key
     [ -delay_bound x ]
     [ -min_quorum x ]
     [ -target_nresults x ]
     [ -max_error_results x ]
     [ -max_total_results x ]
     [ -max_success_results x ]
+
     infile_1 ... infile_m           // input files
 </pre>
 The workunit parameters are documented <a href=work.php>here</a>.
@@ -155,10 +173,11 @@ delay_bound
 </pre>
 All other fields should be zeroed.
 
+<hr>
 <a name=make_work>
 <h3>Make_work</h3>
 <p>
-The program
+The daemon program
 <pre>
 make_work -wu_name name -cushion N
 </pre>

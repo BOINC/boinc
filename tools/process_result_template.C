@@ -109,6 +109,9 @@ int remove_signatures(char* xml) {
 // - replace OUTFILE_x with base_filename_x, etc.
 // - add signatures for file uploads
 //
+// This is called only from the transitioner,
+// to create a new result for a WU
+//
 int process_result_template(
     char* result_template,
     R_RSA_PRIVATE_KEY& key,
@@ -145,6 +148,7 @@ int process_result_template(
 }
 
 // macro-substitute a result template only for UPLOAD_URL_MACRO
+// This is called (from create_work()) when a WU is being created
 //
 int process_result_template_upload_url_only(
     char* result_template,

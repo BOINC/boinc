@@ -3,6 +3,7 @@
 require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 
+$logged_in_user = get_logged_in_user();
 if ($_POST['submit']) {    
     
     if (empty($_GET['id'])) {
@@ -13,13 +14,21 @@ if ($_POST['submit']) {
         
     $post = getPost($_GET['id']);
     $thread = getThread($post->thread);
+
+    if ($logged_in_user->id != $post->user) {
+        // Can't edit other's posts.
+        echo "You are not authorized to edit this post.";
+        exit();
+    }
     
     updatePost($post->id, $_POST['content']);
+    if ($post->parent_post==0){
+        updateThread($thread->id, $_POST['title']);
+    }
 
     header('Location: thread.php?id='.$thread->id);
 }
 
-$logged_in_user = get_logged_in_user();
 
 page_head('Forum', $logged_in_user, NULL, 'forum.css');
 
@@ -45,6 +54,14 @@ show_forum_title($forum, $thread, $category->is_helpdesk);
 echo "<form action=\"edit.php?id=", $post->id, "\" method=\"POST\">";
 
 start_forum_table(array("Edit Your Post"), array(NULL), 2);
+if ($post->parent_post==0) {
+	//If this is the first post enable the user to change title
+    echo "<tr>
+	    <td style=\"vertical-align:top\"><b>Thread title</b></td>
+	    <td><input type=\"text\" name=\"title\" value=\"".stripslashes($thread->title)."\"></td>
+	    </tr>"
+	;
+};
 
 echo "
     <tr>

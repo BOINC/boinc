@@ -25,8 +25,10 @@
 
 #include "boinc_db.h"
 #include "crypt.h"
+#include "error_numbers.h"
 #include "md5_file.h"
 #include "parse.h"
+#include "util.h"
 
 #include "backend_lib.h"
 
@@ -53,12 +55,13 @@ int read_filename(const char* path, char* buf) {
 // process WU template
 //
 static int process_wu_template(
-    const char* wu_name, char* tmplate, char* out,
+    WORKUNIT& wu, char* tmplate,
     const char* dirpath, const char** infiles, int n,
     const char* upload_url, const char* download_url
 ) {
     char* p;
     char buf[MEDIUM_BLOB_SIZE], md5[33], path[256];
+    char out[LARGE_BLOB_SIZE];
     int retval, file_number;
     double nbytes;
     char open_name[256];
@@ -68,45 +71,89 @@ static int process_wu_template(
     p = strtok(tmplate, "\n");
     while (p) {
         if (match_tag(p, "<file_info>")) {
-        } else if (parse_int(p, "<number>", file_number)) {
-        } else if (match_tag(p, "</file_info>")) {
-            sprintf(path, "%s/%s", dirpath, infiles[file_number]);
-            retval = md5_file(path, md5, nbytes);
-            if (retval) {
-                fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
-                return 1;
+            file_number = -1;
+            strcat(out, "<file_info>\n");
+            while (1) {
+                p = strtok(0, "\n");
+                if (!p) break;
+                if (parse_int(p, "<number>", file_number)) {
+                    continue;
+                } else if (match_tag(p, "</file_info>")) {
+                    if (file_number < 0) {
+                        fprintf(stderr, "No file number found\n");
+                        return ERR_XML_PARSE;
+                    }
+                    sprintf(path, "%s/%s", dirpath, infiles[file_number]);
+                    retval = md5_file(path, md5, nbytes);
+                    if (retval) {
+                        fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
+                        return retval;
+                    }
+                    sprintf(buf,
+                        "    <name>%s</name>\n"
+                        "    <url>%s/%s</url>\n"
+                        "    <md5_cksum>%s</md5_cksum>\n"
+                        "    <nbytes>%.0f</nbytes>\n"
+                        "</file_info>\n",
+                        infiles[file_number],
+                        download_url, infiles[file_number],
+                        md5,
+                        nbytes
+                    );
+                    strcat(out, buf);
+                    break;
+                } else {
+                    strcat(out, p);
+                    strcat(out, "\n");
+                }
             }
-            sprintf(buf,
-                "<file_info>\n"
-                "    <name>%s</name>\n"
-                "    <url>%s/%s</url>\n"
-                "    <md5_cksum>%s</md5_cksum>\n"
-                "    <nbytes>%.0f</nbytes>\n"
-                "</file_info>\n",
-                infiles[file_number],
-                download_url, infiles[file_number],
-                md5,
-                nbytes
-            );
-            strcat(out, buf);
         } else if (match_tag(p, "<workunit>")) {
             found = true;
             strcat(out, "<workunit>\n");
         } else if (match_tag(p, "</workunit>")) {
             strcat(out, "</workunit>\n");
         } else if (match_tag(p, "<file_ref>")) {
-        } else if (parse_int(p, "<file_number>", file_number)) {
-        } else if (parse_str(p, "<open_name>", open_name, sizeof(open_name))) {
-        } else if (match_tag(p, "</file_ref>")) {
-            sprintf(buf,
-                "<file_ref>\n"
-                "    <file_name>%s</file_name>\n"
-                "    <open_name>%s</open_name>\n"
-                "</file_ref>\n",
-                infiles[file_number],
-                open_name
-            );
-            strcat(out, buf);
+            file_number = -1;
+            while (1) {
+                p = strtok(0, "\n");
+                if (!p) break;
+                if (parse_int(p, "<file_number>", file_number)) {
+                    continue;
+                } else if (parse_str(p, "<open_name>", open_name, sizeof(open_name))) {
+                    continue;
+                } else if (match_tag(p, "</file_ref>")) {
+                    sprintf(buf,
+                        "<file_ref>\n"
+                        "    <file_name>%s</file_name>\n"
+                        "    <open_name>%s</open_name>\n"
+                        "</file_ref>\n",
+                        infiles[file_number],
+                        open_name
+                    );
+                    strcat(out, buf);
+                    break;
+                }
+            }
+        } else if (parse_double(p, "<rsc_fpops_est>", wu.rsc_fpops_est)) {
+            continue;
+        } else if (parse_double(p, "<rsc_fpops_bound>", wu.rsc_fpops_bound)) {
+            continue;
+        } else if (parse_double(p, "<rsc_memory_bound>", wu.rsc_memory_bound)) {
+            continue;
+        } else if (parse_double(p, "<rsc_disk_bound>", wu.rsc_disk_bound)) {
+            continue;
+        } else if (parse_int(p, "<delay_bound>", wu.delay_bound)) {
+            continue;
+        } else if (parse_int(p, "<min_quorum>", wu.min_quorum)) {
+            continue;
+        } else if (parse_int(p, "<target_nresults>", wu.target_nresults)) {
+            continue;
+        } else if (parse_int(p, "<max_error_results>", wu.max_error_results)) {
+            continue;
+        } else if (parse_int(p, "<max_total_results>", wu.max_total_results)) {
+            continue;
+        } else if (parse_int(p, "<max_success_results>", wu.max_success_results)) {
+            continue;
         } else {
             strcat(out, p);
             strcat(out, "\n");
@@ -117,6 +164,7 @@ static int process_wu_template(
         fprintf(stderr, "create_work: bad WU template - no <workunit>\n");
         return -1;
     }
+    safe_strncpy(wu.xml_doc, out, sizeof(wu.xml_doc));
     return 0;
 }
 
@@ -146,6 +194,7 @@ void initialize_result(DB_RESULT& result, DB_WORKUNIT& wu) {
 }
 
 // Create a new result for the given WU.
+// This is called ONLY from the transitioner
 //
 int create_result(
     DB_WORKUNIT& wu, char* result_template,
@@ -224,7 +273,7 @@ int create_work(
     strcpy(wu_template, _wu_template);
     wu.create_time = time(0);
     retval = process_wu_template(
-        wu.name, wu_template, wu.xml_doc, infile_dir, infiles, ninfiles,
+        wu, wu_template, infile_dir, infiles, ninfiles,
         upload_url, download_url
     );
     if (retval) {

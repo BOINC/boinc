@@ -11556,3 +11556,31 @@ David  April 13 2004
 
     sched/
         make_work.C
+
+David  April 13 2004
+    - Changes in the parsing of WU template files:
+        - Any unrecognized elements in a <file_info>
+          are now just copied to the output.
+          So you can include attributes like <sticky/>
+          and they'll get propagated correctly.
+        - The following items can now be included in a WU template:
+            rsc_fpops_est
+            rsc_fpops_bound
+            rsc_memory_bound
+            rsc_disk_bound
+            delay_bound
+            min_quorum
+            target_nresults
+            max_error_results
+            max_total_results
+
+            These are not copied to the output,
+            but are used to populate the WORKUNIT
+            (which is now passed in as an arg)
+
+    The latter means that 'create_work' (the cmdline program) is simplified;
+    it can now take as few as 4 args
+
+    tools
+        backend_lib.C
+        create_work.C

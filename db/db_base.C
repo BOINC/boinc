@@ -207,7 +207,7 @@ int DB_BASE::sum(double& x, char* field, char* clause) {
 
 // convert a string into a form that allows it to be used
 // in SQL queries delimited by single quotes:
-// replace ' with \', \ with \\
+// replace ' with \', \ with \\  
 //
 void escape_string(char* field, int len) {
     char buf[MAX_QUERY_LEN];
