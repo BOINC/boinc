@@ -13,7 +13,7 @@
 import sys, os
 
 PROGRAM_DIR = os.path.dirname(sys.argv[0])
-PROGRAM_PARENT_DIR = os.path.join(PROGRAM_DIR,os.path.pardir)
+PROGRAM_PARENT_DIR = os.path.join(PROGRAM_DIR,os.pardir)
 
 config_xml_filename = os.environ.get(
     'BOINC_CONFIG_XML',
