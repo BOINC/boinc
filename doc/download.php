@@ -32,6 +32,12 @@ function version_end($xml) {
     list_end();
 }
 
+function show_459($xml=false) {
+    version_start("4.59", "13 Jan 2005", $xml);
+    version("Windows", "boinc_4.59_windows_intelx86.exe", $xml);
+    version_end($xml);
+}
+
 function show_458($xml=false) {
     version_start("4.58", "9 Jan 2005", $xml);
     version("Windows", "boinc_4.58_windows_intelx86.exe", $xml);
@@ -112,7 +118,7 @@ if ($_GET["dev"]) {
     echo "
         <h2>Development version (latest features, possibly buggy)</h2>
     ";
-    show_458();
+    show_459();
 }
 
 
