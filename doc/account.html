@@ -1,40 +1,43 @@
-<title>Participant accounts</title>
+<title>Joining a project</title>
 <body bgcolor=ffffff>
-<h2>Participant accounts</h2>
+<h2>Joining a project</h2>
 
 <p>
-Each participant has a separate <b>account</b>
-with each project in which they participate.
-An account consists of:
-
+A participant joins a BOINC project as follows:
+<ol>
+<li> Visit the project's web site and create an <b>account</b>.
+This involves filling out a form with
 <ul>
 <li> An email address.
-<li> A public "screen name" (real name or nickname)
-<li> A web password (chosen by the user)
-<li> An authenticator (a 32-byte string assigned by the project)
+<li> A public "screen name" (real name or nickname).
+<li> A web password (chosen by the user).
+This is used to access the account via the project's web site.
 </ul>
 
-<p>
-A participant's accounts are described in an <b>account file</b>
-on each of their hosts.
-This file looks like this:
+<li> Receive an email containing an <b>account ID</b>
+(a long random string).
 
-<pre>
-&lt;accounts>
-    &lt;project>
-        &lt;home_project/>
-        &lt;domain>setiathome.berkeley.edu&lt;/domain>
-        &lt;scheduler_url>http://setiathome.berkeley.edu/boinc-cgi/cgi&lt;/scheduler_url>
-        &lt;authenticator>3f7b90793a0175ad0bda68684e8bd136&lt;/authenticator>
-    &lt;/project>
-    &lt;project>
-        &lt;domain>bio.wwu.edu&lt;/domain>
-        &lt;scheduler_url>http://bio.wwu.edu/boinc-cgi/cgi&lt;/scheduler_url>
-        &lt;authenticator>3f7b90793a0175ad0bda68684e8bd136&lt;/authenticator>
-    &lt;/project>
-&lt;/accounts>
-</pre>
+<li> Download and install the BOINC client program.
+It will ask for an account ID;
+cut and paste the one in the email.
 
+</ol>
+The BOINC client resides in a <b>BOINC home directory</b>.
+If hosts share a network file system,
+each host must have its own BOINC home directory. 
+
+<h3>Multiple hosts under one account</h3>
 <p>
-One account can be designated as the <b>home project</b>;
-this is the project where the user maintains their preferences.
+A single account can use many hosts.
+Once an account has been created as above,
+new hosts can be added in either of two ways:
+
+<ol>
+<li> Download and install the BOINC client program,
+and cut and paste the account ID as above.
+
+<li> If the new host is the same type as an existing host,
+copy the contents of the BOINC installation directory
+from an existing host to the new host.
+
+</ol>

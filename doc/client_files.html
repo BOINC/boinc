@@ -28,3 +28,28 @@ linking the input, output and executable files to the appropriate files
 in the project directory. On UNIX, the core client uses chroot() so that
 the application sees the slot directory as the root of its filesystem,
 and cannot create or access files outside of it. 
+
+<p>
+A participant's accounts are described in an <b>account file</b>
+on each of their hosts.
+This file looks like this:
+
+<pre>
+&lt;accounts>
+    &lt;project>
+        &lt;home_project/>
+        &lt;domain>setiathome.berkeley.edu&lt;/domain>
+        &lt;scheduler_url>http://setiathome.berkeley.edu/boinc-cgi/cgi&lt;/scheduler_url>
+        &lt;authenticator>3f7b90793a0175ad0bda68684e8bd136&lt;/authenticator>
+    &lt;/project>
+    &lt;project>
+        &lt;domain>bio.wwu.edu&lt;/domain>
+        &lt;scheduler_url>http://bio.wwu.edu/boinc-cgi/cgi&lt;/scheduler_url>
+        &lt;authenticator>3f7b90793a0175ad0bda68684e8bd136&lt;/authenticator>
+    &lt;/project>
+&lt;/accounts>
+</pre>
+
+<p>
+One account can be designated as the <b>home project</b>;
+this is the project where the user maintains their preferences.
