@@ -443,7 +443,7 @@ int ACTIVE_TASK::start(bool first_time) {
         retval = execv(buf, argv);
         msg_printf(wup->project, MSG_ERROR, "execv failed: %d\n", retval);
         perror("execv");
-        _exit(1);
+        _exit(errno);
     }
 
     scope_messages.printf("ACTIVE_TASK::start(): forked process: pid %d\n", pid);

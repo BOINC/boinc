@@ -24,7 +24,7 @@ the BOINC client will connect to the Internet.
 <li> Maximum percentage of free space used by BOINC.
 <li> Minimum disk space to keep free.
 </ul>
-You can view and edit your global preferences through a web interface,
+You can view and edit your general preferences through a web interface,
 at the site of any project in which you participate.
 Changes are automatically propagated to all your hosts;
 this is done the next time the host contacts the project's server,

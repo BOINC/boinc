@@ -9,7 +9,7 @@ home directory:
 <ul>
 <li>
 <b>prefs.xml</b>:
-The user's global preferences; see below.
+The user's general preferences; see below.
 <li>
 <b>client_state.xml</b> describes of the files,
 application, workunits and results present on this client.

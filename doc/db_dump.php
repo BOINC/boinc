@@ -29,7 +29,10 @@ For each table (team, user, and host) this gives
 <li> the number of records per file for summary files
 <li> the number of records per file for detail files
 </ul>
-It also includes the UNIX time when the files were last generated.<br>
+It also includes the UNIX time when the files were last generated,
+and a list of the project's applications,
+with counts of results in various states.
+<br>
 For example:
 <pre> "
 . htmlspecialchars("
@@ -44,6 +47,15 @@ For example:
     <nhosts_total>681</nhosts_total>
     <nhosts_per_file_summary>1000</nhosts_per_file_summary>
     <nhosts_per_file_detail>100</nhosts_per_file_detail>
+    <applications>
+        <application>
+            <name>setiathome</name>
+            <results_unsent>100</results_unsent>
+            <results_in_progress>1000</results_in_progress>
+            <results_over>10000</results_over>
+        </application>
+        ...
+    </applications>
 </tables>
 ") . "
 </pre>

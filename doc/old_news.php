@@ -3,6 +3,25 @@ require_once("docutil.php");
 page_head("Archived news");
 echo "
 <br><br>
+<b>October 30, 2003</b>
+<br>
+New minor versions of the core client and beta-test apps have been released.
+XML statistics data for the beta test
+<a href=http://setiboinc.ssl.berkeley.edu/ap/stats.php>is available</a>;
+it's intended for graphical or tabular representation.
+<br><br>
+<b>October 18, 2003</b>
+<br>
+A SETI@home application has been added to the beta test.
+The scheduling server detect results that can't be sent
+to any hosts, and flags them.
+HTTP 404 errors on downloads are treated as unrecoverable.
+Graphics can be limited by frame rate or percent of CPU.
+Don't send two results from the same workunit to a single user.
+Added JPEG support to application graphics.
+Added \"confirm before accept executable\" mechanism.
+
+<br><br>
 <b>September 11, 2003</b>
 <br>
 BOINC is discussed in
