@@ -888,6 +888,37 @@ LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		SetForegroundWindow();
 		return 0;
 	}
+
+	int nGraphicsMsg = RegisterWindowMessage("BOINC_GFX_MODE");
+	if(nGraphicsMsg == message) {
+
+		// if no active tasks, runs the standard "blank" screen
+		// saver in the system directory
+		if(gstate.active_tasks.active_tasks.size() == 0) {
+			char szCmd[256];
+			GetSystemDirectory(szCmd, 256);
+			strcat(szCmd, "\\Blank Screen.scr");
+			PROCESS_INFORMATION process_info;
+			STARTUPINFO startup_info;
+			memset( &process_info, 0, sizeof( process_info ) );
+			memset( &startup_info, 0, sizeof( startup_info ) );
+			startup_info.cb = sizeof(startup_info);
+			startup_info.lpReserved = NULL;
+			startup_info.lpDesktop = "";
+			CreateProcess(  szCmd,	// path to the screen saver
+							" -S",	// run in saver mode
+							NULL,					// no process security attributes
+							NULL,					// no thread security attribute
+							FALSE,					// doesn't inherit handles
+							CREATE_NEW_PROCESS_GROUP|CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+							NULL,					// same environment
+							NULL,				// start in the standard client directory
+							&startup_info,
+							&process_info );
+		}
+		return 0;
+	}
+
 	return CWnd::DefWindowProc(message, wParam, lParam);
 }
 
