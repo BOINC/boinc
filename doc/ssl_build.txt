@@ -6,6 +6,17 @@ useful to others
 COMPILING
 =========
 
+32-bit:
+-------
+
+Use 32-bit mysql CLIENT libraries (although server could be 64-bit) in
+/usr/local/mysql_32bit: 
+
+        ./configure MYSQL_CONFIG=/usr/local/mysql_32bit/bin/mysql_config
+
+64-bit:
+-------
+
 On Koloth, use these flags to link with mysql-max-64bit:
      -L /usr/local/mysql/lib -lmysqlclient -lsocket -lnsl -lm -m64 -Wl,-R,/usr/local/gcc/lib/sparcv9
 
