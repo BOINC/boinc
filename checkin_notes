@@ -6077,7 +6077,7 @@ David  Sept 3 2003
 quarl 2003/09/03
     - overhauled python scripts 
         - reorganized directory structure. Now 'modules' are under
-          boinc/py/Boinc (so you can do "from Boinc import *")
+          boinc/py/Boinc (so you can do "from Boinc import *").
 
     - configure runs test/test_sanity.py
 
@@ -6085,6 +6085,8 @@ quarl 2003/09/03
 
     - start and add.py know where config.xml and run_state.xml are
       (customizable too)
+
+    - starting web documentation of python framework
 
     py/Boinc/    (added entire tree)
         Makefile.am
@@ -6106,3 +6108,6 @@ quarl 2003/09/03
         start
     */Makefile.am
     configure.ac
+
+    doc/
+        python.php (added)
