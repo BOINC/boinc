@@ -148,7 +148,11 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = db_open(config.db_name, config.db_passwd);
+    retval = boinc_db_open(config.db_name, config.db_passwd);
+    if (retval) {
+        write_log("can't open DB\n");
+        exit(1);
+    }
     if (one_pass) {
         do_pass();
     } else {

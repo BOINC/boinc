@@ -110,7 +110,7 @@ void make_work() {
         exit(1);
     }
 
-    retval = db_open(config.db_name, config.db_passwd);
+    retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
         write_log("can't open db\n");
         exit(1);
@@ -189,7 +189,7 @@ void make_work() {
             wu.id = 0;
             wu.create_time = time(0);
             retval = db_workunit_new(wu);
-            wu.id = db_insert_id();
+            wu.id = boinc_db_insert_id();
             sprintf(buf, "Created new WU: %s\n", wu.name);
             write_log(buf);
         }

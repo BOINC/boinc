@@ -238,9 +238,9 @@ int main(int argc, char** argv) {
     }
     ssp = (SCHED_SHMEM*)p;
     ssp->init();
-    retval = db_open(config.db_name, config.db_passwd);
+    retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
-        sprintf(buf, "db_open: %d\n", retval);
+        sprintf(buf, "boinc_db_open: %d\n", retval);
         write_log(buf);
         exit(1);
     }

@@ -191,7 +191,7 @@ bool FILE_XFER_SET::poll() {
             fxp->end_time = dtime();
             fxp->file_xfer_done = true;
             if (log_flags.file_xfer_debug) {
-                printf("http retval: %d\n", fxp->http_op_retval);
+                printf("http op done; retval %d\n", fxp->http_op_retval);
             }
             if (fxp->http_op_retval == 0) {
                 // If this was a file size query, restart the transfer

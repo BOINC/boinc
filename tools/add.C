@@ -75,7 +75,7 @@ void add_project() {
     strcpy(project.name, project_name);
     retval = db_project_new(project);
     if (retval) {
-        db_print_error("db_project_new");
+        boinc_db_print_error("db_project_new");
     }
 }
 
@@ -92,7 +92,7 @@ void add_app() {
     app.min_version = version;
     retval = db_app_new(app);
     if (retval) {
-        db_print_error("db_app_new");
+        boinc_db_print_error("db_app_new");
     }
 }
 
@@ -108,7 +108,7 @@ void add_platform() {
     platform.create_time = time(0);
     retval = db_platform_new(platform);
     if (retval) {
-        db_print_error("db_platform_new");
+        boinc_db_print_error("db_platform_new");
     }
 }
 
@@ -142,7 +142,7 @@ void add_app_version() {
     retval = db_app_lookup_name(app);
     if (retval) {
         fprintf(stderr, "add_app_version(): can't find app %s\n", app_name);
-        db_print_error("db_app_lookup_name");
+        boinc_db_print_error("db_app_lookup_name");
         return;
     }
     app_version.appid = app.id;
@@ -150,7 +150,7 @@ void add_app_version() {
     retval = db_platform_lookup_name(platform);
     if (retval) {
         fprintf(stderr, "add_app_version(): can't find platform %s\n", platform_name);
-        db_print_error("db_platform_lookup_name");
+        boinc_db_print_error("db_platform_lookup_name");
         return;
     }
     app_version.platformid = platform.id;
@@ -227,7 +227,7 @@ void add_app_version() {
     app_version.create_time = time(0);
     retval = db_app_version_new(app_version);
     if (retval) {
-        db_print_error("db_app_version_new");
+        boinc_db_print_error("db_app_version_new");
         return;
     }
 }
@@ -250,7 +250,7 @@ void add_user() {
     }
     retval = db_user_new(user);
     if (retval) {
-        db_print_error("db_user_new");
+        boinc_db_print_error("db_user_new");
         return;
     }
 }
@@ -331,7 +331,7 @@ int main(int argc, char** argv) {
             code_sign_keyfile = argv[i];
         }
     }
-    retval = db_open(db_name, db_passwd);
+    retval = boinc_db_open(db_name, db_passwd);
     if (retval) {
     	fprintf(stderr, "can't open DB %s\n", db_name);
         exit(1);
@@ -349,6 +349,6 @@ int main(int argc, char** argv) {
     } else {
         printf("Unrecognized command\n");
     }
-    db_close();
+    boinc_db_close();
     exit(0);
 }

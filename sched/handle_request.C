@@ -195,10 +195,10 @@ new_host:
         if (retval) {
             strcpy(reply.message, "server database error");
             strcpy(reply.message_priority, "low");
-            db_print_error("db_host_new");
+            boinc_db_print_error("db_host_new");
             return -1;
         }
-        reply.host.id = db_insert_id();
+        reply.host.id = boinc_db_insert_id();
         reply.hostid = reply.host.id;
         // this tells client to updates its host ID
     }

@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
         fprintf(stderr, "create_work: bad cmdline\n");
         exit(1);
     }
-    if (db_open(db_name, db_passwd)) {
+    if (boinc_db_open(db_name, db_passwd)) {
         fprintf(stderr, "create_work: error opening database.\n" );
         exit(0);
     }
@@ -181,5 +181,5 @@ int main(int argc, char** argv) {
         );
         if (retval) fprintf(stderr, "create_work: %d\n", retval);
     }
-    db_close();
+    boinc_db_close();
 }

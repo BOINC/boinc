@@ -24,21 +24,31 @@ struct ENUM {
     MYSQL_RES *rp;
 };
 
-extern int db_open(char* dbname, char* password);
-extern int db_close();
-extern void db_print_error();
-
 extern void escape(char*);
 extern void unescape(char*);
 
-extern int db_new(void*, int);
-extern int db_insert_id();
-extern int db_delete(int, int);
-extern int db_lookup_id(int, void*, int);
-extern int db_lookup(void*, int, char*);
-extern int db_update(void*, int);
-extern int db_enum(ENUM&, void*, int, char* clause=0, int limit=0);
-extern int db_enum_field(ENUM&, int, char*, char*);
-extern int db_query_int(int*, char*);
-extern int db_count(int*, char*, int, char*);
-extern int db_query(char*);
+class MYSQL_DB {
+public:
+    char** table_name;
+    MYSQL* mp;
+    MYSQL_RES* rp;
+    MYSQL_ROW row;
+    virtual void struct_to_str(void*, char*, int){}
+    virtual void row_to_struct(MYSQL_ROW&, void*, int){}
+
+    MYSQL_DB(){}
+    int db_open(char* dbname, char* password);
+    int db_close();
+    void db_print_error(char*);
+    int db_new(void*, int);
+    int db_insert_id();
+    int db_delete(int, int);
+    int db_lookup_id(int, void*, int);
+    int db_lookup(void*, int, char*);
+    int db_update(void*, int);
+    int db_enum(ENUM&, void*, int, char* clause=0, int limit=0);
+    int db_enum_field(ENUM&, int, char*, char*);
+    int db_query_int(int*, char*);
+    int db_count(int*, char*, int, char*);
+    int db_query(char*);
+};

@@ -832,12 +832,18 @@ int CLIENT_STATE::latest_version_num(char* app_name) {
 //
 void CLIENT_STATE::print_summary() {
     unsigned int i;
+    int t;
     if (!log_flags.state_debug) return;
 
     printf("Client state summary:\n");
     printf("  %d projects\n", (int)projects.size());
     for (i=0; i<projects.size(); i++) {
-        printf("    %s\n", projects[i]->master_url);
+        printf("    %s", projects[i]->master_url);
+        t = project[i]->min_rpc_time;
+        if (t) {
+            printf(" min RPC %d seconds from now", t-time(0));
+        }
+        printf("\n");
     }
     printf("  %d file_infos\n", (int)file_infos.size());
     for (i=0; i<file_infos.size(); i++) {

@@ -112,7 +112,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    retval = db_open(config.db_name, config.db_passwd);
+    retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
         write_log("can't open database\n");
         exit(1);
@@ -177,5 +177,5 @@ int main(int argc, char** argv) {
 #ifdef _USING_FCGI_
     }
 #endif
-    db_close();
+    boinc_db_close();
 }

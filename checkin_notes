@@ -2828,3 +2828,88 @@ David  Jan 3 2003
 
     NOTE: there must be an index for each field or combination of fields
         that we do a "select" on!!
+
+David  Jan 6 2003
+    - change all server programs to do logging the same way:
+        - all log entries written to stderr
+        - write date/time at start of log entries
+        - don't include program or user name in log entries
+    - client: when get no work from project,
+        don't back off if we're in exit_when_idle mode
+    - added ob_end_flush() call in test.inc so that PHP test scripts
+        have unbuffered output
+    - added other backend phases (validate, file_delete) to test_loop.php
+    - PROGRAMMER NOTES:
+        - don't use tab chars in files
+        - split long comments into separate lines
+        - "extern" should never appear in a .C file
+        - Don't use member function names that conflict with global functions
+            (e.g. CLIENT_STATE::exit(); use cleanup_and_exit() instead)
+
+    client/
+        client_state.C,h
+        client_types.h
+        cs_apps.C
+        http.h
+        main.C
+        scheduler_op.C
+    html_ops/
+        db.inc
+        db.php
+    sched/
+        assimilator.C
+        feeder.C
+        file_deleter.C
+        file_upload_handler.C
+        handle_request.C
+        main.C,h
+        make_work.C
+        result_retry.C
+        server_types.C
+        validate.C
+    stripchart/
+        stripchart.cnf
+    test/
+        test.inc
+        test_loop.php
+
+David  Jan 7 2003
+    - extend client "print state summary" function to give more
+        detailed information about state, e.g. names and states
+        of everything, and active file xfers and tasks
+    - fixed bug where feeder inserted same result twice in shmem
+
+    client/
+        client_state.C,h
+        cs_apps.C
+        cs_scheduler.C
+    sched/
+        assimilator.C
+        feeder.C
+    test/
+        log_flags.xml
+
+David  Jan 8 2003
+    - changed the DB code so that you can use the mySQL utility functions
+        to access different databases from a single program.
+        There's now a MYSQL_DB class that you can subclass.
+        See db_mysql.C for an example.
+
+    db/
+        db.h
+        db_mysql.C
+        mysql_util.C,h
+    sched/
+        assimilator.C
+        feeder.C
+        file_deleter.C
+        handle_request.C
+        main.C
+        make_work.C
+        result_retry.C
+        validate.C
+    tools/
+        add.C
+        backend_lib.C
+        create_work.C
+

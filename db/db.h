@@ -288,10 +288,10 @@ struct WORKSEQ {
     int workseqid_master;           // if part of a redundant group, master ID
 };
 
-extern int db_open(char* dbname, char* passwd);
-extern int db_close();
-extern void db_print_error(char*);
-extern int db_insert_id();
+extern int boinc_db_open(char* dbname, char* passwd);
+extern int boinc_db_close();
+extern void boinc_db_print_error(char*);
+extern int boinc_db_insert_id();
 
 extern int db_project_new(PROJECT& p);
 extern int db_project_enum(PROJECT& p);

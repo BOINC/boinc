@@ -220,7 +220,7 @@ int create_work(
         fprintf(stderr, "create_work: db_workunit_new %d\n", retval);
         return retval;
     }
-    wu.id = db_insert_id();
+    wu.id = boinc_db_insert_id();
 
     retval = read_filename(result_template_filename, result_template);
     if (retval) {

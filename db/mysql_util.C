@@ -28,17 +28,9 @@
 #include "mysql.h"
 #include "mysql_util.h"
 
-extern char* table_name[];
-extern void struct_to_str(void*, char*, int);
-extern void row_to_struct(MYSQL_ROW&, void*, int);
-
-static MYSQL *mp;
-static MYSQL_RES *rp;
-static MYSQL_ROW row;
-
 #define MAX_QUERY_LEN   8192
 
-int db_open(char* dbname, char* password) {
+int MYSQL_DB::db_open(char* dbname, char* password) {
     mp = mysql_init(0);
     if (!mp) return -1;
     mp = mysql_real_connect(mp, 0, 0, password, dbname, 0, 0, 0);
@@ -46,14 +38,13 @@ int db_open(char* dbname, char* password) {
     return 0;
 }
 
-int db_close() {
+int MYSQL_DB::db_close() {
     mysql_close(mp);
     return 0;
 }
 
-void db_print_error(char* p) {
+void MYSQL_DB::db_print_error(char* p) {
     if (mp) {
-        printf("<br>%s: Database error: %s\n", p, mysql_error(mp));
         fprintf(stderr, "%s: Database error: %s\n", p, mysql_error(mp));
     }
 }
@@ -89,28 +80,28 @@ static int* id(void* vp, int type) {
     return (int*) vp;
 }
 
-int db_new(void* vp, int type) {
+int MYSQL_DB::db_new(void* vp, int type) {
     char buf[MAX_QUERY_LEN], sbuf[MAX_QUERY_LEN];
     struct_to_str(vp, sbuf, type);
     sprintf(buf, "insert into %s set %s", table_name[type], sbuf);
     return mysql_query(mp, buf);
 }
 
-int db_insert_id() {
+int MYSQL_DB::db_insert_id() {
     mysql_query(mp, "select LAST_INSERT_ID()");
     rp = mysql_store_result(mp);
     row = mysql_fetch_row(rp);
     return atoi(row[0]);
 }
 
-int db_delete(int id, int type) {
+int MYSQL_DB::db_delete(int id, int type) {
     char buf[MAX_QUERY_LEN];
 
     sprintf(buf, "delete from %s where id=%d", table_name[type], id);
     return mysql_query(mp, buf);
 }
 
-int db_lookup_id(int i, void* vp, int type) {
+int MYSQL_DB::db_lookup_id(int i, void* vp, int type) {
     char buf[MAX_QUERY_LEN];
     sprintf(buf, "select * from %s where id=%d", table_name[type], i);
     mysql_query(mp, buf);
@@ -122,7 +113,7 @@ int db_lookup_id(int i, void* vp, int type) {
     return (row == 0);
 }
 
-int db_lookup(void* vp, int type, char* clause) {
+int MYSQL_DB::db_lookup(void* vp, int type, char* clause) {
     char buf[MAX_QUERY_LEN];
     sprintf(buf, "select * from %s where %s", table_name[type], clause);
     mysql_query(mp, buf);
@@ -134,7 +125,7 @@ int db_lookup(void* vp, int type, char* clause) {
     return (row == 0);
 }
 
-int db_update(void* vp, int type) {
+int MYSQL_DB::db_update(void* vp, int type) {
     char buf[MAX_QUERY_LEN], sbuf[MAX_QUERY_LEN];
     struct_to_str(vp, sbuf, type);
     sprintf(
@@ -145,7 +136,7 @@ int db_update(void* vp, int type) {
     return mysql_query(mp, buf);
 }
 
-int db_enum(ENUM& e, void* p, int type, char* clause, int limit) {
+int MYSQL_DB::db_enum(ENUM& e, void* p, int type, char* clause, int limit) {
     char buf[MAX_QUERY_LEN], buf2[256];
     if (!e.active) {
 	e.active = 1;
@@ -169,7 +160,7 @@ int db_enum(ENUM& e, void* p, int type, char* clause, int limit) {
     }
 }
 
-int db_enum_field(ENUM& e, int type, char* field, char* clause) {
+int MYSQL_DB::db_enum_field(ENUM& e, int type, char* field, char* clause) {
     char buf[MAX_QUERY_LEN];
     if (!e.active) {
 	e.active = 1;
@@ -188,7 +179,7 @@ int db_enum_field(ENUM& e, int type, char* field, char* clause) {
     }
 }
 
-int db_query_int(int* ip, char* query) {
+int MYSQL_DB::db_query_int(int* ip, char* query) {
     mysql_query(mp, query);
     rp = mysql_store_result(mp);
     if (!rp) return -1;
@@ -199,12 +190,12 @@ int db_query_int(int* ip, char* query) {
     return 0;
 }
 
-int db_count(int* np, char* what, int type, char* clause) {
+int MYSQL_DB::db_count(int* np, char* what, int type, char* clause) {
     char buf[MAX_QUERY_LEN];
     sprintf(buf, "select count(%s) from %s %s", what, table_name[type], clause);
     return db_query_int(np, buf);
 }
 
-int db_query(char* p) {
+int MYSQL_DB::db_query(char* p) {
     return mysql_query(mp, p);
 }

@@ -49,7 +49,7 @@ bool do_pass(APP app) {
     while (!db_workunit_enum_app_assimilate_state(wu)) {
         did_something = true;
 
-        sprintf(buf, "Assimilating WU %s, assim state\n", wu.name, wu.assimilate_state);
+        sprintf(buf, "Assimilating WU %s, assim state %d\n", wu.name, wu.assimilate_state);
         write_log(buf);
 
         switch(wu.main_state) {
@@ -114,7 +114,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    retval = db_open(config.db_name, config.db_passwd);
+    retval = boinc_db_open(config.db_name, config.db_passwd);
     if (retval) {
         write_log("Can't open DB\n");
         exit(1);
