@@ -167,9 +167,6 @@ bool CLIENT_STATE::start_apps() {
         //
         open_slot = active_tasks.get_free_slot(nslots);
         if (open_slot < 0) {
-            if (log_flags.task_debug) {
-                printf("start_apps(): all slots full\n");
-            }
             return action;
         }
         rp = results[i];
@@ -196,8 +193,7 @@ bool CLIENT_STATE::start_apps() {
                 atp->result->active_task_state = PROCESS_COULDNT_START;
                 report_project_error(
                     *(atp->result),retval,
-                    "Couldn't start the app for this result.\n"
-	        );
+                    "Couldn't start the app for this result.\n" );
             }
             action = true;
             set_client_state_dirty("start_apps");

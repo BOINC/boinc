@@ -122,7 +122,7 @@ int NET_XFER::open_server() {
         errno = WSAGetLastError();
         if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
             closesocket(fd);
-			NetClose();
+            NetClose();
             return -1;
         }
 #else
@@ -201,10 +201,12 @@ int NET_XFER_SET::poll(int max_bytes, int& bytes_transferred) {
 
     bytes_transferred = 0;
     while (1) {
-        timeout.tv_usec = 0;
-	timeout.tv_sec = 1;
+		timeout.tv_sec = timeout.tv_usec = 0;
+#ifndef _WIN32
+        timeout.tv_sec = 1;
+#endif
         retval = do_select(max_bytes, n, timeout);
-	if (retval) return retval;
+        if (retval) return retval;
         if (n == 0) break;
         max_bytes -= n;
         bytes_transferred += n;
@@ -216,7 +218,6 @@ int NET_XFER_SET::poll(int max_bytes, int& bytes_transferred) {
 // do a select and do I/O on as many sockets as possible.
 // 
 int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred, struct timeval timeout) {
-    
     int n, fd, retval;
     socklen_t i;
     NET_XFER *nxp;
@@ -232,7 +233,6 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred, struct timeva
     bytes_transferred = 0;
 
     fd_set read_fds, write_fds, error_fds;
-
 
     FD_ZERO(&read_fds);
     FD_ZERO(&write_fds);
