@@ -1,8 +1,6 @@
 -----------------------
 BUGS (arranged from high to low priority)
 -----------------------
-- Client treats URL "maggie/ap/" different than URL "maggie/ap",
-    though this isn't really a bug it might be good to fix anyway
 - global battery/user active prefs are always true in the client
 - GUI client should display "Upload failed" and "Download failed"
     in transfers tab when failure occurs
