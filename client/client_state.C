@@ -54,6 +54,7 @@ CLIENT_STATE::CLIENT_STATE() {
     exit_after = -1;
     app_started = 0;
     max_transfer_rate = 9999999;
+    max_bytes = max_transfer_rate;
 }
 
 int CLIENT_STATE::init() {
@@ -238,10 +239,9 @@ static void print_log(char* p) {
 // TODO: handle errors passed back up to here?
 //
 bool CLIENT_STATE::do_something() {
-    int nbytes,max_bytes;
+    int nbytes;
     bool action = false, x;
 
-    max_bytes = max_transfer_rate;
     check_suspend_activities();
     if (!activities_suspended) {
         // Call these functions in bottom to top order with
@@ -286,7 +286,10 @@ bool CLIENT_STATE::do_something() {
 
         write_state_file_if_needed();
     }
-    if (!action) time_stats.update(true, !activities_suspended);
+    if (!action) {
+        time_stats.update(true, !activities_suspended);
+        max_bytes = max_transfer_rate;
+    }
     return action;
 }
 
