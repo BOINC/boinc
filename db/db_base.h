@@ -71,7 +71,8 @@ public:
         if (!z) { \
             x[0]=0; \
         } else { \
-            strlcpy(x, z, sizeof(x)); \
+            strncpy(x, z, sizeof(x)); \
+            x[sizeof(x)-1] = 0; \
         } \
     }
 

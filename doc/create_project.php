@@ -19,6 +19,7 @@ BOINC's abstractions of data and computation.
 <li><a href=work.php>Workunits</a>
 <li><a href=result.php>Results</a>
 <li><a href=redundancy.php>Redundancy and errors</a>
+<li><a href=trickle.php>Trickle messages</a>
 <!--
 <li><a href=batch.php>Batches</a>
 <li><a href=sequence.php>Handling long, large-footprint computations</a>

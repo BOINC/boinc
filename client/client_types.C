@@ -611,7 +611,7 @@ int FILE_INFO::delete_file() {
     char path[256];
 
     get_pathname(this, path);
-    int retval = file_delete(path);
+    int retval = boinc_delete_file(path);
 	if (retval && status != FILE_NOT_PRESENT) {
         msg_printf(project, MSG_ERROR, "Couldn't delete file %s\n", path);
 	}

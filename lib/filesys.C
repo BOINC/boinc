@@ -18,6 +18,9 @@
 //
 // Revision History:
 // $Log$
+// Revision 1.33  2004/01/04 06:48:39  davea
+// *** empty log message ***
+//
 // Revision 1.32  2003/12/24 00:50:50  davea
 // *** empty log message ***
 //
@@ -250,7 +253,7 @@ DirScanner::~DirScanner() {
 
 // Delete the file located at path
 //
-int file_delete(const char* path) {
+int boinc_delete_file(const char* path) {
     int retval;
 
 #ifdef HAVE_UNISTD_H
@@ -294,7 +297,7 @@ int clean_out_dir(const char* dirpath) {
         sprintf(path, "%s%s%s", dirpath, PATH_SEPARATOR, filename);
         clean_out_dir(path);
         boinc_rmdir(path);
-        retval = file_delete(path);
+        retval = boinc_delete_file(path);
         if (retval) {
             dir_close(dirp);
             return retval;

@@ -43,6 +43,12 @@ void escape_project_url(char *in, char* out) {
     }
 }
 
+void get_project_dir(PROJECT* p, char* path) {
+    char buf[256];
+    escape_project_url(p->master_url, buf);
+    sprintf(path, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
+}
+
 // Gets the pathname of a file
 //
 void get_pathname(FILE_INFO* fip, char* path) {
@@ -53,10 +59,10 @@ void get_pathname(FILE_INFO* fip, char* path) {
     // an associated PROJECT.
     //
     if (p) {
-        escape_project_url(p->master_url, buf);
-        sprintf(path, "%s%s%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf, PATH_SEPARATOR, fip->name);
+        get_project_dir(p, buf);
+        sprintf(path, "%s%s%s", buf, PATH_SEPARATOR, fip->name);
     } else {
-        safe_strncpy(path, fip->name, sizeof(fip->name));
+        strcpy(path, fip->name);
     }
 }
 
@@ -69,22 +75,20 @@ void get_slot_dir(int slot, char* path) {
 // Create the directory for the project p
 //
 int make_project_dir(PROJECT& p) {
-    char buf[256],buf2[256];
+    char buf[256];
 
     boinc_mkdir(PROJECTS_DIR);
-    escape_project_url(p.master_url, buf);
-    sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
-    boinc_mkdir(buf2);
+    get_project_dir(&p, buf);
+    boinc_mkdir(buf);
     return 0;
 }
 
 int remove_project_dir(PROJECT& p) {
-    char buf[256],buf2[256];
+    char buf[256];
 
-    escape_project_url(p.master_url, buf);
-    sprintf(buf2, "%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf);
-    clean_out_dir(buf2);
-    boinc_rmdir(buf2);
+    get_project_dir(&p, buf);
+    clean_out_dir(buf);
+    boinc_rmdir(buf);
     return 0;
 }
 

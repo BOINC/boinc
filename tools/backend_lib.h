@@ -59,6 +59,7 @@ extern int create_work(
     const char* download_url
 );
 
+#if 0
 extern int create_sequence_group(
     DB_WORKUNIT& wu,
     char* wu_template,
@@ -71,5 +72,6 @@ extern int create_sequence_group(
     char* download_url,
     int nsteps
 );
+#endif
 
 #endif

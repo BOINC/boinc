@@ -252,6 +252,7 @@ int create_work(
     return 0;
 }
 
+#if 0
 int create_sequence(
     DB_WORKUNIT& wu,
     char* wu_template,
@@ -292,3 +293,4 @@ int create_sequence_group(
     // }
     return 0;
 }
+#endif

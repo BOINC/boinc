@@ -16,37 +16,13 @@
 //
 // Contributor(s):
 //
-// $Log$
-// Revision 1.31  2003/12/26 06:03:02  boincadm
-// *** empty log message ***
-//
-// Revision 1.30  2003/12/24 21:49:34  boincadm
-// *** empty log message ***
-//
-// Revision 1.29  2003/12/23 19:21:51  boincadm
-// *** empty log message ***
-//
-// Revision 1.28  2003/12/18 00:22:23  boincadm
-// *** empty log message ***
-//
-// Revision 1.27  2003/12/15 02:31:27  boincadm
-// *** empty log message ***
-//
-// Revision 1.26  2003/12/12 21:10:38  boincadm
-// *** empty log message ***
-//
-// Revision 1.25  2003/12/11 19:05:48  boincadm
-// *** empty log message ***
-//
-// Revision 1.24  2003/12/11 18:38:05  korpela
-// Added include of "std_fixes.h"
-//
-//
+
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <unistd.h>
-#include "std_fixes.h"
+
+//#include "std_fixes.h"
 #include "boinc_db.h"
 
 DB_CONN boinc_db;
@@ -80,7 +56,8 @@ void TEAM::clear() {memset(this, 0, sizeof(*this));}
 void HOST::clear() {memset(this, 0, sizeof(*this));}
 void RESULT::clear() {memset(this, 0, sizeof(*this));}
 void WORKUNIT::clear() {memset(this, 0, sizeof(*this));}
-void WORKSEQ::clear() {memset(this, 0, sizeof(*this));}
+void TRICKLE::clear() {memset(this, 0, sizeof(*this));}
+//void WORKSEQ::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PROJECT::DB_PROJECT() : DB_BASE(boinc_db, "project"){}
 DB_PLATFORM::DB_PLATFORM() : DB_BASE(boinc_db, "platform"){}
@@ -92,7 +69,8 @@ DB_TEAM::DB_TEAM() : DB_BASE(boinc_db, "team"){}
 DB_HOST::DB_HOST() : DB_BASE(boinc_db, "host"){}
 DB_WORKUNIT::DB_WORKUNIT() : DB_BASE(boinc_db, "workunit"){}
 DB_RESULT::DB_RESULT() : DB_BASE(boinc_db, "result"){}
-DB_WORKSEQ::DB_WORKSEQ() : DB_BASE(boinc_db, "workseq"){}
+DB_TRICKLE::DB_TRICKLE() : DB_BASE(boinc_db, "trickle"){}
+//DB_WORKSEQ::DB_WORKSEQ() : DB_BASE(boinc_db, "workseq"){}
 
 int DB_PROJECT::get_id() {return id;}
 int DB_PLATFORM::get_id() {return id;}
@@ -104,7 +82,8 @@ int DB_TEAM::get_id() {return id;}
 int DB_HOST::get_id() {return id;}
 int DB_WORKUNIT::get_id() {return id;}
 int DB_RESULT::get_id() {return id;}
-int DB_WORKSEQ::get_id() {return id;}
+int DB_TRICKLE::get_id() {return id;}
+//int DB_WORKSEQ::get_id() {return id;}
 
 void DB_PROJECT::db_print(char* buf){
     sprintf(buf,
@@ -544,6 +523,31 @@ int DB_RESULT::insert() {
     return DB_BASE::insert();
 }
 
+void DB_TRICKLE::db_print(char* buf) {
+    escape_string(xml);
+    sprintf(buf,
+        "id=%d, create_time=%d, resultid=%d, hostid=%d, "
+        "userid=%d, appid=%d, handled=%d, xml='%s'",
+        id, create_time, resultid, hostid,
+        userid, appid, handled, xml
+    );
+    unescape_string(xml);
+}
+
+void DB_TRICKLE::db_parse(MYSQL_ROW& r) {
+    int i=0;
+    clear();
+    id = atol(r[i++]);
+    create_time = atol(r[i++]);
+    resultid = atol(r[i++]);
+    hostid = atol(r[i++]);
+    userid = atol(r[i++]);
+    appid = atol(r[i++]);
+    handled = atoi(r[i++]);
+    strcpy2(xml, r[i++]);
+}
+
+#if 0
 void DB_WORKSEQ::db_print(char* buf){
     sprintf(buf,
         "id=%d, create_time=%d, "
@@ -568,3 +572,4 @@ void DB_WORKSEQ::db_parse(MYSQL_ROW &r) {
     wuid_last_sent = atoi(r[i++]);
     workseqid_master = atoi(r[i++]);
 }
+#endif

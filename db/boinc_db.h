@@ -416,6 +416,19 @@ struct RESULT {
     void clear();
 };
 
+struct TRICKLE {
+    int id;
+    int create_time;
+    int resultid;
+    int hostid;
+    int userid;
+    int appid;
+    bool handled;
+    char xml[LARGE_BLOB_SIZE];
+    void clear();
+};
+
+#if 0
 #define WORKSEQ_STATE_UNASSIGNED    0
 #define WORKSEQ_STATE_ASSIGNED      1
 #define WORKSEQ_STATE_DONE          2
@@ -430,6 +443,7 @@ struct WORKSEQ {
     int workseqid_master;           // if part of a redundant group, master ID
     void clear();
 };
+#endif
 
 class DB_PROJECT : public DB_BASE, public PROJECT {
 public:
@@ -516,6 +530,17 @@ public:
     void operator=(WORKUNIT& w) {WORKUNIT::operator=(w);}
 };
 
+class DB_TRICKLE : public DB_BASE, public TRICKLE {
+public:
+    DB_TRICKLE();
+    int insert();
+    int get_id();
+    void db_print(char*);
+    void db_parse(MYSQL_ROW &row);
+    void operator=(TRICKLE& r) {TRICKLE::operator=(r);}
+};
+
+#if 0
 class DB_WORKSEQ : public DB_BASE, public WORKSEQ {
 public:
     DB_WORKSEQ();
@@ -523,5 +548,6 @@ public:
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
 };
+#endif
 
 #endif

@@ -8864,3 +8864,37 @@ Gary	31 Dec 2003
         Prefs.C
     client/win
         win_screensaver.cpp
+
+David  3 Jan 2004
+    - prelimary checkin of "trickle" mechanism
+        - added trickle table to DB
+        - add boinc_trickle() to API; implement
+        - logic in client to find/rename trickle files
+    - got rid of strlcpy() (not portable)
+    - commented out WORKSEQ code (probably will never finish)
+    - factored out project directory name function
+    - error checking of malloc()s in MFILE
+
+    api/
+        boinc_api.C,h
+        mfile.C
+    client/
+        app.C,h
+        client_state.C
+        client_types.C
+        cs_benchmark.C
+        file_names.C,h
+    db/
+        boinc_db.C,h
+        constraints.sql
+        db_base.h
+        schema.sql
+    doc/
+        api.php
+        create_project.php
+        language.php (new)
+        trickle.php (new)
+    lib/
+        filesys.C,h
+    tools/
+        backend_lib.C,h

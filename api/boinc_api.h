@@ -20,14 +20,6 @@
 #ifndef _BOINC_API_
 #define _BOINC_API_
 
-#include <stdio.h>
-#ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
-#endif
-#ifdef HAVE_SYS_RESOURCE_H
-#include <sys/resource.h>
-#endif
-
 #include <string>
 using std::string;
 
@@ -57,6 +49,7 @@ public:
 extern int boinc_init(bool standalone = false);
 extern int boinc_parse_init_data_file();
 extern int boinc_get_init_data(APP_INIT_DATA&);
+extern int boinc_trickle(char*);
 extern int boinc_finish(int);
 extern int boinc_resolve_filename(const char*, char*, int len);
 extern int boinc_resolve_filename(const char*, string&);

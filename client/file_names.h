@@ -26,6 +26,7 @@
 // get the pathname (relative to client home dir) of a project file
 //
 extern void get_pathname(FILE_INFO* fip, char* path);
+extern void get_project_dir(PROJECT*, char*);
 
 // get the pathname (relative to client home dir) of the
 // directory used for a particular application "slot"

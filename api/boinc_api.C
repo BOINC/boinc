@@ -38,8 +38,8 @@
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
-#include <signal.h>
 
+#include <signal.h>
 #include <fcntl.h>
 #include <sys/types.h>
 
@@ -73,6 +73,7 @@ static bool time_to_quit = false;
 static double last_wu_cpu_time;
 static bool standalone = false;
 static double initial_wu_cpu_time;
+static bool have_new_trickle = false;
 
 APP_CLIENT_SHM *app_client_shm;
 
@@ -237,6 +238,10 @@ static int update_app_progress(
         "<working_set_size>%f</working_set_size>\n",
         frac_done, cpu_t, cp_cpu_t, ws_t
     );
+    if (have_new_trickle) {
+        strcat(msg_buf, "<have_new_trickle/>\n");
+        have_new_trickle = false;
+    }
 
     return app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);
 }
@@ -476,6 +481,15 @@ int boinc_init(bool standalone_ /* = false */) {
     return 0;
 }
 
+int boinc_trickle(char* p) {
+    FILE* f = boinc_fopen("trickle", "wb");
+    if (!f) return ERR_FOPEN;
+    size_t n = fwrite(p, strlen(p), 1, f);
+    fclose(f);
+    if (n != 1) return ERR_WRITE;
+    have_new_trickle = true;
+    return 0;
+}
 
 int boinc_finish(int status) {
     double cur_mem;

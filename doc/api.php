@@ -148,6 +148,11 @@ to get its total CPU time
 (from the beginning of the work unit, not just since the last restart).
 This excludes CPU time used to render graphics.
 
+<h3>Trickle messages</h3>
+The application may send a <a href=trickle.php>trickle message</a> using
+<pre>
+    int boinc_trickle(char* p);
+</pre>
 <h3>Multi-program applications</h3>
 Some applications consist of multiple programs:
 a <b>main program</b> that acts as coordinator,

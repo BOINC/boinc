@@ -1079,7 +1079,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     // delete account file
     //
     get_account_filename(project->master_url, path);
-    retval = file_delete(path);
+    retval = boinc_delete_file(path);
 
     // remove project directory and its contents
     //

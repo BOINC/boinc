@@ -43,7 +43,7 @@ extern DIRREF dir_open(const char*);
 extern int dir_scan(char*, DIRREF, int);
 int dir_scan(string&, DIRREF);
 extern void dir_close(DIRREF);
-extern int file_delete(const char*);
+extern int boinc_delete_file(const char*);
 extern int file_size(const char*, double&);
 extern int clean_out_dir(const char*);
 extern int dir_size(const char* dirpath, double&);
@@ -73,3 +73,4 @@ public:
 };
 
 #endif
+

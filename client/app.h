@@ -124,6 +124,7 @@ public:
     bool read_stderr_file();
     bool supports_graphics();
     int write_app_init_file(APP_INIT_DATA&);
+    int move_trickle_file();
 
     int write(FILE*);
     int parse(FILE*, CLIENT_STATE*);

@@ -220,7 +220,7 @@ int CLIENT_STATE::check_cpu_benchmarks() {
         retval = host_info.parse_cpu_benchmarks(finfo);
         fclose(finfo);
         if (retval) return CPU_BENCHMARKS_ERROR;
-        file_delete(CPU_BENCHMARKS_FILE_NAME);
+        boinc_delete_file(CPU_BENCHMARKS_FILE_NAME);
         return CPU_BENCHMARKS_COMPLETE;
     }
     return CPU_BENCHMARKS_NOT_RUNNING;

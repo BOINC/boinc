@@ -1134,6 +1134,30 @@ void ACTIVE_TASK::estimate_frac_rate_of_change(double now) {
     }
 }
 
+// There's a new trickle file.
+// Move it from slot dir to project dir
+//
+int ACTIVE_TASK::move_trickle_file() {
+    char project_dir[256], new_path[256], old_path[256];
+    int retval;
+
+    get_project_dir(result->project, project_dir);
+    sprintf(old_path, "%s%strickle", slot_dir, PATH_SEPARATOR);
+    sprintf(new_path,
+        "%s%strickle_%s_%d",
+        project_dir, PATH_SEPARATOR, result->name, (int)time(0)
+    );
+    retval = boinc_rename(old_path, new_path);
+
+    // if can't move it, remove
+    //
+    if (retval) {
+        boinc_delete_file(old_path);
+        return ERR_RENAME;
+    }
+    return 0;
+}
+
 // See if the app has placed a new message in shared mem
 // (with CPU done, frac done etc.)
 // If so parse it and return true.
@@ -1141,12 +1165,14 @@ void ACTIVE_TASK::estimate_frac_rate_of_change(double now) {
 bool ACTIVE_TASK::get_status_msg() {
     char msg_buf[SHM_SEG_SIZE];
     if (app_client_shm.get_msg(msg_buf, APP_CORE_WORKER_SEG)) {
-//        last_status_msg_time = (time_t)now;
         fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
         parse_double(msg_buf, "<fraction_done>", fraction_done);
         parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
         parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
         parse_double(msg_buf, "<working_set_size>", working_set_size);
+        if (match_tag(msg_buf, "<have_new_trickle/>")) {
+            move_trickle_file();
+        }
         return true;
     }
     return false;
