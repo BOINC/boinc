@@ -153,6 +153,10 @@ SOURCE=..\..\Client\http.C
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\lib\language.C
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\Client\log_flags.C
 # End Source File
 # Begin Source File
@@ -266,6 +270,10 @@ SOURCE=..\..\client\hostinfo.h
 # Begin Source File
 
 SOURCE=..\..\client\http.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\lib\language.h
 # End Source File
 # Begin Source File
 

@@ -4359,3 +4359,9 @@ Erik  May 22 2003
         app.C,h
         client_state.C,h
         cs_apps.C
+
+Eric   May 29, 2003
+    - added foreign language support functions
+
+    lib/
+        language.C,h

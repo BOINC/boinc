@@ -903,7 +903,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
         atp->result->is_active = true;
         retval = atp->start(false);
         if (log_flags.task) {
-            sprintf(buf, "restarting computation for result %s", atp->result->name);
+            sprintf(buf, "Restarting computation for result %s", atp->result->name);
             show_message(atp->wup->project, buf, MSG_INFO);
         }
         if (retval) {
