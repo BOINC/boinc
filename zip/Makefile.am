@@ -10,6 +10,7 @@ AM_CPPFLAGS = -pthread \
 
 ##noinst_PROGRAMS = test
 lib_LIBRARIES = libboinc_zip.a
+include_HEADERS = boinc_zip.h
 
 libboinc_zip_a_SOURCES = boinc_zip.cpp \
 ./unzip/apihelp.c \

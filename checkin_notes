@@ -20029,7 +20029,7 @@ Rom    22 Nov 2004
 
 Bruce 23 Nov 2004 UTC
     - Build boinc zip compression library as part of normal ./configure && make process
-    - make install now installs libboinc_zip.a as part of normal make install
+    - make install now installs libboinc_zip.a and boinc_zip.h as part of normal make install
     - Unix boinc client and boinc gui had the same name, eg boinc_4.56_i686-pc-linux-gnu
       I have changed this so that it is now boinc_client_4.56_i686-pc-linux-gnu and
       boinc_gui_4.56_i686-pc-linux-gnu.  If the change from boinc_ to boinc_client_
