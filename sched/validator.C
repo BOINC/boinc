@@ -161,14 +161,13 @@ void handle_wu(
     RESULT result, canonical_result;
 
     VALIDATOR_ITEM& wu_vi = items[0];
-    WORKUNIT& wu=wu_vi.wu;
+    WORKUNIT& wu = wu_vi.wu;
 
-
-    if (wu_vi.canonical_resultid) {
+    if (wu.canonical_resultid) {
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL,
             "[WU#%d %s] handle_wu(): Already has canonical result %d\n",
-            wu_vi.id, wu_vi.name, wu_vi.canonical_resultid
+            wu.id, wu.name, wu.canonical_resultid
         );
         ++log_messages;
 
@@ -177,20 +176,21 @@ void handle_wu(
         //
         for (i=0; i<items.size(); i++) {
             VALIDATOR_ITEM& vi= items[i];
-
+            RESULT& result = vi.res;
+            
             log_messages.printf(
                 SCHED_MSG_LOG::NORMAL,
                  "[WU#%d %s] handle_wu(): Analyzing result %d\n",
-                 vi.id, vi.name, vi.res_id
+                 wu.id, wu.name, res.id
              );
-            if (vi.res_id == wu_vi.canonical_resultid)
+            if (res.id == wu.canonical_resultid)
                 canonical_result_index= i; 
         }
         if (canonical_result_index == (-1)) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[WU#%d %s] Can't read canonical result %d; exiting\n",
-                wu_vi.id, wu_vi.name, wu_vi.canonical_resultid
+                wu.id, wu.name, wu.canonical_resultid
             );
             exit(1);
         }
@@ -207,9 +207,8 @@ void handle_wu(
 
             need_immediate_transition = true;
             
-            result = validator.create_result(items[i]);
-            canonical_result =
-            validator.create_result(items[canonical_result_index]);
+            result = vitem.res;
+            RESULT& canonical_result = items[canonical_result_index].res;
 
             retval = check_pair(
                 result, canonical_result, retry
@@ -294,7 +293,7 @@ void handle_wu(
                 (vitem.res_outcome == RESULT_OUTCOME_SUCCESS)))
                 continue;
 
-            RESULT result= validator.create_result(vitem);
+            RESULT result= vitem.res;
             results.push_back(result);
         }
 
@@ -309,7 +308,7 @@ void handle_wu(
                 wu_vi.name
             );
            
-            wu= validator.create_workunit(wu_vi);
+            wu= wu_vi.wu;
             retval = check_set(results, wu, canonicalid, credit, retry);
             if (retval) {
                 log_messages.printf(
@@ -429,10 +428,9 @@ void handle_wu(
         if (x < wu_vi.transition_time) wu_vi.transition_time = x;
     }
 
-    // clear WU.need_validate
+    // update workunit clears WU.need_validate
     //
-    wu_vi.need_validate = 0;
-    wu= validator.create_workunit(wu_vi);
+    wu= wu_vi.wu;
     retval = validator.update_workunit(wu);
     if (retval) {
         log_messages.printf(

@@ -937,11 +937,10 @@ int DB_VALIDATOR_ITEM_SET::update_workunit(WORKUNIT& wu) {
     char query[MAX_QUERY_LEN];
 
     sprintf(query,
-        "update workunit set need_validate=%d, error_mask=%d, "
+        "update workunit set need_validate=0, error_mask=%d, "
         "assimilate_state=%d, transition_time=%d, "
         "canonical_resultid=%d, canonical_credit=%.15e "
         "where id=%d",
-        wu.need_validate,
         wu.error_mask, 
         wu.assimilate_state,
         wu.transition_time,
