@@ -7171,3 +7171,8 @@ Karl 2003-10-17
       clean install)
 
     - BOINC 2.08 release
+
+David  28 Oct 2003
+    - login form: keyboard focus is on auth input field
+    html_user/
+        util.inc

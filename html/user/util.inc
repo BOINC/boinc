@@ -228,7 +228,8 @@ function print_country_select($selected_country="None") {
 }
 
 function print_login_form_aux($next_url, $user, $pathMod='') {
-    echo "<form method=post action=\"", $pathMod, "login_action.php\">
+    echo "
+        <form name=f method=post action=\"", $pathMod, "login_action.php\">
         <input type=hidden name=next_url value='$next_url'>
     ";
     start_table();
@@ -250,6 +251,12 @@ function print_login_form_aux($next_url, $user, $pathMod='') {
         );
     }
     end_table();
+    echo "
+        </form>
+        <script>
+            document.f.authenticator.focus();
+        </script>
+    ";
 }
 
 function print_login_form($pathMod="") {
