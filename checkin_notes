@@ -22416,3 +22416,14 @@ David  8 Jan 2005
 
     sched/
         sched_locality.C
+
+David  8 Jan 2005
+    - Implement the <locality_scheduling_wait_period> element in config.xml
+        If present, this tells the scheduler how long to sleep
+        between requesting more work for a file
+        and looking for it (and giving up if it's not there)
+        If absent, the scheduler doesn't request more work.
+
+    sched/
+        sched_config.C,h
+        sched_locality.C

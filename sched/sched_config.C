@@ -87,6 +87,7 @@ int SCHED_CONFIG::parse(char* buf) {
     parse_int(buf, "<max_wus_to_send>", max_wus_to_send);
     parse_int(buf, "<daily_result_quota>", daily_result_quota);
     parse_int(buf, "<uldl_dir_fanout>", uldl_dir_fanout);
+    parse_int(buf, "<locality_scheduling_wait_period>", locality_scheduling_wait_period);
     if (match_tag(buf, "</config>")) {
         char hostname[256];
         gethostname(hostname, 256);

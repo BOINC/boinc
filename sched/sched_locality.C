@@ -27,7 +27,7 @@
 
 
 #include <stdio.h>
-#include <unistd.h> // for sleep(2)
+#include <unistd.h>
 
 #include "boinc_db.h"
 
@@ -150,7 +150,7 @@ void make_more_work_for_file(char* filename) {
             // generator to make a new WU, and try again!
             //
             boinc_db.commit_transaction();
-            sleep(5);
+            sleep(config.locality_scheduling_wait_period);
 
             // Now look AGAIN for results which match file
             // 'filename'. Note: result.clear() may not be
@@ -207,7 +207,9 @@ static int send_results_for_file(
         if (!retval && (result.id == lastid)) retval = -1;
 
         if (retval) {
-            make_more_work_for_file(filename);
+            if (config.locality_scheduling_wait_period) {
+                make_more_work_for_file(filename);
+            }
         } else {
             // We found a matching result.
             // Probably we will get one of these,
