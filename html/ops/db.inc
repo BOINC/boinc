@@ -240,6 +240,7 @@ function show_user($user) {
     row("Total credit", $user->total_credit);
     row("Recent averaged credit:", $user->expavg_credit);
     row("Name", $user->name);
+    row("Authenticator", $user->authenticator);
     row("Email address", $user->email_addr);
     row("Country", $user->country);
     row("Postal code", $user->postal_code);

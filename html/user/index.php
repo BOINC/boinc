@@ -9,9 +9,10 @@
     project_intro();
 
     echo "
-<h3>How to join ".PROJECT." </h3>
+<h3>Join ".PROJECT." </h3>
 <p>
-<a href=create_account_form.php>Create an account</a>.
+<ul>
+<li><a href=create_account_form.php>Create an account</a>
 </ul>
 
 <h3>Returning participants</h3>

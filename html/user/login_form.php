@@ -1,24 +1,18 @@
 <?php
     require_once("util.inc");
 
-    page_head("Log in");
-    echo "<form method=post action=login_action.php>
-        <table cellpadding=8>
-        <tr><td align=right>
-        Your account key:
-        </td><td>
-        <input name=authenticator size=40>
-        </td></tr>
+    $authenticator = init_session();
+    db_init();
 
-        <tr><td align=right>
-        <br>
-        </td><td>
-        <input type=submit value='Log in'>
-        </td></tr>
-        </table>";
-    echo "<font size=1>
-          If you don't know your account key, <a href=get_passwd.php>click here</a>.<p>
-          </font>";
+    $user = get_user_from_auth($authenticator);
+
+    parse_str(getenv("QUERY_STRING"));
+    
+    page_head("Log in", $user);
+    print_login_form_aux($next_url);
+    if ($user) {
+        echo "<br><a href=logout.php>Log out</a>";
+    }
 
     page_tail();
 ?>

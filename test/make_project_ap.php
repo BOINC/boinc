@@ -21,7 +21,7 @@
     $core_app_version = new App_Version($core_app);
     $core_app_version->platform = $platform;
     $core_app_version->exec_dir = "../apps";
-    $core_app_version->exec_name = "BOINC_0.12.exe";
+    $core_app_version->exec_name = "BOINC_0.13.exe";
 
     $project->add_app($app);
     $project->add_app_version($app_version);

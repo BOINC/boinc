@@ -11,7 +11,7 @@
         <br>
         Please wait until you receive this email (it may take a minute or two).
         <form method=post action=login_action.php>
-        <input type=hidden name=url value=account_setup.php>
+        <input type=hidden name=next_url value=account_setup.php>
         <table cellpadding=8>
         <tr><td align=right>Then copy and paste the account key here:</td>
         <td><input name=authenticator size=40></td>

@@ -132,10 +132,38 @@ function print_country_select($country) {
     PassThru("$x/country_select '$country'");
 }
 
-function print_login_form() {
+function print_login_form_aux($next_url) {
+    echo "<form method=post action=login_action.php>
+        <input type=hidden name=next_url value='$next_url'>
+        <table cellpadding=8>
+        <tr><td align=right>
+        Your account key:
+        </td><td>
+        <input name=authenticator size=40>
+        </td></tr>
+
+        <tr><td align=right>
+        <br>
+        </td><td>
+        <input type=submit value='Log in'>
+        </td></tr>
+        </table>
+    ";
+    echo "<font size=1>
+        If you don't know your account key,
+        <a href=get_passwd.php>click here</a>.
+        </font>
+    ";
+}
+
+function print_login_form($next_url) {
     page_head("Please log in");
-    echo "This function requires that you be logged in.\n";
-    echo "Please <a href=login_form.php>log in</a>.\n<p>\n";
+    parse_str(getenv("QUERY_STRING"));
+    echo "
+        <h3>Please log in</h3>
+        This function requires that you log in.
+    ";
+    print_login_form_aux($next_url);
     page_tail();
 }
 

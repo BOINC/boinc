@@ -34,9 +34,7 @@
     //    }
     } else {
         $_SESSION["authenticator"] = $user->authenticator;
-        $url = $HTTP_POST_VARS["url"];
-        Header("Location: $url");
-        //page_head("User Page");
-        //show_user_page_private($user);
+        $next_url = $HTTP_POST_VARS["next_url"];
+        Header("Location: $next_url");
     }
 ?>
