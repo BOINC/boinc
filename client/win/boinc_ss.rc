@@ -73,7 +73,7 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Space Sciences Laboratory"
             VALUE "FileDescription", "BOINC Screensaver"
-            VALUE "FileVersion", VERSION "\0"
+            VALUE "FileVersion", BOINC_VERSION_STRING "\0"
             VALUE "InternalName", "boinc_ss"
             VALUE "LegalCopyright", "Copyright © 2003-2004 University of California"
             VALUE "OriginalFilename", "boinc.scr"
