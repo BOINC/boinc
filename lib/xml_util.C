@@ -28,9 +28,8 @@ int xml_indent_level=0;
 
 std::string xml_indent(int i) {
   if (i) xml_indent_level+=i;
-  std::string rv(xml_indent_level,' ');
   xml_indent_level = (xml_indent_level>0) ? xml_indent_level : 0;
-  return rv;
+  return std::string(xml_indent_level,' ');
 }
 
 // Most of these entries are for reverse translation of poorly written HTML.
@@ -552,6 +551,9 @@ std::string x_csv_encode_char(const unsigned char *bin, size_t nelements) {
 
 //
 // $Log$
+// Revision 1.12  2003/10/22 18:23:23  korpela
+// *** empty log message ***
+//
 // Revision 1.11  2003/10/22 18:01:41  korpela
 // *** empty log message ***
 //
