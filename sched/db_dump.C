@@ -711,10 +711,12 @@ int main(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-dump_spec")) {
             strcpy(spec_filename, argv[++i]);
+        } else if (!strcmp(argv[i], "-d")) {
+            log_messages.set_debug_level(atoi(argv[++i]));
         } else if (!strcmp(argv[i], "-db_host")) {
             db_host = argv[++i];
         } else {
-            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Usage\n");
+            log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Usage: %s\n", argv[i]);
             exit(1);
         }
     }

@@ -153,6 +153,7 @@ fcgi_SOURCES =                                  \
     sched_util.C                                \
     sched_config.C                              \
     sched_msgs.C                                \
+    sched_locality.C                            \
     ../db/boinc_db.C                            \
     ../db/db_base.C                             \
     ../lib/util.C                               \

@@ -12,11 +12,19 @@ function show_credit($user) {
     row2("Total credit", format_credit($user->total_credit));
     row2("Recent average credit", format_credit($user->expavg_credit));
     if ($user->seti_nresults) {
-        row2("SETI@home classic workunits", number_format($user->seti_nresults));
+        row2(
+            "SETI@home classic workunits
+            <br><font size=-2>as of 14 May 2004</font>",
+            number_format($user->seti_nresults)
+        );
     }
     if ($user->seti_total_cpu) {
         $x = number_format($user->seti_total_cpu/3600)." hours";
-        row2("SETI@home classic CPU time", $x);
+        row2(
+            "SETI@home classic CPU time
+            <br><font size=-2>as of 14 May 2004</font>",
+            $x
+        );
     }
 }
 
@@ -38,7 +46,7 @@ function show_user_stats_private($user) {
     } else {
         row2("Team", "None (<a href=team.php>find a team</a>)");
     }
-    row2("Computers", "<a href=hosts_user.php>View</a>");
+    row2("Computers on this account", "<a href=hosts_user.php>View computers</a>");
     row2("Results", "<a href=results.php?userid=$user->id>View</a>");
     row2("Stats on your cell phone", URL_BASE."userw.php?id=$user->id");
     if ($user->posts) {
