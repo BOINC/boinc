@@ -67,21 +67,41 @@ int boinc_init_graphics() {
 
     f = boinc_fopen(GRAPHICS_DATA_FILE, "r");
     if (!f) {
-        fprintf(stderr, "boinc_init(): can't open graphics data file\n");
-        fprintf(stderr, "Using default graphics settings.\n");
+        fprintf(stderr, "boinc_init_graphics(): can't open graphics data file\n");
+        fprintf(stderr, "boinc_init_graphics(): Using default graphics settings.\n");
         gi.refresh_period = 0.1; // 1/10th of a second
         gi.xsize = 640;
         gi.ysize = 480;
     } else {
         retval = parse_graphics_file(f, &gi);
         if (retval) {
-            fprintf(stderr, "boinc_init(): can't parse graphics data file\n");
+            fprintf(stderr, "boinc_init_graphics(): can't parse graphics data file\n");
             return retval;
         }
         fclose(f);
     }
 
 #ifdef _WIN32
+
+    BOOL    bLoadError = FALSE;
+
+    __try {
+        if (FAILED(__HrLoadAllImportsForDll("glut32.dll")))
+        {
+            fprintf(stderr, "boinc_init_graphics(): failed to load imports for glut32.dll\n");
+            fprintf(stderr, "boinc_init_graphics(): graphics have been disabled\n");
+            bLoadError = TRUE;
+        }
+    }
+    __except((GetExceptionCode() == 0xC06D007E) ? EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH) {
+        fprintf(stderr, "boinc_init_graphics(): failed to load imports for glut32.dll\n");
+        fprintf(stderr, "boinc_init_graphics(): graphics have been disabled\n");
+        bLoadError = TRUE;
+    }
+
+    if (bLoadError) return ERR_NOT_FOUND;
+
+
     // Create the event object used to signal between the
     // worker and event threads
 
@@ -243,12 +263,50 @@ GLvoid glPrint(GLuint font, const char *fmt, ...) {
 // All Setup For OpenGL Goes Here
 //
 GLenum InitGL(GLvoid) {
+    GLenum err;
+
     glShadeModel(GL_SMOOTH);				// Enable Smooth Shading
+    err = glGetError();
+    if (err) {
+        fprintf(stderr, "glShadeModel Error: %d '%s'", err, gluErrorString(err));
+        return err;
+    }
+
     glClearColor(0.0f, 0.0f, 0.0f, 0.5f);		// Black Background
+    err = glGetError();
+    if (err) {
+        fprintf(stderr, "glClearColor Error: %d '%s'", err, gluErrorString(err));
+        return err;
+    }
+
     glClearDepth(1.0f);					// Depth Buffer Setup
+    err = glGetError();
+    if (err) {
+        fprintf(stderr, "glClearDepth Error: %d '%s'", err, gluErrorString(err));
+        return err;
+    }
+
     glEnable(GL_DEPTH_TEST);				// Enables Depth Testing
+    err = glGetError();
+    if (err) {
+        fprintf(stderr, "glEnable Error: %d '%s'", err, gluErrorString(err));
+        return err;
+    }
+
     glDepthFunc(GL_LEQUAL);				// The Type Of Depth Testing To Do
+    err = glGetError();
+    if (err) {
+        fprintf(stderr, "glDepthFunc Error: %d '%s'", err, gluErrorString(err));
+        return err;
+    }
+
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
+    err = glGetError();
+    if (err) {
+        fprintf(stderr, "glHint Error: %d '%s'", err, gluErrorString(err));
+        return err;
+    }
+
     return GL_NO_ERROR;					// Initialization Went OK
 }
 

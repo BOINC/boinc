@@ -10651,7 +10651,7 @@ David  Mar 20 2004
     lib/
         sighandle.C
 
-Rom    Mar 20 2004
+Rom    Mar 22 2004
     - Setup project clients so they report back possible memory leaks on exit and
         validate the heap after every 1024 allocations.
     - Define constant for stdout.txt
@@ -10666,3 +10666,10 @@ kevin Mon Mar 22 2004
     stderr_out, even if stderr_out is too long.
      client/
         app.C
+
+Rom    Mar 22 2004
+    - Attempt to force load glut32.dll in a specific location, if it fails catch the SEH exception
+        and just disable grapgics.
+
+    api/
+        graphics_api.c
