@@ -14330,6 +14330,31 @@ Karl 2004-06-30
         boinc_setup.vdproj
         boinc_setup_auto.vdproj
 
+David  30 June 2004
+    - PHP code: change parse_config() so that it doesn't
+        read the config file; you have to read it first into a variable
+        (using get_config()) and pass it in to parse_config()
+        This saves work when you want to look at several config params.
+    - db_init(): parse the DB hostname and use it in mysql_connect.
+        This lets you run the web site from a different host than DB
+    - disallow caching of top_* pages with random offsets
+    - change cache period of top_* pages to 12 hours
+    - fix bug in user name search (escape _, %)
+
+    html/
+        inc/
+            db.inc
+            db_ops.inc
+            util.inc
+        user/
+            create_account_action.php
+            create_account_form.php
+            profile_menu.php
+            sample_rss_main.php
+            top_hosts.php
+            top_teams.php
+            top_users.php
+
 Eric K 30 June 2004
     - Removed "using" directives from header files.  "using"
       directives should not be used in header files for the following reasons.
@@ -14346,3 +14371,11 @@ Eric K 30 June 2004
         won't affect other files.  It's better to have "using std::string;" 
         directives than "using namespace std;" for hopefully obvious reasons.
 
+David  30 June 2004
+    - change feeder query to eliminate 'order by random'
+        and add a limit of 100.
+    - change db_dump to not get counts, since these are slow on InnoDB
+
+    sched/
+        db_dump.C
+        feeder.C

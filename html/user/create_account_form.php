@@ -6,7 +6,8 @@ require_once('../inc/countries.inc');
 db_init();
 page_head('Create an account');
 
-if (parse_config("<disable_account_creation/>")) {
+$config = get_config();
+if (parse_config($config, "<disable_account_creation/>")) {
     echo "
         <h1>Account Creation is Disabled</h1>
         <p>

@@ -1,15 +1,20 @@
 <?php
 
 function db_init() {
-	$user = parse_config("<db_user>");
-    $pass = parse_config("<db_passwd>");
-    $retval = mysql_connect("localhost", $user, $pass);
+    $config = get_config();
+	$user = parse_config($config, "<db_user>");
+    $pass = parse_config($config, "<db_passwd>");
+    $host = parse_config($config, "<db_host>");
+    if ($host == null) {
+        $host = "localhost";
+    }
+    $retval = mysql_connect($host, $user, $pass);
     if (!$retval) {
         echo "Unable to connect to database - please try again later";
 		echo mysql_error();
         exit();
     }
-    $db_name = parse_config("<db_name>");
+    $db_name = parse_config($config, "<db_name>");
     if(!mysql_select_db($db_name)) {
 	    echo "Unable to select database '$db_name' - please try again later";
 		echo mysql_error();

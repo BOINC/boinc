@@ -549,6 +549,9 @@ int print_app(FILE* f, APP& app) {
     fprintf(f, "        <application>\n");
     fprintf(f, "            <name>%s</name>\n", app.user_friendly_name);
 
+#if 0
+    // can't do this stuff because MySQL/InnoDB can't do counts efficiently
+    //
     sprintf(buf, "where appid=%d and server_state=%d", app.id, RESULT_SERVER_STATE_UNSENT);
     retval = result.count(n, buf);
     if (!retval) {
@@ -566,6 +569,7 @@ int print_app(FILE* f, APP& app) {
     if (!retval) {
         fprintf(f, "            <results_over>%d</results_over>\n", n);
     }
+#endif
     
     fprintf(f, "        </application>\n");
     return 0;
@@ -592,6 +596,12 @@ int tables_file(char* dir) {
     ZFILE f("tables", false);
     sprintf(buf, "%s/tables.xml", dir);
     f.open(buf);
+    fprintf(f.f,
+        "    <update_time>%d</update_time>\n",
+        (int)time(0)
+    );
+#if 0
+    // can't do counts in MySQL/InnoDB
     retval = user.count(nusers);
     if (retval) return retval;
     retval = team.count(nteams);
@@ -599,15 +609,14 @@ int tables_file(char* dir) {
     retval = host.count(nhosts);
     if (retval) return retval;
     fprintf(f.f,
-        "    <update_time>%d</update_time>\n"
         "    <nusers_total>%d</nusers_total>\n"
         "    <nteams_total>%d</nteams_total>\n"
         "    <nhosts_total>%d</nhosts_total>\n",
-        (int)time(0),
         nusers,
         nteams,
         nhosts
     );
+#endif
     print_apps(f.f);
     f.close();
     return 0;

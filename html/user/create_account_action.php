@@ -12,7 +12,8 @@ function show_error($str) {
     exit();
 }
 
-    if (parse_config("<disable_account_creation/>")) {
+    $config = get_config();
+    if (parse_config($config, "<disable_account_creation/>")) {
         page_head("Account creation is disabled");
         echo "
             <h3>Account creation is disabled</h3>

@@ -106,7 +106,6 @@ function execute_command($cmd) {
         header("Location: " . URL_BASE . "view_profile.php?userid=" . $userIds[0]);
         exit();
     }
-  
 }
 
 ?>

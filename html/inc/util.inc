@@ -272,12 +272,14 @@ function file_get_contents($path) {
 }
 }
 
+function get_config() {
+    return file_get_contents("../../config.xml");
+}
+
 // look for a particular element in the ../../config.xml file
 //
-function parse_config($tag) {
-    $element = null;
-    $buf = file_get_contents("../../config.xml");
-    $element = parse_element($buf, $tag);
+function parse_config($config, $tag) {
+    $element = parse_element($config, $tag);
     return trim($element);
 }
 
