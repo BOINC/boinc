@@ -5496,3 +5496,18 @@ David  August 1 2003
         client_types.C,h
         cs_apps.C
         cs_scheduler.C
+
+David  Aug 1 2003
+    - global_prefs.disk_interval doesn't apply to writing the state file
+        (only to application checkpointing)
+
+    client/
+        client_state.C,h
+
+David  Aug 1 2003
+    - use _exit() instead of exit() on execv failure
+    - garbage_collect() and update_results() even if suspended
+
+    client/
+        app.C
+        client_state.C

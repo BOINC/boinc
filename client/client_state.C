@@ -671,6 +671,8 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(net_xfers              , net_xfers->poll        );
         POLL_ACTION(http_ops               , http_ops->poll         );
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
+        POLL_ACTION(garbage_collect        , garbage_collect        );
+        POLL_ACTION(update_results         , update_results         );
     } else {
         net_stats.poll(*net_xfers);
         // Call these functions in bottom to top order with
@@ -845,8 +847,6 @@ int CLIENT_STATE::write_state_file() {
     unsigned int i, j;
     FILE* f = fopen(STATE_FILE_TEMP, "w");
     int retval;
-
-printf("wrote state file\n");
 
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_STATE);
     scope_messages.printf("CLIENT_STATE::write_state_file(): Writing state file\n");
