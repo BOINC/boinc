@@ -550,7 +550,7 @@ int ACTIVE_TASK::write(FILE* fout) {
         "    <app_version_num>%d</app_version_num>\n"
         "    <slot>%d</slot>\n"
         "    <cpu_time>%f</cpu_time>\n"
-        "    <prev_cpu_time>%f</prev_cpu_time>"
+        "    <prev_cpu_time>%f</prev_cpu_time>\n"
         "</active_task>\n",
         result->project->master_url,
         result->name,

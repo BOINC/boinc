@@ -319,7 +319,8 @@ void CLIENT_STATE::handle_scheduler_reply(SCHEDULER_OP& sched_op) {
     for (i=0; i<sr.apps.size(); i++) {
         APP* app = lookup_app(project, sr.apps[i].name);
         if (app) {
-            *app = sr.apps[i];
+            //*app = sr.apps[i];
+            retval = link_app(project,app); // not sure about this
         } else {
             app = new APP;
             *app = sr.apps[i];
