@@ -403,7 +403,7 @@ class Host {
         echo "Running core client\n";
         $source_dir = get_env_var("BOINC_SRC_DIR");
         $platform = get_env_var("BOINC_PLATFORM");
-        PassThru("cd $this->host_dir; $source_dir/client/boinc_1_$platform $args> client.out");
+        PassThru("cd $this->host_dir; $source_dir/client/boinc_0.02_$platform $args> client.out");
     }
 
     // read a CPU time file written by the client.
