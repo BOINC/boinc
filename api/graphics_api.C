@@ -60,16 +60,24 @@ HANDLE hQuitEvent;
 
 bool graphics_inited = false;
 
+static void (*worker_main)();
+
 #ifdef _WIN32
 // glue routine for Windows
-DWORD WINAPI foobar(LPVOID foo) {
-    void (*w)() = (void (*)()) foo;
-    w();
+DWORD WINAPI foobar(LPVOID) {
+    worker_main();
+    return 0;
+}
+#endif
+#ifdef _PTHREAD_H
+void* foobar(void*) {
+    worker_main();
     return 0;
 }
 #endif
 
-int boinc_init_graphics(void (*worker_main)()) {
+int boinc_init_graphics(void (*_worker_main)()) {
+    worker_main = _worker_main;
 #ifdef _WIN32
 
     // Create the event object used to signal between the
@@ -88,7 +96,7 @@ int boinc_init_graphics(void (*worker_main)()) {
     // TODO: is it better to use _beginthreadex here?
     //
     worker_threadh = CreateThread(
-        NULL, 0, foobar, worker_main, CREATE_SUSPENDED, &threadId
+        NULL, 0, foobar, 0, CREATE_SUSPENDED, &threadId
     );
 
     // raise priority of graphics thread (i.e. current thread)
@@ -134,9 +142,10 @@ int boinc_init_graphics(void (*worker_main)()) {
 #ifdef _PTHREAD_H
     pthread_t worker_thread;
     pthread_attr_t worker_thread_attr;
+    int retval;
 
     pthread_attr_init( &worker_thread_attr );
-    retval = pthread_create( &worker_thread, &worker_thread_attr, worker_main, &gi );
+    retval = pthread_create( &worker_thread, &worker_thread_attr, foobar, 0 );
     if (retval) return ERR_THREAD;
     pthread_attr_destroy( &worker_thread_attr );
     graphics_inited = true;

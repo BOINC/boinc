@@ -12,8 +12,9 @@ libapp_a_SOURCES = \
     ../lib/app_ipc.C \
     ../lib/diagnostics.C \
     ../lib/diagnostics.h \
-    ../lib/filesys.C \
     ../lib/parse.C \
+    ../lib/proxy.C \
+    ../lib/prefs.C \
     ../lib/shmem.C \
     ../lib/util.C
 

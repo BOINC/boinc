@@ -18330,8 +18330,8 @@ David  12 Oct 2004
             wingui_mainwindow.cpp
 
 David  13 Oct 2004
-	- in global prefs XML, if cpu_scheduling_period_minutes is empty, set it to 60
-		(this caused core client to hang in some situations)
+	- in global prefs XML, if cpu_scheduling_period_minutes is empty,
+        set it to 60 (this caused core client to hang in some situations)
 	- renamed PREFS::cpu_sched_period to cpu_scheduling_period_minutes
 		(matching what it's called in the XML)
 
@@ -18353,3 +18353,13 @@ Lana    13 Oct 2004
     sched/
         validator.C
 
+David  13 Oct 2004
+    - Get app graphics working in Linux
+
+    api/
+        graphics_api.C
+        gutil.h
+        reduce.C
+        x_opengl.C,h
+    apps/
+        Makefile.am

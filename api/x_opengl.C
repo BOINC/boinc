@@ -11,16 +11,17 @@
 
 #define BOINC_WINDOW_CLASS_NAME "BOINC_app"
 
+#define TIMER_INTERVAL_MSEC 30
+
 static bool visible = true;
 static int current_graphics_mode = MODE_HIDE_GRAPHICS;
 static int acked_graphics_mode;
 static int xpos = 100, ypos = 100;
 static int clicked_button;
 static int win=0;
-static extern int userclose;
+extern int userclose;
 extern void graphics_thread_init();
 //extern GRAPHICS_INFO gi;
-static void timer_handler();
 static void set_mode(int mode);
 
 void keyboardU(unsigned char key, int x, int y) {
@@ -82,11 +83,30 @@ void onIdle(){
 }
 #endif
 
+static void maybe_render() {
+    int width, height;
+    if (visible && (current_graphics_mode != MODE_HIDE_GRAPHICS)) {
+        width = glutGet(GLUT_WINDOW_WIDTH);
+        height = glutGet(GLUT_WINDOW_HEIGHT);
+        if (throttled_app_render(width, height, dtime())) {
+            glutSwapBuffers();
+        }
+    }
+}
+
+static void close_func() {
+    if (boinc_is_standalone()) {
+        exit(0);
+    } else {
+        set_mode(MODE_HIDE_GRAPHICS);
+    }
+}
+
 static void make_new_window(int mode){
     if (mode == MODE_WINDOW || mode == MODE_FULLSCREEN){
         glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
         glutInitWindowPosition(xpos, ypos);
-        glutInitWindowSize(gi.xsize, gi.ysize); 
+        glutInitWindowSize(600, 400); 
         boinc_get_init_data(aid);
         if (!strlen(aid.app_name)) {
             strcpy(aid.app_name, "BOINC Application");
@@ -97,9 +117,8 @@ static void make_new_window(int mode){
         glutKeyboardUpFunc(keyboardU);
         glutMouseFunc(mouse_click);
         glutMotionFunc(mouse_click_move);
-        glutDisplayFunc(timer_handler); 
-        //glutIdleFunc(onIdle);
-        glutTimerFunc(30, 
+        //glutCloseFunc(close_func);
+        glutDisplayFunc(maybe_render); 
         
         app_graphics_init();
         glEnable(GL_DEPTH_TEST);    
@@ -131,21 +150,13 @@ void set_mode(int mode) {
     }
 }
 
-void* xwin_graphics_event_loop(void*){
-    if (boinc_is_standalone()) {
-        set_mode(MODE_WINDOW);
-    } else {
-        set_mode(MODE_HIDE_GRAPHICS); 
-    }
-    glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
-    glutMainLoop();
-    return 0;
-}
-
 static void timer_handler(int) {
     char buf[MSG_CHANNEL_SIZE];
 
-    int width, height, new_mode;
+    if (userclose) {
+        close_func();
+    }
+    int new_mode;
     if (app_client_shm) {
         if (app_client_shm->shm->graphics_request.get_msg(buf)) {
             new_mode = app_client_shm->decode_graphics_msg(buf);
@@ -175,12 +186,17 @@ static void timer_handler(int) {
             if (sent) acked_graphics_mode = current_graphics_mode;
         }
     }
-    if (visible && (current_graphics_mode != MODE_HIDE_GRAPHICS) {
-        width = glutGet(GLUT_WINDOW_WIDTH);
-        height = glutGet(GLUT_WINDOW_HEIGHT);
-        if (throttled_app_render(width, height, dtime())) {
-            glutSwapBuffers();
-        }
-    }
+    maybe_render();
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
 }
+
+void xwin_graphics_event_loop(){
+    if (boinc_is_standalone()) {
+        set_mode(MODE_WINDOW);
+    } else {
+        set_mode(MODE_HIDE_GRAPHICS); 
+    }
+    glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
+    glutMainLoop();
+}
+

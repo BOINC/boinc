@@ -1,6 +1,6 @@
 CXX = $(shell wx-config --cxx)
 
-CFLAGS = -I ../lib
+CFLAGS = -g -I ../lib
 
 PROGRAM = boinc_gui
 

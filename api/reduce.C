@@ -360,8 +360,8 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 		glEnd();
 
 
+#if 0
 		//draw lines
-		/*
 		mode_unshaded();
 		glLineWidth(.5f);
 		glBegin(GL_LINES);
@@ -386,7 +386,6 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 
 			glVertex3f(x0, y1, z0);
 			glVertex3f(x1, y1, z0);
-	/*
 	//back
 			glVertex3f(x0, y0, z1);
 			glVertex3f(x0, y1, z1);
@@ -423,8 +422,8 @@ void REDUCED_ARRAY::draw_row_rect_x(int row)  {
 
 			glVertex3f(x1, y0, z1);
 			glVertex3f(x1, y0, z0);
-	*/
-//		}
+		}
+#endif
 		glEnd();
 	    break;
 	case GRAPH_STYLE_SURFACE:
@@ -584,7 +583,7 @@ void REDUCED_ARRAY::draw_row_rect_y(int row) {
 
     // draw a black line on top of rectangle
     //
-	/*
+#if 0
     glBegin(GL_LINES);
     glColor4f(0., 0., 0., 1.0);
     for (i=0; i<rdimx-1; i++) {
@@ -597,7 +596,7 @@ void REDUCED_ARRAY::draw_row_rect_y(int row) {
         glVertex3f(x0, y1, z1);
     }
     glEnd();
-	*/
+#endif
 }
 
 
@@ -655,9 +654,11 @@ void REDUCED_ARRAY::draw_axis_labels() {
 	float w;
 
 	char* x_label = "Time";
+#if 0
 	char* y_label = "Frequency";
 	char* y_begin_label = "0";
 	char* y_end_label = "9 Khz";
+#endif
 
 	float x_text_pos[3] = {0,0,0};
 	w = text_width(x_label);
@@ -778,6 +779,7 @@ void REDUCED_ARRAY::draw_labels() {
 	float lw = .02f;
 	float ls = 0;
 
+#if 0
 	float wd=.015f;
 	float l=1.0f;
 
@@ -785,6 +787,7 @@ void REDUCED_ARRAY::draw_labels() {
 	float left_of_z2 = -0.04f;
 	float below_x = -.03f;
 	float center_x = -.06f;
+#endif
 
 	glLineWidth(1.4f);
 	glBegin(GL_LINES);
