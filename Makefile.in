@@ -152,7 +152,7 @@ AUTOMAKE_OPTIONS = foreign
 
 @ENABLE_SERVER_TRUE@SERVER_SUBDIRS = db lib api apps sched tools test py
 
-@ENABLE_CLIENT_TRUE@CLIENT_SUBDIRS = client
+@ENABLE_CLIENT_TRUE@CLIENT_SUBDIRS = client clientgui
 
 SUBDIRS = RSAEuro $(SERVER_SUBDIRS) $(CLIENT_SUBDIRS)
 
@@ -183,7 +183,8 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 DIST_COMMON = INSTALL Makefile.am Makefile.in aclocal.m4 compile \
 	config.guess config.h.in config.sub configure configure.ac \
 	depcomp install-sh missing mkinstalldirs
-DIST_SUBDIRS = RSAEuro db lib api apps sched tools test py client
+DIST_SUBDIRS = RSAEuro db lib api apps sched tools test py client \
+	clientgui
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
