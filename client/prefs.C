@@ -39,7 +39,7 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
     run_minimized = false;
     run_on_startup = false;
     confirm_before_connecting = false;
-	hangup_if_dialed = false;
+    hangup_if_dialed = false;
     high_water_days = 3;
     low_water_days = 1;
     disk_max_used_gb = 1;

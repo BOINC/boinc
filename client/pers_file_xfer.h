@@ -52,12 +52,12 @@ class PERS_FILE_XFER {
 
 public:
     int next_request_time;     // UNIX time to next retry the file request
-	double last_time, time_so_far;
+    double last_time, time_so_far;
     bool xfer_done;
     FILE_XFER* fxp;     // nonzero if file xfer in progress
     FILE_INFO* fip;
     
-	PERS_FILE_XFER();
+    PERS_FILE_XFER();
     int init(FILE_INFO*, bool is_file_upload);
     bool poll(unsigned int now);
     void handle_xfer_failure(unsigned int cur_time);

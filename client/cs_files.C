@@ -142,7 +142,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
             pfx->fip->pers_file_xfer = NULL;
             pers_xfers->remove(pfx);
             delete pfx;
-			i--;
+            i--;
             action = true;
         }
     }

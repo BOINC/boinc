@@ -135,9 +135,9 @@ int ACTIVE_TASK::start(bool first_time) {
     memset(&aid, 0, sizeof(aid));
 
     // TODO: fill in the app prefs, team name, etc.
-	strncpy( aid.user_name, wup->project->user_name, 256 );
+    strncpy( aid.user_name, wup->project->user_name, 256 );
     if (wup->project->project_specific_prefs)
-	    strncpy( aid.app_preferences, wup->project->project_specific_prefs, 4096 );
+        strncpy( aid.app_preferences, wup->project->project_specific_prefs, 4096 );
     aid.total_cobblestones = wup->project->user_total_credit;
     aid.recent_avg_cobblestones = wup->project->user_expavg_credit;
     aid.checkpoint_period = DEFAULT_CHECKPOINT_PERIOD;
@@ -411,18 +411,18 @@ bool ACTIVE_TASK_SET::poll() {
                 found = true;
                 if (atp->state == PROCESS_ABORT_PENDING) {
                     atp->state = PROCESS_ABORTED;
-		    atp->result->active_task_state = PROCESS_ABORTED;
-		    gstate.report_project_error(*(atp->result), 0, "process was aborted\n");
+                    atp->result->active_task_state = PROCESS_ABORTED;
+                    gstate.report_project_error(*(atp->result), 0, "process was aborted\n");
                 } else {
                     atp->state = PROCESS_EXITED;
                     atp->exit_status = exit_code;
                     atp->result->exit_status = atp->exit_status;
                     atp->result->active_task_state = PROCESS_EXITED;
-		    //if a nonzero error code, then report it
-		    if(exit_code)
-		      {
-			gstate.report_project_error(*(atp->result),0,"process exited with a non zero exit code\n");
-		      }
+                    //if a nonzero error code, then report it
+                    if(exit_code) {
+                        gstate.report_project_error(*(atp->result),0,
+                            "process exited with a non zero exit code\n");
+                    }
                 }
                 CloseHandle(atp->pid_handle);
                 CloseHandle(atp->thread_handle);
@@ -449,31 +449,31 @@ bool ACTIVE_TASK_SET::poll() {
         atp->result->final_cpu_time = atp->starting_cpu_time + x;
         if (atp->state == PROCESS_ABORT_PENDING) {
             atp->state = PROCESS_ABORTED;
-	    atp->result->active_task_state =  PROCESS_ABORTED;
-	    gstate.report_project_error(*(atp->result),0,"process was aborted\n");
+            atp->result->active_task_state =  PROCESS_ABORTED;
+            gstate.report_project_error(*(atp->result),0,"process was aborted\n");
         } else {
             if (WIFEXITED(stat)) {
                 atp->state = PROCESS_EXITED;
                 atp->exit_status = WEXITSTATUS(stat);
                 atp->result->exit_status = atp->exit_status;
-		atp->result->active_task_state = PROCESS_EXITED;
-		
-		//if exit_status != 0, then we don't need to upload the files for the result of this app 
-		if(atp->exit_status)
-		  {
-		    gstate.report_project_error(*(atp->result),0,"process exited with a nonzero exit code\n");
-		  }
-		 if (log_flags.task_debug) printf("process exited: status %d\n", atp->exit_status);
+                atp->result->active_task_state = PROCESS_EXITED;
+                // If exit_status != 0, then we don't need to upload the
+                // files for the result of this app 
+                if(atp->exit_status) {
+                    gstate.report_project_error(*(atp->result),0,
+                        "process exited with a nonzero exit code\n");
+                }
+                if (log_flags.task_debug) printf("process exited: status %d\n", atp->exit_status);
             } else if (WIFSIGNALED(stat)) {
                 atp->state = PROCESS_WAS_SIGNALED;
                 atp->signal = WTERMSIG(stat);
                 atp->result->signal = atp->signal;
-		atp->result->active_task_state = PROCESS_WAS_SIGNALED;
-		gstate.report_project_error(*(atp->result),0,"process was signaled\n");
+                atp->result->active_task_state = PROCESS_WAS_SIGNALED;
+                gstate.report_project_error(*(atp->result),0,"process was signaled\n");
                 if (log_flags.task_debug) printf("process was signaled: %d\n", atp->signal);
             } else {
-	      atp->state = PROCESS_EXIT_UNKNOWN;
-	      atp->result->state  = PROCESS_EXIT_UNKNOWN;
+                atp->state = PROCESS_EXIT_UNKNOWN;
+                atp->result->state  = PROCESS_EXIT_UNKNOWN;
             }
         }
 
@@ -541,10 +541,9 @@ void ACTIVE_TASK_SET::suspend_all() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if(atp->suspend())
-	{
-	 fprintf(stderr, "ACTIVE_TASK_SET::exit_tasks(): could not suspend active_task\n");
-	} 
+        if(atp->suspend()) {
+            fprintf(stderr, "ACTIVE_TASK_SET::exit_tasks(): could not suspend active_task\n");
+        }
     }
 }
 
@@ -553,14 +552,12 @@ void ACTIVE_TASK_SET::suspend_all() {
 void ACTIVE_TASK_SET::unsuspend_all() {
     unsigned int i;
     ACTIVE_TASK* atp;
-    for (i=0; i<active_tasks.size(); i++) 
-      {
+    for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if(atp->unsuspend())
-	  {
-	    fprintf(stderr, "ACTIVE_TASK_SET::exit_tasks(): could not suspend active_task\n");
-	  }
-      } 
+        if(atp->unsuspend()) {
+            fprintf(stderr, "ACTIVE_TASK_SET::exit_tasks(): could not unsuspend active_task\n");
+        }
+    } 
 }
 
 // initiate exit of all currently running tasks
@@ -570,10 +567,9 @@ void ACTIVE_TASK_SET::exit_tasks() {
     ACTIVE_TASK *atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        if(atp->request_exit())
-	{
-	  fprintf(stderr, "ACTIVE_TASK_SET::exit_tasks(): could not suspend active_task\n");
-	}
+        if(atp->request_exit()) {
+            fprintf(stderr, "ACTIVE_TASK_SET::exit_tasks(): could not suspend active_task\n");
+        }
     }
 }
 
@@ -581,7 +577,7 @@ void ACTIVE_TASK_SET::exit_tasks() {
 //
 int ACTIVE_TASK::suspend() {
 #ifdef _WIN32
-	SuspendThread( thread_handle );
+    SuspendThread( thread_handle );
 #else
     kill(pid, SIGSTOP);
 #endif
@@ -592,7 +588,7 @@ int ACTIVE_TASK::suspend() {
 //
 int ACTIVE_TASK::unsuspend() {
 #ifdef _WIN32
-	ResumeThread( thread_handle );
+    ResumeThread( thread_handle );
 #else
     kill(pid, SIGCONT);
 #endif
@@ -629,7 +625,7 @@ int ACTIVE_TASK_SET::restart_tasks() {
         atp = *iter;
         atp->init(atp->result);
         get_slot_dir(atp->slot, atp->slot_dir);
-		atp->result->is_active = true;
+        atp->result->is_active = true;
         retval = atp->start(false);
         if (log_flags.task) {
             printf("restarting application for result %s\n", atp->result->name);

@@ -185,7 +185,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         platform_name,
         core_client_major_version,
         core_client_minor_version,
-	work_req
+        work_req
     );
     if (p->code_sign_key) {
         fprintf(f, "<code_sign_key>\n%s</code_sign_key>\n", p->code_sign_key);
@@ -203,10 +203,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     net_stats.write(f, true);
     host_info.write(f);
     for (i=0; i<results.size(); i++) {
-      rp = results[i];
-      if (rp->project == p && rp->ready_to_ack)
-	rp->write(f, true);
-    
+        rp = results[i];
+        if (rp->project == p && rp->ready_to_ack)
+            rp->write(f, true);
     }
     fprintf(f, "</scheduler_request>\n");
     fclose(f);
@@ -222,13 +221,12 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results() {
     time_t now = time(0);
 
     for (i=0; i<results.size(); i++) {
-    r = results[i];
+        r = results[i];
         // If we've completed computation but haven't finished reporting the
         // results to the server, return the project for this result
-    if (r->ready_to_ack)
-      if (r->project->min_rpc_time < now) {
-	return r->project;
-      }
+        if (r->ready_to_ack && (r->project->min_rpc_time < now)) {
+            return r->project;
+        }
     }
 
     return 0;

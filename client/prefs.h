@@ -39,7 +39,7 @@ struct GLOBAL_PREFS {
     bool confirm_before_connecting;
     bool run_minimized;
     bool run_on_startup;
-	bool hangup_if_dialed;
+    bool hangup_if_dialed;
     double high_water_days;
     double low_water_days;
     double disk_max_used_gb;

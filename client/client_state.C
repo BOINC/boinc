@@ -53,7 +53,7 @@
 #include "speed_stats.h"
 #include "client_state.h"
 
-#define SECONDS_PER_MONTH		(SECONDS_PER_DAY*30)
+#define SECONDS_PER_MONTH        (SECONDS_PER_DAY*30)
 
 CLIENT_STATE gstate;
 
@@ -138,7 +138,7 @@ int CLIENT_STATE::init() {
     get_host_info(host_info);       // this is platform dependent
 
     if (gstate.should_run_time_tests()) {
-		time_tests_start = time(NULL);
+        time_tests_start = time(NULL);
         show_message("Running time tests", "low");
 #ifdef _WIN32
         time_tests_handle = CreateThread(
@@ -257,48 +257,48 @@ int CLIENT_STATE::check_time_tests() {
         DWORD exit_code = 0;
         GetExitCodeThread(time_tests_handle, &exit_code);
         if(exit_code == STILL_ACTIVE) {
-			if(time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
-				show_message("Time tests timed out, using default values", "low");
-				TerminateThread(time_tests_handle, 0);
-		        CloseHandle(time_tests_handle);
-				host_info.p_fpops = 1e9;
-				host_info.p_iops = 1e9;
-				host_info.p_membw = 4e9;
-				host_info.m_cache = 1e6;
-		        time_tests_id = 0;
-				return TIME_TESTS_ERROR;
-			}
-			return TIME_TESTS_RUNNING;
-		}
+            if(time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
+                show_message("Time tests timed out, using default values", "low");
+                TerminateThread(time_tests_handle, 0);
+                CloseHandle(time_tests_handle);
+                host_info.p_fpops = 1e9;
+                host_info.p_iops = 1e9;
+                host_info.p_membw = 4e9;
+                host_info.m_cache = 1e6;
+                time_tests_id = 0;
+                return TIME_TESTS_ERROR;
+            }
+            return TIME_TESTS_RUNNING;
+        }
         CloseHandle(time_tests_handle);
 #else
         int retval, exit_code = 0;
         retval = waitpid(time_tests_id, &exit_code, WNOHANG);
         if(retval == 0) {
-			if((unsigned int)time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
-				show_message("Time tests timed out, using default values", "low");
-				kill(time_tests_id, SIGKILL);
-				host_info.p_fpops = 1e9;
-				host_info.p_iops = 1e9;
-				host_info.p_membw = 4e9;
-				host_info.m_cache = 1e6;
-		        time_tests_id = 0;
-				return TIME_TESTS_ERROR;
-			}
-			return TIME_TESTS_RUNNING;
-		}
+            if((unsigned int)time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
+                show_message("Time tests timed out, using default values", "low");
+                kill(time_tests_id, SIGKILL);
+                host_info.p_fpops = 1e9;
+                host_info.p_iops = 1e9;
+                host_info.p_membw = 4e9;
+                host_info.m_cache = 1e6;
+                time_tests_id = 0;
+                return TIME_TESTS_ERROR;
+            }
+            return TIME_TESTS_RUNNING;
+        }
 #endif
         time_tests_id = 0;
         show_message("Time tests complete", "low");
         finfo = fopen(TIME_TESTS_FILE_NAME, "r");
         if(!finfo) {
-			show_message("Error in time tests file, using default values", "low");
-			host_info.p_fpops = 1e9;
-			host_info.p_iops = 1e9;
-			host_info.p_membw = 4e9;
-			host_info.m_cache = 1e6;
-			return TIME_TESTS_ERROR;
-		}
+            show_message("Error in time tests file, using default values", "low");
+            host_info.p_fpops = 1e9;
+            host_info.p_iops = 1e9;
+            host_info.p_membw = 4e9;
+            host_info.m_cache = 1e6;
+            return TIME_TESTS_ERROR;
+        }
         host_info.parse_time_tests(finfo);
         fclose(finfo);
         file_delete(TIME_TESTS_FILE_NAME);
@@ -979,7 +979,7 @@ bool CLIENT_STATE::garbage_collect() {
                         
                         report_project_error(*rp,0,
                             "An output file of this result had an error"
-		        );
+                );
                     }
                 } else {
                     rp->output_files[i].file_info->ref_cnt++;
@@ -1050,39 +1050,39 @@ bool CLIENT_STATE::update_results() {
     result_iter = results.begin();
     while (result_iter != results.end()) {
         rp = *result_iter;
-	// The result has been received by the scheduling
-	// server.  It will be deleted on the next
-	// garbage collection, which we trigger by
-	// setting action to true
-	if(rp->server_ack)
-	  action = true;
-
+        // The result has been received by the scheduling
+        // server.  It will be deleted on the next
+        // garbage collection, which we trigger by
+        // setting action to true
+        if(rp->server_ack)
+            action = true;
+        
         switch (rp->state) {
-            case RESULT_NEW:
-                if (input_files_available(rp)) {
-                    rp->state = RESULT_FILES_DOWNLOADED;
-                    action = true;
-                }
-                break;
-            case RESULT_FILES_DOWNLOADED:
-                // The transition to COMPUTE_DONE is performed
-                // in app_finished()
-                break;
-            case RESULT_COMPUTE_DONE:
-                // Once the computation has been done, check
-                // that the necessary files have been uploaded
-                // before moving on
-                if (rp->is_upload_done()) {
-		    rp->ready_to_ack = true;
-                    rp->state = RESULT_FILES_UPLOADED;
-                    action = true;
-                }
-                break;
-
-            case RESULT_FILES_UPLOADED:
-                // The transition to SERVER_ACK is performed in
-                // handle_scheduler_reply()
-                break;
+        case RESULT_NEW:
+            if (input_files_available(rp)) {
+                rp->state = RESULT_FILES_DOWNLOADED;
+                action = true;
+            }
+            break;
+        case RESULT_FILES_DOWNLOADED:
+            // The transition to COMPUTE_DONE is performed
+            // in app_finished()
+            break;
+        case RESULT_COMPUTE_DONE:
+            // Once the computation has been done, check
+            // that the necessary files have been uploaded
+            // before moving on
+            if (rp->is_upload_done()) {
+                rp->ready_to_ack = true;
+                rp->state = RESULT_FILES_UPLOADED;
+                action = true;
+            }
+            break;
+            
+        case RESULT_FILES_UPLOADED:
+            // The transition to SERVER_ACK is performed in
+            // handle_scheduler_reply()
+            break;
         }
         result_iter++;
     }
@@ -1120,12 +1120,11 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         }
 
         if (!strcmp(argv[i], "-min")) {
-			global_prefs.run_minimized = true;
+            global_prefs.run_minimized = true;
             continue;
         }
         
         // the above options are private (i.e. not shown by -help)
-
 
         if (!strcmp(argv[i], "-add_new_project")) {
             add_new_project();

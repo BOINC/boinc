@@ -567,9 +567,8 @@ bool WORKUNIT::had_failure(int& failnum) {
     unsigned int i;
      
     for (i=0;i<input_files.size();i++) {
-      if(input_files[i].file_info->had_failure(failnum))
-	{
-	  return true;
+        if(input_files[i].file_info->had_failure(failnum)) {
+            return true;
         }
     }
 
