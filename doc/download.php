@@ -221,7 +221,7 @@ version(
     ATI Graphics card users should go to the S@H Q&A section and click on 
     <a href=http://setiweb.ssl.berkeley.edu/forum_thread.php?id=12948>this</a>
     thread, once there could you fill in the requested information and click on the
-    "I also have this question" button.  Thanks in advance.
+    \"I also have this question\" button.  Thanks in advance.
     </ul>
     "
 );
