@@ -766,7 +766,7 @@ int dir_hier_path(
     sum %= fanout;
     sprintf(dir, "%s/%x", root, sum);
     if (create) {
-        retval = boinc_mkdir(dir, 0777);
+        retval = boinc_mkdir(dir);
         if (retval && (retval != EEXIST)) {
             return ERR_MKDIR;
         }
