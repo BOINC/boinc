@@ -83,14 +83,14 @@ This architecture involves two RPC mechanisms:
 This document describes these two RPC mechanisms.
 The underlying protocol of both mechanisms is as follows:
 <ul>
-<li> Each RPC is an HTTP POST transaction.
-<li> The request and reply messages are strings of the form
+<li> Each RPC is an HTTP GET transaction.
+<li> The input is the GET arguments, i.e. a string of the form
 ".html_text("
 param1=val1&param2=val2&...&paramn=valn
 ")."
-there param1 ... paramN are the input or output parameter names,
+there param1 ... paramN are the parameter names,
 and val1 ... valn are the values.
-All values are URL-encoded using the PHP urlencode() function.
+The outputs are XML.
 </ul>
 
 <h2>Account creation RPCs</h2>
@@ -103,11 +103,17 @@ The RPC functions are as follows:
 list_start();
 list_item("URL", "project_url/am_create.php");
 list_item(
-	"input", "email address
-		<br>nonce ID (crypto-random string)"
+	"input",
+        "email_addr: email address
+		<br>nonce: nonce ID (crypto-random string)"
 );
 list_item(
-	"output", "status (integer; 0=success)"
+	"output",
+    html_text("<am_create_reply>
+    [ <error>message</error> ]
+    [ <success/>
+</am_create_reply>
+    ")
 );
 list_item(
 	"action",
@@ -131,15 +137,20 @@ echo "
 list_start();
 list_item("URL", "project_url/am_query.php");
 list_item("input",
-    "nonce ID"
+    "nonce"
 );
 list_item("output",
-    "status (integer; 0 means account has been confirmed)
-    <br>account key (string)
-    "
+    html_text("<am_query_reply>
+    [<error>MSG</error>]
+    [ <success/>
+    <confirmed>0</confirmed> ]
+    [ <success/>
+    <account_key>KEY</account_key> ]
+</am_query_reply>
+    ")
 );
 list_item("action",
-    "If the account has been confirmed, return status=0 and the account key."
+    "If the account has been confirmed, returns the account key."
 );
 list_end();
 
@@ -149,37 +160,53 @@ echo "
 
 list_start();
 list_item("URL", "project_url/am_get_info.php");
-list_item("input", "account key");
+list_item("input", "account_key");
 list_item("output",
-	"status (integer)
-    <br>name (string)
-    <br>country (string)
-    <br>postal_code (string)
-    <br>global_prefs (XML string)
-    <br>project_prefs (XML string)
-    <br>url (string)
-    <br>send_email (integer)
-    <br>show_hosts (integer)
-    "
+	html_text("<am_get_info_reply>
+    <name>NAME</name>
+    <country>COUNTRY</country>
+    <postal_code>POSTAL_CODE</postal_code>
+    <global_prefs>
+    GLOBAL_PREFS
+    </global_prefs>
+    <project_prefs>
+    PROJECT_PREFS
+    </project_prefs>
+    <url>URL</url>
+    <send_email>SEND_EMAIL</send_email>
+    <show_hosts>SHOW_HOSTS</show_hosts>
+</am_get_info_reply>
+    ")
 );
+list_item("action", "returns data associated with the given account");
 list_end();
 echo "
 <h3>Set account info</h3>
 ";
 list_start();
 list_item("URL", "project_url/am_set_info.php");
-list_item("input", "account key
-    <br>name (string)
-    <br>country (string)
-    <br>postal_code (string)
-    <br>global_prefs (XML string)
-    <br>project_prefs (XML string)
-    <br>url (string)
-    <br>send_email (integer)
-    <br>show_hosts (integer)
+list_item("input",
+    "account_key
+    <br>[ name ]
+    <br>[ country ]
+    <br>[ postal_code ]
+    <br>[ global_prefs ]
+    <br>[ project_prefs ]
+    <br>[ url ]
+    <br>[ send_email ]
+    <br>[ show_hosts ]
     "
 );
-list_item("output", "status (integer)");
+list_item("output",
+    html_text("<am_set_info_reply>
+    [ <error>MSG</error ]
+    [ <success/> ]
+</am_set_info_reply>")
+);
+list_item("action",
+    "updates one or more items of data associated with the given account"
+);
+
 list_end();
 
 echo "
@@ -191,12 +218,22 @@ list_start();
 list_item("URL", "Given in the file account_manager_url.xml,
     included in the installer"
 );
-list_item("input", "name (string)
-    <br>password (string)"
+list_item("input", "name
+    <br>password"
 );
 list_item("output",
-    "url1, key1, ..., urln, keyn: list of accounts.
-    Each account consists of a (URL, account key) pair."
+    html_text("<account_manager_reply>
+    [ <error>MSG</error> ]
+    [ <account>
+        <url>URL</url>
+        <key>KEY</key>
+      </account>
+      ...
+    ]
+</account_manager_reply>")
+);
+list_item("action",
+    "returns a list of the accounts associated with this meta-account"
 );
 list_end();
 

@@ -49,7 +49,8 @@ using std::vector;
 
 // Quit running applications, quit benchmarks,
 // write the client_state.xml file
-// (should we also terminate net_xfers here?)
+// (in principle we could also terminate net_xfers here,
+// e.g. flush buffers, but why bother)
 //
 int CLIENT_STATE::quit_activities() {
     int retval;

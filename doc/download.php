@@ -2,10 +2,13 @@
 
 require_once("docutil.php");
 
-function version_start($num, $date, $xml) {
+function version_start($num, $date, $xml, $comment=null) {
     if ($xml) return;
     list_start();
     list_bar("Version $num (released $date)");
+    if ($comment) {
+        list_bar($comment);
+    }
     list_heading("Platform", "click to download", "MD5 checksum of download file");
 }
 
@@ -67,7 +70,12 @@ function show_420($xml=false) {
 }
 
 function show_419($xml=false) {
-    version_start("4.19", "25 Jan 2005", $xml);
+    version_start("4.19", "25 Jan 2005", $xml,
+        "This version doesn't work with some HTTP proxies.
+        If you use a proxy and experience problems,
+        please use version 4.23 or later,
+        in which this problem is fixed."
+    );
     version("Windows", "boinc_4.19_windows_intelx86.exe", $xml);
     version("Linux/x86", "boinc_4.19_i686-pc-linux-gnu.gz", $xml);
     version("Mac OS X", "boinc_4.19_powerpc-apple-darwin.gz", $xml);
@@ -116,14 +124,8 @@ if ($_GET["xml"]) {
 page_head("Download BOINC client software");
 
 echo "
-<h2>System requirements</h2>
-<p>
-There are no specific hardware requirements
-(CPU speed, memory, disk space, etc.).
-However, these factors may limit the amount or type
-of work that is sent to your computer.
 
-<h2>Current version</h2>
+<h2>Stable version (recommended)</h2>
 ";
 show_stable(false);
 echo "
@@ -138,27 +140,32 @@ echo "
     </ul>
     <p>
 
-    If your computer is not one of the above types, you can
+    If your computer is not of one of the above types, you can
     <ul>
     <li> <a href=anonymous_platform.php>download and compile the BOINC software yourself</a> or
     <li> <a href=download_other.php>download from a third-party site</a>.
     </ul>
     <p>
-    BOINC can be customized for
+    There are no specific hardware requirements
+    (CPU speed, memory, disk space, etc.).
+    However, these factors may limit the amount or type
+    of work that is sent to your computer.
+    <p>
+    The Windows version can be customized for
     <a href=http://boinc.berkeley.edu/language.php>languages other than English</a>
 
-    <p>
-    <a href=download.php?dev=1>Show development versions also</a>.
+";
+
+echo "
+    <a name=dev>
+    <h2>Development versions (latest features, possibly buggy)</h2>
+";
+show_dev(false);
+
+echo "
     <p>
     Get data in <a href=download.php?xml=1>XML format</a>.
 ";
-
-if ($_GET["dev"]) {
-    echo "
-        <h2>Development versions (latest features, possibly buggy)</h2>
-    ";
-    show_dev(false);
-}
 
 
 page_tail();

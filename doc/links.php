@@ -103,9 +103,9 @@ language("Russian", array(
 language("Slovak", array(
     site("http://www.boinc.sk/", "www.boinc.sk")
 ));
-language("Spanish", array(
-    site("http://boincspain.shyper.com/", "BOINC España</a>")
-));
+//language("Spanish", array(
+//    site("http://boincspain.shyper.com/", "BOINC España</a>")
+//));
 language("Turkish", array(
     site("http://www.turksetiteam.org/boinc/index.html",
         "www.turksetiteam.org")

@@ -86,6 +86,7 @@ int ACTIVE_TASK::kill_task() {
 #else
     return kill(pid, SIGKILL);
 #endif
+    cleanup_task();
 }
 
 #if !defined(HAVE_WAIT4) && defined(HAVE_WAIT3)
@@ -155,6 +156,7 @@ bool ACTIVE_TASK::has_task_exited() {
 #endif
     if (exited) {
         task_state = PROCESS_EXITED;
+        cleanup_task();
     }
     return exited;
 }
@@ -271,7 +273,7 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
 
                     // destroy shm, since restarting app will re-create it
                     //
-                    detach_and_destroy_shmem();
+                    cleanup_task();
                     return true;
                 }
                 if (!finish_file_present()) {
@@ -282,7 +284,7 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
                     //
                     scheduler_state = CPU_SCHED_PREEMPTED;
                     task_state = PROCESS_UNINITIALIZED;
-                    detach_and_destroy_shmem();
+                    cleanup_task();
                     limbo_message(*this);
                     return true;
                 }
@@ -760,7 +762,7 @@ bool ACTIVE_TASK_SET::is_task_executing() {
     return false;
 }
 
-// Send quit signal to all app processes
+// Send quit message to all app processes
 // This is called when the core client exits,
 // or when a project is detached or reset
 //

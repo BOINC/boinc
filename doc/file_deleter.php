@@ -33,6 +33,8 @@ in the <a href=files.php>&lt;file_info></a> element for a file in a
 <a href=tools_work.php>workunit or result template</a>.
 This lets you suppress deletion on a file-by-file basis.
 
+<li> Include the string <code>nodelete</code> in the workunit name.
+
 </ul>
 In either case you may need to implement your
 own scheme for deleting files,

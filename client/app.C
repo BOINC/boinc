@@ -110,6 +110,11 @@ ACTIVE_TASK::ACTIVE_TASK() {
 }
 
 #ifdef _WIN32
+
+// call this when a process has existed but will be started again
+// (e.g. suspend via quit, exited but no finish file).
+// In these cases we want to keep the shmem and events
+//
 void ACTIVE_TASK::close_process_handles() {
     if (pid_handle) {
         CloseHandle(pid_handle);
@@ -120,8 +125,12 @@ void ACTIVE_TASK::close_process_handles() {
         thread_handle = NULL;
     }
 }
+#endif
 
-ACTIVE_TASK::~ACTIVE_TASK() {
+// call this when a process has exited and we're not going to restart it
+//
+void ACTIVE_TASK::cleanup_task() {
+#ifdef _WIN32
     close_process_handles();
     if (quitRequestEvent) {
         CloseHandle(quitRequestEvent);
@@ -134,22 +143,26 @@ ACTIVE_TASK::~ACTIVE_TASK() {
         detach_shmem(shm_handle, app_client_shm.shm);
         app_client_shm.shm = NULL;
     }
-}
 #else
-void ACTIVE_TASK::detach_and_destroy_shmem() {
-    // detach from and destroy share mem
-    //
+    int retval;
+
     if (app_client_shm.shm) {
-        detach_shmem(app_client_shm.shm);
-        destroy_shmem(shmem_seg_name);
+        retval = detach_shmem(app_client_shm.shm);
+        if (retval) {
+            msg_printf(NULL, MSG_ERROR, "detach_shmem: %d", retval);
+        }
+        retval = destroy_shmem(shmem_seg_name);
+        if (retval) {
+            msg_printf(NULL, MSG_ERROR, "destroy_shmem: %d", retval);
+        }
         app_client_shm.shm = NULL;
     }
+#endif
 }
 
 ACTIVE_TASK::~ACTIVE_TASK() {
-    detach_and_destroy_shmem();
+    cleanup_task();
 }
-#endif
 
 int ACTIVE_TASK::init(RESULT* rp) {
     result = rp;

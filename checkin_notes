@@ -25296,3 +25296,13 @@ David  24 Feb 2005
             am_get_info.php (new)
             am_query.php
             am_set_info.php (new)
+
+David  25 Feb 2005
+    - Core client: in Unix version, make sure that
+        shared-mem segments get deleted when ^C the core client.
+        If they don't, some systems (Solaris) eventually run out of something.
+
+    client/
+        app.C,h
+        app_control.C
+        cs_apps.C
