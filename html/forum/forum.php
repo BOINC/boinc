@@ -17,7 +17,7 @@ $forum = getForum($_GET['id']);
 
 if ($forum->is_helpdesk) {
 	doHeader('Help Desk');
-	$sort_style = 'activity-most';	        
+	$sort_style = 'help-activity-most';	        
 } else {
 	doHeader('Forum');
 	($_GET['sort'] != NULL) ? $sort_style = $_GET['sort'] : $sort_style = 'modified-new';
