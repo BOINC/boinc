@@ -131,7 +131,7 @@ def add_files(app, match, exec_file, non_exec_files=[]):
 
 def re_match_exec_filename(filepath):
     file = os.path.basename(filepath)
-    return re.match('[^.]+_([0-9]+)[.]([0-9]+)_([^.]+?)(?:[.]gz|[.]exe|[.]sit)?$', file)
+    return re.match('[^.]+_([0-9]+)[.]([0-9]+)_([^.]+?(?:[0-9][0-9.]*[0-9]))(?:[.]gz|[.]exe|[.]sit)?$', file)
 
 def find_versions(app, dir):
     """Find application versions/core client versions in DIR.
