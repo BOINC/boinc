@@ -6725,3 +6725,14 @@ David  Oct 12 2003
     html_user/
         prefs.inc
         white.css
+
+Karl 2003-10-13
+    - removed some graphics stuff from non-graphics files. Split graphics
+      source files into separate library libboinc_graphics_api.a
+
+    api/
+        boinc_api.C
+    lib/
+        Makefile.am
+    api/
+        Makefile.am

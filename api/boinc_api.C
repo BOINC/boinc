@@ -51,7 +51,6 @@ MMRESULT timer_id;
 #include "error_numbers.h"
 #include "app_ipc.h"
 
-#include "graphics_api.h"
 #include "boinc_api.h"
 
 #ifdef _WIN32

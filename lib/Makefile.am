@@ -4,13 +4,11 @@ include $(top_srcdir)/Makefile.incl
 
 bin_PROGRAMS = md5_test shmem_test crypt_prog
 EXTRA_PROGRAMS = msg_test synch_test
-noinst_LIBRARIES = libboinc.a
+noinst_LIBRARIES = libboinc.a libboinc_graphics.a
 EXTRA_DIST = result_state.h
 
 libboinc_a_SOURCES =				\
         ../api/boinc_api.C			\
-        ../api/graphics_api.C			\
-        ../api/graphics_data.C			\
         ../api/mfile.C				\
         app_ipc.C				\
         countries.C				\
@@ -36,6 +34,10 @@ libboinc_a_SOURCES =				\
 	shmem.h					\
 	synch.h					\
 	util.h
+
+libboinc_graphics_a_SOURCES =			\
+        ../api/graphics_api.C			\
+        ../api/graphics_data.C
 
 md5_test_SOURCES = md5_test.C md5.c md5_file.C
 shmem_test_SOURCES = shmem_test.C shmem.C
