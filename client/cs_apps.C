@@ -22,6 +22,7 @@
 #include "md5_file.h"
 #include "log_flags.h"
 #include "file_names.h"
+#include "shmem.h"
 
 #include "client_state.h"
 
@@ -101,6 +102,12 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         }
     }
 
+#ifdef _WIN32
+#else
+    if (at.app_client_shm)
+        detach_shmem(at.app_client_shm);
+    destroy_shmem(at.shm_key);
+#endif
     at.result->is_active = false;
     at.result->state = RESULT_COMPUTE_DONE;
     update_avg_cpu(at.result->project);

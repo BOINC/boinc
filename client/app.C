@@ -530,7 +530,6 @@ bool ACTIVE_TASK_SET::poll() {
             }
         }
 
-        destroy_shmem(atp->shm_key);
         atp->read_stderr_file();
         clean_out_dir(atp->slot_dir);
 
