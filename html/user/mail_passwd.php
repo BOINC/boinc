@@ -6,7 +6,7 @@ require_once("../inc/util.inc");
 db_init();
 
 page_head("Password");
-$email_addr = trim($HTTP_POST_VARS["email_addr"]);
+$email_addr = trim(strtolower($HTTP_POST_VARS["email_addr"]));
 if (strlen($email_addr)) {
     $query = sprintf(
         "select * from user where email_addr = '%s'",

@@ -17,6 +17,7 @@
     page_head("Verify email address change");
     if ($user) {
         if (split_munged_email_addr($user->email_addr, $str, $new_email)) {
+            $new_email = trim(strtolower($new_email));
             $result = mysql_query("update user set email_addr='$new_email' where id=$user->id");
             if ($result) {
                 echo "Email address change verified";

@@ -23,6 +23,7 @@
         page_tail();
     } else {
         if (split_munged_email_addr($user->email_addr, $authenticator, $email)) {
+            $email=trim(strtolower($email));
             $retval = mysql_query("update user set email_addr='$email' where id=$user->id");
             $n = mysql_affected_rows();
             if ($n <= 0) {

@@ -13495,3 +13495,16 @@ Rom    14 June 2004
         gui_rpc_client.C
     lib/
         util.c
+
+David  14 June 2004
+    - Email addresses in the DB should ALWAYS be lower-case,
+        with no leading or trailing white space.
+        Add code (trim, strtolower) to enforce this.
+        Existing databases should be cleaned up.
+
+    html/user/
+        confirm_email_change.php
+        create_account_action.php
+        edit_email_action.php
+        login_action.php
+        mail_passwd.php

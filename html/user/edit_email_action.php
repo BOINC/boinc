@@ -17,7 +17,7 @@ To confirm this change, please visit the following URL:
     db_init();
     $user = get_logged_in_user();
 
-    $email_addr = trim($HTTP_POST_VARS["email_addr"]);
+    $email_addr = trim(strtolower($HTTP_POST_VARS["email_addr"]));
 
     page_head("Edit email address");
     if ($email_addr == "Verification pending") {
