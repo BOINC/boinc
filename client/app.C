@@ -486,7 +486,7 @@ bool ACTIVE_TASK_SET::poll() {
     for (j=0; j<active_tasks.size(); j++) {
         atp = active_tasks[j];
         if (atp->current_cpu_time > atp->max_cpu_time) {
-            fprintf(stderr, "Aborting task because CPU time limit exceeded");
+            fprintf(stderr, "Aborting task: exceeded CPU time limit %f\n", atp->max_cpu_time);
             atp->abort();
             return true;
         }
