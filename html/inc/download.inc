@@ -14,11 +14,11 @@ function platform_downloads($platform) {
         $version = sprintf("%.2f", $core_version->version_num/100);
         $url = parse_element($core_version->xml_doc, "<url>");
         $date = date_str($core_version->create_time);
+        $md5_cksum = parse_element($core_version->xml_doc,"<md5_cksum>");
         if ($core_version->create_time > time()-($NEW_THRESHOLD*60*60*24)) {
             $date .= ' <font color=red>New!</font>';
         }
-        row3("<a href=$url>$platform->user_friendly_name</a>", $version, $date);
-        //$app_version->md5_cksum";
+        row4("<a href=$url>$platform->user_friendly_name</a>", $version, $date, $md5_cksum);
         $found = true;
     }
 
@@ -29,7 +29,7 @@ function print_download_links() {
     start_table();
 
     echo "<tr><th>Computer type<br><font size=-2>click to download</font>
-        </th><th>Version</th><th>Release Date</th></tr>\n
+        </th><th>Version</th><th>Release Date</th><th>MD5 Checksum</th></tr>\n
     ";
     $result = mysql_query("select * from platform order by name");
     while ($platform = mysql_fetch_object($result)) {

@@ -226,6 +226,10 @@ function row3($x, $y, $z) {
     echo "<tr><td width=30% valign=top align=right>$x</td><td>$y</td><td>$z</td></tr>\n";
 }
 
+function row4($w, $x, $y, $z) {
+    echo "<tr><td width=30% valign=top align=right>$w</td><td>$x</td><td>$y</td><td>$z</td></tr>\n";
+}
+
 function rowify($string) {
     echo "<tr><td>$string</td></tr>";
 }
