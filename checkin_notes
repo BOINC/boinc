@@ -24023,3 +24023,14 @@ Rom    4 Feb 2005
         ViewWork.cpp
     win_build/installerv2/
         BOINC.ism
+
+Rom    5 Feb 2005
+    - Bug fix: Rework the logic for NT 4.0 BDC detection and dealing with the
+        condition.
+
+    win_build/installerv2/
+        BOINC.ism
+
+Rom    5 Feb 2005
+    - Tag for 4.66 release, all platforms
+      boinc_core_release_4_66
