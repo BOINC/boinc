@@ -26,6 +26,10 @@
 #include "util.h"
 #include "boinc_db.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 DB_CONN boinc_db;
 
 static struct random_init {
