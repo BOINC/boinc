@@ -13,7 +13,7 @@ CFLAGS = -g -Wall @DEFS@ \
 
 CC = @CC@ $(CFLAGS) -I @top_srcdir@/api -I@top_srcdir@/lib
 
-LIBS = ../api/boinc_api.o ../api/mfile.o ../lib/parse.o ../lib/filesys.o ../lib/util.o
+LIBS = ../api/boinc_api.o ../api/graphics_api.o ../api/mfile.o ../lib/parse.o ../lib/filesys.o ../lib/util.o
 
 CLIBS = @LIBS@
 
