@@ -262,6 +262,7 @@ def install_boinc_files(dest_dir):
 
     install_glob(srcdir('html/forum/*.php'), dir('html/forum/'))
     install_glob(srcdir('html/inc/*.inc'), dir('html/inc/'))
+    install_glob(srcdir('html/inc/*.php'), dir('html/inc/'))
     install_glob(srcdir('html/ops/*.php'), dir('html/ops/'))
     install_glob(srcdir('html/ops/*.inc'), dir('html/ops/'))
     install_glob(srcdir('html/user/*.php'), dir('html/user/'))
