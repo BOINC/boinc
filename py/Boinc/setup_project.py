@@ -396,6 +396,8 @@ class Project:
             self.dir('html/project/project_specific_prefs.inc'))
         install(srcdir('html/project.sample/project_news.inc'),
             self.dir('html/project/project_news.inc'))
+        install(srcdir('html/project.sample/cache_parameters.inc'),
+            self.dir('html/project/cache_parameters.inc'))
 
 
         my_symlink(self.config.config.download_dir, self.dir('html', 'user', 'download'))
