@@ -12,6 +12,7 @@ define("URL_BASE", "");
 define('IMAGE_PATH', 'images/user_profile/');
 define('PROFILE_PATH', 'user_profile/');
 define('LANGUAGE_FILE', 'languages.txt');
+define('STYLESHEET', 'white.css');
 
 function project_intro() {
     echo"

@@ -121,7 +121,7 @@ function page_head($title, $user=null, $fd=null, $styleSheet=null) {
     }
 
     if ($styleSheet == NULL) {
-        $styleSheet = URL_BASE . 'black.css';
+        $styleSheet = URL_BASE . STYLESHEET;
     }
 
     write_fd($fd, "<html><head><title>$title</title>\n");
