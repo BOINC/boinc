@@ -83,6 +83,8 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
     char buf[256], buf2[256];
     bool in_venue = false, in_correct_venue=false;
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+
 	init();
     source_project = "";
     source_scheduler = "";
@@ -183,7 +185,7 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
         } else if (parse_int(buf, "<cpu_affinity>", cpu_affinity)) {
             continue;
         } else {
-            msg_printf(NULL, MSG_INFO, "GLOBAL_PREFS::parse: unrecognized: %s\n", buf);
+            scope_messages.printf("GLOBAL_PREFS::parse: unrecognized: %s\n", buf);
         }
     }
     return 0;

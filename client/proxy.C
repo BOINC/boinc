@@ -87,6 +87,8 @@ void print_buf( char *buf, int n ) {
 int PROXY_INFO::parse(FILE* in) {
     char buf[256];
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+
     memset(this, 0, sizeof(PROXY_INFO));
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</proxy_info>")) return 0;
@@ -99,7 +101,7 @@ int PROXY_INFO::parse(FILE* in) {
         else if (parse_int(buf, "<http_server_port>", http_server_port)) continue;
         else if (parse_str(buf, "<socks5_user_name>", socks5_user_name, sizeof(socks5_user_name))) continue;
         else if (parse_str(buf, "<socks5_user_passwd>", socks5_user_passwd, sizeof(socks5_user_passwd))) continue;
-        else msg_printf(NULL, MSG_ERROR, "PROXY_INFO::parse(): unrecognized: %s\n", buf);
+        else scope_messages.printf("PROXY_INFO::parse(): unrecognized: %s\n", buf);
     }
     return 0;
 }

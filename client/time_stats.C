@@ -115,13 +115,15 @@ int TIME_STATS::write(FILE* out, bool to_server) {
 int TIME_STATS::parse(FILE* in) {
     char buf[256];
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</time_stats>")) return 0;
         else if (parse_int(buf, "<last_update>", last_update)) continue;
         else if (parse_double(buf, "<on_frac>", on_frac)) continue;
         else if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
         else if (parse_double(buf, "<active_frac>", active_frac)) continue;
-        else msg_printf(NULL, MSG_ERROR, "TIME_STATS::parse(): unrecognized: %s\n", buf);
+        else scope_messages.printf("TIME_STATS::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }

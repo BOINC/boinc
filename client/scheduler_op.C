@@ -550,6 +550,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     char buf[256], *p;
     int retval;
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
+
     hostid = 0;
     host_total_credit = 0;
     host_expavg_credit = 0;
@@ -676,7 +678,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         } else if (match_tag(buf, "<non_cpu_intensive/>")) {
             continue;
         } else if (strlen(buf)>1){
-            msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY::parse(): unrecognized %s\n", buf);
+            scope_messages.printf("SCHEDULER_REPLY::parse(): unrecognized %s\n", buf);
         }
     }
     msg_printf(project, MSG_ERROR, "SCHEDULER_REPLY::parse(): no close tag\n");

@@ -12358,3 +12358,18 @@ David  May 18 2004
 
 	client/
 		cpu_benchmark.C
+
+Rom    May 18 2004
+    - XML Parsing errors should now be hidden from normal operation.
+      NOTE: In order to see XML parsing errors you'll need to turn on the
+            debug state and debug scheduler operation log flags.
+
+    client/
+        app.C
+        client_types.C
+        cs_statefile.C
+        hostinfo.C
+        prefs.C
+        proxy.C
+        scheduler_op.C
+        time_stats.C

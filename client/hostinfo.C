@@ -84,6 +84,8 @@ void HOST_INFO::clear_host_info() {
 int HOST_INFO::parse(FILE* in) {
     char buf[256];
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+
     memset(this, 0, sizeof(HOST_INFO));
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</host_info>")) return 0;
@@ -118,7 +120,7 @@ int HOST_INFO::parse(FILE* in) {
         else if (parse_double(buf, "<m_swap>", m_swap)) continue;
         else if (parse_double(buf, "<d_total>", d_total)) continue;
         else if (parse_double(buf, "<d_free>", d_free)) continue;
-        else msg_printf(NULL, MSG_ERROR, "HOST_INFO::parse(): unrecognized: %s\n", buf);
+        else scope_messages.printf("HOST_INFO::parse(): unrecognized: %s\n", buf);
     }
     return 0;
 }
@@ -180,6 +182,8 @@ int HOST_INFO::write(FILE* out) {
 int HOST_INFO::parse_cpu_benchmarks(FILE* in) {
     char buf[256];
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+
     fgets(buf, 256, in);
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<cpu_benchmarks>"));
@@ -192,7 +196,7 @@ int HOST_INFO::parse_cpu_benchmarks(FILE* in) {
         else if (parse_int(buf, "<p_membw_err>", p_membw_err)) continue;
         else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
         else if (parse_double(buf, "<m_cache>", m_cache)) continue;
-        else msg_printf(NULL, MSG_ERROR, "HOST_INFO::parse(): unrecognized: %s\n", buf);
+        else scope_messages.printf("HOST_INFO::parse(): unrecognized: %s\n", buf);
     }
     return 0;
 }

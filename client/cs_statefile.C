@@ -154,9 +154,7 @@ int CLIENT_STATE::parse_state_file() {
             if (retval) goto done;
         // } else if (parse_int(buf, "<user_run_request/>")) {
         } else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) {
-        } else {
-            msg_printf(NULL, MSG_ERROR, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
-        }
+        } else scope_messages.printf("CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
     }
 done:
     fclose(f);

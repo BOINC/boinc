@@ -195,6 +195,8 @@ int PROJECT::parse_account(FILE* in) {
     int retval;
     bool got_venue_prefs = false;
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+
     // Assume master_url_fetch_pending, sched_rpc_pending are
     // true until we read client_state.xml
     //
@@ -255,7 +257,7 @@ int PROJECT::parse_account(FILE* in) {
             if (retval) return ERR_XML_PARSE;
             continue;
         }
-        else msg_printf(NULL, MSG_ERROR, "PROJECT::parse_account(): unrecognized: %s\n", buf);
+        else scope_messages.printf("PROJECT::parse_account(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -266,6 +268,8 @@ int PROJECT::parse_state(FILE* in) {
     char buf[256];
     STRING256 sched_url;
     string str1, str2;
+
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
     strcpy(project_name, "");
     strcpy(user_name, "");
@@ -316,7 +320,7 @@ int PROJECT::parse_state(FILE* in) {
         else if (parse_int(buf, "<min_rpc_time>", (int&)min_rpc_time)) continue;
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
         else if (match_tag(buf, "<sched_rpc_pending/>")) sched_rpc_pending = true;
-        else msg_printf(NULL, MSG_ERROR, "PROJECT::parse_state(): unrecognized: %s\n", buf);
+        else scope_messages.printf("PROJECT::parse_state(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -432,12 +436,14 @@ char* PROJECT::get_project_name() {
 int APP::parse(FILE* in) {
     char buf[256];
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+
     strcpy(name, "");
     project = NULL;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</app>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        else msg_printf(NULL, MSG_ERROR, "APP::parse(): unrecognized: %s\n", buf);
+        else scope_messages.printf("APP::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -535,6 +541,8 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     PERS_FILE_XFER *pfxp;
     int retval;
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file_info>")) return 0;
         else if (match_tag(buf, "<xml_signature>")) {
@@ -597,9 +605,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
         } else if (match_tag(buf, "<error_msg>")) {
             copy_element_contents(in, "</error_msg>", buf2, sizeof(buf2));
             error_msg = buf2;
-        } else {
-            msg_printf(NULL, MSG_ERROR, "FILE_INFO::parse(): unrecognized: %s\n", buf);
-        }
+        } else scope_messages.printf("FILE_INFO::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -700,6 +706,8 @@ int APP_VERSION::parse(FILE* in) {
     char buf[256];
     FILE_REF file_ref;
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+
     strcpy(app_name, "");
     version_num = 0;
     app = NULL;
@@ -713,7 +721,7 @@ int APP_VERSION::parse(FILE* in) {
             continue;
         }
         else if (parse_int(buf, "<version_num>", version_num)) continue;
-        else msg_printf(NULL, MSG_ERROR, "APP_VERSION::parse(): unrecognized: %s\n", buf);
+        else scope_messages.printf("APP_VERSION::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -742,6 +750,8 @@ int APP_VERSION::write(FILE* out) {
 int FILE_REF::parse(FILE* in) {
     char buf[256];
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+
     strcpy(file_name, "");
     strcpy(open_name, "");
     fd = -1;
@@ -754,7 +764,7 @@ int FILE_REF::parse(FILE* in) {
         else if (parse_int(buf, "<fd>", fd)) continue;
         else if (match_tag(buf, "<main_program/>")) main_program = true;
         else if (match_tag(buf, "<copy_file/>")) copy_file = true;
-        else msg_printf(NULL, MSG_ERROR, "FILE_REF::parse(): unrecognized: %s\n", buf);
+        else scope_messages.printf("FILE_REF::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -786,6 +796,8 @@ int WORKUNIT::parse(FILE* in) {
     char buf[256];
     FILE_REF file_ref;
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+
     strcpy(name, "");
     strcpy(app_name, "");
     version_num = 0;
@@ -815,7 +827,7 @@ int WORKUNIT::parse(FILE* in) {
             input_files.push_back(file_ref);
             continue;
         }
-        else msg_printf(NULL, MSG_ERROR, "WORKUNIT::parse(): unrecognized: %s\n", buf);
+        else scope_messages.printf("WORKUNIT::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -878,11 +890,13 @@ void WORKUNIT::get_file_errors(string& str) {
 int RESULT::parse_ack(FILE* in) {
     char buf[256];
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+
     strcpy(name, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</result_ack>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
-        else msg_printf(NULL, MSG_ERROR, "RESULT::parse(): unrecognized: %s\n", buf);
+        else scope_messages.printf("RESULT::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -912,6 +926,8 @@ int RESULT::parse_server(FILE* in) {
     char buf[256];
     FILE_REF file_ref;
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
+
     clear();
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</result>")) return 0;
@@ -923,7 +939,7 @@ int RESULT::parse_server(FILE* in) {
             output_files.push_back(file_ref);
             continue;
         }
-        else msg_printf(NULL, MSG_ERROR, "RESULT::parse(): unrecognized: %s\n", buf);
+        else scope_messages.printf("RESULT::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -933,6 +949,8 @@ int RESULT::parse_server(FILE* in) {
 int RESULT::parse_state(FILE* in) {
     char buf[256];
     FILE_REF file_ref;
+
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
 
     clear();
     while (fgets(buf, 256, in)) {
@@ -964,7 +982,7 @@ int RESULT::parse_state(FILE* in) {
             }
             continue;
         }
-        else msg_printf(NULL, MSG_ERROR, "RESULT::parse(): unrecognized: %s\n", buf);
+        else scope_messages.printf("RESULT::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }

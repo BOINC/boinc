@@ -660,7 +660,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
         atp = active_tasks[i];
         if (GetExitCodeProcess(atp->pid_handle, &exit_code)) {
             if (exit_code != STILL_ACTIVE) {
-                msg_printf(NULL, MSG_INFO, "Process exited with code %d", exit_code);
+                scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): Process exited with code %d\n", exit_code);
                 atp->get_status_msg();
                 atp->result->final_cpu_time = atp->checkpoint_cpu_time;
                 found = true;
@@ -1381,6 +1381,8 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
     int app_version_num=0;
     PROJECT* project;
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
+
     strcpy(result_name, "");
     strcpy(project_master_url, "");
     while (fgets(buf, 256, fin)) {
@@ -1434,7 +1436,7 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
-        else msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK::parse(): unrecognized %s\n", buf);
+        else scope_messages.printf("ACTIVE_TASK::parse(): unrecognized %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
@@ -1461,6 +1463,8 @@ int ACTIVE_TASK_SET::parse(FILE* fin, CLIENT_STATE* cs) {
     char buf[256];
     int retval;
 
+    SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
+
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</active_task_set>")) return 0;
         else if (match_tag(buf, "<active_task>")) {
@@ -1468,9 +1472,7 @@ int ACTIVE_TASK_SET::parse(FILE* fin, CLIENT_STATE* cs) {
             retval = atp->parse(fin, cs);
             if (!retval) active_tasks.push_back(atp);
             else delete atp;
-        } else {
-            msg_printf(NULL, MSG_ERROR, "ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf);
-        }
+        } else scope_messages.printf("ACTIVE_TASK_SET::parse(): unrecognized %s\n", buf);
     }
     return 0;
 }
