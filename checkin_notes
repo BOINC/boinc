@@ -16520,3 +16520,13 @@ David  20 Aug 2004
         ops/
             show_log.php
             white.css (new)
+
+David  20 Aug 2004
+    - removed perror()s from shmem functions.
+        Shouldn't do I/O at this level.
+
+    html/user/
+        info.php
+        stats.php
+    lib/
+        shmem.C

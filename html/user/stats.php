@@ -1,7 +1,5 @@
 <?php
-require_once('../inc/db.inc');
 require_once('../inc/util.inc');
-db_init();
 page_head('Project statistics');
 
 echo "
@@ -19,6 +17,8 @@ and the files are
 This data can be summarized and represented as Web pages.
 Examples:
 <ul>
+<li>
+<a href=http://www.hispaseti.org/stats/team/BOINCStats/WEB_index.php>HispaSeti & BOINC</a> (Spanish-language)
 <li>
 <a href=http://www.setisynergy.com/stats/index.php>BOINC Statistics for the WORLD!</a>
 <li>

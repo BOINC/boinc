@@ -94,12 +94,9 @@ int detach_shmem(HANDLE hSharedMem, void* p) {
 
 int create_shmem(key_t key, int size, void** pp) {
     int id;
-    char buf[256];
     assert(pp!=NULL);
     id = shmget(key, size, IPC_CREAT|0777);
     if (id < 0) {
-        sprintf(buf, "create_shmem: shmget: key: %x size: %d", (unsigned int)key, size);
-        perror(buf);
         return ERR_SHMGET;
     }
     return attach_shmem(key, pp);
@@ -114,15 +111,8 @@ int destroy_shmem(key_t key){
     if (id < 0) return 0;           // assume it doesn't exist
     retval = shmctl(id, IPC_STAT, &buf);
     if (retval) return ERR_SHMCTL;
-    if (buf.shm_nattch > 0) {
-        fprintf(stderr,
-            "destroy_shmem: %d attachments\n",
-            (int)buf.shm_nattch
-        );
-    }
     retval = shmctl(id, IPC_RMID, 0);
     if (retval) {
-        fprintf(stderr, "destroy_shmem: remove failed %d\n", retval);
         return ERR_SHMCTL;
     }
     return 0;
@@ -130,19 +120,14 @@ int destroy_shmem(key_t key){
 
 int attach_shmem(key_t key, void** pp){
     void* p;
-    char buf[256];
     int id;
     assert(pp!=NULL);
     id = shmget(key, 0, 0);
     if (id < 0) {
-        sprintf(buf, "attach_shmem: shmget: key: %x mem_addr: %p", (unsigned int)key, (void*)pp);
-        perror(buf);
         return ERR_SHMGET;
     }
     p = shmat(id, 0, 0);
     if ((long)p == ERR_SHMAT) {
-        sprintf(buf, "attach_shmem: shmat: key: %x mem_addr: %p", (unsigned int)key, (void*)pp);
-        perror(buf);
         return ERR_SHMAT;
     }
     *pp = p;
@@ -153,24 +138,22 @@ int detach_shmem(void* p) {
     int retval;
     assert(p!=NULL);
     retval = shmdt((char *)p);
-    if (retval) perror("detach_shmem: shmdt");
     return retval;
 }
 
-int shmem_info(key_t key) {
+int print_shmem_info(key_t key) {
     int id;
     struct shmid_ds buf;
-    char buf2[256];
 
     id = shmget(key, 0, 0);
     if (id < 0) {
-        sprintf(buf2, "shmem_info: shmget: key: %x", (unsigned int)key);
-        perror(buf2);
         return ERR_SHMGET;
     }
     shmctl(id, IPC_STAT, &buf);
-    fprintf( stderr, "shmem key: %x\t\tid: %d, size: %d, nattach: %d\n",
-            (unsigned int)key, id, buf.shm_segsz, (int)buf.shm_nattch );
+    fprintf(
+        stderr, "shmem key: %x\t\tid: %d, size: %d, nattach: %d\n",
+        (unsigned int)key, id, buf.shm_segsz, (int)buf.shm_nattch
+    );
 
     return 0;
 }

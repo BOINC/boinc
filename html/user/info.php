@@ -1,7 +1,5 @@
 <?php
-require_once('../inc/db.inc');
 require_once('../inc/util.inc');
-db_init();
 
 page_head('Rules and Policies');
 echo "
@@ -26,7 +24,7 @@ and when it uses them.
 
 <p>
 The work done by your computer contributes to the
-academic nonprofit research being performed by ", PROJECT, ",
+goals of ", PROJECT, ",
 as described on its web site.
 The application programs may change from time to time.
 </p>
@@ -60,21 +58,26 @@ however, you can choose not to be sent these at any time.
 <h3>Is it safe to run ", PROJECT, " ?</h3>
 
 <p>
-Any time you download a program through the Internet you are taking a chance: the program might have dangerous errors, or the download server might have been hacked.
+Any time you download a program through the Internet you are taking a chance:
+the program might have dangerous errors,
+or the download server might have been hacked.
 ", PROJECT, " has made efforts to minimize these risks.
 We have tested our applications carefully.
 Our servers are behind a firewall and are configured for high security.
-To ensure the safety of program downloads, all executable files are digitally signed on a secure computer not connected to the Internet.
+To ensure the safety of program downloads,
+all executable files are digitally signed on a secure computer
+not connected to the Internet.
 </p>
 
 <p>
-", PROJECT, " was developed at the University of California at Berkeley.
+", PROJECT, " was developed at ".COPYRIGHT_HOLDER.".
+BOINC was developed at the University of California.
 </p>
 
 <h3>Liability</h3>
 
 <p>
-", PROJECT, " and the University of California
+", PROJECT, " and ".COPYRIGHT_HOLDER."
 assume no liability for damage to your computer,
 loss of data, or any other event or condition that may occur
 as a result of participating in ", PROJECT, ".
