@@ -313,7 +313,13 @@ dnl ---------- wxWidgets --------------------------------------------------
 AM_OPTIONS_WXCONFIG
 
 dnl check for wxWidgets
-AM_PATH_WXCONFIG(2.3.4, wxWin=1)
+
+if test "${enable_debug}" = yes ; then
+    AM_PATH_WXCONFIG(2.3.4, wxWin=1, --debug)
+else
+    AM_PATH_WXCONFIG(2.3.4, wxWin=1)
+fi
+
 if ( test "${enable_client}" = yes ) && ( test "$wxWin" != 1 ); then
    AC_MSG_WARN([
 ================================================================================
