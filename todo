@@ -35,6 +35,12 @@ THINGS TO TEST (preferably with test scripts)
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
+global prefs:
+    hours to compute
+    hours to transfer
+
+account creation: show privacy/usage policies
+
 finish SOCKS implementation, test
 
 decide what to do with invalid result files in upload directory
