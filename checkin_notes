@@ -24488,3 +24488,14 @@ Eric K 10 Feb 2005
         sched_send.C
     tools/
         backend_lib.C
+
+David  10 Feb 2005
+    code shuffling in scheduler:
+    - moved locality-specific code from sched_send.C to sched_locality.C
+    - moved timezone-related code to sched_timezone.C
+
+    sched/
+        Makefile.am
+        sched_locality.C,h
+        sched_send.C
+        sched_timezone.C,h (new)

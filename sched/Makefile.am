@@ -64,12 +64,13 @@ EXTRA_DIST =    \
     validate_util.h
 
 
-cgi_SOURCES =                                   \
-    handle_request.C                            \
-    main.C                                      \
-    sched_send.C                                \
-    sched_locality.C                            \
-    server_types.C                              \
+cgi_SOURCES = \
+    handle_request.C \
+    main.C \
+    sched_send.C \
+    sched_locality.C \
+    sched_timezone.C \
+    server_types.C \
     ../lib/synch.C
 
 cgi_DEPENDENCIES = $(LIB_SCHED)

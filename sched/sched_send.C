@@ -28,11 +28,11 @@
 
 using namespace std;
 
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <unistd.h>
 
 #include "error_numbers.h"
+#include "parse.h"
+
 #include "server_types.h"
 #include "sched_shmem.h"
 #include "sched_config.h"
@@ -41,7 +41,7 @@ using namespace std;
 #include "sched_msgs.h"
 #include "sched_send.h"
 #include "sched_locality.h"
-#include "../lib/parse.h"
+#include "sched_timezone.h"
 
 
 #ifdef _USING_FCGI_
@@ -115,7 +115,7 @@ double max_allowable_disk(SCHEDULER_REQUEST& req) {
         watch_diskspace[1]=x;
     } else {
         watch_diskspace[2]=x;
-	}
+    }
 
     if (x < 0) {
         log_messages.printf(
@@ -175,9 +175,9 @@ static double estimate_cpu_duration(WORKUNIT& wu, HOST& host) {
 static double estimate_wallclock_duration(
     WORKUNIT& wu, HOST& host, double resource_share_fraction
 ) {
-	double running_frac = host.active_frac * host.on_frac;
-	if (running_frac < HOST_ACTIVE_FRAC_MIN) running_frac = HOST_ACTIVE_FRAC_MIN;
-	if (running_frac > 1) running_frac = 1;
+    double running_frac = host.active_frac * host.on_frac;
+    if (running_frac < HOST_ACTIVE_FRAC_MIN) running_frac = HOST_ACTIVE_FRAC_MIN;
+    if (running_frac > 1) running_frac = 1;
     double ecd = estimate_cpu_duration(wu, host);
     double ewd = ecd/(running_frac*resource_share_fraction);
 #if 0
@@ -222,9 +222,9 @@ int wu_is_infeasible(
         reason |= INFEASIBLE_DISK;
     }
 
-	// TODO: take into account delay due to other results
-	// being sent in the current RPC reply
-	//
+    // TODO: take into account delay due to other results
+    // being sent in the current RPC reply
+    //
     if (config.enforce_delay_bound) {
         double wu_wallclock_time = estimate_wallclock_duration(
             wu, reply.host, request.resource_share_fraction
@@ -265,216 +265,6 @@ int insert_after(char* buffer, char* after, char* text) {
     strcpy(temp, p);
     strcpy(p, text);
     strcat(p, temp);
-    return 0;
-}
-
-typedef struct urltag {
-    int zone;
-    char name[124];
-} URLTYPE;
-
-
-// these global variables are needed to pass information into the
-// compare function below.
-//
-static int tzone=0;
-static int hostid=0;
-
-// Evaluate differences between time-zone.  Two time zones that differ
-// by almost 24 hours are actually very close on the surface of the
-// earth.  This function finds the 'shortest way around'
-//
-static int compare(const void *x, const void *y) {
-    URLTYPE *a=(URLTYPE *)x;
-    URLTYPE *b=(URLTYPE *)y;
-    
-    char longname[512];
-    
-    const int twelve_hours = 12*3600;
-
-    int diffa = abs(tzone - (a->zone));
-    int diffb = abs(tzone - (b->zone));
-
-    if (diffa > twelve_hours)
-        diffa = 2*twelve_hours-diffa;
-    
-    if (diffb > twelve_hours)
-        diffb = 2*twelve_hours-diffb;
-
-    if (diffa < diffb) {
-        return -1;
-    }
-    
-    if (diffa > diffb) {
-        return +1;
-    }
-    
-    // In order to ensure uniform distribution, we hash paths that are
-    // equidistant from the host's timezone in a way that gives a
-    // unique ordering for each host but which is effectively random
-    // between hosts.
-    sprintf(longname, "%s%d", a->name, hostid);
-    std::string sa = md5_string((const unsigned char *)longname, strlen((const char *)longname));
-    sprintf(longname, "%s%d", b->name, hostid);
-    std::string sb = md5_string((const unsigned char *)longname, strlen((const char *)longname));
-    int xa = strtol(sa.substr(1, 7).c_str(), 0, 16);
-    int xb = strtol(sb.substr(1, 7).c_str(), 0, 16);
-    
-    if (xa<xb) {
-        return -1;
-    }
-    
-    if (xa>xb) {
-        return 1;
-    }
-    
-    return 0;
-}
-
-static URLTYPE *cached=NULL;
-#define BLOCKSIZE 32
-
-URLTYPE* read_download_list() {
-    FILE *fp;
-    int count=0;
-    int i;
-    
-    if (cached) return cached;
-    
-    if (!(fp=fopen("../download_servers", "r"))) {
-        log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
-            "File ../download_servers not found or unreadable!\n"
-        );
-        return NULL;
-    }
-
-    // read in lines from file
-    while (1) {
-        // allocate memory in blocks
-        if ((count % BLOCKSIZE)==0) {
-            cached=(URLTYPE *)realloc(cached, (count+BLOCKSIZE)*sizeof(URLTYPE));
-            if (!cached) return NULL;
-        }
-        // read timezone offset and URL from file, and store in cache
-        // list
-        if (2==fscanf(FCGI_ToFILE(fp), "%d %s", &(cached[count].zone), cached[count].name)) {
-            count++;
-        } else {
-            // provide a null terminator so we don't need to keep
-            // another global variable for count.
-			//
-            cached[count].name[0]='\0';
-            break;
-        }
-    }
-    fclose(fp);
-    
-    if (!count) {
-        log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
-            "File ../download_servers contained no valid entries!\n"
-            "Format of this file is one or more lines containing:\n"
-            "TIMEZONE_OFFSET_IN_SEC   http://some.url.path\n"
-        );
-        free(cached);
-        return NULL;
-    }
-    
-    // sort URLs by distance from host timezone.  See compare() above
-    // for details.
-    qsort(cached, count, sizeof(URLTYPE), compare);
-    
-    log_messages.printf(
-        SCHED_MSG_LOG::DEBUG, "Sorted list of URLs follows [host timezone: UTC%+d]\n",
-        tzone
-    );
-    for (i=0; i<count; i++) {
-        log_messages.printf(
-            SCHED_MSG_LOG::DEBUG, "zone=%+d url=%s\n", cached[i].zone, cached[i].name
-        );
-    }
-    return cached;
-}
-
-// return number of bytes written, or <0 to indicate an error
-//
-int make_download_list(char *buffer, char *path, int timezone) {
-    char *start=buffer;
-    int i;
-
-    // global variable used in the compare() function
-    tzone=timezone;
-    URLTYPE *serverlist=read_download_list();
-    
-    if (!serverlist) return -1;
-    
-    // print list of servers in sorted order.
-	// Space is to format them nicely
-	//
-    for (i=0; strlen(serverlist[i].name); i++) {
-        start+=sprintf(start, "%s<url>%s/%s</url>", i?"\n    ":"", serverlist[i].name, path);
-	}
-
-    // make a second copy in the same order
-	//
-    for (i=0; strlen(serverlist[i].name); i++) {
-        start+=sprintf(start, "%s<url>%s/%s</url>", "\n    ", serverlist[i].name, path);
-	}
-    
-    return (start-buffer);
-}
-
-// returns zero on success, non-zero to indicate an error
-//
-int add_download_servers(char *old_xml, char *new_xml, int timezone) {
-    char *p, *q, *r;
-    
-    p=r=old_xml;
-
-    // search for next URL to do surgery on 
-    while ((q=strstr(p, "<url>"))) {
-        char *s;
-        char path[1024];
-        int len = q-p;
-        
-        strncpy(new_xml, p, len);
-        
-        new_xml += len;
-        
-        // locate next instance of </url>
-		//
-        if (!(r=strstr(q, "</url>"))) {
-            return 1;
-		}
-        r += strlen("</url>");
-        
-        // parse out the URL
-		//
-        if (!parse_str(q, "<url>", path, 1024)) {
-            return 1;
-		}
-        
-        // find start of 'download/'
-		//
-        if (!(s=strstr(path,"download/"))) {
-            return 1;
-		}
-        
-        // insert new download list in place of the original one
-		//
-        len = make_download_list(new_xml, s, timezone);
-        if (len<0) {
-            return 1;
-		}
-        new_xml += len;
-        
-        // advance pointer to start looking for next <url> tag.
-		//
-        p=r;
-    }
-    
-    strcpy(new_xml, r);
     return 0;
 }
 
@@ -563,23 +353,7 @@ int add_wu_to_reply(
         APP_VERSION av2=*avp, *avp2=&av2;
         
         if (config.choose_download_url_by_timezone) {
-            // replace the download URL for apps with a list of
-            // multiple download servers.
-
-            // set these global variables, needed by the compare()
-            // function so that the download URL list can be sorted by
-            // timezone
-            tzone=reply.host.timezone;
-            hostid=reply.host.id;
-            retval = add_download_servers(avp->xml_doc, av2.xml_doc, reply.host.timezone);
-            if (retval) {
-                log_messages.printf(
-                    SCHED_MSG_LOG::CRITICAL,
-                    "add_download_servers(to APP version) failed\n"
-                );
-                // restore original WU!
-                av2=*avp;
-            }
+            process_av_timezone(reply, avp, av2);
         }
         
         reply.insert_app_unique(*app);
@@ -601,24 +375,7 @@ int add_wu_to_reply(
     }
     wu3=wu2;
     if (config.choose_download_url_by_timezone) {
-        // replace the download URL for WU files with a list of
-        // multiple download servers.
-        
-        // set these global variables, needed by the compare()
-        // function so that the download URL list can be sorted by
-        // timezone
-        tzone=reply.host.timezone;
-        hostid=reply.host.id;
-        
-        retval = add_download_servers(wu2.xml_doc, wu3.xml_doc, reply.host.timezone);
-        if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
-                "add_download_servers(to WU) failed\n"
-            );
-            // restore original WU!
-            wu3=wu2;
-        }
+        process_wu_timezone(reply, wu2, wu3);
     }
     
     reply.insert_workunit_unique(wu3);
@@ -781,144 +538,6 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     return true;
 }
 
-// returns true if the host already has the file, or if the file is
-// included with a previous result being sent to this host.
-//
-bool host_has_file(SCHEDULER_REQUEST& request,
-                   SCHEDULER_REPLY& reply,
-                   char *filename
-) {
-    int i;
-    bool has_file=false;
-
-    // loop over files already on host to see if host already has the
-    // file
-    //
-    for (i=0; i<(int)request.file_infos.size(); i++) {
-        FILE_INFO& fi = request.file_infos[i];
-        if (!strcmp(filename, fi.name)) {
-            has_file=true;
-            break;
-        }
-    }
-
-    if (has_file) {
-        log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
-            "[HOST#%d] Already has file %s\n", reply.host.id, filename
-        );
-        return true;
-    }
-
-    // loop over files being sent to host to see if this file has
-    // already been counted.
-    //
-    for (i=0; i<(int)reply.wus.size(); i++) {
-        char wu_filename[256];
-
-        if (extract_filename(reply.wus[i].name, wu_filename)) {
-            // work unit does not appear to contain a file name
-            continue;
-        }
-
-        if (!strcmp(filename, wu_filename)) {
-            // work unit is based on the file that we are looking for
-            has_file=true;
-            break;
-        }
-    }
-
-    if (has_file) {
-        log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
-            "[HOST#%d] file %s already in scheduler reply(%d)\n", reply.host.id, filename, i
-        );
-        return true;
-    }
- 
-    return false;
-}
-
-// If using locality scheduling, there are probably many result that
-// use same file, so decrement available space ONLY if the host
-// doesn't yet have this file. Note: this gets the file size from the
-// download dir.
-//
-// Return value 0 means that this routine was successful in adjusting
-// the available disk space in the work request.  Return value <0
-// means that it was not successful, and that something went wrong.
-// Return values >0 mean that the host does not contain the file, and
-// that no previously assigned work includes the file, and so the disk
-// space in the work request should be adjusted by the calling
-// routine, in the same way as if there was no scheduling locality.
-//
-int decrement_disk_space_locality(
-    DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REQUEST& request,
-    SCHEDULER_REPLY& reply
-) {
-    char filename[256], path[512];
-    int i, filesize;
-    int retval_dir;
-    struct stat buf;
-    SCHEDULER_REPLY reply_copy=reply;
-
-    // get filename from WU name
-    //
-    if (extract_filename(wu.name, filename)) {
-        log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
-            "No filename found in WU#%d (%s)\n",
-            wu.id, wu.name
-        );
-        return -1;
-    }
-
-    // when checking to see if the host has the file, we need to
-    // ignore the last WU included at the end of the reply, since it
-    // corresponds to the one that we are (possibly) going to send!
-    // So make a copy and pop the current WU off the end.
-
-    reply_copy.wus.pop_back();    
-    if (!host_has_file(request, reply_copy, filename))
-        return 1;
-
-    // If we are here, then the host ALREADY has the file, or its size
-    // has already been accounted for in a previous WU.  In this case,
-    // don't count the file size again in computing the disk
-    // requirements of this request.
-
-    // Get path to file, and determine its size
-    dir_hier_path(
-        filename, config.download_dir, config.uldl_dir_fanout, true, path, false
-    );
-    if (stat(path, &buf)) {
-        log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
-            "Unable to find file %s at path %s\n", filename, path
-        );
-        return -1;
-    }
-
-    filesize=buf.st_size;
-    
-    if (filesize<wu.rsc_disk_bound) {
-        reply.wreq.disk_available -= (wu.rsc_disk_bound-filesize);
-        log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
-            "[HOST#%d] reducing disk needed for WU by %d bytes (length of %s)\n",
-            reply.host.id, filesize, filename
-        );
-        return 0;
-    }
-                  
-    log_messages.printf(
-        SCHED_MSG_LOG::CRITICAL,
-        "File %s size %d bytes > wu.rsc_disk_bound for WU#%d (%s)\n",
-        path, filesize, wu.id, wu.name
-    );
-    return -1;
-}
-
 
 int add_result_to_reply(
     DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REQUEST& request,
@@ -937,7 +556,7 @@ int add_result_to_reply(
     //
     if (!config.locality_scheduling ||
         decrement_disk_space_locality(result, wu, request, reply)
-        ) {
+    ) {
         reply.wreq.disk_available -= wu.rsc_disk_bound;
     }
 

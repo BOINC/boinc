@@ -23,6 +23,7 @@
 #include <unistd.h>
 #include <strings.h>
 #include <glob.h>
+#include <sys/stat.h>
 
 #include "boinc_db.h"
 #include "error_numbers.h"
@@ -37,6 +38,145 @@
 #include "sched_util.h"
 
 #define VERBOSE_DEBUG
+
+// returns true if the host already has the file, or if the file is
+// included with a previous result being sent to this host.
+//
+bool host_has_file(
+    SCHEDULER_REQUEST& request,
+    SCHEDULER_REPLY& reply,
+    char *filename
+) {
+    int i;
+    bool has_file=false;
+
+    // loop over files already on host to see if host already has the
+    // file
+    //
+    for (i=0; i<(int)request.file_infos.size(); i++) {
+        FILE_INFO& fi = request.file_infos[i];
+        if (!strcmp(filename, fi.name)) {
+            has_file=true;
+            break;
+        }
+    }
+
+    if (has_file) {
+        log_messages.printf(
+            SCHED_MSG_LOG::DEBUG,
+            "[HOST#%d] Already has file %s\n", reply.host.id, filename
+        );
+        return true;
+    }
+
+    // loop over files being sent to host to see if this file has
+    // already been counted.
+    //
+    for (i=0; i<(int)reply.wus.size(); i++) {
+        char wu_filename[256];
+
+        if (extract_filename(reply.wus[i].name, wu_filename)) {
+            // work unit does not appear to contain a file name
+            continue;
+        }
+
+        if (!strcmp(filename, wu_filename)) {
+            // work unit is based on the file that we are looking for
+            has_file=true;
+            break;
+        }
+    }
+
+    if (has_file) {
+        log_messages.printf(
+            SCHED_MSG_LOG::DEBUG,
+            "[HOST#%d] file %s already in scheduler reply(%d)\n", reply.host.id, filename, i
+        );
+        return true;
+    }
+ 
+    return false;
+}
+
+// If using locality scheduling, there are probably many result that
+// use same file, so decrement available space ONLY if the host
+// doesn't yet have this file. Note: this gets the file size from the
+// download dir.
+//
+// Return value 0 means that this routine was successful in adjusting
+// the available disk space in the work request.  Return value <0
+// means that it was not successful, and that something went wrong.
+// Return values >0 mean that the host does not contain the file, and
+// that no previously assigned work includes the file, and so the disk
+// space in the work request should be adjusted by the calling
+// routine, in the same way as if there was no scheduling locality.
+//
+int decrement_disk_space_locality(
+    DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REQUEST& request,
+    SCHEDULER_REPLY& reply
+) {
+    char filename[256], path[512];
+    int i, filesize;
+    int retval_dir;
+    struct stat buf;
+    SCHEDULER_REPLY reply_copy=reply;
+
+    // get filename from WU name
+    //
+    if (extract_filename(wu.name, filename)) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "No filename found in WU#%d (%s)\n",
+            wu.id, wu.name
+        );
+        return -1;
+    }
+
+    // when checking to see if the host has the file, we need to
+    // ignore the last WU included at the end of the reply, since it
+    // corresponds to the one that we are (possibly) going to send!
+    // So make a copy and pop the current WU off the end.
+
+    reply_copy.wus.pop_back();    
+    if (!host_has_file(request, reply_copy, filename))
+        return 1;
+
+    // If we are here, then the host ALREADY has the file, or its size
+    // has already been accounted for in a previous WU.  In this case,
+    // don't count the file size again in computing the disk
+    // requirements of this request.
+
+    // Get path to file, and determine its size
+    dir_hier_path(
+        filename, config.download_dir, config.uldl_dir_fanout, true, path, false
+    );
+    if (stat(path, &buf)) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "Unable to find file %s at path %s\n", filename, path
+        );
+        return -1;
+    }
+
+    filesize=buf.st_size;
+    
+    if (filesize<wu.rsc_disk_bound) {
+        reply.wreq.disk_available -= (wu.rsc_disk_bound-filesize);
+        log_messages.printf(
+            SCHED_MSG_LOG::DEBUG,
+            "[HOST#%d] reducing disk needed for WU by %d bytes (length of %s)\n",
+            reply.host.id, filesize, filename
+        );
+        return 0;
+    }
+                  
+    log_messages.printf(
+        SCHED_MSG_LOG::CRITICAL,
+        "File %s size %d bytes > wu.rsc_disk_bound for WU#%d (%s)\n",
+        path, filesize, wu.id, wu.name
+    );
+    return -1;
+}
 
 // Find the app and app_version for the client's platform.
 //
