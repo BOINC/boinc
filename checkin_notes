@@ -7087,6 +7087,12 @@ David  25 Oct 2003
 Karl 2003-10-25
     - updated_versions: don't be so verbose unless "-v" verbose command-line
       option is given 
+    - if a directory contains an executable, add the first executable found,
+      and bundle all other files as non-executables.
+    - process_executable_file(): added mechanisms for adding non-executable files 
 
     tools/
         update_versions
+
+    py/Boinc/
+        tools.py
