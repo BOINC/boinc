@@ -68,8 +68,9 @@ bool CBOINCGUIApp::OnInit()
     m_hBOINCCoreProcess = NULL;
     m_hIdleDetectionDll = NULL;
 #endif
-    m_strDefaultWindowStation.Clear();
-    m_strDefaultDesktop.Clear();
+    m_strDefaultWindowStation = "";
+    m_strDefaultDesktop = "";
+    m_strDefaultDisplay = "";
 
 
     // Initialize the BOINC Diagnostics Framework
@@ -141,10 +142,8 @@ bool CBOINCGUIApp::OnInit()
     wxASSERT(NULL != m_pTaskBarIcon);
 #endif
 
-    // Detect the default Window Station and Desktop and store the
-    //   information for later use.
-    DetectDefaultWindowStation();
-    DetectDefaultDesktop();
+    // Detect the display info and store for later use.
+    DetectDisplayInfo();
 
     // Startup the System Idle Detection code
     StartupSystemIdleDetection();
@@ -216,15 +215,13 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser)
 }
 
 
-void CBOINCGUIApp::DetectDefaultWindowStation()
-{
+void CBOINCGUIApp::DetectDisplayInfo() {
+#ifdef __WXMSW__
     wxChar szWindowStation[256];
     memset(szWindowStation, 0, sizeof(szWindowStation)/sizeof(wxChar));
+    memset(szDesktop, 0, sizeof(szDesktop)/sizeof(wxChar));
 
-#ifdef __WXMSW__
-
-    if ( wxWIN95 != wxGetOsVersion( NULL, NULL ) )
-    {
+    if ( wxWIN95 != wxGetOsVersion( NULL, NULL ) ) {
         // Retrieve the current window station and desktop names
         GetUserObjectInformation( 
             GetProcessWindowStation(), 
@@ -233,23 +230,6 @@ void CBOINCGUIApp::DetectDefaultWindowStation()
             (sizeof(szWindowStation) / sizeof(wxChar)),
             NULL
         );
-    }
-
-#endif
-
-    m_strDefaultWindowStation = szWindowStation;
-}
-
-
-void CBOINCGUIApp::DetectDefaultDesktop()
-{
-    wxChar szDesktop[256];
-    memset(szDesktop, 0, sizeof(szDesktop)/sizeof(wxChar));
-
-#ifdef __WXMSW__
-
-    if ( wxWIN95 != wxGetOsVersion( NULL, NULL ) )
-    {
         GetUserObjectInformation( 
             GetThreadDesktop(GetCurrentThreadId()), 
             UOI_NAME, 
@@ -257,11 +237,15 @@ void CBOINCGUIApp::DetectDefaultDesktop()
             (sizeof(szDesktop) / sizeof(wxChar)),
             NULL
         );
+        m_strDefaultWindowStation = szWindowStation;
+        m_strDefaultDesktop = szDesktop;
     }
 
+#else
+    char* p = getenv("DISPLAY");
+    if (p) m_strDefaultDisplay = p;
 #endif
 
-    m_strDefaultDesktop = szDesktop;
 }
 
 

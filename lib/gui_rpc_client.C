@@ -46,6 +46,9 @@
 using std::string;
 using std::vector;
 
+DISPLAY_INFO::DISPLAY_INFO() {
+    memset(this, 0, sizeof(DISPLAY_INFO));
+}
 
 int GUI_URL::parse(MIOFILE& in) {
     char buf[256];
@@ -1176,9 +1179,31 @@ int RPC_CLIENT::get_disk_usage(PROJECTS& p) {
     return 0;
 }
 
+void DISPLAY_INFO::print_str(char* p) {
+    char buf[256];
+    if (strlen(window_station)) {
+        sprintf(buf,
+            "   <window_station>%s</window_station>\n", window_station
+        );
+        strcat(p, buf);
+    }
+    if (strlen(desktop)) {
+        sprintf(buf,
+            "   <desktop>%s</desktop>\n", desktop
+        );
+        strcat(p, buf);
+    }
+    if (strlen(display)) {
+        sprintf(buf,
+            "   <display>%s</display>\n", display
+        );
+        strcat(p, buf);
+    }
+}
+
 int RPC_CLIENT::show_graphics(
     const char* project_url, const char* result_name, bool full_screen,
-    const char* window_station, const char* desktop
+    DISPLAY_INFO& di
 ) {
     char buf[1024];
     RPC rpc(this);
@@ -1187,16 +1212,13 @@ int RPC_CLIENT::show_graphics(
         "<result_show_graphics>\n"
         "   <project_url>%s</project_url>\n"
         "   <result_name>%s</result_name>\n"
-        "%s"
-        "   <window_station>%s</window_station>\n"
-        "   <desktop>%s</desktop>\n"
-        "</result_show_graphics>\n",
+        "%s",
         project_url,
         result_name,
-        full_screen?"   <full_screen/>\n":"",
-        window_station,
-        desktop
+        full_screen?"   <full_screen/>\n":""
     );
+    di.print_str(buf);
+    strcat(buf, "</result_show_graphics>\n");
     return rpc.do_rpc(buf);
 }
 
@@ -1329,22 +1351,23 @@ int RPC_CLIENT::get_screensaver_mode(int& status) {
     return 0;
 }
 
-int RPC_CLIENT::set_screensaver_mode(bool enabled, const char* window_station, const char* desktop, double blank_time) {
+int RPC_CLIENT::set_screensaver_mode(
+    bool enabled, double blank_time,
+    DISPLAY_INFO& di
+) {
     char buf[256];
     RPC rpc(this);
 
     sprintf(buf,
         "<set_screensaver_mode>\n"
         "     %s\n"
-        "     <window_station>%s</window_station>\n"
-        "     <desktop>%s</desktop>\n"
-        "     <blank_time>%f</blank_time>\n"
-        "</set_screensaver_mode>\n",
+        "     <blank_time>%f</blank_time>\n",
         enabled ? "<enabled/>" : "",
-        window_station ? window_station : "", 
-        desktop ? desktop : "", 
         blank_time
     );
+    di.print_str(buf);
+    strcat(buf, "</set_screensaver_mode>\n");
+
     //BOINCTRACE(_T("Sending: set_screensaver_mode\n%s\n"), buf);
     return rpc.do_rpc(buf);
 }

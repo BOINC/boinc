@@ -43,8 +43,7 @@ protected:
     void            OnInitCmdLine(wxCmdLineParser &parser);
     bool            OnCmdLineParsed(wxCmdLineParser &parser);
 
-    void            DetectDefaultWindowStation();
-    void            DetectDefaultDesktop();
+    void            DetectDisplayInfo();
 
     void            InitSupportedLanguages();
 
@@ -75,14 +74,15 @@ protected:
     HINSTANCE       m_hIdleDetectionDll;
 #endif
 
-    wxString        m_strDefaultWindowStation;
-    wxString        m_strDefaultDesktop;
-
     // The last value defined in the wxLanguage enum is wxLANGUAGE_USER_DEFINED.
     // defined in: wx/intl.h
     wxString        m_strLanguages[wxLANGUAGE_USER_DEFINED + 1];
 
 public:
+
+    std::string        m_strDefaultWindowStation;
+    std::string        m_strDefaultDesktop;
+    std::string        m_strDefaultDisplay;
 
     bool            OnInit();
 
@@ -93,9 +93,6 @@ public:
 #ifndef NOTASKBAR
     CTaskBarIcon*   GetTaskBarIcon()             { return m_pTaskBarIcon; };
 #endif
-
-    wxString        GetDefaultWindowStation()    { return m_strDefaultWindowStation; };
-    wxString        GetDefaultDesktop()          { return m_strDefaultDesktop; };
 
     wxString*       GetSupportedLanguages()      { return (wxString*)&m_strLanguages; };
     wxInt32         GetSupportedLanguagesCount() { return WXSIZEOF(m_strLanguages); };

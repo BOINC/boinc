@@ -70,6 +70,23 @@ void usage() {
     exit(1);
 }
 
+void parse_display_args(char** argv, DISPLAY_INFO& di) {
+    strcpy(di.window_station, "winsta0");
+    strcpy(di.desktop, "default");
+    strcpy(di.display, "");
+    int i=0;
+    while (argv[i]) {
+        if (!strcmp(argv[i], "--window_station")) {
+            strcpy(di.window_station, argv[++i]);
+        } else if (!strcpy(argv[i], "--desktop")) {
+            strcpy(di.desktop, argv[++i]);
+        } else if (!strcpy(argv[i], "--display")) {
+            strcpy(di.display, argv[++i]);
+        }
+        i++;
+    }
+}
+
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
     unsigned int i;
@@ -133,10 +150,14 @@ int main(int argc, char** argv) {
             retval = rpc.result_op(result, "abort");
         }
         if (!strcmp(argv[i], "graphics_window")) {
-            retval = rpc.show_graphics(argv[i+1], argv[i+2], false, "winsta0", "default");
+            DISPLAY_INFO di;
+            parse_display_args(argv+i+3, di);
+            retval = rpc.show_graphics(argv[i+1], argv[i+2], false, di);
         }
         if (!strcmp(argv[i], "graphics_fullscreen")) {
-            retval = rpc.show_graphics(argv[i+1], argv[i+2], true, "winsta0", "default");
+            DISPLAY_INFO di;
+            parse_display_args(argv+i+3, di);
+            retval = rpc.show_graphics(argv[i+1], argv[i+2], true, di);
         }
     } else if (!strcmp(argv[i], "--project")) {
         PROJECT project;
@@ -246,10 +267,14 @@ int main(int argc, char** argv) {
     } else if (!strcmp(argv[i], "--set_screensaver_mode")) {
         double blank_time;
         bool enabled = false;
+        DISPLAY_INFO di;
         i++;
         if (!strcmp(argv[i], "on")) enabled = true;
-        blank_time = atof(argv[i+3]);
-        retval = rpc.set_screensaver_mode(enabled, argv[i+1], argv[i+2], blank_time);
+        i++;
+        blank_time = atof(argv[i]);
+        i++;
+        parse_display_args(argv+i, di);
+        retval = rpc.set_screensaver_mode(enabled, blank_time, di);
 
     } else if (!strcmp(argv[i], "--quit")) {
         retval = rpc.quit();

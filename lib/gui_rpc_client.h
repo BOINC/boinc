@@ -359,6 +359,15 @@ public:
     void clear();
 };
 
+struct DISPLAY_INFO {
+    char window_station[256];   // windows
+    char desktop[256];          // windows
+    char display[256];          // X11
+
+    DISPLAY_INFO();
+    void print_str(char*);
+};
+
 class RPC_CLIENT {
 public:
     int sock;
@@ -376,7 +385,10 @@ public:
     int get_file_transfers(FILE_TRANSFERS&);
     int get_project_status(PROJECTS&);
     int get_disk_usage(PROJECTS&);
-    int show_graphics(const char* project, const char* result_name, bool full_screen, const char* window_station, const char* desktop);
+    int show_graphics(
+        const char* project, const char* result_name, bool full_screen,
+        DISPLAY_INFO&
+    );
     int project_op(PROJECT&, char* op);
     int project_attach(char* url, char* auth);
     int set_run_mode(int mode);
@@ -384,7 +396,9 @@ public:
     int set_network_mode(int mode);
     int get_network_mode(int& mode);
     int get_screensaver_mode(int& status);
-    int set_screensaver_mode(bool enabled, const char* window_station, const char* desktop, double blank_time);
+    int set_screensaver_mode(
+        bool enabled, double blank_time, DISPLAY_INFO&
+    );
     int run_benchmarks();
     int set_proxy_settings(PROXY_INFO&);
     int get_proxy_settings(PROXY_INFO&);

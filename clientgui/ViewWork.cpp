@@ -432,8 +432,9 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
             pDoc->WorkShowGraphics(
                 foo,
                 false,
-                wxGetApp().GetDefaultWindowStation(),
-                wxGetApp().GetDefaultDesktop()
+                wxGetApp().m_strDefaultWindowStation,
+                wxGetApp().m_strDefaultDesktop,
+                wxGetApp().m_strDefaultDisplay
             );
         }
     }

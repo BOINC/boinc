@@ -129,6 +129,7 @@ struct GRAPHICS_MSG {
     int mode;
     char window_station[256];
     char desktop[256];
+    char display[256];
 
     GRAPHICS_MSG();
 };

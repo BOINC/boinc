@@ -55,16 +55,19 @@ static APP_INIT_DATA aid;
 extern pthread_t graphics_thread;	// thread info
 extern pthread_t worker_thread;
 
-enum 
-{ 
+// possible longjmp-values to signal from where we jumped:
+//
+enum { 
   JUMP_NONE = 0,
   JUMP_EXIT,
   JUMP_ABORT,
   JUMP_LAST
-}; // possible longjmp-values to signal from where we jumped:
+};
 // 1= exit caught by atexit, 2 = signal caught by handler
        
-int xwin_glut_is_initialized() { return glut_is_initialized; }
+int xwin_glut_is_initialized() {
+    return glut_is_initialized;
+}
 
 void app_debug_msg (char *fmt, ...);
 
@@ -120,60 +123,64 @@ static void maybe_render() {
     }
 }
 
-static void make_new_window(int mode)
-{
-  if ( (mode != MODE_WINDOW) &&  (mode != MODE_FULLSCREEN) )  // nothing to be done here
+static void make_new_window(int mode) {
+    if ( (mode != MODE_WINDOW) &&  (mode != MODE_FULLSCREEN) ) {
+        // nothing to be done here
+        return;
+    }
+
+    if (!glut_is_initialized)  {
+        boinc_glut_init();
+    }
+
+    app_debug_msg("make_new_window(): now calling glutCreateWindow(%s)...\n", aid.app_name);
+    win = glutCreateWindow(aid.app_name); 
+    app_debug_msg("glutCreateWindow() succeeded. win = %d\n", win);
+
+    // installing callbacks for the current window
+    glutReshapeFunc(app_graphics_resize);
+    glutKeyboardFunc(keyboardD);
+    glutKeyboardUpFunc(keyboardU);
+    glutMouseFunc(mouse_click);
+    glutMotionFunc(mouse_click_move);
+    glutDisplayFunc(maybe_render); 
+    glEnable(GL_DEPTH_TEST);    
+
+    app_graphics_init();
+
+    if (mode == MODE_FULLSCREEN)  {
+        glutFullScreen();
+    }
+
     return;
-
-  if ( ! glut_is_initialized )	//initialize glut if necessary 
-    boinc_glut_init();
-
-  app_debug_msg("make_new_window(): now calling glutCreateWindow(%s)...\n", aid.app_name);
-  win = glutCreateWindow(aid.app_name); 
-  app_debug_msg("glutCreateWindow() succeeded. win = %d\n", win);
-
-  // installing callbacks for the current window
-  glutReshapeFunc(app_graphics_resize);
-  glutKeyboardFunc(keyboardD);
-  glutKeyboardUpFunc(keyboardU);
-  glutMouseFunc(mouse_click);
-  glutMotionFunc(mouse_click_move);
-  glutDisplayFunc(maybe_render); 
-  glEnable(GL_DEPTH_TEST);    
-
-  app_graphics_init();
-
-  if (mode == MODE_FULLSCREEN) 
-    glutFullScreen();
-
-  return;
-} // make_new_window()
+}
 
 // initialized glut and screensaver-graphics
 // this should only called once, even if restarted by user-exit
-static void
-boinc_glut_init(void)
-{
-  char* args[2] = {"screensaver", NULL};
-  int one=1;
-  app_debug_msg("Calling glutInit()... \n");
-  glutInit (&one, args);
-  app_debug_msg("...survived glutInit(). \n");
+//
+static void boinc_glut_init() {
+    char* args[2] = {"screensaver", NULL};
+    int one=1;
+    app_debug_msg("Calling glutInit()... \n");
+    glutInit (&one, args);
+    app_debug_msg("...survived glutInit(). \n");
      
-  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
-  glutInitWindowPosition(xpos, ypos);
-  glutInitWindowSize(600, 400); 
-  g_bmsp->boinc_get_init_data_hook(aid);
-  if (!strlen(aid.app_name)) 
-    strcpy(aid.app_name, "BOINC Application");
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
+    glutInitWindowPosition(xpos, ypos);
+    glutInitWindowSize(600, 400); 
+    g_bmsp->boinc_get_init_data_hook(aid);
+    if (!strlen(aid.app_name))  {
+        strcpy(aid.app_name, "BOINC Application");
+    }
 
-  glut_is_initialized = true;
+    glut_is_initialized = true;
 
-  return;
+    return;
 
-} // boinc_glut_init()
+}
 
 // Destroy current window if any
+//
 void KillWindow() {
     if (win) {
       int oldwin = win;
@@ -190,15 +197,15 @@ void set_mode(int mode) {
     app_debug_msg("...KillWindow() survived.\n");
 
     if (mode != MODE_HIDE_GRAPHICS) {
-      app_debug_msg("set_mode(): Calling make_new_window(%d)\n", mode);
-      make_new_window(mode);
-      app_debug_msg("...make_new_window() survived.\n");
+        app_debug_msg("set_mode(): Calling make_new_window(%d)\n", mode);
+        make_new_window(mode);
+        app_debug_msg("...make_new_window() survived.\n");
     }
 
     current_graphics_mode = mode;
 
     return;
-} // set_mode()
+}
 
 static void wait_for_initial_message() {
     (*g_bmsp->app_client_shmp)->shm->graphics_reply.send_msg(
@@ -212,7 +219,7 @@ static void wait_for_initial_message() {
         sleep(1);
     }
     return;
-} // wait_for_initial_message()
+}
 
 static void timer_handler(int) {
     char buf[MSG_CHANNEL_SIZE];
@@ -237,6 +244,10 @@ static void timer_handler(int) {
             case MODE_WINDOW:
             case MODE_FULLSCREEN:
             case MODE_BLANKSCREEN:
+                if (strlen(m.display)) {
+                    sprintf(buf, "DISPLAY=%s", m.display);
+                    putenv(buf);
+                }
                 set_mode(m.mode);
                 break;
             }
@@ -252,197 +263,179 @@ static void timer_handler(int) {
     glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);
 
     return;
-} // timer_handler()
+}
 
 // exit handler: really only meant to handle exits() called by GLUT...
-void restart() 
-{
-  // don't do anything except when exit is called from the graphics-thread
-  if ( !pthread_equal(pthread_self(), graphics_thread) ) 
-    app_debug_msg ("exit() was called from worker-thread\n");
-  else
-    {
-      app_debug_msg ("exit() called from graphics-thread.\n");
+//
+void restart() {
+    // don't do anything except when exit is called from the graphics-thread
+    if (!pthread_equal(pthread_self(), graphics_thread))  {
+        app_debug_msg ("exit() was called from worker-thread\n");
+        return;
+    }
+    app_debug_msg ("exit() called from graphics-thread.\n");
 
-      // if we are standalone and glut was initialized, we assume user pressed 'close', and we exit the app
-      if ( boinc_is_standalone() && glut_is_initialized )
-	{
-	  app_debug_msg("Assuming user pressed 'close'... means we're exiting now.\n");
-	  if ( boinc_delete_file(LOCKFILE) != 0)
-	    perror ("Failed to remove lockfile..\n");
-	  return;
-	}
+    // if we are standalone and glut was initialized,
+    // we assume user pressed 'close', and we exit the app
+    //
+    if (boinc_is_standalone() && glut_is_initialized ) {
+        app_debug_msg("Assuming user pressed 'close'... means we're exiting now.\n");
+        if (boinc_delete_file(LOCKFILE) != 0) {
+            perror ("Failed to remove lockfile..\n");
+        }
+        return;
+    }
 
-      // re-install the  exit-handler to catch glut's notorious exits()...
-      atexit(restart);
-      // jump back to entry-point in xwin_graphics_event_loop();
-      app_debug_msg( "Jumping back to event_loop.\n");
-      longjmp(jbuf, JUMP_EXIT);
-    } // if in graphics-thread
+    // re-install the  exit-handler to catch glut's notorious exits()...
+    //
+    atexit(restart);
 
-  return;
-} // restart()
+    // jump back to entry-point in xwin_graphics_event_loop();
+    //
+    app_debug_msg( "Jumping back to event_loop.\n");
+    longjmp(jbuf, JUMP_EXIT);
+}
 
 // deal with ABORT's, typically raised by GLUT
-//  If we are in the graphics thread, we just return back
+// If we are in the graphics thread, we just return back
 // into xwin_graphics_event_loop.  If we are in the main thread, then
 // restore the old signal handler and raise SIGABORT.
-void restart_sig(int signal_number)
-{
-  if ( pthread_equal(pthread_self(), graphics_thread) ) 
-    {
-      // alternative approach is for the signal hander to call exit().
-      fprintf(stderr, "Caught SIGABRT in graphics thread\n");
-      app_debug_msg ("Caught SIGABRT in graphics thread. Jumping back to xwin_graphics_event_loop()...\n");
-      // jump back to entry-point in xwin_graphics_event_loop()
-      longjmp(jbuf, JUMP_ABORT);
-    } // if ABRT raised in graphics-thread
-  else 
-    {
-      // In non-graphics thread: use original signal handler
-      fprintf(stderr, "Caught SIGABRT in non-graphics thread\n");
-      app_debug_msg ("Caught SIGABRT in non-graphics thread. Trying to call previous ABRT-handler...\n");
-      if (sigaction(SIGABRT, &original_signal_handler, NULL)) 
-	{
-	  perror("Unable to restore SIGABRT signal handler in non-graphics thread\n");
-	  // what to do? call abort(3)??  call exit(nonzero)???
-	  // Here we just return.
-	}
-      else 
-	{
-	  // we could conceivably try to call the old signal handler
-	  // directly.  But this means checking how its flags/masks
-	  // are set, making sure it's not NULL (for no action) and so
-	  // on.  This seems simpler and more robust. On the other
-	  // hand it may take some time for the signal to be
-	  // delivered, and during that time, what's going to be
-	  // executing?
-	  raise(SIGABRT);
-	}
-    } // if ABRT raised in non-graphics thread
-  return;
-} // restart_sig()
+//
+void restart_sig(int signal_number) {
+    if (pthread_equal(pthread_self(), graphics_thread)) {
+        // alternative approach is for the signal hander to call exit().
+        fprintf(stderr, "Caught SIGABRT in graphics thread\n");
+        app_debug_msg ("Caught SIGABRT in graphics thread. Jumping back to xwin_graphics_event_loop()...\n");
+        // jump back to entry-point in xwin_graphics_event_loop()
+        longjmp(jbuf, JUMP_ABORT);
+    } else {
+        // In non-graphics thread: use original signal handler
+        //
+        fprintf(stderr, "Caught SIGABRT in non-graphics thread\n");
+        app_debug_msg("Caught SIGABRT in non-graphics thread. Trying to call previous ABRT-handler...\n");
+        if (sigaction(SIGABRT, &original_signal_handler, NULL)) {
+	        perror("Unable to restore SIGABRT signal handler in non-graphics thread\n");
+	        // what to do? call abort(3)??  call exit(nonzero)???
+	        // Here we just return.
+	    } else {
+            // we could conceivably try to call the old signal handler
+            // directly.  But this means checking how its flags/masks
+            // are set, making sure it's not NULL (for no action) and so
+            // on.  This seems simpler and more robust. On the other
+            // hand it may take some time for the signal to be
+            // delivered, and during that time, what's going to be
+            // executing?
+            raise(SIGABRT);
+        }
+    }
+}
 
 
 // graphics thread main-function
 // NOTE: this should only be called *ONCE* by an application
-void xwin_graphics_event_loop() 
-{
-  int restarted = 0;
+//
+void xwin_graphics_event_loop() {
+    int restarted = 0;
 
-  app_debug_msg ("Direct call to xwin_graphics_event_loop()\n");
+    app_debug_msg ("Direct call to xwin_graphics_event_loop()\n");
 
-  struct sigaction sa;
-  sa.sa_handler = restart_sig;
-  sa.sa_flags = SA_RESTART;
+    struct sigaction sa;
+    sa.sa_handler = restart_sig;
+    sa.sa_flags = SA_RESTART;
 
-  // install signal handler to catch abort() from GLUT.  Note that
-  // signal handlers are global to ALL threads, so the signal
-  // handler that we record here in &original_signal_handler is the
-  // previous one that applied to BOTH threads
-  if (sigaction(SIGABRT, &sa, &original_signal_handler)) {
-    perror("unable to install signal handler to catch SIGABORT");
-  }
+    // install signal handler to catch abort() from GLUT.  Note that
+    // signal handlers are global to ALL threads, so the signal
+    // handler that we record here in &original_signal_handler is the
+    // previous one that applied to BOTH threads
+    if (sigaction(SIGABRT, &sa, &original_signal_handler)) {
+        perror("unable to install signal handler to catch SIGABORT");
+    }
 
-  // handle glut's notorious exits()..
-  atexit(restart);
+    // handle glut's notorious exits()..
+    atexit(restart);
 
-  // THIS IS THE re-entry point at exit or ABORT in the graphics-thread
-  restarted = setjmp(jbuf);
+    // THIS IS THE re-entry point at exit or ABORT in the graphics-thread
+    restarted = setjmp(jbuf);
 
-  // if we came here from an ABORT-signal thrown in this thread, we put this thread to sleep
-  if ( restarted == JUMP_ABORT )
-    while(1) 
-      sleep(1);
+    // if we came here from an ABORT-signal thrown in this thread,
+    // we put this thread to sleep
+    //
+    if (restarted == JUMP_ABORT) {
+        while(1)  {
+            sleep(1);
+        }
+    }
 
-  //----------------------------------------------------------------------
-  // running in standalone-mode:
-  if ( boinc_is_standalone() )
-    {
-      if (restarted)
-	while(1) sleep(1);	// assuming glutInit() failed: put graphics-thread to sleep
-      else
-	{
-	  // open the graphics-window
-	  set_mode(MODE_WINDOW);
-	  glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);      
-	}
-    } // if boinc_is_standalone
-  //----------------------------------------------------------------------
-  // runing under BOINC-client:
-  else
-    {
-      if ( !glut_is_initialized )
-	{
-	  set_mode(MODE_HIDE_GRAPHICS);
-	  while ( current_graphics_mode == MODE_HIDE_GRAPHICS )
-	    {
-	      app_debug_msg ("Graphics-thread now waiting for client-message...\n");
-	      wait_for_initial_message();
-	      app_debug_msg ("got a graphics-message from client... \n");
-	      timer_handler(0);
-	    } // while MODE_HIDE_GRAPHICS
-	} // glut_is_initialized = false
-      else
-	// here glut has been initialized previously
-	// probably the user pressed window-'close'
-	set_mode(MODE_HIDE_GRAPHICS);	// close any previously open windows
-    }// if running under BOINC
-  //----------------------------------------------------------------------
+    if (boinc_is_standalone()) {
+        if (restarted) {
+            while(1) {
+                sleep(1);	// assuming glutInit() failed: put graphics-thread to sleep
+            }
+        } else {
+	        // open the graphics-window
+            set_mode(MODE_WINDOW);
+            glutTimerFunc(TIMER_INTERVAL_MSEC, timer_handler, 0);      
+        }
+    } else {
+        if (!glut_is_initialized) {
+	        set_mode(MODE_HIDE_GRAPHICS);
+	        while ( current_graphics_mode == MODE_HIDE_GRAPHICS ) {
+	            app_debug_msg ("Graphics-thread now waiting for client-message...\n");
+	            wait_for_initial_message();
+	            app_debug_msg ("got a graphics-message from client... \n");
+	            timer_handler(0);
+	        }
+	    } else
+            // here glut has been initialized previously
+            // probably the user pressed window-'close'
+            //
+            set_mode(MODE_HIDE_GRAPHICS);	// close any previously open windows
+    }
 
-  // ok we should be ready & initialized by now to call glutMainLoop()
-  app_debug_msg ("now calling glutMainLoop()...\n");
-  glutMainLoop();
-  app_debug_msg("...glutMainLoop() returned!! This should never happen...\n");
-
-  return;
-
-} // xwin_graphics_event_loop() 
+    // ok we should be ready & initialized by now to call glutMainLoop()
+    //
+    app_debug_msg ("now calling glutMainLoop()...\n");
+    glutMainLoop();
+    app_debug_msg("...glutMainLoop() returned!! This should never happen...\n");
+}
 
 
 
-/* RP's little APP-debug output function: */
-void 
-app_debug_msg (char *fmt, ...)
-{
+void app_debug_msg (char *fmt, ...) {
 #ifndef _DEBUG
-  return;
+    return;
 #else
-  va_list args;
-  char buffer[5000+1];
-  static char *boinc_slotdir = NULL;
-  va_start (args, fmt);
+    va_list args;
+    char buffer[5000+1];
+    static char *boinc_slotdir = NULL;
+    va_start (args, fmt);
 
-  if (boinc_slotdir == NULL)
-    {
-      char *tmp, *ptr;
-      if ( (tmp = getcwd(NULL, 0)) == NULL) 
-	{
-	  perror ("failed to get working directory using getcwd()");
-	  boinc_slotdir = (char*)calloc(1, 20);
-	  strcpy( boinc_slotdir, "[unknown]");
-	}
-      else
-	{
-	  if ( (ptr = strrchr(tmp, '/')) == NULL)
-	    ptr = tmp;
-	  else
-	    ptr ++;
-	  
-	  boinc_slotdir = (char*)calloc(1, strlen(ptr)+1);
-	  strcpy(boinc_slotdir, ptr);
-	  free (tmp);
-	} /* got cwd */
+    if (boinc_slotdir == NULL) {
+        char *tmp, *ptr;
+        if ((tmp = getcwd(NULL, 0)) == NULL) {
+	        perror ("failed to get working directory using getcwd()");
+	        boinc_slotdir = (char*)calloc(1, 20);
+	        strcpy( boinc_slotdir, "[unknown]");
+	    } else {
+	        if ( (ptr = strrchr(tmp, '/')) == NULL) {
+	            ptr = tmp;
+            } else {
+                ptr ++;
+            }
+	        boinc_slotdir = (char*)calloc(1, strlen(ptr)+1);
+	        strcpy(boinc_slotdir, ptr);
+	        free (tmp);
+	    }
     }
   
-  vsnprintf (buffer, 5000, fmt, args);
-  fprintf (stdout, "APP '%s' DEBUG: ", boinc_slotdir);
-  fprintf (stdout, buffer);
-  fflush (stdout);
+    vsnprintf (buffer, 5000, fmt, args);
+    fprintf (stdout, "APP '%s' DEBUG: ", boinc_slotdir);
+    fprintf (stdout, buffer);
+    fflush (stdout);
   
-  va_end (args);
-#endif // defined _DEBUG
-} // app_debug_msg()
+    va_end (args);
+#endif
+}
 
 
 

@@ -177,7 +177,7 @@ public:
 
     wxInt32                     WorkSuspend( wxInt32 iIndex );
     wxInt32                     WorkResume( wxInt32 iIndex );
-    wxInt32                     WorkShowGraphics( wxInt32 iIndex, bool bFullScreen, wxString , wxString );
+    wxInt32                     WorkShowGraphics( wxInt32 iIndex, bool bFullScreen, std::string, std::string, std::string );
     wxInt32                     WorkAbort( wxInt32 iIndex );
 
 

@@ -24735,3 +24735,28 @@ David  14 Feb 2005
     sched/
         sched_send.C
         server_types.C
+
+David  14 Feb 2005
+    - Allow remote application graphics via X11.  This involves:
+        - Adding an optional <display> element to graphics messages
+            passed from core client to app
+        - Changed the GUI RPC interface to include display
+            (as well as window_station and desktop)
+        - X version of API does putenv("DISPLAY=x") with the display X
+            it gets from the core client
+        - change BOINC manager so that (on Unix) it gets the DISPLAY
+            and passes it in graphics RPCs
+        - modify boinc_cmd so that it can pass display
+    - fixed indentation in x_opengl.C
+        Please follow the existing style!!
+
+    api/
+        x_opengl.C
+    clientgui/
+        BOINCGUIApp.cpp,h
+        MainDocument.cpp,h
+        ViewWork.cpp
+    lib/
+        app_ipc.C,h
+        boinc_cmd.C
+        gui_rpc_client.C,h

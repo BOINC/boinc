@@ -204,6 +204,7 @@ int APP_CLIENT_SHM::decode_graphics_msg(char* msg, GRAPHICS_MSG& m) {
 
     parse_str(msg, "<window_station>", m.window_station, sizeof(m.window_station));
     parse_str(msg, "<desktop>", m.desktop, sizeof(m.desktop));
+    parse_str(msg, "<display>", m.display, sizeof(m.display));
 
     m.mode = 0;
     for (i=0; i<NGRAPHICS_MSGS; i++) {
