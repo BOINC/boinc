@@ -7400,3 +7400,15 @@ Karl 2003-11-02
         gui_titles.C
 
     - BOINC core client release 2.09
+
+Karl 2003-11-03
+    - Moved installation files from win_build/boinc_installer.zip to
+      win_build/installer/
+
+    - automate changing version numbers
+
+    win_build/
+        boinc_installer.zip (removed)
+ 
+    win_build/installer/*
+        added (115 files)
