@@ -53,29 +53,17 @@ R_RSA_PRIVATE_KEY key;
 int mod_n, mod_i;
 bool do_mod = false;
 
-void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_ITEM>& items) {
+void handle_wu(
+    SCOPE_MSG_LOG& log_messages, 
+    DB_TRANSITIONER_ITEM_SET& transitioner, 
+    std::vector<TRANSITIONER_ITEM>& items
+) {
     int ntotal, nerrors, retval, ninprogress, nsuccess;
     int nunsent, ncouldnt_send, nover;
     int canonical_result_index;
     char suffix[256];
     time_t now = time(0), x;
     bool all_over_and_validated, have_result_to_validate, do_delete;
-
-    SCOPE_MSG_LOG scope_messages(log_messages, SCHED_MSG_LOG::NORMAL);
-
-    log_messages.printf(
-        SCHED_MSG_LOG::DEBUG,
-        "[WU#%d %s] Starting Transaction...\n",
-        items[0].id, items[0].name
-    );
-    retval = transitioner.start_transaction();
-    if (retval) {
-        log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
-            "[WU#%d %s] transitioner.start_transaction() == %d\n",
-            items[0].id, items[0].name, retval
-            );
-    }
 
     // count up the number of results in various states,
     // and check for timed-out results
@@ -364,23 +352,10 @@ void handle_wu(DB_TRANSITIONER_ITEM_SET& transitioner, std::vector<TRANSITIONER_
             "[WU#%d %s] workunit.update() == %d\n", items[0].id, items[0].name, retval
         );
     }
-
-    log_messages.printf(
-        SCHED_MSG_LOG::DEBUG,
-        "[WU#%d %s] Committing Transaction...\n",
-        items[0].id, items[0].name
-    );
-    retval = transitioner.commit_transaction();
-    if (retval) {
-        log_messages.printf(
-            SCHED_MSG_LOG::CRITICAL,
-            "[WU#%d %s] transitioner.commit_transaction() == %d\n",
-            items[0].id, items[0].name, retval
-            );
-    }
 }
 
 bool do_pass() {
+    SCOPE_MSG_LOG scope_messages(log_messages, SCHED_MSG_LOG::NORMAL);
     DB_TRANSITIONER_ITEM_SET transitioner;
     std::vector<TRANSITIONER_ITEM> items;
     bool did_something = false;
@@ -391,7 +366,42 @@ bool do_pass() {
     //
     while (!transitioner.enumerate((int)time(0), mod_n, mod_i, SELECT_LIMIT, items)) {
         did_something = true;
+
+        log_messages.printf(
+            SCHED_MSG_LOG::DEBUG,
+            "[WU#%d %s] Starting Transaction...\n",
+            items[0].id, items[0].name
+        );
+        retval = transitioner.start_transaction();
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[WU#%d %s] transitioner.start_transaction() == %d\n",
+                items[0].id, items[0].name, retval
+                );
+        }
+
         handle_wu(transitioner, items);
+
+        log_messages.printf(
+            SCHED_MSG_LOG::DEBUG,
+            "[WU#%d %s] Committing Transaction...\n",
+            items[0].id, items[0].name
+        );
+        retval = transitioner.commit_transaction();
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[WU#%d %s] transitioner.commit_transaction() == %d\n",
+                items[0].id, items[0].name, retval
+                );
+        } else {
+            log_messages.printf(
+                SCHED_MSG_LOG::DEBUG,
+                "[WU#%d %s] Committed Transaction Successfully...\n",
+                items[0].id, items[0].name
+        }
+
         check_stop_daemons();
     }
     return did_something;
