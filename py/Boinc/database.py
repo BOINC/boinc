@@ -600,9 +600,7 @@ def connect(config):
 def connect_default_config():
     """Connect using the default config.xml"""
     import configxml
-    config = configxml.ConfigFile().read()
-
-    database.connect(config.config)
+    connect(configxml.default_config().config)
 
 def close():
     """Closes the connection to the sql boinc and deletes the Boincdb object."""

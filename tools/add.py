@@ -33,12 +33,10 @@ add.py workunit  (TODO)
 add.py result    (TODO) '''
 
 import boinc_path_config
-from Boinc import database, db_mid, configxml, util
+from Boinc import database, db_mid, util
 import sys, os, getopt, md5, time
 
-config = boinc_config.BoincConfig('../../projects/client_test/config.xml').read()
-
-database._connectp('boinc_client_test','','')
+database.connect_default_config()
 
 CREATE_TIME = ['?create_time', int(time.time())]
 

@@ -193,6 +193,14 @@ class RunStateFile(XMLConfig):
         self.tasks.save()
     default_xml = '<boinc></boinc>'
 
+default_config_file = None
+def default_config():
+    '''Reads the default config.xml and returns it.'''
+    global default_config_file
+    if not default_config_file:
+        default_config_file = ConfigFile().read()
+    return default_config_file
+
 if __name__ == '__main__':
     config = ConfigFile().read()
     # print "setting config.enabled = True"
