@@ -284,6 +284,7 @@ VOID CScreensaver::StartupBOINC()
             TCHAR szCurrentDesktop[MAX_PATH];
             DWORD dwBlankTime;
             BOOL  bReturnValue;
+            int   iReturnValue;
 
             memset(szCurrentWindowStation, 0, sizeof(szCurrentWindowStation)/sizeof(TCHAR));
             memset(szCurrentDesktop, 0, sizeof(szCurrentDesktop)/sizeof(TCHAR));
@@ -323,10 +324,16 @@ VOID CScreensaver::StartupBOINC()
 			if ( bReturnValue < 0 ) dwBlankTime = 0;
 
 			// Tell the boinc client to start the screen saver
-            rpc.set_screensaver_mode(true, szCurrentWindowStation, szCurrentDesktop, dwBlankTime);
+            iReturnValue = rpc.set_screensaver_mode(true, szCurrentWindowStation, szCurrentDesktop, dwBlankTime);
 
 			// We have now notified the boinc client
-			m_bBOINCCoreNotified = TRUE;
+			if ( 0 == iReturnValue )
+                m_bBOINCCoreNotified = TRUE;
+            else
+            {
+       			m_bErrorMode = TRUE;
+    			m_hrError = SCRAPPERR_BOINCNOTDETECTED;
+            }
 		}
 	}
 }
@@ -583,7 +590,7 @@ HRESULT CScreensaver::CreateSaverWindow()
             m_Monitors[0].hWnd = m_hWnd;
             GetClientRect( m_hWnd, &m_rcRenderTotal );
             GetClientRect( m_hWnd, &m_rcRenderCurDevice );
-			SetTimer(m_hWnd, 2, 10000, NULL);
+			SetTimer(m_hWnd, 2, 60000, NULL);
             break;
 
         case sm_full:
@@ -616,7 +623,7 @@ HRESULT CScreensaver::CreateSaverWindow()
                     if( m_hWnd == NULL )
 						m_hWnd = pMonitorInfo->hWnd;
 
-					SetTimer(pMonitorInfo->hWnd, 2, 10000, NULL);
+					SetTimer(pMonitorInfo->hWnd, 2, 60000, NULL);
 				}
             }
     }
@@ -836,33 +843,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                     // Lets try and get the current status of the CC
                     iReturnValue = rpc.get_screensaver_mode( iStatus );
                     BOINCTRACE(_T("CScreensaver::PrimarySaverProc - get_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
-                    if (0 != iReturnValue)
-                    {
-                    	// Attempt to reinitialize the RPC client and state
-                        rpc.close();
-                        rpc.init( NULL );
-                        m_bResetCoreState = TRUE;
-
-                        if (!m_bBOINCConfigChecked)
-                        {
-                            m_bBOINCConfigChecked = TRUE;
-                            m_bBOINCStartupConfigured = IsConfigStartupBOINC();
-                        }
-
-			            if(m_bBOINCStartupConfigured)
-			            {
-				            m_bErrorMode = TRUE;
-				            m_hrError = SCRAPPERR_BOINCNOTDETECTED;
-			            }
-			            else
-			            {
-				            m_bErrorMode = TRUE;
-				            m_hrError = SCRAPPERR_BOINCNOTDETECTEDSTARTUP;
-			            }
-
-			            m_bBOINCCoreNotified = FALSE;
-                    }
-                    else
+                    if (0 == iReturnValue)
                     {
                         if (m_bBOINCCoreNotified)
                         {

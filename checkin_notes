@@ -22265,3 +22265,12 @@ Bruce 7 Jan 2005
         x_opengl.C
         diagnostics.C
         filesys.C
+
+Rom    7 Jan 2005
+    - Bug Fix: The screensaver doesn't really need to update every second. change
+        it to update once a minute.
+    - Bug Fix: The screensaver only needs to detect if BOINC is running once,
+        if it doesn't detect it display the not detected message.
+
+    client/win/
+        win_screensaver.cpp
