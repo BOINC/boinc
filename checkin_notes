@@ -14011,3 +14011,7 @@ David  2004.06.18
         boinc_zip.C,h (removed)
     zip/
         various
+
+Rom    June 19 2004
+    - Tag for 3.17 release, all platforms
+      boinc_core_release_3_17
