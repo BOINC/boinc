@@ -164,15 +164,16 @@ int get_local_domain_name(char* p) {
 }
 
 // Returns the name of the local host
-// TODO: Should the 256 be MAXHOSTNAMELEN instead?
 //
 int get_local_ip_addr_str(char* p) {
     strcpy( p,"" );
 #if HAVE_NETDB_H
-    char buf[256];
+    char buf[MAXHOSTNAMELEN];
     struct in_addr addr;
-    gethostname(buf, 256);
+    if (gethostname(buf, MAXHOSTNAMELEN))
+        return -1;
     struct hostent* he = gethostbyname(buf);
+    if (!he) return -1;
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
     strcpy(p, inet_ntoa(addr));
 #endif
@@ -185,10 +186,12 @@ int get_local_ip_addr(int& p) {
     p = 0;
 
 #if HAVE_NETDB_H
-    char buf[256];
+    char buf[MAXHOSTNAMELEN];
     struct in_addr addr;
-    gethostname(buf, 256);
+    if (gethostname(buf, MAXHOSTNAMELEN))
+        return -1;
     struct hostent* he = gethostbyname(buf);
+    if (!he) return -1;
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
     p = addr.s_addr;
 #endif
