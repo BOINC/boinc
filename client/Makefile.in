@@ -224,6 +224,7 @@ speed_stats_CFLAGS = -O6 $(AM_CFLAGS)
 EXTRA_DIST = \
 	*.h					\
 	mac/*.h mac/*.cpp			\
+	win/*.h.in				\
         win/*.h win/*.cpp win/*.rc		\
         win/*.ico win/*.def win/res/*.*		\
         translation/language.* 
@@ -231,7 +232,8 @@ EXTRA_DIST = \
 subdir = client
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = $(top_builddir)/config.h
+CONFIG_HEADER = $(top_builddir)/config.h \
+	$(top_builddir)/client/win/win_config.h
 CONFIG_CLEAN_FILES =
 EXTRA_PROGRAMS = speed_stats$(EXEEXT)
 bin_PROGRAMS = boinc_client$(EXEEXT)
@@ -269,7 +271,7 @@ speed_stats_LDADD = $(LDADD)
 speed_stats_DEPENDENCIES =
 speed_stats_LDFLAGS =
 
-DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
+DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir) -I$(top_builddir)/client/win
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/boinc_client-account.Po \
@@ -1376,12 +1378,17 @@ uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 $(LIBRSA):
 	cd $(top_builddir)/RSAEuro/source; ${MAKE} librsaeuro.a
 
-all-local: @CLIENT_BIN_FILENAME@
+all-local: client-bin-gz
+client-bin: @CLIENT_BIN_FILENAME@.gz
+client-bin-gz: @CLIENT_BIN_FILENAME@.gz
 
 # make a hard link to the client name.
 @CLIENT_BIN_FILENAME@: boinc_client
-	rm -f @CLIENT_BIN_FILENAME@
-	ln boinc_client @CLIENT_BIN_FILENAME@
+	rm -f $^
+	ln boinc_client $^
+
+@CLIENT_BIN_FILENAME@.gz: @CLIENT_BIN_FILENAME@
+	gzip -c $^ > $@
 
 clean-local:
 	rm -f @CLIENT_BIN_FILENAME@
