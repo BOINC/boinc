@@ -5369,7 +5369,7 @@ fi
 
 
 case "$target" in
-*-linux-*)
+*-linux-* | *-sun-*)
 
 cat >>confdefs.h <<\_ACEOF
 #define GETSOCKOPT_SOCKLEN_T 1
