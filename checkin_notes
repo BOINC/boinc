@@ -26019,3 +26019,9 @@ David  18 Mar 2005
         download_network.inc
     py/Boinc/
         setup_project.py
+
+David  19 Mar 2005
+    - rewrite installer text for LGPL
+
+    win_build/installerv2/redist/0409/
+        eula.rtf
