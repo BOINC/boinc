@@ -429,6 +429,8 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
             fprintf(stderr, "FILE_INFO::parse(): unrecognized: %s\n", buf);
         }
     }
+    if (from_server)
+        approval_required = executable;
     return 1;
 }
 
