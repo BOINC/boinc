@@ -262,7 +262,7 @@ unsigned char decode_char(const unsigned char *s) {
   }
 }  
 
-std::vector<unsigned char> xml_decode_string(const unsigned char *input, size_t length=0) {
+std::vector<unsigned char> xml_decode_string(const unsigned char *input, size_t length) {
   unsigned int i;
   char c;
   if (!length) {
@@ -286,7 +286,7 @@ std::vector<unsigned char> xml_decode_string(const unsigned char *input, size_t 
   return rv;
 }
 
-std::string xml_encode_string(const unsigned char *input, size_t length=0) {
+std::string xml_encode_string(const unsigned char *input, size_t length) {
   unsigned int i;
   if (!length) {
     // This is bad form.  Are you sure there are no nulls in the input?
