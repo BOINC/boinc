@@ -97,7 +97,7 @@ int detach_shmem(HANDLE hMap, void* p) {
 int create_shmem(key_t key, int size, void** pp) {
     int id;
     assert(pp!=NULL);
-    id = shmget(key, size, IPC_CREAT|SHM_R|SHM_W);
+    id = shmget(key, size, IPC_CREAT|0666);
     if (id < 0) {
         return ERR_SHMGET;
     }
@@ -129,7 +129,7 @@ int attach_shmem(key_t key, void** pp){
         return ERR_SHMGET;
     }
     p = shmat(id, 0, 0);
-    if ((long)p == ERR_SHMAT) {
+    if ((int)p == -1) {
         return ERR_SHMAT;
     }
     *pp = p;

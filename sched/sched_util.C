@@ -115,14 +115,14 @@ int try_fopen(const char* path, FILE*& f, const char* mode) {
 }
 
 void get_log_path(char* p, const char* filename) {
-    char buf[256];
-    char path[256];
-    gethostname(buf, 256);
-    char* q = strchr(buf, '.');
+    char host[256];
+    char dir[256];
+    gethostname(host, 256);
+    char* q = strchr(host, '.');
     if (q) *q=0;
-    sprintf(path, "log_%s", buf);
-    sprintf(p, "../%s/%s", path, filename);
-    mkdir(path, 0777);
+    sprintf(dir, "../log_%s", host);
+    sprintf(p, "%s/%s", dir, filename);
+    mkdir(dir, 0777);
 }
 
 static void filename_hash_old(const char* filename, int fanout, char* dir) {

@@ -2,7 +2,7 @@
 
 require_once("docutil.php");
 
-page_head("Windows Multi-mode Installer");
+page_head("BOINC Windows installer");
 echo "
 
 BOINC can be installed in any of several modes:
@@ -60,8 +60,8 @@ deploy BOINC across a Windows network using Active Directories,
 and have all the PCs attached to a particular account.
 Here's how to do this:
 <ul>
-<li> Using Microsoft ORCA, edit the installer to set the installation
-parameters to what you want.
+<li> Using <a href=http://support.microsoft.com/kb/255905/EN-US/>Microsoft ORCA</a>,
+edit the installer to set the installation parameters to what you want.
 <li> The global property ACCOUNTS_LOCATION specifies
 (either in UNC or drive:path format)
 a directory containing initial account files (normally null).

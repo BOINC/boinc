@@ -425,8 +425,17 @@ static void handle_process_control_msg() {
             boinc_status.suspended = true;
             if (options.direct_process_action) {
 #ifdef _WIN32
+                // in Windows is called from a separate "timer thread",
+                // and Windows lets us suspend the worker thread
+                //
                 SuspendThread(worker_thread_handle);
 #else
+                // In pthreads there's no way to suspend/resume another thread.
+                // This function is executed by the work thread
+                // (from the timer signal handler)
+                // so we can simulate suspend by just spinning,
+                // waiting for a resume or quit message
+                //
                 while (1) {
                     if (app_client_shm->shm->process_control_request.get_msg(buf)) {
                         if (match_tag(buf, "<resume/>")) {

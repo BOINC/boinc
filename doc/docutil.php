@@ -87,7 +87,7 @@ function list_item($x, $y, $z=null) {
 function list_item_array($x) {
     echo "<tr>";
     foreach ($x as $h) {
-        echo "<td>$h</td>";
+        echo "<td valign=top>$h</td>";
     }
     echo "</tr>\n";
 }

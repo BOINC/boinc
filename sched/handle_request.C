@@ -386,14 +386,22 @@ int handle_results(
     
     if (sreq.results.size() == 0) return 0;
     
-    // read all results the user is reporting
+    // copy names of reported results to a separate vector
     //
     for (i=0; i<sreq.results.size(); i++) {
         result_handler.add_result(sreq.results[i].name);
     }
     
-    // read all results with the same name from the database into
-    // memory
+    // read results with those names from database
+    // Quantities that MUST be read from the DB are those
+    // where srip appears as an rval.
+    // These are: id, name, server_state, received_time, hostid.
+    // Quantities that must be WRITTEN to the DB are those for
+    // which srip appears as an lval. These are:
+    // hostid,
+    // teamid, received_time, client_state, cpu_time, exit_status,
+    // app_version_num, claimed_credit, server_state, stderr_out,
+    // xml_doc_out, outcome, validate_state
     //
     retval = result_handler.enumerate();
     if (retval) {
@@ -405,29 +413,17 @@ int handle_results(
     }
 
 
-    // loop over all results that came back from the host
+    // loop over results reported by client
     //
     for (i=0; i<sreq.results.size(); i++) {
-
-        // a pointer to the current result from the host
-        //
         rp = &sreq.results[i];
 
-        // acknowledge the result even if we couldn't find it --
+        // acknowledge the result even if we couldn't find it in DB --
         // don't want it to keep coming back
         //
         reply.result_acks.push_back(*rp);
 
-        // get the result with the same name that came back from the
-        // database and point srip to it.  Quantities that MUST be
-        // read from the DB are those where srip appears as an rval.
-        // These are: id, name, server_state, received_time, hostid.
-        // Quantities that must be WRITTEN to the DB are those for
-        // which srip appears as an lval. These are:
-        // hostid,
-        // teamid, received_time, client_state, cpu_time, exit_status,
-        // app_version_num, claimed_credit, server_state, stderr_out,
-        // xml_doc_out, outcome, validate_state
+        // See if result was found in DB
 
         retval = result_handler.lookup_result(rp->name, &srip);
         if (retval) {
@@ -436,7 +432,6 @@ int handle_results(
                 "[HOST#%d] [RESULT#? %s] can't find result\n",
                 reply.host.id, rp->name
             );
-            // no need to skip when updating DB, since it's not there!
             continue;
         }
 
@@ -507,8 +502,9 @@ int handle_results(
         } // hostids do not match
 
         // modify the result record in the in-memory copy obtained
-        // from the DB earlier.  If we found a problem above, we have
-        // continued and skipped this modify
+        // from the DB earlier.
+        // If we found a problem above,
+        // we have continued and skipped this modify
         //
         srip->hostid = reply.host.id;
         srip->teamid = reply.user.teamid;

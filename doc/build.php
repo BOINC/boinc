@@ -169,6 +169,31 @@ Make sure httpd.conf sets the default MIME type as follows:
 <pre>
 DefaultType application/octet-stream
 </pre>
+Suppose Apache runs as user 'apache'
+and BOINC daemons runs as user 'boincadm'.
+Directories created by apache need to be writeable to boincadm.
+Add these two lines to the beginning of the apache start script
+(called apachectl, usually in /usr/sbin on linux):
+<pre>
+    umask 2
+    export umask
+</pre>
+Apache will need to be stopped/restarted for this to take effect.
+
+<p>
+You also need to edit /etc/group so that boincadm belongs
+to group apache, i.e. the line:
+<pre>
+    apache:x:48:
+</pre>
+becomes:
+<pre>
+apache:x:48:boincadm
+</pre>
+
+Now any file apache creates should have group writeable permissions
+(thanks to the umask) and user boincadm, who now belongs to group
+apache, should be able to update/delete these files.
 
 <hr>
 

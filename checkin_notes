@@ -26463,3 +26463,16 @@ Rom    1 Apr 2005
         DlgConnection.cpp, .h
         DlgOptions.cpp, .h
         DlgSelectComputer.cpp, .h
+
+David  1 April 2005
+    - create_shmem(): use mode 0666 when creating shared mem
+    - attach_shmem(): fix error check on shmat() return
+    - sched_util.C: get_log_path() was creating directory in wrong place
+
+    api/
+        boinc_api.C
+    lib/
+        shmem.C
+    sched/
+        handle_request.C
+        sched_util.C

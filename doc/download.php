@@ -84,9 +84,9 @@ function win_old() {
 function win_new() {
     global $xml;
     if ($xml) {
-        return "Multi-mode Windows installer";
+        return "Windows installer";
     } else {
-        return "<a href=win_install.php>Multi-mode Windows installer</a>";
+        return "<a href=win_install.php>Windows installer</a>";
     }
 }
 
