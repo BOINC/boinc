@@ -173,32 +173,6 @@ This excludes CPU time used to render graphics.
 'Trickle messages' allow applications with long (multi-day)
 work units to communicate with the server during execution.
 This mechanism is described <a href=trickle.php>here</a>.
-<h3>Multi-program applications</h3>
-Some applications consist of multiple programs:
-a <b>main program</b> that acts as coordinator,
-and one or more subsidiary programs.
-Each program should use the BOINC API as described above.
-<p>
-Each program should have its own state file;
-the state file of the coordinator program records
-which subsidiary program was last active.
-<p>
-To correctly implement fraction done,
-the main program should pass information to subsidiary programs
-(perhaps as command-line arguments) indicating the starting and ending
-fractions for that program.
-<p>
-The coordinator must call
-<pre>
-    void boinc_child_start();
-</pre>
-prior to forking a child process.
-When the child is done, the coordinator
-must get the child's CPU time, then call
-<pre>
-    void boinc_child_done(double total_cpu);
-</pre>
-before forking the next child process.
 ";
 page_tail();
 ?>

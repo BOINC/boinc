@@ -53,6 +53,10 @@ typedef int PROCESS_ID;
 // A task may checkpoint now and then.
 // Each episode begins with the state of the last checkpoint.
 //
+// "CPU time" refers to the sum over all episodes.
+// (not counting the "lost" time after the last checkpoint
+// in episodes before the current one)
+//
 // When an active task is created, it is assigned a "slot"
 // which determines the directory it runs in.
 // This doesn't change over the life of the active task;
@@ -83,12 +87,12 @@ public:
         // based on a recent exponential weighted average
     double last_frac_done, recent_change;
     double last_frac_update;
-    double starting_cpu_time;
-        // total CPU time at the start of current episode
+    double episode_start_cpu_time;
+        // CPU time at the start of current episode
     double checkpoint_cpu_time;
-        // total CPU at the last checkpoint
+        // CPU at the last checkpoint
     double current_cpu_time;
-        // most recent total CPU time reported by app
+        // most recent CPU time reported by app
     double working_set_size;
         // most recent size of RAM working set in bytes
     int current_disk_usage(double&);

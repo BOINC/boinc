@@ -122,7 +122,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     last_frac_done = 0;
     recent_change = 0;
     last_frac_update = 0;
-    starting_cpu_time = 0;
+    episode_start_cpu_time = 0;
     checkpoint_cpu_time = 0;
     current_cpu_time = 0;
     working_set_size = 0;
@@ -189,6 +189,10 @@ int ACTIVE_TASK::link_user_files() {
     return 0;
 }
 
+// write the app init file.
+// This is done before starting the app,
+// and when project prefs have changed during app execution
+//
 int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     FILE *f;
     char init_data_path[256], project_dir[256], project_path[256];
@@ -218,11 +222,11 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
 #ifndef _WIN32
     aid.shm_key = 0;
 #endif
-    // when writing the wu_cpu_time to the app init file
-    // use the total cpu time from the start of the session
-    // (starting_cpu_time) rather than the total cpu time
-    // since the last checkpoint (checkpoint_cpu_time).
-    aid.wu_cpu_time = starting_cpu_time;
+    // wu_cpu_time is the CPU time at start of session,
+    // not the checkpoint CPU time
+    // At the start of an episode these are equal, but not in the middle!
+    //
+    aid.wu_cpu_time = episode_start_cpu_time;
 
     sprintf(init_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, INIT_DATA_FILE);
     f = boinc_fopen(init_data_path, "w");
@@ -273,7 +277,7 @@ int ACTIVE_TASK::start(bool first_time) {
         checkpoint_cpu_time = 0;
     }
     current_cpu_time = checkpoint_cpu_time;
-    starting_cpu_time = checkpoint_cpu_time;
+    episode_start_cpu_time = checkpoint_cpu_time;
     fraction_done = 0;
 
     gi.xsize = 800;
@@ -392,8 +396,8 @@ int ACTIVE_TASK::start(bool first_time) {
     char slotdirpath[256];
     char cmd_line[512];
 
-    memset( &process_info, 0, sizeof( process_info ) );
-    memset( &startup_info, 0, sizeof( startup_info ) );
+    memset(&process_info, 0, sizeof(process_info));
+    memset(&startup_info, 0, sizeof(startup_info));
     startup_info.cb = sizeof(startup_info);
     startup_info.lpReserved = NULL;
     startup_info.lpDesktop = "";
@@ -910,6 +914,10 @@ bool ACTIVE_TASK::read_stderr_file() {
     return false;
 }
 
+// tell a running app to reread project preferences.
+// This is called when project prefs change,
+// or when a user file has finished downloading.
+//
 int ACTIVE_TASK::request_reread_prefs() {
     int retval;
     APP_INIT_DATA aid;
@@ -924,6 +932,8 @@ int ACTIVE_TASK::request_reread_prefs() {
     return 0;
 }
 
+// tell all running apps of a project to reread prefs
+//
 void ACTIVE_TASK_SET::request_reread_prefs(PROJECT* project) {
     unsigned int i;
     ACTIVE_TASK* atp;
@@ -1118,7 +1128,7 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
 //
 int ACTIVE_TASK::suspend() {
 #ifdef _WIN32
-    SuspendThread( thread_handle );
+    SuspendThread(thread_handle);
 #else
     kill(pid, SIGSTOP);
 #endif
@@ -1129,7 +1139,7 @@ int ACTIVE_TASK::suspend() {
 //
 int ACTIVE_TASK::unsuspend() {
 #ifdef _WIN32
-    ResumeThread( thread_handle );
+    ResumeThread(thread_handle);
 #else
     kill(pid, SIGCONT);
 #endif

@@ -72,8 +72,10 @@ htmlspecialchars("<tables>
 </tables>
 "),
 "</pre>
+Other files:
 ";
 list_start();
+list_heading("File name", "Contents");
 list_item(
 "team_total_credit.xml<br> team_total_credit_N.xml",
 "Team summaries, ordered by decreasing <a href=credit.php>total credit</a>.
@@ -97,6 +99,8 @@ list_item("host_expavg_credit.xml<br> host_expavg_credit_N.xml",
 "Host summaries, ordered by decreasing recent-average credit.");
 list_item("host_id.xml<br> host_id_N.xml",
 "Host details, ordered by increasing ID.");
+list_item("core_versions.xml", "A list of version of the core client
+        in the project's database");
 list_end();
 echo "
 <p>

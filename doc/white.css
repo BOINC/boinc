@@ -24,8 +24,8 @@ a:active {
 }
 
 body , table , input , select {
-	font-family: Verdana, Arial, Sans Serif;
-	font-size: small;
+	font-family: "Trebuchet MS", Verdana, Arial, Sans Serif;
+#font-size: small;
 }
 
 body {
