@@ -29,10 +29,10 @@ when it's created; it's a long random string.
 When a scheduling server replies to an RPC,
 it includes the account's CPID and hashed email address.
 <li>
-The core client stores the CPID and hashed email address
+The BOINC client stores the CPID and hashed email address
 of each account to which it's attached.
 <li>
-When the core client makes an RPC request to a scheduling server,
+When the BOINC client makes an RPC request to a scheduling server,
 it includes the greatest (in terms of string comparison) CPID
 from among projects with the same hashed email.
 <li>

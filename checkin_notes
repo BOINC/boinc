@@ -16692,3 +16692,16 @@ Rom    24 Aug 2004
     - Tag for 4.04 release, all platforms
       boinc_release_4_04
 
+David  24 Aug 2004
+    - Core client: check that shared memory exists before
+        attempting to send or get msgs to an app.
+        This hopefully will fix a crashing bug
+        that happens when you use quit-on-suspend
+        (since the shared-memory seg is deleted on quit)
+    - Separate get_app_status_msg() and get_trickle_up_msg() functions
+
+    client/
+        app.h
+        app_control.C
+        app_graphics.C
+

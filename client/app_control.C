@@ -66,6 +66,7 @@ bool ACTIVE_TASK::process_exists() {
 // Send a quit message.
 //
 int ACTIVE_TASK::request_exit() {
+    if (!app_client_shm.shm) return 1;
     app_client_shm.shm->process_control_request.send_msg_overwrite("<quit/>");
     return 0;
 }
@@ -180,7 +181,8 @@ int ACTIVE_TASK::preempt(bool quit_task) {
 //
 #ifdef _WIN32
 bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
-    get_msg();
+    get_app_status_msg();
+    get_trickle_up_msg();
     result->final_cpu_time = checkpoint_cpu_time;
     if (state == PROCESS_ABORT_PENDING) {
         state = PROCESS_ABORTED;
@@ -223,7 +225,8 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
 bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
 
-    get_msg();
+    get_app_status_msg();
+    get_trickle_up_msg();
     result->final_cpu_time = checkpoint_cpu_time;
     if (state == PROCESS_ABORT_PENDING) {
         state = PROCESS_ABORTED;
@@ -325,6 +328,7 @@ void ACTIVE_TASK_SET::send_trickle_downs() {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
         if (atp->have_trickle_down) {
+            if (!atp->app_client_shm.shm) continue;
             sent = atp->app_client_shm.shm->trickle_down.send_msg("<have_trickle_down/>\n");
             if (sent) atp->have_trickle_down = false;
         }
@@ -338,6 +342,7 @@ void ACTIVE_TASK_SET::send_heartbeats() {
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
+        if (!atp->app_client_shm.shm) continue;
         atp->app_client_shm.shm->heartbeat.send_msg("<heartbeat/>\n");
     }
 }
@@ -550,6 +555,7 @@ int ACTIVE_TASK::request_reread_prefs() {
 
     retval = write_app_init_file(aid);
     if (retval) return retval;
+    if (!app_client_shm.shm) return 0;
     app_client_shm.shm->graphics_request.send_msg(
         xml_graphics_modes[MODE_REREAD_PREFS]
     );
@@ -757,6 +763,7 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
 // suspend a task
 //
 int ACTIVE_TASK::suspend() {
+    if (!app_client_shm.shm) return 0;
     app_client_shm.shm->process_control_request.send_msg_overwrite("<suspend/>");
     state = PROCESS_SUSPENDED;
     return 0;
@@ -765,6 +772,7 @@ int ACTIVE_TASK::suspend() {
 // resume a suspended task
 //
 int ACTIVE_TASK::unsuspend() {
+    if (!app_client_shm.shm) return 0;
     app_client_shm.shm->process_control_request.send_msg_overwrite("<resume/>");
     state = PROCESS_EXECUTING;
     return 0;
@@ -774,11 +782,11 @@ int ACTIVE_TASK::unsuspend() {
 // (with CPU done, frac done etc.)
 // If so parse it and return true.
 //
-bool ACTIVE_TASK::get_msg() {
+bool ACTIVE_TASK::get_app_status_msg() {
     char msg_buf[MSG_CHANNEL_SIZE];
     bool found = false;
-    int retval;
 
+    if (!app_client_shm.shm) return false;
     if (app_client_shm.shm->app_status.get_msg(msg_buf)) {
         fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
         parse_double(msg_buf, "<fraction_done>", fraction_done);
@@ -788,6 +796,15 @@ bool ACTIVE_TASK::get_msg() {
         parse_double(msg_buf, "<resident_set_size>", resident_set_size);
         found = true;
     }
+    return found;
+}
+
+bool ACTIVE_TASK::get_trickle_up_msg() {
+    char msg_buf[MSG_CHANNEL_SIZE];
+    bool found = false;
+    int retval;
+
+    if (!app_client_shm.shm) return false;
     if (app_client_shm.shm->trickle_up.get_msg(msg_buf)) {
         if (match_tag(msg_buf, "<have_new_trickle_up/>")) {
             retval = move_trickle_file();
@@ -814,12 +831,13 @@ bool ACTIVE_TASK_SET::get_msgs() {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
         old_time = atp->checkpoint_cpu_time;
-        if (atp->get_msg()) {
+        if (atp->get_app_status_msg()) {
             atp->estimate_frac_rate_of_change(now);
             if (old_time != atp->checkpoint_cpu_time) {
                 action = true;
             }
         }
+        atp->get_trickle_up_msg();
     }
     return action;
 }

@@ -36,6 +36,7 @@ void ACTIVE_TASK::request_graphics_mode(int mode) {
 }
 
 bool ACTIVE_TASK::send_graphics_mode(int mode) {
+    if (!app_client_shm.shm) return false;
     bool sent = app_client_shm.shm->graphics_request.send_msg(
         xml_graphics_modes[mode]
     );
@@ -46,6 +47,8 @@ bool ACTIVE_TASK::send_graphics_mode(int mode) {
 void ACTIVE_TASK::check_graphics_mode_ack() {
     int mode;
     char buf[MSG_CHANNEL_SIZE];
+
+    if (!app_client_shm.shm) return;
     if (app_client_shm.shm->graphics_reply.get_msg(buf)) {
         mode = app_client_shm.decode_graphics_msg(buf);
         //msg_printf(NULL, MSG_INFO, "got graphics ack %d", mode);
