@@ -8,7 +8,7 @@ bin_PROGRAMS = upper_case concat 1sec
 noinst_LIBRARIES = libapp.a
 
 libapp_a_SOURCES = \
-    ../api/mfile.C \
+    ../lib/mfile.C \
     ../lib/app_ipc.C \
     ../lib/diagnostics.C \
     ../lib/diagnostics.h \

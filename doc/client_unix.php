@@ -40,7 +40,7 @@ list_item("-run_cpu_benchmarks",
     "Run CPU benchmarks.
     Do this if you have modified your computer's hardware."
 );
-list_item("-allow_remove_gui_rpc",
+list_item("-allow_remote_gui_rpc",
     "Allow GUI RPCs from remote hosts"
 );
 list_item("-help",

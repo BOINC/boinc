@@ -64,6 +64,7 @@ enter the project URL and the account ID.
 Visible result: the client does a stream of work;
 the web site shows credit accumulating.
 
+<p>
 Troubleshooting: check the log files of all daemon processes.
 
 <h2>Develop back end components</h2>

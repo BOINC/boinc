@@ -32,7 +32,7 @@ called <code>mysql_config</code> which comes with your MySQL distribution.
 This sometimes references libraries that are not part of your base system
 installation, such as <code>-lnsl</code> or <code>-lnss_files</code>.
 You may need to install additional packages
-(often you can use something called "mysql-dev" or "mysql-devel")
+(often you can use something called 'mysql-dev' or 'mysql-devel')
 or fiddle with Makefiles.
 
 ";

@@ -46,71 +46,87 @@ See the source of file <code>boinc/py/Boinc/boinc_project_path.py</code> for
 details.
 
 <h2>Directories containing python scripts</h2>
-<table border=1 width=100%>
-  <tr><td><code>boinc/py/</code></td><td> <code>Boinc/*.py</code> </td> <td>
-      Main BOINC python modules
-  </td></tr>
-  <tr><td><code>boinc/sched/</code></td><td> <a href=tool_start.php><code>start</code></a> </td> <td>
-      BOINC start / Super Cron program
-  </td></tr>
-  <tr><td><code>boinc/tools/</code></td><td> <a href=tool_xadd.php><code>add</code></a> </td> <td>
-      Adds objects to the database.
-      TODO: document
-  </td></tr>
-  <tr><td><code>boinc/tools/</code></td><td> <a href=make_project.php><code>make_project</code></a> </td> <td>
-      Creates a project
-  </td></tr>
-  <tr><td><code>boinc/tools/</code></td><td> <a href=tool_update_versions.php><code>update_versions</code></a> </td> <td>
-      Adds all relevant core client and application executables to download
-      directory and database
-  </td></tr>
-  <tr><td><code>boinc/test/</code></td><td> <code>test*.py<br>cgiserver.py</code> </td> <td>
-      Test scripts: see the <a href=test.php>testing framework</a>.
-  </td></tr>
-</table>
+";
+list_start();
+list_item(
+    "<code>boinc/py/Boinc/*.py</code>",
+    "Main BOINC python modules"
+);
+list_item(
+    "<a href=tool_start.php><code>boinc/sched/start</code></a>",
+    "BOINC start / Super Cron program"
+);
+list_item(
+    "<a href=tool_xadd.php><code>boinc/tools/xadd</code></a>",
+    " Adds objects to the database"
+);
+list_item(
+    "<a href=make_project.php><code>boinc/tools/make_project</code></a>",
+    "Creates a project"
+);
+list_item(
+    "<a href=tool_update_versions.php><code>boinc/tools/update_versions</code></a>",
+    "Adds all relevant core client and application executables to download
+      directory and database"
+);
+list_item(
+    "<code>boinc/test/test*.py<br>cgiserver.py</code>",
+    "Test scripts: see the <a href=test.php>testing framework</a>."
+);
+list_end();
+echo "
 
 <h2>Python modules in <b>boinc/py/Boinc/</b></h2>
-<table border=1>
-  <tr><td><code>boinc_path_config.py.in</code></td><td>
-      <code>Configure</code> puts <code>boinc_path_config.py</code> in all
-      directories that need it; see above
-  </td></tr>
-  <tr><td><code>boinc_project_path.py</code></td><td>
-      sets where <code>config.xml</code> et al can be found; see above.
-  </td></tr>
+";
+list_start();
+list_item(
+    "<code>boinc_path_config.py.in</code>",
+    "<code>Configure</code> puts <code>boinc_path_config.py</code> in all
+      directories that need it; see above"
+);
+list_item(
+    "<code>boinc_project_path.py</code>",
+      "sets where <code>config.xml</code> et al can be found; see above."
+);
 
-  <tr><td><code>configxml.py</code></td><td>
-      reads and writes <code>config.xml</code> and <code>run_state.xml</code>
-      - see its pydoc for more information
-  </td></tr>
+list_item(
+  "<code>configxml.py</code>",
+      "reads and writes <code>config.xml</code> and <code>run_state.xml</code>
+      - see its pydoc for more information"
+);
 
-  <tr><td><code>boinc_db.py</code></td><td>
-      auto-generated file that contains database constant definitions,
-      e.g. <code>RESULT_OUTCOME_SUCCESS = 1</code>
-  </td></tr>
+list_item(
+  "<code>boinc_db.py</code>",
+      "auto-generated file that contains database constant definitions,
+      e.g. <code>RESULT_OUTCOME_SUCCESS = 1</code>"
+);
 
-  <tr><td><code>setup_project.py</code></td><td>
-      internal module for creating a project.
+list_item(
+  "<code>setup_project.py</code>",
+      "internal module for creating a project.
       See <a href=make_project.php><code>make_project</code></a>
-      and test scripts.
-  </td></tr>
+      and test scripts."
+);
 
-  <tr><td><code>database.py</code></td><td>
-      defines database backend functions and database operations; see below.
-  </td></tr>
-  <tr><td><code>db_mid.py</code></td><td>
-      'middle-end': optional mix-in to ease debugging by allowing printing of
-      database objects directly
-  </td></tr>
-  <tr><td><code>util.py</code></td><td>
-      miscellaneous functions
-  </td></tr>
-  <tr><td><code>version.py.in</code></td><td>
-      version and platform-specific definitions snarfed by <code>configure</code>
-  </td></tr>
-
-</table>
-
+list_item(
+  "<code>database.py</code>",
+      "defines database backend functions and database operations; see below."
+);
+list_item(
+  "<code>db_mid.py</code>",
+     " 'middle-end': optional mix-in to ease debugging by allowing printing of
+      database objects directly"
+);
+list_item(
+  "<code>util.py</code>",
+      "miscellaneous functions"
+);
+list_item(
+  "<code>version.py.in</code>",
+      "version and platform-specific definitions snarfed by <code>configure</code>"
+);
+list_end();
+echo "
 <h2>Python database access</h2>
 <code>Database.py</code> defines database backend library and database table
 and object relationships to allow easy data manipulation.
@@ -141,7 +157,7 @@ Table classes have a <code>find</code> function that builds and executes a
 MySQL query based on its arguments:
 <pre>
   # this could return any number (0, 1, 2, ...) of platforms
-  # executes 'select * from platform where user_friendly_name='commodore 64''
+  # executes \"select * from platform where user_friendly_name='commodore 64'\"
   list_of_platforms_called_c64 = database.<b>Platforms.find(
       user_friendly_name = 'Commodore 64')</b>
 </pre>

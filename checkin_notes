@@ -13420,3 +13420,9 @@ Rom    June 12 2004
     win_build/
         boinc_guirpc_test.vcproj
         upper_case.vcproj
+
+David  June 12 2004
+    - fix compile errors on Unix
+
+    apps/
+        Makefile.am,in

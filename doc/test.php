@@ -128,7 +128,7 @@ you use:
 <code>BOINC_TEST_USER_NAME</code>
 <blockquote>
   User name to use for setting up database name.
-  Defaults to <code>$USER</code>
+  Defaults to <code>\$USER</code>
 </blockquote>
 
 <code>BOINC_TEST_VERBOSE</code>
@@ -191,19 +191,19 @@ BOINC_TEST_HOSTS_DIR
 Bourne shell:
 <pre>
     QHOME=/disks/philmor/a/users/quarl/proj
-    TOP=$QHOME/test-boinc
+    TOP=\$QHOME/test-boinc
     URL=http://milhouse.ssl.berkeley.edu/quarl
 
-    export BOINC_TEST_PROJECTS_DIR=$TOP/projects
+    export BOINC_TEST_PROJECTS_DIR=\$TOP/projects
     export BOINC_TEST_USER_NAME=quarl
-    export BOINC_TEST_SRC_DIR=$QHOME/boinc
-    export BOINC_TEST_CGI_DIR=$TOP/boinc_cgi
-    export BOINC_TEST_CGI_URL=$URL/boinc_cgi
-    export BOINC_TEST_HTML_DIR=$TOP/boinc_html
-    export BOINC_TEST_HTML_URL=$URL/boinc_html
+    export BOINC_TEST_SRC_DIR=\$QHOME/boinc
+    export BOINC_TEST_CGI_DIR=\$TOP/boinc_cgi
+    export BOINC_TEST_CGI_URL=\$URL/boinc_cgi
+    export BOINC_TEST_HTML_DIR=\$TOP/boinc_html
+    export BOINC_TEST_HTML_URL=\$URL/boinc_html
     export BOINC_TEST_SHMEM_KEY=0x1717f00f
-    export BOINC_TEST_KEY_DIR=$TOP/keys
-    export BOINC_TEST_HOSTS_DIR=$TOP/host
+    export BOINC_TEST_KEY_DIR=\$TOP/keys
+    export BOINC_TEST_HOSTS_DIR=\$TOP/host
 </pre>
 
 Apache configuration:
