@@ -64,7 +64,7 @@ static void escape_url(char *in, char* out) {
         fprintf(stderr, "error: escape_url: unexpected NULL pointer out\n");
     }
     for (x=0, y=0; in[x]; ++x) {
-        if (isalnum(in[x])) {
+        if (isalnum(in[x]) || in[x]=='.') {
             out[y] = in[x];
             ++y;
         }
