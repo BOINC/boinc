@@ -42,9 +42,13 @@ int sprint_hex_data(char* p, DATA_BLOCK& x) {
 int scan_hex_data(FILE* f, DATA_BLOCK& x) {
     int n;
     x.len = 0;
+    char *retval, buf[3];
     while (1) {
-        n = fscanf(f, "%2x", x.data+x.len);
-        if (n <= 0) break;
+        retval = fgets(buf, 2, f);
+	if(retval == NULL) break;
+        sscanf(buf, "%2x", x.data+x.len);
+        //n = fscanf(f, "%2x", x.data+x.len);
+        //if (n <= 0) break;
         x.len++;
     }
     return 0;
@@ -80,14 +84,18 @@ int print_key_hex(FILE* f, KEY* key, int size) {
 
 int scan_key_hex(FILE* f, KEY* key, int size) {
     int len, i, n;
-
-    fscanf(f, "%d", &key->bits);
+    char buf[size+1];
+    //fscanf(f, "%d", &key->bits);
+    fgets(buf, size, f);
+    sscanf(buf, "%2x", &key->bits);
     len = size - sizeof(key->bits);
     for (i=0; i<len; i++) {
-        fscanf(f, "%2x", &n);
+        //fscanf(f, "%2x", &n);
+        sscanf(buf, "%2x", &n);
         key->data[i] = n;
     }
-    fscanf(f, ".");
+    //fscanf(f, ".");
+    sscanf(buf, ".");
     return 0;
 }
 
@@ -113,7 +121,7 @@ int encrypt_private(
 }
 
 int decrypt_public(R_RSA_PUBLIC_KEY& key, DATA_BLOCK& in, DATA_BLOCK& out) {
-    RSAPublicDecrypt(out.data, &out.len, in.data, in.len, &key);
+    return RSAPublicDecrypt(out.data, &out.len, in.data, in.len, &key);
 }
 
 int sign_file(char* path, R_RSA_PRIVATE_KEY& key, DATA_BLOCK& signature) {

@@ -850,3 +850,11 @@ David   July 4, 2002
     
     client/app.C
     sched/file_upload_handler.C
+
+Michael Gary	July 5, 2002
+    - fixed fast cgi crypto
+        use fgets and sscanf instead of fscanf, which 
+        is not implemented in fcgi_stdio.h
+
+    sched/Makefile.in
+    lib/crypt.C

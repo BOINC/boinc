@@ -221,14 +221,12 @@ int get_host_info(HOST_INFO& host) {
 #endif
 
 #ifdef linux
-    memset(&host, 0, sizeof(host));
-#endif      
-    get_local_domain_name(host.domain_name);
-    get_local_ip_addr_str(host.ip_addr);
-#ifdef linux			    
+    memset(&host, 0, sizeof(host)); 
     parse_cpuinfo(host);
     parse_meminfo(host);
 #endif
+    get_local_domain_name(host.domain_name);
+    get_local_ip_adr_str(host.ip_addr);
 #ifdef HAVE_SYS_UTSNAME_H
     get_osinfo(host);
 #endif

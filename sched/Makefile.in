@@ -61,6 +61,10 @@ FCGI_OBJS = \
     ../db/mysql_util.fcgi.o \
     ../lib/shmem.fcgi.o \
     ../lib/parse.fcgi.o \
+    ../lib/crypt.fcgi.o \
+    ../lib/md5.o \
+    ../lib/md5_file.o \
+    ../RSAEuro/source/rsaeuro.a \
     ../tools/process_result_template.fcgi.o
 FCGI_LIBS = -lfcgi -lfcgi++
 FCGI_FLAGS = -include /usr/local/include/fcgi_stdio.h -D_USING_FCGI_
@@ -73,6 +77,9 @@ MYSQL_LIBS = \
 
 %.fcgi.o: %.C
 	$(CC) $(FCGI_FLAGS) -c $*.C -o $*.fcgi.o
+
+%.fcgi.o: %.c
+	$(CC) $(FCGI_FLAGS) -c $*.c -o $*.fcgi.o
 
 .C.o:
 	$(CC) -c -o $*.o $<

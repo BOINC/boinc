@@ -25,17 +25,33 @@
 
 #ifdef _WIN32
 #include <io.h>
-#else
+#include <windows.h>
+#endif
+#if HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+#if HAVE_SYS_WAIT_H
 #include <sys/wait.h>
+#endif
+#if HAVE_SYS_TIME_H
 #include <sys/time.h>
+#endif
+#if HAVE_SYS_RESOURCE_H
 #include <sys/resource.h>
 #endif
+#if HAVE_SYS_TYPES_H
 #include <sys/types.h>
+#endif
+#if HAVE_SYS_SIGNAL_H
 #include <sys/signal.h>
+#endif
+#if HAVE_FCNTL_H
 #include <fcntl.h>
+#endif
 #include <ctype.h>
+#if HAVE_SIGNAL_H
 #include <signal.h>
+#endif
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -311,9 +327,18 @@ int ACTIVE_TASK::start(bool first_time) {
 
 void ACTIVE_TASK::request_exit(int seconds) {
     int retval;
+#if HAVE_SIGNAL_H
+#if HAVE_SYS_TYPES_H
     retval = kill(pid, SIGTERM);
     sleep(seconds);
     if(retval) kill(pid, SIGKILL);
+#endif
+#endif
+#ifdef _WIN32
+    //retval = ExitProcess();
+    sleep(seconds);
+    //if(retval) TerminateProcess();
+#endif
 }
 
 int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
@@ -377,7 +402,9 @@ bool ACTIVE_TASK_SET::poll() {
     }
 #endif
 
-#ifdef unix
+#if HAVE_SYS_RESOURCE_H
+#if HAVE_SYS_WAIT_H
+#if HAVE_SYS_TIME_H
     struct rusage rs;
     int pid;
 
@@ -402,6 +429,8 @@ bool ACTIVE_TASK_SET::poll() {
         atp->state = PROCESS_EXIT_UNKNOWN;
         atp->result->exit_status = -1;
     }
+#endif
+#endif
 #endif
 
     // check for the stderr file, copy to result record
