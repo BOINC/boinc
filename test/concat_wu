@@ -1,20 +1,16 @@
 <file_info>
-    <name><INFILE_0/></name>
-    <url><DOWNLOAD_URL/>0/<INFILE_0/></url>
-    <md5_cksum><MD5_0/></md5_cksum>
+    <number>0</number>
 </file_info>
 <file_info>
-    <name><INFILE_1/></name>
-    <url><DOWNLOAD_URL/>/<INFILE_1/></url>
-    <md5_cksum><MD5_1/></md5_cksum>
+    <number>1</number>
 </file_info>
 <workunit>
     <file_ref>
-        <file_name><INFILE_0/></file_name>
+        <file_number>0</file_number>
         <open_name>in1</open_name>
     </file_ref>
     <file_ref>
-        <file_name><INFILE_1/></file_name>
+        <file_number>1</file_number>
         <open_name>in2</open_name>
     </file_ref>
     <command_line>in1 in2 out</command_line>

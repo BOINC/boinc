@@ -8,8 +8,7 @@
 // License for the specific language governing rights and limitations
 // under the License. 
 // 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// The Original Code is the Berkeley Open Infrastructure for Network Computing. // 
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
 // University of California at Berkeley. All Rights Reserved. 
@@ -25,14 +24,9 @@
 #include "db.h"
 #include "crypt.h"
 #include "md5_file.h"
+#include "parse.h"
 
 #include "backend_lib.h"
-
-#define INFILE_MACRO    "<INFILE_"
-#define MD5_MACRO       "<MD5_"
-#define OUTFILE_MACRO   "<OUTFILE_"
-#define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"
-#define DOWNLOAD_URL_MACRO      "<DOWNLOAD_URL/>"
 
 int read_file(FILE* f, char* buf) {
     assert(f);
@@ -69,8 +63,8 @@ int read_key_file(char* keyfile, R_RSA_PRIVATE_KEY& key) {
     return 0;
 }
 
-// replace INFILE_x with filename from array,
-// MD5_x with checksum of file,
+
+// process WU template
 //
 static int process_wu_template(
     char* wu_name, char* tmplate, char* out,
@@ -79,9 +73,9 @@ static int process_wu_template(
 ) {
     char* p;
     char buf[MAX_BLOB_SIZE], md5[33], path[256];
-    bool found;
-    int i, retval;
+    int retval, file_number;
     double nbytes;
+    char open_name[256];
 
     assert(wu_name!=NULL);
     assert(tmplate!=NULL);
@@ -90,54 +84,53 @@ static int process_wu_template(
     assert(infiles!=NULL);
     assert(n>=0);
 
-    strcpy(out, tmplate);
-    while (1) {
-        found = false;
-        p = strstr(out, INFILE_MACRO);
-        if (p) {
-            found = true;
-            i = atoi(p+strlen(INFILE_MACRO));
-            if (i >= n) {
-                fprintf(stderr, "process_wu_template: invalid file number\n");
-                return 1;
-            }
-            strcpy(buf, p+strlen(INFILE_MACRO)+1+2);      // assume <= 10 files
-            strcpy(p, infiles[i]);
-            strcat(p, buf);
-        }
-        p = strstr(out, UPLOAD_URL_MACRO);
-        if (p) {
-            found = true;
-            strcpy(buf, p+strlen(UPLOAD_URL_MACRO));
-            strcpy(p, upload_url);
-            strcat(p, buf);
-        }
-        p = strstr(out, DOWNLOAD_URL_MACRO);
-        if (p) {
-            found = true;
-            strcpy(buf, p+strlen(DOWNLOAD_URL_MACRO));
-            strcpy(p, download_url);
-            strcat(p, buf);
-        }
-        p = strstr(out, MD5_MACRO);
-        if (p) {
-            found = true;
-            i = atoi(p+strlen(MD5_MACRO));
-            if (i >= n) {
-                fprintf(stderr, "process_wu_template: invalid file number\n");
-                return 1;
-            }
-            sprintf(path, "%s/%s", dirpath, infiles[i]);
+    strcpy(out, "");
+    p = strtok(tmplate, "\n");
+    while (p) {
+        if (match_tag(p, "<file_info>")) {
+        } else if (parse_int(p, "<number>", file_number)) {
+        } else if (match_tag(p, "</file_info>")) {
+            sprintf(path, "%s/%s", dirpath, infiles[file_number]);
             retval = md5_file(path, md5, nbytes);
             if (retval) {
                 fprintf(stderr, "process_wu_template: md5_file %d\n", retval);
                 return 1;
             }
-            strcpy(buf, p+strlen(MD5_MACRO)+1+2);     // assume <= 10 files
-            strcpy(p, md5);
-            strcat(p, buf);
+            sprintf(buf,
+                "<file_info>\n"
+                "    <name>%s</name>\n"
+                "    <url>%s/%s</url>\n"
+                "    <md5_cksum>%s</md5_cksum>\n"
+                "    <nbytes>%.0f</nbytes>\n"
+                "</file_info>\n",
+                infiles[file_number],
+                download_url, infiles[file_number],
+                md5,
+                nbytes
+            );
+            strcat(out, buf);
+        } else if (match_tag(p, "<workunit>")) {
+            strcat(out, "<workunit>\n");
+        } else if (match_tag(p, "</workunit>")) {
+            strcat(out, "</workunit>\n");
+        } else if (match_tag(p, "<file_ref>")) {
+        } else if (parse_int(p, "<file_number>", file_number)) {
+        } else if (parse_str(p, "<open_name>", open_name, sizeof(open_name))) {
+        } else if (match_tag(p, "</file_ref>")) {
+            sprintf(buf,
+                "<file_ref>\n"
+                "    <file_name>%s</file_name>\n"
+                "    <open_name>%s</open_name>\n"
+                "</file_ref>\n",
+                infiles[file_number],
+                open_name
+            );
+            strcat(out, buf);
+        } else {
+            strcat(out, p);
+            strcat(out, "\n");
         }
-        if (!found) break;
+        p = strtok(0, "\n");
     }
     return 0;
 }

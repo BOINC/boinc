@@ -27,16 +27,17 @@ create_work
     infile_1 ... infile_m           // input files
 </pre>
 <p>
-The workunit template file is macro-substituted as follows:
+The workunit template file is processed as follows:
 <ul>
 <li>
-&lt;INFILE_n/> is replaced with the name of the nth input
+Within a &lt;file_info> element,
+&lt;number>x&lt;/number> identifies the order of the file.
+It is replaced with elements giving
+the filename, download URL, MD5 checksum, and size.
 file.
 <li>
-&lt;MD5_n/> is replaced with the MD5 checksum of the nth
-input file.
-<li>
-&lt;DOWNLOAD_URL/> is replaced with the download URL.
+Within a &lt;file_ref> element,
+&lt;file_number>x&lt;/number> is replaced with the filename.
 </ul>
 <p>
 The result file template is macro-substituted as follows:

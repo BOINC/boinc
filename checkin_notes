@@ -2610,3 +2610,18 @@ Seth  Dec 9, 2002
 	    hostinfo.C,h
 	client/win/
 	    hostinfo_win.cpp
+
+David  Dec 11 2002
+    - Have process_wu_template() fill in the file size as well as the MD5.
+        This necessitated changing the format of WU templates,
+        and the way they are processed.
+    
+    NOTE: this breaks the multiple-data-server test.
+    Need to figure out another way to do that.
+    
+    tools/
+        backend_lib.C
+    doc/
+        tools_work.html
+    test/
+        *wu
