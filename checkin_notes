@@ -11719,6 +11719,9 @@ David  April 20 2004
 	lib/
 		filesys.C
 
+Jeff  April 21 2004
+        - tagged as seti_boinc_app_release_3_01
+
 David  April 21 2004
     - Web: page_head() no longer checks for logged-in user.
         Pages that care about that must do it separately,
