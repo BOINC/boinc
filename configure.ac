@@ -366,38 +366,7 @@ if ( test "${enable_client_release}" = yes ) && ( test "${enable_client}" = yes 
       GCC_EH_LIB=
    fi
 
-   ## list of possible libraries, which we have to link statically against 
-   ## in order to avoid portability problems
-      
-   ## extend this list as necessary if you find additional libs required on your system
-   ## ****************************************
-   blacklist="nsl socket"
-   case $target in 
-      *linux*)
-         blacklist="$blacklist z"
-         ;;
-      *)
-         ;;
-   esac
-   ## ****************************************
-
-   ## now we walk through the blacklist and turn all matching libs found in 
-   ## into a static link-command
-   case $target in 
-      *sun*)
-         CLIENTLIBS="-nodefaultlibs $LDSTATIC -lstdc++ -lgcc $GCC_EH_LIB $LDDYNAMIC -lpthread -lm  -lc -lsocket -lnsl"	
-         ;;
-      *)
-         CLIENTLIBS="-nodefaultlibs $LDSTATIC -lstdc++ -lgcc $GCC_EH_LIB $LDDYNAMIC -lpthread -lm  -lc"	
-         ;;
-   esac
-   echo "DEBUG: before mangling CLIENTLIBS='$CLIENTLIBS'" 
-   for somelib in ${blacklist}; do
-       CLIENTLIBS=`echo $CLIENTLIBS | sed -e"s/ -l${somelib} / $LDSTATIC -l${somelib} $LDDYNAMIC /g"`
-   done
-   echo "DEBUG: final link-line for CLIENTLIBS = $CLIENTLIBS"
-
-
+   CLIENTLIBS="-nodefaultlibs $LDSTATIC -lstdc++ -lgcc $GCC_EH_LIB $LDDYNAMIC -lpthread -lm  -lc"	
 else
    CLIENTLIBS=
 fi
@@ -429,7 +398,7 @@ if test "${enable_client_release}" = yes; then
    CLIENTGUILIBS="-L. ${WX_LIBS_STATIC} -L."  ## dummy -L's to make sure the regexp always works
    echo "DEBUG: before mangling CLIENTGUILIBS='$CLIENTGUILIBS'" 
    for somelib in ${blacklist}; do
-       CLIENTGUILIBS=`echo $CLIENTGUILIBS | sed -e"s/ -l${somelib} / $LDSTATIC -l${somelib} $LDDYNAMIC /g"`
+       CLIENTGUILIBS=`echo "$CLIENTGUILIBS" | sed -e "s/ -l${somelib} / $LDSTATIC -l${somelib} $LDDYNAMIC /g"`
    done
    echo "DEBUG: final link-line for CLIENTGUILIBS = $CLIENTGUILIBS"
 
@@ -437,7 +406,7 @@ if test "${enable_client_release}" = yes; then
    BOINC_EXTRA_LIBS="-L. ${BOINC_EXTRA_LIBS} -L."    ## dummy -L's to make sure the regexp always works
    echo "DEBUG: before mangling BOINC_EXTRA_LIBS='$BOINC_EXTRA_LIBS'"
    for somelib in ${blacklist}; do
-       BOINC_EXTRA_LIBS=`echo $BOINC_EXTRA_LIBS | sed -e"s/ -l${somelib} / $LDSTATIC -l${somelib} $LDDYNAMIC /g"`
+       BOINC_EXTRA_LIBS=`echo "$BOINC_EXTRA_LIBS" | sed -e "s/ -l${somelib} / $LDSTATIC -l${somelib} $LDDYNAMIC /g"`
    done
    echo "DEBUG: final BOINC_EXTRA_LIBS= $BOINC_EXTRA_LIBS"
 
