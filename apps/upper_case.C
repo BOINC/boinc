@@ -71,7 +71,7 @@ char the_char[10];
 double xPos=0, yPos=0;
 double xDelta=0.03, yDelta=0.07;
 
-int run_slow=0,cpu_time=0,raise_signal=0;
+int run_slow=0,cpu_time=1,raise_signal=0;
 time_t my_start_time;
 APP_INIT_DATA uc_aid;
 
@@ -190,10 +190,11 @@ int main(int argc, char **argv) {
         if (cpu_time) {
             n = 0;
             j = 3.14159;
-            for(i=0; i<200000000; i++) {
+            for(i=0; i<200000; i++) {
                 n++;
                 j *= n+j-3.14159;
                 j /= (float)n;
+
             }
 
             if (n==j) n = 0;
