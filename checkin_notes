@@ -23091,3 +23091,8 @@ Rom    20 Jan 2005
          win_screensaver.cpp, .h
     win_build/installerv2/
          BOINC.ism
+
+Rom    20 Jan 2005 (boinc)
+    - Tag for 4.60 release, all platforms
+      boinc_core_release_4_60
+
