@@ -66,7 +66,9 @@ includedir = ${prefix}/include/BOINC/
 include_HEADERS = 	\
 	boinc_api.h   	\
 	graphics_api.h	\
-	gutil.h   
+	gutil.h         \
+	grahpics_lib.h  \
+    graphics_impl.h
 
 
 .PHONY: nographics
