@@ -78,7 +78,7 @@ ARCHIVE_TARGETS = \
         client/install-sh client/*.in client/*.sub client/*.guess \
         client/mac/*.h client/mac/*.cpp \
         client/win/*.h client/win/*.cpp client/win/*.rc \
-        client/win/*.def client/win/res/*.* \
+        client/win/*.ico client/win/*.def client/win/res/*.* \
         client/translation/* \
         lib/*.C lib/*.c lib/*.h \
         api/*.C api/*.h api/*.in api/*.c api/*.cpp \
