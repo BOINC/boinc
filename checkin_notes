@@ -8917,3 +8917,8 @@ David  5 Jan 2004
         download.php
         hosts_user.php
         util.inc
+
+Gary    5 Jan 2004
+    - BOINC release 2.17 for windows, linux, solaris, mac os x
+      (os x version supports both 10.2 <jaguar> and 10.3 <panther>)
+
