@@ -35,15 +35,17 @@
     echo "<h3>Results for $type</h3>\n";
     result_table_start(true, false, true);
     $i = 1;
-    $query = "select * from result where $clause order by id desc limit $results_per_page offset $offset";
+    $query = "select * from result where $clause order by id desc limit $offset,".($results_per_page+1);
     $result = mysql_query($query);
-    while ($res = mysql_fetch_object($result)) {
+    $number_of_results = mysql_affected_rows();
+    while ($res = mysql_fetch_object($result) and $i<$results_per_page) {
         show_result_row($res, true, false, true);
         $i++;
     }
     mysql_free_result($result);
     echo "</table>\n";
-    if ($i > $results_per_page) {
+
+    if ($number_of_results > $results_per_page) {
         $offset = $offset+$results_per_page;
         echo "
             <br><center><a href=results.php?$clause&offset=$offset>Next $results_per_page results</a></center>
