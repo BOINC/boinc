@@ -275,7 +275,7 @@ function show_result_summary() {
     echo "</table>";
     echo "<table border=2 cellpadding=4\n";
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
-    row2("Files deleted", link_results($ninvalid, $urlquery, "file_delete_state= 1 or file_delete_state=2"));
+    row2("Files deleted", link_results($nfile_deleted, $urlquery, "file_delete_state= 1 or file_delete_state=2"));
     echo "</table></td>";
 
     echo "<td><table border=2 cellpadding=4\n";

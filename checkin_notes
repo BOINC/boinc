@@ -11996,3 +11996,10 @@ Rom    May 3 2004
     html/ops/
         db_ops.inc (remove)
         util_ops.inc (remove)
+
+Rom    May 3 2004
+    - Fix a bug where the number of files deleted being returned on the result
+      summary report was actually the number of invalid records
+
+    html/inc/
+        db_ops.inc
