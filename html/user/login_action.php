@@ -36,7 +36,7 @@
             $user = mysql_fetch_object($result);
             mysql_free_result($result);
         }
-        if (strlen($HTTP_POST_VARS["new"]) == 0) {
+        if (strlen($HTTP_POST_VARS["new_email_addr"]) == 0) {
             page_head("Creating Account");
             printf(
                 TABLE2."\n"
@@ -49,6 +49,8 @@
             printf(
                 TABLE2."\n"
                 ."<tr><td>You must enter a web password to create an account.\n"
+                ."</td></tr>\n"
+                ."</table>"
             );
         } else if ($user) {
             page_head("Creating Account");
