@@ -51,7 +51,7 @@ size_t MFILE::write(const void *ptr,size_t size,size_t nitems) {
     buf = (char *)realloc( buf, len+(size*nitems) );
     memcpy( buf+len, ptr, size*nitems );
     len += size*nitems;
-    return 0;
+    return nitems;
 }
 
 int MFILE::_putchar(char c) {
