@@ -111,6 +111,18 @@ void quit_client(int a) {
     gstate.requested_exit = true;
 }
 
+void susp_client(int a) {
+    gstate.active_tasks.suspend_all();
+    msg_printf(NULL, MSG_INFO, "Suspending activity - user request");
+    signal(SIGTSTP, SIG_DFL);
+    raise(SIGTSTP);
+}
+
+void resume_client(int a) {
+    gstate.active_tasks.unsuspend_all();
+    msg_printf(NULL, MSG_INFO, "Resuming activity");
+}
+
 int main(int argc, char** argv) {
     int retval;
     double dt;
@@ -120,18 +132,23 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Another copy of BOINC is already running\n");
         exit(1);
     }
-#ifndef _WIN32
-    // Handle quit signals gracefully
-    signal(SIGHUP, quit_client);
-    signal(SIGINT, quit_client);
-    signal(SIGQUIT, quit_client);
-#endif
 
     read_log_flags();
     gstate.parse_cmdline(argc, argv);
     gstate.parse_env_vars();
     retval = gstate.init();
     if (retval) exit(retval);
+
+#ifndef _WIN32
+    // Handle quit signals gracefully
+    signal(SIGHUP, quit_client);
+    signal(SIGINT, quit_client);
+    signal(SIGQUIT, quit_client);
+    signal(SIGPWR, quit_client);
+    signal(SIGTSTP, susp_client);
+    signal(SIGCONT, resume_client);
+#endif
+
     while (1) {
         if (!gstate.do_something()) {
             dt = dtime();

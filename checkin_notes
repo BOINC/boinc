@@ -4437,3 +4437,10 @@ David  June 4 2003
         add.C
         backend_lib.C,h
         create_work.C
+
+Eric   June 4, 2003
+    - Added signal handlers for keyboard suspend/resume on UNIX
+
+    client/
+        main.C
+
