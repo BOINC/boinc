@@ -4,4 +4,5 @@
     $head = sprintf("Login to %s", db_init());
     page_head($head);
     print_login_form();
+    page_tail();
 ?>

@@ -2,7 +2,12 @@
 
 require_once("db.inc");
 
+define("LG_FONT", "<font size=+1>");
+define("SM_FONT", "<font size=-1>");
+define("TD2", "<td colspan=2 bgcolor=#708090>");
+define("TD3", "<td colspan=3 bgcolor=#708090>");
 define("TABLE", "<table cellpadding=10 cellspacing=4 border=0 width=100%>");
+define("TABLE2", "<table width=580>");
 define("BG_COLOR", " bgcolor=cccccc ");
 define("TITLE_COLOR", " bgcolor=000000 ");
 define("TITLE_FONT", " <font color=ffffff> ");
@@ -34,7 +39,8 @@ function page_head($title) {
 }
 
 function page_tail() {
-    printf("<hr><a href=home.php>Home</a>\n");
+    echo "<hr><table width=100%><tr><td align=center>|<a href=create_account.php> Create New Account </a>|<a href=login.php> Login </a>\n";
+    echo "|<a href=home.php> User Page </a>|<a href=team.php> Teams </a>|<a href=index.html> Main Project Page </a>|</td></tr></table>\n";
 }
 
 function date_str($when) {
@@ -52,6 +58,14 @@ function start_table() {
 
 function row($x, $y) {
     echo "<tr><td width=30% valign=top align=right>$x</td><td>$y</td></tr>\n";
+}
+
+function row2($x, $y) {
+    echo "<tr><td>$x</td><td>$y</td></tr>\n";
+}
+
+function row3($x, $y, $z) {
+    echo "<tr><td width=30% valign=top align=right>$x</td><td>$y</td><td>$x</td></tr>\n";
 }
 
 function random_string() {

@@ -144,18 +144,32 @@ function show_result($result) {
     echo "</table>";
 }
 
-function show_user($user) {
-    start_table();
-    row("ID", $user->id);
-    row("created", time_str($user->create_time));
-    row("name", $user->name);
-    row("email_addr", $user->email_addr);
-    row("country", $user->country);
-    row("postal_code", $user->postal_code);
-    row("total credit", $user->total_credit);
-    row("recent average credit", $user->expavg_credit);
-    row("preferences", "<pre>".htmlspecialchars($user->prefs)."</pre>");
-    row("prefs mod time", time_str($user->prefs_mod_time));
+function show_user_stats($user, $project) {
+    echo TABLE2."\n";
+    echo "<tr>".TD2.LG_FONT."<b>User Stats:</b></font></td></tr>\n";
+    row("<b>User ID:   </b>", $user->id);
+    $row = sprintf("<b>%s user since:   </b>", $project);
+    row($row, time_str($user->create_time));
+    row("<b>Total credit:   </b>", $user->total_credit);
+    row("<b>Recent averaged credit:   </b>", $user->expavg_credit);
+    if ($user->teamid) {
+        $result = mysql_query("select * from team where id = $user->teamid");
+        $team = mysql_fetch_object($result);
+        row("<b>Member of team:   </b>", "<a href=team_display.php?id=$team->id>$team->name</a>");
+    } else {
+        row("<b>Member of team:   </b>", "You are currently not part of a team");
+    }
+    echo "</table>\n";
+}
+
+function show_user_profile($user) {
+    echo TABLE2."\n";
+    echo "<tr>".TD2.LG_FONT."<b>User Information:</b></font></td></tr>\n";
+    row("<b>User name:   </b>", $user->name);
+    row("<b>Email address:   <b>", $user->email_addr);
+    row("<b>Country:   </b>", $user->country);
+    row("<b>Postal (ZIP) code:   </b>", $user->postal_code);
+    echo "<tr><td align=right><a href=edit_user_info.php>Edit User Information</a></td></tr>\n";
     echo "</table>\n";
 }
 

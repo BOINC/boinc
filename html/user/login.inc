@@ -1,13 +1,11 @@
 <?php
 
-define("SM_FONT", "<font size=-1>");
-define("TD2", "<td colspan=2>");
-
 function print_login_form() {
     printf(
         "<form method=post action=login_action.php>\n"
-        ."<table>\n"
-        ."<tr>".TD2."<b>Enter the email address and password of your account to login:</b></td></tr>\n"
+        .TABLE2."\n"
+        ."<tr><td colspan=2><b>Enter the email address and password of your account to login:</b></td></tr>\n"
+	."<tr><td><br></td></tr>\n"
         ."<tr>\n"
         ."    <td align=right>Email Address</td>\n"
         ."    <td> <input name=existing_email type=text size=40></td>\n"
@@ -23,13 +21,12 @@ function print_login_form() {
         ."</table>\n"
         ."</form>\n"
     );
-
 }
 
 function print_create_account_form() {
     printf(
         "<form method=post action=login_action.php>\n"
-        ."<table width=560>\n"
+        .TABLE2."\n"
         ."<tr><td><b>To create a new account, please fill out the following information:</b></td></tr>\n"
 	."<tr><td><br></td></tr>\n"
         ."<tr>\n"
@@ -44,7 +41,7 @@ function print_create_account_form() {
 	."must be valid in order for you to create an account; a unique BOINC key will be sent to it to make sure it is valid.</font></td>\n"
 	."</tr>\n"
 	."<tr>\n"
-        ."    <td><input name=new_email_addr size=40></td>\n"
+        ."    <td><input name=new_email_addr size=50></td>\n"
         ."</tr>\n"
 	."<tr><td><br></td></tr>\n"
         ."<tr>\n"
