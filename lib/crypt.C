@@ -1,5 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
+#if HAVE_MALLOC_H
 #include <malloc.h>
+#endif
 
 #include "md5_file.h"
 #include "crypt.h"
@@ -45,6 +48,7 @@ int sprint_hex_data(char* p, DATA_BLOCK& x) {
     }
     if (x.len%32 != 0) strcat(p, "\n");
     strcat(p, ".\n");
+
     return 0;
 }
 
@@ -190,6 +194,7 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
 int sscan_key_hex(char* buf, KEY* key, int size) {
     int n, retval,num_bits;
     DATA_BLOCK db;
+
     if(buf==NULL) {
         fprintf(stderr, "error: sscan_key_hex: unexpected NULL pointer buf\n");
         return ERR_NULL;
@@ -206,6 +211,7 @@ int sscan_key_hex(char* buf, KEY* key, int size) {
     n = sscanf(buf, "%d", &num_bits);
     key->bits = num_bits; //key->bits is a short
     //fprintf(stderr, "key->bits = %d\n", key->bits);
+
     if (n != 1) return -1;
     buf = strchr(buf, '\n');
     if (!buf) return -1;
