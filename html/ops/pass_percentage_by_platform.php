@@ -56,8 +56,6 @@ while ($res = mysql_fetch_object($result)) {
 }
 mysql_free_result($result);
 
-echo "Valid Versions: '$valid_app_versions'";
-
 // Now that we have a valid list of app_version_nums' lets
 //   construct the main query
 
