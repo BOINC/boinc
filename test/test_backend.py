@@ -12,12 +12,9 @@ from test_uc import *
 import time, os
 
 class ProjectBackend(ProjectUC):
-    def __init__(self, num=500):
+    def __init__(self, num):
         self.num = num
-        ProjectUC.__init__(self,
-                           redundancy = 5,
-                           short_name = 'test_backend')
-
+        ProjectUC.__init__(self, redundancy = 5, short_name = 'test_backend')
     def run(self):
         self.install()
         self.install_make_work(work=self.work, cushion=self.num-1, redundancy=5)
@@ -35,7 +32,6 @@ class ProjectBackend(ProjectUC):
 
         # Stop the project, deinstall make_work, and install the normal
         # backend components
-
         self.stop()
         self.uninstall_make_work()
         self.install_assimilator()
@@ -48,7 +44,6 @@ class ProjectBackend(ProjectUC):
         verbose_echo(1, "Waiting for make_work to finish...")
         while not os.system('pgrep -n make_work >/dev/null'):
             time.sleep(1)
-
         self.start_servers()
 
     rpm_pid = None
@@ -76,11 +71,9 @@ class ProjectBackend(ProjectUC):
 if __name__ == '__main__':
     test_msg("entire backend");
 
-    num=None
-    try:
-        num = int(sys.argv[1])
-    except:
-        pass
+    num = 500
+    try: num = int(sys.argv[1])
+    except: pass
 
     project = ProjectBackend(num)
     project.run()
