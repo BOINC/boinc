@@ -108,8 +108,8 @@ while($thread = mysql_fetch_object($threads)) {
         ";
     } else {
         echo "
-            <td>", $thread->replies, "</td>
-            <td><a href=\"../show_user.php?userid=", $thread->owner, "\">", $user->name, "</a></td>
+            <td>", $thread->replies+1, "</td>
+            <td align=left>", user_links($user, "../"), "</td>
             <td>", $thread->views, "</td>
             <td style=\"text-align:right\">", $x, "</td>
         ";

@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 // $Log$
+// Revision 1.28  2003/12/18 00:22:23  boincadm
+// *** empty log message ***
+//
 // Revision 1.27  2003/12/15 02:31:27  boincadm
 // *** empty log message ***
 //
@@ -47,14 +50,15 @@ static struct random_init {
 
 // if SQL columns are not 'not null', you must use these safe_atoi, safe_atof
 // instead of atoi, atof, since the strings returned by MySQL may be NULL.
-inline int safe_atoi(const char* s)
-{
-    return s && atoi(s);
+//
+inline int safe_atoi(const char* s) {
+    if (!s) return 0;
+    return atoi(s);
 }
 
-inline float safe_atof(const char* s)
-{
-    return s && atof(s);
+inline float safe_atof(const char* s) {
+    if (!s) return 0;
+    return atof(s);
 }
 
 void PROJECT::clear() {memset(this, 0, sizeof(*this));}
@@ -216,30 +220,15 @@ void DB_USER::db_print(char* buf){
         "posts=%d, "
         "seti_id=%d, seti_nresults=%d, seti_last_result_time=%d, "
         "seti_total_cpu=%.15e, signature='%s', has_profile=%d",
-        id,
-        create_time,
-        email_addr,
-        name,
+        id, create_time, email_addr, name,
         authenticator,
-        country,
-        postal_code,
-        total_credit,
-        expavg_credit,
-        expavg_time,
-        global_prefs,
-        project_prefs,
-        teamid,
-        venue,
-        url,
-        send_email,
-        show_hosts,
+        country, postal_code,
+        total_credit, expavg_credit, expavg_time,
+        global_prefs, project_prefs,
+        teamid, venue, url, send_email, show_hosts,
         posts,
-        seti_id,
-        seti_nresults,
-        seti_last_result_time,
-        seti_total_cpu,
-        signature,
-        has_profile
+        seti_id, seti_nresults, seti_last_result_time,
+        seti_total_cpu, signature, has_profile
     );
     unescape_single_quotes(email_addr);
     unescape_single_quotes(name);

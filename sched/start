@@ -669,7 +669,10 @@ if (is_main_host):
         if host == local_hostname:
             continue
         local_cmd = ' '.join(sys.argv);
-        remote_cmd = 'ssh '+host+' "cd '+cwd+';'+local_cmd+'"'
+        remote_cmd = 'ssh '+host+' "cd '+cwd+';'+local_cmd;
+        if (verbose):
+            remote_cmd += " -v"
+        remote_cmd += '"'
         print 'running ', remote_cmd
         os.execl('/bin/sh', 'sh', '-c', remote_cmd)
 

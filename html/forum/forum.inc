@@ -298,11 +298,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         <p style=\"font-weight:bold\">
     ";
 
-    if ($user->has_profile) {
-        echo "<a href=\"../view_profile.php?userid=$post->user\">", $user->name, "</a>";
-    } else {
-        echo $user->name;
-    }
+    echo user_links($user, "../");
 
     echo "
         </p>

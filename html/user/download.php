@@ -24,6 +24,9 @@ require_once("download.inc");
     print_download_links();
     echo "
         <p>
+        Instructions for installing and running BOINC are
+        <a href=http://boinc.berkeley.edu/client.php>here</a>.
+        <p>
         <font size=-1>
         <a href=http://boinc.berkeley.edu>BOINC</a>
         is distributed computing software

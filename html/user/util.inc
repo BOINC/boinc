@@ -456,10 +456,10 @@ function project_is_stopped() {
     return file_exists("../stop_servers");
 }
 
-function user_links($user) {
-    $x = "<a href=show_user.php?userid=$user->id>$user->name</a>";
+function user_links($user, $dir='') {
+    $x = "<a href=".$dir."show_user.php?userid=$user->id>$user->name</a>";
     if ($user->has_profile) {
-        $x .= " <a href=view_profile?userid=$user->id><img border=0 src=head.png></a>";
+        $x .= " <a href=".$dir."view_profile?userid=$user->id><img border=0 src=".$dir."head_20.png></a>";
     }
     return $x;
 }

@@ -379,7 +379,7 @@ int main(int argc, char** argv) {
 
     retval = boinc_db.open(config.db_name, config.db_host, config.db_passwd);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "boinc_db.open: %d\n", retval);
+        log_messages.printf(SchedMessages::CRITICAL, "boinc_db.open: %d; %s\n", retval, boinc_db.error_string());
         exit(1);
     }
     ssp->scan_tables();

@@ -73,20 +73,13 @@ function show_message_row($thread, $category, $post=NULL) {
         <p style=\"font-weight:bold\">
     ";
 
-    if ($logged_in_user->has_profile) {
-        echo "<a href=\"../view_profile.php?userid=", $logged_in_user->id, "\">", $logged_in_user->name, "</a>";
-    } else {
-        echo $logged_in_user->name;
-    }
-
     echo "
+        Write your message here:
         </td>
         <td>
     ";
     if ($post) {
-        echo " to <a href=#$post->id>Message ID $post->id</a>:";
-    } else {
-        echo " your answer:";
+        echo " reply to <a href=#$post->id>Message ID $post->id</a>:";
     }
     if ($category->is_helpdesk) {
         echo "<br><b>

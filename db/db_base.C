@@ -5,7 +5,8 @@
 #include "error_numbers.h"
 #include "db_base.h"
 
-#define MAX_QUERY_LEN 8192
+#define MAX_QUERY_LEN 256000
+    // TODO: use "string" instead of char[]
 
 DB_CONN::DB_CONN() {
     mysql = 0;
@@ -13,7 +14,7 @@ DB_CONN::DB_CONN() {
 
 int DB_CONN::open(char* db_name, char* db_host, char* dbpassword) {
     mysql = mysql_init(0);
-    if (!mysql) return 0;
+    if (!mysql) return ERR_DB_CANT_INIT;
     mysql = mysql_real_connect(mysql, db_host, 0, dbpassword, db_name, 0, 0, 0);
     if (mysql == 0) return ERR_DB_CANT_CONNECT;
     return 0;

@@ -8498,6 +8498,25 @@ David  14 Dec 2003
         db_dump.C
         file_upload_handler.C
 
+David  15 Dec 2003
+    - fixed bug in database API: "return p && atoi(p)"
+        In C (unlike Python) this does not generally return atoi(p);
+        it returns 1.  Fortunately the only effect of this was that user.posts
+        kept getting set to 1 for all users
+    - increased max query length in DB API,
+        in case prefs become really really long
+
+    db/
+        boinc_db.C
+        db_base.C
+    html_user/
+        download.php
+        util.inc
+        forum/
+            forum.inc
+            forum.php
+            reply.php
+
 Gary    15 Dec 2003
     - fixed bug in installer script which would not clean up previous
       Boinc client autostart settings, when a new version was installed
@@ -8524,4 +8543,11 @@ Eric K. 17 Dec 2003
 Gary	17 Dec 2003
     - BOINC release 2.15 for windows, Linux, solaris, mac os x
 
+David  17 Dec 2003
+    - fixed bug where remote invocation of "start" is not verbose when it should be
 
+    lib/
+        error_numbers.h
+    sched/
+        feeder.C
+        start
