@@ -84,6 +84,8 @@
 
 #include "mac_carbon_dsp.h"
 #include "mac_carbon_gl.h"
+#include "graphics_api.h"
+#include "mac_app_opengl.h"
 
 extern WindowRef appGLWindow;
 
@@ -107,8 +109,7 @@ static OSStatus BuildGLonDevice (AGLDrawable* paglDraw, AGLContext* paglContext,
 				  		  GDHandle hGD, pstructGLInfo pcontextInfo, AGLContext aglShareContext);
 static OSStatus BuildGLonWindow (WindowPtr pWindow, AGLContext* paglContext, pstructGLWindowInfo pcontextInfo, AGLContext aglShareContext);
 
-
-extern void drawGL(WindowPtr pWindow);
+extern GLuint			monacoFontList;
 
 
 // functions (internal/private) ---------------------------------------------
@@ -1027,7 +1028,6 @@ OSStatus PauseGL (AGLContext aglContext)
 //-----------------------------------------------------------------------------------------------------------------------
 
 // ResumeGL
-
 // resumes gl to allow gl drawing
 
 OSStatus ResumeGL (AGLContext aglContext)
@@ -1043,64 +1043,9 @@ OSStatus ResumeGL (AGLContext aglContext)
 
 // --------------------------------------------------------------------------
 
-// FindGDHandleFromRect
-
-// Inputs:	a global Rect
-
-// Outputs:	the GDHandle that that Rect is mostly on
-
-// returns the number of devices that the Rect touches
-short FindGDHandleFromRect (Rect * pRect, GDHandle * phgdOnThisDevice)
-{
-    Rect rectSect;
-    long greatestArea, sectArea;
-    short numDevices = 0;
-    GDHandle hgdNthDevice;
-    
-    if (!phgdOnThisDevice)
-            return NULL;
-            
-    *phgdOnThisDevice = NULL;
-    
-    hgdNthDevice = GetDeviceList ();
-    greatestArea = 0;
-    // check window against all gdRects in gDevice list and remember 
-    //  which gdRect contains largest area of window}
-    while (hgdNthDevice)
-    {
-        if (TestDeviceAttribute (hgdNthDevice, screenDevice)) {
-            if (TestDeviceAttribute (hgdNthDevice, screenActive))
-            {
-                // The SectRect routine calculates the intersection 
-                //  of the window rectangle and this gDevice 
-                //  rectangle and returns TRUE if the rectangles intersect, 
-                //  FALSE if they don't.
-                SectRect (pRect, &(**hgdNthDevice).gdRect, &rectSect);
-                // determine which screen holds greatest window area
-                //  first, calculate area of rectangle on current device
-                sectArea = (long) (rectSect.right - rectSect.left) * (rectSect.bottom - rectSect.top);
-                if (sectArea > 0)
-                    numDevices++;
-                if (sectArea > greatestArea)
-                {
-                    greatestArea = sectArea; // set greatest area so far
-                    *phgdOnThisDevice = hgdNthDevice; // set zoom device
-                }
-                hgdNthDevice = GetNextDevice(hgdNthDevice);
-            }
-        }
-    }
-    return numDevices;
-}
-
-// --------------------------------------------------------------------------
-
 // GetWindowDevice
-
 // Inputs:	a valid WindowPtr
-
 // Outputs:	the GDHandle that that window is mostly on
-
 // returns the number of devices that the windows content touches
 
 short FindGDHandleFromWindow (WindowPtr pWindow, GDHandle * phgdOnThisDevice)
@@ -1155,69 +1100,26 @@ short FindGDHandleFromWindow (WindowPtr pWindow, GDHandle * phgdOnThisDevice)
     return numDevices;
 }
 
-//-----------------------------------------------------------------------------------------------------------------------
-
-// FindDeviceNumFromRect
-
-// returns the number of the device that the point is on (i.e., where it is in the search order)
-// just a ultility to find the number of the device from a point
-
-short FindDeviceNumFromRect (Rect * pRect)
-{
-    short displayNum = 0;
-    GDHandle hgdNthDevice, hgdFoundDevice;
-    
-    FindGDHandleFromRect (pRect, &hgdFoundDevice);
-    
-    hgdNthDevice = DMGetFirstScreenDevice (true);
-    while (hgdNthDevice)
-    {
-        if (hgdFoundDevice == hgdNthDevice)
-            break;
-        hgdNthDevice = DMGetNextScreenDevice(hgdNthDevice, true);
-        displayNum++;
-    } 	// of WHILE
-
-    return displayNum;
-}
-
-//-----------------------------------------------------------------------------------------------------------------------
-
-// Draw frame rate in current color at current raster positon with provided font display list
-// This version handles multiple windows, thus the calling code must track the values of frames and time from call to call
-// The application needs to maintain a cstring (32 characters should be fine), frame counter and time for each window, 
-// but this routine will take care of all updates.
-
-void MultiWinDrawFrameRate (GLuint fontList, char * cString, long * frames, AbsoluteTime * time)
-{	
-    AbsoluteTime currTime = UpTime ();
-    float deltaTime = (float) AbsoluteDeltaToDuration (currTime, *time);
-    if (0 > deltaTime)	// if negative microseconds
-        deltaTime /= -1000000.0;
-    else				// else milliseconds
-        deltaTime /= 1000.0;
-
-    (*frames)++;
-    
-    if (0.5 <= deltaTime)	// has update interval passed
-    {
-        sprintf (cString, "FPS: %0.1f",  (float) *frames / deltaTime);
-        *time = currTime;	// reset for next time interval
-        *frames = 0;
-    }
-    
-    DrawCStringGL (cString, fontList);
-}
-
 #pragma mark -
 
 //-----------------------------------------------------------------------------------------------------------------------
 
-void DrawCStringGL (char * cstrOut, GLuint fontList)
+GLvoid glPrint(const char *fmt, ...)					// Custom GL "Print" Routine
 {
-    GLint i = 0;
-    while (cstrOut [i])
-        glCallList (fontList + cstrOut[i++]);
+    char		text[256];								// Holds Our String
+    va_list		ap;										// Pointer To List Of Arguments
+
+    if (fmt == NULL)									// If There's No Text
+            return;											// Do Nothing
+
+    va_start(ap, fmt);									// Parses The String For Variables
+        vsprintf(text, fmt, ap);						// And Converts Symbols To Actual Numbers
+    va_end(ap);											// Results Are Stored In Text
+
+    glPushAttrib(GL_LIST_BIT);							// Pushes The Display List Bits
+    glListBase(monacoFontList);								// Sets The Base Character to 32
+    glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);	// Draws The Display List Text
+    glPopAttrib();										// Pops The Display List Bits
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -1366,14 +1268,16 @@ OSStatus glReportError (void)
 
 void DoUpdate (AGLContext aglContext)
 {
-    if (aglContext)
+    if (aglContext && ok_to_draw)
     {
         aglSetCurrentContext (aglContext);
         aglUpdateContext (aglContext);
         
-        drawGL (appGLWindow);
+        DrawGLScene();      // Here's Where We Do All The Drawing
 
         aglSwapBuffers(aglContext);		// send swap command
+        
+        ok_to_draw = 0;
+        MPNotifyQueue( drawQueue, NULL, NULL, NULL );
     }
 }
-

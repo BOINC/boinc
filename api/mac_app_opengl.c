@@ -49,8 +49,6 @@
 
 #include "mac_main.h"
 
-void drawGL(WindowPtr pWindow);
-
 static void DisposeGLWindow (WindowPtr pWindow); // Dispose a single window and it's GL context
 
 // statics/globals (internal only) ------------------------------------------
@@ -72,12 +70,8 @@ EventHandlerUPP 	appCommandProcessor;
 WindowPtr               boincAboutWindow;
 AGLContext		boincAGLContext;
 GLuint			monacoFontList;
-char			boincStrContext [256];
 structGLWindowInfo	glInfo;
-
-long gFrameWindow=0;
-float gRotation=0;
-AbsoluteTime gTimeWindow;
+MPQueueID drawQueue;
 
 bool user_requested_exit = false;
 
@@ -113,14 +107,15 @@ int InitGLWindow(int xsize, int ysize, int depth)
     appCommandProcessor = NewEventHandlerUPP(MainAppEventHandler);
     err = InstallApplicationEventHandler(appCommandProcessor, GetEventTypeCount(appEventList),
                                             appEventList, 0, NULL);
-    // Install application graphics timer
-    boincTimerUPP = NewEventLoopTimerUPP(GraphicsLoopProcessor);
-    err = InstallEventLoopTimer(GetMainEventLoop(), 0,
-                                kEventDurationMillisecond*10,		// Every 1/60th of a second
-                                boincTimerUPP, NULL, &boincTimer);
 
     // Install preemption
     boincYieldUPP = NewEventLoopTimerUPP(YieldProcessor);
+    err = InstallEventLoopTimer(GetMainEventLoop(), 0,
+                                kEventDurationMillisecond*10,		// Every 10 ms
+                                boincYieldUPP, NULL, &boincYieldTimer);
+
+    // Install graphics
+    boincYieldUPP = NewEventLoopTimerUPP(GraphicsLoopProcessor);
     err = InstallEventLoopTimer(GetMainEventLoop(), 0,
                                 kEventDurationMillisecond*10,		// Every 10 ms
                                 boincYieldUPP, NULL, &boincYieldTimer);
@@ -153,7 +148,6 @@ int InitGLWindow(int xsize, int ysize, int depth)
     if (!boincAGLContext)
     {
         DestroyGLFromWindow (&boincAGLContext, &glInfo);
-        sprintf (boincStrContext, "No context");			
     }
     else
     {
@@ -181,7 +175,6 @@ int InitGLWindow(int xsize, int ysize, int depth)
         aglReportError ();
         glViewport (0, 0, rectPort.right - rectPort.left, rectPort.bottom - rectPort.top);
         glReportError ();
-        sprintf (boincStrContext, "%d x %d", rectPort.right - rectPort.left, rectPort.bottom - rectPort.top);
         
         GetFNum("\pMonaco", &fNum);									// build font
         monacoFontList = BuildFontGL (boincAGLContext, fNum, normal, 9);
@@ -206,17 +199,6 @@ pascal void GraphicsLoopProcessor(EventLoopTimerRef inTimer, void* timeData) {
 pascal void YieldProcessor(EventLoopTimerRef inTimer, void* timeData) {
     YieldToAnyThread();
 }
-
-/*
-    if ((pWindowInfo) && (boincAGLContext))
-    {
-        GetWindowPortBounds (whichWindow, &rectTemp);
-        aglSetCurrentContext (boincAGLContext); // ensure the context we are working with is current
-        aglUpdateContext (boincAGLContext);
-        glViewport (0, 0, rectTemp.right - rectTemp.left, rectTemp.bottom - rectTemp.top);
-        sprintf (pWindowInfo->strContext, "%d x %d", rectTemp.right - rectTemp.left, rectTemp.bottom - rectTemp.top);
-    }
-*/
 
 //////////////////////////////////////////////////////////////////////////////////
 //  MainAppEventHandler								//
@@ -313,7 +295,7 @@ void mac_cleanup (void)
     RemoveEventLoopTimer(boincTimer);
     DisposeEventLoopTimerUPP(boincTimerUPP);
     DisposeEventHandlerUPP(appCommandProcessor);
-    //DisposeGLWindow (appGLWindow);
+    DisposeGLWindow (appGLWindow);
 }
 
 // --------------------------------------------------------------------------
@@ -328,82 +310,4 @@ static void DisposeGLWindow (WindowPtr pWindow) // Dispose a single window and i
         
         DisposeWindow (pWindow);
     }
-}
-
-
-#pragma mark -
-//-----------------------------------------------------------------------------------------------------------------------
-
-// OpenGL Drawing
-
-void drawGL(WindowPtr pWindow)
-{
-    static int first = 1;
-    static char myStr[256];
-    
-    if( first ) {
-        gFrameWindow = 0;
-        gTimeWindow.hi = 0;
-        gTimeWindow.lo = 0;
-        gRotation = 0.0;
-        first = 0;
-    }
-    float f = 0.0;
-
-    glClearColor(0.25f, 0.25f, 0.25f, 1.0f);				// Clear color buffer to dark grey
-    glClear(GL_COLOR_BUFFER_BIT);
-    
-    gRotation += 0.5;
-    f = gRotation;
-
-    glMatrixMode (GL_MODELVIEW);
-    glLoadIdentity ();
-    glRotated (f, 0.0, 0.0, 1.0);
-    glEnable (GL_TEXTURE_2D);
-    glBegin(GL_QUADS);											// Draw textured polygon
-    
-    glColor3d(1.0, 0.0, 0.0);
-    glVertex3d(0.7, 0.7, 0.0);
-
-    glColor3d(0.0, 1.0, 0.0);
-    glVertex3d(-0.7, 0.7, 0.0);
-
-    glColor3d(0.0, 0.0, 1.0);
-    glVertex3d(-0.7, -0.7, 0.0);
-
-    glColor3d(0.7, 0.7, 0.7);
-    glVertex3d(0.7, -0.7, 0.0);
-
-    glEnd();
-
-    glDisable (GL_TEXTURE_2D);
-    // draw info
-
-    Rect rectPort;
-    GLint matrixMode;
-    GetWindowPortBounds (pWindow, &rectPort);
-    glGetIntegerv (GL_MATRIX_MODE, &matrixMode);
-    glMatrixMode (GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity ();
-    glMatrixMode (GL_MODELVIEW);
-    glPushMatrix();
-    glLoadIdentity ();
-    glScalef (2.0 / (rectPort.right - rectPort.left), -2.0 /  (rectPort.bottom - rectPort.top), 1.0);
-    glTranslatef (-(rectPort.right - rectPort.left) / 2.0, -(rectPort.bottom - rectPort.top) / 2.0, 0.0);
-    glColor3f (1.0, 1.0, 1.0);
-    glRasterPos3d (10, 12, 0); 
-    
-    MultiWinDrawFrameRate (monacoFontList, myStr, &gFrameWindow, &gTimeWindow);
-    
-    glRasterPos3d (10, 24, 0);
-    DrawCStringGL (boincStrContext, monacoFontList);
-    glRasterPos3d (10, (rectPort.bottom - rectPort.top) - 15, 0);
-    DrawCStringGL ((char*) glGetString (GL_VENDOR), monacoFontList);
-    glRasterPos3d (10, (rectPort.bottom - rectPort.top) - 3, 0); 
-    DrawCStringGL ((char*) glGetString (GL_RENDERER), monacoFontList);
-    glPopMatrix(); // GL_MODELVIEW
-    glMatrixMode (GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode (matrixMode);
 }

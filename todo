@@ -32,9 +32,6 @@ investigate binary diff mechanism for updating persistent files
 use FTP instead of HTTP for file xfer??
     measure speed diff
 
-catch signals in applications (API) to return better info
-    in case of crash (seg fault addr, etc.)
-
 Delete files if needed to honor disk usage constraint
     inform user if this happens
 

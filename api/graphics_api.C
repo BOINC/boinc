@@ -30,7 +30,7 @@ DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 #ifdef __APPLE_CC__
 #include <Carbon/Carbon.h>
 #include <CoreServices/CoreServices.h>
-//#include "mac_app_opengl.h"
+#include "mac_app_opengl.h"
 #endif
 
 extern GRAPHICS_INFO gi;
@@ -61,10 +61,8 @@ int boinc_init_opengl() {
     entry_proc = NewThreadEntryUPP( mac_graphics_event_loop );
     
     // Create the thread in a suspended state
-    theErr = NewThread (
-        kCooperativeThread, entry_proc,
-        (void *)(&gi), 0, kNewSuspend, NULL, &graphicsThreadID
-    );
+   theErr = NewThread ( kCooperativeThread, entry_proc,
+        (void *)(&gi), 0, kNewSuspend | kCreateIfNeeded, NULL, &graphicsThreadID );
     if (theErr != noErr) return ERR_THREAD;
     
     // In theory we could do customized scheduling or install thread disposal routines here

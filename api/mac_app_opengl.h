@@ -28,6 +28,9 @@ pascal void GraphicsLoopProcessor(EventLoopTimerRef inTimer, void* timeData);
 pascal void YieldProcessor(EventLoopTimerRef inTimer, void* timeData);
 extern int InitGLWindow(int xsize, int ysize, int depth);
 
+extern MPQueueID drawQueue;
+extern int ok_to_draw;
+
 #ifdef __cplusplus
 }
 #endif

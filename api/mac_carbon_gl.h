@@ -78,15 +78,10 @@
         Adapted to BOINC by Eric Heien
 */
 
-
-// Usage notes: 
-
-
 // include control --------------------------------------------------
 
 #ifndef SetupGL_h
 #define SetupGL_h
-
 
 // includes ---------------------------------------------------------
 
@@ -203,21 +198,11 @@ OSStatus PauseGL (AGLContext aglContext);
 // resumes gl to allow gl drawing
 OSStatus ResumeGL (AGLContext aglContext);
 
-short FindGDHandleFromRect (Rect * pRect, GDHandle * phgdOnThisDevice);
-
-
 short FindGDHandleFromWindow (WindowPtr pWindow, GDHandle * phgdOnThisDevice);
 
-// returns the number of the device that the rect is mostly is on (i.e., where it is numerically in the search order)
-short FindDeviceNumFromRect (Rect * rect);
-
-void MultiWinDrawFrameRate (GLuint fontList, char * cString, long * frames, AbsoluteTime * time);
-
-void DrawCStringGL (char * cstrOut, GLuint fontList);
-
 GLuint BuildFontGL (AGLContext ctx, GLint fontID, Style face, GLint size);
-void DeleteFontGL (GLuint fontList);
 
+void DeleteFontGL (GLuint fontList);
 
 // Error reporter, can be set to report however the application desires
 void ReportError (char * strError);
@@ -235,6 +220,10 @@ OSStatus aglReportError (void);
 OSStatus glReportError (void);
 
 void DoUpdate (AGLContext aglContext);
+
+GLvoid glPrint(const char *fmt, ...);
+
+int DrawGLScene(GLvoid);      // Here's Where We Do All The Drawing
 
 #ifdef __cplusplus
 }

@@ -33,10 +33,6 @@
 #include <mmsystem.h>    // for timing
 #endif
 
-#ifdef __APPLE_CC__
-#include <CoreServices/CoreServices.h>
-#endif
-
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -51,6 +47,11 @@
 #include "parse.h"
 #include "error_numbers.h"
 #include "graphics_api.h"
+
+#ifdef __APPLE_CC__
+#include <CoreServices/CoreServices.h>
+#include "mac_app_opengl.h"
+#endif
 
 #include "boinc_api.h"
 
@@ -129,6 +130,7 @@ int boinc_init() {
     time_until_fraction_done_update = aid.fraction_done_update_period;
     time_until_redraw = gi.refresh_period;
     this_process_active = true;
+    
     set_timer(timer_period);
     boinc_install_signal_handlers();
 
@@ -235,7 +237,6 @@ int boinc_resolve_filename(char *virtual_name, char *physical_name, int len) {
     return 0;
 }
 
-
 bool boinc_time_to_checkpoint() {
     // Tell the graphics thread it's OK to draw now
     if (ready_to_redraw) {
@@ -244,6 +245,12 @@ bool boinc_time_to_checkpoint() {
 #ifdef _WIN32
         ResetEvent(hGlobalDrawEvent);
         WaitForSingleObject( hGlobalDrawEvent, INFINITE );
+#endif
+#ifdef __APPLE_CC__
+        while (ok_to_draw) {
+            MPWaitOnQueue( drawQueue, NULL, NULL, NULL, kDurationImmediate );
+            YieldToAnyThread();
+        }
 #endif
         // Reset the refresh counter
         time_until_redraw = gi.refresh_period;
@@ -365,6 +372,10 @@ void on_timer(int a) {
             time_until_fraction_done_update = aid.fraction_done_update_period;
         }
     }
+
+#ifdef __APPLE_CC__
+    YieldToAnyThread();
+#endif
 }
 
 
@@ -388,6 +399,11 @@ int set_timer(double period) {
             TRUE,    // manual reset event
             TRUE,     // initial state is signaled
             NULL);    // object not named
+#endif
+
+#ifdef __APPLE_CC__
+    // Create notification queue for drawing
+    MPCreateQueue( &drawQueue );
 #endif
 
 #if HAVE_SIGNAL_H

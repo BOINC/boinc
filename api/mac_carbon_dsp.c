@@ -54,14 +54,9 @@
         Adapted to BOINC by Eric Heien
 */
 
-
 // Usage notes: 
-// kUseFades enables gamma fades for activates and deactivates
-#define kUseFades
-
 //kUseRAMCheck enables estimated video card RAM checks
 #define kUseRAMCheck
-
 
 // system includes ----------------------------------------------------------
 
@@ -73,8 +68,6 @@
 
     #include <fp.h>
 #endif
-
-#include <string.h>
 
 // project includes ---------------------------------------------------------
 
@@ -99,11 +92,9 @@ void BuildResolutionList (GDHandle hGD, Point * pResList, SInt32 * pFreqList);
 OSStatus DoDeviceRAMCheck (pstructGLInfo pcontextInfo, Point * pResList, SInt32 * pFreqList, GLint depthSizeSupport);
 Boolean DoContextStepDown (pstructGLInfo pcontextInfo, DSpContextAttributes * pContextAttributes, Point * pResList, SInt32 * pFreqList);
 
-
 // functions (internal/private) ---------------------------------------------
 
 // ReserveUnusedDevices
-
 // reserves contexts on unused devices to vprevent their selection by DSp, returns list of these devices
 
 DSpContextReference * ReserveUnusedDevices (GDHandle hGD)
@@ -143,9 +134,7 @@ DSpContextReference * ReserveUnusedDevices (GDHandle hGD)
 }
 
 // --------------------------------------------------------------------------
-
 // FreeUnusedDevices
-
 // frees screen that were previously reserved to prevent selection
 
 OSStatus FreeUnusedDevices (GDHandle hGD, DSpContextReference ** ppContextRefUnused)
@@ -173,9 +162,7 @@ OSStatus FreeUnusedDevices (GDHandle hGD, DSpContextReference ** ppContextRefUnu
 }
 
 // --------------------------------------------------------------------------
-
 // BuildResolutionList
-
 // builds a list of supported resolutions and frequencies for GDevice
 
 void BuildResolutionList (GDHandle hGD, Point * pResList, SInt32 * pFreqList)
@@ -257,9 +244,7 @@ void BuildResolutionList (GDHandle hGD, Point * pResList, SInt32 * pFreqList)
 }
 
 // --------------------------------------------------------------------------
-
 // DoDeviceRAMCheck
-
 // checks requested allocation against device RAM
 // Note: may modify pcontextInfo
 // this should be equal or less strigent than OpenGL actual allocation to avoid failing on valid drawables
@@ -487,7 +472,6 @@ OSStatus DoDeviceRAMCheck (pstructGLInfo pcontextInfo, Point * pResList, SInt32 
 // --------------------------------------------------------------------------
 
 // DoContextStepDown
-
 // steps down through frequencies, depths and sizes to try to find a valid context
 // bounded by flags for SizeMust and DepthMust
 // Note: may modify pcontextInfo
@@ -552,9 +536,7 @@ Boolean DoContextStepDown (pstructGLInfo pcontextInfo, DSpContextAttributes * pC
 
 #pragma mark -
 // functions (public) -------------------------------------------------------
-
 // GetDSpVersion
-
 // Gets the current version of DSp
 
 NumVersion GetDSpVersion (void)
@@ -569,9 +551,7 @@ NumVersion GetDSpVersion (void)
 }
 
 // --------------------------------------------------------------------------
-
 // StartDSp
-
 // handles starting up DrawSprocket
 
 OSStatus StartDSp (void)
@@ -598,9 +578,7 @@ OSStatus StartDSp (void)
 }
 
 // --------------------------------------------------------------------------
-
 // ShutdownDSpContext
-
 // shuts down DrawSprocket
 
 void ShutdownDSp (void)
@@ -616,14 +594,10 @@ void ShutdownDSp (void)
 // --------------------------------------------------------------------------
 
 // GetDSpDrawable
-
 // Just returns the front buffer
-
 // Inputs: 	*pdspContext
 //			pcontextInfo: request and requirements for cotext and drawable
-
 // Outputs: returns CGrafPtr thaat is front buffer of context
-
 // if error: will return NULL
 
 CGrafPtr GetDSpDrawable (DSpContextReference dspContext)
@@ -638,15 +612,11 @@ CGrafPtr GetDSpDrawable (DSpContextReference dspContext)
 // --------------------------------------------------------------------------
 
 // BuildDSpContext
-
 // contextInfo and tries to allocate the corresponding DSp context
-
 // Inputs: 	hGD: GDHandle to device to look at
 //			pcontextInfo: request and requirements for cotext and drawable
-
 // Outputs: *pdspContext as allocated
 //			pcontextInfo:  allocated parameters
-
 // if fail to allocate: pdspContext will be NULL
 // if error: will return error pdspContext will be NULL
 
@@ -807,9 +777,6 @@ void DestroyDSpContext (DSpContextReference* pdspContext)
 OSStatus DSpContext_CustomFadeGammaIn (DSpContextReference inContext, const RGBColor *fadeColor,  long fadeTicks) 
 {
 	OSStatus err = noErr;
-#ifndef kUseFades
-	#pragma unused (inContext, fadeColor, fadeTicks)
-#else
 	RGBColor inZeroIntensityColor;
 	UInt32 currTick;
 	UInt16 step = (UInt16) (800 / fadeTicks);
@@ -841,7 +808,6 @@ OSStatus DSpContext_CustomFadeGammaIn (DSpContextReference inContext, const RGBC
 		if (err == noErr)
 			err = DSpContext_FadeGamma(inContext, 100, &inZeroIntensityColor);
 	}
-#endif // kUseFades
 	return err;
 }
 
@@ -851,9 +817,6 @@ OSStatus DSpContext_CustomFadeGammaOut (DSpContextReference inContext, const RGB
 {
     
     OSStatus err = noErr;
-#ifndef kUseFades
-    #pragma unused (inContext, fadeColor, fadeTicks)
-#else
     RGBColor inZeroIntensityColor;
     UInt32 currTick;
     UInt16 step = (UInt16) (800 / fadeTicks);
@@ -883,6 +846,5 @@ OSStatus DSpContext_CustomFadeGammaOut (DSpContextReference inContext, const RGB
             currTick = TickCount ();
         }
     }
-#endif // kUseFades
     return err;
 }

@@ -76,16 +76,10 @@
         Adapted to BOINC by Eric Heien
 */
 
-
-// Usage notes: 
-
-
-
 // include control --------------------------------------------------
 
 #ifndef SetupDSp_h
 #define SetupDSp_h
-
 
 // includes ---------------------------------------------------------
 

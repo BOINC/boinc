@@ -2239,3 +2239,27 @@ David  Oct 21, 2002
         validate.C
     test/
         test_loop.php
+
+Eric  October 28, 2002
+    - added signal handling to API
+    - removed win_build.zip
+
+    api/
+        boinc_api.C,h
+    apps/
+        upper_case.C
+        concat.C
+    lib/
+        error_numbers.h
+    win_build.zip (removed)
+
+Eric  October 29, 2002
+    - Mac graphics completed (except for screensaver mode)
+
+    api/
+        boinc_api.C
+        graphics_api.C
+        mac_app_opengl.c,h
+        mac_carbon_dsp.c,h
+        mac_carbon_gl.c,h
+
