@@ -116,6 +116,9 @@ struct _DC_Workunit
 
 	/* Reference count */
 	int			refcnt;
+
+	/* Mapping <optional/> attribute to output files  */
+	GHashTable              *is_optional;
 };
 
 struct _DC_Result

@@ -98,6 +98,8 @@ struct wu_params
  * Prototypes
  */
 
+int DC_addWUOutputExt(DC_Workunit *wu, const char *logicalFileName, int flags);
+
 /* XML parser callback functions */
 static void wudesc_start(GMarkupParseContext *ctx, const char *element_name,
 	const char **attr_names, const char **attr_values, void *ptr,
@@ -287,6 +289,7 @@ static DC_Workunit *alloc_wu(void)
 	DC_Workunit *wu;
 
 	wu = g_new0(DC_Workunit, 1);
+	wu->is_optional = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
 	wu->refcnt = 1;
 	return wu;
 }
@@ -636,9 +639,9 @@ DC_Workunit *DC_createWU(const char *clientName, const char *arguments[],
 			return NULL;
 		}
 
-		DC_addWUOutput(wu, DC_LABEL_STDOUT);
-		DC_addWUOutput(wu, DC_LABEL_STDERR);
-		DC_addWUOutput(wu, DC_LABEL_CLIENTLOG);
+		DC_addWUOutputExt(wu, DC_LABEL_STDOUT, DC_OUTFILE_OPTIONAL);
+		DC_addWUOutputExt(wu, DC_LABEL_STDERR, DC_OUTFILE_OPTIONAL);
+		DC_addWUOutputExt(wu, DC_LABEL_CLIENTLOG, DC_OUTFILE_OPTIONAL);
 		if (DC_getClientCfgBool(clientName, CFG_ENABLESUSPEND, FALSE, TRUE))
 			DC_addWUOutput(wu, CKPT_LABEL_OUT);
 		else
@@ -667,6 +670,8 @@ void DC_destroyWU(DC_Workunit *wu)
 		default:
 			break;
 	}
+
+	g_hash_table_destroy(wu->is_optional);
 
 	while (wu->input_files)
 	{
@@ -970,7 +975,7 @@ int DC_addWUInput(DC_Workunit *wu, const char *logicalFileName, const char *URL,
 	return 0;
 }
 
-int DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
+int DC_addWUOutputExt(DC_Workunit *wu, const char *logicalFileName, int flags)
 {
 	int ret;
 
@@ -984,6 +989,11 @@ int DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
 	if (ret)
 		return ret;
 
+	if (flags & DC_OUTFILE_OPTIONAL)
+		g_hash_table_replace(wu->is_optional,
+				     g_strdup(logicalFileName),
+				     (void*)1);
+
 	/* XXX Check if the wu->num_inputs + wu->num_outputs + wu->subresults
 	 * does not exceed the max. number of file slots */
 
@@ -995,6 +1005,10 @@ int DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
 		write_wudesc(wu);
 
 	return 0;
+}
+int DC_addWUOutput(DC_Workunit *wu, const char *logicalFileName)
+{
+	return DC_addWUOutputExt(wu, logicalFileName, 0);
 }
 
 /* This function installs input files to the Boinc download directory */
@@ -1343,9 +1357,9 @@ static void append_result_file_info(GString *tmpl, int idx, int auto_upload,
 	g_string_append(tmpl, "</file_info>\n");
 }
 
-static void append_result_file_ref(GString *tmpl, int idx, const char *fmt, ...)
-	G_GNUC_PRINTF(3, 4);
-static void append_result_file_ref(GString *tmpl, int idx, const char *fmt, ...)
+static void append_result_file_ref(GString *tmpl, int idx, int optional, const char *fmt, ...)
+	G_GNUC_PRINTF(4, 5);
+static void append_result_file_ref(GString *tmpl, int idx, int optional, const char *fmt, ...)
 {
 	char buf[1024];
 	va_list ap;
@@ -1360,6 +1374,8 @@ static void append_result_file_ref(GString *tmpl, int idx, const char *fmt, ...)
 	g_string_append(tmpl, buf);
 
 	g_string_append(tmpl, "</open_name>\n");
+	if (optional)
+		g_string_append(tmpl, "<optional>1</optional>");
 	g_string_append(tmpl, "\t</file_ref>\n");
 }
 
@@ -1399,11 +1415,15 @@ static char *generate_result_template(DC_Workunit *wu)
 	file_cnt = 0;
 	/* The output templates */
 	for (l = wu->output_files; l; l = l->next)
-		append_result_file_ref(tmpl, file_cnt++, "%s", (char *)l->data);
+	{
+		char *lname = (char*)l->data;
+	        int optional = 0 != g_hash_table_lookup(wu->is_optional, lname);							
+		append_result_file_ref(tmpl, file_cnt++, optional, "%s", lname);
+	}
 
 	/* The subresult templates */
 	for (i = 0; i < wu->subresults; i++)
-		append_result_file_ref(tmpl, file_cnt++, "%s%d", SUBRESULT_PFX, i);
+		append_result_file_ref(tmpl, file_cnt++, 0, "%s%d", SUBRESULT_PFX, i);
 
 	g_string_append(tmpl, "</result>\n");
 
