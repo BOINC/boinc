@@ -5762,3 +5762,9 @@ Karl,Dave 2003/08/14
     - tagged old code as SCHEDULER_V1
 
     sched/
+
+Karl 2003/08/15
+    - sched: added explanatory messages to file_upload_handler errors
+
+    sched/
+        file_upload_handler.C

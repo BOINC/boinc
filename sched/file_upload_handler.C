@@ -135,7 +135,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
 
     out = fopen(path, "ab");
     if (!out) {
-        return return_error(ERR_TRANSIENT, "can't open file");
+        return return_error(ERR_TRANSIENT, "can't open file: %s", strerror(errno));
     }
 
     // TODO: use a 64-bit variant
@@ -144,7 +144,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
 
     if (retval) {
         fclose(out);
-        return return_error(ERR_TRANSIENT, "can't fseek file");
+        return return_error(ERR_TRANSIENT, "can't seek file: %s", strerror(errno));
     }
     bytes_left = nbytes - offset;
     if (bytes_left == 0) {
@@ -152,19 +152,20 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
         log_messages.printf(SchedMessages::DEBUG, "offset == nbytes: %f\n", nbytes);
         return return_success(0);
     }
+
     while (1) {
         m = BLOCK_SIZE;
         if (m > bytes_left) m = (int)bytes_left;
         n = fread(buf, 1, m, in);
         if (n <= 0) {
             fclose(out);
-            sprintf(buf2, "fread: asked for %d, got %d", m, n);
+            sprintf(buf2, "can't read file: asked for %d, got %d: %s", m, n, strerror(errno));
             return return_error(ERR_TRANSIENT, buf2);
         }
         m = fwrite(buf, 1, n, out);
         if (m != n) {
             fclose(out);
-            return return_error(ERR_TRANSIENT, "can't fwrite file");
+            return return_error(ERR_TRANSIENT, "can't write file: %s", strerror(errno));
         }
         bytes_left -= n;
         if (bytes_left == 0) break;
