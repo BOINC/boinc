@@ -64,6 +64,7 @@ all-local: @CLIENT_BIN_FILENAME@
 EXTRA_DIST =					\
 	*.h					\
 	mac/*.h mac/*.cpp			\
+	win/*.h.in				\
         win/*.h win/*.cpp win/*.rc		\
         win/*.ico win/*.def win/res/*.*		\
         translation/language.* 
