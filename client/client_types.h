@@ -39,10 +39,6 @@
 
 #define MAX_BLOB_LEN 4096
 
-class PERS_FILE_XFER;
-class PROJECT;
-struct RESULT;
-
 struct STRING256 {
     char text[256];
 };
@@ -70,9 +66,9 @@ public:
     bool sticky;            // don't delete unless instructed to do so
     bool signature_required;    // true iff associated with app version
     bool is_user_file;
-    PERS_FILE_XFER* pers_file_xfer;   // nonzero if in the process of being up/downloaded
-    RESULT* result;         // for upload files (to authenticate)
-    PROJECT* project;
+    struct PERS_FILE_XFER* pers_file_xfer;   // nonzero if in the process of being up/downloaded
+    struct RESULT* result;         // for upload files (to authenticate)
+    struct PROJECT* project;
     int ref_cnt;
     std::vector<STRING256> urls;
     int start_url;
@@ -88,6 +84,7 @@ public:
     int set_permissions();
     int parse(MIOFILE&, bool from_server);
     int write(MIOFILE&, bool to_server);
+    int write_gui(MIOFILE&);
     int delete_file();      // attempt to delete the underlying file
     char* get_init_url(bool);
     char* get_next_url(bool);
@@ -181,7 +178,7 @@ public:
     double anticipated_debt;    // expected debt by the end of the preemption period
     double work_done_this_period; // how much CPU time has been devoted to this
                                   // project in the current period (secs)
-    RESULT *next_runnable_result; // the next result to run for this project
+    struct RESULT *next_runnable_result; // the next result to run for this project
     
     // the following used by work-fetch algorithm
     double work_request;        // how much work a project needs (secs)
@@ -301,6 +298,7 @@ struct RESULT {
     int parse_state(MIOFILE&);
     int parse_ack(FILE*);
     int write(MIOFILE&, bool to_server);
+    int write_gui(MIOFILE&);
     bool is_upload_done();    // files uploaded?
     void get_app_version_string(std::string&);
     void reset_result_files();

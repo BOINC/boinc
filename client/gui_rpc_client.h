@@ -32,9 +32,7 @@
 #define RUN_MODE_NEVER  1
 #define RUN_MODE_AUTO   2
 
-struct PROJECT;
-
-struct FILE_INFO {
+struct FILE_TRANSFER {
     std::string name;
     bool generated_locally;
     bool uploaded;
@@ -47,7 +45,7 @@ struct FILE_INFO {
     double file_offset;
     double xfer_speed;
     std::string hostname;
-    PROJECT* project;
+    struct PROJECT* project;
 
     int parse(MIOFILE&);
     void print();
@@ -130,7 +128,7 @@ struct RESULT {
     void print();
 };
 
-struct ACTIVE_TASK {
+struct RESULT {
     std::string result_name;
     int app_version_num;
     double checkpoint_cpu_time;
@@ -162,29 +160,42 @@ struct MESSAGE_DESC {
     std::string body;
 };
 
+struct CC_STATE {
+    std::vector<PROJECT*> projects;
+    std::vector<APP*> apps;
+    std::vector<APP_VERSION*> app_versions;
+    std::vector<WORKUNIT*> wus;
+    std::vector<RESULT*> results;
+
+    void link();
+    APP* lookup_app(std::string&);
+    WORKUNIT* lookup_wu(std::string&);
+    APP_VERSION* lookup_app_version(std::string&, int);
+    RESULT* lookup_result(std::string&);
+    void print();
+};
+
+struct RESULTS {
+    std::vector<RESULT*> results;
+    void print();
+};
+
+struct FILE_TRANSFERS {
+    std::vector<FILE_TRANSFER*> file_transfers;
+    void print();
+};
+
 class RPC_CLIENT {
     int sock;
     int send_request(char*);
     int get_reply(char*&);
 public:
-    std::vector<PROJECT*> projects;
-    std::vector<FILE_INFO*> file_infos;
-    std::vector<APP*> apps;
-    std::vector<APP_VERSION*> app_versions;
-    std::vector<WORKUNIT*> wus;
-    std::vector<RESULT*> results;
-    std::vector<ACTIVE_TASK*> active_tasks;
-
-    APP* lookup_app(std::string&);
-    WORKUNIT* lookup_wu(std::string&);
-    APP_VERSION* lookup_app_version(std::string&, int);
-    RESULT* lookup_result(std::string&);
-
-    void link();
 
     ~RPC_CLIENT();
     int init(char* host);
-    int get_state();
+    int get_state(CC_STATE&);
+    int get_results(RESULTS&);
+    int get_file_transfers(FILE_TRANSFERS&);
     int show_graphics(char* result_name, bool full_screen);
     int project_reset(char*);
     int project_attach(char* url, char* auth);
@@ -194,6 +205,4 @@ public:
     int run_benchmarks();
     int set_proxy_settings(PROXY_INFO&);
     int get_messages(int nmessages, int seqno, std::vector<MESSAGE_DESC>&);
-    void print_state();
 };
-

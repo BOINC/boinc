@@ -74,8 +74,9 @@ int main(int argc, char** argv) {
     }
 
     if (!strcmp(argv[i], "-state")) {
-        retval = rpc.get_state();
-        if (!retval) rpc.print_state();
+        CC_STATE state;
+        retval = rpc.get_state(state);
+        if (!retval) state.print();
     } else if (!strcmp(argv[i], "-msgs")) {
         retval = rpc.get_messages(20, 0, message_descs);
         if (!retval) {

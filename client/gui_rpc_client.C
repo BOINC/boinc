@@ -107,7 +107,7 @@ int RPC_CLIENT::get_reply(char*& mbuf) {
     return 0;
 }
 
-int RPC_CLIENT::get_state() {
+int RPC_CLIENT::get_state(CC_STATE& state) {
     char buf[256];
     PROJECT* project;
     char* mbuf=0;
@@ -125,54 +125,90 @@ int RPC_CLIENT::get_state() {
         else if (match_tag(buf, "<project>")) {
             project = new PROJECT;
             project->parse(fin);
-            projects.push_back(project);
+            state.projects.push_back(project);
             continue;
         }
         else if (match_tag(buf, "<app>")) {
             APP* app = new APP;
             app->parse(fin);
             app->project = project;
-            apps.push_back(app);
+            state.apps.push_back(app);
             continue;
         }
         else if (match_tag(buf, "<app_version>")) {
             APP_VERSION* app_version = new APP_VERSION;
             app_version->parse(fin);
             app_version->project = project;
-            app_version->app = lookup_app(app_version->app_name);
-            app_versions.push_back(app_version);
+            app_version->app = state.lookup_app(app_version->app_name);
+            state.app_versions.push_back(app_version);
             continue;
         }
         else if (match_tag(buf, "<workunit>")) {
             WORKUNIT* wu = new WORKUNIT;
             wu->parse(fin);
             wu->project = project;
-            wu->app = lookup_app(wu->app_name);
-            wu->avp = lookup_app_version(wu->app_name, wu->version_num);
-            wus.push_back(wu);
+            wu->app = state.lookup_app(wu->app_name);
+            wu->avp = state.lookup_app_version(wu->app_name, wu->version_num);
+            state.wus.push_back(wu);
             continue;
         }
         else if (match_tag(buf, "<result>")) {
             RESULT* result = new RESULT;
             result->parse(fin);
             result->project = project;
-            result->wup = lookup_wu(result->wu_name);
+            result->wup = state.lookup_wu(result->wu_name);
             result->app = result->wup->app;
-            results.push_back(result);
+            state.results.push_back(result);
             continue;
         }
-        else if (match_tag(buf, "<file_info>")) {
-            FILE_INFO* fip = new FILE_INFO;
+    }
+    if (mbuf) free(mbuf);
+    return 0;
+}
+
+int RPC_CLIENT::get_file_transfers(FILE_TRANSFERS& t) {
+    char buf[256];
+    char* mbuf=0;
+    int retval;
+
+    retval = send_request("<get_file_transfers/>\n");
+    if (retval) return retval;
+    retval = get_reply(mbuf);
+    if (retval) return retval;
+    MIOFILE fin;
+    fin.init_buf(mbuf);
+
+    while (fin.fgets(buf, 256)) {
+        if (match_tag(buf, "</file_transfers>")) break;
+        else if (match_tag(buf, "<file_transfer>")) {
+            FILE_TRANSFER* fip = new FILE_TRANSFER;
             fip->parse(fin);
-            fip->project = project;
-            file_infos.push_back(fip);
+            t.file_transfers.push_back(fip);
             continue;
         }
-        else if (match_tag(buf, "<active_task>")) {
-            ACTIVE_TASK* atp = new ACTIVE_TASK;
-            atp->parse(fin);
-            atp->result = lookup_result(atp->result_name);
-            active_tasks.push_back(atp);
+    }
+    if (mbuf) free(mbuf);
+    return 0;
+}
+
+int RPC_CLIENT::get_results(RESULTS& t) {
+    char buf[256];
+    char* mbuf=0;
+    int retval;
+
+    retval = send_request("<get_results/>\n");
+    if (retval) return retval;
+    retval = get_reply(mbuf);
+    if (retval) return retval;
+    MIOFILE fin;
+    fin.init_buf(mbuf);
+
+    while (fin.fgets(buf, 256)) {
+        if (match_tag(buf, "</results>")) break;
+        else if (match_tag(buf, "<result>")) {
+            RESULT* rp = new RESULT;
+            rp->parse(fin);
+            t.results.push_back(rp);
             continue;
         }
     }
@@ -354,7 +390,7 @@ int RPC_CLIENT::get_messages(
     return 0;
 }
 
-void RPC_CLIENT::print_state() {
+void CC_STATE::print() {
     unsigned int i;
 
     printf("======== Projects ========\n");
@@ -372,11 +408,6 @@ void RPC_CLIENT::print_state() {
         printf("%d) -----------\n", i+1);
         app_versions[i]->print();
     }
-    printf("\n======== Files ========\n");
-    for (i=0; i<file_infos.size(); i++) {
-        printf("%d) -----------\n", i+1);
-        file_infos[i]->print();
-    }
     printf("\n======== Workunits ========\n");
     for (i=0; i<wus.size(); i++) {
         printf("%d) -----------\n", i+1);
@@ -387,17 +418,30 @@ void RPC_CLIENT::print_state() {
         printf("%d) -----------\n", i+1);
         results[i]->print();
     }
-    printf("\n======== Active tasks ========\n");
-    for (i=0; i<active_tasks.size(); i++) {
+}
+
+void RESULTS::print() {
+    unsigned int i;
+    printf("\n======== Results ========\n");
+    for (i=0; i<results.size(); i++) {
         printf("%d) -----------\n", i+1);
-        active_tasks[i]->print();
+        results[i]->print();
     }
 }
 
-int FILE_INFO::parse(MIOFILE& in) {
+void FILE_TRANSFERS::print() {
+    unsigned int i;
+    printf("\n======== Files ========\n");
+    for (i=0; i<file_transfers.size(); i++) {
+        printf("%d) -----------\n", i+1);
+        file_transfers[i]->print();
+    }
+}
+
+int FILE_TRANSFER::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</file_info>")) return 0;
+        if (match_tag(buf, "</file_transfer>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
         else if (match_tag(buf, "<generated_locally/>")) {
             generated_locally = true;
@@ -432,7 +476,7 @@ int FILE_INFO::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-void FILE_INFO::print() {
+void FILE_TRANSFER::print() {
     printf("   name: %s\n", name.c_str());
     printf("   generated locally: %s\n", generated_locally?"yes":"no");
     printf("   uploaded: %s\n", uploaded?"yes":"no");
@@ -583,10 +627,10 @@ void RESULT::print() {
     printf("   stderr_out: %s\n", stderr_out.c_str());
 }
 
-int ACTIVE_TASK::parse(MIOFILE& in) {
+int RESULT::parse(MIOFILE& in) {
     char buf[256];
     while (in.fgets(buf, 256)) {
-        if (match_tag(buf, "</active_task>")) return 0;
+        if (match_tag(buf, "</result>")) return 0;
         else if (parse_str(buf, "<result_name>", result_name)) continue;
         else if (parse_int(buf, "<app_version_num>", app_version_num)) continue;
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
@@ -596,7 +640,7 @@ int ACTIVE_TASK::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-void ACTIVE_TASK::print() {
+void RESULT::print() {
     printf("   result name: %s\n", result_name.c_str());
     printf("   app version num: %d\n", app_version_num);
     printf("   checkpoint CPU time: %f\n", checkpoint_cpu_time);
@@ -604,7 +648,7 @@ void ACTIVE_TASK::print() {
     printf("   fraction done: %f\n", fraction_done);
 }
 
-APP* RPC_CLIENT::lookup_app(string& str) {
+APP* CC_STATE::lookup_app(string& str) {
     unsigned int i;
     for (i=0; i<apps.size(); i++) {
         if (apps[i]->name == str) return apps[i];
@@ -613,7 +657,7 @@ APP* RPC_CLIENT::lookup_app(string& str) {
     return 0;
 }
 
-WORKUNIT* RPC_CLIENT::lookup_wu(string& str) {
+WORKUNIT* CC_STATE::lookup_wu(string& str) {
     unsigned int i;
     for (i=0; i<wus.size(); i++) {
         if (wus[i]->name == str) return wus[i];
@@ -622,7 +666,7 @@ WORKUNIT* RPC_CLIENT::lookup_wu(string& str) {
     return 0;
 }
 
-RESULT* RPC_CLIENT::lookup_result(string& str) {
+RESULT* CC_STATE::lookup_result(string& str) {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
         if (results[i]->name == str) return results[i];
@@ -632,7 +676,7 @@ RESULT* RPC_CLIENT::lookup_result(string& str) {
 }
 
 
-APP_VERSION* RPC_CLIENT::lookup_app_version(string& str, int version_num) {
+APP_VERSION* CC_STATE::lookup_app_version(string& str, int version_num) {
     unsigned int i;
     for (i=0; i<app_versions.size(); i++) {
         if (app_versions[i]->app_name == str && app_versions[i]->version_num == version_num) return app_versions[i];

@@ -328,7 +328,7 @@ and returns an 'urgency level':
 
 <pre>
 NEED_WORK_IMMEDIATELY
-    CPU scheduler is currently starved (may not have idle CPU)
+    CPU scheduler is currently starved
 NEED_WORK
     Will starve within T days
 DONT_NEED_WORK
@@ -367,9 +367,10 @@ Return urgency
 </ol>
 
 <p>
-The mechanism for actually getting work checks if a project has a
-non-zero work request and if so, makes the scheduler RPC call to
-request the work.
+The mechanism for getting work periodically (once a second)
+calls compute_work_request(),
+checks if any project has a non-zero work request and if so,
+makes the scheduler RPC call to request the work.
 
 <h3>Pseudocode</h3>
 
@@ -394,7 +395,6 @@ ettprc(P, k):
 compute_work_request():
     urgency = DONT_NEED_WORK
     foreach project P:
-        project_active_frac = active_frac * P.resource_share
         P.work_request = 0
         est_time_to_starvation = ettprc(P, min_results(P)-1)
 
@@ -417,4 +417,3 @@ compute_work_request():
 ";
 page_tail();
 ?>
-

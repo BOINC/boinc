@@ -11,6 +11,8 @@ This will make it easier to develop new GUIs,
 and will eliminate security issues related
 to having GUI code in the core client.
 <p>
+
+<p>
 GUI programs connect to the core client by opening a TCP socket at port 31416.
 They can then do repeated RPCs over this connection.
 Each reply message ends with the character '\\003.
@@ -22,7 +24,8 @@ list_heading("Request message format", "Function");
 list_item(
 	html_text("<get_state/>"),
 	"Get the state of the core client.
-	The reply message has the same format as the client_state.xml file."
+	The reply message has a list of
+    projects,apps, app
 );
 list_item(
     html_text(

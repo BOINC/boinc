@@ -263,7 +263,11 @@ int GUI_RPC_CONN::handle_rpc() {
     scope_messages.printf("GUI RPC Command = '%s'\n", request_msg);
 
     if (match_tag(request_msg, "<get_state")) {
-        gstate.write_state(mf);
+        gstate.write_state_gui(mf);
+	} else if (match_tag(request_msg, "<get_tasks>")) {
+        gstate.write_tasks_gui(mf);
+	} else if (match_tag(request_msg, "<get_file_transfers>")) {
+        gstate.write_file_transfers_gui(mf);
 	} else if (match_tag(request_msg, "<result_show_graphics>")) {
 		handle_result_show_graphics(request_msg, mf);
 	} else if (match_tag(request_msg, "<project_reset>")) {

@@ -15180,9 +15180,31 @@ Karl 2004-07-13
 
     113 files modified
 
-David
+David  12 July 2004
     - client: get env vars related to HTTP proxy authentication
         (previously the cmdline version couldn't do auth)
 
     client/
         cs_cmdline.C
+
+David  13 July 2004
+    - revised GUI RPC interface.
+        old: get_state() returns everything
+            problem: too slow to do every second
+        new: get_state() returns stuff that doesn't change often
+            (PROJECT, APP, APP_VERSION, WORKUNIT, RESULT)
+            get_results() returns dynamic info about results
+                (fast enough to do every second)
+            get_file_transfers() returns info about file transfers
+                (fast enough to do every second)
+            If either of the latter returns the name of something
+            that doesn't exist in the static state,
+            then do another get_state() call
+
+    client/
+        client_state.h
+        client_types.C,h
+        cs_statefile.C
+        gui_rpc_client.C,h
+        gui_rpc_server.C
+        gui_test.C

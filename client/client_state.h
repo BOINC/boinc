@@ -274,6 +274,9 @@ public:
     int parse_venue();
 	void check_anonymous();
 	int parse_app_info(PROJECT*, FILE*);
+    int write_state_gui(MIOFILE&);
+    int write_file_transfers_gui(MIOFILE&);
+    int write_tasks_gui(MIOFILE&);
 
 // --------------- cs_trickle.C:
 private:

@@ -674,6 +674,21 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
     return 0;
 }
 
+int FILE_INFO::write_gui(MIOFILE& out) {
+    out.printf(
+        "<file_info>\n"
+        "    <name>%s</name>\n"
+        "    <nbytes>%f</nbytes>\n"
+        "    <max_nbytes>%f</max_nbytes>\n",
+        name, nbytes, max_nbytes
+    );
+    if (pers_file_xfer) {
+        pers_file_xfer->write(out);
+    }
+    out.printf("</file_info>\n");
+    return 0;
+}
+
 // delete physical underlying file associated with FILE_INFO
 //
 int FILE_INFO::delete_file() {
@@ -1137,6 +1152,28 @@ int RESULT::write(MIOFILE& out, bool to_server) {
             retval = output_files[i].write(out);
             if (retval) return retval;
         }
+    }
+    out.printf("</result>\n");
+    return 0;
+}
+
+int RESULT::write_gui(MIOFILE& out) {
+    out.printf(
+        "<result>\n"
+        "    <name>%s</name>\n"
+        "    <final_cpu_time>%f</final_cpu_time>\n"
+        "    <exit_status>%d</exit_status>\n"
+        "    <state>%d</state>\n",
+        name,
+        final_cpu_time,
+        exit_status,
+        state
+    );
+    if (got_server_ack) out.printf("    <got_server_ack/>\n");
+    if (ready_to_report) out.printf("    <ready_to_report/>\n");
+    ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
+    if (atp) {
+        atp->write(out);
     }
     out.printf("</result>\n");
     return 0;

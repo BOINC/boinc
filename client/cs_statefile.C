@@ -370,3 +370,51 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
 	}
 	return ERR_XML_PARSE;
 }
+
+int CLIENT_STATE::write_state_gui(MIOFILE& f) {
+    unsigned int i, j;
+    int retval;
+
+    f.printf("<client_state>\n");
+    for (j=0; j<projects.size(); j++) {
+        PROJECT* p = projects[j];
+        retval = p->write_state(f);
+        if (retval) return retval;
+        for (i=0; i<apps.size(); i++) {
+            if (apps[i]->project == p) {
+                retval = apps[i]->write(f);
+                if (retval) return retval;
+            }
+        }
+        for (i=0; i<app_versions.size(); i++) {
+            if (app_versions[i]->project == p) app_versions[i]->write(f);
+        }
+        for (i=0; i<workunits.size(); i++) {
+            if (workunits[i]->project == p) workunits[i]->write(f);
+        }
+        for (i=0; i<results.size(); i++) {
+            if (results[i]->project == p) results[i]->write(f, false);
+        }
+    }
+    return 0;
+}
+
+int CLIENT_STATE::write_tasks_gui(MIOFILE& f) {
+    unsigned int i;
+    for(i=0; i<results.size(); i++) {
+        RESULT* rp = results[i];
+        rp->write_gui(f);
+    }
+    return 0;
+}
+
+int CLIENT_STATE::write_file_transfers_gui(MIOFILE& f) {
+    unsigned int i;
+    for (i=0; i<file_infos.size(); i++) {
+        FILE_INFO* fip = file_infos[i];
+        if (fip->pers_file_xfer) {
+            fip->write_gui(f);
+        }
+    }
+    return 0;
+}
