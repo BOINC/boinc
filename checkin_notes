@@ -16388,7 +16388,8 @@ David  13 Aug 2004
         request_file_list.C
 
 Karl 2004-08-14
-    - documentation notes on transaction support
+    - documentation notes on transaction support in MySQL versions &
+      troubleshooting
 
     doc/
         software.php
