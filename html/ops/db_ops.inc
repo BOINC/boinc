@@ -62,6 +62,7 @@ class SqlQueryString {
         $count_query = "select count(*) as cnt from $this->table $this->query";
         $result = mysql_query($count_query);
         $res = mysql_fetch_object($result);
+        mysql_free_result($result);
         return $res->cnt;
     }
 
