@@ -20999,3 +20999,27 @@ David  10 Dec 2004
     lib/
         filesys.C,h
         util.C,h
+
+Rom    10 Dec 2004
+    - Bug Fix: Under the previous arrangement there was a timer event that would
+        fire off once a second to check for the possiblility that the item in the
+        list view had been deselected.  We weren't receiving a deselection event
+        for single selection controls.  So I've ripped out the timer code and
+        trapped the controls click event, and check the controls state.
+
+        If we are a single selection control and the current selection is different
+          from the row that has focus, then manually send the deselection event.
+
+        If we are a multi selection control, check to see if anything is selected,
+          if not, then manually send the deselection event.
+
+        This has the added bonus of making our UI seem faster.
+
+      NOTE:  I know this wasn't on the list to fix this release, but it was driving
+        me nuts.
+
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCGUIApp.cpp
+        BOINCListCtrl.cpp, .h
+        MainFrame.cpp, .h

@@ -113,12 +113,6 @@ wxInt32 CBOINCBaseView::GetListRowCount()
 }
 
 
-void CBOINCBaseView::FireOnTaskRender ( wxTimerEvent& event )
-{
-    OnTaskRender( event );
-}
-
-
 void CBOINCBaseView::FireOnListRender ( wxTimerEvent& event )
 {
     OnListRender( event );
@@ -191,28 +185,6 @@ wxInt32 CBOINCBaseView::GetDocCount()
 }
 
 
-void CBOINCBaseView::OnTaskRender ( wxTimerEvent& event )
-{
-    if (!m_bProcessingTaskRenderEvent)
-    {
-        m_bProcessingTaskRenderEvent = true;
-
-        wxASSERT(NULL != m_pListPane);
-
-        if ( ( 0 == m_pListPane->GetSelectedItemCount() ) && m_bItemSelected )
-        {
-            UpdateSelection();
-        }
-
-        m_bProcessingTaskRenderEvent = false;
-    }
-    else
-    {
-        event.Skip();
-    }
-}
-
-
 void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
 {
     if (!m_bProcessingListRenderEvent)
@@ -236,10 +208,10 @@ void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
             {
                 if ( !(iDocCount == iCacheCount) )
                 {
+                    wxInt32 iIndex = 0;
+                    wxInt32 iReturnValue = -1;
                     if ( iDocCount > iCacheCount )
                     {
-                        wxInt32 iIndex = 0;
-                        wxInt32 iReturnValue = -1;
                         for ( iIndex = iCacheCount; iIndex <= iDocCount; iIndex++ )
                         {
                             iReturnValue = AddCacheElement();
@@ -248,8 +220,6 @@ void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
                     }
                     else
                     {
-                        wxInt32 iIndex = 0;
-                        wxInt32 iReturnValue = -1;
                         for ( iIndex = iDocCount; iIndex >= iCacheCount; iIndex-- )
                         {
                             iReturnValue = RemoveCacheElement();
@@ -439,7 +409,6 @@ wxInt32 CBOINCBaseView::SyncronizeCache()
     wxInt32         iColumnTotal     = 0;
     wxString        strDocumentText  = wxEmptyString;
     wxString        strListPaneText  = wxEmptyString;
-    wxInt32         iReturnValue     = -1;
     bool            bNeedRefreshData = false;
 
     iRowTotal = GetDocCount();
@@ -459,8 +428,10 @@ wxInt32 CBOINCBaseView::SyncronizeCache()
 
             if ( !strDocumentText.IsSameAs(strListPaneText) )
             {
-                iReturnValue = UpdateCache( iRowIndex, iColumnIndex, strDocumentText );
-                wxASSERT( 0 == iReturnValue );
+                if ( 0 != UpdateCache( iRowIndex, iColumnIndex, strDocumentText ) )
+                {
+                    wxASSERT( FALSE );
+                }
                 bNeedRefreshData = true;
             }
         }

@@ -65,14 +65,11 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_CLOSE(CMainFrame::OnClose)
     EVT_SIZE(CMainFrame::OnSize)
     EVT_CHAR(CMainFrame::OnChar)
+    EVT_TIMER(ID_FRAMERENDERTIMER, CMainFrame::OnFrameRender)
+    EVT_TIMER(ID_FRAMELISTRENDERTIMER, CMainFrame::OnListPanelRender)
     EVT_UPDATE_UI_RANGE(ID_ACTIVITYRUNALWAYS, ID_ACTIVITYSUSPEND, CMainFrame::OnUpdateActivitySelection)
     EVT_UPDATE_UI_RANGE(ID_NETWORKRUNALWAYS, ID_NETWORKSUSPEND, CMainFrame::OnUpdateNetworkSelection)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CMainFrame::OnNotebookSelectionChanged)
-    EVT_LIST_ITEM_SELECTED(wxID_ANY, CMainFrame::OnListSelected)
-    EVT_LIST_ITEM_DESELECTED(wxID_ANY, CMainFrame::OnListDeselected)
-    EVT_TIMER(ID_FRAMERENDERTIMER, CMainFrame::OnFrameRender)
-    EVT_TIMER(ID_FRAMELISTRENDERTIMER, CMainFrame::OnListPanelRender)
-    EVT_TIMER(ID_FRAMETASKRENDERTIMER, CMainFrame::OnTaskPanelRender)
 END_EVENT_TABLE ()
 
 
@@ -109,14 +106,10 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_pFrameRenderTimer = new wxTimer(this, ID_FRAMERENDERTIMER);
     wxASSERT(NULL != m_pFrameRenderTimer);
 
-    m_pFrameTaskPanelRenderTimer = new wxTimer(this, ID_FRAMETASKRENDERTIMER);
-    wxASSERT(NULL != m_pFrameTaskPanelRenderTimer);
-
     m_pFrameListPanelRenderTimer = new wxTimer(this, ID_FRAMELISTRENDERTIMER);
     wxASSERT(NULL != m_pFrameListPanelRenderTimer);
 
     m_pFrameRenderTimer->Start(1000);                // Send event every 1 second
-    m_pFrameTaskPanelRenderTimer->Start(1000);       // Send event every 1 second
     m_pFrameListPanelRenderTimer->Start(5000);       // Send event every 5 seconds
 
     SetStatusBarPane(0);
@@ -132,7 +125,6 @@ CMainFrame::~CMainFrame()
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::~CMainFrame - Function Begin"));
 
     wxASSERT(NULL != m_pFrameRenderTimer);
-    wxASSERT(NULL != m_pFrameTaskPanelRenderTimer);
     wxASSERT(NULL != m_pFrameListPanelRenderTimer);
     wxASSERT(NULL != m_pMenubar);
     wxASSERT(NULL != m_pNotebook);
@@ -145,11 +137,6 @@ CMainFrame::~CMainFrame()
     if (m_pFrameRenderTimer) {
         m_pFrameRenderTimer->Stop();
         delete m_pFrameRenderTimer;
-    }
-
-    if (m_pFrameTaskPanelRenderTimer) {
-        m_pFrameTaskPanelRenderTimer->Stop();
-        delete m_pFrameTaskPanelRenderTimer;
     }
 
     if (m_pFrameListPanelRenderTimer) {
@@ -933,65 +920,12 @@ void CMainFrame::OnNotebookSelectionChanged( wxNotebookEvent& event )
         pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
         wxASSERT(NULL != pView);
 
-        pView->FireOnTaskRender( timerEvent );
         pView->FireOnListRender( timerEvent );
     }
 
     event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNotebookSelectionChanged - Function End"));
-}
-
-
-void CMainFrame::OnListSelected( wxListEvent& event )
-{
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListSelected - Function Begin"));
-
-    if ( IsShown() )
-    {
-        wxWindow*       pwndNotebookPage = NULL;
-        CBOINCBaseView* pView = NULL;
-
-        wxASSERT(NULL != m_pNotebook);
-
-        pwndNotebookPage = m_pNotebook->GetPage( event.GetId() - ID_LIST_BASE );
-        wxASSERT(NULL != pwndNotebookPage);
-
-        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-        wxASSERT(NULL != pView);
-
-        pView->FireOnListSelected( event );
-    }
-
-    event.Skip();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListSelected - Function End"));
-}
-
-
-void CMainFrame::OnListDeselected( wxListEvent& event )
-{
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListDeselected - Function Begin"));
-
-    if ( IsShown() )
-    {
-        wxWindow*       pwndNotebookPage = NULL;
-        CBOINCBaseView* pView = NULL;
-
-        wxASSERT(NULL != m_pNotebook);
-
-        pwndNotebookPage = m_pNotebook->GetPage( event.GetId() - ID_LIST_BASE );
-        wxASSERT(NULL != pwndNotebookPage);
-
-        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-        wxASSERT(NULL != pView);
-
-        pView->FireOnListDeselected( event );
-    }
-
-    event.Skip();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListDeselected - Function End"));
 }
 
 
@@ -1061,32 +995,6 @@ void CMainFrame::OnListPanelRender( wxTimerEvent &event )
     event.Skip();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnListPanelRender - Function End"));
-}
-
-
-void CMainFrame::OnTaskPanelRender( wxTimerEvent &event )
-{
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnTaskPanelRender - Function Begin"));
-
-    if ( IsShown() )
-    {
-        wxWindow*       pwndNotebookPage = NULL;
-        CBOINCBaseView* pView = NULL;
-
-        wxASSERT(NULL != m_pNotebook);
-
-        pwndNotebookPage = m_pNotebook->GetPage( m_pNotebook->GetSelection() );
-        wxASSERT(NULL != pwndNotebookPage);
-
-        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
-        wxASSERT(NULL != pView);
-
-        pView->FireOnTaskRender( event );
-    }
-
-    event.Skip();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnTaskPanelRender - Function End"));
 }
 
 

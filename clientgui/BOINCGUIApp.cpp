@@ -47,7 +47,7 @@ bool CBOINCGUIApp::OnInit()
     m_lBOINCCoreProccessId = 0;
 
     // Enable Trace Masks
-    wxLog::AddTraceMask( wxT("Function Start/End") );
+    //wxLog::AddTraceMask( wxT("Function Start/End") );
 
 
     // Enable the in memory virtual file system for

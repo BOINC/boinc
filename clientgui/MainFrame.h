@@ -58,15 +58,10 @@ public:
     void OnSize( wxSizeEvent& event );
     void OnChar( wxKeyEvent& event );
 
-
-    void OnNotebookSelectionChanged( wxNotebookEvent& event );
-
-    void OnListSelected( wxListEvent& event );
-    void OnListDeselected( wxListEvent& event );
-
     void OnFrameRender( wxTimerEvent& event );
     void OnListPanelRender( wxTimerEvent& event );
-    void OnTaskPanelRender( wxTimerEvent& event );
+
+    void OnNotebookSelectionChanged( wxNotebookEvent& event );
 
 private:
 
@@ -74,7 +69,6 @@ private:
     wxNotebook*     m_pNotebook;
     wxStatusBar*    m_pStatusbar;
     wxTimer*        m_pFrameRenderTimer;
-    wxTimer*        m_pFrameTaskPanelRenderTimer;
     wxTimer*        m_pFrameListPanelRenderTimer;
 
     wxStaticBitmap* m_pbmpConnected;

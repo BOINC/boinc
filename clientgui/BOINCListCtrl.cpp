@@ -43,6 +43,24 @@ CBOINCListCtrl::CBOINCListCtrl( CBOINCBaseView* pView, wxWindowID iListWindowID,
     wxListView( pView, iListWindowID, wxDefaultPosition, wxSize(-1, -1), iListWindowFlags )
 {
     m_pParentView = pView;
+
+    m_bIsSingleSelection = ( iListWindowFlags & wxLC_SINGLE_SEL ) ? true : false ;
+
+    Connect( 
+        iListWindowID, 
+        wxEVT_COMMAND_LEFT_CLICK, 
+        (wxObjectEventFunction) (wxEventFunction) (wxListEventFunction) CBOINCListCtrl::OnClick
+    );
+    Connect( 
+        iListWindowID, 
+        wxEVT_COMMAND_LIST_ITEM_SELECTED, 
+        (wxObjectEventFunction) (wxEventFunction) (wxListEventFunction) CBOINCListCtrl::OnSelected
+    );
+    Connect( 
+        iListWindowID, 
+        wxEVT_COMMAND_LIST_ITEM_DESELECTED, 
+        (wxObjectEventFunction) (wxEventFunction) (wxListEventFunction) CBOINCListCtrl::OnDeselected
+    );
 }
 
 
@@ -130,6 +148,51 @@ bool CBOINCListCtrl::OnRestoreState( wxConfigBase* pConfig )
     }
 
     return true;
+}
+
+
+void CBOINCListCtrl::OnClick( wxCommandEvent& event )
+{
+    wxASSERT(NULL != m_pParentView);
+    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
+
+    wxListEvent leEvent(wxEVT_COMMAND_LIST_ITEM_DESELECTED, m_windowId);
+    leEvent.SetEventObject(this);
+
+    if ( m_bIsSingleSelection )
+    {
+        if ( GetFocusedItem() != GetFirstSelected() )
+            OnDeselected( leEvent );
+    }
+    else
+    {
+        if ( -1 == GetFirstSelected() )
+            OnDeselected( leEvent );
+    }
+
+    event.Skip();
+}
+
+
+void CBOINCListCtrl::OnSelected( wxListEvent& event )
+{
+    wxASSERT(NULL != m_pParentView);
+    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
+
+    m_pParentView->FireOnListSelected( event );
+
+    event.Skip();
+}
+
+
+void CBOINCListCtrl::OnDeselected( wxListEvent& event )
+{
+    wxASSERT(NULL != m_pParentView);
+    wxASSERT(wxDynamicCast(m_pParentView, CBOINCBaseView));
+
+    m_pParentView->FireOnListDeselected( event );
+
+    event.Skip();
 }
 
 

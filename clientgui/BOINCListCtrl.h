@@ -46,9 +46,15 @@ public:
 
 private:
     
+    virtual void            OnClick( wxCommandEvent& event );
+    virtual void            OnSelected( wxListEvent& event );
+    virtual void            OnDeselected( wxListEvent& event );
+
     virtual wxString        OnGetItemText( long item, long column ) const;
     virtual int             OnGetItemImage( long item ) const;
     virtual wxListItemAttr* OnGetItemAttr( long item ) const;
+
+    bool                    m_bIsSingleSelection;
 
     CBOINCBaseView*         m_pParentView;
 

@@ -60,7 +60,6 @@ public:
     virtual char**          GetViewIcon();
     virtual wxInt32         GetListRowCount();
 
-    void                    FireOnTaskRender( wxTimerEvent& event );
     void                    FireOnListRender( wxTimerEvent& event );
     bool                    FireOnSaveState( wxConfigBase* pConfig );
     bool                    FireOnRestoreState( wxConfigBase* pConfig );
@@ -77,7 +76,6 @@ protected:
 
     virtual wxInt32         GetDocCount();
 
-    virtual void            OnTaskRender( wxTimerEvent& event );
     virtual void            OnListRender( wxTimerEvent& event );
 
     virtual bool            OnSaveState( wxConfigBase* pConfig );
