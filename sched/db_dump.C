@@ -829,13 +829,15 @@ int main(int argc, char** argv) {
     sprintf(buf, "cp %s %s/db_dump.xml", spec_filename, spec.output_dir);
     system(buf);
     sprintf(buf, "/bin/rm -rf %s", spec.final_output_dir);
-    for (int i=0; i<10; i++) {
+    retval = system(buf);
+    if (retval) {
+        // for some reason the /bin/rm fails every now and then.
+        // If so try renaming it to something else
+        sprintf(buf, "mv %s %s_%d", spec.final_output_dir, spec.final_output_dir, time(0));
         retval = system(buf);
-        if (!retval) break;
-        sleep(1);
     }
     if (retval) {
-        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't remove old stats\n");
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't remove or rename old stats\n");
         exit(1);
     }
     sprintf(buf, "mv %s %s", spec.output_dir, spec.final_output_dir);

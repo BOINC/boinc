@@ -22973,3 +22973,11 @@ David  19 Jan 2005
     client/
         client_state.C,h
         cs_prefs.C
+
+David  19 Jan 2005
+    - db_dump: deleting the old stats dir with /bin/rm -rf
+        fails sometimes ("dir is not empty").
+        If this happens, try renaming it.
+
+    sched/
+        db_dump.C
