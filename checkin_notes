@@ -16068,3 +16068,9 @@ Noaa	6 August 2004
 
 	boincglut/lib/glut/
 		libglut.a (removed)
+
+Rom    6 Aug 2004
+    - Feeder should be using mysql_store_result instead of mysql_use_result.
+
+    db/
+       boinc_db.C
