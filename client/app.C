@@ -516,7 +516,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                     if (exit_code) {
                         gstate.report_result_error(
                             *(atp->result), 0,
-                            "process exited with a non zero exit code"
+                            "process exited with a non-zero exit code"
                         );
                     }
                 }
@@ -572,7 +572,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                 if(atp->exit_status) {
                     gstate.report_result_error(
                         *(atp->result), 0,
-                        "process exited with a nonzero exit code"
+                        "process exited with a non-zero exit code"
                     );
                 }
                 scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process exited: status %d\n", atp->exit_status);
