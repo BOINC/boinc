@@ -1026,27 +1026,33 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
 
     garbage_collect();
 
-	avp_iter = app_versions.begin();
-    while (avp_iter != app_versions.end()) {
-        avp = *avp_iter;
-        if (avp->project == project) {
-            avp_iter = app_versions.erase(avp_iter);
-			delete avp;
-        } else {
-            avp_iter++;
-        }
-    }
+	// forcibly remove apps and app_versions
+	// (but not if anonymous platform)
+	//
+	if (!project->anonymous_platform) {
+		avp_iter = app_versions.begin();
+		while (avp_iter != app_versions.end()) {
+			avp = *avp_iter;
+			if (avp->project == project) {
+				avp_iter = app_versions.erase(avp_iter);
+				delete avp;
+			} else {
+				avp_iter++;
+			}
+		}
 
-    app_iter = apps.begin();
-    while (app_iter != apps.end()) {
-        app = *app_iter;
-        if (app->project == project) {
-            app_iter = apps.erase(app_iter);
-			delete app;
-        } else {
-            app_iter++;
-        }
-    }
+		app_iter = apps.begin();
+		while (app_iter != apps.end()) {
+			app = *app_iter;
+			if (app->project == project) {
+				app_iter = apps.erase(app_iter);
+				delete app;
+			} else {
+				app_iter++;
+			}
+		}
+	    garbage_collect();
+	}
 
     write_state_file();
     return 0;

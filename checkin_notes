@@ -9974,7 +9974,7 @@ David  Feb 8 2004
 
 David  Feb 9 2004
     - Scheduler: when last work request was too recent,
-        send request_delay to tell client to wait
+        send request_delay to tell client to wait (from Jens)
     - code that generates user profile gallery pages (inc/gallery.inc)
         has a nightmare of hardwired URL and path names.
         I unraveled things enough to make them work again.
@@ -9996,3 +9996,19 @@ David  Feb 9 2004
             project.inc.sample
     sched/
         handle_request.C
+
+David  Feb 9 2004
+	- ACTIVE_TASK_SET::poll(): set state file dirty flag whenever the
+		set of active tasks changes (e.g. app exited).
+	- rename ACTIVE_TASK::abort() to abort_task() (eliminate ambiguity)
+	- ACTIVE_TASK_SET::check_rsc_limits_exceeded():
+		check only running tasks
+	- CLIENT_STATE::reset_project(): don't delete apps, app_versions
+		if project is anonymous-platform
+	- PROJECT::set_min_rpc_time(): don't change min_rpc_time
+		if it's already later than requested time (from Jens)
+
+	client/
+		app.C,h
+		client_state.C
+		cs_scheduler.C

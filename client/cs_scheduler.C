@@ -110,7 +110,9 @@ void CLIENT_STATE::update_avg_cpu(PROJECT* p) {
 }
 
 void PROJECT::set_min_rpc_time(time_t future_time) {
-    min_rpc_time = future_time;
+	if (future_time > min_rpc_time) {
+		min_rpc_time = future_time;
+	}
     min_report_min_rpc_time = 0; // report immediately
 }
 
@@ -486,7 +488,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     FILE* f;
     int retval;
     unsigned int i;
-    bool signature_valid,need_to_install_prefs=false;
+    bool signature_valid, need_to_install_prefs=false;
     char buf[256];
 
     nresults = 0;
@@ -518,7 +520,8 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
 
     if (sr.request_delay) {
-        project->min_rpc_time = time(0) + sr.request_delay;
+		int t = time(0) + sr.request_delay;
+        project->min_rpc_time = max(t, project->min_rpc_time);
     }
 
     project->host_total_credit = sr.host_total_credit;

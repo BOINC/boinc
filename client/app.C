@@ -604,13 +604,14 @@ bool ACTIVE_TASK_SET::poll() {
     bool action;
 
     action = check_app_exited();
-    if (action) return true;
-    action = check_rsc_limits_exceeded();
-    if (action) return true;
+    action |= check_rsc_limits_exceeded();
     if (get_status_msgs()) {
-        gstate.set_client_state_dirty("ACTIVE_TASK_SET::poll");
+		action = true;
     }
-    return false;
+	if (action) {
+        gstate.set_client_state_dirty("ACTIVE_TASK_SET::poll");
+	}
+    return action;
 }
 
 bool ACTIVE_TASK_SET::check_app_exited() {
@@ -729,8 +730,9 @@ bool ACTIVE_TASK::check_max_cpu_exceeded() {
     if (current_cpu_time > max_cpu_time) {
         msg_printf(result->project, MSG_INFO,
             "Aborting result %s: exceeded CPU time limit %f\n",
-            result->name, max_cpu_time);
-        abort();
+            result->name, max_cpu_time
+		);
+        abort_task();
         return true;
     }
     return false;
@@ -754,7 +756,7 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
 				"Aborting result %s: exceeded disk limit: %f > %f\n",
                 result->name, disk_usage, max_disk_usage
             );
-            abort();
+            abort_task();
             return true;
         }
     }
@@ -773,7 +775,7 @@ bool ACTIVE_TASK::check_max_mem_exceeded() {
             result->name,
             min(max_mem_usage, gstate.global_prefs.max_memory_mbytes*1048576)
         );
-        abort();
+        abort_task();
         return true;
     }
     return false;
@@ -790,6 +792,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 
     for (j=0;j<active_tasks.size();j++) {
         atp = active_tasks[j];
+		if (atp->state != PROCESS_RUNNING) continue;
         if (atp->check_max_cpu_exceeded()) return true;
         //else if (atp->check_max_mem_exceeded()) return true;
         else if (time(0)>last_disk_check_time + gstate.global_prefs.disk_interval) {
@@ -806,7 +809,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
 // 1) project is reset or detached
 // 2) app has exceeded CPU, disk, or mem limits
 //
-int ACTIVE_TASK::abort() {
+int ACTIVE_TASK::abort_task() {
     if (state == PROCESS_RUNNING) {
         state = PROCESS_ABORT_PENDING;
         result->active_task_state = PROCESS_ABORT_PENDING;
