@@ -101,7 +101,7 @@ void whetstone(double& flops) {
     int II;
 
 	/* added for this version */
-	double startsec, finisec;
+	double startsec, finisec, ws;
 	double KIPS;
 
     II = 0;
@@ -113,7 +113,7 @@ C
 C	Start benchmark timing at this point.
 C
 */
-	startsec = dtime();
+    boinc_calling_thread_cpu_time(startsec, ws);
 
 /*
 C
@@ -312,7 +312,7 @@ C
 C      Stop benchmark timing at this point.
 C
 */
-	finisec = dtime();
+    boinc_calling_thread_cpu_time(finisec, ws);
 
 /*
 C----------------------------------------------------------------

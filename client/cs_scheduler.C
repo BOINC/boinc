@@ -196,6 +196,16 @@ PROJECT* CLIENT_STATE::next_project(PROJECT* old) {
 // based on the user-specified resource share.
 // TODO: this counts only CPU time.  Should reflect disk/network usage too.
 //
+// Note: it has been argued that we should use granted credit
+// instead of or in addition to locally measured work.
+// The problem with this is that we'd do more work
+// for projects that fail to grant credit for whatever reason.
+//
+// Note: it's also been argued that we should average work
+// over all hosts of this user, to stay closer to the
+// target resource share globally.
+// This bears some thinking about.
+//
 void CLIENT_STATE::compute_resource_debts() {
     unsigned int i, j;
     PROJECT* p, *pbest=0;

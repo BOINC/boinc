@@ -274,67 +274,19 @@ int boinc_wu_cpu_time(double& cpu_t) {
 }
 
 #ifdef _WIN32
-int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu, double& ws) {
-    FILETIME creationTime,exitTime,kernelTime,userTime;
-    static bool first = true;
-    static DWORD first_count = 0;
-
-    if (first) {
-        first_count = GetTickCount();
-        first = false;
-    }
-    if (GetThreadTimes(
-        thread_handle, &creationTime, &exitTime, &kernelTime, &userTime)
-    ) {
-        ULARGE_INTEGER tKernel, tUser;
-        LONGLONG totTime;
-
-        tKernel.LowPart  = kernelTime.dwLowDateTime;
-        tKernel.HighPart = kernelTime.dwHighDateTime;
-        tUser.LowPart    = userTime.dwLowDateTime;
-        tUser.HighPart   = userTime.dwHighDateTime;
-        totTime = tKernel.QuadPart + tUser.QuadPart;
-
-        // Runtimes in 100-nanosecond units
-        cpu = totTime / 1.e7;
-		ws = 0;
-    } else {
-        // TODO: Handle timer wraparound
-        DWORD cur = GetTickCount();
-	    cpu = ((cur - first_count)/1000.);
-	    ws = 0;
-    }
-    return 0;
-}
 
 int boinc_worker_thread_cpu_time(double& cpu, double& ws) {
     return boinc_thread_cpu_time(worker_thread_handle, cpu, ws);
 }
 
-int boinc_thread_cpu_time(double& cpu, double& ws) {
-    return boinc_thread_cpu_time(GetCurrentThread(), cpu, ws);
-}
 #else
-#ifdef HAVE_SYS_RESOURCE_H
-int boinc_worker_thread_cpu_time(double &cpu_t, double &ws_t) {
-    int retval;
-    struct rusage ru;
-    retval = getrusage(RUSAGE_SELF, &ru);
-    if (retval) {
-        fprintf(stderr, "error: could not get CPU time\n");
-    	return ERR_GETRUSAGE;
-    }
-    // Sum the user and system time spent in this process
-    cpu_t = (double)ru.ru_utime.tv_sec + (((double)ru.ru_utime.tv_usec) / ((double)1000000.0));
-    cpu_t += (double)ru.ru_stime.tv_sec + (((double)ru.ru_stime.tv_usec) / ((double)1000000.0));
-    ws_t = ru.ru_idrss;     // TODO: fix this (mult by page size)
-    return 0;
+
+// For now, the UNIX API involves only one thread.
+//
+int boinc_worker_thread_cpu_time(double& cpu, double& ws) {
+    return boinc_calling_thread_cpu_time(cpu, ws);
 }
 
-int boinc_thread_cpu_time(double& cpu, double& ws) {
-    return boinc_worker_thread_cpu_time(cpu, ws);
-}
-#endif
 #endif  // _WIN32
 
 #ifdef _WIN32

@@ -99,11 +99,13 @@ extern bool debug_fake_exponential_backoff;
 
 
 #ifdef _WIN32
-
-char* windows_error_string( char* pszBuf, int iSize );
-char* windows_format_error_string( unsigned long dwError, char* pszBuf, int iSize );
-
+char* windows_error_string(char* pszBuf, int iSize);
+char* windows_format_error_string(
+    unsigned long dwError, char* pszBuf, int iSize
+);
+int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu, double& ws);
 #endif
+int boinc_calling_thread_cpu_time(double& cpu, double& ws);
 
 extern void update_average(double, double, double, double&, double&);
 

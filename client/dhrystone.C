@@ -228,8 +228,9 @@ void dhrystone(
     String30                String2Loc;
     unsigned long         Loops;
                           
-    double                  startclock;
+    double                  startclock, endclock;
     double                  benchtime;
+    double                  ws;
         
     register unsigned long  i;
 
@@ -259,7 +260,7 @@ void dhrystone(
     -- Start Timer --
     *****************/
     
-    startclock = dtime();
+    boinc_calling_thread_cpu_time(startclock, ws);
     int bigloops = 0;
 
     do
@@ -299,7 +300,8 @@ void dhrystone(
     -- Stop Timer --
     *****************/
 
-    benchtime = dtime() - startclock;
+    boinc_calling_thread_cpu_time(endclock, ws);
+    benchtime = endclock - startclock;
     
     //printf ("%12.0f runs %6.2f seconds \n",(double) Loops, benchtime);
 

@@ -12569,3 +12569,16 @@ David  May 23 2004
         app.C
     lib/
         app_ipc.C,h
+
+David  May 24 2004
+    - Change benchmarks functions to use CPU time instead wall-clock time.
+    - move CPU measurement functions from api/boinc_api.C to lib/util.C
+
+    api/
+        boinc_api.C
+    client/
+        cs_scheduler.C
+        dhrystone.C
+        whetstone.C
+    lib/
+        util.C,h
