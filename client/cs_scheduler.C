@@ -189,14 +189,14 @@ PROJECT* CLIENT_STATE::next_project(PROJECT* old) {
 }
 
 // Compute the "resource debt" of each project.
-// This is used to determine what project we will focus on next,
+// This is used to determine what project we will ask for work next,
 // based on the user-specified resource share.
 // TODO: this counts only CPU time.  Should reflect disk/network usage too.
 //
 void CLIENT_STATE::compute_resource_debts() {
     unsigned int i, j;
     PROJECT* p, *pbest=0;
-    double best;
+    double best=0;
 
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
@@ -214,16 +214,22 @@ void CLIENT_STATE::compute_resource_debts() {
     // put in decreasing order.  Should use qsort or some stdlib thang
     //
     for (i=0; i<projects.size(); i++) {
-        best = -2;
+        pbest = NULL;
         for (j=0; j<projects.size(); j++) {
             p = projects[j];
             if (p->debt_order >= 0) continue;
-            if (p->resource_debt > best) {
+            if (!pbest || (p->resource_debt > best)) {
                 best = p->resource_debt;
                 pbest = p;
             }
         }
-        pbest->debt_order = i;
+        if (pbest) {
+            pbest->debt_order = i;
+        } else {
+            msg_printf(NULL, MSG_ERROR,
+                "compute_resource_debts(): sorting error"
+            );
+        }
     }
 }
 

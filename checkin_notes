@@ -11637,3 +11637,10 @@ David  April 15 2004
         main.C
     lib/
         filesys.C
+
+David  April 15 2004
+    - CLIENT_STATE::computer_resource_debts():
+        fix kludge that could result in seg fault
+
+    client/
+        cs_scheduler.C
