@@ -95,18 +95,12 @@ CMainDocument::~CMainDocument()
 wxInt32 CMainDocument::CachedStateUpdate()
 {
     wxInt32     retval = 0;
-    CMainFrame* pFrame   = wxGetApp().GetFrame();
     wxString    strEmpty = wxEmptyString;
-
 
     wxTimeSpan ts(m_dtCachedStateLockTimestamp - m_dtCachedStateTimestamp);
     if (!m_bCachedStateLocked && (ts.GetSeconds() > 3600))
     {
-        if ( pFrame )
-        {
-            wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-            pFrame->UpdateStatusbar( _("Retrieving system state; please wait...") );
-        }
+        wxLogStatus( _("Retrieving system state; please wait...") );
 
         m_dtCachedStateTimestamp = m_dtCachedStateLockTimestamp;
         retval = rpc.get_state(state);
@@ -116,11 +110,7 @@ wxInt32 CMainDocument::CachedStateUpdate()
             Connect( strEmpty );
         }
 
-        if ( pFrame )
-        {
-            wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-            pFrame->UpdateStatusbar( _("Retrieving host information; please wait...") );
-        }
+        wxLogStatus( _("Retrieving host information; please wait...") );
 
         retval = rpc.get_host_info(host);
         if (retval)
@@ -129,11 +119,7 @@ wxInt32 CMainDocument::CachedStateUpdate()
             Connect( strEmpty );
         }
 
-        if ( pFrame )
-        {
-            wxASSERT(wxDynamicCast(pFrame, CMainFrame));
-            pFrame->UpdateStatusbar( strEmpty );
-        }
+        wxLogStatus( wxEmptyString );
     }
 
     return retval;
@@ -1547,6 +1533,13 @@ wxInt32 CMainDocument::GetMessageMessage( wxInt32 iIndex, wxString& strBuffer )
     return 0;
 }
 
+
+wxInt32 CMainDocument::ResetMessageState()
+{
+    messages.clear();
+    m_iMessageSequenceNumber = 0;
+    return 0;
+}
 
 wxInt32 CMainDocument::CachedFileTransfersUpdate()
 {

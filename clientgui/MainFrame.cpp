@@ -380,25 +380,6 @@ bool CMainFrame::DeleteStatusbar()
 }
 
 
-bool CMainFrame::UpdateStatusbar( const wxString& strStatusbarText )
-{
-    if (!m_pStatusbar)
-        return true;
-
-    if ( NULL != m_pStatusbar )
-    {
-        if ( m_pStatusbar->GetStatusText(STATUS_TEXT) != strStatusbarText )
-        {
-            SetStatusText(strStatusbarText, STATUS_TEXT);
-        }
-    }
-
-    ::wxSafeYield( NULL, true );
-
-    return true;
-}
-
-
 bool CMainFrame::SaveState()
 {
     wxString        strBaseConfigLocation = wxString(wxT("/"));

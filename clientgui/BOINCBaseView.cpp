@@ -253,20 +253,15 @@ void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
                         wxASSERT( 0 == iReturnValue );
                     }
                 }
-                    
-                SyncronizeCache();
-                m_pListPane->SetItemCount(iDocCount);
-
-                if (EnsureLastItemVisible())
-                {
-                    m_pListPane->EnsureVisible(iCacheCount);
-                }
             }
         }
-        else
-        {
-            SyncronizeCache();
-        }
+
+        SyncronizeCache();
+
+        m_pListPane->SetItemCount(iDocCount);
+
+        if (EnsureLastItemVisible())
+            m_pListPane->EnsureVisible(iCacheCount);
 
         m_bProcessingListRenderEvent = false;
     }

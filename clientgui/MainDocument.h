@@ -202,6 +202,8 @@ public:
     wxInt32                     GetMessagePriority( wxInt32 iIndex, wxInt32& iBuffer );
     wxInt32                     GetMessageMessage( wxInt32 iIndex, wxString& strBuffer );
 
+    wxInt32                     ResetMessageState();
+
 
     //
     // Transfers Tab

@@ -20510,6 +20510,11 @@ Bruce	2 Dec 2004
 Rom    2 Dec 2004
     - Add in the rcsid tag to all the boincmgr source files and the screensaver
         for windows.
+    - Bug Fix: Fix a messages bug where the client would not attempt to
+        get the latest message state after a connection failure until a new
+        message was logged.
+    - Cleanup some of the statusbar update code, wxWidgets already had a function
+        to do that work.
 
     client/win/
         win_screensaver.cpp

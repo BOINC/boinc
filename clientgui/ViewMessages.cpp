@@ -405,7 +405,14 @@ wxInt32 CViewMessages::AddCacheElement()
 
 wxInt32 CViewMessages::EmptyCache()
 {
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
     m_MessageCache.Empty();
+    pDoc->ResetMessageState();
+
     return 0;
 }
 

@@ -40,8 +40,6 @@ public:
 
     ~CMainFrame(void);
 
-    bool UpdateStatusbar( const wxString& strStatusbarText );
-
     void OnHide( wxCommandEvent& event );
     void OnActivitySelection( wxCommandEvent& event );
     void OnNetworkSelection( wxCommandEvent& event );
