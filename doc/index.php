@@ -83,6 +83,8 @@ if (count($project_news) > 6) {
 }
 
 echo "
+<p><font size=-2>News is available as an
+<a href=rss_main.php>RSS feed</a></font>
 </table>
 ";
 ?>

@@ -25,36 +25,42 @@ if (!$news) {
 
 // inclue project constants and news file
 //
-require_once("../project/project.inc");
-require_once("../project/project_news.inc");
+require_once("boinc_news.inc");
 
 // Create channel header and open XML content
 //
 $description = "BOINC project ".PROJECT.": Main page News";
-$channel_image = MASTER_URL . "rss_image.jpg";
+$channel_image = "http://boinc.berkeley.edu/boinc.gif";
 $create_date  = gmdate('D, d M Y H:i:s') . ' GMT'; 
 $language = "en-us";
-echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n"
-    ."<rss version=\"2.0\">\n<channel>\n    <title>"
-    .PROJECT."</title>\n    <link>"
-    .MASTER_URL."</link>\n    <description>"
-    .$description."</description>\n    <copyright>"
-    .COPYRIGHT_HOLDER."</copyright>\n    <lastBuildDate>"
-    .$create_date."</lastBuildDate>\n    <language>"
-    .$language."</language>\n    <image>\n      <url>"
-    .$channel_image."</url>\n      <title>"
-    .PROJECT."</title>\n      <link>"
-    .MASTER_URL."</link>\n    </image>\n";
+echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
+    <rss version=\"2.0\">
+    <channel>
+        <title>BOINC</title>
+        <link>http://boinc.berkeley.edu</link>
+        <description>Berkeley Open Infrastructure for Network Computing</description>
+        <copyright>U.C. Berkeley</copyright>
+        <lastBuildDate>$create_date</lastBuildDate>
+        <language>$language</language>
+        <image>
+            <url>$channel_image</url>
+            <title>BOINC</title>
+            <link>http://boinc.berkeley.edu</link>
+        </image>
+";
 
 // - Create news items
 //
 $news = min( count($project_news), $news);
 for( $item=0; $item < $news; $item++ ) {
-if( count($project_news[$item]) == 2) {
-    echo "    <item>\n     <title>Project News "
-         .strip_tags($project_news[$item][0])."</title>\n     <link>"
-         .MASTER_URL."</link>\n     <description>"
-         .strip_tags($project_news[$item][1])."</description>\n    </item>";
+    if( count($project_news[$item]) == 2) {
+        echo "    <item>\n     <title>Project News "
+         .strip_tags($project_news[$item][0])."</title>
+         <link>http://boinc.berkeley.edu</link>
+         <description>"
+         .strip_tags($project_news[$item][1])."</description>
+         </item>
+        ";
     }
 }
 

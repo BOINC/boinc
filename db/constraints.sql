@@ -95,7 +95,7 @@ alter table host
 
 alter table profile
     add fulltext index profile_reponse(response1, response2),
-    add index pro_uotd (uotd_time desc);
+    add index pro_uotd (uotd_time desc),
     add unique profile_userid(userid);
 
 alter table subscriptions
