@@ -88,6 +88,7 @@ public:
 	void					MessageUser(char*,char*,int);
     BOOL					IsSuspended();
     BOOL					RequestNetConnect();
+	void					DetachProject(PROJECT *);
 	UINT					m_nNetActivityMsg;		// ID of net activity message
 	CSSWindow*				m_pSSWnd;				// default graphics window
 

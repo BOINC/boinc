@@ -1155,10 +1155,17 @@ void CMainWindow::OnCommandProjectDetach()
 	if (!proj) return;
 	strBuf.Format("Are you sure you want to detach from the project %s?",
 		proj->get_project_name());
-	if(AfxMessageBox(strBuf, MB_YESNO, 0) == IDYES) {
-		ClearProjectItems(proj->master_url);
-		gstate.detach_project(proj);
-	}
+	if(AfxMessageBox(strBuf, MB_YESNO, 0) == IDYES) DetachProject(proj);
+}
+
+//////////
+// CMainWindow::DetachProject
+// arguments:	void
+// returns:		void
+// function:	detaches from a project and clears its items
+void CMainWindow::DetachProject(PROJECT *proj) {
+	ClearProjectItems(proj->master_url);
+	gstate.detach_project(proj);
 }
 
 //////////
@@ -1735,5 +1742,21 @@ void delete_curtain() {
 }
 
 void project_add_failed(PROJECT* project) {
+	char buf[512];
+    if (project->scheduler_urls.size()) {
+        sprintf( buf,
+            "BOINC failed to log in to %s.\n"
+            "Please check your account ID and try again.",
+            project->master_url
+        );
+    } else {
+        sprintf( buf,
+            "BOINC couldn't get main page for %s.\n"
+            "Please check the URL and try again.",
+            project->master_url
+        );
+    }
+	AfxMessageBox(buf);
+	g_myWnd->DetachProject(project);
 	// TODO: To be filled in
 }

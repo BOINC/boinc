@@ -3,7 +3,8 @@ BUGS (arranged from high to low priority)
 -----------------------
 Matt's Bugs:
 1. suddenly slow graphics (graphics are plotting smoothly, but after
-several "show graphics" the plots become really slow).
+several "show graphics" the plots become really slow). Graphics getting
+reeeeeally slow over time. Even after stop/restart.
 
 3. after minimizing and quitting, when I double click on the system tray
 icon the window is still minimized - a bit confusing.
@@ -21,17 +22,9 @@ the resize buttons, etc. don't work as they are supposed to.
 8. "suspend" seems to suspend, but after restart the CPU time jumped up
 by a significant amount.
 
-9. Graphics getting reeeeeally slow over time. Even after stop/restart.
-
-10. I was able to sign up for project "http://www.lebofsky.com" which
-isn't really a project. I know it's difficult, but there should be *some*
-feedback if a URL doesn't immediately resemble a real project.
-
 11. When trying to detach from "http://www.lebofsky.com" I got a seg fault
-and BOINC crashed.	
-
-12. After restarting BOINC I was able to detach from lebofsky.com without
-any ado.
+and BOINC crashed. After restarting BOINC I was able to detach from
+lebofsky.com without any ado.
 
 13. For kicks I was busy running astropulse and then chose to log on to
 project and entered the astropulse URL again. I was expecting BOINC to
@@ -48,6 +41,11 @@ the workunits showed the same CPU time as before, 0% done, and the status
 results uploaded. So it looks like a state file somewhere is not being
 deleted.
 
+15. After running all night (on Win98) I shook the mouse to wake up the
+blank screen, and all I saw was the top half of the screen was solid
+gray, and the bottom half the bottom half of the astropulse graphics.
+They weren't moving. The computer was frozen. I had to ctrl-alt-del
+to restart.
 
 - If BOINC starts up before the taskbar is available, it is inaccessible
 - GUI client should display "Upload failed" and "Download failed"
@@ -61,15 +59,6 @@ deleted.
 - document and add to global prefs?
     run_minimized
     hangup_if_dialed
-- consider warning message during windows (and perhaps other platforms)
-    install that checks to see if the BOINC directory already exists,
-    and if so, should the user overwrite it? or upgrade it?
-- After running all night (on Win98) I shook the mouse to wake up
-    the blank screen, and all I saw was the top half of the screen
-    was solid gray, and the bottom half the
-    bottom half of the astropulse graphics.
-    They weren't moving. The computer was frozen.
-    I had to ctrl-alt-del to restart.
 
 -----------------------
 HIGH-PRIORITY (should do for beta test)
@@ -148,8 +137,6 @@ MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
 change show_message to use vsprintf
-
-fix bug in test_backend.php where result gets sent twice
 
 add an RPC to verify an account ID (returns DB ID for user)
     needed for multi-project stats sites
@@ -292,6 +279,15 @@ prevent file_xfer->req1 from overflowing. This problems seems to be
 test HTTP redirect mechanism for all types of ops
 
 Add batch features to ops web
+
+The Windows installer sometimes leave boinc.# files in the BOINC
+directory.  This is likely due to the installer not being able to
+delete the old boinc.dll file
+
+If a client connects to the scheduling server using default prefs,
+use the stored user prefs for determining how much work to send
+
+Windows client crashes if application fails to start up (CreateProcess)
 
 -----------------------
 LONG-TERM IDEAS AND PROJECTS

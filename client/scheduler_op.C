@@ -309,7 +309,7 @@ bool SCHEDULER_OP::poll() {
     int retval, nresults;
     vector<STRING256> urls;
     bool changed, scheduler_op_done;
-    bool action = false;
+    bool action = false, err = false;
     char err_msg[256],*err_url;
 
     switch(state) {
@@ -334,6 +334,7 @@ bool SCHEDULER_OP::poll() {
                     //
                     if (project->tentative) {
                         project_add_failed(project);
+						err = true;
                     } else {
                         project->master_fetch_failures++;
                         backoff(project, "Master file parse failed\n");
@@ -360,7 +361,7 @@ bool SCHEDULER_OP::poll() {
             // If don't have any schedulers for this project,
             // it may be the wrong URL.  notify the user
             //
-            if (project->scheduler_urls.size() == 0) {
+            if (project->scheduler_urls.size() == 0 && !err) {
                 if (project->tentative) {
                     project_add_failed(project);
                 } else {
