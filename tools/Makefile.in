@@ -32,7 +32,9 @@ MYSQL_DIR = /usr/local/mysql/lib
 MYSQL_LIBS = \
 -L$(MYSQL_DIR) -L/usr/local/lib/mysql \
 -L/sw/lib/mysql -lmysqlclient -L/usr/local/lib -lz \
--lm $(NETLIBS)
+-lm $(NETLIBS) \
+-lsocket \
+-lnsl
 
 LIBS = \
     backend_lib.o \
