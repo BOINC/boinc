@@ -138,6 +138,15 @@ dnl in order to solve the problem.
 AC_SYS_LARGEFILE
 
 
+dnl enable debug mode on all components using standard debug flags
+if test "${enable_debug}" = yes; then
+    CXXFLAGS="$CXXFLAGS -DDEBUG -D_DEBUG"
+    CFLAGS="$CFLAGS -DDEBUG -D_DEBUG"
+
+    AC_SUBST(CXXFLAGS)
+    AC_SUBST(CFLAGS)
+fi
+
 if test "${enable_server}" = yes; then
    AC_CHECK_MYSQL
    if test "${no_mysql}" = yes; then
