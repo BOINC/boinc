@@ -6075,4 +6075,34 @@ David  Sept 3 2003
         create_work.C
 
 quarl 2003/09/03
-    - restructured python scripts
+    - overhauled python scripts 
+        - reorganized directory structure. Now 'modules' are under
+          boinc/py/Boinc (so you can do "from Boinc import *")
+
+    - configure runs test/test_sanity.py
+
+    - all python scripts can run from anywhere
+
+    - start and add.py know where config.xml and run_state.xml are
+      (customizable too)
+
+    py/Boinc/    (added entire tree)
+        Makefile.am
+        __init__.py
+        boinc_db.py
+        boinc_path_config.py.in
+        configxml.py
+        database.py
+        db_def_to_py
+        db_mid.py
+        setup_project.py
+        util.py
+        version.py.in
+    test/
+        testbase.py
+    tools/
+        add.py
+    sched/
+        start
+    */Makefile.am
+    configure.ac
