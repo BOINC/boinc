@@ -45,6 +45,7 @@ LIBS = \
     ../lib/md5_file.o \
     ../lib/md5.o \
     ../lib/parse.o \
+    ../lib/util.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o
 
