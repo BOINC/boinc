@@ -642,7 +642,7 @@ static void scan_work_array(
         result.userid = reply.user.id;
         result.sent_time = time(0);
         result.report_deadline = result.sent_time + wu.delay_bound;
-        result.update();
+        result.update_subset();
 
         wu_seconds_filled = estimate_cpu_duration(wu, reply.host);
         log_messages.printf(

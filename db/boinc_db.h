@@ -534,6 +534,7 @@ class DB_RESULT : public DB_BASE, public RESULT {
 public:
     DB_RESULT();
     int get_id();
+    int update_subset();
     void db_print(char*);
     void db_print_values(char*);
     void db_parse(MYSQL_ROW &row);
