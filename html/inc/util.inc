@@ -1,5 +1,5 @@
 <?php
-$cvs_version_tracker[]="\$id$";	//get CVS version of this file to be shown in version list (display_cvs_versions())
+$cvs_version_tracker[]="\$Id$";	//get CVS version of this file to be shown in version list (display_cvs_versions())
 
 require_once("../project/project.inc");
 require_once("../inc/countries.inc");
