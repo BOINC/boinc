@@ -51,7 +51,6 @@
 #define SYMBOL_CDLGATTACHPROJECT_POSITION wxDefaultPosition
 #define ID_PROJECTADDRESS 10001
 #define ID_PROJECTACCOUNTKEY 10002
-#define ID_FOREIGN 10005
 ////@end control identifiers
 
 /*!

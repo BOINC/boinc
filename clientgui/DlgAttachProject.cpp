@@ -138,21 +138,17 @@ void CDlgAttachProject::CreateControls()
     itemStaticText10->Create( itemDialog1, wxID_STATIC, _("These are emailed to you when you create an account.\nGo to project web sites to create accounts.\nVisit http://boinc.berkeley.edu for a list of projects."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer4->Add(itemStaticText10, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    wxWindow* itemWindow11 = (wxWindow*) FindWindow(ID_FOREIGN);
-    wxASSERT( itemWindow11 != NULL );
-    itemBoxSizer4->Add(itemWindow11, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxVERTICAL);
+    itemFlexGridSizer3->Add(itemBoxSizer11, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_TOP|wxALL, 5);
 
-    wxBoxSizer* itemBoxSizer12 = new wxBoxSizer(wxVERTICAL);
-    itemFlexGridSizer3->Add(itemBoxSizer12, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_TOP|wxALL, 5);
+    wxButton* itemButton12 = new wxButton;
+    itemButton12->Create( itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton12->SetDefault();
+    itemBoxSizer11->Add(itemButton12, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     wxButton* itemButton13 = new wxButton;
-    itemButton13->Create( itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemButton13->SetDefault();
-    itemBoxSizer12->Add(itemButton13, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
-
-    wxButton* itemButton14 = new wxButton;
-    itemButton14->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer12->Add(itemButton14, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    itemButton13->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer11->Add(itemButton13, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     // Set validators
     m_ProjectAddressCtrl->SetValidator( CValidateURL(& m_strProjectAddress) );
