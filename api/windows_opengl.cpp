@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "graphics_api.h"
+#include "util.h"
 #include "win_idle_tracker.h"
 
 HWND		hWnd=NULL;		// Holds Our Window Handle
@@ -188,7 +189,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 			InitGL();
 			app_init_gl();
 
-			app_render(width, height, time(0));
+			app_render(width, height, dtime());
 
 			SwapBuffers(hdc);
 

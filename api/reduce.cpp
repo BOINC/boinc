@@ -231,7 +231,7 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
     // draw a black line on front and right edge of each quad
     //
     glBegin(GL_LINES);
-    glColor4f(0., 0., 0., 0.);
+    glColor4f(0., 0., 0., 1.0);
     for (i=0; i<rdimx-1; i++) {
         x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
         x1 = x0 + draw_deltax;
@@ -282,7 +282,7 @@ void REDUCED_ARRAY::draw_row_rect_x(int row) {
     // draw a black line on top of rectangle
     //
     glBegin(GL_LINES);
-    glColor4f(0., 0., 0., 0.);
+    glColor4f(0., 0., 0., 1.0);
     for (i=0; i<rdimx; i++) {
         x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
         x1 = x0 + draw_deltax*.8f;
@@ -329,7 +329,7 @@ void REDUCED_ARRAY::draw_row_rect_y(int row) {
     // draw a black line on top of rectangle
     //
     glBegin(GL_LINES);
-    glColor4f(0., 0., 0., 0.);
+    glColor4f(0., 0., 0., 1.0);
     for (i=0; i<rdimx-1; i++) {
         x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
         float h = (row0[i]-rdata_min)/(rdata_max-rdata_min);

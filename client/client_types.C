@@ -122,7 +122,7 @@ int PROJECT::parse_state(FILE* in) {
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
         else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
-        else if (parse_str(buf, "<team_name>", user_name, sizeof(team_name))) continue;
+        else if (parse_str(buf, "<team_name>", team_name, sizeof(team_name))) continue;
         else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
         else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) continue;
