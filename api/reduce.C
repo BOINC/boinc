@@ -757,14 +757,6 @@ void REDUCED_ARRAY::draw_labels() {
 	float wd=.015f;
 	float l=1.0f;
 
-    // what the hell are the following doing here??
-
-	char* zmax = "107.4";
-	char* zmin = "0";
-
-	char* xmax = "9765.620";
-	char* xmin = "0.0";
-
 	float left_of_z = -0.1f;
 	float left_of_z2 = -0.04f;
 	float below_x = -.03f;
