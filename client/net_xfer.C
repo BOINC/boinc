@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -67,9 +67,8 @@
 #include "client_state.h"
 #include "message.h"
 
-//  If socklen_t isn't defined, define it here as size_t
-#if !defined(socklen_t)
-#define socklen_t size_t
+#if !GETSOCKOPT_SOCKLEN_T
+typedef size_t socklen_t;
 #endif
 
 int NET_XFER::get_ip_addr( char *hostname, int &ip_addr ) {
@@ -324,13 +323,7 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
     int n, fd, retval;
     socklen_t i;
     NET_XFER *nxp;
-#if GETSOCKOPT_SIZE_T
-    size_t intsize = sizeof(int);
-#elif GETSOCKOPT_SOCKLEN_T
     socklen_t intsize = sizeof(int);
-#else
-    socklen_t intsize = sizeof(int);
-#endif
 
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_NET_XFER);
 
@@ -390,13 +383,13 @@ int NET_XFER_SET::do_select(double& bytes_transferred, timeval& timeout) {
         fd = nxp->socket;
         if (FD_ISSET(fd, &read_fds) || FD_ISSET(fd, &write_fds)) {
             if (!nxp->is_connected) {
-#ifdef _WIN32
-                getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, (int *)&intsize);
-#elif __APPLE__
-                getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
-#else
+// #ifdef _WIN32
+//                 getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, (int *)&intsize);
+// #elif __APPLE__
+//                 getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
+// #else
                 getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&n, &intsize);
-#endif
+// #endif
                 if (n) {
                     scope_messages.printf("NET_XFER_SET::do_select(): socket %d connect failed\n", fd);
                     nxp->error = ERR_CONNECT;
