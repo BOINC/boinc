@@ -185,6 +185,10 @@ void close_all_archives() {
     close_archive(RESULT_FILENAME_PREFIX,       re_stream);
     close_archive(RESULT_INDEX_FILENAME_PREFIX, re_index_stream);
     close_archive(WU_INDEX_FILENAME_PREFIX,     wu_index_stream);
+    log_messages.printf(SCHED_MSG_LOG::NORMAL,
+        "Closed archive files with %d workunits\n",
+        wu_stored_in_file
+    );
 
     return;
 }
@@ -445,6 +449,10 @@ bool do_pass() {
         if (max_wu_per_file && wu_stored_in_file>=max_wu_per_file) {
             close_all_archives();
             wu_stored_in_file=0;
+        } else {
+            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                "Currently open archive file contains %d workunits\n",
+            wu_stored_in_file);
         }
 
         if (max_number_workunits_to_purge>=0 && purged_workunits >= max_number_workunits_to_purge)

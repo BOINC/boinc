@@ -20879,9 +20879,14 @@ David  7 Dec 2004
 Bruce 7 Dec 2004
     - Moved RCSID tags to END of all .c .C and .cpp files, as per
       David's request.
+    - Added additional normal and debug log output to db_purge
+
+    sched/
+        db_purge.C
 
 David  7 Dec 2004
     - fixed PHP bug: account key missing from emails
 
     html/inc/
         email.inc
+
