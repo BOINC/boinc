@@ -33,6 +33,7 @@
 #include "ViewResources.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
+#include "DlgAccountManager.h"
 
 #include "res/BOINCGUIApp.xpm"
 #include "res/connect.xpm"
@@ -147,6 +148,7 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_MENU(ID_RUNBENCHMARKS, CMainFrame::OnRunBenchmarks)
     EVT_MENU(ID_SELECTCOMPUTER, CMainFrame::OnSelectComputer)
     EVT_MENU(wxID_EXIT, CMainFrame::OnExit)
+    EVT_MENU(ID_TOOLSUPDATEACCOUNTS, CMainFrame::OnToolsUpdateAccounts)
     EVT_MENU(ID_TOOLSOPTIONS, CMainFrame::OnToolsOptions)
     EVT_MENU(wxID_ABOUT, CMainFrame::OnAbout)
     EVT_CLOSE(CMainFrame::OnClose)
@@ -254,6 +256,11 @@ bool CMainFrame::CreateMenu()
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateMenu - Function Begin"));
 
+    CMainDocument* pDoc      = wxGetApp().GetDocument();
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
     // File menu
     wxMenu *menuFile = new wxMenu;
 
@@ -315,6 +322,17 @@ bool CMainFrame::CreateMenu()
 
     // Tools menu
     wxMenu *menuTools = new wxMenu;
+    if ( pDoc->IsAccountManagerFound() )
+    {
+        menuTools->Append( 
+            ID_TOOLSUPDATEACCOUNTS, 
+            _("&Update Accounts"),
+            _("Connect to your account manager website and update all of your accounts")
+        );
+
+        menuFile->AppendSeparator();
+    }
+
     menuTools->Append( 
         ID_TOOLSOPTIONS, 
         _("&Options"),
@@ -746,6 +764,42 @@ void CMainFrame::OnExit( wxCommandEvent& WXUNUSED(event) )
     Close(true);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnExit - Function End"));
+}
+
+
+void CMainFrame::OnToolsUpdateAccounts( wxCommandEvent& WXUNUSED(event) )
+{
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnToolsUpdateAccounts - Function Begin"));
+
+    CMainDocument*      pDoc = wxGetApp().GetDocument();
+    CDlgAccountManager* pDlg = new CDlgAccountManager(this);
+    wxInt32             iAnswer = 0;
+    wxString            strLogin = wxEmptyString;
+    wxString            strPassword = wxEmptyString;
+
+
+    wxASSERT(NULL != pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(NULL != pDlg);
+
+    if ( !pDoc->IsAccountManagerLoginFound() )
+    {
+        iAnswer = pDlg->ShowModal();
+        if ( wxID_OK == iAnswer )
+        {
+            strLogin = pDlg->m_AcctManagerUsernameCtrl->GetValue();
+            strPassword = pDlg->m_AcctManagerUsernameCtrl->GetValue();
+
+            pDoc->InitializeAccountManagerLogin( strLogin, strPassword );            
+        }
+    }
+
+    pDoc->UpdateAccountManagerAccounts();
+
+    if (pDlg)
+        pDlg->Destroy();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnToolsUpdateAccounts - Function End"));
 }
 
 

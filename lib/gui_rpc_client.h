@@ -407,7 +407,7 @@ public:
     int result_op(RESULT&, const char*);
     int get_host_info(HOST_INFO&);
     int quit();
-    int acct_mgr_rpc(char* url, char* name, char* passwd);
+    int acct_mgr_rpc(const char* url, const char* name, const char* passwd);
     const char* mode_name(int mode);
 };
 

@@ -132,6 +132,9 @@ wxInt32 CMainDocument::OnInit()
     wxInt32 iRetVal = -1;
     wxString strMachine = wxEmptyString;
 
+    // attempt to lookup account management information
+    acct_mgr.init();
+
     if ( !IsConnected() )
         iRetVal = Connect( strMachine );
 
@@ -145,6 +148,9 @@ wxInt32 CMainDocument::OnExit()
 
     if ( IsConnected() )
         iRetVal = Disconnect();
+
+    // attempt to cleanup the account management information
+    acct_mgr.close();
 
     return iRetVal;
 }
@@ -2161,6 +2167,55 @@ wxInt32 CMainDocument::SetProxySOCKSPassword( const wxString& strPassword )
 {
     proxy_info.socks5_user_passwd = strPassword.c_str();
     return 0;
+}
+
+
+wxInt32 CMainDocument::GetAccountManagerName( wxString& strName )
+{
+    strName.Clear();
+    strName = acct_mgr.acct_mgr.name.c_str();
+    return 0;
+}
+
+
+wxInt32 CMainDocument::InitializeAccountManagerLogin( const wxString& strLogin, const wxString& strPassword )
+{
+    acct_mgr.acct_mgr_login_initialized = true;
+    acct_mgr.acct_mgr_login.login = strLogin.c_str();
+    acct_mgr.acct_mgr_login.password = strPassword.c_str();
+    return 0;
+}
+
+
+wxInt32 CMainDocument::UpdateAccountManagerAccounts()
+{
+    wxInt32     iRetVal = 0;
+    wxString    strEmpty = wxEmptyString;
+
+    iRetVal = rpc.acct_mgr_rpc( 
+        acct_mgr.acct_mgr.url.c_str(),
+        acct_mgr.acct_mgr_login.login.c_str(),
+        acct_mgr.acct_mgr_login.password.c_str()
+    );
+    if (iRetVal)
+    {
+        wxLogTrace("CMainDocument::UpdateAccountManagerAccounts - Account Manager RPC Failed '%d'", iRetVal);
+        Connect( strEmpty );
+    }
+
+    return iRetVal;
+}
+
+
+bool CMainDocument::IsAccountManagerFound()
+{
+    return acct_mgr.acct_mgr_found;    
+}
+
+
+bool CMainDocument::IsAccountManagerLoginFound()
+{
+    return acct_mgr.acct_mgr_login_found;
 }
 
 

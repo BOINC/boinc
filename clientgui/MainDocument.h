@@ -25,6 +25,7 @@
 #endif
 
 #include "gui_rpc_client.h"
+#include "acct_mgr_client.h"
 
 
 class CMainDocument : public wxObject
@@ -282,6 +283,23 @@ public:
     wxInt32                     SetProxySOCKSServerPort( const wxInt32 iPortNumber );
     wxInt32                     SetProxySOCKSUserName( const wxString& strUserName );
     wxInt32                     SetProxySOCKSPassword( const wxString& strPassword );
+
+
+    //
+    // Account Management
+    //
+private:
+
+    ACCT_MGR_CLIENT             acct_mgr;
+
+public:
+    wxInt32                     GetAccountManagerName( wxString& strName );
+
+    wxInt32                     InitializeAccountManagerLogin( const wxString& strLogin, const wxString& strPassword );
+    wxInt32                     UpdateAccountManagerAccounts();
+
+    bool                        IsAccountManagerFound();
+    bool                        IsAccountManagerLoginFound();
 
 };
 

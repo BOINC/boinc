@@ -145,6 +145,15 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
+				RelativePath="..\lib\acct_mgr_client.C">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						CompileAs="2"/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\clientgui\BOINCBaseView.cpp">
 			</File>
 			<File
@@ -176,6 +185,9 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgAbout.cpp">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgAccountManager.cpp">
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgAttachProject.cpp">
@@ -402,6 +414,9 @@
 				RelativePath="..\clientgui\_wx_intellisense.h">
 			</File>
 			<File
+				RelativePath="..\lib\acct_mgr_client.h">
+			</File>
+			<File
 				RelativePath="..\lib\boinc_win.h">
 			</File>
 			<File
@@ -424,6 +439,9 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgAbout.h">
+			</File>
+			<File
+				RelativePath="..\clientgui\DlgAccountManager.h">
 			</File>
 			<File
 				RelativePath="..\clientgui\DlgAttachProject.h">

@@ -64,6 +64,7 @@ public:
     void OnSelectComputer( wxCommandEvent& event );
     void OnExit( wxCommandEvent& event );
 
+    void OnToolsUpdateAccounts( wxCommandEvent& event );
     void OnToolsOptions( wxCommandEvent& event );
     void OnAbout( wxCommandEvent& event );
 

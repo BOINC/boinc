@@ -25841,3 +25841,25 @@ David  10 Mar 2005
     lib/
         boinc_cmd.C
         gui_rpc_client.C
+
+Rom    11 Mar 2005
+    - Add Account Management support into the BOINC Manager.
+
+      NOTE: Some problems remain with the current design, such as
+        pointing out when a username and password combination is
+        invalid.  Currently the only way for somebody to know
+        something is up is by looking into the messages tab, but
+        by then the username and password have been recorded in
+        the acct_mgr_login.xml file because there is no way for
+        the manager to know something is wrong.
+
+    clientgui/
+        BOINCGUI.pjd
+        DlgAccountManager.cpp, .h (added)
+        Events.h
+        MainDocument.cpp, .h
+        MainFrame.cpp, .h
+    lib/
+        acct_mgr_client.C, .h (added)
+        gui_rpc_client.C, .h
+
