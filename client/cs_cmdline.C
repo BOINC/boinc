@@ -29,7 +29,7 @@ static void print_options(char* prog) {
         "    -detach_project URL    detach from a project\n"
         "    -reset_project URL     reset (clear) a project\n"
         "    -attach_project        attach to a project (will prompt for URL, account key)\n"
-        "    -update_prefs          contact all projects to update preferences\n"
+        "    -update_prefs URL      contact all projects to update preferences\n"
         "    -run_cpu_benchmarks    run the CPU benchmarks\n",
         prog
     );
