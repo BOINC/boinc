@@ -24,6 +24,8 @@
         exit();
     }
     
+    echo "Account created";
+
     $url = URL_BASE."/account_created.php?email_addr=".urlencode($email_addr);
     mail($email_addr, PROJECT. " account created",
 "This email confirms the creation of your ".PROJECT." account.
