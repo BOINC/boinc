@@ -15,7 +15,8 @@ EXTRA_DIST = wd.php wd_nresults_changing.php
 # scripts that 'make install' should put in bindir
 bin_SCRIPTS = watch_tcp kill_server
 
-LDADD = $(MYSQL_LIBS) -L. -lsched
+LDADD = -L. -lsched $(MYSQL_LIBS)
+
 LIB_SCHED = libsched.a
 
 libsched_a_SOURCES =				\
