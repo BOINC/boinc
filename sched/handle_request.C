@@ -183,6 +183,8 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (retval) {
             strcpy(reply.message, "Can't find user record");
             strcpy(reply.message_priority, "low");
+            reply.request_delay = 120;
+            reply.nucleus_only = true;
             sprintf(buf, "can't find user %d\n", reply.host.userid);
             write_log(buf);
             return -1;
@@ -194,6 +196,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
+            reply.nucleus_only = true;
             sprintf(buf, "Bad authenticator [%s]\n", sreq.authenticator);
             write_log(buf);
             return -1;
