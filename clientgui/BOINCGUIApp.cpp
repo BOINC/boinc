@@ -72,9 +72,12 @@ bool CBOINCGUIApp::OnInit()
     m_pFrame = new CMainFrame(GetAppName());
     wxASSERT(NULL != m_pFrame);
 
+    // Initialize the task bar icon
+    m_pTaskBarIcon = new CTaskBarIcon();
+    wxASSERT(NULL != m_pTaskBarIcon);
+
     SetTopWindow(m_pFrame);
     m_pFrame->Show();
-
 
     return true;
 }
@@ -82,6 +85,9 @@ bool CBOINCGUIApp::OnInit()
 
 int CBOINCGUIApp::OnExit()
 {
+    if (m_pTaskBarIcon)
+        delete m_pTaskBarIcon;
+
     if (m_pDocument)
         delete m_pDocument;
 

@@ -305,6 +305,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\TaskBarIcon.cpp">
+			</File>
+			<File
 				RelativePath="..\lib\util.C">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -415,6 +418,9 @@
 			</File>
 			<File
 				RelativePath=".\stdwx.h">
+			</File>
+			<File
+				RelativePath=".\TaskBarIcon.h">
 			</File>
 			<File
 				RelativePath="..\lib\util.h">

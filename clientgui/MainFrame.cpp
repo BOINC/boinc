@@ -57,6 +57,7 @@ BEGIN_EVENT_TABLE (CMainFrame, wxFrame)
     EVT_TIMER(ID_FRAMETASKRENDERTIMER, CMainFrame::OnTaskPanelRender)
 END_EVENT_TABLE ()
 
+
 CMainFrame::CMainFrame()
 {
 }

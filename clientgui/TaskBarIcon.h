@@ -21,51 +21,36 @@
 // Revision History:
 //
 
-#ifndef _BOINCGUIAPP_H_
-#define _BOINCGUIAPP_H_
+#ifndef _TASKBARICON_H_
+#define _TASKBARICON_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "BOINCGUIApp.cpp"
+#pragma interface "TaskBarIcon.cpp"
 #endif
 
 
-#include "MainFrame.h"
-#include "MainDocument.h"
-#include "TaskBarIcon.h"
-
-
-class CBOINCGUIApp : public wxApp
+class CTaskBarIcon : public wxTaskBarIcon
 {
-    DECLARE_DYNAMIC_CLASS(CBOINCGUIApp)
-
-    typedef wxApp Inherited;
-
-protected:
-    int             OnExit();
-
-    void            OnInitCmdLine(wxCmdLineParser &parser);
-    bool            OnCmdLineParsed(wxCmdLineParser &parser);
-
-    wxLocale*       m_pLocale;
-    wxConfig*       m_pConfig;
-
-
-    CMainFrame*     m_pFrame;
-    CMainDocument*  m_pDocument;
-    CTaskBarIcon*   m_pTaskBarIcon;
+    DECLARE_DYNAMIC_CLASS(CTaskBarIcon)
 
 public:
+    CTaskBarIcon();
+    ~CTaskBarIcon();
 
-    bool            OnInit();
+    virtual void OnMouseMove( wxEvent& event );
+    virtual void OnLButtonDown( wxEvent& event );
+    virtual void OnLButtonUp( wxEvent& event );
+    virtual void OnRButtonDown( wxEvent& event );
+    virtual void OnRButtonUp( wxEvent& event );
+    virtual void OnLButtonDClick( wxEvent& event );
+    virtual void OnRButtonDClick( wxEvent& event );
 
-    CMainFrame*     GetFrame()       { return m_pFrame; };
-    CMainDocument*  GetDocument()    { return m_pDocument; };
-    CTaskBarIcon*   GetTaskBarIcon() { return m_pTaskBarIcon; };
+    bool ShowBalloon(wxString title, wxString message, unsigned int timeout = 10000, int icon = NIIF_INFO);
+
+private:
+    DECLARE_EVENT_TABLE()
 
 };
-
-
-DECLARE_APP(CBOINCGUIApp)
 
 
 #endif

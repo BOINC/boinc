@@ -20,35 +20,27 @@
 //
 // Revision History:
 //
-// $Log$
-// Revision 1.11  2004/10/09 03:05:01  rwalton
-// *** empty log message ***
-//
-// Revision 1.10  2004/09/24 02:01:53  rwalton
-// *** empty log message ***
-//
-// Revision 1.9  2004/09/21 01:26:23  rwalton
-// *** empty log message ***
-//
-// Revision 1.8  2004/09/10 23:17:08  rwalton
-// *** empty log message ***
-//
-// Revision 1.7  2004/07/12 08:46:26  rwalton
-// Document parsing of the <get_state/> message
-//
-// Revision 1.6  2004/06/25 22:50:56  rwalton
-// Client spamming server hotfix
-//
-// Revision 1.5  2004/05/21 06:27:15  rwalton
-// *** empty log message ***
-//
-// Revision 1.4  2004/05/17 22:15:10  rwalton
-// *** empty log message ***
-//
-//
 
 #ifndef __STDWX_H__
 #define __STDWX_H__
+
+// Modify the following defines if you have to target a platform prior to the ones specified below.
+// Refer to MSDN for the latest info on corresponding values for different platforms.
+#ifndef WINVER                  // Allow use of features specific to Windows 95 and Windows NT 4 or later.
+#define WINVER 0x0400           // Change this to the appropriate value to target Windows 98 and Windows 2000 or later.
+#endif
+
+#ifndef _WIN32_WINNT            // Allow use of features specific to Windows NT 4 or later.
+#define _WIN32_WINNT 0x0400		// Change this to the appropriate value to target Windows 98 and Windows 2000 or later.
+#endif
+
+#ifndef _WIN32_WINDOWS          // Allow use of features specific to Windows 98 or later.
+#define _WIN32_WINDOWS 0x0400   // Change this to the appropriate value to target Windows Me or later.
+#endif
+
+#ifndef _WIN32_IE               // Allow use of features specific to IE 5.01 or later.
+#define _WIN32_IE 0x0501        // Change this to the appropriate value to target IE 6.0 or later.
+#endif
 
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
@@ -88,7 +80,7 @@
 #include <wx/mimetype.h>
 #include <wx/event.h>
 #include <wx/utils.h>
-
+#include <wx/taskbar.h>
 
 // Standard Libraries
 //
