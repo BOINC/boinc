@@ -112,6 +112,7 @@ echo "
 <p>
 The format of the various XML elements
 in the output files is as follows.
+<br>
 Notes:
 <ul>
 <li>

@@ -182,14 +182,16 @@ int parse_fd_init_file(FILE*);
 int write_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 
+// filenames used in the slot directory
+//
 #define INIT_DATA_FILE    "init_data.xml"
 #define GRAPHICS_DATA_FILE    "graphics.xml"
 #define FD_INIT_FILE    "fd_init.xml"
 #define BOINC_FINISH_CALLED_FILE "boinc_finish_called"
 #define TRICKLE_UP_FILENAME "trickle_up.xml"
-
 #define STDERR_FILE           "stderr.txt"
 #define STDOUT_FILE           "stdout.txt"
+#define LOCKFILE               "boinc_lockfile"
 
 extern char* xml_graphics_modes[NGRAPHICS_MODES];
 int boinc_link(const char* existing, const char* new_link);

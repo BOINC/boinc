@@ -28,8 +28,8 @@ The ratio of CPU time allocated to projects that have work,
 in a typical period of a day or two,
 should be approximately the same as the ratio of
 the user-specified resource shares.
-If a process has no work for some period,
-it does no accumulate a 'debt' of work.
+If a project has no work for some period,
+it does not accumulate a 'debt' of work.
 
 <li>
 <b>Satisfy result deadlines if possible.</b>

@@ -93,7 +93,7 @@ Getting work done
 How to generate tasks and handle the results.
 </font>
 <ul>
-<li> <a href=backend_programs.php>Back end functions</a>
+<li> <a href=backend_programs.php>Daemon programs</a>
 <li> <a href=tools_work.php>Generating work</a>
 <li> <a href=validate.php>Result validation</a>
 <li> <a href=assimilate.php>Result assimilation</a>

@@ -431,11 +431,14 @@ inline bool user_idle(time_t t, struct utmp* u) {
     char tty[5 + sizeof u->ut_line + 1] = "/dev/";
     unsigned int i;
 
-    for (i=0; i < sizeof(u->ut_line); i++) /* clean up tty if garbled */
-        if (isalnum((int) u->ut_line[i]) || (u->ut_line[i]=='/'))
+    for (i=0; i < sizeof(u->ut_line); i++) {
+        // clean up tty if garbled
+        if (isalnum((int) u->ut_line[i]) || (u->ut_line[i]=='/')) {
             tty[i+5] = u->ut_line[i];
-        else
+        } else {
             tty[i+5] = '\0';
+        }
+    }
     return device_idle(t, tty);
 }
 

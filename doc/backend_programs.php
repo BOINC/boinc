@@ -8,6 +8,14 @@ A BOINC project includes of a set of daemons
 (programs that run all the time).
 Each program should be listed as a daemon in the
 <a href=configuration.php>config.xml</a> file.
+They all have the command-line option:
+<pre>
+-d N
+</pre>
+Sets the verbosity level.
+1 = critical messages only,
+2 = normal messages,
+3 = detailed debugging info.
 
 <h3>Work generation</h3>
 <p>
@@ -29,6 +37,13 @@ This program is supplied by BOINC and is application independent.
 It handles state transitions of workunits and results.
 It generates initial results for workunits,
 and generates more results when timeouts or errors occur.
+It has the command-line option:
+<pre>
+-mod n i
+</pre>
+If present, this instance of the transitioner will handle
+only workunits for which mod(id, n) = i.
+This lets you run arbitrarily many instances of the transitioner.
 
 <h3>Validation</h3>
 <p>

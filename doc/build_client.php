@@ -11,11 +11,38 @@ See the <a href=software.php>Software Prerequisites</a>.
 
 <h3>Unix, Mac OS/X</h3>
 <p>
+If you have MySQL installed, you can just do:
 <pre>
-   cd boinc/client
+   cd boinc
+   configure
    make
 </pre>
-The final target is <code>boinc/client/boinc_VERSION_PLATFORM.gz</code>.
+This will build <code>boinc/client/boinc_VERSION_PLATFORM</code>.
+
+<p>
+If you don't have MySQL installed,
+that configure step will fail.
+You can use the following trick (thanks to Eric Myers for this):
+
+<p>
+The idea is to trick the configure script into running a fake
+mysql_config script.  An easy way to do that is:
+
+<pre>
+  $  export MYSQL_CONFIG=true
+</pre>
+
+or the setenv equivalent for tcsh.
+This runs /bin/true or similar to
+configure mysql, but ./configure does not fail.   
+
+<p>
+Of course the server build fails when you say `make` when it tries to
+build anything requiring mysql, but if you say `make -k` it will still
+build the client and apps, lib and api.
+You can also cd to client
+or apps and say `make` there and that will work
+(once lib and api are built). 
 
 <h3>Windows</h3>
 

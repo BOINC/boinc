@@ -1,55 +1,105 @@
 <?php
 require_once("docutil.php");
+
+function show_link($language, $name, $url) {
+    list_item($language, "<a href=$url>$name</a>");
+}
+
 page_head("Web sites related to BOINC");
 echo "
 Information about BOINC is available in the following languages:
 ";
 list_start();
-list_item("Chinese",
-    "<a href=http://www.equn.com/boinchina>www.equn.com/boinchina</a>"
+show_link(
+    "Chinese",
+    "www.equn.com/boinchina",
+    "http://www.equn.com/boinchina"
 );
-list_item("Czech",
-    "<a href=http://www.boinc.cz/>www.boinc.cz</a>"
+show_link(
+    "Czech",
+    "www.boinc.cz",
+    "http://www.boinc.cz/"
 );
-list_item("Danish",
-    "<a href=http://setiboinc.dk>setiboinc.dk</a>
-    <br><a href=http://www.boinc.dk>www.boinc.dk</a>
-    <br><a href=http://www.setihome.dk>www.setihome.dk</a>"
+show_link(
+    "Danish",
+    "setiboinc.dk",
+    "http://setiboinc.dk"
 );
-list_item("Dutch",
-    "<a href=http://www.seti-nl.org/content.php?c=boinc_berkeley_main>www.seti-nl.org</a>"
+show_link(
+    "Danish",
+    "www.boinc.dk",
+    "http://www.boinc.dk"
 );
-list_item("Estonian",
-    "<a href=http://boinc.tmac.pri.ee>boinc.tmac.pri.ee</a>"
+show_link(
+    "Danish",
+    "www.setihome.dk",
+    "http://www.setihome.dk"
 );
-list_item("Finnish",
-    "<a href=http://www.universe-examiners.org/boinc_faq.php>Universe Examiners</a>"
+show_link(
+    "Dutch",
+    "www.seti-nl.org",
+    "http://www.seti-nl.org/content.php?c=boinc_berkeley_main"
 );
-list_item("French",
-    "<a href=http://www.boinc-fr.net>www.boinc-fr.net</a>
-    <br><a href=http://boinc-quebec.org>boinc-quebec.org</a> (Canadian)"
+show_link(
+    "Estonian",
+    "boinc.tmac.pri.ee",
+    "http://boinc.tmac.pri.ee"
 );
-list_item("German",
-    "<a href=http://www.boinc.de/>www.boinc.de</a>
-    <br><a href=http://www.boinc-forum.de/>www.boinc-forum.de</a>"
+show_link(
+    "Finnish",
+    "Universe Examiners",
+    "http://www.universe-examiners.org/boinc_faq.php"
+);
+show_link(
+    "French",
+    "www.boinc-fr.net",
+    "http://www.boinc-fr.net"
+);
+show_link(
+    "French",
+    "boinc-quebec.org",
+    "http://boinc-quebec.org"
+);
+show_link(
+    "German",
+    "www.boinc.de",
+    "http://www.boinc.de/"
+);
+show_link(
+    "German",
+    "www.boinc-forum.de",
+    "http://www.boinc-forum.de/"
+);
+show_link(
+    "German (message board)",
+    "Official eMule @ BOINC Team Page",
+    "http://www.emuleatboinc.de/Board"
 );
 //list_item("Italian",
 //    "<a href=http://boinc.homeunix.org/>boinc.homeunix.org</a>"
 //);
-list_item("Japanese",
-    "<a href=http://boinc.oocp.org/>translation by Komori Hitoshi</a>"
+show_link(
+    "Japanese",
+    "translation by Komori Hitoshi",
+    "http://boinc.oocp.org/"
 );
-list_item("Russian",
-    "<a href=http://www.boinc.narod.ru>www.boinc.narod.ru</a>"
+show_link(
+    "Russian",
+    "www.boinc.narod.ru",
+    "http://www.boinc.narod.ru"
 );
 //list_item("Serbian",
 //    "<a href=http://www.boincatserbia.co.sr/>BOINC@Serbia</a>"
 //);
-list_item("Spanish",
-    "<a href=http://members.lycos.co.uk/boincspain/>BOINC España</a>"
+show_link(
+    "Spanish",
+    "BOINC España</a>",
+    "http://members.lycos.co.uk/boincspain/"
 );
-list_item("Turkish",
-    "<a href=http://www.turksetiteam.org/boinc/index.html>www.turksetiteam.org</a>"
+show_link(
+    "Turkish",
+    "www.turksetiteam.org",
+    "http://www.turksetiteam.org/boinc/index.html"
 );
 list_end();
 echo "

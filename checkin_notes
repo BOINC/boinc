@@ -14213,3 +14213,19 @@ David  27 June 2004
 		app.C,h
 	lib/
 		app_ipc.C,h
+
+David  27 June 2004
+    - Add a lock file mechanism to prevent two apps
+        from running in the same slot at the same time.
+        boinc_init() tries to lock the file;
+        if it fails, wait for 7 seconds to allow the old process to die
+        (the heartbeat timeout is 5 seconds) then try again.
+        If fail again, exit.
+
+    api/
+        boinc_api.C
+    client/
+        client_state.C
+        hostinfo_unix.C
+    lib/
+        app_ipc.h
