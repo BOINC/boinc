@@ -62,6 +62,8 @@ CBOINCBaseView::CBOINCBaseView( wxNotebook* pNotebook, wxWindowID iHtmlWindowID,
     m_pTaskPane = NULL;
     m_pListPane = NULL;
 
+    SetAutoLayout(TRUE);
+
     wxFlexGridSizer* itemFlexGridSizer = new wxFlexGridSizer(2, 0, 0);
     wxASSERT(NULL != itemFlexGridSizer);
 
@@ -78,7 +80,6 @@ CBOINCBaseView::CBOINCBaseView( wxNotebook* pNotebook, wxWindowID iHtmlWindowID,
     itemFlexGridSizer->Add(m_pListPane, 1, wxGROW|wxALL, 1);
 
     SetSizerAndFit(itemFlexGridSizer);
-    SetAutoLayout(TRUE);
 }
 
 

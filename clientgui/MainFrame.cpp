@@ -264,6 +264,7 @@ bool CMainFrame::CreateNotebook()
     // create frame panel
     wxPanel *pPanel = new wxPanel(this, -1, wxDefaultPosition, wxDefaultSize,
                                  wxTAB_TRAVERSAL|wxCLIP_CHILDREN|wxNO_BORDER);
+    pPanel->SetAutoLayout(TRUE);
 
     // initialize notebook
     m_pNotebook = new wxNotebook(pPanel, ID_FRAMENOTEBOOK, wxDefaultPosition, wxDefaultSize,
@@ -290,7 +291,6 @@ bool CMainFrame::CreateNotebook()
     // have the panel calculate everything after the pages are created so
     //   the mac can display the html control width correctly
     pPanel->SetSizerAndFit(pPanelSizer);
-    pPanel->SetAutoLayout(TRUE);
 
 
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::CreateNotebook - Function End"));
