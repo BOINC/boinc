@@ -608,7 +608,7 @@ int send_work(
         if (nresults == MAX_WUS_TO_SEND) break;
     }
 
-    log_messages.printf(SchedMessages::DEBUG, "[HOST#%d] Sent %d results\n",
+    log_messages.printf(SchedMessages::NORMAL, "[HOST#%d] Sent %d results\n",
                         reply.host.id, nresults);
 
     if (nresults == 0) {
@@ -740,7 +740,7 @@ void handle_request(
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
 
-    log_messages.printf(SchedMessages::DEBUG, "Handling request from %s\n",
+    log_messages.printf(SchedMessages::NORMAL, "Handling request from %s\n",
                         get_remote_addr());
     ++log_messages;
     memset(&sreq, 0, sizeof(sreq));
