@@ -7,7 +7,6 @@ require_once("../inc/uotd.inc");
 
 db_init();
 
-
 $cmd = $_GET['cmd'];
 if ($cmd) {
     execute_command($cmd);

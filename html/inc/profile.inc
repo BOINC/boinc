@@ -17,8 +17,6 @@ define('MAX_DESC_LENGTH', 90);
 define('GALLERY_WIDTH', 7);
 define('GALLERY_HEIGHT', 4);
 
-db_init();
-
 function get_profile($userid) {
     $result = mysql_query("SELECT * FROM profile WHERE userid = $userid");
     if (!$result) {
@@ -498,8 +496,6 @@ function show_profile_summary($user, $profile, $can_edit, $verify_mode) {
     echo "
         <b>Date Registered:</b> ", date_str($user->create_time), "
         </font>
-        </td></tr>
-        </table>
         <br>\n
     ";
 }

@@ -6,13 +6,12 @@ require_once("../inc/profile.inc");
 db_init();
 $user = get_logged_in_user();
 
-// Handle a delete request.
 if ($_POST['delete']) {
     delete_profile($user);
     exit();
 }
 
-page_head("Profile Delete Confirmation");
+page_head("Profile delete confirmation");
 
 echo "<form action=", $_SERVER['PHP_SELF'], " method=\"POST\">";
 

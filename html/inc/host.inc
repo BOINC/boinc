@@ -91,7 +91,7 @@ function show_host($host, $private, $ipprivate) {
         row2("Average download rate", "Unknown");
     }
     $x = $host->avg_turnaround/86400;
-    row2("Average turnaround time", "$x days");
+    row2("Average turnaround time", round($x, 2)." days");
     $config = get_config();
     if (parse_bool($config, "show_results")) {
         $nresults = host_nresults($host);

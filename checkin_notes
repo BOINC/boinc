@@ -21620,3 +21620,29 @@ David  19 Dec 2004
         ViewProjects.cpp
         ViewResources.cpp
         ViewTransfers.cpp
+
+David
+    - User web:
+        don't call db_init() in profile.inc.
+            This should be done by top-level files, not .inc files
+    - Admin web:
+        replaced brain-damaged "screen profiles" page.
+        The old one did 2 sequential scans of the profile table
+        for each screened profile.
+        The new one does 1 sequential scan for 20 screened profiles.
+
+    html/
+        inc/
+            host.inc
+            profile.inc
+        ops/
+            index.php
+            profile_ops.php (removed)
+            profile_screen_action.php (new)
+            profile_screen_form.php (new)
+        user/
+            create_profile.php
+            delete_profile.php
+            edit_forum_preferences_action.php
+            profile_menu.php
+            view_profile.php

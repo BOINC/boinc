@@ -2,9 +2,12 @@
  
 require_once("../inc/profile.inc");
 
+db_init();
+
 $userid = $_GET['userid'];
 
 // Check for recommendation or rejection votes.;
+
 if ($_POST['recommend']) {
     process_view_results("recommend", $userid);
     exit();

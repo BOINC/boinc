@@ -28,17 +28,6 @@ echo "
     <li><a href=db_form.php?table=workunit>Workunits</a>
     <li><a href=db_form.php?table=result&detail=low>Results</a>
     </ul>
-    </p>
-    <p>
-    Browse / Rate user profiles:
-    <ul>
-    <li><a href=profile_ops.php?set=unrated&num=0>Unrated profiles</a>
-    <li><a href=profile_ops.php?set=approved&num=0>Approved profiles</a>
-    <li><a href=profile_ops.php?set=rejected&num=0>Rejected profiles</a>
-    <li><a href=profile_ops.php?set=uotd&num=0>Past Users of the Day</a>
-    <li><a href=profile_ops.php?set=all&num=0>All profiles</a>
-    </ul>
-    </p>
 ";
 
 $result = mysql_query("select id, name from app");
@@ -64,6 +53,7 @@ echo "
     | <a href=show_log.php?f=mysql*.log&l=-20>Tail MySQL logs</a>
     | <a href=create_account_form.php>Create account</a>
     | <a href=cancel_wu_form.php>Cancel workunits</a>
+    | <a href=profile_screen_form.php>Screen user profiles for User of the Day</a>
 ";
 
 // TODO: Add functionality to list the number of recommends / rejects received
