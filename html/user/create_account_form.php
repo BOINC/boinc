@@ -2,6 +2,16 @@
 
 include_once("util.inc");
 
+if (parse_config("<disable_account_creation/>")) {
+    page_head("Account creation is disabled");
+    echo "
+        <h3>Account creation is disabled</h3>
+        Sorry, this project has disabled the creation of new accounts.
+        Please try again later.
+    ";
+    exit();
+}
+
 page_head("Create account");
 
 echo "<h3>Create an account with ".PROJECT."</h3>

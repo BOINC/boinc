@@ -3946,3 +3946,11 @@ David  Mar 24 2003
         create_account_action.php
         create_account_form.php
         prefs.inc
+
+David  Mar 25 2003
+    - account creation is now turned off by putting
+        "<disable_account_creation/>" in html_user/config.xml
+
+    html_user/
+        create_account*
+        util.inc

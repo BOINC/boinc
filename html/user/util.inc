@@ -168,12 +168,14 @@ function print_login_form() {
     page_tail();
 }
 
-// look for an element in some XML text
+// Look for an element in a line of XML text
+// If it's a single-tag element, and it's present, just return the tag
 //
 function parse_element($xml, $tag) {
     $element = null;
     $x = strstr($xml, $tag);
     if ($x) {
+        if (strstr($tag, "/>")) return $tag;
         $y = substr($x, strlen($tag));
         $n = strpos($y, "<");
         if ($n) {
