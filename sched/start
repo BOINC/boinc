@@ -117,10 +117,13 @@ def get_daemon_pid_name(task):
     return os.path.join(pid_dir,
                         task.__dict__.get('pid_file') or get_task_command_basename(task) + '.pid')
 
+def output_is_file(filename):
+    return filename and not filename.startswith('/dev/')
+
 def get_task_lock_name(task):
     return os.path.join(pid_dir,
                         task.__dict__.get('lock_file') or
-                        (task.__dict__.get('output') and task.__dict__.get('output')+'.lock') or
+                        (output_is_file(task.__dict__.get('output')) and task.__dict__.get('output')+'.lock') or
                         get_task_command_basename(task) + '.lock')
 
 def ensure_dir(filename):
