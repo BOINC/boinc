@@ -134,7 +134,6 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     }
     if (show_options) {
         print_options(argv[0]);
-        exit(1);
     }
 }
 
