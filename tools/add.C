@@ -25,7 +25,7 @@
 // add app -app_name x
 //      add application
 //      create DB record
-// add platform -platform_name x
+// add platform -platform_name x -user_friendly_name y
 //      create DB record
 // add app_version
 //      -app_name x -platform_name y -version a
@@ -58,6 +58,7 @@ double nbytes;
 bool signed_exec_files;
 char buf[256], md5_cksum[64];
 char *db_name=0, *db_passwd=0, *app_name=0, *platform_name=0, *project_name=0;
+char* user_friendly_name=0;
 char* exec_dir=0, *exec_files[10], *signature_files[10];
 char *email_addr=0, *user_name=0, *web_password=0, *authenticator=0;
 char *global_prefs_file=0, *download_dir, *download_url;
@@ -105,6 +106,7 @@ void add_platform() {
     }
     memset(&platform, 0, sizeof(platform));
     strcpy(platform.name, platform_name);
+    strcpy(platform.user_friendly_name, user_friendly_name);
     platform.create_time = time(0);
     retval = db_platform_new(platform);
     if (retval) {
@@ -270,8 +272,9 @@ int main(int argc, char** argv) {
             i++;
             app_name = argv[i];
         } else if (!strcmp(argv[i], "-platform_name")) {
-            i++;
-            platform_name = argv[i];
+            platform_name = argv[++i];
+        } else if (!strcmp(argv[i], "-user_friendly_name")) {
+            user_friendly_name = argv[++i];
         } else if (!strcmp(argv[i], "-exec_dir")) {
             i++;
             exec_dir = argv[i];

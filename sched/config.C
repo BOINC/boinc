@@ -42,6 +42,25 @@ int CONFIG::parse(FILE* in) {
         else if (parse_str(buf, "<upload_url>", upload_url, sizeof(upload_url))) continue;
         else if (parse_str(buf, "<upload_dir>", upload_dir, sizeof(upload_dir))) continue;
         else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
+        else if (match_tag(buf, "<start_assimilator/>")) {
+            start_assimilator = true;
+            continue;
+        } else if (match_tag(buf, "<start_feeder/>")) {
+            start_feeder = true;
+            continue;
+        } else if (match_tag(buf, "<start_file_deleter/>")) {
+            start_file_deleter = true;
+            continue;
+        } else if (match_tag(buf, "<start_make_work/>")) {
+            start_make_work = true;
+            continue;
+        } else if (match_tag(buf, "<start_result_retry/>")) {
+            start_result_retry = true;
+            continue;
+        } else if (match_tag(buf, "<start_validate/>")) {
+            start_validate = true;
+            continue;
+        }
     }
     return ERR_XML_PARSE;
 }

@@ -17,31 +17,37 @@
 // Contributor(s):
 //
 
-#ifndef _CONFIG_
-#define _CONFIG_
+#include <stdio.h>
+#include <stdlib.h>
 
-// parsed version of server configuration file
-//
-class CONFIG {
-public:
-    char db_name[256];
-    char db_passwd[256];
-    int shmem_key;
-    char key_dir[256];
-    char download_url[256];
-    char download_dir[256];
-    char upload_url[256];
-    char upload_dir[256];
-    char user_name[256];
-    bool start_assimilator;
-    bool start_feeder;
-    bool start_file_deleter;
-    bool start_make_work;
-    bool start_result_retry;
-    bool start_validate;
+#include "config.h"
 
-    int parse(FILE*);
-    int parse_file();
-};
+int main() {
+    CONFIG config;
+    int retval;
 
-#endif
+    retval = config.parse_file();
+    if (retval) {
+        fprintf(stderr, "Can't read config\n");
+        exit(1);
+    }
+
+    if (config.start_assimilator) {
+        system("assimilator >> assimilator.out 2>&1");
+    }
+    if (config.start_feeder) {
+        system("feeder >> feeder.out 2>&1");
+    }
+    if (config.start_file_deleter) {
+        system("file_deleter >> file_deleter.out 2>&1");
+    }
+    if (config.start_make_work) {
+        system("make_work >> make_work.out 2>&1");
+    }
+    if (config.start_result_retry) {
+        system("result_retry >> result_retry.out 2>&1");
+    }
+    if (config.start_validate) {
+        system("validate >> validate.out 2>&1");
+    }
+}

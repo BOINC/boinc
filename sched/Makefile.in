@@ -18,7 +18,7 @@ CC = g++ $(CFLAGS)
 
 CLIBS = @LIBS@
 
-PROGS = cgi feeder show_shmem file_upload_handler validate_test make_work result_retry file_deleter assimilator db_dump
+PROGS = cgi feeder show_shmem file_upload_handler validate_test make_work result_retry file_deleter assimilator db_dump start_servers
 
 all: $(PROGS)
 
@@ -122,6 +122,11 @@ DB_DUMP_OBJS = \
     ../lib/util.o \
     config.o \
     db_dump.o
+
+START_SERVERS_OBJS = \
+    ../lib/parse.o \
+    config.o \
+    start_servers.o
     
 FCGI_OBJS = \
     handle_request.fcgi.o \
@@ -187,6 +192,9 @@ assimilator: $(ASSIMILATOR_OBJS)
 
 db_dump: $(DB_DUMP_OBJS)
 	$(CC) $(DB_DUMP_OBJS) $(MYSQL_LIBS) $(CLIBS) -o db_dump
+
+start_servers: $(START_SERVERS_OBJS)
+	$(CC) $(START_SERVERS_OBJS) $(CLIBS) -o start_servers
 
 fcgi: $(FCGI_OBJS)
 	$(CC) $(FCGI_OBJS) $(MYSQL_LIBS) $(CLIBS) $(FCGI_LIBS) \

@@ -103,10 +103,11 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
     case TYPE_PLATFORM:
         pp = (PLATFORM*)vp;
         sprintf(q,
-            "id=%d, create_time=%d, name='%s'",
+            "id=%d, create_time=%d, name='%s', user_friendly_name='%s'",
             pp->id,
             pp->create_time,
-            pp->name
+            pp->name,
+            pp->user_friendly_name
         );
         break;
     case TYPE_APP:
@@ -342,6 +343,7 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         pp->id = atoi(r[i++]);
         pp->create_time = atoi(r[i++]);
         strcpy2(pp->name, r[i++]);
+        strcpy2(pp->user_friendly_name, r[i++]);
         break;
     case TYPE_APP:
         app = (APP*)vp;

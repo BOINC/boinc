@@ -81,6 +81,16 @@ function create_keys() {
     PassThru("$lib_dir/crypt_prog -genkey 1024 $key_dir/code_sign_private $key_dir/code_sign_public");
 }
 
+class Platform {
+    var $name;
+    var $user_friendly_name;
+
+    function Platform($name, $ufn) {
+        $this->name = $name;
+        $this->user_friendly_name = $ufn;
+    }
+}
+
 class App {
     var $name;
 
@@ -92,14 +102,15 @@ class App {
 class App_Version {
     var $app;
     var $version;
+    var $exec_dir;
     var $exec_name;
-    var $platform_name;
+    var $platform;
 
     function App_Version($app) {
         $this->app = $app;
         $this->version = 1;
-        $this->exec_name = $app->name;
-        $this->platform_name = get_env_var("BOINC_PLATFORM");
+        $x = get_env_var("BOINC_PLATFORM");
+        $this->platform= new Platform($x, $x);
     }
 }
 
@@ -108,7 +119,7 @@ class Project {
     var $users;
     var $apps;
     var $app_versions;
-    var $plat_names;
+    var $platforms;
     var $project_dir;
     var $db_name;
     var $db_passwd;
@@ -122,18 +133,30 @@ class Project {
     var $master_url;
     var $resource_share;
     var $source_dir;
+    var $start_assimilator;
+    var $start_feeder;
+    var $start_file_deleter;
+    var $start_make_work;
+    var $start_result_retry;
+    var $start_validate;
 
     function Project() {
         $this->name = "test";
         $this->users = array();
         $this->apps = array();
         $this->app_versions = array();
-        $this->plat_names = array();
+        $this->platforms = array();
         $this->db_passwd = "";
         $this->generate_keys = false;
         $this->shmem_key = get_env_var("BOINC_SHMEM_KEY");
         $this->resource_share = 1;
         $this->source_dir = get_env_var("BOINC_SRC_DIR");
+        $this->start_assimilator = false;
+        $this->start_feeder = false;
+        $this->start_file_deleter = false;
+        $this->start_make_work = false;
+        $this->start_result_retry = false;
+        $this->start_validate = false;
     }
 
     function add_user($user) {
@@ -148,18 +171,17 @@ class Project {
         array_push($this->app_versions, $app_version);
     }
 
-    function add_platform($plat_name) {
-        array_push($this->plat_names, $plat_name);
+    function add_platform($platform) {
+        array_push($this->platforms, $platform);
     }
 
     // Set up the database and directory structures for a project
     //
-    function Install($scheduler_file = null) {
+    function install($scheduler_file = null) {
         $source_dir = $this->source_dir;
         $base_dir = get_env_var("BOINC_PROJECTS_DIR");
         $cgi_url = get_env_var("BOINC_CGI_URL")."/".$this->name;
         $this->download_url = get_env_var("BOINC_HTML_URL")."/".$this->name."/download";
-        //link download1...downloadn to download. Get this from reading the reading how many <urls>s in the template. For uploads 
         $this->upload_url = $cgi_url."/file_upload_handler";
         $this->scheduler_url = $cgi_url."/cgi";
         $this->project_dir = $base_dir."/".$this->name;
@@ -173,8 +195,6 @@ class Project {
         PassThru("mkdir $this->project_dir/keys");
         PassThru("mkdir $this->project_dir/html_ops");
         PassThru("mkdir $this->project_dir/html_user");
-
-        array_push($this->plat_names, get_env_var("BOINC_PLATFORM"));
 
         if ($this->generate_keys) {
             echo "KEY GENERATION NOT IMPLEMENTED YET\n";
@@ -209,23 +229,46 @@ class Project {
         }
 
         echo "adding platforms\n";
-        for ($i=0; $i<sizeof($this->plat_names); $i++) {
-            $platform = $this->plat_names[$i];
-            run_tool("add platform -db_name $this->db_name -platform_name $platform");
+        for ($i=0; $i<sizeof($this->app_versions); $i++) {
+            $app_version = $this->app_versions[$i];
+            $p = $app_version->platform;
+            $found = false;
+            for ($j=0; $j<sizeof($this->platforms); $j++) {
+                if (strcmp($this->platforms[$j]->name, $p->name) == 0) {
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                array_push($this->platforms, $app_version->platform);
+            }
+        }
+        for ($i=0; $i<sizeof($this->platforms); $i++) {
+            $platform = $this->platforms[$i];
+            run_tool("add platform -db_name $this->db_name -platform_name $platform->name -user_friendly_name '$platform->user_friendly_name'");
         }
 
         echo "adding app versions\n";
         for ($i=0; $i<sizeof($this->app_versions); $i++) {
             $app_version = $this->app_versions[$i];
             $app = $app_version->app;
-            if ($app->name == "core client") {
-                $dir = "$source_dir/client";
-                $exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $app_version->platform_name);
-            } else {
-                $dir = "$source_dir/apps";
-                $exec_name = $app_version->exec_name;
+            if ($app_version->exec_dir == null) {
+                if ($app->name == "core client") {
+                    $app_version->exec_dir = "$source_dir/client";
+                } else {
+                    $app_version->exec_dir = "$source_dir/apps";
+                }
             }
-            run_tool("add app_version -db_name $this->db_name -app_name '$app->name' -platform_name $app_version->platform_name -version $app_version->version -download_dir $this->project_dir/download -download_url $this->download_url -code_sign_keyfile $this->key_dir/code_sign_private -exec_dir $dir -exec_files $exec_name");
+            if ($app_version->exec_name == null) {
+                if ($app->name == "core client") {
+                    $app_version->exec_name = sprintf("boinc_%s.%s_%s", get_env_var("BOINC_MAJOR_VERSION"), get_env_var("BOINC_MINOR_VERSION"), $app_version->platform->name);
+                } else {
+                    $app_version->exec_name = $app->name;
+                }
+            }
+
+            $p = $app_version->platform;
+            run_tool("add app_version -db_name $this->db_name -app_name '$app->name' -platform_name $p->name -version $app_version->version -download_dir $this->project_dir/download -download_url $this->download_url -code_sign_keyfile $this->key_dir/code_sign_private -exec_dir $app_version->exec_dir -exec_files $app_version->exec_name");
         }
         
         // copy the user and administrative PHP files to the project dir,
@@ -233,10 +276,6 @@ class Project {
         PassThru("cp -f $source_dir/html_user/* $this->project_dir/html_user");
         PassThru("cp -f $source_dir/tools/country_select $this->project_dir/html_user");
         PassThru("cp -f $source_dir/html_ops/* $this->project_dir/html_ops");
-
-        // copy the server programs to the project /cgi dir,
-        // and make a config file there
-        //
 
         // Copy the sched server in the cgi directory with the
         // cgi names given $source_dir/html_usr/schedulers.txt
@@ -248,17 +287,19 @@ class Project {
             fclose($f);
         } else {
             $f = fopen("$this->project_dir/html_user/$scheduler_file", "r");
-            while(true) {
+            while (true) {
                 $scheduler_url = fgets($f, 1000);
                 if($scheduler_url == false) break;
-                $temp = substr($scheduler_url,0,strrpos($scheduler_url,'<'));
-                $cgi_name = substr($temp,strrpos($temp,'/')+1,strlen($temp) - strrpos($temp,'/'));
+                $temp = substr($scheduler_url, 0, strrpos($scheduler_url, '<'));
+                $cgi_name = substr($temp, strrpos($temp, '/')+1, strlen($temp) - strrpos($temp, '/'));
                 PassThru("cp $source_dir/sched/cgi $this->project_dir/cgi/$cgi_name");
             }
 
             fclose($f);
         }
 
+        // copy all the backend programs to the CGI directory
+        //
         PassThru("cp $source_dir/sched/cgi $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/file_upload_handler $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/make_work $this->project_dir/cgi/");
@@ -267,6 +308,10 @@ class Project {
         PassThru("cp $source_dir/sched/validate_test $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/file_deleter $this->project_dir/cgi/");
         PassThru("cp $source_dir/sched/assimilator $this->project_dir/cgi/");
+        PassThru("cp $source_dir/sched/start_servers $this->project_dir/cgi/");
+
+        // write the server config file
+        //
         $f = fopen("$this->project_dir/cgi/config.xml", "w");
         fputs($f, "<config>\n");
         fputs($f, "    <db_name>$this->db_name</db_name>\n");
@@ -278,11 +323,18 @@ class Project {
         fputs($f, "    <upload_url>$this->upload_url</upload_url>\n");
         fputs($f, "    <upload_dir>$this->project_dir/upload</upload_dir>\n");
         fputs($f, "    <user_name>$this->user_name</user_name>\n");
+        if ($this->start_assimilator) fputs($f, "    <start_assimilator/>\n");
+        if ($this->start_feeder) fputs($f, "    <start_assimilator/>\n");
+        if ($this->start_file_deleter) fputs($f, "    <start_file_deleter/>\n");
+        if ($this->start_make_work) fputs($f, "    <start_make_work/>\n");
+        if ($this->start_result_retry) fputs($f, "    <start_result_retry/>\n");
+        if ($this->start_validate) fputs($f, "    <start_validate/>\n");
         fputs($f, "</config>\n");
         fclose($f);
 
 
-        // put a file with the database name and other info in each directory
+        // put a file with the database name and other info
+        // in each HTML directory
         //
         $f = fopen("$this->project_dir/html_user/config.xml", "w");
         fputs($f, "<db_name>$this->db_name</db_name>\n");
@@ -292,8 +344,10 @@ class Project {
         fclose($f);
         PassThru("cp $this->project_dir/html_user/config.xml $this->project_dir/html_ops");
 
-        // edit "index.php" in the user directory to have
-        // the right file as the source for scheduler_urls, default is schedulers.txt
+        // edit "index.php" in the user HTML directory to have
+        // the right file as the source for scheduler_urls;
+        // default is schedulers.txt
+        //
         $x = "sed -e s/FILE_NAME/$scheduler_file/ $this->project_dir/html_user/index.php > temp; mv temp $this->project_dir/html_user/index.php";
         PassThru($x);
 
@@ -315,14 +369,14 @@ class Project {
         echo "The admin URL for project $this->name is $admin_url\n";
     }
     
-    // moves the masterindex file to temp
+    // moves the master web page to temp
     // This is used to test exponential backoff on the client side.
     //
     function delete_masterindex() {
         PassThru("mv $this->project_dir/html_user/index.php $this->project_dir/html_user/temp");
     }
     
-    // moves temp back to the masterindex
+    // moves temp back to the master web page
     // This is used to test exponential backoff on the client side.
     //
     function reestablish_masterindex() {
@@ -330,14 +384,14 @@ class Project {
           
     }
     
-    // delete the cgi file for this project
+    // delete the sched server for this project
     // This is used to test exponential backoff on the client side.
     //
     function delete_scheduler($cgi_num = null) {
         PassThru("rm $this->project_dir/cgi/cgi$cgi_num");
     }
       
-    // copies the cgi file back into the cgi directory.
+    // copies the sched server back into the CGI directory.
     // This is used to test exponential backoff on the client side.
     //
     function reinstall_scheduler($cgi_num=null) {

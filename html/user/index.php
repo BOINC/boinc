@@ -21,6 +21,7 @@ analyze radio telescope signals.
 <li><a href=login_form.php>Log in</a>
 <li><a href=home.php>User page</a> - view stats, modify preferences
 <li><a href=team.php>Teams</a> - create or join a team
+<li><a href=download.php>Download the BOINC client</a>
 <li><a href=bug_report_form.php>Report problems</a>
 <li><a href=top_users.php>Top users</a>
 <li><a href=top_hosts.php>Top hosts</a>

@@ -38,6 +38,7 @@ function show_platform($platform) {
     row("ID", $platform->id);
     row("Created", time_str($platform->create_time));
     row("Name", $platform->name);
+    row("User friendly name", $platform->user_friendly_name);
     row("","<a href=db.php?show=app_version&plat_id=$platform->id>App versions for this platform</a>");
     end_table();
 }

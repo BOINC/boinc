@@ -44,6 +44,7 @@ struct PLATFORM {
     int id;
     unsigned int create_time;
     char name[256];             // i.e. "sparc-sun-solaris"
+    char user_friendly_name[256];             // i.e. "SPARC Solaris 2.8"
 };
 
 // An application.
