@@ -199,5 +199,13 @@ void get_statistics_filename(char* master_url, char* path) {
     sprintf(path, "statistics_%s.xml", buf);
 }
 
+bool is_image_file(const char* filename) {
+    std::string fn = filename;
+    downcase_string(fn);
+    if (ends_with(fn, ".jpg")) return true;
+    if (ends_with(fn, ".jpeg")) return true;
+    if (ends_with(fn, ".png")) return true;
+    return false;
+}
 
 const char *BOINC_RCSID_7d362a6a52 = "$Id$";

@@ -43,6 +43,7 @@ struct GLOBAL_PREFS {
     bool run_minimized;
     bool run_on_startup;
     bool hangup_if_dialed;
+    bool dont_verify_images;
     double work_buf_min_days;
     int max_cpus;
     double cpu_scheduling_period_minutes;

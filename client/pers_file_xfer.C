@@ -91,11 +91,18 @@ int PERS_FILE_XFER::start_xfer() {
         char pathname[256];
         get_pathname(fip, pathname);
         double existing_size = 0;
-        if (!file_size(pathname, existing_size) && existing_size == fip->nbytes) {
-            // file exists already and has the right size
-            retval = fip->verify_downloaded_file();
+
+        // see if file already exists and looks OK
+        //
+        if (!file_size(pathname, existing_size)) {
+            if (gstate.global_prefs.dont_verify_images && is_image_file(fip->name)) {
+                retval = 0;
+            } else if (existing_size != fip->nbytes) {
+                retval = 1;
+            } else {
+                retval = fip->verify_downloaded_file();
+            }
             if (!retval) {
-                // signature and checksum match
                 retval = fip->set_permissions();
                 fip->status = FILE_PRESENT;
                 pers_xfer_done = true;
@@ -105,7 +112,7 @@ int PERS_FILE_XFER::start_xfer() {
                     "File %s exists already, skipping download", fip->name
                 );
 
-                return retval;
+                return 0;
             }
         }
     }

@@ -40,7 +40,8 @@ typedef struct _DIR_DESC {
 } DIR_DESC;
 
 typedef DIR_DESC *DIRREF;
-#define PATH_SEPARATOR "\\"
+//#define PATH_SEPARATOR "\\"
+#define PATH_SEPARATOR "/"
 
 #else
 #include <stdio.h>

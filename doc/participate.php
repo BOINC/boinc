@@ -39,7 +39,7 @@ echo "
 <ul>
 <li> <a href=db_dump.php>Downloading statistics data</a>
 <li> <a href=cpid.php>Cross-project identification</a>
-<li> <a href=stats_rpc.php>Web services for statistics sites</a>
+<li> <a href=acct_mgt.php>Web services (possibly useful for statistics sites)</a>
 </ul>
 <b>Third-party software and web sites</b>
 <ul>

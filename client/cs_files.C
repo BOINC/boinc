@@ -89,6 +89,9 @@ int FILE_INFO::verify_downloaded_file() {
     bool verified;
     int retval;
 
+    if (gstate.global_prefs.dont_verify_images && is_image_file(name)) {
+        return 0;
+    }
     get_pathname(this, pathname);
     if (signature_required) {
         if (!strlen(file_signature)) {

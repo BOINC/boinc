@@ -272,6 +272,12 @@ int ACTIVE_TASK::start(bool first_time) {
         fip = fref.file_info;
         get_pathname(fip, file_path);
         if (fref.main_program) {
+            if (is_image_file(fip->name)) {
+                msg_printf(wup->project, MSG_ERROR,
+                    "Main program %s is an image file", fip->name
+                );
+                return ERR_NO_SIGNATURE;
+            }
             if (!fip->executable && !wup->project->anonymous_platform) {
                 msg_printf(wup->project, MSG_ERROR,
                     "Main program %s is not executable", fip->name

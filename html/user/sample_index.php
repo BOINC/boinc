@@ -111,12 +111,12 @@ echo "
     <a href=rss_main.php>RSS feed</a>.</font>
     </td>
     </tr></table>
-<!--
+<font color=ffffff>
 ";
 
 include 'schedulers.txt';
 
-echo "-->\n";
+echo "</font>\n";
 
 if ($caching) {
     page_tail_main(true);

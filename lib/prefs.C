@@ -48,6 +48,7 @@ void GLOBAL_PREFS::defaults() {
     leave_apps_in_memory = false;
     confirm_before_connecting = false;
     hangup_if_dialed = false;
+    dont_verify_images = false;
     work_buf_min_days = 0.1;
     max_cpus = 1;
     cpu_scheduling_period_minutes = 60;
@@ -76,6 +77,7 @@ void GLOBAL_PREFS::clear_bools() {
     run_minimized = false;
     run_on_startup = false;
     hangup_if_dialed = false;
+    dont_verify_images = false;
 }
 
 GLOBAL_PREFS::GLOBAL_PREFS() {
@@ -163,6 +165,9 @@ int GLOBAL_PREFS::parse(FILE* in, const char* host_venue, bool& found_venue) {
         } else if (match_tag(buf, "<run_on_startup/>")) {
             run_on_startup = true;
             continue;
+        } else if (match_tag(buf, "<dont_verify_images/>")) {
+            dont_verify_images = true;
+            continue;
         //} else if (parse_double(buf, "<work_buf_max_days>", work_buf_max_days)) {
         //    continue;
         } else if (parse_double(buf, "<work_buf_min_days>", work_buf_min_days)) {
@@ -227,7 +232,7 @@ int GLOBAL_PREFS::write(FILE* f) {
         "%s%s"
         "   <start_hour>%d</start_hour>\n"
         "   <end_hour>%d</end_hour>\n"
-        "%s%s%s%s%s"
+        "%s%s%s%s%s%s"
         "   <work_buf_min_days>%f</work_buf_min_days>\n"
         "   <max_cpus>%d</max_cpus>\n"
         "   <cpu_scheduling_period_minutes>%f</cpu_scheduling_period_minutes>\n"
@@ -250,6 +255,7 @@ int GLOBAL_PREFS::write(FILE* f) {
         run_minimized?"   <run_minimized/>\n":"",
         run_on_startup?"   <run_on_startup/>\n":"",
         hangup_if_dialed?"   <hangup_if_dialed/>\n":"",
+        dont_verify_images?"   <dont_verify_images/>\n":"",
         work_buf_min_days,
         max_cpus,
         cpu_scheduling_period_minutes,

@@ -26712,3 +26712,27 @@ Rom    5 April 2005
     client/win/
         win_screensaver.cpp
 
+David  6 April 2005
+    Changes to support users whose Internet providers
+    modify image files in transit.
+    Cell-phone-based providers using UMTS (e.g. Vodaphone)
+    apparently do this.
+
+    - Add a preference "dont_verify_images" that tells BOINC
+        not to verify (via signature or checksum) image files.
+        "Image files" for those whose names end with .jpg, .jpeg or .png.
+        
+    - Change the Windows path separator from \ to /
+
+    client/
+        app_start.C
+        cs_files.C
+        file_names.C,h
+        gui_rpc_server.C
+        pers_file_xfer.C
+    html/
+        inc/
+            prefs.inc
+    lib/
+        filesys.h
+        prefs.C,h

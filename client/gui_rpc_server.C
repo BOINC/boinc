@@ -477,15 +477,14 @@ void GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
     auth_needed = false;
 }
 
-void handle_get_statistics(char* buf, MIOFILE& fout) {
-	fout.printf("<statistics>\n");
-	// for all projects
-	for (std::vector<PROJECT*>::iterator i=gstate.projects.begin();
-		i!=gstate.projects.end();++i
+void handle_get_statistics(char*, MIOFILE& fout) {
+    fout.printf("<statistics>\n");
+    for (std::vector<PROJECT*>::iterator i=gstate.projects.begin();
+        i!=gstate.projects.end();++i
     ) {
         (*i)->write_statistics(fout,true);
-	}
-	fout.printf("</statistics>\n");
+    }
+    fout.printf("</statistics>\n");
 }
 
 int GUI_RPC_CONN::handle_rpc() {
@@ -594,8 +593,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_quit(request_msg, mf);
     } else if (match_tag(request_msg, "<acct_mgr_rpc")) {
         handle_acct_mgr_rpc(request_msg, mf);
-	} else if (match_tag(request_msg, "<get_statistics")) {
-		handle_get_statistics(request_msg,mf);
+    } else if (match_tag(request_msg, "<get_statistics")) {
+        handle_get_statistics(request_msg,mf);
     } else {
         mf.printf("<error>unrecognized op</error>\n");
     }

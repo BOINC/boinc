@@ -85,6 +85,12 @@ define("VM_MAX_USED_PCT_DESC2", "% of total virtual memory");
 define("NETWORK_LIMIT_DESC", "Network usage");
 define("MAX_BYTES_SEC_DOWN_DESC", "Maximum download rate:");
 define("MAX_BYTES_SEC_UP_DESC", "Maximum upload rate:");
+define("DONT_VERIFY_IMAGES_DESC",
+    "Skip image file verification?
+    <br><font size=-2>Check this ONLY if your Internet provider
+    modifies image files (UMTS does this, for example).
+    <br>Skipping verification reduces the security of BOINC."
+);
 
 define("BYTE_CONVERSION", 1000.0);
 define("BYTE_UNITS", "Kbytes/sec");
@@ -270,6 +276,9 @@ function element_end_global($parser, $name) {
     case "max_bytes_sec_up":
         $parse_result->max_bytes_sec_up = $text;
         break;
+    case "dont_verify_images":
+        $parse_result->dont_verify_images = true;
+        break;
     case "mod_time":
         $parse_result->mod_time = $text;
         break;
@@ -307,6 +316,7 @@ function default_prefs_global() {
     $p->vm_max_used_pct = 75;
     $p->max_bytes_sec_down = 0;
     $p->max_bytes_sec_up = 0;
+    $p->dont_verify_images = false;
     return $p;
 }
 
@@ -412,6 +422,7 @@ function prefs_show_global($prefs) {
     $x = max_bytes_display_mode($prefs->max_bytes_sec_up);
     $y = "$x " . BYTE_ABBR;
     row2(MAX_BYTES_SEC_UP_DESC, $x?"$y":"no limit");
+    row2(DONT_VERIFY_IMAGES_DESC, $prefs->dont_verify_images?"yes":"no");
 }
 
 function prefs_show_resource($prefs) {
@@ -617,6 +628,15 @@ function prefs_form_global($user, $prefs) {
     row2(MAX_BYTES_SEC_UP_DESC,
         "<input size=7 name=max_bytes_sec_up value='$ut'> " . BYTE_UNITS
     );
+    $x = DONT_VERIFY_IMAGES_DESC;
+    $y = "yes <input type=radio name=dont_verify_images value=yes "
+        .($prefs->dont_verify_images?"checked":"")
+        ."> no <input type=radio name=dont_verify_images value=no "
+        .($prefs->dont_verify_images?"":"checked")
+        .">
+    ";
+    row2($x, $y);
+
 }
 
 function prefs_form_privacy($user) {
@@ -704,6 +724,7 @@ function prefs_global_parse_form(&$prefs) {
     $vm_max_used_pct = $_GET["vm_max_used_pct"];
     $max_bytes_sec_down = $_GET["max_bytes_sec_down"];
     $max_bytes_sec_up = $_GET["max_bytes_sec_up"];
+    $dont_verify_images = $_GET["dont_verify_images"];
 
     $prefs->run_on_batteries = ($run_on_batteries == "yes");
     $prefs->run_if_user_active = ($run_if_user_active == "yes");
@@ -714,7 +735,6 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->cpu_scheduling_period_minutes = $_GET["cpu_scheduling_period_minutes"];
     $prefs->confirm_before_connecting = ($confirm_before_connecting == "yes");
     $prefs->hangup_if_dialed = ($hangup_if_dialed == "yes");
-    $prefs->confirm_eecutable = ($confirm_eecutable == "yes");
 
     if ($work_buf_min_days<0) $work_buf_min_days = 0;
     if ($work_buf_min_days>10) $work_buf_min_days = 10;
@@ -736,6 +756,7 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->vm_max_used_pct = $vm_max_used_pct;
     $prefs->max_bytes_sec_down = max_bytes_db_mode($max_bytes_sec_down);
     $prefs->max_bytes_sec_up = max_bytes_db_mode($max_bytes_sec_up);
+    $prefs->dont_verify_images = ($dont_verify_images == "yes");
 }
 
 function prefs_resource_parse_form(&$prefs) {
@@ -797,6 +818,9 @@ function global_prefs_make_xml($prefs, $primary=true) {
         ."<vm_max_used_pct>$prefs->vm_max_used_pct</vm_max_used_pct>\n"
         ."<max_bytes_sec_down>$prefs->max_bytes_sec_down</max_bytes_sec_down>\n"
         ."<max_bytes_sec_up>$prefs->max_bytes_sec_up</max_bytes_sec_up>\n";
+    if ($prefs->dont_verify_images) {
+        $xml = $xml."<dont_verify_images/>\n";
+    }
     if ($prefs->home) {
         $xml = $xml."<venue name=\"home\">\n".global_prefs_make_xml($prefs->home, false)."</venue>\n";
     }
