@@ -21,9 +21,9 @@ check_set() should NEVER modify wu [although it is not declared
 
  for (all N results) {
 
-   if (one or more of the output files can be read and one or
-       more of those files contains erroneous or invalid or
-       incorrect output, i.e. the file syntax is wrong)
+   if (one or more of the result's output files can be read
+       and one or more of those files contains erroneous or
+       invalid or incorrect output, i.e. bad file syntax)
    {
      set result.outcome=RESULT_OUTCOME_VALIDATE_ERROR; 
      set result.validate_state=VALIDATE_STATE_INVALID;
@@ -51,20 +51,20 @@ check_set() should NEVER modify wu [although it is not declared
  } // end of syntax pass loop over all N results
 
  Define REMAINING RESULTS to be those that do NOT fall into one of
- the two categories above. There are M of these. If the syntax pass
+ the three categories above. There are M of these. If the syntax pass
  has been skipped, then M == N.
 
  if (M < wu.min_quorum)
  {
-   dont modify canonicalid;
-   dont modify credit;
+   don't modify canonicalid;
+   don't modify credit;
    leave retry as set above;
    leave result.outcome unchanged for M remaining results;
    leave result.validate_state unchanged for M remaining results;
    return 0;
  } // fewer than min_quorum results remain
 
- At any point in this process, if a major error occurs, check_set
+ At any point in this process, if a major error occurs, check_set()
  should return nonzero.  This will cause the validator to exit.  If
  this happens, it does not matter how you have set or modified
  result.outcome, result.validate_state, retry, credit, or canonicalid.
@@ -79,15 +79,15 @@ check_set() should NEVER modify wu [although it is not declared
 
    All the output files of all of these results are
    readable.  All of the output files for a given result
-   are, when taken "in isolation" apparently valid.  If
+   are, when taken "in isolation" apparently valid.  [If
    these conditions are not met then you must do the
-   "syntax pass" above.
+   "syntax pass" above.]
 
    if (one of these results is determined to be THE correct
        [canonical] result)
    {
 
-     for correct result {
+     for (correct result) {
        set result.validate_state=VALIDATE_STATE_VALID;
        set canonicalid=result.id;
      } // canonical result
@@ -126,7 +126,7 @@ check_set() should NEVER modify wu [although it is not declared
     
    } // did not find canonical result
     
- At any point in this process, if a major error occurs, check_set
+ At any point in this process, if a major error occurs, check_set()
  should return nonzero.  This will cause the validator to exit.  If
  this happens, it does not matter how you have set result.outcome,
  result.validate_state, retry, credit, or canonicalid for ANY of the
