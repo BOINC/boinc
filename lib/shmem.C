@@ -27,6 +27,9 @@
 #if HAVE_SYS_IPC_H
 #include <sys/ipc.h>
 #endif
+#if HAVE_SYS_SHM_H
+#include <sys/shm.h>
+#endif
 #include <assert.h>
 
 #include "shmem.h"
