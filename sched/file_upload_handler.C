@@ -16,10 +16,17 @@
 //
 // Contributor(s):
 //
-
-
 // The BOINC file upload handler.
 // See doc/upload.html for protocol spec.
+//
+// Revision History:
+//
+// $Log$
+// Revision 1.53  2003/12/17 19:14:17  korpela
+// Added include of <unistd.h> (when found) to get definition of gethostname()
+// under solaris.
+//
+//
 
 #include <stdio.h>
 #include <stdlib.h>
