@@ -16760,3 +16760,12 @@ Rom    29 Aug 2004
     sched/
         feeder.C
         sched_shmem.h
+
+Rom    30 Aug 2004
+     - Win98 machines seem to be throwing a SEH stack overflow exception.
+       Our unhandled exception filter in this case allocated a 1MB memory buffer
+       and pointed the ESP register at it.  Well this chunk of code seems to
+       be broken, it is probably the first time it has ever been used.
+
+    lib/
+        diagnostics.C

@@ -169,6 +169,9 @@ int boinc_install_signal_handlers() {
 //
 LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 
+// Removed due to a nested exception problem
+// RTW: 09/30/2004
+/*
 	// Snagged from the latest stackwalker code base.  This allows us to grab
 	//   callstacks even in a stack overflow scenario
 	if ( pExPtrs->ExceptionRecord->ExceptionCode == EXCEPTION_STACK_OVERFLOW )
@@ -181,7 +184,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
 		__asm mov eax,offset MyStack[1024*128];
 		__asm mov esp,eax;
 	}
-
+*/
 
 #ifdef _DEBUG
 
