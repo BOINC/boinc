@@ -75,7 +75,9 @@ function clean_cache($max_age, $dir) {
 
 function start_cache($max_age, $params=""){
     $path = get_path($params);
+
     // check free disk space every once in a while
+    //
     if (!(rand() % CACHE_SIZE_CHECK_FREQ)) {
        $too_old=86400;
        while ((disk_free_space("../cache") < MIN_FREE_SPACE) ||
@@ -84,26 +86,44 @@ function start_cache($max_age, $params=""){
            $too_old/=2;
        }
     }
+
+    $regenerate = false;
     if ($max_age) {
         $request = getallheaders();
-        // Check to see if this is a conditional fetch.
+
         $lastmodified = @filemtime($path);
+        if ($lastmodified) {
 
-        $if_modified_since = isset($request['If-Modified-Since']) ?
-            (explode(';',$request['If-Modified-Since'])) :
-            false;
+            // Check to see if this is a conditional fetch.
+            //
+            $if_modified_since = isset($request['If-Modified-Since']) ?
+                (explode(';',$request['If-Modified-Since'])) :
+                false;
 
-        if ($if_modified_since) {
-            $if_modified_since=strtotime($if_modified_since[0]);
+            if ($if_modified_since) {
+                $if_modified_since=strtotime($if_modified_since[0]);
+            }
+
+            if ($if_modified_since && ($if_modified_since == $lastmodified)) {
+                Header("Last-Modified: " . gmdate("D, d M Y H:i:s",$lastmodified) . " GMT");
+                Header('HTTP/1.0 304 Not Modified');
+                exit;
+            }
+
+            // See if cached copy is too old.
+            // If so regenerate,
+            // and touch the cached copy so other processes
+            // don't regenerate at the same time
+            //
+            if ($lastmodified<time()-$max_age) {
+                $regenerate = true;
+                @touch($path);
+            }
+        } else {
+            $regenerate = true;
         }
 
-        if ($if_modified_since && ($if_modified_since == $lastmodified)) {
-            Header("Last-Modified: " . gmdate("D, d M Y H:i:s",$lastmodified) . " GMT");
-            Header('HTTP/1.0 304 Not Modified');
-            exit;
-        }
-
-        if ($lastmodified<time()-$max_age){
+        if ($regenerate){
             // If cached version is too old (or non-existent)
             // generate the page and write to cache
             //

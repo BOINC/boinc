@@ -56,8 +56,8 @@ define("START_END_DESC2", "<br><font size=-2>(no restriction if equal)</font>");
 define("LEAVE_APPS_IN_MEMORY_DESC",
     "Leave applications in memory while preempted?
     <br><font size=-2>(suspended applications will consume swap space if 'yes')</font>");
-define("CPU_SCHEDULING_DESC", "Schedule CPU between projects every
-    <br><font size=-2>(short cpu scheduling periods is recommended to use with above 'yes')</font>");
+define("CPU_SCHEDULING_DESC", "Switch between applications every
+    <br><font size=-2>(recommended: 60 minutes)</font>");
 define("CONFIRM_BEFORE_CONNECTING_DESC",
     "Confirm before connecting to Internet?
     <br><font size=-2>(matters only if you use a modem)</font>"
@@ -215,8 +215,8 @@ function element_end_global($parser, $name) {
     case "leave_apps_in_memory":
         $parse_result->leave_apps_in_memory = true;
         break;
-    case "cpu_scheduling":
-        $parse_result->cpu_scheduling = $text;
+    case "cpu_scheduling_period_minutes":
+        $parse_result->cpu_scheduling_period_minutes = $text;
         break;
     case "confirm_before_connecting":
         $parse_result->confirm_before_connecting = true;
@@ -276,7 +276,7 @@ function default_prefs_global() {
     $p->start_hour = 0;
     $p->end_hour = 0;
     $p->leave_apps_in_memory = false;
-    $p->cpu_scheduling = 60;
+    $p->cpu_scheduling_period_minutes = 60;
     $p->confirm_before_connecting = false;
     $p->hangup_if_dialed = true;
     $p->work_buf_min_days = .1;
@@ -374,7 +374,7 @@ function prefs_show_global($prefs) {
     }
     row2(START_END_DESC, $x);
     row2(LEAVE_APPS_IN_MEMORY_DESC, $prefs->leave_apps_in_memory?"yes":"no");
-    row2(CPU_SCHEDULING_DESC, "$prefs->cpu_scheduling minutes");
+    row2(CPU_SCHEDULING_DESC, "$prefs->cpu_scheduling_period_minutes minutes");
     row2(CONFIRM_BEFORE_CONNECTING_DESC, $prefs->confirm_before_connecting?"yes":"no");
     row2(HANGUP_IF_DIALED_DESC, $prefs->hangup_if_dialed?"yes":"no");
     row2(WORK_BUF_DESC, "$prefs->work_buf_min_days days");
@@ -519,7 +519,7 @@ function prefs_form_global($user, $prefs) {
     ";
     row2($x, $y);
 
-    $y = "<input size=5 name=cpu_scheduling value='$prefs->cpu_scheduling'> minutes ";
+    $y = "<input size=5 name=cpu_scheduling_period_minutes value='$prefs->cpu_scheduling_period_minutes'> minutes ";
     row2(CPU_SCHEDULING_DESC, $y);
 
     $x = CONFIRM_BEFORE_CONNECTING_DESC;
@@ -673,7 +673,7 @@ function prefs_global_parse_form(&$prefs) {
     $prefs->start_hour = $_GET["start_hour"];
     $prefs->end_hour = $_GET["end_hour"];
     $prefs->leave_apps_in_memory = ($leave_apps_in_memory == "yes");
-    $prefs->cpu_scheduling = $_GET["cpu_scheduling"];
+    $prefs->cpu_scheduling_period_minutes = $_GET["cpu_scheduling_period_minutes"];
     $prefs->confirm_before_connecting = ($confirm_before_connecting == "yes");
     $prefs->hangup_if_dialed = ($hangup_if_dialed == "yes");
     $prefs->confirm_eecutable = ($confirm_eecutable == "yes");
@@ -740,7 +740,7 @@ function global_prefs_make_xml($prefs, $primary=true) {
     if ($prefs->leave_apps_in_memory) {
         $xml = $xml."<leave_apps_in_memory/>\n";
     }
-    $xml = $xml."<cpu_scheduling>$prefs->cpu_scheduling</cpu_scheduling>\n";
+    $xml = $xml."<cpu_scheduling_period_minutes>$prefs->cpu_scheduling_period_minutes</cpu_scheduling_period_minutes>\n";
     if ($prefs->confirm_before_connecting) {
         $xml = $xml."<confirm_before_connecting/>\n";
     }
@@ -829,4 +829,3 @@ function project_prefs_update(&$user, $prefs) {
 }
 
 ?>
-
