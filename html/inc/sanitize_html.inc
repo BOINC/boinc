@@ -8,6 +8,7 @@ $allowed = array(
     'p' => array('align' => 1),
     'font' => array('face' => 1),
     'br' => array(),
+    'pre' => array(),
     'img' => array('src' => 1, 'border' => 1, 'height' => array('maxval' => 450))
 );
 
