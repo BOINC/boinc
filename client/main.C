@@ -26,9 +26,7 @@
 #endif
 
 #ifdef __APPLE_CC__
-#include "mac_carbon_include.h"
-#include <Carbon/Carbon.h>
-#include "mac_setupgl.h"
+#include "mac_main.h"
 #endif
 
 #include "client_state.h"
@@ -119,6 +117,8 @@ int main(int argc, char** argv) {
 #ifdef __APPLE_CC__
     if (!mac_setup ())
         return -1;
+    
+    ExitToShell();
 #endif
 
 #ifdef _WIN32
@@ -139,10 +139,6 @@ int main(int argc, char** argv) {
     // Restart any tasks that were running when we last quit the client
     gstate.restart_tasks();
     while (1) {
-#ifdef __APPLE_CC__
-        user_requested_exit = mac_do_event();
-#endif
-
 #ifdef _WIN32
         // Windows event loop here
 #endif
