@@ -13,7 +13,8 @@
     db_init();
 
     parse_str(getenv("QUERY_STRING"));
-    $q = build_sql_query();
+    $q = new SqlQueryString();
+    $q->process_form_items();
 
     if (strlen($nresults)) {
         $entries_to_show = $nresults;
@@ -48,7 +49,12 @@
         Displaying $start_1_offset to $last.<p>
     ";
 
-    $urlquery = $q->urlquery;
+    $url = $q->get_url("db_action.php");
+    if ($detail) {
+        $url .= "&detail=$detail";
+    }
+
+    //echo "<hr>$url<hr><br>\n";
     if ($start_at || $last < $count) {
         echo "<table border=1><tr><td width=100>";
         if ($start_at) {
@@ -57,29 +63,32 @@
                 $prev_pos = 0;
             }
             echo "
-                <a href=db_action.php?table=$table&query=$urlquery&last_pos=$prev_pos&detail=$detail>Previous $page_entries_to_show</a><br>
+                <a href=$url&last_pos=$prev_pos>Previous $page_entries_to_show</a><br>
             ";
         }
         echo "</td><td width=100>";
         if ($last < $count) {
             echo "
-                <a href=db_action.php?table=$table&query=$urlquery&last_pos=$last&detail=$detail>Next $entries_to_show</a><br>
+                <a href=$url&last_pos=$last>Next $entries_to_show</a><br>
             ";
         }
         echo "</td></tr></table>";
     }
 
     if ($table == "result") {
-        echo "<a href=result_summary.php?query=$urlquery>Summary</a> |";
+        $url = $q->get_url("result_summary.php");
+        echo "<a href=$url>Summary</a> |";
     }
     if ($detail == "high") {
+        $url = $q->get_url("db_action.php")."&detail=low";
         echo "
-            <a href=db_action.php?table=$table&query=$urlquery&detail=low>Less detail</a>
+            <a href=$url>Less detail</a>
         ";
     }
     if ($detail == "low") {
+        $url = $q->get_url("db_action.php")."&detail=high";
         echo "
-            <a href=db_action.php?table=$table&query=$urlquery&detail=high>More detail</a>
+            <a href=$url>More detail</a>
         ";
     }
 

@@ -38,13 +38,40 @@ function join_query_string($s1, $s2) {
     }
 }
 
+// SqlQueryString maps a bunch of form items to a SQL query
+//
+// The items are
+// table        (name of table)
+// id
+// platformid
+// appid
+// workunitid
+// hostid
+// userid
+// teamid
+// nsecs            (received_time > now - nsecs)
+// received_time    (> x)
+// server_state     (== x if z nonzero)
+// outcome          (== x if z nonzero)
+// client_state     (== x if z nonzero)
+// clauses          (literals added after the above)
+// sort_by          (order by x desc added after all else)
+//
+// Once you've parsed the items (using parse_form_items()):
+//
+// get_select_query(n, m) returns the SQL query to get items from m to m+n
+// get_url() returns the URL-encoded version of everything
+// count() returns the number of records satisfying the query
+
 class SqlQueryString {
     var $table;
     var $query;
     var $urlquery;
+
     function SqlQueryString() {
         $this->table = $_GET['table'];
-        $this->query = $_GET['query'];
+        //$this->query = $_GET['query'];
+        $this->query = "";
         $this->urlquery = "";
     }
     function add($clause) {
@@ -57,6 +84,7 @@ class SqlQueryString {
     function addclause($clause) {
         if ($clause) {
             $this->add($clause);
+            $this->urlquery .= "&clauses=".urlencode($clause);
         }
     }
     function addeq($name) {
@@ -109,40 +137,33 @@ class SqlQueryString {
         }
     }
 
-    function get_url_query($query_extra) {
-        $q = join_query_string($this->query, $query_extra);
+    function get_url($base) {
         $s = "db_action.php?table=$this->table$this->urlquery";
-        if ($q) {
-            $s = "$s&query=$q";
-        }
         return $s;
     }
+
+    function process_form_items() {
+        $this->addeq('id');
+        $this->addeq('platformid');
+        $this->addeq('appid');
+        $this->addeq('workunitid');
+        $this->addeq('hostid');
+        $this->addeq('userid');
+        $this->addeq('teamid');
+        if ($_GET['nsecs']) {
+            $_GET['received_time'] = time() - $_GET['nsecs'];
+        }
+        $this->addgt('received_time');
+        $this->addeqnz('server_state');
+        $this->addeqnz('outcome');
+        $this->addeqnz('client_state');
+        if ($_GET['clauses']) {
+            $this->addclause($_GET['clauses']);
+        }
+        $this->addsort('sort_by');
+    }
 }
 
-function build_sql_query() {
-    $q = new SqlQueryString();
-
-    $q->addeq('id');
-    $q->addeq('platformid');
-    $q->addeq('appid');
-    $q->addeq('workunitid');
-    $q->addeq('hostid');
-    $q->addeq('userid');
-    $q->addeq('teamid');
-    if ($_GET['nsecs']) {
-        $_GET['received_time'] = time() - $_GET['nsecs'];
-    }
-    $q->addgt('received_time');
-    $q->addeqnz('server_state');
-    $q->addeqnz('outcome');
-    $q->addeqnz('client_state');
-    if ($_GET['clauses']) {
-        $q->add($_GET['clauses']);
-    }
-    $q->addsort('sort_by');
-
-    return $q;
-}
 
 function link_results($n, $mq, $query) {
     if ($n == '0') { // intentional compare by string
@@ -169,7 +190,10 @@ function show_result_summary() {
 
     $_GET['table'] = 'result';
     $_GET['sort_by'] = ''; // ignore sort
-    $q = build_sql_query();
+
+    $q = new SqlQueryString();
+    $q->process_form_items();
+
     $main_query = $q->get_select_query(0,0);
     $urlquery = $q->urlquery;
     echo "<p>Query: <b>$main_query</b><p>\n";

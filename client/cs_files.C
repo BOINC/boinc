@@ -115,6 +115,10 @@ int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
                 "verify_downloaded_file(): %s: MD5 check failed\n",
                 pathname
             );
+            msg_printf(project, MSG_ERROR,
+                "expected %s, got %s\n",
+                file_info.md5_cksum, cksum
+            );
             return ERR_MD5_FAILED;
         }
     }
