@@ -144,7 +144,7 @@ class Project {
         $this->upload_url = $cgi_url."/file_upload_handler";
         $this->scheduler_url = $cgi_url."/cgi";
         $this->project_dir = $base_dir."/".$this->name;
-        $this->master_url = get_env_var("BOINC_HTML_URL")."/".$this->name."/html_user/index.html";
+        $this->master_url = get_env_var("BOINC_HTML_URL")."/".$this->name."/html_user/index.php";
         PassThru("rm -rf $this->project_dir");
         PassThru("mkdir $this->project_dir");
             // make the CGI writeable in case scheduler writes req/reply files
@@ -250,7 +250,7 @@ class Project {
         // the right scheduler URL
         //
         $u = str_replace("/", "\\\/", $this->scheduler_url);
-        $x = "sed -e s/SCHEDULER_URL/$u/ $this->project_dir/html_user/index.html > temp; mv temp $this->project_dir/html_user/index.html";
+        $x = "sed -e s/SCHEDULER_URL/$u/ $this->project_dir/html_user/index.php > temp; mv temp $this->project_dir/html_user/index.php";
         echo "$x\n";
         PassThru($x);
 
