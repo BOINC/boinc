@@ -16,6 +16,7 @@ bin_PROGRAMS = boinc_client
 EXTRA_PROGRAMS = cpu_benchmark
 
 boinc_client_SOURCES = \
+    acct_mgr.C \
     app.C \
     app_control.C \
     app_graphics.C \
