@@ -281,15 +281,13 @@ Building the Installer
 -------------------------------------------------------------------------
 Build UNIX
 
-Default (shared libraries) client:
+Building everything (scheduling server, test files, client):
 
-1 ./configure && make
+  ./configure && make
 
-Static client:
+Building client only:
 
-1 ./configure CFLAGS=-static CXXFLAGS=-static && cd client && make 
-
-
+  ./configure && cd client && make
 
 
 -------------------------------------------------------------------------
