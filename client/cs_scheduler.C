@@ -140,7 +140,10 @@ PROJECT* CLIENT_STATE::next_project(PROJECT *old) {
     bool found_old = (old == 0);
     for (i=0; i<projects.size(); ++i) {
         p = projects[i];
-        if (p == old) found_old = true;
+        if (p == old) {
+            found_old = true;
+            continue;
+        }
         if (p->master_url_fetch_pending) continue;
         if (p->waiting_until_min_rpc_time(now)) continue;
         if (found_old && p->work_request > 0) {
