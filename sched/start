@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
 ## $Id$
-# start - a cron-like program to start/stop BOINC server daemons, and run
-#         utility tasks
 
 # The contents of this file are subject to the BOINC Public License
 # Version 1.0 (the "License"); you may not use this file except in
@@ -23,55 +21,326 @@
 # Contributor(s):
 #
 
-import sys, os, getopt
-from boinc_config import config
+# Commentary:
+
+'''
+A cron-like program to start/stop BOINC server daemons, and run utility tasks
+
+START parses config.xml and runs <daemon> and <task> entries.  A config.xml
+file looks like this:
+
+<boinc>
+  <config>
+    ...
+    <!-- optional; defaults as indicated: -->
+    <project_dir>../</project_dir>     <!-- relative to location of 'start' -->
+    <bin_dir>bin</bin_dir>             <!-- relative to project_dir -->
+    <cgi_bin_dir>cgi-bin</cgi_dir>
+    <log_dir>log</log_dir>
+    <pid_dir>pid</pid_dir>
+     ...
+  </config>
+  <daemons>
+    <daemon>
+      <cmd>feeder -d 3</cmd>
+    </daemon>
+  </daemons>
+  <tasks>
+    <task>
+      <cmd>get_load</cmd>
+      <output>get_load.out</output>
+      <period>5 min</period>
+    </task>
+    <task>
+      <cmd>echo "HI" | mail quarl</cmd>
+      <output>/dev/null</output>
+      <period>1 day</period>
+    </task>
+  </tasks>
+</boinc>
+
+CMD and PERIOD are required.  OUTPUT specifies the file to output and by
+default is COMMAND_BASE_NAME.out.  Commands are run in the <bin_dir> directory
+which is a path relative to <project_dir> and output to <log_dir>.
+
+Invocation methods:
+
+   --enable   (default if no mode specified)
+              Set BOINC in ENABLED mode and start daemons
+
+   --cron     If BOINC is in ENABLED mode start daemons and run tasks
+              Else do nothing.
+              This command is intended to be run as a real cron job every five
+              minutes.
+
+   --disable  Set BOINC in DISABLED mode and stop daemons.
+
+   --status   Show status.
+
+See "start --help" for options.
+
+
+A daemon is a task for which a process ID is recorded in the <pid_dir>
+directory and is sent a SIGINT in a DISABLE operation.
+'''
+
+import sys, os, getopt, time, glob, fcntl, signal
+from boinc_config import *
 
 verbose = os.isatty(sys.stdout.fileno())
+verbose_daemon_run = 0
 
-def _true_or_false(x):
-    '''Coerce value into True or False'''
-    return x and True or False
+def get_dir(name):
+    return config.config.__dict__.get(name+'_dir') or os.path.join(project_dir,name)
 
-def set_enable(new_state):
-    '''Set config.enable to new_state and write file, if changed.'''
-    if _true_or_false(config.enabled) != new_state:
-        config.enabled = new_state
-        config.write()
+def ensure_get_dir(name):
+    f = get_dir(name)
+    ensure_dir(f)
+    return f
 
-def enable_start():
-    if verbose: print "Enabling servers and starting servers."
-    set_enable(True)
-    for task in config.tasks:
-        print "task: cmd=", task.cmd
-    pass
+def is_daemon(task):
+    '''returns true if task is a daemon'''
+    return task._name == 'daemon'
 
-def cron_start():
-    pass
+def get_task_output_name(task):
+    return os.path.join(log_dir,
+                        task.__dict__.get('output') or task.cmd.split()[0] + '.out')
 
-def disable_stop():
-    pass
+def get_daemon_output_name(task):
+    return os.path.join(log_dir,
+                        task.__dict__.get('output') or task.cmd.split()[0] + '.log')
 
+def get_daemon_pid_name(task):
+    return os.path.join(pid_dir,
+                        task.__dict__.get('pid_file') or task.cmd.split()[0] + '.pid')
+
+def get_task_lock_name(task):
+    return os.path.join(pid_dir,
+                        task.__dict__.get('lock_file') or task.cmd.split()[0] + '.lock')
+
+def ensure_dir(filename):
+    try:
+        os.mkdir(filename)
+    except OSError:
+        return
+
+def redirect(stdout='/dev/null', stderr=None, stdin='/dev/null', pidfile=None):
+    '''
+    Redirects stdio.  The stdin, stdout, and stderr arguments are file names
+    that will be opened and be used to replace the standard file descriptors
+    in sys.stdin, sys.stdout, and sys.stderr.  These arguments are optional
+    and default to /dev/null.
+    '''
+
+    si = open(stdin, 'r')
+    if not stderr: stderr = stdout
+    se = open(stderr, 'a+', 0)
+    if stdout == stderr:
+        so = se
+    else:
+        so = open(stdout, 'a+')
+    if pidfile: print >>open(pidfile,'w'), os.getpid()
+
+    # Redirect standard file descriptors.
+    os.dup2(si.fileno(), sys.stdin.fileno())
+    os.dup2(so.fileno(), sys.stdout.fileno())
+    os.dup2(se.fileno(), sys.stderr.fileno())
+
+def double_fork():
+    '''
+    This forks the current process into a daemon using a double-fork.
+    Returns 1 for parent, 0 for child.
+
+    See:      http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
+              http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/66012
+    '''
+    # this is necessary because otherwise any buffered output would get
+    # printed twice after the fork!
+    sys.stdout.flush()
+
+    # Do first fork.
+    try:
+        pid = os.fork()
+        if pid > 0: return 1
+    except OSError, e:
+        sys.stderr.write("fork #1 failed: (%d) %s\n" % (e.errno, e.strerror))
+        sys.exit(1)
+
+    # Decouple from parent environment.
+    os.chdir("/")
+    os.umask(0)
+    os.setsid()
+
+    # Do second fork.
+    try:
+        pid = os.fork()
+        if pid > 0: sys.exit(0) # Exit second parent.
+    except OSError, e:
+        sys.stderr.write("fork #2 failed: (%d) %s\n" % (e.errno, e.strerror))
+        sys.exit(1)
+    return 0
+
+# if we ever want to use this on windows see:
+#    http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/65203
+# returns 0 on success, -1 on error
+locks = []
+def lock_file(filename):
+    global locks
+    file = open(filename,'w')
+    locks.append(file)
+    try:
+        return fcntl.flock(file.fileno(), fcntl.LOCK_EX|fcntl.LOCK_NB)
+    except IOError:
+        return -1
+
+def exec_command_string(command):
+    args = command.split()
+    # set default path for program to <bin_dir>:
+    args[0] = os.path.join( bin_dir, args[0] )
+    os.execv( args[0], args )
+    os._exit(1)                         # shouldn't get here
+
+def task_time_elapsed(task):
+    # TODO
+    return 0
+
+def update_task_timestamp(task):
+    # TODO
+    return 0
+
+def run_task(task):
+    '''Fork and exec command without stdout/err redirection'''
+    if not task_time_elapsed(task):
+        if verbose:
+            print "  Not running task because not time yet:",task.cmd
+        return
+    if verbose:
+        print "  Running task:", task.cmd
+    update_task_timestamp(task)
+    # we don't need the full double-fork because this should finish quickly
+    if os.fork() > 0: return
+    if lock_file(get_task_lock_name(task)):
+        print >>sys.stderr, "Task currently running!"
+        sys.exit(1)
+    redirect(stdout = get_task_output_name(task))
+    exec_command_string(task.cmd)
+
+def run_daemon(task):
+    '''Double-fork and exec command with stdout/err redirection and pid writing'''
+    if verbose or verbose_daemon_run:
+        print "  Starting daemon:", task.cmd
+    # TODO: lock file
+    if double_fork() > 0: return
+    if lock_file(get_task_lock_name(task)):
+        if verbose:
+            print >>sys.stderr, "Daemon already running:",task.cmd
+        sys.exit(0)
+    redirect(stdout = get_daemon_output_name(task),
+             pidfile = get_daemon_pid_name(task))
+    exec_command_string(task.cmd)
+
+def run_daemons():
+    if verbose: print "Starting daemons"
+    map(run_daemon, config.daemons)
+
+def run_tasks():
+    if verbose: print "Running tasks"
+    map(run_task, config.tasks)
+
+def safe_read_int(filename):
+    try:
+        return int(open(filename).readline().strip())
+    except:
+        return 0
+
+def stop_daemon(pid):
+    '''returns 1 if something stopped, else 0'''
+    try:
+        os.kill(pid, signal.SIGINT)
+    except OSError, e:
+        if e.errno != 3:
+            print >>sys.stderr, "Warning: couldn't kill pid %d:"%pid, e
+        return 0
+    if verbose:
+        print "  Killed process", pid
+    return 1
+
+def write_stop_trigger():
+    print >>open(os.path.join(project_dir, 'stop_servers'),'w'), '<stop/>'
+
+def stop_daemons():
+    if verbose: print "Stopping all daemons"
+    write_stop_trigger()
+    pid_files = glob.glob(os.path.join(pid_dir, '*.pid'))
+    count = 0
+    for pid_file in pid_files:
+        count += stop_daemon(safe_read_int(pid_file))
+    if verbose:
+        if not count:
+            print "  No processes stopped"
+
+
+######################################################################
+## command (action) functions:
+def command_enable_start():
+    if verbose:
+        if run_state.enabled:
+            print "Staying in ENABLED mode"
+        else:
+            print "Entering ENABLED mode"
+        run_state.enabled = True
+    run_daemons()
+
+def command_cron_start():
+    if verbose: print "Cron-start mode (enabled=%s)"%run_state.enabled
+    if run_state.enabled:
+        global verbose_daemon_run
+        verbose_daemon_run = 1
+        run_daemons()
+        run_tasks()
+    else:
+        if verbose: print "Not running tasks because disabled"
+
+def command_disable_stop():
+    if verbose: print "Entering DISABLED mode"
+    run_state.enabled = False
+    stop_daemons()
+
+def command_status():
+    if run_state.enabled:
+        print "BOINC is ENABLED"
+    else:
+        print "BOINC is DISABLED"
+    # TODO: for each daemon and task, show:
+    #    - lock file locked?
+    #    - pid
+    #    - process running? (use kill(0))
+    #    - last run? (task)
+    #    - next run in how long? (task)
 
 def help():
     print >>sys.stderr, "Syntax: %s [options] [command]" % sys.argv[0]
-    print >>sys.stderr, """   Starts or stops BOINC processes.
-  Commands:
-   --enable  (-e) [def] Set BOINC to ENABLED mode and start all processes
-   --cron    (-c)       If ENABLED, run processes as necessary
-                        Intended to be run from real cron every 5 min.
-   --disable (-d)       Set BOINC to DISABLED mode and stop all processes
+    print >>sys.stderr, """   Starts or stops BOINC daemons and tasks.
 
-  Options:
+Commands:
+   --enable  (-e) [def] Set BOINC to ENABLED mode and start daemons
+   --cron    (-c)       If ENABLED, start daemons and run tasks
+                        Intended to be run from real cron every 5 min.
+   --disable (-d)       Set BOINC to DISABLED mode and stop daemons
+   --status  (-s)       Show status.
+
+Options:
    --quiet   (-q)       Operate quietly, even if STDOUT is a tty.
    --verbose (-v)       Operate verbosely, even if STDOUT is not a tty.
 """
     sys.exit(1)
 
-command = enable_start
+command = command_enable_start
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], 'cedqvh',
+    opts, args = getopt.getopt(sys.argv[1:], 'cedskqvh?',
                                ('enable', 'cron', 'disable',
+                                'start', 'stop', 'kill', 'status',
                                 'quiet', 'verbose', 'help'))
 except Exception, e:
     print >>sys.stderr, e
@@ -82,16 +351,38 @@ for opt,v in opts:
         verbose = 0
     elif opt == '-v' or opt == '--verbose':
         verbose = 1
-    elif opt == '-h' or opt == '--help':
+    elif opt == '-h' or opt == '--help' or opt == '-?':
         help()
-    elif opt == '-e' or opt == '--enable' or opt == '-s' or opt == '--start':
-        command = enable_start
+    elif opt == '-e' or opt == '--enable' or opt == '--start':
+        command = command_enable_start
     elif opt == '-c' or opt == '--cron':
-        command = cron_start
-    elif opt == '-d' or opt == '--disable' or opt == '-k' or opt == '--kill':
-        command = disable_stop
+        command = command_cron_start
+    elif opt == '-d' or opt == '--disable' or opt == '--stop' or opt == '-k' or opt == '--kill':
+        command = command_disable_stop
+    elif opt == '-s' or opt == '--status':
+        command = command_status
     else: assert(False)
 
-config.read()
-apply(command)
+program_path = os.path.realpath(os.path.dirname(sys.argv[0]))
+config_filename = os.path.realpath(os.path.join(program_path, '../config.xml'))
+run_state_filename = os.path.realpath(os.path.join(program_path, '../run_state.xml'))
 
+config = BoincConfig(config_filename).read()
+run_state = BoincRunState(run_state_filename).read(failopen_ok = True)
+
+project_dir = os.path.realpath(config.config.__dict__.get('project_dir') or
+                               os.path.join(program_path, '../'))
+os.chdir(project_dir)
+bin_dir = get_dir('bin')
+cgi_bin_dir = get_dir('cgi_bin')
+log_dir = ensure_get_dir('log')
+pid_dir = ensure_get_dir('pid')
+
+start_lockfile = os.path.join(pid_dir, 'start.lock')
+if lock_file(start_lockfile):
+    print >>sys.stderr, "start is currently running!"
+    sys.exit(1)
+
+apply(command)
+run_state.write()
+os.unlink(start_lockfile)
