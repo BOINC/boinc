@@ -3786,3 +3786,13 @@ Eric  March 11, 2003
     lib/
         util.C,h
 
+Eric  March 12, 2003
+    - Quit requests are now sent via the SIGQUIT signal (on UNIX)
+      or an inherited EventHandle (on Windows), rather than via
+      an XML file
+
+    api/
+        boinc_api.C,h
+    client/
+        app.C,h
+
