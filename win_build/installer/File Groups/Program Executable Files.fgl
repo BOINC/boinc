@@ -1,5 +1,6 @@
 [TopDir]
 file0=..\Build\Debug\boinc_gui.exe
+file1=..\Build\Debug\boinc_cli.exe
 
 [General]
 Type=FILELIST
