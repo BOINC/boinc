@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://www.mozilla.org/MPL/
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// Portions created by the SETI@home project are Copyright (C) 2002, 2003
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -359,7 +359,7 @@ new_host:
 // Could also include terms for RAM size, network speed etc.
 //
 static void compute_credit_rating(HOST& host) {
-    host.credit_per_cpu_sec = 
+    host.credit_per_cpu_sec =
         (fabs(host.p_fpops)/1e9 + fabs(host.p_iops)/1e9 + fabs(host.p_membw)/4e9)/(3*SECONDS_PER_DAY);
 }
 
@@ -507,6 +507,8 @@ int handle_results(
         result.cpu_time = rp->cpu_time;
         result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
         result.server_state = RESULT_SERVER_STATE_OVER;
+        // TODO: if client application aborted e.g. exceeded resource limits,
+        // should client_state be RESULT_OUTCOME_CLIENT_ERROR ?
         if (result.client_state == RESULT_FILES_UPLOADED) {
             result.outcome = RESULT_OUTCOME_SUCCESS;
             retval = wu.lookup_id(result.workunitid);
@@ -527,7 +529,7 @@ int handle_results(
             result.outcome = RESULT_OUTCOME_CLIENT_ERROR;
             result.validate_state = VALIDATE_STATE_INVALID;
         }
-     
+
         strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
         strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
         retval = result.update();
@@ -609,7 +611,7 @@ int send_work(
         // copy the result so we don't overwrite its XML fields
         //
         result_copy = result;
-        
+
         retval = insert_name_tags(result_copy, wu);
         if (retval) {
             write_log("send_work: can't insert name tags\n", MSG_NORMAL);
@@ -721,7 +723,7 @@ void process_request(
     // if different major version of BOINC, just send a message
     //
     if (wrong_major_version(sreq, reply)) return;
-    
+
     retval = authenticate_user(sreq, reply);
     if (retval) return;
 
