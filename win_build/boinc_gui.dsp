@@ -178,6 +178,10 @@ SOURCE=..\Lib\Md5_file.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\message.C
+# End Source File
+# Begin Source File
+
 SOURCE=..\lib\messages.C
 # End Source File
 # Begin Source File
