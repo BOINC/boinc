@@ -46,6 +46,9 @@
 #include "speed_stats.h"
 #include "client_state.h"
 
+extern void guiOnBenchmarksBegin();
+extern void guiOnBenchmarksEnd();
+
 #define BENCHMARK_PERIOD        (SECONDS_PER_DAY*30)
     // rerun CPU benchmarks this often (hardware may have been upgraded)
 
@@ -96,9 +99,7 @@ int CLIENT_STATE::cpu_benchmarks() {
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_MEASUREMENT);
     scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Running CPU benchmarks.\n");
 
-#ifdef _WIN32
 	guiOnBenchmarksBegin();
-#endif
 
     clear_host_info(host_info);
     ++log_messages;
@@ -142,9 +143,7 @@ int CLIENT_STATE::cpu_benchmarks() {
     if(!finfo) return ERR_FOPEN;
     host_info.write_cpu_benchmarks(finfo);
     fclose(finfo);
-#ifdef _WIN32
 	guiOnBenchmarksEnd();
-#endif
     --log_messages;
     return 0;
 }

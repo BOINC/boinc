@@ -49,7 +49,6 @@
 #include "hostinfo.h"
 #include "http.h"
 #include "log_flags.h"
-#include "maybe_gui.h"
 #include "client_state.h"
 
 CLIENT_STATE gstate;

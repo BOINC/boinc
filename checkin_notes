@@ -6898,3 +6898,5 @@ David  18 Oct 2003
         cs_benchmark.C (new)
         cs_prefs.C (new)
         cs_statefile.C (new)
+        main.C
+        maybe_gui.h (removed)

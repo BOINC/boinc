@@ -42,6 +42,8 @@
 // dummies
 void create_curtain(){}
 void delete_curtain(){}
+void guiOnBenchmarksBegin(){}
+void guiOnBenchmarksEnd(){}
 
 void CLIENT_STATE::approve_executables() {
     unsigned int i;

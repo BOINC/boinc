@@ -126,11 +126,23 @@ SOURCE=..\Client\cs_apps.C
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\cs_benchmark.C
+# End Source File
+# Begin Source File
+
 SOURCE=..\Client\cs_files.C
 # End Source File
 # Begin Source File
 
+SOURCE=..\client\cs_prefs.C
+# End Source File
+# Begin Source File
+
 SOURCE=..\Client\cs_scheduler.C
+# End Source File
+# Begin Source File
+
+SOURCE=..\client\cs_statefile.C
 # End Source File
 # Begin Source File
 
