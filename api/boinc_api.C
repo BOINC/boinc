@@ -66,7 +66,7 @@ using namespace std;
 // (not counting the part after the last checkpoint in an episode).
 
 static APP_INIT_DATA		aid;
-APP_CLIENT_SHM	            *app_client_shm;
+APP_CLIENT_SHM	            *app_client_shm=0;
 static	double				timer_period = 1.0;    // period of API timer
     // This determines the resolution of fraction done and CPU time reporting
     // to the core client, and of checkpoint enabling.
@@ -119,11 +119,13 @@ int boinc_init(bool standalone_ /* = false */) {
     standalone = standalone_;
 
     retval = boinc_parse_init_data_file();
-    if (retval) return retval;
-
-    retval = setup_shared_mem();
     if (retval) {
         standalone = true;
+    } else {
+        retval = setup_shared_mem();
+        if (retval) {
+            standalone = true;
+        }
     }
 
     // copy the WU CPU time to a separate var,

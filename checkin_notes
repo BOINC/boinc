@@ -12977,3 +12977,10 @@ David  June 2 2004
 		gui_titles.C
 		win/
 			boinc_gui.rc
+
+David  June 2 2004
+	- API: if app init data file not present,
+		set standalone to true, don't return error
+
+	api/
+		boinc_api.C
