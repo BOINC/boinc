@@ -20083,3 +20083,7 @@ Rom    23 Nov 2004
         win_screensaver.cpp
     clientgui/
         BOINCGUIApp.cpp
+
+Rom   23 Nov 2004 (boinc)
+    - Tag for 4.56 release, all platforms
+      boinc_core_release_4_56
