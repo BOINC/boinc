@@ -309,7 +309,7 @@ std::string xml_encode_string(const unsigned char *input, size_t length=0) {
        }
     } else {
       char buf[16];
-      sprintf(buf,"&#%.3d",input[i]);
+      sprintf(buf,"&#%.3d;",input[i]);
       rv+=buf;
     }
   }
