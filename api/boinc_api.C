@@ -71,6 +71,7 @@ static bool this_process_active;
 static bool time_to_quit = false;
 static double last_wu_cpu_time;
 static bool standalone = false;
+static double initial_wu_cpu_time;
 
 APP_CLIENT_SHM *app_client_shm;
 
@@ -331,7 +332,7 @@ static void on_timer(int a) {
             double cur_cpu;
             double cur_mem;
             boinc_worker_thread_cpu_time(cur_cpu, cur_mem);
-            last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
+            last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
             update_app_progress(fraction_done, last_wu_cpu_time, last_checkpoint_cpu_time, cur_mem);
             time_until_fraction_done_update = aid.fraction_done_update_period;
         }
@@ -445,6 +446,11 @@ int boinc_init(bool standalone_ /* = false */) {
 
     retval = boinc_parse_init_data_file();
     if (retval) return retval;
+
+    // copy the WU CPU time to a separate var,
+    // since we may reread the structure again later.
+    //
+    initial_wu_cpu_time = aid.wu_cpu_time;
 
     f = fopen(FD_INIT_FILE, "r");
     if (f) {
