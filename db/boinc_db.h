@@ -653,7 +653,7 @@ public:
 
     int enumerate();
 
-    int lookup_result(char* result_name, SCHED_RESULT_ITEM& result);
+    int lookup_result(char* result_name, SCHED_RESULT_ITEM* result);
 
     int update_result(SCHED_RESULT_ITEM& result);
     int update_workunits();
