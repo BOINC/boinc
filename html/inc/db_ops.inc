@@ -331,40 +331,31 @@ GROUP BY
 
     $result = mysql_query($main_query);
 
-    $table_row_background = "eeeeee";
-
     echo "<table>\n";
     echo "<tr><th>App Version</th><th>OS Name</th><th>OS Version</th><th>Exit Status</th><th>Error Count</th></tr>\n";
 
     while ($res = mysql_fetch_object($result)) {
 
-        if ( $table_row_background = "eeeeee" ) {
-            $table_row_background = "000000";
-        } else {
-            $table_row_background = "eeeeee";
-        }
-
-
         echo "<tr>";
 
         
-        echo "<td bgcolor=$table_row_background align=left valign=top>";
+        echo "<td align=left valign=top>";
         echo $res->App_Version;
         echo "</td>";
 
-        echo "<td bgcolor=$table_row_background align=left valign=top>";
+        echo "<td align=left valign=top>";
         echo $res->OS_Name;
         echo "</td>";
 
-        echo "<td bgcolor=$table_row_background align=left valign=top>";
+        echo "<td align=left valign=top>";
         echo $res->OS_Version;
         echo "</td>";
 
-        echo "<td bgcolor=$table_row_background align=left valign=top>";
+        echo "<td align=left valign=top>";
         echo exit_status_string($res);
         echo "</td>";
 
-        echo "<td bgcolor=$table_row_background align=left valign=top>";
+        echo "<td align=left valign=top>";
         echo $res->error_count;
         echo "</td>";
 
