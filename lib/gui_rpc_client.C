@@ -1454,8 +1454,4 @@ int RPC_CLIENT::quit() {
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_6802bead97 = "$Id$";

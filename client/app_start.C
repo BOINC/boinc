@@ -547,8 +547,4 @@ int ACTIVE_TASK_SET::restart_tasks(int max_tasks) {
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_be8bae8cbb = "$Id$";

@@ -130,8 +130,4 @@ int check_pair(
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_7ab2b7189c = "$Id$";

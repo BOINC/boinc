@@ -1985,8 +1985,4 @@ else
 
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_9a13346eb1 = "$Id$";

@@ -141,8 +141,4 @@ void MFILE::get_buf(char*& b, int& l) {
     len = 0;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_8de9facdd7 = "$Id$";

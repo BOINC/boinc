@@ -85,8 +85,4 @@ return_default:
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_c4c9d87372 = "$Id$";

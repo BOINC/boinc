@@ -38,8 +38,4 @@ bool SCHED_MSG_LOG::v_message_wanted(int kind) const {
     return ( kind <= debug_level );
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_b40ff9bb53 = "$Id$";

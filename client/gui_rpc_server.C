@@ -705,8 +705,4 @@ bool GUI_RPC_CONN_SET::poll(double) {
     return (n > 0);
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_88dd75dd85 = "$Id$";

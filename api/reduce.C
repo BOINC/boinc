@@ -860,8 +860,4 @@ void REDUCED_ARRAY::draw_labels() {
 	ortho_done();
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_70f1fa52c7 = "$Id$";

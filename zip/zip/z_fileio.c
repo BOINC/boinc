@@ -990,8 +990,4 @@ register unsigned int len;
 
 #endif  /* ZMEM */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_cd0cef87cc = "$Id$";

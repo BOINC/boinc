@@ -450,8 +450,4 @@ void win_graphics_event_loop() {
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_462f482d81 = "$Id$";

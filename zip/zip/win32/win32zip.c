@@ -772,8 +772,4 @@ char *d;                /* directory to delete */
 
 #endif /* !UTIL */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_c4c268a880 = "$Id$";

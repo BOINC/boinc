@@ -408,8 +408,4 @@ bool CLIENT_STATE::are_cpu_benchmarks_running() {
     return benchmarks_running;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_97ee090db0 = "$Id$";

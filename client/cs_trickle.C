@@ -127,8 +127,4 @@ int CLIENT_STATE::handle_trickle_down(PROJECT* project, FILE* in) {
     return ERR_XML_PARSE;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_acbefbad3d = "$Id$";

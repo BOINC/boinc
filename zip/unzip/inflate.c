@@ -1498,8 +1498,4 @@ struct huft *t;         /* table to free */
   return 0;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_0f7484c9b3 = "$Id$";

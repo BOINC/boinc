@@ -1251,8 +1251,4 @@ int CLIENT_STATE::version() {
     return core_client_major_version*100 + core_client_minor_version;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_e836980ee1 = "$Id$";

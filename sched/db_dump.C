@@ -785,8 +785,4 @@ int main(int argc, char** argv) {
     log_messages.printf(SCHED_MSG_LOG::NORMAL, "db_dump finished\n");
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_500089bde6 = "$Id$";

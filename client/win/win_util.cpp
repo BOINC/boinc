@@ -264,8 +264,4 @@ int UtilSetRegStartupStr(char *name, char *str)
 	return error;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_29271c504f = "$Id$";

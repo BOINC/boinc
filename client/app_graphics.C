@@ -195,8 +195,4 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
     return NULL;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_71e9cd9f4d = "$Id$";

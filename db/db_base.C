@@ -337,8 +337,4 @@ void unescape_string(char* p, int /*len*/) {
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_43d919556b = "$Id$";

@@ -687,8 +687,4 @@ int printnames()
 
 #endif /* DEBUGNAMES */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_a327698ed4 = "$Id$";

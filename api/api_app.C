@@ -108,8 +108,4 @@ int parse_args(int argc, char **argv, int& secs, int& usecs) {
     return 0;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_bccd17d4ec = "$Id$";

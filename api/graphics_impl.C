@@ -240,8 +240,4 @@ bool throttled_app_render(int x, int y, double t) {
     return false;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_6e92742852 = "$Id$";

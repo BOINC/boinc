@@ -121,8 +121,4 @@ void get_log_path(char* p, char* filename) {
     mkdir(path, 0777);
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_affa6ef1e4 = "$Id$";

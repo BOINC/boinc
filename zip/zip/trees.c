@@ -1363,8 +1363,4 @@ local void copy_block(block, len, header)
 
 #endif /* !USE_ZLIB */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_45621bfe77 = "$Id$";

@@ -609,8 +609,4 @@ int UZ_EXP UzpValidate(char *archive, int AllCodes)
 
 #endif /* DLL */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_4f32a548c6 = "$Id$";

@@ -483,8 +483,4 @@ void MSG_QUEUE::msg_queue_poll(MSG_CHANNEL& channel) {
     }
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_778b61195e = "$Id$";

@@ -1332,8 +1332,4 @@ double RESULT::estimated_cpu_time_remaining() {
     return estimated_cpu_time();
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_b81ff9a584 = "$Id$";

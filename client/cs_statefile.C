@@ -559,8 +559,4 @@ int CLIENT_STATE::write_file_transfers_gui(MIOFILE& f) {
     return 0;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_375ec798cc = "$Id$";

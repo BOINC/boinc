@@ -104,8 +104,4 @@ int print_results(double time1, double time2, unsigned long int counter1,
     return 0;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_b94ec48d11 = "$Id$";

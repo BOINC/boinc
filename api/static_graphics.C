@@ -54,8 +54,4 @@ void app_graphics_resize(int w, int h) {
 void app_graphics_reread_prefs() {
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_ebba08c46e = "$Id$";

@@ -129,8 +129,4 @@ int NET_STATS::parse(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_733b4006f5 = "$Id$";

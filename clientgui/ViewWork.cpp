@@ -931,8 +931,4 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_34f860f736 = "$Id$";

@@ -119,8 +119,4 @@ int copy_element_contents(MIOFILE& in, const char* end_tag, string& str) {
     return ERR_XML_PARSE;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_37339d4dc0 = "$Id$";

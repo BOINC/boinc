@@ -523,8 +523,4 @@ void PERS_FILE_XFER_SET::suspend() {
     }
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_76edfcfb49 = "$Id$";

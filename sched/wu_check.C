@@ -128,8 +128,4 @@ int main(int argc, char** argv) {
     printf("%d out of %d errors\n", nerr, n);
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_8f4e399992 = "$Id$";

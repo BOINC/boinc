@@ -779,8 +779,4 @@ int CLIENT_STATE::handle_scheduler_reply(
     return 0;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_d35a4a7711 = "$Id$";

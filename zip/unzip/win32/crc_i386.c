@@ -219,8 +219,4 @@ fine:
 #endif
 #endif /* !USE_ZLIB */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_395f9d2297 = "$Id$";

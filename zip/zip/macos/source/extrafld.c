@@ -919,8 +919,4 @@ printf("\n%16s [%c%c%c%c]  [%c%c%c%c]",Fork,
     MacZip.fpb.hFileInfo.ioFlFndrInfo.fdCreator);
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_f3974ac6e4 = "$Id$";

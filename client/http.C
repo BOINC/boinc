@@ -809,8 +809,4 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
     return ERR_NOT_FOUND;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_57f273bb60 = "$Id$";

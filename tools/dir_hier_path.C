@@ -18,8 +18,4 @@ int main(int argc, char** argv) {
     printf("path: %s%s\n", config.download_dir, path);
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_c683969ea8 = "$Id$";

@@ -37,8 +37,4 @@ int main() {
     fprintf(stderr, "APP: upper_case ending, wrote %d chars\n", n);
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_130fd0309d = "$Id$";

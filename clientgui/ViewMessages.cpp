@@ -653,8 +653,4 @@ bool CViewMessages::CloseClipboard()
 
 #endif
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_0be7149475 = "$Id$";

@@ -567,8 +567,4 @@ double CLIENT_STATE::proj_potentially_free(PROJECT* p) {
 
 #endif
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_c8458fed1c = "$Id$";

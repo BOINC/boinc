@@ -386,8 +386,4 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     return false;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_37fbd07edd = "$Id$";

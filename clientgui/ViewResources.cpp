@@ -419,8 +419,4 @@ wxInt32 CViewResources::FormatDiskSpace( wxInt32 item, wxString& strBuffer ) con
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_5a37b46a6e = "$Id$";

@@ -604,8 +604,4 @@ void CLIENT_STATE::handle_file_xfer_apps() {
     }
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_7bf63ad771 = "$Id$";

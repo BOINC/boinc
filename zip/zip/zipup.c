@@ -1176,8 +1176,4 @@ ulg memcompress(tgt, tgtsize, src, srcsize)
 #endif /* ZP_NEED_MEMCOMPR */
 #endif /* !UTIL */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_4f9eafb9f3 = "$Id$";

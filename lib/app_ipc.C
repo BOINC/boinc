@@ -280,8 +280,4 @@ int boinc_resolve_filename_s(const char *virtual_name, string& physical_name) {
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_3add42d20e = "$Id$";

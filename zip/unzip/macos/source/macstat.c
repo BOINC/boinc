@@ -186,8 +186,4 @@ int UZmacstat(const char *path, struct stat *buf)
     return (err == noErr ? 0 : -1);
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_b6b6ca3001 = "$Id$";

@@ -573,8 +573,4 @@ int get_file_dir(char* filename, char* dir) {
 
 #endif
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_636c8d709b = "$Id$";

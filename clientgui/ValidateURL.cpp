@@ -21,6 +21,14 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2005/01/02 18:29:21  ballen
+// Modified CVS id strings.  After some fussing with different versions
+// of gcc to try and force them to not complain with -Wall but to always
+// include this, I decided to take a simpler approach.  All these strings
+// now have global linkage.  To prevent namespace conflicts they all
+// have different names.  For the record, the variable extension is a hash made of the first ten characters of the md5sum of the file path, eg:
+//     md5hash=`boinc/api/x_opengl.C | md5sum | cut -c 1-10`
+//
 // Revision 1.7  2004/12/08 00:39:12  ballen
 // Moved RCSID strings to the end of all .c, .C and .cpp files as per
 // David's request.
@@ -172,8 +180,4 @@ bool CValidateURL::CheckValidator() const
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_1f1a9f5f09 = "$Id$";

@@ -86,8 +86,4 @@ std::string md5_string(const unsigned char* data, int nbytes)
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_5a0dc438fe = "$Id$";

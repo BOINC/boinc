@@ -185,8 +185,4 @@ void DIB_BITMAP::FreeDIB_BMP()
 DIB_BITMAP::~DIB_BITMAP() { FreeDIB_BMP(); }
 	
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_1051ce617a = "$Id$";

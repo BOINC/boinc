@@ -210,8 +210,4 @@ void SCHED_SHMEM::restore_work(int pid) {
     }
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_e548c94703 = "$Id$";

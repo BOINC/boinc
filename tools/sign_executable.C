@@ -55,8 +55,4 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_1a27b0b4b8 = "$Id$";

@@ -316,8 +316,4 @@ void mksargs(argcp, argvp)
 
 #endif /* MSDOS */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_8941b85739 = "$Id$";

@@ -97,8 +97,4 @@ pascal OSStatus PrefsDialogEventHandler (EventHandlerCallRef myHandler, EventRef
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_362d5df8ab = "$Id$";

@@ -241,8 +241,4 @@ void Proc_5(DS_DATA& dd)
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_5107112def = "$Id$";

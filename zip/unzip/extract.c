@@ -2270,8 +2270,4 @@ static int namecmp(s1, s2)   /* [not] used by dircomp(); swiped from Zip */
 #endif /* 0 */
 #endif /* SET_DIR_ATTRIB */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_909bf7f202 = "$Id$";

@@ -168,8 +168,4 @@ struct dirent *readdir(DIR *dPtr)
     return dirPtr;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_ce8da9987d = "$Id$";

@@ -614,8 +614,4 @@ int explode(__G)
 #undef DUMPBITS
 #undef wszimpl
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_38cb7b3e92 = "$Id$";

@@ -1944,8 +1944,4 @@ int c;
   longjmp(unzipdll_error_return, c);
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_b2803595c0 = "$Id$";

@@ -221,8 +221,4 @@ UINT __stdcall GrantServiceExecutionRight(MSIHANDLE hInstall)
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_eeaf7c4c79 = "$Id$";

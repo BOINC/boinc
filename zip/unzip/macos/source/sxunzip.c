@@ -143,8 +143,4 @@ sprintf(UnzipVersion, "Unzip Module\n%d.%d%d%s of %s", UZ_MAJORVER,
 return UnzipVersion;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_d6fe878ae3 = "$Id$";

@@ -342,8 +342,4 @@ int main(int argc, char **argv)
 
 #endif /* TEST_MATCH */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_7b1daf8eb1 = "$Id$";

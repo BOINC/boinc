@@ -365,8 +365,4 @@ int read_key_file(char* keyfile, R_RSA_PRIVATE_KEY& key) {
     return 0;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_4f0c2e42ea = "$Id$";

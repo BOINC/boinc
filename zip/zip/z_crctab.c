@@ -226,8 +226,4 @@ void free_crc_table()
 
 #endif /* !USE_ZLIB || USE_OWN_CRCTAB */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_7b30f2d851 = "$Id$";

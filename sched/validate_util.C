@@ -248,8 +248,4 @@ int generic_check_pair(
     return retval;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_07049e8a0e = "$Id$";

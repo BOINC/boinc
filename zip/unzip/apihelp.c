@@ -154,8 +154,4 @@ C functions: -- See unzip.h for details\n\
 
 #endif /* API_DOC */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_99b98e9cf9 = "$Id$";

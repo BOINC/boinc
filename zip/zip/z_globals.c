@@ -95,8 +95,4 @@ unsigned icount = 0;            /* number of include only patterns */
 int zp_tz_is_valid;     /* signals "timezone info is available" */
 #endif
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_056e277f7d = "$Id$";

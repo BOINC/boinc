@@ -53,8 +53,4 @@ char g_szMiscItems[MAX_MISC_STR][256] = {
     "Paused"
 };
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_7f109697b8 = "$Id$";

@@ -699,8 +699,4 @@ char *getp(__G__ m, p, n)
 #endif /* CRYPT */
 #endif /* CRYPT || (UNZIP && !FUNZIP) */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_5c8ee27dba = "$Id$";

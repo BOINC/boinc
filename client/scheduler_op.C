@@ -752,8 +752,4 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     return ERR_XML_PARSE;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_11c806525b = "$Id$";

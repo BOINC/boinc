@@ -202,8 +202,4 @@ string r_base64_decode (const char* from, size_t length)
     }
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_2b47467419 = "$Id$";

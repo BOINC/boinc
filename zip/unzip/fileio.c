@@ -2533,8 +2533,4 @@ char Far * Far zfstrcpy(char Far *s1, const char Far *s2)
 
 #endif /* SMALL_MEM */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_eb8fddfb0f = "$Id$";

@@ -2192,8 +2192,4 @@ static char *zi_time(__G__ datetimez, modtimez, d_t_str)
 
 #endif /* !NO_ZIPINFO */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_a83f669bdc = "$Id$";

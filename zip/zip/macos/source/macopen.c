@@ -362,8 +362,4 @@ int my_open(char *path, int oflag)
 
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_9a1fb79b04 = "$Id$";

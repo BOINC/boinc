@@ -125,8 +125,4 @@ long         boinc_signal_operation_exception::ErrorValue() {
     return ERR_SIGNAL_OP;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_21138c830b = "$Id$";

@@ -88,8 +88,4 @@ int destroy_message_queue(key_t key) {
 }
 
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_7b5e8a534b = "$Id$";

@@ -63,8 +63,4 @@ ulg crc32(crc, buf, len)
 #endif /* !ASM_CRC */
 #endif /* !USE_ZLIB */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_49357bb004 = "$Id$";

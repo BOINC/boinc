@@ -1525,8 +1525,4 @@ static void qlfix(__G__ ef_ptr, ef_len)
 }
 #endif /* QLZIP */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_a72f75a0d4 = "$Id$";

@@ -453,8 +453,4 @@ void EXPENTRY ZpVersion(ZpVer far * p)   /* should be pointer to const struct */
     p->windll.patchlevel = DW_PATCHLEVEL;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_e99e3c832e = "$Id$";

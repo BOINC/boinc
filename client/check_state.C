@@ -177,8 +177,4 @@ void CLIENT_STATE::check_all() {
     }
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_d91498c9e4 = "$Id$";

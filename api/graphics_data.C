@@ -76,8 +76,4 @@ void GRAPHICS_DOUBLE_BUFFER::generate_done(GRAPHICS_BUFFER* b) {
     b->state = GB_STATE_GENERATED;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_ebfbd0f929 = "$Id$";

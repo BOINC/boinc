@@ -268,8 +268,4 @@ void whetstone(double& flops) {
     flops = KIPS*1000.0;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_595304be61 = "$Id$";

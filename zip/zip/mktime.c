@@ -256,8 +256,4 @@ mkgmtime(tm)
                   (unsigned long)(60 * minutes + seconds));
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_945276575a = "$Id$";

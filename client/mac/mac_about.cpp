@@ -95,8 +95,4 @@ CantInstallDialogHandler:
 
 */
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_c5d2599d58 = "$Id$";

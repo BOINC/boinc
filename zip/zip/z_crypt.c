@@ -19,8 +19,4 @@
 /* something "externally visible" to shut up compiler/linker warnings */
 int zcr_dummy;
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_6b6cadb29a = "$Id$";

@@ -1064,8 +1064,4 @@ BOOL CProgressListCtrl::OnCommand(WPARAM wParam, LPARAM lParam)
 	return CListCtrl::OnCommand(wParam, lParam);
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_577b1dbbc2 = "$Id$";

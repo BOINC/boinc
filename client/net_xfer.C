@@ -666,8 +666,4 @@ void NET_XFER_SET::check_active(bool& up, bool& down) {
     down_active = false;
 }
 
-#ifdef __GNUC__
-static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
-#else
-static volatile const char *BOINCrcsid="$Id$";
-#endif
+const char *BOINC_RCSID_e0a7088e04 = "$Id$";
