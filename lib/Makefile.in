@@ -13,7 +13,7 @@ CC = @CC@ $(CFLAGS) -I ../RSAEuro/source
 
 CLIBS = @LIBS@
 
-PROGS = md5_test shmem_test msg_queue_test crypt_prog
+PROGS = md5_test shmem_test msg_test crypt_prog
 # PROGS = md5_test shmem_test synch_test crypt_prog
 
 OBJS = \
@@ -52,7 +52,7 @@ md5_test: md5_test.o $(MD5_OBJS)
 shmem_test: shmem_test.o shmem.o
 	$(CC) shmem_test.o shmem.o $(CLIBS) -o shmem_test
 
-msg_queue_test: msg_test.o msg_queue.o
+msg_test: msg_test.o msg_queue.o
 	$(CC) msg_test.o msg_queue.o $(CLIBS) -o msg_test
 
 synch_test: synch_test.o synch.o
