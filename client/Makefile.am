@@ -53,11 +53,12 @@ all-local: @CLIENT_BIN_FILENAME@
 	rm -f @CLIENT_BIN_FILENAME@
 	ln boinc_client @CLIENT_BIN_FILENAME@
 
+## these source files need to be specified because no rule on unix uses them.
 EXTRA_DIST =							\
-	client/mac/*.h client/mac/*.cpp				\
-        client/win/*.h client/win/*.cpp client/win/*.rc		\
-        client/win/*.ico client/win/*.def client/win/res/*.*	\
-        client/translation/language.* 
+	mac/*.h mac/*.cpp					\
+        win/*.h win/*.cpp win/*.rc				\
+        win/*.ico win/*.def win/res/*.*				\
+        translation/language.* 
 
 clean-local:
 	rm @CLIENT_BIN_FILENAME@

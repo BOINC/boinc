@@ -204,10 +204,10 @@ speed_stats_SOURCES = speed_stats.C
 speed_stats_CFLAGS = -O6
 
 EXTRA_DIST = \
-	client/mac/*.h client/mac/*.cpp				\
-        client/win/*.h client/win/*.cpp client/win/*.rc		\
-        client/win/*.ico client/win/*.def client/win/res/*.*	\
-        client/translation/language.* 
+	mac/*.h mac/*.cpp					\
+        win/*.h win/*.cpp win/*.rc				\
+        win/*.ico win/*.def win/res/*.*				\
+        translation/language.* 
 
 subdir = client
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -1168,7 +1168,7 @@ top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
 
 distdir: $(DISTFILES)
-	$(mkinstalldirs) $(distdir)/.. $(distdir)/client/mac $(distdir)/client/translation $(distdir)/client/win $(distdir)/client/win/res
+	$(mkinstalldirs) $(distdir)/.. $(distdir)/mac $(distdir)/translation $(distdir)/win $(distdir)/win/res
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \

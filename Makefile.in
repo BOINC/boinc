@@ -132,14 +132,21 @@ target_vendor = @target_vendor@
 
 SUBDIRS = RSAEuro db lib api apps client sched
 
+
+###########################################################################
+# The rest of the rules below deal with making .tar.gz, .tar.bz2, and .zip
+# files. There are two sets of distributions: full and client.  full is built
+# by "make dist" and client is built by "make dist-client". The
+# NOT_IN_CLIENT_TARBALL variable contains sources that are not in the client
+# distribution.
+#
+
+# Putting a directory name recursively copies the entire contents - the
+# dist-hook below gets rid of CVS directories.
 EXTRA_DIST = \
-        mac_build/boinc.pbproj/*.pbxproj mac_build/*.lproj/*.nib/*.*	\
-        mac_build/*.lproj/*.strings					\
-        win_build/*.* win_build/*/*.dsp win_build/*/*.rct		\
-        doc/*.*								\
-        html_ops/*.*							\
-        html_user/*.*							\
-        stripchart/* stripchart/samples/*				\
+	mac_build win_build						\
+	doc html_ops html_user						\
+	stripchart							\
         test/*.xml test/*.php test/*wu test/*result test/*output	\
         test/*input test/*.inc						\
         INSTALL LICENSE
@@ -351,7 +358,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/doc $(distdir)/html_ops $(distdir)/html_user $(distdir)/mac_build/*.lproj $(distdir)/mac_build/*.lproj/*.nib $(distdir)/mac_build/boinc.pbproj $(distdir)/stripchart $(distdir)/stripchart/samples $(distdir)/test $(distdir)/win_build $(distdir)/win_build/*
+	$(mkinstalldirs) $(distdir)/test
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -391,6 +398,9 @@ distdir: $(DISTFILES)
 	      || exit 1; \
 	  fi; \
 	done
+	$(MAKE) $(AM_MAKEFLAGS) \
+	  top_distdir="$(top_distdir)" distdir="$(distdir)" \
+	  dist-hook
 	-find $(distdir) -type d ! -perm -777 -exec chmod a+rwx {} \; -o \
 	  ! -type d ! -perm -444 -links 1 -exec chmod a+r {} \; -o \
 	  ! -type d ! -perm -400 -exec chmod a+r {} \; -o \
@@ -568,10 +578,9 @@ uninstall-info: uninstall-info-recursive
 
 
 distdir-client: distdir
+	rm -fr $(distdir_client)
 	mv $(distdir) $(distdir_client)
-	cd $(distdir_client)
-	rm -r $(NOT_IN_CLIENT_TARBALL)
-	cd ..
+	cd $(distdir_client) && rm -r $(NOT_IN_CLIENT_TARBALL) && cd ..
 
 client-dist-gzip: distdir-client-client
 	$(AMTAR) chof - $(distdir_client) | GZIP=$(GZIP_ENV) gzip -c >$(distdir_client).tar.gz
@@ -596,6 +605,9 @@ dist-client dist-client-all: distdir-client
 # dist-all defined through automake makes the normal non-client distribution.
 
 dist-all: dist-client-all
+
+dist-hook:
+	rm -rf `find $(distdir) -name CVS`
 
 .PHONY: distdir-client client-dist-gzip client-dist-gzip2 client-dist-zip \
 	dist-client dist-client-all

@@ -2,14 +2,21 @@
 
 SUBDIRS = RSAEuro db lib api apps client sched
 
+###########################################################################
+# The rest of the rules below deal with making .tar.gz, .tar.bz2, and .zip
+# files. There are two sets of distributions: full and client.  full is built
+# by "make dist" and client is built by "make dist-client". The
+# NOT_IN_CLIENT_TARBALL variable contains sources that are not in the client
+# distribution.
+#
+
+# Putting a directory name recursively copies the entire contents - the
+# dist-hook below gets rid of CVS directories.
+
 EXTRA_DIST =								\
-        mac_build/boinc.pbproj/*.pbxproj mac_build/*.lproj/*.nib/*.*	\
-        mac_build/*.lproj/*.strings					\
-        win_build/*.* win_build/*/*.dsp win_build/*/*.rct		\
-        doc/*.*								\
-        html_ops/*.*							\
-        html_user/*.*							\
-        stripchart/* stripchart/samples/*				\
+	mac_build win_build						\
+	doc html_ops html_user						\
+	stripchart							\
         test/*.xml test/*.php test/*wu test/*result test/*output	\
         test/*input test/*.inc						\
         INSTALL LICENSE
@@ -24,10 +31,9 @@ am__remove_distdir_client = \
          && rm -fr $(distdir_client); }; }
 
 distdir-client: distdir
+	rm -fr $(distdir_client)
 	mv $(distdir) $(distdir_client)
-	cd $(distdir_client)
-	rm -r $(NOT_IN_CLIENT_TARBALL)
-	cd ..
+	cd $(distdir_client) && rm -r $(NOT_IN_CLIENT_TARBALL) && cd ..
 
 client-dist-gzip: distdir-client-client
 	$(AMTAR) chof - $(distdir_client) | GZIP=$(GZIP_ENV) gzip -c >$(distdir_client).tar.gz
@@ -52,6 +58,9 @@ dist-client dist-client-all: distdir-client
 # dist-all defined through automake makes the normal non-client distribution.
 
 dist-all: dist-client-all
+
+dist-hook:
+	rm -rf `find $(distdir) -name CVS`
 
 .PHONY: distdir-client client-dist-gzip client-dist-gzip2 client-dist-zip \
 	dist-client dist-client-all
