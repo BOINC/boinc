@@ -528,6 +528,14 @@ int main(int argc, char** argv) {
     int i, retval;
     bool asynch = false, one_pass = false;
 
+#if 0
+    int mypid=getpid();
+    char debugcmd[512];
+    sprintf(debugcmd, "ddd %s %d &", argv[0], mypid);
+    system(debugcmd);
+    sleep(30);
+#endif
+
     check_stop_daemons();
 
     for (i=1; i<argc; i++) {
