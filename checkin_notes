@@ -11543,3 +11543,8 @@ David  April 11 2004
     sched/
         handle_request.C
         server_types.C
+
+Jeff  April 12 2004
+     - tagged with both:
+	boinc_core_release_3_00
+	seti_boinc_app_release_3_00
