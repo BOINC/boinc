@@ -17035,3 +17035,12 @@ David  4 Sept 2004
             forum_post.php
             forum_reply.php
             forum_thread.php
+
+David  4 Sept 2004
+    - removed old work_buffer_max_days stuff
+        (it's now only min_days)
+
+    client/
+        prefs.C,h
+    html/inc/
+        prefs.inc
