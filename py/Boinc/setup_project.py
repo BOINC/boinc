@@ -1,5 +1,10 @@
 ## $Id$
 
+# module for setting up a new project (either a real project or a test project
+# - see testbase.py).
+#
+# (This used to be boinc/py/boinc.py.)
+
 # TODO: make things work if build_dir != src_dir
 
 # TODO: use database.py
