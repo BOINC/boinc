@@ -18898,3 +18898,8 @@ David  26 Oct 2004
     api/
         boinc_api.C,h
         graphics_api.C,h
+
+Rom    26 Oct 2004 (boinc)
+    - Tag for 4.52 release, all platforms
+      boinc_core_release_4_52
+
