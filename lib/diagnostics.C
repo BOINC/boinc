@@ -68,7 +68,7 @@ extern void       boinc_quit(int sig);
 //
 int boinc_init_diag( unsigned long dwDiagnosticsFlags ) {
 
-	LPVOID lpRetVal;
+	void* lpRetVal;
 
     // Store Diagnostics Flags globally for use.
     g_BOINCDIAG_dwDiagnosticsFlags = dwDiagnosticsFlags;
@@ -88,25 +88,25 @@ int boinc_init_diag( unsigned long dwDiagnosticsFlags ) {
     
     // Redirect stderr and/or stdout streams, if requested
     if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_REDIRECTSTDERR ) {
-        lpRetVal = (LPVOID) freopen(BOINC_DIAG_STDERR, "a", stderr);
+        lpRetVal = (void*) freopen(BOINC_DIAG_STDERR, "a", stderr);
 	    if ( NULL == lpRetVal )
 		    BOINCFILEERROR( "Failed to reopen stderr for diagnostics redirection" );
     }
 
     if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_REDIRECTSTDERROVERWRITE ) {
-        lpRetVal = (LPVOID) freopen(BOINC_DIAG_STDERR, "w", stderr);
+        lpRetVal = (void*) freopen(BOINC_DIAG_STDERR, "w", stderr);
 	    if ( NULL == lpRetVal )
 		    BOINCFILEERROR( "Failed to reopen stderr for diagnostics redirection (overwrite)" );
     }
 
     if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_REDIRECTSTDOUT ) {
-	    lpRetVal = (LPVOID) freopen(BOINC_DIAG_STDOUT, "a", stdout);
+	    lpRetVal = (void*) freopen(BOINC_DIAG_STDOUT, "a", stdout);
 	    if ( NULL == lpRetVal )
 		    BOINCFILEERROR( "Failed to reopen stdout for diagnostics redirection" );
     }
 
     if ( g_BOINCDIAG_dwDiagnosticsFlags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE ) {
-	    lpRetVal = (LPVOID) freopen(BOINC_DIAG_STDOUT, "w", stdout);
+	    lpRetVal = (void*) freopen(BOINC_DIAG_STDOUT, "w", stdout);
 	    if ( NULL == lpRetVal )
 		    BOINCFILEERROR( "Failed to reopen stdout for diagnostics redirection (overwrite)" );
     }
