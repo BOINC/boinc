@@ -37,6 +37,7 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
     dont_run_on_batteries = false;
     dont_run_if_user_active = false;
     confirm_before_connecting = false;
+	hangup_if_dialed = false;
     high_water_days = 3;
     low_water_days = 1;
     disk_max_used_gb = 1;

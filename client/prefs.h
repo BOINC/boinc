@@ -37,6 +37,7 @@ struct GLOBAL_PREFS {
     bool dont_run_on_batteries;
     bool dont_run_if_user_active;
     bool confirm_before_connecting;
+	bool hangup_if_dialed;
     double high_water_days;
     double low_water_days;
     double disk_max_used_gb;
