@@ -108,4 +108,5 @@
 	// state files had redundant entries
 #define ERR_NOT_FOUND		-161
 	// inconsistent client state
-
+#define ERR_NO_EXIT_STATUS	-162
+	// exit_status not found in request 
