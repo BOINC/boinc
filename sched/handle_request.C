@@ -509,25 +509,34 @@ int handle_results(
         }
 
         if (result.hostid != sreq.hostid) {
-            log_messages.printf(SchedMessages::CRITICAL,
-                                "[HOST#%d] [RESULT#%d %s] got result from wrong host; expected [HOST#%d]\n",
-                                host.id, result.id, result.name, result.hostid);
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "[HOST#%d] [RESULT#%d %s] got result from wrong host; expected [HOST#%d]\n",
+                host.id, result.id, result.name, result.hostid
+            );
             DB_HOST result_host;
             int retval = result_host.lookup_id(result.hostid);
 
             if (retval) {
-                log_messages.printf(SchedMessages::CRITICAL, "[RESULT#%d %s] Can't lookup [HOST#%d]\n",
-                                   result.id, result.name, result.hostid);
+                log_messages.printf(
+                    SchedMessages::CRITICAL,
+                    "[RESULT#%d %s] Can't lookup [HOST#%d]\n",
+                    result.id, result.name, result.hostid
+                );
                 continue;
             } else if (result_host.userid != host.userid) {
-                log_messages.printf(SchedMessages::CRITICAL,
-                                    "[USER#%d] [HOST#%d] [RESULT#%d %s] Not even the same user; expected [USER#%d]\n",
-                                    host.userid, host.id, result.id, result.name, result_host.userid);
+                log_messages.printf(
+                    SchedMessages::CRITICAL,
+                    "[USER#%d] [HOST#%d] [RESULT#%d %s] Not even the same user; expected [USER#%d]\n",
+                    host.userid, host.id, result.id, result.name, result_host.userid
+                );
                 continue;
             } else {
-                log_messages.printf(SchedMessages::CRITICAL,
-                                    "[HOST#%d] [RESULT#%d %s] Allowing result because same USER#%d\n",
-                                    host.id, result.id, result.name, host.userid);
+                log_messages.printf(
+                    SchedMessages::CRITICAL,
+                    "[HOST#%d] [RESULT#%d %s] Allowing result because same USER#%d\n",
+                    host.id, result.id, result.name, host.userid
+                );
             }
         }
 
