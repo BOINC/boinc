@@ -24169,3 +24169,26 @@ David  7 Feb 2005
 
     client/
         app_control.C
+
+Bruce 7 Feb 2005
+    - Add new validate_state==TOO_LATE to ops pages summaries and result table
+      choice selection menus
+    - Ops pages fixes from Christian Beers and David Hammer:
+      * some rearrangement of index page
+      * fix pass percentage by platform pages to show only non-deprecated apps
+      * all platforms now appear in summary pages of failures
+    html/
+        ops/
+            create_account_action.ph.
+            create_account_form.php
+            db_action.php
+            db_form.php
+            index.php
+            create_forums.php
+            forum_repair.php
+            make_emails_lowercase.php
+            team_repair.php
+            repair_validator_problem.php
+        inc/
+            db_ops.inc
+            util_ops.inc
