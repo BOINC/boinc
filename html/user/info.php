@@ -17,7 +17,7 @@ Some companies and schools have policies that prohibit using their computers
 for projects such as ",PROJECT, ".
 </p>
 
-<h3>How ", PROJECT, "will use your computer</h3>
+<h3>How ", PROJECT, " will use your computer</h3>
 
 <p>
 When you run ", PROJECT, " on your computer,
