@@ -114,6 +114,69 @@ static int possibly_send_result(
     return 0;
 }
 
+// Check with the WU generator to see if we can make some
+// more WU for this file.
+//
+void make_more_work_for_file(char* filename) {
+    char fullpath[512], buf[256];
+    DB_RESULT result;
+    int retval;
+
+    sprintf(fullpath, "../locality_scheduling/no_work_available/%s", filename);
+    FILE *fp=fopen(fullpath, "r");
+    if (fp) {
+        // since we found this file, it means that no work
+        // remains for this WU.  So give up trying to interact
+        // with the WU generator.
+        fclose(fp);
+        log_messages.printf(
+            SCHED_MSG_LOG::DEBUG,
+            "found %s indicating no work remaining for file %s\n", fullpath, filename
+        );
+    } else {
+        // open and touch a file in the need_work/
+        // directory as a way of indicating that we need work for this file.
+        // If this operation fails, don't worry or tarry!
+        //
+        sprintf(fullpath, "../locality_scheduling/need_work/%s", filename);
+        FILE *fp2=fopen(fullpath, "w");
+        if (fp2) {
+            fclose(fp2);
+            log_messages.printf(
+                SCHED_MSG_LOG::DEBUG,
+                "touching %s: need work for file %s\n", fullpath, filename
+            );
+            // Finish the transaction, wait for the WU
+            // generator to make a new WU, and try again!
+            //
+            boinc_db.commit_transaction();
+            sleep(5);
+
+            // Now look AGAIN for results which match file
+            // 'filename'. Note: result.clear() may not be
+            // needed since previous query didn't find any results.
+            //
+            sprintf(buf,
+                "where name like '%s__%%' and server_state=%d limit 1",
+                filename, RESULT_SERVER_STATE_UNSENT
+            );
+            boinc_db.start_transaction();
+            retval = result.lookup(buf);
+            if (!retval) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::DEBUG,
+                    "success making/finding NEW work for file %s\n", fullpath, filename
+                );
+            }
+        } else {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "unable to touch %s to indicate need work for file %s\n", fullpath, filename
+            );
+        }
+    }
+}
+
 // The client has (or soon will have) the given file.
 // Try to send it more results that use the same file
 //
@@ -123,99 +186,44 @@ static int send_results_for_file(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     WORK_REQ& wreq, SCHED_SHMEM& ss
 ) {
-    int lastid = 0;
     DB_RESULT result;
-    int retval = 0;
+    int retval=0, lastid=0, i, last_wuid=0;
     char buf[256];
 
     nsent = 0;
-    while (1) {
+    for (i=0; i<100; i++) {     // avoid infinite loop
         if (!wreq.work_needed(reply)) break;
         boinc_db.start_transaction();
-	// Look for results which match file 'filename'
+        // Look for results which match file 'filename'
 
-	// Comment 1: in order to work as designed, this query should
-	// do 'order by id'.  But one has to check that this won't
-	// kill DB efficiency.
-
-	// Comment 2: if the user has configured one_result_per_user_per_wu then you can
-        // replace ID below by workunitid.
         sprintf(buf,
-            "where name like '%s__%%' and server_state=%d and id>%d limit 1",
-            filename, RESULT_SERVER_STATE_UNSENT, lastid
+            "where name like '%s__%%' and server_state=%d and workunitid<>%d limit 1",
+            filename, RESULT_SERVER_STATE_UNSENT, last_wuid
         );
         retval = result.lookup(buf);
-	if (retval) {
-	    // We did not find any matching results.  In this case,
-	    // check with the WU generator to see if we can make some
-	    // more WU for this file.
-            char fullpath[512];
-	    sprintf(fullpath, "../locality_scheduling/no_work_available/%s", filename);
-	    FILE *fp=fopen(fullpath, "r");
-	    if (fp) {
-	        // since we found this file, it means that no work
-	        // remains for this WU.  So give up trying to interact
-	        // with the WU generator.
-	        fclose(fp);
-		log_messages.printf(
-                    SCHED_MSG_LOG::DEBUG,
-		    "found %s indicating no work remaining for file %s\n", fullpath, filename
-		);
-	    }
-	    else {
-	        // We'll open and touch a file in the need_work/
-	        // directory as a way of indicating that we need work
-	        // for this file.  If this operation fails, don't
-	        // worry or tarry!
-	        sprintf(fullpath, "../locality_scheduling/need_work/%s", filename);
-	        FILE *fp2=fopen(fullpath, "w");
-                if (fp2) {
-		    fclose(fp2);
-		    log_messages.printf(
-		        SCHED_MSG_LOG::DEBUG,
-			"touching %s: need work for file %s\n", fullpath, filename
-		    );
-		    // Finish the transaction, wait for the WU
-		    // generator to make a new WU, and try again!
-		    boinc_db.commit_transaction();
-		    sleep(5);
-		    // Now look AGAIN for results which match file
-		    // 'filename'. Note: result.clear() may not be
-		    // needed since previous query didn't find any
-		    // results.
-		    result.clear();
-		    sprintf(buf,
-		        "where name like '%s__%%' and server_state=%d and id>%d limit 1",
-			filename, RESULT_SERVER_STATE_UNSENT, lastid
-		    );
-		    boinc_db.start_transaction();
-		    retval = result.lookup(buf);
-		    if (!retval) {
-		    	log_messages.printf(
-		            SCHED_MSG_LOG::DEBUG,
-			    "success making/finding NEW work for file %s\n", fullpath, filename
-		        );
-		    }
-		}
-		else {
-		    log_messages.printf(
-		        SCHED_MSG_LOG::CRITICAL,
-			"unable to touch %s to indicate need work for file %s\n", fullpath, filename
-		    );
-		}
-	    }
-	}
 
-        if (!retval) {
-	    // We found a matching result.  Probably we will get one
-	    // of these, although for example if we already have a
-	    // result for the same workunit and the administrator has
-	    // set one_result_per_wu then we won't get one of these.
+        // if we see the same result twice, bail (avoid spinning)
+        //
+        if (!retval && (result.id == lastid)) retval = -1;
+
+        if (retval) {
+            make_more_work_for_file(filename);
+        } else {
+            // We found a matching result.
+            // Probably we will get one of these,
+            // although for example if we already have a
+            // result for the same workunit and the administrator has
+            // set one_result_per_wu then we won't get one of these.
+            //
             lastid = result.id;
-            if (possibly_send_result(
+            retval = possibly_send_result(
                 result,
                 sreq, reply, platform, wreq, ss
-            )) {
+            );
+            if (!retval) {
+                if (config.one_result_per_user_per_wu) {
+                    last_wuid = result.workunitid;
+                }
                 nsent++;
             }
         }
@@ -233,25 +241,35 @@ static void send_new_file_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     WORK_REQ& wreq, SCHED_SHMEM& ss
 ) {
-    int retval, lastid=0, nsent;
+    int retval, lastid=0, nsent, last_wuid=0, i;
     DB_RESULT result;
     char filename[256];
     char buf[256];
 
-    while (1) {
+    for (i=0; i<100; i++) {     // avoid infinite loop
         if (!wreq.work_needed(reply)) break;
         boinc_db.start_transaction();
         sprintf(buf,
-            "where server_state=%d and id>%d limit 1",
-            RESULT_SERVER_STATE_UNSENT, lastid
+            "where server_state=%d and workunitid<>%d limit 1",
+            RESULT_SERVER_STATE_UNSENT, last_wuid
         );
         retval = result.lookup(buf);
+
+        // if we see the same result twice, bail (avoid spinning)
+        //
+        if (!retval && (result.id == lastid)) retval = -1;
+
         if (!retval) {
             lastid = result.id;
-            possibly_send_result(
+            retval = possibly_send_result(
                 result,
                 sreq, reply, platform, wreq, ss
             );
+            if (!retval) {
+                if (config.one_result_per_user_per_wu) {
+                    last_wuid = result.workunitid;
+                }
+            }
         }
         boinc_db.commit_transaction();
         if (retval) break;
@@ -267,8 +285,7 @@ static void send_new_file_work(
             continue;
         }
         send_results_for_file(
-            filename, nsent,
-            sreq, reply, platform, wreq, ss
+            filename, nsent, sreq, reply, platform, wreq, ss
         );
     }
 }
@@ -289,8 +306,7 @@ void send_work_locality(
             if (!wreq.work_needed(reply)) break;
             FILE_INFO& fi = sreq.file_infos[i];
             retval = send_results_for_file(
-                fi.name, nsent,
-                sreq, reply, platform, wreq, ss
+                fi.name, nsent, sreq, reply, platform, wreq, ss
             );
 
             // if we couldn't send any work for this file, tell client

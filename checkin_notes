@@ -22393,3 +22393,26 @@ Bruce 8 Jan 2005
     sched/
         sched_locality.C
 
+David  8 Jan 2005
+    Some changes related to locality scheduling:
+
+    - Factored Bruce's new code into a separate function,
+        make_more_work_for_file()
+    - Remove the 'id>X' stuff from queries.
+        Assuming that work is fairly homogeneous
+        (i.e. no results are rejected because of resource requirements)
+        this is not needed.
+        If a result has already been sent,
+        it won't qualify for the select anyway.
+    - Add a 'workunitid<>X' clause to the queries.
+        This is to make the process of enforcing the
+        one_result_per_wu_per_user rule more efficient.
+        If the rule is not in effect, X is zero (so always true)
+    - If two consecutive select queries return the same result,
+        break out of the loop (avoid undesired looping)
+    - Use a for i=1,100 loop instead of a while(1) loop
+        around the work-sending logic,
+        to avoid infinite loops just in case
+
+    sched/
+        sched_locality.C
