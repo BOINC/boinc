@@ -197,12 +197,11 @@ boinc_client_SOURCES = \
     file_names.C				\
     file_xfer.C					\
     gui_rpc_server.C			\
-    hostinfo.C					\
+    hostinfo_network.C			\
     hostinfo_unix.C				\
     http.C					    \
     log_flags.C					\
     main.C					    \
-    miofile.C                   \
     net_stats.C					\
     net_xfer.C					\
     pers_file_xfer.C			\
@@ -213,15 +212,17 @@ boinc_client_SOURCES = \
     time_stats.C				\
     whetstone.C                 \
     ../lib/app_ipc.C			\
-    ../lib/base64.C			\
+    ../lib/base64.C			    \
     ../lib/crypt.C				\
     ../lib/diagnostics.C		\
     ../lib/exception.C			\
     ../lib/filesys.C			\
+    ../lib/hostinfo.C			\
     ../lib/language.C			\
     ../lib/md5_file.C			\
     ../lib/md5.c				\
     ../lib/mfile.C				\
+    ../lib/miofile.C			\
     ../lib/msg_log.C            \
     ../lib/parse.C				\
     ../lib/shmem.C				\
@@ -270,11 +271,10 @@ am_boinc_client_OBJECTS = boinc_client-app.$(OBJEXT) \
 	boinc_client-file_names.$(OBJEXT) \
 	boinc_client-file_xfer.$(OBJEXT) \
 	boinc_client-gui_rpc_server.$(OBJEXT) \
-	boinc_client-hostinfo.$(OBJEXT) \
+	boinc_client-hostinfo_network.$(OBJEXT) \
 	boinc_client-hostinfo_unix.$(OBJEXT) \
 	boinc_client-http.$(OBJEXT) boinc_client-log_flags.$(OBJEXT) \
-	boinc_client-main.$(OBJEXT) boinc_client-miofile.$(OBJEXT) \
-	boinc_client-net_stats.$(OBJEXT) \
+	boinc_client-main.$(OBJEXT) boinc_client-net_stats.$(OBJEXT) \
 	boinc_client-net_xfer.$(OBJEXT) \
 	boinc_client-pers_file_xfer.$(OBJEXT) \
 	boinc_client-prefs.$(OBJEXT) boinc_client-proxy.$(OBJEXT) \
@@ -285,8 +285,9 @@ am_boinc_client_OBJECTS = boinc_client-app.$(OBJEXT) \
 	boinc_client-base64.$(OBJEXT) boinc_client-crypt.$(OBJEXT) \
 	boinc_client-diagnostics.$(OBJEXT) \
 	boinc_client-exception.$(OBJEXT) boinc_client-filesys.$(OBJEXT) \
-	boinc_client-language.$(OBJEXT) boinc_client-md5_file.$(OBJEXT) \
-	boinc_client-md5.$(OBJEXT) boinc_client-mfile.$(OBJEXT) \
+	boinc_client-hostinfo.$(OBJEXT) boinc_client-language.$(OBJEXT) \
+	boinc_client-md5_file.$(OBJEXT) boinc_client-md5.$(OBJEXT) \
+	boinc_client-mfile.$(OBJEXT) boinc_client-miofile.$(OBJEXT) \
 	boinc_client-msg_log.$(OBJEXT) boinc_client-parse.$(OBJEXT) \
 	boinc_client-shmem.$(OBJEXT) boinc_client-util.$(OBJEXT)
 boinc_client_OBJECTS = $(am_boinc_client_OBJECTS)
@@ -327,6 +328,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-filesys.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-gui_rpc_server.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-hostinfo.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/boinc_client-hostinfo_network.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-hostinfo_unix.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-http.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_client-language.Po \
@@ -417,12 +419,11 @@ boinc_client-dhrystone.$(OBJEXT): dhrystone.C
 boinc_client-file_names.$(OBJEXT): file_names.C
 boinc_client-file_xfer.$(OBJEXT): file_xfer.C
 boinc_client-gui_rpc_server.$(OBJEXT): gui_rpc_server.C
-boinc_client-hostinfo.$(OBJEXT): hostinfo.C
+boinc_client-hostinfo_network.$(OBJEXT): hostinfo_network.C
 boinc_client-hostinfo_unix.$(OBJEXT): hostinfo_unix.C
 boinc_client-http.$(OBJEXT): http.C
 boinc_client-log_flags.$(OBJEXT): log_flags.C
 boinc_client-main.$(OBJEXT): main.C
-boinc_client-miofile.$(OBJEXT): miofile.C
 boinc_client-net_stats.$(OBJEXT): net_stats.C
 boinc_client-net_xfer.$(OBJEXT): net_xfer.C
 boinc_client-pers_file_xfer.$(OBJEXT): pers_file_xfer.C
@@ -438,10 +439,12 @@ boinc_client-crypt.$(OBJEXT): ../lib/crypt.C
 boinc_client-diagnostics.$(OBJEXT): ../lib/diagnostics.C
 boinc_client-exception.$(OBJEXT): ../lib/exception.C
 boinc_client-filesys.$(OBJEXT): ../lib/filesys.C
+boinc_client-hostinfo.$(OBJEXT): ../lib/hostinfo.C
 boinc_client-language.$(OBJEXT): ../lib/language.C
 boinc_client-md5_file.$(OBJEXT): ../lib/md5_file.C
 boinc_client-md5.$(OBJEXT): ../lib/md5.c
 boinc_client-mfile.$(OBJEXT): ../lib/mfile.C
+boinc_client-miofile.$(OBJEXT): ../lib/miofile.C
 boinc_client-msg_log.$(OBJEXT): ../lib/msg_log.C
 boinc_client-parse.$(OBJEXT): ../lib/parse.C
 boinc_client-shmem.$(OBJEXT): ../lib/shmem.C
@@ -485,6 +488,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-filesys.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-gui_rpc_server.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-hostinfo.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-hostinfo_network.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-hostinfo_unix.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-http.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/boinc_client-language.Po@am__quote@
@@ -954,27 +958,27 @@ boinc_client-gui_rpc_server.obj: gui_rpc_server.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-gui_rpc_server.obj `if test -f 'gui_rpc_server.C'; then $(CYGPATH_W) 'gui_rpc_server.C'; else $(CYGPATH_W) '$(srcdir)/gui_rpc_server.C'`
 
-boinc_client-hostinfo.o: hostinfo.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-hostinfo.o -MD -MP -MF "$(DEPDIR)/boinc_client-hostinfo.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-hostinfo.o `test -f 'hostinfo.C' || echo '$(srcdir)/'`hostinfo.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-hostinfo.Tpo" "$(DEPDIR)/boinc_client-hostinfo.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-hostinfo.Tpo"; exit 1; \
+boinc_client-hostinfo_network.o: hostinfo_network.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-hostinfo_network.o -MD -MP -MF "$(DEPDIR)/boinc_client-hostinfo_network.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-hostinfo_network.o `test -f 'hostinfo_network.C' || echo '$(srcdir)/'`hostinfo_network.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-hostinfo_network.Tpo" "$(DEPDIR)/boinc_client-hostinfo_network.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-hostinfo_network.Tpo"; exit 1; \
 @am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='hostinfo.C' object='boinc_client-hostinfo.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-hostinfo.Po' tmpdepfile='$(DEPDIR)/boinc_client-hostinfo.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='hostinfo_network.C' object='boinc_client-hostinfo_network.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-hostinfo_network.Po' tmpdepfile='$(DEPDIR)/boinc_client-hostinfo_network.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-hostinfo.o `test -f 'hostinfo.C' || echo '$(srcdir)/'`hostinfo.C
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-hostinfo_network.o `test -f 'hostinfo_network.C' || echo '$(srcdir)/'`hostinfo_network.C
 
-boinc_client-hostinfo.obj: hostinfo.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-hostinfo.obj -MD -MP -MF "$(DEPDIR)/boinc_client-hostinfo.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-hostinfo.obj `if test -f 'hostinfo.C'; then $(CYGPATH_W) 'hostinfo.C'; else $(CYGPATH_W) '$(srcdir)/hostinfo.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-hostinfo.Tpo" "$(DEPDIR)/boinc_client-hostinfo.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-hostinfo.Tpo"; exit 1; \
+boinc_client-hostinfo_network.obj: hostinfo_network.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-hostinfo_network.obj -MD -MP -MF "$(DEPDIR)/boinc_client-hostinfo_network.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-hostinfo_network.obj `if test -f 'hostinfo_network.C'; then $(CYGPATH_W) 'hostinfo_network.C'; else $(CYGPATH_W) '$(srcdir)/hostinfo_network.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-hostinfo_network.Tpo" "$(DEPDIR)/boinc_client-hostinfo_network.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-hostinfo_network.Tpo"; exit 1; \
 @am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='hostinfo.C' object='boinc_client-hostinfo.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-hostinfo.Po' tmpdepfile='$(DEPDIR)/boinc_client-hostinfo.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='hostinfo_network.C' object='boinc_client-hostinfo_network.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-hostinfo_network.Po' tmpdepfile='$(DEPDIR)/boinc_client-hostinfo_network.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-hostinfo.obj `if test -f 'hostinfo.C'; then $(CYGPATH_W) 'hostinfo.C'; else $(CYGPATH_W) '$(srcdir)/hostinfo.C'`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-hostinfo_network.obj `if test -f 'hostinfo_network.C'; then $(CYGPATH_W) 'hostinfo_network.C'; else $(CYGPATH_W) '$(srcdir)/hostinfo_network.C'`
 
 boinc_client-hostinfo_unix.o: hostinfo_unix.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-hostinfo_unix.o -MD -MP -MF "$(DEPDIR)/boinc_client-hostinfo_unix.Tpo" \
@@ -1063,28 +1067,6 @@ boinc_client-main.obj: main.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-main.Po' tmpdepfile='$(DEPDIR)/boinc_client-main.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-main.obj `if test -f 'main.C'; then $(CYGPATH_W) 'main.C'; else $(CYGPATH_W) '$(srcdir)/main.C'`
-
-boinc_client-miofile.o: miofile.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-miofile.o -MD -MP -MF "$(DEPDIR)/boinc_client-miofile.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-miofile.o `test -f 'miofile.C' || echo '$(srcdir)/'`miofile.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-miofile.Tpo" "$(DEPDIR)/boinc_client-miofile.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-miofile.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='miofile.C' object='boinc_client-miofile.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-miofile.Po' tmpdepfile='$(DEPDIR)/boinc_client-miofile.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-miofile.o `test -f 'miofile.C' || echo '$(srcdir)/'`miofile.C
-
-boinc_client-miofile.obj: miofile.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-miofile.obj -MD -MP -MF "$(DEPDIR)/boinc_client-miofile.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o boinc_client-miofile.obj `if test -f 'miofile.C'; then $(CYGPATH_W) 'miofile.C'; else $(CYGPATH_W) '$(srcdir)/miofile.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-miofile.Tpo" "$(DEPDIR)/boinc_client-miofile.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-miofile.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='miofile.C' object='boinc_client-miofile.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-miofile.Po' tmpdepfile='$(DEPDIR)/boinc_client-miofile.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-miofile.obj `if test -f 'miofile.C'; then $(CYGPATH_W) 'miofile.C'; else $(CYGPATH_W) '$(srcdir)/miofile.C'`
 
 boinc_client-net_stats.o: net_stats.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-net_stats.o -MD -MP -MF "$(DEPDIR)/boinc_client-net_stats.Tpo" \
@@ -1416,6 +1398,28 @@ boinc_client-filesys.obj: ../lib/filesys.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-filesys.obj `if test -f '../lib/filesys.C'; then $(CYGPATH_W) '../lib/filesys.C'; else $(CYGPATH_W) '$(srcdir)/../lib/filesys.C'`
 
+boinc_client-hostinfo.o: ../lib/hostinfo.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-hostinfo.o -MD -MP -MF "$(DEPDIR)/boinc_client-hostinfo.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-hostinfo.o `test -f '../lib/hostinfo.C' || echo '$(srcdir)/'`../lib/hostinfo.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-hostinfo.Tpo" "$(DEPDIR)/boinc_client-hostinfo.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-hostinfo.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/hostinfo.C' object='boinc_client-hostinfo.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-hostinfo.Po' tmpdepfile='$(DEPDIR)/boinc_client-hostinfo.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-hostinfo.o `test -f '../lib/hostinfo.C' || echo '$(srcdir)/'`../lib/hostinfo.C
+
+boinc_client-hostinfo.obj: ../lib/hostinfo.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-hostinfo.obj -MD -MP -MF "$(DEPDIR)/boinc_client-hostinfo.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-hostinfo.obj `if test -f '../lib/hostinfo.C'; then $(CYGPATH_W) '../lib/hostinfo.C'; else $(CYGPATH_W) '$(srcdir)/../lib/hostinfo.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-hostinfo.Tpo" "$(DEPDIR)/boinc_client-hostinfo.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-hostinfo.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/hostinfo.C' object='boinc_client-hostinfo.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-hostinfo.Po' tmpdepfile='$(DEPDIR)/boinc_client-hostinfo.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-hostinfo.obj `if test -f '../lib/hostinfo.C'; then $(CYGPATH_W) '../lib/hostinfo.C'; else $(CYGPATH_W) '$(srcdir)/../lib/hostinfo.C'`
+
 boinc_client-language.o: ../lib/language.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-language.o -MD -MP -MF "$(DEPDIR)/boinc_client-language.Tpo" \
 @am__fastdepCXX_TRUE@	  -c -o boinc_client-language.o `test -f '../lib/language.C' || echo '$(srcdir)/'`../lib/language.C; \
@@ -1481,6 +1485,28 @@ boinc_client-mfile.obj: ../lib/mfile.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-mfile.Po' tmpdepfile='$(DEPDIR)/boinc_client-mfile.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-mfile.obj `if test -f '../lib/mfile.C'; then $(CYGPATH_W) '../lib/mfile.C'; else $(CYGPATH_W) '$(srcdir)/../lib/mfile.C'`
+
+boinc_client-miofile.o: ../lib/miofile.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-miofile.o -MD -MP -MF "$(DEPDIR)/boinc_client-miofile.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-miofile.o `test -f '../lib/miofile.C' || echo '$(srcdir)/'`../lib/miofile.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-miofile.Tpo" "$(DEPDIR)/boinc_client-miofile.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-miofile.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/miofile.C' object='boinc_client-miofile.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-miofile.Po' tmpdepfile='$(DEPDIR)/boinc_client-miofile.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-miofile.o `test -f '../lib/miofile.C' || echo '$(srcdir)/'`../lib/miofile.C
+
+boinc_client-miofile.obj: ../lib/miofile.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-miofile.obj -MD -MP -MF "$(DEPDIR)/boinc_client-miofile.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o boinc_client-miofile.obj `if test -f '../lib/miofile.C'; then $(CYGPATH_W) '../lib/miofile.C'; else $(CYGPATH_W) '$(srcdir)/../lib/miofile.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/boinc_client-miofile.Tpo" "$(DEPDIR)/boinc_client-miofile.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/boinc_client-miofile.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/miofile.C' object='boinc_client-miofile.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_client-miofile.Po' tmpdepfile='$(DEPDIR)/boinc_client-miofile.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_client-miofile.obj `if test -f '../lib/miofile.C'; then $(CYGPATH_W) '../lib/miofile.C'; else $(CYGPATH_W) '$(srcdir)/../lib/miofile.C'`
 
 boinc_client-msg_log.o: ../lib/msg_log.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(boinc_client_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT boinc_client-msg_log.o -MD -MP -MF "$(DEPDIR)/boinc_client-msg_log.Tpo" \

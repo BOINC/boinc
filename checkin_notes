@@ -13700,3 +13700,14 @@ David  16 June 2004
 		boinc_cli.vcproj
 		boinc_gui.vcproj
 		upper_case.vcproj
+
+David  16 June 2004
+    - unix compile fixes for the above change
+
+    client/
+        Makefile.am
+        hostinfo_unix.C
+    lib/
+        Makefile.am
+    sched/
+        Makefile.am

@@ -29,12 +29,11 @@ boinc_client_SOURCES =			\
     file_names.C				\
     file_xfer.C					\
     gui_rpc_server.C			\
-    hostinfo.C					\
+    hostinfo_network.C			\
     hostinfo_unix.C				\
     http.C					    \
     log_flags.C					\
     main.C					    \
-    miofile.C                   \
     net_stats.C					\
     net_xfer.C					\
     pers_file_xfer.C			\
@@ -45,15 +44,17 @@ boinc_client_SOURCES =			\
     time_stats.C				\
     whetstone.C                 \
     ../lib/app_ipc.C			\
-    ../lib/base64.C			\
+    ../lib/base64.C			    \
     ../lib/crypt.C				\
     ../lib/diagnostics.C		\
     ../lib/exception.C			\
     ../lib/filesys.C			\
+    ../lib/hostinfo.C			\
     ../lib/language.C			\
     ../lib/md5_file.C			\
     ../lib/md5.c				\
     ../lib/mfile.C				\
+    ../lib/miofile.C			\
     ../lib/msg_log.C            \
     ../lib/parse.C				\
     ../lib/shmem.C				\

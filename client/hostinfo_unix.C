@@ -67,6 +67,7 @@
 #include "error_numbers.h"
 #include "util.h"
 #include "client_state.h"
+#include "hostinfo_network.h"
 
 // functions to get name/addr of local host
 

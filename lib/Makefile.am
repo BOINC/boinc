@@ -17,6 +17,7 @@ libboinc_a_SOURCES =				\
     diagnostics.C           \
     exception.C             \
     filesys.C				\
+    hostinfo.C				\
     language.C				\
     md5.c					\
     md5_file.C				\
