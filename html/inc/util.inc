@@ -430,7 +430,9 @@ function format_credit($cobblestones) {
 }
 
 function project_is_stopped() {
-    return file_exists("../../stop_servers");
+    if (file_exists("../../stop_sched")) return true;
+    if (file_exists("../../stop_daemons")) return true;
+    return false;
 }
 
 function user_links($user) {

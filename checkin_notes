@@ -13223,3 +13223,31 @@ Brian   10 June 2004
 	sched/
 		main.C
 		file_upload_handler.C
+
+David  10 June 2004
+    - Web caching system: use only the filename part of URL
+        to determine cache file name
+        (so that files are directly in html/cache).
+        No "_" if no params.
+    - web: allow more HTML tags (ul, ol, li)
+    - web: in seeing if projects is stopped, look for
+        "stop_sched" and "stop_daemons" rather than "stop_servers"
+        (forgot to make this change on May 3 2004)
+    - web: turn off user name search (until we have indices)
+    - web: change Mac install instructions to match Unix
+    - setup_project.py: copy html/inc/GioIP.dat also
+    - start script: remove cached home page when start or stop project.
+
+    html/
+        inc/
+            cache.inc
+            sanitize_html.inc
+            util.inc
+        user/
+            account_setup_first_download.php
+            account_setup_nonfirst_done.php
+            user_search_action.php
+    py/Boinc/
+        setup_project.py
+    sched/
+        start

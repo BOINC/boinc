@@ -16,7 +16,7 @@ $count = 10;
 
 page_head("Search results");
 
-echo "Name search is disabled"
+echo "Name search is disabled";
 page_tail();
 exit();
 

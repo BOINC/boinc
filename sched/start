@@ -203,6 +203,11 @@ def safe_unlink(filename):
     except OSError, e:
         print "Couldn't unlink %s:"%filename,e
 
+def remove_cached_home_page():
+    path = os.path.join(project_dir, 'html/cache/index.php')
+    print 'removing '+path
+    safe_unlink(path)
+
 def redirect(stdout='/dev/null', stderr=None, stdin='/dev/null'):
     '''
     Redirects stdio.  The stdin, stdout, and stderr arguments are file names
@@ -469,6 +474,7 @@ def command_enable_start():
     run_daemons()
     time.sleep(10)      # give feeder time to start up and create shmem
     remove_stop_sched()
+    remove_cached_home_page()
 
 def command_cron_start():
     if verbose: print "Verbose cron-start: status ==", (run_state.enabled and 'ENABLED' or 'DISABLED')
@@ -487,6 +493,7 @@ def command_disable_stop():
     run_state.enabled = 0
     stop_daemons()
     write_stop_sched()
+    remove_cached_home_page()
 
 def command_status():
     if run_state.enabled:

@@ -2,10 +2,19 @@
 
 // mechanism for caching commonly-accessed pages
 
-function start_cache($max_age, $unique_parameter_string=""){
-   $cache_dir="../cache";
+function get_path($params) {
+    $y = pathinfo($_SERVER["PHP_SELF"]);
+    $z = $y["basename"];
+    $path = "../cache/".$z;
+    if ($params) {
+        $path = $path."_".urlencode($params);
+    }
+    return $path;
+}
 
-   $path = $cache_dir.$_SERVER["PHP_SELF"]."_".urlencode($unique_parameter_string);
+function start_cache($max_age, $params=""){
+    $path = get_path($params);
+
    if (@filemtime($path)<time()-$max_age){
        // If cached version is too old (or non-existent)
        // generate the page and write to cache
@@ -22,10 +31,8 @@ function start_cache($max_age, $unique_parameter_string=""){
 
 // write output buffer both to client and to cache
 //
-function end_cache($unique_parameter_string=""){
-   $cache_dir="../cache";
-
-   $path = $cache_dir.$_SERVER["PHP_SELF"]."_".urlencode($unique_parameter_string);
+function end_cache($params=""){
+   $path = get_path($params);
    $fhandle=fopen($path, "w");
    $page=ob_get_contents();
    ob_end_flush();
