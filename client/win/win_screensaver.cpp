@@ -116,7 +116,7 @@ CScreensaver::CScreensaver()
 
     m_bErrorMode = FALSE;
     m_hrError = S_OK;
-    m_szError[0] = TEXT('\0');
+    m_szError[0] = _T('\0');
 
     LoadString( NULL, IDS_DESCRIPTION, m_strWindowTitle, 200 );
 
@@ -294,7 +294,7 @@ VOID CScreensaver::StartupBOINC()
                     );
                     if (!bReturnValue)
                     {
-                        BOINCTRACE(TEXT("Failed to retrieve the current window station.\n"));
+                        BOINCTRACE(_T("Failed to retrieve the current window station.\n"));
                     }
 
                     bReturnValue = GetUserObjectInformation( 
@@ -306,7 +306,7 @@ VOID CScreensaver::StartupBOINC()
                     );
                     if (!bReturnValue)
                     {
-                        BOINCTRACE(TEXT("Failed to retrieve the current desktop.\n"));
+                        BOINCTRACE(_T("Failed to retrieve the current desktop.\n"));
                     }
                 }
 
@@ -361,28 +361,28 @@ SaverMode CScreensaver::ParseCommandLine( TCHAR* pstrCommandLine )
 
     // Skip the first part of the command line, which is the full path 
     // to the exe.  If it contains spaces, it will be contained in quotes.
-    if (*pstrCommandLine == TEXT('\"'))
+    if (*pstrCommandLine == _T('\"'))
     {
         pstrCommandLine++;
-        while (*pstrCommandLine != TEXT('\0') && *pstrCommandLine != TEXT('\"'))
+        while (*pstrCommandLine != _T('\0') && *pstrCommandLine != _T('\"'))
             pstrCommandLine++;
-        if( *pstrCommandLine == TEXT('\"') )
+        if( *pstrCommandLine == _T('\"') )
             pstrCommandLine++;
     }
     else
     {
-        while (*pstrCommandLine != TEXT('\0') && *pstrCommandLine != TEXT(' '))
+        while (*pstrCommandLine != _T('\0') && *pstrCommandLine != _T(' '))
             pstrCommandLine++;
-        if( *pstrCommandLine == TEXT(' ') )
+        if( *pstrCommandLine == _T(' ') )
             pstrCommandLine++;
     }
 
     // Skip along to the first option delimiter "/" or "-"
-    while ( *pstrCommandLine != TEXT('\0') && *pstrCommandLine != TEXT('/') && *pstrCommandLine != TEXT('-') )
+    while ( *pstrCommandLine != _T('\0') && *pstrCommandLine != _T('/') && *pstrCommandLine != _T('-') )
         pstrCommandLine++;
 
     // If there wasn't one, then must be config mode
-    if ( *pstrCommandLine == TEXT('\0') )
+    if ( *pstrCommandLine == _T('\0') )
         return sm_config;
 
     // Otherwise see what the option was
@@ -527,7 +527,7 @@ HRESULT CScreensaver::CreateSaverWindow()
     cls.hCursor        = LoadCursor( NULL, IDC_ARROW );
     cls.hIcon          = LoadIcon( m_hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON) ); 
     cls.lpszMenuName   = NULL;
-    cls.lpszClassName  = TEXT("BOINCPrimarySaverWndClass");
+    cls.lpszClassName  = _T("BOINCPrimarySaverWndClass");
     cls.hbrBackground  = (HBRUSH) GetStockObject(BLACK_BRUSH);
     cls.hInstance      = m_hInstance; 
     cls.style          = CS_VREDRAW|CS_HREDRAW;
@@ -541,7 +541,7 @@ HRESULT CScreensaver::CreateSaverWindow()
     cls2.hCursor        = LoadCursor( NULL, IDC_ARROW );
     cls2.hIcon          = LoadIcon( m_hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON) ); 
     cls2.lpszMenuName   = NULL;
-    cls2.lpszClassName  = TEXT("BOINCGenericSaverWndClass");
+    cls2.lpszClassName  = _T("BOINCGenericSaverWndClass");
     cls2.hbrBackground  = (HBRUSH) GetStockObject(BLACK_BRUSH);
     cls2.hInstance      = m_hInstance; 
     cls2.style          = CS_VREDRAW|CS_HREDRAW;
@@ -559,7 +559,7 @@ HRESULT CScreensaver::CreateSaverWindow()
             GetClientRect( m_hWndParent, &rc );
             dwStyle = WS_VISIBLE | WS_CHILD;
             AdjustWindowRect( &rc, dwStyle, FALSE );
-            m_hWnd = CreateWindow( TEXT("BOINCPrimarySaverWndClass"), m_strWindowTitle, dwStyle, 
+            m_hWnd = CreateWindow( _T("BOINCPrimarySaverWndClass"), m_strWindowTitle, dwStyle, 
                                     rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, 
                                     m_hWndParent, NULL, m_hInstance, this );
             m_Monitors[0].hWnd = m_hWnd;
@@ -573,7 +573,7 @@ HRESULT CScreensaver::CreateSaverWindow()
             rc.bottom = rc.top+400;
             dwStyle = WS_VISIBLE | WS_OVERLAPPED | WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU;
             AdjustWindowRect( &rc, dwStyle, FALSE );
-            m_hWnd = CreateWindow( TEXT("BOINCPrimarySaverWndClass"), m_strWindowTitle, dwStyle, 
+            m_hWnd = CreateWindow( _T("BOINCPrimarySaverWndClass"), m_strWindowTitle, dwStyle, 
                                    rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, 
                                    NULL, NULL, m_hInstance, this );
             m_Monitors[0].hWnd = m_hWnd;
@@ -596,13 +596,13 @@ HRESULT CScreensaver::CreateSaverWindow()
 					rc = pMonitorInfo->rcScreen;
 					if( 0 == iMonitor )
 					{
-						pMonitorInfo->hWnd = CreateWindowEx( WS_EX_TOPMOST, TEXT("BOINCPrimarySaverWndClass"), 
+						pMonitorInfo->hWnd = CreateWindowEx( WS_EX_TOPMOST, _T("BOINCPrimarySaverWndClass"), 
 							m_strWindowTitle, dwStyle, rc.left, rc.top, rc.right - rc.left, 
 							rc.bottom - rc.top, NULL, NULL, m_hInstance, this );
 					}
 					else
 					{
-						pMonitorInfo->hWnd = CreateWindowEx( WS_EX_TOPMOST, TEXT("BOINCGenericSaverWndClass"), 
+						pMonitorInfo->hWnd = CreateWindowEx( WS_EX_TOPMOST, _T("BOINCGenericSaverWndClass"), 
 							m_strWindowTitle, dwStyle, rc.left, rc.top, rc.right - rc.left, 
 							rc.bottom - rc.top, NULL, NULL, m_hInstance, this );
 					}
@@ -644,9 +644,9 @@ HRESULT CScreensaver::DoSaver()
             if ( (RegQueryValueEx( hKey, REGSTR_VALUE_USESCRPASSWORD, NULL, NULL,
                                    (BYTE *)&dwVal, &dwSize ) == ERROR_SUCCESS) && dwVal ) 
             { 
-                m_hPasswordDLL = LoadLibrary( TEXT("PASSWORD.CPL") );
+                m_hPasswordDLL = LoadLibrary( _T("PASSWORD.CPL") );
                 if ( m_hPasswordDLL )
-                    m_VerifySaverPassword = (VERIFYPWDPROC)GetProcAddress( m_hPasswordDLL, TEXT("VerifyScreenSavePwd") );
+                    m_VerifySaverPassword = (VERIFYPWDPROC)GetProcAddress( m_hPasswordDLL, _T("VerifyScreenSavePwd") );
                 RegCloseKey( hKey );
             }
         }
@@ -911,7 +911,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 			InterruptSaver();
 	}
 
-    BOINCTRACE(TEXT("PrimarySaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
+    BOINCTRACE(_T("PrimarySaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
 
     return DefWindowProc( hWnd, uMsg, wParam, lParam );
 }
@@ -1061,7 +1061,7 @@ LRESULT CScreensaver::GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 			InterruptSaver();
 	}
 
-	BOINCTRACE(TEXT("GenericSaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
+	BOINCTRACE(_T("GenericSaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
 
 	return DefWindowProc( hWnd, uMsg, wParam, lParam );
 }
@@ -1160,7 +1160,7 @@ VOID CScreensaver::UpdateErrorBox()
     dwTimeLast = dwTimeNow;
 
     // Load error string if necessary
-    if( m_szError[0] == TEXT('\0') )
+    if( m_szError[0] == _T('\0') )
     {
         GetTextForError( m_hrError, m_szError, sizeof(m_szError) / sizeof(TCHAR) );
     }
@@ -1383,7 +1383,7 @@ VOID CScreensaver::DoPaint(HWND hwnd, HDC hdc)
 VOID CScreensaver::ChangePassword()
 {
     // Load the password change DLL
-    HINSTANCE mpr = LoadLibrary( TEXT("MPR.DLL") );
+    HINSTANCE mpr = LoadLibrary( _T("MPR.DLL") );
 
     if ( mpr != NULL )
     {
@@ -1551,9 +1551,9 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 	bRetVal = FALSE;
 
 	// Attempt to link to dynamic function if it exists
-    hShell32 = LoadLibrary(TEXT("SHELL32.DLL"));
+    hShell32 = LoadLibrary(_T("SHELL32.DLL"));
 	if ( NULL != hShell32 )
-		pfnMySHGetFolderPath = (MYSHGETFOLDERPATH) GetProcAddress(hShell32, TEXT("SHGetFolderPathA"));
+		pfnMySHGetFolderPath = (MYSHGETFOLDERPATH) GetProcAddress(hShell32, _T("SHGetFolderPathA"));
 
 
 	// Now lets begin looking in the registry
@@ -1570,20 +1570,20 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 		{
 			if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
 			{
-				BOINCTRACE(TEXT("IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
-				if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC Manager.lnk"), 36)))
+				BOINCTRACE(_T("IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
+				if (SUCCEEDED(StringCchCatN(szBuffer, 512, _T("\\BOINC Manager.lnk"), 36)))
 				{
-					BOINCTRACE(TEXT("IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
+					BOINCTRACE(_T("IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
 					bCheckFileExists = TRUE;
 				}
 				else
 				{
-					BOINCTRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_STARTUP Append Operation\n"));
+					BOINCTRACE(_T("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_STARTUP Append Operation\n"));
 				}
 			}
 			else
 			{
-				BOINCTRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_STARTUP\n"));
+				BOINCTRACE(_T("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_STARTUP\n"));
 			}
 		}
 
@@ -1601,13 +1601,13 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 
 			if (INVALID_HANDLE_VALUE != hFileHandle)
 			{
-				BOINCTRACE(TEXT("IsConfigStartupBOINC: CreateFile returned a valid handle '%d'\n"), hFileHandle);
+				BOINCTRACE(_T("IsConfigStartupBOINC: CreateFile returned a valid handle '%d'\n"), hFileHandle);
 				CloseHandle(hFileHandle);
 				bRetVal = TRUE;
 			}
 			else
 			{
-				BOINCTRACE(TEXT("IsConfigStartupBOINC: CreateFile returned INVALID_HANDLE_VALUE - GetLastError() '%d'\n"), GetLastError());
+				BOINCTRACE(_T("IsConfigStartupBOINC: CreateFile returned INVALID_HANDLE_VALUE - GetLastError() '%d'\n"), GetLastError());
 
 				// It could be in the global startup group
 				ZeroMemory( szBuffer, 512 );
@@ -1616,20 +1616,20 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 				{
 					if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_COMMON_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
 					{
-						BOINCTRACE(TEXT("IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
-						if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC Manager.lnk"), 36)))
+						BOINCTRACE(_T("IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
+						if (SUCCEEDED(StringCchCatN(szBuffer, 512, _T("\\BOINC Manager.lnk"), 36)))
 						{
-							BOINCTRACE(TEXT("IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
+							BOINCTRACE(_T("IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
 							bCheckFileExists = TRUE;
 						}
 						else
 						{
-							BOINCTRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP Append Operation\n"));
+							BOINCTRACE(_T("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP Append Operation\n"));
 						}
 					}
 					else
 					{
-						BOINCTRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP\n"));
+						BOINCTRACE(_T("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP\n"));
 					}
 				}
 
@@ -1647,13 +1647,13 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 
 					if (INVALID_HANDLE_VALUE != hFileHandle)
 					{
-						BOINCTRACE(TEXT("IsConfigStartupBOINC: CreateFile returned a valid handle '%d'\n"), hFileHandle);
+						BOINCTRACE(_T("IsConfigStartupBOINC: CreateFile returned a valid handle '%d'\n"), hFileHandle);
 						CloseHandle(hFileHandle);
 						bRetVal = TRUE;
 					}
 					else
 					{
-						BOINCTRACE(TEXT("IsConfigStartupBOINC: CreateFile returned INVALID_HANDLE_VALUE - GetLastError() '%d'\n"), GetLastError());
+						BOINCTRACE(_T("IsConfigStartupBOINC: CreateFile returned INVALID_HANDLE_VALUE - GetLastError() '%d'\n"), GetLastError());
 					}
 				}
 			}
@@ -1665,6 +1665,6 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 	FreeLibrary(hShell32);
 
 
-	BOINCTRACE(TEXT("IsConfigStartupBOINC: Returning '%d'\n"), bRetVal);
+	BOINCTRACE(_T("IsConfigStartupBOINC: Returning '%d'\n"), bRetVal);
 	return bRetVal;
 }
