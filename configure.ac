@@ -216,9 +216,10 @@ AC_CONFIG_FILES([Makefile
                  RSAEuro/source/Makefile
                  RSAEuro/Makefile
                  api/Makefile
-		 boincglut/Makefile
-		 boincglut/lib/Makefile
-		 boincglut/lib/glut/Makefile
+                 boincglut/Makefile
+                 boincglut/lib/Makefile
+                 boincglut/lib/glut/Makefile
+                 boincglut/include/Makefile
                  apps/Makefile
                  client/Makefile
                  db/Makefile

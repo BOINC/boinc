@@ -135,14 +135,15 @@ public:
     int scheduler_state;
     int exit_status;
     int signal;
-    int active_task_state;
+    std::string stderr_out;
     // the following defined if active
     bool active_task;
-    std::string stderr_out;
+    int active_task_state;
     int app_version_num;
     double checkpoint_cpu_time;
     double current_cpu_time;
     double fraction_done;
+    double vm_size;
     double estimated_cpu_time_remaining;
     bool suspended_via_gui;
 

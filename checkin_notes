@@ -18863,6 +18863,20 @@ David  25 Oct 2004
             forum_rate.php
             forum_thread.php
 
+David  25 Oct 2004
+    - add <active_task_state> and <vm_size> fields
+        to XML for active task (for GUI RPC)
+    - compile fixes for app graphics (from Bruce Allen and Reinhard Prix)
+
+    boincglut/
+        Makefile.am
+        include/
+            Makefile.am (new)
+    client/
+        app.C
+    lib/
+        gui_rpc_client.C,h
+
 David  26 Oct 2004
     - Fixed the following problem with graphics apps on Unix:
         - the worker timer handler (on_timer) was set up in boinc_init();

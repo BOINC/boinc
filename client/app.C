@@ -333,22 +333,26 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "<active_task>\n"
         "    <project_master_url>%s</project_master_url>\n"
         "    <result_name>%s</result_name>\n"
+        "    <active_task_state>%d</active_task_state>\n"
         "    <app_version_num>%d</app_version_num>\n"
         "    <slot>%d</slot>\n"
         "    <scheduler_state>%d</scheduler_state>\n"
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
         "    <current_cpu_time>%f</current_cpu_time>\n"
+        "    <vm_size>%f</vm_size>\n"
         "%s"
         "</active_task>\n",
         result->project->master_url,
         result->name,
+        state,
         app_version->version_num,
         slot,
         scheduler_state,
         checkpoint_cpu_time,
         fraction_done,
         current_cpu_time,
+        vm_size,
         suspended_via_gui?"    <suspended_via_gui/>\n":""
     );
     return 0;

@@ -59,6 +59,11 @@ show_link(
     "http://www.universe-examiners.org/boinc_faq.php"
 );
 show_link(
+    "Finnish",
+    "BOINC instructions in Finnish",
+    "http://news.universe-examiners.org/asennus/boinc.html"
+);
+show_link(
     "French",
     "www.boinc-fr.net",
     "http://www.boinc-fr.net"
