@@ -19,7 +19,7 @@
 
 // API_IGNORE_CLIENT will make the app ignore the core client
 // this is useful for debugging just the application
-#define API_IGNORE_CLIENT
+//#define API_IGNORE_CLIENT
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -120,22 +120,6 @@ int boinc_init() {
     time_until_fraction_done_update = aid.fraction_done_update_period;
     this_process_active = true;
     set_timer(timer_period);
-
-#ifdef BOINC_APP_GRAPHICS
-#ifdef _WIN32
-	DWORD threadId;
-	HANDLE hThread;
-
-	// Create the graphics thread, passing it the graphics info
-	hThread = CreateThread( NULL, 0, graphics_main, 0, CREATE_SUSPENDED, &threadId );
-
-	// Set it to idle priority
-	SetThreadPriority (hThread, THREAD_PRIORITY_IDLE);
-
-	// Start the graphics thread
-	ResumeThread( hThread );
-#endif
-#endif
 
     return 0;
 }
