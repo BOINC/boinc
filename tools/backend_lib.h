@@ -20,7 +20,7 @@
 #include "crypt.h"
 
 extern int process_result_template(
-    FILE* in, FILE* out,
+    char* result_template,
     R_RSA_PRIVATE_KEY& key,
     char* base_filename,
     char* upload_url, char* download_url

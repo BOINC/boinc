@@ -143,16 +143,14 @@ static int process_wu_template(
 // Create a new result for the given WU.
 //
 int create_result(
-    WORKUNIT& wu, char* result_template_filename,
+    WORKUNIT& wu, char* result_template,
     char* result_name_suffix, R_RSA_PRIVATE_KEY& key,
     char* upload_url, char* download_url
 ) {
     RESULT r;
     char base_outfile_name[256];
+    char result_template_copy[MAX_BLOB_SIZE];
     int retval;
-    FILE* result_template_file, *tempfile;
-
-    assert(result_template_filename!=NULL);
 
     memset(&r, 0, sizeof(r));
     r.report_deadline = time(0) + 1000;
@@ -164,19 +162,14 @@ int create_result(
     sprintf(r.name, "%s_%s", wu.name, result_name_suffix);
     sprintf(base_outfile_name, "%s_", r.name);
 
-    result_template_file = fopen(result_template_filename, "r");
-    tempfile = tmpfile();
+    strcpy(result_template_copy, result_template);
     retval = process_result_template(
-        result_template_file,
-        tempfile,
+        result_template,
         key,
         base_outfile_name,
         upload_url, download_url
     );
-    rewind(tempfile);
-    read_file(tempfile, r.xml_doc_in);
-    fclose(tempfile);
-    fclose(result_template_file);
+    strcpy(r.xml_doc_in, result_template_copy);
 
     retval = db_result_new(r);
     if (retval) {
@@ -188,7 +181,7 @@ int create_result(
 int create_work(
     WORKUNIT& wu,
     char* wu_template,
-    char* result_template_file,
+    char* result_template_filename,
     int nresults,
     char* infile_dir,
     char** infiles,
@@ -198,12 +191,7 @@ int create_work(
 ) {
     int i, retval;
     char suffix[256];
-    assert(wu_template!=NULL);
-    assert(result_template_file!=NULL);
-    assert(nresults>=0);
-    assert(infile_dir!=NULL);
-    assert(infiles!=NULL);
-    assert(ninfiles>=0);
+    char result_template[MAX_BLOB_SIZE];
 
     wu.create_time = time(0);
     retval = process_wu_template(
@@ -221,10 +209,15 @@ int create_work(
     }
     wu.id = db_insert_id();
 
+    retval = read_filename(result_template_filename, result_template);
+    if (retval) {
+        fprintf(stderr, "create_work: can't read result template\n");
+        return retval;
+    }
     for (i=0; i<nresults; i++) {
         sprintf(suffix, "%d", i);
         create_result(
-            wu, result_template_file, suffix, key, upload_url, download_url
+            wu, result_template, suffix, key, upload_url, download_url
         );
     }
     return 0;

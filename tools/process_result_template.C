@@ -17,102 +17,128 @@
 // Contributor(s):
 //
 
-// macro-substitute a result template file:
-// - replace OUTFILE_x with base_filename_x, etc.
-// - At the end of every <file_info> element, add a signature
-//   of its contents up to that point.
-//
-// TODO - have this work in memory instead of using disk files
-
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
 
 #include "db.h"
+#include "error_numbers.h"
 #include "parse.h"
 #include "crypt.h"
 
 #define OUTFILE_MACRO   "<OUTFILE_"
 #define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"
-#define DOWNLOAD_URL_MACRO      "<DOWNLOAD_URL/>"
 
+// compute an XML signature element for some text
+//
+int generate_signature(
+    char* signed_xml, char* signature_xml, R_RSA_PRIVATE_KEY& key
+)  {
+    DATA_BLOCK block, signature;
+    unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
+    char buf[MAX_BLOB_SIZE];
+    int retval;
+
+    block.data = (unsigned char*)signed_xml;
+    block.len = strlen(signed_xml);
+    signature.data = signature_buf;
+    signature.len = SIGNATURE_SIZE_BINARY;
+    retval = sign_block(block, key, signature);
+    if (retval) return retval;
+    sprint_hex_data(buf, signature);
+#if 0
+    printf("signing [\n%s]\n", signed_xml);
+    printf("signature: [\n%s]\n", buf);
+#endif
+    sprintf(signature_xml,
+        "<xml_signature>\n%s</xml_signature>\n", buf
+    );
+    return 0;
+}
+
+// At the end of every <file_info> element,
+// add a signature of its contents up to that point.
+//
+int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
+    char* p = xml, *q1, *q2, buf[MAX_BLOB_SIZE], buf2[MAX_BLOB_SIZE];;
+    char signature[MAX_BLOB_SIZE];
+    int retval, len;
+
+    while (1) {
+        q1 = strstr(p, "<file_info>");
+        if (!q1) break;
+        q2 = strstr(q1, "</file_info>");
+        if (!q2) {
+            fprintf(stderr, "add_signatures: malformed XML: %s\n", xml);
+            return ERR_XML_PARSE;
+        }
+        q1 += strlen("<file_info>");
+        len = q2 - q1;
+        memcpy(buf, q1, len);
+        buf[len] = 0;
+        retval = generate_signature(buf, signature, key);
+        if (retval) return retval;
+        strcpy(buf2, q2);
+        strcpy(q2, signature);
+        strcat(q2, buf2);
+        p = q2;
+    }
+    return 0;
+}
+
+// remove file upload signatures from a result XML doc
+//
+int remove_signatures(char* xml) {
+    char* p, *q;
+    while (1) {
+        p = strstr(xml, "<xml_signature>");
+        if (!p) break;
+        q = strstr(p, "</xml_signature>");
+        if (!q) {
+            fprintf(stderr, "remove_signatures: invalid XML:\n%s", xml);
+            return ERR_XML_PARSE;
+        }
+        q += strlen("</xml_signature>");
+        strcpy(p, q);
+    }
+    return 0;
+}
+
+// macro-substitute a result template:
+// - replace OUTFILE_x with base_filename_x, etc.
+// - add signatures for file uploads
+//
 int process_result_template(
-    FILE* in, FILE* out,
+    char* result_template,
     R_RSA_PRIVATE_KEY& key,
     char* base_filename,
     char* upload_url, char* download_url
 ) {
-    char* p,*q, *signed_xml=strdup("");
-    char buf[256], temp[256];
-    unsigned char signature_buf[SIGNATURE_SIZE_BINARY];
-    DATA_BLOCK block, signature;
+    char* p,*q;
+    char temp[256];
     char num;
     int i;
-    bool found;
 
-    assert(in!=NULL);
-    assert(out!=NULL);
-    assert(base_filename!=NULL);
-    while (fgets(buf, 256, in)) {
-
-        // when we reach the end of a <file_info> element,
-        // generate a signature for the contents thus far
-        //
-        if (match_tag(buf, "<file_info>")) {
-            free(signed_xml);
-            signed_xml = strdup("");
-            fputs(buf, out);
+    while (1) {
+        p = strstr(result_template, OUTFILE_MACRO);
+        if (p) {
+            i = atoi(p+strlen(OUTFILE_MACRO));
+            q = p+strlen(OUTFILE_MACRO);
+            num = q[0];
+            strcpy(temp, p+strlen(OUTFILE_MACRO)+1+2);
+            strcpy(p, base_filename);
+            strncat(p, &num, 1);
+            strcat(p, temp);
             continue;
         }
-        if (match_tag(buf, "</file_info>")) {
-            block.data = (unsigned char*)signed_xml;
-            block.len = strlen(signed_xml);
-            signature.data = signature_buf;
-            signature.len = SIGNATURE_SIZE_BINARY;
-            sign_block(block, key, signature);
-            fprintf(out, "<xml_signature>\n");
-            print_hex_data(out, signature);
-#if 0
-            printf("signing [\n%s]\n", signed_xml);
-            printf("signature: [\n");
-            print_hex_data(stdout, signature);
-            printf("]\n");
-#endif
-            fprintf(out, "</xml_signature>\n");
-            fprintf(out, "</file_info>\n");
+        p = strstr(result_template, UPLOAD_URL_MACRO);
+        if (p) {
+            strcpy(temp, p+strlen(UPLOAD_URL_MACRO));
+            strcpy(p, upload_url);
+            strcat(p, temp);
             continue;
         }
-        while (1) {
-            found = false;
-            p = strstr(buf, OUTFILE_MACRO);
-            if (p) {
-                found = true;
-                i = atoi(p+strlen(OUTFILE_MACRO));
-                q = p+strlen(OUTFILE_MACRO);
-                num = q[0];
-                strcpy(temp, p+strlen(OUTFILE_MACRO)+1+2);
-                strcpy(p, base_filename);
-                strncat(p, &num, 1);
-                strcat(p, temp);
-            }
-            p = strstr(buf, UPLOAD_URL_MACRO);
-            if (p) {
-                found = true;
-                strcpy(temp, p+strlen(UPLOAD_URL_MACRO));
-                strcpy(p, upload_url);
-                strcat(p, temp);
-            }
-            p = strstr(buf, DOWNLOAD_URL_MACRO);
-            if (p) {
-                found = true;
-                strcpy(temp, p+strlen(DOWNLOAD_URL_MACRO));
-                strcpy(p, download_url);
-                strcat(p, temp);
-            }
-            if (!found) break;
-        }
-        strcatdup(signed_xml, buf);
-        fputs(buf, out);
+        break;
     }
-    return 0;
+    return add_signatures(result_template, key);
 }
