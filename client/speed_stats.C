@@ -222,8 +222,8 @@ int check_cache_size(int mem_size) {
 
 // Run the test of double precision math speed for num_secs seconds
 //
-double run_double_prec_test(double num_secs) {
-    double df_measurement;
+int run_double_prec_test(double num_secs, double &flops_per_sec) {
+    int retval;
     
     if (num_secs<0) {
         fprintf(stderr, "error: run_double_prec_test: negative num_secs\n");
@@ -233,17 +233,17 @@ double run_double_prec_test(double num_secs) {
     // Setup a timer to interrupt the tests in num_secs
     set_test_timer(num_secs);
 
-    df_measurement = (int)double_flop_test(0, 0);
+    retval = (int)double_flop_test(0, flops_per_sec, 0);
         
     destroy_test_timer();
     
-    return df_measurement;
+    return retval;
 }
 
 // Run the test of integer math speed for num_secs seconds
 //
-double run_int_test(double num_secs) {
-    double int_measurement;
+int run_int_test(double num_secs, double &iops_per_sec) {
+    int retval;
     
     if (num_secs<0) {
         fprintf(stderr, "error: run_int_test: negative num_secs\n");
@@ -253,17 +253,17 @@ double run_int_test(double num_secs) {
     // Setup a timer to interrupt the tests in num_secs
     set_test_timer(num_secs);
 
-    int_measurement = (int)int_op_test(0, 0);
+    retval = (int)int_op_test(0, iops_per_sec, 0);
     
     destroy_test_timer();
     
-    return int_measurement;
+    return retval;
 }
 
 // Run the test of memory bandwidth speed for num_secs seconds
 //
-double run_mem_bandwidth_test(double num_secs) {
-    double bw_measurement;
+int run_mem_bandwidth_test(double num_secs, double &bytes_per_sec) {
+    int retval;
     
     if (num_secs<0) {
         fprintf(stderr, "error: run_mem_bandwidth_test: negative num_secs\n");
@@ -273,22 +273,21 @@ double run_mem_bandwidth_test(double num_secs) {
     // Setup a timer to interrupt the tests in num_secs
     set_test_timer(num_secs);
     
-    bw_measurement = (int)bandwidth_test(0, 0);
+    retval = (int)bandwidth_test(0, bytes_per_sec, 0);
     
     destroy_test_timer();
     
-    return bw_measurement;
+    return retval;
 }
 
 // One iteration == D_LOOP_ITERS (1,000,000) floating point operations
 // If time_total is negative, there was an error in the calculation,
 // meaning there is probably something wrong with the CPU
 
-double double_flop_test(int iterations, int print_debug) {
-    double a[NUM_DOUBLES],b[NUM_DOUBLES],dp;
-    int i,n,j,actual_iters;
-    double temp,n_ops_per_sec;
-    clock_t time_start, time_total,calc_error;
+int double_flop_test(int iterations, double &flops_per_sec, int print_debug) {
+    double a[NUM_DOUBLES], b[NUM_DOUBLES], dp, temp;
+    int i,n,j,actual_iters, error = 0;
+    clock_t time_start, time_total;
     
     if (iterations<0) {
         fprintf(stderr, "error: double_flop_test: negative iterations\n");
@@ -304,8 +303,8 @@ double double_flop_test(int iterations, int print_debug) {
     a[0] = b[0] = 1.0;
     
     for (i=1;i<NUM_DOUBLES;i++) {
-            a[i] = a[i-1] / 2.0;
-            b[i] = b[i-1] * 2.0;
+        a[i] = a[i-1] / 2.0;
+        b[i] = b[i-1] * 2.0;
     }
     
     actual_iters = 0;
@@ -315,13 +314,13 @@ double double_flop_test(int iterations, int print_debug) {
     for (n=0;(n<iterations)&&run_test;n++) {
         for (j=0;j<D_LOOP_ITERS;j+=((NUM_DOUBLES*4)+1)) {
             dp = 0;
-            for (i=0;i<NUM_DOUBLES;i++) {	// 2*NUM_DOUBLES flops
-                dp += a[i]*b[i];		// 2 flops
+            for (i=0;i<NUM_DOUBLES;i++) {    // 2*NUM_DOUBLES flops
+                dp += a[i]*b[i];             // 2 flops
             }
-            dp /= (float)NUM_DOUBLES;		// 1 flop
-            for (i=0;i<NUM_DOUBLES;i++) {	// 2*NUM_DOUBLES flops
-                a[i] *= dp;			// 1 flop
-                b[i] *= dp;			// 1 flop
+            dp /= (float)NUM_DOUBLES;        // 1 flop
+            for (i=0;i<NUM_DOUBLES;i++) {    // 2*NUM_DOUBLES flops
+                a[i] *= dp;                  // 1 flop
+                b[i] *= dp;                  // 1 flop
             }
         }
         actual_iters++;
@@ -336,17 +335,14 @@ double double_flop_test(int iterations, int print_debug) {
         time_total = 0; // this is just a kludge
     }
     
-    n_ops_per_sec = D_LOOP_ITERS*actual_iters/((double)time_total/CLOCKS_PER_SEC);
+    flops_per_sec = D_LOOP_ITERS*actual_iters/((double)time_total/CLOCKS_PER_SEC);
     
-    calc_error = 0;
     temp = 1;
     // Check to make sure all the values are the same as when we started
     for (i=0;i<NUM_DOUBLES;i++) {
-        if ((double)a[i] != (float)temp) calc_error = 1;
+        if ((double)a[i] != (float)temp) error = ERR_BENCHMARK_FAILED;
         temp /= 2;
     }
-    
-    if (calc_error) n_ops_per_sec *= -1;
     
     if (print_debug) {
         for (i=0;i<NUM_DOUBLES;i++) {
@@ -354,18 +350,17 @@ double double_flop_test(int iterations, int print_debug) {
         }
     }
     
-    return n_ops_per_sec;
+    return error;
 }
 
 // One iteration == 1,000,000 integer operations
 // If time_total is negative, there was an error in the calculation,
 // meaning there is probably something wrong with the CPU
 
-double int_op_test(int iterations, int print_debug) {
+int int_op_test(int iterations, double &iops_per_sec, int print_debug) {
     int a[NUM_INTS], temp, actual_iters;
     clock_t time_start, time_total;
-    double n_ops_per_sec;
-    int i,j,k,calc_error;
+    int i,j,k,error = 0;
     if (iterations<0) {
         fprintf(stderr, "error: int_op_test: negative iterations\n");
         return ERR_NEG;
@@ -430,17 +425,14 @@ double int_op_test(int iterations, int print_debug) {
         time_total = 0; // this is just a kludge
     }
     
-    n_ops_per_sec = I_LOOP_ITERS*actual_iters/((double)time_total/CLOCKS_PER_SEC);
+    iops_per_sec = I_LOOP_ITERS*actual_iters/((double)time_total/CLOCKS_PER_SEC);
     
-    calc_error = 0;
     temp = 1;
     // Check to make sure all the values are the same as when we started
     for (i=0;i<NUM_INTS;i++) {
-        if (a[i] != temp) calc_error = 1;
+        if (a[i] != temp) error = ERR_BENCHMARK_FAILED;
         temp *= 2;
     }
-    
-    if (calc_error) n_ops_per_sec *= -1;
     
     if (print_debug) {
         for (i=0;i<NUM_INTS;i++) {
@@ -448,21 +440,20 @@ double int_op_test(int iterations, int print_debug) {
         }
     }
     
-    return n_ops_per_sec;
+    return error;
 }
 
 // If return value is negative, there was an error in the copying,
 // meaning there is probably something wrong with the CPU
 //
-double bandwidth_test(int iterations, int print_debug) {
+int bandwidth_test(int iterations, double &bytes_per_sec, int print_debug) {
     // a, b, and c are arrays of doubles we will copy around to test memory bandwidth
     double *a, *b, *c;
     // aVal and bVal are the values of all elements of a and b.
     double aVal, bVal;
-    double n_bytes_per_sec;
     // Start and stop times for the clock
     clock_t time_start, time_total;
-    int i,j,n,copy_error,actual_iters;
+    int i,j,n,actual_iters, error = 0;
     if (iterations<0) {
         fprintf(stderr, "error: bandwidth_test: negative iterations\n");
         return ERR_NEG;
@@ -516,20 +507,17 @@ double bandwidth_test(int iterations, int print_debug) {
         time_total = 0; // this is just a kludge
     }
     
-    n_bytes_per_sec = 2.0*6.0*MEM_SIZE*actual_iters*sizeof(double)/((double)time_total/CLOCKS_PER_SEC);
+    bytes_per_sec = 2.0*6.0*MEM_SIZE*actual_iters*sizeof(double)/((double)time_total/CLOCKS_PER_SEC);
     
-    copy_error = 0;
     for (i=0;i<MEM_SIZE;i++) {
-        if (a[i] != aVal+i || b[i] != bVal+i) copy_error = 1;
+        if (a[i] != aVal+i || b[i] != bVal+i) error = ERR_BENCHMARK_FAILED;
     }
-    
-    if (copy_error) n_bytes_per_sec *= -1;
     
     free(a);
     free(b);
     free(c);
     
-    return n_bytes_per_sec;
+    return error;
 }
 
 // TODO: handle errors here
@@ -552,7 +540,7 @@ int set_test_timer(double num_secs) {
 
 int destroy_test_timer() {
 #ifdef _WIN32
-	timeKillEvent(speed_timer_id);
+    timeKillEvent(speed_timer_id);
 #endif
     return 0;
 }

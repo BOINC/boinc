@@ -417,7 +417,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
 	// update usage
 	double xDiskTotal;
-	double xDiskFree; get_host_disk_info(xDiskTotal, xDiskFree);
+	double xDiskFree; get_filesystem_info(xDiskTotal, xDiskFree);
 	double xDiskUsed = xDiskTotal - xDiskFree;
 	double xDiskAllow; gstate.allowed_disk_usage(xDiskAllow); xDiskAllow = xDiskFree - xDiskAllow;
 	double xDiskUsage; gstate.current_disk_usage(xDiskUsage);

@@ -23,9 +23,8 @@
 #include <winsock.h>
 #include "client_types.h"
 #include "hostinfo.h"
+#include "filesys.h"
 #include "util.h"
-
-typedef BOOL (CALLBACK* FreeFn)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER);
 
 // Returns the number of seconds difference from UTC
 //
@@ -34,31 +33,6 @@ int get_timezone(void) {
 	ZeroMemory(&tzi, sizeof(TIME_ZONE_INFORMATION));
 	GetTimeZoneInformation(&tzi);
 	return (tzi.Bias * 60);
-}
-
-// Returns total and free space on current disk (in bytes)
-//
-void get_host_disk_info( double &total_space, double &free_space ) {
-	FreeFn pGetDiskFreeSpaceEx;
-	pGetDiskFreeSpaceEx = (FreeFn)GetProcAddress(GetModuleHandle("kernel32.dll"), "GetDiskFreeSpaceExA");
-	if(pGetDiskFreeSpaceEx) {
-		ULARGE_INTEGER TotalNumberOfFreeBytes;
-		ULARGE_INTEGER TotalNumberOfBytes;
-		pGetDiskFreeSpaceEx(NULL, NULL, &TotalNumberOfBytes, &TotalNumberOfFreeBytes);
-		unsigned int uMB;
-		uMB = TotalNumberOfFreeBytes.QuadPart / (1024 * 1024);
-		free_space = uMB * 1024.0 * 1024.0;
-		uMB = TotalNumberOfBytes.QuadPart / (1024 * 1024);
-		total_space = uMB * 1024.0 * 1024.0;
-	} else {
-		DWORD dwSectPerClust;
-		DWORD dwBytesPerSect;
-		DWORD dwFreeClusters;
-		DWORD dwTotalClusters;
-		GetDiskFreeSpace(NULL, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters, &dwTotalClusters);
-		free_space = (double)dwFreeClusters * dwSectPerClust * dwBytesPerSect;
-		total_space = (double)dwTotalClusters * dwSectPerClust * dwBytesPerSect;
-	}
 }
 
 // Gets windows specific host information (not complete)
@@ -178,7 +152,7 @@ int get_host_info(HOST_INFO& host) {
             break;
     }
         
-	get_host_disk_info(host.d_total, host.d_free);
+	get_filesystem_info(host.d_total, host.d_free);
     
 	// Open the WinSock dll so we can get host info
     WORD    wVersionRequested;

@@ -66,3 +66,4 @@
     // an output file was bigger than max_nbytes
 #define ERR_GETRUSAGE       -132
     // getrusage failed
+#define ERR_BENCHMARK_FAILED -133

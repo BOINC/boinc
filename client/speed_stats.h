@@ -43,13 +43,13 @@
 #define CPU_BENCHMARKS_ERROR		3
 
 int check_cache_size( int mem_size );
-double double_flop_test( int iterations, int print_debug );
-double int_op_test( int iterations, int print_debug );
-double bandwidth_test( int iterations, int print_debug );
+int double_flop_test( int iterations, double &flops_per_sec, int print_debug );
+int int_op_test( int iterations, double &iops_per_sec, int print_debug );
+int bandwidth_test( int iterations, double &bytes_per_sec, int print_debug );
 void run_test_suite( double num_secs_per_test );
-double run_double_prec_test( double num_secs );
-double run_int_test( double num_secs );
-double run_mem_bandwidth_test( double num_secs );
+int run_double_prec_test( double num_secs, double &flops_per_sec );
+int run_int_test( double num_secs, double &iops_per_sec );
+int run_mem_bandwidth_test( double num_secs, double &bytes_per_sec );
 int set_test_timer(double num_secs);
 int destroy_test_timer();
 

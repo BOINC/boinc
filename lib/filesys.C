@@ -49,9 +49,13 @@
 #endif
 
 #ifdef _WIN32
+#include <windows.h>
 #include <io.h>
 #include <winsock.h>
 #include <direct.h>
+
+typedef BOOL (CALLBACK* FreeFn)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER);
+
 #endif
 
 #include "util.h"
@@ -288,7 +292,7 @@ int get_filesystem_info(double &total_space, double &free_space) {
 		ULARGE_INTEGER TotalNumberOfFreeBytes;
 		ULARGE_INTEGER TotalNumberOfBytes;
 		pGetDiskFreeSpaceEx(NULL, NULL, &TotalNumberOfBytes, &TotalNumberOfFreeBytes);
-		unsigned int uMB;
+		signed __int64 uMB;
 		uMB = TotalNumberOfFreeBytes.QuadPart / (1024 * 1024);
 		free_space = uMB * 1024.0 * 1024.0;
 		uMB = TotalNumberOfBytes.QuadPart / (1024 * 1024);

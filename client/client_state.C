@@ -377,7 +377,7 @@ int CLIENT_STATE::cpu_benchmarks() {
                 fpop_test_secs
             );
         }
-        host_info.p_fpops = run_double_prec_test(fpop_test_secs);
+        run_double_prec_test(fpop_test_secs, host_info.p_fpops);
 
         if (log_flags.measurement_debug) {
             printf(
@@ -385,7 +385,7 @@ int CLIENT_STATE::cpu_benchmarks() {
                 iop_test_secs
             );
         }
-        host_info.p_iops = run_int_test(iop_test_secs);
+        run_int_test(iop_test_secs, host_info.p_iops);
 
         if (log_flags.measurement_debug) {
             printf(
@@ -393,7 +393,7 @@ int CLIENT_STATE::cpu_benchmarks() {
                 mem_test_secs
             );
         }
-        host_info.p_membw = run_mem_bandwidth_test(mem_test_secs);
+        run_mem_bandwidth_test(mem_test_secs, host_info.p_membw);
 
         // need to check cache!!
         host_info.m_cache = 1e6;
@@ -504,8 +504,8 @@ int CLIENT_STATE::current_disk_usage(double& size) {
 double CLIENT_STATE::estimate_cpu_time(WORKUNIT& wu) {
     double x;
 
-    x = abs(wu.rsc_fpops/host_info.p_fpops);
-    x += abs(wu.rsc_iops/host_info.p_iops);
+    x = wu.rsc_fpops/host_info.p_fpops;
+    x += wu.rsc_iops/host_info.p_iops;
     return x;
 }
 
