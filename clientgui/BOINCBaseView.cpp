@@ -221,6 +221,8 @@ void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
 
         wxASSERT(NULL != m_pListPane);
 
+        m_pListPane->Freeze();
+
         wxInt32 iDocCount = GetDocCount();
         wxInt32 iCacheCount = GetCacheCount();
         if ( iDocCount != iCacheCount )
@@ -232,34 +234,35 @@ void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
             }
             else
             {
-                if ( iDocCount > iCacheCount )
+                if ( !(iDocCount == iCacheCount) )
                 {
-                    wxInt32 iIndex = 0;
-                    wxInt32 iReturnValue = -1;
-                    for ( iIndex = iCacheCount; iIndex <= iDocCount; iIndex++ )
+                    if ( iDocCount > iCacheCount )
                     {
-                        iReturnValue = AddCacheElement();
-                        wxASSERT( 0 == iReturnValue );
+                        wxInt32 iIndex = 0;
+                        wxInt32 iReturnValue = -1;
+                        for ( iIndex = iCacheCount; iIndex <= iDocCount; iIndex++ )
+                        {
+                            iReturnValue = AddCacheElement();
+                            wxASSERT( 0 == iReturnValue );
+                        }
                     }
-                }
-                else
-                {
-                    wxInt32 iIndex = 0;
-                    wxInt32 iReturnValue = -1;
-                    for ( iIndex = iDocCount; iIndex >= iCacheCount; iIndex-- )
+                    else
                     {
-                        iReturnValue = RemoveCacheElement();
-                        wxASSERT( 0 == iReturnValue );
+                        wxInt32 iIndex = 0;
+                        wxInt32 iReturnValue = -1;
+                        for ( iIndex = iDocCount; iIndex >= iCacheCount; iIndex-- )
+                        {
+                            iReturnValue = RemoveCacheElement();
+                            wxASSERT( 0 == iReturnValue );
+                        }
                     }
+
+                    m_pListPane->SetItemCount(iDocCount);
                 }
             }
         }
 
-        m_pListPane->Freeze();
-
         SyncronizeCache();
-
-        m_pListPane->SetItemCount(iDocCount);
 
         if (EnsureLastItemVisible())
             m_pListPane->EnsureVisible(iCacheCount);
