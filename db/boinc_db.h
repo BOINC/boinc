@@ -585,6 +585,77 @@ public:
     int update_workunit(TRANSITIONER_ITEM&);
 };
 
+// used by the feeder and scheduler for outgoing work
+//
+struct WORK_ITEM {
+    int res_id;
+    int res_server_state;
+    char res_xml_doc_in[LARGE_BLOB_SIZE];
+    int workunitid;
+    double wu_rsc_memory_bound;
+    double wu_delay_bound;
+    double wu_rsc_fpops_est;
+    double wu_rsc_fpops_bound;
+    double wu_rsc_disk_bound;
+    double wu_transition_time;
+    char wu_name[256];
+    char wu_xml_doc[LARGE_BLOB_SIZE];
+    void parse(MYSQL_ROW& row);
+};
+
+class DB_WORK_ITEM : public WORK_ITEM, public DB_BASE_SPECIAL {
+public:
+    DB_WORK_ITEM();
+    CURSOR cursor;
+    int enumerate(char* clause);
+        // used by feeder
+    int read_result();
+        // used by scheduler to read result server state
+    int update();
+        // used by scheduler to update WU transition time
+        // and various result fields
+};
+
+// used by the scheduler for handling completed results
+//
+class DB_RESULT_DONE : public DB_BASE_SPECIAL {
+public:
+    DB_RESULT_DONE();
+    int hostid;
+    int received_time;
+    int client_state;
+    int cpu_time;
+    int exit_status;
+    int claimed_credit;
+    int teamid;
+    int workunitid;
+    char stderr_out[LARGE_BLOB_SIZE];
+    char xml_doc_out[LARGE_BLOB_SIZE];
+
+    int lookup();
+        // lookup by name; reads hostid, server_state, workunitid
+    int update();
+        // updates all fields except hostid, workunitid
+        // sets transition time of corresponding WU
+};
+
+// used by the scheduler for looking up and updating host/user/team
+//
+class DB_ACCOUNT_INFO : public DB_BASE_SPECIAL {
+    DB_ACCOUNT_INFO();
+    HOST host;
+    USER user;
+    TEAM team;
+
+    int lookup_hostid();
+        // used when hostid is supplied; reads all 3 records
+    int lookup_auth();
+        // used when no hostid is supplied; reads user/team
+        // must manually create host
+    // no update functions here because we always update the entire host,
+    // and we update the entire user infrequently
+};
+
 #if 0
 class DB_WORKSEQ : public DB_BASE, public WORKSEQ {
 public:

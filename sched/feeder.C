@@ -215,6 +215,10 @@ try_again:
                 }
             }
 
+#if 0
+            // We don't need to do the following because the
+            // scheduler makes this check also
+            //
             // there's a chance this result was sent out
             // after the enumeration started.
             // So read it from the DB again
@@ -234,6 +238,7 @@ try_again:
                 );
                 goto try_again;
             }
+#endif
             collision = false;
             for (j=0; j<ssp->nwu_results; j++) {
                 if (ssp->wu_results[j].state != WR_STATE_EMPTY

@@ -14532,3 +14532,16 @@ Daniel 2004-07-02
         api.php
         compound_app.php
 
+David  2 July 2004
+    - added new classes DB_RESULT_DONE, DB_WORK_ITEM, DB_ACCOUNT_INFO
+        for efficient DB access
+    - feeder: don't need to check server state because scheduler also checks
+    - sched_config.parse(): if db host is current host, substitute "localhost"
+
+    db/
+        boinc_db.C,h
+    sched/
+        feeder.C
+        sched_config.C
+    tools/
+        create_work.C

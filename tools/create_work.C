@@ -156,8 +156,9 @@ int main(int argc, char** argv) {
 #undef CHKARG
 #undef CHKARG_STR
 
-    if (boinc_db.open(db_name, db_host, db_user, db_passwd)) {
-        fprintf(stderr, "create_work: error opening database.\n" );
+    retval = boinc_db.open(db_name, db_host, db_user, db_passwd);
+    if (retval) {
+        fprintf(stderr, "create_work: error opening database: %d\n", retval );
         exit(1);
     }
     sprintf(buf, "where name='%s'", app.name);
