@@ -9,7 +9,7 @@ CFLAGS = -g -Wall @DEFS@ \
     -DHOST=\"@host@\" \
     -DVERSION=$(VERSION)
 
-CC = @CC@ $(CFLAGS) -I @srcdir@/lib
+CC = @CC@ $(CFLAGS) -I @srcdir@/lib -I /usr/local/mysql/include
 
 CLIBS = @LIBS@
 
