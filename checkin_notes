@@ -379,7 +379,9 @@ Michael Gary	June 06, 2002
 	test_normal_water_prefs.php (new)
 
 Michael Gary	June 07, 2002
-    - Converted scheduling server to Fast CGI
+    - Converted scheduling server to allow for Fast CGI. Fast CGI will only be
+	used if Makefile.in is replaced by Makefile.fcgi.in. Makefile.nofcgi.in
+	is a copy of the current Makefile.in.
 
     sched/
 	feeder.C
@@ -390,7 +392,8 @@ Michael Gary	June 07, 2002
 	sched_shmem.C
 	server_types.C
 	show_shmem.C
-	Makefile.in
+	Makefile.nofcgi.in (new)
+	Makefile.fcgi.in (new)
     lib/
 	parse.C
 

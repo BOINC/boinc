@@ -46,6 +46,7 @@ MYSQL_LIBS = \
 -lm $(NETLIBS) 
 
 .C.o:
+	rm -f ../lib/parse.o
 	$(CC) -c -o $*.o $<
 .c.o:
 	$(CC) -c -o $*.o $<
