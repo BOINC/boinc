@@ -89,9 +89,10 @@ void make_work() {
     CONFIG config;
     char * p;
     int retval, i, start_time=time(0), n, nresults_left;
-    char keypath[256], suffix[256], result_template[MAX_BLOB_SIZE], file_name[256], buf[MAX_BLOB_SIZE],pathname[256],new_file_name[256],new_pathname[256],command[256];
+    char keypath[256], suffix[256], result_template[MAX_BLOB_SIZE], file_name[256], buf[MAX_BLOB_SIZE],pathname[256],new_file_name[256],new_pathname[256],command[256], starting_xml[MAX_BLOB_SIZE];
     R_RSA_PRIVATE_KEY key;
     WORKUNIT wu;
+   
 
     retval = config.parse_file();
     if (retval) {
@@ -111,6 +112,8 @@ void make_work() {
         fprintf(stderr,"make_work: can't find wu %s\n", wu_name);
         exit(1);
     }
+
+    strcpy(starting_xml,wu.xml_doc);
 
     sprintf(keypath, "%s/upload_private", config.key_dir);
     retval = read_key_file(keypath, key);
@@ -139,7 +142,7 @@ void make_work() {
         }
 
         if (nresults_left == 0) {
-	   strcpy(buf,wu.xml_doc);
+	   strcpy(buf,starting_xml);
 	   p = strtok(buf, "\n");
 	   strcpy(file_name, "");
 	
