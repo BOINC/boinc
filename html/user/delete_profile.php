@@ -3,14 +3,13 @@ require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 
-
 db_init();
-$user = get_logged_in_user();  // Can't delete your profile unless you're logged in!
+$user = get_logged_in_user();
 
 // Handle a delete request.
 if ($_POST['delete']) {
-  delete_profile($user);
-  exit();
+    delete_profile($user);
+    exit();
 }
 
 page_head("Profile Delete Confirmation");
@@ -19,7 +18,6 @@ echo "<form action=", $_SERVER['PHP_SELF'], " method=\"POST\">";
 
 start_table_noborder();
 row1("Delete your profile");
-
 
 rowify("
     <h2>Are you sure?</h2><p>
@@ -37,22 +35,20 @@ echo "</form>";
 
 page_tail();
 
-
 function delete_profile($user) {
+    $result = mysql_query("DELETE FROM profile WHERE userid = $user->id");
+    if ($result) {
+        delete_user_pictures($user->id);
+        page_head("Delete Confirmation");
+        mysql_query("update user set has_profile=0 where id=$user->id");
+        echo "Your profile has been deleted<br>";
+    } else {
 
-  $result = mysql_query("DELETE FROM profile WHERE userid = $user->id");
-  if ($result) {
-    
-    delete_user_pictures($user->id);
-    page_head("Delete Confirmation");
-    echo "Your profile has been deleted<br>";
-  } else {
-
-    // TODO: Change this to a standard dialog.
-    page_head("Deletion Error");
-    echo "There was a problem deleting your profile.";
-  }
-  page_tail();
+        // TODO: Change this to a standard dialog.
+        page_head("Deletion Error");
+        echo "There was a problem deleting your profile.";
+    }
+    page_tail();
 }
 
 ?>

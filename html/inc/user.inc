@@ -80,15 +80,20 @@ function show_user_info_private($user) {
     $result = mysql_query($sql);
 
     if (mysql_num_rows($result) != 0) {
-      row2("", "<a href=view_profile.php?userid=$user->id>View / Edit</a>");
-      row2("", "<a href=delete_profile.php>Delete</a>");
+        row2("", "<a href=view_profile.php?userid=$user->id>View or edit</a>");
+        row2("", "<a href=delete_profile.php>Delete</a>");
     } else {
-      row2("", "<a href=create_profile.php>Create</a>");
+        row2("", "<a href=create_profile.php>Create</a>");
     }
 
     row1("Preferences");
-    row2("General", "<a href=prefs.php?subset=global>View / Edit</a>");
-    row2(PROJECT, "<a href=prefs.php?subset=project>View / Edit</a>");
+    row2(
+        "General<br><font size=-2>specify when and how BOINC uses your computer</font>",
+        "<a href=prefs.php?subset=global>View or edit</a>"
+    );
+    row2(PROJECT."<br><font size=-2>control project's resource share and customize screensaver graphics</font>",
+        "<a href=prefs.php?subset=project>View or edit</a>"
+    );
 }
 
 // show summary of dynamic and static info (public)

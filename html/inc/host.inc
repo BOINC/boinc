@@ -72,9 +72,6 @@ function show_host($host, $private, $ipprivate) {
     $x = $host->p_iops/(1000*1000);
     $y = round($x, 2);
     row2("Measured integer speed", "$y million ops/sec");
-    $x = $host->p_membw/(1024*1024);
-    $y = round($x, 2);
-    row2("Measured memory bandwidth", "$y MB/sec");
     $x = $host->n_bwup/(1024);
     $y = round($x, 2);
     if ($y > 0) {

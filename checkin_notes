@@ -16325,3 +16325,19 @@ David  12 Aug 2004
 
 	lib/
 		util.C
+
+David  12 Aug 2004
+    - db_dump: add <userid> element to team XML
+    - web: don't show memory BW, since we're not measuring it any more
+    - clear user.has_profile when delete profile
+
+    html/
+        inc/
+            host.inc
+            user.inc
+        user/
+            delete_profile.php
+    sched/
+        db_dump.C
+    tools/
+        dir_hier_move.C

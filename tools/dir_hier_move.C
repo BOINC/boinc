@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string>
 #include <stdlib.h>
+#include <errno.h>
 
 #include "filesys.h"
 #include "util.h"
@@ -33,7 +34,7 @@ int main(int argc, char** argv) {
         sprintf(src_path, "%s/%s", src_dir, filename.c_str());
         retval = rename(src_path, dst_path);
         if (retval) {
-            fprintf(stderr, "rename: %d\n", retval);
+            fprintf(stderr, "rename: %d, errno is %d\n", retval, errno);
             exit(1);
         }
     }

@@ -420,12 +420,14 @@ void write_team(TEAM& team, FILE* f, bool detail) {
         "<team>\n"
         " <id>%d</id>\n"
         " <name>%s</name>\n"
+        " <userid>%d</userid>\n"
         " <total_credit>%f</total_credit>\n"
         " <expavg_credit>%f</expavg_credit>\n"
         " <expavg_time>%f</expavg_time>\n"
         " <nusers>%d</nusers>\n",
         team.id,
         name.c_str(),
+        team.userid,
         team.total_credit,
         team.expavg_credit,
         team.expavg_time,
