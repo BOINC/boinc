@@ -17812,3 +17812,7 @@ David  26 Sept 2004
     sched/
         db_dump.C
         sched_send.C
+
+Rom    14 Sep 2004 (boinc_public)
+    - Tag for 4.10 release, all platforms
+      boinc_core_release_4_10
