@@ -337,7 +337,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     ACTIVE_TASK *atp;
     PROJECT *p;
     bool some_app_started = false;
-    double total_resource_share = 0;
+    double adjusted_total_resource_share;
     int retval, elapsed_time;
     double max_debt = SECONDS_PER_DAY * ncpus;
     unsigned int i;
@@ -352,11 +352,9 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
         return false;
     }
 
-    // tell app doing screensaver (fullscreen) graphics to stop
-    //
-    if ((atp = gstate.active_tasks.get_app_requested(MODE_FULLSCREEN)) != 0) {
-        atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
-    }
+    // TODO tell app doing screensaver (fullscreen) graphics to stop
+    // (not yet implemented)
+    //ss_logic.reset();
 
     // finish work accounting for active tasks, reset temporary fields
     //
@@ -372,10 +370,11 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     // compute total resource share among projects with runnable results
     //
     assign_results_to_projects(); // do this to see which projects have work
+    adjusted_total_resource_share = 0;
     for (i=0; i < projects.size(); ++i) {
         p = projects[i];
         if (p->next_runnable_result != NULL) {
-            total_resource_share += projects[i]->resource_share;
+            adjusted_total_resource_share += projects[i]->resource_share;
         }
     }
 
@@ -390,7 +389,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
             p->anticipated_debt = 0;
         } else {
             p->debt +=
-                (p->resource_share/total_resource_share)
+                (p->resource_share/adjusted_total_resource_share)
                 * cpu_sched_work_done_this_period
                 - p->work_done_this_period;
             if (p->debt < -max_debt) {
@@ -463,10 +462,10 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     }
 
     // debts and active_tasks can only change if some project had
-    // a runnable result (and thus if total_resource_share
+    // a runnable result (and thus if adjusted_total_resource_share
     // is positive)
     //
-    if (total_resource_share > 0.0) {
+    if (adjusted_total_resource_share > 0.0) {
         set_client_state_dirty("schedule_cpus");
         return true;
     } else {
@@ -553,4 +552,40 @@ void CLIENT_STATE::handle_file_xfer_apps() {
             rp->reset_result_files();
         }
     }
+}
+
+// return the next graphics-capable app.
+// always try to choose a new project
+// preferences goes to apps with pre-ss mode WINDOW, then apps with pre-ss mode HIDE
+//
+ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
+    static int project_index;
+    unsigned int i, j;
+    ACTIVE_TASK *atp;
+    PROJECT *p;
+
+    // loop through all projects starting with the one at project_index
+    //
+    for (i=0; i<projects.size(); ++i) {
+        project_index %= projects.size();
+        p = projects[project_index++];
+
+        for (j=0; j<active_tasks.active_tasks.size(); ++j) {
+            atp = active_tasks.active_tasks[j];
+            if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
+            if (atp->result->project != p) continue;
+            if (atp->graphics_mode_before_ss == MODE_WINDOW) {
+                return atp;
+            }
+        }
+        for (j=0; j<active_tasks.active_tasks.size(); ++j) {
+            atp = active_tasks.active_tasks[j];
+            if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
+            if (atp->result->project != p) continue;
+            if (atp->graphics_mode_before_ss == MODE_HIDE_GRAPHICS) {
+                return atp;
+            }
+        }
+    }
+    return NULL;
 }

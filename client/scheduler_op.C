@@ -80,19 +80,13 @@ bool SCHEDULER_OP::check_master_fetch_start() {
 int SCHEDULER_OP::init_get_work() {
     int retval;
     char err_msg[256];
-    double ns = gstate.work_needed_secs();
-
-    // in some cases we get work to keep all CPUs busy,
-    // even though we have at least the min buf.
-    // In this case just ask for 1 sec
-    //
-    if (ns == 0) {
-        ns = 1.0;
-    }
+    double ns;
 
     must_get_work = true;
     project = gstate.next_project(0);
     if (project) {
+        // for new work fetch policy
+        ns = project->work_request;
         msg_printf(project, MSG_INFO,
             "Requesting %.0f seconds of work", ns
         );
@@ -447,9 +441,10 @@ bool SCHEDULER_OP::poll() {
                 } else {
                     backoff(project, "No schedulers responded");
                     if (must_get_work) {
+                        int urgency = gstate.compute_work_requests();
                         project = gstate.next_project(project);
-                        if (project) {
-                            retval = init_op_project(gstate.work_needed_secs());
+                        if (project && urgency != DONT_NEED_WORK) {
+                            retval = init_op_project(project->work_request);
                         } else {
                             scheduler_op_done = true;
                         }
@@ -504,11 +499,11 @@ bool SCHEDULER_OP::poll() {
                 // ask another project for work
                 //
                 if (must_get_work) {
-                    double x = gstate.work_needed_secs();
-                    if (x > 0) {
+                    int urgency = gstate.compute_work_requests();
+                    if (urgency != DONT_NEED_WORK) {
                         project = gstate.next_project(project);
                         if (project) {
-                            retval = init_op_project(x);
+                            retval = init_op_project(project->work_request);
                         } else {
                             scheduler_op_done = true;
                         }

@@ -15216,3 +15216,22 @@ Daniel 2004-07-14
     client/
         cs_apps.C
 
+Daniel 2004-07-14
+    - implemented new work fetch policy, as described in client_sched.php
+    - compile fixes in client_types.h to get rid of warnings (there was
+      some confusing of struct and class)
+    - changed <cstdio> back to <stdio.h> in std_fixes.h; this fixes
+      configure and compile problems with seti_boinc
+    - added some auxiliary code for new screensaver logic; actual
+      screensaver logic not yet changed (coming soon...)
+
+    client/
+        app.C,h
+        client_stat.C,h
+        client_types.h
+        cs_apps.C
+        cs_scheduler.C
+        scheduler_op.C
+    lib/
+        std_fixes.h
+

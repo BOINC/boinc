@@ -1636,39 +1636,6 @@ int ACTIVE_TASK_SET::parse(MIOFILE& fin) {
     return 0;
 }
 
-// return the next graphics-capable app
-// try to choose an app from a different project
-// preferences goes to pre-ss mode WINDOW, then apps with pre-ss mode HIDE
-//
-ACTIVE_TASK* ACTIVE_TASK_SET::get_next_graphics_capable_app() {
-    static int project_index = 0;
-    unsigned int i, j;
-    ACTIVE_TASK *atp;
-    PROJECT *p;
-
-    for (i=0; i<gstate.projects.size(); ++i) {
-        project_index %= gstate.projects.size();
-        p = gstate.projects[project_index++];
-        for (j=0; j<active_tasks.size(); ++j) {
-            atp = active_tasks[j];
-            if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
-            if (atp->result->project != p) continue;
-            if (atp->graphics_mode_before_ss == MODE_WINDOW) {
-                return atp;
-            }
-        }
-        for (j=0; j<active_tasks.size(); ++j) {
-            atp = active_tasks[j];
-            if (atp->scheduler_state != CPU_SCHED_RUNNING) continue;
-            if (atp->result->project != p) continue;
-            if (atp->graphics_mode_before_ss == MODE_HIDE_GRAPHICS) {
-                return atp;
-            }
-        }
-    }
-    return NULL;
-}
-
 // return an app with pre-ss mode WINDOW, if there is one
 // else return an app with pre-ss mode HIDE, if there is one
 // else return NULL

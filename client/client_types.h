@@ -18,7 +18,7 @@
 //
 
 // If you change anything, make sure you also change:
-// types.C         (to write and parse it)
+// client_types.C         (to write and parse it)
 // client_state.C  (to cross-link objects)
 //
 
@@ -66,9 +66,9 @@ public:
     bool sticky;            // don't delete unless instructed to do so
     bool signature_required;    // true iff associated with app version
     bool is_user_file;
-    struct PERS_FILE_XFER* pers_file_xfer;   // nonzero if in the process of being up/downloaded
+    class PERS_FILE_XFER* pers_file_xfer;   // nonzero if in the process of being up/downloaded
     struct RESULT* result;         // for upload files (to authenticate)
-    struct PROJECT* project;
+    class PROJECT* project;
     int ref_cnt;
     std::vector<STRING256> urls;
     int start_url;

@@ -51,6 +51,8 @@ using std::max;
 using std::vector;
 using std::string;
 
+static double trs;
+
 // quantities like avg CPU time decay by a factor of e every week
 //
 #define EXP_DECAY_RATE  (1./(SECONDS_PER_DAY*7))
@@ -64,52 +66,9 @@ const int SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN = 60*60;
 //
 #define REPORT_DEADLINE_CUSHION SECONDS_PER_DAY
 
-// estimate the days of work remaining
-//
-void CLIENT_STATE::current_work_buf_days(
-    double& work_buf, int& nactive_results
-) {
-    unsigned int i;
-    RESULT* rp;
-    double seconds_remaining=0, x;
-
-	nactive_results = 0;
-    for (i=0; i<results.size(); i++) {
-        rp = results[i];
-        // Don't count result if we've already computed it,
-        // or if it had an error
-        //
-        if (rp->state >= RESULT_COMPUTE_DONE) continue;
-        if (rp->ready_to_report) continue;
-
-		nactive_results++;
-
-        // TODO: subtract time already finished for WUs in progress
-
-        seconds_remaining += estimate_cpu_time(*rp->wup) * (1.0-get_fraction_done(rp));
-    }
-    x = seconds_remaining / SECONDS_PER_DAY;
-    x /= host_info.p_ncpus;
-    x /= time_stats.active_frac;
-    work_buf = x;
+static int proj_min_results(PROJECT* p, int ncpus) {
+    return (int)(ceil(ncpus*p->resource_share/trs));
 }
-
-// seconds of CPU work needed to come up to the max buffer level
-//
-double CLIENT_STATE::work_needed_secs() {
-    double x;
-	int n;
-
-	current_work_buf_days(x, n);
-    if (x > global_prefs.work_buf_max_days) return 0;
-
-	// TODO: take into account preference # CPUS
-    double y = (global_prefs.work_buf_max_days - x)*SECONDS_PER_DAY;
-    y *= time_stats.active_frac;
-    y *= host_info.p_ncpus;
-    return y;
-}
-
 void PROJECT::set_min_rpc_time(time_t future_time) {
 	if (future_time > min_rpc_time) {
 		min_rpc_time = future_time;
@@ -167,31 +126,6 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
     return 0;
 }
 
-// return the next project after "old", in debt order,
-// that is eligible for a scheduler RPC
-// It excludes projects that have (p->master_url_fetch_pending) set to true.
-// Such projects will be returned by next_project_master_pending routine.
-//
-PROJECT* CLIENT_STATE::next_project(PROJECT* old) {
-    PROJECT* p, *pbest;
-    int best = 999;
-    time_t now = time(0);
-    unsigned int i;
-    pbest = 0;
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        if (p->master_url_fetch_pending) continue;
-        if (p->waiting_until_min_rpc_time(now)) continue;
-        if (old && p->debt_order <= old->debt_order) continue;
-        if (p->debt_order < best) {
-            pbest = p;
-            best = p->debt_order;
-        }
-    }
-    return pbest;
-}
-
-#if 0
 // return the next project after "old" that is eligible for a
 // scheduler RPC
 // It excludes projects that have (p->master_url_fetch_pending) set to
@@ -203,7 +137,7 @@ PROJECT* CLIENT_STATE::next_project(PROJECT *old) {
     PROJECT *p;
     time_t now = time(0);
     unsigned int i;
-    bool found_old = old == 0;
+    bool found_old = (old == 0);
     for (i=0; i<projects.size(); ++i) {
         p = projects[i];
         if (p == old) found_old = true;
@@ -214,62 +148,6 @@ PROJECT* CLIENT_STATE::next_project(PROJECT *old) {
         }
     }
     return 0;
-}
-#endif
-
-// Compute the "resource debt" of each project.
-// This is used to determine what project we will ask for work next,
-// based on the user-specified resource share.
-// TODO: this counts only CPU time.  Should reflect disk/network usage too.
-//
-// Note: it has been argued that we should use granted credit
-// instead of or in addition to locally measured work.
-// The problem with this is that we'd do more work
-// for projects that fail to grant credit for whatever reason.
-//
-// Note: it's also been argued that we should average work
-// over all hosts of this user, to stay closer to the
-// target resource share globally.
-// This bears some thinking about.
-//
-void CLIENT_STATE::compute_resource_debts() {
-    unsigned int i, j;
-    PROJECT* p, *pbest=0;
-    double best=0;
-
-    for (i=0; i<projects.size(); i++) {
-        p = projects[i];
-        update_average(
-            0, 0, CPU_HALF_LIFE, p->exp_avg_cpu, p->exp_avg_mod_time
-        );
-        if (p->exp_avg_cpu == 0) {
-            p->resource_debt = p->resource_share;
-        } else {
-            p->resource_debt = p->resource_share/p->exp_avg_cpu;
-        }
-        p->debt_order = -1;
-    }
-
-    // put in decreasing order.  Should use qsort or some stdlib thang
-    //
-    for (i=0; i<projects.size(); i++) {
-        pbest = NULL;
-        for (j=0; j<projects.size(); j++) {
-            p = projects[j];
-            if (p->debt_order >= 0) continue;
-            if (!pbest || (p->resource_debt > best)) {
-                best = p->resource_debt;
-                pbest = p;
-            }
-        }
-        if (pbest) {
-            pbest->debt_order = i;
-        } else {
-            msg_printf(NULL, MSG_ERROR,
-                "compute_resource_debts(): sorting error"
-            );
-        }
-    }
 }
 
 // Prepare the scheduler request.  This writes the request to a
@@ -283,12 +161,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     FILE_INFO* fip;
     int retval;
     double size;
-    double total_share = 0;
     char cross_project_id[MD5_LEN];
 
-    for (i=0; i<projects.size(); ++i) {
-        total_share += projects[i]->resource_share;
-    }
+    trs = total_resource_share();
 
     if (!f) return ERR_FOPEN;
     mf.init_file(f);
@@ -301,7 +176,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         "    <core_client_major_version>%d</core_client_major_version>\n"
         "    <core_client_minor_version>%d</core_client_minor_version>\n"
         "    <work_req_seconds>%f</work_req_seconds>\n"
-        "    <resource_share_fraction>%f</resource_share_fraction>\n",
+        "    <resource_share_fraction>%f</resource_share_fraction>\n"
+        "    <estimated_delay>%f</estimated_delay>\n",
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
@@ -309,7 +185,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         core_client_major_version,
         core_client_minor_version,
         work_req,
-        p->resource_share / total_share
+        p->resource_share / trs,
+        ettprc(p, proj_min_results(p, ncpus)-1)
     );
 	if (p->anonymous_platform) {
 		fprintf(f, "    <app_versions>\n");
@@ -447,48 +324,100 @@ bool CLIENT_STATE::some_project_rpc_ok() {
     return false;
 }
 
-// set projects' work_request and return the urgency of requesting
-// more work
+// return the average number of CPU seconds completed by the client
+// for project p in a second of (wall-clock) time
+//
+double CLIENT_STATE::avg_proc_rate(PROJECT *p) {
+    return (p->resource_share / trs)
+        * ncpus
+        * time_stats.active_frac;
+}
+
+// "estimated time to project result count"
+// return the estimated amount of time that will elapse until the
+// number of results for project p will reach k
+//
+double CLIENT_STATE::ettprc(PROJECT *p, int k) {
+    int num_results_to_skip = k;
+    double est = 0;
+    
+    // total up the estimated time for this project's unstarted
+    // and partially completed results,
+    // omitting the last k
+    //
+    for (vector<RESULT*>::reverse_iterator iter = results.rbegin();
+         iter != results.rend(); iter++
+    ) {
+        RESULT *rp = *iter;
+        if (rp->project != p
+            || rp->state >= RESULT_COMPUTE_DONE
+            || rp->ready_to_report
+        ) continue;
+        if (num_results_to_skip > 0) {
+            --num_results_to_skip;
+            continue;
+        }
+        if (rp->wup) { // just being paranoid...
+            est += estimate_cpu_time(*rp->wup) * (1.0 - get_fraction_done(rp));
+        }
+    }
+    est /= avg_proc_rate(p);
+    return est;
+}
+
+// set work_request for each project and return the urgency level for
+// requesting more work
+// only set non-zero work requests for projects that are allowed to do
+// a scheduler RPC
 //
 int CLIENT_STATE::compute_work_requests() {
-    double total_share = 0;
-    int urgency = 0;
+    int urgency = DONT_NEED_WORK;
+    unsigned int i;
     double work_min_period = global_prefs.work_buf_min_days * SECONDS_PER_DAY;
+    time_t now = time(0);
+    
+    trs = total_resource_share();
 
-    for (unsigned int i=0; i<projects.size(); ++i) {
+    // for each project, compute
+    // min_results = min # of results for project needed by CPU scheduling,
+    // to avoid "starvation".
+    // Then estimate how long it's going to be until we have fewer
+    // than this # of results remaining.
+    //
+    for (i=0; i<projects.size(); ++i) {
         PROJECT *p = projects[i];
-        total_share += p->resource_share;
-    }
+        int min_results = proj_min_results(p, ncpus);
+        double estimated_time_to_starvation = ettprc(p, min_results-1);
 
-    for (unsigned int i=0; i<projects.size(); ++i) {
-        PROJECT *p = projects[i];
-        double work_remaining = 0;
-        double resource_share = p->resource_share / total_share;
-        int num_results_to_skip = (int) ceil(ncpus * resource_share) - 1;
         p->work_request = 0;
+        if (p->min_rpc_time >= now) continue;
 
-        for (vector<RESULT*>::reverse_iterator iter = results.rbegin();
-             iter != results.rend(); iter++
-        ) {
-            RESULT *rp = *iter;
-            if (rp->project != p) continue;
-            if (num_results_to_skip--) continue;
-            if (rp->wup) {
-                double cpu_time =
-                    estimate_cpu_time(*rp->wup) * (1.0 - get_fraction_done(rp));
-                if (cpu_time > 0) {
-                    work_remaining += cpu_time * resource_share;
-                }
+        // determine urgency
+        //
+        if (estimated_time_to_starvation < work_min_period) {
+            if (estimated_time_to_starvation == 0) {
+//                msg_printf(p, MSG_INFO, "Will starve!");
+                urgency = NEED_WORK_IMMEDIATELY;
+            } else {
+//                msg_printf(p, MSG_INFO, "Will starve in %.2fs!",
+//                    estimated_time_to_starvation
+//                );
+                urgency = max(NEED_WORK, urgency);
             }
         }
 
-        if (work_remaining < work_min_period) {
-            if (work_remaining == 0) {
-                urgency = NEED_WORK_IMMEDIATELY;
-            }
-            p->work_request =
-                (2 * work_min_period - work_remaining) * resource_share;
-            urgency = NEED_WORK < urgency ? urgency : NEED_WORK;
+        // determine work requests for each project
+        //
+        p->work_request =
+            max(0.0,
+                (2*work_min_period - estimated_time_to_starvation)
+                * avg_proc_rate(p)
+            );
+    }
+
+    if (urgency == DONT_NEED_WORK) {
+        for (i=0; i<projects.size(); ++i) {
+            projects[i]->work_request = 0;
         }
     }
 
@@ -499,49 +428,41 @@ int CLIENT_STATE::compute_work_requests() {
 // initiate scheduler RPC activity if needed and possible
 //
 bool CLIENT_STATE::scheduler_rpc_poll() {
-    double work_secs, work_buf_days;
-    int nactive_results;
-    PROJECT* p;
-    bool action=false, below_work_buf_min, should_get_work;
+    int urgency = DONT_NEED_WORK;
+    PROJECT *p;
+    bool action=false;
 
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:
         if (activities_suspended || network_suspended) break;
-        if (exit_when_idle && contacted_sched_server) {
-            should_get_work = false;
-        } else {
-            current_work_buf_days(work_buf_days, nactive_results);
-            below_work_buf_min = (work_buf_days < global_prefs.work_buf_min_days) || 
-                                 (nactive_results < host_info.p_ncpus);
-            should_get_work = below_work_buf_min && some_project_rpc_ok();
-        }
-        if (should_get_work) {
-            if (nactive_results < host_info.p_ncpus) {
-                msg_printf(NULL, MSG_INFO, "Fewer active results than CPUs; requesting more work");
-            } else {
-                msg_printf(NULL, MSG_INFO, "Min work level reached: requesting more work");
+        urgency = compute_work_requests();
+        
+        // highest priority is to report overdue results
+        //
+        p = find_project_with_overdue_results();
+        if (p) {
+            scheduler_op->init_return_results(p, p->work_request);
+            action = true;
+        } else if (!(exit_when_idle && contacted_sched_server) && urgency != DONT_NEED_WORK) {
+            if (urgency == NEED_WORK) {
+                msg_printf(NULL, MSG_INFO,
+                    "CPU scheduler starvation within %.2f days; "
+                    "requesting more work",
+                    global_prefs.work_buf_min_days
+                );
+            } else if (urgency == NEED_WORK_IMMEDIATELY) {
+                msg_printf(NULL, MSG_INFO,
+                    "CPU scheduler starvation imminent; requesting more work"
+                );
             }
-            compute_resource_debts();
             scheduler_op->init_get_work();
             action = true;
         } else if ((p=next_project_master_pending())) {
             scheduler_op->init_get_work();
             action = true;
         } else if ((p=next_project_sched_rpc_pending())) {
-            scheduler_op->init_return_results(p, 0);
+            scheduler_op->init_return_results(p, p->work_request);
             action = true;
-        } else {
-            p = find_project_with_overdue_results();
-            if (p) {
-                compute_resource_debts();
-                if (p->debt_order == 0) {
-                    work_secs = work_needed_secs();
-                } else {
-                    work_secs = 0;
-                }
-                scheduler_op->init_return_results(p, work_secs);
-                action = true;
-            }
         }
         break;
     default:
