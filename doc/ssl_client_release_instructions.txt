@@ -80,6 +80,7 @@ Build
     in the installshield menu, pick
         Build->Media->Build Default Media
         [bonus: automate this process]
+    exit installshield
     
     open 'BOINC.pfw' (package for the web project)
        build everything, changing only the version numbers

@@ -465,7 +465,9 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
                 default:
                     if (re->got_server_ack) strBuf.Format(g_szMiscItems[5]);
                     else if (re->ready_to_report) strBuf.Format(g_szMiscItems[4]);
-                    else strBuf.Format(g_szMiscItems[6]);
+                    else {
+                        strBuf.Format("%s %d", g_szMiscItems[6], re->state);
+                    }
                     break;
             }
             if (gstate.activities_suspended) {
