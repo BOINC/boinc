@@ -88,7 +88,6 @@ function BOINC_download_network_print_download_links() {
       fclose($fhandle2);
       unlink($mirror_file);
       rename($download_temp_file,$mirror_file);
-      unlink($download_temp_file);
     } else {
       echo "<br>Error: Refreshing the application list failed. Please note that links and information here is currently not fully up to date.<br>";
     }
