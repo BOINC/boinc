@@ -202,7 +202,6 @@ private:
 
     int choose_version_num(char*, SCHEDULER_REPLY&);
     int app_finished(ACTIVE_TASK&);
-    bool have_free_cpu();
     void assign_results_to_projects();
     bool schedule_largest_debt_project(double expected_pay_off);
     bool start_apps();

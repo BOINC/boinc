@@ -211,19 +211,6 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
 }
 
 
-// Return true iff there are fewer scheduled tasks than available CPUs
-//
-bool CLIENT_STATE::have_free_cpu() {
-    int num_running_tasks = 0;
-    unsigned int i;
-    for (i=0; i<active_tasks.active_tasks.size(); i++) {
-        if (active_tasks.active_tasks[i]->scheduler_state == CPU_SCHED_SCHEDULED) {
-            ++num_running_tasks;
-        }
-    }
-    return num_running_tasks < ncpus;
-}
-
 // Choose a "best" runnable result for each project
 //
 // Values are returned in project->next_runnable_result
@@ -355,7 +342,7 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     // Reschedule every cpu_sched_period seconds or as needed
     //
     elapsed_time = time(0) - cpu_sched_last_time;
-    if ((elapsed_time<cpu_sched_period && !have_free_cpu() && !must_reschedule)
+    if ((elapsed_time<cpu_sched_period && !must_reschedule)
         || projects.size() < 1
         || results.size() < 1
     ) {

@@ -17590,3 +17590,12 @@ David  22 Sept 2004
 	client/
 		client_state.C
 		client_types.C,h
+
+Rom    22 Sept 2004
+    - Fix CPU Scheduler bug on a multi-proc machine after a project reset where
+      the core client gets stuck in a loop trying to schedule work that does
+      not exist.
+
+    client/
+        client_state.h
+        cs_apps.C
