@@ -68,9 +68,9 @@ bool CBOINCGUIApp::OnInit()
     m_hBOINCCoreProcess = NULL;
     m_hIdleDetectionDll = NULL;
 #endif
-    m_strDefaultWindowStation = "";
-    m_strDefaultDesktop = "";
-    m_strDefaultDisplay = "";
+	m_strDefaultWindowStation = wxT("");
+    m_strDefaultDesktop = wxT("");
+    m_strDefaultDisplay = wxT("");
 
 
     // Initialize the BOINC Diagnostics Framework
@@ -369,10 +369,14 @@ void CBOINCGUIApp::ShutdownBOINCCore()
 {
     wxInt32 iCount = 0;
     bool    bClientQuit = false;
+    DWORD dwExitCode;
 
     if ( m_bBOINCStartedByManager )
     {
-        DWORD dwExitCode;
+		// The user may have gone off to look at another machine on the network, and
+		//   we don't want to leave any dangling processes if we started them up.
+		m_pDocument->Connect(wxT("localhost"));
+
         if ( GetExitCodeProcess( m_hBOINCCoreProcess, &dwExitCode ) )
         {
             if ( STILL_ACTIVE == dwExitCode )

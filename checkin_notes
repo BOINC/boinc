@@ -24937,3 +24937,14 @@ Janus 17 Feb 2005
             project_specific_translations/ (new)
                 en.po (new)
 
+Rom    17 Feb 2005
+    - Bug Fix: Close down the local boinc daemon if we started the local boinc
+        daemon.
+    - Bug Fix: I forgot to change the comparision in the ENABLESCREENSAVER from
+        string to integer when I changed the control type
+
+    clientgui/
+        BOINCGUIApp.cpp, .h
+    win_build/installerv2/
+        BOINC.ism
+ 

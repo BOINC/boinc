@@ -80,9 +80,9 @@ protected:
 
 public:
 
-    std::string        m_strDefaultWindowStation;
-    std::string        m_strDefaultDesktop;
-    std::string        m_strDefaultDisplay;
+    std::string     m_strDefaultWindowStation;
+    std::string     m_strDefaultDesktop;
+    std::string     m_strDefaultDisplay;
 
     bool            OnInit();
 
