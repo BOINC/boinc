@@ -196,7 +196,7 @@ BEGIN
     BEGIN
         MENUITEM "Force &run",                  ID_FILE_RUN_REQUEST_ALWAYS
         MENUITEM "Run based on &preferences",   ID_FILE_RUN_REQUEST_AUTO
-        MENUITEM "&Pause",                      ID_FILE_RUN_REQUEST_NEVER
+        MENUITEM "&Suspend",                    ID_FILE_RUN_REQUEST_NEVER
         MENUITEM SEPARATOR
         MENUITEM "Run &Benchmarks",             ID_FILE_RUN_BENCHMARKS
         MENUITEM SEPARATOR
@@ -224,14 +224,14 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Force &run",                  ID_FILE_RUN_REQUEST_ALWAYS
         MENUITEM "Run based on &preferences",   ID_FILE_RUN_REQUEST_AUTO
-        MENUITEM "&Pause",                      ID_FILE_RUN_REQUEST_NEVER
+        MENUITEM "&Suspend",                    ID_FILE_RUN_REQUEST_NEVER
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_STATUSICON_EXIT
     END
     POPUP "Project"
     BEGIN
         MENUITEM "&Web site",                   ID_PROJECT_WEB_SITE
-        MENUITEM "GET PREFERENCES",             ID_PROJECT_GET_PREFS
+        MENUITEM "XXX GET PREFERENCES XXX",     ID_PROJECT_GET_PREFS
         MENUITEM "&Detach...",                  ID_PROJECT_DETACH
         MENUITEM "&Reset project...",           ID_PROJECT_RESET
     END
@@ -243,7 +243,7 @@ BEGIN
     BEGIN
         MENUITEM "&Retry now",                  ID_TRANSFERS_RETRYNOW
     END
-    POPUP "Message"
+    POPUP "Messages"
     BEGIN
         MENUITEM "&Copy to clipboard",          ID_MESSAGE_COPY_TO_CLIP
     END

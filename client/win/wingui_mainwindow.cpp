@@ -185,6 +185,8 @@ CMainWindow::CMainWindow()
 
 	m_MenuLabelRetryNow = "&Retry now";
 	m_MenuLabelGetPreferences = "Get p&references";
+	m_DialogResetQuery = "Are you sure you want to reset the project %1?";
+	m_DialogDetachQuery = "Are you sure you want to detach from the project %1?";
 
 	// create and position window
     CreateEx(0, wndcls.lpszClassName, WND_TITLE,
@@ -986,6 +988,9 @@ void CMainWindow::LoadLanguage()
 
 	UpdateLanguageString("MENU-Project", m_MenuLabelGetPreferences, strPath);
 	UpdateLanguageString("MENU-Project", m_MenuLabelRetryNow, strPath);
+
+	UpdateLanguageString("DIALOG-RESET", m_DialogResetQuery, strPath);
+	UpdateLanguageString("DIALOG-DETACH", m_DialogDetachQuery, strPath);
 }
 
 //////////
@@ -1267,11 +1272,10 @@ void CMainWindow::OnCommandProjectGetPrefs()
 void CMainWindow::OnCommandProjectDetach()
 {
 	PROJECT *proj;
-	CString strBuf;
 	proj = GetProjectFromContextMenu();
 	if (!proj) return;
-	strBuf.Format("Are you sure you want to detach from the project %s?",
-		proj->get_project_name());
+	CString strBuf = m_DialogDetachQuery;
+	strBuf.Replace("%1", proj->get_project_name());
 	if(AfxMessageBox(strBuf, MB_YESNO, 0) == IDYES) DetachProject(proj);
 }
 
@@ -1293,11 +1297,10 @@ void CMainWindow::DetachProject(PROJECT *proj) {
 void CMainWindow::OnCommandProjectReset()
 {
 	PROJECT *proj;
-	CString strBuf;
 	proj = GetProjectFromContextMenu();
 	if (!proj) return;
-	strBuf.Format("Are you sure you want to reset the project %s?",
-		proj->get_project_name());
+	CString strBuf = m_DialogResetQuery;
+	strBuf.Replace("%1", proj->get_project_name());
 	if(AfxMessageBox(strBuf, MB_YESNO, 0) == IDYES) {
 		gstate.reset_project(proj);
 	}

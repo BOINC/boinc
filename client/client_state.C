@@ -552,10 +552,16 @@ enum SUSPEND_REASON_t {
 void CLIENT_STATE::check_suspend_activities(int& reason) {
     reason = 0;
 
+    // Don't work while we're running CPU benchmarks
+    //
+    if (check_cpu_benchmarks() == CPU_BENCHMARKS_RUNNING) {
+        reason |= SUSPEND_REASON_BENCHMARKS;
+    }
+
     if (user_run_request == USER_RUN_REQUEST_ALWAYS) return;
 
     if (user_run_request == USER_RUN_REQUEST_NEVER) {
-        reason = SUSPEND_REASON_USER_REQ;
+        reason |= SUSPEND_REASON_USER_REQ;
         return;
     }
 
@@ -571,12 +577,6 @@ void CLIENT_STATE::check_suspend_activities(int& reason) {
 
     if (!now_between_two_hours(global_prefs.start_hour, global_prefs.end_hour)) {
         reason |= SUSPEND_REASON_TIME_OF_DAY;
-    }
-
-    // Don't work while we're running CPU benchmarks
-    //
-    if (check_cpu_benchmarks() == CPU_BENCHMARKS_RUNNING) {
-        reason |= SUSPEND_REASON_BENCHMARKS;
     }
 
     return;

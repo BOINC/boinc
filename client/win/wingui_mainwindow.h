@@ -170,6 +170,7 @@ protected:
 	afx_msg void			OnTimer(UINT); 
 
 	CString m_MenuLabelRetryNow, m_MenuLabelGetPreferences;
+	CString m_DialogResetQuery, m_DialogDetachQuery;
 
     DECLARE_MESSAGE_MAP()
 

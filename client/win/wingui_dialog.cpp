@@ -62,7 +62,7 @@ BOOL CLoginDialog::OnInitDialog()
 {
     CDialog::OnInitDialog();
 	m_strUrlTT.Format("The URL for the website of the project.");
-	m_strAuthTT.Format("The authorization code recieved in your confirmation email.");
+	m_strAuthTT.Format("The authorization code received in your confirmation email.");
 	LoadLanguage();
 	CWnd* pWndUrl = GetDlgItem(IDC_LOGIN_URL);
 	if(pWndUrl) {
