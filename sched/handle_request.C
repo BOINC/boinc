@@ -1098,9 +1098,6 @@ void handle_request(
 		//
         delete_file_from_host(sreq, sreply);
     }
-
-    // If host has a BOINC core client version that is set to expire 
-
     
 #if 1
     // You can call debug_sched() for whatever situation is of
