@@ -230,7 +230,7 @@ void boinc_catch_signal(int signal) {
 }
 
 int boinc_finish(int status) {
-	last_checkpoint_cpu_time = boinc_cpu_time();
+    last_checkpoint_cpu_time = boinc_cpu_time();
     write_fraction_done_file(fraction_done,last_checkpoint_cpu_time,last_checkpoint_cpu_time);
 #ifdef _WIN32
     // Stop the timer
@@ -310,7 +310,7 @@ bool boinc_time_to_checkpoint() {
 }
 
 int boinc_checkpoint_completed() {
-	last_checkpoint_cpu_time = boinc_cpu_time();
+    last_checkpoint_cpu_time = boinc_cpu_time();
     write_fraction_done_file(fraction_done,last_checkpoint_cpu_time,last_checkpoint_cpu_time);
     ready_to_checkpoint = false;
     time_until_checkpoint = aid.checkpoint_period;
@@ -325,6 +325,13 @@ int boinc_checkpoint_completed() {
             boinc_finish(ERR_QUIT_REQUEST);
         }
         boinc_sleep(1);  // Should this be a smaller value?
+        FILE* f = fopen(SUSPEND_QUIT_FILE, "r");
+        if(f) {
+            parse_suspend_quit_file(f,time_to_suspend,time_to_quit);
+            fclose(f);
+        } else {
+            time_to_suspend = time_to_quit = false;
+        }
     }
     return 0;
 }
@@ -555,10 +562,10 @@ int write_fraction_done_file(double pct, double cpu, double checkpoint_cpu) {
         "<checkpoint_cpu_time>%f</checkpoint_cpu_time>\n",
         pct,
         cpu,
-		checkpoint_cpu
+        checkpoint_cpu
     );
 
-	fclose(f);
+    fclose(f);
     return 0;
 }
 

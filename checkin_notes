@@ -2401,3 +2401,40 @@ Eric  Nov 12, 2002
         upper_case.C
         Makefile.in
 
+Eric  Nov 14, 2002
+    - windows screensaver module
+
+    api/
+        boinc_api.C
+        graphics_api.C
+        windows_opengl.cpp
+    client/
+        win/
+            win_screensaver.cpp (added)
+    win_build/
+        boinc.dsw
+        boinc_ss/ (added)
+            boinc_ss.dsp (added)
+
+Seth/Eric  Nov 18, 2002
+    - windows idle detection
+    - Communication to app for suspend/resume/quit
+
+    api/
+        boinc_api.C,h
+        windows_opengl.cpp
+    client/
+        app.C
+        client_state.C,h
+        prefs.C,h
+        win/
+            win_screensaver.cpp
+            wingui.cpp,h
+            win_idle_tracker.cpp,h,def (added)
+    win_build/
+        boinc.dsw
+        boinc_dll/ (added)
+            boinc_dll.dsp (added)
+        boinc_gui/
+            boinc_gui.dsp
+
