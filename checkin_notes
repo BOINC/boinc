@@ -17487,7 +17487,7 @@ Lana   20 Sept 2004
      - Fixed create_work bug.  Copy input text files to the download directories
 
      tools/
-	backend_lib.C 
+        backend_lib.C 
 
 Rom    20 Sept 2004
     - NEWGUI: Refactor all view logic to accommodate the new task based interface.
@@ -17497,3 +17497,9 @@ Rom    20 Sept 2004
  
     clientgui/
         <Numerous Files Have Been Changed>
+
+David  21 Sept 2004
+    - fixed profile image upload (from Matt)
+
+    html/inc/
+        profile.inc

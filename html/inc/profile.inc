@@ -58,11 +58,11 @@ function show_profile_creation_page($user) {
 
 function setup_form($user, $profile) {
 
-    // <form action=", $_SERVER['PHP_SELF'], " method=\"POST\", ENCTYPE=\"multipart/form-data\">
+ // <form action=", $_SERVER['PHP_SELF'], " method=\"POST\">
 
     // multipart/form-data doesn't always work (?)
     echo "
-<form action=", $_SERVER['PHP_SELF'], " method=\"POST\">
+<form action=", $_SERVER['PHP_SELF'], " method=\"POST\", ENCTYPE=\"multipart/form-data\">
 ";
 }
 
@@ -206,7 +206,7 @@ function process_create_results($user, $profile) {
     if (is_uploaded_file($_FILES['picture']['tmp_name'])) {
         $hasPicture = true;
 
-            /*
+            /* 
             echo "<br>Name: " . $_FILES['picture']['name'];
             echo "<br>Type: " . $_FILES['picture']['type'];
             echo "<br>Size: " . $_FILES['picture']['size'];
