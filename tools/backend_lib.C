@@ -234,6 +234,7 @@ int create_work(
         fprintf(stderr, "create_work: workunit.insert() %d\n", retval);
         return retval;
     }
+    wu.transition_time = time(0);
     wu.id = boinc_db_insert_id();
 
 #if 0
