@@ -861,7 +861,7 @@ function sanitize($body,
   $rm_tags = array_shift($tag_list);
   $curpos = 0;
   $open_tags = Array();
-  $trusted = "<!-- begin sanitized html -->\n";
+  $trusted = ""; /* "<!-- begin sanitized html -->\n";*/
   $skip_content = false;
   /**
    * Take care of netscape's stupid javascript entities like
@@ -978,7 +978,7 @@ function sanitize($body,
     }
     $trusted .= "\n";
   }
-  $trusted .= "<!-- end sanitized html -->\n";
+  /*$trusted .= "<!-- end sanitized html -->\n";*/
   return $trusted;
 }
 ?>
