@@ -8252,3 +8252,11 @@ David  7 Dec 2003
             forum.php
             help_desk.php
             thread.php
+
+Jeff  8 Dec 2003
+    - Fixed the ifdef's surrounding the typedef of socklen_t.  Removed the 
+      "#ifdef socklen_t" because it does nothing and added the 
+      "#elif defined (__APPLE__)".
+
+      client/
+           net_xfer.C
