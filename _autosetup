@@ -16,17 +16,22 @@ fi
 
 echo "Bootstrapping configure script and makefiles:"
 
-aclocal -I m4 && autoheader && automake && autoconf 
+if aclocal -I m4 && autoheader && automake && autoconf; then
+    ## We don't always run ./configure ourselves here, because the user may not
+   ## want to run it, or may want to run with custom parameters.
 
-## We don't always run ./configure ourselves here, because the user may not
-## want to run it, or may want to run with custom parameters.
-
-if [ "$1" = "-a" ]; then
-    ./configure -C --enable-maintainer-mode
-elif [ "$1" = "-c" ]; then
-    ./configure -C
+    if [ "$1" = "-a" ]; then
+	./configure -C --enable-maintainer-mode
+    elif [ "$1" = "-c" ]; then
+	./configure -C
+    else
+	echo "Done, now run ./configure"
+	echo " ./configure -C                         to enable caching"
+	echo " ./configure --enable-maintainer-mode   to enable maintainer depedencies"
+	exit 0
+    fi
 else
-    echo "Done, now run ./configure"
-    echo " ./configure -C                         to enable caching"
-    echo " ./configure --enable-maintainer-mode   to enable maintainer depedencies"
+    echo "Something failed .... please check error-message and re-run when fixed."
+    echo "exiting..."
+    exit 1
 fi
