@@ -43,13 +43,8 @@ typedef int my_socket;
 #endif
 #endif
 #endif
-#ifdef HAVE_MYSQL_MYSQL_COM_H
-#include "mysql/mysql_com.h"
-#include "mysql/mysql_version.h"
-#else
 #include "mysql_com.h"
 #include "mysql_version.h"
-#endif
 
 extern unsigned int mysql_port;
 extern char *mysql_unix_port;

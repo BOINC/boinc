@@ -14,6 +14,17 @@
 
 @SET_MAKE@
 
+# MYSQL_INCLUDES = /usr/local/mysql/include
+# MYSQL_INCLUDES2 = /usr/local/mysql/include/mysql
+# MYSQL_INCLUDES3 = /usr/include/mysql
+
+# MYSQL_LIBS =								\
+#         -L/usr/local/mysql/lib -L/sw/lib/mysql -L/usr/local/lib/mysql	\
+#         -lmysqlclient -L/usr/local/lib -lz				\
+#         -lm $(NETLIBS)
+
+# Note: MYSQL_CFLAGS and MYSQL_LIBS set by configure from mysql_config
+
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
 VPATH = @srcdir@
@@ -78,6 +89,10 @@ MAINTAINER_MODE_TRUE = @MAINTAINER_MODE_TRUE@
 MAJOR_VERSION = @MAJOR_VERSION@
 MAKEINFO = @MAKEINFO@
 MINOR_VERSION = @MINOR_VERSION@
+MYSQL_CFLAGS = @MYSQL_CFLAGS@
+MYSQL_CONFIG = @MYSQL_CONFIG@
+
+MYSQL_LIBS = @MYSQL_LIBS@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -137,16 +152,6 @@ target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
 
-MYSQL_INCLUDES = /usr/local/mysql/include
-MYSQL_INCLUDES2 = /usr/local/mysql/include/mysql
-MYSQL_INCLUDES3 = /usr/include/mysql
-
-MYSQL_LIBS = \
-        -L/usr/local/mysql/lib -L/sw/lib/mysql -L/usr/local/lib/mysql	\
-        -lmysqlclient -L/usr/local/lib -lz				\
-        -lm $(NETLIBS)
-
-
 RSA_LIBS = \
 	-L$(top_builddir)/RSAEuro/source				\
 	-lrsaeuro
@@ -162,9 +167,7 @@ AM_CPPFLAGS = \
         -I$(top_srcdir)/RSAEuro/source		\
         -I$(top_srcdir)/client			\
         -I$(top_srcdir)/tools			\
-        -I$(MYSQL_INCLUDES)			\
-        -I$(MYSQL_INCLUDES2)			\
-	-I$(MYSQL_INCLUDES3)                    \
+        $(MYSQL_CFLAGS)				\
         -include $(top_builddir)/config.h
 
 

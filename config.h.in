@@ -63,12 +63,6 @@
 /* Define to 1 if you have the `mkdir' function. */
 #undef HAVE_MKDIR
 
-/* Define to 1 if you have the <mysql/include/mysql_com.h> header file. */
-#undef HAVE_MYSQL_INCLUDE_MYSQL_COM_H
-
-/* Define to 1 if you have the <mysql/mysql_com.h> header file. */
-#undef HAVE_MYSQL_MYSQL_COM_H
-
 /* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
 #undef HAVE_NDIR_H
 

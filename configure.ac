@@ -65,6 +65,26 @@ dnl   yes
 dnl #endif
 dnl ], AC_DEFINE(unix, 1, [unix]))
 
+AC_DEFUN([AC_CHECK_MYSQL],[
+AC_ARG_VAR([MYSQL_CONFIG], [mysql_config program])
+dnl if test -z "$MYSQL_CONFIG"; then
+AC_PATH_PROG(MYSQL_CONFIG,mysql_config,,[$PATH:/usr/local/mysql/bin])
+dnl fi
+if test -z "$MYSQL_CONFIG"
+then
+    AC_MSG_ERROR([mysql_config executable not found])
+else
+    AC_MSG_CHECKING(mysql libraries)
+    MYSQL_LIBS=`${MYSQL_CONFIG} --libs`
+    AC_MSG_RESULT($MYSQL_LIBS)
+    AC_MSG_CHECKING(mysql includes)
+    MYSQL_CFLAGS=`${MYSQL_CONFIG} --cflags`
+    AC_MSG_RESULT($MYSQL_CFLAGS)
+fi
+])
+AC_SUBST(MYSQL_LIBS)
+AC_SUBST(MYSQL_CFLAGS)
+
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
@@ -86,13 +106,14 @@ AC_CHECK_LIB(GL, glCallList, AC_DEFINE(HAVE_GL_LIB, 1, [Have libGL]))
 AC_CHECK_LIB(socket, setservent)
 AC_CHECK_LIB(gen, strfind)
 AC_CHECK_LIB(gen, strfind, [ AC_DEFINE(HAVE_STRFIND, 1, [Have strfind]) ] )
+AC_CHECK_MYSQL
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS(fcntl.h malloc.h strings.h sys/time.h unistd.h sys/systeminfo.h sys/swap.h sys/sysctl.h sys/resource.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h arpa/inet.h signal.h sys/wait.h sys/file.h sys/ipc.h sys/shm.h)
-AC_CHECK_HEADERS(mysql/include/mysql_com.h mysql/mysql_com.h)
+dnl AC_CHECK_HEADERS(mysql/include/mysql_com.h mysql/mysql_com.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST

@@ -1,14 +1,19 @@
 ## -*-Makefile -*-
 ## $Id$
 
-MYSQL_INCLUDES = /usr/local/mysql/include
-MYSQL_INCLUDES2 = /usr/local/mysql/include/mysql
-MYSQL_INCLUDES3 = /usr/include/mysql
+# MYSQL_INCLUDES = /usr/local/mysql/include
+# MYSQL_INCLUDES2 = /usr/local/mysql/include/mysql
+# MYSQL_INCLUDES3 = /usr/include/mysql
 
-MYSQL_LIBS =								\
-        -L/usr/local/mysql/lib -L/sw/lib/mysql -L/usr/local/lib/mysql	\
-        -lmysqlclient -L/usr/local/lib -lz				\
-        -lm $(NETLIBS)
+# MYSQL_LIBS =								\
+#         -L/usr/local/mysql/lib -L/sw/lib/mysql -L/usr/local/lib/mysql	\
+#         -lmysqlclient -L/usr/local/lib -lz				\
+#         -lm $(NETLIBS)
+
+# Note: MYSQL_CFLAGS and MYSQL_LIBS set by configure from mysql_config
+
+MYSQL_LIBS = @MYSQL_LIBS@
+MYSQL_CFLAGS = @MYSQL_CFLAGS@
 
 RSA_LIBS =								\
 	-L$(top_builddir)/RSAEuro/source				\
@@ -17,16 +22,14 @@ RSA_LIBS =								\
 AM_CFLAGS = -g -Wall
 AM_CXXFLAGS = -g -Wall
 
-AM_CPPFLAGS =            			\
+AM_CPPFLAGS =					\
         -I$(top_srcdir)/lib			\
         -I$(top_srcdir)/api			\
         -I$(top_srcdir)/db			\
         -I$(top_srcdir)/RSAEuro/source		\
         -I$(top_srcdir)/client			\
         -I$(top_srcdir)/tools			\
-        -I$(MYSQL_INCLUDES)			\
-        -I$(MYSQL_INCLUDES2)			\
-	-I$(MYSQL_INCLUDES3)                    \
+        $(MYSQL_CFLAGS)				\
         -include $(top_builddir)/config.h
 
 # this is useful as a dependency to make sure librsaeuro gets compiled before
