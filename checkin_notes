@@ -23678,15 +23678,16 @@ Rom    31 Jan 2005
         BOINCGUI.vcproj
 
 Rom    31 Jan 2005
-    - Move the SetCurrentDirectory call to boinc_init() from service_main() which was
-      causing the log files to be put into the system32 directory. Fixes start as service
-      setup case.
+    - Move the SetCurrentDirectory call to boinc_init() from service_main()
+        which was causing the log files to be put into the system32 directory.
+        Fixes start as service setup case.
     - Flush stderr as well as stdout in boinc_init()
     - Remove needless calls to PostMessage from check_unique_instance()
-    - Adjust BOINC Manager so that it can properly detect if it can open a connection
-      to the core client so that it can determine if it needs to start it.  Fixes single
-      user setup case.  Should I make a complete API call in case another application
-      has port 1043 open?
+    - Adjust BOINC Manager so that it can properly detect if it can open
+        a connection to the core client so that it can determine
+        if it needs to start it.  Fixes single user setup case.
+        Should I make a complete API call in case another application
+        has port 1043 open?
     - Cleanup exception.C out of the core client project.
 
     client/
@@ -23699,3 +23700,9 @@ Rom    31 Jan 2005
         MainDocument.cpp, .h
     win_build/
         boinc_cli.vcproj
+
+David  1 Feb 2005
+    - scheduling server: if host is 4.62 or earlier, concatenate messages
+
+    sched/
+        server_types.C

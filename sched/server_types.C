@@ -332,13 +332,29 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         fprintf(fout, "<request_delay>%d</request_delay>\n", request_delay);
         log_messages.printf(SCHED_MSG_LOG::NORMAL, "sending delay request %d\n", request_delay);
     }
-    for (i=0; i<messages.size(); i++) {
-        USER_MESSAGE& um = messages[i];
+    if (wreq.core_client_version < 462) {
+        std::string msg;
+        std::string pri = "low";
+        for (i=0; i<messages.size(); i++) {
+            USER_MESSAGE& um = messages[i];
+            msg += um.message + std::string(" ");
+            if (um.priority == "high") {
+                pri = "high";
+            }
+        }
         fprintf(fout,
             "<message priority=\"%s\">%s</message>\n",
-            um.priority.c_str(),
-            um.message.c_str()
+            msg.c_str(), pri.c_str()
         );
+    } else {
+        for (i=0; i<messages.size(); i++) {
+            USER_MESSAGE& um = messages[i];
+            fprintf(fout,
+                "<message priority=\"%s\">%s</message>\n",
+                um.priority.c_str(),
+                um.message.c_str()
+            );
+        }
     }
     if (nucleus_only) goto end;
 
