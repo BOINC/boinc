@@ -27,3 +27,8 @@ int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
     return bmsp->boinc_get_init_data_hook(app_init_data);
 }
 
+#ifdef __GNUC__
+static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";
+#else
+static volatile const char *BOINCrcsid="$Id$";
+#endif
