@@ -24,8 +24,8 @@ struct ENUM {
     MYSQL_RES *rp;
 };
 
-extern void escape(char*);
-extern void unescape(char*);
+extern void escape_single_quotes(char*);
+extern void unescape_single_quotes(char*);
 
 class MYSQL_DB {
 public:
@@ -39,6 +39,7 @@ public:
     MYSQL_DB(){}
     int db_open(char* dbname, char* password);
     int db_close();
+    const char* db_error_string();
     void db_print_error(char*);
     int db_new(void*, int);
     int db_insert_id();

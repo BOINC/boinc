@@ -71,6 +71,10 @@ int boinc_db_close() {
     return boinc_db.db_close();
 }
 
+const char* boinc_db_error_string() {
+    return boinc_db.db_error_string();
+}
+
 void boinc_db_print_error(char* p) {
     boinc_db.db_print_error(p);
 }
@@ -143,13 +147,13 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
         break;
     case TYPE_USER:
         up = (USER*)vp;
-        escape(up->email_addr);
-        escape(up->name);
-        escape(up->web_password);
-        escape(up->country);
-        escape(up->postal_code);
-        escape(up->global_prefs);
-        escape(up->project_prefs);
+        escape_single_quotes(up->email_addr);
+        escape_single_quotes(up->name);
+        escape_single_quotes(up->web_password);
+        escape_single_quotes(up->country);
+        escape_single_quotes(up->postal_code);
+        escape_single_quotes(up->global_prefs);
+        escape_single_quotes(up->project_prefs);
         sprintf(q,
             "id=%d, create_time=%d, email_addr='%s', name='%s', "
             "web_password='%s', authenticator='%s', "
@@ -173,21 +177,21 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             up->teamid,
             up->venue
         );
-        unescape(up->email_addr);
-        unescape(up->name);
-        unescape(up->web_password);
-        unescape(up->country);
-        unescape(up->postal_code);
-        unescape(up->global_prefs);
-        unescape(up->project_prefs);
+        unescape_single_quotes(up->email_addr);
+        unescape_single_quotes(up->name);
+        unescape_single_quotes(up->web_password);
+        unescape_single_quotes(up->country);
+        unescape_single_quotes(up->postal_code);
+        unescape_single_quotes(up->global_prefs);
+        unescape_single_quotes(up->project_prefs);
         break;
     case TYPE_TEAM:
         tp = (TEAM*)vp;
-        escape(tp->name);
-        escape(tp->name_lc);
-        escape(tp->url);
-        escape(tp->name_html);
-        escape(tp->description);
+        escape_single_quotes(tp->name);
+        escape_single_quotes(tp->name_lc);
+        escape_single_quotes(tp->url);
+        escape_single_quotes(tp->name_html);
+        escape_single_quotes(tp->description);
         sprintf(q,
             "id=%d, create_time=%d, userid=%d, name='%s', "
             "name_lc='%s', url='%s', "
@@ -207,21 +211,21 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             tp->total_credit,
             tp->expavg_credit
         );
-        unescape(tp->name);
-        unescape(tp->name_lc);
-        unescape(tp->url);
-        unescape(tp->name_html);
-        unescape(tp->description);
+        unescape_single_quotes(tp->name);
+        unescape_single_quotes(tp->name_lc);
+        unescape_single_quotes(tp->url);
+        unescape_single_quotes(tp->name_html);
+        unescape_single_quotes(tp->description);
         break;
     case TYPE_HOST:
         hp = (HOST*)vp;
-        escape(hp->domain_name);
-        escape(hp->serialnum);
-        escape(hp->last_ip_addr);
-        escape(hp->p_vendor);
-        escape(hp->p_model);
-        escape(hp->os_name);
-        escape(hp->os_version);
+        escape_single_quotes(hp->domain_name);
+        escape_single_quotes(hp->serialnum);
+        escape_single_quotes(hp->last_ip_addr);
+        escape_single_quotes(hp->p_vendor);
+        escape_single_quotes(hp->p_model);
+        escape_single_quotes(hp->os_name);
+        escape_single_quotes(hp->os_version);
         sprintf(q,
             "id=%d, create_time=%d, userid=%d, "
             "rpc_seqno=%d, rpc_time=%d, "
@@ -252,13 +256,13 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             hp->credit_per_cpu_sec,
             hp->venue
         );
-        unescape(hp->domain_name);
-        unescape(hp->serialnum);
-        unescape(hp->last_ip_addr);
-        unescape(hp->p_vendor);
-        unescape(hp->p_model);
-        unescape(hp->os_name);
-        unescape(hp->os_version);
+        unescape_single_quotes(hp->domain_name);
+        unescape_single_quotes(hp->serialnum);
+        unescape_single_quotes(hp->last_ip_addr);
+        unescape_single_quotes(hp->p_vendor);
+        unescape_single_quotes(hp->p_model);
+        unescape_single_quotes(hp->os_name);
+        unescape_single_quotes(hp->os_version);
         break;
     case TYPE_WORKUNIT:
         wup = (WORKUNIT*)vp;
@@ -283,6 +287,8 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
         break;
     case TYPE_RESULT:
         rp = (RESULT*)vp;
+        escape_single_quotes(rp->xml_doc_out);
+        escape_single_quotes(rp->stderr_out);
         sprintf(q,
             "id=%d, create_time=%d, workunitid=%d, "
             "server_state=%d, outcome=%d, client_state=%d, "
@@ -299,6 +305,8 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             rp->batch, rp->file_delete_state, rp->validate_state,
             rp->claimed_credit, rp->granted_credit, rp->opaque
         );
+        unescape_single_quotes(rp->xml_doc_out);
+        unescape_single_quotes(rp->stderr_out);
         break;
     case TYPE_WORKSEQ:
         wsp = (WORKSEQ*)vp;

@@ -319,6 +319,7 @@ struct WORKSEQ {
 extern int boinc_db_open(char* dbname, char* passwd);
 extern int boinc_db_close();
 extern void boinc_db_print_error(char*);
+extern const char* boinc_db_error_string();
 extern int boinc_db_insert_id();
 
 extern int db_project_new(PROJECT& p);

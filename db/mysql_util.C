@@ -43,6 +43,10 @@ int MYSQL_DB::db_close() {
     return 0;
 }
 
+const char* MYSQL_DB::db_error_string() {
+    return mp?mysql_error(mp):"Not connected";
+}
+
 void MYSQL_DB::db_print_error(char* p) {
     if (mp) {
         fprintf(stderr, "%s: Database error: %s\n", p, mysql_error(mp));
@@ -50,7 +54,7 @@ void MYSQL_DB::db_print_error(char* p) {
 }
 
 // convert ' to \' in place
-void escape(char* field) {
+void escape_single_quotes(char* field) {
     char buf[MAX_QUERY_LEN];
     char* q = buf, *p = field;
     while (*p) {
@@ -66,7 +70,7 @@ void escape(char* field) {
     strcpy(field, buf);
 }
 
-void unescape(char* p) {
+void unescape_single_quotes(char* p) {
     char* q;
     while (1) {
         q = strstr(p, "\\'");

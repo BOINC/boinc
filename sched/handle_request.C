@@ -430,7 +430,10 @@ int handle_results(
         strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
         retval = db_result_update(result);
         if (retval) {
-            sprintf(buf, "can't update result %d\n", result.id);
+            sprintf(buf,
+                "can't update result %d: %s\n",
+                result.id, boinc_db_error_string()
+            );
             write_log(buf);
         }
 
