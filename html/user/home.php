@@ -4,15 +4,15 @@
     require_once("db.inc");
     require_once("login.inc");
 
+    // show the home page of whoever's logged in
+
     db_init();
     $user = get_user_from_cookie();
     if ($user) {
-        $head = sprintf("%s's User Page", $user->name);
-        page_head($head);
-        show_user_page($user, PROJECT);
+        page_head($user->name);
+        show_user_page_private($user);
+        page_tail();
     } else {
-        page_head("Log in");
         print_login_form();
     }
-    page_tail();
 ?>

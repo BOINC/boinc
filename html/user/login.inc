@@ -1,30 +1,31 @@
 <?php
 
 function print_login_form() {
-    printf(
+    page_head("Log in");
+    echo(
         "<form method=post action=login_action.php>\n"
-        .TABLE2."\n"
-        ."<tr><td colspan=2><b>Enter the email address and password of your account to login:</b></td></tr>\n"
-        ."<tr><td><br></td></tr>\n"
-        ."<tr>\n"
-        ."    <td align=right>Email Address</td>\n"
-        ."    <td> <input name=existing_email type=text size=40></td>\n"
-        ."</tr>\n"
-        ."<tr>\n"
-        ."    <td align=right>Password</td>\n"
-        ."    <td> <input name=existing_password type=password></td>\n"
-        ."</tr>\n"
-        ."<tr>\n"
-        ."    <td><br></td>\n"
-        ."    <td><input type=submit name=old value=\"Log in\"></td>\n"
-        ."</tr>\n"
-        ."</table>\n"
-        ."</form>\n"
-	."<br>\n"
-	.TABLE2."\n"
-	."<tr><td>If you don't have an account, please <a href=create_account.php>create a new one</a></td</tr>\n"
-	."</table>\n"
-    );
+        .TABLE2."\n
+        <tr><td colspan=2><b>Enter the email address and password of your account to login:</b></td></tr>\n
+        <tr><td><br></td></tr>\n
+        <tr>\n
+            <td align=right>Email Address</td>\n
+            <td> <input name=existing_email type=text size=40></td>\n
+        </tr>\n
+        <tr>\n
+            <td align=right>Password</td>\n
+            <td> <input name=existing_password type=password></td>\n
+        </tr>\n
+        <tr>\n
+            <td><br></td>\n
+            <td><input type=submit name=old value=\"Log in\"></td>\n
+        </tr>\n
+        </table>\n
+        </form>\n
+	<br>\n
+	.TABLE2."\n
+	<tr><td>If you don't have an account, please <a href=create_account.php>create a new one</a></td</tr>\n
+	</table>\n";
+    page_tail();
 }
 
 function print_create_account_form() {
@@ -69,7 +70,7 @@ function print_create_account_form() {
         ."    <td><select name=country>\n"
 
     );
-        print_country_select();
+    print_country_select();
     printf(
         "    </select>\n"
         ."    </td>\n"

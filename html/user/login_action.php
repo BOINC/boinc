@@ -24,7 +24,7 @@
         } else {
             setcookie("auth", $user->authenticator, time()+100000000);
             page_head("User Page");   
-            show_user_page($user, PROJECT);
+            show_user_page_private($user);
         }
     } else if (strlen($HTTP_POST_VARS["new"])) {
         $query = sprintf(
@@ -87,23 +87,25 @@
                 if ($result) {
                     setcookie("auth", $authenticator);
                     page_head("Creating Account");
-                    printf(
-                        TABLE2."\n"
-                        ."<tr><td>Account has been created successfully. In order to run the client you will need a BOINC key. A key will be sent to \n"
-                        ."the email address you provided, and you can simply copy and paste the key, which will be a string of letters and numbers, \n"
-                        ."in the location indicated when you run the client.</td></tr>\n"
-                        ."<tr><td><br><br></td></tr>\n"
-                        ."<tr><td><a href=download.php>Download core client</a></td></tr>\n"
-                        ."</table>\n"
-                    );
+                    echo( TABLE2."\n
+                        <tr><td>
+                        Your account has been created successfully.
+                        In order to run the client you will need a BOINC key.
+                        A key will be sent to the email address you provided,
+                        and you can simply copy and paste the key,
+                        which will be a string of letters and numbers,
+                        in the location indicated when you run the client.
+                        </td></tr>\n
+                        <tr><td><br><br></td></tr>\n
+                        <tr><td><a href=download.php>Download core client</a></td></tr>\n
+                        </table>\n";
                     mail($email_addr, "BOINC key", "Your BOINC key is " . $authenticator);
                 } else {
                     page_head("Creating Account");
-                    printf(
-                        TABLE2."\n"
-                        ."<tr><td>Couldn't create account. Please try again later.</td></tr>\n"
-                        ."</table>\n"
-                    );
+                    echo(TABLE2."\n
+                        <tr><td>Couldn't create account.
+                        Please try again later.</td></tr>\n
+                        </table>\n";
                 }
             }
         }
