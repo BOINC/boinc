@@ -1,11 +1,9 @@
 <?php
 
-// show a user summary.  Contains only public information
-//
 function show_user_stats($user) {
     echo TABLE2."\n";
-    row("<b>Name:   </b>", $user->name);
-    $row = sprintf("<b>%s Participant since:   </b>", $project);
+    echo "<tr>".TD2.LG_FONT."<b>User Stats:</b></font></td></tr>\n";
+    $row = sprintf("<b>%s user since:   </b>", $project);
     row($row, time_str($user->create_time));
     row("<b>Total credit:   </b>", $user->total_credit);
     row("<b>Recent average credit:   </b>", $user->expavg_credit);
@@ -19,12 +17,9 @@ function show_user_stats($user) {
     echo "</table>\n";
 }
 
-// show private user info
-//
 function show_user_profile($user) {
     echo TABLE2."\n";
     echo "<tr>".TD2.LG_FONT."<b>User Information:</b></font></td></tr>\n";
-    row("<b>name</b>", $user->name);
     row("<b>email address</b>", $user->email_addr);
     row("<b>country</b>", $user->country);
     row("<b>postal (ZIP) code</b>", $user->postal_code);
@@ -51,10 +46,10 @@ function show_hosts($user) {
 
 function show_host_brief($host) {
     echo "<tr>
-        <td><a href=show_host_detail.php?hostid=$host->id>$host->domain_name</a></td>
-        <td>$host->total_credit</td>
-        <td>$host->expavg_credit</td>
-        </tr>";
+              <td><a href=show_host_detail.php?hostid=$host->id>$host->domain_name</a></td>
+              <td>$host->total_credit</td>
+              <td>$host->expavg_credit</td>
+          </tr>";
 }
 
 // show a summary of the user.

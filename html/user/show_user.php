@@ -12,7 +12,7 @@
     mysql_free_result($result);
 
     if ($user) {
-      	page_head("User stats");
+      	page_head("User stats for $user->name");
     	show_user_stats($user);
         page_tail();
     } else {

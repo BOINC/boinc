@@ -33,8 +33,27 @@ function show_host($host) {
     $x = $host->d_free/(1024*1024*1024);
     $y = round($x, 2);
     row("<b>Free Disk Space:   </b>", "$y GB");
-    row("<b>Avg upload speed:</b>", "$host->n_bwup bytes/sec");
-    row("<b>Avg download speed:<br></b>", "$host->n_bwdown bytes/sec");
+    $x = $host->p_fpops/(1000*1000);
+    $y = round($x, 2);
+    row("<b>Measured floating point speed:   </b>", "$y million ops/sec");
+    $x = $host->p_iops/(1000*1000);
+    $y = round($x, 2);
+    row("<b>Measured integer speed:   </b>", "$y million ops/sec");
+    $x = $host->p_membw/(1024*1024);
+    $y = round($x, 2);
+    row("<b>Measured memory bandwidth:   </b>", "$y MB/sec");
+    $x = $host->n_bwup/(1024);
+    $y = round($x, 2);
+    if ($y > 0)
+        row("<b>Avg upload speed:</b>", "$y KB/sec");
+    else
+        row("<b>Avg upload speed:<br></b>", "Unknown");
+    $x = $host->n_bwdown/(1024);
+    $y = round($x, 2);
+    if ($y > 0)
+        row("<b>Avg download speed:<br></b>", "$y KB/sec");
+    else
+        row("<b>Avg download speed:<br></b>", "Unknown");
     row("<b>Number of times client has contacted server:   </b>", $host->rpc_seqno);
     row("<b>Last time contacted server:   </b>", time_str($host->rpc_time));
     row("<b>% of time client on:   </b>", 100*$host->on_frac." %");

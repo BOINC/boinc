@@ -4,7 +4,7 @@ require_once("db.inc");
 require_once("util.inc");
 
 function platform_downloads($platform, $core_app) {
-    $result = mysql_query("select * from app_version where platformid=$platform->id and appid=$core_app->id");
+    $result = mysql_query("select * from app_version where platformid=$platform->id and appid=$core_app->id order by version_num desc");
 
     if (!$result) return;
 
@@ -12,7 +12,7 @@ function platform_downloads($platform, $core_app) {
 
     $download_url = parse_config("<download_url>");
     echo "<tr><td><b>$platform->name</b></td></tr>\n";
-    while ($app_version = mysql_fetch_object($result)) {
+    if ($app_version = mysql_fetch_object($result)) {
         $filename = parse_element($app_version->xml_doc, "<name>");
         if (!$filename) { echo "CAN'T FIND FILENAMEn $app_version->xml_doc\n";}
 	$version = sprintf(
