@@ -15145,6 +15145,11 @@ Karl 2004-07-13
     - new function generic_check_set() which generalizes
       generic_check_set_majority()
 
+    - rename validate_test to validate_bitwise
+
     sched/
+        Makefile.am
         validate_util.C
         validate_util.h
+        validate_test.C -> validate_bitwise.C
+
