@@ -940,7 +940,7 @@ int FILE_REF::write(MIOFILE& out) {
 }
 
 int WORKUNIT::parse(MIOFILE& in) {
-    char buf[256];
+    char buf[4096];
     FILE_REF file_ref;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
@@ -948,8 +948,8 @@ int WORKUNIT::parse(MIOFILE& in) {
     strcpy(name, "");
     strcpy(app_name, "");
     version_num = 0;
-    strcpy(command_line, "");
-    strcpy(env_vars, "");
+    command_line = "";
+    //strcpy(env_vars, "");
     app = NULL;
     project = NULL;
     // Default these to very large values (1 week on a 1 cobblestone machine)
@@ -958,13 +958,33 @@ int WORKUNIT::parse(MIOFILE& in) {
     rsc_fpops_bound = 4e9*SECONDS_PER_DAY*7;
     rsc_memory_bound = 1e8;
     rsc_disk_bound = 1e9;
-    while (in.fgets(buf, 256)) {
+    while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</workunit>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         else if (parse_str(buf, "<app_name>", app_name, sizeof(app_name))) continue;
         else if (parse_int(buf, "<version_num>", version_num)) continue;
-        else if (parse_str(buf, "<command_line>", command_line, sizeof(command_line))) continue;
-        else if (parse_str(buf, "<env_vars>", env_vars, sizeof(env_vars))) continue;
+        else if (match_tag(buf, "<command_line>")) {
+            if (strstr(buf, "</command_line>")) {
+                parse_str(buf, "<command_line>", command_line);
+            } else {
+                bool found=false;
+                while (in.fgets(buf, sizeof(buf))) {
+                    if (strstr(buf, "</command_line")) {
+                        found = true;
+                        break;
+                    }
+                    command_line += buf;
+                }
+                if (!found) {
+                    msg_printf(
+                        NULL, MSG_ERROR, "%s: error in <command_line> element", name
+                    );
+                    return ERR_XML_PARSE;
+                }
+            }
+            continue;
+        }
+        //else if (parse_str(buf, "<env_vars>", env_vars, sizeof(env_vars))) continue;
         else if (parse_double(buf, "<rsc_fpops_est>", rsc_fpops_est)) continue;
         else if (parse_double(buf, "<rsc_fpops_bound>", rsc_fpops_bound)) continue;
         else if (parse_double(buf, "<rsc_memory_bound>", rsc_memory_bound)) continue;
@@ -987,8 +1007,7 @@ int WORKUNIT::write(MIOFILE& out) {
         "    <name>%s</name>\n"
         "    <app_name>%s</app_name>\n"
         "    <version_num>%d</version_num>\n"
-        "    <command_line>%s</command_line>\n"
-        "    <env_vars>%s</env_vars>\n"
+        //"    <env_vars>%s</env_vars>\n"
         "    <rsc_fpops_est>%f</rsc_fpops_est>\n"
         "    <rsc_fpops_bound>%f</rsc_fpops_bound>\n"
         "    <rsc_memory_bound>%f</rsc_memory_bound>\n"
@@ -996,13 +1015,20 @@ int WORKUNIT::write(MIOFILE& out) {
         name,
         app_name,
         version_num,
-        command_line,
-        env_vars,
+        //env_vars,
         rsc_fpops_est,
         rsc_fpops_bound,
         rsc_memory_bound,
         rsc_disk_bound
     );
+    if (command_line.size()) {
+        out.printf(
+            "    <command_line>\n"
+            "%s\n"
+            "    </command_line>\n",
+            command_line.c_str()
+        );
+    }
     for (i=0; i<input_files.size(); i++) {
         input_files[i].write(out);
     }

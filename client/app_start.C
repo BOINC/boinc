@@ -302,7 +302,7 @@ int ACTIVE_TASK::start(bool first_time) {
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
     char slotdirpath[256];
-    char cmd_line[512];
+    std::string cmd_line;
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
@@ -329,10 +329,10 @@ int ACTIVE_TASK::start(bool first_time) {
 
     // NOTE: in Windows, stderr is redirected in boinc_init_diagnostics();
 
-    sprintf(cmd_line, "%s %s", exec_path, wup->command_line);
+    cmd_line = exec_path + " " + wup->command_line;
     relative_to_absolute(slot_dir, slotdirpath);
     if (!CreateProcess(exec_path,
-        cmd_line,
+        cmd_line.c_str(),
         NULL,
         NULL,
         FALSE,
@@ -396,7 +396,9 @@ int ACTIVE_TASK::start(bool first_time) {
         freopen(STDERR_FILE, "a", stderr);
 
         argv[0] = exec_name;
-        parse_command_line(wup->command_line, argv+1);
+        char cmdline[8192];
+        strcpy(cmdline, wup->command_line.c_str());
+        parse_command_line(cmdline, argv+1);
         debug_print_argv(argv);
         sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, exec_path );
         retval = execv(buf, argv);

@@ -71,17 +71,18 @@ static int process_wu_template(
 ) {
     char* p;
     char buf[LARGE_BLOB_SIZE], md5[33], path[256], url[256], top_download_path[256];
-    char out[LARGE_BLOB_SIZE];
+    //char out[LARGE_BLOB_SIZE];
+    std::string out;
     int retval, file_number;
     double nbytes;
     char open_name[256];
     bool found=false;
 
-    strcpy(out, "");
+    out = "";
     for (p=strtok(tmplate, "\n"); p; p=strtok(0, "\n")) {
         if (match_tag(p, "<file_info>")) {
             file_number = -1;
-            strcat(out, "<file_info>\n");
+            out += "<file_info>\n";
             while (1) {
                 p = strtok(0, "\n");
                 if (!p) break;
@@ -128,18 +129,18 @@ static int process_wu_template(
                         md5,
                         nbytes
                     );
-                    strcat(out, buf);
+                    out += buf;
                     break;
                 } else {
-                    strcat(out, p);
-                    strcat(out, "\n");
+                    out += p;
+                    out += "\n";
                 }
             }
         } else if (match_tag(p, "<workunit>")) {
             found = true;
-            strcat(out, "<workunit>\n");
+            out += "<workunit>\n";
         } else if (match_tag(p, "</workunit>")) {
-            strcat(out, "</workunit>\n");
+            out += "</workunit>\n";
         } else if (match_tag(p, "<file_ref>")) {
             file_number = -1;
             while (1) {
@@ -162,7 +163,7 @@ static int process_wu_template(
                         infiles[file_number],
                         open_name
                     );
-                    strcat(out, buf);
+                    out += buf;
                     break;
                 }
             }
@@ -189,22 +190,22 @@ static int process_wu_template(
         } else if (parse_int(p, "<max_success_results>", wu.max_success_results)) {
             continue;
         } else {
-            strcat(out, p);
-            strcat(out, "\n");
+            out += p;
+            out += "\n";
         }
     }
     if (!found) {
         fprintf(stderr, "create_work: bad WU template - no <workunit>\n");
         return -1;
     }
-    if (strlen(out) > sizeof(wu.xml_doc)-1) {
+    if (out.size() > sizeof(wu.xml_doc)-1) {
         fprintf(stderr,
             "create_work: WU XML field is too long (%d bytes; max is %d)\n",
-            strlen(out), sizeof(wu.xml_doc)-1
+            out.size(), sizeof(wu.xml_doc)-1
         );
         return ERR_BUFFER_OVERFLOW;
     }
-    safe_strncpy(wu.xml_doc, out, sizeof(wu.xml_doc));
+    strcpy(wu.xml_doc, out.c_str());
     return 0;
 }
 

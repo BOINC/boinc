@@ -21772,3 +21772,29 @@ Karl 2004-12-25
 
     doc/
         anonymous_platform.php
+
+David  25 Dec 2004
+    - core client: change WORKUNIT::command_line from char[256] to std::string.
+        This increases the limit on cmdline length from 256 to 8192
+        (there's still a fixed-size buffer in the Unix startup code).
+
+        It turns out there were no limitations on the server side.
+
+        Also, change the representation in the core state file from
+            <command_line>blah</command_line>
+        to
+            <command_line>
+                blah
+            </command_line>
+        to accommodate long command lines (can be many lines).
+        Each line is limited to 4096 chars
+    - process_wu_template(): replace a 64KB buffer with a std::string.
+        There's still a 64KB length limit,
+        but this way overruns are caught and reported
+        instead of create_work crashing.
+
+    client/
+        app_start.C
+        client_types.C,h
+    tools/
+        backend_lib.C

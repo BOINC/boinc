@@ -272,8 +272,8 @@ struct WORKUNIT {
     int version_num;
         // This isn't sent from the server.
         // Instead, the client picks the latest app version
-    char command_line[256];
-    char env_vars[256];         // environment vars in URL format
+    std::string command_line;
+    //char env_vars[256];         // environment vars in URL format
     std::vector<FILE_REF> input_files;
     PROJECT* project;
     APP* app;
