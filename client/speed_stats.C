@@ -325,7 +325,9 @@ double double_flop_test(int iterations, int print_debug) {
         }
         // Do an impossible if statement here to prevent stop_test
         // from being optimized out by the compiler
+#ifndef _WIN32
         if (i < 0) stop_test(0);
+#endif
         actual_iters++;
     }
     
@@ -426,7 +428,9 @@ double int_op_test(int iterations, int print_debug) {
         }
         // Do an impossible if statement here to prevent stop_test
         // from being optimized out by the compiler
+#ifndef _WIN32
         if (i < 0) stop_test(0);
+#endif
         actual_iters++;
     }
 
@@ -520,7 +524,9 @@ double bandwidth_test(int iterations, int print_debug) {
         }
         // Do an impossible if statement here to prevent stop_test
         // from being optimized out by the compiler
+#ifndef _WIN32
         if (i < 0) stop_test(0);
+#endif
         actual_iters++;
     }
 
