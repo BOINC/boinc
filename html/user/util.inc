@@ -19,13 +19,13 @@ function get_user_from_cookie() {
 }
 
 function show_login($user) {
-    page_head("Log in");
-    printf("Logged in as %s.\n", $user->name);
-    printf("<br><a href=force_login.php>Log in as someone else.</a>\n");
-    printf("<br><a href=this_user.php>My %s</a>\n", PROJECT_NAME);
-    //printf("Not logged in.  <a href=login.php>Log in.</a>\n");
-
-    page_tail();
+    if ($user) {
+        printf("Logged in as %s.\n", $user->name);
+        printf("<br><a href=login.php>Log in as someone else.</a>\n");
+        printf("<br><a href=this_user.php>My %s</a>\n", PROJECT_NAME);
+    } else {
+        printf("Not logged in.  <a href=login.php>Log in.</a>\n");
+    }
 }
 
 function page_head($title) {
@@ -48,14 +48,6 @@ function time_str($x) {
 
 function start_table() {
     echo "<table width=600 border=2 cellpadding=4>";
-}
-
-function start_table_instr() {
-    echo "<table width=800 border=0>";
-}
-
-function row_head($x) {
-    echo "<tr><th colspan=2>$x</th></tr>\n";
 }
 
 function row($x, $y) {

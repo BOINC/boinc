@@ -12,7 +12,7 @@ function show_hosts($user) {
 }
 
 function show_user_page($user) {
-    echo "<h1>$user->name</h1>\n";
+    echo "<h1>Welcome $user->name</h1>\n";
     start_table();
     row("Total credit", $user->total_credit);
     if ($user->teamid) {
@@ -30,5 +30,6 @@ function show_user_page($user) {
     echo "<li><a href=prefs.php>Preferences</a></li>";
     echo "<li><a href=team.php>Teams</a></li>";
     echo "</ul>";
+
 }
 ?>
