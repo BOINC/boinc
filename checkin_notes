@@ -5565,6 +5565,7 @@ David  Aug 7 2003
 
 Karl 2003/08/07
     Start tasks in order of earliest report_deadline
+        - added next_result_to_start() 
 
     client/
         client_state.h
