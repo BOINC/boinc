@@ -199,9 +199,13 @@ static void limbo_message(ACTIVE_TASK& at) {
 //
 #ifdef _WIN32
 bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
-    get_app_status_msg();
+    if (!get_app_status_msg()) {
+        msg_printf(result->project, MSG_INFO,
+            "%s: no final message", result->name
+        );
+    }
     get_trickle_up_msg();
-    result->final_cpu_time = checkpoint_cpu_time;
+    result->final_cpu_time = current_cpu_time;
     if (task_state == PROCESS_ABORT_PENDING) {
         task_state = PROCESS_ABORTED;
     } else {
@@ -248,7 +252,7 @@ bool ACTIVE_TASK::handle_exited_app(int stat) {
 
     get_app_status_msg();
     get_trickle_up_msg();
-    result->final_cpu_time = checkpoint_cpu_time;
+    result->final_cpu_time = current_cpu_time;
     if (task_state == PROCESS_ABORT_PENDING) {
         task_state = PROCESS_ABORTED;
     } else {
@@ -821,9 +825,13 @@ int ACTIVE_TASK::unsuspend() {
 //
 bool ACTIVE_TASK::get_app_status_msg() {
     char msg_buf[MSG_CHANNEL_SIZE];
-    bool found = false;
 
-    if (!app_client_shm.shm) return false;
+    if (!app_client_shm.shm) {
+        msg_printf(result->project, MSG_INFO,
+            "%s: no shared memory segment", result->name
+        );
+        return false;
+    }
     if (app_client_shm.shm->app_status.get_msg(msg_buf)) {
         fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
         parse_double(msg_buf, "<fraction_done>", fraction_done);
@@ -831,9 +839,10 @@ bool ACTIVE_TASK::get_app_status_msg() {
         parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
         parse_double(msg_buf, "<vm_bytes>", vm_bytes);
         parse_double(msg_buf, "<rss_bytes>", rss_bytes);
-        found = true;
+    } else {
+        return false;
     }
-    return found;
+    return true;
 }
 
 bool ACTIVE_TASK::get_trickle_up_msg() {

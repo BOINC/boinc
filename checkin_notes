@@ -23036,10 +23036,10 @@ David  20 Jan 2005
         sched_locality.C
 
 David  20 Jan 2005
-	- client: strip whitespace from command lines
-		(prevents buildup of CRLFs in state file)
-	- in filesys.C, replaced #ifndef NDEBUG with #if 0
-		to fix Windows compile
+    - client: strip whitespace from command lines
+        (prevents buildup of CRLFs in state file)
+    - in filesys.C, replaced #ifndef NDEBUG with #if 0
+        to fix Windows compile
 
     client/
         client_types.C
@@ -23149,15 +23149,15 @@ David  21 Jan 2005
         cs_apps.C
 
 David  21 Jan 2005
-	- finalize result correctly when aborted via GUI
-	- add aborted_via_gui flag to GUI RPC's version of RESULT
-		(the BOINC manager needs to look at this flag)
+    - finalize result correctly when aborted via GUI
+    - add aborted_via_gui flag to GUI RPC's version of RESULT
+        (the BOINC manager needs to look at this flag)
 
-	client/
-		app_control.C
-		app_start.C
-	lib/
-		gui_rpc_client.C,h
+    client/
+        app_control.C
+        app_start.C
+    lib/
+        gui_rpc_client.C,h
 
 Rom    22 Jan 2005
     - Bug Fix: Upgrades of BOINC should now work correctly, any new
@@ -23337,11 +23337,11 @@ David  27 Jan 2005
         db_dump.C
 
 David  27 Jan 2005
-	- added utility programs to tools/ (from Christian Søttrup)
+    - added utility programs to tools/ (from Christian Søttrup)
 
-	tools/
-		kill_wu.C
-		poll_wu.C
+    tools/
+        kill_wu.C
+        poll_wu.C
 
 David  27 Jan 2005
     - API: move code to get worker thread handle,
@@ -23392,21 +23392,21 @@ David  28 Jan 2005
         time_stats.C,h
 
 David  28 Jan 2005
-	- core client: add notion of CONNECTED_STATE;
-		can be CONNECTED, NOT_CONNECTED, or UNKNOWN.
-		Implemented get_connected_state() on Windows
-	- if connected state is UNKNOWN,
-		TIME_STATS::connected_frac is set to -1
-	- rewrote TIME_STATS::update().
-		Seems to work in testing.
+    - core client: add notion of CONNECTED_STATE;
+        can be CONNECTED, NOT_CONNECTED, or UNKNOWN.
+        Implemented get_connected_state() on Windows
+    - if connected state is UNKNOWN,
+        TIME_STATS::connected_frac is set to -1
+    - rewrote TIME_STATS::update().
+        Seems to work in testing.
 
-	client/
-		client_state.C
-		hostinfo_network.h
+    client/
+        client_state.C
+        hostinfo_network.h
         hostinfo_unix.C
-		time_stats.C,h
-		win
-			win_net.cpp,h
+        time_stats.C,h
+        win
+            win_net.cpp,h
 
 Rom    28 Jan 2005
     - Check to see if we are already connected to the core client before
@@ -23480,10 +23480,10 @@ David  29 Jan 2005
         dir_hier_path.C
 
 David  30 Jan 2005
-	- fixed bug in xml_unescape().  Didn't parse special chars correctly
+    - fixed bug in xml_unescape().  Didn't parse special chars correctly
 
-	lib/
-		parse.C
+    lib/
+        parse.C
 
 David  30 Jan 2005
     - user web: slight cleanup
@@ -23529,10 +23529,10 @@ Bruce 31 Jan 2005
         server_types.h
         server_types.C
 
-Eric K.	31 Jan 05
-	Fixed typo in lib/parse.C
+Eric K.    31 Jan 05
+    Fixed typo in lib/parse.C
 
-	lib/parse.C
+    lib/parse.C
 
 Janus 31 Jan 05
     - Added functions to read and parse .po translations for the webinterface.
@@ -23996,7 +23996,7 @@ Rom    4 Feb 2005
     client/win/
         win_screensaver.cpp
 
-Eric K	4 Feb 2005
+Eric K    4 Feb 2005
     - Added diagnostics.[Ch] to the gui build.  (Builds were failing because it
       was missing)
     - Added function xwin_glut_is_initialized() so applications can tell if glut
@@ -24004,7 +24004,7 @@ Eric K	4 Feb 2005
 
     clientgui/Makefile.am
     api/
-    	x_opengl.[Ch]
+        x_opengl.[Ch]
 
 Rom    4 Feb 2005
     - Bug Fix: Adjust the display of the app version in the work tab with a call
@@ -24061,50 +24061,50 @@ Rom    6 Feb 2005
         win_screensaver.cpp, .h
 
 David  6 Feb 2005
-	- Initial client support for "account managers".
-		 Includes:
-		- new core client class (ACCT_MGR) for doing RPCs
-			to account managers
-		- GUI RPC for initiating an account manager RPC
-		TODO: add support in BOINC Manager
+    - Initial client support for "account managers".
+         Includes:
+        - new core client class (ACCT_MGR) for doing RPCs
+            to account managers
+        - GUI RPC for initiating an account manager RPC
+        TODO: add support in BOINC Manager
 
-	client/
-		acct_mgr.C,h (new)
-		file_names.h
-		gui_rpc_server.C
-	win_build/
-		boinc_cli.vcproj
+    client/
+        acct_mgr.C,h (new)
+        file_names.h
+        gui_rpc_server.C
+    win_build/
+        boinc_cli.vcproj
 
 David  6 Feb 2005
-	- The critically important "work_req_seconds" field of a scheduler request
-		was not documented anywhere.
-		The units of this request are "normalized CPU seconds":
-		the request specifies the number of wall-clock seconds
-		the work should take to finish using 1 CPU on the host,
-		taking into account resource share, on_frac, and active_frac.
-		- client side:
-			document;
-			take on_frac into account
-		- server side:
-			document;
-			use wall-clock instead of cpu estimate for "seconds filled";
-			take on_frac into account in wallclock estimate.
-		TODO: it would be simpler if the request just specified a number of FLOPs .
-			 That way the server wouldn't have to
-			know about on_frac, resource share etc.
-	- Code cleanup
-		
+    - The critically important "work_req_seconds" field of a scheduler request
+        was not documented anywhere.
+        The units of this request are "normalized CPU seconds":
+        the request specifies the number of wall-clock seconds
+        the work should take to finish using 1 CPU on the host,
+        taking into account resource share, on_frac, and active_frac.
+        - client side:
+            document;
+            take on_frac into account
+        - server side:
+            document;
+            use wall-clock instead of cpu estimate for "seconds filled";
+            take on_frac into account in wallclock estimate.
+        TODO: it would be simpler if the request just specified a number of FLOPs .
+             That way the server wouldn't have to
+            know about on_frac, resource share etc.
+    - Code cleanup
+        
 
-	client/
-		client_state.h
-		client_types.h
-		cs_scheduler.C
-	doc/
-		work_req.php (new)
-	sched/
-		handle_request.C
-		sched_send.C
-		server_types.C
+    client/
+        client_state.h
+        client_types.h
+        cs_scheduler.C
+    doc/
+        work_req.php (new)
+    sched/
+        handle_request.C
+        sched_send.C
+        server_types.C
 
 Rom    6 Feb 2005
     - Bug Fix: Enable the user to select which language the BOINC Manager
@@ -24255,25 +24255,25 @@ David  8 Feb 2005
         sched_send.C,h
 
 David  8 Feb 2005
-	- Change the way user cross-project ID is maintained.
-		OLD: when the client sends a scheduler RPC to project P,
-			it sends the largest CPID among projects with same
-			email hash as P.
-			This is saved in P's database and sent in future RPC replies.
-		Problem (pointed out by John McLeod):
-			A user's CPID can change whenever he joins a new project.
-			Statistics web sites don't have permanent IDs for a user.
-		NEW: when the client sends a scheduler RPC to project P,
-			it sends the CPID of the project for which user_create_time
-			is least (i.e. the project with the oldest account).
-			Project URL is used as a tie-breaker.
+    - Change the way user cross-project ID is maintained.
+        OLD: when the client sends a scheduler RPC to project P,
+            it sends the largest CPID among projects with same
+            email hash as P.
+            This is saved in P's database and sent in future RPC replies.
+        Problem (pointed out by John McLeod):
+            A user's CPID can change whenever he joins a new project.
+            Statistics web sites don't have permanent IDs for a user.
+        NEW: when the client sends a scheduler RPC to project P,
+            it sends the CPID of the project for which user_create_time
+            is least (i.e. the project with the oldest account).
+            Project URL is used as a tie-breaker.
 
-	- Fixed a bug where user_create_time wasn't being
-		parsed correctly from server reply.
+    - Fixed a bug where user_create_time wasn't being
+        parsed correctly from server reply.
 
-	client/
-		client_types.C
-		cs_scheduler.C
+    client/
+        client_types.C
+        cs_scheduler.C
 
 David  8 Feb 2005
     Stuff related to web-site translations:
@@ -24350,17 +24350,17 @@ Bruce 8 Feb 2005
             team_repair.php
 
 David  9 Feb 2005
-	- small bug fix: set must_reschedule_cpus in
-		ACTIVE_TASK_SET::exit_tasks().
-		This fixes a (rare) situation where you detach from a project,
-		other projects' tasks are not run, and the CPU is idle.
-	- win graphics compile fix
+    - small bug fix: set must_reschedule_cpus in
+        ACTIVE_TASK_SET::exit_tasks().
+        This fixes a (rare) situation where you detach from a project,
+        other projects' tasks are not run, and the CPU is idle.
+    - win graphics compile fix
 
-	api/
-		reduce_lib.C
-	client/
-		app_control.C
-		client_state.h
+    api/
+        reduce_lib.C
+    client/
+        app_control.C
+        client_state.h
 
 Eric K. 9 Feb 2005
     -Unfortunately on some 32 bit systems there is a problem with wx-widgets
@@ -24544,9 +24544,9 @@ Eric K 10 Feb 2005
 
     api/
         gutil.C
-	gutil.h
-	reduce_main.C
-	windows_opengl.C
+    gutil.h
+    reduce_main.C
+    windows_opengl.C
 
 Rom    10 Feb 2005
     - Bug Fix: Reorder the logic for NT 4.0 domain controllers one more
@@ -24575,14 +24575,14 @@ I   - Added RCSID tag to sched_timezone.C
         server_types.C
 
 David  11 Feb 2005
-	- Core client: require that an app version's main program be executable
-		(and thus that it be digitally signed)
-	- compile fix for Windows guirpctest (should rename boinc_cmd)
-	client/
-		app_control.C
-		app_start.C
-	win_build/
-		boinc_guirpctest.vcproj
+    - Core client: require that an app version's main program be executable
+        (and thus that it be digitally signed)
+    - compile fix for Windows guirpctest (should rename boinc_cmd)
+    client/
+        app_control.C
+        app_start.C
+    win_build/
+        boinc_guirpctest.vcproj
 
 Janus 11 Feb 2005
    - Added translation features to create_account_form.php
@@ -24962,12 +24962,12 @@ David  17 Feb 2005
         make_project
 
 David  17 Feb 2005
-	- Win core client: retry CreateProcess() 5 times with random delay,
-		in case some other process has executable file open
-		(from Bruce Allen)
+    - Win core client: retry CreateProcess() 5 times with random delay,
+        in case some other process has executable file open
+        (from Bruce Allen)
 
-	client/
-		app_start.C
+    client/
+        app_start.C
 
 Bruce 17 Feb 2005
     - make daily_result_quota be PER CPU with a hardwired limit of
@@ -25009,16 +25009,16 @@ David  18 Feb 2005
         http.C,h
 
 David  18 Feb 2005
-	- For some reason I removed a strdup() in my 17 Feb checkin to start.C,
-		which caused memory corruption on all platforms.
-		It's back now
-	- handle </venue> in PROJECT::parse_account().
-		Gets rid of a spurious warning
+    - For some reason I removed a strdup() in my 17 Feb checkin to start.C,
+        which caused memory corruption on all platforms.
+        It's back now
+    - handle </venue> in PROJECT::parse_account().
+        Gets rid of a spurious warning
 
-	client/
-		app_start.C
-		cs_account.C
-		scheduler_op.C
+    client/
+        app_start.C
+        cs_account.C
+        scheduler_op.C
 
 David  18 Feb 2005
     - fix gcc warning
@@ -25037,10 +25037,10 @@ David  18 Feb 2005
         boinc_api.C
 
 David  18 Feb 2005
-	- core client: pass proxy info to apps correctly
+    - core client: pass proxy info to apps correctly
 
-	client/
-		app_start.C
+    client/
+        app_start.C
 
 David  19 Feb 2005
     - user web cleanup (GET arg checking mostly)
@@ -25362,36 +25362,36 @@ Rom    27 Feb 2005
         diagnostics.C, .h
 
 David  27 Feb 2005
-	If you attached to a project and give a URL like "a.b.c//",
-	two bad things happen:
-	1) canonicalize_master_url() strips off everything before the //,
-		leaving an empty URL
-	2) it will write an account file account_.xml
-		and make an entry in the client state file
-	3) next time the core client starts up, it errors out
-		trying to create the project directory.
-	Fixes:
-	- canonicalize_master_url(): check before "://", not "//"
-	- is_account_file(): tighten up.
-		Old: anything starting with account_ is considered an account file.
-		New: must match account_A.B.xml where A and B are nonempty
-	- invalid_url():
-		Old: must match http://X, X nonempty
-		New: must match http://X.Y/, X and Y nonempty
-		rename to valid_master_url() and invert sense
+    If you attached to a project and give a URL like "a.b.c//",
+    two bad things happen:
+    1) canonicalize_master_url() strips off everything before the //,
+        leaving an empty URL
+    2) it will write an account file account_.xml
+        and make an entry in the client state file
+    3) next time the core client starts up, it errors out
+        trying to create the project directory.
+    Fixes:
+    - canonicalize_master_url(): check before "://", not "//"
+    - is_account_file(): tighten up.
+        Old: anything starting with account_ is considered an account file.
+        New: must match account_A.B.xml where A and B are nonempty
+    - invalid_url():
+        Old: must match http://X, X nonempty
+        New: must match http://X.Y/, X and Y nonempty
+        rename to valid_master_url() and invert sense
 
-	client/
-		cs_account.C
-		file_names.C
-	lib/
-		util.C,h
+    client/
+        cs_account.C
+        file_names.C
+    lib/
+        util.C,h
 
 David  27 Feb 2005
-	- when scanning account files, make sure a project has
-		a unique master URL before adding to list of projects
+    - when scanning account files, make sure a project has
+        a unique master URL before adding to list of projects
 
-	client/
-		cs_account.C
+    client/
+        cs_account.C
 
 Bruce 28 Feb 2005
       - messages containing newlines were being lost when sent to 4.19
@@ -25415,12 +25415,12 @@ David  1 Mar 2005
         pers_file_xfer.C,h
 
 David  1 Mar 2005
-	- core client: FILE_INFO::merge_info(): merge signature also.
-		If we get a new version of a FILE_INFO from server
-		and it has a signature, us it.
+    - core client: FILE_INFO::merge_info(): merge signature also.
+        If we get a new version of a FILE_INFO from server
+        and it has a signature, us it.
 
-	client/
-		client_types.C
+    client/
+        client_types.C
 
 David  1 Mar 2005
     -  fix for update_versions in case of single-file app
@@ -25557,27 +25557,27 @@ Rom    5 Mar 2005
         client_state.C
 
 David  5 Mar 2005
-	- initial support for GUI RPC authentication
-		If the core client finds a file called "gui_rpc_auth.cfg",
-		it reads a password from it, and all GUI RPC requests
-		must authenticate using a challenge/response sequence,
-		proving that they have the password without sending it.
-	- Added --passwd option to boinc_cmd
-	- Moved network-related code out of gui_rpc_server.C
-		and http.C (identical stuff) into lib/network.C,h
+    - initial support for GUI RPC authentication
+        If the core client finds a file called "gui_rpc_auth.cfg",
+        it reads a password from it, and all GUI RPC requests
+        must authenticate using a challenge/response sequence,
+        proving that they have the password without sending it.
+    - Added --passwd option to boinc_cmd
+    - Moved network-related code out of gui_rpc_server.C
+        and http.C (identical stuff) into lib/network.C,h
 
-	client/
-		file_names.h
-		gui_rpc_server.C,h
-		http.C
-		net_xfer.C,h
-	lib/
-		boinc_cmd.C
-		gui_rpc_client.C,h
-		network.C,h (new)
-	win_build/
-		boinc_cli.vcproj
-		boing_gui.vcproj
+    client/
+        file_names.h
+        gui_rpc_server.C,h
+        http.C
+        net_xfer.C,h
+    lib/
+        boinc_cmd.C
+        gui_rpc_client.C,h
+        network.C,h (new)
+    win_build/
+        boinc_cli.vcproj
+        boing_gui.vcproj
 
 Bruce 7 March 2005
       -  Fix problem with ops page.  If a clause had for example "name like '%Jim%'
@@ -25640,14 +25640,14 @@ David  7 Mar 2005
         app_start.C
 
 David  7 Mar 2005
-	- core client: win compile fixes
+    - core client: win compile fixes
 
-	client/
-		main.C,h
-		win/
-			wingui_mainwindow.cpp
-	lib/
-		network.cpp
+    client/
+        main.C,h
+        win/
+            wingui_mainwindow.cpp
+    lib/
+        network.cpp
 
 Rom    7 Mar 2005
     - Bug Fix: Remove the check to see if we have any projects already defined
@@ -25736,11 +25736,11 @@ Rom    9 Mar 2005
         MainDocument.cpp
 
 David  9 Mar 2005
-	- core client: allow show_graphics RPCs even for results
-		that are not currently scheduled
+    - core client: allow show_graphics RPCs even for results
+        that are not currently scheduled
 
-	client/
-		gui_rpc_server.C
+    client/
+        gui_rpc_server.C
 
 David  9 Mar 2005
     - get rid of the STRING256 type, and change things to std::string
@@ -25842,34 +25842,34 @@ David  10 Mar 2005
         boinc_cmd.C
         gui_rpc_client.C
 
-Charlie	11 Mar 2005
+Charlie    11 Mar 2005
     - Add support for building Mac GUI BOINC Manager, Core Client 
-	and SETI@home application using XCODE IDE on Macintosh.
-	Removed Eric Heien's old boinc.pbroj which is confusing 
-	on CVS because it is a bundle, which looks like a directory
-	to CVS.  New boinc.proj bundle is checked in zipped.
+    and SETI@home application using XCODE IDE on Macintosh.
+    Removed Eric Heien's old boinc.pbroj which is confusing 
+    on CVS because it is a bundle, which looks like a directory
+    to CVS.  New boinc.proj bundle is checked in zipped.
 
     - Changes for Mac GUI BOINC manager and core client.
-	Major rework of XCode project file.
-	BOINC Manager has standard Mac application bundle with icon.
-	Client doesn't ask for User ID or Project URL on command line.
-	Added code for Mac to determine idle time (user inactivity).
-	Core Client is embedded in BOINC Manager application bundle.
-	BOINC Manager sets working directory to 
-		~/Application Support/Boinc_Data/
-	and then launches embedded Core Client.
+    Major rework of XCode project file.
+    BOINC Manager has standard Mac application bundle with icon.
+    Client doesn't ask for User ID or Project URL on command line.
+    Added code for Mac to determine idle time (user inactivity).
+    Core Client is embedded in BOINC Manager application bundle.
+    BOINC Manager sets working directory to 
+        ~/Application Support/Boinc_Data/
+    and then launches embedded Core Client.
 
     client/
-	hostinfo_unix.C
-	client/main.C
+    hostinfo_unix.C
+    client/main.C
    clientgui/
-	BOINCGUIApp.cpp
+    BOINCGUIApp.cpp
    lib/
-	hostinfo.h
+    hostinfo.h
     mac_build/
-	boinc.proj/boinc.proj (directory & file both removed)
-	boinc.proj.zip (new)
-	info.plist (new)
+    boinc.proj/boinc.proj (directory & file both removed)
+    boinc.proj.zip (new)
+    info.plist (new)
         HowToBuildBOINC_XCode.rtf
 
 Rom    11 Mar 2005
@@ -25900,27 +25900,27 @@ David  11 Mar 2005
         make_project
 
 David  11 Mar 2005
-	- BOINC manager: avoid asserts by commenting out some code
-	- fix account manager functions
-	- print messages on acct mgr RPC start/end
+    - BOINC manager: avoid asserts by commenting out some code
+    - fix account manager functions
+    - print messages on acct mgr RPC start/end
 
-	client/
-		acct_mgr.C
-	clientgui/
-		MainFrame.cpp
-	lib/
-		acct_mgr_client.C
-		gui_rpc_client.C
+    client/
+        acct_mgr.C
+    clientgui/
+        MainFrame.cpp
+    lib/
+        acct_mgr_client.C
+        gui_rpc_client.C
 
 David  12 Mar 2005
-	- Change the appearance of the Task area of the BOINC manager.
-		Use white background instead of blue.
-		Surround tasks with bordered boxes.
-	- commented out some unused code.  Delete?
+    - Change the appearance of the Task area of the BOINC manager.
+        Use white background instead of blue.
+        Surround tasks with bordered boxes.
+    - commented out some unused code.  Delete?
 
-	clientgui/
-		BOINCTaskCtrl.cpp,h
-		VewProjects.cpp
+    clientgui/
+        BOINCTaskCtrl.cpp,h
+        VewProjects.cpp
 
 David  13 Mar 2005
     - scheduler: add nowork_skip configuration flag.
@@ -25963,10 +25963,10 @@ David  15 Mar 2005
         parse.C
 
 David  15 Mar 2005
-	- BOINC manager: if project doesn't have a name yet, use its URL
+    - BOINC manager: if project doesn't have a name yet, use its URL
 
-	clientgui/
-		MainDocument.cpp
+    clientgui/
+        MainDocument.cpp
 
 Rom    15 Mar 2005
     - Make the couldn't find messages visible only on debug builds, it
@@ -26161,7 +26161,7 @@ David  24 Mar 2005
         user/
             create_account_action.php
 
-Charlie	25 Mar 2005
+Charlie    25 Mar 2005
     - BOINC Manager: create BOINC Data directory in
         "/Library/Application Support/" directory,
         not in user's "~/Library/Application Support/"
@@ -26191,7 +26191,7 @@ Charlie	25 Mar 2005
         SystemMenu-Info.plist (add)
         boinc.pbproj/boinc.pbproj (add)
 
-Charlie	26 Mar 2005
+Charlie    26 Mar 2005
     - BOINC Manager: Workaround apparent bug in Mac version of WxWidgets which 
         prevented the main window's size and position from being restored on 
         application launch.
@@ -26300,22 +26300,22 @@ Rom    29 Mar 2005
         taskbarex.h
 
 David  29 Mar 2005
-	- moved NetOpen(), NetClose(), NetCheck() from win_net.cpp (removed)
-		to lib/network.C
+    - moved NetOpen(), NetClose(), NetCheck() from win_net.cpp (removed)
+        to lib/network.C
 
-	client/
-		client_state.C
-		hostinfo_network.h
+    client/
+        client_state.C
+        hostinfo_network.h
         hostinfo_unix.C
-		time_stats.C
-		win/
-			win_net.cpp,h (removed)
-			wingui_mainwindow.cpp
-	lib/
-		network.C,h
-	win_build/
-		boinc_cli.vcproj
-		boinc_gui.vcproj
+        time_stats.C
+        win/
+            win_net.cpp,h (removed)
+            wingui_mainwindow.cpp
+    lib/
+        network.C,h
+    win_build/
+        boinc_cli.vcproj
+        boinc_gui.vcproj
 
 David  29 Mar 2005
     - Transitioner: when updating a workunit
@@ -26349,27 +26349,64 @@ Rom    29 Mar 2005
     lib/
         gui_rpc_client.C, .h
 
-Charlie	29 Mar 2005
-BOINC Manager: Work around apparent bug in Mac version of WxWidgets 
-which prevented the main window's size and position from being 
-restored on application launch.
-Main widow close box doesn't quit application. 
-Postponed implementing the umask change due to security concerns:  
-removed umask(0) from Core Client & BOINC Manager; changed BOINC 
-Data directory back to user's "~/Library/Application Support/"
-Automate generating Mac version numbers from version.h file. (Added 
-shell script build phase and tiny SetVersion shell application to 
-XCode project to create / update InfoPlist.strings file.)
-CViewProjects::OnTaskLinkClicked(): added casts to change compiler 
-errors to compiler warnings; this allows it to compile.
+Charlie    29 Mar 2005
+    BOINC Manager: Work around apparent bug in Mac version of WxWidgets 
+    which prevented the main window's size and position from being 
+    restored on application launch.
+    Main widow close box doesn't quit application. 
+    Postponed implementing the umask change due to security concerns:  
+    removed umask(0) from Core Client & BOINC Manager; changed BOINC 
+    Data directory back to user's "~/Library/Application Support/"
+    Automate generating Mac version numbers from version.h file. (Added 
+    shell script build phase and tiny SetVersion shell application to 
+    XCode project to create / update InfoPlist.strings file.)
+    CViewProjects::OnTaskLinkClicked(): added casts to change compiler 
+    errors to compiler warnings; this allows it to compile.
 
-client/
-	main.C
-clientGUI/
-	BOINCGUIApp.cpp
-	MainFrame.cpp
-        ViewProjects.cpp
-clientGUI/mac/
-        SetVersion.C (add)
-mac_build/
-	boinc.pbproj/boinc.pbproj
+    client/
+        main.C
+    clientGUI/
+        BOINCGUIApp.cpp
+        MainFrame.cpp
+            ViewProjects.cpp
+    clientGUI/mac/
+            SetVersion.C (add)
+    mac_build/
+        boinc.pbproj/boinc.pbproj
+
+David  30 Mar 2005
+	- Fixed bug where clients report a result CPU time as zero,
+		even though the result used a lot of CPU.
+		The basic problem was in the API: the final call to
+		update_app_progress() (from boinc_finish())
+		was trying to send a status message.
+		But some fraction of the time the message slot was full
+		(core client hadn't read previous message)
+		so this message wouldn't get delivered.
+		Core client was using checkpoint_cpu_time as final CPU,
+		so (for applications that never checkpoint)
+		the core client would never get a nonzero checkpoint_cpu_time.
+
+		I fixed this at both ends, i.e. if you either use a new core client
+		with old apps, or use new apps with existing core clients,
+		the problem will go away.
+		Fixes:
+
+		1) API: retry sending final status message a few times w/ sleep
+		2) core client: use current_cpu_time rather than checkpoint_cpu_time
+			as the result's final_cpu_time.
+	- core client: show current directory on startup
+	- win compile fixes
+
+	api/
+		boinc_api.C
+	client/
+		app_control.C
+		client_state.C
+		net_xfer.C
+		win/
+			wingui.h
+	clientgui/
+		BOINCTaskCtrl.cpp
+	lib/
+		network.h

@@ -109,43 +109,6 @@ void CBOINCTaskCtrl::CreateTaskSeparator( bool  bHidden ) {
     }
 }
 
-#if 0
-void CBOINCTaskCtrl::BeginTaskSection( const wxString& strLink, const wxString& strTaskHeaderFilename, bool bHidden )
-{
-    wxString strModifiedTaskHeaderFilename;
-
-    if ( bHidden )
-        strModifiedTaskHeaderFilename = strTaskHeaderFilename + wxT(".hidden");
-    else
-        strModifiedTaskHeaderFilename = strTaskHeaderFilename + wxT(".visible");
-
-    m_strTaskPage += wxT("<table border=\"0\" bgcolor=\"White\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">");
-    m_strTaskPage += wxT("  <tr bgcolor=" BGCOLOR ">");
-    m_strTaskPage += wxT("    <td width=\"100%\">");
-
-    if ( !strLink.empty() )
-        m_strTaskPage += wxT("      <a href=\"") + strLink + wxT("\">");
-
-    m_strTaskPage += wxT("        <img src=\"memory:") + strModifiedTaskHeaderFilename + wxT("\">");
-
-    if ( !strLink.empty() )
-        m_strTaskPage += wxT("      </a>");
-
-    m_strTaskPage += wxT("    </td>");
-    m_strTaskPage += wxT("  </tr>");
-
-    if ( !bHidden )
-    {
-        m_strTaskPage += wxT("  <tr>");
-        m_strTaskPage += wxT("    <td>&nbsp;</td>");
-        m_strTaskPage += wxT("  </tr>");
-        m_strTaskPage += wxT("  <tr>");
-        m_strTaskPage += wxT("    <td align=\"center\">");
-        m_strTaskPage += wxT("      <table border=\"0\" width=\"90%\" cellpadding=\"0\" cellspacing=\"0\">");
-    }
-}
-#endif
-
 void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTaskName, bool  bHidden )
 {
     if ( !bHidden )
@@ -153,13 +116,15 @@ void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTas
         m_strTaskPage += wxT("        <tr>");
         m_strTaskPage += wxT("          <td valign=\"center\" width=\"100%\">&nbsp;&nbsp;");
 
-        if ( !strLink.empty() )
-            m_strTaskPage += wxT("            <a href=\"") + strLink + wxT("\">");
-
-        m_strTaskPage += wxT("              <font color=\"#000000\">") + strTaskName + wxT("</font>");
-
-        if ( !strLink.empty() )
-            m_strTaskPage += wxT("            </a>");
+        if (strLink.empty()) {
+            m_strTaskPage += wxT("<font color=\"#000000\">") + strTaskName + wxT("</font>");
+        } else {
+            m_strTaskPage += wxT(
+                "<a href=\"") + strLink + wxT("\">"
+                "  <font color=\"#000000\">") + strTaskName + wxT("</font>"
+                "</a>"
+            );
+        }
 
         m_strTaskPage += wxT("          </td>");
         m_strTaskPage += wxT("        </tr>");
@@ -184,14 +149,15 @@ void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTas
 
         m_strTaskPage += wxT("            &nbsp;&nbsp;");
 
-        if ( !strLink.empty() )
-            m_strTaskPage += wxT("            <a href=\"") + strLink + wxT("\">");
-
-        m_strTaskPage += wxT("              <font color=\"#000000\">") + strTaskName + wxT("</font>");
-
-        if ( !strLink.empty() )
-            m_strTaskPage += wxT("            </a>");
-
+        if (strLink.empty()) {
+            m_strTaskPage += wxT("<font color=\"#000000\">") + strTaskName + wxT("</font>");
+        } else {
+            m_strTaskPage += wxT(
+                "<a href=\"") + strLink + wxT("\">"
+                "  <font color=\"#000000\">") + strTaskName + wxT("</font>"
+                "</a>"
+            );
+        }
         m_strTaskPage += wxT("          </td>");
         m_strTaskPage += wxT("        </tr>");
     }
@@ -224,29 +190,6 @@ void CBOINCTaskCtrl::UpdateQuickTip( const wxString& strIconFilename, const wxSt
         EndTaskSection(bHidden);
     }
 }
-
-#if 0
-void CBOINCTaskCtrl::UpdateQuickTip( const wxString& strLink, const wxString& strIconFilename, const wxString& strTip, bool bHidden )
-{
-    if (!strTip.empty())
-    {
-        BeginTaskSection(
-            strLink,
-            strIconFilename,
-            bHidden
-        );
-        if (!bHidden)
-        {
-            m_strTaskPage += wxT("        <tr>");
-            m_strTaskPage += wxT("          <td width=\"100%\">");
-            m_strTaskPage += wxT("            ") + strTip;
-            m_strTaskPage += wxT("          </td>");
-            m_strTaskPage += wxT("        </tr>");
-        }
-        EndTaskSection(bHidden);
-    }
-}
-#endif
 
 void CBOINCTaskCtrl::EndTaskPage()
 {

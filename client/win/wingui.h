@@ -27,14 +27,10 @@
 #include "error_numbers.h"
 #include "boinc_gui.h"
 #include "util.h"
-#include "win_net.h"
 #include "win_util.h"
-
-// functions
 
 int add_new_project();
 BOOL RequestNetConnect();
-
 
 void GetLanguageFilename(CString& path);
 void UpdateLanguageStrings(CWnd* wnd, char const * windowname, int const* pnIDs, CString * const * pStrs = NULL);

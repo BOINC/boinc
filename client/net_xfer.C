@@ -27,7 +27,6 @@
 #include "boinc_win.h"
 #endif
 
-#include "Win_net.h"
 #include "win_util.h"
 
 #endif

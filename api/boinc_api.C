@@ -90,10 +90,6 @@ static volatile int nrunning_ticks = 0;
     // quit if we cannot aquire slot resource in this #secs
 
 #ifdef _WIN32
-//HANDLE   hErrorNotification;
-//HANDLE   hQuitRequest;
-//HANDLE   hSuspendRequest;
-//HANDLE   hResumeRequest;
 static HANDLE   hSharedMem;
 HANDLE   worker_thread_handle;
     // used to suspend worker thread, and to measure its CPU time
@@ -145,16 +141,15 @@ static int boinc_worker_thread_cpu_time(double& cpu) {
 // communicate to the core client (via shared mem)
 // the current CPU time and fraction done
 //
-static int update_app_progress(
-    double cpu_t, double cp_cpu_t, double /*ws_t*/
+static bool update_app_progress(
+    double cpu_t, double cp_cpu_t, double rss=0, double vm=0
 ) {
     char msg_buf[MSG_CHANNEL_SIZE], buf[256];
-    double vm, rs;
 
-    if (!app_client_shm) return 0;
+    if (!app_client_shm) return false;
 
     sprintf(msg_buf,
-        "<current_cpu_time>%10.4f</current_cpu_time>\n"
+        "<current_cpu_time>%.15e</current_cpu_time>\n"
         "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n",
         cpu_t, cp_cpu_t
     );
@@ -164,16 +159,15 @@ static int update_app_progress(
         sprintf(buf, "<fraction_done>%2.8f</fraction_done>\n", fdone);
         strcat(msg_buf, buf);
     }
-    if (!mem_usage(vm, rs)) {
-        sprintf(buf,
-            "<vm_bytes>%f</vm_bytes>\n"
-            "<rss_bytes>%flu</rss_bytes>\n",
-            vm, rs
-        );
+    if (rss) {
+        sprintf(buf, "<rss_bytes>%f</rss_bytes>\n", rss);
         strcat(msg_buf, buf);
     }
-    app_client_shm->shm->app_status.send_msg(msg_buf);
-    return 0;
+    if (vm) {
+        sprintf(buf, "<vm_bytes>%f</vm_bytes>\n", vm);
+        strcat(msg_buf, buf);
+    }
+    return app_client_shm->shm->app_status.send_msg(msg_buf);
 }
 
 // the following 2 functions are used when there's no graphics
@@ -268,9 +262,17 @@ static void send_trickle_up_msg() {
 //
 int boinc_finish(int status) {
     if (options.send_status_msgs) {
-        boinc_worker_thread_cpu_time(last_checkpoint_cpu_time);
-        last_checkpoint_cpu_time += initial_wu_cpu_time;
-        update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, 0);
+        double total_cpu;
+        boinc_worker_thread_cpu_time(total_cpu);
+        total_cpu += initial_wu_cpu_time;
+
+        // NOTE: the app_status slot may already contain a message.
+        // So retry a couple of times.
+        //
+        for (int i=0; i<3; i++) {
+            if (update_app_progress(total_cpu, total_cpu)) break;
+            boinc_sleep(1.0);
+        }
     }
     if (options.handle_trickle_ups) {
         send_trickle_up_msg();
@@ -510,7 +512,7 @@ static void worker_timer(int /*a*/) {
             double cur_cpu;
             boinc_worker_thread_cpu_time(cur_cpu);
             last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
-            update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time, 0);
+            update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time);
             time_until_fraction_done_update = (int)aid.fraction_done_update_period;
         }
     }
@@ -609,7 +611,7 @@ int boinc_checkpoint_completed() {
     boinc_calling_thread_cpu_time(cur_cpu);
     last_wu_cpu_time = cur_cpu + aid.wu_cpu_time;
     last_checkpoint_cpu_time = last_wu_cpu_time;
-    update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, 0);
+    update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time);
     time_until_checkpoint = (int)aid.checkpoint_period;
     ready_to_checkpoint = false;
 

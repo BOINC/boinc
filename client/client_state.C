@@ -181,6 +181,7 @@ void CLIENT_STATE::free_mem() {
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
+    char buf[256];
 
     srand(time(NULL));
 
@@ -203,29 +204,27 @@ int CLIENT_STATE::init() {
         msg_printf(NULL, MSG_INFO, "Option: Executing as a daemon");
     }
 
+    relative_to_absolute("", buf);
+    msg_printf(NULL, MSG_INFO, "Data directory: %s", buf);
 
-    // sometimes it helps to remind people of potiential issues related
-    // to their configuration.
-
-    // check to see what username we are executing as, if we are running
-    // as anybody other than localsystem and executing as a daemon then
-    // displaing graphics are going to fail.  we should display a note
-    // at startup reminding them of that.
+    // if we are running as anybody other than localsystem
+    // and executing as a daemon then app graphics won't work.
+    // display a note at startup reminding user  of that.
+    //
 #ifdef _WIN32
-    TCHAR  buf[1024];
     DWORD  buf_size = sizeof(buf);
     LPTSTR pbuf = buf;
     
-    GetUserName( pbuf, &buf_size );
+    GetUserName(pbuf, &buf_size);
     if (executing_as_daemon && (0 != strcmp("SYSTEM", pbuf))) {
-        msg_printf(
-            NULL, MSG_INFO, 
-            "NOTE: A condition has been detected which will keep graphics from "
-            "being displayed.  Please visit the BOINC site to learn more."
+        msg_printf(NULL, MSG_INFO,
+            "BOINC is running as a service and as a non-system user."
+        );
+        msg_printf(NULL, MSG_INFO,
+            "No application graphics will be available."
         );
     }
 #endif
-
 
     parse_account_files();
 
