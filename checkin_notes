@@ -15462,3 +15462,14 @@ Rom    19 July 2004
 Rom    July 19 2004
     - Tag for 4.01 release, all platforms
       boinc_release_4_01
+
+Eric
+    - Added cache control headers to the cached php pages to reduce CGI
+      load on the web server.  The headers include Last-Modified, Expires,
+      and Cache-Control: public, max-age=.  Expiration and max-age are
+      based upon the max-age parameter passed to start_cache().  
+      start_cache() also check the request header for 'If-Modified-Since'
+      and returns a 'HTTP/1.0 304 Not Modified' if 'If-Modified-Since' ==
+      'Last-Modified:'
+
+    html/inc/cache.inc
