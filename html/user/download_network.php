@@ -31,10 +31,7 @@ echo "
 ";
 BOINC_download_network_print_download_links();
 echo "
-    <p>
-    <p>
-    <p>
-    </font>
+    <p><p>
 ";
 page_tail();
 ?>

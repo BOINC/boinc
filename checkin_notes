@@ -16797,3 +16797,26 @@ David  31 Aug 2004
         app_start.C
     lib/
         app_ipc.C,h
+
+David  31 Aug 2004
+    - feeder/scheduler:
+        We were seeing problems where the shared-mem array was
+        filling up with results that were "locked" by a particular
+        scheduler process, which apparently had then died,
+        leaving that slot in limbo.
+        Add code to the feeder to check if the process that
+        locked a slot still exists, and unlock it if not.
+    - end_cache(): check for ".." in params string.
+        We've had problems with files mysteriously disappearing,
+        and it's possible that the caching mechanism has a security loophole.
+    html/
+        inc/
+            cache.inc
+            prefs.inc
+        user/
+            download_network.php
+    sched/
+        feeder.C
+        main.C
+        sched_send.C
+        sched_shmem.h

@@ -79,9 +79,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#if HAVE_UNISTD_H
 #include <unistd.h>
-#endif
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include "boinc_db.h"
 #include "shmem.h"
@@ -259,6 +259,21 @@ static void scan_work_array(
                 wu_result.state = WR_STATE_PRESENT;
                 wu_result.infeasible_count = 0;
                 nadditions++;
+            }
+            break;
+        default:
+            // here the state is a PID; see if it's still alive
+            //
+            int pid = wu_result.state;
+            struct stat s;
+            char buf[256];
+            sprintf(buf, "/proc/%d", pid);
+            if (stat(buf, &s)) {
+                wu_result.state = WR_STATE_PRESENT;
+                log_messages.printf(
+                    SCHED_MSG_LOG::NORMAL,
+                    "Result reserved by non-existent process; resetting\n"
+                );
             }
         }
     }

@@ -78,7 +78,7 @@ bool SCHEDULER_REQUEST::has_version(APP& app) {
     return false;
 }
 
-// compute the max disk usage we can request of the host
+// compute the max additional disk usage we can impose on the host
 //
 double max_allowable_disk(SCHEDULER_REQUEST& req) {
 // ROMW: Reverting back to older implementation until all clients are 4.x
@@ -101,7 +101,7 @@ double max_allowable_disk(SCHEDULER_REQUEST& req) {
     // if they're zero, project will get no work.
     //
 
-    x1 = prefs.disk_max_used_gb*(1024.*1024.*1024.) - req.total_disk_usage;
+    x1 = prefs.disk_max_used_gb*1e9 - req.total_disk_usage;
     x2 = host.d_total*prefs.disk_max_used_pct/100.;
     x3 = host.d_free - prefs.disk_min_free_gb*1e9;      // may be negative
 

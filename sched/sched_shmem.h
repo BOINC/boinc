@@ -34,10 +34,13 @@
 //#define MAX_WU_RESULTS      100
 #define MAX_WU_RESULTS      500
 
+// values of state field
 #define WR_STATE_EMPTY   0
 #define WR_STATE_PRESENT 1
 #define WR_STATE_CHECKED_OUT    2
     // some server process is considering this result
+// If none of the above, the value is a PID of a server
+// that has this item reserved
 
 // a workunit/result pair
 struct WU_RESULT {

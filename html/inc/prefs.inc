@@ -54,8 +54,8 @@ define("IDLE_TIME_TO_RUN_DESC2", "<br><font size=-2>(applies only if above is 'n
 define("START_END_DESC", "Do work only between the hours of");
 define("START_END_DESC2", "<br><font size=-2>(no restriction if equal)</font>");
 define("LEAVE_APPS_IN_MEMORY_DESC",
-    "Leave project applications in memory while activities are suspended?
-    <br><font size=-2>(applications will always consume swap space if 'yes')</font>");
+    "Leave applications in memory while preempted?
+    <br><font size=-2>(suspended applications will consume swap space if 'yes')</font>");
 define("CONFIRM_BEFORE_CONNECTING_DESC",
     "Confirm before connecting to Internet?
     <br><font size=-2>(matters only if you use a modem)</font>"

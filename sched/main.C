@@ -143,7 +143,7 @@ int main() {
     get_key(path, 'a', sema_key);
 
     retval = attach_shmem(config.shmem_key, &p);
-    if (retval) {
+    if (retval || p==0) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL,
             "Can't attach shmem (feeder not running?)\n"
         );
