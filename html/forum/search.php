@@ -1,6 +1,9 @@
 <?php
-require_once('../include.php');
+
+require_once('../include/template.inc');
 require_once('forum.inc');
+require_once('../util.inc');
+
 doHeader('Forum');
 
 /* sanitize variable */
@@ -12,7 +15,7 @@ $categories = getCategories();
 
 <p>
 	<span class="title">Search</span>
-	<br><a href="index.php"><?php echo $cfg['sitename'] ?> Forum</a>
+	<br><a href="index.php"><?php echo PROJECT ?> Forum</a>
 </p>
 
 <p style="text-align:center">

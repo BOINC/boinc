@@ -1,7 +1,8 @@
 <?php
-require_once("../util.inc");
-require_once("../include.php");
-require_once("forum.inc");
+
+require_once('../include/template.inc');
+require_once('forum.inc');
+require_once('../util.inc');
 
 if (!empty($_GET['post'])) {
     $postId = $_GET['post'];
@@ -9,9 +10,9 @@ if (!empty($_GET['post'])) {
     $rating = $_POST['rating'];
 
     if ($choice == SOLUTION) {
-	    $rating = 1;
+        $rating = 1;
     } else if ($choice == OFF_TOPIC) {
-	 	$rating = -1;   
+        $rating = -1;   
     }
     
     // TODO: Define constants for these.
