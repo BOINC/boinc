@@ -75,7 +75,7 @@ char* MIOFILE::fgets(char* dst, int len) {
     if (!q) return 0;
 
     q++;
-    int n = q - buf;
+    int n = (int)(q - buf);
     if (n > len-1) n = len-1;
     memcpy(dst, buf, n);
     dst[n] = 0;
