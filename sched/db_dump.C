@@ -757,6 +757,7 @@ int main(int argc, char** argv) {
     DUMP_SPEC spec;
     char* db_host = 0;
     char spec_filename[256], buf[256];
+    FILE_LOCK file_lock;
 
     check_stop_daemons();
     setbuf(stderr, 0);
@@ -795,7 +796,7 @@ int main(int argc, char** argv) {
 
     fclose(f);
 
-    if (lock_file(LOCKFILE)) {
+    if (file_lock.lock(LOCKFILE)) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Another copy of db_dump is already running\n");
         exit(1);
     }

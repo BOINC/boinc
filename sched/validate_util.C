@@ -56,57 +56,58 @@ int get_output_file_path(RESULT const& result, string& path_str) {
 }
 
 
-// If we have N correct results, compute a canonical credit as follows:
-// - if N==1, give that credit
-// - if N==2, give min credit
-// - if N>2, toss out min and max, give average of rest
+#define CREDIT_EPSILON .001
+
+// If we have N correct results with nonzero claimed credit,
+// compute a canonical credit as follows:
+// - if N==0 (all claimed credits are infinitesmal), return CREDIT_EPSILON
+// - if N==1, return that credit
+// - if N==2, return min
+// - if N>2, toss out min and max, return average of rest
 //
-double median_mean_credit(vector<RESULT> const& results) {
-    typedef vector<RESULT>::const_iterator it;
-
-    it it_low = results.end(), it_high;
+double median_mean_credit(vector<RESULT>& results) {
+    int ilow=-1, ihigh=-1;
     double credit_low = 0, credit_high = 0;
+    int nvalid = 0;
+    unsigned int i;
 
-    size_t n_valid = 0;
-
-    for (it i = results.begin(); i != results.end(); ++i) {
-        if (i->validate_state != VALIDATE_STATE_VALID) continue;
-        ++n_valid;
-        if (it_low == results.end()) {
-            it_low = it_high = i;
-            credit_low = credit_high = i->claimed_credit;
+    for (i=0; results.size(); i++) {
+        RESULT& result = results[i];
+        if (result.validate_state != VALIDATE_STATE_VALID) continue;
+        if (result.claimed_credit < CREDIT_EPSILON) continue;
+        if (ilow < 0) {
+            ilow = ihigh = i;
+            credit_low = credit_high = result.claimed_credit;
         } else {
-            if (i->claimed_credit < credit_low) {
-                it_low = i;
-                credit_low = i->claimed_credit;
+            if (result.claimed_credit < credit_low) {
+                ilow = i;
+                credit_low = result.claimed_credit;
             }
-            if (i->claimed_credit > credit_high) {
-                it_high = i;
-                credit_high = i->claimed_credit;
+            if (result.claimed_credit > credit_high) {
+                ihigh = i;
+                credit_high = result.claimed_credit;
             }
         }
+        nvalid++;
     }
 
-    // compute a canonical credit as follows:
-    // - if N==1, give that credit
-    // - if N==2, give min credit
-    // - if N>2, toss out min and max, give average of rest
-    //
-    if (n_valid == 1) {
+    switch(nvalid) {
+    case 0:
+        return CREDIT_EPSILON;
+    case 1:
+    case 2:
         return credit_low;
-    } else if (n_valid == 2) {
-        return credit_low;
-    } else {
+    default:
         double sum = 0;
+        for (i=0; results.size(); i++) {
+            if (i == ilow) continue;
+            if (i == ihigh) continue;
+            RESULT& result = results[i];
+            if (result.validate_state != VALIDATE_STATE_VALID) continue;
 
-        for (it i = results.begin(); i != results.end(); ++i) {
-            if (i == it_low) continue;
-            if (i == it_high) continue;
-            if (i->validate_state != VALIDATE_STATE_VALID) continue;
-
-            sum += i->claimed_credit;
+            sum += result.claimed_credit;
         }
-        return sum/(n_valid-2);
+        return sum/(nvalid-2);
     }
 }
 

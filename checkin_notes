@@ -25610,3 +25610,14 @@ David  7 Mar 2005
     lib/
         boinc_cmd.C
         gui_rpc_client.C
+
+David  7 Mar 2005
+    - validator: change credit-granting formula (median_mean_credit())
+        to ignore claimed credits close to zero.
+        This is a workaround for what seems to be a current bug
+        in the API or core client,
+        causing 0 or very low CPU time to get reported erroneously.
+
+    sched/
+        db_dump.C
+        validate_util.C
