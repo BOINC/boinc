@@ -107,6 +107,12 @@ class XMLConfig:
     def __init__(self, filename = None):
         # default_filename should be defined by children
         self.filename = filename or self.default_filename
+    def _init_empty_xml(self):
+        self.xml = xml.dom.minidom.parseString(self.default_xml)
+    def init_empty(self):
+        self._init_empty_xml()
+        self._get_elements()
+        return self
     def read(self, failopen_ok=False):
         """Read the XML object's file source and return self."""
         try:
@@ -117,7 +123,7 @@ class XMLConfig:
                 raise SystemExit("%s: Couldn't parse XML config\n%s: %s"%(sys.argv[0],sys.argv[0],e))
             print >>sys.stderr, "Warning:", e
             # self.xml = xml.dom.minidom.Document()
-            self.xml = xml.dom.minidom.parseString(self.default_xml)
+            self._init_empty_xml()
         self._get_elements()
         return self
     def _get_elements(self):
