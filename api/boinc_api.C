@@ -108,18 +108,20 @@ int boinc_init(bool is_worker /* = true */) {
     FILE* f;
     int retval;
 
-    // make sure we're the only app running in this slot
-    //
-    retval = lock_file(LOCKFILE);
-    if (retval) {
-        // give any previous occupant a chance to timeout and exit
+    if (is_worker) {
+        // make sure we're the only app running in this slot
         //
-        boinc_sleep(7.0);
         retval = lock_file(LOCKFILE);
-    }
-    if (retval) {
-        fprintf(stderr, "Can't acquire lockfile - exiting\n");
-        exit(0);
+        if (retval) {
+            // give any previous occupant a chance to timeout and exit
+            //
+            boinc_sleep(7.0);
+            retval = lock_file(LOCKFILE);
+        }
+        if (retval) {
+            fprintf(stderr, "Can't acquire lockfile - exiting\n");
+            exit(0);
+        }
     }
 
 #ifdef _WIN32

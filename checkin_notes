@@ -14574,3 +14574,12 @@ David  3 July 2004
     sched/
         handle_request.C
         sched_send.C
+
+Daniel 2004-07-03
+    - API: boinc_init now only checks for lockfile if called by worker
+        applications. This way, we can have many non-worker apps in
+        addition to one worker app.
+
+    api/
+        boinc_api.C
+
