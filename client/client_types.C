@@ -278,7 +278,7 @@ int PROJECT::parse_state(FILE* in) {
         }
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
-        else if (parse_str(buf, "<user_name>", str1) {
+        else if (parse_str(buf, "<user_name>", str1)) {
             xml_unescape(str1, str2);
             safe_strcpy(user_name, str2.c_str());
             continue;

@@ -39,3 +39,5 @@ extern int copy_element_contents(FILE* in, const char* end_tag, string&);
 extern int read_file_malloc(const char* pathname, char*& str);
 extern void replace_element(char* buf, char* start, char* end, char* replacement);
 extern char* sgets(char* buf, int len, char* &in);
+extern void xml_escape(string&, string&);
+extern void xml_unescape(string&, string&);

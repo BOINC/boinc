@@ -9639,3 +9639,14 @@ David  Jan 31 2004
         net_xfer.C,h
         pers_file_xfer.C
         makefile.gui_test
+
+David  Feb 2 2004
+	- escape all user-supplied text in XML (messages and files)
+		e.g. user name, team name
+	- added functions xml_escape() and xml_unescape()
+		(very simple versions; just escape < and &)
+
+	client/
+		client_types.C
+	lib/
+		parse.C,h

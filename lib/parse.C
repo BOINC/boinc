@@ -265,3 +265,32 @@ char* sgets(char* buf, int len, char*& in) {
     return buf;
 }
 
+void xml_escape(string& in, string& out) {
+	int i;
+	out = "";
+	for (i=0; i<(int)in.length(); i++) {
+		if (in[i] == '<') {
+			out += "&lt;";
+		} else if (in[i] == '&') {
+			out += "&amp;";
+		} else {
+			out += in[i];
+		}
+	}
+}
+
+void xml_unescape(string& in, string& out) {
+	int i;
+	 out = "";
+	 for (i=0; i<(int)in.length(); i++) {
+		 if (in.substr(i, 4) == "&lt;") {
+			 out += "<";
+			 i += 3;
+		 } else if (in.substr(i, 5) == "&amp;") {
+			 out += "&";
+			 i += 4;
+		 } else {
+			 out += in[i];
+		 }
+	 }
+}
