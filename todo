@@ -9,13 +9,9 @@ validate in crontab
 
 Windows client
     make mini-logo
-    test uninstall
-    xfers: show file size,
+    fix "unable to calculate"
+    completed results: show final CPU time
 -----------------------
-
-test feeder reread-DB mechanism
-
-use PHP session mechanism instead of our own cookies
 
 use https for login (don't sent account ID or password in clear)
 
