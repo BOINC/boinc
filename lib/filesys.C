@@ -59,6 +59,20 @@ char failed_file[256];
 
 // routines for enumerating the entries in a directory
 
+int is_file(char* path) {
+    struct stat sbuf;
+	memset(&sbuf, 0, sizeof(struct stat));
+    stat(path, &sbuf);
+    return sbuf.st_mode & S_IFREG;
+}
+
+int is_dir(char* path) {
+    struct stat sbuf;
+	memset(&sbuf, 0, sizeof(struct stat));
+    stat(path, &sbuf);
+    return sbuf.st_mode & S_IFDIR;
+}
+
 // Open a directory
 //
 DIRREF dir_open(char* p) {
@@ -69,6 +83,7 @@ DIRREF dir_open(char* p) {
     if (!dirp) return NULL;
 #endif
 #ifdef _WIN32
+	if(!is_dir(p)) return NULL;
     dirp = (DIR_DESC*) calloc(sizeof(DIR_DESC), 1);
     dirp->first = true;
     strcpy(dirp->path, p);
@@ -195,7 +210,7 @@ int clean_out_dir(char* dirpath) {
 	strcpy(filename,"");
         retval = dir_scan(filename, dirp);
         if (retval) break;
-        sprintf(path, "%s/%s", dirpath, filename);
+        sprintf(path, "%s%s%s", dirpath, PATH_SEPARATOR, filename);
 		clean_out_dir(path);
 #ifdef _WIN32
 		RemoveDirectory(path);
@@ -221,13 +236,13 @@ int dir_size(char* dirpath, double& size) {
     DIRREF dirp;
     double x;
 
-    size = 0;
+	size = 0;
     dirp = dir_open(dirpath);
     if (!dirp) return -1;
     while (1) {
         retval = dir_scan(filename, dirp);
         if (retval) break;
-        sprintf(subdir, "%s/%s", dirpath, filename);
+        sprintf(subdir, "%s%s%s", dirpath, PATH_SEPARATOR, filename);
 
         // We don't know if this entry is a file or a directory.
         // dir_size() will return -1 if it's a file
@@ -237,14 +252,14 @@ int dir_size(char* dirpath, double& size) {
             size += x;
         } else if (retval == -1) {
             retval = file_size(subdir, x);
-            if (retval) break;
+            if (retval) continue;
             size += x;
         } else {
             break;
         }
     }
     dir_close(dirp);
-    return retval;
+    return 0;
 }
 
 int boinc_rename(char* old, char* newf) {
