@@ -451,13 +451,12 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         } else if (!(exit_when_idle && contacted_sched_server) && urgency != DONT_NEED_WORK) {
             if (urgency == NEED_WORK) {
                 msg_printf(NULL, MSG_INFO,
-                    "CPU scheduler starvation within %.2f days; "
-                    "requesting more work",
+                    "May run out of work in %.2f days; requesting more",
                     global_prefs.work_buf_min_days
                 );
             } else if (urgency == NEED_WORK_IMMEDIATELY) {
                 msg_printf(NULL, MSG_INFO,
-                    "CPU scheduler starvation imminent; requesting more work"
+                    "Insufficient work; requesting more"
                 );
             }
             scheduler_op->init_get_work();

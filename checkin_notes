@@ -15862,3 +15862,8 @@ Daniel 2004-08-04
     client/
         hostinfo_unix.C
 
+David  5 Aug 2004
+	- Kinder, gentler messages when need work
+
+	client/
+		cs_scheduler.C
