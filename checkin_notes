@@ -16827,3 +16827,27 @@ Jeff   31 Aug 2004
     sched/
         assimilator.C
 
+Rom    31 Aug 2004
+    - BUGFIX: Moved the delete shared memory code to the end of the function, to
+      happen right before slot directory cleanup.  The previous instance of code
+      t8hat was commented out was for the unix branch.
+    - BUGFIX: The shared memory enumerator had a bug where the name it was
+      enumerating wasn't the same name that was eventually locked by the start 
+      routine, this caused the client to only be able to run one application at
+      a time
+    - BUGFIX: The shared memory enumerator was still referencing the slot
+      directory number instead of the for loop iterator.
+    - BUGFIX: When a process has been preempted, it's pid handle and thread handle
+      need to be freed.
+    - BUGFIX: Calling MapViewOfFile on Win98 automatically causes a memory leak,
+      so don't call it unless we really have to.
+
+    NOTE: I would like to thank Walt Gribben for helping me by debugging this issue
+          for me.
+
+    client/
+        app_control.C
+        app_start.C
+    lib/
+        error_numbers.h
+        shmem.C, .h

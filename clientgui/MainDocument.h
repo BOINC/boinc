@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.9  2004/09/01 04:59:32  rwalton
+// *** empty log message ***
+//
 // Revision 1.8  2004/08/11 23:52:12  rwalton
 // *** empty log message ***
 //
@@ -90,6 +93,12 @@ public:
     wxString                GetTransferSpeed(wxInt32 iIndex);
     wxString                GetTransferStatus(wxInt32 iIndex);
     wxString                GetTransferTime(wxInt32 iIndex);
+
+    wxInt32                 GetMessageCount();
+    wxString                GetMessageProjectName(wxInt32 iIndex);
+    wxString                GetMessageTime(wxInt32 iIndex);
+    wxInt32                 GetMessagePriority(wxInt32 iIndex);
+    wxString                GetMessageMessage(wxInt32 iIndex);
 
 };
 

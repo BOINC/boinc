@@ -49,39 +49,45 @@
 
 #ifdef _WIN32
 
-HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp) {
+HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview) {
+
     SECURITY_ATTRIBUTES security;
-    HANDLE hSharedMem;
+    HANDLE hMap;
+    DWORD  dwError = 0;
 
     security.nLength = sizeof(security);
     security.lpSecurityDescriptor = NULL;
     security.bInheritHandle = TRUE;
 
-    hSharedMem = CreateFileMapping(INVALID_HANDLE_VALUE, &security,
-        PAGE_READWRITE, 0, size, seg_name);
-    if (!hSharedMem) return NULL;
-    if (hSharedMem && (ERROR_ALREADY_EXISTS == GetLastError())) return NULL;
+    hMap = CreateFileMapping(INVALID_HANDLE_VALUE, &security, PAGE_READWRITE, 0, size, seg_name);
+    dwError = GetLastError();
+    if (disable_mapview && (NULL != hMap) && (ERROR_ALREADY_EXISTS == dwError)) {
+        CloseHandle(hMap);
+        hMap = NULL;
+    }
 
-    if (pp) *pp = MapViewOfFile( hSharedMem, FILE_MAP_ALL_ACCESS, 0, 0, 0 );
+    if (!disable_mapview && (NULL != hMap) && pp) {
+        *pp = MapViewOfFile( hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0 );
+    }
 
-    return hSharedMem;
+    return hMap;
 }
 
 HANDLE attach_shmem(LPCTSTR seg_name, void** pp) {
-    HANDLE hSharedMem;
+    HANDLE hMap;
 
-    hSharedMem = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, seg_name);
-    if (!hSharedMem) return NULL;
+    hMap = OpenFileMapping(FILE_MAP_ALL_ACCESS, FALSE, seg_name);
+    if (!hMap) return NULL;
 
-    if (pp) *pp = MapViewOfFile(hSharedMem, FILE_MAP_ALL_ACCESS, 0, 0, 0);
+    if (pp) *pp = MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
 
-    return hSharedMem;
+    return hMap;
 }
 
 
-int detach_shmem(HANDLE hSharedMem, void* p) {
+int detach_shmem(HANDLE hMap, void* p) {
     if (p) UnmapViewOfFile(p);
-    CloseHandle(hSharedMem);
+    CloseHandle(hMap);
 
     return 0;
 }

@@ -103,15 +103,17 @@ int ACTIVE_TASK::get_shmem_seg_name() {
     HANDLE  hSharedMemoryHandle = 0;
 
     for (i=0; i<1024; i++) {
-        sprintf(szSharedMemoryName, "boinc_%d", slot);
-        hSharedMemoryHandle = create_shmem(szSharedMemoryName, 1024, NULL);
+        sprintf(szSharedMemoryName, "%sboinc_%d", SHM_PREFIX, i);
+        hSharedMemoryHandle = create_shmem(szSharedMemoryName, 1024, NULL, true);
         if (hSharedMemoryHandle) break;
     }
 
     if (!hSharedMemoryHandle) {
         return ERR_SHMGET;
     }
-    CloseHandle(hSharedMemoryHandle);
+    detach_shmem(hSharedMemoryHandle, NULL);
+
+    sprintf(szSharedMemoryName, "boinc_%d", i);
     strcpy(shmem_seg_name, szSharedMemoryName);
 
 #elif HAVE_SYS_IPC_H
@@ -255,6 +257,7 @@ int ACTIVE_TASK::start(bool first_time) {
             return retval;
         }
     }
+
     retval = write_app_init_file();
     if (retval) return retval;
 
@@ -324,15 +327,18 @@ int ACTIVE_TASK::start(bool first_time) {
     startup_info.lpReserved = NULL;
     startup_info.lpDesktop = "";
 
-    sprintf(buf, "%s%s", QUIT_PREFIX, shmem_seg_name);
-    quitRequestEvent = CreateEvent(0, FALSE, FALSE, buf);
+    if (!quitRequestEvent) {
+        sprintf(buf, "%s%s", QUIT_PREFIX, shmem_seg_name);
+        quitRequestEvent = CreateEvent(0, FALSE, FALSE, buf);
+        if (quitRequestEvent == NULL) return ERR_INVALID_EVENT;
+    }
 
     // create core/app share mem segment if needed
     //
     if (!app_client_shm.shm) {
         sprintf(buf, "%s%s", SHM_PREFIX, shmem_seg_name);
         shm_handle = create_shmem(buf, sizeof(SHARED_MEM),
-            (void **)&app_client_shm.shm
+            (void **)&app_client_shm.shm, false
         );
         if (shm_handle == NULL) return ERR_SHMGET;
     }

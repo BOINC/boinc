@@ -140,3 +140,4 @@
 #define ERR_MAJOR_VERSION   -190
 #define ERR_NO_OPTION       -191
 #define ERR_MKDIR           -192
+#define ERR_INVALID_EVENT   -193

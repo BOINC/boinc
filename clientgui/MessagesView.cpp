@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.13  2004/09/01 04:59:32  rwalton
+// *** empty log message ***
+//
 // Revision 1.12  2004/08/11 23:52:12  rwalton
 // *** empty log message ***
 //
@@ -117,13 +120,13 @@ wxString CMessagesView::OnGetItemText(long item, long column) const {
     switch(column) {
         case COLUMN_PROJECT:
             if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
-            strBuffer = wxGetApp().GetDocument()->GetProjectProjectName(item);
+            strBuffer = wxGetApp().GetDocument()->GetMessageProjectName(item);
             break;
         case COLUMN_TIME:
-            strBuffer = wxGetApp().GetDocument()->GetProjectAccountName(item);
+            strBuffer = wxGetApp().GetDocument()->GetMessageTime(item);
             break;
         case COLUMN_MESSAGE:
-            strBuffer = wxGetApp().GetDocument()->GetProjectResourceShare(item);
+            strBuffer = wxGetApp().GetDocument()->GetMessageMessage(item);
             if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
             break;
     }
@@ -137,6 +140,7 @@ int CMessagesView::OnGetItemImage(long item) const {
 
 
 wxListItemAttr* CMessagesView::OnGetItemAttr(long item) const {
+
     return NULL;
 }
 

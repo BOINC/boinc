@@ -213,10 +213,8 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
             if (pending_suspend_via_quit) {
                 pending_suspend_via_quit = false;
                 state = PROCESS_UNINITIALIZED;
-                if (app_client_shm.shm) {
-                    detach_shmem(shm_handle, app_client_shm.shm);
-                    app_client_shm.shm = NULL;
-                }
+                CloseHandle(pid_handle);
+                CloseHandle(thread_handle);
                 return true;
             }
             if (!finish_file_present()) {
@@ -228,6 +226,12 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
         result->exit_status = exit_status;
         result->active_task_state = PROCESS_EXITED;
     }
+
+    if (app_client_shm.shm) {
+        detach_shmem(shm_handle, app_client_shm.shm);
+        app_client_shm.shm = NULL;
+    }
+
     read_stderr_file();
     clean_out_dir(slot_dir);
     return true;
@@ -262,7 +266,6 @@ bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
                     pending_suspend_via_quit = false;
                     state = PROCESS_UNINITIALIZED;
 
-#if 0
                     // destroy shm, since restarting app will re-create it
                     //
                     if (app_client_shm.shm) {
@@ -270,7 +273,6 @@ bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
                         destroy_shmem(shmem_seg_name);
                         app_client_shm.shm = NULL;
                     }
-#endif
                     return true;
                 }
                 if (!finish_file_present()) {

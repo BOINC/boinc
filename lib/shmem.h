@@ -32,7 +32,7 @@
 
 // create a shared-memory segment of the given size.
 //
-HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp);
+HANDLE create_shmem(LPCTSTR seg_name, int size, void** pp, bool disable_mapview);
 
 // attach to a shared-memory segment
 //

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.11  2004/09/01 04:59:32  rwalton
+// *** empty log message ***
+//
 // Revision 1.10  2004/08/11 23:52:11  rwalton
 // *** empty log message ***
 //
@@ -208,6 +211,36 @@ wxString CMainDocument::GetTransferStatus(wxInt32 iIndex) {
 
 
 wxString CMainDocument::GetTransferTime(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return wxString::Format(_T(""));
+}
+
+
+wxInt32 CMainDocument::GetMessageCount() {
+    CachedStateUpdate();
+    return 0;
+}
+
+
+wxString CMainDocument::GetMessageProjectName(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return wxString::Format(_T(""));
+}
+
+
+wxString CMainDocument::GetMessageTime(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return wxString::Format(_T(""));
+}
+
+
+wxInt32 CMainDocument::GetMessagePriority(wxInt32 iIndex) {
+    CachedStateUpdate();
+    return 0;
+}
+
+
+wxString CMainDocument::GetMessageMessage(wxInt32 iIndex) {
     CachedStateUpdate();
     return wxString::Format(_T(""));
 }
