@@ -41,10 +41,10 @@ boinc_client_SOURCES =					\
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_LDADD = $(RSA_LIBS)
-boinc_client_CPPFLAGS = -I $(srcdir)/win
+boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS)
 
 speed_stats_SOURCES = speed_stats.C
-speed_stats_CFLAGS = -O6
+speed_stats_CFLAGS = -O6 $(AM_CFLAGS)
 
 all-local: @CLIENT_BIN_FILENAME@
 

@@ -455,14 +455,14 @@ int handle_results(
         //
         reply.result_acks.push_back(*rp);
 
-        log_messages.printf(SchedMessages::DEBUG, "[HOST#%d] [%s] got result\n",
+        log_messages.printf(SchedMessages::NORMAL, "[HOST#%d] [RESULT#? %s] got result\n",
                             host.id, rp->name);
 
         strncpy(result.name, rp->name, sizeof(result.name));
         sprintf(buf, "where name='%s'", result.name);
         retval = result.lookup(buf);
         if (retval) {
-            log_messages.printf(SchedMessages::CRITICAL, "[HOST#%d] [%s] can't find result\n",
+            log_messages.printf(SchedMessages::CRITICAL, "[HOST#%d] [RESULT#? %s] can't find result\n",
                                 host.id, rp->name);
             continue;
         }
