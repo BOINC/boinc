@@ -107,6 +107,7 @@ class Project {
         $this->db_passwd = "";
         $this->generate_keys = false;
         $this->shmem_key = "0xbeefacafe";
+        //$this->shmem_key = "0x" . rand(0,6) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9) . rand(0,9);
         $this->resource_share = 1;
     }
 
@@ -145,6 +146,8 @@ class Project {
         PassThru("mkdir $this->project_dir/keys");
         PassThru("mkdir $this->project_dir/html_ops");
         PassThru("mkdir $this->project_dir/html_user");
+
+        array_push($this->plat_names, get_env_var("BOINC_PLATFORM"));
 
         if ($this->generate_keys) {
         } else {
