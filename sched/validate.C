@@ -58,7 +58,6 @@ extern int check_pair(RESULT const&, RESULT const&, bool&);
 
 CONFIG config;
 char app_name[256];
-int min_quorum;
 
 // here when a result has been validated;
 // grant credit to host and user
@@ -310,7 +309,7 @@ mark_validated:
 // make one pass through the workunits with need_validate set.
 // return true if there were any
 //
-bool do_validate_scan(APP& app, int min_quorum) {
+bool do_validate_scan(APP& app) {
     DB_WORKUNIT wu;
     char buf[256];
     bool found=false;
@@ -344,7 +343,7 @@ int main_loop(bool one_pass) {
 
     while (1) {
         check_stop_trigger();
-        did_something = do_validate_scan(app, min_quorum);
+        did_something = do_validate_scan(app);
         if (one_pass) break;
         if (!did_something) {
             sleep(5);
@@ -369,16 +368,9 @@ int main(int argc, char** argv) {
             strcpy(app_name, argv[++i]);
         } else if (!strcmp(argv[i], "-d")) {
             log_messages.set_debug_level(atoi(argv[++i]));
-        } else if (!strcmp(argv[i], "-quorum")) {
-            min_quorum = atoi(argv[++i]);
         } else {
             log_messages.printf(SchedMessages::CRITICAL, "unrecognized arg: %s\n", argv[i]);
         }
-    }
-
-    if (min_quorum < 1 || min_quorum > 10) {
-        log_messages.printf(SchedMessages::CRITICAL, "bad min_quorum: %d\n", min_quorum);
-        exit(1);
     }
 
     retval = config.parse_file();
@@ -399,7 +391,7 @@ int main(int argc, char** argv) {
     //     exit(1);
     // }
     // write_pid_file(PIDFILE);
-    log_messages.printf(SchedMessages::NORMAL, "Starting validator: min_quorum %d\n", min_quorum);
+    log_messages.printf(SchedMessages::NORMAL, "Starting validator\n");
 
     install_sigint_handler();
 

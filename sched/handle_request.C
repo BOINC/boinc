@@ -812,6 +812,8 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     // char buf[256];
     if (sreq.core_client_major_version != MAJOR_VERSION) {
         reply.nucleus_only = true;
+        // TODO: check for user-agent not empty and not BOINC
+        reply.probable_user_browser = true;
         sprintf(reply.message,
             "To participate in this project, "
             "you must use major version %d of the BOINC core client. "

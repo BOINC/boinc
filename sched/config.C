@@ -30,8 +30,7 @@
 const char* CONFIG_FILE = "../config.xml";
 
 int CONFIG::parse(FILE* in) {
-    char buf[256], cmd[256];
-    int ncmds = 0;
+    char buf[256];
 
     memset(this, 0, sizeof(CONFIG));
     while (fgets(buf, 256, in)) {
@@ -45,9 +44,6 @@ int CONFIG::parse(FILE* in) {
         else if (parse_str(buf, "<upload_url>", upload_url, sizeof(upload_url))) continue;
         else if (parse_str(buf, "<upload_dir>", upload_dir, sizeof(upload_dir))) continue;
         else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
-        else if (parse_str(buf, "<start>", cmd, sizeof(cmd))) {
-            start_commands[ncmds++] = strdup(cmd);
-        }
     }
     return ERR_XML_PARSE;
 }

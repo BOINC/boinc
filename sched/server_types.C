@@ -2,18 +2,18 @@
 // Version 1.0 (the "License"); you may not use this file except in
 // compliance with the License. You may obtain a copy of the License at
 // http://boinc.berkeley.edu/license_1.0.txt
-// 
+//
 // Software distributed under the License is distributed on an "AS IS"
 // basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 // License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
+// under the License.
+//
+// The Original Code is the Berkeley Open Infrastructure for Network Computing.
+//
 // The Initial Developer of the Original Code is the SETI@home project.
 // Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
+// University of California at Berkeley. All Rights Reserved.
+//
 // Contributor(s):
 //
 
@@ -115,6 +115,7 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     memset(&host, 0, sizeof(host));
     memset(&team, 0, sizeof(team));
     nucleus_only = false;
+    probable_user_browser = false;
 }
 
 SCHEDULER_REPLY::~SCHEDULER_REPLY() {
@@ -233,7 +234,15 @@ int SCHEDULER_REPLY::write(FILE* fout) {
 end:
     fprintf(fout,
         "</scheduler_reply>\n"
-    );
+        );
+    if (probable_user_browser) {
+        // User is probably trying to look at cgi output with a browser.
+        // Redirect them to the project home page.
+
+        fprintf(fout,
+                "<META HTTP-EQUIV=Refresh CONTENT=\"0;URL=%s\">\n",
+                "../");
+    }
     return 0;
 }
 

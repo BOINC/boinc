@@ -46,7 +46,7 @@ using namespace std;
 int startup_time;
 CONFIG config;
 R_RSA_PRIVATE_KEY key;
-char app_name[256];
+// char app_name[256];
 
 // The scheme for generating unique output filenames is as follows.
 // If the original filename is of the form x__y,
