@@ -22984,13 +22984,15 @@ David  19 Jan 2005
 
 Bruce 20 Jan 2005
     - From Reinhard Prix.  At Rom's request, this builds the
-      Linux client using static rather than
+      Linux client and clientgui using static rather than
       dynamic linking to the gcc C++ lib.  Note that modifying
       this to do the same whenever gcc is used (not just under
       Linux) might be desirable.
 
     configure.ac
     client/
+        Makefile.am
+    clientgui/
         Makefile.am
 
 David  20 Jan 2005
