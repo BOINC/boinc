@@ -11,9 +11,9 @@ CFLAGS = -g -Wall @DEFS@ \
     -DHOSTTYPE=\"@host@\" \
     -DVERSION=$(VERSION)
 
-CC = @CC@ $(CFLAGS) -I @top_srcdir@/api
+CC = @CC@ $(CFLAGS) -I @top_srcdir@/api -I@top_srcdir@/lib
 
-LIBS = ../api/boinc_api.o ../api/mfile.o ../lib/parse.o
+LIBS = ../api/boinc_api.o ../api/mfile.o ../lib/parse.o ../lib/filesys.o ../lib/util.o
 
 CLIBS = @LIBS@
 

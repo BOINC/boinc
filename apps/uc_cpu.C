@@ -26,6 +26,7 @@
 #include <unistd.h>
 #include <ctype.h>
 
+#include "filesys.h"
 #include "boinc_api.h"
 
 #define CHECKPOINT_FILE "uc_slow_state"

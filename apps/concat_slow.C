@@ -24,6 +24,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+#include "filesys.h"
 #include "boinc_api.h"
 
 #define CHECKPOINT_FILE "concat_slow_state"
@@ -32,18 +34,18 @@ int do_checkpoint(MFILE& mf, int filenum, int nchars ) {
     int retval;
     char resolved_name[512],res_name2[512];
 
-    boinc_resolve_filename( "temp", resolved_name );
-    FILE* f = fopen(resolved_name, "w");
+    FILE* f = fopen("temp", "w");
     if (!f) return 1;
     fprintf(f, "%d %d", filenum, nchars);
     fclose(f);
 
     fprintf(stderr, "APP: concat_slow checkpointing\n");
 
+    boinc_resolve_filename( CHECKPOINT_FILE, res_name2 );
+
     retval = mf.flush();
     if (retval) return retval;
-    boinc_resolve_filename( CHECKPOINT_FILE, res_name2 );
-    retval = boinc_rename(resolved_name, res_name2);
+    retval = boinc_rename("temp", res_name2);
     if (retval) return retval;
 
     return 0;
