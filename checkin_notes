@@ -18018,6 +18018,13 @@ David  4 Oct 2004
         wingui_mainwindow.cpp
 
 David  4 Oct 2004
+    - web site fixes (forums) from Janus K
+
+    html/user/
+        edit_forum_preferences_action.php
+        home.php
+
+David  4 Oct 2004
     - fix typos and compile errors
 
     db/
@@ -18085,3 +18092,10 @@ David  6 Oct 2004
 		boinc_cli.vcproj
 		boinc_gui.vcproj
 		upper_case.vcproj
+
+David  6 Oct 2004
+    - file upload handler was doing too many checks
+        in the ignore_upload_certificates case
+
+    sched/
+        file_upload_handler.C

@@ -35,6 +35,7 @@
 #include "crypt.h"
 #include "parse.h"
 #include "util.h"
+#include "error_numbers.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -71,7 +72,7 @@ int FILE_INFO::parse(FILE* in) {
     memset(this, 0, sizeof(FILE_INFO));
     signed_xml = strdup("");
     while (fgets(buf, 256, in)) {
-        log_messages.printf(SCHED_MSG_LOG::DEBUG, buf, "FILE_INFO::parse: ");
+        //log_messages.printf(SCHED_MSG_LOG::DEBUG, buf, "FILE_INFO::parse: ");
         if (match_tag(buf, "</file_info>")) return 0;
         else if (match_tag(buf, "<xml_signature>")) {
             retval = dup_element_contents(in, "</xml_signature>", &xml_signature);
@@ -86,7 +87,7 @@ int FILE_INFO::parse(FILE* in) {
         if (match_tag(buf, "<url>")) continue;
         log_messages.printf(SCHED_MSG_LOG::NORMAL, "FILE_INFO::parse: unrecognized: %s \n", buf);
     }
-    return 1;
+    return ERR_XML_PARSE;
 }
 
 inline static const char* get_remote_addr() {
@@ -147,7 +148,7 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
 
     out = fopen(path, "ab");
     if (!out) {
-        return return_error(ERR_TRANSIENT, "can't open file: %s", strerror(errno));
+        return return_error(ERR_TRANSIENT, "can't open file %s: %s", path, strerror(errno));
     }
 
     // TODO: use a 64-bit variant
@@ -207,11 +208,21 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
     bool is_valid;
 
     while (fgets(buf, 256, in)) {
+#if 0
+        log_messages.printf(SCHED_MSG_LOG::NORMAL,
+            "got:%s\n", buf
+        );
+#endif
         if (match_tag(buf, "<file_info>")) {
             retval = file_info.parse(in);
             if (retval) {
                 return return_error(ERR_PERMANENT, "FILE_INFO::parse");
             }
+#if 0
+            log_messages.printf(SCHED_MSG_LOG::NORMAL,
+                "file info:\n%s\n", file_info.signed_xml
+            );
+#endif
             if (!config.ignore_upload_certificates) {
                 if (!file_info.signed_xml || !file_info.xml_signature) {
                     log_messages.printf(SCHED_MSG_LOG::CRITICAL,
@@ -249,13 +260,15 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
 
             // enforce limits in signed XML
             //
-            if (nbytes > file_info.max_nbytes) {
-                sprintf(buf,
-                    "file size (%d KB) exceeds limit (%d KB)",
-                    (int)(nbytes/1024), (int)(file_info.max_nbytes/1024)
-                );
-                copy_socket_to_null(in);
-                return return_error(ERR_PERMANENT, buf);
+            if (!config.ignore_upload_certificates) {
+                if (nbytes > file_info.max_nbytes) {
+                    sprintf(buf,
+                        "file size (%d KB) exceeds limit (%d KB)",
+                        (int)(nbytes/1024), (int)(file_info.max_nbytes/1024)
+                    );
+                    copy_socket_to_null(in);
+                    return return_error(ERR_PERMANENT, buf);
+                }
             }
 
             // make sure filename is legit
@@ -264,6 +277,12 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 return return_error(ERR_PERMANENT,
                     "file_upload_handler: .. found in filename: %s",
                     file_info.name
+                );
+            }
+
+            if (strlen(file_info.name) == 0) {
+                return return_error(ERR_PERMANENT,
+                    "file_upload_handler: no filename; nbytes %f", nbytes
                 );
             }
 

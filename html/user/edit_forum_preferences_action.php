@@ -31,13 +31,9 @@
                 Echo "Error: Not the right kind of file, only PNG and JPEG are supported.";
                 exit();
             }
-                $width = $size[0];
-                $height = $size[1];
-            if ($width!=100||$height!=100){
-                    $image2 = intelligently_scale_image($file, 100, 100);
-            } else {
-                $image2=$image;
-            }
+            $width = $size[0];
+            $height = $size[1];
+            $image2 = intelligently_scale_image($file, 100, 100);
             ImageJPEG($image2, $newfile);
         }
         if (file_exists($newfile)){
