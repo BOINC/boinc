@@ -10,3 +10,4 @@ int UtilInitOSVersion( void );
 #define START_SS_MSG		"BOINC_SS_START"
 #define SHOW_WIN_MSG		"BOINC_SHOW_MESSAGE"
 #define RUN_MUTEX			"BOINC_MUTEX"
+#define NET_ACTIVITY_MSG    "BOINC_NET_ACTIVITY"

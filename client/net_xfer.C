@@ -128,7 +128,7 @@ int NET_XFER::open_server() {
             NetClose();
             return -1;
         }
-        if (WSAAsyncSelect( fd, g_myWnd->GetSafeHwnd(), WM_TIMER, FD_READ|FD_WRITE )) {
+        if (WSAAsyncSelect( fd, g_myWnd->GetSafeHwnd(), g_myWnd->m_nNetActivityMsg, FD_READ|FD_WRITE )) {
             errno = WSAGetLastError();
             if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
                 closesocket(fd);

@@ -88,6 +88,7 @@ public:
 	void					MessageUser(char*,char*,char*);
     BOOL					IsSuspended();
     BOOL					RequestNetConnect();
+	UINT					m_nNetActivityMsg;		// ID of net activity message
 
 protected:
 	CMenu					m_MainMenu;				// window's main menu

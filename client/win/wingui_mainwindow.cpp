@@ -108,6 +108,7 @@ CMainWindow::CMainWindow()
 
 	m_nScreenSaverMsg = RegisterWindowMessage(START_SS_MSG);
 	m_nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
+	m_nNetActivityMsg = RegisterWindowMessage(NET_ACTIVITY_MSG);
 }
 
 //////////
@@ -917,6 +918,9 @@ LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		return 0;
 	} else if(m_nScreenSaverMsg == message) {
 		m_pSSWnd->SetMode(MODE_FULLSCREEN);
+		return 0;
+	} else if(m_nNetActivityMsg == message) {
+		while(gstate.net_sleep(0));
 		return 0;
 	}
 
