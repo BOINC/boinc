@@ -370,14 +370,14 @@ bool do_pass() {
             SCHED_MSG_LOG::DEBUG,
             "[WU#%d %s] Starting Transaction...\n",
             items[0].id, items[0].name
-        );
+            );
         retval = transitioner.start_transaction();
         if (retval) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[WU#%d %s] transitioner.start_transaction() == %d\n",
                 items[0].id, items[0].name, retval
-                );
+            );
         }
 
         handle_wu(transitioner, items);
@@ -386,19 +386,20 @@ bool do_pass() {
             SCHED_MSG_LOG::DEBUG,
             "[WU#%d %s] Committing Transaction...\n",
             items[0].id, items[0].name
-        );
+            );
         retval = transitioner.commit_transaction();
         if (retval) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[WU#%d %s] transitioner.commit_transaction() == %d\n",
                 items[0].id, items[0].name, retval
-                );
+            );
         } else {
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG,
                 "[WU#%d %s] Committed Transaction Successfully...\n",
                 items[0].id, items[0].name
+            );
         }
 
         check_stop_daemons();
