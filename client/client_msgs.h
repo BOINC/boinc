@@ -52,7 +52,7 @@ class PROJECT;
 // the following stores a message in memory, where it can be retrieved via RPC
 //
 struct MESSAGE_DESC {
-    PROJECT* project;
+    char project_name[256];
     int priority;
     int timestamp;
     int seqno;

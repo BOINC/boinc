@@ -49,10 +49,12 @@ TIME_STATS::TIME_STATS() {
 }
 
 // Update time statistics based on current activities
+// NOTE: we don't set the state-file dirty flag here,
+// so these get written to disk only when other activities
+// cause this to happen.  Maybe should change this.
 //
-void TIME_STATS::update(bool is_connected, bool is_active) {
-    int now = time(0), dt;
-    double w1, w2;
+void TIME_STATS::update(double now, bool is_connected, bool is_active) {
+    double dt, w1, w2;
 
     if (last_update == 0) {
         // this is the first time this client has executed.
@@ -60,12 +62,12 @@ void TIME_STATS::update(bool is_connected, bool is_active) {
 
         on_frac = 1;
         connected_frac = is_connected?1:0;
-        active_frac = true;
+        active_frac = is_active?1:0;
         first = false;
         last_update = now;
     } else {
         dt = now - last_update;
-        if (dt <= 0) return;
+        if (dt <= 10) return;
         w1 = 1 - exp(-dt/ALPHA);
         w2 = 1 - w1;
         if (first) {

@@ -303,21 +303,17 @@ void handle_get_messages(char* buf, MIOFILE& fout) {
         mdp = message_descs[i];
         fout.printf(
             "<msg>\n"
+            " <project>%s</project>\n"
             " <pri>%d</pri>\n"
             " <seqno>%d</seqno>\n"
             " <body>\n%s\n</body>\n"
             " <time>%d</time>\n",
+            mdp->project_name,
             mdp->priority,
             mdp->seqno,
             mdp->message.c_str(),
             mdp->timestamp
         );
-        if (mdp->project) {
-            fout.printf(
-                " <project>%s</project>\n",
-                mdp->project->get_project_name()
-            );
-        }
         fout.printf("</msg>\n");
     }
     fout.printf("</msgs>\n");

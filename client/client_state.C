@@ -471,7 +471,7 @@ bool CLIENT_STATE::do_something(double now) {
     if (actions > 0) {
         return true;
     } else {
-        time_stats.update(true, !activities_suspended);
+        time_stats.update(now, true, !activities_suspended);
         return false;
     }
 }

@@ -23367,3 +23367,16 @@ David  28 Jan 2005
 
     sched/
         server_types.C
+
+David  28 Jan 2005
+    - core client: in MESSAGE_DESC
+        (used to save messages, so they can be sent to core client)
+        store project name, instead of pointer to project.
+        By the time we send msg to GUI, the project object might be deleted!
+    - improve time_stats
+
+    client/
+        client_msgs.C,h
+        client_state.C
+        gui_rpc_server.C
+        time_stats.C,h

@@ -27,12 +27,14 @@ public:
     double on_frac;
         // the fraction of total time this host runs the core client
     double connected_frac;
-        // the fraction of total time the host is connected to the Internet
+        // of the time this host runs the core client,
+        // the fraction it is connected to the Internet
     double active_frac;
-        // the fraction of total time the core client is able to work
+        // of the time this host runs the core client,
+        // the fraction it is enabled to work
         // (due to preferences, manual suspend/resume, etc.)
 
-    void update(bool is_connected, bool is_active);
+    void update(double now, bool is_connected, bool is_active);
 
     TIME_STATS();
     int write(MIOFILE&, bool to_server);

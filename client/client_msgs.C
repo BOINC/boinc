@@ -28,6 +28,7 @@
 using std::deque;
 
 #include "log_flags.h"
+#include "client_types.h"
 #include "client_msgs.h"
 
 #define MAX_SAVED_MESSAGES 1000
@@ -99,7 +100,10 @@ void msg_printf(PROJECT *p, int priority, char *fmt, ...) {
 void record_message(PROJECT* p, int priority, int now, char* message) {
     MESSAGE_DESC* mdp = new MESSAGE_DESC;
     static int seqno = 1;
-    mdp->project = p;
+    strcpy(mdp->project_name, "");
+    if (p) {
+        strcpy(mdp->project_name, p->get_project_name());
+    }
     mdp->priority = priority;
     mdp->timestamp = now;
     mdp->seqno = seqno++;

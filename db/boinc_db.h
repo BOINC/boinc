@@ -217,9 +217,9 @@ struct HOST {
     char last_ip_addr[256]; // internal IP address as of last RPC
     int nsame_ip_addr;      // # of RPCs with same IP address
 
-    double on_frac;         // Fraction of time (0-1) that BOINC is running
-    double connected_frac;  // Fraction of time that host is connected to net
-    double active_frac;     // Fraction of time that host is enabled to work
+    double on_frac;         // see client/time_stats.h
+    double connected_frac;
+    double active_frac;
 
     int p_ncpus;            // Number of CPUs on host
     char p_vendor[256];     // Vendor name of CPU
