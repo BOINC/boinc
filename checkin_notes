@@ -19749,6 +19749,8 @@ Rom    17 Nov 2004
 
 Rom    17 Nov 2004
     - Bug Fix: Screensaver now works even when BOINC is running as a service.
+        NOTE: This currently only works if the account is LocalSystem and
+        Interact with Desktop is checked.
 
     api/
         windows_opengl.C
