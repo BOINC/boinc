@@ -336,21 +336,16 @@ int PROJECT::parse_state(MIOFILE& in) {
     return ERR_XML_PARSE;
 }
 
-// Write the project information to client state file
+// Write project information to client state file
 //
-int PROJECT::write_state(MIOFILE& out) {
+int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     unsigned int i;
     string u1, u2, t1, t2;
 
     out.printf(
         "<project>\n"
     );
-    for (i=0; i<scheduler_urls.size(); i++) {
-        out.printf(
-            "    <scheduler_url>%s</scheduler_url>\n",
-            scheduler_urls[i].text
-        );
-    }
+
     u1 = user_name;
     xml_escape(u1, u2);
     t1 = team_name;
@@ -401,10 +396,22 @@ int PROJECT::write_state(MIOFILE& out) {
         sched_rpc_pending?"    <sched_rpc_pending/>\n":"",
         send_file_list?"     <send_file_list/>\n":""
     );
-    if (strlen(code_sign_key)) {
+    if (gui_rpc) {
         out.printf(
-            "    <code_sign_key>\n%s</code_sign_key>\n", code_sign_key
+            "    <resource_share>%f</resource_share>\n", resource_share
         );
+    } else {
+       for (i=0; i<scheduler_urls.size(); i++) {
+            out.printf(
+                "    <scheduler_url>%s</scheduler_url>\n",
+                scheduler_urls[i].text
+            );
+        }
+        if (strlen(code_sign_key)) {
+            out.printf(
+                "    <code_sign_key>\n%s</code_sign_key>\n", code_sign_key
+            );
+        }
     }
     out.printf(
         "</project>\n"
@@ -1171,6 +1178,12 @@ int RESULT::write_gui(MIOFILE& out) {
     );
     if (got_server_ack) out.printf("    <got_server_ack/>\n");
     if (ready_to_report) out.printf("    <ready_to_report/>\n");
+    out.printf(
+        "    <wu_name>%s</wu_name>\n"
+        "    <report_deadline>%d</report_deadline>\n",
+        wu_name,
+        report_deadline
+    );
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
     if (atp) {
         atp->write(out);

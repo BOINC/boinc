@@ -196,7 +196,7 @@ public:
     int parse_account(FILE*);
     int parse_account_file();
     int parse_state(MIOFILE&);
-    int write_state(MIOFILE&);
+    int write_state(MIOFILE&, bool gui_rpc=false);
 
     // set min_rpc_time and have_reported_min_rpc_time
     void set_min_rpc_time(time_t future_time);

@@ -216,13 +216,14 @@ int RPC_CLIENT::get_results(RESULTS& t) {
     return 0;
 }
 
-int RPC_CLIENT::show_graphics(char* result_name, bool full_screen) {
+int RPC_CLIENT::show_graphics(char* project, char* result_name, bool full_screen) {
     char buf[256];
     char* mbuf=0;
     int retval;
 
-    if (result_name) {
+    if (project) {
         sprintf(buf, "<result_show_graphics>\n"
+            "<project_url>%s</project_url>\n"
             "<result_name>%s</result_name>\n"
             "%s"
             "</result_show_graphics>\n",
@@ -440,6 +441,7 @@ void FILE_TRANSFERS::print() {
 
 int FILE_TRANSFER::parse(MIOFILE& in) {
     char buf[256];
+    memset(this, 0, sizeof(*this));
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</file_transfer>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
@@ -487,10 +489,11 @@ void FILE_TRANSFER::print() {
 
 int PROJECT::parse(MIOFILE& in) {
     char buf[256];
+    memset(this, 0, sizeof(*this));
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project>")) return 0;
-        else if (parse_str(buf, "<master_url", master_url)) continue;
-        else if (parse_double(buf, "<resource_share", resource_share)) continue;
+        else if (parse_str(buf, "<master_url>", master_url)) continue;
+        else if (parse_double(buf, "<resource_share>", resource_share)) continue;
         else if (parse_str(buf, "<project_name>", project_name)) continue;
         else if (parse_str(buf, "<user_name>", user_name)) continue;
         else if (parse_str(buf, "<team_name>", team_name)) continue;
@@ -536,6 +539,7 @@ void PROJECT::print() {
 
 int APP::parse(MIOFILE& in) {
     char buf[256];
+    memset(this, 0, sizeof(*this));
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
@@ -550,6 +554,7 @@ void APP::print() {
 
 int APP_VERSION::parse(MIOFILE& in) {
     char buf[256];
+    memset(this, 0, sizeof(*this));
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</app_version>")) return 0;
         else if (parse_str(buf, "<app_name>", app_name)) continue;
@@ -566,6 +571,7 @@ void APP_VERSION::print() {
 
 int WORKUNIT::parse(MIOFILE& in) {
     char buf[256];
+    memset(this, 0, sizeof(*this));
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</workunit>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
@@ -589,6 +595,7 @@ void WORKUNIT::print() {
 
 int RESULT::parse(MIOFILE& in) {
     char buf[256];
+    memset(this, 0, sizeof(*this));
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</result>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;

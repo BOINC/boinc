@@ -15387,3 +15387,23 @@ David  17 July 2004
 		app.C,h
 		cs_apps.C
 		ss_logic.C
+
+David  19 July 2004
+	- windows_opengl.
+		- on WM_CLOSE message, call set_mode() rather than KillWindow().
+			If you call KillWindow() the core client never finds out
+			that we're in HIDE_GRAPHICS mode
+		- removed specious KillWindow() logic from make_new_window();
+	- Various changes and bug fixes for GUI RPC:
+		- include resource share in PROJECT write
+		- include wu_name etc. in RESULT write
+		- expanded gui_test.C to include almost all RPCs
+
+	api/
+		windows_opengl.C
+	client/
+		client_types.C,h
+		cs_statefile.C
+		gui_rpc_client.C,h
+		gui_rpc_server.C
+		gui_test.C

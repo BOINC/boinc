@@ -19,14 +19,21 @@
 
 // gui_test: test program for BOINC GUI RPCs.
 //
-// usage: gUi_test [-host hostname] command
+// usage: gui_test [-host hostname] command
 //
 // commands:
-// -state       show state
-// -msgs        show messages
-// -show_graphics_window result_name    show graphics for result in a window
-// -show_graphics_window                show graphics for all results
-// -show_graphics_full result_name      show full-screen graphics for result
+// -get_state               show state
+// -get_results             show active results
+// -get_file_transfers
+// -get_messages    nmsgs seqno
+// -set_run_mode {always | auto | never}
+// -show_graphics {window | fullscreen} [ url result_name ]
+// -project_reset url
+// -project_attach url auth
+// -project_detach url
+// -project_update url
+// -run_benchmarks
+// -set_proxy_settings
 
 
 #ifdef _WIN32
@@ -43,6 +50,11 @@ using std::vector;
 #include "gui_rpc_client.h"
 #include "error_numbers.h"
 
+void usage() {
+    fprintf(stderr, "bad usage\n");
+    exit(1);
+}
+
 int main(int argc, char** argv) {
     RPC_CLIENT rpc;
     unsigned int i;
@@ -58,10 +70,7 @@ int main(int argc, char** argv) {
         exit(1);
     }
 #endif
-    if (argc < 2) {
-        fprintf(stderr, "usage: [-state] [-suspend] [-resume] [-show_graphics_window result_name] [-show_graphics_window] [-show_graphics_full result_name]\n");
-        exit(1);
-    }
+    if (argc < 2) usage();
     i = 1;
     if (!strcmp(argv[1], "-host")) {
         hostname = argv[2];
@@ -73,12 +82,21 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    if (!strcmp(argv[i], "-state")) {
+    if (!strcmp(argv[i], "-get_state")) {
         CC_STATE state;
         retval = rpc.get_state(state);
         if (!retval) state.print();
-    } else if (!strcmp(argv[i], "-msgs")) {
-        retval = rpc.get_messages(20, 0, message_descs);
+    } else if (!strcmp(argv[i], "-get_results")) {
+        RESULTS results;
+        retval = rpc.get_results(results);
+    } else if (!strcmp(argv[i], "-get_file_transfers")) {
+        FILE_TRANSFERS ft;
+        retval = rpc.get_file_transfers(ft);
+    } else if (!strcmp(argv[i], "-get_messages")) {
+        if (i != argc-3) usage();
+        int nmsgs = atoi(argv[++i]);
+        int seqno = atoi(argv[++i]);
+        retval = rpc.get_messages(nmsgs, seqno, message_descs);
         if (!retval) {
             for (i=0; i<message_descs.size(); i++) {
                 MESSAGE_DESC& md = message_descs[i];
@@ -88,18 +106,33 @@ int main(int argc, char** argv) {
                 );
             }
         }
-    } else if (!strcmp(argv[i], "-suspend")) {
-        retval = rpc.set_run_mode(RUN_MODE_NEVER);
-    } else if (!strcmp(argv[i], "-resume")) {
-        retval = rpc.set_run_mode(RUN_MODE_ALWAYS);
-    } else if (!strcmp(argv[i], "-show_graphics_window")) {
-        if (i = argc-1) {
-            retval = rpc.show_graphics(0, false);
-        } else {
-            retval = rpc.show_graphics(argv[++i], false);
+    } else if (!strcmp(argv[i], "-set_run_mode")) {
+        if (i != argc-2) usage();
+        i++;
+        if (!strcmp(argv[i], "always")) {
+            retval = rpc.set_run_mode(RUN_MODE_ALWAYS);
+        } else if (!strcmp(argv[i], "auto")) {
+            retval = rpc.set_run_mode(RUN_MODE_AUTO);
+        } else if (!strcmp(argv[i], "never")) {
+            retval = rpc.set_run_mode(RUN_MODE_NEVER);
         }
-    } else if (!strcmp(argv[i], "-show_graphics_full")) {
-        retval = rpc.show_graphics(argv[++i], true);
+    } else if (!strcmp(argv[i], "-show_graphics")) {
+        bool fullscreen = !strcmp(argv[++i], "fullscreen");
+        if (i == argc-1) {
+            retval = rpc.show_graphics(0, 0, false);
+        } else {
+            retval = rpc.show_graphics(argv[++i], argv[++i], fullscreen);
+        }
+    } else if (!strcmp(argv[i], "-project_reset")) {
+        retval = rpc.project_reset(argv[++i]);
+    } else if (!strcmp(argv[i], "-project_attach")) {
+        retval = rpc.project_attach(argv[++i], argv[++i]);
+    } else if (!strcmp(argv[i], "-project_detach")) {
+        retval = rpc.project_detach(argv[++i]);
+    } else if (!strcmp(argv[i], "-project_update")) {
+        retval = rpc.project_update(argv[++i]);
+    } else if (!strcmp(argv[i], "-run_benchmarks")) {
+        retval = rpc.run_benchmarks();
     }
     if (retval) {
         fprintf(stderr, "Operation failed: %d\n", retval);

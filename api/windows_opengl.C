@@ -59,17 +59,11 @@ void SetupPixelFormat(HDC hDC) {
          0,                               // this is reserved
          0, 0, 0 };                       // layer masks ignored.
 
-
-
    // this chooses the best pixel format and returns index.
    nPixelFormat = ChoosePixelFormat(hDC, &pfd);
 
    // This set pixel format to device context.
    SetPixelFormat(hDC, nPixelFormat, &pfd);
-
-   // Remember that its not important to fully understand the pixel format,
-   // just remember to include in all of your applications and you'll be
-   // good to go.
 }
 
 static void make_new_window(int mode) {
@@ -125,12 +119,8 @@ static void make_new_window(int mode) {
 	width = WindowRect.right-WindowRect.left;
 	height = WindowRect.bottom-WindowRect.top;
 
-	if(current_graphics_mode == MODE_FULLSCREEN || current_graphics_mode == MODE_WINDOW) {
-		ShowWindow(hWnd, SW_SHOW);
-		SetFocus(hWnd);
-	} else {
-		KillWindow();
-	}
+	ShowWindow(hWnd, SW_SHOW);
+	SetFocus(hWnd);
 
     app_graphics_init();
 }
@@ -243,7 +233,7 @@ LRESULT CALLBACK WndProc(
         if (boinc_is_standalone()) {
             exit(0);
         } else {
-		    KillWindow();
+		    set_mode(MODE_HIDE_GRAPHICS);
 		    return 0;
         }
 	case WM_PAINT:

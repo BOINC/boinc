@@ -85,10 +85,13 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
 	string result_name;
     ACTIVE_TASK* atp;
 
-    PROJECT* p = get_project(buf, fout);
-    if (!p) return;
 
 	if (parse_str(buf, "<result_name>", result_name)) {
+        PROJECT* p = get_project(buf, fout);
+        if (!p) {
+            fout.printf("<error>No such project</error>\n");
+            return;
+       }
         RESULT* rp = gstate.lookup_result(p, result_name.c_str());
         if (!rp) {
             fout.printf("<error>No such result</error>\n");

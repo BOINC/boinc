@@ -119,8 +119,8 @@ struct RESULT {
     int exit_status;
     int signal;
     int active_task_state;
+    // the following defined if active
     std::string stderr_out;
-    // the following define if in progress
     int app_version_num;
     double checkpoint_cpu_time;
     double current_cpu_time;
@@ -189,13 +189,13 @@ public:
     int get_state(CC_STATE&);
     int get_results(RESULTS&);
     int get_file_transfers(FILE_TRANSFERS&);
-    int show_graphics(char* result_name, bool full_screen);
+    int get_messages(int nmessages, int seqno, std::vector<MESSAGE_DESC>&);
+    int set_run_mode(int mode);
+    int show_graphics(char* project, char* result_name, bool full_screen);
     int project_reset(char*);
     int project_attach(char* url, char* auth);
     int project_detach(char*);
     int project_update(char*);
-    int set_run_mode(int mode);
     int run_benchmarks();
     int set_proxy_settings(PROXY_INFO&);
-    int get_messages(int nmessages, int seqno, std::vector<MESSAGE_DESC>&);
 };
