@@ -48,13 +48,13 @@ const char * boinc_base_exception::what() {
 	m_strErrorBuffer.empty();
 
 	memset(m_szConversionBuffer, '\0', sizeof(m_szConversionBuffer));
-    snprintf(m_szConversionBuffer, sizeof(m_szConversionBuffer), "%ld", ErrorValue());
+    snprintf(m_szConversionBuffer, sizeof(m_szConversionBuffer), "%ld", m_lErrorValue);
     
-	m_strErrorBuffer.append(ErrorType());
+	m_strErrorBuffer.append(m_strErrorType);
 	m_strErrorBuffer.append(" ");
 	m_strErrorBuffer.append(m_szConversionBuffer);
 	m_strErrorBuffer.append(" ");
-	m_strErrorBuffer.append(ErrorMessage());
+	m_strErrorBuffer.append(m_strErrorMessage);
 
 	m_strErrorBuffer.append("\n");
 

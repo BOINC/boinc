@@ -193,7 +193,7 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *pExPtrs) {
     //
 
     //if (flags & BOINC_DIAG_MEMORYLEAKCHECKENABLED )
-    //    SET_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
+    //    CLEAR_CRT_DEBUG_FIELD( _CRTDBG_LEAK_CHECK_DF );
 
     if (flags & BOINC_DIAG_HEAPCHECKENABLED ) {
         AfxEnableMemoryTracking(FALSE);
@@ -350,12 +350,12 @@ int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){
 			OutputDebugString(szMsg);			// Reports string to the debugger output window
 			
             if (flags & BOINC_DIAG_TRACETOSTDERR ) {
-                fprintf( stderr, "%s", szMsg );
+                fprintf( stderr, szMsg );
 			    fflush( stderr );
             }
 			
             if (flags & BOINC_DIAG_TRACETOSTDOUT ) {
-                fprintf( stdout, "%s", szMsg );
+                fprintf( stdout, szMsg );
 			    fflush( stdout );
             }
 

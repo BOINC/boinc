@@ -11965,3 +11965,15 @@ David  May 3 2004
     sched/
         *.C
         start
+
+Rom    May 3 2004
+    - Try to cleanup a recursive failure during a dump to stderr by changing
+      the fprintf call in diagnostics.c
+    - Apparently exceptions don’t walk up the inheritance tree when calling
+      virtual functions, so force the issue by locally scoping additional
+      variables that can be set by constructors which will allow base functions
+      to get the correct information.
+
+    lib/
+        diagnostics.c
+        exception.c, .h
