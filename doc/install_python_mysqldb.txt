@@ -80,7 +80,8 @@ Unix/Linux: compiled statically into Python
 
     7. Configure python
        $ cd Python-2.3/
-       $ ./configure --prefix=/path/to/install/python
+       $ ./configure --prefix=/usr/local
+        [or whatever path you want instead of /usr/local]
 
     8. Build
        $ make
