@@ -241,6 +241,9 @@ function update_1_20a_2005() {
     mysql_query("alter table host add external_ip_addr varchar(254)");
 }
 
+function update_2_25_2005() {
+    mysql_query("alter table host add max_results_day integer not null");
+
 //update_10_25_2004();
 
 ?>

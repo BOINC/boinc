@@ -263,6 +263,8 @@ struct HOST {
     double avg_turnaround;  // recent average result turnaround time
     char host_cpid[256];    // host cross-project ID
     char external_ip_addr[256]; // IP address seen by scheduler
+    int max_results_day;    // maximum # of results to send per day per CPU
+        // this is dynamically adjusted to limit work sent to bad hosts
 
     int parse(FILE*);
     int parse_time_stats(FILE*);

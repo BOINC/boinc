@@ -534,13 +534,15 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     }
     if (wreq.nresults >= config.max_wus_to_send) return false;
     if (config.daily_result_quota) {
+        if (host.max_results_day == 0) {
+            host.max_results_day = config.daily_result_quota;
+        }
+
         // scale daily quota by #CPUs, up to a limit of 4
         //
-        if (host.p_ncpus<4) {
-             wreq.daily_result_quota = host.p_ncpus*config.daily_result_quota;
-        } else {
-             wreq.daily_result_quota = 4*config.daily_result_quota;
-        }
+        int ncpus = host.p_ncpus;
+        if (ncpus > 4) ncpus = 4;
+        wreq.daily_result_quota = ncpus*host.max_results_day;
         if (host.nresults_today >= wreq.daily_result_quota) {
             wreq.daily_result_quota_exceeded = true;
             return false;
@@ -549,6 +551,19 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     return true;
 }
 
+void SCHEDULER_REPLY::got_good_result() {
+    host.max_results_day *= 2;
+    if (host.max_results_day > config.daily_result_quota) {
+        host.max_results_day = config.daily_result_quota;
+    }
+}
+
+void SCHEDULER_REPLY::got_bad_result() {
+    host.max_results_day -= 1;
+    if (host.max_results_day < 1) {
+        host.max_results_day = 1;
+    }
+}
 
 int add_result_to_reply(
     DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REQUEST& request,

@@ -417,7 +417,7 @@ int handle_results(
         // database and point srip to it.  Quantities that MUST be
         // read from the DB are those where srip appears as an rval.
         // These are: id, name, server_state, received_time, hostid.
-        // // Quantities that must be WRITTEN to the DB are those for
+        // Quantities that must be WRITTEN to the DB are those for
         // which srip appears as an lval. These are:
         // hostid,
         // teamid, received_time, client_state, cpu_time, exit_status,
@@ -535,6 +535,7 @@ int handle_results(
                 "[RESULT#%d %s]: setting outcome SUCCESS\n",
                 srip->id, srip->name
             );
+            reply.got_good_result();
         } else {
             log_messages.printf(SCHED_MSG_LOG::DEBUG,
                 "[RESULT#%d %s]: client_state %d exit_status %d; setting outcome ERROR\n",
@@ -542,6 +543,7 @@ int handle_results(
             );
             srip->outcome = RESULT_OUTCOME_CLIENT_ERROR;
             srip->validate_state = VALIDATE_STATE_INVALID;
+            reply.got_bad_result();
         }
     } // end of loop over all incoming results
 

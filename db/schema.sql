@@ -169,6 +169,7 @@ create table host (
     avg_turnaround      double      not null,
     host_cpid           varchar(254),
     external_ip_addr    varchar(254),
+    max_results_day     integer     not null,
 
     primary key (id)
 ) type=InnoDB;

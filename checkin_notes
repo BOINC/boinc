@@ -25306,3 +25306,32 @@ David  25 Feb 2005
         app.C,h
         app_control.C
         cs_apps.C
+
+David  25 Feb 2005
+    - Scheduler: added a mechanism to dynamically adjust the
+        max # of results sent per day on a per-host basis,
+        so that "bad hosts" (those that always return either errors or nothing)
+        are eventually cut back to 1 result per day.
+
+        Added "max_results_day" field to host table.
+        Initialized to config.daily_result_quota.
+        When host returns an error result, or a result times out,
+        decrement max_results_day (but not below 1).
+        When the host return a success result,
+        double max_results_day (but not above config.daily_result_quota)
+
+        Idea is from Bruce Allen
+
+        NOTE TO PROJECTS: you must update your database
+        (see html/ops/db_update.php) prior to using this on your server.
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    html/ops/
+        db_update.php
+    sched/
+        handle_request.C
+        sched_send.C
+        server_types.h
+        transitioner.C

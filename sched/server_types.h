@@ -186,6 +186,8 @@ struct SCHEDULER_REPLY {
     void insert_message(USER_MESSAGE&);
     bool work_needed(bool locality_sched=false);
     void set_delay(double);
+    void got_good_result();     // adjust max_results_day
+    void got_bad_result();      // adjust max_results_day
 };
 
 #endif

@@ -62,7 +62,7 @@ int result_suffix(char* name) {
 }
 
 // The given result just timed out.
-// Update the host's avg_turnaround.
+// Update the host's avg_turnaround and max_results_day.
 //
 int penalize_host(int hostid, double delay_bound) {
     DB_HOST host;
@@ -70,7 +70,14 @@ int penalize_host(int hostid, double delay_bound) {
     int retval = host.lookup_id(hostid);
     if (retval) return retval;
     compute_avg_turnaround(host, delay_bound);
-    sprintf(buf, "avg_turnaround=%f", host.avg_turnaround);
+    host.max_results_day -= 1;
+    if (host.max_results_day < 1) {
+        host.max_results_day = 1;
+    }
+    sprintf(buf,
+        "avg_turnaround=%f, max_results_day=%d",
+        host.avg_turnaround, host.max_results_day
+    );
     return host.update_field(buf);
 }
 
