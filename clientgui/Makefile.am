@@ -62,7 +62,7 @@ EXTRA_DIST = \
     ViewMessages.h \
     ViewProjects.h \
     ViewResources.h \
-    ViewTransfers.h
+    ViewTransfers.h \
     ViewWork.h \
     res \
     msw \
