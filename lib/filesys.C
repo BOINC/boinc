@@ -290,7 +290,7 @@ int clean_out_dir(const char* dirpath) {
     DIRREF dirp;
 
     dirp = dir_open(dirpath);
-    if (!dirp) return ERR_OPENDIR;
+    if (!dirp) return 0;    // if dir doesn't exist, it's empty
     while (1) {
         strcpy(filename, "");
         retval = dir_scan(filename, dirp, sizeof(filename));

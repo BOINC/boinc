@@ -12942,3 +12942,15 @@ David  June 1 2004
         forum_thread.php
     py/Boinc/
         setup_project.py
+
+David  June 1 2004
+	- client: SCHEDULER_OP::poll(): if a RPC or master fetch fails for
+		a tentative project, set the RPC state to IDLE
+		before calling project_add_failed().
+		Otherwise that function will attempt to remove the
+		NET_XFER and HTTP_OP, which have alread been removed
+	- client: clean_out_dir(): return 0 if directory doesn't exist
+	client/
+		scheduler_op.C
+	lib/
+		filesys.C

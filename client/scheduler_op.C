@@ -92,7 +92,7 @@ int SCHEDULER_OP::init_get_work() {
     project = gstate.next_project(0);
     if (project) {
         msg_printf(project, MSG_INFO,
-            "Requesting %f seconds of work", ns
+            "Requesting %.0f seconds of work", ns
         );
         retval = init_op_project(ns);
         if (retval) {
@@ -367,6 +367,7 @@ bool SCHEDULER_OP::poll() {
                     if (project->tentative) {
                         PROJECT* project_temp = project;
                         project = 0;        // keep detach(0) from removing HTTP OP
+                        state = SCHEDULER_OP_STATE_IDLE;    // avoid double remove
                         project_add_failed(project_temp);
                         err = true;
                     } else {
@@ -397,6 +398,7 @@ bool SCHEDULER_OP::poll() {
             //
             if (!err && project->scheduler_urls.size() == 0) {
                 if (project->tentative) {
+                    state = SCHEDULER_OP_STATE_IDLE;    // avoid double remove
                     project_add_failed(project);
                 } else {
                     sprintf(err_msg,
@@ -468,6 +470,7 @@ bool SCHEDULER_OP::poll() {
                 //
                 if (project->tentative) {
                     if (retval || strlen(project->user_name)==0) {
+                        state = SCHEDULER_OP_STATE_IDLE;    // avoid double remove
                         project_add_failed(project);
                     } else {
                         project->tentative = false;
