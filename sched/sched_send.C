@@ -287,9 +287,14 @@ URLTYPE* read_download_list(){
     if (cached)
         return cached;
     
-    if (!(fp=fopen("../download_servers", "r")))
+    if (!(fp=fopen("../download_servers", "r"))) {
+        log_messages.printf(
+            SCHED_MSG_LOG::CRITICAL,
+            "File ../download_servers not found or unreadable!\n"
+        );
         return NULL;
-    
+    }
+
     // read in lines from file
     while (1) {
         // allocate memory in blocks
@@ -314,9 +319,9 @@ URLTYPE* read_download_list(){
     if (!count) {
         log_messages.printf(
             SCHED_MSG_LOG::CRITICAL,
-            "file ../download_servers contained no valid entries!\n"
-            "format of this file is one or more lines containing:\n"
-            "TIMEZONE_OFFSET  htt://some.url.path\n"
+            "File ../download_servers contained no valid entries!\n"
+            "Format of this file is one or more lines containing:\n"
+            "TIMEZONE_OFFSET_IN_SEC   http://some.url.path\n"
         );
         free(cached);
         return NULL;
