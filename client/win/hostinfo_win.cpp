@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+#define _WIN32_WINNT 0x0400
+
 #include <afxwin.h>
 #include <winsock.h>
 #include "client_types.h"
@@ -184,7 +186,7 @@ int get_host_info(HOST_INFO& host) {
 	WSAStartup(wVersionRequested, &wsdata);
 
 	// Get host name/ip info
-    get_local_domain_name(host.domain_name);
+    get_local_domain_name(host.domain_name, 256);
     get_local_ip_addr_str(host.ip_addr);
 
 	// Close the WinSock dll
@@ -219,6 +221,10 @@ int get_host_info(HOST_INFO& host) {
 bool host_is_running_on_batteries() {
 	SYSTEM_POWER_STATUS pStatus;
 	ZeroMemory(&pStatus, sizeof(SYSTEM_POWER_STATUS));
-	GetSystemPowerStatus(&pStatus);
+	if (!GetSystemPowerStatus(&pStatus)) {
+		printf( "Got error: %d\n", GetLastError());
+		return false;
+	}
+
 	return (pStatus.ACLineStatus != 1);
 }
