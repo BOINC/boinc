@@ -29,6 +29,7 @@
 #include <cstdio>
 #include <cmath>
 #include <algorithm>
+#include <iterator>
 #include <fstream>
 #include <ctype.h>
 #include <sys/types.h>
