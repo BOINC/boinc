@@ -141,7 +141,6 @@ void get_2d_positions(float p1,float p2,float p3,
 	gluProject(p1,p2,p3,model,proj,viewport,&proj_pos[0],&proj_pos[1],&proj_pos[2]);	
 }
 
-
 bool get_matrix_invert(float src[16]) {
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -819,8 +818,7 @@ void update_stars(int number, float speed)
 	}
 }
 
-void replaceStar(Star* star)
-{
+void replaceStar(Star* star) {
 	float z = (float)(rand()%2000-1000);
 	float alpha = 2.0*PI*(float)((rand()%359)/359.0) ;
 	float beta = asin(z/1000.0f);
@@ -839,8 +837,7 @@ void replaceStar(Star* star)
 //this is the array that will contain pointers to texture pixel data
 UINT g_Texture[MAX_TEXTURES];
 
-void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData)
-{	
+void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData) {	
 	jpeg_read_header(cinfo, TRUE);
 	jpeg_start_decompress(cinfo);
 
@@ -854,22 +851,19 @@ void DecodeJPG(jpeg_decompress_struct* cinfo, tImageJPG *pImageData)
 		rowPtr[i] = &(pImageData->data[i*pImageData->rowSpan]);
 
 	int rowsRead = 0;
-	while (cinfo->output_scanline < cinfo->output_height) 
-	{
+	while (cinfo->output_scanline < cinfo->output_height) {
 		rowsRead += jpeg_read_scanlines(cinfo, &rowPtr[rowsRead], cinfo->output_height - rowsRead);
 	}
 	delete [] rowPtr;
 	jpeg_finish_decompress(cinfo);
 }
 
-tImageJPG *LoadJPG(const char *filename)
-{
+tImageJPG *LoadJPG(const char *filename) {
 	struct jpeg_decompress_struct cinfo;
 	tImageJPG *pImageData = NULL;
 	FILE *pFile;
 	
-	if((pFile = fopen(filename, "rb")) == NULL) 
-	{
+	if((pFile = fopen(filename, "rb")) == NULL) {
 		fprintf(stderr,"Unable to load JPG File!");
 		return NULL;
 	}
@@ -885,22 +879,18 @@ tImageJPG *LoadJPG(const char *filename)
 	return pImageData;
 }
 
-bool CreateTextureJPG(UINT textureArray[], char* strFileName, int textureID)
-{
+bool CreateTextureJPG(UINT textureArray[], char* strFileName, int textureID) {
 	if(!strFileName) return false;	
 	tImageJPG *pImage = LoadJPG(strFileName);			// Load the image and store the data
-	if(pImage == NULL)
-		exit(0);
+	if(pImage == NULL) return false;
 	glGenTextures(1, &textureArray[textureID]);
 	glBindTexture(GL_TEXTURE_2D, textureArray[textureID]);	
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, pImage->sizeX, pImage->sizeY, GL_RGB, GL_UNSIGNED_BYTE, pImage->data);	
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);	
 	
-	if (pImage)										
-	{
-		if (pImage->data)							
-		{
+	if (pImage) {
+		if (pImage->data) {
 			free(pImage->data);						
 		}
 
@@ -909,29 +899,30 @@ bool CreateTextureJPG(UINT textureArray[], char* strFileName, int textureID)
 	return true;
 }
 
-bool CreateTextureBMP(UINT textureArray[], char* strFileName, int textureID)
-{
+bool CreateTextureBMP(UINT textureArray[], char* strFileName, int textureID) {
 #ifdef _WIN32
 	DIB_BITMAP image; 
-	if(image.loadBMP(strFileName) == false)
+    if(image.loadBMP(strFileName) == false) {
 		return false;
-	
+    }
+
 	glGenTextures(1, &textureArray[textureID]);	
 	glBindTexture(GL_TEXTURE_2D, textureArray[textureID]);
 	gluBuild2DMipmaps(GL_TEXTURE_2D, image.get_channels(), image.get_width(), 
-					  image.get_height(), GL_BGR_EXT, GL_UNSIGNED_BYTE, 
-					  image.getLinePtr(0));
+        image.get_height(), GL_BGR_EXT, GL_UNSIGNED_BYTE, 
+        image.getLinePtr(0)
+    );
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);		
 #endif
 	return true;
 }
-bool CreateTexturePPM(UINT textureArray[], char* strFileName, int textureID)
-{
+
+bool CreateTexturePPM(UINT textureArray[], char* strFileName, int textureID) {
 #ifdef _WIN32
 	unsigned char* pixels;
     int width, height;    
-    if(read_ppm_file(strFileName, width, height, &pixels)==-1) return false;
+    if (read_ppm_file(strFileName, width, height, &pixels)==-1) return false;
     
     glGenTextures(1, &textureArray[textureID]);
     glBindTexture(GL_TEXTURE_2D, textureArray[textureID]);
@@ -949,13 +940,13 @@ bool CreateTextureTGA(UINT textureArray[], char* strFileName, int textureID) {
 		return false;
 
 	tImageTGA *pImage = LoadTGA(strFileName);			// Load the image and store the data
-	if(pImage == NULL)									// If we can't load the file, quit!
-		exit(0);
+    if(pImage == NULL) {
+		return false;
+    }
 	glGenTextures(1, &textureArray[textureID]);
 	glBindTexture(GL_TEXTURE_2D, textureArray[textureID]);
 	int textureType = GL_RGB;
-	if(pImage->channels == 4)
-	{
+	if(pImage->channels == 4) {
 		textureType = GL_RGBA;		
 	}
 	gluBuild2DMipmaps(GL_TEXTURE_2D, pImage->channels, pImage->sizeX, 
@@ -963,10 +954,8 @@ bool CreateTextureTGA(UINT textureArray[], char* strFileName, int textureID) {
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR_MIPMAP_LINEAR);	
 
-	if (pImage)										// If we loaded the image
-	{
-		if (pImage->data)							// If there is texture data
-		{
+    if (pImage)	{									// If we loaded the image
+        if (pImage->data) {							// If there is texture data
 			delete[] pImage->data;					// Free the texture data, we don't need it anymore
 		}
 		free(pImage);								// Free the image structure
