@@ -47,7 +47,7 @@ public:
         : m_strErrorData(s){};
 
     boinc_base_exception(const char *f, int l, const char *s=0)
-        : m_strFilename(f), m_lLineNumber(l), m_strErrorData(s){};
+        : m_strErrorData(s), m_strFilename(f), m_lLineNumber(l){};
 
     virtual const char * ErrorType();
     virtual const char * ErrorMessage();
