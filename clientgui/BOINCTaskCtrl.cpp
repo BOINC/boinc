@@ -232,18 +232,13 @@ void CBOINCTaskCtrl::RemoveVirtualFile( const wxString& strFilename )
 }
 
 
-void CBOINCTaskCtrl::OnRender( wxTimerEvent& event )
-{
-}
-
-
-bool CBOINCTaskCtrl::OnSaveState( wxConfigBase* pConfig )
+bool CBOINCTaskCtrl::OnSaveState( wxConfigBase* WXUNUSED(pConfig) )
 {
     return true;
 }
 
 
-bool CBOINCTaskCtrl::OnRestoreState( wxConfigBase* pConfig )
+bool CBOINCTaskCtrl::OnRestoreState( wxConfigBase* WXUNUSED(pConfig) )
 {
     return true;
 }
@@ -267,7 +262,7 @@ void CBOINCTaskCtrl::OnCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
 }
 
 
-wxHtmlOpeningStatus CBOINCTaskCtrl::OnOpeningURL( wxHtmlURLType type, const wxString& url, wxString *redirect )
+wxHtmlOpeningStatus CBOINCTaskCtrl::OnOpeningURL( wxHtmlURLType type, const wxString& WXUNUSED(url), wxString* WXUNUSED(redirect) )
 {
     wxHtmlOpeningStatus retval;
 

@@ -41,7 +41,6 @@ public:
 
     ~CBOINCListCtrl();
 
-    virtual void            OnRender( wxTimerEvent& event );
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 

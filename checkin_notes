@@ -19850,3 +19850,26 @@ Bruce 19 Nov 2004 UTC
     configure.ac
     clientgui/
       Makefile.am
+
+Rom    19 Nov 2004
+    - Cleanup several warnings in the clientgui when all warnings are turned on in gcc.
+    - Added a /s parameter to the clientgui which will hide the main window on startup
+      for those OS's that support a system tray in there GUI.
+    - Added a new GUI RPC called <quit> which requests BOINC to quit nicely.
+
+    client/
+        gui_rpc_server.C
+    clientgui/
+        BOINCBaseView.cpp
+        BOINCGUIApp.cpp, .h
+        BOINCListCtrl.cpp, .h
+        BOINCTaskCtrl.cpp, .h
+        MainDocument.cpp
+        MainFrame.cpp
+        ViewMessages.cpp
+        ViewProjects.cpp
+        ViewResources.cpp
+        ViewTransfers.cpp
+        ViewWork.cpp
+    lib/
+        gui_rpc_client.C    

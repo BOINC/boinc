@@ -422,6 +422,11 @@ static void handle_set_screensaver_mode(char* buf, MIOFILE& fout) {
     fout.printf("<success/>\n");
 }
 
+static void handle_quit(char* buf, MIOFILE& fout) {
+    gstate.requested_exit = true;
+    fout.printf("<success/>\n");
+}
+
 int GUI_RPC_CONN::handle_rpc() {
     char request_msg[1024];
     int n;
@@ -512,6 +517,8 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_get_screensaver_mode(request_msg, mf);
     } else if (match_tag(request_msg, "<set_screensaver_mode")) {
         handle_set_screensaver_mode(request_msg, mf);
+    } else if (match_tag(request_msg, "<quit")) {
+        handle_quit(request_msg, mf);
     } else {
         mf.printf("<error>unrecognized op</error>\n");
     }

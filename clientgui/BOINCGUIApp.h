@@ -60,6 +60,8 @@ protected:
     CTaskBarIcon*   m_pTaskBarIcon;
 #endif
 
+    bool            m_bFrameVisible;
+
     wxString        m_strDefaultWindowStation;
     wxString        m_strDefaultDesktop;
 

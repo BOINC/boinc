@@ -370,7 +370,7 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 }
 
 
-void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
+void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord WXUNUSED(x), wxCoord WXUNUSED(y) )
 {
     if ( NULL != cell->GetLink() )
     {

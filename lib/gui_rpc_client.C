@@ -1199,7 +1199,7 @@ int RPC_CLIENT::project_attach(char* url, char* auth) {
 }
 
 char* RPC_CLIENT::mode_name(int mode) {
-    char* p;
+    char* p = NULL;
     switch (mode) {
     case RUN_MODE_ALWAYS: p="<always/>"; break;
     case RUN_MODE_NEVER: p="<never/>"; break;

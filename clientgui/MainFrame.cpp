@@ -512,7 +512,7 @@ bool CMainFrame::RestoreState()
 }
 
 
-void CMainFrame::OnHide( wxCommandEvent& event )
+void CMainFrame::OnHide( wxCommandEvent& WXUNUSED(event) )
 {
     Hide();
 }

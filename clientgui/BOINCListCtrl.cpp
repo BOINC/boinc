@@ -51,11 +51,6 @@ CBOINCListCtrl::~CBOINCListCtrl()
 }
 
 
-void CBOINCListCtrl::OnRender ( wxTimerEvent& event )
-{
-}
-
-
 bool CBOINCListCtrl::OnSaveState( wxConfigBase* pConfig )
 {
     wxString    strBaseConfigLocation = wxEmptyString;

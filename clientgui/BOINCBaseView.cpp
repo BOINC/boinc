@@ -123,19 +123,19 @@ wxInt32 CBOINCBaseView::GetListRowCount()
 }
 
 
-void CBOINCBaseView::FireOnTaskRender (wxTimerEvent& event)
+void CBOINCBaseView::FireOnTaskRender ( wxTimerEvent& event )
 {
     OnTaskRender( event );
 }
 
 
-void CBOINCBaseView::FireOnListRender (wxTimerEvent& event)
+void CBOINCBaseView::FireOnListRender ( wxTimerEvent& event )
 {
     OnListRender( event );
 }
 
 
-void CBOINCBaseView::OnTaskRender (wxTimerEvent& event)
+void CBOINCBaseView::OnTaskRender ( wxTimerEvent& event )
 {
     if (!m_bProcessingTaskRenderEvent)
     {
@@ -157,7 +157,7 @@ void CBOINCBaseView::OnTaskRender (wxTimerEvent& event)
 }
 
 
-void CBOINCBaseView::OnListRender (wxTimerEvent& event)
+void CBOINCBaseView::OnListRender ( wxTimerEvent& event )
 {
     if (!m_bProcessingListRenderEvent)
     {
@@ -292,19 +292,19 @@ void CBOINCBaseView::FireOnListDeselected( wxListEvent& event )
 }
 
 
-wxString CBOINCBaseView::FireOnListGetItemText(long item, long column) const
+wxString CBOINCBaseView::FireOnListGetItemText( long item, long column ) const
 {
     return OnListGetItemText( item, column );
 }
 
 
-int CBOINCBaseView::FireOnListGetItemImage(long item) const
+int CBOINCBaseView::FireOnListGetItemImage( long item ) const
 {
     return OnListGetItemImage( item );
 }
 
 
-wxListItemAttr* CBOINCBaseView::FireOnListGetItemAttr(long item) const
+wxListItemAttr* CBOINCBaseView::FireOnListGetItemAttr( long item ) const
 {
     return OnListGetItemAttr( item );
 }
@@ -341,19 +341,19 @@ void CBOINCBaseView::OnListDeselected( wxListEvent& event )
 }
 
 
-wxString CBOINCBaseView::OnListGetItemText(long item, long column) const
+wxString CBOINCBaseView::OnListGetItemText( long WXUNUSED(item), long WXUNUSED(column) ) const
 {
     return wxString("Undefined");
 }
 
 
-int CBOINCBaseView::OnListGetItemImage(long item) const
+int CBOINCBaseView::OnListGetItemImage( long WXUNUSED(item) ) const
 {
     return -1;
 }
 
 
-wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long item) const
+wxListItemAttr* CBOINCBaseView::OnListGetItemAttr( long WXUNUSED(item) ) const
 {
     return NULL;
 }
@@ -371,12 +371,12 @@ void CBOINCBaseView::FireOnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCo
 }
 
 
-void CBOINCBaseView::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
+void CBOINCBaseView::OnTaskLinkClicked( const wxHtmlLinkInfo& WXUNUSED(link) )
 {
 }
 
 
-void CBOINCBaseView::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
+void CBOINCBaseView::OnTaskCellMouseHover( wxHtmlCell* WXUNUSED(cell), wxCoord WXUNUSED(x) , wxCoord WXUNUSED(y) )
 {
 }
 

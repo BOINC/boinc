@@ -543,7 +543,7 @@ wxInt32 CMainDocument::GetProjectResourceShare( wxInt32 iIndex, float& fBuffer )
 }
 
 
-wxInt32 CMainDocument::GetProjectTotalResourceShare( wxInt32 iIndex, float& fBuffer )
+wxInt32 CMainDocument::GetProjectTotalResourceShare( wxInt32 WXUNUSED(iIndex), float& fBuffer )
 {
     fBuffer = m_fProjectTotalResourceShare;
     return 0;
@@ -565,7 +565,7 @@ wxInt32 CMainDocument::GetProjectMinRPCTime( wxInt32 iIndex, wxInt32& iBuffer )
     }
 
     if ( NULL != pProject ) {
-        iBuffer = pProject->min_rpc_time;
+        iBuffer = (int)pProject->min_rpc_time;
 	}
 
     return 0;

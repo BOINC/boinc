@@ -37,9 +37,12 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 
 bool CBOINCGUIApp::OnInit()
 {
+    // Setup variables with default values
+    m_bFrameVisible = true;
 
-    SetVendorName("Space Sciences Laboratory, U.C. Berkeley");
-    SetAppName("BOINC Manager");
+    // Setup application and company information
+    SetVendorName(wxT("Space Sciences Laboratory, U.C. Berkeley"));
+    SetAppName(wxT("BOINC Manager"));
 
     // Commandline parsing is done in wxApp::OnInit()
     if (!Inherited::OnInit())
@@ -65,7 +68,7 @@ bool CBOINCGUIApp::OnInit()
     m_pLocale->AddCatalog(GetAppName());
 
     // Initialize the configuration storage module
-    m_pConfig = new wxConfig(wxTheApp->GetAppName());
+    m_pConfig = new wxConfig(GetAppName());
     wxConfigBase::Set(m_pConfig);
     wxASSERT(NULL != m_pConfig);
 
@@ -92,7 +95,8 @@ bool CBOINCGUIApp::OnInit()
 
     // Show the UI
     SetTopWindow(m_pFrame);
-    m_pFrame->Show();
+    if (m_bFrameVisible)
+        m_pFrame->Show();
 
     return true;
 }
@@ -122,7 +126,7 @@ void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser)
 {
     Inherited::OnInitCmdLine(parser);
     static const wxCmdLineEntryDesc cmdLineDesc[] = {
-        { wxCMD_LINE_SWITCH, "e", "example", "example command line option"},
+        { wxCMD_LINE_SWITCH, wxT("s"), wxT("systray"), _("Startup BOINC so only the system tray icon is visible")},
         { wxCMD_LINE_NONE}  //DON'T forget this line!!
     };
     parser.SetDesc(cmdLineDesc);
@@ -133,23 +137,9 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser)
 {
     // Give default processing (-?, --help and --verbose) the chance to do something.
     Inherited::OnCmdLineParsed(parser);
-    if (parser.Found("example")) {
-
-        wxMessageDialog* pDlg = new wxMessageDialog(
-            NULL, 
-            _("You have specified -e on the commmand line. The application will exit now."),
-            _("Example command line option"),
-            wxOK | wxICON_INFORMATION,
-            wxDefaultPosition
-            );
-
-        if (pDlg)
-            pDlg->ShowModal();
-
-        return false;
-    } else {
-        // Log a message, but only if --verbose has been set on the command line.
-        wxLogVerbose("Commandline has been parsed. -e was not found.");
+    if (parser.Found(wxT("systray")))
+    {
+        m_bFrameVisible = false;
     }
     return true;
 }
