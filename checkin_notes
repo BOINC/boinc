@@ -9228,11 +9228,12 @@ David  Jan 15 2004
         handle_request.C
 
 Karl 2004-01-15
-    - makefile fixes
+    - misc. fixes
 
     py/Boinc/
         Makefile.am
     lib/
+        Makefile.am
         base64.C
         base64.h
 
