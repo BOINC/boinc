@@ -321,7 +321,7 @@
 /* #undef HAVE__PROC_SELF_STAT */
 
 /* Host for this compilation */
-#define HOSTTYPE "i686-pc-cygwin"
+#define HOSTTYPE "windows_intelx86"
 
 /* Name of package */
 #define PACKAGE "boinc"
