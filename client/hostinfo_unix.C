@@ -16,6 +16,13 @@
 // 
 // Contributor(s):
 //
+// Change Log:
+// $Log$
+// Revision 1.49  2003/12/01 22:53:09  korpela
+// Fixed case where socklen_t is #defined in the system headers rather than
+// typedefed.
+//
+//
 
 #include "cpp.h"
 
@@ -96,6 +103,8 @@ int get_timezone() {
     return time_data->tm_gmtoff;
 #elif defined(linux)
     return __timezone;
+#elif defined(__CYGWIN32__)
+    return _timezone;
 #elif defined(unix)
     return timezone;
 #else
