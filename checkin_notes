@@ -23533,3 +23533,53 @@ Eric K.	31 Jan 05
 	Fixed typo in lib/parse.C
 
 	lib/parse.C
+
+Janus 31 Jan 05
+    - Added functions to read and parse .po translations for the webinterface.
+    - Changed apps.php to use these new functions as an example.
+    - Added a tiny example language interface file
+    - Added language files (that are valid with regards to the interface) for
+      English and Danish as an example
+
+      The script (Apache or whatever webserver is used) must have write-
+      access to the /languages/compiled directory as well as /languages/. It 
+      will create compiled versions of the interface file and language files the
+      first time a page is accessed after a new language file or interface file
+      has been installed.
+
+      To output something that can be translated, a page can use:
+      echo tr(MY_TOKEN);
+      where MY_TOKEN is the token-name used to identify the text that will be
+      output. To actually be allowed to write and use MY_TOKEN, the token must
+      be added to the language interface. The language interface file is simply
+      a file containing all the valid tokens listed one per line. Adding
+      MY_TOKEN
+      to the bottom of the file will make "MY_TOKEN" a valid token.
+
+      Whenever you add a new token to the interface you _should_ at least add
+      the text to the english language file located in 
+      /languages/translations/en.po
+      This file is used as default language and will be used as fallback in case
+      a translator for another language does not provide a translation for your
+      particular token (which especially will be the case when you add a new
+      token).
+
+      You should be able to add comments using a # as the first char in a line - 
+      at least in the .po-files.
+
+      Future plans: 1) An expansion for project specific translations which can 
+      be independently maintained by the project.
+      2) Language selection in user prefs (to override browser defaults)
+      3) Even better automatic language detection
+
+    html/
+        inc/
+            translation.inc (new)
+        languages/ (new)
+            language_interface (new)
+            translations/ (new)
+                da.po (new)
+                en.po (new)
+        user/
+            apps.php
+
