@@ -15941,7 +15941,8 @@ Noaa	5 August 2004
 				Graphics.Readme
 
 Daniel 2004-08-05
-    - regenerated build files to fix (some) compiling problems
+    - regenerated build files to fix (some) compilation problems from the
+      data management code
 
     aclocal.m4
     client/
