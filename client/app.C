@@ -1241,7 +1241,7 @@ int ACTIVE_TASK::move_trickle_file() {
     get_project_dir(result->project, project_dir);
     sprintf(old_path, "%s%strickle", slot_dir, PATH_SEPARATOR);
     sprintf(new_path,
-        "%s%strickle_%s_%d",
+        "%s%strickle_up_%s_%d",
         project_dir, PATH_SEPARATOR, result->name, (int)time(0)
     );
     retval = boinc_rename(old_path, new_path);

@@ -17,6 +17,40 @@ function update_4_18_2004() {
     }
 }
 
-update_4_18_2004();
+function update_5_12_2004() {
+    db_init();
+    mysql_query(
+        "create table trickle_up (
+        id                  integer     not null auto_increment,
+        create_time         integer     not null,
+        send_time           integer     not null,
+        resultid            integer     not null,
+        appid               integer     not null,
+        hostid              integer     not null,
+        handled             smallint    not null,
+        xml                 text,
+        primary key (id)
+        )"
+    );
+    mysql_query(
+        "create table trickle_down (
+        id                  integer     not null auto_increment,
+        create_time         integer     not null,
+        resultid            integer     not null,
+        hostid              integer     not null,
+        handled             smallint    not null,
+        xml                 text,
+        primary key (id)
+        )"
+    );
+    mysql_query(
+        "alter table trickle_up add index trickle_handled (appid, handled)"
+    );
+    mysql_query(
+        "alter table trickle_down add index trickle_host(hostid, handled)"
+    );
+}
+
+update_5_12_2004();
 
 ?>

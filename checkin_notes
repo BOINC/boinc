@@ -12197,6 +12197,7 @@ David  May 11 2004
         fairly complete now except for app receipt of trickle-downs
 
     NOTE: changed format of trickle_down table.
+    An update function is included in html/ops/db_update.php
     
     api/
         boinc_api.h
@@ -12214,4 +12215,3 @@ David  May 11 2004
     sched/
         handle_request.C
         trickle_handler.C
-
