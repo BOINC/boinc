@@ -19121,3 +19121,7 @@ Rom    5 Nov 2004
         MainDocument.cpp
         taskbarex.cpp, .h
         BOINCTaskBar.cpp, .h
+
+Rom    5 Nov 2004 (boinc)
+    - Tag for 4.54 release, all platforms
+      boinc_core_release_4_54
