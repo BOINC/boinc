@@ -275,6 +275,8 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 			m_XferListCtrl.SetItemColor(i, RGB(128, 128, 128));
 			m_XferListCtrl.SetItemProgress(i, 2, 100);
 			m_XferListCtrl.SetItemText(i, 3, g_szMiscItems[7]);
+			m_XferListCtrl.SetItemText(i, 5, "0.00 KBps");
+			m_XferListCtrl.SetItemText(i, 6, g_szMiscItems[7]);
 			continue;
 		}
 
@@ -296,12 +298,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		m_XferListCtrl.SetItemProgress(i, 2, 100 * xSent / fi->fip->nbytes);
 
 		// size
-		//strBuf.Format("%0.0f/%0.0fKB", xSent / 1024, fi->fip->nbytes / 1024);
-		//m_XferListCtrl.SetItemText(i, 3, strBuf.GetBuffer(0));
-		// size
-		strBuf.Format("0");
-		if (fi->fxp)
-			strBuf.Format("%0.1f", fi->fxp->xfer_speed/1024);
+		strBuf.Format("%0.0f/%0.0fKB", xSent / 1024, fi->fip->nbytes / 1024);
 		m_XferListCtrl.SetItemText(i, 3, strBuf.GetBuffer(0));
 
 		// time
@@ -313,6 +310,13 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		strBuf.Format("%0.2d:%0.2d:%0.2d", xhour, xmin, xsec);
 		m_XferListCtrl.SetItemText(i, 4, strBuf.GetBuffer(0));
 
+		// speed
+		strBuf.Format("0.00 KBps");
+		if(fi->fxp) {
+			strBuf.Format("%0.2f KBps", fi->fxp->xfer_speed/1024);
+		}
+		m_XferListCtrl.SetItemText(i, 5, strBuf.GetBuffer(0));
+
 		// status
 		if (fi->next_request_time > time(0)) {
 			double xtime = fi->next_request_time-time(0);
@@ -320,15 +324,15 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 			int xmin = (int)(xtime / 60) % 60;
 			int xsec = (int)(xtime) % 60;
 			strBuf.Format("%s %0.2d:%0.2d:%0.2d", g_szMiscItems[10], xhour, xmin, xsec);
-			m_XferListCtrl.SetItemText(i, 5, strBuf);
+			m_XferListCtrl.SetItemText(i, 6, strBuf);
 		} else if (fi->fip->status == ERR_GIVEUP_DOWNLOAD) {
 			strBuf.Format(g_szMiscItems[11]);
-			m_XferListCtrl.SetItemText(i, 5, strBuf);
+			m_XferListCtrl.SetItemText(i, 6, strBuf);
 		} else if (fi->fip->status == ERR_GIVEUP_UPLOAD) {
 			strBuf.Format(g_szMiscItems[12]);
-			m_XferListCtrl.SetItemText(i, 5, strBuf);
+			m_XferListCtrl.SetItemText(i, 6, strBuf);
 		} else {
-			m_XferListCtrl.SetItemText(i, 5, fi->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9]);
+			m_XferListCtrl.SetItemText(i, 6, fi->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9]);
 		}
 	}
 	m_XferListCtrl.SetRedraw(TRUE);

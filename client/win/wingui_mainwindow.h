@@ -61,7 +61,7 @@
 
 #define PROJECT_COLS		5			// number of columns for each control
 #define RESULT_COLS			7
-#define XFER_COLS			6
+#define XFER_COLS			7
 #define MESSAGE_COLS		3
 
 
