@@ -5078,6 +5078,10 @@ Karl    2003/06/26
     - test_sanity should make sure proxy setup works
     - test_masterurl_failure
 
+    client/
+        client_state.C
+        cs_apps.C
+
     test/
         Makefile.am
         test_sanity.py
