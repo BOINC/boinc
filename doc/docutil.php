@@ -8,17 +8,17 @@ function page_head($title) {
     $d = last_mod();
     echo "<html>
         <head>
-        <link rel='stylesheet' type='text/css' href="white.css"/>
+        <link rel='stylesheet' type='text/css' href='white.css'/>
         <link rel='shortcut icon' href='iconsmall.ico'/>
         <title>$title</title>
         </head>
-        <body bgcolor=ffffff>
-        <table width=100%>
+        <body bgcolor='ffffff'>
+        <table width='100%'>
         <tr>
         <td><center><h1>$title</h1></center>
-        <td align=right><a href=.><img src=boinc.gif></a>
+        <td align=right><a href='.'><img src='boinc.gif'></a>
             <br>
-            <nobr><font size=2>Last modified $d</font></nobr>
+            <nobr><font size='2'>Last modified $d</font></nobr>
         </td>
         </tr></table>
         <hr size=0 noshade>

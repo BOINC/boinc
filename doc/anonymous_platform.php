@@ -56,7 +56,8 @@ downloading them from the project.  Here's how it works:
     Create a file <b>app_info.xml</b> in the project directory.  This file
     lists the applications you have compiled or downloaded.  It has the
     following form:
-  <pre><![CDATA[
+    <pre>
+      <?php= htmlspecialchars("
 <app_info>
     <app>
         <name>setiathome</name>
@@ -73,7 +74,7 @@ downloading them from the project.  Here's how it works:
         </file_ref>
     </app_version>
 </app_info>
-]]></pre>
+")?></pre>
   </li>
   <li>
     Run the core client again.  When it requests work from the scheduling
