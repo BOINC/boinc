@@ -23,6 +23,20 @@ define("BODY_COLOR", " bgcolor=ffffff ");
 define("PROJECT", "Astropulse");
 define("MASTER_URL", "http://maggie.ssl.berkeley.edu/ap/");
 
+// Initializes the session and returns the authenticator
+// for the session (if any)
+function init_session() {
+    session_start();
+    if (!session_is_registered("authenticator")) {
+        session_register("authenticator");
+    }
+    return $_SESSION["authenticator"];
+}
+
+function get_user_from_auth($auth) {
+    if ($auth) return lookup_user_auth($auth);
+    return NULL;
+}
 
 function get_user_from_cookie() {
     $auth = "";
@@ -57,8 +71,7 @@ function page_tail() {
 
     // put your copyright notice etc. here
 
-    echo "<hr><center><a href=index.php>Astropulse home page</a>\n";
-    echo "<br>Copyright (c) 2002 Astropulse\n";
+    echo "<hr>Copyright (c) 2002 ".PROJECT."\n";
 }
 
 function date_str($when) {
