@@ -147,11 +147,11 @@ function show_result_row(
     ";
 }
 
-function client_version_string($client_version_num) {
-    if (!$client_version_num) {
+function version_string($version_num) {
+    if (!$version_num) {
         return '---';
     } else {
-        return sprintf("%.2f", $client_version_num/100);
+        return sprintf("%.2f", $version_num/100);
     }
 }
 function exit_status_string($result) {
@@ -215,9 +215,9 @@ function show_result($result) {
     row2("CPU time", $result->cpu_time);
     row2("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
     row2("Validate state", validate_state_str($result->validate_state));
-    row2("claimed credit", $result->claimed_credit);
+    row2("Claimed credit", $result->claimed_credit);
     row2("Granted credit", $result->granted_credit);
-    row2("Client version", client_version_string($result->client_version_num));
+    row2("application version", version_string($result->app_version_num));
     end_table();
 }
 

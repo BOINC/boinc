@@ -18972,3 +18972,9 @@ David  29 Oct 2004
         graphics_api.h
     tools/
         update_versions
+
+David  29 Oct 2004
+    - show app version# in result page
+
+    html/inc/
+        result.inc
