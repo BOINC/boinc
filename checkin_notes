@@ -8272,6 +8272,25 @@ David  8 Dec 2003
         text_search_action.php (new)
         text_search_form.php (new)
 
+Jeff 09 Dec 2003
+    - We have the same gcc version problem with solaris that we do with
+      linux whereby if the  version number of libstdc++.so on the run
+      machine is different than that on the build machine, the loader
+      fails.  However, on solaris you cannot just say gcc -static as there
+      are dynamic only versions of some needed libs, namely libdl and 
+      libaio.  I tried to use the -Xlinker gcc option which theoretically
+      should allow us to specify the link (collect2) line in precise
+      detail.  But -lstdc++ kept showing up twice with one occurrence
+      being outside my -Xlinker -B -Xlinker static directive.  So I 
+      hand crafted a collect2 line and placed it in a file - collect2_line. 
+      Sourcing this file produces an executable that will load and run
+      across gcc versions (and solaris versions for that matter).  I
+      don't like it but it works.
+
+      client/
+        collect2_line   (new file)
+
 Gary	09 Dec 2003
     - BOINC release 2.14 for windows, Linux, solaris2.7, solaris2.8
+
 
