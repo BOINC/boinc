@@ -222,27 +222,34 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		}
 
 		// Set the master URL for this object
-		m_ProjectListCtrl.SetProjectURL(i, pr->master_url);
+        if (m_ProjectListCtrl.GetProjectURL(i) != pr->master_url)
+		    m_ProjectListCtrl.SetProjectURL(i, pr->master_url);
 
 		// project
-		m_ProjectListCtrl.SetItemText(i, 0, pr->get_project_name());
+        if (m_ProjectListCtrl.GetItemText(i, 0) != pr->get_project_name())
+		    m_ProjectListCtrl.SetItemText(i, 0, pr->get_project_name());
 
 		// account
-		m_ProjectListCtrl.SetItemText(i, 1, pr->user_name);
+        if (m_ProjectListCtrl.GetItemText(i, 1) != pr->user_name)
+		    m_ProjectListCtrl.SetItemText(i, 1, pr->user_name);
 
 		// total credit
 		strBuf.Format("%0.2f", pr->user_total_credit);
-		m_ProjectListCtrl.SetItemText(i, 2, strBuf);
+        if (m_ProjectListCtrl.GetItemText(i, 2) != strBuf)
+		    m_ProjectListCtrl.SetItemText(i, 2, strBuf);
 
 		// avg credit
 		strBuf.Format("%0.2f", pr->user_expavg_credit);
-		m_ProjectListCtrl.SetItemText(i, 3, strBuf);
+        if (m_ProjectListCtrl.GetItemText(i, 3) != strBuf)
+    		m_ProjectListCtrl.SetItemText(i, 3, strBuf);
 
 		// resource share
 		if(totalres <= 0) {
-			m_ProjectListCtrl.SetItemProgress(i, 4, 100);
+            if (m_ProjectListCtrl.GetItemProgress(i, 4) != 100)
+			    m_ProjectListCtrl.SetItemProgress(i, 4, 100);
 		} else {
-			m_ProjectListCtrl.SetItemProgress(i, 4, (100 * pr->resource_share) / totalres);
+            if (m_ProjectListCtrl.GetItemProgress(i, 4) != (100 * pr->resource_share) / totalres)
+    			m_ProjectListCtrl.SetItemProgress(i, 4, (100 * pr->resource_share) / totalres);
 		}
 	}
 	m_ProjectListCtrl.SetRedraw(TRUE);
@@ -253,9 +260,11 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	for(i = 0; i < m_ResultListCtrl.GetItemCount(); i ++) {
 		RESULT* re = (RESULT*)m_ResultListCtrl.GetItemData(i);
 		if(!re) {
-			m_ResultListCtrl.SetItemColor(i, RGB(128, 128, 128));
-			m_ResultListCtrl.SetItemProgress(i, 4, 100);
-			m_ResultListCtrl.SetItemText(i, 5, "00:00:00");
+            if (m_ResultListCtrl.GetItemProgress(i, 4) != 100) {
+			    m_ResultListCtrl.SetItemColor(i, RGB(128, 128, 128));
+			    m_ResultListCtrl.SetItemProgress(i, 4, 100);
+			    m_ResultListCtrl.SetItemText(i, 5, "00:00:00");
+            }
 			continue;
 		}
 
@@ -344,7 +353,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	for(i = 0; i < m_XferListCtrl.GetItemCount(); i ++) {
 		PERS_FILE_XFER* pfx = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(i);
 		if(!pfx) {
-            if (m_XferListCtrl.GetItemText(i, 3) != g_szMiscItems[7]) {
+            if (m_XferListCtrl.GetItemProgress(i, 2) != 100) {
 			    m_XferListCtrl.SetItemColor(i, RGB(128, 128, 128));
 			    m_XferListCtrl.SetItemProgress(i, 2, 100);
 			    m_XferListCtrl.SetItemText(i, 3, g_szMiscItems[7]);
