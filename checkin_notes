@@ -25434,3 +25434,10 @@ David  1 Mar 2005
 
     client/
         cs_statefile.C
+
+Janus 2 Mar 2005
+    - Changed translation compiler to avoid concurrent compiles
+
+    html/inc/
+        translation.inc
+
