@@ -243,7 +243,10 @@ struct HOST {
 // values for file_delete state
 #define FILE_DELETE_INIT        0
 #define FILE_DELETE_READY       1
+    // set to this value only when we believe all files are uploaded
 #define FILE_DELETE_DONE        2
+    // means the file uploader ATTEMPTED to delete files.
+    // May have failed.  TODO: retry delete later
 
 // values for assimilate_state
 #define ASSIMILATE_INIT         0
@@ -468,6 +471,7 @@ public:
     int get_id();
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
+    void operator=(WORKUNIT& w) {WORKUNIT::operator=(w);}
 };
 
 class DB_WORKSEQ : public DB_BASE, public WORKSEQ {

@@ -6257,6 +6257,17 @@ Karl 2003/09/10
     Sched/
         transitioner.C
 
+David  Sept 11 2003
+    - transitioner: set file delete state to READY only if it's currently INIT
+        This should make file_deleter more efficient,
+        because each WU/result is file-deleted only once.
+        Also means that unlink()s should always succeed
+    - file deleter: print retval of unlink() (should always be zero)
+
+    sched/
+        file_deleter.C
+        transitioner.C
+
 Karl 2003/09/15
     - fixed transitioner bug where usage of `unsigned int' instead of signed
       int caused 400k results to be generated.
@@ -6274,13 +6285,13 @@ Eric K. 16-Sep-2003
       tools/process_result_template.C
 
 Jeff 2003/09/17
-No code changes.  This is the branch point for the seti beta.  The tag is:
+    No code changes.  This is the branch point for the seti beta.  The tag is:
 
         setiathome-4.xx_all_platforms_beta
 
-for both seti_boinc and boinc.  They both make on solaris without serious 
-error and the resulting seti client links without error with the resulting 
-boinc libs. 
+    for both seti_boinc and boinc.  They both make on solaris without serious 
+    error and the resulting seti client links without error with the resulting 
+    boinc libs. 
 
 Karl,Eric Heien 2003/09/18
     - fixed some pre-ANSI C
@@ -6288,3 +6299,18 @@ Karl,Eric Heien 2003/09/18
         transitioner.C
     tools/
         create_work.C
+
+David  Sept 21 2003
+    - Added mechanism for marking results as COULDNT_SEND:
+        When the scheduler finds that a result is infeasible
+        for a host, it increments the "infeasible_count" in the work array.
+        When the feeder finds that too many results in the array
+        have nonzero infeasible_count, it marks some of them
+        as COULDNT_SEND and removes them from the array
+
+    db/
+        boinc_db.h
+    sched/
+        feeder.C
+        handle_request.C
+        sched_shmem.h

@@ -26,10 +26,14 @@
 #define MAX_APPS            10
 #define MAX_APP_VERSIONS    1000
 #define MAX_WU_RESULTS      1000
+#define MAX_INFEASIBLE      500
+    // if # of elements in work array that were infeasible for some host
+    // exceeds this, classify some of them as COULDNT_SEND
 
 // a workunit/result pair
 struct WU_RESULT {
     bool present;
+    int infeasible_count;
     WORKUNIT workunit;
     RESULT result;
 };

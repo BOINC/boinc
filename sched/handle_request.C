@@ -653,39 +653,31 @@ static int update_wu_transition_time(WORKUNIT wu, time_t x) {
     return 0;
 }
 
-int send_work(
+// Make a pass through the wu/results array, sending work.
+// If "infeasible_only" is true, send only results that were
+// previously infeasible for some host
+//
+static void scan_work_array(
+    bool infeasible_only, double& seconds_to_fill, int& nresults,
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     SCHED_SHMEM& ss
 ) {
-    int i, retval, nresults = 0;
-    double seconds_to_fill;
+    int i, retval;
     WORKUNIT wu;
     DB_RESULT result, result_copy;
 
-    log_messages.printf(
-        SchedMessages::NORMAL,
-        "[HOST#%d] got request for %d seconds of work\n",
-        reply.host.id, sreq.work_req_seconds
-    );
-
-    if (sreq.work_req_seconds <= 0) return 0;
-
-    seconds_to_fill = sreq.work_req_seconds;
-    if (seconds_to_fill > MAX_SECONDS_TO_SEND) {
-        seconds_to_fill = MAX_SECONDS_TO_SEND;
-    }
-    if (seconds_to_fill < MIN_SECONDS_TO_SEND) {
-        seconds_to_fill = MIN_SECONDS_TO_SEND;
-    }
-
     for (i=0; i<ss.nwu_results && seconds_to_fill>0; i++) {
+        WU_RESULT& wu_result = ss.wu_results[i];
 
         // the following should be a critical section
         //
-        if (!ss.wu_results[i].present) {
+        if (!wu_result.present) {
             continue;
         }
-        wu = ss.wu_results[i].workunit;
+        if (infeasible_only && wu_result.infeasible_count==0) {
+            continue;
+        }
+        wu = wu_result.workunit;
 
         double wu_seconds_filled = estimate_duration(wu, reply.host);
 
@@ -694,11 +686,12 @@ int send_work(
                 SchedMessages::DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
                 reply.host.id, wu.id, wu.name
             );
+            wu_result.infeasible_count++;
             continue;
         }
 
-        result = ss.wu_results[i].result;
-        ss.wu_results[i].present = false;
+        result = wu_result.result;
+        wu_result.present = false;
 
         retval = add_wu_to_reply(wu, reply, platform, ss);
         if (retval) continue;
@@ -717,7 +710,10 @@ int send_work(
 
         retval = update_wu_transition_time(wu, result.report_deadline);
         if (retval) {
-            log_messages.printf(SchedMessages::CRITICAL, "send_work: can't update WU transition time\n");
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "send_work: can't update WU transition time\n"
+            );
         }
 
         // copy the result so we don't overwrite its XML fields
@@ -739,6 +735,35 @@ int send_work(
         nresults++;
         if (nresults == MAX_WUS_TO_SEND) break;
     }
+}
+
+int send_work(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    SCHED_SHMEM& ss
+) {
+    int nresults = 0;
+    double seconds_to_fill;
+
+    log_messages.printf(
+        SchedMessages::NORMAL,
+        "[HOST#%d] got request for %d seconds of work\n",
+        reply.host.id, sreq.work_req_seconds
+    );
+
+    if (sreq.work_req_seconds <= 0) return 0;
+
+    seconds_to_fill = sreq.work_req_seconds;
+    if (seconds_to_fill > MAX_SECONDS_TO_SEND) {
+        seconds_to_fill = MAX_SECONDS_TO_SEND;
+    }
+    if (seconds_to_fill < MIN_SECONDS_TO_SEND) {
+        seconds_to_fill = MIN_SECONDS_TO_SEND;
+    }
+
+    // give priority to results that were infeasible for some other host
+    //
+    scan_work_array(true, seconds_to_fill, nresults, sreq, reply, platform, ss);
+    scan_work_array(false, seconds_to_fill, nresults, sreq, reply, platform, ss);
 
     log_messages.printf(
         SchedMessages::NORMAL, "[HOST#%d] Sent %d results\n",

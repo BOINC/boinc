@@ -26,10 +26,6 @@
 //
 // -asynch      fork and run in a separate process
 
-// TODO:
-// - check for wu/results that don't get sent for a long time;
-//   generate a warning message
-
 // Trigger files:
 // The feeder program periodically checks for two trigger files:
 //
@@ -86,8 +82,8 @@ int check_reread_trigger() {
     return 0;
 }
 
-// Try keep the wu_results array filled.
-// This is actually a little tricky.
+// Try to keep the work array filled.
+// This is a little tricky.
 // We use an enumerator.
 // The inner loop scans the wu_result table,
 // looking for empty slots and trying to fill them in.
@@ -102,11 +98,154 @@ int check_reread_trigger() {
 //    Crude approach: if a "collision" (as above) occurred on
 //    a pass through the array, wait a long time (5 sec)
 //
-void feeder_loop() {
-    int i, j, nadditions, ncollisions, retval;
+// Checking for infeasible results (i.e. can't sent to any host):
+// - the "infeasible_count" field of WU_RESULT keeps track of
+//   how many times the WU_RESULT was infeasible for a host
+// - the scheduler gives priority to results that have infeasible_count > 0
+// - the feeder tries to ensure that the number of WU_RESULTs
+//   with infeasible_count  > 0 doesn't exceed MAX_INFEASIBLE
+//   (compiled into feeder).
+//   If it does, then the feeder picks the WU_RESULT with
+//   the largest infeasible_count,
+//   flags the result as OVER with outcome COULDNT_SEND,
+//   flags the WU for the transitioner,
+//   and repeats this until the infeasible count is low enough again
+
+static void scan_work_array(
+    DB_RESULT& result, char* clause,
+    int& nadditions, int& ncollisions, int& ninfeasible,
+    bool& no_wus
+) {
+    int i, j, retval;
+    DB_WORKUNIT wu;
+    bool collision, restarted_enum = false;
+
+    for (i=0; i<ssp->nwu_results; i++) {
+        WU_RESULT& wu_result = ssp->wu_results[i];
+        if (wu_result.present) {
+            if (wu_result.infeasible_count > 0) {
+                ninfeasible++;
+            }
+        } else {
+try_again:
+            retval = result.enumerate(clause);
+            if (retval) {
+
+                // if we already restarted the enum on this array scan,
+                // there's no point in doing it again.
+                //
+                if (restarted_enum) {
+                    log_messages.printf(SchedMessages::DEBUG, "already restarted enum on this array scan\n");
+                    break;
+                }
+
+                // restart the enumeration
+                //
+                restarted_enum = true;
+                retval = result.enumerate(clause);
+                log_messages.printf(SchedMessages::DEBUG, "restarting enumeration\n");
+                if (retval) {
+                    log_messages.printf(SchedMessages::DEBUG, "enumeration restart returned nothing\n");
+                    no_wus = true;
+                    break;
+                }
+            }
+
+            // there's a chance this result was sent out
+            // after the enumeration started.
+            // So read it from the DB again
+            //
+            retval = result.lookup_id(result.id);
+            if (retval) {
+                log_messages.printf(SchedMessages::NORMAL,
+                    "[%s] can't reread result: %d\n", result.name, retval
+                );
+                goto try_again;
+            }
+            if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
+                log_messages.printf(
+                    SchedMessages::NORMAL,
+                    "[%s] RESULT STATE CHANGED\n",
+                    result.name
+                );
+                goto try_again;
+            }
+            collision = false;
+            for (j=0; j<ssp->nwu_results; j++) {
+                if (ssp->wu_results[j].present
+                    && ssp->wu_results[j].result.id == result.id
+                ) {
+                    ncollisions++;
+                    collision = true;
+                    break;
+                }
+            }
+            if (!collision) {
+                log_messages.printf(
+                    SchedMessages::NORMAL,
+                    "[%s] adding result in slot %d\n",
+                    result.name, i
+                );
+                retval = wu.lookup_id(result.workunitid);
+                if (retval) {
+                    log_messages.printf(
+                        SchedMessages::CRITICAL,
+                        "[%s] can't read workunit #%d: %d\n",
+                        result.name, result.workunitid, retval
+                    );
+                    continue;
+                }
+                wu_result.result = result;
+                wu_result.workunit = wu;
+                wu_result.present = true;
+                wu_result.infeasible_count = 0;
+                nadditions++;
+            }
+        }
+    }
+}
+
+int remove_most_infeasible() {
+    int i, max, imax=-1, retval;
     DB_RESULT result;
     DB_WORKUNIT wu;
-    bool no_wus, collision, restarted_enum;
+
+    max = 0;
+    for (i=0; i<ssp->nwu_results; i++) {
+        WU_RESULT& wu_result = ssp->wu_results[i];
+        if (wu_result.present && wu_result.infeasible_count > max) {
+            imax = i;
+            max = wu_result.infeasible_count;
+        }
+    }
+    if (max == 0) return -1;        // nothing is infeasible
+
+    WU_RESULT& wu_result = ssp->wu_results[imax];
+    wu_result.present = false;      // mark as absent
+    result = wu_result.result;
+    wu = wu_result.workunit;
+
+    log_messages.printf(
+        SchedMessages::NORMAL,
+        "[%s] declaring result as unsendable\n",
+        result.name
+    );
+
+    result.server_state = RESULT_SERVER_STATE_OVER;
+    result.outcome = RESULT_OUTCOME_COULDNT_SEND;
+    retval = result.update();
+    if (retval) return retval;
+    wu.transition_time = time(0);
+    retval = wu.update();
+    if (retval) return retval;
+
+    return 0;
+}
+
+void feeder_loop() {
+    int i, n, retval, nadditions, ncollisions, ninfeasible;
+    DB_RESULT result;
+    bool no_wus;
     char clause[256];
 
     sprintf(clause, "where server_state=%d order by random limit %d",
@@ -116,84 +255,22 @@ void feeder_loop() {
     while (1) {
         nadditions = 0;
         ncollisions = 0;
+        ninfeasible = 0;
         no_wus = false;
-        restarted_enum = false;
-        for (i=0; i<ssp->nwu_results; i++) {
-            if (!ssp->wu_results[i].present) {
-try_again:
-                retval = result.enumerate(clause);
-                if (retval) {
 
-                    // if we already restarted the enum on this pass,
-                    // there's no point in doing it again.
-                    //
-                    if (restarted_enum) {
-                        log_messages.printf(SchedMessages::DEBUG, "already restarted enum on this pass\n");
-                        break;
-                    }
+        scan_work_array(
+            result, clause, nadditions, ncollisions, ninfeasible, no_wus
+        );
 
-                    // restart the enumeration
-                    //
-                    restarted_enum = true;
-                    retval = result.enumerate(clause);
-                    log_messages.printf(SchedMessages::DEBUG, "restarting enumeration\n");
-                    if (retval) {
-                        log_messages.printf(SchedMessages::DEBUG, "enumeration restart returned nothing\n");
-                        no_wus = true;
-                        break;
-                    }
-                }
+        ssp->ready = true;
 
-                // there's a chance this result was sent out
-                // after the enumeration started.
-                // So read it from the DB again
-                //
-                retval = result.lookup_id(result.id);
-                if (retval) {
-                    log_messages.printf(SchedMessages::NORMAL, "can't reread result %s\n", result.name);
-                    goto try_again;
-                }
-                if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
-                    log_messages.printf(
-                        SchedMessages::NORMAL,
-                        "[%s] RESULT STATE CHANGED\n",
-                        result.name
-                    );
-                    goto try_again;
-                }
-                collision = false;
-                for (j=0; j<ssp->nwu_results; j++) {
-                    if (ssp->wu_results[j].present
-                        && ssp->wu_results[j].result.id == result.id
-                    ) {
-                        ncollisions++;
-                        collision = true;
-                        break;
-                    }
-                }
-                if (!collision) {
-                    log_messages.printf(
-                        SchedMessages::NORMAL,
-                        "[%s] adding result in slot %d\n",
-                        result.name, i
-                    );
-                    retval = wu.lookup_id(result.workunitid);
-                    if (retval) {
-                        log_messages.printf(
-                            SchedMessages::CRITICAL,
-                            "[%s] can't read workunit #%d: %d\n",
-                            result.name, result.workunitid, retval
-                        );
-                        continue;
-                    }
-                    ssp->wu_results[i].result = result;
-                    ssp->wu_results[i].workunit = wu;
-                    ssp->wu_results[i].present = true;
-                    nadditions++;
-                }
+        if (ninfeasible > MAX_INFEASIBLE) {
+            n = ninfeasible - MAX_INFEASIBLE;
+            for (i=0; i<n; i++ ) {
+                retval = remove_most_infeasible();
+                if (retval) break;
             }
         }
-        ssp->ready = true;
         if (nadditions == 0) {
             log_messages.printf(SchedMessages::DEBUG, "No results added; sleeping 1 sec\n");
             sleep(1);
