@@ -40,19 +40,12 @@ HIGH-PRIORITY (should do for beta test)
 Check for problematic HTML tags in team descriptions
     (use SETI@home code?)
 
-Windows: use messages rather than interrupt for timing
-
 make get_local_ip_addr() work in all cases
 
 est_time_to_completion doesn't work for non-running tasks
 
-run backend programs (validate/file_deleter/assimilate)
-    from crontab; document
-
 Windows client
     make mini-logo
-    fix "unable to calculate"
-    completed results: show final CPU time
 
 Messages from core client
     decide what messages should be shown to user, and how
