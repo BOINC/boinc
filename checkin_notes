@@ -16745,3 +16745,10 @@ David  27 Aug 2004
     
     sched/
         handle_request.C
+
+David  27 Aug 2004
+	- db_ops DB browsing fixes (from Kalle Happonen)
+
+	html/inc/
+		db_ops.inc
+

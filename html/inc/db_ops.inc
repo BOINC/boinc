@@ -170,18 +170,24 @@ class SqlQueryString {
         $this->addeqnz('client_state');
         $this->addeqnz('validate_state');
         if ($_GET['clauses']) {
-            $this->addclause($_GET['clauses']);
+            $this->addclause(urldecode($_GET['clauses']));
         }
         $this->addsort('sort_by');
     }
 }
 
 
-function link_results($n, $mq, $query) {
+function link_results($n, $mq, $query, $clauses) {
     if ($n == '0') { // intentional compare by string
         return "0";
     } else {
-        return "<a href=db_action.php?table=result&query=$mq&$query&sort_by=received_time&detail=low>$n</a>";
+        if(strlen($clauses)) {
+            return "<a href=db_action.php?table=result&query=$mq&$query&clauses=".urlencode($clauses)."&sort_by=received_time&detail=low>$n</a>";
+        }
+        else {
+            return "<a href=db_action.php?table=result&query=$mq&$query&sort_by=received_time&detail=low>$n</a>";
+        }
+        
     }
 }
 
@@ -293,17 +299,17 @@ WHERE
 
     echo "<table>";
     echo "<tr valign=top>";
-    echo "<td><h2>" . link_results("$ntotal results", $urlquery, '') . "</h2></td>";
-    echo "<td><h2>" . link_results("'Over' results", $urlquery, "server_state=5") . "</h2></td>";
-    echo "<td><h2>" . link_results("'Success' results", $urlquery, "outcome=1") . "</h2></td>";
-    echo "<td><h2>" . link_results("'Client error' results", $urlquery, "outcome=3") . "</h2></td>";
+    echo "<td><h2>" . link_results("$ntotal results", $urlquery, '', '') . "</h2></td>";
+    echo "<td><h2>" . link_results("'Over' results", $urlquery, "server_state=5", '') . "</h2></td>";
+    echo "<td><h2>" . link_results("'Success' results", $urlquery, "outcome=1", '') . "</h2></td>";
+    echo "<td><h2>" . link_results("'Client error' results", $urlquery, "outcome=3", '') . "</h2></td>";
     echo "</tr>";
     echo "<tr valign=top>";
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Server state</th><th># results</th></tr>\n";
     for ($ss=1; $ss<6; $ss++) {
         row2(server_state_string($ss),
-             link_results($server_state[$ss],  $urlquery,"server_state=$ss"));
+             link_results($server_state[$ss],  $urlquery,"server_state=$ss", ''));
     }
     echo "</table></td>";
 
@@ -311,26 +317,26 @@ WHERE
     echo "<tr><th>Outcome</th><th># results</th></tr>\n";
     for ($ro=0; $ro<6; $ro++) {
         c_row2($outcome[$ro]?outcome_color($ro):'', outcome_string($ro),
-            link_results($outcome[$ro], $urlquery, "outcome=$ro")
+            link_results($outcome[$ro], $urlquery, "outcome=$ro", '')
         );
     }
     echo "</table></td>";
 
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Validate state</th><th># results</th></tr>\n";
-    row2("Valid", link_results($nvalid, $urlquery, "validate_state=1"));
-    row2("Invalid", link_results($ninvalid, $urlquery, "validate_state=2"));
+    row2("Valid", link_results($nvalid, $urlquery, "validate_state=1", "outcome=1"));
+    row2("Invalid", link_results($ninvalid, $urlquery, "validate_state=2", "outcome=1"));
     echo "</table>";
     echo "<table border=2 cellpadding=4\n";
     echo "<tr><th>File Delete state</th><th># results</th></tr>\n";
-    row2("Files deleted", link_results($nfile_deleted, $urlquery, "file_delete_state= 1 or file_delete_state=2"));
+    row2("Files deleted", link_results($nfile_deleted, $urlquery, "outcome=1", "(file_delete_state=1 or file_delete_state=2)"));
     echo "</table></td>";
 
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Client state</th><th># results</th></tr>\n";
     for ($cs=1; $cs<6; $cs++) {
         row2(client_state_string($cs),
-            link_results($client_state[$cs], $urlquery, "client_state=$cs")
+            link_results($client_state[$cs], $urlquery, "client_state=$cs", "outcome=3")
         );
     }
     echo "</table></td>";
