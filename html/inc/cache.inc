@@ -46,25 +46,31 @@ function disk_usage($dir) {
 }
 
 function clean_cache($max_age, $dir) {
-    chdir($dir);
+    $start_dir = getcwd();
+    if (!chdir($dir)) {
+        return;
+    }
     if ($handle=@opendir(".")) {
         while ($file=readdir($handle)) {
             if ($file == ".") continue;
             if ($file == "..") continue;
 
             // don't let hackers trick us into deleting other files!
-            if (substr($file, "..")) continue;
-            if (@is_dir($dir."/".$file)) {
-                clean_cache($max_age, $dir."/".$file);
+            if (strstr($file, "..")) {
+                continue;
+            }
+            if (@is_dir($file)) {
+                clean_cache($max_age, $file);
             } else {
                 if ((time()-@filemtime($file))>$max_age) {
-                    //echo "unlinking $dir/$file\n";
+                    //echo "unlinking ".getcwd()."/$file\n";
                     @unlink($file);
                 }
             }
         }
        @closedir($handle);
     }
+    chdir($start_dir);
 } 
 
 function start_cache($max_age, $params=""){
