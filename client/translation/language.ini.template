@@ -5,7 +5,7 @@
 
 #PROJECT_ID
 [HEADER-Projects]
-Title=Projects
+Title=PROJECTS
 Project=PROJECT
 Account=ACCOUNT
 Total Credit=TOTAL CREDIT
@@ -14,7 +14,7 @@ Resource Share=RESOURCE SHARE
 
 #RESULT_ID
 [HEADER-Work]
-Title=Work
+Title=WORK
 Project=PROJECT
 Application=APPLICATION
 Name=NAME
@@ -25,7 +25,7 @@ Status=STATUS
 
 #XFER_ID
 [HEADER-Transfers]
-Title=Transfers
+Title=TRANSFERS
 Project=PROJECT
 File=FILE
 Progress=PROGRESS
@@ -38,14 +38,14 @@ Type=TYPE
 
 #MESSAGE_ID
 [HEADER-Messages]
-Title=Messages
+Title=MESSAGES
 Project=PROJECT
 Time=TIME
 Message=MESSAGE
 
 #USAGE_ID
 [HEADER-Disk]
-Title=Disk
+Title=DISK
 Free space=FREE SPACE
 Used space: non-BOINC=USED SPACE: NON-BOINC
 Used space: BOINC=USED SPACE: BOINC
@@ -69,7 +69,7 @@ Download failed=DOWNLOAD FAILED
 
 #menu items
 [MENU-File]
-Title=File
+Title=FILE
 Show Graphics=SHOW GRAPHICS
 Force run=FORCE RUN
 Run based on preferences=RUN BASED ON PREFERENCES
@@ -79,12 +79,12 @@ Hide=HIDE
 Exit=EXIT
 
 [MENU-Settings]
-Title=Settings
+Title=SETTINGS
 Login to Project...=LOGIN TO PROJECT...
 Proxy Server...=PROXY SERVER...
 
 [MENU-Help]
-Title=Help
+Title=HELP
 About...=ABOUT...
 
 [MENU-StatusIcon]
@@ -113,7 +113,7 @@ Retry now=RETRY NOW
 Copy to clipboard=COPY TO CLIPBOARD
 
 [DIALOG-LOGIN]
-Title=Login to Project
+Title=LOGIN TO PROJECT
 URL:=URL:
 Account Key:=ACCOUNT KEY:
 OK=OK
@@ -122,7 +122,7 @@ The URL for the website of the project.=THE URL FOR THE WEBSITE OF THE PROJECT.
 The authorization code recieved in your confirmation email.=THE AUTHORIZATION CODE RECIEVED IN YOUR CONFIRMATION EMAIL.
 
 [DIALOG-QUIT]
-Title=Quit Project
+Title=QUIT PROJECT
 URL:=URL:
 Account Key:=ACCOUNT KEY:
 OK=OK
@@ -130,7 +130,7 @@ Cancel=CANCEL
 Select the project you wish to quit.=SELECT THE PROJECT YOU WISH TO QUIT.
 
 [DIALOG-CONNECT]
-Title=Connect to Network
+Title=CONNECT TO NETWORK
 BOINC needs to connect to the network.  May it do so now?=BOINC NEEDS TO CONNECT TO THE NETWORK.  MAY IT DO SO NOW?
 Don't ask this again (connect automatically)=DON'T ASK THIS AGAIN (CONNECT AUTOMATICALLY)
 OK=OK
@@ -143,8 +143,8 @@ Open Beta=OPEN BETA
 OK=OK
 
 [DIALOG-PROXY]
-Title=Proxy Server Setup
-Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=
+Title=PROXY SERVER SETUP
+Some organizations use an "HTTP proxy" or a "SOCKS proxy" (or both) for increased security.  If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.=SOME ORGANIZATIONS USE AN "HTTP PROXY" OR A "SOCKS PROXY" (OR BOTH) FOR INCREASED SECURITY.  IF YOU NEED TO USE A PROXY, FILL IN THE INFORMATION BELOW.  IF YOU NEED HELP, ASK YOUR SYSTEM ADMINISTRATOR OR INTERNET SERVICE PROVIDER.
 HTTP Proxy=HTTP PROXY
 Connect via HTTP Proxy Server=CONNECT VIA HTTP PROXY SERVER
 http://=http://
