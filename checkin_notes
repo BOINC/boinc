@@ -5388,6 +5388,10 @@ Karl 2003/07/24
 Karl 2003/07/25
     added client_version_num (e.g. 105) field to RESULT table
 
+    New update_core_client_versions script that scans apps/ for client
+    versions and updates the database
+
     db/*
     sched/*
     py/*
+    tools/*

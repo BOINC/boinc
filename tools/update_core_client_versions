@@ -1,0 +1,101 @@
+#!/usr/bin/env python
+
+# $Id$
+
+# Scans apps dir for current core client versions and updates
+
+PROJECTS_ROOT = '~/projects/'
+URL_ROOT = 'http://setiboinc.ssl.berkeley.edu/'
+# syntax: (directory_name, db_name, url_name)
+PROJECTS = [ ('AstroPulse_Beta', 'ap', 'ap'),
+             ('client_test', 'boinc_client_test', 'client_test') ]
+APPS_DIR = '../apps'
+KEY_DIR = '~/keys/'
+
+DUPLICATE_PLATFORM_EXECUTABLES = {'sparc-sun-solaris2.8':'sparc-sun-solaris2.7'}
+
+import sys, os, glob, re
+def get_download_dir(directory_name): return os.path.join(PROJECTS_ROOT,directory_name,'download')
+def get_download_url(url_name):       return os.path.join(URL_ROOT,url_name,'download')
+program_path = os.path.realpath(os.path.dirname(sys.argv[0]))
+sys.path[0:0] = ['../py', os.path.realpath(os.path.join(program_path, '../py'))]
+from version import *
+
+MINOR_VERSION = 7
+
+def xsort(list):
+    newlist = list[:]
+    newlist.sort()
+    return newlist
+
+def query_yesno(msg):
+    '''Query y/n; default Y'''
+    print msg, "[Y/n]? ",
+    return not raw_input().lower().startswith('n')
+
+tried_apps_dirs = [ APPS_DIR ]
+if not os.path.isdir(APPS_DIR):
+    APPS_DIR = os.path.join(program_path, APPS_DIR)
+    tried_apps_dirs.append(APPS_DIR)
+if not os.path.isdir(APPS_DIR):
+    raise SystemExit("Couldn't find apps dir in %s"%tried_apps_dirs)
+
+APPS_DIR = os.path.realpath(APPS_DIR)
+PROJECTS_ROOT = os.path.realpath(os.path.expanduser(PROJECTS_ROOT))
+KEY_DIR = os.path.realpath(os.path.expanduser(KEY_DIR))
+
+version_num = MAJOR_VERSION * 100 + MINOR_VERSION
+version_string = "%d.%02d"%(MAJOR_VERSION, MINOR_VERSION)
+
+s_boinc_v = 'boinc_' + version_string
+s_BOINC_v = 'BOINC_' + version_string
+unix_clients = glob.glob(os.path.join(APPS_DIR,s_boinc_v+'*.gz'))
+windows_clients = glob.glob(os.path.join(APPS_DIR,s_BOINC_v+'*.exe'))
+mac_clients = glob.glob(os.path.join(APPS_DIR,s_boinc_v+'*.sit'))
+
+client_map = {}
+for client in windows_clients:
+    client_map['windows_intelx86'] = client
+for client in mac_clients:
+    client_map['MacOSX'] = client
+for client in unix_clients:
+    platform_name = re.sub('.*_','',client).replace('.gz','')
+    client_map[platform_name] = client
+
+for (platform_name,target_platform_name) in DUPLICATE_PLATFORM_EXECUTABLES.items():
+    if target_platform_name in client_map and not platform_name in client_map:
+        client_map[platform_name] = client_map[target_platform_name]
+
+if not client_map:
+    raise SystemExit("No clients found for BOINC version %s in %s!"%(version_string,APPS_DIR))
+
+print "Clients found for BOINC version", version_string, ":"
+for platform_name in xsort(client_map.keys()):
+    print '    ', platform_name.ljust(20), client_map[platform_name]
+
+for (directory_name, db_name, url_name) in PROJECTS:
+    print "--- database", db_name, " ---"
+    existing_count = int(os.popen("""echo 'select count(*) from core_version where version_num=%d'|mysql %s"""%(version_num, db_name)).readlines()[-1].strip() or 0)
+    if existing_count:
+        if not query_yesno("  Delete %d existing version %s clients?"%(existing_count, version_string)):
+            print "    Skipping", db_name
+            continue
+        print "    Deleting from core_version"
+        os.system("""echo 'delete from core_version where version_num=%d' | mysql %s"""%(version_num, db_name))
+    code_sign_file = os.path.join(KEY_DIR, 'code_sign_private')
+    for platform_name in xsort(client_map.keys()):
+        exec_file = os.path.split(client_map[platform_name])[1]
+        download_dir = get_download_dir(directory_name)
+        download_url = get_download_url(url_name)
+        print "  Adding ", platform_name.ljust(20), os.path.join(download_dir,exec_file)
+        os.system("""
+add core_version -db_name %(db_name)s \
+    -app_name 'core client' \
+    -platform_name %(platform_name)s \
+    -download_dir %(download_dir)s \
+    -download_url %(download_url)s \
+    -code_sign_keyfile %(code_sign_file)s \
+    -exec_dir %(APPS_DIR)s \
+    -version %(version_num)d \
+    -exec_files %(exec_file)s
+""" %locals())
