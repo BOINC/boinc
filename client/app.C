@@ -374,7 +374,7 @@ int ACTIVE_TASK::start(bool first_time) {
         argv[0] = exec_name;
         parse_command_line(wup->command_line, argv+1);
         if (log_flags.task_debug) print_argv(argv);
-        sprintf(buf, "..%s.%s%s", PATH_SEPARATOR, PATH_SEPARATOR, exec_path );
+        sprintf(buf, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, exec_path );
         retval = execv(buf, argv);
         fprintf(stderr, "execv failed: %d\n", retval);
         perror("execv");
