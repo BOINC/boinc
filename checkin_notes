@@ -17455,6 +17455,11 @@ Rom    14 Sep 2004 (boinc_public)
 Lana   14 Sep 2004
     - added cpu_scheduling to global preferences
 
-    html/
-        inc/
+    html/inc/
 	   prefs.inc 
+
+David  18 Sept 2004
+	- fixed "used before assigned" errors in whetstone.
+
+	client/
+		whetstone.C

@@ -157,6 +157,7 @@ void whetstone(double& flops) {
 
 	/* Section 3, Conditional jumps */
 	jjj = (long) extern_array[11];
+    j = k = jjj;
 	 {
 	    for (ix=0; ix<xtra; ix++) {
 		  for(i=0; i<n3; i++)  {
