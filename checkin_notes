@@ -13453,3 +13453,10 @@ David  13 June 2004
         news.inc
         uotd.inc
     sched/start
+
+Rom    13 June 2004
+    - Don't dangle sockets when the request doesn't come from the loopback
+      adapter.  Thanks to Sebastian Masch for pointing out the bug and solution.
+
+    client/
+        gui_rpc_server.C
