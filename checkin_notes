@@ -7649,3 +7649,18 @@ Eric  10 Nov 2003
 
     lib/filesys.C
 
+David  9 Nov 2003
+	- boinc_init(): initialize last_checkpoint_cpu_time.
+		This is why reported CPU time would sometimes go to zero
+	- Upper case app: report fraction done like you're supposed to
+	- Write checkpoint CPU time in %.15e format.
+		SHOULD ALWAYS USE THIS FOR FLOATING PT NUMBERS
+	- released version 2.06 of upper_case in the client test project.
+		Also changed est FP ops in that DB so that clients get few results
+
+	api/
+		boinc_api.C
+	apps/
+		upper_case.C
+	win_builc/
+		upper_case.dsp

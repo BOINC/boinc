@@ -232,7 +232,7 @@ static int update_app_progress(
     sprintf(msg_buf,
         "<fraction_done>%2.8f</fraction_done>\n"
         "<current_cpu_time>%10.4f</current_cpu_time>\n"
-        "<checkpoint_cpu_time>%10.4f</checkpoint_cpu_time>\n"
+        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n"
         "<working_set_size>%f</working_set_size>\n",
         frac_done, cpu_t, cp_cpu_t, ws_t
     );
@@ -463,6 +463,7 @@ int boinc_init(bool standalone_ /* = false */) {
     }
 
     time_until_checkpoint = aid.checkpoint_period;
+    last_checkpoint_cpu_time = aid.wu_cpu_time;
     time_until_fraction_done_update = aid.fraction_done_update_period;
     this_process_active = true;
     last_wu_cpu_time = aid.wu_cpu_time;

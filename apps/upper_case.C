@@ -109,7 +109,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode
 
 int main(int argc, char **argv) {
     int c, nchars = 0, retval, i, n;
-    double j;
+    double j, fsize;
     char resolved_name[512];
     MFILE out;
     FILE* state, *in;
@@ -150,6 +150,7 @@ int main(int argc, char **argv) {
     // );
 
     fprintf(stderr, "APP: upper_case: starting, argc %d\n", argc);
+
     boinc_resolve_filename("in", resolved_name, sizeof(resolved_name));
     in = fopen(resolved_name, "r");
     if (in == NULL) {
@@ -160,6 +161,8 @@ int main(int argc, char **argv) {
         );
         exit(-1);
     }
+
+    file_size(resolved_name, fsize);
 
     boinc_resolve_filename(CHECKPOINT_FILE, resolved_name, sizeof(resolved_name));
     state = fopen(resolved_name, "r");
@@ -226,6 +229,8 @@ int main(int argc, char **argv) {
             }
             boinc_checkpoint_completed();
         }
+
+        boinc_fraction_done(nchars/fsize);
     }
     retval = out.flush();
     if (retval) {
