@@ -9,8 +9,13 @@
     $user = get_user_from_auth($authenticator);
     require_login($user);
 
-    page_head("Preferences");
-    print_prefs_display($user);
+    $subset = $_GET["subset"];
+    page_head(subset_name($subset)." preferences");
+    if ($subset == "global") {
+        print_prefs_display_global($user);
+    } else {
+        print_prefs_display_project($user);
+    }
     page_tail();
 
 ?>

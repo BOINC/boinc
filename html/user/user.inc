@@ -71,7 +71,8 @@ function show_user_page_private($user) {
     echo "</table>\n";
     echo "<ul>";
     echo "<li><a href=show_hosts.php>Your computer(s)</a></li>";
-    echo "<li><a href=prefs.php>Your preferences</a></li>";
+    echo "<li><a href=prefs.php?subset=global>General (BOINC) preferences</a></li>";
+    echo "<li><a href=prefs.php?subset=project>Specific ".PROJECT." preferences</a></li>";
     echo "</ul>";
 
 }

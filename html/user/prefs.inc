@@ -9,10 +9,15 @@
 // - As XML (usually called $prefs_xml)
 //
 // This XML has the general structure
-// <global_preferences [venue=x] >
+// <global_preferences>
+//    <mod_time>...</mod_time>
 //    <run_if_user_active/>
 //    <work_buf_min_days>1.3</work_buf_min_days>
 //    ...
+//    <home>
+//       <run_if_user_active/>
+//       ...
+//    </home>
 // </global_preferences>
 //
 // and
@@ -29,20 +34,18 @@
 // Various functions are defined below for converting between these forms,
 // and also to/from HTML form elements
 
-// First: functions to parse preferences XML into a struct
 
 include_once("project_specific_prefs.inc");
 
 global $text;
 global $parse_result;
+global $top_parse_result;
 global $in_project_specific;
 
-// the following parses either global or project prefs
-// TODO: split up into separate functions
+// functions to parse preferences XML into a struct
 //
-function element_start($parser, $name, $attrs) {
+function element_start_project($parser, $name, $attrs) {
     global $text;
-    global $project;
     global $in_project_specific;
 
     switch($name) {
@@ -59,7 +62,23 @@ function element_start($parser, $name, $attrs) {
     }
 }
 
-function element_end($parser, $name) {
+function element_start_global($parser, $name, $attrs) {
+    global $top_parse_result;
+    global $parse_result;
+    global $text;
+
+    switch($name) {
+    case "home":
+    case "school":
+    case "work":
+        $top_parse_result = $parse_result;
+        $parse_result = null;
+        break;
+    }
+    $text = "";
+}
+
+function element_end_project($parser, $name) {
     global $text;
     global $parse_result;
     global $in_project_specific;
@@ -68,6 +87,38 @@ function element_end($parser, $name) {
     case "project_specific":
         $parse_result->project_specific = $text;
         $in_project_specific = false;
+        break;
+    case "resource_share":
+        $parse_result->resource_share = $text;
+        break;
+    case "show_email":
+        $parse_result->show_email = true;
+        break;
+    case "send_email":
+        $parse_result->send_email = true;
+        break;
+    case "project_preferences":
+        break;
+    default:
+        if ($in_project_specific) {
+            $text = $text."</$name>\n";
+        } else {
+            echo "Unknown tag: $name\n";
+        }
+    }
+}
+
+function element_end_global($parser, $name) {
+    global $text;
+    global $parse_result;
+    global $top_parse_result;
+
+    switch($name) {
+    case "home":
+    case "school":
+    case "work":
+        $top_parse_result->$name = $parse_result;
+        $parse_result = $top_parse_result;
         break;
     case "run_on_batteries":
         $parse_result->run_on_batteries = true;
@@ -99,28 +150,13 @@ function element_end($parser, $name) {
     case "max_bytes_sec_up":
         $parse_result->max_bytes_sec_up = $text;
         break;
-    case "resource_share":
-        $parse_result->resource_share = $text;
-        break;
-    case "show_email":
-        $parse_result->show_email = true;
-        break;
-    case "send_email":
-        $parse_result->send_email = true;
-        break;
     case "mod_time":
         $parse_result->mod_time = $text;
         break;
     case "global_preferences":
         break;
-    case "project_preferences":
-        break;
     default:
-        if ($in_project_specific) {
-            $text = $text."</$name>\n";
-        } else {
-            echo "Unknown tag: $name\n";
-        }
+        echo "Unknown tag: $name\n";
     }
 }
 
@@ -131,7 +167,7 @@ function char_handler($parser, $x) {
 
 // state of prefs for new users
 //
-function default_prefs() {
+function default_prefs_global() {
     $p = null;
     $p->run_on_batteries = false;
     $p->run_if_user_active = true;
@@ -143,37 +179,54 @@ function default_prefs() {
     $p->disk_min_free_gb = 1;
     $p->max_bytes_sec_down = 0;
     $p->max_bytes_sec_up = 0;
+    return $p;
+}
 
+function default_prefs_project() {
+    $p = null;
     $p->resource_share = 100;
     $p->show_email = false;
     $p->send_email = true;
-
     $p->project_specific = project_specific_prefs_default();
     return $p;
 }
 
 // state of prefs before parsing; initialize all booleans to false
 //
-function initialize_prefs_before_parsing() {
-    $p = default_prefs();
-    $p->show_email = false;
-    $p->send_email = false;
+function initialize_prefs_before_parsing_global() {
+    $p = default_prefs_global();
     $p->run_on_batteries = false;
     $p->run_if_user_active = false;
     $p->confirm_before_connecting = false;
     return $p;
 }
 
-// parse prefs (either global or project) from XML to a struct
-//
-function prefs_parse($prefs_xml) {
-    global $parse_result;
-    
-    $parse_result = initialize_prefs_before_parsing();
+function initialize_prefs_before_parsing_project() {
+    $p = default_prefs_project();
+    $p->show_email = false;
+    $p->send_email = false;
+    return $p;
+}
 
+// parse prefs from XML to a struct
+//
+function prefs_parse_project($prefs_xml) {
+    global $parse_result;
+    $parse_result = initialize_prefs_before_parsing_project();
     $xml_parser = xml_parser_create();
     xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, 0);
-    xml_set_element_handler($xml_parser, "element_start", "element_end");
+    xml_set_element_handler($xml_parser, "element_start_project", "element_end_project");
+    xml_set_character_data_handler($xml_parser, "char_handler");
+    xml_parse($xml_parser, $prefs_xml, 1);
+    return $parse_result;
+}
+
+function prefs_parse_global($prefs_xml) {
+    global $parse_result;
+    $parse_result = initialize_prefs_before_parsing_global();
+    $xml_parser = xml_parser_create();
+    xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, 0);
+    xml_set_element_handler($xml_parser, "element_start_global", "element_end_global");
     xml_set_character_data_handler($xml_parser, "char_handler");
     xml_parse($xml_parser, $prefs_xml, 1);
     return $parse_result;
@@ -214,24 +267,66 @@ function prefs_show_project($prefs) {
     project_specific_prefs_show($prefs);
 }
 
-function print_prefs_display($user) {
-    echo "<table width=580 cellpadding=4>\n";
-    $global_prefs = prefs_parse($user->global_prefs);
-    $project_prefs = prefs_parse($user->project_prefs);
+function print_prefs_display_project($user) {
+    $project_prefs = prefs_parse_project($user->project_prefs);
     $project_specific_prefs = project_specific_prefs_parse($project_prefs->project_specific);
 
-    echo "<tr><td colspan=2><b>".PROJECT." preferences</b></td></tr>\n";
+    start_table();
+    row1(PROJECT." preferences");
     prefs_show_resource($project_prefs);
     prefs_show_project($project_specific_prefs);
     prefs_show_email($project_prefs);
     venue_show($user);
-    echo "<tr><td><a href=prefs_edit_project_form.php>Edit ".PROJECT." preferences</a></td></tr>\n";
-    echo "<tr><td colspan=2><hr></td></tr>\n";
-    echo "<tr><td colspan=2><b>BOINC preferences</b></font>
-        <br><font size=-1>These apply to all BOINC projects in which you participate</font></td></tr>\n";
+    row2("", "<a href=prefs_edit_project_form.php>Edit ".PROJECT." preferences</a>");
+    prefs_display_venue($project_prefs, "home", "project");
+    prefs_display_venue($project_prefs, "school", "project");
+    prefs_display_venue($project_prefs, "work", "project");
+    end_table();
+}
+
+function subset_name($subset) {
+    if ($subset == "global") return "BOINC";
+    return PROJECT;
+}
+
+function prefs_display_venue($prefs, $venue, $subset) {
+    $x = $prefs->$venue;
+    if ($x) {
+        row1("Separate preferences for computers at $venue");
+        if ($subset == "global") {
+            prefs_show_global($x);
+        } else {
+            prefs_show_project($x);
+        }
+        row2("<br>", "<a href=prefs_edit_form.php?venue=$venue&subset=$subset>Edit</a> | <a href=prefs_remove.php?venue=$venue&subset=$subset>Remove</a>");
+    } else {
+        $x = subset_name($subset);
+        row1("<a href=add_venue_form.php?venue=$venue&subset=$subset>Click to add separate $x preferences for computers at $venue</a>");
+    }
+}
+
+function print_prefs_display_global($user) {
+    $global_prefs = prefs_parse_global($user->global_prefs);
+
+    echo "<font size=+2>BOINC preferences</font><br><font size=-1>These apply to all BOINC projects in which you participate</font><br><br>";
+
+    start_table();
+    if ($global_prefs->home || $global_prefs->work || $global_prefs->school) {
+        row1("Primary preferences");
+    }
     prefs_show_global($global_prefs);
-    echo "<tr><td><a href=prefs_edit_global_form.php>Edit BOINC preferences</a></td></tr>\n";
-    echo "</table>";
+    row2("<br>", "<a href=prefs_edit_form.php?subset=global>Edit</a>");
+
+    prefs_display_venue($global_prefs, "home", "global");
+    prefs_display_venue($global_prefs, "school", "global");
+    prefs_display_venue($global_prefs, "work", "global");
+    end_table();
+}
+
+function print_prefs_display($user) {
+    print_prefs_display_project($user);
+    echo "<br><br>\n";
+    print_prefs_display_global($user);
 }
 
 ////////////////////////////////////////////
@@ -426,10 +521,12 @@ function prefs_project_parse_form(&$prefs) {
 //
 // convert prefs from structure to XML
 //
-function global_prefs_make_xml($prefs) {
-    $xml = "<global_preferences>\n";
-    $now = time();
-    $xml = $xml."<mod_time>$now</mod_time>\n";
+function global_prefs_make_xml($prefs, $primary=true) {
+    if ($primary) {
+        $xml = "<global_preferences>\n";
+        $now = time();
+        $xml = $xml."<mod_time>$now</mod_time>\n";
+    }
     if ($prefs->run_on_batteries) {
         $xml = $xml."<run_on_batteries/>\n";
     }
@@ -448,12 +545,25 @@ function global_prefs_make_xml($prefs) {
         ."<disk_min_free_gb>$prefs->disk_min_free_gb</disk_min_free_gb>\n"
         ."<max_bytes_sec_down>$prefs->max_bytes_sec_down</max_bytes_sec_down>\n"
         ."<max_bytes_sec_up>$prefs->max_bytes_sec_up</max_bytes_sec_up>\n";
-    $xml = $xml."</global_preferences>\n";
+    if ($prefs->home) {
+        $xml = $xml."<home>\n".global_prefs_make_xml($prefs->home, false)."</home>\n";
+    }
+    if ($prefs->work) {
+        $xml = $xml."<work>\n".global_prefs_make_xml($prefs->work, false)."</work>\n";
+    }
+    if ($prefs->school) {
+        $xml = $xml."<school>\n".global_prefs_make_xml($prefs->school, false)."</school>\n";
+    }
+    if ($primary) {
+        $xml = $xml."</global_preferences>\n";
+    }
     return $xml;
 }
 
-function project_prefs_make_xml($prefs) {
-    $xml = "<project_preferences>\n";
+function project_prefs_make_xml($prefs, $primary=true) {
+    if ($primary) {
+        $xml = "<project_preferences>\n";
+    }
     if ($prefs->show_email == 1) {
         $xml = $xml."<show_email/>\n";
     }
@@ -468,7 +578,18 @@ function project_prefs_make_xml($prefs) {
         $xml = $xml
             ."<project_specific>\n$prefs->project_specific</project_specific>\n";
     }
-    $xml = $xml."</project_preferences>\n";
+    if ($prefs->home) {
+        $xml = $xml."<home>\n".project_prefs_make_xml($prefs->home, false)."</home>\n";
+    }
+    if ($prefs->work) {
+        $xml = $xml."<work>\n".project_prefs_make_xml($prefs->work, false)."</work>\n";
+    }
+    if ($prefs->school) {
+        $xml = $xml."<school>\n".project_prefs_make_xml($prefs->school, false)."</school>\n";
+    }
+    if ($primary) {
+        $xml = $xml."</project_preferences>\n";
+    }
     return $xml;
 }
 
@@ -478,14 +599,16 @@ function project_prefs_make_xml($prefs) {
 //
 function global_prefs_update(&$user, $prefs) {
     $prefs_xml = global_prefs_make_xml($prefs);
-    mysql_query("update user set global_prefs='$prefs_xml' where id=$user->id");
+    $retval = mysql_query("update user set global_prefs='$prefs_xml' where id=$user->id");
     $user->global_prefs = $prefs_xml;
+    return $retval;
 }
 
 function project_prefs_update(&$user, $prefs) {
     $prefs_xml = project_prefs_make_xml($prefs);
-    mysql_query("update user set project_prefs='$prefs_xml' where id=$user->id");
+    $retval = mysql_query("update user set project_prefs='$prefs_xml' where id=$user->id");
     $user->project_prefs = $prefs_xml;
+    return $retval;
 }
 
 ?>

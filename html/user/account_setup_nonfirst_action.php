@@ -13,7 +13,7 @@ if ($user == NULL) {
     exit();
 }
 
-$prefs = prefs_parse($user->prefs);
+$prefs = prefs_parse_global($user->global_prefs);
 prefs_resource_parse_form($prefs);
 project_prefs_update($user, $prefs);
 

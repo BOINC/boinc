@@ -88,6 +88,17 @@ function page_tail() {
     echo "<br><br>Copyright (c) 2003 ".PROJECT."</center>\n";
 }
 
+function db_error_page() {
+    page_head("Database error");
+    echo "<h2>Database error</h2>
+        A database error occurred while handling your request.
+        <br>Please try again later.
+        <br>If the error persists, please submit a
+        <a href=bug_report_form.php>problem report</a>.
+    ";
+    page_tail();
+}
+
 function date_str($when) {
     return date("g:i A, l M j", $when);
 }
@@ -98,7 +109,15 @@ function time_str($x) {
 }
 
 function start_table() {
-    echo "<table width=600 border=2 cellpadding=4>";
+    echo "<table width=600 border=1 cellpadding=5>";
+}
+
+function end_table() {
+    echo "</table>\n";
+}
+
+function row1($x) {
+    echo "<tr><td bgcolor=dddddd colspan=2><b>$x</b></td></tr>\n";
 }
 
 function row2($x, $y) {

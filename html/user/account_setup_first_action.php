@@ -15,11 +15,11 @@ if ($user == NULL) {
 
 // TODO: consolidate the three DB updates into one
 
-$prefs = prefs_parse($user->global_prefs);
+$prefs = prefs_parse_global($user->global_prefs);
 prefs_global_parse_form($prefs);
 global_prefs_update($user, $prefs);
 
-$prefs = prefs_parse($user->project_prefs);
+$prefs = prefs_parse_project($user->project_prefs);
 prefs_email_parse_form($prefs);
 project_prefs_update($user, $prefs);
 

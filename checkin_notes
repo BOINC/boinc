@@ -3622,3 +3622,28 @@ David  Mar 3 2003
         util.inc
     test/
         test_uc.php
+
+David  Mar 4 2003
+    - added PHP code for creating/editing/deleting multiple pref sets
+        See "prefs.inc" for a description of the XML format.
+        Prefs are divided into two subsets (global and project).
+        For each subset there is a mandatory "primary" version
+        and optional versions for home, school, and work.
+        The prefs display/editing code has been consolidated
+        and parameterized (subset = global or project,
+        venue = none, home, school, work).
+        This actually simplifies things a little.
+
+    html_user/
+        account_setup_first_action.php
+        account_setup_nonfirst_action.php
+        add_venue_action.php (new)
+        add_venue_form.php (new)
+        prefs.inc
+        prefs.php
+        prefs_edit_action.php (new)
+        prefs_edit_form.php (new)
+        prefs_edit_global* (removed)
+        prefs_edit_project* (removed)
+        user.inc
+        util.inc
