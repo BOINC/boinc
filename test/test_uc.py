@@ -39,6 +39,8 @@ class WorkUC(Work):
 class ResultUC:
     def __init__(self):
         self.server_state = RESULT_SERVER_STATE_OVER
+        self.client_state = RESULT_FILES_UPLOADED
+        self.outcome      = RESULT_OUTCOME_SUCCESS
         self.stderr_out   = MATCH_REGEXPS([ """<stderr_txt>
 APP: upper_case: starting, argc \\d+
 APP: upper_case: argv[[]0[]] is upper_case
@@ -47,7 +49,9 @@ APP: upper_case ending, wrote \\d+ chars"""])
 
 class ResultUCError:
     def __init__(self):
-        self.client_state = 3 # TODO: get this from lib/result_state.h
+        self.server_state = RESULT_SERVER_STATE_OVER
+        self.client_state = RESULT_COMPUTE_DONE
+        self.outcome      = RESULT_OUTCOME_CLIENT_ERROR
         self.stderr_out   = MATCH_REGEXPS([ """<stderr_txt>
 APP: upper_case: starting, argc \\d+"""])
 

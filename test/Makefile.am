@@ -24,8 +24,8 @@ BUILT_SOURCES = boinc_db.inc boinc_db.py
 
 $(TESTS): version.py boinc_db.py
 
-boinc_db.inc: ../db/boinc_db.h
-	./db_def_to_php < ../db/boinc_db.h > boinc_db.inc
+boinc_db.inc: ../db/boinc_db.h ../lib/result_state.h
+	cat $^ | ./db_def_to_php > $@
 
-boinc_db.py: ../db/boinc_db.h
-	./db_def_to_py < ../db/boinc_db.h > boinc_db.py
+boinc_db.py: ../db/boinc_db.h ../lib/result_state.h
+	cat $^ | ./db_def_to_py > $@

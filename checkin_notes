@@ -5112,3 +5112,14 @@ Karl    2003/06/26
         testproxy
         test_exit.py (added)
         test_signal.py (added)
+
+Karl    2003/06/30
+    - added checks for OUTCOME for successful and (expected) unsuccessful
+      results, and CLIENT_STATE for successful results.  Parse
+      lib/result_state.h.
+
+    test/
+        Makefile.am
+        boinc_db.py
+        BOINC_db.inc
+        test_uc.py
