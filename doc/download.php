@@ -163,6 +163,16 @@ version(
     <li/>
     If BOINC runs at the same time as Windows XP 3D screensavers,
     the system becomes sluggish and unresponsive.
+    <li/>
+    Dial-up systems should choose the single-user install mode. The daemon cannot
+    display dialogs in the other install types which causes the client to stall
+    and become unresponsive.
+    <li/>
+    ATI Graphics card users should go to the S@H Q&A section and click on 
+    <a href=http://setiweb.ssl.berkeley.edu/forum_thread.php?id=12948>this</a>
+    thread, once there could you fill in the requested information and click on the
+    "I also have this question" button.  Thanks in advance.
+    </ul>
     </ul>
     If you experience any of these problems,
     we recommend using BOINC version 4.19.
@@ -180,6 +190,38 @@ version(
     <li/>
     If BOINC runs at the same time as Windows XP 3D screensavers,
     the system becomes sluggish and unresponsive.
+    </ul>
+    "
+);
+version(
+    "Windows",
+    "4.27",
+    "Development version",
+    "boinc_4.27_windows_intelx86.exe",
+    "24 Mar 2005",
+    win_new(),
+    "<ul>
+    <li/>
+    This release should workaround the Intellisense/Intellipoint issue of
+    closing down any application while Windows is in screensaver mode.
+    <li/>
+    Applications that were built before October 2004 do not
+    display screensaver graphics
+    with the Service or Shared install type,
+    or the Single-user install type with the password protect screensaver
+    option on NT based machines.
+    <li/>
+    If BOINC runs at the same time as Windows XP 3D screensavers,
+    the system becomes sluggish and unresponsive.
+    <li/>
+    Dial-up systems should choose the single-user install mode. The daemon cannot
+    display dialogs in the other install types which causes the client to stall
+    and become unresponsive.
+    <li/>
+    ATI Graphics card users should go to the S@H Q&A section and click on 
+    <a href=http://setiweb.ssl.berkeley.edu/forum_thread.php?id=12948>this</a>
+    thread, once there could you fill in the requested information and click on the
+    "I also have this question" button.  Thanks in advance.
     </ul>
     "
 );
