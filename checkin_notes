@@ -22568,7 +22568,7 @@ Bruce 12 Jan 2005
       that no results will ever appear in the future for these files
       (outstanding results might fail).  So what is my WU generator
       supposed to do with flag_for_possible_removal?  Is (2) above
-      correct? 
+      correct?  
 
      - Finally, I have not yet seen a SINGLE instance of a
        flag_for_possible_removal.  Is the logic right?
