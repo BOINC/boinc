@@ -11151,3 +11151,15 @@ David  Mar 30 2004
         Makefile.am
         handle_request.C
         server_types.C,h
+
+Rom    Mar 30 2004
+    - Asserts should be included in the output spew under the Windows IDE
+    - Make sure Semephore stuff is out of app_ipc.* stuff
+    - Include fix for Linux APM bug, the driver version info can contain
+      characters
+
+    client/
+        hostinfo_unix.c
+    lib/
+        app_ipc.c, .h
+        diagnostics.c

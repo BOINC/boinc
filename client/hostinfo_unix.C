@@ -19,6 +19,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.56  2004/03/31 06:25:39  rwalton
+// *** empty log message ***
+//
 // Revision 1.55  2004/03/17 02:06:09  rwalton
 // *** empty log message ***
 //
@@ -127,21 +130,34 @@ int get_timezone() {
 // TODO: port this to other platforms (Windows, Mac OS X, others?)
 //
 bool host_is_running_on_batteries() {
-    float x1, x2;
-    int i1, i2;
+    bool    retval = false;
+	char    apm_driver_version[10];
+    int     apm_major_version;
+    int     apm_minor_version;
+    int     apm_flags;
+    int     apm_ac_line_status;
 
-// the following only works on Linux.
-// Need to find something else for other systems
-//
-    FILE* f = fopen("/proc/apm", "r");
+    if (0 == strncasecmp(gstate.host_info.os_name, "Linux", 5)) {
+        // the following only works on Linux APM systems.
+        //
+        FILE* f = fopen("/proc/apm", "r");
+        if (f) {
+            // Supposedly we're on batteries if the 5th entry is zero.
+            //
+            fscanf(f, "%10s %d.%d %x %x",
+                &apm_driver_version,
+                &apm_major_version,
+                &apm_minor_version,
+                &apm_flags,
+                &apm_ac_line_status);
+            fclose(f);
+            retval = (apm_ac_line_status == 0);
+        } else {
+            // Need Linux ACPI check here...
+        }
+    }
 
-    if (!f) return false;
-
-    // Supposedly we're on batteries if the 4th entry is zero.
-    //
-    fscanf(f, "%f %f %x %x", &x1, &x2, &i1, &i2);
-    fclose(f);
-    return (i2 == 0);
+    return retval;
 }
 
 #ifdef linux

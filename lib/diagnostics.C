@@ -14,6 +14,10 @@
 // Portions created by the SETI@home project are Copyright (C) 2002
 // University of California at Berkeley. All Rights Reserved.
 //
+// Purpose:
+//   
+//
+//
 // Contributor(s):
 //
 
@@ -57,15 +61,11 @@ int boinc_init_diagnostics(int _flags) {
 
     // Archive any old stderr.txt and stdout.txt files, if requested
     if ( flags & BOINC_DIAG_ARCHIVESTDERR ) {
-        if (boinc_copy(BOINC_DIAG_STDERR, BOINC_DIAG_STDERROLD)) {
-		    //BOINCFILEERROR( "Failed to archive existing stderr.txt file" );
-        }
+        boinc_copy(BOINC_DIAG_STDERR, BOINC_DIAG_STDERROLD);
     }
 
     if ( flags & BOINC_DIAG_ARCHIVESTDOUT) {
-        if (boinc_copy( BOINC_DIAG_STDOUT, BOINC_DIAG_STDOUTOLD )) {
-		    //BOINCFILEERROR( "Failed to archive existing stdout.txt file" );
-        }
+        boinc_copy( BOINC_DIAG_STDOUT, BOINC_DIAG_STDOUTOLD );
     }
 
     
@@ -333,9 +333,15 @@ int __cdecl boinc_message_reporting( int reportType, char *szMsg, int *retVal ){
 
             break;
 		case _CRT_ASSERT:
-			fprintf( stderr, "ASSERT: %s\n", szMsg );
+
+            OutputDebugString("ASSERT: ");      // Reports string to the debugger output window
+            OutputDebugString(szMsg);           // Reports string to the debugger output window
+            OutputDebugString("\n");            // Reports string to the debugger output window
+
+            fprintf( stderr, "ASSERT: %s\n", szMsg );
 			fflush( stderr );
-			(*retVal) = 1;
+
+            (*retVal) = 1;
 			break;
 
 	}

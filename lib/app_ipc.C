@@ -104,9 +104,7 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         else if (parse_str(buf, "<app_name>", ai.app_name, sizeof(ai.app_name))) continue;
         else if (parse_str(buf, "<user_name>", ai.user_name, sizeof(ai.user_name))) continue;
         else if (parse_str(buf, "<team_name>", ai.team_name, sizeof(ai.team_name))) continue;
-#ifdef _WIN32
         else if (parse_str(buf, "<comm_obj_name>", ai.comm_obj_name, sizeof(ai.comm_obj_name))) continue;
-#endif
         else if (parse_double(buf, "<user_total_credit>", ai.user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", ai.user_expavg_credit)) continue;
         else if (parse_double(buf, "<host_total_credit>", ai.host_total_credit)) continue;

@@ -103,7 +103,6 @@ struct APP_INIT_DATA {
     char comm_obj_name[256];  // identifies shared memory segments, signals, etc
 #else
     int shm_key;
-    int core_semaphore_key;
 #endif
     double wu_cpu_time;       // cpu time from previous sessions
     double fraction_done_update_period;
