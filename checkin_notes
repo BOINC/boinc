@@ -15607,3 +15607,13 @@ David  22 July 2004
         boinc_db.C,h
     sched/
         sched_send.C
+
+Rom    22 July 2004
+    - Another tweak to the transitioner so we can go back to use multiple
+      transitioners
+
+    db/
+        boinc_db.C, .h
+    sched/
+        transitioner.C
+

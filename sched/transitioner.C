@@ -45,7 +45,7 @@ using namespace std;
 #define LOCKFILE                "transitioner.out"
 #define PIDFILE                 "transitioner.pid"
 
-#define SELECT_LIMIT    100
+#define SELECT_LIMIT    1000
 
 #define BATCH_INSERT    1
 //#define USE_TRANSACTIONS  1
@@ -413,58 +413,63 @@ bool do_pass() {
 
     // loop over entries that are due to be checked
     //
-    while (!transitioner.enumerate((int)time(0), mod_n, mod_i, SELECT_LIMIT, items)) {
+    while (!transitioner.enumerate((int)time(0), SELECT_LIMIT, items)) {
         did_something = true;
 
-#ifdef USE_TRANSACTIONS
-        log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
-            "[WU#%d %s] Starting Transaction...\n",
-            items[0].id, items[0].name
-        );
-        retval = boinc_db.start_transaction();
-        if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
-                "[WU#%d %s] transitioner.start_transaction() == %d\n",
-                items[0].id, items[0].name, retval
-            );
-        }
-#endif
-
-        retval = handle_wu(transitioner, items);
-        if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
-                "[WU#%d %s] handle_wu: %d; quitting\n",
-                items[0].id, items[0].name, retval
-            );
-            exit(1);
-        }
+        // if we are assigned a transitioner number, then limit which records we should
+        //   look at. It'll be less expensive to do the check here that in the DB.
+        if ((mod_n == 0) || ((mod_n < 0) && (mod_i == items[0].id % mod_n))) {
 
 #ifdef USE_TRANSACTIONS
-        log_messages.printf(
-            SCHED_MSG_LOG::DEBUG,
-            "[WU#%d %s] Committing Transaction...\n",
-            items[0].id, items[0].name
-            );
-        retval = boinc_db.commit_transaction();
-        if (retval) {
-            log_messages.printf(
-                SCHED_MSG_LOG::CRITICAL,
-                "[WU#%d %s] transitioner.commit_transaction() == %d\n",
-                items[0].id, items[0].name, retval
-            );
-        } else {
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG,
-                "[WU#%d %s] Committed Transaction Successfully...\n",
+                "[WU#%d %s] Starting Transaction...\n",
                 items[0].id, items[0].name
             );
-        }
+            retval = boinc_db.start_transaction();
+            if (retval) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::CRITICAL,
+                    "[WU#%d %s] transitioner.start_transaction() == %d\n",
+                    items[0].id, items[0].name, retval
+                );
+            }
 #endif
 
-        check_stop_daemons();
+            retval = handle_wu(transitioner, items);
+            if (retval) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::CRITICAL,
+                    "[WU#%d %s] handle_wu: %d; quitting\n",
+                    items[0].id, items[0].name, retval
+                );
+                exit(1);
+            }
+
+#ifdef USE_TRANSACTIONS
+            log_messages.printf(
+                SCHED_MSG_LOG::DEBUG,
+                "[WU#%d %s] Committing Transaction...\n",
+                items[0].id, items[0].name
+                );
+            retval = boinc_db.commit_transaction();
+            if (retval) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::CRITICAL,
+                    "[WU#%d %s] transitioner.commit_transaction() == %d\n",
+                    items[0].id, items[0].name, retval
+                );
+            } else {
+                log_messages.printf(
+                    SCHED_MSG_LOG::DEBUG,
+                    "[WU#%d %s] Committed Transaction Successfully...\n",
+                    items[0].id, items[0].name
+                );
+            }
+#endif
+
+            check_stop_daemons();
+        }
     }
     return did_something;
 }

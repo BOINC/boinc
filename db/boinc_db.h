@@ -577,8 +577,6 @@ public:
 
     int enumerate(
         int transition_time,
-        int ntotal_transitioners,
-        int ntransitioner,
         int nresult_limit,
         std::vector<TRANSITIONER_ITEM>& items
     );
