@@ -75,6 +75,7 @@ extern "C" {
   extern void relative_to_absolute(char* relname, char* path);
   extern int boinc_make_dirs(char*, char*);
   extern char boinc_failed_file[256];
+  int is_dir(const char* path);
 
   /* we suitably defined 'bool' as 'int' in ANSI-C */
   extern bool boinc_file_exists(const char* path);
