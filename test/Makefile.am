@@ -13,13 +13,13 @@ TESTS = test_sanity.py				\
 	test_backend.py				\
 	test_masterurl_failure.py
 
-EXTRA_DIST =					\
-        *.xml *.php *wu *result *output *input
-
 # TODO: phase out php stuff
-noinst_SCRIPTS = 						\
+
+EXTRA_DIST =							\
+        *.xml *wu *result *output *input			\
 	db_def_to_php db_def_to_py				\
-	*.php version.inc.in boinc.py test_*.py version.py.in
+	*.php version.inc.in boinc.py test_*.py version.py.in	\
+	boinc_db.inc boinc_db.py
 
 BUILT_SOURCES = boinc_db.inc boinc_db.py
 
