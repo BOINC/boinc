@@ -16,7 +16,7 @@
  **/
 
 #include <windows.h>
-//#include <crtdbg.h>
+#include <crtdbg.h>
 
 /**
  * The following global data is SHARED among all instances of the DLL
@@ -82,8 +82,8 @@ __declspec(dllexport) BOOL IdleTrackerInit()
 		g_hHkMouse = SetWindowsHookEx(WH_MOUSE, MouseTracker, g_hInstance, 0);
 	}
 
-	//_ASSERT(g_hHkKeyboard);
-	//_ASSERT(g_hHkMouse);
+	_ASSERT(g_hHkKeyboard);
+	_ASSERT(g_hHkMouse);
 
 	g_dwLastTick = GetTickCount(); // init count
 
@@ -102,13 +102,13 @@ __declspec(dllexport) void IdleTrackerTerm()
 	if (g_hHkKeyboard)
 	{
 		bResult = UnhookWindowsHookEx(g_hHkKeyboard);
-		//_ASSERT(bResult);
+		_ASSERT(bResult);
 		g_hHkKeyboard = NULL;
 	}
 	if (g_hHkMouse)
 	{
 		bResult = UnhookWindowsHookEx(g_hHkMouse);
-		//_ASSERT(bResult);
+		_ASSERT(bResult);
 		g_hHkMouse = NULL;
 	}
 }
@@ -123,23 +123,9 @@ int WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpReserved)
 			DisableThreadLibraryCalls(hInstance);
 			g_hInstance = hInstance;
 			break;
-		case DLL_PROCESS_DETACH:
-			//we do an unhook here just in case the user has forgotten.
-			//IdleTrackerTerm();
-			break;
 	}
 	return TRUE;
 }
-
-/**
- * This is to prevent the CRT from loading, thus making this a smaller
- * and faster dll.
- **/
-/*extern "C" BOOL __stdcall _DllMainCRTStartup( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
-    return DllMain( hinstDLL, fdwReason, lpvReserved );
-}
-
-*/
 
 #ifdef __GNUC__
 static volatile const char  __attribute__((unused)) *BOINCrcsid="$Id$";

@@ -328,6 +328,17 @@ int main(int argc, char** argv) {
         return ERR_IO;
     }
 
+    g_hIdleDetectionDll = LoadLibrary("boinc.dll");
+    if(!g_hIdleDetectionDll)
+    {
+        printf(
+            "BOINC Core Client Error Message\n"
+            "Failed to initialize the BOINC Idle Detection Interface\n"
+            "BOINC will not be able to determine if the user is idle or not...\n"
+        );
+    }
+
+
     SERVICE_TABLE_ENTRY dispatchTable[] = {
         { TEXT(SZSERVICENAME), (LPSERVICE_MAIN_FUNCTION)service_main },
         { NULL, NULL }
@@ -351,6 +362,18 @@ int main(int argc, char** argv) {
         }
     } else {
         retval = boinc_main_loop(argc, argv);
+    }
+
+
+    if(g_hIdleDetectionDll)
+    {
+        if(!FreeLibrary(g_hIdleDetectionDll))
+        {
+            printf(
+                "BOINC Core Client Error Message\n"
+                "Failed to cleanup the BOINC Idle Detection Interface\n"
+            );
+        }
     }
 
     if ( WinsockCleanup() != 0 ) {

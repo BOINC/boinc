@@ -69,7 +69,7 @@ struct HOST_INFO {
 };
 
 #ifdef _WIN32
-    extern HINSTANCE m_hIdleDll;       // handle to DLL for user idle
+    extern HINSTANCE g_hIdleDetectionDll;       // handle to DLL for user idle
 #endif
 
 #endif

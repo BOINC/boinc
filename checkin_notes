@@ -21570,3 +21570,21 @@ Janus 18 Dec 2004
         explain_state.php
         results.php
         filtered_post.png [new]
+
+Rom    18 Dec 2004
+    - Make the idle detection code work again on the Windows platform.
+
+      Thanks to Eric Toungdale for pointing out what needed to be done to
+      fix it.
+
+      I claened up the orginal implementation a bit, reenabled some of the 
+      debugging code that was remarked out.
+
+    client/
+        main.C
+    client/win/
+        hostinfo_win.cpp
+        win_idle_tracker.cpp
+    lib/
+        hostinfo.h
+
