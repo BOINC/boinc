@@ -231,7 +231,10 @@ int RPC_CLIENT::show_graphics(char* project, char* result_name, bool full_screen
             full_screen?"<full_screen/>\n":""
         );
     } else {
-        strcpy(buf, "<result_show_graphics>\n</result_show_graphics>\n");
+        sprintf(buf,
+            "<result_show_graphics>\n%s</result_show_graphics>\n",
+            full_screen?"<full_screen/>\n":""
+        );
     }
     retval = send_request(buf);
     if (retval) return retval;

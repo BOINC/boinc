@@ -15783,3 +15783,12 @@ David  3 Aug 2004
 		error_numbers.h
 	win_build/
 		upper_case.vcproj
+
+David  3 Aug 2004
+    - fixed gui_test so that
+        gui_test -show_graphics fullscreen
+      works (I hope)
+
+    client/
+        gui_rpc_client.C
+        gui_test.C

@@ -30,6 +30,7 @@ before getting into the source code.
 <li> <a href=host_id.php>Host identification</a>
 <li> <a href=client_app.php>Core client/application interaction (basic)</a>
 <li> <a href=client_app_graphic.php>Core client/application interaction (graphics)</a>
+<li> <a href=disk_management.php>Disk space management</a>
 </ul>
 <h2>Scheduling server</h2>
 <ul>

@@ -119,7 +119,7 @@ int main(int argc, char** argv) {
     } else if (!strcmp(argv[i], "-show_graphics")) {
         bool fullscreen = !strcmp(argv[++i], "fullscreen");
         if (i == argc-1) {
-            retval = rpc.show_graphics(0, 0, false);
+            retval = rpc.show_graphics(0, 0, fullscreen);
         } else {
             retval = rpc.show_graphics(argv[++i], argv[++i], fullscreen);
         }
