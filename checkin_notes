@@ -11035,3 +11035,15 @@ Rom   Mar 26 2004
         default.mda
     win_build/installer/Script Files/
         Setup.ino, .ins, .obs, .rul
+
+Rom   Mar 28 2004
+    - Prepare the environment and installation program for a language aware
+        system.  All language files will be installed with every installation.
+
+      This is the begining on bringing us into the Windows MUI effort.
+
+    win_build/installer/
+        <several files>
+    client/translation/
+        <deleted old layout>
+        <created new layout>

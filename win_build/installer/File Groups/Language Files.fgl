@@ -1,6 +1,6 @@
 [DYNAMIC]
-WILDCARD0=language.ini.??
-INCLUDESUBDIR=NO
+WILDCARD0=*.ini
+INCLUDESUBDIR=YES
 FOLDER=..\..\client\translation
 
 [General]

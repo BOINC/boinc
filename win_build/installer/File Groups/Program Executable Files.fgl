@@ -1,7 +1,5 @@
-[DYNAMIC]
-WILDCARD0=*.exe
-INCLUDESUBDIR=NO
-FOLDER=..\Build\Debug\
+[TopDir]
+file0=C:\BOINCSRC\Main\boinc\win_build\Build\Debug\boinc_gui.exe
 
 [General]
 Type=FILELIST

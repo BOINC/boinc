@@ -1,27 +1,8 @@
-[System DLLs]
-SELECTED=Yes
-FILENEED=STANDARD
-HTTPLOCATION=
-STATUS=
-UNINSTALLABLE=Yes
-TARGET=<WINSYSDIR>
-FTPLOCATION=
-VISIBLE=Yes
-DESCRIPTION=
-DISPLAYTEXT=
-IMAGE=
-DEFSELECTION=Yes
-filegroup0=System DLL Files
-COMMENT=
-INCLUDEINBUILD=Yes
-INSTALLATION=NEWERVERSION
-COMPRESSIFSEPARATE=No
-MISC=
-ENCRYPT=No
-DISK=ANYDISK
-TARGETDIRCDROM=
-PASSWORD=
-TARGETHIDDEN=Windows Operating System\Windows System Folder
+[Components]
+component0=Help Files
+component1=Language Files
+component2=Program Files
+component3=Screensaver Files
 
 [Help Files]
 SELECTED=Yes
@@ -49,26 +30,18 @@ TARGETDIRCDROM=
 PASSWORD=
 TARGETHIDDEN=General Application Destination
 
-[Components]
-component0=System DLLs
-component1=Help Files
-component2=Language Files
-component3=Program Files
-component4=Screensaver Files
-
 [TopComponents]
 component0=Program Files
 component1=Help Files
 component2=Screensaver Files
 component3=Language Files
-component4=System DLLs
 
 [SetupType]
 setuptype0=Typical
 
 [Language Files]
 SELECTED=Yes
-FILENEED=STANDARD
+FILENEED=CRITICAL
 HTTPLOCATION=
 STATUS=
 UNINSTALLABLE=Yes
@@ -79,6 +52,8 @@ DESCRIPTION=
 DISPLAYTEXT=
 IMAGE=
 DEFSELECTION=Yes
+filegroup0=Language Files
+requiredby0=Program Files
 COMMENT=
 INCLUDEINBUILD=Yes
 INSTALLATION=ALWAYSOVERWRITE
@@ -94,6 +69,7 @@ TARGETHIDDEN=General Application Destination
 required0=Help Files
 SELECTED=Yes
 FILENEED=STANDARD
+required1=Language Files
 HTTPLOCATION=
 STATUS=
 UNINSTALLABLE=Yes
@@ -152,8 +128,9 @@ Name=
 [SetupTypeItem-Typical]
 Comment=
 item0=Help Files
-item1=Program Files
-item2=Screensaver Files
+item1=Language Files
+item2=Program Files
+item3=Screensaver Files
 Descrip=
 DisplayText=
 
