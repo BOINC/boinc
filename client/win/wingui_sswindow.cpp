@@ -129,7 +129,7 @@ void CSSWindow::CheckAppWnd()
 			pAppWnd = GetWndFromProcId(m_dwAppId);
 			if(pAppWnd && IsWindow(pAppWnd->m_hWnd)) {
 				SetMode(MODE_FULLSCREEN);
-				pAppWnd->SendMessage(m_uSetMsg, MODE_NO_GRAPHICS, MODE_DEFAULT);
+				pAppWnd->PostMessage(m_uSetMsg, MODE_NO_GRAPHICS, MODE_DEFAULT);
 			}
 			m_dwAppId = 0;
 		} else {
