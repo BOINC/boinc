@@ -43,6 +43,11 @@ bool match_tag(char* buf, char* tag) {
     return false;
 }
 
+bool match_tag(const std::string &s, char* tag) {
+    if (s.find(tag) != std::string::npos) return true;
+    return false;
+}
+
 // parse an integer of the form <tag>1234</tag>
 // return true if it's there
 // Note: this doesn't check for the end tag

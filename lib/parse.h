@@ -27,6 +27,7 @@ extern bool parse_double(char*, char*, double&);
 extern bool parse_str(char*, char*, char*, int);
 extern void parse_attr(char* buf, char* attrname, char* out, int len);
 extern bool match_tag(char*, char*);
+extern bool match_tag(const std::string &, char*);
 extern void copy_stream(FILE* in, FILE* out);
 extern void strcatdup(char*& p, char* buf);
 extern int dup_element_contents(FILE* in, char* end_tag, char** pp);
