@@ -739,6 +739,8 @@ int RESULT::parse_state(FILE* in) {
         }
         else if (parse_double(buf, "<final_cpu_time>", final_cpu_time)) continue;
         else if (parse_int(buf, "<exit_status>", exit_status)) continue;
+        else if (match_tag(buf, "<server_ack/>")) server_ack = true;
+        else if (match_tag(buf, "<ready_to_ack/>")) ready_to_ack = true;
         else if (parse_int(buf, "<state>", state)) continue;
         else if (match_tag(buf, "<stderr_out>")) {
             while (fgets(buf, 256, in)) {
@@ -779,6 +781,8 @@ int RESULT::write(FILE* out, bool to_server) {
         );
     }
     if (!to_server) {
+        if (server_ack) fprintf(out, "    <server_ack/>\n");
+        if (ready_to_ack) fprintf(out, "    <ready_to_ack/>\n");
         fprintf(out,
             "    <wu_name>%s</wu_name>\n"
             "    <report_deadline>%d</report_deadline>\n",
