@@ -482,9 +482,17 @@ function DisableLaunchBoincAtStartup()
    szKSuffix = "\\Microsoft\\Windows\\CurrentVersion\\Run";
 
    // delete any Startup folder icons
+   //  this is normally what controls autostart
    nResult = DeleteFolderIcon( FOLDER_STARTUP, "BOINC" );
 
    // now, delete any startup info in the registry
+   //  not sure what the "boincclient" value does. It is deleted
+   //  as soon as boinc autostarts for the first time (either as
+   //  a result of "Start Boinc Now" or the first autostart after
+   //  a (re)boot.
+   // anyway, it should be removed if it exists, as doing so doesn't
+   // seem to hurt anything.
+
    // NT registry key as defined by SetupRegistry()
    nResult = RegDBSetDefaultRoot (HKEY_CURRENT_USER);
    szKey = "Software" + szKSuffix;
@@ -790,6 +798,7 @@ function DialogShowSdSelectLanguage()
  // --- include script file section ---
 
 #include "sddialog.rul"
+
 
 
 
