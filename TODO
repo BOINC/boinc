@@ -1,18 +1,5 @@
 HIGH-PRIORITY (must be done to support SETI@home)
 
-- File retry policies (Eric?)
-    can't download file: when to give up? how to retry?
-        exponential backoff
-    can't upload file: when to give up/retry?
-
-- scheduler RPC retry
-    can't connect to sched server
-    error return from sched server
-    Done - David
-
-- make scheduling server use fast CGI
-    Done - Michael
-
 - proxy support
     HTTP, Socks
     Look at other open source code
@@ -157,6 +144,17 @@ LOW-PRIORITY
 
 --------------------------
 DONE (may need test)  Please document these!
+
+- File retry policies
+    can't download file: when to give up? how to retry?
+        exponential backoff
+    can't upload file: when to give up/retry?
+    To be tested - Eric
+
+- scheduler RPC retry
+    can't connect to sched server
+    error return from sched server
+    To be tested - David
 
 - Code-signing
     To be tested - David
