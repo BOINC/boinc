@@ -149,9 +149,10 @@ bool CMainFrame::CreateNotebook() {
 bool CMainFrame::CreateNotebookPage(wxWindow* pwndNewNotebookPage) {
 
     wxImageList*    pImageList;
-    wxBitmap        bmpTabImage;
     int             iImageIndex = 0;
 
+    wxASSERT(NULL != pwndNewNotebookPage);
+    wxASSERT(NULL != m_pNotebook);
     wxASSERT(pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseListCtrlView)) ||
              pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseWindowView)));
 
@@ -160,15 +161,14 @@ bool CMainFrame::CreateNotebookPage(wxWindow* pwndNewNotebookPage) {
     if (!pImageList) {
         pImageList = new wxImageList(16, 16, true, 0);
         wxASSERT(pImageList != NULL);
+        m_pNotebook->SetImageList(pImageList);
     }
     
     if(pwndNewNotebookPage->IsKindOf(CLASSINFO(CBaseListCtrlView))) {
 
         CBaseListCtrlView* pPage = (CBaseListCtrlView*)pwndNewNotebookPage;
 
-        bmpTabImage = wxBitmap(pPage->GetViewIcon());
-        iImageIndex = pImageList->Add(bmpTabImage, wxColour(255, 0, 255));
-
+        iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
         m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
 
     } else {
@@ -177,15 +177,11 @@ bool CMainFrame::CreateNotebookPage(wxWindow* pwndNewNotebookPage) {
 
             CBaseWindowView* pPage = (CBaseWindowView*)pwndNewNotebookPage;
 
-            bmpTabImage = wxBitmap(pPage->GetViewIcon());
-            iImageIndex = pImageList->Add(bmpTabImage, wxColour(255, 0, 255));
-
+            iImageIndex = pImageList->Add(wxBitmap(pPage->GetViewIcon()), wxColour(255, 0, 255));
             m_pNotebook->AddPage(pPage, pPage->GetViewName(), TRUE, iImageIndex);
 
         }
     }
-
-    m_pNotebook->SetImageList(pImageList);
 
     return true;
 }
