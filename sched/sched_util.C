@@ -21,6 +21,7 @@ using namespace std;
 
 #include <strings.h>
 #include <csignal>
+#include <unistd.h>
 
 #include "parse.h"
 #include "util.h"
