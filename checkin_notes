@@ -6926,3 +6926,12 @@ David  19 Oct 2003
     client/
         speed_stats.C,h (old)
         cpu_benchmark.C,h (new)
+
+Karl 2003-10-19
+    - maybe fixed "screensaver blanks immediately" bug due to uninitialized
+      variable
+        - if blank time is <=0 or unset, don't blank, instead of blanking
+          immediately.
+
+    client/win/
+        wingui_mainwindow.cpp

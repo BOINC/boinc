@@ -1091,8 +1091,6 @@ void CMainWindow::PostNcDestroy()
 // function:	handles any messages not handled by the window previously
 LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	unsigned long time_until_blank, blank_screen, x;
-
 	if(m_nShowMsg == message) {
 		ShowWindow(SW_SHOW);
 		SetForegroundWindow();
@@ -1104,16 +1102,19 @@ LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		gstate.ss_logic.stop_ss();
 		return 0;
 	} else if(m_uScreenSaverMsg == message) {
-		// Get the current screen blanking information
-		UtilGetRegKey(REG_BLANK_NAME, blank_screen);
-		UtilGetRegKey(REG_BLANK_TIME, time_until_blank);
-		if (blank_screen) {
-			x = time(0) + time_until_blank*60;
-		} else {
-			x = 0;
-		}
-		gstate.ss_logic.start_ss(x);
-		return 0;
+            // Get the current screen blanking information
+            unsigned long reg_time_until_blank = 0, reg_blank_screen = 0;
+            unsigned long blank_time = 0;
+
+            UtilGetRegKey(REG_BLANK_NAME, reg_blank_screen);
+            UtilGetRegKey(REG_BLANK_TIME, reg_time_until_blank);
+            if (reg_blank_screen && reg_time_until_blank>0) {
+                blank_time = time(0) + reg_time_until_blank*60;
+            } else {
+                blank_time = 0;
+            }
+            gstate.ss_logic.start_ss(blank_time);
+            return 0;
 	}
 
 	return CWnd::DefWindowProc(message, wParam, lParam);
