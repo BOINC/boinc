@@ -124,6 +124,7 @@ protected:
 	void					LoadLanguage();
 	PROJECT*				GetProjectFromContextMenu();
 	DWORD					GetUserIdleTime();
+	void					ClearProjectItems(char *);
 	void					Syncronize(CProgressListCtrl*, vector<void*>*);
     virtual void			PostNcDestroy();
 	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);

@@ -136,6 +136,42 @@ COLORREF CMainWindow::GetPieColor(int nPiece)
 }
 
 //////////
+// CMainWindow::ClearProjectItems
+// arguments:	proj_url: master url of the project
+// returns:		void
+// function:	removes all active and inactive projects, transfers,
+//              and workunits associated with the project
+void CMainWindow::ClearProjectItems(char *proj_url) {
+	int i;
+	CString ItemURL;
+
+	for(i = 0; i < m_ProjectListCtrl.GetItemCount();) {
+		ItemURL = m_ProjectListCtrl.GetProjectURL(i);
+		if(!ItemURL.Compare(proj_url)) {
+			m_ProjectListCtrl.DeleteItem(i);
+		} else {
+			i ++;
+		}
+	}
+	for(i = 0; i < m_ResultListCtrl.GetItemCount();) {
+		ItemURL = m_ResultListCtrl.GetProjectURL(i);
+		if(!ItemURL.Compare(proj_url)) {
+			m_ResultListCtrl.DeleteItem(i);
+		} else {
+			i ++;
+		}
+	}
+	for(i = 0; i < m_XferListCtrl.GetItemCount();) {
+		ItemURL = m_XferListCtrl.GetProjectURL(i);
+		if(!ItemURL.Compare(proj_url)) {
+			m_XferListCtrl.DeleteItem(i);
+		} else {
+			i ++;
+		}
+	}
+}
+
+//////////
 // CMainWindow::UpdateGUI
 // arguments:	pcs: pointer to the client state for the gui to display
 // returns:		void
@@ -150,10 +186,6 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	m_ProjectListCtrl.SetRedraw(FALSE);
 	float totalres = 0;
 	Syncronize(&m_ProjectListCtrl, (vector<void*>*)(&pcs->projects));
-	for(i = 0; i < m_ProjectListCtrl.GetItemCount();) {
-		if(!m_ProjectListCtrl.GetItemData(i)) m_ProjectListCtrl.DeleteItem(i);
-		else i ++;
-	}
 	for(i = 0; i < pcs->projects.size(); i ++) {
 		totalres += pcs->projects[i]->resource_share;
 	}
@@ -164,6 +196,9 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 			m_ProjectListCtrl.SetItemProgress(i, 4, 0);
 			continue;
 		}
+
+		// Set the master URL for this object
+		m_ProjectListCtrl.SetProjectURL(i, pr->master_url);
 
 		// project
 		m_ProjectListCtrl.SetItemText(i, 0, pr->get_project_name());
@@ -199,6 +234,9 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 			m_ResultListCtrl.SetItemText(i, 5, "00:00:00");
 			continue;
 		}
+
+		// Set the master URL for this object
+		m_ResultListCtrl.SetProjectURL(i, re->project->master_url);
 
 		// project
 		m_ResultListCtrl.SetItemText(i, 0, re->project->project_name);
@@ -280,6 +318,9 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 			m_XferListCtrl.SetItemText(i, 6, g_szMiscItems[7]);
 			continue;
 		}
+
+		// Set the master URL for this object
+		m_XferListCtrl.SetProjectURL(i, pfx->fip->project->master_url);
 
 		// project
 		m_XferListCtrl.SetItemText(i, 0, pfx->fip->project->project_name);
@@ -1085,6 +1126,7 @@ void CMainWindow::OnCommandProjectDetach()
 	strBuf.Format("Are you sure you want to detach from the project %s?",
 		proj->get_project_name());
 	if(AfxMessageBox(strBuf, MB_YESNO, 0) == IDYES) {
+		ClearProjectItems(proj->master_url);
 		gstate.detach_project(proj);
 	}
 }

@@ -98,6 +98,8 @@ public:
 	void					SetMenuItems(char**, int);
 	void					SaveInactive(char*, char*);
 	void					LoadInactive(char*, char*);
+	void					SetProjectURL(int, char*);
+	CString					GetProjectURL(int);
 
 protected:
 	CMenu					m_PopupMenu;			// context menu for header
@@ -106,7 +108,8 @@ protected:
 	CArray<int,int>			m_ColWidths;			// column widths for hiding and unhiding; a[i] > 0: col i shown; a[i] < 0: col i hidden, previous width -(a[i] - 1)
 	int						m_nSort;				// column and order of last sort: i = 0: no sort; i > 0: sorted ascending by col i - 1; < 0 sorted descending by col -(i-1)
 	CFont*					m_OldFont;				// old font for setting subitem font
-	CArray<COLORREF,COLORREF>		m_ItemColors;	// special colors of items
+	CArray<COLORREF,COLORREF>	m_ItemColors;		// special colors of items
+	CArray<CString,CString>		m_ProjectURLs;		// urls for project links
 
 	void					SwapItems(int, int);
 	void					QSort(int, int, int, int);

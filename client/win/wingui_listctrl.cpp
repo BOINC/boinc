@@ -298,6 +298,7 @@ int CProgressListCtrl::InsertItem(int nItem, LPCTSTR lpszItem)
 {
 	m_ItemColors.InsertAt(nItem, RGB(0, 0, 0));
 	CString StrEmpty;
+	m_ProjectURLs.InsertAt(nItem, StrEmpty);
 	return CListCtrl::InsertItem(nItem, lpszItem);
 }
 
@@ -374,9 +375,8 @@ BOOL CProgressListCtrl::DeleteItem(int nItem)
 
 	// remove array info
 	m_ItemColors.RemoveAt(nItem);
-	CString empty;
-
-	CString strbuf;
+	m_ProjectURLs.RemoveAt(nItem);
+	CString empty, strbuf;
 	CProgressBarCtrl* pProgCtrl = NULL;
 
 	// go through all the subitems and see if they have a progess control
@@ -664,6 +664,29 @@ void CProgressListCtrl::SetItemColor(int nItem, COLORREF newclr)
 }
 
 //////////
+// CProgressListCtrl::SetProjectURL
+// arguments:	nItem: the item to set the url for
+//				szUrl: the url for the link
+// returns:		void
+// function:	sets the project's master url
+void CProgressListCtrl::SetProjectURL(int nItem, char* szUrl)
+{
+	CString StrUrl;
+	StrUrl.Format("%s", szUrl);
+	m_ProjectURLs.SetAtGrow(nItem, StrUrl);
+}
+
+//////////
+// CProgressListCtrl::GetProjectURL
+// arguments:	nItem: the item to set the url for
+// returns:		CString of project URL
+// function:	gets the master url for a project's link
+CString CProgressListCtrl::GetProjectURL(int nItem)
+{
+	return m_ProjectURLs.GetAt(nItem);
+}
+
+//////////
 // CProgressListCtrl::GetTextRect
 // arguments:	nItem: item to get the rect of
 //				nSubItem: subitem to get the rect of
@@ -728,6 +751,8 @@ void CProgressListCtrl::SaveInactive(char* szFile, char* szSection)
 			strValue = GetItemText(i, si);
 			WritePrivateProfileString(strSection, strKey, strValue, szFile);
 		}
+		strValue = GetProjectURL(i);
+		WritePrivateProfileString(strSection, "proj_url", strValue, szFile);
 		nMax ++;
 	}
 
@@ -757,6 +782,8 @@ void CProgressListCtrl::LoadInactive(char* szFile, char* szSection)
 			GetPrivateProfileString(strSection, strKey, "", szValue, 512, szFile);
 			SetItemText(GetItemCount() - 1, si, szValue);
 		}
+		GetPrivateProfileString(strSection, "proj_url", "", szValue, 512, szFile);
+		SetProjectURL(i, szValue);
 	}
 }
 
