@@ -1,6 +1,7 @@
 [TopDir]
 file0=..\Build\Release\boinc_gui.exe
 file1=..\Build\Release\boinc_cli.exe
+file2=..\Build\Release\boincmgr.exe
 
 [General]
 Type=FILELIST

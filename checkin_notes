@@ -18719,3 +18719,8 @@ David  21 Oct 2004
 
     lib/
         gui_rpc_client.C
+
+Rom    21 Oct 2004 (boinc)
+    - Tag for 4.50 release, all platforms
+      boinc_core_release_4_50
+
