@@ -88,12 +88,8 @@ Unix/Linux: compiled statically into Python
            link errors involving _mysql.o or libmysql.a you probably
            didn't add the correct libraries.
 
-    8T. Check
-       You can check if your MySQLdb was compiled correctly like this:
-
-       $ python
-       >>> import _mysql
-       >>> _mysql.version_info
+       You may want to check Python and MySQLdb are working before installing
+       by running ./python; see below for instructions.
 
     9. Install
        $ cd ../Python-2.3/
@@ -110,4 +106,5 @@ Does it work?
     
     $ python
     >>> import MySQLdb
+    >>> MySQLdb.version_info
     >>> MySQLdb.connect(db='databasename', user='username')
