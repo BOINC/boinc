@@ -314,6 +314,15 @@
 /* Define to 1 if /dev/tty1 exists */
 #undef HAVE__DEV_TTY1
 
+/* Define to 1 if /proc/meminfo exists */
+#undef HAVE__PROC_MEMINFO
+
+/* Define to 1 if /proc/self/psinfo exists */
+#undef HAVE__PROC_SELF_PSINFO
+
+/* Define to 1 if /proc/self/stat exists */
+#undef HAVE__PROC_SELF_STAT
+
 /* Host for this compilation */
 #undef HOSTTYPE
 

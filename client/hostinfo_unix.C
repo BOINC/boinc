@@ -328,6 +328,7 @@ int HOST_INFO::get_host_info() {
 #endif
 
 #if defined(HAVE_SYS_SWAP_H) && defined(SC_GETNSWP)
+    // Solaris, ...
     char buf[256];
     swaptbl_t* s;
     int i, n;
@@ -340,6 +341,22 @@ int HOST_INFO::get_host_info() {
     n = swapctl(SC_LIST, s);
     for (i=0; i<n; i++) {
         m_swap += 512.*(double)s->swt_ent[i].ste_length;
+    }
+#elif defined(HAVE__PROC_MEMINFO)
+    // Linux
+    FILE *fp;
+    if ((fp = fopen("/proc/meminfo", "r")) != 0) {
+        char minfo_buf[1024];
+        int n;
+        if ((n = fread(minfo_buf, sizeof(char), sizeof(minfo_buf)-1, fp))) {
+            char *p;
+            minfo_buf[n] = '\0';
+            if ((p = strstr(minfo_buf, "SwapTotal:"))) {
+                p += 10; // move past "SwapTotal:"
+                m_swap = (double) strtoul(p, NULL, 10);
+            }
+        }
+        fclose(fp);
     }
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_VM) && defined(VM_METER)
     // TODO: figure this out

@@ -185,6 +185,21 @@ if test -e "/dev/tty1"; then
     AC_DEFINE(HAVE__DEV_TTY1, 1, [Define to 1 if /dev/tty1 exists])
 fi
 
+dnl Check for /proc/self/psinfo (Solaris)
+if test -e "/proc/self/psinfo"; then
+    AC_DEFINE(HAVE__PROC_SELF_PSINFO, 1, [Define to 1 if /proc/self/psinfo exists])
+fi
+
+dnl Check for /proc/self/stat (Linux)
+if test -e "/proc/self/stat"; then
+    AC_DEFINE(HAVE__PROC_SELF_STAT, 1, [Define to 1 if /proc/self/stat exists])
+fi
+
+dnl Check for /proc/meminfo (Linux)
+if test -e "/proc/meminfo"; then
+    AC_DEFINE(HAVE__PROC_MEMINFO, 1, [Define to 1 if /proc/meminfo exists])
+fi
+
 dnl  by default, create static binaries on linux.
 dnl [if [ "$target_os" = "linux-gnu" ]; then
 dnl     STATIC_FLAGS="-static"

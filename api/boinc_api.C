@@ -635,7 +635,7 @@ static int mem_usage(unsigned long& vm_kb, unsigned long& rs_kb) {
 
     FILE* f;
 
-#if defined(HAVE_PROCFS_H)
+#if defined(HAVE_PROCFS_H) && defined(HAVE__PROC_SELF_PSINFO)
 
     // guess that this is solaris
     // need psinfo_t from procfs.h
@@ -655,6 +655,7 @@ static int mem_usage(unsigned long& vm_kb, unsigned long& rs_kb) {
     }
 #endif
 
+#if defined(HAVE__PROC_SELF_STAT)
     // guess that this is linux
     //
     if ((f = fopen("/proc/self/stat", "r")) != 0) {
@@ -692,6 +693,7 @@ static int mem_usage(unsigned long& vm_kb, unsigned long& rs_kb) {
         fclose(f);
         return 0;
     }
+#endif
 
     return ERR_NOT_IMPLEMENTED;
 #endif

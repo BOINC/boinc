@@ -7888,6 +7888,30 @@ _ACEOF
 
 fi
 
+if test -e "/proc/self/psinfo"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE__PROC_SELF_PSINFO 1
+_ACEOF
+
+fi
+
+if test -e "/proc/self/stat"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE__PROC_SELF_STAT 1
+_ACEOF
+
+fi
+
+if test -e "/proc/meminfo"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE__PROC_MEMINFO 1
+_ACEOF
+
+fi
+
 
                                                                                                                                                                                                                   ac_config_files="$ac_config_files Makefile RSAEuro/source/Makefile RSAEuro/Makefile api/Makefile apps/Makefile client/Makefile db/Makefile lib/Makefile sched/Makefile tools/Makefile test/Makefile test/version.inc py/Makefile py/Boinc/Makefile py/Boinc/version.py py/Boinc/boinc_path_config.py:py/Boinc/boinc_path_config.py.in py/boinc_path_config.py:py/Boinc/boinc_path_config.py.in client/win/boinc_path_config.py:py/Boinc/boinc_path_config.py.in sched/boinc_path_config.py:py/Boinc/boinc_path_config.py.in tools/boinc_path_config.py:py/Boinc/boinc_path_config.py.in test/boinc_path_config.py:py/Boinc/boinc_path_config.py.in"
 

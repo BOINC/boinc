@@ -15803,7 +15803,7 @@ David  3 Aug 2004
         util.inc
         xml.inc (new)
 
-Daniel 2004-08-3
+Daniel 2004-08-03
     - Fixed "prefs and venue" issue. Before: host venue assignment always
       comes from the project that is contacted. Now: host venue assignment
       comes from the project with the newer global prefs.
@@ -15847,3 +15847,17 @@ David  4 Aug 2004
         host.inc
     sched/
         handle_request.C
+
+Daniel 2004-08-04
+    - autoconf: added HAVE__PROC_* macros
+    - client: added m_swap checking for Linux (via /proc/meminfo)
+
+    aclocal.m4
+    config.h.in
+    configure
+    configure.ac
+    api/
+        boinc_api.C
+    client/
+        hostinfo_unix.C
+
