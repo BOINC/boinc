@@ -108,6 +108,15 @@ int DB_BASE::update_field(char* clause) {
     return db->do_query(query);
 }
 
+// delete record
+//
+int DB_BASE::delete_from_db() {
+    char vals[MAX_QUERY_LEN], query[MAX_QUERY_LEN];
+    db_print(vals);
+    sprintf(query, "delete from %s where id=%d", table_name, get_id());
+    return db->do_query(query);
+}
+
 int DB_BASE::get_field_int(char* field, int& val) {
     char query[MAX_QUERY_LEN];
     int retval;

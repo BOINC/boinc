@@ -6,6 +6,7 @@ noinst_PROGRAMS =                               \
     cgi                                         \
     feeder                                      \
     db_dump                                     \
+    db_purge                                    \
     file_deleter                                \
     file_upload_handler                         \
     make_work                                   \
@@ -89,6 +90,9 @@ sample_dummy_assimilator_DEPENDENCIES = $(LIB_SCHED)
 
 db_dump_SOURCES = db_dump.C
 db_dump_DEPENDENCIES = $(LIB_SCHED)
+
+db_purge_SOURCES = db_purge.C
+db_purge_DEPENDENCIES = $(LIB_SCHED)
 
 update_stats_SOURCES = update_stats.C
 update_stats_DEPENDENCIES = $(LIB_SCHED)

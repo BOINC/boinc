@@ -17291,3 +17291,24 @@ Rom    10 Sept 2004
     clientgui/
         MainDocument.cpp, .h
         stdwx.h
+
+
+Lana 26 August 2004
+     - Installation script provides better default daemons by starting
+       transitioner, feeder and file deleter deamons automatically
+
+     tools/
+        make_project
+
+Lana 11 Sept 2004
+     - Created DB Purger that archives "DONE" workunits and their
+       results into XML archive files.  Deletes those records from the database.
+       Added delete_from_db function to DB_BASE
+
+     sched/
+        db_purge.C
+
+     db/
+        db_base.h
+        db_base.C
+

@@ -82,6 +82,7 @@ public:
     int insert_batch(const char*);
     int update();
     int update_field(char*);
+    int delete_from_db();
     int get_field_int(char*, int&);
     int lookup_id(int id);
     int lookup(char*);
