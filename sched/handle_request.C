@@ -290,12 +290,14 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 sreq.hostid
             );
             sreq.hostid = 0;
-            goto new_host;
+            goto lookup_user_and_make_new_host;
         }
         reply.host = host;
 
         retval = user.lookup_id(reply.host.userid);
         if (retval) {
+            // this should never happen - means inconsistent DB
+            //
             strcpy(reply.message, "Can't find user record");
             strcpy(reply.message_priority, "low");
             reply.request_delay = 120;
@@ -334,12 +336,14 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
                 "[HOST#%d] [USER#%d] RPC seqno %d less than expected %d; creating new host\n",
                 reply.host.id, user.id, sreq.rpc_seqno, reply.host.rpc_seqno
             );
-            goto new_host;
+            goto make_new_host;
         }
         reply.host.rpc_seqno = sreq.rpc_seqno;
     } else {
+
         // here no hostid was given; we'll have to create a new host record
         //
+lookup_user_and_make_new_host:
         strncpy(
             user.authenticator, sreq.authenticator,
             sizeof(user.authenticator)
@@ -361,7 +365,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             return ERR_AUTHENTICATOR;
         }
         reply.user = user;
-new_host:
+make_new_host:
         // reply.user is filled in and valid at this point
         //
         host = sreq.host;
