@@ -98,10 +98,10 @@ int main(int argc, char** argv) {
             wu.rsc_iops = atof(argv[i+1]);
         } else if (!strcmp(argv[i], "-rsc_memory")) {
             i++;
-            wu.rsc_memory = atof(argv[i]);
+            wu.rsc_memory = atof(argv[i+1]);
         } else if (!strcmp(argv[i], "-rsc_disk")) {
             i++;
-            wu.rsc_disk = atof(argv[i]);
+            wu.rsc_disk = atof(argv[i+1]);
         } else if (!strcmp(argv[i], "-wu_name_rand")) {
             i++;
             sprintf(wu.name, "%s_%d", argv[i], rand());
