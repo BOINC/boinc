@@ -42,8 +42,6 @@ using namespace std;
 #include "sched_msgs.h"
 #include "sched_send.h"
 
-const double COBBLESTONE_FACTOR = 100.0;
-
 // Look up the host and its user, and make sure the authenticator matches.
 // If no host ID is supplied, or if RPC seqno mismatch,
 // create a new host record and return its ID
@@ -197,10 +195,13 @@ make_new_host:
 // somewhat arbitrary formula for credit as a function of CPU time.
 // Could also include terms for RAM size, network speed etc.
 //
-static void compute_credit_rating(HOST& host) {
+static void compute_credit_rating(HOST& host, SCHEDULER_REQUEST& sreq) {
+    double cobblestone_factor = 300;
+    if (sreq.core_client_major_version > 3) cobblestone_factor = 100;
+    if (sreq.core_client_minor_version > 5) cobblestone_factor = 100;
     host.credit_per_cpu_sec =
         (fabs(host.p_fpops)/1e9 + fabs(host.p_iops)/1e9)
-        * COBBLESTONE_FACTOR / (2 * SECONDS_PER_DAY);
+        * cobblestone_factor / (2 * SECONDS_PER_DAY);
 }
 
 // Update host record based on request.
@@ -241,7 +242,7 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& xhost) {
     host.n_bwdown = sreq.host.n_bwdown;
     host.fix_nans();
 
-    compute_credit_rating(host);
+    compute_credit_rating(host, sreq);
 
     retval = host.update();
     if (retval) {
