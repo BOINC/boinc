@@ -31,6 +31,7 @@ CGI_OBJS = \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
     ../lib/shmem.o \
+    ../lib/util.o \
     ../lib/parse.o
 
 FEEDER_OBJS = \
@@ -49,6 +50,7 @@ SHOW_SHMEM_OBJS = \
     config.o \
     ../db/db_mysql.o \
     ../db/mysql_util.o \
+    ../lib/util.o \
     ../lib/parse.o \
     ../lib/shmem.o
 
@@ -56,6 +58,7 @@ FILE_UPLOAD_OBJS = \
     file_upload_handler.o \
     config.o \
     ../lib/crypt.o \
+    ../lib/util.o \
     ../lib/parse.o \
     ../lib/md5.o \
     ../lib/md5_file.o \
@@ -124,6 +127,7 @@ DB_DUMP_OBJS = \
     db_dump.o
 
 START_SERVERS_OBJS = \
+    ../lib/util.o \
     ../lib/parse.o \
     config.o \
     start_servers.o

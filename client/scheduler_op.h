@@ -106,6 +106,7 @@ struct SCHEDULER_REPLY {
     char user_name[256],team_name[256];
     double user_total_credit;
     double user_expavg_credit;
+    char host_venue[256];
     unsigned int user_create_time;
     vector<APP> apps;
     vector<FILE_INFO> file_infos;

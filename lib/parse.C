@@ -31,8 +31,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "parse.h"
 #include "error_numbers.h"
+#include "util.h"
+#include "parse.h"
 
 // return true if the tag appears in the line
 //
@@ -70,7 +71,7 @@ bool parse_str(char* buf, char* tag, char* dest, int len) {
     char* q = strchr(p+1, '<');
     if (!q) return false;
     *q = 0;
-    strncpy(dest, p+1, len);
+    safe_strncpy(dest, p+1, len);
     dest[len-1] = 0;
     *q = '<';
     return true;
@@ -89,7 +90,7 @@ void parse_attr(char* buf, char* name, char* dest, int len) {
     q = strchr(p+1, '"');
     if (!q) return;
     *q = 0;
-    strncpy(dest, p+1, len);
+    safe_strncpy(dest, p+1, len);
     dest[len-1] = 0;
 }
 
@@ -164,6 +165,7 @@ int read_file_malloc(char* pathname, char*& str) {
 }
 
 
+#if 0
 // replace XML element contents.  not currently used
 //
 void replace_element(char* buf, char* start, char* end, char* replacement) {
@@ -176,4 +178,33 @@ void replace_element(char* buf, char* start, char* end, char* replacement) {
     strcpy(p, replacement);
     strcat(p, temp);
 }
+#endif
 
+// if the given XML has an element of the form
+// <venue name="venue_name">
+//   ...
+// </venue>
+// then return the contents of that element.
+// Otherwise strip out all <venue> elements
+//
+void extract_venue(char* in, char* venue_name, char* out) {
+    char* p, *q;
+    char buf[256];
+    sprintf(buf, "<venue name=\"%s\">", venue_name);
+    p = strstr(in, buf);
+    if (p) {
+        p += strlen(buf);
+        strcpy(out, p);
+        q = strstr(out, "</venue");
+        if (q) *q = 0;
+    } else {
+        strcpy(out, in);
+        while (1) {
+            p = strstr(out, "<venue");
+            if (!p) break;
+            q = strstr(p, "</venue>\n");
+            if (!q) break;
+            strcpy(p, q+strlen("</venue>\n"));
+        }
+    }
+}

@@ -44,6 +44,7 @@ global $text;
 global $parse_result;
 global $top_parse_result;
 global $in_project_specific;
+global $venue_name;
 
 // functions to parse preferences XML into a struct
 //
@@ -52,11 +53,11 @@ function element_start_project($parser, $name, $attrs) {
     global $parse_result;
     global $text;
     global $in_project_specific;
+    global $venue_name;
 
     switch($name) {
-    case "home":
-    case "school":
-    case "work":
+    case "venue":
+        $venue_name = $attrs["name"];
         $top_parse_result = $parse_result;
         $parse_result = null;
         break;
@@ -77,11 +78,11 @@ function element_start_global($parser, $name, $attrs) {
     global $top_parse_result;
     global $parse_result;
     global $text;
+    global $venue_name;
 
     switch($name) {
-    case "home":
-    case "school":
-    case "work":
+    case "venue":
+        $venue_name = $attrs["name"];
         $top_parse_result = $parse_result;
         $parse_result = null;
         break;
@@ -94,12 +95,11 @@ function element_end_project($parser, $name) {
     global $parse_result;
     global $in_project_specific;
     global $top_parse_result;
+    global $venue_name;
 
     switch($name) {
-    case "home":
-    case "school":
-    case "work":
-        $top_parse_result->$name = $parse_result;
+    case "venue":
+        $top_parse_result->$venue_name = $parse_result;
         $parse_result = $top_parse_result;
         break;
     case "project_specific":
@@ -130,12 +130,11 @@ function element_end_global($parser, $name) {
     global $text;
     global $parse_result;
     global $top_parse_result;
+    global $venue_name;
 
     switch($name) {
-    case "home":
-    case "school":
-    case "work":
-        $top_parse_result->$name = $parse_result;
+    case "venue":
+        $top_parse_result->$venue_name = $parse_result;
         $parse_result = $top_parse_result;
         break;
     case "run_on_batteries":
@@ -565,13 +564,13 @@ function global_prefs_make_xml($prefs, $primary=true) {
         ."<max_bytes_sec_down>$prefs->max_bytes_sec_down</max_bytes_sec_down>\n"
         ."<max_bytes_sec_up>$prefs->max_bytes_sec_up</max_bytes_sec_up>\n";
     if ($prefs->home) {
-        $xml = $xml."<home>\n".global_prefs_make_xml($prefs->home, false)."</home>\n";
+        $xml = $xml."<venue name=\"home\">\n".global_prefs_make_xml($prefs->home, false)."</venue>\n";
     }
     if ($prefs->work) {
-        $xml = $xml."<work>\n".global_prefs_make_xml($prefs->work, false)."</work>\n";
+        $xml = $xml."<venue name=\"work\">\n".global_prefs_make_xml($prefs->work, false)."</venue>\n";
     }
     if ($prefs->school) {
-        $xml = $xml."<school>\n".global_prefs_make_xml($prefs->school, false)."</school>\n";
+        $xml = $xml."<venue name=\"school\">\n".global_prefs_make_xml($prefs->school, false)."</venue>\n";
     }
     if ($primary) {
         $xml = $xml."</global_preferences>\n";
@@ -600,13 +599,13 @@ function project_prefs_make_xml($prefs, $primary=true) {
             ."<project_specific>\n$x\n</project_specific>\n";
     }
     if ($prefs->home) {
-        $xml = $xml."<home>\n".project_prefs_make_xml($prefs->home, false)."</home>\n";
+        $xml = $xml."<venue name=\"home\">\n".project_prefs_make_xml($prefs->home, false)."</venue>\n";
     }
     if ($prefs->work) {
-        $xml = $xml."<work>\n".project_prefs_make_xml($prefs->work, false)."</work>\n";
+        $xml = $xml."<venue name=\"work\">\n".project_prefs_make_xml($prefs->work, false)."</venue>\n";
     }
     if ($prefs->school) {
-        $xml = $xml."<school>\n".project_prefs_make_xml($prefs->school, false)."</school>\n";
+        $xml = $xml."<venue name=\"school\">\n".project_prefs_make_xml($prefs->school, false)."</venue>\n";
     }
     if ($primary) {
         $xml = $xml."</project_preferences>\n";

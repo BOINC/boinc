@@ -382,7 +382,8 @@ int CLIENT_STATE::handle_scheduler_reply(
             sr.global_prefs_xml
         );
         fclose(f);
-        global_prefs.parse_file();
+        safe_strncpy(host_venue, sr.host_venue, sizeof(host_venue));
+        global_prefs.parse_file(host_venue);
         install_global_prefs();
     }
 

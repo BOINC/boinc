@@ -4,10 +4,26 @@
     require_once("db.inc");
     require_once("user.inc");
 
-function show_host($host) {
+function location_form($host) {
+    if ($host->venue == "home") $h = "selected";
+    if ($host->venue == "work") $w = "selected";
+    if ($host->venue == "school") $s = "selected";
+    $x = "<form action=host_venue_action.php>
+        <input type=hidden name=hostid value=$host->id>
+        <select name=venue>
+        <option value=home $h>Home
+        <option value=work $w>Work
+        <option value=school $s>School
+        </select>
+        <input type=submit value=Update>
+        </form>
+    ";
+    return $x;
+}
 
-    echo TABLE2."\n";
-    echo "<tr>".TD2.LG_FONT."<b>Host Information:</b></font></td></tr>\n";
+function show_host($host) {
+    start_table();
+    row1("Host Information");
     row2("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
     row2("Domain name", $host->domain_name);
     $x = $host->timezone/3600;
@@ -45,22 +61,23 @@ function show_host($host) {
     $x = $host->n_bwup/(1024);
     $y = round($x, 2);
     if ($y > 0) {
-        row2("Average upload speed", "$y KB/sec");
+        row2("Average upload rate", "$y KB/sec");
     } else {
-        row2("Average upload speed", "Unknown");
+        row2("Average upload rate", "Unknown");
     }
     $x = $host->n_bwdown/(1024);
     $y = round($x, 2);
     if ($y > 0) {
-        row2("Average download speed", "$y KB/sec");
+        row2("Average download rate", "$y KB/sec");
     } else {
-        row2("Average download speed", "Unknown");
+        row2("Average download rate", "Unknown");
     }
     row2("Number of times client has contacted server", $host->rpc_seqno);
     row2("Last time contacted server", time_str($host->rpc_time));
-    row2("% of time client on", 100*$host->on_frac." %");
-    row2("% of time host connected", 100*$host->connected_frac." %");
-    row2("% of time user active", 100*$host->active_frac." %");
+    row2("% of time client is on", 100*$host->on_frac." %");
+    row2("% of time host is connected", 100*$host->connected_frac." %");
+    row2("% of time user is active", 100*$host->active_frac." %");
+    row2("Location", location_form($host));
     echo "</table>\n";
 
 }

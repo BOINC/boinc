@@ -40,6 +40,7 @@
 #include <winsock.h>
 #endif
 
+#include "util.h"
 #include "parse.h"
 #include "hostinfo.h"
 #include "error_numbers.h"
@@ -198,7 +199,7 @@ int get_local_domain_name(char* p, int len) {
     gethostname(buf, 256);
     struct hostent* he = gethostbyname(buf);
     if (!he) return -1;
-    strncpy(p, he->h_name, len);
+    safe_strncpy(p, he->h_name, len);
     return 0;
 }
 

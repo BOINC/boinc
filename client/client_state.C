@@ -83,6 +83,7 @@ CLIENT_STATE::CLIENT_STATE() {
     proxy_server_port = 80;
     strcpy(socks_user_name,"");
     strcpy(socks_user_passwd,"");
+    strcpy(host_venue,"");
     suspend_requested = false;
     start_saver = false;
 #ifdef _WIN32
@@ -103,14 +104,6 @@ int CLIENT_STATE::init() {
     unsigned int i;
 
     srand(time(NULL));
-
-    // Read the global preferences file, if it exists.
-    //
-    retval = global_prefs.parse_file();
-    if (retval) {
-        printf("No global preferences file; will use defaults.\n");
-    }
-    install_global_prefs();
 
     // parse account files.
     // If there are none, prompt user for project URL and create file
@@ -142,13 +135,23 @@ int CLIENT_STATE::init() {
         print_summary();
     }
 
-    // Run the time tests and host information check if needed
+    // Read the global preferences file, if it exists.
+    // Do this after reading the state file so we know our venue
+    //
+    retval = global_prefs.parse_file(host_venue);
+    if (retval) {
+        printf("No global preferences file; will use defaults.\n");
+    }
+    install_global_prefs();
 
     // Getting host info is very fast, so we can do it anytime
+    //
     get_host_info(host_info);
 
+    // running CPU benchmarks is slow, so do it infrequently
+    //
     if (gstate.should_run_time_tests()) {
-        time_tests_start = time(NULL);
+        time_tests_start = time(0);
         show_message(NULL, "Running time tests", "low");
 #ifdef _WIN32
         time_tests_handle = CreateThread(
@@ -477,9 +480,6 @@ int CLIENT_STATE::parse_state_file() {
     int retval=0;
     int failnum;
 
-    global_prefs.confirm_before_connecting = false;
-    global_prefs.hangup_if_dialed = false;
-
     if (!f) {
         if (log_flags.state_debug) {
             printf("No state file; will create one\n");
@@ -579,16 +579,13 @@ int CLIENT_STATE::parse_state_file() {
             // after core client update
         } else if (match_tag(buf, "<core_client_major_version>")) {
         } else if (match_tag(buf, "<core_client_minor_version>")) {
-        } else if (match_tag(buf, "<confirm_before_connect/>")) {
-            global_prefs.confirm_before_connecting = true;
-        } else if (match_tag(buf, "<hangup_if_dialed/>")) {
-            global_prefs.hangup_if_dialed = true;
         } else if (match_tag(buf, "<use_http_proxy/>")) {
             use_http_proxy = true;
         } else if (parse_str(buf, "<proxy_server_name>", proxy_server_name, sizeof(proxy_server_name))) {
         } else if (parse_int(buf, "<proxy_server_port>", proxy_server_port)) {
         } else if (parse_str(buf, "<socks_user_name>", socks_user_name, sizeof(socks_user_name))) {
         } else if (parse_str(buf, "<socks_user_passwd>", socks_user_passwd, sizeof(socks_user_passwd))) {
+        } else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) {
         } else {
             fprintf(stderr, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
         }
@@ -647,11 +644,9 @@ int CLIENT_STATE::write_state_file() {
         core_client_minor_version
     );
 
-    // save proxy and preferences info
+    // save proxy info
     //
     fprintf(f,
-        "%s"
-        "%s"
         "%s"
         "%s"
         "<proxy_server_name>%s</proxy_server_name>\n"
@@ -660,13 +655,14 @@ int CLIENT_STATE::write_state_file() {
         "<socks_user_passwd>%s</socks_user_passwd>\n",
         use_http_proxy?"<use_http_proxy/>\n":"",
         use_socks_proxy?"<use_socks_proxy/>\n":"",
-        global_prefs.confirm_before_connecting?"<confirm_before_connect/>\n":"",
-        global_prefs.hangup_if_dialed?"<hangup_if_dialed/>\n":"",
         proxy_server_name,
         proxy_server_port,
         socks_user_name,
         socks_user_passwd
     );
+    if (strlen(host_venue)) {
+        fprintf(f, "<host_venue>%s</host_venue>\n", host_venue);
+    }
     fprintf(f, "</client_state>\n");
     fclose(f);
     retval = boinc_rename(STATE_FILE_TEMP, STATE_FILE_NAME);
@@ -1300,7 +1296,6 @@ int CLIENT_STATE::report_project_error(
             strcat(res.stderr_out, total_err );
         }
     }
-                    
 
     if (res.state == RESULT_NEW) {
         for (i=0;i<res.wup->input_files.size();i++) {

@@ -3658,3 +3658,36 @@ David  Mar 4 2003
         prefs.inc
         prefs_edit_action.php
         project_specific_prefs.inc
+
+David  Mar 5 2003
+    - use venue-specific prefs on client side:
+        - schedule server passes <host_venue> element in scheduler reply
+            (but only when it passes back new global prefs)
+        - when parsing global prefs, if find a matching
+            <venue> element, parse its contents and ignore all else
+        - when passing project-specific prefs to app,
+            look for matching <venue> element
+    - changed XML syntax of venue-specific prefs: instead of
+        <home>...</home>, e.g., use
+        <venue name="home">...</venue>
+    - added safe_strncpy(): always adds zero byte at end.
+        Use this instead of strncpy().
+
+    client/
+        app.C
+        client_state.C,h
+        cs_scheduler.C
+        hostinfo.C
+        prefs.C,h
+        scheduler_op.C,h
+    html_users/
+        add_venue_action.php
+        prefs.inc
+        show_host_detail.php
+        user.inc
+    lib/
+        parse.C,h
+        util.C,h
+    sched/
+        Makefile.in
+        server_types.C

@@ -24,7 +24,7 @@
         $prefs->$venue = $new_prefs;
         $retval = project_prefs_update($user, $prefs);
     }
-    if (retval) {
+    if ($retval) {
         Header("Location: prefs.php?subset=$subset");
     } else {
         db_error_page();

@@ -145,13 +145,15 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         "<user_expavg_credit>%f</user_expavg_credit>\n"
         "<user_create_time>%d</user_create_time>\n"
         "<host_total_credit>%f</host_total_credit>\n"
-        "<host_expavg_credit>%f</host_expavg_credit>\n",
+        "<host_expavg_credit>%f</host_expavg_credit>\n"
+        "<host_venue>%s</host_venue>\n",
         user.name,
         user.total_credit,
         user.expavg_credit,
         user.create_time,
         host.total_credit,
-        host.expavg_credit
+        host.expavg_credit,
+        host.venue
     );
 
     // might want to send team credit too.

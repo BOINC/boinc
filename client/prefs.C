@@ -33,7 +33,7 @@
 // the following values determine how the client behaves
 // if there are no global prefs yet
 //
-GLOBAL_PREFS::GLOBAL_PREFS() {
+void GLOBAL_PREFS::init() {
     run_on_batteries = true;
     run_if_user_active = true;
     run_minimized = false;
@@ -50,12 +50,47 @@ GLOBAL_PREFS::GLOBAL_PREFS() {
     max_bytes_sec_down = 1e9;
 };
 
-// Parse XML global prefs
+GLOBAL_PREFS::GLOBAL_PREFS() {
+    init();
+}
+
+// Parse XML global prefs.
+// If host_venue is nonempty and we find an element of the form
+// <venue name="X">
+//   ...
+// </venue>
+// then parse that and ignore the rest.
+// Otherwise ignore <venue> elements.
 //
-int GLOBAL_PREFS::parse(FILE* in) {
-    char buf[256];
+int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
+    char buf[256], buf2[256];
+    bool in_venue = false, in_correct_venue=false;
 
     while (fgets(buf, 256, in)) {
+        if (in_venue) {
+            if (match_tag(buf, "</venue>")) {
+                if (in_correct_venue) {
+                    return 0;
+                } else {
+                    in_venue = false;
+                    continue;
+                }
+            } else {
+                if(!in_correct_venue) continue;
+            }
+        } else {
+            if (match_tag(buf, "<venue")) {
+                in_venue = true;
+                parse_attr(buf, "name", buf2, sizeof(buf2));
+                if (!strcmp(buf2, host_venue)) {
+                    init();
+                    in_correct_venue = true;
+                } else {
+                    in_correct_venue = false;
+                }
+                continue;
+            }
+        }
         if (match_tag(buf, "</global_preferences>")) {
             return 0;
         } else if (match_tag(buf, "<run_on_batteries/>")) {
@@ -86,10 +121,10 @@ int GLOBAL_PREFS::parse(FILE* in) {
         } else if (parse_double(buf, "<idle_time_to_run>", idle_time_to_run)) {
             continue;
         } else if (parse_double(buf, "<max_bytes_sec_up>", max_bytes_sec_up)) {
-			if (max_bytes_sec_up <= 0) max_bytes_sec_up = 1e9;
+            if (max_bytes_sec_up <= 0) max_bytes_sec_up = 1e12;
             continue;
         } else if (parse_double(buf, "<max_bytes_sec_down>", max_bytes_sec_down)) {
-			if (max_bytes_sec_down <= 0) max_bytes_sec_down = 1e9;
+            if (max_bytes_sec_down <= 0) max_bytes_sec_down = 1e12;
             continue;
         }
     }
@@ -98,13 +133,13 @@ int GLOBAL_PREFS::parse(FILE* in) {
 
 // Parse global prefs file
 //
-int GLOBAL_PREFS::parse_file() {
+int GLOBAL_PREFS::parse_file(char* host_venue) {
     FILE* f;
     int retval;
 
     f = fopen(GLOBAL_PREFS_FILE_NAME, "r");
     if (!f) return ERR_FOPEN;
-    retval = parse(f);
+    retval = parse(f, host_venue);
     fclose(f);
     return retval;
 }

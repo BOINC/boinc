@@ -507,6 +507,7 @@ int SCHEDULER_REPLY::parse(FILE* in) {
     strcpy(user_name, "");
     user_total_credit = 0;
     user_expavg_credit = 0;
+    strcpy(host_venue, "");
     user_create_time = 0;
     code_sign_key = 0;
     code_sign_key_signature = 0;
@@ -535,6 +536,7 @@ int SCHEDULER_REPLY::parse(FILE* in) {
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
+        else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) continue;
         else if (parse_int(buf, "<host_create_time>", (int &)host_create_time)) continue;
         else if (parse_int(buf, "<request_delay>", request_delay)) continue;
         else if (match_tag(buf, "<global_preferences>")) {

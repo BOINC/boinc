@@ -104,7 +104,8 @@ int ACTIVE_TASK::init(RESULT* rp) {
     return 0;
 }
 
-// Start a task in a slot directory.  This includes setting up soft links,
+// Start a task in a slot directory.
+// This includes setting up soft links,
 // passing preferences, and starting the process
 //
 // Current dir is top-level BOINC dir
@@ -134,13 +135,13 @@ int ACTIVE_TASK::start(bool first_time) {
 
     memset(&aid, 0, sizeof(aid));
 
-    strncpy(aid.user_name, wup->project->user_name, sizeof(aid.user_name));
-    strncpy(aid.team_name, wup->project->team_name, sizeof(aid.team_name));
+    safe_strncpy(aid.user_name, wup->project->user_name, sizeof(aid.user_name));
+    safe_strncpy(aid.team_name, wup->project->team_name, sizeof(aid.team_name));
     if (wup->project->project_specific_prefs) {
-        strncpy(
-            aid.app_preferences,
+        extract_venue(
             wup->project->project_specific_prefs,
-            sizeof(aid.app_preferences)
+            gstate.host_venue,
+            aid.app_preferences
         );
     }
     aid.user_total_credit = wup->project->user_total_credit;

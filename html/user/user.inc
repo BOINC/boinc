@@ -41,7 +41,7 @@ function show_user_profile($user) {
 
 function show_hosts($user) {
     $result = mysql_query("select * from host where userid=$user->id order by rpc_time desc");
-    echo VISTABLE."\n";
+    start_table();
     echo "<tr><td>Host name</td><td>Total Credit</td><td>Recent credit</td></tr>";
     while ($host = mysql_fetch_object($result)) {
         echo "<p>\n";
@@ -78,9 +78,11 @@ function show_user_page_private($user) {
 }
 
 function user_table_start() {
-    echo VISTABLE."
+    start_table();
+    echo "
         <tr><th>Name</th><th>Average credit</th><th>Total credit</th>
-        <th>Participant since</th></tr>";
+        <th>Participant since</th></tr>
+    ";
 }
 
 function show_user_row($user) {

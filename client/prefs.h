@@ -50,8 +50,9 @@ struct GLOBAL_PREFS {
     double max_bytes_sec_down;
 
     GLOBAL_PREFS();
-    int parse(FILE*);
-    int parse_file();
+    void init();
+    int parse(FILE*, char* venue);
+    int parse_file(char* venue);
 };
 
 #endif
