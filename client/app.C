@@ -699,7 +699,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                 // If exit_status is nonzero, then we don't need to upload the
                 // output files
                 //
-                if(atp->exit_status) {
+                if(atp->exit_status != 0) {
                     gstate.report_result_error(
                         *(atp->result), 0,
                         "process exited with code %d (0x%x)",
@@ -708,6 +708,8 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                 }
                 scope_messages.printf("ACTIVE_TASK_SET::check_app_exited(): process exited: status %d\n", atp->exit_status);
             } else if (WIFSIGNALED(stat)) {
+	        atp->exit_status = stat;
+	        atp->result->exit_status = atp->exit_status;
                 atp->state = PROCESS_WAS_SIGNALED;
                 atp->signal = WTERMSIG(stat);
                 atp->result->signal = atp->signal;
