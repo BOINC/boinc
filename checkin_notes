@@ -26004,7 +26004,10 @@ Rom    16 Mar 2005
         diagnostics.C, .h
 
 David  17 Mar 2005
-    - on Unix, create files with group/other permissions as well as user.
+    - on Unix, create download files with user/group/other access
+        (RW or RWX, as needed)
+        All other files have permissions based on umask.
 
     client/
         client_types.C
+        cs_account.C
