@@ -77,11 +77,11 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         fprintf(f, "<wu_name>%s</wu_name>\n", ai.wu_name);
     }
 #ifdef _WIN32
-    if (strlen(ai.comm_obj_name)) {
-        fprintf(f, "<comm_obj_name>%s</comm_obj_name>\n", ai.comm_obj_name);
+    if (strlen(ai.shmem_seg_name)) {
+        fprintf(f, "<comm_obj_name>%s</comm_obj_name>\n", ai.shmem_seg_name);
     }
 #else
-    fprintf(f, "<shm_key>%d</shm_key>\n", ai.shm_key);
+    fprintf(f, "<shm_key>%d</shm_key>\n", ai.shmem_seg_name);
 #endif
     fprintf(f,
         "<slot>%d</slot>\n"
@@ -141,9 +141,9 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         else if (parse_str(buf, "<authenticator>", ai.authenticator, sizeof(ai.authenticator))) continue;
         else if (parse_str(buf, "<wu_name>", ai.wu_name, sizeof(ai.wu_name))) continue;
 #ifdef _WIN32
-        else if (parse_str(buf, "<comm_obj_name>", ai.comm_obj_name, sizeof(ai.comm_obj_name))) continue;
+        else if (parse_str(buf, "<comm_obj_name>", ai.shmem_seg_name, sizeof(ai.shmem_seg_name))) continue;
 #else
-        else if (parse_int(buf, "<shm_key>", ai.shm_key)) continue;
+        else if (parse_int(buf, "<shm_key>", ai.shmem_seg_name)) continue;
 #endif
         else if (parse_int(buf, "<slot>", ai.slot)) continue;
         else if (parse_double(buf, "<user_total_credit>", ai.user_total_credit)) continue;

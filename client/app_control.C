@@ -262,13 +262,15 @@ bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
                     pending_suspend_via_quit = false;
                     state = PROCESS_UNINITIALIZED;
 
+#if 0
                     // destroy shm, since restarting app will re-create it
                     //
                     if (app_client_shm.shm) {
                         detach_shmem(app_client_shm.shm);
+                        destroy_shmem(shmem_seg_name);
                         app_client_shm.shm = NULL;
                     }
-                    destroy_shmem(shm_key);
+#endif
                     return true;
                 }
                 if (!finish_file_present()) {
@@ -562,11 +564,10 @@ bool ACTIVE_TASK::read_stderr_file() {
 //
 int ACTIVE_TASK::request_reread_prefs() {
     int retval;
-    APP_INIT_DATA aid;
 
     link_user_files();
 
-    retval = write_app_init_file(aid);
+    retval = write_app_init_file();
     if (retval) return retval;
     if (!app_client_shm.shm) return 0;
     app_client_shm.shm->graphics_request.send_msg(

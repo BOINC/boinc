@@ -16778,3 +16778,22 @@ Rom    31 Aug 2004
 
     lib/
         shmem.C
+
+David  31 Aug 2004
+    - Don't delete shared-memory segment while ACTIVE_TASK is preempted
+        via quit (hopefully will fix Win98 problem).
+    - Add shmem_seg_name field to ACTIVE_TASK
+    - Factor ACTIVE_TASK::get_shmem_seg_name() out of write_app_init_file().
+        It had no business being there.
+        In particular, write_app_init_file() is sometimes called
+        in the middle of execution, when you definitely don't want
+        to create a new shmem seg name
+    - write_app_init_file() doesn't take APP_INIT_DATA arg
+    - define type SHMEM_SEG_NAME (for uniformity across platforms)
+
+    client/
+        app.C,h
+        app_control.C
+        app_start.C
+    lib/
+        app_ipc.C,h

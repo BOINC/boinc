@@ -96,13 +96,20 @@ show_link(
     "www.boinc.narod.ru",
     "http://www.boinc.narod.ru"
 );
-//list_item("Serbian",
-//    "<a href=http://www.boincatserbia.co.sr/>BOINC@Serbia</a>"
-//);
+show_link(
+    "Serbian",
+    "BOINC@Serbia",
+    "http://www.boincatserbia.co.sr/"
+);
+show_link(
+    "Slovak",
+    "BOINC translation by slavko.sk",
+    "http://slavko.sk/boinc"
+);
 show_link(
     "Spanish",
     "BOINC España</a>",
-    "http://members.lycos.co.uk/boincspain/"
+    "http://boincspain.shyper.com/"
 );
 show_link(
     "Turkish",

@@ -63,14 +63,25 @@ through award SCI/0221529.
 </td>
 <td valign=top bgcolor=c8c8ff>
 <center>
-<h2>Status</h2>
+<h2>Projects</h2>
 </center>
 <p>
-BOINC is being used by
-<a href=http://setiweb.ssl.berkeley.edu/>SETI@home</a>
-and <a href=http://predictor.scripps.edu>Predictor@home</a>.
-Other distributed computing projects based on BOINC
-will be launched soon.
+BOINC-based distributed computing projects include:
+<ul>
+<li>
+<a href=http://climateprediction.net>Climateprediction.net</a>:
+Improve the accuracy of long-range climate prediction.
+<li>
+<a href=http://predictor.scripps.edu>Predictor@home</a>:
+Solve biomedical questions of protein-related diseases.
+<li><a href=http://setiweb.ssl.berkeley.edu/>SETI@home</a>:
+Analyze radio-telescope data,
+looking for evidence of extraterrestrial life.
+</ul>
+We encourage you to participate in multiple projects,
+so that your computer will be kept busy even
+while a project is down or out of work.
+
 
 <center>
 <h2>News</h2>

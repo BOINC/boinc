@@ -48,6 +48,11 @@ list_item("Disk usage limits",
 3) Minimum disk space to keep free.
 ");
 
+list_item("Leave applications in memory while preempted",
+"If yes, applications will be preempted by suspend/resume.
+This uses more virtual memory, but uses CPU time more efficiently."
+);
+
 list_end();
 
 echo "

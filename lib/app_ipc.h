@@ -121,6 +121,12 @@ public:
     APP_CLIENT_SHM();
 };
 
+#ifdef _WIN32
+    typedef char[256] SHMEM_SEG_NAME;
+#else
+    typedef int SHMEM_SEG_NAME;
+#endif
+
 // parsed version of main init file
 //
 struct APP_INIT_DATA {
@@ -144,11 +150,7 @@ struct APP_INIT_DATA {
     // (not used by app developers)
     //
     double checkpoint_period;     // recommended checkpoint period
-#ifdef _WIN32
-    char comm_obj_name[256];  // identifies shared memory segments, signals, etc
-#else
-    int shm_key;
-#endif
+    SHMEM_SEG_NAME shmem_seg_name;
     double wu_cpu_time;       // cpu time from previous episodes
     double fraction_done_update_period;
         // the following 2 are used for compound apps,

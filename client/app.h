@@ -80,8 +80,9 @@ public:
 #ifdef _WIN32
     HANDLE pid_handle, thread_handle, quitRequestEvent, shm_handle;
 #else
-    key_t shm_key;
+    //key_t shm_key;
 #endif
+    SHMEM_SEG_NAME shmem_seg_name;
     RESULT* result;
     WORKUNIT* wup;
     APP_VERSION* app_version;
@@ -139,6 +140,7 @@ public:
     int request_reread_prefs();
     void check_graphics_mode_ack();
     int link_user_files();
+    int get_shmem_seg_name();
 
     ACTIVE_TASK();
 	~ACTIVE_TASK();
@@ -171,7 +173,7 @@ public:
     bool read_stderr_file();
     bool finish_file_present();
     bool supports_graphics();
-    int write_app_init_file(APP_INIT_DATA&);
+    int write_app_init_file();
     int move_trickle_file();
 
     int write(MIOFILE&);

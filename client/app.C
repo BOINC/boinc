@@ -126,9 +126,9 @@ ACTIVE_TASK::~ACTIVE_TASK() {
     //
     if (app_client_shm.shm) {
         detach_shmem(app_client_shm.shm);
+        destroy_shmem(shmem_seg_name);
         app_client_shm.shm = NULL;
     }
-    destroy_shmem(shm_key);
 #endif
 }
 

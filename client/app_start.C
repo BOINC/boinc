@@ -94,11 +94,42 @@ int ACTIVE_TASK::link_user_files() {
     return 0;
 }
 
+// make a unique key for core/app shared memory segment
+//
+int ACTIVE_TASK::get_shmem_seg_name() {
+#ifdef _WIN32
+    int     i = 0;
+    char    szSharedMemoryName[256];
+    HANDLE  hSharedMemoryHandle = 0;
+
+    for (i=0; i<1024; i++) {
+        sprintf(szSharedMemoryName, "boinc_%d", slot);
+        hSharedMemoryHandle = create_shmem(szSharedMemoryName, 1024, NULL);
+        if (hSharedMemoryHandle) break;
+    }
+
+    if (!hSharedMemoryHandle) {
+        return ERR_SHMGET;
+    }
+    CloseHandle(hSharedMemoryHandle);
+    strcpy(shmem_seg_name, szSharedMemoryName);
+
+#elif HAVE_SYS_IPC_H
+    char init_data_path[256];
+    sprintf(init_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, INIT_DATA_FILE);
+    shmem_seg_name = ftok(init_data_path, slot);
+#else
+#error shared memory key generation unimplemented
+#endif
+    return 0;
+}
+
 // write the app init file.
 // This is done before starting the app,
 // and when project prefs have changed during app execution
 //
-int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
+int ACTIVE_TASK::write_app_init_file() {
+    APP_INIT_DATA aid;
     FILE *f;
     char init_data_path[256], project_dir[256], project_path[256];
     int retval;
@@ -127,8 +158,10 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     aid.fraction_done_update_period = DEFAULT_FRACTION_DONE_UPDATE_PERIOD;
     aid.fraction_done_start = 0;
     aid.fraction_done_end = 1;
-#ifndef _WIN32
-    aid.shm_key = 0;
+#ifdef _WIN32
+    strcpy(aid.shmem_seg_name, shmem_seg_name);
+#else
+    aid.shmem_seg_name = shmem_seg_name;
 #endif
     // wu_cpu_time is the CPU time at start of session,
     // not the checkpoint CPU time
@@ -145,32 +178,6 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
         );
         return ERR_FOPEN;
     }
-
-    // make a unique key for core/app shared memory segment
-    //
-#ifdef _WIN32
-    int     i = 0;
-    char    szSharedMemoryName[256];
-    HANDLE  hSharedMemoryHandle;
-
-    do {
-        memset(szSharedMemoryName, '\0', sizeof(szSharedMemoryName));
-        sprintf(szSharedMemoryName, "boinc_%d", slot);
-        i++;
-    } while((!(hSharedMemoryHandle = create_shmem(szSharedMemoryName, 1024, NULL))) || (1024 < i));
-
-    if (hSharedMemoryHandle)
-        CloseHandle(hSharedMemoryHandle);
-
-    if (1024 < i)
-        return ERR_SEMOP;
-
-    strcpy(aid.comm_obj_name, szSharedMemoryName);
-#elif HAVE_SYS_IPC_H
-    aid.shm_key = ftok(init_data_path, slot);
-#else
-#error shared memory key generation unimplemented
-#endif
 
     aid.host_info = gstate.host_info;
     retval = write_init_data_file(f, aid);
@@ -223,7 +230,6 @@ int ACTIVE_TASK::start(bool first_time) {
     int retval;
     char graphics_data_path[256];
     GRAPHICS_INFO gi;
-    APP_INIT_DATA aid;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_TASK);
     scope_messages.printf("ACTIVE_TASK::start(first_time=%d)\n", first_time);
@@ -240,7 +246,16 @@ int ACTIVE_TASK::start(bool first_time) {
     gi.ysize = 600;
     gi.refresh_period = 0.1;
 
-    retval = write_app_init_file(aid);
+    if (!app_client_shm.shm) {
+        retval = get_shmem_seg_name();
+        if (retval) {
+            msg_printf(wup->project, MSG_ERROR,
+                "Can't get shared memory segment name: %d", retval
+            );
+            return retval;
+        }
+    }
+    retval = write_app_init_file();
     if (retval) return retval;
 
     sprintf(graphics_data_path, "%s%s%s", slot_dir, PATH_SEPARATOR, GRAPHICS_DATA_FILE);
@@ -309,16 +324,18 @@ int ACTIVE_TASK::start(bool first_time) {
     startup_info.lpReserved = NULL;
     startup_info.lpDesktop = "";
 
-    sprintf(buf, "%s%s", QUIT_PREFIX, aid.comm_obj_name);
+    sprintf(buf, "%s%s", QUIT_PREFIX, shmem_seg_name);
     quitRequestEvent = CreateEvent(0, FALSE, FALSE, buf);
 
-    // create core/app share mem segment
+    // create core/app share mem segment if needed
     //
-    sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);
-    shm_handle = create_shmem(buf, sizeof(SHARED_MEM),
-        (void **)&app_client_shm.shm
-    );
-    if (shm_handle == NULL) return ERR_SHMGET;
+    if (!app_client_shmem.shm) {
+        sprintf(buf, "%s%s", SHM_PREFIX, shmem_seg_name);
+        shm_handle = create_shmem(buf, sizeof(SHARED_MEM),
+            (void **)&app_client_shm.shm
+        );
+        if (shm_handle == NULL) return ERR_SHMGET;
+    }
     app_client_shm.reset_msgs();
 
     // NOTE: in Windows, stderr is redirected within boinc_init();
@@ -351,17 +368,18 @@ int ACTIVE_TASK::start(bool first_time) {
 #else
     char* argv[100];
 
-    // Set up core/app shared memory seg
+    // Set up core/app shared memory seg if needed
     //
-    shm_key = aid.shm_key;
-    retval = create_shmem(
-        shm_key, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
-    );
-    if (retval) {
-        msg_printf(
-            wup->project, MSG_ERROR, "Can't create shared mem: %d", retval
+    if (!app_client_shm.shm) {
+        retval = create_shmem(
+            shmem_seg_name, sizeof(SHARED_MEM), (void**)&app_client_shm.shm
         );
-        return retval;
+        if (retval) {
+            msg_printf(
+                wup->project, MSG_ERROR, "Can't create shared mem: %d", retval
+            );
+            return retval;
+        }
     }
     app_client_shm.reset_msgs();
 
