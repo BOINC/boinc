@@ -23,9 +23,13 @@
 #endif
 
 #ifndef _WIN32
-#include <string.h>
-#include <stdlib.h>
-#include <math.h>
+#include <string>
+#include <cstring>
+#include <cstdlib>
+#include <cstdio>
+#include <cmath>
+#include <algorithm>
+#include <fstream>
 #include <ctype.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -33,9 +37,6 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <unistd.h>
-#include <algorithm>
-#include <fstream>
-#include <cstdio>
 #ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
 #endif
