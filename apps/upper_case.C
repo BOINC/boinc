@@ -24,6 +24,7 @@
 // -cpu_time: app will chew up some CPU cycles after each character,
 //            used for testing CPU time reporting
 // -signal:   app will raise SIGHUP signal (for testing signal handler)
+// -exit:     app will exit with status -10 (for testing exit handler)
 //
 // This version does one char/second,
 // and writes its state to disk every so often
@@ -70,7 +71,7 @@ char the_char[10];
 double xPos=0, yPos=0;
 double xDelta=0.03, yDelta=0.07;
 
-int run_slow=0,cpu_time=0,raise_signal=0;
+int run_slow=0,cpu_time=0,raise_signal=0,random_exit=0;
 time_t my_start_time;
 APP_INIT_DATA uc_aid;
 
@@ -163,6 +164,7 @@ int main(int argc, char **argv) {
         if (!strcmp(argv[i], "-run_slow")) run_slow = 1;
         if (!strcmp(argv[i], "-cpu_time")) cpu_time = 1;
         if (!strcmp(argv[i], "-signal")) raise_signal = 1;
+        if (!strcmp(argv[i], "-exit")) random_exit = 1;
     }
     in = fopen(resolved_name, "r");
     boinc_resolve_filename(CHECKPOINT_FILE, resolved_name, sizeof(resolved_name));
@@ -210,11 +212,16 @@ int main(int argc, char **argv) {
             boinc_sleep(1.);
         }
 
-#ifdef SIGNAL_H
+#ifdef HAVE_SIGNAL_H
         if (raise_signal) {
             raise(SIGHUP);
         }
 #endif
+        if (random_exit) {
+            if ((random()%20) == 0) {
+                exit(-10);
+            }
+        }
 
         if (boinc_time_to_checkpoint()) {
             retval = do_checkpoint(out, nchars);
@@ -230,6 +237,7 @@ int main(int argc, char **argv) {
         fprintf(stderr, "APP: upper_case flush failed %d\n", retval);
         exit(1);
     }
+    if (random_exit) exit(-10);
     fprintf(stderr, "APP: upper_case ending, wrote %d chars\n", nchars);
     double cur_cpu;
     int cur_mem;
