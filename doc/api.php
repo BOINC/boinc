@@ -12,18 +12,25 @@ The BOINC graphics API is described <a href=graphics.php>separately</a>.
 <h3>Initialization and termination</h3>
 The application must call
 <pre>
-    int boinc_init(bool standalone=false);
+    int boinc_init(bool is_worker=true);
 </pre>
 before calling other BOINC functions or doing I/O.
-If <code>standalone</code> is true,
-the application will function independently of the BOINC core client
+<p>
+If <code>is_worker</code> is true,
+the application will periodically report CPU time and fraction_done to
+the BOINC core client.
+<p>
+An application will detect that it is standalone if it cannot parse
+the init data file, or if it cannot setup the shared memory.
+A standalone application will function independently of the BOINC core client
 (this is useful for testing).
 <p>
 When the application has completed it must call
 <pre>
-    int boinc_finish(int status);
+    int boinc_finish(int status, is_worker=true);
 </pre>
 <code>status</code> is nonzero if an error was encountered.
+<code>is_worker</code> is true iff it was true for boinc_init.
 This call does not return.
 
 <h3>Resolving file names</h3>

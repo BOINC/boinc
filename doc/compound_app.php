@@ -40,6 +40,14 @@ Each subsidiary program should use the normal BOINC API,
 including calls to boinc_fraction_done()
 with values ranging from 0 to 1.
 
+<p>
+If the graphics is handled in a program that runs concurrently with
+the subsidiary applications, it can call boinc_init(false) to
+designate it as a non-worker thread. This program can then use the
+BOINC graphics API, but not the API calls that handle checkpointing
+and status updates to BOINC.
+
+
 ";
 page_tail();
 ?>
