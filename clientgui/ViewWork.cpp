@@ -21,37 +21,19 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.12  2004/08/11 23:52:13  rwalton
-// *** empty log message ***
-//
-// Revision 1.11  2004/07/13 05:56:02  rwalton
-// Hooked up the Project and Work tab for the new GUI.
-//
-// Revision 1.10  2004/05/29 00:09:41  rwalton
-// *** empty log message ***
-//
-// Revision 1.9  2004/05/27 06:17:58  rwalton
-// *** empty log message ***
-//
-// Revision 1.8  2004/05/24 23:50:14  rwalton
-// *** empty log message ***
-//
-// Revision 1.7  2004/05/21 06:27:15  rwalton
-// *** empty log message ***
-//
-// Revision 1.6  2004/05/17 22:15:09  rwalton
+// Revision 1.1  2004/09/21 01:26:26  rwalton
 // *** empty log message ***
 //
 //
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "WorkView.h"
+#pragma implementation "ViewWork.h"
 #endif
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
-#include "WorkView.h"
+#include "ViewWork.h"
 #include "Events.h"
 
 #include "res/result.xpm"
@@ -67,65 +49,68 @@
 #define COLUMN_STATUS               7
 
 
-IMPLEMENT_DYNAMIC_CLASS(CWorkView, CBaseListCtrlView)
+IMPLEMENT_DYNAMIC_CLASS(CViewWork, CBOINCBaseView)
 
-BEGIN_EVENT_TABLE(CWorkView, CBaseListCtrlView)
-    EVT_LIST_CACHE_HINT(ID_LIST_WORKVIEW, CWorkView::OnCacheHint)
+BEGIN_EVENT_TABLE(CViewWork, CBOINCBaseView)
+    EVT_LIST_CACHE_HINT(ID_LIST_TRANSFERSVIEW, CViewWork::OnCacheHint)
 END_EVENT_TABLE()
 
 
-CWorkView::CWorkView()
+CViewWork::CViewWork()
 {
+    wxLogTrace("CViewWork::CViewWork - Function Begining");
+    wxLogTrace("CViewWork::CViewWork - Function Ending");
 }
 
 
-CWorkView::CWorkView(wxNotebook* pNotebook) :
-    CBaseListCtrlView(pNotebook, ID_LIST_WORKVIEW)
+CViewWork::CViewWork(wxNotebook* pNotebook) :
+    CBOINCBaseView(pNotebook, ID_LIST_WORKVIEW, ID_HTML_WORKVIEW)
 {
     m_bProcessingRenderEvent = false;
 
-    InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(COLUMN_APPLICATION, _("Application"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(COLUMN_NAME, _("Name"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(COLUMN_CPUTIME, _("CPU time"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(COLUMN_TOCOMPLETETION, _("To Completetion"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(COLUMN_REPORTDEADLINE, _("Report Deadline"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, -1);
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_APPLICATION, _("Application"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_NAME, _("Name"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_CPUTIME, _("CPU time"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_TOCOMPLETETION, _("To Completetion"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Report Deadline"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, -1);
 }
 
 
-CWorkView::~CWorkView()
+CViewWork::~CViewWork()
 {
+    wxLogTrace("CViewWork::~CViewWork - Function Begining");
+    wxLogTrace("CViewWork::~CViewWork - Function Ending");
 }
 
 
-wxString CWorkView::GetViewName()
+wxString CViewWork::GetViewName()
 {
     return wxString(_("Work"));
 }
 
 
-char** CWorkView::GetViewIcon()
+char** CViewWork::GetViewIcon()
 {
     return result_xpm;
 }
 
 
-void CWorkView::OnCacheHint ( wxListEvent& event ) {
-    m_iCacheFrom = event.GetCacheFrom();
-    m_iCacheTo = event.GetCacheTo();
-}
-
-
-void CWorkView::OnRender(wxTimerEvent &event) {
+void CViewWork::OnRender(wxTimerEvent &event)
+{
+    wxLogTrace("CViewWork::OnRender - Processing Render Event...");
     if (!m_bProcessingRenderEvent)
     {
-        wxLogTrace("CWorkView::OnRender - Processing Render Event...");
         m_bProcessingRenderEvent = true;
 
-        wxInt32 iWorkCount = wxGetApp().GetDocument()->GetWorkCount();
-        SetItemCount(iWorkCount);
+        wxInt32 iProjectCount = wxGetApp().GetDocument()->GetWorkCount();
+        wxASSERT(NULL != m_pListPane);
+        m_pListPane->SetItemCount(iProjectCount);
 
         m_bProcessingRenderEvent = false;
     }
@@ -136,7 +121,8 @@ void CWorkView::OnRender(wxTimerEvent &event) {
 }
 
 
-wxString CWorkView::OnGetItemText(long item, long column) const {
+wxString CViewWork::OnGetItemText(long item, long column) const
+{
     wxString strBuffer;
     switch(column) {
         case COLUMN_PROJECT:
@@ -167,15 +153,5 @@ wxString CWorkView::OnGetItemText(long item, long column) const {
             break;
     }
     return strBuffer;
-}
-
-
-int CWorkView::OnGetItemImage(long item) const {
-    return -1;
-}
-
-
-wxListItemAttr* CWorkView::OnGetItemAttr(long item) const {
-    return NULL;
 }
 

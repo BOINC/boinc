@@ -21,64 +21,54 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.11  2004/08/11 23:52:12  rwalton
-// *** empty log message ***
-//
-// Revision 1.10  2004/07/13 05:56:02  rwalton
-// Hooked up the Project and Work tab for the new GUI.
-//
-// Revision 1.9  2004/05/29 00:09:41  rwalton
-// *** empty log message ***
-//
-// Revision 1.8  2004/05/27 06:17:58  rwalton
-// *** empty log message ***
-//
-// Revision 1.7  2004/05/21 06:27:15  rwalton
-// *** empty log message ***
-//
-// Revision 1.6  2004/05/17 22:15:09  rwalton
+// Revision 1.1  2004/09/21 01:26:24  rwalton
 // *** empty log message ***
 //
 //
 
-#ifndef _RESOURCEUTILIZATIONVIEW_H_
-#define _RESOURCEUTILIZATIONVIEW_H_
+#ifndef _BOINCBASEVIEW_H_
+#define _BOINCBASEVIEW_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "ResourceUtilizationView.cpp"
+#pragma interface "BOINCBaseView.cpp"
 #endif
 
 
-#include "BaseListCtrlView.h"
+class CBOINCTaskCtrl;
+class CBOINCListCtrl;
 
-class CResourceUtilizationView : public CBaseListCtrlView
+class CBOINCBaseView : public wxPanel
 {
-    DECLARE_DYNAMIC_CLASS(CResourceUtilizationView)
+    DECLARE_DYNAMIC_CLASS( CBOINCBaseView )
 
 public:
-    CResourceUtilizationView();
-    CResourceUtilizationView(wxNotebook* pNotebook);
+    CBOINCBaseView();
+    CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iHtmlWindowID, wxWindowID iListWindowID);
 
-    ~CResourceUtilizationView();
+    ~CBOINCBaseView();
 
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
 
-    virtual void            OnRender(wxTimerEvent &event);
-    virtual void            OnCacheHint( wxListEvent& event );
+    virtual void            UpdateTaskPane();
 
-private:
+    virtual void            OnRender( wxTimerEvent& event );
+    virtual bool            OnSaveState( wxConfigBase* pConfig );
+    virtual bool            OnRestoreState( wxConfigBase* pConfig );
+
+    virtual void            OnCacheHint( wxListEvent& event );
+    virtual wxString        OnGetItemText( long item, long column ) const;
+    virtual int             OnGetItemImage( long item ) const;
+    virtual wxListItemAttr* OnGetItemAttr( long item ) const;
+
+    virtual void            OnLinkClicked( const wxHtmlLinkInfo& link );
 
     bool                    m_bProcessingRenderEvent;
     wxInt32                 m_iCacheFrom;
     wxInt32                 m_iCacheTo;
 
-    virtual wxString        OnGetItemText(long item, long column) const;
-    virtual int             OnGetItemImage(long item) const;
-    virtual wxListItemAttr* OnGetItemAttr(long item) const;
-
-
-    DECLARE_EVENT_TABLE()
+    CBOINCTaskCtrl*         m_pTaskPane;
+    CBOINCListCtrl*         m_pListPane;
 
 };
 

@@ -21,62 +21,43 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.11  2004/08/11 23:52:13  rwalton
-// *** empty log message ***
-//
-// Revision 1.10  2004/07/13 05:56:02  rwalton
-// Hooked up the Project and Work tab for the new GUI.
-//
-// Revision 1.9  2004/05/29 00:09:41  rwalton
-// *** empty log message ***
-//
-// Revision 1.8  2004/05/27 06:17:58  rwalton
-// *** empty log message ***
-//
-// Revision 1.7  2004/05/21 06:27:15  rwalton
-// *** empty log message ***
-//
-// Revision 1.6  2004/05/17 22:15:09  rwalton
+// Revision 1.1  2004/09/21 01:26:25  rwalton
 // *** empty log message ***
 //
 //
 
-#ifndef _TRANSFERSVIEW_H_
-#define _TRANSFERSVIEW_H_
+#ifndef _VIEWMESSAGES_H_
+#define _VIEWMESSAGES_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "TransfersView.cpp"
+#pragma interface "ViewMessages.cpp"
 #endif
 
 
-#include "BaseListCtrlView.h"
+#include "BOINCBaseView.h"
+#include "BOINCTaskCtrl.h"
+#include "BOINCListCtrl.h"
 
-class CTransfersView : public CBaseListCtrlView
+class CViewMessages : public CBOINCBaseView
 {
-    DECLARE_DYNAMIC_CLASS(CTransfersView)
+    DECLARE_DYNAMIC_CLASS( CViewMessages )
 
 public:
-    CTransfersView();
-    CTransfersView(wxNotebook* pNotebook);
+    CViewMessages();
+    CViewMessages(wxNotebook* pNotebook);
 
-    ~CTransfersView();
+    ~CViewMessages();
 
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
 
-    virtual void            OnRender(wxTimerEvent &event);
-    virtual void            OnCacheHint( wxListEvent& event );
-
-private:
-
-    bool                    m_bProcessingRenderEvent;
-    wxInt32                 m_iCacheFrom;
-    wxInt32                 m_iCacheTo;
+    virtual void            OnRender( wxTimerEvent& event );
 
     virtual wxString        OnGetItemText(long item, long column) const;
     virtual int             OnGetItemImage(long item) const;
     virtual wxListItemAttr* OnGetItemAttr(long item) const;
 
+private:
 
     DECLARE_EVENT_TABLE()
 

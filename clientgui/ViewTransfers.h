@@ -21,61 +21,44 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.10  2004/07/13 05:56:02  rwalton
-// Hooked up the Project and Work tab for the new GUI.
-//
-// Revision 1.9  2004/05/29 00:09:41  rwalton
-// *** empty log message ***
-//
-// Revision 1.8  2004/05/27 06:17:58  rwalton
-// *** empty log message ***
-//
-// Revision 1.7  2004/05/21 06:27:15  rwalton
-// *** empty log message ***
-//
-// Revision 1.6  2004/05/17 22:15:10  rwalton
+// Revision 1.1  2004/09/21 01:26:26  rwalton
 // *** empty log message ***
 //
 //
 
-#ifndef _WORKVIEW_H_
-#define _WORKVIEW_H_
+#ifndef _VIEWTRANSFERS_H_
+#define _VIEWTRANSFERS_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "WorkView.cpp"
+#pragma interface "ViewTransfers.cpp"
 #endif
 
 
-#include "BaseListCtrlView.h"
+#include "BOINCBaseView.h"
+#include "BOINCTaskCtrl.h"
+#include "BOINCListCtrl.h"
 
-class CWorkView : public CBaseListCtrlView
+class CViewTransfers : public CBOINCBaseView
 {
-    DECLARE_DYNAMIC_CLASS(CWorkView)
+    DECLARE_DYNAMIC_CLASS( CViewTransfers )
 
 public:
-    CWorkView();
-    CWorkView(wxNotebook* pNotebook);
+    CViewTransfers();
+    CViewTransfers(wxNotebook* pNotebook);
 
-    ~CWorkView();
+    ~CViewTransfers();
 
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
 
-    virtual void            OnRender(wxTimerEvent &event);
-    virtual void            OnCacheHint( wxListEvent& event );
+    virtual void            OnRender( wxTimerEvent& event );
+
+    virtual wxString        OnGetItemText(long item, long column) const;
 
 private:
 
-    bool                    m_bProcessingRenderEvent;
-    wxInt32                 m_iCacheFrom;
-    wxInt32                 m_iCacheTo;
-
-    virtual wxString        OnGetItemText(long item, long column) const;
-    virtual int             OnGetItemImage(long item) const;
-    virtual wxListItemAttr* OnGetItemAttr(long item) const;
-
-
     DECLARE_EVENT_TABLE()
+
 };
 
 

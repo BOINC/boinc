@@ -17484,5 +17484,16 @@ David  20 Sept 2004
             show_user.php
 
 Lana   20 Sept 2004
-     - Fixed create_work bug.  Copy input text files to the download directories     tools/
+     - Fixed create_work bug.  Copy input text files to the download directories
+
+     tools/
 	backend_lib.C 
+
+Rom    20 Sept 2004
+    - NEWGUI: Refactor all view logic to accommodate the new task based interface.
+    - NEWGUI: Add the new projects task pane.
+    - NEWGUI: Stub the other tabs.
+    - NEWGUI: Include new visuals for the task based UI.
+ 
+    clientgui/
+        <Numerous Files Have Been Changed>

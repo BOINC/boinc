@@ -141,10 +141,16 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath=".\BaseListCtrlView.cpp">
+				RelativePath=".\BOINCBaseView.cpp">
 			</File>
 			<File
 				RelativePath=".\BOINCGUIApp.cpp">
+			</File>
+			<File
+				RelativePath=".\BOINCListCtrl.cpp">
+			</File>
+			<File
+				RelativePath=".\BOINCTaskCtrl.cpp">
 			</File>
 			<File
 				RelativePath=".\DlgAbout.cpp">
@@ -209,9 +215,6 @@
 			</File>
 			<File
 				RelativePath=".\MainFrame.cpp">
-			</File>
-			<File
-				RelativePath=".\MessagesView.cpp">
 			</File>
 			<File
 				RelativePath="..\lib\mfile.C">
@@ -283,12 +286,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\ProjectsView.cpp">
-			</File>
-			<File
-				RelativePath=".\ResourceUtilizationView.cpp">
-			</File>
-			<File
 				RelativePath=".\stdwx.cpp">
 				<FileConfiguration
 					Name="Release|Win32">
@@ -302,12 +299,6 @@
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="1"/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\TransfersView.cpp">
-			</File>
-			<File
-				RelativePath=".\URLValidator.cpp">
 			</File>
 			<File
 				RelativePath="..\lib\util.C">
@@ -333,7 +324,19 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\WorkView.cpp">
+				RelativePath=".\ViewMessages.cpp">
+			</File>
+			<File
+				RelativePath=".\ViewProjects.cpp">
+			</File>
+			<File
+				RelativePath=".\ViewResources.cpp">
+			</File>
+			<File
+				RelativePath=".\ViewTransfers.cpp">
+			</File>
+			<File
+				RelativePath=".\ViewWork.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -344,13 +347,19 @@
 				RelativePath=".\_wx_intellisense.h">
 			</File>
 			<File
-				RelativePath=".\BaseListCtrlView.h">
-			</File>
-			<File
 				RelativePath="..\lib\boinc_win.h">
 			</File>
 			<File
+				RelativePath=".\BOINCBaseView.h">
+			</File>
+			<File
 				RelativePath=".\BOINCGUIApp.h">
+			</File>
+			<File
+				RelativePath=".\BOINCListCtrl.h">
+			</File>
+			<File
+				RelativePath=".\BOINCTaskCtrl.h">
 			</File>
 			<File
 				RelativePath=".\DlgAbout.h">
@@ -383,9 +392,6 @@
 				RelativePath=".\MainFrame.h">
 			</File>
 			<File
-				RelativePath=".\MessagesView.h">
-			</File>
-			<File
 				RelativePath="..\lib\mfile.h">
 			</File>
 			<File
@@ -395,28 +401,28 @@
 				RelativePath="..\lib\parse.h">
 			</File>
 			<File
-				RelativePath=".\ProjectsView.h">
-			</File>
-			<File
 				RelativePath=".\resource.h">
-			</File>
-			<File
-				RelativePath=".\ResourceUtilizationView.h">
 			</File>
 			<File
 				RelativePath=".\stdwx.h">
 			</File>
 			<File
-				RelativePath=".\TransfersView.h">
-			</File>
-			<File
-				RelativePath=".\URLValidator.h">
-			</File>
-			<File
 				RelativePath="..\lib\util.h">
 			</File>
 			<File
-				RelativePath=".\WorkView.h">
+				RelativePath=".\ViewMessages.h">
+			</File>
+			<File
+				RelativePath=".\ViewProjects.h">
+			</File>
+			<File
+				RelativePath=".\ViewResources.h">
+			</File>
+			<File
+				RelativePath=".\ViewTransfers.h">
+			</File>
+			<File
+				RelativePath=".\ViewWork.h">
 			</File>
 		</Filter>
 		<Filter
@@ -439,6 +445,9 @@
 				RelativePath=".\res\boincsm.xpm">
 			</File>
 			<File
+				RelativePath=".\res\hiddenheader.xpm">
+			</File>
+			<File
 				RelativePath=".\res\mess.xpm">
 			</File>
 			<File
@@ -448,7 +457,19 @@
 				RelativePath=".\res\result.xpm">
 			</File>
 			<File
+				RelativePath=".\res\task.xpm">
+			</File>
+			<File
+				RelativePath=".\res\tips.xpm">
+			</File>
+			<File
 				RelativePath=".\res\usage.xpm">
+			</File>
+			<File
+				RelativePath=".\res\visibleheader.xpm">
+			</File>
+			<File
+				RelativePath=".\res\web.xpm">
 			</File>
 			<File
 				RelativePath=".\res\xfer.xpm">

@@ -21,47 +21,45 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.9  2004/07/13 05:56:01  rwalton
-// Hooked up the Project and Work tab for the new GUI.
-//
-// Revision 1.8  2004/05/29 00:09:40  rwalton
-// *** empty log message ***
-//
-// Revision 1.7  2004/05/27 06:17:57  rwalton
-// *** empty log message ***
-//
-// Revision 1.6  2004/05/21 06:27:14  rwalton
-// *** empty log message ***
-//
-// Revision 1.5  2004/05/17 22:15:08  rwalton
+// Revision 1.1  2004/09/21 01:26:25  rwalton
 // *** empty log message ***
 //
 //
 
-#ifndef _BASELISTCTRLVIEW_H_
-#define _BASELISTCTRLVIEW_H_
+#ifndef _VIEWPROJECTS_H_
+#define _VIEWPROJECTS_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "BaseListCtrlView.cpp"
+#pragma interface "ViewProjects.cpp"
 #endif
 
 
-class CBaseListCtrlView : public wxListView
+#include "BOINCBaseView.h"
+#include "BOINCTaskCtrl.h"
+#include "BOINCListCtrl.h"
+
+class CViewProjects : public CBOINCBaseView
 {
-    DECLARE_DYNAMIC_CLASS( CBaseListCtrlView )
+    DECLARE_DYNAMIC_CLASS( CViewProjects )
 
 public:
-    CBaseListCtrlView();
-    CBaseListCtrlView( wxNotebook* pNotebook, wxWindowID iWindowID );
+    CViewProjects();
+    CViewProjects(wxNotebook* pNotebook);
 
-    ~CBaseListCtrlView();
+    ~CViewProjects();
 
-    virtual wxString    GetViewName();
-    virtual char**      GetViewIcon();
+    virtual wxString        GetViewName();
+    virtual char**          GetViewIcon();
 
-    virtual void        OnRender( wxTimerEvent& event );
-    virtual bool        OnSaveState( wxConfigBase* pConfig );
-    virtual bool        OnRestoreState( wxConfigBase* pConfig );
+    virtual void            UpdateTaskPane();
+
+    virtual void            OnRender( wxTimerEvent& event );
+
+    virtual wxString        OnGetItemText(long item, long column) const;
+
+private:
+
+    DECLARE_EVENT_TABLE()
 
 };
 

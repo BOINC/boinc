@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.9  2004/09/21 01:26:23  rwalton
+// *** empty log message ***
+//
 // Revision 1.8  2004/09/10 23:17:08  rwalton
 // *** empty log message ***
 //
@@ -52,24 +55,30 @@
     #include "wx/wx.h"
 #endif
 
-#include <wx/debug.h>    // diagnostics support
-#include <wx/accel.h>    // accelerator support
-#include <wx/regex.h>    // regular expression support
-#include <wx/cmdline.h>  // command line support
-#include <wx/config.h>   // configuration support
-#include <wx/settings.h> // system settings support
-#include <wx/intl.h>     // internationalization support
-#include <wx/timer.h>    // timer support
-#include <wx/toolbar.h>  // toolbars support
-#include <wx/listctrl.h> // list control support
-#include <wx/msgdlg.h>   // messagebox dialog support
-#include <wx/notebook.h> // notebook support
-#include <wx/statline.h> // static line support
-#include <wx/socket.h>   // socket support
-#include <wx/sckstrm.h>  // socket streams support
-#include <wx/txtstrm.h>  // text streams support
-#include <wx/datetime.h> // date/time support
-#include <wx/dynarray.h> // dynamic array support
+#include <wx/debug.h>           // diagnostics support
+#include <wx/accel.h>           // accelerator support
+#include <wx/regex.h>           // regular expression support
+#include <wx/cmdline.h>         // command line support
+#include <wx/config.h>          // configuration support
+#include <wx/settings.h>        // system settings support
+#include <wx/intl.h>            // internationalization support
+#include <wx/timer.h>           // timer support
+#include <wx/file.h>            // filesystem support
+#include <wx/fs_mem.h>          // memory virtual filesystem support
+#include <wx/dcmemory.h>        // memory based device context
+#include <wx/bitmap.h>          // bitmap modification support
+#include <wx/toolbar.h>         // toolbars support
+#include <wx/listctrl.h>        // list control support
+#include <wx/msgdlg.h>          // messagebox dialog support
+#include <wx/panel.h>           // panel support
+#include <wx/notebook.h>        // notebook support
+#include <wx/html/htmlwin.h>    // html window support
+#include <wx/statline.h>        // static line support
+#include <wx/socket.h>          // socket support
+#include <wx/sckstrm.h>         // socket streams support
+#include <wx/txtstrm.h>         // text streams support
+#include <wx/datetime.h>        // date/time support
+#include <wx/dynarray.h>        // dynamic array support
 
 
 // Standard Libraries

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/09/21 01:26:23  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/07/13 06:04:28  rwalton
 // Hooked up the Project and Work tab for the new GUI.
 //
@@ -40,6 +43,11 @@
 #define ID_LIST_TRANSFERSVIEW               wxID_HIGHEST + 7
 #define ID_LIST_MESSAGESVIEW                wxID_HIGHEST + 8
 #define ID_LIST_RESOURCEUTILIZATIONVIEW     wxID_HIGHEST + 9
+#define ID_HTML_PROJECTSVIEW                wxID_HIGHEST + 10
+#define ID_HTML_WORKVIEW                    wxID_HIGHEST + 11
+#define ID_HTML_TRANSFERSVIEW               wxID_HIGHEST + 12
+#define ID_HTML_MESSAGESVIEW                wxID_HIGHEST + 13
+#define ID_HTML_RESOURCEUTILIZATIONVIEW     wxID_HIGHEST + 14
 
 
 #endif

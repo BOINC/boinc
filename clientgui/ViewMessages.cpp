@@ -21,40 +21,19 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.13  2004/09/01 04:59:32  rwalton
-// *** empty log message ***
-//
-// Revision 1.12  2004/08/11 23:52:12  rwalton
-// *** empty log message ***
-//
-// Revision 1.11  2004/07/13 05:56:01  rwalton
-// Hooked up the Project and Work tab for the new GUI.
-//
-// Revision 1.10  2004/05/29 00:09:40  rwalton
-// *** empty log message ***
-//
-// Revision 1.9  2004/05/27 06:17:57  rwalton
-// *** empty log message ***
-//
-// Revision 1.8  2004/05/24 23:50:14  rwalton
-// *** empty log message ***
-//
-// Revision 1.7  2004/05/21 06:27:15  rwalton
-// *** empty log message ***
-//
-// Revision 1.6  2004/05/17 22:15:09  rwalton
+// Revision 1.1  2004/09/21 01:26:25  rwalton
 // *** empty log message ***
 //
 //
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "MessagesView.h"
+#pragma implementation "ViewMessages.h"
 #endif
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
-#include "MessagesView.h"
+#include "ViewMessages.h"
 #include "Events.h"
 
 #include "res/mess.xpm"
@@ -65,57 +44,75 @@
 #define COLUMN_MESSAGE              2
 
 
-IMPLEMENT_DYNAMIC_CLASS(CMessagesView, CBaseListCtrlView)
+IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)
 
-BEGIN_EVENT_TABLE(CMessagesView, CBaseListCtrlView)
-    EVT_LIST_CACHE_HINT(ID_LIST_MESSAGESVIEW, CMessagesView::OnCacheHint)
+BEGIN_EVENT_TABLE(CViewMessages, CBOINCBaseView)
+    EVT_LIST_CACHE_HINT(ID_LIST_MESSAGESVIEW, CViewMessages::OnCacheHint)
 END_EVENT_TABLE()
 
 
-CMessagesView::CMessagesView()
+CViewMessages::CViewMessages()
 {
+    wxLogTrace("CViewMessages::CViewMessages - Function Begining");
+    wxLogTrace("CViewMessages::CViewMessages - Function Ending");
 }
 
 
-CMessagesView::CMessagesView(wxNotebook* pNotebook) :
-    CBaseListCtrlView(pNotebook, ID_LIST_MESSAGESVIEW)
+CViewMessages::CViewMessages(wxNotebook* pNotebook) :
+    CBOINCBaseView(pNotebook, ID_LIST_MESSAGESVIEW, ID_HTML_MESSAGESVIEW)
 {
-    InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, -1);
+    m_bProcessingRenderEvent = false;
+
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, -1);
 }
 
 
-CMessagesView::~CMessagesView()
+CViewMessages::~CViewMessages()
 {
+    wxLogTrace("CViewMessages::~CViewMessages - Function Begining");
+    wxLogTrace("CViewMessages::~CViewMessages - Function Ending");
 }
 
 
-wxString CMessagesView::GetViewName()
+wxString CViewMessages::GetViewName()
 {
     return wxString(_("Messages"));
 }
 
 
-char** CMessagesView::GetViewIcon()
+char** CViewMessages::GetViewIcon()
 {
     return mess_xpm;
 }
 
 
-void CMessagesView::OnCacheHint ( wxListEvent& event ) {
-    m_iCacheFrom = event.GetCacheFrom();
-    m_iCacheTo = event.GetCacheTo();
+void CViewMessages::OnRender(wxTimerEvent &event)
+{
+    wxLogTrace("CViewMessages::OnRender - Processing Render Event...");
+    if (!m_bProcessingRenderEvent)
+    {
+        m_bProcessingRenderEvent = true;
+
+        wxInt32 iProjectCount = wxGetApp().GetDocument()->GetMessageCount();
+        wxASSERT(NULL != m_pListPane);
+        m_pListPane->SetItemCount(iProjectCount);
+
+        m_bProcessingRenderEvent = false;
+    }
+    else
+    {
+        event.Skip();
+    }
 }
 
 
-void CMessagesView::OnRender(wxTimerEvent &event) {
-    wxLogTrace("CMessagesView::OnRender - Function Begining");
-    wxLogTrace("CMessagesView::OnRender - Function Ending");
-}
-
-
-wxString CMessagesView::OnGetItemText(long item, long column) const {
+wxString CViewMessages::OnGetItemText(long item, long column) const
+{
     wxString strBuffer;
     switch(column) {
         case COLUMN_PROJECT:
@@ -134,13 +131,14 @@ wxString CMessagesView::OnGetItemText(long item, long column) const {
 }
 
 
-int CMessagesView::OnGetItemImage(long item) const {
+int CViewMessages::OnGetItemImage(long item) const
+{
     return -1;
 }
 
 
-wxListItemAttr* CMessagesView::OnGetItemAttr(long item) const {
-
+wxListItemAttr* CViewMessages::OnGetItemAttr(long item) const
+{
     return NULL;
 }
 

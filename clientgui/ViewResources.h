@@ -21,38 +21,41 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.1  2004/05/17 22:15:10  rwalton
+// Revision 1.1  2004/09/21 01:26:25  rwalton
 // *** empty log message ***
 //
 //
 
-#ifndef _URLVALIDATOR_H_
-#define _URLVALIDATOR_H_
+#ifndef _VIEWRESOURCES_H_
+#define _VIEWRESOURCES_H_
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma interface "URLValidator.cpp"
+#pragma interface "ViewResources.cpp"
 #endif
 
 
-class CURLValidator : public wxValidator
+#include "BOINCBaseView.h"
+#include "BOINCTaskCtrl.h"
+#include "BOINCListCtrl.h"
+
+class CViewResources : public CBOINCBaseView
 {
-    DECLARE_DYNAMIC_CLASS(CURLValidator)
+    DECLARE_DYNAMIC_CLASS( CViewResources )
 
 public:
-    CURLValidator(void);
-    ~CURLValidator(void);
+    CViewResources();
+    CViewResources(wxNotebook* pNotebook);
 
-    virtual bool Validate(wxWindow* parent);
+    ~CViewResources();
+
+    virtual wxString        GetViewName();
+    virtual char**          GetViewIcon();
+
+    virtual void            OnRender( wxTimerEvent& event );
 
 private:
-    wxRegEx     m_reURL;
 
-    wxString*   m_pstrProtocol;
-    wxString*   m_pstrServer;
-    wxString*   m_pstrPort;
-    wxString*   m_pstrPath;
-    wxString*   m_pstrQueryString;
-    wxString*   m_pstrBookmark;
+    DECLARE_EVENT_TABLE()
 
 };
 

@@ -21,37 +21,19 @@
 // Revision History:
 //
 // $Log$
-// Revision 1.12  2004/08/11 23:52:13  rwalton
-// *** empty log message ***
-//
-// Revision 1.11  2004/07/13 05:56:02  rwalton
-// Hooked up the Project and Work tab for the new GUI.
-//
-// Revision 1.10  2004/05/29 00:09:41  rwalton
-// *** empty log message ***
-//
-// Revision 1.9  2004/05/27 06:17:58  rwalton
-// *** empty log message ***
-//
-// Revision 1.8  2004/05/24 23:50:14  rwalton
-// *** empty log message ***
-//
-// Revision 1.7  2004/05/21 06:27:15  rwalton
-// *** empty log message ***
-//
-// Revision 1.6  2004/05/17 22:15:09  rwalton
+// Revision 1.1  2004/09/21 01:26:25  rwalton
 // *** empty log message ***
 //
 //
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "TransfersView.h"
+#pragma implementation "ViewTransfers.h"
 #endif
 
 #include "stdwx.h"
 #include "BOINCGUIApp.h"
 #include "MainDocument.h"
-#include "TransfersView.h"
+#include "ViewTransfers.h"
 #include "Events.h"
 
 #include "res/xfer.xpm"
@@ -66,62 +48,67 @@
 #define COLUMN_STATUS               6
 
 
-IMPLEMENT_DYNAMIC_CLASS(CTransfersView, CBaseListCtrlView)
+IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
 
-BEGIN_EVENT_TABLE(CTransfersView, CBaseListCtrlView)
-    EVT_LIST_CACHE_HINT(ID_LIST_TRANSFERSVIEW, CTransfersView::OnCacheHint)
+BEGIN_EVENT_TABLE(CViewTransfers, CBOINCBaseView)
+    EVT_LIST_CACHE_HINT(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnCacheHint)
 END_EVENT_TABLE()
 
 
-CTransfersView::CTransfersView()
+CViewTransfers::CViewTransfers()
 {
+    wxLogTrace("CViewTransfers::CViewTransfers - Function Begining");
+    wxLogTrace("CViewTransfers::CViewTransfers - Function Ending");
 }
 
 
-CTransfersView::CTransfersView(wxNotebook* pNotebook) :
-    CBaseListCtrlView(pNotebook, ID_LIST_TRANSFERSVIEW)
+CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
+    CBOINCBaseView(pNotebook, ID_LIST_TRANSFERSVIEW, ID_HTML_TRANSFERSVIEW)
 {
-    InsertColumn(0, _("Project"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(1, _("File"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(2, _("Progress"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(3, _("Size"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(4, _("Time"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(5, _("Speed"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(6, _("Status"), wxLIST_FORMAT_LEFT, -1);
+    m_bProcessingRenderEvent = false;
+
+    wxASSERT(NULL != m_pTaskPane);
+    wxASSERT(NULL != m_pListPane);
+
+    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_FILE, _("File"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_SIZE, _("Size"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_SPEED, _("Speed"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, -1);
 }
 
 
-CTransfersView::~CTransfersView()
+CViewTransfers::~CViewTransfers()
 {
+    wxLogTrace("CViewTransfers::~CViewTransfers - Function Begining");
+    wxLogTrace("CViewTransfers::~CViewTransfers - Function Ending");
 }
 
 
-wxString CTransfersView::GetViewName()
+wxString CViewTransfers::GetViewName()
 {
     return wxString(_("Transfers"));
 }
 
 
-char** CTransfersView::GetViewIcon()
+char** CViewTransfers::GetViewIcon()
 {
     return xfer_xpm;
 }
 
 
-void CTransfersView::OnCacheHint ( wxListEvent& event ) {
-    m_iCacheFrom = event.GetCacheFrom();
-    m_iCacheTo = event.GetCacheTo();
-}
-
-
-void CTransfersView::OnRender(wxTimerEvent &event) {
+void CViewTransfers::OnRender(wxTimerEvent &event)
+{
+    wxLogTrace("CViewTransfers::OnRender - Processing Render Event...");
     if (!m_bProcessingRenderEvent)
     {
-        wxLogTrace("CTransfersView::OnRender - Processing Render Event...");
         m_bProcessingRenderEvent = true;
 
-        wxInt32 iTransferCount = wxGetApp().GetDocument()->GetTransferCount();
-        SetItemCount(iTransferCount);
+        wxInt32 iProjectCount = wxGetApp().GetDocument()->GetTransferCount();
+        wxASSERT(NULL != m_pListPane);
+        m_pListPane->SetItemCount(iProjectCount);
 
         m_bProcessingRenderEvent = false;
     }
@@ -132,7 +119,8 @@ void CTransfersView::OnRender(wxTimerEvent &event) {
 }
 
 
-wxString CTransfersView::OnGetItemText(long item, long column) const {
+wxString CViewTransfers::OnGetItemText(long item, long column) const
+{
     wxString strBuffer;
     switch(column) {
         case COLUMN_PROJECT:
@@ -160,15 +148,5 @@ wxString CTransfersView::OnGetItemText(long item, long column) const {
             break;
     }
     return strBuffer;
-}
-
-
-int CTransfersView::OnGetItemImage(long item) const {
-    return -1;
-}
-
-
-wxListItemAttr* CTransfersView::OnGetItemAttr(long item) const {
-    return NULL;
 }
 
