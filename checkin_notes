@@ -16862,6 +16862,10 @@ Rom    1 Sep 2004
     client/translations/
         <Many Files>
 
+Rom    1 Sep 2004
+    - Tag for 4.07 release, all platforms
+      boinc_core_release_4_07
+
 David  1 Sep 2004
     - fixed bug in web-caching code that caused files in html/user
         to be randomly deleted.
