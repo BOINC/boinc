@@ -1106,8 +1106,8 @@ AC_DEFUN([SAH_HEADER_STDCXX],[
 #
 # Revision Log:
 # $Log$
-# Revision 1.127  2004/07/13 18:34:48  davea
-# *** empty log message ***
+# Revision 1.128  2004/07/16 06:07:21  boincadm
+# version 4.01
 #
 # Revision 1.1  2003/12/11 18:38:24  korpela
 # Added checked macro files into boinc
