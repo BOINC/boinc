@@ -569,6 +569,7 @@ wxInt32 CViewWork::FormatReportDeadline( wxInt32 item, wxString& strBuffer ) con
 wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
 {
     CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxInt32        iActivityMode = -1;
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -647,9 +648,13 @@ wxInt32 CViewWork::FormatStatus( wxInt32 item, wxString& strBuffer ) const
             }
             break;
     }
-    //if (gstate.activities_suspended) {
-    //    strBuf = CString(g_szMiscItems[13]) + " (" + strBuf + ")";
-    //}
+
+    pDoc->GetActivityRunMode( iActivityMode );
+    if ( CMainDocument::MODE_NEVER == iActivityMode )
+    {
+        strBuffer = wxT(" ( ") + strBuffer + wxT(" ) ");
+        strBuffer = _("Suspended") + strBuffer;
+    }
 
     return 0;
 }
