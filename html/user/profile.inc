@@ -354,8 +354,9 @@ Your profile was successfully entered into our database.<br><br>
 //   $cols indicates how many profile summaries should be written per row
 //   $descriptor is an optional file descriptor to write the table to.
 
-function show_user_table($members, $offset, $numToDisplay, $cols, $descriptor=null) {
-
+function show_user_table(
+    $members, $offset, $numToDisplay, $cols, $descriptor=null
+) {
     write_fd($descriptor, "<table class=bordered border=1 cellpadding=5>\n");
 
     $rows = ceil($numToDisplay / $cols);

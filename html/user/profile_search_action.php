@@ -15,7 +15,7 @@ $offset = $_GET['offset'];
 if (!$offset) $offset=0;
 $count = 10;
 
-page_head("Search results");
+page_head("Profile search results");
 
 echo "<h2>Profiles containing '$search_string'</h2>\n";
 $q = "select * from profile where match(response1, response2) against ('$search_string') limit $offset,$count";

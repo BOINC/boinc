@@ -8625,3 +8625,16 @@ David  20 Dec 2003
             user_posts.php (new)
     sched/
         sched_util.C
+
+David  21 Dec 2003
+    - moved "search for user name" feature out of profile code
+    - add link to profile from user page
+    - fix bug in get_passwd
+
+    html_user/
+        get_passwd.php
+        profile.inc
+        profile_menu.php
+        profile_search_action.php
+        user.inc
+        user_search_action.php (new)

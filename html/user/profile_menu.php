@@ -8,12 +8,14 @@ require_once("profile.inc");
 
 db_init();
 
-if ($_GET['cmd']) {
-  execute_command();
-  exit();
+page_head("Profile Zone");
+
+$cmd = $_GET['cmd'];
+if ($cmd) {
+    execute_command($cmd);
+    exit();
 }
 
-page_head("Profile Zone");
 
 start_table_noborder();
 rowify("
@@ -56,9 +58,8 @@ rowify("<br>");
 row1("Search user names");
 
 rowify("
-    <form action=".$_SERVER['PHP_SELF']." method=GET>
-    <input type=hidden name=cmd value=search>
-    <input name=uname>
+    <form action=user_search_action.php method=GET>
+    <input name=search_string>
     <input type=submit value=OK>
     </form>
 ");
@@ -73,11 +74,10 @@ end_table();
 
 page_tail();
 
-function execute_command() {
-
+function execute_command($cmd) {
     // Request for a random profile.
     //
-    if ($_GET['cmd'] == "rand") {
+    if ($cmd == "rand") {
         if ($_GET['pic'] == 0) {
             $result = mysql_query("SELECT userid FROM profile WHERE has_picture=0");
         } else if ($_GET['pic'] == 1) {
@@ -100,41 +100,6 @@ function execute_command() {
         exit();
     }
   
-    else if ($_GET['cmd'] == "search") {
-    
-        if ($_GET['name']) {
-            $result = mysql_query("SELECT id FROM user WHERE name LIKE \"%" . $_GET['uname'] . "%\"");
-            while($row = mysql_fetch_assoc($result)) {
-                $result2 = mysql_query("SELECT userid FROM profile WHERE userid = " . $row['id']);
-                if ($result2) {
-                    $row2 = mysql_fetch_assoc($result2);
-	
-                    if ($row2['userid']) {
-                        $members[] = $row2['userid'];
-                    }
-                }
-            }
-            show_search_results($members);
-        }
-    }
-}
-
-// TODO: This function should generate multiple pages,
-//  and should possibly take the number of results to display
-// from a user-input parameter.
-// Look at build_profile_pages for an example of a good way to do this
-// (albeit writing to a file in that case).
-
-function show_search_results($members) {
-    page_head("Profile Search Results");
-  
-    if (count($members) > 0) {
-        show_user_table($members, 0, 20, 2);
-    } else {
-        echo "No profiles matched your query.<br>";
-    }
-
-    page_tail();
 }
 
 ?>

@@ -102,7 +102,10 @@ function show_user_summary_public($user) {
         row2("Computers", "hidden");
     }
     if ($user->posts) {
-        row2("Message boards posts", "<a href=forum/user_posts.php?userid=$user->id>$user->posts</a>");
+        row2("Message board posts", "<a href=forum/user_posts.php?userid=$user->id>$user->posts</a>");
+    }
+    if ($user->has_profile) {
+        row2("Profile", "<a href=view_profile.php?userid=$user->id>view</a>");
     }
 }
 
