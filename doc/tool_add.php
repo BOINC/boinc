@@ -4,7 +4,7 @@
    page_head("<code>add</code> Tool");
    ?>
 
-`<code>add</code>' adds objects to the BOINC database.
+`<code>add</code>' adds objects to the BOINC database through the command-line.
 
 
 Usages:

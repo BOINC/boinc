@@ -6852,7 +6852,7 @@ Oliver 16 Oct 2003
     - Fixed starfields
     - Right justified text
 
-    api/        
+    api/
         graphics_api.C
         gutil.C,h
         windows_opengl.C
@@ -6982,7 +6982,7 @@ David  20 Oct 2003
 David  20 Oct 2003
     - changed overflowing integer calculation in CPU checkpoint code.
         This definitely will fix the negative fpops problem
-    
+
     client/
         cpu_benchmark.C,h
 
@@ -7086,10 +7086,10 @@ David  25 Oct 2003
 
 Karl 2003-10-25
     - updated_versions: don't be so verbose unless "-v" verbose command-line
-      option is given 
+      option is given
     - if a directory contains an executable, add the first executable found,
       and bundle all other files as non-executables.
-    - process_executable_file(): added mechanisms for adding non-executable files 
+    - process_executable_file(): added mechanisms for adding non-executable files
 
     tools/
         update_versions
@@ -7180,25 +7180,25 @@ David  28 Oct 2003
 Eric K 28 Oct 2003
     - for machines with sysinfo, host.p_vendor and host.p_model are now
       meaningful.
-    
+
     client/hostinfo_unix.C
 
 Karl 2003-10-28
     - added "const" to API function calls
     - created "string" (as opposed to char[]) version of API function calls
-    
+
     M api/boinc_api.h
     M api/mfile.C
     M lib/app_ipc.C
     M lib/app_ipc.h
-    
+
 Oliver 29 Oct 2003
 
     - fixed improperly scaled logos
 
     api/
     gutil.C,h
-    
+
 
 David  28 Oct 2003
     - app library: don't access shared memory if it's not there
@@ -7412,7 +7412,7 @@ Karl 2003-11-03
 
     win_build/
         boinc_installer.zip (removed)
- 
+
     win_build/installer/*
         added (115 files)
 
@@ -7576,7 +7576,7 @@ David  7 Nov 2003
     - General preferences use defined symbols so field descriptions
         are same in both display and edit versions
     - In admin web interface, make SQL clauses feature work
-    
+
     html_ops/
         db_ops.inc
     html_user/
@@ -7739,7 +7739,7 @@ Karl 2003-11-17
 Karl 2003-11-20
     - updated translation files
 
-    client/translation/ 
+    client/translation/
         language.ini.fr
     langauge.ini.nl
 
@@ -7830,7 +7830,7 @@ David  25 Nov 2003
             wingui_mainwindow.cpp
 
 Karl 2003-11-25
-    - wrote release notes 
+    - wrote release notes
     doc/
         ssl_client_release_instructions.txt
 
@@ -7930,7 +7930,7 @@ David  2003-11-28
 
     client/win/
         wingui_mainwindow.cpp
-        
+
 David  28 Nov 2003
     - added "signature" field to user table;
         when making forum postings,
@@ -8053,8 +8053,8 @@ David  2 Dec 2003
 
 Karl 2003-12-02
     - committed Robi Buecheler's translation updates.
- 
-    client/translation/     
+
+    client/translation/
         language.ini.bg
         language.ini.ca
         language.ini.cs
@@ -8085,7 +8085,7 @@ David  3 Dec 2003
     - Added new elements to XML stats dump (tables.xml) to show
         - applications
         - # results unsent/in progress/over for each app
-    
+
     html_user/
         user.inc
     sched/
@@ -8187,7 +8187,7 @@ David  6 Dec 2003
         - When run on the main host, start builds a list of other hosts
             and runs itself (with same cmdline, using ssh)
             on each of the other hosts.
-    
+
         Notes:
         1) I didn't add <host>*</host> capability;
             it's not clear that we need this
@@ -8262,8 +8262,8 @@ David  7 Dec 2003
             thread.php
 
 Jeff  8 Dec 2003
-    - Fixed the ifdef's surrounding the typedef of socklen_t.  Removed the 
-      "#ifdef socklen_t" because it does nothing and added the 
+    - Fixed the ifdef's surrounding the typedef of socklen_t.  Removed the
+      "#ifdef socklen_t" because it does nothing and added the
       "#elif defined (__APPLE__)".
 
       client/
@@ -8285,18 +8285,18 @@ Jeff 09 Dec 2003
       linux whereby if the  version number of libstdc++.so on the run
       machine is different than that on the build machine, the loader
       fails.  However, on solaris you cannot just say gcc -static as there
-      are dynamic only versions of some needed libs, namely libdl and 
+      are dynamic only versions of some needed libs, namely libdl and
       libaio.  I tried to use the -Xlinker gcc option which theoretically
       should allow us to specify the link (collect2) line in precise
       detail.  But -lstdc++ kept showing up twice with one occurrence
-      being outside my -Xlinker -B -Xlinker static directive.  So I 
-      hand crafted a collect2 line and placed it in a file - collect2_line. 
+      being outside my -Xlinker -B -Xlinker static directive.  So I
+      hand crafted a collect2 line and placed it in a file - collect2_line.
       Sourcing this file produces an executable that will load and run
       across gcc versions (and solaris versions for that matter).  I
       don't like it but it works.
 
       IMPORTANT NOTE.  After sourcing collect2_line you have to
-      re-"hard link" the executable boinc_client to a proper 
+      re-"hard link" the executable boinc_client to a proper
       name with the correct version.
 
       client/
@@ -8348,8 +8348,8 @@ Eric K.  12/11/2003
     Added include of "std_fixes.h" to boinc_db.C
 
    aclocal.m4
-   configure.ac 
-   configure 
+   configure.ac
+   configure
    config.h.in
    lib/std_fixes.h
    m4/sah_namespace.m4
@@ -8587,7 +8587,7 @@ Karl 2003-12-19
     lib/
         parse.h
         base64.C
-        
+
 David  20 Dec 2003
     - Changes by Rom Walton to flash system tray icon when new message
 
@@ -8775,8 +8775,8 @@ Gary    25 Dec 2003
        (os x 10.2 compatability will come soon)
 
 Jeff  30 Dec 2003
-    - Check for buffer reallocation errors in MFILE functions and return values 
-      that mimic the normal system versions of these functions. 
+    - Check for buffer reallocation errors in MFILE functions and return values
+      that mimic the normal system versions of these functions.
 
       Functions that were changed:  * indicates a change.
 	function		successful return	failure return
@@ -8791,7 +8791,7 @@ Jeff  30 Dec 2003
 
     api/
 	mfile.C
-     
+
 David  30 Dec 2003
     - added optional <disabled>1</disabled> flag to daemons and tasks
         in config.xml.  (would prefer "<disabled/>", but couldn't
@@ -8802,7 +8802,7 @@ David  30 Dec 2003
 
 David  30 Dec 2003
     - added <app_version> element to <stderr_out> in RPC request message
-        
+
     client/
         client_types.C,h
 
@@ -9128,6 +9128,11 @@ Karl 2004-01-12
         xadd (new)
         add
         Makefile.am
-        
+    doc/
+        tool_xadd.php (new)
+        tool_add.php
+        make_project.php
+        tools.php
+
 Karl 2004-01-12
     - source release 2.18 (no client-visible changes)

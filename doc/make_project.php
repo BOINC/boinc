@@ -68,9 +68,9 @@ to the database just created.
 
 </P>
 At this point you need to add platform(s) and application(s) to the database
-using the <a href=tool_add.php>add</a> tool,
-and add core versions and application versions using the <a
-href=tool_update_versions.php>update_versions</a> tool.
+using the <a href=tool_add.php>add</a> tool or the <a
+href=tool_xadd.php>xadd</a> tool, and add core versions and application
+versions using the <a href=tool_update_versions.php>update_versions</a> tool.
 
 <h3>Directory structure</h3>
 
