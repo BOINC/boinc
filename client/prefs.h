@@ -34,8 +34,8 @@
 // The following structure is a parsed version of the prefs file
 //
 struct GLOBAL_PREFS {
-    bool dont_run_on_batteries;
-    bool dont_run_if_user_active;
+    bool run_on_batteries;
+    bool run_if_user_active;
     bool confirm_before_connecting;
     bool run_minimized;
     bool run_on_startup;

@@ -46,6 +46,20 @@ function make_executable($name) {
     PassThru("chmod uog+x $name");
 }
 
+// given a project URL,
+// return the name of the account file
+//
+function account_file_name($url) {
+    $x = strstr($url, "http://");
+    if ($x) {
+        $x = substr($x, strlen("http://"));
+    } else {
+        $x = $url;
+    }
+    $encoded_name = strtr($x, "/", "_");
+    return "account_".$encoded_name.".xml";
+}
+
 function db_open($db_name) {
     $retval = mysql_connect();
     if (!$retval) {
@@ -190,7 +204,7 @@ class Project {
         $this->upload_url = $cgi_url."/file_upload_handler";
         $this->scheduler_url = $cgi_url."/cgi";
         $this->project_dir = $base_dir."/".$this->short_name;
-        $this->master_url = get_env_var("BOINC_HTML_URL")."/".$this->short_name."/index.php";
+        $this->master_url = get_env_var("BOINC_HTML_URL")."/".$this->short_name."/";
         PassThru("rm -rf $this->project_dir");
         PassThru("mkdir $this->project_dir");
             // make the CGI writeable in case scheduler writes req/reply files
@@ -224,7 +238,11 @@ class Project {
         for ($i=0; $i<sizeof($this->users); $i++) {
             $user = $this->users[$i];
             $now = time(0);
-            db_query("insert into user values (0, $now, '$user->email_addr', '$user->name', 'foobar', '$user->authenticator', 'Peru', '12345', 0, 0, 0, '', '', 0, 'home')");
+            $pp = null;
+            if ($user->project_prefs) {
+                $pp = "<project_preferences>\n$user->project_prefs</project_preferences>\n";
+            }
+            db_query("insert into user values (0, $now, '$user->email_addr', '$user->name', 'foobar', '$user->authenticator', 'Peru', '12345', 0, 0, 0, '$user->global_prefs', '$pp', 0, 'home')");
         }
 
         echo "adding apps\n";
@@ -574,11 +592,14 @@ class Project {
     }
 }
 
-
+// represents an account on a particular project
+//
 class User {
     var $name;
     var $email_addr;
     var $authenticator;
+    var $project_prefs;
+    var $project;
 
     function User() {
         $this->name = "John";
@@ -590,21 +611,22 @@ class User {
 
 class Host {
     var $name;
+    var $users;
     var $projects;
-    var $user;
     var $host_dir;
     var $global_prefs;
     var $log_flags;
 
-    function Host($user) {
-        $this->user = $user;
+    function Host() {
         $this->name = "test";
+        $this->users = array();
         $this->projects = array();
         $this->global_prefs = null;
         $this->log_flags = null;
     }
 
-    function add_project($project) {
+    function add_user($user, $project) {
+        array_push($this->users, $user);
         array_push($this->projects, $project);
     }
 
@@ -618,15 +640,16 @@ class Host {
         // create account files
         //
         echo "creating account files\n";
-        for ($i=0; $i<sizeof($this->projects); $i++) {
+        for ($i=0; $i<sizeof($this->users); $i++) {
+            $user = $this->users[$i];
             $project = $this->projects[$i];
-            $encoded_name = strtr($project->master_url, "/", "_");
-            echo "writing $this->host_dir/account_$encoded_name.xml\n";
-            $f = fopen($this->host_dir."/account_$encoded_name.xml", "w");
+            $filename = account_file_name($project->master_url);
+            echo "writing $this->host_dir/$filename\n";
+            $f = fopen($this->host_dir."/".$filename, "w");
             fputs($f, "<account>\n");
             fputs($f, "    <master_url>$project->master_url</master_url>\n");
             fputs($f, "    <authenticator>$user->authenticator</authenticator>\n");
-            fputs($f, "    <resource_share>$project->resource_share</resource_share>\n");
+            fputs($f, $user->project_prefs);
             fputs($f, "</account>\n");
             fclose($f);
         }
@@ -644,14 +667,10 @@ class Host {
         }
     }
     
-    function kill($boinc_pid,$time) {
-        assert($boinc_pid != null);        
-        if($time != null) {
-            echo "\nsleepinf for $time seconds";
-            PassThru("sleep $time");
+    function kill($boinc_pid) {
+        if ($boinc_pid) {
+            PassThru("kill -9 $boinc_pid");
         }
-
-        PassThru("kill -9 $boinc_pid");
     }
  
     // forks a new process to run this host with the given $args.

@@ -146,6 +146,9 @@ int main(int argc, char **argv) {
     if (retval) exit(retval);
 
     boinc_get_init_data(uc_aid);
+    fprintf(stderr,
+        "<app prefs>\n%s\n</app_prefs>\n", uc_aid.app_preferences
+    );
 
     boinc_resolve_filename("in", resolved_name, sizeof(resolved_name));
     fprintf(stderr, "APP: upper_case: starting, argc %d\n", argc);

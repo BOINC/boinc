@@ -34,8 +34,8 @@
 // if there are no global prefs yet
 //
 GLOBAL_PREFS::GLOBAL_PREFS() {
-    dont_run_on_batteries = false;
-    dont_run_if_user_active = false;
+    run_on_batteries = false;
+    run_if_user_active = false;
     run_minimized = false;
     run_on_startup = false;
     confirm_before_connecting = false;
@@ -56,11 +56,11 @@ int GLOBAL_PREFS::parse(FILE* in) {
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</global_preferences>")) {
             return 0;
-        } else if (match_tag(buf, "<dont_run_on_batteries/>")) {
-            dont_run_on_batteries = true;
+        } else if (match_tag(buf, "<run_on_batteries/>")) {
+            run_on_batteries = true;
             continue;
-        } else if (match_tag(buf, "<dont_run_if_user_active/>")) {
-            dont_run_if_user_active = true;
+        } else if (match_tag(buf, "<run_if_user_active/>")) {
+            run_if_user_active = true;
             continue;
         } else if (match_tag(buf, "<confirm_before_connecting/>")) {
             confirm_before_connecting = true;

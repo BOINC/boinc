@@ -6,8 +6,6 @@
     include_once("test.inc");
 
     $project = new Project;
-    $user = new User();
-    $host = new Host($user);
 
     $app = new App("upper_case");
     $app_version = new App_Version($app);
@@ -18,14 +16,18 @@
     $project->add_app($core_app);
     $project->add_app_version($core_app_version);
 
-    $project->add_user($user);
     $project->add_app($app);
     $project->add_app_version($app_version);
 
+    $user = new User();
+    $user->project_prefs = "<project_specific>\nfoobar\n</project_specific>\n";
+
+    $project->add_user($user);
     $project->install();      // must install projects before adding to hosts
 
+    $host = new Host();
     $host->log_flags = "log_flags.xml";
-    $host->add_project($project);
+    $host->add_user($user, $project);
     $host->install();
 
     echo "adding work\n";

@@ -23,6 +23,7 @@ echo "<form action=prefs_edit_project_action.php>
 prefs_form_resource($prefs);
 prefs_form_project($prefs->project_specific);
 prefs_form_email($prefs);
+venue_form($user);
 
 echo "<tr><td><br></td><td><input type=submit value=\"OK\"></td></tr>
     </table>

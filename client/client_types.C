@@ -34,7 +34,7 @@ PROJECT::PROJECT() {
     strcpy(master_url,"");
     strcpy(authenticator,"");
     strcpy(project_specific_prefs, "");
-    resource_share = 0;
+    resource_share = 100;
     strcpy(project_name,"");
     strcpy(user_name,"");
     user_total_credit = 0;
@@ -65,11 +65,11 @@ int PROJECT::parse_account(FILE* in) {
     char buf[256];
     int retval;
 
-	// Assume master_url_fetch_pending, sched_rpc_pending are
-	// true until we read client_state.xml
+    // Assume master_url_fetch_pending, sched_rpc_pending are
+    // true until we read client_state.xml
     //
-	master_url_fetch_pending = true;
-	sched_rpc_pending = true;
+    master_url_fetch_pending = true;
+    sched_rpc_pending = true;
     strcpy(master_url, "");
     strcpy(authenticator, "");
     while (fgets(buf, 256, in)) {
@@ -103,13 +103,13 @@ int PROJECT::parse_state(FILE* in) {
 
     strcpy(project_name, "");
     strcpy(user_name, "");
-    resource_share = 1;
+    resource_share = 100;
     exp_avg_cpu = 0;
     exp_avg_mod_time = 0;
     min_rpc_time = 0;
     nrpc_failures = 0;
-	master_url_fetch_pending = false;
-	sched_rpc_pending = false;
+    master_url_fetch_pending = false;
+    sched_rpc_pending = false;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</project>")) return 0;
         else if (parse_str(buf, "<scheduler_url>", string.text, sizeof(string.text))) {
@@ -177,7 +177,7 @@ int PROJECT::write_state(FILE* out) {
         "    <exp_avg_mod_time>%d</exp_avg_mod_time>\n"
         "    <nrpc_failures>%d</nrpc_failures>\n"
         "    <min_rpc_time>%d</min_rpc_time>\n"
-		"%s%s",
+        "%s%s",
         master_url,
         project_name,
         user_name,
@@ -193,8 +193,8 @@ int PROJECT::write_state(FILE* out) {
         exp_avg_mod_time,
         nrpc_failures,
         min_rpc_time,
-		master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
-		sched_rpc_pending?"    <sched_rpc_pending/>\n":""
+        master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
+        sched_rpc_pending?"    <sched_rpc_pending/>\n":""
     );
     if (strlen(code_sign_key)) {
         fprintf(out,

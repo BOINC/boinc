@@ -355,13 +355,13 @@ int CLIENT_STATE::current_disk_usage(double& size) {
 //
 int CLIENT_STATE::check_suspend_activities() {
     bool should_suspend = false;
-    if (global_prefs.dont_run_on_batteries && host_is_running_on_batteries()) {
+    if (!global_prefs.run_on_batteries && host_is_running_on_batteries()) {
         should_suspend = true;
     }
     if (!user_idle) {
         should_suspend = true;
     }
-    if(suspend_requested) {
+    if (suspend_requested) {
         should_suspend = true;
     }
 

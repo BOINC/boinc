@@ -34,6 +34,8 @@
 #include "filesys.h"
 #include "parse.h"
 #include "log_flags.h"
+
+#include "account.h"
 #include "message.h"
 #include "scheduler_op.h"
 
@@ -386,22 +388,11 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     if (sr.project_prefs_xml) {
         char path[256];
-        f = fopen(TEMP_FILE_NAME, "w");
-        if (!f) return ERR_FOPEN;
-        fprintf(f,
-            "<account>\n"
-            "    <master_url>%s</master_url>\n"
-            "    <authenticator>%s</authenticator>\n"
-            "%s"
-            "</account>\n",
-            project->master_url,
-            project->authenticator,
-            sr.project_prefs_xml
+
+        write_account_file(
+            project->master_url, project->authenticator, sr.project_prefs_xml
         );
-        fclose(f);
         get_account_filename(project->master_url, path);
-        retval = boinc_rename(TEMP_FILE_NAME, path);
-        if (retval) return ERR_RENAME;
         f = fopen(path, "r");
         if (!f) return ERR_FOPEN;
         project->parse_account(f);

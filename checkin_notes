@@ -3336,3 +3336,30 @@ David  Feb 19 2003
         login_action.php
         user.inc
         util.inc
+
+David  Feb 20 2003
+    - project preferences are now handled correctly,
+        written/read to account file
+    - fix bugs in web pages for editing prefs
+    - change dont_run_on_batteries to run_on_batteries etc.
+    - fix bug in test scripts where account file had wrong name
+
+    apps/
+        upper_case.C
+    client/
+        account.C,h
+        client_state.C
+        client_types.C
+        cs_scheduler.C
+        prefs.C,h
+    doc/
+        client_files.html
+    html_user/
+        confirm_email_change.php
+        edit_user_info_action.php
+        prefs.inc
+        prefs_edit_project_action.php
+        prefs_edit_project_form.php
+    test/
+        test.inc
+        test_uc.php

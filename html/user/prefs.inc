@@ -4,13 +4,13 @@
 // preferences (global and project).
 // Preferences are represented in two ways:
 // - As a PHP structure (usually called $prefs)
-//   This has fields dont_run_on_batteries, etc.
+//   This has fields run_on_batteries, etc.
 //   The fields "project_specific" is raw XML
 // - As XML (usually called $prefs_xml)
 //
 // This XML has the general structure
 // <global_preferences>
-//    <dont_run_if_user_active/>
+//    <run_if_user_active/>
 //    <low_water_days>1.3</low_water_days>
 //    ...
 // </global_preferences>
@@ -69,11 +69,11 @@ function element_end($parser, $name) {
         $parse_result->project_specific = $text;
         $in_project_specific = false;
         break;
-    case "dont_run_on_batteries":
-        $parse_result->dont_run_on_batteries = 1;
+    case "run_on_batteries":
+        $parse_result->run_on_batteries = true;
         break;
-    case "dont_run_if_user_active":
-        $parse_result->dont_run_if_user_active = 1;
+    case "run_if_user_active":
+        $parse_result->run_if_user_active = true;
         break;
     case "confirm_before_connecting":
         $parse_result->confirm_before_connecting = 1;
@@ -127,8 +127,8 @@ function char_handler($parser, $x) {
 //
 function default_prefs() {
     $p = null;
-    $p->dont_run_on_batteries = 1;
-    $p->dont_run_if_user_active = 1;
+    $p->run_on_batteries = false;
+    $p->run_if_user_active = false;
     $p->confirm_before_connecting = 0;
     $p->low_water_days = 1;
     $p->high_water_days = 3;
@@ -170,24 +170,9 @@ function prefs_parse($prefs_xml) {
 // display preference subsets, with Edit buttons
 //
 function prefs_show_global($prefs) {
-    if ($prefs->dont_run_on_batteries) {
-        $batteries = "No";
-    } else {
-        $batteries = "Yes";
-    }
-    if ($prefs->dont_run_if_user_active) {
-        $in_use = "No";
-    } else {
-        $in_use = "Yes";
-    }
-    if ($prefs->confirm_before_connecting) {
-        $confirm = "Yes";
-    } else {
-        $confirm = "No";
-    }
-    row2a("Work if computer on batteries:", $batteries);
-    row2a("Work if computer in use:", $in_use);
-    row2a("Confirm before connecting to network:", $confirm);
+    row2a("Work if computer on batteries:", $prefs->run_on_batteries?"Yes":"No");
+    row2a("Work if computer in use:", $prefs->run_if_user_active?"Yes":"No");
+    row2a("Confirm before connecting to network:", $prefs->confirm_before_connecting?"Yes":"No");
     row2a("Minimum amount of work to buffer:", "$prefs->low_water_days days");
     row2a("Maximum amount of work to buffer:", "$prefs->high_water_days days");
     row2a("Maximum disk space to use:", "$prefs->disk_max_used_gb GB");
@@ -222,6 +207,7 @@ function print_prefs_display($user) {
     prefs_show_resource($project_prefs);
     prefs_show_project($project_specific_prefs);
     prefs_show_email($project_prefs);
+    venue_show($user);
     echo "<tr><td><a href=prefs_edit_project_form.php>Edit ".PROJECT." preferences</a></td></tr>\n";
     echo "<tr><td colspan=2><hr></td></tr>\n";
     echo "<tr><td colspan=2><b>BOINC preferences</b></font>
@@ -241,15 +227,15 @@ function prefs_form_global($user, $prefs) {
         <br><font size=-1>(This matters only for portable computers)</font>
         </td><td valign=top>
     ";
-    printf("Yes <input type=radio name=dont_run_on_batteries %s>\n", $prefs->dont_run_on_batteries?"":"checked");
-    printf("No <input type=radio name=dont_run_on_batteries %s>\n", $prefs->dont_run_on_batteries?"checked":"");
+    printf("Yes <input type=radio name=run_on_batteries value=yes %s>\n", $prefs->run_on_batteries?"checked":"");
+    printf("No <input type=radio name=run_on_batteries value=no %s>\n", $prefs->run_on_batteries?"":"checked");
     echo   "</td></tr>
         <tr>
         <td align=right>Should ".PROJECT." run while you're using the computer?
         </td><td valign=top>
     ";
-    printf("Yes <input type=radio name=dont_run_if_user_active %s>\n", $prefs->dont_run_if_user_active?"":"checked");
-    printf("No <input type=radio name=dont_run_if_user_active %s>\n", $prefs->dont_run_if_user_active?"checked":"");
+    printf("Yes <input type=radio name=run_if_user_active value=yes %s>\n", $prefs->run_if_user_active?"checked":"");
+    printf("No <input type=radio name=run_if_user_active value=no %s>\n", $prefs->run_if_user_active?"":"checked");
     echo   "</td></tr>
         <tr>
         <td align=right>Ask you before connecting to Internet?
@@ -288,13 +274,13 @@ function prefs_form_email($prefs) {
     echo "<tr>
         <td align=right>Should ".PROJECT." send you email newsletters?</td><td>
     ";
-    printf("Yes <input type=radio name=send_email %s>\n", $prefs->send_email?"checked":"");
-    printf("No <input type=radio name=send_email %s>\n", $prefs->send_email?"":"checked");
+    printf("Yes <input type=radio name=send_email value=yes %s>\n", $prefs->send_email?"checked":"");
+    printf("No <input type=radio name=send_email value=no %s>\n", $prefs->send_email?"":"checked");
      echo "   </td></tr><tr>
         <td align=right>Should ".PROJECT." show your email address on its web site?</td><td>
     ";
-    printf("Yes <input type=radio name=show_email %s>\n", $prefs->show_email?"checked":"");
-    printf("No <input type=radio name=show_email %s>\n", $prefs->show_email?"":"checked");
+    printf("Yes <input type=radio name=show_email value=yes %s>\n", $prefs->show_email?"checked":"");
+    printf("No <input type=radio name=show_email value=no %s>\n", $prefs->show_email?"":"checked");
     echo" </td></tr>
     ";
 }
@@ -320,12 +306,19 @@ function prefs_form_project($prefs_xml) {
     project_specific_prefs_edit($prefs);
 }
 
+function venue_show($user) {
+    echo "<tr><td>Venue</td><td>$user->venue</td></tr>\n";
+}
+
 function venue_form($user) {
+    if ($user->venue == "home") $h = "selected";
+    if ($user->venue == "work") $w = "selected";
+    if ($user->venue == "school") $s = "selected";
     echo "<tr><td align=right>Computer location</td><td>
         <select name=venue>
-        <option name=home>Home
-        <option name=work>Work
-        <option name=school>School
+        <option value=home $h>Home
+        <option value=work $w>Work
+        <option value=school $s>School
         </select>
         </td></tr>
         ";
@@ -346,8 +339,8 @@ function venue_update($user) {
 //
 function prefs_global_parse_form(&$prefs) {
     parse_str(getenv("QUERY_STRING"));
-    $prefs->dont_run_on_batteries = isset($dont_run_on_batteries)?1:0;
-    $prefs->dont_run_if_user_active = isset($dont_run_if_user_active)?1:0;
+    $prefs->run_on_batteries = ($run_on_batteries == "yes");
+    $prefs->run_if_user_active = ($run_if_user_active == "yes");
     $prefs->confirm_before_connecting = isset($confirm_before_connecting)?1:0;
     $prefs->low_water_days = $low_water_days;
     $prefs->high_water_days = $high_water_days;
@@ -363,8 +356,8 @@ function prefs_resource_parse_form(&$prefs) {
 
 function prefs_email_parse_form(&$prefs) {
     parse_str(getenv("QUERY_STRING"));
-    $prefs->send_email = isset($send_email)?1:0;
-    $prefs->show_email = isset($show_email)?1:0;
+    $prefs->send_email = ($send_email == "yes");
+    $prefs->show_email = ($show_email == "yes");
 }
 
 function prefs_project_parse_form(&$prefs) {
@@ -380,11 +373,11 @@ function global_prefs_make_xml($prefs) {
     $xml = "<global_preferences>\n";
     $now = time();
     $xml = $xml."<mod_time>$now</mod_time>\n";
-    if ($prefs->dont_run_on_batteries) {
-        $xml = $xml."<dont_run_on_batteries/>\n";
+    if ($prefs->run_on_batteries) {
+        $xml = $xml."<run_on_batteries/>\n";
     }
-    if ($prefs->dont_run_if_user_active) {
-        $xml = $xml."<dont_run_if_user_active/>\n";
+    if ($prefs->run_if_user_active) {
+        $xml = $xml."<run_if_user_active/>\n";
     }
     if ($prefs->confirm_before_connecting) {
         $xml = $xml."<confirm_before_connecting/>\n";
@@ -402,10 +395,10 @@ function global_prefs_make_xml($prefs) {
 
 function project_prefs_make_xml($prefs) {
     $xml = "<project_preferences>\n";
-    if ($prefs->show_email) {
+    if ($prefs->show_email == 1) {
         $xml = $xml."<show_email/>\n";
     }
-    if ($prefs->send_email) {
+    if ($prefs->send_email == 1) {
         $xml = $xml."<send_email/>\n";
     }
     $xml = $xml

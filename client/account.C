@@ -26,24 +26,29 @@
 
 #include "account.h"
 
-int write_account_file(char* master_url, char* authenticator) {
+int write_account_file(
+    char* master_url, char* authenticator, char* project_prefs
+) {
     char path[256];
     FILE* f;
 
     get_account_filename(master_url, path);
-    f = fopen(path, "w");
+    f = fopen(TEMP_FILE_NAME, "w");
     if (!f) return ERR_FOPEN;
 
     fprintf(f,
         "<account>\n"
         "    <master_url>%s</master_url>\n"
-        "    <authenticator>%s</authenticator>\n"
-        "    <resource_share>1</resource_share>\n"
-        "</account>\n",
+        "    <authenticator>%s</authenticator>\n",
         master_url,
         authenticator
     );
+    if (project_prefs) {
+        fprintf(f, "%s", project_prefs);
+    }
+    fprintf(f, "</account>\n");
     fclose(f);
+    boinc_rename(TEMP_FILE_NAME, path);
     return 0;
 }
 
