@@ -42,7 +42,8 @@ CONFIG config;
 
 #define DEBUG_LEVEL     SchedMessages::NORMAL
 
-#define STDERR_FILENAME "file_upload_handler.out"
+// #define STDERR_FILENAME "file_upload_handler.out"
+static const char* STDERR_FILENAME = "../log/file_upload_handler.log";
 
 #define MAX_FILES 32
 

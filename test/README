@@ -1,0 +1,90 @@
+
+$Id$
+
+TEST SCRIPTS
+============
+These test scripts will test that BOINC works as expected/designed.
+
+PREREQUISITES
+-------------
+1. MySQL installed and running.  Currently the script expects it to be running
+   on localhost but that could be changed.
+2. Python 2.2, Python module MySQLdb
+3. Perl
+4. PHP
+
+COREQUISITES
+------------
+1. Webserver.  Normally boinc.py will use the included miniserv.pl but any
+   webserver could be used if configured. See below.
+
+OTHER RECOMMENDED TOOLS
+-----------------------
+1. PHPMyAdmin.  Useful for viewing database.
+
+RUNNING
+-------
+
+Type: (in either the test/ directory or the boinc source root directory)
+
+   make check
+
+
+
+
+
+
+APPENDICES
+==========
+
+OPTIONAL ENVIRONMENT VARIABLES
+------------------------------
+The following environment variables are optional and apply whatever web server
+you use:
+
+BOINC_TEST_USER_NAME
+    User name to use for setting up database name. Defaults to $USER
+
+BOINC_TEST_VERBOSE
+    Verbosity level.
+        0            print nothing
+        1  [default] print some
+                     if output is a tty, overwrite lines.
+        2            print all
+
+BOINC_TEST_DELETE
+    Specifies whether or not to delete testbed after the test finishes. Case
+    doesn't matter.  Only relevant when BOINC_TEST_AUTO_SETUP=0.  Possible
+    values:
+        No
+        If-Successful   [default]
+        Always
+
+BOINC_TEST_INSTALL_METHOD
+    Specifies how to install html/php, cgi from source directories to testbed
+    location.
+        link [default]   - hardlink
+        symlink          - symbolic link
+        copy             - copy
+
+    Copying is useful because it preserves what version of the file was used
+    in a particular test run and
+
+    Hardlinking is best because compiled cgi and scheduler programs are not
+    disrupted by parallel builds.
+
+
+WEB SERVER
+----------
+By default, the test script will use the "miniserv" program to set up a web
+server testing environment.  You can also use Apache or some other webserver
+with manually set-up directories by setting these environment variables:
+
+BOINC_TEST_AUTO_SETUP=0   [default=1]
+BOINC_TEST_KEY_DIR
+BOINC_TEST_PROJECTS_DIR
+BOINC_TEST_CGI_URL
+BOINC_TEST_HTML_URL
+BOINC_TEST_CGI_DIR
+BOINC_TEST_HTML_DIR
+BOINC_TEST_HOSTS_DIR
