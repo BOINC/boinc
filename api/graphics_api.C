@@ -46,6 +46,8 @@ HANDLE graphics_threadh=NULL;
 #include "boinc_api.h"
 #include "graphics_api.h"
 
+double boinc_max_fps = 30.;
+double boinc_max_gfx_cpu_frac = 0.5;
 
 #ifdef _WIN32
 HANDLE hQuitEvent;
@@ -168,22 +170,18 @@ bool throttled_app_render(int x, int y, double t) {
     double now, t0, t1, diff, frac, m;
     bool ok_to_render;
 
-    // the following should be passed in via prefs
-    double max_fps = 100;
-    double max_gfx_cpu_frac = 0.5;
-
     ok_to_render = true;
     now = dtime();
     diff = now - last_now;
     last_now = now;
-    if (diff > 1) diff = 0;     // handle initial case
+    if (diff > 1000) diff = 0;     // handle initial case
 
     // enforce frames/sec restriction
     //
-    if (max_fps) {
+    if (boinc_max_fps) {
         time_until_render -= diff;
         if (time_until_render < 0) {
-            time_until_render += 1./max_fps;
+            time_until_render += 1./boinc_max_fps;
         } else {
             ok_to_render = false;
         }
@@ -191,11 +189,11 @@ bool throttled_app_render(int x, int y, double t) {
 
     // enforce max CPU time restriction
     //
-    if (max_gfx_cpu_frac) {
+    if (boinc_max_gfx_cpu_frac) {
         elapsed_time += diff;
         if (elapsed_time) {
             frac = total_render_time/elapsed_time;
-            if (frac > max_gfx_cpu_frac) {
+            if (frac > boinc_max_gfx_cpu_frac) {
                 ok_to_render = false;
             }
         }
@@ -204,11 +202,11 @@ bool throttled_app_render(int x, int y, double t) {
     // render if allowed
     //
     if (ok_to_render) {
-        if (max_gfx_cpu_frac) {
+        if (boinc_max_gfx_cpu_frac) {
             boinc_cpu_time(t0, m);
         }
         app_render(x, y, t);
-        if (max_gfx_cpu_frac) {
+        if (boinc_max_gfx_cpu_frac) {
             boinc_cpu_time(t1, m);
             total_render_time += t1 - t0;
         }
@@ -241,33 +239,12 @@ GLvoid glPrint(GLuint font, const char *fmt, ...) {
 // All Setup For OpenGL Goes Here
 //
 GLenum InitGL(GLvoid) {
-    GLenum err;
-    
     glShadeModel(GL_SMOOTH);				// Enable Smooth Shading
-    err = glGetError();
-    if (err) return err;
-    
     glClearColor(0.0f, 0.0f, 0.0f, 0.5f);		// Black Background
-    err = glGetError();
-    if (err) return err;
-    
     glClearDepth(1.0f);					// Depth Buffer Setup
-    err = glGetError();
-    if (err) return err;
-    
     glEnable(GL_DEPTH_TEST);				// Enables Depth Testing
-    err = glGetError();
-    if (err) return err;
-    
     glDepthFunc(GL_LEQUAL);				// The Type Of Depth Testing To Do
-    err = glGetError();
-    if (err) return err;
-    
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
-    err = glGetError();
-    if (err) return err;
-   	
-
     return GL_NO_ERROR;					// Initialization Went OK
 }
 

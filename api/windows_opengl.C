@@ -172,13 +172,6 @@ void SetMode(int mode) {
 		ShowWindow(hWnd, SW_HIDE);
 	}	
 	
-	InitGL();
-
-#ifdef DRAW_WITH_DLL
-	vis_init();
-#else
-	app_init_gl();
-#endif	
 	app_client_shm->send_graphics_mode_msg(APP_CORE_GFX_SEG, current_graphics_mode);
 }
 
@@ -222,8 +215,12 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 		}
 		return 0;
 	case WM_CLOSE:
-		SetMode(MODE_HIDE_GRAPHICS);
-		return 0;
+        if (standalone) {
+            exit(0);
+        } else {
+		    SetMode(MODE_HIDE_GRAPHICS);
+		    return 0;
+        }
 	case WM_PAINT:
 		PAINTSTRUCT ps;
 		RECT winRect;
@@ -268,11 +265,14 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	// Register window class and graphics mode message
 	reg_win_class();
 
+
     if (standalone) {
         SetMode(MODE_WINDOW);
     } else {
         SetMode(MODE_HIDE_GRAPHICS);
     }
+	InitGL();
+    app_init_gl();
 
 	win_loop_done = false;
 	using_opengl = true;

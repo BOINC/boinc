@@ -6742,3 +6742,19 @@ Oliver Oct 13 2003
 
     api/
 	gutil.C,h
+
+David  Oct 14 2003
+	- don't call boinc_finish_opengl() in boinc_finish()!!
+	- max frame rate and max graphics CPU are accessible to app
+		(via global variables boinc_max_fps and boinc_max_gfx_cpu_frac)
+	- in windows_opengl.C, moved InitGL() and app_init_gl() calls
+		from SetMode() to start of win_graphics_event_loop()
+		(just want to call these once, right?)
+	- in windows_opengl.C: if in standalone mode and get WM_CLOSE event,
+		actually exit (makes debugging easier).
+
+	api/
+		boinc_api.C
+		graphics_api.C,h
+		gutil.C
+		windows_opengl.C

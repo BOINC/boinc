@@ -677,7 +677,7 @@ float xvec[] = {1., 0., 0.};
 float xvecneg[] = {-1., 0., 0.};
 float zvec[] = {0, 0, 1};
 
-// draw horizontal plate from i to i+1, with height data[i]
+// draw XZ rect from i to i+1, with height data[i]
 //
 void RIBBON_GRAPH::draw_x(int i) {
     GLfloat pt[3];
@@ -695,6 +695,8 @@ void RIBBON_GRAPH::draw_x(int i) {
     glVertex3fv(pt);
     pt[0] = pos[0] + r1*size[0];
     glVertex3fv(pt);
+
+    // also draw XY rect
     glNormal3fv(zvec);
     pt[0] = pos[0] + r1*size[0];
     pt[1] = pos[1] + data[i]*size[1]/dmax;
@@ -708,7 +710,7 @@ void RIBBON_GRAPH::draw_x(int i) {
     glVertex3fv(pt);
 }
 
-// draw vertical plate at position i, with height from data[i-1] to data[i]
+// draw YZ rect at position i, with height from data[i-1] to data[i]
 //
 void RIBBON_GRAPH::draw_y(int i) {
     GLfloat pt[3];

@@ -83,15 +83,15 @@ extern GLvoid glPrint(GLuint font, const char *fmt, ...);
 // Functions that must be supplied by the app
 //
 extern void app_render(int xs, int ys, double time_of_day);
-extern void app_init_gl(void);
+extern void app_init_gl();
 extern void app_resize(int width, int height);
 
 // Implementation stuff
 //
-#ifdef HAVE_GL_LIB
+extern double boinc_max_fps;
+extern double boinc_max_gfx_cpu_frac;
 extern GLenum InitGL(GLvoid);
 extern GLenum ReSizeGLScene(GLsizei width, GLsizei height);
-#endif
 extern bool throttled_app_render(int, int, double);
 
 #ifdef _WIN32

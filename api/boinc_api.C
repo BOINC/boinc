@@ -242,7 +242,6 @@ int boinc_finish(int status) {
 #ifdef _WIN32
     // Stop the timer
     timeKillEvent(timer_id);
-    boinc_finish_opengl();
 #endif
     cleanup_shared_mem();
     exit(status);
