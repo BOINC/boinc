@@ -35,8 +35,6 @@
 #define OUTFILE_MACRO   "<OUTFILE_"
 #define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"
 #define DOWNLOAD_URL_MACRO      "<DOWNLOAD_URL/>"
-#define UPLOAD_URL      "http://localhost/boinc-cgi/file_upload_handler"
-#define DOWNLOAD_URL      "http://localhost/download/"
 
 int read_file(FILE* f, char* buf) {
     assert(f!=NULL);
