@@ -20,6 +20,7 @@ in various languages.
 See also
 <a href=http://setiweb.ssl.berkeley.edu/sah/download_network.php>GUIs and add-on software for BOINC</a>.
 
+<a name=email_lists>
 <h2>Email lists</h2>
 
 The follow email lists are available.
@@ -54,17 +55,10 @@ list_item("<a href=http://www.ssl.berkeley.edu/mailman/listinfo/boinc_opt>boinc_
 list_end();
 
 echo "
-<h2>Programming</h2>
-<ul>
-<li> <a href=compile.php>Compile BOINC software</a>
-</ul>
 
 <h2>Translating</h2>
 If you speak a non-English language, you can help by
-<ul>
-<li> <a href=language.php>translating the BOINC manager</a> or
-<li> <a href=web_translation.php>translating the web site</a>.
-</ul>
+<a href=translation.php>translating the BOINC manager and web pages</a>.
 
 <h2>News feeds</h2>
 <p>

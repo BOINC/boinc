@@ -1,6 +1,8 @@
 <?php
 require_once("boinc_news.inc");
 require_once("../html/inc/news.inc");
+$light_blue = "dde8ff";
+
 echo "
 <head>
 <link rel=\"shortcut icon\" href=\"iconsmall.ico\">
@@ -20,47 +22,89 @@ computer resources
 </center>
 
 <br clear=all>
-<table width=100% border=0 cellspacing=0 cellpadding=10>
+
+<table width=100% border=0 cellspacing=0 cellpadding=4>
 <tr>
-<td valign=top width=40%>
-";
+<td valign=top width=60%>
+<table width=100% border=0 cellspacing=0 cellpadding=8>
+  <tr><td bgcolor=$light_blue>
+    <h2>&nbsp;Participate in scientific research</h2>
+  </td></tr>
+  <tr><td>
+    <p>
+    If you own a computer (Windows, Mac, Linux or Unix)
+    you can help scientific research projects in many areas:
+    <ul>
+    <li>
+    <a href=http://climateprediction.net>Climateprediction.net</a>:
+    study climate change
+    <li>
+    <a href=http://einstein.phys.uwm.edu/>Einstein@home</a>:
+    search for gravitational signals coming from pulsars
+    <li>
+    <a href=http://athome.web.cern.ch/athome/>LHC@home</a>:
+    improve the design of the CERN LHC particle accelerator
+    <li>
+    <a href=http://predictor.scripps.edu>Predictor@home</a>:
+    investigate protein-related diseases
+    <li><a href=http://setiweb.ssl.berkeley.edu/>SETI@home</a>:
+    Look for radio evidence of extraterrestrial life
+    </ul>
+    To participate in a project:
+    <br>
+    1) Visit the project's web site and create an account.
+    <br>
+    2) <a href=download.php>Download</a> and run BOINC software.
+    <p>
+    You can participate in any or all projects -- the choice is up to you.
+    It's a good idea to participate in several projects,
+    because your computer will be busy even when one project has no work.
+    You control the percentage of your computing power
+    that goes to each project.
+    <p>
+    <a href=participate.php>... learn more</a>
 
-function section($title, $url, $subtitle=null) {
-    echo "<a href=$url><font size=+1 >$title</font></a>\n";
-    if ($subtitle) {
-        echo "<br> &nbsp;&nbsp;&nbsp;$subtitle\n";
-    }
-    echo "<br><br>\n";
-}
-
-section("
-    Overview", "intro.php"
-);
-section(
-    "Participate", "participate.php",
-    "Donate computing power to BOINC-based projects"
-);
-
-section(
-    "Create a BOINC project",
-    "create_project.php",
-    "Use BOINC to develop distributed applications"
-);
-section(
-    "Software development",
-    "boinc_dev.php",
-    "Help debug and enhance BOINC software"
-);
-section(
-    "Community and resources",
-    "community.php"
-);
-section(
-    "Personnel",
-    "contact.php"
-);
-echo "
-<hr noshade size=0>
+    <br><br>
+  </td></tr>
+  <tr><td bgcolor=$light_blue><h2>Create a BOINC project</h2></td></tr>
+  <tr><td>
+    If you're a scientist with a computationally-intensive task,
+    you may be able to use BOINC.
+    <p>
+    A BOINC project can run on a single Linux server,
+    and can give you computing power equivalent
+    to a cluster with tens of thousands of nodes.
+    <p>
+      <a href=create_project.php>
+      ... learn more
+    </a>
+    <br><br>
+  </td></tr>
+  <tr><td bgcolor=$light_blue><h2>Resources</h2></td></tr>
+  <tr><td>
+    <ul>
+    <li> <a href=links.php>Web sites</a>
+    <li> <a href=community.php#email_lists>Email lists</a>
+    <li> An <a href=intro.php>overview</a> of BOINC, and links to papers
+    <li>
+        <a href=boinc_dev.php>Software development</a>
+        <blockquote>
+        BOINC is free software,
+        distributed under the Lesser GNU Public License (LGPL).
+        If you are fluent in C++, PHP, SQL, and/or Python,
+        you may be able to help debug and enhance BOINC.
+        </blockquote>
+    <li>
+      Non-English <a href=translation.php>translations</a>
+      of project web sites and the BOINC manager.
+    <li>
+    <a href=community.php>Other resources</a>
+    <li>
+    <a href=contact.php>Personnel and contact info</a>
+    </ul>
+    <br>
+  </td></tr>
+<tr><td>
 <img align=left src=nsf.gif>
 BOINC is supported by the
 <a href=http://nsf.gov>National Science Foundation</a>
@@ -70,35 +114,12 @@ Any opinions, findings, and conclusions or recommendations expressed in
 this material are those of the author(s)
 and do not necessarily reflect the views of the National Science Foundation.
 </font>
+</td></tr>
+</table>
+
 </td>
-<td valign=top bgcolor=c8c8ff>
-<center>
-<h2>Projects</h2>
-</center>
-<p>
-BOINC-based distributed computing projects include:
-<ul>
-<li>
-<a href=http://climateprediction.net>Climateprediction.net</a>:
-Improve the accuracy of long-term climate prediction.
-<li>
-<a href=http://einstein.phys.uwm.edu/>Einstein@home</a>:
-search data from the Laser Interferometer Gravitational wave Observatory (LIGO)
-in the US and from the GEO 600 gravitational wave observatory in Germany for signals coming from rapidly rotating neutron stars, known as pulsars.
-<li>
-<a href=http://athome.web.cern.ch/athome/>LHC@home</a>:
-improve the design of the CERN LHC particle accelerator.
-<li>
-<a href=http://predictor.scripps.edu>Predictor@home</a>:
-Solve biomedical questions and investigate protein-related diseases.
-<li><a href=http://setiweb.ssl.berkeley.edu/>SETI@home</a>:
-Analyze radio-telescope data, looking for evidence of extraterrestrial life.
-</ul>
-We encourage you to participate in multiple projects,
-so that your computer will be kept busy even
-while projects are down or out of work.
-
-
+<td valign=top>
+<table border=2 cellpadding=8><tr><td bgcolor=$light_blue>
 <center>
 <h2>News</h2>
 </center>
@@ -111,6 +132,8 @@ if (count($project_news) > 6) {
 echo "
 <p><font size=-2>News is available as an
 <a href=rss_main.php>RSS feed</a></font>
+</td></tr></table>
+</td></tr>
 </table>
 ";
 ?>

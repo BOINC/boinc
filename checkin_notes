@@ -26082,3 +26082,14 @@ David  21 Mar 2005
         boinc_api.C
     sched/
         handle_request.C
+
+David  21 Mar 2005
+    - BOINC web site: reorganized front page, download page
+    - scheduler: fixed a heinous bug in validate_util.C
+        introduced on 7 Mar 2005
+
+    doc/
+        various
+    sched/
+        handle_request.C
+        validate_util.C

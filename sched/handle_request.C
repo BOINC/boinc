@@ -750,7 +750,7 @@ bool unacceptable_os(
 }
 #else
 bool unacceptable_os(
-        SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
+        SCHEDULER_REQUEST& , SCHEDULER_REPLY& 
 ) {
     return false;
 }

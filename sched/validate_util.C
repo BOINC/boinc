@@ -71,7 +71,7 @@ double median_mean_credit(vector<RESULT>& results) {
     int nvalid = 0;
     unsigned int i;
 
-    for (i=0; results.size(); i++) {
+    for (i=0; i<results.size(); i++) {
         RESULT& result = results[i];
         if (result.validate_state != VALIDATE_STATE_VALID) continue;
         if (result.claimed_credit < CREDIT_EPSILON) continue;
@@ -99,7 +99,7 @@ double median_mean_credit(vector<RESULT>& results) {
         return credit_low;
     default:
         double sum = 0;
-        for (i=0; results.size(); i++) {
+        for (i=0; i<results.size(); i++) {
             if (i == (unsigned int) ilow) continue;
             if (i == (unsigned int) ihigh) continue;
             RESULT& result = results[i];

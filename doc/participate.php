@@ -43,6 +43,8 @@ echo "
 </ul>
 <b>Third-party software and web sites</b>
 <ul>
+<li> <a href=links.php>Web sites related to BOINC</a>
+<li> <a href=http://setiweb.ssl.berkeley.edu/sah/download_network.php>GUIs and add-on software for BOINC</a>
 <li> <a href=proxy_server.php>Proxy servers</a> (why BOINC doesn't have them).
 </ul>
 ";
