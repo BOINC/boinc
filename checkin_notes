@@ -5824,3 +5824,8 @@ Chrisz  2003/8/15
 
     client/win/
          wingui_mainwindow.cpp
+
+Eric K  8/15/2003
+    -  Prefaced transform() with std:: to get util.C to compile under windows.
+	api/util.C
+
