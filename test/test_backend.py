@@ -17,7 +17,6 @@ class ProjectBackend(ProjectUC):
         ProjectUC.__init__(self, redundancy = 5, short_name = 'test_backend')
     def run(self):
         self.install()
-
         self.install_make_work(work=self.work, cushion=self.num-1, redundancy=5)
         self.start_servers()
 
@@ -25,7 +24,7 @@ class ProjectBackend(ProjectUC):
         n = 0
         db = self.db_open()
         while n < self.num:
-            n = self.num_wus_left(db)
+            n = num_wus_left(db)
             verbose_echo(1, "Generating results [%d/%d]" % (n,self.num));
             time.sleep(.1)
         db.close()
@@ -47,22 +46,6 @@ class ProjectBackend(ProjectUC):
             time.sleep(1)
         self.start_servers()
 
-    rpm_pid = None
-    def fork_result_progress_meter(self, msg):
-        pid = os.fork()
-        if pid:
-            self.rpm_pid = pid
-            return
-        db = self.db_open()
-        while True:
-            n = self.num_results_done(db)
-            verbose_echo(1, msg+" [%d/%d]"%(n,self.num))
-            time.sleep(.1)
-
-    def stop_result_progress_meter(self):
-        if self.rpm_pid:
-            os.kill(self.rpm_pid, 9)
-
     def check(self):
         # Give the server 30 seconds to finish assimilating/deleting
         # TODO: use wait on all processes.
@@ -71,15 +54,5 @@ class ProjectBackend(ProjectUC):
 
 if __name__ == '__main__':
     test_msg("entire backend");
-
-    num = 100
-    try: num = int(sys.argv[1])
-    except: pass
-
-    project = ProjectBackend(num)
-    project.run()
-    project.fork_result_progress_meter("Running core client - results done: ")
-    project.host.run()
-    project.stop_result_progress_meter()
-    project.check()
-    project.stop()
+    ProjectBackend(sys.argv[1:] and get_int(sys.argv[1]) or 100)
+    run_check_all()

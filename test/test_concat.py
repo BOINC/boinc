@@ -41,9 +41,5 @@ class ProjectConcat(Project):
 
 if __name__ == '__main__':
     test_msg("standard concat application");
-
-    project = ProjectConcat()
-    project.run()
-    project.host.run()
-    project.check()
-    project.stop()
+    ProjectConcat()
+    run_check_all()

@@ -41,16 +41,19 @@ APP: upper_case: argv[0] is upper_case
 APP: upper_case ending, wrote """)
         # self.exit_status = 0
 
+
 class ProjectUC(Project):
     def __init__(self, works=None, users=None, hosts=None,
                  short_name=None, long_name=None,
-                 redundancy=2):
+                 redundancy=2, resource_share=1):
         Project.__init__(self,
                          appname = 'upper_case',
                          works = works or [WorkUC(redundancy=redundancy)],
                          users = users or [UserUC()],
                          hosts = hosts,
-                         short_name=short_name, long_name=long_name)
+                         short_name=short_name, long_name=long_name,
+                         resource_share=resource_share
+                         )
 
     def check(self):
         redundancy = self.work.redundancy
@@ -69,9 +72,5 @@ class ProjectUC(Project):
 
 if __name__ == '__main__':
     test_msg("standard upper_case application");
-
-    project = ProjectUC()
-    project.run()
-    project.host.run()
-    project.check()
-    project.stop()
+    ProjectUC()
+    run_check_all()

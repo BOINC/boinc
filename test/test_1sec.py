@@ -11,18 +11,10 @@ from test_uc import *
 
 if __name__ == '__main__':
     test_msg("multiple projects with resource share");
-
+    # create two projects with the same host/user
     host = Host()
     user = UserUC()
-    projects = []
     for i in range(2):
-        project = ProjectUC(users=[user], hosts=[host],
-                            short_name="test_1sec_%d"%i,
-                            redundancy=5)
-        project.resource_share = [1, 5][i]
-        projects.append(project)
-        project.run()
-    host.run()
-    for project in projects:
-        project.check()
-        project.stop()
+        ProjectUC(users=[user], hosts=[host], redundancy=5,
+                  short_name="test_1sec_%d"%i, resource_share=[1, 5][i])
+    run_check_all()

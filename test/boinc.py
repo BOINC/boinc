@@ -171,6 +171,11 @@ def create_keys():
     _gen_key('upload')
     _gen_key('code_sign')
 
+def get_int(s):
+    '''Convert a string to an int; return 0 on error.'''
+    try: return int(sys.argv[1])
+    except: return 0
+
 def unique(list):
     d = {}
     for i in list:
@@ -225,6 +230,14 @@ def _db_query(db, query):
     result = db.use_result()
     return result and result.fetch_row(0,1)
 
+def num_results(db, q=""):
+    return _db_query(db, "select count(*) from result "+q)[0]['count(*)']
+def num_wus_left(db):
+    return num_results(db, "where server_state=%d"%RESULT_SERVER_STATE_UNSENT)
+def num_results_done(db):
+    return num_results(db, "where server_state=%d"%RESULT_SERVER_STATE_OVER)
+
+
 class Platform:
     def __init__(self, name, user_friendly_name=None):
         self.name = name
@@ -251,16 +264,35 @@ class AppVersion:
         self.version = 1
         self.platform = Platform(PLATFORM)
 
+class ProjectList(list):
+    def run(self):   map(lambda i: i.run(), self)
+    def check(self): map(lambda i: i.check(), self)
+    def stop(self):  map(lambda i: i.stop(), self)
+    def open_dbs(self):
+        self.dbs = map(lambda i: i.db_open(), self)
+    def progress(self):
+        s = "Running core client - results [done/total]:"
+        for db in self.dbs:
+            s += " [%d/%d]" % (num_results_done(db), num_results(db))
+        return s
+
+
+all_projects = ProjectList()
+
 class Project:
     def __init__(self, works, users=None, hosts=None,
                  short_name=None, long_name=None, core_versions=None,
-                 apps=None, app_versions=None, appname=None):
+                 apps=None, app_versions=None, appname=None,
+                 resource_share=1,
+                 add_to_list=True):
+        if add_to_list:
+            all_projects.append(self)
         self.short_name = short_name or 'test_'+appname
         self.long_name = long_name or 'Project ' + self.short_name.replace('_',' ').capitalize()
         self.db_passwd = ''
         self.generate_keys = False
         self.shmem_key = generate_shmem_key()
-        self.resource_share = 1
+        self.resource_share = resource_share
         self.output_level = 3
 
         self.master_url    = os.path.join(HTML_URL         , self.short_name , '')
@@ -637,11 +669,6 @@ class Project:
         if len(rows) != ntarget:
             error("expected %d results, but found %d" % (ntarget, len(rows)))
 
-    def num_wus_left(self, db):
-        return _db_query(db, "select count(*) from result where server_state=%d"%RESULT_SERVER_STATE_UNSENT)[0]['count(*)']
-    def num_results_done(self, db):
-        return _db_query(db, "select count(*) from result where server_state=%d"%RESULT_SERVER_STATE_OVER)[0]['count(*)']
-
     def check_files_match(self, result, correct, count=None):
         '''if COUNT is specified then [0,COUNT) is mapped onto the %d in RESULT'''
         if count != None:
@@ -675,8 +702,15 @@ class User:
         self.project_prefs = None
         self.global_prefs = None
 
+class HostList(list):
+    def run(self):   map(lambda i: i.run(), self)
+
+all_hosts = HostList()
+
 class Host:
-    def __init__(self):
+    def __init__(self, add_to_list=True):
+        if add_to_list:
+            all_hosts.append(self)
         self.name = 'Commodore64'
         self.users = []
         self.projects = []
@@ -791,6 +825,29 @@ class Work:
             cmd += ' ' + input_file
 
         run_tool(cmd)
+
+class ResultMeter:
+    def __init__(self, func, args=[], delay=.1):
+        '''Forks to print a progress meter'''
+        self.pid = os.fork()
+        if self.pid:
+            return
+        while True:
+            verbose_echo(1, apply(func, args))
+            time.sleep(delay)
+    def stop(self):
+        if self.pid:
+            os.kill(self.pid, 9)
+
+def run_check_all():
+    '''Run all projects, run all hosts, check all projects, stop all projects.'''
+    all_projects.run()
+    all_projects.open_dbs()             # for progress meter
+    rm = ResultMeter(all_projects.progress)
+    all_hosts.run()
+    rm.stop()
+    all_projects.check()
+    all_projects.stop()
 
 proxy_pid = 0
 def start_proxy(code):
