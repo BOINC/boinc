@@ -18,10 +18,10 @@ setenv BOINC_DB_NAME        boinc_barry
 setenv BOINC_DB_PASSWD
 setenv BOINC_KEY            0xdabacafe
 setenv BOINC_KEY_DIR        ~/keys
-setenv BOINC_UPLOAD_DIR     ~upload
+setenv BOINC_UPLOAD_DIR     ~/upload
 
 # These 3 are used at runtime
-setenv BOINC_DOWNLOAD_DIR   ~download
+setenv BOINC_DOWNLOAD_DIR   ~/download
 setenv BOINC_UPLOAD_URL     http://maggie.ssl.berkeley.edu/barry/cgi/file_upload_handler
 setenv BOINC_DOWNLOAD_URL   http://maggie.ssl.berkeley.edu/barry/download
 
@@ -33,7 +33,7 @@ setenv BOINC_MASTER_URL     http:\\\\\/\\\\/maggie.ssl.berkeley.edu\\\\/~barry
 </pre>
 
 Each time BOINC_DB_NAME, BOINC_DB_PASSWD, BOINC_KEY, BOINC_KEY_DIR, or BOINC_UPLOAD_DIR are
-changed you must recompile the scheduler by going into the /sched directory, typing
+changed you must recompile the scheduler by going into the sched/ directory, typing
 "make clean", "make", and "make install".
 
 <p>
@@ -74,7 +74,8 @@ This allows CGI files to be executed in the specified directory.  You will put
 your scheduler and file_upload_handler into this directory.
 <p>
 You must make a directory for downloads and a directory for uploads.  Make sure
-that the download directory is world readable.
+that the download directory is world readable.  You must also make a directory to hold
+the different necessary keys.
 <p>
 Now you are ready to install BOINC.
 Unzip and untar the BOINC release.  Type
