@@ -796,7 +796,7 @@ void process_request(
 
     log_messages.printf(
         SchedMessages::NORMAL, "Processing request from [USER#%d] [HOST#%d] [IP %s] [RPC#%d] core client version %d.%02d\n",
-        reply.user.id, reply.user.id,
+        reply.user.id, reply.host.id,
         get_remote_addr(),
         sreq.rpc_seqno,
         sreq.core_client_major_version, sreq.core_client_minor_version
