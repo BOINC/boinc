@@ -119,14 +119,22 @@ void BOINC_OPTIONS::defaults() {
     options.direct_process_action = true;
 }
 
-// this is called ONLY by the worker thread
+// the following 2 functions are used when there's no graphics
 //
 int boinc_init() {
     options.defaults();
     return boinc_init_options(options);
 }
-
 int boinc_init_options(BOINC_OPTIONS& opt) {
+    int retval;
+    retval = boinc_init_options_general(opt);
+    if (retval) return retval;
+    return set_worker_timer();
+}
+
+// the following can be called by either graphics or worker thread
+//
+int boinc_init_options_general(BOINC_OPTIONS& opt) {
     int retval;
     options = opt;
 
@@ -192,8 +200,6 @@ int boinc_init_options(BOINC_OPTIONS& opt) {
 
     heartbeat_active = !standalone;
     heartbeat_giveup_time = dtime() + HEARTBEAT_GIVEUP_PERIOD;
-
-    set_worker_timer();
 
     return 0;
 }

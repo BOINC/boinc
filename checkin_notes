@@ -18900,3 +18900,10 @@ Rom    26 Oct 2004 (boinc)
     - Tag for 4.52 release, all platforms
       boinc_core_release_4_52
 
+
+David  26 Oct 2004
+	- Further changes to graphics API
+
+	api/
+		boinc_api.C,h
+		graphics_api.C
