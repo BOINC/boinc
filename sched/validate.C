@@ -224,8 +224,8 @@ void handle_wu(DB_WORKUNIT& wu) {
                         result.granted_credit = credit;
                         log_messages.printf(
                             SchedMessages::NORMAL,
-                            "[%s] Granted %f credit to valid result\n",
-                            result.name, result.granted_credit
+                            "[%s] Granted %f credit to valid result [HOST#%d]\n",
+                            result.name, result.granted_credit, result.hostid
                         );
                     }
 
