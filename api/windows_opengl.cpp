@@ -27,12 +27,9 @@
 
 #include <afxwin.h>
 #include <gl\gl.h>			// Header File For The OpenGL32 Library
-#include <gl\glu.h>			// Header File For The GLu32 Library
-#include <gl\glaux.h>		// Header File For The Glaux Library
 #include <stdio.h>
 
 #include "graphics_api.h"
-#include "win_idle_tracker.h"
 
 HDC			hDC=NULL;		// Private GDI Device Context
 HGLRC		hRC=NULL;		// Permanent Rendering Context
@@ -43,6 +40,7 @@ POINT		initCursorPos;
 UINT		BOINC_GFX_MODE_MSG,gfx_timer;
 
 #define GFX_TIMER_ID 1001
+#define WIN_CLASS_NAME		"BOINC_OpenGL"
 
 GLuint	main_font;			// Base Display List For The Font Set
 
@@ -61,66 +59,55 @@ void ChangeMode( int mode );
 BOOL reg_win_class();
 BOOL unreg_win_class();
 
-GLvoid BuildFont(GLvoid)								// Build Our Bitmap Font
-{
+GLvoid BuildFont(GLvoid) {								// Build Our Bitmap Font
 	HFONT	font;										// Windows Font ID
 	HFONT	oldfont;									// Used For Good House Keeping
 
-	main_font = glGenLists(256);								// Storage For 96 Characters
+	main_font = glGenLists(256);						// Storage For 256 Characters
 
-	font = CreateFont(	-24,							// Height Of Font
-						0,								// Width Of Font
-						0,								// Angle Of Escapement
-						0,								// Orientation Angle
-						FW_BOLD,						// Font Weight
-						FALSE,							// Italic
-						FALSE,							// Underline
-						FALSE,							// Strikeout
-						ANSI_CHARSET,					// Character Set Identifier
-						OUT_TT_PRECIS,					// Output Precision
-						CLIP_DEFAULT_PRECIS,			// Clipping Precision
-						ANTIALIASED_QUALITY,			// Output Quality
-						FF_DONTCARE|DEFAULT_PITCH,		// Family And Pitch
-						"Courier New");					// Font Name
+	font = CreateFont(	-24,						// Height Of Font
+						0, 0,						// Width Of Font, Angle Of Escapement
+						0,							// Orientation Angle
+						FW_BOLD,					// Font Weight
+						FALSE, FALSE, FALSE,		// Italic, Underline, Strikeout
+						ANSI_CHARSET,				// Character Set Identifier
+						OUT_TT_PRECIS,				// Output Precision
+						CLIP_DEFAULT_PRECIS,		// Clipping Precision
+						ANTIALIASED_QUALITY,		// Output Quality
+						FF_DONTCARE|DEFAULT_PITCH,	// Family And Pitch
+						"Courier New");				// Font Name
 
-	oldfont = (HFONT)SelectObject(hDC, font);           // Selects The Font We Want
-	wglUseFontBitmaps(hDC, 0, 256, main_font);			// Builds 256 Characters
-	SelectObject(hDC, oldfont);							// Selects The Font We Want
-	DeleteObject(font);									// Delete The Font
+	oldfont = (HFONT)SelectObject(hDC, font);       // Selects The Font We Want
+	wglUseFontBitmaps(hDC, 0, 256, main_font);		// Builds 256 Characters
+	SelectObject(hDC, oldfont);						// Selects The Font We Want
+	DeleteObject(font);								// Delete The Font
 }
 
-GLvoid KillFont(GLvoid)									// Delete The Font List
-{
+GLvoid KillFont(GLvoid) {								// Delete The Font List
 	glDeleteLists(main_font, 256);						// Delete All 96 Characters
 }
 
-GLvoid KillGLWindow(GLvoid)								// Properly Kill The Window
-{
+GLvoid KillGLWindow(GLvoid) {							// Properly Kill The Window
 	while(ShowCursor(true) < 0);						// Show Mouse Pointer
 	active = false;
 
-	if (hRC)											// Do We Have A Rendering Context?
-	{
-		if (!wglMakeCurrent(NULL,NULL))					// Are We Able To Release The DC And RC Contexts?
-		{
+	if (hRC) {											// Do We Have A Rendering Context?
+		if (!wglMakeCurrent(NULL,NULL)) {				// Are We Able To Release The DC And RC Contexts?
 			MessageBox(NULL,"Release Of DC And RC Failed.","SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
 		}
 
-		if (!wglDeleteContext(hRC))						// Are We Able To Delete The RC?
-		{
+		if (!wglDeleteContext(hRC)) {					// Are We Able To Delete The RC?
 			MessageBox(NULL,"Release Rendering Context Failed.","SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
 		}
 		hRC=NULL;										// Set RC To NULL
 	}
 
-	if (hDC && !ReleaseDC(hWnd,hDC))					// Are We Able To Release The DC
-	{
+	if (hDC && !ReleaseDC(hWnd,hDC)) {					// Are We Able To Release The DC
 		MessageBox(NULL,"Release Device Context Failed.","SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
 		hDC=NULL;										// Set DC To NULL
 	}
 
-	if (hWnd && !DestroyWindow(hWnd))					// Are We Able To Destroy The Window?
-	{
+	if (hWnd && !DestroyWindow(hWnd)) {					// Are We Able To Destroy The Window?
 		MessageBox(NULL,"Could Not Release hWnd.","SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
 		hWnd=NULL;										// Set hWnd To NULL
 	}
@@ -184,8 +171,7 @@ void ChangeMode( int mode ) {
  *	bits			- Number Of Bits To Use For Color (8/16/24/32)			*
  *	fullscreenflag	- Use Fullscreen Mode (TRUE) Or Windowed Mode (FALSE)	*/
  
-BOOL CreateGLWindow(char* title, int width, int height, int bits, bool initially_visible)
-{
+BOOL CreateGLWindow(char* title, int width, int height, int bits, bool initially_visible) {
 	GLuint		PixelFormat;			// Holds The Results After Searching For A Match
 	DWORD		dwExStyle;				// Window Extended Style
 	DWORD		dwStyle;				// Window Style
@@ -196,13 +182,10 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool initially
 	WindowRect.bottom=(long)height;		// Set Bottom Value To Requested Height
 	HDC			screenDC=NULL;		// Screen Device Context
 
-	if (fullscreen)												// Are We Still In Fullscreen Mode?
-	{
+	if (fullscreen) {											// Are We Still In Fullscreen Mode?
 		dwExStyle=WS_EX_TOPMOST;								// Window Extended Style
 		dwStyle=WS_POPUP;										// Windows Style
-	}
-	else
-	{
+	} else {
 		dwExStyle=WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;			// Window Extended Style
 		dwStyle=WS_OVERLAPPEDWINDOW;							// Windows Style
 	}
@@ -211,7 +194,7 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool initially
 
 	// Create The Window
 	if (!(hWnd=CreateWindowEx(	dwExStyle,							// Extended Style For The Window
-								"BOINC_OpenGL",						// Class Name
+								WIN_CLASS_NAME,						// Class Name
 								title,								// Window Title
 								dwStyle |							// Defined Window Style
 								WS_CLIPSIBLINGS |					// Required Window Style
@@ -226,7 +209,7 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool initially
 	{
 		KillGLWindow();								// Reset The Display
 		MessageBox(NULL,"Window Creation Error.","ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return FALSE;								// Return FALSE
+		return FALSE;
 	}
 
 	old_left = WindowRect.left;
@@ -234,61 +217,53 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool initially
 	old_top = WindowRect.top;
 	old_bottom = WindowRect.bottom;
 
-	static	PIXELFORMATDESCRIPTOR pfd=				// pfd Tells Windows How We Want Things To Be
+	static	PIXELFORMATDESCRIPTOR pfd=		// pfd Tells Windows How We Want Things To Be
 	{
-		sizeof(PIXELFORMATDESCRIPTOR),				// Size Of This Pixel Format Descriptor
-		1,											// Version Number
-		PFD_DRAW_TO_WINDOW |						// Format Must Support Window
-		PFD_SUPPORT_OPENGL |						// Format Must Support OpenGL
-		PFD_DOUBLEBUFFER,							// Must Support Double Buffering
-		PFD_TYPE_RGBA,								// Request An RGBA Format
-		bits,										// Select Our Color Depth
-		0, 0, 0, 0, 0, 0,							// Color Bits Ignored
-		0,											// No Alpha Buffer
-		0,											// Shift Bit Ignored
-		0,											// No Accumulation Buffer
-		0, 0, 0, 0,									// Accumulation Bits Ignored
-		16,											// 16Bit Z-Buffer (Depth Buffer)  
-		0,											// No Stencil Buffer
-		0,											// No Auxiliary Buffer
-		PFD_MAIN_PLANE,								// Main Drawing Layer
-		0,											// Reserved
-		0, 0, 0										// Layer Masks Ignored
+		sizeof(PIXELFORMATDESCRIPTOR),	// Size Of This Pixel Format Descriptor
+		1,								// Version Number
+		PFD_DRAW_TO_WINDOW |			// Format Must Support Window, OpenGL
+		PFD_SUPPORT_OPENGL |			// Format Must Support OpenGL
+		PFD_DOUBLEBUFFER,				// Must Support Double Buffering
+		PFD_TYPE_RGBA,					// Request An RGBA Format
+		bits,							// Select Our Color Depth
+		0, 0, 0, 0, 0, 0,				// Color Bits Ignored
+		0, 0,							// No Alpha Buffer, Shift Bit Ignored
+		0, 0, 0, 0, 0,					// No Accumulation Buffer, Accum Bits Ignored
+		16,								// 16Bit Z-Buffer (Depth Buffer)  
+		0, 0,							// No Stencil Buffer, No Auxiliary Buffer
+		PFD_MAIN_PLANE,					// Main Drawing Layer
+		0,								// Reserved
+		0, 0, 0							// Layer Masks Ignored
 	};
 	
-	if (!(hDC=GetDC(hWnd)))							// Did We Get A Device Context?
-	{
+	if (!(hDC=GetDC(hWnd))) {						// Did We Get A Device Context?
 		KillGLWindow();								// Reset The Display
 		MessageBox(NULL,"Can't Create A GL Device Context.","ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return FALSE;								// Return FALSE
+		return FALSE;
 	}
 
-	if (!(PixelFormat=ChoosePixelFormat(hDC,&pfd)))	// Did Windows Find A Matching Pixel Format?
-	{
+	if (!(PixelFormat=ChoosePixelFormat(hDC,&pfd))) { // Did Windows Find A Matching Pixel Format?
 		KillGLWindow();								// Reset The Display
 		MessageBox(NULL,"Can't Find A Suitable PixelFormat.","ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return FALSE;								// Return FALSE
+		return FALSE;
 	}
 
-	if(!SetPixelFormat(hDC,PixelFormat,&pfd))		// Are We Able To Set The Pixel Format?
-	{
+	if(!SetPixelFormat(hDC,PixelFormat,&pfd)) {		// Are We Able To Set The Pixel Format?
 		KillGLWindow();								// Reset The Display
 		MessageBox(NULL,"Can't Set The PixelFormat.","ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return FALSE;								// Return FALSE
+		return FALSE;
 	}
 
-	if (!(hRC=wglCreateContext(hDC)))				// Are We Able To Get A Rendering Context?
-	{
+	if (!(hRC=wglCreateContext(hDC))) {				// Are We Able To Get A Rendering Context?
 		KillGLWindow();								// Reset The Display
 		MessageBox(NULL,"Can't Create A GL Rendering Context.","ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return FALSE;								// Return FALSE
+		return FALSE;
 	}
 
-	if(!wglMakeCurrent(hDC,hRC))					// Try To Activate The Rendering Context
-	{
+	if(!wglMakeCurrent(hDC,hRC)) {					// Try To Activate The Rendering Context
 		KillGLWindow();								// Reset The Display
 		MessageBox(NULL,"Can't Activate The GL Rendering Context.","ERROR",MB_OK|MB_ICONEXCLAMATION);
-		return FALSE;								// Return FALSE
+		return FALSE;
 	}
 
 	if (initially_visible) {
@@ -303,24 +278,21 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits, bool initially
 	SetFocus(hWnd);									// Sets Keyboard Focus To The Window
 	ReSizeGLScene(width, height);					// Set Up Our Perspective GL Screen
 
-	if (!InitGL())									// Initialize Our Newly Created GL Window
-	{
+	if (!InitGL()) {								// Initialize Our Newly Created GL Window
 		KillGLWindow();								// Reset The Display
 		MessageBox(NULL,"Initialization Failed.","ERROR",MB_OK|MB_ICONEXCLAMATION);
 		return FALSE;								// Return FALSE
 	}
-	BuildFont();										// Build The Font
+	BuildFont();									// Build The Font
 
 	return TRUE;									// Success
 }
 
 LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 							UINT	uMsg,			// Message For This Window
-							WPARAM	wParam,			// Additional Message Information
-							LPARAM	lParam)			// Additional Message Information
+							WPARAM	wParam, LPARAM	lParam)
 {
-	switch (uMsg)									// Check For Windows Messages
-	{
+	switch (uMsg) {									// Check For Windows Messages
 		case WM_ACTIVATE:							// Watch For Window Activate Message
 		case WM_ACTIVATEAPP:						// Watch For App Activate Message
 		{
@@ -406,19 +378,19 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 
 DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	MSG					msg;		// Windows Message Structure
-	clock_t				next_redraw=0;
+	clock_t				next_redraw = 0;
 	GRAPHICS_INFO		gfx_info = *(GRAPHICS_INFO*)gi;
 
-	fullscreen=FALSE;							// Windowed Mode
+	fullscreen=FALSE;				// Windowed Mode
 
 	// Register window class and graphics mode message
-	reg_win_class();
+	if (!reg_win_class()) return -1;
+
 	BOINC_GFX_MODE_MSG = RegisterWindowMessage( "BOINC_GFX_MODE" );
 
 	// Create Our OpenGL Window
-	if (!CreateGLWindow("BOINC App Window",gfx_info.xsize,
-		gfx_info.ysize,16,false)) {
-		return -1;					// Quit this thread if window was not created
+	if (!CreateGLWindow("BOINC App Window",gfx_info.xsize, gfx_info.ysize,16,false)) {
+		return -1;			// Quit this thread if window was not created
 	}
 
 	// Initialize the graphics refresh timer
@@ -427,11 +399,10 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	cur_gfx_mode = MODE_NO_GRAPHICS;
 	using_opengl = true;
 
-	while(!win_loop_done)					// Loop That Runs While done=FALSE
-	{
+	while(!win_loop_done) {					// Loop That Runs While done=FALSE
 		if (GetMessage(&msg,NULL,0,0)) {	// Is There A Message Waiting?
 			if (msg.message==WM_TIMER) {
-				if (active && (clock() > next_redraw)) {	// only draw if the window is visible and enough time has passed
+				if (active && (clock()>next_redraw)) {	// only draw if the window is visible and enough time has passed
 					// Draw The Scene
 					RECT win_rect;
 					GetWindowRect(hWnd,&win_rect);
@@ -459,8 +430,8 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	return (msg.wParam);		// Exit The thread
 }
 
-BOOL VerifyPassword(HWND hwnd)
-{ // Under NT, we return TRUE immediately. This lets the saver quit,
+BOOL VerifyPassword(HWND hwnd) {
+  // Under NT, we return TRUE immediately. This lets the saver quit,
   // and the system manages passwords. Under '95, we call VerifyScreenSavePwd.
   // This checks the appropriate registry key and, if necessary,
   // pops up a verify dialog
@@ -472,8 +443,7 @@ BOOL VerifyPassword(HWND hwnd)
   VERIFYSCREENSAVEPWD VerifyScreenSavePwd;
   VerifyScreenSavePwd=
       (VERIFYSCREENSAVEPWD)GetProcAddress(hpwdcpl,"VerifyScreenSavePwd");
-  if (VerifyScreenSavePwd==NULL)
-  { 
+  if (VerifyScreenSavePwd==NULL) { 
     FreeLibrary(hpwdcpl);return TRUE;
   }
   BOOL bres=VerifyScreenSavePwd(hwnd); FreeLibrary(hpwdcpl);
@@ -493,10 +463,9 @@ BOOL reg_win_class() {
 	wc.hCursor			= LoadCursor(NULL, IDC_ARROW);			// Load The Arrow Pointer
 	wc.hbrBackground	= NULL;									// No Background Required For GL
 	wc.lpszMenuName		= NULL;									// We Don't Want A Menu
-	wc.lpszClassName	= "BOINC_OpenGL";						// Set The Class Name
+	wc.lpszClassName	= WIN_CLASS_NAME;						// Set The Class Name
 
-	if (!RegisterClass(&wc))									// Attempt To Register The Window Class
-	{
+	if (!RegisterClass(&wc)) {									// Attempt To Register The Window Class
 		MessageBox(NULL,"Failed To Register The Window Class.","ERROR",MB_OK|MB_ICONEXCLAMATION);
 		return FALSE;											// Return FALSE
 	}
@@ -505,8 +474,7 @@ BOOL reg_win_class() {
 }
 
 BOOL unreg_win_class() {
-	if (!UnregisterClass("BOINC_OpenGL",hInstance))		// Are We Able To Unregister Class
-	{
+	if (!UnregisterClass(WIN_CLASS_NAME,hInstance)) {		// Are We Able To Unregister Class
 		MessageBox(NULL,"Could Not Unregister Class.","SHUTDOWN ERROR",MB_OK | MB_ICONINFORMATION);
 		hInstance=NULL;									// Set hInstance To NULL
 	}
