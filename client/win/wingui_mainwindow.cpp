@@ -1400,6 +1400,7 @@ int CMainWindow::OnCommandMessageCopyToClip()
 	HGLOBAL hClipboardData;
 	POSITION pos;
 	char * pchData;
+	const int NUM_COLS = 3;
 	CString strData = "";
 
 	if (!OpenClipboard())
@@ -1417,8 +1418,8 @@ int CMainWindow::OnCommandMessageCopyToClip()
 	if (pos == NULL) {
 		if(m_nContextItem < 0 || m_nContextItem > m_MessageListCtrl.GetItemCount()) return -1;
 		
-		// TODO: Allow arbitrary # of columns instead of hardcoding 3.
-		for (int i = 0; i < 2; i++) {
+		// TODO: Allow arbitrary # of columns instead of hardcoding 3, if possible.
+		for (int i = 0; i < NUM_COLS-1; i++) {
 			strData += m_MessageListCtrl.GetItemTextOrPos(m_nContextItem, i);
 			strData += " - ";  
 		}
@@ -1430,23 +1431,21 @@ int CMainWindow::OnCommandMessageCopyToClip()
 		while (pos) {
 			int nItem = m_MessageListCtrl.GetNextSelectedItem(pos);
 
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < NUM_COLS-1; i++) {
 				strData += m_MessageListCtrl.GetItemTextOrPos(nItem, i);
-				strData += " - ";  // TODO: don't add this after the last column.
+				strData += " - ";
 			}
 			strData += m_MessageListCtrl.GetItemTextOrPos(nItem, i) + "\r\n";
 		}
 	}
 
 	// allocate a global memory block to hold the copied text
-	// (size is +1 due to null terminator).
+	// (size is +1 to account for the null terminator).
 	hClipboardData = GlobalAlloc(GMEM_DDESHARE, strData.GetLength()+1);
 	pchData = (char*)GlobalLock(hClipboardData);
 
-	// copy the string to the allocated memory block.
 	strcpy(pchData, LPCSTR(strData));
 
-	// let go of the memory and let the clipboard know about it.
 	GlobalUnlock(hClipboardData);
 	SetClipboardData(CF_TEXT,hClipboardData);
 
