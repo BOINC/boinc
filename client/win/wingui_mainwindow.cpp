@@ -77,7 +77,6 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
 	ON_COMMAND(ID_PROJECT_GET_PREFS, OnCommandProjectGetPrefs)
 	ON_COMMAND(ID_PROJECT_DETACH, OnCommandProjectDetach)
 	ON_COMMAND(ID_PROJECT_RESET, OnCommandProjectReset)
-    ON_COMMAND(ID_WORK_SHOWGRAPHICS, OnCommandWorkShowGraphics)
     ON_COMMAND(ID_STATUSICON_SHOW, OnCommandShow)
     ON_COMMAND(ID_STATUSICON_HIDE, OnCommandHide)
     ON_COMMAND(ID_STATUSICON_SUSPEND, OnCommandSuspend)
@@ -414,6 +413,15 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		}
 	}
 	m_XferListCtrl.SetRedraw(TRUE);
+
+    // check message pane size
+    int n = m_MessageListCtrl.GetItemCount();
+    if (n > 2000) {
+        m_MessageListCtrl.SetRedraw(FALSE);
+        for (i = 0 ; i < n - 2000 ; i++)
+            m_MessageListCtrl.DeleteItem(0);
+        m_MessageListCtrl.SetRedraw(TRUE);
+    }
 
 	// update usage
 	double xDiskTotal;
@@ -1417,7 +1425,6 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 	}
 
 	// create message edit control
-	// create xfer list control
 	m_MessageListCtrl.Create(LVS_REPORT|WS_CHILD|WS_BORDER|WS_VISIBLE, CRect(0,0,0,0), this, MESSAGE_ID);
 	m_MessageListCtrl.SetExtendedStyle(m_MessageListCtrl.GetExtendedStyle()|LVS_EX_HEADERDRAGDROP|LVS_EX_FULLROWSELECT);
 	m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
@@ -1600,8 +1607,8 @@ void CMainWindow::OnRButtonDown(UINT nFlags, CPoint point)
 	} else if(m_XferListCtrl.IsWindowVisible()) {
 		pMenuCtrl = &m_XferListCtrl;
 		nMenuId = XFER_MENU;
-	}
-	if(pMenuCtrl) {
+    }
+    if(pMenuCtrl) {
 		for(int i = 0; i < pMenuCtrl->GetItemCount(); i ++) {
 			pMenuCtrl->GetItemRect(i, &rt, LVIR_BOUNDS);
 			pMenuCtrl->ClientToScreen(&rt);
