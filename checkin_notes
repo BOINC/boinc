@@ -22526,9 +22526,10 @@ Janus 12 Jan 2005
     - Removed check for $user->disabled_filtering which no longer exists.
     - Added output of CVS version information if available.
       Someone with time on their hands should add the following line to all
-      the PHP and include files (right after the inital &lt;php :
+      the PHP and include files (right after the inital &lt;php 
+      (remove the star! - inserted to avoid having CVS generate the info...):
 
-      $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
+      $cvs_version_tracker[]="\$I*d$";  //Generated automatically - do not edit
 
       (bug and idea found by Bruce Allen)
 
