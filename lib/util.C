@@ -249,16 +249,14 @@ void c2x(char *what) {
 }
 
 void strip_whitespace(char *str) {
-    int read_pos, write_pos;
-    read_pos = write_pos = 0;
-    while(str[read_pos] != 0) {
+    int read_pos=0, write_pos=0;
+    while (str[read_pos]) {
         if (!isspace(str[read_pos])) {
-            str[write_pos] = str[read_pos];
-            write_pos++;
+            str[write_pos++] = str[read_pos];
         }
         read_pos++;
     }
-	str[write_pos] = '\0';
+    str[write_pos] = 0;
 }
 
 void unescape_url(char *url) {

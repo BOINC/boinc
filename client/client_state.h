@@ -94,13 +94,19 @@ public:
     int file_xfer_giveup_period;
     bool user_idle;
     bool suspend_requested;
-    bool update_prefs;
     bool start_saver;
     bool exit_when_idle;
+    bool show_projects;
     bool requested_exit;
     bool use_http_proxy;
     bool use_socks_proxy;
     int proxy_server_port;
+    char detach_project_url[256];
+        // stores URL for -detach_project option
+    char reset_project_url[256];
+        // stores URL for -reset_project option
+    char update_prefs_url[256];
+        // stores URL for -update_prefs option
     char proxy_server_name[256];
     char socks_user_name[256];
     char socks_user_passwd[256];
@@ -114,6 +120,8 @@ private:
     TIME_STATS time_stats;
     int core_client_major_version;
     int core_client_minor_version;
+    int old_major_version;
+    int old_minor_version;
     char* platform_name;
     int nslots;
     bool skip_cpu_benchmarks;

@@ -122,11 +122,38 @@ Otherwise it draws the BOINC logo bouncing around the screen.
 <p>
 The command line client has several options:
 <dl>
-<dt> -add_new_project
-<dd> Enroll in a new project.
-You will be asked for the project URL and an account ID.
+
+<dt> -attach_project
+<dd> Attach this computer to a new project.
+You must have an account with that project.
+You will be asked for the project URL and the account ID.
+
+<dt> -show_projects
+<dd> Print a list of projects to which this computer is attached.
+
+<dt> -detach_project
+<dd> Detach this computer from a project.
+You will be asked for the project URL.
+
+<dt> -reset_project
+<dd> Clear pending work for a project.
+Use this if there is a problem that is preventing
+your computer from working.
+You will be asked for the project URL.
+
+<dt> -update_prefs
+<dd>
+Contact a project's server to obtain new preferences.
+You will be asked for the project URL.
+
+<dt> -run_cpu_benchmarks
+<dd>
+Run CPU benchmarks.
+Do this if you have modified your computer's hardware.
+
 <dt> -help
 <dd> Show client options.
+
 <dt> -version
 <dd> Show client version.
 </dl>

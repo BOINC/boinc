@@ -4144,7 +4144,7 @@ Erik  May 13 2003
     test/
         test_uc.php
 
-Erik  May 15 2003
+Erik  May 14 2003
     - added function to "reset" project (stop all current activities
         and delete everything except sticky files)
     - added function to "detach" from project (the above, plus
@@ -4159,3 +4159,16 @@ Erik  May 15 2003
         util.C
     test/
         test_uc.php
+
+Erik  May 15 2003
+    - added cmdline options for show/detach/reset project
+    - -update_prefs command now takes a URL
+    - added license text to some files
+
+    client/
+        account.C
+        client_state.C,h
+    lib/
+        util.C
+    doc/
+        client.html

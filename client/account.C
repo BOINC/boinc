@@ -63,8 +63,8 @@ int CLIENT_STATE::add_project(char* master_url, char* authenticator) {
     project = new PROJECT;
     strcpy(project->master_url, master_url);
     strcpy(project->authenticator, authenticator);
-	// Strip any whitespace out of the authenticator
 	strip_whitespace(project->authenticator);
+
     project->tentative = true;
     retval = project->write_account_file();
     if (retval) return retval;
@@ -85,88 +85,3 @@ int CLIENT_STATE::add_project(char* master_url, char* authenticator) {
     projects.push_back(project);
     return 0;
 }
-
-#if 0
-// Wrong approach.
-// The user must detach and reattach.
-// In any case the following has a major bug:
-// the call to remove_project_dir() won't work because
-// it gets the new, not the old, project URL
-// 
-int CLIENT_STATE::change_project(
-    int index, char* master_url, char* authenticator
-) {
-    char path[256];
-    PROJECT* project;
-    FILE* f;
-    int retval;
-
-    // check if this project is already running
-    //
-    if (lookup_project(master_url)) return -1;
-
-    // delete old account file
-    //
-    project = projects[index];
-    get_account_filename(project->master_url, path);
-    retval = file_delete(path);
-
-    // create project state
-    //
-    retval = write_account_file(master_url, authenticator);
-    if (retval) return retval;
-    get_account_filename(master_url, path);
-    f = fopen(path, "r");
-    if (!f) return ERR_FOPEN;
-    retval = project->parse_account(f);
-    fclose(f);
-    if (retval) return retval;
-
-    // remove any old files
-    retval = remove_project_dir(*project);
-
-    retval = make_project_dir(*project);
-    if(retval) {
-        return retval;
-    }
-    return 0;
-}
-
-// TODO: see if any activities are in progress for this project, and stop them
-//
-int CLIENT_STATE::quit_project(PROJECT* project) {
-    PROJECT* p;
-    vector <PROJECT*>::iterator iter;
-    char path[256];
-    int retval;
-
-    // find project and remove it from the vector
-    //
-    for (iter = projects.begin(); iter != projects.end(); iter++) {
-        p = *iter;
-        if (p == project) {
-            projects.erase(iter);
-            break;
-        }
-    }
-
-    // delete account file
-    //
-    get_account_filename(project->master_url, path);
-    retval = file_delete(path);
-
-    // if tentative, there are no activities so we can safely delete everything
-    //
-    if (project->tentative) {
-        // remove project directory and its contents
-        //
-        remove_project_dir(*project);
-        delete project;
-    } else {
-#ifdef _WIN32
-        AfxMessageBox("Please restart the client to complete the quit.", MB_OK, 0);
-#endif
-    }
-    return 0;
-}
-#endif

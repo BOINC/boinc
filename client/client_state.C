@@ -66,7 +66,6 @@ CLIENT_STATE::CLIENT_STATE() {
     scheduler_op = new SCHEDULER_OP(http_ops);
     client_state_dirty = false;
     exit_when_idle = false;
-    update_prefs = false;
     run_cpu_benchmarks = false;
     skip_cpu_benchmarks = false;
     file_xfer_giveup_period = PERS_GIVEUP;
@@ -81,6 +80,8 @@ CLIENT_STATE::CLIENT_STATE() {
     user_idle = true;
     use_http_proxy = false;
     use_socks_proxy = false;
+    show_projects = false;
+    strcpy(detach_project_url, "");
     strcpy(proxy_server_name, "");
     proxy_server_port = 80;
     strcpy(socks_user_name, "");
@@ -168,6 +169,7 @@ void CLIENT_STATE::install_global_prefs() {
 int CLIENT_STATE::init() {
     int retval;
     unsigned int i;
+    char buf[256];
 
     srand(time(NULL));
 
@@ -201,7 +203,60 @@ int CLIENT_STATE::init() {
         print_summary();
     }
 
-    show_message(NULL, "Starting BOINC client", MSG_INFO);
+    if (show_projects) {
+        printf("projects:\n");
+        for (i=0; i<projects.size(); i++) {
+            printf("URL: %s name: %s\n",
+                projects[i]->master_url, projects[i]->project_name
+            );
+        }
+        exit(0);
+    }
+
+    if (strlen(detach_project_url)) {
+        PROJECT* project = lookup_project(detach_project_url);
+        if (project) {
+            detach_project(project);
+        } else {
+            printf("project %s not found\n", detach_project_url);
+        }
+        exit(0);
+    }
+
+    if (strlen(reset_project_url)) {
+        PROJECT* project = lookup_project(reset_project_url);
+        if (project) {
+            reset_project(project);
+        } else {
+            printf("project %s not found\n", reset_project_url);
+        }
+        exit(0);
+    }
+
+    if (strlen(update_prefs_url)) {
+        PROJECT* project = lookup_project(update_prefs_url);
+        if (project) {
+            project->sched_rpc_pending = true;
+        } else {
+            printf("project %s not found\n", update_prefs_url);
+        }
+    }
+
+    sprintf(buf, "Starting BOINC client version %d.%02d",
+        core_client_major_version, core_client_minor_version
+    );
+    show_message(NULL, buf, MSG_INFO);
+
+    if (core_client_major_version != old_major_version) {
+        sprintf(buf,
+            "State file has different major version (%d.%02d); resetting projects\n",
+            old_major_version, old_minor_version
+        );
+        show_message(NULL, buf, MSG_INFO);
+        for (i=0; i<projects.size(); i++) {
+            reset_project(projects[i]);
+        }
+    }
 
     // Read the global preferences file, if it exists.
     // Do this after reading the state file so we know our venue
@@ -252,15 +307,6 @@ int CLIENT_STATE::init() {
     // Restart any tasks that were running when we last quit the client
     //
     gstate.restart_tasks();
-
-    // If we're supposed to update prefs, arrange to contact all projects
-    //
-    if (update_prefs) {
-        for (i=0; i<projects.size(); i++) {
-            projects[i]->sched_rpc_pending = true;
-			projects[i]->min_rpc_time = 0;
-        }
-    }
 
     return 0;
 }
@@ -593,7 +639,6 @@ int CLIENT_STATE::parse_state_file() {
     PROJECT temp_project, *project;
     int retval=0;
     int failnum;
-    int old_major_vers, old_minor_vers;
 
     if (!f) {
         if (log_flags.state_debug) {
@@ -616,11 +661,10 @@ int CLIENT_STATE::parse_state_file() {
             if (project) {
                 project->copy_state_fields(temp_project);
             } else {
-                sprintf(buf,
-                    "Missing account file for project %s.  Please attach to project.\n",
+                fprintf(stderr,
+                    "Project %s found in state file but not prefs.\n",
                     temp_project.master_url
                 );
-                show_message(NULL, buf, MSG_ERROR);
             }
         } else if (match_tag(buf, "<app>")) {
             APP* app = new APP;
@@ -697,8 +741,8 @@ int CLIENT_STATE::parse_state_file() {
         } else if (match_tag(buf, "<version>")) {
             // could put logic here to detect incompatible state files
             // after core client update
-        } else if (parse_int(buf, "<core_client_major_version>", old_major_vers)) {
-        } else if (parse_int(buf, "<core_client_minor_version>", old_minor_vers)) {
+        } else if (parse_int(buf, "<core_client_major_version>", old_major_version)) {
+        } else if (parse_int(buf, "<core_client_minor_version>", old_minor_version)) {
         } else if (match_tag(buf, "<use_http_proxy/>")) {
             use_http_proxy = true;
         } else if (parse_str(buf, "<proxy_server_name>", proxy_server_name, sizeof(proxy_server_name))) {
@@ -822,21 +866,11 @@ int CLIENT_STATE::write_state_file_if_needed() {
 }
 
 // See if the project specified by master_url already exists
-// in the client state record.  Ignore trailing backslashes,
-// i.e. http://project.com == http://project.com/
+// in the client state record.
 //
 PROJECT* CLIENT_STATE::lookup_project(char* master_url) {
-    int in_len, proj_len, max_len;
-	// Get the length of the master_url string
-	// If there's a '/' at the end, ignore it
-	in_len = strlen(master_url);
-	if (master_url[strlen(master_url)-1] == '/') in_len--;
-
     for (unsigned int i=0; i<projects.size(); i++) {
-		proj_len = strlen(projects[i]->master_url);
-		if (projects[i]->master_url[strlen(projects[i]->master_url)-1] == '/') proj_len--;
-        max_len = max(in_len, proj_len);
-        if (!strncmp(master_url, projects[i]->master_url, max_len)) {
+        if (!strcmp(master_url, projects[i]->master_url)) {
             return projects[i];
         }
     }
@@ -1310,12 +1344,18 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
 
         // the above options are private (i.e. not shown by -help)
 
+        } else if (!strcmp(argv[i], "-attach_project")) {
+            add_new_project();
+        } else if (!strcmp(argv[i], "-show_projects")) {
+            show_projects = true;
+        } else if (!strcmp(argv[i], "-detach_project")) {
+            strcpy(detach_project_url, argv[++i]);
+        } else if (!strcmp(argv[i], "-reset_project")) {
+            strcpy(reset_project_url, argv[++i]);
         } else if (!strcmp(argv[i], "-update_prefs")) {
-            update_prefs = true;
+            strcpy(update_prefs_url, argv[++i]);
         } else if (!strcmp(argv[i], "-run_cpu_benchmarks")) {
             run_cpu_benchmarks = true;
-        } else if (!strcmp(argv[i], "-add_new_project")) {
-            add_new_project();
         } else if (!strcmp(argv[i], "-version")) {
             printf( "%.2f %s\n", MAJOR_VERSION+(MINOR_VERSION/100.0), HOST );
             exit(0);
@@ -1547,6 +1587,7 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
     }
 
     garbage_collect();
+    write_state_file();
     return 0;
 }
 
@@ -1582,6 +1623,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
     //
     remove_project_dir(*project);
     delete project;
+    write_state_file();
 
     return 0;
 }
