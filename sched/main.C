@@ -173,7 +173,8 @@ int main() {
 
     g_pid = getpid();
 #ifdef _USING_FCGI_
-    while(FCGI_Accept() >= 0 && counter < MAX_FCGI_COUNT) {
+    //while(FCGI_Accept() >= 0 && counter < MAX_FCGI_COUNT) {
+    while(FCGI_Accept() >= 0) {
     counter++;
 #endif
     if (project_stopped) {
