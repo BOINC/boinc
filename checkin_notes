@@ -20947,7 +20947,12 @@ David  8 Dec 2004
 Bruce 9 Dec 2004
     - Fixed broken build (and removed non-functional broken fix). API
       subdirs must be built first.
+    - Removed bmplib.C tgalib.C from api/Makefile.am as workaround
+      for missing header files + code.  Note: header files must also
+      be listed among source files!
 
     Makefile.am
     client/
         Makefile.am
+    api/
+	Makefile.am
