@@ -644,3 +644,27 @@ Michael Gary	6/25/2002
     doc/
         test.html
 
+Eric Heien 7/01/2002
+    - Added S@H test scripts, added other testing functionality.
+    - Added random WU generation.
+    - Added concat_slow application.
+    - Altered functionality of API checkpoint_completed.
+  
+    api/
+        api.C
+        api.h
+        api_test.C
+    apps/
+        concat_slow.C (added)
+        Makefile.in
+        uc_slow.C
+        upper_case.C
+    test/
+        sah_result (added)
+        sah_wu (added)
+        sah_test.php (added)
+        init.inc
+        test_uc_slow.php
+    tools/
+        create_work.C
+
