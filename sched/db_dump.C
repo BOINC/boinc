@@ -19,7 +19,7 @@
 
 // db_dump: dump database views in XML format
 //
-// usage: db_dump [-dir path] [-update_teams]
+// usage: db_dump [-dir path] [-update_teams] [-gzip] [-zip]
 
 // files:
 // NOTE: the goal is to make the full DB available (view *_id files)
@@ -65,6 +65,9 @@
 
 #define NRECS_PER_FILE_SUMMARY 1000
 #define NRECS_PER_FILE_DETAIL 100
+
+bool zip_files = false;
+char zip_cmd[256];
 
 // fill in the nusers, total_credit and expavg_credit fields
 // of the team table.
@@ -242,11 +245,12 @@ void team_total_credit() {
     TEAM team;
     FILE* f = NULL;
     int nfile=0, nrec;
-    char buf[256];
+    char buf[256], cmd_line[256];
 
     while (!db_team_enum_total_credit(team)) {
         if (!f) {
             sprintf(buf, "team_total_credit_%d", nfile);
+            sprintf(cmd_line, "%s %s", zip_cmd, buf);
             f = fopen(buf, "w");
             nfile++;
             nrec = 0;
@@ -255,12 +259,14 @@ void team_total_credit() {
         nrec++;
         if (nrec == NRECS_PER_FILE_SUMMARY) {
             fclose(f);
+            if (zip_files) system(cmd_line);
             f = 0;
         }
     }
 
     if (f) {
         fclose(f);
+        if (zip_files) system(cmd_line);
     }
 }
 
@@ -268,11 +274,12 @@ void team_expavg_credit() {
     TEAM team;
     FILE* f = NULL;
     int nfile=0, nrec;
-    char buf[256];
+    char buf[256], cmd_line[256];
 
     while (!db_team_enum_expavg_credit(team)) {
         if (!f) {
             sprintf(buf, "team_expavg_credit_%d", nfile);
+            sprintf(cmd_line, "%s %s", zip_cmd, buf);
             f = fopen(buf, "w");
             nfile++;
             nrec = 0;
@@ -281,12 +288,14 @@ void team_expavg_credit() {
         nrec++;
         if (nrec == NRECS_PER_FILE_SUMMARY) {
             fclose(f);
+            if (zip_files) system(cmd_line);
             f = 0;
         }
     }
 
     if (f) {
         fclose(f);
+        if (zip_files) system(cmd_line);
     }
 }
 
@@ -294,11 +303,12 @@ void team_id() {
     TEAM team;
     FILE* f = NULL;
     int nfile=0, nrec;
-    char buf[256];
+    char buf[256], cmd_line[256];
 
     while (!db_team_enum_id(team)) {
         if (!f) {
             sprintf(buf, "team_id_%d", nfile);
+            sprintf(cmd_line, "%s %s", zip_cmd, buf);
             f = fopen(buf, "w");
             nfile++;
             nrec = 0;
@@ -307,12 +317,14 @@ void team_id() {
         nrec++;
         if (nrec == NRECS_PER_FILE_DETAIL) {
             fclose(f);
+            if (zip_files) system(cmd_line);
             f = 0;
         }
     }
 
     if (f) {
         fclose(f);
+        if (zip_files) system(cmd_line);
     }
 }
 
@@ -320,11 +332,12 @@ void user_total_credit() {
     USER user;
     FILE* f = NULL;
     int nfile=0, nrec;
-    char buf[256];
+    char buf[256], cmd_line[256];
 
     while (!db_user_enum_total_credit(user)) {
         if (!f) {
             sprintf(buf, "user_total_credit_%d", nfile);
+            sprintf(cmd_line, "%s %s", zip_cmd, buf);
             f = fopen(buf, "w");
             nfile++;
             nrec = 0;
@@ -333,12 +346,14 @@ void user_total_credit() {
         nrec++;
         if (nrec == NRECS_PER_FILE_SUMMARY) {
             fclose(f);
+            if (zip_files) system(cmd_line);
             f = 0;
         }
     }
 
     if (f) {
         fclose(f);
+        if (zip_files) system(cmd_line);
     }
 }
 
@@ -346,11 +361,12 @@ void user_expavg_credit() {
     USER user;
     FILE* f = NULL;
     int nfile=0, nrec;
-    char buf[256];
+    char buf[256], cmd_line[256];
 
     while (!db_user_enum_expavg_credit(user)) {
         if (!f) {
             sprintf(buf, "user_expavg_credit_%d", nfile);
+            sprintf(cmd_line, "%s %s", zip_cmd, buf);
             f = fopen(buf, "w");
             nfile++;
             nrec = 0;
@@ -359,12 +375,14 @@ void user_expavg_credit() {
         nrec++;
         if (nrec == NRECS_PER_FILE_SUMMARY) {
             fclose(f);
+            if (zip_files) system(cmd_line);
             f = 0;
         }
     }
 
     if (f) {
         fclose(f);
+        if (zip_files) system(cmd_line);
     }
 }
 
@@ -372,11 +390,12 @@ void user_id() {
     USER user;
     FILE* f = NULL;
     int nfile=0, nrec;
-    char buf[256];
+    char buf[256], cmd_line[256];
 
     while (!db_user_enum_id(user)) {
         if (!f) {
             sprintf(buf, "user_id_%d", nfile);
+            sprintf(cmd_line, "%s %s", zip_cmd, buf);
             f = fopen(buf, "w");
             nfile++;
             nrec = 0;
@@ -385,12 +404,14 @@ void user_id() {
         nrec++;
         if (nrec == NRECS_PER_FILE_DETAIL) {
             fclose(f);
+            if (zip_files) system(cmd_line);
             f = 0;
         }
     }
 
     if (f) {
         fclose(f);
+        if (zip_files) system(cmd_line);
     }
 }
 
@@ -398,11 +419,12 @@ void host_total_credit() {
     HOST host;
     FILE* f = NULL;
     int nfile=0, nrec;
-    char buf[256];
+    char buf[256], cmd_line[256];
 
     while (!db_host_enum_total_credit(host)) {
         if (!f) {
             sprintf(buf, "host_total_credit_%d", nfile);
+            sprintf(cmd_line, "%s %s", zip_cmd, buf);
             f = fopen(buf, "w");
             nfile++;
             nrec = 0;
@@ -411,23 +433,26 @@ void host_total_credit() {
         nrec++;
         if (nrec == NRECS_PER_FILE_SUMMARY) {
             fclose(f);
+            if (zip_files) system(cmd_line);
             f = 0;
         }
     }
 
     if (f) {
         fclose(f);
+        if (zip_files) system(cmd_line);
     }
 }
 void host_expavg_credit() {
     HOST host;
     FILE* f = NULL;
     int nfile=0, nrec;
-    char buf[256];
+    char buf[256], cmd_line[256];
 
     while (!db_host_enum_expavg_credit(host)) {
         if (!f) {
             sprintf(buf, "host_expavg_credit_%d", nfile);
+            sprintf(cmd_line, "%s %s", zip_cmd, buf);
             f = fopen(buf, "w");
             nfile++;
             nrec = 0;
@@ -436,12 +461,14 @@ void host_expavg_credit() {
         nrec++;
         if (nrec == NRECS_PER_FILE_SUMMARY) {
             fclose(f);
+            if (zip_files) system(cmd_line);
             f = 0;
         }
     }
 
     if (f) {
         fclose(f);
+        if (zip_files) system(cmd_line);
     }
 }
 
@@ -449,11 +476,12 @@ void host_id() {
     HOST host;
     FILE* f = NULL;
     int nfile=0, nrec;
-    char buf[256];
+    char buf[256], cmd_line[256];
 
     while (!db_host_enum_id(host)) {
         if (!f) {
             sprintf(buf, "host_id_%d", nfile);
+            sprintf(cmd_line, "%s %s", zip_cmd, buf);
             f = fopen(buf, "w");
             nfile++;
             nrec = 0;
@@ -462,12 +490,14 @@ void host_id() {
         nrec++;
         if (nrec == NRECS_PER_FILE_DETAIL) {
             fclose(f);
+            if (zip_files) system(cmd_line);
             f = 0;
         }
     }
 
     if (f) {
         fclose(f);
+        if (zip_files) system(cmd_line);
     }
 }
 
@@ -486,6 +516,7 @@ int tables_file() {
     if (retval) return retval;
     fprintf(f,
         "<tables>\n"
+        "    <update_time>%d</update_time>\n"
         "    <nusers_total>%d</nusers_total>\n"
         "    <nusers_per_file_summary>%d</nusers_per_file_summary>\n"
         "    <nusers_per_file_detail>%d</nusers_per_file_detail>\n"
@@ -496,6 +527,7 @@ int tables_file() {
         "    <nhosts_per_file_summary>%d</nhosts_per_file_summary>\n"
         "    <nhosts_per_file_detail>%d</nhosts_per_file_detail>\n"
         "</tables>\n",
+        (int)time(0),
         nusers,
         NRECS_PER_FILE_SUMMARY,
         NRECS_PER_FILE_DETAIL,
@@ -517,11 +549,18 @@ int main(int argc, char** argv) {
     char dir[256];
 
     strcpy(dir, "");
+    strcpy(zip_cmd, "");
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-update_teams")) {
             do_update_teams = true;
         } else if (!strcmp(argv[i], "-dir")) {
             strcpy(dir, argv[++i]);
+        } else if (!strcmp(argv[i], "-gzip")) {
+            zip_files = true;
+            strcpy( zip_cmd, "gzip -fq" );
+        } else if (!strcmp(argv[i], "-zip")) {
+            zip_files = true;
+            strcpy( zip_cmd, "zip -q");
         }
     }
 

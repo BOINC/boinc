@@ -48,8 +48,6 @@ MEDIUM-PRIORITY (should do before public release)
 
 make get_local_ip_addr() work in all cases
 
-zip XML stats dumps (average of 12x compression)
-
 implement max bytes/sec network preferences
 implement bandwidth limiting
     current code assumes 1-second poll loop; wrong

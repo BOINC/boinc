@@ -3496,3 +3496,9 @@ Eric  Feb 25, 2003
     test/
         test.inc
 
+Eric  Feb 26, 2003
+    - Added ability to automatically zip/gzip stats files.
+
+    sched/
+        db_dump.C
+

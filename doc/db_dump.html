@@ -17,6 +17,9 @@ The entries in a given file are in either "summary" or "detail" form.
 For example, the summary of a team gives its ID, name, and credit,
 while the detailed from also contains a list of its members.
 <p>
+These files can be zipped or gzipped by passing the "-zip" or "-gzip"
+command to the db_dump program.
+<p>
 The files are as follows:
 
 <p>
@@ -28,9 +31,11 @@ For each table (team, user, and host) this gives
 <li> the number of records per file for summary files
 <li> the number of records per file for detail files
 </ul>
+It also includes the UNIX time when the files were last generated.<br>
 For example:
 <pre>
 &lt;tables>
+    &lt;update_time>1046220857&lt;/nupdate_time>
     &lt;nusers_total>127&lt;/nusers_total>
     &lt;nusers_per_file_summary>1000&lt;/nusers_per_file_summary>
     &lt;nusers_per_file_detail>100&lt;/nusers_per_file_detail>
