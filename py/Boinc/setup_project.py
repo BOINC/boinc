@@ -14,7 +14,7 @@ import version
 from Boinc import database, db_mid, configxml, tools
 from Boinc.boinc_db import *
 import os, sys, glob, time, shutil, re, random
-import MySQLdb
+# import MySQLdb
 
 class Options:
     pass
@@ -235,25 +235,25 @@ def _check_vars(dict, **names):
         if not key in names:
             raise SystemExit('error in test script: extraneous parameter "%s" unknown'%key)
 
-def db_query(db, query):
-    db.query(query)
-    result = db.use_result()
-    return result and result.fetch_row(0,1)
+# def db_query(db, query):
+#     db.query(query)
+#     result = db.use_result()
+#     return result and result.fetch_row(0,1)
 
-def num_results(db, q=""):
-    return db_query(db, "select count(*) from result "+q)[0]['count(*)']
+def num_results(db):
+    return database.Results.count()
 def num_results_unsent(db):
-    return num_results(db, "where server_state=%d"%RESULT_SERVER_STATE_UNSENT)
+    return database.Results.count(server_state = RESULT_SERVER_STATE_UNSENT)
 def num_results_in_progress(db):
-    return num_results(db, "where server_state=%d"%RESULT_SERVER_STATE_IN_PROGRESS)
+    return database.Results.count(server_state = RESULT_SERVER_STATE_IN_PROGRESS)
 def num_results_over(db):
-    return num_results(db, "where server_state=%d"%RESULT_SERVER_STATE_OVER)
-def num_wus(db, q=""):
-    return db_query(db, "select count(*) from workunit "+q)[0]['count(*)']
+    return database.Results.count(server_state = RESULT_SERVER_STATE_OVER)
+def num_wus(db):
+    return database.Workunits.count()
 def num_wus_assimilated(db):
-    return num_wus(db, "where assimilate_state=%d"%ASSIMILATE_DONE)
+    return database.Workunits.count(assimilate_state = ASSIMILATE_DONE)
 def num_wus_to_transition(db):
-    return num_wus(db, "where transition_time<%d"%(time.time()+30*86400))
+    return database.Workunits.count(_extra_params = 'transition_time<%d'%(time.time()+30*86400))
 
 def query_yesno(str):
     '''Query user; default Yes'''
@@ -272,31 +272,31 @@ def build_command_line(cmd, **kwargs):
         cmd += " -%s '%s'" %(key,value)
     return cmd
 
-class Platform:
-    def __init__(self, name, user_friendly_name=None):
-        self.name = name
-        self.user_friendly_name = user_friendly_name or name
+# class Platform:
+#     def __init__(self, name, user_friendly_name=None):
+#         self.name = name
+#         self.user_friendly_name = user_friendly_name or name
 
-class CoreVersion:
-    def __init__(self):
-        self.version = 1
-        self.platform = Platform(version.PLATFORM)
-        self.exec_dir = builddir('client')
-        self.exec_name = options.client_bin_filename
+# class CoreVersion:
+#     def __init__(self):
+#         self.version = 1
+#         self.platform = Platform(version.PLATFORM)
+#         self.exec_dir = builddir('client')
+#         self.exec_name = options.client_bin_filename
 
-class App:
-    def __init__(self, name):
-        assert(name)
-        self.name = name
+# class App:
+#     def __init__(self, name):
+#         assert(name)
+#         self.name = name
 
-class AppVersion:
-    def __init__(self, app, appversion = 1, exec_names=None):
-        self.exec_names = []
-        self.exec_dir = builddir('apps')
-        self.exec_names = exec_names or [app.name]
-        self.app = app
-        self.version = appversion
-        self.platform = Platform(version.PLATFORM)
+# class AppVersion:
+#     def __init__(self, app, appversion = 1, exec_names=None):
+#         self.exec_names = []
+#         self.exec_dir = builddir('apps')
+#         self.exec_names = exec_names or [app.name]
+#         self.app = app
+#         self.version = appversion
+#         self.platform = Platform(version.PLATFORM)
 
 class Project:
     def __init__(self,
@@ -382,7 +382,7 @@ class Project:
         # TODO: that is a security risk; don't do this in the future - write
         # req/reply files somewhere else
         map(lambda dir: os.mkdir(self.dir(dir)),
-            [ '', 'cgi-bin', 'bin', 'upload', 'download', 'log',
+            [ '', 'cgi-bin', 'bin', 'upload', 'download', 'apps', 'log',
               'html_ops', 'html_user', 'html_user/project_specific',
               'html_user/class', 'html_user/include'
               ])
@@ -449,9 +449,11 @@ class Project:
         self.create_db()
         map(self.run_db_script, [ 'schema.sql' ])
 
-        db = self.db_open()
-        db.query("insert into project(short_name, long_name) values('%s', '%s')" %(
-            self.short_name, self.long_name));
+        database.connect()
+
+        self.project = database.Project(short_name = self.short_name,
+                                        long_name = self.long_name)
+        self.project.commit()
 
         verbose_echo(1, "Setting up database: adding %d apps(s)" % len(self.apps))
         for app in self.apps:

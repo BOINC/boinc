@@ -223,6 +223,9 @@ class DatabaseTable:
         """Return the number of database objects matching keywords.
 
         Arguments are the same format as find()."""
+        kwargs = self.dict2database_fields(kwargs)
+        return _select_count_objects(self.table, kwargs,
+                                     extra_args=self.select_args)
 
     def find(self, **kwargs):
         """Return a list of database objects matching keywords.
