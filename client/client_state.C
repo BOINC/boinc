@@ -901,15 +901,17 @@ bool CLIENT_STATE::garbage_collect(double now) {
         }
     }
 
-    // delete FILE_INFOs (and corresponding files) that are not sticky
-    // and are not referenced by any WORKUNIT, RESULT or APP_VERSION
+    // delete FILE_INFOs (and corresponding files) that
+    // are not referenced by any WORKUNIT, RESULT or APP_VERSION
+    // Don't do this if sticky and not marked for delete
     //
     fi_iter = file_infos.begin();
     while (fi_iter != file_infos.end()) {
         fip = *fi_iter;
-        // if there was an error with a permanent file, get rid of its file_info
-        if (fip->status < 0) fip->sticky = false;
-        if (fip->ref_cnt==0 && !fip->sticky) {
+        bool exempt = fip->sticky;
+        if (fip->status < 0) exempt = false;
+        if (fip->marked_for_delete) exempt = false;
+        if (fip->ref_cnt==0 && !exempt) {
             if (fip->pers_file_xfer) {
                 pers_file_xfers->remove(fip->pers_file_xfer);
                 delete fip->pers_file_xfer;

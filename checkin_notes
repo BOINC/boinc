@@ -23611,3 +23611,22 @@ David  31 Jan 2005
         sched_locality.C,h
         sched_send.C,h
         server_types.C,y
+
+David  31 Jan 2005
+    - Changed the way the core client handles <delete_file_info> elements
+        in scheduler RPC replies.
+        Old: clear the FILE_INFO's sticky bit
+        New: set a FILE_INFO::marked_for_delete flag.
+            An unreferenced file will be deleted if this flag is set,
+            regardless of whether the sticky flag is set.
+            If the marked_for_delete flag is set,
+            it won't be reported in scheduler RPCs,
+            even if the report_on_rpc flag is set.
+        This avoids situations where a server asks the client to delete a file,
+        but later sends work to that file
+        because it's reported in an RPC file list
+
+    client/
+        client_state.C
+        client_types.C,h
+        cs_scheduler.C

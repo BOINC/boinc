@@ -391,6 +391,7 @@ FILE_INFO::FILE_INFO() {
     uploaded = false;
     upload_when_present = false;
     sticky = false;
+    marked_for_delete = false;
     report_on_rpc = false;
     signature_required = false;
     is_user_file = false;
@@ -518,6 +519,7 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
         else if (match_tag(buf, "<uploaded/>")) uploaded = true;
         else if (match_tag(buf, "<upload_when_present/>")) upload_when_present = true;
         else if (match_tag(buf, "<sticky/>")) sticky = true;
+        else if (match_tag(buf, "<marked_for_delete/>")) marked_for_delete = true;
         else if (match_tag(buf, "<report_on_rpc/>")) report_on_rpc = true;
         else if (match_tag(buf, "<signature_required/>")) signature_required = true;
 #if 0
@@ -585,6 +587,7 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (uploaded) out.printf("    <uploaded/>\n");
         if (upload_when_present) out.printf("    <upload_when_present/>\n");
         if (sticky) out.printf("    <sticky/>\n");
+        if (marked_for_delete) out.printf("    <marked_for_delete/>\n");
         if (report_on_rpc) out.printf("    <report_on_rpc/>\n");
         if (signature_required) out.printf("    <signature_required/>\n");
         if (strlen(file_signature)) out.printf("    <file_signature>\n%s</file_signature>\n", file_signature);
@@ -641,6 +644,7 @@ int FILE_INFO::write_gui(MIOFILE& out) {
     if (uploaded) out.printf("    <uploaded/>\n");
     if (upload_when_present) out.printf("    <upload_when_present/>\n");
     if (sticky) out.printf("    <sticky/>\n");
+    if (marked_for_delete) out.printf("    <marked_for_delete/>\n");
 
     if (pers_file_xfer) {
         pers_file_xfer->write(out);
@@ -737,11 +741,6 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
     unsigned int i, j;
 
     upload_when_present = new_info.upload_when_present;
-
-    // This could be a file that was previously marked for deletion.
-    // Undo this.
-    //
-    sticky = new_info.sticky;
 
 #if 0
     if (new_info.priority > priority) {

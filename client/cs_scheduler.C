@@ -273,6 +273,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         FILE_INFO* fip = file_infos[i];
         if (fip->project != p) continue;
         if (!fip->report_on_rpc) continue;
+        if (fip->marked_for_delete) continue;
         fprintf(f,
             "    <file_info>\n"
             "        <name>%s</name>\n"
@@ -677,8 +678,8 @@ int CLIENT_STATE::handle_scheduler_reply(
     for (i=0; i<sr.file_deletes.size(); i++) {
         fip = lookup_file_info(project, sr.file_deletes[i].text);
         if (fip) {
-            msg_printf(project, MSG_INFO, "Got request to delete file: %s\n", fip->name);
-            fip->sticky = false;
+            msg_printf(project, MSG_INFO, "Got server request to delete file %s\n", fip->name);
+            fip->marked_for_delete = true;
         }
     }
     for (i=0; i<sr.app_versions.size(); i++) {
