@@ -20556,3 +20556,15 @@ David  2 Dec 2004
 
     html/ops/
         repair_validator_problem.php
+
+Bruce 2 Dec 2004
+    -   Added logging of remaining result.outcome==OVER states to logging
+        output of validator.
+    -   Fixed nasty bug in ops pages where top two WU error mask bits were
+        not being shown in WU summary/detail pages.
+
+    sched/
+        validator.C
+    html/
+        inc/
+            db_ops.inc
