@@ -25035,3 +25035,9 @@ David  18 Feb 2005
 
     api/
         boinc_api.C
+
+David  18 Feb 2005
+	- core client: pass proxy info to apps correctly
+
+	client/
+		app_start.C
