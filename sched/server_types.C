@@ -132,6 +132,8 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             log_messages.printf(SchedMessages::NORMAL, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
         }
     }
+    log_messages.printf(SchedMessages::NORMAL,
+			"SCHEDULER_REQUEST::parse(): xml not correctly closed\n");
     return ERR_XML_PARSE;
 }
 
@@ -374,6 +376,8 @@ int APP_VERSION::write(FILE* fout, APP& app) {
 int RESULT::parse_from_client(FILE* fin) {
     char buf[256];
 
+    // should be non-zero if exit_status is not found
+    exit_status = ERR_NO_EXIT_STATUS; 
     memset(this, 0, sizeof(RESULT));
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</result>")) return 0;
