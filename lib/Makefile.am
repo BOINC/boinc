@@ -8,11 +8,11 @@ noinst_LIBRARIES = libboinc.a
 EXTRA_DIST = result_state.h
 
 libboinc_a_SOURCES =				\
-        api_app.C 				\
-        boinc_api.C				\
-        graphics_api.C				\
-        graphics_data.C				\
-        mfile.C 				\
+        ../api/api_app.C			\
+        ../api/boinc_api.C			\
+        ../api/graphics_api.C			\
+        ../api/graphics_data.C			\
+        ../api/mfile.C				\
         app_ipc.C				\
         countries.C				\
         parse.C					\

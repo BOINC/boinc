@@ -62,7 +62,7 @@ win/win_config.h: $(top_srcdir)/config.h
 
 # make a hard link to the client name.
 @CLIENT_BIN_FILENAME@: boinc_client
-	rm -f $^
+	rm -f $@
 	ln $^ $@
 
 @CLIENT_BIN_FILENAME@.gz: @CLIENT_BIN_FILENAME@
