@@ -21515,3 +21515,8 @@ Rom    17 Dec 2004
     win_build/installerv2/redist/windows
         BOINC.vbs
  
+David  17 Dec 2004
+    - User web: refer to boinc.berkeley.edu for client download in all cases
+
+    html/user/
+        account_setup_first_action.php
