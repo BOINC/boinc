@@ -11,7 +11,8 @@
 
 import boinc_path_config
 import version
-from boinc_db import *
+from Boinc import database, db_mid, configxml, tools
+from Boinc.boinc_db import *
 import os, sys, glob, time, shutil, re, random
 import MySQLdb
 
@@ -463,7 +464,7 @@ class Project:
         db.close()
 
         for platform in self.platforms:
-            cmd = build_command_line("add platform",
+            cmd = build_command_line("old_add platform",
                                      db_name = self.db_name,
                                      platform_name = platform.name,
                                      user_friendly_name = platform.user_friendly_name)
@@ -471,7 +472,7 @@ class Project:
 
         verbose_echo(1, "Setting up database: adding %d core version(s)" % len(self.core_versions))
         for core_version in self.core_versions:
-            cmd = build_command_line("add core_version",
+            cmd = build_command_line("old_add core_version",
                                      db_name = self.db_name,
                                      platform_name = core_version.platform.name,
                                      version = core_version.version,
@@ -484,7 +485,7 @@ class Project:
         verbose_echo(1, "Setting up database: adding %d app version(s)" % len(self.app_versions))
         for app_version in self.app_versions:
             app = app_version.app
-            cmd = ("add app_version -db_name %s -app_name '%s'" +
+            cmd = ("old_add app_version -db_name %s -app_name '%s'" +
                    " -platform_name %s -version %s -download_dir %s -download_url %s" +
                    " -code_sign_keyfile %s -exec_dir %s -exec_files") % (
                 self.db_name, app.name, app_version.platform.name,
