@@ -144,6 +144,9 @@ void CDlgSelectComputer::CreateControls()
     itemButton12->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer10->Add(itemButton12, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
+    // Set validators
+    m_ComputerNameCtrl->SetValidator( wxGenericValidator(& m_strComputerName) );
+    m_ComputerPasswordCtrl->SetValidator( wxGenericValidator(& m_strComputerPassword) );
 ////@end CDlgSelectComputer content construction
 }
 

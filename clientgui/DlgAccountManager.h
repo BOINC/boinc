@@ -16,7 +16,7 @@
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+//
 #ifndef _DLGACCOUNTMANAGER_H_
 #define _DLGACCOUNTMANAGER_H_
 
@@ -29,6 +29,7 @@
  */
 
 ////@begin includes
+#include "wx/valgen.h"
 ////@end includes
 
 /*!
@@ -44,7 +45,7 @@
 
 ////@begin control identifiers
 #define ID_DIALOG 10000
-#define SYMBOL_CDLGACCOUNTMANAGER_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX
+#define SYMBOL_CDLGACCOUNTMANAGER_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU
 #define SYMBOL_CDLGACCOUNTMANAGER_TITLE _("Account Manager Credentials")
 #define SYMBOL_CDLGACCOUNTMANAGER_IDNAME ID_DIALOG
 #define SYMBOL_CDLGACCOUNTMANAGER_SIZE wxSize(400, 300)
@@ -88,6 +89,12 @@ public:
 ////@end CDlgAccountManager event handler declarations
 
 ////@begin CDlgAccountManager member function declarations
+    wxString GetAcctManagerUsername() const { return m_strAcctManagerUsername ; }
+    void SetAcctManagerUsername(wxString value) { m_strAcctManagerUsername = value ; }
+
+    wxString GetAcctManagerPassword() const { return m_strAcctManagerPassword ; }
+    void SetAcctManagerPassword(wxString value) { m_strAcctManagerPassword = value ; }
+
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
 
@@ -101,6 +108,8 @@ public:
 ////@begin CDlgAccountManager member variables
     wxTextCtrl* m_AcctManagerUsernameCtrl;
     wxTextCtrl* m_AcctManagerPasswordCtrl;
+    wxString m_strAcctManagerUsername;
+    wxString m_strAcctManagerPassword;
 ////@end CDlgAccountManager member variables
 };
 

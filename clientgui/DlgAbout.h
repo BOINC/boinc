@@ -16,7 +16,7 @@
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+//
 #ifndef _DLGABOUT_H_
 #define _DLGABOUT_H_
 
@@ -24,39 +24,89 @@
 #pragma interface "DlgAbout.cpp"
 #endif
 
+/*!
+ * Includes
+ */
 
+////@begin includes
+#include "wx/valgen.h"
+#include "wx/statline.h"
+////@end includes
+
+/*!
+ * Forward declarations
+ */
+
+////@begin forward declarations
+////@end forward declarations
+
+/*!
+ * Control identifiers
+ */
+
+////@begin control identifiers
 #define ID_DIALOG 10000
-#define SYMBOL_CDLGHELPABOUT_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX
-#define SYMBOL_CDLGHELPABOUT_TITLE _("About BOINC")
-#define SYMBOL_CDLGHELPABOUT_IDNAME ID_DIALOG
-#define SYMBOL_CDLGHELPABOUT_SIZE wxSize(400, 300)
-#define SYMBOL_CDLGHELPABOUT_POSITION wxDefaultPosition
+#define SYMBOL_CDLGABOUT_STYLE wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU
+#define SYMBOL_CDLGABOUT_TITLE _("About BOINC Manager")
+#define SYMBOL_CDLGABOUT_IDNAME ID_DIALOG
+#define SYMBOL_CDLGABOUT_SIZE wxSize(400, 300)
+#define SYMBOL_CDLGABOUT_POSITION wxDefaultPosition
+////@end control identifiers
+
+/*!
+ * Compatibility
+ */
 
 #ifndef wxCLOSE_BOX
 #define wxCLOSE_BOX 0x1000
 #endif
+#ifndef wxFIXED_MINSIZE
+#define wxFIXED_MINSIZE 0
+#endif
 
+/*!
+ * CDlgAbout class declaration
+ */
 
 class CDlgAbout: public wxDialog
 {    
-    DECLARE_CLASS( CDlgAbout )
+    DECLARE_DYNAMIC_CLASS( CDlgAbout )
     DECLARE_EVENT_TABLE()
 
 public:
     /// Constructors
     CDlgAbout( );
-    CDlgAbout( wxWindow* parent, wxWindowID id = SYMBOL_CDLGHELPABOUT_IDNAME, const wxString& caption = SYMBOL_CDLGHELPABOUT_TITLE, const wxPoint& pos = SYMBOL_CDLGHELPABOUT_POSITION, const wxSize& size = SYMBOL_CDLGHELPABOUT_SIZE, long style = SYMBOL_CDLGHELPABOUT_STYLE );
+    CDlgAbout( wxWindow* parent, wxWindowID id = SYMBOL_CDLGABOUT_IDNAME, const wxString& caption = SYMBOL_CDLGABOUT_TITLE, const wxPoint& pos = SYMBOL_CDLGABOUT_POSITION, const wxSize& size = SYMBOL_CDLGABOUT_SIZE, long style = SYMBOL_CDLGABOUT_STYLE );
 
     /// Creation
-    bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CDLGHELPABOUT_IDNAME, const wxString& caption = SYMBOL_CDLGHELPABOUT_TITLE, const wxPoint& pos = SYMBOL_CDLGHELPABOUT_POSITION, const wxSize& size = SYMBOL_CDLGHELPABOUT_SIZE, long style = SYMBOL_CDLGHELPABOUT_STYLE );
+    bool Create( wxWindow* parent, wxWindowID id = SYMBOL_CDLGABOUT_IDNAME, const wxString& caption = SYMBOL_CDLGABOUT_TITLE, const wxPoint& pos = SYMBOL_CDLGABOUT_POSITION, const wxSize& size = SYMBOL_CDLGABOUT_SIZE, long style = SYMBOL_CDLGABOUT_STYLE );
 
     /// Creates the controls and sizers
     void CreateControls();
 
+////@begin CDlgAbout event handler declarations
+
+////@end CDlgAbout event handler declarations
+
+////@begin CDlgAbout member function declarations
+
+    wxString GetVersion() const { return m_strVersion ; }
+    void SetVersion(wxString value) { m_strVersion = value ; }
+
+    /// Retrieves bitmap resources
+    wxBitmap GetBitmapResource( const wxString& name );
+
+    /// Retrieves icon resources
+    wxIcon GetIconResource( const wxString& name );
+////@end CDlgAbout member function declarations
+
     /// Should we show tooltips?
     static bool ShowToolTips();
+
+////@begin CDlgAbout member variables
+    wxString m_strVersion;
+////@end CDlgAbout member variables
 };
 
 #endif
     // _DLGABOUT_H_
-

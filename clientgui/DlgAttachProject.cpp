@@ -35,7 +35,6 @@
 ////@begin includes
 ////@end includes
 
-#include "stdwx.h"
 #include "DlgAttachProject.h"
 #include "ValidateURL.h"
 #include "ValidateAccountKey.h"

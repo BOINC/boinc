@@ -26450,3 +26450,16 @@ Rom    31 Mar 2005
     clientgui/
         BOINCTaskBar.cpp
         MainFrame.cpp, .h
+
+Rom    1 Apr 2005
+    - Make the dialog manager files and implementation match so others
+        can make changes to the dialogs
+
+    clientgui/
+        BOINCGUI.pjd
+        DlgAbout.cpp, .h
+        DlgAccountManager.cpp, .h
+        DlgAttachProject.cpp, .h
+        DlgConnection.cpp, .h
+        DlgOptions.cpp, .h
+        DlgSelectComputer.cpp, .h

@@ -16,24 +16,53 @@
 // http://www.gnu.org/copyleft/lesser.html
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-
+//
 #if defined(__GNUG__) && !defined(__APPLE__)
 #pragma implementation "DlgAccountManager.h"
 #endif
 
-#include "stdwx.h"
-#include "BOINCGUIApp.h"
+// For compilers that support precompilation, includes "wx/wx.h".
+#include "wx/wxprec.h"
+
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
+#ifndef WX_PRECOMP
+#include "wx/wx.h"
+#endif
+
+////@begin includes
+////@end includes
+
 #include "DlgAccountManager.h"
 
-#include "res/boincsm.xpm"
+////@begin XPM images
+
+////@end XPM images
+
+/*!
+ * CDlgAccountManager type definition
+ */
 
 IMPLEMENT_DYNAMIC_CLASS( CDlgAccountManager, wxDialog )
 
+/*!
+ * CDlgAccountManager event table definition
+ */
+
 BEGIN_EVENT_TABLE( CDlgAccountManager, wxDialog )
+
+////@begin CDlgAccountManager event table entries
+////@end CDlgAccountManager event table entries
+
 END_EVENT_TABLE()
 
-CDlgAccountManager::CDlgAccountManager()
+/*!
+ * CDlgAccountManager constructors
+ */
+
+CDlgAccountManager::CDlgAccountManager( )
 {
 }
 
@@ -41,6 +70,10 @@ CDlgAccountManager::CDlgAccountManager( wxWindow* parent, wxWindowID id, const w
 {
     Create(parent, id, caption, pos, size, style);
 }
+
+/*!
+ * CDlgAccountManager creator
+ */
 
 bool CDlgAccountManager::Create( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
 {
@@ -60,6 +93,10 @@ bool CDlgAccountManager::Create( wxWindow* parent, wxWindowID id, const wxString
 ////@end CDlgAccountManager creation
     return TRUE;
 }
+
+/*!
+ * Control creation for CDlgAccountManager
+ */
 
 void CDlgAccountManager::CreateControls()
 {    
@@ -104,13 +141,25 @@ void CDlgAccountManager::CreateControls()
     itemButton11->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer9->Add(itemButton11, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
+
+    // Set validators
+    m_AcctManagerUsernameCtrl->SetValidator( wxGenericValidator(& m_strAcctManagerUsername) );
+    m_AcctManagerPasswordCtrl->SetValidator( wxGenericValidator(& m_strAcctManagerPassword) );
 ////@end CDlgAccountManager content construction
 }
+
+/*!
+ * Should we show tooltips?
+ */
 
 bool CDlgAccountManager::ShowToolTips()
 {
     return TRUE;
 }
+
+/*!
+ * Get bitmap resources
+ */
 
 wxBitmap CDlgAccountManager::GetBitmapResource( const wxString& name )
 {
@@ -119,6 +168,10 @@ wxBitmap CDlgAccountManager::GetBitmapResource( const wxString& name )
     return wxNullBitmap;
 ////@end CDlgAccountManager bitmap retrieval
 }
+
+/*!
+ * Get icon resources
+ */
 
 wxIcon CDlgAccountManager::GetIconResource( const wxString& name )
 {

@@ -29,6 +29,7 @@
  */
 
 ////@begin includes
+#include "wx/valgen.h"
 ////@end includes
 
 /*!
@@ -90,6 +91,12 @@ public:
 
 ////@begin CDlgSelectComputer member function declarations
 
+    wxString GetComputerName() const { return m_strComputerName ; }
+    void SetComputerName(wxString value) { m_strComputerName = value ; }
+
+    wxString GetStrComputerPassword() const { return m_strComputerPassword ; }
+    void SetStrComputerPassword(wxString value) { m_strComputerPassword = value ; }
+
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
 
@@ -103,6 +110,8 @@ public:
 ////@begin CDlgSelectComputer member variables
     wxComboBox* m_ComputerNameCtrl;
     wxTextCtrl* m_ComputerPasswordCtrl;
+    wxString m_strComputerName;
+    wxString m_strComputerPassword;
 ////@end CDlgSelectComputer member variables
 };
 
