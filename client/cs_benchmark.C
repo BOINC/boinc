@@ -82,11 +82,11 @@ struct BENCHMARK_DESC {
 #endif
 };
 
-static BENCHMARK_DESC* benchmark_descs;
+static BENCHMARK_DESC* benchmark_descs=0;
 static bool benchmarks_running=false;    // at least 1 benchmark thread running
 static double cpu_benchmarks_start;
 
-// benchmark a CPU
+// benchmark a single CPU
 // This takes 10-20 seconds,
 //
 int cpu_benchmarks(BENCHMARK_DESC* bdp) {
@@ -95,48 +95,12 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     double iop_test_secs = 3.3;
     double mem_test_secs = 3.3;
 
-    ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_MEASUREMENT);
-    scope_messages.printf("CLIENT_STATE::cpu_benchmarks(): Running CPU benchmarks.\n");
-
-	guiOnBenchmarksBegin();
-
     clear_host_info(host_info);
-    ++log_messages;
-    scope_messages.printf(
-        "CLIENT_STATE::cpu_benchmarks(): Running floating point test for about %.1f seconds.\n",
-        fpop_test_secs
-    );
     host_info.p_fpop_err = run_double_prec_test(fpop_test_secs, host_info.p_fpops);
-
-    scope_messages.printf(
-        "CLIENT_STATE::cpu_benchmarks(): Running integer test for about %.1f seconds.\n",
-        iop_test_secs
-    );
     host_info.p_iop_err = run_int_test(iop_test_secs, host_info.p_iops);
-
-    scope_messages.printf(
-        "CLIENT_STATE::cpu_benchmarks(): Running memory bandwidth test for about %.1f seconds.\n",
-        mem_test_secs
-    );
     host_info.p_membw_err = run_mem_bandwidth_test(mem_test_secs, host_info.p_membw);
+    host_info.m_cache = 1e6;    // TODO: measure the cache
 
-    // need to check cache!!
-    host_info.m_cache = 1e6;
-
-    msg_printf(
-        NULL, MSG_INFO, "Benchmark results: %.0f million floating point ops/sec%s",
-       host_info.p_fpops/1e6, (host_info.p_fpop_err?" [ERROR]":"")
-    );
-    msg_printf(
-        NULL, MSG_INFO, "Benchmark results: %.0f million integer ops/sec%s",
-       host_info.p_iops/1e6,  (host_info.p_iop_err?" [ERROR]":"")
-    );
-    msg_printf(
-        NULL, MSG_INFO, "Benchmark results: %.0f million bytes/sec memory bandwidth%s",
-       host_info.p_membw/1e6, (host_info.p_membw_err?" [ERROR]":"")
-    );
-
-    host_info.p_calculated = (double)time(0);
 #ifdef _WIN32
     bdp->host_info = host_info;
 #else
@@ -146,8 +110,6 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     host_info.write_cpu_benchmarks(finfo);
     fclose(finfo);
 #endif
-	guiOnBenchmarksEnd();
-    --log_messages;
     return 0;
 }
 
@@ -172,9 +134,12 @@ void CLIENT_STATE::start_cpu_benchmarks() {
 
 	cpu_benchmarks_start = dtime();
 	msg_printf(NULL, MSG_INFO, "Running CPU benchmarks");
-    benchmark_descs = (BENCHMARK_DESC*)calloc(
-        host_info.p_ncpus, sizeof(BENCHMARK_DESC)
-    );
+    if (!benchmark_descs) {
+        benchmark_descs = (BENCHMARK_DESC*)calloc(
+            host_info.p_ncpus, sizeof(BENCHMARK_DESC)
+        );
+    }
+    guiOnBenchmarksBegin();
     benchmarks_running = true;
 
     for (i=0; i<host_info.p_ncpus; i++) {
@@ -314,6 +279,20 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             host_info.p_membw /= host_info.p_ncpus;
             host_info.m_cache /= host_info.p_ncpus;
         }
+        msg_printf(
+            NULL, MSG_INFO, "Benchmark results: %.0f million floating point ops/sec%s",
+        host_info.p_fpops/1e6, (host_info.p_fpop_err?" [ERROR]":"")
+        );
+        msg_printf(
+            NULL, MSG_INFO, "Benchmark results: %.0f million integer ops/sec%s",
+        host_info.p_iops/1e6,  (host_info.p_iop_err?" [ERROR]":"")
+        );
+        msg_printf(
+            NULL, MSG_INFO, "Benchmark results: %.0f million bytes/sec memory bandwidth%s",
+        host_info.p_membw/1e6, (host_info.p_membw_err?" [ERROR]":"")
+        );
+
+        host_info.p_calculated = dtime();
         guiOnBenchmarksEnd();
         benchmarks_running = false;
         set_client_state_dirty("CPU benchmarks");
