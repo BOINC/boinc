@@ -7,12 +7,11 @@
     $user = get_user_from_cookie();
 
     if ($user) {
-    	$head = sprintf("Edit %s's %s User Information", $user, $project);
+    	$head = sprintf("Edit %s's User Information", $user->name);
     	page_head($head);
     	print_edit_user_info($user);
     } else {
-    	$head = sprintf("Edit %s User Information", $project);
-    	page_head($head); 
+    	page_head("Edit User Information"); 
     	printf("Not Logged in. Click <a href=login.php>here</a> to login.\n");
     }
     page_tail();

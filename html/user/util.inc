@@ -2,17 +2,25 @@
 
 require_once("db.inc");
 
+define("EMAIL_EXISTS", -1);
+define("EMAIL_UPDATED", 1);
+define("EMAIL_FAIL", -2);
+
 define("LG_FONT", "<font size=+1>");
 define("SM_FONT", "<font size=-1>");
+
 define("TD2", "<td colspan=2 bgcolor=#708090>");
 define("TD3", "<td colspan=3 bgcolor=#708090>");
+
 define("TABLE", "<table cellpadding=10 cellspacing=4 border=0 width=100%>");
 define("TABLE2", "<table width=580>");
+
 define("BG_COLOR", " bgcolor=cccccc ");
 define("TITLE_COLOR", " bgcolor=000000 ");
 define("TITLE_FONT", " <font color=ffffff> ");
 define("BODY_COLOR", " bgcolor=ffffff ");
-define("PROJECT_NAME", "Sample Project");
+define("NOLOGIN", "Not logged in. <a href=login.php>Login.</a>\n");
+define("PROJECT", "Sample Project");
 
 function get_user_from_cookie() {
     $auth = "";
@@ -27,15 +35,15 @@ function show_login($user) {
     if ($user) {
         printf("Logged in as %s.\n", $user->name);
         printf("<br><a href=login.php>Log in as someone else.</a>\n");
-        printf("<br><a href=this_user.php>My %s</a>\n", PROJECT_NAME);
+        printf("<br><a href=this_user.php>My %s</a>\n", PROJECT);
     } else {
-        printf("Not logged in.  <a href=login.php>Log in.</a>\n");
+	echo NOLOGIN;
     }
 }
 
 function page_head($title) {
     echo "<head><title>$title</title><body " . BG_COLOR . ">\n";
-    echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b><a href=index.php>".PROJECT_NAME.":</a>  $title</b></font></td></tr></table>\n";
+    echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b><a href=index.php>".PROJECT.":</a>  $title</b></font></td></tr></table>\n";
 }
 
 function page_tail() {

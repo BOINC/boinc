@@ -27,18 +27,28 @@ function print_update_ok($e_ok) {
 		."<tr><td>Any other changes you've made, if any, were successfully updated.</td></tr>\n"
             	."</table>\n"
         );
-    else if ($e_ok == EMAIL_FAIL) {
+    } else if ($e_ok == EMAIL_FAIL) {
 	printf(
 		TABLE2."\n"
 		."<tr><td>Your email address failed to be updated. Click the <b>Back</b> button\n"
 		." on your browser to edit your information, or try again later.</td></tr>\n"
-		."<tr><td>Any other changes you've made, if any, were successfully update.</td></tr>\n"
+		."<tr><td>Any other changes you've made, if any, were successfully updated.</td></tr>\n"
 		."</table>\n"
 	);
-    else {
+    } else if ($e_ok == EMAIL_UPDATED) {
 	printf(
 	  	TABLE2."\n"
-		."<tr><td>Your email address was successfully updated.
+		."<tr><td>Your information was successfully updated. A new, temporary password will be sent to the\n"
+		." email address you provided. You must use this new password the next time you login.</td></tr>\n"
+		."</table>\n"
+	);
+    } else {
+	printf(
+		TABLE2."\n"
+		."<tr><td>Your information was successfully updated.</td></tr>\n"
+		."</table>\n"
+	);
+    }
 }
 
 function print_update_fail($e_ok) {
@@ -51,6 +61,28 @@ function print_update_fail($e_ok) {
 		."<tr><td>Any other changes you've made, if any, failed to be updated. Please try again later.</td></tr>\n" 
             	."</table>\n"
         );
+   } else if ($e_ok == EMAIL_FAIL) {
+        printf(
+                TABLE2."\n"
+                ."<tr><td>Your information failed to be updated. Click the <b>Back</b> button\n"
+                ." on your browser to edit your information, or try again later.</td></tr>\n"
+                ."</table>\n"
+        );
+    } else if ($e_ok == EMAIL_UPDATED) {
+        printf(
+                TABLE2."\n"
+                ."<tr><td>Your email address was successfully updated. A new, temporary password will be sent to the\n"
+                ." email address you provided. You must use this new password the next time you login.</td></tr>\n"
+                ."<tr><td>Any other changes you've made, if any, failed to be updated. Please try again later.</td></tr>\n"
+                ."</table>\n"
+        );
+    } else {
+	printf(
+		TABLE2."\n"
+		."<tr><td>Your information failed to be updated. Please try again later.</td></tr>\n"
+		."</table>\n"
+	);
+    }
 }
 
 ?>

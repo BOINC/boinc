@@ -14,10 +14,15 @@
             $user = mysql_fetch_object($result);
             mysql_free_result($result);
         }
-        if (!$user or ($user->web_password != $HTTP_POST_VARS["existing_password"])) {
-            $head = sprintf("Logging in to %s", $project);
-            page_head($head);
-            echo "We have no account with that name and password.";
+        if (!$user) {
+	    $head = sprintf("Logging in to %s", $project);
+	    page_head($head);
+	    echo "There is no account with the email address you have entered.\n";
+	    echo "Click the <b>Back</b> button to re-enter email address.\n"; 
+	} else if ($user->web_password != $HTTP_POST_VARS["existing_password"]) {
+	    $head = sprintf("Logging in to %s", $project);
+	    page_head($head);
+            echo "Invalid password. Click the <b>Back</b> button to re-enter password.";
         } else {
             setcookie("auth", $user->authenticator, time()+100000000);
             $head = sprintf("%s User Page", $project);

@@ -7,6 +7,6 @@
     if ($user) {
         show_user_page($user, $project);
     } else {
-        echo "Not logged in";
+        echo NOLOGIN;
     }
 ?>

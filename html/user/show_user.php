@@ -10,7 +10,7 @@
       	page_head("User stats");
     	show_user($user);
     } else {
-	echo "Not logged in";
+	echo NOLOGIN;
     }
     page_tail();
 ?>
