@@ -348,7 +348,7 @@ function build_uotd_page() {
     }
     $profile = mysql_fetch_object($result);
     $user = lookup_user_id($profile->userid);
-    generate_uod_page($profile);
+    generate_uod_page($profile, $user);
 
     $sql = "UPDATE profile SET uotd_time = " . time() . " WHERE userid=$user->id";
     mysql_query($sql);
