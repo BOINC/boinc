@@ -6777,3 +6777,11 @@ David  Oct 14 2003
 
 	api/
 		gutil.C,h
+
+Karl 2003-10-14
+    - makefiles: 
+        - fixed some issues when building outside of source tree
+        - fixed some missing 'make dist' files
+        - fixed "ln -s start stop" bug
+
+    */Makefile.am
