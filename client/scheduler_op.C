@@ -37,12 +37,20 @@ SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
 // try to get enough work to bring us up to high-water mark
 //
 int SCHEDULER_OP::init_get_work() {
+    int retval;
     double ns = gstate.work_needed_secs();
 
     must_get_work = true;
     project = gstate.next_project(0);
     if (project) {
-        init_op_project(ns);
+        if( (retval=init_op_project(ns)) ) {
+            project->nrpc_failures++;
+            set_min_rpc_time(project);
+            if (log_flags.sched_op_debug) {
+                printf("init_get_work failed, error %d\n", retval);
+            }
+            return retval;
+        }
     }
     return 0;
 }
@@ -287,7 +295,16 @@ bool SCHEDULER_OP::poll() {
                     if (must_get_work) {
                         project = gstate.next_project(project);
                         if (project) {
-                            init_op_project(gstate.work_needed_secs());
+                            if( (retval=init_op_project(gstate.work_needed_secs())) ) {
+                                project->nrpc_failures++;
+                                set_min_rpc_time(project);
+                                if (log_flags.sched_op_debug) {
+                                    printf(
+                                        "scheduler init_op_project to %s failed, error %d\n",
+                                        project->scheduler_urls[url_index].text, retval
+                                    );
+                                }
+                            }
                         } else {
                             scheduler_op_done = true;
                         }
@@ -309,7 +326,16 @@ bool SCHEDULER_OP::poll() {
                     if (x > 0) {
                         project = gstate.next_project(project);
                         if (project) {
-                            init_op_project(x);
+                            if( (retval=init_op_project(x)) ) {
+                                project->nrpc_failures++;
+                                set_min_rpc_time(project);
+                                if (log_flags.sched_op_debug) {
+                                    printf(
+                                        "scheduler init_op_project to %s failed, error %d\n",
+                                        project->scheduler_urls[url_index].text, retval
+                                    );
+                                }
+                            }
                         } else {
                             scheduler_op_done = true;
                         }
