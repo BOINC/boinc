@@ -235,7 +235,7 @@ int create_result(
     char* result_template_filename,
     char* result_name_suffix,
     R_RSA_PRIVATE_KEY& key,
-    char* upload_url,
+    SCHED_CONFIG& config,
     char* query_string
         // if nonzero, write value list here; else do insert
 ) {
@@ -262,7 +262,7 @@ int create_result(
         result_template,
         key,
         base_outfile_name,
-        upload_url
+        config
     );
     if (strlen(result_template) > sizeof(result.xml_doc_in)-1) {
         fprintf(stderr,

@@ -70,6 +70,9 @@ int SCHED_CONFIG::parse(char* buf) {
     if (match_tag(buf, "<ignore_upload_certificates/>")) {
         ignore_upload_certificates = true;
     }
+    if (match_tag(buf, "<dont_generate_upload_certificates/>")) {
+        dont_generate_upload_certificates = true;
+    }
 #if 0
     if (match_tag(buf, "<deletion_policy_priority/>")) {
         deletion_policy_priority = true;

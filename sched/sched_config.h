@@ -46,6 +46,7 @@ public:
     bool homogeneous_redundancy;
     bool locality_scheduling;
     bool ignore_upload_certificates;
+    bool dont_generate_upload_certificates;
     bool enforce_delay_bound;
 #if 0
     bool deletion_policy_priority;

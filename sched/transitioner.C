@@ -254,7 +254,7 @@ int handle_wu(
 #ifdef BATCH_INSERT
                 retval = create_result(
                     wu_item.id, wu_item.appid, wu_item.name,
-                    rtfpath, suffix, key, config.upload_url, value_buf
+                    rtfpath, suffix, key, config, value_buf
                 );
                 if (retval) {
                     log_messages.printf(
@@ -273,7 +273,7 @@ int handle_wu(
 #else
                 retval = create_result(
                     wu_item.id, wu_item.appid, wu_item.name,
-                    rtfpath, suffix, key, config.upload_url, 0
+                    rtfpath, suffix, key, config, 0
                 );
                 if (retval) {
                     log_messages.printf(

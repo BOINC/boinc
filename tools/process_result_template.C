@@ -24,6 +24,7 @@
 #include "boinc_db.h"
 #include "error_numbers.h"
 #include "parse.h"
+#include "sched_config.h"
 #include "crypt.h"
 
 #ifdef _USING_FCGI_
@@ -120,12 +121,12 @@ int process_result_template(
     char* result_template,
     R_RSA_PRIVATE_KEY& key,
     char* base_filename,
-    char* upload_url
+    SCHED_CONFIG& config
 ) {
     char* p,*q;
     char temp[LARGE_BLOB_SIZE];
     char num;
-    int i;
+    int i, retval;
 
     while (1) {
         p = strstr(result_template, OUTFILE_MACRO);
@@ -142,11 +143,15 @@ int process_result_template(
         p = strstr(result_template, UPLOAD_URL_MACRO);
         if (p) {
             strcpy(temp, p+strlen(UPLOAD_URL_MACRO));
-            strcpy(p, upload_url);
+            strcpy(p, config.upload_url);
             strcat(p, temp);
             continue;
         }
         break;
     }
-    return add_signatures(result_template, key);
+    if (!config.dont_generate_upload_certificates) {
+        retval = add_signatures(result_template, key);
+        if (retval) return retval;
+    }
+    return 0;
 }
