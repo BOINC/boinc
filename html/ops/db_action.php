@@ -1,7 +1,7 @@
 <?php {
     require_once("util_ops.inc");
     require_once("db_ops.inc");
-    
+
     function append_sql_query($original,$addition,$first) {
         if ($first == 1) {
             return $original . " where " . $addition;
@@ -9,9 +9,9 @@
             return $original . " and " . $addition;
         }
     }
-    
+
     db_init();
-    
+
     parse_str(getenv("QUERY_STRING"));
     $q = build_sql_query($table);
 
@@ -29,7 +29,7 @@
     }
 
     page_head($table);
-    
+
     $count = $q->count();
 
     if ($count < $start_at + $entries_to_show) {
@@ -37,7 +37,7 @@
     }
 
     $last = $start_at + $entries_to_show;
-    
+
     $main_query = $q->get_select_query($entries_to_show, $start_at);
 
     echo "<p>Query: <b>$main_query</b><p>\n";
@@ -48,7 +48,7 @@
 
     $urlquery = urlencode($q->query);
     echo "<table><tr><td width=100>";
-    if ($start_at) { 
+    if ($start_at) {
         $prev_pos = $start_at - $page_entries_to_show;
         if ($prev_pos < 0) {
             $prev_pos = 0;
@@ -64,6 +64,9 @@
         ";
     }
     echo "</td></tr></table>";
+    if ($table == "result") {
+        echo "<a href=result_summary.php?query=$urlquery>Summary</a> |";
+    }
     if ($detail == "high") {
         echo "
             <a href=db_action.php?table=$table&query=$urlquery&detail=low>Less detail</a>

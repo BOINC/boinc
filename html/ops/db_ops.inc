@@ -534,7 +534,7 @@ function show_result_short($result) {
     $received = time_str($result->received_time);
     $version = client_version_string($result->client_version_num);
     $outcome_color = outcome_color($result->outcome);
-    $host_user = host_user_link($result->userid);
+    $host_user = host_user_link($result->hostid);
 
     echo "
         <tr>
