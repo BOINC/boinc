@@ -9,7 +9,8 @@
     check_env_vars();  // THIS IS ABSOLUTELY CRITICAL!!!
     clear_db();
     clear_data_dirs();
-    init_client_dirs("account_sah.xml");
+    create_keys(); //added
+    init_client_dirs("prefs3.xml"); //"account_sah.xml");
     copy_to_download_dir("work_unit.sah");
     add_platform();
     add_core_client(null);

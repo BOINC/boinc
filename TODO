@@ -151,6 +151,9 @@ LOW-PRIORITY
     and output directly in result (blob).
     For projects with small data.
 
+- add a handler for SIGTERM that calls exit_tasks and makes sure state files
+    are written. 
+
 --------------------------
 DONE (may need test)  Please document these!
 

@@ -46,7 +46,8 @@ public:
     // the following items come from prefs.xml
     // They are a function only of the user and the project
     //
-    char master_url[256];
+    char master_url[256];       // url of site that contains scheduler tags
+                                // for this project
     char authenticator[256];    // user's authenticator on this project
     char* project_specific_prefs;
     double resource_share;      // project's resource share
@@ -179,7 +180,7 @@ struct RESULT {
     bool is_active;         // an app is currently running for this
     bool is_compute_done;   // computation finished
     bool is_server_ack;     // ack received from scheduling server
-    double cpu_time;
+    double cpu_time;        // cpu time spent completing result
     int exit_status;
     char stderr_out[STDERR_MAX_LEN];
     APP* app;

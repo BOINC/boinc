@@ -30,6 +30,7 @@ struct HOST_INFO {
     char serialnum[256];
     char ip_addr[256];
 
+    //exponentially weighted fractions
     double on_frac;
     double conn_frac;
     double active_frac;

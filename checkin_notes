@@ -1151,6 +1151,9 @@ David A     July 15, 2002
 Michael Gary	July 15, 2002
     - Fixed compile bug
     - Updated documentation
+    - Fixed test script bug
+    - Added comments to some .h files
+    - Fixed timing bug
     doc/
         api.html
         client_debug.html
@@ -1162,3 +1165,13 @@ Michael Gary	July 15, 2002
         test.html
     tools/
         Makefile.in
+    test/
+        test_uc.php
+        test_rsc.php
+        init.inc
+    client/
+        client_types.h
+        hostinfo.h
+    api/
+        api.C
+        api.h

@@ -53,10 +53,13 @@ public:
 // - call boinc_init(APP_IN&) at startup
 // - call time_to_checkpoint() often.
 //   This is cheap - it returns true if time to checkpoint.
-// - checkpoint as often as requested by core
+// - checkpoint if time_to_checkpoint() returns true
 // - call checkpoint_completed() when checkpoint is complete
+//   The only member of APP_OUT that needs to be filled in is percent_done
 // - boinc_poll(): 
 //   Call this as often as requested by core
+// - call app_completed() when the application is completed
+//   The only member of APP_OUT that needs to be filled in is percent_done
 
 struct APP_IN_GRAPHICS {
     int xsize;
@@ -77,8 +80,8 @@ struct APP_IN {
 };
 
 struct APP_OUT {
-    double percent_done;
-    double cpu_time_at_checkpoint;
+    double percent_done;            //percent of work unit completed
+    double cpu_time_at_checkpoint;  //cpu time of current process
     bool checkpointed;              // true iff checkpointed since last call
 };
 
@@ -98,13 +101,13 @@ int boinc_resolve_link(char *file_name, char *resolved_name);
 #define BOINC_INIT_FILE     "boinc_init.xml"
 
 //the following are provided for implementation of the checkpoint system
-int checkpoint_completed(APP_OUT& ao);
-int app_completed(APP_OUT& ao);
+int checkpoint_completed(APP_OUT& ao); //call this when checkpoint is completed
+int app_completed(APP_OUT& ao); //call this when app is completed
 
 extern bool _checkpoint;
 #define time_to_checkpoint() _checkpoint
 int set_timer(double period); //period is seconds spent in process
-void on_timer(int not_used);
+void on_timer(int not_used); //sets _checkpoint to true
 double get_cpu_time(); //return cpu time for this process
 
 #endif

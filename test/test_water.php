@@ -17,4 +17,5 @@
     } else {
         echo "Water marks are not working\n";
     }
+    PassThru("rm -f tw_results");
 ?>
