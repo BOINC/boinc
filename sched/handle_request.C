@@ -328,7 +328,11 @@ int handle_results(
             result.received_time = time(0);
             result.exit_status = rp->exit_status;
             result.cpu_time = rp->cpu_time;
-            result.state = RESULT_STATE_DONE;
+            if (rp->exit_status) {
+                result.state = RESULT_STATE_ERROR;
+            } else {
+                result.state = RESULT_STATE_DONE;
+            }
             result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
             result.validate_state = VALIDATE_STATE_NEED_CHECK;
             strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
