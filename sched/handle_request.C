@@ -156,19 +156,20 @@ int insert_app_file_tags(APP_VERSION& av, USER& user) {
     vector<APP_FILE> app_files;
     APP_FILE af;
     unsigned int i;
-    char buf[256], namebuf[256];
+    char buf[256], name[256];
     int retval;
 
     parse_project_prefs(user.project_prefs, app_files);
     for (i=0; i<app_files.size(); i++) {
         af = app_files[i];
-        escape_url_readable(af.url, namebuf);
+        //escape_url_readable(af.url, name);
+        sprintf(name, "%s_%s", af.open_name, af.timestamp);
         sprintf(buf,
             "<file_info>\n"
             "    <name>%s</name>\n"
             "    <url>%s</url>\n"
             "</file_info>\n",
-            namebuf, af.url
+            name, af.url
         );
         retval = insert_after(av.xml_doc, "", buf);
         if (retval) return retval;
@@ -177,7 +178,7 @@ int insert_app_file_tags(APP_VERSION& av, USER& user) {
             "        <file_name>%s</file_name>\n"
             "        <open_name>%s</open_name>\n"
             "    </file_ref>\n",
-            namebuf, af.open_name
+            name, af.open_name
         );
         retval = insert_after(av.xml_doc, "<app_version>\n", buf);
         if (retval) return retval;

@@ -81,6 +81,7 @@ struct SCHEDULER_REPLY {
 struct APP_FILE {
     char url[256];
     char open_name[256];
+    int timestamp;
     int parse(char*&);
 };
 
