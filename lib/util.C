@@ -31,6 +31,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/time.h>
+#include <sys/resource.h>
 #include <unistd.h>
 #ifdef HAVE_SYS_FILE_H
 #include <sys/file.h>
