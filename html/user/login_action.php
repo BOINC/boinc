@@ -20,7 +20,6 @@
             We have no account with the account ID '$authenticator'.
             <br>Click <b>Back</b> to try again.
         ";
-        echo "<<".MASTER_URL.">>\n";
         page_tail();
     } else {
         if (split_munged_email_addr($user->email_addr, $authenticator, $email)) {
