@@ -1456,7 +1456,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* cs)
 
 		// to completion
 		if(!at || at->fraction_done == 0) {
-			double tocomp = at->wup->seconds_to_complete;
+			double tocomp = re->wup->seconds_to_complete;
 			cpuhour = (int)(tocomp / (60 * 60));
 			cpumin = (int)(tocomp / 60) % 60;
 			cpusec = (int)(tocomp) % 60;
