@@ -474,11 +474,6 @@ int handle_results(
         //
         reply.result_acks.push_back(*rp);
 
-        log_messages.printf(
-            SchedMessages::NORMAL, "[HOST#%d] [%s] got result\n",
-            host.id, rp->name
-        );
-
         strncpy(result.name, rp->name, sizeof(result.name));
         sprintf(buf, "where name='%s'", result.name);
         retval = result.lookup(buf);
@@ -490,6 +485,11 @@ int handle_results(
             );
             continue;
         }
+
+        log_messages.printf(
+            SchedMessages::NORMAL, "[HOST#%d] [RESULT#%d %s] got result\n",
+            host.id, result.id, result.name
+        );
 
         if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
             log_messages.printf(
