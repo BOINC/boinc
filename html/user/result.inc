@@ -84,7 +84,7 @@ function show_result_row($result, $show_wu_link, $show_host_link) {
         echo "<td><a href=workunit.php?wuid=$result->workunitid>$result->workunitid</a></td>\n";
     }
     if ($show_host_link) {
-        echo "<td><a href=host.php?hostid=$result->hostid>$result->hostid</a></td>\n";
+        echo "<td><a href=show_host_detail.php?hostid=$result->hostid>$result->hostid</a></td>\n";
     }
     echo "
         <td>$s</td>

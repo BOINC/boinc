@@ -76,6 +76,15 @@ function show_host($host, $private) {
     } else {
         row2("Average download rate", "Unknown");
     }
+    $last_result = host_last_result($host);
+    $nresults = host_nresults($host);
+    $x = "<a href=results_host.php?hostid=$host->id>$nresults</a>";
+    if ($last_result) {
+        $y = time_str($last_result->received_time);
+        $x = $x."<br><font size=2>Last received: $y</font>\n";
+    }
+    row2("Results", $x);
+    
     if ($private) {
         row2("Number of times client has contacted server", $host->rpc_seqno);
         row2("Last time contacted server", time_str($host->rpc_time));
@@ -91,7 +100,7 @@ function show_host($host, $private) {
 
 function host_table_start($title, $private) {
     start_table();
-    row1($title, 6);
+    row1($title, 7);
     echo "<tr>";
     if ($private) {
         echo "<th>Name
@@ -115,21 +124,25 @@ function host_table_start($title, $private) {
     ";
 }
 
+function host_last_result($host) {
+    $result = mysql_query("select * from result where hostid = $host->id order by received_time desc limit 1");
+    $last_result = mysql_fetch_object($result);
+    mysql_free_result($result);
+    return $last_result;
+}
+
+function host_nresults($host) {
+    $result = mysql_query("select count(*) as nresults from result where hostid=$host->id");
+    $foobar = mysql_fetch_object($result);
+    return $foobar->nresults;
+}
+
 function show_host_row($host, $i, $private) {
     $result = mysql_query("select * from user where id = $host->userid");
     $user = mysql_fetch_object($result);
     mysql_free_result($result);
 
-    $result = mysql_query("select * from result where hostid = $host->id order by received_time desc limit 1");
-    $last_result = mysql_fetch_object($result);
-    mysql_free_result($result);
-
-    $result = mysql_query("select count(*) as nresults from result where hostid=$host->id");
-    $foobar = mysql_fetch_object($result);
-    $nresults = $foobar->nresults;
-
-    echo "<tr>
-    ";
+    echo "<tr>";
     if ($private) {
         echo"<td>
             <a href=show_host_detail.php?hostid=$host->id&private=1>
@@ -147,6 +160,9 @@ function show_host_row($host, $i, $private) {
         $host->expavg_credit, $host->total_credit, $host->p_vendor, $host->p_model,
         $host->os_name, $host->os_version
     );
+
+    $last_result = host_last_result($host);
+    $nresults = host_nresults($host);
     echo "<td><a href=results_host.php?hostid=$host->id>$nresults</a>";
     if ($last_result) {
         $x = time_str($last_result->received_time);
