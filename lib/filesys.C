@@ -77,7 +77,7 @@ int is_file(char* path) {
     return sbuf.st_mode & S_IFREG;
 }
 
-int is_dir(char* path) {
+int is_dir(const char* path) {
     struct stat sbuf;
     memset(&sbuf, 0, sizeof(struct stat));
     stat(path, &sbuf);

@@ -298,7 +298,7 @@ int CLIENT_STATE::net_sleep(double x) {
 // (in which case should call this again immediately)
 //
 bool CLIENT_STATE::do_something() {
-    int actions = 0, reason;
+    int actions = 0, reason, retval;
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_POLL);
 
     check_suspend_activities(reason);
@@ -347,8 +347,9 @@ bool CLIENT_STATE::do_something() {
         POLL_ACTION(update_results         , update_results         );
     }
 
-    if (write_state_file_if_needed()) {
-        msg_printf(NULL, MSG_ERROR, "Couldn't write state file");
+    retval = write_state_file_if_needed();
+    if (retval) {
+        msg_printf(NULL, MSG_ERROR, "Couldn't write state file: %d", retval);
     }
     --log_messages;
     scope_messages.printf(
@@ -988,6 +989,7 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
         && scheduler_op->project == project
     ) {
         http_ops->remove(&scheduler_op->http_op);
+        scheduler_op->state = SCHEDULER_OP_STATE_IDLE;
     }
 
     // mark results as server-acked.

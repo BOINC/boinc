@@ -20,8 +20,6 @@
 // The part of the BOINC app lib having to do with graphics.
 // This code is NOT linked into the core client.
 
-#include "config.h"
-
 #ifdef _WIN32
 #include <afxwin.h>
 extern DWORD WINAPI win_graphics_event_loop( LPVOID duff );

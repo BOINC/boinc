@@ -342,6 +342,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:
+        if (activities_suspended) break;
         if (exit_when_idle && contacted_sched_server) {
             should_get_work = false;
         } else {

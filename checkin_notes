@@ -7622,3 +7622,24 @@ Karl 2003-11-07
 
     client/win
         wingui_mainwindow.cpp
+
+David  9 Nov 2003
+	- change upper_case app so that -cpu_time actually uses
+		significant CPU time (36 secs on my laptop)
+	- core state file writes sometimes fail if another app (e.g. text editor)
+		has the file open.  Show error code.
+	- don't start a scheduler RPC if we're suspended
+	- don't show parse error messages for empty lines in scheduler reply
+	- if reset a project during a scheduler RPC, set the scheduler_op state
+		to IDLE (else will never do another RPC)
+
+	api/
+		graphics_api.C
+	apps/
+		upper_case.C
+	client/
+		client_state.C
+		cs_scheduler.C
+		scheduler_op.C
+	lib/
+		filesys.C

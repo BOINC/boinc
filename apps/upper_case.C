@@ -132,6 +132,12 @@ int main(int argc, char **argv) {
     retval = boinc_init(standalone);
     if (retval) exit(retval);
 
+    // can't write to stderr until after boinc_init()
+    //
+    for (i=0; i<argc; i++) {
+        fprintf(stderr, "APP: upper_case: argv[%d] is %s\n", i, argv[i]);
+    }
+
 #ifdef BOINC_APP_GRAPHICS
     strcpy(display_buf, "(none)\0");
     retval = boinc_init_opengl();
@@ -187,7 +193,7 @@ int main(int argc, char **argv) {
         if (cpu_time) {
             n = 0;
             j = 3.14159;
-            for (i=0; i<200000; i++) {
+            for(i=0; i<20000000; i++) {
                 n++;
                 j *= n+j-3.14159;
                 j /= (float)n;
@@ -206,7 +212,7 @@ int main(int argc, char **argv) {
         }
 #endif
         if (random_exit) {
-            if ((random()%20) == 0) {
+            if (drand() < 0.05) {
                 exit(-10);
             }
         }
