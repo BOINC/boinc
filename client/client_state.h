@@ -122,8 +122,12 @@ public:
     bool activities_suspended;
     bool network_suspended;
 	bool executing_as_daemon;
+        // set to true when --daemon is detected on the comandline
+        //   this is used to determine we are running as a daemon
+        //   on *nix systems, or as a service on Windows systems.
     bool size_overflow;
     bool redirect_io;
+        // redirect stdout, stderr to log files
 
 private:
     bool client_state_dirty;
