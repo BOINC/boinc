@@ -107,8 +107,10 @@ to the core client, which records it in the
 <b>architecture_xml</b> field of the <b>result</b> database record.
 For example, the application might pass a description like
 <pre>
-&lt;has_3dnow_instructions/>
-&lt;graphics_board>ATI Rage 64MB</graphics_board>
+", htmlspecialchars("
+<has_3dnow_instructions/>
+<graphics_board>ATI Rage 64MB</graphics_board>
+"), "
 </pre>
 This makes it possible, for example, to report average or total
 performance statistics for 3DNow hosts contrasted

@@ -520,8 +520,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
 
     if (sr.request_delay) {
-		int t = time(0) + sr.request_delay;
-        project->min_rpc_time = max(t, project->min_rpc_time);
+        project->min_rpc_time = time(0) + sr.request_delay;
     }
 
     project->host_total_credit = sr.host_total_credit;

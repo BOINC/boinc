@@ -29,11 +29,8 @@ Notes:
   <li>Object arguments have the same format as for the `add' tool
     command-line arguments.  See also the <a href=tool_add.php>documentation
     for `add'</a>.
-  <li>This tool (currently) only adds new items; thus:
-    <ul>
-      <li>Entries that conflict with existing database entries are ignored;
-        this includes entries that have changed.
-    </ul>
+  <li>This tool (currently) only adds new items;
+      Entries that conflict with existing database entries are ignored.
 </ul>
 ";
    page_tail();

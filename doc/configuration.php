@@ -25,14 +25,14 @@ htmlspecialchars("
   <daemons>
     <daemon>
       [ <host>foobar</host> ]
-      [ <disabled>1</disabled> ]
+      [ <disabled/> ]
       <cmd>feeder -d 3</cmd>
     </daemon>
   </daemons>
   <tasks>
     <task>
       [ <host>foobar</host> ]
-      [ <disabled>1</disabled> ]
+      [ <disabled/> ]
       <cmd>get_load</cmd>
       <output>get_load.out</output>
       <period>5 min</period>
@@ -47,19 +47,19 @@ htmlspecialchars("
 "),
 "</pre>
 <b>Tasks</b> are periodic, short-running jobs.
-CMD and PERIOD are required.
+&lt;cmd> and &lt;period> are required.
 OUTPUT specifies the file to output and by default is COMMAND_BASE_NAME.out.
-Commands are run in the <bin_dir> directory
-which is a path relative to <project_dir> and output to <log_dir>.
+Commands are run in the &lt;bin_dir> directory
+which is a path relative to &lt;project_dir> and output to &lt;log_dir>.
 
 <p>
 <b>Daemons</b> are continuously-running programs.
-The process ID is recorded in the <pid_dir> directory
+The process ID is recorded in the &lt;pid_dir> directory
 and the process is sent a SIGHUP in a DISABLE operation.
 <p>
 Both tasks and daemons can run on a different host (specified by &lt;host>).
 The default is the project's main host, which is specified in config.host
-A daemon or task can be turned off by adding the <disabled/> element.
+A daemon or task can be turned off by adding the &lt;disabled/> element.
 ";
 page_tail();
 ?>

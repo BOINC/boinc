@@ -23,14 +23,14 @@ A config.xml file looks like this:
   <daemons>
     <daemon>
       [ <host>foobar</host> ]
-      [ <disabled>1</disabled> ]
+      [ <disabled/> ]
       <cmd>feeder -d 3</cmd>
     </daemon>
   </daemons>
   <tasks>
     <task>
       [ <host>foobar</host> ]
-      [ <disabled>1</disabled> ]
+      [ <disabled/> ]
       <cmd>get_load</cmd>
       <output>get_load.out</output>
       <period>5 min</period>

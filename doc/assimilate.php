@@ -7,9 +7,9 @@ This is best done by linking the program <b>sched/assimilate.C</b>
 with an application-specific function of the form
 <pre>
 int assimilate_handler(
-    WORKUNIT& wu, vector<RESULT>& results, RESULT& canononical_result
+    WORKUNIT& wu, vector&lt;RESULT>& results, RESULT& canononical_result
 );
-<pre>
+</pre>
 ";
 page_tail();
 ?>

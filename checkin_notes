@@ -10012,3 +10012,6 @@ David  Feb 9 2004
 		app.C,h
 		client_state.C
 		cs_scheduler.C
+
+David  Feb 11 2004
+    - updated docs

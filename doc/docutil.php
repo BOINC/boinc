@@ -42,11 +42,11 @@ function list_start() {
 function list_heading($x, $y, $z=null) {
     echo "
         <tr>
-            <th valign=top><b>$x</b></td>
-            <th valign=top>$y</td>
+            <th valign=top><b>$x</b></th>
+            <th valign=top>$y</th>
 ";
     if ($z) {
-        echo "       <th valign=top>$z</a>\n";
+        echo "       <th valign=top>$z</th>\n";
     }
 echo " </tr>\n";
 }
