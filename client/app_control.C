@@ -199,11 +199,7 @@ static void limbo_message(ACTIVE_TASK& at) {
 //
 #ifdef _WIN32
 bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
-    if (!get_app_status_msg()) {
-        msg_printf(result->project, MSG_INFO,
-            "%s: no final message", result->name
-        );
-    }
+    get_app_status_msg();
     get_trickle_up_msg();
     result->final_cpu_time = current_cpu_time;
     if (task_state == PROCESS_ABORT_PENDING) {

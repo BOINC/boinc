@@ -26654,3 +26654,30 @@ David  4 April 2005
             win_screensaver.cpp
     lib/
         boinc_cmd.C
+
+David  4 April 2005
+	- Core client: don't print "no final message" (not relevant in most cases)
+	- Core client: don't do SS poll more than once per second
+	- Core client: don't do SS reset on each CPU resched
+		(no reason to start/stop SS if same app running)
+	- Get rid of SS_STATUS_RESTARTREQUEST,
+		which as far as I can tell involved the core client asking
+		the screensaver to ask it to do graphics again.
+		Instead, the core client just tells another app to start doing SSG.
+		It hangs on to the last GRAPHICS_MSG
+		(workstation/desktop will be the same)
+	- Got rid of SS_STATUS_NOTGRAPHICSCAPABLE
+		???
+	- Allow really small CPU scheduling periods (for debugging)
+
+	client/
+		app_control.C
+		app_graphics.C
+		client_state.C
+		cs_apps.C
+		ss_logic.C,h
+		win/
+			win_screensaver.cpp,h
+	lib/
+		gui_rpc_client.h
+		prefs.C

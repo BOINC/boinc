@@ -189,12 +189,12 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
                 best_atp = atp;
             }
             if (best_atp) {
-                //BOINCTRACE("chose SS: %s\n", best_atp->result->name);
+                //msg_printf(0, MSG_INFO, "get_next_app: %s\n", best_atp->result->name);
                 return atp;
             }
         }
     }
-    //BOINCTRACE("no SS to choose\n");
+    //msg_printf(0, MSG_INFO, "get_next_app: none\n");
     return NULL;
 }
 

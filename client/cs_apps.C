@@ -390,12 +390,6 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     //
     handle_file_xfer_apps();
 
-    // tell app doing screensaver (fullscreen) graphics to stop
-    // TODO: this interrupts the graphics, even if it's
-    // the only app running.  DO THIS A DIFFERENT WAY
-    //
-    ss_logic.reset();
-
     // clear temporary variables
     //
     for (i=0; i<projects.size(); i++) {
@@ -500,6 +494,7 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     vm_limit = (global_prefs.vm_max_used_pct/100.)*host_info.m_swap;
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
+        //msg_printf(p, MSG_INFO, "result %s state %d", atp->result->name, atp->scheduler_state);
         if (atp->scheduler_state == CPU_SCHED_SCHEDULED
             && atp->next_scheduler_state == CPU_SCHED_PREEMPTED
         ) {

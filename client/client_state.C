@@ -201,7 +201,7 @@ int CLIENT_STATE::init() {
 
 
     if (executing_as_daemon) {
-        msg_printf(NULL, MSG_INFO, "Option: Executing as a daemon");
+        msg_printf(NULL, MSG_INFO, "Executing as a daemon");
     }
 
     relative_to_absolute("", buf);
@@ -444,7 +444,7 @@ bool CLIENT_STATE::do_something(double now) {
     // in that order (active_tasks_poll() sets must_schedule_cpus,
     // and handle_finished_apps() must be done before schedule_cpus()
 
-    ss_logic.poll();
+    ss_logic.poll(now);
     if (activities_suspended) {
         scope_messages.printf("CLIENT_STATE::do_something(): activities suspended\n");
         //POLL_ACTION(data_manager           , data_manager_poll      );

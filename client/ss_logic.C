@@ -25,11 +25,22 @@
 #include "client_msgs.h"
 #include "ss_logic.h"
 
+//#define SS_DEBUG
+
 SS_LOGIC::SS_LOGIC() {
     do_ss = false;
     blank_time = 0;
     ack_deadline = 0;
     ss_status = 0;
+}
+
+void SS_LOGIC::ask_app(ACTIVE_TASK* atp, GRAPHICS_MSG& m) {
+    atp->request_graphics_mode(m);
+    atp->is_ss_app = true;
+    ack_deadline = time(0) + 5;
+#ifdef SS_DEBUG
+    msg_printf(0, MSG_INFO, "starting %s\n", atp->result->name);
+#endif
 }
 
 // called in response to a set_screensaver_mode RPC with <enabled>.
@@ -47,12 +58,11 @@ void SS_LOGIC::start_ss(GRAPHICS_MSG& m, double new_blank_time) {
     gstate.active_tasks.hide_apps();
 
     m.mode = MODE_FULLSCREEN;
+    saved_graphics_msg = m;
     if (!gstate.activities_suspended) {
         atp = gstate.get_next_graphics_capable_app();
         if (atp) {
-            atp->request_graphics_mode(m);
-            atp->is_ss_app = true;
-            ack_deadline = time(0) + 5;
+            ask_app(atp, m);
         }
     }
 }
@@ -65,6 +75,9 @@ void SS_LOGIC::stop_ss() {
     reset();
     do_ss = false;
     ss_status = SS_STATUS_QUIT;
+#ifdef SS_DEBUG
+    msg_printf(0, MSG_INFO, "stop_ss\n");
+#endif
     gstate.active_tasks.restore_apps();
 }
 
@@ -77,17 +90,24 @@ void SS_LOGIC::reset() {
     m.mode = MODE_HIDE_GRAPHICS;
     ACTIVE_TASK* atp = gstate.active_tasks.get_ss_app();
     if (atp) {
+#ifdef SS_DEBUG
+        msg_printf(0, MSG_INFO, "reset: %s\n", atp->result->name);
+#endif
         atp->request_graphics_mode(m);
         atp->is_ss_app = false;
     }
 }
 
-// called every second
+// called 10X per second
 //
-void SS_LOGIC::poll() {
+void SS_LOGIC::poll(double now) {
     ACTIVE_TASK* atp;
     GRAPHICS_MSG m;
+    static double last_time=0;
 
+    double dt = now - last_time;
+    if (dt < 1) return;
+    last_time = now;
 
 #if 0
     // if you want to debug screensaver functionality...
@@ -109,34 +129,62 @@ void SS_LOGIC::poll() {
     //
     if (blank_time && (time(0) > blank_time)) {
         if (SS_STATUS_BLANKED != ss_status) {
+#ifdef SS_DEBUG
+            msg_printf(0, MSG_INFO, "poll: going to black");
+#endif
             reset();
             ss_status = SS_STATUS_BLANKED;
         }
     } else {
         atp = gstate.active_tasks.get_ss_app();
         if (atp) {
-            if (atp->graphics_mode_acked != MODE_FULLSCREEN) {
-                if (time(0)>ack_deadline) {
-                    m.mode = MODE_HIDE_GRAPHICS;
-                    atp->request_graphics_mode(m);
-                    atp->is_ss_app = false;
+            bool stop_app_ss = false;
+            if (atp->graphics_mode_acked == MODE_FULLSCREEN) {
+                if (atp->scheduler_state != CPU_SCHED_SCHEDULED) {
+#ifdef SS_DEBUG
+                    msg_printf(0, MSG_INFO, "poll: app %s not scheduled", atp->result->name);
+#endif
+                    stop_app_ss = true;
+                }
+            } else {
+                if (time(0) > ack_deadline) {
+#ifdef SS_DEBUG
+                    msg_printf(0, MSG_INFO, "poll: app %s not respond", atp->result->name);
+#endif
+                    stop_app_ss = true;
                 }
             }
+            if (!stop_app_ss) return;
+
+            // app failed to go into fullscreen, or is preempted.
+            // tell it not to do SSG
+            //
+            m.mode = MODE_HIDE_GRAPHICS;
+            atp->request_graphics_mode(m);
+            atp->is_ss_app = false;
+        }
+
+        // here if no app currently doing SSG
+        // try to find one.
+        //
+        atp = gstate.get_next_graphics_capable_app();
+        if (atp) {
+#ifdef SS_DEBUG
+            msg_printf(0, MSG_INFO, "poll: picked %s, request restart", atp->result->name);
+#endif
+            ask_app(atp, saved_graphics_msg);
         } else {
-            atp = gstate.get_next_graphics_capable_app();
-            if (atp) {
-                do_ss = false;
-                ss_status = SS_STATUS_RESTARTREQUEST;
-            } else {
-                if (gstate.active_tasks.active_tasks.size()==0) {
-                    if (gstate.projects.size()>0) {
-                        ss_status = SS_STATUS_NOAPPSEXECUTING;
-                    } else {
-                        ss_status = SS_STATUS_NOPROJECTSDETECTED;
-                    }
+#ifdef SS_DEBUG
+            msg_printf(0, MSG_INFO, "poll: no app found");
+#endif
+            if (gstate.active_tasks.active_tasks.size()==0) {
+                if (gstate.projects.size()>0) {
+                    ss_status = SS_STATUS_NOAPPSEXECUTING;
                 } else {
-                    ss_status = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
+                    ss_status = SS_STATUS_NOPROJECTSDETECTED;
                 }
+            } else {
+                ss_status = SS_STATUS_NOGRAPHICSAPPSEXECUTING;
             }
         }
     }

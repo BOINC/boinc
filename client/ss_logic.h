@@ -29,8 +29,6 @@
 
 #define SS_STATUS_ENABLED                           1
     // requested to provide SSG
-#define SS_STATUS_RESTARTREQUEST                    2
-    // ???
 #define SS_STATUS_BLANKED                           3
     // not providing SSG, SS should blank screen
 #define SS_STATUS_BOINCSUSPENDED                    4
@@ -50,9 +48,10 @@ public:
 
     void start_ss(GRAPHICS_MSG&, double blank_time);
     void stop_ss();
-    void poll();
+    void poll(double);
     void reset();
     int  get_ss_status() { return ss_status; };
+    void ask_app(ACTIVE_TASK*, GRAPHICS_MSG&);
 
 private:
     double blank_time;          // 0 or time to blank screen
@@ -60,6 +59,7 @@ private:
     int  ss_status;             // the status of the screensaver from the core
                                 // client perspective.
     bool do_ss;                 // true if we're acting like a screensaver
+    GRAPHICS_MSG saved_graphics_msg;
 
 // invariants
 //

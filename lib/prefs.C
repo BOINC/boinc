@@ -174,7 +174,7 @@ int GLOBAL_PREFS::parse(FILE* in, const char* host_venue, bool& found_venue) {
             if (disk_interval<0) disk_interval = 0;
             continue;
         } else if (parse_double(buf, "<cpu_scheduling_period_minutes>", cpu_scheduling_period_minutes)) {
-            if (cpu_scheduling_period_minutes < 1) cpu_scheduling_period_minutes = 60;
+            if (cpu_scheduling_period_minutes < 0.0001) cpu_scheduling_period_minutes = 60;
             continue;
         } else if (parse_double(buf, "<disk_max_used_gb>", disk_max_used_gb)) {
             continue;
