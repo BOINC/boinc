@@ -1,5 +1,9 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BOINC Custom Actions", "boinccas.vcproj", "{49723CA5-DA05-43C0-93AB-6FD30D046919}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BOINCCAS", "boinccas.vcproj", "{49723CA5-DA05-43C0-93AB-6FD30D046919}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BOINCCAS95", "boinccas95.vcproj", "{49723CA5-DA05-43C0-93AB-6FD30D046910}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -13,6 +17,10 @@ Global
 		{49723CA5-DA05-43C0-93AB-6FD30D046919}.Debug.Build.0 = Debug|Win32
 		{49723CA5-DA05-43C0-93AB-6FD30D046919}.Release.ActiveCfg = Release|Win32
 		{49723CA5-DA05-43C0-93AB-6FD30D046919}.Release.Build.0 = Release|Win32
+		{49723CA5-DA05-43C0-93AB-6FD30D046910}.Debug.ActiveCfg = Debug|Win32
+		{49723CA5-DA05-43C0-93AB-6FD30D046910}.Debug.Build.0 = Debug|Win32
+		{49723CA5-DA05-43C0-93AB-6FD30D046910}.Release.ActiveCfg = Release|Win32
+		{49723CA5-DA05-43C0-93AB-6FD30D046910}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

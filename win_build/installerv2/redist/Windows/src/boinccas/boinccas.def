@@ -6,15 +6,11 @@ LIBRARY    boinccas
 
 EXPORTS
 	DllMain
-	CopyAccountFiles
-	DetectOldInstaller
 	GetAdministratorsGroupName
 	GetUsersGroupName
 	GrantServiceExecutionRight
 	PopulateServiceAccount
-	ShutdownBOINCManager
 	ValidateServiceAccount
-	ValidateSetupType
 	VerifyServiceExecutionRight
 	VerifyServicePassword
 	

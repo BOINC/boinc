@@ -1,0 +1,12 @@
+;
+; Module definition file for the boinccas95.dll
+;
+
+LIBRARY    boinccas95
+
+EXPORTS
+	DllMain
+	CopyAccountFiles
+	DetectOldInstaller
+	ShutdownBOINCManager
+	ValidateSetupType

@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="BOINCCAS"
-	ProjectGUID="{49723CA5-DA05-43C0-93AB-6FD30D046919}"
+	Name="BOINCCAS95"
+	ProjectGUID="{49723CA5-DA05-43C0-93AB-6FD30D046910}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -12,10 +12,10 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="Debug"
-			IntermediateDirectory="Debug"
+			OutputDirectory="Debug95"
+			IntermediateDirectory="Debug95"
 			ConfigurationType="2"
-			CharacterSet="1">
+			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
@@ -34,15 +34,15 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="msi.lib libcmtd.lib libcpmtd.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
-				OutputFile="$(OutDir)/boinccas.dll"
+				OutputFile="$(OutDir)/boinccas95.dll"
 				LinkIncremental="2"
 				IgnoreAllDefaultLibraries="TRUE"
-				ModuleDefinitionFile="boinccas.def"
-				DelayLoadDLLs="netapi32.dll;advapi32.dll"
+				ModuleDefinitionFile="boinccas95.def"
+				DelayLoadDLLs="advapi32.dll"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/boinccas.pdb"
+				ProgramDatabaseFile="$(OutDir)/boinccas95.pdb"
 				SubSystem="2"
-				ImportLibrary="$(OutDir)/boinccas.lib"
+				ImportLibrary="$(OutDir)/boinccas95.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -67,10 +67,10 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="Release"
-			IntermediateDirectory="Release"
+			OutputDirectory="Release95"
+			IntermediateDirectory="Release95"
 			ConfigurationType="2"
-			CharacterSet="1">
+			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
@@ -89,17 +89,17 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="msi.lib libcmt.lib libcpmt.lib delayimp.lib netapi32.lib advapi32.lib kernel32.lib user32.lib"
-				OutputFile="$(OutDir)/boinccas.dll"
+				OutputFile="$(OutDir)/boinccas95.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
-				ModuleDefinitionFile="boinccas.def"
-				DelayLoadDLLs="netapi32.dll;advapi32.dll"
+				ModuleDefinitionFile="boinccas95.def"
+				DelayLoadDLLs="advapi32.dll"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/boinccas.pdb"
+				ProgramDatabaseFile="$(OutDir)/boinccas95.pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="$(OutDir)/boinccas.lib"
+				ImportLibrary="$(OutDir)/boinccas95.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -133,31 +133,16 @@
 				RelativePath="boinccas.cpp">
 			</File>
 			<File
-				RelativePath=".\CAGetAdministratorsGroupName.cpp">
+				RelativePath=".\CACopyAccountFiles.cpp">
 			</File>
 			<File
-				RelativePath=".\CAGetUsersGroupName.cpp">
+				RelativePath=".\CADetectOldInstaller.cpp">
 			</File>
 			<File
-				RelativePath=".\CAGrantServiceExecutionRight.cpp">
+				RelativePath=".\CAShutdownBOINCManager.cpp">
 			</File>
 			<File
-				RelativePath=".\CAPopulateServiceAccount.cpp">
-			</File>
-			<File
-				RelativePath=".\CAValidateServiceAccount.cpp">
-			</File>
-			<File
-				RelativePath=".\CAVerifyServiceExecutionRight.cpp">
-			</File>
-			<File
-				RelativePath=".\CAVerifyServicePassword.cpp">
-			</File>
-			<File
-				RelativePath=".\lkuprid.cpp">
-			</File>
-			<File
-				RelativePath=".\lsaprivs.cpp">
+				RelativePath=".\CAValidateSetupType.cpp">
 			</File>
 			<File
 				RelativePath=".\main.cpp">
@@ -185,31 +170,16 @@
 				RelativePath=".\boinccas.h">
 			</File>
 			<File
-				RelativePath=".\CAGetAdministratorsGroupName.h">
+				RelativePath=".\CACopyAccountFiles.h">
 			</File>
 			<File
-				RelativePath=".\CAGetUsersGroupName.h">
+				RelativePath=".\CADetectOldInstaller.h">
 			</File>
 			<File
-				RelativePath=".\CAGrantServiceExecutionRight.h">
+				RelativePath=".\CAShutdownBOINCManager.h">
 			</File>
 			<File
-				RelativePath=".\CAPopulateServiceAccount.h">
-			</File>
-			<File
-				RelativePath=".\CAValidateServiceAccount.h">
-			</File>
-			<File
-				RelativePath=".\CAVerifyServiceExecutionRight.h">
-			</File>
-			<File
-				RelativePath=".\CAVerifyServicePassword.h">
-			</File>
-			<File
-				RelativePath=".\lkuprid.h">
-			</File>
-			<File
-				RelativePath=".\lsaprivs.h">
+				RelativePath=".\CAValidateSetupType.h">
 			</File>
 			<File
 				RelativePath=".\main.h">
@@ -225,10 +195,10 @@
 			Name="Resource Files"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe">
 			<File
-				RelativePath="boinccas.def">
+				RelativePath=".\boinccas.rc">
 			</File>
 			<File
-				RelativePath=".\boinccas.rc">
+				RelativePath="boinccas95.def">
 			</File>
 		</Filter>
 	</Files>
