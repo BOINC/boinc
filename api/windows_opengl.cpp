@@ -17,8 +17,7 @@
 // Contributor(s):
 //
 
-/*
- *		This Code Was Created By Jeff Molofee 2000
+/*		This Code Was Created By Jeff Molofee 2000
  *		A HUGE Thanks To Fredric Echols For Cleaning Up
  *		And Optimizing This Code, Making It More Flexible!
  *		If You've Found This Code Useful, Please Let Me Know.
@@ -52,14 +51,15 @@ bool	keys[256];
 bool	active=TRUE;		// Window Active Flag Set To TRUE By Default
 bool	fullscreen=TRUE;	// Fullscreen Flag Set To Fullscreen Mode By Default
 BOOL	win_loop_done=FALSE;			// Bool Variable To Exit Loop
-int		counter,old_left,old_top,old_right,old_bottom;
+int		counter,old_left,old_top,old_right,old_bottom,cur_gfx_mode,old_gfx_mode;
 extern HANDLE hGlobalDrawEvent,hQuitEvent;
 
 int DrawGLScene(GLvoid);
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	// Declaration For WndProc
 DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 void renderBitmapString( float x, float y, void *font, char *string);
-BOOL CreateGLWindow(char* title, int width, int height, int bits);
+BOOL CreateGLWindow(char* title, int width, int height, int bits, bool initially_visible);
+void ChangeMode( int mode );
 BOOL reg_win_class();
 BOOL unreg_win_class();
 
@@ -153,38 +153,50 @@ GLvoid KillGLWindow(GLvoid)								// Properly Kill The Window
 	}
 }
 
-void ChangeMode( bool fullscreenflag ) {
+void ChangeMode( int mode ) {
 	HDC			screenDC=NULL;		// Screen Device Context
 	RECT		WindowRect;			// Grabs Rectangle Upper Left / Lower Right Values
+	bool		initially_visible = false;
 
 	KillGLWindow();
 
-	fullscreen=fullscreenflag;		// Set The Global Fullscreen Flag
-
-	if (fullscreen)					// Attempt Fullscreen Mode?
-	{
-		GetWindowRect( hWnd, &WindowRect );
-		old_left = WindowRect.left;
-		old_top = WindowRect.top;
-		old_right = WindowRect.right;
-		old_bottom = WindowRect.bottom;
-		screenDC=GetDC(NULL);
-		WindowRect.left = WindowRect.top = 0;
-		WindowRect.right=GetDeviceCaps(screenDC, HORZRES);
-		WindowRect.bottom=GetDeviceCaps(screenDC, VERTRES);
-		ReleaseDC(NULL, screenDC);
-		ShowCursor(FALSE);										// Hide Mouse Pointer
+	switch (mode) {
+		case MODE_NO_GRAPHICS:
+			if (fullscreen) ShowCursor(TRUE);				// Show Mouse Pointer
+			fullscreen = false;
+			break;
+		case MODE_WINDOW:
+			if (fullscreen) ShowCursor(TRUE);				// Show Mouse Pointer
+			fullscreen = false;
+			WindowRect.left = old_left;
+			WindowRect.top = old_top;
+			WindowRect.right = old_right;
+			WindowRect.bottom = old_bottom;
+			initially_visible = true;
+			break;
+		case MODE_FULLSCREEN:
+			fullscreen = true;
+			GetWindowRect( hWnd, &WindowRect );
+			old_left = WindowRect.left;
+			old_top = WindowRect.top;
+			old_right = WindowRect.right;
+			old_bottom = WindowRect.bottom;
+			screenDC=GetDC(NULL);
+			WindowRect.left = WindowRect.top = 0;
+			WindowRect.right=GetDeviceCaps(screenDC, HORZRES);
+			WindowRect.bottom=GetDeviceCaps(screenDC, VERTRES);
+			ReleaseDC(NULL, screenDC);
+			ShowCursor(FALSE);								// Hide Mouse Pointer
+			GetCursorPos(&initCursorPos);					// Store the current mouse pos
+			initially_visible = true;
+			break;
 	}
-	else
-	{
-		WindowRect.left = 100;
-		WindowRect.top = 100;
-		WindowRect.right = 740;
-		WindowRect.bottom = 580;
-		ShowCursor(TRUE);										// Hide Mouse Pointer
-	}
 
-	CreateGLWindow("Test", WindowRect.right-WindowRect.left, WindowRect.bottom-WindowRect.top, 16);
+	old_gfx_mode = cur_gfx_mode;
+	cur_gfx_mode = mode;
+
+	CreateGLWindow("BOINC App Window", WindowRect.right-WindowRect.left,
+		WindowRect.bottom-WindowRect.top, 16, initially_visible);
 }
 
 /*	This Code Creates Our OpenGL Window.  Parameters Are:					*
@@ -194,7 +206,7 @@ void ChangeMode( bool fullscreenflag ) {
  *	bits			- Number Of Bits To Use For Color (8/16/24/32)			*
  *	fullscreenflag	- Use Fullscreen Mode (TRUE) Or Windowed Mode (FALSE)	*/
  
-BOOL CreateGLWindow(char* title, int width, int height, int bits)
+BOOL CreateGLWindow(char* title, int width, int height, int bits, bool initially_visible)
 {
 	GLuint		PixelFormat;			// Holds The Results After Searching For A Match
 	DWORD		dwExStyle;				// Window Extended Style
@@ -296,7 +308,11 @@ BOOL CreateGLWindow(char* title, int width, int height, int bits)
 		return FALSE;								// Return FALSE
 	}
 
-	ShowWindow(hWnd,SW_SHOW);						// Show The Window
+	if (initially_visible)
+		ShowWindow(hWnd,SW_SHOW);					// Show The Window
+	else
+		ShowWindow(hWnd,SW_HIDE);					// Show The Window
+
 	SetForegroundWindow(hWnd);						// Slightly Higher Priority
 	SetFocus(hWnd);									// Sets Keyboard Focus To The Window
 	ReSizeGLScene(width, height);					// Set Up Our Perspective GL Screen
@@ -348,9 +364,9 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 
 		case WM_KEYDOWN:							// Is A Key Being Held Down?
 		{
-			// If a key is pressed in full screen mode, go back to normal mode
+			// If a key is pressed in full screen mode, go back to old mode
 			if (fullscreen) {
-				//ChangeMode(!fullscreen);
+				ChangeMode(old_gfx_mode);
 			}
 			keys[wParam] = TRUE;					// If So, Mark It As TRUE
 			return 0;								// Jump Back
@@ -358,9 +374,9 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 
 		case WM_KEYUP:								// Has A Key Been Released?
 		{
-			// If a key is pressed in full screen mode, go back to normal mode
+			// If a key is pressed in full screen mode, go back to old mode
 			if (fullscreen) {
-				//ChangeMode(!fullscreen);
+				ChangeMode(old_gfx_mode);
 			}
 			keys[wParam] = FALSE;					// If So, Mark It As FALSE
 			return 0;								// Jump Back
@@ -379,7 +395,7 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 					int dx=pt.x-initCursorPos.x; if (dx<0) dx=-dx;
 					int dy=pt.y-initCursorPos.y; if (dy<0) dy=-dy;
 				    if (dx>mouse_thresh || dy>mouse_thresh) {
-						ChangeMode(!fullscreen);
+						ChangeMode(old_gfx_mode);
 				    }
 				}
 			}
@@ -388,12 +404,8 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,			// Handle For This Window
 
 		case WM_CLOSE:								// Did We Receive A Close Message?
 		{
-			ShowWindow(hWnd,SW_HIDE);
+			ChangeMode(MODE_NO_GRAPHICS);
 			active = false;
-			//ShowWindow(hWnd,SW_SHOW);
-			//SetForegroundWindow(hWnd);					// Slightly Higher Priority
-			//SetFocus(hWnd);								// Sets Keyboard Focus To The Window
-			//active = true;
 			return 0;								// Jump Back
 		}
 
@@ -425,10 +437,11 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 	BOINC_GFX_MODE_MSG = RegisterWindowMessage( "BOINC_GFX_MODE" );
 
 	// Create Our OpenGL Window
-	if (!CreateGLWindow("BOINC Application Window",((GRAPHICS_INFO*)gi)->xsize,
-		((GRAPHICS_INFO*)gi)->ysize,1)) {
-		return 0;									// Quit If Window Was Not Created
+	if (!CreateGLWindow("BOINC App Window",((GRAPHICS_INFO*)gi)->xsize,
+		((GRAPHICS_INFO*)gi)->ysize,16,false)) {
+		return 0;									// Quit this thread if window was not created
 	}
+	cur_gfx_mode = MODE_NO_GRAPHICS;
 
 	while(!win_loop_done)							// Loop That Runs While done=FALSE
 	{
@@ -438,10 +451,8 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 				win_loop_done=TRUE;					// If So done=TRUE
 			}
 			else if (msg.message==BOINC_GFX_MODE_MSG) {
-				// Check mode details here
-				if (!fullscreen) {
-					GetCursorPos(&initCursorPos);
-					ChangeMode(!fullscreen);
+				if (msg.lParam != cur_gfx_mode) {
+					ChangeMode(msg.lParam);
 				}
 			}
 			else {									// If Not, Deal With Window Messages
@@ -463,13 +474,6 @@ DWORD WINAPI win_graphics_event_loop( LPVOID gi ) {
 				// Signal the worker thread that we're done drawing
 				SetEvent(hGlobalDrawEvent);
 			}
-
-			if (keys[VK_F1]) {						// Is F1 Being Pressed?
-				//Sleep(2000);
-				//PostMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_SCREENSAVE, 0);
-				keys[VK_F1]=FALSE;					// If So Make Key FALSE
-			}
-			// Draw The Scene.  Watch For ESC Key And Quit Messages From DrawGLScene()
 		}
 	}
 

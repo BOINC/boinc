@@ -20,11 +20,14 @@
 
 #include <afxwin.h>
 
+#include "graphics_api.h"
+
 enum TScrMode {smNone,smConfig,smPassword,smPreview,smSaver};
 
 int WINAPI WinMain(HINSTANCE h,HINSTANCE,LPSTR,int)
 {
 	int BOINC_SS_START_MSG;
+	int BOINC_GFX_MODE_MSG;
 	UINT oldval;
 	TScrMode ScrMode=smNone;
 
@@ -48,15 +51,16 @@ int WINAPI WinMain(HINSTANCE h,HINSTANCE,LPSTR,int)
 	}
 	if (ScrMode==smPassword) ChangePassword(hwnd);
 	if (ScrMode==smConfig) DialogBox(hInstance,MAKEINTRESOURCE(DLG_CONFIG),hwnd,ConfigDialogProc);
-	if (ScrMode==smSaver || ScrMode==smPreview) DoSaver(hwnd);*/
-
+	if (ScrMode==smSaver || ScrMode==smPreview) DoSaver(hwnd);
+*/
 	// Set a flag in the system to indicate that we're in screensaver mode
 	//if (ScrMode==smSaver)
 		SystemParametersInfo(SPI_SCREENSAVERRUNNING,1,&oldval,0);
 
 	BOINC_SS_START_MSG = RegisterWindowMessage( "BOINC_SS_START" );
+	BOINC_GFX_MODE_MSG = RegisterWindowMessage( "BOINC_GFX_MODE" );
 
-	PostMessage(HWND_BROADCAST, BOINC_SS_START_MSG, 0, 0);
+	PostMessage(HWND_BROADCAST, BOINC_GFX_MODE_MSG, 0, MODE_WINDOW);
 
 	// Unset the system screensaver flag
 	//if (ScrMode==smSaver)

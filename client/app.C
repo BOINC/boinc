@@ -408,12 +408,8 @@ bool ACTIVE_TASK_SET::poll() {
 
                 // Runtimes in 100-nanosecond units
                 totTime = tKernel.QuadPart + tUser.QuadPart;
-
-                //atp->result->final_cpu_time = atp->starting_cpu_time + (totTime / 10000000.0);
-            } else {
-                // This probably isn't correct
-                //atp->result->final_cpu_time = atp->starting_cpu_time + ((double)clock())/CLOCKS_PER_SEC;
             }
+            atp->result->final_cpu_time = atp->checkpoint_cpu_time;
             if (exit_code != STILL_ACTIVE) {
                 found = true;
                 atp->state = PROCESS_EXITED;
