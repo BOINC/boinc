@@ -38,14 +38,16 @@ class WorkUC(Work):
 
 class ResultUC(ExpectedResult):
     def __init__(self):
+        ExpectedResult.__init__(self)
         self.stderr_out   = MATCH_REGEXPS([
-            "<stderr_txt>",
-            "APP: upper_case: starting, argc \\d+",
-            "APP: upper_case: argv[[]0[]] is upper_case",
-            "APP: upper_case ending, wrote \\d+ chars"])
+        "<stderr_txt>",
+        "APP: upper_case: starting, argc \\d+",
+        "APP: upper_case: argv[[]0[]] is upper_case",
+        "APP: upper_case ending, wrote \\d+ chars"])
 
 class ResultComputeErrorUC(ExpectedResultComputeError):
     def __init__(self):
+        ExpectedResultComputeError.__init__(self)
         self.stderr_out   = MATCH_REGEXPS([ """<stderr_txt>
 APP: upper_case: starting, argc \\d+"""])
 
