@@ -105,10 +105,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libcmtd.lib libcpmtd.lib kernel32.lib user32.lib gdi32.lib ole32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wxmswd.lib regexd.lib"
+				OutputFile="$(OutDir)/boincmgr.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="$(WXWIN)\lib;$(WXWIN)\contrib\lib"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(OutDir)/boincmgr.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool
