@@ -141,6 +141,7 @@ add core_version -db_name %(db_name)s \
 
     for app in project.applications:
         appname = app.appname
+        print '   --- Application', appname, ' ---'
         client_map = app.client_versions
         for platform_name in xsort(client_map.keys()):
             exec_file = os.path.split(client_map[platform_name])[1]
