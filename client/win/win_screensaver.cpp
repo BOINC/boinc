@@ -30,15 +30,11 @@
 #include <strsafe.h>
 
 #include "boinc_ss.h"
-#include "win_util.h"
 #include "win_screensaver.h"
-
-//-----------------------------------------------------------------------------
-// Diagnostics Support
-//-----------------------------------------------------------------------------
-#define TRACE		__noop		// If we are compiling for a release build noop the
-								//   trace macro, otherwise use the native debugging
-								//   support in the MFC libraries
+#include "diagnostics.h"
+#include "exception.h"
+#include "stackwalker_win.h"
+#include "win_util.h"
 
 
 static CScreensaver* gs_pScreensaver = NULL;
@@ -48,6 +44,23 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
     HRESULT hr;
     CScreensaver BOINCSS;
+
+    // Initialize Diagnostics
+    try {
+        boinc_init_diagnostics (
+            BOINC_DIAG_DUMPCALLSTACKENABLED | 
+            BOINC_DIAG_HEAPCHECKENABLED |
+            BOINC_DIAG_MEMORYLEAKCHECKENABLED |
+            BOINC_DIAG_ARCHIVESTDERR |
+            BOINC_DIAG_REDIRECTSTDERROVERWRITE |
+            BOINC_DIAG_TRACETOSTDERR
+        );
+    }
+    catch (boinc_runtime_base_exception e)
+    {
+        MessageBox(NULL, e.what(), "BOINC SCreensaver Diagnostic Error", MB_OK);
+    }
+
 
     if( FAILED( hr = BOINCSS.Create( hInstance ) ) )
     {
@@ -109,7 +122,13 @@ HRESULT CScreensaver::Create( HINSTANCE hInstance )
 
 
     EnumMonitors();
-	UtilInitOSVersion();
+
+
+    // Figure out if we're on Win9x
+    OSVERSIONINFO osvi; 
+    osvi.dwOSVersionInfoSize = sizeof(osvi);
+    GetVersionEx( &osvi );
+    m_bIs9x = (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS);
 
 
 	// Register global messages
@@ -299,7 +318,7 @@ SaverMode CScreensaver::ParseCommandLine( TCHAR* pstrCommandLine )
 {
     m_hWndParent = NULL;
 
-	TRACE("ParseCommandLine: '%s'\n", pstrCommandLine);
+	BOINCTRACE("ParseCommandLine: '%s'\n", pstrCommandLine);
 
     // Skip the first part of the command line, which is the full path 
     // to the exe.  If it contains spaces, it will be contained in quotes.
@@ -571,12 +590,6 @@ HRESULT CScreensaver::CreateSaverWindow()
 //-----------------------------------------------------------------------------
 HRESULT CScreensaver::DoSaver()
 {
-    // Figure out if we're on Win9x
-    OSVERSIONINFO osvi; 
-    osvi.dwOSVersionInfoSize = sizeof(osvi);
-    GetVersionEx( &osvi );
-    m_bIs9x = (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS);
-
     // If we're in full on mode, and on 9x, then need to load the password DLL
     if ( m_SaverMode == sm_full && m_bIs9x )
     {
@@ -846,7 +859,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 	}
 
 	if (m_bLogMessagePump)
-		TRACE(TEXT("PrimarySaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
+		BOINCTRACE(TEXT("PrimarySaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
 
     return DefWindowProc( hWnd, uMsg, wParam, lParam );
 }
@@ -1001,7 +1014,7 @@ LRESULT CScreensaver::GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 	}
 
 	if (m_bLogMessagePump)
-		TRACE(TEXT("GenericSaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
+		BOINCTRACE(TEXT("GenericSaverProc hWnd '%d' uMsg '%X' wParam '%d' lParam '%d'\n"), hWnd, uMsg, wParam, lParam);
 
 	return DefWindowProc( hWnd, uMsg, wParam, lParam );
 }
@@ -1511,20 +1524,20 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 		{
 			if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
 			{
-				TRACE(TEXT("IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
+				BOINCTRACE(TEXT("IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
 				if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC.lnk"), 10)))
 				{
-					TRACE(TEXT("IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
+					BOINCTRACE(TEXT("IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
 					bCheckFileExists = TRUE;
 				}
 				else
 				{
-					TRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_STARTUP Append Operation\n"));
+					BOINCTRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_STARTUP Append Operation\n"));
 				}
 			}
 			else
 			{
-				TRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_STARTUP\n"));
+				BOINCTRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_STARTUP\n"));
 			}
 		}
 
@@ -1542,13 +1555,13 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 
 			if (INVALID_HANDLE_VALUE != hFileHandle)
 			{
-				TRACE(TEXT("IsConfigStartupBOINC: CreateFile returned a valid handle '%d'\n"), hFileHandle);
+				BOINCTRACE(TEXT("IsConfigStartupBOINC: CreateFile returned a valid handle '%d'\n"), hFileHandle);
 				CloseHandle(hFileHandle);
 				bRetVal = TRUE;
 			}
 			else
 			{
-				TRACE(TEXT("IsConfigStartupBOINC: CreateFile returned INVALID_HANDLE_VALUE - GetLastError() '%d'\n"), GetLastError());
+				BOINCTRACE(TEXT("IsConfigStartupBOINC: CreateFile returned INVALID_HANDLE_VALUE - GetLastError() '%d'\n"), GetLastError());
 
 				// It could be in the global startup group
 				ZeroMemory( szBuffer, 512 );
@@ -1557,20 +1570,20 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 				{
 					if (SUCCEEDED((pfnMySHGetFolderPath)(NULL, CSIDL_COMMON_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
 					{
-						TRACE(TEXT("IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
+						BOINCTRACE(TEXT("IsConfigStartupBOINC: pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
 						if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC.lnk"), 10)))
 						{
-							TRACE(TEXT("IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
+							BOINCTRACE(TEXT("IsConfigStartupBOINC: Final pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
 							bCheckFileExists = TRUE;
 						}
 						else
 						{
-							TRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP Append Operation\n"));
+							BOINCTRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP Append Operation\n"));
 						}
 					}
 					else
 					{
-						TRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP\n"));
+						BOINCTRACE(TEXT("IsConfigStartupBOINC: FAILED pfnMySHGetFolderPath - CSIDL_COMMON_STARTUP\n"));
 					}
 				}
 
@@ -1588,13 +1601,13 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 
 					if (INVALID_HANDLE_VALUE != hFileHandle)
 					{
-						TRACE(TEXT("IsConfigStartupBOINC: CreateFile returned a valid handle '%d'\n"), hFileHandle);
+						BOINCTRACE(TEXT("IsConfigStartupBOINC: CreateFile returned a valid handle '%d'\n"), hFileHandle);
 						CloseHandle(hFileHandle);
 						bRetVal = TRUE;
 					}
 					else
 					{
-						TRACE(TEXT("IsConfigStartupBOINC: CreateFile returned INVALID_HANDLE_VALUE - GetLastError() '%d'\n"), GetLastError());
+						BOINCTRACE(TEXT("IsConfigStartupBOINC: CreateFile returned INVALID_HANDLE_VALUE - GetLastError() '%d'\n"), GetLastError());
 					}
 				}
 			}
@@ -1606,6 +1619,6 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 	FreeLibrary(hShell32);
 
 
-	TRACE(TEXT("IsConfigStartupBOINC: Returning '%d'\n"), bRetVal);
+	BOINCTRACE(TEXT("IsConfigStartupBOINC: Returning '%d'\n"), bRetVal);
 	return bRetVal;
 }

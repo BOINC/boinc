@@ -19347,3 +19347,20 @@ Rom    12 Nov 2004
         ViewProjects.cpp
     win_build/
         BOINCGUI.vcproj
+
+Rom    12 Nov 2004
+    - Bring the screensaver up to date by adding diagnostics support, exception support,
+      and stackwalker support.
+    - Include the ability for the screensaver to make GUI RPC's.
+    - Convert the MFC style trace statements to BOINCTRACE statements.
+    - Give the ability for the screensaver to log to logfiles.
+    - Give the ability for the screensaver to track memory allocations and dump leaks
+      to the log file.
+
+    client/win/
+        win_screensaver.cpp
+    lib/
+        diagnostics.h
+    win_build/
+        boinc_ss.vcproj
+ 
