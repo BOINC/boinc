@@ -63,6 +63,7 @@ public:
     int next_request_time;      // don't contact server until this time
     double exp_avg_cpu;         // exponentially weighted cpu time
     int exp_avg_mod_time;       // last time average was changed
+    char* code_sign_key;
 
     PROJECT();
     ~PROJECT();
@@ -91,17 +92,19 @@ public:
     double nbytes;
     bool generated_locally; // file is produced by app
     bool file_present;
-    bool executable;
+    bool executable;        // change file protections to make executable
     bool uploaded;          // file has been uploaded
     bool upload_when_present;
     bool sticky;            // don't delete unless instructed to do so
+    bool signature_required;    // true iff associated with app version
     FILE_XFER* file_xfer;   // nonzero if in the process of being up/downloaded
     RESULT* result;         // for upload files (to authenticate)
     PROJECT* project;
     int ref_cnt;
     vector<STRING256> urls;
     char* signed_xml;
-    char* signature;
+    char* xml_signature;
+    char* file_signature;
 
     FILE_INFO();
     ~FILE_INFO();

@@ -6,10 +6,14 @@ VPATH           = @srcdir@
 VERSION = 1
 
 CFLAGS = -g -Wall @DEFS@ \
+    -I @srcdir@/../api \
+    -I @srcdir@/../lib \
+    -I @srcdir@/../RSAEuro/source \
+    -I /usr/local/mysql/include \
     -DHOST=\"@host@\" \
     -DVERSION=$(VERSION)
 
-CC = @CC@ $(CFLAGS) -I @srcdir@/../lib -I /usr/local/mysql/include -I ../api -I ../lib
+CC = @CC@ $(CFLAGS)
 
 CLIBS = @LIBS@
 
@@ -42,6 +46,8 @@ OBJS = \
     ../lib/parse.o \
     ../lib/md5_file.o \
     ../lib/md5.o \
+    ../lib/crypt.o \
+    ../RSAEuro/source/rsaeuro.a \
     ../api/api.o
 
 TEST_NET_XFER_OBJS = \

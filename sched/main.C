@@ -29,6 +29,7 @@
 
 #define REQ_FILE_PREFIX "/tmp/boinc_req_"
 #define REPLY_FILE_PREFIX "/tmp/boinc_reply_"
+#define BOINC_KEY_DIR "/home/david/boinc_keys"
 
 int return_error(char* p) {
     fprintf(stderr, "BOINC server: %s\n", p);
@@ -45,36 +46,46 @@ int return_error(char* p) {
 int main() {
     FILE* fin, *fout;
     int i, retval, pid;
-    char req_path[256], reply_path[256];
+    char req_path[256], reply_path[256], path[256];
     SCHED_SHMEM* ssp;
     void* p;
     unsigned int counter=0;
+    char* code_sign_key;
+
+    sprintf(path, "%s/code_sign_public", BOINC_KEY_DIR);
+    retval = read_file_malloc(path, code_sign_key);
+    if (retval) {
+        fprintf(stderr,
+            "BOINC scheduler: can't read code sign key file (%s)\n", path
+        );
+        exit(1);
+    }
 
     retval = attach_shmem(BOINC_KEY, &p);
     if (retval) {
-        printf("can't attach shmem\n");
+        fprintf(stderr, "BOINC scheduler: can't attach shmem\n");
         exit(1);
     }
     ssp = (SCHED_SHMEM*)p;
     retval = ssp->verify();
     if (retval) {
-        printf("shmem has wrong struct sizes - recompile\n");
+        fprintf(stderr, "BOINC scheduler: shmem has wrong struct sizes - recompile\n");
         exit(1);
     }
 
     for (i=0; i<10; i++) {
         if (ssp->ready) break;
-        fprintf(stderr, "Waiting for ready flag\n");
+        fprintf(stderr, "BOINC scheduler: waiting for ready flag\n");
         sleep(1);
     }
     if (!ssp->ready) {
-        fprintf(stderr, "handle_request(): feeder doesn't seem to be running\n");
+        fprintf(stderr, "BOINC scheduler: feeder doesn't seem to be running\n");
         exit(1);
     }
     //fprintf(stderr, "got ready flag\n");
     retval = db_open("boinc");
     if (retval) {
-        exit(return_error("can't open database"));
+        exit(return_error("BOINC scheduler: can't open database"));
     }
     pid = getpid();
 #ifdef _USING_FCGI_
@@ -98,7 +109,7 @@ int main() {
     if (!fout) {
         exit(return_error("can't write reply file"));
     }
-    handle_request(fin, fout, *ssp);
+    handle_request(fin, fout, *ssp, code_sign_key);
     fclose(fin);
     fclose(fout);
     fin = fopen(reply_path, "r");

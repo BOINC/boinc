@@ -128,6 +128,18 @@ int SCHEDULER_OP::poll() {
     return 0;
 }
 
+SCHEDULER_REPLY::SCHEDULER_REPLY() {
+    prefs_xml = 0;
+    code_sign_key = 0;
+    code_sign_key_signature = 0;
+}
+
+SCHEDULER_REPLY::~SCHEDULER_REPLY() {
+    if (prefs_xml) free(prefs_xml);
+    if (code_sign_key) free(code_sign_key);
+    if (code_sign_key_signature) free(code_sign_key_signature);
+}
+
 int SCHEDULER_REPLY::parse(FILE* in) {
     char buf[256];
     int retval;
@@ -138,6 +150,8 @@ int SCHEDULER_REPLY::parse(FILE* in) {
     hostid = 0;
     prefs_mod_time = 0;
     prefs_xml = 0;
+    code_sign_key = 0;
+    code_sign_key_signature = 0;
 
     fgets(buf, 256, in);
     if (!match_tag(buf, "<scheduler_reply>")) {
@@ -155,6 +169,12 @@ int SCHEDULER_REPLY::parse(FILE* in) {
             continue;
         } else if (match_tag(buf, "<preferences>")) {
             retval = dup_element_contents(in, "</preferences>", &prefs_xml);
+            if (retval) return ERR_XML_PARSE;
+        } else if (match_tag(buf, "<code_sign_key>")) {
+            retval = dup_element_contents(in, "</code_sign_key>", &code_sign_key);
+            if (retval) return ERR_XML_PARSE;
+        } else if (match_tag(buf, "<code_sign_key_signature>")) {
+            retval = dup_element_contents(in, "</code_sign_key_signature>", &code_sign_key_signature);
             if (retval) return ERR_XML_PARSE;
         } else if (match_tag(buf, "<app>")) {
             APP app;

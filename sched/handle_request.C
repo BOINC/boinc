@@ -17,6 +17,7 @@
 // Contributor(s):
 //
 
+#include <stdio.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <time.h>
@@ -49,11 +50,14 @@ double estimate_duration(WORKUNIT& wu, HOST& host) {
 int insert_time_tag(WORKUNIT& wu, double seconds) {
     char *location;
     location = strstr(wu.xml_doc, "</workunit>");
-    if((location - wu.xml_doc) > (MAX_BLOB_SIZE - 64)) {
+    if ((location - wu.xml_doc) > (MAX_BLOB_SIZE - 64)) {
 	return -1; //not enough space to include time info
     }
-    sprintf(location, "    <seconds_to_complete>%lf</seconds_to_complete>\n"
-	              "</workunit>\n", seconds);
+    sprintf(location,
+        "    <seconds_to_complete>%lf</seconds_to_complete>\n"
+        "</workunit>\n",
+        seconds
+    );
     return 0;
 }
 
@@ -356,8 +360,56 @@ int send_work(
     return 0;
 }
 
+// if the client has an old code sign key,
+// send it the new one, with a signature based on the old one.
+// If they don't have a code sign key, send them one
+//
+void send_code_sign_key(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, char* code_sign_key
+) {
+    char* oldkey, *signature;
+    int i, retval;
+    char path[256];
+
+    if (sreq.code_sign_key) {
+        if (strcmp(sreq.code_sign_key, code_sign_key)) {
+            // look for a signature file
+            //
+            for (i=0; ; i++) {
+                sprintf(path, "%s/old_key_%d", "BOINC_KEY_DIR", i);
+                retval = read_file_malloc(path, oldkey);
+                if (retval) {
+                    strcpy(reply.message,
+                        "Can't update code signing key.  "
+                        "Please report this to project."
+                    );
+                    return;
+                }
+                if (!strcmp(oldkey, sreq.code_sign_key)) {
+                    sprintf(path, "%s/signature_%d", "BOINC_KEY_DIR", i);
+                    retval = read_file_malloc(path, signature);
+                    if (retval) {
+                        strcpy(reply.message,
+                            "Can't update code signing key.  "
+                            "Please report this to project."
+                        );
+                    } else {
+                        reply.code_sign_key = strdup(code_sign_key);
+                        reply.code_sign_key_signature = signature;
+                    }
+                }
+                free(oldkey);
+                return;
+            }
+        }
+    } else {
+        reply.code_sign_key = strdup(code_sign_key);
+    }
+}
+
 void process_request(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss,
+    char* code_sign_key
 ) {
     HOST host;
     USER user;
@@ -387,16 +439,20 @@ void process_request(
     handle_results(sreq, reply, host);
 
     send_work(sreq, reply, *platform, host, ss);
+
+    send_code_sign_key(sreq, reply, code_sign_key);
 }
 
-void handle_request(FILE* fin, FILE* fout, SCHED_SHMEM& ss) {
+void handle_request(
+    FILE* fin, FILE* fout, SCHED_SHMEM& ss, char* code_sign_key
+) {
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
 
     memset(&sreq, 0, sizeof(sreq));
     sreq.parse(fin);
 
-    process_request(sreq, sreply, ss);
+    process_request(sreq, sreply, ss, code_sign_key);
 
     sreply.write(fout);
 }

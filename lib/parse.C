@@ -110,3 +110,17 @@ int dup_element_contents(FILE* in, char* end_tag, char** pp) {
     fprintf(stderr, "dup_element_contents(): no end tag\n");
     return 1;
 }
+
+int read_file_malloc(char* pathname, char*& str) {
+    char buf[256];
+    FILE* f;
+
+    f = fopen(pathname, "r");
+    if (!f) return -1;
+    str = strdup("");
+    while (fgets(buf, 256, f)) {
+        strcatdup(str, buf);
+    }
+    fclose(f);
+    return 0;
+}

@@ -24,10 +24,12 @@
 
 SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
     prefs_xml = 0;
+    code_sign_key = 0;
 }
 
 SCHEDULER_REQUEST::~SCHEDULER_REQUEST() {
     if (prefs_xml) free(prefs_xml);
+    if (code_sign_key) free(code_sign_key);
 }
 
 int SCHEDULER_REQUEST::parse(FILE* fin) {
@@ -77,6 +79,9 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             results.push_back(result);
             continue;
         }
+        else if (match_tag(buf, "<code_sign_key>")) {
+            dup_element_contents(fin, "</code_sign_key>", &code_sign_key);
+        }
         else fprintf(stderr, "SCHEDULER_REQUEST::parse(): unrecognized: %s\n", buf);
     }
     return 1;
@@ -89,9 +94,13 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     strcpy(message, "");
     strcpy(message_priority, "");
     send_prefs = false;
+    code_sign_key = 0;
+    code_sign_key_signature = 0;
 }
 
 SCHEDULER_REPLY::~SCHEDULER_REPLY() {
+    if (code_sign_key) free(code_sign_key);
+    if (code_sign_key_signature) free(code_sign_key_signature);
 }
 
 int SCHEDULER_REPLY::write(FILE* fout) {
@@ -151,6 +160,16 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     }
     for (i=0; i<results.size(); i++) {
         fputs(results[i].xml_doc_in, fout);
+    }
+    if (code_sign_key) {
+        fputs("<code_sign_key>\n", fout);
+        fputs(code_sign_key, fout);
+        fputs("</code_sign_key>\n", fout);
+    }
+    if (code_sign_key_signature) {
+        fputs("<code_sign_key_signature>\n", fout);
+        fputs(code_sign_key_signature, fout);
+        fputs("</code_sign_key_signature>\n", fout);
     }
     fprintf(fout,
         "</scheduler_reply>\n"

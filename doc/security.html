@@ -1,66 +1,134 @@
+<body bgcolor=ffffff>
 <h2>Security</h2>
 
 <p>
-There are two major areas of security in public-participation
-computing projects: protection of the project,
-and protection of the participants.
+Many types of attacks are possible in public-participation
+distributed computing.
+<ul>
+<li> <b>Result falsification</b>.
+Attackers return incorrect results.
+<li> <b>Credit falsification</b>.
+Attackers return results claiming more CPU time than was actually used.
+<li> <b>Malicious executable distribution</b>.
+Attackers break into a BOINC server and, by modifying
+the database and files, attempt to distribute their own executable
+(e.g. a virus program) disguised as a BOINC application.
+<li> <b>Overrun of data server</b>.
+Attackers repeatedly send large files to BOINC data servers,
+filling up their disks and rendering them unusable.
+<li> <b>Theft of participant account information by server attack</b>.
+Attackers break into a BOINC server and steal email addresses
+and other account information.
+<li> <b>Theft of participant account information by network attack</b>.
+Attackers exploit the BOINC network protocols to steal
+account information.
+<li> <b>Theft of project files</b>.
+Attackers steal input and/or output files.
+<li> <b>Intentional abuse of participant hosts by projects</b>.
+A project intentionally releases an application that
+abuses participant hosts, e.g. by stealing sensitive information
+stored in files.
+<li> <b>Accidental abuse of participant hosts by projects</b>.
+A project releases an application that unintentionally
+abuses particpant hosts, e.g. deleting files or causing crashes.
+
+</ul>
+BOINC provides mechanisms to reduce the likelihood of some of these attacks.
 
 <p>
-BOINC's support for redundant computing allows projects
-to protect themselves from forged results and credit cheating.
-For most other types of attacks,
-the project is responsible for its own security.
-All machines other then the scheduling server,
-web servers, and data servers should be protected by a firewall.
-The machines outside the firewall should have
-all unused network services disabled.
+<b>Result falsification</b>
+<p>
+This can be probabilistically detected using
+redundant computing and result verification:
+if a majority of results agree
+(according to an application-specific comparison)
+then they are classified as correct.
+
+<p>
+<b>Credit falsification</b>
+<p>
+This can be probabilistically detected using
+redundant computing and credit verification:
+each participant is given the minimum credit from among
+the correct results.
+
+<p>
+<b>Malicious executable distribution</b>
+<p>
+BOINC uses code signing to prevent this.
+Each project has a key pair for code signing.
+The private key should be kept on a network-isolated machine
+used for generating digital signatures for executables.
+The public key is distributed to, and stored on, clients.
+All files associated with application versions are sent
+with digital signatures using this key pair.
+<p>
+Even if attackers break into a project's BOINC servers,
+they will not be able to cause clients to accept a false code file.
+<p>
+BOINC provides a mechanism by which projects can periodically
+change their code-signing key pair.
+The project generates a new key pair,
+then (using the code-signing machine)
+generates a signature for the new public key,
+signed with the old private key.
+The core client will accept a new key only if it's signed with the old key.
+This mechanism is designed to prevent attackers from breaking into
+a BOINC server and distributing a false key pair.
+
+<p>
+<b>Overrun of data server</b>
+<p>
+Each result file has an associated maximum size.
+Each project has a <b>upload authentication key pair</b>.
+The public key is stored on the project's data servers.
+Result file descriptions are sent to clients with a digital signature,
+which is forwarded to the data server when the file is uploaded.
+The data server verifies the file description,
+and ensures that the amount of data uploaded does not exceed the maximum size.
+
+<p>
+<b>Theft of participant account information by server attack</b>
+<p>
+Each project must address this using conventional security practices.
+All server machines should be protected by a firewall,
+and should have all unused network services disabled.
 Access to these machines should be done only
 with encrypted protocols like SSH.
 The machines should be subjected to regular security audits.
+<p>
+Projects should be undertaken only the organizations
+that have sufficient expertise and resources to secure their servers.
+A successful attack could discredit all BOINC-based projects,
+and public-participation computing in general.
 
 <p>
-The input and output files used by BOINC applications
-are not encrypted.
+<b>Theft of participant account information by network attack</b>
+<p>
+The
+
+<p>
+<b>Theft of project files</b>
+<p>
+The input and output files used by BOINC applications are not encrypted.
 Applications can do this themselves, but it has little effect
 since data resides in cleartext in memory,
 where it is easy to access with a debugger.
 
 <p>
-The most important aspect of participant protection
-is the distribution of executables.
-If this is hacked, BOINC projects could be used
-to spread viruses to all their participants.
+<b>Intentional abuse of participant hosts by projects</b>
 <p>
-The mechanism for distributing executables is as follows:
-
-<ul>
-<li> The participants host contacts the scheduling server.
-<li> The scheduling server passes back the URL and
-MD5 checksum of an executable
-(it gets this information from the BOINC database).
-<li> The client downloads the executable from the dataserver
-and computes its checksum.
-If this doesn't match the one obtained from the server,
-the client rejects the executable.
-</ul>
-
-<p>
-Compromising the data server is not a danger.
-However, if the scheduling server or the database is compromised
-then BOINC could be used to distribute viruses.
-Furthermore, if hackers were able to intercept and alter
-network traffic between client and server,
-they could substitute false checksums and break the system.
-
-<p>
-<b>TO DO: allow for separate "authentication servers" that
-are used only to distribute MD5 checksums of executables;
-clients can cross-check these if they want.</b>
-
-<p>
+BOINC does nothing to prevent this
+(e.g. there is no "sandboxing" of applications).
 Participants must understand that when they join a BOINC project,
-they are entrusting that project with the security of their systems.
-The BOINC documentation must emphasize this,
-and projects must devote sufficient resources to ensure their security.
-A successful attack could discredit all BOINC-based projects,
-and public-participation computing in general.
+they are entrusting the security of their systems to that project.
+
+<p>
+<b>Accidental abuse of participant hosts by projects</b>
+<p>
+BOINC does nothing to prevent this.
+The chances of it happening can be minimized by
+pre-released application testing.
+Projects should test their applications thoroughly on all platforms
+and with all input data scenarios before
+promoting them to production status.

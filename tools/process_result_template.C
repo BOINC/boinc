@@ -70,13 +70,15 @@ int process_result_template(
             signature.data = signature_buf;
             signature.len = SIGNATURE_SIZE;
             sign_block(block, key, signature);
-            fprintf(out, "<signature>\n");
+            fprintf(out, "<xml_signature>\n");
             print_hex_data(out, signature);
-        printf("signing [\n%s]\n", signed_xml);
-        printf("signature: [\n");
+#if 0
+            printf("signing [\n%s]\n", signed_xml);
+            printf("signature: [\n");
             print_hex_data(stdout, signature);
-        printf("]\n");
-            fprintf(out, "</signature>\n");
+            printf("]\n");
+#endif
+            fprintf(out, "</xml_signature>\n");
             fprintf(out, "</file_info>\n");
             continue;
         }

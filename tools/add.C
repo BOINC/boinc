@@ -51,6 +51,7 @@ char buf[256], md5_cksum[64];
 char *app_name=0, *platform_name=0, *exec_dir=0, *exec_file=0;
 char *email_addr=0, *user_name=0, *web_password=0, *authenticator=0;
 char *prefs_file=0, *download_dir, *url_base;
+char* code_sign_keyfile;
 char *message=0, *message_priority=0;
 
 void add_app() {
@@ -81,6 +82,11 @@ void add_platform() {
 }
 
 void add_app_version() {
+    char path[256];
+    DATA_BLOCK signature;
+    unsigned char signature_buf[SIGNATURE_SIZE];
+    char signature_text[1024];
+
     memset(&app_version, 0, sizeof(app_version));
 
     strcpy(app.name, app_name);
@@ -116,10 +122,26 @@ void add_app_version() {
         return;
     }
 
-    // compute checksum of executable
+    // sign the executable
     //
-    sprintf(buf, "%s/%s", exec_dir, exec_file);
-    md5_file(buf, md5_cksum, nbytes);
+    R_RSA_PRIVATE_KEY code_sign_key;
+    FILE* fkey = fopen(code_sign_keyfile, "r");
+    if (!fkey) {
+        fprintf(stderr, "add: can't open key file (%s)\n", code_sign_keyfile);
+        exit(1);
+    }
+    retval = scan_key_hex(fkey, (KEY*)&code_sign_key, sizeof(code_sign_key));
+    fclose(fkey);
+    if (retval) {
+        fprintf(stderr, "add: can't parse key\n");
+        exit(1);
+    }
+    sprintf(path, "%s/%s", exec_dir, exec_file);
+    signature.data = signature_buf;
+    sign_file(path, code_sign_key, signature);
+    sprint_hex_data(signature_text, signature);
+
+    md5_file(path, md5_cksum, nbytes);
 
     // generate the XML doc directly.
     // TODO: use a template, as in create_work
@@ -129,7 +151,8 @@ void add_app_version() {
         "    <name>%s</name>\n"
         "    <url>%s/%s</url>\n"
         "    <executable/>\n"
-        "    <md5_cksum>%s</md5_cksum>\n"
+        "    <file_signature>\n%s"
+        "    </file_signature>\n"
         "    <nbytes>%f</nbytes>\n"
         "</file_info>\n"
         "<app_version>\n"
@@ -142,7 +165,7 @@ void add_app_version() {
         "</app_version>\n",
         exec_file,
         url_base, exec_file,
-        md5_cksum,
+        signature_text,
         nbytes,
         app_name,
         version,
@@ -250,6 +273,9 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-message_priority")) {
             i++;
             message_priority = argv[i];
+        } else if (!strcmp(argv[i], "-code_sign_keyfile")) {
+            i++;
+            code_sign_keyfile = argv[i];
         }
     }
     if (!strcmp(argv[1], "app")) {

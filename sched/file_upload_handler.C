@@ -2,9 +2,9 @@
 //
 // <file_info>
 //    ...
-// <signature>
+// <xml_signature>
 //    ...
-// </signature>
+// </xml_signature>
 // </file_info>
 // <nbytes>x</nbytes>
 // <offset>x</offset>
@@ -32,7 +32,7 @@
 struct FILE_INFO {
     char name[256];
     double max_nbytes;
-    char* signature;
+    char* xml_signature;
     char* signed_xml;
     int parse(FILE*);
 };
@@ -45,8 +45,8 @@ int FILE_INFO::parse(FILE* in) {
     signed_xml = strdup("");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file_info>")) return 0;
-        else if (match_tag(buf, "<signature>")) {
-            retval = dup_element_contents(in, "</signature>", &signature);
+        else if (match_tag(buf, "<xml_signature>")) {
+            retval = dup_element_contents(in, "</xml_signature>", &xml_signature);
             if (retval) return retval;
             continue;
         }
@@ -72,7 +72,7 @@ int print_status(int status, char* message) {
 
 // read from socket, write to file
 //
-int read_file(FILE* in, char* path, double offset, double nbytes) {
+int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     unsigned char buf[BLOCK_SIZE];
     FILE* out;
     int retval, n, m;
@@ -125,10 +125,10 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
             retval = file_info.parse(in);
             if (retval) return retval;
             retval = verify_string(
-                file_info.signed_xml, file_info.signature, key, is_valid
+                file_info.signed_xml, file_info.xml_signature, key, is_valid
             );
             if (retval || !is_valid) {
-                print_status(-1, "invalid signature");
+                print_status(-1, "invalid XML signature");
                 return -1;
             }
             continue;
@@ -152,7 +152,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
             }
 
             sprintf(path, "%s/%s", BOINC_UPLOAD_DIR, file_info.name);
-            retval = read_file(in, path, offset, nbytes);
+            retval = copy_socket_to_file(in, path, offset, nbytes);
             break;
         }
     }

@@ -30,18 +30,39 @@
 #include <sys/types.h>
 
 #include "md5_file.h"
+#include "crypt.h"
+
 #include "file_xfer.h"
 #include "file_names.h"
 #include "client_types.h"
 #include "log_flags.h"
 #include "client_state.h"
 
+int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
+    char cksum[64];
+    PROJECT* project;
+    bool verified;
+    int retval;
+
+    if (file_info.signature_required) {
+        if (!file_info.file_signature) return -1;
+        project = file_info.project;
+        retval = verify_file2(
+            pathname, file_info.file_signature, project->code_sign_key, verified
+        );
+        if (retval || !verified) return -1;
+    } else if (file_info.md5_cksum) {
+        md5_file(pathname, cksum, file_info.nbytes);
+        if (strcmp(cksum, file_info.md5_cksum)) return -1;
+    }
+    return 0;
+}
+
 bool CLIENT_STATE::start_file_xfers() {
     unsigned int i;
     FILE_INFO* fip;
     FILE_XFER* fxp;
     char pathname[256];
-    char cksum[64];
     int retval;
     bool action = false;
 
@@ -54,7 +75,6 @@ bool CLIENT_STATE::start_file_xfers() {
         fxp = fip->file_xfer;
         if (!fip->generated_locally && !fip->file_present && !fxp) {
             fxp = new FILE_XFER;
-            //get_pathname(fip, pathname);
             fxp->init_download(*fip);
             retval = file_xfers->insert(fxp);
             if (retval) {
@@ -114,12 +134,12 @@ bool CLIENT_STATE::start_file_xfers() {
                     }
                 } else {
                     if (fxp->file_xfer_retval == 0) {
-                        get_pathname(fip, pathname);
-                        md5_file(pathname, cksum, fip->nbytes);
                         net_stats.update(false, fip->nbytes, fxp->elapsed_time());
-                        if (strcmp(cksum, fip->md5_cksum)) {
+                        get_pathname(fip, pathname);
+                        retval = verify_downloaded_file(pathname, *fip);
+                        if (retval) {
                             fprintf(stderr,
-                                "checksum error for %s\n", fip->name
+                                "checksum or signature error for %s\n", fip->name
                             );
                         } else {
                             if (log_flags.file_xfer_debug) {

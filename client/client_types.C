@@ -84,6 +84,9 @@ int PROJECT::parse_state(FILE* in) {
         else if (parse_int(buf, "<next_request_time>", next_request_time)) continue;
         else if (parse_double(buf, "<exp_avg_cpu>", exp_avg_cpu)) continue;
         else if (parse_int(buf, "<exp_avg_mod_time>", exp_avg_mod_time)) continue;
+        else if (match_tag(buf, "<code_sign_key>")) {
+            dup_element_contents(in, "</code_sign_key>", &code_sign_key);
+        }
         else fprintf(stderr, "PROJECT::parse_state(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
@@ -109,8 +112,7 @@ int PROJECT::write_state(FILE* out) {
         "    <hostid>%d</hostid>\n"
         "    <next_request_time>%d</next_request_time>\n"
         "    <exp_avg_cpu>%f</exp_avg_cpu>\n"
-        "    <exp_avg_mod_time>%d</exp_avg_mod_time>\n"
-        "</project>\n",
+        "    <exp_avg_mod_time>%d</exp_avg_mod_time>\n",
         master_url,
         project_name,
         user_name,
@@ -119,6 +121,14 @@ int PROJECT::write_state(FILE* out) {
         next_request_time,
         exp_avg_cpu,
         exp_avg_mod_time
+    );
+    if (code_sign_key) {
+        fprintf(out,
+            "    </code_sign_key>\n%s</code_sign_key>\n", code_sign_key
+        );
+    }
+    fprintf(out,
+        "</project>\n"
     );
     return 0;
 }
@@ -175,7 +185,7 @@ FILE_INFO::~FILE_INFO() {
 }
 
 // If from server, make an exact copy of everything
-// except the start/end tags and the signature element.
+// except the start/end tags and the <xml_signature> element.
 //
 int FILE_INFO::parse(FILE* in, bool from_server) {
     char buf[256];
@@ -191,6 +201,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     uploaded = false;
     upload_when_present = false;
     sticky = false;
+    signature_required = false;
     project = NULL;
     file_xfer = NULL;
     urls.clear();
@@ -199,11 +210,11 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     } else {
         signed_xml = 0;
     }
-    signature = 0;
+    xml_signature = 0;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file_info>")) return 0;
-        else if (match_tag(buf, "<signature>")) {
-            dup_element_contents(in, "</signature>", &signature);
+        else if (match_tag(buf, "<xml_signature>")) {
+            dup_element_contents(in, "</xml_signature>", &xml_signature);
             continue;
         }
         if (from_server) {
@@ -212,6 +223,10 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
         if (parse_str(buf, "<name>", name)) continue;
         else if (parse_str(buf, "<url>", url.text)) {
             urls.push_back(url);
+            continue;
+        }
+        else if (match_tag(buf, "<file_signature>")) {
+            dup_element_contents(in, "</file_signature>", &file_signature);
             continue;
         }
         else if (parse_str(buf, "<md5_cksum>", md5_cksum)) continue;
@@ -223,6 +238,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
         else if (match_tag(buf, "<uploaded/>")) uploaded = true;
         else if (match_tag(buf, "<upload_when_present/>")) upload_when_present = true;
         else if (match_tag(buf, "<sticky/>")) sticky = true;
+        else if (match_tag(buf, "<signature_required/>")) signature_required = true;
         else if (!from_server && match_tag(buf, "<signed_xml>")) {
             dup_element_contents(in, "</signed_xml>", &signed_xml);
             continue;
@@ -249,6 +265,7 @@ int FILE_INFO::write(FILE* out, bool to_server) {
         if (uploaded) fprintf(out, "    <uploaded/>\n");
         if (upload_when_present) fprintf(out, "    <upload_when_present/>\n");
         if (sticky) fprintf(out, "    <sticky/>\n");
+        if (signature_required) fprintf(out, "    <signature_required/>\n");
     }
     for (i=0; i<urls.size(); i++) {
         fprintf(out, "<url>%s</url>\n", urls[i].text);
@@ -257,8 +274,8 @@ int FILE_INFO::write(FILE* out, bool to_server) {
         if (signed_xml) {
             fprintf(out, "<signed_xml>\n%s</signed_xml>\n", signed_xml);
         }
-        if (signature) {
-            fprintf(out, "<signature>\n%s</signature>\n", signature);
+        if (xml_signature) {
+            fprintf(out, "<xml_signature>\n%s</xml_signature>\n", xml_signature);
         }
     }
     fprintf(out, "</file_info>\n");

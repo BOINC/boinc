@@ -34,6 +34,8 @@
 #undef _USING_FCGI_
 #endif
 
+#include "crypt.h"
+
 #include "error_numbers.h"
 #include "file_names.h"
 #include "parse.h"
@@ -135,6 +137,9 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, int work_req) {
 	version,
         work_req
     );
+    if (p->code_sign_key) {
+        fprintf(f, "<code_sign_key>\n%s</code_sign_key>\n", p->code_sign_key);
+    }
 
     FILE* fprefs = fopen(PREFS_FILE_NAME, "r");
     copy_stream(fprefs, f);
@@ -229,6 +234,7 @@ void CLIENT_STATE::handle_scheduler_reply(SCHEDULER_OP& sched_op) {
     char prefs_backup[256];
     PROJECT *project, *pp, *sp;
     PREFS* new_prefs;
+    bool signature_valid;
 
     project = sched_op.project;
     contacted_sched_server = true;
@@ -249,9 +255,6 @@ void CLIENT_STATE::handle_scheduler_reply(SCHEDULER_OP& sched_op) {
     if (strlen(sr.message)) {
         show_message(sr.message, sr.message_priority);
     }
-
-    // copy new entities to client state
-    //
 
     if (sr.request_delay) {
         project->next_request_time = time(0) + sr.request_delay;
@@ -315,6 +318,34 @@ void CLIENT_STATE::handle_scheduler_reply(SCHEDULER_OP& sched_op) {
             fprintf(stderr, "New preferences don't look reasonable, ignoring\n");
         }
     }
+
+    // if the scheduler reply includes a code-signing key,
+    // accept it if we don't already have one from the project.
+    // Otherwise verify its signature, using the key we already have.
+    //
+
+    if (sr.code_sign_key) {
+        if (!project->code_sign_key) {
+            project->code_sign_key = strdup(sr.code_sign_key);
+        } else {
+            retval = verify_string2(
+                sr.code_sign_key, sr.code_sign_key_signature,
+                project->code_sign_key, signature_valid
+            );
+            if (!retval && signature_valid) {
+                free(project->code_sign_key);
+                project->code_sign_key = strdup(sr.code_sign_key);
+            } else {
+                fprintf(stderr,
+                    "New code signing key from %s doesn't validate\n",
+                    project->project_name
+                );
+            }
+        }
+    }
+
+    // copy new entities to client state
+    //
 
     for (i=0; i<sr.apps.size(); i++) {
         APP* app = lookup_app(project, sr.apps[i].name);

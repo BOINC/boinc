@@ -65,7 +65,11 @@ struct SCHEDULER_REPLY {
     vector<WORKUNIT> workunits;
     vector<RESULT> results;
     vector<RESULT> result_acks;
+    char* code_sign_key;
+    char* code_sign_key_signature;
 
+    SCHEDULER_REPLY();
+    ~SCHEDULER_REPLY();
     int parse(FILE*);
 };
 

@@ -858,3 +858,62 @@ Michael Gary	July 5, 2002
 
     sched/Makefile.in
     lib/crypt.C
+
+David A.    July 7, 2002
+    - Added code signing.  All files associated with an app version
+        (i.e. all executable files) must now be signed
+        with the project's "code sign key".  The components include:
+        - PROJECT has new field "code_sign_key", keep track of project's
+            public code-signing key.
+            Send this on each scheduler RPC.
+        - The scheduling server stores the public code-signing key in memory.
+            Send it to any client who doesn't have it.
+            If the client has an old key,
+            send them the new key signed with the old key.
+            NOTE: this uses a scheme in which signatures are kept
+            in files on the server, to avoid keeping private keys
+            in online machines.  This should be documented.
+        - The utility to add new app versions (add.C) adds a signature
+            to the FILE_INFO element.
+            NOTE: eventually the signing should be done offline.
+        - FILE_INFO has a new boolean field "signature_required";
+            set for all files associated with an app version
+        - FILE_INFO has a new char* field "file_signature",
+            which is the digital signature.
+            Renamed upload authenticator from "signature" to "xml_signature"
+            to avoid confusion.
+        - Add function verify_downloaded_file(), called after every download;
+            does MD5 or signature checking as needed.
+        - Added some new functions for signature checking etc.
+        - the client is now linked with the crypt library
+    - Server-side errors should always include the name of the
+        CGI program generating the error (scheduler or file upload handler)
+
+    client/
+        Makefile.in
+        client_state.C
+        client_types.C,h
+        cs_files.C
+        cs_scheduler.C
+        file_xfer.C
+        scheduler_op.C,h
+        test_file_xfer.C
+    doc/
+        index.html
+        project_startup.html (new)
+        security.html
+    lib/
+        crypt.C,h
+        parse.C,h
+    sched/
+        file_upload_handler.C
+        handle_request.C,h
+        main.C
+        server_types.C,h
+    test/
+        init.inc
+        prefs1.xml
+        test_uc.php
+    tools/
+        add.C
+        process_result_template.C

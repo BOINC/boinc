@@ -48,7 +48,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
     return HTTP_OP::init_get((char*)(&fip->urls[0]), pathname);
 }
 
-// for uploads, we need to build a header with signature etc.
+// for uploads, we need to build a header with xml_signature etc.
 // (see file_upload_handler.C for a spec)
 // Do this in memory.
 //
@@ -58,15 +58,15 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
     sprintf(header,
         "<file_info>\n"
         "%s"
-        "<signature>\n"
+        "<xml_signature>\n"
         "%s"
-        "</signature>\n"
+        "</xml_signature>\n"
         "</file_info>\n"
         "<nbytes>%f</nbytes>\n"
         "<offset>0</offset>\n"
         "<data>\n",
         file_info.signed_xml,
-        file_info.signature,
+        file_info.xml_signature,
         file_info.nbytes
     );
     return HTTP_OP::init_post2((char*)(&fip->urls[0]), header, pathname, 0);

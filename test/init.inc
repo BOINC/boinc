@@ -136,6 +136,7 @@ function add_core_client_message($message, $priority, $platform) {
     global $BOINC_DOWNLOAD_DIR;
     global $BOINC_UPLOAD_DIR;
     global $BOINC_PLATFORM;
+    global $BOINC_KEY_DIR;
 
     if( $platform == null ) {
         $plat = $BOINC_PLATFORM;
@@ -143,7 +144,7 @@ function add_core_client_message($message, $priority, $platform) {
         $plat = $platform;
     }
     PassThru("../tools/add app -app_name core_client -version ".VERSION);
-    PassThru("../tools/add app_version -app_name core_client -platform_name $plat -version ".VERSION." -exec_dir ../client -exec_file ".CORE_CLIENT." -download_dir $BOINC_DOWNLOAD_DIR -url_base $BOINC_URL_BASE -message '$message' -message_priority '$priority'");
+    PassThru("../tools/add app_version -app_name core_client -platform_name $plat -version ".VERSION." -exec_dir ../client -exec_file ".CORE_CLIENT." -download_dir $BOINC_DOWNLOAD_DIR -url_base $BOINC_URL_BASE -message '$message' -message_priority '$priority' -code_sign_keyfile $BOINC_KEY_DIR/code_sign_private");
     PassThru("cp ../client/".CORE_CLIENT." $BOINC_DOWNLOAD_DIR");
 }
 
@@ -151,15 +152,16 @@ function add_core_client($platform) {
     add_core_client_message("", "", $platform);
 }
 
-function add_app($name,$platform,$exec_name) {
+function add_app($name, $platform, $exec_name) {
     PassThru("../tools/add app -app_name $name -version ".VERSION);
     add_app_version( $name, $platform, $exec_name );
 }
 
-function add_app_version($name,$platform,$exec_name) {
+function add_app_version($name, $platform, $exec_name) {
     global $BOINC_DOWNLOAD_DIR;
     global $BOINC_PLATFORM;
     global $BOINC_URL_BASE;
+    global $BOINC_KEY_DIR;
 
     if( $exec_name == null ) {
         $exec_name = $name;
@@ -170,7 +172,7 @@ function add_app_version($name,$platform,$exec_name) {
         $plat = $platform;
     }
 
-    PassThru("../tools/add app_version -app_name $name -platform_name $plat -version ".VERSION." -exec_dir ../apps -exec_file $exec_name -download_dir $BOINC_DOWNLOAD_DIR -url_base $BOINC_URL_BASE");
+    PassThru("../tools/add app_version -app_name $name -platform_name $plat -version ".VERSION." -exec_dir ../apps -exec_file $exec_name -download_dir $BOINC_DOWNLOAD_DIR -url_base $BOINC_URL_BASE -code_sign_keyfile $BOINC_KEY_DIR/code_sign_private");
     PassThru("cp ../apps/$exec_name $BOINC_DOWNLOAD_DIR");
 }
 
@@ -182,6 +184,7 @@ function create_work($x) {
 function create_keys() {
     global $BOINC_KEY_DIR;
     PassThru("../lib/crypt_prog -genkey 1024 $BOINC_KEY_DIR/upload_private $BOINC_KEY_DIR/upload_public");
+    PassThru("../lib/crypt_prog -genkey 1024 $BOINC_KEY_DIR/code_sign_private $BOINC_KEY_DIR/code_sign_public");
 }
 
 function run_client($args) {

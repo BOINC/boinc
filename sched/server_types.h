@@ -34,6 +34,7 @@ struct SCHEDULER_REQUEST {
     int work_req_seconds;
     unsigned int prefs_mod_time;
     char* prefs_xml;
+    char* code_sign_key;
 
     HOST host;
     vector<RESULT> results;
@@ -56,6 +57,8 @@ struct SCHEDULER_REPLY {
     vector<WORKUNIT>wus;
     vector<RESULT>results;
     vector<RESULT>result_acks;
+    char* code_sign_key;
+    char* code_sign_key_signature;
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();

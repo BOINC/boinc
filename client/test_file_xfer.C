@@ -69,7 +69,7 @@ int main() {
             "    <upload_when_present/>\n"
             "    <max_nbytes>10000</max_nbytes>\n"
             "    <url>http://localhost/upload/uc_wu_1_0</url>\n";
-        fi2.signature = \
+        fi2.xml_signature = \
             "9d1f8152371c67af1d26b25db104014dbf7e9ad3b61fc8334ee06e01c7529b1a\n"
             "7681c3e7c7828525361a01040d1197147286085231ee5d2554e59ecb40b3e6a5\n"
             "afbaf00ff15bc5b1acf5aa6318bc84f2671a9502ada9c2ce37a9c45480a0e3b7\n"
