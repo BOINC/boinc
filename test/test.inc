@@ -224,8 +224,8 @@ class Project {
 
         // show the URLs for user and admin sites
         //
-        echo "The master URL for project $this->name is $this->master_url\n;
-        $admin_url = get_env_var("BOINC_HTML_URL")."/".$this->name."/html_ops/index.html";
+        echo "The master URL for project $this->name is $this->master_url\n";
+        $admin_url = $html_url.$this->name."/html_ops/index.html";
         echo "The admin URL for project $this->name is $admin_url\n";
     }
 
