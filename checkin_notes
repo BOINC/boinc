@@ -17862,3 +17862,12 @@ Jeff   28 Sep 2004
 
     sched/
 	feeder.C
+
+David  29 Sept 2004
+	- handle GUI RPCs even if we're running benchmarks
+	- report PROJECT::suspended_via_gui in RPC reply
+
+	client/
+		client_state.C
+		client_types.C
+		gui_rpc_server.C

@@ -361,7 +361,7 @@ bool CLIENT_STATE::do_something() {
     previous_activities_suspended = activities_suspended;
     activities_suspended = (reason != 0);
 
-    // if we're doing CPU benchmarks, don't do anything else
+    // if we're doing CPU benchmarks, don't do much else
     //
     if (reason & SUSPEND_REASON_BENCHMARKS) {
         // wait for applications to become suspended
@@ -371,7 +371,7 @@ bool CLIENT_STATE::do_something() {
         } else {
             cpu_benchmarks_poll();
         }
-        return false;
+        return gui_rpcs.poll();
     }
 
     check_suspend_network(reason);

@@ -156,7 +156,7 @@ static void handle_result_show_graphics(char* buf, MIOFILE& fout) {
 static void handle_project_op(char* buf, MIOFILE& fout, char* op) {
     PROJECT* p = get_project(buf, fout);
     if (!p) {
-        fout.printf("<success/>\n");
+        fout.printf("<error>no such project</error>\n");
     }
     if (!strcmp(op, "reset")) {
         gstate.reset_project(p);

@@ -459,7 +459,10 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
     );
 #endif
     if (gui_rpc) {
-        out.printf("%s", gui_urls.c_str());
+        out.printf("%s%s",
+        	gui_urls.c_str(),
+        	suspended_via_gui?"    <suspended_via_gui/>\n":""
+        );
     } else {
        for (i=0; i<scheduler_urls.size(); i++) {
             out.printf(
