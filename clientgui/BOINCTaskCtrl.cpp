@@ -46,8 +46,8 @@ CBOINCTaskCtrl::CBOINCTaskCtrl()
 }
 
 
-CBOINCTaskCtrl::CBOINCTaskCtrl(CBOINCBaseView* pView, wxWindowID iHtmlWindowID) :
-    wxHtmlWindow( pView, iHtmlWindowID, wxDefaultPosition, wxSize(225, -1), wxHW_SCROLLBAR_AUTO|wxHSCROLL|wxVSCROLL )
+CBOINCTaskCtrl::CBOINCTaskCtrl( CBOINCBaseView* pView, wxWindowID iHtmlWindowID, wxInt32 iHtmlWindowFlags ) :
+    wxHtmlWindow( pView, iHtmlWindowID, wxDefaultPosition, wxSize(225, -1), iHtmlWindowFlags )
 {
     m_pParentView = pView;
 }

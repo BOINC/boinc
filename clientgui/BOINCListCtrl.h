@@ -37,7 +37,7 @@ class CBOINCListCtrl : public wxListView
 
 public:
     CBOINCListCtrl();
-    CBOINCListCtrl( CBOINCBaseView* pView, wxWindowID iListWindowID );
+    CBOINCListCtrl( CBOINCBaseView* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags );
 
     ~CBOINCListCtrl();
 

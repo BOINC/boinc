@@ -46,8 +46,8 @@ CBOINCBaseView::CBOINCBaseView()
 }
 
 
-CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iHtmlWindowID, wxWindowID iListWindowID) :
-    wxPanel(pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL)
+CBOINCBaseView::CBOINCBaseView( wxNotebook* pNotebook, wxWindowID iHtmlWindowID, wxInt32 iHtmlWindowFlags, wxWindowID iListWindowID, wxInt32 iListWindowFlags ) :
+    wxPanel( pNotebook, -1, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL )
 {
     wxASSERT(NULL != pNotebook);
 
@@ -76,10 +76,10 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iHtmlWindowID, 
     SetSizer(itemFlexGridSizer);
     SetAutoLayout(TRUE);
 
-    m_pTaskPane = new CBOINCTaskCtrl(this, iHtmlWindowID);
+    m_pTaskPane = new CBOINCTaskCtrl( this, iHtmlWindowID, iHtmlWindowFlags );
     wxASSERT(NULL != m_pTaskPane);
 
-    m_pListPane = new CBOINCListCtrl(this, iListWindowID);
+    m_pListPane = new CBOINCListCtrl( this, iListWindowID, iListWindowFlags );
     wxASSERT(NULL != m_pListPane);
 
     itemFlexGridSizer->Add(m_pTaskPane, 0, wxGROW|wxGROW|wxALL, 1);

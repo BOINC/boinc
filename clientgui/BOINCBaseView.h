@@ -34,6 +34,10 @@ class CBOINCListCtrl;
 
 extern const wxString LINK_DEFAULT;
 
+#define DEFAULT_HTML_FLAGS             wxHW_SCROLLBAR_AUTO | wxHSCROLL | wxVSCROLL
+#define DEFAULT_LIST_SINGLE_SEL_FLAGS  wxLC_REPORT | wxLC_VIRTUAL | wxLC_SINGLE_SEL
+#define DEFAULT_LIST_MULTI_SEL_FLAGS   wxLC_REPORT | wxLC_VIRTUAL
+
 
 class CBOINCBaseView : public wxPanel
 {
@@ -41,31 +45,26 @@ class CBOINCBaseView : public wxPanel
 
 public:
     CBOINCBaseView();
-    CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iHtmlWindowID, wxWindowID iListWindowID);
+    CBOINCBaseView(
+        wxNotebook* pNotebook,
+        wxWindowID iHtmlWindowID,
+        wxInt32 iHtmlWindowFlags,
+        wxWindowID iListWindowID,
+        wxInt32 iListWindowFlags
+    );
 
     ~CBOINCBaseView();
 
     virtual wxString        GetViewName();
     virtual char**          GetViewIcon();
-    wxInt32                 _GetListRowCount();
     virtual wxInt32         GetListRowCount();
 
-    void                    FireOnTaskRender( wxTimerEvent& event );
-    void                    FireOnListRender( wxTimerEvent& event );
     virtual void            OnTaskRender( wxTimerEvent& event );
     virtual void            OnListRender( wxTimerEvent& event );
 
-    bool                    FireOnSaveState( wxConfigBase* pConfig );
-    bool                    FireOnRestoreState( wxConfigBase* pConfig );
     virtual bool            OnSaveState( wxConfigBase* pConfig );
     virtual bool            OnRestoreState( wxConfigBase* pConfig );
 
-    void                    FireOnListCacheHint( wxListEvent& event );
-    void                    FireOnListSelected( wxListEvent& event );
-    void                    FireOnListDeselected( wxListEvent& event );
-    wxString                FireOnListGetItemText( long item, long column ) const;
-    int                     FireOnListGetItemImage( long item ) const;
-    wxListItemAttr*         FireOnListGetItemAttr( long item ) const;
     virtual void            OnListCacheHint( wxListEvent& event );
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );
@@ -73,10 +72,21 @@ public:
     virtual int             OnListGetItemImage( long item ) const;
     virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
 
-    void                    FireOnTaskLinkClicked( const wxHtmlLinkInfo& link );
-    void                    FireOnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
     virtual void            OnTaskLinkClicked( const wxHtmlLinkInfo& link );
     virtual void            OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
+
+    void                    FireOnTaskRender( wxTimerEvent& event );
+    void                    FireOnListRender( wxTimerEvent& event );
+    bool                    FireOnSaveState( wxConfigBase* pConfig );
+    bool                    FireOnRestoreState( wxConfigBase* pConfig );
+    void                    FireOnListCacheHint( wxListEvent& event );
+    void                    FireOnListSelected( wxListEvent& event );
+    void                    FireOnListDeselected( wxListEvent& event );
+    wxString                FireOnListGetItemText( long item, long column ) const;
+    int                     FireOnListGetItemImage( long item ) const;
+    wxListItemAttr*         FireOnListGetItemAttr( long item ) const;
+    void                    FireOnTaskLinkClicked( const wxHtmlLinkInfo& link );
+    void                    FireOnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
 
     wxString                GetCurrentQuickTip();
     wxString                GetCurrentQuickTipText();
@@ -85,6 +95,10 @@ public:
     virtual bool            UpdateQuickTip( const wxString& strCurrentLink, const wxString& strQuickTip, const wxString& strQuickTipText );
     virtual void            UpdateSelection();
     virtual void            UpdateTaskPane();
+
+protected:
+
+    wxInt32                 _GetListRowCount();
 
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;

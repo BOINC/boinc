@@ -65,8 +65,8 @@ const wxString LINKDESC_TASKCOPYALL     =
 
 const wxString LINK_TASKCOPYMESSAGE     = wxT(SECTION_TASK "copymessage");
 const wxString LINKDESC_TASKCOPYMESSAGE = 
-     _("<b>Copy Message</b><br>"
-       "Clicking copy message, copies the single message to the system clipboard.");
+     _("<b>Copy Selection</b><br>"
+       "Clicking copy selection, copies the selected message(s) to the system clipboard.<br><br>You can select multiple items by holding down either the shift key or control key before clicking on the next desired message.");
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)
@@ -78,7 +78,7 @@ CViewMessages::CViewMessages()
 
 
 CViewMessages::CViewMessages(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_HTML_MESSAGESVIEW, ID_LIST_MESSAGESVIEW)
+    CBOINCBaseView( pNotebook, ID_HTML_MESSAGESVIEW, DEFAULT_HTML_FLAGS, ID_LIST_MESSAGESVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS )
 {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
@@ -259,15 +259,45 @@ wxListItemAttr* CViewMessages::OnListGetItemAttr( long item ) const
 
 void CViewMessages::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
 {
+    wxInt32 iIndex = -1;
+
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
-    wxString strMessage;
-
-    if ( link.GetHref() == SECTION_TASK )
+    if      ( link.GetHref() == SECTION_TASK )
         m_bTaskHeaderHidden ? m_bTaskHeaderHidden = false : m_bTaskHeaderHidden = true;
+    else if ( link.GetHref() == LINK_TASKCOPYALL )
+    {
+        wxInt32 iRowCount = 0;
 
-    if ( link.GetHref() == SECTION_TIPS )
+        OpenClipboard();
+
+        iRowCount = m_pListPane->GetItemCount();
+        for ( iIndex = 0; iIndex < iRowCount; iIndex++ )
+        {
+            CopyToClipboard( iIndex );            
+        }
+
+        CloseClipboard();
+    }
+    else if ( link.GetHref() == LINK_TASKCOPYMESSAGE )
+    {
+        OpenClipboard();
+
+        for ( ;; )
+        {
+            iIndex = m_pListPane->GetNextItem(iIndex,
+                                        wxLIST_NEXT_ALL,
+                                        wxLIST_STATE_SELECTED);
+            if ( iIndex == -1 )
+                break;
+
+            CopyToClipboard( iIndex );            
+        }
+
+        CloseClipboard();
+    }
+    else if ( link.GetHref() == SECTION_TIPS )
         m_bTipsHeaderHidden ? m_bTipsHeaderHidden = false : m_bTipsHeaderHidden = true;
 
 
@@ -354,7 +384,7 @@ void CViewMessages::UpdateTaskPane()
     if (!m_bTaskHeaderHidden)
     {
         m_pTaskPane->CreateTask( LINK_TASKCOPYALL, BITMAP_MESSAGE, _("Copy All"), m_bTaskCopyAllHidden );
-        m_pTaskPane->CreateTask( LINK_TASKCOPYMESSAGE, BITMAP_MESSAGE, _("Copy Message"), m_bTaskCopyMessageHidden );
+        m_pTaskPane->CreateTask( LINK_TASKCOPYMESSAGE, BITMAP_MESSAGE, _("Copy Selection"), m_bTaskCopyMessageHidden );
     }
     m_pTaskPane->EndTaskSection( m_bTaskHeaderHidden );
 
@@ -410,5 +440,68 @@ wxInt32 CViewMessages::FormatMessage( wxInt32 item, wxString& strBuffer ) const
     strBuffer.Replace( wxT("\n"), wxT(""), true );
 
     return 0;
+}
+
+
+bool CViewMessages::OpenClipboard()
+{
+    bool bRetVal = false;
+
+    bRetVal = wxTheClipboard->Open();
+    if ( bRetVal )
+    {
+        m_bClipboardOpen = true;
+        m_strClipboardData = wxEmptyString;
+        wxTheClipboard->Clear();
+    }
+
+    return bRetVal;
+}
+
+
+wxInt32 CViewMessages::CopyToClipboard( wxInt32 item )
+{
+    wxInt32        iRetVal = -1;
+
+    if ( m_bClipboardOpen )
+    {
+        wxString       strBuffer = wxEmptyString;
+        wxString       strTimeStamp = wxEmptyString;
+        wxString       strProject = wxEmptyString;
+        wxString       strMessage = wxEmptyString;
+
+        FormatTime( item, strTimeStamp );
+        FormatProjectName( item, strProject );
+        FormatMessage( item, strMessage );
+
+#ifdef __WXMSW__
+        strBuffer.Printf( wxT("%s|%s|%s\r\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str() );
+#else
+        strBuffer.Printf( wxT("%s|%s|%s\n"), strTimeStamp.c_str(), strProject.c_str(), strMessage.c_str() );
+#endif
+
+        m_strClipboardData += strBuffer;
+
+        iRetVal = 0;
+    }
+
+    return iRetVal;
+}
+
+
+bool CViewMessages::CloseClipboard()
+{
+    bool bRetVal = false;
+
+    if ( m_bClipboardOpen )
+    {
+        wxTheClipboard->SetData( new wxTextDataObject( m_strClipboardData ) );
+        wxTheClipboard->Close();
+
+        m_bClipboardOpen = false;
+        m_strClipboardData = wxEmptyString;
+    }
+
+    return bRetVal;
 }
 

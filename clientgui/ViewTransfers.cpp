@@ -81,7 +81,7 @@ CViewTransfers::CViewTransfers()
 
 
 CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_HTML_TRANSFERSVIEW, ID_LIST_TRANSFERSVIEW)
+    CBOINCBaseView( pNotebook, ID_HTML_TRANSFERSVIEW, DEFAULT_HTML_FLAGS, ID_LIST_TRANSFERSVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS )
 {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);

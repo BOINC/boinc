@@ -39,8 +39,8 @@ CBOINCListCtrl::CBOINCListCtrl()
 }
 
 
-CBOINCListCtrl::CBOINCListCtrl( CBOINCBaseView* pView, wxWindowID iListWindowID ) :
-    wxListView( pView, iListWindowID, wxDefaultPosition, wxSize(-1, -1), wxLC_REPORT | wxLC_VIRTUAL | wxLC_SINGLE_SEL, wxDefaultValidator )
+CBOINCListCtrl::CBOINCListCtrl( CBOINCBaseView* pView, wxWindowID iListWindowID, wxInt32 iListWindowFlags ) :
+    wxListView( pView, iListWindowID, wxDefaultPosition, wxSize(-1, -1), iListWindowFlags )
 {
     m_pParentView = pView;
 }

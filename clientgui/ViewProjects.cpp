@@ -126,7 +126,7 @@ CViewProjects::CViewProjects()
 
 
 CViewProjects::CViewProjects(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_HTML_PROJECTSVIEW, ID_LIST_PROJECTSVIEW)
+    CBOINCBaseView( pNotebook, ID_HTML_PROJECTSVIEW, DEFAULT_HTML_FLAGS, ID_LIST_PROJECTSVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS )
 {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);

@@ -92,7 +92,7 @@ CViewWork::CViewWork()
 
 
 CViewWork::CViewWork(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_HTML_WORKVIEW, ID_LIST_WORKVIEW)
+    CBOINCBaseView( pNotebook, ID_HTML_WORKVIEW, DEFAULT_HTML_FLAGS, ID_LIST_WORKVIEW, DEFAULT_LIST_SINGLE_SEL_FLAGS )
 {
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);

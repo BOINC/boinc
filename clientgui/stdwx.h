@@ -72,16 +72,13 @@
 #include <wx/notebook.h>        // notebook support
 #include <wx/html/htmlwin.h>    // html window support
 #include <wx/statline.h>        // static line support
-#include <wx/socket.h>          // socket support
-#include <wx/sckstrm.h>         // socket streams support
-#include <wx/txtstrm.h>         // text streams support
+#include <wx/taskbar.h>         // taskbar support
+#include <wx/clipbrd.h>         // clipboard support
 #include <wx/datetime.h>        // date/time support
-#include <wx/dynarray.h>        // dynamic array support
 #include <wx/mimetype.h>
 #include <wx/event.h>
 #include <wx/utils.h>
 #include <wx/settings.h>
-#include <wx/taskbar.h>
 
 // Standard Libraries
 //

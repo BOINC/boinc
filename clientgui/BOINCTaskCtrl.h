@@ -37,7 +37,7 @@ class CBOINCTaskCtrl : public wxHtmlWindow
 
 public:
     CBOINCTaskCtrl();
-    CBOINCTaskCtrl( CBOINCBaseView* pView, wxWindowID iHtmlWindowID );
+    CBOINCTaskCtrl( CBOINCBaseView* pView, wxWindowID iHtmlWindowID, wxInt32 iHtmlWindowFlags );
 
     ~CBOINCTaskCtrl();
 
