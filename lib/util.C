@@ -33,6 +33,7 @@
 #include <iostream>
 #include <locale>
 #include <fstream>
+#include <cctype>
 #include <ctype.h>
 #include <sys/types.h>
 #include <sys/stat.h>
