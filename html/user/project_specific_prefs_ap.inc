@@ -17,6 +17,10 @@
 //      If present, draw 2-D graph
 // <graph_alpha>
 //      transparency of graph (0..1)
+// <app_file>
+//     <open_name>background</open_name>
+//     <url>...</url>
+// </app_file>
 
 function project_specific_prefs_default() {
     return "<color_scheme>Tahiti Sunset</color_scheme>\n";
@@ -65,6 +69,11 @@ function project_specific_prefs_edit($prefs) {
             <td><input name=graph_alpha value='$prefs->graph_alpha'></td></tr>
         ";
     }
+    echo "<tr>
+        <td align=right>URL of background (PPM format)</td>
+        <td><input size=60 name=background value='$prefs->background'></td>
+        </tr>
+    ";
 }
 
 // Return XML version of project-specific prefs from form vars
@@ -77,40 +86,41 @@ function project_specific_prefs_parse_form() {
     $hold_time = $_GET["hold_time"];
     $graph_alpha = $_GET["graph_alpa"];
     $two_dim = $_GET["two_dim"];
+    $background = $_GET["background"];
 
-    switch( $color_scheme ) {
-        case "Tahiti Sunset":
-            $start_hue = 0.5;
-            $hue_change = 0.5;
-            $grow_time = 10;
-            $hold_time = 5;
-            $graph_alpha = 0.7;
-            $two_dim = "no";
-            break;
-        case "Desert Sands":
-            $start_hue = 0.0;
-            $hue_change = 0.2;
-            $grow_time = 10;
-            $hold_time = 5;
-            $graph_alpha = 0.7;
-            $two_dim = "no";
-            break;
-        case "Underwater":
-            $start_hue = 0.2;
-            $hue_change = 0.4;
-            $grow_time = 10;
-            $hold_time = 5;
-            $graph_alpha = 0.7;
-            $two_dim = "no";
-            break;
-        case "Custom":
-            if ($start_hue == null) $start_hue = 0;
-            if ($hue_change == null) $hue_change = 1;
-            if ($grow_time == null) $grow_time = 10;
-            if ($hold_time == null) $hold_time = 5;
-            if ($graph_alpha == null) $graph_alpha = 0.7;
-            if ($two_dim == null) $two_dim = "no";
-            break;
+    switch($color_scheme) {
+    case "Tahiti Sunset":
+        $start_hue = 0.5;
+        $hue_change = 0.5;
+        $grow_time = 10;
+        $hold_time = 5;
+        $graph_alpha = 0.7;
+        $two_dim = "no";
+        break;
+    case "Desert Sands":
+        $start_hue = 0.0;
+        $hue_change = 0.2;
+        $grow_time = 10;
+        $hold_time = 5;
+        $graph_alpha = 0.7;
+        $two_dim = "no";
+        break;
+    case "Underwater":
+        $start_hue = 0.2;
+        $hue_change = 0.4;
+        $grow_time = 10;
+        $hold_time = 5;
+        $graph_alpha = 0.7;
+        $two_dim = "no";
+        break;
+    case "Custom":
+        if ($start_hue == null) $start_hue = 0;
+        if ($hue_change == null) $hue_change = 1;
+        if ($grow_time == null) $grow_time = 10;
+        if ($hold_time == null) $hold_time = 5;
+        if ($graph_alpha == null) $graph_alpha = 0.7;
+        if ($two_dim == null) $two_dim = "no";
+        break;
     }
     $x = "<color_scheme>$color_scheme</color_scheme>
         <start_hue>$start_hue</start_hue>
@@ -120,6 +130,13 @@ function project_specific_prefs_parse_form() {
         <graph_alpha>$graph_alpha</graph_alpha>
     ";
     if ($two_dim == "yes") $x = $x."<two_dim/>\n";
+    if (strlen($background)) {
+        $x = $x."<app_file>
+            <url>$background</url>
+            <open_name>background</open_name>
+            </app_file>
+        ";
+    }
     return $x;
 }
 
@@ -136,6 +153,11 @@ function project_specific_prefs_show($prefs) {
         row2("Graph alpha", $prefs->graph_alpha);
         row2("Graph dimension", $dim);
     }
+    if (strlen($prefs->background)) {
+        row2("Background", $prefs->background);
+    } else {
+        row2("Background", "none");
+    }
 }
 
 // parse XML, fill in struct
@@ -148,5 +170,6 @@ function project_specific_prefs_parse($prefs_xml) {
     $prefs->hold_time = parse_element($prefs_xml, "<hold_time>");
     $prefs->graph_alpha = parse_element($prefs_xml, "<graph_alpha>");
     $prefs->two_dim = parse_element($prefs_xml, "<two_dim>");
+    $prefs->background = parse_element($prefs_xml, "<url>");
     return $prefs;
 }

@@ -499,12 +499,13 @@ int set_timer(double period) {
 }
 
 void setup_shared_mem(void) {
+	app_client_shm = new APP_CLIENT_SHM;
 #ifdef API_IGNORE_CLIENT
+    app_client_shm->shm = NULL;
     fprintf( stderr, "Ignoring client, so not attaching to shared memory.\n" );
     return;
 #endif
 
-	app_client_shm = new APP_CLIENT_SHM;
 #ifdef _WIN32
     char buf[256];
     sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);

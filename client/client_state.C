@@ -626,7 +626,7 @@ bool CLIENT_STATE::do_something() {
         if (x) {action=true; print_log("update_results\n"); }
 
         if (write_state_file_if_needed()) {
-            fprintf(stderr, "Couldn't write state file");
+            show_message(NULL, "Couldn't write state file", MSG_ERROR);
         }
     }
     print_log("End poll\n");
@@ -639,7 +639,7 @@ bool CLIENT_STATE::do_something() {
 // Parse the client_state.xml file
 //
 int CLIENT_STATE::parse_state_file() {
-    char buf[256];
+    char buf[256], ebuf[256];
     FILE* f = fopen(STATE_FILE_NAME, "r");
     PROJECT temp_project, *project;
     int retval=0;
@@ -649,6 +649,11 @@ int CLIENT_STATE::parse_state_file() {
         if (log_flags.state_debug) {
             printf("No state file; will create one\n");
         }
+
+        // avoid warning messages about version
+        //
+        old_major_version = MAJOR_VERSION;
+        old_minor_version = MINOR_VERSION;
         return ERR_FOPEN;
     }
     fgets(buf, 256, f);
@@ -666,10 +671,11 @@ int CLIENT_STATE::parse_state_file() {
             if (project) {
                 project->copy_state_fields(temp_project);
             } else {
-                fprintf(stderr,
+                sprintf(ebuf,
                     "Project %s found in state file but not prefs.\n",
                     temp_project.master_url
                 );
+                show_message(NULL, ebuf, MSG_ERROR);
             }
         } else if (match_tag(buf, "<app>")) {
             APP* app = new APP;
@@ -725,7 +731,9 @@ int CLIENT_STATE::parse_state_file() {
                 retval = link_result(project, rp);
                 if (!retval) results.push_back(rp);
             } else {
-                fprintf(stderr, "error: link_result failed\n");
+                show_message(NULL,
+                    "<result> found before any project\n", MSG_ERROR
+                );
                 delete rp;
             }
         } else if (match_tag(buf, "<host_info>")) {
@@ -757,7 +765,8 @@ int CLIENT_STATE::parse_state_file() {
             suspend_requested = true;
         } else if (parse_str(buf, "<host_venue>", host_venue, sizeof(host_venue))) {
         } else {
-            fprintf(stderr, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
+            sprintf(buf, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
+            show_message(NULL, buf, MSG_ERROR);
         }
     }
 done:
@@ -770,6 +779,7 @@ done:
 //
 int CLIENT_STATE::write_state_file() {
     unsigned int i, j;
+    char buf[256];
     FILE* f = fopen(STATE_FILE_TEMP, "w");
     int retval;
 
@@ -777,7 +787,8 @@ int CLIENT_STATE::write_state_file() {
         printf("Writing state file\n");
     }
     if (!f) {
-        fprintf(stderr, "can't open temp state file: %s\n", STATE_FILE_TEMP);
+        sprintf(buf, "can't open temp state file: %s\n", STATE_FILE_TEMP);
+        show_message(0, buf, MSG_ERROR);
         return ERR_FOPEN;
     }
     fprintf(f, "<client_state>\n");
@@ -954,13 +965,15 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     FILE_INFO* fip;
     FILE_REF file_ref;
     unsigned int i;
+    char buf[256];
 
     avp->project = p;
     app = lookup_app(p, avp->app_name);
     if (!app) {
-        fprintf(stderr,
+        sprintf(buf,
             "app_version refers to nonexistent app: %s\n", avp->app_name
         );
+        show_message(0, buf, MSG_ERROR);
         return 1;
     }
     avp->app = app;
@@ -969,10 +982,11 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
         file_ref = avp->app_files[i];
         fip = lookup_file_info(p, file_ref.file_name);
         if (!fip) {
-            fprintf(stderr,
+            sprintf(buf,
                 "app_version refers to nonexistent file: %s\n",
                 file_ref.file_name
             );
+            show_message(0, buf, MSG_ERROR);
             return 1;
         }
 
@@ -988,12 +1002,14 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
 
 int CLIENT_STATE::link_file_ref(PROJECT* p, FILE_REF* file_refp) {
     FILE_INFO* fip;
+    char buf[256];
 
     fip = lookup_file_info(p, file_refp->file_name);
     if (!fip) {
-        fprintf(stderr,
-            "I/O desc links to nonexistent file: %s\n", file_refp->file_name
+        sprintf(buf,
+            "File ref refers to nonexistent file: %s\n", file_refp->file_name
         );
+        show_message(0, buf, MSG_ERROR);
         return 1;
     }
     file_refp->file_info = fip;
@@ -1005,20 +1021,23 @@ int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
     APP_VERSION* avp;
     unsigned int i;
     int retval;
+    char buf[256];
 
     app = lookup_app(p, wup->app_name);
     if (!app) {
-        fprintf(stderr,
+        sprintf(buf,
             "WU refers to nonexistent app: %s\n", wup->app_name
         );
+        show_message(0, buf, MSG_ERROR);
         return 1;
     }
     avp = lookup_app_version(app, wup->version_num);
     if (!avp) {
-        fprintf(stderr,
+        sprintf(buf,
             "WU refers to nonexistent app_version: %s %d\n",
             wup->app_name, wup->version_num
         );
+        show_message(0, buf, MSG_ERROR);
         return 1;
     }
     wup->project = p;
@@ -1035,6 +1054,7 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     WORKUNIT* wup;
     unsigned int i;
     int retval;
+    char buf[256];
 
     wup = lookup_workunit(p, rp->wu_name);
     if (!wup) {
@@ -1047,7 +1067,8 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     for (i=0; i<rp->output_files.size(); i++) {
         retval = link_file_ref(p, &rp->output_files[i]);
         if (retval) {
-            fprintf(stderr, "error: link_result: link_file_ref failed\n");
+            sprintf(buf, "link_result: link_file_ref failed\n");
+            show_message(0, buf, MSG_ERROR);
             return retval;
         }
     }
@@ -1058,6 +1079,7 @@ int CLIENT_STATE::latest_version_num(char* app_name) {
     unsigned int i;
     int best = -1;
     APP_VERSION* avp;
+    char buf[256];
 
     for (i=0; i<app_versions.size(); i++) {
         avp = app_versions[i];
@@ -1066,7 +1088,8 @@ int CLIENT_STATE::latest_version_num(char* app_name) {
         best = avp->version_num;
     }
     if (best < 0) {
-        fprintf(stderr, "CLIENT_STATE::latest_version_num: no version\n");
+        sprintf(buf, "CLIENT_STATE::latest_version_num: no version\n");
+        show_message(0, buf, MSG_ERROR);
     }
     return best;
 }
@@ -1570,7 +1593,9 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
 
     for (i=0; i<results.size(); i++) {
         rp = results[i];
-        rp->server_ack = true;
+        if (rp->project == project) {
+            rp->server_ack = true;
+        }
     }
 
     avp_iter = app_versions.begin();

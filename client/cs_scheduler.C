@@ -324,6 +324,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     int retval;
     unsigned int i;
     bool signature_valid;
+    char buf[256];
 
     nresults = 0;
     contacted_sched_server = true;
@@ -435,13 +436,9 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     // copy new entities to client state
     //
-
     for (i=0; i<sr.apps.size(); i++) {
         APP* app = lookup_app(project, sr.apps[i].name);
-        if (app) {
-            //*app = sr.apps[i];
-            retval = link_app(project,app); // not sure about this
-        } else {
+        if (!app) {
             app = new APP;
             *app = sr.apps[i];
             retval = link_app(project, app);
@@ -458,11 +455,19 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
     for (i=0; i<sr.app_versions.size(); i++) {
         APP* app = lookup_app(project, sr.app_versions[i].app_name);
-        if (!lookup_app_version(app, sr.app_versions[i].version_num)) {
-            APP_VERSION* avp = new APP_VERSION;
+        APP_VERSION* avp = lookup_app_version(app, sr.app_versions[i].version_num);
+        if (!avp) {
+            avp = new APP_VERSION;
             *avp = sr.app_versions[i];
             retval = link_app_version(project, avp);
             if (!retval) app_versions.push_back(avp);
+        } else {
+            // The list of file references may have changed.
+            // Copy the list from the reply message,
+            // and link to the FILE_INFOs
+            //
+            avp->app_files = sr.app_versions[i].app_files;
+            link_app_version(project, avp);
         }
     }
     for (i=0; i<sr.workunits.size(); i++) {
@@ -485,7 +490,8 @@ int CLIENT_STATE::handle_scheduler_reply(
             rp->state = RESULT_NEW;
             nresults++;
         } else {
-            fprintf(stderr, "ERROR: already have result %s\n", sr.results[i].name);
+            sprintf(buf, "Already have result %s\n", sr.results[i].name);
+            show_message(project, buf, MSG_ERROR);
         }
     }
 
@@ -499,10 +505,10 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (rp) {
             rp->server_ack = true;
         } else {
-            fprintf(stderr,
-                "ERROR: got ack for result %s, can't find\n",
+            sprintf(buf, "Got ack for result %s, can't find\n",
                 sr.result_acks[i].name
             );
+            show_message(project, buf, MSG_ERROR);
         }
     }
     project->sched_rpc_pending = false;
