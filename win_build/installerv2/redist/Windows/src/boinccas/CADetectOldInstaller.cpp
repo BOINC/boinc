@@ -61,17 +61,37 @@ CADetectOldInstall::~CADetectOldInstall()
 UINT CADetectOldInstall::OnExecution()
 {
     UINT    uiReturnValue = 0;
-    LONG    lValue;
-    tstring strMessage;
+    HKEY    hKey;
+    LONG    lRet;
 
-    uiReturnValue = RegQueryValue(
+    lRet = RegOpenKeyEx(
         HKEY_LOCAL_MACHINE,
-        _T("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\BOINC\\UninstallString"),
-        NULL, 
-        &lValue
+        _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\BOINC"),
+        0,
+        KEY_QUERY_VALUE,
+        &hKey
         );
 
-    if (0 != uiReturnValue )
+    if ( lRet == ERROR_SUCCESS )
+    {
+        DisplayMessage(
+            MB_OK,
+            MB_ICONERROR,
+            _T("Setup has detected an older version of BOINC which must be uninstalled before this version of BOINC can be installed.")
+            );
+
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("Setup has detected an older version of BOINC which must be uninstalled before this version of BOINC can be installed.")
+            );
+
+        uiReturnValue = ERROR_INSTALL_FAILURE;
+    }
+    else // Windows NT 4.0 prior to SP6a
     {
         LogMessage(
             INSTALLMESSAGE_INFO,
@@ -83,18 +103,8 @@ UINT CADetectOldInstall::OnExecution()
             );
         uiReturnValue = ERROR_SUCCESS;
     }
-    else
-    {
-        LogMessage(
-            INSTALLMESSAGE_FATALEXIT,
-            MB_OK, 
-            MB_ICONERROR,
-            NULL,
-            NULL,
-            _T("Setup has detected an older version of BOINC which must be uninstalled before this version of BOINC can be installed.")
-            );
-        uiReturnValue = ERROR_INSTALL_FAILURE;
-    }
+
+    RegCloseKey( hKey );
 
     return uiReturnValue;
 }
