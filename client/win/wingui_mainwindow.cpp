@@ -84,6 +84,13 @@ BOOL CMyApp::InitInstance()
     return TRUE;
 }
 
+int CMyApp::ExitInstance()
+{
+	m_pMainWnd->DestroyWindow();
+
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////
 // CMainWindow message map and member functions
 
@@ -1280,7 +1287,7 @@ void CMainWindow::OnCommandExit()
 	// quit
 	gstate.cleanup_and_exit();
 	PostQuitMessage(0);
-	KillTimer(ID_TIMER);
+	KillTimer(m_nTimerID);
 
 	// status icon in taskbar
 	SetStatusIcon(ICON_OFF);
