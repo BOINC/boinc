@@ -20038,6 +20038,7 @@ Bruce 23 Nov 2004 UTC
       client (to optimize benchmarking routines).
     - Removed un-necessary zip/configure.ac and zip/Makefile and zip/config.h
     - Added .cvsignore file for zip/ directory.
+    - Modified api/boinc_gl.h to use config.h to get correct include path for glut.h
 
     configure.ac
     Makefile.am
@@ -20049,3 +20050,6 @@ Bruce 23 Nov 2004 UTC
      Makefile (removed)
      .cvsignore (added)
      config.h (shouldn't be here anyway) 
+     config.h.in (shouldn't be here anyway)
+    api/
+     boinc_gl.h 

@@ -20,6 +20,8 @@
 #ifndef H_BOINC_GL
 #define H_BOINC_GL
 
+#include "config.h"
+
 #if defined(_WIN32)
 #  include <GL/gl.h>
 #  include <GL/glu.h>
@@ -54,8 +56,6 @@
 #    include <OpenGL/glu.h>
 #  endif
 
-# include "glut.h"
-/*
 #  if defined(HAVE_GLUT_H)
 #    include "glut.h"
 #  elif defined(HAVE_GL_GLUT_H)
@@ -65,7 +65,6 @@
 #  elif defined(HAVE_GLUT_GLUT_H)
 #    include <GLUT/glut.h>
 #  endif
-*/
 
 #endif // _WIN32
 
