@@ -464,8 +464,16 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
 int lock_file(char* filename) {
     int retval;
 
-    // some systems have both!
-#if defined(HAVE_LOCKF) && !defined(__APPLE__)
+#ifdef _WIN32
+    HANDLE hfile = CreateFile(
+        filename, GENERIC_WRITE,
+        0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0
+    );
+    if (hfile == INVALID_HANDLE_VALUE) retval = 1;
+    else retval = 0;
+
+// some systems have both!
+#elif defined(HAVE_LOCKF) && !defined(__APPLE__)
     int lock = open(filename, O_WRONLY|O_CREAT, 0644);
     retval = lockf(lock, F_TLOCK, 1);
 #elif HAVE_FLOCK
@@ -476,14 +484,6 @@ int lock_file(char* filename) {
     no file lock mechanism
 #endif
 
-#ifdef _WIN32
-    HANDLE hfile = CreateFile(
-        filename, GENERIC_WRITE,
-        0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0
-    );
-    if (hfile == INVALID_HANDLE_VALUE) retval = 1;
-    else retval = 0;
-#endif
     return retval;
 }
 
