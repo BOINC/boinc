@@ -57,6 +57,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string>
 
 #include "boinc_db.h"
 #include "util.h"
@@ -142,6 +143,38 @@ public:
     }
 };
 
+void string_replace(string& str, string& old, string& newstr) {
+    string::size_type oldlen = old.size();
+    string::size_type newlen = newstr.size();
+    string::size_type start = 0;
+    while (1) {
+        string::size_type pos = str.find(old, start);
+        if (pos == string::npos) break;
+        str.replace(pos, oldlen, newstr);
+        start = pos+newlen;
+    }
+}
+
+string x1("&");
+string z1("&amp;");
+string x2("\"");
+string y2("&quot;");
+string x3("'");
+string y3("&apos;");
+string x4("<");
+string y4("&lt;");
+string x5(">");
+string y5("&gt;");
+
+void xml_escape(char* in, string& out) {
+    out = in;
+    string_replace(out, x1, z1);
+    string_replace(out, x2, y2);
+    string_replace(out, x3, y3);
+    string_replace(out, x4, y4);
+    string_replace(out, x5, y5);
+}
+
 void write_host(HOST& host, FILE* f, bool detail, bool show_user) {
     fprintf(f,
         "<host>\n"
@@ -213,6 +246,10 @@ void write_user(USER& user, FILE* f, bool detail, bool show_team) {
     DB_HOST host;
     char buf[256];
 
+    string name, url;
+    xml_escape(user.name, name);
+    xml_escape(user.url, url);
+
     fprintf(f,
         "<user>\n"
         " <id>%d</id>\n"
@@ -223,8 +260,8 @@ void write_user(USER& user, FILE* f, bool detail, bool show_team) {
         " <total_credit>%f</total_credit>\n"
         " <expavg_credit>%f</expavg_credit>\n",
         user.id,
-        user.name,
-        user.url,
+        name.c_str(),
+        url.c_str(),
         user.country,
         user.create_time,
         user.total_credit,
@@ -251,6 +288,9 @@ void write_team(TEAM& team, FILE* f, bool detail) {
     DB_USER user;
     char buf[MAX_BLOB_SIZE*2];
 
+    string name;
+    xml_escape(team.name, name);
+
     fprintf(f,
         "<team>\n"
         " <id>%d</id>\n"
@@ -259,34 +299,38 @@ void write_team(TEAM& team, FILE* f, bool detail) {
         " <expavg_credit>%f</expavg_credit>\n"
         " <nusers>%d</nusers>\n",
         team.id,
-        team.name,
+        name.c_str(),
         team.total_credit,
         team.expavg_credit,
         team.nusers
     );
     if (detail) {
+        string url, name_html, description;
+
+
         fprintf(f,
             " <create_time>%d</create_time>\n",
             team.create_time
         );
         if (strlen(team.url)) {
+            xml_escape(team.url, url);
             fprintf(f,
                 " <url>%s</url>\n",
-                team.url
+                url.c_str()
             );
         }
         if (strlen(team.name_html)) {
-            escape_url(team.name_html, buf);
+            xml_escape(team.name_html, name_html);
             fprintf(f,
                 "<name_html>%s</name_html>\n",
-                buf
+                name_html.c_str()
             );
         }
         if (strlen(team.description)) {
-            escape_url(team.description, buf);
+            xml_escape(team.description, description);
             fprintf(f,
                 "<description>%s</description>\n",
-                buf
+                description.c_str()
             );
         }
         fprintf(f,

@@ -7854,3 +7854,15 @@ David  25 Nov 2003
 
     sched/
         handle_request.C
+
+David  25 Nov 2003
+    - Changed db_dump to generate valid XML.
+        Escape text fields as follows
+        & -> &amp;
+        ' -> &apos;
+        " -> &quot;
+        < -> &lt;
+        > -> &gt;
+
+    sched/
+        db_dump.C
