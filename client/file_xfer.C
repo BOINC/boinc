@@ -135,10 +135,6 @@ FILE_XFER_SET::FILE_XFER_SET(HTTP_OP_SET* p) {
 int FILE_XFER_SET::insert(FILE_XFER* fxp) {
     int retval;
 
-    // record start time.
-    // This could be made more accurate by omitting the connection
-    // setup and initial request times.
-    //
     retval = http_ops->insert(fxp);
     if (retval) return retval;
     file_xfers.push_back(fxp);
