@@ -27,6 +27,7 @@
 #include <stdio.h>
 #endif
 
+#include "main.h"
 #include "util.h"
 #include "client_msgs.h"
 #include "client_state.h"
@@ -68,8 +69,6 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             check_all_logins = true;
         } else if (ARG(daemon)) {
             executing_as_daemon = true;
-        } else if (ARG(redirectio)) {
-            redirect_io = true;
         } else if (ARG(return_results_immediately)) {
             return_results_immediately = true;
         } else if (ARG(skip_cpu_benchmarks)) {
@@ -150,6 +149,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             exit(0);
         } else if (ARG(allow_remote_gui_rpc)) {
             allow_remote_gui_rpc = true;
+        } else if (ARG(redirectio)) {
+            redirect_io = true;
         } else if (ARG(help)) {
             print_options(argv[0]);
             exit(0);

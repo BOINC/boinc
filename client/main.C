@@ -140,9 +140,6 @@ void show_message(PROJECT *p, char* msg, int priority) {
 // and create an account file
 //
 int add_new_project() {
-#ifdef WIN32
-    return 0;
-#else
     PROJECT project;
 
     printf("Enter the URL of the project: ");
@@ -161,7 +158,6 @@ int add_new_project() {
 
     project.tentative = true;
     return project.write_account_file();
-#endif
 }
 
 #ifdef WIN32

@@ -25648,3 +25648,15 @@ David  7 Mar 2005
 			wingui_mainwindow.cpp
 	lib/
 		network.cpp
+
+Rom    7 Mar 2005
+    - Bug Fix: Remove the check to see if we have any projects already defined
+        or not, before promting the user for project information.  This
+        keeps the client from getting stuck when being launched as a daemon
+        on the *nix machines.
+    
+    client/
+        client_state.C, .h
+        cs_cmdline.C
+        main.C, .h
+

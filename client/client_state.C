@@ -229,23 +229,8 @@ int CLIENT_STATE::init() {
 
 
     // parse account files.
-    // If there are none, prompt user for project URL and create file
     //
-    retval = parse_account_files();
-    if (projects.size() == 0) {
-        retval = add_new_project();
-        if (retval) {
-            printf("can't get initial project\n");
-            return retval;
-        }
-        retval = parse_account_files();
-        if (projects.size() == 0) {
-            if (retval) {
-                printf("can't get initial project\n");
-                return retval;
-            }
-        }
-    }
+    parse_account_files();
 
 	// check for app_info.xml file in project dirs.
 	// If find, read app info from there, set project.anonymous_platform

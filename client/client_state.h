@@ -42,8 +42,6 @@
 #include "ss_logic.h"
 #include "time_stats.h"
 
-extern int add_new_project();
-
 #define USER_RUN_REQUEST_ALWAYS     1
 #define USER_RUN_REQUEST_AUTO       2
 #define USER_RUN_REQUEST_NEVER      3
