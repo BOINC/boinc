@@ -3,7 +3,7 @@
     require_once("../html_user/util.inc");
 
     db_init();
-    $email_addr = $_GET["email_addr"];
+    $email_addr = trim($_GET["email_addr"]);
 
     // see if email address is taken
     $query = "select * from user where email_addr='$email_addr'";

@@ -299,12 +299,6 @@ function no_cache() {
     header ("Pragma: no-cache");                          // HTTP/1.0
 }
 
-// A few functions relating to email-address munging
-// A "munged" email address is of the form @X_Y,
-// where X is a valid email address and Y is a random string.
-// When an email address hasn't been validated yet, it's munged.
-// (Used during account creation and email address changes)
-
 // a valid email address is of the form A@B.C
 // where A, B, C are nonempty,
 // A and B don't contain @ or .,
@@ -323,6 +317,13 @@ function is_valid_email_addr($addr) {
     return true;
 }
 
+// A few functions relating to email-address munging
+// A "munged" email address is of the form @X_Y,
+// where X is a valid email address
+// and Y is a random string not containing _.
+// When an email address hasn't been validated yet, it's munged.
+// (Used during account creation and email address changes)
+
 function munge_email_addr($email, $string) {
     return "@".$email."_".$string;
 }
@@ -340,8 +341,8 @@ function split_munged_email_addr($addr, $string, &$email) {
     return true;
 }
 
-// Generates a standard set of links between associated multi-page documents.  All linked
-// files must be of the form "$filename_<page number>.html".
+// Generates a standard set of links between associated multi-page documents.
+//  All linked files must be of the form "$filename_<page number>.html".
 
 function write_page_links($filename, $currPageNum, $numPages, $descriptor) {
   fwrite($descriptor, "<p>Page $currPageNum of $numPages</p>");
@@ -382,11 +383,11 @@ function get_legal_filename($name) {
   return ereg_replace(' ', '_', $name);
 }
 
-/* Returns a string containing as many words (being collections of characters separated
-   by the character $delimiter) as possible such that the total string length is <= $chars
-   characters long.  If $ellipsis is true, then an ellipsis is added to any sentence which
-   is cut short.
-*/
+// Returns a string containing as many words
+// (being collections of characters separated by the character $delimiter)
+// as possible such that the total string length is <= $chars characters long.
+// If $ellipsis is true, then an ellipsis is added to any sentence which
+// is cut short.
 
 function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
     $words = explode($delimiter, $sentence);
@@ -414,12 +415,13 @@ function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
 // TODO: Generalize this.  Currently it is just pasted from error.inc
 
 function doError($msg, $info = '') {
-    //doHeader('Error');
     page_head('Error');
     echo '<p class="title">'.$msg.'</p>';
-    echo '<p>The error has been recorded, and the website administrator will investigate the issue as soon as possible.  We sincerely apologize for the inconvenience.</p>';
-
-    //doFooter();
+    echo "<p>The error has been recorded,
+        and the website administrator will investigate the issue
+        as soon as possible.
+        We sincerely apologize for the inconvenience.</p>
+    ";
     page_tail();
     exit();
 }

@@ -46,7 +46,7 @@ function show_error($str) {
         show_error("You must supply a name for your account");
     }
 
-    $new_email_addr = $HTTP_POST_VARS["new_email_addr"];
+    $new_email_addr = trim($HTTP_POST_VARS["new_email_addr"]);
     if (!is_valid_email_addr($new_email_addr)) {
         show_error("Invalid email address:
             you must enter a valid address of the form
