@@ -19,6 +19,10 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.5  2004/01/22 02:01:09  korpela
+// Added strlcat().
+// Modified match tag to work with tags of the form "<tag>" and "tag"
+//
 // Revision 1.4  2003/12/11 17:55:07  korpela
 // Added definition of strlcpy() for machines without it.
 //
@@ -48,6 +52,30 @@ inline size_t strlcpy(char *dst, const char *src, size_t len) {
 
 namespace std {
   using ::strlcpy;
+}
+
+#endif
+
+#ifndef HAVE_STRLCAT
+#ifdef HAVE_STDLIB_H
+#include <stdlib.h>
+#endif
+#ifdef HAVE_STRING_H
+#include <string.h>
+#endif
+
+extern "C" {
+size_t strlcat(char *dst, const char *src, size_t len);
+}
+
+inline size_t strlcat(char *dst, const char *src, size_t len) {
+  strncat(dst,src,len-strlen(dst)-1);
+  dst[len-1]=0;
+  return strlen(dst);
+}
+
+namespace std {
+  using ::strlcat;
 }
 
 #endif

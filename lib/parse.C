@@ -32,20 +32,41 @@
 #include <stdlib.h>
 #include <string>
 
+#include "config.h"
 #include "error_numbers.h"
 #include "util.h"
 #include "parse.h"
+#include "std_fixes.h"
+
+// test if a character is an xml tag delimiter
+bool isxmldelim(char c) {
+  return ((c==' ') || (c=='\n') || (c=='\r') || 
+          (c==',') || (c=='<') || (c=='>') || 
+	  (c==0));
+}
 
 // return true if the tag appears in the line
 //
 bool match_tag(const char* buf, const char* tag) {
-    if (strstr(buf, tag)) return true;
+    char tmp_tag[BUFSIZ]={'<',0};
+    if (tag[0] == '<') {
+      strlcpy(tmp_tag,tag,BUFSIZ);
+    } else {
+      strlcat(tmp_tag,tag,BUFSIZ);
+    }
+    char *p=tmp_tag+strlen(tmp_tag);
+    do {
+      *(p--)=0;
+    } while (isxmldelim(*p));
+    while ((buf=strstr(buf,tmp_tag))) {
+      if (isxmldelim(buf[strlen(tmp_tag)])) return true;
+      buf++;
+    }
     return false;
 }
 
 bool match_tag(const std::string &s, const char* tag) {
-    if (s.find(tag) != std::string::npos) return true;
-    return false;
+  return match_tag(s.c_str(),tag);
 }
 
 // parse an integer of the form <tag>1234</tag>
@@ -265,10 +286,6 @@ char* sgets(char* buf, int len, char*& in) {
     return buf;
 }
 
-bool isxmldelim(char c) {
-  return ((c==' ') || (c=='\n') || (c=='\r') || 
-          (c==',') || (c=='<') || (c=='>'));
-}
 
 bool extract_xml_record(const std::string &field, const char *tag, std::string &record) {
     std::string::size_type start_pos,end_pos;
