@@ -641,44 +641,12 @@ wxInt32 CMainDocument::GetWorkCurrentCPUTime(wxInt32 iIndex, float& fBuffer)
 wxInt32 CMainDocument::GetWorkEstimatedCPUTime(wxInt32 iIndex, float& fBuffer)
 {
     RESULT* pResult = NULL;
-    RESULT* pStateResult = NULL;
-    WORKUNIT* pWorkunit = NULL;
-
-    fBuffer = 0.0;
 
     if ( results.results.size() != 0 )
         pResult = results.results.at( iIndex );
 
     if ( NULL != pResult )
-    {
-        if ( !IsWorkActive(iIndex) )
-        {
-            if ( GetWorkState(iIndex) < RESULT_COMPUTE_ERROR )
-                fBuffer = -1.0;
-            else
-                fBuffer = 0.0;
-        }
-        else
-        {
-            if ( pResult->fraction_done <= 0 || pResult->fraction_done > 1 )
-                fBuffer = -1.0;
-            else
-                fBuffer = ( pResult->current_cpu_time / pResult->fraction_done ) - pResult->current_cpu_time;
-        }
-
-        if ( fBuffer < 0 )
-        {
-            pStateResult = state.lookup_result( pResult->project_url, pResult->name );
-            if ( NULL != pStateResult )
-            {
-                pWorkunit = pStateResult->wup;
-                if ( NULL != pWorkunit )
-                {
-                    fBuffer = pWorkunit->rsc_fpops_est / host.p_fpops;
-                }
-            }
-        }
-    }
+        fBuffer = pResult->estimated_cpu_time_remaining;
 
     return 0;
 }

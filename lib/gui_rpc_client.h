@@ -141,6 +141,7 @@ public:
     double checkpoint_cpu_time;
     double current_cpu_time;
     double fraction_done;
+    double estimated_cpu_time_remaining;
     bool suspended_via_gui;
 
     APP* app;

@@ -656,11 +656,18 @@ wxInt32 CViewWork::FormatTimeToCompletion( wxInt32 item, wxString& strBuffer ) c
 
     pDoc->GetWorkEstimatedCPUTime(item, fBuffer);
 
-    cpuhour = (int)(fBuffer / (60 * 60));
-    cpumin = (int)(fBuffer / 60) % 60;
-    cpusec = (int)(fBuffer) % 60;
+    if ( 0 == fBuffer )
+    {
+        strBuffer = wxT("---");
+    }
+    else
+    {
+        cpuhour = (int)(fBuffer / (60 * 60));
+        cpumin = (int)(fBuffer / 60) % 60;
+        cpusec = (int)(fBuffer) % 60;
 
-    strBuffer.Printf(wxT("%0.2d:%0.2d:%0.2d"), cpuhour, cpumin, cpusec);
+        strBuffer.Printf(wxT("%0.2d:%0.2d:%0.2d"), cpuhour, cpumin, cpusec);
+    }
 
     return 0;
 }

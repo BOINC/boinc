@@ -310,6 +310,7 @@ int RESULT::parse(MIOFILE& in) {
         else if (parse_double(buf, "<checkpoint_cpu_time>", checkpoint_cpu_time)) continue;
         else if (parse_double(buf, "<current_cpu_time>", current_cpu_time)) continue;
         else if (parse_double(buf, "<fraction_done>", fraction_done)) continue;
+        else if (parse_double(buf, "<estimated_cpu_time_remaining>", estimated_cpu_time_remaining)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -349,6 +350,7 @@ void RESULT::clear() {
     checkpoint_cpu_time = 0.0;
     current_cpu_time = 0.0;
     fraction_done = 0.0;
+    estimated_cpu_time_remaining = 0.0;
     suspended_via_gui = false;
 }
 

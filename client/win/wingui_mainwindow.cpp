@@ -445,7 +445,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
             }
 
             // to completion
-            double tocomp = re->estimated_cpu_time_to_completion();
+            double tocomp = re->estimated_cpu_time_remaining();
             if (tocomp > 0) {
                 cpuhour = (int)(tocomp / (60 * 60));
                 cpumin = (int)(tocomp / 60) % 60;
