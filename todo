@@ -17,11 +17,6 @@ implement server watchdogs
 
 est_time_to_completion doesn't work for non-running tasks
 
-Messages from core client
-    decide what messages should be shown to user, and how
-    log file?  GUI?  dialog?
-    Should tag messages with project they're from, if any?
-
 -----------------------
 THINGS TO TEST (preferably with test scripts)
 -----------------------

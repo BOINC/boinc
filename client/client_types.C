@@ -32,13 +32,13 @@
 #include "client_types.h"
 
 PROJECT::PROJECT() {
-    safe_strncpy(master_url, "", sizeof(master_url));
-    safe_strncpy(authenticator, "", sizeof(authenticator));
-    safe_strncpy(project_specific_prefs, "", sizeof(project_specific_prefs));
+    strcpy(master_url, "");
+    strcpy(authenticator, "");
+    strcpy(project_specific_prefs, "");
     resource_share = 100;
-    safe_strncpy(project_name, "", sizeof(project_name));
-    safe_strncpy(user_name, "", sizeof(user_name));
-    safe_strncpy(team_name, "", sizeof(team_name));
+    strcpy(project_name, "");
+    strcpy(user_name, "");
+    strcpy(team_name, "");
     user_total_credit = 0;
     user_expavg_credit = 0;
     user_create_time = 0;
@@ -49,7 +49,7 @@ PROJECT::PROJECT() {
     host_create_time = 0;
     exp_avg_cpu = 0;
     exp_avg_mod_time = 0;
-    safe_strncpy(code_sign_key, "", sizeof(code_sign_key));
+    strcpy(code_sign_key, "");
     nrpc_failures = 0;
     min_rpc_time = 0;
     master_fetch_failures = 0;
@@ -73,8 +73,8 @@ int PROJECT::parse_account(FILE* in) {
     //
     master_url_fetch_pending = true;
     sched_rpc_pending = true;
-    safe_strncpy(master_url, "", sizeof(master_url));
-    safe_strncpy(authenticator, "", sizeof(authenticator));
+    strcpy(master_url, "");
+    strcpy(authenticator, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<account>")) continue;
         if (match_tag(buf, "</account>")) return 0;
@@ -104,9 +104,9 @@ int PROJECT::parse_state(FILE* in) {
     char buf[256];
     STRING256 string;
 
-    safe_strncpy(project_name, "", sizeof(project_name));
-    safe_strncpy(user_name, "", sizeof(user_name));
-    safe_strncpy(team_name, "", sizeof(team_name));
+    strcpy(project_name, "");
+    strcpy(user_name, "");
+    strcpy(team_name, "");
     resource_share = 100;
     exp_avg_cpu = 0;
     exp_avg_mod_time = 0;
@@ -245,7 +245,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
 int APP::parse(FILE* in) {
     char buf[256];
 
-    safe_strncpy(name, "", sizeof(name));
+    strcpy(name, "");
     project = NULL;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</app>")) return 0;
@@ -300,8 +300,8 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     PERS_FILE_XFER *pfxp;
     int retval;
 
-    safe_strncpy(name, "", sizeof(name));
-    safe_strncpy(md5_cksum, "", sizeof(md5_cksum));
+    strcpy(name, "");
+    strcpy(md5_cksum, "");
     max_nbytes = 0;
     nbytes = 0;
     upload_offset = -1;
@@ -318,9 +318,9 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     urls.clear();
     start_url = -1;
     current_url = -1;
-    safe_strncpy(signed_xml, "", sizeof(signed_xml));
-    safe_strncpy(xml_signature, "", sizeof(xml_signature));
-    safe_strncpy(file_signature, "", sizeof(file_signature));
+    strcpy(signed_xml, "");
+    strcpy(xml_signature, "");
+    strcpy(file_signature, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file_info>")) return 0;
         else if (match_tag(buf, "<xml_signature>")) {
@@ -367,8 +367,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
             } else {
                 delete pfxp;
             }
-        }
-        else if (!from_server && match_tag(buf, "<signed_xml>")) {
+        } else if (!from_server && match_tag(buf, "<signed_xml>")) {
             copy_element_contents(
                 in,
                 "</signed_xml>",
@@ -376,8 +375,9 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
                 sizeof(signed_xml)
             );
             continue;
+        } else {
+            fprintf(stderr, "FILE_INFO::parse(): unrecognized: %s\n", buf);
         }
-        else fprintf(stderr, "FILE_INFO::parse(): unrecognized: %s\n", buf);
     }
     return 1;
 }
@@ -414,10 +414,10 @@ int FILE_INFO::write(FILE* out, bool to_server) {
         if (retval) return retval;
     }
     if (!to_server) {
-        if (signed_xml && xml_signature) {
+        if (strlen(signed_xml) && strlen(xml_signature)) {
             fprintf(out, "    <signed_xml>\n%s    </signed_xml>\n", signed_xml);
         }
-        if (xml_signature) {
+        if (strlen(xml_signature)) {
             fprintf(out, "    <xml_signature>\n%s    </xml_signature>\n", xml_signature);
         }
     }
@@ -470,7 +470,7 @@ int APP_VERSION::parse(FILE* in) {
     char buf[256];
     FILE_REF file_ref;
 
-    safe_strncpy(app_name, "", sizeof(app_name));
+    strcpy(app_name, "");
     version_num = 0;
     app = NULL;
     project = NULL;
@@ -512,8 +512,8 @@ int APP_VERSION::write(FILE* out) {
 int FILE_REF::parse(FILE* in) {
     char buf[256];
 
-    safe_strncpy(file_name, "", sizeof(file_name));
-    safe_strncpy(open_name, "", sizeof(open_name));
+    strcpy(file_name, "");
+    strcpy(open_name, "");
     fd = -1;
     main_program = false;
     while (fgets(buf, 256, in)) {
@@ -551,11 +551,11 @@ int WORKUNIT::parse(FILE* in) {
     char buf[256];
     FILE_REF file_ref;
 
-    safe_strncpy(name, "", sizeof(name));
-    safe_strncpy(app_name, "", sizeof(app_name));
+    strcpy(name, "");
+    strcpy(app_name, "");
     version_num = 0;
-    safe_strncpy(command_line, "", sizeof(command_line));
-    safe_strncpy(env_vars, "", sizeof(env_vars));
+    strcpy(command_line, "");
+    strcpy(env_vars, "");
     app = NULL;
     project = NULL;
     seconds_to_complete = 0;
@@ -625,7 +625,7 @@ bool WORKUNIT::had_failure(int& failnum) {
 int RESULT::parse_ack(FILE* in) {
     char buf[256];
 
-    safe_strncpy(name, "", sizeof(name));
+    strcpy(name, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</result_ack>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
@@ -635,8 +635,8 @@ int RESULT::parse_ack(FILE* in) {
 }
 
 void RESULT::clear() {
-    safe_strncpy(name, "", sizeof(name));
-    safe_strncpy(wu_name, "", sizeof(wu_name));
+    strcpy(name, "");
+    strcpy(wu_name, "");
     report_deadline = 0;
     output_files.clear();
     is_active = false;
@@ -647,7 +647,7 @@ void RESULT::clear() {
     exit_status = 0;
     active_task_state = 0;
     signal = 0;
-    safe_strncpy(stderr_out, "", sizeof(stderr_out));
+    strcpy(stderr_out, "");
     app = NULL;
     wup = NULL;
     project = NULL;

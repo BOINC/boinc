@@ -3839,3 +3839,18 @@ Eric  March 17, 2003
     lib/
         shmem.C,h
 
+David  Mar 18 2003
+    - Don't write signed_xml and xml_signature tags in the state file
+        if they're empty strings
+        (this eliminates malformed XML in state file)
+    - Replace safe_strncpy(foo, "", sizeof(foo)) with strcpy(foo, "").
+        Reduce noise.
+
+    client/
+        app.C
+        client_state.C
+        client_types.C
+        file_xfer.C
+        hostinfo.C
+        http.C
+        scheduler_op.C

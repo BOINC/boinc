@@ -48,14 +48,17 @@ void parse_url(char* url, char* host, int &port, char* file) {
     char* p;
     char buf[256];
 
-    if (strncmp(url, "http://", 7) == 0) safe_strncpy(buf, url+7, sizeof(buf));
-    else safe_strncpy(buf, url, sizeof(buf));
+    if (strncmp(url, "http://", 7) == 0) {
+        safe_strncpy(buf, url+7, sizeof(buf));
+    } else {
+        safe_strncpy(buf, url, sizeof(buf));
+    }
     p = strchr(buf, '/');
     if (p) {
         strcpy(file, p+1);
         *p = 0;
     } else {
-        safe_strncpy(file, "", 1);
+        strcpy(file, "");
     }
     p=strchr(buf,':');
     if (p) {
@@ -64,7 +67,7 @@ void parse_url(char* url, char* host, int &port, char* file) {
     } else {
         port=80;
     }
-    safe_strncpy(host, buf, sizeof(buf));
+    strcpy(host, buf);
 }
 
 // Prints an HTTP 1.1 GET request header into buf
@@ -175,20 +178,20 @@ static int read_reply(int socket, char* buf, int len) {
 }
 
 HTTP_OP::HTTP_OP() {
-    safe_strncpy(hostname, "", sizeof(hostname));
-    safe_strncpy(filename, "", sizeof(filename));
+    strcpy(hostname, "");
+    strcpy(filename, "");
     req1 = NULL;
-    safe_strncpy(infile, "", sizeof(infile));
-    safe_strncpy(outfile, "", sizeof(outfile));
+    strcpy(infile, "");
+    strcpy(outfile, "");
     content_length = 0;
     file_offset = 0;
-    safe_strncpy(request_header, "", sizeof(request_header));
+    strcpy(request_header, "");
     http_op_state = HTTP_STATE_IDLE;
     http_op_type = HTTP_OP_NONE;
     http_op_retval = 0;
     use_http_proxy = false;
     proxy_server_port = 0;
-    safe_strncpy(proxy_server_name, "", sizeof(proxy_server_name));
+    strcpy(proxy_server_name, "");
 }
 
 HTTP_OP::~HTTP_OP() {

@@ -79,11 +79,11 @@ CLIENT_STATE::CLIENT_STATE() {
     user_idle = true;
     use_http_proxy = false;
     use_socks_proxy = false;
-    safe_strncpy(proxy_server_name, "", sizeof(proxy_server_name));
+    strcpy(proxy_server_name, "");
     proxy_server_port = 80;
-    safe_strncpy(socks_user_name, "", sizeof(socks_user_name));
-    safe_strncpy(socks_user_passwd, "", sizeof(socks_user_passwd));
-    safe_strncpy(host_venue,"", sizeof(host_venue));
+    strcpy(socks_user_name, "");
+    strcpy(socks_user_passwd, "");
+    strcpy(host_venue, "");
     suspend_requested = false;
     start_saver = false;
 #ifdef _WIN32

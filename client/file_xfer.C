@@ -31,8 +31,8 @@ FILE_XFER::FILE_XFER() {
     file_xfer_done = false;
     file_xfer_retval = 0;
     fip = NULL;
-    safe_strncpy(pathname, "", sizeof(pathname));
-    safe_strncpy(header, "", sizeof(header));
+    strcpy(pathname, "");
+    strcpy(header, "");
     file_size_query = false;
 }
 

@@ -93,7 +93,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     state = PROCESS_UNINITIALIZED;
     exit_status = 0;
     signal = 0;
-    safe_strncpy(slot_dir, "", sizeof(slot_dir));
+    strcpy(slot_dir, "");
 }
 
 int ACTIVE_TASK::init(RESULT* rp) {
@@ -916,8 +916,8 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
     int app_version_num=0;
     PROJECT* project;
 
-    safe_strncpy(result_name, "", sizeof(result_name));
-    safe_strncpy(project_master_url, "", sizeof(project_master_url));
+    strcpy(result_name, "");
+    strcpy(project_master_url, "");
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</active_task>")) {
             project = cs->lookup_project(project_master_url);
