@@ -20,7 +20,7 @@ if ($user == NULL) {
     echo "Project $master_url deleted";
     prefs_form_projects($prefs);
     echo "<br>";
-    echo "<a href=prefs.php>Preferences</a>\n";
+    echo "<a href=prefs.php>Back to preferences</a>\n";
 }
 echo "<p>\n";
 page_tail();

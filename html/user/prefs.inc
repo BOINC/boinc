@@ -150,55 +150,70 @@ function prefs_parse($prefs_xml) {
 // Functions to display preference subsets, with Edit buttons
 //
 function prefs_show_work($prefs) {
-    echo "<h3>Work preferences</h3>\n";
+
+    echo "<p>";
+    echo TABLE2."\n";
+    echo "<tr>".TD2.LG_FONT."<b>Work preferences:</b></font></td></tr>\n";
     if ($prefs->dont_run_on_batteries) {
-        echo "<br>Don't do work if running on batteries";
+        $batteries = "No";
     } else {
-        echo "<br>Do work even if running on batteries";
+        $batteries = "Yes";
     }
     if ($prefs->dont_run_if_user_active) {
-        echo "<br>Don't do work if computers is in use";
+        $in_use = "No";
     } else {
-        echo "<br>Do work even if computer is in user";
+        $in_use = "Yes";
     }
     if ($prefs->confirm_before_connecting) {
-        echo "<br>Confirm before connecting to network";
+        $confirm = "Yes";
     } else {
-        echo "<br>Don't confirm before connecting to network";
+        $confirm = "No";
     }
-    echo "<br>Buffer at least $prefs->low_water_days hours of work\n";
-    echo "<br>Buffer at most $prefs->high_water_days hours of work\n";
-    echo "<br><a href=prefs_edit_work_form.php>Edit work preferences</a>\n";
+    row("<b>Work if on batteries:   </b>", $batteries);
+    row("<b>Work if in use:   </b>", $in_use);
+    row("<b>Confirm before connecting to network:   </b>", $confirm);
+    row("<b>Minimum amount of work to buffer:   </b>", "$prefs->low_water_days hours");
+    row("<b>Maximum amount of work to buffer:   </b>", "$prefs->high_water_days hours");
+    echo "<tr><td><a href=prefs_edit_work_form.php>Edit work preferences</a></td></tr>\n";
+    echo "</table>\n";
 }
 
 function prefs_show_disk($prefs) {
-    echo "<h3>Disk preferences</h3>\n";
-    echo "<br>Maximum disk used: $prefs->disk_max_used_gb GB\n";
-    echo "<br>Minimum disk free: $prefs->disk_min_free_gb GB\n";
-    echo "<br>Maximum % of disk used: $prefs->disk_max_used_pct\n";
-    echo "<br><a href=prefs_edit_disk_form.php>Edit disk preferences</a>\n";
+
+    echo "<p>";
+    echo TABLE2."\n";
+    echo "<tr>".TD2.LG_FONT."<b>Disk preferences:</b></font></td></tr>\n";
+    row("<b>Maximum disk space allowed to be used:   </b>", "$prefs->disk_max_used_gb GB");
+    row("<b>Minimum disk space to leave free:   </b>", "$prefs->disk_min_free_gb GB");
+    row("<b>Maximum % of disk allowed to used:   </b>", "$prefs->disk_max_used_pct %");
+    echo "<tr><td><a href=prefs_edit_disk_form.php>Edit disk preferences</a></td></tr>\n";
+    echo "</table>\n";
 }
 
 function prefs_show_project($project) {
-    echo "<br>master_url: $project->master_url";
-    echo "<br>email_addr: $project->email_addr";
-    echo "<br>authenticator: $project->authenticator";
-    echo "<br>resource_share: $project->resource_share";
-    echo "<br>project_specific: ".htmlspecialchars($project->project_specific);
+    echo "<tr><td><hr></tr></td>";
+    row("<b>Master URL:   </b>", "$project->master_url");
+    row("<b>Email Address:   </b>", $project->email_addr);
+    row("<b>Authenticator:   </b>", $project->authenticator);
+    row("<b>Resource Share:   </b>", $project->resource_share);
+    row("<b>Project Specific:   </b>", htmlspecialchars($project->project_specific));
 }
 
 function prefs_show_projects($prefs) {
-    echo "<h3>Project preferences</h3>\n";
+
+    echo "<p>";
+    echo TABLE2."\n";
+    echo "<tr>".TD2.LG_FONT."<b>Project preferences:</b></font></td></tr>\n";
     for ($i=0; $i<sizeof($prefs->projects); $i++) {
         $project = $prefs->projects[$i];
         prefs_show_project($project);
-        echo "<br><br>\n";
     }
-    echo "<br><a href=prefs_edit_projects.php>Edit project preferences</a>\n";
+    echo "<tr><td><hr></td></tr>";
+    echo "<tr><td><a href=prefs_edit_projects.php>Edit project preferences</a></td></tr>\n";
+    echo "</table>";
 }
 
 function print_prefs_display($prefs) {
-    echo "<h2>Preferences</h2>\n";
     prefs_show_work($prefs);
     prefs_show_disk($prefs);
     prefs_show_projects($prefs);
@@ -212,15 +227,15 @@ function prefs_form_work($user, $prefs) {
     echo   "<form action=prefs_edit_work_action.php>\n";
     echo   "    <table border=1 cellpadding=6>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>don't run if on batteries</td>\n";
+    echo   "        <td align=right>Don't run if on batteries</td>\n";
     printf("        <td><input type=checkbox name=dont_run_on_batteries %s></td>\n", $prefs->dont_run_on_batteries?"checked":"");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>don't run if user is active</td>\n";
+    echo   "        <td align=right>Don't run if user is active</td>\n";
     printf("        <td><input type=checkbox name=dont_run_if_user_active %s></td>\n", $prefs->dont_run_if_user_active?"checked":"");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
-    echo   "        <td align=right>confirm before connecting</td>\n";
+    echo   "        <td align=right>Confirm before connecting</td>\n";
     printf("        <td><input type=checkbox name=confirm_before_connecting %s></td>\n", $prefs->confirm_before_connecting?"checked":"");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
@@ -259,12 +274,13 @@ function prefs_form_disk($user, $prefs) {
 function prefs_form_projects($prefs) {
     for ($i=0; $i<sizeof($prefs->projects); $i++) {
         $project = $prefs->projects[$i];
-        echo "<hr>\n";
+        echo "<table>";
         prefs_show_project($project);
-        echo "<br><a href=prefs_delete_project_confirm.php?master_url=$project->master_url>Delete this project</a>\n";
-        echo "<br><a href=prefs_edit_project_form.php?master_url=$project->master_url>Edit this project</a>\n";
+        echo "<tr><td><a href=prefs_edit_project_form.php?master_url=$project->master_url>Edit project</a></td></tr>\n";
+        echo "<tr><td><a href=prefs_delete_project_confirm.php?master_url=$project->master_url>Delete project</a></td></tr>\n";
+        echo "</table>";
     }
-    echo "<hr><a href=prefs_add_project_form.php>Add a project</a>\n";
+    echo "<hr><a href=prefs_add_project_form.php>Add project</a>\n";
     echo "<br>";
 }
 

@@ -50,12 +50,12 @@ if ($team->name_html != null) {
     echo "$team->name_html";
 }
 echo "<p>";
-echo "<a href=team_join_form.php?id=$team->id><b>Join</b></a> | ";
-echo "<a href=team_quit_form.php?id=$team->id><b>Quit</b></a> | ";
-echo "<a href=team_edit_form.php?id=$team->id><b>Edit*</b></a> | ";
-echo "<a href=team_remove_inactive_form.php?id=$team->id><b>Remove Inactive Members*</b></a> | ";
-echo "<a href=team_disband_form.php?id=$team->id><b>Disband Team*</b></a> | ";
-echo "<a href=team_email_list.php?id=$team->id><b>View Team Emails*</b></a>";
+echo "[<a href=team_join_form.php?id=$team->id><b>Join</b></a>]  ";
+echo "[<a href=team_quit_form.php?id=$team->id><b>Quit</b></a>]  ";
+echo "[<a href=team_edit_form.php?id=$team->id><b>Edit*</b></a>]  ";
+echo "[<a href=team_remove_inactive_form.php?id=$team->id><b>Remove Inactive Members*</b></a>]  ";
+echo "[<a href=team_disband_form.php?id=$team->id><b>Disband Team*</b></a>]  ";
+echo "[<a href=team_email_list.php?id=$team->id><b>View Team Emails*</b></a>]";
 echo "<br><font size=2>* Team founder only</font>";
 
 echo "<ul>";

@@ -14,7 +14,7 @@ if ($user == NULL) {
     page_head("Edit Disk Preferences");
     $prefs = prefs_parse($user->prefs);
     prefs_form_disk($user, $prefs);
-    echo "<a href=prefs.php>Preferences</a>\n";
+    echo "<a href=prefs.php>Back to preferences</a>\n";
 }
 echo "<p>\n";
 page_tail();
