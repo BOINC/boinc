@@ -11,21 +11,7 @@ DB_CONN::DB_CONN() {
     mysql = 0;
 }
 
-int DB_CONN::open(char* dbname, char* dbpassword) {
-    char buf[256],*db_name,*db_host,*p;
-    if (dbname) {
-        strncpy(buf,dbname,254);
-        buf[255]=0;
-        db_name=buf;
-    } else {
-        db_name=0;
-    }
-    if ((p=strchr(buf,'@'))) {
-        db_host=p+1;
-      *p=0;
-    } else {
-        db_host=0;
-    }
+int DB_CONN::open(char* db_name, char* db_host, char* dbpassword) {
     mysql = mysql_init(0);
     if (!mysql) return 0;
     mysql = mysql_real_connect(mysql, db_host, 0, dbpassword, db_name, 0, 0, 0);

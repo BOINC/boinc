@@ -119,7 +119,7 @@ function host_table_start($title, $private) {
         <th><a href=top_hosts.php?sort_by=total_credit>Total credit</a></th>
         <th>CPU type</th>
         <th>Operating system</th>
-        <th>Results (Valid / Successful / Total) [Last Received]</th>
+        <th>Results</th>
         </tr>
     ";
 }

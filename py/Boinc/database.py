@@ -45,14 +45,8 @@ class Platform(DatabaseObject):
         table = 'platform',
         columns = [ 'create_time',
                     'name',
-                    'user_friendly_name' ])
-
-class Platform(DatabaseObject):
-    _table = DatabaseTable(
-        table = 'platform',
-        columns = [ 'create_time',
-                    'name',
-                    'user_friendly_name' ])
+                    'user_friendly_name',
+                    'deprecated' ])
 
 class CoreVersion(DatabaseObject):
     _table = DatabaseTable(

@@ -133,7 +133,7 @@ void make_work() {
         exit(1);
     }
 
-    retval = boinc_db.open(config.db_name, config.db_passwd);
+    retval = boinc_db.open(config.db_name, config.db_host, config.db_passwd);
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "can't open db\n");
         exit(1);

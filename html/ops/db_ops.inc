@@ -593,6 +593,7 @@ function validate_state_str($s) {
     case 0: return "Initial";
     case 1: return "Valid";
     case 2: return "Invalid";
+    case 3: return "Skipped";
     }
     return "Unknown";
 }

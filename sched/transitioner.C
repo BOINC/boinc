@@ -184,6 +184,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     if (wu.error_mask) {
         for (unsigned int i=0; i<results.size(); i++) {
             DB_RESULT& result = results[i];
+            bool update_result = false;
             if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
                 log_messages.printf(
                     SchedMessages::NORMAL,
@@ -192,13 +193,20 @@ void handle_wu(DB_WORKUNIT& wu) {
                 );
                 result.server_state = RESULT_SERVER_STATE_OVER;
                 result.outcome = RESULT_OUTCOME_DIDNT_NEED;
+                update_result = true;
+            }
+            if (result.validate_state == VALIDATE_STATE_INIT) {
+                result.validate_state = VALIDATE_STATE_NO_CHECK;
+                update_result = true;
+            }
+            if (update_result) {
                 retval = result.update();
                 if (retval) {
                     log_messages.printf(
                         SchedMessages::CRITICAL,
                         "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
                         wu.id, wu.name, result.id, result.name, retval
-                        );
+                    );
                 }
             }
         }
@@ -208,7 +216,7 @@ void handle_wu(DB_WORKUNIT& wu) {
                 SchedMessages::NORMAL,
                 "[WU#%d %s] error_mask:%d assimilate_state:INIT=>READY\n",
                 wu.id, wu.name, wu.error_mask
-                );
+            );
         }
     } else if (wu.assimilate_state == ASSIMILATE_INIT) {
         // If no error, generate new results if needed.
@@ -348,7 +356,7 @@ bool do_pass() {
 void main_loop(bool one_pass) {
     int retval;
 
-    retval = boinc_db.open(config.db_name, config.db_passwd);
+    retval = boinc_db.open(config.db_name, config.db_host, config.db_passwd);
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "boinc_db.open: %d\n", retval);
         exit(1);

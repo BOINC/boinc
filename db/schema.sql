@@ -21,6 +21,7 @@ create table platform (
     create_time         integer     not null,
     name                varchar(254) not null,
     user_friendly_name  varchar(254) not null,
+    deprecated          integer     not null,
     primary key (id)
 );
 
@@ -40,6 +41,8 @@ create table app (
     create_time         integer     not null,
     name                varchar(254) not null,
     min_version         integer     not null,
+    deprecated          integer     not null,
+    user_friendly_name  varchar(254) not null,
     primary key (id)
 );
 

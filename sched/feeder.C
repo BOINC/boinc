@@ -377,7 +377,7 @@ int main(int argc, char** argv) {
     atexit(cleanup_shmem);
     install_sigint_handler();
 
-    retval = boinc_db.open(config.db_name, config.db_passwd);
+    retval = boinc_db.open(config.db_name, config.db_host, config.db_passwd);
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "boinc_db.open: %d\n", retval);
         exit(1);

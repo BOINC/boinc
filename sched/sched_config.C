@@ -48,6 +48,7 @@ int SCHED_CONFIG::parse(istream& f) {
     memset(this, 0, sizeof(SCHED_CONFIG));
     parse_str(buf.c_str(), "<db_name>", db_name, sizeof(db_name));
     parse_str(buf.c_str(), "<db_passwd>", db_passwd, sizeof(db_passwd));
+    parse_str(buf.c_str(), "<db_host>", db_host, sizeof(db_host));
     parse_int(buf.c_str(), "<shmem_key>", shmem_key);
     parse_str(buf.c_str(), "<key_dir>", key_dir, sizeof(key_dir));
     parse_str(buf.c_str(), "<download_url>", download_url, sizeof(download_url));

@@ -32,7 +32,7 @@ struct CURSOR {
 class DB_CONN {
 public:
     DB_CONN();
-    int open(char* name, char* passwd);
+    int open(char* name, char* host, char* passwd);
     void close();
     int insert_id();
     void print_error(char*);

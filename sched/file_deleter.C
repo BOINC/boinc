@@ -168,7 +168,7 @@ int main(int argc, char** argv) {
     // write_pid_file(PIDFILE);
     log_messages.printf(SchedMessages::NORMAL, "Starting\n");
 
-    retval = boinc_db.open(config.db_name, config.db_passwd);
+    retval = boinc_db.open(config.db_name, config.db_host, config.db_passwd);
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "can't open DB\n");
         exit(1);

@@ -17,6 +17,9 @@
 // Contributor(s):
 //
 // $Log$
+// Revision 1.25  2003/12/11 19:05:48  boincadm
+// *** empty log message ***
+//
 // Revision 1.24  2003/12/11 18:38:05  korpela
 // Added include of "std_fixes.h"
 //
@@ -102,8 +105,9 @@ void DB_PROJECT::db_parse(MYSQL_ROW &r) {
 
 void DB_PLATFORM::db_print(char* buf){
     sprintf(buf,
-        "id=%d, create_time=%d, name='%s', user_friendly_name='%s'",
-        id, create_time, name, user_friendly_name
+        "id=%d, create_time=%d, name='%s', user_friendly_name='%s', "
+        "deprecated=%d",
+        id, create_time, name, user_friendly_name, deprecated
     );
 }
 
@@ -114,6 +118,7 @@ void DB_PLATFORM::db_parse(MYSQL_ROW &r) {
     create_time=atol(r[i++]);
     strcpy2(name, r[i++]);
     strcpy2(user_friendly_name, r[i++]);
+    deprecated=atol(r[i++]);
 }
 
 void DB_CORE_VERSION::db_print(char* buf) {
@@ -139,8 +144,10 @@ void DB_CORE_VERSION::db_parse(MYSQL_ROW &r) {
 
 void DB_APP::db_print(char* buf){
     sprintf(buf,
-        "id=%d, create_time=%d, name='%s', min_version=%d ",
-        id, create_time, name, min_version
+        "id=%d, create_time=%d, name='%s', min_version=%d, "
+        "deprecated=%d, user_friendly_name='%s'",
+        id, create_time, name, min_version,
+        deprecated, user_friendly_name
     );
 }
 
@@ -151,6 +158,8 @@ void DB_APP::db_parse(MYSQL_ROW &r) {
     create_time = atoi(r[i++]);
     strcpy2(name, r[i++]);
     min_version = atoi(r[i++]);
+    deprecated = atoi(r[i++]);
+    strcpy2(user_friendly_name, r[i++]);
 }
 
 void DB_APP_VERSION::db_print(char* buf){

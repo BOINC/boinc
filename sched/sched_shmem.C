@@ -75,6 +75,7 @@ int SCHED_SHMEM::scan_tables() {
 
     n = 0;
     while (!platform.enumerate()) {
+        if (platform.deprecated) continue;
         platforms[n++] = platform;
         if (n == MAX_PLATFORMS) overflow("platforms");
     }

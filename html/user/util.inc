@@ -180,7 +180,7 @@ function time_str($x) {
 
 function pretty_time_str($x) {
     if ($x == 0) return "&nbsp;";
-    return gmdate('D j M Y g:i a', $x) . " UTC";
+    return gmdate('j M Y g:i a', $x) . " UTC";
 }
 
 function start_table($extra="") {

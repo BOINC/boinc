@@ -29,6 +29,7 @@ class SCHED_CONFIG {
 public:
     char db_name[256];
     char db_passwd[256];
+    char db_host[256];
     int shmem_key;
     char key_dir[256];
     char download_url[256];

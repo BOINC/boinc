@@ -476,7 +476,7 @@ int print_app(FILE* f, APP& app) {
     int n, retval;
 
     fprintf(f, "        <application>\n");
-    fprintf(f, "            <name>%s</name>\n", app.name);
+    fprintf(f, "            <name>%s</name>\n", app.user_friendly_name);
 
     sprintf(buf, "where appid=%d and server_state=%d", app.id, RESULT_SERVER_STATE_UNSENT);
     retval = result.count(n, buf);
@@ -592,7 +592,7 @@ int main(int argc, char** argv) {
         log_messages.printf(SchedMessages::NORMAL, "Can't parse config file\n");
         exit(1);
     }
-    retval = boinc_db.open(config.db_name, config.db_passwd);
+    retval = boinc_db.open(config.db_name, config.db_host, config.db_passwd);
     if (retval) {
         log_messages.printf(SchedMessages::NORMAL, "Can't open DB\n");
         exit(1);

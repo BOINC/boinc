@@ -8355,5 +8355,49 @@ Eric K.  12/11/2003
    m4/sah_namespace.m4
    m4/sah_header_stdcxx.m4
 
+David  11 Dec 1003
+    - Add <db_host> element to config file and SCHED_CONFIG.
+        Add db_host argument to DB_CONN::open()
+        All server programs can now be run on different machine from MySQL
+    - Add "deprecated" field to app table
+        Deprecated apps are treated as non-existent
+    - Add "deprecated", "user_friendly_name" to platform table
+        Deprecated platforms are treated as non-existent
+    - Add new value for validate_state: VALIDATE_STATE_NO_CHECK
+        This indicates the the result's WU had an error,
+        and the result will never be validated.
+        Such results are not counted towards pending credit.
+        Transitioner: when set a WU error flag,
+            change its results VALIDATE_STATE_INIT -> NO_CHECK
+    _ Add "Applications" page to web site:
+        shows platforms, latest version for each app
 
-
+    db/
+        boinc_db.C,h
+        db_base.C,h
+        schema.sql
+    html_ops/
+        db_ops.inc
+    html_user/
+        download.inc
+        host.inc
+        index.php
+        stats.php
+        util.inc
+        apps.php (new)
+        intro.php (new)
+    py/Boinc
+        database.py
+    sched/
+        assimilator.C
+        db_dump.C
+        feeder.C
+        file_deleter.C
+        main.C
+        make_work.C
+        sched_config.C,h
+        sched_shmem.C
+        transitioner.C
+        update_stats.C
+        validate.C
+        wu_check.C

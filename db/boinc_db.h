@@ -63,6 +63,7 @@ struct PLATFORM {
     int create_time;
     char name[256];                 // i.e. "sparc-sun-solaris"
     char user_friendly_name[256];   // i.e. "SPARC Solaris 2.8"
+    int deprecated;
     void clear();
 };
 
@@ -89,6 +90,8 @@ struct APP {
     int create_time;
     char name[256];         // application name, preferably short
     int min_version;        // don't use app versions before this
+    int deprecated;
+    char user_friendly_name[256];
     int write(FILE*);
     void clear();
 };
@@ -366,6 +369,9 @@ struct WORKUNIT {
 #define VALIDATE_STATE_INIT         0
 #define VALIDATE_STATE_VALID        1
 #define VALIDATE_STATE_INVALID      2
+#define VALIDATE_STATE_NO_CHECK     3
+    // WU had error, so we'll never get around to validating its results
+    // This lets us avoid showing the claimed credit as "pending"
 
 struct RESULT {
     int id;
