@@ -102,8 +102,6 @@ MEDIUM-PRIORITY (should do before public release)
 add an RPC to verify an account ID (returns DB ID for user)
     needed for multi-project stats sites
 
-implement a "clear project" command (GUI and cmdline)
-
 implement a "fetch prefs" command (regular RPC w/o work request)
 
 all RPCs should return a "user-specific project URL"
