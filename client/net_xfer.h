@@ -38,9 +38,9 @@ public:
     bool want_download;     // at most one should be true
     bool want_upload;
     bool do_file_io;
-	// whether poll() should transfer data to/from file
-	// (in which case "file" and blocksize are relevant)
-	// or just set io_ready
+    // whether poll() should transfer data to/from file
+    // (in which case "file" and blocksize are relevant)
+    // or just set io_ready
     bool io_done;           // got error or EOF
     FILE* file;
     bool io_ready;
@@ -48,7 +48,7 @@ public:
     char hostname[256];
     int port;
     int blocksize;
-    int nbytes_xfered;		// total number of bytes transferred
+    int nbytes_xfered;        // total number of bytes transferred
 
     void init(char* host, int port, int blocksize);
     int open_server();

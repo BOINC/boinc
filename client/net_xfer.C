@@ -139,7 +139,7 @@ void NET_XFER::init(char* host, int p, int b) {
     strcpy(hostname, host);
     port = p;
     blocksize = b;
-	nbytes_xfered = 0;
+    nbytes_xfered = 0;
 }
 
 // Insert a NET_XFER object into the set
@@ -262,7 +262,7 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
             } else if (nxp->do_file_io) {
                 if (max_bytes > 0) {
                     retval = nxp->do_xfer(n);
-					nxp->nbytes_xfered += n;
+                    nxp->nbytes_xfered += n;
                     max_bytes -= n;
                     bytes_transferred += n;
                 }

@@ -111,10 +111,10 @@ int PROJECT::parse_state(FILE* in) {
         else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
         else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
-	else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) continue;
+        else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
-	else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
+        else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
         else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
         else if (parse_int(buf, "<host_create_time>", (int &)host_create_time)) continue;
         else if (parse_double(buf, "<exp_avg_cpu>", exp_avg_cpu)) continue;
@@ -150,12 +150,12 @@ int PROJECT::write_state(FILE* out) {
         "    <user_name>%s</user_name>\n"
         "    <user_total_credit>%f</user_total_credit>\n"
         "    <user_expavg_credit>%f</user_expavg_credit>\n"
- 	"    <user_create_time>%d</user_create_time>\n"
+        "    <user_create_time>%d</user_create_time>\n"
         "    <rpc_seqno>%d</rpc_seqno>\n"
         "    <hostid>%d</hostid>\n"
-	"    <host_total_credit>%f</host_total_credit>\n"
-	"    <host_expavg_credit>%f</host_expavg_credit>\n"
-	"    <host_create_time>%d</host_create_time>\n"
+        "    <host_total_credit>%f</host_total_credit>\n"
+        "    <host_expavg_credit>%f</host_expavg_credit>\n"
+        "    <host_create_time>%d</host_create_time>\n"
         "    <exp_avg_cpu>%f</exp_avg_cpu>\n"
         "    <exp_avg_mod_time>%d</exp_avg_mod_time>\n"
         "    <nrpc_failures>%d</nrpc_failures>\n"
@@ -163,14 +163,14 @@ int PROJECT::write_state(FILE* out) {
         master_url,
         project_name,
         user_name,
-	user_total_credit,
-	user_expavg_credit,
-	user_create_time,
+        user_total_credit,
+        user_expavg_credit,
+        user_create_time,
         rpc_seqno,
         hostid,
-	host_total_credit,
-	host_expavg_credit,
-	host_create_time,
+        host_total_credit,
+        host_expavg_credit,
+        host_create_time,
         exp_avg_cpu,
         exp_avg_mod_time,
         nrpc_failures,

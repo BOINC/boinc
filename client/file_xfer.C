@@ -94,8 +94,8 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
         );
         file_size_query = false;
         return HTTP_OP::init_post2(
-	    fip->get_url(), header, pathname, fip->upload_offset
-	);
+        fip->get_url(), header, pathname, fip->upload_offset
+    );
     }
 }
 

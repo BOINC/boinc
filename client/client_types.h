@@ -61,8 +61,8 @@ public:
     vector<STRING256> scheduler_urls;       // where to find scheduling servers
     char project_name[256];             // descriptive.  not unique
     char user_name[256];
-    double user_total_credit;	// as reported by server
-    double user_expavg_credit;	// as reported by server
+    double user_total_credit;    // as reported by server
+    double user_expavg_credit;    // as reported by server
     unsigned int user_create_time;   // as reported by server
     int rpc_seqno;
     int hostid;

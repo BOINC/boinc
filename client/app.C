@@ -353,7 +353,7 @@ void ACTIVE_TASK::request_exit(int seconds) {
     write_suspend_quit_file( fp, false, true );
     fclose(fp);
 
-	// We shouldn't sleep the full amount if the process successfully quits
+    // We shouldn't sleep the full amount if the process successfully quits
     boinc_sleep(seconds);
 #if HAVE_SIGNAL_H
 #if HAVE_SYS_TYPES_H
@@ -519,7 +519,7 @@ void ACTIVE_TASK_SET::exit_tasks() {
     ACTIVE_TASK *atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        atp->request_exit(1);		// Give it 1 second to quit
+        atp->request_exit(1);        // Give it 1 second to quit
         atp->check_app_status_files();
     }
 }
@@ -534,10 +534,10 @@ void ACTIVE_TASK::suspend(bool suspend) {
     sprintf( susp_file, "%s%s%s", slot_dir, PATH_SEPARATOR, SUSPEND_QUIT_FILE );
     FILE *fp = fopen( susp_file, "w" );
 
-	if (suspend)
-	    write_suspend_quit_file( fp, true, false );
-	else
-	    write_suspend_quit_file( fp, false, false );
+    if (suspend)
+        write_suspend_quit_file( fp, true, false );
+    else
+        write_suspend_quit_file( fp, false, false );
 
     fclose(fp);
 }
@@ -545,10 +545,10 @@ void ACTIVE_TASK::suspend(bool suspend) {
 // Send a suspend or resume request to the ACTIVE_TASK
 //
 void ACTIVE_TASK::suspend(bool suspend) {
-	if (suspend)
-	    kill(this->pid, SIGSTOP);	// put the process to sleep
-	else
-	    kill(this->pid, SIGCONT);	// wake up the process
+    if (suspend)
+        kill(this->pid, SIGSTOP);    // put the process to sleep
+    else
+        kill(this->pid, SIGCONT);    // wake up the process
 }
 #endif
 

@@ -47,7 +47,7 @@
 // Reset the host info struct to default values
 //
 void clear_host_info(HOST_INFO& host) {
-    host.timezone = 0;		// seconds added to local time to get UTC
+    host.timezone = 0;        // seconds added to local time to get UTC
     strcpy(host.domain_name,"");
     strcpy(host.serialnum,"");
     strcpy(host.ip_addr,"");
@@ -92,7 +92,7 @@ int HOST_INFO::parse(FILE* in) {
         else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
         else if (parse_double(buf, "<p_iops>", p_iops)) continue;
         else if (parse_double(buf, "<p_membw>", p_membw)) continue;
-	else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
+        else if (parse_double(buf, "<p_calculated>", p_calculated)) continue;
         else if (parse_str(buf, "<os_name>", os_name, sizeof(os_name))) continue;
         else if (parse_str(buf, "<os_version>", os_version, sizeof(os_version))) continue;
         else if (parse_double(buf, "<m_nbytes>", m_nbytes)) continue;
@@ -119,7 +119,7 @@ int HOST_INFO::write(FILE* out) {
         "    <p_fpops>%f</p_fpops>\n"
         "    <p_iops>%f</p_iops>\n"
         "    <p_membw>%f</p_membw>\n"
-	"    <p_calculated>%f</p_calculated>\n"
+        "    <p_calculated>%f</p_calculated>\n"
         "    <os_name>%s</os_name>\n"
         "    <os_version>%s</os_version>\n"
         "    <m_nbytes>%f</m_nbytes>\n"
@@ -137,7 +137,7 @@ int HOST_INFO::write(FILE* out) {
         p_fpops,
         p_iops,
         p_membw,
-	p_calculated, 
+        p_calculated, 
         os_name,
         os_version,
         m_nbytes,
@@ -158,7 +158,7 @@ int get_local_domain_name(char* p) {
 
     gethostname(buf, 256);
     struct hostent* he = gethostbyname(buf);
-	if (!he) return -1;
+    if (!he) return -1;
     strcpy(p, he->h_name);
     return 0;
 }

@@ -45,12 +45,12 @@ int CLIENT_STATE::exit() {
     active_tasks.poll_time();
     retval = write_state_file();
     if (retval) { 
-	fprintf(stderr, "error: CLIENT_STATE.exit: write_state_file failed\n");
+    fprintf(stderr, "error: CLIENT_STATE.exit: write_state_file failed\n");
         return retval;
     }
     retval = exit_tasks();
     if (retval) {
-	fprintf(stderr, "error: CLIENT_STATE.exit: exit_tasks failed\n");
+    fprintf(stderr, "error: CLIENT_STATE.exit: exit_tasks failed\n");
         return retval;
     }
     return 0;
@@ -81,11 +81,11 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         } else {
             get_pathname(fip, path);
             retval = md5_file(path, fip->md5_cksum, fip->nbytes);
-	    if (retval) {
-		// an output file is unexpectedly absent.
-		// 
-		fip->status = retval;
-	    }
+            if (retval) {
+                // an output file is unexpectedly absent.
+                // 
+                fip->status = retval;
+            }
         }
     }
 

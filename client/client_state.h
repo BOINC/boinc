@@ -68,7 +68,7 @@ public:
     double current_disk_usage();
     double allowed_disk_usage();
     unsigned int giveup_after;
-	bool user_idle;
+    bool user_idle;
 
 private:
     bool client_state_dirty;
@@ -138,7 +138,7 @@ public:
     RESULT* lookup_result(PROJECT*, char*);
     WORKUNIT* lookup_workunit(PROJECT*, char*);
     APP_VERSION* lookup_app_version(APP*, int);
-	ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
+    ACTIVE_TASK* lookup_active_task_by_result(RESULT*);
 };
 
 extern CLIENT_STATE gstate;

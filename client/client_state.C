@@ -198,9 +198,9 @@ double CLIENT_STATE::allowed_disk_usage() {
 }
 
 double CLIENT_STATE::current_disk_usage() {
-	double sz = 0;
-	sz = dir_size(".");
-	return sz;
+    double sz = 0;
+    sz = dir_size(".");
+    return sz;
 }
 
 // See if (on the basis of user prefs) we should suspend activities.
@@ -211,9 +211,9 @@ int CLIENT_STATE::check_suspend_activities() {
     if (global_prefs.dont_run_on_batteries && host_is_running_on_batteries()) {
         should_suspend = true;
     }
-	if (!user_idle) {
-		should_suspend = true;
-	}
+    if (!user_idle) {
+        should_suspend = true;
+    }
 
     if (should_suspend) {
         if (!activities_suspended) {
@@ -885,12 +885,11 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             giveup_after = atoi(argv[++i]);
             continue;
         };
-	
+
         if (!strcmp(argv[i], "-limit_transfer_rate")) {
             max_transfer_rate = atoi(argv[++i]);
             continue;
         };
-	
     }
 }
 

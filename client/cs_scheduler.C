@@ -111,8 +111,8 @@ PROJECT* CLIENT_STATE::next_project(PROJECT* old) {
     pbest = 0;
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
-	if (p->master_url_fetch_pending)
-	  continue;
+    if (p->master_url_fetch_pending)
+        continue;
         if (p->min_rpc_time > now ) continue;
         if (old && p->debt_order <= old->debt_order) continue;
         if (p->debt_order < best) {
@@ -326,9 +326,9 @@ void CLIENT_STATE::handle_scheduler_reply(
 
     if (sr.hostid) {
         project->hostid = sr.hostid;
-	project->host_total_credit = sr.host_total_credit;
-	project->host_expavg_credit = sr.host_expavg_credit;
-	project->host_create_time = sr.host_create_time;
+        project->host_total_credit = sr.host_total_credit;
+        project->host_expavg_credit = sr.host_expavg_credit;
+        project->host_create_time = sr.host_create_time;
         project->rpc_seqno = 0;
     }
 

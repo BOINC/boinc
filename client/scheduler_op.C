@@ -47,16 +47,15 @@ int SCHEDULER_OP::init_get_work() {
         if( (retval=init_op_project(ns)) ) {
             sprintf(err_msg, "init_get_work failed, error %d\n", retval);
             backoff(project, err_msg);
-	    return retval;
+            return retval;
         }
     }
-    else
-      {
-	project = gstate.next_project_master_pending();
-	if (project) {
-	  init_master_fetch(project);
-	}
-      }
+    else {
+        project = gstate.next_project_master_pending();
+        if (project) {
+            init_master_fetch(project);
+        }
+    }
 
     return 0;
 }
@@ -110,17 +109,16 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
     // we've hit the limit on master_url fetches
     if(project->master_fetch_failures >= MASTER_FETCH_RETRY_CAP)
     {
-      if (log_flags.sched_op_debug) {
-	printf("we've hit the limit on master_url fetches\n");
-      }
-      p->min_rpc_time = time(0) + MASTER_FETCH_INTERVAL;
-      x = MASTER_FETCH_INTERVAL;
+        if (log_flags.sched_op_debug) {
+            printf("we've hit the limit on master_url fetches\n");
+        }
+        p->min_rpc_time = time(0) + MASTER_FETCH_INTERVAL;
+        x = MASTER_FETCH_INTERVAL;
     }   
-    else
-      {
-	for (i=0; i<n; i++) x *= 2;
-	p->min_rpc_time = time(0) + x;
-      }
+    else {
+        for (i=0; i<n; i++) x *= 2;
+        p->min_rpc_time = time(0) + x;
+    }
     if (log_flags.sched_op_debug) {
         printf(
             "setting min RPC time for %s to %d seconds from now\n",
@@ -292,17 +290,17 @@ bool SCHEDULER_OP::poll() {
                     if (changed) {
                         project->min_rpc_time = 0;
                         project->nrpc_failures = 0;
-			project->master_fetch_failures = 0;
+                        project->master_fetch_failures = 0;
                     }
                 } else {
                     // master file parse failed.  treat like RPC error
                     //
-		  backoff(project, "Master file parse failed\n");
+                    backoff(project, "Master file parse failed\n");
                 }
             } else {
                 // fetch of master file failed.  Treat like RPC error
                 //
-	      backoff(project, "Master file fetch failed\n");
+                backoff(project, "Master file fetch failed\n");
             }
             project = gstate.next_project_master_pending();
             if (project) {
@@ -334,11 +332,11 @@ bool SCHEDULER_OP::poll() {
                     start_rpc();
                 } else {
                     backoff(project,"");
-		    
+
                     if (must_get_work) {
                         project = gstate.next_project(project);
                         if (project) {
-			  if( (retval=init_op_project(gstate.work_needed_secs())) ) {
+                            if( (retval=init_op_project(gstate.work_needed_secs())) ) {
                                 sprintf( err_msg,
                                     "scheduler init_op_project to %s failed, error %d\n",
                                     project->scheduler_urls[url_index].text, retval
@@ -349,7 +347,7 @@ bool SCHEDULER_OP::poll() {
                             scheduler_op_done = true;
                         }
                     } 
-		    else {
+                    else {
                         scheduler_op_done = true;
                     }
                 }
@@ -361,7 +359,7 @@ bool SCHEDULER_OP::poll() {
                     );
                 }
                 project->nrpc_failures = 0;
-		project->min_rpc_time = 0;
+                project->min_rpc_time = 0;
                 gstate.handle_scheduler_reply(project, scheduler_url);
                 if (must_get_work) {
                     double x = gstate.work_needed_secs();
@@ -382,16 +380,16 @@ bool SCHEDULER_OP::poll() {
                         scheduler_op_done = true;
                     }
                 } else {
-		    scheduler_op_done = true;
-		}
+                    scheduler_op_done = true;
+                }
             }
         }
         if (scheduler_op_done) {
            project = gstate.next_project_master_pending();
-	   if (project) {
-	      init_master_fetch(project);
+            if (project) {
+                init_master_fetch(project);
             } else {
-	        state = SCHEDULER_OP_STATE_IDLE;
+                state = SCHEDULER_OP_STATE_IDLE;
                 if (log_flags.sched_op_debug) {
                     printf("Scheduler_op: return to idle state\n");
                 }
@@ -451,16 +449,16 @@ int SCHEDULER_REPLY::parse(FILE* in) {
             continue;
         } else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) {
             continue;
-	} else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) {
-	    continue;
+        } else if (parse_int(buf, "<user_create_time>", (int &)user_create_time)) {
+            continue;
         } else if (parse_int(buf, "<hostid>", hostid)) {
             continue;
-	} else if (parse_double(buf, "<host_total_credit>", host_total_credit)) {
-	    continue;
-	} else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) {
-	    continue;
-	} else if (parse_int(buf, "<host_create_time>", (int &)host_create_time)) {
-	    continue;
+        } else if (parse_double(buf, "<host_total_credit>", host_total_credit)) {
+            continue;
+        } else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) {
+            continue;
+        } else if (parse_int(buf, "<host_create_time>", (int &)host_create_time)) {
+            continue;
         } else if (parse_int(buf, "<request_delay>", request_delay)) {
             continue;
         } else if (match_tag(buf, "<global_preferences>")) {

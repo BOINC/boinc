@@ -32,15 +32,15 @@
 // For upload, try to upload the file to the first URL;
 // if that fails try the others.
 
-#define PERS_RETRY_DELAY_MIN    60			// 1 minute
-#define PERS_RETRY_DELAY_MAX    (60*60*4)		// 4 hours
-#define PERS_GIVEUP             (60*60*24*7*2)		// 2 weeks
+#define PERS_RETRY_DELAY_MIN    60                // 1 minute
+#define PERS_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
+#define PERS_GIVEUP             (60*60*24*7*2)    // 2 weeks
     // give up on xfer if this time elapses since last byte xferred
 
 class PERS_FILE_XFER {
-    int nretry;         // # of retries so far
-    int first_request_time;	// UNIX time of first file request
-    int next_request_time;	// UNIX time to next retry the file request
+    int nretry;                // # of retries so far
+    int first_request_time;    // UNIX time of first file request
+    int next_request_time;     // UNIX time to next retry the file request
     bool is_upload;
 
 public:
