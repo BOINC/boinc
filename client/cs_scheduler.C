@@ -248,7 +248,7 @@ bool CLIENT_STATE::some_project_rpc_ok() {
 bool CLIENT_STATE::scheduler_rpc_poll() {
     double work_secs;
     PROJECT* p;
-    bool action, below_low_water;
+    bool action=false, below_low_water;
 
     switch(scheduler_op->state) {
     case SCHEDULER_OP_STATE_IDLE:
@@ -278,6 +278,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         }
         break;
     }
+    if (log_flags.sched_op_debug && action) printf("CS::scheduler_rpc_poll\n");
     return action;
 }
 

@@ -238,7 +238,7 @@ int handle_results(
             printf("can't find result %s\n", rp->name);
         } else {
             if (result.state != RESULT_STATE_IN_PROGRESS) {
-                printf("got unexpected result for %s\n", rp->name);
+                fprintf(stderr, "got unexpected result for %s\n", rp->name);
                 continue;
             }
 

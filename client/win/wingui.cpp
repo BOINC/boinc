@@ -3,6 +3,7 @@
 #include "log_flags.h"
 #include "client_state.h"
 #include "resource.h"
+#include "win_net.h"
 #include "wingui.h"
 
 #define ID_TIMER        104
@@ -157,8 +158,15 @@ void CALLBACK CMainWindow::TimerProc(HWND h, UINT x, UINT id, DWORD time) {
     n++;
     sprintf(buf, "%d", n);
     results.set_field(0, 0, buf);
+
+#if 1
     while (gstate.do_something()) {
     }
+#else
+	gstate.do_something();
+#endif
+	fflush(stdout);
+	fflush(stderr);
 }
 
 int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
@@ -192,6 +200,9 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
     projects.create("Projects", 3, 22, 3, project_titles, project_widths);
     user_info.create("User info", 4, 28, 2, user_info_titles, user_info_widths);
 
+	NetOpen();
+	freopen("stdout.txt", "w", stdout);
+	freopen("stderr.txt", "w", stderr);
     read_log_flags();
     int retval = gstate.init();
     if (retval) exit(retval);
@@ -201,7 +212,8 @@ int CMainWindow::OnCreate (LPCREATESTRUCT lpcs)
 }
 
 void show_message(char* p, char* prior) {
-    MessageBox(NULL, p, prior, MB_OK);
+    //MessageBox(NULL, p, prior, MB_OK);
+	printf("Message (%s): %s\n", prior, p);
 }
 
 int initialize_prefs() {
