@@ -1,25 +1,21 @@
-// $Id$
+// Berkeley Open Infrastructure for Network Computing
+// http://boinc.berkeley.edu
+// Copyright (C) 2005 University of California
 //
-// The contents of this file are subject to the BOINC Public License
-// Version 1.0 (the "License"); you may not use this file except in
-// compliance with the License. You may obtain a copy of the License at
-// http://boinc.berkeley.edu/license_1.0.txt
-// 
-// Software distributed under the License is distributed on an "AS IS"
-// basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-// License for the specific language governing rights and limitations
-// under the License. 
-// 
-// The Original Code is the Berkeley Open Infrastructure for Network Computing. 
-// 
-// The Initial Developer of the Original Code is the SETI@home project.
-// Portions created by the SETI@home project are Copyright (C) 2002
-// University of California at Berkeley. All Rights Reserved. 
-// 
-// Contributor(s):
+// This is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation;
+// either version 2.1 of the License, or (at your option) any later version.
 //
-// Revision History:
+// This software is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
 //
+// To view the GNU Lesser General Public License visit
+// http://www.gnu.org/copyleft/lesser.html
+// or write to the Free Software Foundation, Inc.,
+// 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
 #if defined(__GNUG__) && !defined(__APPLE__)
@@ -110,7 +106,7 @@ void CDlgAbout::CreateControls()
     item7->Add(item10, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
 
     wxStaticText* item11 = new wxStaticText;
-    item11->Create( item1, wxID_STATIC, _T("BOINC Public License"), wxDefaultPosition, wxDefaultSize, 0 );
+    item11->Create( item1, wxID_STATIC, _T("Lesser GNU Public License"), wxDefaultPosition, wxDefaultSize, 0 );
     item7->Add(item11, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
 
     wxStaticText* item12 = new wxStaticText;
@@ -118,7 +114,7 @@ void CDlgAbout::CreateControls()
     item7->Add(item12, 0, wxALIGN_RIGHT|wxALIGN_TOP|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
 
     wxStaticText* item13 = new wxStaticText;
-    item13->Create( item1, wxID_STATIC, _T("(C) 2004 University of California at Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
+    item13->Create( item1, wxID_STATIC, _T("(C) 2005 University of California at Berkeley.\nAll Rights Reserved."), wxDefaultPosition, wxDefaultSize, 0 );
     item7->Add(item13, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxADJUST_MINSIZE, 5);
 
     wxStaticText* item14 = new wxStaticText;

@@ -23043,3 +23043,8 @@ David  20 Jan 2005
         client_types.C
     lib/
         filesys.C
+
+David  20 Jan 2005
+    - converted code to LGPL license
+
+    (essentially all files)
