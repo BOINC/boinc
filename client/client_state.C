@@ -956,7 +956,8 @@ int CLIENT_STATE::report_result_error(
 // - delete all apps and app_versions
 // - garbage collect to delete unneeded files
 //
-// Note: does NOT delete persistent files or delete project dir
+// Note: does NOT delete persistent files or user-supplied files;
+// does not delete project dir
 //
 int CLIENT_STATE::reset_project(PROJECT* project) {
     unsigned int i;
@@ -989,6 +990,10 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
         http_ops->remove(&scheduler_op->http_op);
     }
 
+    // mark results as server-acked.
+    // This will cause garbage_collect to delete them,
+    // and in turn their WUs will be deleted
+    //
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         if (rp->project == project) {
@@ -1028,7 +1033,9 @@ int CLIENT_STATE::reset_project(PROJECT* project) {
 // - delete account directory
 //
 int CLIENT_STATE::detach_project(PROJECT* project) {
-    vector<PROJECT*>::iterator iter;
+    vector<PROJECT*>::iterator project_iter;
+    vector<FILE_INFO*>::iterator fi_iter;
+    FILE_INFO* fip;
     PROJECT* p;
     char path[256];
     int retval;
@@ -1037,12 +1044,24 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 
     msg_printf(project, MSG_INFO, "Detaching from project");
 
+    // delete all FILE_INFOs associated with this project
+    //
+    fi_iter = file_infos.begin();
+    while (fi_iter != file_infos.end()) {
+        fip = *fi_iter;
+        if (fip->project == project) {
+            file_infos.erase(fi_iter);
+        } else {
+            fi_iter++;
+        }
+    }
+
     // find project and remove it from the vector
     //
-    for (iter = projects.begin(); iter != projects.end(); iter++) {
-        p = *iter;
+    for (project_iter = projects.begin(); project_iter != projects.end(); project_iter++) {
+        p = *project_iter;
         if (p == project) {
-            projects.erase(iter);
+            projects.erase(project_iter);
             break;
         }
     }

@@ -102,3 +102,4 @@
 #define ERR_SCHED_SHMEM     -156
     // sched shmem has bad contents
 #define ERR_ASYNCSELECT     -157
+#define ERR_BAD_RESULT_STATE    -158

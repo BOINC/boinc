@@ -7464,3 +7464,25 @@ David  4 Nov 2003
 	win_build/
 		boinc_cli.dsp
 		boinc_gui.dsp
+
+David  5 Nov 2003
+	- The following changes fix core client crashes that occur when
+		reset a project, then quickly detach from the project
+		while downloads are occurring.
+		In once instance, this produced a state file that caused
+		the client to crash each time it started up.
+	- when parse an ACTIVE_TASK in state file,
+		verify that the corresponding result is in the right state
+		(RESULT_FILES_DOWNLOADED, with got_server_ack and ready_to_report false)
+	- when parse a RESULT in state file,
+		make sure it's consistent: in particular, if got_server_ack or ready_to_report
+		is true, the state must be RESULT_FILES_UPLOADED
+	- CLIENT_STATE::detach_project(): delete all the project's FILE_INFOs
+		(reset_project() doesn't do this)
+
+	client/
+		app.C
+		client_state.C
+		client_types.C
+	lib/
+		error_numbers.h

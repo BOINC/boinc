@@ -1288,20 +1288,33 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
             result = cs->lookup_result(project, result_name);
             if (!result) {
                 msg_printf(
-                    NULL, MSG_ERROR, "ACTIVE_TASK::parse(): result not found\n"
+                    project, MSG_ERROR, "ACTIVE_TASK::parse(): result not found\n"
                 );
                 return ERR_NULL;
             }
+
+            // various sanity checks
+            //
+            if (result->got_server_ack
+                || result->ready_to_report
+                || result->state != RESULT_FILES_DOWNLOADED
+            ) {
+                msg_printf(project, MSG_ERROR,
+                    "ACTIVE_TASK::parse(): result is in wrong state\n"
+                );
+                return ERR_BAD_RESULT_STATE;
+            }
+
             wup = result->wup;
             app_version = cs->lookup_app_version(
                 result->app, app_version_num
             );
             if (!app_version) {
                 msg_printf(
-                    NULL, MSG_ERROR,
+                    project, MSG_ERROR,
                     "ACTIVE_TASK::parse(): app_version not found\n"
                 );
-                return -1;
+                return ERR_NULL;
             }
             return 0;
         }

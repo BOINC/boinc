@@ -879,7 +879,14 @@ int RESULT::parse_state(FILE* in) {
 
     clear();
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</result>")) return 0;
+        if (match_tag(buf, "</result>")) {
+            // restore some invariants in case of bad state file
+            //
+            if (got_server_ack || ready_to_report) {
+                state = RESULT_FILES_UPLOADED;
+            }
+            return 0;
+        }
         if (parse_str(buf, "<name>", name, sizeof(name))) continue;
         if (parse_str(buf, "<wu_name>", wu_name, sizeof(wu_name))) continue;
         if (parse_int(buf, "<report_deadline>", report_deadline)) continue;
