@@ -232,6 +232,7 @@ void CSSWindow::OnTimer()
 	if(gstate.active_tasks.active_tasks.size() != 0) {
 		UINT uPaintMsg = RegisterWindowMessage("BOINC_PAINT");
 		CWnd* pAppWnd = GetWndFromProcId(gstate.active_tasks.active_tasks[0]->pid);
+		SetWindowText(gstate.active_tasks.active_tasks[0]->wup->app_name);
 		if(pAppWnd) {
 			if(!pAppWnd->SendMessage(uPaintMsg, 0, (LPARAM)GetSafeHwnd())) {
 				PaintDefault();
