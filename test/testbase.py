@@ -322,9 +322,18 @@ class TestProject(Project):
     def run_init_wait(self):
         time.sleep(5)
     def run_finish_wait(self):
+        '''Sleep until all workunits are assimilated and no workunits need to transition.
+
+        If more than X seconds have passed than just assume something is broken and return.'''
+
         db = self.db_open()
+        timeout = time.time() + 3*60
         while (num_wus_assimilated(db) < self.num_wu) or num_wus_to_transition(db):
             time.sleep(.5)
+            if time.time() > timeout:
+                error("run_finish_wait(): timed out waiting for workunits to assimilated/transition")
+                break
+        db.close()
 
     def check(self):
         verbose_sleep("Sleeping to allow server daemons to finish", 5)
