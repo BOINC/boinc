@@ -10,7 +10,7 @@ Put it in a directory by itself.
 Run it manually, from your login script,
 or from system startup files.
 <p>
-The command line client has several options:
+The command-line client has the following command-line options:
 ";
 list_start();
 list_item("-attach_project",
@@ -65,6 +65,18 @@ list_item("-version",
 );
 list_end();
 echo"
+The command-line client has the following optional environment variables:
+";
+list_start();
+list_item("HTTP_PROXY", "URL of HTTP proxy");
+list_item("HTTP_USER_NAME", "User name for proxy authentication");
+list_item("HTTP_USER_PASSWD", "Password for proxy authentication");
+list_item("SOCKS4_SERVER", "URL of SOCKS 4 server");
+list_item("SOCKS5_SERVER", "URL of SOCKS 5 server");
+list_item("SOCKS5_USER", "User name for SOCKS authentication");
+list_item("SOCKS5_PASSWD", "Password for SOCKS authentication");
+list_end();
+echo "
 <a name=mac>
 <h3>Installing BOINC on Mac OS/X</h3>
 <p>

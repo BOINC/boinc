@@ -405,7 +405,7 @@ compute_work_request():
                 urgency = max(NEED_WORK, urgency)
         P.work_request =
             max(0, (2*T - est_time_to_starvation)*avg_proc_rate(P))
-    
+
     if urgency == DONT_NEED_WORK:
         foreach project P:
             P.work_request = 0

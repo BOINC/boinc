@@ -15179,3 +15179,10 @@ Karl 2004-07-13
         boinc_gl.h (new)
 
     113 files modified
+
+David
+    - client: get env vars related to HTTP proxy authentication
+        (previously the cmdline version couldn't do auth)
+
+    client/
+        cs_cmdline.C

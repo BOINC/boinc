@@ -71,7 +71,6 @@ cpu_benchmark_CFLAGS = -O3 $(AM_CFLAGS)
 
 all-local: client-bin
 client-bin: @CLIENT_BIN_FILENAME@
-client-bin-gz: @CLIENT_BIN_FILENAME@.gz
 
 win/win_config.h: $(top_srcdir)/config.h
 	grep '#define.*BOINC.*VERSION' $^ > $@
@@ -83,9 +82,6 @@ version: win/win_config.h
 	rm -f $@
 	ln $? $@
 
-@CLIENT_BIN_FILENAME@.gz: @CLIENT_BIN_FILENAME@
-	gzip -c $? > $@
-
 ## these source files need to be specified because no rule on unix uses them.
 
 EXTRA_DIST =                                    \
@@ -96,6 +92,6 @@ EXTRA_DIST =                                    \
     translation/*/*
 
 clean-local:
-	rm -f @CLIENT_BIN_FILENAME@ @CLIENT_BIN_FILENAME@.gz
+	rm -f @CLIENT_BIN_FILENAME@
 
 .PHONY: version

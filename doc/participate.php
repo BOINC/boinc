@@ -20,18 +20,23 @@ echo "
 <li> <a href=credit.php>Computation credit</a>
 <li> <a href=teams.php>Teams</a>
 <li> <a href=anonymous_platform.php>Compiling BOINC software yourself</a>
-<li> User-supplied FAQ by
-    <a href=http://users.iafrica.com/c/ch/chrissu/boinc-README.html>Chris Sutton</a>
-<li> <a href=http://setiboinc.ssl.berkeley.edu/ap/stats.php>Leader boards</a>
 </ul>
 <p>
-<b>Third-party software and web sites</b>
+<b>Graphical User Interfaces (GUIs)</b>
 <ul>
+<li> <a href=gui_rpc_control.php>Access control</a>
 <li> <a href=gui_rpc.php>Framework for separate GUIs</a>
 <li> <a href=guis.php>Separate GUIs</a>
+</ul>
+<p>
+<b>Statistics web sites</b>
+<ul>
 <li> <a href=db_dump.php>Downloading statistics data</a>
-<li> <a href=proxy_server.php>Proxy servers</a> (why BOINC doesn't have them).
 <li> <a href=cpid.php>Cross-project identification</a>
+</ul>
+<b>Third-party software and web sites</b>
+<ul>
+<li> <a href=proxy_server.php>Proxy servers</a> (why BOINC doesn't have them).
 </ul>
 ";
 page_tail();

@@ -169,10 +169,18 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
 void CLIENT_STATE::parse_env_vars() {
     char *p, temp[256];
 
-    if ((p = getenv("HTTP_PROXY"))) {
-        if (strlen(p) > 0) {
-            pi.use_http_proxy = true;
-            parse_url(p, pi.http_server_name, pi.http_server_port, temp);
+    p = getenv("HTTP_PROXY");
+    if (p && strlen(p) > 0) {
+        pi.use_http_proxy = true;
+        parse_url(p, pi.http_server_name, pi.http_server_port, temp);
+    }
+    p = getenv("HTTP_USER_NAME");
+    if (p) {
+        pi.use_http_auth = true;
+        strcpy(pi.http_user_name, p);
+        p = getenv("HTTP_USER_PASSWD");
+        if (p) {
+            strcpy(pi.http_user_passwd, p);
         }
     }
 
@@ -182,11 +190,10 @@ void CLIENT_STATE::parse_env_vars() {
         getenv("SOCKS_SERVER")?SOCKS_VERSION_5:
         SOCKS_VERSION_5;
 
-    if ((p = getenv("SOCKS4_SERVER"))) {
-        if (strlen(p) > 0) {
-            pi.use_socks_proxy = true;
-            parse_url(p, pi.socks_server_name, pi.socks_server_port, temp);
-        }
+    p = getenv("SOCKS4_SERVER");
+    if (p && strlen(p) > 0) {
+        pi.use_socks_proxy = true;
+        parse_url(p, pi.socks_server_name, pi.socks_server_port, temp);
     }
 
     if ((p = getenv("SOCKS_SERVER")) || (p = getenv("SOCKS5_SERVER"))) {
