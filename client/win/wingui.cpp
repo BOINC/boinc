@@ -19,6 +19,7 @@
 
 #include "stdafx.h"
 
+#include "client_msgs.h"
 #include "wingui.h"
 #include "wingui_mainwindow.h"
 

@@ -210,27 +210,7 @@
 				RelativePath="..\client\check_state.C">
 			</File>
 			<File
-				RelativePath="..\client\client_messages.C">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
+				RelativePath="..\client\client_msgs.C">
 			</File>
 			<File
 				RelativePath="..\Client\client_state.C">
@@ -771,50 +751,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\client\message.C">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\lib\messages.C">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
+				RelativePath="..\lib\msg_log.C">
 			</File>
 			<File
 				RelativePath="..\Client\net_stats.C">
@@ -1118,6 +1055,9 @@
 				RelativePath="..\client\win\boinc_cli.h">
 			</File>
 			<File
+				RelativePath="..\client\client_msgs.h">
+			</File>
+			<File
 				RelativePath="..\client\client_state.h">
 			</File>
 			<File
@@ -1166,7 +1106,7 @@
 				RelativePath="..\lib\md5_file.h">
 			</File>
 			<File
-				RelativePath="..\client\message.h">
+				RelativePath="..\lib\msg_log.h">
 			</File>
 			<File
 				RelativePath="..\client\net_stats.h">
