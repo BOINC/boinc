@@ -545,6 +545,7 @@ int handle_results(
         result.client_state = rp->client_state;
         result.cpu_time = rp->cpu_time;
         result.claimed_credit = result.cpu_time * host.credit_per_cpu_sec;
+fprintf(stderr, "cpu %e, cps %e, cc %e\n", result.cpu_time, host.credit_per_cpu_sec, result.claimed_credit);
         result.server_state = RESULT_SERVER_STATE_OVER;
         // TODO: if client application aborted e.g. exceeded resource limits,
         // should client_state be RESULT_OUTCOME_CLIENT_ERROR ?
@@ -613,8 +614,11 @@ int send_work(
 
     if (sreq.work_req_seconds <= 0) return 0;
 
-    log_messages.printf(SchedMessages::NORMAL, "[HOST#%d] got request for %d seconds of work\n",
-                        reply.host.id, sreq.work_req_seconds);
+    log_messages.printf(
+        SchedMessages::NORMAL,
+        "[HOST#%d] got request for %d seconds of work\n",
+        reply.host.id, sreq.work_req_seconds
+    );
 
     seconds_to_fill = sreq.work_req_seconds;
     if (seconds_to_fill > MAX_SECONDS_TO_SEND) {

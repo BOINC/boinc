@@ -67,8 +67,11 @@ int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
         }
         retval = read_file_malloc(path, files[i]);
         if (retval) {
-            log_messages.printf(SchedMessages::CRITICAL, "[RESULT#%d %s] Couldn't open %s (read_file_malloc()=%d)\n",
-                                result.id, result.name, path, retval);
+            log_messages.printf(
+                SchedMessages::CRITICAL,
+                "[RESULT#%d %s] Couldn't open %s (read_file_malloc()=%d)\n",
+                result.id, result.name, path, retval
+            );
             return retval;
         }
     }
@@ -152,15 +155,21 @@ int check_pair(RESULT& r1, RESULT& r2, bool& match) {
     get_output_file_path(r1, path);
     retval = read_file_malloc(path, p1);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "[RESULT#%d %s] [RESULT#%d %s] Couldn't open %s (r1: read_file_malloc()=%d)\n",
-                            r1.id, r1.name, r2.id, r2.name, path, retval);
+        log_messages.printf(
+            SchedMessages::CRITICAL,
+            "[RESULT#%d %s] [RESULT#%d %s] Couldn't open %s (r1: read_file_malloc()=%d)\n",
+            r1.id, r1.name, r2.id, r2.name, path, retval
+        );
         return retval;
     }
     get_output_file_path(r2, path);
     retval = read_file_malloc(path, p2);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "[RESULT#%d %s] [RESULT#%d %s] Couldn't open %s (r2: read_file_malloc()=%d)\n",
-                            r1.id, r1.name, r2.id, r2.name, path, retval);
+        log_messages.printf(
+            SchedMessages::CRITICAL,
+            "[RESULT#%d %s] [RESULT#%d %s] Couldn't open %s (r2: read_file_malloc()=%d)\n",
+            r1.id, r1.name, r2.id, r2.name, path, retval
+        );
         return retval;
     }
     match = !strcmp(p1, p2);

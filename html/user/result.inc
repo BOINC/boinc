@@ -41,23 +41,37 @@ function validate_state_str($s) {
     return "unknown";
 }
 
-function result_table_start() {
+function result_table_start($show_wu_link, $show_host_link) {
     start_table();
     echo "
         <tr>
+    ";
+    if ($show_wu_link) {
+        echo "<th>Work unit</th>\n";
+    }
+    if ($show_host_link) {
+        echo "<th>Host</th>\n";
+    }
+    echo "
         <th>Sent</th>
         <th>Received</th>
-        <th>Server state</th>
-        <th>Outcome</th>
-        <th>Client state</th>
-        <th>CPU time</th>
+        <th>Server state
+            <br><font size=2><a href=explain_state.php?field=result_server_state>Explain</a>
+        </th>
+        <th>Outcome
+            <br><font size=2><a href=explain_state.php?field=result_outcome>Explain</a>
+        </th>
+        <th>Client state
+            <br><font size=2><a href=explain_state.php?field=result_client_state>Explain</a>
+        </th>
+        <th>CPU time (sec)</th>
         <th>claimed credit</th>
         <th>granted credit</th>
         </tr>
     ";
 }
 
-function show_result_row($result) {
+function show_result_row($result, $show_wu_link, $show_host_link) {
     $s = time_str($result->sent_time);
     $r = time_str($result->received_time);
     $ss = result_server_state_string($result->server_state);
@@ -65,6 +79,14 @@ function show_result_row($result) {
     $cl = result_client_state_string($result->client_state);
     echo "
         <tr>
+    ";
+    if ($show_wu_link) {
+        echo "<td><a href=workunit.php?wuid=$result->workunitid>$result->workunitid</a></td>\n";
+    }
+    if ($show_host_link) {
+        echo "<td><a href=host.php?hostid=$result->hostid>$result->hostid</a></td>\n";
+    }
+    echo "
         <td>$s</td>
         <td>$r</td>
         <td>$ss</td>

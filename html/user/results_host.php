@@ -11,11 +11,12 @@
     $offset = $_GET["offset"];
     if (!$offset) $offset=0;
     page_head("Results for host");
-    result_table_start();
+    echo "<h3>Results for host</h3>\n";
+    result_table_start(true, false);
     $i = 1;
     $result = mysql_query("select * from result where hostid=$hostid order by id desc limit $results_per_page offset $offset");
     while ($res = mysql_fetch_object($result)) {
-        show_result_row($res, $i);
+        show_result_row($res, true, false);
         $i++;
     }
     mysql_free_result($result);

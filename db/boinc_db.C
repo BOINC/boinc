@@ -365,7 +365,7 @@ void DB_USER::db_print(char* buf){
         "id=%d, create_time=%d, email_addr='%s', name='%s', "
         "authenticator='%s', "
         "country='%s', postal_code='%s', "
-        "total_credit=%.12e, expavg_credit=%.12e, expavg_time=%f, "
+        "total_credit=%e, expavg_credit=%e, expavg_time=%e, "
         "global_prefs='%s', project_prefs='%s', "
         "teamid=%d, venue='%s', url='%s', send_email=%d, show_hosts=%d",
         id,
@@ -427,7 +427,7 @@ void DB_TEAM::db_print(char* buf){
         "id=%d, create_time=%d, userid=%d, name='%s', "
         "name_lc='%s', url='%s', "
         "type=%d, name_html='%s', description='%s', nusers=%d, "
-        "country='%s', total_credit=%f, expavg_credit=%f",
+        "country='%s', total_credit=%e, expavg_credit=%e",
         id,
         create_time,
         userid,
@@ -478,18 +478,18 @@ void DB_HOST::db_print(char* buf){
     sprintf(buf,
         "id=%d, create_time=%d, userid=%d, "
         "rpc_seqno=%d, rpc_time=%d, "
-        "total_credit=%.12e, expavg_credit=%.12e, expavg_time=%f, "
+        "total_credit=%.12e, expavg_credit=%.12e, expavg_time=%e, "
         "timezone=%d, domain_name='%s', serialnum='%s', "
         "last_ip_addr='%s', nsame_ip_addr=%d, "
-        "on_frac=%f, connected_frac=%f, active_frac=%f, "
+        "on_frac=%e, connected_frac=%e, active_frac=%e, "
         "p_ncpus=%d, p_vendor='%s', p_model='%s', "
-        "p_fpops=%f, p_iops=%f, p_membw=%f, "
+        "p_fpops=%e, p_iops=%e, p_membw=%e, "
         "os_name='%s', os_version='%s', "
-        "m_nbytes=%f, m_cache=%f, m_swap=%f, "
-        "d_total=%f, d_free=%f, "
-        "d_boinc_used_total=%f, d_boinc_used_project=%f, d_boinc_max=%f, "
-        "n_bwup=%f, n_bwdown=%f, "
-        "credit_per_cpu_sec=%f, "
+        "m_nbytes=%e, m_cache=%e, m_swap=%e, "
+        "d_total=%e, d_free=%e, "
+        "d_boinc_used_total=%e, d_boinc_used_project=%e, d_boinc_max=%e, "
+        "n_bwup=%e, n_bwdown=%e, "
+        "credit_per_cpu_sec=%e, "
         "venue='%s', projects='%s'",
         id, create_time, userid,
         rpc_seqno, rpc_time,
@@ -562,9 +562,9 @@ void DB_WORKUNIT::db_print(char* buf){
     sprintf(buf,
         "id=%d, create_time=%d, appid=%d, "
         "name='%s', xml_doc='%s', batch=%d, "
-        "rsc_fpops=%f, rsc_iops=%f, rsc_memory=%f, rsc_disk=%f, "
+        "rsc_fpops=%e, rsc_iops=%e, rsc_memory=%e, rsc_disk=%e, "
         "need_validate=%d, "
-        "canonical_resultid=%d, canonical_credit=%f, "
+        "canonical_resultid=%d, canonical_credit=%e, "
         "timeout_check_time=%d, delay_bound=%d, "
         "error_mask=%d, file_delete_state=%d, assimilate_state=%d, "
         "workseq_next=%d, opaque=%d",
@@ -612,10 +612,10 @@ void DB_RESULT::db_print(char* buf){
         "id=%d, create_time=%d, workunitid=%d, "
         "server_state=%d, outcome=%d, client_state=%d, "
         "hostid=%d, report_deadline=%d, sent_time=%d, received_time=%d, "
-        "name='%s', cpu_time=%f, "
+        "name='%s', cpu_time=%e, "
         "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
         "batch=%d, file_delete_state=%d, validate_state=%d, "
-        "claimed_credit=%f, granted_credit=%f, opaque=%d, random=%d, "
+        "claimed_credit=%e, granted_credit=%e, opaque=%d, random=%d, "
         "client_version_num=%d",
         id, create_time, workunitid,
         server_state, outcome, client_state,

@@ -118,7 +118,7 @@ function page_head($title, $user=null, $fd=null) {
 }
 
 function page_tail($fd=null) {
-    write_fd($fd, "<br><hr><center><a href=". MASTER_URL . "index.php>Return to ".PROJECT." main page</a><br>\n");
+    write_fd($fd, "<br><hr><center><a href=index.php>Return to ".PROJECT." main page</a><br>\n");
 
     // put your copyright notice etc. here
 

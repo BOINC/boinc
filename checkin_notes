@@ -5550,3 +5550,15 @@ Karl 2003/08/06
 
     Client/time_stats.C
 
+David  Aug 7 2003
+    - use "%e" instead of "%f" in database printfs; avoid roundoff errors
+    - let users browse info about their results,
+        e.g. to see other results for the same WU
+
+    db/
+        boinc_db.C
+    html_user/
+        explain_state.php (new)
+        login_action.php
+        results_host.php
+        workunit.php (new)
