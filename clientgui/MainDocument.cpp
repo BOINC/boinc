@@ -27,6 +27,126 @@
 #include "error_numbers.h"
 
 
+CNetworkConnectionThread::CNetworkConnectionThread( CMainDocument* pDocument )
+{
+    m_pDocument = pDocument;
+}
+
+
+void* CNetworkConnectionThread::Entry()
+{
+    wxInt32 iRetVal = -1;
+    std::string strComputer;
+    std::string strComputerPassword;
+
+    while ( !TestDestroy() )
+    {
+        if ( m_pDocument->m_bNCTConnectEvent )
+        {
+            if ( m_pDocument->IsConnected() && m_pDocument->m_bNCTNewShouldReconnect )
+            {
+                m_pDocument->rpc.close();
+                m_pDocument->state.clear();
+                m_pDocument->host.clear();
+                m_pDocument->project_status.clear();
+                m_pDocument->results.clear();
+                m_pDocument->messages.clear();
+                m_pDocument->ft.clear();
+                m_pDocument->resource_status.clear();
+                m_pDocument->proxy_info.clear();
+                
+                m_pDocument->m_dtCachedStateLockTimestamp = wxDateTime::Now();
+                m_pDocument->m_dtCachedStateTimestamp = wxDateTime( (time_t)0 );
+
+                m_pDocument->m_iMessageSequenceNumber = 0;
+
+                m_pDocument->m_bIsConnected = false;
+            }
+
+            if ( m_pDocument->IsConnected() )
+                return BOINC_SUCCESS;
+
+            if ( strComputer.empty() && !m_pDocument->m_strConnectedComputerName.empty() )
+                if (!m_pDocument->m_strNCTNewConnectedComputerName.empty())
+                    strComputer = m_pDocument->m_strNCTNewConnectedComputerName;
+                else
+                    strComputer = m_pDocument->m_strConnectedComputerName.c_str();
+            else
+            {
+                if (!m_pDocument->m_strNCTNewConnectedComputerName.empty())
+                    strComputer = m_pDocument->m_strNCTNewConnectedComputerName.empty();
+            }
+
+            if ( strComputerPassword.empty() && !m_pDocument->m_strConnectedComputerPassword.empty() )
+                if (!m_pDocument->m_strNCTNewConnectedComputerPassword.empty())
+                    strComputerPassword = m_pDocument->m_strNCTNewConnectedComputerPassword;
+                else
+                    strComputerPassword = m_pDocument->m_strConnectedComputerPassword.c_str();
+            else
+            {
+                if (!m_pDocument->m_strNCTNewConnectedComputerPassword.empty())
+                    strComputerPassword = m_pDocument->m_strNCTNewConnectedComputerPassword;
+            }
+
+            if ( strComputer.empty() )
+                iRetVal = m_pDocument->rpc.init( NULL );
+            else
+                iRetVal = m_pDocument->rpc.init( strComputer.c_str() );
+
+            if (iRetVal)
+            {
+                wxLogTrace("CMainDocument::Connect - RPC Initialization Failed '%d'", iRetVal);
+            }
+
+            if ( !strComputerPassword.empty() )
+                iRetVal = m_pDocument->rpc.authorize( strComputerPassword.c_str() );
+
+            if (iRetVal)
+            {
+                wxLogTrace("CMainDocument::Connect - RPC Authorization Failed '%d'", iRetVal);
+            }
+
+            if ( 0 == iRetVal )
+            {
+                m_pDocument->m_bIsConnected = true;
+                m_pDocument->m_strConnectedComputerName = strComputer.c_str();
+                m_pDocument->m_strConnectedComputerPassword = strComputerPassword.c_str();
+                m_pDocument->m_bNCTNewShouldReconnect = false;
+                m_pDocument->m_strNCTNewConnectedComputerName = wxEmptyString;
+                m_pDocument->m_strNCTNewConnectedComputerPassword = wxEmptyString;
+
+                m_pDocument->m_bNCTConnectEvent = false;
+            }
+        }
+
+        Sleep(1000);
+    }
+
+    return NULL;
+}
+
+
+void CNetworkConnectionThread::OnExit()
+{
+    m_pDocument->rpc.close();
+    m_pDocument->state.clear();
+    m_pDocument->host.clear();
+    m_pDocument->project_status.clear();
+    m_pDocument->results.clear();
+    m_pDocument->messages.clear();
+    m_pDocument->ft.clear();
+    m_pDocument->resource_status.clear();
+    m_pDocument->proxy_info.clear();
+    
+    m_pDocument->m_dtCachedStateLockTimestamp = wxDateTime::Now();
+    m_pDocument->m_dtCachedStateTimestamp = wxDateTime( (time_t)0 );
+
+    m_pDocument->m_iMessageSequenceNumber = 0;
+
+    m_pDocument->m_bIsConnected = false;
+}
+
+
 IMPLEMENT_DYNAMIC_CLASS(CMainDocument, wxObject)
 
 
@@ -137,6 +257,15 @@ wxInt32 CMainDocument::OnInit()
     // attempt to lookup account management information
     acct_mgr.init();
 
+    // start the connect management thread
+    m_pNetworkConnectionThread = new CNetworkConnectionThread(this);
+    if ( m_pNetworkConnectionThread->Create() != wxTHREAD_NO_ERROR )
+        wxLogTrace("CMainDocument::OnInit - Failed to create network connection thread");
+
+    m_pNetworkConnectionThread->Run();
+
+
+    // provide the default connection information
     if ( !IsConnected() )
         iRetVal = Connect( wxEmptyString );
 
@@ -148,11 +277,15 @@ wxInt32 CMainDocument::OnExit()
 {
     wxInt32 iRetVal = 0;
 
-    if ( IsConnected() )
-        iRetVal = Disconnect();
-
     // attempt to cleanup the account management information
     acct_mgr.close();
+
+    if ( m_pNetworkConnectionThread )
+    {
+        m_pNetworkConnectionThread->Delete();
+        m_pNetworkConnectionThread->Wait();
+        delete m_pNetworkConnectionThread;
+    }
 
     return iRetVal;
 }
@@ -169,66 +302,12 @@ wxInt32 CMainDocument::OnRefreshState()
 
 wxInt32 CMainDocument::Connect( const wxChar* szComputer, const wxChar* szComputerPassword, bool bDisconnect )
 {
-    wxInt32 iRetVal = -1;
-    std::string strComputer;
-    std::string strComputerPassword;
+    m_bNCTNewShouldReconnect = bDisconnect;
+    m_strNCTNewConnectedComputerName = szComputer;
+    m_strNCTNewConnectedComputerPassword = szComputerPassword;
 
-    if ( IsConnected() && bDisconnect )
-        Disconnect();
-
-    if ( IsConnected() )
-        return BOINC_SUCCESS;
-
-    if ( strComputer.empty() && !m_strConnectedComputerName.empty() )
-        if (szComputer)
-            strComputer = szComputer;
-        else
-            strComputer = m_strConnectedComputerName.c_str();
-    else
-    {
-        if (szComputer)
-            strComputer = szComputer;
-    }
-
-    if ( strComputerPassword.empty() && !m_strConnectedComputerPassword.empty() )
-        if (szComputerPassword)
-            strComputerPassword = szComputerPassword;
-        else
-            strComputerPassword = m_strConnectedComputerPassword.c_str();
-    else
-    {
-        if (szComputerPassword)
-            strComputerPassword = szComputerPassword;
-    }
-
-    if ( strComputer.empty() )
-        iRetVal = rpc.init( NULL );
-    else
-        iRetVal = rpc.init( strComputer.c_str() );
-
-    if (iRetVal)
-    {
-        wxLogTrace("CMainDocument::Connect - RPC Initialization Failed '%d'", iRetVal);
-        return iRetVal;
-    }
-
-    if ( !strComputerPassword.empty() )
-        iRetVal = rpc.authorize( strComputerPassword.c_str() );
-
-    if (iRetVal)
-    {
-        wxLogTrace("CMainDocument::Connect - RPC Authorization Failed '%d'", iRetVal);
-        return iRetVal;
-    }
-
-    if ( 0 == iRetVal )
-    {
-        m_bIsConnected = true;
-        m_strConnectedComputerName = strComputer.c_str();
-        m_strConnectedComputerPassword = strComputerPassword.c_str();
-    }
-
-    return iRetVal;
+    m_bNCTConnectEvent = true;
+    return 0;
 }
 
 

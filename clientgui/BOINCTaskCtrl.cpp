@@ -59,6 +59,15 @@ void CBOINCTaskCtrl::BeginTaskPage()
 {
     m_strTaskPage.Clear();
     m_strTaskPage += wxT("<html>");
+    m_strTaskPage += wxT("<head>");
+    if ( wxLocale::GetSystemEncodingName().size() > 0 )
+    {
+        m_strTaskPage += wxT("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=");
+        m_strTaskPage += wxLocale::GetSystemEncodingName();
+        m_strTaskPage += wxT("\">");
+    }
+    m_strTaskPage += wxT("</head>");
+
     m_strTaskPage += wxT("<body bgcolor=" BGCOLOR ">");
 }
 
@@ -252,14 +261,48 @@ void CBOINCTaskCtrl::RemoveVirtualFile( const wxString& strFilename )
 }
 
 
-bool CBOINCTaskCtrl::OnSaveState( wxConfigBase* WXUNUSED(pConfig) )
+bool CBOINCTaskCtrl::OnSaveState( wxConfigBase* pConfig )
 {
+    wxString    strBaseConfigLocation = wxEmptyString;
+
+    wxASSERT(NULL != pConfig);
+
+
+    // Retrieve the base location to store configuration information
+    // Should be in the following form: "/Projects/"
+    strBaseConfigLocation = pConfig->GetPath() + wxT("/");
+
+    pConfig->SetPath(strBaseConfigLocation + wxT("TaskCtrl/"));
+
+    WriteCustomization( pConfig );
+
+    pConfig->SetPath(strBaseConfigLocation);
+
     return true;
 }
 
 
-bool CBOINCTaskCtrl::OnRestoreState( wxConfigBase* WXUNUSED(pConfig) )
+bool CBOINCTaskCtrl::OnRestoreState( wxConfigBase* pConfig )
 {
+    wxString    strBaseConfigLocation = wxEmptyString;
+
+    wxASSERT(NULL != pConfig);
+
+
+    // Retrieve the base location to store configuration information
+    // Should be in the following form: "/Projects/"
+    strBaseConfigLocation = pConfig->GetPath() + wxT("/");
+
+    pConfig->SetPath(strBaseConfigLocation + wxT("TaskCtrl/"));
+
+    ReadCustomization( pConfig );
+
+    pConfig->SetPath(strBaseConfigLocation);
+
+    // Aparently reading the customizations back in from the registry
+    // delete the contents of the page, so lets force an update
+    m_pParentView->UpdateTaskPane();
+
     return true;
 }
 

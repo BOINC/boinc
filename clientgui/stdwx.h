@@ -90,6 +90,7 @@
 #include <wx/settings.h>
 #include <wx/process.h>
 #include <wx/dynarray.h>
+#include <wx/thread.h>
 
 #ifndef NOTASKBAR
 #include <wx/taskbar.h>         // taskbar support

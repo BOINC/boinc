@@ -51,7 +51,7 @@ public:
     ~CBOINCBaseView();
 
     virtual wxString        GetViewName();
-    virtual const char**          GetViewIcon();
+    virtual const char**    GetViewIcon();
     virtual wxInt32         GetListRowCount();
 
     void                    FireOnListRender( wxTimerEvent& event );
@@ -65,6 +65,8 @@ public:
     wxListItemAttr*         FireOnListGetItemAttr( long item ) const;
     void                    FireOnTaskLinkClicked( const wxHtmlLinkInfo& link );
     void                    FireOnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y );
+
+    virtual void            UpdateTaskPane();
 
 protected:
 
@@ -106,7 +108,6 @@ protected:
 
     virtual bool            UpdateQuickTip( const wxString& strCurrentLink, const wxString& strQuickTip, const wxString& strQuickTipText );
     virtual void            UpdateSelection();
-    virtual void            UpdateTaskPane();
 
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;

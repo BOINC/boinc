@@ -27,6 +27,20 @@
 #include "gui_rpc_client.h"
 #include "acct_mgr_client.h"
 
+class CMainDocument;
+
+class CNetworkConnectionThread : public wxThread
+{
+public:
+    CNetworkConnectionThread( CMainDocument* pDocument );
+
+    virtual void* Entry();
+    void OnExit();
+
+private:
+    CMainDocument* m_pDocument;
+};
+
 
 class CMainDocument : public wxObject
 {
@@ -66,16 +80,9 @@ public:
     //
 private:
 
-    RPC_CLIENT                  rpc;
-    CC_STATE                    state;
-    HOST_INFO                   host;
-    wxDateTime                  m_dtCachedStateTimestamp;
-    wxDateTime                  m_dtCachedStateLockTimestamp;
     bool                        m_bCachedStateLocked;
 
-    bool                        m_bIsConnected;
-    wxString                    m_strConnectedComputerName;
-    wxString                    m_strConnectedComputerPassword;
+    CNetworkConnectionThread*   m_pNetworkConnectionThread;
 
 	wxDateTime                  m_dtCachedActivityRunModeTimestamp;
     wxDateTime                  m_dtCachedNetworkRunModeTimestamp;
@@ -113,13 +120,26 @@ public:
     wxInt32                     RunBenchmarks();
     wxInt32                     CoreClientQuit();
 
+    RPC_CLIENT                  rpc;
+    CC_STATE                    state;
+    HOST_INFO                   host;
+    wxDateTime                  m_dtCachedStateTimestamp;
+    wxDateTime                  m_dtCachedStateLockTimestamp;
+
+    bool                        m_bNCTConnectEvent;
+    bool                        m_bNCTNewShouldReconnect;
+    wxString                    m_strNCTNewConnectedComputerName;
+    wxString                    m_strNCTNewConnectedComputerPassword;
+    bool                        m_bIsConnected;
+    wxString                    m_strConnectedComputerName;
+    wxString                    m_strConnectedComputerPassword;
+
 
     //
     // Project Tab
     //
 private:
 
-    PROJECTS                    project_status;
     float                       m_fProjectTotalResourceShare;
 
     wxInt32                     CachedProjectStatusUpdate();
@@ -150,13 +170,13 @@ public:
     wxInt32                     ProjectSuspend( wxInt32 iIndex );
     wxInt32                     ProjectResume( wxInt32 iIndex );
 
+    PROJECTS                    project_status;
+
 
     //
     // Work Tab
     //
 private:
-
-    RESULTS                     results;
 
     wxInt32                     CachedResultsStatusUpdate();
 
@@ -187,14 +207,13 @@ public:
     wxInt32                     WorkShowGraphics( wxInt32 iIndex, bool bFullScreen, std::string, std::string, std::string );
     wxInt32                     WorkAbort( wxInt32 iIndex );
 
+    RESULTS                     results;
+
 
     //
     // Messages Tab
     //
 private:
-
-    MESSAGES                    messages;
-    wxInt32                     m_iMessageSequenceNumber;
 
     wxInt32                     CachedMessageUpdate();
 
@@ -208,13 +227,14 @@ public:
 
     wxInt32                     ResetMessageState();
 
+    MESSAGES                    messages;
+    wxInt32                     m_iMessageSequenceNumber;
+
 
     //
     // Transfers Tab
     //
 private:
-
-    FILE_TRANSFERS              ft;
 
     wxInt32                     CachedFileTransfersUpdate();
 
@@ -235,13 +255,13 @@ public:
     wxInt32                     TransferRetryNow( wxInt32 iIndex );
     wxInt32                     TransferAbort( wxInt32 iIndex );
 
+    FILE_TRANSFERS              ft;
+
 
     //
     // Resources Tab
     //
 private:
-
-    PROJECTS                    resource_status;
 
     wxInt32                     CachedResourceStatusUpdate();
 
@@ -251,13 +271,13 @@ public:
     wxInt32                     GetResourceProjectName( wxInt32 iIndex, wxString& strBuffer );
     wxInt32                     GetResourceDiskspace( wxInt32 iIndex, float& fBuffer );
 
+    PROJECTS                    resource_status;
+
 
 	//
 	// Statistics Tab
 	//
 private:
-
-    //PROJECTS                    statistics_status;
 
     wxInt32                     CachedStatisticsStatusUpdate();
 
@@ -266,7 +286,6 @@ public:
     wxInt32                     GetStatisticsCount();
     wxInt32                     GetStatisticsProjectName( wxInt32 iIndex, wxString& strBuffer );
 	
-	//Should be private, but functions to access currently not implemented
 	PROJECTS                    statistics_status;
 
 
@@ -274,8 +293,6 @@ public:
 	// Proxy Configuration
 	//
 private:
-
-	PROXY_INFO					proxy_info;
 
 public:
 
@@ -303,13 +320,13 @@ public:
     wxInt32                     SetProxySOCKSUserName( const wxString& strUserName );
     wxInt32                     SetProxySOCKSPassword( const wxString& strPassword );
 
+	PROXY_INFO					proxy_info;
+
 
     //
     // Account Management
     //
 private:
-
-    ACCT_MGR_CLIENT             acct_mgr;
 
 public:
     wxInt32                     GetAccountManagerName( wxString& strName );
@@ -319,6 +336,8 @@ public:
 
     bool                        IsAccountManagerFound();
     bool                        IsAccountManagerLoginFound();
+
+    ACCT_MGR_CLIENT             acct_mgr;
 
 };
 

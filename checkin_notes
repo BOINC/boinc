@@ -26736,3 +26736,19 @@ David  6 April 2005
     lib/
         filesys.h
         prefs.C,h
+
+Rom    6 April 2005
+    - Implement a connection manager thread for the Manager, it is really rough.
+
+      NOTE: Currently crashes on exit, due to an access violation, and changing
+        computers does not work.  It also prompts for a project every time it
+        starts
+    - Read/Write font information to the registry so we can attempt to
+        identify some of the localization issues as possible font set issues with
+        wxwidgets.
+ 
+    clientgui/
+        BOINCBaseView.h
+        BOINCTaskCtrl.cpp
+        MainDocument.cpp, .h
+        stdwx.h
