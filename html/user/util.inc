@@ -426,3 +426,7 @@ function doError($msg, $info = '') {
     exit();
 }
 ?>
+
+function credit_format($cobblestones) {
+    return sprintf("%.2f", $cobblestones);
+}

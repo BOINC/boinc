@@ -86,6 +86,8 @@ function show_result_row($result, $show_wu_link, $show_host_link) {
     if ($show_host_link) {
         echo "<td><a href=show_host_detail.php?hostid=$result->hostid>$result->hostid</a></td>\n";
     }
+    $result_claimed_credit = format_credit($result->claimed_credit);
+    $result_granted_credit = format_credit($result->granted_credit);
     echo "
         <td>$s</td>
         <td>$r</td>
@@ -93,8 +95,8 @@ function show_result_row($result, $show_wu_link, $show_host_link) {
         <td>$out</td>
         <td>$cl</td>
         <td>$result->cpu_time</td>
-        <td>$result->claimed_credit</td>
-        <td>$result->granted_credit</td>
+        <td>$result_claimed_credit</td>
+        <td>$result_granted_credit</td>
         </tr>
     ";
 }

@@ -28,7 +28,7 @@
     echo "<tr>
         <th>Remove?</th>
         <th>Name</th>
-        <th>Total credit</th>
+.        <th>Total credit</th>
         <th>Recent average credit</th>
         </tr>
     ";
@@ -37,12 +37,14 @@
 
     $ninactive_users = 0;
     while ($user = mysql_fetch_object($result)) {
+        $user_total_credit = format_credit($user->total_credit);
+        $user_expavg_credit = format_credit($user->expavg_credit);
         echo "
             <tr>
             <td align=center><input type=checkbox name=remove_$ninactive_users value=$user->id>
             <td>$user->name</td>
-            <td>$user->total_credit</td>
-            <td>$user->expavg_credit</td>
+            <td>$user_total_credit</td>
+            <td>$user_expavg_credit</td>
         ";
         $ninactive_users++;
     }

@@ -30,8 +30,8 @@ function show_host($host, $private) {
         row2("Name", $host->domain_name);
     }
     row2("Created", time_str($host->create_time));
-    row2("Total Credit", $host->total_credit);
-    row2("Recent average credit", $host->expavg_credit);
+    row2("Total Credit", format_credit($host->total_credit));
+    row2("Recent average credit", format_credit($host->expavg_credit));
     row2("CPU type", "$host->p_vendor $host->p_model");
     row2("Number of CPUs", $host->p_ncpus);
     row2("Operating System", "$host->os_name $host->os_version");
@@ -84,7 +84,7 @@ function show_host($host, $private) {
         $x = $x."<br><font size=2>Last received: $y</font>\n";
     }
     row2("Results", $x);
-    
+
     if ($private) {
         row2("Number of times client has contacted server", $host->rpc_seqno);
         row2("Last time contacted server", time_str($host->rpc_time));
@@ -161,12 +161,13 @@ function show_host_row($host, $i, $private) {
         }
     }
     printf("
-        <td>%.4f</td>
-        <td>%.4f</td>
+        <td>%s</td>
+        <td>%s</td>
         <td>%s %s</td>
         <td>%s %s</td>",
-        $host->expavg_credit, $host->total_credit, $host->p_vendor, $host->p_model,
-        $host->os_name, $host->os_version
+           format_credit($host->expavg_credit), format_credit($host->total_credit),
+           $host->p_vendor, $host->p_model,
+           $host->os_name, $host->os_version
     );
 
     $last_result = host_last_result($host);

@@ -5,8 +5,8 @@
 function show_user_stats_private($user) {
     row1("Your account statistics");
     row2(PROJECT." member since", time_str($user->create_time));
-    row2("Total credit", $user->total_credit);
-    row2("Recent average credit", $user->expavg_credit);
+    row2("Total credit", format_credit($user->total_credit));
+    row2("Recent average credit", format_credit($user->expavg_credit));
     if ($user->teamid) {
         $result = mysql_query("select * from team where id = $user->teamid");
         $team = mysql_fetch_object($result);
@@ -25,7 +25,7 @@ function show_user_profile_private($user) {
     } else {
         $email_text = "Verification pending";
     }
-    
+
     row1("Your account information");
     row2("Email address<br>
         <font size=-1><a href=edit_email_form.php>Edit</a></font>",
@@ -36,13 +36,13 @@ function show_user_profile_private($user) {
     row2("Country", $user->country);
     row2("Postal code", $user->postal_code);
     row2("", "<a href=edit_user_info_form.php>Edit account info</a>");
-   
+
     row1("Your profile");
     $sql = "SELECT * FROM profile WHERE userid = ".$user->id;
     $result = mysql_query($sql);
-    
+
     if (mysql_num_rows($result) != 0) {
-      row2("", "<a href=view_profile.php?userid=$user->id>View / Edit</a>"); 
+      row2("", "<a href=view_profile.php?userid=$user->id>View / Edit</a>");
       row2("", "<a href=delete_profile.php>Delete</a>");
     } else {
       row2("", "<a href=create_profile.php>Create</a>");
@@ -63,13 +63,13 @@ function show_user_summary_public($user) {
     if (strlen($user->url)) {
         row2("URL", "<a href=http://$user->url>http://$user->url</a>");
     }
-    row2("Total credit", $user->total_credit);
-    row2("Recent average credit", $user->expavg_credit);
-    
+    row2("Total credit", format_credit($user->total_credit));
+    row2("Recent average credit", format_credit($user->expavg_credit));
+
     if (mysql_num_rows($result) != 0) {
         row2("Profile", "<a href=view_profile.php?userid=$user->id>View</a>");
     }
-    
+
     if ($user->teamid) {
         $result = mysql_query("select * from team where id = $user->teamid");
         $team = mysql_fetch_object($result);
@@ -116,8 +116,8 @@ function show_user_row($user) {
         <td>%.4f</td>
         <td>%s</td>
         <td>%s</td>
-    </tr>\n", $user->id, $user->name, $user->expavg_credit,
-        $user->total_credit, $user->country, time_str($user->create_time));
+    </tr>\n", $user->id, $user->name, format_credit($user->expavg_credit),
+      format_credit($user->total_credit), $user->country, time_str($user->create_time));
 }
 
 ?>

@@ -16,7 +16,7 @@
     start_table();
     row2("created", time_str($wu->create_time));
     row2("name", $wu->name);
-    row2("granted credit", $wu->canonical_credit);
+    row2("granted credit", format_credit($wu->canonical_credit));
     echo "</table>\n";
 
     echo "<br><br><b>Results:</b>\n";

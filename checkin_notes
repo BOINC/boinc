@@ -6215,3 +6215,17 @@ David  Sept 6 2003
         net_xfer.C,h
     lib/
         util.C
+
+Karl 2003/09/07
+    - working on python code:
+        - database back end:
+            - database objects are now weakly hashed, with a cached list of
+              size 1024.
+            - new count() methods with arbitrary arguments like find()
+        - misc. bug fixes
+
+Karl 2003/09/07
+    - changed all user-visible cobblestone numbers to use a new
+      format_credit() function which does sprintf %.3f
+
+    html_user/*.php, *.inc
