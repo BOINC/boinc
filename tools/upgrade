@@ -3,15 +3,17 @@
 # $Id$
 
 '''
-This program upgrades the project (created using make_project) with current
-source/build files.  Useful if you are a BOINC developer or closely following
-BOINC development.
+This program upgrades the project with current source/build files.
+Useful if you are a BOINC developer or closely following BOINC development.
 '''
 
 import boinc_path_config
-from Boinc import boinc_project_path
+from Boinc import boinc_project_path, tools
 from Boinc.setup_project import *
 import os
+
+if not tools.query_noyes("Update project executables and PHP files (overwrite existing files)"):
+    raise SystemExit
 
 if os.system(os.path.join(boinc_project_path.PROGRAM_PARENT_DIR,'bin/stop')):
     raise SystemExit("Couldn't stop BOINC!")

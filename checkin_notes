@@ -17110,3 +17110,9 @@ David  7 Sept 2004
 
 	client/
 		whetstone.C
+
+David  7 Sept 2004
+    - change "upgrade" to query user before overwriting files
+
+    tools/
+        upgrade
