@@ -349,6 +349,7 @@ FILE_INFO::FILE_INFO() {
 
 FILE_INFO::~FILE_INFO() {
     if (pers_file_xfer) {
+		msg_printf(NULL, MSG_ERROR, "FILE_INFO::~FILE_INFO(): removing FILE_INFO when a pers_file_xfer still points to me\n");
         pers_file_xfer->fip = NULL;
     }
 }
