@@ -98,8 +98,8 @@ Work is organized in a hierarchy:
 <pre>
 File -> workunit -> result
 </pre>
-Let's say there are N active hosts and target_nresults=4.
-Optimally, we'd like to send each file to 4 hosts,
+Let's say there are N active hosts and target_nresults=M.
+Optimally, we'd like to send each file to M hosts,
 and have them process all the results for that file.
 
 <p>
@@ -110,7 +110,7 @@ a file may have work but be 'excluded' for a particular user.
 Assigning work to a host with no files:
 <ul>
 <li>
-maintain a working set of N/4 files
+maintain a working set of N/M files
 <li>
  when a host with no file requests work,
  choose a file F uniformly (randomly or sequentially) from the working set.

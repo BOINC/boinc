@@ -57,7 +57,7 @@ list_item("--project_root",
 );
 list_item("--key_dir", "Where keys are stored.  Default: PROJECT_ROOT/keys");
 list_item("--url_base", "Determines master URL  Default: http://\$NODENAME/");
-list_item("--no_query", "Accept all directories without querying");
+list_item("--no_query", "Accept all directories without yes/no query");
 list_item("--delete_prev_inst", "Delete project-root first (from prev installation)");
 
 list_bar("URL options");
@@ -68,7 +68,7 @@ list_item("--cgi_url", "CGI URL.  Default: URL_BASE/PROJECT_cgi/");
 list_bar("database options");
 list_item("--db_host", "Database host.  Default: none (this host)");
 list_item("--db_name", "Database name.  Default: PROJECT");
-list_item("--db_user", "Database user.  Default: this user");
+list_item("--db_user", "Database user.  Default: current user");
 list_item("--db_passwd", "Database password.  Default: None");
 list_item("--drop_db_first", "Drop database first (from prev installation)");
 
