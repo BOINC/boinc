@@ -605,19 +605,25 @@ int APP_VERSION::write(FILE* out) {
 }
 
 int FILE_REF::parse(FILE* in) {
-    char buf[256];
+    char buf[256], buf2[256];
 
     strcpy(file_name, "");
     strcpy(open_name, "");
     fd = -1;
     main_program = false;
 	copy_file = false;
+    optional = false;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file_ref>")) return 0;
         else if (parse_str(buf, "<file_name>", file_name, sizeof(file_name))) continue;
         else if (parse_str(buf, "<open_name>", open_name, sizeof(open_name))) continue;
         else if (parse_int(buf, "<fd>", fd)) continue;
         else if (match_tag(buf, "<main_program/>")) main_program = true;
+        else if (match_tag(buf, "<optional")) {
+            optional = true;
+            parse_attr(buf, "deadline", buf2, sizeof(buf2));
+            optional_deadline = time(0) + atoi(buf2);
+        }
         else if (match_tag(buf, "<copy_file/>")) copy_file = true;
         else msg_printf(NULL, MSG_ERROR, "FILE_REF::parse(): unrecognized: %s\n", buf);
     }

@@ -5484,3 +5484,15 @@ Karl 2003/08/01
       never" works correctly with benchmarks
 
     Client/*
+
+David  August 1 2003
+    - add "-suspend" cmdline option (start up in suspended mode)
+    - parse <optional/> tag within <file_ref> element
+    - implement behavior for "optional" file references
+        (if file hasn't been downloaded by deadline, start app anyway)
+
+    client/
+        client_state.C
+        client_types.C,h
+        cs_apps.C
+        cs_scheduler.C

@@ -187,9 +187,17 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
     FILE_INFO* fip;
     unsigned int i;
     APP_VERSION* avp;
+    FILE_REF fr;
     avp = wup->avp;
     for (i=0; i<avp->app_files.size(); i++) {
-        fip = avp->app_files[i].file_info;
+        fr = avp->app_files[i];
+        // if it's an optional file and we couldn't download it by deadline,
+        // don't let that stop us from running app
+        //
+        if (fr.optional && time(0) > fr.optional_deadline) {
+            continue;
+        }
+        fip = fr.file_info;
         if (fip->status != FILE_PRESENT) return false;
     }
 

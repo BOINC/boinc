@@ -84,22 +84,23 @@ void CLIENT_STATE::update_avg_cpu(PROJECT* p) {
     }
 }
 
-void PROJECT::set_min_rpc_time(time_t future_time)
-{
+void PROJECT::set_min_rpc_time(time_t future_time) {
     min_rpc_time = future_time;
     min_report_min_rpc_time = 0; // report immediately
 }
 
-// Return true iff we should not contact the project yet.  Print a message to
-// the user if we haven't recently
-bool PROJECT::waiting_until_min_rpc_time(time_t now)
-{
+// Return true iff we should not contact the project yet.
+// Print a message to the user if we haven't recently
+//
+bool PROJECT::waiting_until_min_rpc_time(time_t now) {
     if (min_rpc_time > now ) {
         if (now >= min_report_min_rpc_time) {
             min_report_min_rpc_time = now + SECONDS_BEFORE_REPORTING_MIN_RPC_TIME_AGAIN;
-            msg_printf(this, MSG_ERROR,
-                       "Deferring communication with project for %s\n",
-                       timediff_format(min_rpc_time - now).c_str());
+            msg_printf(
+                this, MSG_ERROR,
+               "Deferring communication with project for %s\n",
+               timediff_format(min_rpc_time - now).c_str()
+            );
         }
         return true;
     }
@@ -369,7 +370,10 @@ int CLIENT_STATE::handle_scheduler_reply(
     contacted_sched_server = true;
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_SCHED_OP);
 
-    scope_messages.printf_file(SCHED_OP_RESULT_FILE, "CLIENT_STATE::handle_scheduler_reply(): reply: ");
+    scope_messages.printf_file(
+        SCHED_OP_RESULT_FILE,
+        "CLIENT_STATE::handle_scheduler_reply(): reply: "
+    );
 
     f = fopen(SCHED_OP_RESULT_FILE, "r");
     if (!f) return ERR_FOPEN;

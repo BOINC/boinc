@@ -178,6 +178,8 @@ struct FILE_REF {
     bool main_program;
     FILE_INFO* file_info;
 	bool copy_file;  // if true, core client will copy the file instead of linking
+    bool optional;              // if true, can start app without this file
+    int optional_deadline;      // after this time
 
     int parse(FILE*);
     int write(FILE*);

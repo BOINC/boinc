@@ -187,6 +187,10 @@ int CLIENT_STATE::init() {
 
     language.read_language_file(LANGUAGE_FILE_NAME);
 
+    msg_printf(NULL, MSG_INFO, "Starting BOINC client version %d.%02d",
+        core_client_major_version, core_client_minor_version
+    );
+
     // parse account files.
     // If there are none, prompt user for project URL and create file
     //
@@ -253,9 +257,6 @@ int CLIENT_STATE::init() {
             printf("project %s not found\n", update_prefs_url);
         }
     }
-
-    msg_printf(NULL, MSG_INFO, "Starting BOINC client version %d.%02d",
-        core_client_major_version, core_client_minor_version);
 
     if (core_client_major_version != old_major_version) {
         msg_printf(NULL, MSG_INFO,
@@ -632,7 +633,7 @@ int CLIENT_STATE::resume_activities() {
 #define POLL_ACTION(name, func)                                                \
     do { if (func()) {                                                         \
             ++actions;                                                         \
-            scope_messages.printf("CLIENT_STATE::do_evil(): active task: " #name "\n"); \
+            scope_messages.printf("CLIENT_STATE::do_something(): active task: " #name "\n"); \
         } } while(0)
 
 // do_something polls each of the client's finite-state machine layers,
@@ -661,12 +662,12 @@ bool CLIENT_STATE::do_something() {
     //
     if (reason & SUSPEND_REASON_BENCHMARKS) return false;
 
-    scope_messages.printf("CLIENT_STATE::do_evil(): Begin poll:\n");
+    scope_messages.printf("CLIENT_STATE::do_something(): Begin poll:\n");
     ++scope_messages;
 
     ss_logic.poll();
     if (activities_suspended) {
-        scope_messages.printf("CLIENT_STATE::do_evil(): No active tasks! (suspended)\n");
+        scope_messages.printf("CLIENT_STATE::do_something(): No active tasks! (suspended)\n");
         POLL_ACTION(net_xfers              , net_xfers->poll        );
         POLL_ACTION(http_ops               , http_ops->poll         );
         POLL_ACTION(scheduler_rpc          , scheduler_rpc_poll     );
@@ -693,7 +694,7 @@ bool CLIENT_STATE::do_something() {
     }
     --log_messages;
     scope_messages.printf(
-        "CLIENT_STATE::do_evil(): End poll: %d tasks active\n", actions
+        "CLIENT_STATE::do_something(): End poll: %d tasks active\n", actions
     );
     if (actions > 0) {
         return true;
@@ -1428,6 +1429,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             file_xfer_giveup_period = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-min")) {
             global_prefs.run_minimized = true;
+        } else if (!strcmp(argv[i], "-suspend")) {
+            user_run_request = USER_RUN_REQUEST_NEVER;
         } else if (!strcmp(argv[i], "-saver")) {
             start_saver = true;
         } else if (!strncmp(argv[i], "-psn_", strlen("-psn_"))) {
