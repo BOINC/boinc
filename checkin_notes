@@ -6763,8 +6763,10 @@ David  Oct 14 2003
 Oliver Oct 14 2003
     - stars now draw in visible pyramid with original coordinate system
     - axis draws vertices in correct CCW order
+    - added font width function
 
     api/
 	gutil.C,h
  	reduce.c
+	windows_opengl.C
 

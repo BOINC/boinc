@@ -383,7 +383,7 @@ void SetupPixelFormat(HDC hDC)
    // good to go.
 }
 
-GLYPHMETRICSFLOAT gmf[256];
+float txt_widths[256];
 
 unsigned int MyCreateFont(char *fontName, int Size, int weight) {	
    // windows font
@@ -416,5 +416,15 @@ unsigned int MyCreateFont(char *fontName, int Size, int weight) {
 #if 0
    wglUseFontOutlines(hDC,0,255,mylistbase,0.0f,0.2f,WGL_FONT_POLYGONS,gmf);   
 #endif
+ 
+    TEXTMETRIC met;
+    GetTextMetrics(myhDC,&met);   
+    GetCharWidthFloat(myhDC,met.tmFirstChar,met.tmLastChar,txt_widths);
+
    return mylistbase;
+}
+
+float get_char_width(unsigned char c)
+{
+	return txt_widths[c];	
 }
