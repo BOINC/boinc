@@ -273,7 +273,7 @@ int boinc_mkdir(char* name) {
 
 int boinc_rmdir(char* name) {
 #ifdef _WIN32
-    return RemoveDirectory(name, NULL);
+    return RemoveDirectory(name);
 #else
     return rmdir(name);
 #endif
