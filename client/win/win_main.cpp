@@ -17,38 +17,31 @@
 // Contributor(s):
 //
 
-#ifdef _WIN32
-
 #include <windows.h>
-#include <string.h>
-#include <stdio.h>
-#include <process.h>
-#include <pbt.h>
 
 #include "win_net.h"
 
-//////////////////////////////////////////////////////////////////////////////////////
-//
-// Function    : WinMain
-//
-//
-///////////////////////////////////////////////////////////////////////////////////////
-
-int main(int argc, char** argv);
+#if 0
+extern int main(int argc, char** argv);
 
 int WINAPI WinMain( HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode )
 {
-	char *command_line;
-	char **argv;
-	int argc;
+	LPWSTR command_line;
+	LPWSTR *args;
+	char* argv[100];
+	int i, argc;
 
 	NetOpen();
-	//command_line = GetCommandLine();
-	//argv = CommandLineToArgvW( command_line, &argc );
-	main( argc, argv );
+	command_line = GetCommandLineW();
+	args = CommandLineToArgvW(command_line, &argc);
+
+	// uh, why did MS have to "improve" on char*?
+
+	for (i=0; i<argc; i++) {
+		argv[i] = (char*)args[i];
+	}
+	main(argc, argv);
 
 	return 0;
 }
-
-
 #endif

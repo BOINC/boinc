@@ -22,8 +22,6 @@
 // client_state.C  (to cross-link objects)
 //
 
-#include "windows_cpp.h"
-
 #ifndef _CLIENT_TYPES_
 #define _CLIENT_TYPES_
 

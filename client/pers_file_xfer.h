@@ -50,7 +50,7 @@ public:
     FILE_INFO* fip;
     
     int init(FILE_INFO*, bool is_file_upload);
-    int poll(unsigned int now);
+    bool poll(unsigned int now);
     int write(FILE* fout);
     int parse(FILE* fin);
     bool start_xfer();
@@ -64,5 +64,5 @@ public:
     PERS_FILE_XFER_SET(FILE_XFER_SET*);
     int insert(PERS_FILE_XFER*);
     int remove(PERS_FILE_XFER*);
-    int poll();
+    bool poll();
 };

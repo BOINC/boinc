@@ -94,7 +94,7 @@ bool PERS_FILE_XFER::start_xfer() {
 // Poll the status of this persistent file transfer.  If it's time to start it, then
 // attempt to start it. If it has finished or failed, then deal with it appropriately
 //
-int PERS_FILE_XFER::poll(unsigned int now) {
+bool PERS_FILE_XFER::poll(unsigned int now) {
     double exp_backoff;
     int retval;
     char pathname[256];
@@ -231,7 +231,7 @@ PERS_FILE_XFER_SET::PERS_FILE_XFER_SET(FILE_XFER_SET* p) {
     file_xfers = p;
 }
 
-int PERS_FILE_XFER_SET::poll() {
+bool PERS_FILE_XFER_SET::poll() {
     unsigned int i;
     bool action = false;
     int now = time(NULL);

@@ -130,13 +130,14 @@ int CLIENT_STATE::insert_file_xfer( FILE_XFER *fxp ) {
 // Since there are three different settings in the prefs, it returns the least
 // of the three.
 double CLIENT_STATE::allowed_disk_usage() {
-    double percent_space,min_val;
+    double percent_space, min_val;
 
     // Calculate allowed disk usage based on % pref
     percent_space = host_info.d_total*prefs->disk_max_used_pct/100.0;
 
+	min_val = host_info.d_free - prefs->disk_min_free_gb*1e9;
     // Return the minimum of the three
-    return min(min(prefs->disk_max_used_gb, percent_space),min_val);
+    return min(min(prefs->disk_max_used_gb*1e9, percent_space), min_val);
 }
 
 // See if (on the basis of user prefs) we should suspend activities.

@@ -1542,3 +1542,23 @@ Eric Heien    August 9, 2002
             win_net.cpp (added)
             win_net.h (added)
             windows_cpp.h (added)
+
+David A.    August 10 2002
+    - Changed Winmain() to get argc/argv correctly
+    - fixed bugs in CLIENT_STATE::allowed_disk_usage
+        NOTE: keep track of whether units are bytes or GB.
+            Not interchangeable!
+        NOTE: above bugs caused compiler warnings.
+    - Got rid of all compiler warnings in Windows
+
+    api/
+       boinc_api.h
+    client/
+       app.C
+       client_state.C
+       hostinfo_unix.C (??? should remove this from Windows project)
+       pers_file_xfer.C,h
+    client/win/
+       Resource.h (new)
+       win_main.cpp
+       wingui.cpp,h (new)

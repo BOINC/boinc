@@ -92,10 +92,5 @@ int parse_fraction_done_file(FILE*, double&, double&);
 #define FRACTION_DONE_FILE  "fraction_done.xml"
 
 int set_timer(double period);
-#ifdef _WIN32
-void CALLBACK on_timer( HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime );
-#else
-void on_timer(int not_used); //sets _checkpoint to true
-#endif
 
 #endif

@@ -134,7 +134,6 @@ int ACTIVE_TASK::init(RESULT* rp) {
 //
 int ACTIVE_TASK::start(bool first_time) {
     char exec_name[256], file_path[256], link_path[256], temp[256];
-    char* argv[100];
     unsigned int i;
     FILE_REF file_ref;
     FILE_INFO* fip;
@@ -258,6 +257,7 @@ int ACTIVE_TASK::start(bool first_time) {
 
 #ifdef HAVE_UNISTD_H
 #ifdef HAVE_SYS_TYPES_H
+    char* argv[100];
     pid = fork();
     if (pid == 0) {
         
