@@ -23,15 +23,6 @@ define("TITLE_FONT", " <font color=ffffff> ");
 define("BODY_COLOR", " bgcolor=ffffff ");
 define("NOLOGIN", "Not logged in. Click <a href=login.php>here</a> to login.\n");
 
-// apply this to any user-supplied strings
-function boinc_real_escape_string($unstripped) {
-    if (version_compare(phpversion(),"4.3.0")>=0) {
-        return mysql_real_escape_string($unstripped);
-    } else {
-        return str_replace("\'", "'", str_replace("\\\"", "'", $unstripped));
-    }
-}
-
 function admin_page_head($title) {
   echo "<head><title>$title</title><body " . BODY_COLOR . ">\n";
   echo TABLE . "<tr " . TITLE_COLOR . "><td>" . TITLE_FONT . "<font size=6><b><a href=index.php>".PROJECT.":</a>  $title</b></font></td></tr></table>\n";
