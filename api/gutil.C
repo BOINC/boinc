@@ -1020,31 +1020,3 @@ void print_text(unsigned int base, char *string)
    glCallLists(strlen(string), GL_UNSIGNED_BYTE, string);
    glPopAttrib();
 }
-
-void MyCreateFont(unsigned int &base, char *fontName, int Size, int weight)
-{	
-   // windows font
-   HFONT hFont;   
-
-   // Create space for 96 characters.
-   base = glGenLists(96);
-
-   if(stricmp(fontName, "symbol")==0)
-      {
-         hFont = CreateFont(Size, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
-                            SYMBOL_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
-                            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName);
-      }
-   else
-      {
-         hFont = CreateFont(Size, 0, 0, 0, weight, FALSE, FALSE, FALSE,
-                            ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
-                            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName);
-      }
-
-   if(!hFont)
-      return;
-   	
-   SelectObject(myhDC, hFont);
-   wglUseFontBitmaps(myhDC, 32, 96, base);   
-}

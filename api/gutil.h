@@ -106,7 +106,6 @@ public:
 // read a portable pixmap file
 //
 extern int read_ppm(char* name, int& w, int& h, unsigned char** arrayp);
-
 extern int init_texture(char* filename);
 extern void draw_texture(float* pos, float* size);
 
@@ -135,4 +134,3 @@ extern bool CreateTexturePPM(UINT textureArray[], LPSTR strFileName, int texture
 extern bool CreateTextureTGA(UINT textureArray[], LPSTR strFileName, int textureID);
 extern tImageJPG *LoadJPG(const char *filename);
 extern void print_text(unsigned int base, char *string);
-extern void MyCreateFont(unsigned int &base, char *fontName, int Size, int weight);

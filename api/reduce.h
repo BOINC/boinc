@@ -68,12 +68,15 @@ public:
     }
     void draw_row_quad(int);
     void draw_row_rect_x(DrawType,int);
+	void draw_row_rect_x(int);
     void draw_row_rect_y(int);
     void draw_row_line(int);
+	void draw(int, int);
     void draw(DrawType,int, int);
     void draw_new();
     void draw_all();
     void draw_part(DrawType,double frac);
+	void draw_part(double frac);
     void draw_axes();
 	void draw_axis_labels();
 	void draw_labels();	

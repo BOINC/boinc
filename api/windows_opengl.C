@@ -39,6 +39,7 @@ BOOL		win_loop_done;
 extern bool using_opengl;
 extern bool standalone;
 extern HANDLE hQuitEvent;
+extern void MyCreateFont(unsigned int &base, char *fontName, int Size, int weight);
 
 void SetupPixelFormat(HDC hDC);
 
@@ -345,4 +346,33 @@ void SetupPixelFormat(HDC hDC)
    // Remember that its not important to fully understand the pixel format,
    // just remember to include in all of your applications and you'll be
    // good to go.
+}
+
+
+void MyCreateFont(unsigned int &base, char *fontName, int Size, int weight)
+{	
+   // windows font
+   HFONT hFont;   
+
+   // Create space for 96 characters.
+   base = glGenLists(96);
+
+   if(stricmp(fontName, "symbol")==0)
+      {
+         hFont = CreateFont(Size, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
+                            SYMBOL_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
+                            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName);
+      }
+   else
+      {
+         hFont = CreateFont(Size, 0, 0, 0, weight, FALSE, FALSE, FALSE,
+                            ANSI_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
+                            ANTIALIASED_QUALITY, FF_DONTCARE | DEFAULT_PITCH, fontName);
+      }
+
+   if(!hFont)
+      return;
+   	
+   SelectObject(myhDC, hFont);
+   wglUseFontBitmaps(myhDC, 32, 96, base);   
 }

@@ -261,6 +261,44 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
 #endif
 }
 
+void REDUCED_ARRAY::draw_row_rect_x(int row) 
+{
+	float z0=0,z1=0,x0=0,x1=0,y0=0,y1=0,h=0;
+	int i=0; 	
+	float* row0=0;
+	int trow=row-1;
+	float* trow0=0;
+	z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
+	z1 = z0+.14f;			
+	row0 = rrow(row);
+	
+	glBegin(GL_QUADS);
+	for (i=0; i<rdimx; i++) {
+		x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
+		x1 = x0 + draw_deltax*.95f;
+		h = (row0[i]-rdata_min)/(rdata_max-rdata_min);
+
+		y0 = draw_pos[1];
+		y1 = draw_pos[1] + draw_size[1]*h;
+
+		double hue = hue0 + (dhue*i)/rdimx;
+		if (hue > 1) hue -= 1;
+		double sat = 1.;
+		double lum = .5 + h/2;
+		COLOR color;
+		HLStoRGB(hue, lum, sat, color);
+		glColor4f(color.r, color.g, color.b, alpha);
+
+		//front
+		
+		glVertex3f(x0, y0, z0);
+		glVertex3f(x1, y0, z0);
+		glVertex3f(x1, y1, z0);
+		glVertex3f(x0, y1, z0);
+	}
+	glEnd();					
+}
+
 void REDUCED_ARRAY::draw_row_rect_x(DrawType type,int row) 
 {	
 	float z0=0,z1=0,x0=0,x1=0,y0=0,y1=0,h=0;
@@ -653,6 +691,34 @@ void REDUCED_ARRAY::draw(DrawType type, int r0, int rn) {
     glFlush();
 }
 
+void REDUCED_ARRAY::draw(int r0, int rn) {
+    int i;
+    mode_unshaded();
+    if (rdimx == sdimx) {
+        if (rdimy == sdimy) {
+            for (i=r0; i<rn; i++) {
+                draw_row_rect_x(i);
+            }
+        } else {
+            for (i=r0; i<rn; i++) {
+                draw_row_rect_x(i);
+            }
+        }
+    } else {
+        if (rdimy == sdimy) {
+            for (i=r0; i<rn; i++) {
+                draw_row_rect_x(i);
+            }
+        } else {
+            for (i=r0; i<rn; i++) {
+                draw_row_rect_x(i);
+            }
+        }
+    }
+    ndrawn_rows = rn;
+    glFlush();
+}
+
 void REDUCED_ARRAY::draw_all() {
     draw(TYPE_QUAD,0, nvalid_rows);
 }
@@ -664,6 +730,11 @@ void REDUCED_ARRAY::draw_new() {
 void REDUCED_ARRAY::draw_part(DrawType type, double frac) {
     int nr = (int)(nvalid_rows*frac);
     draw(type,0, nr);
+}
+
+void REDUCED_ARRAY::draw_part(double frac) {
+    int nr = (int)(nvalid_rows*frac);
+    draw(0, nr);
 }
 
 void REDUCED_ARRAY::draw_axis_labels()
@@ -898,13 +969,6 @@ void REDUCED_ARRAY::draw_3dlabels()
 {	
 	double model[16];	
 	double proj[16];
-	double z_pos[3];
-	double x_pos[3];
-	double p_pos[3];
-	double xzmin_corner[3];
-	double zmax_corner[3];
-	double xmax_corner[3];
-
 	float arrowh = .35f;
 	float arroww = .05f;
 
@@ -966,22 +1030,6 @@ void REDUCED_ARRAY::draw_3dlabels()
     
 	draw_text_line(xpos, w, l, xlabel);	
     draw_text_line(ppos, w, l, plabel);	
-	
-/*	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-  	
-	glRasterPos3d(zpos[0],zpos[1],zpos[2]);
-	print_text(listBase[0], zlabel);
-
-	glRasterPos3d(xpos[0],xpos[1],xpos[2]);
-	print_text(listBase[0], xlabel);
-
-	glRasterPos3d(ppos[0],ppos[1],ppos[2]);
-	print_text(listBase[0], plabel);
-
-	glPopMatrix();
-*/
 }
 
 
