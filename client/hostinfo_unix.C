@@ -167,6 +167,8 @@ void get_osinfo(HOST_INFO& host) {
 #endif
 
 int get_host_info(HOST_INFO& host) {
+    host.m_nbytes = 0;
+    host.m_cache = 0;
 #ifdef solaris
     struct statvfs foo;
 
