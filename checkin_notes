@@ -26697,3 +26697,18 @@ Charlie    5 April 2005
         
     api/
         x_opengl.C
+
+Rom    5 April 2005
+    - Bug Fix: We stoped ack'ing the MODE_UNSUPPORTED from a science application
+        after a screensaver start request.  Check for any graphics messages that
+        need to be processed from get_next_graphics_capable_app().
+    - Bug Fix: Adjust the logic of get_next_graphics_capable_app() so that even
+        if the graphics mode was MODE_WINDOW or MODE_HIDE_GRAPHICS before the
+        start of the screensaver, we still factor in what it's current
+        graphics_mode_acked in case it has been changed to MODE_UNSUPPORTED
+
+    client/
+        app_graphics.C
+    client/win/
+        win_screensaver.cpp
+

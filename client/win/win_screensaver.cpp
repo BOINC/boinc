@@ -1044,15 +1044,30 @@ DWORD WINAPI CScreensaver::DataManagementProc()
     HWND    hwndForegroundWindow = NULL;
     int     iReturnValue = 0;
     time_t  tThreadCreateTime = 0;
+    bool    bScreenSaverStarting = false;
 
 
-    BOINCTRACE(_T("CScreensaver::DataManagementProc - Display screen saver loading error\n"));
+    BOINCTRACE(_T("CScreensaver::DataManagementProc - Display screen saver loading message\n"));
     SetError( TRUE, SCRAPPERR_BOINCSCREENSAVERLOADING );
     tThreadCreateTime = time(0);
 
     while( TRUE )
     {
+        bScreenSaverStarting = (10 >= (time(0) - tThreadCreateTime));
+
         BOINCTRACE(_T("CScreensaver::DataManagementProc - Start Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
+
+
+        // Lets try and get the current state of the CC
+        if ( m_bResetCoreState && m_bCoreNotified )
+        {
+            iReturnValue = rpc.get_state( state );
+            if ( 0 == iReturnValue )
+                m_bResetCoreState = FALSE;
+
+            BOINCTRACE(_T("CScreensaver::DataManagementProc - get_state iReturnValue = '%d'\n"), iReturnValue);
+        }
+
 
         iReturnValue = rpc.get_screensaver_mode( m_iStatus );
         BOINCTRACE(_T("CScreensaver::DataManagementProc - get_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
@@ -1069,10 +1084,13 @@ DWORD WINAPI CScreensaver::DataManagementProc()
                 m_bBOINCStartupConfigured = IsConfigStartupBOINC();
             }
 
-		    if(m_bBOINCStartupConfigured)
-                SetError( TRUE, SCRAPPERR_BOINCNOTDETECTED );
-		    else
-                SetError( TRUE, SCRAPPERR_BOINCNOTDETECTEDSTARTUP );
+            if ( !bScreenSaverStarting )
+            {
+		        if(m_bBOINCStartupConfigured)
+                    SetError( TRUE, SCRAPPERR_BOINCNOTDETECTED );
+		        else
+                    SetError( TRUE, SCRAPPERR_BOINCNOTDETECTEDSTARTUP );
+            }
 
 		    m_bCoreNotified = FALSE;
         }
@@ -1135,17 +1153,6 @@ DWORD WINAPI CScreensaver::DataManagementProc()
         BOINCTRACE(_T("CScreensaver::DataManagementProc - Checkpoint Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
 
 
-        // Lets try and get the current state of the CC
-        if ( m_bResetCoreState && m_bCoreNotified )
-        {
-            iReturnValue = rpc.get_state( state );
-            if ( 0 == iReturnValue )
-                m_bResetCoreState = FALSE;
-
-            BOINCTRACE(_T("CScreensaver::DataManagementProc - get_state iReturnValue = '%d'\n"), iReturnValue);
-        }
-
-
         GetError( bErrorMode, hrError, NULL, 0 );
         if ( !m_bCoreNotified && !bErrorMode )
         {
@@ -1162,7 +1169,7 @@ DWORD WINAPI CScreensaver::DataManagementProc()
         }
 
         BOINCTRACE(_T("CScreensaver::SaverProc - End Status = '%d', CoreNotified = '%d', ErrorMode = '%d', ErrorCode = '%x'\n"), m_iStatus, m_bCoreNotified, m_bErrorMode, m_hrError);
-        if ( 10 >= (time(0) - tThreadCreateTime) )
+        if ( bScreenSaverStarting )
             Sleep( 1000 );
         else
             Sleep( 10000 );
@@ -1241,9 +1248,7 @@ VOID CScreensaver::StartupBOINC()
 			if ( 0 == iReturnValue )
                 m_bCoreNotified = TRUE;
             else
-            {
        			SetError( TRUE, SCRAPPERR_BOINCNOTDETECTED );
-            }
 		}
 	}
 }
@@ -1367,7 +1372,7 @@ HRESULT CScreensaver::CreateSaverWindow()
                     if( m_hWnd == NULL )
 						m_hWnd = pMonitorInfo->hWnd;
 
-					SetTimer(pMonitorInfo->hWnd, 2, 1000, NULL);
+					SetTimer(pMonitorInfo->hWnd, 2, 2000, NULL);
 				}
             }
     }
@@ -1833,7 +1838,8 @@ VOID CScreensaver::UpdateErrorBox()
 
                 if( rcOld.left != rcNew.left || rcOld.top != rcNew.top )
                 {
-                    InvalidateRect( hwnd, NULL, TRUE );
+                    InvalidateRect( hwnd, &rcOld, TRUE );
+                    InvalidateRect( hwnd, &rcNew, TRUE );
                     UpdateWindow( hwnd );
                 }
             }

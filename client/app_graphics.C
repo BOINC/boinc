@@ -68,7 +68,9 @@ void ACTIVE_TASK::check_graphics_mode_ack() {
     if (!app_client_shm.shm) return;
     if (app_client_shm.shm->graphics_reply.get_msg(buf)) {
         app_client_shm.decode_graphics_msg(buf, gm);
-        //BOINCTRACE("got graphics ack %s for %s\n", buf, result->name);
+#ifdef SS_DEBUG
+        msg_printf(0, MSG_INFO, "got graphics ack %s for %s\n", buf, result->name);
+#endif
         if (gm.mode != MODE_REREAD_PREFS) {
             graphics_mode_acked = gm.mode;
         }
@@ -168,6 +170,15 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
     ACTIVE_TASK *atp, *best_atp;
     PROJECT *p;
 
+    // check to see if the applications have changed the graphics ack
+    // since they were first started, this can happen if their is a
+    // failure to find the target desktop
+    //
+    for (i=0; i<active_tasks.active_tasks.size(); i++) {
+        atp = active_tasks.active_tasks[i];
+        atp->check_graphics_mode_ack();
+    }
+
     // loop through all projects starting with the one at project_index
     //
     for (i=0; i<projects.size(); ++i) {
@@ -179,22 +190,28 @@ ACTIVE_TASK* CLIENT_STATE::get_next_graphics_capable_app() {
             atp = active_tasks.active_tasks[j];
             if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
             if (atp->result->project != p) continue;
-            if (!best_atp && atp->graphics_mode_before_ss == MODE_WINDOW) {
+            if (!best_atp && atp->graphics_mode_acked != MODE_UNSUPPORTED && 
+                atp->graphics_mode_before_ss == MODE_WINDOW) {
                 best_atp = atp;
             }
-            if (!best_atp && atp->graphics_mode_before_ss == MODE_HIDE_GRAPHICS) {
+            if (!best_atp && atp->graphics_mode_acked != MODE_UNSUPPORTED && 
+                atp->graphics_mode_before_ss == MODE_HIDE_GRAPHICS) {
                 best_atp = atp;
             }
             if (!best_atp && atp->graphics_mode_acked != MODE_UNSUPPORTED) {
                 best_atp = atp;
             }
             if (best_atp) {
-                //msg_printf(0, MSG_INFO, "get_next_app: %s\n", best_atp->result->name);
+#ifdef SS_DEBUG
+                msg_printf(0, MSG_INFO, "get_next_app: %s\n", best_atp->result->name);
+#endif
                 return atp;
             }
         }
     }
-    //msg_printf(0, MSG_INFO, "get_next_app: none\n");
+#ifdef SS_DEBUG
+    msg_printf(0, MSG_INFO, "get_next_app: none\n");
+#endif
     return NULL;
 }
 
