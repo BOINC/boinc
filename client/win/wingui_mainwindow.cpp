@@ -63,19 +63,17 @@ BOOL CMyApp::InitInstance()
         MessageBox(NULL, e.what(), "BOINC GUI Diagnostic Error", MB_OK);
     }
 
+    int retval = check_unique_instance();
+    if (retval) {
+        TRACE(TEXT("Another instance of BOINC is running\n"));
+        UINT nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
+        PostMessage(HWND_BROADCAST, nShowMsg, 0, 0);
+        return FALSE;
+    }
 
     // Initialize WinSock
     if ( WinsockInitialize() != 0 ) {
         MessageBox(NULL, "Failed to initialize the Windows Sockets Interface\nTerminating Application", "BOINC GUI Error", MB_OK);
-        return FALSE;
-    }
-
-
-    HANDLE h = CreateMutex(NULL, true, RUN_MUTEX);
-    if ((h==0)|| GetLastError() == ERROR_ALREADY_EXISTS) {
-        TRACE(TEXT("couldn't create mutex; h=%x, e=%d\n"), h, GetLastError());
-        UINT nShowMsg = RegisterWindowMessage(SHOW_WIN_MSG);
-        PostMessage(HWND_BROADCAST, nShowMsg, 0, 0);
         return FALSE;
     }
 

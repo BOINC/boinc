@@ -223,32 +223,18 @@ int boinc_main_loop(int argc, char** argv) {
     double dt;
 
     setbuf(stdout, 0);
-#if 1
-    if (lock_file(LOCK_FILE_NAME)) {
-        fprintf(stderr,
-            "Can't lock file - either another copy of BOINC is running,\n"
-            "or this user doesn't have permission to lock the file.\n"
-        );
-        exit(1);
-    }
-#else
-    key_t key;
-    char path[256];
-    getcwd(path, 256);
-    retval = get_key(path, 'a', key);
-    if (!retval) retval = create_semaphore(key);
-    if (!retval) retval = lock_semaphore(key);
-    if (retval) {
-        fprintf(stderr, "Another copy of BOINC is already running\n");
-        exit(1);
-    }
-#endif
 
     boinc_init_diagnostics(
         BOINC_DIAG_DUMPCALLSTACKENABLED |
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_TRACETOSTDERR
     );
+
+    retval = check_unique_instance();
+    if (retval) {
+        msg_printf(NULL, MSG_INFO, "Another instance of BOINC is running");
+        exit(1);
+    }
 
 // Unix/Linux console controls
 #ifndef WIN32

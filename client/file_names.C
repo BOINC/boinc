@@ -121,3 +121,22 @@ void get_account_filename(char* master_url, char* path) {
 bool is_account_file(char* filename) {
     return (strstr(filename, "account_") == filename);
 }
+
+int check_unique_instance() {
+#if 1
+    if (lock_file(LOCK_FILE_NAME)) {
+        return ERR_ALREADY_RUNNING;
+    }
+#else
+    key_t key;
+    char path[256];
+    getcwd(path, 256);
+    retval = get_key(path, 'a', key);
+    if (!retval) retval = create_semaphore(key);
+    if (!retval) retval = lock_semaphore(key);
+    if (retval) {
+        return ERR_ALREADY_RUNNING;
+    }
+#endif
+    return 0;
+}

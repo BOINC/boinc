@@ -39,6 +39,7 @@ extern int make_slot_dir(int);
 extern void get_account_filename(char* master_url, char* path);
 extern bool is_account_file(char*);
 extern void escape_project_url(char *in, char* out);
+extern int check_unique_instance();
 
 #define MAX_STDERR_FILE_SIZE        1024*1024
 #define MAX_STDOUT_FILE_SIZE        1024*1024

@@ -17086,3 +17086,16 @@ Rom    5 Sep 2004
     - Tag for 4.08 release, all platforms
       boinc_core_release_4_08
 
+David  6 Sept 2004
+    - The Windows GUI and CLI versions were using different mechanisms
+        to ensure that only one instance of BOINC is running.
+        Factored this into a function check_unique_instance(),
+        which is used by all versions.
+
+    client/
+        file_names.C,h
+        main.C
+        win/
+            wingui_mainwindow.cpp
+    lib/
+        error_numbers.h

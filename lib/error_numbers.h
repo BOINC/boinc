@@ -141,3 +141,4 @@
 #define ERR_NO_OPTION       -191
 #define ERR_MKDIR           -192
 #define ERR_INVALID_EVENT   -193
+#define ERR_ALREADY_RUNNING -194
