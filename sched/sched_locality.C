@@ -272,7 +272,7 @@ static void send_new_file_work(
                 result,
                 sreq, reply, platform, wreq, ss
             );
-        log_messages.printf(SCHED_MSG_LOG::DEBUG, "possibly_send_result() gives retval=%d\n", retval);
+        log_messages.printf(SCHED_MSG_LOG::DEBUG, "possibly_send_result() gives retval=%d\n", send_retval);
 
             if (config.one_result_per_user_per_wu) {
                 last_wuid = result.workunitid;
