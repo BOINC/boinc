@@ -584,6 +584,7 @@ int CLIENT_STATE::parse_state_file() {
     PROJECT temp_project, *project;
     int retval=0;
     int failnum;
+	int old_major_vers, old_minor_vers;
 
     if (!f) {
         if (log_flags.state_debug) {
@@ -686,8 +687,8 @@ int CLIENT_STATE::parse_state_file() {
         } else if (match_tag(buf, "<version>")) {
             // could put logic here to detect incompatible state files
             // after core client update
-        } else if (match_tag(buf, "<core_client_major_version>")) {
-        } else if (match_tag(buf, "<core_client_minor_version>")) {
+        } else if (parse_int(buf, "<core_client_major_version>", old_major_vers)) {
+        } else if (parse_int(buf, "<core_client_minor_version>", old_minor_vers)) {
         } else if (match_tag(buf, "<use_http_proxy/>")) {
             use_http_proxy = true;
         } else if (parse_str(buf, "<proxy_server_name>", proxy_server_name, sizeof(proxy_server_name))) {
@@ -703,6 +704,12 @@ int CLIENT_STATE::parse_state_file() {
     }
 done:
     fclose(f);
+
+	// This was for updating speed stats on the beta
+	// test, it can be taken out eventually, 
+	if (old_major_vers <= 0 && old_minor_vers <= 16) {
+		run_speed_test = true;
+	}
     return retval;
 }
 
