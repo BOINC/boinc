@@ -475,8 +475,6 @@ int handle_results(
 
     for (i=0; i<sreq.results.size(); i++) {
         rp = &sreq.results[i];
-        rp->client_version_num =
-            sreq.core_client_major_version*100 + sreq.core_client_minor_version;
 
         // acknowledge the result even if we couldn't find it --
         // don't want it to keep coming back
@@ -570,6 +568,8 @@ int handle_results(
 
         strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
         strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
+        result.client_version_num =
+            sreq.core_client_major_version*100 + sreq.core_client_minor_version;
         retval = result.update();
         if (retval) {
             log_messages.printf(
@@ -760,6 +760,11 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     return false;
 }
 
+inline static const char* get_remote_addr()
+{
+    return getenv("REMOTE_ADDR");
+}
+
 void process_request(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss,
     char* code_sign_key
@@ -789,6 +794,14 @@ void process_request(
         return;
     }
 
+    log_messages.printf(
+        SchedMessages::NORMAL, "Processing request from [USER#%d] [HOST#%d] [IP %s] [RPC#%d] core client version %d.%02d\n",
+        reply.user.id, reply.user.id,
+        get_remote_addr(),
+        sreq.rpc_seqno,
+        sreq.core_client_major_version, sreq.core_client_minor_version
+    );
+    ++log_messages;
     handle_global_prefs(sreq, reply);
 
     handle_results(sreq, reply, reply.host);
@@ -796,11 +809,6 @@ void process_request(
     send_work(sreq, reply, *platform, ss);
 
     send_code_sign_key(sreq, reply, code_sign_key);
-}
-
-inline static const char* get_remote_addr()
-{
-    return getenv("REMOTE_ADDR");
 }
 
 void handle_request(
@@ -813,10 +821,8 @@ void handle_request(
         SchedMessages::NORMAL, "Handling request from %s\n",
         get_remote_addr()
     );
-    ++log_messages;
     memset(&sreq, 0, sizeof(sreq));
     sreq.parse(fin);
     process_request(sreq, sreply, ss, code_sign_key);
     sreply.write(fout);
-    --log_messages;
 }
