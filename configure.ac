@@ -185,12 +185,12 @@ if test -e "/dev/tty1"; then
     AC_DEFINE(HAVE__DEV_TTY1, 1, [Define to 1 if /dev/tty1 exists])
 fi
 
-# by default, create static binaries on linux.
-#[if [ "$target_os" = "linux-gnu" ]; then
-#    STATIC_FLAGS="-static"
-#fi
-#echo "checking static flags... ${STATIC_FLAGS:-(none)}"]
-#AC_SUBST(STATIC_FLAGS)
+dnl  by default, create static binaries on linux.
+dnl [if [ "$target_os" = "linux-gnu" ]; then
+dnl     STATIC_FLAGS="-static"
+dnl fi
+dnl echo "checking static flags... ${STATIC_FLAGS:-(none)}"]
+dnl AC_SUBST(STATIC_FLAGS)
 
 AC_CONFIG_FILES([Makefile
                  RSAEuro/source/Makefile
