@@ -220,15 +220,15 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
     // do a select on all active streams
     //
     for (i=0; i<net_xfers.size(); i++) {
-	nxp = net_xfers[i];
-	if (!nxp->is_connected) {
-	    FD_SET(net_xfers[i]->socket, &write_fds);
-	} else if (net_xfers[i]->want_download) {
-	    FD_SET(net_xfers[i]->socket, &read_fds);
-	} else if (net_xfers[i]->want_upload) {
-	    FD_SET(net_xfers[i]->socket, &write_fds);
-	}
-	FD_SET(net_xfers[i]->socket, &error_fds);
+        nxp = net_xfers[i];
+        if (!nxp->is_connected) {
+            FD_SET(net_xfers[i]->socket, &write_fds);
+        } else if (net_xfers[i]->want_download) {
+            FD_SET(net_xfers[i]->socket, &read_fds);
+        } else if (net_xfers[i]->want_upload) {
+            FD_SET(net_xfers[i]->socket, &write_fds);
+        }
+        FD_SET(net_xfers[i]->socket, &error_fds);
     }
     n = select(FD_SETSIZE, &read_fds, &write_fds, &error_fds, &zeros);
     if (log_flags.net_xfer_debug) printf("select returned %d\n", n);
@@ -238,14 +238,14 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
     // if got a descriptor, find the first one in round-robin order
     // and do I/O on it
     for (i=0; i<net_xfers.size(); i++) {
-	nxp = net_xfers[i];
+        nxp = net_xfers[i];
         fd = nxp->socket;
-	if (FD_ISSET(fd, &read_fds) || FD_ISSET(fd, &write_fds)) {
+        if (FD_ISSET(fd, &read_fds) || FD_ISSET(fd, &write_fds)) {
             if (!nxp->is_connected) {
 #ifdef _WIN32
                 getsockopt(fd, SOL_SOCKET, SO_ERROR, (char *)&n, (int *)&intsize);
 #elif __APPLE__
-		getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
+                getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (int *)&intsize);
 #else
                 getsockopt(fd, SOL_SOCKET, SO_ERROR, &n, (unsigned int *)&intsize);
 #endif
@@ -271,11 +271,11 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
             } else {
                 nxp->io_ready = true;
             }
-	} else if (FD_ISSET(fd, &error_fds)) {
+        } else if (FD_ISSET(fd, &error_fds)) {
             if (log_flags.net_xfer_debug) printf("got error on socket %d\n", fd);
             nxp = lookup_fd(fd);
-	    nxp->got_error();
-	}
+            nxp->got_error();
+        }
     }
     return 0;
 }
@@ -302,53 +302,54 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
     if (!buf) return ERR_MALLOC;
     if (want_download) {
 #ifdef _WIN32
-    n = recv(socket, buf, blocksize, 0);
+        n = recv(socket, buf, blocksize, 0);
 #else
-    n = read(socket, buf, blocksize);
+        n = read(socket, buf, blocksize);
 #endif
-    if (log_flags.net_xfer_debug) {
-        printf("read %d bytes from socket %d\n", n, socket);
-    }
-    if (n == 0) {
-        io_done = true;
-        want_download = false;
-        goto done;
-    } else if (n < 0) {
-        io_done = true;
-        error = ERR_READ;
-        goto done;
-    } else {
-        nbytes_transferred += n;
-        m = fwrite(buf, 1, n, file);
-        if (n != m) {
+        if (log_flags.net_xfer_debug) {
+            printf("read %d bytes from socket %d\n", n, socket);
+        }
+        if (n == 0) {
             io_done = true;
-            error = ERR_FWRITE;
+            want_download = false;
             goto done;
-	}
-    }
+        } else if (n < 0) {
+            io_done = true;
+            error = ERR_READ;
+            goto done;
+        } else {
+            nbytes_transferred += n;
+            m = fwrite(buf, 1, n, file);
+            if (n != m) {
+                fprintf(stdout, "Error: incomplete disk write\n");
+                io_done = true;
+                error = ERR_FWRITE;
+                goto done;
+            }
+        }
     } else if (want_upload) {
-	m = fread(buf, 1, blocksize, file);
+        m = fread(buf, 1, blocksize, file);
         if (m == 0) {
             want_upload = false;
             io_done = true;
             goto done;
         } else if (m < 0) {
-	    io_done = true;
-	    error = ERR_FREAD;
-	    goto done;
-	}
-	nleft = m;
-	offset = 0;
-	while (nleft) {
+            io_done = true;
+            error = ERR_FREAD;
+            goto done;
+        }
+        nleft = m;
+        offset = 0;
+        while (nleft) {
 #ifdef _WIN32
-	    n = send(socket, buf+offset, nleft, 0);
+            n = send(socket, buf+offset, nleft, 0);
 #else
-	    n = write(socket, buf+offset, nleft);
+            n = write(socket, buf+offset, nleft);
 #endif
             if (log_flags.net_xfer_debug) {
                 printf("wrote %d bytes to socket %d\n", n, socket);
             }
-	    if (n < 0) {
+            if (n < 0) {
                 error = ERR_WRITE;
                 io_done = true;
                 goto done;
@@ -357,10 +358,10 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
                 nbytes_transferred += n;
                 goto done;
             }
-	    nleft -= n;
-	    offset += n;
+            nleft -= n;
+            offset += n;
             nbytes_transferred += n;
-	}
+        }
     }
 done:
     free(buf);

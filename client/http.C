@@ -520,13 +520,13 @@ bool HTTP_OP_SET::poll() {
             break;
         case HTTP_STATE_REPLY_BODY:
             if (htp->io_done) {
+                action = true;
                 switch(htp->http_op_type) {
                 case HTTP_OP_POST2:
                     read_reply(htp->socket, htp->req1, 256);
                     // parse reply here?
                     break;
                 default:
-                    action = true;
                     fclose(htp->file);
                     htp->file = 0;
                     break;

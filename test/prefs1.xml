@@ -2,9 +2,9 @@
     <mod_time>2</mod_time>
     <high_water_days>2</high_water_days>
     <low_water_days>1</low_water_days>
-    <resource_share>1</resource_share>
     <project>
         <master_url>BOINC_MASTER_URL</master_url>
         <authenticator>3f7b90793a0175ad0bda68684e8bd136</authenticator>
+        <resource_share>1</resource_share>
     </project>
 </preferences>
