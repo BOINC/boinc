@@ -56,7 +56,7 @@
     $project->start_servers();
 
     // Run the client until there's no more work
-    $host->run("-exit_when_idle -no_time_test");
+    $host->run("-exit_when_idle -skip_cpu_benchmarks");
 
     sleep(5);
 

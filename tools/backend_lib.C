@@ -192,6 +192,7 @@ int create_result(
         upload_url, download_url
     );
     strcpy(r.xml_doc_in, result_template_copy);
+    r.random = lrand48();
 
     retval = db_result_new(r);
     if (retval) {

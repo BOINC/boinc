@@ -150,17 +150,17 @@ int HOST_INFO::write(FILE* out) {
     return 0;
 }
 
-// Parse the time tests for host information
-// note that unlike parse this checks for the opening tag
-// and does not clear the memory of this struct
+// CPU benchmarks are run in a separate process,
+// which communicates its result via a file.
+// The following functions read and write this file.
 //
-int HOST_INFO::parse_time_tests(FILE* in) {
+int HOST_INFO::parse_cpu_benchmarks(FILE* in) {
     char buf[256];
 
     fgets(buf, 256, in);
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "<time_tests>"));
-        else if (match_tag(buf, "</time_tests>")) return 0;
+        if (match_tag(buf, "<cpu_benchmarks>"));
+        else if (match_tag(buf, "</cpu_benchmarks>")) return 0;
         else if (parse_double(buf, "<p_fpops>", p_fpops)) continue;
         else if (parse_double(buf, "<p_iops>", p_iops)) continue;
         else if (parse_double(buf, "<p_membw>", p_membw)) continue;
@@ -171,17 +171,15 @@ int HOST_INFO::parse_time_tests(FILE* in) {
     return 0;
 }
 
-// Write the time tests for the host information
-//
-int HOST_INFO::write_time_tests(FILE* out) {
+int HOST_INFO::write_cpu_benchmarks(FILE* out) {
     fprintf(out,
-        "<time_tests>\n"
+        "<cpu_benchmarks>\n"
         "    <p_fpops>%f</p_fpops>\n"
         "    <p_iops>%f</p_iops>\n"
         "    <p_membw>%f</p_membw>\n"
         "    <p_calculated>%f</p_calculated>\n"
         "    <m_cache>%f</m_cache>\n"
-        "</time_tests>\n",
+        "</cpu_benchmarks>\n",
         p_fpops,
         p_iops,
         p_membw,

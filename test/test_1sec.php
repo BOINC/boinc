@@ -52,7 +52,7 @@
 
     $project1->start_servers();
     $project2->start_servers();
-    $host->run("-exit_when_idle -no_time_test");
+    $host->run("-exit_when_idle -skip_cpu_benchmarks");
     $project1->stop();
     $project2->stop();
 

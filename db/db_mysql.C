@@ -298,14 +298,14 @@ void BOINC_MYSQL_DB::struct_to_str(void* vp, char* q, int type) {
             "name='%s', cpu_time=%f, "
             "xml_doc_in='%s', xml_doc_out='%s', stderr_out='%s', "
             "batch=%d, file_delete_state=%d, validate_state=%d, "
-            "claimed_credit=%f, granted_credit=%f, opaque=%d",
+            "claimed_credit=%f, granted_credit=%f, opaque=%d, random=%d",
             rp->id, rp->create_time, rp->workunitid,
             rp->server_state, rp->outcome, rp->client_state,
             rp->hostid, rp->report_deadline, rp->sent_time, rp->received_time,
             rp->name, rp->cpu_time,
             rp->xml_doc_in, rp->xml_doc_out, rp->stderr_out,
             rp->batch, rp->file_delete_state, rp->validate_state,
-            rp->claimed_credit, rp->granted_credit, rp->opaque
+            rp->claimed_credit, rp->granted_credit, rp->opaque, rp->random
         );
         unescape_single_quotes(rp->xml_doc_out);
         unescape_single_quotes(rp->stderr_out);
@@ -505,6 +505,7 @@ void BOINC_MYSQL_DB::row_to_struct(MYSQL_ROW& r, void* vp, int type) {
         rp->claimed_credit = atof(r[i++]);
         rp->granted_credit = atof(r[i++]);
         rp->opaque = atoi(r[i++]);
+        rp->random = atoi(r[i++]);
         break;
     case TYPE_WORKSEQ:
         wsp = (WORKSEQ*)vp;
@@ -860,7 +861,7 @@ int db_result_enum_server_state(RESULT& p, int limit) {
     static ENUM e;
     char buf[256];
 
-    if (!e.active) sprintf(buf, "where server_state=%d", p.server_state);
+    if (!e.active) sprintf(buf, "where server_state=%d order by random", p.server_state);
     return boinc_db.db_enum(e, &p, TYPE_RESULT, buf, limit);
 }
 

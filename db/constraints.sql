@@ -31,7 +31,7 @@ alter table workunit
 alter table result
     add unique(name),
     add index res_wuid (workunitid),
-    add index ind_res_st (server_state),
+    add index ind_res_st (server_state, random),
     add index res_filedel (file_delete_state);
 
 alter table host

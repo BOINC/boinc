@@ -43,7 +43,7 @@
     $work = new Work($app);
     $work->wu_template = "uc_wu";
     $work->result_template = "uc_result";
-    $work->redundancy = 10;
+    $work->redundancy = 2;
     $work->delay_bound = 2;
     // Say that 1 WU takes 1 day on a ref comp
     $work->rsc_fpops = 86400*1e9/2;
@@ -52,7 +52,7 @@
     $work->install($project);
 
     $project->start_servers();
-    $host->run("-exit_when_idle -no_time_test");
+    $host->run("-exit_when_idle -skip_cpu_benchmarks");
 
     $project->stop();
     $project->validate($app, 2);

@@ -67,7 +67,8 @@ CLIENT_STATE::CLIENT_STATE() {
     client_state_dirty = false;
     exit_when_idle = false;
     update_prefs = false;
-    run_time_test = true;
+    run_cpu_benchmarks = false;
+    skip_cpu_benchmarks = false;
     file_xfer_giveup_period = PERS_GIVEUP;
     contacted_sched_server = false;
     activities_suspended = false;
@@ -86,13 +87,15 @@ CLIENT_STATE::CLIENT_STATE() {
     strcpy(socks_user_passwd, "");
     strcpy(host_venue, "");
     suspend_requested = false;
-    run_speed_test = false;
     start_saver = false;
 #ifdef _WIN32
-    time_tests_handle = NULL;
+    cpu_benchmarks_handle = NULL;
 #endif
-    time_tests_id = 0;
+    cpu_benchmarks_id = 0;
 }
+
+#if 0
+// what's the purpose of this?
 
 void CLIENT_STATE::free_mem() {
     vector<PROJECT*>::iterator proj_iter;
@@ -152,6 +155,7 @@ void CLIENT_STATE::free_mem() {
 
 	active_tasks.free_mem();
 }
+#endif
 
 void CLIENT_STATE::install_global_prefs() {
     net_xfers->max_bytes_sec_up = global_prefs.max_bytes_sec_up;
@@ -211,17 +215,17 @@ int CLIENT_STATE::init() {
 
     // running CPU benchmarks is slow, so do it infrequently
     //
-    if (gstate.should_run_time_tests()) {
-        time_tests_start = time(0);
+    if (gstate.should_run_cpu_benchmarks()) {
+        cpu_benchmarks_start = time(0);
         show_message(NULL, "Running CPU benchmarks", MSG_INFO);
 #ifdef _WIN32
-        time_tests_handle = CreateThread(
-            NULL, 0, win_time_tests, NULL, 0, &time_tests_id
+        cpu_benchmarks_handle = CreateThread(
+            NULL, 0, win_cpu_benchmarks, NULL, 0, &cpu_benchmarks_id
         );
 #else
-        time_tests_id = fork();
-        if (time_tests_id == 0) {
-            _exit(time_tests());
+        cpu_benchmarks_id = fork();
+        if (cpu_benchmarks_id == 0) {
+            _exit(cpu_benchmarks());
         }
 #endif
     }
@@ -257,19 +261,19 @@ int CLIENT_STATE::init() {
     return 0;
 }
 
-// Returns true if time tests should be run
-// flag or if it's been a month since we last checked time stats
+// Returns true if CPU benchmarks should be run:
+// flag is set or it's been a month since we last ran
 //
-bool CLIENT_STATE::should_run_time_tests() {
+bool CLIENT_STATE::should_run_cpu_benchmarks() {
     return (
-        run_speed_test || 
+        run_cpu_benchmarks || 
         (difftime(time(0), (time_t)host_info.p_calculated) > BENCHMARK_PERIOD)
     );
 }
 
 #ifdef _WIN32
-DWORD WINAPI CLIENT_STATE::win_time_tests(LPVOID) {
-    return gstate.time_tests();
+DWORD WINAPI CLIENT_STATE::win_cpu_benchmarks(LPVOID) {
+    return gstate.cpu_benchmarks();
 }
 #endif
 
@@ -277,7 +281,7 @@ DWORD WINAPI CLIENT_STATE::win_time_tests(LPVOID) {
 // NOTE: this locks up the process for 10-20 seconds,
 // so it should be called very seldom
 //
-int CLIENT_STATE::time_tests() {
+int CLIENT_STATE::cpu_benchmarks() {
     HOST_INFO host_info;
     FILE* finfo;
     double fpop_test_secs = 3.3;
@@ -286,9 +290,17 @@ int CLIENT_STATE::time_tests() {
 
     clear_host_info(host_info);
     if (log_flags.measurement_debug) {
-        printf("Running time tests.\n");
+        printf("Running CPU benchmarks.\n");
     }
-    if (run_time_test) {
+    if (skip_cpu_benchmarks) {
+        if (log_flags.measurement_debug) {
+            show_message(0, "Skipping CPU benchmarks\n", MSG_INFO);
+        }
+        host_info.p_fpops = 1e9;
+        host_info.p_iops = 1e9;
+        host_info.p_membw = 4e9;
+        host_info.m_cache = 1e6;
+    } else {
         if (log_flags.measurement_debug) {
             printf(
                 "Running floating point test for about %.1f seconds.\n",
@@ -315,85 +327,77 @@ int CLIENT_STATE::time_tests() {
 
         // need to check cache!!
         host_info.m_cache = 1e6;
-    } else {
-        if (log_flags.measurement_debug) {
-            printf("Using fake performance numbers\n");
-        }
-        host_info.p_fpops = 1e9;
-        host_info.p_iops = 1e9;
-        host_info.p_membw = 4e9;
-        host_info.m_cache = 1e6;
     }
 
     host_info.p_calculated = (double)time(0);
-    finfo = fopen(TIME_TESTS_FILE_NAME, "w");
+    finfo = fopen(CPU_BENCHMARKS_FILE_NAME, "w");
     if(!finfo) return ERR_FOPEN;
-    host_info.write_time_tests(finfo);
+    host_info.write_cpu_benchmarks(finfo);
     fclose(finfo);
 
     return 0;
 }
 
-// checks if the time tests are running
+// checks if the CPU benchmarks are running
 //
-int CLIENT_STATE::check_time_tests() {
+int CLIENT_STATE::check_cpu_benchmarks() {
     FILE* finfo;
     int retval;
     
-    if (time_tests_id) {
+    if (cpu_benchmarks_id) {
 #ifdef _WIN32
         DWORD exit_code = 0;
-        GetExitCodeThread(time_tests_handle, &exit_code);
+        GetExitCodeThread(cpu_benchmarks_handle, &exit_code);
         if(exit_code == STILL_ACTIVE) {
-            if(time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
+            if(time(NULL) > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
                 show_message(NULL, "CPU benchmarks timed out, using default values", MSG_ERROR);
-                TerminateThread(time_tests_handle, 0);
-                CloseHandle(time_tests_handle);
+                TerminateThread(cpu_benchmarks_handle, 0);
+                CloseHandle(cpu_benchmarks_handle);
                 host_info.p_fpops = 1e9;
                 host_info.p_iops = 1e9;
                 host_info.p_membw = 4e9;
                 host_info.m_cache = 1e6;
-                time_tests_id = 0;
-                return TIME_TESTS_ERROR;
+                cpu_benchmarks_id = 0;
+                return CPU_BENCHMARKS_ERROR;
             }
-            return TIME_TESTS_RUNNING;
+            return CPU_BENCHMARKS_RUNNING;
         }
-        CloseHandle(time_tests_handle);
+        CloseHandle(cpu_benchmarks_handle);
 #else
         int exit_code = 0;
-        retval = waitpid(time_tests_id, &exit_code, WNOHANG);
+        retval = waitpid(cpu_benchmarks_id, &exit_code, WNOHANG);
         if(retval == 0) {
-            if((unsigned int)time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
+            if((unsigned int)time(NULL) > cpu_benchmarks_start + MAX_CPU_BENCHMARKS_SECONDS) {
                 show_message(NULL, "CPU benchmarks timed out, using default values", MSG_ERROR);
-                kill(time_tests_id, SIGKILL);
+                kill(cpu_benchmarks_id, SIGKILL);
                 host_info.p_fpops = 1e9;
                 host_info.p_iops = 1e9;
                 host_info.p_membw = 4e9;
                 host_info.m_cache = 1e6;
-                time_tests_id = 0;
-                return TIME_TESTS_ERROR;
+                cpu_benchmarks_id = 0;
+                return CPU_BENCHMARKS_ERROR;
             }
-            return TIME_TESTS_RUNNING;
+            return CPU_BENCHMARKS_RUNNING;
         }
 #endif
-        time_tests_id = 0;
+        cpu_benchmarks_id = 0;
         show_message(NULL, "CPU benchmarks complete", MSG_INFO);
-        finfo = fopen(TIME_TESTS_FILE_NAME, "r");
+        finfo = fopen(CPU_BENCHMARKS_FILE_NAME, "r");
         if (!finfo) {
             show_message(NULL, "Can't open CPU benchmark file, using default values", MSG_ERROR);
             host_info.p_fpops = 1e9;
             host_info.p_iops = 1e9;
             host_info.p_membw = 4e9;
             host_info.m_cache = 1e6;
-            return TIME_TESTS_ERROR;
+            return CPU_BENCHMARKS_ERROR;
         }
-        retval = host_info.parse_time_tests(finfo);
+        retval = host_info.parse_cpu_benchmarks(finfo);
         fclose(finfo);
-        if (retval) return TIME_TESTS_ERROR;
-        file_delete(TIME_TESTS_FILE_NAME);
-        return TIME_TESTS_COMPLETE;
+        if (retval) return CPU_BENCHMARKS_ERROR;
+        file_delete(CPU_BENCHMARKS_FILE_NAME);
+        return CPU_BENCHMARKS_COMPLETE;
     }
-    return TIME_TESTS_NOT_RUNNING;
+    return CPU_BENCHMARKS_NOT_RUNNING;
 }
 
 // Return the maximum allowed disk usage as determined by user preferences.
@@ -471,11 +475,12 @@ int CLIENT_STATE::check_suspend_activities() {
             sprintf(susp_msg, "Suspending activity - time of day");
         }
     }
-    // Stop the applications while we're running time tests
+
+    // Don't work while we're running CPU benchmarks
     //
-    if (check_time_tests() == TIME_TESTS_RUNNING) {
+    if (check_cpu_benchmarks() == CPU_BENCHMARKS_RUNNING) {
         should_suspend = true;
-        sprintf(susp_msg, "Suspending activity - running time tests");
+        sprintf(susp_msg, "Suspending activity - running CPU benchmarks");
     }
 
     if (should_suspend) {
@@ -520,7 +525,7 @@ bool CLIENT_STATE::do_something() {
 
     check_suspend_activities();
 
-    if (check_time_tests() == TIME_TESTS_RUNNING) return false;
+    if (check_cpu_benchmarks() == CPU_BENCHMARKS_RUNNING) return false;
 
     print_log("Polling; active layers:\n");
     net_stats.poll(*net_xfers);
@@ -706,10 +711,10 @@ int CLIENT_STATE::parse_state_file() {
 done:
     fclose(f);
 
-	// This was for updating speed stats on the beta
+	// This was for updating CPU benchmarks on the beta
 	// test, it can be taken out eventually, 
 	if (old_major_vers <= 0 && old_minor_vers <= 16) {
-		run_speed_test = true;
+            run_cpu_benchmarks = true;
 	}
     return retval;
 }
@@ -1282,8 +1287,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-exit_when_idle")) {
             exit_when_idle = true;
-        } else if (!strcmp(argv[i], "-no_time_test")) {
-            run_time_test = false;
+        } else if (!strcmp(argv[i], "-skip_cpu_benchmarks")) {
+            skip_cpu_benchmarks = true;
         } else if (!strcmp(argv[i], "-exit_after_app_start")) {
             exit_after_app_start_secs = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-file_xfer_giveup_period")) {
@@ -1299,8 +1304,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
 
         } else if (!strcmp(argv[i], "-update_prefs")) {
             update_prefs = true;
-        } else if (!strcmp(argv[i], "-run_speed_test")) {
-            run_speed_test = true;
+        } else if (!strcmp(argv[i], "-run_cpu_benchmarks")) {
+            run_cpu_benchmarks = true;
         } else if (!strcmp(argv[i], "-add_new_project")) {
             add_new_project();
         } else if (!strcmp(argv[i], "-version")) {
@@ -1312,7 +1317,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
                 "    -version                show version info\n"
                 "    -add_new_project        add project (will prompt for URL, account key)\n"
                 "    -update_prefs           contact all projects to update preferences\n"
-                "    -run_speed_test         run the speed benchmark routines\n",
+                "    -run_cpu_benchmarks     run the CPU benchmarks\n",
                 argv[0]
             );
             exit(0);

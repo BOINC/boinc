@@ -298,6 +298,7 @@ struct RESULT {
     double claimed_credit;      // CPU time times host credit/sec
     double granted_credit;      // == canonical credit of WU
     int opaque;                 // project-specific; usually external ID
+    int random;                 // determines send order
 
     // the following not used in the DB
     char wu_name[256];

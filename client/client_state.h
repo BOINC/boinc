@@ -74,17 +74,17 @@ public:
     void parse_cmdline(int argc, char** argv);
     void parse_env_vars();
     bool time_to_exit();
-    bool should_run_time_tests();
-    int time_tests();
+    bool should_run_cpu_benchmarks();
+    int cpu_benchmarks();
 #ifdef _WIN32
-    static DWORD WINAPI win_time_tests(LPVOID);
-    HANDLE time_tests_handle;
-    DWORD time_tests_id;
+    static DWORD WINAPI win_cpu_benchmarks(LPVOID);
+    HANDLE cpu_benchmarks_handle;
+    DWORD cpu_benchmarks_id;
 #else
-    PROCESS_ID time_tests_id;
+    PROCESS_ID cpu_benchmarks_id;
 #endif
-    unsigned int time_tests_start;
-    int check_time_tests();
+    unsigned int cpu_benchmarks_start;
+    int check_cpu_benchmarks();
     int project_disk_usage(PROJECT*, double&);
     int current_disk_usage(double&);
         // returns the total disk usage of BOINC on this host
@@ -92,7 +92,6 @@ public:
     int file_xfer_giveup_period;
     bool user_idle;
     bool suspend_requested;
-    bool run_speed_test;
     bool update_prefs;
     bool start_saver;
     bool exit_when_idle;
@@ -114,7 +113,10 @@ private:
     int core_client_minor_version;
     char* platform_name;
     int nslots;
-    bool run_time_test;
+    bool skip_cpu_benchmarks;
+        // if set, use hardwired numbers rather than running benchmarks
+    bool run_cpu_benchmarks;
+        // if set, run benchmarks on client startup
     bool activities_suspended;
     int exit_after_app_start_secs;
         // if nonzero, exit this many seconds after starting an app

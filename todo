@@ -56,6 +56,15 @@ Limit frequency of disk writes
 MEDIUM-PRIORITY (should do before public release)
 -----------------------
 
+abort result if any file exceeds max_nbytes
+
+per-WU limits
+    max disk
+    max CPU
+    max VM size
+
+Don't fork CPU benchmark process if skip_cpu_benchmarks is set
+
 let user choose language files in installation process
 
 write general language file manipulation functions

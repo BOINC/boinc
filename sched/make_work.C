@@ -220,16 +220,17 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
+    if (lock_file(LOCKFILE)) {
+        fprintf(stderr, "Another copy of make_work is already running\n");
+        exit(1);
+    }
+
     if (asynch) {
         if (fork()) {
             exit(0);
         }
     }
 
-    if (lock_file(LOCKFILE)) {
-        fprintf(stderr, "Another copy of make_work is already running\n");
-        exit(1);
-    }
-
+    srand48(getpid() + time(0));
     make_work();
 }

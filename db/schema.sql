@@ -174,6 +174,7 @@ create table result (
     claimed_credit  double       not null,
     granted_credit  double       not null,
     opaque          integer     not null,
+    random          integer     not null,
     primary key (id)
 );
 

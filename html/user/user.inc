@@ -36,8 +36,8 @@ function show_user_profile_private($user) {
     row2("Postal code", $user->postal_code);
     row2("", "<a href=edit_user_info_form.php>Edit account info</a>");
     row1("Your preferences");
-    row2("General", "<a href=prefs.php?subset=global>View</a>");
-    row2(PROJECT, "<a href=prefs.php?subset=project>View</a>");
+    row2("General", "<a href=prefs.php?subset=global>View/edit</a>");
+    row2(PROJECT, "<a href=prefs.php?subset=project>View/edit</a>");
 }
 
 // show summary of dynamic and static info (public)

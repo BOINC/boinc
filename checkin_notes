@@ -3967,3 +3967,39 @@ David  Mar 31 2003
         team_create_action.php
     test/
         test_uc.php
+
+David  Mar 31 2003
+    - added random field to result.
+        Results are sent in random order, making it hard for hackers
+        to get multiple results for the same WU
+    - user-visible messages about files give names, not URLs
+    - Changed all occurrences of "time test" and "speed test"
+        to "CPU benchmark".
+        Please use accurate, consistent terminology in the code.
+    - changed command-line options:
+        -skip_cpu_benchmarks instead of -no_time_tests
+        -run_cpu_benchmarks instead of -run_speed_test
+
+    client/
+        client_state.C,h
+        file_names.h
+        hostinfo.C,h
+        net_xfer.C
+        pers_file_xfer.C
+        speed_stats.h
+    db/
+        constraints.sql
+        db.h
+        db_mysql.C
+        schema.sql
+    html_user/
+        prefs.inc
+        user.inc
+    sched/
+        make_work.C
+    test/
+        test_1sec.php
+        test_backend.php
+        test_uc.php
+    tools/
+        backend_lib.C

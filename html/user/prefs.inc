@@ -14,10 +14,10 @@
 //    <run_if_user_active/>
 //    <work_buf_min_days>1.3</work_buf_min_days>
 //    ...
-//    <home>
+//    <venue name="home">
 //       <run_if_user_active/>
 //       ...
-//    </home>
+//    </venue>
 // </global_preferences>
 //
 // and

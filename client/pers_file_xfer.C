@@ -116,8 +116,15 @@ bool PERS_FILE_XFER::start_xfer() {
         }
         if (log_flags.file_xfer) {
             sprintf(buf,
-                "Started %s of %s to %s",
-                (is_upload ? "upload" : "download"), fip->name, fip->get_url()
+                "Started %s of %s",
+                (is_upload ? "upload" : "download"), fip->name
+            );
+            show_message(fip->project, buf, MSG_INFO);
+        }
+        if (log_flags.file_xfer_debug) {
+            sprintf(buf,
+                "URL: %s",
+                fip->get_url()
             );
             show_message(fip->project, buf, MSG_INFO);
         }
@@ -160,8 +167,16 @@ bool PERS_FILE_XFER::poll(time_t now) {
         if (log_flags.file_xfer) {
             sprintf(
                 buf,
-                "File transfer done for %s; error code %d",
-                fip->get_url(), fxp->file_xfer_retval
+                "Finished %s of %s",
+                is_upload?"upload":"download", fip->name
+            );
+            show_message(fip->project, buf, MSG_INFO);
+        }
+        if (log_flags.file_xfer_debug) {
+            sprintf(
+                buf,
+                "file transfer status %d",
+                fxp->file_xfer_retval
             );
             show_message(fip->project, buf, MSG_INFO);
         }
