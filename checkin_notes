@@ -4778,3 +4778,18 @@ Karl    2003/06/17
     tools/
         backend_lib.C
         create_work.C
+
+Karl    2003/06/17
+    Converting test scripts to Python
+
+    configure.ac
+    test/
+        Makefile.am
+        boinc.py
+        boinc_db.py
+        db_def_to_py
+        test.inc
+        test_upload_backoff.php
+        test_uc.py
+        testproxy
+        version.py.in

@@ -180,16 +180,16 @@ TESTS = test_sanity.php				\
 # test_sticky.php
 EXTRA_DIST = \
         *.xml *.php *wu *result *output		\
-        *input *.inc *.in
+        *input *.inc *.py *.in
 
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = version.inc
+CONFIG_CLEAN_FILES = version.inc version.py
 DIST_SOURCES =
 DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in \
-	version.inc.in
+	version.inc.in version.py.in
 all: all-am
 
 .SUFFIXES:
@@ -199,6 +199,8 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 version.inc: $(top_builddir)/config.status version.inc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+version.py: $(top_builddir)/config.status version.py.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 uninstall-info-am:
 tags: TAGS
@@ -404,6 +406,9 @@ $(LIBRSA):
 
 boinc_db.inc: ../db/boinc_db.h
 	./db_def_to_php < ../db/boinc_db.h > boinc_db.inc
+
+boinc_db.py: ../db/boinc_db.h
+	./db_def_to_py < ../db/boinc_db.h > boinc_db.py
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

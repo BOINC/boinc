@@ -47,16 +47,17 @@ CODE is evaluated every 128 bytes transferred from server to client.
       \$time              : seconds since server started
       \$chars, \$nchars   : characters & length about to send to client.
       \$bytes_transferred : characters already sent to client
+      \$start             : beginning of connection
       \$done, \$success   : finished transfer; successful transfer
+      \$n, \$m            : unused variables initialized to 0
 
       For more, view the code.
 
   Functions:
-      kill_server, if_done_kill, if_done_ping
+      close_connection, kill_server, if_done_kill, if_done_ping, logmsg
 
-  You can also call any functions like exit, sleep, \$target\->close,
-  \$target\->print.  You should return 1 to indicate success (otherwise
-  testproxy will warn).
+  You can also call standard perl functions such as print, sleep, exit.  You
+  should return 1 to indicate success (otherwise testproxy will warn).
 
 Examples:
   # fail connections for first 3 connections
@@ -85,7 +86,8 @@ my $N = "\015\012";
 
 sub proxy;
 sub spawn;
-sub logmsg { print STDERR "$0 $$: @_ at ", scalar localtime, "\n" }
+use POSIX qw/strftime/;
+sub logmsg { print STDERR "$0 $$ ", strftime("%Y/%m/%d %H:%M:%S", localtime), ": @_\n" }
 
 my $server = IO::Socket::INET->new(Listen    => 5,
                                    LocalAddr => inet_ntoa(INADDR_ANY),
@@ -105,32 +107,32 @@ use POSIX ":sys_wait_h";
 sub REAPER {
     my $child;
     while (($waitedpid = waitpid(-1,WNOHANG)) > 0) {
-        # logmsg "reaped $waitedpid" . ($? ? " with exit $?" : '');
+        logmsg "reaped $waitedpid" . ($? ? " with exit $?" : '');
     }
     $SIG{CHLD} = \&REAPER;      # loathe sysV
 }
 
 $SIG{CHLD} = \&REAPER;
 
+my $time_started = time();
 my $nconnections = 0;
-
-my $client;
+my $cclient;
 
 for ( $waitedpid = 0;
-      ($client = $server->accept()) || $waitedpid;
+      ($cclient = $server->accept()) || $waitedpid;
       $waitedpid = 0)
 {
-    next if $waitedpid and not $client;
-    die unless $client;
-    my $paddr = $client->peername();
+    next if $waitedpid and not $cclient;
+    die unless $cclient;
+    my $paddr = $cclient->peername();
     my($port,$iaddr) = sockaddr_in($paddr);
     my $name = gethostbyaddr($iaddr,AF_INET);
 
-    logmsg "connection from $name", "[", inet_ntoa($iaddr), "]:$port";
+    logmsg "connection from $name:$port"; # [", inet_ntoa($iaddr), "]"
 
     ++$nconnections;
 
-    spawn \&proxy, $client;
+    spawn \&proxy, $cclient;
 }
 
 sub spawn {
@@ -145,7 +147,7 @@ sub spawn {
         logmsg "cannot fork: $!";
         return;
     } elsif ($pid) {
-        # logmsg "begat $pid";
+        logmsg "begat $pid";
         return;                 # I'm the parent
     }
     # else I'm the child -- go spawn
@@ -158,8 +160,12 @@ sub kill_server()
     kill "INT", $server_pid;
 }
 
+my $start = 0;
 my $done = 0;
 my $success = 0;
+my $url = undef;
+my $n = 0;
+my $m = 0;
 
 sub if_done_ping()
 {
@@ -182,38 +188,65 @@ sub if_done_kill()
     1;
 }
 
-sub proxy {
-    my $client = shift or die;
+sub eval_test_code()
+{
+    my $time = time() - $time_started;
+    eval $testcode || warn "test code failed";
+}
 
-    my $target = IO::Socket::INET->new(PeerAddr => $target_server)
+my ($client, $target);
+
+sub close_connection() {
+    # $client->close(), $target->close() doesn't always work for some reason
+    # (maybe to do with forked processes)
+    $client->shutdown(2);
+    $target->shutdown(2);
+    1;
+}
+
+sub proxy {
+    $client = shift or die;
+
+    $target = IO::Socket::INET->new(PeerAddr => $target_server)
       or die "$0: couldn't connect to $target_server: $!";
 
     $client->autoflush(1);
     $target->autoflush(1);
 
+    my $bytes_transferred = 0;
+    my $chars;
+    my $nchars;
+
+    {
+        $chars = undef; $nchars = 0;
+        $done = 0;
+        $success = 0;
+        $start = 1;
+        eval_test_code();
+        $start = 0;
+    }
+
     # transfer lines from client -> server until we get an empty line
 
     while (my $line = $client->getline()) {
+        if ($. == 1 && $line =~ /^(GET|PUT|POST) ([^\s]+)/) {
+            $url = $2;
+            logmsg "url = $url";
+        }
         $target->print($line);
         $line =~ s/[\015\012]+$//;
         last unless $line;
     }
 
+    # indicate we have stopped reading data from client and stopped writing
+    # data to server (not sure if this helps)
+    $client->shutdown(0);
+    $target->shutdown(1);
+
     # transfer from server->client
-    my $bytes_transferred = 0;
 
-    # while (my $line = $target->getline()) {
-    #     $bytes_transferred += length($line);
-    #     print "[$bytes_transferred] $line";
-    #     $client->print($line);
-    # }
-
-    $done = 0;
-    $success = 0;
-    my $chars;
-    my $nchars;
     while ($nchars = $target->read($chars, 128)) {
-        eval $testcode || warn;
+        eval_test_code();
         $bytes_transferred += $nchars;
         $client->write($chars, $nchars);
     }
@@ -222,9 +255,9 @@ sub proxy {
         $chars = undef; $nchars = 0;
         $done = 1;
         $success = $client->connected() && 1;
-        eval $testcode || warn;
+        eval_test_code();
     }
 
-    $target->close();
-    $client->close();
+    close_connection();
+    return 0;
 }

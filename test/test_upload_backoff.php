@@ -2,17 +2,14 @@
 <?php {
     // $Id$
 
-    // This tests whether upload resuming works correctly.
-
     $use_proxy_cgi = 1;
 
     include_once("test_uc.inc");
     test_msg("upload backoff");
 
-    $project = new ProjectUC;
+    start_proxy('print "#$nconnections url=$url time=$time\n"; exit 1 if ($nconnections < 4); if_done_kill(); if_done_ping();');
 
-    // TODO
-    // start_proxy('exit 1 if ($nconnections < 4); if_done_kill(); if_done_ping();');
+    $project = new ProjectUC;
 
     // $pid = $host->run_asynch("-exit_when_idle");
 

@@ -13,7 +13,11 @@ TESTS = test_sanity.php				\
 
 EXTRA_DIST =					\
         *.xml *.php *wu *result *output		\
-        *input *.inc *.in
+        *input *.inc *.py *.in 			\
+	db_def_to_php db_def_to_py
 
 boinc_db.inc: ../db/boinc_db.h
 	./db_def_to_php < ../db/boinc_db.h > boinc_db.inc
+
+boinc_db.py: ../db/boinc_db.h
+	./db_def_to_py < ../db/boinc_db.h > boinc_db.py

@@ -1087,7 +1087,8 @@ class Work {
 
 function start_proxy($code)
 {
-    verbose_XPassThru("./testproxy 8080 localhost:80 '$code' 2>/dev/null &");
+    verbose_echo(1, "Starting proxy server");
+    verbose_XPassThru("./testproxy 8080 localhost:80 '$code' 2>testproxy.log &");
 }
 
 function test_msg($msg)

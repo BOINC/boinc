@@ -137,6 +137,7 @@ AC_CONFIG_FILES([RSAEuro/source/Makefile
                  tools/Makefile
                  test/Makefile
                  test/version.inc
+                 test/version.py
                  Makefile
                  ])
 
