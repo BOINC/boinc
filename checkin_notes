@@ -18604,3 +18604,10 @@ David  19 Oct 2004
         glut_hel12.c
         glut_tr10.c
         glut_tr24.c
+
+David  19 Oct 2004
+	- fixed CPU scheduler bug so that tasks suspended via GUI
+		actually are suspended
+
+	client/
+		cs_apps.C

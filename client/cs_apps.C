@@ -265,6 +265,7 @@ void CLIENT_STATE::assign_results_to_projects() {
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         if (rp->already_selected) continue;
+        if (lookup_active_task_by_result(rp)) continue;
         project = rp->wup->project;
         if (project->suspended_via_gui) continue;
         if (!project->next_runnable_result && rp->state == RESULT_FILES_DOWNLOADED){
