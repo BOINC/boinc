@@ -31,9 +31,10 @@
 #define HTTP_STATUS_RANGE_REQUEST_ERROR    416
 #define HTTP_STATUS_MOVED_PERM      301
 #define HTTP_STATUS_MOVED_TEMP      302
+#define HTTP_STATUS_NOT_FOUND       404
 
 struct HTTP_REPLY_HEADER {
-    int status;
+    int http_status;
     int content_length;
     string redirect_location;
     string recv_buf;
@@ -71,6 +72,7 @@ public:
     int http_op_state;     // values below
     int http_op_type;
     int http_op_retval;
+        // zero if success, or a BOINC error code, or an HTTP status code
     bool use_http_proxy;
     int proxy_server_port;
     char proxy_server_name[256];

@@ -70,7 +70,8 @@ void handle_wu(DB_WORKUNIT& wu) {
     log_messages.printf(
         SchedMessages::DEBUG, "[WU#%d %s] handling WU: enumerated %d results\n",
         wu.id, wu.name,
-        (int)results.size());
+        (int)results.size()
+    );
     ScopeMessages scope_messages(log_messages, SchedMessages::NORMAL);
 
     // count up the number of results in various states,

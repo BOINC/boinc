@@ -179,6 +179,25 @@ int create_result(
     return retval;
 }
 
+// make sure a WU's input files are actually there
+//
+int check_files(char** infiles, int ninfiles, char* download_dir) {
+    int i;
+    char path[256];
+    FILE* f;
+
+    for (i=0; i<ninfiles; i++) {
+        sprintf(path, "%s/%s", download_dir, infiles[i]);
+        f = fopen(path, "r");
+        if (f) {
+            fclose(f);
+        } else {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int create_work(
     DB_WORKUNIT& wu,
     const char* _wu_template,
@@ -192,6 +211,14 @@ int create_work(
     int retval;
     char _result_template[MAX_BLOB_SIZE];
     char wu_template[MAX_BLOB_SIZE];
+
+#if 0
+    retval = check_files(infiles, ninfiles, download_dir);
+    if (retval) {
+        fprintf(stderr, "Missing input file: %s\n", infiles[0]);
+        return -1;
+    }
+#endif
 
     strcpy(wu_template, _wu_template);
     wu.create_time = time(0);

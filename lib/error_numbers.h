@@ -37,7 +37,8 @@
 #define ERR_GETHOSTBYNAME   -113
     // Couldn't resolve hostname
 #define ERR_GIVEUP_DOWNLOAD -114
-    // too much time has elapsed without progress on file xfer
+    // too much time has elapsed without progress on file xfer,
+    // or we got a 404 (not found) status code from server
 #define ERR_GIVEUP_UPLOAD   -115
 #define ERR_NULL            -116
     // unexpected NULL pointer

@@ -112,9 +112,9 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
     }
 }
 
-// Parse the server response in req1
+// Parse the file upload handler response in req1
 //
-int FILE_XFER::parse_server_response(double &nbytes) {
+int FILE_XFER::parse_upload_response(double &nbytes) {
     int status = ERR_UPLOAD_TRANSIENT, x;
     char buf[256];
 
@@ -193,7 +193,7 @@ bool FILE_XFER_SET::poll() {
             fxp->file_xfer_retval = fxp->http_op_retval;
             if (fxp->file_xfer_retval == 0) {
                 if (fxp->is_upload) {
-                    fxp->file_xfer_retval = fxp->parse_server_response(
+                    fxp->file_xfer_retval = fxp->parse_upload_response(
                         fxp->fip->upload_offset
                     );
                 }

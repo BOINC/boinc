@@ -126,8 +126,8 @@ static int remove_infeasible(int i) {
 
     log_messages.printf(
         SchedMessages::NORMAL,
-        "[%s] declaring result as unsendable\n",
-        result.name
+        "[%s] declaring result as unsendable; infeasible count %d\n",
+        result.name, wu_result.infeasible_count
     );
 
     result.server_state = RESULT_SERVER_STATE_OVER;

@@ -6413,3 +6413,17 @@ Karl 2003/09/28
         setup_project.py
     tools/
         dbcheck_files_exist
+        
+David  Sept 30 2003
+    - Core client: if get 404 error (not found) when downloading file,
+        treat it as permanent error.
+        (not tested)
+    
+    api/
+        boinc_api.C,h
+    client/
+        file_xfer.C,h
+        http.C,h
+        pers_file_xfer.C
+    lib/
+        error_numbers.h

@@ -290,12 +290,17 @@ void PERS_FILE_XFER::handle_xfer_failure() {
         fip->delete_file();
     }
 
-    retry_or_backoff();
+    if (fxp->file_xfer_retval == HTTP_STATUS_NOT_FOUND) {
+        giveup();
+        return;
+    }
 
     // See if it's time to give up on the persistent file xfer
     //
     if ((now - first_request_time) > gstate.file_xfer_giveup_period) {
         giveup();
+    } else {
+        retry_or_backoff();
     }
 }
 

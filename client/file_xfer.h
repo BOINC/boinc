@@ -43,7 +43,7 @@ public:
     FILE_XFER();
     ~FILE_XFER();
 
-    int parse_server_response(double &offset);
+    int parse_upload_response(double &offset);
     int init_download(FILE_INFO&);
     int init_upload(FILE_INFO&);
     bool file_xfer_done;

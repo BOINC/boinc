@@ -127,7 +127,7 @@ static void http_post_request_header(
 }
 
 void HTTP_REPLY_HEADER::init() {
-    status = 500;
+    http_status = 500;
     content_length = 0;
     redirect_location.erase();
     recv_buf.erase();
@@ -147,8 +147,8 @@ void HTTP_REPLY_HEADER::parse() {
             scope_messages.printf("HTTP_REPLY_HEADER::parse(): not HTTP\n");
             return;
         }
-        iline >> status;
-        scope_messages.printf("HTTP_REPLY_HEADER::parse(): status=%d\n", status);
+        iline >> http_status;
+        scope_messages.printf("HTTP_REPLY_HEADER::parse(): status=%d\n", http_status);
     }
 
     while (getline(h, line)) {
@@ -170,7 +170,7 @@ const unsigned int MAX_HEADER_SIZE = 1024;
 
 // Parse an http reply header into the header struct
 //
-// Returns 1 if not done yet, 0 if done (header.status indicates success)
+// Returns 1 if not done yet, 0 if done (header.http_status indicates success)
 //
 int HTTP_REPLY_HEADER::read_reply(int socket) {
     ScopeMessages scope_messages(log_messages, ClientMessages::DEBUG_HTTP);
@@ -496,7 +496,7 @@ bool HTTP_OP_SET::poll() {
 
                 // TODO: handle all kinds of redirects here
 
-                if (htp->hrh.status == HTTP_STATUS_MOVED_PERM || htp->hrh.status == HTTP_STATUS_MOVED_TEMP) {
+                if (htp->hrh.http_status == HTTP_STATUS_MOVED_PERM || htp->hrh.http_status == HTTP_STATUS_MOVED_TEMP) {
                     htp->close_socket();
                     switch (htp->http_op_type) {
                         case HTTP_OP_HEAD:
@@ -522,9 +522,9 @@ bool HTTP_OP_SET::poll() {
                     }
                     break;
                 }
-                if ((htp->hrh.status/100)*100 != HTTP_STATUS_OK) {
+                if ((htp->hrh.http_status/100)*100 != HTTP_STATUS_OK) {
                     htp->http_op_state = HTTP_STATE_DONE;
-                    htp->http_op_retval = htp->hrh.status;
+                    htp->http_op_retval = htp->hrh.http_status;
                     break;
                 }
                 switch (htp->http_op_type) {

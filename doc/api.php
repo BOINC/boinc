@@ -98,22 +98,7 @@ public:
 </pre>
 MFILE buffers data in memory
 and writes to disk only on <tt>flush()</tt> or <tt>close()</tt>.
-This lets you write output files and state files
-more or less atomically.
-
-<h3>Signal masking</h3>
-<p>
-The BOINC API implementation uses a periodic signal.
-If this signal is handled during a system call,
-the call may return with an EINTR error,
-in which case it must be called again.
-To avoid dealing with this possibility.
-applications should mask and unmask the clock signal around system calls.
-This is done using
-<pre>
-   boinc_mask();
-   boinc_unmask()
-</pre>
+This lets you write output files and state files more or less atomically.
 
 <h3>Communicating with the core client</h3>
 <p>
@@ -164,8 +149,6 @@ to get its total CPU time
 (i.e., from the beginning of the work unit,
 not just since the last restart).
 This also returns the virtual memory working set size in bytes.
-
-
 
 <h3>Multi-program applications</h3>
 Some applications consist of multiple programs:

@@ -338,20 +338,6 @@ int boinc_checkpoint_completed() {
     return 0;
 }
 
-#if 0
-void boinc_mask() {
-#ifndef _WIN32
-    sighold(SIGALRM);
-#endif
-}
-
-void boinc_unmask() {
-#ifndef _WIN32
-    sigrelse(SIGALRM);
-#endif
-}
-#endif
-
 int boinc_fraction_done(double x) {
     fraction_done = x;
     return 0;
@@ -375,11 +361,11 @@ int boinc_cpu_time(double &cpu_t, double &ws_t) {
     cpu_secs = aid.wu_cpu_time;
 
 #ifdef HAVE_SYS_RESOURCE_H
-    int retval, pid = getpid();
+    int retval;
     struct rusage ru;
     retval = getrusage(RUSAGE_SELF, &ru);
     if (retval) {
-        fprintf(stderr, "error: could not get cpu time for %d\n", pid);
+        fprintf(stderr, "error: could not get CPU time\n");
     	return ERR_GETRUSAGE;
 	}
     // Sum the user and system time spent in this process
@@ -438,7 +424,8 @@ int boinc_cpu_time(double &cpu_t, double &ws_t) {
 	return -1;
 }
 
-// This function should be as fast as possible, and shouldn't make any system calls
+// This function should be as fast as possible,
+// and shouldn't make any system calls
 //
 #ifdef _WIN32
 void CALLBACK on_timer(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, DWORD dw2) {
