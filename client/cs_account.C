@@ -213,7 +213,7 @@ int CLIENT_STATE::parse_account_files() {
                     "Couldn't parse account file %s", name.c_str()
                 );
             } else {
-                if (lookup_project(project.master_url)) {
+                if (lookup_project(project->master_url)) {
                     msg_printf(NULL, MSG_ERROR,
                         "Duplicate account file %s - ignoring", name.c_str()
                     );
