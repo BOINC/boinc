@@ -141,6 +141,7 @@ public:
     bool start_new_file_xfer();
     PROJECT* next_project(PROJECT*);
     PROJECT* next_project_master_pending();
+	PROJECT* next_project_sched_rpc_pending();
     double work_needed_secs();
     int make_scheduler_request(PROJECT*, double);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);

@@ -85,6 +85,8 @@ public:
     int debt_order;             // 0 == largest debt
     bool master_url_fetch_pending;
                                 // need to fetch and parse the master URL
+    bool sched_rpc_pending;
+                                // need to contact the scheduling server for user/project info
 
     PROJECT();
     ~PROJECT();

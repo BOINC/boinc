@@ -99,10 +99,24 @@ PROJECT* CLIENT_STATE::next_project_master_pending() {
     return 0;
 }
 
+// find a project that needs to contact its scheduling server
+// 
+PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
+    unsigned int i;
+
+    for (i=0; i<projects.size(); i++) {
+        if (projects[i]->sched_rpc_pending) {
+            return projects[i];
+        }
+    }
+    return 0;
+}
+
 // return the next project after "old", in debt order,
 // that is eligible for a scheduler RPC
 // It excludes projects that have (p->master_url_fetch_pending) set to true.
 // Such projects will be returned by next_project_master_pending routine.
+//
 PROJECT* CLIENT_STATE::next_project(PROJECT* old) {
     PROJECT* p, *pbest;
     int best = 999;
@@ -263,6 +277,12 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         if (should_get_work) {
             compute_resource_debts();
             scheduler_op->init_get_work();
+            action = true;
+		} else if ((p=next_project_master_pending())) {
+            scheduler_op->init_get_work();
+            action = true;
+		} else if ((p=next_project_sched_rpc_pending())) {
+            scheduler_op->init_return_results(p, 0);
             action = true;
         } else {
             p = find_project_with_overdue_results();
@@ -486,6 +506,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             );
         }
     }
+    project->sched_rpc_pending = false;
     set_client_state_dirty("handle_scheduler_reply");
     if (log_flags.state_debug) {
         printf("State after handle_scheduler_reply():\n");
