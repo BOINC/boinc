@@ -23168,3 +23168,15 @@ Rom    22 Jan 2005
 
     win_build/installerv2/
         BOINC.ism
+
+Janus 23 Jan 2005
+    - When listing a user's posts, only display deleted posts to the 
+      author or moderators. When displaying them, display additional
+      info as to why the post was deleted.
+      (by Jens Seidler)
+
+    html/user
+        forum_user_posts.php
+    html/inc
+        forum.inc
+
