@@ -365,13 +365,14 @@ bool CMainFrame::SaveState()
     wxASSERT(NULL != pConfig);
     wxASSERT(NULL != m_pNotebook);
 
-
     //
     // Save Frame State
     //
     pConfig->SetPath(strBaseConfigLocation);
 
     pConfig->Write(wxT("CurrentPage"), m_pNotebook->GetSelection());
+    pConfig->Write(wxT("Width"), GetSize().GetWidth());
+    pConfig->Write(wxT("Height"), GetSize().GetHeight());
 
 
     //
@@ -411,6 +412,8 @@ bool CMainFrame::RestoreState()
     wxString        strPreviousLocation = wxEmptyString;
     wxInt32         iIndex = 0;
     wxInt32         iPageCount = 0;
+    wxInt32         iHeight = 0;
+    wxInt32         iWidth = 0;
 
 
     wxASSERT(NULL != pConfig);
@@ -427,6 +430,10 @@ bool CMainFrame::RestoreState()
 
     pConfig->Read(wxT("CurrentPage"), &iCurrentPage, 1);
     m_pNotebook->SetSelection(iCurrentPage);
+
+    pConfig->Read(wxT("Width"), &iWidth, 800);
+    pConfig->Read(wxT("Height"), &iHeight, 600);
+    SetSize( -1, -1, iWidth, iHeight );
 
 
     //
