@@ -7876,6 +7876,14 @@ Gary	26 Nov 2003
       fixes problem with windows release 2.11 installer
       no change to Solaris/Linux clients
 
+Gary	26 Nov 2003
+    - Changed Network Bandwith limits display & entry units to be
+      expressed in terms of Kbytes instead of bytes. Values are
+      still stored in db as bytes.
+
+    html_user/
+        prefs.inc
+
 David  27 Nov 2003
     - put missing <project_specific> tags around
         project-specific prefs when write account files
@@ -8297,4 +8305,9 @@ Jeff 09 Dec 2003
 Gary	09 Dec 2003
     - BOINC release 2.14 for windows, Linux, solaris2.7, solaris2.8
 
+Gary	09 Dec 2003
+    - fixed typo in Network Bandwidth limits display (was missing /s)
+
+    html_user/
+        prefs.inc
 
