@@ -63,30 +63,6 @@ Package=<4>
 
 ###############################################################################
 
-Project: "test_http"=.\test_http\test_http.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
-Project: "test_net_xfer"=.\test_net_xfer\test_net_xfer.dsp - Package Owner=<4>
-
-Package=<5>
-{{{
-}}}
-
-Package=<4>
-{{{
-}}}
-
-###############################################################################
-
 Project: "upper_case"=.\upper_case\upper_case.dsp - Package Owner=<4>
 
 Package=<5>

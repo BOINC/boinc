@@ -133,6 +133,7 @@ int NET_XFER::open_server() {
             NetClose();
             return -1;
         }
+#ifndef WIN_CLI
         if (WSAAsyncSelect( fd, g_myWnd->GetSafeHwnd(), g_myWnd->m_nNetActivityMsg, FD_READ|FD_WRITE )) {
             errno = WSAGetLastError();
             if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
@@ -141,6 +142,7 @@ int NET_XFER::open_server() {
                 return -1;
             }
         }
+#endif
 #else
         if (errno != EINPROGRESS) {
             close(fd);

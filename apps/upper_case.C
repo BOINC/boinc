@@ -36,6 +36,8 @@
 #include <signal.h>
 #ifndef _WIN32
 #include <unistd.h>
+#else
+#include <windows.h>
 #endif
 
 #ifdef BOINC_APP_GRAPHICS
@@ -45,7 +47,6 @@
 
     #include "mac_carbon_gl.h"
 #elif _WIN32
-#include <windows.h>
 #include <gl\gl.h>            // Header File For The OpenGL32 Library
 #include <gl\glu.h>            // Header File For The GLu32 Library
 #include <gl\glaux.h>        // Header File For The Glaux Library

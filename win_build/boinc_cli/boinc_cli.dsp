@@ -161,7 +161,7 @@ SOURCE=..\..\Client\log_flags.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\main.C
+SOURCE=..\..\client\main.C
 # End Source File
 # Begin Source File
 
@@ -194,6 +194,10 @@ SOURCE=..\..\Client\Prefs.c
 # Begin Source File
 
 SOURCE=..\..\Client\scheduler_op.C
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\lib\shmem.C
 # End Source File
 # Begin Source File
 
@@ -333,7 +337,7 @@ SOURCE=..\..\Client\win\windows_cpp.h
 # PROP Default_Filter "ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 # Begin Source File
 
-SOURCE=..\RSAEuro\Debug\RSAEuro.lib
+SOURCE=..\RSAEuro\Release\RSAEuro.lib
 # End Source File
 # End Group
 # End Target

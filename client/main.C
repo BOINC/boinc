@@ -87,10 +87,12 @@ int main(int argc, char** argv) {
         fprintf(stderr, "Another copy of BOINC is already running\n");
         exit(1);
     }
+#ifndef _WIN32
     // Handle quit signals gracefully
     signal(SIGHUP, quit_client);
     signal(SIGINT, quit_client);
     signal(SIGQUIT, quit_client);
+#endif
 
     read_log_flags();
     gstate.parse_cmdline(argc, argv);
