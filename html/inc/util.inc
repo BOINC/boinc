@@ -423,7 +423,7 @@ function project_is_stopped() {
 function user_links($user) {
     $x = "<a href=show_user.php?userid=$user->id>$user->name</a>";
     if ($user->has_profile) {
-        $x .= " <a href=view_profile?userid=$user->id><img border=0 src=head_20.png></a>";
+        $x .= " <a href=view_profile.php?userid=$user->id><img border=0 src=head_20.png></a>";
     }
     return $x;
 }
