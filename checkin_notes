@@ -16911,3 +16911,19 @@ Rom    2 Sep 2004
     client/
         app.C
         app_control.C
+
+David  2 Sept 2004
+	- PERS_FILE_XFER::poll(): don't check file size if it's not specified in FILE_INFO
+		==> This fixes download failure of user-supplied files
+	- PROJECT::parse_preferences_for_user_files(): fill in fip->project
+		==> This fixes a crashing bug when user supplies files
+	- User-visible test:
+		change "preempt" to "pause"
+		change "quit" to "removed from memory"
+		change "suspend" to "left in memory"
+
+	client/
+		app_control.C
+		client_types.C
+		gui_titles.C
+		pers_file_xfer.C

@@ -180,6 +180,7 @@ int PROJECT::parse_preferences_for_user_files() {
         fip = gstate.lookup_file_info(this, filename.c_str());
         if (!fip) {
             fip = new FILE_INFO;
+            fip->project = this;
             fip->urls.push_back(url_str);
             strcpy(fip->name, filename.c_str());
             fip->is_user_file = true;

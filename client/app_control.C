@@ -170,8 +170,8 @@ int ACTIVE_TASK::preempt(bool quit_task) {
     scheduler_state = CPU_SCHED_PREEMPTED;
 
     msg_printf(result->project, MSG_INFO,
-        "Preempting result %s (%s)",
-        result->name, (quit_task ? "quit" : "suspend")
+        "Pausing result %s (%s)",
+        result->name, (quit_task ? "removed from memory" : "left in memory")
     );
     return 0;
 }
