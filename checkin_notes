@@ -16171,3 +16171,6 @@ David  11 Aug 2004
         app_graphics.C (new)
         app_start.C (new)
         cs_apps.C
+	win_build/
+		boinc_cli.vcproj
+		boinc_gui.vcproj
