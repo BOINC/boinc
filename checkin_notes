@@ -7415,3 +7415,10 @@ Karl 2003-11-03
  
     win_build/installer/*
         added (115 files)
+
+Karl 2003-11-04
+    - trivial validator: check for a minimum CPU time
+
+    sched/
+        validate_trivial.C
+

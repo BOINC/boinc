@@ -19,6 +19,8 @@
 
 #include "validate_util.h"
 
+static const double MIN_CPU_TIME = 10000;
+
 // TODO: use md5 hash
 
 // read file into memory
@@ -27,11 +29,11 @@ int init_result_trivial(RESULT const& result, void*& data) {
 }
 
 int check_pair_initialized_trivial(
-    RESULT const& /*r1*/, void* /*data1*/,
-    RESULT const& /*r2*/, void* /*data2*/,
+    RESULT const& r1, void* /*data1*/,
+    RESULT const& r2, void* /*data2*/,
     bool& match
-) {
-    match = true;
+    ) {
+    match = (r1.cpu_time >= MIN_CPU_TIME && r2.cpu_time >= MIN_CPU_TIME);
     return 0;
 }
 
@@ -55,7 +57,9 @@ int check_pair(RESULT const& r1, RESULT const& r2, bool& match) {
     //                           init_result_trivial,
     //                           check_pair_initialized_trivial,
     //                           cleanup_result_trivial);
-    match = true;
+    return check_pair_initialized_trivial(r1, NULL,
+                                          r2, NULL,
+                                          match);
     return 0;
 }
 
