@@ -6,40 +6,92 @@ is a software platform for public-participation
 distributed computing projects like distributed.net and SETI@home.
 BOINC supports applications that can be divided into large parallel parts
 with few data dependencies;
-it is not intended for fine-grained parallel applications.
+it is not presently intended for fine-grained parallel applications.
 <p>
 The features of BOINC include:
 <ul>
 
-<li> BOINC allows multiple independent projects
-to share participants.
+<li><b>Multiple Independent Projects</b><br>
+BOINC allows multiple independent projects to share participants.
 Participants download a single <b>core client</b> program,
 which in turn downloads and executes project-specific executables.
-Participants can control how their resources are divided among the projects.
+Participants can control how their resources are divided among the
+projects and which projects they participate in.  Participants may
+also control how many applications are running at once, thereby
+taking advantage of multiple CPU systems.
+<p>
+</li>
 
-<li> BOINC supports applications that produce or consume large amounts of data.
-It allows data distribution and collection to be
-spread across many servers,
-and it allows participant hosts to do large data transfers unobtrusively.
+<li><b>Comprehensive Security</b><br>
+All file transfers to the host computer are validated with an MD5
+checksum, and all executable files are signed with RSA public/private key
+encryption (1024 bit default).  See the <a href=security.html>security</a>
+page for more details.
+<p>
+</li>
 
-<li> BOINC supports applications with extreme requirements for
-memory or other resources.
-Work is dispatched only to hosts able to handle it.
+<li><b>Host Work Caching</b><br>
+The BOINC core client will download enough work to keep the host
+busy for a user specifiable amount of time.  This will allow the client
+to continue to function during project downtimes, as well as decrease
+the frequency of connections to servers.
+<p>
+</li>
 
-<li> BOINC applications can be developed in any language (C++, Fortran, Perl).
-An application can consist of several files
-(e.g. multiple programs and a coordinating script).
-New versions of applications can be deployed without participant download.
-Separate alpha, beta, and production versions
+<li><b>Multiple Platform Support</b><br>
+The BOINC core client can run on almost any platform
+(Mac OS X, Windows 95 and later, Linux and other Unix systems) and provides
+OpenGL based graphics support on Mac OS X, Windows 95 and up, and X Windows.
+<p>
+</li>
+
+<li><b>Open Source</b><br>
+BOINC is fully open source and is distributed under the Mozilla Public License
+version 1.0.  Under this license, projects that utilize BOINC are not required to 
+release the source code of their project specific applications, though they
+are encouraged to do so.
+<p>
+</li>
+
+<li><b>Support for Large Data Computations</b><br>
+BOINC supports applications that produce or consume large amounts of data (on
+the order of gigabytes).  It allows data distribution and collection to be
+spread across many servers, and it allows participant hosts to do large
+data transfers unobtrusively.  Users are able to specify maximum storage usage
+so that BOINC doesn't fill up their disk.  BOINC also handles network
+disconnections and allows user specifiable network bandwidth restrictions.
+<p>
+</li>
+
+<li><b>Extreme Resource Requirement Support</b><br>
+BOINC supports applications with extreme requirements for memory, disk,
+cache or other resources.  Work is dispatched only to hosts able to handle it.
+<p>
+</li>
+
+<li><b>Application Program Interface</b><br>
+An Application Program Interface (API) is provided to application developers
+to ease integration with BOINC.  See the <a href=api.html>API page</a> for
+details.
+<p>
+</li>
+
+<li><b>Support for Applications in any Language</b><br>
+BOINC applications can be developed in any language (C++, Fortran, Perl).  An
+application can consist of several files (e.g. multiple programs and
+a coordinating script).  New versions of applications can be deployed
+without requiring participants to download.  Separate alpha, beta, and production versions
 are distributed to the appropriate set of hosts.
+<p>
+</li>
 
-<li> The BOINC core client can run on almost any platform
-(Mac, Windows, Linux and other Unix systems).
+<li><b>Database and Server Architecture</b><br>
+BOINC provides a SQL schema, database functions, a simple server architecture,
+web based user interfaces and server administration tools.  Each project 
+must provide and maintain its own server systems and backend result
+processing but these systems can be set up easily and require only
+open-source components (MySQL, PHP, Apache, and Linux).
+<p>
+</li>
 
-<li> A BOINC project must provide and maintain its own server systems,
-but these systems can be set up easily and involve
-only open-source components (MySQL, PHP, Apache, and Linux).
-
-<li> BOINC is distributed under the Mozilla license.
 </ul>
-
