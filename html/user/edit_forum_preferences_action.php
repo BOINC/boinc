@@ -5,9 +5,12 @@ require_once("../inc/user.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/util.inc");
 require_once("../inc/image.inc");
+require_once("../inc/forum.inc");
+
 
 db_init();
 $user = get_logged_in_user();
+$user = getForumPreferences($user);
 
 $avatar_url = mysql_escape_string($HTTP_POST_VARS["avatar_url"]);
 if (substr($avatar_url,0,4)!="http") $avatar_url="http://".$avatar_url;
@@ -51,7 +54,7 @@ $hide_signatures = ($HTTP_POST_VARS["forum_hide_signatures"]!="");
 $jump_to_unread = ($HTTP_POST_VARS["forum_jump_to_unread"]!="");
 $low_rating_threshold = intval($HTTP_POST_VARS["forum_low_rating_threshold"]);
 $high_rating_threshold = intval($HTTP_POST_VARS["forum_high_rating_threshold"]);
-
+$add_user_to_filter = ($HTTP_POST_VARS["add_user_to_filter"]!="");
 
 $no_signature_by_default=($HTTP_POST_VARS["signature_enable"]=="");
 $signature = sanitize_html(stripslashes($HTTP_POST_VARS["signature"]));
@@ -68,6 +71,24 @@ $answer_sort = $HTTP_POST_VARS["answer_sort"];
 $forum_sorting=mysql_escape_string(implode("|",array($forum_sort,$thread_sort,$faq_sort,$answer_sort)));
 $has_prefs=mysql_query("select * from forum_preferences where userid='".$user->id."'");
 
+if ($add_user_to_filter){					//see if we should add any users to the ignorelist
+    $user_to_add = $HTTP_POST_VARS["forum_filter_user"];
+    if ($user_to_add!="" and $user_to_add==strval(intval($user_to_add))){
+	$ignorelist = $user->ignorelist."|".$user_to_add;
+    } else {
+	$ignorelist = $user->ignorelist;
+    }
+}
+$ignored_users = explode("|",$ignorelist);
+for ($i=1;$i<sizeof($ignored_users);$i++){
+    if ($HTTP_POST_VARS["remove".$ignored_users[$i]]!=""){
+	//this user will be removed
+    } else {
+	//the user should be in the new list
+	$real_ignorelist.="|".$ignored_users[$i];
+    }
+}
+
 $result = mysql_query(
     "update forum_preferences set 
         avatar_type='".$avatar_type."', 
@@ -81,6 +102,7 @@ $result = mysql_query(
         jump_to_unread='".$jump_to_unread."',
         hide_signatures='".$hide_signatures."',
         low_rating_threshold='".$low_rating_threshold."',
+	ignorelist='".$real_ignorelist."',
         high_rating_threshold='".$high_rating_threshold."'
     where userid=$user->id"
 );

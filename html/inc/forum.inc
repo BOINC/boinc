@@ -228,6 +228,7 @@ function getForumPreferences($user){
         $user->rated_posts=$prefs->rated_posts;
 	$user->low_rating_threshold=$prefs->low_rating_threshold;
 	$user->high_rating_threshold=$prefs->high_rating_threshold;
+        $user->ignorelist=$prefs->ignorelist;
         $user->forum_preferences=1;
 	
 	//Set defaults in certain cases:
@@ -459,8 +460,18 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     $data = mysql_query("SELECT userid FROM profile WHERE userid = " . $user->id);                //Lookup existance of profile for user
     $user->has_profile = (mysql_numrows($data) > 0);                                                //and store this info in the user object
     $user->has_avatar = ($user->avatar != "");                                                        //for later access
-    $rated_below_threshold = ($logged_in_user->low_rating_threshold>($post->score*$post->votes));
-    $rated_above_threshold = ($logged_in_user->high_rating_threshold<($post->score*$post->votes));
+
+    //If the user that made this post is on the list of people to ignore, change thresholds to be more strict
+
+    if (in_array($user->id,explode("|",$logged_in_user->ignorelist))){
+	$user_is_on_ignorelist=true;
+	$rated_below_threshold = ($logged_in_user->high_rating_threshold>($post->score*$post->votes));
+	$rated_above_threshold = ($logged_in_user->high_rating_threshold+abs($logged_in_user->low_rating_threshold)<($post->score*$post->votes));
+    } else {											//Use normal threshold values
+        $rated_below_threshold = ($logged_in_user->low_rating_threshold>($post->score*$post->votes));
+	$rated_above_threshold = ($logged_in_user->high_rating_threshold<($post->score*$post->votes));
+    }
+
         
     $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
 
@@ -527,7 +538,8 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
     if ($can_edit && $controls != NO_CONTROLS) echo "&nbsp;<a href=\"forum_edit.php?id=$post->id\">[Edit this post]</a>";
     if ($post->modified) echo "<br>Last modified: ", pretty_time_Str($post->modified);
     if ($rated_below_threshold && $filter){
-	echo "<br>This post has been filtered (rating: ".($post->score * $post->votes)."), press <a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">here</a> to view this thread without filtering";
+	if ($user_is_on_ignorelist) $andtext=" and the user is on your ignore list";
+	echo "<br>This post has been filtered (rating: ".($post->score * $post->votes).")$andtext, press <a href=\"?id=".$thread->id."&amp;filter=false#".$post->id."\">here</a> to view this thread without filtering";
     }
     
     echo "\n</font></td>\n";
@@ -555,7 +567,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         echo "</form>";
     }
 
-    if (!$filter || !$rated_below_threshold){
+    if (!$filter || !$rated_below_threshold){							//If either filtering is turned off of this post is not below the threshold
         $posttext=nl2br(stripslashes($post->content));
         if ($post->signature && !$logged_in_user->hide_signatures){                                //If the creator of this post has a signature and
             $posttext.=nl2br("\n".stripslashes($user->signature));                                //wants it to be shown for this post AND the logged in

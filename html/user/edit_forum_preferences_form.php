@@ -94,6 +94,27 @@ row2("Filtering".
     "
 );
 
+$filtered_userlist=explode("|",$user->ignorelist);
+for ($i=1;$i<sizeof($filtered_userlist);$i++){
+    $filtered_user = lookup_user_id($filtered_userlist[$i]);
+    $forum_filtered_userlist.="<input type =\"submit\" name=\"remove".$filtered_userlist[$i]."\" value=\"Remove\"> ".$filtered_userlist[$i]." - ".user_links($filtered_user,URL_BASE)."<br>";
+}
+row2("Filtered users".
+    "<br><font size=-2>Ignore specific users<br>You can define a list of users to ignore.<br>These users will have to write posts with very high<br> rating in order to not be filtered.</font>",
+    "<table><tr><td>
+	$forum_filtered_userlist
+    </td></tr></table>
+    <table width=\"380\">
+	<tr><td width=\"32\"><input type=\"text\" name=\"forum_filter_user\" style=\"width: 80px;\"></td><td>Userid (For instance: 123456789)</td></tr>
+	<tr><td colspan=\"2\"><input type=\"submit\" name=\"add_user_to_filter\" value=\"Add user to filter\"></td></tr>
+	<tr><td colspan=2>
+	    Please note that you can only filter a limited number of users.
+	</td></tr>	
+    </table>
+    "
+);
+
+
 
 if ($user->no_signature_by_default==0){$enable_signature="checked=\"checked\"";} else {$enable_signature="";}
 $signature=stripslashes($user->signature);
