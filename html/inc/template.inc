@@ -15,7 +15,12 @@ function doHeader($caption) {
 
 <body>
 
-<table class="frame" border="0" cellpadding="10" cellspacing="0" width="100%">
+<table class="frame" border="0" cellpadding="0" cellspacing="10" width="100%">
+	<tr>
+		<td style="background:url('http://setiathome.berkeley.edu/images/outrspc3.gif')">
+			<img src="<?php echo $GLOBALS['cfg']['root'] ?>/image/banner.gif" />
+		</td>
+	</tr>
 	<tr>
 		<td>
 <?php
@@ -23,8 +28,13 @@ function doHeader($caption) {
 
 function doFooter() {
 ?>
-<p style="text-align:center"><a href="http://maggie.ssl.berkeley.edu/ap">Return to <?php echo $GLOBALS['cfg']['sitename'] ?> Homepage</a></p>
-
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align:center">
+			<hr style="width=50%">
+			<p><a href="<?php echo $GLOBALS['cfg']['root'] ?>/index.php">Return to <?php echo $GLOBALS['cfg']['project'] ?> homepage</a></p>
+			<p>Copyright (c) <?php echo date('Y') ?> <?php echo $GLOBALS['cfg']['project'] ?>.  All rights reserved.</p>
 		</td>
 	</tr>
 </table>

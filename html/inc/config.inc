@@ -1,6 +1,7 @@
 <?php
 
 $cfg['sitename'] = 'Astropulse';
+$cfg['project'] = 'Astropulse';
 $cfg['root'] = '/ap';
 
 $cfg['db']['host'] = '';
