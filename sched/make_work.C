@@ -50,7 +50,7 @@ void replace_file_name(char * xml_doc, char * filename, char * new_filename,char
 {
   char buf[MAX_BLOB_SIZE], temp[256], download_path[256], new_download_path[256];
   char * p;
-
+  
   sprintf(download_path,"%s/%s",download_url,filename);
   sprintf(new_download_path,"%s/%s",download_url,new_filename);
   strcpy(buf,xml_doc);
@@ -89,7 +89,7 @@ void make_work() {
     CONFIG config;
     char * p;
     int retval, i, start_time=time(0), n, nresults_left;
-    char keypath[256], suffix[256], result_template[MAX_BLOB_SIZE], file_name[256], buf[MAX_BLOB_SIZE],pathname[256],new_file_name[256],new_pathname[256],command[256], starting_xml[MAX_BLOB_SIZE];
+    char keypath[256], suffix[256], result_template[MAX_BLOB_SIZE], file_name[256], buf[MAX_BLOB_SIZE],pathname[256],new_file_name[256],new_pathname[256],command[256], starting_xml[MAX_BLOB_SIZE],new_buf[MAX_BLOB_SIZE];
     R_RSA_PRIVATE_KEY key;
     WORKUNIT wu;
    
@@ -114,7 +114,7 @@ void make_work() {
     }
 
     strcpy(starting_xml,wu.xml_doc);
-
+    
     sprintf(keypath, "%s/upload_private", config.key_dir);
     retval = read_key_file(keypath, key);
     if (retval) {
@@ -152,8 +152,10 @@ void make_work() {
 	       sprintf(pathname, "%s/%s", config.download_dir, file_name);
 	       sprintf(new_pathname,"%s/%s",config.download_dir, new_file_name);
 	       sprintf(command,"cp %s %s",pathname,new_pathname);
-	       system(command);	     
-	       replace_file_name(wu.xml_doc,file_name,new_file_name,config.download_url);
+	       system(command);
+	       strcpy(new_buf,starting_xml);
+	       replace_file_name(new_buf,file_name,new_file_name,config.download_url);
+	       strcpy(wu.xml_doc, new_buf);
 	     }
 	     p = strtok(0, "\n");
 	   }
