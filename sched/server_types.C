@@ -240,8 +240,10 @@ end:
         // Redirect them to the project home page.
 
         fprintf(fout,
-                "<META HTTP-EQUIV=Refresh CONTENT=\"0;URL=%s\">\n",
-                "../");
+                "<HTML><HEAD><META HTTP-EQUIV=Refresh CONTENT=\"0;URL=%s\"></HEAD><BODY>\n\n"
+                "You seem to be viewing this page in a WWW browser.  Visit the <a href=\"%s\">main page</a>.\n\n"
+                "</BODY></HTML>\n",
+                "../", "../");
     }
     return 0;
 }

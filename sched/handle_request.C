@@ -877,8 +877,8 @@ void send_code_sign_key(
                 retval = read_file_malloc(path, oldkey);
                 if (retval) {
                     strcpy(reply.message,
-                        "Can't update code signing key.  "
-                        "Please report this to project."
+                           "Can't update code signing key.  "
+                           "Please report this to the project administrators."
                     );
                     return;
                 }
@@ -887,8 +887,8 @@ void send_code_sign_key(
                     retval = read_file_malloc(path, signature);
                     if (retval) {
                         strcpy(reply.message,
-                            "Can't update code signing key.  "
-                            "Please report this to the project administrators."
+                               "Can't update code signing key.  "
+                               "Please report this to the project administrators."
                         );
                     } else {
                         safe_strcpy(reply.code_sign_key, code_sign_key);
