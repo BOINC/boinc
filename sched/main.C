@@ -105,12 +105,14 @@ int main() {
     char* code_sign_key;
     bool project_stopped = false;
 
+#ifndef _USING_FCGI_
     get_log_path(path);
     if (!freopen(path, "a", stderr)) {
         fprintf(stderr, "Can't redirect stderr\n");
         send_message("Server can't open log file", 3600);
         exit(0);
     }
+#endif
 
     log_messages.set_debug_level(DEBUG_LEVEL);
 
