@@ -60,7 +60,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
     }
     bytes_xferred = f_size;
 
-    return HTTP_OP::init_get(fip->get_url(), pathname, false, (int)f_size);
+    return HTTP_OP::init_get(fip->get_current_url(is_upload), pathname, false, (int)f_size);
 }
 
 // for uploads, we need to build a header with xml_signature etc.
@@ -88,7 +88,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
             file_info.name
         );
         file_size_query = true;
-        return HTTP_OP::init_post2(fip->get_url(), header, NULL, 0);
+        return HTTP_OP::init_post2(fip->get_current_url(is_upload), header, NULL, 0);
     } else {
         bytes_xferred = file_info.upload_offset;
         sprintf(header,
@@ -113,7 +113,7 @@ int FILE_XFER::init_upload(FILE_INFO& file_info) {
         );
         file_size_query = false;
         return HTTP_OP::init_post2(
-            fip->get_url(), header, pathname, fip->upload_offset
+            fip->get_current_url(is_upload), header, pathname, fip->upload_offset
         );
     }
 }
@@ -241,7 +241,7 @@ bool FILE_XFER_SET::poll() {
                         }
                     }
                 }
-            } else if (fxp->file_xfer_retval == HTTP_STATUS_RANGE_REQUEST_ERROR) {
+			} else if (fxp->file_xfer_retval == HTTP_STATUS_RANGE_REQUEST_ERROR) {
 				fxp->fip->error_msg = "Existing file too large; can't resume";
 			}
         }

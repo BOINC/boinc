@@ -89,9 +89,13 @@ public:
     int parse(MIOFILE&, bool from_server);
     int write(MIOFILE&, bool to_server);
     int delete_file();      // attempt to delete the underlying file
-    char* get_url();
+    char* get_init_url(bool);
+	char* get_next_url(bool);
+	char* get_current_url(bool);
+	bool is_correct_url_type(bool, STRING256);
     bool had_failure(int& failnum);
     bool verify_existing_file();
+	int merge_info(FILE_INFO&);
 };
 
 // Describes a connection between a file and a workunit, result, or application.
@@ -164,6 +168,9 @@ public:
     bool tentative;             // master URL and account ID not confirmed
 	bool anonymous_platform;	// app_versions.xml file found in project dir;
 								// use those apps rather then getting from server
+	bool send_file_list;		
+								// send the list of permanent files associated with the
+								// project in the next scheduler reply for the project
     char code_sign_key[MAX_BLOB_LEN];
     std::vector<FILE_REF> user_files;
     int parse_preferences_for_user_files();
@@ -296,6 +303,7 @@ struct RESULT {
     int write(MIOFILE&, bool to_server);
     bool is_upload_done();    // files uploaded?
     void get_app_version_string(std::string&);
+	void reset_result_files();
 };
 
 int verify_downloaded_file(char* pathname, FILE_INFO& file_info);

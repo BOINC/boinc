@@ -585,6 +585,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     code_sign_key_signature = 0;
     message_ack = false;
     project_is_down = false;
+	send_file_list = false;
 
     p = fgets(buf, 256, in);
     if (!p) {
@@ -693,7 +694,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             continue;
         } else if (match_tag(buf, "<non_cpu_intensive/>")) {
             continue;
-        } else if (strlen(buf)>1){
+		} else if (match_tag(buf, "<request_file_list/>")) {
+			send_file_list = true;
+		} else if (strlen(buf)>1){
             scope_messages.printf("SCHEDULER_REPLY::parse(): unrecognized %s\n", buf);
         }
     }

@@ -233,6 +233,12 @@ bool CLIENT_STATE::have_free_cpu() {
 //
 void CLIENT_STATE::assign_results_to_projects() {
 
+	// Before assigning a result to an active task, check if that result is a file xfer
+	// this will be appearent by the lack of files associated with the workunit's app
+	// Running this function will find these results and mark them as completed.
+
+	handle_file_xfer_apps();
+
     for (unsigned int i=0; i<active_tasks.active_tasks.size(); ++i) {
         ACTIVE_TASK *atp = active_tasks.active_tasks[i];
         if (atp->result->already_selected) continue;
@@ -494,5 +500,20 @@ int CLIENT_STATE::choose_version_num(char* app_name, SCHEDULER_REPLY& sr) {
         msg_printf(0, MSG_ERROR, "CLIENT_STATE::latest_version_num: no version\n");
     }
     return best;
+}
+
+// goes through results and checks if the associated apps has no app files
+// then there is nothing to do, never start the app, close the result
+
+void CLIENT_STATE::handle_file_xfer_apps() {
+	for(vector <RESULT*>::const_iterator i = results.begin();
+		i!=results.end(); ++i)
+	{
+		RESULT* rp = *i;
+		if(rp->wup->avp->app_files.size() == 0 && rp->state == RESULT_FILES_DOWNLOADED) {
+			rp->state = RESULT_FILES_UPLOADING;
+			rp->reset_result_files();
+		}
+	}
 }
 

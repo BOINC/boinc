@@ -14614,7 +14614,7 @@ David  4 July 2004
         main.C
         sched_shmem.C,h
 
-David  7 July 2004
+David  6 July 2004
 	- Completed (more or less) the implementation of trickle messages.
 		Some changes:
 		- Trickle-up messages now have a "variety",
@@ -14646,4 +14646,62 @@ David  7 July 2004
         handle_request.C
         server_types.C,h
         trickle_handler.C
+
+Brian  6 July 2004
+      - Changed cliet so that when a file info is compared to 
+		an existing file info with the same name, the differences 
+		in whether it is an upload or download are updated and 
+		any urls that are not present in the file info are added to the url list.
+	- When a url is requested for a file info, the file info 
+		checks whether it is an upload, and then looks for the 
+		substring "file_upload_handler" any url it is trying to 
+		use to upload the file. The opposite is true for downloads.
+
+	- Changed get_url into three separate functions:
+    		get_current_url(bool), returns the current good url
+    		get_init_url(bool), returns the initial good url and sets the start url
+    		get_next_url(book), increments current_url and finds the next good url
+
+	- Changed client so that a file_info will save its signed xml 
+		even if it doesn't include have xml signature. 
+
+	- Updated the client so that the check to see if the url is 
+		valid for the type of network request is a private function of FILE_INFO
+
+	- Modified the backoff_retry function in persistant_file_xfers 
+		so that it uses the updated get_url that checks if the url
+		is correct for the type of transfer. Otherwise it could 
+		increment the current_url index to point to an invalid url
+
+ 	- If a file_info doesn't have a max number of bytes and a new 
+		file_info with the same name does, update the max number 
+		of bytes of the existing file_info and add the <max_nbytes> to the signed_xml. 
+
+	- when file_xfer is complete, the client checks if the file 
+		was meant to be uploaded when present OR generated locally 
+		before setting it to ready to report, instead of only the later
+
+	- With the addition of multiple urls, the issue of sending urls
+		that didn't communicate well or got garbage. Whenever a file 
+		get's a server error, it calls, check_giveup, which only gives 
+		up on the file if there are no more urls to try. Also is called 
+		if the downloaded file is garbage or has the same name but not the
+		correct size.
+
+	- added functionality for send_file_list but does not do anything yet
+
+	
+	client/
+		client_types.C,h
+		client_state.h
+		cs_apps.C
+		cs_file.C
+		cs_scheduler.C
+		file_xfer.C
+		pers_file_xfer.C,h
+		scheduler_op.C,h
+		
+
+
+
 

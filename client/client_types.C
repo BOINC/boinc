@@ -82,6 +82,7 @@ void PROJECT::init() {
     work_done_this_period = 0;
     next_runnable_result = NULL;
     work_request = 0;
+	send_file_list = false;
 }
 
 PROJECT::~PROJECT() {
@@ -291,6 +292,7 @@ int PROJECT::parse_state(MIOFILE& in) {
     nrpc_failures = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
+	send_file_list = false;
     scheduler_urls.clear();
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</project>")) return 0;
@@ -327,6 +329,7 @@ int PROJECT::parse_state(MIOFILE& in) {
         else if (parse_int(buf, "<min_rpc_time>", (int&)min_rpc_time)) continue;
         else if (match_tag(buf, "<master_url_fetch_pending/>")) master_url_fetch_pending = true;
         else if (match_tag(buf, "<sched_rpc_pending/>")) sched_rpc_pending = true;
+		else if (match_tag(buf, "<send_file_list/>")) send_file_list = true;
         else if (parse_double(buf, "<debt>", debt)) continue;
         else scope_messages.printf("PROJECT::parse_state(): unrecognized: %s\n", buf);
     }
@@ -395,7 +398,8 @@ int PROJECT::write_state(MIOFILE& out) {
         (int)min_rpc_time,
         debt,
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
-        sched_rpc_pending?"    <sched_rpc_pending/>\n":""
+        sched_rpc_pending?"    <sched_rpc_pending/>\n":"",
+		send_file_list?"     <send_file_list/>\n":""
     );
     if (strlen(code_sign_key)) {
         out.printf(
@@ -656,7 +660,7 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (retval) return retval;
     }
     if (!to_server) {
-        if (strlen(signed_xml) && strlen(xml_signature)) {
+        if (strlen(signed_xml)) {
             out.printf("    <signed_xml>\n%s    </signed_xml>\n", signed_xml);
         }
         if (strlen(xml_signature)) {
@@ -684,20 +688,96 @@ int FILE_INFO::delete_file() {
 	return retval;
 }
 
-// get the currently selected url to download/upload file, or
-// select one if none is chosen yet
+// If a file has multiple replicas, we want to choose
+// a random one to try first, and then cycle through others
+// if transfers fail.
+// Call this to get the initial url,
 //
-char* FILE_INFO::get_url() {
+// Files may have URLs for both upload and download.
+// The is_upload arg says which kind you want.
+// NULL return means there is no URL of the requested type
+//
+char* FILE_INFO::get_init_url(bool is_upload) {
     double temp;
-    if (current_url < 0) {
-        temp = rand();
-        temp *= urls.size();
-        temp /= RAND_MAX;
-        current_url = (int)temp;
-        start_url = current_url;
-    }
+    temp = rand();
+    temp *= urls.size();
+    temp /= RAND_MAX;
+    current_url = (int)temp;
+	start_url = current_url;
+	while(1) {
+		if(!is_correct_url_type(is_upload, urls[current_url])) {
+			current_url = (current_url + 1)%urls.size();
+			if (current_url == start_url) {
+				msg_printf(project, MSG_ERROR, "Couldn't find suitable url for %s\n", name);
+				return NULL;
+			}
+		} else {
+			start_url = current_url;
+			return urls[current_url].text;
+		}
+	}
+}
 
-    return urls[current_url].text;
+// Call this to get the next URL of the indicated type.
+// NULL return means you've tried them all.
+//
+char* FILE_INFO::get_next_url(bool is_upload) {
+	while(1) {
+	    current_url = (current_url + 1)%urls.size();
+		if (current_url == start_url) {
+			return NULL;
+		}
+		if(is_correct_url_type(is_upload, urls[current_url])) {
+			return urls[current_url].text;
+		}
+	}
+}
+
+char* FILE_INFO::get_current_url(bool is_upload) {
+	if (current_url < 0) {
+		return get_init_url(is_upload);
+	}
+	return urls[current_url].text;
+}
+
+// Checks if the url includes the phrase "file_upload_handler"
+// The inclusion of this phrase indicates the url is an upload url
+// 
+bool FILE_INFO::is_correct_url_type(bool is_upload, STRING256 url) {
+	if(is_upload && !strstr(url.text, "file_upload_handler") ||
+		!is_upload && strstr(url.text, "file_upload_handler")) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+// merges information from a new FILE_INFO that has the same name as a 
+// FILE_INFO that is already present in the client state
+// Potentially changes upload_when_present, max_nbytes, and signed_xml
+//
+int FILE_INFO::merge_info(FILE_INFO& new_info) {
+	char buf[256];
+	bool has_url;
+	unsigned int i, j;
+	upload_when_present = new_info.upload_when_present;
+	if(max_nbytes <= 0 && new_info.max_nbytes) {
+		max_nbytes = new_info.max_nbytes;
+		sprintf(buf, "    <max_nbytes>%.0f</max_nbytes>\n", new_info.max_nbytes);
+		strcat(signed_xml, buf);
+	}
+	for(i = 0; i < new_info.urls.size(); i++) {
+		has_url = false;
+		for(j = 0; j < urls.size(); j++) {
+			if(!strcmp(urls[j].text, new_info.urls[i].text)) {
+				has_url = true;
+			}
+		}
+		if(!has_url) {
+			urls.push_back(new_info.urls[i]);
+		}
+	}
+	return 0;
 }
 
 // Returns true if the file had an unrecoverable error
@@ -1087,4 +1167,17 @@ void RESULT::get_app_version_string(string& str) {
     char buf[256];
     sprintf(buf, " %.2f", wup->version_num/100.);
     str = app->name + string(buf);
+}
+
+// resets all FILE_INFO's in result to uploaded = false
+// used in file_xfers when an uploaded file is required
+// without calling this before sending result to be uploaded,
+// upload would terminate without sending files
+
+void RESULT::reset_result_files() {
+	unsigned int i;
+
+	for (i=0; i<output_files.size(); i++) {
+		output_files[i].file_info->uploaded = false;
+	}
 }

@@ -69,7 +69,7 @@ public:
     bool poll(time_t now);
     void handle_xfer_failure();
     void retry_or_backoff();
-    void giveup(char*);
+    void check_giveup(char*);
     int write(MIOFILE& fout);
     int parse(MIOFILE& fin);
     int start_xfer();

@@ -280,6 +280,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     MIOFILE mf;
     unsigned int i;
     RESULT* rp;
+	FILE_INFO* fip;
     int retval;
     double size;
     char cross_project_id[MD5_LEN];
@@ -379,9 +380,22 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
             rp->write(mf, true);
         }
     }
+	if (p->send_file_list) {
+		fprintf(f, "    <reply_file_list>\n");
+		for(i=0; i<file_infos.size(); i++) {
+			fip = file_infos[i];
+			if(fip->project == p && fip->sticky == true) {
+				fip->write(mf, true);
+			}
+		}
+		fprintf(f, "    </reply_file_list>\n");
+		p->send_file_list = false;
+	}
+
     read_trickle_files(p, f);
     fprintf(f, "</scheduler_request>\n");
-    fclose(f);
+
+	fclose(f);
     return 0;
 }
 
@@ -698,9 +712,13 @@ int CLIENT_STATE::handle_scheduler_reply(
             if (!retval) apps.push_back(app);
         }
     }
+    FILE_INFO* fip;
     for (i=0; i<sr.file_infos.size(); i++) {
-        if (!lookup_file_info(project, sr.file_infos[i].name)) {
-            FILE_INFO* fip = new FILE_INFO;
+        fip = lookup_file_info(project, sr.file_infos[i].name);
+		if(fip) {
+			fip->merge_info(sr.file_infos[i]);
+		} else {
+            fip = new FILE_INFO;
             *fip = sr.file_infos[i];
             retval = link_file_info(project, fip);
             if (!retval) file_infos.push_back(fip);
@@ -761,6 +779,9 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (sr.message_ack) {
         remove_trickle_files(project);
     }
+	if (sr.send_file_list) {
+		project->send_file_list = true;
+	}
     project->sched_rpc_pending = false;
     set_client_state_dirty("handle_scheduler_reply");
     scope_messages.printf("CLIENT_STATE::handle_scheduler_reply(): State after handle_scheduler_reply():\n");
