@@ -92,8 +92,6 @@ CMainFrame::CMainFrame(wxString strTitle) :
     SetStatusBarPane(0);
 
     RestoreState();
-
-    m_bPostCreateInitializationCompleted = false;
 }
 
 
@@ -478,19 +476,25 @@ bool CMainFrame::FireRestoreStateEvent( T pPage, wxConfigBase* pConfig )
 }
 
 
-void CMainFrame::OnExit(wxCommandEvent &WXUNUSED(event))
+void CMainFrame::OnExit( wxCommandEvent& WXUNUSED(event) )
 {
     Close(true);
 }
 
 
-void CMainFrame::OnClose(wxCloseEvent &WXUNUSED(event)) 
+void CMainFrame::OnClose( wxCloseEvent& event )
 {
-    Destroy();
+    if ( !event.CanVeto() )
+        Destroy();
+    else
+    {
+        Hide();
+        event.Veto();
+    }
 }
 
 
-void CMainFrame::OnToolsOptions(wxCommandEvent &WXUNUSED(event))
+void CMainFrame::OnToolsOptions( wxCommandEvent& WXUNUSED(event) )
 {
     CDlgOptions* pDlg = new CDlgOptions(this);
     wxASSERT(NULL != pDlg);
@@ -502,7 +506,7 @@ void CMainFrame::OnToolsOptions(wxCommandEvent &WXUNUSED(event))
 }
 
 
-void CMainFrame::OnAbout(wxCommandEvent &WXUNUSED(event)) 
+void CMainFrame::OnAbout( wxCommandEvent& WXUNUSED(event) )
 {
     CDlgAbout* pDlg = new CDlgAbout(this);
     wxASSERT(NULL != pDlg);
@@ -514,18 +518,13 @@ void CMainFrame::OnAbout(wxCommandEvent &WXUNUSED(event))
 }
 
 
-void CMainFrame::OnIdle(wxIdleEvent& event)
+void CMainFrame::OnIdle( wxIdleEvent& event )
 {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     if ( NULL != pDoc )
     {
         wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-        if ( false == m_bPostCreateInitializationCompleted )
-        {
-            m_bPostCreateInitializationCompleted = true;
-            pDoc->OnInit();
-        }
 
         pDoc->OnIdle();
     }

@@ -68,6 +68,8 @@ bool CBOINCGUIApp::OnInit()
     m_pDocument = new CMainDocument();
     wxASSERT(NULL != m_pDocument);
 
+    m_pDocument->OnInit();
+
     // Initialize the main gui window
     m_pFrame = new CMainFrame(GetAppName());
     wxASSERT(NULL != m_pFrame);
@@ -77,7 +79,6 @@ bool CBOINCGUIApp::OnInit()
     wxASSERT(NULL != m_pTaskBarIcon);
 
     SetTopWindow(m_pFrame);
-    m_pFrame->Show();
 
     return true;
 }
@@ -89,7 +90,10 @@ int CBOINCGUIApp::OnExit()
         delete m_pTaskBarIcon;
 
     if (m_pDocument)
+    {
+        m_pDocument->OnExit();
         delete m_pDocument;
+    }
 
     if (m_pLocale)
         delete m_pLocale;

@@ -37,17 +37,34 @@ public:
     CTaskBarIcon();
     ~CTaskBarIcon();
 
-    virtual void OnMouseMove( wxEvent& event );
-    virtual void OnLButtonDown( wxEvent& event );
-    virtual void OnLButtonUp( wxEvent& event );
-    virtual void OnRButtonDown( wxEvent& event );
-    virtual void OnRButtonUp( wxEvent& event );
-    virtual void OnLButtonDClick( wxEvent& event );
-    virtual void OnRButtonDClick( wxEvent& event );
+    enum ICONTYPES
+    {
+#ifdef __WXMSW__
+        Info = NIIF_INFO,
+        Warning = NIIF_WARNING,
+        Error = NIIF_ERROR
+#endif
+    };
 
-    bool ShowBalloon(wxString title, wxString message, unsigned int timeout = 10000, int icon = NIIF_INFO);
+    void OnExit( wxCommandEvent& event );
+    void OnClose( wxCloseEvent& event );
+
+    virtual void OnMouseMove( wxEvent& event );
+    virtual void OnRButtonDown( wxEvent& event );
+    virtual void OnLButtonDClick( wxEvent& event );
+
+    bool ShowBalloon( 
+        wxString title, 
+        wxString message, 
+        unsigned int timeout = 5000, 
+        ICONTYPES icon = ICONTYPES::Info
+    );
 
 private:
+
+    wxIcon     iconTaskBarIcon;
+    wxDateTime dtLastMouseCaptureTime;
+
     DECLARE_EVENT_TABLE()
 
 };

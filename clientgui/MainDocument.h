@@ -53,6 +53,19 @@ public:
         RESULT_FILES_UPLOADED = 5
     };
 
+    enum PROCESSTYPES
+    {
+        PROCESS_EXECUTING = 1,
+        PROCESS_SUSPENDED = 9,
+        PROCESS_ABORT_PENDING = 5,
+        PROCESS_EXITED = 2,
+        PROCESS_WAS_SIGNALED = 3,
+        PROCESS_EXIT_UNKNOWN = 4,
+        PROCESS_ABORTED = 6,
+        PROCESS_COULDNT_START = 7,
+        PROCESS_IN_LIMBO = 8
+    };
+
     enum CPUSCHEDTYPES
     {
         CPU_SCHED_UNINITIALIZED = 0,

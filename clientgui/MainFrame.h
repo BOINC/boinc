@@ -67,8 +67,6 @@ private:
     wxTimer*        m_pFrameTaskPanelRenderTimer;
     wxTimer*        m_pFrameListPanelRenderTimer;
 
-    bool            m_bPostCreateInitializationCompleted;
-
 
     bool            CreateMenu();
     bool            DeleteMenu();
