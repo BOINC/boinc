@@ -74,15 +74,18 @@ TEST_FX_OBJS = \
     file_xfer.o
 
 ARCHIVE_TARGETS = \
-        client/*.C client/*.cpp client/*.h client/configure \
+        client/*.C client/*.h client/configure \
         client/install-sh client/*.in client/*.sub client/*.guess \
         client/mac/*.h client/mac/*.cpp \
-        client/win/*.h client/win/*.cpp \
+        client/win/*.h client/win/*.cpp client/win/*.rc client/win/*.aps \
+        client/win/res/*.* \
         lib/*.C lib/*.c lib/*.h \
-        api/*.C api/*.h \
+        api/*.C api/*.h api/*.c \
         RSAEuro/*/*.c RSAEuro/*/*.h RSAEuro/*/*.in RSAEuro/*/*.mak \
-        mac_build/*.*/*.* mac_build/*.*/*.*/*.* \
-        win_build.zip INSTALL_CLIENT LICENSE
+        mac_build/boinc.pbproj/*.pbxproj mac_build/*.lproj/*.nib/*.* \
+        mac_build/*.lproj/*.strings \
+        win_build/*.* win_build/*/*.dsp win_build/*/*.rct \
+        INSTALL_CLIENT LICENSE
 
 .C.o:
 	$(CC) -c -o $*.o $<
