@@ -18114,3 +18114,15 @@ David  6 Oct 2004
     lib/
         Makefile.am
         proxy_info.h
+
+David  6 Oct 2004
+	- Added files (from Kenichi Miyoshi of NTT) to support
+		SSL (secure socket layer) communication.
+		These require an SSL library to use,
+		so I haven't put these files into the project.
+		Directions for using them are in
+		doc/ssl_build.txt
+
+	client/
+		ssl_http.C,h
+		ssl_net_xfer.C,h
