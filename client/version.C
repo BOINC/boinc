@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-//#include "cpp.h"
+#include "cpp.h"
 #include "version.h"
 
 int gmajor_version = MAJOR_VERSION;
