@@ -402,7 +402,7 @@ struct RESULT {
     char xml_doc_out[MEDIUM_BLOB_SIZE];    // MD5s of output files
     char stderr_out[MEDIUM_BLOB_SIZE];     // stderr output, if any
     int batch;
-    int file_delete_state;
+    int file_delete_state;	    // see above; values for file_delete_state
     int validate_state;
     double claimed_credit;          // CPU time times host credit/sec
     double granted_credit;          // == canonical credit of WU
