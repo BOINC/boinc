@@ -588,7 +588,7 @@ function show_post($post, $thread, $logged_in_user, $n, $controls=FORUM_CONTROLS
         } else if ($controls == HELPDESK_CONTROLS && !$separate) {
             echo " / Score: ", ($post->score * $post->votes), "</i></font></td>";
         } else {
-            echo " / Rating: ", intval(($post->score * $post->votes)+0.01), "</i> - rate: <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p\">+</a> / <a href=\"forum_rate.php?post=".$post->id."&amp;choice=n\">-</a></font></td>";
+            echo " / Rating: ", round(intval(($post->score * $post->votes)+0.01),0), "</i> - rate: <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p\">+</a> / <a href=\"forum_rate.php?post=".$post->id."&amp;choice=n\">-</a></font></td>";
         }
     
         if ($controls == FORUM_CONTROLS) {

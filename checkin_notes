@@ -22102,7 +22102,10 @@ Janus 6 Jan 2005
       column:
 
       ALTER TABLE `forum_preferences` ADD `ignorelist` VARCHAR( 254 ) NOT NULL ;
-      Added thread name to page title in forums (from Athlonrob)
+    
+    - Added thread name to page title in forums (from Athlonrob)
+    - Round scores and ratings in forum to avoid a rating of
+      for instance 2.999999999
 
     /html/user
         edit_forum_preferences_form.php
