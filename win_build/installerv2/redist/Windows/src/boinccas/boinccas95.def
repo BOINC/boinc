@@ -6,7 +6,6 @@ LIBRARY    boinccas95
 
 EXPORTS
 	DllMain
-	CopyAccountFiles
 	DetectOldInstaller
 	ShutdownBOINCManager
 	ValidateSetupType

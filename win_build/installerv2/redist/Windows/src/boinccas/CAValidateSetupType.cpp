@@ -62,6 +62,7 @@ UINT CAValidateSetupType::OnExecution()
 {
     tstring strSetupType;
     tstring strAllUsers;
+    tstring strIsAdminPackage;
     UINT    uiReturnValue = 0;
 
     uiReturnValue = GetProperty( _T("SETUPTYPE"), strSetupType );
@@ -70,11 +71,16 @@ UINT CAValidateSetupType::OnExecution()
     uiReturnValue = GetProperty( _T("ALLUSERS"), strAllUsers );
     if ( uiReturnValue ) return uiReturnValue;
 
+    // When applications are assign to the computer, they are installed at boot
+    //   time.  In this environment ALLUSERS is always set to 1.
+    uiReturnValue = GetProperty( _T("IsAdminPackage"), strIsAdminPackage );
+    if ( uiReturnValue ) return uiReturnValue;
+
     if ( !strSetupType.empty() )
     {
         if ( ( _T("Single") == strSetupType ) || ( _T("Service") == strSetupType ) )
         {
-            if ( !strAllUsers.empty() )
+            if ( ( !strAllUsers.empty() ) && ( _T("1") != strIsAdminPackage ) )
             {
                 LogMessage(
                     INSTALLMESSAGE_FATALEXIT,

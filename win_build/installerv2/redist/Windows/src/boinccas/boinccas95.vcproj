@@ -133,9 +133,6 @@
 				RelativePath="boinccas.cpp">
 			</File>
 			<File
-				RelativePath=".\CACopyAccountFiles.cpp">
-			</File>
-			<File
 				RelativePath=".\CADetectOldInstaller.cpp">
 			</File>
 			<File
@@ -168,9 +165,6 @@
 			Filter="h;hpp;hxx;hm;inl;inc">
 			<File
 				RelativePath=".\boinccas.h">
-			</File>
-			<File
-				RelativePath=".\CACopyAccountFiles.h">
 			</File>
 			<File
 				RelativePath=".\CADetectOldInstaller.h">

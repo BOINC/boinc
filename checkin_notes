@@ -26201,3 +26201,34 @@ clientGUI/
 mac_build/
 	boinc.pbproj/boinc.pbproj
 
+Rom    28 Mar 2005
+    - Well now that I've fully tested and deployed BOINC via Active Directory,
+        I found something wrong.  When deploying BOINC to the computer via
+        Active Directory the installation runs as the computer account when
+        copying files so files can be read off a network share, but when we get
+        to the CopyAccountFiles custom action setup would fail since LOCALSYSTEM
+        only has access to the local machine.
+
+      The solution is to include the account files and any other configuration
+        file as part of the BOINC MSI transform which needs to be created in
+        order to populate the global properties for deployment.  The setup
+        documentation will be updated to reflect this change.
+
+    - Bug Fix: Attempting to install BOINC in a managed environment would fail
+        since ALLUSERS is automatically set to 1 for any installation type.  So
+        if we detect that we are being installed in a managed environment
+        ignore the ALLUSERS value.
+
+      Menu items are still installed for all users though, that'll be fixed
+        a little later.
+
+    win_build/installerv2/
+        BOINC.ism
+    win_build/installerv2/redist/Windows/src/boinccas/
+        boinccas95.def
+        boinccas95.vcproj
+        CACopyAccountFiles.cpp, .h (removed)
+        CAValidateSetupType.cpp
+    win_build/installerv2/redist/Windows/x86/
+        boinccas.dll
+        boinccas95.dll
