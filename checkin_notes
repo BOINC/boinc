@@ -21388,3 +21388,15 @@ David  16 Dec 2004
         user/
             prefs_edit_form.php
             white.css
+
+David  16 Dec 2004
+    - User web: let the founder of a team change the founder to
+        any other member (from Django Fett)
+
+    html/
+        inc/
+            db_ops.inc
+        user/
+            team_change_founder_action.php (new)
+            team_change_founder_form.php (new)
+            team_manage.php

@@ -971,15 +971,13 @@ function show_user($user) {
 
 function team_type_string($s) {
     switch ($s) {
-    case 1: return "Small Company";
-    case 2: return "Medium Company";
-    case 3: return "Large Company";
-    case 4: return "Club";
-    case 5: return "Primary School";
-    case 6: return "Secondary School";
-    case 7: return "Junior College";
-    case 8: return "University or Department";
-    case 9: return "Government Agency";
+    case 1: return "Unclassified";
+    case 2: return "Company";
+    case 3: return "Primary school";
+    case 4: return "Secondary school";
+    case 5: return "Junior college";
+    case 6: return "University or department";
+    case 7: return "Government agency";
     default: return "Unknown";
     }
 }
