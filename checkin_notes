@@ -6025,3 +6025,11 @@ Karl 2003/08/25 - 2003/09/02
         database.py (added)
         Makefile.am
     
+
+Karl 2003/09/02
+    - temporarily remove satellite test cases from 'make check'
+    - check MySQL setup in test_sanity
+
+    test/
+        Makefile.am
+        test_sanity.py

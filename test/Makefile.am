@@ -3,14 +3,16 @@
 include $(top_srcdir)/Makefile.incl
 
 TESTS = test_sanity.py				\
-	test_uc.py				\
-	test_concat.py				\
-	test_1sec.py				\
-	test_abort.py				\
-	test_rsc.py				\
-	test_exit.py				\
-	test_signal.py				\
-	test_masterurl_failure.py
+	test_uc.py
+
+#	test_concat.py
+#	test_1sec.py
+#	test_abort.py
+#	test_rsc.py
+#	test_exit.py
+#	test_signal.py
+#	test_masterurl_failure.py
+
 
 # TODO: phase out php stuff
 

@@ -5,7 +5,12 @@
 from testbase import *
 import urllib, random
 
-# test makes sure that testing framework is sane
+# Test makes sure that testing framework is sane:
+#
+# - executables compiled
+# - cgi server works
+# - test proxy works
+# - mysql permissions and command-line client works
 
 def read_url(url, quiet=False):
     '''return 1 line from url'''
@@ -26,7 +31,7 @@ def read_url(url, quiet=False):
     return ''
 
 if __name__ == '__main__':
-    test_msg("framework sanity");
+    test_msg("framework sanity")
 
     verbose_echo(1, "Checking executables")
     check_core_client_executable()
@@ -85,3 +90,12 @@ echo "%s"
         error("couldn't access a cgi file I just wrote: "+cgi_path+"\n  using url: "+cgi_url)
 
     os.unlink(cgi_path)
+
+
+    database_name = 'boinc_test_sanity_mysql_%s_%d'%(
+        os.environ['USER'], random.randint(0,2**16))
+
+    # create and drop a database
+    verbose_echo(1, "Checking mysql commandline and permissions")
+    shell_call('echo "create database %s" | mysql' % database_name)
+    shell_call('echo "drop database %s" | mysql' % database_name)

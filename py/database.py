@@ -217,7 +217,7 @@ class DatabaseTable:
             try:
                 # object already exists in cache?
                 object = self.objects[id]
-                if object.in_limbo:
+                if 'in_limbo' in object.__dict__:
                     # we set the object cache so that we don't recurse; update
                     # it with real values and delete the 'in limbo' flag
                     del object.__dict__['in_limbo']
