@@ -19545,3 +19545,14 @@ David  16 Nov 2004
 
     sched/
         validate_util.C
+
+Bruce 16 Nov 2004 
+     - Fix bug in ops pages displaying counts of zero if 'additional clauses' includes string
+       names such as name='first_workunit'
+
+      html/inc/
+        db_ops.inc
+        util_ops.inc
+
+      html/ops
+        db_action.php

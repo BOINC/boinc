@@ -104,9 +104,10 @@ class SqlQueryString {
     }
     function add($clause) {
         if (!$this->query) {
-            $this->query .= "where $clause";
+            $cleaned=boinc_real_escape_string($clause);
+            $this->query .= "where $cleaned";
         } else {
-            $this->query .= " and $clause";
+            $this->query .= " and $cleaned";
         }
     }
     function addclause($clause) {
