@@ -67,11 +67,6 @@ void handle_wu(DB_WORKUNIT& wu) {
         }
     }
 
-    log_messages.printf(
-        SchedMessages::DEBUG, "[WU#%d %s] handling WU: enumerated %d results\n",
-        wu.id, wu.name,
-        (int)results.size()
-    );
     ScopeMessages scope_messages(log_messages, SchedMessages::NORMAL);
 
     // count up the number of results in various states,
@@ -79,6 +74,7 @@ void handle_wu(DB_WORKUNIT& wu) {
     //
     nunsent = 0;
     ninprogress = 0;
+    nover = 0;
     nerrors = 0;
     nsuccess = 0;
     ncouldnt_send = 0;
@@ -137,6 +133,14 @@ void handle_wu(DB_WORKUNIT& wu) {
             break;
         }
     }
+
+    log_messages.printf(
+        SchedMessages::DEBUG,
+        "[WU#%d %s] %d results: unsent %d, in_progress %d, over %d (success %d, error %d, couldnt_send %d)\n",
+        wu.id, wu.name,
+        (int)results.size(),
+        nunsent, ninprogress, nover, nsuccess, nerrors, ncouldnt_send
+    );
 
     // trigger validation if we have a quorum
     // and some result hasn't been validated

@@ -2,9 +2,9 @@
 
 ## $Id$
 
-# This tests whether the most basic mechanisms are working Also whether stderr
-# output is reported correctly Also tests if water levels are working
-# correctly
+# This tests whether the most basic mechanisms are working
+# Also whether stderr output is reported correctly
+# Also tests if work buffer limits are working correctly
 
 from testbase import *
 
