@@ -56,7 +56,7 @@ if ($logged_in_user) {
 				if ($forum->is_helpdesk) { 
 					$link = $link . "&helpdesk=1#input>Answer this question"; 
 				} else { 
-					$link = $link . "#input>Reply to this post";
+					$link = $link . "#input>Reply to this thread";
 				}
 				echo $link, "</a><br>";
 			?>
@@ -114,7 +114,7 @@ if ($is_subscribed) {
 	if ($forum->is_helpdesk) { 
 		$link = $link . "&helpdesk=1#input>Answer this question"; 
 	} else { 
-		$link = $link . "#input>Reply to this post";
+		$link = $link . "#input>Reply to this thread";
 	}
 	echo $link, "</a><br>";
 ?>
