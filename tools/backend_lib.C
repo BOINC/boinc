@@ -32,6 +32,10 @@
 
 #include "backend_lib.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 int read_file(FILE* f, char* buf) {
     assert(f);
     assert(buf);

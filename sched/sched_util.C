@@ -20,16 +20,20 @@
 using namespace std;
 
 #include <stdlib.h>
-#include <csignal>
+#include <signal.h>
 #include <unistd.h>
 
 #include "sched_msgs.h"
 #include "sched_util.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 const char* STOP_TRIGGER_FILENAME = "../stop_servers";
-    // NOTE: this be the same name as used by the "start" script
+    // NOTE: this must be the same name as used by the "start" script
 const int STOP_SIGNAL = SIGHUP;
-    // NOTE: this be the same signal as used by the "start" script
+    // NOTE: this must be the same signal as used by the "start" script
 
 void write_pid_file(const char* filename) {
     FILE* fpid = fopen(filename, "w");

@@ -20,9 +20,6 @@
 #ifndef _SCHED_CONFIG_
 #define _SCHED_CONFIG_
 
-#include <fstream>
-using std::istream;
-
 // parsed version of server configuration file
 //
 class SCHED_CONFIG {
@@ -43,7 +40,7 @@ public:
     int max_wus_to_send;
     bool non_cpu_intensive;
 
-    int parse(istream& f);
+    int parse(char*);
     int parse_file(char* dir=".");
 };
 

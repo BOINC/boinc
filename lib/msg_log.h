@@ -8,6 +8,10 @@
 #define __attribute__(x) /*nothing*/
 #endif
 
+#ifdef _USING_FCGI_
+#define __attribute__(x) /*nothing*/
+#endif
+
 class MSG_LOG {
     int debug_level;
     int indent_level;

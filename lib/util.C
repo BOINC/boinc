@@ -23,11 +23,10 @@
 #endif
 
 #ifndef _WIN32
-#include <cstdio>
-#include <cstring>
-#include <cstdlib>
-#include <cmath>
-#include <cctype>
+#include <string.h>
+#include <stdlib.h>
+#include <math.h>
+#include <ctype.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -38,12 +37,15 @@
 #endif
 #include <algorithm>
 #include <fstream>
-using std::ifstream;
 using std::min;
 #endif
 
 #include "error_numbers.h"
 #include "util.h"
+
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
 
 // Converts a double precision time (where the value of 1 represents
 // a day) into a string.  smallest_timescale determines the smallest
@@ -483,11 +485,14 @@ string timediff_format(long tdiff) {
 // read entire file into string
 int read_file_string(const char* pathname, string& result) {
     result.erase();
-    ifstream f(pathname);
+    FILE* f;
+    char buf[256];
+
+    f = fopen(pathname, "r");
     if (!f) return ERR_FOPEN;
 
-    char c;
-    while (f.get(c)) result += c;
+    while (fgets(buf, 256, f)) result += buf;
+    fclose(f);
     return 0;
 }
 
@@ -507,32 +512,33 @@ int read_file_string(const char* pathname, string& result) {
 //
 //  COMMENTS:
 //
-char* windows_error_string( char* pszBuf, int iSize )
-{
+char* windows_error_string( char* pszBuf, int iSize ) {
     DWORD dwRet;
     LPTSTR lpszTemp = NULL;
 
-    dwRet = FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER |
-						   FORMAT_MESSAGE_FROM_SYSTEM |
-						   FORMAT_MESSAGE_ARGUMENT_ARRAY,
-                           NULL,
-                           GetLastError(),
-                           LANG_NEUTRAL,
-                           (LPTSTR)&lpszTemp,
-                           0,
-                           NULL );
+    dwRet = FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER |
+        FORMAT_MESSAGE_FROM_SYSTEM |
+        FORMAT_MESSAGE_ARGUMENT_ARRAY,
+        NULL,
+        GetLastError(),
+        LANG_NEUTRAL,
+        (LPTSTR)&lpszTemp,
+        0,
+        NULL
+    );
 
     // supplied buffer is not long enough
-    if ( !dwRet || ( (long)iSize < (long)dwRet+14 ) )
+    if ( !dwRet || ( (long)iSize < (long)dwRet+14 ) ) {
         pszBuf[0] = TEXT('\0');
-    else
-    {
+    } else {
         lpszTemp[lstrlen(lpszTemp)-2] = TEXT('\0');  //remove cr and newline character
         sprintf( pszBuf, TEXT("%s (0x%x)"), lpszTemp, GetLastError() );
     }
 
-    if ( lpszTemp )
+    if ( lpszTemp ) {
         LocalFree((HLOCAL) lpszTemp );
+    }
 
     return pszBuf;
 }
@@ -558,27 +564,29 @@ char* windows_format_error_string( unsigned long dwError, char* pszBuf, int iSiz
     DWORD dwRet;
     LPTSTR lpszTemp = NULL;
 
-    dwRet = FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER |
-						   FORMAT_MESSAGE_FROM_SYSTEM |
-						   FORMAT_MESSAGE_ARGUMENT_ARRAY,
-                           NULL,
-                           dwError,
-                           LANG_NEUTRAL,
-                           (LPTSTR)&lpszTemp,
-                           0,
-                           NULL );
+    dwRet = FormatMessage(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER |
+        FORMAT_MESSAGE_FROM_SYSTEM |
+        FORMAT_MESSAGE_ARGUMENT_ARRAY,
+        NULL,
+        dwError,
+        LANG_NEUTRAL,
+        (LPTSTR)&lpszTemp,
+        0,
+        NULL
+    );
 
     // supplied buffer is not long enough
-    if ( !dwRet || ( (long)iSize < (long)dwRet+14 ) )
+    if ( !dwRet || ( (long)iSize < (long)dwRet+14 ) ) {
         pszBuf[0] = TEXT('\0');
-    else
-    {
+    } else {
         lpszTemp[lstrlen(lpszTemp)-2] = TEXT('\0');  //remove cr and newline character
         sprintf( pszBuf, TEXT("%s (0x%x)"), lpszTemp, dwError );
     }
 
-    if ( lpszTemp )
+    if ( lpszTemp ) {
         LocalFree((HLOCAL) lpszTemp );
+    }
 
     return pszBuf;
 }

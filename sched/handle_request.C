@@ -19,17 +19,11 @@
 
 // Handle a scheduling server RPC
 
-#include <iostream>
 #include <vector>
 #include <string>
 using namespace std;
 
-#ifdef _USING_FCGI_
-#include "/usr/local/include/fcgi_stdio.h"
-#else
 #include <stdio.h>
-#endif
-
 #include <unistd.h>
 #include <sys/wait.h>
 #include <time.h>

@@ -215,10 +215,7 @@ libsched_a_SOURCES = \
     ../lib/md5_file.C			\
 	../lib/msg_log.C			\
 	../tools/process_result_template.C	\
-    ../tools/backend_lib.C			\
-	sched_config.h				\
-	sched_shmem.h				\
-	sched_util.h
+    ../tools/backend_lib.C
 
 
 cgi_SOURCES = \
@@ -277,10 +274,30 @@ transitioner_LDADD = $(LDADD) $(RSA_LIBS)
 fcgi_SOURCES = \
         handle_request.C			\
         main.C					\
-        server_types.C
+        sched_send.C					\
+        server_types.C  \
+        ../lib/synch.C \
+    sched_shmem.C				\
+    sched_util.C				\
+    sched_config.C				\
+	sched_msgs.C			    \
+	../db/boinc_db.C			\
+	../db/db_base.C				\
+    ../lib/util.C				\
+    ../lib/crypt.C				\
+    ../lib/filesys.C				\
+    ../lib/parse.C				\
+    ../lib/base64.C				\
+    ../lib/shmem.C				\
+    ../lib/md5.c				\
+    ../lib/md5_file.C			\
+	../lib/msg_log.C			\
+	../tools/process_result_template.C	\
+    ../tools/backend_lib.C
+
 
 fcgi_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
-fcgi_CPPFLAGS = -include /usr/local/include/fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
+fcgi_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi -lfcgi++ $(MYSQL_LIBS)
 subdir = sched
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -323,7 +340,16 @@ db_dump_OBJECTS = $(am_db_dump_OBJECTS)
 db_dump_LDADD = $(LDADD)
 db_dump_LDFLAGS =
 am_fcgi_OBJECTS = fcgi-handle_request.$(OBJEXT) fcgi-main.$(OBJEXT) \
-	fcgi-server_types.$(OBJEXT)
+	fcgi-sched_send.$(OBJEXT) fcgi-server_types.$(OBJEXT) \
+	fcgi-synch.$(OBJEXT) fcgi-sched_shmem.$(OBJEXT) \
+	fcgi-sched_util.$(OBJEXT) fcgi-sched_config.$(OBJEXT) \
+	fcgi-sched_msgs.$(OBJEXT) fcgi-boinc_db.$(OBJEXT) \
+	fcgi-db_base.$(OBJEXT) fcgi-util.$(OBJEXT) fcgi-crypt.$(OBJEXT) \
+	fcgi-filesys.$(OBJEXT) fcgi-parse.$(OBJEXT) \
+	fcgi-base64.$(OBJEXT) fcgi-shmem.$(OBJEXT) fcgi-md5.$(OBJEXT) \
+	fcgi-md5_file.$(OBJEXT) fcgi-msg_log.$(OBJEXT) \
+	fcgi-process_result_template.$(OBJEXT) \
+	fcgi-backend_lib.$(OBJEXT)
 fcgi_OBJECTS = $(am_fcgi_OBJECTS)
 fcgi_LDFLAGS =
 am_feeder_OBJECTS = feeder.$(OBJEXT) synch.$(OBJEXT)
@@ -381,10 +407,27 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/backend_lib.Po ./$(DEPDIR)/base64.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/boinc_db.Po ./$(DEPDIR)/crypt.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/db_base.Po ./$(DEPDIR)/db_dump.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-backend_lib.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-base64.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-boinc_db.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-crypt.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-db_base.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-filesys.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/fcgi-handle_request.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/fcgi-main.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-main.Po ./$(DEPDIR)/fcgi-md5.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-md5_file.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-msg_log.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-parse.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-process_result_template.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-sched_config.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-sched_msgs.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-sched_send.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-sched_shmem.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-sched_util.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/fcgi-server_types.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/feeder.Po ./$(DEPDIR)/file_deleter.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-shmem.Po ./$(DEPDIR)/fcgi-synch.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/fcgi-util.Po ./$(DEPDIR)/feeder.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/file_deleter.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/file_upload_handler.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/filesys.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/handle_request.Po ./$(DEPDIR)/main.Po \
@@ -473,7 +516,27 @@ db_dump$(EXEEXT): $(db_dump_OBJECTS) $(db_dump_DEPENDENCIES)
 	$(CXXLINK) $(db_dump_LDFLAGS) $(db_dump_OBJECTS) $(db_dump_LDADD) $(LIBS)
 fcgi-handle_request.$(OBJEXT): handle_request.C
 fcgi-main.$(OBJEXT): main.C
+fcgi-sched_send.$(OBJEXT): sched_send.C
 fcgi-server_types.$(OBJEXT): server_types.C
+fcgi-synch.$(OBJEXT): ../lib/synch.C
+fcgi-sched_shmem.$(OBJEXT): sched_shmem.C
+fcgi-sched_util.$(OBJEXT): sched_util.C
+fcgi-sched_config.$(OBJEXT): sched_config.C
+fcgi-sched_msgs.$(OBJEXT): sched_msgs.C
+fcgi-boinc_db.$(OBJEXT): ../db/boinc_db.C
+fcgi-db_base.$(OBJEXT): ../db/db_base.C
+fcgi-util.$(OBJEXT): ../lib/util.C
+fcgi-crypt.$(OBJEXT): ../lib/crypt.C
+fcgi-filesys.$(OBJEXT): ../lib/filesys.C
+fcgi-parse.$(OBJEXT): ../lib/parse.C
+fcgi-base64.$(OBJEXT): ../lib/base64.C
+fcgi-shmem.$(OBJEXT): ../lib/shmem.C
+fcgi-md5.$(OBJEXT): ../lib/md5.c
+fcgi-md5_file.$(OBJEXT): ../lib/md5_file.C
+fcgi-msg_log.$(OBJEXT): ../lib/msg_log.C
+fcgi-process_result_template.$(OBJEXT): \
+	../tools/process_result_template.C
+fcgi-backend_lib.$(OBJEXT): ../tools/backend_lib.C
 fcgi$(EXEEXT): $(fcgi_OBJECTS) $(fcgi_DEPENDENCIES) 
 	@rm -f fcgi$(EXEEXT)
 	$(CXXLINK) $(fcgi_LDFLAGS) $(fcgi_OBJECTS) $(fcgi_LDADD) $(LIBS)
@@ -545,9 +608,28 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/db_base.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/db_dump.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-backend_lib.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-base64.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-boinc_db.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-crypt.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-db_base.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-filesys.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-handle_request.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-md5.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-md5_file.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-msg_log.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-parse.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-process_result_template.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-sched_config.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-sched_msgs.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-sched_send.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-sched_shmem.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-sched_util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-server_types.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-shmem.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-synch.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fcgi-util.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/feeder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_deleter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_upload_handler.Po@am__quote@
@@ -934,6 +1016,28 @@ fcgi-main.obj: main.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-main.obj `if test -f 'main.C'; then $(CYGPATH_W) 'main.C'; else $(CYGPATH_W) '$(srcdir)/main.C'`
 
+fcgi-sched_send.o: sched_send.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-sched_send.o -MD -MP -MF "$(DEPDIR)/fcgi-sched_send.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-sched_send.o `test -f 'sched_send.C' || echo '$(srcdir)/'`sched_send.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-sched_send.Tpo" "$(DEPDIR)/fcgi-sched_send.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-sched_send.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sched_send.C' object='fcgi-sched_send.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-sched_send.Po' tmpdepfile='$(DEPDIR)/fcgi-sched_send.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-sched_send.o `test -f 'sched_send.C' || echo '$(srcdir)/'`sched_send.C
+
+fcgi-sched_send.obj: sched_send.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-sched_send.obj -MD -MP -MF "$(DEPDIR)/fcgi-sched_send.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-sched_send.obj `if test -f 'sched_send.C'; then $(CYGPATH_W) 'sched_send.C'; else $(CYGPATH_W) '$(srcdir)/sched_send.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-sched_send.Tpo" "$(DEPDIR)/fcgi-sched_send.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-sched_send.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sched_send.C' object='fcgi-sched_send.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-sched_send.Po' tmpdepfile='$(DEPDIR)/fcgi-sched_send.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-sched_send.obj `if test -f 'sched_send.C'; then $(CYGPATH_W) 'sched_send.C'; else $(CYGPATH_W) '$(srcdir)/sched_send.C'`
+
 fcgi-server_types.o: server_types.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-server_types.o -MD -MP -MF "$(DEPDIR)/fcgi-server_types.Tpo" \
 @am__fastdepCXX_TRUE@	  -c -o fcgi-server_types.o `test -f 'server_types.C' || echo '$(srcdir)/'`server_types.C; \
@@ -955,6 +1059,380 @@ fcgi-server_types.obj: server_types.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-server_types.Po' tmpdepfile='$(DEPDIR)/fcgi-server_types.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-server_types.obj `if test -f 'server_types.C'; then $(CYGPATH_W) 'server_types.C'; else $(CYGPATH_W) '$(srcdir)/server_types.C'`
+
+fcgi-synch.o: ../lib/synch.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-synch.o -MD -MP -MF "$(DEPDIR)/fcgi-synch.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-synch.o `test -f '../lib/synch.C' || echo '$(srcdir)/'`../lib/synch.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-synch.Tpo" "$(DEPDIR)/fcgi-synch.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-synch.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/synch.C' object='fcgi-synch.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-synch.Po' tmpdepfile='$(DEPDIR)/fcgi-synch.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-synch.o `test -f '../lib/synch.C' || echo '$(srcdir)/'`../lib/synch.C
+
+fcgi-synch.obj: ../lib/synch.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-synch.obj -MD -MP -MF "$(DEPDIR)/fcgi-synch.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-synch.obj `if test -f '../lib/synch.C'; then $(CYGPATH_W) '../lib/synch.C'; else $(CYGPATH_W) '$(srcdir)/../lib/synch.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-synch.Tpo" "$(DEPDIR)/fcgi-synch.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-synch.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/synch.C' object='fcgi-synch.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-synch.Po' tmpdepfile='$(DEPDIR)/fcgi-synch.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-synch.obj `if test -f '../lib/synch.C'; then $(CYGPATH_W) '../lib/synch.C'; else $(CYGPATH_W) '$(srcdir)/../lib/synch.C'`
+
+fcgi-sched_shmem.o: sched_shmem.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-sched_shmem.o -MD -MP -MF "$(DEPDIR)/fcgi-sched_shmem.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-sched_shmem.o `test -f 'sched_shmem.C' || echo '$(srcdir)/'`sched_shmem.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-sched_shmem.Tpo" "$(DEPDIR)/fcgi-sched_shmem.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-sched_shmem.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sched_shmem.C' object='fcgi-sched_shmem.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-sched_shmem.Po' tmpdepfile='$(DEPDIR)/fcgi-sched_shmem.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-sched_shmem.o `test -f 'sched_shmem.C' || echo '$(srcdir)/'`sched_shmem.C
+
+fcgi-sched_shmem.obj: sched_shmem.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-sched_shmem.obj -MD -MP -MF "$(DEPDIR)/fcgi-sched_shmem.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-sched_shmem.obj `if test -f 'sched_shmem.C'; then $(CYGPATH_W) 'sched_shmem.C'; else $(CYGPATH_W) '$(srcdir)/sched_shmem.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-sched_shmem.Tpo" "$(DEPDIR)/fcgi-sched_shmem.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-sched_shmem.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sched_shmem.C' object='fcgi-sched_shmem.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-sched_shmem.Po' tmpdepfile='$(DEPDIR)/fcgi-sched_shmem.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-sched_shmem.obj `if test -f 'sched_shmem.C'; then $(CYGPATH_W) 'sched_shmem.C'; else $(CYGPATH_W) '$(srcdir)/sched_shmem.C'`
+
+fcgi-sched_util.o: sched_util.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-sched_util.o -MD -MP -MF "$(DEPDIR)/fcgi-sched_util.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-sched_util.o `test -f 'sched_util.C' || echo '$(srcdir)/'`sched_util.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-sched_util.Tpo" "$(DEPDIR)/fcgi-sched_util.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-sched_util.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sched_util.C' object='fcgi-sched_util.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-sched_util.Po' tmpdepfile='$(DEPDIR)/fcgi-sched_util.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-sched_util.o `test -f 'sched_util.C' || echo '$(srcdir)/'`sched_util.C
+
+fcgi-sched_util.obj: sched_util.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-sched_util.obj -MD -MP -MF "$(DEPDIR)/fcgi-sched_util.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-sched_util.obj `if test -f 'sched_util.C'; then $(CYGPATH_W) 'sched_util.C'; else $(CYGPATH_W) '$(srcdir)/sched_util.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-sched_util.Tpo" "$(DEPDIR)/fcgi-sched_util.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-sched_util.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sched_util.C' object='fcgi-sched_util.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-sched_util.Po' tmpdepfile='$(DEPDIR)/fcgi-sched_util.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-sched_util.obj `if test -f 'sched_util.C'; then $(CYGPATH_W) 'sched_util.C'; else $(CYGPATH_W) '$(srcdir)/sched_util.C'`
+
+fcgi-sched_config.o: sched_config.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-sched_config.o -MD -MP -MF "$(DEPDIR)/fcgi-sched_config.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-sched_config.o `test -f 'sched_config.C' || echo '$(srcdir)/'`sched_config.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-sched_config.Tpo" "$(DEPDIR)/fcgi-sched_config.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-sched_config.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sched_config.C' object='fcgi-sched_config.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-sched_config.Po' tmpdepfile='$(DEPDIR)/fcgi-sched_config.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-sched_config.o `test -f 'sched_config.C' || echo '$(srcdir)/'`sched_config.C
+
+fcgi-sched_config.obj: sched_config.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-sched_config.obj -MD -MP -MF "$(DEPDIR)/fcgi-sched_config.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-sched_config.obj `if test -f 'sched_config.C'; then $(CYGPATH_W) 'sched_config.C'; else $(CYGPATH_W) '$(srcdir)/sched_config.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-sched_config.Tpo" "$(DEPDIR)/fcgi-sched_config.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-sched_config.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sched_config.C' object='fcgi-sched_config.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-sched_config.Po' tmpdepfile='$(DEPDIR)/fcgi-sched_config.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-sched_config.obj `if test -f 'sched_config.C'; then $(CYGPATH_W) 'sched_config.C'; else $(CYGPATH_W) '$(srcdir)/sched_config.C'`
+
+fcgi-sched_msgs.o: sched_msgs.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-sched_msgs.o -MD -MP -MF "$(DEPDIR)/fcgi-sched_msgs.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-sched_msgs.o `test -f 'sched_msgs.C' || echo '$(srcdir)/'`sched_msgs.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-sched_msgs.Tpo" "$(DEPDIR)/fcgi-sched_msgs.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-sched_msgs.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sched_msgs.C' object='fcgi-sched_msgs.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-sched_msgs.Po' tmpdepfile='$(DEPDIR)/fcgi-sched_msgs.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-sched_msgs.o `test -f 'sched_msgs.C' || echo '$(srcdir)/'`sched_msgs.C
+
+fcgi-sched_msgs.obj: sched_msgs.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-sched_msgs.obj -MD -MP -MF "$(DEPDIR)/fcgi-sched_msgs.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-sched_msgs.obj `if test -f 'sched_msgs.C'; then $(CYGPATH_W) 'sched_msgs.C'; else $(CYGPATH_W) '$(srcdir)/sched_msgs.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-sched_msgs.Tpo" "$(DEPDIR)/fcgi-sched_msgs.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-sched_msgs.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sched_msgs.C' object='fcgi-sched_msgs.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-sched_msgs.Po' tmpdepfile='$(DEPDIR)/fcgi-sched_msgs.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-sched_msgs.obj `if test -f 'sched_msgs.C'; then $(CYGPATH_W) 'sched_msgs.C'; else $(CYGPATH_W) '$(srcdir)/sched_msgs.C'`
+
+fcgi-boinc_db.o: ../db/boinc_db.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-boinc_db.o -MD -MP -MF "$(DEPDIR)/fcgi-boinc_db.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-boinc_db.o `test -f '../db/boinc_db.C' || echo '$(srcdir)/'`../db/boinc_db.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-boinc_db.Tpo" "$(DEPDIR)/fcgi-boinc_db.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-boinc_db.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../db/boinc_db.C' object='fcgi-boinc_db.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-boinc_db.Po' tmpdepfile='$(DEPDIR)/fcgi-boinc_db.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-boinc_db.o `test -f '../db/boinc_db.C' || echo '$(srcdir)/'`../db/boinc_db.C
+
+fcgi-boinc_db.obj: ../db/boinc_db.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-boinc_db.obj -MD -MP -MF "$(DEPDIR)/fcgi-boinc_db.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-boinc_db.obj `if test -f '../db/boinc_db.C'; then $(CYGPATH_W) '../db/boinc_db.C'; else $(CYGPATH_W) '$(srcdir)/../db/boinc_db.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-boinc_db.Tpo" "$(DEPDIR)/fcgi-boinc_db.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-boinc_db.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../db/boinc_db.C' object='fcgi-boinc_db.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-boinc_db.Po' tmpdepfile='$(DEPDIR)/fcgi-boinc_db.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-boinc_db.obj `if test -f '../db/boinc_db.C'; then $(CYGPATH_W) '../db/boinc_db.C'; else $(CYGPATH_W) '$(srcdir)/../db/boinc_db.C'`
+
+fcgi-db_base.o: ../db/db_base.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-db_base.o -MD -MP -MF "$(DEPDIR)/fcgi-db_base.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-db_base.o `test -f '../db/db_base.C' || echo '$(srcdir)/'`../db/db_base.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-db_base.Tpo" "$(DEPDIR)/fcgi-db_base.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-db_base.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../db/db_base.C' object='fcgi-db_base.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-db_base.Po' tmpdepfile='$(DEPDIR)/fcgi-db_base.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-db_base.o `test -f '../db/db_base.C' || echo '$(srcdir)/'`../db/db_base.C
+
+fcgi-db_base.obj: ../db/db_base.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-db_base.obj -MD -MP -MF "$(DEPDIR)/fcgi-db_base.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-db_base.obj `if test -f '../db/db_base.C'; then $(CYGPATH_W) '../db/db_base.C'; else $(CYGPATH_W) '$(srcdir)/../db/db_base.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-db_base.Tpo" "$(DEPDIR)/fcgi-db_base.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-db_base.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../db/db_base.C' object='fcgi-db_base.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-db_base.Po' tmpdepfile='$(DEPDIR)/fcgi-db_base.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-db_base.obj `if test -f '../db/db_base.C'; then $(CYGPATH_W) '../db/db_base.C'; else $(CYGPATH_W) '$(srcdir)/../db/db_base.C'`
+
+fcgi-util.o: ../lib/util.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-util.o -MD -MP -MF "$(DEPDIR)/fcgi-util.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-util.o `test -f '../lib/util.C' || echo '$(srcdir)/'`../lib/util.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-util.Tpo" "$(DEPDIR)/fcgi-util.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-util.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/util.C' object='fcgi-util.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-util.Po' tmpdepfile='$(DEPDIR)/fcgi-util.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-util.o `test -f '../lib/util.C' || echo '$(srcdir)/'`../lib/util.C
+
+fcgi-util.obj: ../lib/util.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-util.obj -MD -MP -MF "$(DEPDIR)/fcgi-util.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-util.obj `if test -f '../lib/util.C'; then $(CYGPATH_W) '../lib/util.C'; else $(CYGPATH_W) '$(srcdir)/../lib/util.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-util.Tpo" "$(DEPDIR)/fcgi-util.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-util.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/util.C' object='fcgi-util.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-util.Po' tmpdepfile='$(DEPDIR)/fcgi-util.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-util.obj `if test -f '../lib/util.C'; then $(CYGPATH_W) '../lib/util.C'; else $(CYGPATH_W) '$(srcdir)/../lib/util.C'`
+
+fcgi-crypt.o: ../lib/crypt.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-crypt.o -MD -MP -MF "$(DEPDIR)/fcgi-crypt.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-crypt.o `test -f '../lib/crypt.C' || echo '$(srcdir)/'`../lib/crypt.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-crypt.Tpo" "$(DEPDIR)/fcgi-crypt.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-crypt.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/crypt.C' object='fcgi-crypt.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-crypt.Po' tmpdepfile='$(DEPDIR)/fcgi-crypt.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-crypt.o `test -f '../lib/crypt.C' || echo '$(srcdir)/'`../lib/crypt.C
+
+fcgi-crypt.obj: ../lib/crypt.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-crypt.obj -MD -MP -MF "$(DEPDIR)/fcgi-crypt.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-crypt.obj `if test -f '../lib/crypt.C'; then $(CYGPATH_W) '../lib/crypt.C'; else $(CYGPATH_W) '$(srcdir)/../lib/crypt.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-crypt.Tpo" "$(DEPDIR)/fcgi-crypt.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-crypt.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/crypt.C' object='fcgi-crypt.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-crypt.Po' tmpdepfile='$(DEPDIR)/fcgi-crypt.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-crypt.obj `if test -f '../lib/crypt.C'; then $(CYGPATH_W) '../lib/crypt.C'; else $(CYGPATH_W) '$(srcdir)/../lib/crypt.C'`
+
+fcgi-filesys.o: ../lib/filesys.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-filesys.o -MD -MP -MF "$(DEPDIR)/fcgi-filesys.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-filesys.o `test -f '../lib/filesys.C' || echo '$(srcdir)/'`../lib/filesys.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-filesys.Tpo" "$(DEPDIR)/fcgi-filesys.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-filesys.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/filesys.C' object='fcgi-filesys.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-filesys.Po' tmpdepfile='$(DEPDIR)/fcgi-filesys.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-filesys.o `test -f '../lib/filesys.C' || echo '$(srcdir)/'`../lib/filesys.C
+
+fcgi-filesys.obj: ../lib/filesys.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-filesys.obj -MD -MP -MF "$(DEPDIR)/fcgi-filesys.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-filesys.obj `if test -f '../lib/filesys.C'; then $(CYGPATH_W) '../lib/filesys.C'; else $(CYGPATH_W) '$(srcdir)/../lib/filesys.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-filesys.Tpo" "$(DEPDIR)/fcgi-filesys.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-filesys.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/filesys.C' object='fcgi-filesys.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-filesys.Po' tmpdepfile='$(DEPDIR)/fcgi-filesys.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-filesys.obj `if test -f '../lib/filesys.C'; then $(CYGPATH_W) '../lib/filesys.C'; else $(CYGPATH_W) '$(srcdir)/../lib/filesys.C'`
+
+fcgi-parse.o: ../lib/parse.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-parse.o -MD -MP -MF "$(DEPDIR)/fcgi-parse.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-parse.o `test -f '../lib/parse.C' || echo '$(srcdir)/'`../lib/parse.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-parse.Tpo" "$(DEPDIR)/fcgi-parse.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-parse.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/parse.C' object='fcgi-parse.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-parse.Po' tmpdepfile='$(DEPDIR)/fcgi-parse.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-parse.o `test -f '../lib/parse.C' || echo '$(srcdir)/'`../lib/parse.C
+
+fcgi-parse.obj: ../lib/parse.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-parse.obj -MD -MP -MF "$(DEPDIR)/fcgi-parse.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-parse.obj `if test -f '../lib/parse.C'; then $(CYGPATH_W) '../lib/parse.C'; else $(CYGPATH_W) '$(srcdir)/../lib/parse.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-parse.Tpo" "$(DEPDIR)/fcgi-parse.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-parse.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/parse.C' object='fcgi-parse.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-parse.Po' tmpdepfile='$(DEPDIR)/fcgi-parse.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-parse.obj `if test -f '../lib/parse.C'; then $(CYGPATH_W) '../lib/parse.C'; else $(CYGPATH_W) '$(srcdir)/../lib/parse.C'`
+
+fcgi-base64.o: ../lib/base64.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-base64.o -MD -MP -MF "$(DEPDIR)/fcgi-base64.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-base64.o `test -f '../lib/base64.C' || echo '$(srcdir)/'`../lib/base64.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-base64.Tpo" "$(DEPDIR)/fcgi-base64.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-base64.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/base64.C' object='fcgi-base64.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-base64.Po' tmpdepfile='$(DEPDIR)/fcgi-base64.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-base64.o `test -f '../lib/base64.C' || echo '$(srcdir)/'`../lib/base64.C
+
+fcgi-base64.obj: ../lib/base64.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-base64.obj -MD -MP -MF "$(DEPDIR)/fcgi-base64.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-base64.obj `if test -f '../lib/base64.C'; then $(CYGPATH_W) '../lib/base64.C'; else $(CYGPATH_W) '$(srcdir)/../lib/base64.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-base64.Tpo" "$(DEPDIR)/fcgi-base64.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-base64.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/base64.C' object='fcgi-base64.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-base64.Po' tmpdepfile='$(DEPDIR)/fcgi-base64.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-base64.obj `if test -f '../lib/base64.C'; then $(CYGPATH_W) '../lib/base64.C'; else $(CYGPATH_W) '$(srcdir)/../lib/base64.C'`
+
+fcgi-shmem.o: ../lib/shmem.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-shmem.o -MD -MP -MF "$(DEPDIR)/fcgi-shmem.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-shmem.o `test -f '../lib/shmem.C' || echo '$(srcdir)/'`../lib/shmem.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-shmem.Tpo" "$(DEPDIR)/fcgi-shmem.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-shmem.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/shmem.C' object='fcgi-shmem.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-shmem.Po' tmpdepfile='$(DEPDIR)/fcgi-shmem.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-shmem.o `test -f '../lib/shmem.C' || echo '$(srcdir)/'`../lib/shmem.C
+
+fcgi-shmem.obj: ../lib/shmem.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-shmem.obj -MD -MP -MF "$(DEPDIR)/fcgi-shmem.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-shmem.obj `if test -f '../lib/shmem.C'; then $(CYGPATH_W) '../lib/shmem.C'; else $(CYGPATH_W) '$(srcdir)/../lib/shmem.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-shmem.Tpo" "$(DEPDIR)/fcgi-shmem.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-shmem.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/shmem.C' object='fcgi-shmem.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-shmem.Po' tmpdepfile='$(DEPDIR)/fcgi-shmem.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-shmem.obj `if test -f '../lib/shmem.C'; then $(CYGPATH_W) '../lib/shmem.C'; else $(CYGPATH_W) '$(srcdir)/../lib/shmem.C'`
+
+fcgi-md5_file.o: ../lib/md5_file.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-md5_file.o -MD -MP -MF "$(DEPDIR)/fcgi-md5_file.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-md5_file.o `test -f '../lib/md5_file.C' || echo '$(srcdir)/'`../lib/md5_file.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-md5_file.Tpo" "$(DEPDIR)/fcgi-md5_file.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-md5_file.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/md5_file.C' object='fcgi-md5_file.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-md5_file.Po' tmpdepfile='$(DEPDIR)/fcgi-md5_file.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-md5_file.o `test -f '../lib/md5_file.C' || echo '$(srcdir)/'`../lib/md5_file.C
+
+fcgi-md5_file.obj: ../lib/md5_file.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-md5_file.obj -MD -MP -MF "$(DEPDIR)/fcgi-md5_file.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-md5_file.obj `if test -f '../lib/md5_file.C'; then $(CYGPATH_W) '../lib/md5_file.C'; else $(CYGPATH_W) '$(srcdir)/../lib/md5_file.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-md5_file.Tpo" "$(DEPDIR)/fcgi-md5_file.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-md5_file.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/md5_file.C' object='fcgi-md5_file.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-md5_file.Po' tmpdepfile='$(DEPDIR)/fcgi-md5_file.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-md5_file.obj `if test -f '../lib/md5_file.C'; then $(CYGPATH_W) '../lib/md5_file.C'; else $(CYGPATH_W) '$(srcdir)/../lib/md5_file.C'`
+
+fcgi-msg_log.o: ../lib/msg_log.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-msg_log.o -MD -MP -MF "$(DEPDIR)/fcgi-msg_log.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-msg_log.o `test -f '../lib/msg_log.C' || echo '$(srcdir)/'`../lib/msg_log.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-msg_log.Tpo" "$(DEPDIR)/fcgi-msg_log.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-msg_log.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/msg_log.C' object='fcgi-msg_log.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-msg_log.Po' tmpdepfile='$(DEPDIR)/fcgi-msg_log.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-msg_log.o `test -f '../lib/msg_log.C' || echo '$(srcdir)/'`../lib/msg_log.C
+
+fcgi-msg_log.obj: ../lib/msg_log.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-msg_log.obj -MD -MP -MF "$(DEPDIR)/fcgi-msg_log.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-msg_log.obj `if test -f '../lib/msg_log.C'; then $(CYGPATH_W) '../lib/msg_log.C'; else $(CYGPATH_W) '$(srcdir)/../lib/msg_log.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-msg_log.Tpo" "$(DEPDIR)/fcgi-msg_log.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-msg_log.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../lib/msg_log.C' object='fcgi-msg_log.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-msg_log.Po' tmpdepfile='$(DEPDIR)/fcgi-msg_log.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-msg_log.obj `if test -f '../lib/msg_log.C'; then $(CYGPATH_W) '../lib/msg_log.C'; else $(CYGPATH_W) '$(srcdir)/../lib/msg_log.C'`
+
+fcgi-process_result_template.o: ../tools/process_result_template.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-process_result_template.o -MD -MP -MF "$(DEPDIR)/fcgi-process_result_template.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-process_result_template.o `test -f '../tools/process_result_template.C' || echo '$(srcdir)/'`../tools/process_result_template.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-process_result_template.Tpo" "$(DEPDIR)/fcgi-process_result_template.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-process_result_template.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../tools/process_result_template.C' object='fcgi-process_result_template.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-process_result_template.Po' tmpdepfile='$(DEPDIR)/fcgi-process_result_template.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-process_result_template.o `test -f '../tools/process_result_template.C' || echo '$(srcdir)/'`../tools/process_result_template.C
+
+fcgi-process_result_template.obj: ../tools/process_result_template.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-process_result_template.obj -MD -MP -MF "$(DEPDIR)/fcgi-process_result_template.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-process_result_template.obj `if test -f '../tools/process_result_template.C'; then $(CYGPATH_W) '../tools/process_result_template.C'; else $(CYGPATH_W) '$(srcdir)/../tools/process_result_template.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-process_result_template.Tpo" "$(DEPDIR)/fcgi-process_result_template.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-process_result_template.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../tools/process_result_template.C' object='fcgi-process_result_template.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-process_result_template.Po' tmpdepfile='$(DEPDIR)/fcgi-process_result_template.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-process_result_template.obj `if test -f '../tools/process_result_template.C'; then $(CYGPATH_W) '../tools/process_result_template.C'; else $(CYGPATH_W) '$(srcdir)/../tools/process_result_template.C'`
+
+fcgi-backend_lib.o: ../tools/backend_lib.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-backend_lib.o -MD -MP -MF "$(DEPDIR)/fcgi-backend_lib.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-backend_lib.o `test -f '../tools/backend_lib.C' || echo '$(srcdir)/'`../tools/backend_lib.C; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-backend_lib.Tpo" "$(DEPDIR)/fcgi-backend_lib.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-backend_lib.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../tools/backend_lib.C' object='fcgi-backend_lib.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-backend_lib.Po' tmpdepfile='$(DEPDIR)/fcgi-backend_lib.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-backend_lib.o `test -f '../tools/backend_lib.C' || echo '$(srcdir)/'`../tools/backend_lib.C
+
+fcgi-backend_lib.obj: ../tools/backend_lib.C
+@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT fcgi-backend_lib.obj -MD -MP -MF "$(DEPDIR)/fcgi-backend_lib.Tpo" \
+@am__fastdepCXX_TRUE@	  -c -o fcgi-backend_lib.obj `if test -f '../tools/backend_lib.C'; then $(CYGPATH_W) '../tools/backend_lib.C'; else $(CYGPATH_W) '$(srcdir)/../tools/backend_lib.C'`; \
+@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/fcgi-backend_lib.Tpo" "$(DEPDIR)/fcgi-backend_lib.Po"; \
+@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/fcgi-backend_lib.Tpo"; exit 1; \
+@am__fastdepCXX_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../tools/backend_lib.C' object='fcgi-backend_lib.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/fcgi-backend_lib.Po' tmpdepfile='$(DEPDIR)/fcgi-backend_lib.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o fcgi-backend_lib.obj `if test -f '../tools/backend_lib.C'; then $(CYGPATH_W) '../tools/backend_lib.C'; else $(CYGPATH_W) '$(srcdir)/../tools/backend_lib.C'`
 
 .c.o:
 @am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" \
@@ -999,6 +1477,28 @@ md5.obj: ../lib/md5.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	depfile='$(DEPDIR)/md5.Po' tmpdepfile='$(DEPDIR)/md5.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o md5.obj `if test -f '../lib/md5.c'; then $(CYGPATH_W) '../lib/md5.c'; else $(CYGPATH_W) '$(srcdir)/../lib/md5.c'`
+
+fcgi-md5.o: ../lib/md5.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT fcgi-md5.o -MD -MP -MF "$(DEPDIR)/fcgi-md5.Tpo" \
+@am__fastdepCC_TRUE@	  -c -o fcgi-md5.o `test -f '../lib/md5.c' || echo '$(srcdir)/'`../lib/md5.c; \
+@am__fastdepCC_TRUE@	then mv "$(DEPDIR)/fcgi-md5.Tpo" "$(DEPDIR)/fcgi-md5.Po"; \
+@am__fastdepCC_TRUE@	else rm -f "$(DEPDIR)/fcgi-md5.Tpo"; exit 1; \
+@am__fastdepCC_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='../lib/md5.c' object='fcgi-md5.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	depfile='$(DEPDIR)/fcgi-md5.Po' tmpdepfile='$(DEPDIR)/fcgi-md5.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o fcgi-md5.o `test -f '../lib/md5.c' || echo '$(srcdir)/'`../lib/md5.c
+
+fcgi-md5.obj: ../lib/md5.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT fcgi-md5.obj -MD -MP -MF "$(DEPDIR)/fcgi-md5.Tpo" \
+@am__fastdepCC_TRUE@	  -c -o fcgi-md5.obj `if test -f '../lib/md5.c'; then $(CYGPATH_W) '../lib/md5.c'; else $(CYGPATH_W) '$(srcdir)/../lib/md5.c'`; \
+@am__fastdepCC_TRUE@	then mv "$(DEPDIR)/fcgi-md5.Tpo" "$(DEPDIR)/fcgi-md5.Po"; \
+@am__fastdepCC_TRUE@	else rm -f "$(DEPDIR)/fcgi-md5.Tpo"; exit 1; \
+@am__fastdepCC_TRUE@	fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='../lib/md5.c' object='fcgi-md5.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	depfile='$(DEPDIR)/fcgi-md5.Po' tmpdepfile='$(DEPDIR)/fcgi-md5.TPo' @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(fcgi_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o fcgi-md5.obj `if test -f '../lib/md5.c'; then $(CYGPATH_W) '../lib/md5.c'; else $(CYGPATH_W) '$(srcdir)/../lib/md5.c'`
 uninstall-info-am:
 
 ETAGS = etags

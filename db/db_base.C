@@ -6,6 +6,10 @@
 #include "util.h"
 #include "db_base.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 #define MAX_QUERY_LEN 256000
     // TODO: use "string" instead of char[]
 

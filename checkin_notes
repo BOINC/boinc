@@ -11873,3 +11873,31 @@ David  April 30 2004
         main.C
         server_types.C
         start
+
+David  April 30 2004
+    - Got the scheduling server to compile (but not link) under fastCGI
+        For some reason I had to modify fcgi_stdio.h to accomplish this.
+        Would be nice to figure out what the problem is.
+    - Eliminated the use of streambuf stuff in various places.
+        This seems to cause problems.
+
+    db/
+        db_base.C
+    lib/
+        filesys.C
+        msg_log.C,h
+        parse.C
+        util.C,h
+    sched/
+        Makefile.am,in
+        fcgi_stdio.h (new)
+        fcgsapp.h (new)
+        handle_request.C
+        main.C
+        sched_config.C,h
+        sched_util.C
+        server_types.C
+
+    tools/
+        backend_lib.C
+        process_results_template.C

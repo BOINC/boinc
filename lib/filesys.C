@@ -69,6 +69,10 @@ typedef BOOL (CALLBACK* FreeFn)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULAR
 #include "error_numbers.h"
 #include "filesys.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
+
 char failed_file[256];
 
 // routines for enumerating the entries in a directory

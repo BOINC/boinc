@@ -46,10 +46,7 @@ libsched_a_SOURCES =				\
     ../lib/md5_file.C			\
 	../lib/msg_log.C			\
 	../tools/process_result_template.C	\
-    ../tools/backend_lib.C			\
-	sched_config.h				\
-	sched_shmem.h				\
-	sched_util.h
+    ../tools/backend_lib.C
 
 cgi_SOURCES =					\
     handle_request.C			\
@@ -107,10 +104,27 @@ fcgi_SOURCES =					\
         main.C					\
         sched_send.C					\
         server_types.C  \
-        ../lib/synch.C
+        ../lib/synch.C \
+    sched_shmem.C				\
+    sched_util.C				\
+    sched_config.C				\
+	sched_msgs.C			    \
+	../db/boinc_db.C			\
+	../db/db_base.C				\
+    ../lib/util.C				\
+    ../lib/crypt.C				\
+    ../lib/filesys.C				\
+    ../lib/parse.C				\
+    ../lib/base64.C				\
+    ../lib/shmem.C				\
+    ../lib/md5.c				\
+    ../lib/md5_file.C			\
+	../lib/msg_log.C			\
+	../tools/process_result_template.C	\
+    ../tools/backend_lib.C
 
 fcgi_DEPENDENCIES = $(LIBRSA) $(LIB_SCHED)
-fcgi_CPPFLAGS = -include /usr/local/include/fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
+fcgi_CPPFLAGS = -include fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi -lfcgi++ $(MYSQL_LIBS)
 
 .PHONY: PHONY-start

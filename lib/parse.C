@@ -39,6 +39,9 @@ using namespace std;
 #include "util.h"
 #include "parse.h"
 
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
 
 // return true if the tag appears in the line
 //

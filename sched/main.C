@@ -21,7 +21,7 @@
 //
 // command-line options:
 
-#include <iostream>
+//#include <iostream>
 #include <vector>
 #include <string>
 using namespace std;
@@ -45,13 +45,8 @@ using namespace std;
 #include "main.h"
 
 #ifdef _USING_FCGI_
-#include "/usr/local/include/fcgi_stdio.h"
-#define freopen  FCGI_freopen
-#define fprintf  FCGI_fprintf
-#define fclose  FCGI_fclose
-#define fopen  FCGI_fopen
+#include "fcgi_stdio.h"
 #endif
-
 
 #define DEBUG_LEVEL  999
 
@@ -224,8 +219,8 @@ int main() {
         handle_request(stdin, stdout, *ssp, code_sign_key);
     }
 done:
-    continue;
 #ifdef _USING_FCGI_
+    continue;
     }
 #endif
     boinc_db.close();

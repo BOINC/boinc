@@ -17,7 +17,6 @@
 // Contributor(s):
 //
 
-#include <iostream>
 #include <vector>
 #include <string>
 using namespace std;
@@ -35,13 +34,7 @@ using namespace std;
 #include "server_types.h"
 
 #ifdef _USING_FCGI_
-#include "/usr/local/include/fcgi_stdio.h"
-#define freopen  FCGI_freopen
-#define fprintf  FCGI_fprintf
-#define fclose  FCGI_fclose
-#define fopen  FCGI_fopen
-#define fgets  FCGI_fgets
-#define fputs  FCGI_fputs
+#include "fcgi_stdio.h"
 #endif
 
 int CLIENT_APP_VERSION::parse(FILE* f) {

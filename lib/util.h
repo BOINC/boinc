@@ -22,7 +22,7 @@
 
 #ifndef _WIN32
 #include <cstdlib>
-#include <cstdio>
+//#include <cstdio>
 #include <ctime>
 #include <cmath>
 #include <cctype>

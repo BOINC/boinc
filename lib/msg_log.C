@@ -22,15 +22,18 @@
 #endif
 
 #ifndef _WIN32
-#include <cassert>
-#include <cstring>
+#include <assert.h>
+#include <string.h>
 #include <string>
-#include <fstream>
 using namespace std;
 #endif
 
 #include "util.h"
 #include "msg_log.h"
+
+#ifdef _USING_FCGI_
+#include "fcgi_stdio.h"
+#endif
 
 // MSG_LOG is a base class for writing messages not intended for the end user.
 // This includes all server messages and client debugging messages.
@@ -124,13 +127,14 @@ void MSG_LOG::vprintf_file(
     const char* now_timestamp = time_to_string(time(0));
     const char* skind = v_format_kind(kind);
 
-    ifstream f(filename);
+    FILE* f = fopen(filename, "r");
     if (!f) return;
+    char buf[256];
 
-    string line;
-    while (getline(f, line)) {
-        fprintf(output, "%s [%s]%s %s%s\n", now_timestamp, skind, spaces, sprefix, line.c_str());
+    while (fgets(buf, 256, f)) {
+        fprintf(output, "%s [%s]%s %s%s\n", now_timestamp, skind, spaces, sprefix, buf);
     }
+    fclose(f);
 }
 
 void MSG_LOG::printf(int kind, const char* format, ...) {
