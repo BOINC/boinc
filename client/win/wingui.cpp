@@ -28,7 +28,7 @@ void show_message(PROJECT* p, char* msg, int priority) {
     char message[1024];
 
     strcpy(message, msg);
-    if (message[strlen(message)-1] == '\n') {
+    while (strlen(message)&&message[strlen(message)-1] == '\n') {
         message[strlen(message)-1] = 0;
     }    
     if (p) {

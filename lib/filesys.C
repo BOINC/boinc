@@ -354,11 +354,11 @@ FILE* boinc_fopen(const char* path, const char* mode) {
 }
 
 
-int boinc_file_exists(const char* path) {
+bool boinc_file_exists(const char* path) {
    struct stat buf;
 
    if (stat(path, &buf)) {
-       return false;
+       return false;     // stat() returns zero on success
    }
    return true;
 }

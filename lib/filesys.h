@@ -65,7 +65,7 @@ extern int file_size(const char*, double&);
 extern int clean_out_dir(const char*);
 extern int dir_size(const char* dirpath, double&);
 extern FILE* boinc_fopen(const char* path, const char* mode);
-extern int boinc_file_exists(const char* path);
+extern bool boinc_file_exists(const char* path);
 extern int boinc_copy(const char* orig, const char* newf);
 extern int boinc_rename(const char* old, const char* newf);
 extern int boinc_mkdir(const char*);

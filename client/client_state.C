@@ -1129,6 +1129,14 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
         }
     }
 
+    // if global prefs came from this project, delete file and reinit
+    //
+    p = lookup_project(global_prefs.source_project.c_str());
+    if (p == project) {
+        boinc_delete_file(GLOBAL_PREFS_FILE_NAME);
+        global_prefs.init();
+    }
+
     // find project and remove it from the vector
     //
     for (project_iter = projects.begin(); project_iter != projects.end(); project_iter++) {

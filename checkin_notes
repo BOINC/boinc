@@ -11674,3 +11674,26 @@ David  April 18 2004
     sched/
         db_dump.C
         server_types.C
+
+David  April 19 2004
+	- Client: change the way network transfer speed is computed.
+		Instead of computing it every 3 seconds (which doesn't work
+		for short transfers) just computed it from start of transfer.
+	- when detach from a project, and global prefs are from that project,
+		delete the global prefs file and init() prefs in mem.
+		Otherwise you have prefs from unknown project.
+	- write <app_version_num> element in <result> only if writing to server
+		(avoid error parsing state file)
+	- some message end with multiple \n's.  delete them all.
+	- change return type of boinc_file_exists() to bool
+
+	client/
+		client_state.C
+		client_types.C
+		net_xfer.C,h
+		prefs.C
+		win/
+			wingui.cpp
+			wingui_proxydlg.cpp
+	lib/
+		filesys.C,h

@@ -265,9 +265,7 @@ void NET_XFER::init(char* host, int p, int b) {
     safe_strcpy(hostname, host);
     port = p;
     blocksize = (b > MAX_BLOCKSIZE ? MAX_BLOCKSIZE : b);
-    xfer_speed = 0;
-    last_speed_update = dtime();
-    recent_bytes_xferred = 0;
+    start_time = dtime();
     file_read_buf_offset = 0;
     file_read_buf_len = 0;
     bytes_xferred = 0;
@@ -589,17 +587,15 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
 }
 
 // Update the transfer speed for this NET_XFER
+// called on every I/O
 //
 void NET_XFER::update_speed(int nbytes) {
-    double now, delta_t;
-
-    recent_bytes_xferred += nbytes;
-    now = dtime();
-    delta_t = now - last_speed_update;
-    if (delta_t < 3.0) return;
-    xfer_speed  = recent_bytes_xferred/delta_t;
-    last_speed_update = now;
-    recent_bytes_xferred = 0;
+    double delta_t = dtime() - start_time;
+    if (delta_t > 0) {
+        xfer_speed = bytes_xferred / delta_t;
+    } else if (xfer_speed == 0) {
+        xfer_speed = 999999999;
+    }
 }
 
 void NET_XFER::got_error() {

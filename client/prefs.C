@@ -65,6 +65,8 @@ void GLOBAL_PREFS::init() {
     max_memory_mbytes = 128;
     proc_priority = 1;
     cpu_affinity = -1;
+    source_project = "";
+    source_scheduler = "";
 };
 
 GLOBAL_PREFS::GLOBAL_PREFS() {

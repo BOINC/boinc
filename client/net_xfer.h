@@ -56,9 +56,8 @@ public:
     int error;
     int port;
     int blocksize;
-    double xfer_speed;          // computed every 3 seconds
-    double last_speed_update;  // when xfer_speed was last computed
-    double recent_bytes_xferred;    // bytes xferred since last_speed_update
+    double start_time;
+    double xfer_speed;
     double bytes_xferred;   // bytes transferred in this session
     char file_read_buf[MAX_BLOCKSIZE];
     int file_read_buf_offset, file_read_buf_len;
