@@ -27,10 +27,10 @@ $forum = getForum($_GET['id']);
 $category = getCategory($forum->category);
 
 if ($category->is_helpdesk) {
-	page_head('Help Desk', NULL, NULL, '../style.css');
+	page_head('Help Desk');
 	$sort_style = 'help-activity-most';
 } else {
-	page_head('Forum', NULL, NULL, '../style.css');
+	page_head('Forum');
 	($_GET['sort'] != NULL) ? $sort_style = $_GET['sort'] : $sort_style = 'modified-new';
 }
 
@@ -73,16 +73,20 @@ if ($category->is_helpdesk) {
 	start_forum_table(array("Titles", "Replies", "Author", "Views", "Last Post"), array(NULL, 50, 150, 50, 170));
 }
 
+// TODO: Move this into its own function?
+
 $threads = getThreads($forum->id, $_GET['start'], $n, $sort_style);
+$n = 0;
 
 while($thread = mysql_fetch_object($threads)) {
 	$user = lookup_user_id($thread->owner);
 	$first_post = getFirstPost($thread->id);
 	$excerpt = sub_sentence($first_post->content, ' ', EXCERPT_LENGTH, true);
 	echo "
-			<tr style=\"font-size:8pt; text-align:center\">
-				<td class=\"col1\" style=\"font-size:10pt; text-align:left\"><a href=\"thread.php?id=", $thread->id, "\"><b>", stripslashes($thread->title), "</b></a><br>
+			<tr class=\"row$n\" style=\"font-size:8pt; text-align:center\">
+				<td style=\"font-size:10pt; text-align:left\"><a href=\"thread.php?id=", $thread->id, "\"><b>", stripslashes($thread->title), "</b></a><br>
 	";
+        $n = ($n+1)%2;
 
 	if ($category->is_helpdesk) {
 		echo "<span style=\"font-size:8pt\">", stripslashes($excerpt), "</span>";
@@ -90,13 +94,13 @@ while($thread = mysql_fetch_object($threads)) {
 
 	echo "</td>";
 	if ($category->is_helpdesk) {
-		echo "<td class=\"col2\">", $thread->replies, "</td>";
+		echo "<td>", $thread->replies, "</td>";
 	} else {
 		echo "
-			<td class=\"col2\">", $thread->replies, "</td>
-			<td class=\"col3\"><a href=\"../show_user.php?userid=", $thread->owner, "\">", $user->name, "</a></td>
-			<td class=\"col2\">", $thread->views, "</td>
-			<td class=\"col3\" style=\"text-align:right\">", pretty_time_str($thread->timestamp), "</td>
+			<td>", $thread->replies, "</td>
+			<td><a href=\"../show_user.php?userid=", $thread->owner, "\">", $user->name, "</a></td>
+			<td>", $thread->views, "</td>
+			<td style=\"text-align:right\">", pretty_time_str($thread->timestamp), "</td>
 		";
 	}
 
@@ -114,7 +118,7 @@ page_tail();
 
 function show_page_nav($forum) {
 	global $n;
-	
+
 	if ($forum->threads > $n) {
 		$totalPages = floor($forum->threads / $n);
 		$curPage = floor($_GET['start'] / $n);
