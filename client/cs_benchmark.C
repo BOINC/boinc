@@ -87,7 +87,7 @@
 #define BM_DONE     5
 static int bm_state;
 
-#define BENCHMARK_PERIOD        (SECONDS_PER_DAY*30)
+#define BENCHMARK_PERIOD        (SECONDS_PER_DAY*5)
     // rerun CPU benchmarks this often (hardware may have been upgraded)
 
 extern void guiOnBenchmarksBegin();

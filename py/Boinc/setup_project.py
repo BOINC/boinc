@@ -268,7 +268,6 @@ def install_boinc_files(dest_dir):
     install_glob(srcdir('html/user/*.inc'), dir('html/user/'))
     install_glob(srcdir('html/user/*.css'), dir('html/user/'))
     install_glob(srcdir('html/user/*.txt'), dir('html/user/'))
-    install(srcdir('html/user/sample_index.php'), dir('html/user/index.php'))
 
     # copy all the backend programs
     map(lambda (s): install(builddir('sched',s), dir('cgi-bin',s)),

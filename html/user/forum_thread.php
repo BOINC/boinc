@@ -56,7 +56,7 @@ if ($logged_in_user) {
 show_forum_title($forum, $thread, $category->is_helpdesk);
 
 echo "
-    <form action=thread.php>
+    <form action=forum_thread.php>
 	<input type=hidden name=id value=", $thread->id, ">
 	<table width=100% cellspacing=0 cellpadding=0>
     <tr>

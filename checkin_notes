@@ -12930,3 +12930,15 @@ David  June 1 2004
             forum_user_posts.php
             host_edit_action.php
             host_update_credit.php
+
+David  June 1 2004
+    - client: change benchmark interval from 30 days to 5 days
+    - Python: install_boinc_files(): don't copy sample_index.php
+        to index.php (overwrites file on running projects)
+
+    client/
+        cs_benchmark.C
+    html/user/
+        forum_thread.php
+    py/Boinc/
+        setup_project.py
