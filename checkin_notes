@@ -25027,3 +25027,11 @@ David  18 Feb 2005
     client/
         app_start.C
         http.C
+
+David  18 Feb 2005
+    - API: removed the check in boinc_init()
+        that requires the API library to have the same major version
+        as the core client.
+
+    api/
+        boinc_api.C

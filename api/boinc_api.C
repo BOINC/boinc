@@ -152,12 +152,6 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     if (retval) {
         standalone = true;
     } else {
-        if (aid.core_version && (aid.core_version/100 != BOINC_MAJOR_VERSION)) {
-            fprintf(stderr, "Core client has wrong major version: wanted %d, got %d\n",
-                BOINC_MAJOR_VERSION, aid.core_version/100
-            );
-            boinc_exit(ERR_MAJOR_VERSION); // un-recoverable==> exit with nonzero status
-        }
         retval = setup_shared_mem();
         if (retval) {
             fprintf(stderr, "Can't set up shared mem: %d\n", retval);
