@@ -26,6 +26,8 @@
 
 #include <string.h>
 
+#include "windows_cpp.h"
+
 #include "math.h"
 #include "parse.h"
 #include "time.h"
