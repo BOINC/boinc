@@ -10673,3 +10673,9 @@ Rom    Mar 22 2004
 
     api/
         graphics_api.c
+
+kevin Mar 22 2004
+    handle_results().  result.exit_status
+    set to rp->exit_status.
+    sched/
+        handle_request.C
