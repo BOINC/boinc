@@ -51,6 +51,9 @@
     ";
 
     $url = $q->get_url("db_action.php");
+    if (!isset($detail)) {
+        $detail = null;
+    }
     if ($detail) {
         $url .= "&detail=$detail";
     }
