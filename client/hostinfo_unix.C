@@ -240,12 +240,28 @@ int get_host_info(HOST_INFO& host) {
 #else
 #endif
 
-#if defined(HAVE_SYS_SYSTEMINFO_H) && defined(SI_HW_SERIAL)
+#if defined(HAVE_SYS_SYSTEMINFO_H) 
+#if defined(SI_HW_SERIAL)
     sysinfo(SI_HW_SERIAL, host.serialnum, sizeof(host.serialnum));
 #else
 //#error Need to specify a method to obtain serial num
 #endif
-
+#ifdef SI_PLATFORM
+    sysinfo(SI_PLATFORM, host.p_vendor, sizeof(host.p_vendor));
+#endif
+#ifdef SI_ISALIST
+    sysinfo(SI_ISALIST, host.p_model, sizeof(host.p_model));
+    for (unsigned int i=0; i<sizeof(host.p_model); i++) {
+      if (host.p_model[i]==' ') {
+	host.p_model[i]=0;
+      }
+      if (host.p_model[i]==0) {
+	i=sizeof(host.p_model);
+      }
+    }
+#endif
+#endif
+   
     get_local_domain_name(host.domain_name, sizeof(host.domain_name));
     get_local_ip_addr_str(host.ip_addr, sizeof(host.ip_addr));
     host.timezone = get_timezone();

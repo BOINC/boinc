@@ -7176,3 +7176,10 @@ David  28 Oct 2003
     - login form: keyboard focus is on auth input field
     html_user/
         util.inc
+
+Eric K 28 Oct 2003
+    - for machines with sysinfo, host.p_vendor and host.p_model are now
+      meaningful.
+    
+    client/hostinfo_unix.C
+
