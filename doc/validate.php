@@ -31,7 +31,7 @@ If, when an output file for a result has a nonrecoverable error
 (e.g. the directory is there but the file isn't,
  or the file is present but has invalid contents),
 then it must set the result's outcome (in memory, not database)
-to VALIDATE_ERROR.
+to outcome=RESULT_OUTCOME_VALIDATE_ERROR and validate_state=VALIDATE_STATE_INVALID.
 <p>
 Note: use BOINC's
 <a href=backend_util.php>back-end utility functions</a>
@@ -40,7 +40,8 @@ and to distinguish recoverable and nonrecoverable file-open errors.
 <li>
 If a canonical result is found, check_set() must set the
 validate_state field of each non-ERROR result
-(in memory, not database) to either VALID or INVALID.
+(in memory, not database) to either validate_state=VALIDATE_STATE_VALID 
+or validate_state=VALIDATE_STATE_INVALID.
 
 <li>
 If a recoverable error occurs while reading output files
@@ -62,7 +63,8 @@ int check_pair(RESULT& new_result, RESULT& canonical_result, bool& retry);
 <li>
 <b>check_pair()</b> compares a new result to the canonical result.
 In the absence of errors,
-it sets the new result's validate_state to either VALID or INVALID.
+it sets the new result's validate_state to either VALIDATE_STATE_INVALID or
+VALIDATE_STATE_VALID.
 <li>
 If it has a nonrecoverable error reading an output file of either result,
 or if the new result's output file is invalid,
