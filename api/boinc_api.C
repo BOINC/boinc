@@ -179,8 +179,7 @@ int boinc_parse_init_data_file() {
     // If in standalone mode, use init files if they're there,
     // but don't demand that they exist
     //
-    f = boinc_fopen(INIT_DATA_FILE, "r");
-    if (!f) {
+    if (!boinc_file_exists(INIT_DATA_FILE)) {
         if (standalone) {
             safe_strncpy(aid.app_preferences, "", sizeof(aid.app_preferences));
             safe_strncpy(aid.user_name, "Unknown user", sizeof(aid.user_name));
@@ -199,6 +198,7 @@ int boinc_parse_init_data_file() {
             return ERR_FOPEN;
         }
     } else {
+        f = boinc_fopen(INIT_DATA_FILE, "r");
         retval = parse_init_data_file(f, aid);
         fclose(f);
         if (retval) {

@@ -11259,3 +11259,10 @@ David  April 1 2004
 
 	api/
 		windows_opengl.C
+
+Rom    April 1 2004
+    - Found another place that should have been using boinc_file_exist.
+      NOTE: Still hasn't fixed the performance issue(s) on my machine though.
+
+    api/
+        boinc_api.c
