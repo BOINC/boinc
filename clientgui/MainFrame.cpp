@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.18  2004/08/11 23:52:12  rwalton
+// *** empty log message ***
+//
 // Revision 1.17  2004/07/13 05:56:01  rwalton
 // Hooked up the Project and Work tab for the new GUI.
 //
@@ -86,9 +89,6 @@ END_EVENT_TABLE ()
 
 CMainFrame::CMainFrame()
 {
-    wxLogTrace("CMainFrame::CMainFrame - Function Begining");
-
-    wxLogTrace("CMainFrame::CMainFrame - Function Ending");
 }
 
 
@@ -96,9 +96,6 @@ CMainFrame::CMainFrame(wxString strTitle) :
     wxFrame ((wxFrame *)NULL, -1, strTitle, wxDefaultPosition, wxDefaultSize,
              wxDEFAULT_FRAME_STYLE | wxNO_FULL_REPAINT_ON_RESIZE)
 {
-    wxLogTrace("CMainFrame::CMainFrame - Function Begining");
-
-
     m_pMenubar = NULL;
     m_pNotebook = NULL;
     m_pStatusbar = NULL;
@@ -119,16 +116,10 @@ CMainFrame::CMainFrame(wxString strTitle) :
 
 
     RestoreState();
-
-
-    wxLogTrace("CMainFrame::CMainFrame - Function Ending");
 }
 
 
 CMainFrame::~CMainFrame(){
-    wxLogTrace("CMainFrame::~CMainFrame - Function Begining");
-
-
     wxASSERT(NULL != m_pFrameRenderTimer);
     wxASSERT(NULL != m_pMenubar);
     wxASSERT(NULL != m_pNotebook);
@@ -151,16 +142,10 @@ CMainFrame::~CMainFrame(){
 
     if (m_pMenubar)
         wxCHECK_RET(DeleteMenu(), _T("Failed to delete menu bar."));
-
-
-    wxLogTrace("CMainFrame::~CMainFrame - Function Ending");
 }
 
 
 bool CMainFrame::CreateMenu() {
-    wxLogTrace("CMainFrame::CreateMenu - Function Begining");
-
-
     // File menu
     wxMenu *menuFile = new wxMenu;
     menuFile->Append(wxID_EXIT, _("E&xit"));
@@ -185,16 +170,11 @@ bool CMainFrame::CreateMenu() {
     m_pMenubar->Append(menuHelp,      _("&Help"));
     SetMenuBar(m_pMenubar);
 
-
-    wxLogTrace("CMainFrame::CreateMenu - Function Ending");
     return true;
 }
 
 
 bool CMainFrame::CreateNotebook() {
-    wxLogTrace("CMainFrame::CreateNotebook - Function Begining");
-
-
     // create frame panel
     wxPanel *pPanel = new wxPanel(this, -1, wxDefaultPosition, wxDefaultSize,
                                  wxTAB_TRAVERSAL|wxCLIP_CHILDREN|wxNO_BORDER);
@@ -219,17 +199,12 @@ bool CMainFrame::CreateNotebook() {
     CreateNotebookPage(new CMessagesView(m_pNotebook));
     CreateNotebookPage(new CResourceUtilizationView(m_pNotebook));
 
-
-    wxLogTrace("CMainFrame::CreateNotebook - Function Ending");
     return true;
 }
 
 
 template < class T >
 bool CMainFrame::CreateNotebookPage(T pwndNewNotebookPage) {
-    wxLogTrace("CMainFrame::CreateNotebookPage - Function Begining");
-
-
     wxImageList*    pImageList;
     wxInt32         iImageIndex = 0;
 
@@ -248,16 +223,11 @@ bool CMainFrame::CreateNotebookPage(T pwndNewNotebookPage) {
     iImageIndex = pImageList->Add(wxBitmap(pwndNewNotebookPage->GetViewIcon()), wxColour(255, 0, 255));
     m_pNotebook->AddPage(pwndNewNotebookPage, pwndNewNotebookPage->GetViewName(), TRUE, iImageIndex);
 
-
-    wxLogTrace("CMainFrame::CreateNotebookPage - Function Ending");
     return true;
 }
 
 
 bool CMainFrame::CreateStatusbar() {
-    wxLogTrace("CMainFrame::CreateStatusbar - Function Begining");
-
-
     if (m_pStatusbar)
         return true;
 
@@ -273,24 +243,16 @@ bool CMainFrame::CreateStatusbar() {
     SetStatusBar(m_pStatusbar);
     SendSizeEvent();
 
-
-    wxLogTrace("CMainFrame::CreateStatusbar - Function Ending");
     return true;
 }
 
 
 bool CMainFrame::DeleteMenu() {
-    wxLogTrace("CMainFrame::DeleteMenu - Function Begining");
-
-    wxLogTrace("CMainFrame::DeleteMenu - Function Ending");
     return true;
 }
 
 
 bool CMainFrame::DeleteNotebook() {
-    wxLogTrace("CMainFrame::DeleteNotebook - Function Begining");
-
-
     wxImageList*    pImageList;
 
     wxASSERT(NULL != m_pNotebook);
@@ -302,16 +264,11 @@ bool CMainFrame::DeleteNotebook() {
     if (pImageList)
         delete pImageList;
 
-
-    wxLogTrace("CMainFrame::DeleteNotebook - Function Ending");
     return true;
 }
 
 
 bool CMainFrame::DeleteStatusbar() {
-    wxLogTrace("CMainFrame::DeleteStatusbar - Function Begining");
-
-
     if (!m_pStatusbar)
         return true;
 
@@ -322,15 +279,11 @@ bool CMainFrame::DeleteStatusbar() {
     m_pStatusbar = NULL;
     SendSizeEvent();
 
-
-    wxLogTrace("CMainFrame::DeleteStatusbar - Function Ending");
     return true;
 }
 
 
 bool CMainFrame::SaveState() {
-    wxLogTrace("CMainFrame::SaveState - Function Begining");
-
     wxString        strBaseConfigLocation = wxString(_T("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxWindow*       pwndNotebookPage = NULL;
@@ -378,16 +331,12 @@ bool CMainFrame::SaveState() {
         }
     }
 
-
-    wxLogTrace("CMainFrame::SaveState - Function Ending");
     return true;
 }
 
 
 template < class T >
 bool CMainFrame::FireSaveStateEvent( T pPage, wxConfigBase* pConfig ) {
-    wxLogTrace("CMainFrame::FireSaveStateEvent - Function Begining");
-
     wxString strPreviousLocation = wxString(_T(""));
     wxString strConfigLocation = wxString(_T(""));
 
@@ -398,14 +347,11 @@ bool CMainFrame::FireSaveStateEvent( T pPage, wxConfigBase* pConfig ) {
     pPage->OnSaveState( pConfig );
     pConfig->SetPath(strPreviousLocation);
 
-    wxLogTrace("CMainFrame::FireSaveStateEvent - Function Ending");
     return true;
 }
 
 
 bool CMainFrame::RestoreState() {
-    wxLogTrace("CMainFrame::RestoreState - Function Begining");
-
     wxString        strBaseConfigLocation = wxString(_T("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
     wxWindow*       pwndNotebookPage = NULL;
@@ -457,16 +403,12 @@ bool CMainFrame::RestoreState() {
         }
     }
 
-
-    wxLogTrace("CMainFrame::RestoreState - Function Ending");
     return true;
 }
 
 
 template < class T >
 bool CMainFrame::FireRestoreStateEvent( T pPage, wxConfigBase* pConfig ) {
-    wxLogTrace("CMainFrame::FireRestoreStateEvent - Function Begining");
-
     wxString strPreviousLocation = wxString(_T(""));
     wxString strConfigLocation = wxString(_T(""));
 
@@ -477,33 +419,21 @@ bool CMainFrame::FireRestoreStateEvent( T pPage, wxConfigBase* pConfig ) {
     pPage->OnRestoreState( pConfig );
     pConfig->SetPath(strPreviousLocation);
 
-    wxLogTrace("CMainFrame::FireRestoreStateEvent - Function Ending");
     return true;
 }
 
 
 void CMainFrame::OnExit(wxCommandEvent &WXUNUSED(event)) {
-    wxLogTrace("CMainFrame::OnExit - Function Begining");
-
     Close(true);
-
-    wxLogTrace("CMainFrame::OnExit - Function Ending");
 }
 
 
 void CMainFrame::OnClose(wxCloseEvent &WXUNUSED(event)) {
-    wxLogTrace("CMainFrame::OnClose - Function Begining");
-
     Destroy();
-
-    wxLogTrace("CMainFrame::OnClose - Function Ending");
 }
 
 
 void CMainFrame::OnCommandsAttachProject(wxCommandEvent &WXUNUSED(event)) {
-    wxLogTrace("CMainFrame::OnCommandsAttachProject - Function Begining");
-
-
     CDlgAttachProject* pDlg = new CDlgAttachProject(this);
     wxASSERT(NULL != pDlg);
 
@@ -511,16 +441,10 @@ void CMainFrame::OnCommandsAttachProject(wxCommandEvent &WXUNUSED(event)) {
 
     if (pDlg)
         pDlg->Destroy();
-
-
-    wxLogTrace("CMainFrame::OnCommandsAttachProject - Function Ending");
 }
 
 
 void CMainFrame::OnToolsOptions(wxCommandEvent &WXUNUSED(event)) {
-    wxLogTrace("CMainFrame::OnToolsOptions - Function Begining");
-
-
     CDlgOptions* pDlg = new CDlgOptions(this);
     wxASSERT(NULL != pDlg);
 
@@ -528,16 +452,10 @@ void CMainFrame::OnToolsOptions(wxCommandEvent &WXUNUSED(event)) {
 
     if (pDlg)
         pDlg->Destroy();
-
-
-    wxLogTrace("CMainFrame::OnToolsOptions - Function Ending");
 }
 
 
 void CMainFrame::OnAbout(wxCommandEvent &WXUNUSED(event)) {
-    wxLogTrace("CMainFrame::OnAbout - Function Begining");
-
-
     CDlgAbout* pDlg = new CDlgAbout(this);
     wxASSERT(NULL != pDlg);
 
@@ -545,9 +463,6 @@ void CMainFrame::OnAbout(wxCommandEvent &WXUNUSED(event)) {
 
     if (pDlg)
         pDlg->Destroy();
-
-
-    wxLogTrace("CMainFrame::OnAbout - Function Ending");
 }
 
 
@@ -579,8 +494,6 @@ void CMainFrame::OnFrameRender (wxTimerEvent &event) {
 
 template < class T >
 void CMainFrame::FireRenderEvent( T pPage, wxTimerEvent &event ) {
-    wxLogTrace("CMainFrame::FireRenderEvent - Function Begining");
     pPage->OnRender(event);
-    wxLogTrace("CMainFrame::FireRenderEvent - Function Ending");
 }
 

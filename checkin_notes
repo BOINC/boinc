@@ -16224,3 +16224,27 @@ David  11 Aug 2004
         cs_data.C
         cs_scheduler.C
         scheduler_op.C
+
+Rom    11 Aug 2004
+    - Move gui_rpc_client.C, .h to the clientgui folder.
+    - Removed wx based document objects in favor of the 
+      gui_rpc_client.C based objects.
+    - Update source to match.
+
+    client/
+        gui_rpc_client.C, .h (removed)
+        gui_test.C (removed)
+        makefile.gui_test (removed)
+    clientgui/
+        gui_rpc_client.C, .h (added)
+        gui_test.C (added)
+        makefile.gui_test (added)
+        ***** Removed Numerous Files *****
+        BOINCGUI.vcproj
+        MainDocument.cpp, .h
+        MainFrame.cpp
+        MessagesView.cpp, .h
+        ProjectsView.cpp
+        ResourceUtilizationView.cpp, .h
+        TransfersView.cpp, .h
+        WorkView.cpp

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.8  2004/08/11 23:52:12  rwalton
+// *** empty log message ***
+//
 // Revision 1.7  2004/07/13 05:56:01  rwalton
 // Hooked up the Project and Work tab for the new GUI.
 //
@@ -42,54 +45,17 @@
 #pragma interface "MainDocument.cpp"
 #endif
 
-#include "XMLParser.h"
-#include "ActiveTask.h"
-#include "App.h"
-#include "AppVersion.h"
-#include "FileInfo.h"
-#include "Message.h"
-#include "Project.h"
-#include "ProxyInfo.h"
-#include "Result.h"
-#include "Workunit.h"
 
-
-class CMainDocument : public CXMLParser
+class CMainDocument : public wxObject
 {
     DECLARE_DYNAMIC_CLASS(CMainDocument)
 
 private:
-    wxSocketClient*         m_pSocket;
-    wxSocketOutputStream*   m_pSocketOutput;
-    wxSocketInputStream*    m_pSocketInput;
-    wxTextOutputStream*     m_pTextOutput;
-    wxTextInputStream*      m_pTextInput;
-
-
     wxDateTime              m_dtCachedStateTimestamp;
     wxDateTime              m_dtCachedStateLockTimestamp;
     bool                    m_bCachedStateLocked;
 
-    CArrayActiveTask        m_ActiveTasks;
-    CArrayApp               m_Apps;
-    CArrayAppVersion        m_AppVersions;
-    CArrayFileInfo          m_FileInfos;
-    CArrayProject           m_Projects;
-    CArrayResult            m_Results;
-    CArrayWorkunit          m_Workunits;
-
-    CArrayMessage           m_Messages;
-    
-    CProxyInfo              m_ProxyInfo;
-
-    wxInt32                 SendMessageToCore(wxString& strMessage, wxTextInputStream** pTextInput);
-
     wxInt32                 CachedStateUpdate();
-
-    CApp*                   LookupApp(wxString& strName);
-    CAppVersion*            LookupAppVersion(wxString& strName, wxInt32 iVersionNumber);
-    CWorkunit*              LookupWorkunit(wxString& strName);
-    CResult*                LookupResult(wxString& strName);
 
 public:
     CMainDocument();
@@ -99,21 +65,31 @@ public:
     wxInt32                 CachedStateUnlock();
 
     wxInt32                 GetProjectCount();
-    wxString                GetProjectName(wxInt32 iIndex);
+    wxString                GetProjectProjectName(wxInt32 iIndex);
     wxString                GetProjectAccountName(wxInt32 iIndex);
+    wxString                GetProjectTeamName(wxInt32 iIndex);
     wxString                GetProjectTotalCredit(wxInt32 iIndex);
     wxString                GetProjectAvgCredit(wxInt32 iIndex);
     wxString                GetProjectResourceShare(wxInt32 iIndex);
 
-    wxInt32                 GetResultCount();
-    wxString                GetResultProjectName(wxInt32 iIndex);
-    wxString                GetResultApplicationName(wxInt32 iIndex);
-    wxString                GetResultName(wxInt32 iIndex);
-    wxString                GetResultCPUTime(wxInt32 iIndex);
-    wxString                GetResultProgress(wxInt32 iIndex);
-    wxString                GetResultTimeToCompletion(wxInt32 iIndex);
-    wxString                GetResultReportDeadline(wxInt32 iIndex);
-    wxString                GetResultStatus(wxInt32 iIndex);
+    wxInt32                 GetWorkCount();
+    wxString                GetWorkProjectName(wxInt32 iIndex);
+    wxString                GetWorkApplicationName(wxInt32 iIndex);
+    wxString                GetWorkName(wxInt32 iIndex);
+    wxString                GetWorkCPUTime(wxInt32 iIndex);
+    wxString                GetWorkProgress(wxInt32 iIndex);
+    wxString                GetWorkTimeToCompletion(wxInt32 iIndex);
+    wxString                GetWorkReportDeadline(wxInt32 iIndex);
+    wxString                GetWorkStatus(wxInt32 iIndex);
+
+    wxInt32                 GetTransferCount();
+    wxString                GetTransferFileName(wxInt32 iIndex);
+    wxString                GetTransferProgress(wxInt32 iIndex);
+    wxString                GetTransferProjectName(wxInt32 iIndex);
+    wxString                GetTransferSize(wxInt32 iIndex);
+    wxString                GetTransferSpeed(wxInt32 iIndex);
+    wxString                GetTransferStatus(wxInt32 iIndex);
+    wxString                GetTransferTime(wxInt32 iIndex);
 
 };
 

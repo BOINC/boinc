@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.12  2004/08/11 23:52:12  rwalton
+// *** empty log message ***
+//
 // Revision 1.11  2004/07/13 05:56:02  rwalton
 // Hooked up the Project and Work tab for the new GUI.
 //
@@ -46,6 +49,8 @@
 #endif
 
 #include "stdwx.h"
+#include "BOINCGUIApp.h"
+#include "MainDocument.h"
 #include "ResourceUtilizationView.h"
 #include "Events.h"
 
@@ -61,43 +66,28 @@ END_EVENT_TABLE()
 
 CResourceUtilizationView::CResourceUtilizationView()
 {
-    wxLogTrace("CResourceUtilizationView::CResourceUtilizationView - Function Begining");
-
-    wxLogTrace("CResourceUtilizationView::CResourceUtilizationView - Function Ending");
 }
 
 
 CResourceUtilizationView::CResourceUtilizationView(wxNotebook* pNotebook) :
     CBaseListCtrlView(pNotebook, ID_LIST_RESOURCEUTILIZATIONVIEW)
 {
-    wxLogTrace("CResourceUtilizationView::CResourceUtilizationView - Function Begining");
-
-    wxLogTrace("CResourceUtilizationView::CResourceUtilizationView - Function Ending");
 }
 
 
 CResourceUtilizationView::~CResourceUtilizationView()
 {
-    wxLogTrace("CResourceUtilizationView::~CResourceUtilizationView - Function Begining");
-
-    wxLogTrace("CResourceUtilizationView::~CResourceUtilizationView - Function Ending");
 }
 
 
 wxString CResourceUtilizationView::GetViewName()
 {
-    wxLogTrace("CResourceUtilizationView::GetViewName - Function Begining");
-
-    wxLogTrace("CResourceUtilizationView::GetViewName - Function Ending");
     return wxString(_("Disk"));
 }
 
 
 char** CResourceUtilizationView::GetViewIcon()
 {
-    wxLogTrace("CResourceUtilizationView::GetViewIcon - Function Begining");
-
-    wxLogTrace("CResourceUtilizationView::GetViewIcon - Function Ending");
     return usage_xpm;
 }
 
@@ -111,5 +101,43 @@ void CResourceUtilizationView::OnCacheHint ( wxListEvent& event ) {
 void CResourceUtilizationView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CResourceUtilizationView::OnRender - Function Begining");
     wxLogTrace("CResourceUtilizationView::OnRender - Function Ending");
+}
+
+
+wxString CResourceUtilizationView::OnGetItemText(long item, long column) const {
+    wxString strBuffer;
+    switch(column) {
+        case 0:
+            if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
+            strBuffer = wxGetApp().GetDocument()->GetProjectProjectName(item);
+            break;
+        case 1:
+            strBuffer = wxGetApp().GetDocument()->GetProjectAccountName(item);
+            break;
+        case 2:
+            strBuffer = wxGetApp().GetDocument()->GetProjectTeamName(item);
+            break;
+        case 3:
+            strBuffer = wxGetApp().GetDocument()->GetProjectTotalCredit(item);
+            break;
+        case 4:
+            strBuffer = wxGetApp().GetDocument()->GetProjectAvgCredit(item);
+            break;
+        case 5:
+            strBuffer = wxGetApp().GetDocument()->GetProjectResourceShare(item);
+            if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
+            break;
+    }
+    return strBuffer;
+}
+
+
+int CResourceUtilizationView::OnGetItemImage(long item) const {
+    return -1;
+}
+
+
+wxListItemAttr* CResourceUtilizationView::OnGetItemAttr(long item) const {
+    return NULL;
 }
 

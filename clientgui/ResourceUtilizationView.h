@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.11  2004/08/11 23:52:12  rwalton
+// *** empty log message ***
+//
 // Revision 1.10  2004/07/13 05:56:02  rwalton
 // Hooked up the Project and Work tab for the new GUI.
 //
@@ -70,8 +73,13 @@ private:
     wxInt32                 m_iCacheFrom;
     wxInt32                 m_iCacheTo;
 
+    virtual wxString        OnGetItemText(long item, long column) const;
+    virtual int             OnGetItemImage(long item) const;
+    virtual wxListItemAttr* OnGetItemAttr(long item) const;
+
 
     DECLARE_EVENT_TABLE()
+
 };
 
 

@@ -46,7 +46,7 @@
 #endif
 
 // BOINC Windows GUI Applications use MFC libraries and the like.
-#ifndef _CONSOLE
+#if !defined(_CONSOLE) && !defined(WXDEBUG) && !defined(WXNDEBUG)
 
 #ifndef VC_EXTRALEAN
 #define VC_EXTRALEAN

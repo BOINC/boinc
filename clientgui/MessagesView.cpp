@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.12  2004/08/11 23:52:12  rwalton
+// *** empty log message ***
+//
 // Revision 1.11  2004/07/13 05:56:01  rwalton
 // Hooked up the Project and Work tab for the new GUI.
 //
@@ -46,10 +49,17 @@
 #endif
 
 #include "stdwx.h"
+#include "BOINCGUIApp.h"
+#include "MainDocument.h"
 #include "MessagesView.h"
 #include "Events.h"
 
 #include "res/mess.xpm"
+
+
+#define COLUMN_PROJECT              0
+#define COLUMN_TIME                 1
+#define COLUMN_MESSAGE              2
 
 
 IMPLEMENT_DYNAMIC_CLASS(CMessagesView, CBaseListCtrlView)
@@ -61,47 +71,31 @@ END_EVENT_TABLE()
 
 CMessagesView::CMessagesView()
 {
-    wxLogTrace("CMessagesView::CMessagesView - Function Begining");
-
-    wxLogTrace("CMessagesView::CMessagesView - Function Ending");
 }
 
 
 CMessagesView::CMessagesView(wxNotebook* pNotebook) :
     CBaseListCtrlView(pNotebook, ID_LIST_MESSAGESVIEW)
 {
-    wxLogTrace("CMessagesView::CMessagesView - Function Begining");
-
-    InsertColumn(0, _("Project"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(1, _("Time"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(2, _("Message"), wxLIST_FORMAT_LEFT, -1);
-
-    wxLogTrace("CMessagesView::CMessagesView - Function Ending");
+    InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, -1);
 }
 
 
 CMessagesView::~CMessagesView()
 {
-    wxLogTrace("CMessagesView::~CMessagesView - Function Begining");
-
-    wxLogTrace("CMessagesView::~CMessagesView - Function Ending");
 }
 
 
 wxString CMessagesView::GetViewName()
 {
-    wxLogTrace("CMessagesView::GetViewName - Function Begining");
-
-    wxLogTrace("CMessagesView::GetViewName - Function Ending");
     return wxString(_("Messages"));
 }
 
 
 char** CMessagesView::GetViewIcon()
 {
-    wxLogTrace("CMessagesView::GetViewIcon - Function Begining");
-
-    wxLogTrace("CMessagesView::GetViewIcon - Function Ending");
     return mess_xpm;
 }
 
@@ -115,5 +109,34 @@ void CMessagesView::OnCacheHint ( wxListEvent& event ) {
 void CMessagesView::OnRender(wxTimerEvent &event) {
     wxLogTrace("CMessagesView::OnRender - Function Begining");
     wxLogTrace("CMessagesView::OnRender - Function Ending");
+}
+
+
+wxString CMessagesView::OnGetItemText(long item, long column) const {
+    wxString strBuffer;
+    switch(column) {
+        case COLUMN_PROJECT:
+            if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
+            strBuffer = wxGetApp().GetDocument()->GetProjectProjectName(item);
+            break;
+        case COLUMN_TIME:
+            strBuffer = wxGetApp().GetDocument()->GetProjectAccountName(item);
+            break;
+        case COLUMN_MESSAGE:
+            strBuffer = wxGetApp().GetDocument()->GetProjectResourceShare(item);
+            if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
+            break;
+    }
+    return strBuffer;
+}
+
+
+int CMessagesView::OnGetItemImage(long item) const {
+    return -1;
+}
+
+
+wxListItemAttr* CMessagesView::OnGetItemAttr(long item) const {
+    return NULL;
 }
 

@@ -17,7 +17,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\msw;..\lib;..\api"
+				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\msw;..\lib;..\api;..\clientgui"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG"
 				StringPooling="FALSE"
 				MinimalRebuild="FALSE"
@@ -25,7 +25,7 @@
 				RuntimeLibrary="3"
 				BufferSecurityCheck="TRUE"
 				EnableFunctionLevelLinking="FALSE"
-				UsePrecompiledHeader="3"
+				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdwx.h"
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="FALSE"
@@ -74,7 +74,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				GlobalOptimizations="TRUE"
-				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\msw;..\lib;..\api"
+				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;$(WXWIN)\lib\msw;..\lib;..\api;..\clientgui"
 				PreprocessorDefinitions="WIN32;_NDEBUG;_WINDOWS;_MT;__WXNDEBUG__;WXNDEBUG"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -130,15 +130,6 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath=".\ActiveTask.cpp">
-			</File>
-			<File
-				RelativePath=".\App.cpp">
-			</File>
-			<File
-				RelativePath=".\AppVersion.cpp">
-			</File>
-			<File
 				RelativePath=".\BaseListCtrlView.cpp">
 			</File>
 			<File
@@ -157,7 +148,7 @@
 				RelativePath=".\DlgOptions.cpp">
 			</File>
 			<File
-				RelativePath=".\FileInfo.cpp">
+				RelativePath=".\gui_rpc_client.C">
 			</File>
 			<File
 				RelativePath=".\MainDocument.cpp">
@@ -166,25 +157,16 @@
 				RelativePath=".\MainFrame.cpp">
 			</File>
 			<File
-				RelativePath=".\Message.cpp">
-			</File>
-			<File
 				RelativePath=".\MessagesView.cpp">
 			</File>
 			<File
-				RelativePath=".\Project.cpp">
+				RelativePath="..\lib\parse.C">
 			</File>
 			<File
 				RelativePath=".\ProjectsView.cpp">
 			</File>
 			<File
-				RelativePath=".\ProxyInfo.cpp">
-			</File>
-			<File
 				RelativePath=".\ResourceUtilizationView.cpp">
-			</File>
-			<File
-				RelativePath=".\Result.cpp">
 			</File>
 			<File
 				RelativePath=".\stdwx.cpp">
@@ -208,13 +190,10 @@
 				RelativePath=".\URLValidator.cpp">
 			</File>
 			<File
-				RelativePath=".\Workunit.cpp">
+				RelativePath="..\lib\util.C">
 			</File>
 			<File
 				RelativePath=".\WorkView.cpp">
-			</File>
-			<File
-				RelativePath=".\XMLParser.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -225,16 +204,10 @@
 				RelativePath=".\_wx_intellisense.h">
 			</File>
 			<File
-				RelativePath=".\ActiveTask.h">
-			</File>
-			<File
-				RelativePath=".\App.h">
-			</File>
-			<File
-				RelativePath=".\AppVersion.h">
-			</File>
-			<File
 				RelativePath=".\BaseListCtrlView.h">
+			</File>
+			<File
+				RelativePath="..\lib\boinc_win.h">
 			</File>
 			<File
 				RelativePath=".\BOINCGUIApp.h">
@@ -258,7 +231,10 @@
 				RelativePath=".\Events.h">
 			</File>
 			<File
-				RelativePath=".\FileInfo.h">
+				RelativePath="..\client\gui_rpc_client.h">
+			</File>
+			<File
+				RelativePath=".\gui_rpc_client.h">
 			</File>
 			<File
 				RelativePath=".\MainDocument.h">
@@ -267,28 +243,19 @@
 				RelativePath=".\MainFrame.h">
 			</File>
 			<File
-				RelativePath=".\Message.h">
-			</File>
-			<File
 				RelativePath=".\MessagesView.h">
 			</File>
 			<File
-				RelativePath=".\Project.h">
+				RelativePath="..\lib\parse.h">
 			</File>
 			<File
 				RelativePath=".\ProjectsView.h">
-			</File>
-			<File
-				RelativePath=".\ProxyInfo.h">
 			</File>
 			<File
 				RelativePath=".\resource.h">
 			</File>
 			<File
 				RelativePath=".\ResourceUtilizationView.h">
-			</File>
-			<File
-				RelativePath=".\Result.h">
 			</File>
 			<File
 				RelativePath=".\stdwx.h">
@@ -300,13 +267,10 @@
 				RelativePath=".\URLValidator.h">
 			</File>
 			<File
-				RelativePath=".\Workunit.h">
+				RelativePath="..\lib\util.h">
 			</File>
 			<File
 				RelativePath=".\WorkView.h">
-			</File>
-			<File
-				RelativePath=".\XMLParser.h">
 			</File>
 		</Filter>
 		<Filter

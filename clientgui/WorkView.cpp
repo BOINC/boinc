@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.12  2004/08/11 23:52:13  rwalton
+// *** empty log message ***
+//
 // Revision 1.11  2004/07/13 05:56:02  rwalton
 // Hooked up the Project and Work tab for the new GUI.
 //
@@ -54,6 +57,16 @@
 #include "res/result.xpm"
 
 
+#define COLUMN_PROJECT              0
+#define COLUMN_APPLICATION          1
+#define COLUMN_NAME                 2
+#define COLUMN_CPUTIME              3
+#define COLUMN_PROGRESS             4
+#define COLUMN_TOCOMPLETETION       5
+#define COLUMN_REPORTDEADLINE       6
+#define COLUMN_STATUS               7
+
+
 IMPLEMENT_DYNAMIC_CLASS(CWorkView, CBaseListCtrlView)
 
 BEGIN_EVENT_TABLE(CWorkView, CBaseListCtrlView)
@@ -63,54 +76,38 @@ END_EVENT_TABLE()
 
 CWorkView::CWorkView()
 {
-    wxLogTrace("CWorkView::CWorkView - Function Begining");
-
-    wxLogTrace("CWorkView::CWorkView - Function Ending");
 }
 
 
 CWorkView::CWorkView(wxNotebook* pNotebook) :
     CBaseListCtrlView(pNotebook, ID_LIST_WORKVIEW)
 {
-    wxLogTrace("CWorkView::CWorkView - Function Begining");
-
     m_bProcessingRenderEvent = false;
 
-    InsertColumn(0, _("Project"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(1, _("Application"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(2, _("Name"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(3, _("CPU time"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(4, _("Progress"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(5, _("To Completetion"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(6, _("Report Deadline"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(7, _("Status"), wxLIST_FORMAT_LEFT, -1);
-
-    wxLogTrace("CWorkView::CWorkView - Function Ending");
+    InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(COLUMN_APPLICATION, _("Application"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(COLUMN_NAME, _("Name"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(COLUMN_CPUTIME, _("CPU time"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(COLUMN_TOCOMPLETETION, _("To Completetion"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(COLUMN_REPORTDEADLINE, _("Report Deadline"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, -1);
 }
 
 
 CWorkView::~CWorkView()
 {
-    wxLogTrace("CWorkView::~CWorkView - Function Begining");
-
-    wxLogTrace("CWorkView::~CWorkView - Function Ending");
 }
 
 
 wxString CWorkView::GetViewName()
 {
-    wxLogTrace("CWorkView::GetViewName - Function Begining");
-
-    wxLogTrace("CWorkView::GetViewName - Function Ending");
     return wxString(_("Work"));
 }
 
 
 char** CWorkView::GetViewIcon()
 {
-    wxLogTrace("CWorkView::GetViewIcon - Function Begining");
-
-    wxLogTrace("CWorkView::GetViewIcon - Function Ending");
     return result_xpm;
 }
 
@@ -122,15 +119,13 @@ void CWorkView::OnCacheHint ( wxListEvent& event ) {
 
 
 void CWorkView::OnRender(wxTimerEvent &event) {
-    wxLogTrace("CWorkView::OnRender - Function Begining");
-
     if (!m_bProcessingRenderEvent)
     {
         wxLogTrace("CWorkView::OnRender - Processing Render Event...");
         m_bProcessingRenderEvent = true;
 
-        wxInt32 iResultCount = wxGetApp().GetDocument()->GetResultCount();
-        SetItemCount(iResultCount);
+        wxInt32 iWorkCount = wxGetApp().GetDocument()->GetWorkCount();
+        SetItemCount(iWorkCount);
 
         m_bProcessingRenderEvent = false;
     }
@@ -138,38 +133,36 @@ void CWorkView::OnRender(wxTimerEvent &event) {
     {
         event.Skip();
     }
-
-    wxLogTrace("CWorkView::OnRender - Function Ending");
 }
 
 
 wxString CWorkView::OnGetItemText(long item, long column) const {
     wxString strBuffer;
     switch(column) {
-        case 0:
+        case COLUMN_PROJECT:
             if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
-            strBuffer = wxGetApp().GetDocument()->GetResultProjectName(item);
+            strBuffer = wxGetApp().GetDocument()->GetWorkProjectName(item);
             break;
-        case 1:
-            strBuffer = wxGetApp().GetDocument()->GetResultApplicationName(item);
+        case COLUMN_APPLICATION:
+            strBuffer = wxGetApp().GetDocument()->GetWorkApplicationName(item);
             break;
-        case 2:
-            strBuffer = wxGetApp().GetDocument()->GetResultName(item);
+        case COLUMN_NAME:
+            strBuffer = wxGetApp().GetDocument()->GetWorkName(item);
             break;
-        case 3:
-            strBuffer = wxGetApp().GetDocument()->GetResultCPUTime(item);
+        case COLUMN_CPUTIME:
+            strBuffer = wxGetApp().GetDocument()->GetWorkCPUTime(item);
             break;
-        case 4:
-            strBuffer = wxGetApp().GetDocument()->GetResultProgress(item);
+        case COLUMN_PROGRESS:
+            strBuffer = wxGetApp().GetDocument()->GetWorkProgress(item);
             break;
-        case 5:
-            strBuffer = wxGetApp().GetDocument()->GetResultTimeToCompletion(item);
+        case COLUMN_TOCOMPLETETION:
+            strBuffer = wxGetApp().GetDocument()->GetWorkTimeToCompletion(item);
             break;
-        case 6:
-            strBuffer = wxGetApp().GetDocument()->GetResultReportDeadline(item);
+        case COLUMN_REPORTDEADLINE:
+            strBuffer = wxGetApp().GetDocument()->GetWorkReportDeadline(item);
             break;
-        case 7:
-            strBuffer = wxGetApp().GetDocument()->GetResultStatus(item);
+        case COLUMN_STATUS:
+            strBuffer = wxGetApp().GetDocument()->GetWorkStatus(item);
             if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
             break;
     }

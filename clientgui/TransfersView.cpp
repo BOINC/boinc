@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.12  2004/08/11 23:52:13  rwalton
+// *** empty log message ***
+//
 // Revision 1.11  2004/07/13 05:56:02  rwalton
 // Hooked up the Project and Work tab for the new GUI.
 //
@@ -46,10 +49,21 @@
 #endif
 
 #include "stdwx.h"
+#include "BOINCGUIApp.h"
+#include "MainDocument.h"
 #include "TransfersView.h"
 #include "Events.h"
 
 #include "res/xfer.xpm"
+
+
+#define COLUMN_PROJECT              0
+#define COLUMN_FILE                 1
+#define COLUMN_PROGRESS             2
+#define COLUMN_SIZE                 3
+#define COLUMN_TIME                 4
+#define COLUMN_SPEED                5
+#define COLUMN_STATUS               6
 
 
 IMPLEMENT_DYNAMIC_CLASS(CTransfersView, CBaseListCtrlView)
@@ -61,17 +75,12 @@ END_EVENT_TABLE()
 
 CTransfersView::CTransfersView()
 {
-    wxLogTrace("CTransfersView::CTransfersView - Function Begining");
-
-    wxLogTrace("CTransfersView::CTransfersView - Function Ending");
 }
 
 
 CTransfersView::CTransfersView(wxNotebook* pNotebook) :
     CBaseListCtrlView(pNotebook, ID_LIST_TRANSFERSVIEW)
 {
-    wxLogTrace("CTransfersView::CTransfersView - Function Begining");
-
     InsertColumn(0, _("Project"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(1, _("File"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(2, _("Progress"), wxLIST_FORMAT_LEFT, -1);
@@ -79,33 +88,22 @@ CTransfersView::CTransfersView(wxNotebook* pNotebook) :
     InsertColumn(4, _("Time"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(5, _("Speed"), wxLIST_FORMAT_LEFT, -1);
     InsertColumn(6, _("Status"), wxLIST_FORMAT_LEFT, -1);
-
-    wxLogTrace("CTransfersView::CTransfersView - Function Ending");
 }
 
 
 CTransfersView::~CTransfersView()
 {
-    wxLogTrace("CTransfersView::~CTransfersView - Function Begining");
-
-    wxLogTrace("CTransfersView::~CTransfersView - Function Ending");
 }
 
 
 wxString CTransfersView::GetViewName()
 {
-    wxLogTrace("CTransfersView::GetViewName - Function Begining");
-
-    wxLogTrace("CTransfersView::GetViewName - Function Ending");
     return wxString(_("Transfers"));
 }
 
 
 char** CTransfersView::GetViewIcon()
 {
-    wxLogTrace("CTransfersView::GetViewIcon - Function Begining");
-
-    wxLogTrace("CTransfersView::GetViewIcon - Function Ending");
     return xfer_xpm;
 }
 
@@ -117,7 +115,60 @@ void CTransfersView::OnCacheHint ( wxListEvent& event ) {
 
 
 void CTransfersView::OnRender(wxTimerEvent &event) {
-    wxLogTrace("CTransfersView::OnRender - Function Begining");
-    wxLogTrace("CTransfersView::OnRender - Function Ending");
+    if (!m_bProcessingRenderEvent)
+    {
+        wxLogTrace("CTransfersView::OnRender - Processing Render Event...");
+        m_bProcessingRenderEvent = true;
+
+        wxInt32 iTransferCount = wxGetApp().GetDocument()->GetTransferCount();
+        SetItemCount(iTransferCount);
+
+        m_bProcessingRenderEvent = false;
+    }
+    else
+    {
+        event.Skip();
+    }
+}
+
+
+wxString CTransfersView::OnGetItemText(long item, long column) const {
+    wxString strBuffer;
+    switch(column) {
+        case COLUMN_PROJECT:
+            if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
+            strBuffer = wxGetApp().GetDocument()->GetTransferProjectName(item);
+            break;
+        case COLUMN_FILE:
+            strBuffer = wxGetApp().GetDocument()->GetTransferFileName(item);
+            break;
+        case COLUMN_PROGRESS:
+            strBuffer = wxGetApp().GetDocument()->GetTransferProgress(item);
+            break;
+        case COLUMN_SIZE:
+            strBuffer = wxGetApp().GetDocument()->GetTransferSize(item);
+            break;
+        case COLUMN_TIME:
+            strBuffer = wxGetApp().GetDocument()->GetTransferTime(item);
+            break;
+        case COLUMN_SPEED:
+            strBuffer = wxGetApp().GetDocument()->GetTransferSpeed(item);
+            break;
+        case COLUMN_STATUS:
+            strBuffer = wxGetApp().GetDocument()->GetTransferStatus(item);
+            if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
+            break;
+    }
+    return strBuffer;
+}
+
+
+int CTransfersView::OnGetItemImage(long item) const {
+    return -1;
+}
+
+
+wxListItemAttr* CTransfersView::OnGetItemAttr(long item) const {
+    return NULL;
 }
 

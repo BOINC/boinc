@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.12  2004/08/11 23:52:12  rwalton
+// *** empty log message ***
+//
 // Revision 1.11  2004/07/13 05:56:02  rwalton
 // Hooked up the Project and Work tab for the new GUI.
 //
@@ -54,6 +57,14 @@
 #include "res/proj.xpm"
 
 
+#define COLUMN_PROJECT              0
+#define COLUMN_ACCOUNTNAME          1
+#define COLUMN_TEAMNAME             2
+#define COLUMN_TOTALCREDIT          3
+#define COLUMN_AVGCREDIT            4
+#define COLUMN_RESOURCESHARE        5
+
+
 IMPLEMENT_DYNAMIC_CLASS(CProjectsView, CBaseListCtrlView)
 
 BEGIN_EVENT_TABLE(CProjectsView, CBaseListCtrlView)
@@ -63,51 +74,36 @@ END_EVENT_TABLE()
 
 CProjectsView::CProjectsView()
 {
-    wxLogTrace("CProjectsView::CProjectsView - Function Begining");
-
-    wxLogTrace("CProjectsView::CProjectsView - Function Ending");
 }
 
 
 CProjectsView::CProjectsView(wxNotebook* pNotebook) :
     CBaseListCtrlView(pNotebook, ID_LIST_PROJECTSVIEW)
 {
-    wxLogTrace("CProjectsView::CProjectsView - Function Begining");
-
     m_bProcessingRenderEvent = false;
 
-    InsertColumn(0, _("Project"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(1, _("Account"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(2, _("Total Credit"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(3, _("Avg. Credit"), wxLIST_FORMAT_LEFT, -1);
-    InsertColumn(4, _("Resource Share"), wxLIST_FORMAT_LEFT, -1);
-
-    wxLogTrace("CProjectsView::CProjectsView - Function Ending");
+    InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(COLUMN_ACCOUNTNAME, _("Account"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(COLUMN_TEAMNAME, _("Team"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(COLUMN_TOTALCREDIT, _("Total Credit"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(COLUMN_AVGCREDIT, _("Avg. Credit"), wxLIST_FORMAT_LEFT, -1);
+    InsertColumn(COLUMN_RESOURCESHARE, _("Resource Share"), wxLIST_FORMAT_LEFT, -1);
 }
 
 
 CProjectsView::~CProjectsView()
 {
-    wxLogTrace("CProjectsView::~CProjectsView - Function Begining");
-
-    wxLogTrace("CProjectsView::~CProjectsView - Function Ending");
 }
 
 
 wxString CProjectsView::GetViewName()
 {
-    wxLogTrace("CProjectsView::GetViewName - Function Begining");
-
-    wxLogTrace("CProjectsView::GetViewName - Function Ending");
     return wxString(_("Projects"));
 }
 
 
 char** CProjectsView::GetViewIcon()
 {
-    wxLogTrace("CProjectsView::GetViewIcon - Function Begining");
-
-    wxLogTrace("CProjectsView::GetViewIcon - Function Ending");
     return proj_xpm;
 }
 
@@ -119,8 +115,6 @@ void CProjectsView::OnCacheHint ( wxListEvent& event ) {
 
 
 void CProjectsView::OnRender(wxTimerEvent &event) {
-    wxLogTrace("CProjectsView::OnRender - Function Begining");
-
     if (!m_bProcessingRenderEvent)
     {
         wxLogTrace("CProjectsView::OnRender - Processing Render Event...");
@@ -135,28 +129,29 @@ void CProjectsView::OnRender(wxTimerEvent &event) {
     {
         event.Skip();
     }
-
-    wxLogTrace("CProjectsView::OnRender - Function Ending");
 }
 
 
 wxString CProjectsView::OnGetItemText(long item, long column) const {
     wxString strBuffer;
     switch(column) {
-        case 0:
+        case COLUMN_PROJECT:
             if (item == m_iCacheFrom) wxGetApp().GetDocument()->CachedStateLock();
-            strBuffer = wxGetApp().GetDocument()->GetProjectName(item);
+            strBuffer = wxGetApp().GetDocument()->GetProjectProjectName(item);
             break;
-        case 1:
+        case COLUMN_ACCOUNTNAME:
             strBuffer = wxGetApp().GetDocument()->GetProjectAccountName(item);
             break;
-        case 2:
+        case COLUMN_TEAMNAME:
+            strBuffer = wxGetApp().GetDocument()->GetProjectTeamName(item);
+            break;
+        case COLUMN_TOTALCREDIT:
             strBuffer = wxGetApp().GetDocument()->GetProjectTotalCredit(item);
             break;
-        case 3:
+        case COLUMN_AVGCREDIT:
             strBuffer = wxGetApp().GetDocument()->GetProjectAvgCredit(item);
             break;
-        case 4:
+        case COLUMN_RESOURCESHARE:
             strBuffer = wxGetApp().GetDocument()->GetProjectResourceShare(item);
             if (item == m_iCacheTo) wxGetApp().GetDocument()->CachedStateUnlock();
             break;
