@@ -53,7 +53,7 @@ function display_team_page($team, $user) {
         $total_credit = $total_credit + $user->total_credit;
     }
 
-    row2("Total credit", $total_credit);
+    row2("Total credit", credit_format($total_credit));
     $result = mysql_query("select * from user where id=$team->userid");
     $user = mysql_fetch_object($result);
     row2("Founder", "<a href=show_user.php?userid=$user->id>$user->name</a>");
@@ -76,10 +76,12 @@ function display_team_page($team, $user) {
     while (true) {
         $user = mysql_fetch_object($result);
         if (!$user) break;
+        $user_total_credit = format_credit($user->total_credit);
+        $user_expavg_credit = format_credit($user->expavg_credit);
         echo "<tr>
             <td align=left>$j) <a href=show_user.php?userid=$user->id>$user->name</a>
-            <td align=center>$user->total_credit</td>
-            <td align=center>$user->expavg_credit</td>
+            <td align=center>$user_total_credit</td>
+            <td align=center>$user_expavg_credit</td>
             <td align=center>$user->country</td>
             </tr>
         ";
@@ -124,14 +126,15 @@ function team_table_start() {
 }
 
 function show_team_row($team, $i) {
-    printf( "<tr>
-        <td>%d) <a href=team_display.php?teamid=%d>%s</a></td>
-        <td>%d</td>
-        <td>%.4f</td>
-        <td>%.4f</td>
-        <td>%s</td>
-        </tr>\n", $i, $team->id, $team->name, $team->nusers, $team->expavg_credit,
-        $team->total_credit, $team->country );
+    $team_expavg_credit = format_credit($team->expavg_credit);
+    $team_total_credit = format_credit($team->total_credit);
+    echo"<tr>
+        <td>$i) <a href=team_display.php?teamid=$team->id>$team->name</a></td>
+        <td>$team->nusers</td>
+        <td>$team_expavg_credit</td>
+        <td>$team_total_credit</td>
+        <td>$team->country</td>
+        </tr>\n";
 }
 
 function user_join_team($team, $user) {
