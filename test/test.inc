@@ -172,7 +172,7 @@ class Project {
         run_db_script("constraints.sql", $this->db_name);
 
         db_open($this->db_name);
-        db_query("insert into project(name) values('$this->name')");
+       db_query("insert into project(name) values('$this->name')");
 
         for ($i=0; $i<sizeof($this->users); $i++) {
             $user = $this->users[$i];
@@ -271,7 +271,77 @@ class Project {
         $admin_url = $html_url."/".$this->name."/html_ops/index.html";
         echo "The admin URL for project $this->name is $admin_url\n";
     }
+    
+    //moves the masterindex file to temp after $time seconds (if not null).This is used to test exponential backoff on the client side.
+    function delete_masterindex($time)
+      {
+	if($time != null)
+	  {
+	    echo "\nsleeping for $time seconds";
+	    PassThru("sleep $time");
+	  }
+	PassThru("mv $this->project_dir/html_user/index.php $this->project_dir/html_user/temp");
+      }
+    
+    //moves temp back to the masterindex after $time seconds(if not null). This is used to test exponential backoff on the client side.
+    
+    function reestablish_masterindex($time)
+      {
+	if($time != null)
+	  {
+	    echo "\nsleeping for $time seconds";
+	    PassThru("sleep $time");
+	  }
+	   PassThru("mv $this->project_dir/html_user/temp $this->project_dir/html_user/index.php");
+	  
+      }
+    
+    //delete the cgi file for this project after $time if not null. This is used to test exponential backoff on the client side.
+    function delete_scheduler($time)
+      {
+	if($time != null)
+	  {
+	    echo "\nsleeping for $time seconds";
+	    PassThru("sleep $time");
+	  }
+	PassThru("rm $this->project_dir/cgi/cgi");
+      }
+      
+    //copies the cgi file back into the cgi directory.This is used to test exponential backoff on the client side.
+    function reinstall_scheduler($time)
+      {
 
+	$source_dir = get_env_var("BOINC_SRC_DIR");
+	if($time != null)
+	  {
+	    echo "\nsleeping for $time seconds";
+	    PassThru("sleep $time");
+	  }
+	PassThru("cp $source_dir/sched/cgi $this->project_dir/cgi/");
+      }
+    
+    //moves the download directory to temp. This is used to test exponential backoff on the client side.
+    function delete_downloaddir($time)
+      {
+	if($time != null)
+	  {
+	    echo "\nsleeping for $time seconds";
+	    PassThru("sleep $time");
+	  }
+	    PassThru("mv $this->project_dir/download/ $this->project_dir/temp/");
+      }
+    
+    //reinstalls the download directory. This is used to test exponential backoff on the client side.
+    function reinstall_downloaddir($time)
+      {
+	if($time != null)
+	  {
+	    echo "\nsleeping for $time seconds";
+	    PassThru("sleep $time");
+	  }
+	    PassThru("mv $this->project_dir/temp/ $this->project_dir/download/");
+      }
+	
     function start_feeder(){
         PassThru("cd $this->project_dir/cgi; ./feeder -asynch > feeder_out");
     }
@@ -290,6 +360,9 @@ class Project {
         fputs($f, "<quit/>\n");
         fclose($f);
     }
+
+
+	
 
     function check_results($ntarget, $result) {
         $n = 0;
