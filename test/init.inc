@@ -85,11 +85,17 @@ function clear_data_dirs() {
         echo "Must define BOINC_KEY_DIR\n";
         $bad = true;
     }
+    $MASTER_URL = urlencode(stripslashes(stripslashes(getenv("BOINC_MASTER_URL"))));
+    if ($MASTER_URL == null) {
+        echo "Must define BOINC_MASTER_URL\n";
+        $bad = true;
+    }
     if ($bad) exit();
  
     PassThru("rm -f $BOINC_DOWNLOAD_DIR/*");
     PassThru("rm -f $BOINC_UPLOAD_DIR/*");
     PassThru("rm -f $BOINC_KEY_DIR/*");
+    PassThru("rm -f $MASTER_URL/*" );
 }
 
 function init_client_dirs($prefs_file) {

@@ -62,6 +62,7 @@ int FILE_XFER::init_download(FILE_INFO& file_info) {
 
     fip = &file_info;
     get_pathname(fip, pathname);
+    // Check the current file size
     if (file_size(pathname, f_size)) {
         f_size = 0;
     }
@@ -187,29 +188,34 @@ bool FILE_XFER_SET::poll() {
             if (log_flags.file_xfer_debug) {
                 printf("http retval: %d\n", fxp->http_op_retval);
             }
-            if (fxp->http_op_retval == HTTP_OK) {
+            if (fxp->http_op_retval == 0) {
                 // If this was a file size query, restart the transfer
                 // using the remote file size information
                 if (fxp->file_size_query) {
                     // Parse the server's response.
                     retval = fxp->parse_server_response(fxp->fip->upload_offset);
 
+                    remove(fxp);
+                    i--;
+
                     if (retval) {
                         fxp->fip->upload_offset = -1;
-                        remove(fxp);
-                        i--;
                         fxp->file_xfer_retval = retval;
                     } else {
                         // Restart the upload, using the newly obtained upload_offset
                         retval = fxp->init_upload(*fxp->fip);
+
+                        if (!retval) {
+                            retval = insert(fxp);
+                            if (!retval) {
+                                fxp->file_xfer_done = false;
+                                fxp->http_op_retval = 0;
+                            }
+                        }
                     }
                 }
             } else {
-                // Remove the transfer from the set.  The actual object
-                // will be removed later by it's associated PERS_FILE_XFER?
-                remove(fxp);
                 fxp->file_xfer_retval = fxp->http_op_retval;
-                i--;
             }
         }
     }

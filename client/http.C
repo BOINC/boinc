@@ -216,7 +216,6 @@ static int read_reply(int socket, char* buf, int len) {
 }
 
 HTTP_OP::HTTP_OP() {
-    http_op_state = HTTP_STATE_IDLE;
     strcpy(hostname,"");
     strcpy(filename,"");
     req1 = NULL;
@@ -519,7 +518,6 @@ bool HTTP_OP_SET::poll() {
                 switch(htp->http_op_type) {
                 case HTTP_OP_POST2:
                     read_reply(htp->socket, htp->req1, 256);
-                    fprintf( stderr, "%s\n", htp->req1 );
                     // parse reply here?
                     break;
                 default:
