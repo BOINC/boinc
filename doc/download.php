@@ -68,6 +68,15 @@ function show_456($xml=false) {
     version_end($xml);
 }
 
+function show_419($xml=false) {
+    version_start("4.19", "25 Jan 2005", $xml);
+    version("Windows", "boinc_4.19_windows_intelx86.exe", $xml);
+    version("Linux/x86", "boinc_4.19_i686-pc-linux-gnu.gz", $xml);
+    version("Mac OS X", "boinc_4.19_powerpc-apple-darwin.gz", $xml);
+    version("Solaris/SPARC", "boinc_4.19_sparc-sun-solaris2.7.gz", $xml);
+    version_end($xml);
+}
+
 function show_418($xml=false) {
     version_start("4.18", "24 Jan 2005", $xml);
     version("Windows", "boinc_4.18_windows_intelx86.exe", $xml);
@@ -127,8 +136,8 @@ if ($_GET["xml"]) {
     echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
 <core_versions>
     ";
-    echo "<stable_version>4.18</stable_version>\n";
-    show_418(true);
+    echo "<stable_version>4.19</stable_version>\n";
+    show_419(true);
     echo "<development_version>4.62</development_version>\n";
     show_462(true);
     echo "</core_versions>\n";
@@ -147,7 +156,7 @@ of work that is sent to your computer.
 
 <h2>Current version</h2>
 ";
-show_418();
+show_419();
 echo "
     After the download is finished:
     <ul>
