@@ -3150,3 +3150,32 @@ David  Feb 10 2003
         test_file_xfer.C
     lib/
         parse.C,h
+
+David  Feb 12 2003
+    - Added mechanism for starting or restarting all back-end processes
+        for a project.  A list of the programs are now in config.xml.
+        All programs now use lock files to prevent duplicate execution.
+        A new program "start_servers" reads config.xml and starts servers.
+    - Added "user-friendly name" field to platform, so that users
+        see e.g. "Windows 95/98/XP" instead of "windows_intelx86"
+        NOTE: this requires patching existing databases
+
+    db/
+        db.h
+        db_mysql.C
+        schema.sql
+    html_ops/
+        db.inc
+    html_user/
+        download.inc
+        download.php
+        index.php
+    sched/
+        Makefile.in
+        config.C,h
+        start_servers.C
+    test/
+        make_project.php
+        test.inc
+    tools/
+        add.C
