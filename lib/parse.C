@@ -32,13 +32,30 @@
 #include <stdlib.h>
 
 #include "parse.h"
+#include "error_numbers.h"
 
 bool match_tag(char* buf, char* tag) {
+    if(buf==NULL) {
+        fprintf(stderr, "error: match_tag: unexpected NULL pointer buf\n");
+        return false;
+    }
+    if(tag==NULL) {
+        fprintf(stderr, "error: match_tag: unexpected NULL pointer tag\n");
+        return false;
+    }
     if (strstr(buf, tag)) return true;
     return false;
 }
 
 bool parse_int(char* buf, char* tag, int& x) {
+    if(buf==NULL) {
+        fprintf(stderr, "error: parse_int: unexpected NULL pointer buf\n");
+        return false;
+    }
+    if(tag==NULL) {
+        fprintf(stderr, "error: parse_int: unexpected NULL pointer tag\n");
+        return false;
+    }
     char* p = strstr(buf, tag);
     if (!p) return false;
     x = atoi(p+strlen(tag));
@@ -46,6 +63,14 @@ bool parse_int(char* buf, char* tag, int& x) {
 }
 
 bool parse_double(char* buf, char* tag, double& x) {
+    if(buf==NULL) {
+        fprintf(stderr, "error: parse_double: unexpected NULL pointer buf\n");
+        return false;
+    }
+    if(tag==NULL) {
+        fprintf(stderr, "error: parse_double: unexpected NULL pointer tag\n");
+        return false;
+    }
     char* p = strstr(buf, tag);
     if (!p) return false;
     x = atof(p+strlen(tag));
@@ -53,6 +78,18 @@ bool parse_double(char* buf, char* tag, double& x) {
 }
 
 bool parse_str(char* buf, char* tag, char* x) {
+    if(buf==NULL) {
+        fprintf(stderr, "error: parse_str: unexpected NULL pointer buf\n");
+        return false;
+    }
+    if(tag==NULL) {
+        fprintf(stderr, "error: parse_str: unexpected NULL pointer tag\n");
+        return false;
+    }
+    if(x==NULL) {
+        fprintf(stderr, "error: parse_str: unexpected NULL pointer x\n");
+        return false;
+    }
     char* p = strstr(buf, tag);
     if (!p) return false;
     p = strchr(p, '>');
@@ -64,7 +101,15 @@ bool parse_str(char* buf, char* tag, char* x) {
 
 void parse_attr(char* buf, char* name, char* out) {
     char* p, *q;
-
+    if(buf==NULL) {
+        fprintf(stderr, "error: parse_attr: unexpected NULL pointer buf\n");
+    }
+    if(name==NULL) {
+        fprintf(stderr, "error: parse_attr: unexpected NULL pointer name\n");
+    }
+    if(out==NULL) {
+        fprintf(stderr, "error: parse_attr: unexpected NULL pointer out\n");
+    }
     strcpy(out, "");
     p = strstr(buf, name);
     if (!p) return;
@@ -79,7 +124,12 @@ void parse_attr(char* buf, char* name, char* out) {
 void copy_stream(FILE* in, FILE* out) {
     char buf[1024];
     int n, m;
-
+    if(in==NULL) {
+        fprintf(stderr, "error: copy_stream: unexpected NULL pointer in\n");
+    }
+    if(out==NULL) {
+        fprintf(stderr, "error: copy_stream: unexpected NULL pointer out\n");
+    }
     while (1) {
         n = fread(buf, 1, 1024, in);
         m = fwrite(buf, 1, n, out);
@@ -88,6 +138,9 @@ void copy_stream(FILE* in, FILE* out) {
 }
 
 void strcatdup(char*& p, char* buf) {
+    if(buf==NULL) {
+        fprintf(stderr, "error: strcatdup: unexpected NULL pointer buf\n");
+    }
     p = (char*)realloc(p, strlen(p) + strlen(buf)+1);
     if (!p) {
         fprintf(stderr, "strcatdup: realloc failed\n");
@@ -98,7 +151,18 @@ void strcatdup(char*& p, char* buf) {
 
 int dup_element_contents(FILE* in, char* end_tag, char** pp) {
     char buf[256];
-
+    if(in==NULL) {
+        fprintf(stderr, "error: dup_element_contents: unexpected NULL pointer in\n");
+        return ERR_NULL;
+    }
+    if(end_tag==NULL) {
+        fprintf(stderr, "error: dup_element_contents: unexpected NULL pointer end_tag\n");
+        return ERR_NULL;
+    }
+    if(pp==NULL) {
+        fprintf(stderr, "error: dup_element_contents: unexpected NULL pointer pp\n");
+        return ERR_NULL;
+    }
     char* p = strdup("");
     while (fgets(buf, 256, in)) {
         if (strstr(buf, end_tag)) {

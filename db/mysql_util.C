@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include "mysql.h"
 #include "mysql_util.h"
@@ -39,6 +40,7 @@ static MYSQL_ROW row;
 #define MAX_QUERY_LEN   8192
 
 int db_open(char* name) {
+    //assert(name!=NULL);
     mp = mysql_init(0);
     if (!mp) return -1;
     mp = mysql_real_connect(mp, 0, 0, "", name, 0, 0, 0);
@@ -52,6 +54,7 @@ int db_close() {
 }
 
 void db_print_error(char* p) {
+    assert(p!=NULL);
     if (mp) {
         printf("<br>%s: Database error: %s\n", p, mysql_error(mp));
     }
@@ -59,6 +62,7 @@ void db_print_error(char* p) {
 
 // convert ' to \' in place
 void escape(char* field) {
+    assert(field!=NULL);
     char buf[MAX_QUERY_LEN];
     char* q = buf, *p = field;
     while (*p) {
@@ -76,6 +80,7 @@ void escape(char* field) {
 
 void unescape(char* p) {
     char* q;
+    assert(p!=NULL);
     while (1) {
         q = strstr(p, "\\'");
         if (!q) break;
@@ -85,11 +90,13 @@ void unescape(char* p) {
 
 // assumes ID is first
 static int* id(void* vp, int type) {
+    assert(vp!=NULL);
     return (int*) vp;
 }
 
 int db_new(void* vp, int type) {
     char buf[MAX_QUERY_LEN], sbuf[MAX_QUERY_LEN];
+    assert(vp!=NULL);
     struct_to_str(vp, sbuf, type);
     sprintf(buf, "insert into %s set %s", table_name[type], sbuf);
     return mysql_query(mp, buf);
@@ -111,6 +118,7 @@ int db_delete(int id, int type) {
 
 int db_lookup_id(int i, void* vp, int type) {
     char buf[MAX_QUERY_LEN];
+    assert(vp!=NULL);
     sprintf(buf, "select * from %s where id=%d", table_name[type], i);
     mysql_query(mp, buf);
     rp = mysql_store_result(mp);
@@ -123,6 +131,8 @@ int db_lookup_id(int i, void* vp, int type) {
 
 int db_lookup(void* vp, int type, char* clause) {
     char buf[MAX_QUERY_LEN];
+    assert(vp!=NULL);
+    assert(clause!=NULL);
     sprintf(buf, "select * from %s where %s", table_name[type], clause);
     mysql_query(mp, buf);
     rp = mysql_store_result(mp);
@@ -135,6 +145,7 @@ int db_lookup(void* vp, int type, char* clause) {
 
 int db_update(void* vp, int type) {
     char buf[MAX_QUERY_LEN], sbuf[MAX_QUERY_LEN];
+    assert(vp!=NULL);
     struct_to_str(vp, sbuf, type);
     sprintf(
 	buf,
@@ -145,7 +156,9 @@ int db_update(void* vp, int type) {
 }
 
 int db_enum(ENUM& e, void* p, int type, char* clause, int limit) {
-    char buf[MAX_QUERY_LEN], buf2[256];;
+    char buf[MAX_QUERY_LEN], buf2[256];
+    //assert(p!=NULL);
+    //assert(clause!=NULL);
     if (!e.active) {
 	e.active = 1;
 	sprintf(buf, "select * from %s %s", table_name[type], clause?clause:"");
@@ -170,6 +183,8 @@ int db_enum(ENUM& e, void* p, int type, char* clause, int limit) {
 
 int db_enum_field(ENUM& e, int type, char* field, char* clause) {
     char buf[MAX_QUERY_LEN];
+    assert(field!=NULL);
+    assert(clause!=NULL);
     if (!e.active) {
 	e.active = 1;
 	sprintf(buf, "select %s from %s %s", field, table_name[type], clause);
@@ -188,6 +203,8 @@ int db_enum_field(ENUM& e, int type, char* field, char* clause) {
 }
 
 int db_query_int(int* ip, char* query) {
+    assert(ip!=NULL);
+    assert(query!=NULL);
     mysql_query(mp, query);
     rp = mysql_store_result(mp);
     if (!rp) return -1;
@@ -200,6 +217,9 @@ int db_query_int(int* ip, char* query) {
 
 int db_count(int* np, char* what, int type, char* clause) {
     char buf[MAX_QUERY_LEN];
+    assert(np!=NULL);
+    assert(what!=NULL);
+    assert(clause!=NULL);
     sprintf(buf, "select count(%s) from %s %s", what, table_name[type], clause);
     return db_query_int(np, buf);
 }

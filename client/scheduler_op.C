@@ -27,6 +27,9 @@
 #include "scheduler_op.h"
 
 SCHEDULER_OP::SCHEDULER_OP(HTTP_OP_SET* h) {
+    if(h==NULL) {
+        fprintf(stderr, "error: SCHEDULER_OP: unexpected NULL pointer h\n");
+    }
     state = SCHEDULER_OP_STATE_IDLE;
     http_op.http_op_state = HTTP_STATE_IDLE;
     http_ops = h;
@@ -59,6 +62,10 @@ int SCHEDULER_OP::start_rpc() {
 }
 
 int SCHEDULER_OP::start_op(PROJECT* p) {
+    if(p==NULL) {
+        fprintf(stderr, "error: SCHEDULER_OP.start_op: unexpected NULL pointer p\n"); 
+        return ERR_NULL;
+    }
     project = p;
     if (project->scheduler_urls.size() == 0) {
         http_op.init_get(project->master_url, MASTER_FILE_NAME);
@@ -143,7 +150,10 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 int SCHEDULER_REPLY::parse(FILE* in) {
     char buf[256];
     int retval;
-
+    if(in==NULL) {
+        fprintf(stderr, "error: SCHEDULER_REPLY.parse: unexpected NULL pointer in\n");
+        return ERR_NULL;
+    }
     strcpy(message, "");
     strcpy(message_priority, "");
     request_delay = 0;
@@ -172,7 +182,11 @@ int SCHEDULER_REPLY::parse(FILE* in) {
             if (retval) return ERR_XML_PARSE;
         } else if (match_tag(buf, "<code_sign_key>")) {
             retval = dup_element_contents(in, "</code_sign_key>", &code_sign_key);
-            if (retval) return ERR_XML_PARSE;
+	    //fprintf(stderr, "code_sign_key: %s\n", code_sign_key);
+            if (retval) {
+		fprintf(stderr, "error: SCHEDULER_REPLY.parse: xml parsing error\n");
+                return ERR_XML_PARSE;
+	    }
         } else if (match_tag(buf, "<code_sign_key_signature>")) {
             retval = dup_element_contents(in, "</code_sign_key_signature>", &code_sign_key_signature);
             if (retval) return ERR_XML_PARSE;

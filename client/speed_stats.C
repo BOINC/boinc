@@ -4,6 +4,7 @@
 #include <time.h>
 
 #include "speed_stats.h"
+#include "error_numbers.h"
 
 #define D_FLOP_ITERS    1
 #define I_OP_ITERS      1
@@ -32,7 +33,10 @@ int check_cache_size( int mem_size ) {
     clock_t total_sec, sec;
     double secs, nanosecs, temp2;
     int not_found;
-    
+    if(mem_size<0) {
+        fprintf(stderr, "error: check_cache_size: negative mem_size\n");
+        return ERR_NEG;
+    }
     logStride = (int)(log(STRIDE_MAX/STRIDE_MIN)/log(2))+1;
     logCache = (int)(log(CACHE_MAX/CACHE_MIN)/log(2))+1;
     
@@ -162,7 +166,10 @@ int check_cache_size( int mem_size ) {
 double run_double_prec_test( double num_secs ) {
     int df_test_time, df_iters;
     double df_secs;
-    
+    if(num_secs<0) {
+        fprintf(stderr, "error: run_double_prec_test: negatvie num_secs\n");
+        return ERR_NEG;
+    }
     // Start by doing some quick timing tests for rough calibration
     df_test_time = (int)double_flop_test( D_FLOP_ITERS, 0 );
     if( df_test_time <= 0 ) df_test_time = 1;
@@ -185,7 +192,10 @@ double run_double_prec_test( double num_secs ) {
 double run_int_test( double num_secs ) {
     int int_test_time, int_iters;
     double int_secs;
-
+    if(num_secs<0) {
+        fprintf(stderr, "error: run_int_test: negative num_secs\n");
+        return ERR_NEG;
+    }
     // Start by doing some quick timing tests for rough calibration
     int_test_time = (int)int_op_test( I_OP_ITERS, 0 );
     if( int_test_time <= 0 ) int_test_time = 1;
@@ -209,7 +219,10 @@ double run_mem_bandwidth_test( double num_secs ) {
     int bw_test_time;
     double bw_secs;
     int bw_iters;
-
+    if(num_secs<0) {
+        fprintf(stderr, "error: run_mem_bandwidth_test: negative num_secs\n");
+        return ERR_NEG;
+    }
     // Start by doing some quick timing tests for rough calibration
     bw_test_time = (int)bandwidth_test( BANDWIDTH_ITERS, 0 );
     if( bw_test_time <= 0 ) bw_test_time = 1;
@@ -229,6 +242,9 @@ double run_mem_bandwidth_test( double num_secs ) {
 }
 
 void run_test_suite( double num_secs_per_test ) {
+    if(num_secs_per_test<0) {
+        fprintf(stderr, "error: run_test_suite: negative num_seconds_per_test\n");
+    }
     printf(
         "Running tests.  This will take about %.1lf seconds.\n\n",
         num_secs_per_test*3
@@ -255,7 +271,10 @@ clock_t double_flop_test( int iterations, int print_debug ) {
     double temp;
     clock_t time_start, time_total;
     int i,j,k,calc_error;
-    
+    if(iterations<0) {
+        fprintf(stderr, "error: double_flop_test: negative iterations\n");
+        return ERR_NEG;
+    }
     // Initialize the array
     a[0] = 1;
     for( i=1;i<NUM_DOUBLES;i++ )
@@ -315,7 +334,10 @@ clock_t int_op_test( int iterations, int print_debug ) {
     int a[NUM_INTS], temp;
     clock_t time_start, time_total;
     int i,j,k,calc_error;
-
+    if(iterations<0) {
+        fprintf(stderr, "error: int_op_test: negative iterations\n");
+        return ERR_NEG;
+    }
     a[0] = 1;
     for( i=1;i<NUM_INTS;i++ ) {
         a[i] = 2*a[i-1];
@@ -390,7 +412,10 @@ clock_t bandwidth_test( int iterations, int print_debug ) {
     // Start and stop times for the clock
     clock_t time_start, time_total;
     int i,j,copy_error;
-
+    if(iterations<0) {
+        fprintf(stderr, "error: bandwidth_test: negative iterations\n");
+        return ERR_NEG;
+    }
     // These are doubles in order to make full use of bus and instruction bandwidth
     a = (double *)malloc( MEM_SIZE * sizeof( double ) );
     b = (double *)malloc( MEM_SIZE * sizeof( double ) );

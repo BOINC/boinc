@@ -100,7 +100,10 @@ int TIME_STATS::write(FILE* out, bool to_server) {
 
 int TIME_STATS::parse(FILE* in) {
     char buf[256];
-
+    if(in==NULL) {
+        fprintf(stderr, "error: TIME_STATS.parse: unexpected NULL pointer in\n");
+        return ERR_NULL;
+    }
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</time_stats>")) return 0;
         else if (parse_int(buf, "<last_update>", last_update)) continue;

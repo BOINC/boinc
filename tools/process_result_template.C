@@ -26,6 +26,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include "db.h"
 #include "parse.h"
@@ -52,7 +53,11 @@ int process_result_template(
     int i;
     bool found;
 
-
+    assert(in!=NULL);
+    assert(out!=NULL);
+    assert(base_filename!=NULL);
+    assert(wu_name!=NULL);
+    assert(result_name!=NULL);
     while (fgets(buf, 256, in)) {
 
         // when we reach the end of a <file_info> element,

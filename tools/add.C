@@ -40,6 +40,7 @@
 #include "db.h"
 #include "backend_lib.h"
 #include "md5_file.h"
+#include "crypt.h"
 
 APP app;
 PLATFORM platform;

@@ -39,7 +39,15 @@
 static void parse_url(char* url, char* host, char* file) {
     char* p;
     char buf[256];
-
+    if(url==NULL) {
+        fprintf(stderr, "error: parse_url: unexpected NULL pointer url\n");
+    }
+    if(host==NULL) {
+        fprintf(stderr, "error: parse_url: unexpected NULL pointer host\n");
+    }
+    if(file==NULL) {
+        fprintf(stderr, "error: parse_url: unexpected NULL pointer file\n");
+    }
     if (strncmp(url, "http://", 7) == 0) strcpy(buf, url+7);
     else strcpy(buf, url);
     p = strchr(buf, '/');
@@ -59,6 +67,18 @@ static void parse_url(char* url, char* host, char* file) {
 static void http_get_request_header(
     char* buf, char* host, char* file, int offset
 ) {
+    if(buf==NULL) {
+        fprintf(stderr, "error: http_get_request_header: unexpected NULL pointer buf\n");
+    }
+    if(host==NULL) {
+        fprintf(stderr, "error: http_get_request_header: unexpected NULL pointer host\n");
+    }
+    if(file==NULL) {
+        fprintf(stderr, "error: http_get_request_header: unexpected NULL pointer file\n");
+    }
+    if(offset<0) {
+        fprintf(stderr, "error: http_get_request_header: negative offset\n");
+    }
     if (offset) {
         sprintf(buf,
             "GET /%s;byte-range %d- HTTP/1.0\015\012"
@@ -83,6 +103,15 @@ static void http_get_request_header(
 }
 
 static void http_head_request_header(char* buf, char* host, char* file) {
+    if(buf==NULL) {
+        fprintf(stderr, "error: http_head_request_header: unexpected NULL pointer buf\n");
+    }
+    if(host==NULL) {
+        fprintf(stderr, "error: http_head_request_header: unexpected NULL pointer host\n");
+    }
+    if(file==NULL) {
+        fprintf(stderr, "error: http_head_request_header: unexpected NULL pointer file\n");
+    }
     sprintf(buf,
         "HEAD /%s HTTP/1.0\015\012"
         "User-Agent: BOINC client\015\012"
@@ -96,6 +125,18 @@ static void http_head_request_header(char* buf, char* host, char* file) {
 static void http_post_request_header(
     char* buf, char* host, char* file, int size
 ) {
+    if(buf==NULL) {
+        fprintf(stderr, "error: http_post_request_header: unexpected NULL pointer buf\n");
+    }
+    if(host==NULL) {
+        fprintf(stderr, "error: http_post_request_header: unexpected NULL pointer host\n");
+    }
+    if(file==NULL) {
+        fprintf(stderr, "error: http_post_request_header: unexpected NULL pointer file\n");
+    }
+    if(size<0) {
+        fprintf(stderr, "error: http_post_request_header: negative size\n");
+    }
     sprintf(buf,
         "POST /%s HTTP/1.0\015\012"
         "Pragma: no-cache\015\012"
@@ -112,6 +153,21 @@ static void http_post_request_header(
 void http_put_request_header(
     char* buf, char* host, char* file, int size, int offset
 ) {
+    if(buf==NULL) {
+        fprintf(stderr, "error: http_put_request_header: unexpected NULL pointer buf\n");
+    }
+    if(host==NULL) {
+        fprintf(stderr, "error: http_put_request_header: unexpected NULL pointer host\n");
+    }
+    if(file==NULL) {
+        fprintf(stderr, "error: http_put_request_header: unexpected NULL pointer file\n");
+    }
+    if(size<0) {
+        fprintf(stderr, "error: http_put_request_header: negative size\n");
+    }
+    if(offset<0) {
+        fprintf(stderr, "error: http_put_request_header: negative offset\n");
+    }
     if (offset) {
         sprintf(buf,
             "PUT /%s;byte-range %d- HTTP/1.0\015\012"
@@ -143,7 +199,10 @@ void http_put_request_header(
 int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
     int i, n;
     char buf[1024], *p;
-
+    if(socket<0) {
+        fprintf(stderr, "error: read_http_reply_header: negative socket\n");
+        return ERR_NEG;
+    }
     memset(buf, 0, sizeof(buf));
     header.content_length = 0;
     header.status = 404;        // default to failure
@@ -167,6 +226,18 @@ int read_http_reply_header(int socket, HTTP_REPLY_HEADER& header) {
 
 static int read_reply(int socket, char* buf, int len) {
     int i, n;
+    if(socket<0) {
+        fprintf(stderr, "error: read_reply: negative socket\n");
+        return ERR_NEG;
+    }
+    if(buf==NULL) {
+        fprintf(stderr, "error: read_reply: unexpected NULL pointer buf\n");
+        return ERR_NULL;
+    }
+    if(len<0) {
+        fprintf(stderr, "error: read_reply: negative len\n");
+        return ERR_NEG;
+    }
     for (i=0; i<len-1; i++) {
         n = recv(socket, buf+i, 1, 0);
         if (n != 1) break;
@@ -183,6 +254,10 @@ HTTP_OP::~HTTP_OP() {
 }
 
 int HTTP_OP::init_head(char* url) {
+    if(url==NULL) {
+        fprintf(stderr, "error: HTTP_OP.init_head: unexpected NULL pointer url\n");
+        return ERR_NULL;
+    }
     parse_url(url, hostname, filename);
     NET_XFER::init(hostname, 80, HTTP_BLOCKSIZE);
     http_op_type = HTTP_OP_HEAD;
@@ -192,6 +267,18 @@ int HTTP_OP::init_head(char* url) {
 }
 
 int HTTP_OP::init_get(char* url, char* out, int off) {
+    if(url==NULL) {
+        fprintf(stderr, "error: HTTP_OP.init_get: unexpected NULL pointer url\n");
+        return ERR_NULL;
+    }
+    if(out==NULL) {
+        fprintf(stderr, "error: HTTP_OP.init_get: unexpected NULL pointer out\n");
+        return ERR_NULL;
+    }
+    if(off<0) {
+        fprintf(stderr, "error: HTTP_OP.init_get: negative off\n"); 
+        return ERR_NEG;
+    }
     file_offset = off;
     parse_url(url, hostname, filename);
     NET_XFER::init(hostname, 80, HTTP_BLOCKSIZE);
@@ -204,7 +291,18 @@ int HTTP_OP::init_get(char* url, char* out, int off) {
 
 int HTTP_OP::init_post(char* url, char* in, char* out) {
     int retval;
-
+    if(url==NULL) {
+        fprintf(stderr, "error: HTTP_OP.init_post: unexpected NULL pointer url\n");
+        return ERR_NULL;
+    }
+    if(in==NULL) {
+        fprintf(stderr, "error: HTTP_OP.init_post: unexpected NULL pointer in\n");
+        return ERR_NULL;
+    }
+    if(out==NULL) {
+        fprintf(stderr, "error: HTTP_OP.init_post: unexpected NULL pointer out\n");
+	return ERR_NULL;
+    }
     parse_url(url, hostname, filename);
     NET_XFER::init(hostname, 80, HTTP_BLOCKSIZE);
     strcpy(infile, in);
@@ -223,7 +321,22 @@ int HTTP_OP::init_post2(
     char* url, char* r1, char* in, double offset
 ) {
     int retval;
-
+    if(url==NULL) {
+        fprintf(stderr, "error: HTTP_OP.init_post2: unexpected NULL pointer url\n");
+        return ERR_NULL;
+    }
+    if(r1==NULL) {
+	fprintf(stderr, "error: HTTP_OP.init_post2: unexpected NULL pointer r1\n");
+        return ERR_NULL;
+    }
+    if(in==NULL) {
+        fprintf(stderr, "error: HTTP_OP.init_post2: unexpected NULL pointer in\n");
+        return ERR_NULL;
+    }
+    if(offset<0) {
+        fprintf(stderr, "error: HTTP_OP.init_post2: negative offset\n");
+        return ERR_NEG;
+    }
     parse_url(url, hostname, filename);
     NET_XFER::init(hostname, 80, HTTP_BLOCKSIZE);
     req1 = r1;
@@ -265,11 +378,18 @@ bool HTTP_OP::http_op_done() {
 }
 
 HTTP_OP_SET::HTTP_OP_SET(NET_XFER_SET* p) {
+    if(p==NULL) {
+        fprintf(stderr, "error: HTTP_OP_SET: unexpected NULL pointer p\n");
+    }
     net_xfers = p;
 }
 
 int HTTP_OP_SET::insert(HTTP_OP* ho) {
     int retval;
+    if(ho==NULL) {
+        fprintf(stderr, "error: HTTP_OP_SET.insert: unexpected NULL pointer ho\n");
+        return ERR_NULL;
+    }
     retval = net_xfers->insert(ho);
     if (retval) return retval;
     http_ops.push_back(ho);
@@ -429,7 +549,10 @@ bool HTTP_OP_SET::poll() {
 
 int HTTP_OP_SET::remove(HTTP_OP* p) {
     vector<HTTP_OP*>::iterator iter;
-
+    if(p==NULL) {
+        fprintf(stderr, "error: HTTP_OP_SET.remove: unexpected NULL pointer p\n");
+        return ERR_NULL;
+    }
     net_xfers->remove(p);
 
     iter = http_ops.begin();

@@ -23,6 +23,7 @@
 #include "file_names.h"
 #include "log_flags.h"
 #include "file_xfer.h"
+#include "error_numbers.h"
 
 FILE_XFER::FILE_XFER() {
     file_xfer_done = false;
@@ -34,10 +35,26 @@ FILE_XFER::~FILE_XFER() {
 
 #if 0
 int FILE_XFER::init_download(char* url, char* outfile) {
+    if(url==NULL) {
+        fprintf(stderr, "error: FILE_XFER.init_download: unexpected NULL pointer url\n");
+        return ERR_NULL;
+    }
+    if(outfile==NULL) {
+        fprintf(stderr, "error: FILE_XFER.init_download: unexpected NULL pointer outfile\n");
+        return ERR_NULL;
+    }
     return HTTP_OP::init_get(url, outfile);
 }
 
 int FILE_XFER::init_upload(char* url, char* infile) {
+    if(url==NULL) {
+        fprintf(stderr, "error: FILE_XFER.init_upload: unexpected NULL pointer url\n");
+        return ERR_NULL;
+    }
+    if(outfile==NULL) {
+        fprintf(stderr, "error: FILE_XFER.init_upload: unexpected NULL pointer infile\n");
+        return ERR_NULL;
+    }
     return HTTP_OP::init_put(url, infile);
 }
 #endif
@@ -77,12 +94,18 @@ double FILE_XFER::elapsed_time() {
 }
 
 FILE_XFER_SET::FILE_XFER_SET(HTTP_OP_SET* p) {
+    if(p==NULL) {
+        fprintf(stderr, "error: FILE_XFER_SET: unexpected NULL pointer p\n");
+    }
     http_ops = p;
 }
 
 int FILE_XFER_SET::insert(FILE_XFER* fxp) {
     int retval;
-
+    if(fxp==NULL) {
+        fprintf(stderr, "error: FILE_XFER_SET.insert: unexpected NULL pointer fxp\n");
+        return ERR_NULL;
+    }
     // record start time.
     // This could be made more accurate by omitting the connection
     // setup and initial request times.
@@ -96,7 +119,10 @@ int FILE_XFER_SET::insert(FILE_XFER* fxp) {
 
 int FILE_XFER_SET::remove(FILE_XFER* fxp) {
     vector<FILE_XFER*>::iterator iter;
-
+    if(fxp==NULL) {
+        fprintf(stderr, "error: FILE_XFER_SET.remove: unexpected NULL pointer fxp\n");
+        return ERR_NULL;
+    }
     http_ops->remove(fxp);
 
     iter = file_xfers.begin();

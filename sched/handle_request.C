@@ -21,6 +21,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <time.h>
+#include <assert.h>
 
 #include "db.h"
 #include "backend_lib.h"
@@ -48,6 +49,7 @@ double estimate_duration(WORKUNIT& wu, HOST& host) {
 //inserts an xml tag in xml_doc with an estimation of how many seconds
 //a workunit will take to complete
 int insert_time_tag(WORKUNIT& wu, double seconds) {
+    assert(seconds>=0);
     char *location;
     location = strstr(wu.xml_doc, "</workunit>");
     if ((location - wu.xml_doc) > (MAX_BLOB_SIZE - 64)) {
@@ -72,7 +74,7 @@ int add_wu_to_reply(
     APP* app;
     APP_VERSION* app_version;
     int retval;
-
+    assert(seconds_to_complete>=0);
     app = ss.lookup_app(wu.appid);
     if (!app) return -1;
     app_version = ss.lookup_app_version(app->id, platform.id, app->prod_vers);
@@ -448,7 +450,8 @@ void handle_request(
 ) {
     SCHEDULER_REQUEST sreq;
     SCHEDULER_REPLY sreply;
-
+    assert(fin!=NULL);
+    assert(fout!=NULL);
     memset(&sreq, 0, sizeof(sreq));
     sreq.parse(fin);
 

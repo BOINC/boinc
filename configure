@@ -1386,7 +1386,7 @@ EOF
 
 fi
 
-for ac_hdr in fcntl.h strings.h sys/time.h unistd.h sys/systeminfo.h sys/resource.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h arpa/inet.h
+for ac_hdr in fcntl.h strings.h sys/time.h unistd.h sys/systeminfo.h sys/resource.h sys/types.h dirent.h sys/utsname.h netdb.h netinet/in.h arpa/inet.h signal.h sys/wait.h
 do
 ac_safe=`echo "$ac_hdr" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for $ac_hdr""... $ac_c" 1>&6

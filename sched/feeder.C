@@ -42,6 +42,7 @@
 // has completed the request.
 
 #include <stdio.h>
+#include <assert.h>
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -56,7 +57,7 @@
 int check_trigger(SCHED_SHMEM* ssp) {
     FILE* f;
     char buf[256];
-
+    assert(ssp!=NULL);
     f = fopen(TRIGGER_FILENAME, "r");
     if (!f) return 0;
     fread(buf, 1, 256, f);
@@ -97,7 +98,7 @@ void feeder_loop(SCHED_SHMEM* ssp) {
     RESULT result;
     WORKUNIT wu;
     bool no_wus, collision, restarted_enum;
-
+    assert(ssp!=NULL);
     while (1) {
         nadditions = 0;
         ncollisions = 0;

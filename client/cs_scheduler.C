@@ -35,7 +35,6 @@
 #endif
 
 #include "crypt.h"
-
 #include "error_numbers.h"
 #include "file_names.h"
 #include "parse.h"
@@ -47,6 +46,7 @@
 
 // quantities like avg CPU time decay by a factor of e every week
 #define EXP_DECAY_RATE  (1./(3600*24*7))
+#define SECONDS_IN_DAY 86400
 
 //estimates the number of days of work remaining
 //
@@ -61,7 +61,7 @@ double CLIENT_STATE::current_water_days() {
 	else
 	    seconds_remaining += rp->wup->seconds_to_complete;
     }
-    return (seconds_remaining * 86400);
+    return (seconds_remaining * SECONDS_IN_DAY);
 }
 
 bool CLIENT_STATE::need_work() {
@@ -76,6 +76,9 @@ bool CLIENT_STATE::need_work() {
 
 void CLIENT_STATE::update_avg_cpu(PROJECT* p) {
     int now = time(0);
+    if(p==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.update_avg_cpu: unexpected NULL pointer p\n");
+    }
     double deltat = now - p->exp_avg_mod_time;
     if (deltat > 0) {
         if (p->exp_avg_cpu != 0) {
@@ -120,7 +123,14 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, int work_req) {
     FILE* f = fopen(SCHED_OP_REQUEST_FILE, "wb");
     unsigned int i;
     RESULT* rp;
-
+    if(p==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.make_scheduler_request: unexpected NULL pointer p\n");
+        return ERR_NULL;
+    }
+    if(work_req<0) {
+        fprintf(stderr, "error: CLIENT_STATE.make_scheduler_request: negative work_req\n");
+        return ERR_NEG;
+    }
     if (!f) return ERR_FOPEN;
     fprintf(f,
         "<scheduler_request>\n"

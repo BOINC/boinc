@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <assert.h>
 
 #include "db.h"
 #include "crypt.h"
@@ -38,6 +39,8 @@
 #define DOWNLOAD_URL      "http://localhost/download/"
 
 int read_file(FILE* f, char* buf) {
+    assert(f!=NULL);
+    assert(buf!=NULL);
     int n = fread(buf, 1, MAX_BLOB_SIZE, f);
     buf[n] = 0;
     return 0;
@@ -45,7 +48,8 @@ int read_file(FILE* f, char* buf) {
 
 int read_filename(char* path, char* buf) {
     int retval;
-
+    assert(path!=NULL);
+    assert(buf!=NULL);
     FILE* f = fopen(path, "r");
     if (!f) return -1;
     retval = read_file(f, buf);
@@ -66,7 +70,12 @@ static int process_wu_template(
     bool found;
     int i;
     double nbytes;
-
+    assert(wu_name!=NULL);
+    assert(tmplate!=NULL);
+    assert(out!=NULL);
+    assert(dirpath!=NULL);
+    assert(infiles!=NULL);
+    assert(n>=0);
     strcpy(out, tmplate);
     while (1) {
         found = false;
@@ -129,7 +138,7 @@ int create_result(
     char base_outfile_name[256];
     int retval;
     FILE* result_template_file, *tempfile;
-
+    assert(result_template_filename!=NULL);
     memset(&r, 0, sizeof(r));
     r.create_time = time(0);
     r.workunitid = wu.id;
@@ -167,7 +176,12 @@ int create_work(
     R_RSA_PRIVATE_KEY& key
 ) {
     int i, retval;
-
+    assert(wu_template!=NULL);
+    assert(result_template_file!=NULL);
+    assert(nresults>=0);
+    assert(infile_dir!=NULL);
+    assert(infiles!=NULL);
+    assert(ninfiles>=0);
     wu.create_time = time(0);
     retval = process_wu_template(
         wu.name, wu_template, wu.xml_doc, infile_dir, infiles, ninfiles

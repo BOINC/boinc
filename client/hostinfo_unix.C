@@ -57,12 +57,16 @@
 #endif
 
 #include "client_types.h"
+#include "error_numbers.h"
 
 // functions to get name/addr of local host
 
 int get_local_domain_name(char* p) {
     char buf[256];
-
+    if(p==NULL) {
+        fprintf(stderr, "error: get_local_domain_name: unexpected NULL pointer p\n");
+        return ERR_NULL;
+    }
     gethostname(buf, 256);
     struct hostent* he = gethostbyname(buf);
     strcpy(p, he->h_name);
@@ -83,6 +87,10 @@ int get_local_ip_addr(int& p) {
 
 int get_local_ip_addr_str(char* p) {
     char buf[256];
+    if(p==NULL) {
+        fprintf(stderr, "error: get_local_ip_addr_str: unexpected NULL pointer p\n");
+        return ERR_NULL;
+    }
 #if HAVE_NETDB_H
     struct in_addr addr;
     gethostname(buf, 256);
@@ -227,10 +235,10 @@ int get_host_info(HOST_INFO& host) {
 #endif
     get_local_domain_name(host.domain_name);
     get_local_ip_addr_str(host.ip_addr);
+    get_timezone(host.timezone);
 #ifdef HAVE_SYS_UTSNAME_H
     get_osinfo(host);
 #endif
-    get_timezone(host.timezone);
 
     return 0;
 }

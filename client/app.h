@@ -62,8 +62,7 @@ public:
     int exit_status;
     int signal;
     char dirname[256];      // directory where process runs
-    double cpu_time;        // total CPU time
-    double prev_cpu_time;   // CPU time from previous processes
+    double prev_cpu_time;
     ACTIVE_TASK();
     int init(RESULT*);
 

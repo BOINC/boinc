@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 #include "parse.h"
 #include "crypt.h"
@@ -40,7 +41,7 @@ struct FILE_INFO {
 int FILE_INFO::parse(FILE* in) {
     char buf[256];
     int retval;
-
+    assert(in!=NULL);
     memset(this, 0, sizeof(FILE_INFO));
     signed_xml = strdup("");
     while (fgets(buf, 256, in)) {
@@ -59,6 +60,7 @@ int FILE_INFO::parse(FILE* in) {
 }
 
 int print_status(int status, char* message) {
+    assert(message!=NULL);
     printf("Content-type: text/plain\n\n<status>%d</status>\n", status);
     if (message) printf("<error>%s</error>\n", message);
 #if 0
@@ -77,7 +79,10 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     FILE* out;
     int retval, n, m;
     double bytes_left;
-
+    assert(in!=NULL);
+    assert(path!=NULL);
+    assert(offset>=0);
+    assert(nbytes>=0);
     out = fopen(path, "wb");
     if (!out) {
         print_status(-1, "can't open file");
@@ -119,7 +124,7 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
     FILE_INFO file_info;
     int retval;
     bool is_valid;
-
+    assert(in!=NULL);
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<file_info>")) {
             retval = file_info.parse(in);

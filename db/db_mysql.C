@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include "mysql_util.h"
 
@@ -52,7 +53,8 @@ void struct_to_str(void* vp, char* q, int type) {
     HOST* hp;
     WORKUNIT* wup;
     RESULT* rp;
-
+    assert(vp!=NULL);
+    assert(q!=NULL);
     switch(type) {
     case TYPE_PLATFORM:
         pp = (PLATFORM*)vp;
@@ -198,7 +200,7 @@ void row_to_struct(MYSQL_ROW& r, void* vp, int type) {
     RESULT* rp;
 
     int i=0;
-
+    assert(vp!=NULL);
     switch(type) {
     case TYPE_PLATFORM:
         pp = (PLATFORM*)vp;
@@ -381,7 +383,7 @@ int db_app_version_lookup(
     int appid, int platformid, int version_num, APP_VERSION& p
 ) {
     char buf[256];
-
+    assert(version_num>=0);
     sprintf(buf,
         "appid=%d and platformid=%d and version_num=%d",
         appid, platformid, version_num

@@ -2,6 +2,7 @@
 
 #include "md5.h"
 #include "md5_file.h"
+#include "error_numbers.h"
 
 int md5_file(char* path, char* output, double& nbytes) {
     unsigned char buf[4096];
@@ -9,7 +10,14 @@ int md5_file(char* path, char* output, double& nbytes) {
     FILE* f;
     md5_state_t state;
     int i, n;
-
+    if(path==NULL) {
+        fprintf(stderr, "error: md5_file: unexpected NULL pointer path\n");
+        return ERR_NULL;
+    }
+    if(output==NULL) {
+        fprintf(stderr, "error: md5_file: unexpected NULL pointer output\n");
+        return ERR_NULL;
+    }
     nbytes = 0;
     f = fopen(path, "rb");
     if (!f) {
@@ -36,7 +44,18 @@ int md5_file(char* path, char* output, double& nbytes) {
 int md5_block(unsigned char* data, int nbytes, char* output) {
     unsigned char binout[16];
     int i;
-
+    if(data==NULL) {
+        fprintf(stderr, "error: md5_block: unexpected NULL pointer data\n");
+        return ERR_NULL;
+    }
+    if(nbytes<0) {
+        fprintf(stderr, "error: md5_block: negative nbytes\n");
+        return ERR_NEG;
+    }
+    if(output==NULL) {
+        fprintf(stderr, "error: md5_block: unexpected NULL pointer output\n");
+        return ERR_NULL;
+    }
     md5_state_t state;
     md5_init(&state);
     md5_append(&state, data, nbytes);

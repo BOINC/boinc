@@ -40,7 +40,10 @@ PROJECT::~PROJECT() {
 int PROJECT::parse_prefs(FILE* in) {
     char buf[256], *p;
     int retval;
-
+    if(in==NULL) {
+        fprintf(stderr, "error: PROJECT.parse_prefs: unexpected NULL pointer in\n");
+        return ERR_NULL;
+    }
     strcpy(master_url, "");
     strcpy(authenticator, "");
     while (fgets(buf, 256, in)) {
@@ -64,7 +67,10 @@ int PROJECT::parse_prefs(FILE* in) {
 int PROJECT::parse_state(FILE* in) {
     char buf[256];
     STRING256 string;
-
+    if(in==NULL) {
+	fprintf(stderr, "error: PROJECT.parse_state: unexpected NULL pointer in\n");
+        return ERR_NULL;
+    }
     strcpy(project_name, "");
     strcpy(user_name, "");
     next_request_time = 0;
@@ -87,6 +93,7 @@ int PROJECT::parse_state(FILE* in) {
         else if (parse_int(buf, "<exp_avg_mod_time>", exp_avg_mod_time)) continue;
         else if (match_tag(buf, "<code_sign_key>")) {
             dup_element_contents(in, "</code_sign_key>", &code_sign_key);
+            //fprintf(stderr, "code_sign_key: %s\n", code_sign_key);
         }
         else fprintf(stderr, "PROJECT::parse_state(): unrecognized: %s\n", buf);
     }
@@ -95,7 +102,10 @@ int PROJECT::parse_state(FILE* in) {
 
 int PROJECT::write_state(FILE* out) {
     unsigned int i;
-
+    if(out==NULL) {
+        fprintf(stderr, "error: PROJECT.write_state: unexpected NULL pointer out\n");
+        return ERR_NULL;
+    }
     fprintf(out,
         "<project>\n"
     );
@@ -155,7 +165,10 @@ void PROJECT::copy_prefs_fields(PROJECT& p) {
 
 int APP::parse(FILE* in) {
     char buf[256];
-
+    if(in==NULL) {
+        fprintf(stderr, "error: APP.parse: unexpected NULL pointer in\n");
+        return ERR_NULL;
+    }
     strcpy(name, "");
     project = NULL;
     while (fgets(buf, 256, in)) {
@@ -168,6 +181,10 @@ int APP::parse(FILE* in) {
 }
 
 int APP::write(FILE* out) {
+    if(out==NULL) {
+        fprintf(stderr, "error: APP.write: unexpected NULL pointer out\n");
+        return ERR_NULL;
+    }
     fprintf(out,
         "<app>\n"
         "    <name>%s</name>\n"
@@ -191,7 +208,10 @@ FILE_INFO::~FILE_INFO() {
 int FILE_INFO::parse(FILE* in, bool from_server) {
     char buf[256];
     STRING256 url;
-
+    if(in==NULL) {
+        fprintf(stderr, "error: FILE_INFO.parse: unexpected NULL pointer in\n");
+        return ERR_NULL;
+    }
     strcpy(name, "");
     strcpy(md5_cksum, "");
     nbytes = 0;
@@ -228,6 +248,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
         }
         else if (match_tag(buf, "<file_signature>")) {
             dup_element_contents(in, "</file_signature>", &file_signature);
+            fprintf(stderr, "file_signature %s being copied\n", file_signature);
             continue;
         }
         else if (parse_str(buf, "<md5_cksum>", md5_cksum)) continue;
@@ -251,6 +272,10 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
 
 int FILE_INFO::write(FILE* out, bool to_server) {
     unsigned int i;
+    if(out==NULL) {
+        fprintf(stderr, "error: FILE_INFO.write: unexpected NULL pointer out\n");
+        return ERR_NULL;
+    }
     fprintf(out,
         "<file_info>\n"
         "    <name>%s</name>\n"
@@ -295,7 +320,10 @@ int FILE_INFO::delete_file() {
 int APP_VERSION::parse(FILE* in) {
     char buf[256];
     FILE_REF file_ref;
-
+    if(in==NULL) {
+        fprintf(stderr, "error: APP_VERSION.parse: unexpected NULL poiner in\n");
+        return ERR_NULL;
+    }
     strcpy(app_name, "");
     version_num = 0;
     app = NULL;
@@ -316,6 +344,10 @@ int APP_VERSION::parse(FILE* in) {
 
 int APP_VERSION::write(FILE* out) {
     unsigned int i;
+    if(out==NULL) {
+        fprintf(stderr, "error: APP_VERSION.write: unexpected NULL pointer out\n");
+        return ERR_NULL;
+    }
     fprintf(out,
         "<app_version>\n"
         "    <app_name>%s</app_name>\n"
@@ -334,7 +366,10 @@ int APP_VERSION::write(FILE* out) {
 
 int FILE_REF::parse(FILE* in) {
     char buf[256];
-
+    if(in==NULL) {
+        fprintf(stderr, "error: FILE_REF.parse: unexpected NULL pointer in\n");
+        return ERR_NULL;
+    }
     strcpy(file_name, "");
     strcpy(open_name, "");
     fd = -1;
@@ -351,6 +386,10 @@ int FILE_REF::parse(FILE* in) {
 }
 
 int FILE_REF::write(FILE* out) {
+    if(out==NULL) {
+        fprintf(stderr, "error: FILE_REF.write: unexpected NULL pointer out\n");
+        return ERR_NULL;
+    }
     if (strlen(open_name)) {
         fprintf(out, "        <open_name>%s</open_name>\n", open_name);
     }
@@ -372,7 +411,10 @@ int FILE_REF::write(FILE* out) {
 int WORKUNIT::parse(FILE* in) {
     char buf[256];
     FILE_REF file_ref;
-
+    if(in==NULL) {
+        fprintf(stderr, "error: WORKUNIT.parse: unexpected NULL pointer in\n");
+        return ERR_NULL;
+    }
     strcpy(name, "");
     strcpy(app_name, "");
     version_num = 0;
@@ -401,6 +443,10 @@ int WORKUNIT::parse(FILE* in) {
 
 int WORKUNIT::write(FILE* out) {
     unsigned int i;
+    if(out==NULL) {
+        fprintf(stderr, "error: WORKUNIT.write: unexpected NULL pointer out\n");
+        return ERR_NULL;
+    }
     fprintf(out,
         "<workunit>\n"
         "    <name>%s</name>\n"
@@ -419,6 +465,10 @@ int WORKUNIT::write(FILE* out) {
 
 int RESULT::parse_ack(FILE* in) {
     char buf[256];
+    if(in==NULL) {
+	fprintf(stderr, "error: RESULT.parse_ack: unexpected NULL pointer in\n");
+        return ERR_NULL;
+    }
     strcpy(name, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</result_ack>")) return 0;
@@ -448,7 +498,10 @@ void RESULT::clear() {
 int RESULT::parse_server(FILE* in) {
     char buf[256];
     FILE_REF file_ref;
-
+    if(in==NULL) {
+        fprintf(stderr, "error: RESULT.parse_server: unexpected NULL pointer in\n");
+        return ERR_NULL;
+    }
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</result>")) return 0;
         if (parse_str(buf, "<name>", name)) continue;
@@ -468,7 +521,10 @@ int RESULT::parse_server(FILE* in) {
 int RESULT::parse_state(FILE* in) {
     char buf[256];
     FILE_REF file_ref;
-
+    if(in==NULL) {
+        fprintf(stderr, "error: RESULT.parse_state: unexpected NULL pointer in\n");
+        return ERR_NULL;
+    }
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</result>")) return 0;
         if (parse_str(buf, "<name>", name)) continue;
@@ -496,7 +552,10 @@ int RESULT::write(FILE* out, bool to_server) {
     unsigned int i;
     FILE_INFO* fip;
     int n;
-
+    if(out==NULL) {
+        fprintf(stderr, "error: RESULT.write: unexpected NULL pointer out\n");
+        return ERR_NULL;
+    }
     fprintf(out,
         "<result>\n"
         "    <name>%s</name>\n"

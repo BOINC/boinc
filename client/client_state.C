@@ -18,6 +18,7 @@
 //
 
 #include "windows_cpp.h"
+#include "error_numbers.h"
 
 #include <stdio.h>
 #include <time.h>
@@ -52,7 +53,10 @@ CLIENT_STATE::CLIENT_STATE() {
 int CLIENT_STATE::init(PREFS* p) {
     nslots = 1;
     unsigned int i;
-
+    if(p==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.init: unexpected NULL pointer p\n");
+        return ERR_NULL;
+    }
     prefs = p;
 
     // copy all PROJECTs from the prefs to the client state.
@@ -267,6 +271,7 @@ int CLIENT_STATE::make_slot_dirs() {
 
 int CLIENT_STATE::exit_tasks() {
     active_tasks.exit_tasks();
+    active_tasks.poll_time();
     return 0;
 }
 
@@ -325,6 +330,10 @@ int CLIENT_STATE::write_state_file() {
 }
 
 PROJECT* CLIENT_STATE::lookup_project(char* master_url) {
+    if(master_url==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.lookup_project: unexpected NULL pointer master_url\n");
+        return 0;
+    }
     for (unsigned int i=0; i<projects.size(); i++) {
         if (!strcmp(master_url, projects[i]->master_url)) {
             return projects[i];
@@ -334,6 +343,14 @@ PROJECT* CLIENT_STATE::lookup_project(char* master_url) {
 }
 
 APP* CLIENT_STATE::lookup_app(PROJECT* p, char* name) {
+    if(p==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.lookup_app: unexpected NULL pointer p\n");
+        return 0;
+    }
+    if(name==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.lookup_app: unexpected NULL pointer name\n");
+        return 0;
+    }
     for (unsigned int i=0; i<apps.size(); i++) {
         APP* app = apps[i];
         if (app->project == p && !strcmp(name, app->name)) return app;
@@ -342,6 +359,14 @@ APP* CLIENT_STATE::lookup_app(PROJECT* p, char* name) {
 }
 
 RESULT* CLIENT_STATE::lookup_result(PROJECT* p, char* name) {
+    if(p==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.lookup_result: unexpected NULL pointer p\n");
+        return 0;
+    }
+    if(name==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.lookup_result: unexpected NULL pointer name\n");
+        return 0;
+    }
     for (unsigned int i=0; i<results.size(); i++) {
         RESULT* rp = results[i];
         if (rp->project == p && !strcmp(name, rp->name)) return rp;
@@ -350,6 +375,14 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, char* name) {
 }
 
 WORKUNIT* CLIENT_STATE::lookup_workunit(PROJECT* p, char* name) {
+    if(p==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.lookup_workunit: unexpected NULL pointer p\n");
+        return 0;
+    }
+    if(name==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.lookup_workunit: unexpected NULL pointer name\n");
+        return 0;
+    }
     for (unsigned int i=0; i<workunits.size(); i++) {
         WORKUNIT* wup = workunits[i];
         if (wup->project == p && !strcmp(name, wup->name)) return wup;
@@ -358,6 +391,14 @@ WORKUNIT* CLIENT_STATE::lookup_workunit(PROJECT* p, char* name) {
 }
 
 APP_VERSION* CLIENT_STATE::lookup_app_version(APP* app, int version_num) {
+    if(app==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.lookup_app_version: unexpected NULL pointer app\n");
+        return 0;
+    }
+    if(version_num<0) {
+        fprintf(stderr, "error: CLIENT_STATE.lookup_app_version: negative version_num\n");
+        return 0;
+    }
     for (unsigned int i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
         if (avp->app == app && version_num==avp->version_num) {
@@ -368,6 +409,14 @@ APP_VERSION* CLIENT_STATE::lookup_app_version(APP* app, int version_num) {
 }
 
 FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, char* name) {
+    if(p==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.lookup_file_info: unexpected NULL pointer p\n");
+        return 0;
+    }
+    if(name==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.lookup_file_info: unexpected NULL pointer p\n");
+        return 0;
+    }
     for (unsigned int i=0; i<file_infos.size(); i++) {
         FILE_INFO* fip = file_infos[i];
         if (fip->project == p && !strcmp(fip->name, name)) {
@@ -381,11 +430,27 @@ FILE_INFO* CLIENT_STATE::lookup_file_info(PROJECT* p, char* name) {
 // (which, in their XML form, reference one another by name)
 //
 int CLIENT_STATE::link_app(PROJECT* p, APP* app) {
+    if(p==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.link_app: unexpected NULL pointer p\n");
+        return ERR_NULL;
+    }
+    if(app==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.link_app: unexpected NULL pointer app\n");
+        return ERR_NULL;
+    }
     app->project = p;
     return 0;
 }
 
 int CLIENT_STATE::link_file_info(PROJECT* p, FILE_INFO* fip) {
+    if(p==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.link_file_info: unexpected NULL pointer p\n");
+        return ERR_NULL;
+    }
+    if(fip==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.link_file_info: unexpected NULL pointer fip\n");
+        return ERR_NULL;
+    }
     fip->project = p;
     return 0;
 }
@@ -395,9 +460,15 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     FILE_INFO* fip;
     FILE_REF file_ref;
     unsigned int i;
-
+    if(p==NULL) {
+	fprintf(stderr, "error: CLIENT_STATE.link_app_version: unexpected NULL pointer fip\n");
+        return ERR_NULL;
+    }
+    if(avp==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.link_app_version: unexpected NULL pointer fip\n");
+        return ERR_NULL;
+    }
     avp->project = p;
-
     app = lookup_app(p, avp->app_name);
     if (!app) {
         fprintf(stderr,
@@ -428,7 +499,14 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
 
 int CLIENT_STATE::link_file_ref(PROJECT* p, FILE_REF* file_refp) {
     FILE_INFO* fip;
-
+    if(p==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.link_file_ref: unexpected NULL pointer p\n");
+        return ERR_NULL;
+    }
+    if(file_refp==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.link_file_ref: unexpected NULL pointer file_refp\n");
+        return ERR_NULL;
+    }
     fip = lookup_file_info(p, file_refp->file_name);
     if (!fip) {
         fprintf(stderr,
@@ -445,7 +523,14 @@ int CLIENT_STATE::link_workunit(PROJECT* p, WORKUNIT* wup) {
     APP_VERSION* avp;
     unsigned int i;
     int retval;
-
+    if(p==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.link_workunit: unexpected NULL pointer p\n");
+        return ERR_NULL;
+    }
+    if(wup==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.link_workunit: unexpected NULL pointer wup\n");
+        return ERR_NULL;
+    }
     app = lookup_app(p, wup->app_name);
     if (!app) {
         fprintf(stderr,
@@ -474,7 +559,14 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
     WORKUNIT* wup;
     unsigned int i;
     int retval;
-
+    if(p==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.link_result: unexpected NULL pointer p\n");
+        return ERR_NULL;
+    }
+    if(rp==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.link_result: unexpected NULL pointer rp\n");
+        return ERR_NULL;
+    }
     wup = lookup_workunit(p, rp->wu_name);
     if (!wup) {
         fprintf(stderr, "result refers to nonexistent WU: %s\n", rp->wu_name);
@@ -608,6 +700,12 @@ int CLIENT_STATE::write_state_file_if_needed() {
 
 void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     int i;
+    if(argc<0) {
+        fprintf(stderr, "error: CLIENT_STATE.parse_cmdline: negative argc\n");
+    }
+    if(argv==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.parse_cmdline: unexpected NULL pointer argv\n");
+    }
     for (i=1; i<argc; i++) {
         if (!strcmp(argv[i], "-exit_when_idle")) {
             exit_when_idle = true;

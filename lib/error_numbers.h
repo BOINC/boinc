@@ -33,3 +33,7 @@
 #define ERR_GETHOSTBYNAME   -113
 #define ERR_GIVEUP      -114
     // too much time has elapsed without progress on file xfer
+#define ERR_NULL	-115
+    // unexpected NULL pointer
+#define ERR_NEG		-116
+    // unexpected negative value

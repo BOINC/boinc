@@ -37,6 +37,7 @@
 #include "client_types.h"
 #include "log_flags.h"
 #include "client_state.h"
+#include "error_numbers.h"
 
 int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
     char cksum[64];
@@ -44,13 +45,31 @@ int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
     bool verified;
     int retval;
 
+    if(pathname==NULL) {
+        fprintf(stderr, "error: verify_downloaded_file: unexpected NULL pointer pathname\n");
+        return ERR_NULL;
+    }
     if (file_info.signature_required) {
-        if (!file_info.file_signature) return -1;
+        if (!file_info.file_signature) {
+            fprintf(stderr, "error: verify_downloaded_file: unexpected NULL pointer file_signature\n");
+            return -1;
+        }
         project = file_info.project;
         retval = verify_file2(
             pathname, file_info.file_signature, project->code_sign_key, verified
         );
-        if (retval || !verified) return -1;
+        if(retval) {
+            fprintf(stderr, "error: verify_file2: internal error\n");
+            //return -1;
+        }
+        if(!verified) {
+            fprintf(stderr, "error: verify_file2: file not verified\n");
+            //return -1;
+        }
+        if (retval || !verified) {
+            fprintf(stderr, "error: verify_file2: could not verify file\n");
+            return -1;
+        }
     } else if (file_info.md5_cksum) {
         md5_file(pathname, cksum, file_info.nbytes);
         if (strcmp(cksum, file_info.md5_cksum)) return -1;

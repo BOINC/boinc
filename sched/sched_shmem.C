@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 #include "db.h"
 
@@ -33,6 +34,7 @@ int SCHED_SHMEM::verify() {
 }
 
 static void overflow(char* table) {
+    assert(table!=NULL);
     fprintf(stderr,
         "The SCHED_SHMEM structure is too small for table %s.\n"
         "Increase the size and restart feeder and fcgi.\n",
@@ -72,7 +74,7 @@ int SCHED_SHMEM::scan_tables() {
 
 PLATFORM* SCHED_SHMEM::lookup_platform(char* name) {
     int i;
-
+    assert(name!=NULL);
     for (i=0; i<nplatforms; i++) {
         if (!strcmp(platforms[i].name, name)) {
             return &platforms[i];
@@ -97,7 +99,7 @@ APP_VERSION* SCHED_SHMEM::lookup_app_version(
 ) {
     int i;
     APP_VERSION* avp;
-
+    assert(version>=0);
     for (i=0; i<napp_versions; i++) {
         avp = &app_versions[i];
         if (avp->appid == appid && avp->platformid == platformid && avp->version_num == version) {

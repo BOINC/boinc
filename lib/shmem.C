@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#include <assert.h>
 
 #include "shmem.h"
 
 int create_shmem(key_t key, int size, void** pp){
     int id;
+    assert(pp!=NULL);
     id = shmget(key, size, IPC_CREAT|0777);
     if (id < 0) {
         perror("create_shmem: shmget");
@@ -41,7 +43,7 @@ int destroy_shmem(key_t key){
 int attach_shmem(key_t key, void** pp){
     void* p;
     int id;
-
+    assert(pp!=NULL);
     id = shmget(key, 0, 0);
     if (id < 0) {
         perror("attach_shmem: shmget");
@@ -58,7 +60,7 @@ int attach_shmem(key_t key, void** pp){
 
 int detach_shmem(void* p) {
     int retval;
-
+    assert(p!=NULL);
     retval = shmdt((char *)p);
     if (retval) perror("detach_shmem: shmdt");
     return retval;

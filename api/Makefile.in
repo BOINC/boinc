@@ -5,7 +5,8 @@ VPATH           = @srcdir@
 
 VERSION = 1
 
-CFLAGS = -g -Wall -I../lib/
+CFLAGS = -g -Wall @DEFS@ \
+    -I@top_srcdir@/lib/
 
 CC = @CC@ $(CFLAGS)
 

@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <assert.h>
 
 #include "db.h"
 #include "parse.h"
@@ -29,9 +30,9 @@
 
 #define REQ_FILE_PREFIX "/tmp/boinc_req_"
 #define REPLY_FILE_PREFIX "/tmp/boinc_reply_"
-#define BOINC_KEY_DIR "/home/david/boinc_keys"
 
 int return_error(char* p) {
+    assert(p!=NULL);
     fprintf(stderr, "BOINC server: %s\n", p);
     printf("<error_msg>%s</error_msg>\n", p);
     return 1;

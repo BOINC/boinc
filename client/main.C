@@ -31,6 +31,12 @@
 #include "util.h"
 
 void show_message(char* message, char* priority) {
+    if(message==NULL) {
+        fprintf(stderr, "error: show_message: unexpected NULL pointer message\n");
+    }
+    if(priority==NULL) {
+        fprintf(stderr, "error: show_message: unexpected NULL pointer priority\n");
+    }
     if (!strcmp(priority, "high")) {
         fprintf(stderr, "BOINC core client: %s\n", message);
     } else {

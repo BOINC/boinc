@@ -18,6 +18,7 @@
 //
 
 #include <strings.h>
+#include <assert.h>
 
 #include "parse.h"
 #include "server_types.h"
@@ -35,7 +36,7 @@ SCHEDULER_REQUEST::~SCHEDULER_REQUEST() {
 int SCHEDULER_REQUEST::parse(FILE* fin) {
     char buf[256];
     RESULT result;
-
+    assert(fin!=NULL);
     prefs_mod_time = 0;
     strcpy(authenticator, "");
     hostid = 0;
@@ -105,7 +106,7 @@ SCHEDULER_REPLY::~SCHEDULER_REPLY() {
 
 int SCHEDULER_REPLY::write(FILE* fout) {
     unsigned int i, j;
-
+    assert(fout!=NULL);
     fprintf(fout,
         "<scheduler_reply>\n"
     );
@@ -223,7 +224,7 @@ int APP_VERSION::write(FILE* fout, APP& app) {
 
 int RESULT::parse_from_client(FILE* fin) {
     char buf[256];
-
+    assert(fin!=NULL);
     memset(this, 0, sizeof(RESULT));
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</result>")) return 0;
@@ -257,7 +258,7 @@ int RESULT::parse_from_client(FILE* fin) {
 
 int HOST::parse(FILE* fin) {
     char buf[256];
-
+    assert(fin!=NULL);
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</host_info>")) return 0;
         else if (parse_int(buf, "<timezone>", timezone)) continue;
@@ -288,7 +289,7 @@ int HOST::parse(FILE* fin) {
 
 int HOST::parse_time_stats(FILE* fin) {
     char buf[256];
-
+    assert(fin!=NULL);
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</time_stats>")) return 0;
         else if (parse_double(buf, "<on_frac>", on_frac)) continue;
@@ -334,7 +335,7 @@ int DB_CACHE::read_db() {
 
 PLATFORM* DB_CACHE::lookup_platform(char* name) {
     unsigned int i;
-
+    assert(name!=NULL);
     for (i=0; i<platforms.size(); i++) {
         if (!strcmp(platforms[i].name, name)) {
             return &platforms[i];
@@ -359,7 +360,7 @@ APP_VERSION* DB_CACHE::lookup_app_version(
 ) {
     unsigned int i;
     APP_VERSION* avp;
-
+    assert(version>=0);
     for (i=0; i<app_versions.size(); i++) {
         avp = &app_versions[i];
         if (avp->appid == appid && avp->platformid == platformid && avp->version_num == version) {

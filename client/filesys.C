@@ -74,6 +74,10 @@ char failed_file[256];
 // routines for enumerating the entries in a directory
 
 int dir_open(char* p) {
+    if(p==NULL) {
+        fprintf(stderr, "error: dir_open: unexpected NULL pointer p\n");
+        return ERR_NULL;
+    }
 #ifdef HAVE_DIRENT_H
     dirp = opendir(p);
     if (!dirp) return ERR_OPENDIR;
@@ -91,6 +95,10 @@ int dir_open(char* p) {
 }
 
 int dir_scan(char* p) {
+    if(p==NULL) {
+        fprintf(stderr, "error: dir_scan: unexpected NULL pointer p\n");
+        return ERR_NULL;
+    }
 #ifdef HAVE_DIRENT_H
     while (1) {
 	dirent* dp = readdir(dirp);
@@ -157,7 +165,10 @@ void dir_close() {
 
 int file_delete(char* path) {
     int retval,i;
-
+    if(path==NULL) {
+        fprintf(stderr, "error: file_delete: unexpected NULL pointer path\n");
+        return ERR_NULL;
+    }
     for (i=0; i<2; i++) {
 #ifdef HAVE_UNISTD_H
         retval = unlink(path);
@@ -179,7 +190,10 @@ int file_delete(char* path) {
 int file_size(char* path, int& size) {
     struct stat sbuf;
     int retval;
-
+    if(path==NULL) {
+        fprintf(stderr, "error: file_size: unexpected NULL pointer path\n");
+        return ERR_NULL;
+    }
     retval = stat(path, &sbuf);
     if (retval) return retval;
     size = sbuf.st_size;
@@ -191,20 +205,30 @@ int file_size(char* path, int& size) {
 
 int boinc_link( char *existing, char *new_link ) {
     FILE *fp;
+    if(existing==NULL) {
+        fprintf(stderr, "error: boinc_link: unexpected NULL pointer existing\n");
+        return ERR_NULL;
+    }
+    if(new_link==NULL) {
+        fprintf(stderr, "error: boinc_link: unexpected NULL pointer new_link\n");
+        return ERR_NULL;
+    }
+    fp = fopen( new_link, "wb" );
+    if (!fp) return ERR_FOPEN;
+    rewind( fp );
+    fprintf( fp, "<soft_link>%s</soft_link>\n", existing );
+    fclose( fp );
 
-	fp = fopen( new_link, "wb" );
-	if (!fp) return ERR_FOPEN;
-	rewind( fp );
-	fprintf( fp, "<soft_link>%s</soft_link>\n", existing );
-	fclose( fp );
-
-	return 0;
+    return 0;
 }
 
 int clean_out_dir(char* dirpath) {
     char filename[256], path[256];
     int retval;
-
+    if(dirpath==NULL) {
+        fprintf(stderr, "error: clean_out_dir: unexpected NULL pointer dirpath\n");
+        return ERR_NULL;
+    }
     retval = dir_open(dirpath);
     if (retval) return retval;
     while (1) {

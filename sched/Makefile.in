@@ -5,12 +5,18 @@ VPATH           = @srcdir@
 
 all: cgi
 
+ifndef BOINC_KEY
+BOINC_KEY = 0xdadacafe
+endif
+
 CFLAGS = -g -Wall @DEFS@ \
     -I@top_srcdir@/db \
     -I@top_srcdir@/lib \
     -I@top_srcdir@/RSAEuro/source \
     -I@top_srcdir@/tools \
-    -I/usr/local/mysql/include
+    -I/usr/local/mysql/include \
+    -DBOINC_KEY_DIR=\"$(BOINC_KEY_DIR)\" \
+    -DBOINC_KEY=$(BOINC_KEY)
 
 CC = g++ $(CFLAGS)
 

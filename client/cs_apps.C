@@ -81,11 +81,14 @@ bool CLIENT_STATE::handle_running_apps() {
 }
 
 bool CLIENT_STATE::input_files_available(RESULT* rp) {
+    if(rp==NULL) {
+        fprintf(stderr, "error: CLIENT_STATE.input_files_available: unexpected NULL pointer rp\n");
+        return false;
+    }
     WORKUNIT* wup = rp->wup;
     FILE_INFO* fip;
     unsigned int i;
     APP_VERSION* avp;
-
     avp = wup->avp;
     for (i=0; i<avp->app_files.size(); i++) {
         fip = avp->app_files[i].file_info;
