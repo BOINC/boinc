@@ -627,35 +627,41 @@ PROJECT* CC_STATE::lookup_project(string& str) {
     return 0;
 }
 
-APP* CC_STATE::lookup_app(string& str) {
+APP* CC_STATE::lookup_app(PROJECT* project, string& str) {
     unsigned int i;
     for (i=0; i<apps.size(); i++) {
+        if (apps[i]->project != project) continue;
         if (apps[i]->name == str) return apps[i];
     }
     printf("CAN'T FIND APP %s\n", str.c_str());
     return 0;
 }
 
-APP_VERSION* CC_STATE::lookup_app_version(string& str, int version_num) {
+APP_VERSION* CC_STATE::lookup_app_version(
+    PROJECT* project, string& str, int version_num
+) {
     unsigned int i;
     for (i=0; i<app_versions.size(); i++) {
+        if (app_versions[i]->project != project) continue;
         if (app_versions[i]->app_name == str && app_versions[i]->version_num == version_num) return app_versions[i];
     }
     return 0;
 }
 
-WORKUNIT* CC_STATE::lookup_wu(string& str) {
+WORKUNIT* CC_STATE::lookup_wu(PROJECT* project, string& str) {
     unsigned int i;
     for (i=0; i<wus.size(); i++) {
+        if (wus[i]->project != project) continue;
         if (wus[i]->name == str) return wus[i];
     }
     printf("CAN'T FIND WU %s\n", str.c_str());
     return 0;
 }
 
-RESULT* CC_STATE::lookup_result(string& str) {
+RESULT* CC_STATE::lookup_result(PROJECT* project, string& str) {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
+        if (results[i]->project != project) continue;
         if (results[i]->name == str) return results[i];
     }
     printf("CAN'T FIND RESULT %s\n", str.c_str());
@@ -890,7 +896,7 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
             APP_VERSION* app_version = new APP_VERSION();
             app_version->parse(rpc.fin);
             app_version->project = project;
-            app_version->app = state.lookup_app(app_version->app_name);
+            app_version->app = state.lookup_app(project, app_version->app_name);
             state.app_versions.push_back(app_version);
             continue;
         }
@@ -898,8 +904,8 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
             WORKUNIT* wu = new WORKUNIT();
             wu->parse(rpc.fin);
             wu->project = project;
-            wu->app = state.lookup_app(wu->app_name);
-            wu->avp = state.lookup_app_version(wu->app_name, wu->version_num);
+            wu->app = state.lookup_app(project, wu->app_name);
+            wu->avp = state.lookup_app_version(project, wu->app_name, wu->version_num);
             state.wus.push_back(wu);
             continue;
         }
@@ -907,7 +913,7 @@ int RPC_CLIENT::get_state(CC_STATE& state) {
             RESULT* result = new RESULT();
             result->parse(rpc.fin);
             result->project = project;
-            result->wup = state.lookup_wu(result->wu_name);
+            result->wup = state.lookup_wu(project, result->wu_name);
             result->app = result->wup->app;
             state.results.push_back(result);
             continue;
