@@ -370,6 +370,8 @@ struct WORKUNIT {
 #define VALIDATE_STATE_NO_CHECK     3
     // WU had error, so we'll never get around to validating its results
     // This lets us avoid showing the claimed credit as "pending"
+#define VALIDATE_STATE_ERROR        4
+    // Validation encountered an internal error (eg, file IO error).
 
 struct RESULT {
     int id;
