@@ -105,10 +105,16 @@ int double_to_ydhms (double x, int smallest_timescale, char *buf) {
 
 
 // return time of day as a double
+// Not necessarily in terms of UNIX time (especially on Windows)
 //
 double dtime() {
 #ifdef _WIN32
-    return (double)time(0);
+	LARGE_INTEGER time;
+	FILETIME sysTime;
+	GetSystemTimeAsFileTime(&sysTime);
+    time.LowPart = sysTime.dwLowDateTime;
+    time.HighPart = sysTime.dwHighDateTime;  // Time is in 100 ns units
+    return (double)time.QuadPart/10000000;	// Convert to 1 s units
 #else
     struct timeval tv;
     gettimeofday(&tv, 0);
