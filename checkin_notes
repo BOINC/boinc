@@ -20584,3 +20584,11 @@ Rom    2 Dec 2004
         win_screensaver.cpp
     lib/
         gui_rpc_client.h
+
+Rom    2 Dec 2004
+    - Fix a setup issue where the screensaver and manager files were not being
+        removed on uninstall.
+
+    win_build/installerv2/
+        BOINC.ism
+  
