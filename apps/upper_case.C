@@ -201,9 +201,11 @@ int main(int argc, char **argv) {
             boinc_sleep(1);
         }
         
+#ifdef SIGNAL_H        
         if (raise_signal) {
             raise(SIGHUP);
         }
+#endif
 
         if (boinc_time_to_checkpoint()) {
             retval = do_checkpoint(out, nchars);

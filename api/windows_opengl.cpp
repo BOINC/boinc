@@ -42,7 +42,7 @@ int			mouse_thresh = 3;
 int			initCursorPosx, initCursorPosy;
 extern int ok_to_draw;
 
-GLuint	base;				// Base Display List For The Font Set
+GLuint	main_font;			// Base Display List For The Font Set
 GLfloat	cnt1;				// 1st Counter Used To Move Text & For Coloring
 GLfloat	cnt2;				// 2nd Counter Used To Move Text & For Coloring
 
@@ -65,15 +65,6 @@ GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize And Initialize Th
 	}
 
 	glViewport(0,0,width,height);						// Reset The Current Viewport
-
-	glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
-	glLoadIdentity();									// Reset The Projection Matrix
-
-	// Calculate The Aspect Ratio Of The Window
-	gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100.0f);
-
-	glMatrixMode(GL_MODELVIEW);							// Select The Modelview Matrix
-	glLoadIdentity();									// Reset The Modelview Matrix
 }
 
 GLvoid BuildFont(GLvoid)								// Build Our Bitmap Font
@@ -81,7 +72,7 @@ GLvoid BuildFont(GLvoid)								// Build Our Bitmap Font
 	HFONT	font;										// Windows Font ID
 	HFONT	oldfont;									// Used For Good House Keeping
 
-	base = glGenLists(96);								// Storage For 96 Characters
+	main_font = glGenLists(256);								// Storage For 96 Characters
 
 	font = CreateFont(	-24,							// Height Of Font
 						0,								// Width Of Font
@@ -99,32 +90,14 @@ GLvoid BuildFont(GLvoid)								// Build Our Bitmap Font
 						"Courier New");					// Font Name
 
 	oldfont = (HFONT)SelectObject(hDC, font);           // Selects The Font We Want
-	wglUseFontBitmaps(hDC, 32, 96, base);				// Builds 96 Characters Starting At Character 32
+	wglUseFontBitmaps(hDC, 0, 256, main_font);			// Builds 256 Characters
 	SelectObject(hDC, oldfont);							// Selects The Font We Want
 	DeleteObject(font);									// Delete The Font
 }
 
 GLvoid KillFont(GLvoid)									// Delete The Font List
 {
-	glDeleteLists(base, 96);							// Delete All 96 Characters
-}
-
-GLvoid glPrint(const char *fmt, ...)					// Custom GL "Print" Routine
-{
-	char		text[256];								// Holds Our String
-	va_list		ap;										// Pointer To List Of Arguments
-
-	if (fmt == NULL)									// If There's No Text
-		return;											// Do Nothing
-
-	va_start(ap, fmt);									// Parses The String For Variables
-	    vsprintf(text, fmt, ap);						// And Converts Symbols To Actual Numbers
-	va_end(ap);											// Results Are Stored In Text
-
-	glPushAttrib(GL_LIST_BIT);							// Pushes The Display List Bits
-	glListBase(base - 32);								// Sets The Base Character to 32
-	glCallLists(strlen(text), GL_UNSIGNED_BYTE, text);	// Draws The Display List Text
-	glPopAttrib();										// Pops The Display List Bits
+	glDeleteLists(main_font, 256);						// Delete All 96 Characters
 }
 
 int InitGL(GLvoid)										// All Setup For OpenGL Goes Here

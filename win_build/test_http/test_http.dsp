@@ -64,7 +64,7 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /I "../../lib/" /I "../../api/" /I "../../client/" /I "../../RSAEuro/source/" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /c /Tp
+# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /I "../../lib/" /I "../../api/" /I "../../client/win/" /I "../../client/" /I "../../RSAEuro/source/" /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /FR /YX /FD /GZ /c /Tp
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -85,7 +85,7 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=..\..\client\filesys.C
+SOURCE=..\..\lib\filesys.C
 # End Source File
 # Begin Source File
 
@@ -109,11 +109,11 @@ SOURCE=..\..\client\test_http.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\util.C
+SOURCE=..\..\lib\util.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\client\win_net.cpp
+SOURCE=..\..\client\win\win_net.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"

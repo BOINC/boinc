@@ -132,15 +132,11 @@ SOURCE=..\..\Client\file_xfer.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\filesys.C
+SOURCE=..\..\lib\filesys.C
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\Client\Hostinfo.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\Client\hostinfo_unix.C
 # End Source File
 # Begin Source File
 
@@ -200,7 +196,7 @@ SOURCE=..\..\Client\time_stats.C
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\util.C
+SOURCE=..\..\lib\util.C
 # End Source File
 # Begin Source File
 
