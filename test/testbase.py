@@ -350,8 +350,10 @@ class TestProject(Project):
     def progress_meter_ctor(self):
         pass
     def progress_meter_status(self):
-        return "WUs: [%dassim/%dtotal/%dtarget]  Results: [%dunsent,%dinProg,%dover/%dtotal]" % (
-            num_wus_assimilated(), num_wus(), self.num_wu,
+        return "WUs: [A:%d T:%d]  Results: [U:%d,P:%d,O:%d T:%d]" % (
+            num_wus_assimilated(),
+            #num_wus(),
+            self.num_wu,
             num_results_unsent(),
             num_results_in_progress(),
             num_results_over(),
