@@ -304,6 +304,7 @@ int ACTIVE_TASK::start(bool first_time) {
         fprintf(stdout, "CreateProcess: %s\n", (LPCTSTR)lpMsgBuf);
         LocalFree(lpMsgBuf);
     }
+	pid = process_info.dwProcessId;
     pid_handle = process_info.hProcess;
     thread_handle = process_info.hThread;
 #else
