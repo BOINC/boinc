@@ -102,6 +102,10 @@ void add_app() {
 void add_platform() {
     int retval;
 
+    if (!user_friendly_name) {
+        fprintf( stderr, "User friendly name not specified.\n" );
+        exit(1);
+    }
     if (!platform_name) {
         fprintf( stderr, "Platform name not specified.\n" );
         exit(1);
