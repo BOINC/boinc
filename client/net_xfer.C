@@ -390,6 +390,7 @@ NET_XFER* NET_XFER_SET::lookup_fd(int fd) {
 //
 int NET_XFER::do_xfer(int& nbytes_transferred) {
     int n, m, nleft, offset;
+	bool would_block;
     char buf[MAX_BLOCKSIZE];
 
     nbytes_transferred = 0;
@@ -435,17 +436,19 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
         while (nleft) {
 #ifdef _WIN32
             n = send(socket, buf+offset, nleft, 0);
+			would_block = (WSAGetLastError() == WSAEWOULDBLOCK);
 #else
             n = write(socket, buf+offset, nleft);
+			would_block = (errno == EAGAIN);
 #endif
             if (log_flags.net_xfer_debug) {
                 printf("wrote %d bytes to socket %d\n", n, socket);
             }
-            if (n < 0) {
+            if (n < 0 && !would_block) {
                 error = ERR_WRITE;
                 io_done = true;
                 break;
-            } else if (n < nleft) {
+            } else if (n < nleft || would_block) {
                 fseek( file, n+nbytes_transferred-blocksize, SEEK_CUR );
                 nbytes_transferred += n;
                 bytes_xferred += n;

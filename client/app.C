@@ -169,10 +169,12 @@ int ACTIVE_TASK::start(bool first_time) {
         show_message(wup->project, buf, MSG_ERROR);
         return ERR_FOPEN;
     }
+#ifndef _WIN32
 #ifdef HAVE_SYS_IPC_H
     aid.shm_key = ftok(init_data_path, slot);
 #else
 #error
+#endif
 #endif
     retval = write_init_data_file(f, aid);
     if (retval) return retval;
