@@ -13,6 +13,7 @@ boinc_gui_SOURCES = \
     BOINCListCtrl.cpp \
     BOINCTaskCtrl.cpp \
     DlgAbout.cpp \
+    DlgAccountManager.cpp \
     DlgAttachProject.cpp \
     DlgConnection.cpp \
     DlgOptions.cpp \
@@ -38,13 +39,34 @@ boinc_gui_SOURCES = \
     ../lib/md5_file.C \
     ../lib/md5.c
 
-EXTRA_DIST = BOINCBaseView.h  DlgAttachProject.h  ValidateAccountKey.h  ViewWork.h 	\
-	BOINCGUIApp.h	 DlgConnection.h     ValidateURL.h	   _wx_intellisense.h 		\
-	BOINCListCtrl.h  DlgOptions.h	     ViewMessages.h	   resource.h				\
-	BOINCTaskBar.h	 Events.h	     ViewProjects.h	   stdwx.h						\
-	BOINCTaskCtrl.h  MainDocument.h      ViewResources.h							\
-	DlgAbout.h	 MainFrame.h	     ViewTransfers.h								\
-	res  msw locale
+EXTRA_DIST = \
+    _wx_intellisense.h \
+    BOINCBaseView.h  \
+    BOINCGUIApp.h \
+    BOINCListCtrl.h \
+    BOINCTaskBar.h \
+    BOINCTaskCtrl.h \
+    DlgAbout.h \
+    DlgAccountManager.h \
+    DlgAttachProject.h \
+    DlgConnection.h \
+    DlgOptions.h \
+    Events.h \
+    LogBOINC.h
+    MainDocument.h \
+    MainFrame.h \
+    resource.h \
+    stdwx.h \
+    ValidateAccountKey.h \
+    ValidateURL.h \
+    ViewMessages.h \
+    ViewProjects.h \
+    ViewResources.h \
+    ViewTransfers.h
+    ViewWork.h \
+    res \
+    msw \
+    locale 
 
 boinc_gui_CPPFLAGS = $(AM_CPPFLAGS) $(WX_CPPFLAGS) $(CLIENTGUIFLAGS)
 boinc_gui_CXXFLAGS = $(AM_CXXFLAGS) $(WX_CXXFLAGS) $(CLIENTGUIFLAGS)
