@@ -1,7 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "boinc_gui.h"
-#include "win_config.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -63,8 +62,8 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,226,24,50,14
     EDITTEXT        IDC_LOGIN_URL,72,7,147,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_LOGIN_AUTH,72,32,147,14,ES_AUTOHSCROLL
-    LTEXT           "URL:",IDC_STATIC_URL,7,7,63,8
-    LTEXT           "Account Key:",IDC_STATIC_AUTH,7,32,63,8
+    LTEXT           "Project URL:",IDC_STATIC_URL,19,7,48,8
+    LTEXT           "Account ID:",IDC_STATIC_AUTH,21,31,45,8
 END
 
 IDD_ABOUTBOX DIALOG  0, 0, 300, 67
@@ -290,8 +289,8 @@ IDI_ICONWARNING         ICON                    "res\\iconwarning.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION MAJOR_VERSION,MINOR_VERSION,0,0
- PRODUCTVERSION MAJOR_VERSION,MINOR_VERSION,0,0
+ FILEVERSION 3,7,0,0
+ PRODUCTVERSION 3,7,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -308,12 +307,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Space Sciences Laboratory"
             VALUE "FileDescription", "boinc_gui"
-            VALUE "FileVersion", VERSION "\0"
+            VALUE "FileVersion", "3.07"
             VALUE "InternalName", "boinc_gui"
             VALUE "LegalCopyright", "Copyright © 2004 University of California"
             VALUE "OriginalFilename", "boinc_gui.exe"
             VALUE "ProductName", "BOINC Core Client"
-            VALUE "ProductVersion", PACKAGE_VERSION "\0"
+            VALUE "ProductVersion", "3.07"
         END
     END
     BLOCK "VarFileInfo"

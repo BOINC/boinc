@@ -23,7 +23,7 @@ char g_szUsageItems[MAX_USAGE_STR][256] = {
 	"Free space",
 	"Used space: non-BOINC",
 	"Used space: BOINC",
-	"BOINC Core Client",
+	"BOINC software",
 };
 
 char g_szMiscItems[MAX_MISC_STR][256] = {

@@ -12968,3 +12968,12 @@ Rom    June 1 2004
 
     sched/
         handle_request.C
+
+David  June 2 2004
+	- client: cosmetic changes: "Account Key" -> "Account ID",
+		"BOINC Core Client" -> "BOINC software"
+
+	client/
+		gui_titles.C
+		win/
+			boinc_gui.rc
