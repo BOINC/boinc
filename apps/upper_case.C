@@ -52,15 +52,13 @@
 
 bool app_render(int xs, int ys, double time_of_day);
 void renderBitmapString( float x, float y, void *font, char *string);
+int DrawGLScene(GLvoid);
 #endif
 
 #include "util.h"
 #include "filesys.h"
 #include "boinc_api.h"
 #include "graphics_api.h"
-
-int DrawGLScene(GLvoid);
-void renderBitmapString( float x, float y, void *font, char *string);
 
 #define CHECKPOINT_FILE "upper_case_state"
 
