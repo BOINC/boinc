@@ -1,0 +1,37 @@
+#!/bin/sh
+
+## $Id$
+
+# Automate a clean check out, make all, check, distcheck.  On error, complain
+# to stdout and return 1.  Suitable for a cron job.
+
+CHECKOUT="CVSROOT=/disks/milkyway/a/users/anderson/seti/cvsroot cvs co boinc"
+TMPDIR=/tmp/testbase
+
+die()
+{
+    echo "$1"
+    [ "$2" ] && cat "$2"
+    exit 1
+}
+
+reqeval()
+{
+    eval "$1" || die "error executing: $1"
+}
+
+reqeval_log()
+{
+    eval "$1" > $2 2>&1 || die "error executing: $1" $2
+}
+
+
+reqeval "rm -rf $TMPDIR"
+reqeval "mkdir -p $TMPDIR"
+reqeval "cd $TMPDIR"
+reqeval_log "$CHECKOUT"      checkout.log
+reqeval "cd boinc"
+reqeval_log "./configure"    configure.log
+reqeval_log "make all"       make_all.log
+reqeval_log "make check"     make_check.log
+reqeval_log "make distcheck" make_distcheck.log

@@ -5063,3 +5063,9 @@ Karl    2003/06/25
         test_backend.py
         test_concat.py
         test_uc.py
+
+Karl    2003/06/25
+    - created a script to automatically run make all, check, distcheck from a
+      cronjob - complains if anything fails.
+
+    ./testbase (new)
