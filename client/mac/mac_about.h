@@ -19,4 +19,4 @@
 
 #include <Carbon/Carbon.h>
 
-OSStatus CreateAboutWindow();
+extern OSStatus CreateAboutWindow();

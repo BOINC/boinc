@@ -20,4 +20,4 @@
 #include <Carbon/Carbon.h>
 
 pascal OSStatus JoinDialogEventHandler (EventHandlerCallRef myHandler, EventRef event, void *userData);
-OSStatus CreateJoinDialog( char *master_url, char *account_key );
+extern OSStatus CreateJoinDialog( char *master_url, char *account_key );
