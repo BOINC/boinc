@@ -8,7 +8,7 @@ require_once("../inc/download.inc");
     db_init();
 
     page_head("Download BOINC software");
-    if (!get_logged_in_user(false, "")) {
+    if (!get_logged_in_user(false)) {
         echo "
             <h3>Download BOINC software</h3>
             <font color=ff0000>

@@ -39,6 +39,7 @@ public:
     char upload_dir[256];
     bool one_result_per_user_per_wu;
     int min_sendwork_interval;
+    int max_wus_to_send;
 
     int parse(istream& f);
     int parse_file(char* dir=".");

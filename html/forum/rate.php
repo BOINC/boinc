@@ -20,7 +20,7 @@ if (!empty($_GET['post'])) {
         exit();
     }
 
-    $user = get_logged_in_user($true, '../');
+    $user = get_logged_in_user($true);
 
     $result = mysql_query("SELECT * FROM post WHERE id = $postId");
    	if ($result) {
@@ -52,7 +52,7 @@ if (!empty($_GET['post'])) {
 }
 
 function show_result_page($success, $post, $choice) {
-    $logged_in_user = get_logged_in_user(false, '../');
+    $logged_in_user = get_logged_in_user(false);
 
 		if ($success) {
 	    if ($choice) {

@@ -10,7 +10,7 @@ function subscribe($thread, $user=null) {
     }
 
     if (!$user) {
-        $user = get_logged_in_user(true, '../');
+        $user = get_logged_in_user(true);
     }
 
     $sql = "INSERT INTO subscriptions SET userid = " . $user->id . ", threadid = " . $thread->id;
@@ -23,7 +23,7 @@ function unsubscribe($thread, $user=null) {
         exit();
     }
     if (!$user) {
-        $user = get_logged_in_user(true, '../');
+        $user = get_logged_in_user(true);
     }
     $sql = "DELETE FROM subscriptions WHERE (userid = ". $user->id . ") AND (threadid = " . $thread->id . ")";
     show_result_page("unsubscribe", (mysql_query($sql) != null), $thread);

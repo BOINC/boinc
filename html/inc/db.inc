@@ -5,20 +5,20 @@ require_once('../inc/util.inc');
 // database-related functions.
 // Presentation code (HTML) shouldn't be here
 
-function db_init($pathMod='') {
+function db_init() {
     if (project_is_stopped()) {
         echo "Project is shut down for maintenance - please try again later\n";
         exit();
     }
-	$user = parse_config("<db_user>", $pathMod);
-	$pass = parse_config("<db_passwd>", $pathMod);
+	$user = parse_config("<db_user>");
+	$pass = parse_config("<db_passwd>");
     $retval = mysql_pconnect("localhost", $user, $pass);
     if (!$retval) {
         echo "Unable to connect to database - please try again later";
 		echo mysql_error();
         exit();
     }
-    $db_name = parse_config("<db_name>", $pathMod);
+    $db_name = parse_config("<db_name>");
     if(!mysql_select_db($db_name)) {
         echo "Unable to select database - please try again later";
 		echo mysql_error();

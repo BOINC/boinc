@@ -43,7 +43,6 @@ using namespace std;
 
 const int MIN_SECONDS_TO_SEND = 0;
 const int MAX_SECONDS_TO_SEND = (28*SECONDS_PER_DAY);
-const int MAX_WUS_TO_SEND     = 10;
 
 const double COBBLESTONE_FACTOR = 300.0;
 
@@ -881,7 +880,7 @@ static void scan_work_array(
         wreq.seconds_to_fill -= wu_seconds_filled;
 
         wreq.nresults++;
-        if (wreq.nresults == MAX_WUS_TO_SEND) break;
+        if (wreq.nresults >= config.max_wus_to_send) break;
     }
 }
 

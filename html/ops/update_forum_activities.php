@@ -6,7 +6,7 @@ require_once("../inc/forum.inc");
 define('MAX_REWARD', 4096);
 define('SCALAR', 0.9);
 
-db_init("../");
+db_init();
 
 $now = time();
 $result = mysql_query("select * FROM thread");

@@ -9488,7 +9488,7 @@ David  Jan 21 2004
     client/
         cs_cmdline.C
         main.C
-    win_builc/
+    win_build/
         boinc_cli.vcproj
 
 David  Jan 22 2004
@@ -9654,14 +9654,18 @@ David  Feb 2 2004
     sched/
         server_types.C
 
+David  Feb 2 2004
+    - changed directory structure of HTML stuff
+
 Rom    Feb 2 2004
     - Added a diagnostics library for project clients
         Currently only windows specific stuff has been implemented for the
-        BOINCASSERT and BOINCTRACE.  BOINCASSERT has been defined as an ASNI C assert
+        BOINCASSERT and BOINCTRACE.
+        BOINCASSERT has been defined as an ASNI C assert
         for all other platforms.
 
-        boinc_trace(), boinc_diag_init(), and boinc_diag_cleanup() need to be defined for
-        all the other platforms.
+        boinc_trace(), boinc_diag_init(), and boinc_diag_cleanup()
+        need to be defined for all the other platforms.
     - Moved stderr redirection into boinc_diag_init() for the Windows client.
 
     api/
@@ -9673,3 +9677,22 @@ Rom    Feb 3 2004
 
     api/
         boincdiag.cpp,h
+    
+David  Feb 3 2004
+    - removed pathMod arguments in PHP code (this was needed when we had
+        multi-level directory structure; not needed anymore)
+    - changed max_wus_to_send from a compile constant to a config.xml parameter
+
+    html/
+        forum/
+            post.php
+            rate.php
+            reply.php
+            subscribe.php
+        inc/
+            db.inc
+            subscribe.inc
+            util.inc
+    sched/
+        handle_request.C
+        sched_config.C,h

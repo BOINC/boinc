@@ -13,7 +13,7 @@ if (!empty($_GET['thread']) && !empty($_POST['content'])) {
     $parent_post = NULL;
   }
 
-	$user = get_logged_in_user(true, '../');
+	$user = get_logged_in_user(true);
 
     if ($_POST['add_signature']=="add_it"){
         $forum_signature = "\n".$user->signature;
@@ -24,7 +24,7 @@ if (!empty($_GET['thread']) && !empty($_POST['content'])) {
 	header('Location: thread.php?id='.$_GET['thread']);
 }
 
-$logged_in_user = get_logged_in_user(true, '../');
+$logged_in_user = get_logged_in_user(true);
 
 if (empty($_GET['thread'])) {
 	// TODO: Standard error page.

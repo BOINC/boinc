@@ -45,7 +45,11 @@ inline string read_stream(istream& f) {
 int SCHED_CONFIG::parse(istream& f) {
     string buf = read_stream(f);
 
+    // fill in defaults
+    //
     memset(this, 0, sizeof(SCHED_CONFIG));
+    max_wus_to_send = 10;
+
     parse_str(buf.c_str(), "<db_name>", db_name, sizeof(db_name));
     parse_str(buf.c_str(), "<db_user>", db_user, sizeof(db_user));
     parse_str(buf.c_str(), "<db_passwd>", db_passwd, sizeof(db_passwd));
@@ -60,6 +64,7 @@ int SCHED_CONFIG::parse(istream& f) {
         one_result_per_user_per_wu = true;
     }
     parse_int(buf.c_str(), "<min_sendwork_interval>", min_sendwork_interval);
+    parse_int(buf.c_str(), "<max_wus_to_send>", max_wus_to_send);
     if (match_tag(buf.c_str(), "</config>")) return 0;
     return ERR_XML_PARSE;
 }

@@ -8,7 +8,7 @@ require_once('../inc/subscribe.inc');
 if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content'])) {
 	$_GET['id'] = stripslashes(strip_tags($_GET['id']));
 
-	$user = get_logged_in_user(true, '../');
+	$user = get_logged_in_user(true);
 
     if ($_POST['add_signature']=="add_it"){
         $forum_signature = "\n".$user->signature;
@@ -27,7 +27,7 @@ if (!empty($_GET['id'])) {
 	exit();
 }
 
-$logged_in_user = get_logged_in_user(true, '../');
+$logged_in_user = get_logged_in_user(true);
 
 // TODO: Write a function to do this.
 

@@ -33,9 +33,9 @@ function init_session() {
 
 // if not logged in, put up login form and exit
 //
-function require_login($user, $pathMod="") {
+function require_login($user) {
     if (!$user) {
-        print_login_form($pathMod);
+        print_login_form();
         exit();
     }
 }
@@ -60,17 +60,14 @@ function get_profile_from_userid($userid) {
     return null;
 }
 
-// $pathMod is a prefix for the path of the login processing form.
-// This allows scripts in other directories (i.e. forum/) to call this function.
-
-function get_logged_in_user($must_be_logged_in=true, $pathMod="") {
+function get_logged_in_user($must_be_logged_in=true) {
     $authenticator = init_session();
     if (!$authenticator) {
         $authenticator = $_COOKIE['auth'];
     }
     $user = get_user_from_auth($authenticator);
     if ($must_be_logged_in) {
-        require_login($user, $pathMod);
+        require_login($user);
     }
     return $user;
 }
@@ -234,9 +231,9 @@ function print_country_select($selected_country="None") {
     }
 }
 
-function print_login_form_aux($next_url, $user, $pathMod='') {
+function print_login_form_aux($next_url, $user) {
     echo "
-        <form name=f method=post action=\"", $pathMod, "login_action.php\">
+        <form name=f method=post action=login_action.php>
         <input type=hidden name=next_url value='$next_url'>
     ";
     start_table();
@@ -269,14 +266,14 @@ function print_login_form_aux($next_url, $user, $pathMod='') {
     ";
 }
 
-function print_login_form($pathMod="") {
+function print_login_form() {
     page_head("Please log in");
     echo "
         <h3>Please log in</h3>
         This function requires that you log in.
     ";
     $next_url = $_SERVER['REQUEST_URI'];
-    print_login_form_aux($next_url, null, $pathMod);
+    print_login_form_aux($next_url, null);
     page_tail();
 }
 
@@ -309,11 +306,11 @@ function file_get_contents($path) {
 }
 }
 
-// look for a particular element in the ../config.xml file
+// look for a particular element in the ../../config.xml file
 //
-function parse_config($tag, $pathMod='') {
+function parse_config($tag) {
     $element = null;
-    $buf = file_get_contents($pathMod . "../../config.xml");
+    $buf = file_get_contents("../../config.xml");
     $element = parse_element($buf, $tag);
     return trim($element);
 }
