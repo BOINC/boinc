@@ -29,7 +29,7 @@ in a typical period of a day or two,
 should be approximately the same as the ratio of
 the user-specified resource shares.
 If a process has no work for some period,
-it does no accumulate a 'debt' of work.
+it does not accumulate a 'debt' of work.
 
 <li>
 <b>Satisfy result deadlines if possible.</b>
@@ -92,7 +92,8 @@ This algorithm is run:
 <ul>
 <li> Whenever a CPU is free
 <li> Whenever a new result arrives (via scheduler RPC)
-<li> Whenever it hasn't run for MV seconds
+<li> Whenever it hasn't run for MV seconds, for some scheduling period
+MV
 </ul>
 
 <p>
@@ -136,7 +137,7 @@ ready-to-compute result.
 <pre>
 data structures:
 ACTIVE_TASK:
-    double period_start_cpu_time
+    double cpu_time_at_last_sched
     double current_cpu_time
     scheduler_state:
         PREEMPTED
@@ -155,7 +156,7 @@ foreach project P
 
 total_work_done_this_period = 0
 foreach task T that is RUNNING:
-    x = T.current_cpu_time - T.period_start_cpu_time
+    x = T.current_cpu_time - T.cpu_time_at_last_sched
     T.project.work_done_this_period += x
     total_work_done_this_period += x
 
@@ -197,7 +198,7 @@ foreach task T
         suspend (or kill)
 
 foreach task T
-    T.period_start_cpu_time = T.current_cpu_time
+    T.cpu_time_at_last_sched = T.current_cpu_time
 </pre>
 
 <h2>Work fetch policy</h2>
