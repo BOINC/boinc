@@ -18547,3 +18547,9 @@ David  18 Oct 2004
     lib/
         Makefile.am
         filesys.h
+
+David  19 Oct 2004
+    - generate clientgui/Makefile
+    
+    Makefile.am
+    configure.ac

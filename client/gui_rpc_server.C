@@ -170,6 +170,7 @@ static void handle_project_op(char* buf, MIOFILE& fout, char* op) {
         p->sched_rpc_pending = true;
         p->min_rpc_time = 0;
     }
+    gstate.must_schedule_cpus = true;
     fout.printf("<success/>\n");
 }
 
@@ -382,11 +383,10 @@ static void handle_result_op(char* buf, MIOFILE& fout, char* op) {
         atp->abort_task("aborted via GUI RPC");
     } else if (!strcmp(op, "suspend")) {
         atp->suspended_via_gui = true;
-        gstate.must_schedule_cpus = true;
     } else if (!strcmp(op, "resume")) {
         atp->suspended_via_gui = false;
-        gstate.must_schedule_cpus = true;
     }
+    gstate.must_schedule_cpus = true;
     fout.printf("<success/>\n");
 }
 
@@ -464,7 +464,7 @@ int GUI_RPC_CONN::handle_rpc() {
         handle_file_transfer_op(request_msg, mf, "abort");
     } else if (match_tag(request_msg, "<abort_result")) {
         handle_result_op(request_msg, mf, "abort");
-    } else if (match_tag(request_msg, "<suspent_result")) {
+    } else if (match_tag(request_msg, "<suspend_result")) {
         handle_result_op(request_msg, mf, "suspend");
     } else if (match_tag(request_msg, "<resume_result")) {
         handle_result_op(request_msg, mf, "resume");

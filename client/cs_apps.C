@@ -229,6 +229,7 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
 void CLIENT_STATE::assign_results_to_projects() {
     unsigned int i;
     RESULT* rp;
+    PROJECT* project;
 
     // scan results with an ACTIVE_TASK
     //
@@ -236,10 +237,10 @@ void CLIENT_STATE::assign_results_to_projects() {
         ACTIVE_TASK *atp = active_tasks.active_tasks[i];
         if (atp->suspended_via_gui) continue;
         if (atp->result->already_selected) continue;
-        PROJECT *p = atp->wup->project;
-        if (p->suspended_via_gui) continue;
-        if (!p->next_runnable_result) {
-            p->next_runnable_result = atp->result;
+        project = atp->wup->project;
+        if (project->suspended_via_gui) continue;
+        if (!project->next_runnable_result) {
+            project->next_runnable_result = atp->result;
             continue;
         }
 
@@ -247,7 +248,7 @@ void CLIENT_STATE::assign_results_to_projects() {
         // selected for this project
         //
         ACTIVE_TASK *next_atp = lookup_active_task_by_result(
-            p->next_runnable_result
+            project->next_runnable_result
         );
         assert(next_atp != NULL);
 
@@ -255,7 +256,7 @@ void CLIENT_STATE::assign_results_to_projects() {
             || (next_atp->scheduler_state == CPU_SCHED_PREEMPTED
             && atp->scheduler_state == CPU_SCHED_SCHEDULED)
         ) {
-            p->next_runnable_result = atp->result;
+            project->next_runnable_result = atp->result;
         }
     }
 
@@ -264,9 +265,10 @@ void CLIENT_STATE::assign_results_to_projects() {
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         if (rp->already_selected) continue;
-        PROJECT *p = rp->wup->project;
-        if (!p->next_runnable_result && rp->state == RESULT_FILES_DOWNLOADED){
-            p->next_runnable_result = rp;
+        project = rp->wup->project;
+        if (project->suspended_via_gui) continue;
+        if (!project->next_runnable_result && rp->state == RESULT_FILES_DOWNLOADED){
+            project->next_runnable_result = rp;
         }
     }
 
@@ -274,8 +276,9 @@ void CLIENT_STATE::assign_results_to_projects() {
     // a result more than once
     //
     for (i=0; i<projects.size(); i++) {
-        if (projects[i]->next_runnable_result) {
-            projects[i]->next_runnable_result->already_selected = true;
+        project = projects[i];
+        if (project->next_runnable_result) {
+            project->next_runnable_result->already_selected = true;
         }
     }
 }
