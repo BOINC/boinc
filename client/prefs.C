@@ -39,7 +39,7 @@ void GLOBAL_PREFS::init() {
     run_minimized = false;
     run_on_startup = false;
     confirm_before_connecting = false;
-    hangup_if_dialed = false;
+    hangup_if_dialed = true;
     work_buf_max_days = 3;
     work_buf_min_days = 1;
     disk_max_used_gb = 1;
@@ -101,6 +101,9 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
             continue;
         } else if (match_tag(buf, "<confirm_before_connecting/>")) {
             confirm_before_connecting = true;
+            continue;
+        } else if (match_tag(buf, "<hangup_if_dialed/>")) {
+            hangup_if_dialed = true;
             continue;
         } else if (match_tag(buf, "<run_minimized/>")) {
             run_minimized = true;
