@@ -2,7 +2,7 @@
 
 // mechanism for caching commonly-accessed pages
 
-function start_cache($max_age, $unique_parameter_string){
+function start_cache($max_age, $unique_parameter_string=""){
    $cache_dir="../cache";
 
    $path = $cache_dir.$_SERVER["PHP_SELF"]."_".urlencode($unique_parameter_string);
@@ -22,7 +22,7 @@ function start_cache($max_age, $unique_parameter_string){
 
 // write output buffer both to client and to cache
 //
-function end_cache($unique_parameter_string){
+function end_cache($unique_parameter_string=""){
    $cache_dir="../cache";
 
    $path = $cache_dir.$_SERVER["PHP_SELF"]."_".urlencode($unique_parameter_string);

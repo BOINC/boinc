@@ -12855,3 +12855,23 @@ David  May 30 2004
             top_hosts.php
             top_teams.php
             top_users.php
+
+David  May 31 2004
+    - Web: changed project news mechanism to use RSS
+        (Really Simple Syndication), described here:
+        http://blogs.law.harvard.edu/tech/rss
+        All projects now offer news feed at rss_main.php
+    - SETI@home public site: made front page cached
+    - added index on profile.uotd_time
+
+    db/
+        constraints.sql
+    html/
+        inc/
+            cache.inc
+            util.inc
+            news.inc (new)
+        user/
+            rss_main.php
+            sample_index.php
+            old_news.php (new)

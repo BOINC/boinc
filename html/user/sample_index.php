@@ -1,7 +1,9 @@
 <?php
     require_once("../inc/db.inc");
     require_once("../inc/util.inc");
+    require_once("../inc/news.inc");
     require_once("../project/project.inc");
+    require_once("../project/project_news.inc");
 
     // don't want to use DB here, because master page won't be visible
     // if DB is down
@@ -72,7 +74,10 @@ echo "
 <h3>News</h3>
 </center>
 ";
-project_news();
+show_news($project_news, 5);
+if (count($project_news > 5)) {
+        echo "<a href=old_news.php>...more</a>\n";
+}
 echo "
 </td>
 </tr></table>

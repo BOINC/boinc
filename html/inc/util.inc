@@ -449,12 +449,4 @@ function host_link($hostid) {
     }
 }
 
-function news_item($date, $text) {
-    echo "<b>$date</b>
-        <br>
-        $text
-        <br><br>
-    ";
-}
-
 ?>
