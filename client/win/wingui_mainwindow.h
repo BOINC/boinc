@@ -106,6 +106,7 @@ protected:
 	CBitmap					m_TabBMP[MAX_TABS];		// bitmaps for tab image list
 	HINSTANCE				m_hIdleDll;				// handle to dll for user idle
 	int						m_nIconState;			// state of the status icon
+	int						m_nDesiredIconState;	// desired state of the status icon
 	BOOL					m_bMessage;				// does the user have a new message?
 	BOOL					m_bRequest;				// does the user have a net connection request?
 	int						m_nContextItem;			// item selected for context menu
@@ -117,7 +118,7 @@ protected:
 	COLORREF				GetPieColor(int);
 	void					CheckIdle();
     void					ShowTab(int);
-    void					SetStatusIcon(DWORD);
+    bool					SetStatusIcon(DWORD);
     void					SaveListControls();
     void					LoadListControls();
     void					SaveUserSettings();

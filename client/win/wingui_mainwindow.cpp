@@ -202,6 +202,10 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	CString strBuf;
 	int i;
 
+	// If we failed to set the taskbar icon before, keep trying!
+	if (m_nDesiredIconState != m_nIconState)
+		SetStatusIcon(m_nDesiredIconState);
+
 	// display projects
 	m_ProjectListCtrl.SetRedraw(FALSE);
 	float totalres = 0;
@@ -537,14 +541,17 @@ void CMainWindow::ShowTab(int nTab)
 // arguments:	dwMessage: hide or show the icon
 // returns:		void
 // function:	controls the status icon in the taskbar
-void CMainWindow::SetStatusIcon(DWORD dwMessage)
+bool CMainWindow::SetStatusIcon(DWORD dwMessage)
 {
+	BOOL success = false;
+	NOTIFYICONDATA icon_data;
+
 	if(dwMessage != ICON_OFF && dwMessage != ICON_NORMAL && dwMessage != ICON_HIGHLIGHT) {
-		return;
+		return false;
 	}
 	// if icon is in that state already, there is nothing to do
-	if(dwMessage == m_nIconState) return;
-	NOTIFYICONDATA icon_data;
+	if(dwMessage == m_nIconState) return true;
+	m_nDesiredIconState = dwMessage;
 	memset( &icon_data, 0, sizeof(NOTIFYICONDATA) );
 	icon_data.cbSize = sizeof(NOTIFYICONDATA);
     icon_data.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
@@ -554,23 +561,27 @@ void CMainWindow::SetStatusIcon(DWORD dwMessage)
     icon_data.uCallbackMessage = STATUS_ICON_ID;
 	if(dwMessage == ICON_OFF) {
 		icon_data.hIcon = NULL;
-		Shell_NotifyIcon(NIM_DELETE, &icon_data);
+		success = Shell_NotifyIcon(NIM_DELETE, &icon_data);
 	} else if(dwMessage == ICON_NORMAL) {
 		icon_data.hIcon = g_myApp.LoadIcon(IDI_ICON);
 		if(m_nIconState == ICON_OFF) {
-			Shell_NotifyIcon(NIM_ADD, &icon_data);
+			success = Shell_NotifyIcon(NIM_ADD, &icon_data);
 		} else {
-			Shell_NotifyIcon(NIM_MODIFY, &icon_data);
+			success = Shell_NotifyIcon(NIM_MODIFY, &icon_data);
 		}
 	} else if(dwMessage == ICON_HIGHLIGHT) {
 		icon_data.hIcon = g_myApp.LoadIcon(IDI_ICONHIGHLIGHT);
 		if(m_nIconState == ICON_OFF) {
-			Shell_NotifyIcon(NIM_ADD, &icon_data);
+			success = Shell_NotifyIcon(NIM_ADD, &icon_data);
 		} else {
-			Shell_NotifyIcon(NIM_MODIFY, &icon_data);
+			success = Shell_NotifyIcon(NIM_MODIFY, &icon_data);
 		}
 	}
+	if (!success) return false;
+
 	m_nIconState = dwMessage;
+
+	return true;
 }
 
 //////////
