@@ -20,7 +20,14 @@
 // functions relating to file transfer
 //
 
+#include "windows_cpp.h"
+
+#ifdef _WIN32
+#include <io.h>
+#endif
+
 #include <sys/stat.h>
+#include <sys/types.h>
 
 #include "md5_file.h"
 #include "file_xfer.h"

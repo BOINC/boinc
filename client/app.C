@@ -21,14 +21,20 @@
 // connected to I/O files in various ways.
 // Shouldn't depend on CLIENT_STATE.
 
+#include "windows_cpp.h"
+
+#ifdef _WIN32
+#else
 #include <unistd.h>
-#include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/time.h>
 #include <sys/resource.h>
+#endif
+#include <sys/types.h>
 #include <fcntl.h>
 #include <ctype.h>
 #include <signal.h>
+#include <time.h>
 
 #include "client_types.h"
 #include "client_state.h"
@@ -210,6 +216,7 @@ int ACTIVE_TASK::start(bool first_time) {
 #endif
 
 #ifdef _WIN32
+	//CreateProcess
 #endif
 
 #ifdef macintosh
@@ -233,14 +240,53 @@ int ACTIVE_TASK_SET::insert(ACTIVE_TASK* atp) {
 // check for child process exit
 //
 bool ACTIVE_TASK_SET::poll() {
-    int pid;
     int stat;
     ACTIVE_TASK* atp;
-    struct rusage rs;
     char path[256];
     int n;
 
+#ifdef _WIN32
+	unsigned long exit_code;
+	int i;
+	FILETIME creation_time, exit_time, kernel_time, user_time;
+	ULARGE_INTEGER tKernel, tUser;
+	LONGLONG totTime;
+
+    for (i=0; i<active_tasks.size(); i++) {
+        atp = active_tasks[i];
+        if( GetExitCodeProcess( atp->pid_handle,&exit_code ) ) {
+			// Get the elapsed CPU time
+			// Factor this into the equivalent of a S@H etime function?
+			if( GetProcessTimes( atp->pid_handle, &creation_time, &exit_time, &kernel_time, &user_time ) ) {
+				tKernel.LowPart = kernel_time.dwLowDateTime;
+				tKernel.HighPart = kernel_time.dwHighDateTime;
+	
+				tUser.LowPart = user_time.dwLowDateTime;
+				tUser.HighPart = user_time.dwHighDateTime;
+	
+				// Runtimes in 100-nanosecond units
+				totTime = tKernel.QuadPart + tUser.QuadPart;
+
+				atp->result->cpu_time = (totTime / 10000000.0);
+			} else {
+				atp->result->cpu_time = ((double)clock())/CLOCKS_PER_SEC;
+			}
+			if( exit_code != STILL_ACTIVE ) {
+				// Not sure how to incorporate the other states (WAS_SIGNALED, etc)
+				atp->state = PROCESS_EXITED;
+				atp->exit_status = exit_code;
+				atp->result->exit_status = atp->exit_status;
+			}
+		} else {
+			// Not sure what to do here
+		}
+    }
+#endif
+
 #ifdef unix
+    struct rusage rs;
+    int pid;
+
     pid = wait3(&stat, WNOHANG, &rs);
     if (pid <= 0) return false;
     if (log_flags.task_debug) printf("got signal for process %d\n", pid);
@@ -262,6 +308,7 @@ bool ACTIVE_TASK_SET::poll() {
         atp->state = PROCESS_EXIT_UNKNOWN;
         atp->result->exit_status = -1;
     }
+#endif
 
     // check for the stderr file, copy to result record
     //
@@ -274,7 +321,6 @@ bool ACTIVE_TASK_SET::poll() {
     }
 
     clean_out_dir(atp->dirname);
-#endif
 
     return true;
 }
@@ -295,7 +341,7 @@ void ACTIVE_TASK_SET::suspend_all() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        kill(atp->pid, SIGSTOP);
+        atp->suspend();
     }
 }
 
@@ -304,9 +350,29 @@ void ACTIVE_TASK_SET::unsuspend_all() {
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
-        kill(atp->pid, SIGCONT);
+        atp->unsuspend();
     }
 }
+
+#ifdef _WIN32
+void ACTIVE_TASK::suspend() {
+	// figure out a way to do this
+	//kill(atp->pid, SIGSTOP);
+}
+
+void ACTIVE_TASK::unsuspend() {
+	// figure out a way to do this
+	//kill(atp->pid, SIGCONT);
+}
+#else
+void ACTIVE_TASK::suspend() {
+	kill(this->pid, SIGSTOP);
+}
+
+void ACTIVE_TASK::unsuspend() {
+	kill(this->pid, SIGCONT);
+}
+#endif
 
 int ACTIVE_TASK_SET::remove(ACTIVE_TASK* atp) {
     vector<ACTIVE_TASK*>::iterator iter;

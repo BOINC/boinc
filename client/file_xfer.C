@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+#include "windows_cpp.h"
+
 #include "util.h"
 #include "log_flags.h"
 #include "file_xfer.h"

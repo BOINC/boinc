@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+#include "windows_cpp.h"
+
 #include <stdio.h>
 
 #include "error_numbers.h"

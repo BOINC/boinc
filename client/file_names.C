@@ -17,6 +17,12 @@
 // Contributor(s):
 //
 
+#include "windows_cpp.h"
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include <stdio.h>
 #include <sys/stat.h>
 
@@ -31,6 +37,25 @@ void get_slot_dir(int slot, char* path) {
     sprintf(path, "slots/%d", slot);
 }
 
+#ifdef _WIN32
+
+// Double check permissions for CreateDirectory
+
+int make_project_dir(PROJECT& p) {
+    CreateDirectory(p.domain, NULL);
+    return 0;
+}
+
+int make_slot_dir(int slot) {
+    char buf[256];
+    CreateDirectory("slots", NULL);
+    get_slot_dir(slot, buf);
+    CreateDirectory(buf, NULL);
+    return 0;
+}
+
+#else
+
 int make_project_dir(PROJECT& p) {
     mkdir(p.domain, 0777);
     return 0;
@@ -43,3 +68,5 @@ int make_slot_dir(int slot) {
     mkdir(buf, 0777);
     return 0;
 }
+
+#endif

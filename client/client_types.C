@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+#include "windows_cpp.h"
+
 #include "error_numbers.h"
 #include "file_names.h"
 #include "filesys.h"

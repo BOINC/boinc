@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+#include "windows_cpp.h"
+
 #include <stdio.h>
 #include <fcntl.h>
 
@@ -47,6 +49,7 @@
 #include <winsock.h>
 #endif
 
+#include "util.h"
 #include "error_numbers.h"
 #include "filesys.h"
 
@@ -157,7 +160,7 @@ int file_delete(char* path) {
         retval = remove(path);
 #endif
         if (!retval) break;
-        if (i==0) sleep(3);
+        if (i==0) boinc_sleep(3);
     }
     if (retval) {
 	strcpy(failed_file, path);

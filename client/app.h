@@ -26,9 +26,15 @@
 #define PROCESS_EXIT_UNKNOWN    4
 
 #ifdef macintosh
-    typedef ProcessSerialNumber PROCESS_ID;
+    typedef int PROCESS_ID;
+    //typedef ProcessSerialNumber PROCESS_ID;
 #else
     typedef int PROCESS_ID;
+#endif
+
+#include "windows_cpp.h"
+#ifdef _WIN32
+#include <windows.h>
 #endif
 
 #include <stdio.h>
@@ -42,6 +48,9 @@ class CLIENT_STATE;
 //
 class ACTIVE_TASK {
 public:
+#ifdef _WIN32
+	HANDLE pid_handle;
+#endif
     RESULT* result;
     WORKUNIT* wup;
     APP_VERSION* app_version;
@@ -60,6 +69,9 @@ public:
         // request a task to exit.  If still there after x secs, kill
     void request_pause(int x);
         // request a task to pause.  If not paused after x secs, kill
+
+	void suspend();
+	void unsuspend();
 
     int write(FILE*);
     int parse(FILE*, CLIENT_STATE*);

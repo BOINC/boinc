@@ -17,6 +17,8 @@
 // Contributor(s):
 //
 
+#include "windows_cpp.h"
+
 #include "md5_file.h"
 #include "log_flags.h"
 #include "file_names.h"
