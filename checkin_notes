@@ -20683,3 +20683,24 @@ Janus   5 Dec 2004
 
     html/user/
         forum_threads.php
+
+Bruce   5 Dec 2004
+
+    - Redid 'fix' to scheduler bug from 3 December 2004.  In fact the
+      fix was incomplete. In order for it to work as intended, I would
+      have also had to modify SCHED_RESULT_ITEM::parse to copy the
+      additional needed fields into the in-memory structure.  But this
+      is fragile.  The next time some additional fields are added to the
+      result table, they would have to be incorporated here as well, to
+      ensure that SET followed by UPDATE is the identity operation.  So
+      I did a more graceful and robust fix.  Simply set result.id=0 for
+      those results that have already been received or which for other
+      reasons should not be modified in the database, then skip these
+      when updating.
+
+    db/
+        boinc_db.C   [reverted to 1.96 + comments]
+    sched/
+        handle_result.C
+
+

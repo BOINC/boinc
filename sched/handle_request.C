@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 static volatile const char *BOINCrcsid="$Id$";
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
@@ -323,15 +324,18 @@ int handle_results(
     unsigned int i;
     int retval;
     RESULT* rp;
-
+    
     if (sreq.results.size() == 0) return 0;
-
+    
     // read all results the user is reporting
     //
     for (i=0; i<sreq.results.size(); i++) {
         result_handler.add_result(sreq.results[i].name);
     }
-
+    
+    // read all results with the same name from the database into
+    // memory
+    //
     retval = result_handler.enumerate();
     if (retval) {
         log_messages.printf(
@@ -341,13 +345,30 @@ int handle_results(
         );
     }
 
+
+    // loop over all results that came back from the host
+    //
     for (i=0; i<sreq.results.size(); i++) {
+
+        // a pointer to the current result from the host
+        //
         rp = &sreq.results[i];
 
         // acknowledge the result even if we couldn't find it --
         // don't want it to keep coming back
         //
         reply.result_acks.push_back(*rp);
+
+	// get the result with the same name that came back from the
+	// database and point srip to it.  Quantities that MUST be
+	// read from the DB are those where srip appears as an rval.
+	// These are: id, name, server_state, received_time, hostid.
+	// // Quantities that must be WRITTEN to the DB are those for
+	// which srip appears as an lval. These are:
+        // hostid,
+	// teamid, received_time, client_state, cpu_time, exit_status,
+	// app_version_num, claimed_credit, server_state, stderr_out,
+	// xml_doc_out, outcome, validate_state
 
         retval = result_handler.lookup_result(rp->name, &srip);
         if (retval) {
@@ -356,6 +377,7 @@ int handle_results(
                 "[HOST#%d] [RESULT#? %s] can't find result\n",
                 reply.host.id, rp->name
             );
+            // no need to skip when updating DB, since it's not there!
             continue;
         }
 
@@ -364,12 +386,19 @@ int handle_results(
             reply.host.id, srip->id, srip->name
         );
 
+        // Comment -- In the sanity checks that follow, should we
+        // verify that the results validate_state is consistent with
+        // this being a newly arrived result?  What happens if a
+        // workunit was canceled after a result was sent?  When it
+        // gets back in, do we want to leave the validate state 'as
+        // is'?  Probably yes, which is as the code currently behaves.
         if (srip->server_state == RESULT_SERVER_STATE_UNSENT) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
                 "[HOST#%d] [RESULT#%d %s] got unexpected result: server state is %d\n",
                 reply.host.id, srip->id, srip->name, srip->server_state
             );
+            srip->id=0; // mark to skip when updating DB
             continue;
         }
 
@@ -379,6 +408,7 @@ int handle_results(
                 "[HOST#%d] [RESULT#%d %s] got result twice\n",
                 reply.host.id, srip->id, srip->name
             );
+            srip->id=0;  // mark to skip when updating DB
             continue;
         }
 
@@ -397,6 +427,7 @@ int handle_results(
                     "[RESULT#%d %s] Can't lookup [HOST#%d]\n",
                     srip->id, srip->name, srip->hostid
                 );
+                srip->id=0; // mark to skip when updating DB
                 continue;
             } else if (result_host.userid != reply.host.userid) {
                 log_messages.printf(
@@ -404,6 +435,7 @@ int handle_results(
                     "[USER#%d] [HOST#%d] [RESULT#%d %s] Not even the same user; expected [USER#%d]\n",
                     reply.host.userid, reply.host.id, srip->id, srip->name, result_host.userid
                 );
+                srip->id=0; // mark to skip when updating DB
                 continue;
             } else {
                 log_messages.printf(
@@ -412,9 +444,11 @@ int handle_results(
                     reply.host.id, srip->id, srip->name, reply.host.userid
                 );
             }
-        }
+        } // hostids do not match
 
-        // update the result record in DB
+        // modify the result record in the in-memory copy obtained
+        // from the DB earlier.  If we found a problem above, we have
+        // continued and skipped this modify
         //
         srip->hostid = reply.host.id;
         srip->teamid = reply.user.teamid;
@@ -423,7 +457,7 @@ int handle_results(
         srip->cpu_time = rp->cpu_time;
         srip->exit_status = rp->exit_status;
         srip->app_version_num = rp->app_version_num;
-        srip->claimed_credit = srip->cpu_time * reply.host.credit_per_cpu_sec;
+        srip->claimed_credit = rp->cpu_time * reply.host.credit_per_cpu_sec;
 #if 1
         log_messages.printf(SCHED_MSG_LOG::DEBUG,
             "cpu %f cpcs %f, cc %f\n", srip->cpu_time, reply.host.credit_per_cpu_sec, srip->claimed_credit
@@ -454,10 +488,11 @@ int handle_results(
             srip->outcome = RESULT_OUTCOME_CLIENT_ERROR;
             srip->validate_state = VALIDATE_STATE_INVALID;
         }
-    }
+    } // end of loop over all incoming results
 
 
-    // update all the results we have
+    // update all the results we have kept in memory, by storing to
+    // database.
     //
     if (config.use_transactions) {
         retval = boinc_db.start_transaction();
@@ -470,6 +505,7 @@ int handle_results(
     }
 
     for (i=0; i<result_handler.results.size(); i++) {
+        // skip items that we previously marked to skip!
         if (result_handler.results[i].id > 0) {
             retval = result_handler.update_result(result_handler.results[i]);
             if (retval) {
