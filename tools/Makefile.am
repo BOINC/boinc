@@ -2,7 +2,7 @@
 
 include $(top_srcdir)/Makefile.incl
 
-bin_PROGRAMS = create_work add country_select
+bin_PROGRAMS = create_work add country_select sign_executable
 
 EXTRA_DIST = make_project
 
@@ -25,6 +25,7 @@ create_work_SOURCES =           \
 create_work_DEPENDENCIES = $(LIBRSA)
 create_work_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 
+## deprecated
 add_SOURCES =                   \
     add.C                       \
     backend_lib.C               \
@@ -41,5 +42,14 @@ add_SOURCES =                   \
 
 add_DEPENDENCIES = $(LIBRSA)
 add_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
+
+sign_executable_SOURCES =			\
+        sign_executable.C			\
+        ../lib/md5_file.C			\
+        ../lib/md5.c				\
+        ../lib/crypt.C
+
+sign_executable_DEPENDENCIES = $(LIBRSA)
+sign_executable_LDSIGN_EXECUTABLE = $(RSA_LIBS) $(MYSQL_LIBS)
 
 country_select_SOURCES = country_select.C ../lib/countries.C

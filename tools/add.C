@@ -341,6 +341,8 @@ int main(int argc, char** argv) {
     int i, retval;
     SCHED_CONFIG config;
 
+    printf("%s", "add: this tool is deprecated; use add.py\n");
+
     retval = config.parse_file();
     if (retval) {
         printf("no config file found\n");

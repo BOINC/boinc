@@ -167,7 +167,7 @@ AM_CPPFLAGS = \
 # programs linking to it:
 LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
 
-bin_PROGRAMS = create_work add country_select
+bin_PROGRAMS = create_work add country_select sign_executable
 
 EXTRA_DIST = make_project
 
@@ -209,12 +209,23 @@ add_SOURCES = \
 add_DEPENDENCIES = $(LIBRSA)
 add_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 
+sign_executable_SOURCES = \
+        sign_executable.C			\
+        ../lib/md5_file.C			\
+        ../lib/md5.c				\
+        ../lib/crypt.C
+
+
+sign_executable_DEPENDENCIES = $(LIBRSA)
+sign_executable_LDSIGN_EXECUTABLE = $(RSA_LIBS) $(MYSQL_LIBS)
+
 country_select_SOURCES = country_select.C ../lib/countries.C
 subdir = tools
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
-bin_PROGRAMS = create_work$(EXEEXT) add$(EXEEXT) country_select$(EXEEXT)
+bin_PROGRAMS = create_work$(EXEEXT) add$(EXEEXT) country_select$(EXEEXT) \
+	sign_executable$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
 am_add_OBJECTS = add.$(OBJEXT) backend_lib.$(OBJEXT) \
@@ -234,6 +245,11 @@ am_create_work_OBJECTS = create_work.$(OBJEXT) backend_lib.$(OBJEXT) \
 	db_base.$(OBJEXT) crypt.$(OBJEXT) sched_config.$(OBJEXT)
 create_work_OBJECTS = $(am_create_work_OBJECTS)
 create_work_LDFLAGS =
+am_sign_executable_OBJECTS = sign_executable.$(OBJEXT) \
+	md5_file.$(OBJEXT) md5.$(OBJEXT) crypt.$(OBJEXT)
+sign_executable_OBJECTS = $(am_sign_executable_OBJECTS)
+sign_executable_LDADD = $(LDADD)
+sign_executable_LDFLAGS =
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -245,7 +261,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/db_base.Po ./$(DEPDIR)/md5.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/parse.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/process_result_template.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sched_config.Po ./$(DEPDIR)/util.Po
+@AMDEP_TRUE@	./$(DEPDIR)/sched_config.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sign_executable.Po ./$(DEPDIR)/util.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 CXXLD = $(CXX)
@@ -256,9 +273,9 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(add_SOURCES) $(country_select_SOURCES) \
-	$(create_work_SOURCES)
+	$(create_work_SOURCES) $(sign_executable_SOURCES)
 DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in
-SOURCES = $(add_SOURCES) $(country_select_SOURCES) $(create_work_SOURCES)
+SOURCES = $(add_SOURCES) $(country_select_SOURCES) $(create_work_SOURCES) $(sign_executable_SOURCES)
 
 all: all-am
 
@@ -311,6 +328,9 @@ country_select$(EXEEXT): $(country_select_OBJECTS) $(country_select_DEPENDENCIES
 create_work$(EXEEXT): $(create_work_OBJECTS) $(create_work_DEPENDENCIES) 
 	@rm -f create_work$(EXEEXT)
 	$(CXXLINK) $(create_work_LDFLAGS) $(create_work_OBJECTS) $(create_work_LDADD) $(LIBS)
+sign_executable$(EXEEXT): $(sign_executable_OBJECTS) $(sign_executable_DEPENDENCIES) 
+	@rm -f sign_executable$(EXEEXT)
+	$(CXXLINK) $(sign_executable_LDFLAGS) $(sign_executable_OBJECTS) $(sign_executable_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -331,6 +351,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/process_result_template.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sched_config.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sign_executable.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@
 
 distclean-depend:
