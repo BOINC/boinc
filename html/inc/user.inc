@@ -47,7 +47,12 @@ function show_user_profile_private($user) {
         $email_text
     );
     row2("Name", $user->name);
-    row2("URL", "http://$user->url");
+    if (strlen($user->url)) {
+        $x = "http://$user->url";
+    } else {
+        $x = "none";
+    }
+    row2("URL", $x);
     row2("Country", $user->country);
     row2("Postal code", $user->postal_code);
     if ($user->signature) {
@@ -55,6 +60,7 @@ function show_user_profile_private($user) {
         row2("Forums signature", $x);
     }
     row2("", "<a href=edit_user_info_form.php>Edit account info</a>");
+    row2("", "<a href=logout.php>Log out</a>");
 
     row1("Profile");
     $sql = "SELECT * FROM profile WHERE userid = ".$user->id;

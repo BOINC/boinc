@@ -8,7 +8,6 @@ init_session();
 
 page_head("Download BOINC add-on software");
 echo "
-    <h2>Download BOINC add-on software</h2>
     You can download applications from any of the following categories.
     Please note that these applications are not endorsed by ".PROJECT." and that you use them at your own risk:<p>\n
 ";

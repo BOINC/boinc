@@ -11,7 +11,6 @@ $count = 10;
 $user = lookup_user_id($userid);
 
 page_head("Posts by $user->name");
-echo "<h2>Posts by $user->name</h2>\n";
 $result = mysql_query("select * from post where user=$userid order by id desc limit $offset,$count");
 $n = 0;
 start_table();

@@ -115,9 +115,8 @@ function show_host($host, $private, $ipprivate) {
 
 }
 
-function host_table_start($title, $private, $show_owner) {
+function host_table_start($private, $show_owner) {
     start_table();
-    row1($title, 7);
     echo "<tr>";
     echo "<th>Host ID<br><font size=-2>Click for more info</font></th>\n";
     if ($private) {

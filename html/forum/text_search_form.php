@@ -6,8 +6,6 @@ require_once("../inc/util.inc");
 page_head("Message search");
 
 echo "
-    <h2>Message search</h2>
-
     This page lets you search for messages containing particular words.
     All Message boards and Question/answer areas will be searched.
     <br><br>

@@ -126,7 +126,7 @@ function page_head($title, $fd=null) {
     $styleSheet = URL_BASE . STYLESHEET;
 
     write_fd($fd,
-        "<html><head><title>$title</title>
+        "<html><head><title>".strip_tags($title)."</title>
         <link rel=stylesheet type=text/css href=\"$styleSheet\">
         </head>
         <body bgcolor=ffffff>
@@ -179,7 +179,7 @@ function pretty_time_str($x) {
     return time_str($x);
 }
 
-function start_table($extra="") {
+function start_table($extra="width=100%") {
     echo "<table border=1 cellpadding=5 $extra>";
 }
 

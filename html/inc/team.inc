@@ -6,14 +6,11 @@ require_once("../inc/sanitize_html.inc");
 require_once("../inc/countries.inc");
 
 function display_team_page($team, $user) {
-    page_head("$team->name");
-    echo "<h2>Team page for ";
     if (strlen($team->name_html)) {
-        echo "$team->name_html";
+        page_head("$team->name_html");
     } else {
-        echo $team->name;
+        page_head("$team->name");
     }
-    echo "</h2>";
     if ($user->teamid == $team->id) {
         echo "You currently belong to this team
             <ul>

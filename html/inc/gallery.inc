@@ -61,7 +61,7 @@ function build_picture_pages($width, $height) {
         page_head("User Picture Gallery: Page $page of $numPages", $descriptor);
 
         fwrite($descriptor,
-            "<h2>User Profile Pictures</h2>Last updated "
+            "Last updated "
             . pretty_time_str(time())
             . "\n<p>Browse the user profiles by picture.
             Only user profiles with pictures are listed here."
@@ -230,9 +230,8 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
         $descriptor = fopen($filename, "w");
 
         $head = $pageHead . ": Page $page of $numPages";
-        page_head($pageHead, $descriptor);
+        page_head($pageTitle, $descriptor);
 
-        fwrite($descriptor, "<h2>$pageTitle</h2>\n");
         fwrite($descriptor, "Last updated " . pretty_time_str(time()) . "<p>\n");
 
         $offset = (($page-1) * $rowsPerPage * $colsPerPage);
@@ -254,7 +253,7 @@ function build_country_summary_page($countryMembers) {
     $descriptor = fopen($filename, "w");
 
     page_head("User Profiles by Country", $descriptor);
-    fwrite($descriptor, "<h2>User Profiles by Country</h2>Last updated " . pretty_time_str(time()) . "<p>");
+    fwrite($descriptor, "Last updated " . pretty_time_str(time()) . "<p>");
 
     fwrite($descriptor, "<table border=0>\n");
     fwrite($descriptor, "<tr><td><b>Country</b></td><td align=\"center\"><b>Profiles</b></td></tr>\n");

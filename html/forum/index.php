@@ -11,7 +11,7 @@ show_forum_title(NULL, NULL, false);
 echo "<p>
     If you have a question or problem, please use the
     <a href=help_desk.php>Questions/problems</a>
-    are instead of the Message boards.</p>
+    area instead of the Message boards.</p>
     <p>
     Do a <a href=text_search_form.php>keyword search</a>
     of messages.

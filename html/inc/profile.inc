@@ -331,7 +331,7 @@ function show_result_page() {
     page_head("Profile Saved");
 
     echo "
-<h1>Congratulations!</h1><p>
+<h2>Congratulations!</h2><p>
 Your profile was successfully entered into our database.<br><br>
 <a href=view_profile.php?userid=$user->id>View your profile</a><br>
 ";
@@ -470,10 +470,6 @@ function show_profile($userid, $verify_mode=false) {
 }
 
 function show_profile_summary($user, $profile_info, $can_edit, $verify_mode) {
-    echo "
-        <h2>Profile: $user->name</h2>
-    ";
-
     if (!$can_edit && !$verify_mode) {
         show_view_buttons($user->id);
     }

@@ -612,7 +612,7 @@ void update_average(
 
     if (avg_time) {
         double diff = now - avg_time;
-        if (diff==0) diff=3600;     // just in case
+        if (diff<=0) diff=3600;     // just in case
         double diff_days = diff/SECONDS_PER_DAY;
         double weight = exp(-diff*M_LN2/half_life);
         avg *= weight;

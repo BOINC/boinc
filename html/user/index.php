@@ -37,6 +37,7 @@ if (project_is_stopped()) {
         <li><a href=".URL_BASE."home.php>Your account</a> - view stats, modify preferences
         <li><a href=".URL_BASE."team.php>Teams</a> - create or join a team
         <li><a href=".URL_BASE."download.php>Download BOINC</a>
+        <li><a href=download_network.php>Add-ons</a>
         </ul>
         <h3>Community</h3>
         <ul>
