@@ -256,6 +256,7 @@ struct HOST {
     char projects[LARGE_BLOB_SIZE];
                             // list of projects this host is attached to,
                             // and the resource shares (XML)
+    int nresults_today;     // results sent since midnight
 
     int parse(FILE*);
     int parse_time_stats(FILE*);

@@ -7,8 +7,9 @@
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 
+db_init();
+
 function update_4_18_2004() {
-    db_init();
     mysql_query("alter table user add cross_project_id varchar(254) not null");
     $result = mysql_query("select * from user");
     while ($user = mysql_fetch_object($result)) {
@@ -18,7 +19,6 @@ function update_4_18_2004() {
 }
 
 function update_5_12_2004() {
-    db_init();
     mysql_query(
         "create table trickle_up (
         id                  integer     not null auto_increment,
@@ -51,6 +51,12 @@ function update_5_12_2004() {
     );
 }
 
-update_5_12_2004();
+function update_5_27_2004() {
+    mysql_query(
+        "alter table host add nresults_today integer not null"
+    );
+}
+
+update_5_27_2004();
 
 ?>

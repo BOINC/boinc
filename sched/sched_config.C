@@ -61,6 +61,7 @@ int SCHED_CONFIG::parse(char* buf) {
     }
     parse_int(buf, "<min_sendwork_interval>", min_sendwork_interval);
     parse_int(buf, "<max_wus_to_send>", max_wus_to_send);
+    parse_int(buf, "<daily_result_quota>", daily_result_quota);
     if (match_tag(buf, "</config>")) return 0;
     return ERR_XML_PARSE;
 }

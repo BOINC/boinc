@@ -336,7 +336,7 @@ void DB_HOST::db_print(char* buf){
         "d_boinc_used_total=%.15e, d_boinc_used_project=%.15e, d_boinc_max=%.15e, "
         "n_bwup=%.15e, n_bwdown=%.15e, "
         "credit_per_cpu_sec=%.15e, "
-        "venue='%s', projects='%s'",
+        "venue='%s', projects='%s', nresults_today=%d",
         id, create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
@@ -351,7 +351,7 @@ void DB_HOST::db_print(char* buf){
         d_boinc_used_total, d_boinc_used_project, d_boinc_max,
         n_bwup, n_bwdown,
         credit_per_cpu_sec,
-        venue, projects
+        venue, projects, nresults_today
     );
     UNESCAPE(domain_name);
     UNESCAPE(serialnum);
@@ -402,6 +402,7 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     credit_per_cpu_sec = atof(r[i++]);
     strcpy2(venue, r[i++]);
     strcpy2(projects, r[i++]);
+    nresults_today = atoi(r[i++]);
 }
 
 void DB_WORKUNIT::db_print(char* buf){

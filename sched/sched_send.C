@@ -55,6 +55,7 @@ struct WORK_REQ {
     bool no_app_version;
     bool homogeneous_redundancy_reject;
     bool outdated_core;
+    bool daily_result_quota_exceeded;
 };
 
 bool anonymous(PLATFORM& platform) {
@@ -424,6 +425,12 @@ static void scan_work_array(
         if (wreq.seconds_to_fill <= 0) break;
         if (wreq.disk_available <= 0) break;
         if (wreq.nresults >= config.max_wus_to_send) break;
+        if (config.daily_result_quota) {
+            if (reply.host.nresults_today > config.daily_result_quota) {
+                wreq.daily_result_quota_exceeded = true;
+                break;
+            }
+        }
 
         WU_RESULT& wu_result = ss.wu_results[i];
 
@@ -611,6 +618,7 @@ static void scan_work_array(
 
         wreq.seconds_to_fill -= wu_seconds_filled;
         wreq.nresults++;
+        reply.host.nresults_today++;
         goto done;
 
 dont_send:
@@ -637,6 +645,7 @@ int send_work(
     wreq.insufficient_speed = false;
     wreq.no_app_version = false;
     wreq.homogeneous_redundancy_reject = false;
+    wreq.daily_result_quota_exceeded = false;
     wreq.core_client_version = sreq.core_client_major_version*100
         + sreq.core_client_minor_version;
     wreq.nresults = 0;
@@ -706,6 +715,15 @@ int send_work(
                 "Not sending work because core client is outdated\n"
             );
         }
+        if (wreq.daily_result_quota_exceeded) {
+            strcat(reply.message, " (daily quota exceeded)");
+            log_messages.printf(
+                SCHED_MSG_LOG::NORMAL,
+                "Daily result quota exceeded for host %d\n",
+                reply.host.id
+            );
+        }
+            
         strcpy(reply.message_priority, "high");
         reply.request_delay = 10;
 

@@ -56,6 +56,7 @@ David A.        May 15 2002
         init.inc
     tools
         add.C
+
 David A.        May 23 2002
     - Change the scheduling server to reduce database accesses.
         There's now a shared-memory segment that contains
@@ -12713,3 +12714,31 @@ Rom    May 26 2004
         ResourceUtilizationView.cpp, .h
         TransfersView.cpp, .h
         WorkView.cpp, .h
+
+David  May 27 2004
+    - Added a mechanism for limiting the number of results
+        sent to a given host in a given day.
+        - added 'nresults_today field' to host DB table
+        - added 'daily_result_quota' element to config.xml and SCHED_CONFIG
+            (optional - gives max results per host per day)
+        - change server logic so that the host record is updated
+            after calling send_work()
+        - change server logic to enforce daily result quota,
+            send message to user if quota exceeded,
+            also write log message if this happens
+    - Added script to send email to all opted-in users
+
+    NOTE: existing projects will have to update their DB.
+        You can do this using html/ops/db_update.php
+
+    db/
+        boinc_db.C,h
+        schema.sql
+    html/ops/
+        create_forums.php
+        db_update.php
+        mass_email.php (new)
+    sched/
+        handle_request.C
+        sched_config.C,h
+        sched_send.C

@@ -41,6 +41,7 @@ public:
     int max_wus_to_send;
     bool non_cpu_intensive;
     bool homogeneous_redundancy;
+    int daily_result_quota;     // max results per host per day
 
     int parse(char*);
     int parse_file(char* dir=".");

@@ -118,36 +118,37 @@ create table host (
     last_ip_addr        varchar(254),
     nsame_ip_addr       integer     not null,
 
-    on_frac             double       not null,
-    connected_frac      double       not null,
-    active_frac         double       not null,
+    on_frac             double      not null,
+    connected_frac      double      not null,
+    active_frac         double      not null,
 
     p_ncpus             integer     not null,
     p_vendor            varchar(254),
     p_model             varchar(254),
-    p_fpops             double       not null,
-    p_iops              double       not null,
-    p_membw             double       not null,
+    p_fpops             double      not null,
+    p_iops              double      not null,
+    p_membw             double      not null,
 
     os_name             varchar(254),
     os_version          varchar(254),
 
-    m_nbytes            double       not null,
-    m_cache             double       not null,
-    m_swap              double       not null,
+    m_nbytes            double      not null,
+    m_cache             double      not null,
+    m_swap              double      not null,
 
-    d_total             double       not null,
-    d_free              double       not null,
-    d_boinc_used_total  double       not null,
-    d_boinc_used_project double      not null,
-    d_boinc_max         double       not null,
+    d_total             double      not null,
+    d_free              double      not null,
+    d_boinc_used_total  double      not null,
+    d_boinc_used_project double     not null,
+    d_boinc_max         double      not null,
 
-    n_bwup              double       not null,
-    n_bwdown            double       not null,
+    n_bwup              double      not null,
+    n_bwdown            double      not null,
 
-    credit_per_cpu_sec  double       not null,
-    venue               varchar(254)  not null,
+    credit_per_cpu_sec  double      not null,
+    venue               varchar(254) not null,
     projects            blob,
+    nresults_today      integer     not null,
 
     primary key (id)
 );

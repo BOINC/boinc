@@ -204,11 +204,10 @@ static void compute_credit_rating(HOST& host, SCHEDULER_REQUEST& sreq) {
         * cobblestone_factor / (2 * SECONDS_PER_DAY);
 }
 
-// Update host record based on request.
+// modify host struct based on request.
 // Copy all fields that are determined by the client.
 //
-int update_host_record(SCHEDULER_REQUEST& sreq, HOST& xhost) {
-    int retval;
+static int modify_host_struct(SCHEDULER_REQUEST& sreq, HOST& xhost) {
     DB_HOST host;
     host = xhost;
 
@@ -243,7 +242,14 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& xhost) {
     host.fix_nans();
 
     compute_credit_rating(host, sreq);
+    return 0;
+}
 
+static int update_host_record(HOST& xhost) {
+    DB_HOST host;
+    int retval;
+
+    host = xhost;
     retval = host.update();
     if (retval) {
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "host.update() failed: %d\n", retval);
@@ -630,7 +636,10 @@ void process_request(
 
     last_rpc_time = reply.host.rpc_time;
     reply.host.rpc_time = time(0);
-    retval = update_host_record(sreq, reply.host);
+    if (last_rpc_time/SECONDS_PER_DAY != reply.host.rpc_time/SECONDS_PER_DAY) {
+        reply.host.nresults_today = 0;
+    }
+    retval = modify_host_struct(sreq, reply.host);
 
     // look up the client's platform in the DB
     //
@@ -692,6 +701,8 @@ void process_request(
     if (config.trickle_down) {
         handle_trickle_downs(sreq, reply);
     }
+
+    update_host_record(reply.host);
 }
 
 void handle_request(

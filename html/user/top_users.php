@@ -10,9 +10,9 @@
     require_once("../inc/user.inc");
 
     if ($sort_by == "total_credit") {
-        $sort_order = "total_credit desc, total_credit desc";
+        $sort_order = "total_credit desc";
     } else {
-        $sort_order = "expavg_credit desc, total_credit desc";
+        $sort_order = "expavg_credit desc";
     }
 
     db_init();
