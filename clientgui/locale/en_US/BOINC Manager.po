@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 3.x\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2004-10-31 14:46-0800\n"
+"PO-Revision-Date: 2004-11-03 22:29-0800\n"
 "Last-Translator: Rom Walton <rwalton@ssl.berkeley.edu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "MIME-Version: 1.0\n"
@@ -14,12 +14,47 @@ msgstr ""
 "X-Poedit-Basepath: C:\\BOINCSRC\\Main\\boinc\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 
-#: clientgui/BOINCGUIApp.cpp:129
+#: clientgui/BOINCGUIApp.cpp:134
 msgid "You have specified -e on the commmand line. The application will exit now."
 msgstr ""
 
-#: clientgui/BOINCGUIApp.cpp:130
+#: clientgui/BOINCGUIApp.cpp:135
 msgid "Example command line option"
+msgstr ""
+
+#: clientgui/BOINCTaskBar.cpp:299
+#: clientgui/BOINCTaskBar.cpp:306
+msgid "&Open BOINC Manager..."
+msgstr ""
+
+#: clientgui/BOINCTaskBar.cpp:310
+#: clientgui/MainFrame.cpp:178
+msgid "&Run always"
+msgstr ""
+
+#: clientgui/BOINCTaskBar.cpp:311
+#: clientgui/MainFrame.cpp:183
+msgid "Run based on &preferences"
+msgstr ""
+
+#: clientgui/BOINCTaskBar.cpp:312
+#: clientgui/MainFrame.cpp:188
+msgid "&Suspend"
+msgstr ""
+
+#: clientgui/BOINCTaskBar.cpp:314
+#: clientgui/MainFrame.cpp:196
+msgid "&Disable BOINC Network Access"
+msgstr ""
+
+#: clientgui/BOINCTaskBar.cpp:316
+#: clientgui/MainFrame.cpp:236
+msgid "&About BOINC Manager..."
+msgstr ""
+
+#: clientgui/BOINCTaskBar.cpp:318
+#: clientgui/MainFrame.cpp:220
+msgid "E&xit"
 msgstr ""
 
 #: clientgui/DlgAbout.cpp:136
@@ -122,36 +157,16 @@ msgstr ""
 msgid "Hides the main BOINC Manager window"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:178
-#: clientgui/TaskBarIcon.cpp:245
-msgid "&Run always"
-msgstr ""
-
 #: clientgui/MainFrame.cpp:179
 msgid "Runs BOINC without regards to the configured preferences for the computer"
-msgstr ""
-
-#: clientgui/MainFrame.cpp:183
-#: clientgui/TaskBarIcon.cpp:246
-msgid "Run based on &preferences"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:184
 msgid "Runs BOINC according to the preferences configured for the computer"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:188
-#: clientgui/TaskBarIcon.cpp:247
-msgid "&Suspend"
-msgstr ""
-
 #: clientgui/MainFrame.cpp:189
 msgid "Suspends processing and network activity without regards to the configured preferences"
-msgstr ""
-
-#: clientgui/MainFrame.cpp:196
-#: clientgui/TaskBarIcon.cpp:249
-msgid "&Disable BOINC Network Access"
 msgstr ""
 
 #: clientgui/MainFrame.cpp:197
@@ -175,11 +190,6 @@ msgstr ""
 msgid "Allows you to remotely connect up to another computer running BOINC"
 msgstr ""
 
-#: clientgui/MainFrame.cpp:220
-#: clientgui/TaskBarIcon.cpp:253
-msgid "E&xit"
-msgstr ""
-
 #: clientgui/MainFrame.cpp:221
 msgid "Exit the BOINC Manager"
 msgstr ""
@@ -190,11 +200,6 @@ msgstr ""
 
 #: clientgui/MainFrame.cpp:229
 msgid "Configure GUI options and proxy settings"
-msgstr ""
-
-#: clientgui/MainFrame.cpp:236
-#: clientgui/TaskBarIcon.cpp:251
-msgid "&About BOINC Manager..."
 msgstr ""
 
 #: clientgui/MainFrame.cpp:237
@@ -223,11 +228,6 @@ msgstr ""
 
 #: clientgui/MainFrame.cpp:597
 msgid "Failed to connect..."
-msgstr ""
-
-#: clientgui/TaskBarIcon.cpp:234
-#: clientgui/TaskBarIcon.cpp:241
-msgid "&Open BOINC Manager..."
 msgstr ""
 
 #: clientgui/ValidateAccountKey.cpp:92
@@ -499,28 +499,28 @@ msgid "Abort Upload"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:534
-#: clientgui/ViewWork.cpp:587
+#: clientgui/ViewWork.cpp:607
 msgid "Download failed"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:538
-#: clientgui/ViewWork.cpp:629
+#: clientgui/ViewWork.cpp:649
 msgid "Upload failed"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:542
-#: clientgui/ViewWork.cpp:633
+#: clientgui/ViewWork.cpp:653
 msgid "Uploading"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:542
-#: clientgui/ViewWork.cpp:591
+#: clientgui/ViewWork.cpp:611
 msgid "Downloading"
 msgstr ""
 
 #: clientgui/ViewTransfers.cpp:549
-#: clientgui/ViewWork.cpp:606
-#: clientgui/ViewWork.cpp:656
+#: clientgui/ViewWork.cpp:626
+#: clientgui/ViewWork.cpp:676
 msgid "Suspended"
 msgstr ""
 
@@ -568,58 +568,63 @@ msgstr ""
 msgid "Work"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:251
+#: clientgui/ViewWork.cpp:245
+msgid "Are you sure you wish to display graphics on a remote machine?"
+msgstr ""
+
+#: clientgui/ViewWork.cpp:246
+#: clientgui/ViewWork.cpp:401
+msgid "Show Graphics"
+msgstr ""
+
+#: clientgui/ViewWork.cpp:270
 #, c-format
 msgid "Are you sure you wish to abort this result '%s'?"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:256
-#: clientgui/ViewWork.cpp:382
+#: clientgui/ViewWork.cpp:275
+#: clientgui/ViewWork.cpp:402
 msgid "Abort Result"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:379
+#: clientgui/ViewWork.cpp:399
 msgid "Suspend"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:380
+#: clientgui/ViewWork.cpp:400
 msgid "Resume"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:381
-msgid "Show Graphics"
-msgstr ""
-
-#: clientgui/ViewWork.cpp:582
+#: clientgui/ViewWork.cpp:602
 msgid "New"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:600
+#: clientgui/ViewWork.cpp:620
 msgid "Running"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:610
+#: clientgui/ViewWork.cpp:630
 msgid "Paused"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:615
-#: clientgui/ViewWork.cpp:620
+#: clientgui/ViewWork.cpp:635
+#: clientgui/ViewWork.cpp:640
 msgid "Ready to run"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:624
+#: clientgui/ViewWork.cpp:644
 msgid "Computation error"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:639
+#: clientgui/ViewWork.cpp:659
 msgid "Acknowledged"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:643
+#: clientgui/ViewWork.cpp:663
 msgid "Ready to report"
 msgstr ""
 
-#: clientgui/ViewWork.cpp:647
+#: clientgui/ViewWork.cpp:667
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr ""
