@@ -166,6 +166,7 @@ Build Windows
   2.3	Confirm location of source files
 		BOINC Installshield\BOINC Files\setup.bmp
 		BOINC Installshield\BOINC Files\license.txt
+		BOINC Installshield\BOINC Files\readme.txt
 
   2.4	Update Project
     2.4.1 	Update Resources
@@ -185,12 +186,15 @@ Build Windows
       2.4.2.3    Update license.txt
         2.4.2.3.1  Double click on file in right panel
         2.4.2.3.2  Edit version number
-        2.4.2.3.3  Save file
-        2.4.2.3.4  Close
+        2.4.2.3.3  Close and save file
+
+      2.4.2.4    Update readme.txt
+        2.4.2.4.1  Double click on file in right panel
+        2.4.2.4.2  Edit version number
+        2.4.2.4.3  Close and save file
 
   2.5    Build
-    2.5.1  Select Build->Compile menu item
-    2.5.2  Select Build->Media->Build Default Media menu item
+    2.5.1  Select "Build->Media->Build Default Media" menu item
 
   2.6    Exit Install Shield
 
@@ -203,9 +207,7 @@ Build Windows
     3.2.1  Update version, other info as necessary, Next
     3.2.2  Select "No welcome dialog" dialog button, Next
     3.2.3  Select "Intel Self-extracting EXE (32-bit)", Next
-    3.2.4  Set the correct location of the installation disk image, default is:
-           C:\boinc\win_build\BOINC Installshield\Media\Default\Disk Images
-           Next
+    3.2.4  Check "Include Sub-Folders", "Live folder", Next
     3.2.5  Confirm all the files are there, Next
     3.2.6  Uncheck "Use Package Language File", "Prompt the user with",
            "Password protect the package", and
@@ -213,7 +215,7 @@ Build Windows
     3.2.7  Installation program is "Disk1\Setup.exe", command line options is "/SMS",
            window display is Normal, no default installation folder, Next
     3.2.8  Uncheck "Sign my installation", Next
-    3.2.9  Select package output location, default is "C:\boinc\win_build\BOINC.exe". Next
+    3.2.9  Select package output location, Next
     3.2.10 Make sure summary is correct, Next
     3.2.11 Finish
 
