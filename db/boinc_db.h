@@ -383,7 +383,7 @@ extern int boinc_db_insert_id();
 #include "mysql.h"
 
 struct CURSOR {
-    int active;
+    bool active;
     MYSQL_RES *rp;
 };
 

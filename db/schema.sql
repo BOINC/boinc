@@ -1,280 +1,245 @@
+/* do not replace this with an automatically generated schema */
 
-CREATE TABLE `app` (
-  `id` int(11) NOT NULL auto_increment,
-  `create_time` int(11) NOT NULL default '0',
-  `name` varchar(254) NOT NULL default '',
-  `min_version` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `name` (`name`)
-) TYPE=MyISAM;
+create table project (
+    id              integer     not null auto_increment,
+    short_name      varchar(254) not null,
+    long_name       varchar(254) not null,
+    primary key (id)
+);
 
-CREATE TABLE `app_version` (
-  `id` int(11) NOT NULL auto_increment,
-  `create_time` int(11) NOT NULL default '0',
-  `appid` int(11) NOT NULL default '0',
-  `version_num` int(11) NOT NULL default '0',
-  `platformid` int(11) NOT NULL default '0',
-  `xml_doc` blob,
-  `min_core_version` int(11) NOT NULL default '0',
-  `max_core_version` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `appid` (`appid`,`platformid`,`version_num`)
-) TYPE=MyISAM;
+create table platform (
+    id              integer     not null auto_increment,
+    create_time     integer     not null,
+    name            varchar(254) not null,
+    user_friendly_name varchar(254) not null,
+    primary key (id)
+);
 
-CREATE TABLE `category` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `orderID` int(10) unsigned NOT NULL default '0',
-  `lang` int(10) unsigned NOT NULL default '0',
-  `name` varchar(255) binary NOT NULL default '',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `langID` (`lang`,`orderID`)
-) TYPE=MyISAM;
+create table core_version (
+    id              integer     not null auto_increment,
+    create_time     integer     not null,
+    version_num     integer     not null,
+    platformid      integer     not null,
+    xml_doc         blob,
+    message         varchar(254),
+    deprecated      smallint    not null,
+    primary key (id)
+);
 
-CREATE TABLE `core_version` (
-  `id` int(11) NOT NULL auto_increment,
-  `create_time` int(11) NOT NULL default '0',
-  `version_num` int(11) NOT NULL default '0',
-  `platformid` int(11) NOT NULL default '0',
-  `xml_doc` blob,
-  `message` varchar(254) default NULL,
-  `deprecated` smallint(6) NOT NULL default '0',
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM;
+create table app (
+    id              integer     not null auto_increment,
+    create_time     integer     not null,
+    name            varchar(254) not null,
+    min_version     integer     not null,
+    primary key (id)
+);
 
-CREATE TABLE `forum` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `category` int(10) unsigned NOT NULL default '0',
-  `orderID` int(10) unsigned NOT NULL default '0',
-  `title` varchar(254) NOT NULL default '',
-  `description` varchar(254) NOT NULL default '',
-  `timestamp` int(10) unsigned NOT NULL default '0',
-  `threads` int(10) unsigned NOT NULL default '0',
-  `posts` int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `orderID` (`orderID`,`category`)
-) TYPE=MyISAM;
+create table app_version (
+    id              integer     not null auto_increment,
+    create_time     integer     not null,
+    appid           integer     not null,
+    version_num     integer     not null,
+    platformid      integer     not null,
+    xml_doc         blob,
+    min_core_version integer    not null,
+    max_core_version integer    not null,
+    primary key (id)
+);
 
-CREATE TABLE `host` (
-  `id` int(11) NOT NULL auto_increment,
-  `create_time` int(11) NOT NULL default '0',
-  `userid` int(11) NOT NULL default '0',
-  `rpc_seqno` int(11) NOT NULL default '0',
-  `rpc_time` int(11) NOT NULL default '0',
-  `total_credit` double NOT NULL default '0',
-  `expavg_credit` double NOT NULL default '0',
-  `expavg_time` double NOT NULL default '0',
-  `timezone` int(11) NOT NULL default '0',
-  `domain_name` varchar(254) default NULL,
-  `serialnum` varchar(254) default NULL,
-  `last_ip_addr` varchar(254) default NULL,
-  `nsame_ip_addr` int(11) NOT NULL default '0',
-  `on_frac` double NOT NULL default '0',
-  `connected_frac` double NOT NULL default '0',
-  `active_frac` double NOT NULL default '0',
-  `p_ncpus` int(11) NOT NULL default '0',
-  `p_vendor` varchar(254) default NULL,
-  `p_model` varchar(254) default NULL,
-  `p_fpops` double NOT NULL default '0',
-  `p_iops` double NOT NULL default '0',
-  `p_membw` double NOT NULL default '0',
-  `os_name` varchar(254) default NULL,
-  `os_version` varchar(254) default NULL,
-  `m_nbytes` double NOT NULL default '0',
-  `m_cache` double NOT NULL default '0',
-  `m_swap` double NOT NULL default '0',
-  `d_total` double NOT NULL default '0',
-  `d_free` double NOT NULL default '0',
-  `d_boinc_used_total` double NOT NULL default '0',
-  `d_boinc_used_project` double NOT NULL default '0',
-  `d_boinc_max` double NOT NULL default '0',
-  `n_bwup` double NOT NULL default '0',
-  `n_bwdown` double NOT NULL default '0',
-  `credit_per_cpu_sec` double NOT NULL default '0',
-  `venue` varchar(254) NOT NULL default '',
-  `projects` blob,
-  PRIMARY KEY  (`id`),
-  KEY `host_user` (`userid`),
-  KEY `host_avg` (`expavg_credit`),
-  KEY `host_tot` (`total_credit`)
-) TYPE=MyISAM;
+create table user (
+    id              integer     not null auto_increment,
+    create_time     integer     not null,
+    email_addr      varchar(254) not null,
+    name            varchar(254),
+    authenticator   varchar(254),
+    country         varchar(254),
+    postal_code     varchar(254),
+    total_credit    double      not null,
+    expavg_credit   double      not null,
+    expavg_time     double      not null,
+    global_prefs    blob,
+    project_prefs   blob,
+    teamid          integer not null,
+    venue           varchar(254)    not null,
+    url             varchar(254),
+    send_email      smallint    not null,
+    show_hosts      smallint    not null,
+    primary key (id)
+);
 
-CREATE TABLE `lang` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `name` varchar(254) NOT NULL default '',
-  `charset` varchar(254) NOT NULL default '',
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM;
+create table team (
+    id              integer     not null auto_increment,
+    create_time     integer     not null,
+    userid          integer not null,
+    name            varchar(254) not null,
+    name_lc         varchar(254),
+    url             varchar(254),
+    type            integer not null,
+    name_html       varchar(254),
+    description     blob,
+    nusers          integer     not null,   /* temp */
+    country         varchar(254),
+    total_credit    double      not null,   /* temp */
+    expavg_credit   double      not null,   /* temp */
+    primary key (id)
+);
 
-CREATE TABLE `platform` (
-  `id` int(11) NOT NULL auto_increment,
-  `create_time` int(11) NOT NULL default '0',
-  `name` varchar(254) NOT NULL default '',
-  `user_friendly_name` varchar(254) NOT NULL default '',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `name` (`name`)
-) TYPE=MyISAM;
 
-CREATE TABLE `post` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `thread` int(10) unsigned NOT NULL default '0',
-  `user` int(10) unsigned NOT NULL default '0',
-  `timestamp` int(10) unsigned NOT NULL default '0',
-  `content` text NOT NULL,
-  `modified` int(10) unsigned default NULL,
-  `parent_post` int(10) unsigned default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `threadID` (`thread`),
-  KEY `userID` (`user`),
-  FULLTEXT KEY `content` (`content`)
-) TYPE=MyISAM;
+create table host (
+    id              integer     not null auto_increment,
+    create_time     integer     not null,
+    userid          integer     not null,
+    rpc_seqno       integer     not null,
+    rpc_time        integer     not null,
+    total_credit    double       not null,
+    expavg_credit   double       not null,
+    expavg_time     double       not null,
 
-CREATE TABLE `profile` (
-  `userid` int(11) NOT NULL default '0',
-  `language` varchar(30) default NULL,
-  `response1` text,
-  `response2` text,
-  `has_picture` tinyint(1) NOT NULL default '0',
-  `recommend` int(11) NOT NULL default '0',
-  `reject` int(11) NOT NULL default '0',
-  `posts` mediumint(8) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`userid`)
-) TYPE=MyISAM;
+    timezone        integer     not null,
+    domain_name     varchar(254),
+    serialnum       varchar(254),
+    last_ip_addr    varchar(254),
+    nsame_ip_addr   integer     not null,
 
-CREATE TABLE `project` (
-  `id` int(11) NOT NULL auto_increment,
-  `short_name` varchar(254) NOT NULL default '',
-  `long_name` varchar(254) NOT NULL default '',
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM;
+    on_frac         double       not null,
+    connected_frac  double       not null,
+    active_frac     double       not null,
 
-CREATE TABLE `result` (
-  `id` int(11) NOT NULL auto_increment,
-  `create_time` int(11) NOT NULL default '0',
-  `workunitid` int(11) NOT NULL default '0',
-  `server_state` int(11) NOT NULL default '0',
-  `outcome` int(11) NOT NULL default '0',
-  `client_state` int(11) NOT NULL default '0',
-  `hostid` int(11) NOT NULL default '0',
-  `report_deadline` int(11) NOT NULL default '0',
-  `sent_time` int(11) NOT NULL default '0',
-  `received_time` int(11) NOT NULL default '0',
-  `name` varchar(254) NOT NULL default '',
-  `cpu_time` double NOT NULL default '0',
-  `xml_doc_in` blob,
-  `xml_doc_out` blob,
-  `stderr_out` blob,
-  `batch` int(11) NOT NULL default '0',
-  `file_delete_state` int(11) NOT NULL default '0',
-  `validate_state` int(11) NOT NULL default '0',
-  `claimed_credit` double NOT NULL default '0',
-  `granted_credit` double NOT NULL default '0',
-  `opaque` int(11) NOT NULL default '0',
-  `random` int(11) NOT NULL default '0',
-  `client_version_num` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `res_wuid` (`workunitid`),
-  KEY `ind_res_st` (`server_state`,`random`),
-  KEY `res_filedel` (`file_delete_state`),
-  KEY `res_hostid` (`hostid`),
-  KEY `received_time` (`received_time`)
-) TYPE=MyISAM;
+    p_ncpus         integer     not null,
+    p_vendor        varchar(254),
+    p_model         varchar(254),
+    p_fpops         double       not null,
+    p_iops          double       not null,
+    p_membw         double       not null,
 
-CREATE TABLE `team` (
-  `id` int(11) NOT NULL auto_increment,
-  `create_time` int(11) NOT NULL default '0',
-  `userid` int(11) NOT NULL default '0',
-  `name` varchar(254) NOT NULL default '',
-  `name_lc` varchar(254) default NULL,
-  `url` varchar(254) default NULL,
-  `type` int(11) NOT NULL default '0',
-  `name_html` varchar(254) default NULL,
-  `description` blob,
-  `nusers` int(11) NOT NULL default '0',
-  `country` varchar(254) default NULL,
-  `total_credit` double NOT NULL default '0',
-  `expavg_credit` double NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `team_avg` (`expavg_credit`),
-  KEY `team_tot` (`total_credit`)
-) TYPE=MyISAM;
+    os_name         varchar(254),
+    os_version      varchar(254),
 
-CREATE TABLE `thread` (
-  `id` int(10) unsigned NOT NULL auto_increment,
-  `forum` int(10) unsigned NOT NULL default '0',
-  `owner` int(10) unsigned NOT NULL default '0',
-  `title` varchar(254) NOT NULL default '',
-  `timestamp` int(10) unsigned NOT NULL default '0',
-  `views` int(10) unsigned NOT NULL default '0',
-  `replies` int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `forumID` (`forum`)
-) TYPE=MyISAM;
+    m_nbytes        double       not null,
+    m_cache         double       not null,
+    m_swap          double       not null,
 
-CREATE TABLE `user` (
-  `id` int(11) NOT NULL auto_increment,
-  `create_time` int(11) NOT NULL default '0',
-  `email_addr` varchar(254) NOT NULL default '',
-  `name` varchar(254) default NULL,
-  `authenticator` varchar(254) default NULL,
-  `country` varchar(254) default NULL,
-  `postal_code` varchar(254) default NULL,
-  `total_credit` double NOT NULL default '0',
-  `expavg_credit` double NOT NULL default '0',
-  `expavg_time` double NOT NULL default '0',
-  `global_prefs` blob,
-  `project_prefs` blob,
-  `teamid` int(11) NOT NULL default '0',
-  `venue` varchar(254) NOT NULL default '',
-  `url` varchar(254) default NULL,
-  `send_email` smallint(6) NOT NULL default '0',
-  `show_hosts` smallint(6) NOT NULL default '0',
-  `posts` int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `email_addr` (`email_addr`),
-  UNIQUE KEY `authenticator` (`authenticator`),
-  KEY `ind_tid` (`teamid`),
-  KEY `user_tot` (`total_credit`),
-  KEY `user_avg` (`expavg_credit`)
-) TYPE=MyISAM;
+    d_total         double       not null,
+    d_free          double       not null,
+    d_boinc_used_total   double  not null,
+    d_boinc_used_project double  not null,
+    d_boinc_max     double      not null,
 
-CREATE TABLE `workseq` (
-  `id` int(11) NOT NULL auto_increment,
-  `create_time` int(11) NOT NULL default '0',
-  `state` int(11) NOT NULL default '0',
-  `hostid` int(11) NOT NULL default '0',
-  `wuid_last_done` int(11) NOT NULL default '0',
-  `wuid_last_sent` int(11) NOT NULL default '0',
-  `workseqid_master` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM;
+    n_bwup          double       not null,
+    n_bwdown        double       not null,
 
-CREATE TABLE `workunit` (
-  `id` int(11) NOT NULL auto_increment,
-  `create_time` int(11) NOT NULL default '0',
-  `appid` int(11) NOT NULL default '0',
-  `name` varchar(254) NOT NULL default '',
-  `xml_doc` blob,
-  `batch` int(11) NOT NULL default '0',
-  `rsc_fpops` double NOT NULL default '0',
-  `rsc_iops` double NOT NULL default '0',
-  `rsc_memory` double NOT NULL default '0',
-  `rsc_disk` double NOT NULL default '0',
-  `need_validate` smallint(6) NOT NULL default '0',
-  `canonical_resultid` int(11) NOT NULL default '0',
-  `canonical_credit` double NOT NULL default '0',
-  `timeout_check_time` int(11) NOT NULL default '0',
-  `delay_bound` int(11) NOT NULL default '0',
-  `error_mask` int(11) NOT NULL default '0',
-  `file_delete_state` int(11) NOT NULL default '0',
-  `assimilate_state` int(11) NOT NULL default '0',
-  `workseq_next` int(11) NOT NULL default '0',
-  `opaque` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `wu_val` (`appid`,`need_validate`),
-  KEY `wu_timeout` (`appid`,`timeout_check_time`),
-  KEY `wu_filedel` (`file_delete_state`),
-  KEY `wu_assim` (`appid`,`assimilate_state`)
-) TYPE=MyISAM;
+    credit_per_cpu_sec double    not null,
+    venue           varchar(254)    not null,
+    projects        blob,
+
+    primary key (id)
+);
+
+/*
+ * Only information needed by the server or other backend components
+ * is broken out into separate fields.
+ * Other info, i.e. that needed by the client (files, etc.)
+ * is stored in the XML doc
+ */
+create table workunit (
+    id              integer     not null auto_increment,
+    create_time     integer     not null,
+    appid           integer     not null,
+    name            varchar(254) not null,
+    xml_doc         blob,
+    batch           integer     not null,
+    rsc_fpops       double      not null,
+    rsc_iops        double      not null,
+    rsc_memory      double      not null,
+    rsc_disk        double      not null,
+    need_validate   smallint    not null,
+    canonical_resultid integer  not null,
+    canonical_credit double     not null,
+    timeout_check_time integer  not null,
+    delay_bound     integer     not null,
+    error_mask      integer     not null,
+    file_delete_state   integer not null,
+    assimilate_state    integer not null,
+    workseq_next    integer     not null,
+    opaque          integer     not null,
+    primary key (id)
+);
+
+create table result (
+    id              integer     not null auto_increment,
+    create_time     integer     not null,
+    workunitid      integer     not null,
+    server_state    integer     not null,
+    outcome         integer     not null,
+    client_state    integer     not null,
+    hostid          integer     not null,
+    report_deadline integer     not null,
+    sent_time       integer     not null,
+    received_time   integer     not null,
+    name            varchar(254) not null,
+    cpu_time        double       not null,
+    xml_doc_in      blob,
+    xml_doc_out     blob,
+    stderr_out      blob,
+    batch           integer     not null,
+    file_delete_state   integer not null,
+    validate_state  integer     not null,
+    claimed_credit  double       not null,
+    granted_credit  double       not null,
+    opaque          integer     not null,
+    random          integer     not null,
+    client_version_num integer  not null,
+    primary key (id)
+);
+
+create table workseq (
+    id              integer     not null auto_increment,
+    create_time     integer     not null,
+    state           integer     not null,
+    hostid          integer     not null,
+    wuid_last_done  integer     not null,
+    wuid_last_sent  integer     not null,
+    workseqid_master integer     not null,
+    primary key (id)
+);
+
+create table lang (
+    id              integer     not null auto_increment,
+    name            varchar(254) not null,
+    charset         varchar(254) not null,
+    primary key (id)
+);
+
+create table post (
+    id              integer     not null auto_increment,
+    thread          integer     not null,
+    user            integer     not null,
+    timestamp       integer     not null,
+    content         text        not null,
+    modified        integer     not null,
+    parent_post     integer     not null,
+    primary key (id)
+);
+
+create table profile (
+    userid          integer     not null auto_increment,
+    language        varchar(30),
+    response1       text,
+    response2       text,
+    has_picture     smallint    not null,
+    recommend       integer     not null,
+    reject          integer     not null,
+    posts           integer     not null,
+    primary key (userid)
+);
+
+create table thread (
+    id              integer     not null auto_increment,
+    forum           integer     not null,
+    owner           integer     not null,
+    title           varchar(254) not null,
+    timestamp       integer     not null,
+    views           integer     not null,
+    replies         integer     not null,
+    primary key (id)
+);

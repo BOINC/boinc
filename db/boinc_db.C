@@ -98,7 +98,7 @@ int DB_BASE::enumerate(char* clause) {
     MYSQL_ROW row;
 
     if (!cursor.active) {
-        cursor.active = 1;
+        cursor.active = true;
         sprintf(query, "select * from %s %s", table_name, clause);
         x = mysql_query(mysql, query);
         if (x) return mysql_errno(mysql);
@@ -108,7 +108,7 @@ int DB_BASE::enumerate(char* clause) {
     row = mysql_fetch_row(cursor.rp);
     if (!row) {
         mysql_free_result(cursor.rp);
-        cursor.active = 0;
+        cursor.active = false;
         return 1;
     } else {
         db_parse(row);

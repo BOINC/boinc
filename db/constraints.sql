@@ -8,6 +8,15 @@ alter table app
 alter table app_version
     add unique(appid, platformid, version_num);
 
+alter table category
+    add unique langID (lang, orderID);
+
+alter table forum
+    add unique orderID (orderID, category);
+
+alter table post
+    add fulltext content (content);
+    
 alter table user
     add unique(email_addr),
     add unique(authenticator),
@@ -31,7 +40,9 @@ alter table result
     add unique(name),
     add index res_wuid (workunitid),
     add index ind_res_st (server_state, random),
-    add index res_filedel (file_delete_state);
+    add index res_filedel (file_delete_state),
+    add index res_hostid (hostid),
+    add index received_time (received_time);
 
 alter table host
     add index host_user (userid),
