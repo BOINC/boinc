@@ -87,7 +87,7 @@ struct SCHEDULER_OP {
     int set_min_rpc_time(PROJECT*);
     bool update_urls(PROJECT& project, vector<STRING256> &urls);
     int start_op(PROJECT*);
-    int backoff(PROJECT* p, char *error_msg);
+    void backoff(PROJECT* p, char *error_msg);
     int start_rpc();
     int parse_master_file(vector<STRING256>&);
 };

@@ -30,8 +30,10 @@
 //
 int CLIENT_STATE::make_slot_dirs() {
     unsigned int i;
+    int retval;
     for (i=0; i<nslots; i++) {
-        make_slot_dir(i);
+        retval = make_slot_dir(i);
+        if (retval) return retval;
     }
     return 0;
 }

@@ -26,18 +26,19 @@
 #include "file_names.h"
 #include "filesys.h"
 #include "parse.h"
+#include "util.h"
 #include "pers_file_xfer.h"
 
 #include "client_types.h"
 
 PROJECT::PROJECT() {
-    strcpy(master_url,"");
-    strcpy(authenticator,"");
-    strcpy(project_specific_prefs, "");
+    safe_strncpy(master_url, "", sizeof(master_url));
+    safe_strncpy(authenticator, "", sizeof(authenticator));
+    safe_strncpy(project_specific_prefs, "", sizeof(project_specific_prefs));
     resource_share = 100;
-    strcpy(project_name,"");
-    strcpy(user_name,"");
-    strcpy(team_name,"");
+    safe_strncpy(project_name, "", sizeof(project_name));
+    safe_strncpy(user_name, "", sizeof(user_name));
+    safe_strncpy(team_name, "", sizeof(team_name));
     user_total_credit = 0;
     user_expavg_credit = 0;
     user_create_time = 0;
@@ -48,7 +49,7 @@ PROJECT::PROJECT() {
     host_create_time = 0;
     exp_avg_cpu = 0;
     exp_avg_mod_time = 0;
-    strcpy(code_sign_key, "");
+    safe_strncpy(code_sign_key, "", sizeof(code_sign_key));
     nrpc_failures = 0;
     min_rpc_time = 0;
     master_fetch_failures = 0;
@@ -72,8 +73,8 @@ int PROJECT::parse_account(FILE* in) {
     //
     master_url_fetch_pending = true;
     sched_rpc_pending = true;
-    strcpy(master_url, "");
-    strcpy(authenticator, "");
+    safe_strncpy(master_url, "", sizeof(master_url));
+    safe_strncpy(authenticator, "", sizeof(authenticator));
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<account>")) continue;
         if (match_tag(buf, "</account>")) return 0;
@@ -103,9 +104,9 @@ int PROJECT::parse_state(FILE* in) {
     char buf[256];
     STRING256 string;
 
-    strcpy(project_name, "");
-    strcpy(user_name, "");
-    strcpy(team_name, "");
+    safe_strncpy(project_name, "", sizeof(project_name));
+    safe_strncpy(user_name, "", sizeof(user_name));
+    safe_strncpy(team_name, "", sizeof(team_name));
     resource_share = 100;
     exp_avg_cpu = 0;
     exp_avg_mod_time = 0;
@@ -220,9 +221,9 @@ int PROJECT::write_state(FILE* out) {
 //
 void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
-    strcpy(project_name, p.project_name);
-    strcpy(user_name, p.user_name);
-    strcpy(team_name, p.team_name);
+    safe_strncpy(project_name, p.project_name, sizeof(project_name));
+    safe_strncpy(user_name, p.user_name, sizeof(user_name));
+    safe_strncpy(team_name, p.team_name, sizeof(team_name));
     user_total_credit = p.user_total_credit;
     user_expavg_credit = p.user_expavg_credit;
     user_create_time = p.user_create_time;
@@ -238,13 +239,13 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     min_rpc_time = p.min_rpc_time;
     master_url_fetch_pending = p.master_url_fetch_pending;
     sched_rpc_pending = p.sched_rpc_pending;
-    strcpy(code_sign_key, p.code_sign_key);
+    safe_strncpy(code_sign_key, p.code_sign_key, sizeof(code_sign_key));
 }
 
 int APP::parse(FILE* in) {
     char buf[256];
 
-    strcpy(name, "");
+    safe_strncpy(name, "", sizeof(name));
     project = NULL;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</app>")) return 0;
@@ -299,8 +300,8 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     PERS_FILE_XFER *pfxp;
     int retval;
 
-    strcpy(name, "");
-    strcpy(md5_cksum, "");
+    safe_strncpy(name, "", sizeof(name));
+    safe_strncpy(md5_cksum, "", sizeof(md5_cksum));
     max_nbytes = 0;
     nbytes = 0;
     upload_offset = -1;
@@ -317,9 +318,9 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
     urls.clear();
     start_url = -1;
     current_url = -1;
-    strcpy(signed_xml, "");
-    strcpy(xml_signature, "");
-    strcpy(file_signature, "");
+    safe_strncpy(signed_xml, "", sizeof(signed_xml));
+    safe_strncpy(xml_signature, "", sizeof(xml_signature));
+    safe_strncpy(file_signature, "", sizeof(file_signature));
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</file_info>")) return 0;
         else if (match_tag(buf, "<xml_signature>")) {
@@ -385,6 +386,7 @@ int FILE_INFO::parse(FILE* in, bool from_server) {
 //
 int FILE_INFO::write(FILE* out, bool to_server) {
     unsigned int i;
+    int retval;
 
     fprintf(out,
         "<file_info>\n"
@@ -408,7 +410,8 @@ int FILE_INFO::write(FILE* out, bool to_server) {
         fprintf(out, "    <url>%s</url>\n", urls[i].text);
     }
     if (!to_server && pers_file_xfer) {
-        pers_file_xfer->write(out);
+        retval = pers_file_xfer->write(out);
+        if (retval) return retval;
     }
     if (!to_server) {
         if (signed_xml && xml_signature) {
@@ -467,7 +470,7 @@ int APP_VERSION::parse(FILE* in) {
     char buf[256];
     FILE_REF file_ref;
 
-    strcpy(app_name, "");
+    safe_strncpy(app_name, "", sizeof(app_name));
     version_num = 0;
     app = NULL;
     project = NULL;
@@ -487,6 +490,7 @@ int APP_VERSION::parse(FILE* in) {
 
 int APP_VERSION::write(FILE* out) {
     unsigned int i;
+    int retval;
 
     fprintf(out,
         "<app_version>\n"
@@ -496,7 +500,8 @@ int APP_VERSION::write(FILE* out) {
         version_num
     );
     for (i=0; i<app_files.size(); i++) {
-        app_files[i].write(out);
+        retval = app_files[i].write(out);
+        if (retval) return retval;
     }
     fprintf(out,
         "</app_version>\n"
@@ -507,8 +512,8 @@ int APP_VERSION::write(FILE* out) {
 int FILE_REF::parse(FILE* in) {
     char buf[256];
 
-    strcpy(file_name, "");
-    strcpy(open_name, "");
+    safe_strncpy(file_name, "", sizeof(file_name));
+    safe_strncpy(open_name, "", sizeof(open_name));
     fd = -1;
     main_program = false;
     while (fgets(buf, 256, in)) {
@@ -546,11 +551,11 @@ int WORKUNIT::parse(FILE* in) {
     char buf[256];
     FILE_REF file_ref;
 
-    strcpy(name, "");
-    strcpy(app_name, "");
+    safe_strncpy(name, "", sizeof(name));
+    safe_strncpy(app_name, "", sizeof(app_name));
     version_num = 0;
-    strcpy(command_line, "");
-    strcpy(env_vars, "");
+    safe_strncpy(command_line, "", sizeof(command_line));
+    safe_strncpy(env_vars, "", sizeof(env_vars));
     app = NULL;
     project = NULL;
     seconds_to_complete = 0;
@@ -620,7 +625,7 @@ bool WORKUNIT::had_failure(int& failnum) {
 int RESULT::parse_ack(FILE* in) {
     char buf[256];
 
-    strcpy(name, "");
+    safe_strncpy(name, "", sizeof(name));
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</result_ack>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
@@ -630,8 +635,8 @@ int RESULT::parse_ack(FILE* in) {
 }
 
 void RESULT::clear() {
-    strcpy(name, "");
-    strcpy(wu_name, "");
+    safe_strncpy(name, "", sizeof(name));
+    safe_strncpy(wu_name, "", sizeof(wu_name));
     report_deadline = 0;
     output_files.clear();
     is_active = false;
@@ -642,7 +647,7 @@ void RESULT::clear() {
     exit_status = 0;
     active_task_state = 0;
     signal = 0;
-    strcpy(stderr_out, "");
+    safe_strncpy(stderr_out, "", sizeof(stderr_out));
     app = NULL;
     wup = NULL;
     project = NULL;
@@ -705,7 +710,7 @@ int RESULT::parse_state(FILE* in) {
 int RESULT::write(FILE* out, bool to_server) {
     unsigned int i;
     FILE_INFO* fip;
-    int n;
+    int n, retval;
 
     // If we didn't have an error with this result, (in which case
     // we would have called report_project_error():
@@ -739,13 +744,15 @@ int RESULT::write(FILE* out, bool to_server) {
             report_deadline
         );
         for (i=0; i<output_files.size(); i++) {
-            output_files[i].write(out);
+            retval = output_files[i].write(out);
+            if (retval) return retval;
         }
     } else {
         for (i=0; i<output_files.size(); i++) {
             fip = output_files[i].file_info;
             if (fip->uploaded) {
-                fip->write(out, to_server);
+                retval = fip->write(out, to_server);
+                if (retval) return retval;
             }
         }
     }

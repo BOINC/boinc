@@ -50,7 +50,7 @@ int SCHEDULER_OP::init_get_work() {
     if (project) {
         retval = init_op_project(ns);
         if (retval) {
-            sprintf(err_msg, "init_get_work failed, error %d\n", retval);
+            sprintf(err_msg, "init_op_project failed, error %d\n", retval);
             backoff(project, err_msg);
             return retval;
         }
@@ -148,8 +148,7 @@ int SCHEDULER_OP::set_min_rpc_time(PROJECT* p) {
 
 // Back off on the scheduler and output an error msg if needed
 //
-
-int SCHEDULER_OP::backoff( PROJECT* p, char *error_msg ) {
+void SCHEDULER_OP::backoff( PROJECT* p, char *error_msg ) {
     if (log_flags.sched_op_debug) {
         printf(error_msg);
     }
@@ -157,7 +156,7 @@ int SCHEDULER_OP::backoff( PROJECT* p, char *error_msg ) {
     if (p->master_fetch_failures >= MASTER_FETCH_RETRY_CAP) {
         p->master_url_fetch_pending = true;
         set_min_rpc_time(p);
-        return 0;
+        return;
     }
 
     // if nrpc failures a multiple of master_fetch_period,
@@ -172,8 +171,6 @@ int SCHEDULER_OP::backoff( PROJECT* p, char *error_msg ) {
     
     p->nrpc_failures++;
     set_min_rpc_time(p);
-    
-    return 0;
 }
 
 // low-level routine to initiate an RPC
@@ -183,7 +180,7 @@ int SCHEDULER_OP::start_rpc() {
     FILE *f;
     int retval;
 
-    strcpy(scheduler_url, project->scheduler_urls[url_index].text);
+    safe_strncpy(scheduler_url, project->scheduler_urls[url_index].text, sizeof(scheduler_url));
     if (log_flags.sched_ops) {
         printf("Sending request to scheduler: %s\n", scheduler_url);
     }
@@ -196,7 +193,7 @@ int SCHEDULER_OP::start_rpc() {
     }
     if (gstate.use_http_proxy) {
         http_op.use_http_proxy = true;
-        strcpy(http_op.proxy_server_name, gstate.proxy_server_name);
+        safe_strncpy(http_op.proxy_server_name, gstate.proxy_server_name, sizeof(http_op.proxy_server_name));
         http_op.proxy_server_port = gstate.proxy_server_port;
     }
     retval = http_op.init_post(
@@ -222,7 +219,7 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
     }
     if (gstate.use_http_proxy) {
         http_op.use_http_proxy = true;
-        strcpy(http_op.proxy_server_name, gstate.proxy_server_name);
+        safe_strncpy(http_op.proxy_server_name, gstate.proxy_server_name, sizeof(http_op.proxy_server_name));
         http_op.proxy_server_port = gstate.proxy_server_port;
     }
     retval = http_op.init_get(project->master_url, MASTER_FILE_NAME, true);
@@ -499,15 +496,15 @@ int SCHEDULER_REPLY::parse(FILE* in) {
     host_expavg_credit = 0;
     host_create_time = 0;
     request_delay = 0;
-    strcpy(message, "");
-    strcpy(message_priority, "");
-    strcpy(project_name, "");
+    safe_strncpy(message, "", sizeof(message));
+    safe_strncpy(message_priority, "", sizeof(message_priority));
+    safe_strncpy(project_name, "", sizeof(project_name));
     global_prefs_xml = 0;
     project_prefs_xml = 0;
-    strcpy(user_name, "");
+    safe_strncpy(user_name, "", sizeof(user_name));
     user_total_credit = 0;
     user_expavg_credit = 0;
-    strcpy(host_venue, "");
+    safe_strncpy(host_venue, "", sizeof(host_venue));
     user_create_time = 0;
     code_sign_key = 0;
     code_sign_key_signature = 0;

@@ -184,6 +184,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
     FILE* f = fopen(SCHED_OP_REQUEST_FILE, "wb");
     unsigned int i;
     RESULT* rp;
+    int retval;
 
     if (!f) return ERR_FOPEN;
     fprintf(f,
@@ -215,9 +216,12 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         fclose(fprefs);
     }
 
-    time_stats.write(f, true);
-    net_stats.write(f, true);
-    host_info.write(f);
+    retval = time_stats.write(f, true);
+    if (retval) return retval;
+    retval = net_stats.write(f, true);
+    if (retval) return retval;
+    retval = host_info.write(f);
+    if (retval) return retval;
     for (i=0; i<results.size(); i++) {
         rp = results[i];
         if (rp->project == p && rp->ready_to_ack)
@@ -338,13 +342,13 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (retval) return retval;
 
     if (strlen(sr.project_name)) {
-        strcpy(project->project_name, sr.project_name);
+        safe_strncpy(project->project_name, sr.project_name, sizeof(project->project_name));
     }
     if (strlen(sr.user_name)) {
-        strcpy(project->user_name, sr.user_name);
+        safe_strncpy(project->user_name, sr.user_name, sizeof(project->user_name));
     }
     if (strlen(sr.team_name)) {
-        strcpy(project->team_name, sr.team_name);
+        safe_strncpy(project->team_name, sr.team_name, sizeof(project->team_name));
     }
     project->user_total_credit = sr.user_total_credit;
     project->user_expavg_credit = sr.user_expavg_credit;
@@ -384,7 +388,8 @@ int CLIENT_STATE::handle_scheduler_reply(
         );
         fclose(f);
         safe_strncpy(host_venue, sr.host_venue, sizeof(host_venue));
-        global_prefs.parse_file(host_venue);
+        retval = global_prefs.parse_file(host_venue);
+        if (retval) return retval;
         install_global_prefs();
     }
 
@@ -393,9 +398,10 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (sr.project_prefs_xml) {
         char path[256];
 
-        write_account_file(
+        retval = write_account_file(
             project->master_url, project->authenticator, sr.project_prefs_xml
         );
+        if (retval) return retval;
         get_account_filename(project->master_url, path);
         f = fopen(path, "r");
         if (!f) return ERR_FOPEN;
@@ -410,7 +416,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     if (sr.code_sign_key) {
         if (!strlen(project->code_sign_key)) {
-            strcpy(project->code_sign_key, sr.code_sign_key);
+            safe_strncpy(project->code_sign_key, sr.code_sign_key, sizeof(project->code_sign_key));
         } else {
             if (sr.code_sign_key_signature) {
                 retval = verify_string2(
@@ -418,7 +424,7 @@ int CLIENT_STATE::handle_scheduler_reply(
                     project->code_sign_key, signature_valid
                 );
                 if (!retval && signature_valid) {
-                    strcpy(project->code_sign_key, sr.code_sign_key);
+                    safe_strncpy(project->code_sign_key, sr.code_sign_key, sizeof(project->code_sign_key));
                 } else {
                     fprintf(stdout,
                         "New code signing key from %s doesn't validate\n",

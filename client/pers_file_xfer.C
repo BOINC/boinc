@@ -80,7 +80,7 @@ bool PERS_FILE_XFER::start_xfer() {
     file_xfer = new FILE_XFER;
     if (gstate.use_http_proxy) {
         file_xfer->use_http_proxy = true;
-        strcpy(file_xfer->proxy_server_name, gstate.proxy_server_name);
+        safe_strncpy(file_xfer->proxy_server_name, gstate.proxy_server_name, sizeof(file_xfer->proxy_server_name));
         file_xfer->proxy_server_port = gstate.proxy_server_port;
     }
     if (is_upload) {
@@ -231,7 +231,7 @@ void PERS_FILE_XFER::handle_xfer_failure(unsigned int cur_time) {
 // Cycle to the next URL, or if we've hit all URLs in this cycle,
 // backoff and try again later
 //
-int PERS_FILE_XFER::retry_and_backoff(unsigned int cur_time) {
+void PERS_FILE_XFER::retry_and_backoff(unsigned int cur_time) {
     double exp_backoff;
     struct tm *newtime;
     time_t aclock;
@@ -263,7 +263,6 @@ int PERS_FILE_XFER::retry_and_backoff(unsigned int cur_time) {
             (int) exp_backoff,asctime(newtime) 
         );
     }
-    return 0;
 }
 
 // Parse XML information about a single persistent file transfer

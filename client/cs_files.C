@@ -51,8 +51,10 @@ bool CLIENT_STATE::start_new_file_xfer() {
 //
 int CLIENT_STATE::make_project_dirs() {
     unsigned int i;
+    int retval;
     for (i=0; i<projects.size(); i++) {
-        make_project_dir(*projects[i]);
+        retval = make_project_dir(*projects[i]);
+        if (retval) return retval;
     }
     return 0;
 }
@@ -84,8 +86,8 @@ int verify_downloaded_file(char* pathname, FILE_INFO& file_info) {
             return ERR_RSA_FAILED;
         }
     } else if (file_info.md5_cksum) {
-        md5_file(pathname, cksum, file_info.nbytes);
-        if (strcmp(cksum, file_info.md5_cksum)) {
+        retval = md5_file(pathname, cksum, file_info.nbytes);
+        if (strcmp(cksum, file_info.md5_cksum) || retval) {
             fprintf(stderr, "error: verify_file2: MD5 check failed\n");
             return ERR_MD5_FAILED;
         }

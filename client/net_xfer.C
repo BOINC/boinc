@@ -63,6 +63,7 @@
 #include "error_numbers.h"
 #include "log_flags.h"
 #include "net_xfer.h"
+#include "util.h"
 
 //  If socklen_t isn't defined, define it here as size_t
 #if !defined(socklen_t)
@@ -169,7 +170,7 @@ void NET_XFER::init(char* host, int p, int b) {
     file = NULL;
     io_ready = false;
     error = 0;
-    strcpy(hostname, host);
+    safe_strncpy(hostname, host, sizeof(hostname));
     port = p;
     blocksize = b;
     xfer_speed = 0;

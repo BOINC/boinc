@@ -79,11 +79,11 @@ CLIENT_STATE::CLIENT_STATE() {
     user_idle = true;
     use_http_proxy = false;
     use_socks_proxy = false;
-    strcpy(proxy_server_name,"");
+    safe_strncpy(proxy_server_name, "", sizeof(proxy_server_name));
     proxy_server_port = 80;
-    strcpy(socks_user_name,"");
-    strcpy(socks_user_passwd,"");
-    strcpy(host_venue,"");
+    safe_strncpy(socks_user_name, "", sizeof(socks_user_name));
+    safe_strncpy(socks_user_passwd, "", sizeof(socks_user_passwd));
+    safe_strncpy(host_venue,"", sizeof(host_venue));
     suspend_requested = false;
     start_saver = false;
 #ifdef _WIN32
@@ -175,8 +175,10 @@ int CLIENT_STATE::init() {
 
     // set up the project and slot directories
     //
-    make_project_dirs();
-    make_slot_dirs();
+    retval = make_project_dirs();
+    if (retval) return retval;
+    retval = make_slot_dirs();
+    if (retval) return retval;
 
     // Restart any tasks that were running when we last quit the client
     //
@@ -273,6 +275,8 @@ int CLIENT_STATE::time_tests() {
 //
 int CLIENT_STATE::check_time_tests() {
     FILE* finfo;
+    int retval;
+    
     if (time_tests_id) {
 #ifdef _WIN32
         DWORD exit_code = 0;
@@ -293,7 +297,7 @@ int CLIENT_STATE::check_time_tests() {
         }
         CloseHandle(time_tests_handle);
 #else
-        int retval, exit_code = 0;
+        int exit_code = 0;
         retval = waitpid(time_tests_id, &exit_code, WNOHANG);
         if(retval == 0) {
             if((unsigned int)time(NULL) > time_tests_start + MAX_TIME_TESTS_SECONDS) {
@@ -320,8 +324,9 @@ int CLIENT_STATE::check_time_tests() {
             host_info.m_cache = 1e6;
             return TIME_TESTS_ERROR;
         }
-        host_info.parse_time_tests(finfo);
+        retval = host_info.parse_time_tests(finfo);
         fclose(finfo);
+        if (retval) return TIME_TESTS_ERROR;
         file_delete(TIME_TESTS_FILE_NAME);
         return TIME_TESTS_COMPLETE;
     }
@@ -570,13 +575,17 @@ int CLIENT_STATE::parse_state_file() {
                 delete rp;
             }
         } else if (match_tag(buf, "<host_info>")) {
-            host_info.parse(f);
+            retval = host_info.parse(f);
+            if (retval) goto done;
         } else if (match_tag(buf, "<time_stats>")) {
-            time_stats.parse(f);
+            retval = time_stats.parse(f);
+            if (retval) goto done;
         } else if (match_tag(buf, "<net_stats>")) {
-            net_stats.parse(f);
+            retval = net_stats.parse(f);
+            if (retval) goto done;
         } else if (match_tag(buf, "<active_task_set>")) {
-            active_tasks.parse(f, this);
+            retval = active_tasks.parse(f, this);
+            if (retval) goto done;
         } else if (match_tag(buf, "<platform_name>")) {
             // should match our current platform name
         } else if (match_tag(buf, "<version>")) {
@@ -615,18 +624,26 @@ int CLIENT_STATE::write_state_file() {
         return ERR_FOPEN;
     }
     fprintf(f, "<client_state>\n");
-    host_info.write(f);
-    time_stats.write(f, false);
-    net_stats.write(f, false);
+    retval = host_info.write(f);
+    if (retval) return retval;
+    retval = time_stats.write(f, false);
+    if (retval) return retval;
+    retval = net_stats.write(f, false);
+    if (retval) return retval;
     for (j=0; j<projects.size(); j++) {
         PROJECT* p = projects[j];
-        p->write_state(f);
+        retval = p->write_state(f);
+        if (retval) return retval;
         for (i=0; i<apps.size(); i++) {
-            if (apps[i]->project == p) apps[i]->write(f);
+            if (apps[i]->project == p) {
+                retval = apps[i]->write(f);
+                if (retval) return retval;
+            }
         }
         for (i=0; i<file_infos.size(); i++) {
             if (file_infos[i]->project == p) {
-                file_infos[i]->write(f, false);
+                retval = file_infos[i]->write(f, false);
+                if (retval) return retval;
             }
         }
         for (i=0; i<app_versions.size(); i++) {
@@ -1215,11 +1232,11 @@ void CLIENT_STATE::parse_env_vars() {
     }
 
     if ((p = getenv("SOCKS_USER"))) {
-        strcpy(socks_user_name, p);
+        safe_strncpy(socks_user_name, p, sizeof(socks_user_name));
     }
 
     if ((p = getenv("SOCKS_PASSWD"))) {
-        strcpy(socks_user_name, p);
+        safe_strncpy(socks_user_passwd, p, sizeof(socks_user_passwd));
     }
 }
 

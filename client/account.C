@@ -31,6 +31,7 @@ int write_account_file(
 ) {
     char path[256];
     FILE* f;
+    int retval;
 
     get_account_filename(master_url, path);
     f = fopen(TEMP_FILE_NAME, "w");
@@ -48,7 +49,8 @@ int write_account_file(
     }
     fprintf(f, "</account>\n");
     fclose(f);
-    boinc_rename(TEMP_FILE_NAME, path);
+    retval = boinc_rename(TEMP_FILE_NAME, path);
+    if (retval) return ERR_RENAME;
     return 0;
 }
 
@@ -85,7 +87,8 @@ int CLIENT_STATE::add_project(char* master_url, char* authenticator) {
 
     // create project state
     //
-    write_account_file(master_url, authenticator);
+    retval = write_account_file(master_url, authenticator);
+    if (retval) return retval;
     get_account_filename(master_url, path);
     f = fopen(path, "r");
     if (!f) return ERR_FOPEN;
@@ -126,7 +129,8 @@ int CLIENT_STATE::change_project(
 
     // create project state
     //
-    write_account_file(master_url, authenticator);
+    retval = write_account_file(master_url, authenticator);
+    if (retval) return retval;
     get_account_filename(master_url, path);
     f = fopen(path, "r");
     if (!f) return ERR_FOPEN;

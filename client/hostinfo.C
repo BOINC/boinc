@@ -49,24 +49,24 @@
 //
 void clear_host_info(HOST_INFO& host) {
     host.timezone = 0;        // seconds added to local time to get UTC
-    strcpy(host.domain_name,"");
-    strcpy(host.serialnum,"");
-    strcpy(host.ip_addr,"");
+    safe_strncpy(host.domain_name, "", sizeof(host.domain_name));
+    safe_strncpy(host.serialnum, "", sizeof(host.serialnum));
+    safe_strncpy(host.ip_addr, "", sizeof(host.ip_addr));
 
     host.on_frac = 0;
     host.conn_frac = 0;
     host.active_frac = 0;
 
     host.p_ncpus = 0;
-    strcpy(host.p_vendor,"");
-    strcpy(host.p_model,"");
+    safe_strncpy(host.p_vendor, "", sizeof(host.p_vendor));
+    safe_strncpy(host.p_model, "", sizeof(host.p_model));
     host.p_fpops = 0;
     host.p_iops = 0;
     host.p_membw = 0;
     host.p_calculated = 0;
     
-    strcpy(host.os_name,"");
-    strcpy(host.os_version,"");
+    safe_strncpy(host.os_name, "", sizeof(host.os_name));
+    safe_strncpy(host.os_version, "", sizeof(host.os_version));
 
     host.m_nbytes = 0;
     host.m_cache = 0;
@@ -196,7 +196,7 @@ int HOST_INFO::write_time_tests(FILE* out) {
 int get_local_domain_name(char* p, int len) {
     char buf[256];
 
-    gethostname(buf, 256);
+    if (gethostname(buf, 256)) return -1;
     struct hostent* he = gethostbyname(buf);
     if (!he) return -1;
     safe_strncpy(p, he->h_name, len);
@@ -205,8 +205,8 @@ int get_local_domain_name(char* p, int len) {
 
 // Returns the name of the local host
 //
-int get_local_ip_addr_str(char* p) {
-    strcpy( p,"" );
+int get_local_ip_addr_str(char* p, int len) {
+    safe_strncpy(p, "", len);
 #if HAVE_NETDB_H || _WIN32
     char buf[256];
     struct in_addr addr;
@@ -220,7 +220,7 @@ int get_local_ip_addr_str(char* p) {
         return -1;
     }
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
-    strcpy(p, inet_ntoa(addr));
+    safe_strncpy(p, inet_ntoa(addr), len);
 #endif
     return 0;
 }

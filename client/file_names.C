@@ -30,49 +30,7 @@
 #include "filesys.h"
 #include "error_numbers.h"
 #include "file_names.h"
-
-// Converts a character string of a decimal number to hexadecimal string
-//
-static void c2x(char *what) {
-    char buf[3];
-    char num = atoi(what);
-    char d1 = num / 16;
-    char d2 = num % 16;
-    int abase1, abase2;
-    if (d1 < 10) abase1 = 48;
-    else abase1 = 55;
-    if (d2 < 10) abase2 = 48;
-    else abase2 = 55;
-    buf[0] = d1+abase1;
-    buf[1] = d2+abase2;
-    buf[2] = 0;
-
-    strcpy(what, buf);
-}
-
-// Escape a URL, converting the non alphanumeric characters to
-// %XY where XY is their hexadecimal equivalent
-//
-/*static void escape_url(char *in, char* out) {
-    int x, y;
-    for (x=0, y=0; in[x]; ++x) {
-        if (isalnum(in[x]) || in[x]=='.' || in[x]=='-' || in[x]=='_') {
-            out[y] = in[x];
-            ++y;
-        }
-        else {
-            out[y] = '%';
-            ++y;
-            out[y] = 0;
-            char buf[256];
-            sprintf(buf, "%d", (char)in[x]);
-            c2x(buf);
-            strcat(out, buf);
-            y += 2;
-        }
-    }
-    out[y] = 0;
-}*/
+#include "util.h"
 
 // Escape a URL for the project directory, cutting off the "http://",
 // converting '\' '/' and ' ' to '_',
@@ -121,7 +79,7 @@ void get_pathname(FILE_INFO* fip, char* path) {
         escape_project_url(p->master_url, buf);
         sprintf(path, "%s%s%s%s%s", PROJECTS_DIR, PATH_SEPARATOR, buf, PATH_SEPARATOR, fip->name);
     } else {
-        strcpy(path, fip->name);
+        safe_strncpy(path, fip->name, sizeof(fip->name));
     }
 }
 

@@ -186,8 +186,8 @@ void parse_cpuinfo(HOST_INFO& host) {
 void get_osinfo(HOST_INFO& host) {
     struct utsname u;
     uname(&u);
-    strcpy(host.os_name, u.sysname);
-    strcpy(host.os_version, u.release);
+    safe_strncpy(host.os_name, u.sysname, sizeof(host.os_name));
+    safe_strncpy(host.os_version, u.release, sizeof(host.os_version));
 }
 #endif
 
@@ -301,7 +301,7 @@ int get_host_info(HOST_INFO& host) {
 #endif
 
     get_local_domain_name(host.domain_name, sizeof(host.domain_name));
-    get_local_ip_addr_str(host.ip_addr);
+    get_local_ip_addr_str(host.ip_addr, sizeof(host.ip_addr));
     host.timezone = get_timezone();
 #ifdef HAVE_SYS_UTSNAME_H
     get_osinfo(host);

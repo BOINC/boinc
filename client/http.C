@@ -38,6 +38,7 @@
 #include "filesys.h"
 #include "log_flags.h"
 #include "http.h"
+#include "util.h"
 
 #define HTTP_BLOCKSIZE  16384
 
@@ -47,14 +48,14 @@ void parse_url(char* url, char* host, int &port, char* file) {
     char* p;
     char buf[256];
 
-    if (strncmp(url, "http://", 7) == 0) strcpy(buf, url+7);
-    else strcpy(buf, url);
+    if (strncmp(url, "http://", 7) == 0) safe_strncpy(buf, url+7, sizeof(buf));
+    else safe_strncpy(buf, url, sizeof(buf));
     p = strchr(buf, '/');
     if (p) {
         strcpy(file, p+1);
         *p = 0;
     } else {
-        strcpy(file, "");
+        safe_strncpy(file, "", 1);
     }
     p=strchr(buf,':');
     if (p) {
@@ -63,7 +64,7 @@ void parse_url(char* url, char* host, int &port, char* file) {
     } else {
         port=80;
     }
-    strcpy(host, buf);
+    safe_strncpy(host, buf, sizeof(buf));
 }
 
 // Prints an HTTP 1.1 GET request header into buf
@@ -174,20 +175,20 @@ static int read_reply(int socket, char* buf, int len) {
 }
 
 HTTP_OP::HTTP_OP() {
-    strcpy(hostname,"");
-    strcpy(filename,"");
+    safe_strncpy(hostname, "", sizeof(hostname));
+    safe_strncpy(filename, "", sizeof(filename));
     req1 = NULL;
-    strcpy(infile,"");
-    strcpy(outfile,"");
+    safe_strncpy(infile, "", sizeof(infile));
+    safe_strncpy(outfile, "", sizeof(outfile));
     content_length = 0;
     file_offset = 0;
-    strcpy(request_header,"");
+    safe_strncpy(request_header, "", sizeof(request_header));
     http_op_state = HTTP_STATE_IDLE;
     http_op_type = HTTP_OP_NONE;
     http_op_retval = 0;
     use_http_proxy = false;
     proxy_server_port = 0;
-    strcpy(proxy_server_name,"");
+    safe_strncpy(proxy_server_name, "", sizeof(proxy_server_name));
 }
 
 HTTP_OP::~HTTP_OP() {
@@ -221,7 +222,7 @@ int HTTP_OP::init_get(char* url, char* out, bool del_old_file, double off) {
     file_offset = off;
     parse_url(url, hostname, port, filename);
     NET_XFER::init(use_http_proxy?proxy_server_name:hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
-    strcpy(outfile, out);
+    safe_strncpy(outfile, out, sizeof(outfile));
     http_op_type = HTTP_OP_GET;
     http_op_state = HTTP_STATE_CONNECTING;
     if (use_http_proxy) {
@@ -242,8 +243,8 @@ int HTTP_OP::init_post(char* url, char* in, char* out) {
 
     parse_url(url, hostname, port, filename);
     NET_XFER::init(use_http_proxy?proxy_server_name:hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
-    strcpy(infile, in);
-    strcpy(outfile, out);
+    safe_strncpy(infile, in, sizeof(infile));
+    safe_strncpy(outfile, out, sizeof(outfile));
     retval = file_size(infile, size);
     if (retval) return retval;
     content_length = (int)size;
@@ -276,7 +277,7 @@ int HTTP_OP::init_post2(
     NET_XFER::init(use_http_proxy?proxy_server_name:hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
     req1 = r1;
     if (in) {
-        strcpy(infile, in);
+        safe_strncpy(infile, in, sizeof(infile));
         file_offset = offset;
         retval = file_size(infile, size);
         if (retval) {
@@ -442,6 +443,7 @@ bool HTTP_OP_SET::poll() {
                     }
 
                     // Open connection to the redirected server
+                    // TODO: handle return value here
                     //
                     htp->open_server();
                     break;

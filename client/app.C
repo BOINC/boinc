@@ -91,7 +91,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     state = PROCESS_UNINITIALIZED;
     exit_status = 0;
     signal = 0;
-    strcpy(slot_dir, "");
+    safe_strncpy(slot_dir, "", sizeof(slot_dir));
 }
 
 int ACTIVE_TASK::init(RESULT* rp) {
@@ -160,7 +160,8 @@ int ACTIVE_TASK::start(bool first_time) {
         }
         return ERR_FOPEN;
     }
-    write_init_data_file(f, aid);
+    retval = write_init_data_file(f, aid);
+    if (retval) return retval;
     
     fclose(f);
 
@@ -190,8 +191,8 @@ int ACTIVE_TASK::start(bool first_time) {
         fip = app_version->app_files[i].file_info;
         get_pathname(fip, file_path);
         if (i == 0) {
-            strcpy(exec_name, fip->name);
-            strcpy(exec_path, file_path);
+            safe_strncpy(exec_name, fip->name, sizeof(exec_name));
+            safe_strncpy(exec_path, file_path, sizeof(exec_path));
         }
         if (first_time) {
             sprintf(link_path, "%s%s%s", slot_dir, PATH_SEPARATOR, fip->name);
@@ -229,7 +230,8 @@ int ACTIVE_TASK::start(bool first_time) {
             }
         } else {
             sprintf(temp, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
-            write_fd_init_file(f, temp, file_ref.fd, 1);
+            retval = write_fd_init_file(f, temp, file_ref.fd, 1);
+            if (retval) return retval;
         }
     }
 
@@ -257,7 +259,8 @@ int ACTIVE_TASK::start(bool first_time) {
             }
         } else {
             sprintf(temp, "..%s..%s%s", PATH_SEPARATOR, PATH_SEPARATOR, file_path);
-            write_fd_init_file(f, temp, file_ref.fd, 0);
+            retval = write_fd_init_file(f, temp, file_ref.fd, 0);
+            if (retval) return retval;
         }
     }
 
@@ -358,13 +361,15 @@ int ACTIVE_TASK::start(bool first_time) {
 //
 int ACTIVE_TASK::request_exit() {
     char quit_file[256];
+    int retval;
 
     get_slot_dir(slot, slot_dir);
     sprintf(quit_file, "%s%s%s", slot_dir, PATH_SEPARATOR, QUIT_FILE);
     FILE *fp = fopen(quit_file, "w");
     if (!fp) return ERR_FOPEN;
-    write_quit_file(fp);
+    retval = write_quit_file(fp);
     fclose(fp);
+    if (retval) return retval;
     return 0;
 }
 
@@ -678,8 +683,9 @@ bool ACTIVE_TASK::check_app_status_files() {
     f = fopen(path, "r");
     if (f) {
         found = true;
-        parse_fraction_done_file(f, fraction_done, current_cpu_time, checkpoint_cpu_time);
+        retval = parse_fraction_done_file(f, fraction_done, current_cpu_time, checkpoint_cpu_time);
         fclose(f);
+        if (retval) return false;
         retval = file_delete(path);
         if (retval) {
             fprintf(stderr,
@@ -788,8 +794,8 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
     int app_version_num=0;
     PROJECT* project;
 
-    strcpy(result_name, "");
-    strcpy(project_master_url, "");
+    safe_strncpy(result_name, "", sizeof(result_name));
+    safe_strncpy(project_master_url, "", sizeof(project_master_url));
     while (fgets(buf, 256, fin)) {
         if (match_tag(buf, "</active_task>")) {
             project = cs->lookup_project(project_master_url);
@@ -829,10 +835,12 @@ int ACTIVE_TASK::parse(FILE* fin, CLIENT_STATE* cs) {
 //
 int ACTIVE_TASK_SET::write(FILE* fout) {
     unsigned int i;
+    int retval;
 
     fprintf(fout, "<active_task_set>\n");
     for (i=0; i<active_tasks.size(); i++) {
-        active_tasks[i]->write(fout);
+        retval = active_tasks[i]->write(fout);
+        if (retval) return retval;
     }
     fprintf(fout, "</active_task_set>\n");
     return 0;
