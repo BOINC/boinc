@@ -92,7 +92,9 @@ int MYSQL_DB::db_new(void* vp, int type) {
 }
 
 int MYSQL_DB::db_insert_id() {
-    mysql_query(mp, "select LAST_INSERT_ID()");
+    int retval;
+    retval = mysql_query(mp, "select LAST_INSERT_ID()");
+    if (retval) return mysql_errno(mp);
     rp = mysql_store_result(mp);
     row = mysql_fetch_row(rp);
     return atoi(row[0]);
@@ -107,10 +109,12 @@ int MYSQL_DB::db_delete(int id, int type) {
 
 int MYSQL_DB::db_lookup_id(int i, void* vp, int type) {
     char buf[MAX_QUERY_LEN];
+    int retval;
     sprintf(buf, "select * from %s where id=%d", table_name[type], i);
-    mysql_query(mp, buf);
+    retval = mysql_query(mp, buf);
+    if (retval) return mysql_errno(mp);
     rp = mysql_store_result(mp);
-    if (!rp) return -1;
+    if (!rp) return mysql_errno(mp);
     row = mysql_fetch_row(rp);
     if (row) row_to_struct(row, vp, type);
     mysql_free_result(rp);
@@ -119,10 +123,12 @@ int MYSQL_DB::db_lookup_id(int i, void* vp, int type) {
 
 int MYSQL_DB::db_lookup(void* vp, int type, char* clause) {
     char buf[MAX_QUERY_LEN];
+    int retval;
     sprintf(buf, "select * from %s where %s", table_name[type], clause);
-    mysql_query(mp, buf);
+    retval = mysql_query(mp, buf);
+    if (retval) return mysql_errno(mp);
     rp = mysql_store_result(mp);
-    if (!rp) return -1;
+    if (!rp) return mysql_errno(mp);
     row = mysql_fetch_row(rp);
     if (row) row_to_struct(row, vp, type);
     mysql_free_result(rp);
@@ -142,6 +148,7 @@ int MYSQL_DB::db_update(void* vp, int type) {
 
 int MYSQL_DB::db_enum(ENUM& e, void* p, int type, char* clause, int limit) {
     char buf[MAX_QUERY_LEN], buf2[256];
+    int retval;
     if (!e.active) {
         e.active = 1;
         sprintf(buf, "select * from %s %s", table_name[type], clause?clause:"");
@@ -149,9 +156,10 @@ int MYSQL_DB::db_enum(ENUM& e, void* p, int type, char* clause, int limit) {
             sprintf(buf2, " limit %d", limit);
             strcat(buf, buf2);
         }
-        mysql_query(mp, buf);
+        retval = mysql_query(mp, buf);
+        if (retval) return mysql_errno(mp);
         e.rp = mysql_store_result(mp);
-        if (!e.rp) return -1;
+        if (!e.rp) return mysql_errno(mp);
     }
     row = mysql_fetch_row(e.rp);
     if (!row) {
@@ -166,12 +174,14 @@ int MYSQL_DB::db_enum(ENUM& e, void* p, int type, char* clause, int limit) {
 
 int MYSQL_DB::db_enum_field(ENUM& e, int type, char* field, char* clause) {
     char buf[MAX_QUERY_LEN];
+    int retval;
     if (!e.active) {
         e.active = 1;
         sprintf(buf, "select %s from %s %s", field, table_name[type], clause);
-        mysql_query(mp, buf);
+        retval = mysql_query(mp, buf);
+        if (retval) return mysql_errno(mp);
         e.rp = mysql_store_result(mp);
-        if (!e.rp) return -1;
+        if (!e.rp) return mysql_errno(mp);
     }
     row = mysql_fetch_row(e.rp);
     if (!row) {
@@ -184,22 +194,26 @@ int MYSQL_DB::db_enum_field(ENUM& e, int type, char* field, char* clause) {
 }
 
 int MYSQL_DB::db_query_int(int* ip, char* query) {
-    mysql_query(mp, query);
+    int retval;
+    retval = mysql_query(mp, query);
+    if (retval) return mysql_errno(mp);
     rp = mysql_store_result(mp);
-    if (!rp) return -1;
+    if (!rp) return mysql_errno(mp);
     row = mysql_fetch_row(rp);
-    if (!row) return -1;
+    if (!row || !row[0]) return mysql_errno(mp);
     *ip = atoi(row[0]);
     mysql_free_result(rp);
     return 0;
 }
 
 int MYSQL_DB::db_query_double(double* dp, char* query) {
-    mysql_query(mp, query);
+    int retval;
+    retval = mysql_query(mp, query);
+    if (retval) return mysql_errno(mp);
     rp = mysql_store_result(mp);
-    if (!rp) return -1;
+    if (!rp) return mysql_errno(mp);
     row = mysql_fetch_row(rp);
-    if (!row) return -1;
+    if (!row || !row[0]) return mysql_errno(mp);
     *dp = atof(row[0]);
     mysql_free_result(rp);
     return 0;
