@@ -154,6 +154,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
 
             if (facpi) {
                 fgets(buf, 128, facpi);
+                fclose(facpi);
 
                 // only valid state if it contains "state" (newer) or "Status" (older)
                 if ((strstr(buf, "state:") != NULL) || (strstr(buf, "Status:") != NULL)) { 
@@ -161,7 +162,6 @@ bool HOST_INFO::host_is_running_on_batteries() {
                     retval = (strstr(buf, "off") != NULL);
                     break;
                 }
-                fclose(facpi);
             }
         }
     }
