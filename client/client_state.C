@@ -173,6 +173,8 @@ int CLIENT_STATE::init() {
 
     srand(time(NULL));
 
+	language.read_language_file(LANGUAGE_FILE_NAME);
+
     // parse account files.
     // If there are none, prompt user for project URL and create file
     //

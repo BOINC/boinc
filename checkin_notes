@@ -4362,6 +4362,9 @@ Erik  May 22 2003
 
 Eric   May 29, 2003
     - added foreign language support functions
+    - fixed allowed space calculation (standardized on 1 GB=2^30 bytes, not 10^9)
 
+    client/
+        client_state.C
     lib/
         language.C,h
