@@ -5415,6 +5415,7 @@ Karl 2003/07/28
     - show "Suspended" in GUI if suspended. Preliminary work to cleanup
       files,transfers
     - fixed "platform '%s' not found" not found \n bug
+    - show "preferences updated" for global and project prefs
 
     html_user/*
     client/*
