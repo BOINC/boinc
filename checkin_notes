@@ -24724,3 +24724,14 @@ David  14 Feb 2005
     html/user/
         create_account_form.php
         account_created.php
+
+David  14 Feb 2005
+    - scheduler: in estimating delay of a result,
+        ignore time stats (on_frac, active_frac)
+        if no results have been added to reply yet.
+        Clients with low on_frac/active_frac
+        will still get at least one result.
+
+    sched/
+        sched_send.C
+        server_types.C

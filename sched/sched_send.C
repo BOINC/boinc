@@ -163,27 +163,36 @@ const double HOST_ACTIVE_FRAC_MIN = 0.1;
 // estimate the number of CPU seconds that a workunit requires
 // running on this host.
 //
-static double estimate_cpu_duration(WORKUNIT& wu, HOST& host) {
-    if (host.p_fpops <= 0) host.p_fpops = 1e9;
-    if (wu.rsc_fpops_est <= 0) wu.rsc_fpops_est = 1e12;
-    return wu.rsc_fpops_est/host.p_fpops;
+static double estimate_cpu_duration(WORKUNIT& wu, SCHEDULER_REPLY& reply) {
+    double p_fpops = reply.host.p_fpops;
+    if (p_fpops <= 0) p_fpops = 1e9;
+    double rsc_fpops_est = wu.rsc_fpops_est;
+    if (rsc_fpops_est <= 0) rsc_fpops_est = 1e12;
+    return rsc_fpops_est/p_fpops;
 }
 
 // estimate the amount of real time to complete this WU,
 // taking into account active_frac and resource_share_fraction
 //
 static double estimate_wallclock_duration(
-    WORKUNIT& wu, HOST& host, double resource_share_fraction
+    WORKUNIT& wu, SCHEDULER_REQUEST& request, SCHEDULER_REPLY& reply
 ) {
-    double running_frac = host.active_frac * host.on_frac;
-    if (running_frac < HOST_ACTIVE_FRAC_MIN) running_frac = HOST_ACTIVE_FRAC_MIN;
-    if (running_frac > 1) running_frac = 1;
-    double ecd = estimate_cpu_duration(wu, host);
-    double ewd = ecd/(running_frac*resource_share_fraction);
+    double running_frac;
+    if (reply.wreq.use_time_stats) {
+        running_frac = reply.host.active_frac * reply.host.on_frac;
+        if (running_frac < HOST_ACTIVE_FRAC_MIN) {
+            running_frac = HOST_ACTIVE_FRAC_MIN;
+        }
+        if (running_frac > 1) running_frac = 1;
+    } else {
+        running_frac = 1;
+    }
+    double ecd = estimate_cpu_duration(wu, reply);
+    double ewd = ecd/(running_frac*request.resource_share_fraction);
 #if 0
     log_messages.printf(
         SCHED_MSG_LOG::DEBUG, "est cpu dur %f; running_frac %f; rsf %f; est %f\n",
-        ecd, running_frac, resource_share_fraction, ewd
+        ecd, running_frac, request.resource_share_fraction, ewd
     );
 #endif
 
@@ -223,15 +232,12 @@ int wu_is_infeasible(
     }
 
     if (!config.ignore_delay_bound) {
-        double wu_wallclock_time = estimate_wallclock_duration(
-            wu, reply.host, request.resource_share_fraction
-        );
-        if (request.estimated_delay + wu_wallclock_time > wu.delay_bound) {
+        double ewd = estimate_wallclock_duration(wu, request, reply);
+        if (request.estimated_delay + ewd > wu.delay_bound) {
             log_messages.printf(
                 SCHED_MSG_LOG::DEBUG,
                 "[WU#%d %s] needs %d seconds on [HOST#%d]; delay_bound is %d\n",
-                wu.id, wu.name, (int)wu_wallclock_time, reply.host.id,
-                wu.delay_bound
+                wu.id, wu.name, (int)ewd, reply.host.id, wu.delay_bound
             );
             reply.wreq.insufficient_speed = true;
             reason |= INFEASIBLE_CPU;
@@ -374,6 +380,10 @@ int add_wu_to_reply(
     }
     
     reply.insert_workunit_unique(wu3);
+
+    // switch to tighter policy for estimating delay
+    //
+    reply.wreq.use_time_stats = true;
     return 0;
 }
 
@@ -564,9 +574,7 @@ int add_result_to_reply(
     result.report_deadline = result.sent_time + wu.delay_bound;
     result.update_subset();
 
-    wu_seconds_filled = estimate_wallclock_duration(
-        wu, reply.host, request.resource_share_fraction
-    );
+    wu_seconds_filled = estimate_wallclock_duration(wu, request, reply);
     log_messages.printf(
         SCHED_MSG_LOG::NORMAL,
         "[HOST#%d] Sending [RESULT#%d %s] (fills %.2f seconds)\n",
@@ -787,8 +795,6 @@ int send_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     SCHED_SHMEM& ss
 ) {
-// ROMW: Reverting back to older implementation until all clients are 4.x
-//       or higher.
 #if 1
     reply.wreq.disk_available = max_allowable_disk(sreq);
 #else
@@ -802,6 +808,7 @@ int send_work(
     reply.wreq.daily_result_quota_exceeded = false;
     reply.wreq.core_client_version = sreq.core_client_major_version*100
         + sreq.core_client_minor_version;
+    reply.wreq.use_time_stats = false;
     reply.wreq.nresults = 0;
 
     log_messages.printf(
