@@ -273,12 +273,8 @@ void CBOINCGUIApp::InitSupportedLanguages()
 
 bool CBOINCGUIApp::IsBOINCCoreRunning()
 {
-    wxInt32  iMode = -1;
-    wxString strMachine = wxEmptyString;
-
-    m_pDocument->GetConnectedComputerName( strMachine );
-
-    return ( 0 == m_pDocument->Connect(strMachine, FALSE));
+	wxString strMachineName = wxT("localhost");
+    return ( 0 == m_pDocument->Connect(strMachineName, FALSE));
 }
 
 
@@ -367,15 +363,16 @@ void CBOINCGUIApp::StartupBOINCCore()
 
 void CBOINCGUIApp::ShutdownBOINCCore()
 {
-    wxInt32 iCount = 0;
-    bool    bClientQuit = false;
-    DWORD dwExitCode;
+    wxInt32  iCount = 0;
+    bool     bClientQuit = false;
+    DWORD    dwExitCode;
+	wxString strMachineName = wxT("localhost");
 
     if ( m_bBOINCStartedByManager )
     {
 		// The user may have gone off to look at another machine on the network, and
 		//   we don't want to leave any dangling processes if we started them up.
-		m_pDocument->Connect(wxT("localhost"));
+		m_pDocument->Connect(strMachineName);
 
         if ( GetExitCodeProcess( m_hBOINCCoreProcess, &dwExitCode ) )
         {
