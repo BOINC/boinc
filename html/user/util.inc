@@ -45,6 +45,16 @@ function get_user_from_id($id) {
     return NULL;
 }
 
+function get_profile_from_userid($userid) {
+    if ($userid) {
+        $result = mysql_query("SELECT * FROM profile WHERE userid = $userid");
+        if ($result) {
+            return mysql_fetch_assoc($result);
+        }
+    }
+    return null;
+}
+
 // $pathMod is a prefix for the path of the login processing form.  This
 // allows scripts in other directories (i.e. forum/) to call this function.
 
@@ -183,9 +193,10 @@ function random_string() {
     return md5(uniqid(rand()));
 }
 
+// TODO: we should write this funciton in php --quarl
 function print_country_select($country="None") {
     $x = posix_getcwd();
-    PassThru("$x/country_select '$country'");
+    PassThru("LD_LIBRARY_PATH=/usr/local/gcc/lib $x/country_select '$country'");
 }
 
 function print_login_form_aux($next_url, $user, $pathMod='') {
