@@ -31,6 +31,9 @@ developed by Sascha Pfalz.
 <a href=http://stats.boincbzh.net/BZHwds/index.php>BOINC Alliance Francophone</a>,
 developed by Vincent Mary (email: stats at hoincbzh dot net).
 Supports competition between 'mini-teams'.
+<li>
+<a href=http://boinc.mundayweb.com>BOINC Stats Counters by Neil Munday</a>,
+developed by Neil Munday.
 </ul>
 These systems are implemented using PHP,
 and the source code may be available.
