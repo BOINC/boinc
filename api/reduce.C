@@ -260,9 +260,10 @@ void REDUCED_ARRAY::draw_row_quad(int row) {
 
 void REDUCED_ARRAY::draw_row_rect_x(int row) {	
     float z0 = draw_pos[2] + (draw_size[2]*row)/rdimy;
+	float z1 = z0+.14f;
     float x0, x1, y0, y1;
     float* row0 = rrow(row);
-    int i;
+    int i; 
 
     glBegin(GL_QUADS);
     for (i=0; i<rdimx; i++) {
@@ -281,17 +282,45 @@ void REDUCED_ARRAY::draw_row_rect_x(int row) {
         HLStoRGB(hue, lum, sat, color);
         glColor4f(color.r, color.g, color.b, alpha);
 
+		//front
         glVertex3f(x0, y0, z0);
         glVertex3f(x1, y0, z0);
         glVertex3f(x1, y1, z0);
         glVertex3f(x0, y1, z0);
+/*
+		//back
+		glVertex3f(x0, y0, z1);
+        glVertex3f(x1, y0, z1);
+        glVertex3f(x1, y1, z1);
+        glVertex3f(x0, y1, z1);
+
+		//left
+		glVertex3f(x0, y0, z0);
+        glVertex3f(x0, y0, z1);
+        glVertex3f(x0, y1, z1);
+        glVertex3f(x0, y1, z0);
+
+		//right
+		glVertex3f(x1, y0, z0);
+        glVertex3f(x1, y0, z1);
+        glVertex3f(x1, y1, z1);
+        glVertex3f(x1, y1, z0);
+
+		//top
+		glVertex3f(x0, y1, z0);
+        glVertex3f(x0, y1, z1);
+        glVertex3f(x1, y1, z1);
+        glVertex3f(x1, y1, z0);
+*/
     }
     glEnd();
-
-    // draw a black line on top of rectangle
-    //
+	
+	mode_unshaded();
+    //draw lines
+	glLineWidth(.8);
     glBegin(GL_LINES);
-    glColor4f(0., 0., 0., 1.0);
+//	glEnable(GL_LINE_SMOOTH);
+    glColor4f(0,0,0,1);
     for (i=0; i<rdimx; i++) {
         x0 = draw_pos[0] + (draw_size[0]*i)/rdimx;
         x1 = x0 + draw_deltax*.8f;
@@ -299,10 +328,58 @@ void REDUCED_ARRAY::draw_row_rect_x(int row) {
 
         y1 = draw_pos[1] + draw_size[1]*h;
 
+//front
+        glVertex3f(x0, y0, z0);
         glVertex3f(x0, y1, z0);
+
+		glVertex3f(x0, y0, z0);
+        glVertex3f(x1, y0, z0);
+
+		glVertex3f(x1, y0, z0);
         glVertex3f(x1, y1, z0);
+
+		glVertex3f(x0, y1, z0);
+        glVertex3f(x1, y1, z0);
+/*
+//back
+		glVertex3f(x0, y0, z1);
+        glVertex3f(x0, y1, z1);
+
+		glVertex3f(x0, y0, z1);
+        glVertex3f(x1, y0, z1);
+
+		glVertex3f(x1, y0, z1);
+        glVertex3f(x1, y1, z1);
+
+		glVertex3f(x0, y1, z1);
+        glVertex3f(x1, y1, z1);
+//right
+		glVertex3f(x0, y0, z0);
+        glVertex3f(x0, y1, z0);
+
+		glVertex3f(x0, y1, z0);
+        glVertex3f(x0, y1, z1);
+
+		glVertex3f(x0, y1, z1);
+        glVertex3f(x0, y0, z1);
+
+		glVertex3f(x0, y0, z1);
+        glVertex3f(x0, y0, z0);
+//left
+		glVertex3f(x1, y0, z0);
+        glVertex3f(x1, y1, z0);
+
+		glVertex3f(x1, y1, z0);
+        glVertex3f(x1, y1, z1);
+
+		glVertex3f(x1, y1, z1);
+        glVertex3f(x1, y0, z1);
+
+		glVertex3f(x1, y0, z1);
+        glVertex3f(x1, y0, z0);
+*/
     }
-    glEnd();
+    glEnd();	
 }
 
 void REDUCED_ARRAY::draw_row_rect_y(int row) {
@@ -412,7 +489,7 @@ void REDUCED_ARRAY::draw_axis_labels()
 
 	float x_text_pos[3] = {0,0,0};
 	w = text_width(x_label);
-	x_text_pos[0]=draw_pos[0]-.3;//+draw_size[0];
+	x_text_pos[0]=draw_pos[0];//+draw_size[0];
 	x_text_pos[1]=draw_pos[1];//+draw_size[1];
 	x_text_pos[2]=draw_pos[2]+draw_size[2]-(w/2.0f);
 
@@ -426,7 +503,7 @@ void REDUCED_ARRAY::draw_axis_labels()
 }
 
 void REDUCED_ARRAY::draw_axes() {
-
+	/* box
 	mode_unshaded();
 	
 	glLineWidth(1.0);
@@ -474,26 +551,35 @@ void REDUCED_ARRAY::draw_axes() {
 	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1]+draw_size[1], draw_pos[2]+draw_size[2]);
 	glEnd();
 
-	//text
-
-
-
-//mode_texture();
+*/
+	mode_unshaded();
 	
-	GLfloat violet[] = {0.6f, 0.3f, .8f, .7f};
-	mode_shaded(violet);
-//mode_unshaded();
-//mode_lines();
+	glLineWidth(1.0);
+	glEnable(GL_LINE_SMOOTH);
+	glBegin(GL_LINES);
+	glColor4d(1,1,1,1);	
+	
+	float adj=-.18;
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
+    glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
 
-	/*
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);
+
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
+	glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);
+
+    glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);
+    glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);
+
+	glEnd();
+
     glBegin(GL_QUADS);
-    glColor3d(.2, .2, .2);
+    glColor4d(1,1,1,.4);
 
-    glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]);
-    glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]);
-    glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]);
-    glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]);
+    glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+adj);
+    glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+adj);
+    glVertex3f(draw_pos[0]+draw_size[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);
+    glVertex3f(draw_pos[0], draw_pos[1], draw_pos[2]+draw_size[2]+adj);
     glEnd();
-	*/
-		
 }
