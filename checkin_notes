@@ -5859,3 +5859,12 @@ Karl 2003/08/20
 
     client/
         time_stats.C
+
+Chrisz 2003/08/20
+    - make progress and size on GUI keep old values when suspend during downloading
+    
+    client/
+        http.C
+    client/win
+        wingui_mainwindow.cpp
+    

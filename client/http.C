@@ -227,6 +227,9 @@ int HTTP_OP::init_get(char* url, char* out, bool del_old_file, double off) {
     parse_url(url, hostname, port, filename);
     NET_XFER::init(use_http_proxy?proxy_server_name:hostname, use_http_proxy?proxy_server_port:port, HTTP_BLOCKSIZE);
     safe_strcpy(outfile, out);
+	if (off != 0){
+		bytes_xferred = off;
+	}
     http_op_type = HTTP_OP_GET;
     http_op_state = HTTP_STATE_CONNECTING;
     if (use_http_proxy) {
