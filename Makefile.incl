@@ -14,7 +14,10 @@ RSA_LIBS =								\
 	-L$(top_builddir)/RSAEuro/source				\
 	-lrsaeuro
 
-CPPFLAGS = -g -Wall				\
+AM_CFLAGS = -g -Wall
+AM_CXXFLAGS = -g -Wall
+
+AM_CPPFLAGS =            			\
         -DHOSTTYPE=\"@host@\"			\
         -I$(top_srcdir)/lib			\
         -I$(top_srcdir)/api			\
@@ -26,10 +29,6 @@ CPPFLAGS = -g -Wall				\
         -I$(MYSQL_INCLUDES2)			\
 	-I$(MYSQL_INCLUDES3)                    \
         -include $(top_srcdir)/config.h
-
-    # -DVERSION=$(VERSION)                              
-
-#    -pedantic
 
 # this is useful as a dependency to make sure librsaeuro gets compiled before
 # programs linking to it:

@@ -51,20 +51,7 @@ CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 CLIENT_BIN_FILENAME = @CLIENT_BIN_FILENAME@
 CPP = @CPP@
-
-CPPFLAGS = -g -Wall				\
-        -DHOSTTYPE=\"@host@\"			\
-        -I$(top_srcdir)/lib			\
-        -I$(top_srcdir)/api			\
-        -I$(top_srcdir)/db			\
-        -I$(top_srcdir)/RSAEuro/source		\
-        -I$(top_srcdir)/client			\
-        -I$(top_srcdir)/tools			\
-        -I$(MYSQL_INCLUDES)			\
-        -I$(MYSQL_INCLUDES2)			\
-	-I$(MYSQL_INCLUDES3)                    \
-        -include $(top_srcdir)/config.h
-
+CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
 CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
@@ -162,7 +149,22 @@ RSA_LIBS = \
 	-lrsaeuro
 
 
-#    -pedantic
+AM_CFLAGS = -g -Wall
+AM_CXXFLAGS = -g -Wall
+
+AM_CPPFLAGS = \
+        -DHOSTTYPE=\"@host@\"			\
+        -I$(top_srcdir)/lib			\
+        -I$(top_srcdir)/api			\
+        -I$(top_srcdir)/db			\
+        -I$(top_srcdir)/RSAEuro/source		\
+        -I$(top_srcdir)/client			\
+        -I$(top_srcdir)/tools			\
+        -I$(MYSQL_INCLUDES)			\
+        -I$(MYSQL_INCLUDES2)			\
+	-I$(MYSQL_INCLUDES3)                    \
+        -include $(top_srcdir)/config.h
+
 
 # this is useful as a dependency to make sure librsaeuro gets compiled before
 # programs linking to it:
@@ -208,10 +210,10 @@ boinc_client_SOURCES = \
 
 boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_LDADD = $(RSA_LIBS)
-boinc_client_CPPFLAGS = -I $(srcdir)/win
+boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS)
 
 speed_stats_SOURCES = speed_stats.C
-speed_stats_CFLAGS = -O6
+speed_stats_CFLAGS = -O6 $(AM_CFLAGS)
 
 EXTRA_DIST = \
 	*.h					\
@@ -1292,8 +1294,6 @@ uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 	ps ps-am tags uninstall uninstall-am uninstall-binPROGRAMS \
 	uninstall-info-am
 
-
-    # -DVERSION=$(VERSION)                              
 
 $(LIBRSA):
 	cd $(top_builddir)/RSAEuro/source; ${MAKE} librsaeuro.a
