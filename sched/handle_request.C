@@ -784,7 +784,7 @@ void process_request(
     //
     platform = ss.lookup_platform(sreq.platform_name);
     if (!platform) {
-        sprintf(reply.message, "platform '%s' not found\n", sreq.platform_name);
+        sprintf(reply.message, "platform '%s' not found", sreq.platform_name);
         strcpy(reply.message_priority, "low");
         log_messages.printf(
             SchedMessages::CRITICAL, "[HOST#%d] platform '%s' not found\n",
