@@ -28,9 +28,7 @@ pascal void *mac_graphics_event_loop ( void *data );
 pascal void GraphicsLoopProcessor(EventLoopTimerRef inTimer, void* timeData);
 pascal void YieldProcessor(EventLoopTimerRef inTimer, void* timeData);
 pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef theEvent, void* appData);
-
-extern MPQueueID drawQueue;
-extern int ok_to_draw;
+void DisposeGLWindow (WindowPtr pWindow); // Dispose a single window and it's GL context
 
 #ifdef __cplusplus
 }

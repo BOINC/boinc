@@ -221,8 +221,6 @@ OSStatus glReportError (void);
 
 void DoUpdate (AGLContext aglContext);
 
-int DrawGLScene(GLvoid);      // Here's Where We Do All The Drawing
-
 #ifdef __cplusplus
 }
 #endif

@@ -103,21 +103,16 @@ DSpContextReference * ReserveUnusedDevices (GDHandle hGD)
     DisplayIDType displayID = 0;
     short numDevices = 0, indexDevice = 0;
     
-    do
-    {
+    do {
         numDevices++;
         hDevice = DMGetNextScreenDevice (hDevice, true);
-    }
-    while (hDevice);
+    } while (hDevice);
     numDevices--; // only count unused screens
-    if (numDevices)
-    {
+    if (numDevices) {
         pContextRefUnused = (DSpContextReference *) NewPtr ((long) sizeof (DSpContextReference) * numDevices);
         hDevice = DMGetFirstScreenDevice (true); // check number of screens
-        do
-        {
-            if (hDevice != hGD)	// if this device is not the one the user chose
-            {
+        do {
+            if (hDevice != hGD) {	// if this device is not the one the user chose
                 if (noErr == DSpReportError (DMGetDisplayIDByGDevice (hDevice, &displayID, false)))
                     if (noErr == DSpReportError (DSpGetFirstContext (displayID, &pContextRefUnused [indexDevice]))) // get a context and
                         if (noErr == DSpReportError (DSpContext_GetAttributes (pContextRefUnused [indexDevice], &theContextAttributes))) // find attributes
@@ -135,16 +130,13 @@ DSpContextReference * ReserveUnusedDevices (GDHandle hGD)
 // FreeUnusedDevices
 // frees screen that were previously reserved to prevent selection
 
-OSStatus FreeUnusedDevices (GDHandle hGD, DSpContextReference ** ppContextRefUnused)
-{
+OSStatus FreeUnusedDevices (GDHandle hGD, DSpContextReference ** ppContextRefUnused) {
     OSStatus err = noErr;
     GDHandle hDevice = DMGetFirstScreenDevice (true); // check number of screens
     short indexDevice = 0;
 
-    do
-    {
-        if (hDevice != hGD)	// if this device is not the one the user chose
-        {
+    do {
+        if (hDevice != hGD) {	// if this device is not the one the user chose
             err = DSpContext_Release (*ppContextRefUnused [indexDevice]); // release it
             DSpReportError (err);
             indexDevice++;

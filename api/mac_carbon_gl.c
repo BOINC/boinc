@@ -595,7 +595,7 @@ static OSStatus BuildGLonDevice (AGLDrawable* paglDraw, AGLContext* paglContext,
                 DSpReportError (DSpContext_CustomFadeGammaIn (NULL, NULL, fadeTicks));
             return err;
         }
-        // copy back the curretn depth
+        // copy back the current depth
         pcontextInfo->pixelDepth = (**(**hGD).gdPMap).pixelSize;
         if (!CheckWindowExtents (hGD, pcontextInfo->width, pcontextInfo->height))
         {
@@ -666,37 +666,29 @@ static OSStatus BuildGLonWindow (WindowPtr pWindow, AGLContext* paglContext, pst
 
     // check renderer VRAM and acceleration
     numDevices = FindGDHandleFromWindow (pWindow, &hGD);
-    if (!pcontextInfo->fDraggable) 	// if numDevices > 1 then we will only be using the software renderer otherwise check only window device
-    {
-        if ((numDevices > 1) || (numDevices == 0)) // this window spans mulitple devices thus will be software only
-        {
+    if (!pcontextInfo->fDraggable) { 	// if numDevices > 1 then we will only be using the software renderer otherwise check only window device
+        if ((numDevices > 1) || (numDevices == 0)) { // this window spans mulitple devices thus will be software only
             // software renderer
             // infinite VRAM, infinite textureRAM, not accelerated
-            if (pcontextInfo->fAcceleratedMust)
-            {
+            if (pcontextInfo->fAcceleratedMust) {
                 ReportError ("Unable to accelerate window that spans multiple devices");
                 return err;
             }
-        }
-        else // not draggable on single device
-        {
+        } else { // not draggable on single device
             if (!CheckRenderer (hGD, &(pcontextInfo->VRAM), &(pcontextInfo->textureRAM), &depthSizeSupport, pcontextInfo->fAcceleratedMust))
             {
                 ReportError ("Renderer check failed");
                 return err;
             }
         }
-    }
     // else draggable so must check all for support (each device should have at least one renderer that meets the requirements)
-    else if (!CheckAllDeviceRenderers (&(pcontextInfo->VRAM), &(pcontextInfo->textureRAM), &depthSizeSupport, pcontextInfo->fAcceleratedMust))
-    {
+    } else if (!CheckAllDeviceRenderers (&(pcontextInfo->VRAM), &(pcontextInfo->textureRAM), &depthSizeSupport, pcontextInfo->fAcceleratedMust)) {
         ReportError ("Renderer check failed");
         return err;
     }
     
     // do agl
-    if ((Ptr) kUnresolvedCFragSymbolAddress == (Ptr) aglChoosePixelFormat) // check for existance of OpenGL
-    {
+    if ((Ptr) kUnresolvedCFragSymbolAddress == (Ptr) aglChoosePixelFormat) {   // check for existance of OpenGL
         ReportError ("OpenGL not installed");
         return NULL;
     }	
@@ -707,8 +699,7 @@ static OSStatus BuildGLonWindow (WindowPtr pWindow, AGLContext* paglContext, pst
     else
         pcontextInfo->fmt = aglChoosePixelFormat (NULL, 0, pcontextInfo->aglAttributes); // get an appropriate pixel format
     aglReportError ();
-    if (NULL == pcontextInfo->fmt) 
-    {
+    if (NULL == pcontextInfo->fmt)  {
         ReportError("Could not find valid pixel format");
         return NULL;
     }
@@ -717,8 +708,7 @@ static OSStatus BuildGLonWindow (WindowPtr pWindow, AGLContext* paglContext, pst
     if (AGL_BAD_MATCH == aglGetError())
         *paglContext = aglCreateContext (pcontextInfo->fmt, 0); // unable to sahre context, create without sharing
     aglReportError ();
-    if (NULL == *paglContext) 
-    {
+    if (NULL == *paglContext) {
         ReportError ("Could not create context");
         return NULL;
     }
@@ -737,17 +727,12 @@ static OSStatus BuildGLonWindow (WindowPtr pWindow, AGLContext* paglContext, pst
 #pragma mark -
 
 // functions (public) -------------------------------------------------------
-
 // CheckMacOSX
-
 // Runtime check to see if we are running on Mac OS X
-
 // Inputs:  None
-
 // Returns: 0 if < Mac OS X or version number of Mac OS X (10.0 for GM)
 
-UInt32 CheckMacOSX (void)
-{
+UInt32 CheckMacOSX (void) {
     UInt32 response;
 
     if ((Gestalt(gestaltSystemVersion, (SInt32 *) &response) == noErr) && (response >= 0x01000))
@@ -764,8 +749,7 @@ UInt32 CheckMacOSX (void)
 // Inputs: checkFullscreen: true if one wants to run fullscreen (which requires DrwSprocket currently)
 // Ouputs: true if OpenGL is installed (and DrawSprocket if checkFullscreen is true
 
-Boolean PreflightGL (Boolean checkFullscreen)
-{
+Boolean PreflightGL (Boolean checkFullscreen) {
     if ((Ptr) kUnresolvedCFragSymbolAddress == (Ptr) aglChoosePixelFormat) // check for existance of OpenGL
         return false;
     if (checkFullscreen && ((Ptr) kUnresolvedCFragSymbolAddress == (Ptr) DSpStartup)) // check for existance of DSp
@@ -804,8 +788,7 @@ OSStatus BuildGL (AGLDrawable* paglDraw, AGLContext* paglContext, DSpContextRefe
     contextInfoSave = *pcontextInfo; // save info to reset on failures
     
     // if we are full screen and not on Mac OS X (which will use aglFullScreen)
-    if (pcontextInfo->fFullscreen)
-    {
+    if (pcontextInfo->fFullscreen) {
         NumVersion versionDSp = GetDSpVersion ();
         // DSp has problems on Mac OS X with DSp version less than 1.99
         if ((!CheckMacOSX ()) || ((versionDSp.majorRev > 0x01) || ((versionDSp.majorRev == 0x01) && (versionDSp.minorAndBugRev >= 0x99))))// DSp should be supported in version after 1.98
@@ -820,8 +803,7 @@ OSStatus BuildGL (AGLDrawable* paglDraw, AGLContext* paglContext, DSpContextRefe
     
     
     //find main device
-    if (*pnumDevice == -1)
-    {
+    if (*pnumDevice == -1) {
         GDHandle hDevice; // check number of screens
         hGD = GetMainDevice ();
         if (NULL != hGD)
@@ -830,8 +812,7 @@ OSStatus BuildGL (AGLDrawable* paglDraw, AGLContext* paglContext, DSpContextRefe
             // find device number
             *pnumDevice = 0;
             hDevice = DMGetFirstScreenDevice (true);
-            do
-            {
+            do {
                 if (hDevice == hGD)
                     break;
                 hDevice = DMGetNextScreenDevice (hDevice, true);
@@ -845,18 +826,15 @@ OSStatus BuildGL (AGLDrawable* paglDraw, AGLContext* paglContext, DSpContextRefe
             ReportError ("Cannot get main device");
     }
 
-    if ((err != noErr) || (*paglContext == 0))
-    {
+    if ((err != noErr) || (*paglContext == 0)) {
         err = noErr;
         DumpCurrent (paglDraw, paglContext, pdspContext, pcontextInfo); // dump what ever partial solution we might have
         *pcontextInfo = contextInfoSave; // restore info
         //find target device and check this first is one exists
-        if (*pnumDevice)
-        {
+        if (*pnumDevice) {
             short i;
             hGD = DMGetFirstScreenDevice (true);
-            for (i = 0; i < *pnumDevice; i++)
-            {
+            for (i = 0; i < *pnumDevice; i++) {
                 GDHandle hGDNext = DMGetNextScreenDevice (hGD, true);
                 if (NULL == hGDNext) // ensure we did not run out of devices
                     break; // if no more devices drop out
@@ -869,20 +847,17 @@ OSStatus BuildGL (AGLDrawable* paglDraw, AGLContext* paglContext, DSpContextRefe
     }
     
     // while we have not allocated a context or there were errors
-    if ((err != noErr) || (*paglContext == 0))
-    {
+    if ((err != noErr) || (*paglContext == 0)) {
         err = noErr;
         DumpCurrent (paglDraw, paglContext, pdspContext, pcontextInfo); // dump what ever partial solution we might have
         *pcontextInfo = contextInfoSave; // restore info
         // now look through the devices in order
         hGD = DMGetFirstScreenDevice (true);	
         *pnumDevice = -1;
-        do 
-        {
+        do {
             (*pnumDevice)++;
             err = BuildGLonDevice (paglDraw, paglContext, pdspContext, hGD, pcontextInfo, aglShareContext);
-            if ((err != noErr) || (*paglDraw == NULL) || (*paglContext == 0))	// reset hGD only if we are not done
-            {
+            if ((err != noErr) || (*paglDraw == NULL) || (*paglContext == 0)) {		// reset hGD only if we are not done
                 hGD = DMGetNextScreenDevice (hGD, true);
                 DumpCurrent (paglDraw, paglContext, pdspContext, pcontextInfo); // dump what ever partial solution we might have
                 *pcontextInfo = contextInfoSave; // restore info
@@ -894,14 +869,11 @@ OSStatus BuildGL (AGLDrawable* paglDraw, AGLContext* paglContext, DSpContextRefe
 }
 
 // --------------------------------------------------------------------------
-
 // DestroyGL
-
 // Destroys drawable and context
 // Ouputs: *paglDraw, *paglContext and *pdspContext should be 0 on exit
 
-OSStatus DestroyGL (AGLDrawable* paglDraw, AGLContext* paglContext, DSpContextReference* pdspContext, pstructGLInfo pcontextInfo)
-{
+OSStatus DestroyGL (AGLDrawable* paglDraw, AGLContext* paglContext, DSpContextReference* pdspContext, pstructGLInfo pcontextInfo) {
     if ((!paglContext) || (!*paglContext))
         return paramErr; // not a valid context
     glFinish ();
@@ -915,18 +887,15 @@ OSStatus DestroyGL (AGLDrawable* paglDraw, AGLContext* paglContext, DSpContextRe
 // BuildGLFromWindow
 
 // Takes window in the form of an AGLDrawable and geometry request and tries to build best context
-
 // Inputs: 	aglDraw: a valid AGLDrawable (i.e., a WindowPtr)
 //			*pcontextInfo: request and requirements for cotext and drawable
-
 // Outputs: *paglContext as allocated
 //			*pcontextInfo:  allocated parameters
 
 // if fail to allocate: paglContext will be NULL
 // if error: will return error and paglContext will be NULL
 
-OSStatus BuildGLFromWindow (WindowPtr pWindow, AGLContext* paglContext, pstructGLWindowInfo pcontextInfo, AGLContext aglShareContext)
-{
+OSStatus BuildGLFromWindow (WindowPtr pWindow, AGLContext* paglContext, pstructGLWindowInfo pcontextInfo, AGLContext aglShareContext) {
     if (!pWindow)
         return paramErr;
     return BuildGLonWindow (pWindow, paglContext, pcontextInfo, aglShareContext);
@@ -939,8 +908,7 @@ OSStatus BuildGLFromWindow (WindowPtr pWindow, AGLContext* paglContext, pstructG
 // Destroys context that waas allocated with BuildGLFromWindow
 // Ouputs: *paglContext should be NULL on exit
 
-OSStatus DestroyGLFromWindow (AGLContext* paglContext, pstructGLWindowInfo pcontextInfo)
-{
+OSStatus DestroyGLFromWindow (AGLContext* paglContext, pstructGLWindowInfo pcontextInfo) {
     OSStatus err;
     
     if ((!paglContext) || (!*paglContext))
@@ -954,8 +922,7 @@ OSStatus DestroyGLFromWindow (AGLContext* paglContext, pstructGLWindowInfo pcont
     err = aglReportError ();
     *paglContext = NULL;
 
-    if (pcontextInfo->fmt)
-    {
+    if (pcontextInfo->fmt) {
         aglDestroyPixelFormat (pcontextInfo->fmt); // pixel format is no longer valid
         err = aglReportError ();
     }
@@ -972,10 +939,8 @@ OSStatus DestroyGLFromWindow (AGLContext* paglContext, pstructGLWindowInfo pcont
 
 // needs to be reviewed
 
-OSStatus SuspendFullScreenGL (AGLDrawable aglDraw, AGLContext aglContext)
-{
-    if (aglDraw && aglContext) // will only have a drawable
-    {
+OSStatus SuspendFullScreenGL (AGLDrawable aglDraw, AGLContext aglContext) {
+    if (aglDraw && aglContext) {   // will only have a drawable
         glFinish (); // must do this to ensure the queue is complete
         aglSetCurrentContext (NULL);
         HideWindow (GetWindowFromPort (aglDraw));
@@ -985,17 +950,12 @@ OSStatus SuspendFullScreenGL (AGLDrawable aglDraw, AGLContext aglContext)
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
-
 // ResumeFullScreenGL
-
 // Needs a special resume function to ensure the the GL window is shown
-
 // needs to be reviewed
 
-OSStatus ResumeFullScreenGL (AGLDrawable aglDraw, AGLContext aglContext)
-{
-    if (aglDraw && aglContext)
-    {
+OSStatus ResumeFullScreenGL (AGLDrawable aglDraw, AGLContext aglContext) {
+    if (aglDraw && aglContext) {
         ShowWindow (GetWindowFromPort (aglDraw));
         aglSetCurrentContext (aglContext);
         aglUpdateContext (aglContext);
@@ -1005,9 +965,7 @@ OSStatus ResumeFullScreenGL (AGLDrawable aglDraw, AGLContext aglContext)
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
-
 // PauseGL
-
 // Pauses gl to allow toolbox drawing
 
 OSStatus PauseGL (AGLContext aglContext)
@@ -1244,16 +1202,13 @@ OSStatus glReportError (void)
 
 void DoUpdate (AGLContext aglContext)
 {
-    if (aglContext && ok_to_draw)
+    if (aglContext)
     {
         aglSetCurrentContext (aglContext);
         aglUpdateContext (aglContext);
         
-        DrawGLScene();      // Here's Where We Do All The Drawing
+        app_render(640, 480, time(0));      // Here's Where We Do All The Drawing
 
         aglSwapBuffers(aglContext);		// send swap command
-        
-        ok_to_draw = 0;
-        MPNotifyQueue( drawQueue, NULL, NULL, NULL );
     }
 }

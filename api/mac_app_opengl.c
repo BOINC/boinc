@@ -45,8 +45,6 @@
 
 #include "graphics_api.h"
 
-static void DisposeGLWindow (WindowPtr pWindow); // Dispose a single window and it's GL context
-
 // statics/globals (internal only) ------------------------------------------
 
 static const EventTypeSpec  appEventList[] =
@@ -73,8 +71,7 @@ extern bool using_opengl;
 
 // --------------------------------------------------------------------------
 
-int InitGLWindow(int xsize, int ysize, int depth)
-{
+int InitGLWindow(int xsize, int ysize, int depth, double refresh_period) {
     OSStatus err;
     Rect winRect;
     TimerUPP boincYieldUPP;
@@ -113,7 +110,7 @@ int InitGLWindow(int xsize, int ysize, int depth)
     // Install graphics
     boincYieldUPP = NewEventLoopTimerUPP(GraphicsLoopProcessor);
     err = InstallEventLoopTimer(GetMainEventLoop(), 0,
-                                kEventDurationMillisecond*10,		// Every 10 ms
+                                kEventDurationMillisecond*refresh_period*1000,
                                 boincYieldUPP, NULL, &boincYieldTimer);
     
     // TODO: add an event handler for the window
@@ -141,12 +138,9 @@ int InitGLWindow(int xsize, int ysize, int depth)
     glInfo.aglAttributes [i++] = AGL_NONE;
     
     BuildGLFromWindow (appGLWindow, &boincAGLContext, &glInfo, NULL );
-    if (!boincAGLContext)
-    {
+    if (!boincAGLContext) {
         DestroyGLFromWindow (&boincAGLContext, &glInfo);
-    }
-    else
-    {
+    } else {
         Rect rectPort;
         
         GetWindowPortBounds (appGLWindow, &rectPort);
@@ -218,13 +212,9 @@ pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef the
             switch(GetEventKind(theEvent))
             {
                 case kEventMouseDown:
-                    break;
                 case kEventMouseUp:
-                    break;
                 case kEventMouseMoved:
-                    break;
                 case kEventMouseDragged:
-                    break;
                 case kEventMouseWheelMoved:
                     break;
                 default:
@@ -248,16 +238,9 @@ pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef the
                     ReSizeGLScene(rectPort.right - rectPort.left, rectPort.bottom - rectPort.top);
                     glReportError ();
                     break;
-                case kHICommandOK:		// 'ok  '
-                case kHICommandCancel:		// 'not!'
                 case kHICommandHide:		// 'hide'
                 case kHICommandMinimizeWindow:	// 'mini'
                 case kHICommandArrangeInFront:	// 'frnt'
-                    break;
-                case kHICommandAbout:		// 'abou'
-                    // Open About window
-                    //CreateAboutWindow();
-                    result = noErr;
                     break;
                 default:
                     result = eventNotHandledErr;
@@ -275,10 +258,9 @@ pascal OSStatus MainAppEventHandler(EventHandlerCallRef appHandler, EventRef the
 // --------------------------------------------------------------------------
 
 pascal void *mac_graphics_event_loop ( void *data ) {
-    GRAPHICS_INFO *gi;
-    gi = data;
+    GRAPHICS_INFO *gi = data;
     
-    InitGLWindow(gi->xsize, gi->ysize, 16);
+    InitGLWindow(gi->xsize, gi->ysize, 16, gi->refresh_period);
     RunApplicationEventLoop();
     
     return NULL;
@@ -286,8 +268,7 @@ pascal void *mac_graphics_event_loop ( void *data ) {
 
 // --------------------------------------------------------------------------
 
-void mac_cleanup (void)
-{
+void mac_cleanup (void) {
     // TODO: Dispose all the timers here
     RemoveEventLoopTimer(boincTimer);
     DisposeEventLoopTimerUPP(boincTimerUPP);
@@ -297,14 +278,11 @@ void mac_cleanup (void)
 
 // --------------------------------------------------------------------------
 
-static void DisposeGLWindow (WindowPtr pWindow) // Dispose a single window and it's GL context
-{
-    if (pWindow)
-    {
+void DisposeGLWindow (WindowPtr pWindow) {  // Dispose a single window and it's GL context
+    if (pWindow) {
         DeleteFontGL (main_font);
         // must clean up failure to do so will result in an Unmapped Memory Exception
         DestroyGLFromWindow (&boincAGLContext, &glInfo);
-        
         DisposeWindow (pWindow);
     }
 }
