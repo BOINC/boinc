@@ -1,9 +1,9 @@
-<title>Security</title> 
+<title>Security</title>
 <body bgcolor=ffffff>
-<h2>Security</h2> 
+<h2>Security</h2>
 <p>
 Many types of attacks are possible in public-participation
-distributed computing. 
+distributed computing.
 <ul>
 <li> <b>Result falsification</b>.
 Attackers return incorrect results.
@@ -38,9 +38,9 @@ hosts, e.g. by stealing sensitive information stored in files.
 A project releases an application that unintentionally abuses participant
 hosts, e.g. deleting files or causing crashes.
 </ul>
-BOINC provides mechanisms to reduce the likelihood of some of these attacks. 
+BOINC provides mechanisms to reduce the likelihood of some of these attacks.
 <p>
-<b>Result falsification</b> 
+<b>Result falsification</b>
 <p>
 This can be probabilistically detected using redundant computing and
 result verification: if a majority of results agree (according to an
@@ -50,7 +50,8 @@ application-specific comparison) then they are classified as correct.
 <p>
 This can be probabilistically detected using redundant computing and
 credit verification: each participant is given the minimum credit from
-among the correct results. 
+among the correct results (or some other algorithm, such as the mean of the
+median claimed credits).
 <p>
 <b>Malicious executable distribution</b>
 <p>
@@ -75,7 +76,7 @@ The core client will accept
 a new key only if it's signed with the old key.
 This mechanism is
 designed to prevent attackers from breaking into a BOINC server and
-distributing a false key pair. 
+distributing a false key pair.
 <p>
 <b>Overrun of data server</b>
 <p>
@@ -86,7 +87,7 @@ The public key is stored on the
 project's data servers. Result file descriptions are sent to clients
 with a digital signature, which is forwarded to the data server when the
 file is uploaded. The data server verifies the file description, and
-ensures that the amount of data uploaded does not exceed the maximum size. 
+ensures that the amount of data uploaded does not exceed the maximum size.
 <p>
 <b>Theft of participant account information by server attack</b>
 <p>
@@ -100,7 +101,7 @@ Projects should be undertaken only the organizations that have
 sufficient expertise and resources to secure their servers.
 A successful
 attack could discredit all BOINC-based projects, and
-public-participation computing in general. 
+public-participation computing in general.
 <p>
 <b>Theft of participant account information by network attack</b>
 <p>
@@ -109,7 +110,7 @@ public-participation computing in general.
 The input and output files used by BOINC applications are not encrypted.
 Applications can do this themselves, but it has little effect
 since data resides in cleartext in memory, where it is easy to access
-with a debugger. 
+with a debugger.
 <p>
 <b>Intentional abuse of participant hosts by projects</b>
 </p>
@@ -117,7 +118,7 @@ with a debugger.
 BOINC does nothing to prevent this (e.g. there is no "sandboxing" of
 applications).
 Participants must understand that when they join a BOINC project,
-they are entrusting the security of their systems to that project. 
+they are entrusting the security of their systems to that project.
 <p>
 <b>Accidental abuse of participant hosts by projects</b>
 <p>
@@ -126,4 +127,4 @@ The chances of it happening can
 be minimized by pre-released application testing.
 Projects should test
 their applications thoroughly on all platforms and with all input data
-scenarios before promoting them to production status. 
+scenarios before promoting them to production status.

@@ -5744,7 +5744,7 @@ Karl 2003/08/14
         _autosetup, aclocal.m4, config.h.in (added)
         depcomp, install-sh, missing, mkinstalldirs (added)
         */Makefile.am, */Makefile.in (added)
-        */Makefile
+        */Makefile (removed)
         client/
             ap_file_io.C
 
