@@ -84,7 +84,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win;../;&quot;$(WXWIN)\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(WXWIN)\contrib\include&quot;;&quot;$(WXWIN)\lib\msw&quot;;..\lib;..\api;..\clientgui;..\client\win;..\;&quot;$(WXWIN)\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;wxUSE_GUI=1"
 				StringPooling="TRUE"
 				MinimalRebuild="FALSE"
@@ -124,7 +124,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				AdditionalIncludeDirectories="$(WXWIN)\include;$(WXWIN)\contrib\include;"/>
+				AdditionalIncludeDirectories="..\;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\contrib\include&quot;"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
