@@ -3,15 +3,17 @@
 
 AUTOMAKE_OPTIONS = foreign
 
+API_SUBDIRS = api lib boincglut apps
+
 if ENABLE_SERVER
-  SERVER_SUBDIRS = db lib api apps sched tools test py
+  SERVER_SUBDIRS = db tools test py sched
 endif
 
 if ENABLE_CLIENT
   CLIENT_SUBDIRS = client
 endif
 
-SUBDIRS = RSAEuro $(SERVER_SUBDIRS) $(CLIENT_SUBDIRS)
+SUBDIRS = RSAEuro $(SERVER_SUBDIRS) $(CLIENT_SUBDIRS) $(API_SUBDIRS)
 
 # Putting a directory name recursively copies the entire contents - the
 # dist-hook below gets rid of CVS directories.

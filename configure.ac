@@ -112,8 +112,11 @@ fi
 dnl Checks for libraries.
 AC_CHECK_LIB(gen, main)
 AC_CHECK_LIB(m, sin)
-AC_CHECK_LIB(nsl, gethostbyaddr)
 AC_CHECK_LIB(socket, main)
+AC_CHECK_LIB(nsl, gethostbyaddr, [have_nsl=yes])
+
+AM_CONDITIONAL([HAVE_NSL], [test x$have_nsl = xyes])
+
 AC_CHECK_LIB(stdc++, main)
 AC_CHECK_LIB(z, gzopen)
 dnl check for pthread
@@ -211,6 +214,9 @@ AC_CONFIG_FILES([Makefile
                  RSAEuro/source/Makefile
                  RSAEuro/Makefile
                  api/Makefile
+		 boincglut/Makefile
+		 boincglut/lib/Makefile
+		 boincglut/lib/glut/Makefile
                  apps/Makefile
                  client/Makefile
                  db/Makefile

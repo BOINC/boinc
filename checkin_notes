@@ -18502,3 +18502,18 @@ David  17 Oct 2004
         client_state.C
     lib/
         prefs.C,h
+
+David  17 Oct 2004
+    - cleanup of Makefile stuff (from Reinhard Prix)
+        Got rid of Makefile.in's.
+        You now have to run _autosetup ; configure to generate them
+        (and the Makefiles)
+
+        'make install' now installs header files and libs
+        under ${prefix}/include and ${prefix}/lib
+
+    
+    *Makefile.in (removed)
+    */Makefile.am
+    configure (removed)
+    sched_fcgi/* (removed)

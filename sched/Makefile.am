@@ -23,7 +23,7 @@ noinst_PROGRAMS =                               \
     delete_file					\
     wu_check
 
-noinst_LIBRARIES = libsched.a
+lib_LIBRARIES = libsched.a
 
 EXTRA_PROGRAMS = fcgi
 EXTRA_DIST = start

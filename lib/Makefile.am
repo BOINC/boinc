@@ -3,14 +3,25 @@
 
 include $(top_srcdir)/Makefile.incl
 
-bin_PROGRAMS = crypt_prog
+if HAVE_NSL
+nslprogs=gui_test
+endif
+
+bin_PROGRAMS = crypt_prog $(nslprogs)
+
 EXTRA_PROGRAMS = md5_test shmem_test msg_test
-noinst_LIBRARIES = libboinc.a 
+
+
+##LIBS = -lnsl -lsocket
+gui_test_SOURCES = gui_test.C gui_rpc_client.C gui_rpc_client.h
+gui_test_LDADD = $(lib_LIBRARIES)
+
+lib_LIBRARIES = libboinc.a 
+
 #libboinc_graphics.a
 EXTRA_DIST = *.h *.C
 
 # libboinc.a is for use by applications (not core client or server)
-
 libboinc_a_SOURCES =                            \
     ../api/boinc_api.C                          \
     app_ipc.C                                   \
@@ -29,6 +40,38 @@ libboinc_a_SOURCES =                            \
     proxy_info.C                                \
 	shmem.C                                     \
     util.C
+
+## install header-files with prefix-subdir BOINC/ to avoid name-conflicts
+includedir = ${prefix}/include/BOINC/
+
+## FIXME: currently we install ALL header-files: please remove those not needed!
+include_HEADERS = \
+	app_ipc.h \
+	base64.h  \
+	boinc_win.h  \
+	crypt.h  \
+	diagnostics.h  \
+	error_numbers.h  \
+	exception.h  \
+	filesys.h  \
+	gui_rpc_client.h  \
+	hostinfo.h  \
+	language.h  \
+	md5_file.h  \
+	md5.h  \
+	mfile.h  \
+	miofile.h  \
+	msg_log.h  \
+	msg_queue.h  \
+	parse.h  \
+	prefs.h  \
+	proxy_info.h  \
+	result_state.h  \
+	shmem.h  \
+	stackwalker_win.h  \
+	std_fixes.h  \
+	synch.h  \
+	util.h 
 
 # libboinc_graphics_a_SOURCES =			\
 #         ../api/graphics_api.C			\

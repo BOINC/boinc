@@ -10,9 +10,6 @@ RSA_LIBS =								\
 	-L$(top_builddir)/RSAEuro/source				\
 	-lrsaeuro
 
-AM_CFLAGS = -g -Wall
-AM_CXXFLAGS = -g -Wall -O3
-
 AM_CPPFLAGS =					\
         -I$(top_srcdir)/lib			\
         -I$(top_srcdir)/api			\
