@@ -25,20 +25,54 @@
 '' copy all the account files from the source path to the destination folder.
 ''
 
-Dim fso
-Dim szInstallDir
-Dim szAccountsLocation
+Function Accounts_CopyFiles()
 
-Set fso = CreateObject("Scripting.FileSystemObject")
-Set szInstallDir = Session.Property("INSTALLDIR")
-Set szAccountsLocation = Session.Property("ACCOUNTS_LOCATION")
+	Dim fso
+	Dim szInstallDir
+	Dim szAccountsLocation
+	Dim iReturnValue
+	
+    On Error Resume Next
 
-If (Not( IsEmpty(szAccountsLocation) )) Or (Not( IsNull(szAccountsLocation) )) Then
+	Set fso = CreateObject("Scripting.FileSystemObject")
+	szInstallDir = Property("INSTALLDIR")
+	szAccountsLocation = Property("ACCOUNTS_LOCATION")
+    
+	If (Not( IsEmpty(szAccountsLocation) )) And (Not( IsNull(szAccountsLocation) )) Then
 
-    '' Append the wildcard search to the end of the account file location
-    '' string
-    szAccountsLocation = szAccountsLocation + "\*.xml"
+ 	   	'' Append the wildcard search to the end of the account file location
+  	   	'' string
+    	szAccountsLocation = szAccountsLocation + "\*.xml"
 
-    fso.CopyFolder szAccountsLocation, szInstallDir  
+    	fso.CopyFile szAccountsLocation, szInstallDir
+    	If ErrHandler("Copy Account Files Failed ") Then
+    	    iReturnValue = IDCANCEL
+    	Else
+    	    iReturnValue = IDOK
+    	End If
 
-End If
+	End If
+
+    '' return success	
+	Accounts_CopyFiles = iReturnValue
+    On Error GoTo 0
+End Function
+
+Function ErrHandler(what)
+    Dim bReturnValue
+
+    If Err.Number > 0 Then
+        MsgBox( what & " Error " & Err.Number & ": " & Err.Description )
+        Err.Clear
+        bReturnValue = True
+    Else
+        bReturnValue = False
+    End If
+
+    ErrHandler = bReturnValue
+End Function
+
+Sub Print(Str)
+    'strip when not debugging
+    'MsgBox(Str)
+End Sub
