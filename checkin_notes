@@ -22910,3 +22910,15 @@ David  18 Jan 2005
 
     sched/
         start
+
+David  18 Jan 2005
+    - added <min_core_client_version> element to SCHED_CONFIG.
+        Lets the scheduler turn away clients below a certain version
+        without doing a lot of work
+        (especially important for locality scheduling)
+
+    doc/
+        configuration.php
+    sched/
+        sched_config.C,h
+        handle_request.C

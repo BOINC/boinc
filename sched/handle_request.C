@@ -599,12 +599,13 @@ void send_code_sign_key(
     }
 }
 
-bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
-    // char buf[256];
+bool wrong_core_client_version(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
+) {
+    bool wrong_version = false;
     if (sreq.core_client_major_version != BOINC_MAJOR_VERSION) {
-        //reply.nucleus_only = true;
         // TODO: check for user-agent not empty and not BOINC
-        reply.probable_user_browser = true;
+        wrong_version = true;
         sprintf(reply.message,
             "To participate in this project, "
             "you must use major version %d of the BOINC core client. "
@@ -612,13 +613,35 @@ bool wrong_major_version(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             BOINC_MAJOR_VERSION,
             sreq.core_client_major_version
         );
-        strcpy(reply.message_priority, "low");
         log_messages.printf(
             SCHED_MSG_LOG::NORMAL,
             "[HOST#%d] [auth %s] Wrong major version from user: wanted %d, got %d\n",
             sreq.hostid, sreq.authenticator,
             BOINC_MAJOR_VERSION, sreq.core_client_major_version
         );
+    } else if (config.min_core_client_version) {
+        int major = config.min_core_client_version/100;
+        int minor = config.min_core_client_version % 100;
+        if (sreq.core_client_minor_version < minor) {
+            wrong_version = true;
+            sprintf(reply.message,
+                "To participate in this project, "
+                "you must use version %d.02%d or higher of the BOINC core client.  "
+                "Your core client is version %d.02%d.",
+                major, minor,
+                sreq.core_client_major_version, sreq.core_client_minor_version
+            );
+            log_messages.printf(
+                SCHED_MSG_LOG::NORMAL,
+                "[HOST#%d] [auth %s] Wrong minor version from user: wanted %d, got %d\n",
+                sreq.hostid, sreq.authenticator,
+                minor, sreq.core_client_minor_version
+            );
+        }
+    }
+    if (wrong_version) {
+        reply.probable_user_browser = true;
+        strcpy(reply.message_priority, "low");
         reply.request_delay = 3600*24;
         return true;
     }
@@ -708,7 +731,7 @@ void process_request(
 
     // if different major version of BOINC, just send a message
     //
-    if (wrong_major_version(sreq, reply)) {
+    if (wrong_core_client_version(sreq, reply)) {
         ok_to_send_work = false;
 
         // if no results, return without accessing DB

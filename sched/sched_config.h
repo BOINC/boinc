@@ -58,6 +58,7 @@ public:
     int uldl_dir_fanout;        // fanout of ul/dl dirs; 0 if none
     int locality_scheduling_wait_period;
     int locality_scheduling_send_timeout;
+    int min_core_client_version;
 
     int parse(char*);
     int parse_file(char* dir=".");
