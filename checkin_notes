@@ -8514,3 +8514,10 @@ Gary	16 Dec 2003
     client/win/
 		wingui_mainwindow.cpp
 
+Eric K. 17 Dec 2003
+	- Added include of unistd.h to get definition of gethostname() on
+	  Solaris 7
+
+    sched/
+    		file_upload_handler.C
+
