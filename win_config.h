@@ -7,19 +7,19 @@
 #define BOINC_WIN_CONFIG_H
 
 /* getsockopt uses size_t */
-/* #undef GETSOCKOPT_SIZE_T */
+#undef GETSOCKOPT_SIZE_T
 
 /* getsockopt uses socklen_t */
-/* #undef GETSOCKOPT_SOCKLEN_T */
+#undef GETSOCKOPT_SOCKLEN_T
 
 /* Define to 1 if you have the <arpa/inet.h> header file. */
-#define HAVE_ARPA_INET_H 1
+#undef HAVE_ARPA_INET_H
 
 /* Define to 1 if you have the <dirent.h> header file. */
-// #define HAVE_DIRENT_H 1
+#undef HAVE_DIRENT_H
 
 /* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
-/* #undef HAVE_DOPRNT */
+#undef HAVE_DOPRNT
 
 /* Define to 1 if you have the <errno.h> header file. */
 #define HAVE_ERRNO_H 1
@@ -28,34 +28,34 @@
 #define HAVE_FCNTL_H 1
 
 /* Define to 1 if you have the `flock' function. */
-#define HAVE_FLOCK 1
+#undef HAVE_FLOCK
 
 /* Define to 1 if you have the `gethostname' function. */
 #define HAVE_GETHOSTNAME 1
 
 /* Define to 1 if you have the `gettimeofday' function. */
-#define HAVE_GETTIMEOFDAY 1
+#undef HAVE_GETTIMEOFDAY
 
 /* Define to 1 if you have the `getutent' function. */
-#define HAVE_GETUTENT 1
+#undef HAVE_GETUTENT
 
 /* Define to 1 if you have the <glaux.h> header file. */
-/* #undef HAVE_GLAUX_H */
+#undef HAVE_GLAUX_H
 
 /* Define to 1 if you have the <GLUT/glut.h> header file. */
-/* #undef HAVE_GLUT_GLUT_H */
+#undef HAVE_GLUT_GLUT_H
 
 /* Define to 1 if you have the <glut.h> header file. */
-/* #undef HAVE_GLUT_H */
+#undef HAVE_GLUT_H
 
 /* Define to 1 if you have the <glu.h> header file. */
-/* #undef HAVE_GLU_H */
+#undef HAVE_GLU_H
 
 /* Define to 1 if you have the <GL/glaux.h> header file. */
-#define HAVE_GL_GLAUX_H 
+#define HAVE_GL_GLAUX_H 1
 
 /* Define to 1 if you have the <GL/glut.h> header file. */
-#define HAVE_GL_GLUT_H 1
+#undef HAVE_GL_GLUT_H
 
 /* Define to 1 if you have the <GL/glu.h> header file. */
 #define HAVE_GL_GLU_H 1
@@ -64,52 +64,52 @@
 #define HAVE_GL_GL_H 1
 
 /* Define to 1 if you have the <gl.h> header file. */
-/* #undef HAVE_GL_H */
+#undef HAVE_GL_H
 
 /* Define to 1 if you have the <inttypes.h> header file. */
-/* #undef HAVE_INTTYPES_H */
+#undef HAVE_INTTYPES_H
 
 /* Define to 1 if you have the `cygipc' library (-lcygipc). */
-/* #undef HAVE_LIBCYGIPC */
+#undef HAVE_LIBCYGIPC
 
 /* Define to 1 if you have the `gen' library (-lgen). */
-/* #undef HAVE_LIBGEN */
+#undef HAVE_LIBGEN
 
 /* Define to 1 if you have the `m' library (-lm). */
-/* #undef HAVE_LIBM */
+#undef HAVE_LIBM
 
 /* Define to 1 if you have the `nsl' library (-lnsl). */
-/* #undef HAVE_LIBNSL */
+#undef HAVE_LIBNSL
 
 /* Define to 1 if you have the `socket' library (-lsocket). */
-/* #undef HAVE_LIBSOCKET */
+#undef HAVE_LIBSOCKET
 
 /* Define to 1 if you have the `stdc++' library (-lstdc++). */
-/* #undef HAVE_LIBSTDC__ */
+#undef HAVE_LIBSTDC__
 
 /* Define to 1 if you have the `z' library (-lz). */
-/* #undef HAVE_LIBZ */
+#undef HAVE_LIBZ
 
 /* Define to 1 if you have the `lockf' function. */
-/* #undef HAVE_LOCKF */
+#undef HAVE_LOCKF
 
 /* Define to 1 if you have the <malloc.h> header file. */
-/* #undef HAVE_MALLOC_H */
+#define HAVE_MALLOC_H 1
 
 /* Define to 1 if you have the <memory.h> header file. */
-/* #undef HAVE_MEMORY_H */
+#define HAVE_MEMORY_H 1
 
 /* Define to 1 if you have the <MesaGL/glaux.h> header file. */
-/* #undef HAVE_MESAGL_GLAUX_H */
+#undef HAVE_MESAGL_GLAUX_H
 
 /* Define to 1 if you have the <MesaGL/glut.h> header file. */
-/* #undef HAVE_MESAGL_GLUT_H */
+#undef HAVE_MESAGL_GLUT_H
 
 /* Define to 1 if you have the <MesaGL/glu.h> header file. */
-/* #undef HAVE_MESAGL_GLU_H */
+#undef HAVE_MESAGL_GLU_H
 
 /* Define to 1 if you have the <MesaGL/gl.h> header file. */
-/* #undef HAVE_MESAGL_GL_H */
+#undef HAVE_MESAGL_GL_H
 
 /* Define to 1 if you have the `mkdir' function. */
 #define HAVE_MKDIR 1
@@ -118,61 +118,61 @@
 #define HAVE_NAMESPACES 1
 
 /* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
-/* #undef HAVE_NDIR_H */
+#undef HAVE_NDIR_H
 
 /* Define to 1 if you have the <netdb.h> header file. */
-// #define HAVE_NETDB_H 1
+#undef HAVE_NETDB_H
 
 /* Define to 1 if you have the <netinet/in.h> header file. */
-// #define HAVE_NETINET_IN_H 1
+#undef HAVE_NETINET_IN_H
 
 /* Define to 1 if you have the <netinet/tcp.h> header file. */
-// #define HAVE_NETINET_TCP_H 1
+#undef HAVE_NETINET_TCP_H
 
 /* Define to 1 if you have the <OpenGL/glaux.h> header file. */
-/* #undef HAVE_OPENGL_GLAUX_H */
+#undef HAVE_OPENGL_GLAUX_H
 
 /* Define to 1 if you have the <OpenGL/glut.h> header file. */
-/* #undef HAVE_OPENGL_GLUT_H */
+#undef HAVE_OPENGL_GLUT_H
 
 /* Define to 1 if you have the <OpenGL/glu.h> header file. */
-/* #undef HAVE_OPENGL_GLU_H */
+#undef HAVE_OPENGL_GLU_H
 
 /* Define to 1 if you have the <OpenGL/gl.h> header file. */
-/* #undef HAVE_OPENGL_GL_H */
+#undef HAVE_OPENGL_GL_H
 
 /* Define to 1 if you have the <procfs.h> header file. */
-/* #undef HAVE_PROCFS_H */
+#undef HAVE_PROCFS_H
 
 /* Define if you have POSIX threads libraries and header files. */
-#define HAVE_PTHREAD 1
+#undef HAVE_PTHREAD
 
 /* Define to 1 if you have the `select' function. */
 #define HAVE_SELECT 1
 
 /* Define to 1 if you have the `setpriority' function. */
-/* #undef HAVE_SETPRIORITY */
+#undef HAVE_SETPRIORITY
 
 /* Define to 1 if you have the `setutent' function. */
-// #define HAVE_SETUTENT 1
+#undef HAVE_SETUTENT
 
 /* Define to 1 if you have the `sigaction' function. */
-// #define HAVE_SIGACTION 1
+#undef HAVE_SIGACTION
 
 /* Define to 1 if you have the <signal.h> header file. */
-// #define HAVE_SIGNAL_H 1
+#define HAVE_SIGNAL_H 1
 
 /* Define to 1 if you have the `socket' function. */
 #define HAVE_SOCKET 1
 
 /* Define to 1 if you have the <stdint.h> header file. */
-#define HAVE_STDINT_H 1
+#undef HAVE_STDINT_H
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H 1
 
 /* Define to 1 if locale is in namespace std:: */
-#define HAVE_STD_LOCALE 1
+#undef HAVE_STD_LOCALE
 
 /* Define to 1 if max is in namespace std:: */
 #define HAVE_STD_MAX 1
@@ -184,166 +184,148 @@
 #define HAVE_STD_TRANSFORM 1
 
 /* Have strfind */
-/* #undef HAVE_STRFIND */
+#undef HAVE_STRFIND
 
 /* Define to 1 if you have the `strftime' function. */
 #define HAVE_STRFTIME 1
 
 /* Define to 1 if you have the <strings.h> header file. */
-#define HAVE_STRINGS_H 1
+#undef HAVE_STRINGS_H
 
 /* Define to 1 if you have the <string.h> header file. */
 #define HAVE_STRING_H 1
 
 /* Define to 1 if you have the `strlcat' function. */
-// #define HAVE_STRLCAT 1
+#undef HAVE_STRLCAT
 
 /* Define to 1 if you have the `strlcpy' function. */
-// #define HAVE_STRLCPY 1
+#undef HAVE_STRLCPY
 
 /* Define to 1 if you have the `strstr' function. */
 #define HAVE_STRSTR 1
 
 /* Define to 1 if `tm_zone' is member of `struct tm'. */
-/* #undef HAVE_STRUCT_TM_TM_ZONE */
+#undef HAVE_STRUCT_TM_TM_ZONE
+
 
 /* Define to 1 if you have the <sys/dir.h> header file, and it defines `DIR'.
    */
-/* #undef HAVE_SYS_DIR_H */
+#undef HAVE_SYS_DIR_H
 
 /* Define to 1 if you have the <sys/file.h> header file. */
-#define HAVE_SYS_FILE_H 1
+#undef HAVE_SYS_FILE_H
 
 /* Define to 1 if you have the <sys/ipc.h> header file. */
-#define HAVE_SYS_IPC_H 1
+#undef HAVE_SYS_IPC_H
 
 /* Define to 1 if you have the <sys/mount.h> header file. */
-#define HAVE_SYS_MOUNT_H 1
+#undef HAVE_SYS_MOUNT_H
 
-/* Define to 1 if you have the <sys/ndir.h> header file, and it defines `DIR'.
-   */
-/* #undef HAVE_SYS_NDIR_H */
+/* Define to 1 if you have the <sys/ndir.h> header file, and it defines `DIR' */
+#undef HAVE_SYS_NDIR_H
 
 /* Define to 1 if you have the <sys/param.h> header file. */
-#define HAVE_SYS_PARAM_H 1
+#undef HAVE_SYS_PARAM_H
 
 /* Define to 1 if you have the <sys/resource.h> header file. */
-#define HAVE_SYS_RESOURCE_H 1
+#undef HAVE_SYS_RESOURCE_H
 
-/* Define to 1 if you have the <sys/select.h> header file. */
-#define HAVE_SYS_SELECT_H 1
+/* Define to 1 if you save the <sys/select.h> header file. */
+#undef HAVE_SYS_SELECT_H
 
 /* Define to 1 if you have the <sys/shm.h> header file. */
-#define HAVE_SYS_SHM_H 1
+#undef HAVE_SYS_SHM_H
 
 /* Define to 1 if you have the <sys/socket.h> header file. */
-#define HAVE_SYS_SOCKET_H 1
+#undef HAVE_SYS_SOCKET_H
 
 /* Define to 1 if you have the <sys/statfs.h> header file. */
-#define HAVE_SYS_STATFS_H 1
+#undef HAVE_SYS_STATFS_H
 
 /* Define to 1 if you have the <sys/statvfs.h> header file. */
-/* #undef HAVE_SYS_STATVFS_H */
+#undef HAVE_SYS_STATVFS_H
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
 
 /* Define to 1 if you have the <sys/swap.h> header file. */
-/* #undef HAVE_SYS_SWAP_H */
+#undef HAVE_SYS_SWAP_H
 
 /* Define to 1 if you have the <sys/sysctl.h> header file. */
-/* #undef HAVE_SYS_SYSCTL_H */
+#undef HAVE_SYS_SYSCTL_H
 
 /* Define to 1 if you have the <sys/systeminfo.h> header file. */
-/* #undef HAVE_SYS_SYSTEMINFO_H */
+#undef HAVE_SYS_SYSTEMINFO_H
 
 /* Define to 1 if you have the <sys/time.h> header file. */
-#define HAVE_SYS_TIME_H 1
+#undef HAVE_SYS_TIME_H
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
 
 /* Define to 1 if you have the <sys/utsname.h> header file. */
-#define HAVE_SYS_UTSNAME_H 1
+#undef HAVE_SYS_UTSNAME_H
 
 /* Define to 1 if you have the <sys/vmmeter.h> header file. */
-/* #undef HAVE_SYS_VMMETER_H */
+#undef HAVE_SYS_VMMETER_H
 
 /* Define to 1 if you have the <sys/wait.h> header file. */
-#define HAVE_SYS_WAIT_H 1
+#undef HAVE_SYS_WAIT_H
 
 /* Define to 1 if your `struct tm' has `tm_zone'. Deprecated, use
    `HAVE_STRUCT_TM_TM_ZONE' instead. */
-/* #undef HAVE_TM_ZONE */
+#undef HAVE_TM_ZONE
 
 /* Define to 1 if you don't have `tm_zone' but do have the external array
    `tzname'. */
 #define HAVE_TZNAME 1
 
 /* Define to 1 if you have the `uname' function. */
-#define HAVE_UNAME 1
+#undef HAVE_UNAME
 
 /* Define to 1 if you have the <unistd.h> header file. */
-#define HAVE_UNISTD_H 1
+#undef HAVE_UNISTD_H
 
 /* Define to 1 if you have the <utmp.h> header file. */
-#define HAVE_UTMP_H 1
+#undef HAVE_UTMP_H
 
 /* Define to 1 if you have the `vprintf' function. */
 #define HAVE_VPRINTF 1
 
 /* Define to 1 if you have the `wait3' system call. Deprecated, you should no
    longer depend upon `wait3'. */
-#define HAVE_WAIT3 1
+#undef HAVE_WAIT3
 
 /* Define to 1 if you have the `wait4' function. */
-#define HAVE_WAIT4 1
+#undef HAVE_WAIT4 
 
 /* Define to 1 if you have X11 libraries */
-/* #undef HAVE_X11 */
+#undef HAVE_X11
 
 /* Define to 1 if /dev/kbd exists */
-/* #undef HAVE__DEV_KBD */
+#undef HAVE__DEV_KBD
 
 /* Define to 1 if /dev/mouse exists */
-/* #undef HAVE__DEV_MOUSE */
+#undef HAVE__DEV_MOUSE
 
 /* Define to 1 if /dev/tty1 exists */
-#define HAVE__DEV_TTY1 1
+#undef HAVE__DEV_TTY1
 
 /* Define to 1 if /proc/meminfo exists */
-#define HAVE__PROC_MEMINFO 1
+#undef HAVE__PROC_MEMINFO
 
 /* Define to 1 if /proc/self/psinfo exists */
-/* #undef HAVE__PROC_SELF_PSINFO */
+#undef HAVE__PROC_SELF_PSINFO
 
 /* Define to 1 if /proc/self/stat exists */
-/* #undef HAVE__PROC_SELF_STAT */
+#undef HAVE__PROC_SELF_STAT
 
 /* Host for this compilation */
 #define HOSTTYPE "windows_intelx86"
 
-/* Name of package */
-#define PACKAGE "boinc"
-
-/* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT ""
-
-/* Define to the full name of this package. */
-#define PACKAGE_NAME "BOINC"
-
-/* Define to the full name and version of this package. */
-#define PACKAGE_STRING "BOINC 4.57"
-
-/* Define to the one symbol short name of this package. */
-#define PACKAGE_TARNAME "boinc"
-
-/* Define to the version of this package. */
-#define PACKAGE_VERSION "4.57"
-
 /* Define to the necessary symbol if this constant uses a non-standard name on
    your system. */
-/* #undef PTHREAD_CREATE_JOINABLE */
+#undef PTHREAD_CREATE_JOINABLE
 
 /* Define as the return type of signal handlers (`int' or `void'). */
 #define RETSIGTYPE void
@@ -352,13 +334,13 @@
 #define STDC_HEADERS 1
 
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
-#define TIME_WITH_SYS_TIME 1
+#undef TIME_WITH_SYS_TIME
 
 /* Define to 1 if your <sys/time.h> declares `struct tm'. */
-/* #undef TM_IN_SYS_TIME */
+#undef TM_IN_SYS_TIME
 
 /* utmp file location */
-#define UTMP_LOCATION "/var/run/utmp"
+#define UTMP_LOCATION ""
 
 /* Version number of package */
 #define VERSION "4.57"
@@ -368,7 +350,6 @@
 
 /* Define to `unsigned' if <sys/types.h> does not define. */
 /* #undef size_t */
-
 
 /* end double-inclusion protection for config.h */
 #endif /* #ifndef BOINC_CONFIG_H */
