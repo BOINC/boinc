@@ -57,26 +57,16 @@ int get_local_network_info(
 ) {
 #ifdef _WIN32
     char buf[256];
+    struct in_addr addr;
 
     if (gethostname(buf, 256)) return ERR_GETHOSTBYNAME;
     struct hostent* he = gethostbyname(buf);
-    if (!he) return ERR_GETHOSTBYNAME;
-    safe_strncpy(domain_name, he->h_name, domlen);
-
-    if (gethostname(buf, 256)) {
-        msg_printf(NULL, MSG_ERROR, "get_local_ip_addr(): gethostname failed\n");
-        return ERR_GETHOSTNAME;
-    }
-
-    struct in_addr addr;
-    struct hostent* he = gethostbyname(buf);
     if (!he || !he->h_addr_list[0]) {
-        msg_printf(NULL, MSG_ERROR, "get_local_ip_addr(): gethostbyname failed\n");
+        msg_printf(NULL, MSG_ERROR, "get_local_network_info(): gethostbyname failed\n");
         return ERR_GETHOSTBYNAME;
     }
+    safe_strncpy(domain_name, he->h_name, domlen);
     memcpy(&addr, he->h_addr_list[0], sizeof(addr));
-
-    strcpy(ip_addr, "");
     safe_strncpy(ip_addr, inet_ntoa(addr), iplen);
     return 0;
 #else
