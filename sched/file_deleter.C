@@ -46,7 +46,7 @@ SCHED_CONFIG config;
 // always returns 0 if the last argument (eg, missing below) argument is set to
 // false.
 //
-int get_file_path(char *buf, char* upload_dir, int fanout, bool newhash, char* path) {
+int get_file_path(char *buf, char* upload_dir, int fanout, char* path) {
 
     dir_hier_path(buf, upload_dir, fanout, true, path);
     if (boinc_file_exists(path))
@@ -81,7 +81,7 @@ int wu_delete_files(WORKUNIT& wu) {
             no_delete = true;
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
-                    retval=get_file_path(filename, config.download_dir, config.uldl_dir_fanout, true,
+                    retval=get_file_path(filename, config.download_dir, config.uldl_dir_fanout,
                     pathname
                 );
                 if (retval) {
@@ -120,7 +120,7 @@ int result_delete_files(RESULT& result) {
             no_delete = true;
         } else if (match_tag(p, "</file_info>")) {
             if (!no_delete) {
-                retval=get_file_path(filename, config.upload_dir, config.uldl_dir_fanout, true,
+                retval=get_file_path(filename, config.upload_dir, config.uldl_dir_fanout,
                     pathname
                 );
                 if (retval) {
