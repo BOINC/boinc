@@ -23484,3 +23484,17 @@ David  30 Jan 2005
 
 	lib/
 		parse.C
+
+David  30 Jan 2005
+    - user web: slight cleanup
+        - reduced verbosity in profile page
+        - moved "you may use HTML tags" to function
+
+    html/
+        inc/
+            profile.inc
+            util.inc
+        user/
+            edit_forum_preferences_form.php
+            edit_user_info_form.php
+            forum_post.php

@@ -119,8 +119,8 @@ row2("Filtered users".
 if ($user->no_signature_by_default==0){$enable_signature="checked=\"checked\"";} else {$enable_signature="";}
 $signature=stripslashes($user->signature);
 $maxlen=250;
-row2("Signature for message boards".
-    "<br><a href=\"html.php\"><font size=-2>May contain HTML tags</font></a><font size=-2><br>Max length (including newlines) is $maxlen chars.</font>",
+row2("Signature for message boards".html_info().
+    "<font size=-2><br>Max length (including newlines) is $maxlen chars.</font>",
     "<table><tr><td>
     <textarea name=\"signature\" rows=4 cols=50 id=\"signature\" onkeydown=\"textCounter(this.form.signature, this.form.remLen,$maxlen);\"
     onkeyup=\"textCounter(this.form.signature, this.form.remLen,250);\">".$signature."</textarea>

@@ -81,8 +81,7 @@ if ($category->is_helpdesk) {
 	row1("Create a new thread");
 }
 
-$x = "Title".
-    "<br><a href=html.php><font size=-2>May contain HTML tags</font></a>";
+$x = "Title".html_info();
 
 if ($category->is_helpdesk) {
 	$x .="<br>
@@ -94,8 +93,7 @@ if ($category->is_helpdesk) {
 
 $y = "<input type=text name=title size=62>";
 row2($x, $y);
-$x = "Message".
-    "<br><a href=html.php><font size=-2>May contain HTML tags</font></a>";
+$x = "Message".html_info();
 
 if ($category->is_helpdesk) {
 	$x .= " If you are having software problems,

@@ -26,13 +26,6 @@ row2("Postal (ZIP) code<br><font size=-2>Optional</font>",
     "<input name=postal_code size=20 value='$user->postal_code'>"
 );
 
-/*
-$x = "<textarea name=signature rows=4 cols=50>$user->signature</textarea>";
-row2("Signature for message boards".
-    "<br><a href=html.php><font size=-2>May contain HTML tags</font></a>".
-    "<br><font size=-2>Optional</font>",
-    $x
-);*/
 row2("", "<input type=submit value='Update info'>");
 end_table();
 echo "</form>\n";

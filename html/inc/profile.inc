@@ -39,47 +39,41 @@ function show_profile_creation_page($user) {
     }
 
     if ($profile) {
-        page_head("Edit your Profile");
+        page_head("Edit your profile");
     } else {
-        page_head("Create a Profile");
+        page_head("Create a profile");
     }
 
     echo "
         <form action=", $_SERVER['PHP_SELF'], " method=\"POST\", ENCTYPE=\"multipart/form-data\">
     ";
     start_table_noborder();
-    show_description($user, $profile);
+    show_description();
     show_questions($profile);
     show_picture_option($profile);
-    show_finale();
+    show_submit();
     end_table();
     echo "</form>";
     page_tail();
 }
 
-function show_description($user, $profile) {
-
-    if ($profile) {
-        row1("Edit your profile");
-    } else {
-        row1("Create a profile");
-    }
-    rowify("
-Your <b>profile</b> lets you share your opinions and background
-with the ".PROJECT." community.
-<br><a href=html.php><font size=-2>You may use HTML tags</font></a>
-");
-    rowify("<br>");
+function show_description() {
+    echo "
+        <p>
+        Your <b>profile</b> lets you share your opinions and background
+        with the ".PROJECT." community.
+        <p>
+    ";
 }
 
 function show_questions($profile) {
     row1(show_profile_heading1());
-    rowify(show_profile_question1());
+    rowify(show_profile_question1().html_info());
     rowify("<br>");
     show_textarea("response1", $profile->response1);
     rowify("<br>");
     row1( show_profile_heading2());
-    rowify( show_profile_question2());
+    rowify( show_profile_question2().html_info());
     rowify("<br>");
     show_textarea("response2", $profile->response2);
     rowify("<br>");
@@ -93,49 +87,49 @@ function show_textarea($name, $text) {
 
 function show_picture_option($profile) {
 
-    row1("Your Picture");
+    row1("Picture");
 
     if ($profile->has_picture) {
         echo "
 <tr><td colspan=2>
 <table border=0 cellpadding=5
 <tr>
-<td><a href=\"" . IMAGE_URL . $profile->userid . '.jpg' . "\"><img src=\"" . IMAGE_URL . $profile->userid . '_sm.jpg' . "\"></a><p>
-<input type=\"checkbox\" name=\"delete_pic\">Delete
+<td valign=top><a href=\"" . IMAGE_URL . $profile->userid . '.jpg' . "\"><img src=\"" . IMAGE_URL . $profile->userid . '_sm.jpg' . "\"></a>
 </td>
-<td>You have previously uploaded a picture of yourself
-to accompany your profile, shown at left.
-If you would like to replace it,
-please click the \"Browse\" button and select the JPEG or PNG file
-you would like to use instead.
-If you would rather not have a picture with your profile,
-click the \"Delete\" checkbox;
-your picture will be deleted as soon as you submit this form.
-If you're happy with your current picture,
-there is no need to do anything.<p>
+<td valign=top> Your profile picture is shown at left.
+<p>
+To replace it,
+click the \"Browse\" button and select a JPEG or PNG file (50KB or less).
 <input name=\"picture\" type=\"file\"><br>
-<font size=2>
-<b>NOTE: </b>Please keep your image small (less than 50K bytes)<br></font></td></tr>";
+<p>
+To remove it from your profile,
+check this box:
+<input type=\"checkbox\" name=\"delete_pic\">
+<p>
+</td></tr>";
         rowify("<br>");
         end_table();
         echo "</td></tr>";
     }
     else {
         rowify("
-Do you have a picture of yourself on your computer?
-If you would like us to include it with your profile,
-please click the \"Browse\" button and select the JPEG or PNG file
-you want to send. (No animated GIFs, please!)<br>
-<input name=\"picture\" type=\"file\"><br>
-<font size=2><b>NOTE: </b>Please keep your image small (less than 50K bytes)<br></font></td></tr>");
+If you would like include a picture with your profile,
+click the \"Browse\" button and select a JPEG or PNG file.
+Please select images of 50KB or less.
+<p>
+<input name=\"picture\" type=\"file\">
+        ");
         rowify("<br>");
     }
 }
 
 function show_language_selection($profile) {
-    row1("Select Your Primary Language");
-    rowify("Selecting a language will help others with the same language preference to find each others' profiles and message board postings.");
-    echo "<tr><td>";
+    row1("Language");
+    echo "<tr><td>
+        <p>
+        Select the language in which your profile is written:
+        <p>
+    ";
     if (strlen($profile->language)) {
         show_combo_box("language", LANGUAGE_FILE, $profile->language);
     } else {
@@ -144,13 +138,9 @@ function show_language_selection($profile) {
     echo "</td></tr>\n";
 }
 
-function show_finale() {
-    row1("Submit Your Profile");
-    rowify("<p>
-        <input type=submit value=Submit name=submit>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type=reset value=Clear name=clear>"
-    );
+function show_submit() {
+    row1("Submit profile");
+    rowify("<p><input type=submit value=OK name=submit>");
 }
 
 // If the user with id = $userid has uploaded a picture his/herself,
