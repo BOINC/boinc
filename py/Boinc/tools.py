@@ -3,6 +3,29 @@
 import configxml
 import os, md5, shutil
 
+_urandomfd = None
+def urandom(n):
+    """urandom(n) -> str
+
+    Return a string of n random bytes suitable for cryptographic use.
+
+    """
+    global _urandomfd
+    if _urandomfd is None:
+        try:
+            _urandomfd = os.open("/dev/urandom", os.O_RDONLY)
+        except:
+            _urandomfd = NotImplementedError
+    if _urandomfd is NotImplementedError:
+        raise NotImplementedError("/dev/urandom (or equivalent) not found")
+    bytes = ""
+    while len(bytes) < n:
+        bytes += os.read(_urandomfd, n - len(bytes))
+    return bytes
+
+def make_uuid():
+    return ''.join(['%02x' % ord(x) for x in urandom(16)])
+
 def md5_file(path):
     """Return a 16-digit MD5 hex digest of a file's contents"""
     return md5.new(open(path).read()).hexdigest()

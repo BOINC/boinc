@@ -117,6 +117,10 @@ def translate_arg(object, arg, value, args_dict):
             args_dict.setdefault('signature_files',{})[most_recent_exec_file] = value
             return
 
+    if arg == 'cross_project_id':
+        if not value:
+            value = tools.make_uuid()
+
     args_dict[arg] = value
 
 def translate_database_arg(database_table, arg, value):

@@ -20241,3 +20241,11 @@ David  24 Nov 2004
 
     api/
         x_opengl.C
+
+Karl 2004-11-25
+    - For add_util, when cross_project_id is default or 0, generate a random
+      UUID.
+
+    Py/Boinc/
+        tools.py (added make_uuid)
+        add_util.py
