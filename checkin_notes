@@ -15458,3 +15458,7 @@ Rom    19 July 2004
 
     api/
         boinc_api.C
+
+Rom    July 19 2004
+    - Tag for 4.01 release, all platforms
+      boinc_release_4_01
