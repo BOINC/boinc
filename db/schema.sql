@@ -53,7 +53,7 @@ create table user (
 create table team (
     id		    integer     not null auto_increment,
     userid	    integer	not null,
-    name	    varchar(254),
+    name	    varchar(254) not null,
     name_lc	    varchar(254),
     url		    varchar(254),
     type	    integer	not null,

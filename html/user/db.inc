@@ -5,7 +5,6 @@ function db_init() {
     if (!$retval) {
         exit();
     }
-    //mysql_select_db("boinc_barry");
     mysql_select_db(getenv("BOINC_DB_NAME"));
 }
 

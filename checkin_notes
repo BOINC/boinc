@@ -1129,3 +1129,21 @@ David A     July 14 2002
     tools/
         backend_lib.C
         create_work.C
+
+David A     July 15, 2002
+    - added env var BOINC_MASTER_URL.
+        Each / in the master URL must be preceded by four \s
+        e.g. setenv BOINC_MASTER_URL  http:\\\\/\\\\/localhost\\\\/index.html
+    - team name must be non-null to be unique
+    - TODO (Barry): make the master page per-project;
+        make database access from PHP/Web per-project
+    db/
+        schema.sql
+    html_user/
+        db.inc
+    test/
+        init.inc
+        master.html
+        prefs1.xml
+    tools/
+        Makefile.in

@@ -1,16 +1,8 @@
 <?php
 
-//define("HOME", "home/david");
-//define("DOWNLOAD_DIR", "$HOME/html/download");
-//define("UPLOAD_DIR", "$HOME/html/upload");
-//define("PLATFORM_NAME", "i686-pc-linux-gnu");
 define("VERSION", "1");
 define("CORE_CLIENT", "boinc_".VERSION."_$BOINC_PLATFORM");
 define("PROJECTS", "localhost.localdomain zoot");
-    // directories to empty
-//define("EMAIL_ADDR", "david@localhost.localdomain");
-//define("URL_BASE", "http://localhost.localdomain/download");
-    // data server URL root
 
 include_once("../html_user/db.inc");
 
@@ -24,6 +16,7 @@ $BOINC_PLATFORM = null;
 $BOINC_EMAIL = null;
 $BOINC_URL_BASE = null;
 $BOINC_KEY_DIR = null;
+$BOINC_MASTER_URL = null;
 
 function check_env_vars() {
     global $BOINC_DOWNLOAD_DIR;
@@ -32,6 +25,7 @@ function check_env_vars() {
     global $BOINC_EMAIL;
     global $BOINC_URL_BASE;
     global $BOINC_KEY_DIR;
+    global $BOINC_MASTER_URL;
 
     $bad = false;
     $BOINC_DOWNLOAD_DIR = getenv("BOINC_DOWNLOAD_DIR");
@@ -64,6 +58,11 @@ function check_env_vars() {
         echo "Must define BOINC_KEY_DIR\n";
         $bad = true;
     }
+    $BOINC_MASTER_URL = getenv("BOINC_MASTER_URL");
+    if ($BOINC_MASTER_URL == null) {
+        echo "Must define BOINC_MASTER_URL\n";
+        $bad = true;
+    }
     if ($bad) exit();
 }
 
@@ -94,10 +93,12 @@ function clear_data_dirs() {
 }
 
 function init_client_dirs($prefs_file) {
+    global $BOINC_MASTER_URL;
+
     PassThru("rm -f client_state.xml");
     PassThru("rm -rf ".PROJECTS);
     PassThru("rm -rf slots");
-    PassThru("cp $prefs_file prefs.xml");
+    PassThru("sed -e s/BOINC_MASTER_URL/$BOINC_MASTER_URL/ $prefs_file > prefs.xml");
 }
 
 function copy_to_download_dir($f) {
@@ -109,9 +110,10 @@ function copy_to_download_dir($f) {
 function add_user($prefs_file) {
     global $BOINC_EMAIL;
 
+    PassThru("sed -e s/BOINC_MASTER_URL/$BOINC_MASTER_URL/ $prefs_file > prefs_temp.xml");
     $cmd = "../tools/add user -email_addr $BOINC_EMAIL -user_name David -web_password foobar -authenticator 3f7b90793a0175ad0bda68684e8bd136 ";
     if ($prefs_file) {
-        $cmd = $cmd." -prefs_file $prefs_file";
+        $cmd = $cmd." -prefs_file prefs_temp.xml";
     }
     PassThru($cmd);
 }
