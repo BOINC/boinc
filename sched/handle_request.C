@@ -669,15 +669,16 @@ void process_request(
         strcat(reply.message, "No work available");
         strcpy(reply.message_priority, "low");
         reply.request_delay = 3600;
-        if(!config.msg_to_host) {
+        if (!config.msg_to_host) {
             log_messages.printf(
-            SCHED_MSG_LOG::NORMAL, "No work - skipping DB access\n"
+                SCHED_MSG_LOG::NORMAL, "No work - skipping DB access\n"
             );
             return;
         }
     }
 
     // FROM HERE ON DON'T RETURN; goto leave instead
+    // because we've tagged an entry in the work array with our process ID
 
     // now open the database
     //

@@ -205,39 +205,57 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         config.long_name
     );
 
-    u1 = user.name;
-    xml_escape(u1, u2);
-    fprintf(fout,
-        "<user_name>%s</user_name>\n"
-        "<user_total_credit>%f</user_total_credit>\n"
-        "<user_expavg_credit>%f</user_expavg_credit>\n"
-        "<user_create_time>%d</user_create_time>\n"
-        "<host_total_credit>%f</host_total_credit>\n"
-        "<host_expavg_credit>%f</host_expavg_credit>\n"
-        "<host_venue>%s</host_venue>\n",
-        u2.c_str(),
-        user.total_credit,
-        user.expavg_credit,
-        user.create_time,
-        host.total_credit,
-        host.expavg_credit,
-        host.venue
-    );
+    if (user.id) {
+        u1 = user.name;
+        xml_escape(u1, u2);
+        fprintf(fout,
+            "<user_name>%s</user_name>\n"
+            "<user_total_credit>%f</user_total_credit>\n"
+            "<user_expavg_credit>%f</user_expavg_credit>\n"
+            "<user_create_time>%d</user_create_time>\n",
+            u2.c_str(),
+            user.total_credit,
+            user.expavg_credit,
+            user.create_time
+        );
+        // be paranoid about the following to avoid sending null
+        //
+        if (strlen(email_hash)) {
+            fprintf(fout,
+                "<email_hash>%s</email_hash>\n",
+                email_hash
+            );
+        }
+        if (strlen(user.cross_project_id)) {
+            fprintf(fout,
+                "<cross_project_id>%s</cross_project_id>\n",
+                user.cross_project_id
+            );
+        }
 
-    // be paranoid about the following to avoid sending null
-    //
-    if (strlen(email_hash)) {
-        fprintf(fout,
-            "<email_hash>%s</email_hash>\n",
-            email_hash
-        );
+        if (send_global_prefs) {
+            fputs(user.global_prefs, fout);
+        }
+
+        // always send project prefs
+        //
+        fputs(user.project_prefs, fout);
+
     }
-    if (strlen(user.cross_project_id)) {
+    if (hostid) {
         fprintf(fout,
-            "<cross_project_id>%s</cross_project_id>\n",
-            user.cross_project_id
+            "<hostid>%d</hostid>\n"
+            "<host_total_credit>%f</host_total_credit>\n"
+            "<host_expavg_credit>%f</host_expavg_credit>\n"
+            "<host_venue>%s</host_venue>\n"
+            "<host_create_time>%d</host_create_time>\n",
+            hostid,
+            host.total_credit,
+            host.expavg_credit,
+            host.venue,
+            host.create_time
         );
-    }
+    );
 
     // might want to send team credit too.
     //
@@ -250,27 +268,12 @@ int SCHEDULER_REPLY::write(FILE* fout) {
         );
     }
 
-    if (hostid) {
-        fprintf(fout,
-            "<hostid>%d</hostid>\n"
-            "<host_create_time>%d</host_create_time>\n",
-            hostid,
-            host.create_time
-        );
-    }
-
-    if (send_global_prefs) {
-        fputs(user.global_prefs, fout);
-    }
-
-    // always send project prefs
-    //
-    fputs(user.project_prefs, fout);
-
+#if 0
     // send project deletion policy
     //
     if(deletion_policy_priority) fprintf(fout, "<deletion_policy_priority/>\n");
     if(deletion_policy_expire) fprintf(fout, "<deletion_policy_expire/>\n");
+#endif
 
     // acknowledge results
     //

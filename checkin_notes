@@ -16299,3 +16299,22 @@ David  12 Aug 2004
     sched/
         db_dump.C
         send_file.C
+
+David  12 Aug 2004
+    - Originally every scheduler reply contained
+        user, host and team info.
+        This is no longer the case because, for example,
+        the "no work available" logic now skips DB access.
+        Fixed a few bugs related to this:
+        - scheduler: send user/host/team info only if
+            the corresponding record was read from DB
+        - client: get team name, user credits, host credits
+            from scheduler reply only if they're actually there
+            (use -1 as a null value for credit fields)
+
+    client/
+        cs_scheduler.C
+        scheduler_op.C
+    sched/
+        handle_request.C
+        server_types.C

@@ -565,9 +565,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
     hostid = 0;
-    host_total_credit = 0;
-    host_expavg_credit = 0;
-    host_create_time = 0;
+    host_total_credit = -1;
+    host_expavg_credit = -1;
+    host_create_time = -1;
     request_delay = 0;
     strcpy(message, "");
     strcpy(message_priority, "");
@@ -576,10 +576,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     project_prefs_xml = 0;
     strcpy(user_name, "");
     strcpy(team_name, "");
-    user_total_credit = 0;
-    user_expavg_credit = 0;
+    user_total_credit = -1;
+    user_expavg_credit = -1;
     strcpy(host_venue, "");
-    user_create_time = 0;
+    user_create_time = -1;
     code_sign_key = 0;
     code_sign_key_signature = 0;
     message_ack = false;
