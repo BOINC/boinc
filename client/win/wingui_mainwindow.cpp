@@ -1305,6 +1305,11 @@ void CMainWindow::OnCommandResume()
 // function:	cleans up, closes and quits everything
 void CMainWindow::OnCommandExit()
 {
+	static bool already_exited = false;
+
+	if (already_exited) return;
+	already_exited = true;
+
 	// quit
 	gstate.cleanup_and_exit();
 	PostQuitMessage(0);
