@@ -4601,6 +4601,7 @@ Karl    2003/06/07
 Tim    June 9, 2003
     - Windows GUI Enhancement
         disk usage now displayed in two separate pie charts
+        improved the separation line between menu and tabs
 
     client/
         gui_titles.c

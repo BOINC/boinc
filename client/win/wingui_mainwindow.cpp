@@ -194,11 +194,6 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	if (m_nDesiredIconState != m_nIconState)
 		SetStatusIcon(m_nDesiredIconState);
 
-    // draw line between menu and tabs
-    RECT rect = {0, 0, 0, 0}; GetClientRect(&rect);
-    GetDC()->MoveTo(0, 0);
-    GetDC()->LineTo(rect.right, 0);
-
 	// display projects
 	m_ProjectListCtrl.SetRedraw(FALSE);
     totalres = 0;
@@ -575,6 +570,11 @@ void CMainWindow::ShowTab(int nTab)
 	}
 	m_TabCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 	RedrawWindow();
+
+    // draw line between menu and tabs
+    RECT rect = {0, 0, 0, 0}; GetClientRect(&rect);
+    GetDC()->MoveTo(0, 0);
+    GetDC()->LineTo(rect.right, 0);
 }
 
 //////////
@@ -1708,6 +1708,11 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy)
 		m_TabCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 
 		RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+
+        // draw line between menu and tabs
+        RECT rect = {0, 0, 0, 0}; GetClientRect(&rect);
+        GetDC()->MoveTo(0, 0);
+        GetDC()->LineTo(rect.right, 0);
 	}
 }
 
