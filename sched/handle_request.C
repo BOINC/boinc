@@ -40,39 +40,66 @@ using namespace std;
 #include "main.h"
 #include "handle_request.h"
 
-#define MIN_SECONDS_TO_SEND 0
-#define MAX_SECONDS_TO_SEND (28*SECONDS_PER_DAY)
-#define MAX_WUS_TO_SEND     10
+const int MIN_SECONDS_TO_SEND = 0;
+const int MAX_SECONDS_TO_SEND = (28*SECONDS_PER_DAY);
+const int MAX_WUS_TO_SEND     = 10;
+
+// if a host has active_frac < 0.5, assume 0.5 so we don't deprive it of work.
+const double HOST_ACTIVE_FRAC_MIN = 0.5;
+
+// estimate the number of seconds that a workunit requires running 100% on a
+// single CPU of this host.
+//
+// TODO: improve this.  take memory bandwidth into account
+//
+inline double estimate_duration(WORKUNIT& wu, HOST& host) {
+    if (host.p_fpops <= 0) host.p_fpops = 1e9;
+    if (host.p_iops <= 0) host.p_iops = 1e9;
+    if (wu.rsc_fpops <= 0) wu.rsc_fpops = 1e12;
+    if (wu.rsc_iops <= 0) wu.rsc_iops = 1e12;
+    return wu.rsc_fpops/host.p_fpops + wu.rsc_iops/host.p_iops;
+}
+
+// estimate the amount of real time for this WU based on active_frac and
+// #cpus.
+inline double estimate_wallclock_duration(WORKUNIT& wu, HOST& host) {
+    if (host.p_ncpus < 1) host.p_ncpus = 1;
+
+    return double(
+        estimate_duration(wu, host)
+        * max(HOST_ACTIVE_FRAC_MIN, host.active_frac)
+        * host.p_ncpus);
+}
 
 // return true if the WU can be executed on the host
 //
 bool wu_is_feasible(WORKUNIT& wu, HOST& host) {
     if(host.d_free && wu.rsc_disk > host.d_free) {
         log_messages.printf(
-            SchedMessages::DEBUG, "[WU#%d] needs %f disk; HOST#%d has %f\n",
-            wu.id, wu.rsc_disk, host.id, host.d_free
+            SchedMessages::DEBUG, "[WU#%d %s] needs %f disk; [HOST#%d] has %f\n",
+            wu.id, wu.name, wu.rsc_disk, host.id, host.d_free
         );
         return false;
     }
     if (host.m_nbytes && wu.rsc_memory > host.m_nbytes) {
         log_messages.printf(
-            SchedMessages::DEBUG, "WU#%d needs %f mem; HOST#%d has %f\n",
-            wu.id, wu.rsc_memory, host.id, host.m_nbytes
+            SchedMessages::DEBUG, "[WU#%d %s] needs %f mem; [HOST#%d] has %f\n",
+            wu.id, wu.name, wu.rsc_memory, host.id, host.m_nbytes
         );
         return false;
     }
-    return true;
-}
 
-// estimate the time that a WU will take on a host
-// TODO: improve this.  take memory bandwidth into account
-//
-double estimate_duration(WORKUNIT& wu, HOST& host) {
-    if (host.p_fpops <= 0) host.p_fpops = 1e9;
-    if (host.p_iops <= 0) host.p_iops = 1e9;
-    if (wu.rsc_fpops <= 0) wu.rsc_fpops = 1e12;
-    if (wu.rsc_iops <= 0) wu.rsc_iops = 1e12;
-    return wu.rsc_fpops/host.p_fpops + wu.rsc_iops/host.p_iops;
+    double wu_wallclock_time = estimate_wallclock_duration(wu, host);
+    int host_remaining_time = 0; // TODO
+
+    if (host_remaining_time + wu_wallclock_time > wu.delay_bound) {
+        log_messages.printf(
+            SchedMessages::DEBUG, "[WU#%d %s] needs requires %d seconds on [HOST#%d]; delay_bound is %d\n",
+            wu.id, wu.name, (int)wu_wallclock_time, host.id, wu.delay_bound);
+        return false;
+    }
+
+    return true;
 }
 
 // insert "text" right after "after" in the given buffer
@@ -195,8 +222,7 @@ int insert_app_file_tags(APP_VERSION& av, USER& user) {
 // Add the app and app_version to the reply also.
 //
 int add_wu_to_reply(
-    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform, SCHED_SHMEM& ss,
-    double seconds_to_complete
+    WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform, SCHED_SHMEM& ss
 ) {
     APP* app;
     APP_VERSION* avp, app_version;
@@ -615,7 +641,8 @@ int send_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     SCHED_SHMEM& ss
 ) {
-    int i, retval, nresults = 0, seconds_to_fill;
+    int i, retval, nresults = 0;
+    double seconds_to_fill;
     WORKUNIT wu;
     DB_RESULT result, result_copy;
 
@@ -643,6 +670,9 @@ int send_work(
             continue;
         }
         wu = ss.wu_results[i].workunit;
+
+        double wu_seconds_filled = estimate_duration(wu, reply.host);
+
         if (!wu_is_feasible(wu, reply.host)) {
             log_messages.printf(
                 SchedMessages::DEBUG, "[HOST#%d] [WU#%d %s] WU is infeasible\n",
@@ -654,17 +684,13 @@ int send_work(
         result = ss.wu_results[i].result;
         ss.wu_results[i].present = false;
 
-        retval = add_wu_to_reply(wu, reply, platform, ss,
-            estimate_duration(wu, reply.host)
-        );
+        retval = add_wu_to_reply(wu, reply, platform, ss);
         if (retval) continue;
-
-        int wu_seconds_filled = (int) estimate_duration(wu, reply.host);
 
         log_messages.printf(
             SchedMessages::NORMAL,
             "[HOST#%d] Sending [RESULT#%d %s] (fills %d seconds)\n",
-            reply.host.id, result.id, result.name, wu_seconds_filled
+            reply.host.id, result.id, result.name, int(wu_seconds_filled)
         );
 
         result.server_state = RESULT_SERVER_STATE_IN_PROGRESS;

@@ -5594,3 +5594,11 @@ Karl 2003/08/08
       joining/quitting/switching/removing inactive users
 
     Html_user/*
+
+Karl 2003/08/08
+    - client: take into account active_frac and n_cpus when requesting work.
+        - removed vestigial host_info variables {active,on,connected}_frac.
+    - server: take into account active_frac and n_cpus when rejecting results
+      to send based on deadlines
+
+    client/*
