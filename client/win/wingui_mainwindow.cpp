@@ -84,6 +84,7 @@ BOOL CMyApp::InitInstance()
         UINT nStartSaver = RegisterWindowMessage(START_SS_MSG);
         ((CMainWindow*)m_pMainWnd)->SendMessage(nStartSaver, 0);
     }
+
 #ifdef DEBUG
     fprintf(fout, "returning from initInstance\n");
     fflush(fout);
@@ -1372,7 +1373,7 @@ void CMainWindow::OnCommandProjectWebSite()
 // CMainWindow::OnCommandProjectGetPrefs
 // arguments:   void
 // returns:     void
-// function:    reset rpc time to get prefences now
+// function:    reset rpc time to get preferences now
 void CMainWindow::OnCommandProjectGetPrefs()
 {
     PROJECT *proj;
@@ -1834,17 +1835,27 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
     LoadUserSettings();
     //LoadListControls();
 
-    LPSTR command_line;
-    char* argv[100];
-    int argc;
 
-    int retval = gstate.init();
+	int retval = gstate.init();
         if (retval) {
             OnCommandExit();
             return 0;
     }
 
-    command_line = GetCommandLine();
+	// Do we need to fetch global prefs? If global prefs
+    // are missing, always request them at startup. They
+	// will override the settings here.
+	if (should_request_global_prefs()) {
+		gstate.global_prefs.run_on_batteries = true;
+		gstate.global_prefs.run_if_user_active = true;
+		gstate.global_prefs.idle_time_to_run = 0.0;
+	}
+
+	LPSTR command_line;
+    char* argv[100];
+    int argc;
+
+	command_line = GetCommandLine();
     argc = parse_command_line( command_line, argv );
 #ifdef DEBUG
     for (i=0; i<argc; i++) {
@@ -2197,6 +2208,26 @@ void CMainWindow::OnTimer(UINT uEventID)
     }
 }
 
+
+//////////
+// CMainWindow::should_request_global_prefs
+// arguments:   void
+// returns:     true, if the global preferences file is missing
+//              false if it is not
+// function:    checks for existence of the client global preferences
+//              file.
+inline bool CMainWindow::should_request_global_prefs()
+{
+	// TODO: find a better way to test file existence on windows
+	bool missing = false;
+	FILE* f = fopen(GLOBAL_PREFS_FILE_NAME, "r");
+    if (!f)
+		missing = true;
+	else
+		fclose(f);
+    return missing;
+}
+
 void create_curtain() {
     g_myWnd->m_pSSWnd->ShowSSWindow(true);
 }
@@ -2234,3 +2265,4 @@ void guiOnBenchmarksEnd()
 {
     g_myWnd->OnBenchmarksEnd();
 }
+
