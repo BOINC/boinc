@@ -98,6 +98,7 @@ public:
     void unsuspend_all();
     int restart_tasks();
     void exit_tasks();
+    int get_free_slot(int total_slots);
 
     int write(FILE*);
     int parse(FILE*, CLIENT_STATE*);

@@ -648,6 +648,35 @@ bool ACTIVE_TASK_SET::poll_time() {
     return updated;
 }
 
+// Gets the next available free slot, or returns -1 if all slots are full
+//
+int ACTIVE_TASK_SET::get_free_slot(int total_slots) {
+    int start_slot,i;
+    char *slot_status;
+
+    if (active_tasks.size() >= total_slots)
+        return -1;
+    
+    slot_status = (char *)calloc( sizeof(char), total_slots );
+    if (!slot_status) return -1;
+    
+    for (i=0; i<active_tasks.size(); i++) {
+        if (active_tasks[i]->slot >= 0 && active_tasks[i]->slot < total_slots) {
+            slot_status[active_tasks[i]->slot] = 1;
+        }
+    }
+
+    for (i=0; i<total_slots; i++) {
+        if (!slot_status[i]) {
+            free(slot_status);
+            return i;
+        }
+    }
+
+    free(slot_status);
+    return -1;
+}
+
 // Write XML data about this ACTIVE_TASK
 //
 int ACTIVE_TASK::write(FILE* fout) {

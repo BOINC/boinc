@@ -1699,3 +1699,14 @@ David	August 25, 2002
 	test_uc_win.php
     tools/
 	add.C
+
+Eric  August 26, 2002
+    - Finished multi-slot functionality.  The client now requests an
+      open slot from the ACTIVE_TASK_SET which will be the slot
+      for the new process.
+
+    client/
+        app.C
+        app.h
+        cs_apps.C
+

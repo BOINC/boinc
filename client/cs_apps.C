@@ -151,11 +151,14 @@ bool CLIENT_STATE::start_apps() {
     RESULT* rp;
     ACTIVE_TASK* atp;
     bool action = false;
+    int open_slot;
 
     for (i=0; i<results.size(); i++) {
         // If all the app slots are already used, we can't start
         // a new app
-        if (active_tasks.active_tasks.size() == nslots) {
+        open_slot = active_tasks.get_free_slot(nslots);
+        
+        if (open_slot < 0) {
             if (log_flags.task_debug) {
                 printf("start_apps(): all slots full\n");
             }
@@ -172,6 +175,7 @@ bool CLIENT_STATE::start_apps() {
             }
             rp->is_active = true;
             atp = new ACTIVE_TASK;
+            atp->slot = open_slot;
             atp->init(rp);
             active_tasks.insert(atp);
             action = true;
