@@ -15496,4 +15496,5 @@ Karl 2004-07-21
     - fixed html/php bugs
 
     html/user/
+        sample_index.php
         team_manage.php
