@@ -189,10 +189,10 @@ INT CScreensaver::Run()
 
 
 //-----------------------------------------------------------------------------
-// Name: RenderBOINC()
+// Name: StartupBOINC()
 // Desc: Notifies BOINC that it has to start the screensaver in full screen mode.
 //-----------------------------------------------------------------------------
-VOID CScreensaver::RenderBOINC()
+VOID CScreensaver::StartupBOINC()
 {
 	HWND hWnd;
 	HANDLE boinc_mutex;
@@ -204,11 +204,19 @@ VOID CScreensaver::RenderBOINC()
 		{
 			CloseHandle(boinc_mutex);
 
-			m_bErrorMode = TRUE;
-			m_hrError = SCRAPPERR_BOINCNOTDETECTED;
-
 			// Create a screen saver window on the primary display if the boinc client crashes
 			CreateSaverWindow();
+
+			if(IsConfigStartupBOINC())
+			{
+				m_bErrorMode = TRUE;
+				m_hrError = SCRAPPERR_BOINCNOTDETECTED;
+			}
+			else
+			{
+				m_bErrorMode = TRUE;
+				m_hrError = SCRAPPERR_BOINCNOTDETECTEDSTARTUP;
+			}
 
 			m_bBOINCCoreNotified = FALSE;
 		}
@@ -217,11 +225,11 @@ VOID CScreensaver::RenderBOINC()
 			hWnd = FindWindow(TEXT("BOINCWindowClass"), NULL);
 			if(NULL == hWnd)
 			{
-				m_bErrorMode = TRUE;
-				m_hrError = SCRAPPERR_BOINCNOTFOUND;
-
 				// Create a screen saver window on the primary display if the boinc client crashes
 				CreateSaverWindow();
+
+				m_bErrorMode = TRUE;
+				m_hrError = SCRAPPERR_BOINCNOTFOUND;
 
 				m_bBOINCCoreNotified = FALSE;
 			}
@@ -398,8 +406,8 @@ VOID CScreensaver::EnumMonitors( VOID )
 
             pMonitorInfoNew = &m_Monitors[m_dwNumMonitors];
             ZeroMemory( pMonitorInfoNew, sizeof(INTERNALMONITORINFO) );
-            lstrcpy( pMonitorInfoNew->strDeviceName, dispdev.DeviceString );
-            lstrcpy( pMonitorInfoNew->strMonitorName, dispdev2.DeviceString );
+            StringCchCopy( pMonitorInfoNew->strDeviceName, 128, dispdev.DeviceString );
+            StringCchCopy( pMonitorInfoNew->strMonitorName, 128, dispdev2.DeviceString );
             
             if( dispdev.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP )
             {
@@ -716,7 +724,7 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					}
 					else
 					{
-						RenderBOINC();
+						StartupBOINC();
 					}
 					return 0; 
 			}
@@ -871,7 +879,7 @@ LRESULT CScreensaver::GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
 					}
 					else
 					{
-						RenderBOINC();
+						StartupBOINC();
 					}
 					return 0; 
 			}
@@ -1185,6 +1193,7 @@ BOOL CScreensaver::GetTextForError( HRESULT hr, TCHAR* pszError,
         E_FAIL, IDS_ERR_GENERIC,
         E_OUTOFMEMORY, IDS_ERR_OUTOFMEMORY,
 		SCRAPPERR_BOINCNOTDETECTED, IDS_ERR_BOINCNOTDETECTED,
+		SCRAPPERR_BOINCNOTDETECTEDSTARTUP, IDS_ERR_BOINCNOTDETECTEDSTARTUP,
 		SCRAPPERR_BOINCNOTFOUND, IDS_ERR_BOINCNOTFOUND,
 		SCRAPPERR_NOPREVIEW, IDS_ERR_NOPREVIEW
     };
@@ -1437,4 +1446,124 @@ void CScreensaver::DrawTransparentBitmap(HDC hdc, HBITMAP hBitmap, LONG xStart, 
    DeleteDC(hdcObject);
    DeleteDC(hdcSave);
    DeleteDC(hdcTemp);
+}
+
+
+
+
+//-----------------------------------------------------------------------------
+// Name: IsConfigStatupBOINC()
+// Desc: Determine if BOINC is configured to automatically start at logon/startup.
+//-----------------------------------------------------------------------------
+BOOL CScreensaver::IsConfigStartupBOINC()
+{
+	BOOL	bRetVal;
+	BOOL    bCheckFileExists;
+	TCHAR	szBuffer[512];
+	HANDLE	hFileHandle;
+
+
+	// Lets set the default value to FALSE
+	bRetVal = FALSE;
+
+	// Now lets begin looking in the registry
+	if (ERROR_SUCCESS == UtilGetRegStartupStr(REG_STARTUP_NAME, szBuffer))
+	{
+		bRetVal = TRUE;
+	}
+	else
+	{
+		// It could be in the global startup group
+		ZeroMemory( szBuffer, 512 );
+		bCheckFileExists = FALSE;
+		if (SHGetSpecialFolderPath(NULL, szBuffer, CSIDL_STARTUP, FALSE))
+		{
+			TRACE(TEXT("IsConfigStartupBOINC: SHGetSpecialFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
+			if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC.lnk"), 10)))
+			{
+				TRACE(TEXT("IsConfigStartupBOINC: Final SHGetSpecialFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
+				bCheckFileExists = TRUE;
+			}
+			else
+			{
+				TRACE(TEXT("IsConfigStartupBOINC: FAILED SHGetSpecialFolderPath - CSIDL_STARTUP Append Operation\n"));
+			}
+		}
+		else
+		{
+			TRACE(TEXT("IsConfigStartupBOINC: FAILED SHGetSpecialFolderPath - CSIDL_STARTUP\n"));
+		}
+
+
+		if (bCheckFileExists)
+		{
+			hFileHandle = CreateFile(
+				szBuffer,
+				GENERIC_READ,
+				FILE_SHARE_READ,
+				NULL,
+				OPEN_EXISTING,
+				FILE_ATTRIBUTE_NORMAL,
+				NULL);
+
+			if (INVALID_HANDLE_VALUE != hFileHandle)
+			{
+				TRACE(TEXT("IsConfigStartupBOINC: CreateFile returned a valid handle '%d'\n"), hFileHandle);
+				CloseHandle(hFileHandle);
+				bRetVal = TRUE;
+			}
+			else
+			{
+				TRACE(TEXT("IsConfigStartupBOINC: CreateFile returned INVALID_HANDLE_VALUE - GetLastError() '%d'\n"), GetLastError());
+
+				// It could be in the global startup group
+				ZeroMemory( szBuffer, 512 );
+				bCheckFileExists = FALSE;
+				if (SHGetSpecialFolderPath(NULL, szBuffer, CSIDL_COMMON_STARTUP, FALSE))
+				{
+					TRACE(TEXT("IsConfigStartupBOINC: SHGetSpecialFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
+					if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC.lnk"), 10)))
+					{
+						TRACE(TEXT("IsConfigStartupBOINC: Final SHGetSpecialFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
+						bCheckFileExists = TRUE;
+					}
+					else
+					{
+						TRACE(TEXT("IsConfigStartupBOINC: FAILED SHGetSpecialFolderPath - CSIDL_COMMON_STARTUP Append Operation\n"));
+					}
+				}
+				else
+				{
+					TRACE(TEXT("IsConfigStartupBOINC: FAILED SHGetSpecialFolderPath - CSIDL_COMMON_STARTUP\n"));
+				}
+
+
+				if (bCheckFileExists)
+				{
+					hFileHandle = CreateFile(
+						szBuffer,
+						GENERIC_READ,
+						FILE_SHARE_READ,
+						NULL,
+						OPEN_EXISTING,
+						FILE_ATTRIBUTE_NORMAL,
+						NULL);
+
+					if (INVALID_HANDLE_VALUE != hFileHandle)
+					{
+						TRACE(TEXT("IsConfigStartupBOINC: CreateFile returned a valid handle '%d'\n"), hFileHandle);
+						CloseHandle(hFileHandle);
+						bRetVal = TRUE;
+					}
+					else
+					{
+						TRACE(TEXT("IsConfigStartupBOINC: CreateFile returned INVALID_HANDLE_VALUE - GetLastError() '%d'\n"), GetLastError());
+					}
+				}
+			}
+		}
+	}
+
+	TRACE(TEXT("IsConfigStartupBOINC: Returning '%d'\n"), bRetVal);
+	return bRetVal;
 }

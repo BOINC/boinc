@@ -169,6 +169,43 @@ int UtilGetRegStr(char *name, char *str)
 }
 
 //////////
+// Function:    UtilGetRegStartupStr
+// arguments:	name: name of key, str: value of string to store
+//				if str is empty, attepts to delete the key
+// returns:		int indicating error
+// function:	sets string value in specified key in windows startup dir
+int UtilGetRegStartupStr(char *name, char *str)
+{
+	LONG error;
+	DWORD type = REG_SZ;
+	DWORD size = 128;
+	HKEY boinc_key;
+
+	*str = 0;
+
+	if ( OSVersion == OS_WIN95 ) {
+		error = RegOpenKeyEx( HKEY_LOCAL_MACHINE, "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+			0, KEY_ALL_ACCESS, &boinc_key );
+		if ( error != ERROR_SUCCESS ) return -1;
+	} else if ( OSVersion == OS_WINNT ) {
+		error = RegOpenKeyEx( HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+			0, KEY_ALL_ACCESS, &boinc_key );
+		if ( error != ERROR_SUCCESS ) return -1;
+	} else {
+		return -1;
+	}
+
+	error = RegQueryValueEx( boinc_key, name, NULL,
+		&type, (BYTE*)str, &size );
+
+	RegCloseKey( boinc_key );
+
+	if ( error != ERROR_SUCCESS ) return -1;
+
+	return ERROR_SUCCESS;
+}
+
+//////////
 // Function:    UtilSetRegStartupStr
 // arguments:	name: name of key, str: value of string to store
 //				if str is empty, attepts to delete the key

@@ -30,6 +30,8 @@
 #include <string.h>
 #include <regstr.h>
 #include <mmsystem.h>
+#include <shlobj.h>
+#include <strsafe.h>
 
 #else
 
@@ -43,6 +45,8 @@
 #define COMPILE_MULTIMON_STUBS
 #include <multimon.h>
 #include <mmsystem.h>
+#include <shlobj.h>
+#include <strsafe.h>
 
 #endif
 
@@ -66,9 +70,10 @@
 // Error codes
 //-----------------------------------------------------------------------------
 
-#define SCRAPPERR_BOINCNOTDETECTED    0x82000001
-#define SCRAPPERR_BOINCNOTFOUND       0x82000002
-#define SCRAPPERR_NOPREVIEW           0x8200000f
+#define SCRAPPERR_BOINCNOTDETECTED           0x82000001
+#define SCRAPPERR_BOINCNOTDETECTEDSTARTUP    0x82000002
+#define SCRAPPERR_BOINCNOTFOUND              0x82000003
+#define SCRAPPERR_NOPREVIEW                  0x8200000f
 
 
 //-----------------------------------------------------------------------------
@@ -146,25 +151,26 @@ public:
 
 
 protected:
-	VOID			RenderBOINC();
+	VOID			StartupBOINC();
 	VOID			ShutdownBOINC();
 
 	SaverMode       ParseCommandLine( TCHAR* pstrCommandLine );
-	void			DrawTransparentBitmap(HDC hdc, HBITMAP hBitmap, LONG xStart, LONG yStart, COLORREF cTransparentColor);
-
 	VOID            EnumMonitors( VOID );
+
+	HRESULT         CreateSaverWindow();
+	VOID            UpdateErrorBox();
+    VOID            InterruptSaver();
+    VOID            ShutdownSaver();
 	VOID            ChangePassword();
-    HRESULT         CreateSaverWindow();
 
     VOID            DoConfig();
 	HRESULT         DoSaver();
 	VOID            DoPaint( HWND hwnd, HDC hdc );
 
-    VOID            InterruptSaver();
-    VOID            ShutdownSaver();
+	void			DrawTransparentBitmap(HDC hdc, HBITMAP hBitmap, LONG xStart, LONG yStart, COLORREF cTransparentColor);
 
-	VOID            UpdateErrorBox();
 	virtual BOOL    GetTextForError( HRESULT hr, TCHAR* pszError, DWORD dwNumChars );
+	BOOL			IsConfigStartupBOINC();
 
 	LRESULT PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 	LRESULT GenericSaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );

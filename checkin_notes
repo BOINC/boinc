@@ -9370,3 +9370,13 @@ David  Jan 19 2004
 			win_util.h
 	lib/util.C
 
+David  Jan 19 2004 (from Rom Walton)
+	- Win screensaver: check to see if BOINC is configured for 
+		automatic startup and if not make a suggestion to the user to do so.
+
+	client/win/
+		boinc_ss.h
+		boinc_ss.rc
+		win_screensaver.cpp,h
+		win_util.cpp,h
+

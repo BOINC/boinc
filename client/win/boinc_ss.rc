@@ -136,8 +136,10 @@ STRINGTABLE
 BEGIN
     IDS_ERR_GENERIC         "There was an unspecified problem with this screen saver."
     IDS_ERR_BOINCNOTDETECTED 
-                            "BOINC is not running.\nPlease launch BOINC to display graphics."
-    IDS_ERR_BOINCNOTFOUND   "Secure Windows Desktop Detected.\nThis configuration is currently not supported."
+                            "BOINC is not running.\n\nPlease launch BOINC to display graphics."
+    IDS_ERR_BOINCNOTDETECTEDSTARTUP 
+                            "BOINC is not running.\n(Automatic Startup not detected)\n\nWe recommend running BOINC at startup;\nplease reinstall BOINC and select this option."
+    IDS_ERR_BOINCNOTFOUND   "Secure Windows Desktop Detected.\n\nThis configuration is currently not supported."
     IDS_ERR_OUTOFMEMORY     "Not enough memory."
 END
 

@@ -11,7 +11,8 @@
 #define IDS_ERR_GENERIC                 2100
 #define IDS_ERR_NOBOINCDETECTED         2101
 #define IDS_ERR_BOINCNOTDETECTED        2101
-#define IDS_ERR_BOINCNOTFOUND           2102
+#define IDS_ERR_BOINCNOTDETECTEDSTARTUP 2102
+#define IDS_ERR_BOINCNOTFOUND           2103
 #define IDS_ERR_OUTOFMEMORY             2110
 #define IDS_ERR_NOPREVIEW               2112
 
