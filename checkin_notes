@@ -21289,8 +21289,14 @@ David  14 Dec 2004
 	win_build/
 		upper_case.vcproj
 
-David  13 Dec 2004
+David  14 Dec 2004
     - Added code to validator to maintain host.avg_turnaround
 
     sched/
         validator.C
+
+David  14 Dec 2004
+    - Added a version of boinc_get_init_data() to graphics_impl.C
+
+    api/
+        graphics_impl.C
