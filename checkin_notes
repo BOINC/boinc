@@ -26022,6 +26022,9 @@ David  18 Mar 2005
 
 David  19 Mar 2005
     - rewrite installer text for LGPL
+    - remove old license file
 
+    doc/
+        license_1.0.txt (removed)
     win_build/installerv2/redist/0409/
         eula.rtf
