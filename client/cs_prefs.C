@@ -154,7 +154,7 @@ int CLIENT_STATE::suspend_activities(int reason) {
 // since activities_suspended is now true
 //
 int CLIENT_STATE::resume_activities() {
-    msg_printf(NULL, MSG_INFO, "Resuming activity");
+    msg_printf(NULL, MSG_INFO, "Resuming computation and network activity");
     active_tasks.unsuspend_all();
     return 0;
 }
@@ -182,6 +182,7 @@ int CLIENT_STATE::suspend_network(int reason) {
 }
 
 int CLIENT_STATE::resume_network() {
+    msg_printf(NULL, MSG_INFO, "Resuming network activity");
     return 0;
 }
 

@@ -95,6 +95,67 @@ int RPC_CLIENT::get_state() {
     return 0;
 }
 
+int RPC_CLIENT::result_show_graphics(RESULT& result) {
+    return 0;
+}
+
+int RPC_CLIENT::project_reset(PROJECT& project) {
+    return 0;
+}
+
+int RPC_CLIENT::project_attach(char* url, char* auth) {
+    return 0;
+}
+
+int RPC_CLIENT::project_detach(PROJECT&) {
+    return 0;
+}
+
+int RPC_CLIENT::project_update(PROJECT&) {
+    return 0;
+}
+
+int RPC_CLIENT::set_run_mode(int mode) {
+    return 0;
+}
+
+int RPC_CLIENT::run_benchmarks() {
+    return 0;
+}
+
+int RPC_CLIENT::set_proxy_settings(PROXY_INFO& pi) {
+    return 0;
+}
+
+int RPC_CLIENT::get_messages(
+    int nmessages, int offset, vector<MESSAGE_DESC>& msgs
+) {
+    char buf[256];
+    fprintf(fout,
+        "<get_messages>\n"
+        "  <nmessages>%d</nmessages>\n"
+        "  <offset>%d</offset>\n"
+        "</get_messages>\n",
+        nmessages, offset
+    );
+    while (fgets(buf, 256, fin)) {
+        if (match_tag(buf, "<msgs>")) continue;
+        if (match_tag(buf, "</msgs>")) break;
+        if (match_tag(buf, "<msg>")) {
+            MESSAGE_DESC md;
+            while (fgets(buf, 256, fin)) {
+                if (match_tag(buf, "</msg>")) break;
+                if (parse_str(buf, "<project>", md.project)) continue;
+                if (parse_str(buf, "<body>", md.body)) continue;
+                if (parse_int(buf, "<pri>", md.priority)) continue;
+                if (parse_int(buf, "<time>", md.timestamp)) continue;
+            }
+            msgs.push_back(md);
+        }
+    }
+    return 0;
+}
+
 void RPC_CLIENT::print() {
     unsigned int i;
 

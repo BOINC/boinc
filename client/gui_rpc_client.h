@@ -116,6 +116,25 @@ struct ACTIVE_TASK {
     void print();
 };
 
+struct PROXY_INFO {
+    bool use_http_proxy;
+    bool use_socks_proxy;
+    int socks_version;
+    char socks_server_name[256];
+    char http_server_name[256];
+    int socks_server_port;
+    int http_server_port;
+    char socks5_user_name[256];
+    char socks5_user_passwd[256];
+};
+
+struct MESSAGE_DESC {
+    string project;
+    int priority;
+    int timestamp;
+    string body;
+};
+
 class RPC_CLIENT {
     int sock;
     FILE* fin;
