@@ -73,7 +73,7 @@ Unix/Linux: compiled statically into Python
        $ cd Python-2.3/
        $ ./configure --prefix=/path/to/install/python
 
-    7. Enter the MySQL in the Python extension setup file.
+    7. Enter the MySQL module in the Python extension setup file.
        $ perl -wpi.bak -e "s,^_sre _sre.c,_mysql _mysql.c `mysql_config --cflags` `mysql_config --libs`\n$&," Modules/Setup
            (This adds the line '_mysql _msql.c [flags]' to Modules/Setup)
 
