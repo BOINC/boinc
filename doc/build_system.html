@@ -19,6 +19,16 @@
     </p>
 
     <p>
+      The version number is set in the line
+      <pre>
+        AC_INIT(BOINC, 1.03, [davea@ssl.berkeley.edu])
+      </pre>
+      in <code>configure.ac</code>. (If you change this, run <code>make</code>
+      and it rebuild necessary files to propagate the version number into
+      source files and scripts.)
+    </p>
+
+    <p>
       The top-level <code>Makefile.am</code> contains the
       <code>SUBDIRS=</code> line which sets up directory recursion, and the
       rules for creating source distributions.

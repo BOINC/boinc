@@ -4498,7 +4498,7 @@ Tim    June 5, 2003
         prefs.c
         wingui_mainwindow.cpp
 
-Karl    2003/05/06
+Karl    2003/06/06
     Rewrote build system using automake and modern autoconf.
 
     Added:
@@ -4567,3 +4567,16 @@ Eric   June 6, 2003
             wingui_piectrl.cpp
     lib/
         util.C,h
+
+Karl    2003/06/06
+
+    - updated version number, email address, copyright date
+    - documented automake system and updated build notes (there's only 1 step
+      now instead of 5)
+
+    configure.ac
+    LICENSE
+    doc/
+        boinc_dev.html
+        build.txt
+        build_system.html (added)
