@@ -100,7 +100,7 @@ echo "
     <li> A .C file should have the minimum set of #includes to get
         that particular file to compile
         (e.g. the includes needed by foo.C should be in foo.C, not foo.h)
-    <li> Includes should go from general (<stdio.h>) to specific (thisfile.h)
+    <li> Includes should go from general (&lt;stdio.h>) to specific (thisfile.h)
 </ul>
 <h3> extern declarations</h3>
 <ul>

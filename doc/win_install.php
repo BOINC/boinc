@@ -71,31 +71,6 @@ There is no screensaver capability.
 Only the installing user can run the BOINC manager.
 Files are accessable only to the installing user.
 
-<h2>Service graphical mode</h2>
-<p>
-<b>NOTE: this mode is not implemented and may never be,
-because of technical difficulties
-and the undesirability of running BOINC under the 'local system' account.</b>
-<p>
-This is for PCs that have multiple users,
-all of whom want to see graphics and have control over BOINC.
-BOINC should run when no one is logged in.
-
-<p>
-The core client runs as a service, started at boot time.
-It runs under the 'local system' account
-(and hence so do all applications).
-The manager starts at login for all users.
-The manager checks mouse/keyboard input
-and conveys idle state to the core client.
-
-<p>
-The screensaver either does graphics itself
-(based on info obtained from the core client via RPC)
-or (via the core client) has an application do the graphics.
-In this case the application must switch to the same
-window station and desktop as the screensaver.
-
 
 <h2>Customizing the installer</h2>
 <p>

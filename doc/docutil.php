@@ -57,7 +57,15 @@ function list_heading($x, $y, $z=null) {
     if ($z) {
         echo "       <th valign=top>$z</th>\n";
     }
-echo " </tr>\n";
+    echo " </tr>\n";
+}
+
+function list_heading_array($x) {
+    echo "<tr>";
+    foreach ($x as $h) {
+        echo "<th>$h</th>";
+    }
+    echo "</tr>\n";
 }
 
 function list_item($x, $y, $z=null) {
@@ -72,13 +80,21 @@ function list_item($x, $y, $z=null) {
     echo " </tr>\n";
 }
 
+function list_item_array($x) {
+    echo "<tr>";
+    foreach ($x as $h) {
+        echo "<td>$h</td>";
+    }
+    echo "</tr>\n";
+}
+
 function list_item_func($x, $y) {
     list_item(html_text($x), $y);
 }
 
 function list_bar($x) {
     echo "
-        <tr><td colspan=3 bgcolor=b8b8ff><center><b>$x</b></center></td></tr>
+        <tr><td colspan=8 bgcolor=b8b8ff><center><b>$x</b></center></td></tr>
     ";
 }
 

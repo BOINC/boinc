@@ -25535,3 +25535,15 @@ Rom    3 Mar 2005
 
     sea/
         make-sea.sh
+
+David  5 Mar 2005
+    - code cleanup and reorganization.
+        Remove API-specific stuff from lib/filesys.C
+        Don't define HANDLE as int on Unix
+
+    api/
+        boinc_api.C
+    doc/
+        various changed and new
+    lib/
+        filesys.C,h

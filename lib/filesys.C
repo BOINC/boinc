@@ -462,59 +462,46 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
 }
 
 
-//----------------------------------------------------------------------
-// provide some file-locking mechanism to ensure only one app is running 
-// in a slot
-
-#if  (!defined _WIN32) && (!defined HANDLE)
-typedef int HANDLE;
-#endif
-HANDLE app_lockfile_handle;
-
-int lock_file(const char* filename) {
+int FILE_LOCK::lock(const char* filename) {
     int retval=0;
 #ifdef _WIN32
-    app_lockfile_handle = CreateFile(
+    handle = CreateFile(
         filename, GENERIC_WRITE,
         0, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0
 	);
-    if (app_lockfile_handle == INVALID_HANDLE_VALUE) {
-      retval = 1;
+    if (handle == INVALID_HANDLE_VALUE) {
+        retval = 1;
     }
 
     // some systems have both!
 #elif defined(HAVE_LOCKF) && !defined(__APPLE__)
-    app_lockfile_handle = open(filename, O_WRONLY|O_CREAT, 0644);
-    retval = lockf(app_lockfile_handle, F_TLOCK, 0);
+    fd = open(filename, O_WRONLY|O_CREAT, 0644);
+    retval = lockf(fd, F_TLOCK, 0);
 #elif HAVE_FLOCK
-    app_lockfile_handle = open(filename, O_WRONLY|O_CREAT, 0644);
-    retval = flock(app_lockfile_handle, LOCK_EX|LOCK_NB);
+    fd = open(filename, O_WRONLY|O_CREAT, 0644);
+    retval = flock(fd, LOCK_EX|LOCK_NB);
     // must leave file-handle open
 #else
     no file lock mechanism;
 #endif
 
-#if 0
-//#ifndef NDEBUG
-    if ( retval != 0 ) {
-	struct flock lck;
-	perror ("DEBUG: Failed to get lock on application-lockfile");
-	lck.l_whence = 0;
-	lck.l_start = 0L;
-	lck.l_len = 0L;
-	lck.l_type = F_WRLCK;
-	(void) fcntl(app_lockfile_handle, F_GETLK, &lck);
-    if (lck.l_type != F_UNLCK) {
-	  fprintf(stdout, "DEBUG: Lock-info: pid = %d type = %c start = %8ld len = %8ld\n", lck.l_pid, 
-		  (lck.l_type == F_WRLCK) ? 'W' : 'R', lck.l_start, lck.l_len);
-    } else {
-	  fprintf(stdout, "DEBUG: fcntl() says it's unlocked though....strange.\n");
-    }
-	fflush(stdout);
-    }
-#endif // defined NDEBUG
-
     return retval;
+}
+
+int FILE_LOCK::unlock(const char* filename) {
+#ifdef _WIN32
+    if (!CloseHandle(handle)) {
+        perror("FILE_LOCK::unlock(): close failed.");
+    }
+#else
+    if (close(fd)) {
+        perror("FILE_LOCK::unlock(): close failed.");
+    }
+#endif
+    if (boinc_delete_file(filename) != 0) {
+        perror("FILE_LOCK::unlock: delete failed.");
+    }
+    return 0;
 }
 
 void relative_to_absolute(const char* relname, char* path) {

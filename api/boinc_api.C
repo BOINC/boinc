@@ -62,7 +62,7 @@ using namespace std;
 // (not counting the part after the last checkpoint in an episode).
 
 static APP_INIT_DATA  aid;
-
+static FILE_LOCK file_lock;
 APP_CLIENT_SHM       *app_client_shm      = 0;
 static double         timer_period        = 1.0;
     // period of API timer
@@ -88,6 +88,7 @@ static bool           heartbeat_active;
 #ifdef _WIN32
 static int nrunning_ticks = 0;
 #endif
+
 
 #define HEARTBEAT_GIVEUP_PERIOD 30.0
     // quit if no heartbeat from core in this #secs
@@ -135,12 +136,12 @@ int boinc_init_options_general(BOINC_OPTIONS& opt) {
     if (options.main_program) {
         // make sure we're the only app running in this slot
         //
-        retval = lock_file(LOCKFILE);
+        retval = file_lock.lock(LOCKFILE);
         if (retval) {
             // give any previous occupant a chance to timeout and exit
             //
             boinc_sleep(HEARTBEAT_TIMEOUT_PERIOD);
-            retval = lock_file(LOCKFILE);
+            retval = file_lock.lock(LOCKFILE);
         }
         if (retval) {
             fprintf(stderr, "Can't acquire lockfile - exiting\n");
@@ -192,11 +193,11 @@ static void send_trickle_up_msg() {
 }
 
 
-// NOTE: a non-zero status tells a running client that we're exiting with 
+// NOTE: a non-zero status tells the core client that we're exiting with 
 // an "unrecoverable error", which will be reported back to server. 
-// A zero exit-status will tell the client we've successfully finished the result.
+// A zero exit-status tells the client we've successfully finished the result.
+//
 int boinc_finish(int status) {
-
     if (options.send_status_msgs) {
         boinc_calling_thread_cpu_time(last_checkpoint_cpu_time);
         last_checkpoint_cpu_time += aid.wu_cpu_time;
@@ -219,45 +220,28 @@ int boinc_finish(int status) {
         boinc_write_init_data_file();
     }
 
-    // now remove lockfile+exit
     boinc_exit(status);
 
     return(0); // doh... we never get here
-} // boinc_finish()
+}
 
 
-// exit a boinc-app 
-// this simply closes, then removes the app's lockfile and 
-// calls the appropriate exit-function
-#if  (!defined _WIN32) && (!defined HANDLE)
-typedef int HANDLE;
-#endif
-extern HANDLE app_lockfile_handle;
+// unlock the lockfile and call the appropriate exit function
+//
+void boinc_exit (int status) {
+    file_lock.unlock(LOCKFILE);
 
-void
-boinc_exit (int status)
-{
-#ifdef _WIN32
-  if ( !CloseHandle ( app_lockfile_handle ) )
-    perror ( "Failed to close the application-lockfile.");
-#else
-  if ( close ( app_lockfile_handle ) )
-    perror ( "Failed to close the application-lockfile " LOCKFILE);
-#endif
-  // remove the lockfile
-  if ( boinc_delete_file (LOCKFILE) != 0) 
-    perror ("boinc_finish(): failed to remove lockfile");
-
-  // on Mac, calling exit() can lead to infinite exit-atexit loops, while _exit() seems 
-  // to behave nicely. This is not pretty but unless someone finds a cleaner solution, 
-  // we handle the Mac-case separately .
+    // on Mac, calling exit() can lead to infinite exit-atexit loops,
+    // while _exit() seems to behave nicely.
+    // This is not pretty but unless someone finds a cleaner solution, 
+    // we handle the Mac-case separately .
 #ifdef __APPLE_CC__
-  _exit(status);
+    _exit(status);
 #else
-  exit(status);
+    exit(status);
 #endif
 
-} // boinc_exit()
+}
 
 bool boinc_is_standalone() {
     return standalone;

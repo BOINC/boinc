@@ -109,6 +109,16 @@ public:
     bool scan(std::string& name);    // return true if file returned
 };
 
+struct FILE_LOCK {
+#ifdef _WIN32
+    HANDLE handle;
+#else
+    int fd;
+#endif
+    int lock(const char* filename);
+    int unlock(const char* filename);
+};
+
 #ifndef _WIN32
 
 // search PATH, find the directory that a program is in, if any

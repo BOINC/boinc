@@ -70,6 +70,7 @@ language("French", array(
     site("http://boinc-quebec.org", "boinc-quebec.org")
 ));
 language("German", array(
+    site("http://www.setigermany.de", "SETI.Germany"),
     site("http://home.arcor.de/tim222/", "Team Science and Research Hessen"),
     site("http://www.boinc.de/", "www.boinc.de"),
     site( "http://www.boinc-lubeca.de/", "BOINC - LUBECA (Lübeck, Germany)"),
