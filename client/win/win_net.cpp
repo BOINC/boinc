@@ -17,7 +17,8 @@
 // Contributor(s):
 //
 
-#include <windows.h>
+#include <afxwin.h>
+#include <winsock.h>
 #include <string.h>
 #include <stdio.h>
 
