@@ -640,6 +640,14 @@ void process_request(
         log_messages.printf(SCHED_MSG_LOG::CRITICAL, "No user ID!\n");
     }
 
+    log_messages.printf(
+        SCHED_MSG_LOG::NORMAL,
+        "Processing request from [USER#%d] [HOST#%d] [IP %s] [RPC#%d] core client version %d.%02d\n",
+        reply.user.id, reply.host.id, get_remote_addr(), sreq.rpc_seqno,
+        sreq.core_client_major_version, sreq.core_client_minor_version
+    );
+    ++log_messages;
+
     last_rpc_time = reply.host.rpc_time;
     rpc_time_tm = localtime((const time_t*)&reply.host.rpc_time);
     last_rpc_dayofyear = rpc_time_tm->tm_yday;
@@ -667,13 +675,6 @@ void process_request(
         return;
     }
 
-    log_messages.printf(
-        SCHED_MSG_LOG::NORMAL,
-        "Processing request from [USER#%d] [HOST#%d] [IP %s] [RPC#%d] core client version %d.%02d\n",
-        reply.user.id, reply.host.id, get_remote_addr(), sreq.rpc_seqno,
-        sreq.core_client_major_version, sreq.core_client_minor_version
-    );
-    ++log_messages;
     handle_global_prefs(sreq, reply);
 
     if (reply.update_user_record) {
