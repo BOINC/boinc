@@ -274,7 +274,7 @@ function getHasRated($user, $postid){
 	// Check the user's credit average to see if it is greater than 5.0, if not,
 	//   treat them as though they have already rated the post.  This should keep
 	//   people from creating multiple accounts just to harass forum members.
-    return ( strstr($user->rated_posts,"|".$postid) || ($user->expavg_credit >= 5.0) );
+    return ( strstr($user->rated_posts,"|".$postid) || ($user->expavg_credit <= 5.0) );
 }
 
 function setHasRated($user, $postid){
