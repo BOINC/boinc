@@ -1,9 +1,7 @@
 <?
 
 function last_mod() {
-    $x = $_SERVER["PHP_SELF"];
-    $x = substr($x, 1);
-    return date("g:i A, F d Y", filemtime($x));
+    return date("g:i A, F d Y", filemtime($_SERVER["SCRIPT_FILENAME"]));
 }
 
 function page_head($title) {
