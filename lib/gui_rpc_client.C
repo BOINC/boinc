@@ -283,6 +283,7 @@ int RESULT::parse(MIOFILE& in) {
         if (match_tag(buf, "</result>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
         else if (parse_str(buf, "<wu_name>", wu_name)) continue;
+        else if (parse_str(buf, "<project_url>", project_url)) continue;
         else if (parse_int(buf, "<report_deadline>", report_deadline)) continue;
         else if (match_tag(buf, "<ready_to_report/>")) {
             ready_to_report = true;
@@ -363,6 +364,7 @@ int FILE_TRANSFER::parse(MIOFILE& in) {
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</file_transfer>")) return 0;
         else if (parse_str(buf, "<name>", name)) continue;
+        else if (parse_str(buf, "<project_url>", project_url)) continue;
         else if (match_tag(buf, "<generated_locally/>")) {
             generated_locally = true;
             continue;

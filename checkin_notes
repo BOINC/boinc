@@ -18577,3 +18577,13 @@ David  19 Oct 2004
     api/
         graphics_api.C
         x_opengl.C
+
+David  19 Oct 2004
+    - GUI RPC: the get_results and get_file_transfers RPC
+        weren't returning the project_url.
+        Do this, and parse it on the client side.
+
+    client/
+        client_types.C
+    lib/
+        gui_rpc_client.C,h

@@ -125,6 +125,7 @@ class RESULT {
 public:
     std::string name;
     std::string wu_name;
+    std::string project_url;
     int report_deadline;
     bool ready_to_report;
     bool got_server_ack;
@@ -157,6 +158,7 @@ public:
 class FILE_TRANSFER {
 public:
     std::string name;
+    std::string project_url;
     bool generated_locally;
     bool uploaded;
     bool upload_when_present;

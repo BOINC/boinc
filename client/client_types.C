@@ -627,7 +627,11 @@ int FILE_INFO::write_gui(MIOFILE& out) {
         "    <nbytes>%f</nbytes>\n"
         "    <max_nbytes>%f</max_nbytes>\n",
         "    <status>%d</status>\n",
-		project->master_url, name, nbytes, max_nbytes, status
+		project->master_url,
+        name,
+        nbytes,
+        max_nbytes,
+        status
     );
     if (generated_locally) out.printf("    <generated_locally/>\n");
     if (uploaded) out.printf("    <uploaded/>\n");
@@ -1182,22 +1186,22 @@ int RESULT::write_gui(MIOFILE& out) {
     out.printf(
         "<result>\n"
         "    <name>%s</name>\n"
+        "    <wu_name>%s</wu_name>\n"
+        "    <project_url>%s</project_url>\n"
         "    <final_cpu_time>%f</final_cpu_time>\n"
         "    <exit_status>%d</exit_status>\n"
-        "    <state>%d</state>\n",
+        "    <state>%d</state>\n"
+        "    <report_deadline>%d</report_deadline>\n",
         name,
+        wu_name,
+        project->master_url,
         final_cpu_time,
         exit_status,
-        state
+        state,
+        report_deadline
     );
     if (got_server_ack) out.printf("    <got_server_ack/>\n");
     if (ready_to_report) out.printf("    <ready_to_report/>\n");
-    out.printf(
-        "    <wu_name>%s</wu_name>\n"
-        "    <report_deadline>%d</report_deadline>\n",
-        wu_name,
-        report_deadline
-    );
     ACTIVE_TASK* atp = gstate.active_tasks.lookup_result(this);
     if (atp) {
         atp->write(out);
