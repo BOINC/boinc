@@ -111,7 +111,7 @@ UINT __stdcall GrantServiceExecutionRight(MSIHANDLE hInstall)
     }
 
     // Allocate memory for the property value return buffer
-    szPropertyBuf = (LPTSTR) malloc(++ncharCount);
+    szPropertyBuf = (LPTSTR) malloc( ((++ncharCount)*sizeof(LPTSTR)) );
     uiReturn = MsiGetProperty(hInstall, PropertyName, szPropertyBuf, &ncharCount);
 
     switch(uiReturn)
