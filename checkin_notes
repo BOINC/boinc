@@ -14756,3 +14756,13 @@ Daniel 2004-07-06
     client/
         cs_scheduler.C
 
+Daniel 2004-07-06
+    - uh, messed up doing a commit. but i put the "correct" files
+      back. sorry.
+
+    client/
+        app.C
+        client_state.h
+        cs_prefs.C
+        scheduler_op.C
+

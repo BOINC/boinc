@@ -252,12 +252,14 @@ public:
     PROJECT* next_project(PROJECT*);
     int make_scheduler_request(PROJECT*, double);
     int handle_scheduler_reply(PROJECT*, char* scheduler_url, int& nresults);
-    int compute_work_requests();
 private:
     SCHEDULER_OP* scheduler_op;
     bool contacted_sched_server;
+    void compute_resource_debts();
+    int compute_work_requests();
 
     PROJECT* find_project_with_overdue_results();
+    void current_work_buf_days(double& work_buf, int& nactive_results);
     PROJECT* next_project_sched_rpc_pending();
     bool some_project_rpc_ok();
     bool scheduler_rpc_poll();

@@ -1243,7 +1243,7 @@ int ACTIVE_TASK::suspend() {
 #ifdef _WIN32
     SuspendThread(thread_handle);
 #else
-    kill(pid, SIGTSTP);
+    kill(pid, SIGSTOP);
 #endif
     return 0;
 }

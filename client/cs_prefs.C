@@ -21,8 +21,6 @@
 // when to compute, how much disk to use, etc.
 //
 
-#include "cpp.h"
-
 #ifdef _WIN32
 #include "boinc_win.h"
 #endif
