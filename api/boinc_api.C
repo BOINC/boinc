@@ -82,6 +82,11 @@ int boinc_finish(int status) {
     return 0;
 }
 
+int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
+    app_init_data = aid;
+    return 0;
+}
+
 // resolve XML soft links
 //
 int boinc_resolve_filename(char *virtual_name, char *physical_name) {

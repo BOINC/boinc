@@ -30,10 +30,16 @@
 
 #define CHECKPOINT_FILE "uc_slow_state"
 
+time_t my_start_time;
+
 int do_checkpoint(MFILE& mf, int nchars) {
     int retval;
     char resolved_name[512],res_name2[512];
+    FILE *app_time = fopen("../../app.time", "w"), 
+	*client_time = fopen("../../client.time", "w");
+    APP_INIT_DATA aid;
 
+    boinc_get_init_data(aid);
     boinc_resolve_filename( "temp", resolved_name );
     FILE* f = fopen(resolved_name, "w");
     if (!f) return 1;
@@ -50,15 +56,28 @@ int do_checkpoint(MFILE& mf, int nchars) {
     if (retval) return retval;
     // hopefully atomic part ends here
 
+    // print our own information about cpu time
+    fprintf(app_time, "%f\n", difftime(time(0), my_start_time));
+    fflush(app_time);
+    fclose(app_time);
+
+    // print what the client thinks is our cpu time
+    fprintf(client_time, "%f\n", aid.wu_cpu_time + boinc_cpu_time());
+    fflush(client_time);
+    fclose(client_time);
+
     return 0;
 }
 
 int main() {
-    int c, nchars = 0, retval, n, i;
+    int c, nchars = 0, retval, n;
+    unsigned long int i;
     double j;
     char resolved_name[512];
     MFILE out, time_file;
     FILE* state, *in;
+
+    my_start_time = time(0);
 
     boinc_init();
 
@@ -91,7 +110,7 @@ int main() {
 
         n = 0;
 	j = 3.14159;
-        for(i=0; i<10000000; i++) {
+        for(i=0; i<200000000; i++) {
 	    n++;
 	    j *= n+j-3.14159;
 	    j /= (float)n;
