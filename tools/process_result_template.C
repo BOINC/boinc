@@ -99,7 +99,7 @@ int remove_signatures(char* xml) {
             fprintf(stderr, "remove_signatures: invalid XML:\n%s", xml);
             return ERR_XML_PARSE;
         }
-        q += strlen("</xml_signature>");
+        q += strlen("</xml_signature>\n");
         strcpy(p, q);
     }
     return 0;
