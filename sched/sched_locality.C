@@ -334,7 +334,7 @@ void send_work_locality(
                 reply.file_deletes.push_back(fi);
                 log_messages.printf(
                     SCHED_MSG_LOG::DEBUG,
-                    "[HOST#%d]: delete file %s\n", reply.host.id, fi
+                    "[HOST#%d]: delete file %s\n", reply.host.id, fi.name
                 ); 
             }
         }
