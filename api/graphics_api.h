@@ -28,8 +28,8 @@ extern "C" {
 #endif
 GLenum InitGL(GLvoid);
 GLenum ReSizeGLScene(GLsizei width, GLsizei height);
+extern bool app_render(int xs, int ys, double time_of_day);
 #ifdef __cplusplus
 }
 #endif
-bool app_render(int xs, int ys, double time_of_day);
 #endif

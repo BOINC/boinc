@@ -25,7 +25,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <io.h>
 #include <sys/stat.h>
 #include <afxwin.h>
@@ -73,8 +73,6 @@ extern BOOL    win_loop_done;
 #ifdef __APPLE_CC__
 #include <CoreServices/CoreServices.h>
 #include "mac_app_opengl.h"
-
-MPQueueID drawQueue;
 #endif
 
 #include "boinc_api.h"
@@ -98,7 +96,6 @@ static bool check_susp_quit = false;
 static bool write_frac_done = false;
 static bool this_process_active;
 static bool time_to_suspend = false,time_to_quit = false;
-int ok_to_draw = 0;
 bool using_opengl = false;
 
 // read the INIT_DATA and FD_INIT files
@@ -493,11 +490,6 @@ int set_timer(double period) {
             TRUE,     // initial state is signaled
             NULL);    // object not named
 #endif
-#endif
-
-#if defined BOINC_APP_GRAPHICS && defined __APPLE_CC__
-    // Create notification queue for drawing
-    MPCreateQueue( &drawQueue );
 #endif
 
 #if HAVE_SIGNAL_H
