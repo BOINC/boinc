@@ -215,6 +215,8 @@ bool CMainFrame::DeleteNotebook() {
 
     wxImageList*    pImageList;
 
+    wxASSERT(NULL != m_pNotebook);
+
     pImageList = m_pNotebook->GetImageList();
     if (pImageList)
         delete pImageList;
