@@ -212,7 +212,13 @@ CMainWindow::CMainWindow()
     m_nNetActivityMsg = RegisterWindowMessage(NET_ACTIVITY_MSG);
     m_uScreenSaverMsg = RegisterWindowMessage(START_SS_MSG);
     m_uEndSSMsg = RegisterWindowMessage(STOP_SS_MSG);
-    TRACE(TEXT("CMainWIndow\n"));
+
+	// This message is sent by the shell everytime it is created
+	//   NOTE: This normally happens if/when the shell crashes and is
+	//         restarted.
+	m_uTaskbarCreatedMsg = RegisterWindowMessage(TEXT("TaskbarCreated"));
+	
+	TRACE(TEXT("CMainWIndow\n"));
 }
 
 //////////
@@ -1203,20 +1209,29 @@ LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         gstate.ss_logic.stop_ss();
         return 0;
     } else if(m_uScreenSaverMsg == message) {
-            // Get the current screen blanking information
-            unsigned long reg_time_until_blank = 0, reg_blank_screen = 0;
-            unsigned long blank_time = 0;
+		// Get the current screen blanking information
+        unsigned long reg_time_until_blank = 0, reg_blank_screen = 0;
+        unsigned long blank_time = 0;
 
-            UtilGetRegKey(REG_BLANK_NAME, reg_blank_screen);
-            UtilGetRegKey(REG_BLANK_TIME, reg_time_until_blank);
-            if (reg_blank_screen && reg_time_until_blank>0) {
-                blank_time = time(0) + reg_time_until_blank*60;
-            } else {
-                blank_time = 0;
-            }
-            gstate.ss_logic.start_ss(blank_time);
-            return 0;
-    }
+        UtilGetRegKey(REG_BLANK_NAME, reg_blank_screen);
+        UtilGetRegKey(REG_BLANK_TIME, reg_time_until_blank);
+        if (reg_blank_screen && reg_time_until_blank>0) {
+            blank_time = time(0) + reg_time_until_blank*60;
+        } else {
+            blank_time = 0;
+        }
+        gstate.ss_logic.start_ss(blank_time);
+        return 0;
+    } else if (m_uTaskbarCreatedMsg == message) {
+		// Explorer has crashed, we need to re-register our icon with the shell
+		DWORD dwTempIconStatus;
+
+        dwTempIconStatus = m_nIconState;
+		m_nIconState = ICON_OFF;
+
+		SetStatusIcon(dwTempIconStatus);
+        return 0;
+	}
 
     return CWnd::DefWindowProc(message, wParam, lParam);
 }

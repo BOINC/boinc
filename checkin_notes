@@ -10172,3 +10172,11 @@ David  Feb 28 2004
 		gui_rpc_server.C
 	doc/
 		gui_rpc.php
+
+David  Feb 28 2004
+	- (from Rom) fixes a bug reported by Matze in the forums 
+		where after an explorer crash the BOINC GUI doesn't re-register itself with 
+		the new explorer.
+
+	client/win/
+		wingui_mainwindow.cpp,h

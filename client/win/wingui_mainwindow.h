@@ -126,6 +126,8 @@ protected:
 	UINT					m_nShowMsg;				// ID of show window request message
 	UINT					m_uScreenSaverMsg;		// ID of screensaver message
 	UINT					m_uEndSSMsg;			// ID of end screensaver request message
+	UINT					m_uTaskbarCreatedMsg;	// ID of taskbar created message
+
 
 	void UpdateRunRequestMenu(CMenu* pMenu);
 	void UpdateRunRequestFileMenu();
