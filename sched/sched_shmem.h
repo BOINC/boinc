@@ -31,8 +31,12 @@
 #define MAX_PLATFORMS       50
 #define MAX_APPS            10
 #define MAX_APP_VERSIONS    100
-//#define MAX_WU_RESULTS      100
-#define MAX_WU_RESULTS      500
+
+// If you increase this above 100,
+// you may exceed the max shared-memory segment size
+// on some operating systems.
+#define MAX_WU_RESULTS      100
+//#define MAX_WU_RESULTS      500
 
 // values of state field
 #define WR_STATE_EMPTY   0
