@@ -27,6 +27,7 @@
     $work->result_template = "uc_result";
     $work->nresults = 1;
     $work->rsc_disk = 1000000000000;    // 1 TB
+    $work->rsc_fpops = 0;
     array_push($work->input_files, "input");
     $work->install($project);
 
