@@ -31,18 +31,6 @@
 #include "error_numbers.h"
 #include "util.h"
 
-// Convert UNIX time to Julian time
-//
-double time_t_to_jd(time_t unix_time) {
-  return (((double)unix_time)/SECONDS_PER_DAY+JD0);
-}
-
-// Convert Julian time to UNIX time
-//
-time_t jd_to_time_t(double jd) {
-  return ((time_t)((jd-JD0)*SECONDS_PER_DAY));
-}
-
 // Converts a double precision time (where the value of 1 represents
 // a day) into a string.  smallest_timescale determines the smallest
 // unit of time division used
