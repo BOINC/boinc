@@ -35,6 +35,7 @@ UNIX2DOSDIR = /disks/philmor/a/users/quarl/bin
 dist-hook:
 	rm -rf `find $(distdir) -name .backup -prune -o -name '*~'`
 	PATH=$PATH:$UNIX2DOSDIR cd $(distdir)/win_build && $(UNIX2DOS) boinc.dsw *.dsp
+	cd $(distdir) && ./_autosetup
 
 client-bin:
 	cd client && make client-bin client-bin-gz
