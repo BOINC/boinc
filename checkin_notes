@@ -9792,3 +9792,10 @@ David  Feb 4 2004
 
 	client/
 		client_state.C
+
+Rom    Feb 4 2004
+    - When handled errors occur provide the translated error message as well as the
+        error code.
+    
+    client/
+        app.c

@@ -644,10 +644,12 @@ bool ACTIVE_TASK_SET::check_app_exited() {
                     atp->result->active_task_state = PROCESS_EXITED;
                     //if a nonzero error code, then report it
                     if (exit_code) {
+						char szError[1024];
                         gstate.report_result_error(
                             *(atp->result), 0,
-                            "process exited with code %d (0x%x)",
-                            exit_code, exit_code
+                            "%s - exit code %d (0x%x)",
+                            windows_error_string(szError, sizeof(szError)),
+							exit_code, exit_code
                         );
                     }
                 }
