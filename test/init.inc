@@ -14,7 +14,7 @@ $BOINC_DOWNLOAD_DIR = null;
 $BOINC_UPLOAD_DIR = null;
 $BOINC_PLATFORM = null;
 $BOINC_EMAIL = null;
-$BOINC_URL_BASE = null;
+$BOINC_DOWNLOAD_URL = null;
 $BOINC_KEY_DIR = null;
 $BOINC_MASTER_URL = null;
 
@@ -23,7 +23,7 @@ function check_env_vars() {
     global $BOINC_UPLOAD_DIR;
     global $BOINC_PLATFORM;
     global $BOINC_EMAIL;
-    global $BOINC_URL_BASE;
+    global $BOINC_DOWNLOAD_URL;
     global $BOINC_KEY_DIR;
     global $BOINC_MASTER_URL;
 
@@ -48,9 +48,9 @@ function check_env_vars() {
         echo "Must define BOINC_EMAIL\n";
         $bad = true;
     }
-    $BOINC_URL_BASE = getenv("BOINC_URL_BASE");
-    if ($BOINC_URL_BASE == null) {
-        echo "Must define BOINC_URL_BASE\n";
+    $BOINC_DOWNLOAD_URL = getenv("BOINC_DOWNLOAD_URL");
+    if ($BOINC_DOWNLOAD_URL == null) {
+        echo "Must define BOINC_DOWNLOAD_URL\n";
         $bad = true;
     }
     $BOINC_KEY_DIR = getenv("BOINC_KEY_DIR");
@@ -147,7 +147,7 @@ function add_core_client_message($message, $priority, $platform) {
         $plat = $platform;
     }
     PassThru("../tools/add app -app_name core_client -version ".VERSION);
-    $cmd = "../tools/add app_version -app_name core_client -platform_name $plat -version ".VERSION." -download_dir $BOINC_DOWNLOAD_DIR -url_base $BOINC_URL_BASE -message '$message' -message_priority '$priority' -code_sign_keyfile $BOINC_KEY_DIR/code_sign_private -exec_dir ../client -exec_files ".CORE_CLIENT;
+    $cmd = "../tools/add app_version -app_name core_client -platform_name $plat -version ".VERSION." -download_dir $BOINC_DOWNLOAD_DIR -download_url $BOINC_DOWNLOAD_URL -message '$message' -message_priority '$priority' -code_sign_keyfile $BOINC_KEY_DIR/code_sign_private -exec_dir ../client -exec_files ".CORE_CLIENT;
     //echo "$cmd\n";
     PassThru($cmd);
     PassThru("cp ../client/".CORE_CLIENT." $BOINC_DOWNLOAD_DIR");
@@ -165,7 +165,7 @@ function add_app($name, $platform, $exec_name) {
 function add_app_version($name, $platform, $exec_name) {
     global $BOINC_DOWNLOAD_DIR;
     global $BOINC_PLATFORM;
-    global $BOINC_URL_BASE;
+    global $BOINC_DOWNLOAD_URL;
     global $BOINC_KEY_DIR;
 
     if( $exec_name == null ) {
@@ -177,7 +177,7 @@ function add_app_version($name, $platform, $exec_name) {
         $plat = $platform;
     }
 
-    $cmd = "../tools/add app_version -app_name $name -platform_name $plat -version ".VERSION." -download_dir $BOINC_DOWNLOAD_DIR -url_base $BOINC_URL_BASE -code_sign_keyfile $BOINC_KEY_DIR/code_sign_private -exec_dir ../apps -exec_files $exec_name";
+    $cmd = "../tools/add app_version -app_name $name -platform_name $plat -version ".VERSION." -download_dir $BOINC_DOWNLOAD_DIR -download_url $BOINC_DOWNLOAD_URL -code_sign_keyfile $BOINC_KEY_DIR/code_sign_private -exec_dir ../apps -exec_files $exec_name";
     //echo "$cmd\n";
     PassThru($cmd);
     PassThru("cp ../apps/$exec_name $BOINC_DOWNLOAD_DIR");

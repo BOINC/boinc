@@ -27,7 +27,7 @@
 //      create DB record
 // add app_version
 //      -app_name x -platform_name y -version a
-//      -download_dir d -url_base e
+//      -download_dir d -download_url e
 //      -exec_dir b 
 //      [ -exec_files file1 file2 ... ]
 //      [ -signed_exec_files file1 sign1 file2 sign2 ... ]
@@ -56,7 +56,7 @@ char buf[256], md5_cksum[64];
 char *app_name=0, *platform_name=0;
 char* exec_dir=0, *exec_files[10], *signature_files[10];
 char *email_addr=0, *user_name=0, *web_password=0, *authenticator=0;
-char *prefs_file=0, *download_dir, *url_base;
+char *prefs_file=0, *download_dir, *download_url;
 char* code_sign_keyfile;
 char *message=0, *message_priority=0;
 
@@ -171,7 +171,7 @@ void add_app_version() {
             "    <nbytes>%f</nbytes>\n"
             "</file_info>\n",
             exec_files[i],
-            url_base, exec_files[i],
+            download_url, exec_files[i],
             signature_text,
             nbytes
         );
@@ -303,7 +303,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-prefs_file")) {
             i++;
             prefs_file = argv[i];
-        } else if (!strcmp(argv[i], "-url_base")) {
+        } else if (!strcmp(argv[i], "-download_url")) {
             i++;
             url_base = argv[i];
         } else if (!strcmp(argv[i], "-download_dir")) {

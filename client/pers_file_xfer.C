@@ -65,9 +65,11 @@ bool PERS_FILE_XFER::start_xfer() {
     int retval;
 
     // Decide whether to start a new file transfer
-    if(gstate.start_new_file_xfer()) {
+    //
+    if (gstate.start_new_file_xfer()) {
         // Create a new FILE_XFER object and initialize a
         // download or upload for the persistent file transfer
+	//
         file_xfer = new FILE_XFER;
         if (is_upload) {
             retval = file_xfer->init_upload(*fip);
@@ -78,12 +80,17 @@ bool PERS_FILE_XFER::start_xfer() {
             retval = gstate.insert_file_xfer(file_xfer);
         }
         if (retval) {
-            fprintf(stderr, "couldn't start %s for %s: error %d\n",
-                    (is_upload ? "upload" : "download"), fip->get_url(), retval);
+            fprintf(
+	    	stderr, "couldn't start %s for %s: error %d\n",
+		(is_upload ? "upload" : "download"), fip->get_url(), retval
+	    );
         } else {
             fxp = file_xfer;
             if (log_flags.file_xfer) {
-                printf("started %s of %s\n", (is_upload ? "upload" : "download"), fip->get_url());
+                printf(
+		    "started %s of %s\n",
+		    (is_upload ? "upload" : "download"), fip->get_url()
+		);
             }
             return true;
         }
@@ -91,124 +98,127 @@ bool PERS_FILE_XFER::start_xfer() {
     return false;
 }
 
-// Poll the status of this persistent file transfer.  If it's time to start it, then
-// attempt to start it. If it has finished or failed, then deal with it appropriately
+// Poll the status of this persistent file transfer.
+// If it's time to start it, then attempt to start it.
+// If it has finished or failed, then deal with it appropriately
 //
 bool PERS_FILE_XFER::poll(unsigned int now) {
     double exp_backoff;
     int retval;
     char pathname[256];
    
-    if (fxp) {
-        if (fxp->file_xfer_done) {
-            if (fxp->file_xfer_retval == 0) {
-                // The transfer finished with no errors.  We will clean up the
-                // PERS_FILE_XFER object in garbage_collect() later
-                //
-                if (log_flags.file_xfer) {
-                    printf( "file transfer done for %s; retval %d\n",
-                            fip->get_url(), fxp->file_xfer_retval );
-                }
-                if (fip->generated_locally) {
-                    // If this was a file size query, redo the transfer with
-                    // the information
-                    if (fip->upload_offset<0) {
-                        // Parse the server's response
-                        // TODO: handle error response
-                        fip->parse_server_response( fxp->req1 );
-
-                        // Reset the file transfer so we start the actual transfer
-                        fxp = NULL;
-                    } else {
-                        // Parse the server's response
-                        // TODO: handle error response
-                        fip->parse_server_response( fxp->req1 );
-
-                        // If the file was generated locally (for upload), update stats
-                        // and delete the local copy of the file if needed
-                        //
-                        gstate.update_net_stats(true, fip->nbytes, fxp->elapsed_time());
-
-                        // file has been uploaded - delete if not sticky
-                        if (!fip->sticky) {
-                            fip->delete_file();
-                        }
-                        fip->uploaded = true;
-                    }
-                } else {
-                    // Otherwise we downloaded the file.  Update stats, verify
-                    // the file with RSA or MD5, and change permissions
-                    gstate.update_net_stats(false, fip->nbytes, fxp->elapsed_time());
-                    get_pathname(fip, pathname);
-                    retval = verify_downloaded_file(pathname, *fip);
-                    if (retval) {
-                        fprintf(stderr, "checksum or signature error for %s\n", fip->name);
-                        fip->status = retval;
-                    } else {
-                        if (log_flags.file_xfer_debug) {
-                            printf("MD5 checksum validated for %s\n", pathname);
-                        }
-                        // Set the appropriate permissions depending on whether
-                        // it's an executable or normal file
-                        if (fip->executable) {
-#ifndef _WIN32
-                            retval = chmod(pathname, S_IEXEC|S_IREAD|S_IWRITE);
-#endif
-                        } else {
-                            get_pathname(fip, pathname);
-#ifndef _WIN32
-                            retval = chmod(pathname, S_IREAD|S_IWRITE);
-#endif
-                        }
-                        fip->status = FILE_PRESENT;
-                    }
-                }
-                xfer_done = true;
-                pers_xfer_retval = 0;
-            } else {
-                // file xfer failed.
-                // If it was a bad range request, delete the file and start over
-                if (fxp->file_xfer_retval == 416) {
-                    fip->delete_file();
-                    // TODO: remove fxp from file_xfer_set here and at other
-                    // necessary places
-                    fxp = NULL;
-                } else {
-                    // Cycle to the next URL to try
-                    fip->current_url = (fip->current_url + 1)%fip->urls.size();
-
-                    // If we reach the URL that we started at, then we have tried all
-                    // servers without success
-                    if( fip->current_url == fip->start_url ) {
-                        nretry++;
-                        exp_backoff = exp(((double)rand()/(double)RAND_MAX)*nretry);
-                        // Do an exponential backoff of e^nretry seconds, keeping
-                        // within the bounds of PERS_RETRY_DELAY_MIN and
-                        // PERS_RETRY_DELAY_MAX
-                        next_request_time = now+(int)max(PERS_RETRY_DELAY_MIN,min(PERS_RETRY_DELAY_MAX,exp_backoff));
-                    }
-                }
-                
-                // See if it's time to give up on the persistent file xfer
-                //
-                if ((now - first_request_time) > gstate.giveup_after) {
-                    xfer_done = true;
-                    pers_xfer_retval = ERR_GIVEUP;
-                }
-            }
-            // Disassociate the finished file transfer
-            fxp = NULL;
-
-            return true;
-        }
-    } else {
+    if (!fxp) {
         // No file xfer is active.
         // We must be waiting after a failure.
         // See if it's time to try again.
         //
         if (now >= (unsigned int)next_request_time) {
             return start_xfer();
-        }
+        } else {
+	    return false;
+	}
+    }
+
+    if (fxp->file_xfer_done) {
+	if (fxp->file_xfer_retval == 0) {
+	    // The transfer finished with no errors.  We will clean up the
+	    // PERS_FILE_XFER object in garbage_collect() later
+	    //
+	    if (log_flags.file_xfer) {
+		printf( "file transfer done for %s; retval %d\n",
+			fip->get_url(), fxp->file_xfer_retval );
+	    }
+	    if (fip->generated_locally) {
+		// If this was a file size query, redo the transfer with
+		// the information
+		if (fip->upload_offset<0) {
+		    // Parse the server's response
+		    // TODO: handle error response
+		    fip->parse_server_response( fxp->req1 );
+
+		    // Reset the file transfer so we start the actual transfer
+		    fxp = NULL;
+		} else {
+		    // Parse the server's response
+		    // TODO: handle error response
+		    fip->parse_server_response( fxp->req1 );
+
+		    // If the file was generated locally (for upload), update stats
+		    // and delete the local copy of the file if needed
+		    //
+		    gstate.update_net_stats(true, fip->nbytes, fxp->elapsed_time());
+
+		    // file has been uploaded - delete if not sticky
+		    if (!fip->sticky) {
+			fip->delete_file();
+		    }
+		    fip->uploaded = true;
+		}
+	    } else {
+		// Otherwise we downloaded the file.  Update stats, verify
+		// the file with RSA or MD5, and change permissions
+		gstate.update_net_stats(false, fip->nbytes, fxp->elapsed_time());
+		get_pathname(fip, pathname);
+		retval = verify_downloaded_file(pathname, *fip);
+		if (retval) {
+		    fprintf(stderr, "checksum or signature error for %s\n", fip->name);
+		    fip->status = retval;
+		} else {
+		    if (log_flags.file_xfer_debug) {
+			printf("MD5 checksum validated for %s\n", pathname);
+		    }
+		    // Set the appropriate permissions depending on whether
+		    // it's an executable or normal file
+		    if (fip->executable) {
+#ifndef _WIN32
+			retval = chmod(pathname, S_IEXEC|S_IREAD|S_IWRITE);
+#endif
+		    } else {
+			get_pathname(fip, pathname);
+#ifndef _WIN32
+			retval = chmod(pathname, S_IREAD|S_IWRITE);
+#endif
+		    }
+		    fip->status = FILE_PRESENT;
+		}
+	    }
+	    xfer_done = true;
+	    pers_xfer_retval = 0;
+	} else {
+	    // file xfer failed.
+	    // If it was a bad range request, delete the file and start over
+	    if (fxp->file_xfer_retval == 416) {
+		fip->delete_file();
+		// TODO: remove fxp from file_xfer_set here and at other
+		// necessary places
+		fxp = NULL;
+	    } else {
+		// Cycle to the next URL to try
+		fip->current_url = (fip->current_url + 1)%fip->urls.size();
+
+		// If we reach the URL that we started at, then we have tried all
+		// servers without success
+		if( fip->current_url == fip->start_url ) {
+		    nretry++;
+		    exp_backoff = exp(((double)rand()/(double)RAND_MAX)*nretry);
+		    // Do an exponential backoff of e^nretry seconds, keeping
+		    // within the bounds of PERS_RETRY_DELAY_MIN and
+		    // PERS_RETRY_DELAY_MAX
+		    next_request_time = now+(int)max(PERS_RETRY_DELAY_MIN,min(PERS_RETRY_DELAY_MAX,exp_backoff));
+		}
+	    }
+	    
+	    // See if it's time to give up on the persistent file xfer
+	    //
+	    if ((now - first_request_time) > gstate.giveup_after) {
+		xfer_done = true;
+		pers_xfer_retval = ERR_GIVEUP;
+	    }
+	}
+	// Disassociate the finished file transfer
+	fxp = NULL;
+
+	return true;
     }
 
     return false;
@@ -235,17 +245,18 @@ int PERS_FILE_XFER::parse(FILE* fin) {
 // Write XML information about a particular persistent file transfer
 //
 int PERS_FILE_XFER::write(FILE* fout) {
-    if(fout==NULL) {
+    if (fout==NULL) {
         fprintf(stderr, "error: PERS_FILE_XFER_SET.write: unexpected NULL pointer fout\n");
         return ERR_NULL;
     }
     fprintf(fout,
-            "    <persistent_file_xfer>\n"
-            "        <num_retries>%d</num_retries>\n"
-            "        <first_request_time>%d</first_request_time>\n"
-            "        <next_request_time>%d</next_request_time>\n"
-            "    </persistent_file_xfer>\n",
-            nretry, first_request_time, next_request_time);
+	"    <persistent_file_xfer>\n"
+	"        <num_retries>%d</num_retries>\n"
+	"        <first_request_time>%d</first_request_time>\n"
+	"        <next_request_time>%d</next_request_time>\n"
+	"    </persistent_file_xfer>\n",
+	nretry, first_request_time, next_request_time
+    );
     return 0;
 }
 
@@ -268,15 +279,16 @@ bool PERS_FILE_XFER_SET::poll() {
     return action;
 }
 
-// Insert a PERS_FILE_XFER object into the set.  We will decide which ones to start
-// when we hit the polling loop
+// Insert a PERS_FILE_XFER object into the set.
+// We will decide which ones to start when we hit the polling loop
 //
 int PERS_FILE_XFER_SET::insert(PERS_FILE_XFER* pfx) {
     pers_file_xfers.push_back(pfx);
     return 0;
 }
 
-// Remove a PERS_FILE_XFER object from the set.  What should the action here be?
+// Remove a PERS_FILE_XFER object from the set.
+// What should the action here be?
 //
 int PERS_FILE_XFER_SET::remove(PERS_FILE_XFER* pfx) {
     vector<PERS_FILE_XFER*>::iterator iter;
