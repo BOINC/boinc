@@ -15496,6 +15496,7 @@ Karl 2004-07-21
 
 Karl 2004-07-22
     - fixed html/php bugs (e.g. should be <?php instead of <?)
+    - multipart/form-data doesn't seem to work (?)
 
     html/user/
         sample_index.php
