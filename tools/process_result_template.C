@@ -22,9 +22,13 @@
 
 #include "db.h"
 
-#define WU_NAME_MACRO   "WU_NAME"
-#define RESULT_NAME_MACRO   "RESULT_NAME"
-#define OUTFILE_MACRO   "OUTFILE_"
+#define WU_NAME_MACRO   "<WU_NAME/>"
+#define RESULT_NAME_MACRO   "<RESULT_NAME/>"
+#define OUTFILE_MACRO   "<OUTFILE_"
+#define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"
+#define DOWNLOAD_URL_MACRO      "<DOWNLOAD_URL/>"
+#define UPLOAD_URL      "http://localhost/upload/"
+#define DOWNLOAD_URL      "http://localhost/download/"
 
 // replace OUTFILE_x with base_filename_x,
 // WU_NAME with WU name
@@ -33,8 +37,9 @@
 int process_result_template(
     char* out, char* base_filename, char* wu_name, char* result_name
 ) {
-    char* p;
+    char* p,*q;
     char buf[MAX_BLOB_SIZE];
+    char num;
     int i;
     bool found;
 
@@ -44,8 +49,25 @@ int process_result_template(
         if (p) {
             found = true;
             i = atoi(p+strlen(OUTFILE_MACRO));
-            strcpy(buf, p+strlen(OUTFILE_MACRO));
+            q = p+strlen(OUTFILE_MACRO);
+            num = q[0];
+            strcpy(buf, p+strlen(OUTFILE_MACRO)+1+2);
             strcpy(p, base_filename);
+            strncat(p, &num, 1);
+            strcat(p, buf);
+        }
+        p = strstr(out, UPLOAD_URL_MACRO);
+        if (p) {
+            found = true;
+            strcpy(buf, p+strlen(UPLOAD_URL_MACRO));
+            strcpy(p, UPLOAD_URL);
+            strcat(p, buf);
+        }
+        p = strstr(out, DOWNLOAD_URL_MACRO);
+        if (p) {
+            found = true;
+            strcpy(buf, p+strlen(DOWNLOAD_URL_MACRO));
+            strcpy(p, DOWNLOAD_URL);
             strcat(p, buf);
         }
         p = strstr(out, WU_NAME_MACRO);

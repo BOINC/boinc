@@ -26,11 +26,15 @@
 
 #include "backend_lib.h"
 
-#define INFILE_MACRO    "INFILE_"
-#define MD5_MACRO       "MD5_"
-#define WU_NAME_MACRO   "WU_NAME"
-#define RESULT_NAME_MACRO   "RESULT_NAME"
-#define OUTFILE_MACRO   "OUTFILE_"
+#define INFILE_MACRO    "<INFILE_"
+#define MD5_MACRO       "<MD5_"
+#define WU_NAME_MACRO   "<WU_NAME/>"
+#define RESULT_NAME_MACRO   "<RESULT_NAME/>"
+#define OUTFILE_MACRO   "<OUTFILE_"
+#define UPLOAD_URL_MACRO      "<UPLOAD_URL/>"
+#define DOWNLOAD_URL_MACRO      "<DOWNLOAD_URL/>"
+#define UPLOAD_URL      "http://localhost/upload/"
+#define DOWNLOAD_URL      "http://localhost/download/"
 
 int read_file(char* path, char* buf) {
     FILE* f = fopen(path, "r");
@@ -66,8 +70,22 @@ static int process_wu_template(
                 fprintf(stderr, "invalid file number\n");
                 return 1;
             }
-            strcpy(buf, p+strlen(INFILE_MACRO)+1);      // assume <= 10 files
+            strcpy(buf, p+strlen(INFILE_MACRO)+1+2);      // assume <= 10 files
             strcpy(p, infiles[i]);
+            strcat(p, buf);
+        }
+        p = strstr(out, UPLOAD_URL_MACRO);
+        if (p) {
+            found = true;
+            strcpy(buf, p+strlen(UPLOAD_URL_MACRO));
+            strcpy(p, UPLOAD_URL);
+            strcat(p, buf);
+        }
+        p = strstr(out, DOWNLOAD_URL_MACRO);
+        if (p) {
+            found = true;
+            strcpy(buf, p+strlen(DOWNLOAD_URL_MACRO));
+            strcpy(p, DOWNLOAD_URL);
             strcat(p, buf);
         }
         p = strstr(out, MD5_MACRO);
@@ -80,7 +98,7 @@ static int process_wu_template(
             }
             sprintf(path, "%s/%s", dirpath, infiles[i]);
             md5_file(path, md5, nbytes);
-            strcpy(buf, p+strlen(MD5_MACRO)+1);     // assume <= 10 files
+            strcpy(buf, p+strlen(MD5_MACRO)+1+2);     // assume <= 10 files
             strcpy(p, md5);
             strcat(p, buf);
         }

@@ -44,7 +44,7 @@
 #include "db.h"
 #include "backend_lib.h"
 
-#define INFILE_DIR  "/mydisks/a/users/eheien/public_html/download"
+#define INFILE_DIR  "/disks/jill/a/inet_services/boinc_www/share/htdocs/download"
 
 int main(int argc, char** argv) {
     APP app;
