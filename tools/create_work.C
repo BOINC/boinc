@@ -40,6 +40,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "db.h"
 #include "backend_lib.h"
@@ -55,6 +56,7 @@ int main(int argc, char** argv) {
     int i, ninfiles, nresults;
     char* boinc_download_dir = getenv("BOINC_DOWNLOAD_DIR");
 
+    srand(time(NULL));
     if (!boinc_download_dir) {
         printf("must define BOINC_DOWNLOAD_DIR");
         exit(1);
@@ -100,6 +102,9 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-rsc_disk")) {
             i++;
             wu.rsc_disk = atof(argv[i]);
+        } else if (!strcmp(argv[i], "-wu_name_rand")) {
+            i++;
+            sprintf(wu.name, "%s_%d", argv[i], rand());
         } else {
             infiles = argv+i;
             ninfiles = argc - i;
