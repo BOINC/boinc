@@ -100,7 +100,7 @@ int destroy_shmem(key_t key){
     if (buf.shm_nattch > 0) {
         fprintf(stderr,
             "destroy_shmem: can't destroy segment; %d attachments\n",
-            buf.shm_nattch
+            (int)buf.shm_nattch
         );
         return -1;
     }
@@ -153,7 +153,8 @@ int shmem_info(key_t key) {
         return -1;
     }
     shmctl(id, IPC_STAT, &buf);
-    fprintf( stderr, "id: %d, size: %d, nattach: %d\n", id, buf.shm_segsz, buf.shm_nattch );
+    fprintf( stderr, "shmem key: %x\t\tid: %d, size: %d, nattach: %d\n",
+            (unsigned int)key, id, buf.shm_segsz, (int)buf.shm_nattch );
     
     return 0;
 }

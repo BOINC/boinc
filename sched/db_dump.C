@@ -19,7 +19,8 @@
 
 // db_dump: dump database views in XML format
 //
-// usage: db_dump [-dir path] [-gzip] [-zip]
+// usage: db_dump [-dir path] [-summary_recs num_recs_per_file]
+//                [-detail_recs num_recs_per_file] [-gzip] [-zip]
 
 // files:
 // NOTE: the goal is to make the full DB available (view *_id files)
@@ -64,8 +65,11 @@
 
 #define LOCKFILE "db_dump.out"
 
-#define NRECS_PER_FILE_SUMMARY 1000
-#define NRECS_PER_FILE_DETAIL 100
+#define DEFAULT_NRECS_PER_FILE_SUMMARY 1000
+#define DEFAULT_NRECS_PER_FILE_DETAIL 100
+
+int nrecs_per_file_summary;
+int nrecs_per_file_detail;
 
 bool zip_files = false;
 char zip_cmd[256];
@@ -233,7 +237,7 @@ void team_total_credit() {
         }
         write_team(team, f, false);
         nrec++;
-        if (nrec == NRECS_PER_FILE_SUMMARY) {
+        if (nrec == nrecs_per_file_summary) {
             fclose(f);
             if (zip_files) system(cmd_line);
             f = 0;
@@ -262,7 +266,7 @@ void team_expavg_credit() {
         }
         write_team(team, f, false);
         nrec++;
-        if (nrec == NRECS_PER_FILE_SUMMARY) {
+        if (nrec == nrecs_per_file_summary) {
             fclose(f);
             if (zip_files) system(cmd_line);
             f = 0;
@@ -291,7 +295,7 @@ void team_id() {
         }
         write_team(team, f, true);
         nrec++;
-        if (nrec == NRECS_PER_FILE_DETAIL) {
+        if (nrec == nrecs_per_file_detail) {
             fclose(f);
             if (zip_files) system(cmd_line);
             f = 0;
@@ -320,7 +324,7 @@ void user_total_credit() {
         }
         write_user(user, f, false, true);
         nrec++;
-        if (nrec == NRECS_PER_FILE_SUMMARY) {
+        if (nrec == nrecs_per_file_summary) {
             fclose(f);
             if (zip_files) system(cmd_line);
             f = 0;
@@ -349,7 +353,7 @@ void user_expavg_credit() {
         }
         write_user(user, f, false, true);
         nrec++;
-        if (nrec == NRECS_PER_FILE_SUMMARY) {
+        if (nrec == nrecs_per_file_summary) {
             fclose(f);
             if (zip_files) system(cmd_line);
             f = 0;
@@ -378,7 +382,7 @@ void user_id() {
         }
         write_user(user, f, true, true);
         nrec++;
-        if (nrec == NRECS_PER_FILE_DETAIL) {
+        if (nrec == nrecs_per_file_detail) {
             fclose(f);
             if (zip_files) system(cmd_line);
             f = 0;
@@ -407,7 +411,7 @@ void host_total_credit() {
         }
         write_host(host, f, false, true);
         nrec++;
-        if (nrec == NRECS_PER_FILE_SUMMARY) {
+        if (nrec == nrecs_per_file_summary) {
             fclose(f);
             if (zip_files) system(cmd_line);
             f = 0;
@@ -435,7 +439,7 @@ void host_expavg_credit() {
         }
         write_host(host, f, false, true);
         nrec++;
-        if (nrec == NRECS_PER_FILE_SUMMARY) {
+        if (nrec == nrecs_per_file_summary) {
             fclose(f);
             if (zip_files) system(cmd_line);
             f = 0;
@@ -464,7 +468,7 @@ void host_id() {
         }
         write_host(host, f, true, true);
         nrec++;
-        if (nrec == NRECS_PER_FILE_DETAIL) {
+        if (nrec == nrecs_per_file_detail) {
             fclose(f);
             if (zip_files) system(cmd_line);
             f = 0;
@@ -505,14 +509,14 @@ int tables_file() {
         "</tables>\n",
         (int)time(0),
         nusers,
-        NRECS_PER_FILE_SUMMARY,
-        NRECS_PER_FILE_DETAIL,
+        nrecs_per_file_summary,
+        nrecs_per_file_detail,
         nteams,
-        NRECS_PER_FILE_SUMMARY,
-        NRECS_PER_FILE_DETAIL,
+        nrecs_per_file_summary,
+        nrecs_per_file_detail,
         nhosts,
-        NRECS_PER_FILE_SUMMARY,
-        NRECS_PER_FILE_DETAIL
+        nrecs_per_file_summary,
+        nrecs_per_file_detail
     );
     fclose(f);
     return 0;
@@ -525,6 +529,8 @@ int main(int argc, char** argv) {
 
     check_stop_trigger();
 
+    nrecs_per_file_summary = DEFAULT_NRECS_PER_FILE_SUMMARY;
+    nrecs_per_file_detail = DEFAULT_NRECS_PER_FILE_DETAIL;
     strcpy(dir, "");
     strcpy(zip_cmd, "");
     for (i=1; i<argc; i++) {
@@ -536,7 +542,16 @@ int main(int argc, char** argv) {
         } else if (!strcmp(argv[i], "-zip")) {
             zip_files = true;
             strcpy( zip_cmd, "zip -q");
+        } else if (!strcmp(argv[i], "-summary_recs")) {
+            nrecs_per_file_summary = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-detail_recs")) {
+            nrecs_per_file_detail = atoi(argv[++i]);
         }
+    }
+
+    if (nrecs_per_file_summary <= 0 || nrecs_per_file_detail <= 0) {
+        fprintf(stderr, "Too few records per file.\n");
+        exit(1);
     }
 
     if (lock_file(LOCKFILE)) {
