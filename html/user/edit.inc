@@ -7,20 +7,20 @@ function print_edit_user_info($user) {
 	."<tr><td colspan=2><b>To edit your User Information, fill out the fields that you wish to change.\n"
         ." You do not need to enter anything into the fields that you wish to keep the same.</td></tr>\n"
 	."<tr><td colspan=2><br></td></tr>\n"
-	."<tr>".TD2.LG_FONT."<b>User name:</b></td></tr>\n"
+	."<tr>".TD2.LG_FONT."<b>User name:</b></font></td></tr>\n"
     );
     row2("<input name=my_name type=text size=30>", $user->name);
     echo "<tr><td colspan=2><br></td></tr>\n";
-    echo "<tr>".TD2.LG_FONT."<b>Email address:</b></td></tr>\n";
+    echo "<tr>".TD2.LG_FONT."<b>Email address:</b></font></td></tr>\n";
     row2("<input name=my_email type=text size=50>", $user->email_addr);	
     echo "<tr><td colspan=2><br></td></tr>\n";
-    echo "<tr>".TD2.LG_FONT."<b>Country:</b></td></tr>\n";
+    echo "<tr>".TD2.LG_FONT."<b>Country:</b></font></td></tr>\n";
     echo "<tr><td><select name=my_country>\n";
     print_country_select();
     echo "</select></td>\n";
     echo "<td>$user->country</td></tr>\n";
     echo "<tr><td colspan=2><br></td></tr>\n";
-    echo "<tr>".TD2.LG_FONT."<b>Postal (ZIP) code:</b></td></tr>\n"; 
+    echo "<tr>".TD2.LG_FONT."<b>Postal (ZIP) code:</b></font></td></tr>\n"; 
     row2("<input name=my_zip type=text size=20>", $user->postal_code);
     echo "</table>\n";
     echo "<br><br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<input type=submit value=\"Edit\">\n";
@@ -31,11 +31,11 @@ function print_change_password($user) {
     printf(
 	"<form method=post action=change_pass_action.php>\n"
 	.TABLE2."\n"
-    	. "<tr>".TD.LG_FONT."<b>Old Password:</b></td></tr>\n"
+    	. "<tr>".TD.LG_FONT."<b>Old Password:</b></font></td></tr>\n"
 	."<tr><td><b>To change your password, please enter your old password below:</b></td></tr>\n"
      	."<tr><td><input name=my_pass type=password></td></tr>\n"
      	."<tr><td><br></td></tr>\n" 
-     	."<tr>".TD.LG_FONT."<b>New Password:</b></td></tr>\n"
+     	."<tr>".TD.LG_FONT."<b>New Password:</b></font></td></tr>\n"
 	."<tr><td><b>Next, enter your new password:</b></td></tr>\n"
      	."<tr><td><input name=new_pass type=password></td></tr>\n"
     	."<tr><td><b>Retype password to confirm:</td></tr>"

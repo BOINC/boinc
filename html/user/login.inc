@@ -20,6 +20,10 @@ function print_login_form() {
         ."</tr>\n"
         ."</table>\n"
         ."</form>\n"
+	."<br>\n"
+	.TABLE2."\n"
+	."<tr><td>If you don't have an account, please <a href=create_account.php>create a new one</a></td</tr>\n"
+	."</table>\n"
     );
 }
 

@@ -1,23 +1,27 @@
-<head>
-<title>Sample Distributed Computing Project</title>
-</head>
-<body text=#000000 link=#0000cc vlink=#551a8b alink=#ff0000>
-<h1>Sample Distributed Computing Project</h1>
-
 <?php
+
     require_once("util.inc");
     require_once("db.inc");
-    db_init();
+
+    $project = db_init();
     $user = get_user_from_cookie();
+    printf(
+	"<head>\n"
+	."<title>".$project." Distributed Computing Project</title>\n"
+	."</head>\n"
+	."<body text=#000000 link=#0000cc vlink=#551a8b alink=#ff0000>\n"
+	."<table width=780>\n"
+	."<tr><td><h1 align=center>".$project." Distributed Computing Project</h1></td></tr>\n"
+    );
     if ($user) {
-        echo "<h3>Welcome $user->name</h3>";
+        echo "<tr><td><h3>Welcome $user->name</h3>\n";
         echo "If you are not $user->name or would wish to log in as another user ";
         echo "<a href=login.php>login here</a>.";
     }
 ?>
 
 <p>
-This distribued computing project is running on the BOINC software platform. BOINC is a software platform for public-participation distributed computing projects.  Users are allowed 
+This distributed computing project is running on the BOINC software platform. BOINC is a software platform for public-participation distributed computing projects.  Users are allowed 
 to simultaneously participate in multiple projects and to choose how to allocate their resources
 for each project. 
 
@@ -49,4 +53,5 @@ project.
 <li><a href=team.php>Teams</a></li> - join sample distributed computing project community
 </ul>
 <scheduler>http://maggie.ssl.berkeley.edu/barry-cgi/cgi</scheduler>
+</td></tr></table>
 </body>
