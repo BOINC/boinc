@@ -20668,3 +20668,10 @@ Bruce   3 Dec 2004 (Thanks Reinhard!!)
         Makefile.am
         diagnostics.h
         filesys.h
+
+Rom    3 Dec 2004
+    - Fix build break on Windows where VC didn't like a C prototyped function
+        possibly throwing a C++ exception.
+
+    lib/
+        diagnostics.C, .h

@@ -79,28 +79,45 @@ int boinc_init_diagnostics(int _flags) {
     if (flags & BOINC_DIAG_REDIRECTSTDERR ) {
         lpRetVal = (void*) freopen(BOINC_DIAG_STDERR, "a", stderr);
 	    if ( NULL == lpRetVal ) {
+#ifdef __cplusplus
 		    BOINCFILEERROR("Failed to reopen stderr for diagnostics redirection" );
+#else
+            return ERR_FOPEN;
+#endif
         }
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE ) {
         lpRetVal = (void*) freopen(BOINC_DIAG_STDERR, "w", stderr);
 	    if ( NULL == lpRetVal ) {
+#ifdef __cplusplus
 		    BOINCFILEERROR("Failed to reopen stderr for diagnostics redirection (overwrite)" );
+#else
+            return ERR_FOPEN;
+#endif
         }
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUT ) {
 	    lpRetVal = (void*) freopen(BOINC_DIAG_STDOUT, "a", stdout);
 	    if ( NULL == lpRetVal ) {
+#ifdef __cplusplus
 		    BOINCFILEERROR( "Failed to reopen stdout for diagnostics redirection" );
+#else
+            return ERR_FOPEN;
+#endif
         }
     }
 
     if (flags & BOINC_DIAG_REDIRECTSTDOUTOVERWRITE ) {
 	    lpRetVal = (void*) freopen(BOINC_DIAG_STDOUT, "w", stdout);
-	    if ( NULL == lpRetVal )
+        if ( NULL == lpRetVal ) {
+#ifdef __cplusplus
 		    BOINCFILEERROR( "Failed to reopen stdout for diagnostics redirection (overwrite)" );
+#else
+            return ERR_FOPEN;
+#endif
+        }
     }
 
 
@@ -135,9 +152,13 @@ int boinc_init_diagnostics(int _flags) {
 
 
     // Install unhandled exception filters and signal traps.
-    if ( BOINC_SUCCESS != boinc_install_signal_handlers() )
+    if ( BOINC_SUCCESS != boinc_install_signal_handlers() ) {
+#ifdef __cplusplus
 		BOINCSIGNALERROR( "Failed to install signal handlers" );
-
+#else
+        return ERR_SIGNAL_OP;
+#endif
+    }
 
 	return BOINC_SUCCESS;
 }

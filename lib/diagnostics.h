@@ -24,31 +24,6 @@
 
 #include <assert.h>
 
-/*----------------------------------------------------------------------
- * pure ANSI C API follows here
- */
-#ifndef BOINCASSERT
-#define BOINCASSERT			assert
-#endif
-
-#ifndef BOINCTRACE
-#define BOINCTRACE			__noop
-#endif
-
-#ifndef BOINCINFO
-#define BOINCINFO			__noop
-#endif
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-extern int boinc_init_diagnostics(int flags);
-extern int boinc_finish_diag(void);
-extern int boinc_install_signal_handlers(void);
-#ifdef __cplusplus
-} /* extern "C" */
-#endif
-
 // flags for boinc_init_diagnostics()
 //
 #define BOINC_DIAG_DUMPCALLSTACKENABLED     0x00000001L
@@ -154,5 +129,26 @@ void	boinc_info_release(const char *pszFormat, ...);
 extern void boinc_set_signal_handler(int sig, void(*handler)(int));
 extern void boinc_set_signal_handler_force(int sig, void(*handler)(int));
 #endif // ! _WIN32
+
+
+/*----------------------------------------------------------------------
+ * pure ANSI C API follows here
+ */
+#ifndef BOINCASSERT
+#define BOINCASSERT			assert
+#endif
+
+#ifndef BOINCTRACE
+#define BOINCTRACE			__noop
+#endif
+
+#ifndef BOINCINFO
+#define BOINCINFO			__noop
+#endif
+
+extern int boinc_init_diagnostics(int flags);
+extern int boinc_finish_diag(void);
+extern int boinc_install_signal_handlers(void);
+
 
 #endif /* double-inclusion protection */
