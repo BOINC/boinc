@@ -6,7 +6,7 @@ function show_error($str) {
     page_head("Create account: error");
     echo $str;
     echo mysql_error();
-    echo "<p>Click your browser's <b>Back</b> button to try again.";
+    echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
     page_tail();
     exit();
 }

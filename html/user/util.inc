@@ -53,7 +53,7 @@ function page_head($title) {
 
 function page_tail() {
 
-    echo "<a href=index.php>Return to ".PROJECT." page</a><br>\n";
+    echo "<a href=index.php>Return to main ".PROJECT." page</a><br>\n";
 
     // put your copyright notice etc. here
 
@@ -101,7 +101,7 @@ function print_country_select() {
 function print_login_form() {
     page_head("Please log in");
     echo "This function requires that you be logged in.\n";
-    echo "Please <a href=login_form.php>log in</a>.";
+    echo "Please <a href=login_form.php>log in</a>.\n<p>\n";
     page_tail();
 }
 
