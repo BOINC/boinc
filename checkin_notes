@@ -12026,4 +12026,11 @@ Rom    May 4 2004
 
     html/inc/
         db_ops.inc
-    
+
+Rom    May 4 2004
+     - Touchup on the os_name and os_version fields in the host table.  This will
+       cause some merging woes but should fix things in the long run as version
+       changes and service packs won't block a host merger.
+
+    client/win/
+        hostinfo_win.C
