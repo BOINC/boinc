@@ -43,7 +43,7 @@
 #endif
 
 // the form of the output file
-static eAllocCheckOutput g_CallstackOutputType = ACOutput_XML;
+static eAllocCheckOutput g_CallstackOutputType = ACOutput_Simple;
 
 // Size of Callstack-trace in bytes (0x500 => appr. 5-9 functions, depending on parameter count for each function)
 #define MAX_ESP_LEN_BUF 0x500
