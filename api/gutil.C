@@ -23,6 +23,9 @@
 #include <math.h>
 #ifdef _WIN32
 #include <windows.h>
+#include "gl/gl.h"
+#include "gl/glu.h"
+#include "gl/glut.h"
 #endif
 
 #ifdef HAVE_GL_H
