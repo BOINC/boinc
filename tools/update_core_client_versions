@@ -21,8 +21,6 @@ program_path = os.path.realpath(os.path.dirname(sys.argv[0]))
 sys.path[0:0] = ['../py', os.path.realpath(os.path.join(program_path, '../py'))]
 from version import *
 
-MINOR_VERSION = 7
-
 def xsort(list):
     newlist = list[:]
     newlist.sort()
