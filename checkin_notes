@@ -10602,6 +10602,11 @@ David  Mar 19 2004
 kevin	March 19 2004
 	check for result of	status request parse.  Should avoid problem of
 	partial communication from client to server.
+	lib/
+		error_numbers.h
+	sched/
+		server_types.C
+		handle_request.C
 
 David  Mar 20 2004
     - Various changes to the way CPU benchmarking is done,
