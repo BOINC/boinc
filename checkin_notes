@@ -23361,3 +23361,9 @@ David  27 Jan 2005
 
     client/
         client_types.C
+
+David  28 Jan 2005
+    - typo in server_types.C
+
+    sched/
+        server_types.C
