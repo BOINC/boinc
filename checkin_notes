@@ -14948,5 +14948,9 @@ Karl 2004-07-09
 Karl 2004-07-09
     - graphics API updates
 
+    - fixed potential buffer overflows
+
     api/
         static_graphics.C
+        gutil.C
+        gutil.h

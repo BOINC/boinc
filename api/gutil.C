@@ -67,6 +67,7 @@
 
 #include "gutil.h"
 #include "filesys.h"
+#include "util.h"
 
 GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
 GLfloat mat_shininess[] = {40.0};
@@ -111,42 +112,42 @@ void mode_unshaded() {
 // to the full window.  You must call ortho_done() when done.
 //
 void mode_ortho() {
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
     glLoadIdentity();
     glOrtho(0, 1, 0, 1, 0, 1);
-    glMatrixMode(GL_MODELVIEW);	
-	glPushMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
     glLoadIdentity();
     gluLookAt(
         0.0, 0.0, 1.0,        // eye position
-		0, 0, 0,              // where we're looking
-		0.0, 1.0, 0.          // up is in positive Y direction
+        0, 0, 0,              // where we're looking
+        0.0, 1.0, 0.          // up is in positive Y direction
     );
-	int viewport[4];
-	get_viewport(viewport);
-	center_screen(viewport[2], viewport[3]);
-	scale_screen(viewport[2], viewport[3]);
+    int viewport[4];
+    get_viewport(viewport);
+    center_screen(viewport[2], viewport[3]);
+    scale_screen(viewport[2], viewport[3]);
 }
 
 void ortho_done() {
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
 }
 
 bool get_matrix(double src[16]) {
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glGetDoublev(GL_MODELVIEW_MATRIX, src);
-	glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glGetDoublev(GL_MODELVIEW_MATRIX, src);
+    glPopMatrix();
 
-	return true;
+    return true;
 }
 
 bool get_projection(double src[16]) {
-	glMatrixMode(GL_PROJECTION);
+    glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glGetDoublev(GL_PROJECTION_MATRIX, src);
 	glPopMatrix();
@@ -181,23 +182,24 @@ static double HuetoRGB(double m1, double m2, double h ) {
 }
 
 void HLStoRGB( double H, double L, double S, COLOR& c) {
-  double m1, m2;
+    double m1, m2;
 
-  if(S==0) {
-     c.r=c.g=c.b=L;
-  } else {
-     if(L <=0.5)
-        m2 = L*(1.0+S);
-     else
-        m2 = L+S-L*S;
-     m1 = 2.0*L-m2;
-     c.r = HuetoRGB(m1,m2,H+1.0/3.0);
-     c.g = HuetoRGB(m1,m2,H);
-     c.b = HuetoRGB(m1,m2,H-1.0/3.0);
-  }
+    if(S==0) {
+        c.r=c.g=c.b=L;
+    } else {
+        if(L <=0.5) {
+            m2 = L*(1.0+S);
+        } else {
+            m2 = L+S-L*S;
+        }
+        m1 = 2.0*L-m2;
+        c.r = HuetoRGB(m1,m2,H+1.0/3.0);
+        c.g = HuetoRGB(m1,m2,H);
+        c.b = HuetoRGB(m1,m2,H-1.0/3.0);
+    }
 }
 
-float frand() {
+static inline float frand() {
     return rand()/(float)RAND_MAX;
 }
 
@@ -205,24 +207,24 @@ void scale_screen(int iw, int ih) {
 	double aspect_ratio = 4.0/3.0;
     double w=iw, h=ih;
     double xs, ys;
-	if (h*aspect_ratio > w) {        
+	if (h*aspect_ratio > w) {
         xs = 1.0;
         ys = (w/aspect_ratio)/h;
-    } else {        
+    } else {
 		xs = (h*aspect_ratio)/w;
         ys = 1.0;
-    }		
+    }
 	glScalef(xs, ys*4./3., 1);
 }
 
 void center_screen(int iw, int ih) {
 	double aspect_ratio = 4.0/3.0;
     double w=iw, h=ih;
-	if (h*aspect_ratio > w) {        
+	if (h*aspect_ratio > w) {
 		glTranslatef(0.0, (h/2.0-(w/aspect_ratio/2.0))/h, 0.0);
-    } else {        
+    } else {
 		glTranslatef((w/2.0-(h*aspect_ratio/2.0))/w, 0.0, 0.0);
-    }		
+    }
 }
 
 void drawSphere(GLfloat* pos, GLfloat rad) {
@@ -251,11 +253,9 @@ void drawCylinder(bool vertical, GLfloat* pos, GLfloat len, GLfloat rad) {
 #define STROKE_SCALE    120
     // GLUT stroke characters are about 120 units high
 
-GLfloat text_width(char* text) {
+GLfloat text_width(const char* text) {
     GLfloat sum = 0;
-    char* p;
-
-    for (p=text; *p; p++) {
+    for (const char* p = text; *p; p++) {
         sum += glutStrokeWidth(GLUT_STROKE_ROMAN, *p);
     }
     return sum/STROKE_SCALE;
@@ -265,20 +265,18 @@ GLfloat text_width(char* text) {
 extern float get_char_width(unsigned char c);
 #endif
 
-float text_width_new(char* text) {
+float text_width_new(const char* text) {
 	float sum=0;
 #ifdef _WIN32
-	char* p;
-	for(p=text;*p;p++) {
+	for(const char* p = text; *p; p++) {
 //		sum += get_char_width(p[0]);
 	}
 #endif
 	return sum;
 }
 
-static void draw_text_line_aux(char *text) {
-    char *p;
-    for (p = text; *p; p++) {
+static void draw_text_line_aux(const char *text) {
+    for (const char* p = text; *p; p++) {
         glutStrokeCharacter(GLUT_STROKE_ROMAN, *p);
     }
 }
@@ -290,7 +288,6 @@ static void draw_text_start(GLfloat* pos, GLfloat char_height, GLfloat line_widt
 	glRasterPos3d(pos[0],pos[1],pos[2]);
     float w = char_height/STROKE_SCALE;
     glScalef(w, w, w);
-
 }
 
 static void draw_text_end() {
@@ -299,9 +296,7 @@ static void draw_text_end() {
 
 // draw a line of text in the XY plane at the given starting position,
 // character height, and line width.
-//
-
-void draw_text_simple(char* text,float line_width,float char_height)
+void draw_text_simple(const char* text, float line_width, float char_height)
 {
     glLineWidth(line_width);
     float w = char_height/STROKE_SCALE;
@@ -310,7 +305,7 @@ void draw_text_simple(char* text,float line_width,float char_height)
 }
 
 void draw_text_line(
-    GLfloat* _pos, GLfloat char_height, GLfloat line_width, char *text,
+    GLfloat* _pos, GLfloat char_height, GLfloat line_width, const char *text,
     int justify
 ) {
     GLfloat pos[3];
@@ -336,7 +331,7 @@ void draw_text_line(
 
 // draw rotated text
 void draw_rotated_text(
-	GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, char *text,
+	GLfloat* pos, GLfloat height, GLfloat width, GLfloat spacing, const char *text,
 	GLfloat rotation, GLfloat* rotation_vector)
 {
 	draw_text_start(pos, height, width);
@@ -349,13 +344,13 @@ void draw_rotated_text(
 //
 void draw_text(
     GLfloat* _pos, GLfloat char_height, GLfloat line_width,
-    GLfloat line_spacing, char* text
+    GLfloat line_spacing, const char* text
 ) {
     char* q, *p;
     char buf[4096];
     GLfloat pos[3];
     memcpy(pos, _pos, sizeof(pos));
-    strcpy(buf, text);
+    strlcpy(buf, text, 4096);
 
     p = buf;
     while (*p) {
@@ -372,13 +367,13 @@ void draw_text(
 
 void draw_text_new_3d(
 	GLfloat* _pos, GLfloat char_height, GLfloat line_width,
-    GLfloat line_spacing, char* text
+    GLfloat line_spacing, const char* text
 ) {
 	char* q, *p;
     char buf[4096];
     GLfloat pos[3];
     memcpy(pos, _pos, sizeof(pos));
-    strcpy(buf, text);
+    strlcpy(buf, text, 4096);
 
     p = buf;
 	glPushMatrix();
@@ -397,13 +392,13 @@ void draw_text_new_3d(
 
 void draw_text_new(
     GLfloat* _pos, GLfloat char_height, GLfloat line_width,
-    GLfloat line_spacing, char* text
+    GLfloat line_spacing, const char* text
 ) {
 	char *q, *p;
 	char buf[4096];
 	GLfloat pos[3];
 	memcpy(pos,_pos,sizeof(pos));
-	strcpy(buf,text);
+    strlcpy(buf, text, 4096);
 	p=buf;
 	int viewport[4];
 	get_viewport(viewport);
@@ -420,14 +415,14 @@ void draw_text_new(
 
 void draw_text_right(
     GLfloat* _pos, GLfloat char_height, GLfloat line_width,
-    GLfloat line_spacing, char* text
+    GLfloat line_spacing, const char* text
 ) {
 	char *q, *p;
 	char buf[4096];
 	GLfloat pos[3];
 	memcpy(pos,_pos,sizeof(pos));
 	float orig = pos[0];
-	strcpy(buf,text);
+    strlcpy(buf, text, 4096);
 	p=buf;
 	float w;
 
@@ -528,11 +523,11 @@ void MOVING_TEXT_PANEL::draw() {
     }
 }
 
-void MOVING_TEXT_PANEL::set_text(int lineno, char* p) {
+void MOVING_TEXT_PANEL::set_text(int lineno, const char* p) {
     char* q = strchr(p, '\n');
     while (p) {
         if (q) *q = 0;
-        strcpy(text[lineno++], p);
+        strlcpy(text[lineno++], p, 256);
         if (!q) break;
         p = q+1;
         q = strchr(p, '\n');
@@ -786,7 +781,7 @@ STARFIELD::STARFIELD() {
 
 //
 //
-void STARFIELD::build_stars(int sz, float sp) {	
+void STARFIELD::build_stars(int sz, float sp) {
 	int i;
 
 	speed=sp;
@@ -795,9 +790,9 @@ void STARFIELD::build_stars(int sz, float sp) {
     if (stars) free(stars);
     stars = (STAR*)calloc(sizeof(STAR), (long unsigned int)nstars);
 
-	for (i=0; i<nstars; i++) {				
+	for (i=0; i<nstars; i++) {
 		replace_star(i);
-	}	
+	}
 }
 
 
@@ -806,10 +801,10 @@ void STARFIELD::build_stars(int sz, float sp) {
 //
 void STARFIELD::update_stars(float dt) {
     int i;
-	
+
     mode_ortho();
     mode_lines();
-	glColor4f(1.0, 1.0, 1.0, 1.0);	
+	glColor4f(1.0, 1.0, 1.0, 1.0);
 	for (i=0; i<nstars; i++) {
 		stars[i].z -= speed*dt/500;
         if (stars[i].z < 0) stars[i].z += zmax;
@@ -1010,7 +1005,7 @@ tImageJPG *LoadJPG(const char *filename) {
 	return pImageData;
 }
 
-void printdata(char* filename, int x, int y, unsigned char* data) {
+void printdata(const char* filename, int x, int y, unsigned char* data) {
 	FILE* bmpfile = boinc_fopen(filename,"w");
 	fprintf(bmpfile,"%i,%i\n",x,y);
 	for(int i=0;i<y;i++) {
@@ -1022,7 +1017,7 @@ void printdata(char* filename, int x, int y, unsigned char* data) {
 	fclose(bmpfile);
 }
 
-int TEXTURE_DESC::CreateTextureJPG(char* strFileName) {
+int TEXTURE_DESC::CreateTextureJPG(const char* strFileName) {
 	if(!strFileName) return -1;
 	tImageJPG *pImage = LoadJPG(strFileName);			// Load the image and store the data
 	if(pImage == NULL) return -1;
@@ -1044,7 +1039,7 @@ int TEXTURE_DESC::CreateTextureJPG(char* strFileName) {
 	return 0;
 }
 
-int TEXTURE_DESC::CreateTextureBMP(char* strFileName) {
+int TEXTURE_DESC::CreateTextureBMP(const char* strFileName) {
 #ifdef _WIN32
 	DIB_BITMAP image;
     if(image.loadBMP(strFileName) == false) {
@@ -1065,7 +1060,7 @@ int TEXTURE_DESC::CreateTextureBMP(char* strFileName) {
 	return 0;
 }
 
-int TEXTURE_DESC::CreateTexturePPM(char* strFileName) {
+int TEXTURE_DESC::CreateTexturePPM(const char* strFileName) {
 #ifdef _WIN32
 	unsigned char* pixels;
     int width, height, retval;
@@ -1083,7 +1078,7 @@ int TEXTURE_DESC::CreateTexturePPM(char* strFileName) {
 	return 0;
 }
 
-int TEXTURE_DESC::CreateTextureTGA(char* strFileName) {
+int TEXTURE_DESC::CreateTextureTGA(const char* strFileName) {
 #ifdef _WIN32
 	if(!strFileName)									// Return from the function if no file name was passed in
 		return -1;
@@ -1116,7 +1111,7 @@ int TEXTURE_DESC::CreateTextureTGA(char* strFileName) {
 	return 0;
 }
 
-int TEXTURE_DESC::load_image_file(char* filename) {
+int TEXTURE_DESC::load_image_file(const char* filename) {
     int retval;
     FILE* f;
     f = boinc_fopen(filename, "r");
@@ -1144,7 +1139,7 @@ done:
 //text
 unsigned int listBase;
 
-void print_text(char* string) {
+void print_text(const char* string) {
 	if(string==NULL) return;
 	glPushAttrib(GL_LIST_BIT);
 	glListBase(listBase);

@@ -44,38 +44,38 @@ extern void drawCylinder(bool vertical, float* pos, float len, float rad);
 #define TEXT_CENTER     1
 #define TEXT_RIGHT      2
 extern void draw_text_line(
-    float* pos, float height, float width, char *text,
+    float* pos, float height, float width, const char *text,
     int justify=TEXT_LEFT
 );
 
-void draw_text_simple(char* text,float line_width,float char_height);
+void draw_text_simple(const char* text,float line_width,float char_height);
 
 extern void draw_text(
-    float* pos, float height, float width, float spacing, char *text
+    float* pos, float height, float width, float spacing, const char *text
 );
 
 extern void draw_text_new(
-    float* pos, float height, float width, float spacing, char *text
+    float* pos, float height, float width, float spacing, const char *text
 );
 
 extern void draw_text_right(
-    float* pos, float height, float width, float spacing, char *text
+    float* pos, float height, float width, float spacing, const char *text
 );
 
 extern void draw_text_new_3d(
-    float* pos, float height, float width, float spacing, char *text
+    float* pos, float height, float width, float spacing, const char *text
 );
 
 extern void draw_rotated_text(
-	float* pos, float height, float width, float spacing, char *text, float rotation, float* rotation_vector
+    float* pos, float height, float width, float spacing, const char *text, float rotation, float* rotation_vector
 );
 
-extern float text_width(char* text);
-extern float text_width_new(char* text);
+extern float text_width(const char* text);
+extern float text_width_new(const char* text);
 extern void draw_text_panel(
     float* _pos, float* size, float margin, COLOR color,
     float char_height, float line_width, float line_spacing,
-    char* text
+    const char* text
 );
 
 extern void mode_texture();
@@ -88,7 +88,7 @@ extern bool get_matrix(double src[16]);
 extern bool get_projection(double src[16]);
 extern bool get_viewport(int view[4]);
 extern void get_2d_positions(double p1, double p2, double p3,
-	double model[16], double proj[16], int viewport[4], double proj_pos[3]
+    double model[16], double proj[16], int viewport[4], double proj_pos[3]
 );
 
 // a progress bar represented as an opaque cylinder within a translucent cylinder
@@ -97,7 +97,7 @@ class PROGRESS {
     float color[4], inner_color[4];
     float len, rad, inner_rad;
 public:
-	float pos[3];
+    float pos[3];
     void init(float* pos, float len, float diam, float inner, float* c, float* ic);
     void draw(float);
 };
@@ -106,7 +106,7 @@ public:
 class PROGRESS_2D {
     float color[4], inner_color[4];
     float len, width, inner_width;
-	float pos[3];
+    float pos[3];
 public:
     void set_pos(float*);
     void init(float* pos, float len, float width, float inner_width, float* c, float* ic);
@@ -125,7 +125,7 @@ class RIBBON_GRAPH {
     void draw_x(int);
     void draw_y(int);
     void draw_tick(int i);
-	float pos[3];
+    float pos[3];
 public:
     void set_pos(float*);
     void init(float* pos, float* size, float* color, float* tick_color, float tick_yfrac=0.2);
@@ -141,17 +141,17 @@ class MOVING_TEXT_PANEL {
     float theta;
     float dtheta;
     COLOR color;
-	float char_height;
+    float char_height;
     float line_width;
     float line_spacing;
-	float size[3];
-	double margin;
-	char text[PANEL_MAX_LINES][256];
+    float size[3];
+    double margin;
+    char text[PANEL_MAX_LINES][256];
 public:
-	float pos[3];
+    float pos[3];
     void init(float* pos, float* size, COLOR& color, double dtheta, double ch, double lw, double ls, double margin);
     void draw();
-    void set_text(int lineno, char* t);
+    void set_text(int lineno, const char* t);
     void get_pos(int lineno, float* pos);
     static void sort(MOVING_TEXT_PANEL* tp, int n);
     void move(double dt);
@@ -169,14 +169,14 @@ public:
 //
 
 struct STAR {
-	double x, y, z;
+    double x, y, z;
 };
 
 class STARFIELD {
     double zmax, zmaxinv;
     double speed;
-	int nstars;
-	void replace_star(int);
+    int nstars;
+    void replace_star(int);
     STAR* stars;
 public:
     STARFIELD();
@@ -193,24 +193,24 @@ public:
 #define ALIGN_TOP       2
 
 struct TEXTURE_DESC {
-	bool present;
+    bool present;
     unsigned int id;
     double xsize;          // size of underlying image
     double ysize;
     void draw(float* pos, float* size, int xalign, int yalign);
-    int load_image_file(char* filename);
-    int CreateTextureJPG(char* strFileName);
-    int CreateTextureBMP(char* strFileName);
-    int CreateTexturePPM(char* strFileName);
-    int CreateTextureTGA(char* strFileName);
+    int load_image_file(const char* filename);
+    int CreateTextureJPG(const char* strFileName);
+    int CreateTextureBMP(const char* strFileName);
+    int CreateTexturePPM(const char* strFileName);
+    int CreateTextureTGA(const char* strFileName);
 };
 
 
 // ----- FONTS
 //
 extern unsigned int listBase;
-extern unsigned int MyCreateFont(char *fontName, int Size,int weight);
-extern void print_text(char* string);
+extern unsigned int MyCreateFont(const char *fontName, int Size,int weight);
+extern void print_text(const char* string);
 
 #endif
 

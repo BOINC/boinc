@@ -62,39 +62,38 @@ using namespace std;
 // (not counting the part after the last checkpoint in an episode).
 
 static APP_INIT_DATA  aid;
-APP_CLIENT_SHM	     *app_client_shm      = 0;
-static	double	      timer_period        = 1.0;    // period of API timer
+APP_CLIENT_SHM       *app_client_shm      = 0;
+static double         timer_period        = 1.0;    // period of API timer
 // This determines the resolution of fraction done and CPU time reporting
 // to the core client, and of checkpoint enabling.
 // It doesn't influence graphics, so 1 sec is enough.
-static	double	      time_until_checkpoint;
+static double         time_until_checkpoint;
 // countdown timer until enable checkpoint
-static	double	      time_until_fraction_done_update;
+static double         time_until_fraction_done_update;
 // countdown timer until report fraction done to core
-static	double	      fraction_done;
-static	double	      last_checkpoint_cpu_time;
-static	bool	      ready_to_checkpoint = false;
-//static	bool	      this_process_active;
-static	bool	      time_to_quit        = false;
-static	double	      last_wu_cpu_time;
-static	bool	      standalone          = false;
-static	double	      initial_wu_cpu_time;
-static	bool	      have_new_trickle_up = false;
-static bool have_trickle_down = true;
+static double         fraction_done;
+static double         last_checkpoint_cpu_time;
+static bool           ready_to_checkpoint = false;
+static bool           time_to_quit        = false;
+static double         last_wu_cpu_time;
+static bool           standalone          = false;
+static double         initial_wu_cpu_time;
+static bool           have_new_trickle_up = false;
+static bool           have_trickle_down   = true;
     // on first call, scan slot dir for msgs
-static double heartbeat_giveup_time;
-static bool heartbeat_active;   // if false, suppress heartbeat mechanism
+static double         heartbeat_giveup_time;
+static bool           heartbeat_active;             // if false, suppress heartbeat mechanism
 
 #define HEARTBEAT_GIVEUP_PERIOD 5.0
     // quit if no heartbeat from core in this #secs
 
 #ifdef _WIN32
-HANDLE	 hErrorNotification;
-HANDLE	 hQuitRequest;
-HANDLE	 hSuspendRequest;
-HANDLE	 hResumeRequest;
-HANDLE	 hSharedMem;
-HANDLE	 worker_thread_handle;
+HANDLE   hErrorNotification;
+HANDLE   hQuitRequest;
+HANDLE   hSuspendRequest;
+HANDLE   hResumeRequest;
+HANDLE   hSharedMem;
+HANDLE   worker_thread_handle;
 MMRESULT timer_id;
 #endif
 
@@ -379,14 +378,14 @@ static void on_timer(int a) {
         }
     }
 
-	// handle messages from the core client
-	//
+    // handle messages from the core client
+    //
     if (app_client_shm) {
         handle_core_app_msgs();
     }
 
-	// see if the core client has died, and we need to die too
-	//
+    // see if the core client has died, and we need to die too
+    //
     if (heartbeat_active) {
         if (heartbeat_giveup_time < dtime()) {
             fprintf(stderr, "No heartbeat from core client - exiting\n");
