@@ -509,6 +509,9 @@
 				RelativePath="..\client\dhrystone.C">
 			</File>
 			<File
+				RelativePath="..\client\dhrystone2.C">
+			</File>
+			<File
 				RelativePath="..\lib\diagnostics.C">
 			</File>
 			<File
@@ -1034,6 +1037,9 @@
 			</File>
 			<File
 				RelativePath="..\client\client_types.h">
+			</File>
+			<File
+				RelativePath="..\client\dhrystone.h">
 			</File>
 			<File
 				RelativePath="..\lib\diagnostics.h">

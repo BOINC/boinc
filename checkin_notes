@@ -19025,3 +19025,16 @@ David  2 Nov 2004
 
     db/
         schema.sql
+
+David  2 Nov 2004
+	- split Dhrystone source into 2 files (from Peter Smithson).
+		This supposedly prevents compiler optimizations on Win
+		that give inflated results (I don't see this).
+
+	client/
+		dhrystone.C
+		dhrystone.h (new)
+		dhrystone2.C (new)
+	win_build/
+		boinc_cli.vcproj
+		boinc_gui.vcproj
