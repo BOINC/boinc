@@ -21239,3 +21239,12 @@ Rom    13 Dec 2004
         BOINCGUIApp.cpp, .h
     win_build/installerv2/
         BOINC.ism
+
+Janus  13 Dec 2004
+    - Added a text-box that displays how many more chars the user can 
+      write in the signature on forum prefs page
+      (Thanks goes to Christian)
+    - Also made changes to make this file HTML 4.01 transitional valid
+
+    html/user/
+        edit_forum_preferences_form.php
