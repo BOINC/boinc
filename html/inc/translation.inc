@@ -33,6 +33,11 @@ function parseLanguageInterface($file){
  ***************************/
 function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
     global $lang_project_default;
+
+    $fh=fopen($langdir."last_compile_timer","w");			//Touching compile timer
+    fwrite($fh, time());
+    fclose($fh);
+
     //First build the list of defines for the tokens
     //and place it in an include file in the directory
     $interface = parseLanguageInterface($langdir.$transdir.$lang_project_default.".po");	//Get the interface
@@ -118,9 +123,6 @@ function buildLanguages($langdir,$transdir,$prjtransdir,$compdir){
     }
 
 
-    $fh=fopen($langdir."last_compile_timer","w");			//Toucing compile timer
-    fwrite($fh, time());
-    fclose($fh);
     
     
 }
@@ -236,10 +238,8 @@ function getPOLineContent($line){
 function tr($tokennumber){
     global $language_lookup_array, $default_language_lookup_array;
     if (strval(intval($tokennumber))!=$tokennumber){
-	echo "Language token used which is not defined in language interface!";
-	echo "DEVELOPER: please check your spelling or add the token to the translation.";
-	echo "<br>If you are a user of this system please contact an administrator right ";
-	echo "away and tell what URL you got this error on";
+	echo "Language token used which is not defined in language interface! DEVELOPER: please check your spelling or add the token to the interface (usually the project default language file).";
+	echo "<br>If you are a user of this system please contact an administrator right away and tell what URL you got this error on";
     }
     
     if (array_key_exists($tokennumber,$language_lookup_array)){		//If language has got the token
