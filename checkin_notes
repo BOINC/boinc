@@ -5376,3 +5376,11 @@ David  July 24 2003
 
     client/
         client_state.C,h
+
+Karl 2003/07/24
+    fixed bugs with file_info->pers_file_info->file_info and stderr.txt
+    reading
+
+    release 1.07.
+
+    client/*
