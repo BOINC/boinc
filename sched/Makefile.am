@@ -173,5 +173,5 @@ fcgi_SOURCES =					\
         ../tools/process_result_template.C
 
 fcgi_DEPENDENCIES = $(LIBRSA)
-fcgi_CPPFLAGS = -include /usr/local/include/fcgi_stdio.h -D_USING_FCGI_
+fcgi_CPPFLAGS = -include /usr/local/include/fcgi_stdio.h -D_USING_FCGI_ $(AM_CPPFLAGS)
 fcgi_LDADD = $(RSA_LIBS) -lfcgi -lfcgi++ $(MYSQL_LIBS)
