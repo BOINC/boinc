@@ -46,9 +46,13 @@ public:
                                                    const wxString& strTaskHeaderFilename, 
                                                    bool  bHidden );
     virtual void                CreateTask(        const wxString& strLink,
+                                                   const wxString& strTaskName,
+                                                   bool  bHidden );
+    virtual void                CreateTask(        const wxString& strLink,
                                                    const wxString& strTaskIconFilename, 
                                                    const wxString& strTaskName,
                                                    bool  bHidden );
+    virtual void                CreateTaskSeperator( bool  bHidden );
     virtual void                EndTaskSection(    bool  bHidden );
     virtual void                UpdateQuickTip(    const wxString& strLink,
                                                    const wxString& strIconFilename,

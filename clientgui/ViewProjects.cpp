@@ -44,18 +44,6 @@
 #include "res/tips.xpm"
 
 
-#define VIEW_HEADER                 wxT("proj")
-
-#define SECTION_TASK                wxT(VIEW_HEADER "task")
-#define SECTION_WEB                 wxT(VIEW_HEADER "web")
-#define SECTION_TIPS                wxT(VIEW_HEADER "tips")
-
-#define BITMAP_PROJECTS             wxT(VIEW_HEADER ".xpm")
-#define BITMAP_TASKHEADER           wxT(SECTION_TASK ".xpm")
-#define BITMAP_WEBHEADER            wxT(SECTION_WEB ".xpm")
-#define BITMAP_TIPSHEADER           wxT(SECTION_TIPS ".xpm")
-#define BITMAP_BOINC                wxT("boinc.xpm")
-
 #define COLUMN_PROJECT              0
 #define COLUMN_ACCOUNTNAME          1
 #define COLUMN_TEAMNAME             2
@@ -63,62 +51,6 @@
 #define COLUMN_AVGCREDIT            4
 #define COLUMN_RESOURCESHARE        5
 #define COLUMN_STATUS               6
-
-
-const wxString LINKDESC_DEFAULT         = 
-     _("Click a project to see additional options.");
-
-const wxString LINK_TASKATTACH      = wxT(SECTION_TASK "attach");
-const wxString LINKDESC_TASKATTACH  = 
-     _("<b>Attach to new project</b><br>"
-       "Attach this computer to a BOINC project.  "
-       "You'll need a project URL and account key "
-       "(visit the project's web site to get these).");
-
-const wxString LINK_TASKDETACH      = wxT(SECTION_TASK "detach");
-const wxString LINKDESC_TASKDETACH  = 
-     _("<b>Detach from project</b><br>"
-       "Detach this computer from this project.  "
-       "Work in progress will be lost. "
-       "You can update the project first to report "
-       "any completed work.");
-
-const wxString LINK_TASKRESET       = wxT(SECTION_TASK "reset");
-const wxString LINKDESC_TASKRESET   = 
-     _("<b>Reset project</b><br>"
-       "Delete all files and work associated with this project, "
-       "and get new work.  "
-       "You can update the project "
-       "first to report any completed work.");
-
-const wxString LINK_TASKSUSPEND     = wxT(SECTION_TASK "suspend");
-const wxString LINKDESC_TASKSUSPEND = 
-     _("<b>Suspend project</b><br>"
-       "Stop work for this project "
-       "(you can resume later).");
-
-const wxString LINK_TASKRESUME      = wxT(SECTION_TASK "resume");
-const wxString LINKDESC_TASKRESUME  = 
-     _("<b>Resume project</b><br>"
-       "Resume work for this project");
-
-const wxString LINK_TASKUPDATE      = wxT(SECTION_TASK "update");
-const wxString LINKDESC_TASKUPDATE  = 
-     _("<b>Update project</b><br>"
-       "Report all completed work and refresh "
-       "your credit and preferences for this project.");
-
-const wxString LINK_WEBBOINC        = wxT(SECTION_WEB "boinc");
-const wxString LINKDESC_WEBBOINC    = 
-     _("<b>BOINC home page</b><br>"
-       "Open the BOINC home page in a web browser.");
-
-const wxString LINK_WEBPROJECT      = wxT(SECTION_WEB "project");
-const wxString LINKDESC_WEBPROJECT  = 
-     _("<b>Project home page</b><br>"
-       "Open this project's home page in a web browser.");
-
-const wxString LINK_WEB             = wxT(SECTION_WEB ":");
 
 
 WX_DEFINE_OBJARRAY( CProjectCache );
@@ -260,6 +192,81 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
+    //
+    // Globalization/Localization
+    //
+    VIEW_HEADER          = wxT("proj");
+
+    SECTION_TASK         = VIEW_HEADER + wxT("task");
+    SECTION_WEB          = VIEW_HEADER + wxT("web");
+    SECTION_TIPS         = VIEW_HEADER + wxT("tips");
+
+    BITMAP_PROJECTS      = VIEW_HEADER + wxT(".xpm");
+    BITMAP_TASKHEADER    = SECTION_TASK + wxT(".xpm");
+    BITMAP_WEBHEADER     = SECTION_WEB + wxT(".xpm");
+    BITMAP_TIPSHEADER    = SECTION_TIPS + wxT(".xpm");
+    BITMAP_BOINC         = wxT("boinc.xpm");
+
+
+    LINKDESC_DEFAULT     = 
+        _("Click a project to see additional options.");
+
+    LINK_TASKATTACH      = SECTION_TASK + wxT("attach");
+    LINKDESC_TASKATTACH  = 
+        _("<b>Attach to new project</b><br>"
+          "Attach this computer to a BOINC project.  "
+          "You'll need a project URL and account key "
+          "(visit the project's web site to get these).");
+
+    LINK_TASKDETACH      = SECTION_TASK + wxT("detach");
+    LINKDESC_TASKDETACH  = 
+        _("<b>Detach from project</b><br>"
+          "Detach this computer from this project.  "
+          "Work in progress will be lost. "
+          "You can update the project first to report "
+          "any completed work.");
+
+    LINK_TASKRESET       = SECTION_TASK + wxT("reset");
+    LINKDESC_TASKRESET   = 
+        _("<b>Reset project</b><br>"
+          "Delete all files and work associated with this project, "
+          "and get new work.  "
+          "You can update the project "
+          "first to report any completed work.");
+
+    LINK_TASKSUSPEND     = SECTION_TASK + wxT("suspend");
+    LINKDESC_TASKSUSPEND = 
+        _("<b>Suspend project</b><br>"
+          "Stop work for this project "
+          "(you can resume later).");
+
+    LINK_TASKRESUME      = SECTION_TASK + wxT("resume");
+    LINKDESC_TASKRESUME  = 
+        _("<b>Resume project</b><br>"
+          "Resume work for this project");
+
+    LINK_TASKUPDATE      = SECTION_TASK + wxT("update");
+    LINKDESC_TASKUPDATE  = 
+        _("<b>Update project</b><br>"
+          "Report all completed work and refresh "
+          "your credit and preferences for this project.");
+
+    LINK_WEBBOINC        = SECTION_WEB + wxT("boinc");
+    LINKDESC_WEBBOINC    = 
+        _("<b>BOINC home page</b><br>"
+          "Open the BOINC home page in a web browser.");
+
+    LINK_WEBPROJECT      = SECTION_WEB + wxT("project");
+    LINKDESC_WEBPROJECT  = 
+        _("<b>Project home page</b><br>"
+          "Open this project's home page in a web browser.");
+
+    LINK_WEB             = SECTION_WEB + wxT(":");
+
+
+    //
+    // Setup View
+    //
     wxBitmap bmpProject(proj_xpm);
     wxBitmap bmpTask(task_xpm);
     wxBitmap bmpWeb(web_xpm);

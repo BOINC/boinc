@@ -28,16 +28,13 @@
 #pragma interface "BOINCBaseView.cpp"
 #endif
 
-
-class CBOINCTaskCtrl;
-class CBOINCListCtrl;
-
-extern const wxString LINK_DEFAULT;
-
 #define DEFAULT_HTML_FLAGS             wxHW_SCROLLBAR_AUTO | wxHSCROLL | wxVSCROLL
 #define DEFAULT_LIST_SINGLE_SEL_FLAGS  wxLC_REPORT | wxLC_VIRTUAL | wxLC_SINGLE_SEL
 #define DEFAULT_LIST_MULTI_SEL_FLAGS   wxLC_REPORT | wxLC_VIRTUAL
 
+
+class CBOINCTaskCtrl;
+class CBOINCListCtrl;
 
 class CBOINCBaseView : public wxPanel
 {
@@ -123,6 +120,11 @@ protected:
 
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;
+
+    //
+    // Globalization/Localization
+    //
+    wxString                LINK_DEFAULT;
 
 };
 

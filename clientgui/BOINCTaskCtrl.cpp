@@ -101,6 +101,40 @@ void CBOINCTaskCtrl::BeginTaskSection( const wxString& strLink, const wxString& 
 }
 
 
+void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTaskName, bool  bHidden )
+{
+    if ( !bHidden )
+    {
+        m_strTaskPage += wxT("        <tr>");
+        m_strTaskPage += wxT("          <td valign=\"center\" width=\"100%\">");
+
+        if ( !strLink.empty() )
+            m_strTaskPage += wxT("            <a href=\"") + strLink + wxT("\">");
+
+        m_strTaskPage += wxT("              <font color=\"#000000\">") + strTaskName + wxT("</font>");
+
+        if ( !strLink.empty() )
+            m_strTaskPage += wxT("            </a>");
+
+        m_strTaskPage += wxT("          </td>");
+        m_strTaskPage += wxT("        </tr>");
+    }
+}
+
+
+void CBOINCTaskCtrl::CreateTaskSeperator( bool  bHidden )
+{
+    if ( !bHidden )
+    {
+        m_strTaskPage += wxT("        <tr>");
+        m_strTaskPage += wxT("          <td>");
+        m_strTaskPage += wxT("            <hr><br>");
+        m_strTaskPage += wxT("          </td>");
+        m_strTaskPage += wxT("        </tr>");
+    }
+}
+
+
 void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTaskIconFilename, const wxString& strTaskName, bool  bHidden )
 {
     if ( !bHidden )

@@ -131,6 +131,50 @@ protected:
     wxInt32                 ConvertLinkToWebsiteIndex( const wxString& strLink, wxInt32& iProjectIndex, wxInt32& iWebsiteIndex );
     void                    ExecuteLink( const wxString& strLink );
 
+
+    //
+    // Globalization/Localization
+    //
+    wxString                VIEW_HEADER;
+
+    wxString                SECTION_TASK;
+    wxString                SECTION_WEB;
+    wxString                SECTION_TIPS;
+
+    wxString                BITMAP_PROJECTS;
+    wxString                BITMAP_TASKHEADER;
+    wxString                BITMAP_WEBHEADER;
+    wxString                BITMAP_TIPSHEADER;
+    wxString                BITMAP_BOINC;
+
+    wxString                LINKDESC_DEFAULT;
+
+    wxString                LINK_TASKATTACH;
+    wxString                LINKDESC_TASKATTACH;
+
+    wxString                LINK_TASKDETACH;
+    wxString                LINKDESC_TASKDETACH;
+
+    wxString                LINK_TASKRESET;
+    wxString                LINKDESC_TASKRESET;
+
+    wxString                LINK_TASKSUSPEND;
+    wxString                LINKDESC_TASKSUSPEND;
+
+    wxString                LINK_TASKRESUME;
+    wxString                LINKDESC_TASKRESUME;
+
+    wxString                LINK_TASKUPDATE;
+    wxString                LINKDESC_TASKUPDATE;
+
+    wxString                LINK_WEBBOINC;
+    wxString                LINKDESC_WEBBOINC;
+
+    wxString                LINK_WEBPROJECT;
+    wxString                LINKDESC_WEBPROJECT;
+
+    wxString                LINK_WEB;
+
 };
 
 

@@ -41,14 +41,6 @@
 #include "res/task.xpm"
 #include "res/tips.xpm"
 
-#define VIEW_HEADER                 wxT("xfer")
-
-#define SECTION_TASK                wxT(VIEW_HEADER "task")
-#define SECTION_TIPS                wxT(VIEW_HEADER "tips")
-
-#define BITMAP_TRANSFER             wxT(VIEW_HEADER ".xpm")
-#define BITMAP_TASKHEADER           wxT(SECTION_TASK ".xpm")
-#define BITMAP_TIPSHEADER           wxT(SECTION_TIPS ".xpm")
 
 #define COLUMN_PROJECT              0
 #define COLUMN_FILE                 1
@@ -57,21 +49,6 @@
 #define COLUMN_TIME                 4
 #define COLUMN_SPEED                5
 #define COLUMN_STATUS               6
-
-
-const wxString LINKDESC_DEFAULT         = 
-     _("Click an item to see additional options.");
-
-const wxString LINK_TASKRETRY           = wxT(SECTION_TASK "retry");
-const wxString LINKDESC_TASKRETRY       = 
-     _("<b>Retry now</b><br>"
-       "Click <b>Retry now</b> to upload the file now");
-
-const wxString LINK_TASKABORT           = wxT(SECTION_TASK "abort");
-const wxString LINKDESC_TASKABORT       = 
-     _("<b>Abort upload</b><br>"
-       "Click <b>Abort upload</b> to delete the file from the upload queue. "
-       "This will prevent you from being granted credit for this result.");
 
 
 WX_DEFINE_OBJARRAY( CTransferCache );
@@ -213,6 +190,36 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
+    //
+    // Globalization/Localization
+    //
+    VIEW_HEADER              = wxT("xfer");
+
+    SECTION_TASK             = VIEW_HEADER + wxT("task");
+    SECTION_TIPS             = VIEW_HEADER + wxT("tips");
+
+    BITMAP_TRANSFER          = VIEW_HEADER + wxT(".xpm");
+    BITMAP_TASKHEADER        = SECTION_TASK + wxT(".xpm");
+    BITMAP_TIPSHEADER        = SECTION_TIPS + wxT(".xpm");
+
+    LINKDESC_DEFAULT         = 
+        _("Click an item to see additional options.");
+
+    LINK_TASKRETRY           = SECTION_TASK + wxT("retry");
+    LINKDESC_TASKRETRY       = 
+        _("<b>Retry now</b><br>"
+        "Click <b>Retry now</b> to upload the file now");
+
+    LINK_TASKABORT           = SECTION_TASK + wxT("abort");
+    LINKDESC_TASKABORT       = 
+        _("<b>Abort upload</b><br>"
+        "Click <b>Abort upload</b> to delete the file from the upload queue. "
+        "This will prevent you from being granted credit for this result.");
+
+
+    //
+    // Setup View
+    //
     wxBitmap bmpTransfer(xfer_xpm);
     wxBitmap bmpTask(task_xpm);
     wxBitmap bmpTips(tips_xpm);

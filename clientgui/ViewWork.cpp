@@ -41,15 +41,6 @@
 #include "res/tips.xpm"
 
 
-#define VIEW_HEADER                 wxT("result")
-
-#define SECTION_TASK                wxT(VIEW_HEADER "task")
-#define SECTION_TIPS                wxT(VIEW_HEADER "tips")
-
-#define BITMAP_RESULTS              wxT(VIEW_HEADER ".xpm")
-#define BITMAP_TASKHEADER           wxT(SECTION_TASK ".xpm")
-#define BITMAP_TIPSHEADER           wxT(SECTION_TIPS ".xpm")
-
 #define COLUMN_PROJECT              0
 #define COLUMN_APPLICATION          1
 #define COLUMN_NAME                 2
@@ -58,31 +49,6 @@
 #define COLUMN_TOCOMPLETETION       5
 #define COLUMN_REPORTDEADLINE       6
 #define COLUMN_STATUS               7
-
-
-const wxString LINKDESC_DEFAULT         = 
-     _("Click a result to see additional options.");
-
-const wxString LINK_TASKSUSPEND         = wxT(SECTION_TASK "suspend");
-const wxString LINKDESC_TASKSUSPEND     = 
-     _("<b>Suspend</b><br>"
-       "Suspend the result.");
-
-const wxString LINK_TASKRESUME          = wxT(SECTION_TASK "resume");
-const wxString LINKDESC_TASKRESUME      = 
-     _("<b>Resume</b><br>"
-       "Resume a suspended result.");
-
-const wxString LINK_TASKSHOWGRAPHICS    = wxT(SECTION_TASK "showgraphics");
-const wxString LINKDESC_TASKSHOWGRAPHICS= 
-     _("<b>Show graphics</b><br>"
-       "Show application graphics in a window.");
-
-const wxString LINK_TASKABORT           = wxT(SECTION_TASK "abort");
-const wxString LINKDESC_TASKABORT       = 
-     _("<b>Abort result</b><br>"
-       "Delete the result from the work queue. "
-       "This will prevent you from being granted credit for the result.");
 
 
 WX_DEFINE_OBJARRAY( CWorkCache );
@@ -240,6 +206,46 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
+    //
+    // Globalization/Localization
+    //
+    VIEW_HEADER              = wxT("result");
+
+    SECTION_TASK             = VIEW_HEADER + wxT("task");
+    SECTION_TIPS             = VIEW_HEADER + wxT("tips");
+
+    BITMAP_RESULTS           = VIEW_HEADER + wxT(".xpm");
+    BITMAP_TASKHEADER        = SECTION_TASK + wxT(".xpm");
+    BITMAP_TIPSHEADER        = SECTION_TIPS + wxT(".xpm");
+
+    LINKDESC_DEFAULT         = 
+        _("Click a result to see additional options.");
+
+    LINK_TASKSUSPEND         = SECTION_TASK + wxT("suspend");
+    LINKDESC_TASKSUSPEND     = 
+        _("<b>Suspend</b><br>"
+          "Suspend the result.");
+
+    LINK_TASKRESUME          = SECTION_TASK + wxT("resume");
+    LINKDESC_TASKRESUME      = 
+        _("<b>Resume</b><br>"
+          "Resume a suspended result.");
+
+    LINK_TASKSHOWGRAPHICS    = SECTION_TASK + wxT("showgraphics");
+    LINKDESC_TASKSHOWGRAPHICS= 
+        _("<b>Show graphics</b><br>"
+          "Show application graphics in a window.");
+
+    LINK_TASKABORT           = SECTION_TASK + wxT("abort");
+    LINKDESC_TASKABORT       = 
+        _("<b>Abort result</b><br>"
+          "Delete the result from the work queue. "
+          "This will prevent you from being granted credit for the result.");
+
+
+    //
+    // Setup View
+    //
     wxBitmap bmpResult(result_xpm);
     wxBitmap bmpTask(task_xpm);
     wxBitmap bmpTips(tips_xpm);

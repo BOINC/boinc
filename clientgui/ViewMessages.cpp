@@ -41,37 +41,12 @@
 #include "res/tips.xpm"
 
 
-#define VIEW_HEADER                 wxT("mess")
-
-#define SECTION_TASK                wxT(VIEW_HEADER "task")
-#define SECTION_TIPS                wxT(VIEW_HEADER "tips")
-
-#define BITMAP_MESSAGE              wxT(VIEW_HEADER ".xpm")
-#define BITMAP_TASKHEADER           wxT(SECTION_TASK ".xpm")
-#define BITMAP_TIPSHEADER           wxT(SECTION_TIPS ".xpm")
-
 #define COLUMN_PROJECT              0
 #define COLUMN_TIME                 1
 #define COLUMN_MESSAGE              2
 
 #define PRIORITY_INFO               1
 #define PRIORITY_ERROR              2
-
-
-const wxString LINKDESC_DEFAULT         = 
-     _("Click a message to see additional options.");
-
-const wxString LINK_TASKCOPYALL         = wxT(SECTION_TASK "copyall");
-const wxString LINKDESC_TASKCOPYALL     = 
-     _("<b>Copy all</b><br>"
-       "Copy all the messages to the clipboard.");
-
-const wxString LINK_TASKCOPYMESSAGE     = wxT(SECTION_TASK "copymessage");
-const wxString LINKDESC_TASKCOPYMESSAGE = 
-     _("<b>Copy selected messages</b><br>"
-       "Copy the selected messages to the clipboard.  "
-       "You can select multiple messages by holding down the shift "
-       " or control key while clicking on messages.");
 
 
 WX_DEFINE_OBJARRAY( CMessageCache );
@@ -165,6 +140,36 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
+    //
+    // Globalization/Localization
+    //
+    VIEW_HEADER              = wxT("mess");
+
+    SECTION_TASK             = VIEW_HEADER + wxT("task");
+    SECTION_TIPS             = VIEW_HEADER + wxT("tips");
+
+    BITMAP_MESSAGE           = VIEW_HEADER + wxT(".xpm");
+    BITMAP_TASKHEADER        = SECTION_TASK + wxT(".xpm");
+    BITMAP_TIPSHEADER        = SECTION_TIPS + wxT(".xpm");
+
+    LINKDESC_DEFAULT         = 
+        _("Click a message to see additional options.");
+
+    LINK_TASKCOPYALL         = SECTION_TASK + wxT("copyall");
+    LINKDESC_TASKCOPYALL     = 
+        _("<b>Copy all</b><br>"
+          "Copy all the messages to the clipboard.");
+
+    LINK_TASKCOPYMESSAGE     = SECTION_TASK + wxT("copymessage");
+    LINKDESC_TASKCOPYMESSAGE = 
+        _("<b>Copy selected messages</b><br>"
+          "Copy the selected messages to the clipboard. "
+          "You can select multiple messages by holding down the shift "
+          "or control key while clicking on messages.");
+
+    //
+    // Setup View
+    //
     wxBitmap bmpMessage(mess_xpm);
     wxBitmap bmpTask(task_xpm);
     wxBitmap bmpTips(tips_xpm);

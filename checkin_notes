@@ -21730,3 +21730,19 @@ Bruce  22 Dec 2004
     doc/
         api.php
         client_app.php
+
+Rom    22 Dec 2004
+    - Fix globalization/localization bugs related to the fact that we
+        only lookup the information once, and it needs to be after
+        the wxLocale object is created.
+    - Add the ability for the task control to have a horizonal rule
+    - Create a CreateTask API that doesn't require a reference to a bitmap
+
+    clientgui/
+        BOINCBaseView.cpp, .h
+        BOINCTaskCtrl.cpp, .h
+        ViewMessages.cpp, .h
+        ViewProjects.cpp, .h
+        ViewResources.cpp, .h
+        ViewTransfers.cpp, .h
+        ViewWork.cpp, .h

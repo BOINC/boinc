@@ -41,21 +41,8 @@
 #include "res/tips.xpm"
 
 
-#define VIEW_HEADER                 wxT("resources")
-
-#define SECTION_TASK                wxT(VIEW_HEADER "task")
-#define SECTION_TIPS                wxT(VIEW_HEADER "tips")
-
-#define BITMAP_RESOURCES            wxT(VIEW_HEADER ".xpm")
-#define BITMAP_TASKHEADER           wxT(SECTION_TASK ".xpm")
-#define BITMAP_TIPSHEADER           wxT(SECTION_TIPS ".xpm")
-
 #define COLUMN_PROJECT              0
 #define COLUMN_DISKSPACE            1
-
-
-const wxString LINKDESC_DEFAULT         = 
-     _("No available options currently defined.");
 
 
 WX_DEFINE_OBJARRAY( CResourceCache );
@@ -117,6 +104,25 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
     wxASSERT(NULL != m_pTaskPane);
     wxASSERT(NULL != m_pListPane);
 
+    //
+    // Globalization/Localization
+    //
+    VIEW_HEADER              = wxT("resources");
+
+    SECTION_TASK             = VIEW_HEADER + wxT("task");
+    SECTION_TIPS             = VIEW_HEADER + wxT("tips");
+
+    BITMAP_RESOURCES         = VIEW_HEADER + wxT(".xpm");
+    BITMAP_TASKHEADER        = SECTION_TASK + wxT(".xpm");
+    BITMAP_TIPSHEADER        = SECTION_TIPS + wxT(".xpm");
+
+    LINKDESC_DEFAULT         = 
+        _("No available options currently defined.");
+
+
+    //
+    // Setup View
+    //
     wxBitmap bmpResources(usage_xpm);
     wxBitmap bmpTask(task_xpm);
     wxBitmap bmpTips(tips_xpm);

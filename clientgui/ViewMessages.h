@@ -118,6 +118,27 @@ protected:
     bool                    CloseClipboard();
 #endif
 
+
+    //
+    // Globalization/Localization
+    //
+    wxString                VIEW_HEADER;
+
+    wxString                SECTION_TASK;
+    wxString                SECTION_TIPS;
+
+    wxString                BITMAP_MESSAGE;
+    wxString                BITMAP_TASKHEADER;
+    wxString                BITMAP_TIPSHEADER;
+
+    wxString                LINKDESC_DEFAULT;
+
+    wxString                LINK_TASKCOPYALL;
+    wxString                LINKDESC_TASKCOPYALL;
+
+    wxString                LINK_TASKCOPYMESSAGE;
+    wxString                LINKDESC_TASKCOPYMESSAGE;
+
 };
 
 

@@ -35,9 +35,6 @@
 #include "res/boinc.xpm"
 
 
-const wxString LINK_DEFAULT             = wxT("default");
-
-
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
 
 
@@ -59,6 +56,14 @@ CBOINCBaseView::CBOINCBaseView( wxNotebook* pNotebook, wxWindowID iHtmlWindowID,
     m_strQuickTip = wxEmptyString;
     m_strQuickTipText = wxEmptyString;
 
+    //
+    // Globalization/Localization
+    //
+    LINK_DEFAULT             = wxT("default");
+
+    //
+    // Setup View
+    //
     m_pTaskPane = NULL;
     m_pListPane = NULL;
 

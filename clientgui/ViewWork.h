@@ -124,6 +124,33 @@ protected:
     wxInt32                 FormatReportDeadline( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatStatus( wxInt32 item, wxString& strBuffer ) const;
 
+
+    //
+    // Globalization/Localization
+    //
+    wxString                VIEW_HEADER;
+
+    wxString                SECTION_TASK;
+    wxString                SECTION_TIPS;
+
+    wxString                BITMAP_RESULTS;
+    wxString                BITMAP_TASKHEADER;
+    wxString                BITMAP_TIPSHEADER;
+
+    wxString                LINKDESC_DEFAULT;
+
+    wxString                LINK_TASKSUSPEND;
+    wxString                LINKDESC_TASKSUSPEND;
+
+    wxString                LINK_TASKRESUME;
+    wxString                LINKDESC_TASKRESUME;
+
+    wxString                LINK_TASKSHOWGRAPHICS;
+    wxString                LINKDESC_TASKSHOWGRAPHICS;
+
+    wxString                LINK_TASKABORT;
+    wxString                LINKDESC_TASKABORT;
+
 };
 
 

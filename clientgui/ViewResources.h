@@ -96,6 +96,21 @@ protected:
     wxInt32                 FormatProjectName( wxInt32 item, wxString& strBuffer ) const;
     wxInt32                 FormatDiskSpace( wxInt32 item, wxString& strBuffer ) const;
 
+
+    //
+    // Globalization/Localization
+    //
+    wxString                VIEW_HEADER;
+
+    wxString                SECTION_TASK;
+    wxString                SECTION_TIPS;
+
+    wxString                BITMAP_RESOURCES;
+    wxString                BITMAP_TASKHEADER;
+    wxString                BITMAP_TIPSHEADER;
+
+    wxString                LINKDESC_DEFAULT;
+
 };
 
 
