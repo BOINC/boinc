@@ -66,7 +66,7 @@ GROUP BY
        app_version_num DESC,
        hostid,
        OS_Name,
-       OS_Version;
+       OS_Version
 ";
 
 $urlquery = $q->urlquery;
