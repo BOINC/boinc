@@ -4488,7 +4488,10 @@ Tim    June 5, 2003
     - Windiws GUI enhancement
         fixed "uploading" "downloading" problem
         fixed minor problem with updateGUI
+    - bug fix
+        fixed "time of day" suspension check (was parsing XML incorrectly)
 
     client/
         client_state.c
+        prefs.c
         wingui_mainwindow.cpp

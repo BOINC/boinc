@@ -103,9 +103,9 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
         } else if (match_tag(buf, "<run_if_user_active/>")) {
             run_if_user_active = true;
             continue;
-        } else if (parse_int(buf, "<start_hour/>", start_hour)) {
+        } else if (parse_int(buf, "<start_hour>", start_hour)) {
             continue;
-        } else if (parse_int(buf, "<end_hour/>", end_hour)) {
+        } else if (parse_int(buf, "<end_hour>", end_hour)) {
             continue;
         } else if (match_tag(buf, "<confirm_before_connecting/>")) {
             confirm_before_connecting = true;
