@@ -148,11 +148,15 @@ void write_user(USER& user, FILE* f, bool detail, bool show_team) {
         " <id>%d</id>\n"
         " <name>%s</name>\n"
         " <url>%s</url>\n"
+        " <country>%s</country>\n"
+        " <create_time>%d</create_time>\n"
         " <total_credit>%f</total_credit>\n"
         " <expavg_credit>%f</expavg_credit>\n",
         user.id,
         user.name,
         user.url,
+        user.country,
+        user.create_time,
         user.total_credit,
         user.expavg_credit
     );

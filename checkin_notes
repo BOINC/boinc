@@ -4801,3 +4801,31 @@ Tim     June 18, 2003
     html_user/
         create_account_action.php
         create_account_form.php
+
+David  June 18 2003
+    - export user country and create_time in db_dump
+    - move functions involving BOINC "soft links" to app_ipc.C
+        (they don't belong in filesys.C)
+    - move functions to get filesystem total/free to filesys.C
+    - add doc page for watchdogs
+
+    api/
+        boinc_api.C
+    client/
+        hostinfo.h
+        hostinfo_unix.C
+    db/
+        boinc_db.h
+    doc/
+        create_project.html
+        db_dump.html
+        watchdog.html (new)
+    lib/
+        app_ipc.C,h
+        filesys.C,h
+    sched/
+        Makefile.am
+        db_dump.C
+        file_upload_handler.C
+        handle_request.C
+        server_types.C,h

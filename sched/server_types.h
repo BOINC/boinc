@@ -35,6 +35,7 @@ struct SCHEDULER_REQUEST {
     int rpc_seqno;
     int work_req_seconds;
     char global_prefs_xml[MAX_BLOB_SIZE];
+    char projects_xml[MAX_BLOB_SIZE];
     char code_sign_key[MAX_BLOB_SIZE];
 
     HOST host;

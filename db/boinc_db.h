@@ -184,8 +184,8 @@ struct HOST {
     char last_ip_addr[256];
     int nsame_ip_addr;
 
-    double on_frac;         // Fraction of the time (0-1) that the host is on
-    double connected_frac;  // Fraction of time that host is connected
+    double on_frac;         // Fraction of time (0-1) that BOINC is running
+    double connected_frac;  // Fraction of time that host is connected to net
     double active_frac;     // Fraction of time that host is enabled to work
 
     int p_ncpus;            // Number of CPUs on host
@@ -217,13 +217,17 @@ struct HOST {
                             // and the fact that BOINC can use only 1 volume
     double n_bwup;          // Average upload bandwidth, bytes/sec
     double n_bwdown;        // Average download bandwidth, bytes/sec
+                            // The above are derived from actual
+                            // file upload/download times, and may reflect
+                            // factors other than network bandwidth
 
     // The following is derived (by server) from other fields
     double credit_per_cpu_sec;
 
     char venue[256];        // home/work/school
     char projects[MAX_BLOB_SIZE];
-                            // list of projects this host is attached to (XML)
+                            // list of projects this host is attached to,
+                            // and the resource shares (XML)
 
     int parse(FILE*);
     int parse_time_stats(FILE*);

@@ -45,6 +45,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     hostid = 0;
     work_req_seconds = 0;
     strcpy(global_prefs_xml, "");
+    strcpy(projects_xml, "");
     strcpy(code_sign_key, "");
 
     fgets(buf, 256, fin);
@@ -65,6 +66,14 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
                 safe_strcat(global_prefs_xml, buf);
             }
             safe_strcat(global_prefs_xml, "</global_preferences>\n");
+        }
+        else if (match_tag(buf, "<projects>")) {
+            strcpy(projects_xml, "<projects>\n");
+            while (fgets(buf, 256, fin)) {
+                if (strstr(buf, "</projects>")) break;
+                safe_strcat(projects_xml, buf);
+            }
+            safe_strcat(projects_xml, "</projects>\n");
         }
         else if (match_tag(buf, "<host_info>")) {
             host.parse(fin);
