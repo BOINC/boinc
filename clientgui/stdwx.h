@@ -47,6 +47,8 @@
 
 #endif
 
+#include <wx/config.h>          // configuration support
+
 // For compilers that support precompilation, includes "wx.h".
 #include "wx/wxprec.h"
 
@@ -63,7 +65,6 @@
 #include <wx/accel.h>           // accelerator support
 #include <wx/regex.h>           // regular expression support
 #include <wx/cmdline.h>         // command line support
-#include <wx/config.h>          // configuration support
 #include <wx/settings.h>        // system settings support
 #include <wx/intl.h>            // internationalization support
 #include <wx/timer.h>           // timer support

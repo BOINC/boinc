@@ -21120,3 +21120,15 @@ David  10 Dec 2004
         boinc_api.C,h
         grpahics_impl.C
         graphics_lib.C,h
+
+David  10 Dec 2004
+	- Added clientgui/Makefile.mac
+		Currently, to use this you have to:
+		- install Wxwidgets 2.5.3 at the same level as boinc/
+		- create clientgui/ in the wxwidgets samples directory
+		- copy the contents of boinc/clientgui there
+		- make -f Makefile.mac
+
+	clientgui/
+		Makefile.mac (new)
+		stdwx.h
