@@ -43,7 +43,6 @@ function show_error($str) {
         time(),
         $munged_email_addr,
         $new_name,
-        $HTTP_POST_VARS["new_password"],
         $authenticator,
         $HTTP_POST_VARS["country"],
         $HTTP_POST_VARS["postal_code"]
