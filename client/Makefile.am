@@ -2,6 +2,9 @@
 
 include $(top_srcdir)/Makefile.incl
 
+# by default, "-static -static-libgcc" on linux.
+STATIC_FLAGS=@STATIC_FLAGS@
+
 bin_PROGRAMS = boinc_client
 
 EXTRA_PROGRAMS = speed_stats
@@ -44,7 +47,7 @@ boinc_client_SOURCES =				\
 boinc_client_DEPENDENCIES = $(LIBRSA)
 boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS)
 boinc_client_LDADD = $(RSA_LIBS)
-boinc_client_LDFLAGS = -static -static-libgcc
+boinc_client_LDFLAGS = $(STATIC_FLAGS)
 
 speed_stats_SOURCES = speed_stats.C
 speed_stats_CFLAGS = -O6 $(AM_CFLAGS)
