@@ -12483,3 +12483,14 @@ David  May 21 2004
 		cs_benchmark.C
 		dhrystone.C
 		whetstone.C
+
+Rom    May 21 2004
+    - A little fine tuning to the benchmark process.
+      Should be less than 1% difference between executions without any
+      other software runing
+
+    client/
+        cs_benchmark.C
+        dhrystone.C
+        whetstone.C
+    

@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.11  2004/05/22 01:36:36  rwalton
+// *** empty log message ***
+//
 // Revision 1.10  2004/05/21 06:27:15  rwalton
 // *** empty log message ***
 //
@@ -97,6 +100,9 @@ CMainFrame::CMainFrame(wxString strTitle) :
     m_pFrameRenderTimer->Start(1000);       // Send event every second
 
 
+    RestoreState();
+
+
     wxLogTrace("CMainFrame::CMainFrame - Function Ending");
 }
 
@@ -109,6 +115,9 @@ CMainFrame::~CMainFrame(){
     wxASSERT(NULL != m_pMenubar);
     wxASSERT(NULL != m_pNotebook);
     wxASSERT(NULL != m_pStatusbar);
+
+
+    SaveState();
 
 
     if (m_pFrameRenderTimer) {

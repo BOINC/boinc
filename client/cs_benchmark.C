@@ -74,16 +74,17 @@
 #define DEFAULT_MEMBW   1e8
 #define DEFAULT_CACHE   1e6
 
-#define FP_START    1
-#define FP_END      5
-#define INT_START   6
-#define INT_END     10
+#define FP_START    2
+#define FP_END      6
+#define INT_START   8
+#define INT_END     12
 
-#define BM_INIT     0
+#define BM_FP_INIT  0
 #define BM_FP       1
-#define BM_FP_DONE  2
+#define BM_INT_INIT 2
 #define BM_INT      3
-#define BM_DONE     4
+#define BM_SLEEP    4
+#define BM_DONE     5
 static int bm_state;
 
 #define BENCHMARK_PERIOD        (SECONDS_PER_DAY*30)
@@ -190,10 +191,10 @@ void CLIENT_STATE::start_cpu_benchmarks() {
         return;
     }
 
-	cpu_benchmarks_start = dtime();
-    bm_state = BM_INIT;
+    bm_state = BM_FP_INIT;
     remove_benchmark_file(BM_TYPE_FP);
     remove_benchmark_file(BM_TYPE_INT);
+	cpu_benchmarks_start = dtime();
 
 	msg_printf(NULL, MSG_INFO, "Running CPU benchmarks");
     if (!benchmark_descs) {
@@ -299,7 +300,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     // do transitions through benchmark states
     //
     switch (bm_state) {
-    case BM_INIT:
+    case BM_FP_INIT:
         if (now - cpu_benchmarks_start > FP_START) {
             make_benchmark_file(BM_TYPE_FP);
             bm_state = BM_FP;
@@ -308,10 +309,10 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     case BM_FP:
         if (now - cpu_benchmarks_start > FP_END) {
             remove_benchmark_file(BM_TYPE_FP);
-            bm_state = BM_FP_DONE;
+            bm_state = BM_INT_INIT;
         }
         return false;
-    case BM_FP_DONE:
+    case BM_INT_INIT:
         if (now - cpu_benchmarks_start > INT_START) {
             make_benchmark_file(BM_TYPE_INT);
             bm_state = BM_INT;
@@ -320,8 +321,12 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     case BM_INT:
         if (now - cpu_benchmarks_start > INT_END) {
             remove_benchmark_file(BM_TYPE_INT);
-            bm_state = BM_DONE;
+            bm_state = BM_SLEEP;
         }
+        return false;
+    case BM_SLEEP:
+        boinc_sleep(2.0);
+        bm_state = BM_DONE;
         return false;
     }
 

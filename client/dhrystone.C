@@ -251,19 +251,19 @@ void dhrystone(
     
     Loops = 160000;       // determines runtime
 
-   do
-     {
-       Array2Glob[8][7] = 10;
+    Array2Glob[8][7] = 10;
 
-       benchmark_wait_to_start(BM_TYPE_INT);
+    benchmark_wait_to_start(BM_TYPE_INT);
 
-      /*****************
-      -- Start Timer --
-      *****************/
-      
-        startclock = dtime();
-        int bigloops = 0;
-restart:
+    /*****************
+    -- Start Timer --
+    *****************/
+    
+    startclock = dtime();
+    int bigloops = 0;
+
+    do
+    {
         for (i = 0; i < Loops; ++i)
         {
                 Proc5();
@@ -290,22 +290,19 @@ restart:
                 Proc2(&IntLoc1);
         }
         bigloops++;
-        if (!benchmark_time_to_stop(BM_TYPE_INT)) {
-            goto restart;
-        }
-        Loops *= bigloops;
+    }
+    while (!benchmark_time_to_stop(BM_TYPE_INT));
 
-        /*****************
-        -- Stop Timer --
-        *****************/
+    Loops *= bigloops;
 
-        benchtime = dtime() - startclock;
-        
-        //printf ("%12.0f runs %6.2f seconds \n",(double) Loops, benchtime);
+    /*****************
+    -- Stop Timer --
+    *****************/
 
-     } 
-   while (0);
- 
+    benchtime = dtime() - startclock;
+    
+    //printf ("%12.0f runs %6.2f seconds \n",(double) Loops, benchtime);
+
     Dhrystones_Per_Second = (double) Loops / benchtime;
     Vax_Mips = Dhrystones_Per_Second / 1757.0;
 #if 0
