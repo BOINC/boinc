@@ -510,8 +510,9 @@ def init_table_classes(database_classes_, more_id_lookups = {}):
 def check_database_consistency():
     '''Raises DatabaseInconsistency on error.
 
-    Iterates through the entire database so will take a while.
+    Loads the entire database into memory so will take a while.
     '''
+    options.LAZY_LOOKUPS = False
     for table in database_tables:
         print '\rChecking %s: [counting]' %(table.table),
         sys.stdout.flush()
