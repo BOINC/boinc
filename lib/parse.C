@@ -273,6 +273,10 @@ void xml_escape(string& in, string& out) {
 			out += "&amp;";
 		} else if (in[i] == '\n') {
             out += " ";
+		} else if (in[i] == 13) {
+            out += " ";
+		} else if (in[i] == '\r') {
+            out += " ";
 		} else {
 			out += in[i];
 		}

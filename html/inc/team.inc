@@ -72,9 +72,9 @@ function display_team_page($team, $offset, $sort_by) {
     ";
 
     if ($nosort) {
-        $result = mysql_query("select * from user where teamid=$team->id limit $n offset $offset");
+        $result = mysql_query("select * from user where teamid=$team->id and total_credit>0 limit $n offset $offset");
     } else {
-        $result = mysql_query("select * from user where teamid=$team->id order by $sort_clause limit $n offset $offset");
+        $result = mysql_query("select * from user where teamid=$team->id and total_credit>0 order by $sort_clause limit $n offset $offset");
     }
 
     $j = $offset + 1;

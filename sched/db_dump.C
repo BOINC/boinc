@@ -271,41 +271,6 @@ void NUMBERED_ZFILE::set_id(int id) {
         last_filenum = filenum;
     }
 }
-
-#if 0
-void string_replace(string& str, string& old, string& newstr) {
-    string::size_type oldlen = old.size();
-    string::size_type newlen = newstr.size();
-    string::size_type start = 0;
-    while (1) {
-        string::size_type pos = str.find(old, start);
-        if (pos == string::npos) break;
-        str.replace(pos, oldlen, newstr);
-        start = pos+newlen;
-    }
-}
-
-string x1("&");
-string z1("&amp;");
-string x2("\"");
-string y2("&quot;");
-string x3("'");
-string y3("&apos;");
-string x4("<");
-string y4("&lt;");
-string x5(">");
-string y5("&gt;");
-
-void xml_escape(char* in, string& out) {
-    out = in;
-    string_replace(out, x1, z1);
-    string_replace(out, x2, y2);
-    string_replace(out, x3, y3);
-    string_replace(out, x4, y4);
-    string_replace(out, x5, y5);
-}
-#endif
-
 void write_host(HOST& host, FILE* f, bool detail) {
     int retval;
 

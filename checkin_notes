@@ -15338,3 +15338,13 @@ Daniel 2004-07-15
     api/
         boinc_api.C,h
 
+David  16 July 2004
+    - on team listings, show only users w/ nonzero total credit
+    - xml_escape(): convert ^M and \r to blank as well as \n
+
+    html/inc/
+        team.inc
+    lib/
+        parse.C
+    sched/
+        db_dump.C
