@@ -1,0 +1,505 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+SETIMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Connect Now...",             ID_FILE_CONNECTNOW
+        MENUITEM "&Exit",                       ID_FILE_EXIT
+    END
+    POPUP "&Settings"
+    BEGIN
+        MENUITEM "&Change/Create Login...",     ID_SETTINGS_WELCOMEMENU
+        MENUITEM "&Preferences...",             ID_SETTINGS_CONFIG
+        MENUITEM "Proxy Server...",             ID_SETTINGS_PROXY
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&SETI@home Help",             ID_HELP_HELP
+        MENUITEM "&About Seti@home...",         ID_HELP_ABOUTSETI
+    END
+END
+
+SETIPOPUP MENU DISCARDABLE 
+BEGIN
+    POPUP "popup"
+    BEGIN
+        MENUITEM "&Preferences...",             ID_POPUP_CONFIG
+        MENUITEM "&Maximize",                   ID_POPUP_MAXIMIZE
+        MENUITEM "&Connect Now..",              ID_POPUP_CONNECTNOW
+        MENUITEM "SETI@home &Help",             ID_POPUP_HELP
+        MENUITEM "&Exit",                       ID_POPUP_EXIT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_WELCOME DIALOG DISCARDABLE  0, 0, 164, 77
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Welcome"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "First-time user (create new account)",
+                    IDC_FIRSTTIME_USER,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,12,24,128,10
+    CONTROL         "Returning user (log in to existing account)",
+                    IDC_RETURNING_USER,"Button",BS_AUTORADIOBUTTON,12,38,146,
+                    10
+    DEFPUSHBUTTON   "OK",IDOK,28,56,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,91,56,50,14
+    LTEXT           "Welcome to SETI@home",IDC_STATIC,32,8,82,8
+END
+
+IDD_LOGIN DIALOG DISCARDABLE  0, 0, 215, 66
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Login"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_EMAIL,7,20,201,13,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,7,45,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,158,45,50,14
+    LTEXT           "Login to existing SETI@home account with email address:",
+                    IDC_STATIC,8,4,184,8
+END
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 344, 311
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About SETI@Home"
+FONT 8, "MS Sans Serif"
+BEGIN
+END
+
+IDD_CONFIG DIALOG DISCARDABLE  0, 0, 212, 236
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SETI@home Preferences"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "Data analysis runs only when the screen saver ",
+                    IDC_SSRUN,"Button",BS_AUTORADIOBUTTON | WS_GROUP | 
+                    WS_TABSTOP,16,22,167,8
+    CONTROL         "Data analysis always runs  (recommended only for",
+                    IDC_ALWAYSRUN,"Button",BS_AUTORADIOBUTTON,15,46,173,8
+    CONTROL         "Ask me before connecting to the Internet.",IDC_NOTIFYME,
+                    "Button",BS_AUTORADIOBUTTON | WS_GROUP,15,95,151,9
+    CONTROL         "Connect automatically whenever needed.",IDC_UNATTENDED,
+                    "Button",BS_AUTORADIOBUTTON,15,107,156,9
+    PUSHBUTTON      "OK",IDOK,7,216,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,155,216,50,14
+    GROUPBOX        "Data Analysis",IDC_STATIC,7,7,198,66
+    GROUPBOX        "Network Connection",IDC_STATIC,7,83,198,58
+    LTEXT           "fast computers with at least 64MB RAM).",IDC_STATIC,27,
+                    56,160,9
+    LTEXT           "is active or application window is maximized.",
+                    IDC_STATIC,28,32,140,8
+    LTEXT           "(use for computers on a LAN or with a dedicated phone line)",
+                    IDC_STATIC,27,118,161,17
+    DEFPUSHBUTTON   "Dummy",IDC_DEFAULT,89,219,26,11,NOT WS_VISIBLE
+    GROUPBOX        "Proxy",IDC_STATIC,7,150,198,56
+    LTEXT           "Some organizations use a ""proxy server"" for increased security.",
+                    IDC_STATIC,19,162,179,18
+    PUSHBUTTON      "Proxy Server...",IDC_PROXY_BUTTON,80,184,51,14
+END
+
+IDD_HELP DIALOG DISCARDABLE  0, 0, 221, 78
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Help"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Launch HTML Help File",IDB_LAUNCHHTML,7,57,88,14
+    DEFPUSHBUTTON   "OK",IDOK,126,57,88,14
+    LTEXT           "For the most current documentation, see the following URL:",
+                    IDC_STATIC,18,19,196,11
+    LTEXT           "setiathome.berkeley.edu",IDC_STATIC,60,35,108,11
+END
+
+IDD_USERINFO DIALOG DISCARDABLE  0, 0, 248, 201
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Signup"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_NAME,75,14,87,13,ES_AUTOHSCROLL
+    CONTROL         "Can we show your name or nickname on the SETI@home web site?",
+                    IDC_SHOWNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,31,
+                    235,10
+    EDITTEXT        IDC_EMAIL,61,47,170,13,ES_AUTOHSCROLL
+    CONTROL         "Can we show your email address on the site?",
+                    IDC_SHOWEMAIL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,65,
+                    176,8
+    COMBOBOX        IDC_COUNTRY,65,85,109,73,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    EDITTEXT        IDC_POSTALCODE,65,104,109,13,ES_AUTOHSCROLL
+    CONTROL         "School",IDC_SCHOOL,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP | WS_TABSTOP,21,141,45,8
+    CONTROL         "Work",IDC_WORK,"Button",BS_AUTORADIOBUTTON,21,152,42,8
+    CONTROL         "Home",IDC_HOME,"Button",BS_AUTORADIOBUTTON,21,162,41,8
+    PUSHBUTTON      "Submit",IDOK,7,180,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,192,180,50,14
+    LTEXT           "Email address:",IDC_STATIC,7,50,46,8
+    LTEXT           "Name or nickname:",IDC_STATIC,7,17,62,8
+    LTEXT           "Country",IDC_STATIC,7,87,32,8
+    LTEXT           "Zip/Postal Code",IDC_STATIC,7,106,52,8
+    LTEXT           "Where is your computer located?",IDC_STATIC,7,127,116,9
+    DEFPUSHBUTTON   "Dummy",IDC_DEFAULT,101,177,48,17,NOT WS_VISIBLE
+END
+
+IDD_CONNECTION DIALOG DISCARDABLE  0, 0, 169, 111
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "SETI@home Connection"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Connect Now",IDC_CONNECTNOW,7,50,68,14
+    LTEXT           "[ to be replaced ]",IDC_CONNECTTEXT,17,13,140,27
+    PUSHBUTTON      "Connect Later",IDC_CONNECTLATER,94,50,68,14
+    CONTROL         "Don't ask me again",IDC_DONTASK,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,73,131,10
+    LTEXT           "(change preference to ""connect automatically"")",
+                    IDC_STATIC,7,86,155,11
+END
+
+IDD_CANTCONNECT DIALOG DISCARDABLE  0, 0, 158, 74
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SETI@home Network Error"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Try Again",IDC_TRYAGAIN,7,53,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,101,53,50,14
+    LTEXT           "Unable to make network connection.",IDC_NETWORK_ERROR,7,
+                    7,144,32
+END
+
+IDD_TRANSFER DIALOG DISCARDABLE  0, 0, 156, 50
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SETI@home"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Close",8,54,29,50,14
+    LTEXT           "Getting data from server",IDC_TRANSFERTEXT,7,7,128,14
+END
+
+IDD_AUTORUN DIALOG DISCARDABLE  0, 0, 162, 109
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SETI@home"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,55,88,50,14
+    LTEXT           "SETI@home is not selected as your screen saver. It will process data only when you open its window. If you would like it to process data all the time, check the box below (recommended only for computers with at least 64MB RAM).",
+                    IDC_STATIC,13,7,142,55
+    CONTROL         "Data Analysis Always On",IDC_ALWAYSRUN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,23,63,113,8
+END
+
+IDD_WELCOMEMENU DIALOG DISCARDABLE  0, 0, 221, 103
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Welcome"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Cancel",IDCANCEL,61,82,99,14
+    LTEXT           "SETI@home uses your email address to identify you.",
+                    IDC_STATIC,7,7,166,8
+    PUSHBUTTON      "Create New Account",IDC_NEWACCOUNT,60,44,99,14
+    PUSHBUTTON      "Login to Existing Account",IDC_EXISTINGACCOUNT,61,64,99,
+                    14
+    LTEXT           "TO BE REPLACED",IDC_WELCOMESTR,7,20,207,9
+END
+
+IDD_UNATTENDED_WARNING DIALOG DISCARDABLE  0, 0, 266, 158
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SETI@home Warning"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,108,137,50,14
+    LTEXT           "Do not use the Connect Automatically option if your computer shares a phone line with a separate FAX machine, voice calls, etc.",
+                    IDC_STATIC,7,7,252,18
+    LTEXT           "If your computer has a dedicated phone line with a dial-up connection (modem or ISDN), you must also set the following two options in your System's Internet software:",
+                    IDC_STATIC,7,31,252,27
+    LTEXT           "Connect automatically when starting TCP/IP applications (Allow applications to open connection)",
+                    IDC_STATIC,32,63,181,19
+    LTEXT           "Disconnect if idle for xx minutes",IDC_STATIC,32,88,180,
+                    9
+    LTEXT           "This will allow SETI@home to dial the phone and allow Windows to hang up the phone after transferring data and an idle period.  For further information, please see the SETI@home Help in the Help menu.",
+                    IDC_STATIC,7,107,252,26
+END
+
+IDD_PROXY_SETUP DIALOG DISCARDABLE  0, 0, 212, 278
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SETI@home Proxy Server Setup"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "OK",IDOK,7,256,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,154,256,50,14
+    DEFPUSHBUTTON   "Dummy",IDC_DEFAULT,89,259,33,11,NOT WS_VISIBLE
+    GROUPBOX        "HTTP Proxy",IDC_STATIC,6,48,200,61
+    LTEXT           "Some organizations use an ""HTTP proxy"" or a ""SOCKS proxy"" (or both) for increased security. If you need to use a proxy, fill in the information below.  If you need help, ask your System Administrator or Internet Service Provider.",
+                    IDC_STATIC,17,2,176,42
+    LTEXT           "http://",IDC_STATIC,29,77,22,8
+    EDITTEXT        IDC_HTTP_PROXY_NAME,52,75,143,12,ES_AUTOHSCROLL
+    LTEXT           "Port number:",IDC_STATIC,29,93,41,8
+    EDITTEXT        IDC_HTTP_PROXY_PORT,73,91,37,12,ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CONTROL         "Connect via HTTP proxy server",IDC_USE_HTTP_PROXY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,61,115,10
+    GROUPBOX        "SOCKS Proxy",IDC_STATIC,6,124,200,123
+    LTEXT           "SOCKS host:",IDC_STATIC,29,151,42,8
+    EDITTEXT        IDC_SOCKS_PROXY_NAME,75,150,117,12,ES_AUTOHSCROLL
+    LTEXT           "Port number:",IDC_STATIC,29,168,41,8
+    EDITTEXT        IDC_SOCKS_PROXY_PORT,75,166,37,12,ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    CONTROL         "Connect via SOCKS server",IDC_USE_SOCKS_PROXY,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,18,136,101,10
+    GROUPBOX        "Leave these blank if not needed",IDC_STATIC,15,187,181,
+                    52
+    LTEXT           "SOCKS user name:",IDC_STATIC,33,201,62,8
+    LTEXT           "SOCKS password:",IDC_STATIC,33,219,59,8
+    EDITTEXT        IDC_SOCKS_USER_NAME,98,199,88,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_SOCKS_PASSWORD,98,217,88,14,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_WELCOME, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 157
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 70
+    END
+
+    IDD_LOGIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 208
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 59
+    END
+
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 337
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 304
+    END
+
+    IDD_CONFIG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 205
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 230
+    END
+
+    IDD_HELP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 214
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 71
+    END
+
+    IDD_USERINFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 242
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 194
+    END
+
+    IDD_CONNECTION, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 162
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 104
+    END
+
+    IDD_CANTCONNECT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 151
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 67
+    END
+
+    IDD_TRANSFER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 149
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 43
+    END
+
+    IDD_AUTORUN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 155
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 102
+    END
+
+    IDD_WELCOMEMENU, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 214
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 96
+    END
+
+    IDD_UNATTENDED_WARNING, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 259
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 151
+    END
+
+    IDD_PROXY_SETUP, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 276
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_GED_APP             ICON    DISCARDABLE     "SETI_app.ico"
+IDI_RED_K               ICON    DISCARDABLE     "reddish1.ico"
+IDI_GREEN_K             ICON    DISCARDABLE     "greendis.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_SETISPLASH          BITMAP  DISCARDABLE     "setihom8.bmp"
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 3,7,0,0
+ PRODUCTVERSION 3,7,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x29L
+#else
+ FILEFLAGS 0x28L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "  \0"
+            VALUE "CompanyName", "University of California, Berkeley\0"
+            VALUE "FileDescription", "SETI@home\0"
+            VALUE "FileVersion", "3.07\0"
+            VALUE "InternalName", "SETI@home\0"
+            VALUE "LegalCopyright", "Copyright © 1999-2000\0"
+            VALUE "LegalTrademarks", "  \0"
+            VALUE "OriginalFilename", "SETI@home.exe\0"
+            VALUE "PrivateBuild", "  \0"
+            VALUE "ProductName", "SETI@home\0"
+            VALUE "ProductVersion", "3.07\0"
+            VALUE "SpecialBuild", "  \0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
