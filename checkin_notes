@@ -635,3 +635,12 @@ Micahel Gary	6/23/2002
         ta_correct_atc (new)
         ta_correct_f (new)
         core_to_app.xml.in (new)
+
+Michael Gary	6/25/2002
+    - Maggie is now the master url for boinc.
+
+    test/
+        prefs1.html
+    doc/
+        test.html
+
