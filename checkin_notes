@@ -26428,3 +26428,11 @@ David  30 Mar 2005
         gui_rpc_client.C,h
     sched/
         sched_util.C
+
+David  31 Mar 2005
+    - BOINC Manager compile fixes for Unix
+
+    clientgui/
+        MainDocument.cpp,h
+        Makefile.am
+        ViewProjects.cpp

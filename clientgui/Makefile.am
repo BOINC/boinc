@@ -17,6 +17,7 @@ boinc_gui_SOURCES = \
     DlgAttachProject.cpp \
     DlgConnection.cpp \
     DlgOptions.cpp \
+    DlgSelectComputer.cpp \
     LogBOINC.cpp \
     MainDocument.cpp \
     MainFrame.cpp \
@@ -39,31 +40,7 @@ boinc_gui_SOURCES = \
     ../lib/md5_file.C \
     ../lib/md5.c
 
-EXTRA_DIST = \
-    _wx_intellisense.h \
-    BOINCBaseView.h  \
-    BOINCGUIApp.h \
-    BOINCListCtrl.h \
-    BOINCTaskBar.h \
-    BOINCTaskCtrl.h \
-    DlgAbout.h \
-    DlgAccountManager.h \
-    DlgAttachProject.h \
-    DlgConnection.h \
-    DlgOptions.h \
-    Events.h \
-    LogBOINC.h \
-    MainDocument.h \
-    MainFrame.h \
-    resource.h \
-    stdwx.h \
-    ValidateAccountKey.h \
-    ValidateURL.h \
-    ViewMessages.h \
-    ViewProjects.h \
-    ViewResources.h \
-    ViewTransfers.h \
-    ViewWork.h \
+EXTRA_DIST = *.h \
     res \
     msw \
     locale 

@@ -143,7 +143,7 @@ public:
     bool                        IsProjectSuspended( wxInt32 iIndex );
     bool                        IsProjectRPCPending( wxInt32 iIndex );
 
-    wxInt32                     ProjectAttach( wxString& strURL, wxString& strAccountKey );
+    wxInt32                     ProjectAttach(const wxString& strURL, const wxString& strAccountKey );
     wxInt32                     ProjectDetach( wxInt32 iIndex );
     wxInt32                     ProjectUpdate( wxInt32 iIndex );
     wxInt32                     ProjectReset( wxInt32 iIndex );

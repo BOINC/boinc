@@ -324,8 +324,8 @@ void CViewProjects::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
         if ( wxID_OK == iAnswer )
         {
             pDoc->ProjectAttach(
-                (wxString&)pDlg->GetProjectAddress(), 
-                (wxString&)pDlg->GetProjectAccountKey()
+                pDlg->GetProjectAddress(), 
+                pDlg->GetProjectAccountKey()
             );
         }
 

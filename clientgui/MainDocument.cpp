@@ -780,7 +780,7 @@ bool CMainDocument::IsProjectRPCPending( wxInt32 iIndex )
 }
 
 
-wxInt32 CMainDocument::ProjectAttach( wxString& strURL, wxString& strAccountKey )
+wxInt32 CMainDocument::ProjectAttach(const wxString& strURL, const wxString& strAccountKey )
 {
     return rpc.project_attach((char *)strURL.c_str(), (char *)strAccountKey.c_str());
 }
