@@ -12640,3 +12640,27 @@ David  May 25 2004
 
     sched/
         assimilator.C
+
+David  May 25 2004
+    - change client compile from -O2 to -O6 (Unix)
+        This brings the benchmark speeds on my laptop
+        (2.2 GHz Celeron) roughly into line with Win:
+
+        Linux -O6:
+            whet 933
+            dhry 1585
+
+        Linux -O2
+            whet 545
+            dhry 1268
+
+        Win release
+            whet 840
+            dhry 1512
+
+        Win debug
+            whet 655
+            dhry 1436
+
+    client/
+        Makefile.am
