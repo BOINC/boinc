@@ -4,13 +4,10 @@ page_head("BOINC contact information");
 echo "
 <p>
 The BOINC project is based at the Space Sciences Laboratory
-at the University of California, Berkeley.
-<p>
-For inquiries about BOINC, please email
-the Project Director,
+at the University of California, Berkeley, and is led by
 <a href=mailto:davea@ssl.berkeley.edu>Dr. David P. Anderson</a>.
 <p>
-BOINC programmers include:
+BOINC developers include:
 <p>
 David Anderson
 <br>
@@ -19,6 +16,8 @@ Karl Chen
 Seth Cooper
 <br>
 Michael Gary
+<br>
+Gary Gibson
 <br>
 Eric Heien
 <br>
