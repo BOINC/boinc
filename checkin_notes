@@ -14783,6 +14783,10 @@ Rom    6 July 2004
     - Reduce the total number of messages the system attempts to keep in the messages 
       tab to 200.  2000 was a bit much and caused the system to spend some time processing
       when there were quite a few messages to go through, such as in Predictor@home
+    - Moved the code that checkes the total number of messages available in the message
+      tab out of the switch/case chunk of code so that it happens more frequently
+      than when the user clicks on the messages tab, which could take awhile if there was
+      more than 1000 messages.
 
     client/win/
         wingui_mainwindow.cpp, .h

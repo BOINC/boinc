@@ -621,19 +621,6 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
         break;
 
-    case MESSAGE_ID:
-
-        // check message pane size
-        n = m_MessageListCtrl.GetItemCount();
-        if (n > 200) {
-            m_MessageListCtrl.SetRedraw(FALSE);
-            for (i = 0 ; i < n - 200 ; i++)
-                m_MessageListCtrl.DeleteItem(0);
-            m_MessageListCtrl.SetRedraw(TRUE);
-        }
-
-        break;
-
     case USAGE_ID:
 
         // update usage
@@ -673,6 +660,15 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
         break;
 
+    }
+
+    // check message pane size, and reduce if there are too many
+    n = m_MessageListCtrl.GetItemCount();
+    if (n > 200) {
+        m_MessageListCtrl.SetRedraw(FALSE);
+        for (i = 0 ; i < n - 200 ; i++)
+            m_MessageListCtrl.DeleteItem(0);
+        m_MessageListCtrl.SetRedraw(TRUE);
     }
 
     // make icon flash if needed
