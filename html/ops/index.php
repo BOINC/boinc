@@ -20,6 +20,17 @@ echo "
     <li><a href=db_form.php?table=workunit>Workunits</a>
     <li><a href=db_form.php?table=result&detail=low>Results</a>
     </ul>
+    </p>
+    <p>
+    Browse / Rate user profiles:
+    <ul>
+    <li><a href=profile_ops.php?set=unrated&num=0>Unrated profiles</a>
+    <li><a href=profile_ops.php?set=approved&num=0>Approved profiles
+    <li><a href=profile_ops.php?set=rejected&num=0>Rejected profiles
+    <li><a href=profile_ops.php?set=uotd&num=0>Past Users of the Day
+    <li><a href=profile_ops.php?set=all&num=0>All profiles    
+    </ul>
+    </p>
     Result summary:
     <a href=result_summary.php?nsecs=86400>last 24 hours</a>
     <a href=result_summary.php?nsecs=$w>last week</a>
