@@ -11,7 +11,7 @@ $user = get_logged_in_user();
 $name = process_user_text(post_str("user_name"));
 $name = strip_tags($name);
 $url = process_user_text(post_str("url"));
-$url = strip_tags($url;
+$url = strip_tags($url);
 $country = post_str("country");
 if (!is_valid_country($country)) {
     error_page("bad country");
