@@ -20486,3 +20486,10 @@ Rom    2 Dec 2004
         ViewWork.cpp, .h
     clientgui/msw/
         taskbarex.h
+
+Bruce	2 Dec 2004
+	- Fixed boinc_zip.h so that it works correctly under both C++ and
+      C under both Unix and Win32.
+
+	zip/
+		boinc_zip.h

@@ -11,12 +11,12 @@
 // also you will need to include filesys.C in your project
 // (decided not to add that in the lib due to version problems that may arise)
 
+#ifdef __cplusplus
 #include <vector>
 #include <string>
+#endif
 #include <sys/types.h>
 #include <sys/stat.h>
-
-using std::string;
 
 #define ZIP_IT   1
 #define UNZIP_IT 0
@@ -28,6 +28,9 @@ using std::string;
 
 #define SORT_TIME         0x10
 #define SORT_NAME         0x20
+
+#ifdef __cplusplus
+using std::string;
 
 class ZipFileEntry  :public std::string
 {
@@ -61,19 +64,19 @@ typedef std::vector<ZipFileEntry> ZipFileList;
 // the vector of string's, and probably better than using wildcards in zip
 // across platforms
 
-#ifdef __cplusplus
-extern "C"
-#else
-extern
-#endif
-int boinc_zip(int bZipType, const std::string szFileZip, const ZipFileList* pvectszFileIn);
-int boinc_zip(int bZipType, const std::string szFileZip, const std::string szFileIn);
-int boinc_zip(int bZipType, const char* szFileZip, const char* szFileIn);
 bool boinc_filelist(const std::string directory,
                   const std::string pattern,
                   ZipFileList* pList, 
 				  const unsigned char ucSort = SORT_NAME | SORT_DESCENDING,
 				  const bool bClear = true);
+int boinc_zip(int bZipType, const std::string szFileZip, const ZipFileList* pvectszFileIn);
+int boinc_zip(int bZipType, const std::string szFileZip, const std::string szFileIn);
+extern "C"
+#else
+extern
+#endif
+int boinc_zip(int bZipType, const char* szFileZip, const char* szFileIn);
+
 
 
 
