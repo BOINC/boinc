@@ -26,7 +26,7 @@
     echo " Files: <input name=f value='$f'>";
     echo " <input type=submit value=Grep></form>";
 
-    echo "Hint: you could grep by WU name, result name, date, keyword<br>";
+    echo 'Hint: Example greps: "RESULT#106876", "26fe99aa_25636_00119.wu_1", "WU#8152", "too many errors", "2003-07-17", "CRITICAL" <br>';
 
     passthru("cd $log_dir && ./grep_logs -html '$s' $f 2>&1");
 
