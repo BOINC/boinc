@@ -30,8 +30,7 @@ configure:1270: checking for dirent.h that defines DIR
 configure:1283: gcc -c -g -O2  conftest.c 1>&5
 configure:1308: checking for opendir in -ldir
 configure:1327: gcc -o conftest -g -O2   conftest.c -ldir  -lstdc++ -lgen -lsocket -lnsl -lm  1>&5
-ld: fatal: library -ldir: not found
-ld: fatal: File processing errors. No output written to conftest
+/disks/asimov/a/lang/gnu/H-sparc-sun-solaris2/lib/gcc-lib/sparc-sun-solaris2/2.7-96q3/../../../../sparc-sun-solaris2/bin/ld: cannot open -ldir: No such file or directory
 collect2: ld returned 1 exit status
 configure: failed program was:
 #line 1316 "configure"
@@ -76,10 +75,8 @@ configure:1716: checking for lockf
 configure:1744: gcc -o conftest -g -O2   conftest.c -lstdc++ -lgen -lsocket -lnsl -lm  1>&5
 configure:1716: checking for flock
 configure:1744: gcc -o conftest -g -O2   conftest.c -lstdc++ -lgen -lsocket -lnsl -lm  1>&5
-Undefined			first referenced
- symbol  			    in file
-flock                               /var/tmp/ccP4j4Bk.o
-ld: fatal: Symbol referencing errors. No output written to conftest
+/var/tmp/ccEZaiYq1.o: In function `main':
+/var/tmp/ccEZaiYq1.o(.text+0x4): undefined reference to `flock'
 collect2: ld returned 1 exit status
 configure: failed program was:
 #line 1721 "configure"
