@@ -615,7 +615,10 @@ void process_request(
     PLATFORM* platform;
     int retval;
     double last_rpc_time;
+    struct tm *last_rpc_time_tm;
+    struct tm *rpm_time_tm;
     bool ok_to_send = true;
+
 
     // if different major version of BOINC, just send a message
     //
@@ -639,13 +642,11 @@ void process_request(
 
     last_rpc_time = reply.host.rpc_time;
     reply.host.rpc_time = time(0);
-    if (((int)last_rpc_time/SECONDS_PER_DAY) != ((int)reply.host.rpc_time/SECONDS_PER_DAY)) {
-        log_messages.printf(
-            SCHED_MSG_LOG::NORMAL, "Processing request from [USER#%d] [HOST#%d] [IP %s] [RPC#%d] Resetting nresults_today...\n",
-            reply.user.id, reply.host.id,
-            get_remote_addr(),
-            sreq.rpc_seqno);
 
+    last_rpc_time_tm = localtime(last_rpc_time);
+    rpm_time_tm = localtime(reply.host.rpc_time);
+
+    if (last_rpc_time_tm->tm_yday != rpm_time_tm->tm_yday) {
         reply.host.nresults_today = 0;
     }
     retval = modify_host_struct(sreq, reply.host);
