@@ -83,7 +83,7 @@ static int try_ping(
     int retval;
     char buf[256];
 
-    retval = system(buf);
+    retval = system(cmd);
     if (retval) return retval;
     FILE* f = fopen(TEMP_FILE_NAME, "r");
     if (!f) return ERR_FOPEN;
