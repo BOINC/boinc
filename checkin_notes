@@ -11772,3 +11772,14 @@ David  April 22 2004
     lib/
         app_ipc.C,h
         filesys.C,h
+
+David  April 23 2004
+    - added new items to APP_INIT_DATE (for Folding@home):
+        slot
+        boinc_dir
+        authenticator
+
+    client/
+        app.C
+    lib/
+        app_ipc.C,h

@@ -4,42 +4,40 @@ page_head("Downloadable statistics data");
 echo "
 
 <p>
-BOINC projects may export data describing teams, users and hosts.
-This data is exported in XML files that can be downloaded via HTTP.
-<p>
-This data can be summarized and represented as Web pages.
+BOINC projects can export data describing teams, users and hosts.
+This data is exported in downloadable XML files,
+and can be summarized and represented as Web pages.
 Some examples are listed at
 <a href=http://setiboinc.ssl.berkeley.edu/ap/stats.php>
 http://setiboinc.ssl.berkeley.edu/ap/stats.php</a>.
 
 <p>
-The data is presented in several different 'views':
+The data is presented in several 'views':
 teams ordered by credit, teams ordered by ID, etc.
-Each view is available in two ways:
+Each view is available in two forms:
 <ul>
 <li> As a single file.
 <li>
-Broken into a number of files,
-each containing a fixed number of records.
+Divided into a number of files,
+each containing a limited number of records.
 This lets you get a single record or range of records efficiently.
-</ul>
-<p>
-For files that are ordered by ID,
+For views that are ordered by ID,
 each file contains a fixed-size segment of the ID range,
 not a fixed number of records.
 If the database ID allocation has gaps,
 files will have fewer than this number of records.
+</ul>
 <p>
 The entries in a given file are in either 'summary' or 'detail' form.
 For example, the summary of a team gives its ID, name, and credit,
-while the detailed from also contains a list of its members.
+while the detailed form also contains a list of its members.
 <p>
 The files are as follows:
 
 <p>
 <b>tables.xml</b>
 <p>
-For each table (team, user, and host) this gives
+For each entity type (team, user, and host) this gives
 <ul>
 <li> the total number of records
 <li> the number of records per file for summary files
@@ -74,42 +72,33 @@ htmlspecialchars("<tables>
 </tables>
 "),
 "</pre>
-<b>team_total_credit.xml, team_total_credit_N.xml</b>
-<br>
-Team summaries, ordered by decreasing <a href=credit.php>total credit</a><.
-N is 0, 1, ...
-<p>
-<b>team_expavg_credit.xml, team_expavg_credit_N.xml</b>
-<br>
-Team summaries, ordered by decreasing <a href=credit.php>recent-average credit</a>.
-<p>
-<b>team_id.xml, team_id_N.xml</b>
-<br>
-Team details, ordered by increasing ID.
-<p>
-<b>user_total_credit.xml, user_total_credit_N.xml</b>
-<br>
-User summaries, ordered by decreasing total credit.
-<p>
-<b>user_expavg_credit.xml, user_expavg_credit_N.xml</b>
-<br>
-User summaries, ordered by decreasing recent-average credit.
-<p>
-<b>user_id.xml, user_id_N.xml</b>
-<br>
-User details, ordered by increasing ID.
-<p>
-<b>host_total_credit.xml, host_total_credit_N.xml</b>
-<br>
-Host summaries, ordered by decreasing total credit.
-<p>
-<b>host_expavg_credit.xml, host_expavg_credit_N.xml</b>
-<br>
-Host summaries, ordered by decreasing recent-average credit.
-<p>
-<b>host_id.xml, host_id_N.xml</b>
-<br>
-Host details, ordered by increasing ID.
+";
+list_start();
+list_item(
+"team_total_credit.xml<br> team_total_credit_N.xml",
+"Team summaries, ordered by decreasing <a href=credit.php>total credit</a><.
+The first file is the complete list;
+the remaining files (for N = 0, 1, ...) is the list
+in limited-size chunks."
+);
+list_item("team_expavg_credit.xml<br> team_expavg_credit_N.xml",
+"Team summaries, ordered by decreasing <a href=credit.php>recent-average credit</a>.");
+list_item("team_id.xml<br> team_id_N.xml",
+"Team details, ordered by increasing ID.");
+list_item("user_total_credit.xml<br> user_total_credit_N.xml",
+"User summaries, ordered by decreasing total credit.");
+list_item("user_expavg_credit.xml<br> user_expavg_credit_N.xml",
+"User summaries, ordered by decreasing recent-average credit.");
+list_item("user_id.xml, user_id_N.xml",
+"User details, ordered by increasing ID.");
+list_item("host_total_credit.xml<br> host_total_credit_N.xml",
+"Host summaries, ordered by decreasing total credit.");
+list_item("host_expavg_credit.xml<br> host_expavg_credit_N.xml",
+"Host summaries, ordered by decreasing recent-average credit.");
+list_item("host_id.xml<br> host_id_N.xml",
+"Host details, ordered by increasing ID.");
+list_end();
+echo "
 <p>
 The format of the various XML elements is as follows:
 

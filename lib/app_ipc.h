@@ -91,7 +91,10 @@ struct APP_INIT_DATA {
     char user_name[256];
     char team_name[256];
     char project_dir[256];
+    char boinc_dir[256];
     char wu_name[256];
+    char authenticator[256];
+    int slot;
     double user_total_credit;
     double user_expavg_credit;
     double host_total_credit;

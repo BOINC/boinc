@@ -205,6 +205,9 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     get_project_dir(wup->project, project_dir);
     relative_to_absolute(project_dir, project_path);
     strcpy(aid.project_dir, project_path);
+    relative_to_absolute("", aid.boinc_dir);
+    strcpy(aid.authenticator, wup->project->authenticator);
+    aid.slot = slot;
     strcpy(aid.wu_name, wup->name);
     aid.user_total_credit = wup->project->user_total_credit;
     aid.user_expavg_credit = wup->project->user_expavg_credit;

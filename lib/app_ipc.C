@@ -62,6 +62,12 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     if (strlen(ai.project_dir)) {
         fprintf(f, "<project_dir>%s</project_dir>\n", ai.project_dir);
     }
+    if (strlen(ai.boinc_dir)) {
+        fprintf(f, "<boinc_dir>%s</boinc_dir>\n", ai.boinc_dir);
+    }
+    if (strlen(ai.authenticator)) {
+        fprintf(f, "<authenticator>%s</authenticator>\n", ai.authenticator);
+    }
     if (strlen(ai.wu_name)) {
         fprintf(f, "<wu_name>%s</wu_name>\n", ai.wu_name);
     }
@@ -73,6 +79,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     fprintf(f, "<shm_key>%d</shm_key>\n", ai.shm_key);
 #endif
     fprintf(f,
+        "<slot>%d</slot>\n"
         "<wu_cpu_time>%f</wu_cpu_time>\n"
         "<user_total_credit>%f</user_total_credit>\n"
         "<user_expavg_credit>%f</user_expavg_credit>\n"
@@ -80,6 +87,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<host_expavg_credit>%f</host_expavg_credit>\n"
         "<checkpoint_period>%f</checkpoint_period>\n"
         "<fraction_done_update_period>%f</fraction_done_update_period>\n",
+        ai.slot,
         ai.wu_cpu_time,
         ai.user_total_credit,
         ai.user_expavg_credit,
@@ -107,12 +115,15 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         else if (parse_str(buf, "<user_name>", ai.user_name, sizeof(ai.user_name))) continue;
         else if (parse_str(buf, "<team_name>", ai.team_name, sizeof(ai.team_name))) continue;
         else if (parse_str(buf, "<project_dir>", ai.project_dir, sizeof(ai.project_dir))) continue;
+        else if (parse_str(buf, "<boinc_dir>", ai.boinc_dir, sizeof(ai.boinc_dir))) continue;
+        else if (parse_str(buf, "<authenticator>", ai.authenticator, sizeof(ai.authenticator))) continue;
         else if (parse_str(buf, "<wu_name>", ai.wu_name, sizeof(ai.wu_name))) continue;
 #ifdef _WIN32
         else if (parse_str(buf, "<comm_obj_name>", ai.comm_obj_name, sizeof(ai.comm_obj_name))) continue;
 #else
         else if (parse_int(buf, "<shm_key>", ai.shm_key)) continue;
 #endif
+        else if (parse_int(buf, "<slot>", ai.slot)) continue;
         else if (parse_double(buf, "<user_total_credit>", ai.user_total_credit)) continue;
         else if (parse_double(buf, "<user_expavg_credit>", ai.user_expavg_credit)) continue;
         else if (parse_double(buf, "<host_total_credit>", ai.host_total_credit)) continue;

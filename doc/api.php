@@ -50,6 +50,18 @@ the application might use
 "), "
 <code>boinc_resolve_filename()</code> doesn't need to be used for temporary files.
 
+<h3>I/O wrappers</h3>
+<p>
+Applications should replace fopen() calls with
+<pre>
+boinc_fopen(char* path, char* mode);
+</pre>
+This deals with platform-specific problems.
+On Windows, where security and indexing programs can briefly lock files,
+boinc_fopen() does several retries at 1-second intervals.
+On Unix, where signals can cause fopen() to fail with EINTR,
+boinc_fopen checks for this and does a few retries.
+
 <h3>Checkpointing</h3>
 
 Computations that use a significant amount of time
