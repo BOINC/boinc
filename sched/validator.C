@@ -397,11 +397,17 @@ void handle_wu(
                     }
                 }
             } else {
-                // here if no consensus; check if #success results is too large
+                // here if no consensus
+                // check if #success results is too large
                 //
                 if ((int)results.size() > wu.max_success_results) {
                     wu.error_mask |= WU_ERROR_TOO_MANY_SUCCESS_RESULTS;
                     need_immediate_transition = true;
+                }
+                // if #success results is target_nresults, bump it up
+                //
+                if ((int)results.size() == wu.target_nresults) {
+                    wu.target_nresults++;
                 }
             }
         }

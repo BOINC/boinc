@@ -803,6 +803,7 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
     wu.transition_time = atoi(r[i++]);
     wu.opaque = atof(r[i++]);  
     wu.batch = atoi(r[i++]);
+    wu.target_nresults = atoi(r[i++]);
     wu.max_success_results = atoi(r[i++]);
     wu.error_mask = atoi(r[i++]);
 
@@ -848,6 +849,7 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             "   wu.transition_time, "
             "   wu.opaque, "
             "   wu.batch, "
+            "   wu.target_nresults, "
             "   wu.max_success_results,"
             "   wu.error_mask,"
             "   res.id, "
@@ -945,11 +947,13 @@ int DB_VALIDATOR_ITEM_SET::update_workunit(WORKUNIT& wu) {
     sprintf(query,
         "update workunit set need_validate=0, error_mask=%d, "
         "assimilate_state=%d, transition_time=%d, "
+        "target_nresults=%d, "
         "canonical_resultid=%d, canonical_credit=%.15e "
         "where id=%d",
         wu.error_mask, 
         wu.assimilate_state,
         wu.transition_time,
+        wu.target_nresults,
         wu.canonical_resultid, 
         wu.canonical_credit, 
         wu.id

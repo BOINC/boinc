@@ -20393,3 +20393,20 @@ David  30 Nov 2004
     client/
         cs_account.C
         main.C
+
+David  30 Nov 2004
+    - Fixed a major bug in the whole damn system (thanks to Rattledagger)
+        If we have target_results successful results for a WU,
+        and there's no consensus, we need more results!!
+        There was no mechanism to produce them.
+        Fix: in the validator, if we call check_set() and there's
+        no consensus, and #success results == target_nresults,
+        increment target_nresults
+
+        Also had to add code to VALIDATOR_ITEM::enumerate() and parse()
+        to get target_nresults from the DB
+
+    db/
+        boinc_db.C
+    sched/
+        validator.C
