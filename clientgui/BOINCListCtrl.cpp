@@ -49,17 +49,17 @@ CBOINCListCtrl::CBOINCListCtrl( CBOINCBaseView* pView, wxWindowID iListWindowID,
     Connect( 
         iListWindowID, 
         wxEVT_COMMAND_LEFT_CLICK, 
-        (wxObjectEventFunction) (wxEventFunction) (wxListEventFunction) CBOINCListCtrl::OnClick
+        (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &CBOINCListCtrl::OnClick
     );
     Connect( 
         iListWindowID, 
         wxEVT_COMMAND_LIST_ITEM_SELECTED, 
-        (wxObjectEventFunction) (wxEventFunction) (wxListEventFunction) CBOINCListCtrl::OnSelected
+        (wxObjectEventFunction) (wxEventFunction) (wxListEventFunction) &CBOINCListCtrl::OnSelected
     );
     Connect( 
         iListWindowID, 
         wxEVT_COMMAND_LIST_ITEM_DESELECTED, 
-        (wxObjectEventFunction) (wxEventFunction) (wxListEventFunction) CBOINCListCtrl::OnDeselected
+        (wxObjectEventFunction) (wxEventFunction) (wxListEventFunction) &CBOINCListCtrl::OnDeselected
     );
 }
 
