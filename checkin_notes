@@ -1562,3 +1562,10 @@ David A.    August 10 2002
        Resource.h (new)
        win_main.cpp
        wingui.cpp,h (new)
+
+Barry        August 12, 2002
+    - Changed front page to a php page so we can check for cookies
+         Added explanatory text to front page and to team pages
+
+    html_user/
+        index.php
