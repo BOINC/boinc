@@ -109,8 +109,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
 #endif
 }
 
-ACTIVE_TASK::~ACTIVE_TASK() {
 #ifdef _WIN32
+void ACTIVE_TASK::close_process_handles() {
     if (pid_handle) {
         CloseHandle(pid_handle);
         pid_handle = NULL;
@@ -119,6 +119,10 @@ ACTIVE_TASK::~ACTIVE_TASK() {
         CloseHandle(thread_handle);
         thread_handle = NULL;
     }
+}
+
+ACTIVE_TASK::~ACTIVE_TASK() {
+    close_process_handles();
     if (quitRequestEvent) {
         CloseHandle(quitRequestEvent);
         quitRequestEvent = NULL;
@@ -130,7 +134,9 @@ ACTIVE_TASK::~ACTIVE_TASK() {
         detach_shmem(shm_handle, app_client_shm.shm);
         app_client_shm.shm = NULL;
     }
+}
 #else
+void ACTIVE_TASK::detach_and_destroy_shmem() {
     // detach from and destroy share mem
     //
     if (app_client_shm.shm) {
@@ -138,8 +144,12 @@ ACTIVE_TASK::~ACTIVE_TASK() {
         destroy_shmem(shmem_seg_name);
         app_client_shm.shm = NULL;
     }
-#endif
 }
+
+ACTIVE_TASK::~ACTIVE_TASK() {
+    detach_and_destroy_shmem();
+}
+#endif
 
 int ACTIVE_TASK::init(RESULT* rp) {
     result = rp;

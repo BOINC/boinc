@@ -59,7 +59,7 @@ public:
     double last_time;
         // when the above was last updated.
         // Defined only while a transfer is active
-    bool xfer_done;
+    bool pers_xfer_done;
     FILE_XFER* fxp;     // nonzero if file xfer in progress
     FILE_INFO* fip;
 

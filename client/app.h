@@ -145,6 +145,8 @@ public:
     ACTIVE_TASK();
 	~ACTIVE_TASK();
     int init(RESULT*);
+    void close_process_handles();
+    void detach_and_destroy_shmem();
 
     int start(bool first_time);         // start the task running
     int request_exit();                 // Send a SIGQUIT signal or equivalent

@@ -204,7 +204,7 @@ bool CLIENT_STATE::handle_pers_file_xfers() {
         // If the transfer finished, remove the PERS_FILE_XFER object
         // from the set and delete it
         //
-        if (pfx->xfer_done) {
+        if (pfx->pers_xfer_done) {
             fip = pfx->fip;
             if (fip->generated_locally || fip->upload_when_present) {
                 // file has been uploaded - delete if not sticky

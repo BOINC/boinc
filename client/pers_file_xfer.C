@@ -72,7 +72,7 @@ int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
     fxp = NULL;
     fip = f;
     is_upload = is_file_upload;
-    xfer_done = false;
+    pers_xfer_done = false;
     char* p = f->get_init_url(is_file_upload);
     if (!p) {
         msg_printf(NULL, MSG_ERROR, "No URL for file transfer of %s", f->name);
@@ -109,11 +109,11 @@ int PERS_FILE_XFER::start_xfer() {
                 // signature and checksum match
                 retval = fip->set_permissions();
                 fip->status = FILE_PRESENT;
-                xfer_done = true;
+                pers_xfer_done = true;
 
                 msg_printf(
                     fip->project, MSG_INFO,
-                    "File %s exists already, skipping download", pathname
+                    "File %s exists already, skipping download", fip->name
                 );
 
                 return retval;
@@ -144,7 +144,6 @@ int PERS_FILE_XFER::start_xfer() {
         delete fxp;
         fxp = NULL;
         return retval;
-        // TODO: do we need to do anything here?
     }
     retval = gstate.file_xfers->insert(file_xfer);
     if (retval) {
@@ -179,7 +178,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_FILE_XFER);
 
-    if (xfer_done) {
+    if (pers_xfer_done) {
         return false;
     }
     if (!fxp) {
@@ -191,7 +190,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
             last_time = dtime();
             fip->upload_offset = -1;
             retval = start_xfer();
-            return (retval == 0);
+            return true;
         } else {
             return false;
         }
@@ -207,14 +206,15 @@ bool PERS_FILE_XFER::poll(time_t now) {
 
     if (fxp->file_xfer_done) {
         if (fip->nbytes) {
-            // check if the file was actually downloaded, if not check if there are more urls to try
-            // if there are no bytes downloaded, than the was probably a wrong url downloaded
+            // If we know the file size, make sure that what we downloaded
+            // has the right size
+            //
             get_pathname(fip, pathname);
             file_size(pathname, existing_size);
             if (existing_size != fip->nbytes) {
                 check_giveup("File downloaded had wrong size");
+                return true;
             }
-            return false;
         }
         scope_messages.printf(
             "PERS_FILE_XFER::poll(): file transfer status %d",
@@ -236,7 +236,7 @@ bool PERS_FILE_XFER::poll(time_t now) {
                     );
                 }
             }
-            xfer_done = true;
+            pers_xfer_done = true;
         } else if (fxp->file_xfer_retval == ERR_UPLOAD_PERMANENT) {
             if (log_flags.file_xfer) {
                 msg_printf(
@@ -270,6 +270,9 @@ bool PERS_FILE_XFER::poll(time_t now) {
     return false;
 }
 
+// A file transfer (to a particular server)
+// has had a
+//
 // Takes a reason why a transfer has failed.
 //
 // Checks to see if there are no more valid URLs listed in the file_info.
@@ -292,7 +295,7 @@ void PERS_FILE_XFER::check_giveup(char* why) {
         } else {
             fip->status = ERR_GIVEUP_DOWNLOAD;
         }
-        xfer_done = true;
+        pers_xfer_done = true;
         msg_printf(
             fip->project, MSG_ERROR, "Giving up on %s of %s: %s",
             is_upload?"upload":"download", fip->name, why
@@ -343,7 +346,6 @@ void PERS_FILE_XFER::handle_xfer_failure() {
         retry_or_backoff();
     }
 }
-
 // Cycle to the next URL, or if we've hit all URLs in this cycle,
 // backoff and try again later
 //

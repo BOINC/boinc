@@ -182,7 +182,7 @@ static void limbo_message(ACTIVE_TASK& at) {
         at.result->name
     );
     msg_printf(at.result->project, MSG_INFO,
-        "You may need to restart BOINC to finish this result"
+        "If this happens repeatedly you may need to reset the project."
     );
 }
 
@@ -213,18 +213,16 @@ bool ACTIVE_TASK::handle_exited_app(unsigned long exit_code) {
             if (pending_suspend_via_quit) {
                 pending_suspend_via_quit = false;
                 state = PROCESS_UNINITIALIZED;
-                if (pid_handle) {
-                    CloseHandle(pid_handle);
-                    pid_handle = NULL;
-                }
-                if (thread_handle) {
-                    CloseHandle(thread_handle);
-                    thread_handle = NULL;
-                }
+                close_process_handles();
                 return true;
             }
             if (!finish_file_present()) {
+#if 0
                 state = PROCESS_IN_LIMBO;
+#else
+                state = PROCESS_UNINITIALIZED;
+                close_process_handles();
+#endif
                 limbo_message(*this);
                 return true;
             }
@@ -274,11 +272,7 @@ bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
 
                     // destroy shm, since restarting app will re-create it
                     //
-                    if (app_client_shm.shm) {
-                        detach_shmem(app_client_shm.shm);
-                        destroy_shmem(shmem_seg_name);
-                        app_client_shm.shm = NULL;
-                    }
+                    detach_and_destroy_shmem();
                     return true;
                 }
                 if (!finish_file_present()) {
@@ -288,7 +282,12 @@ bool ACTIVE_TASK::handle_exited_app(int stat, struct rusage rs) {
                     // and just leave it there
                     // (assume user is about to exit core client)
                     //
+#if 0
                     state = PROCESS_IN_LIMBO;
+#else
+                    state = PROCESS_UNINITIALIZED;
+                    detach_and_destroy_shmem();
+#endif
                     limbo_message(*this);
                     return true;
                 }

@@ -16935,3 +16935,24 @@ Rom    2 Sep 2004
 
     client/
         cs_apps.C
+
+David  2 Sept 2004
+	- PERS_FILE_XFER::poll(): fixed bug that caused hang
+
+	NOTE: check_giveup(), handle_xfer_failure(), and retry_or_backoff()
+	are a total mess.  I'll get to them next.
+
+	- If an app exits with zero status but no finish file,
+		instead of putting it in limbo (which causes the core client to do no work)
+		just restart the process again.
+		NOTE: eventually we should detect when this is happening repeatedly,
+		and error out the result.
+		For now, just print a message telling user they may need to reset project.
+	- rename PERS_FILE_XFER::xfer_done to pers_xfer_done
+	- move process cleanup code into separate functions
+		(ACTIVE_TASK::close_process_handles()
+		and ACTIVE_TASK::detach_and_destroy_shmem())
+	client/
+		app.C,h
+		app_control.C
+		pers_file_xfer.C
