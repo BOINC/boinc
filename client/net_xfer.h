@@ -52,8 +52,9 @@ public:
     char hostname[256];
     int port;
     int blocksize;
-    double xfer_speed,recent_bytes;      // in bytes per second
-    clock_t last_speed_update;
+    double xfer_speed;      // exponentially-smoother avg of recent throughput
+                            // in bytes per second
+    clock_t last_speed_update;  // when xfer_speed was last computed
     double bytes_xferred;
     char file_read_buf[MAX_BLOCKSIZE];
     int file_read_buf_offset, file_read_buf_len;

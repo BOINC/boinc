@@ -18,6 +18,9 @@
 //
 // Revision History:
 // $Log$
+// Revision 1.76  2003/12/12 22:20:02  davea
+// *** empty log message ***
+//
 // Revision 1.75  2003/12/08 23:04:51  boincadm
 // *** empty log message ***
 //
@@ -264,7 +267,6 @@ void NET_XFER::init(char* host, int p, int b) {
     port = p;
     blocksize = (b > MAX_BLOCKSIZE ? MAX_BLOCKSIZE : b);
     xfer_speed = 0;
-    recent_bytes = 0;
     last_speed_update = 0;
     file_read_buf_offset = 0;
     file_read_buf_len = 0;
@@ -582,13 +584,14 @@ int NET_XFER::do_xfer(int& nbytes_transferred) {
 
 // Update the transfer speed for this NET_XFER
 // Decay speed by 1/2 every 3 seconds
+// This is called after by do_xfer() (i.e. on every I/O)
 //
 void NET_XFER::update_speed(int nbytes) {
     time_t now, delta_t;
-    double x;
+    double x, recent_bytes;
 
     now = time(0);
-    recent_bytes += nbytes;
+    recent_bytes = (double) nbytes;
     if (last_speed_update==0) last_speed_update = now;
     delta_t = now-last_speed_update;
     if (delta_t<=0) return;
@@ -596,7 +599,6 @@ void NET_XFER::update_speed(int nbytes) {
     xfer_speed *= x;
     xfer_speed += recent_bytes*(1-x);
     last_speed_update = now;
-    recent_bytes = 0;
 }
 
 void NET_XFER::got_error() {

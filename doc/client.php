@@ -11,10 +11,14 @@ It is represented by a icon in the system tray.
 Double-click on the icon to open the work manager window.
 Right-click on the icon to:
 <ul>
-<li> <b>Suspend</b>: this stops current work.
-<li> <b>Resume</b>: this resumes work.
-<li> <b>Exit</b>:  this exits the work manager and all running BOINC applications.
+<li> <b>Suspend</b>: stop work (computation and file transfer).
+<li> <b>Run based on preferences</b>: do work
+    when your <a href=prefs.php>preferences</a> allow it.
+<li> <b>Run always</b>: do work,
+    regardless of preferences.
+<li> <b>Exit</b>:  exit the work manager and all running BOINC applications.
 No further work will take place until you run the work manager again.
+<li> <b>Hide</b>:  close the work manager window, but do not exit.
 </ul>
 <p>
 When the icon is flashing, 
@@ -24,21 +28,20 @@ To view it, open the work manager window and go to the Messages tab.
 The work manager window has several tabs:
 <ul>
 <li> <b>Projects</b>:
-    Shows the projects in which you're participating.
-    Right-click on a project name to:
+    Shows the projects in which this computer is participating.
+    Right-click on a project name brings up a menu:
     <ul>
-    <li> Visit its web site.
-    <li> Update preferences.
-        This will connect to the project
-        and get the newest version of your preferences.
-        (Note: BOINC preferences are managed using the web,
-        rather than in the application.
-        This makes it easy to manage preferences for a number of computers.)
-    <li> Detach from the project.
+    <li> <b>Web site</b>: visit the project's web site.
+    <li> <b>Update</b>:
+        Connect to the project;
+        report all completed results,
+        get more work if necessary,
+        and get your latest <a href=prefs.php>preferences</a>.
+    <li> <b>Detach</b> from the project.
         Your computer will stop working for the project.
-    <li> Clear project state.
-        This stops the project's current work, if any,
-        and starts from scratch.
+    <li> <b>Reset project</b>:
+        Stop the project's current work, if any,
+        and start from scratch.
         Use this if BOINC has become stuck for some reason.
     </ul>
 <li> <b>Work</b>:
@@ -46,7 +49,7 @@ The work manager window has several tabs:
     Each work unit is either
     <ul>
     <li>Downloading: input files are being downloaded.
-    <li>Ready: waiting to run.
+    <li>Ready to run:
         An estimate of the total CPU time is shown.
     <li>In progress: currently running.
         Elapsed CPU time and estimated percent done is shown.
@@ -55,7 +58,7 @@ The work manager window has several tabs:
     </ul>
     Right-click on a work unit to:
     <ul>
-    <li> Open a window showing application graphics for the work unit.
+    <li> <b>Show graphics</b>: open a window showing application graphics.
     </ul>
 <li> <b>Transfers</b>:
     Shows file transfers (uploads and downloads).
@@ -74,12 +77,14 @@ The work manager's menu items are as follows:
 <ul>
 <li> <b>File</b>
     <ul>
-    <li> <b>Clear Messages</b>: clear the message window and file.
-    <li> <b>Clear Inactive</b>: clear entries in the Transfers and Work window
-        that are completed.
-    <li> <b>Suspend</b>: this stops current work.
-    <li> <b>Resume</b>: this resumes work.
-    <li> <b>Close</b>: close the work manager window.
+    <li><b>Run always</b>, <b>Run based on preferences</b>,
+        <b>Suspend</b>: see above
+    <li><b>Run Benchmarks</b>:
+        run benchmark functions, which measure the speed of your processor.
+        BOINC does this automatically,
+        but you can repeat it whenever you want.
+        The results are shown in the Messages tab.
+    <li> <b>Hide</b>: close the work manager window.
         This does not exit the work manager.
         To do this, use the Exit command on the system tray icon menu.
     </ul>
@@ -89,17 +94,13 @@ The work manager's menu items are as follows:
         Enroll this computer in a project.
         You must have already created an account with the project.
         You will be asked to enter the project's URL and your account ID.
-    <li> <b>Detach from Project</b>
-        Stop using this computer for a project.
     <li> <b>Proxy Server</b>
         If you connect to the web through an HTTP or SOCKS proxy,
-        enter its address and port here.
+        use this dialog to enter its address and port.
     </ul>
 <li> <b>Help</b>
-    <li> <b>Help</b>: show this web page.
     <li> <b>About</b>: show work manage version number.
     </ul>
-<li> <b>Help</b>
 </ul>
 
 <p>
@@ -131,17 +132,17 @@ list_item("-show_projects",
     "Print a list of projects to which this computer is attached."
 );
 
-list_item("-detach_project project-URL",
+list_item("-detach_project URL",
     "Detach this computer from a project."
 );
 
-list_item("-reset_project project-URL",
+list_item("-reset_project URL",
     "Clear pending work for a project.
     Use this if there is a problem that is preventing
     your computer from working."
 );
 
-list_item("-update_prefs project-URL",
+list_item("-update_prefs URL",
     "Contact a project's server to obtain new preferences."
 );
 
