@@ -20861,3 +20861,17 @@ Rom    7 Dec 2004
         boinc_win.h
         diagnostics.h
         filesys.h
+
+David  7 Dec 2004
+    - fix update_versions to allow signature files (.sig)
+        for files other than the main program
+    - make_project: create forum_index.php, rss_main.php, status.php
+        for new projects (from sample files)
+    - make_project: fill in reasonable values in config.xml for
+        min_sendwork_interval, max_wus_to_send, daily_result_quota,
+        disable_account_creation, and show_result
+    py/Boinc/
+        setup_project.py
+        tools.py
+    tools/
+        update_versions

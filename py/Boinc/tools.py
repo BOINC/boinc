@@ -168,9 +168,16 @@ def process_app_version(app, version_num, exec_files,
         xml_doc += process_executable_file(exec_file, signature_text, quiet=quiet)
 
     for non_exec_file in non_exec_files:
-        # use MD5 sum instead of RSA signature
-        xml_doc += process_executable_file(non_exec_file, signature_text=None,
-                                           executable=False, quiet=quiet)
+        # default: use MD5 sum instead of RSA signature
+        signature_file = signature_files.get(non_exec_file)
+        if signature_file:
+            if not quiet: print 'Using signature file', signature_file
+            signature_text = open(signature_file).read()
+        else:
+            signature_text = None
+        xml_doc += process_executable_file(
+            non_exec_file, signature_text=signature_text,
+            executable=False, quiet=quiet)
 
     xml_doc += ('<app_version>\n'+
                      '    <app_name>%s</app_name>\n'+

@@ -294,6 +294,15 @@ def install_boinc_files(dest_dir):
           'boincxml.py', 'configxml.py', 'database.py',
           'db_base.py', 'db_mid.py', 'projectxml.py',
           'sched_messages.py', 'tools.py', 'util.py', 'version.py' ])
+    install(
+        srcdir('html/user', 'forum_sample_index.php'),
+        dir('html/user', 'forum_index.php'))
+    install(
+        srcdir('html/user', 'sample_rss_main.php'),
+        dir('html/user', 'rss_main.php'))
+    install(
+        srcdir('html/user', 'sample_status.php'),
+        dir('html/user', 'status.php'))
 
 
 class Project:
@@ -323,6 +332,11 @@ class Project:
         config.uldl_dir_fanout = 1024
         local_host = socket.gethostname()
         config.host = local_host.split('.')[0]
+        config.min_sendwork_interval = 6
+        config.max_wus_to_send = 50
+        config.daily_result_quota = 500
+        config.disable_account_creation = 1
+        config.show_result = 1
 
         config.master_url    = master_url or os.path.join(options.html_url , self.short_name , '')
         config.download_url  = os.path.join(config.master_url, 'download')
