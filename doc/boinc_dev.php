@@ -19,8 +19,6 @@ before getting into the source code.
 Core client
 </b></font>
 <ul>
-<li> <a href=build_server.php>Building server components</a> (<a href=build_system.php>Build system</a>)
-<li> <a href=build.txt>Building the core client</a> (<a href=build_system.php>Build system</a>)
 <li> <a href=client_files.php>File structure</a>
 <li> <a href=client_fsm.php>FSM structure</a>
 <li> <a href=client_data.php>Data structures</a>

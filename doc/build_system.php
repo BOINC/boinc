@@ -111,7 +111,8 @@ To set the BOINC client version number:
 </pre>
 in the BOINC top-level source directory.  This updates
 the <code>AC_INIT</code> line in
-<code>configure.ac</code> and regenerates files.
+<code>configure.ac</code> and regenerates files that use the version numbers
+(config.h, py/version.py, test/version.inc, client/win/win_config.h, Makefiles)
 
 <h2>Archival/source distribution</h2>
 To make source distributions:

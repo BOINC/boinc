@@ -4,6 +4,8 @@
    page_head("Building the server");
 ?>
 
+See the <a href=software.php>Software Prerequisites</a>.
+
 <h1>Overview</h1>
 Download:
 <pre>
@@ -19,20 +21,10 @@ Make:
 <pre>
   make
 </pre>
-
-<h1>Software</h1>
-Compiling the server is supported directly on:
-<ul><li>Linux
-  <li>Solaris 2.7+
-  <li>FreeBSD
-</ul>
-<ul><li>Other modern UNIX systems should be easy to port</ul>
-
-Compiler:
-<ul><li>g++ (2.95 or 3.0-3.3)</ul>
-
-Libraries:
-<ul><li>MySQL</ul>
+Check:
+<pre>
+  make check
+</pre>
 
 <h1>Troubleshooting</h1>
 <h2>MySQL</h2> BOINC gets MySQL compiler and linker flags from a program

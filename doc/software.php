@@ -5,7 +5,13 @@ page_head("BOINC: Software prerequisites and corequisites");
 
 BOINC depends on various software to build, test, and run.
 
-<h1>Unix</h1>
+<h1>Operating systems</h1>
+
+The server components run on flavors of Unix.  We develop on Solaris 2.6-2.9
+and Debian Linux stable and unstable, so those currently work out-of-the-box.
+Other Unix-like systems should work without too much configuration.
+
+<h1>Unix software</h1>
 
 Required for <b>compiling</b>:
 <ul>
@@ -51,21 +57,22 @@ Optional, required only if you change <code>*/Makefile.am</code>:
 </small>
 
 
-<h1>Windows client</h1>
+<h1>Windows client software</h1>
 Required for compiling:
 <ul>
   <li><b>Microsoft Visual C</b> 6.0
 </ul>
 Required for creating install packages:
 <ul>
-  <li><b>InstallShield</b>
+  <li><b>InstallShield</b> 5.5
 </ul>
 
 
-<h1>Macintosh client</h1>
-Required for compiling:
+<h1>Macintosh client software</h1>
 <ul>
-  <li><b>?</b>
+  <li>Development Level PPC Macintosh running OS X 10.1 or later.
+  <li>July 2002 Mac OS X Developer Tools.
+  <li>Installer Vise Lite 3.6 SDK(?)
 </ul>
 
 
