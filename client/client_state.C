@@ -252,7 +252,7 @@ int CLIENT_STATE::parse_state_file() {
     char buf[256];
     FILE* f = fopen(STATE_FILE_NAME, "r");
     PROJECT temp_project, *project;
-    int retval;
+    int retval=0;
 
     if (!f) {
         if (log_flags.state_debug) {
@@ -261,10 +261,14 @@ int CLIENT_STATE::parse_state_file() {
         return ERR_FOPEN;
     }
     fgets(buf, 256, f);
-    if (!match_tag(buf, "<client_state>")) return -1;
+    if (!match_tag(buf, "<client_state>")) {
+        retval = ERR_XML_PARSE;
+        goto done;
+    }
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "</client_state>")) {
-            return 0;
+            retval = 0;
+            break;
         } else if (match_tag(buf, "<project>")) {
             temp_project.parse_state(f);
             project = lookup_project(temp_project.master_url);
@@ -349,10 +353,13 @@ int CLIENT_STATE::parse_state_file() {
             // after core client update
         } else {
             fprintf(stderr, "CLIENT_STATE::parse_state_file: unrecognized: %s\n", buf);
-            return ERR_XML_PARSE;
+            retval = ERR_XML_PARSE;
+            goto done;
         }
     }
-    return 0;
+done:
+    fclose(f);
+    return retval;
 }
 
 // Write the client_state.xml file

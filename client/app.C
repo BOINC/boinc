@@ -621,9 +621,7 @@ bool ACTIVE_TASK::check_app_status_files() {
     f = fopen(path, "r");
     if (f) {
         found = true;
-        parse_fraction_done_file(
-            f, current_cpu_time, fraction_done
-        );
+        parse_fraction_done_file(f, current_cpu_time, fraction_done);
         fclose(f);
         retval = file_delete(path);
         if (retval) {

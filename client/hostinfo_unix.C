@@ -157,6 +157,7 @@ bool host_is_running_on_batteries() {
     // Supposedly we're on batteries if the 4th entry is zero.
     //
     fscanf(f, "%f %f %x %x", &x1, &x2, &i1, &i2);
+    fclose(f);
     return (i2 == 0);
 }
 

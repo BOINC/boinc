@@ -293,9 +293,9 @@ int HTTP_OP::init_post2(
         file_offset = offset;
         retval = file_size(infile, content_length);
         if (retval) {
-	    printf("HTTP::init_post2: couldn't get file size\n");
-	    return retval;
-	}
+            printf("HTTP::init_post2: couldn't get file size\n");
+            return retval;
+        }
         content_length -= (int)offset;
     }
     content_length += strlen(req1);
@@ -434,8 +434,8 @@ bool HTTP_OP_SET::poll() {
                 htp->http_op_state = HTTP_STATE_REPLY_HEADER;
                 if (htp->file) {
                     fclose(htp->file);
-		    htp->file = 0;
-		}
+                    htp->file = 0;
+                }
                 htp->do_file_io = false;
                 htp->want_upload = false;
                 htp->want_download = true;
@@ -550,11 +550,11 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
 
     iter = http_ops.begin();
     while (iter != http_ops.end()) {
-    	if (*iter == p) {
-	    http_ops.erase(iter);
-	    return 0;
-	}
-	iter++;
+        if (*iter == p) {
+            http_ops.erase(iter);
+            return 0;
+        }
+        iter++;
     }
     fprintf(stdout, "HTTP_OP_SET::remove(): not found\n");
     return 1;
