@@ -283,7 +283,7 @@ int CLIENT_STATE::init() {
     // set period start time and reschedule
     //
     must_schedule_cpus = true;
-    cpu_sched_last_time = time(NULL);
+    cpu_sched_last_time = dtime();
 
     // set up the project and slot directories
     //

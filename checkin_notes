@@ -18789,3 +18789,12 @@ Jeff   22 Oct 2004
       db/
         boinc_db.C
 
+David  22 Oct 2004
+	- schedule_cpus(): assume that if a task ran for X seconds,
+		it got X seconds of CPU time.
+		This makes the schedule work correctly even when
+		apps don't report their CPU time.
+
+	client/
+		client_state.C
+		cs_apps.C

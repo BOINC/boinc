@@ -354,10 +354,10 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     // or if must_schedule_cpus is set
     // (meaning a new result is available, or a CPU has been freed).
     //
+    elapsed_time = now - cpu_sched_last_time;
     if (must_schedule_cpus) {
         must_schedule_cpus = false;
     } else {
-        elapsed_time = now - cpu_sched_last_time;
         if (elapsed_time < (global_prefs.cpu_scheduling_period_minutes*60)) {
             return false;
         }
@@ -389,7 +389,8 @@ bool CLIENT_STATE::schedule_cpus(double now) {
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
-        double task_cpu_time = atp->current_cpu_time - atp->cpu_time_at_last_sched;
+        //double task_cpu_time = atp->current_cpu_time - atp->cpu_time_at_last_sched;
+        double task_cpu_time = elapsed_time;
         atp->result->project->work_done_this_period += task_cpu_time;
         cpu_sched_work_done_this_period += task_cpu_time;
         atp->next_scheduler_state = CPU_SCHED_PREEMPTED;
