@@ -1,8 +1,8 @@
 <?php
 
-require_once('../include.php');
-require_once('../util.inc');
+require_once('../include/template.inc');
 require_once('forum.inc');
+require_once('../util.inc');
 
 function subscribe($thread, $user=null) {
     if (!$thread) {
@@ -15,16 +15,16 @@ function subscribe($thread, $user=null) {
     }
     
     $sql = "SELECT * FROM subscriptions WHERE (userid = " . $user->id . ") AND (threadid = " . $thread->id . ")";
-    $result = sql_query($sql);
+    $result = mysql_query($sql);
     
     // If they're already subscribed, don't add them again;
-    if (sql_num_rows($result) > 0) {
+    if (mysql_num_rows($result) > 0) {
         // TODO: Specific "error" page for this case.
         show_result_page("subscribe", true, $thread);
     }
     
     $sql = "INSERT INTO subscriptions SET userid = " . $user->id . ", threadid = " . $thread->id;
-    show_result_page("subscribe", (sql_query($sql) != null), $thread);
+    show_result_page("subscribe", (mysql_query($sql) != null), $thread);
 }
 
 function unsubscribe($thread, $user=null) {
@@ -36,7 +36,7 @@ function unsubscribe($thread, $user=null) {
         $user = get_logged_in_user(true, '../');
     }
     $sql = "DELETE FROM subscriptions WHERE (userid = ". $user->id . ") AND (threadid = " . $thread->id . ")";
-    show_result_page("unsubscribe", (sql_query($sql) != null), $thread);
+    show_result_page("unsubscribe", (mysql_query($sql) != null), $thread);
     
 }
 
@@ -79,7 +79,7 @@ function show_result_page($action, $success, $thread) {
 
 function notify_subscribers($thread) {
     $sql = "SELECT DISTINCT * FROM subscriptions WHERE threadid = " . $thread->id;
-    $result = sql_query($sql);
+    $result = mysql_query($sql);
     
     while ($row = mysql_fetch_assoc($result)) {
         send_notice_email($row['userid'], $thread);
@@ -88,7 +88,7 @@ function notify_subscribers($thread) {
 }
 
 function send_notice_email($userId, $thread) {
-    $result = sql_query("SELECT * FROM user WHERE id = $userId");
+    $result = mysql_query("SELECT * FROM user WHERE id = $userId");
     $row = mysql_fetch_assoc($result);
     
     $title = PROJECT . ": A user has posted to your subscribed thread.";
