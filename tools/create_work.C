@@ -131,7 +131,8 @@ int main(int argc, char** argv) {
         printf("app not found\n");
         exit(1);
     }
-
+    
+    //fprintf(stderr, "wu_template = %s\n", wu_template);
     retval = read_filename(wu_template_file, wu_template);
     if (retval) {
         fprintf(stderr, "can't open WU template\n");

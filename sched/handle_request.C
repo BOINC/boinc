@@ -35,9 +35,7 @@
 // return true if the WU can be executed on the host
 //
 bool wu_is_feasible(WORKUNIT& wu, HOST& host) {
-    if (wu.rsc_disk > host.d_free) return false;
-    if (wu.rsc_memory > host.m_nbytes) return false;
-    return true;
+    return ((wu.rsc_disk < host.d_free) && (wu.rsc_memory < host.m_nbytes));
 }
 
 // estimate the time that a WU will take on a host

@@ -1065,3 +1065,18 @@ Barry Luong    July 12, 2002
         main.C
         Makefile.in
         feeder.C
+
+
+Michael Gary	July 12, 2002
+    - Added a test to make sure the scheduling server does not send unfeasible
+        work units
+    - Removed some debug output
+
+    lib/
+        shmem.C
+    sched/
+        file_upload_handler.C
+        handle_request.C
+    test/
+        prefs3.xml
+        test_rsc.php

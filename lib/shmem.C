@@ -44,6 +44,7 @@ int attach_shmem(key_t key, void** pp){
     void* p;
     int id;
     assert(pp!=NULL);
+    //fprintf(stderr, "%x\n", key);
     id = shmget(key, 0, 0);
     if (id < 0) {
         perror("attach_shmem: shmget");

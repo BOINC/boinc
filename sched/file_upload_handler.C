@@ -189,7 +189,7 @@ int main() {
     if (retval) {
         fprintf(stderr, "file_upload_handler: handle_request: %d\n", retval);
     } else {
-        fprintf(stderr, "file_upload_handler: handle_request: %d\n", retval);
+        //fprintf(stderr, "file_upload_handler: handle_request: %d\n", retval);
         print_status(0, 0);
     }
     return 0;
