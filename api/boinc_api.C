@@ -31,6 +31,8 @@
 #include <afxwin.h>
 #include <winuser.h>
 #include <mmsystem.h>    // for timing
+
+HANDLE hGlobalDrawEvent;
 #endif
 
 #if HAVE_UNISTD_H
@@ -51,6 +53,8 @@
 #ifdef __APPLE_CC__
 #include <CoreServices/CoreServices.h>
 #include "mac_app_opengl.h"
+
+MPQueueID drawQueue;
 #endif
 
 #include "boinc_api.h"
@@ -66,12 +70,6 @@ static bool ready_to_checkpoint = false;
 static bool ready_to_redraw = false;
 static bool this_process_active;
 int ok_to_draw = 0;
-#ifdef _WIN32
-HANDLE hGlobalDrawEvent;
-#endif
-#ifdef __APPLE_CC__
-MPQueueID drawQueue;
-#endif
 
 // read the INIT_DATA and FD_INIT files
 //
@@ -247,7 +245,11 @@ bool boinc_time_to_checkpoint() {
         // And wait for the graphics thread to notify us that it's done drawing
 #ifdef _WIN32
         ResetEvent(hGlobalDrawEvent);
-        WaitForSingleObject( hGlobalDrawEvent, INFINITE );
+        while (ok_to_draw) {
+            // Wait for drawing to finish.  We don't do an infinite wait here to avoid the
+            // possibility of deadlock (which was happening with an infinite wait value)
+            WaitForSingleObject( hGlobalDrawEvent, 10 );
+        }
 #endif
 #ifdef __APPLE_CC__
         while (ok_to_draw) {
