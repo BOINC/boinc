@@ -569,15 +569,17 @@ int boinc_send_trickle_up(char* variety, char* p) {
     return 0;
 }
 
-bool boinc_time_to_checkpoint() {
+// logically this should be a bool.  But it need to be an int to be
+// compatible with C API.
+int boinc_time_to_checkpoint() {
 
     // If the application has received a quit request it should checkpoint
     //
-    if (time_to_quit) {
-        return true;
+    if (time_to_quit || ready_to_checkpoint) {
+        return 1;
     }
 
-    return ready_to_checkpoint;
+    return 0;
 }
 
 int boinc_checkpoint_completed() {

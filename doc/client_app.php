@@ -82,7 +82,8 @@ The core client maintains
 <p>
 The app library maintains time_until_checkpoint,
 decremented from the timer handler.
-boinc_time_to_checkpoint() returns true if this is zero or less.
+boinc_time_to_checkpoint() returns nonzero if 
+time_until_checkpoint is zero or less.
 boinc_checkpoint_completed() resets it.
 
 <p>

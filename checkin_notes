@@ -21709,3 +21709,24 @@ Rom    21 Dec 2004
 
     html/inc
         forum.inc
+
+Bruce  22 Dec 2004
+    -  Spent several hours tracking down a problem that turned
+       out to be the fact that sizeof(bool) is not consistent
+       even across gcc.  It's 4 bytes on gcc 2.95, 1 byte on 
+       gcc 3.0, 1 bytes on gcc 3.3 on x86 and 4 bytes on gcc 3.3
+       on OSX.   Botton line: one MUST eliminate bool from any
+       library object that's meant to be used in the public
+       API available from C.  I started fixing this across more
+       of the API but got nervous that this would break the E@h
+       builds and cause even more delay.  So did a minimal fix
+       for now: changed boinc_time_to_checkpoint() to return int.
+
+    api/
+        boinc_api.C
+        boinc_api.h
+    apps/
+        upper_case.C
+    doc/
+        api.php
+        client_app.php
