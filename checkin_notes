@@ -22145,3 +22145,6 @@ Rom    6 Jan 2005
         ViewResources.cpp
         ViewTransfers.cpp
         ViewWork.cpp
+    clientgui/msw/
+        taskbarex.cpp
+
