@@ -404,8 +404,8 @@ FILE_INFO::FILE_INFO() {
     strcpy(file_signature, "");
 #if 0
     priority = P_LOW;
-    time_last_used = time(0);
-    exp_date = time(0) + 60*SECONDS_PER_DAY;
+    time_last_used = dtime();
+    exp_date = dtime() + 60*SECONDS_PER_DAY;
 #endif
 }
 
@@ -522,9 +522,9 @@ int FILE_INFO::parse(MIOFILE& in, bool from_server) {
 #if 0
         else if (parse_int(buf, "<time_last_used>", (int&)time_last_used)) continue;
         else if (parse_int(buf, "<priority>", priority)) continue;
-        else if (parse_int(buf, "<exp_date>", (int&)exp_date)) continue;
-        else if (parse_int(buf, "<exp_days>", exp_days)) {
-            exp_date = time(0) + exp_days*SECONDS_PER_DAY;
+        else if (parse_double(buf, "<exp_date>", exp_date)) continue;
+        else if (parse_double(buf, "<exp_days>", exp_days)) {
+            exp_date = dtime() + exp_days*SECONDS_PER_DAY;
         }
 #endif
         else if (match_tag(buf, "<persistent_file_xfer>")) {
@@ -792,7 +792,7 @@ bool FILE_INFO::had_failure(int& failnum, char* buf) {
 #if 0
 // Sets the time_last_used to be equal to the current time
 int FILE_INFO::update_time() {
-    time_last_used = time(0);
+    time_last_used = dtime();
     return 0;
 }
 #endif

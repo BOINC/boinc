@@ -19486,8 +19486,10 @@ Bruce  15 Nov 2004
 David  15 Nov 2004
     - some times were being read/written as ints instead of double
         (from Sebastian Masch)
-        This could fix a bug of giving up on uploads too soon
-        (I'm not sure why)
+        This fixes a bug of giving up on uploads too soon
+        
+        NOTE: the time returned by dtime() is NOT THE SAME AS UNIX TIME.
+        YOU CAN'T MIX AND MATCH.  REMEMBER THIS!!!!
 
     client/
         client_types.C
@@ -19496,3 +19498,12 @@ David  15 Nov 2004
             wingui_mainwindow.cpp
     lib/
         gui_rpc_client.C,h
+
+David  15 Nov 2004
+    - get rid of time(0) as much as possible
+
+    client/
+        app_control.C
+        client_types.C
+        cs_data.C
+        net_xfer.h
