@@ -23,6 +23,7 @@ using namespace std;
 #include "boinc_db.h"
 #include "config.h"
 #include "parse.h"
+#include "sched_util.h"
 
 extern CONFIG config;
 
@@ -44,7 +45,7 @@ int get_output_file_path(RESULT& result, char* path) {
 int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
     int i, j, n, neq=0, retval, ilow, ihigh, canonical;
     char* files[100];
-    char path[256];
+    char path[256], buf[256];
     bool found;
     double c, low=0.0, high=0.0;
 
@@ -65,7 +66,8 @@ int check_set(vector<RESULT>& results, int& canonicalid, double& credit) {
         }
         retval = read_file_malloc(path, files[i]);
         if (retval) {
-            fprintf(stderr, "read_file_malloc %s %d\n", path, retval);
+            sprintf(buf, "read_file_malloc %s %d\n", path, retval);
+            write_log(buf, MSG_CRITICAL);
             return retval;
         }
     }

@@ -28,7 +28,7 @@ function read_count_file() {
 function write_count_file($n,$m) {
     $f = fopen("nresults", "w");
     if (!$f) return false;
-    $x = sprintf("%d\n%d", $n, $m);
+    $x = sprintf("%d\n%d\n", $n, $m);
     fwrite($f, $x);
     fclose($f);
     return true;
