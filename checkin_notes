@@ -9060,3 +9060,20 @@ Gary	8 Jan 2004
     client/win
         wingui_mainwindow.cpp,h
 
+David  9 Jan 2004
+    - on download page, don't tell people to create an account
+        if they already are logged in (and hence have an account)
+    - print message in CGI log if can't find user
+    - don't hyperlink 0 results etc.
+
+    html_user/
+        download.inc
+        download.php
+        host.inc
+        repair.php
+        forum/
+            help_desk.php
+            thread.php
+            user_posts.php
+    sched/
+        handle_request.C

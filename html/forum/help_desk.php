@@ -4,7 +4,7 @@ require_once('forum.inc');
 require_once('../util.inc');
 require_once('../time.inc');
 
-page_head('Questions and problems');
+page_head(PROJECT.': Questions and problems');
 
 show_forum_title(NULL, NULL, true);
 

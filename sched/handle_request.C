@@ -1049,6 +1049,9 @@ void process_request(
 
     retval = authenticate_user(sreq, reply);
     if (retval) return;
+    if (reply.user.id == 0) {
+        log_messages.printf(SchedMessages::CRITICAL, "No user ID!\n");
+    }
 
     last_rpc_time = reply.host.rpc_time;
     reply.host.rpc_time = time(0);

@@ -28,7 +28,9 @@ function platform_downloads($platform) {
 function print_download_links() {
     start_table();
 
-    echo "<tr><th>Computer type</th><th>Version</th><th>Release Date</th></tr>\n";
+    echo "<tr><th>Computer type<br><font size=-2>click to download</font>
+        </th><th>Version</th><th>Release Date</th></tr>\n
+    ";
     $result = mysql_query("select * from platform order by name");
     while ($platform = mysql_fetch_object($result)) {
         if ($platform->deprecated) continue;

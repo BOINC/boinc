@@ -23,8 +23,7 @@ function show_host($host, $private, $ipprivate) {
     if ($private) {
         if ($ipprivate) {
             row2("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
-        }
-        else { 
+        } else { 
             row2("IP address", "<a href=show_host_detail.php?hostid=$host->id&ipprivate=1>Show IP address</a>");
         }
         row2("Domain name", $host->domain_name);
@@ -90,7 +89,11 @@ function show_host($host, $private, $ipprivate) {
         row2("Average download rate", "Unknown");
     }
     $nresults = host_nresults($host);
-    $results = "<a href=results.php?hostid=$host->id>$nresults</a>";
+    if ($nresults) {
+        $results = "<a href=results.php?hostid=$host->id>$nresults</a>";
+    } else {
+        $results = "0";
+    }
     row2("Results", $results);
 
     if ($private) {

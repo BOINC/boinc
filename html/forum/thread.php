@@ -29,9 +29,9 @@ $logged_in_user = get_logged_in_user(false);
 
 // TODO: Make these more specific.
 if ($category->is_helpdesk) {
-	page_head('Help Desk', $logged_in_user);
+	page_head(PROJECT.': Questions and problems', $logged_in_user);
 } else {
-	page_head('Forum', $logged_in_user);
+	page_head(PROJECT.': Message boards', $logged_in_user);
 }
 
 // TODO: Constant for default sort style and filter values.

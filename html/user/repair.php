@@ -36,6 +36,64 @@ function fix_validate_state() {
     }
 }
 
-fix_validate_state();
+function host_credit($host) {
+    $result = mysql_query("select sum(granted_credit) as total from result where hostid=$host->id");
+    $foobar = mysql_fetch_object($result);
+    mysql_free_result($result);
+    mysql_query("update host set total_credit=$foobar->total where id=$host->id");
+    echo "host $host->total_credit -> $foobar->total\n";
+    return $foobar->total;
+}
+
+function assign_userid($result) {
+    $host = lookup_host($result->hostid);
+    if ($host) {
+        mysql_query("update result set userid=$host->userid where id=$result->id");
+    } else {
+        mysql_query("update result set hostid=-1 where id=$result->id");
+    }
+}
+
+function assign_userids_host($host) {
+    $r = mysql_query("select * from result where hostid=$host->id");
+    while ($result = mysql_fetch_object($r)) {
+        if ($result->userid != $host->id) {
+            mysql_query("update result set userid=$host->userid where id=$result->id");
+        }
+    }
+    mysql_free_result($r);
+}
+
+function user_credit($userid) {
+    $result = mysql_query("select * from host where userid=$userid");
+    $x = 0;
+    while ($host = mysql_fetch_object($result)) {
+        echo "$host->id\n";
+        assign_userids_host($host);
+        $x += host_credit($host);
+    }
+    mysql_free_result($result);
+    mysql_query("update user set total_credit=$x where id=$userid");
+    echo "user $x\n";
+}
+
+
+function assign_userids() {
+    while (1) {
+        $r = mysql_query("select * from result where userid=0 and hostid>0 limit 1,100");
+        $n = 0;
+        while ($result = mysql_fetch_object($r)) {
+            $n++;
+            echo "$result->id\n";
+            assign_userid($result);
+        }
+        mysql_free_result($r);
+        if ($n==0) break;
+    }
+}
+
+assign_userids();
+
+//user_credit(132);
 
 ?>
