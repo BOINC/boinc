@@ -68,6 +68,7 @@ Unix/Linux: compiled statically into Python
     5. Copy MySQL files
        $ cp MySQL-python-0.9.2/{*.c,*.h} Python-2.3/Modules/
        $ cp MySQL-python-0.9.2/_mysql_exceptions.py Python-2.3/Lib/
+       $ cp -r MySQL-python-0.9.2/MySQLdb Python-2.3/Lib/
 
     6. Configure python
        $ cd Python-2.3/
@@ -97,9 +98,6 @@ Unix/Linux: compiled statically into Python
     9. Install
        $ cd ../Python-2.3/
        # make install
-
-       $ cd ../Python-MySQLdb-0.9.2/
-       # cp -r MySQLdb/ /path/to/python/lib
 
 Windows: pre-built binary
 -------------------------
