@@ -13867,7 +13867,7 @@ David  17 June 2004
     client/
         hostinfo_network.C
 
-Rom    June 16 2004
+Rom    June 17 2004
     - Enable the low-water mark for the work queue again.
 
     client/
@@ -13894,11 +13894,11 @@ David  June 17 2004
     sched/
         sched_send.C
 
-Rom    June 16 2004
+Rom    June 17 2004
     - Tag for 3.12 release, all platforms
       boinc_core_release_3_12
 
-Rom    June 16 2004
+Rom    June 17 2004
     - Tag for 3.13 release, all platforms
       boinc_core_release_3_13
 
