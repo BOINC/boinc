@@ -6248,3 +6248,9 @@ Karl 2003/09/07
     client/
         app.C
         client_types.C
+
+Karl 2003/09/10
+    - fixed transitioner bug where canonical result output files got deleted.
+
+    Sched/
+        transitioner.C

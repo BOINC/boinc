@@ -236,10 +236,10 @@ void handle_wu(DB_WORKUNIT& wu) {
             // can delete canonical result outputs
             // if all successful results have been validated
             //
-            if (canonical_result.id && canonical_result.file_delete_state == FILE_DELETE_INIT) {
-                canonical_result.file_delete_state = FILE_DELETE_READY;
-                canonical_result.update();
-            }
+            // if (canonical_result.id && canonical_result.file_delete_state == FILE_DELETE_INIT) {
+            //     canonical_result.file_delete_state = FILE_DELETE_READY;
+            //     canonical_result.update();
+            // }
         }
 
         // output of error results can be deleted immediately;
@@ -247,6 +247,10 @@ void handle_wu(DB_WORKUNIT& wu) {
         //
         for (i=0; i<results.size(); i++) {
             result = results[i];
+            // can delete canonical result outputs only if all successful
+            // results have been validated
+            if (result.id == canonical_result.id && !all_over) continue;
+            
             do_delete = false;
             switch(result.outcome) {
             case RESULT_OUTCOME_CLIENT_ERROR:
