@@ -4,7 +4,8 @@
 
     db_init();
 
-    parse_str(getenv("QUERY_STRING"));
+    $id = $_GET["id"];
+    $str = $_GET["str"];
 
     $user = null;
     $result = mysql_query("select * from user where id=$id");

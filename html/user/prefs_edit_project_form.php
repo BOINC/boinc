@@ -13,7 +13,6 @@ if ($user == NULL) {
     exit();
 }
 page_head("Edit project preferences", $user);
-parse_str(getenv("QUERY_STRING"));
 $prefs = prefs_parse($user->project_prefs);
 
 echo "<form action=prefs_edit_project_action.php>

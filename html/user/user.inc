@@ -3,16 +3,16 @@
 function show_user_stats($user) {
     echo TABLE2."\n";
     echo "<tr>".TD2.LG_FONT."<b>User stats</b></font></td></tr>\n";
-    $row = sprintf("<b>%s user since</b>", $project);
-    row($row, time_str($user->create_time));
-    row("<b>Total credit</b>", $user->total_credit);
-    row("<b>Recent average credit</b>", $user->expavg_credit);
+    $row = sprintf("%s user since", $project);
+    row2($row, time_str($user->create_time));
+    row2("Total credit", $user->total_credit);
+    row2("Recent average credit", $user->expavg_credit);
     if ($user->teamid) {
         $result = mysql_query("select * from team where id = $user->teamid");
         $team = mysql_fetch_object($result);
-        row("<b>Team</b>", "<a href=team_display.php?id=$team->id>$team->name</a>");
+        row2("Team", "<a href=team_display.php?id=$team->id>$team->name</a>");
     } else {
-        row("<b>Team:   </b>", "None");
+        row2("Team", "None");
     }
     echo "</table>\n";
 }
@@ -32,10 +32,10 @@ function show_user_profile($user) {
     }
     echo TABLE2."\n";
     echo "<tr>".TD2.LG_FONT."<b>User information</b></font></td></tr>\n";
-    row("<b>name</b>", $user->name.edit_link());
-    row("<b>email address</b>", $email_text.edit_email_link());
-    row("<b>country</b>", $user->country.edit_link());
-    row("<b>postal (ZIP) code</b>", $user->postal_code.edit_link());
+    row2("name", $user->name.edit_link());
+    row2("email address", $email_text.edit_email_link());
+    row2("country", $user->country.edit_link());
+    row2("postal (ZIP) code", $user->postal_code.edit_link());
     echo "</table>\n";
 }
 

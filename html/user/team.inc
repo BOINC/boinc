@@ -6,13 +6,13 @@ require_once("sanitize_html.inc");
 
 function show_team($team) {
     start_table();
-    row("ID", $team->id);
-    row("founder", $team->userid);
-    row("name", $team->name);
-    row("url", $team->url);
-    row("type", $team->type);
-    row("name_html", $team->name_html);
-    row("description", sanitize_html($team->description));
+    row2("ID", $team->id);
+    row2("founder", $team->userid);
+    row2("name", $team->name);
+    row2("url", $team->url);
+    row2("type", $team->type);
+    row2("name_html", $team->name_html);
+    row2("description", sanitize_html($team->description));
 }
 
 function display_team_page($team) {
@@ -37,17 +37,17 @@ function display_team_page($team) {
     echo "<b>Team Info:</b></font></td></tr></table>";
     echo "<table>";
     if (strlen($team->description)) {
-        row("<b>Description:   </b>", sanitize_html($team->description));
+        row2("Description", sanitize_html($team->description));
     }
     if (strlen($team->url)) {;
-        row("<b>Web site:   </b>", "<a href=http://$team->url>http://$team->url</a>");
+        row2("Web site", "<a href=http://$team->url>http://$team->url</a>");
     }
-    row("<b>Members:   </b>", $team->nusers);
+    row2("Members", $team->nusers);
 
     $query = sprintf(
         "select * from user where teamid = %d",
         $team->id
-        );
+    );
     $result = mysql_query($query);
     $total_credit = 0;
     for ($i = 0; $i < $team->nusers; $i++) {
@@ -55,14 +55,14 @@ function display_team_page($team) {
         $total_credit = $total_credit + $user->total_credit;
     }
 
-    row("<b>Total Credit:   </b>", $total_credit);
+    row2("Total Credit", $total_credit);
     $query = sprintf(
         "select * from user where id = %d",
         $team->userid
     );
     $result = mysql_query($query);
     $user = mysql_fetch_object($result);
-    row("<b>Founder:   </b>", $user->name);
+    row2("Founder", $user->name);
     echo "</table>";
     echo "<p>";
     echo "<table border=0 width=580>";

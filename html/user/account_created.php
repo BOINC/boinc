@@ -2,7 +2,7 @@
 
     include_once("util.inc");
 
-    parse_str(getenv("QUERY_STRING"));
+    $email_addr = $_GET["email_addr"];
     page_head("Account created");
     echo "
         <h3>Congratulations - your ".PROJECT." account has been created</h3>
@@ -20,7 +20,7 @@
         <td><input type=submit value='OK'></td>
         </tr></table>
         </form>
-        ";
+    ";
 
     page_tail();
 

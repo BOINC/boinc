@@ -12,8 +12,6 @@ if ($user == NULL) {
     exit();
 }
 
-parse_str(getenv("QUERY_STRING"));
-
 $f = fopen("bug_reports.xml", "a");
 $x = sprintf("<bug>
     <userid>$user->id</userid>
@@ -23,8 +21,8 @@ $x = sprintf("<bug>
     </problem>
 </bug>
 ",
-    $HTTP_POST_VARS["platform"],
-    $HTTP_POST_VARS["problem"]
+    $_POST["platform"],
+    $_POST["problem"]
 );
 fputs($f, $x);
 fclose($f);

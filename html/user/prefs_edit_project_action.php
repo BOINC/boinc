@@ -4,8 +4,6 @@ include_once("db.inc");
 include_once("util.inc");
 include_once("prefs.inc");
 
-parse_str(getenv("QUERY_STRING"));
-
 $authenticator = init_session();
 db_init();
 

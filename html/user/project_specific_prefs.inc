@@ -33,11 +33,10 @@ function project_specific_prefs_edit($prefs) {
         </tr>";
 }
 
-// QUERY_STRING has already been parsed into variables.
 // Return XML version of project-specific prefs
 //
 function project_specific_prefs_parse_form() {
-    parse_str(getenv("QUERY_STRING"));
+    $color_scheme = $_GET["color_scheme"];
     return "<color_scheme>$color_scheme</color_scheme>";
 }
 

@@ -12,7 +12,6 @@ if ($user == NULL) {
     print_login_form();
     exit();
 }
-parse_str(getenv("QUERY_STRING"));
 
 $prefs = prefs_parse($user->prefs);
 prefs_global_parse_form($prefs);

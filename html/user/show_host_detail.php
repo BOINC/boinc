@@ -8,57 +8,59 @@ function show_host($host) {
 
     echo TABLE2."\n";
     echo "<tr>".TD2.LG_FONT."<b>Host Information:</b></font></td></tr>\n";
-    row("<b>IP address:   </b>", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
-    row("<b>Domain name:   <b>", $host->domain_name);
+    row2("IP address", "$host->last_ip_addr<br>(same the last $host->nsame_ip_addr times)");
+    row2("Domain name", $host->domain_name);
     $x = $host->timezone/3600;
-    row("<b>Time zone:   </b>", "UTC - $x hours");
-    row("<b>Created:   </b>", time_str($host->create_time));
-    row("<b>Total Credit:</b>", $host->total_credit);
-    row("<b>Recent average credit:</b>", $host->expavg_credit);
-    row("<b>CPU:   </b>", "$host->p_vendor $host->p_model");
-    row("<b>Number of CPUs:   </b>", $host->p_ncpus);
-    row("<b>Operating System:   </b>", "$host->os_name $host->os_version");
+    row2("Time zone", "UTC - $x hours");
+    row2("Created", time_str($host->create_time));
+    row2("Total Credit", $host->total_credit);
+    row2("Recent average credit", $host->expavg_credit);
+    row2("CPU type", "$host->p_vendor $host->p_model");
+    row2("Number of CPUs", $host->p_ncpus);
+    row2("Operating System", "$host->os_name $host->os_version");
     $x = $host->m_nbytes/(1024*1024);
     $y = round($x, 2);
-    row("<b>Memory:   </b>", "$y MB");
+    row2("Memory", "$y MB");
     $x = $host->m_cache/1024;
     $y = round($x, 2);
-    row("<b>Cache:   </b>", "$y KB");
+    row2("Cache", "$y KB");
     $x = $host->m_swap/(1024*1024);
     $y = round($x, 2);
-    row("<b>Swap Space:   </b>", "$y MB");
+    row2("Swap space", "$y MB");
     $x = $host->d_total/(1024*1024*1024);
     $y = round($x, 2);
-    row("<b>Total Disk Space:   </b>", "$y GB");
+    row2("Total disk space", "$y GB");
     $x = $host->d_free/(1024*1024*1024);
     $y = round($x, 2);
-    row("<b>Free Disk Space:   </b>", "$y GB");
+    row2("Free Disk Space", "$y GB");
     $x = $host->p_fpops/(1000*1000);
     $y = round($x, 2);
-    row("<b>Measured floating point speed:   </b>", "$y million ops/sec");
+    row2("Measured floating point speed", "$y million ops/sec");
     $x = $host->p_iops/(1000*1000);
     $y = round($x, 2);
-    row("<b>Measured integer speed:   </b>", "$y million ops/sec");
+    row2("Measured integer speed", "$y million ops/sec");
     $x = $host->p_membw/(1024*1024);
     $y = round($x, 2);
-    row("<b>Measured memory bandwidth:   </b>", "$y MB/sec");
+    row2("Measured memory bandwidth", "$y MB/sec");
     $x = $host->n_bwup/(1024);
     $y = round($x, 2);
-    if ($y > 0)
-        row("<b>Avg upload speed:</b>", "$y KB/sec");
-    else
-        row("<b>Avg upload speed:<br></b>", "Unknown");
+    if ($y > 0) {
+        row2("Average upload speed", "$y KB/sec");
+    } else {
+        row2("Average upload speed", "Unknown");
+    }
     $x = $host->n_bwdown/(1024);
     $y = round($x, 2);
-    if ($y > 0)
-        row("<b>Avg download speed:<br></b>", "$y KB/sec");
-    else
-        row("<b>Avg download speed:<br></b>", "Unknown");
-    row("<b>Number of times client has contacted server:   </b>", $host->rpc_seqno);
-    row("<b>Last time contacted server:   </b>", time_str($host->rpc_time));
-    row("<b>% of time client on:   </b>", 100*$host->on_frac." %");
-    row("<b>% of time host connected:   </b>", 100*$host->connected_frac." %");
-    row("<b>% of time user active:   </b>", 100*$host->active_frac." %");
+    if ($y > 0) {
+        row2("Average download speed", "$y KB/sec");
+    } else {
+        row2("Average download speed", "Unknown");
+    }
+    row2("Number of times client has contacted server", $host->rpc_seqno);
+    row2("Last time contacted server", time_str($host->rpc_time));
+    row2("% of time client on", 100*$host->on_frac." %");
+    row2("% of time host connected", 100*$host->connected_frac." %");
+    row2("% of time user active", 100*$host->active_frac." %");
     echo "</table>\n";
 
 }

@@ -11,7 +11,7 @@
 // This XML has the general structure
 // <global_preferences>
 //    <run_if_user_active/>
-//    <low_water_days>1.3</low_water_days>
+//    <work_buf_min_days>1.3</work_buf_min_days>
 //    ...
 // </global_preferences>
 //
@@ -78,11 +78,11 @@ function element_end($parser, $name) {
     case "confirm_before_connecting":
         $parse_result->confirm_before_connecting = true;
         break;
-    case "low_water_days":
-        $parse_result->low_water_days = $text;
+    case "work_buf_min_days":
+        $parse_result->work_buf_min_days = $text;
         break;
-    case "high_water_days":
-        $parse_result->high_water_days = $text;
+    case "work_buf_max_days":
+        $parse_result->work_buf_max_days = $text;
         break;
     case "disk_max_used_gb":
         $parse_result->disk_max_used_gb = $text;
@@ -130,8 +130,8 @@ function default_prefs() {
     $p->run_on_batteries = false;
     $p->run_if_user_active = true;
     $p->confirm_before_connecting = false;
-    $p->low_water_days = 1;
-    $p->high_water_days = 3;
+    $p->work_buf_min_days = 1;
+    $p->work_buf_max_days = 3;
     $p->disk_max_used_gb = 100;
     $p->disk_max_used_pct = 50;
     $p->disk_min_free_gb = 1;
@@ -144,12 +144,15 @@ function default_prefs() {
     return $p;
 }
 
-// state of prefs before parsing
+// state of prefs before parsing; initialize all booleans to false
 //
 function initial_prefs() {
     $p = default_prefs();
     $p->show_email = false;
     $p->send_email = false;
+    $p->run_on_batteries = false;
+    $p->run_if_user_active = false;
+    $p->confirm_before_connecting = false;
     return $p;
 }
 
@@ -173,20 +176,19 @@ function prefs_parse($prefs_xml) {
 // display preference subsets, with Edit buttons
 //
 function prefs_show_global($prefs) {
-    row2a("Work if computer on batteries:", $prefs->run_on_batteries?"Yes":"No");
-    row2a("Work if computer in use:", $prefs->run_if_user_active?"Yes":"No");
-    row2a("Confirm before connecting to network:", $prefs->confirm_before_connecting?"Yes":"No");
-    row2a("Minimum amount of work to buffer:", "$prefs->low_water_days days");
-    row2a("Maximum amount of work to buffer:", "$prefs->high_water_days days");
-    row2a("Maximum disk space to use:", "$prefs->disk_max_used_gb GB");
-    row2a("Minimum disk space to leave free:", "$prefs->disk_min_free_gb GB");
-    row2a("Maximum % of disk allowed to used:", "$prefs->disk_max_used_pct %");
+    row2("Work if computer on batteries:", $prefs->run_on_batteries?"Yes":"No");
+    row2("Work if computer in use:", $prefs->run_if_user_active?"Yes":"No");
+    row2("Confirm before connecting to network:", $prefs->confirm_before_connecting?"Yes":"No");
+    row2("Amount of work to buffer:", "$prefs->work_buf_min_days to $prefs->work_buf_max_days days");
+    row2("Maximum disk space to use:", "$prefs->disk_max_used_gb GB");
+    row2("Minimum disk space to leave free:", "$prefs->disk_min_free_gb GB");
+    row2("Maximum % of disk allowed to used:", "$prefs->disk_max_used_pct %");
 }
 
 function prefs_show_resource($prefs) {
     row2(
-        "Resource share:
-        <br><font size=-1>If you participate in multiple BOINC projects, this is the proportion of your resources used by ".PROJECT."</font>",
+        "Resource share<br>
+        <font size=-1>If you participate in multiple BOINC projects, this is the proportion of your resources used by ".PROJECT."</font>",
         $prefs->resource_share
     );
 }
@@ -251,9 +253,9 @@ function prefs_form_global($user, $prefs) {
         <tr>
         <td align=right>Keep enough to work on disk to last between
         </td><td>
-        <input size=5 name=low_water_days value='$prefs->low_water_days'>
+        <input size=5 name=work_buf_min_days value='$prefs->work_buf_min_days'>
         and
-        <input size=5 name=high_water_days value='$prefs->high_water_days'> days
+        <input size=5 name=work_buf_max_days value='$prefs->work_buf_max_days'> days
         </td></tr>
         <tr><td colspan=2>
         You can limit the disk space used by ".PROJECT." in three different ways:
@@ -310,7 +312,7 @@ function prefs_form_project($prefs_xml) {
 }
 
 function venue_show($user) {
-    echo "<tr><td>Venue</td><td>$user->venue</td></tr>\n";
+    row2("Venue", $user->venue);
 }
 
 function venue_form($user) {
@@ -328,8 +330,7 @@ function venue_form($user) {
 }
 
 function venue_parse(&$user) {
-    parse_str(getenv("QUERY_STRING"));
-    $user->venue = $venue;
+    $user->venue = $_GET['venue'];
 }
 
 function venue_update($user) {
@@ -341,17 +342,24 @@ function venue_update($user) {
 // Functions to parse form elements, modifying a preferences structure
 //
 function prefs_global_parse_form(&$prefs) {
-    parse_str(getenv("QUERY_STRING"));
+    $run_on_batteries = $_GET["run_on_batteries"];
+    $run_if_user_active = $_GET["run_if_user_active"];
+    $confirm_before_connecting = $_GET["confirm_before_connecting"];
+    $work_buf_min_days = $_GET["work_buf_min_days"];
+    $work_buf_max_days = $_GET["work_buf_max_days"];
+    $disk_max_used_gb = $_GET["disk_max_used_gb"];
+    $disk_max_used_pct = $_GET["disk_max_used_pct"];
+    $disk_min_free_gb = $_GET["disk_min_free_gb"];
 
     $prefs->run_on_batteries = ($run_on_batteries == "yes");
     $prefs->run_if_user_active = ($run_if_user_active == "yes");
     $prefs->confirm_before_connecting = ($confirm_before_connecting == "yes");
 
-    if ($low_water_days<0) $low_water_days = 0;
-    if ($high_water_days<0) $high_water_days = 0;
-    if ($low_water_days > $high_water_days) $low_water_days = $high_water_days;
-    $prefs->low_water_days = $low_water_days;
-    $prefs->high_water_days = $high_water_days;
+    if ($work_buf_min_days<0) $work_buf_min_days = 0;
+    if ($work_buf_max_days<0) $work_buf_max_days = 0;
+    if ($work_buf_min_days > $work_buf_max_days) $work_buf_min_days = $work_buf_max_days;
+    $prefs->work_buf_min_days = $work_buf_min_days;
+    $prefs->work_buf_max_days = $work_buf_max_days;
 
     if ($disk_max_used_gb<0) $disk_max_used_gb = 0;
     if ($disk_max_used_pct<0) $disk_max_used_pct = 0;
@@ -363,14 +371,12 @@ function prefs_global_parse_form(&$prefs) {
 }
 
 function prefs_resource_parse_form(&$prefs) {
-    parse_str(getenv("QUERY_STRING"));
-    $prefs->resource_share = $resource_share;
+    $prefs->resource_share = $_GET['resource_share'];
 }
 
 function prefs_email_parse_form(&$prefs) {
-    parse_str(getenv("QUERY_STRING"));
-    $prefs->send_email = ($send_email == "yes");
-    $prefs->show_email = ($show_email == "yes");
+    $prefs->send_email = ($_GET['send_email'] == "yes");
+    $prefs->show_email = ($_GET['show_email'] == "yes");
 }
 
 function prefs_project_parse_form(&$prefs) {
@@ -396,8 +402,8 @@ function global_prefs_make_xml($prefs) {
         $xml = $xml."<confirm_before_connecting/>\n";
     }
     $xml = $xml
-        ."<low_water_days>$prefs->low_water_days</low_water_days>\n"
-        ."<high_water_days>$prefs->high_water_days</high_water_days>\n";
+        ."<work_buf_min_days>$prefs->work_buf_min_days</work_buf_min_days>\n"
+        ."<work_buf_max_days>$prefs->work_buf_max_days</work_buf_max_days>\n";
     $xml = $xml
         ."<disk_max_used_gb>$prefs->disk_max_used_gb</disk_max_used_gb>\n"
         ."<disk_max_used_pct>$prefs->disk_max_used_pct</disk_max_used_pct>\n"

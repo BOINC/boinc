@@ -28,6 +28,7 @@ define("BODY_COLOR", " bgcolor=ffffff ");
 function send_auth_email($email_addr, $auth) {
     mail($email_addr, PROJECT." new account confirmation",
 "This email confirms the creation of your ".PROJECT." account.
+
 ".PROJECT." URL:          ".MASTER_URL."
 
 Your account key:            $auth\n
@@ -100,16 +101,8 @@ function start_table() {
     echo "<table width=600 border=2 cellpadding=4>";
 }
 
-function row($x, $y) {
-    echo "<tr><td width=30% valign=top align=right>$x</td><td>$y</td></tr>\n";
-}
-
 function row2($x, $y) {
-    echo "<tr><td>$x</td><td>$y</td></tr>\n";
-}
-
-function row2a($x, $y) {
-    echo "<tr><td>$x</td><td width=50%>$y</td></tr>\n";
+    echo "<tr><td width=50% align=right valign=top>$x</td><td valign=top><b>$y</b></td></tr>\n";
 }
 
 function row3($x, $y, $z) {

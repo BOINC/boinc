@@ -5,9 +5,9 @@
 
     $authenticator = init_session();
     db_init();
-    $authenticator = $HTTP_POST_VARS["authenticator"];
-    //$email_addr = $HTTP_POST_VARS["email_addr"];
-    //$password = $HTTP_POST_VARS["password"];
+    $authenticator = trim($_POST["authenticator"]);
+    //$email_addr = $_POST["email_addr"];
+    //$password = $_POST["password"];
     if (strlen($authenticator)) {
         $query = "select * from user where authenticator='$authenticator'";
     //} else if (strlen($email_addr)) {
@@ -29,7 +29,7 @@
         page_tail();
     //} else if (strlen($password)) {
     //    page_head("Log in");
-    //    if ($user->web_password != $HTTP_POST_VARS["existing_password"]) {
+    //    if ($user->web_password != $_POST["existing_password"]) {
     //        echo "Bad password.";
     //    }
     } else {
@@ -37,7 +37,7 @@
             mysql_query("update user set email_addr='$email' where id=$user->id");
         }
         $_SESSION["authenticator"] = $user->authenticator;
-        $next_url = $HTTP_POST_VARS["next_url"];
+        $next_url = $_POST["next_url"];
         if (strlen($next_url) == 0) $next_url = "home.php";
         Header("Location: $next_url");
     }

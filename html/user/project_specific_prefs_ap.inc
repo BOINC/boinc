@@ -36,7 +36,9 @@ function option($name, $val) {
 function project_specific_prefs_edit($prefs) {
     $x = $prefs->color_scheme;
     echo "<tr>
-        <td align=right>Color scheme:</td><td>
+        <td align=right>Graphics preferences:
+        <br><font size=-1>Select Custom to edit individual parameters</font>
+        </td><td>
         <select name=color_scheme>
         ";
     option("Tahiti Sunset", $x);
@@ -57,8 +59,8 @@ function project_specific_prefs_edit($prefs) {
             <tr><td align=right>Hold time</td>
             <td><input name=hold_time value='$prefs->hold_time'></td></tr>
             <tr><td align=right>Graph dimension</td>
-            <td><input type=radio name=two_dim value=yes $sel2>2-D
-            <input type=radio name=two_dim value=no $sel3>3-D</td></tr>
+            <td><input type=radio name=two_dim value=yes $sel2> 2-D
+            <input type=radio name=two_dim value=no $sel3> 3-D</td></tr>
             <tr><td align=right>Graph transparency</td>
             <td><input name=graph_alpha value='$prefs->graph_alpha'></td></tr>
         ";
@@ -68,7 +70,14 @@ function project_specific_prefs_edit($prefs) {
 // Return XML version of project-specific prefs from form vars
 //
 function project_specific_prefs_parse_form() {
-    parse_str(getenv("QUERY_STRING"));
+    $color_scheme = $_GET["color_scheme"];
+    $start_hue = $_GET["start_hue"];
+    $hue_change = $_GET["hue_change"];
+    $grow_time = $_GET["grow_time"];
+    $hold_time = $_GET["hold_time"];
+    $graph_alpha = $_GET["graph_alpa"];
+    $two_dim = $_GET["two_dim"];
+
     switch( $color_scheme ) {
         case "Tahiti Sunset":
             $start_hue = 0.5;
@@ -95,12 +104,12 @@ function project_specific_prefs_parse_form() {
             $two_dim = "no";
             break;
         case "Custom":
-            if (!isset($start_hue)) $start_hue = 0;
-            if (!isset($hue_change)) $hue_change = 1;
-            if (!isset($grow_time)) $grow_time = 10;
-            if (!isset($hold_time)) $hold_time = 5;
-            if (!isset($graph_alpha)) $graph_alpha = 0.7;
-            if (!isset($two_dim)) $two_dim = "no";
+            if ($start_hue == null) $start_hue = 0;
+            if ($hue_change == null) $hue_change = 1;
+            if ($grow_time == null) $grow_time = 10;
+            if ($hold_time == null) $hold_time = 5;
+            if ($graph_alpha == null) $graph_alpha = 0.7;
+            if ($two_dim == null) $two_dim = "no";
             break;
     }
     $x = "<color_scheme>$color_scheme</color_scheme>
@@ -117,27 +126,15 @@ function project_specific_prefs_parse_form() {
 // show non-editable version of prefs
 //
 function project_specific_prefs_show($prefs) {
-    echo "<tr>
-        <td>Color scheme:</td>
-        <td>$prefs->color_scheme</td>
-        </tr>
-    ";
+    row2("Color scheme", $prefs->color_scheme);
     if ($prefs->color_scheme == "Custom") {
         $dim = $prefs->two_dim?"2":"3";
-        echo "
-            <tr><td align=right>Start hue</td>
-            <td>$prefs->start_hue</td></tr>
-            <tr><td align=right>Hue change</td>
-            <td>$prefs->hue_change</td></tr>
-            <tr><td align=right>Grow time</td>
-            <td>$prefs->grow_time</td></tr>
-            <tr><td align=right>Hold time</td>
-            <td>$prefs->hold_time</td></tr>
-            <tr><td align=right>Graph alpha</td>
-            <td>$prefs->graph_alpha</td></tr>
-            <tr><td align=right>Graph dimension</td>
-            <td>$dim</td></tr>
-        ";
+        row2("Start hue", $prefs->start_hue);
+        row2("Hue change", $prefs->hue_change);
+        row2("Grow time", $prefs->grow_time);
+        row2("Hold time", $prefs->hold_time);
+        row2("Graph alpha", $prefs->graph_alpha);
+        row2("Graph dimension", $dim);
     }
 }
 
