@@ -15,7 +15,7 @@
     $project->add_app_version($app_version);
     $project->install();      // must install projects before adding to hosts
 
-    $host->add_project($project);
+    $host->add_user($user,$project);
     $host->install();
 
     echo "adding work\n";
