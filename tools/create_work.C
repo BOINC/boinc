@@ -45,9 +45,7 @@
 //
 // Create a workunit and results.
 // Input files must be in the download dir.
-// template-doc is an XML WU description file, with the following macros:
-// INFILEn  gets replaced by the name of input file n
-// MD5n     gets replaced by the MD5 checksum of input file n
+// template-doc is an XML WU description file
 //
 
 #include <stdio.h>

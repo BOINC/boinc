@@ -279,8 +279,7 @@ def install_boinc_files(dest_dir):
     map(lambda (s): install(srcdir('sched',s), dir('bin',s)),
         [ 'start', 'stop', 'status', 'grep_logs' ])
     map(lambda (s): install(srcdir('tools',s), dir('bin',s)),
-        [ 'boinc_path_config.py', 'add', 'xadd', 'dbcheck_files_exist', 'update_versions',
-          'upgrade' ])
+        [ 'boinc_path_config.py', 'create_work', 'add', 'xadd', 'dbcheck_files_exist', 'update_versions', 'upgrade' ])
 
 
 class Project:
@@ -391,6 +390,7 @@ class Project:
         my_symlink('../forum', self.dir('html/user/forum'))
         my_symlink('../stats', self.dir('html/user/stats'))
         my_symlink('../user_profile', self.dir('html/user/user_profile'))
+        my_symlink('../user_profile', self.dir('html/user_profile/user_profile'))
 
 
         # Copy the sched server in the cgi directory with the cgi names given

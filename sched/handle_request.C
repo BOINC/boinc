@@ -609,15 +609,21 @@ int handle_results(
         parse_int(result.stderr_out, "<app_version>", result.app_version_num);
 
 		// look for exit status in stderr_out
-        // TODO: return separately
+        // TODO: return it separately
         //
         parse_int(result.stderr_out, "<exit_status>", result.exit_status);
 
-		// Success can only be declared if all the result files have been successfully uploaded
-		// and the client exit status returns 0
-        if ( (result.client_state == RESULT_FILES_UPLOADED) && (0 == result.exit_status) ) {
+        if ((result.client_state == RESULT_FILES_UPLOADED) && (result.exit_status == 0)) {
             result.outcome = RESULT_OUTCOME_SUCCESS;
+            log_messages.printf(SchedMessages::DEBUG,
+                "[RESULT#%d %s]: setting outcome SUCCESS\n",
+                result.id, result.name
+            );
         } else {
+            log_messages.printf(SchedMessages::DEBUG,
+                "[RESULT#%d %s]: client_state %d exit_status %d; setting outcome ERROR\n",
+                result.id, result.name, result.client_state, result.exit_status
+            );
             result.outcome = RESULT_OUTCOME_CLIENT_ERROR;
             result.validate_state = VALIDATE_STATE_INVALID;
         }

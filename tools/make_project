@@ -10,7 +10,7 @@ import sys, os, getopt, re, socket
 
 def gethostname():
     try:
-        return socket.gethostbyaddr(socket.gethostname())[0]
+        return socket.gethostname()
     except:
         return 'localhost'
 
@@ -279,20 +279,7 @@ To start, show status, stop BOINC daemons run:
 Master         URL: %(html_user_url)s
 Administration URL: %(html_ops_url)s
 
-Tasks to do:
-
-1. Add platform(s)
-   %(proot)s/bin/add platform --name=c64 --user_f="Commodore 64"
-   %(proot)s/bin/add platform --name=i686-pc-linux-gnu --user_f="Linux x86"
-
-2. Add application(s)
-   %(proot)s/bin/add app --name=SpaghettiAtHome
-
-3. Add core client and application binaries
-
-   3a. Place compiled clients in %(proot)s/apps/boinc/ and %(proot)s/apps/APP/
-   3b. Run %(proot)s/bin/update_versions
-
-4. Generate work : read documentation at http://boinc.berkeley.edu/
+Further steps are necessary to add applications and work.
+See the online documentation at http://boinc.berkeley.edu/
 
 '''%locals()

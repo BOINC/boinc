@@ -169,10 +169,6 @@ class Workunit(DatabaseObject):
                     'name',
                     'xml_doc',
                     'batch',
-                    # 'rsc_fpops',
-                    # 'rsc_iops',
-                    # 'rsc_memory',
-                    # 'rsc_disk',
                     'rsc_fpops_est',
                     'rsc_fpops_bound',
                     'rsc_memory_bound',
@@ -221,18 +217,9 @@ class Result(DatabaseObject):
                     'random',
                     'client_version_num',
                     'appid',
-		    'teamid'
+                    'teamid'
                     ])
 
-class Workseq(DatabaseObject):
-    _table = DatabaseTable(
-        table = 'workseq',
-        columns = [ 'create_time',
-                    'state',
-                    'hostid',
-                    'wuid_last_done',
-                    'wuid_last_sent',
-                    'workseqid_master' ])
 
 def connect(config = None, nodb = False):
     """Connect if not already connected, using config values."""
