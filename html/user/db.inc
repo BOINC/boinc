@@ -70,6 +70,8 @@ function show_host($host) {
     $x = $host->timezone/3600;
     row("<b>Time zone:   </b>", "UTC - $x hours");
     row("<b>Created:   </b>", time_str($host->create_time));
+    row("<b>Total Credit:(specific to project)   </b>", $host->total_credit);
+    row("<b>Recent Averaged Credit:(credits per second)   </b>", $host->expavg_credit);
     row("<b>CPU:   </b>", "$host->p_vendor $host->p_model");
     row("<b>Number of CPUs:   </b>", $host->p_ncpus);
     row("<b>Operating System:   </b>", "$host->os_name $host->os_version");

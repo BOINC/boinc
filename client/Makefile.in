@@ -112,7 +112,7 @@ zip:
 	cd $(topsrcdir)/..; zip boinc_client.zip $(ARCHIVE_TARGETS)
 
 clean:
-	rm -f *.o $(PROGS) core dependencies Makefile config.cache
+	rm -f *.o $(PROGS) core dependencies config.cache
 	cd ../RSAEuro/source; ${MAKE} clean;
 	cd ../lib; ${MAKE} clean;
 	cd ../api; ${MAKE} clean;

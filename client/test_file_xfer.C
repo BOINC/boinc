@@ -19,6 +19,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "windows_cpp.h"
 
 #include "http.h"
@@ -94,7 +95,6 @@ int main() {
             exit(1);
         }
     }
-
 
     while (1) {
 	nxs.poll(100000, n);

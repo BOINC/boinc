@@ -89,7 +89,7 @@ function random_string() {
 }
 
 function print_country_select() {
-    PassThru("/disks/milkyway/a/users/anderson/boinc/tools/country_select");
+    PassThru("/disks/milkyway/a/users/anderson/boinc_cvs/boinc/tools/country_select");
 }
 
 function print_page_header($title) {

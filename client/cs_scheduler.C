@@ -310,8 +310,9 @@ void CLIENT_STATE::handle_scheduler_reply(
     if (strlen(sr.user_name)) {
         strcpy(project->user_name, sr.user_name);
     }
-    project->total_credit = sr.total_credit;
-    project->expavg_credit = sr.expavg_credit;
+    project->user_total_credit = sr.user_total_credit;
+    project->user_expavg_credit = sr.user_expavg_credit;
+    project->user_create_time = sr.user_create_time;
     if (strlen(sr.message)) {
         show_message(sr.message, sr.message_priority);
     }
@@ -322,6 +323,9 @@ void CLIENT_STATE::handle_scheduler_reply(
 
     if (sr.hostid) {
         project->hostid = sr.hostid;
+	project->host_total_credit = sr.host_total_credit;
+	project->host_expavg_credit = sr.host_expavg_credit;
+	project->host_create_time = sr.host_create_time;
         project->rpc_seqno = 0;
     }
 

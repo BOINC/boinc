@@ -73,6 +73,9 @@ struct SCHEDULER_OP {
 
 struct SCHEDULER_REPLY {
     int hostid;
+    double host_total_credit;
+    double host_expavg_credit;
+    unsigned int host_create_time;
     int request_delay;
     char message[1024];
     char message_priority[256];
@@ -80,8 +83,9 @@ struct SCHEDULER_REPLY {
     char* global_prefs_xml;     // not including <global_preferences> tags
     char* project_prefs_xml;    // not including <project_preferences> tags
     char user_name[256];
-    double total_credit;
-    double expavg_credit;
+    double user_total_credit;
+    double user_expavg_credit;
+    unsigned int user_create_time;
     vector<APP> apps;
     vector<FILE_INFO> file_infos;
     vector<APP_VERSION> app_versions;

@@ -37,10 +37,14 @@ PROJECT::PROJECT() {
     resource_share = 0;
     strcpy(project_name,"");
     strcpy(user_name,"");
-    total_credit = 0;
-    expavg_credit = 0;
+    user_total_credit = 0;
+    user_expavg_credit = 0;
+    user_create_time = 0;
     rpc_seqno = 0;
     hostid = 0;
+    host_total_credit = 0;
+    host_expavg_credit = 0;
+    host_create_time = 0;
     exp_avg_cpu = 0;
     exp_avg_mod_time = 0;
     code_sign_key = NULL;
@@ -104,10 +108,14 @@ int PROJECT::parse_state(FILE* in) {
         else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
         else if (parse_str(buf, "<project_name>", project_name, sizeof(project_name))) continue;
         else if (parse_str(buf, "<user_name>", user_name, sizeof(user_name))) continue;
-        else if (parse_double(buf, "<total_credit>", total_credit)) continue;
-        else if (parse_double(buf, "<expavg_credit>", expavg_credit)) continue;
+        else if (parse_double(buf, "<user_total_credit>", user_total_credit)) continue;
+        else if (parse_double(buf, "<user_expavg_credit>", user_expavg_credit)) continue;
+	else if (parse_int(buf, "<user_create_time>", (int)user_create_time)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
+	else if (parse_double(buf, "<host_total_credit>", host_total_credit)) continue;
+        else if (parse_double(buf, "<host_expavg_credit>", host_expavg_credit)) continue;
+        else if (parse_int(buf, "<host_create_time>", (int)host_create_time)) continue;
         else if (parse_double(buf, "<exp_avg_cpu>", exp_avg_cpu)) continue;
         else if (parse_int(buf, "<exp_avg_mod_time>", exp_avg_mod_time)) continue;
         else if (match_tag(buf, "<code_sign_key>")) {
@@ -139,10 +147,14 @@ int PROJECT::write_state(FILE* out) {
         "    <master_url>%s</master_url>\n"
         "    <project_name>%s</project_name>\n"
         "    <user_name>%s</user_name>\n"
-        "    <total_credit>%f</total_credit>\n"
-        "    <expavg_credit>%f</expavg_credit>\n"
+        "    <user_total_credit>%f</user_total_credit>\n"
+        "    <user_expavg_credit>%f</user_expavg_credit>\n"
+ 	"    <user_create_time>%d</user_create_time>\n"
         "    <rpc_seqno>%d</rpc_seqno>\n"
         "    <hostid>%d</hostid>\n"
+	"    <host_total_credit>%f</host_total_credit>\n"
+	"    <host_expavg_credit>%f</host_expavg_credit>\n"
+	"    <host_create_time>%d</host_create_time>\n"
         "    <exp_avg_cpu>%f</exp_avg_cpu>\n"
         "    <exp_avg_mod_time>%d</exp_avg_mod_time>\n"
         "    <nrpc_failures>%d</nrpc_failures>\n"
@@ -150,10 +162,14 @@ int PROJECT::write_state(FILE* out) {
         master_url,
         project_name,
         user_name,
-	total_credit,
-	expavg_credit,
+	user_total_credit,
+	user_expavg_credit,
+	user_create_time,
         rpc_seqno,
         hostid,
+	host_total_credit,
+	host_expavg_credit,
+	host_create_time,
         exp_avg_cpu,
         exp_avg_mod_time,
         nrpc_failures,
@@ -176,10 +192,14 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
     strcpy(project_name, p.project_name);
     strcpy(user_name, p.user_name);
-    total_credit = p.total_credit;
-    expavg_credit = p.expavg_credit;
+    user_total_credit = p.user_total_credit;
+    user_expavg_credit = p.user_expavg_credit;
+    user_create_time = p.user_create_time;
     rpc_seqno = p.rpc_seqno;
     hostid = p.hostid;
+    host_total_credit = p.host_total_credit;
+    host_expavg_credit = p.host_expavg_credit;
+    host_create_time = p.host_create_time;
     exp_avg_cpu = p.exp_avg_cpu;
     exp_avg_mod_time = p.exp_avg_mod_time;
     if (p.code_sign_key) {

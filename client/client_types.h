@@ -61,10 +61,14 @@ public:
     vector<STRING256> scheduler_urls;       // where to find scheduling servers
     char project_name[256];             // descriptive.  not unique
     char user_name[256];
-    double total_credit;	// as reported by server
-    double expavg_credit;	// as reported by server
+    double user_total_credit;	// as reported by server
+    double user_expavg_credit;	// as reported by server
+    unsigned int user_create_time;   // as reported by server
     int rpc_seqno;
     int hostid;
+    double host_total_credit;      // as reported by server
+    double host_expavg_credit;     // as reported by server
+    unsigned int host_create_time; // as reported by server 
     double exp_avg_cpu;         // exponentially weighted CPU time
     int exp_avg_mod_time;       // last time average was changed
     char* code_sign_key;

@@ -120,11 +120,13 @@ int SCHEDULER_REPLY::write(FILE* fout) {
 
     fprintf(fout,
 	"<user_name>%s</user_name>\n"
-	"<total_credit>%f</total_credit>\n"
-	"<expavg_credit>%f</expavg_credit>\n",
+	"<user_total_credit>%f</user_total_credit>\n"
+	"<user_expavg_credit>%f</user_expavg_credit>\n"
+	"<user_create_time>%d</user_create_time>\n",
 	user.name,
 	user.total_credit,
-	user.expavg_credit
+	user.expavg_credit,
+	user.create_time
     );
 
     if (request_delay) {
@@ -139,7 +141,16 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     }
 
     if (hostid) {
-        fprintf(fout, "<hostid>%d</hostid>\n", hostid);
+        fprintf(fout, 
+		"<hostid>%d</hostid>\n"
+		"<host_total_credit>%f</host_total_credit>\n"
+		"<host_expavg_credit>%f</host_expavg_credit>\n"
+		"<host_create_time>%d</host_create_time>\n",
+		hostid,
+		host.total_credit,
+		host.expavg_credit,
+		host.create_time
+	);
     }
     
     if (send_global_prefs) {
