@@ -52,12 +52,6 @@ using std::vector;
 
 #include "app.h"
 
-// ways an active task can be started by the client
-//
-#define TASK_RESUME     0   // process suspended; call unsuspend()
-#define TASK_RESTART    1   // process initialized; call start(false)
-#define TASK_START      2   // process uninitialized; call start(true)
-
 // value for setpriority(2)
 static const int PROCESS_IDLE_PRIORITY = 19;
 
@@ -427,13 +421,8 @@ int ACTIVE_TASK::start(bool first_time) {
 // Otherwise, start it
 //
 int ACTIVE_TASK::resume_or_start() {
-    static const char* process_start_types[3] = {
-        "Resuming",
-        "Restarting",
-        "Starting"
-    };
+    char* str = "??";
     int retval;
-    int task_start_type;
 
     switch (state) {
     case PROCESS_UNINITIALIZED:
@@ -443,10 +432,10 @@ int ACTIVE_TASK::resume_or_start() {
             }
             retval = clean_out_dir(slot_dir);
             retval = start(true);
-            task_start_type = TASK_START;
+            str = "Starting";
         } else {
             retval = start(false);
-            task_start_type = TASK_RESTART;
+            str = "Restarting";
         }
         if (retval) return retval;
         break;
@@ -460,7 +449,7 @@ int ACTIVE_TASK::resume_or_start() {
             );
             return retval;
         }
-        task_start_type = TASK_RESUME;
+        str = "Resuming";
         break;
     case PROCESS_EXECUTING:
         return 0;
@@ -473,7 +462,7 @@ int ACTIVE_TASK::resume_or_start() {
     }
     msg_printf(result->project, MSG_INFO,
         "%s result %s using %s version %.2f",
-        process_start_types[task_start_type],
+        str,
         result->name,
         app_version->app->name,
         app_version->version_num/100.
