@@ -170,25 +170,28 @@ AM_CPPFLAGS = \
 # programs linking to it:
 LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
 
-noinst_LIBRARIES = libboinc_api.a
+noinst_LIBRARIES = libboinc_api.a libboinc_graphics_api.a
 
 libboinc_api_a_SOURCES = \
-	boinc_api.C									\
-	boinc_api.h									\
-	graphics_api.C								\
-	graphics_api.h								\
-	graphics_data.C								\
-	graphics_data.h								\
-	mac_app_opengl.h							\
-	mac_carbon_gl.h								\
-	mfile.C										\
-	reduce.h									\
-	x_opengl.C									\
-	x_opengl.h									\
-	../lib/util.C								\
-	../lib/shmem.C								\
-	../lib/parse.C								\
+	boinc_api.C				\
+	boinc_api.h				\
+	mac_app_opengl.h			\
+	mac_carbon_gl.h				\
+	mfile.C					\
+	reduce.h				\
+	x_opengl.C				\
+	x_opengl.h				\
+	../lib/util.C				\
+	../lib/shmem.C				\
+	../lib/parse.C				\
 	../lib/app_ipc.C
+
+
+libboinc_graphics_api_a_SOURCES = \
+	graphics_api.C				\
+	graphics_api.h				\
+	graphics_data.C				\
+	graphics_data.h
 
 
 
@@ -206,11 +209,15 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 libboinc_api_a_AR = $(AR) cru
 libboinc_api_a_LIBADD =
-am_libboinc_api_a_OBJECTS = boinc_api.$(OBJEXT) graphics_api.$(OBJEXT) \
-	graphics_data.$(OBJEXT) mfile.$(OBJEXT) x_opengl.$(OBJEXT) \
-	util.$(OBJEXT) shmem.$(OBJEXT) parse.$(OBJEXT) \
-	app_ipc.$(OBJEXT)
+am_libboinc_api_a_OBJECTS = boinc_api.$(OBJEXT) mfile.$(OBJEXT) \
+	x_opengl.$(OBJEXT) util.$(OBJEXT) shmem.$(OBJEXT) \
+	parse.$(OBJEXT) app_ipc.$(OBJEXT)
 libboinc_api_a_OBJECTS = $(am_libboinc_api_a_OBJECTS)
+libboinc_graphics_api_a_AR = $(AR) cru
+libboinc_graphics_api_a_LIBADD =
+am_libboinc_graphics_api_a_OBJECTS = graphics_api.$(OBJEXT) \
+	graphics_data.$(OBJEXT)
+libboinc_graphics_api_a_OBJECTS = $(am_libboinc_graphics_api_a_OBJECTS)
 EXTRA_PROGRAMS = api_app$(EXEEXT) api_test$(EXEEXT)
 am_api_app_OBJECTS = api_app.$(OBJEXT) mfile.$(OBJEXT) \
 	boinc_api.$(OBJEXT) parse.$(OBJEXT)
@@ -243,10 +250,11 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libboinc_api_a_SOURCES) $(api_app_SOURCES) \
+DIST_SOURCES = $(libboinc_api_a_SOURCES) \
+	$(libboinc_graphics_api_a_SOURCES) $(api_app_SOURCES) \
 	$(api_test_SOURCES)
 DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in
-SOURCES = $(libboinc_api_a_SOURCES) $(api_app_SOURCES) $(api_test_SOURCES)
+SOURCES = $(libboinc_api_a_SOURCES) $(libboinc_graphics_api_a_SOURCES) $(api_app_SOURCES) $(api_test_SOURCES)
 
 all: all-am
 
@@ -270,6 +278,10 @@ libboinc_api.a: $(libboinc_api_a_OBJECTS) $(libboinc_api_a_DEPENDENCIES)
 	-rm -f libboinc_api.a
 	$(libboinc_api_a_AR) libboinc_api.a $(libboinc_api_a_OBJECTS) $(libboinc_api_a_LIBADD)
 	$(RANLIB) libboinc_api.a
+libboinc_graphics_api.a: $(libboinc_graphics_api_a_OBJECTS) $(libboinc_graphics_api_a_DEPENDENCIES) 
+	-rm -f libboinc_graphics_api.a
+	$(libboinc_graphics_api_a_AR) libboinc_graphics_api.a $(libboinc_graphics_api_a_OBJECTS) $(libboinc_graphics_api_a_LIBADD)
+	$(RANLIB) libboinc_graphics_api.a
 api_app$(EXEEXT): $(api_app_OBJECTS) $(api_app_DEPENDENCIES) 
 	@rm -f api_app$(EXEEXT)
 	$(CXXLINK) $(api_app_LDFLAGS) $(api_app_OBJECTS) $(api_app_LDADD) $(LIBS)

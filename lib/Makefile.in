@@ -172,13 +172,12 @@ LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
 
 bin_PROGRAMS = md5_test shmem_test crypt_prog
 EXTRA_PROGRAMS = msg_test synch_test
-noinst_LIBRARIES = libboinc.a
+noinst_LIBRARIES = libboinc.a 
+#libboinc_graphics.a
 EXTRA_DIST = result_state.h
 
 libboinc_a_SOURCES = \
         ../api/boinc_api.C			\
-        ../api/graphics_api.C			\
-        ../api/graphics_data.C			\
         ../api/mfile.C				\
         app_ipc.C				\
         countries.C				\
@@ -206,6 +205,10 @@ libboinc_a_SOURCES = \
 	util.h
 
 
+
+# libboinc_graphics_a_SOURCES =			\
+#         ../api/graphics_api.C			\
+#         ../api/graphics_data.C
 md5_test_SOURCES = md5_test.C md5.c md5_file.C
 shmem_test_SOURCES = shmem_test.C shmem.C
 msg_test_SOURCES = msg_test.C msg_queue.C
@@ -221,11 +224,10 @@ LIBRARIES = $(noinst_LIBRARIES)
 
 libboinc_a_AR = $(AR) cru
 libboinc_a_LIBADD =
-am_libboinc_a_OBJECTS = boinc_api.$(OBJEXT) graphics_api.$(OBJEXT) \
-	graphics_data.$(OBJEXT) mfile.$(OBJEXT) app_ipc.$(OBJEXT) \
-	countries.$(OBJEXT) parse.$(OBJEXT) xml_util.$(OBJEXT) \
-	filesys.$(OBJEXT) language.$(OBJEXT) util.$(OBJEXT) \
-	md5.$(OBJEXT) md5_file.$(OBJEXT) shmem.$(OBJEXT)
+am_libboinc_a_OBJECTS = boinc_api.$(OBJEXT) mfile.$(OBJEXT) \
+	app_ipc.$(OBJEXT) countries.$(OBJEXT) parse.$(OBJEXT) \
+	xml_util.$(OBJEXT) filesys.$(OBJEXT) language.$(OBJEXT) \
+	util.$(OBJEXT) md5.$(OBJEXT) md5_file.$(OBJEXT) shmem.$(OBJEXT)
 libboinc_a_OBJECTS = $(am_libboinc_a_OBJECTS)
 EXTRA_PROGRAMS = msg_test$(EXEEXT) synch_test$(EXEEXT)
 bin_PROGRAMS = md5_test$(EXEEXT) shmem_test$(EXEEXT) crypt_prog$(EXEEXT)
@@ -263,8 +265,6 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/app_ipc.Po ./$(DEPDIR)/boinc_api.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/countries.Po ./$(DEPDIR)/crypt.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/crypt_prog.Po ./$(DEPDIR)/filesys.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/graphics_api.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/graphics_data.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/language.Po ./$(DEPDIR)/md5.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/md5_file.Po ./$(DEPDIR)/md5_test.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/mfile.Po ./$(DEPDIR)/msg_queue.Po \
@@ -302,8 +302,6 @@ AR = ar
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
 boinc_api.$(OBJEXT): ../api/boinc_api.C
-graphics_api.$(OBJEXT): ../api/graphics_api.C
-graphics_data.$(OBJEXT): ../api/graphics_data.C
 mfile.$(OBJEXT): ../api/mfile.C
 libboinc.a: $(libboinc_a_OBJECTS) $(libboinc_a_DEPENDENCIES) 
 	-rm -f libboinc.a
@@ -361,8 +359,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crypt.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crypt_prog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/filesys.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/graphics_api.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/graphics_data.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/language.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5_file.Po@am__quote@
@@ -424,50 +420,6 @@ boinc_api.obj: ../api/boinc_api.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/boinc_api.Po' tmpdepfile='$(DEPDIR)/boinc_api.TPo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o boinc_api.obj `if test -f '../api/boinc_api.C'; then $(CYGPATH_W) '../api/boinc_api.C'; else $(CYGPATH_W) '$(srcdir)/../api/boinc_api.C'`
-
-graphics_api.o: ../api/graphics_api.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT graphics_api.o -MD -MP -MF "$(DEPDIR)/graphics_api.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o graphics_api.o `test -f '../api/graphics_api.C' || echo '$(srcdir)/'`../api/graphics_api.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/graphics_api.Tpo" "$(DEPDIR)/graphics_api.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/graphics_api.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../api/graphics_api.C' object='graphics_api.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/graphics_api.Po' tmpdepfile='$(DEPDIR)/graphics_api.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o graphics_api.o `test -f '../api/graphics_api.C' || echo '$(srcdir)/'`../api/graphics_api.C
-
-graphics_api.obj: ../api/graphics_api.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT graphics_api.obj -MD -MP -MF "$(DEPDIR)/graphics_api.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o graphics_api.obj `if test -f '../api/graphics_api.C'; then $(CYGPATH_W) '../api/graphics_api.C'; else $(CYGPATH_W) '$(srcdir)/../api/graphics_api.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/graphics_api.Tpo" "$(DEPDIR)/graphics_api.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/graphics_api.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../api/graphics_api.C' object='graphics_api.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/graphics_api.Po' tmpdepfile='$(DEPDIR)/graphics_api.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o graphics_api.obj `if test -f '../api/graphics_api.C'; then $(CYGPATH_W) '../api/graphics_api.C'; else $(CYGPATH_W) '$(srcdir)/../api/graphics_api.C'`
-
-graphics_data.o: ../api/graphics_data.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT graphics_data.o -MD -MP -MF "$(DEPDIR)/graphics_data.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o graphics_data.o `test -f '../api/graphics_data.C' || echo '$(srcdir)/'`../api/graphics_data.C; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/graphics_data.Tpo" "$(DEPDIR)/graphics_data.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/graphics_data.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../api/graphics_data.C' object='graphics_data.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/graphics_data.Po' tmpdepfile='$(DEPDIR)/graphics_data.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o graphics_data.o `test -f '../api/graphics_data.C' || echo '$(srcdir)/'`../api/graphics_data.C
-
-graphics_data.obj: ../api/graphics_data.C
-@am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT graphics_data.obj -MD -MP -MF "$(DEPDIR)/graphics_data.Tpo" \
-@am__fastdepCXX_TRUE@	  -c -o graphics_data.obj `if test -f '../api/graphics_data.C'; then $(CYGPATH_W) '../api/graphics_data.C'; else $(CYGPATH_W) '$(srcdir)/../api/graphics_data.C'`; \
-@am__fastdepCXX_TRUE@	then mv "$(DEPDIR)/graphics_data.Tpo" "$(DEPDIR)/graphics_data.Po"; \
-@am__fastdepCXX_TRUE@	else rm -f "$(DEPDIR)/graphics_data.Tpo"; exit 1; \
-@am__fastdepCXX_TRUE@	fi
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='../api/graphics_data.C' object='graphics_data.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	depfile='$(DEPDIR)/graphics_data.Po' tmpdepfile='$(DEPDIR)/graphics_data.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o graphics_data.obj `if test -f '../api/graphics_data.C'; then $(CYGPATH_W) '../api/graphics_data.C'; else $(CYGPATH_W) '$(srcdir)/../api/graphics_data.C'`
 
 mfile.o: ../api/mfile.C
 @am__fastdepCXX_TRUE@	if $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT mfile.o -MD -MP -MF "$(DEPDIR)/mfile.Tpo" \

@@ -1084,7 +1084,7 @@ $(LIBRSA):
 start:  
 	ln -s $(srcdir)/start start
 
-status stop: start
+status stop: 
 	ln -s start $@
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
