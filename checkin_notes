@@ -12679,3 +12679,11 @@ Rom    May 25 2004
     - Tag for 3.07 release, all platforms
       boinc_core_release_3_07
 
+David  May 26 2004
+    - update Dhrystone/Whetstone code based on latest versions (2.1, ?)
+        I don't think this will make a damn bit of difference,
+        but it's better to stay current
+
+    client/
+        dhrystone.C
+        whetstone.C

@@ -2,9 +2,9 @@
 require_once("docutil.php");
 page_head("Homogeneous redundancy ");
 echo"
-Some applications are so numerically unstable
-that platform differences cause a great
-diversity of correct results for a given workunit.
+Most numerical applications produce different outcomes 
+for a given workunit depending on the machine 
+architecture, operating system, compiler, and compiler flags.
 In such cases it may be difficult to distinguish
 between results that are correct but differ because
 of numerical variation,

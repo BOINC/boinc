@@ -1,153 +1,40 @@
 /*
- *      "DHRYSTONE" Benchmark Program for PCs
- *
- *      Version:        C/1.1, 
- *
- *      Date:           PROGRAM updated 02 Feb 95, RESULTS updated 03/31/86
- *
- *      Author:         Reinhold P. Weicker, CACM Vol27, No10,10/84 pg.1013
- *                      Translated from ADA by Rick Richardson.
- *                      Translated from C to ANSI C by James Day.
- *
- **************************************************************************
- *
- *                  This version by Roy Longbottom
-                      101323.2241@compuserve.com
-                            April 1996
- *
- *   A number of enhancements have been included to conform to a format
- *   used for a number of standard benchmarks:
- *
- *  1. Function prototypes are declared and function headers have
- *     embedded parameter types to produce code for C and C++
- *
- *  2. Timing function include (compiler dependent).
- *
- *  3. Additional date function included (compiler dependent).
- *
- *  4. Automatic run time calibration rather than fixed parameters
- *
- *  5. Initial calibration with time display to show linearity
- *     
- *  6. Facilities included for typing in details of system used etc.
- *     The input section can be avoided using a command line
- *     parameter N (for example dhry1nd.exe N).
- *  
- *  7. Compiler details in code in case .exe files used elsewhere
- *
- *  8. Results appended to a text file (Dhry.txt)
- *
- *  Other changes:
- 
- *     Proc1 statement Proc3(NextRecord.PtrComp) changed to
- *     Proc3(&NextRecord.PtrComp) as in Dhrystone 2.1 in order to compile.
- *
- *     Loops and loop variable i are both unsigned long to work with 16
- *     bit compilers. The only check that the program has executed properly
- *     is the display of loops executed + 10 (Array2Glob8/7). With a 16 bit
- *     compiler this should still indicate OK but the number will appear
- *     to be incorrect as it is derived from overflowing 16 bit integers
- *     and might have a negative value.
- *
- **************************************************************************
- *
- *                             Timing
- *
- *  The PC timer is updated at about 18 times per second or resolution of
- *  0.05 to 0.06 seconds. Running time is arranged to be greater than five
- *  seconds.
- *
- **************************************************************************
- *
- *                  Example of Output
- *
- *       Dhrystone Benchmark, Version 1.1 (Language: C)
- *
- *       Compiler        Watcom C/ C++ 10.5 Win386 
- *       Optimisation      -otexan -zp8 -5r
- *
- *           10000 runs   0.00 seconds 
- *          100000 runs   0.38 seconds 
- *          200000 runs   0.66 seconds 
- *          400000 runs   1.43 seconds 
- *          800000 runs   2.80 seconds 
- *         1600000 runs   5.55 seconds 
- *
- *       Array2Glob8/7: O.K.     1600010
- *
- *       Microseconds for one run through Dhrystone:         3.47 
- *       Dhrystones per Second:                          288288 
- *       VAX  MIPS rating =                                164.08 
- *
- *     Enter the following data which will be filed with the results
- *
- *     Month run         9/1996                          #
- *     PC model          Escom
- *     CPU               Pentium
- *     Clock MHz         100
- *     Cache             256K
- *     Options           Neptune chipset
- *     OS/DOS            Windows 95
- *     Compiler          Watcom C/C++ 10.5 Win 386       #
- *     OptLevel          -otexan -zp8 -5r                #
- *     Run by            Roy Longbottom
- *     From              UK
- *     Mail              101323.2241@compuserve.com
- *
- *                       Included by program             #
- *
- *   The speed and running details are appended to file Dhry.txt
- *                    
- ************************************************************************
- *
- *                     Examples of Results
- *
- *  Pre-compiled 32 bit codes were produced via a Watcom C/C++ 10.5
- *  compiler. Versions are available for DOS, Windows 3/95 and NT/Win95.
- *  Both non-optimised and optimised programs are available. The latter
- *  has options as in the above example. These include the -otexan default
- *  options which can place functions in-line and carry out loop
- *  optimisation. These are not supposed to be used with this benchmark
- *  but it seems that some published results ignore this directive.
- *
- *  Results produced are not necessarily consistent between runs. Besides
- *  occasional interference from Windows, the timing seems to be dependent
- *  on where the code or data is placed in memory. Representative good
- *  results are:
- *
- *                             32 Bit Operation
- *
- *                              Opt   No Opt                        Version/
- *               MHz   Cache   VaxMips VaxMips Make/Options            Via
- *
- *   AM80386DX    40    128K    17.4     4.5   Clone                  Win/W95
- *   80486DX2     66    128K    42.3    12.6   Escom SIS chipset      Win/W95
- *   80486DX2     66    128K    41.5    13.3   Escom SIS chipset       NT/W95
- *   80486DX2     66    128K    46.3    12.9   Escom SIS chipset      Dos/Dos
- *   Pentium     100    256K   164.1    27.0   Escom Neptune chipset  Win/W95
- *   Pentium     100    256K   157.8    29.7   Escom Neptune chipset   NT/W95 
- *   Pentium     100    256K   176.5    28.1   Escom Neptune chipset  Dos/Dos
- *   Pentium Pro 200    256K   372.8    92.4   Dell XPS Pro200n        NT/NT
- *
- *  The results are as produced when compiled as Dhry1.c. Compiling as
- *  Dhry1.cpp gives similar speeds but the code is slightly different. Other
- *  results were produced for the above 486 and Pentium via a Watcom Windows
- *  16 bit system and Borland Light development system with no optimising
- *  options:
- *
- *                             16 Bit Operation
- *
- *                         Watcom Opt   Watcom No Opt     Borland
- *                          VaxMips        VaxMips        VaxMips
- *
- *      80486DX2  66          38.8           13.7          14.5
- *      Pentium  100          91.5           41.7          44.5
- * 
- ***************************************************************************
- *
- */
+*************************************************************************
+*
+*                   "DHRYSTONE" Benchmark Program
+*                   -----------------------------
+*
+*  Version:    C, Version 2.1
+*
+*  File:       dhry.h (part 1 of 3)
+*
+*  Date:       May 25, 1988
+*
+*  Author:     Reinhold P. Weicker
+*              Siemens Nixdorf Inf. Syst.
+*              STM OS 32
+*              Otto-Hahn-Ring 6
+*              W-8000 Muenchen 83
+*              Germany
+*                      Phone:    [+49]-89-636-42436
+*                                (8-17 Central European Time)
+*                      UUCP:     weicker@ztivax.uucp@unido.uucp
+*                      Internet: weicker@ztivax.siemens.com
+*
+*              Original Version (in Ada) published in
+*              "Communications of the ACM" vol. 27., no. 10 (Oct. 1984),
+*              pp. 1013 - 1030, together with the statistics
+*              on which the distribution of statements etc. is based.
+*
+*              In this C version, the following C library functions are
+*              used:
+*              - strcpy, strcmp (inside the measurement loop)
+*              - printf, scanf (outside the measurement loop)
+*
+*/
 
-// Slightly modified for BOINC
+// Slightly modified for BOINC.
+// e.g.: no global variables, since we run this multithreaded
 
 #ifdef _WIN32
 #include "stdafx.h"
@@ -162,79 +49,89 @@
 
 #define structassign(d, s)      d = s
 
-typedef enum    {Ident1, Ident2, Ident3, Ident4, Ident5} Enumeration;
+#define REG register
 
-typedef int     OneToThirty;
-typedef int     OneToFifty;
-typedef char    CapitalLetter;
-typedef char    String30[31];
-typedef int     Array1Dim[51];
-typedef int     Array2Dim[51][51];
+typedef enum    {Ident_1, Ident_2, Ident_3, Ident_4, Ident_5} Enumeration;
 
-struct  Record
-{
-        struct Record           *PtrComp;
+typedef int     One_Thirty;
+typedef int     One_Fifty;
+typedef char    Capital_Letter;
+typedef char    Str_30[31];
+typedef int     Arr_1_Dim[50];
+typedef int     Arr_2_Dim[50][50];
+
+typedef struct  Record {
+        struct Record           *Ptr_Comp;
         Enumeration             Discr;
-        Enumeration             EnumComp;
-        OneToFifty              IntComp;
-        String30                StringComp;
-};
+    union {
+          struct {
+                  Enumeration Enum_Comp;
+                  int         Int_Comp;
+                  char        Str_Comp [31];
+                  } var_1;
+          struct {
+                  Enumeration E_Comp_2;
+                  char        Str_2_Comp [31];
+                  } var_2;
+          struct {
+                  char        Ch_1_Comp;
+                  char        Ch_2_Comp;
+                  } var_3;
+          } variant;
+} Rec_Type, *Rec_Pointer;
 
-typedef struct Record   RecordType;
-typedef RecordType *    RecordPtr;
 
 #define TRUE            1
 #define FALSE           0
 
-
-
-extern Enumeration  Func1(CapitalLetter CharPar1, CapitalLetter CharPar2);
-extern bool      Func2(String30 StrParI1, String30 StrParI2);
-bool Func3(Enumeration EnumParIn);
 
  
 /*
  * Package 1
  */
 struct DS_DATA {
-    int             _IntGlob;
-    bool            _BoolGlob;
-    char            _Char1Glob;
-    char            _Char2Glob;
-    Array1Dim       _Array1Glob;
-    Array2Dim       _Array2Glob;
-    RecordPtr       _PtrGlb;
-    RecordPtr       _PtrGlbNext;
+    Rec_Pointer       _Ptr_Glob;
+    Rec_Pointer       _Next_Ptr_Glob;
+    int             _Int_Glob;
+    bool            _Bool_Glob;
+    char            _Ch_1_Glob;
+    char            _Ch_2_Glob;
+    Arr_1_Dim       _Arr_1_Glob;
+    Arr_2_Dim       _Arr_2_Glob;
 };
-#define IntGlob dd._IntGlob
-#define BoolGlob dd._BoolGlob
-#define Char1Glob dd._Char1Glob
-#define Char2Glob dd._Char2Glob
-#define Array1Glob dd._Array1Glob
-#define Array2Glob dd._Array2Glob
-#define PtrGlb dd._PtrGlb
-#define PtrGlbNext dd._PtrGlbNext
+#define Int_Glob dd._Int_Glob
+#define Bool_Glob dd._Bool_Glob
+#define Ch_1_Glob dd._Ch_1_Glob
+#define Ch_2_Glob dd._Ch_2_Glob
+#define Arr_1_Glob dd._Arr_1_Glob
+#define Arr_2_Glob dd._Arr_2_Glob
+#define Ptr_Glob dd._Ptr_Glob
+#define Next_Ptr_Glob dd._Next_Ptr_Glob
 
-void Proc0();
-void Proc1(DS_DATA&, RecordPtr PtrParIn);
-void Proc2(DS_DATA&, OneToFifty *IntParIO);
-void Proc3(DS_DATA&, RecordPtr *PtrParOut);
-void Proc4(DS_DATA&);
-void Proc5(DS_DATA&);
-void Proc6(DS_DATA&, Enumeration EnumParIn, Enumeration *EnumParOut);
-void Proc7(OneToFifty IntParI1, OneToFifty IntParI2, OneToFifty *IntParOut);
-void Proc8(DS_DATA&, Array1Dim Array1Par, Array2Dim Array2Par, OneToFifty IntParI1,
-                                                OneToFifty IntParI2);
+void Proc_0();
+void Proc_1(DS_DATA&, Rec_Pointer PtrParIn);
+void Proc_2(DS_DATA&, One_Fifty *IntParIO);
+void Proc_3(DS_DATA&, Rec_Pointer *PtrParOut);
+void Proc_4(DS_DATA&);
+void Proc_5(DS_DATA&);
+void Proc_6(DS_DATA&, Enumeration EnumParIn, Enumeration *EnumParOut);
+void Proc_7(One_Fifty IntParI1, One_Fifty IntParI2, One_Fifty *IntParOut);
+void Proc_8(DS_DATA&, Arr_1_Dim Array1Par, Arr_2_Dim Array2Par, One_Fifty IntParI1, One_Fifty IntParI2);
+Enumeration  Func_1(DS_DATA&, Capital_Letter , Capital_Letter );
+bool      Func_2(DS_DATA&, Str_30 , Str_30 );
+bool Func_3(Enumeration EnumParIn);
+
 void dhrystone(
    double& Dhrystones_Per_Second, double& Vax_Mips
 ){
-    OneToFifty              IntLoc1;
-    OneToFifty              IntLoc2;
-    OneToFifty              IntLoc3;
-    char                    CharIndex;
-    Enumeration             EnumLoc;
-    String30                String1Loc;
-    String30                String2Loc;
+        One_Fifty       Int_1_Loc;
+  REG   One_Fifty       Int_2_Loc;
+        One_Fifty       Int_3_Loc;
+  REG   char            Ch_Index;
+        Enumeration     Enum_Loc;
+        Str_30          Str_1_Loc;
+        Str_30          Str_2_Loc;
+
     unsigned long         Loops;
     DS_DATA dd;
                           
@@ -242,73 +139,69 @@ void dhrystone(
     double                  benchtime;
     double                  ws;
         
-    register unsigned long  i;
+    register unsigned long  Run_Index;
 
  
-/***********************************************************************
- *         Change for compiler and optimisation used                   *
- ***********************************************************************/
-       
-    PtrGlbNext = (RecordPtr) malloc(sizeof(RecordType));
-    PtrGlb = (RecordPtr) malloc(sizeof(RecordType));
-    PtrGlb->PtrComp = PtrGlbNext;
-    PtrGlb->Discr = Ident1;
-    PtrGlb->EnumComp = Ident3;
-    PtrGlb->IntComp = 40;
-    strcpy(PtrGlb->StringComp, "DHRYSTONE PROGRAM, SOME STRING");
-    strcpy(String1Loc, "DHRYSTONE PROGRAM, 1'ST STRING");
+  Next_Ptr_Glob = (Rec_Pointer) malloc (sizeof (Rec_Type));
+  Ptr_Glob = (Rec_Pointer) malloc (sizeof (Rec_Type));
 
-    //printf ("Dhrystone Benchmark, Version 1.1 (Language: C or C++)\n");
+  Ptr_Glob->Ptr_Comp                    = Next_Ptr_Glob;
+  Ptr_Glob->Discr                       = Ident_1;
+  Ptr_Glob->variant.var_1.Enum_Comp     = Ident_3;
+  Ptr_Glob->variant.var_1.Int_Comp      = 40;
+  strcpy (Ptr_Glob->variant.var_1.Str_Comp,
+          "DHRYSTONE PROGRAM, SOME STRING");
+  strcpy (Str_1_Loc, "DHRYSTONE PROGRAM, 1'ST STRING");
+
+  Arr_2_Glob [8][7] = 10;
     
     Loops = 160000;       // determines runtime
 
-    Array2Glob[8][7] = 10;
 
     benchmark_wait_to_start(BM_TYPE_INT);
 
-    /*****************
-    -- Start Timer --
-    *****************/
-    
     boinc_calling_thread_cpu_time(startclock, ws);
     int bigloops = 0;
 
     do
     {
-        for (i = 0; i < Loops; ++i)
+        for (Run_Index = 0; Run_Index < Loops; ++Run_Index)
         {
-                Proc5(dd);
-                Proc4(dd);
-                IntLoc1 = 2;
-                IntLoc2 = 3;
-                strcpy(String2Loc, "DHRYSTONE PROGRAM, 2'ND STRING");
-                EnumLoc = Ident2;
-                BoolGlob = ! Func2(String1Loc, String2Loc);
-                while (IntLoc1 < IntLoc2)
+            Proc_5(dd);
+            Proc_4(dd);
+            Int_1_Loc = 2;
+            Int_2_Loc = 3;
+            strcpy (Str_2_Loc, "DHRYSTONE PROGRAM, 2'ND STRING");
+            Enum_Loc = Ident_2;
+            Bool_Glob = ! Func_2 (dd, Str_1_Loc, Str_2_Loc);
+            while (Int_1_Loc < Int_2_Loc)  /* loop body executed once */
+            {
+              Int_3_Loc = 5 * Int_1_Loc - Int_2_Loc;
+              Proc_7 (Int_1_Loc, Int_2_Loc, &Int_3_Loc);
+              Int_1_Loc += 1;
+            } /* while */
+            Proc_8 (dd, Arr_1_Glob, Arr_2_Glob, Int_1_Loc, Int_3_Loc);
+            Proc_1 (dd, Ptr_Glob);
+            for (Ch_Index = 'A'; Ch_Index <= Ch_2_Glob; ++Ch_Index)
+            {
+              if (Enum_Loc == Func_1 (dd, Ch_Index, 'C'))
                 {
-                        IntLoc3 = 5 * IntLoc1 - IntLoc2;
-                        Proc7(IntLoc1, IntLoc2, &IntLoc3);
-                        ++IntLoc1;
+                Proc_6 (dd, Ident_1, &Enum_Loc);
+                strcpy (Str_2_Loc, "DHRYSTONE PROGRAM, 3'RD STRING");
+                Int_2_Loc = Run_Index;
+                Int_Glob = Run_Index;
                 }
-                Proc8(dd, Array1Glob, Array2Glob, IntLoc1, IntLoc3);
-                Proc1(dd, PtrGlb);
-                for (CharIndex = 'A'; CharIndex <= Char2Glob; ++CharIndex)
-                        if (EnumLoc == Func1(CharIndex, 'C'))
-                                Proc6(dd, Ident1, &EnumLoc);
-                IntLoc3 = IntLoc2 * IntLoc1;
-                IntLoc2 = IntLoc3 / IntLoc1;
-                IntLoc2 = 7 * (IntLoc3 - IntLoc2) - IntLoc1;
-                Proc2(dd, &IntLoc1);
+            }
+            Int_2_Loc = Int_2_Loc * Int_1_Loc;
+            Int_1_Loc = Int_2_Loc / Int_3_Loc;
+            Int_2_Loc = 7 * (Int_2_Loc - Int_3_Loc) - Int_1_Loc;
+            Proc_2 (dd, &Int_1_Loc);
         }
         bigloops++;
     }
     while (!benchmark_time_to_stop(BM_TYPE_INT));
 
     Loops *= bigloops;
-
-    /*****************
-    -- Stop Timer --
-    *****************/
 
     boinc_calling_thread_cpu_time(endclock, ws);
     benchtime = endclock - startclock;
@@ -323,167 +216,199 @@ void dhrystone(
     printf ("VAX  MIPS rating =                          ");
     printf ("%12.2lf \n",Vax_Mips);
 #endif
-    free(PtrGlbNext);
-    free(PtrGlb);
+    free(Next_Ptr_Glob);
+    free(Ptr_Glob);
 }
 
-void Proc1(DS_DATA& dd, RecordPtr PtrParIn)
+void Proc_1(DS_DATA& dd, REG Rec_Pointer Ptr_Val_Par)
 {
-#define NextRecord      (*(PtrParIn->PtrComp))
+  REG Rec_Pointer Next_Record = Ptr_Val_Par->Ptr_Comp;
+                                        /* == Ptr_Glob_Next */
+  /* Local variable, initialized with Ptr_Val_Par->Ptr_Comp,    */
+  /* corresponds to "rename" in Ada, "with" in Pascal           */
 
-        structassign(NextRecord, *PtrGlb);
-        PtrParIn->IntComp = 5;
-        NextRecord.IntComp = PtrParIn->IntComp;
-        NextRecord.PtrComp = PtrParIn->PtrComp;
-        Proc3(dd, &NextRecord.PtrComp);
-        if (NextRecord.Discr == Ident1)
-        {
-                NextRecord.IntComp = 6;
-                Proc6(dd, PtrParIn->EnumComp, &NextRecord.EnumComp);
-                NextRecord.PtrComp = PtrGlb->PtrComp;
-                Proc7(NextRecord.IntComp, 10, &NextRecord.IntComp);
-        }
-        else
-                structassign(*PtrParIn, NextRecord);
-
-#undef  NextRecord
+  structassign (*Ptr_Val_Par->Ptr_Comp, *Ptr_Glob);
+  Ptr_Val_Par->variant.var_1.Int_Comp = 5;
+  Next_Record->variant.var_1.Int_Comp
+        = Ptr_Val_Par->variant.var_1.Int_Comp;
+  Next_Record->Ptr_Comp = Ptr_Val_Par->Ptr_Comp;
+  Proc_3 (dd, &Next_Record->Ptr_Comp);
+    /* Ptr_Val_Par->Ptr_Comp->Ptr_Comp
+                        == Ptr_Glob->Ptr_Comp */
+  if (Next_Record->Discr == Ident_1)
+    /* then, executed */
+  {
+    Next_Record->variant.var_1.Int_Comp = 6;
+    Proc_6 (dd, Ptr_Val_Par->variant.var_1.Enum_Comp,
+           &Next_Record->variant.var_1.Enum_Comp);
+    Next_Record->Ptr_Comp = Ptr_Glob->Ptr_Comp;
+    Proc_7 (Next_Record->variant.var_1.Int_Comp, 10,
+           &Next_Record->variant.var_1.Int_Comp);
+  }
+  else /* not executed */
+    structassign (*Ptr_Val_Par, *Ptr_Val_Par->Ptr_Comp);
 }
 
-void Proc2(DS_DATA& dd, OneToFifty *IntParIO)
+void Proc_2(DS_DATA& dd, One_Fifty *Int_Par_Ref)
 {
-        OneToFifty              IntLoc;
-        Enumeration             EnumLoc;
+  One_Fifty  Int_Loc;
+  Enumeration   Enum_Loc;
 
-        IntLoc = *IntParIO + 10;
-        for(;;)
-        {
-                if (Char1Glob == 'A')
-                {
-                        --IntLoc;
-                        *IntParIO = IntLoc - IntGlob;
-                        EnumLoc = Ident1;
-                }
-                if (EnumLoc == Ident1)
-                        break;
-        }
+  Int_Loc = *Int_Par_Ref + 10;
+  do /* executed once */
+    if (Ch_1_Glob == 'A')
+      /* then, executed */
+    {
+      Int_Loc -= 1;
+      *Int_Par_Ref = Int_Loc - Int_Glob;
+      Enum_Loc = Ident_1;
+    } /* if */
+  while (Enum_Loc != Ident_1); /* true */
 }
 
-void Proc3(DS_DATA& dd, RecordPtr *PtrParOut)
+void Proc_3(DS_DATA& dd, Rec_Pointer *Ptr_Ref_Par)
 {
-        if (PtrGlb != NULL)
-                *PtrParOut = PtrGlb->PtrComp;
-        else
-                IntGlob = 100;
-        Proc7(10, IntGlob, &PtrGlb->IntComp);
+  if (Ptr_Glob != NULL)
+    /* then, executed */
+    *Ptr_Ref_Par = Ptr_Glob->Ptr_Comp;
+  Proc_7 (10, Int_Glob, &Ptr_Glob->variant.var_1.Int_Comp);
 }
 
-void Proc4(DS_DATA& dd)
+void Proc_4(DS_DATA& dd)
 {
-        bool BoolLoc;
+  bool Bool_Loc;
 
-        BoolLoc = Char1Glob == 'A';
-        BoolLoc |= BoolGlob;
-        Char2Glob = 'B';
+  Bool_Loc = Ch_1_Glob == 'A';
+  Bool_Glob = Bool_Loc | Bool_Glob;
+  Ch_2_Glob = 'B';
 }
 
-void Proc5(DS_DATA& dd)
+void Proc_5(DS_DATA& dd)
 {
-        Char1Glob = 'A';
-        BoolGlob = FALSE;
+        Ch_1_Glob = 'A';
+        Bool_Glob = FALSE;
 }
 
-extern bool Func3();
+extern bool Func_3();
 
-void Proc6(DS_DATA& dd, Enumeration EnumParIn, Enumeration *EnumParOut)
+void Proc_6(DS_DATA& dd, Enumeration Enum_Val_Par, Enumeration *Enum_Ref_Par)
 {
-        *EnumParOut = EnumParIn;
-        if (! Func3(EnumParIn) )
-                *EnumParOut = Ident4;
-        switch (EnumParIn)
-        {
-        case Ident1:    *EnumParOut = Ident1; break;
-        case Ident2:    if (IntGlob > 100) *EnumParOut = Ident1;
-                        else *EnumParOut = Ident4;
-                        break;
-        case Ident3:    *EnumParOut = Ident2; break;
-        case Ident4:    break;
-        case Ident5:    *EnumParOut = Ident3;
-        }
+  *Enum_Ref_Par = Enum_Val_Par;
+  if (! Func_3 (Enum_Val_Par))
+    /* then, not executed */
+    *Enum_Ref_Par = Ident_4;
+  switch (Enum_Val_Par)
+  {
+    case Ident_1:
+      *Enum_Ref_Par = Ident_1;
+      break;
+    case Ident_2:
+      if (Int_Glob > 100)
+        /* then */
+      *Enum_Ref_Par = Ident_1;
+      else *Enum_Ref_Par = Ident_4;
+      break;
+    case Ident_3: /* executed */
+      *Enum_Ref_Par = Ident_2;
+      break;
+    case Ident_4: break;
+    case Ident_5:
+      *Enum_Ref_Par = Ident_3;
+      break;
+  } /* switch */
 }
 
-void Proc7(OneToFifty IntParI1, OneToFifty IntParI2, OneToFifty *IntParOut)
+void Proc_7(One_Fifty Int_1_Par_Val, One_Fifty Int_2_Par_Val, One_Fifty *Int_Par_Ref)
 {
-        OneToFifty      IntLoc;
+  One_Fifty Int_Loc;
 
-        IntLoc = IntParI1 + 2;
-        *IntParOut = IntParI2 + IntLoc;
+  Int_Loc = Int_1_Par_Val + 2;
+  *Int_Par_Ref = Int_2_Par_Val + Int_Loc;
 }
 
-void Proc8(DS_DATA& dd, Array1Dim Array1Par, Array2Dim Array2Par, OneToFifty IntParI1,
-                                                OneToFifty IntParI2)
-{
-        OneToFifty      IntLoc;
-        OneToFifty      IntIndex;
+void Proc_8(DS_DATA& dd,
+        Arr_1_Dim       Arr_1_Par_Ref,
+        Arr_2_Dim       Arr_2_Par_Ref,
+        int             Int_1_Par_Val,
+        int             Int_2_Par_Val
+) {
+  REG One_Fifty Int_Index;
+  REG One_Fifty Int_Loc;
 
-        IntLoc = IntParI1 + 5;
-        Array1Par[IntLoc] = IntParI2;
-        Array1Par[IntLoc+1] = Array1Par[IntLoc];
-        Array1Par[IntLoc+30] = IntLoc;
-        for (IntIndex = IntLoc; IntIndex <= (IntLoc+1); ++IntIndex)
-                Array2Par[IntLoc][IntIndex] = IntLoc;
-        ++Array2Par[IntLoc][IntLoc-1];
-        Array2Par[IntLoc+20][IntLoc] = Array1Par[IntLoc];
-        IntGlob = 5;
+  Int_Loc = Int_1_Par_Val + 5;
+  Arr_1_Par_Ref [Int_Loc] = Int_2_Par_Val;
+  Arr_1_Par_Ref [Int_Loc+1] = Arr_1_Par_Ref [Int_Loc];
+  Arr_1_Par_Ref [Int_Loc+30] = Int_Loc;
+  for (Int_Index = Int_Loc; Int_Index <= Int_Loc+1; ++Int_Index)
+    Arr_2_Par_Ref [Int_Loc] [Int_Index] = Int_Loc;
+  Arr_2_Par_Ref [Int_Loc] [Int_Loc-1] += 1;
+  Arr_2_Par_Ref [Int_Loc+20] [Int_Loc] = Arr_1_Par_Ref [Int_Loc];
+  Int_Glob = 5;
 }
 
-Enumeration Func1(CapitalLetter CharPar1, CapitalLetter CharPar2)
-{
-        CapitalLetter   CharLoc1;
-        CapitalLetter   CharLoc2;
+Enumeration Func_1(
+        DS_DATA& dd,
+        Capital_Letter   Ch_1_Par_Val,
+        Capital_Letter   Ch_2_Par_Val
+) {
+  Capital_Letter        Ch_1_Loc;
+  Capital_Letter        Ch_2_Loc;
 
-        CharLoc1 = CharPar1;
-        CharLoc2 = CharLoc1;
-        if (CharLoc2 != CharPar2)
-                return (Ident1);
-        else
-                return (Ident2);
+  Ch_1_Loc = Ch_1_Par_Val;
+  Ch_2_Loc = Ch_1_Loc;
+  if (Ch_2_Loc != Ch_2_Par_Val)
+    /* then, executed */
+    return (Ident_1);
+  else  /* not executed */
+  {
+    Ch_1_Glob = Ch_1_Loc;
+    return (Ident_2);
+   }
 }
 
-bool Func2(String30 StrParI1, String30 StrParI2)
-{
-        OneToThirty             IntLoc;
-        CapitalLetter           CharLoc;
+bool Func_2(DS_DATA& dd, Str_30  Str_1_Par_Ref, Str_30  Str_2_Par_Ref) {
+  REG One_Thirty        Int_Loc;
+      Capital_Letter    Ch_Loc;
 
-        IntLoc = 1;
-        while (IntLoc <= 1)
-                if (Func1(StrParI1[IntLoc], StrParI2[IntLoc+1]) == Ident1)
-                {
-                        CharLoc = 'A';
-                        ++IntLoc;
-                }
-        if (CharLoc >= 'W' && CharLoc <= 'Z')
-                IntLoc = 7;
-        if (CharLoc == 'X')
-                return(TRUE);
-        else
-        {
-                if (strcmp(StrParI1, StrParI2) > 0)
-                {
-                        IntLoc += 7;
-                        return (TRUE);
-                }
-                else
-                        return (FALSE);
-        }
+  Int_Loc = 2;
+  while (Int_Loc <= 2) /* loop body executed once */
+    if (Func_1 (dd, Str_1_Par_Ref[Int_Loc],
+                Str_2_Par_Ref[Int_Loc+1]) == Ident_1)
+      /* then, executed */
+    {
+      Ch_Loc = 'A';
+      Int_Loc += 1;
+    } /* if, while */
+  if (Ch_Loc >= 'W' && Ch_Loc < 'Z')
+    /* then, not executed */
+    Int_Loc = 7;
+  if (Ch_Loc == 'R')
+    /* then, not executed */
+    return (true);
+  else /* executed */
+  {
+    if (strcmp (Str_1_Par_Ref, Str_2_Par_Ref) > 0)
+      /* then, not executed */
+    {
+      Int_Loc += 7;
+      Int_Glob = Int_Loc;
+      return (true);
+    }
+    else /* executed */
+      return (false);
+  } /* if Ch_Loc */
 }
 
-bool Func3(Enumeration EnumParIn)
+bool Func_3(Enumeration Enum_Par_Val) 
 {
-        Enumeration     EnumLoc;
+  Enumeration Enum_Loc;
 
-        EnumLoc = EnumParIn;
-        if (EnumLoc == Ident3) return (TRUE);
-        return (FALSE);
+  Enum_Loc = Enum_Par_Val;
+  if (Enum_Loc == Ident_3)
+    /* then, executed */
+    return (true);
+  else /* not executed */
+    return (false);
 }
 
 

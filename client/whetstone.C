@@ -1,54 +1,20 @@
 /*
- * C Converted Whetstone Double Precision Benchmark
- *		Version 1.2	22 March 1998
- *
- *	(c) Copyright 1998 Painter Engineering, Inc.
- *		All Rights Reserved.
- *
- *		Permission is granted to use, duplicate, and
- *		publish this text and program as long as it
- *		includes this entire comment block and limited
- *		rights reference.
- *
- * Converted by Rich Painter, Painter Engineering, Inc. based on the
- * www.netlib.org benchmark/whetstoned version obtained 16 March 1998.
- *
- * A novel approach was used here to keep the look and feel of the
- * FORTRAN version.  Altering the FORTRAN-based array indices,
- * starting at element 1, to start at element 0 for C, would require
- * numerous changes, including decrementing the variable indices by 1.
- * Instead, the array E1[] was declared 1 element larger in C.  This
- * allows the FORTRAN index range to function without any literal or
- * variable indices changes.  The array element E1[0] is simply never
- * used and does not alter the benchmark results.
- *
- * The major FORTRAN comment blocks were retained to minimize
- * differences between versions.  Modules N5 and N12, like in the
- * FORTRAN version, have been eliminated here.
- *
- * An optional command-line argument has been provided [-c] to
- * offer continuous repetition of the entire benchmark.
- * An optional argument for setting an alternate LOOP count is also
- * provided.  Define PRINTOUT to cause the POUT() function to print
- * outputs at various stages.  Final timing measurements should be
- * made with the PRINTOUT undefined.
- *
- * Questions and comments may be directed to the author at
- *			r.painter@ieee.org
- */
-/*
-C**********************************************************************
-C     Benchmark #2 -- Double  Precision Whetstone (A001)
-C
-C     o	This is a REAL*8 version of
-C	the Whetstone benchmark program.
-C
-C     o	DO-loop semantics are ANSI-66 compatible.
-C
-C     o	Final measurements are to be made with all
-C	WRITE statements and FORMAT sttements removed.
-C
-C**********************************************************************   
+*     C/C++ Whetstone Benchmark Single or Double Precision
+*
+*     Original concept        Brian Wichmann NPL      1960's
+*     Original author         Harold Curnow  CCTA     1972
+*     Self timing versions    Roy Longbottom CCTA     1978/87
+*     Optimisation control    Bangor University       1987/90
+*     C/C++ Version           Roy Longbottom          1996
+*     Compatibility & timers  Al Aburto               1996
+*
+************************************************************
+*
+*              Official version approved by:
+*
+*         Harold Curnow  100421.1615@compuserve.com
+*
+*      Happy 25th birthday Whetstone, 21 November 1997
 */
 
 // Modified a little to work with BOINC
@@ -68,285 +34,211 @@ C**********************************************************************
 #include "util.h"
 #include "cpu_benchmark.h"
 
-/* map the FORTRAN math functions, etc. to the C versions */
-#define DSIN	sin
-#define DCOS	cos
-#define DATAN	atan
-#define DLOG	log
-#define DEXP	exp
-#define DSQRT	sqrt
-#define IF		if
+#define SPDP double
 
 
-#define USAGE	"usage: whetdc [-c] [loops]\n"
+void pa(SPDP e[4], SPDP t, SPDP t2)
+      {
+	 long j;
+	 for(j=0;j<6;j++)
+	    {
+	       e[0] = (e[0]+e[1]+e[2]-e[3])*t;
+	       e[1] = (e[0]+e[1]-e[2]+e[3])*t;
+	       e[2] = (e[0]-e[1]+e[2]+e[3])*t;
+	       e[3] = (-e[0]+e[1]+e[2]+e[3])/t2;
+	    }
 
+	 return;
+}
 
-/*
-	COMMON T,T1,T2,E1(4),J,K,L
-*/
+void po(SPDP e1[4], long j, long k, long l)
+      {
+	 e1[j] = e1[k];
+	 e1[k] = e1[l];
+	 e1[l] = e1[j];
+	 return;
+}
 
-// have to make this non-global because we run this multi-threaded
-//
-struct WS_DATA {
-    double t,t1,t2,e1[5];
-    int j,k,l;
-};
-
-#define T wd.t
-#define T1 wd.t1
-#define T2 wd.t2
-#define E1 wd.e1
-#define E wd.e1
-#define J wd.j
-#define K wd.k
-#define L wd.l
-
-/* function prototypes */
-//void POUT(long N, long J, long K, double X1, double X2, double X3, double X4);
-void PA(WS_DATA&);
-void P0(WS_DATA&);
-void P3(WS_DATA&, double X, double Y, double *Z);
+void p3(SPDP *x, SPDP *y, SPDP *z, SPDP t, SPDP t1, SPDP t2)
+      {
+	 *x = *y;
+	 *y = *z;
+	 *x = t * (*x + *y);
+	 *y = t1 * (*x + *y);
+	 *z = (*x + *y)/t2;
+	 return;
+}
 
 void whetstone(double& flops) {
-    WS_DATA wd;
-
-	/* used in the FORTRAN version */
-	long I;
-	long N1, N2, N3, N4, N6, N7, N8, N9, N10, N11;
-	double X1,X2,X3,X4,X,Y,Z;
-	long LOOP;
-    int II;
-
-	/* added for this version */
+	long n1,n2,n3,n4,n5,n6,n7,n8,i,ix,n1mult;
+	SPDP x,y,z;              
+	long j,k,l;
+	SPDP e1[4],timea,timeb, dtime();
 	double startsec, finisec, ws;
 	double KIPS;
-
-    II = 0;
+    int xtra, ii;
+    int x100 = 100;
 
     benchmark_wait_to_start(BM_TYPE_FP);
 
-/*
-C
-C	Start benchmark timing at this point.
-C
-*/
     boinc_calling_thread_cpu_time(startsec, ws);
 
-/*
-C
-C	The actual benchmark starts here.
-C
-*/
-	T  = .499975;
-	T1 = 0.50025;
-	T2 = 2.0;
-/*
-C
-C	With loopcount LOOP=10, one million Whetstone instructions
-C	will be executed in EACH MAJOR LOOP..A MAJOR LOOP IS EXECUTED
-C	'II' TIMES TO INCREASE WALL-CLOCK TIMING ACCURACY.
-C
-	LOOP = 1000;
-*/
-	LOOP = 100;
+	SPDP t =  0.49999975;
+	SPDP t0 = t;        
+	SPDP t1 = 0.50000025;
+	SPDP t2 = 2.0;
+		
+	n1 = 12*x100;
+	n2 = 14*x100;
+	n3 = 345*x100;
+	n4 = 210*x100;
+	n5 = 32*x100;
+	n6 = 899*x100;
+	n7 = 616*x100;
+	n8 = 93*x100;
 
-    do
-    {
-        N1  = 0;
-	    N2  = 12 * LOOP;
-	    N3  = 14 * LOOP;
-	    N4  = 345 * LOOP;
-	    N6  = 210 * LOOP;
-	    N7  = 32 * LOOP;
-	    N8  = 899 * LOOP;
-	    N9  = 616 * LOOP;
-	    N10 = 0;
-	    N11 = 93 * LOOP;
-    /*
-    C
-    C	Module 1: Simple identifiers
-    C
-    */
-	    X1  =  1.0;
-	    X2  = -1.0;
-	    X3  = -1.0;
-	    X4  = -1.0;
+    xtra = 1;
+	n1mult = 10;
+    ii = 0;
 
-	    for (I = 1; I <= N1; I++) {
-	        X1 = (X1 + X2 + X3 - X4) * T;
-	        X2 = (X1 + X2 - X3 + X4) * T;
-	        X3 = (X1 - X2 + X3 + X4) * T;
-	        X4 = (-X1+ X2 + X3 + X4) * T;
-	    }
+    do {
 
-    /*
-    C
-    C	Module 2: Array elements
-    C
-    */
-	    E1[1] =  1.0;
-	    E1[2] = -1.0;
-	    E1[3] = -1.0;
-	    E1[4] = -1.0;
+	/* Section 1, Array elements */
 
-	    for (I = 1; I <= N2; I++) {
-	        E1[1] = ( E1[1] + E1[2] + E1[3] - E1[4]) * T;
-	        E1[2] = ( E1[1] + E1[2] - E1[3] + E1[4]) * T;
-	        E1[3] = ( E1[1] - E1[2] + E1[3] + E1[4]) * T;
-	        E1[4] = (-E1[1] + E1[2] + E1[3] + E1[4]) * T;
-	    }
+	e1[0] = 1.0;
+	e1[1] = -1.0;
+	e1[2] = -1.0;
+	e1[3] = -1.0;
+	 {
+	    for (ix=0; ix<xtra; ix++)
+	      {
+		for(i=0; i<n1*n1mult; i++)
+		  {
+		      e1[0] = (e1[0] + e1[1] + e1[2] - e1[3]) * t;
+		      e1[1] = (e1[0] + e1[1] - e1[2] + e1[3]) * t;
+		      e1[2] = (e1[0] - e1[1] + e1[2] + e1[3]) * t;
+		      e1[3] = (-e1[0] + e1[1] + e1[2] + e1[3]) * t;
+		  }
+		t = 1.0 - t;
+	      }
+	    t =  t0;                    
+	 }
 
-    /*
-    C
-    C	Module 3: Array as parameter
-    C
-    */
-	    for (I = 1; I <= N3; I++)
-		    PA(wd);
+	/* Section 2, Array as parameter */
 
-    /*
-    C
-    C	Module 4: Conditional jumps
-    C
-    */
-	    J = 1;
-	    for (I = 1; I <= N4; I++) {
-		    if (J == 1)
-			    J = 2;
-		    else
-			    J = 3;
+	 {
+	    for (ix=0; ix<xtra; ix++)
+	      { 
+		for(i=0; i<n2; i++)
+		  {
+		     pa(e1,t,t2);
+		  }
+		t = 1.0 - t;
+	      }
+	    t =  t0;
+	 }
 
-		    if (J > 2)
-			    J = 0;
-		    else
-			    J = 1;
+	/* Section 3, Conditional jumps */
+	j = 1;
+	 {
+	    for (ix=0; ix<xtra; ix++)
+	      {
+		for(i=0; i<n3; i++)
+		  {
+		     if(j==1)       j = 2;
+		     else           j = 3;
+		     if(j>2)        j = 0;
+		     else           j = 1;
+		     if(j<1)        j = 1;
+		     else           j = 0;
+		  }
+	      }
+	 }
 
-		    if (J < 1)
-			    J = 1;
-		    else
-			    J = 0;
-	    }
+	/* Section 4, Integer arithmetic */
+	j = 1;
+	k = 2;
+	l = 3;
+	 {
+	    for (ix=0; ix<xtra; ix++)
+	      {
+		for(i=0; i<n4; i++)
+		  {
+		     j = j *(k-j)*(l-k);
+		     k = l * k - (l-j) * k;
+		     l = (l-k) * (k+j);
+		     e1[l-2] = j + k + l;
+		     e1[k-2] = j * k * l;
+		  }
+	      }
+	 }
+     
+	/* Section 5, Trig functions */
+	x = 0.5;
+	y = 0.5;
+	 {
+	    for (ix=0; ix<xtra; ix++)
+	      {
+		for(i=1; i<n5; i++)
+		  {
+		     x = t*atan(t2*sin(x)*cos(x)/(cos(x+y)+cos(x-y)-1.0));
+		     y = t*atan(t2*sin(y)*cos(y)/(cos(x+y)+cos(x-y)-1.0));
+		  }
+		t = 1.0 - t;
+	      }
+	    t = t0;
+	 }
+  
+	/* Section 6, Procedure calls */
+	x = 1.0;
+	y = 1.0;
+	z = 1.0;
+	 {
+	    for (ix=0; ix<xtra; ix++)
+	      {
+		for(i=0; i<n6; i++)
+		  {
+		     p3(&x,&y,&z,t,t1,t2);
+		  }
+	      }
+	 }
+  
+	/* Section 7, Array refrences */
+	j = 0;
+	k = 1;
+	l = 2;
+	e1[0] = 1.0;
+	e1[1] = 2.0;
+	e1[2] = 3.0;
+	 {
+	    for (ix=0; ix<xtra; ix++)
+	      {
+		for(i=0;i<n7;i++)
+		  {
+		     po(e1,j,k,l);
+		  }
+	      }
+	 }
+	
+	/* Section 8, Standard functions */
+	x = 0.75;
+	 {
+	    for (ix=0; ix<xtra; ix++)
+	      {
+		for(i=0; i<n8; i++)
+		  {
+		     x = sqrt(exp(log(x)/t1));
+		  }
+	      }
+	 }
 
-
-    /*
-    C
-    C	Module 5: Omitted
-    C 	Module 6: Integer arithmetic
-    C
-    */
-
-	    J = 1;
-	    K = 2;
-	    L = 3;
-
-	    for (I = 1; I <= N6; I++) {
-	        J = J * (K-J) * (L-K);
-	        K = L * K - (L-J) * K;
-	        L = (L-K) * (K+J);
-	        E1[L-1] = J + K + L;
-	        E1[K-1] = J * K * L;
-	    }
-
-
-    /*
-    C
-    C	Module 7: Trigonometric functions
-    C
-    */
-	    X = 0.5;
-	    Y = 0.5;
-
-	    for (I = 1; I <= N7; I++) {
-		    X = T * DATAN(T2*DSIN(X)*DCOS(X)/(DCOS(X+Y)+DCOS(X-Y)-1.0));
-		    Y = T * DATAN(T2*DSIN(Y)*DCOS(Y)/(DCOS(X+Y)+DCOS(X-Y)-1.0));
-	    }
-
-    /*
-    C
-    C	Module 8: Procedure calls
-    C
-    */
-	    X = 1.0;
-	    Y = 1.0;
-	    Z = 1.0;
-
-	    for (I = 1; I <= N8; I++)
-		    P3(wd, X,Y,&Z);
-
-
-    /*
-    C
-    C	Module 9: Array references
-    C
-    */
-	    J = 1;
-	    K = 2;
-	    L = 3;
-	    E1[1] = 1.0;
-	    E1[2] = 2.0;
-	    E1[3] = 3.0;
-
-	    for (I = 1; I <= N9; I++)
-		    P0(wd);
-
-
-    /*
-    C
-    C	Module 10: Integer arithmetic
-    C
-    */
-	    J = 2;
-	    K = 3;
-
-	    for (I = 1; I <= N10; I++) {
-	        J = J + K;
-	        K = J + K;
-	        J = K - J;
-	        K = K - J - J;
-	    }
-
-    /*
-    C
-    C	Module 11: Standard functions
-    C
-    */
-	    X = 0.75;
-
-	    for (I = 1; I <= N11; I++)
-		    X = DSQRT(DEXP(DLOG(X)/T1));
-
-    /*
-    C
-    C      THIS IS THE END OF THE MAJOR LOOP.
-    C
-    */
-        II++;
+     ii++;
     }
     while (!benchmark_time_to_stop(BM_TYPE_FP));
 
-/*
-C
-C      Stop benchmark timing at this point.
-C
-*/
     boinc_calling_thread_cpu_time(finisec, ws);
 
-/*
-C----------------------------------------------------------------
-C      Performance in Whetstone KIP's per second is given by
-C
-C	(100*LOOP*II)/TIME
-C
-C      where TIME is in seconds.
-C--------------------------------------------------------------------
-*/
-
-#if 0
-	printf("Loops: %ld, Iterations: %d, Duration: %f sec.\n",
-			LOOP, II, finisec-startsec);
-#endif
-
-	KIPS = (100.0*LOOP*II)/(double)(finisec-startsec);
+	KIPS = (100.0*x100*ii)/(double)(finisec-startsec);
 #if 0
 	if (KIPS >= 1000.0)
 		printf("C Converted Double Precision Whetstones: %.1f MIPS\n", KIPS/1000.0);
@@ -357,40 +249,3 @@ C--------------------------------------------------------------------
     // convert from thousands of instructions a second to instructions a second.
     flops = KIPS*1000.0;
 }
-
-void
-PA(WS_DATA& wd)
-{
-	J = 0;
-
-L10:
-	E[1] = ( E[1] + E[2] + E[3] - E[4]) * T;
-	E[2] = ( E[1] + E[2] - E[3] + E[4]) * T;
-	E[3] = ( E[1] - E[2] + E[3] + E[4]) * T;
-	E[4] = (-E[1] + E[2] + E[3] + E[4]) / T2;
-	J += 1;
-
-	if (J < 6)
-		goto L10;
-}
-
-void
-P0(WS_DATA& wd)
-{
-	E1[J] = E1[K];
-	E1[K] = E1[L];
-	E1[L] = E1[J];
-}
-
-void
-P3(WS_DATA& wd, double X, double Y, double *Z)
-{
-	double X1, Y1;
-
-	X1 = X;
-	Y1 = Y;
-	X1 = T * (X1 + Y1);
-	Y1 = T * (X1 + Y1);
-	*Z  = (X1 + Y1) / T2;
-}
-
