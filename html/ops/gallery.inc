@@ -91,7 +91,7 @@ function build_picture_pages($width, $height) {
 }
 
 // Creates pages grouping user profiles by country.  Filenames are of the
-// format "profile_country_<country name>_<page number>.html
+// format "profile_country_<country name>_<page number>.html"
 // Also creates a summary page listing all countries which have profiled
 // members, the number of such members, and links to the created pages for
 // each country.
@@ -127,19 +127,87 @@ function build_country_pages() {
   // TODO: Define a constant for the desired number of rows per page.
 
   foreach ($countries as $country) {
-    build_country_page($country, $countryMembers[$country], 5);
+      $baseFileName =  "profile_country_" . get_legal_filename($country);
+      $filePath = "../html_user/" . PROFILE_PATH;
+      build_profile_pages($countryMembers[$country], "User Profiles from $country", $country, 5, 2, $filePath, $baseFileName, "../html_user/");
+
   }
 
   // Build the summary page linking to the individual country pages.
-  // TODO: Pass $countryMembers by reference.
+ 
   build_country_summary_page($countryMembers);
+  
   //echo "<br><a href=\"" . "../html_user/" . PROFILE_PATH . "profile_country.html\">View Summary Page</a>";
-
   //echo "<br><br>Done";
 
 }
 
-// Helper function for build_country_page.  Creates as many pages as
+// Creates pages grouping users by the first letter of their names.
+
+function build_alpha_pages() {
+    
+    $query = "SELECT * FROM profile";
+    $result = mysql_query($query);
+    $numIds = 0;
+    
+    while ($row = mysql_fetch_assoc($result)) {
+        $query2 = "SELECT * FROM user WHERE id = " . $row['userid'];
+        $result2 = mysql_query($query2);
+        $row2 = mysql_fetch_assoc($result2);
+        
+        if ($row2['name']) {
+            $members[$row2['name'][0]][] = $row2['id'];
+            $numIds++;
+        }
+    }
+    
+    mysql_free_result($result);
+    mysql_free_result($result2);
+    
+    //echo "$numIds users have profiles AND non-null country entries.<br>";
+    
+    $letters = array_keys($members);
+    
+    foreach ($letters as $letter) {
+        $filePath = "../html_user/" . PROFILE_PATH;
+        build_profile_pages($members[$letter], "User Profiles - Names beginning with $letter", "Names beginning with $letter", 5, 2, $filePath, "profile_$letter", "../html_user/");
+    }
+}
+
+// A generalized function to produce some number of pages summarizing a
+// set of user profiles.
+
+function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $colsPerPage, $filePath, $baseFileName, $pathMod=NULL) {
+    $numMembers = count($members);
+    $numPerPage = $rowsPerPage * $colsPerPage;
+    $numPages = ceil(count($members) / $numPerPage);
+    
+    $count = 0;
+
+    for ($page = 1; $page <= $numPages; $page++) {
+
+        $filename = $filePath . $baseFileName . "_" . $page . ".html";
+        $descriptor = fopen($filename, "w");
+        
+        $head = $pageHead . ": Page $page of $numPages";
+        page_head($pageHead, null, $descriptor);
+        
+        fwrite($descriptor, "<h2>$pageTitle</h2>\n");
+        fwrite($descriptor, "Last updated " . gmdate("r") . " UTC<p>\n");
+        
+        $offset = (($page-1) * $rowsPerPage * $colsPerPage);
+        
+        show_user_table($members, $offset, $numPerPage, $colsPerPage, $descriptor, $pathMod);
+ 
+        write_page_links($baseFileName, $page, $numPages, $descriptor);
+        
+        page_tail($descriptor);
+        fclose($descriptor);
+    }
+    
+}
+
+// Helper function for build_country_pages.  Creates as many pages as
 // are neccessary to list all user profiles for country $name, given
 // $rows rows per page.  Member IDs are passed in the array $members.
 
@@ -149,9 +217,6 @@ function build_country_page($name, $members, $rows) {
 
   // Make the country name a legal format for a filename.
   $name = get_legal_filename($countryName);
-
-  $name = ereg_replace(',', '', $name);
-  $name = ereg_replace(' ', '_', $name);
 
   $numMembers = count($members);
   $numPages = ceil(count($members) / (2 * $rows));
