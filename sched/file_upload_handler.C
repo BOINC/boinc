@@ -22,6 +22,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.54  2004/01/15 21:24:55  boincadm
+// *** empty log message ***
+//
 // Revision 1.53  2003/12/17 19:14:17  korpela
 // Added include of <unistd.h> (when found) to get definition of gethostname()
 // under solaris.
@@ -215,8 +218,9 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             );
             if (retval || !is_valid) {
                 log_messages.printf(SchedMessages::CRITICAL,
-                                    "verify_string() = %d, is_valid = %d\n",
-                                    retval, is_valid);
+                    "verify_string() = %d, is_valid = %d\n",
+                    retval, is_valid
+                );
                 log_messages.printf_multiline(SchedMessages::NORMAL, file_info.signed_xml, "signed xml: ");
                 log_messages.printf_multiline(SchedMessages::NORMAL, file_info.xml_signature, "signature: ");
                 return return_error(ERR_PERMANENT, "invalid signature");
@@ -258,6 +262,14 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 get_remote_addr(),
                 offset, nbytes
             );
+            if (offset >= nbytes) {
+                log_messages.printf(
+                    SchedMessages::CRITICAL,
+                    "ERROR: offset >= nbytes!!\n"
+                );
+                return_success(0);
+                break;
+            }
             retval = copy_socket_to_file(in, path, offset, nbytes);
             if (!retval) {
                 return_success(0);

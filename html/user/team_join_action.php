@@ -8,7 +8,7 @@
     $user = get_logged_in_user();
 
     $teamid = $_POST["teamid"];
-    team = lookup_team($teamid);
+    $team = lookup_team($teamid);
     require_team($team);
     if ($user->teamid == $team->id) {
         page_head("Unable to add $user->name");

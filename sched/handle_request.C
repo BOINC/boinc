@@ -1093,6 +1093,10 @@ void process_request(
                 SchedMessages::NORMAL,
                 "Not sending work - last RPC too recent: %f\n", diff
             );
+            sprintf(reply.message,
+                "Not sending work - last RPC too recent: %d sec", (int)diff
+            );
+            strcpy(reply.message_priority, "low");
         }
     }
     if (ok_to_send) {

@@ -9210,3 +9210,19 @@ David  Jan 15 2004
 
     lib/
         base64.h (new)
+
+David  Jan 15 2004
+    - changed file_upload_handler so that it returns success
+        if offset >= nbytes.
+        That this happens at all indicates an error in the client,
+        but we'll get to that later.
+    - Scheduler: if last RPC too recent, show the interval
+
+    html_user/
+        db.inc
+        info.php
+        team_join_action.php
+        team_quit_action.php
+    sched/
+        file_upload_handler.C
+        handle_request.C

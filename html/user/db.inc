@@ -35,7 +35,7 @@ function lookup_user_auth($auth) {
 }
 
 function lookup_user_id($id) {
-    $result = mysql_query("select * from user where id='$id'");
+    $result = mysql_query("select * from user where id=$id");
     if ($result) {
         $user = mysql_fetch_object($result);
         mysql_free_result($result);
@@ -45,7 +45,7 @@ function lookup_user_id($id) {
 }
 
 function lookup_host($id) {
-    $result = mysql_query("select * from host where id='$id'");
+    $result = mysql_query("select * from host where id=$id");
     if ($result) {
         $host = mysql_fetch_object($result);
         mysql_free_result($result);
@@ -55,7 +55,7 @@ function lookup_host($id) {
 }
 
 function lookup_team($id) {
-    $result = mysql_query("select * from team where id='$id'");
+    $result = mysql_query("select * from team where id=$id");
     if ($result) {
         $team = mysql_fetch_object($result);
         mysql_free_result($result);
@@ -65,7 +65,7 @@ function lookup_team($id) {
 }
 
 function lookup_wu($id) {
-    $result = mysql_query("select * from workunit where id='$id'");
+    $result = mysql_query("select * from workunit where id=$id");
     if ($result) {
         $wu = mysql_fetch_object($result);
         mysql_free_result($result);
@@ -75,7 +75,7 @@ function lookup_wu($id) {
 }
 
 function lookup_app($id) {
-    $result = mysql_query("select * from app where id='$id'");
+    $result = mysql_query("select * from app where id=$id");
     if ($result) {
         $app = mysql_fetch_object($result);
         mysql_free_result($result);

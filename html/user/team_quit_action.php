@@ -5,7 +5,7 @@
 
     db_init();
     $user = get_logged_in_user();
-    $teamid = $_POST["id"]
+    $teamid = $_POST["id"];
 
     $team = lookup_team($teamid);
     if ($user->teamid == $team->id) {
