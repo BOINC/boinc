@@ -121,7 +121,7 @@ void CBOINCTaskCtrl::CreateTask( const wxString& strLink, const wxString& strTas
         } else {
             m_strTaskPage += wxT(
                 "<a href=\"") + strLink + wxT("\">"
-                "  <font color=\"#000000\">") + strTaskName + wxT("</font>"
+                  "<font color=\"#000000\">") + strTaskName + wxT("</font>"
                 "</a>"
             );
         }
