@@ -69,11 +69,13 @@ class App_Version {
     var $app;
     var $version;
     var $exec_name;
+    var $platform_name;
 
     function App_Version($app) {
         $this->app = $app;
         $this->version = 1;
         $this->exec_name = $app->name;
+        $this->platform_name = get_env_var("BOINC_PLATFORM");
     }
 }
 
@@ -82,8 +84,10 @@ class Project {
     var $users;
     var $apps;
     var $app_versions;
+    var $plat_names;
     var $project_dir;
     var $db_name;
+    var $db_passwd;
     var $generate_keys;
     var $shmem_key;
     var $key_dir;
@@ -99,6 +103,8 @@ class Project {
         $this->users = array();
         $this->apps = array();
         $this->app_versions = array();
+        $this->plat_names = array();
+        $this->db_passwd = "";
         $this->generate_keys = false;
         $this->shmem_key = "0xbeefacafe";
         $this->resource_share = 1;
@@ -114,6 +120,10 @@ class Project {
 
     function add_app_version($app_version) {
         array_push($this->app_versions, $app_version);
+    }
+
+    function add_platform($plat_name) {
+        array_push($this->plat_names, $plat_name);
     }
 
     // Set up the database and directory structures for a project
@@ -153,9 +163,6 @@ class Project {
         db_open($this->db_name);
         db_query("insert into project(name) values('$this->name')");
 
-        $platform = get_env_var("BOINC_PLATFORM");
-        db_query("insert into platform(name) values('$platform')");
-
         for ($i=0; $i<sizeof($this->users); $i++) {
             $user = $this->users[$i];
             $now = time(0);
@@ -165,14 +172,21 @@ class Project {
         echo "adding apps\n";
         for ($i=0; $i<sizeof($this->apps); $i++) {
             $app = $this->apps[$i];
+            $now = time(0);
             db_query("insert into app(name, create_time) values ('$app->name', $now)");
+        }
+
+        echo "adding platforms\n";
+        for ($i=0; $i<sizeof($this->plat_names); $i++) {
+            $platform = $this->plat_names[$i];
+            run_tool("add platform -db_name $this->db_name -platform_name $platform");
         }
 
         echo "adding app versions\n";
         for ($i=0; $i<sizeof($this->app_versions); $i++) {
             $app_version = $this->app_versions[$i];
             $app = $app_version->app;
-            run_tool("add app_version -db_name $this->db_name -app_name $app->name -platform_name $platform -version $app_version->version -download_dir $this->project_dir/download -download_url $this->download_url -code_sign_keyfile $this->key_dir/code_sign_private -exec_dir $source_dir/apps -exec_files $app_version->exec_name");
+            run_tool("add app_version -db_name $this->db_name -app_name $app->name -platform_name $app_version->platform_name -version $app_version->version -download_dir $this->project_dir/download -download_url $this->download_url -code_sign_keyfile $this->key_dir/code_sign_private -exec_dir $source_dir/apps -exec_files $app_version->exec_name");
         }
 
         // copy the server programs to the project /cgi dir,
@@ -274,10 +288,18 @@ class Project {
         }
     }
 
+    function num_wus_left() {
+        db_open($this->db_name);
+        $result = mysql_query("select count(*) as cnt from result where state=2");
+        $count = mysql_fetch_object($result);
+        return $count->cnt;
+    }
+
     function num_results_done() {
         db_open($this->db_name);
-        $result = mysql_query("select count(*) from result where state=4");
-        return mysql_fetch_object($result);
+        $result = mysql_query("select count(*) as cnt from result where state=4");
+        $count = mysql_fetch_object($result);
+        return $count->cnt;
     }
 
     function compare_file($result, $correct) {
@@ -393,6 +415,7 @@ class Work {
     var $result_template;
     var $nresults;
     var $input_files;
+    var $randomize_name;
     var $rsc_iops;
     var $rsc_fpops;
     var $rsc_disk;
@@ -403,6 +426,7 @@ class Work {
         $this->rcs_iops = 180000000000;
         $this->rcs_fpops = 100000000000;
         $this->rcs_disk = 1000000;
+        $this->randomize_name = false;
     }
 
     function install($project) {
@@ -411,7 +435,12 @@ class Work {
             $x = $this->input_files[$i];
             PassThru("cp $x $project->project_dir/download");
         }
-        $cmd = "create_work -db_name $project->db_name -download_dir $project->project_dir/download -upload_url $project->upload_url -download_url $project->download_url/ -keyfile $project->key_dir/upload_private -appname $app->name -rsc_iops $this->rcs_iops -rsc_fpops $this->rsc_fpops -rsc_disk $this->rsc_disk -wu_name $this->wu_template -wu_template $this->wu_template -result_template $this->result_template -nresults $this->nresults ";
+        $cmd = "create_work -db_name $project->db_name -download_dir $project->project_dir/download -upload_url $project->upload_url -download_url $project->download_url/ -keyfile $project->key_dir/upload_private -appname $app->name -rsc_iops $this->rcs_iops -rsc_fpops $this->rsc_fpops -rsc_disk $this->rsc_disk -wu_template $this->wu_template -result_template $this->result_template -nresults $this->nresults ";
+        if ($this->randomize_name) {
+            $cmd = $cmd." -wu_name_rand ".$this->wu_template;
+        } else {
+            $cmd = $cmd." -wu_name ".$this->wu_template;
+        }
         for ($i=0; $i<sizeof($this->input_files); $i++) {
             $x = $this->input_files[$i];
             $cmd = $cmd." ".$x;
