@@ -802,9 +802,10 @@ LRESULT CScreensaver::PrimarySaverProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPA
                     BOINCTRACE(_T("CScreensaver::PrimarySaverProc - get_screensaver_mode iReturnValue = '%d'\n"), iReturnValue);
                     if (0 != iReturnValue)
                     {
-                    	// Attempt to reinitialize the RPC client
+                    	// Attempt to reinitialize the RPC client and state
                         rpc.close();
                         rpc.init( NULL );
+                        m_bResetCoreState = TRUE;
 
 			            if(IsConfigStartupBOINC())
 			            {
