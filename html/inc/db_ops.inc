@@ -120,7 +120,8 @@ class SqlQueryString {
         if ($clause) {
             $c = stripslashes(urldecode($clause));
             $this->add("( $c )");
-            $this->urlquery .= "&clauses=$clause)";
+            $clause = urlencode($clause);
+            $this->urlquery .= "&clauses=$clause";
         }
     }
     function addeq($name) {

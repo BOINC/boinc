@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
@@ -404,7 +405,7 @@ function get_profile_summary($profile) {
 
 // Displays a user's profile (if they have one);
 
-function show_profile($userid) {
+function show_profile($userid, $verify_mode = FALSE) {
     $user = get_user_from_id($userid);
 
     if (!$user) {
@@ -416,17 +417,19 @@ function show_profile($userid) {
         echo "No user profile exists for that user ID.";
         exit();
     }
-
-    $logged_in_user = get_logged_in_user(false);
-    if (!$logged_in_user || ($user->id != $logged_in_user->id)) {
-        $caching = true;
-        $cache_args = "userid=$userid";
-        start_cache(USER_PROFILE_TTL,$cache_args);
+    if (!$verify_mode) {
+        $logged_in_user = get_logged_in_user(false);
+        if (!$logged_in_user || ($user->id != $logged_in_user->id)) {
+            $caching = true;
+            $cache_args = "userid=$userid";
+            start_cache(USER_PROFILE_TTL,$cache_args);
+        }
     }
 
     $can_edit = $logged_in_user && $user->id == $logged_in_user->id;
-
-    page_head("Profile: ".$user->name);
+    if (!$verify_mode) {
+        page_head("Profile: ".$user->name);
+    }
 
     start_table();
 
@@ -457,7 +460,7 @@ function show_profile($userid) {
     row1($profile->response1, 2, "foobar");
     row1(show_profile_heading2());
     row1($profile->response2, 2, "foobar");
-    if (!$can_edit) {
+    if (!$can_edit and !$verify_mode) {
         row1("Your feedback on this profile");
         row2(
             "Recommend this profile for User of the Day:",
@@ -470,10 +473,11 @@ function show_profile($userid) {
     }
 
     end_table();
-    page_tail();
+    if (!$verify_mode) {
+        page_tail();
+    } else {
+        echo "<hr>";
+    }
     if ($caching) end_cache(USER_PROFILE_TTL,$cache_args);
 }
-
-// echo "<!--\$Id$ -->\n";
-
 ?>
