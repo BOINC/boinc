@@ -25,6 +25,10 @@
 #include <unistd.h>
 #endif
 
+#ifdef _WIN32
+#include "win/wingui.h"
+#endif
+
 #include "account.h"
 #include "client_state.h"
 #include "error_numbers.h"
