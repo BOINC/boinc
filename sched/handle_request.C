@@ -328,7 +328,8 @@ int handle_results(
         if (retval) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
-                "[HOST#%d] Batch query failed\n"
+                "[HOST#%d] Batch query failed\n",
+                reply.host.id
             );
         }
     }

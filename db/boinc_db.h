@@ -648,7 +648,7 @@ struct SCHED_RESULT_ITEM {
 class DB_SCHED_RESULT_ITEM_SET : public DB_BASE_SPECIAL {
 public:
     DB_SCHED_RESULT_ITEM_SET();
-    std::vector<SCHED_RESULT_ITEM>& results;
+    std::vector<SCHED_RESULT_ITEM> results;
 
     int add_result(char* result_name);
 
