@@ -54,6 +54,8 @@ int CLIENT_STATE::add_project(char* master_url, char* authenticator) {
     FILE* f;
     int retval;
 
+	case_format_url(master_url);
+
     // check if this project is already running
     //
     if (lookup_project(master_url)) {

@@ -110,7 +110,10 @@ int PROJECT::parse_account(FILE* in) {
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "<account>")) continue;
         if (match_tag(buf, "</account>")) return 0;
-        else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) continue;
+        else if (parse_str(buf, "<master_url>", master_url, sizeof(master_url))) {
+            case_format_url(master_url);
+            continue;
+        }
         else if (parse_str(buf, "<authenticator>", authenticator, sizeof(authenticator))) continue;
         else if (parse_double(buf, "<resource_share>", resource_share)) continue;
         else if (match_tag(buf, "<send_email/>")) continue;

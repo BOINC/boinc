@@ -109,12 +109,12 @@ int double_to_ydhms (double x, int smallest_timescale, char *buf) {
 //
 double dtime() {
 #ifdef _WIN32
-	LARGE_INTEGER time;
-	FILETIME sysTime;
-	GetSystemTimeAsFileTime(&sysTime);
+    LARGE_INTEGER time;
+    FILETIME sysTime;
+    GetSystemTimeAsFileTime(&sysTime);
     time.LowPart = sysTime.dwLowDateTime;
     time.HighPart = sysTime.dwHighDateTime;  // Time is in 100 ns units
-    return (double)time.QuadPart/10000000;	// Convert to 1 s units
+    return (double)time.QuadPart/10000000;    // Convert to 1 s units
 #else
     struct timeval tv;
     gettimeofday(&tv, 0);
@@ -199,12 +199,10 @@ int lock_file(char* filename) {
 #ifdef HAVE_FLOCK
     int lock = open(filename, O_WRONLY|O_CREAT, 0644);
     retval = flock(lock, LOCK_EX|LOCK_NB);
-#else
-#ifdef HAVE_LOCKF
+#elif HAVE_LOCKF
     int lock = open(filename, O_WRONLY|O_CREAT, 0644);
     retval = lockf(lock, F_TLOCK, 1);
     // must leave fd open
-#endif
 #endif
                         
 #ifdef _WIN32
@@ -325,6 +323,21 @@ void escape_url_readable(char *in, char* out) {
         }
     }
     out[y] = 0;
+}
+
+// Convert the first part of a URL (before the "://") to lowercase
+//
+void case_format_url(char *url) {
+    char *sep, *p;
+
+    sep = strstr(url, "://");
+    if (sep) {
+        p = url;
+        while (*p && p != sep) {
+            *p = tolower(*p);
+            p++;
+        }
+    }
 }
 
 void safe_strncpy(char* dst, char* src, int len) {

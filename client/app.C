@@ -173,12 +173,10 @@ int ACTIVE_TASK::start(bool first_time) {
     //
 #ifdef _WIN32
     sprintf(aid.comm_obj_name, "boinc_%d", slot);
-#else
-#ifdef HAVE_SYS_IPC_H
+#elif HAVE_SYS_IPC_H
     aid.shm_key = ftok(init_data_path, slot);
 #else
-#error
-#endif
+#error shared memory key generation unimplemented
 #endif
 
     retval = write_init_data_file(f, aid);
