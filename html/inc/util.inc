@@ -161,7 +161,7 @@ function profile_error_page($str) {
     page_head("Profile error");
     echo "$str<br>\n";
     echo "<p>Click your browser's <b>Back</b> button to try again.\n<p>\n";
-  p  age_tail();
+    page_tail();
 }
 
 function date_str($x) {

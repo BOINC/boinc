@@ -243,9 +243,11 @@ function print_country_select($selected_country="None") {
    $geoip_country = geoip_country_name_by_addr($gi,$_SERVER["REMOTE_ADDR"]);
    geoip_close($gi);
 
+   if ($selected_country=="") $selected_country="None";
    if ($selected_country=="None" and $geoip_country!=""){
        $selected_country=$geoip_country;
    }
+   echo "selected: $selected_country\n";
 
    $numCountries = count($countries);
    for ($i=0; $i<$numCountries; $i++) {
