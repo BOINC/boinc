@@ -32,6 +32,11 @@ DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 #include <gl\glu.h>            // Header File For The GLu32 Library
 #include <gl\glaux.h>        // Header File For The Glaux Library
 #endif
+
+#ifdef HAVE_GL_LIB
+#include <GL/gl.h>
+#include "x_opengl.h"
+#endif
 #endif
 
 #include "graphics_api.h"
@@ -39,8 +44,15 @@ DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 
 #include "parse.h"
 
+#include <string.h>
+#include <stdarg.h>
+
 #ifdef __APPLE_CC__
 #include "mac_app_opengl.h"
+#endif
+
+#ifdef HAVE_PTHREAD
+#include <pthread.h>
 #endif
 
 extern GRAPHICS_INFO gi;
@@ -52,6 +64,7 @@ int boinc_init_opengl() {
     HANDLE hThread;
 
     // Create the graphics thread, passing it the graphics info
+    // TODO: is it better to use _beginthreadex here?
     hThread = CreateThread(
         NULL, 0, win_graphics_event_loop, &gi, CREATE_SUSPENDED, &threadId
     );
@@ -82,6 +95,18 @@ int boinc_init_opengl() {
     
     YieldToAnyThread();
 #endif
+
+#ifdef _PTHREAD_H
+    pthread_t graphics_thread;
+    pthread_attr_t graphics_thread_attr;
+    int retval;
+
+    pthread_attr_init( &graphics_thread_attr );
+    retval = pthread_create( &graphics_thread, &graphics_thread_attr, p_graphics_loop, &gi );
+    if (retval) return ERR_THREAD;
+    pthread_attr_destroy( &graphics_thread_attr );
+#endif
+    
 #endif
     
     return 0;

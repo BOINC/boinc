@@ -2385,3 +2385,19 @@ David  Nov 9 2002
         util.inc
     test/
         test_uc.php
+
+Eric  Nov 12, 2002
+    - X11 graphics support added
+    - upper_case_x11 target added
+    - configure now checks for pthread, gl libraries
+
+    configure
+    configure.in
+    api/
+        boinc_api.C
+        graphics_api.C
+        x_opengl.C,h (added)
+    apps/
+        upper_case.C
+        Makefile.in
+

@@ -44,13 +44,15 @@
     #include <OpenGL/glu.h>
 
     #include "mac_carbon_gl.h"
-#endif
-
-#ifdef _WIN32
+#elif _WIN32
 #include <windows.h>
 #include <gl\gl.h>            // Header File For The OpenGL32 Library
 #include <gl\glu.h>            // Header File For The GLu32 Library
 #include <gl\glaux.h>        // Header File For The Glaux Library
+#elif HAVE_GL_LIB
+#include <GL/glx.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 #endif
 
 bool app_render(int xs, int ys, double time_of_day);
@@ -258,7 +260,7 @@ int DrawGLScene(GLvoid)      // Here's Where We Do All The Drawing
     glRasterPos2f(-0.9, 0.7);
     glPrint(main_font, "CPU Time: %f", uc_aid.wu_cpu_time);
 
-    return TRUE;                                        // Everything Went OK
+    return true;                                        // Everything Went OK
 }
 
 #endif

@@ -56,6 +56,10 @@ HANDLE hGlobalDrawEvent;
 #include <gl\glu.h>            // Header File For The GLu32 Library
 #include <gl\glaux.h>        // Header File For The Glaux Library
 #endif
+
+#ifdef HAVE_GL_LIB
+#include <GL/gl.h>
+#endif
 #endif
 
 #include "parse.h"

@@ -13,9 +13,14 @@ CFLAGS = -g -Wall @DEFS@ \
 
 CC = @CC@ $(CFLAGS) -I @top_srcdir@/api -I@top_srcdir@/lib
 
-LIBS = ../api/boinc_api.o ../api/graphics_api.o ../api/mfile.o ../lib/parse.o ../lib/filesys.o ../lib/util.o
+APIOBJS = ../api/boinc_api.o ../api/graphics_api.o
+X11APIOBJS = ../api/boinc_api.x11.o ../api/graphics_api.x11.o ../api/x_opengl.x11.o
+
+LIBS = ../api/mfile.o ../lib/parse.o ../lib/filesys.o ../lib/util.o
 
 CLIBS = @LIBS@
+
+XLIBS = -lGL -lGLU -lpthread
 
 APPS = upper_case concat 1sec
 
@@ -23,17 +28,29 @@ APPS = upper_case concat 1sec
 	$(CC) -c -o $*.o $<
 .c.o:
 	$(CC) -c -o $*.o $<
+upper_case.x11.o:
+	$(CC) -DBOINC_APP_GRAPHICS -c -o $*.o upper_case.C
+../api/x_opengl.x11.o:
+	$(CC) -DBOINC_APP_GRAPHICS -c -o $*.o ../api/x_opengl.C
+../api/boinc_api.x11.o:
+	$(CC) -DBOINC_APP_GRAPHICS -c -o $*.o ../api/boinc_api.C
+../api/graphics_api.x11.o:
+	$(CC) -DBOINC_APP_GRAPHICS -c -o $*.o ../api/graphics_api.C
+
 
 all: $(APPS)
 
+upper_case_x11: upper_case.x11.o $(X11APIOBJS)
+	$(CC) upper_case.x11.o $(X11APIOBJS) $(LIBS) $(CLIBS) $(XLIBS) -lm -o upper_case_x11
+
 upper_case: upper_case.o
-	$(CC) upper_case.o $(LIBS) $(CLIBS) -lm -o upper_case
+	$(CC) upper_case.o $(APIOBJS) $(LIBS) $(CLIBS) -lm -o upper_case
 
 concat: concat.o
-	$(CC) concat.o $(LIBS) $(CLIBS) -lm -o concat
+	$(CC) concat.o $(APIOBJS) $(LIBS) $(CLIBS) -lm -o concat
 
 1sec: 1sec.o
-	$(CC) 1sec.o $(LIBS) $(CLIBS) -lm -o 1sec
+	$(CC) 1sec.o $(APIOBJS) $(LIBS) $(CLIBS) -lm -o 1sec
 
 install: all
 	-mkdir -p $(INSTALL_DIR)/apps
@@ -45,7 +62,7 @@ uninstall:
 	$(RM) -r $(INSTALL_DIR)/apps
 
 clean:
-	rm -f *.o $(APPS) dependencies
+	rm -f *.o $(APPS) $(X11APIOBJS) dependencies
 
 dependencies: @srcdir@/*.C
 	$(CC) -M @srcdir@/*.C > dependencies

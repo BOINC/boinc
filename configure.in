@@ -20,6 +20,10 @@ dnl Replace `main' with a function in -lstdc:
 AC_CHECK_LIB(stdc, main)
 dnl Replace `main' with a function in -lz:
 AC_CHECK_LIB(z, gzopen)
+dnl check for pthread
+AC_CHECK_LIB(pthread, pthread_mutex_init, AC_DEFINE(HAVE_PTHREAD))
+dnl check for GL library
+AC_CHECK_LIB(GL, glCallList, AC_DEFINE(HAVE_GL_LIB))
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
