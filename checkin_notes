@@ -26490,3 +26490,35 @@ David  1 April 2005
 
     client/
         cs_apps.C
+
+Janus  2 April 2005
+    - Lots of updates for the website translation system:
+      -    Now creates missing dirs when first installed
+      -    Supports "dual ID" language files (ie those files that have
+           names like xx_YY (for instance zh_TW for the Chinese)
+           Please note the use of lower- and uppercase letters.
+      -    You can now override the automatic selection by the use of
+           a cookie named "lang". A page for setting this cookie has also
+           been made (language_select.php).
+      -    The automatic selection now searches for all the languages that
+           the user's browser specifies before using the project default
+           (ie. it no longer uses only the first language that the browser
+           gives it in the string).
+      -    Made some small additions to en.po so that the language select page
+           can display the correct names of the languages instead of their
+           ISO names: "Danish (Dansk)" instead of "da".
+      -    Added some more logging so that missing tokens will be printed to
+           the logfile as well as on screen.
+    - Added the title on the sample forum index page to en.po
+    
+    /html/
+        inc/
+            translation.inc
+        languages/
+            translations/
+                en.po
+        user/
+            language_select.php (new)
+            img/ (new)
+                 da.png (new)
+
