@@ -146,6 +146,7 @@ protected:
 	afx_msg void			OnCommandFileClearMessages();
 	afx_msg void			OnCommandConnectionHangupIfDialed();
 	afx_msg void			OnCommandConnectionConfirmBeforeConnecting();
+	afx_msg void			OnCommandShow();
 	afx_msg void			OnCommandHide();
 	afx_msg void			OnCommandSuspend();
 	afx_msg void			OnCommandResume();

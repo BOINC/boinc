@@ -65,9 +65,8 @@ int CMyApp::ExitInstance()
 BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_WM_CLOSE()
 	ON_WM_DESTROY()
-    ON_COMMAND(ID_FILE_CLEARINACTIVE, OnCommandFileClearInactive)
-    ON_COMMAND(ID_FILE_CLEARMESSAGES, OnCommandFileClearMessages)
-    ON_COMMAND(ID_FILE_HIDE, OnCommandHide)
+    //ON_COMMAND(ID_FILE_CLEARINACTIVE, OnCommandFileClearInactive)
+    //ON_COMMAND(ID_FILE_CLEARMESSAGES, OnCommandFileClearMessages)
     ON_COMMAND(ID_FILE_SUSPEND, OnCommandSuspend)
     ON_COMMAND(ID_FILE_RESUME, OnCommandResume)
     ON_COMMAND(ID_FILE_EXIT, OnCommandExit)
@@ -79,6 +78,7 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
 	ON_COMMAND(ID_PROJECT_DETACH, OnCommandProjectDetach)
 	ON_COMMAND(ID_PROJECT_RESET, OnCommandProjectReset)
     ON_COMMAND(ID_WORK_SHOWGRAPHICS, OnCommandWorkShowGraphics)
+    ON_COMMAND(ID_STATUSICON_SHOW, OnCommandShow)
     ON_COMMAND(ID_STATUSICON_HIDE, OnCommandHide)
     ON_COMMAND(ID_STATUSICON_SUSPEND, OnCommandSuspend)
     ON_COMMAND(ID_STATUSICON_RESUME, OnCommandResume)
@@ -206,6 +206,11 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	if (m_nDesiredIconState != m_nIconState)
 		SetStatusIcon(m_nDesiredIconState);
 
+    // draw line between menu and tabs
+    RECT rect = {0, 0, 0, 0}; GetClientRect(&rect);
+    GetDC()->MoveTo(0, 0);
+    GetDC()->LineTo(rect.right, 0);
+
 	// display projects
 	m_ProjectListCtrl.SetRedraw(FALSE);
 	float totalres = 0;
@@ -260,8 +265,8 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	for(i = 0; i < m_ResultListCtrl.GetItemCount(); i ++) {
 		RESULT* re = (RESULT*)m_ResultListCtrl.GetItemData(i);
 		if(!re) {
+			m_ResultListCtrl.SetItemColor(i, RGB(128, 128, 128));
             if (m_ResultListCtrl.GetItemProgress(i, 4) != 100) {
-			    m_ResultListCtrl.SetItemColor(i, RGB(128, 128, 128));
 			    m_ResultListCtrl.SetItemProgress(i, 4, 100);
 			    m_ResultListCtrl.SetItemText(i, 5, "00:00:00");
             }
@@ -330,12 +335,19 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		switch(re->state) {
 			case RESULT_NEW:
 				strBuf.Format(g_szMiscItems[0]); break;
+			case RESULT_FILES_DOWNLOADING:
+                strBuf.Format(g_szMiscItems[9]);
+                break;
 			case RESULT_FILES_DOWNLOADED:
 				if (at) strBuf.Format(g_szMiscItems[1]);
 				else strBuf.Format(g_szMiscItems[2]);
 				break;
 			case RESULT_COMPUTE_DONE:
 				strBuf.Format(g_szMiscItems[3]); break;
+                break;
+			case RESULT_FILES_UPLOADING:
+                strBuf.Format(g_szMiscItems[8]);
+                break;
 			default:
 				if (re->server_ack) strBuf.Format(g_szMiscItems[5]);
 				else if (re->ready_to_ack) strBuf.Format(g_szMiscItems[4]);
@@ -353,8 +365,8 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 	for(i = 0; i < m_XferListCtrl.GetItemCount(); i ++) {
 		PERS_FILE_XFER* pfx = (PERS_FILE_XFER*)m_XferListCtrl.GetItemData(i);
 		if(!pfx) {
+			m_XferListCtrl.SetItemColor(i, RGB(128, 128, 128));
             if (m_XferListCtrl.GetItemProgress(i, 2) != 100) {
-			    m_XferListCtrl.SetItemColor(i, RGB(128, 128, 128));
 			    m_XferListCtrl.SetItemProgress(i, 2, 100);
 			    m_XferListCtrl.SetItemText(i, 3, g_szMiscItems[7]);
 			    m_XferListCtrl.SetItemText(i, 5, "0.00 KBps");
@@ -471,7 +483,7 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 
 	m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 
-	// make icon flash if needed
+    // make icon flash if needed
 	if(m_bMessage || m_bRequest) {
 		if(m_nIconState == ICON_NORMAL) {
 			SetStatusIcon(ICON_HIGHLIGHT);
@@ -600,7 +612,7 @@ bool CMainWindow::SetStatusIcon(DWORD dwMessage)
     icon_data.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
     icon_data.hWnd = GetSafeHwnd();
     icon_data.uID = STATUS_ICON_ID;
-    safe_strncpy(icon_data.szTip, WND_TITLE, sizeof(icon_data.szTip));
+    safe_strncpy(icon_data.szTip, WND_TITLE, min(sizeof(icon_data.szTip), sizeof(WND_TITLE)));
     icon_data.uCallbackMessage = STATUS_ICON_ID;
 	if(dwMessage == ICON_OFF) {
 		icon_data.hIcon = NULL;
@@ -1088,6 +1100,7 @@ void CMainWindow::OnCommandHelpAbout()
 	int nResult = dlg.DoModal();
 }
 
+/*
 //////////
 // CMainWindow::OnCommandFileClearInactive
 // arguments:	void
@@ -1128,6 +1141,7 @@ void CMainWindow::OnCommandFileClearMessages()
 {
 	m_MessageListCtrl.DeleteAllItems();
 }
+*/
 
 //////////
 // CMainWindow::GetProjectFromContextMenu
@@ -1230,29 +1244,33 @@ void CMainWindow::OnCommandWorkShowGraphics()
 }
 
 //////////
+// CMainWindow::OnCommandShow
+// arguments:	void
+// returns:		void
+// function:	shows the window
+void CMainWindow::OnCommandShow()
+{
+	CMenu* pMainMenu;
+	pMainMenu = GetMenu();
+
+	ShowWindow(SW_SHOW);
+    pMainMenu->GetSubMenu(0)->EnableMenuItem(ID_STATUSICON_HIDE, MF_ENABLED);
+    pMainMenu->GetSubMenu(0)->EnableMenuItem(ID_STATUSICON_SHOW, MF_GRAYED);
+}
+
+//////////
 // CMainWindow::OnCommandHide
 // arguments:	void
 // returns:		void
-// function:	hides or shows the window
+// function:	hides the window
 void CMainWindow::OnCommandHide()
 {
 	CMenu* pMainMenu;
-	CMenu* pFileMenu;
 	pMainMenu = GetMenu();
-	if(pMainMenu) {
-		pFileMenu = pMainMenu->GetSubMenu(0);
-	}
-	if(IsWindowVisible()) {
-		ShowWindow(SW_HIDE);
-		if(pFileMenu) {
-			pFileMenu->CheckMenuItem(ID_FILE_HIDE, MF_CHECKED);
-		}
-	} else {
-		ShowWindow(SW_SHOW);
-		if(pFileMenu) {
-			pFileMenu->CheckMenuItem(ID_FILE_HIDE, MF_UNCHECKED);
-		}
-	}
+
+	ShowWindow(SW_HIDE);
+    pMainMenu->GetSubMenu(0)->EnableMenuItem(ID_STATUSICON_HIDE, MF_GRAYED);
+    pMainMenu->GetSubMenu(0)->EnableMenuItem(ID_STATUSICON_SHOW, MF_ENABLED);
 }
 
 //////////
@@ -1685,6 +1703,7 @@ void CMainWindow::OnSize(UINT nType, int cx, int cy)
 			m_UsagePieCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
 		}
 		m_TabCtrl.RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_NOERASE|RDW_FRAME);
+
 		RedrawWindow(NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 	}
 }
@@ -1712,6 +1731,13 @@ LRESULT CMainWindow::OnStatusIcon(WPARAM wParam, LPARAM lParam)
 			pSubmenu->EnableMenuItem(ID_STATUSICON_SUSPEND, MF_ENABLED);
 			pSubmenu->EnableMenuItem(ID_STATUSICON_RESUME, MF_GRAYED);
 		}
+        if (IsWindowVisible()) {
+            pSubmenu->EnableMenuItem(ID_STATUSICON_SHOW, MF_GRAYED);
+            pSubmenu->EnableMenuItem(ID_STATUSICON_HIDE, MF_ENABLED);
+        } else {
+            pSubmenu->EnableMenuItem(ID_STATUSICON_SHOW, MF_ENABLED);
+            pSubmenu->EnableMenuItem(ID_STATUSICON_HIDE, MF_GRAYED);
+        }
 		pSubmenu->TrackPopupMenu(TPM_LEFTALIGN|TPM_RIGHTBUTTON, point.x, point.y, this);
 	} else if(lParam == WM_LBUTTONDOWN) {
 		if(IsWindowVisible()) {

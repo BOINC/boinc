@@ -194,9 +194,6 @@ IDR_MAINFRAME MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "Clear &Messages",             ID_FILE_CLEARMESSAGES
-        MENUITEM "Clear &Inactive",             ID_FILE_CLEARINACTIVE
-        MENUITEM SEPARATOR
         MENUITEM "&Suspend",                    ID_FILE_SUSPEND
         MENUITEM "&Resume",                     ID_FILE_RESUME
         MENUITEM SEPARATOR
@@ -218,10 +215,13 @@ IDR_CONTEXT MENU DISCARDABLE
 BEGIN
     POPUP "StatusIcon"
     BEGIN
-        MENUITEM "Suspend",                     ID_STATUSICON_SUSPEND
-        MENUITEM "Resume",                      ID_STATUSICON_RESUME
+        MENUITEM "&Show",                       ID_STATUSICON_SHOW
+        MENUITEM "&Hide",                       ID_STATUSICON_HIDE
         MENUITEM SEPARATOR
-        MENUITEM "Exit",                        ID_STATUSICON_EXIT
+        MENUITEM "S&uspend",                    ID_STATUSICON_SUSPEND
+        MENUITEM "&Resume",                     ID_STATUSICON_RESUME
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_STATUSICON_EXIT
     END
     POPUP "Project"
     BEGIN
