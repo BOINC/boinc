@@ -20,6 +20,7 @@
 #include <string.h>
 #include <time.h>
 #include <assert.h>
+#include <unistd.h>
 
 #include "boinc_db.h"
 #include "crypt.h"
@@ -178,7 +179,12 @@ int create_result(
     char base_outfile_name[256];
     char result_template_copy[MAX_BLOB_SIZE];
     int retval;
+    static bool rand_init = false;
 
+    if (!rand_init) {
+        rand_init = true;
+        srand48(getpid() + time(0));
+    }    
     memset(&r, 0, sizeof(r));
     initialize_result(r, wu);
     sprintf(r.name, "%s_%s", wu.name, result_name_suffix);
