@@ -71,7 +71,7 @@ CTaskBarIcon::CTaskBarIcon() :
     m_dtLastBalloonDisplayed = wxDateTime( (time_t)0 );
 
 #ifndef __WXMAC__
-    SetIcon( m_iconTaskBarIcon, wxEmptyString );
+    SetIcon( m_iconTaskBarIcon, _("BOINC Manager") );
 #endif
 }
 
@@ -127,6 +127,7 @@ void CTaskBarIcon::OnNetworkSelection( wxCommandEvent& event )
     ResetTaskBar();
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
+    wxInt32        iCurrentNetworkMode = -1;
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -134,10 +135,13 @@ void CTaskBarIcon::OnNetworkSelection( wxCommandEvent& event )
     switch( event.GetId() )
     {
         case ID_TB_NETWORKSUSPEND:
-            if ( event.IsChecked() )
+            pDoc->GetNetworkRunMode( iCurrentNetworkMode );
+
+            if ( iCurrentNetworkMode == CMainDocument::MODE_ALWAYS )
                 pDoc->SetNetworkRunMode( CMainDocument::MODE_NEVER );
             else
                 pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
+
             break;
         case ID_TB_NETWORKRUNALWAYS:
         case ID_TB_NETWORKRUNBASEDONPREPERENCES:

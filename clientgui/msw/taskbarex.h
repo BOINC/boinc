@@ -59,7 +59,7 @@ public:
         const wxIcon& icon, 
         const wxString title = wxEmptyString,
         const wxString message = wxEmptyString,
-        unsigned int timeout = 10000,
+        unsigned int timeout = 5000,
         ICONTYPES iconballoon = ICONTYPES::Info
     );
 

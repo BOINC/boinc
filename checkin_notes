@@ -26275,3 +26275,26 @@ David  29 Mar 2005
         boinc_api.C
     lib/
         util.C
+
+Rom    29 Mar 2005
+    - Bug Fix: Populate the tooltip field for the system tray icon
+        so that people can flag the manager as hidden and keep it hidden,
+        instead of having it show back up after every reboot.
+    - Bug Fix: Fix the Disable network access menu items after Charlie's
+        fix for the Mac, apparently the event class is populated at different
+        points between the two platforms, which causes code confusion, and
+        the docs don't help.  Instead query the state from the core client
+        and then figure out what to do, this keeps the code the same on all
+        platforms and avoids the quirk.
+    - Add additional information to the attach to projects dialog describing
+        the project url and account key are sent via email from the project.
+    - Changed the baloon timeout value from 10 seconds to 5 seconds which is
+        about where the majority believes it should be.
+
+    clientgui/
+        BOINCGUI.pjd
+        BOINCTaskBar.cpp
+        DlgAttachProject.cpp
+        MainFrame.cpp
+    clientgui/msw/
+        taskbarex.h

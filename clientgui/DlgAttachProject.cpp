@@ -66,47 +66,57 @@ bool CDlgAttachProject::Create( wxWindow* parent, wxWindowID id, const wxString&
 void CDlgAttachProject::CreateControls()
 {    
 
-    CDlgAttachProject* item1 = this;
+    CDlgAttachProject* itemDialog1 = this;
 
-    wxBoxSizer* item2 = new wxBoxSizer(wxVERTICAL);
-    item1->SetSizer(item2);
-    item1->SetAutoLayout(TRUE);
+    wxBoxSizer* itemBoxSizer2 = new wxBoxSizer(wxVERTICAL);
+    itemDialog1->SetSizer(itemBoxSizer2);
 
-    wxBoxSizer* item3 = new wxBoxSizer(wxHORIZONTAL);
-    item2->Add(item3, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(1, 2, 0, 0);
+    itemBoxSizer2->Add(itemFlexGridSizer3, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxFlexGridSizer* item4 = new wxFlexGridSizer(2, 2, 0, 0);
-    item3->Add(item4, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxVERTICAL);
+    itemFlexGridSizer3->Add(itemBoxSizer4, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticText* item5 = new wxStaticText;
-    item5->Create( item1, wxID_STATIC, _("URL:"), wxDefaultPosition, wxDefaultSize, 0 );
-    item4->Add(item5, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    wxStaticText* itemStaticText5 = new wxStaticText;
+    itemStaticText5->Create( itemDialog1, wxID_STATIC, 
+        _(
+        "These are emailed to you when you create an account.\n"
+        "Go to project web sites to create accounts.\n"
+        "Visit http://boinc.berkeley.edu/ for a list of projects."
+        ),
+        wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer4->Add(itemStaticText5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    wxTextCtrl* item6 = new wxTextCtrl;
-    item6->Create( item1, ID_PROJECTADDRESS, wxT(""), wxDefaultPosition, wxSize(200, -1), 0, CValidateURL(&m_strProjectAddress) );
-    m_ProjectAddressCtrl = item6;
-    item4->Add(item6, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(2, 2, 0, 0);
+    itemBoxSizer4->Add(itemFlexGridSizer6, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
-    wxStaticText* item7 = new wxStaticText;
-    item7->Create( item1, wxID_STATIC, _("Account Key:"), wxDefaultPosition, wxDefaultSize, 0 );
-    item4->Add(item7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    wxStaticText* itemStaticText7 = new wxStaticText;
+    itemStaticText7->Create( itemDialog1, wxID_STATIC, _("URL:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer6->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    wxTextCtrl* item8 = new wxTextCtrl;
-    item8->Create( item1, ID_PROJECTACCOUNTKEY, wxT(""), wxDefaultPosition, wxSize(200, -1), 0, CValidateAccountKey(&m_strProjectAccountKey) );
-    m_ProjectAccountKeyCtrl = item8;
-    item4->Add(item8, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    m_ProjectAddressCtrl = new wxTextCtrl;
+    m_ProjectAddressCtrl->Create( itemDialog1, ID_PROJECTADDRESS, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
+    itemFlexGridSizer6->Add(m_ProjectAddressCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxBoxSizer* item9 = new wxBoxSizer(wxVERTICAL);
-    item3->Add(item9, 0, wxALIGN_TOP|wxALL, 5);
+    wxStaticText* itemStaticText9 = new wxStaticText;
+    itemStaticText9->Create( itemDialog1, wxID_STATIC, _("Account Key:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemFlexGridSizer6->Add(itemStaticText9, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
 
-    wxButton* item10 = new wxButton;
-    item10->Create( item1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
-    item10->SetDefault();
-    item9->Add(item10, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    m_ProjectAccountKeyCtrl = new wxTextCtrl;
+    m_ProjectAccountKeyCtrl->Create( itemDialog1, ID_PROJECTACCOUNTKEY, _T(""), wxDefaultPosition, wxSize(200, -1), 0 );
+    itemFlexGridSizer6->Add(m_ProjectAccountKeyCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxButton* item11 = new wxButton;
-    item11->Create( item1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    item9->Add(item11, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+    wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxVERTICAL);
+    itemFlexGridSizer3->Add(itemBoxSizer11, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_TOP|wxALL, 5);
+
+    wxButton* itemButton12 = new wxButton;
+    itemButton12->Create( itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemButton12->SetDefault();
+    itemBoxSizer11->Add(itemButton12, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+
+    wxButton* itemButton13 = new wxButton;
+    itemButton13->Create( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer11->Add(itemButton13, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
 }
 

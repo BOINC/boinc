@@ -717,6 +717,7 @@ void CMainFrame::OnNetworkSelection( wxCommandEvent& event )
     wxLogTrace(wxT("Function Start/End"), wxT("CMainFrame::OnNetworkSelection - Function Begin"));
 
     CMainDocument* pDoc      = wxGetApp().GetDocument();
+    wxInt32        iCurrentNetworkMode = -1;
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -724,10 +725,13 @@ void CMainFrame::OnNetworkSelection( wxCommandEvent& event )
     switch( event.GetId() )
     {
         case ID_NETWORKSUSPEND:
-            if ( event.IsChecked() )
+            pDoc->GetNetworkRunMode( iCurrentNetworkMode );
+
+            if ( iCurrentNetworkMode == CMainDocument::MODE_ALWAYS )
                 pDoc->SetNetworkRunMode( CMainDocument::MODE_NEVER );
             else
                 pDoc->SetNetworkRunMode( CMainDocument::MODE_ALWAYS );
+
             break;
         case ID_NETWORKRUNALWAYS:
         case ID_NETWORKRUNBASEDONPREPERENCES:
