@@ -20559,12 +20559,12 @@ David  2 Dec 2004
 
 Bruce 2 Dec 2004
     -   Added logging of remaining result.outcome==OVER states to logging
-        output of validator.
+        output of transitioner.
     -   Fixed nasty bug in ops pages where top two WU error mask bits were
         not being shown in WU summary/detail pages.
 
     sched/
-        validator.C
+        transitioner.C
     html/
         inc/
             db_ops.inc

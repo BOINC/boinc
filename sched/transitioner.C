@@ -1,3 +1,4 @@
+ /* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 static volatile const char *BOINCrcsid="$Id$";
 // The contents of this file are subject to the BOINC Public License
 // Version 1.0 (the "License"); you may not use this file except in
@@ -67,7 +68,7 @@ int handle_wu(
     std::vector<TRANSITIONER_ITEM>& items
 ) {
     int ntotal, nerrors, retval, ninprogress, nsuccess;
-    int nunsent, ncouldnt_send, nover;
+    int nunsent, ncouldnt_send, nover, ndidnt_need, nno_reply;
     int canonical_result_index, j;
     char suffix[256];
     time_t now = time(0), x;
@@ -84,6 +85,8 @@ int handle_wu(
     nerrors = 0;
     nsuccess = 0;
     ncouldnt_send = 0;
+    nno_reply = 0;
+    ndidnt_need = 0;
     have_result_to_validate = false;
     int rs, max_result_suffix = -1;
 
@@ -145,6 +148,12 @@ int handle_wu(
             case RESULT_OUTCOME_VALIDATE_ERROR:
                 nerrors++;
                 break;
+	    case RESULT_OUTCOME_NO_REPLY:
+                nno_reply++;
+                break;
+	    case RESULT_OUTCOME_DIDNT_NEED:
+                ndidnt_need++;
+                break;
             }
             break;
         }
@@ -152,9 +161,9 @@ int handle_wu(
 
     log_messages.printf(
         SCHED_MSG_LOG::DEBUG,
-        "[WU#%d %s] %d results: unsent %d, in_progress %d, over %d (success %d, error %d, couldnt_send %d)\n",
+        "[WU#%d %s] %d results: unsent %d, in_progress %d, over %d (success %d, error %d, couldnt_send %d, no_reply %d, didnt_need)\n",
         wu_item.id, wu_item.name, ntotal,
-        nunsent, ninprogress, nover, nsuccess, nerrors, ncouldnt_send
+        nunsent, ninprogress, nover, nsuccess, nerrors, ncouldnt_send, nno_reply, ndidnt_need
     );
 
     // trigger validation if we have a quorum
