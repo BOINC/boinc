@@ -4,9 +4,11 @@
 
 echo "
     The script <b>bin/upgrade</b> copies files from
-    the BOINC source tree to a project tree.
+    a BOINC source tree to a project tree.
     This is typically done after updating the source tree
     and recompiling the software.
+    The script must reside in the project's bin/ directory,
+    and you must run it from the source tree root.
     <p>
     <b>upgrade</b> does the following:
     <ul>
@@ -17,8 +19,7 @@ echo "
     It copies source/sched/cgi and source/sched/file_upload_handler
     to projects/cgi-bin.
     <li>
-    It copies other programs in source/sched
-    to project/bin.
+    It copies other programs in source/sched to project/bin.
     <li>
     It copies programs in source/tools to project/bin.
     </ul>

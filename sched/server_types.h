@@ -25,6 +25,7 @@
 
 #include "boinc_db.h"
 #include "result_state.h"
+#include "md5_file.h"
 
 struct TRICKLE_UP_DESC {
     char result_name[256];
@@ -69,6 +70,7 @@ struct SCHEDULER_REQUEST {
     bool anonymous_platform;
     vector<CLIENT_APP_VERSION> client_app_versions;
     GLOBAL_PREFS global_prefs;
+    char global_prefs_source_email_hash[MD5_LEN];
 
     HOST host;
     vector<RESULT> results;
@@ -93,6 +95,7 @@ struct SCHEDULER_REPLY {
     bool nucleus_only;          // send only message
     bool probable_user_browser;
     USER user;
+    char email_hash[MD5_LEN];
     HOST host;
     TEAM team;
     vector<APP> apps;
@@ -104,6 +107,7 @@ struct SCHEDULER_REPLY {
     char code_sign_key[MEDIUM_BLOB_SIZE];
     char code_sign_key_signature[MEDIUM_BLOB_SIZE];
     bool send_trickle_up_ack;
+    bool update_user_record;
 
     SCHEDULER_REPLY();
     ~SCHEDULER_REPLY();

@@ -105,6 +105,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         // If the seqno from the host is less than what we expect,
         // the user must have copied the state file to a different host.
         // Make a new host record.
+        //
         if (sreq.rpc_seqno < reply.host.rpc_seqno) {
             sreq.hostid = 0;
             log_messages.printf(
@@ -165,9 +166,30 @@ make_new_host:
         reply.hostid = reply.host.id;
         // this tells client to updates its host ID
     }
+
+    // have user record in reply.user at this point
+    //
+
     if (reply.user.teamid) {
         retval = team.lookup_id(reply.user.teamid);
         if (!retval) reply.team = team;
+    }
+
+    // compute email hash
+    //
+    md5_block(
+        (unsigned char*)reply.user.email_addr,
+        strlen(reply.user.email_addr),
+        reply.email_hash
+    );
+
+    // see if new cross-project ID
+    //
+    if (strlen(sreq.cross_project_id)) {
+        if (strcmp(sreq.cross_project_id, reply.user.cross_project_id)) {
+            strcpy(reply.user.cross_project_id, sreq.cross_project_id);
+            reply.update_user_record = true;
+        }
     }
     return 0;
 }
@@ -238,6 +260,11 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
 
     if (strlen(sreq.global_prefs_xml)) {
         unsigned req_mod_time=0, db_mod_time=0;
+        bool same_account = !strcmp(
+            sreq.global_prefs_source_email_hash, reply.email_hash
+        );
+        bool update_prefs = false;
+
         parse_int(sreq.global_prefs_xml, "<mod_time>", (int&)req_mod_time);
         if (strlen(reply.user.global_prefs)) {
             parse_int(reply.user.global_prefs, "<mod_time>", (int&)db_mod_time);
@@ -248,7 +275,15 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             if (req_mod_time < db_mod_time) {
                 strcpy(sreq.global_prefs_xml, reply.user.global_prefs);
                 reply.send_global_prefs = true;
+            } else {
+                if (same_account) update_prefs = true;
             }
+        } else {
+            if (same_account) update_prefs = true;
+        }
+        if (update_prefs) {
+            strcpy(reply.user.global_prefs, sreq.global_prefs_xml);
+            reply.update_user_record = true;
         }
     } else {
         // request message has no global prefs;
@@ -607,6 +642,12 @@ void process_request(
     );
     ++log_messages;
     handle_global_prefs(sreq, reply);
+
+    if (reply.update_user_record) {
+        DB_USER user;
+        user = reply.user;
+        user.update();
+    }
 
     handle_results(sreq, reply, reply.host);
 

@@ -25,7 +25,6 @@ using namespace std;
 #include <assert.h>
 
 #include "parse.h"
-#include "md5_file.h"
 #include "error_numbers.h"
 #include "util.h"
 #include "main.h"
@@ -65,6 +64,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     strcpy(global_prefs_xml, "");
     strcpy(projects_xml, "");
     strcpy(code_sign_key, "");
+    strcpy(cross_project_id, "");
 
     fgets(buf, 256, fin);
     if (!match_tag(buf, "<scheduler_request>")) return ERR_XML_PARSE;
@@ -99,6 +99,7 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
             }
             safe_strcat(global_prefs_xml, "</global_preferences>\n");
         }
+        else if (parse_str(buf, "<global_prefs_source_email_hash>", global_prefs_source_email_hash, sizeof(global_prefs_source_email_hash))) continue;
         else if (match_tag(buf, "<projects>")) {
             strcpy(projects_xml, "<projects>\n");
             while (fgets(buf, 256, fin)) {
@@ -171,6 +172,8 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     nucleus_only = false;
     probable_user_browser = false;
     send_trickle_up_ack = false;
+    strcpy(email_hash, "");
+    update_user_record = false;
 }
 
 SCHEDULER_REPLY::~SCHEDULER_REPLY() {
@@ -180,7 +183,6 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     unsigned int i, j;
     string u1, u2, t1, t2;
     int retval;
-    char email_hash[MD5_LEN];
 
     fprintf(fout,
         "<scheduler_reply>\n"
@@ -206,7 +208,6 @@ int SCHEDULER_REPLY::write(FILE* fout) {
 
     u1 = user.name;
     xml_escape(u1, u2);
-    md5_block((unsigned char*)user.email_addr, strlen(user.email_addr), email_hash);
     fprintf(fout,
         "<user_name>%s</user_name>\n"
         "<user_total_credit>%f</user_total_credit>\n"

@@ -11919,3 +11919,22 @@ David  May 2 2004
         main.C,h
         sched_config.C,h
         server_types.C
+
+David  May 2 2004
+    - finished the implementation of cross-project identification:
+        scheduler: if get cross_project ID in request message,
+        and it's different than in DB, update user record
+    - new global-prefs propagation policy:
+        global prefs are propagated to accounts with the same email address.
+        Implementation:
+        - RPC request message has <global_prefs_source_email_hash>
+        - scheduler: if get global prefs in request message,
+            and they're from an account w/ same email address,
+            and they're newer than in DB,
+            then update user record
+
+    client/
+        cs_scheduler.C
+    sched/
+        handle_request.C
+        server_types.C,h
