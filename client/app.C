@@ -98,6 +98,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     graphics_request_time = time(0);
     graphics_acked_mode = MODE_UNSUPPORTED;
     graphics_mode_before_ss = MODE_HIDE_GRAPHICS;
+	last_status_msg_time = 0;
 }
 
 int ACTIVE_TASK::init(RESULT* rp) {
@@ -802,7 +803,7 @@ int ACTIVE_TASK::get_cpu_time() {
     LONGLONG totTime;
     
     // Get the elapsed CPU time
-    if (GetProcessTimes( pid_handle, &creation_time, &exit_time, &kernel_time, &user_time )) {
+    if (GetProcessTimes(pid_handle, &creation_time, &exit_time, &kernel_time, &user_time)) {
         tKernel.LowPart = kernel_time.dwLowDateTime;
         tKernel.HighPart = kernel_time.dwHighDateTime;
         tUser.LowPart = user_time.dwLowDateTime;
@@ -833,11 +834,15 @@ int ACTIVE_TASK::get_cpu_time() {
 bool ACTIVE_TASK::check_app_status() {
     char msg_buf[SHM_SEG_SIZE];
     if (app_client_shm.get_msg(msg_buf, APP_CORE_WORKER_SEG)) {
+        last_status_msg_time = time(0);
         fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
         parse_double(msg_buf, "<fraction_done>", fraction_done);
         parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
         parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
         return true;
+    }
+    if (last_status_msg_time+5 < time(0)) {
+        get_cpu_time();
     }
     return false;
 }

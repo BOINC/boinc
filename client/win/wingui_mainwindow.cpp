@@ -219,7 +219,10 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		int cpuhour = (int)(cur_cpu / (60 * 60));
 		int cpumin = (int)(cur_cpu / 60) % 60;
 		int cpusec = (int)(cur_cpu) % 60;
-		strBuf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
+		if (cur_cpu == 0)
+			strBuf.Format("---");
+		else
+			strBuf.Format("%0.2d:%0.2d:%0.2d", cpuhour, cpumin, cpusec);
 		m_ResultListCtrl.SetItemText(i, 3, strBuf);
 
 		// progress

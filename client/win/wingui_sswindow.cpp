@@ -45,7 +45,6 @@ CSSWindow::CSSWindow()
 	ShowSSWindow(false);
 
 	m_hBOINCIcon = LoadIcon(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDI_ICON));
-	m_bCleared = false;
 }
 
 // CMainWindow::SetMode
@@ -64,8 +63,6 @@ void CSSWindow::ShowSSWindow(bool show_win)
 		while(ShowCursor(true) < 0);
 		return;
 	}
-
-	m_bCleared = false;
 
 	CString strWndClass = AfxRegisterWndClass(0);
 	DWORD dwExStyle;
@@ -144,6 +141,8 @@ int CSSWindow::OnCreate(LPCREATESTRUCT lpcs)
 
 	// Initial position is (0,0)
 	m_nPosX = m_nPosY = 0;
+	m_nTextPosX = -10000;
+	m_nTextPosY = 0;
 	// Initial velocity is (1-5,1-5)
 	m_nDX = (rand() % 5)+1;
 	m_nDY = (rand() % 5)+1;
@@ -170,17 +169,30 @@ void CSSWindow::OnPaint()
 {
 	PAINTSTRUCT ps;
 	CDC* pdc;
-	RECT winRect;
+	RECT winRect, textRect;
 
 	// Fill the window with black
 	pdc = BeginPaint(&ps);
+	pdc->SetBkColor(RGB(0,0,0));
 	GetClientRect(&winRect);
 	pdc->FillSolidRect(&winRect, RGB(0,0,0));
-	m_bCleared = true;
 
 	// Draw the bouncing BOINC icon if we're not in blank screen mode
 	if (gstate.ss_logic.do_boinc_logo_ss) {
-		pdc->DrawIcon(m_nPosX, m_nPosY, m_hBOINCIcon);
+		pdc->SetTextColor(RGB(255,255,255));
+		// Draw status text
+		SetRect(&textRect, m_nTextPosX, m_nTextPosY, m_nTextPosX, m_nTextPosY);
+		pdc->DrawText(gstate.ss_logic.ss_msg, &textRect, DT_CALCRECT);
+		m_nTextPosX += 2;
+		if (m_nTextPosX + (textRect.right-textRect.left) < 0)
+			m_nTextPosX = textRect.left - textRect.right;
+		pdc->DrawText(gstate.ss_logic.ss_msg, &textRect, DT_LEFT);
+		if (m_nTextPosX > winRect.right) {
+			m_nTextPosX = -10000;
+			m_nTextPosY = rand() % (winRect.bottom-winRect.top);
+		}
+
+		// Draw the bouncing icon
 		m_nPosX += m_nDX;
 		m_nPosY += m_nDY;
 		if (m_nPosX <= winRect.left || (m_nPosX+32) >= winRect.right) m_nDX *= -1;
@@ -189,6 +201,7 @@ void CSSWindow::OnPaint()
 		if ((m_nPosX+32) > winRect.right) m_nPosX = winRect.right-32;
 		if (m_nPosY < winRect.top) m_nPosY = winRect.top;
 		if ((m_nPosY+32) > winRect.bottom) m_nPosY = winRect.bottom-32;
+		pdc->DrawIcon(m_nPosX, m_nPosY, m_hBOINCIcon);
 	}
 
 	EndPaint(&ps);
@@ -202,10 +215,9 @@ void CSSWindow::OnPaint()
 void CSSWindow::OnTimer(UINT uEventID)
 {
 	// Paint our own window
-	if(uEventID == m_uPaintTimerID) {
-		if(gstate.ss_logic.do_boinc_logo_ss || gstate.ss_logic.do_blank) {
-			Invalidate();
-			OnPaint();
-		}
+	if(uEventID == m_uPaintTimerID &&
+			(gstate.ss_logic.do_boinc_logo_ss || gstate.ss_logic.do_blank)) {
+		Invalidate();
+		OnPaint();
 	}
 }

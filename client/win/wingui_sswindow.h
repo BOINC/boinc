@@ -45,7 +45,6 @@ public:
 
 private:
 	CPoint					m_MousePos;
-	bool					m_bCleared;
 
 	UINT					m_uPaintTimerID;		// ID of current app timer	
 
@@ -54,6 +53,7 @@ private:
 
 	HICON					m_hBOINCIcon;
 	int						m_nPosX, m_nPosY;
+	int						m_nTextPosX, m_nTextPosY;
 	int						m_nDX, m_nDY;
 
 	LRESULT					DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);

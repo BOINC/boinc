@@ -84,6 +84,7 @@ public:
     double max_disk_usage;
 
     APP_CLIENT_SHM app_client_shm;        // core/app shared mem
+    time_t last_status_msg_time;
 
     // info related to app's graphics mode (win, screensaver, etc.)
     int graphics_requested_mode;        // our last request to this app

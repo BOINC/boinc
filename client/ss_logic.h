@@ -27,6 +27,8 @@ class SS_LOGIC {
 public:
     SS_LOGIC();
 
+    char ss_msg[256];           // message to display on BOINC screensaver
+
     void start_ss(time_t blank_time);
     void stop_ss();
     void poll();

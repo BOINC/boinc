@@ -22,6 +22,7 @@ void SS_LOGIC::start_ss(time_t new_blank_time) {
     if (do_ss) return;
     do_ss = true;
     do_blank = do_boinc_logo_ss = false;
+    sprintf(ss_msg, "");
     blank_time = new_blank_time;
     gstate.active_tasks.save_app_modes();
     gstate.active_tasks.hide_apps();
@@ -59,15 +60,18 @@ void SS_LOGIC::poll() {
                 }
             }
             do_boinc_logo_ss = false;
+            sprintf(ss_msg, "");
             do_blank = true;
         } else {
             atp = gstate.active_tasks.get_app_requested(MODE_FULLSCREEN);
             if (atp) {
                 if (atp->graphics_acked_mode == MODE_FULLSCREEN) {
                     do_boinc_logo_ss = false;
+                    sprintf(ss_msg, "");
                 } else {
                     if (time(0)>ack_deadline) {
                         do_boinc_logo_ss = true;
+                        sprintf(ss_msg, "App can't display graphics");
                     }
                 }
             } else {
@@ -77,6 +81,7 @@ void SS_LOGIC::poll() {
                     ack_deadline = time(0) + 5;
                 } else {
                     do_boinc_logo_ss = true;
+                    sprintf(ss_msg, "No work available");
                 }
             }
         }
