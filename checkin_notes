@@ -23183,11 +23183,12 @@ Janus 23 Jan 2005
 Bruce 24 Jan 2005
     - Fixes from Christian Beer for ops pages to approve profiles and
       to errors in the previous 20/next 20 links when 'additional 
-      clauses' is non-empty.
+      clauses' is non-empty. Restore missing project_footer() function.
 
     html/
         inc/
             db_ops.inc
             profile.inc
-
+        project.sample/
+            project.inc
 

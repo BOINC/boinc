@@ -29,6 +29,17 @@ function project_banner($title) {
     ";
 }
 
+function project_footer($show_return, $show_date) {
+    echo "<br><hr noshade size=1><center>";
+    if ($show_return) {
+        echo "<a href=".URL_BASE.">Return to ".PROJECT." main page</a><br>\n";
+    }
+    echo "<br><br>Copyright &copy; ".date("Y ").COPYRIGHT_HOLDER."</center>\n";
+    if ($show_date) {
+        echo "<font size=-2 color=bbbbbb>Generated ",time_str(time()),"</font>\n";
+    }
+}
+
 // NOTE: These functions appear here and not in profile.inc because they contain
 // project-specific information that needs to be set by the project administrators.
 
