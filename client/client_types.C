@@ -215,21 +215,23 @@ FILE_INFO::~FILE_INFO() {
 }
 
 // Set the appropriate permissions depending on whether
-// it's an executable or normal file
-// TODO: implement Windows equivalent
+// it's an executable file
+// This doesn't seem to exist in Windows
+//
 int FILE_INFO::set_permissions() {
+#ifdef _WIN32
+    return 0;
+#else
     int retval;
     char pathname[256];
-
     get_pathname(this, pathname);
-#ifndef _WIN32
     if (executable) {
         retval = chmod(pathname, S_IEXEC|S_IREAD|S_IWRITE);
     } else {
         retval = chmod(pathname, S_IREAD|S_IWRITE);
     }
-#endif
     return retval;
+#endif
 }
 
 // If from server, make an exact copy of everything
