@@ -540,6 +540,9 @@ bool SCHEDULER_REPLY::work_needed(bool locality_sched) {
     if (wreq.nresults >= config.max_wus_to_send) return false;
 
     if (config.daily_result_quota) {
+        if (host.max_results_day <= 0 || host.max_results_day>config.daily_result_quota) {
+            host.max_results_day = config.daily_result_quota;
+        }
         // scale daily quota by #CPUs, up to a limit of 4
         //
         int ncpus = host.p_ncpus;
