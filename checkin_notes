@@ -5157,3 +5157,14 @@ Karl 2003/06/30
         update_stats.C
         validate.C
         validate_test.C
+
+David  June 30 2003
+    - change the admin interface to the DB
+
+    html_ops/
+        db.inc
+        db_action.php (new)
+        db_form.php (new)
+        index.php
+        result_summary.php
+        util.inc

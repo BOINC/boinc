@@ -478,7 +478,6 @@ class Project {
         $this->copy('html_user/*.html'     , 'html_user/');
         $this->copy('html_ops/*.php'       , 'html_ops/');
         $this->copy('html_ops/*.inc'       , 'html_ops/');
-        // $this->copy('html_ops/*.html'      , 'html_ops/');
         $this->copy('tools/country_select' , 'html_user/');
         if ($this->project_php_file) {
             $this->copy('html_user/$this->project_php_file', 'html_user/project.inc');

@@ -26,17 +26,62 @@ function lookup_user_auth($auth) {
     }
 }
 
-function print_query_count($query, $nres, $start) {
-    $result = mysql_query($query);
-    $res = mysql_fetch_object($result);
-    if ($res->cnt < ($nres+$start)) {
-        $nres = $res->cnt-$start;
+function result_server_state_select() {
+    echo "
+        <select name=result_server_state>
+        <option value=0 selected> Any
+    ";
+    for($i=1; $i<=6; $i++) {
+        echo "<option value=$i> ".result_server_state_string($i) . "\n";
     }
-    printf(
-        "<p>\n"
-        . "$res->cnt database entries match the query.  Displaying $start to " . ($start+$nres) . "."
-        . "<p>\n"
-    );
+    echo "</select>\n";
+}
+
+function result_outcome_select() {
+    echo "
+        <select name=result_outcome>
+        <option value=0 selected> Any
+    ";
+    for($i=1; $i<=6; $i++) {
+        echo "<option value=$i> ".result_outcome_string($i) . "\n";
+    }
+    echo "</select>\n";
+}
+
+function result_client_state_select() {
+    echo "
+        <select name=result_client_state>
+        <option value=0 selected> Any
+    ";
+    for($i=1; $i<=6; $i++) {
+        echo "<option value=$i> ".result_client_state_string($i) . "\n";
+    }
+    echo "</select>\n";
+}
+
+function result_sort_select() {
+    echo "
+        <select name=sort_by>
+        <option value=''>None
+        <option value=create_time>Create time
+        <option value=sent_time>Sent time
+        <option value=received_time>Received time
+        </select>
+    ";
+}
+
+function table_title($table) {
+    switch($table) {
+    case "platform": return "Platforms";
+    case "app": return "Applications";
+    case "app_version": return "Application Versions";
+    case "host": return "Hosts";
+    case "workunit": return "Workunits";
+    case "result": return "Results";
+    case "team": return "Teams";
+    case "user": return "Users";
+    default: return "????";
+    }
 }
 
 function show_platform($platform) {
@@ -45,7 +90,7 @@ function show_platform($platform) {
     row("Created", time_str($platform->create_time));
     row("Name", $platform->name);
     row("User friendly name", $platform->user_friendly_name);
-    row("","<a href=db.php?show=app_version&plat_id=$platform->id>App versions for this platform</a>");
+    row("","<a href=db_action.php?table=app_version&plat_id=$platform->id>App versions for this platform</a>");
     end_table();
 }
 
@@ -54,8 +99,8 @@ function show_app($app) {
     row("ID", $app->id);
     row("Created", time_str($app->create_time));
     row("Name", $app->name);
-    row("","<a href=db.php?show=app_version&app_id=$app->id>App Versions for this application</a>");
-    row("","<a href=db.php?show=workunit&app_id=$app->id>Workunits for this application</a>");
+    row("","<a href=db_action.php?table=app_version&app_id=$app->id>App Versions for this application</a>");
+    row("","<a href=db_action.php?table=workunit&app_id=$app->id>Workunits for this application</a>");
     end_table();
 }
 
@@ -63,9 +108,9 @@ function show_app_version($app_version,$show_xml_docs) {
     start_table();
     row("ID", $app_version->id);
     row("Created", time_str($app_version->create_time));
-    row("Application", "<a href=db.php?show=app&id=$app_version->appid>" . app_name_by_id($app_version->appid) . "</a>");
+    row("Application", "<a href=db_action.php?table=app&id=$app_version->appid>" . app_name_by_id($app_version->appid) . "</a>");
     row("Version num", $app_version->version_num);
-    row("Platform", "<a href=db.php?show=platform&id=$app_version->platformid>" . platform_name_by_id($app_version->platformid) . "</a>" );
+    row("Platform", "<a href=db_action.php?table=platform&id=$app_version->platformid>" . platform_name_by_id($app_version->platformid) . "</a>" );
     if ($show_xml_docs) {
         row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
     }
@@ -116,6 +161,7 @@ function show_host($host) {
     row("% of time client on", 100*$host->on_frac." %");
     row("% of time host connected", 100*$host->connected_frac." %");
     row("% of time user active", 100*$host->active_frac." %");
+    row("Results", "<a href=db_action?table=result&detail=low&hostid=$host->id>click here</a>");
     end_table();
 
 }
@@ -152,7 +198,7 @@ function show_workunit($wu,$show_xml_doc) {
     if ($show_xml_doc) {
         row("XML doc", "<pre>".htmlspecialchars($wu->xml_doc)."</pre>");
     }
-    row("Application", "<a href=db.php?show=app&id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>");
+    row("Application", "<a href=db_action.php?table=app&id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>");
     row("Batch", $wu->batch);
     row("FP Operations", $wu->rsc_fpops);
     row("Integer Operations", $wu->rsc_iops);
@@ -160,14 +206,14 @@ function show_workunit($wu,$show_xml_doc) {
     row("Disk Requirement", $wu->rsc_disk);
     row("Need validate?", $wu->need_validate?"yes":"no");
     row("Canonical resultid",
-            "<a href=db.php?show=result&id=$wu->canonical_resultid>".$wu->canonical_resultid."</a>");
+            "<a href=db_action.php?table=result&id=$wu->canonical_resultid>".$wu->canonical_resultid."</a>");
     row("Canonical credit", $wu->canonical_credit);
     row("Timeout check time", time_str($wu->timeout_check_time));
     row("Delay bound", $wu->delay_bound);
     row("Error mask", wu_error_mask_str($wu->error_mask));
     row("File delete state", file_delete_state_str($wu->file_delete_state));
     row("Assimilation state", assimilate_state_str($wu->assimilate_state));
-    row("","<a href=db.php?show=result&wu_id=$wu->id>Show associated results</a>");
+    row("","<a href=db_action.php?table=result&wu_id=$wu->id>Show associated results</a>");
     end_table();
     echo "<p>";
 }
@@ -179,7 +225,7 @@ function result_server_state_string($s) {
     case 4: return "In Progress";
     case 5: return "Over";
     }
-    return "unknown";
+    return "Unknown";
 }
 
 function result_outcome_string($s) {
@@ -190,7 +236,7 @@ function result_outcome_string($s) {
     case 4: return "No reply";
     case 5: return "Didn't need";
     }
-    return "unknown";
+    return "Unknown";
 }
 
 function result_client_state_string($s) {
@@ -202,6 +248,7 @@ function result_client_state_string($s) {
     case 4: return "Uploading";
     case 5: return "Done";
     }
+    return "Unknown";
 }
 
 function validate_state_str($s) {
@@ -210,7 +257,7 @@ function validate_state_str($s) {
     case 1: return "Valid";
     case 2: return "Invalid";
     }
-    return "unknown";
+    return "Unknown";
 }
 
 function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
@@ -221,11 +268,11 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
         row("Received", time_str($result->received_time));
     }
     row("Name", $result->name);
-    row("Workunit", "<a href=db.php?show=workunit&id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
+    row("Workunit", "<a href=db_action.php?table=workunit&id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
     row("Server state", result_server_state_string($result->server_state));
     row("Outcome", result_outcome_string($result->outcome));
     row("Client state", result_client_state_string($result->client_state));
-    row("Host ID", "<a href=db.php?show=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
+    row("Host ID", "<a href=db_action.php?table=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a>");
     row("Report deadline", time_str($result->report_deadline));
     row("CPU time", $result->cpu_time);
     if ($show_xml_docs) {
@@ -242,6 +289,35 @@ function show_result($result,$show_xml_docs,$show_stderr,$show_times) {
     row("Granted credit", $result->granted_credit);
     end_table();
     echo "<p>";
+}
+
+function result_short_header() {
+    echo "
+        <tr>
+        <th>ID</th>
+        <th>WU ID</th>
+        <th>server state</th>
+        <th>outcome</th>
+        <th>client state</th>
+        <th>host</th>
+        </tr>
+    ";
+}
+
+function show_result_short($result) {
+    $ss = result_server_state_string($result->server_state);
+    $cs = result_client_state_string($result->client_state);
+    $oc = result_outcome_string($result->outcome);
+    echo "
+        <tr>
+        <td><a href=db_action.php?table=result&id=$result->id>$result->id</a></td>
+        <td><a href=db_action.php?table=workunit&id=$result->workunitid>$result->workunitid</a></td>
+        <td>$ss</td>
+        <td>$oc</td>
+        <td>$cs</td>
+        <td><a href=db_action.php?table=host&id=$result->hostid>$result->hostid</a></td>
+        </tr>
+    ";
 }
 
 function show_user($user) {
@@ -277,13 +353,13 @@ function team_type_string($s) {
 function show_team($team) {
     start_table();
     row("ID", $team->id);
-    row("Team Founder", "<a href=db.php?show=user&id=$team->userid>" . user_name_by_id($team->userid) . "</a>");
+    row("Team Founder", "<a href=db_action.php?table=user&id=$team->userid>" . user_name_by_id($team->userid) . "</a>");
     row("Name", $team->name);
     row("Name (HTML Formatted)", "<pre>" . htmlspecialchars($team->name_html) . "</pre>" );
     row("Url", "<a href=http://$team->url>" . $team->url . "</a>");
     row("Type", team_type_string($team->type));
     row("Description", $team->description);
-    row("", "<a href=db.php?show=user&team_id=$team->id>List All Members</a>");
+    row("", "<a href=db_action.php?table=user&team_id=$team->id>List All Members</a>");
     end_table();
 }
 
@@ -317,8 +393,8 @@ function platform_name_by_id($plat_id) {
     return $plat->name;
 }
 
-function host_name_by_id($host_id) {
-    $result = mysql_query("select * from host where id = $host_id");
+function host_name_by_id($hostid) {
+    $result = mysql_query("select * from host where id = $hostid");
     $host = mysql_fetch_object($result);
     if (!strlen($host->domain_name) && !strlen($host->last_ip_addr))
         return "(blank)";

@@ -41,21 +41,36 @@
     start_table();
     echo "<tr><th>Server state</th><th># results</th></tr>\n";
     for ($ss=1; $ss<6; $ss++) {
-        row2(result_server_state_string($ss), $server_state[$ss]);;
+        if ($server_state[$ss] == 0) {
+            $x = "0";
+        } else {
+            $x = "<a href=db_action?table=result&received_time=$y&result_server_state=$ss&detail=low>".$server_state[$ss]."</a>";
+        }
+        row2(result_server_state_string($ss), $x);
     }
     end_table();
 
     start_table();
     echo "<tr><th>Outcome of 'Over' results</th><th># results</th></tr>\n";
     for ($ro=0; $ro<6; $ro++) {
-        row2(result_outcome_string($ro), $outcome[$ro]);
+        if ($outcome[$ro] == 0) {
+            $x = "0";
+        } else {
+            $x = "<a href=db_action?table=result&received_time=$y&result_outcome=$ro&detail=low>".$outcome[$ro]."</a>";
+        }
+        row2(result_outcome_string($ro), $x);
     }
     end_table();
 
     start_table();
     echo "<tr><th>Client state of 'Client error' results</th><th># results</th></tr>\n";
     for ($cs=1; $cs<6; $cs++) {
-        row2(result_client_state_string($cs), $client_state[$cs]);
+        if ($client_state[$cs] == 0) {
+            $x = "0";
+        } else {
+            $x = "<a href=db_action?table=result&received_time=$y&result_client_state=$cs&detail=low>".$client_state[$cs]."</a>";
+        }
+        row2(result_client_state_string($cs), $x);
     }
     end_table();
 

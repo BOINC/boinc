@@ -10,14 +10,14 @@ echo <<<EOT
 <p>
 Browse database:
 <ul> 
-<li><a href=db.php?show=platform>Platforms</a>
-<li><a href=db.php?show=app>Applications</a>
-<li><a href=db.php?show=app_version>Application versions</a>
-<li><a href=db.php?show=user>Users</a>
-<li><a href=db.php?show=team>Teams</a>
-<li><a href=db.php?show=host>Hosts</a>
-<li><a href=db.php?show=workunit>Workunits</a>
-<li><a href=db.php?show=result>Results</a>
+<li><a href=db_action.php?table=platform>Platforms</a>
+<li><a href=db_form.php?table=app>Applications</a>
+<li><a href=db_form.php?table=app_version>Application versions</a>
+<li><a href=db_form.php?table=user>Users</a>
+<li><a href=db_form.php?table=team>Teams</a>
+<li><a href=db_form.php?table=host>Hosts</a>
+<li><a href=db_form.php?table=workunit>Workunits</a>
+<li><a href=db_form.php?table=result&detail=low>Results</a>
 </ul>
 <a href=result_summary.php?nsecs=86400>Result summary, last 24 hours</a>
 <br>
