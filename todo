@@ -11,8 +11,6 @@ HIGH-PRIORITY (should do for beta test)
 -----------------------
 
 
-- suspend/resume functionality on Windows/UNIX
-
 HTTP stuff
     test HTTP redirect mechanism for all types of ops
     finish SOCKS implementation, test
