@@ -23380,3 +23380,13 @@ David  28 Jan 2005
         client_state.C
         gui_rpc_server.C
         time_stats.C,h
+
+David  28 Jan 2005
+    - when including FILE_INFOs for sticky files in scheduler request,
+        include the file size and status
+        (0=not present, 1=present, else error code)
+    - change TIME_STATS::last_update from int to double
+
+    client/
+        cs_scheduler.C
+        time_stats.C,h

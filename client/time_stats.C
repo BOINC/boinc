@@ -104,7 +104,7 @@ int TIME_STATS::write(MIOFILE& out, bool to_server) {
     );
     if (!to_server) {
         out.printf(
-            "    <last_update>%d</last_update>\n",
+            "    <last_update>%f</last_update>\n",
             last_update
         );
     }
@@ -121,7 +121,7 @@ int TIME_STATS::parse(MIOFILE& in) {
 
     while (in.fgets(buf, 256)) {
         if (match_tag(buf, "</time_stats>")) return 0;
-        else if (parse_int(buf, "<last_update>", last_update)) continue;
+        else if (parse_double(buf, "<last_update>", last_update)) continue;
         else if (parse_double(buf, "<on_frac>", on_frac)) continue;
         else if (parse_double(buf, "<connected_frac>", connected_frac)) continue;
         else if (parse_double(buf, "<active_frac>", active_frac)) continue;

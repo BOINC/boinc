@@ -276,9 +276,11 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         fprintf(f,
             "    <file_info>\n"
             "        <name>%s</name>\n"
+            "        <nbytes>%f</nbytes>\n"
+            "        <status>%d</status>\n"
             "        <report_on_rpc/>\n"
             "    </file_info>\n",
-            fip->name
+            fip->name, fip->nbytes, fip->status
         );
     }
     fprintf(f, "</scheduler_request>\n");

@@ -20,7 +20,7 @@
 #include "miofile.h"
 
 class TIME_STATS {
-    int last_update;
+    double last_update;
     bool first;
 public:
 // we maintain an exponentially weighted average of these quantities:
