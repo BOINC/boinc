@@ -61,7 +61,7 @@ function element_end($parser, $name) {
 
     switch($name) {
     case "project_specific":
-        $prefs->project_specific = $text;
+        $parse_result->project_specific = $text;
         $in_project_specific = false;
         break;
     case "dont_run_on_batteries":
@@ -89,13 +89,13 @@ function element_end($parser, $name) {
         $parse_result->disk_min_free_gb = $text;
         break;
     case "resource_share":
-        $prefs->resource_share = $text;
+        $parse_result->resource_share = $text;
         break;
     case "show_email":
-        $prefs->show_email = $text;
+        $parse_result->show_email = $text;
         break;
     case "send_email":
-        $prefs->send_email = $text;
+        $parse_result->send_email = $text;
         break;
     case "global_preferences":
         break;
@@ -179,25 +179,19 @@ function prefs_show_global($prefs) {
     echo "</table>\n";
 }
 
-function show_project($prefs) {
-    echo "<tr><td><hr></tr></td>";
-    row2a("<b>Resource Share:   </b>", $prefs->resource_share);
-    row2a("<b>Project Specific Preferences:   </b>", htmlspecialchars($prefs->project_specific));
-}
-
 function prefs_show_project($prefs) {
     echo "<p>";
     echo "<table width=580 cellpadding=4>\n";
     echo "<tr>".TD2.LG_FONT."<b>Project preferences:</b></font></td></tr>\n";
-    show_project($prefs);
-    echo "<tr><td><hr></td></tr>";
+    row2a("<b>Resource Share:   </b>", $prefs->resource_share);
+    row2a("<b>Project Specific Preferences:   </b>", htmlspecialchars($prefs->project_specific));
     echo "<tr><td><a href=prefs_edit_project_form.php>Edit project preferences</a></td></tr>\n";
     echo "</table>";
 }
 
-function print_prefs_display($prefs) {
-    prefs_show_global($prefs);
-    prefs_show_project($prefs);
+function print_prefs_display($user) {
+    prefs_show_global(prefs_parse($user->global_prefs));
+    prefs_show_project(prefs_parse($user->project_prefs));
 }
 
 ////////////////////////////////////////////
@@ -315,10 +309,11 @@ function global_prefs_make_xml($prefs) {
 
 function project_prefs_make_xml($prefs) {
     $xml = "<project_preferences>\n";
-    $xml = $xml."
-            <resource_share>$prefs->resource_share</resource_share>
-            <project_specific>\n$prefs->project_specific\n</project_specific>";
+    $xml = $xml
+        ."<resource_share>$prefs->resource_share</resource_share>\n"
+        ."<project_specific>\n$prefs->project_specific\n</project_specific>\n";
     $xml = $xml."</project_preferences>\n";
+    return $xml;
 }
 
 ////////////////////////////////////////////
@@ -329,12 +324,14 @@ function global_prefs_update($user, $prefs) {
     $prefs_xml = global_prefs_make_xml($prefs);
     $now = time();
     mysql_query("update user set global_prefs='$prefs_xml', prefs_mod_time=$now where id=$user->id");
+    $user->global_prefs = $prefs_xml;
 }
 
 function project_prefs_update($user, $prefs) {
     $prefs_xml = project_prefs_make_xml($prefs);
     $now = time();
     mysql_query("update user set project_prefs='$prefs_xml' where id=$user->id");
+    $user->project_prefs = $prefs_xml;
 }
 
 ?>

@@ -14,10 +14,10 @@ if ($user == NULL) {
     page_head("Preferences");
     $prefs = prefs_parse($user->prefs);
     prefs_global_parse_form($prefs);
-    prefs_update($user, $prefs);
+    global_prefs_update($user, $prefs);
     echo "<table width=780><tr><td>";
     echo "</td></tr></table>";
-    print_prefs_display($prefs);
+    print_prefs_display($user);
 }
 echo "<p>\n";
 page_tail();

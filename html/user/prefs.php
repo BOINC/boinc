@@ -9,8 +9,7 @@
     $user = get_user_from_cookie();
     if ($user) {
         page_head("Preferences");
-        $prefs = prefs_parse($user->global_prefs);
-        print_prefs_display($prefs);
+        print_prefs_display($user);
     } else {
         print_login_form();
     }

@@ -13,10 +13,9 @@ if ($user == NULL) {
     print_login_form();
 } else {
     $prefs = prefs_parse($user->project_prefs);
-    parse_str(getenv("QUERY_STRING"));
     prefs_project_parse_form($prefs);
     project_prefs_update($user, $prefs);
-    print_prefs_display($prefs);
+    print_prefs_display($user);
 }
 echo "<p>\n";
 page_tail();
