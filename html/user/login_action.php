@@ -7,11 +7,11 @@
     init_session();
     db_init();
 
-    // First see if key is in URL; if not then check for form data
+    // see if key is in URL; if not then check for POST data
     //
-    $authenticator = process_user_text($_GET["key"]);
+    $authenticator = process_user_text(get_str("key", true));
     if (!$authenticator) {
-       $authenticator = process_user_text($_POST["authenticator"]);
+       $authenticator = process_user_text(post_str("authenticator"));
     }
 
     $query = "select * from user where authenticator='$authenticator'";
@@ -23,22 +23,25 @@
     if (!$user) {
         page_head("Log in");
         echo "
-            We have no account with the account ID '$authenticator'.
+            We have no account with the key '$authenticator'.
             <br>Click <b>Back</b> to try again.
         ";
         page_tail();
     } else {
+        // see if the account is unactivated (i.e. email address not verified).
+        // If so activate it.
+
         if (split_munged_email_addr($user->email_addr, $authenticator, $email)) {
             $email=trim(strtolower($email));
-            $retval = mysql_query("update user set email_addr='$email' where id=$user->id");
+            mysql_query("update user set email_addr='$email' where id=$user->id");
             $n = mysql_affected_rows();
             if ($n <= 0) {
                 page_head("Account already exists");
                 echo "
-                    We can't activate your account because
-                    an account with the same email address
-                    has already been activated.
-                    To get the ID of this account,
+                    We can't activate this account because
+                    an account with the same email address already exists.
+                    You should use this existing account.
+                    To get the key of this account,
                     <a href=get_passwd.php>click here</a>.
                 ";
                 page_tail();

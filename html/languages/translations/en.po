@@ -139,7 +139,7 @@ msgid "CREATE_AC_READ_RULES"
 msgstr "Read the %s before creating an account."
 
 msgid "CREATE_AC_ALREADY_GOT"
-msgstr "If you already received an account ID, do not submit this form. "
+msgstr "If you already received an account key, do not submit this form. "
 "%s instead."
 
 msgid "CREATE_AC_NAME"
@@ -200,7 +200,7 @@ msgid ""
 msgstr ""
 
 msgid "AC_CREATED_TITLE"
-msgstr "Activate your account"
+msgstr "Configure your account"
 
 
 #########################################

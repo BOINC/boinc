@@ -13,13 +13,14 @@ if ($user == NULL) {
     exit();
 }
 
-page_head("Account setup");
+page_head("Preferences");
 echo "
     <br>
     You can control when and how your computer is used by ".PROJECT.".
     <br>
     To use the defaults settings,
     scroll to the bottom and click OK.
+    <p>
 ";
 $global_prefs = default_prefs_global();
 global_prefs_update($user, $global_prefs);

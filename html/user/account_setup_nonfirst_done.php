@@ -18,16 +18,16 @@ echo "
         Open the BOINC application window by
         double-clicking the BOINC system tray icon.
         Choose the 'Attach to Project' item in the Settings menu.
-        It will ask you for a project URL and an account ID.
+        It will ask you for a project URL and an account key.
     <li><b>Mac, Unix and Linux users:</b>
         Quit the BOINC client.
-        Then run the BOINC client program with the -attach_project option.
-        It will ask you for a project URL and an account ID.
+        Then run the BOINC client with the -attach_project option.
+        It will ask you for a project URL and an account key.
     </ul>
     In each case copy and paste the following:
     <ul>
     <li>Project URL: <b>".MASTER_URL."</b>
-    <li>Account ID: $user->authenticator
+    <li>Account Key: $user->authenticator
     </ul>
                             
     This completes the ".PROJECT." installation.

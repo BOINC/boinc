@@ -36,8 +36,7 @@ This email confirms your account with ".PROJECT.":
 ";
         if (!$is_validated) {
             $body .= "
-To activate your account, copy and paste your Account Key
-in the 'Activate account' page at ".URL_BASE."account_created.php
+To configure your account, visit ".URL_BASE."account_created.php
 ";
         }
     } else {

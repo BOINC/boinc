@@ -48,6 +48,26 @@ using namespace std;
 #include "fcgi_stdio.h"
 #endif
 
+// If user's email addr is munged (i.e. of the form @X_Y,
+// where X is email and Y is authenticator) then unmunge it.
+// This can fail if there's already an account with same email
+//
+int unmunge_email_addr(DB_USER& user) {
+    char* p, buf[256], email[256];
+    int retval;
+
+    if (user.email_addr[0] != '@') return 0;
+    p = strrchr(user.email_addr, '_');
+    if (!p) return ERR_NULL;
+    *p = 0;
+    strcpy(email, user.email_addr+1);
+    sprintf(buf, "email_addr='%s'", email);
+    retval = user.update_field(buf);
+    if (retval) return retval;
+    strcpy(user.email_addr, email);
+    return 0;
+}
+
 // Look up the host and its user, and make sure the authenticator matches.
 // If no host ID is supplied, or if RPC seqno mismatch,
 // create a new host record and return its ID
@@ -56,7 +76,7 @@ using namespace std;
 // If this returns zero, then:
 // - reply.host contains a valid host record (possibly new)
 // - reply.user contains a valid user record
-// - if user has team, reply.team contains team record
+// - if user belongs to a team, reply.team contains team record
 //
 int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int retval;
@@ -89,7 +109,7 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
         if (retval) {
             USER_MESSAGE um("Invalid or missing account key.  "
                 "Visit this project's web site to get an account key.",
-                "low"
+                "high"
             );
             reply.insert_message(um);
             reply.request_delay = 3600;
@@ -101,6 +121,26 @@ int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
             );
             return ERR_AUTHENTICATOR;
         }
+
+        // if user email address is not already verified, do it
+        //
+        retval = unmunge_email_addr(user);
+        if (retval) {
+            USER_MESSAGE um("Email address conflict for account key.  "
+                "Visit this project's web site to get current account key.",
+                "high"
+            );
+            reply.insert_message(um);
+            reply.request_delay = 3600;
+            reply.nucleus_only = true;
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[HOST#%d] [USER#%d] authenticator email conflict '%s'\n",
+                host.id, user.id, sreq.authenticator
+            );
+            return ERR_AUTHENTICATOR;
+        }
+
         reply.user = user;
 
         if (host.userid != user.id) {

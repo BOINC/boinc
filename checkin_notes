@@ -24663,3 +24663,28 @@ David  12 Feb 2005
             util.inc
         user/
             various (didn't finish)
+
+David  13 Feb 2005
+    - Get rid of the concept of explicitly "activating" an account.
+        Instead: whenever the server receives an account key
+        (whether via the web or in a scheduler RPC request)
+        for an account that has an unverified email address
+        (i.e. the email_addr field is in 'munged' form)
+        it changes the email address to non-munged form.
+
+    html/
+        inc/
+            email.inc
+        languages/
+            language_interface
+            translations/
+                en.po
+        user/
+            account_created.php
+            account_setup.php
+            account_setup_first.php
+            account_setup_nonfirst_done.php
+            create_account_form.php
+            login_action.php
+    sched/
+        handle_request.C
