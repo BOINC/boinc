@@ -82,12 +82,14 @@ static int process_wu_template(
     bool found;
     int i, retval;
     double nbytes;
+
     assert(wu_name!=NULL);
     assert(tmplate!=NULL);
     assert(out!=NULL);
     assert(dirpath!=NULL);
     assert(infiles!=NULL);
     assert(n>=0);
+
     strcpy(out, tmplate);
     while (1) {
         found = false;
@@ -243,4 +245,43 @@ int create_work(
         }
     }
     return 0;
+}
+
+int create_sequence(
+    WORKUNIT& wu,
+    char* wu_template,
+    char* result_template_filename,
+    int redundancy,
+    char* infile_dir,
+    char** infiles,
+    int ninfiles,
+    R_RSA_PRIVATE_KEY& key,
+    char* upload_url, char* download_url,
+    int nsteps
+) {
+    int i, retval;
+
+    retval = db_workseq_new(ws);
+    if (retval) return retval;
+    for (i=0; i<nsteps; i++) {
+    }
+}
+
+int create_sequence_group(
+    WORKUNIT& wu,
+    char* wu_template,
+    char* result_template_filename,
+    int redundancy,
+    char* infile_dir,
+    char** infiles,
+    int ninfiles,
+    R_RSA_PRIVATE_KEY& key,
+    char* upload_url, char* download_url,
+    int nsteps
+) {
+    WORKSEQ ws;
+    int i;
+
+    for (i=0; i<redundancy; i++) {
+    }
 }

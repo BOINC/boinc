@@ -26,7 +26,7 @@ echo "adding work\n";
 $work = new Work($app);
 $work->wu_template = "uc_wu";
 $work->result_template = "uc_result";
-$work->nresults = 2;
+$work->redundancy = 2;
 array_push($work->input_files, "input");
 $work->install($project);
 $project->start_feeder();

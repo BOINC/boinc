@@ -114,6 +114,12 @@ create table host (
     primary key (id)
 );
 
+/*
+ * Only information needed by the server or other backend components
+ * is broken out into separate fields.
+ * Other info, i.e. that needed by the client (files, etc.)
+ * is stored in the XML doc
+ */
 create table workunit (
     id              integer     not null auto_increment,
     create_time     integer     not null,

@@ -24,7 +24,7 @@
     $work = new Work($app);
     $work->wu_template = "uccpu_wu";
     $work->result_template = "uccpu_result";
-    $work->nresults = 1;
+    $work->redundancy = 1;
     array_push($work->input_files, "small_input");
     $work->install($project);
 

@@ -22,7 +22,7 @@
 //  -wu_name name
 //  -wu_template filename
 //  -result_template filename
-//  -nresults n
+//  -redundancy n
 //  -db_name x
 //  -db_passwd x
 //  -upload_url x
@@ -34,6 +34,7 @@
 //  -rsc_disk n
 //  -keyfile path
 //  -delay_bound x
+//  -sequence n
 //  infile1 infile2 ...
 //
 // Create a workunit and results.
@@ -60,7 +61,7 @@ int main(int argc, char** argv) {
     char wu_template_file[256], result_template_file[256];
     char keyfile[256];
     char** infiles;
-    int i, ninfiles, nresults;
+    int i, ninfiles, redundancy, sequence=0;
     R_RSA_PRIVATE_KEY key;
     char download_dir[256], db_name[256], db_passwd[256];
     char upload_url[256], download_url[256];
@@ -69,7 +70,7 @@ int main(int argc, char** argv) {
     strcpy(app.name, "");
     strcpy(db_passwd, "");
     strcpy(keyfile, "");
-    nresults = 1;
+    redundancy = 1;
     i = 1;
     ninfiles = 0;
     memset(&wu, 0, sizeof(wu));
@@ -92,8 +93,8 @@ int main(int argc, char** argv) {
             strcpy(wu_template_file, argv[++i]);
         } else if (!strcmp(argv[i], "-result_template")) {
             strcpy(result_template_file, argv[++i]);
-        } else if (!strcmp(argv[i], "-nresults")) {
-            nresults = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-redundancy")) {
+            redundancy = atoi(argv[++i]);
         } else if (!strcmp(argv[i], "-rsc_fpops")) {
             wu.rsc_fpops = atof(argv[++i]);
         } else if (!strcmp(argv[i], "-rsc_iops")) {
@@ -106,6 +107,8 @@ int main(int argc, char** argv) {
             strcpy(keyfile, argv[++i]);
         } else if (!strcmp(argv[i], "-delay_bound")) {
             wu.delay_bound = atoi(argv[++i]);
+        } else if (!strcmp(argv[i], "-sequence")) {
+            sequence = atoi(argv[++i]);
         } else {
             infiles = argv+i;
             ninfiles = argc - i;
@@ -149,18 +152,34 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    retval = create_work(
-        wu,
-        wu_template,
-        result_template_file,
-        nresults,
-        download_dir,
-        infiles,
-        ninfiles,
-        key,
-        upload_url,
-        download_url
-    );
-    if (retval) fprintf(stderr, "create_work: %d\n", retval);
+    if (sequence) {
+        retval = create_sequence(
+            wu,
+            wu_template,
+            result_template_file,
+            redundancy,
+            download_dir,
+            infiles,
+            ninfiles,
+            key,
+            upload_url,
+            download_url,
+            sequence
+        );
+    } else {
+        retval = create_work(
+            wu,
+            wu_template,
+            result_template_file,
+            redundancy,
+            download_dir,
+            infiles,
+            ninfiles,
+            key,
+            upload_url,
+            download_url
+        );
+        if (retval) fprintf(stderr, "create_work: %d\n", retval);
+    }
     db_close();
 }

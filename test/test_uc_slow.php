@@ -25,7 +25,6 @@
     $work = new Work($app);
     $work->wu_template = "ucs_wu";
     $work->result_template = "ucs_result";
-    $work->nresults = 1;
     array_push($work->input_files, "small_input");
     $work->install($project);
 

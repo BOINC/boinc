@@ -1,3 +1,28 @@
+Windows hostinfo: CPU, #cpus, OS, memory, domain, IP address,
+    swap, disk, free
+validate in crontab
+email account ID
+formatting of team, top user page
+top hosts page is screwed up
+make "external user view" page (no private info)
+list hosts 1 per line, linked
+
+Windows client
+    "bring up graphics" button in core client
+    make mini-logo
+    test uninstall
+    fix "unable to calculate"
+    fix disk usage labels, limit size of pie
+    choose GB or MB correctly
+    get rid of xfers, results eventually
+    "free avail for boinc should be nonzero"
+    messages: prepend project name, have date/time
+    xfers: show file size,
+    done xfers: show elapsed time
+    done results: show used CPU time
+    notation for CPU time: HH:MM:SS
+-----------------------
+
 test feeder reread-DB mechanism
 
 use PHP session mechanism instead of our own cookies

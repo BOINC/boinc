@@ -39,7 +39,7 @@
     $work = new Work($app);
     $work->wu_template = "uc_wu";
     $work->result_template = "uc_result";
-    $work->nresults = 5;
+    $work->redundancy = 5;
     $work->delay_bound = 60;
     array_push($work->input_files, "input");
     $work->install($project1);

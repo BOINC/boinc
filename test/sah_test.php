@@ -16,7 +16,7 @@
     add_core_client(null);
     add_user(null);
     add_app("setiathome-3.06",null,null);
-    create_work("-appname setiathome-3.06 -wu_name sah_wu -wu_template sah_wu -result_template sah_result -nresults 1 work_unit.sah");
+    create_work("-appname setiathome-3.06 -wu_name sah_wu -wu_template sah_wu -result_template sah_result -redundancy 1 work_unit.sah");
     echo "starting feeder\n";
     start_feeder();
     echo "started feeder\n";

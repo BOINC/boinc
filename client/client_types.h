@@ -35,6 +35,8 @@
 #include "hostinfo.h"
 
 #define STDERR_MAX_LEN 4096
+#define DEFAULT_MAX_PROCESSING  1
+#define DEFAULT_MAX_DISK        1000000
 
 class PERS_FILE_XFER;
 struct RESULT;
@@ -181,7 +183,9 @@ struct WORKUNIT {
     APP* app;
     APP_VERSION* avp;
     int ref_cnt;
-    double seconds_to_complete; //needs to be initialized
+    double seconds_to_complete; // needs to be initialized
+    double max_processing;  // abort if use this many cobblestones
+    double max_disk;        // abort if use this much disk
 
     int parse(FILE*);
     int write(FILE*);
@@ -193,7 +197,7 @@ struct WORKUNIT {
 #define RESULT_FILES_DOWNLOADED 1
     // Files are downloaded, result can be computed
 #define RESULT_COMPUTE_DONE     2
-    // Computation is done, files need to be uploaded
+    // Computation is done, if no error then files need to be uploaded
 #define RESULT_READY_TO_ACK     3
     // Files are uploaded, notify scheduling server
 #define RESULT_SERVER_ACK       4
@@ -206,7 +210,7 @@ struct RESULT {
     vector<FILE_REF> output_files;
     bool is_active;         // an app is currently running for this
     double final_cpu_time;
-    int state;             // status of this result
+    int state;              // status of this result
     int exit_status;        // return value from the application
     char stderr_out[STDERR_MAX_LEN];
     APP* app;

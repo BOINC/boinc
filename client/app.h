@@ -20,15 +20,6 @@
 #ifndef _TASK_
 #define _TASK_
 
-// Possible states of a process in an ACTIVE_TASK
-#define PROCESS_UNINITIALIZED   0
-#define PROCESS_RUNNING         1
-#define PROCESS_EXITED          2
-#define PROCESS_WAS_SIGNALED    3
-#define PROCESS_EXIT_UNKNOWN    4
-
-typedef int PROCESS_ID;
-
 #include "windows_cpp.h"
 #ifdef _WIN32
 #include <afxwin.h>
@@ -39,11 +30,21 @@ typedef int PROCESS_ID;
 
 #include "client_types.h"
 
+// Possible states of a process in an ACTIVE_TASK
+#define PROCESS_UNINITIALIZED   0
+#define PROCESS_RUNNING         1
+#define PROCESS_EXITED          2
+#define PROCESS_WAS_SIGNALED    3
+#define PROCESS_EXIT_UNKNOWN    4
+#define PROCESS_ABORTED         5
+    // process exceeded time or disk limits
+
+typedef int PROCESS_ID;
+
 class CLIENT_STATE;
 
-// The following classes provide an interface for task execution
-
-// represents a task in progress
+// ACTIVE_TASK represents a task in progress.
+// Written to the client state file so that tasks can be restarted.
 //
 class ACTIVE_TASK {
 public:

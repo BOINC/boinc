@@ -422,11 +422,8 @@ bool ACTIVE_TASK_SET::poll() {
     }
 
 	return found;
-#endif
+#else
 
-#if HAVE_SYS_RESOURCE_H
-#if HAVE_SYS_WAIT_H
-#if HAVE_SYS_TIME_H
     struct rusage rs;
     int pid;
     int stat;
@@ -455,8 +452,6 @@ bool ACTIVE_TASK_SET::poll() {
         atp->state = PROCESS_EXIT_UNKNOWN;
         atp->result->exit_status = -1;
     }
-#endif
-#endif
 #endif
 
 	atp->read_stderr_file();

@@ -616,7 +616,7 @@ class Work {
     var $app;
     var $wu_template;
     var $result_template;
-    var $nresults;
+    var $redundancy;
     var $input_files;
     var $rsc_iops;
     var $rsc_fpops;
@@ -630,6 +630,7 @@ class Work {
         $this->rcs_fpops = 100000000000;
         $this->rcs_disk = 1000000;
         $this->delay_bound = 1000;
+        $this->redundancy = 1;
     }
 
     function install($project) {
@@ -674,9 +675,9 @@ if (false) {        // doesn't belong here; needs comment
             }
         }
         fclose($f);
-}
+                      
+        $cmd = "create_work -db_name $project->db_name -download_dir $project->project_dir/download -upload_url $project->upload_url -download_url $project->download_url -keyfile $project->key_dir/upload_private -appname $app->name -rsc_iops $this->rcs_iops -rsc_fpops $this->rsc_fpops -rsc_disk $this->rsc_disk -wu_template $this->wu_template -result_template $this->result_template -redundancy $this->redundancy -wu_name $this->wu_template -delay_bound $this->delay_bound";
 
-        $cmd = "create_work -db_name $project->db_name -download_dir $project->project_dir/download -upload_url $project->upload_url -download_url $project->download_url -keyfile $project->key_dir/upload_private -appname $app->name -rsc_iops $this->rcs_iops -rsc_fpops $this->rsc_fpops -rsc_disk $this->rsc_disk -wu_template $this->wu_template -result_template $this->result_template -nresults $this->nresults -wu_name $this->wu_template -delay_bound $this->delay_bound";
         for ($i=0; $i<sizeof($this->input_files); $i++) {
             $x = $this->input_files[$i];
             $cmd = $cmd." ".$x;

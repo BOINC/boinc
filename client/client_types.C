@@ -506,6 +506,8 @@ int WORKUNIT::parse(FILE* in) {
     app = NULL;
     project = NULL;
     seconds_to_complete = 0;
+    max_processing = DEFAULT_MAX_PROCESSING;
+    max_disk = DEFAULT_MAX_DISK;
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</workunit>")) return 0;
         else if (parse_str(buf, "<name>", name, sizeof(name))) continue;
@@ -514,6 +516,8 @@ int WORKUNIT::parse(FILE* in) {
         else if (parse_str(buf, "<command_line>", command_line, sizeof(command_line))) continue;
         else if (parse_str(buf, "<env_vars>", env_vars, sizeof(env_vars))) continue;
         else if (parse_double(buf, "<seconds_to_complete>", seconds_to_complete)) continue; 
+        else if (parse_double(buf, "<max_processing>", max_processing)) continue; 
+        else if (parse_double(buf, "<max_disk>", max_disk)) continue; 
         else if (match_tag(buf, "<file_ref>")) {
             file_ref.parse(in);
             input_files.push_back(file_ref);

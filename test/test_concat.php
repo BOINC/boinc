@@ -23,7 +23,7 @@
     $work = new Work($app);
     $work->wu_template = "concat_wu";
     $work->result_template = "concat_result";
-    $work->nresults = 2;
+    $work->redundancy = 2;
     array_push($work->input_files, "input");
     array_push($work->input_files, "input");
     $work->install($project);
