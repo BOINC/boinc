@@ -66,15 +66,8 @@ struct APP_INIT_DATA {
     double fraction_done_update_period;
 };
 
-#define APP_ACCESS_OK		0
-#define CLIENT_ACCESS_OK	1
 #define SHM_PREFIX          "shm_"
 #define QUIT_PREFIX         "quit_"
-
-struct APP_CLIENT_SHM {
-    int access;
-    char message_buf[4096];
-};
 
 extern int boinc_init();
 extern int boinc_get_init_data(APP_INIT_DATA&);

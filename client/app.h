@@ -29,6 +29,7 @@
 #include <vector>
 #include "client_types.h"
 #include "boinc_api.h"
+#include "shmem.h"
 
 class CLIENT_STATE;
 typedef int PROCESS_ID;

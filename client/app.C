@@ -90,7 +90,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     result = NULL;
     wup = NULL;
     app_version = NULL;
-    app_client_shm = NULL;
+	app_client_shm = new APP_CLIENT_SHM;
     pid = 0;
     slot = 0;
     state = PROCESS_UNINITIALIZED;
@@ -300,7 +300,8 @@ int ACTIVE_TASK::start(bool first_time) {
     quitRequestEvent = CreateEvent(0, TRUE, FALSE, buf);
 
     sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);
-    shm_handle = create_shmem(buf, sizeof(APP_CLIENT_SHM), (void **)&app_client_shm);
+    shm_handle = create_shmem(buf, sizeof(char)*NUM_SEGS*SHM_SEG_SIZE, (void **)&app_client_shm->shm);
+	app_client_shm->reset_msgs();
 
     // NOTE: in Windows, stderr is redirected within boinc_init();
 
@@ -377,8 +378,8 @@ int ACTIVE_TASK::start(bool first_time) {
     
     // Create shared memory after forking, to prevent problems with the
     // child inheriting bad information about the segment
-    if (!create_shmem(shm_key, sizeof(APP_CLIENT_SHM), (void**)&app_client_shm)) {
-        app_client_shm->access = APP_ACCESS_OK;
+    if (!create_shmem(shm_key, sizeof(char)*NUM_SEGS*SHM_SEG_SIZE, (void**)&app_client_shm->shm)) {
+        app_client_shm->reset_msgs();
     }
     
     if (log_flags.task_debug) printf("forked process: pid %d\n", pid);
@@ -809,18 +810,17 @@ int ACTIVE_TASK::get_cpu_time() {
 // If so read it and return true.
 //
 bool ACTIVE_TASK::check_app_status() {
+	char msg_buf[SHM_SEG_SIZE];
     if (app_client_shm == NULL) {
         fraction_done = 0;
         get_cpu_time();
     } else {
-        if (app_client_shm->access == CLIENT_ACCESS_OK) {
+        if (app_client_shm->get_msg(msg_buf, APP_CORE_WORKER_SEG)) {
             fraction_done = current_cpu_time = checkpoint_cpu_time = 0.0;
             
-            parse_double(app_client_shm->message_buf, "<fraction_done>", fraction_done);
-            parse_double(app_client_shm->message_buf, "<current_cpu_time>", current_cpu_time);
-            parse_double(app_client_shm->message_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
-            
-            app_client_shm->access = APP_ACCESS_OK;
+            parse_double(msg_buf, "<fraction_done>", fraction_done);
+            parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
+            parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
             
             return false;
         }

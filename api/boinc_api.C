@@ -515,17 +515,18 @@ void setup_shared_mem(void) {
     return;
 #endif
 
+	app_client_shm = new APP_CLIENT_SHM;
 #ifdef _WIN32
     char buf[256];
     sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);
-    hSharedMem = attach_shmem(buf, (void**)&app_client_shm);
+    hSharedMem = attach_shmem(buf, (void**)&app_client_shm->shm);
     if (hSharedMem == NULL)
         app_client_shm = NULL;
 #endif
 
 #ifdef HAVE_SYS_SHM_H
 #ifdef HAVE_SYS_IPC_H
-    if (attach_shmem(aid.shm_key, (void**)&app_client_shm)) {
+    if (attach_shmem(aid.shm_key, (void**)&app_client_shm->shm)) {
         app_client_shm = NULL;
     }
 #endif
@@ -535,30 +536,27 @@ void setup_shared_mem(void) {
 void cleanup_shared_mem(void) {
 #ifdef _WIN32
     if (app_client_shm != NULL)
-        detach_shmem(hSharedMem, app_client_shm);
+        detach_shmem(hSharedMem, app_client_shm->shm);
 #endif
 
 #ifdef HAVE_SYS_SHM_H
 #ifdef HAVE_SYS_IPC_H
     if (app_client_shm != NULL)
-        detach_shmem(app_client_shm);
+        detach_shmem(app_client_shm->shm);
 #endif
 #endif
 }
 
 int update_app_progress(double frac_done, double cpu_t, double cp_cpu_t) {
-    if (app_client_shm == NULL || (app_client_shm->access != APP_ACCESS_OK))
-        return -1;
+	char msg_buf[SHM_SEG_SIZE];
     
-    sprintf( app_client_shm->message_buf,
-        "<fraction_done>%f</fraction_done>\n"
-        "<current_cpu_time>%f</current_cpu_time>\n"
-        "<checkpoint_cpu_time>%f</checkpoint_cpu_time>\n",
+    sprintf( msg_buf,
+        "<fraction_done>%2.8f</fraction_done>\n"
+        "<current_cpu_time>%10.4f</current_cpu_time>\n"
+        "<checkpoint_cpu_time>%10.4f</checkpoint_cpu_time>\n",
         frac_done, cpu_t, cp_cpu_t );
-    
-    app_client_shm->access = CLIENT_ACCESS_OK;
-    
-    return 0;
+
+    return app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);
 }
 
 int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
