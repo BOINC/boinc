@@ -760,7 +760,7 @@ class Host:
         self.global_prefs = None
         self.log_flags = 'log_flags.xml'
         self.host_dir = os.path.join(HOSTS_DIR, self.name)
-        self.defargs = "-exit_when_idle -skip_cpu_benchmarks -sched_retry_delay_min 1"
+        self.defargs = "-exit_when_idle -skip_cpu_benchmarks -debug_fake_exponential_backoff"
 
     def add_user(self, user, project):
         self.users.append(user)
@@ -874,6 +874,7 @@ class ResultMeter:
         '''Forks to print a progress meter'''
         self.pid = os.fork()
         if self.pid:
+            atexit.register(self.stop)
             return
         while True:
             verbose_echo(1, apply(func, args))
@@ -881,6 +882,7 @@ class ResultMeter:
     def stop(self):
         if self.pid:
             os.kill(self.pid, 9)
+            self.pid = 0
 
 def run_check_all():
     '''Run all projects, run all hosts, check all projects, stop all projects.'''
@@ -912,10 +914,12 @@ class Proxy:
         (pid,status) = os.waitpid(self.pid, os.WNOHANG)
         if pid:
             fatal_error("testproxy failed")
-        atexit.register(self.stop)
+            self.pid = 0
+        else:
+            atexit.register(self.stop)
     def stop(self):
-        verbose_echo(1, "Stopping proxy server")
         if self.pid:
+            verbose_echo(1, "Stopping proxy server")
             try:
                 os.kill(self.pid, 2)
             except OSError:

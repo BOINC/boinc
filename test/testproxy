@@ -56,18 +56,16 @@ CODE is evaluated every 128 bytes transferred from server to client.
   Functions:
       close_connection, kill_server, if_done_kill, if_done_ping, logmsg
 
-  You can also call standard perl functions such as print, sleep, exit.  You
-  should return 1 to indicate success (otherwise testproxy will warn).
+  You can also call standard perl functions such as print, sleep, exit.
 
 Examples:
   # fail connections for first 3 connections
-  $0 8080 localhost:80 'exit 1 if \$nconnections < 4; 1'
+  $0 8080 localhost:80 'close_connection if \$nconnections < 4'
 
   # sleep 5 seconds in the middle of transfer, and print "success" if
   # transfer succeeds; kill the server after the first connection
   $0 8080 localhost:80 'sleep 5 if \$bytes_transferred == 256;
-       if (\$done) { print "success\\n" if \$success; kill_server; \$success }
-             else { 1 }'
+       if (\$done) { print "success\\n" if \$success; kill_server; \$success }'
 
   # equivalent to above:
   $0 8080 localhost:80 'sleep 5 if \$bytes_transferred == 256;
@@ -163,7 +161,7 @@ sub kill_server()
 my $start = 0;
 my $done = 0;
 my $success = 0;
-my $url = undef;
+my $url;
 my $n = 0;
 my $m = 0;
 
@@ -177,7 +175,6 @@ sub if_done_ping()
             return 0;
         }
     }
-    1;
 }
 
 sub if_done_kill()
@@ -185,23 +182,27 @@ sub if_done_kill()
     if ($done) {
         kill_server();
     }
-    1;
 }
 
 sub eval_test_code()
 {
+    return unless $testcode;
     my $time = time() - $time_started;
-    eval $testcode || warn "test code failed";
+    warn "test code failed: $!" unless defined eval $testcode;
 }
 
 my ($client, $target);
 
-sub close_connection() {
+sub close_connection {
+    my $ok = (shift) ? 1 : 0;
+    unless ($ok) {
+        logmsg "Closing connection"
+    }
     # $client->close(), $target->close() doesn't always work for some reason
     # (maybe to do with forked processes)
     $client->shutdown(2);
     $target->shutdown(2);
-    1;
+    exit $ok;
 }
 
 sub proxy {
@@ -222,6 +223,7 @@ sub proxy {
         $done = 0;
         $success = 0;
         $start = 1;
+        $url = '';
         eval_test_code();
         $start = 0;
     }
@@ -258,6 +260,6 @@ sub proxy {
         eval_test_code();
     }
 
-    close_connection();
+    close_connection(1);
     return 0;
 }
