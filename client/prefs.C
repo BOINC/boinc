@@ -53,7 +53,7 @@ void GLOBAL_PREFS::init() {
     leave_apps_in_memory = false;
     confirm_before_connecting = false;
     hangup_if_dialed = false;
-    work_buf_max_days = 0.2;
+    //work_buf_max_days = 0.2;
     work_buf_min_days = 0.1;
     max_cpus = 1;
     disk_interval = 60;
@@ -162,8 +162,8 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue, bool& found_venue) {
         } else if (match_tag(buf, "<run_on_startup/>")) {
             run_on_startup = true;
             continue;
-        } else if (parse_double(buf, "<work_buf_max_days>", work_buf_max_days)) {
-            continue;
+        //} else if (parse_double(buf, "<work_buf_max_days>", work_buf_max_days)) {
+        //    continue;
         } else if (parse_double(buf, "<work_buf_min_days>", work_buf_min_days)) {
             continue;
         } else if (parse_int(buf, "<max_cpus>", max_cpus)) {

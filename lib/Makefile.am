@@ -7,7 +7,7 @@ bin_PROGRAMS = crypt_prog
 EXTRA_PROGRAMS = md5_test shmem_test msg_test
 noinst_LIBRARIES = libboinc.a 
 #libboinc_graphics.a
-EXTRA_DIST = result_state.h parse.h std_fixes.h util.h
+EXTRA_DIST = *.h *.C
 
 # libboinc.a is for use by applications (not core client or server)
 

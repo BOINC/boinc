@@ -43,7 +43,7 @@ struct GLOBAL_PREFS {
     bool run_minimized;
     bool run_on_startup;
     bool hangup_if_dialed;
-    double work_buf_max_days;
+    //double work_buf_max_days;
     double work_buf_min_days;
     int max_cpus;
     double disk_interval;
