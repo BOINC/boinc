@@ -29,6 +29,8 @@
 
 #include <stdio.h>
 
+#include "db_base.h"
+
 // Maximum allowed size for SQL based blobs (Binary Large Object)
 //
 #define MAX_BLOB_SIZE   4096
@@ -392,36 +394,6 @@ extern int boinc_db_close();
 extern void boinc_db_print_error(char*);
 extern const char* boinc_db_error_string();
 extern int boinc_db_insert_id();
-
-#include "mysql.h"
-
-struct CURSOR {
-    bool active;
-    MYSQL_RES *rp;
-};
-
-// Base for derived classes that can access the DB
-// Defines various generic operations on DB tables
-//
-class DB_BASE {
-public:
-    DB_BASE(char *table_name);
-    int insert();
-    int update();
-    int lookup_id(int id);
-    int lookup(char*);
-    int enumerate(char* clause="");
-    int count(int&, char* clause="");
-    int sum(double&, char* field, char* clause="");
-    int get_double(char* query, double&);
-    int get_integer(char* query, int&);
-
-    const char *table_name;
-    CURSOR cursor;
-    virtual int get_id();
-    virtual void db_print(char*);
-    virtual void db_parse(MYSQL_ROW&);
-};
 
 extern MYSQL *mysql;
 
