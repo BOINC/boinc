@@ -489,8 +489,7 @@ RESULT* CLIENT_STATE::lookup_result(PROJECT* p, const char* name) {
 }
 
 WORKUNIT* CLIENT_STATE::lookup_workunit(PROJECT* p, const char* name) {
-print_summary(); 
-   for (unsigned int i=0; i<workunits.size(); i++) {
+    for (unsigned int i=0; i<workunits.size(); i++) {
         WORKUNIT* wup = workunits[i];
         if (wup->project == p && !strcmp(name, wup->name)) return wup;
     }
@@ -667,6 +666,7 @@ int CLIENT_STATE::link_result(PROJECT* p, RESULT* rp) {
 void CLIENT_STATE::print_summary() {
     unsigned int i;
     int t;
+    if (!log_flags.state_debug) return;
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_STATE);
     scope_messages.printf("CLIENT_STATE::print_summary(): Client state summary:\n");
