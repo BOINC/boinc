@@ -9328,3 +9328,9 @@ David  Jan 19 2004
 		boinc.vcproj
 		boinc_cli.vcproj
 		boinc_ss.vcproj
+
+David  Jan 19 2004
+	- use TRACE() instead of fprintfs for debugging output
+
+	client/win/
+		wingui_mainwindow.cpp
