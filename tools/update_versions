@@ -57,22 +57,21 @@ def xlistdir(dir):
     return map(lambda file: os.path.join(dir, file), os.listdir(dir))
 
 def add_files(
-    app, match, exec_file, non_exec_files=[],
-    signature_files={}, file_ref_infos = {}
+    app,
+    match,              # the output of re_match_exec_filename(exec_files[0])
+    exec_files,         # executable files
+    non_exec_files=[],  # non-executable files
+    signature_files={},
+    file_ref_infos = {}
     ):
     ''' add files to app/core.
-
-    EXEC_FILE is the executable, and NON_EXEC_FILES are supporting
-    non-executable files.
-
-    MATCH is the output of re_match_exec_filename(EXEC_FILE).
     '''
     assert(match)
-    assert(exec_file)
+    assert(exec_files[0])
     version_major, version_minor, platform_name = match.groups()
     version_num = int(version_major) * 100 + int(version_minor)
 
-    file_base = os.path.basename(exec_file)
+    file_base = os.path.basename(exec_files[0])
     platforms = database.Platforms.find(name = platform_name)
     if not platforms:
         print >>sys.stderr, "  Unknown platform '%s' for file %s" %(platform_name, file_base)
@@ -95,7 +94,7 @@ def add_files(
         xml_doc = tools.process_app_version(
             app = app,
             version_num = version_num,
-            exec_files = [exec_file],
+            exec_files = exec_files,
             non_exec_files = non_exec_files,
             signature_files = signature_files,
             file_ref_infos = file_ref_infos
@@ -117,7 +116,7 @@ def add_files(
 
         print "  Found core version %3d for %s: %s" %(version_num, platform, file_base)
 
-        xml_doc = tools.process_executable_file(exec_file)
+        xml_doc = tools.process_app_file(exec_files[0])
 
         object = database.CoreVersion(
             create_time = create_time,
@@ -165,13 +164,15 @@ def find_versions(app, dir):
         else:
             find_versions__process_single_file(app, match, filepath)
 
-# Process an app that is a single file only, possibly with
-# a signature file included.  Could also be the core client.
+# Process an app that is a single file only,
+# possibly with a signature file included.
+# Could also be the core client.
 #
 def find_versions__process_single_file(app, match, filepath):
     '''add a single executable as app/core version'''
     # Find signature file, if it exists.
     signature_files={}
+    exec_files={}
     sig_file = filepath + ".sig"
     if os.path.isfile(sig_file):
         signature_files[filepath] = sig_file
@@ -179,7 +180,7 @@ def find_versions__process_single_file(app, match, filepath):
     add_files(
         app             = app,
         match            = match,
-        exec_file        = filepath,
+        exec_files        = filepath,
         signature_files  = signature_files,
         )
 
@@ -189,7 +190,7 @@ def find_versions__process_single_file(app, match, filepath):
  
 def find_versions__process_bundle(app, match, dir):
     '''add executable + bundle as app/core version'''
-    exec_file = None
+    exec_files = []
     non_exec_files = []
     signature_files = {}
     file_ref_infos = {}
@@ -200,7 +201,7 @@ def find_versions__process_bundle(app, match, dir):
         if os.path.basename(filepath) == dirname:
             # the filename matches the folder name,
             # so this is the main program executable.
-            exec_file = filepath
+            exec_files.insert(0, filepath)
             continue
         # if filename is of format 'EXECFILE.sig' treat it as signature file
         if filepath.endswith('.sig'):
@@ -211,23 +212,27 @@ def find_versions__process_bundle(app, match, dir):
             s = filepath[:-len('.file_ref_info')]
             file_ref_infos[s] = open(filepath).read()
             continue
+        if os.access(filepath, os.X_OK):
+            exec_files.append(filepath)
+            continue;
         non_exec_files.append(filepath)
-    if not exec_file:
+    if not exec_files:
         print >>sys.stderr, "  Ignoring directory (no executable found - it has to be named the same as the directory)", dir
         return
+
     # check signatures, file_path_infos
     for filepath, signature_file in signature_files.items():
-        if filepath != exec_file and filepath not in non_exec_files:
-            print >>sys.stderr, "  Warning: signature file '%s' will be ignored because it does not match an executable file" %signature_file
+        if filepath not in exec_files and filepath not in non_exec_files:
+            print >>sys.stderr, "  Warning: signature file '%s' will be ignored because it does not match a file" %signature_file
     for filepath in file_ref_infos:
         file_ref_info_filepath = filepath+'.file_ref_info'
-        if filepath != exec_file and filepath not in non_exec_files:
+        if filepath not in exec_files and filepath not in non_exec_files:
             print >>sys.stderr, "  Warning: file_ref info file '%s' will be ignored because it does not match a file" %file_ref_info_filepath
 
     add_files(
         app              = app,
         match            = match,
-        exec_file        = exec_file,
+        exec_files       = exec_files,
         non_exec_files   = non_exec_files,
         signature_files  = signature_files,
         file_ref_infos   = file_ref_infos,

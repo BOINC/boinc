@@ -23312,11 +23312,19 @@ Rom    27 Jan 2005
 
 David  27 Jan 2005
     - Enhancements to update_versions
+        - allow a multi-file app version to include multiple executable files
+            All files with the u+x bit set are treated as executable
         - set min_core_version and max_core_version to zero.
-            Shouldn't be setting these here.
+            Shouldn't be setting these to anything nonzero here.
             Projects are no longer expected to maintain core versions.
 
     py/Boinc/
         tools.py
     tools/
         update_versions
+
+David  27 Jan 2005
+    - scheduler reply includes scheduler's version info
+
+    sched/
+        server_types.C

@@ -206,6 +206,8 @@ int SCHEDULER_REPLY::write(FILE* fout) {
 
     fprintf(fout,
         "<scheduler_reply>\n"
+        <scheduler_version>%d</scheduler_version>\n",
+        BOINC_MAJOR_VERSION*100+BOINC_MINOR_VERSION
     );
 
     if (request_delay) {
