@@ -30,6 +30,7 @@
 #include "crypt.h"
 #include "error_numbers.h"
 #include "file_names.h"
+#include "filesys.h"
 #include "parse.h"
 #include "log_flags.h"
 #include "message.h"
