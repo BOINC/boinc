@@ -22922,3 +22922,18 @@ David  18 Jan 2005
     sched/
         sched_config.C,h
         handle_request.C
+
+David  18 Jan 2005
+    - initial checkin of RPCs for account management systems: see
+        http://boinc.berkeley.edu/acct_mgt.php
+
+    NOTE: to use this feature, you'll need to update your DB
+        using update_1_19_2005()
+
+    html/
+        ops/
+            db_update.php
+        user/
+            am_confirm.php
+            am_create.php
+            am_query.php

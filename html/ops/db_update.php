@@ -222,6 +222,17 @@ function update_1_13_2005() {
 function update_1_18_2005() {
     mysql_query("ALTER TABLE `forum_preferences` CHANGE `special_user` `special_user` CHAR( 8 ) DEFAULT '0' NOT NULL");
 }
+
+function update_1_19_2005() {
+    mysql_query("create table tentative_user (
+        nonce               varchar(254) not null,
+        email_addr          varchar(254) not null,
+        confirmed           integer not null,
+        primary key(nonce)
+        );"
+    );
+}
+
 //update_10_25_2004();
 
 ?>
