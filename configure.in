@@ -1,3 +1,5 @@
+dnl -*- autoconf -*-
+
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(api/api_test.C)
 
@@ -42,4 +44,14 @@ AC_FUNC_VPRINTF
 AC_FUNC_WAIT3
 AC_CHECK_FUNCS(gethostname gettimeofday mkdir select socket strstr uname lockf flock)
 
-AC_OUTPUT(RSAEuro/source/Makefile apps/Makefile db/Makefile sched/Makefile lib/Makefile tools/Makefile Makefile api/Makefile)
+AC_OUTPUT(RSAEuro/source/Makefile                                       \
+          apps/Makefile                                                 \
+          db/Makefile                                                   \
+          Makefile                                                      \
+          client/Makefile                                               \
+          api/Makefile                                                  \
+)
+
+          dnl sched/Makefile                                                \
+          dnl lib/Makefile                                                  \
+          dnl tools/Makefile                                                \
