@@ -1,4 +1,5 @@
 <?php
+$cvs_version_tracker[]="\$id$";	//get CVS version of this file to be shown in version list (display_cvs_versions())
 
 require_once("../project/project.inc");
 require_once("../inc/countries.inc");
@@ -116,6 +117,7 @@ function page_head($title, $java_onload="") {
         <link rel='alternate' type='text/xml' title=\"$rssname\" href=\"$rsslink\" />
         </head>";
     if ($java_onload!=""){echo "<body bgcolor=ffffff onload=\"".$java_onload."\">"; } else { echo "<body bgcolor=ffffff>";}
+    display_cvs_versions();
     project_banner($title);
 }
 
@@ -136,6 +138,14 @@ function page_tail_main($show_date=false) {
 
 function page_tail($show_date=false) {
     page_tail_aux(true, $show_date);
+}
+
+function display_cvs_versions(){
+    global $cvs_version_tracker;
+    echo "\n";
+    for ($i=0;$i<sizeof($cvs_version_tracker);$i++){
+	echo "<!-- ".$cvs_version_tracker[$i]." -->\n";
+    }
 }
 
 function db_error_page() {
