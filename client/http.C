@@ -179,10 +179,12 @@ int HTTP_REPLY_HEADER::read_reply(int socket) {
         char c;
         errno = 0;
         int n = recv(socket, &c, 1, 0);
-        scope_messages.printf(
-            "HTTP_REPLY_HEADER::read_reply(): recv() on socket %d returned %d errno %d sockerr %d\n",
-            socket, n, errno, get_socket_error(socket)
-        );
+        if (n != 1) {
+            scope_messages.printf(
+                "HTTP_REPLY_HEADER::read_reply(): recv() on socket %d returned %d errno %d sockerr %d\n",
+                socket, n, errno, get_socket_error(socket)
+                );
+        }
         if (n == -1 && errno == EAGAIN) {
             return 1;
         }
