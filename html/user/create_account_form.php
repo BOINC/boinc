@@ -10,10 +10,8 @@ page_head(tr(CREATE_AC_TITLE));
 $config = get_config();
 if (parse_bool($config, "disable_account_creation")) {
     echo "
-        <h1>Account Creation is Disabled</h1>
-        <p>
-        Account creation is disabled for ".PROJECT." at the moment.
-        Please try again later.
+        <h1>".tr(CREATE_AC_DISABLED)."</h1>
+        <p>".tr(CREATE_AC_DISABLED_TEXT)."
         </p>
     ";
     page_tail();
@@ -35,9 +33,9 @@ if ($teamid) {
     if (!$user) {
         echo "No such user";
     } else {
-        echo "<b>This account will belong the team
-            <a href=show_team.php?teamid=$team->id>$team->name</a>
-            and will have the project preferences of its founder.</b>
+        echo "<b>";
+	printf(tr(CREATE_AC_TEAM), "<a href=\"show_team.php?teamid=$team->id\">$team->name</a>");
+	echo "</b>
             <p>
         ";
         echo "

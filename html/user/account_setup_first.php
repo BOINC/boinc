@@ -3,6 +3,7 @@
 include_once("../inc/db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/prefs.inc");
+include_once("../inc/translation.inc");
 
 $authenticator = init_session();
 db_init();
@@ -13,14 +14,9 @@ if ($user == NULL) {
     exit();
 }
 
-page_head("Preferences");
+page_head(tr(AC_FIRST_TITLE));
 echo "
-    <br>
-    You can control when and how your computer is used by ".PROJECT.".
-    <br>
-    To use the defaults settings,
-    scroll to the bottom and click OK.
-    <p>
+    <br>".tr(AC_FIRST_CONTROL)."<br>".tr(AC_FIRST_DEFAULT)."<p>
 ";
 $global_prefs = default_prefs_global();
 global_prefs_update($user, $global_prefs);
