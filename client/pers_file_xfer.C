@@ -103,7 +103,10 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
     int retval;
     char pathname[256];
     
-    if (!fxp && !xfer_done) {
+    if (xfer_done) {
+        return false;
+    }
+    if (!fxp) {
         // No file xfer is active.
         // We must be waiting after a failure.
         // See if it's time to try again.
