@@ -25557,7 +25557,7 @@ Rom    5 Mar 2005
         client_state.C
 
 David  5 Mar 2005
-	- initial support for GUI RPC protection
+	- initial support for GUI RPC authentication
 		If the core client finds a file called "gui_rpc_auth.cfg",
 		it reads a password from it, and all GUI RPC requests
 		must authenticate using a challenge/response sequence,
@@ -26260,3 +26260,18 @@ David  29 Mar 2005
 
     lib/
         shmem.C
+
+David  29 Mar 2005
+    - API: in boinc_finish(),
+        call boinc_worker_thread_cpu_time() instead of
+        boinc_calling_thread_cpu_time()
+        (since the graphics thread can call boinc_finish()).
+        Also, offset CPU time by initial_wu_cpu_time
+        instead of aid.wu_cpu_time
+
+    This may help "zero CPU time" problems, but I doubt it
+
+    api/
+        boinc_api.C
+    lib/
+        util.C

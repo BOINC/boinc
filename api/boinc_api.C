@@ -100,10 +100,81 @@ HANDLE   worker_thread_handle;
 static MMRESULT timer_id;
 #endif
 
-static int  setup_shared_mem();
-static int  update_app_progress(double cpu_t, double cp_cpu_t, double ws_t);
 static BOINC_OPTIONS options;
 static volatile BOINC_STATUS boinc_status;
+
+static int setup_shared_mem() {
+    if (standalone) {
+        fprintf(stderr, "Standalone mode, so not using shared memory.\n");
+        return 0;
+    }
+    app_client_shm = new APP_CLIENT_SHM;
+
+#ifdef _WIN32
+    char buf[256];
+    sprintf(buf, "%s%s", SHM_PREFIX, aid.shmem_seg_name);
+    hSharedMem = attach_shmem(buf, (void**)&app_client_shm->shm);
+    if (hSharedMem == NULL) {
+        delete app_client_shm;
+        app_client_shm = NULL;
+    }
+#else
+    if (attach_shmem(aid.shmem_seg_name, (void**)&app_client_shm->shm)) {
+        delete app_client_shm;
+        app_client_shm = NULL;
+    }
+#endif
+    if (app_client_shm == NULL) return -1;
+    return 0;
+}
+
+
+static int boinc_worker_thread_cpu_time(double& cpu) {
+#ifdef _WIN32
+    if (boinc_thread_cpu_time(worker_thread_handle, cpu)) {
+        cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
+    }
+    return 0;
+#else
+    // no CPU time calls in pthreads - return process total
+    //
+    return boinc_calling_thread_cpu_time(cpu);
+#endif
+}
+
+// communicate to the core client (via shared mem)
+// the current CPU time and fraction done
+//
+static int update_app_progress(
+    double cpu_t, double cp_cpu_t, double /*ws_t*/
+) {
+    char msg_buf[MSG_CHANNEL_SIZE], buf[256];
+    double vm, rs;
+
+    if (!app_client_shm) return 0;
+
+    sprintf(msg_buf,
+        "<current_cpu_time>%10.4f</current_cpu_time>\n"
+        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n",
+        cpu_t, cp_cpu_t
+    );
+    if (fraction_done >= 0) {
+        double range = aid.fraction_done_end - aid.fraction_done_start;
+        double fdone = aid.fraction_done_start + fraction_done*range;
+        sprintf(buf, "<fraction_done>%2.8f</fraction_done>\n", fdone);
+        strcat(msg_buf, buf);
+    }
+    if (!mem_usage(vm, rs)) {
+        sprintf(buf,
+            "<vm_bytes>%f</vm_bytes>\n"
+            "<rss_bytes>%flu</rss_bytes>\n",
+            vm, rs
+        );
+        strcat(msg_buf, buf);
+    }
+    app_client_shm->shm->app_status.send_msg(msg_buf);
+    return 0;
+}
 
 // the following 2 functions are used when there's no graphics
 //
@@ -197,8 +268,8 @@ static void send_trickle_up_msg() {
 //
 int boinc_finish(int status) {
     if (options.send_status_msgs) {
-        boinc_calling_thread_cpu_time(last_checkpoint_cpu_time);
-        last_checkpoint_cpu_time += aid.wu_cpu_time;
+        boinc_worker_thread_cpu_time(last_checkpoint_cpu_time);
+        last_checkpoint_cpu_time += initial_wu_cpu_time;
         update_app_progress(last_checkpoint_cpu_time, last_checkpoint_cpu_time, 0);
     }
     if (options.handle_trickle_ups) {
@@ -308,40 +379,6 @@ int boinc_report_app_status(
     return 0;
 }
 
-// communicate to the core client (via shared mem)
-// the current CPU time and fraction done
-//
-static int update_app_progress(
-    double cpu_t, double cp_cpu_t, double /*ws_t*/
-) {
-    char msg_buf[MSG_CHANNEL_SIZE], buf[256];
-    double vm, rs;
-
-    if (!app_client_shm) return 0;
-
-    sprintf(msg_buf,
-        "<current_cpu_time>%10.4f</current_cpu_time>\n"
-        "<checkpoint_cpu_time>%.15e</checkpoint_cpu_time>\n",
-        cpu_t, cp_cpu_t
-    );
-    if (fraction_done >= 0) {
-        double range = aid.fraction_done_end - aid.fraction_done_start;
-        double fdone = aid.fraction_done_start + fraction_done*range;
-        sprintf(buf, "<fraction_done>%2.8f</fraction_done>\n", fdone);
-        strcat(msg_buf, buf);
-    }
-    if (!mem_usage(vm, rs)) {
-        sprintf(buf,
-            "<vm_bytes>%f</vm_bytes>\n"
-            "<rss_bytes>%flu</rss_bytes>\n",
-            vm, rs
-        );
-        strcat(msg_buf, buf);
-    }
-    app_client_shm->shm->app_status.send_msg(msg_buf);
-    return 0;
-}
-
 int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
     app_init_data = aid;
     return 0;
@@ -354,23 +391,6 @@ int boinc_wu_cpu_time(double& cpu_t) {
     cpu_t = last_wu_cpu_time;
     return 0;
 }
-
-#ifdef _WIN32
-
-int boinc_worker_thread_cpu_time(double& cpu) {
-    if (boinc_thread_cpu_time(worker_thread_handle, cpu)) {
-        cpu = nrunning_ticks * TIMER_PERIOD;   // for Win9x
-    }
-    return 0;
-}
-
-#else
-
-int boinc_worker_thread_cpu_time(double& cpu) {
-    return boinc_calling_thread_cpu_time(cpu);
-}
-
-#endif  // _WIN32
 
 static void handle_heartbeat_msg() {
     char buf[MSG_CHANNEL_SIZE];
@@ -557,31 +577,6 @@ int set_worker_timer() {
     }
 #endif
     return retval;
-}
-
-static int setup_shared_mem() {
-    if (standalone) {
-        fprintf(stderr, "Standalone mode, so not using shared memory.\n");
-        return 0;
-    }
-    app_client_shm = new APP_CLIENT_SHM;
-
-#ifdef _WIN32
-    char buf[256];
-    sprintf(buf, "%s%s", SHM_PREFIX, aid.shmem_seg_name);
-    hSharedMem = attach_shmem(buf, (void**)&app_client_shm->shm);
-    if (hSharedMem == NULL) {
-        delete app_client_shm;
-        app_client_shm = NULL;
-    }
-#else
-    if (attach_shmem(aid.shmem_seg_name, (void**)&app_client_shm->shm)) {
-        delete app_client_shm;
-        app_client_shm = NULL;
-    }
-#endif
-    if (app_client_shm == NULL) return -1;
-    return 0;
 }
 
 int boinc_send_trickle_up(char* variety, char* p) {

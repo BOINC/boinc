@@ -24,14 +24,14 @@ function page_head($title) {
             <nobr><font size='2'>Last modified $d</font></nobr>
         </td>
         </tr></table>
-        <hr size=0 noshade>
+        <hr size=1>
     ";
 }
 
 function page_tail() {
     $y = date("Y ");
     echo "
-        <hr size='0' noshade/>
+        <hr size=1>
         <p align='center'>
         <a href='/'>Return to BOINC main page</a>
         <br/><br/>

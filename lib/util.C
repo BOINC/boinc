@@ -728,15 +728,18 @@ int boinc_calling_thread_cpu_time(double& cpu) {
 
 #else
 
+// Unix: pthreads doesn't seem to provide an API for getting
+// per-thread CPU time.  So just get the process's CPU time
+//
 int boinc_calling_thread_cpu_time(double &cpu_t) {
     int retval;
     struct rusage ru;
     retval = getrusage(RUSAGE_SELF, &ru);
     if (retval) {
-        fprintf(stderr, "error: could not get CPU time\n");
     	return ERR_GETRUSAGE;
     }
-    // Sum the user and system time spent in this process
+    // Sum the user and system time
+    //
     cpu_t = (double)ru.ru_utime.tv_sec + (((double)ru.ru_utime.tv_usec) / ((double)1000000.0));
     cpu_t += (double)ru.ru_stime.tv_sec + (((double)ru.ru_stime.tv_usec) / ((double)1000000.0));
     return 0;
