@@ -383,9 +383,7 @@ ettprc(P, k):
     return est
 
 compute_work_request():
-
     urgency = DONT_NEED_WORK
-
     foreach project P:
         project_active_frac = active_frac * P.resource_share
         P.work_request = 0
