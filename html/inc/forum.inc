@@ -143,7 +143,7 @@ function getThreads($forumID, $min=-1, $nRec=-1, $sort_style='modified-new', $fi
 function getPosts($threadID, $min = -1, $nRec = -1, $sort_style="timestamp", $filteron = 1) {
 	/* Calling function: Set $filteron = 0 when it is a moderator reading */ 
     $sql = 'SELECT * FROM post WHERE thread = '. $threadID;
-    if ($filteron = 1) {
+    if ($filteron) {
     	$sql .= ' AND hidden = 0';
     }
     switch($sort_style) {

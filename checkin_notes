@@ -22682,6 +22682,9 @@ David  13 Jan 2005
 Rom    13 Jan 2005
     - Checkin the changes nessassary to hide threads in the forum code.
       By: Rob Ogilvie
+    - Hidden threads should not be visible through a direct call
 
     html/inc/
         forum.inc
+    html/user/
+        forum_thread.php
