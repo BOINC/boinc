@@ -142,7 +142,7 @@ void make_work() {
         exit(1);
     }
 
-    retval = boinc_db_open(config.db_name, config.db_passwd);
+    retval = boinc_db.open(config.db_name, config.db_passwd);
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "can't open db\n");
         exit(1);
@@ -155,7 +155,7 @@ void make_work() {
         exit(1);
     }
 
-    strcpy(starting_xml,wu.xml_doc);
+    strcpy(starting_xml, wu.xml_doc);
 
     sprintf(keypath, "%s/upload_private", config.key_dir);
     retval = read_key_file(keypath, key);
@@ -200,8 +200,11 @@ void make_work() {
                 );
                 sprintf(command,"ln %s %s", pathname, new_pathname);
                 log_messages.printf(SchedMessages::DEBUG, "executing command: %s\n", command);
-                if (system(command)) {
-                    log_messages.printf(SchedMessages::CRITICAL, "system() error\n");
+                retval = system(command);
+                if (retval) {
+                    log_messages.printf(
+                        SchedMessages::CRITICAL, "system() error %d\n", retval
+                    );
                     perror(command);
                     exit(1);
                 }
@@ -225,7 +228,7 @@ void make_work() {
         process_result_template_upload_url_only(wu.result_template, config.upload_url);
         wu.transition_time = time(0);
         retval = wu.insert();
-        wu.id = boinc_db_insert_id();
+        wu.id = boinc_db.insert_id();
         log_messages.printf(SchedMessages::DEBUG, "[%s] Created new WU\n", wu.name);
     }
 }

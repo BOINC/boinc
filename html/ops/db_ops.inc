@@ -443,10 +443,10 @@ function show_workunit($wu, $hide_xml_doc) {
     }
     row("Application", "<a href=db_action.php?table=app&id=$wu->appid>" . app_name_by_id($wu->appid) . "</a>");
     row("Batch", $wu->batch);
-    row("FP Operations", $wu->rsc_fpops);
-    row("Integer Operations", $wu->rsc_iops);
-    row("Memory Requirement", $wu->rsc_memory);
-    row("Disk Requirement", $wu->rsc_disk);
+    row("Estimated FP Operations", $wu->rsc_fpops_est);
+    row("Max FP Operations", $wu->rsc_fpops_bound);
+    row("Max Memory Usage", $wu->rsc_memory_bound);
+    row("Max Disk Usage", $wu->rsc_disk_bound);
     row("Need validate?", $wu->need_validate?"yes":"no");
     row("Canonical resultid",
             "<a href=db_action.php?table=result&id=$wu->canonical_resultid>".$wu->canonical_resultid."</a>");
@@ -457,7 +457,14 @@ function show_workunit($wu, $hide_xml_doc) {
     row("File delete state", file_delete_state_str($wu->file_delete_state));
     row("Assimilation state", assimilate_state_str($wu->assimilate_state));
     // row("","<a href=db_action.php?table=result&workunitid=$wu->id&detail=low>Show associated results</a>");
+    row("min quorum", $wu->min_quorum);
+    row("max error results", $wu->max_error_results);
+    row("max total results", $wu->max_total_results);
+    row("max success results", $wu->max_success_results);
     row("","<a href='show_log.php?s=$wu->name'>Grep logs</a>");
+    if (!$hide_xml_doc) {
+        row("result template", "<pre>".htmlspecialchars($wu->result_template)."</pre>");
+    }
     end_table();
 
     $_GET = array('workunitid' => $wu->id);

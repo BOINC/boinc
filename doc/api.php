@@ -15,47 +15,13 @@ The application must call
     int boinc_init();
 </pre>
 before calling other BOINC functions or doing I/O.
-It may call
-<pre>
-    struct APP_INIT_DATA {
-        char project_preferences[4096];
-        char user_name[256];
-        char team_name[256];
-        double user_total_credit;
-        double user_expavg_credit;
-        double team_total_credit;
-        double team_expavg_credit;
-    };
-
-    int boinc_get_init_data(APP_INIT_DATA&);
-</pre>
-to get the following information:
-<ul>
-<li> <b>project_preferences</b>: An XML string containing
-the user's project-specific preferences.
-<li> <b>user_name</b>: the user's 'screen name' on this project.
-<li> <b>team_name</b>: the user's team name, if any.
-<li> <b>user_total_credit</b>: user's total work for this project.
-<li> <b>user_expavg_credit</b>: user's recent average work per day.
-<li> <b>team_total_credit</b>: team's total work for this project.
-<li> <b>team_expavg_credit</b>: team's recent average work per day.
-</ul>
-<p>
-These items might be used by the application in its graphics.
-At any time it may call
-<pre>
-    int boinc_cpu_time(double &cpu_time, double& working_set_size);
-</pre>
-to get its total CPU time
-(i.e., from the beginning of the work unit,
-not just since the last restart).
-This also returns the virtual memory working set size in bytes.
 <p>
 When the application has completed it must call
 <pre>
     int boinc_finish(int status);
 </pre>
 <tt>status</tt> is nonzero if an error was encountered.
+This call does not return.
 
 <h3>Resolving file names</h3>
 Applications that use named input or output files must call
@@ -90,9 +56,26 @@ On startup, the application
 reads the state file to determine where to begin computation.
 If the BOINC client quits or exits,
 the computation can be restarted from the most recent checkpoint.
-
 <p>
-To use checkpoint, an application should write to output and
+Frequency of checkpointing is a user preference
+(e.g. laptop users might want to checkpoint infrequently).
+An application must call
+<pre>
+    bool boinc_time_to_checkpoint();
+</pre>
+whenever it reaches a point where it is able to checkpoint.
+If this returns true,
+the application should write the state file and flush all output files,
+then call
+<pre>
+    void boinc_checkpoint_completed();
+</pre>
+A call to <tt>boinc_time_to_checkpoint()</tt> is extremely fast,
+so there is little penalty in calling it frequently.
+
+<h3>Atomic file update</h3>
+<p>
+To facilitate atomic checkpoint, an application can write to output and
 state files using the <tt>MFILE</tt> class.
 <pre>
 class MFILE {
@@ -110,23 +93,23 @@ MFILE buffers data in memory
 and writes to disk only on <tt>flush()</tt> or <tt>close()</tt>.
 This lets you write output files and state files
 more or less atomically.
-Frequency of checkpointing is a user preference
-(e.g. laptop users might want to checkpoint infrequently).
-An application must call
-<pre>
-    bool boinc_time_to_checkpoint();
-</pre>
-whenever it reaches a point where it is able to checkpoint.
-If this returns true,
-the application should write the state file and flush all output files,
-then call
-<pre>
-    void boinc_checkpoint_completed();
-</pre>
-A call to <tt>boinc_time_to_checkpoint()</tt> is extremely fast,
-so there is little penalty in calling it frequently.
 
-<h3>Fraction done</h3>
+<h3>Signal masking</h3>
+<p>
+The BOINC API implementation uses a periodic signal.
+If this signal is handled during a system call,
+the call may return with an EINTR error,
+in which case it must be called again.
+To avoid dealing with this possibility.
+applications should mask and unmask the clock signal around system calls.
+This is done using
+<pre>
+   boinc_mask();
+   boinc_unmask()
+</pre>
+
+<h3>Communicating with the core client</h3>
+<p>
 The core client GUI displays the percent done of workunits in progress.
 To keep this display current, an application should
 periodically call
@@ -136,6 +119,47 @@ periodically call
 The <tt>fraction_done</tt> argument is a rough estimate of the
 workunit fraction complete (0 to 1).
 This function is extremely fast and can be called often.
+
+<p>
+The following functions get information from the core client;
+this information may be useful for graphics.
+<pre>
+    int boinc_get_init_data(APP_INIT_DATA&);
+
+    struct APP_INIT_DATA {
+        char project_preferences[4096];
+        char user_name[256];
+        char team_name[256];
+        double user_total_credit;
+        double user_expavg_credit;
+        double team_total_credit;
+        double team_expavg_credit;
+    };
+</pre>
+to get the following information:
+";
+list_start();
+list_item("project_preferences", "An XML string containing
+the user's project-specific preferences.");
+list_item("user_name", " the user's 'screen name' on this project.");
+list_item("team_name", " the user's team name, if any.");
+list_item("user_total_credit", " user's total work for this project.");
+list_item("user_expavg_credit", " user's recent average work per day.");
+list_item("team_total_credit", " team's total work for this project.");
+list_item("team_expavg_credit", " team's recent average work per day.");
+list_end();
+echo "
+<p>
+It may call
+<pre>
+    int boinc_cpu_time(double &cpu_time, double& working_set_size);
+</pre>
+to get its total CPU time
+(i.e., from the beginning of the work unit,
+not just since the last restart).
+This also returns the virtual memory working set size in bytes.
+
+
 
 <h3>Multi-program applications</h3>
 Some applications consist of multiple programs:

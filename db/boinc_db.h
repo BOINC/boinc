@@ -31,6 +31,8 @@
 
 #include "db_base.h"
 
+extern DB_CONN boinc_db;
+
 // Maximum allowed size for SQL based blobs (Binary Large Object)
 //
 #define MAX_BLOB_SIZE   4096
@@ -384,14 +386,6 @@ struct WORKSEQ {
     void clear();
 };
 
-extern int boinc_db_open(char* dbname, char* passwd);
-extern int boinc_db_close();
-extern void boinc_db_print_error(char*);
-extern const char* boinc_db_error_string();
-extern int boinc_db_insert_id();
-
-extern MYSQL *mysql;
-
 class DB_PROJECT : public DB_BASE, public PROJECT {
 public:
     DB_PROJECT();
@@ -484,5 +478,4 @@ public:
     void db_parse(MYSQL_ROW &row);
 };
 
-extern int boinc_db_open(char*, char*);
 #endif

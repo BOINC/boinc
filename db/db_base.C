@@ -6,9 +6,46 @@
 
 #define MAX_QUERY_LEN 8192
 
-MYSQL* mysql;
+DB_CONN::DB_CONN() {
+    mysql = 0;
+}
 
-DB_BASE::DB_BASE(char *tn) : table_name(tn) {
+int DB_CONN::open(char* dbname, char* dbpassword) {
+    mysql = mysql_init(0);
+    if (!mysql) return 0;
+    mysql = mysql_real_connect(mysql, 0, 0, dbpassword, dbname, 0, 0, 0);
+    return (mysql != 0);
+}
+
+void DB_CONN::close() {
+    if (mysql) mysql_close(mysql);
+}
+
+int DB_CONN::insert_id() {
+    int retval;
+    MYSQL_ROW row;
+    MYSQL_RES* rp;
+            
+    retval = mysql_query(mysql, "select LAST_INSERT_ID()");
+    if (retval) return retval;
+    rp = mysql_store_result(mysql);
+    row = mysql_fetch_row(rp);
+    return atoi(row[0]);
+}
+
+void DB_CONN::print_error(char* p) {
+    if (mysql) {
+        fprintf(stderr, "%s: Database error: %s\n", p, mysql_error(mysql));
+    } else {
+        fprintf(stderr, "%s: Database error\n", p);
+    }
+}
+
+const char* DB_CONN::error_string() {
+    return mysql?mysql_error(mysql):"Not connected";
+}
+
+DB_BASE::DB_BASE(DB_CONN& p, char *tn) : db(&p), table_name(tn) {
     cursor.active = false;
 }
 
@@ -21,14 +58,14 @@ int DB_BASE::insert() {
     char vals[MAX_QUERY_LEN], query[MAX_QUERY_LEN];
     db_print(vals);
     sprintf(query, "insert into %s set %s", table_name, vals);
-    return mysql_query(mysql, query);
+    return mysql_query(db->mysql, query);
 }
 
 int DB_BASE::update() {
     char vals[MAX_QUERY_LEN], query[MAX_QUERY_LEN];
     db_print(vals);
     sprintf(query, "update %s set %s where id=%d", table_name, vals, get_id());
-    return mysql_query(mysql, query);
+    return mysql_query(db->mysql, query);
 }
 
 int DB_BASE::lookup(char* clause) {
@@ -38,9 +75,9 @@ int DB_BASE::lookup(char* clause) {
     MYSQL_RES* rp;
 
     sprintf(query, "select * from %s %s", table_name, clause);
-    retval = mysql_query(mysql, query);
+    retval = mysql_query(db->mysql, query);
     if (retval) return retval;
-    rp = mysql_store_result(mysql);
+    rp = mysql_store_result(db->mysql);
     if (!rp) return -1;
     row = mysql_fetch_row(rp);
     if (row) db_parse(row);
@@ -55,9 +92,9 @@ int DB_BASE::lookup_id(int id) {
     MYSQL_RES* rp;
 
     sprintf(query, "select * from %s where id=%d", table_name, id);
-    retval = mysql_query(mysql, query);
+    retval = mysql_query(db->mysql, query);
     if (retval) return retval;
-    rp = mysql_store_result(mysql);
+    rp = mysql_store_result(db->mysql);
     if (!rp) return -1;
     row = mysql_fetch_row(rp);
     if (row) db_parse(row);
@@ -73,10 +110,10 @@ int DB_BASE::enumerate(char* clause) {
     if (!cursor.active) {
         cursor.active = true;
         sprintf(query, "select * from %s %s", table_name, clause);
-        x = mysql_query(mysql, query);
-        if (x) return mysql_errno(mysql);
-        cursor.rp = mysql_store_result(mysql);
-        if (!cursor.rp) return mysql_errno(mysql);
+        x = mysql_query(db->mysql, query);
+        if (x) return mysql_errno(db->mysql);
+        cursor.rp = mysql_store_result(db->mysql);
+        if (!cursor.rp) return mysql_errno(db->mysql);
     }
     row = mysql_fetch_row(cursor.rp);
     if (!row) {
@@ -94,9 +131,9 @@ int DB_BASE::get_integer(char* query, int& n) {
     MYSQL_ROW row;
     MYSQL_RES* resp;
 
-    retval = mysql_query(mysql, query);
+    retval = mysql_query(db->mysql, query);
     if (retval) return retval;
-    resp = mysql_store_result(mysql);
+    resp = mysql_store_result(db->mysql);
     if (!resp) return -1;
     row = mysql_fetch_row(resp);
     if (!row) return -1;
@@ -111,9 +148,9 @@ int DB_BASE::get_double(char* query, double& x) {
     MYSQL_ROW row;
     MYSQL_RES* resp;
 
-    retval = mysql_query(mysql, query);
+    retval = mysql_query(db->mysql, query);
     if (retval) return retval;
-    resp = mysql_store_result(mysql);
+    resp = mysql_store_result(db->mysql);
     if (!resp) return -1;
     row = mysql_fetch_row(resp);
     if (!row) return -1;

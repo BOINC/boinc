@@ -378,11 +378,11 @@ new_host:
         if (retval) {
             strcpy(reply.message, "server database error");
             strcpy(reply.message_priority, "low");
-            boinc_db_print_error("host.insert()");
+            boinc_db.print_error("host.insert()");
             log_messages.printf(SchedMessages::CRITICAL, "host.insert() failed\n");
             return -1;
         }
-        host.id = boinc_db_insert_id();
+        host.id = boinc_db.insert_id();
 
         reply.host = host;
         reply.hostid = reply.host.id;
@@ -588,7 +588,7 @@ int handle_results(
             log_messages.printf(
                 SchedMessages::NORMAL,
                 "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
-                host.id, result.id, result.name, boinc_db_error_string()
+                host.id, result.id, result.name, boinc_db.error_string()
             );
         }
 

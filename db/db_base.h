@@ -27,12 +27,26 @@ struct CURSOR {
     MYSQL_RES *rp;
 };
 
+// represents a connection to a database
+//
+class DB_CONN{
+public:
+    DB_CONN();
+    int open(char* name, char* passwd);
+    void close();
+    int insert_id();
+    void print_error(char*);
+    const char* error_string();
+
+    MYSQL* mysql;
+};
+
 // Base for derived classes that can access the DB
 // Defines various generic operations on DB tables
 //
 class DB_BASE {
 public:
-    DB_BASE(char *table_name);
+    DB_BASE(DB_CONN&, char *table_name);
     int insert();
     int update();
     int lookup_id(int id);
@@ -43,6 +57,7 @@ public:
     int get_double(char* query, double&);
     int get_integer(char* query, int&);
 
+    DB_CONN* db;
     const char *table_name;
     CURSOR cursor;
     virtual int get_id();

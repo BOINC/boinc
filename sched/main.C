@@ -105,7 +105,7 @@ int main() {
         exit(1);
     }
 
-    retval = boinc_db_open(config.db_name, config.db_passwd);
+    retval = boinc_db.open(config.db_name, config.db_passwd);
     if (retval) {
         log_messages.printf(SchedMessages::CRITICAL, "can't open database\n");
         exit(1);
@@ -170,5 +170,5 @@ int main() {
 #ifdef _USING_FCGI_
     }
 #endif
-    boinc_db_close();
+    boinc_db.close();
 }

@@ -219,7 +219,7 @@ int create_work(
         fprintf(stderr, "create_work: workunit.insert() %d\n", retval);
         return retval;
     }
-    wu.id = boinc_db_insert_id();
+    wu.id = boinc_db.insert_id();
 
     return 0;
 }

@@ -170,18 +170,18 @@ int boinc_init(bool standalone_ /* = false */) {
 //
 int boinc_install_signal_handlers() {
 #ifdef HAVE_SIGNAL_H
-    signal( SIGHUP, boinc_catch_signal );  // terminal line hangup
-    signal( SIGINT, boinc_catch_signal );  // interrupt program
-    signal( SIGQUIT, boinc_quit );         // quit program
-    signal( SIGILL, boinc_catch_signal );  // illegal instruction
-    signal( SIGABRT, boinc_catch_signal ); // abort(2) call
-    signal( SIGBUS, boinc_catch_signal );  // bus error
-    signal( SIGSEGV, boinc_catch_signal ); // segmentation violation
-    signal( SIGSYS, boinc_catch_signal );  // system call given invalid argument
-    signal( SIGPIPE, boinc_catch_signal ); // write on a pipe with no reader
+    signal(SIGHUP, boinc_catch_signal);  // terminal line hangup
+    signal(SIGINT, boinc_catch_signal);  // interrupt program
+    signal(SIGQUIT, boinc_quit);         // quit program
+    signal(SIGILL, boinc_catch_signal);  // illegal instruction
+    signal(SIGABRT, boinc_catch_signal); // abort(2) call
+    signal(SIGBUS, boinc_catch_signal);  // bus error
+    signal(SIGSEGV, boinc_catch_signal); // segmentation violation
+    signal(SIGSYS, boinc_catch_signal);  // system call given invalid argument
+    signal(SIGPIPE, boinc_catch_signal); // write on a pipe with no reader
 #endif
 #ifdef _WIN32
-    //SetUnhandledExceptionFilter( boinc_catch_signal );
+    //SetUnhandledExceptionFilter(boinc_catch_signal);
 #endif
     return 0;
 }
@@ -230,9 +230,9 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo) {
         default: safe_strncpy(status,"Unknown exception",sizeof(status)); break;
     }
     // TODO: also output info in CONTEXT structure?
-    fprintf( stderr, "\n***UNHANDLED EXCEPTION****\n");
-    fprintf( stderr, "Reason: %s at address 0x%p\n",status,exceptionAddr);
-    fprintf( stderr, "Exiting...\n" );
+    fprintf(stderr, "\n***UNHANDLED EXCEPTION****\n");
+    fprintf(stderr, "Reason: %s at address 0x%p\n",status,exceptionAddr);
+    fprintf(stderr, "Exiting...\n");
     fflush(stderr);
     _exit(ERR_SIGNAL_CATCH);
     return(EXCEPTION_EXECUTE_HANDLER);
@@ -242,22 +242,22 @@ LONG CALLBACK boinc_catch_signal(EXCEPTION_POINTERS *ExceptionInfo) {
 #ifdef HAVE_SIGNAL_H
 void boinc_catch_signal(int signal) {
     switch(signal) {
-        case SIGHUP: fprintf( stderr, "SIGHUP: terminal line hangup" ); break;
-        case SIGINT: fprintf( stderr, "SIGINT: interrupt program" ); break;
-        case SIGILL: fprintf( stderr, "SIGILL: illegal instruction" ); break;
-        case SIGABRT: fprintf( stderr, "SIGABRT: abort called" ); break;
-        case SIGBUS: fprintf( stderr, "SIGBUS: bus error" ); break;
-        case SIGSEGV: fprintf( stderr, "SIGSEGV: segmentation violation" ); break;
-        case SIGSYS: fprintf( stderr, "SIGSYS: system call given invalid argument" ); break;
-        case SIGPIPE: fprintf( stderr, "SIGPIPE: write on a pipe with no reader" ); break;
-        default: fprintf( stderr, "unknown signal %d", signal ); break;
+        case SIGHUP: fprintf(stderr, "SIGHUP: terminal line hangup"); break;
+        case SIGINT: fprintf(stderr, "SIGINT: interrupt program"); break;
+        case SIGILL: fprintf(stderr, "SIGILL: illegal instruction"); break;
+        case SIGABRT: fprintf(stderr, "SIGABRT: abort called"); break;
+        case SIGBUS: fprintf(stderr, "SIGBUS: bus error"); break;
+        case SIGSEGV: fprintf(stderr, "SIGSEGV: segmentation violation"); break;
+        case SIGSYS: fprintf(stderr, "SIGSYS: system call given invalid argument"); break;
+        case SIGPIPE: fprintf(stderr, "SIGPIPE: write on a pipe with no reader"); break;
+        default: fprintf(stderr, "unknown signal %d", signal); break;
     }
-    fprintf( stderr, "\nExiting...\n" );
+    fprintf(stderr, "\nExiting...\n");
     exit(ERR_SIGNAL_CATCH);
 }
 
 void boinc_quit(int sig) {
-    signal( SIGQUIT, boinc_quit );    // reset signal
+    signal(SIGQUIT, boinc_quit);    // reset signal
     time_to_quit = true;
 }
 #endif
@@ -330,12 +330,21 @@ int boinc_checkpoint_completed() {
     update_app_progress(fraction_done, last_checkpoint_cpu_time, last_checkpoint_cpu_time, cur_mem);
     ready_to_checkpoint = false;
     time_until_checkpoint = aid.checkpoint_period;
-    // If it's time to quit, call boinc_finish which will
-    // exit the app properly
+
+    // If it's time to quit, call boinc_finish which will exit the app properly
+    //
     if (time_to_quit) {
         boinc_finish(ERR_QUIT_REQUEST);
     }
     return 0;
+}
+
+void boinc_mask() {
+    sighold(SIGALRM);
+}
+
+void boinc_unmask() {
+    sigrelse(SIGALRM);
 }
 
 int boinc_fraction_done(double x) {
@@ -466,7 +475,7 @@ int set_timer(double period) {
         on_timer, // lpTimeProc
         NULL, // dwUser
         TIME_PERIODIC  // fuEvent
-        );
+    );
     sprintf(buf, "%s%s", QUIT_PREFIX, aid.comm_obj_name);
     hQuitRequest = OpenEvent(EVENT_ALL_ACCESS, FALSE, buf);
 #ifdef BOINC_APP_GRAPHICS
@@ -489,7 +498,7 @@ int set_timer(double period) {
     sa.sa_flags = SA_RESTART;
     retval = sigaction(SIGALRM, &sa, NULL);
     if (retval) {
-        perror( "boinc set_timer() sigaction" );
+        perror("boinc set_timer() sigaction");
         return retval;
     }
     value.it_value.tv_sec = (int)period;
@@ -497,18 +506,18 @@ int set_timer(double period) {
     value.it_interval = value.it_value;
     retval = setitimer(ITIMER_REAL, &value, NULL);
     if (retval) {
-        perror( "boinc set_timer() setitimer" );
+        perror("boinc set_timer() setitimer");
     }
 #endif
 #endif
     return retval;
 }
 
-void setup_shared_mem(void) {
+void setup_shared_mem() {
 	app_client_shm = new APP_CLIENT_SHM;
     if (standalone) {
         app_client_shm->shm = NULL;
-        fprintf( stderr, "Standalone mode, so not attaching to shared memory.\n" );
+        fprintf(stderr, "Standalone mode, so not attaching to shared memory.\n");
         return;
     }
 
@@ -516,8 +525,9 @@ void setup_shared_mem(void) {
     char buf[256];
     sprintf(buf, "%s%s", SHM_PREFIX, aid.comm_obj_name);
     hSharedMem = attach_shmem(buf, (void**)&app_client_shm->shm);
-    if (hSharedMem == NULL)
+    if (hSharedMem == NULL) {
         app_client_shm = NULL;
+    }
 #endif
 
 #ifdef HAVE_SYS_SHM_H
@@ -529,27 +539,36 @@ void setup_shared_mem(void) {
 #endif
 }
 
-void cleanup_shared_mem(void) {
+void cleanup_shared_mem() {
     if (!app_client_shm) return;
 
 #ifdef _WIN32
-    if (app_client_shm->shm != NULL)
+    if (app_client_shm->shm != NULL) {
         detach_shmem(hSharedMem, app_client_shm->shm);
+    }
 #endif
 
 #ifdef HAVE_SYS_SHM_H
 #ifdef HAVE_SYS_IPC_H
-    if (app_client_shm->shm != NULL)
+    if (app_client_shm->shm != NULL) {
         detach_shmem(app_client_shm->shm);
+    }
 #endif
 #endif
 }
 
 
-int update_app_progress(double frac_done, double cpu_t, double cp_cpu_t, double ws_t) {
+// communicate to the core client (via shared mem)
+// the current CPU time and fraction done
+//
+int update_app_progress(
+    double frac_done, double cpu_t, double cp_cpu_t, double ws_t
+) {
     char msg_buf[SHM_SEG_SIZE];
 
-    sprintf( msg_buf,
+    if (!app_client_shm) return 0;
+
+    sprintf(msg_buf,
         "<fraction_done>%2.8f</fraction_done>\n"
         "<current_cpu_time>%10.4f</current_cpu_time>\n"
         "<checkpoint_cpu_time>%10.4f</checkpoint_cpu_time>\n"
@@ -557,8 +576,5 @@ int update_app_progress(double frac_done, double cpu_t, double cp_cpu_t, double 
         frac_done, cpu_t, cp_cpu_t, ws_t
     );
 
-    if (app_client_shm)
-        return app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);
-    else
-        return 0;
+    return app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);
 }

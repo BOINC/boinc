@@ -67,7 +67,7 @@ AC_CONFIG_FILES directive in <code>configure.ac</code>.
 To compile, use the usual
 <pre>
   ./configure
-  make
+  gmake
 </pre>
 <p>
   Example using multiple build directories under a single source
@@ -78,17 +78,17 @@ To compile, use the usual
     milkyway$ mkdir build/solaris2.7
     milkyway$ cd build/solaris2.7
     milkyway$ ../../configure
-    milkyway$ make
+    milkyway$ gmake
 
     milkyway$ mkdir build/solaris2.7-gcc3
     milkyway$ cd build/solaris2.7-gcc3
     milkyway$ ../../configure CC=/opt/misc/gcc-3.0.4/bin/gcc CXX=/opt/misc/gcc-3.0.4/bin/g++
-    milkyway$ make
+    milkyway$ gmake
 
     shaggy$ mkdir build/linux
     shaggy$ cd build/linux
     shaggy$ ../../configure
-    shaggy$ make
+    shaggy$ gmake
   </pre>
 </p>
 
@@ -96,7 +96,7 @@ To compile, use the usual
 
 To test the code:
 <pre>
-  make check
+  gmake check
 </pre>
 
 This runs the python tests in the <code>test/</code> directory.  Old PHP-based
@@ -117,7 +117,7 @@ the <code>AC_INIT</code> line in
 <h2>Archival/source distribution</h2>
 To make source distributions:
 <pre>
-  make dist
+  gmake dist
 </pre>
 
 

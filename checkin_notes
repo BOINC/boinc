@@ -6145,3 +6145,21 @@ David  Sept 4 2003
         main.C
     test/
         testbase.py
+
+David  Sept 5 2003
+    - changed DB interface to make it possible for an application
+        to use different MySQL databases at the same time.
+        A new class DB_CONN represents a connection to a database.
+        Old functions like boinc_db_open() etc. are members of this class.
+        The connection to the BOINC database is represented by
+        by a global object "boinc_db" of this class.
+        You're free to have others
+        (e.g. "app_db" in the work gen or assimilator for an app)
+    
+    db/
+        boinc_db.C,h
+        db_base.C,h
+    html_ops/
+        db_ops.php
+    sched/
+        *.C

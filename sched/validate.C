@@ -326,9 +326,9 @@ int main_loop(bool one_pass) {
     bool did_something;
     char buf[256];
 
-    retval = boinc_db_open(config.db_name, config.db_passwd);
+    retval = boinc_db.open(config.db_name, config.db_passwd);
     if (retval) {
-        log_messages.printf(SchedMessages::CRITICAL, "boinc_db_open: %d\n", retval);
+        log_messages.printf(SchedMessages::CRITICAL, "boinc_db.open: %d\n", retval);
         exit(1);
     }
 

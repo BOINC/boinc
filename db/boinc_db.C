@@ -24,49 +24,14 @@
 
 #include "boinc_db.h"
 
+DB_CONN boinc_db;
+
 static struct random_init {
     random_init()
     {
         srand48(getpid() + time(0));
     }
 } random_init;
-
-int boinc_db_open(char* dbname, char* password) {
-    mysql = mysql_init(0);
-    if (!mysql) return -1;
-    mysql = mysql_real_connect(mysql, 0, 0, password, dbname, 0, 0, 0);
-    if (!mysql) return -1;
-    return 0;
-}
-
-int boinc_db_close() {
-    mysql_close(mysql);
-    return 0;
-}
-
-int boinc_db_insert_id() {
-    int retval;
-    MYSQL_ROW row;
-    MYSQL_RES* rp;
-
-    retval = mysql_query(mysql, "select LAST_INSERT_ID()");
-    if (retval) return retval;
-    rp = mysql_store_result(mysql);
-    row = mysql_fetch_row(rp);
-    return atoi(row[0]);
-}
-
-void boinc_db_print_error(char* p) {
-    if (mysql) {
-        fprintf(stderr, "%s: Database error: %s\n", p, mysql_error(mysql));
-    } else {
-        fprintf(stderr, "%s: Database error\n", p);
-    }
-}
-
-const char* boinc_db_error_string() {
-    return mysql?mysql_error(mysql):"Not connected";
-}
 
 void PROJECT::clear() {memset(this, 0, sizeof(*this));}
 void PLATFORM::clear() {memset(this, 0, sizeof(*this));}
@@ -80,17 +45,17 @@ void RESULT::clear() {memset(this, 0, sizeof(*this));}
 void WORKUNIT::clear() {memset(this, 0, sizeof(*this));}
 void WORKSEQ::clear() {memset(this, 0, sizeof(*this));}
 
-DB_PROJECT::DB_PROJECT() : DB_BASE("project"){}
-DB_PLATFORM::DB_PLATFORM() : DB_BASE("platform"){}
-DB_CORE_VERSION::DB_CORE_VERSION() : DB_BASE("core_version"){}
-DB_APP::DB_APP() : DB_BASE("app"){}
-DB_APP_VERSION::DB_APP_VERSION() : DB_BASE("app_version"){}
-DB_USER::DB_USER() : DB_BASE("user"){}
-DB_TEAM::DB_TEAM() : DB_BASE("team"){}
-DB_HOST::DB_HOST() : DB_BASE("host"){}
-DB_WORKUNIT::DB_WORKUNIT() : DB_BASE("workunit"){}
-DB_RESULT::DB_RESULT() : DB_BASE("result"){}
-DB_WORKSEQ::DB_WORKSEQ() : DB_BASE("workseq"){}
+DB_PROJECT::DB_PROJECT() : DB_BASE(boinc_db, "project"){}
+DB_PLATFORM::DB_PLATFORM() : DB_BASE(boinc_db, "platform"){}
+DB_CORE_VERSION::DB_CORE_VERSION() : DB_BASE(boinc_db, "core_version"){}
+DB_APP::DB_APP() : DB_BASE(boinc_db, "app"){}
+DB_APP_VERSION::DB_APP_VERSION() : DB_BASE(boinc_db, "app_version"){}
+DB_USER::DB_USER() : DB_BASE(boinc_db, "user"){}
+DB_TEAM::DB_TEAM() : DB_BASE(boinc_db, "team"){}
+DB_HOST::DB_HOST() : DB_BASE(boinc_db, "host"){}
+DB_WORKUNIT::DB_WORKUNIT() : DB_BASE(boinc_db, "workunit"){}
+DB_RESULT::DB_RESULT() : DB_BASE(boinc_db, "result"){}
+DB_WORKSEQ::DB_WORKSEQ() : DB_BASE(boinc_db, "workseq"){}
 
 int DB_PROJECT::get_id() {return id;}
 int DB_PLATFORM::get_id() {return id;}

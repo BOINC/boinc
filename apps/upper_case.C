@@ -19,15 +19,12 @@
 
 // read "in", convert to UC, write to "out"
 // command line options:
-// -run_slow: app will sleep 1 second after each character, useful for
-//            debugging
-// -cpu_time: app will chew up some CPU cycles after each character,
+// -run_slow: sleep 1 second after each character, useful for debugging
+// -cpu_time: chew up some CPU cycles after each character,
 //            used for testing CPU time reporting
-// -signal:   app will raise SIGHUP signal (for testing signal handler)
-// -exit:     app will exit with status -10 (for testing exit handler)
+// -signal:   raise SIGHUP signal (for testing signal handler)
+// -exit:     exit with status -10 (for testing exit handler)
 //
-// This version does one char/second,
-// and writes its state to disk every so often
 
 #include <stdio.h>
 #include <ctype.h>
@@ -43,10 +40,9 @@
 
 #ifdef BOINC_APP_GRAPHICS
 #ifdef __APPLE_CC__
-    #include <OpenGL/gl.h>
-    #include <OpenGL/glu.h>
-
-    #include "mac_carbon_gl.h"
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#include "mac_carbon_gl.h"
 #elif _WIN32
 #include <gl\gl.h>            // Header File For The OpenGL32 Library
 #include <gl\glu.h>            // Header File For The GLu32 Library
@@ -57,7 +53,6 @@
 #include <GL/glu.h>
 #endif
 
-void renderBitmapString(float x, float y, void *font, char *string);
 #endif
 
 #include "util.h"
@@ -67,11 +62,14 @@ void renderBitmapString(float x, float y, void *font, char *string);
 
 #define CHECKPOINT_FILE "upper_case_state"
 
+#ifdef BOINC_APP_GRAPHICS
 char display_buf[10];
 double xPos=0, yPos=0;
 double xDelta=0.03, yDelta=0.07;
+#endif
 
-int run_slow=0,cpu_time=0,raise_signal=0,random_exit=0;
+bool run_slow=false, raise_signal=false, random_exit=false;
+int cpu_time=0;
 time_t my_start_time;
 APP_INIT_DATA uc_aid;
 
@@ -138,16 +136,18 @@ int main(int argc, char **argv) {
     int c, nchars = 0, retval, i, n;
     double j;
     char resolved_name[512];
-    MFILE out, time_file;
+    MFILE out;
     FILE* state, *in;
 
     my_start_time = time(0);
 
-    strcpy(display_buf, "(none)\0");
     retval = boinc_init();
     if (retval) exit(retval);
 
+    boinc_mask();       // mask clock signal since we're about to do I/O
+
 #ifdef BOINC_APP_GRAPHICS
+    strcpy(display_buf, "(none)\0");
     retval = boinc_init_opengl();
     if (retval) exit(retval);
 #endif
@@ -160,10 +160,10 @@ int main(int argc, char **argv) {
     fprintf(stderr, "APP: upper_case: starting, argc %d\n", argc);
     for (i=0; i<argc; i++) {
         fprintf(stderr, "APP: upper_case: argv[%d] is %s\n", i, argv[i]);
-        if (!strcmp(argv[i], "-run_slow")) run_slow = 1;
+        if (!strcmp(argv[i], "-run_slow")) run_slow = true;
         if (!strcmp(argv[i], "-cpu_time")) cpu_time = 1;
-        if (!strcmp(argv[i], "-signal")) raise_signal = 1;
-        if (!strcmp(argv[i], "-exit")) random_exit = 1;
+        if (!strcmp(argv[i], "-signal")) raise_signal = true;
+        if (!strcmp(argv[i], "-exit")) random_exit = true;
     }
     boinc_resolve_filename("in", resolved_name, sizeof(resolved_name));
     in = fopen(resolved_name, "r");
@@ -194,11 +194,13 @@ int main(int argc, char **argv) {
         perror("open");
         exit(1);
     }
-    time_file.open("time.xml", "w");
     while (1) {
         c = fgetc(in);
+
         if (c == EOF) break;
+#ifdef BOINC_APP_GRAPHICS
         sprintf(display_buf, "%c -> %c", c, toupper(c));
+#endif
         c = toupper(c);
         out._putchar(c);
         nchars++;
@@ -230,7 +232,10 @@ int main(int argc, char **argv) {
             }
         }
 
-        if (boinc_time_to_checkpoint()) {
+        boinc_unmask();
+        bool flag = boinc_time_to_checkpoint();
+        boinc_mask();
+        if (flag) {
             retval = do_checkpoint(out, nchars);
             if (retval) {
                 fprintf(stderr, "APP: upper_case checkpoint failed %d\n", retval);
@@ -249,9 +254,6 @@ int main(int argc, char **argv) {
     double cur_cpu;
     double cur_mem;
     boinc_cpu_time(cur_cpu, cur_mem);
-    time_file.printf("%f\n", cur_cpu);
-    time_file.flush();
-    time_file.close();
 
 #ifdef BOINC_APP_GRAPHICS
     boinc_finish_opengl();
@@ -264,8 +266,7 @@ int main(int argc, char **argv) {
 #ifdef BOINC_APP_GRAPHICS
 extern GLuint main_font;
 
-void app_init_gl() {
-}
+void app_init_gl() {}
 
 bool app_render(int xs, int ys, double time_of_day) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    // Clear Screen And Depth Buffer
