@@ -330,7 +330,7 @@ AC_ARG_ENABLE([linux-release], AS_HELP_STRING([--enable-linux-release],
 
 dnl Some platform specific settings
 case $target in
-   *linux*) 
+   *linux* | *sun* ) 
 	if ( test "${enable_linux_release}" = yes ) && ( test "${enable_client}" != yes ); then
 	   AC_MSG_WARN([--enable-linux-release ignored.
 --------------------------------------------------

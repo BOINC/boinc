@@ -23224,8 +23224,15 @@ David  24 Jan 2005
     lib/
         error_numbers.h
 
-Rom    20 Jan 2005 (boinc)
+Rom    24 Jan 2005 (boinc)
     - Tag for 4.62 release, all platforms
       boinc_core_release_4_62
 
       NOTE: 4.61 was eaten up in setup testing.
+
+Rom    24 Jan 2005
+    - Modify configure.ac so that I can try and build the client and 
+        clientgui with the static stdc++ library.
+
+    /
+    configure.ac
