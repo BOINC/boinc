@@ -1,5 +1,4 @@
-Windows hostinfo: CPU, #cpus, OS, memory, domain, IP address,
-    swap, disk, free
+Windows hostinfo: memory, cache, swap
 validate in crontab
 email account ID
 formatting of team, top user page
@@ -8,19 +7,17 @@ make "external user view" page (no private info)
 list hosts 1 per line, linked
 
 Windows client
-    "bring up graphics" button in core client
+    "bring up graphics" button/menu item in core client
     make mini-logo
     test uninstall
     fix "unable to calculate"
     fix disk usage labels, limit size of pie
-    choose GB or MB correctly
+    print GB/MB/KB correctly for usage chart
     get rid of xfers, results eventually
-    "free avail for boinc should be nonzero"
-    messages: prepend project name, have date/time
+    messages: prepend project name, include date and time
     xfers: show file size,
-    done xfers: show elapsed time
-    done results: show used CPU time
-    notation for CPU time: HH:MM:SS
+    completed xfers: show elapsed time
+    completed results: show final CPU time
 -----------------------
 
 test feeder reread-DB mechanism
