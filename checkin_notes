@@ -6884,3 +6884,8 @@ David  17 Oct 2003
         error_numbers.h
     sched/
         handle_request.C
+
+Oliver 17 Oct 2003
+    - small label coord tweak
+    api/
+	reduce.c

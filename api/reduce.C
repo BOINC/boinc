@@ -794,15 +794,15 @@ void REDUCED_ARRAY::draw_labels() {
 	double aspect_ratio = 4.0/3.0;	
 	if ((double)h*aspect_ratio > (double)w) 
 	{
-		model[1]*=1.0f/((w/aspect_ratio)/h);    
-		model[5]*=1.0f/((w/aspect_ratio)/h);
-		model[9]*=1.0f/((w/aspect_ratio)/h);
+		model[1]*=1.0f/(((double)w/aspect_ratio)/(double)h);    
+		model[5]*=1.0f/(((double)w/aspect_ratio)/(double)h);
+		model[9]*=1.0f/(((double)w/aspect_ratio)/(double)h);
 	}
 	else 
 	{   
-		model[0]*=1.0f/((h*aspect_ratio)/w);    
-		model[4]*=1.0f/((h*aspect_ratio)/w);
-		model[8]*=1.0f/((h*aspect_ratio)/w);
+		model[0]*=1.0f/(((double)h*aspect_ratio)/(double)w);    
+		model[4]*=1.0f/(((double)h*aspect_ratio)/(double)w);
+		model[8]*=1.0f/(((double)h*aspect_ratio)/(double)w);
     }	
 
 	//project to ortho coordinates		
@@ -819,7 +819,7 @@ void REDUCED_ARRAY::draw_labels() {
         model, proj, viewport,x_pos
     );
 
-	get_2d_positions(draw_pos[0]+draw_size[0],draw_pos[1],draw_pos[2]+draw_size[2],
+	get_2d_positions(draw_pos[0]+draw_size[0]+.2f,draw_pos[1]+.6f,draw_pos[2]+draw_size[2]-.4f,
         model, proj, viewport,p_pos
     );
 	glPopMatrix();
