@@ -11,6 +11,7 @@ a:active {
 }
 
 body , table , input , select {
+	background-color: #ffffff;
 	font-family: Verdana, Arial, Sans Serif;
 	font-size: 12px;
 }

@@ -457,7 +457,7 @@ function show_profile($userid) {
     row1($profile->response1, 2, "foobar");
     row1(show_profile_heading2());
     row1($profile->response2, 2, "foobar");
-    if (true) {
+    if (!$can_edit) {
         row1("Your feedback on this profile");
         row2(
             "Recommend this profile for User of the Day:",

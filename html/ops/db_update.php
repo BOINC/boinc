@@ -220,7 +220,7 @@ function update_1_13_2005() {
 }
 
 function update_1_18_2005() {
-    mysql_query("ALTER TABLE `forum_preferences` CHANGE `special_user` `special_user` CHAR( 8 ) DEFAULT '0' NOT NULL");
+    mysql_query("ALTER TABLE forum_preferences CHANGE special_user special_user CHAR( 8 ) DEFAULT '0' NOT NULL");
 }
 
 function update_1_19_2005() {

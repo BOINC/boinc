@@ -22956,4 +22956,9 @@ Bruce 19 Jan 2005
     lib/
         filesys.C
 
+David  19 Jan 2005
+    - don't show rating buttons when user looks at their own profile
 
+    html/inc/
+        profile.inc
+        uotd.inc
