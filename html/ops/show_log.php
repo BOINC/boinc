@@ -28,7 +28,7 @@
 
     echo 'Hint: Example greps: "RESULT#106876", "26fe99aa_25636_00119.wu_1", "WU#8152", "too many errors", "2003-07-17", "CRITICAL" <br>';
 
-    passthru("cd $log_dir && ./grep_logs -html '$s' $f 2>&1");
+    passthru("cd $log_dir && ../bin/grep_logs -html '$s' $f 2>&1");
 
     page_tail();
 } ?>
