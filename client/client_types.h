@@ -221,7 +221,7 @@ struct RESULT {
     int signal;             // the signal caught by the active_task,
                 // defined only if active_task_state is PROCESS_SIGNALED
     int active_task_state; // the state of the active task corresponding to this result
-    char stderr_out[MAX_BLOB_LEN];
+    string stderr_out;
     
     APP* app;
     WORKUNIT* wup;

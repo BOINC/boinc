@@ -737,7 +737,7 @@ void RESULT::clear() {
     exit_status = 0;
     active_task_state = 0;
     signal = 0;
-    strcpy(stderr_out, "");
+    stderr_out = "";
     app = NULL;
     wup = NULL;
     project = NULL;
@@ -790,7 +790,7 @@ int RESULT::parse_state(FILE* in) {
         else if (match_tag(buf, "<stderr_out>")) {
             while (fgets(buf, 256, in)) {
                 if (match_tag(buf, "</stderr_out>")) break;
-                strcat(stderr_out, buf);
+                stderr_out.append(buf);
             }
             continue;
         }
@@ -813,17 +813,12 @@ int RESULT::write(FILE* out, bool to_server) {
         final_cpu_time,
         state
     );
-    n = strlen(stderr_out);
+    n = stderr_out.length();
     if (n) {
-        fprintf(out,
-            "<stderr_out>\n"
-            "%s",
-            stderr_out
-        );
+        fprintf(out, "<stderr_out>\n");
+		fprintf(out, stderr_out.c_str());
         if (stderr_out[n-1] != '\n') fprintf(out, "\n");
-        fprintf(out,
-            "</stderr_out>\n"
-        );
+        fprintf(out, "</stderr_out>\n");
     }
     if (!to_server) {
         if (server_ack) fprintf(out, "    <server_ack/>\n");

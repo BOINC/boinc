@@ -684,15 +684,20 @@ int ACTIVE_TASK::abort() {
 // check for the stderr file, copy to result record
 //
 bool ACTIVE_TASK::read_stderr_file() {
+    char stderr_file[MAX_BLOB_LEN];
     char path[256];
     int n;
 
     sprintf(path, "%s%s%s", slot_dir, PATH_SEPARATOR, STDERR_FILE);
     FILE* f = fopen(path, "r");
     if (f) {
-        n = fread(result->stderr_out, 1, sizeof(result->stderr_out), f);
-        result->stderr_out[n] = 0;
+        n = fread(stderr_file, 1, sizeof(stderr_file), f);
         fclose(f);
+        stderr_file[n-1] = '\0';
+        result->stderr_out += "<stderr_txt>\n";
+        result->stderr_out += stderr_file;
+        result->stderr_out += "\n</stderr_txt>\n";
+        result->stderr_out = result->stderr_out.substr(0,MAX_BLOB_LEN-1);
         return true;
     }
     return false;

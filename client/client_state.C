@@ -1550,16 +1550,11 @@ int CLIENT_STATE::report_result_error(
         res.exit_status,
         res.signal
     );
-
-    if (strlen(res.stderr_out) + strlen(buf) < MAX_BLOB_LEN) {
-        strcat(res.stderr_out, buf );
-    }
+    res.stderr_out.append(buf);
 
     if ((res.state == RESULT_FILES_DOWNLOADED) && err_num) {
         sprintf(buf,"<couldnt_start>%d</couldnt_start>\n", err_num);
-        if (strlen(res.stderr_out) + strlen(buf) < MAX_BLOB_LEN) {
-            strcat(res.stderr_out, buf );
-        }
+        res.stderr_out.append(buf);
     }
 
     if (res.state == RESULT_NEW) {
@@ -1572,9 +1567,7 @@ int CLIENT_STATE::report_result_error(
                     "</download_error>\n",
                     res.wup->input_files[i].file_info->name, failnum
                 );
-                if (strlen(res.stderr_out) + strlen(buf) < MAX_BLOB_LEN ) {
-                    strcat( res.stderr_out, buf );
-                }
+                res.stderr_out.append(buf);
             }
         }
     }
@@ -1589,12 +1582,12 @@ int CLIENT_STATE::report_result_error(
                     "</upload_error>\n",
                     res.output_files[i].file_info->name, failnum
                 );
-                if (strlen(res.stderr_out) + strlen(buf) < MAX_BLOB_LEN ) {
-                    strcat( res.stderr_out, buf );
-                }
+                res.stderr_out.append(buf);
             }
         }
     }
+	
+	res.stderr_out = res.stderr_out.substr(0,MAX_BLOB_LEN-1);
     return 0;
 }
 
