@@ -48,7 +48,6 @@ public:
     char hostname[256];
     int port;
     int blocksize;
-    double nbytes_xfered;        // total number of bytes transferred
 
     void init(char* host, int port, int blocksize);
     int open_server();

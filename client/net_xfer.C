@@ -23,6 +23,7 @@
 
 #ifdef _WIN32
 #include "winsock.h"
+#include "Win_net.h"
 #endif
 
 #if HAVE_SYS_TIME_H
@@ -72,15 +73,31 @@ int NET_XFER::open_server() {
     hostent* hep;
     int fd=0, ipaddr, retval=0;
 
+#ifdef _WIN32
+	if(NetOpen()) return -1;
+#endif
     hep = gethostbyname(hostname);
     if (!hep) {
         fprintf(stderr, "can't resolve hostname %s\n", hostname);
+#ifdef _WIN32
+		NetClose();
+#endif
         return ERR_GETHOSTBYNAME;
     }
     ipaddr = *(int*)hep->h_addr_list[0];
-    if (retval) return -1;
+    if (retval) {
+#ifdef _WIN32
+		NetClose();
+#endif
+		return -1;
+	}
     fd = ::socket(AF_INET, SOCK_STREAM, 0);
-    if (fd < 0) return -1;
+    if (fd < 0) {
+#ifdef _WIN32
+		NetClose();
+#endif
+		return -1;
+	}
 
 #ifdef _WIN32
     unsigned long one = 1;
@@ -101,6 +118,7 @@ int NET_XFER::open_server() {
         errno = WSAGetLastError();
         if (errno != WSAEINPROGRESS && errno != WSAEWOULDBLOCK) {
             closesocket(fd);
+			NetClose();
             return -1;
         }
 #else
@@ -119,6 +137,7 @@ int NET_XFER::open_server() {
 
 void NET_XFER::close_socket() {
 #ifdef _WIN32
+	NetClose();
     if (socket) closesocket(socket);
 #else
     if (socket) close(socket);
@@ -138,7 +157,6 @@ void NET_XFER::init(char* host, int p, int b) {
     strcpy(hostname, host);
     port = p;
     blocksize = b;
-    nbytes_xfered = 0;
 }
 
 // Insert a NET_XFER object into the set
@@ -261,7 +279,6 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
             } else if (nxp->do_file_io) {
                 if (max_bytes > 0) {
                     retval = nxp->do_xfer(n);
-                    nxp->nbytes_xfered += n;
                     max_bytes -= n;
                     bytes_transferred += n;
                 }
