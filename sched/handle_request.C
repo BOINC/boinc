@@ -344,7 +344,7 @@ int handle_results(
         //
         reply.result_acks.push_back(*rp);
 
-        retval = result_handler.lookup_result(rp->name, srip);
+        retval = result_handler.lookup_result(rp->name, &srip);
         if (retval) {
             log_messages.printf(
                 SCHED_MSG_LOG::CRITICAL,
