@@ -6086,8 +6086,8 @@ quarl 2003/09/03
 
     - configure runs test/test_sanity.py
 
-    - wrote documentation for python framework and tools; revised other
-      documentation
+    - wrote extensive documentation for python framework and tools; revised
+      other documentation
 
     py/Boinc/    (added entire tree)
         Makefile.am
@@ -6098,7 +6098,7 @@ quarl 2003/09/03
         database.py
         db_def_to_py
         db_mid.py
-        setup_project.py
+        setup_project.py   (this used to be py/boinc.py)
         util.py
         version.py.in
     test/

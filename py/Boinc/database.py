@@ -565,27 +565,44 @@ def _connectp(dbname, user, passwd, host='localhost'):
     boincdb = MySQLdb.connect(db=dbname,host=host,user=user,passwd=passwd,
                                cursorclass=MySQLdb.cursors.DictCursor)
 
-def _connectm(module):
-    _connectp(module.database, module.username, module.password)
+# def _connectm(module):
+#     _connectp(module.database, module.username, module.password)
 
-def connect(readonly = False):
-    """Connect if not already connected or if we're adding write permissions"""
+# def connect(readonly = False):
+#     """Connect if not already connected or if we're adding write permissions"""
+#     global boincdb
+#     if boincdb:
+#         if not readonly and boincdb.readonly:
+#             # re-open with write access
+#             boincdb.close()
+#             boincdb = None
+#         else:
+#             return 0
+#     if readonly:
+#         import password_settings_r
+#         _connectm(password_settings_r)
+#     else:
+#         import password_settings
+#         _connectm(password_settings)
+#     boincdb.readonly = readonly
+#     return 1
+
+def connect(config):
+    """Connect if not already connected, using config values"""
     global boincdb
     if boincdb:
-        if not readonly and boincdb.readonly:
-            # re-open with write access
-            boincdb.close()
-            boincdb = None
-        else:
-            return 0
-    if readonly:
-        import password_settings_r
-        _connectm(password_settings_r)
-    else:
-        import password_settings
-        _connectm(password_settings)
-    boincdb.readonly = readonly
+        return 0
+    _connectp(db_name = config.db_name,
+              user = config.get('db_user'),
+              passwd = config.et('db_passwd'))
     return 1
+
+def connect_default_config():
+    """Connect using the default config.xml"""
+    import configxml
+    config = configxml.ConfigFile().read()
+
+    database.connect(config.config)
 
 def close():
     """Closes the connection to the sql boinc and deletes the Boincdb object."""

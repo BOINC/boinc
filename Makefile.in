@@ -46,7 +46,6 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
-BUILD_TOP_DIR = @BUILD_TOP_DIR@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -97,6 +96,8 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STATIC_FLAGS = @STATIC_FLAGS@
 STRIP = @STRIP@
+TOP_BUILD_DIR = @TOP_BUILD_DIR@
+TOP_SOURCE_DIR = @TOP_SOURCE_DIR@
 VERSION = @VERSION@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
@@ -157,7 +158,7 @@ subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = py/Makefile py/version.py
+CONFIG_CLEAN_FILES =
 DIST_SOURCES =
 
 RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
@@ -206,10 +207,6 @@ $(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(top_srcdir)/configure.ac $(ACLOC
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
-py/Makefile: $(top_builddir)/config.status $(top_srcdir)/py/Makefile.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
-py/version.py: $(top_builddir)/config.status $(top_srcdir)/py/version.py.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
 uninstall-info-am:
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -346,7 +343,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/py $(distdir)/test
+	$(mkinstalldirs) $(distdir)/py/Boinc $(distdir)/test
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
 	  case $$file in \

@@ -48,7 +48,6 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
-BUILD_TOP_DIR = @BUILD_TOP_DIR@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -100,6 +99,8 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STATIC_FLAGS = @STATIC_FLAGS@
 STRIP = @STRIP@
+TOP_BUILD_DIR = @TOP_BUILD_DIR@
+TOP_SOURCE_DIR = @TOP_SOURCE_DIR@
 VERSION = @VERSION@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
@@ -267,7 +268,7 @@ fcgi_LDADD = $(LDADD) $(RSA_LIBS) -lfcgi -lfcgi++ $(MYSQL_LIBS)
 subdir = sched
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = boinc_path_config.py
 LIBRARIES = $(noinst_LIBRARIES)
 
 libsched_a_AR = $(AR) cru
@@ -402,6 +403,8 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/Makefile
 	  $(AUTOMAKE) --gnu  sched/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
+boinc_path_config.py: $(top_builddir)/config.status $(top_srcdir)/py/Boinc/boinc_path_config.py.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 AR = ar
 

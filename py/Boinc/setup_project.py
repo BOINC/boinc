@@ -2,6 +2,8 @@
 
 # TODO: make things work if build_dir != src_dir
 
+# TODO: use database.py
+
 import boinc_path_config
 import version
 from boinc_db import *

@@ -48,7 +48,6 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
-BUILD_TOP_DIR = @BUILD_TOP_DIR@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -100,6 +99,8 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STATIC_FLAGS = @STATIC_FLAGS@
 STRIP = @STRIP@
+TOP_BUILD_DIR = @TOP_BUILD_DIR@
+TOP_SOURCE_DIR = @TOP_SOURCE_DIR@
 VERSION = @VERSION@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
@@ -217,13 +218,13 @@ sign_executable_SOURCES = \
 
 
 sign_executable_DEPENDENCIES = $(LIBRSA)
-sign_executable_LDSIGN_EXECUTABLE = $(RSA_LIBS) $(MYSQL_LIBS)
+sign_executable_LDADD = $(RSA_LIBS) $(MYSQL_LIBS)
 
 country_select_SOURCES = country_select.C ../lib/countries.C
 subdir = tools
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = boinc_path_config.py
 bin_PROGRAMS = create_work$(EXEEXT) add$(EXEEXT) country_select$(EXEEXT) \
 	sign_executable$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
@@ -248,7 +249,6 @@ create_work_LDFLAGS =
 am_sign_executable_OBJECTS = sign_executable.$(OBJEXT) \
 	md5_file.$(OBJEXT) md5.$(OBJEXT) crypt.$(OBJEXT)
 sign_executable_OBJECTS = $(am_sign_executable_OBJECTS)
-sign_executable_LDADD = $(LDADD)
 sign_executable_LDFLAGS =
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)
@@ -286,6 +286,8 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/Makefile
 	  $(AUTOMAKE) --gnu  tools/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
+boinc_path_config.py: $(top_builddir)/config.status $(top_srcdir)/py/Boinc/boinc_path_config.py.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)

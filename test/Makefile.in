@@ -48,7 +48,6 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
-BUILD_TOP_DIR = @BUILD_TOP_DIR@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
@@ -100,6 +99,8 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STATIC_FLAGS = @STATIC_FLAGS@
 STRIP = @STRIP@
+TOP_BUILD_DIR = @TOP_BUILD_DIR@
+TOP_SOURCE_DIR = @TOP_SOURCE_DIR@
 VERSION = @VERSION@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
@@ -168,16 +169,17 @@ AM_CPPFLAGS = \
 LIBRSA = $(top_builddir)/RSAEuro/source/librsaeuro.a
 
 TESTS = test_sanity.py				\
-	test_uc.py				\
-	test_concat.py				\
-	test_1sec.py				\
-	test_abort.py				\
-	test_rsc.py				\
-	test_exit.py				\
-	test_signal.py				\
-	test_masterurl_failure.py
+	test_uc.py
 
 
+
+#	test_concat.py
+#	test_1sec.py
+#	test_abort.py
+#	test_rsc.py
+#	test_exit.py
+#	test_signal.py
+#	test_masterurl_failure.py
 
 # TODO: phase out php stuff
 EXTRA_DIST = \
@@ -189,7 +191,7 @@ EXTRA_DIST = \
 subdir = test
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = version.inc
+CONFIG_CLEAN_FILES = version.inc boinc_path_config.py
 DIST_SOURCES =
 DIST_COMMON = $(top_srcdir)/Makefile.incl Makefile.am Makefile.in \
 	version.inc.in
@@ -202,6 +204,8 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/Makefile
 Makefile: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
 version.inc: $(top_builddir)/config.status version.inc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+boinc_path_config.py: $(top_builddir)/config.status $(top_srcdir)/py/Boinc/boinc_path_config.py.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 uninstall-info-am:
 tags: TAGS

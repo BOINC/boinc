@@ -3,6 +3,9 @@
 # $Id$
 # Creates a new BOINC project.
 
+# TODO: use database.py (mainly for setup_project.py)
+# TOOD: don't add app / app version here.
+
 import sys, os, getopt, re
 sys.path.append('../py')
 from version import *

@@ -1,7 +1,9 @@
-<?
-require_once("docutil.php");
-page_head("Implementation and debugging of BOINC");
-echo "
+<? // -*- html -*-
+   // $Id$
+   require_once("docutil.php");
+   page_head("Implementation and debugging of BOINC");
+?>
+
 <p>
 The BOINC source code is <a href=source/>here</a>.
 <p>
@@ -50,8 +52,11 @@ Protocols
 Miscellaneous
 </b></font>
 <ul>
+<li> <a href=python.php>Python framework</a>
 <li> <a href=prefs_impl.php>Preferences</a>
 </ul>
-";
-page_tail();
+
+<?
+   page_tail();
 ?>
+
