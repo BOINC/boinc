@@ -1,4 +1,40 @@
 DON'T ADD ANYTHING TO HERE.  USE THE TASKBASE INSTEAD.
+
+File upload handler should check for disk full,
+    return transient error, alert admins
+If there are no active tasks, should start downloading
+    only the files for a particular result (avoid idle CPU)
+Scheduler: don't send results whose deadlines will be missed.
+    This must take into account:
+    - pending work on host
+    - speed of host
+    - active fraction of host
+    - network speed of host
+    - results already in reply
+Web site:
+    show mean, stddev of stats of active hosts
+    show max potential cobblestones (and percentage achieved)
+Web site:
+    show table of size, MD5 of all executable files
+    break down by platform
+Each RPC should contain a list of projects the host is attached to,
+    and their resource shares
+Add field to user for the above list
+Show above info on the web site
+Implement coprocessor stuff (see platform.html)
+    add platform_details field to client state file
+    pass it in to every app
+    app can modify it if it wants
+    send back platform_details field with RPC
+    store in host table (and in result? make new host if it changes?)
+add disk_avail field to host
+    send in RPC
+    use this in scheduling
+Make sure "update prefs" works even if suspended
+In GUI, show "suspended" on tasks and transfers if suspended
+Clarify once and for all messages and other logs on Windows;
+    policy for truncating log files?
+
 -----------------------
 BUGS (arranged from high to low priority)
 -----------------------

@@ -636,6 +636,7 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
     return false;
 }
 
+#if 0
 // if an app has exceeded its maximum allowed memory, abort it
 //
 bool ACTIVE_TASK::check_max_mem_exceeded() {
@@ -648,6 +649,7 @@ bool ACTIVE_TASK::check_max_mem_exceeded() {
     }
     return false;
 }
+#endif
 
 // Check if any of the active tasks have exceeded their
 // resource limits on disk, CPU time or memory
@@ -660,7 +662,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     for (j=0;j<active_tasks.size();j++) {
         atp = active_tasks[j];
         if (atp->check_max_cpu_exceeded()) return true;
-        else if (atp->check_max_mem_exceeded()) return true;
+        //else if (atp->check_max_mem_exceeded()) return true;
         else if (time(0)>last_disk_check_time + gstate.global_prefs.disk_interval) {
             last_disk_check_time = time(0);
             if (atp->check_max_disk_exceeded()) return true;

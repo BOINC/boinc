@@ -203,9 +203,18 @@ struct HOST {
     double m_cache;         // Size of CPU cache in bytes (L1 or L2?)
     double m_swap;          // Size of swap space in bytes
 
-    double d_total;         // Total disk space
-    double d_free;
-
+    double d_total;         // Total disk space on host
+                            // - may include all volumes,
+                            // even if BOINC can use only one of them
+                            // - may include network (shared) storage
+    double d_free;          // Of the total disk space, how much is free
+    double d_boinc_used_total;
+                            // amount being used for all projects
+    double d_boinc_used_project;
+                            // amount being used for this project
+    double d_boinc_max;     // max amount that BOINC is allowed to use
+                            // This reflects both user preferences
+                            // and the fact that BOINC can use only 1 volume
     double n_bwup;          // Average upload bandwidth, bytes/sec
     double n_bwdown;        // Average download bandwidth, bytes/sec
 
@@ -213,6 +222,8 @@ struct HOST {
     double credit_per_cpu_sec;
 
     char venue[256];        // home/work/school
+    char projects[MAX_BLOB_SIZE];
+                            // list of projects this host is attached to (XML)
 
     int parse(FILE*);
     int parse_time_stats(FILE*);

@@ -121,12 +121,16 @@ create table host (
 
     d_total         double       not null,
     d_free          double       not null,
+    d_boinc_used_total   double  not null,
+    d_boinc_used_project double  not null,
+    d_boinc_max     double      not null,
 
     n_bwup          double       not null,
     n_bwdown        double       not null,
 
     credit_per_cpu_sec double    not null,
     venue           varchar(254)    not null,
+    projects        blob,
 
     primary key (id)
 );

@@ -334,6 +334,11 @@ bool HTTP_OP_SET::poll() {
         htp = http_ops[i];
         switch(htp->http_op_state) {
         case HTTP_STATE_CONNECTING:
+            if (htp->error) {
+                htp->http_op_state = HTTP_STATE_DONE;
+                htp->http_op_retval = ERR_CONNECT;
+                break;
+            }
             if (htp->is_connected) {
                 htp->http_op_state = HTTP_STATE_REQUEST_HEADER;
                 htp->want_upload = true;

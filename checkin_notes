@@ -4727,11 +4727,41 @@ Tim     June 17, 2003
         scheduler sends "openname_timestamp" as name
         open_name (if available) is used when creating a slot directory
 
-    client\
+    client/
         app.c
-    html_user\
+    html_user/
         project_specific_prefs_ap.inc
-    sched\
+    sched/
         handle_request.c
         server_types.c
         server_types.h
+
+David  June 17 2003
+    - If connect() fails, mark the HTTP_OP as done and in error.
+        Previously it just hung forever.
+    - Added DB fields for BOINC disk usage: total, project, and max
+        TODO: compute these on client and send in sched RPC
+    - Scheduler RPC request now includes a list of projects
+        and resource shares for the host.
+        Stored in the DB.
+        This lets the web site show other projects
+        that people participate in.
+        Also might be used in scheduling estimates.
+    - added a "Rules and policies" page to the web interface.
+        Users read this before creating account
+    - commented out check_max_mem_exceeded() (not ready)
+
+    todo
+    client/
+        app.C
+        cs_scheduler.C
+        http.C
+    db/
+        boinc_db.C,h
+        schema.sql
+    doc/
+        index.html
+    html_user/
+        create_account_form.php
+        index.php
+        info.php

@@ -16,7 +16,12 @@ page_head("Create account");
 
 echo "<h3>Create an account with ".PROJECT."</h3>
     <form method=post action=create_account_action.php>
+    <p>
+    <b>Read the <a href=info.php>rules and policies</a> before creating
+    an account</b>
+    <p>
 ";
+
 
 start_table();
 row2("<b>Name</b>

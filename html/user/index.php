@@ -12,6 +12,7 @@
 <h3>Join ".PROJECT." </h3>
 <p>
 <ul>
+<li><a href=info.php>Rules and policies <b>[read this first]</b></a>
 <li><a href=create_account_form.php>Create an account</a>
 </ul>
 

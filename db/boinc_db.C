@@ -468,9 +468,10 @@ void DB_HOST::db_print(char* buf){
         "os_name='%s', os_version='%s', "
         "m_nbytes=%f, m_cache=%f, m_swap=%f, "
         "d_total=%f, d_free=%f, "
+        "d_boinc_used_total=%f, d_boinc_used_project=%f, d_boinc_max=%f, "
         "n_bwup=%f, n_bwdown=%f, "
         "credit_per_cpu_sec=%f, "
-        "venue='%s'",
+        "venue='%s', projects='%s'",
         id, create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
@@ -482,9 +483,10 @@ void DB_HOST::db_print(char* buf){
         os_name, os_version,
         m_nbytes, m_cache, m_swap,
         d_total, d_free,
+        d_boinc_used_total, d_boinc_used_project, d_boinc_max,
         n_bwup, n_bwdown,
         credit_per_cpu_sec,
-        venue
+        venue, projects
     );
     unescape_single_quotes(domain_name);
     unescape_single_quotes(serialnum);
@@ -527,10 +529,14 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     m_swap = atof(r[i++]);
     d_total = atof(r[i++]);
     d_free = atof(r[i++]);
+    d_boinc_used_total = atof(r[i++]);
+    d_boinc_used_project = atof(r[i++]);
+    d_boinc_max = atof(r[i++]);
     n_bwup = atof(r[i++]);
     n_bwdown = atof(r[i++]);
     credit_per_cpu_sec = atof(r[i++]);
     strcpy2(venue, r[i++]);
+    strcpy2(projects, r[i++]);
 }
 
 void DB_WORKUNIT::db_print(char* buf){
