@@ -137,6 +137,10 @@ function host_nresults($host) {
     return $foobar->nresults;
 }
 
+// If private is true, we're showing the host to its owner,
+// so it's OK to show the domain name etc.
+// If private is false, show the owner's name only if they've given permission
+//
 function show_host_row($host, $i, $private) {
     $result = mysql_query("select * from user where id = $host->userid");
     $user = mysql_fetch_object($result);
@@ -144,13 +148,17 @@ function show_host_row($host, $i, $private) {
 
     echo "<tr>";
     if ($private) {
-        echo"<td>
+        echo "<td>
             <a href=show_host_detail.php?hostid=$host->id&private=1>
             $host->domain_name</a></td>
         ";
     } else {
         echo "<td><a href=show_host_detail.php?hostid=$host->id>$i</a></td>\n";
-        echo "<td><a href=show_user.php?userid=$user->id>$user->name</a></td>\n";
+	if ($user->show_hosts) {
+	    echo "<td><a href=show_user.php?userid=$user->id>$user->name</a></td>\n";
+        } else {
+            echo "<td>Anonymous</td>\n";
+        }
     }
     printf("
         <td>%.4f</td>
