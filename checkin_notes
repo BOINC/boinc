@@ -14750,3 +14750,9 @@ Daniel 2004-07-06
         server_types.h
         validate.C
 
+Daniel 2004-07-06
+    - client: bugfix in make_scheduler_request
+
+    client/
+        cs_scheduler.C
+

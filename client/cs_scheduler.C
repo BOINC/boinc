@@ -300,7 +300,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         "    <platform_name>%s</platform_name>\n"
         "    <core_client_major_version>%d</core_client_major_version>\n"
         "    <core_client_minor_version>%d</core_client_minor_version>\n"
-        "    <work_req_seconds>%f</work_req_seconds>\n",
+        "    <work_req_seconds>%f</work_req_seconds>\n"
         "    <resource_share_fraction>%f</resource_share_fraction>\n",
         p->authenticator,
         p->hostid,
