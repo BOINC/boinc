@@ -17,9 +17,14 @@ please contact the developer,
 <p>
 The data is presented in several different 'views':
 teams ordered by credit, teams ordered by ID, etc.
-To increase the efficiency of data access,
-views are broken into a number of files,
+Each view is available in two ways:
+<ul>
+<li> As a single file.
+<li>
+Broken into a number of files,
 each containing a fixed number of records.
+This lets you get a single record or range of records efficiently.
+</ul>
 <p>
 For files that are ordered by ID,
 each file contains a fixed-size segment of the ID range,
@@ -71,40 +76,40 @@ htmlspecialchars("<tables>
 </tables>
 "),
 "</pre>
-<b>team_total_credit_N.xml</b>
+<b>team_total_credit.xml, team_total_credit_N.xml</b>
 <br>
 Team summaries, ordered by decreasing <a href=credit.php>total credit</a><.
 N is 0, 1, ...
 <p>
-<b>team_expavg_credit_N.xml</b>
+<b>team_expavg_credit.xml, team_expavg_credit_N.xml</b>
 <br>
 Team summaries, ordered by decreasing <a href=credit.php>recent-average credit</a>.
 <p>
-<b>team_id_N.xml</b>
+<b>team_id.xml, team_id_N.xml</b>
 <br>
 Team details, ordered by increasing ID.
 <p>
-<b>user_total_credit_N.xml</b>
+<b>user_total_credit.xml, user_total_credit_N.xml</b>
 <br>
 User summaries, ordered by decreasing total credit.
 <p>
-<b>user_expavg_credit_N.xml</b>
+<b>user_expavg_credit.xml, user_expavg_credit_N.xml</b>
 <br>
 User summaries, ordered by decreasing recent-average credit.
 <p>
-<b>user_id_N.xml</b>
+<b>user_id.xml, user_id_N.xml</b>
 <br>
 User details, ordered by increasing ID.
 <p>
-<b>host_total_credit_N.xml</b>
+<b>host_total_credit.xml, host_total_credit_N.xml</b>
 <br>
 Host summaries, ordered by decreasing total credit.
 <p>
-<b>host_expavg_credit_N.xml</b>
+<b>host_expavg_credit.xml, host_expavg_credit_N.xml</b>
 <br>
 Host summaries, ordered by decreasing recent-average credit.
 <p>
-<b>host_id_N.xml</b>
+<b>host_id.xml, host_id_N.xml</b>
 <br>
 Host details, ordered by increasing ID.
 <p>

@@ -284,7 +284,7 @@ IDI_ICONWARNING         ICON                    "res\\iconwarning.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,0,24,0
+ FILEVERSION 2,0,25,0
  PRODUCTVERSION 2,15,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
@@ -302,12 +302,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Space Sciences Laboratory"
             VALUE "FileDescription", "boinc_gui"
-            VALUE "FileVersion", "2, 0, 24, 0\0"
+            VALUE "FileVersion", "2, 0, 25, 0\0"
             VALUE "InternalName", "boinc_gui"
             VALUE "LegalCopyright", "Copyright © 2004 University of California"
             VALUE "OriginalFilename", "boinc_gui.exe"
             VALUE "ProductName", "BOINC Core Client"
-            VALUE "ProductVersion", "2, 0, 24, 0\0"
+            VALUE "ProductVersion", "2, 0, 25, 0\0"
         END
     END
     BLOCK "VarFileInfo"
