@@ -49,6 +49,7 @@ extern void canonicalize_master_url(char *url);
 extern void safe_strncpy(char*, const char*, int);
 #define safe_strcpy(x, y) safe_strncpy(x, y, sizeof(x))
 #define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)
+extern char* time_to_string(time_t);
 extern char* timestamp();
 string timediff_format(long tdiff);
 int read_file_string(const char* pathname, string& result);

@@ -59,6 +59,8 @@ struct GLOBAL_PREFS {
     int max_memory_mbytes;
     int proc_priority;
     int cpu_affinity;
+    string source_project;
+    string source_scheduler;
 
     GLOBAL_PREFS();
     void init();

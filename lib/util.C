@@ -418,18 +418,17 @@ void safe_strncpy(char* dst, const char* src, int len) {
     dst[len-1]=0;
 }
 
+char* time_to_string(time_t x) {
+    static char buf[100];
+    struct tm* tm = localtime(&x);
+    strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", tm);
+    return buf;
+}
+
 // return current time of day as ASCII string, no CR
 //
 char* timestamp() {
-    // time_t now = time(0);
-    // char* p = ctime(&now);
-    // *(strchr(p, '\n')) = 0;
-    // return p;
-    static char buf[100];
-    time_t now = time(0);
-    struct tm* tm = localtime(&now);
-    strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", tm);
-    return buf;
+    return time_to_string(time(0));
 }
 
 // set by command line

@@ -567,12 +567,22 @@ int CLIENT_STATE::handle_scheduler_reply(
         if (!f) return ERR_FOPEN;
         fprintf(f,
             "<global_preferences>\n"
-            "    <source_project>%s</source_project>\n"
-            "    <source_scheduler>%s</source_scheduler>\n"
+        );
+
+        // tag with the project and scheduler URL,
+        // but only if not already tagged
+        //
+        if (!strstr(sr.global_prefs_xml, "<source_project>")) {
+            fprintf(f,
+                "    <source_project>%s</source_project>\n"
+                "    <source_scheduler>%s</source_scheduler>\n",
+                project->master_url,
+                scheduler_url
+            );
+        }
+        fprintf(f,
             "%s"
             "</global_preferences>\n",
-            project->master_url,
-            scheduler_url,
             sr.global_prefs_xml
         );
         fclose(f);

@@ -5,6 +5,11 @@ echo"
 <p>
 BOINC is a software platform for distributed computing
 using volunteer computer resources.
+<p>
+A paper about BOINC's design goals is here:
+<a href=http://boinc.berkeley.edu/talks/madrid_03/madrid.html>HTML</a> |
+<a href=boinc2.pdf>PDF</a>.
+<p>
 The BOINC's features fall into several areas:
 
 <h3>Resource sharing among independent projects</h3>

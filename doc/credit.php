@@ -6,9 +6,6 @@ echo "
 <p>
 Each project gives you <b>credit</b> for the computations your
 computers performs for the project.
-These credits are used to generate web-site 'leaderboards' showing
-individuals, teams, and categories (countries, CPU types, etc.)
-ranked by credit.
 
 <p>
 BOINC's credit system is based on a 'reference computer' that can do
@@ -20,6 +17,10 @@ BOINC's credit system is based on a 'reference computer' that can do
 </ul>
 BOINC's unit of credit, the <b>Cobblestone</b> <sup>1</sup>,
 is 1/300 day of CPU time on the reference computer.
+
+<p>
+Some BOINC projects grant credit only after
+results have been <a href=intro_user.php#credit>validated</a>.
 
 <p>
 Each project maintains two types of credit:
@@ -37,8 +38,7 @@ Both types of credit (total and recent average)
 are maintained for each user and host.
 
 <h3>Leader boards</h3>
-The PHP pages supplied by BOINC include basic leaderboards:
-top users and hosts, by total and average.
+
 BOINC lets projects export the credit-related
 parts of their database as XML files.
 These XML files can be used to generate
@@ -69,6 +69,10 @@ Each time new credit granted,
 the following function is used to update the
 recent average credit of the host, user and team:
 <pre>
+#define LOG2 M_LN2
+    // log(2)
+#define SECONDS_IN_DAY (3600*24)
+#define AVG_HALF_LIFE  (SECONDS_IN_DAY*7)
 
 // decay an exponential average of credit per day,
 // and possibly add an increment for new credit
@@ -95,7 +99,7 @@ void update_average(
     avg_time = now;
 }
 </pre>
-
+This function is also invoked 
 <hr noshade size=1>
 <sup>1</sup> Named after Jeff Cobb of SETI@home
 ";

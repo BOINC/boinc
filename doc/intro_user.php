@@ -51,10 +51,13 @@ echo "
     </ol>
     This cycle is repeated indefinitely.
     BOINC does this all automatically; you don't have to do anything.
+
+    <a name=credit></a>
     <h2>Credit</h2>
     The project's server keeps track of how much work
     your computer has done; this is called <b>credit</b>.
-    To ensure that credit is granted fairly, BOINC works as follows:
+    To ensure that credit is granted fairly,
+    most BOINC projects work as follows:
     <ul>
     <li> Each work unit may be sent to several computers.
     <li> When a computer reports a result,

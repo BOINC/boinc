@@ -35,6 +35,7 @@
 #include "message.h"
 #include "file_names.h"
 
+#include "client_state.h"
 #include "prefs.h"
 
 // the following values determine how the client behaves
@@ -111,9 +112,9 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
         }
         if (match_tag(buf, "<global_preferences>")) {
             continue;
-        } else if (match_tag(buf, "<source_project>")) {
+        } else if (parse_str(buf, "<source_project>", source_project)) {
             continue;
-        } else if (match_tag(buf, "<source_scheduler>")) {
+        } else if (parse_str(buf, "<source_scheduler>", source_scheduler)) {
             continue;
         } else if (parse_int(buf, "<mod_time>", mod_time)) {
             continue;
@@ -173,11 +174,18 @@ int GLOBAL_PREFS::parse(FILE* in, char* host_venue) {
             msg_printf(NULL, MSG_INFO, "GLOBAL_PREFS::parse: unrecognized: %s\n", buf);
         }
     }
+    PROJECT* pp = gstate.lookup_project(source_project.c_str());
+    if (pp) {
+        msg_printf(NULL, MSG_INFO, "Using general preferences from %s\n", pp->get_project_name());
+    } else {
+        msg_printf(NULL, MSG_INFO, "Using general preferences from unknown project %s\n", source_project.c_str());
+    }
+    msg_printf(NULL, MSG_INFO, "General preferences last updated %s\n", time_to_string(mod_time));
     if (strlen(host_venue)) {
         if (found_venue) {
             msg_printf(NULL, MSG_INFO, "Using your general preferences for %s\n", host_venue);
         } else {
-            msg_printf(NULL, MSG_INFO, "General preferences for %s not found; using your default preferences\n", host_venue);
+            msg_printf(NULL, MSG_INFO, "No separate general preferences given for %s; using your default preferences\n", host_venue);
         }
     } else {
         msg_printf(NULL, MSG_INFO, "Using your default general preferences\n");

@@ -90,7 +90,7 @@ void show_message(PROJECT *p, char* msg, int priority) {
     if (p) {
         x = p->get_project_name();
     } else {
-        x = "BOINC";
+        x = "---";
     }
     switch (priority) {
     case MSG_ERROR:
