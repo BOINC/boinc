@@ -35,5 +35,6 @@
     $host->run("-exit_when_idle");
     $project->stop();
 
+    $result->state = RESULT_STATE_DONE;
     $project->check_results(0, $result);
 ?>

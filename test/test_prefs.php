@@ -17,7 +17,7 @@
 
     $host->log_flags = "log_flags.xml";
     $host->add_project($project);
-    $host->global_prefs = "laptop_prefs.xml";
+    $host->global_prefs = "laptop_prefs";
     $host->install();
 
     echo "adding work\n";
