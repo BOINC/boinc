@@ -1476,7 +1476,7 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 		// It could be in the global startup group
 		ZeroMemory( szBuffer, 512 );
 		bCheckFileExists = FALSE;
-		if (SHGetSpecialFolderPath(NULL, szBuffer, CSIDL_STARTUP, FALSE))
+		if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
 		{
 			TRACE(TEXT("IsConfigStartupBOINC: SHGetSpecialFolderPath - CSIDL_STARTUP - '%s'\n"), szBuffer);
 			if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC.lnk"), 10)))
@@ -1519,7 +1519,7 @@ BOOL CScreensaver::IsConfigStartupBOINC()
 				// It could be in the global startup group
 				ZeroMemory( szBuffer, 512 );
 				bCheckFileExists = FALSE;
-				if (SHGetSpecialFolderPath(NULL, szBuffer, CSIDL_COMMON_STARTUP, FALSE))
+				if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_COMMON_STARTUP|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szBuffer)))
 				{
 					TRACE(TEXT("IsConfigStartupBOINC: SHGetSpecialFolderPath - CSIDL_COMMON_STARTUP - '%s'\n"), szBuffer);
 					if (SUCCEEDED(StringCchCatN(szBuffer, 512, TEXT("\\BOINC.lnk"), 10)))

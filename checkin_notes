@@ -9738,5 +9738,10 @@ Rom    Feb 4 2004
     lib/
         util.c,h
 
-        
-        
+Rom    Feb 4 2004
+    - Changed from using SHGetSpecialFolder to SHGetFolderPath which now uses COM and so will
+        will not throw a dynamic link error on startup for platforms that don't support it.
+    
+    client
+        win/
+            win_screensaver.cpp
