@@ -14,7 +14,7 @@ create_work
     -wu_name name                   // workunit name
     -wu_template filename           // WU template filename
     -result_template filename       // result template filename
-    -nresults n                     // # of results to create
+    -redundancy n                   // # of results to create
     -db_name x                      // database name
     -db_passwd x                    // database password
     -upload_url x                   // URL for output file upload
@@ -62,7 +62,7 @@ int create_work(
     WORKUNIT&,
     char* wu_template,                  // contents, not path
     char* result_template_filename,     // path
-    int nresults,
+    int redundancy,
     char* infile_dir,                   // where input files are
     char** infiles,                     // array of input file names
     int ninfiles
