@@ -10,14 +10,20 @@ import urllib, random
 def read_url(url, quiet=False):
     '''return 1 line from url'''
     verbose_echo(2, "   reading url: "+url)
+    err = ''
     try:
         return urllib.URLopener().open(url).readline().strip()
     except IOError, e:
-        if not quiet:
-            error("couldn't access url: %s %s" % (url, e))
-        else:
-            verbose_echo(2, "couldn't access url: %s %s" % (url, e))
-        return ''
+        err = e
+    except AttributeError:
+        # Python urllib is buggy if connection is closed (by our proxy
+        # intentionally) right after opened
+        pass
+    if not quiet:
+        error("couldn't access url: %s %s" % (url, err))
+    else:
+        verbose_echo(2, "couldn't access url: %s %s" % (url, err))
+    return ''
 
 if __name__ == '__main__':
     test_msg("framework sanity");
