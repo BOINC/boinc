@@ -17,11 +17,17 @@
 // Contributor(s):
 //
 
+// wu_check [-repair]
+// look for results with missing input files
+// -repair      change them to server_state OVER, outcome COULDNT_SEND
+
 #include <stdio.h>
 
 #include "parse.h"
 #include "boinc_db.h"
 #include "sched_config.h"
+
+bool repair = false;
 
 // wu_checker
 // See whether input files that should be present, are
@@ -61,14 +67,25 @@ void handle_result(DB_RESULT& result) {
         printf("ERROR can't find file %s for result %d\n",
             path, result.id
         );
+        if (repair) {
+            if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
+                result.server_state = RESULT_SERVER_STATE_OVER;
+                result.outcome = RESULT_OUTCOME_COULDNT_SEND;
+                result.update();
+            }
+        }
     }
 }
 
-int main() {
+int main(int argc, char** argv) {
     DB_RESULT result;
     char clause[256];
+    int retval;
 
-    config.parse_file();
+    retval = config.parse_file();
+    if (retval) exit(1);
+
+    if (argc > 1 && !strcmp(argv[1], "repair")) repair = true;
 
     sprintf(clause, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
     while (!result.enumerate(clause)) {

@@ -6585,3 +6585,9 @@ David  Oct 6 2003
     
     sched/
         handle_request.C
+
+David  Oct 6 2003
+    - added "repair" option to wu_check
+
+    sched/
+        wu_check.C
