@@ -225,7 +225,6 @@ function show_result_summary() {
     }
     echo "</table></td>";
 
-    echo "<td>";
     echo "<td><table border=2 cellpadding=4\n";
     echo "<tr><th>Validate state</th><th># results</th></tr>\n";
     row2("Valid", link_results($nvalid, $urlquery, "validate_state=1"));
