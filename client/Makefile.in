@@ -22,6 +22,7 @@ OBJS = \
     accounts.o \
     app.o \
     client_state.o \
+    client_types.o \
     cs_apps.o \
     cs_files.o \
     cs_scheduler.o \
@@ -39,7 +40,6 @@ OBJS = \
     scheduler_reply.o \
     speed_stats.o \
     time_stats.o \
-    types.o \
     util.o \
     ../lib/md5_file.o \
     ../lib/md5.o

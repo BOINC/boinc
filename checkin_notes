@@ -245,3 +245,69 @@ Eric H.  May 30, 2002
      test/
         init.inc
 
+David A.    June 1, 2002
+    - Ensure that preferences propagate from the server
+        where they are updated to all hosts,
+        and from there to the servers of other project.
+        Eliminated concept of "home project".
+        Not tested yet.
+        Also to do: replace the "accounts.xml" file with
+        a file containing preferences.
+    - Changed the way the client handles preferences.
+        It now saves saves the exact XML it gets from the server,
+        regardless of whether it can parse it all.
+    - Fixed client parsing code to reflect new names for preferences
+    - Changed the way the scheduling server handles prefs in
+        a client/server interaction.
+        If it gets newer prefs, it updates its own DB.
+        If its DB has newer prefs, it sends them to client.
+    - Fixed the test scripts so that they start/stop the feeder also.
+        This required adding a "ready" flag to the shared-mem structure
+        so that the scheduling server can find out if the feeder hasn't
+        finished initializing the structure.
+        Also required adding a "-synch" cmdline option to feeder.
+    - added utility program (sched/show_shmem.C) for looking at
+        scheduler shared memory
+    - renamed "types.*" to "client_types.*" to avoid name conflict
+        with system include files
+
+    /Makefile (removed - this is derived from Makefile.in)
+    client/
+        Makefile.in
+        accounts.C,h
+        app.C
+        client_state.C,h
+        client_types.C,h (new)
+        cs_files.C
+        cs_scheduler.C
+        file_names.h
+        file_xfer.h
+        hostinfo_unix.C
+        net_xfer.C
+        prefs.C,h
+        scheduler_reply.C,h
+        speed_stats.C
+        types.C,h (removed)
+    db/
+        constraints.sql
+    doc/
+        protocol.html
+    html_user
+        prefs.inc
+    sched/
+        feeder.C
+        handle_request.C
+        main.C
+        sched_shmem.h
+        server_types.C,h
+        show_shmem.C (new)
+        ss_reply_file (removed)
+        ss_req_file (removed)
+    test/
+        account1.xml
+        init.inc
+        sched_reply.xml (removed)
+        sched_request.xml (removed)
+        test_uc.php
+    tools/
+        add.C

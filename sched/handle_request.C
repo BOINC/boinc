@@ -172,15 +172,21 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
     return 0;
 }
 
-// If the client asked for preferences,
-// see if they have changed, and if so send.
+// If the client sent prefs, and they're more recent than ours,
+// update user record in DB.
+// If we our DB has more recent prefs than client's, send them.
 //
-int send_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, USER& user) {
-    if (sreq.want_prefs) {
-        if (reply.user.prefs_mod_time > sreq.prefs_mod_time) {
-            reply.user = user;
-            reply.send_prefs = true;
+int handle_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, USER& user) {
+    if (sreq.prefs_mod_time > user.prefs_mod_time && strlen(sreq.prefs_xml)) {
+        strcpy(user.prefs, sreq.prefs_xml);
+        user.prefs_mod_time = sreq.prefs_mod_time;
+        if (user.prefs_mod_time > (unsigned)time(0)) {
+            user.prefs_mod_time = (unsigned)time(0);
         }
+        db_user_update(user);
+    }
+    if (user.prefs_mod_time > sreq.prefs_mod_time) {
+        reply.send_prefs = true;
     }
     return 0;
 }
@@ -329,7 +335,6 @@ void process_request(
     retval = update_host_record(sreq, host);
 
     // look up the client's platform in the DB
-    // the following should be replaced with in-memory equivalents
     //
     platform = ss.lookup_platform(sreq.platform_name);
     if (!platform) {
@@ -339,7 +344,9 @@ void process_request(
         return;
     }
 
-    send_prefs(sreq, reply, user);
+    reply.user = user;
+
+    handle_prefs(sreq, reply, user);
 
     handle_results(sreq, reply, host);
 

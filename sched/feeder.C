@@ -17,12 +17,14 @@
 // Contributor(s):
 //
 
-// feeder.C
+// feeder.C [-asynch]
 //
 // Creates a shared memory segment containing DB info,
 // including results/workunits to send.
 // This means that the scheduler CGI program doesn't have to
 // access the DB to get this info.
+//
+// -asynch      fork and run in a separate process
 
 // TODO:
 // - check for wu/results that don't get sent for a long time;
@@ -59,10 +61,12 @@ int check_trigger(SCHED_SHMEM* ssp) {
     if (!f) return 0;
     fread(buf, 1, 256, f);
     fclose(f);
-    if (!strcmp(buf, "<quit/>")) {
+    if (!strcmp(buf, "<quit/>\n")) {
+        detach_shmem((void*)ssp);
         destroy_shmem(BOINC_KEY);
+        unlink(TRIGGER_FILENAME);
         exit(0);
-    } else if (!strcmp(buf, "<reread_db/>")) {
+    } else if (!strcmp(buf, "<reread_db/>\n")) {
         ssp->init();
         ssp->scan_tables();
     } else {
@@ -72,59 +76,28 @@ int check_trigger(SCHED_SHMEM* ssp) {
     return 0;
 }
 
-int main() {
-    SCHED_SHMEM* ssp;
-    void* p;
+// Try keep the wu_results array filled.
+// This is actually a little tricky.
+// We use an enumerator.
+// The inner loop scans the wu_result table,
+// looking for empty slots and trying to fill them in.
+// When the enumerator reaches the end, it is restarted;
+// hopefully there will be some new workunits.
+// There are two complications:
+//  - An enumeration may return results already in the array.
+//    So, for each result, we scan the entire array to make sure
+//    it's not there already.  Can this be streamlined?
+//  - We must avoid excessive re-enumeration,
+//    especially when the number of results is less than the array size.
+//    Crude approach: if a "collision" (as above) occurred on
+//    a pass through the array, wait a long time (60 sec)
+//
+void feeder_loop(SCHED_SHMEM* ssp) {
     int i, j, nadditions, ncollisions, retval;
     RESULT result;
     WORKUNIT wu;
     bool no_wus, collision, restarted_enum;
 
-    retval = destroy_shmem(BOINC_KEY);
-    if (retval) {
-        fprintf(stderr, "feeder: can't destroy shmem\n");
-        exit(1);
-    }
-    retval = create_shmem(BOINC_KEY, sizeof(SCHED_SHMEM), &p);
-    if (retval) {
-        fprintf(stderr, "feeder: can't create shmem\n");
-        exit(1);
-    }
-    ssp = (SCHED_SHMEM*)p;
-    ssp->init();
-    retval = db_open("boinc");
-    if (retval) {
-        fprintf(stderr, "feeder: db_open: %d\n", retval);
-        exit(1);
-    }
-    ssp->scan_tables();
-
-    printf(
-        "feeder: read\n"
-        "%d platforms\n"
-        "%d apps\n"
-        "%d app_versions\n",
-        ssp->nplatforms,
-        ssp->napps,
-        ssp->napp_versions
-    );
-
-    // Try keep the wu_results array filled.
-    // This is actually a little tricky.
-    // We use an enumerator.
-    // The inner loop scans the wu_result table,
-    // looking for empty slots and trying to fill them in.
-    // When the enumerator reaches the end, it is restarted;
-    // hopefully there will be some new workunits.
-    // There are two complications:
-    //  - An enumeration may return results already in the array.
-    //    So, for each result, we scan the entire array to make sure
-    //    it's not there already.  Can this be streamlined?
-    //  - We must avoid excessive re-enumeration,
-    //    especially when the number of results is less than the array size.
-    //    Crude approach: if a "collision" (as above) occurred on
-    //    a pass through the array, wait a long time (60 sec)
-    //
     while (1) {
         nadditions = 0;
         ncollisions = 0;
@@ -181,12 +154,63 @@ int main() {
         }
         if (no_wus) {
             printf("feeder: no results available\n");
-            sleep(10);
+            sleep(5);
         }
         if (ncollisions) {
             printf("feeder: some results already in array - sleeping\n");
-            sleep(60);
+            sleep(5);
         }
         check_trigger(ssp);
+        ssp->ready = true;
+    }
+}
+
+int main(int argc, char** argv) {
+    SCHED_SHMEM* ssp;
+    int i, retval;
+    bool asynch = false;
+    void* p;
+
+    for (i=1; i<argc; i++) {
+        if (!strcmp(argv[i], "-asynch")) {
+            asynch = true;
+        }
+    }
+
+    retval = destroy_shmem(BOINC_KEY);
+    if (retval) {
+        fprintf(stderr, "feeder: can't destroy shmem\n");
+        exit(1);
+    }
+    retval = create_shmem(BOINC_KEY, sizeof(SCHED_SHMEM), &p);
+    if (retval) {
+        fprintf(stderr, "feeder: can't create shmem\n");
+        exit(1);
+    }
+    ssp = (SCHED_SHMEM*)p;
+    ssp->init();
+    retval = db_open("boinc");
+    if (retval) {
+        fprintf(stderr, "feeder: db_open: %d\n", retval);
+        exit(1);
+    }
+    ssp->scan_tables();
+
+    printf(
+        "feeder: read\n"
+        "%d platforms\n"
+        "%d apps\n"
+        "%d app_versions\n",
+        ssp->nplatforms,
+        ssp->napps,
+        ssp->napp_versions
+    );
+
+    if (asynch) {
+        if (fork()==0) {
+            feeder_loop(ssp);
+        }
+    } else {
+        feeder_loop(ssp);
     }
 }

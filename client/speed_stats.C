@@ -9,7 +9,7 @@
 #define I_OP_ITERS      1
 #define BANDWIDTH_ITERS 1
 
-#define RUN_TEST
+//#define RUN_TEST
 
 #ifdef RUN_TEST
 

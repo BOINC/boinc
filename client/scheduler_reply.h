@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-#include "types.h"
+#include "client_types.h"
 #include "prefs.h"
 
 struct SCHEDULER_REPLY {

@@ -37,7 +37,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
-#include "types.h"
+#include "client_types.h"
 
 // functions to get name/addr of local host
 

@@ -43,7 +43,7 @@ int return_error(char* p) {
 //
 int main() {
     FILE* fin, *fout;
-    int retval, pid;
+    int i, retval, pid;
     char req_path[256], reply_path[256];
     SCHED_SHMEM* ssp;
     void* p;
@@ -59,6 +59,18 @@ int main() {
         printf("shmem has wrong struct sizes - recompile\n");
         exit(1);
     }
+
+    for (i=0; i<10; i++) {
+        if (ssp->ready) break;
+        fprintf(stderr, "Waiting for ready flag\n");
+        sleep(1);
+    }
+    if (!ssp->ready) {
+        fprintf(stderr, "handle_request(): feeder doesn't seem to be running\n");
+        exit(1);
+    }
+    fprintf(stderr, "got ready flag\n");
+
     pid = getpid();
     sprintf(req_path, "%s%d", REQ_FILE_PREFIX, pid);
     sprintf(reply_path, "%s%d", REPLY_FILE_PREFIX, pid);

@@ -20,14 +20,33 @@
 #ifndef _PREFS_
 #define _PREFS_
 
+// Implementation notes on preferences:
+//
+// Preferences are edited and stored on BOINC servers.
+// The native representation of preferences is XML.
+// The client maintains the preferences (in XML form)
+// and mod time in the state file and in memory.
+// It includes these items in each scheduler request message.
+// A scheduler reply message may contain a more recent set of preferences.
+//
+// Some preference items are used by the core client.
+// The XML is parsed into a structure containing these items.
+//
+// Preferences may include project-specific elements.
+// When an application is run, the core client checks for project-specific
+// preferences and puts them in a file "prefs.xml" in the slot directory.
+
 struct PREFS {
-    int modified_time;
-    int create_time;
-    char name[256];
-    bool stop_on_batteries;
-    bool stop_user_active;
-    int hi_water_secs;
-    int lo_water_secs;
+    char* prefs_xml;
+    int mod_time;
+    bool dont_run_on_batteries;
+    bool dont_run_if_user_active;
+    bool confirm_before_connecting;
+    double high_water_days;
+    double low_water_days;
+    double disk_max_used_gb;
+    double disk_max_used_pct;
+    double disk_min_free_gb;
 
     PREFS();
     int parse(FILE*);

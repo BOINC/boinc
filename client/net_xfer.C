@@ -152,7 +152,8 @@ int NET_XFER_SET::do_select(int max_bytes, int& bytes_transferred) {
 #elif GETSOCKOPT_SOCKLEN_T
     socklen_t intsize = sizeof(int);
 #else
-    int intsize = sizeof(int);
+    //int intsize = sizeof(int);
+    socklen_t intsize = sizeof(int);
 #endif
 
     bytes_transferred = 0;

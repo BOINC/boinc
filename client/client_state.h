@@ -19,7 +19,7 @@
 
 #include <vector>
 
-#include "types.h"
+#include "client_types.h"
 #include "app.h"
 #include "net_xfer.h"
 #include "http.h"

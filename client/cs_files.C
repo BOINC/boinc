@@ -25,7 +25,7 @@
 #include "md5_file.h"
 #include "file_xfer.h"
 #include "file_names.h"
-#include "types.h"
+#include "client_types.h"
 #include "log_flags.h"
 #include "client_state.h"
 

@@ -30,7 +30,7 @@
 #include <ctype.h>
 #include <signal.h>
 
-#include "types.h"
+#include "client_types.h"
 #include "client_state.h"
 #include "filesys.h"
 #include "file_names.h"

@@ -90,7 +90,7 @@ int CLIENT_STATE::init(ACCOUNTS& accounts) {
 //
 int CLIENT_STATE::check_suspend_activities() {
     bool should_suspend = false;
-    if (prefs.stop_on_batteries && host_is_running_on_batteries()) {
+    if (prefs.dont_run_on_batteries && host_is_running_on_batteries()) {
         should_suspend = true;
     }
 

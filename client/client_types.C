@@ -22,6 +22,8 @@
 #include "filesys.h"
 #include "parse.h"
 
+#include "client_types.h"
+
 int PROJECT::parse(FILE* in) {
     char buf[256];
 
@@ -31,7 +33,6 @@ int PROJECT::parse(FILE* in) {
     strcpy(url_source, "");
     strcpy(email_addr, "");
     strcpy(authenticator, "");
-    home_project = false;
     next_request_time = 0;
     resource_share = 1;
     exp_avg_cpu = 0;
@@ -44,7 +45,6 @@ int PROJECT::parse(FILE* in) {
         else if (parse_str(buf, "<url_source>", url_source)) continue;
         else if (parse_str(buf, "<email_addr>", email_addr)) continue;
         else if (parse_str(buf, "<authenticator>", authenticator)) continue;
-        else if (match_tag(buf, "<home_project/>")) home_project = true;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_int(buf, "<next_request_time>", next_request_time)) continue;
@@ -67,7 +67,6 @@ int PROJECT::write(FILE* out) {
         "    <authenticator>%s</authenticator>\n",
         name, domain, scheduler_url, url_source, email_addr, authenticator
     );
-    if (home_project) fprintf(out, "    <home_project/>\n");
     fprintf(out,
         "    <rpc_seqno>%d</rpc_seqno>\n"
         "    <hostid>%d</hostid>\n"

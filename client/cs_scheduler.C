@@ -109,14 +109,10 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, int work_req) {
         work_req
     );
 
-    // send the prefs mod time only to the home project
-    //
-    if (p->home_project) {
-        fprintf(f,
-            "    <prefs_mod_time>%d</prefs_mod_time>\n",
-            prefs.modified_time
-        );
-    }
+    fprintf(f,
+        "    <prefs_mod_time>%d</prefs_mod_time>\n",
+        prefs.mod_time
+    );
 
     time_stats.write(f, true);
     net_stats.write(f, true);
@@ -226,7 +222,8 @@ void CLIENT_STATE::handle_scheduler_reply(PROJECT* project) {
         project->rpc_seqno = 0;
     }
 
-    if (sr.prefs.modified_time > prefs.modified_time) {
+    if (sr.prefs.mod_time > prefs.mod_time && strlen(sr.prefs.prefs_xml)) {
+        if (prefs.prefs_xml) free(prefs.prefs_xml);
         prefs = sr.prefs;
     }
 

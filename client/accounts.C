@@ -21,7 +21,7 @@
 
 #include "error_numbers.h"
 #include "file_names.h"
-#include "types.h"
+#include "client_types.h"
 #include "parse.h"
 
 #include "accounts.h"

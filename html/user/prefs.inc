@@ -12,7 +12,7 @@
 // This XML has the general structure
 // <preferences>
 //    <dont_run_if_user_active/>
-//    <low_water>1.3</low_water>
+//    <low_water_days>1.3</low_water_days>
 //    ...
 //    <project>
 //        <url>...</url>
@@ -77,11 +77,11 @@ function element_end($parser, $name) {
     case "confirm_before_connecting":
         $parse_result->confirm_before_connecting = 1;
         break;
-    case "low_water":
-        $parse_result->low_water = $text;
+    case "low_water_days":
+        $parse_result->low_water_days = $text;
         break;
-    case "high_water":
-        $parse_result->high_water = $text;
+    case "high_water_days":
+        $parse_result->high_water_days = $text;
         break;
     case "disk_max_used_gb":
         $parse_result->disk_max_used_gb = $text;
@@ -166,8 +166,8 @@ function prefs_show_work($prefs) {
     } else {
         echo "<br>Don't confirm before connecting to network";
     }
-    echo "<br>Buffer at least $prefs->low_water hours of work\n";
-    echo "<br>Buffer at most $prefs->high_water hours of work\n";
+    echo "<br>Buffer at least $prefs->low_water_days hours of work\n";
+    echo "<br>Buffer at most $prefs->high_water_days hours of work\n";
     echo "<br><a href=prefs_edit_work_form.php>Edit work preferences</a>\n";
 }
 
@@ -225,11 +225,11 @@ function prefs_form_work($user, $prefs) {
     echo   "    </tr>\n";
     echo   "    <tr>\n";
     echo   "        <td align=right>Minimum work buffer (days)</td>\n";
-    printf("        <td><input name=low_water value='$prefs->low_water'></td>\n");
+    printf("        <td><input name=low_water_days value='$prefs->low_water_days'></td>\n");
     echo   "    </tr>\n";
     echo   "    <tr>\n";
     echo   "        <td align=right>Maximum work buffer (days)</td>\n";
-    printf("        <td><input name=high_water value='$prefs->high_water'></td>\n");
+    printf("        <td><input name=high_water_days value='$prefs->high_water_days'></td>\n");
     echo   "    </tr>\n";
     echo   "    <tr><td><br></td><td><input type=submit value=OK></td></tr>\n";
     echo   "    </table>\n";
@@ -303,8 +303,8 @@ function prefs_work_parse_form(&$prefs) {
     $prefs->dont_run_on_batteries = isset($dont_run_on_batteries)?1:0;
     $prefs->dont_run_if_user_active = isset($dont_run_if_user_active)?1:0;
     $prefs->confirm_before_connecting = isset($confirm_before_connecting)?1:0;
-    $prefs->low_water = $low_water;
-    $prefs->high_water = $high_water;
+    $prefs->low_water_days = $low_water_days;
+    $prefs->high_water_days = $high_water_days;
 }
 
 function prefs_disk_parse_form(&$prefs) {
@@ -339,8 +339,8 @@ function prefs_make_xml($prefs) {
     if ($prefs->confirm_before_connecting) {
         $xml = $xml."<confirm_before_connecting/>\n";
     }
-    $xml = $xml."<low_water>$prefs->low_water</low_water>
-        <high_water>$prefs->high_water</high_water>
+    $xml = $xml."<low_water_days>$prefs->low_water_days</low_water_days>
+        <high_water_days>$prefs->high_water_days</high_water_days>
         ";
     $xml = $xml."
         <disk_max_used_gb>$prefs->disk_max_used_gb</disk_max_used_gb>

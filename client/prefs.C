@@ -19,6 +19,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "parse.h"
 #include "error_numbers.h"
@@ -33,34 +34,39 @@ int PREFS::parse(FILE* in) {
     char buf[256];
 
     memset(this, 0, sizeof(PREFS));
+    prefs_xml = strdup("<preferences>\n");
     while (fgets(buf, 256, in)) {
-        if (match_tag(buf, "</prefs>")) return 0;
-        else if (parse_int(buf, "<modified_time>", modified_time)) continue;
-        else if (parse_int(buf, "<create_time>", create_time)) continue;
-        else if (parse_str(buf, "<name>", name)) continue;
-        else if (match_tag(buf, "<stop_on_batteries/>")) {
-            stop_on_batteries = true;
+        prefs_xml = (char*) realloc(
+            prefs_xml, strlen(prefs_xml) + strlen(buf) + 1
+        );
+        strcat(prefs_xml, buf);
+
+        if (match_tag(buf, "</preferences>")) return 0;
+        else if (match_tag(buf, "<dont_run_on_batteries/>")) {
+            dont_run_on_batteries = true;
+            continue;
+        } else if (match_tag(buf, "<dont_run_if_user_active/>")) {
+            dont_run_if_user_active = true;
+            continue;
+        } else if (match_tag(buf, "<confirm_before_connecting/>")) {
+            confirm_before_connecting = true;
+            continue;
+        } else if (parse_double(buf, "<high_water_days>", high_water_days)) {
+            continue;
+        } else if (parse_double(buf, "<low_water_days>", low_water_days)) {
+            continue;
+        } else if (parse_double(buf, "<disk_max_used_gb>", disk_max_used_gb)) {
+            continue;
+        } else if (parse_double(buf, "<disk_max_used_pct>", disk_max_used_pct)) {
+            continue;
+        } else if (parse_double(buf, "<disk_min_free_gb>", disk_min_free_gb)) {
             continue;
         }
-        else if (match_tag(buf, "<stop_user_active/>")) {
-            stop_user_active = true;
-            continue;
-        }
-        fprintf(stderr, "PREFS::parse(): unrecognized: %s\n", buf);
     }
     return ERR_XML_PARSE;
 }
 
 int PREFS::write(FILE* out) {
-    fprintf(out,
-        "<prefs>\n"
-        "    <modified_time>%d</modified_time>\n"
-        "    <create_time>%d</create_time>\n"
-        "    <name>%s</name>\n",
-        modified_time, create_time, name
-    );
-    if (stop_on_batteries) fprintf(out, "    <stop_on_batteries/>\n");
-    if (stop_user_active) fprintf(out, "    <stop_on_user_active/>\n");
-    fprintf(out, "</prefs>\n");
+    if (prefs_xml) fputs(prefs_xml, out);
     return 0;
 }

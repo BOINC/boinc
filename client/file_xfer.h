@@ -23,7 +23,7 @@
 // FILE_XFER objects encapsulate the transfer of file
 // TODO: use the HTTP Range header fields to do partial xfers
 
-#include "types.h"
+#include "client_types.h"
 #include "http.h"
 
 class FILE_XFER : public HTTP_OP {

@@ -146,9 +146,14 @@ function run_client() {
     PassThru("../client/".CORE_CLIENT." -exit_when_idle");
 }
 
-// TODO: make this work
 function start_feeder() {
-    PassThru("../sched/feeder &");
+    PassThru("cd ../sched; feeder -asynch > feeder_out");
+}
+
+function stop_feeder() {
+    $f = fopen("../sched/feeder_trigger", "w");
+    fputs($f, "<quit/>\n");
+    fclose($f);
 }
 
 function compare_file($out, $correct) {

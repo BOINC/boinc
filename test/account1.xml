@@ -1,6 +1,5 @@
 <accounts>
     <project>
-        <home_project/>
         <domain>localhost</domain>
         <scheduler_url>http://localhost/boinc-cgi/cgi</scheduler_url>
         <email_addr>david@localhost</email_addr>

@@ -22,7 +22,7 @@
 
 #include <vector>
 
-#include "types.h"
+#include "client_types.h"
 
 class ACCOUNTS {
 public:

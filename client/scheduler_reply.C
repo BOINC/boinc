@@ -19,7 +19,7 @@
 
 #include <stdio.h>
 
-#include "types.h"
+#include "client_types.h"
 #include "error_numbers.h"
 #include "parse.h"
 #include "scheduler_reply.h"
@@ -44,7 +44,9 @@ int SCHEDULER_REPLY::parse(FILE* in) {
             continue;
         } else if (parse_int(buf, "<request_delay>", request_delay)) {
             continue;
-        } else if (match_tag(buf, "<prefs>")) {
+        } else if (parse_int(buf, "<prefs_mod_time>", prefs.mod_time)) {
+            continue;
+        } else if (match_tag(buf, "<preferencess>")) {
             prefs.parse(in);
         } else if (match_tag(buf, "<app>")) {
             APP app;

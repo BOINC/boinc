@@ -9,9 +9,6 @@ alter table app
 alter table app_version
     add unique(appid, platformid, version_num);
 
-alter table prefs
-    add unique(userid, name);
-
 alter table user
     add unique(email_addr);
 

@@ -23,9 +23,11 @@
 #include "server_types.h"
 
 SCHEDULER_REQUEST::SCHEDULER_REQUEST() {
+    prefs_xml = 0;
 }
 
 SCHEDULER_REQUEST::~SCHEDULER_REQUEST() {
+    if (prefs_xml) free(prefs_xml);
 }
 
 int SCHEDULER_REQUEST::parse(FILE* fin) {
@@ -36,8 +38,8 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
     strcpy(authenticator, "");
     hostid = 0;
     work_req_seconds = 0;
-    want_prefs = false;
     prefs_mod_time = 0;
+    prefs_xml = strdup("");
 
     fgets(buf, 256, fin);
     if (!match_tag(buf, "<scheduler_request>")) return 1;
@@ -50,8 +52,15 @@ int SCHEDULER_REQUEST::parse(FILE* fin) {
         else if (parse_int(buf, "<core_client_version>", core_client_version)) continue;
         else if (parse_int(buf, "<work_req_seconds>", work_req_seconds)) continue;
         else if (parse_int(buf, "<prefs_mod_time>", (int)prefs_mod_time)) {
-            want_prefs = true;
             continue;
+        }
+        else if (match_tag(buf, "<preferences>")) {
+            while (fgets(buf, 256, fin)) {
+                prefs_xml = (char*)realloc(
+                    prefs_xml, strlen(prefs_xml) + strlen(buf)+1
+                );
+                strcat(prefs_xml, buf);
+            }
         }
         else if (match_tag(buf, "<host_info>")) {
             host.parse(fin);
@@ -111,14 +120,10 @@ int SCHEDULER_REPLY::write(FILE* fout) {
     
     if (send_prefs) {
         fprintf(fout,
-            "<prefs>\n"
-            "    <modified_time>%d</modified_time>\n",
+            "<prefs_mod_time>%d</prefs_mod_time>\n",
             user.prefs_mod_time
         );
         fputs(user.prefs, fout);
-        fprintf(fout,
-            "</prefs>\n"
-        );
     }
 
     // acknowledge results

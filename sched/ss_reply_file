@@ -1,7 +1,0 @@
-<scheduler_reply>
-<request_delay>10</request_delay>
-<error_message>no work available</error_message>
-<result_ack>
-    <name>uc_wu_1</name>
-</result_ack>
-</scheduler_reply>

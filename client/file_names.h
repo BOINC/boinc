@@ -17,7 +17,7 @@
 // Contributor(s):
 //
 
-#include "types.h"
+#include "client_types.h"
 
 // get the pathname (relative to client home dir) of a project file
 //

@@ -42,7 +42,6 @@ public:
     char url_source[256];       // GET here to find latest scheduler_url
     char email_addr[256];       // user's account on this project
     char authenticator[256];    // user's authenticator on this project
-    bool home_project;          // user's preferences are on this server
     int rpc_seqno;
     int hostid;
     int next_request_time;      // don't contact server until this time

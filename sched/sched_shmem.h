@@ -15,6 +15,7 @@ struct WU_RESULT {
 };
 
 struct SCHED_SHMEM {
+    bool ready;             // feeder sets to true when init done
         // the following fields let the scheduler make sure
         // that the shared mem has the right format
     int ss_size;            // sizeof(SCHED_SHMEM)

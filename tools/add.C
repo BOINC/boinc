@@ -176,8 +176,8 @@ void add_user() {
     } else {
         strcpy(user.prefs,
             "<preferences>\n"
-            "<low_water>1.2</low_water>\n"
-            "<high_water>2.5</high_water>\n"
+            "<low_water_days>1.2</low_water_days>\n"
+            "<high_water_days>2.5</high_water_days>\n"
             "<disk_max_used_gb>0.4</disk_max_used_gb>\n"
             "<disk_max_used_pct>50</disk_max_used_pct>\n"
             "<disk_min_free_gb>0.4</disk_min_free_gb>\n"
