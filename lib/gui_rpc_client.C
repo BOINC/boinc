@@ -45,8 +45,6 @@
 using std::string;
 using std::vector;
 
-#define DEBUG
-
 DISPLAY_INFO::DISPLAY_INFO() {
     memset(this, 0, sizeof(DISPLAY_INFO));
 }
