@@ -32,6 +32,13 @@ Const msiMessageTypeActionData     = &H09000000
 Const msiMessageTypeProgress       = &H0A000000
 Const msiMessageTypeCommonData     = &H0B000000 
 
+Const msiDoActionStatusNoAction    = 0
+Const msiDoActionStatusSuccess     = 1
+Const msiDoActionStatusUserExit    = 2
+Const msiDoActionStatusFailure     = 3
+Const msiDoActionStatusSuspend     = 4
+Const msiDoActionStatusFinished    = 5
+ 
 
 ''
 '' Detect the previous version of BOINC if it was installed with the old installer
@@ -51,14 +58,14 @@ Function DetectOldInstaller()
         oRecord.IntegerData(1) = 25000
         Message msiMessageTypeInfo, oRecord
 
-	    DetectOldInstaller = 1
+	    DetectOldInstaller = msiDoActionStatusSuccess
 	    Exit Function
 	Else
 	    oRecord.IntegerData(1) = 25001
         Message msiMessageTypeFatalExit Or vbCritical Or vbOKOnly, oRecord
 	End If
 
-    DetectOldInstaller = 3 
+    DetectOldInstaller = msiDoActionStatusFailure 
 End Function
 
 
@@ -84,19 +91,19 @@ Function DetectUsername()
     If ( Len(strValue) = 0 ) Then
         strUserName = oNetwork.UserName
         If ( Err.Number <> 0 ) Then
-            DetectUsername = 3
+            DetectUsername = msiDoActionStatusFailure
             Exit Function
         End If
         
         strUserDomain = oNetwork.UserDomain
         If ( Err.Number <> 0 ) Then
-            DetectUsername = 3
+            DetectUsername = msiDoActionStatusFailure
             Exit Function
         End If
         
         strComputerName = oNetwork.ComputerName
         If ( Err.Number <> 0 ) Then
-            DetectUsername = 3
+            DetectUsername = msiDoActionStatusFailure
             Exit Function
         End If
                    
@@ -109,7 +116,7 @@ Function DetectUsername()
         Property("SERVICE_USERNAME") = strNewValue
     End If
 
-    DetectUsername = 1
+    DetectUsername = msiDoActionStatusSuccess
 End Function
 
 
@@ -131,7 +138,7 @@ Function ValidateSetupType()
 			    oRecord.IntegerData(1) = 25002
 			    Message msiMessageTypeFatalExit, oRecord
 
-		        ValidateSetupType = 3
+		        ValidateSetupType = msiDoActionStatusFailure
 				Exit Function
             End If
         Else
@@ -139,13 +146,13 @@ Function ValidateSetupType()
 			    oRecord.IntegerData(1) = 25005
 			    Message msiMessageTypeFatalExit, oRecord
 
-		        ValidateSetupType = 3
+		        ValidateSetupType = msiDoActionStatusFailure
 				Exit Function
             End If
         End If
     End If
                                      
-	ValidateSetupType = 1
+	ValidateSetupType = msiDoActionStatusSuccess
 End Function
 
 
@@ -179,7 +186,7 @@ Function CopyAccountFiles()
 		    oRecord.IntegerData(1) = 25003
 		    Message msiMessageTypeInfo, oRecord
 
-    	    CopyAccountFiles = 1
+    	    CopyAccountFiles = msiDoActionStatusSuccess
     	    Exit Function
     	Else
 		    oRecord.IntegerData(1) = 25004
@@ -187,5 +194,5 @@ Function CopyAccountFiles()
 		End If
 	End If
 
-	CopyAccountFiles = 3
+	CopyAccountFiles = msiDoActionStatusFailure
 End Function
