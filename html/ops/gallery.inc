@@ -136,9 +136,9 @@ function build_country_pages() {
   }
 
   // Build the summary page linking to the individual country pages.
- 
+
   build_country_summary_page($countryMembers);
-  
+
   //echo "<br><a href=\"" . "../html_user/" . PROFILE_PATH . "profile_country.html\">View Summary Page</a>";
   //echo "<br><br>Done";
 
@@ -147,36 +147,36 @@ function build_country_pages() {
 // Creates pages grouping users by the first letter of their names.
 
 function build_alpha_pages() {
-    
+
     $query = "SELECT * FROM profile";
     $result = mysql_query($query);
     $numIds = 0;
-    
+
     while ($row = mysql_fetch_assoc($result)) {
         $query2 = "SELECT * FROM user WHERE id = " . $row['userid'];
         $result2 = mysql_query($query2);
         $row2 = mysql_fetch_assoc($result2);
-        
+
         if ($row2['name']) {
-            $members[$row2['name'][0]][] = $row2['id'];
+            $name = ltrim($row2['name']);
+            $members[strtoupper($name[0])][] = $row2['id'];
             $numIds++;
         }
     }
-    
+
     mysql_free_result($result);
     mysql_free_result($result2);
-    
+
     //echo "$numIds users have profiles AND non-null country entries.<br>";
-    
+
     $letters = array_keys($members);
-    
+
     foreach ($letters as $letter) {
-        // TODO: Make sure array indexing is not case sensitive.
-        $letter = strtoupper($letter);
+        // NOTE: Array indexing is case sensitive.
         $filePath = "../html_user/" . PROFILE_PATH;
         build_profile_pages($members[$letter], "User Profiles - Names beginning with $letter", "Names beginning with $letter", 5, 2, $filePath, "profile_$letter");
     }
-    
+
     build_alpha_summary_page($letters);
 }
 
@@ -187,30 +187,30 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
     $numMembers = count($members);
     $numPerPage = $rowsPerPage * $colsPerPage;
     $numPages = ceil(count($members) / $numPerPage);
-    
+
     $count = 0;
 
     for ($page = 1; $page <= $numPages; $page++) {
 
         $filename = $filePath . $baseFileName . "_" . $page . ".html";
         $descriptor = fopen($filename, "w");
-        
+
         $head = $pageHead . ": Page $page of $numPages";
         page_head($pageHead, null, $descriptor);
-        
+
         fwrite($descriptor, "<h2>$pageTitle</h2>\n");
         fwrite($descriptor, "Last updated " . gmdate("r") . " UTC<p>\n");
-        
+
         $offset = (($page-1) * $rowsPerPage * $colsPerPage);
-        
+
         show_user_table($members, $offset, $numPerPage, $colsPerPage, $descriptor);
- 
+
         write_page_links($baseFileName, $page, $numPages, $descriptor);
-        
+
         page_tail($descriptor);
         fclose($descriptor);
     }
-    
+
 }
 
 function build_country_summary_page($countryMembers) {
@@ -242,16 +242,16 @@ function build_country_summary_page($countryMembers) {
 function build_alpha_summary_page($characters) {
     // OK, so it's not quite the alphabet- alphanumerabet is a bad variable name.
     $alphabet = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','0','1','2','3','4','5','6','7','8','9');
-    
+
     $filename = "../html_user/profile_alpha.html";
     $descriptor = fopen($filename, "w");
-    
+
     // TODO: Add "Other" to handle non-alphanumeric first characters.  Will involve removing elements from $characters as we finish them.
-    
+
     foreach ($alphabet as $character) {
         if (in_array($character, $characters)) {
             fwrite($descriptor, "<a href=" . PROFILE_PATH . "profile_" . $character . "_1.html>$character</a>&nbsp;");
-            
+
         } else {
             fwrite($descriptor, "$character ");
         }
@@ -262,7 +262,7 @@ function build_alpha_summary_page($characters) {
 
 function build_uotd_page() {
     // Check if the current UOTD has had their 24 hours of fame - if so, pick a new one.
-    
+
     $result = mysql_query("SELECT * FROM profile ORDER BY uotd_time DESC LIMIT 1");
     if (mysql_num_rows($result) > 0) {
         $current_uotd = mysql_fetch_assoc($result);
@@ -273,40 +273,40 @@ function build_uotd_page() {
         }
     }
     // TODO: Verify that adding RAND() didn't screw this up.
-    $result = mysql_query("SELECT * FROM profile WHERE verification = 1 AND uotd_time IS NULL ORDER BY RAND()"); 
-    
+    $result = mysql_query("SELECT * FROM profile WHERE verification = 1 AND uotd_time IS NULL ORDER BY RAND()");
+
     // If the number of approved profiles dips below a threshold, email the sys admin every time we pick a new one.
     if ($result && mysql_num_rows($result) < UOTD_THRESHOLD) {
         mail(SYS_ADMIN_EMAIL, PROJECT . ": User of the Day pool is running low!", "The pool of approved candidates for User of the Day has reached your assigned threshold: there are now only " . mysql_num_rows($result) . " approved users.\n\nTo approve more candidates for User of the Day, direct your web browser to the " . PROJECT . " administration page and click \"Unrated profile\"");
     }
-    
+
     if ($result && mysql_num_rows($result) == 0) {
         // If all verified profiles have been selected as UOTD, reshow the one that was shown least recently.
         $result = mysql_query("SELECT * FROM profile WHERE verification = 1 ORDER BY uotd_time ASC LIMIT 1");
     }
-    
+
     if (!$result || mysql_num_rows($result) == 0) {
         // No valid users of the day - do something.
         exit();
     }
     $profile = mysql_fetch_assoc($result);
-    
+
     $sql = "SELECT * FROM user where id = " . $profile['userid'];
     $result2 = mysql_query($sql);
     $user = mysql_fetch_assoc($result2);
-    
+
     $filename = "../html_user/uotd.html";
     $descriptor = fopen($filename, "w");
-    
+
     if ($profile['has_picture']) {
         fwrite($descriptor, "<a href=\"view_profile?userid=" . $user['id'] . "\"><img align=\"left\" src=\"" . IMAGE_PATH . $user['id'] . "_sm.jpg\"</img></a>");
     }
-    fwrite($descriptor, "The " . PROJECT . " User of the Day is <a href=\"view_profile?userid=" . $user['id'] . "\">" . $user['name'] . "</a>!");    
+    fwrite($descriptor, "The " . PROJECT . " User of the Day is <a href=\"view_profile?userid=" . $user['id'] . "\">" . $user['name'] . "</a>!");
     fclose($descriptor);
-    
+
     $sql = "UPDATE profile SET uotd_time = " . time() . " WHERE userid = " . $user['id'];
     mysql_query($sql);
-    
+
     mail($user['email_addr'], "You're the " . PROJECT . " user of the day!", "Congratulations!\n\nYou've been chosen as the " . PROJECT . " user of the day!  Your profile will be featured on the " . PROJECT . " website for the next 24 hours.  Thanks again for supporting us- it's members like you that make distributed computing projects like ours such a success.\n\nBest regards and much thanks,\n\nThe " . PROJECT . " team.");
 }
 
