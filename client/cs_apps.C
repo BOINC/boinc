@@ -208,54 +208,65 @@ bool CLIENT_STATE::input_files_available(RESULT* rp) {
     return true;
 }
 
+// if necessary we could change results to a set or sorted vector to improve
+// efficiency here.
+RESULT* CLIENT_STATE::next_result_to_start() const
+{
+    int earliest_deadline = (int) -1;
+    RESULT* rp_earliest_deadline = NULL;
+
+    for (vector<RESULT*>::const_iterator i = results.begin();
+         i != results.end(); ++i)
+    {
+        RESULT* rp = *i;
+        if (rp->state == RESULT_FILES_DOWNLOADED && !rp->is_active) {
+            if (rp->report_deadline < earliest_deadline) {
+                earliest_deadline = rp->report_deadline;
+                rp_earliest_deadline = rp;
+            }
+        }
+    }
+    return rp_earliest_deadline;
+}
+
 // start new app if possible
 //
 bool CLIENT_STATE::start_apps() {
-    unsigned int i;
-    RESULT* rp;
-    ACTIVE_TASK* atp;
     bool action = false;
-    int open_slot, retval;
+    RESULT* rp;
+    int open_slot;
 
-    for (i=0; i<results.size(); i++) {
-
-        // If all the app slots are already used, we can't start a new app
-        //
-        open_slot = active_tasks.get_free_slot(nslots);
-        if (open_slot < 0) {
-            return action;
-        }
-        rp = results[i];
-
+    while ( (open_slot = active_tasks.get_free_slot(nslots)) >= 0 &&
+            (rp = next_result_to_start()) != NULL)
+    {
+        int retval;
         // Start the application to compute a result if:
         // 1) the result isn't done yet;
         // 2) the application isn't currently computing the result;
         // 3) all the input files for the result are locally available
         //
-        if (rp->state == RESULT_FILES_DOWNLOADED && !rp->is_active ) {
-            if (log_flags.task) {
-                msg_printf(rp->project, MSG_INFO, "Starting computation for result %s", rp->name);
-            }
-            rp->is_active = true;
-            atp = new ACTIVE_TASK;
-            atp->slot = open_slot;
-            atp->init(rp);
-            retval = active_tasks.insert(atp);
-
-            // couldn't start process
-            //
-            if (retval) {
-                atp->state = PROCESS_COULDNT_START;
-                atp->result->active_task_state = PROCESS_COULDNT_START;
-                report_result_error(
-                    *(atp->result), retval,
-                    "Couldn't start the app for this result."
-                );
-            }
-            action = true;
-            set_client_state_dirty("start_apps");
-            app_started = time(0);
+        if (log_flags.task) {
+            msg_printf(rp->project, MSG_INFO, "Starting computation for result %s", rp->name);
         }
+        rp->is_active = true;
+        ACTIVE_TASK* atp = new ACTIVE_TASK;
+        atp->slot = open_slot;
+        atp->init(rp);
+        retval = active_tasks.insert(atp);
+
+        // couldn't start process
+        //
+        if (retval) {
+            atp->state = PROCESS_COULDNT_START;
+            atp->result->active_task_state = PROCESS_COULDNT_START;
+            report_result_error(
+                *(atp->result), retval,
+                "Couldn't start the app for this result."
+                );
+        }
+        action = true;
+        set_client_state_dirty("start_apps");
+        app_started = time(0);
     }
     return action;
 }

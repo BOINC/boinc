@@ -200,6 +200,7 @@ public:
     int detach_project(PROJECT*);
 private:
     PROJECT* find_project_with_overdue_results();
+    RESULT* next_result_to_start() const;
     bool some_project_rpc_ok();
     bool scheduler_rpc_poll();
     void update_avg_cpu(PROJECT*);
