@@ -78,6 +78,9 @@ struct SCHEDULER_REPLY {
     char project_name[256];
     int prefs_mod_time;
     char* prefs_xml;
+    char user_name[256];
+    double total_credit;
+    double expavg_credit;
     vector<APP> apps;
     vector<FILE_INFO> file_infos;
     vector<APP_VERSION> app_versions;

@@ -37,6 +37,8 @@ PROJECT::PROJECT() {
     resource_share = 0;
     strcpy(project_name,"");
     strcpy(user_name,"");
+    total_credit = 0;
+    expavg_credit = 0;
     rpc_seqno = 0;
     hostid = 0;
     exp_avg_cpu = 0;
@@ -100,6 +102,8 @@ int PROJECT::parse_state(FILE* in) {
         else if (parse_str(buf, "<master_url>", master_url)) continue;
         else if (parse_str(buf, "<project_name>", project_name)) continue;
         else if (parse_str(buf, "<user_name>", user_name)) continue;
+        else if (parse_double(buf, "<total_credit>", total_credit)) continue;
+        else if (parse_double(buf, "<expavg_credit>", expavg_credit)) continue;
         else if (parse_int(buf, "<rpc_seqno>", rpc_seqno)) continue;
         else if (parse_int(buf, "<hostid>", hostid)) continue;
         else if (parse_double(buf, "<exp_avg_cpu>", exp_avg_cpu)) continue;
@@ -115,7 +119,7 @@ int PROJECT::parse_state(FILE* in) {
     return ERR_XML_PARSE;
 }
 
-// Write the project information to prefs.xml
+// Write the project information to client state file
 //
 int PROJECT::write_state(FILE* out) {
     unsigned int i;
@@ -133,6 +137,8 @@ int PROJECT::write_state(FILE* out) {
         "    <master_url>%s</master_url>\n"
         "    <project_name>%s</project_name>\n"
         "    <user_name>%s</user_name>\n"
+        "    <total_credit>%f</total_credit>\n"
+        "    <expavg_credit>%f</expavg_credit>\n"
         "    <rpc_seqno>%d</rpc_seqno>\n"
         "    <hostid>%d</hostid>\n"
         "    <exp_avg_cpu>%f</exp_avg_cpu>\n"
@@ -142,6 +148,8 @@ int PROJECT::write_state(FILE* out) {
         master_url,
         project_name,
         user_name,
+	total_credit,
+	expavg_credit,
         rpc_seqno,
         hostid,
         exp_avg_cpu,
@@ -166,6 +174,8 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     scheduler_urls = p.scheduler_urls;
     strcpy( project_name, p.project_name );
     strcpy( user_name, p.user_name );
+    total_credit = p.total_credit;
+    expavg_credit = p.expavg_credit;
     rpc_seqno = p.rpc_seqno;
     hostid = p.hostid;
     exp_avg_cpu = p.exp_avg_cpu;

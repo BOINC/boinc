@@ -52,6 +52,7 @@ struct SCHEDULER_REPLY {
                                 // this tells client to reset rpc_seqno
     bool send_prefs;            // whether to send preferences
     USER user;
+    HOST host;
     vector<APP> apps;
     vector<APP_VERSION> app_versions;
     vector<WORKUNIT>wus;

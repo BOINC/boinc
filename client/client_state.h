@@ -35,23 +35,11 @@
 #include "scheduler_op.h"
 #include "time_stats.h"
 
+// CLIENT_STATE is the global variables of the core client
+// Most of the state is saved to and restored from "client_state.xml"
+//
 class CLIENT_STATE {
 public:
-    CLIENT_STATE();
-    int init();
-    int restart_tasks();
-    int exit();
-    bool do_something();
-    void parse_cmdline(int argc, char** argv);
-    bool time_to_exit();
-    bool run_time_tests();
-    int time_tests();
-    double current_disk_usage();
-    double allowed_disk_usage();
-    void update_net_stats(bool is_upload, double nbytes, double nsecs);
-    int insert_file_xfer( FILE_XFER *fxp );
-    unsigned int giveup_after;
-
     vector<PROJECT*> projects;
     vector<APP*> apps;
     vector<FILE_INFO*> file_infos;
@@ -66,11 +54,25 @@ public:
     ACTIVE_TASK_SET active_tasks;
     HOST_INFO host_info;
     PREFS* prefs;
+    NET_STATS net_stats;
+
+    CLIENT_STATE();
+    int init();
+    int restart_tasks();
+    int exit();
+    bool do_something();
+    void parse_cmdline(int argc, char** argv);
+    bool time_to_exit();
+    bool run_time_tests();
+    int time_tests();
+    double current_disk_usage();
+    double allowed_disk_usage();
+    unsigned int giveup_after;
+
 private:
     bool client_state_dirty;
     TIME_STATS time_stats;
-    NET_STATS net_stats;
-    int version;
+    int core_client_version;
     char* platform_name;
     unsigned int nslots;
     bool exit_when_idle;

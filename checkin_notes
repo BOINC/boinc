@@ -1710,3 +1710,51 @@ Eric  August 26, 2002
         app.h
         cs_apps.C
 
+David  August 26, 2002
+    - adding missing clause to SCHEDULER_OP::poll(); was failing to
+	return state to IDLE, caused reply to get processed twice
+    - return user name, total credit, avg credit in scheduler RPC reply
+	- save/restore these in client state file
+    - client was trying to delete "checkpoint CPU file" in wrong directory
+    - change CLIENT_STATE field from "version" to "core_client_version"
+    - got rid of CLIENT_STATE::update_net_stats(), insert_file_xfer()
+	(made some stuff public)
+    - disable host performance measurement (temp! turn back on later)
+    - removed comments of the form
+	read_config_file();    // read config file
+    - in HTTP op of type POST2, it's not an error if htp->file is zero
+    - replaced hardwired HTTP_STATUS constants
+    - made separate db.inc, util.inc in html_ops
+    - key creation prints message before delay, not after
+    - file upload handler prints user name in error log lines
+    - scheduling server: make USER, HOST part of SCHEDULER_REPLY
+        so don't have to pass around as separate args
+    - in test/init.inc, don't use the init_db() from html_user/.
+	define it separately here.
+    - in test/init.inc, split up clear_data_dirs() into
+	client, server parts
+    - change test_uc.php to not create keys by default
+
+    client/
+	app.C
+	client_state.C,h
+	cs_scheduler.C
+	file_xfer.C
+	http.C,h
+	pers_file_xfer.C
+	scheduler_op.C,h
+    db/
+	db.h
+    html_ops/
+	db.inc (new)
+	util.inc (new)
+    lib/
+	crypt_prog.C
+    sched/
+	file_upload_handler.C
+	handle_request.C
+	server_types.C,h
+    test/
+	init.inc
+	master.html
+	test_uc.php

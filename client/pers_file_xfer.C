@@ -81,7 +81,7 @@ bool PERS_FILE_XFER::start_xfer() {
             (is_upload ? "upload" : "download"), fip->get_url(), retval
         );
     } else {
-        retval = gstate.insert_file_xfer(file_xfer);
+        retval = gstate.file_xfers->insert(file_xfer);
         if (retval) return false;
         fxp = file_xfer;
         if (log_flags.file_xfer) {
@@ -128,7 +128,7 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
             if (fip->generated_locally) {
                 // If the file was generated locally (for upload), update stats
                 // and delete the local copy of the file if needed
-                gstate.update_net_stats(true, fip->nbytes, fxp->elapsed_time());
+                gstate.net_stats.update(true, fip->nbytes, fxp->elapsed_time());
 
                 // file has been uploaded - delete if not sticky
                 if (!fip->sticky) {
@@ -139,7 +139,7 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
             } else {
                 // Otherwise we downloaded the file.  Update stats, verify
                 // the file with RSA or MD5, and change permissions
-                gstate.update_net_stats(false, fip->nbytes, fxp->elapsed_time());
+                gstate.net_stats.update(false, fip->nbytes, fxp->elapsed_time());
                 get_pathname(fip, pathname);
                 retval = verify_downloaded_file(pathname, *fip);
                 if (retval) {
@@ -175,7 +175,7 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
 //
 void PERS_FILE_XFER::handle_xfer_failure(unsigned int cur_time) {
     // If it was a bad range request, delete the file and start over
-    if (fxp->file_xfer_retval == HTTP_RANGE_REQUEST_ERROR) {
+    if (fxp->file_xfer_retval == HTTP_STATUS_RANGE_REQUEST_ERROR) {
         fip->delete_file();
     }
     

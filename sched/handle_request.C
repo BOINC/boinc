@@ -97,25 +97,23 @@ int add_wu_to_reply(
 // If no host ID is supplied, or if RPC seqno mismatch,
 // create a new host record and return its ID
 //
-int authenticate_user(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, USER& user, HOST& host
-) {
+int authenticate_user(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     int retval;
 
     if (sreq.hostid) {
-        retval = db_host(sreq.hostid, host);
+        retval = db_host(sreq.hostid, reply.host);
         if (retval) {
             strcpy(reply.message, "Can't find host record");
             strcpy(reply.message_priority, "low");
             return -1;
         }
-        retval = db_user(host.userid, user);
+        retval = db_user(reply.host.userid, reply.user);
         if (retval) {
             strcpy(reply.message, "Can't find user record");
             strcpy(reply.message_priority, "low");
             return -1;
         }
-        if (strcmp(sreq.authenticator, user.authenticator)) {
+        if (strcmp(sreq.authenticator, reply.user.authenticator)) {
             strcpy(reply.message,
                "Invalid or missing authenticator.  "
                "Visit this project's web site to get an authenticator."
@@ -127,36 +125,39 @@ int authenticate_user(
         // If the seqno from the host is less than what we expect,
         // the user must have copied the state file to a different host.
         // Make a new host record.
-        if (sreq.rpc_seqno < host.rpc_seqno) {
+        if (sreq.rpc_seqno < reply.host.rpc_seqno) {
             sreq.hostid = 0;
             goto new_host;
         }
-        host.rpc_seqno = sreq.rpc_seqno;
-        host.rpc_time = time(0);
+        reply.host.rpc_seqno = sreq.rpc_seqno;
+        reply.host.rpc_time = time(0);
     } else {
-        strcpy(user.authenticator, sreq.authenticator);
-        retval = db_user_lookup_auth(user);
+        strcpy(reply.user.authenticator, sreq.authenticator);
+        retval = db_user_lookup_auth(reply.user);
         if (retval) {
             strcpy(reply.message, "Invalid or missing authenticator");
             strcpy(reply.message_priority, "low");
             return -1;
         }
 new_host:
-        host = sreq.host;
-        host.id = 0;
-        host.create_time = time(0);
-        host.userid = user.id;
-        host.rpc_seqno = 0;
-        host.rpc_time = time(0);
-        retval = db_host_new(host);
+	// reply.user is filled in and valid at this point
+	//
+        reply.host = sreq.host;
+        reply.host.id = 0;
+        reply.host.create_time = time(0);
+        reply.host.userid = reply.user.id;
+        reply.host.rpc_seqno = 0;
+        reply.host.rpc_time = time(0);
+        retval = db_host_new(reply.host);
         if (retval) {
             strcpy(reply.message, "server database error");
             strcpy(reply.message_priority, "low");
             db_print_error("db_host_new");
             return -1;
         }
-        host.id = db_insert_id();
-        reply.hostid = host.id;
+        reply.host.id = db_insert_id();
+	reply.hostid = reply.host.id;
+	    // this tells client to updates its host ID
     }
     return 0;
 }
@@ -205,16 +206,16 @@ int update_host_record(SCHEDULER_REQUEST& sreq, HOST& host) {
 // update user record in DB.
 // If we our DB has more recent prefs than client's, send them.
 //
-int handle_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, USER& user) {
-    if (sreq.prefs_mod_time > user.prefs_mod_time && strlen(sreq.prefs_xml)) {
-        strcpy(user.prefs, sreq.prefs_xml);
-        user.prefs_mod_time = sreq.prefs_mod_time;
-        if (user.prefs_mod_time > (unsigned)time(0)) {
-            user.prefs_mod_time = (unsigned)time(0);
+int handle_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
+    if (sreq.prefs_mod_time > reply.user.prefs_mod_time && strlen(sreq.prefs_xml)) {
+        strcpy(reply.user.prefs, sreq.prefs_xml);
+        reply.user.prefs_mod_time = sreq.prefs_mod_time;
+        if (reply.user.prefs_mod_time > (unsigned)time(0)) {
+            reply.user.prefs_mod_time = (unsigned)time(0);
         }
-        db_user_update(user);
+        db_user_update(reply.user);
     }
-    if (user.prefs_mod_time > sreq.prefs_mod_time) {
+    if (reply.user.prefs_mod_time > sreq.prefs_mod_time) {
         reply.send_prefs = true;
     }
     return 0;
@@ -222,9 +223,7 @@ int handle_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, USER& user) {
 
 // handle completed results
 //
-int handle_results(
-    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, HOST& host
-) {
+int handle_results(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     unsigned int i;
     int retval;
     RESULT result, *rp;
@@ -244,7 +243,7 @@ int handle_results(
 
             // TODO: handle error returns
             //
-            result.hostid = host.id;
+            result.hostid = reply.host.id;
             result.received_time = time(0);
             result.exit_status = rp->exit_status;
             result.cpu_time = rp->cpu_time;
@@ -276,7 +275,7 @@ int handle_results(
 
 int send_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    HOST& host, SCHED_SHMEM& ss
+    SCHED_SHMEM& ss
 ) {
     int i, retval, nresults = 0, seconds_to_fill;
     WORKUNIT wu;
@@ -299,7 +298,7 @@ int send_work(
         // the following should be a critical section
         //
         if (!ss.wu_results[i].present || 
-            !wu_is_feasible(ss.wu_results[i].workunit, host) 
+            !wu_is_feasible(ss.wu_results[i].workunit, reply.host) 
         ) {
 	    continue;
 	}
@@ -308,15 +307,15 @@ int send_work(
         ss.wu_results[i].present = false;
         
         retval = add_wu_to_reply(wu, reply, platform, ss,
-	    estimate_duration(wu, host)
+	    estimate_duration(wu, reply.host)
         );
         if (retval) continue;
         reply.insert_result(result);
-	seconds_to_fill -= (int)estimate_duration(wu, host);
+	seconds_to_fill -= (int)estimate_duration(wu, reply.host);
         nresults++;
 
         result.state = RESULT_STATE_IN_PROGRESS;
-        result.hostid = host.id;
+        result.hostid = reply.host.id;
         result.sent_time = time(0);
         db_result_update(result);
 
@@ -337,7 +336,7 @@ int send_work(
         result.create_time = time(0);
         result.workunitid = wu.id;
         result.state = RESULT_STATE_IN_PROGRESS;
-        result.hostid = host.id;
+        result.hostid = reply.host.id;
         result.sent_time = time(0);
         sprintf(result.name, "result_%d", result.id);
         app = db.lookup_app(wu.appid);
@@ -415,16 +414,14 @@ void process_request(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, SCHED_SHMEM& ss,
     char* code_sign_key
 ) {
-    HOST host;
-    USER user;
     PLATFORM* platform;
     int retval;
     char buf[256];
 
-    retval = authenticate_user(sreq, reply, user, host);
+    retval = authenticate_user(sreq, reply);
     if (retval) return;
 
-    retval = update_host_record(sreq, host);
+    retval = update_host_record(sreq, reply.host);
 
     // look up the client's platform in the DB
     //
@@ -436,13 +433,11 @@ void process_request(
         return;
     }
 
-    reply.user = user;
+    handle_prefs(sreq, reply);
 
-    handle_prefs(sreq, reply, user);
+    handle_results(sreq, reply);
 
-    handle_results(sreq, reply, host);
-
-    send_work(sreq, reply, *platform, host, ss);
+    send_work(sreq, reply, *platform, ss);
 
     send_code_sign_key(sreq, reply, code_sign_key);
 }

@@ -434,10 +434,8 @@ bool HTTP_OP_SET::poll() {
                 htp->http_op_state = HTTP_STATE_REPLY_HEADER;
                 if (htp->file) {
                     fclose(htp->file);
-                } else {
-                    printf("HTTP_OP_SET::poll(): unexpected NULL file\n");
-                }
-                htp->file = 0;
+		    htp->file = 0;
+		}
                 htp->do_file_io = false;
                 htp->want_upload = false;
                 htp->want_download = true;
@@ -449,7 +447,7 @@ bool HTTP_OP_SET::poll() {
                 if (log_flags.http_debug) printf("got reply header\n");
                 read_http_reply_header(htp->socket, htp->hrh);
                 // TODO: handle all kinds of redirects here
-                if (htp->hrh.status == 301 || htp->hrh.status == 302) {
+                if (htp->hrh.status == HTTP_STATUS_MOVED_PERM || htp->hrh.status == HTTP_STATUS_MOVED_TEMP) {
                     // Close the old socket
                     htp->close_socket();
                     switch (htp->http_op_type) {
@@ -472,7 +470,7 @@ bool HTTP_OP_SET::poll() {
                     htp->open_server();
                     break;
                 }
-                if (htp->hrh.status/100 != 2) {
+                if ((htp->hrh.status/100)*100 != HTTP_STATUS_OK) {
                     htp->http_op_state = HTTP_STATE_DONE;
                     htp->http_op_retval = htp->hrh.status;
                     break;

@@ -39,6 +39,7 @@ main(int argc, char** argv) {
         exit(1);
     }
     if (!strcmp(argv[1], "-genkey")) {
+        printf("creating keys in %s and %s\n", argv[3], argv[4]);
         n = atoi(argv[2]);
 
         R_RandomCreate(&randomStruct);
@@ -50,7 +51,6 @@ main(int argc, char** argv) {
         );
         if (retval) die("R_GeneratePEMKeys\n");
 
-        printf("creating keys in %s and %s\n", argv[3], argv[4]);
         fpriv = fopen(argv[3], "w");
         if (!fpriv) die("fopen");
         fpub = fopen(argv[4], "w");

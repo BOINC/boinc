@@ -71,7 +71,7 @@ int FILE_INFO::parse(FILE* in) {
         strcatdup(signed_xml, buf);
         if (parse_str(buf, "<name>", name)) continue;
         if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
-        //fprintf(stderr, "file_upload_handler: FILE_INFO::parse: unrecognized: %s \n", buf);
+        //fprintf(stderr, "file_upload_handler (%s): FILE_INFO::parse: unrecognized: %s \n", BOINC_USER, buf);
     }
     return 1;
 }
@@ -79,10 +79,10 @@ int FILE_INFO::parse(FILE* in) {
 int print_status(int status, char* message) {
     printf("Content-type: text/plain\n\n<status>%d</status>\n", status);
     if (message) printf("<error>%s</error>\n", message);
-#if 0
-    fprintf(stderr, "Content-type: text/plain\n\n<status>%d</status>\n", status);
-    if (message) fprintf(stderr, "<error>%s</error>\n", message);
-#endif
+    fprintf(stderr,
+    	"file_upload_handler (%s): status %d: %s>\n",
+	BOINC_USER, status, message
+    );
     return 0;
 }
 
@@ -145,14 +145,16 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         if (match_tag(buf, "<file_info>")) {
             retval = file_info.parse(in);
             if (retval) {
-		fprintf(stderr, "file_upload_handler: FILE_INFO.parse\n");
+		fprintf(stderr,
+		    "file_upload_handler (%s): FILE_INFO.parse\n",
+		    BOINC_USER
+		);
 		return retval;
 	    }
             retval = verify_string(
                 file_info.signed_xml, file_info.xml_signature, key, is_valid
             );
             if (retval || !is_valid) {
-		fprintf(stderr, "invalid XML signature\n");
                 print_status(-1, "invalid XML signature");
                 return -1;
             }
@@ -175,14 +177,12 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
         else if (parse_double(buf, "<nbytes>", nbytes)) continue;
         else if (match_tag(buf, "<data>")) {
             if (nbytes == 0) {
-		fprintf(stderr, "nbytes missing\n");
                 print_status(-1, "nbytes missing");
                 return -1;
             }
 
             // enforce limits in signed XML
             if (nbytes > file_info.max_nbytes) {
-		fprintf(stderr, "nbytes too large\n");
                 sprintf(buf,
                     "nbytes too large: %f > %f",
                     nbytes, file_info.max_nbytes
@@ -193,8 +193,11 @@ int handle_request(FILE* in, R_RSA_PUBLIC_KEY& key) {
 
             sprintf(path, "%s/%s", BOINC_UPLOAD_DIR, file_info.name);
             retval = copy_socket_to_file(in, path, offset, nbytes);
-	    if(retval) {
-		fprintf(stderr, "file_upload_handler: copy_socket_to_file\n");
+	    if (retval) {
+		fprintf(stderr,
+		    "file_upload_handler (%s): copy_socket_to_file %d %s\n",
+		    BOINC_USER, retval, path
+		);
 	    }
             break;
         }

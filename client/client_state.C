@@ -34,7 +34,6 @@
 
 #define SECONDS_IN_MONTH 2592000
 
-// Global CLIENT_STATE object
 CLIENT_STATE gstate;
 
 CLIENT_STATE::CLIENT_STATE() {
@@ -49,7 +48,7 @@ CLIENT_STATE::CLIENT_STATE() {
     giveup_after = PERS_GIVEUP;
     contacted_sched_server = false;
     activities_suspended = false;
-    version = VERSION;
+    core_client_version = VERSION;
     platform_name = HOST;
     exit_after = -1;
     app_started = 0;
@@ -61,8 +60,8 @@ int CLIENT_STATE::init() {
 
     nslots = 1;
 
-    // Read the user preferences file, if it exists.  If it doesn't,
-    // prompt user for project URL via initialize_prefs()
+    // Read the user preferences file, if it exists.
+    // If it doesn't, prompt user for project URL via initialize_prefs()
     //
     prefs = new PREFS;
     retval = prefs->parse_file();
@@ -79,7 +78,6 @@ int CLIENT_STATE::init() {
         }
     }
 
-    // Initialize the random number generator
     srand(clock());
 
     // copy all PROJECTs from the prefs to the client state.
@@ -126,29 +124,25 @@ bool CLIENT_STATE::run_time_tests() {
     ));
 }
 
-// Updates computer statistics (roughly once a month)
+// gets info about the host
+// NOTE: this locks up the process for 10-20 seconds,
+// so it should be called very seldom
 //
 int CLIENT_STATE::time_tests() {
     get_host_info(host_info); // this is platform dependent
+#if 0
     host_info.p_fpops = run_double_prec_test(4); //these are not
     host_info.p_iops = run_int_test(4);
-    //host_info.p_membw = run_mem_bandwidth_test(4);
-    host_info.p_membw = 100000;
+    host_info.p_membw = run_mem_bandwidth_test(4);
+    host_info.m_cache = check_cache_size(CACHE_MAX);
+#else
+    host_info.p_fpops = 1000000000;
+    host_info.p_iops = 1000000000;
+    host_info.p_membw = 1000000000;
+    host_info.m_cache = 1000000;
+#endif
     host_info.p_calculated = (double)time(0); //set time calculated
-    //host_info.m_cache = check_cache_size(CACHE_MAX);
     return 0;
-}
-
-// Update the net_stats object, since it's private
-//
-void CLIENT_STATE::update_net_stats(bool is_upload, double nbytes, double nsecs) {
-    net_stats.update( is_upload, nbytes, nsecs );
-}
-
-// Insert an object into the file_xfers object, since it's private
-//
-int CLIENT_STATE::insert_file_xfer( FILE_XFER *fxp ) {
-    return file_xfers->insert(fxp);
 }
 
 // Return the maximum allowed disk usage as determined by user preferences.
@@ -275,7 +269,7 @@ int CLIENT_STATE::parse_state_file() {
                 }
                 // Init PERS_FILE_XFER and push it onto pers_file_xfer stack
                 if (fip->pers_file_xfer) {
-                    fip->pers_file_xfer->init( fip, fip->upload_when_present );
+                    fip->pers_file_xfer->init(fip, fip->upload_when_present);
                     pers_xfers->insert( fip->pers_file_xfer );
                 }
             } else {
@@ -373,9 +367,9 @@ int CLIENT_STATE::write_state_file() {
     active_tasks.write(f);
     fprintf(f,
         "<platform_name>%s</platform_name>\n"
-        "<version>%d</version>\n",
+        "<core_client_version>%d</core_client_version>\n",
         platform_name,
-        version
+        core_client_version
     );
     fprintf(f, "</client_state>\n");
     fclose(f);

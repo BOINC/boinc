@@ -446,12 +446,12 @@ bool ACTIVE_TASK_SET::poll() {
         atp->state = PROCESS_EXITED;
         atp->exit_status = WEXITSTATUS(stat);
         atp->result->exit_status = atp->exit_status;
-        if (log_flags.task_debug) printf("process exited status%d\n", atp->exit_status);
+        if (log_flags.task_debug) printf("process exited: status %d\n", atp->exit_status);
     } else if (WIFSIGNALED(stat)) {
         atp->state = PROCESS_WAS_SIGNALED;
         atp->signal = WTERMSIG(stat);
         atp->result->exit_status = atp->signal;
-        if (log_flags.task_debug) printf("process was signaled %d\n", atp->signal);
+        if (log_flags.task_debug) printf("process was signaled: %d\n", atp->signal);
     } else {
         atp->state = PROCESS_EXIT_UNKNOWN;
         atp->result->exit_status = -1;
@@ -600,33 +600,39 @@ int ACTIVE_TASK_SET::restart_tasks() {
 //
 bool ACTIVE_TASK::check_app_status_files() {
     FILE* f;
-    char app_path[256];
+    char path[256];
     bool found = false;
     int retval;
 
-    sprintf(app_path, "%s/%s", slot_dir, CHECKPOINT_CPU_FILE);
-    f = fopen(app_path, "r");
+    sprintf(path, "%s/%s", slot_dir, CHECKPOINT_CPU_FILE);
+    f = fopen(path, "r");
     if (f) {
         found = true;
         parse_checkpoint_cpu_file(f, checkpoint_cpu_time);
         fclose(f);
-        retval = file_delete(CHECKPOINT_CPU_FILE);
+        retval = file_delete(path);
         if (retval) {
-            fprintf(stderr, "error: ACTIVE_TASK.check_app_status_files: could not delete file %s\n", CHECKPOINT_CPU_FILE);
+            fprintf(stderr,
+		"ACTIVE_TASK.check_app_status_files: could not delete %s: %d\n",
+		path, retval
+	    );
         }
     }
 
-    sprintf(app_path, "%s/%s", slot_dir, FRACTION_DONE_FILE);
-    f = fopen(app_path, "r");
+    sprintf(path, "%s/%s", slot_dir, FRACTION_DONE_FILE);
+    f = fopen(path, "r");
     if (f) {
         found = true;
         parse_fraction_done_file(
             f, current_cpu_time, fraction_done
         );
         fclose(f);
-        retval = file_delete(app_path);
+        retval = file_delete(path);
         if (retval) {
-            fprintf(stderr, "error: ACTIVE_TASK.check_app_status_files: could not delete file %s\n", FRACTION_DONE_FILE);
+            fprintf(stderr,
+		"ACTIVE_TASK.check_app_status_files: could not delete %s: %d\n",
+		path, retval
+	    );
         }
     }
     return found;

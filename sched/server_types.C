@@ -114,7 +114,15 @@ int SCHEDULER_REPLY::write(FILE* fout) {
 	gproject.name
     );
 
-    
+    fprintf(fout,
+	"<user_name>%s</user_name>\n"
+	"<total_credit>%f</total_credit>\n"
+	"<expavg_credit>%f</expavg_credit>\n",
+	user.name,
+	user.total_credit,
+	user.expavg_credit
+    );
+
     if (request_delay) {
         fprintf(fout, "<request_delay>%d</request_delay>\n", request_delay);
     }

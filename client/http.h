@@ -26,6 +26,12 @@
 
 #include "net_xfer.h"
 
+// official HTTP status codes
+#define HTTP_STATUS_OK              200
+#define HTTP_STATUS_RANGE_REQUEST_ERROR    416
+#define HTTP_STATUS_MOVED_PERM      301
+#define HTTP_STATUS_MOVED_TEMP      302
+
 struct HTTP_REPLY_HEADER {
     int status;
     int content_length;
@@ -87,13 +93,11 @@ public:
 #define HTTP_STATE_CONNECTING       1
 #define HTTP_STATE_REQUEST_HEADER   2
 #define HTTP_STATE_REQUEST_BODY1    3
+    // sending the string part of a POST2 operation
 #define HTTP_STATE_REQUEST_BODY     4
 #define HTTP_STATE_REPLY_HEADER     5
 #define HTTP_STATE_REPLY_BODY       6
 #define HTTP_STATE_DONE             7
-
-#define HTTP_OK                     200
-#define HTTP_RANGE_REQUEST_ERROR    416
 
 extern int read_http_reply_header(int socket, HTTP_REPLY_HEADER&);
 

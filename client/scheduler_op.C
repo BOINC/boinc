@@ -315,7 +315,9 @@ bool SCHEDULER_OP::poll() {
                     } else {
                         scheduler_op_done = true;
                     }
-                }
+                } else {
+		    scheduler_op_done = true;
+		}
             }
         }
         if (scheduler_op_done) {

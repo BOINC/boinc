@@ -46,7 +46,7 @@ struct PROJECT {
 //
 struct PLATFORM {
     int id;
-    unsigned int create_time;   // UNIX time of record creation
+    unsigned int create_time;
     char name[256];             // Platform name (i.e. "sparc-sun-solaris2.7")
 };
 
@@ -55,8 +55,8 @@ struct PLATFORM {
 //
 struct APP {
     int id;
-    unsigned int create_time;   // UNIX time of record creation
-    char name[256];     // application name (i.e. "setiathome_4.0"), preferably short
+    unsigned int create_time;
+    char name[256];     // application name, preferably short
     int min_version;    // don't use versions before this
     char result_xml_template[MAX_BLOB_SIZE];
         // if any workunits have dynamic results,
@@ -71,20 +71,20 @@ struct APP {
 //
 struct APP_VERSION {
     int id;
-    unsigned int create_time;   // UNIX time of record creation
-    int appid;                  // id of APP record associated with this APP_VERSION
-    int version_num;            // Version number
-    int platformid;             // id of PLATFORM record associated with this APP_VERSION
+    unsigned int create_time;
+    int appid;
+    int version_num;
+    int platformid;
 
-    // describes app files. format:
-    // <file_info>...</file_info>
-    // ...
-    // <file_assocs>
-    //    <io_file_desc>...</io_file_desc>
-    //    ...
-    // </file_assocs>
-    //
     char xml_doc[MAX_BLOB_SIZE];
+	// describes app files. format:
+	// <file_info>...</file_info>
+	// ...
+	// <file_assocs>
+	//    <io_file_desc>...</io_file_desc>
+	//    ...
+	// </file_assocs>
+	//
 
     // The following defined for apps other than core client.
     // They let you handle backwards-incompatible changes to
@@ -105,50 +105,49 @@ struct APP_VERSION {
 
 struct USER {
     int id;
-    unsigned int create_time;   // UNIX time of record creation
-    char email_addr[256];       // User email address
-    char name[256];             // User name
-    char web_password[256];     // User specifiable web password
-    char authenticator[256];    // Authenticator string, used to confirm email
-                                // address when signing up for a project
-    char country[256];          // User country (selected from a list in countries.C)
-    char postal_code[256];      // User postal code
+    unsigned int create_time;
+    char email_addr[256];
+    char name[256];
+    char web_password[256];
+    char authenticator[256];
+    char country[256];
+    char postal_code[256];
     double total_credit;
-    double expavg_credit;   // exponenially averaged credit
-    int expavg_time;        // last time the above was computed
-    char prefs[MAX_BLOB_SIZE];   // Raw XML preferences data
+    double expavg_credit;       // exponentially averaged credit
+    int expavg_time;            // last time the above was computed
+    char prefs[MAX_BLOB_SIZE];  // XML preferences
     unsigned int prefs_mod_time; // When the preferences were last updated
-    int teamid;			//if the user is part of a team
+    int teamid;                 // if the user is part of a team
 };
 
-#define TEAM_TYPE_COMPANY_SMALL		1
-#define TEAM_TYPE_COMPANY_MEDIUM	2
-#define TEAM_TYPE_COMPANY_LARGE		3
-#define TEAM_TYPE_CLUB			4
-#define TEAM_TYPE_PRIMARY		5
-#define TEAM_TYPE_SECONDARY		6
-#define TEAM_TYPE_UNIVERSITY		7
-#define TEAM_TYPE_JUNIOR_COLLEGE	8
-#define TEAM_TYPE_GOVERNMENT		9
+#define TEAM_TYPE_COMPANY_SMALL         1
+#define TEAM_TYPE_COMPANY_MEDIUM        2
+#define TEAM_TYPE_COMPANY_LARGE         3
+#define TEAM_TYPE_CLUB                  4
+#define TEAM_TYPE_PRIMARY               5
+#define TEAM_TYPE_SECONDARY             6
+#define TEAM_TYPE_UNIVERSITY            7
+#define TEAM_TYPE_JUNIOR_COLLEGE        8
+#define TEAM_TYPE_GOVERNMENT            9
 
 struct TEAM {
     int id;
     int userid;             // User ID of team founder
-    char name[256];         // Team name
+    char name[256];
     char name_lc[256];      // Team name in lowercase (used for searching)
-    char url[256];          // URL of team
-    int type;               // Team type (company, club, etc, see above definitions)
-    char name_html[256];    // 
+    char url[256];
+    int type;               // Team type (see above)
+    char name_html[256];
     char description[256];
     int nusers;
 };
 
 struct HOST {
     int id;
-    unsigned int create_time;   // UNIX time of record creation
+    unsigned int create_time;
     int userid;             // ID of user running this host
     int rpc_seqno;          // last seqno received from client
-    unsigned int rpc_time;  // UNIX time of last scheduler RPC
+    unsigned int rpc_time;  // time of last scheduler RPC
 
     // all remaining items are assigned by the client
     int timezone;
@@ -159,28 +158,28 @@ struct HOST {
 
     double on_frac;         // Fraction of the time (0-1) that the host is on
     double connected_frac;  // Fraction of time that host is connected
-    double active_frac;     // Fraction of time that host is actively doing tasks
+    double active_frac;     // Fraction of time that host is enabled to work
 
     int p_ncpus;            // Number of CPUs on host
-    char p_vendor[256];     // Vendor name of host CPU
-    char p_model[256];      // Model of host CPU
-    double p_fpops;         // Approximate flop speed of host CPU
-    double p_iops;          // Approximate integer op/sec speed of host CPU
-    double p_membw;         // Approximate memory bandwidth of host
+    char p_vendor[256];     // Vendor name of CPU
+    char p_model[256];      // Model of CPU
+    double p_fpops;         // Approximate floating point speed of CPU
+    double p_iops;          // Approximate integer op/sec speed of CPU
+    double p_membw;         // Approximate memory bandwidth of CPU
     double p_calculated;
 
-    char os_name[256];      // Name of host operating system
-    char os_version[256];   // Version of host operating system
+    char os_name[256];      // Name of operating system
+    char os_version[256];   // Version of operating system
 
-    double m_nbytes;        // Size of host memory in bytes
+    double m_nbytes;        // Size of memory in bytes
     double m_cache;         // Size of CPU cache in bytes (L1 or L2?)
-    double m_swap;          // Size of host swap space in bytes
+    double m_swap;          // Size of swap space in bytes
 
     double d_total;         // Total disk space
     double d_free;
 
-    double n_bwup;          // Average upload bandwidth for host
-    double n_bwdown;        // Average download bandwidth for host
+    double n_bwup;          // Average upload bandwidth
+    double n_bwdown;        // Average download bandwidth
 
     int parse(FILE*);
     int parse_time_stats(FILE*);
@@ -189,20 +188,20 @@ struct HOST {
 
 struct WORKUNIT {
     int id;
-    unsigned int create_time;   // UNIX time of record creation
+    unsigned int create_time;   // time of record creation
     int appid;                  // ID of APP record tied to this workunit
     int previous_wuid;
     bool has_successor;
     char name[256];             // Name of the workunit
     char xml_doc[MAX_BLOB_SIZE];
     int batch;
-    double rsc_fpops;       // estimated # of FP operations
-    double rsc_iops;        // estimated # of integer operations
-    double rsc_memory;      // estimated size of RAM working set (bytes)
-    double rsc_disk;        // estimated amount of disk needed (bytes)
+    double rsc_fpops;           // estimated # of FP operations
+    double rsc_iops;            // estimated # of integer operations
+    double rsc_memory;          // estimated size of RAM working set (bytes)
+    double rsc_disk;            // estimated amount of disk needed (bytes)
     bool dynamic_results;
         // whether to create new results on demand
-    int max_results;        // 0 if no limit
+    int max_results;            // 0 if no limit
     int nresults;
     int nresults_unsent;
     int nresults_done;
@@ -221,16 +220,16 @@ struct WORKUNIT {
 
 struct RESULT {
     int id;
-    unsigned int create_time;   // UNIX time of record creation
-    int workunitid;             // ID of the workunit tied to this result
-    int state;                  // Current state of the processing for this result
-    int hostid;                 // ID of host currently processing this result
-    unsigned int report_deadline;   // UNIX time deadline for receiving result
-    unsigned int sent_time;         // UNIX time that result request was sent to host
-    unsigned int received_time;     // UNIX time that result data was received from host
-    char name[256];                 // Name of result
-    int exit_status;            // Final exit status of application that processed result
-    double cpu_time;            // Total CPU time required to complete result
+    unsigned int create_time;
+    int workunitid;
+    int state;                  // state (see above)
+    int hostid;                 // host processing this result
+    unsigned int report_deadline;   // deadline for receiving result
+    unsigned int sent_time;         // when result was sent to host
+    unsigned int received_time;     // when result was received from host
+    char name[256];
+    int exit_status;
+    double cpu_time;            // CPU time used to complete result
     char xml_doc_in[MAX_BLOB_SIZE];     // descriptions of output files
     char xml_doc_out[MAX_BLOB_SIZE];    // MD5s of output files
     char stderr_out[MAX_BLOB_SIZE];     // stderr output, if any

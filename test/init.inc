@@ -4,7 +4,6 @@ define("VERSION", "1");
 define("CORE_CLIENT", "boinc_".VERSION."_$BOINC_PLATFORM");
 define("PROJECTS", "localhost.localdomain zoot");
 
-include_once("../html_user/db.inc");
 
 function clear_db() {
     PassThru("cd ../db; init_db");
@@ -17,6 +16,22 @@ $BOINC_EMAIL = null;
 $BOINC_DOWNLOAD_URL = null;
 $BOINC_KEY_DIR = null;
 $BOINC_MASTER_URL = null;
+$BOINC_DB_NAME = null;
+
+function open_db() {
+    global $BOINC_DB_NAME;
+
+    $retval = mysql_connect();
+    if (!$retval) {
+	echo "mysql_connect() failed\n";
+	exit();
+    }
+    $retval = mysql_select_db($BOINC_DB_NAME);
+    if (!$retval) {
+	echo "mysql_select_db() failed\n";
+	exit();
+    }
+}
 
 function check_env_vars() {
     global $BOINC_DOWNLOAD_DIR;
@@ -26,6 +41,7 @@ function check_env_vars() {
     global $BOINC_DOWNLOAD_URL;
     global $BOINC_KEY_DIR;
     global $BOINC_MASTER_URL;
+    global $BOINC_DB_NAME;
 
     $bad = false;
     $BOINC_DOWNLOAD_DIR = getenv("BOINC_DOWNLOAD_DIR");
@@ -63,38 +79,47 @@ function check_env_vars() {
         echo "Must define BOINC_MASTER_URL\n";
         $bad = true;
     }
+    $BOINC_DB_NAME = getenv("BOINC_DB_NAME");
+    if ($BOINC_DB_NAME == null) {
+        echo "Must define BOINC_DB_NAME\n";
+        $bad = true;
+    }
     if ($bad) exit();
 }
 
-function clear_data_dirs() {
+function clear_server_dirs($clear_key_dir) {
     global $BOINC_DOWNLOAD_DIR;
     global $BOINC_UPLOAD_DIR;
+    global $BOINC_KEY_DIR;
 
-    $BOINC_DOWNLOAD_DIR = getenv("BOINC_DOWNLOAD_DIR");
     if ($BOINC_DOWNLOAD_DIR == null) {
         echo "Must define BOINC_DOWNLOAD_DIR\n";
         $bad = true;
     }
-    $BOINC_UPLOAD_DIR = getenv("BOINC_UPLOAD_DIR");
     if ($BOINC_UPLOAD_DIR == null) {
         echo "Must define BOINC_UPLOAD_DIR\n";
         $bad = true;
     }
-    $BOINC_KEY_DIR = getenv("BOINC_KEY_DIR");
     if ($BOINC_KEY_DIR == null) {
         echo "Must define BOINC_KEY_DIR\n";
-        $bad = true;
-    }
-    $MASTER_URL = urlencode(stripslashes(stripslashes(getenv("BOINC_MASTER_URL"))));
-    if ($MASTER_URL == null) {
-        echo "Must define BOINC_MASTER_URL\n";
         $bad = true;
     }
     if ($bad) exit();
  
     PassThru("rm -f $BOINC_DOWNLOAD_DIR/*");
     PassThru("rm -f $BOINC_UPLOAD_DIR/*");
-    PassThru("rm -f $BOINC_KEY_DIR/*");
+    if ($clear_key_dir) {
+        PassThru("rm -f $BOINC_KEY_DIR/*");
+    }
+}
+
+function clear_client_dirs() {
+    $MASTER_URL = urlencode(stripslashes(stripslashes(getenv("BOINC_MASTER_URL"))));
+    if ($MASTER_URL == null) {
+        echo "Must define BOINC_MASTER_URL\n";
+        $bad = true;
+    }
+    if ($bad) exit();
     PassThru("rm -f $MASTER_URL/*" );
 }
 
@@ -230,7 +255,7 @@ function compare_file($out, $correct) {
 }
 
 function check_results_done() {
-    db_init();
+    open_db();
     $result = mysql_query("select * from result where state<>4");
     while ($x = mysql_fetch_object($result)) {
         echo "result $x->id is not done\n";
@@ -238,7 +263,7 @@ function check_results_done() {
 }
 
 function num_wus_left() {
-    db_init();
+    open_db();
     $numwus = mysql_query("select count(*) as nres from result where state<>4");
     $result = mysql_fetch_object($numwus);
     return $result->nres;
@@ -271,7 +296,7 @@ function get_time($file_name) {
 
 function compare_time($app_time) {
     $epsilon = 0.0001;
-    db_init();
+    open_db();
     $data = mysql_query("select cpu_time from result where name = 'uccpu_wu_0'");
     $result = mysql_fetch_object($data);
     $db_time = $result->cpu_time;

@@ -183,7 +183,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p, double work_req) {
         p->hostid,
         p->rpc_seqno,
         platform_name,
-        version,
+        core_client_version,
         work_req
     );
     if (p->code_sign_key) {
