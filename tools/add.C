@@ -67,6 +67,10 @@ char *message=0, *message_priority=0;
 void add_project() {
     int retval;
 
+    if (!project_name) {
+        fprintf( stderr, "Project name not specified.\n" );
+        exit(1);
+    }
     memset(&project, 0, sizeof(project));
     strcpy(project.name, project_name);
     retval = db_project_new(project);
@@ -78,6 +82,10 @@ void add_project() {
 void add_app() {
     int retval;
 
+    if (!app_name) {
+        fprintf( stderr, "Application name not specified.\n" );
+        exit(1);
+    }
     memset(&app, 0, sizeof(app));
     strcpy(app.name, app_name);
     app.create_time = time(0);
@@ -91,6 +99,10 @@ void add_app() {
 void add_platform() {
     int retval;
 
+    if (!platform_name) {
+        fprintf( stderr, "Platform name not specified.\n" );
+        exit(1);
+    }
     memset(&platform, 0, sizeof(platform));
     strcpy(platform.name, platform_name);
     platform.create_time = time(0);
@@ -122,6 +134,10 @@ void add_app_version() {
 
     memset(&app_version, 0, sizeof(app_version));
 
+    if (!app_name) {
+        fprintf( stderr, "Application name not specified.\n" );
+        exit(1);
+    }
     strcpy(app.name, app_name);
     retval = db_app_lookup_name(app);
     if (retval) {

@@ -166,7 +166,8 @@ class Project {
         // set up the database
         //
         $this->user_name = get_env_var("BOINC_USER_NAME");
-        $this->db_name = $this->user_name."_".$this->name;
+        if (!$this->db_name)
+            $this->db_name = $this->user_name."_".$this->name;
         run_db_script("drop.sql", $this->db_name);
         run_db_script("schema.sql", $this->db_name);
         run_db_script("constraints.sql", $this->db_name);
@@ -246,7 +247,7 @@ class Project {
         fclose($f);
         PassThru("cp $this->project_dir/html_user/config.xml $this->project_dir/html_ops");
 
-        // edit "index.html" in the user directory to have
+        // edit "index.php" in the user directory to have
         // the right scheduler URL
         //
         $u = str_replace("/", "\\\/", $this->scheduler_url);
