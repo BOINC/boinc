@@ -14438,4 +14438,6 @@ Daniel 2004-07-01
         cs_scheduler.C
         gui_rpc_client.C
         hostinfo_unix.C
+        win/
+            wingui_mainwindow.cpp
 

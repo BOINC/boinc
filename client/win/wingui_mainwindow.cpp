@@ -25,6 +25,7 @@
 #include "hostinfo.h"
 #include "win_net.h"
 
+using std::min;
 using std::string;
 using std::vector;
 
