@@ -46,8 +46,6 @@
 #define BITMAP_TASKHEADER           wxT(SECTION_TASK ".xpm")
 #define BITMAP_TIPSHEADER           wxT(SECTION_TIPS ".xpm")
 
-#define LINK_DEFAULT                wxT("default")
-
 #define COLUMN_PROJECT              0
 #define COLUMN_FILE                 1
 #define COLUMN_PROGRESS             2
@@ -57,16 +55,20 @@
 #define COLUMN_STATUS               6
 
 
+const wxString LINK_DEFAULT             = wxT("default");
+const wxString LINKDESC_DEFAULT         = 
+     _("Please click a transfer item to see additional options.");
+
 const wxString LINK_TASKRETRY           = wxT(SECTION_TASK "retry");
 const wxString LINKDESC_TASKRETRY       = 
      _("<b>Retry Now</b><br>"
-       "Selecting retry now will attempt to upload the result data file "
+       "Clicking retry now will attempt to upload the result data file "
        "to the project server now.");
 
 const wxString LINK_TASKABORT           = wxT(SECTION_TASK "abort");
 const wxString LINKDESC_TASKABORT       = 
      _("<b>Abort Upload</b><br>"
-       "Selecting abort upload will delete the result from the upload queue. "
+       "Clicking abort upload will delete the result from the upload queue. "
        "Doing this will keep you from being granted any credit for this result.");
 
 
@@ -112,7 +114,7 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
 
     SetCurrentQuickTip(
         LINK_DEFAULT, 
-        _("Please select a transfer item to see additional options.")
+        LINKDESC_DEFAULT
     );
 
     UpdateSelection();
@@ -281,7 +283,7 @@ void CViewTransfers::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord 
                 {
                     SetCurrentQuickTip(
                         LINK_DEFAULT, 
-                        _("Please select an result upload to see additional options.")
+                        LINKDESC_DEFAULT
                     );
 
                     bUpdateSelection = true;

@@ -47,8 +47,6 @@
 #define BITMAP_TASKHEADER           wxT(SECTION_TASK ".xpm")
 #define BITMAP_TIPSHEADER           wxT(SECTION_TIPS ".xpm")
 
-#define LINK_DEFAULT                wxT("default")
-
 #define COLUMN_PROJECT              0
 #define COLUMN_APPLICATION          1
 #define COLUMN_NAME                 2
@@ -59,26 +57,30 @@
 #define COLUMN_STATUS               7
 
 
+const wxString LINK_DEFAULT             = wxT("default");
+const wxString LINKDESC_DEFAULT         = 
+     _("Please click a result to see additional options.");
+
 const wxString LINK_TASKSUSPEND         = wxT(SECTION_TASK "suspend");
 const wxString LINKDESC_TASKSUSPEND     = 
      _("<b>Suspend</b><br>"
-       "Selecting suspend allows you to suspend the currently selected result.");
+       "Clicking suspend allows you to suspend the currently selected result.");
 
 const wxString LINK_TASKRESUME          = wxT(SECTION_TASK "resume");
 const wxString LINKDESC_TASKRESUME      = 
      _("<b>Resume</b><br>"
-       "Selecting resume allows you to resume a previously suspended result.");
+       "Clicking resume allows you to resume a previously suspended result.");
 
 const wxString LINK_TASKSHOWGRAPHICS    = wxT(SECTION_TASK "showgraphics");
 const wxString LINKDESC_TASKSHOWGRAPHICS= 
      _("<b>Show Graphics</b><br>"
-       "Selecting show graphics will display a window giving you a chance "
+       "Clicking show graphics will display a window giving you a chance "
        "to see how the active result will look while in screensaver mode.");
 
 const wxString LINK_TASKABORT           = wxT(SECTION_TASK "abort");
 const wxString LINKDESC_TASKABORT       = 
      _("<b>Abort Result</b><br>"
-       "Selecting abort result will delete the result from the work queue. "
+       "Clicking abort result will delete the result from the work queue. "
        "Doing this will keep you from being granted any credit for this result.");
 
 
@@ -112,20 +114,20 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
     m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Quick Tips"));
 
-    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_APPLICATION, _("Application"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_NAME, _("Name"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_CPUTIME, _("CPU time"), wxLIST_FORMAT_RIGHT, -1);
-    m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_CENTER, -1);
-    m_pListPane->InsertColumn(COLUMN_TOCOMPLETETION, _("To Completetion"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Report Deadline"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
+    m_pListPane->InsertColumn(COLUMN_APPLICATION, _("Application"), wxLIST_FORMAT_LEFT, 95);
+    m_pListPane->InsertColumn(COLUMN_NAME, _("Name"), wxLIST_FORMAT_LEFT, 285);
+    m_pListPane->InsertColumn(COLUMN_CPUTIME, _("CPU time"), wxLIST_FORMAT_RIGHT, 80);
+    m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_CENTRE, 60);
+    m_pListPane->InsertColumn(COLUMN_TOCOMPLETETION, _("To Completetion"), wxLIST_FORMAT_RIGHT, 100);
+    m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Report Deadline"), wxLIST_FORMAT_LEFT, 150);
+    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 135);
 
     m_bTipsHeaderHidden = false;
 
     SetCurrentQuickTip(
         LINK_DEFAULT, 
-        _("Please select a result to see additional options.")
+        LINKDESC_DEFAULT
     );
 
     UpdateSelection();
@@ -430,7 +432,7 @@ void CViewWork::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
                 {
                     SetCurrentQuickTip(
                         LINK_DEFAULT, 
-                        _("Please select a result to see additional options.")
+                        LINKDESC_DEFAULT
                     );
 
                     bUpdateSelection = true;

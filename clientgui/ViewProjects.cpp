@@ -53,8 +53,6 @@
 #define BITMAP_TIPSHEADER           wxT(SECTION_TIPS ".xpm")
 #define BITMAP_BOINC                wxT("boinc.xpm")
 
-#define LINK_DEFAULT                wxT("default")
-
 #define COLUMN_PROJECT              0
 #define COLUMN_ACCOUNTNAME          1
 #define COLUMN_TEAMNAME             2
@@ -64,43 +62,46 @@
 #define COLUMN_STATUS               6
 
 
+const wxString LINK_DEFAULT             = wxT("default");
+const wxString LINKDESC_DEFAULT         = 
+     _("Please click a project to see additional options.");
+
 const wxString LINK_TASKATTACH      = wxT(SECTION_TASK "attach");
 const wxString LINKDESC_TASKATTACH  = 
      _("<b>Attach to Project</b><br>"
-       "Selecting attach to project allows you to join other BOINC "
+       "Clicking attach to project allows you to join other BOINC "
        "projects.  You will need a valid project URL and Authenticator.");
-
 
 const wxString LINK_TASKDETACH      = wxT(SECTION_TASK "detach");
 const wxString LINKDESC_TASKDETACH  = 
      _("<b>Detach from Project</b><br>"
-       "Selecting detach from project removes the computer from the currently "
+       "Clicking detach from project removes the computer from the currently "
        "selected project.  You may wish to update the project first to submit "
        "any completed work.");
 
 const wxString LINK_TASKRESET       = wxT(SECTION_TASK "reset");
 const wxString LINKDESC_TASKRESET   = 
      _("<b>Reset Project</b><br>"
-       "Selecting reset project removes all workunits and applications from "
+       "Clicking reset project removes all workunits and applications from "
        "the currently selected project.  You may wish to update the project "
        "first to submit any completed work.");
 
 const wxString LINK_TASKSUSPEND     = wxT(SECTION_TASK "suspend");
 const wxString LINKDESC_TASKSUSPEND = 
      _("<b>Suspend Project</b><br>"
-       "Selecting suspend project will pause the project from any additional "
+       "Clicking suspend project will pause the project from any additional "
        "computation for that project until the resume project option is selected.");
 
 const wxString LINK_TASKRESUME      = wxT(SECTION_TASK "resume");
 const wxString LINKDESC_TASKRESUME  = 
      _("<b>Resume Project</b><br>"
-       "Selecting resume project resumes computation for a project that has been"
+       "Clicking resume project resumes computation for a project that has been"
        "previously suspended.");
 
 const wxString LINK_TASKUPDATE      = wxT(SECTION_TASK "update");
 const wxString LINKDESC_TASKUPDATE  = 
      _("<b>Update Project</b><br>"
-       "Selecting update project submits any outstanding work and refreshes "
+       "Clicking update project submits any outstanding work and refreshes "
        "your credit and preferences for the currently selected project.");
 
 const wxString LINK_WEBBOINC        = wxT(SECTION_WEB "boinc");
@@ -153,19 +154,19 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     m_pTaskPane->CreateTaskHeader(BITMAP_WEBHEADER, bmpWeb, _("Websites"));
     m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Quick Tips"));
 
-    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_ACCOUNTNAME, _("Account"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_TEAMNAME, _("Team"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_TOTALCREDIT, _("Total Credit"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_AVGCREDIT, _("Avg. Credit"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_RESOURCESHARE, _("Resource Share"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 150);
+    m_pListPane->InsertColumn(COLUMN_ACCOUNTNAME, _("Account"), wxLIST_FORMAT_LEFT, 80);
+    m_pListPane->InsertColumn(COLUMN_TEAMNAME, _("Team"), wxLIST_FORMAT_LEFT, 80);
+    m_pListPane->InsertColumn(COLUMN_TOTALCREDIT, _("Total Credit"), wxLIST_FORMAT_RIGHT, 80);
+    m_pListPane->InsertColumn(COLUMN_AVGCREDIT, _("Avg. Credit"), wxLIST_FORMAT_RIGHT, 80);
+    m_pListPane->InsertColumn(COLUMN_RESOURCESHARE, _("Resource Share"), wxLIST_FORMAT_CENTRE, 85);
+    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 150);
 
     m_bTipsHeaderHidden = false;
 
     SetCurrentQuickTip(
         LINK_DEFAULT, 
-        _("Please select a project to see additional options.")
+        LINKDESC_DEFAULT
     );
 
     UpdateSelection();
@@ -550,7 +551,7 @@ void CViewProjects::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
                 {
                     SetCurrentQuickTip(
                         LINK_DEFAULT, 
-                        _("Please select a project to see additional options.")
+                        LINKDESC_DEFAULT
                     );
 
                     bUpdateSelection = true;

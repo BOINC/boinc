@@ -47,8 +47,6 @@
 #define BITMAP_TASKHEADER           wxT(SECTION_TASK ".xpm")
 #define BITMAP_TIPSHEADER           wxT(SECTION_TIPS ".xpm")
 
-#define LINK_DEFAULT                wxT("default")
-
 #define COLUMN_PROJECT              0
 #define COLUMN_TIME                 1
 #define COLUMN_MESSAGE              2
@@ -57,15 +55,19 @@
 #define PRIORITY_ERROR              2
 
 
+const wxString LINK_DEFAULT             = wxT("default");
+const wxString LINKDESC_DEFAULT         = 
+     _("Please click a message to see additional options.");
+
 const wxString LINK_TASKCOPYALL         = wxT(SECTION_TASK "copyall");
 const wxString LINKDESC_TASKCOPYALL     = 
      _("<b>Copy All</b><br>"
-       "Selecting copy all, copies all the messages to the system clipboard.");
+       "Clicking copy all, copies all the messages to the system clipboard.");
 
 const wxString LINK_TASKCOPYMESSAGE     = wxT(SECTION_TASK "copymessage");
 const wxString LINKDESC_TASKCOPYMESSAGE = 
      _("<b>Copy Message</b><br>"
-       "Selecting copy message, copies the single message to the system clipboard.");
+       "Clicking copy message, copies the single message to the system clipboard.");
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewMessages, CBOINCBaseView)
@@ -98,9 +100,9 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
     m_pTaskPane->CreateTaskHeader(BITMAP_TASKHEADER, bmpTask, _("Tasks"));
     m_pTaskPane->CreateTaskHeader(BITMAP_TIPSHEADER, bmpTips, _("Quick Tips"));
 
-    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, -1);
-    m_pListPane->InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, -1);
+    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 115);
+    m_pListPane->InsertColumn(COLUMN_TIME, _("Time"), wxLIST_FORMAT_LEFT, 145);
+    m_pListPane->InsertColumn(COLUMN_MESSAGE, _("Message"), wxLIST_FORMAT_LEFT, 550);
 
     m_pMessageInfoAttr = new wxListItemAttr( *wxBLACK, *wxWHITE, wxNullFont );
     m_pMessageErrorAttr = new wxListItemAttr( *wxRED, *wxWHITE, wxNullFont );
@@ -108,8 +110,8 @@ CViewMessages::CViewMessages(wxNotebook* pNotebook) :
     m_bTipsHeaderHidden = false;
 
     SetCurrentQuickTip(
-        wxT(LINK_DEFAULT), 
-        _("Please select a message to see additional options.")
+        LINK_DEFAULT, 
+        LINKDESC_DEFAULT
     );
 
     UpdateSelection();
@@ -324,7 +326,7 @@ void CViewMessages::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y
                 {
                     SetCurrentQuickTip(
                         LINK_DEFAULT, 
-                        _("Please select a message to see additional options.")
+                        LINKDESC_DEFAULT
                     );
 
                     bUpdateSelection = true;
@@ -434,6 +436,8 @@ wxInt32 CViewMessages::FormatMessage( wxInt32 item, wxString& strBuffer ) const
     strBuffer.Clear();
 
     pDoc->GetMessageMessage(item, strBuffer);
+
+    strBuffer.Replace( wxT("\n"), wxT(""), true );
 
     return 0;
 }

@@ -47,10 +47,13 @@
 #define BITMAP_TASKHEADER           wxT(SECTION_TASK ".xpm")
 #define BITMAP_TIPSHEADER           wxT(SECTION_TIPS ".xpm")
 
-#define LINK_DEFAULT                wxT("default")
-
 #define COLUMN_PROJECT              0
 #define COLUMN_DISKSPACE            1
+
+
+const wxString LINK_DEFAULT             = wxT("default");
+const wxString LINKDESC_DEFAULT         = 
+     _("No available options currently defined.");
 
 
 IMPLEMENT_DYNAMIC_CLASS(CViewResources, CBOINCBaseView)
@@ -90,7 +93,7 @@ CViewResources::CViewResources(wxNotebook* pNotebook) :
 
     SetCurrentQuickTip(
         LINK_DEFAULT, 
-        _("No available options currently defined.")
+        LINKDESC_DEFAULT
     );
 
     UpdateSelection();
@@ -232,7 +235,7 @@ void CViewResources::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord 
                 {
                     SetCurrentQuickTip(
                         LINK_DEFAULT, 
-                        _("No avaiable options currently defined.")
+                        LINKDESC_DEFAULT
                     );
 
                     bUpdateSelection = true;
