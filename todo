@@ -21,8 +21,7 @@ BUGS (arranged from high to low priority)
 - Win GUI: columns expand when window expands
 - Download speed is not as fast as it should be
 - Result status should say "downloading files", "uploading files", etc.
-- Change vector removal routines to use an iterator
-- Download progress doesn't update fast enough (is this b/c of buffered disk writing?)
+- Download progress doesn't update fast enough/at all on Win9x (is this b/c of buffered disk writing?)
 
 -----------------------
 HIGH-PRIORITY (should do for beta test)
@@ -30,6 +29,8 @@ HIGH-PRIORITY (should do for beta test)
 
 Check for problematic HTML tags in team descriptions
     (use SETI@home code?)
+
+implement server watchdogs
 
 make get_local_ip_addr() work in all cases
 
@@ -75,7 +76,6 @@ Figure out how to support people with computers at home/work
 
 Add 2-D waterfall display to Astropulse
 
-protect project admin web pages (htaccess)
 get timezone working on all platforms
 
 Deadline mechanism for results
@@ -90,7 +90,6 @@ Testing framework
 
 Delete files if needed to honor disk usage constraint
     inform user if this happens
-
 
 Global preferences
     implement disk usage prefs
@@ -123,8 +122,6 @@ CPU benchmarking
 
 CPU accounting in the presence of checkpoint/restart
     test
-
-Test nslots > 1
 
 Redundancy checking and validation
     test the validation mechanism
