@@ -22,7 +22,7 @@
         echo "Host not found";
         exit();
     }
-    
+
     if (!hosts_compatible($old_host, $new_host)) {
         echo "Can't merge hosts";
         exit();
@@ -45,7 +45,7 @@
         }
     }
     if ($result) {
-        Header("Location: show_host_detail.php?hostid=$targetid&private");
+        Header("Location: show_host_detail.php?hostid=$targetid&private=1");
     } else {
         page_head("Host merge failed");
         echo "Couldn't update database - please try again later";

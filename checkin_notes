@@ -5590,5 +5590,7 @@ Karl 2003/08/08
 Karl 2003/08/08
     - changed team disbanding to happen automatically when user quits it (or
       joins a different team).
+    - fixed various bugs and quirks in team
+      joining/quitting/switching/removing inactive users
 
     Html_user/*
