@@ -56,7 +56,7 @@ bool CLIENT_STATE::data_manager_poll() {
 
     // first delete files from offenders only
     if(tdu > adu) {
-        if(size_overflow) {
+        if(size_overflow || !projects.size()) {
             return false;
         }
         return fix_data_overflow(tdu, adu);
@@ -75,6 +75,7 @@ bool CLIENT_STATE::fix_data_overflow(double tdu, double adu) {
     unsigned int i;
     int priority;
     bool deleted;
+    bool tentative;
     PROJECT* p;
     // First, get accurate sizes as of right now
     calc_all_proj_size();
@@ -112,11 +113,12 @@ bool CLIENT_STATE::fix_data_overflow(double tdu, double adu) {
 
     i = 0;
     deleted = false;
+    tentative = false;
 
     while(tdu > adu) {
         // still not enough space, projects give up non-active WUs
         if(i >= projects.size()) {
-            if(!deleted) {
+            if(!deleted && tentative) {
                 size_overflow = true;
                 data_overflow_notify(NULL);
                 return true;
@@ -124,6 +126,7 @@ bool CLIENT_STATE::fix_data_overflow(double tdu, double adu) {
             i = 0;
         }
         p = projects[i];
+        if (p->tentative) tentative = true;
         deleted_space = delete_results(p, 1);
         if(deleted_space != 0) deleted = true;
         tdu -= deleted_space;
