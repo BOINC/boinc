@@ -28,6 +28,16 @@ import xml.dom.minidom
 CONFIG_FILE = '../config.xml'
 RUN_STATE_FILE = '../run_state.xml'
 
+def _append_new_element(parent_node, name):
+    new_element = xml.dom.minidom.Element(name)
+    if isinstance(parent_node,xml.dom.minidom.Document):
+        new_element.ownerDocument = parent_node
+    else:
+        assert(parent_node.ownerDocument)
+        new_element.ownerDocument = parent_node.ownerDocument
+    parent_node.appendChild(new_element)
+    return new_element
+
 def _get_elements(node, name):
     return node.getElementsByTagName(name)
 
@@ -36,9 +46,7 @@ def _get_element(node, name, optional=True):
         return _get_elements(node,name)[0]
     except IndexError:
         if optional:
-            new_element = xml.dom.minidom.Element(name)
-            node.appendChild(new_element)
-            return new_element
+            return _append_new_element(node, name)
         raise SystemExit("ERROR: Couldn't find xml node <%s>"% name)
 
 def _None2Str(object):
@@ -65,6 +73,7 @@ def _set_element(node, new_data):
     else:
         new_data_node = xml.dom.minidom.Text()
         new_data_node.data = str(new_data)
+        new_data_node.ownerDocument = node.ownerDocument
         node.appendChild(new_data_node)
 
 class ConfigDict:
@@ -81,26 +90,18 @@ class ConfigDict:
         for key in self.__dict__.keys():
             print key.rjust(15), '=', self.__dict__[key]
 
-def newConfigDict(name):
-    return ConfigDict(xml.dom.minidom.Element(name))
-
 class ConfigDictList(list):
-    def __init__(self, dom_node=None, item_class=ConfigDict):
+    def __init__(self, dom_node, item_class=ConfigDict):
         self._node = dom_node
         list.__init__(self, map(item_class, _get_child_elements(self._node)))
     def save(self):
         map(ConfigDict.save, self)
-    def append(self, cd):
-        list.append(self, cd)
-        self._node.appendChild(cd._node)
     def make_node_and_append(self, name):
         '''Make a new ConfigDict and append it. Returns new ConfigDict.'''
-        cd = newConfigDict(name)
-        self.append(cd)
-        return cd
-
-def newConfigDictList(name):
-    return ConfigDictList(xml.dom.minidom.Element(name))
+        new_element = _append_new_element(self._node, name)
+        new_cd      = ConfigDict(new_element)
+        self.append(new_cd)
+        return new_cd
 
 # base class for xml config files
 class XMLConfig:
@@ -156,7 +157,6 @@ class BoincConfig(XMLConfig):
         print '-- parsed xml -------------------------------------------------------'
         self.xml.writexml(sys.stdout)
         print
-        print '-- Enabled =', self.enabled
         print '-- Config -----------------------------------------------------------'
         self.config.debug_print()
         print
