@@ -5603,3 +5603,12 @@ Karl 2003/08/08
 
     client/*
     sched/*
+
+Karl 2003/08/10
+    - client (unix): handle fork() failure
+    - client (unix): set application process priority to 19
+
+    configure.ac
+    config.h.in
+    client/
+        app.C

@@ -133,7 +133,7 @@ dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
 AC_FUNC_WAIT3
-AC_CHECK_FUNCS(gethostname gettimeofday mkdir select socket strstr uname lockf flock strftime)
+AC_CHECK_FUNCS(gethostname gettimeofday mkdir select socket strstr uname lockf flock strftime setpriority)
 
 dnl Checks for header files.
 AC_HEADER_DIRENT

@@ -72,6 +72,9 @@
 
 #include "app.h"
 
+// value for setpriority(2)
+static const int PROCESS_IDLE_PRIORITY = 19;
+
 // Goes through an array of strings, and prints each string
 //
 static int debug_print_argv(char** argv) {
@@ -362,6 +365,13 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
     pid = fork();
+    if (pid == -1) {
+        state = PROCESS_COULDNT_START;
+        result->active_task_state = PROCESS_COULDNT_START;
+        gstate.report_result_error(*result, -1, strerror(errno));
+        msg_printf(wup->project, MSG_ERROR, "fork(): %s", strerror(errno));
+        return -1;
+    }
     if (pid == 0) {
         // from here on we're running in a new process.
         // If an error happens, exit nonzero so that the core client
@@ -390,6 +400,14 @@ int ACTIVE_TASK::start(bool first_time) {
     }
 
     scope_messages.printf("ACTIVE_TASK::start(): forked process: pid %d\n", pid);
+
+    // set idle process priority
+#ifdef HAVE_SETPRIORITY
+    if (setpriority(PRIO_PROCESS, pid, PROCESS_IDLE_PRIORITY)) {
+        perror("setpriority");
+    }
+#endif
+
 #endif
     state = PROCESS_RUNNING;
     result->active_task_state = PROCESS_RUNNING;
