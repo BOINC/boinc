@@ -306,7 +306,9 @@ int handle_global_prefs(SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply) {
     return 0;
 }
 
-// handle completed results
+#if 0
+
+// New handle completed results
 //
 int handle_results(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
@@ -513,6 +515,171 @@ int handle_results(
 
     return 0;
 }
+
+#else
+
+// Old handle completed results
+//
+int handle_results(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply
+) {
+    unsigned int i;
+    int retval;
+    DB_RESULT result;
+    RESULT* rp;
+    DB_WORKUNIT wu;
+    char buf[256];
+
+    for (i=0; i<sreq.results.size(); i++) {
+        rp = &sreq.results[i];
+
+        // acknowledge the result even if we couldn't find it --
+        // don't want it to keep coming back
+        //
+        reply.result_acks.push_back(*rp);
+
+        strncpy(result.name, rp->name, sizeof(result.name));
+        sprintf(buf, "where name='%s'", result.name);
+        retval = result.lookup(buf);
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[HOST#%d] [RESULT#? %s] can't find result\n",
+                reply.host.id, rp->name
+            );
+            continue;
+        }
+
+        log_messages.printf(
+            SCHED_MSG_LOG::NORMAL, "[HOST#%d] [RESULT#%d %s] got result\n",
+            reply.host.id, result.id, result.name
+        );
+
+        if (result.server_state == RESULT_SERVER_STATE_UNSENT) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[HOST#%d] [RESULT#%d %s] got unexpected result: server state is %d\n",
+                reply.host.id, result.id, result.name, result.server_state
+            );
+            continue;
+        }
+
+        if (result.received_time) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[HOST#%d] [RESULT#%d %s] got result twice\n",
+                reply.host.id, result.id, result.name
+            );
+            continue;
+        }
+
+        if (result.hostid != sreq.hostid) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[HOST#%d] [RESULT#%d %s] got result from wrong host; expected [HOST#%d]\n",
+                reply.host.id, result.id, result.name, result.hostid
+            );
+            DB_HOST result_host;
+            int retval = result_host.lookup_id(result.hostid);
+
+            if (retval) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::CRITICAL,
+                    "[RESULT#%d %s] Can't lookup [HOST#%d]\n",
+                    result.id, result.name, result.hostid
+                );
+                continue;
+            } else if (result_host.userid != reply.host.userid) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::CRITICAL,
+                    "[USER#%d] [HOST#%d] [RESULT#%d %s] Not even the same user; expected [USER#%d]\n",
+                    reply.host.userid, reply.host.id, result.id, result.name, result_host.userid
+                );
+                continue;
+            } else {
+                log_messages.printf(
+                    SCHED_MSG_LOG::CRITICAL,
+                    "[HOST#%d] [RESULT#%d %s] Allowing result because same USER#%d\n",
+                    reply.host.id, result.id, result.name, reply.host.userid
+                );
+            }
+        }
+
+        // update the result record in DB
+        //
+        result.hostid = reply.host.id;
+        result.received_time = time(0);
+        result.client_state = rp->client_state;
+        result.cpu_time = rp->cpu_time;
+        result.exit_status = rp->exit_status;
+        result.app_version_num = rp->app_version_num;
+        result.claimed_credit = result.cpu_time * reply.host.credit_per_cpu_sec;
+#if 1
+        log_messages.printf(SCHED_MSG_LOG::DEBUG,
+            "cpu %f cpcs %f, cc %f\n", result.cpu_time, reply.host.credit_per_cpu_sec, result.claimed_credit
+        );
+#endif
+        result.server_state = RESULT_SERVER_STATE_OVER;
+
+        strncpy(result.stderr_out, rp->stderr_out, sizeof(result.stderr_out));
+        strncpy(result.xml_doc_out, rp->xml_doc_out, sizeof(result.xml_doc_out));
+
+        // look for exit status and app version in stderr_out
+        // (historical - can be deleted at some point)
+        //
+        parse_int(result.stderr_out, "<exit_status>", result.exit_status);
+        parse_int(result.stderr_out, "<app_version>", result.app_version_num);
+
+        if ((result.client_state == RESULT_FILES_UPLOADED) && (result.exit_status == 0)) {
+            result.outcome = RESULT_OUTCOME_SUCCESS;
+            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                "[RESULT#%d %s]: setting outcome SUCCESS\n",
+                result.id, result.name
+            );
+        } else {
+            log_messages.printf(SCHED_MSG_LOG::DEBUG,
+                "[RESULT#%d %s]: client_state %d exit_status %d; setting outcome ERROR\n",
+                result.id, result.name, result.client_state, result.exit_status
+            );
+            result.outcome = RESULT_OUTCOME_CLIENT_ERROR;
+            result.validate_state = VALIDATE_STATE_INVALID;
+        }
+
+        result.teamid = reply.user.teamid;
+        retval = result.update();
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::NORMAL,
+                "[HOST#%d] [RESULT#%d %s] can't update result: %s\n",
+                reply.host.id, result.id, result.name, boinc_db.error_string()
+            );
+        }
+
+        // trigger the transition handle for the result's WU
+        //
+        retval = wu.lookup_id(result.workunitid);
+        if (retval) {
+            log_messages.printf(
+                SCHED_MSG_LOG::CRITICAL,
+                "[HOST#%d] [RESULT#%d %s] Can't find [WU#%d] for result\n",
+                reply.host.id, result.id, result.name, result.workunitid
+            );
+        } else {
+            wu.transition_time = time(0);
+            retval = wu.update();
+            if (retval) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::CRITICAL,
+                    "[HOST#%d] [RESULT#%d %s] Can't update [WU#%d %s]\n",
+                    reply.host.id, result.id, result.name, wu.id, wu.name
+                );
+            }
+        }
+    }
+    return 0;
+}
+
+#endif
 
 // if the client has an old code sign public key,
 // send it the new one, with a signature based on the old one.
