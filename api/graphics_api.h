@@ -18,3 +18,5 @@ struct APP_OUT_GRAPHICS {
 
 int write_graphics_file(FILE* f, GRAPHICS_INFO* gi);
 int parse_graphics_file(FILE* f, GRAPHICS_INFO* gi);
+int boinc_init_opengl();
+int boinc_finish_opengl();

@@ -3,6 +3,44 @@
 
 #include "parse.h"
 
+#ifdef __APPLE_CC__
+#include <Carbon/Carbon.h>
+#include <CoreServices/CoreServices.h>
+#include "mac_app_opengl.h"
+#endif
+
+extern GRAPHICS_INFO gi;
+
+int boinc_init_opengl() {
+#ifdef BOINC_APP_GRAPHICS
+#ifdef __APPLE_CC__
+    OSErr     theErr = noErr;
+    ThreadID    graphicsThreadID = 0;
+    ThreadEntryUPP entry_proc;
+    
+    entry_proc = NewThreadEntryUPP( mac_graphics_event_loop );
+    
+    // Create the thread in a suspended state
+    theErr = NewThread ( kCooperativeThread, entry_proc,
+        (void *)(&gi), 0, kNewSuspend, NULL, &graphicsThreadID );
+    if (theErr != noErr) return ERR_THREAD;
+    
+    // In theory we could do customized scheduling or install thread disposal routines here
+    
+    // Put the graphics event loop into the ready state
+    SetThreadState( graphicsThreadID, kReadyThreadState, kNoThreadID );
+    
+    YieldToAnyThread();
+    
+#endif
+#endif
+    
+    return 0;
+}
+
+int boinc_finish_opengl() {
+}
+
 int write_graphics_file(FILE* f, GRAPHICS_INFO* gi) {
     fprintf(f,
         "<graphics_info>\n"
