@@ -13699,6 +13699,7 @@ David  16 June 2004
 		boinc_gui.vcproj
 		upper_case.vcproj
 
+
 David  16 June 2004
     - unix compile fixes for the above change
 
@@ -13716,4 +13717,19 @@ Daniel 16 June 2004
 
     client/
         hostinfo_unix.C
+
+David  16 June 2004
+	- renamed client/stdafx.h to lib/boinc_win.h
+
+	api/
+		boinc_api.C
+	client/
+		stdafx.cpp
+		stdafx.h (removed)
+	lib/
+		boinc_win.h (new)
+	win_build/
+		boinc_cli.vcproj
+		boinc_gui.vcproj
+		boinc_guirpc_test.vcproj
 

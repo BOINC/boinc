@@ -23,7 +23,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
-				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE;HAVE_STD_TRANSFORM;HAVE_STD_MIN;HAVE_STD_MAX"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -94,10 +94,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="1"
-				FavorSizeOrSpeed="1"
-				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS;_CONSOLE"
 				StringPooling="TRUE"
@@ -581,27 +578,10 @@
 				RelativePath="..\client\gui_rpc_server.C">
 			</File>
 			<File
-				RelativePath="..\Client\Hostinfo.c">
-				<FileConfiguration
-					Name="Debug|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-						BrowseInformation="1"
-						CompileAs="2"/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32">
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						CompileAs="2"/>
-				</FileConfiguration>
+				RelativePath="..\lib\hostinfo.C">
+			</File>
+			<File
+				RelativePath="..\client\hostinfo_network.C">
 			</File>
 			<File
 				RelativePath="..\Client\win\hostinfo_win.cpp">
@@ -1090,9 +1070,6 @@
 				RelativePath="..\client\client_types.h">
 			</File>
 			<File
-				RelativePath="..\client\cpp.h">
-			</File>
-			<File
 				RelativePath="..\lib\diagnostics.h">
 			</File>
 			<File
@@ -1108,13 +1085,16 @@
 				RelativePath="..\client\file_xfer.h">
 			</File>
 			<File
-				RelativePath="..\lib\filesys.h">
+				RelativePath="..\client\filesys.h">
 			</File>
 			<File
 				RelativePath="..\client\gui_rpc_server.h">
 			</File>
 			<File
-				RelativePath="..\client\hostinfo.h">
+				RelativePath="..\lib\hostinfo.h">
+			</File>
+			<File
+				RelativePath="..\client\hostinfo_network.h">
 			</File>
 			<File
 				RelativePath="..\client\http.h">
@@ -1127,6 +1107,9 @@
 			</File>
 			<File
 				RelativePath="..\client\main.h">
+			</File>
+			<File
+				RelativePath="..\client\maybe_gui.h">
 			</File>
 			<File
 				RelativePath="..\lib\md5.h">

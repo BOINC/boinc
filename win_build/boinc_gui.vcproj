@@ -23,10 +23,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="1"
-				FavorSizeOrSpeed="1"
-				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
 				PreprocessorDefinitions="WIN32;NDEBUG;_MT;_WINDOWS"
 				StringPooling="TRUE"
@@ -99,7 +96,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../lib/,../api/,../RSAEuro/source/,../client/win/,../client"
-				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;HAVE_STD_TRANSFORM;HAVE_STD_MIN;HAVE_STD_MAX"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
@@ -1240,6 +1237,9 @@
 				RelativePath="..\client\win\boinc_gui.h">
 			</File>
 			<File
+				RelativePath="..\lib\boinc_win.h">
+			</File>
+			<File
 				RelativePath="..\client\client_msgs.h">
 			</File>
 			<File
@@ -1337,12 +1337,6 @@
 			</File>
 			<File
 				RelativePath="..\lib\stackwalker_win.h">
-			</File>
-			<File
-				RelativePath="..\lib\std_fixes.h">
-			</File>
-			<File
-				RelativePath="..\client\stdafx.h">
 			</File>
 			<File
 				RelativePath="..\client\time_stats.h">

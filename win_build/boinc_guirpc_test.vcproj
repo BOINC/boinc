@@ -174,7 +174,7 @@
 				RelativePath="..\lib\mfile.C">
 			</File>
 			<File
-				RelativePath="..\client\miofile.C">
+				RelativePath="..\lib\miofile.C">
 			</File>
 			<File
 				RelativePath="..\Lib\parse.C">
@@ -222,7 +222,7 @@
 				RelativePath="..\lib\mfile.h">
 			</File>
 			<File
-				RelativePath="..\client\miofile.h">
+				RelativePath="..\lib\miofile.h">
 			</File>
 			<File
 				RelativePath="..\lib\parse.h">

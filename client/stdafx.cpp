@@ -22,7 +22,7 @@
 // stdafx.obj will contain the pre-compiled type information
 
 #ifdef _WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 #endif
 
 
