@@ -37,6 +37,7 @@
 #endif
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
+#include <sys/resource.h>
 #endif
 
 #include <signal.h>
