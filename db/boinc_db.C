@@ -868,7 +868,7 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
 
         if (wu_id_modulus) {
             sprintf(mod_clause,
-                " and id %% %d = %d ",
+                " and wu.id %% %d = %d ",
                 wu_id_modulus, wu_id_remainder
             );
         } else {
