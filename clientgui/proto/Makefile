@@ -5,7 +5,7 @@ CXX = $(shell wx-config --cxx)
 
 PROGRAM = demo
 
-OBJECTS = app.o filelist.o hyperlink.o prefdlg.o
+OBJECTS = app.o hyperlink.o
 
 vpath %.h src
 vpath %.cpp src
