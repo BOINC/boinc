@@ -340,6 +340,14 @@ int dir_size(const char* dirpath, double& size) {
 FILE* boinc_fopen(const char* path, const char* mode) {
     FILE* f;
 
+    // if opening for read, and file isn't there,
+    // leave now (avoid 5-second delay!!)
+    //
+    if (strchr(mode, 'r')) {
+        if (!boinc_file_exists(path)) {
+            return 0;
+        }
+    }
     f = fopen(path, mode);
 #ifdef _WIN32
     // on Windows: if fopen fails, try again for 5 seconds

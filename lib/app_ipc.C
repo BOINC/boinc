@@ -28,6 +28,7 @@
 #include "parse.h"
 #include "error_numbers.h"
 #include "util.h"
+#include "filesys.h"
 
 #include "app_ipc.h"
 
@@ -311,7 +312,8 @@ int boinc_resolve_filename(const char *virtual_name, char *physical_name, int le
     safe_strncpy(physical_name, virtual_name, len);
 
     // Open the file and load the first line
-    fp = fopen(virtual_name, "r");
+    //
+    fp = boinc_fopen(virtual_name, "r");
     if (!fp) return ERR_FOPEN;
 
     fgets(buf, 512, fp);

@@ -862,7 +862,7 @@ void STARFIELD::update_stars(float dt) {
     mode_lines();
 	glColor4f(1.0, 1.0, 1.0, 1.0);	
 	for (i=0; i<nstars; i++) {
-		stars[i].z -= speed*dt/50;
+		stars[i].z -= speed*dt/500;
         if (stars[i].z < 0) stars[i].z += zmax;
         if (stars[i].z > zmax) stars[i].z -= zmax;
 

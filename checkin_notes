@@ -12420,3 +12420,15 @@ David  May 19 2004
 		cs_benchmark.C
 		dhrystone.C
 		whetstone.C
+
+David  May 19 2004
+	- boinc_fopen: if opening for read, and file doesn't exist,
+		return 0 immediately (avoid 5-sec delays)
+	- boinc_resolve_filename: use boinc_fopen() to open symlink file
+	- graphics: scale starfield velocity down by a factor of 10
+
+	api/
+		gutil.C
+	lib/
+		app_ipc.C
+		filesys.C
