@@ -27,7 +27,7 @@ $category = getCategory($forum->category);
 if ($category->is_helpdesk) {
     page_head('Help Desk');
     $sort_style = $_GET['sort'];
-    if (!$sort_style) $sort_style = 'sufferers';
+    if (!$sort_style) $sort_style = 'activity';
 } else {
     page_head('Message boards : '.$forum->title);
     $sort_style = $_GET['sort'];
@@ -85,7 +85,7 @@ while($thread = mysql_fetch_object($threads)) {
     $first_post = getFirstPost($thread->id);
     $excerpt = sub_sentence($first_post->content, ' ', EXCERPT_LENGTH, true);
     echo "
-        <tr class=\"row$n\" style=\"font-size:8pt; text-align:center\">
+        <tr class=row$n style=\"font-size:8pt; text-align:center\">
         <td style=\"font-size:10pt; text-align:left\"><a href=\"thread.php?id=", $thread->id, "\"><b>", stripslashes($thread->title), "</b></a><br>
     ";
     $n = ($n+1)%2;

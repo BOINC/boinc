@@ -8593,3 +8593,35 @@ David  20 Dec 2003
 
     client/win/
         wingui_mainwindow.cpp,h
+
+David  20 Dec 2003
+    - compute recent average credit correctly
+    - compute "activity" for questions in a reasonable way:
+        the number of times per day this question has been asked
+    - default sort order for questions is by descending activity
+    - added fulltext indices on profile.response1 and profile.response2
+    - added text search of profiles to web interface
+    - link to list of a user's posts from their user page
+    - generate UOD page even if already there
+    - clean up some PHP code:
+        use $foo->bar, not $foo['bar']
+        indent by 4 spaces
+
+    db/
+        constraints.sql
+        schema.sql
+    html_ops/
+        gallery.inc
+        update_forum_activities.php
+    html_user/
+        profile_menu.php
+        user.inc
+        util.inc
+        profile_search_action.php (new)
+        forum/
+            forum.inc
+            forum.php
+            text_search_action.php
+            user_posts.php (new)
+    sched/
+        sched_util.C

@@ -10,61 +10,6 @@ $count = 10;
 
 page_head("Search results");
 
-function show_thread($thread, $n) {
-    $forum = getForum($thread->forum);
-    $category = getCategory($forum->category);
-    $first_post = getFirstPost($thread->id);
-    $title = stripslashes($thread->title);
-    $where = $category->is_helpdesk?"Questions and answers":"Message boards";
-    $top_url = $category->is_helpdesk?"help_desk.php":"index.php";
-    $excerpt = sub_sentence(stripslashes($first_post->content), ' ', EXCERPT_LENGTH, true);
-    $posted = time_diff_str($thread->create_time, time());
-    $last = time_diff_str($thread->timestamp, time());
-    $m = $n%2;
-    echo "
-        <tr class=row$m>
-        <td><font size=-2>
-            $n) Posted $posted
-            <br>
-            Last response $last
-        </td>
-        <td valign=top>
-            <a href=$top_url>$where</a> : $category->name :
-            <a href=forum.php?id=$forum->id>$forum->title</a> :
-            <a href=thread.php?id=$thread->id>$title</a>
-            <br>
-            <font size=-2>$excerpt</font>
-        </td>
-        </tr>
-    ";
-}
-
-function show_post2($post, $n) {
-    $thread = getThread($post->thread);
-    $forum = getForum($thread->forum);
-    $category = getCategory($forum->category);
-    $where = $category->is_helpdesk?"Questions and answers":"Message boards";
-    $top_url = $category->is_helpdesk?"help_desk.php":"index.php";
-    $content = nl2br(stripslashes($post->content));
-    $when = time_diff_str($post->timestamp, time());
-    $user = lookup_user_id($post->user);
-    $title = stripslashes($thread->title);
-    $m = $n%2;
-    echo "
-        <tr class=row$m>
-        <td>
-            $n) <a href=$top_url>$where</a> : $category->name :
-            <a href=forum.php?id=$forum->id>$forum->title</a> :
-            <a href=thread.php?id=$thread->id>$title</a>
-            <br>
-            Posted $when by $user->name
-            <hr>
-            $content
-        </td>
-        </tr>
-    ";
-}
-
 if ($_GET['titles']) {
     echo "<h2>Titles containing '$search_string'</h2>\n";
     $q = "select * from thread where match(title) against ('$search_string') limit $offset,$count";

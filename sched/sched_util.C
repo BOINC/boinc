@@ -86,21 +86,17 @@ void update_average(
     double& avg,                        // average credit per day (in and out)
     double& avg_time                    // when average was last computed
 ) {
-    time_t now = time(0);
+    double now = dtime();
 
-    // decrease existing average according to how long it's been
-    // since it was computed
-    //
     if (avg_time) {
-        double deltat = now - avg_time;
-        avg *= exp(-deltat*LOG2/AVG_HALF_LIFE);
-    }
-    if (credit_assigned_time) {
-        double deltat = now - credit_assigned_time;
-        // Add (credit)/(number of days to return result) to credit,
-        // which is the average number of cobblestones per day
-        //
-        avg += credit/(deltat/SECONDS_IN_DAY);
+        double diff = now - avg_time;
+        double diff_days = diff/SECONDS_IN_DAY;
+        double weight = exp(-diff*LOG2/AVG_HALF_LIFE);
+        avg *= weight;
+        avg += (1-weight)*(credit/diff_days);
+    } else {
+        double dd = (now - credit_assigned_time)/SECONDS_IN_DAY;
+        avg = credit/dd;
     }
     avg_time = now;
 }

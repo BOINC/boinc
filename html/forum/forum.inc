@@ -21,8 +21,7 @@ $forum_sort_styles['replies-most'] = "Most posts first";
 
 $faq_sort_styles['create_time'] = "Most recent question first";
 $faq_sort_styles['timestamp'] = "Most recent answer first";
-$faq_sort_styles['sufferers'] = "Most often asked first";
-$faq_sort_styles['activity'] = "Highest score first";
+$faq_sort_styles['activity'] = "Most often asked first";
 
 $answer_sort_styles['score'] = "Highest score first";
 $answer_sort_styles['timestamp'] = "Most recent first";
@@ -452,6 +451,65 @@ function show_forum_title($forum=NULL, $thread=NULL, $helpdesk=false) {
         echo "Invalid input to show_forum_title<br>";
     }
     echo "</p>\n";
+}
+
+// show a thread with its context (e.g. for search results)
+//
+function show_thread($thread, $n) {
+    $forum = getForum($thread->forum);
+    $category = getCategory($forum->category);
+    $first_post = getFirstPost($thread->id);
+    $title = stripslashes($thread->title);
+    $where = $category->is_helpdesk?"Questions and answers":"Message boards";
+    $top_url = $category->is_helpdesk?"help_desk.php":"index.php";
+    $excerpt = sub_sentence(stripslashes($first_post->content), ' ', EXCERPT_LENGTH, true);
+    $posted = time_diff_str($thread->create_time, time());
+    $last = time_diff_str($thread->timestamp, time());
+    $m = $n%2;
+    echo "
+        <tr class=row$m>
+        <td><font size=-2>
+            $n) Posted $posted
+            <br>
+            Last response $last
+        </td>
+        <td valign=top>
+            <a href=$top_url>$where</a> : $category->name :
+            <a href=forum.php?id=$forum->id>$forum->title</a> :
+            <a href=thread.php?id=$thread->id>$title</a>
+            <br>
+            <font size=-2>$excerpt</font>
+        </td>
+        </tr>
+    ";
+}
+
+// show a post with its context (e.g. for search results)
+//
+function show_post2($post, $n) {
+    $thread = getThread($post->thread);
+    $forum = getForum($thread->forum);
+    $category = getCategory($forum->category);
+    $where = $category->is_helpdesk?"Questions and answers":"Message boards";
+    $top_url = $category->is_helpdesk?"help_desk.php":"index.php";
+    $content = nl2br(stripslashes($post->content));
+    $when = time_diff_str($post->timestamp, time());
+    $user = lookup_user_id($post->user);
+    $title = stripslashes($thread->title);
+    $m = $n%2;
+    echo "
+        <tr class=row$m>
+        <td>
+            $n) <a href=$top_url>$where</a> : $category->name :
+            <a href=forum.php?id=$forum->id>$forum->title</a> :
+            <a href=thread.php?id=$thread->id>$title</a>
+            <br>
+            Posted $when by $user->name
+            <hr>
+            $content
+        </td>
+        </tr>
+    ";
 }
 
 ?>

@@ -287,7 +287,7 @@ create table forum (
     primary key (id)
 );
 
--- threads in a topic
+-- threads in a topic (or questions)
 --
 create table thread (
     id                  integer     not null auto_increment,
@@ -300,8 +300,9 @@ create table thread (
         -- number of times this has been viewed
     replies             integer     not null,
         -- number of postings in thread
-    activity            integer     not null,
-        -- not used??  should remove references
+    activity            double      not null,
+        -- for questions: number of askers / time since asked
+           (set periodically by update_forum_activity.php)
     sufferers           integer     not null,
         -- in help desk: # people who indicated they had same problem
     create_time         integer     not null,
@@ -309,7 +310,7 @@ create table thread (
     primary key (id)
 );
 
--- postings in a thread.
+-- postings in a thread (or answers)
 -- Each thread has an initial post
 --
 create table post (

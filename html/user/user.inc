@@ -26,6 +26,10 @@ function show_user_stats_private($user) {
     }
     row2("Computers", "<a href=hosts_user.php>View</a>");
     row2("Results", "<a href=results.php?userid=$user->id>View</a>");
+    if ($user->posts) {
+        row2("Message board posts", "<a href=forum/user_posts.php?userid=$user->id>$user->posts messages</a>");
+
+    }
 }
 
 // show static user info (private)
@@ -96,6 +100,9 @@ function show_user_summary_public($user) {
         row2("Computers", "<a href=hosts_user.php?userid=$user->id>View</a>");
     } else {
         row2("Computers", "hidden");
+    }
+    if ($user->posts) {
+        row2("Message boards posts", "<a href=forum/user_posts.php?userid=$user->id>$user->posts</a>");
     }
 }
 

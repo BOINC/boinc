@@ -86,6 +86,7 @@ alter table host
         -- db_dump.C
 
 alter table profile
+    add fulltext index profile_reponse(response1, reponse2),
     add unique profile_userid(userid);
 
 alter table subscriptions
@@ -95,4 +96,6 @@ alter table thread
     add fulltext index thread_title(title);
         
 alter table post
+    add index post_user (user),
+    add index post_thread (thread),
     add fulltext index post_content(content);
