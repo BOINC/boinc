@@ -352,9 +352,8 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
         return false;
     }
 
-    // TODO tell app doing screensaver (fullscreen) graphics to stop
-    // (not yet implemented)
-    //ss_logic.reset();
+    // tell app doing screensaver (fullscreen) graphics to stop
+    ss_logic.reset();
 
     // finish work accounting for active tasks, reset temporary fields
     //

@@ -68,6 +68,17 @@ void SS_LOGIC::stop_ss() {
     gstate.active_tasks.restore_apps();
 }
 
+// called to cause poll() to choose a new app to do screensaver graphics
+//
+void SS_LOGIC::reset() {
+    ACTIVE_TASK* atp;
+    if (do_ss) {
+        if ((atp = gstate.active_tasks.get_app_graphics_mode_requested(MODE_FULLSCREEN)) != 0) {
+            atp->request_graphics_mode(MODE_HIDE_GRAPHICS);
+        }
+        do_boinc_logo_ss = false;
+    }
+}
 
 // called every second
 //

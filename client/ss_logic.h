@@ -53,6 +53,7 @@ public:
     void start_ss(time_t blank_time);
     void stop_ss();
     void poll();
+    void reset();
     bool do_ss;                 // true if we're acting like a screensaver
     bool do_boinc_logo_ss;      // true if we're bouncing the logo
     bool do_blank;              // true if we're drawing black

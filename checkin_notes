@@ -15407,3 +15407,12 @@ David  19 July 2004
 		gui_rpc_client.C,h
 		gui_rpc_server.C
 		gui_test.C
+
+Daniel 2004-07-19
+    - client: try to choose new app to do screensaver graphics in
+      schedule_cpus()
+
+    client/
+        cs_apps.C
+        ss_logic.C,h
+
