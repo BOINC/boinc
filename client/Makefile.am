@@ -61,7 +61,7 @@ boinc_client_CPPFLAGS = -I $(srcdir)/win $(AM_CPPFLAGS)
 boinc_client_LDADD = $(RSA_LIBS)
 #boinc_client_LDFLAGS = $(STATIC_FLAGS)
 
-cpu_benchmark_SOURCES = cpu_benchmark.C
+cpu_benchmark_SOURCES = cpu_benchmark.C whetstone.C dhrystone.C
 cpu_benchmark_CFLAGS = -O6 $(AM_CFLAGS)
 
 all-local: client-bin-gz
