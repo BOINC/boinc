@@ -233,7 +233,7 @@ public:
     }
 };
 
-usage in astropulse:
+/* usage in astropulse:
 
 AtomicFileSet files;
 ostream* output;
