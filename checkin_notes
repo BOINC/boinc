@@ -19147,3 +19147,8 @@ Karl 2004-11-07
 
     Makefile.am
     nightly-tarball
+
+Bruce Allen 2004-11-07
+    - added include credit.inc
+
+    html/user/top_teams.php

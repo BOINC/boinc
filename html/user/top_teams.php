@@ -1,6 +1,7 @@
 <?php {
     require_once("../inc/cache.inc");
     require_once("../inc/util.inc");
+    require_once("../inc/credit.inc");
 
     $n = 20;
 
