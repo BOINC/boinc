@@ -21,6 +21,9 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.16  2004/09/30 20:32:15  davea
+// *** empty log message ***
+//
 // Revision 1.15  2004/09/29 22:20:43  rwalton
 // *** empty log message ***
 //
@@ -68,7 +71,7 @@
 // Descending message sorting function
 struct MessageSorter
 {
-     bool operator()(MESSAGE*& rpStart, MESSAGE*& rpEnd)
+     bool operator()(MESSAGE* const& rpStart, MESSAGE* const& rpEnd)
      {
          return rpStart->seqno < rpEnd->seqno;
      }

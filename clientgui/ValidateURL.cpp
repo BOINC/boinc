@@ -21,13 +21,16 @@
 // Revision History:
 //
 // $Log$
+// Revision 1.2  2004/09/30 20:32:15  davea
+// *** empty log message ***
+//
 // Revision 1.1  2004/09/22 21:53:05  rwalton
 // *** empty log message ***
 //
 //
 
 #if defined(__GNUG__) && !defined(__APPLE__)
-#pragma implementation "ValidateAccountKey.h"
+#pragma implementation "ValidateURL.h"
 #endif
 
 #include "stdwx.h"

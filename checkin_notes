@@ -17887,3 +17887,11 @@ David  30 Sept 2004
             util.inc
         user/
             mail_passwd.php
+
+David  30 Sept 2004
+    - got clientgui to work on Linux!!
+
+    clientgui/
+        MainDocument.cpp
+        Makefile (new)
+        ValidateURL.cpp
