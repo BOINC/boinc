@@ -103,6 +103,26 @@
         $first = 0;
     }
 
+    if (strlen($sort_by)) {
+        switch ($sort_by) {
+            case 1:
+            $query = $query . " order by create_time desc";
+            $english_query = append_sql_query( $english_query, "most recent created are listed first", $first );
+            $first = 0;
+            break;
+            case 2:
+            $query = $query . " order by sent_time desc";
+            $english_query = append_sql_query( $english_query, "most recent sent are listed first", $first );
+            $first = 0;
+            break;
+            case 3:
+            $query = $query . " order by received_time desc";
+            $english_query = append_sql_query( $english_query, "most recent received are listed first", $first );
+            $first = 0;
+            break;
+        }
+    }
+
     if (strlen($nresults)) {
         $entries_to_show = $nresults;
     } else {
@@ -158,6 +178,12 @@
         print_checkbox("Show XML Docs", "show_xml_docs", $show_xml_docs);
         print_checkbox("Show Result stderr", "show_stderr", $show_stderr);
         print_checkbox("Show Times", "show_times", $show_times);
+        printf( "Sort by:<br>\n" );
+        print_radio_button("None", "sort_by", "0", $sort_by == "0");
+        print_radio_button("Creation Time", "sort_by", "1", $sort_by == "1");
+        print_radio_button("Sent Time", "sort_by", "2", $sort_by == "2");
+        print_radio_button("Received Time", "sort_by", "3", $sort_by == 3);
+        printf("<br>\n");
     } else if ($show=="team") {
     } else if ($show=="user") {
     } else {

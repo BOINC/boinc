@@ -107,6 +107,13 @@ function print_checkbox($text,$name,$checked) {
         . "<p>\n";
 }
 
+function print_radio_button($text,$name,$value,$checked) {
+    echo "<input type=radio name=$name value=$value"
+        . (strlen($checked) ? " checked" : "") . ">"
+        . "$text\n"
+        . "<br>\n";
+}
+
 function print_text_field($text,$name,$value) {
     echo "$text <input type=text size=10 name=$name value=\"$value\">\n"
          . "<p>\n";
