@@ -149,10 +149,6 @@ SOURCE=..\..\Client\Hostinfo.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\Client\hostinfo_unix.C
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\Client\win\hostinfo_win.cpp
 # End Source File
 # Begin Source File
