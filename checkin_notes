@@ -15548,3 +15548,22 @@ David  21 July 2004
         transitioner.C
     tools/
         backend_lib.C,h
+
+
+Noaa 	21 July 2004
+
+	- incorporated modded, smaller glut into the source tree
+	- updated, cleaner version of x_opengl.C
+	- removed glut stuff from boinc_gl.h to account for integrated glut in 
+		source tree
+	- updated gutil.C header
+	- changed Makefile for api to account for glut in source tree, called 
+		Makefile.graphics (unaffected by configure, may not run on every 
+		system correctly, please check for specific setups)
+
+	api/
+		x_opengl.C
+		boinc_gl.h
+		gutil.C
+
+	boincglut/ (new)
