@@ -59,13 +59,11 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
         retval = read_file_malloc(path, file_contents);
         if (retval) continue;
         fprintf(f,
-            "  <trickle_up>\n"
+            "  <msg_from_host>\n"
             "      <result_name>%s</result_name>\n"
             "      <time>%d</time>\n"
-            "      <text>\n"
             "%s\n"
-            "      </text>\n"
-            "  </trickle_up>\n",
+            "  </msg_from_host>\n",
             result_name,
             (int)t,
             file_contents
@@ -118,15 +116,12 @@ int CLIENT_STATE::handle_trickle_down(PROJECT* project, FILE* in) {
             fclose(f);
             atp->have_trickle_down = true;
             return 0;
-        } else if (match_tag(buf, "<body>")) {
-            retval = copy_element_contents(in, "</body>", body);
-            if (retval) return retval;
         } else if (parse_str(buf, "<result_name>", result_name, 256)) {
             continue;
-        } else if (parse_int(buf, "<send_time>", send_time)) {
+        } else if (parse_int(buf, "<time>", send_time)) {
             continue;
         } else {
-            ;
+            body += buf;
         }
     }
     return ERR_XML_PARSE;

@@ -45,7 +45,7 @@ extern "C" {
     extern int	boinc_write_init_data_file();
     extern int	boinc_get_init_data(APP_INIT_DATA&);
 
-    extern int	boinc_send_trickle_up(char*);
+    extern int	boinc_send_trickle_up(char* variety, char* text);
     extern bool boinc_receive_trickle_down(char* buf, int len);
 
     extern bool	boinc_time_to_checkpoint();

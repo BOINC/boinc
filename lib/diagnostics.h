@@ -25,7 +25,7 @@
 
 
 #ifdef _WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 #undef min
 
 // Define macros for both debug and release builds.

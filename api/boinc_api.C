@@ -80,7 +80,8 @@ static	double	      last_wu_cpu_time;
 static	bool	      standalone          = false;
 static	double	      initial_wu_cpu_time;
 static	bool	      have_new_trickle_up = false;
-static bool have_trickle_down = false;
+static bool have_trickle_down = true;
+    // on first call, scan slot dir for msgs
 static double seconds_until_heartbeat_giveup;
 static bool heartbeat_active;   // if false, suppress heartbeat mechanism
 
@@ -261,6 +262,7 @@ static int update_app_progress(
     double cpu_t, double cp_cpu_t, double ws_t
 ) {
     char msg_buf[SHM_SEG_SIZE], buf[256];
+    bool sent;
 
     if (!app_client_shm) return 0;
 
@@ -279,10 +281,13 @@ static int update_app_progress(
 
     if (have_new_trickle_up) {
         strcat(msg_buf, "<have_new_trickle_up/>\n");
-        have_new_trickle_up = false;
     }
 
-    return app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);
+    sent = app_client_shm->send_msg(msg_buf, APP_CORE_WORKER_SEG);
+    if (sent) {
+        have_new_trickle_up = false;
+    }
+    return 0;
 }
 
 int boinc_get_init_data(APP_INIT_DATA& app_init_data) {
@@ -453,9 +458,10 @@ static void cleanup_shared_mem() {
     app_client_shm = NULL;
 }
 
-int boinc_send_trickle_up(char* p) {
+int boinc_send_trickle_up(char* variety, char* p) {
     FILE* f = boinc_fopen(TRICKLE_UP_FILENAME, "wb");
     if (!f) return ERR_FOPEN;
+    fprintf(f, "<variety>%s</variety>\n", variety);
     size_t n = fwrite(p, strlen(p), 1, f);
     fclose(f);
     if (n != 1) return ERR_WRITE;
@@ -511,9 +517,14 @@ int boinc_fraction_done(double x) {
 
 bool boinc_receive_trickle_down(char* buf, int len) {
     std::string filename;
+    char path[256];
+    relative_to_absolute("", path);
+    fprintf(stderr, "receive trickle down\n");
     if (have_trickle_down) {
-        DirScanner dirscan(".");
+        DirScanner dirscan(path);
+        fprintf(stderr, "starting scan of %s\n", path);
         while (dirscan.scan(filename)) {
+            fprintf(stderr, "scan: %s\n", filename.c_str());
             if (strstr(filename.c_str(), "trickle_down")) {
                 strncpy(buf, filename.c_str(), len);
                 return true;

@@ -111,7 +111,7 @@ struct SCHEDULER_REPLY {
     std::vector<RESULT> result_acks;
     char* code_sign_key;
     char* code_sign_key_signature;
-    bool trickle_up_ack;
+    bool message_ack;
     bool project_is_down;
 
     SCHEDULER_REPLY();

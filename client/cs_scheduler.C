@@ -758,7 +758,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     // remove acked trickle files
     //
-    if (sr.trickle_up_ack) {
+    if (sr.message_ack) {
         remove_trickle_files(project);
     }
     project->sched_rpc_pending = false;

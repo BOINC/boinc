@@ -491,8 +491,10 @@ void relative_to_absolute(char* relname, char* path) {
 #else
     getcwd(path, 256);
 #endif
-    strcat(path, PATH_SEPARATOR);
-    strcat(path, relname);
+    if (strlen(relname)) {
+        strcat(path, PATH_SEPARATOR);
+        strcat(path, relname);
+    }
 }
 
 // get total and free space on current filesystem (in bytes)

@@ -1409,7 +1409,7 @@ bool ACTIVE_TASK::get_status_msg() {
         parse_double(msg_buf, "<current_cpu_time>", current_cpu_time);
         parse_double(msg_buf, "<checkpoint_cpu_time>", checkpoint_cpu_time);
         parse_double(msg_buf, "<working_set_size>", working_set_size);
-        if (match_tag(msg_buf, "<have_new_trickle/>")) {
+        if (match_tag(msg_buf, "<have_new_trickle_up/>")) {
             move_trickle_file();
         }
         return true;

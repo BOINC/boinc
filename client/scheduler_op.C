@@ -583,7 +583,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     user_create_time = 0;
     code_sign_key = 0;
     code_sign_key_signature = 0;
-    trickle_up_ack = false;
+    message_ack = false;
     project_is_down = false;
 
     p = fgets(buf, 256, in);
@@ -677,8 +677,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
         } else if (parse_str(buf, "<message", message, sizeof(message))) {
             parse_attr(buf, "priority", message_priority, sizeof(message_priority));
             continue;
-        } else if (match_tag(buf, "<trickle_up_ack/>")) {
-            trickle_up_ack = true;
+        } else if (match_tag(buf, "<message_ack/>")) {
+            message_ack = true;
         } else if (match_tag(buf, "<project_is_down/>")) {
             project_is_down = true;
         } else if (parse_str(buf, "<email_hash>", project->email_hash, sizeof(project->email_hash))) {

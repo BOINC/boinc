@@ -14598,6 +14598,7 @@ Rom   3 July 2004
 
     db/
         boinc_db.C
+
 David  4 July 2004
     - scheduler: if client is requesting work,
         and client is not returning results,
@@ -14612,3 +14613,25 @@ David  4 July 2004
         handle_request.C
         main.C
         sched_shmem.C,h
+
+David  7 July 2004
+	- Completed (more or less) the implementation of trickle messages.
+		Some changes:
+		- Trickle-up messages now have a "variety", specified by the application.
+			Typically it's the name of the application.
+			The trickle-up handler (on the server side) specifies what
+			variety of message is wants to handle.
+		- boinc_receive_trickle_down() no longer returns the message itself;
+			instead, it returns the name of the file.
+			The app must open, read and delete the file.
+
+	api/
+		boinc_api.C,h
+	client/
+		app.C
+		cs_scheduler.C
+		cs_trickle.C
+		scheduler_op.C,h
+	lib/
+		diagnostics.h
+		filesys.C
