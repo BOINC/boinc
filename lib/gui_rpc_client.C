@@ -1104,17 +1104,16 @@ int RPC_CLIENT::set_proxy_settings(PROXY_INFO& pi) {
     return rpc.do_rpc(buf);
 }
 
-int RPC_CLIENT::get_messages( int nmessages, int seqno, MESSAGES& msgs) {
+int RPC_CLIENT::get_messages(int seqno, MESSAGES& msgs) {
     char buf[4096];
     RPC rpc(this);
     int retval;
 
     sprintf(buf,
         "<get_messages>\n"
-        "  <nmessages>%d</nmessages>\n"
         "  <seqno>%d</seqno>\n"
         "</get_messages>\n",
-        nmessages, seqno
+        seqno
     );
     retval = rpc.do_rpc(buf);
     if (retval) return retval;

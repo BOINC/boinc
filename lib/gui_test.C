@@ -94,10 +94,9 @@ int main(int argc, char** argv) {
         FILE_TRANSFERS ft;
         retval = rpc.get_file_transfers(ft);
     } else if (!strcmp(argv[i], "-get_messages")) {
-        if (i != argc-3) usage();
-        int nmsgs = atoi(argv[++i]);
+        if (i != argc-2) usage();
         int seqno = atoi(argv[++i]);
-        retval = rpc.get_messages(nmsgs, seqno, messages);
+        retval = rpc.get_messages(seqno, messages);
         if (!retval) {
             for (i=0; i<messages.messages.size(); i++) {
                 MESSAGE& md = *messages.messages[i];

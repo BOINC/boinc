@@ -59,7 +59,7 @@ struct MESSAGE_DESC {
     std::string message;
 };
 
-extern std::list<MESSAGE_DESC*> message_descs;
+extern std::deque<MESSAGE_DESC*> message_descs;
 extern void record_message(class PROJECT *p, int priority, int now, char* msg);
 
 extern void show_message(class PROJECT *p, char* message, int priority);

@@ -17889,9 +17889,25 @@ David  30 Sept 2004
             mail_passwd.php
 
 David  30 Sept 2004
-    - got clientgui to work on Linux!!
+    - got clientgui working on Linux!!
 
     clientgui/
         MainDocument.cpp
         Makefile (new)
         ValidateURL.cpp
+
+David  30 Sept 2004
+	- changed the semantics of the GUI RPC get_messages() call.
+		- It no longer takes an "nmessages" arg.
+		- it returns messages in order of increasing seqno
+	- changed message_descs from a std::list to a std::deque
+
+	client/
+		client_msgs.C,h
+		gui_rpc_server.C
+	lib/
+		boinc_win.h
+		gui_rpc_client.C,h
+		gui_test.C
+	win_build/
+		boinc_guirpc_test.vcproj

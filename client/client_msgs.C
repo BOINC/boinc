@@ -22,13 +22,13 @@
 #endif
 #ifndef _WIN32
 #include <cstdarg>
-#include <list>
+#include <deque>
 #endif
+
+using std::deque;
 
 #include "log_flags.h"
 #include "client_msgs.h"
-
-using std::list;
 
 #define MAX_SAVED_MESSAGES 1000
 
@@ -68,7 +68,10 @@ bool CLIENT_MSG_LOG::v_message_wanted(int kind) const {
     }
 }
 
-list<MESSAGE_DESC*> message_descs;
+// a dequeue of up to MAX_SAVED_MESSAGES most recent messages,
+// stored in newest-first order
+//
+deque<MESSAGE_DESC*> message_descs;
 
 // Takes a printf style formatted string, inserts the proper values,
 // and passes it to show_message

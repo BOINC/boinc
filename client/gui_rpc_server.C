@@ -264,30 +264,30 @@ static void handle_get_proxy_settings(char* , MIOFILE& fout) {
 }
 
 // params:
-// <nmessages>x</nmessages>
-//    return at most this many messages
-// <offset>n</offset>
-//    start at message n.
-// if no offset is given, return last n messages
+// [ <seqno>n</seqno> ]
+//    start at message seqno n; if absent or zero, return all
 //
 void handle_get_messages(char* buf, MIOFILE& fout) {
-    int nmessages=-1, seqno=-1, j;
+    int seqno=0, j;
+    unsigned int i;
+    MESSAGE_DESC* mdp;
+    bool found=false;
 
-    parse_int(buf, "<nmessages>", nmessages);
     parse_int(buf, "<seqno>", seqno);
-    if (nmessages < 0) {
-        fout.printf("<error>No nmessages given</error>\n");
-        return;
+
+    j = message_descs.size()-1;
+    for (i=0; i<message_descs.size(); i++) {
+        mdp = message_descs[i];
+        if (mdp->seqno <= seqno) {
+            found = true;
+            j = i;
+            break;
+        }
     }
 
     fout.printf("<msgs>\n");
-    list<MESSAGE_DESC*>::const_iterator iter;
-    for (iter=message_descs.begin(), j=0;
-        iter != message_descs.end() && j<nmessages;
-        iter++, j++
-    ) {
-        MESSAGE_DESC* mdp = *iter;
-        if (mdp->seqno <= seqno) break;
+    for (i=j; i>=0; i--) {
+        mdp = message_descs[i];
         fout.printf(
             "<msg>\n"
             " <pri>%d</pri>\n"

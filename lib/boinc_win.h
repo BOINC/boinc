@@ -106,6 +106,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <deque>
 #include <list>
 #include <locale>
 

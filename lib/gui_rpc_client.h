@@ -304,7 +304,7 @@ public:
     int run_benchmarks();
     int set_proxy_settings(PROXY_INFO&);
     int get_proxy_settings(PROXY_INFO&);
-    int get_messages(int nmessages, int seqno, MESSAGES&);
+    int get_messages(int seqno, MESSAGES&);
     int file_transfer_op(FILE_TRANSFER&, char*);
     int result_op(RESULT&, char*);
     char* mode_name(int mode);
