@@ -20,9 +20,11 @@ if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content']))
 	header('Location: thread.php?id='.$thread->id);
 }
 
-if (empty($_SESSION['authenticator']))
-	header('Location: ../login_form.php');
+if (empty($_SESSION['authenticator'])) {
+    get_logged_in_user(true, '../');
 
+
+}
 doHeader('Forum');
 
 $forum = getForum($_GET['id']);
