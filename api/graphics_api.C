@@ -23,7 +23,7 @@
 #include "config.h"
 
 #ifdef _WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 extern DWORD WINAPI win_graphics_event_loop( LPVOID duff );
 HANDLE graphics_threadh=NULL;
 #endif

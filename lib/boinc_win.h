@@ -17,16 +17,15 @@
 // Contributor(s):
 //
 
-// stdafx.h : include file for standard system include files,
+// boinc_win.h : include file for standard system include files,
 // or project specific include files that are used frequently,
 // but are changed infrequently
 
-#ifndef _STDAFX_H_
-#define _STDAFX_H_
+#ifndef _BOINC_WIN_
+#define _BOINC_WIN_
 
 // Windows System Libraries
 //
-#ifdef _WIN32
 
 // Modify the following defines if you have to target a platform prior to the ones specified below.
 // Refer to MSDN for the latest info on corresponding values for different platforms.
@@ -80,7 +79,6 @@
 
 #include "stackwalker_win.h"
 
-#endif //_WIN32
 
 // Standard Libraries
 //
@@ -112,12 +110,7 @@
 #include <setjmp.h>
 
 
-// Namespace Modifiers
 using namespace std;
-
-
-// Unify C Runtime Library across platforms 
-#ifdef _WIN32
 
 #define vsnprintf               _vsnprintf
 #define snprintf                _snprintf
@@ -128,11 +121,10 @@ using namespace std;
 #define read                    _read
 #define stat                    _stat
 
-#endif //_WIN32
 
 // On the Win32 platform include file and line number information for each
 //   memory allocation/deallocation
-#if (defined(_WIN32) && !defined(__AFX_H__))
+#if !defined(__AFX_H__)
 
 #ifdef _DEBUG
 
@@ -166,6 +158,6 @@ using namespace std;
 
 #define new DEBUG_NEW
 
-#endif //_WIN32
+#endif
 
-#endif //_STDAFX_H_
+#endif //_BOINC_WIN_

@@ -20,8 +20,6 @@
 #ifndef __WINGUI_H_
 #define __WINGUI_H_
 
-// includes
-
 #include "file_names.h"
 #include "filesys.h"
 #include "log_flags.h"

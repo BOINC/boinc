@@ -10,7 +10,7 @@
  *		Visit My Site At nehe.gamedev.net
  *		Adapted to BOINC by Eric Heien
  */
-#include "stdafx.h"
+#include "boinc_win.h"
 
 #include "boinc_api.h"
 #include "graphics_api.h"

@@ -15,7 +15,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #ifdef _WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 #include <GL/gl.h>
 #endif
 

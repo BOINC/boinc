@@ -20,7 +20,7 @@
 #include "config.h"
 
 #ifdef _WIN32
-#include "stdafx.h"
+#include "boinc_win.h"
 #include "jpeglib.h"
 #include "bmplib.h"
 #include "tgalib.h"

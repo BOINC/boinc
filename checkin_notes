@@ -13758,3 +13758,22 @@ Rom    16 June 2004
 		*.C
 	lib/
 		*.C
+
+David  16 June 2004
+	- a few additions to the above
+
+	api/
+		graphics_api.C
+		gutil.C
+		reduce.C
+		static_graphics.C
+		windows_opengl.C
+	client/
+		cpu_benchmark (removed)
+		message.C (removed)
+		win/
+			wingui.h
+	lib/
+		boinc_win.h
+	win_build/
+		boinc_gui.vcproj
