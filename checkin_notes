@@ -18346,3 +18346,10 @@ David  13 Oct 2004
 
     api/
         x_opengl.C
+
+Lana    13 Oct 2004
+    - cleanup of boinc validator to handle error conditions
+
+    sched/
+        validator.C
+

@@ -225,7 +225,7 @@ void handle_wu(
 
             // if result had nonrecoverable error, make sure it gets updated
             //
-            if (result.outcome != RESULT_OUTCOME_SUCCESS) {
+            if (result.outcome == RESULT_OUTCOME_VALIDATE_ERROR) {
                 update_result = true;
             }
             switch (result.validate_state) {
@@ -323,7 +323,7 @@ void handle_wu(
             //
             for (i=0; i<results.size(); i++) {
                 RESULT& result = results[i];
-                if (result.outcome != RESULT_OUTCOME_SUCCESS) {
+                if (result.outcome == RESULT_OUTCOME_VALIDATE_ERROR) {
                     need_immediate_transition = true;
                     retval = validator.update_result(result);
                     if (retval) {
@@ -428,7 +428,9 @@ void handle_wu(
         if (x < wu.transition_time) wu.transition_time = x;
     }
 
-    wu.need_validate = 0;
+    if (!need_delayed_transition)
+        wu.need_validate = 0;
+    
     retval = validator.update_workunit(wu);
     if (retval) {
         log_messages.printf(
