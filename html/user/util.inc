@@ -23,6 +23,7 @@ You will need your account key to log in to the ".PROJECT." web site."
 //
 function init_session() {
     session_start();
+// NOTE: in PHP 4.1+, s/key_exists/array_key_exists/
     if (key_exists('authenticator', $_SESSION)) {
         return $_SESSION["authenticator"];
     } else {
