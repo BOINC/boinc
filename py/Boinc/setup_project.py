@@ -276,7 +276,7 @@ def install_boinc_files(dest_dir):
     map(lambda (s): install(srcdir('sched',s), dir('bin',s)),
         [ 'start', 'stop', 'status', 'grep_logs' ])
     map(lambda (s): install(srcdir('tools',s), dir('bin',s)),
-        [ 'boinc_path_config.py', 'add', 'dbcheck_files_exist', 'update_versions',
+        [ 'boinc_path_config.py', 'add', 'xadd', 'dbcheck_files_exist', 'update_versions',
           'upgrade' ])
 
 

@@ -9123,9 +9123,11 @@ Karl 2004-01-12
         projectxml.py (new)
         add_util.py (new)
         db_base.py
+        Makefile.am
     tools/
         xadd (new)
         add
+        Makefile.am
         
 Karl 2004-01-12
     - source release 2.14 (no client-visible changes)

@@ -4,7 +4,7 @@ include $(top_srcdir)/Makefile.incl
 
 bin_PROGRAMS = create_work sign_executable
 
-EXTRA_DIST = make_project add update_versions dbcheck_files_exist upgrade
+EXTRA_DIST = make_project add xadd update_versions dbcheck_files_exist upgrade
 
 # TODO: use libboinc for these:
 
