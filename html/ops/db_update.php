@@ -204,6 +204,12 @@ function update_12_27_2004() {
     mysql_query("alter table workunit add index wu_filedel (file_delete_state, mod_time)");
 }
 
+function update_1_3_2005() {
+    mysql_query("alter table workunit drop index wu_filedel");
+    mysql_query("alter table workunit add index wu_filedel (file_delete_state)");
+    mysql_query("alter table result drop index app_mod_time");
+}
+
 //update_10_25_2004();
 
 ?>

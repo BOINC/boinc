@@ -22196,3 +22196,19 @@ Janus   7 Jan 2005
       /html/inc
         forum_show.inc
         forum.inc
+
+David  7 Jan 2005
+    - drop the indices on mod_time.
+        (result: app_mod_time, workunit: wu_filedel)
+        For SETI@home they were too much of a performance hit.
+        They're needed only for db_purge and result_summary.php,
+        which will have to do a sequential scan instead
+    - db_dump: try several times to remove old stats directory
+
+    db/
+        constraints.sql
+    html/ops/
+        db_update.php
+    sched/
+        db_dump.C
+        sched_locality.C

@@ -778,9 +778,17 @@ int main(int argc, char** argv) {
 
     sprintf(buf, "cp %s %s/db_dump.xml", spec_filename, spec.output_dir);
     system(buf);
-    sprintf(buf, "/bin/rm -rf %s; mv %s %s",
-        spec.final_output_dir, spec.output_dir, spec.final_output_dir
-    );
+    sprintf(buf, "/bin/rm -rf %s", spec.final_output_dir);
+    for (int i=0; i<10; i++) {
+        retval = system(buf);
+        if (!retval) break;
+        sleep(1);
+    }
+    if (retval) {
+        log_messages.printf(SCHED_MSG_LOG::CRITICAL, "Can't remove old stats\n");
+        exit(1);
+    }
+    sprintf(buf, "mv %s %s", spec.output_dir, spec.final_output_dir);
     system(buf);
     log_messages.printf(SCHED_MSG_LOG::NORMAL, "db_dump finished\n");
 }
