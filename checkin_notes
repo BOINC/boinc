@@ -22540,7 +22540,7 @@ Janus 12 Jan 2005
 Bruce 12 Jan 2005
     more locality sched changes.
     - bug fix 1, trivial, n % 0  generates FPE if no files.
-    - bug fix 2, sublte.  In the deterministic hunt to find
+    - bug fix 2, subtle.  In the deterministic hunt to find
       the next unsent result, the comparison of the result name must be
       done with the lexically maximum result name constructed from the
       given filename.  Eg, if one needs name>FILE_ZZZZ...Z where
