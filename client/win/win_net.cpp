@@ -49,16 +49,6 @@ int NetOpen( void )
     WORD    wVersionRequested;
 	int rc, addrlen = 16;
 
-	if(gstate.global_prefs.confirm_before_connecting) {
-		if((double)time(NULL) < net_last_req_time + CONFIRM_WAIT) {
-			return -1;
-		}
-		net_last_req_time = (double)time(NULL);
-		if(!RequestNetConnect()) {
-			return -1;
-		}
-	}
-
 	typedef BOOL (WINAPI *GetStateProc)( OUT LPDWORD  lpdwFlags, IN DWORD    dwReserved);
 	typedef BOOL (WINAPI *AutoDialProc)( IN DWORD    dwFlags, IN DWORD    dwReserved);
 
@@ -80,6 +70,14 @@ int NetOpen( void )
 				if((double)time(NULL) < net_last_dial_time + CONFIRM_WAIT) {
 					return -1;
 				}
+
+				if(gstate.global_prefs.confirm_before_connecting) {
+					net_last_req_time = (double)time(NULL);
+					if(!RequestNetConnect()) {
+						return -1;
+					}
+				}
+
 				net_last_dial_time = (double)time(NULL);
 				rc = (*AutoDial)(INTERNET_AUTODIAL_FORCE_UNATTENDED, 0);
 				if (rc) {

@@ -94,8 +94,6 @@ class CConnectDialog : public CDialog
 public:
 							CConnectDialog(UINT);
 	afx_msg BOOL			OnInitDialog();
-
-	BOOL					m_bDontAsk;
 protected:
 	void					LoadLanguage();
 

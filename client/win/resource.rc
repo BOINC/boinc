@@ -122,7 +122,7 @@ BEGIN
                     ES_AUTOHSCROLL
 END
 
-IDD_CONNECT DIALOG DISCARDABLE  0, 0, 210, 65
+IDD_CONNECT DIALOG DISCARDABLE  0, 0, 210, 46
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Connection"
 FONT 8, "MS Sans Serif"
@@ -131,9 +131,6 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,153,24,50,14
     LTEXT           "BOINC needs to connect to the network.  May it do so now?",
                     IDC_STATIC_ASK,7,7,138,24
-    CONTROL         "Don't ask this again (connect automatically)",
-                    IDC_DONTASK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,47,
-                    196,10
 END
 
 
@@ -182,7 +179,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 203
         TOPMARGIN, 7
-        BOTTOMMARGIN, 58
+        BOTTOMMARGIN, 39
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -215,12 +212,7 @@ BEGIN
     END
     POPUP "&Connection"
     BEGIN
-        MENUITEM "Connect &Now",                ID_CONNECTION_CONNECTNOW
-        MENUITEM SEPARATOR
-        MENUITEM "Hangup &Connection if Dialed", 
-                                                ID_CONNECTION_HANGUPIFDIALED
-        MENUITEM "Confirm &Before Connecting",  ID_CONNECTION_CONFIRMBEFORECONNECTING
-
+        MENUITEM "&Connect To Scheduling Server", ID_CONNECTION_CONNECTNOW
     END
     POPUP "&Help"
     BEGIN

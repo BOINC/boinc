@@ -110,7 +110,7 @@ protected:
 	BOOL					m_bRequest;				// does the user have a net connection request?
 	int						m_nContextItem;			// item selected for context menu
 	UINT					m_nGuiTimerID;			// ID of current GUI timer	
-	UINT					m_nAppTimerID;			// ID of current GUI timer	
+	UINT					m_nAppTimerID;			// ID of current app timer	
 	CSSWindow*				m_pSSWnd;				// default graphics window
 	UINT					m_nScreenSaverMsg;		// ID of screensaver message
 	UINT					m_nShowMsg;				// ID of show window request message

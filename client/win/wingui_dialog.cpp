@@ -535,12 +535,6 @@ BOOL CConnectDialog::OnInitDialog()
 // function:	sets member variables
 void CConnectDialog::OnOK() 
 {
-	m_bDontAsk = false;
-	CButton* btn = NULL;
-	btn = (CButton*)GetDlgItem(IDC_DONTASK);
-	if(btn) {
-		m_bDontAsk = (btn->GetCheck() == BST_CHECKED);
-	}
 	CDialog::OnOK();
 }
 

@@ -70,8 +70,6 @@ BEGIN_MESSAGE_MAP(CMainWindow, CWnd)
     ON_COMMAND(ID_FILE_RESUME, OnCommandResume)
     ON_COMMAND(ID_FILE_EXIT, OnCommandExit)
     ON_COMMAND(ID_CONNECTION_CONNECTNOW, OnCommandConnectionConnectNow)
-    ON_COMMAND(ID_CONNECTION_HANGUPIFDIALED, OnCommandConnectionHangupIfDialed)
-    ON_COMMAND(ID_CONNECTION_CONFIRMBEFORECONNECTING, OnCommandConnectionConfirmBeforeConnecting)
     ON_COMMAND(ID_SETTINGS_LOGIN, OnCommandSettingsLogin)
     ON_COMMAND(ID_SETTINGS_QUIT, OnCommandSettingsQuit)
     ON_COMMAND(ID_SETTINGS_PROXYSERVER, OnCommandSettingsProxyServer)
@@ -436,13 +434,6 @@ BOOL CMainWindow::RequestNetConnect()
 	int retval = dlg.DoModal();
 	m_bRequest = false;
 	if(retval == IDOK) {
-		gstate.global_prefs.confirm_before_connecting = !dlg.m_bDontAsk;
-		CMenu* ConMenu = NULL;
-		ConMenu = m_MainMenu.GetSubMenu(2);
-		if(ConMenu) {
-			if(gstate.global_prefs.confirm_before_connecting) ConMenu->CheckMenuItem(ID_CONNECTION_CONFIRMBEFORECONNECTING, MF_CHECKED);
-			else ConMenu->CheckMenuItem(ID_CONNECTION_CONFIRMBEFORECONNECTING, MF_UNCHECKED);
-		}
 		return TRUE;
 	}
 	return FALSE;
@@ -577,7 +568,6 @@ void CMainWindow::LoadListControls()
 	m_ResultListCtrl.LoadInactive(szPath, "WORK");
 	m_XferListCtrl.LoadInactive(szPath, "TRANSFERS");
 	m_MessageListCtrl.LoadInactive(szPath, "MESSAGES");
-	file_delete(szPath);
 }
 
 //////////
@@ -594,6 +584,9 @@ void CMainWindow::SaveUserSettings()
 	strcat(szPath, INI_FILE_NAME);
 	int colorder[MAX_COLS];
 	int i;
+
+	// get rid of old lists
+	file_delete(szPath);
 
 	// save window size/position
 	CRect rt;
@@ -883,6 +876,12 @@ void CMainWindow::Syncronize(CProgressListCtrl* pProg, vector<void*>* pVect)
 	}
 }
 
+//////////
+// CMainWindow::CheckAppWnd
+// arguments:	void
+// returns:		void
+// function:	polls application windows to see if the currently shown
+//				window needs to be switched, or if an app has closed
 void CMainWindow::CheckAppWnd()
 {
 	CWnd* pAppWnd;
@@ -948,9 +947,7 @@ LRESULT CMainWindow::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		m_pSSWnd->SetMode(MODE_FULLSCREEN, MODE_DEFAULT);
 		return 0;
 	} else if(m_nNetActivityMsg == message) {
-		for(int ii = 0; ii < 100; ii ++) {
-			if(!gstate.net_sleep(0)) break;
-		}
+		gstate.net_sleep(0);
 		return 0;
 	} else if(message == RegisterWindowMessage("BOINC_APP_MODE")) {
 		if(lParam == m_dwAppId) m_AppMode = wParam;
@@ -1099,39 +1096,10 @@ void CMainWindow::OnCommandConnectionConnectNow()
 	gstate.global_prefs.confirm_before_connecting = false;
 	NetOpen();
 	gstate.global_prefs.confirm_before_connecting = bOldConfirm;
+	for(int ii = 0; ii < gstate.projects.size(); ii ++) {
+		gstate.projects[ii]->sched_rpc_pending = true;
+	}
 	NetClose();
-}
-
-//////////
-// CMainWindow::OnCommandConnectionHangupIfDialed
-// arguments:	void
-// returns:		void
-// function:	changes preference and menu item
-void CMainWindow::OnCommandConnectionHangupIfDialed()
-{
-	gstate.global_prefs.hangup_if_dialed = !gstate.global_prefs.hangup_if_dialed;
-	CMenu* ConMenu = NULL;
-	ConMenu = m_MainMenu.GetSubMenu(2);
-	if(ConMenu) {
-		if(gstate.global_prefs.hangup_if_dialed) ConMenu->CheckMenuItem(ID_CONNECTION_HANGUPIFDIALED, MF_CHECKED);
-		else ConMenu->CheckMenuItem(ID_CONNECTION_HANGUPIFDIALED, MF_UNCHECKED);
-	}
-}
-
-//////////
-// CMainWindow::OnCommandConnectionConfirmBeforeConnecting
-// arguments:	void
-// returns:		void
-// function:	changes preference and menu item
-void CMainWindow::OnCommandConnectionConfirmBeforeConnecting()
-{
-	gstate.global_prefs.confirm_before_connecting = !gstate.global_prefs.confirm_before_connecting;
-	CMenu* ConMenu = NULL;
-	ConMenu = m_MainMenu.GetSubMenu(2);
-	if(ConMenu) {
-		if(gstate.global_prefs.confirm_before_connecting) ConMenu->CheckMenuItem(ID_CONNECTION_CONFIRMBEFORECONNECTING, MF_CHECKED);
-		else ConMenu->CheckMenuItem(ID_CONNECTION_CONFIRMBEFORECONNECTING, MF_UNCHECKED);
-	}
 }
 
 //////////
@@ -1479,15 +1447,6 @@ int CMainWindow::OnCreate(LPCREATESTRUCT lpcs)
 				m_hIdleDll = NULL;
 			}
 		}
-	}
-
-	CMenu* ConMenu = NULL;
-	ConMenu = m_MainMenu.GetSubMenu(2);
-	if(ConMenu) {
-		if(gstate.global_prefs.hangup_if_dialed) ConMenu->CheckMenuItem(ID_CONNECTION_HANGUPIFDIALED, MF_CHECKED);
-		else ConMenu->CheckMenuItem(ID_CONNECTION_HANGUPIFDIALED, MF_UNCHECKED);
-		if(gstate.global_prefs.confirm_before_connecting) ConMenu->CheckMenuItem(ID_CONNECTION_CONFIRMBEFORECONNECTING, MF_CHECKED);
-		else ConMenu->CheckMenuItem(ID_CONNECTION_CONFIRMBEFORECONNECTING, MF_UNCHECKED);
 	}
 
 	UpdateGUI(&gstate);
