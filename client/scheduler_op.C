@@ -141,7 +141,7 @@ done:
     if (retval) {
         sprintf(err_msg,
             "scheduler init_op_project to %s failed, error %d\n",
-            project->scheduler_urls[url_index].text, retval
+            project->scheduler_urls[url_index].c_str(), retval
         );
         backoff(project, err_msg);
     }
@@ -220,7 +220,7 @@ int SCHEDULER_OP::start_rpc() {
 
     SCOPE_MSG_LOG scope_messages(log_messages, CLIENT_MSG_LOG::DEBUG_SCHED_OP);
 
-    safe_strcpy(scheduler_url, project->scheduler_urls[url_index].text);
+    safe_strcpy(scheduler_url, project->scheduler_urls[url_index].c_str());
     if (log_flags.sched_ops) {
         msg_printf(
             project, MSG_INFO,

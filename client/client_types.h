@@ -102,9 +102,9 @@ public:
     int write(MIOFILE&, bool to_server);
     int write_gui(MIOFILE&);
     int delete_file();      // attempt to delete the underlying file
-    char* get_init_url(bool);
-    char* get_next_url(bool);
-    char* get_current_url(bool);
+    const char* get_init_url(bool);
+    const char* get_next_url(bool);
+    const char* get_current_url(bool);
     bool is_correct_url_type(bool, std::string&);
     bool had_failure(int& failnum, char* buf=0);
     bool verify_existing_file();

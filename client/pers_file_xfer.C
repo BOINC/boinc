@@ -62,7 +62,7 @@ int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
     fip = f;
     is_upload = is_file_upload;
     pers_xfer_done = false;
-    char* p = f->get_init_url(is_file_upload);
+    const char* p = f->get_init_url(is_file_upload);
     if (!p) {
         msg_printf(NULL, MSG_ERROR, "No URL for file transfer of %s", f->name);
         return ERR_NULL;
@@ -236,8 +236,9 @@ bool PERS_FILE_XFER::poll(double now) {
         } else {
             if (log_flags.file_xfer) {
                 msg_printf(
-                    fip->project, MSG_INFO, "Temporarily failed %s of %s",
-                    is_upload?"upload":"download", fip->name
+                    fip->project, MSG_INFO, "Temporarily failed %s of %s: %d",
+                    is_upload?"upload":"download", fip->name,
+                    fxp->file_xfer_retval
                 );
             }
             handle_xfer_failure();

@@ -246,7 +246,7 @@ bool FILE_XFER_SET::poll(double now) {
                     }
                 }
 			} else if (fxp->file_xfer_retval == HTTP_STATUS_RANGE_REQUEST_ERROR) {
-				fxp->fip->error_msg = "Existing file too large; can't resume";
+				fxp->fip->error_msg = "Local copy is at least as large as server copy";
 			}
         }
     }
