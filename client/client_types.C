@@ -114,6 +114,7 @@ int PROJECT::parse_state(FILE* in) {
     nrpc_failures = 0;
     master_url_fetch_pending = false;
     sched_rpc_pending = false;
+    scheduler_urls.clear();
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</project>")) return 0;
         else if (parse_str(buf, "<scheduler_url>", string.text, sizeof(string.text))) {
