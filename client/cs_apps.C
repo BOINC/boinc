@@ -458,13 +458,20 @@ bool CLIENT_STATE::schedule_cpus(bool must_reschedule) {
     cpu_sched_work_done_this_period = 0;
 
     cpu_sched_last_time = time(0);
-    if (total_resource_share > 0.0) {
-        set_client_state_dirty("schedule_cpus");
-    }
     if (some_app_started) {
         app_started = cpu_sched_last_time;
     }
-    return true;
+
+    // debts and active_tasks can only change if some project had
+    // a runnable result (and thus if total_resource_share
+    // is positive)
+    //
+    if (total_resource_share > 0.0) {
+        set_client_state_dirty("schedule_cpus");
+        return true;
+    } else {
+        return false;
+    }
 }
 
 // This is called when the client is initialized.

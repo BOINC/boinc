@@ -15208,3 +15208,11 @@ David  13 July 2004
         gui_rpc_client.C,h
         gui_rpc_server.C
         gui_test.C
+
+Daniel 2004-07-14
+    - schedule_cpus() now returns false if no projects had runnable
+      results. this should behave more nicely with do_something().
+
+    client/
+        cs_apps.C
+
