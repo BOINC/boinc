@@ -23974,3 +23974,10 @@ Rom    3 Feb 2005
 
     win_build/installerv2/
         BOINC.ism
+
+Janus 4 Feb 2005
+    - Added strong to the list of allowed html tags in the forum.
+
+    html/inc/
+        sanitize_html.php
+
