@@ -221,6 +221,8 @@ int boinc_db_insert_id() {
 void boinc_db_print_error(char* p) {
     if (mysql) {
         fprintf(stderr, "%s: Database error: %s\n", p, mysql_error(mysql));
+    } else {
+        fprintf(stderr, "%s: Database error\n", p);
     }
 }
 
