@@ -11,9 +11,7 @@ BUGS (arranged from high to low priority)
 - win GUI: reduce flicker?
 - labels on disk graph are not clear
 - document and add to global prefs?
-    start_saver
     run_minimized
-    run_on_startup
     hangup_if_dialed
 - consider warning message during windows (and perhaps other platforms)
     install that checks to see if the BOINC directory already exists,
