@@ -13,7 +13,7 @@ if [ -d /disks/asimov ]; then
 fi
 
 CVSROOT=/usr/local/warez/cvsroot                                               \
-    CHECKOUT='cvs export boinc'                                                \
+    CHECKOUT='cvs export -r HEAD boinc'                                        \
     DIR=boinc                                                                  \
     FILENAME_TGZ="boinc-cvs-TODAY.tar.gz"                                      \
     FILENAME_ZIP="boinc-cvs-TODAY.zip"                                         \
