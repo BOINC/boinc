@@ -26476,3 +26476,10 @@ David  1 April 2005
     sched/
         handle_request.C
         sched_util.C
+
+David  1 April 2005
+    - Parse environment vars AFTER parsing the client state file.
+        Otherwise env vars are ignored
+
+    client/
+        main.C

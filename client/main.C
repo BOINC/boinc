@@ -251,7 +251,6 @@ static void init_core_client(int argc, char** argv) {
 
     read_log_flags();
     gstate.parse_cmdline(argc, argv);
-    gstate.parse_env_vars();
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =
@@ -315,6 +314,11 @@ int boinc_main_loop() {
         fprintf(stderr, "gstate.init() failed: %d\n", retval);
         exit(retval);
     }
+
+    // must parse env vars AFTER gstate.init();
+    // otherwise env vars will get overwritten with state file info
+    //
+    gstate.parse_env_vars();
 
     while (1) {
         dt = dtime();
