@@ -16,7 +16,7 @@ Some BOINC server components (namely the feeder and scheduling server)
 use shared memory.
 On hosts where these run,
 the operating system must have shared memory enabled,
-with a maximum segment size of at least 40 MB.
+with a maximum segment size of at least 32 MB.
 How to do this depends on the operating system;
 some information is
 <a href=http://developer.postgresql.org/docs/postgres/kernel-resources.html>here</a>.

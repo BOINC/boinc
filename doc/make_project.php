@@ -7,13 +7,11 @@ BOINC provides a script for setting up a BOINC project.
 This has been tested only on Linux and Solaris hosts;
 it may work with small modifications on Windows also.
 
-<p>
-Install all components listed in the <a href=software.php>Software
-Prerequisites</a> page.
-Your operating system must have shared memory enabled,
-with a max shared segment size of at least 32 MB.
-
 <h3>Creating the server</h3>
+<p>
+First, install all components listed in the
+<a href=software.php>Software Prerequisites</a> page.
+
 <p>
 Run the <code>make_project</code> script.
 For example:

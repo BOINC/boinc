@@ -3,10 +3,10 @@ require_once("docutil.php");
 page_head("The BOINC graphics API");
 echo"
 <p>
-BOINC applications can optionally generate graphics.
+BOINC applications can optionally provide graphics.
 Graphics are displayed either in an application window
 or in a full-screen window (when acting as a screensaver).
-Applications that do graphics must call
+Applications that provide graphics must call
 <pre>
     void boinc_init_graphics();
 </pre>
@@ -15,6 +15,20 @@ at the start and
     void boinc_finish_graphics();
 </pre>
 prior to exiting.
+<h3>Static graphics</h3>
+<p>
+An application can display a pre-existing image file
+(JPEG, GIFF, BMP or Targa) as its graphic.
+This is the simplest approach since you
+don't need to develop any code.
+You must include the image file with each workunit.
+To do this, link the application with api/static_graphics.C
+(edit this file to use your filename).
+You can change the image over time,
+but you must change the (physical, not logical)
+name of the file each time.
+
+<h3>Dynamic graphics</h3>
 <p>
 The main application thread is called the <b>worker thread</b>.
 <code>boinc_init_graphics()</code> creates a second thread,
@@ -103,7 +117,7 @@ of CPU time used for graphics (default 0.5).
 
 <h3>Support classes</h3>
 <p>
-Several graphics-related classes were developed for SETI@home/BOINC.
+Several graphics-related classes were developed for SETI@home.
 They may be of general utility.
 
 <dl>
@@ -112,7 +126,8 @@ REDUCED_ARRAY
 <dd>
 Represents a two-dimensional array of data,
 which is reduced to a smaller dimension by averaging or taking extrema.
-Includes member functions for drawing the reduced data as a 3D graph.
+Includes member functions for drawing the reduced data as a 3D graph
+in several ways (lines, rectangles, connected surface).
 <dt>
 PROGRESS and PROGRESS_2D
 <dd>

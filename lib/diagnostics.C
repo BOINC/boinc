@@ -144,15 +144,17 @@ int boinc_finish_diag() {
 }
 
 
-// Used to setup an unhandled exception filter on Windows
+// to setup an unhandled exception filter on Windows
 //
 int boinc_install_signal_handlers() {
 #ifdef _WIN32
     SetUnhandledExceptionFilter( boinc_catch_signal );
 #else  //_WIN32
-    boinc_set_signal_handler(SIGHUP, boinc_catch_signal);
-    boinc_set_signal_handler(SIGINT, boinc_catch_signal);
-    boinc_set_signal_handler(SIGQUIT, boinc_catch_signal);
+
+    // register handlers for fatal internal signals
+    // so that they get reported in stderr.txt
+    // Do NOT catch SIGQUIT because core client uses that to kill app
+    //
     boinc_set_signal_handler(SIGILL, boinc_catch_signal);
     boinc_set_signal_handler(SIGABRT, boinc_catch_signal);
     boinc_set_signal_handler(SIGBUS, boinc_catch_signal);

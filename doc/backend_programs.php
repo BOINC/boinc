@@ -1,12 +1,11 @@
 <?
 require_once("docutil.php");
-page_head("Back end daemons");
+page_head("Daemon programs");
 echo "
 
 <p>
-A project <b>back end</b> consists of a set of daemons
-(programs that run all the time),
-some of which have application-specific parts.
+A BOINC project includes of a set of daemons
+(programs that run all the time).
 Each program should be listed as a daemon in the
 <a href=configuration.php>config.xml</a> file.
 
@@ -15,7 +14,7 @@ Each program should be listed as a daemon in the
 There is one work generator per application.
 It creates workunits and the corresponding input files.
 It is application-specific, and uses
-<a href=tools_work.php>BOINC-supplied interfaces</a>
+<a href=tools_work.php>BOINC library functions</a>
 for registering the workunits in the database.
 <p>
 During testing, you can create a single workunit using
@@ -24,11 +23,10 @@ then use the daemon program
 <a href=tools_work.php#make_work>make_work</a>
 to copy this workunit as needed to maintain a given supply of work.
 
-<h3>Transitioning</h3>
+<h3>Transitioner</h3>
 <p>
-This program (which is supplied by BOINC and is application independent)
-handles various state transitions of workunits and results,
-such as timeouts.
+This program is supplied by BOINC and is application independent.
+It handles state transitions of workunits and results.
 It generates initial results for workunits,
 and generates more results when timeouts or errors occur.
 

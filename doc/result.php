@@ -13,7 +13,7 @@ list_item(
     "A text string, unique across all results in the project."
 );
 list_item(
-    "workunit name", ""
+    "workunit name", "Identifies the associated workunit"
 );
 list_item("output files",
     "A list of the names of the output files,
@@ -41,7 +41,7 @@ list_start();
 list_item("host",
     "The host that executed the computation"
 );
-list_item("exit status", "");
+list_item("exit status", "The exit status (0 if success)");
 list_item("CPU time",
     "The CPU time that was used."
 );

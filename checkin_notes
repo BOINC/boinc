@@ -12885,3 +12885,21 @@ David  May 31 2004
             rss_main.php
             sample_index.php
             old_news.php (new)
+
+David  May 31 2004
+    - Changed BOINC news to use RSS also
+
+    doc/
+        index.php (new)
+        index.html (removed)
+        rss_main.php (new)
+
+David  May 31 2004
+    - API: do not catch HUP, INT or QUIT signals.
+        This must be allowed to kill the application,
+        so that the core client sees the app as having
+        been killed externally, and puts it in limbo
+        (rather than seeing it as having quit with an error)
+
+    lib/
+        diagnostics.C

@@ -68,8 +68,7 @@ function list_end() {
 }
 
 function html_text($x) {
-    return "<pre>".htmlspecialchars($x)."
-        </pre>
+    return "<pre>".htmlspecialchars($x)."</pre>
     ";
 }
 ?>

@@ -54,7 +54,7 @@ details.
   <tr><td><code>boinc/sched/</code></td><td> <a href=tool_start.php><code>start</code></a> </td> <td>
       BOINC start / Super Cron program
   </td></tr>
-  <tr><td><code>boinc/tools/</code></td><td> <a href=tool_add.php><code>add</code></a> </td> <td>
+  <tr><td><code>boinc/tools/</code></td><td> <a href=tool_xadd.php><code>add</code></a> </td> <td>
       Adds objects to the database.
       TODO: document
   </td></tr>

@@ -4,7 +4,7 @@
 
 echo "
 <b>xadd</b> adds records to the BOINC database.
-Information is taken from an XML file,
+Information is read from an XML file,
 <b>project.xml</b>.
 This file should be in the project's root directory.
 

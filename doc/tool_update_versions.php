@@ -3,13 +3,12 @@ require_once("docutil.php");
 page_head("update_versions");
 echo "
 
-<h3>Releasing application versions</h3>
+<h2>Releasing application versions</h2>
 
-<code>update_versions</code>
+The <code>update_versions</code> script
 releases new application versions.
 It makes the needed database entries and copies files
-to the download directory,
-from where they will be distributed to participants.
+to the download directory.
 <p>
 To use:
 <ul>
@@ -19,13 +18,9 @@ Add an ", htmlspecialchars("<app_dir>"),
 <li> Create a subdirectory for each application,
 with the same name as the application.
 Put new application versions here.
-</ul>
-<p>
 <code>update_versions</code>
-scans these directories for new core client and application versions,
-copies them to the download directory,
-and updates the database as appropriate.
-
+scans these directories for new application versions.
+</ul>
 <p>
 
 File names must be of the form <code>NAME_VERSION_PLATFORM[.ext]</code>, e.g.:
@@ -48,7 +43,7 @@ The executable file with the lexicographically first name
 will be treated as the main program.
 
 
-<h3>Releasing core client versions</h3>
+<h2>Releasing core client versions</h2>
 
 The same mechanism is used to release core client versions:
 Create a subdirectory 'boinc' in the apps directory,

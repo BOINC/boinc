@@ -20,6 +20,7 @@ BOINC's abstractions of data and computation.
 <li><a href=result.php>Results</a>
 <li><a href=redundancy.php>Redundancy and errors</a>
 <li><a href=homogeneous_redundancy.php>Homogeneous redundancy</a>
+<li><a href=work_distribution.php>Work distribution</a>
 <li><a href=trickle.php>Trickle messages</a>
 <!--
 <li><a href=batch.php>Batches</a>
