@@ -59,6 +59,7 @@ SHOW_SHMEM_OBJS = \
 
 FILE_UPLOAD_OBJS = \
     file_upload_handler.o \
+    sched_util.o \
     config.o \
     ../lib/crypt.o \
     ../lib/util.o \
