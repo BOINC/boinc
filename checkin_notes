@@ -15913,6 +15913,34 @@ Brian  5 Aug 2004
       not been fully implimented on the core client
     - Uploaded a tool that sends a request for a host to delete a local file
 
+    client/
+	Makefile.am
+	gui_titles.h
+	scheduler_op.C
+	scheduler_op.h
+	main.C
+	gui_titles.C
+	file_names.h
+	cs_statefile.C
+	cs_scheduler.C
+	cs_files.C
+	client_types.h
+	client_types.C
+	client_state.h
+	client_state.C
+	cs_apps.C
+	cs_data.C (new file)
+    sched/
+	server_types.h
+	server_types.C
+	handle_request.C
+	sched_send.C
+	delete_file.C
+	get_file.C
+	request_file_list.C
+	send_file.C
+	Makefile.am
+
 Rom    5 Aug 2004
     - Possible fix for segfaults on Linux platforms with the scheduler.
 
