@@ -15566,5 +15566,6 @@ Noaa 	21 July 2004
 		x_opengl.C
 		boinc_gl.h
 		gutil.C
+		Makefile.graphics (new)
 
 	boincglut/ (new)
