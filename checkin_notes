@@ -23882,3 +23882,14 @@ Rom    2 Feb 2005
     /
         configure.ac
         Makefile.am
+
+Rom    3 Feb 2005
+    - Bug Fix: On machines older than Windows 2000 don't attempt to use memory
+        mapped files as an IPC mechinism for trapping when the last keyboard
+        or mouse input has happened.  It's just easier to use the DLL shared
+        memory segment, and keeps us from crashing due to the fact that the
+        init function isn't called before the hook functions in external 
+        processes.
+
+    client/win/
+        win_idle_tracker.cpp

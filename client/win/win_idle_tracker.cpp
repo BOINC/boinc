@@ -54,6 +54,7 @@ HHOOK 	g_hHkKeyboard = NULL;	// handle to the keyboard hook
 HHOOK 	g_hHkMouse = NULL;	    // handle to the mouse hook
 LONG	g_mouseLocX = -1;	    // x-location of mouse position
 LONG	g_mouseLocY = -1;	    // y-location of mouse position
+DWORD	g_dwLastTick = 0;       // tick time of last input event
 #pragma data_seg()
 #pragma comment(linker, "/section:.IdleTrac,rws")
 
@@ -227,7 +228,7 @@ LRESULT CALLBACK KeyboardTracker(int code, WPARAM wParam, LPARAM lParam)
 {
 	if (code==HC_ACTION)
     {
-		g_pSystemWideIdleData->dwLastTick = GetTickCount();
+		g_dwLastTick = GetTickCount();
 	}
 	return ::CallNextHookEx(g_hHkKeyboard, code, wParam, lParam);
 }
@@ -245,7 +246,7 @@ LRESULT CALLBACK MouseTracker(int code, WPARAM wParam, LPARAM lParam)
 		{
 			g_mouseLocX = pStruct->pt.x;
 			g_mouseLocY = pStruct->pt.y;
-			g_pSystemWideIdleData->dwLastTick = GetTickCount();
+			g_dwLastTick = GetTickCount();
 		}
 	}
 	return ::CallNextHookEx(g_hHkMouse, code, wParam, lParam);
@@ -257,6 +258,7 @@ LRESULT CALLBACK MouseTracker(int code, WPARAM wParam, LPARAM lParam)
 __declspec(dllexport) DWORD IdleTrackerGetIdleTickCount()
 {
     DWORD dwCurrentTickCount = GetTickCount();
+    DWORD dwLastTickCount = 0;
 
     if ( g_bIsWindows2000Compatible )
     {
@@ -278,9 +280,15 @@ __declspec(dllexport) DWORD IdleTrackerGetIdleTickCount()
 
         if ( lii.dwTime > g_pSystemWideIdleData->dwLastTick )
             g_pSystemWideIdleData->dwLastTick = lii.dwTime;
+
+        dwLastTickCount = g_pSystemWideIdleData->dwLastTick;
+    }
+    else
+    {
+        dwLastTickCount = g_dwLastTick;
     }
 
-	return (dwCurrentTickCount - g_pSystemWideIdleData->dwLastTick);
+	return (dwCurrentTickCount - dwLastTickCount);
 }
 
 /**
@@ -293,7 +301,12 @@ __declspec(dllexport) BOOL IdleTrackerInit()
  	SECURITY_ATTRIBUTES	sec_attr;
  	SECURITY_DESCRIPTOR sd;
 
-    if ( !IsWindows2000Compatible() )
+
+    g_bIsWindows2000Compatible = IsWindows2000Compatible();
+    g_bIsTerminalServicesEnabled = IsTerminalServicesEnabled();
+
+        
+    if ( !g_bIsWindows2000Compatible )
     {
         if ( NULL == g_hHkKeyboard )
         {
@@ -312,75 +325,72 @@ __declspec(dllexport) BOOL IdleTrackerInit()
         g_hUser32 = LoadLibrary("user32.dll");            
         if (g_hUser32)
             g_fnGetLastInputInfo = (GETLASTINPUTINFO)GetProcAddress(g_hUser32, "GetLastInputInfo");
+
+
+ 	    /*
+ 	    * Create a security descriptor that will allow
+ 	    * everyone full access.
+ 	    */
+ 	    InitializeSecurityDescriptor( &sd, SECURITY_DESCRIPTOR_REVISION );
+ 	    SetSecurityDescriptorDacl( &sd, TRUE, NULL, FALSE );
+
+ 	    sec_attr.nLength = sizeof(sec_attr);
+ 	    sec_attr.bInheritHandle = TRUE;
+ 	    sec_attr.lpSecurityDescriptor = &sd;
+
+ 	    /*
+	    * Create a filemap object that is global for everyone,
+ 	    * including users logged in via terminal services.
+ 	    */
+ 	    if( g_bIsTerminalServicesEnabled )
+ 	    {
+ 		    g_hMemoryMappedData = 
+                CreateFileMapping(
+                    INVALID_HANDLE_VALUE,
+ 				    &sec_attr,
+ 				    PAGE_READWRITE,
+ 				    0,
+ 				    4096,
+ 				    "Global\\BoincIdleTracker"
+                );
+ 	    }
+ 	    else
+ 	    {
+ 		    g_hMemoryMappedData = 
+                CreateFileMapping(
+                    INVALID_HANDLE_VALUE,
+ 				    &sec_attr,
+ 				    PAGE_READWRITE,
+ 				    0,
+ 				    4096,
+ 				    "BoincIdleTracker"
+                );
+ 	    }
+	    _ASSERT( g_hMemoryMappedData );
+
+ 	    if( NULL != g_hMemoryMappedData )
+ 	    {
+ 		    if( ERROR_ALREADY_EXISTS == GetLastError() )
+ 			    bExists = TRUE;
+
+            g_pSystemWideIdleData = (struct SystemWideIdleData*) 
+                MapViewOfFile(
+                    g_hMemoryMappedData, 
+                    FILE_MAP_ALL_ACCESS,
+ 				    0,
+                    0,
+                    0
+                );
+
+            _ASSERT( g_pSystemWideIdleData );
+        }
+
+ 	    if( !bExists )
+ 	    {
+ 		    g_pSystemWideIdleData->dwLastTick = GetTickCount();
+ 	    }
     }
 
-
-    g_bIsWindows2000Compatible = IsWindows2000Compatible();
-    g_bIsTerminalServicesEnabled = IsTerminalServicesEnabled();
-
-
- 	/*
- 	 * Create a security descriptor that will allow
- 	 * everyone full access.
- 	 */
- 	InitializeSecurityDescriptor( &sd, SECURITY_DESCRIPTOR_REVISION );
- 	SetSecurityDescriptorDacl( &sd, TRUE, NULL, FALSE );
-
- 	sec_attr.nLength = sizeof(sec_attr);
- 	sec_attr.bInheritHandle = TRUE;
- 	sec_attr.lpSecurityDescriptor = &sd;
-
- 	/*
-	 * Create a filemap object that is global for everyone,
- 	 * including users logged in via terminal services.
- 	 */
- 	if( g_bIsTerminalServicesEnabled )
- 	{
- 		g_hMemoryMappedData = 
-            CreateFileMapping(
-                INVALID_HANDLE_VALUE,
- 				&sec_attr,
- 				PAGE_READWRITE,
- 				0,
- 				4096,
- 				"Global\\BoincIdleTracker"
-            );
- 	}
- 	else
- 	{
- 		g_hMemoryMappedData = 
-            CreateFileMapping(
-                INVALID_HANDLE_VALUE,
- 				&sec_attr,
- 				PAGE_READWRITE,
- 				0,
- 				4096,
- 				"BoincIdleTracker"
-            );
- 	}
-	_ASSERT( g_hMemoryMappedData );
-
- 	if( NULL != g_hMemoryMappedData )
- 	{
- 		if( ERROR_ALREADY_EXISTS == GetLastError() )
- 			bExists = TRUE;
-
-        g_pSystemWideIdleData = (struct SystemWideIdleData*) 
-            MapViewOfFile(
-                g_hMemoryMappedData, 
-                FILE_MAP_ALL_ACCESS,
- 				0,
-                0,
-                0
-            );
-
-        _ASSERT( g_pSystemWideIdleData );
-    }
-
- 	if( !bExists )
- 	{
- 		g_pSystemWideIdleData->dwLastTick = GetTickCount();
- 	}
 
     if ( !g_bIsWindows2000Compatible )
     {
@@ -423,15 +433,15 @@ __declspec(dllexport) void IdleTrackerTerm()
     }
     else
     {
+        if( NULL != g_pSystemWideIdleData )
+ 	    {
+ 		    UnmapViewOfFile(g_pSystemWideIdleData);
+ 		    CloseHandle(g_hMemoryMappedData);
+ 	    }
+
         if ( NULL != g_hUser32 )
             FreeLibrary(g_hUser32);
     }
-
- 	if( NULL != g_pSystemWideIdleData )
- 	{
- 		UnmapViewOfFile(g_pSystemWideIdleData);
- 		CloseHandle(g_hMemoryMappedData);
- 	}
 }
 
 /**
