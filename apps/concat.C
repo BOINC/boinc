@@ -77,7 +77,7 @@ void file_append(FILE* in, MFILE &out, int skip, int filenum) {
             boinc_checkpoint_completed();
         }
 
-        if (run_slow) sleep(1);
+        if (run_slow) boinc_sleep(1);
     }
 }
 
