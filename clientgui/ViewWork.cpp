@@ -207,6 +207,7 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     wxInt32  iProjectIndex  = 0; 
     wxString strProjectURL  = wxEmptyString;
     wxString strResultName  = wxEmptyString;
+    wxString strMachineName = wxEmptyString;
     wxString strMessage     = wxEmptyString;
     CMainDocument* pDoc     = wxGetApp().GetDocument();
 
@@ -236,11 +237,29 @@ void CViewWork::OnTaskLinkClicked( const wxHtmlLinkInfo& link )
     else if ( link.GetHref() == LINK_TASKSHOWGRAPHICS )
     {
         iProjectIndex = m_pListPane->GetFirstSelected();
+        pDoc->GetConnectedComputerName( strMachineName );
 
-        pDoc->WorkShowGraphics(
-            iProjectIndex,
-            false
-        );
+        if ( !strMachineName.empty() )
+        {
+            iAnswer = wxMessageBox(
+                _("Are you sure you wish to display graphics on a remote machine?"),
+                _("Show Graphics"),
+                wxYES_NO | wxICON_QUESTION, 
+                this
+            );
+        }
+        else
+        {
+            iAnswer = wxYES;
+        }
+
+        if ( wxYES == iAnswer )
+        {
+            pDoc->WorkShowGraphics(
+                iProjectIndex,
+                false
+            );
+        }
     }
     else if ( link.GetHref() == LINK_TASKABORT )
     {
@@ -317,7 +336,7 @@ void CViewWork::OnTaskCellMouseHover( wxHtmlCell* cell, wxCoord x, wxCoord y )
 void CViewWork::UpdateSelection()
 {
     CMainDocument* pDoc = wxGetApp().GetDocument();
-    wxInt32        iSelectedRow = -1;
+    wxInt32        iSelectedRow   = -1;
 
     wxASSERT(NULL != pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -344,6 +363,7 @@ void CViewWork::UpdateSelection()
     else
     {
         iSelectedRow = m_pListPane->GetFirstSelected();
+
         m_bTaskHeaderHidden = false;
         if ( pDoc->IsWorkSuspended( iSelectedRow ) )
         {
@@ -355,7 +375,7 @@ void CViewWork::UpdateSelection()
             m_bTaskSuspendHidden = false;
             m_bTaskResumeHidden = true;
         }
-        if ( pDoc->IsWorkGraphicsSupported( iSelectedRow ) )
+        if ( pDoc->IsWorkGraphicsSupported( iSelectedRow ) && !pDoc->IsWorkSuspended( iSelectedRow ) )
             m_bTaskShowGraphicsHidden = false;
         else
             m_bTaskShowGraphicsHidden = true;
