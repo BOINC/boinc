@@ -190,6 +190,12 @@ function exit_status_string($result) {
 }
 
 function show_result_summary() {
+
+    $ntotal =0;     // TODO: how to count $result?
+    $nvalid = 0;    // for SUCCESS results
+    $ninvalid = 0;
+    $nfile_deleted = 0;
+
     $server_state = array();
     $outcome = array();
     $client_state = array();
@@ -207,41 +213,75 @@ function show_result_summary() {
     $_GET['table'] = 'result';
     $_GET['sort_by'] = ''; // ignore sort
 
+    $query_appid = $_GET['appid'];
+    $query_received_time = time() - $_GET['nsecs'];
+
     $q = new SqlQueryString();
     $q->process_form_items();
 
-    $main_query = $q->get_select_query(0,0);
+    $main_query = "
+SELECT COUNT(id) AS nTotal,
+       SUM(case when server_state = '1' then 1 else 0 end) AS serverstate_inactive,
+       SUM(case when server_state = '2' then 1 else 0 end) AS serverstate_unset,
+       SUM(case when server_state = '3' then 1 else 0 end) AS serverstate_unset_seq,
+       SUM(case when server_state = '4' then 1 else 0 end) AS serverstate_inprogress,
+       SUM(case when server_state = '5' then 1 else 0 end) AS serverstate_over,
+       SUM(case when server_state = '5' and outcome = '0' then 1 else 0 end) AS outcome_init,
+       SUM(case when server_state = '5' and outcome = '1' then 1 else 0 end) AS outcome_success,
+       SUM(case when server_state = '5' and outcome = '2' then 1 else 0 end) AS outcome_couldntsend,
+       SUM(case when server_state = '5' and outcome = '3' then 1 else 0 end) AS outcome_failure,
+       SUM(case when server_state = '5' and outcome = '4' then 1 else 0 end) AS outcome_noreply,
+       SUM(case when server_state = '5' and outcome = '5' then 1 else 0 end) AS outcome_didntneed,
+       SUM(case when server_state = '5' and outcome = '1' and validate_state = '0' then 1 else 0 end) AS validate_init,
+       SUM(case when server_state = '5' and outcome = '1' and validate_state = '1' then 1 else 0 end) AS validate_valid,
+       SUM(case when server_state = '5' and outcome = '1' and validate_state = '2' then 1 else 0 end) AS validate_invalid,
+       SUM(case when server_state = '5' and outcome = '1' and validate_state = '3' then 1 else 0 end) AS validate_nocheck,
+       SUM(case when server_state = '5' and outcome = '1' and file_delete_state = '0' then 1 else 0 end) AS filedeletestate_init,
+       SUM(case when server_state = '5' and outcome = '1' and file_delete_state = '1' then 1 else 0 end) AS filedeletestate_ready,
+       SUM(case when server_state = '5' and outcome = '1' and file_delete_state = '2' then 1 else 0 end) AS filedeletestate_done,
+       SUM(case when server_state = '5' and outcome = '3' and client_state = '0' then 1 else 0 end) AS clientstate_init,
+       SUM(case when server_state = '5' and outcome = '3' and client_state = '1' then 1 else 0 end) AS clientstate_downloading,
+       SUM(case when server_state = '5' and outcome = '3' and client_state = '2' then 1 else 0 end) AS clientstate_downloaded,
+       SUM(case when server_state = '5' and outcome = '3' and client_state = '3' then 1 else 0 end) AS clientstate_computedone,
+       SUM(case when server_state = '5' and outcome = '3' and client_state = '4' then 1 else 0 end) AS clientstate_uploading,
+       SUM(case when server_state = '5' and outcome = '3' and client_state = '5' then 1 else 0 end) AS clientstate_uploaded
+FROM   result
+WHERE  
+       appid='$query_appid' and
+       received_time > '$query_received_time';
+";
+
     $urlquery = $q->urlquery;
-    echo "<p>Query: <b>$main_query</b><p>\n";
     $result = mysql_query($main_query);
-    $ntotal =0; // TODO: how to count $result?
 
-    $nvalid = 0;    // for SUCCESS results
-    $ninvalid = 0;
-    $nfile_deleted = 0;
+    if ($res = mysql_fetch_object($result)) {
+        $ntotal          = $res->nTotal;
 
-    while ($res = mysql_fetch_object($result)) {
-        $server_state[$res->server_state] += 1;
-        $ntotal  += 1;
-        if ($res->server_state == 5) {
-            $outcome[$res->outcome] += 1;
-            if ($res->outcome == 3) {
-                $client_state[$res->client_state] += 1;
-            }
-            if ($res->outcome == 1) {
-                if ($res->validate_state == 1) {
-                    $nvalid += 1;
-                }
-                if ($res->validate_state == 2) {
-                    $ninvalid += 1;
-                }
-                if ($res->file_delete_state >= 1) {
-                    $nfile_deleted +=1;
-                }
-            }
-        }
+        $server_state[1] = $res->serverstate_inactive;
+        $server_state[2] = $res->serverstate_unset;
+        $server_state[3] = $res->serverstate_unset_seq;
+        $server_state[4] = $res->serverstate_inprogress;
+        $server_state[5] = $res->serverstate_over;
+
+        $outcome[1]      = $res->outcome_success;
+        $outcome[2]      = $res->outcome_couldntsend;
+        $outcome[3]      = $res->outcome_failure;
+        $outcome[4]      = $res->outcome_noreply;
+        $outcome[5]      = $res->outcome_didntneed;
+
+        $client_state[1] = $res->clientstate_downloading;
+        $client_state[2] = $res->clientstate_downloaded;
+        $client_state[3] = $res->clientstate_computedone;
+        $client_state[4] = $res->clientstate_uploading;
+        $client_state[5] = $res->clientstate_uploaded;
+
+        $nvalid          = $res->validate_valid;
+        $ninvalid        = $res->validate_invalid;
+
+        $nfile_deleted   = $res->filedeletestate_ready + $res->filedeletestate_done;
     }
     mysql_free_result($result);
+
 
     echo "<table>";
     echo "<tr valign=top>";

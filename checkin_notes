@@ -12011,4 +12011,12 @@ Rom    May 4 2004
 
     html/inc/
         db_ops.inc
+
+Rom    May 4 2004
+     - Use a more optimized query for the results summary page, load times go from
+       8-10 seconds to 1-2 seconds
+     - Fix client_version_num bug after field was renamed to app_version_num
+
+    html/inc/
+        db_ops.inc
     
