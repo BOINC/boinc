@@ -79,7 +79,7 @@ class DB_BASE {
 public:
     DB_BASE(char *table_name, DB_CONN*);
     int insert();
-    int insert_batch(const char*);
+    int insert_batch(std::string&);
     int update();
     int update_field(char*);
     int delete_from_db();

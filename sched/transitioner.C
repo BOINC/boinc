@@ -322,7 +322,7 @@ int handle_wu(
             }
 #ifdef BATCH_INSERT
             DB_RESULT r;
-            retval = r.insert_batch(values.c_str());
+            retval = r.insert_batch(values);
             if (retval) {
                 log_messages.printf(
                     SCHED_MSG_LOG::CRITICAL,

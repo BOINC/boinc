@@ -22454,3 +22454,12 @@ David  9 Jan 2005
 Rom    9 Jan 2005 (boinc)
     - Tag for 4.58 release, all platforms
       boinc_core_release_4_58
+
+David  9 Jan 2005
+    - fix a buffer overrun problem by using std::string
+        in DB_BASE::insert_batch()
+
+    db/
+        db_base.C,h
+    sched/
+        transitioner.C

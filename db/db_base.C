@@ -88,10 +88,10 @@ int DB_BASE::insert() {
     return db->do_query(query);
 }
 
-int DB_BASE::insert_batch(const char* values) {
-    char query[MAX_QUERY_LEN];
-    sprintf(query, "insert into %s values %s", table_name, values);
-    return db->do_query(query);
+int DB_BASE::insert_batch(std::string& values) {
+    std::string query;
+    query = "insert into " + std::string(table_name) + " values " + values;
+    return db->do_query((char*)query.c_str());
 }
 
 // update an entire record
