@@ -1,8 +1,8 @@
 <?php
     // show summary of a workunit
 
-    require_once("db.inc");
-    require_once("result.inc");
+    require_once("../inc/db.inc");
+    require_once("../inc/result.inc");
 
     db_init();
     $wuid = $_GET["wuid"];

@@ -1,7 +1,7 @@
 <?php
 
-require_once("forum.inc");
-require_once("../time.inc");
+require_once("../inc/forum.inc");
+require_once("../inc/time.inc");
 
 $search_string = $_GET['search_string'];
 $offset = $_GET['offset'];

@@ -1,8 +1,8 @@
 <?php
 
-include_once("db.inc");
-include_once("util.inc");
-include_once("prefs.inc");
+include_once("../inc/db.inc");
+include_once("../inc/util.inc");
+include_once("../inc/prefs.inc");
 
 $authenticator = init_session();
 db_init();

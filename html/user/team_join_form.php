@@ -1,8 +1,8 @@
 <?php
 
-require_once("db.inc");
-require_once("util.inc");
-require_once("team.inc");
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
+require_once("../inc/team.inc");
 
 db_init();
 $user = get_logged_in_user();

@@ -1,8 +1,8 @@
 <?php
 
-require_once("db.inc");
-require_once("util.inc");
-require_once("download.inc");
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
+require_once("../inc/download.inc");
 
 db_init();
 $user = get_logged_in_user();

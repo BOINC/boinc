@@ -1,6 +1,6 @@
 <?
-    require_once("util_ops.inc");
-    require_once("../html_user/util.inc");
+    require_once("../inc/util_ops.inc");
+    require_once("../inc/util.inc");
 
     db_init();
     $email_addr = trim($_GET["email_addr"]);

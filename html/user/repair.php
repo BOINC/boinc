@@ -1,5 +1,5 @@
 <?php
-    require_once("db.inc");
+    require_once("../inc/db.inc");
 
     $retval = db_init();
     set_time_limit(10000);

@@ -1,7 +1,7 @@
 <?
 // use this to create accounts while regular account creation is disabled
 
-require_once("util_ops.inc");
+require_once("../inc/util_ops.inc");
 
 echo "
     <h2>Create ".PROJECT." account</h2>

@@ -1,7 +1,7 @@
 <?php
 
-require_once('forum.inc');
-require_once('../util.inc');
+require_once('../inc/forum.inc');
+require_once('../inc/util.inc');
 
 if ($_POST['submit']) {    
     

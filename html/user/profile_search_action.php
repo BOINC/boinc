@@ -1,7 +1,7 @@
 <?php
 
-require_once("db.inc");
-require_once("util.inc");
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
 
 function show_profile($profile, $n) {
     $user = lookup_user_id($profile->userid);

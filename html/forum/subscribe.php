@@ -1,6 +1,6 @@
 <?php
-require_once('subscribe.inc');
-require_once('../util.inc');
+require_once('../inc/subscribe.inc');
+require_once('../inc/util.inc');
 
 db_init('../');
 
@@ -27,3 +27,4 @@ if ($thread && $action) {
 }
 
 ?>
+

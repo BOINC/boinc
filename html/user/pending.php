@@ -1,6 +1,6 @@
 <?php
-    require_once("util.inc");
-    require_once("db.inc");
+    require_once("../inc/util.inc");
+    require_once("../inc/db.inc");
 
     // show results with pending credit for this user
 

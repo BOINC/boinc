@@ -1,8 +1,8 @@
 <?php
 
-require_once('forum.inc');
-require_once('../util.inc');
-require_once('../time.inc');
+require_once('../inc/forum.inc');
+require_once('../inc/util.inc');
+require_once('../inc/time.inc');
 
 // Number of forum topics per page.
 // TODO: Make this a constant.

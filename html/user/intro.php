@@ -1,7 +1,7 @@
 <?php
 
-require_once("db.inc");
-require_once("util.inc");
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
 page_head("Getting started");
 
 echo "

@@ -1,7 +1,7 @@
 <?php
 
-require_once("db.inc");
-require_once("util.inc");
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
 
 function nresults($app, $state) {
     $r = mysql_query("select count(*) as nresults from result where appid=$app->id and server_state=$state");

@@ -1,7 +1,7 @@
 <?php
-    require_once("db.inc");
-    require_once("util.inc");
-    require_once("host.inc");
+    require_once("../inc/db.inc");
+    require_once("../inc/util.inc");
+    require_once("../inc/host.inc");
 
     $n = 10;
     $offset = $_GET["offset"];

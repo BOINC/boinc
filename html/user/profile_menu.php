@@ -1,10 +1,8 @@
 <?php
 
-require_once("db.inc");
-require_once("util.inc");
-require_once("project_specific/project.inc");
-require_once("profile.inc");
-
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
+require_once("../inc/profile.inc");
 
 db_init();
 

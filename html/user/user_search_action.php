@@ -1,7 +1,7 @@
 <?php
 
-require_once("db.inc");
-require_once("util.inc");
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
 
 function show_user($user, $n) {
     echo "<br>". user_links($user)."\n";

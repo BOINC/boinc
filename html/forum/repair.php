@@ -1,7 +1,7 @@
 <?php
-    require_once("../db.inc");
+    require_once("../inc/db.inc");
 
-    db_init("../");
+    db_init();
 
 function update_thread_timestamps() {
     $result = mysql_query("select * from thread");

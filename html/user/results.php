@@ -1,9 +1,9 @@
 <?php
     // show recent results for a host or user
 
-    require_once("db.inc");
-    require_once("util.inc");
-    require_once("result.inc");
+    require_once("../inc/db.inc");
+    require_once("../inc/util.inc");
+    require_once("../inc/result.inc");
 
     $results_per_page = 20;
 

@@ -1,7 +1,7 @@
 <?php
-    require_once("db.inc");
-    require_once("util.inc");
-    require_once("project_specific/project.inc");
+    require_once("../inc/db.inc");
+    require_once("../inc/util.inc");
+    require_once("../project/project.inc");
 
     // don't want to use DB here, because master page won't be visible
     // if DB is down

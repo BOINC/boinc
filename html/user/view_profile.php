@@ -1,6 +1,6 @@
 <?php
  
-require_once("profile.inc");
+require_once("../inc/profile.inc");
 
 $userid = $_GET['userid'];
 

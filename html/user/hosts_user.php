@@ -2,9 +2,9 @@
     // show all the hosts for a user.
     // if $userid is absent, show hosts of logged-in user
 
-    require_once("db.inc");
-    require_once("util.inc");
-    require_once("host.inc");
+    require_once("../inc/db.inc");
+    require_once("../inc/util.inc");
+    require_once("../inc/host.inc");
 
     db_init();
     $userid = $_GET["userid"];

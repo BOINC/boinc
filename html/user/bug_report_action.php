@@ -1,7 +1,7 @@
 <?php
 
-include_once("db.inc");
-include_once("util.inc");
+include_once("../inc/db.inc");
+include_once("../inc/util.inc");
 
     db_init();
 

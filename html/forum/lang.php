@@ -1,7 +1,7 @@
 <?php
 
-require_once('forum.inc');
-require_once('../util.inc');
+require_once('../inc/forum.inc');
+require_once('../inc/util.inc');
 
 if (array_key_exists('id', $_GET) && $_GET['id'] > 0) {
 	$lang = getLanguage($_GET['id']);

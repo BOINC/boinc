@@ -1,8 +1,8 @@
 <?php
 
-require_once("db.inc");
-require_once("util.inc");
-require_once("download.inc");
+require_once("../inc/db.inc");
+require_once("../inc/util.inc");
+require_once("../inc/download.inc");
 
     init_session();
     db_init();
@@ -21,12 +21,19 @@ require_once("download.inc");
             If you're a returning ".PROJECT." user:
         ";
     }
-    echo "Select your computer type:<p>\n";
+    echo "
+        <h2>Download BOINC software</h2>
+        Select your computer type:<p>\n
+    ";
     print_download_links();
     echo "
         <p>
         Instructions for installing and running BOINC are
         <a href=http://boinc.berkeley.edu/client.php>here</a>.
+        <p>
+        If your computer is not one of the above types,
+        you can
+        <a href=http://boinc.berkeley.edu/anonymous_platform.php>download and compile the BOINC software yourself</a>.
         <p>
         BOINC can be customized for
         <a href=http://boinc.berkeley.edu/language.php>languages other than English</a>

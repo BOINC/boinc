@@ -1,9 +1,9 @@
 <?php
 
-require_once('forum.inc');
-require_once('../util.inc');
+require_once('../inc/forum.inc');
+require_once('../inc/util.inc');
 
-require_once('subscribe.inc');
+require_once('../inc/subscribe.inc');
 
 if (!empty($_GET['id']) && !empty($_POST['title']) && !empty($_POST['content'])) {
 	$_GET['id'] = stripslashes(strip_tags($_GET['id']));

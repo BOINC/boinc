@@ -1,9 +1,7 @@
 <?php
-require_once('../util.inc');
-require_once('../time.inc');
-require_once('forum.inc');
-
-db_init('../');
+require_once('../inc/util.inc');
+require_once('../inc/time.inc');
+require_once('../inc/forum.inc');
 
 $userid = $_GET['userid'];
 $offset = $_GET['offset'];

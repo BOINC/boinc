@@ -1,6 +1,6 @@
 <?php
-require_once('db.inc');
-require_once('util.inc');
+require_once('../inc/db.inc');
+require_once('../inc/util.inc');
 db_init();
 
 page_head('Rules and Policies');

@@ -1,5 +1,5 @@
 <?php
-require_once('../html_user/profile.inc');
+require_once('../inc/profile.inc');
 
 define("ACCEPT", "Accept");
 define("REJECT", "Reject");

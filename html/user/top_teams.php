@@ -1,9 +1,9 @@
 <?php {
 
-    require_once("db.inc");
-    require_once("util.inc");
-    require_once("user.inc");
-    require_once("team.inc");
+    require_once("../inc/db.inc");
+    require_once("../inc/util.inc");
+    require_once("../inc/user.inc");
+    require_once("../inc/team.inc");
 
     db_init();
 

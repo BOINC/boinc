@@ -2,9 +2,9 @@
 
 <?php
 
-require_once("../html_user/db.inc");
-require_once("gallery.inc");
-require_once("../html_user/profile.inc");
+require_once("../inc/db.inc");
+require_once("../inc/gallery.inc");
+require_once("../inc/profile.inc");
 
 db_init();
 

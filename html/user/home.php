@@ -1,7 +1,7 @@
 <?php
-    require_once("util.inc");
-    require_once("user.inc");
-    require_once("db.inc");
+    require_once("../inc/util.inc");
+    require_once("../inc/user.inc");
+    require_once("../inc/db.inc");
 
     // show the home page of whoever's logged in
 

@@ -1,9 +1,9 @@
 <?php
     // show a result
 
-    require_once("db.inc");
-    require_once("util.inc");
-    require_once("result.inc");
+    require_once("../inc/db.inc");
+    require_once("../inc/util.inc");
+    require_once("../inc/result.inc");
 
     db_init();
     $resultid = $_GET["resultid"];

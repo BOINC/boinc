@@ -1,7 +1,7 @@
 <?php
-    require_once("db.inc");
-    require_once("util.inc");
-    require_once("prefs.inc");
+    require_once("../inc/db.inc");
+    require_once("../inc/util.inc");
+    require_once("../inc/prefs.inc");
 
     db_init();
 
