@@ -108,11 +108,20 @@ function verbose_XPassThru($cmd, $failok=0)
     return XPassThru($cmd, $failok);
 }
 
+function proxerize($s, $t)
+{
+    if ($t) {
+        return preg_replace(",http://[^/]*/,", "http://localhost:8080/", $s);
+    } else {
+        return $s;
+    }
+}
+
 define("KEY_DIR"      , get_env_var("BOINC_KEY_DIR"));
 define("SHMEM_KEY"    , get_env_var("BOINC_SHMEM_KEY"));
 define("PROJECTS_DIR" , get_env_var("BOINC_PROJECTS_DIR"));
-define("CGI_URL"      , get_env_var("BOINC_CGI_URL"));
-define("HTML_URL"     , get_env_var("BOINC_HTML_URL"));
+define("CGI_URL"      , proxerize(get_env_var("BOINC_CGI_URL"), $use_proxy_cgi));
+define("HTML_URL"     , proxerize(get_env_var("BOINC_HTML_URL"), $use_proxy_html));
 define("USER_NAME"    , get_env_var("BOINC_USER_NAME", get_env_var("USER","")));
 define("CGI_DIR"      , get_env_var("BOINC_CGI_DIR"));
 define("HTML_DIR"     , get_env_var("BOINC_HTML_DIR"));
@@ -927,6 +936,7 @@ class Host {
     // get_new_boincpid() must be called and kill() must be called on it.
     //
     function run_asynch($args) {
+        // TODO: just use shell & to background?
         $pid = pcntl_fork();
         if ($pid == -1) {
             return -1;
@@ -935,9 +945,11 @@ class Host {
         } else { //we are the child
             verbose_echo(1, "Running core client asynch");
             $source_dir = SRC_DIR;
-            $platform = PLATFORM;
             $exec_name = CLIENT_BIN_FILENAME;
-            XPassThru("cd $this->host_dir; $source_dir/client/$exec_name $args > client.out");
+            assert($source_dir && 1);
+            assert($exec_name && 1);
+            assert($this->host_dir && 1);
+            verbose_XPassThru("cd $this->host_dir; $source_dir/client/$exec_name $args > client.out");
             exit(0);
         }
     }
@@ -959,7 +971,10 @@ class Host {
         verbose_echo(1, "Running core client");
         $source_dir = SRC_DIR;
         $exec_name = CLIENT_BIN_FILENAME;
-        XPassThru("cd $this->host_dir; $source_dir/client/$exec_name $args > client.out", $ret);
+        assert($source_dir && 1);
+        assert($exec_name && 1);
+        assert($this->host_dir && 1);
+        verbose_XPassThru("cd $this->host_dir; $source_dir/client/$exec_name $args > client.out", $ret);
         assert ($ret == 0);
     }
 
@@ -1068,6 +1083,11 @@ class Work {
         }
         run_tool($cmd);
     }
+}
+
+function start_proxy($code)
+{
+    verbose_XPassThru("./testproxy 8080 localhost:80 '$code' 2>/dev/null &");
 }
 
 function test_msg($msg)

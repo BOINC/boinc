@@ -4689,3 +4689,14 @@ Karl    2003/06/16
 
         _autosetup
         configure.ac
+
+Karl    2003/06/16
+        Testing upload and connection failures (work in progress)
+
+        test.inc
+        test_uc.inc
+        test_uc.php
+        test_masterurl_failure.php
+        test_upload_resume.php
+        test_upload_backoff.php
+        testproxy

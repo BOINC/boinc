@@ -1,0 +1,224 @@
+#!/usr/bin/env perl
+
+# -T
+
+# $Id$
+
+# The contents of this file are subject to the Mozilla Public License
+# Version 1.0 (the "License"); you may not use this file except in
+# compliance with the License. You may obtain a copy of the License at
+# http:#www.mozilla.org/MPL/
+#
+# Software distributed under the License is distributed on an "AS IS"
+# basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+# License for the specific language governing rights and limitations
+# under the License.
+#
+# The Original Code is the Berkeley Open Infrastructure for Network Computing.
+#
+# The Initial Developer of the Original Code is the SETI@home project.
+# Portions created by the SETI@home project are Copyright (C) 2002, 2003
+# University of California at Berkeley. All Rights Reserved.
+#
+# Contributor(s):
+#
+
+# testproxy - proxy a TCP/IP connection with configurable mid-way
+#             disconnections, for simulating internet transfer failures
+
+use strict;
+use warnings;
+use Carp;
+use IO::Socket::INET;
+
+my $listen_port = shift;
+my $target_server = shift;
+my $testcode = join(' ', @ARGV);
+
+if (!$listen_port || !$target_server) {
+    print STDERR <<HELP;
+syntax: $0 <listen_port> <target_server:port> CODE...
+
+CODE is evaluated every 128 bytes transferred from server to client.
+  Some variables you can access/modify:
+      \$target, \$client  : perl IO::Handle::INET objects
+      \$nconnections      : number of connections so far
+      \$chars, \$nchars   : characters & length about to send to client.
+      \$bytes_transferred : characters already sent to client
+      \$done, \$success   : finished transfer; successful transfer
+
+      For more, view the code.
+
+  You can call functions like exit, sleep, \$target\->close, \$target\->print.
+  You should return 1 to indicate success (otherwise testproxy will warn).
+
+Examples:
+  # fail connections for first 3 connections
+  $0 8080 localhost:80 'exit 1 if \$nconnections < 4; 1'
+
+  # sleep 5 seconds in the middle of transfer, and print "success" if
+  # transfer succeeds; kill the server after the first connection
+  $0 8080 localhost:80 'sleep 5 if \$bytes_transferred == 256;
+       if (\$done) { print "success\\n" if \$success; kill_server; \$success }
+             else { 1 }'
+
+  # equivalent to above:
+  $0 8080 localhost:80 'sleep 5 if \$bytes_transferred == 256;
+       if_done_kill(); if_done_ping();'
+
+HELP
+    ;
+    exit(1);
+}
+
+if ($target_server !~ /:/) {
+    $target_server .= ':http';
+}
+
+my $N = "\015\012";
+
+sub proxy;
+sub spawn;
+sub logmsg { print STDERR "$0 $$: @_ at ", scalar localtime, "\n" }
+
+my $server = IO::Socket::INET->new(Listen    => 5,
+                                   LocalAddr => inet_ntoa(INADDR_ANY),
+                                   LocalPort => $listen_port,
+                                   Proto     => 'tcp',
+                                   ReuseAddr => 1)
+  or die "$0: creating socket on port $listen_port: $!";
+
+logmsg "server started on port $listen_port proxy to $target_server";
+
+my $waitedpid = 0;
+my $paddr;
+
+my $server_pid = $$;
+
+use POSIX ":sys_wait_h";
+sub REAPER {
+    my $child;
+    while (($waitedpid = waitpid(-1,WNOHANG)) > 0) {
+        # logmsg "reaped $waitedpid" . ($? ? " with exit $?" : '');
+    }
+    $SIG{CHLD} = \&REAPER;      # loathe sysV
+}
+
+$SIG{CHLD} = \&REAPER;
+
+my $nconnections = 0;
+
+my $client;
+
+for ( $waitedpid = 0;
+      ($client = $server->accept()) || $waitedpid;
+      $waitedpid = 0)
+{
+    next if $waitedpid and not $client;
+    die unless $client;
+    my $paddr = $client->peername();
+    my($port,$iaddr) = sockaddr_in($paddr);
+    my $name = gethostbyaddr($iaddr,AF_INET);
+
+    logmsg "connection from $name", "[", inet_ntoa($iaddr), "]:$port";
+
+    ++$nconnections;
+
+    spawn \&proxy, $client;
+}
+
+sub spawn {
+    my $coderef = shift;
+
+    unless ($coderef && ref($coderef) eq 'CODE') {
+        confess "usage: spawn CODEREF";
+    }
+
+    my $pid;
+    if (!defined($pid = fork)) {
+        logmsg "cannot fork: $!";
+        return;
+    } elsif ($pid) {
+        # logmsg "begat $pid";
+        return;                 # I'm the parent
+    }
+    # else I'm the child -- go spawn
+
+    exit &$coderef(@_);
+}
+
+sub kill_server()
+{
+    kill "INT", $server_pid;
+}
+
+my $done = 0;
+my $success = 0;
+
+sub if_done_ping()
+{
+    if ($done) {
+        if ($success) {
+            print "success\n";
+        } else {
+            print "failed\n";
+            return 0;
+        }
+    }
+    1;
+}
+
+sub if_done_kill()
+{
+    if ($done) {
+        kill_server();
+    }
+    1;
+}
+
+sub proxy {
+    my $client = shift or die;
+
+    my $target = IO::Socket::INET->new(PeerAddr => $target_server)
+      or die "$0: couldn't connect to $target_server: $!";
+
+    $client->autoflush(1);
+    $target->autoflush(1);
+
+    # transfer lines from client -> server until we get an empty line
+
+    while (my $line = $client->getline()) {
+        $target->print($line);
+        $line =~ s/[\015\012]+$//;
+        last unless $line;
+    }
+
+    # transfer from server->client
+    my $bytes_transferred = 0;
+
+    # while (my $line = $target->getline()) {
+    #     $bytes_transferred += length($line);
+    #     print "[$bytes_transferred] $line";
+    #     $client->print($line);
+    # }
+
+    $done = 0;
+    $success = 0;
+    my $chars;
+    my $nchars;
+    while ($nchars = $target->read($chars, 128)) {
+        eval $testcode || warn;
+        $bytes_transferred += $nchars;
+        $client->write($chars, $nchars);
+    }
+
+    {
+        $chars = undef; $nchars = 0;
+        $done = 1;
+        $success = $client->connected() && 1;
+        eval $testcode || warn;
+    }
+
+    $target->close();
+    $client->close();
+}
