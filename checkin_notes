@@ -4672,3 +4672,10 @@ Karl    2003/06/11
         test_time.php
         test_uc.php
         test_upload_backoff.php
+
+Eric K. 2003/06/16
+	Attempted to make the XML parser more robust by adding
+	extract_xml_record() to parse.C
+
+	parse.C
+	parse.h
