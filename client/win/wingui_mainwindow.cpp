@@ -697,34 +697,34 @@ void CMainWindow::ShowTab(int nTab)
 {
 	m_TabCtrl.SetCurSel(nTab);
 
-	// make the selected control visible, all the rest invisible
-	m_ProjectListCtrl.ModifyStyle(WS_VISIBLE, 0);
-	m_ResultListCtrl.ModifyStyle(WS_VISIBLE, 0);
-	m_XferListCtrl.ModifyStyle(WS_VISIBLE, 0);
-	m_MessageListCtrl.ModifyStyle(WS_VISIBLE, 0);
-	m_UsagePieCtrl.ModifyStyle(WS_VISIBLE, 0);
-	m_UsageBOINCPieCtrl.ModifyStyle(WS_VISIBLE, 0);
+	// hide all windows except the newly selected control
+	m_ProjectListCtrl.ShowWindow(SW_HIDE);
+	m_ResultListCtrl.ShowWindow(SW_HIDE);
+	m_XferListCtrl.ShowWindow(SW_HIDE);
+	m_MessageListCtrl.ShowWindow(SW_HIDE);
+	m_UsagePieCtrl.ShowWindow(SW_HIDE);
+	m_UsageBOINCPieCtrl.ShowWindow(SW_HIDE);
 	if(nTab == PROJECT_ID) {
-		m_ProjectListCtrl.ModifyStyle(0, WS_VISIBLE);
 		m_ProjectListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+		m_ProjectListCtrl.ShowWindow(SW_SHOW);
 	} else if(nTab == RESULT_ID) {
-		m_ResultListCtrl.ModifyStyle(0, WS_VISIBLE);
 		m_ResultListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+		m_ResultListCtrl.ShowWindow(SW_SHOW);
 	} else if(nTab == XFER_ID) {
-		m_XferListCtrl.ModifyStyle(0, WS_VISIBLE);
 		m_XferListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+		m_XferListCtrl.ShowWindow(SW_SHOW);
 	} else if(nTab == MESSAGE_ID) {
-		m_MessageListCtrl.ModifyStyle(0, WS_VISIBLE);
 		if(m_bMessage) {
 			m_bMessage = false;
 			SetStatusIcon(ICON_NORMAL);
 		}
 		m_MessageListCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+		m_MessageListCtrl.ShowWindow(SW_SHOW);
 	} else if(nTab == USAGE_ID) {
-		m_UsagePieCtrl.ModifyStyle(0, WS_VISIBLE);
 		m_UsagePieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
-		m_UsageBOINCPieCtrl.ModifyStyle(0, WS_VISIBLE);
+		m_UsagePieCtrl.ShowWindow(SW_SHOW);
 		m_UsageBOINCPieCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
+		m_UsageBOINCPieCtrl.ShowWindow(SW_SHOW);
 	}
 	m_TabCtrl.RedrawWindow(NULL, NULL, RDW_INVALIDATE|RDW_UPDATENOW|RDW_ERASE|RDW_FRAME);
 	RedrawWindow();
