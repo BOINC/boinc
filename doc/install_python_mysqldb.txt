@@ -101,7 +101,7 @@ Windows: pre-built binary
 
 Does it work?
 =============
-    You can check if your Python and/orMySQLdb was compiled and installed
+    You can check if your Python and/or MySQLdb was compiled and installed
     correctly like this:
     
     $ python
