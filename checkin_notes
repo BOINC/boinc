@@ -10354,3 +10354,10 @@ Rom    Mar 4 2004
         language.h
         parse.h
         util.h
+
+Rom    Mar 5 2004
+    - Fix profile path problem that I didn't check-in after fixing it in the alpha project
+        the first time.
+
+    html/user/
+        profile_menu.php

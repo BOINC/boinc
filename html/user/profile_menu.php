@@ -33,7 +33,7 @@ $today = getdate(time());
 $UOTD_heading = "User of the Day -- " . $today['month'] . " " . $today['mday'] . ", " . $today['year'];
 row1($UOTD_heading);
 echo "<tr><td>";
-include("user_profile/uotd.html");
+include( PROFILE_PATH . "uotd.html" );
 echo "</td></tr>";
 
 rowify("<br>");
@@ -49,7 +49,7 @@ echo "<tr><td>
     <li>Alphabetical profile listings <i></i>:<br>
 ";
 
-include "profile_alpha.html";
+include( PROFILE_PATH . "profile_alpha.html" );
 
 echo "<br></ul></td></tr>";
 
