@@ -6021,6 +6021,7 @@ Karl 2003/08/25 - 2003/09/02
         crypt.h
     py/
         boinc_db.py (added)
+        db_mid.py (added)
         database.py (added)
         Makefile.am
     
