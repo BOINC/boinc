@@ -88,7 +88,7 @@ int grant_credit(RESULT& result, double credit) {
 void handle_wu(WORKUNIT& wu) {
     RESULT result, canonical_result;
     bool match, update_result;
-    int retval, canonicalid;
+    int retval, canonicalid = 0;
     double credit;
     unsigned int i;
     char buf[256];
@@ -105,7 +105,8 @@ void handle_wu(WORKUNIT& wu) {
         retval = boinc_db_result(wu.canonical_resultid, canonical_result);
         if (retval) {
             write_log("can't read canonical result\n");
-            return;
+            // Mark this WU as validated, otherwise we'll keep checking it
+            goto mark_validated;
         }
 
         // scan this WU's results, and check the unchecked ones
@@ -217,6 +218,7 @@ void handle_wu(WORKUNIT& wu) {
         }
     }
 
+    mark_validated:
     // we've checked all results for this WU, so turn off flag
     //
     wu.need_validate = 0;
