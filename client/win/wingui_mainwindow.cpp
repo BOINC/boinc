@@ -33,7 +33,7 @@ char g_szTabItems[MAX_TABS][256] = {
 char g_szColumnTitles[MAX_LIST_ID][MAX_COLS][256] = {
         {"Project",	"Account",		"Total Credit",	"Avg. Credit",	"Resource Share",	"",					""},
         {"Project",	"Application",	"Name",			"CPU time",		"Progress",			"To Completion",	"Status"},
-        {"Project",	"File",			"Progress",		"Size",			"Time",				"Direction",		""},
+        {"Project",	"File",			"Progress",		"Size",			"Time",				"Status",		""},
         {"Project",	"Time",			"Message",		"",				"",					"",					""}
 };
 
@@ -54,8 +54,11 @@ char g_szMiscItems[MAX_MISC_STR][256] = {
 	"Acknowledged",
 	"Error: invalid state",
 	"Completed",
-	"Upload",
-	"Download"
+	"Uploading",
+	"Downloading",
+	"Retry in",
+	"Download failed",
+	"Upload failed"
 };
 
 /////////////////////////////////////////////////////////////////////////
@@ -336,8 +339,23 @@ void CMainWindow::UpdateGUI(CLIENT_STATE* pcs)
 		strBuf.Format("%0.2d:%0.2d:%0.2d", xhour, xmin, xsec);
 		m_XferListCtrl.SetItemText(i, 4, strBuf.GetBuffer(0));
 
-		// direction
-		m_XferListCtrl.SetItemText(i, 5, fi->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9]);
+		// status
+		if (fi->next_request_time > time(0)) {
+			double xtime = fi->next_request_time-time(0);
+			int xhour = (int)(xtime / (60 * 60));
+			int xmin = (int)(xtime / 60) % 60;
+			int xsec = (int)(xtime) % 60;
+			strBuf.Format("%s %0.2d:%0.2d:%0.2d", g_szMiscItems[10], xhour, xmin, xsec);
+			m_XferListCtrl.SetItemText(i, 5, strBuf);
+		} else if (fi->fip->status == ERR_GIVEUP_DOWNLOAD) {
+			strBuf.Format(g_szMiscItems[11]);
+			m_XferListCtrl.SetItemText(i, 5, strBuf);
+		} else if (fi->fip->status == ERR_GIVEUP_UPLOAD) {
+			strBuf.Format(g_szMiscItems[12]);
+			m_XferListCtrl.SetItemText(i, 5, strBuf);
+		} else {
+			m_XferListCtrl.SetItemText(i, 5, fi->fip->generated_locally?g_szMiscItems[8]:g_szMiscItems[9]);
+		}
 	}
 	m_XferListCtrl.SetRedraw(TRUE);
 

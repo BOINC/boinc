@@ -3079,3 +3079,18 @@ David  Jan 30 2003
     sched/
         db_dump.C
         handle_request.C
+
+Eric   Feb 04, 2003
+    - Cleaned up formatting of client_state.xml
+    - Added retry message to transfers tab of Windows client
+    - Added error catching for network transfer failures
+
+    client/
+        client_state.C
+        client_types.C
+        cs_files.C
+        http.C
+        pers_file_xfer.C,h
+        win/
+            wingui.h
+            wingui_mainwindow.cpp,h

@@ -363,17 +363,17 @@ int FILE_INFO::write(FILE* out, bool to_server) {
         if (file_signature) fprintf(out,"    <file_signature>\n%s</file_signature>\n", file_signature);
     }
     for (i=0; i<urls.size(); i++) {
-        fprintf(out, "<url>%s</url>\n", urls[i].text);
+        fprintf(out, "    <url>%s</url>\n", urls[i].text);
     }
     if (!to_server && pers_file_xfer) {
         pers_file_xfer->write(out);
     }
     if (!to_server) {
         if (signed_xml && xml_signature) {
-            fprintf(out, "<signed_xml>\n%s</signed_xml>\n", signed_xml);
+            fprintf(out, "    <signed_xml>\n%s    </signed_xml>\n", signed_xml);
         }
         if (xml_signature) {
-            fprintf(out, "<xml_signature>\n%s</xml_signature>\n", xml_signature);
+            fprintf(out, "    <xml_signature>\n%s    </xml_signature>\n", xml_signature);
         }
     }
     fprintf(out, "</file_info>\n");

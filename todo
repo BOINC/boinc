@@ -29,9 +29,11 @@ BUGS (arranged from high to low priority)
 - client died quickly on Mandrake 9.0 linux (unconfirmed)
 - make pie chart colors/labels easier to understand
 - need a way to refresh prefs from client
+- Client should display "Upload failed" and "Download failed" when failure occurs
 - columns expand when window expands
 - Download speed is not as fast as it should be
 - Result status should say "downloading files", "uploading files", etc.
+- Change vector removal routines to use an iterator
 
 -----------------------
 HIGH-PRIORITY (should do for beta test)

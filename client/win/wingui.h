@@ -34,6 +34,7 @@
 #include "log_flags.h"
 #include "client_state.h"
 #include "account.h"
+#include "error_numbers.h"
 #include "resource.h"
 #include "util.h"
 #include "win_net.h"

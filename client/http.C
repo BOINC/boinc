@@ -545,7 +545,13 @@ bool HTTP_OP_SET::poll() {
             }
             break;
         case HTTP_STATE_REPLY_BODY:
-            if (htp->io_done) {
+			if (htp->error) {
+				action = true;
+                if (log_flags.http_debug) printf("net_xfer returned error %d\n", htp->error);
+                htp->http_op_state = HTTP_STATE_DONE;
+                htp->http_op_retval = htp->error;
+			}
+            else if (htp->io_done) {
                 action = true;
                 switch(htp->http_op_type) {
                 case HTTP_OP_POST2:

@@ -41,15 +41,19 @@
 // For upload, try to upload the file to the first URL;
 // if that fails try the others.
 //
-int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
-    fxp = NULL;
-    fip = f;
+
+PERS_FILE_XFER::PERS_FILE_XFER() {
     nretry = 0;
     first_request_time = time(0);
     next_request_time = first_request_time;
+}
+
+int PERS_FILE_XFER::init(FILE_INFO* f, bool is_file_upload) {
+    fxp = NULL;
+    fip = f;
     is_upload = is_file_upload;
     xfer_done = false;
-	time_so_far = 0;
+    time_so_far = 0;
 
     return 0;
 }
@@ -93,8 +97,16 @@ bool PERS_FILE_XFER::start_xfer() {
         );
     } else {
         retval = gstate.file_xfers->insert(file_xfer);
-        if (retval) return false;
         fxp = file_xfer;
+        if (retval) {
+            if (log_flags.file_xfer) {
+                printf( "file_xfer insert failed\n" );
+            }
+            fxp->file_xfer_retval = retval;
+            handle_xfer_failure(aclock);
+            fxp = NULL;
+            return false;
+        }
         if (log_flags.file_xfer) {
             printf(
                 "started %s of %s to %s at time: %s\n",
@@ -123,18 +135,18 @@ bool PERS_FILE_XFER::poll(unsigned int now) {
         // See if it's time to try again.
         //
         if (now >= (unsigned int)next_request_time) {
-			bool ok = start_xfer();
-			last_time = dtime();
-			return ok;
+            bool ok = start_xfer();
+            last_time = dtime();
+            return ok;
         } else {
             return false;
         }
     }
 
-	if(dtime() - last_time <= 2) {
-		time_so_far += dtime() - last_time;
-	}
-	last_time = dtime();
+    if(dtime() - last_time <= 2) {
+        time_so_far += dtime() - last_time;
+    }
+    last_time = dtime();
 
     if (fxp->file_xfer_done) {
         if (log_flags.file_xfer) {
@@ -197,18 +209,18 @@ void PERS_FILE_XFER::handle_xfer_failure(unsigned int cur_time) {
     if (fxp->file_xfer_retval == HTTP_STATUS_RANGE_REQUEST_ERROR) {
         fip->delete_file();
     }
-    
+
     retry_and_backoff(cur_time);
     
     // See if it's time to give up on the persistent file xfer
     //
     if ((cur_time - first_request_time) > gstate.giveup_after) {
         // Set the associated files status to a ERR_GIVEUP_DOWNLOAD and ERR_GIVEUP_UPLOAD failure
-      if(is_upload)
-        fip->status = ERR_GIVEUP_UPLOAD;
-      else
-	fip->status = ERR_GIVEUP_DOWNLOAD;
-      xfer_done = true;
+        if(is_upload)
+            fip->status = ERR_GIVEUP_UPLOAD;
+        else
+            fip->status = ERR_GIVEUP_DOWNLOAD;
+        xfer_done = true;
     }
     if (log_flags.file_xfer_debug) {
         printf("Error: transfer failure for %s: %d\n", fip->name, fip->status);
@@ -241,8 +253,8 @@ int PERS_FILE_XFER::retry_and_backoff(unsigned int cur_time) {
     }
     if (log_flags.file_xfer_debug) {
       printf(
-	     "exponential back off is %d, current_time is %s\n", (int) exp_backoff,asctime( newtime ) 
-	     );
+         "exponential back off is %d, current_time is %s\n", (int) exp_backoff,asctime( newtime ) 
+         );
     }
     return 0;
 }

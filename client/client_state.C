@@ -501,9 +501,6 @@ int CLIENT_STATE::parse_state_file() {
                 if (fip->pers_file_xfer) {
                     fip->pers_file_xfer->init(fip, fip->upload_when_present);
                     retval = pers_xfers->insert( fip->pers_file_xfer );
-                    if (retval) {
-                        // TODO: What should we do here?
-                    }
                 }
             } else {
                 delete fip;

@@ -35,12 +35,12 @@
 
 #define PERS_RETRY_DELAY_MIN    60                // 1 minute
 #define PERS_RETRY_DELAY_MAX    (60*60*4)         // 4 hours
-#define PERS_GIVEUP             (60*60*24*7*2)    // 2 weeks 
+#define PERS_GIVEUP             (60*60*24*7*2)    // 2 weeks
 
 #ifdef DEBUG
-#define PERS_RETRY_DELAY_MIN    1                
-#define PERS_RETRY_DELAY_MAX    30        
-#define PERS_GIVEUP             30      
+#define PERS_RETRY_DELAY_MIN    1
+#define PERS_RETRY_DELAY_MAX    30
+#define PERS_GIVEUP             30
 #endif
 
     // give up on xfer if this time elapses since last byte xferred
@@ -48,15 +48,16 @@
 class PERS_FILE_XFER {
     int nretry;                // # of retries so far
     int first_request_time;    // UNIX time of first file request
-    int next_request_time;     // UNIX time to next retry the file request
     bool is_upload;
 
 public:
+    int next_request_time;     // UNIX time to next retry the file request
 	double last_time, time_so_far;
     bool xfer_done;
     FILE_XFER* fxp;     // nonzero if file xfer in progress
     FILE_INFO* fip;
     
+	PERS_FILE_XFER();
     int init(FILE_INFO*, bool is_file_upload);
     bool poll(unsigned int now);
     void handle_xfer_failure(unsigned int cur_time);

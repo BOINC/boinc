@@ -66,7 +66,8 @@
 
 #define MAX_TABS			5
 #define MAX_USAGE_STR		5
-#define MAX_MISC_STR		10
+#define MAX_MISC_STR		13
+
 
 //////////
 // class:		CMyApp
