@@ -21507,6 +21507,8 @@ David  17 Dec 2004
 Rom    17 Dec 2004
     - Bug Fix: Prompt the user for the permission to grant the selected account
         the right to logon as a service
+    - Bug Fix: Fix an ACL problem when installing as a service, and the account
+        is not part of the administrators group
 
     win_build/installerv2/
         BOINC.ism
