@@ -1060,12 +1060,14 @@ Barry Luong    July 11, 2002
 Barry Luong    July 12, 2002
     - Changed error messages in main.C so user names are printed out also
     - took out a debugging variable I accidentally left in feeder.C
+    - removed an assert in file_upload_handler.C
+    - changed so BOINC_UPLOAD_DIR and BOINC_KEY_DIR are defined at compile time
 
     sched/
         main.C
         Makefile.in
         feeder.C
-
+        file_upload_handler.C
 
 Michael Gary	July 12, 2002
     - Added a test to make sure the scheduling server does not send unfeasible
@@ -1221,6 +1223,7 @@ Michael Gary	7/17/2002
         test_uc_slow.php
         test_suite.php (added)
 
+
 Michael Gary	7/18/2002
     - Configure now checks to make sure that apache, mysql, and php are
 	installed. If they are not installed, it prints out a warning and
@@ -1336,6 +1339,7 @@ David   July 28 2002
         add.C
         backend_lib.C
 
+
 Eric Heien  July 29 2002
     - Added code to determine the amount of disk space being
         used by BOINC, by recursively descending through the
@@ -1438,3 +1442,32 @@ David A.
         filesys.C,h
     doc/
         api.html
+
+Barry Luong  August 6, 2002
+
+    - Added team pages in html_user/
+        - pages to display team page, join team, quit team, edit team, disband
+          team, and remove inactive members
+    - Added database access per project via the web
+        - a new file in html_user/ called db_name containing only the name of
+          that project's database
+
+    html_user/
+        db.inc
+        team.inc
+        team.php
+        team_create_action.php
+        team_create_form.php
+        team_disband_action.php
+        team_disband_form.php
+        team_display.php
+        team_edit_action.php
+        team_edit_form.php
+        team_join_action.php
+        team_join_form.php
+        team_lookup.php
+        team_quit_action.php
+        team_quit_form.php
+        team_remove_inactive_action.php
+        team_remove_inactive_form.php
+
