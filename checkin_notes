@@ -15356,3 +15356,13 @@ Daniel 2004-07-16
         x_opengl.C
         windows_opengl.C
 
+David  16 July 2004
+    - fixed bug in transitioner where, when creating new results
+        for a WU, it uses the wrong suffix,
+        causing conflicts with existing result names.
+    - fixed bug in writing statefile; wouldn't work on fresh installs
+
+    client/
+        cs_statefile.C
+    sched/
+        transitioner.C

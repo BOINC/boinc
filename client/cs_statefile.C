@@ -205,8 +205,11 @@ int CLIENT_STATE::write_state_file() {
     int retval = write_state(mf);
     fclose(f);
     if (retval) return retval;
+
+    // the following fails if no current file, so don't check
+    //
     retval = boinc_rename(STATE_FILE_NAME, STATE_FILE_PREV);
-    if (retval) return retval;
+
     retval = boinc_rename(STATE_FILE_NEXT, STATE_FILE_NAME);
     scope_messages.printf("CLIENT_STATE::write_state_file(): Done writing state file\n");
     if (retval) return ERR_RENAME;

@@ -53,6 +53,12 @@ R_RSA_PRIVATE_KEY key;
 int mod_n, mod_i;
 bool do_mod = false;
 
+int result_suffix(char* name) {
+    char* p = strrchr(name, '_');
+    if (p) return atoi(p+1);
+    return 0;
+}
+
 void handle_wu(
     DB_TRANSITIONER_ITEM_SET& transitioner,
     std::vector<TRANSITIONER_ITEM>& items
@@ -75,59 +81,62 @@ void handle_wu(
     nsuccess = 0;
     ncouldnt_send = 0;
     have_result_to_validate = false;
+    int rs, max_result_suffix = -1;
+
     for (unsigned int i=0; i<items.size(); i++) {
-        if (items[i].res_id) {
-            ntotal++;
-            switch (items[i].res_server_state) {
-            case RESULT_SERVER_STATE_UNSENT:
-                nunsent++;
-                break;
-            case RESULT_SERVER_STATE_IN_PROGRESS:
-                if (items[i].res_report_deadline < now) {
+        if (!items[i].res_id) continue;
+        ntotal++;
+        rs = result_suffix(items[i].res_name);
+        if (rs > max_result_suffix) max_result_suffix = rs;
+        switch (items[i].res_server_state) {
+        case RESULT_SERVER_STATE_UNSENT:
+            nunsent++;
+            break;
+        case RESULT_SERVER_STATE_IN_PROGRESS:
+            if (items[i].res_report_deadline < now) {
+                log_messages.printf(
+                    SCHED_MSG_LOG::NORMAL,
+                    "[WU#%d %s] [RESULT#%d %s] result timed out (%d < %d) server_state:IN_PROGRESS=>OVER; outcome:NO_REPLY\n",
+                    items[0].id, items[0].name, items[i].res_id, items[i].res_name,
+                    items[i].res_report_deadline, (int)now
+                );
+                items[i].res_server_state = RESULT_SERVER_STATE_OVER;
+                items[i].res_outcome = RESULT_OUTCOME_NO_REPLY;
+                retval = transitioner.update_result(items[i]);
+                if (retval) {
                     log_messages.printf(
-                        SCHED_MSG_LOG::NORMAL,
-                        "[WU#%d %s] [RESULT#%d %s] result timed out (%d < %d) server_state:IN_PROGRESS=>OVER; outcome:NO_REPLY\n",
-                        items[0].id, items[0].name, items[i].res_id, items[i].res_name,
-                        items[i].res_report_deadline, (int)now
-                    );
-                    items[i].res_server_state = RESULT_SERVER_STATE_OVER;
-                    items[i].res_outcome = RESULT_OUTCOME_NO_REPLY;
-                    retval = transitioner.update_result(items[i]);
-                    if (retval) {
-                        log_messages.printf(
-                            SCHED_MSG_LOG::CRITICAL,
-                            "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
-                            items[0].id, items[0].name, items[i].res_id, items[i].res_name, retval
-                            );
-                    }
-                    nover++;
-                } else {
-                    ninprogress++;
+                        SCHED_MSG_LOG::CRITICAL,
+                        "[WU#%d %s] [RESULT#%d %s] result.update() == %d\n",
+                        items[0].id, items[0].name, items[i].res_id, items[i].res_name, retval
+                        );
                 }
-                break;
-            case RESULT_SERVER_STATE_OVER:
                 nover++;
-                switch (items[i].res_outcome) {
-                case RESULT_OUTCOME_COULDNT_SEND:
-                    log_messages.printf(
-                        SCHED_MSG_LOG::NORMAL,
-                        "[WU#%d %s] [RESULT#%d %s] result couldn't be sent\n",
-                        items[0].id, items[0].name, items[i].res_id, items[i].res_name
-                    );
-                    ncouldnt_send++;
-                    break;
-                case RESULT_OUTCOME_SUCCESS:
-                    if (items[i].res_validate_state == VALIDATE_STATE_INIT) {
-                        have_result_to_validate = true;
-                    }
-                    nsuccess++;
-                    break;
-                case RESULT_OUTCOME_CLIENT_ERROR:
-                    nerrors++;
-                    break;
+            } else {
+                ninprogress++;
+            }
+            break;
+        case RESULT_SERVER_STATE_OVER:
+            nover++;
+            switch (items[i].res_outcome) {
+            case RESULT_OUTCOME_COULDNT_SEND:
+                log_messages.printf(
+                    SCHED_MSG_LOG::NORMAL,
+                    "[WU#%d %s] [RESULT#%d %s] result couldn't be sent\n",
+                    items[0].id, items[0].name, items[i].res_id, items[i].res_name
+                );
+                ncouldnt_send++;
+                break;
+            case RESULT_OUTCOME_SUCCESS:
+                if (items[i].res_validate_state == VALIDATE_STATE_INIT) {
+                    have_result_to_validate = true;
                 }
+                nsuccess++;
+                break;
+            case RESULT_OUTCOME_CLIENT_ERROR:
+                nerrors++;
                 break;
             }
+            break;
         }
     }
 
@@ -226,7 +235,7 @@ void handle_wu(
                 items[0].id, items[0].name, n, items[0].target_nresults, nunsent, ninprogress, nsuccess
             );
             for (int i=0; i<n; i++) {
-                sprintf(suffix, "%d", items.size()+i);
+                sprintf(suffix, "%d", max_result_suffix+i+1);
                 char rtfpath[256];
                 sprintf(rtfpath, "../%s", items[0].result_template_file);
                 retval = create_result(
