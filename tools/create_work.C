@@ -23,7 +23,9 @@
 //  -wu_template filename
 //  -result_template filename
 //  [ -db_name x ]          // read the following from config.xml if available
+//  [ -db_user x ]
 //  [ -db_passwd x ]
+//  [ -db_host x ]
 //  [ -upload_url x ]
 //  [ -download_url x ]
 //  [ -download_dir x ]
@@ -69,6 +71,7 @@ int main(int argc, char** argv) {
     int i, ninfiles, sequence=0;
     R_RSA_PRIVATE_KEY key;
     char download_dir[256], db_name[256], db_passwd[256];
+    char db_user[256], db_host[256];
     char upload_url[256], download_url[256];
     char buf[256];
     SCHED_CONFIG config;
@@ -76,6 +79,8 @@ int main(int argc, char** argv) {
     strcpy(result_template_file, "");
     strcpy(app.name, "");
     strcpy(db_passwd, "");
+    strcpy(db_user, "");
+    strcpy(db_host, "");
     strcpy(keyfile, "");
     i = 1;
     ninfiles = 0;
@@ -98,6 +103,8 @@ int main(int argc, char** argv) {
     } else {
         strcpy(db_name, config.db_name);
         strcpy(db_passwd, config.db_passwd);
+        strcpy(db_user, config.db_user);
+        strcpy(db_host, config.db_host);
         strcpy(download_url, config.download_url);
         strcpy(download_dir, config.download_dir);
         strcpy(upload_url, config.upload_url);
@@ -111,6 +118,10 @@ int main(int argc, char** argv) {
             strcpy(db_name, argv[++i]);
         } else if (!strcmp(argv[i], "-db_passwd")) {
             strcpy(db_passwd, argv[++i]);
+        } else if (!strcmp(argv[i], "-db_user")) {
+            strcpy(db_user, argv[++i]);
+        } else if (!strcmp(argv[i], "-db_host")) {
+            strcpy(db_host, argv[++i]);
         } else if (!strcmp(argv[i], "-upload_url")) {
             strcpy(upload_url, argv[++i]);
         } else if (!strcmp(argv[i], "-download_url")) {
@@ -175,7 +186,7 @@ int main(int argc, char** argv) {
 #undef CHKARG
 #undef CHKARG_STR
 
-    if (boinc_db.open(db_name, "", "", db_passwd)) {
+    if (boinc_db.open(db_name, db_host, db_user, db_passwd)) {
         fprintf(stderr, "create_work: error opening database.\n" );
         exit(0);
     }
