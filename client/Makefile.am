@@ -67,16 +67,16 @@ win/win_config.h: $(top_srcdir)/config.h
 	grep '#define.*VERSION' $^ > $@
 
 win/boinc_cli.rc: $(top_srcdir)/config.h
-	cd win && ./update-boinc-cli-version
+	cd win && ../$(srcdir)/win/update-boinc-cli-version
 
 win/boinc_dll.rc: $(top_srcdir)/config.h
-	cd win && ./update-boinc-dll-version
+	cd win && ../$(srcdir)/win/update-boinc-dll-version
 
 win/boinc_gui.rc: $(top_srcdir)/config.h
-	cd win && ./update-boinc-gui-version
+	cd win && ../$(srcdir)/win/update-boinc-gui-version
 
 win/boinc_ss.rc: $(top_srcdir)/config.h
-	cd win && ./update-boinc-ss-version
+	cd win && ../$(srcdir)/win/update-boinc-ss-version
 
 version: win/win_config.h win/boinc_cli.rc win/boinc_dll.rc win/boinc_gui.rc win/boinc_ss.rc
 
@@ -90,6 +90,10 @@ version: win/win_config.h win/boinc_cli.rc win/boinc_dll.rc win/boinc_gui.rc win
 
 ## these source files need to be specified because no rule on unix uses them.
 EXTRA_DIST =					\
+	win/update-boinc-cli-version		\
+	win/update-boinc-dll-version		\
+	win/update-boinc-gui-version		\
+	win/update-boinc-ss-version		\
 	*.h					\
 	mac/*.h mac/*.cpp			\
         win/*.h win/*.cpp win/*.rc		\
