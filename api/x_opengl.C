@@ -17,6 +17,11 @@
 // or write to the Free Software Foundation, Inc.,
 // 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+
+#ifdef __APPLE_CC__
+#include <Carbon/Carbon.h>
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>    
 #include <setjmp.h>    
@@ -127,6 +132,10 @@ static void maybe_render() {
     }
 }
 
+void CloseWindow() {
+  set_mode(MODE_HIDE_GRAPHICS);
+}
+
 static void make_new_window(int mode) {
     if ( (mode != MODE_WINDOW) &&  (mode != MODE_FULLSCREEN) ) {
         // nothing to be done here
@@ -155,6 +164,16 @@ static void make_new_window(int mode) {
     if (mode == MODE_FULLSCREEN)  {
         glutFullScreen();
     }
+#ifdef __APPLE_CC__
+    else
+        SetSystemUIMode(kUIModeAllHidden, 0);   // Hide Menu Bar
+        
+    glutWMCloseFunc(CloseWindow);   // Enable the window's close box
+    
+    ProcessSerialNumber	myProcess;
+    GetCurrentProcess(&myProcess);
+    SetFrontProcess(&myProcess);     // Bring ourselves to the front
+#endif
 
     return;
 }
@@ -281,12 +300,18 @@ void restart() {
     // if we are standalone and glut was initialized,
     // we assume user pressed 'close', and we exit the app
     //
-    if (boinc_is_standalone() && glut_is_initialized ) {
-        app_debug_msg("Assuming user pressed 'close'... means we're exiting now.\n");
-        if (boinc_delete_file(LOCKFILE) != 0) {
+    // 
+    if (glut_is_initialized ) {
+	if (boinc_is_standalone())
+            app_debug_msg("Assuming user pressed 'close'... means we're exiting now.\n");
+#ifdef __APPLE_CC__
+	else
+            app_debug_msg("Assuming user pressed 'quit'... means we're exiting now.\n");
+#endif
+	if (boinc_delete_file(LOCKFILE) != 0) {
             perror ("Failed to remove lockfile..\n");
-        }
-        return;
+	}
+	return;
     }
 
     // re-install the  exit-handler to catch glut's notorious exits()...

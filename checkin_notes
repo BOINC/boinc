@@ -26689,3 +26689,11 @@ Rom    5 April 2005
 
     client/win/
         win_screensaver.cpp,h
+
+Charlie    5 April 2005
+    Mac: Enabled close box on science application graphics, handle Quit properly
+        using Bernd's suggestions.  Hide GLUT menu bar.  Bring application to 
+        front when "Show Graphics" is selected in BOINC Manager.
+        
+    api/
+        x_opengl.C
