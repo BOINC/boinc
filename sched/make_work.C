@@ -1,8 +1,14 @@
 // make_work.C
 //
-// make_work -wu_name name -result_template filename [ -cushion n ]
+// make_work
+//      -wu_name name
+//      -result_template filename
+//      [ -redundancy n ]
+//      [ -cushion n ]
 //
-// Create result records as needed to maintain a pool to send
+// Create WU and result records as needed to maintain a pool of work.
+// Makes a new WU for every "redundancy" results.
+// Clones the WU of the given name.
 //
 
 #include <stdio.h>
@@ -19,6 +25,7 @@
 #define TRIGGER_FILENAME    "stop_server"
 
 int cushion = 10;
+int redundancy = 10;
 char wu_name[256], result_template_file[256];
 
 void check_trigger() {
@@ -29,7 +36,7 @@ void check_trigger() {
 
 void make_work() {
     CONFIG config;
-    int retval, i, start_time=time(0), n;
+    int retval, i, start_time=time(0), n, nresults_left;
     char keypath[256], suffix[256];
     R_RSA_PRIVATE_KEY key;
     WORKUNIT wu;
@@ -60,6 +67,7 @@ void make_work() {
         exit(1);
     }
 
+    nresults_left = 0;
     while (true) {
         fflush(stdout);
         retval = db_result_count_state(RESULT_STATE_UNSENT, n);
@@ -73,12 +81,21 @@ void make_work() {
             continue;
         }
 
+        if (nresults_left == 0) {
+            nresults_left = redundancy;
+            sprintf(wu.name, "wu_%d_%d", start_time, i++);
+            wu.id = 0;
+            wu.create_time = time(0);
+            retval = db_workunit_new(wu);
+            wu.id = db_insert_id();
+        }
         sprintf(suffix, "%d_%d", start_time, i++);
         create_result(
             wu, result_template_file, suffix, key,
             config.upload_url, config.download_url
         );
         printf("make_work: added a result\n");
+        nresults_left--;
     }
 }
 

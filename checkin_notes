@@ -2189,3 +2189,10 @@ David  Oct 15 2002
     tools/
         backend_lib.C
         create_work.C
+
+David  Oct 18, 2002
+    - make_work now adds new WUs as well as results
+
+    sched/
+        feeder.C
+        make_work.C

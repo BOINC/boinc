@@ -146,7 +146,7 @@ void feeder_loop(SCHED_SHMEM* ssp) {
                     printf("feeder: adding result %d in slot %d\n", result.id, i);
                     retval = db_workunit(result.workunitid, wu);
                     if (retval) {
-                        printf("feeder: can't read workunit %d\n", result.workunitid);
+                        printf("feeder: can't read workunit %d: %d\n", result.workunitid, result);
                         continue;
                     }
                     ssp->wu_results[i].result = result;
