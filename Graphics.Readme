@@ -8,7 +8,7 @@ Makefile.Readme to create your own Makefile.graphics. You may rename
 Makefile.graphics as Makefile, and when you say make from the boinc/
 directory the graphical version will be made. The other method is to leave it
 seperate from the other Makefile, type make at the boinc/ directory as
-you normall would, and then type make -f Makefile.graphics in the
+you normally would, and then type make -f Makefile.graphics in the
 boinc/api directory. The preexisting Makefile.graphics that may be in
 the source code you have is just an example and will NOT function as a
 working Makefile.graphics. You must follow the instructions in
