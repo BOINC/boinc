@@ -22280,3 +22280,14 @@ David  7 Jan 2005
 
 	sched/
 		validate_util.C
+
+David  7 Jan 2005
+    - moved dir hierarchy code from lib/util.C to sched/sched_util.C
+    - buffer was too small by 1 byte in md5_file.C
+
+    lib/
+        md5_file.C
+        util.C,h
+    sched/
+        file_deleter.C
+        sched_util.C,h

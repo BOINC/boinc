@@ -78,9 +78,8 @@ int md5_block(const unsigned char* data, int nbytes, char* output) {
     return 0;
 }
 
-std::string md5_string(const unsigned char* data, int nbytes)
-{
-    char output[32];
+std::string md5_string(const unsigned char* data, int nbytes) {
+    char output[MD5_LEN];
     md5_block(data, nbytes, output);
     return std::string(output);
 }

@@ -119,20 +119,6 @@ extern int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
 
 extern void update_average(double, double, double, double&, double&);
 
-// convert filename to path in a hierarchical directory system
-//
-extern int dir_hier_path(
-    const char* filename, const char* root, int fanout, bool new_hash,
-	char* result, bool create=false
-);
-
-// convert filename to URL in a hierarchical directory system
-//
-extern int dir_hier_url(
-    const char* filename, const char* root, int fanout, bool new_hash,
-	char* result
-);
-
 extern int boinc_calling_thread_cpu_time(double&);
 
 // convert UNIX time to MySQL timestamp (yyyymmddhhmmss)

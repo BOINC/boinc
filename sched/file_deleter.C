@@ -30,10 +30,11 @@
 #include "boinc_db.h"
 #include "parse.h"
 #include "util.h"
+#include "filesys.h"
+
 #include "sched_config.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
-#include "../lib/filesys.h"
 
 #define LOCKFILE "file_deleter.out"
 #define PIDFILE  "file_deleter.pid"

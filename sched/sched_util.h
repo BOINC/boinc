@@ -36,4 +36,18 @@ extern void install_stop_signal_handler();
 extern int try_fopen(char* path, FILE*& f, char* mode);
 extern void get_log_path(char*, char*);
 
+// convert filename to path in a hierarchical directory system
+//
+extern int dir_hier_path(
+    const char* filename, const char* root, int fanout, bool new_hash,
+	char* result, bool create=false
+);
+
+// convert filename to URL in a hierarchical directory system
+//
+extern int dir_hier_url(
+    const char* filename, const char* root, int fanout, bool new_hash,
+	char* result
+);
+
 #endif
