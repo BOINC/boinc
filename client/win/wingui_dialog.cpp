@@ -462,7 +462,8 @@ void CProxyDialog::OnOK()
 		}
 	}
 	GetDlgItemText(IDC_EDIT_HTTP_ADDR, strbuf);
-	strcpy(gstate.proxy_server_name, strbuf.GetBuffer(0));
+	safe_strncpy(gstate.proxy_server_name, strbuf.GetBuffer(0),
+		sizeof(gstate.proxy_server_name));
 	GetDlgItemText(IDC_EDIT_HTTP_PORT, strbuf);
 	gstate.proxy_server_port = atoi(strbuf.GetBuffer(0));
 	CDialog::OnOK();

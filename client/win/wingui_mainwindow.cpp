@@ -515,11 +515,11 @@ void CMainWindow::SetStatusIcon(DWORD dwMessage)
 	// if icon is in that state already, there is nothing to do
 	if(dwMessage == m_nIconState) return;
 	NOTIFYICONDATA icon_data;
-	icon_data.cbSize = sizeof(icon_data);
+	icon_data.cbSize = sizeof(NOTIFYICONDATA);
     icon_data.uFlags = NIF_MESSAGE | NIF_ICON | NIF_TIP;
     icon_data.hWnd = GetSafeHwnd();
     icon_data.uID = STATUS_ICON_ID;
-    strcpy(icon_data.szTip, WND_TITLE);
+    safe_strncpy(icon_data.szTip, WND_TITLE, sizeof(icon_data.szTip));
     icon_data.uCallbackMessage = STATUS_ICON_ID;
 	if(dwMessage == ICON_OFF) {
 		icon_data.hIcon = NULL;

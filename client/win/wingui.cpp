@@ -27,12 +27,12 @@ void show_message(PROJECT* p, char* message, int priority) {
 
 	if (p) {
 		if (strcmp(p->project_name, "")) {
-			strcpy( proj_name, p->project_name );
+			safe_strncpy( proj_name, p->project_name, sizeof(proj_name) );
 		} else {
-			strcpy( proj_name, p->master_url );
+			safe_strncpy( proj_name, p->master_url, sizeof(proj_name) );
 		}
 	} else {
-		strcpy( proj_name, "BOINC" );
+		safe_strncpy( proj_name, "BOINC", sizeof(proj_name) );
 	}
 
 	if(g_myWnd) {

@@ -23,6 +23,7 @@
 #include <winsock.h>
 #include "client_types.h"
 #include "hostinfo.h"
+#include "util.h"
 
 typedef BOOL (CALLBACK* FreeFn)(LPCTSTR, PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER);
 
@@ -133,7 +134,7 @@ int get_host_info(HOST_INFO& host) {
 	Version, "%lu.%lu", OSVersionInfo.dwMajorVersion,
         OSVersionInfo.dwMinorVersion
     );
-	strcpy( host.os_version, Version );
+	safe_strncpy( host.os_version, Version, sizeof(host.os_version) );
 
     SYSTEM_INFO SystemInfo;
     memset( &SystemInfo, NULL, sizeof( SystemInfo ) );
@@ -186,8 +187,8 @@ int get_host_info(HOST_INFO& host) {
 	WSAStartup(wVersionRequested, &wsdata);
 
 	// Get host name/ip info
-    get_local_domain_name(host.domain_name, 256);
-    get_local_ip_addr_str(host.ip_addr);
+    get_local_domain_name(host.domain_name, sizeof(host.domain_name));
+    get_local_ip_addr_str(host.ip_addr, sizeof(host.ip_addr));
 
 	// Close the WinSock dll
 	WSACleanup();
@@ -211,7 +212,7 @@ int get_host_info(HOST_INFO& host) {
 		nameSize = sizeof(vendorName);
 		retval = RegQueryValueEx(hKey, "VendorIdentifier", NULL, NULL, (LPBYTE)vendorName, &nameSize);
 		if(retval == ERROR_SUCCESS) {
-			strcpy(host.p_vendor, vendorName);
+			safe_strncpy(host.p_vendor, vendorName, sizeof(host.p_vendor));
 		}
 	}
 	RegCloseKey(hKey);

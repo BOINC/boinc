@@ -1,5 +1,6 @@
 #include <windows.h>
 #include "win_util.h"
+#include "util.h"
 
 #define OS_UNKNOWN          0
 #define OS_WIN95            1
@@ -75,7 +76,7 @@ int UtilGetRegKey(char *name, DWORD &keyval)
 	DWORD value;
 	HKEY boinc_key;
 
-	strcpy( str, "SOFTWARE\\BOINC\\" );
+	safe_strncpy( str, "SOFTWARE\\BOINC\\", sizeof(str) );
 	strcat( str, name );
 
 	if ( OSVersion == OS_WIN95 ) {
