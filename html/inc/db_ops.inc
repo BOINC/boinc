@@ -222,7 +222,10 @@ function exit_status_string($result) {
             $x = (int)$y;
         }
     }
-    return sprintf("%d (0x%x)", $x, $x);
+    if (0<=$x && $x<=9)
+        return "$x";
+    else
+        return sprintf("%d (0x%x)", $x, $x);
 }
 
 function show_result_summary() {
@@ -851,7 +854,7 @@ function result_short_header() {
         <th>host<br>(user)</th>
         <th>client<br>ver</th>
         <th>received <i>or</i> <font color='33cc33'>deadline</font></th>
-        <th>CPU hours</th>
+        <th>CPU<br>hours</th>
         <th>claimed<br>credit</th>
         <th>granted<br>credit</th>
         </tr>
