@@ -5180,6 +5180,7 @@ David  July 1 2003
 
 Karl    2003/07/01
     - redesigned logging facilities for both scheduler servers and client
+        It is now easy to see the flow of events from looking at client.out
 
     client/
         Makefile.am
