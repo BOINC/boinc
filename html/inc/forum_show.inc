@@ -1,5 +1,4 @@
 <?php
-
 // Number of forum topics per page.
 $threads_per_page = 50;
 
@@ -80,7 +79,7 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
     if ($category->is_helpdesk) {
         start_forum_table(array("Question", "Answers"));
     } else {
-        start_forum_table(array("Threads", "Posts", "Author", "Views", "Last post"));
+        start_forum_table(array("", "Threads", "Posts", "Author", "Views", "Last post"));
     }
 
     $threads = getThreads($forum->id, $start, $threads_per_page, $sort_style);
@@ -88,9 +87,23 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
 
     while ($thread = mysql_fetch_object($threads)) {
         $user = lookup_user_id($thread->owner);
+	$logged_in_user=getThreadLastVisited($logged_in_user,$thread);
+	$unread = ($thread->timestamp>$logged_in_user->thread_last_visited);
+
         echo "
-            <tr class=row$n style=\"text-align:center\">
-            <td style=\"text-align:left\"><a href=\"forum_thread.php?id=", $thread->id, "\"><b>", strip_tags(stripslashes($thread->title)), "</b></a><br>
+            <tr class=row$n style=\"text-align:center\"><td width=\"1%\" align=\"right\"><nobr>";
+	
+	//Show thread icons:
+	if (!$category->is_helpdesk){
+	    if (!$user->disable_filtering){
+		$first_post = getFirstPost($thread->id);
+		if ($first_post->score*$first_post->votes>$logged_in_user->high_rating_threshold) echo "<img src=\"".EMPHASIZE_IMAGE."\" alt=\"Emphasized thread\">";
+		if ($first_post->score*$first_post->votes<$logged_in_user->low_rating_threshold) echo "<img src=\"".FILTER_IMAGE."\" alt=\"Filtered thread\">";
+	    }
+	    if ($unread) echo "<img src=\"".NEW_IMAGE."\" alt=\"Unread post(s)\">";
+	}
+	echo "</nobr></td>
+            <td style=\"font-size:10pt; text-align:left\"><a href=\"forum_thread.php?id=", $thread->id, "\"><b>", strip_tags(stripslashes($thread->title)), "</b></a><br>
         ";
         $n = ($n+1)%2;
 
@@ -106,12 +119,6 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
         echo "</td>";
         $x = time_diff_str($thread->timestamp, time());
 
-	$logged_in_user=getThreadLastVisited($logged_in_user,$thread);
-	if ($thread->timestamp>$logged_in_user->thread_last_visited){
-	    $unread="Unread post(s): ";
-	} else {
-	    $unread="";
-	}
         if ($category->is_helpdesk) {
             if ($thread->replies == 0) $x = "---";
             echo "<td align=left>
@@ -124,7 +131,7 @@ function show_forum($category, $forum, $start, $sort_style, $logged_in_user) {
                 <td>", $thread->replies+1, "</td>
                 <td align=left>", user_links($user), "</td>
                 <td>", $thread->views, "</td>
-                <td style=\"text-align:right\">", $unread, " ", $x, "</td>
+                <td style=\"text-align:right\">", $x, "</td>
             ";
         }
 
