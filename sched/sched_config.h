@@ -57,6 +57,7 @@ public:
     int daily_result_quota;     // max results per host per day
     int uldl_dir_fanout;        // fanout of ul/dl dirs; 0 if none
     int locality_scheduling_wait_period;
+    int locality_scheduling_send_timeout;
 
     int parse(char*);
     int parse_file(char* dir=".");

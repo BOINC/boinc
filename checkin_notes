@@ -22477,6 +22477,10 @@ David  10 Jan 2005
         Changed the algorithms a bit to avoid lots of DB queries
         Invariant: for a given file/user pair,
             results are sent in order of increasing ID
+            (i.e. the result sent is that with the smallest ID
+            among all those that CAN be sent).
+            This ensures that:
+            - the result for given WU will be sent around the same time
         send_results_for_file():
             1) of results for this file sent to this user,
                 find the one R with largest ID
@@ -22494,5 +22498,26 @@ David  10 Jan 2005
 
     db/
         db_base.C,h
+    sched/
+        sched_locality.C
+
+David  11 Jan 2005
+    more locality sched changes (with Bruce Allen)
+
+    - Added a notion of "working set" of files.
+        If a host doesn't have a file, the scheduler picks a
+        random entry from the working set and tries to send it
+        work from that file.
+        The project must supply a daemon program that maintains the working set
+        (could be the same as the work generator)
+    - Added config.locality_scheduling_send_timeout.
+        If any unsent result is older than this,
+        send it to the first eligible host
+    - If a host already has files, randomize their order
+    - Integrate work-generator invocation in send_results_for_file()
+    - If can't send a result because of no app_version, give up
+
+    lib/
+        error_numbers.h
     sched/
         sched_locality.C

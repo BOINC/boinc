@@ -142,3 +142,5 @@
 #define ERR_MKDIR           -192
 #define ERR_INVALID_EVENT   -193
 #define ERR_ALREADY_RUNNING -194
+#define ERR_NO_APP_VERSION  -195
+#define ERR_WU_USER_RULE    -196

@@ -17,20 +17,14 @@
 // Contributor(s):
 //
 
-// "Locality scheduling": a scheduling discipline in which
-// there are large sticky input files,
-// and many WUs share a single input file.
-// If a host already has an input file,
-// we try to send him another result that uses that file.
-//
-// see doc/sched_locality.php
-
+// Locality scheduling: see doc/sched_locality.php
 
 #include <stdio.h>
 #include <unistd.h>
-#include <vector>
+#include <glob.h>
 
 #include "boinc_db.h"
+#include "error_numbers.h"
 
 #include "main.h"
 #include "server_types.h"
@@ -38,6 +32,8 @@
 #include "sched_send.h"
 #include "sched_msgs.h"
 #include "sched_locality.h"
+
+#define VERBOSE_DEBUG
 
 // get filename from result name
 //
@@ -61,27 +57,28 @@ static int get_app_version(
         app = ss.lookup_app(wu.appid);
         found = sreq.has_version(*app);
         if (!found) {
-            return -1;
+            return ERR_NO_APP_VERSION;
         }
         avp = NULL;
     } else {
         found = find_app_version(wreq, wu, platform, ss, app, avp);
         if (!found) {
-            return -1;
+            return ERR_NO_APP_VERSION;
         }
 
         // see if the core client is too old.
-        // don't bump the infeasible count because this
-        // isn't the result's fault
         //
         if (!app_core_compatible(wreq, *avp)) {
-            return -1;
+            return ERR_NO_APP_VERSION;
         }
     }
     return 0;
 }
 
-// possibly send the client this result
+// Try to send the client this result
+// This can fail because:
+// - already sent a result for this WU
+// - no app_version available
 //
 static int possibly_send_result(
     DB_RESULT& result,
@@ -101,7 +98,7 @@ static int possibly_send_result(
         sprintf(buf, "where userid=%d and workunitid=%d", reply.user.id, wu.id);
         retval = result2.count(count, buf);
         if (retval) return retval;
-        if (count > 0) return -1;
+        if (count > 0) return ERR_WU_USER_RULE;
     }
 
     retval = get_app_version(
@@ -110,13 +107,10 @@ static int possibly_send_result(
     );
     if (retval) return retval;
 
-    retval = add_result_to_reply(result, wu, reply, platform, wreq, app, avp);
-    if (retval) return retval;
-    return 0;
+    return add_result_to_reply(result, wu, reply, platform, wreq, app, avp);
 }
 
-// Check with the WU generator to see if we can make some
-// more WU for this file.
+// Ask the WU generator to make more WUs for this file.
 // Returns nonzero if can't make more work.
 // Returns zero if it *might* have made more work
 // (no way to be sure if it suceeded).
@@ -155,43 +149,107 @@ int make_more_work_for_file(char* filename) {
         SCHED_MSG_LOG::DEBUG,
         "touching %s: need work for file %s\n", fullpath, filename
     );
+    sleep(config.locality_scheduling_wait_period);
     return 0;
 }
 
-// The client has (or soon will have) the given file.
-// Try to send it more results that use the same file
+// Get a randomly-chosen filename in the working set.
+//
+static int get_working_set_filename(char *filename) {
+    glob_t globbuf;
+    int retglob, random_file;
+    char *last_slash;
+    const char *pattern = "../locality_scheduling/work_available/*";
+
+    retglob=glob(pattern, GLOB_ERR|GLOB_NOSORT|GLOB_NOCHECK, NULL, &globbuf);
+    
+    if (retglob || !globbuf.gl_pathc) {
+        // directory did not exist or is not readable
+        goto error_exit;
+    }
+
+    if (globbuf.gl_pathc==1 && !strcmp(pattern, globbuf.gl_pathv[0])) {
+        // directory was empty
+        goto error_exit;
+    }
+
+    // Choose a file at random.
+    random_file = rand() % globbuf.gl_pathc;
+
+    // remove trailing slash from randomly-selected file path
+    last_slash = rindex(globbuf.gl_pathv[random_file], '/');
+    if (!last_slash || *last_slash=='\0' || *(++last_slash)=='\0') {
+        // no trailing slash found, or it's a directory name
+        goto error_exit;
+    }
+
+    strcpy(filename, last_slash);
+    globfree(&globbuf);
+    
+    log_messages.printf(SCHED_MSG_LOG::DEBUG,
+        "get_working_set_filename(): returning %s\n", filename
+    );
+
+    return 0;
+
+error_exit:
+    log_messages.printf(SCHED_MSG_LOG::CRITICAL,
+        "get_working_set_filename(): pattern %s not found\n", pattern
+    );
+
+    globfree(&globbuf);        
+    return 1;
+}
+
+void flag_for_possible_removal(char* filename) {
+    char path[256];
+    sprintf(path, "../locality_scheduling/working_set_removal/%s", filename);
+    FILE *f = fopen(path, "w");
+}
+
+// The client has (or will soon have) the given file.
+// Try to send it results that use that file.
+// If don't get any the first time,
+// trigger the work generator, then try again.
 //
 static int send_results_for_file(
     char* filename,
     int& nsent,
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    WORK_REQ& wreq, SCHED_SHMEM& ss
+    WORK_REQ& wreq, SCHED_SHMEM& ss,
+    bool in_working_set
 ) {
     DB_RESULT result, prev_result;
-    int retval, lookup_retval=0, send_retval=0, i, maxid;
-    char buf[256], query[65000];
+    int retval, i, maxid;
+    char buf[256], query[1024];
+    bool work_generator_invoked = false;
 
-    // find largest ID of results already sent to this user for this file
+    // find largest ID of results already sent to this user
+    // for this file, if any
     //
     sprintf(buf, "where userid=%d and name like '%s__%%'",
         reply.user.id, filename
     );
     retval = result.max_id(maxid, buf);
-    if (retval) return retval;
-
-    // and look up that result
-    //
-    retval = prev_result.lookup_id(maxid);
-    if (retval) return retval;
+    if (retval) {
+        prev_result.id = 0;
+    } else {
+        retval = prev_result.lookup_id(maxid);
+        if (retval) return retval;
+    }
 
     nsent = 0;
     for (i=0; i<100; i++) {     // avoid infinite loop
         if (!wreq.work_needed(reply)) break;
+
+        // Use a transaction so that if we get a result,
+        // someone else doesn't send it before we do
+        //
         boinc_db.start_transaction();
 
         // find unsent result with next larger ID than previous largest ID
         //
-        if (config.one_result_per_user_per_wu) {
+        if (config.one_result_per_user_per_wu && prev_result.id) {
 
             // if one result per user per WU, insist on different WUID too
             //
@@ -205,37 +263,55 @@ static int send_results_for_file(
                 filename, prev_result.id, RESULT_SERVER_STATE_UNSENT
             );
         }
-        lookup_retval = result.lookup(query);
+        retval = result.lookup(query);
 
-        if (!lookup_retval) {
-            send_retval = possibly_send_result(
+        if (retval) {
+
+            // if didn't get a result, trigger the work generator if relevant
+            //
+            boinc_db.commit_transaction();
+            if (!work_generator_invoked && config.locality_scheduling_wait_period) {
+                retval = make_more_work_for_file(filename);
+                if (retval) break;
+                work_generator_invoked = true;
+            } else {
+                if (in_working_set) {
+                    flag_for_possible_removal(filename);
+                }
+                break;
+            }
+        } else {
+            retval = possibly_send_result(
                 result, sreq, reply, platform, wreq, ss
             );
+            boinc_db.commit_transaction();
 
-            // if we couldn't send it, something's wacky;
+            // if no app version, give up completely
+            //
+            if (retval == ERR_NO_APP_VERSION) return retval;
+
+            // if we couldn't send it for other reason, something's wacky;
             // print a message, but keep on looking
             //
-            if (send_retval) {
-                log_messages.printf(SCHED_MSG_LOG::NORMAL, "possibly_send_result(): %d\n", send_retval);
+            if (retval) {
+                log_messages.printf(SCHED_MSG_LOG::NORMAL,
+                    "possibly_send_result(): %d\n", retval
+                );
             } else {
                 nsent++;
             }
             prev_result = result;
         }
-
-        boinc_db.commit_transaction();
-        if (lookup_retval) break;
     }
     return 0;
 }
 
-// The host doesn't have any files for which work is available.
-// Pick new file(s) to send.
-// Note: given any file F,
-// it's possible that this user has been issued lots of results under F.
-// We must avoid stepping through lots of disqualified results.
-// So the general logic is:
+// Find a file with work, and send.
+// This is guaranteed to send work if ANY is available for this user.
+// However, it ignores the working set,
+// and should be done only if we fail to send work from the working set.
 //
+// logic:
 // min_filename = ""
 // loop
 //    R = first unsent result where filename>min_filename order by filename
@@ -244,43 +320,91 @@ static int send_results_for_file(
 //        //  this skips disqualified results
 //    min_filename = R.filename;
 //
-static void send_new_file_work(
+static int send_new_file_work_deterministic(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     WORK_REQ& wreq, SCHED_SHMEM& ss
 ) {
-    int lookup_retval, retval, send_retval;
-    int lastid=0, nsent, last_wuid=0, i;
-    unsigned int j;
     DB_RESULT result;
-    char filename[256], min_filename[256];
-    char buf[256], query[65000];
+    char filename[256], min_filename[256], query[1024];
+    int retval, nsent;
 
     strcpy(min_filename, "");
-    for (i=0; i<100; i++) {     // avoid infinite loop
-        if (!wreq.work_needed(reply)) break;
+    while (1) {
         sprintf(query,
             "where server_state=%d and name>'%s' order by name limit 1",
             RESULT_SERVER_STATE_UNSENT, min_filename
         );
         retval = result.lookup(query);
         if (retval) break;
-        extract_filename(result.name, filename);
-        send_results_for_file(
-            filename, nsent, sreq, reply, platform, wreq, ss
+        retval = extract_filename(result.name, filename);
+        if (retval) return retval;
+        retval = send_results_for_file(
+            filename, nsent, sreq, reply, platform, wreq, ss, false
         );
-
-        // if no result for that file, ask work generator to make more
-        //
-        if (nsent==0 && config.locality_scheduling_wait_period) {
-            retval = make_more_work_for_file(filename);
-            if (!retval) {
-                sleep(config.locality_scheduling_wait_period);
-                send_results_for_file(
-                    filename, nsent, sreq, reply, platform, wreq, ss
-                );
-            }
-        }
+        if (nsent>0) break;
         strcpy(min_filename, filename);
+    }
+    return 0;
+}
+
+static int send_new_file_work_working_set(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    WORK_REQ& wreq, SCHED_SHMEM& ss
+) {
+    char filename[256];
+    int retval, nsent;
+
+    retval = get_working_set_filename(filename);
+    if (retval) return retval;
+    return send_results_for_file(
+        filename, nsent, sreq, reply, platform, wreq, ss, true
+    );
+}
+
+// The host doesn't have any files for which work is available.
+// Pick new file to send.
+//
+static int send_new_file_work(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    WORK_REQ& wreq, SCHED_SHMEM& ss
+) {
+    send_new_file_work_working_set(sreq, reply, platform, wreq, ss);
+
+    if (wreq.work_needed(reply)) {
+        send_new_file_work_deterministic(sreq, reply, platform, wreq, ss);
+    }
+    return 0;
+}
+
+static int send_old_work(
+    SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    WORK_REQ& wreq, SCHED_SHMEM& ss
+) {
+    char buf[1024], filename[256];
+    int retval, nsent;
+    DB_RESULT result;
+
+    int cutoff = time(0) - config.locality_scheduling_send_timeout;
+    boinc_db.start_transaction();
+    sprintf(buf, "where server_state=%d and create_time<%d limit 1",
+        RESULT_SERVER_STATE_UNSENT, cutoff
+    );
+    retval = result.lookup(buf);
+    if (!retval) {
+        retval = possibly_send_result(
+            result, sreq, reply, platform, wreq, ss
+        );
+        boinc_db.commit_transaction();
+        if (!retval) {
+            extract_filename(result.name, filename);
+            send_results_for_file(
+                filename, nsent,
+                sreq, reply, platform, wreq, ss, false
+            );
+        }
+
+    } else {
+        boinc_db.commit_transaction();
     }
 }
 
@@ -289,49 +413,42 @@ void send_work_locality(
     WORK_REQ& wreq, SCHED_SHMEM& ss
 ) {
     unsigned int i;
-    int retval, nsent;
+    int retval, nsent, nfiles, j, k;
 
-    if (sreq.file_infos.size() == 0) {
-        send_new_file_work(
-            sreq, reply, platform, wreq, ss
+    nfiles = (int) sreq.file_infos.size();
+    j = rand()%nfiles;
+
+    // send old work if there is any
+    //
+    if (config.locality_scheduling_send_timeout) {
+        send_old_work(sreq, reply, platform, wreq, ss);
+    }
+
+    // send work for existing files
+    //
+    for (i=0; i<sreq.file_infos.size(); i++) {
+        k = (i+j)%nfiles;
+        if (!wreq.work_needed(reply)) break;
+        FILE_INFO& fi = sreq.file_infos[k];
+        send_results_for_file(
+            fi.name, nsent, sreq, reply, platform, wreq, ss, false
         );
-    } else {
-        for (i=0; i<sreq.file_infos.size(); i++) {
-            if (!wreq.work_needed(reply)) break;
-            FILE_INFO& fi = sreq.file_infos[i];
-            retval = send_results_for_file(
-                fi.name, nsent, sreq, reply, platform, wreq, ss
-            );
 
-            if (!nsent && config.locality_scheduling_wait_period) {
-                retval = make_more_work_for_file(fi.name);
-                if (!retval) {
-                    sleep(config.locality_scheduling_wait_period);
-                    send_results_for_file(
-                        fi.name, nsent, sreq, reply, platform, wreq, ss
-                    );
-                }
-            }
-
-            // if we couldn't send any work for this file,
-            // tell client to delete it
-            //
-            if (nsent == 0) {
-                reply.file_deletes.push_back(fi);
-                log_messages.printf(
-                    SCHED_MSG_LOG::DEBUG,
-                    "[HOST#%d]: delete file %s\n", reply.host.id, fi.name
-                ); 
-            }
-        }
-
-        // send new files if needed to satisfy work request
+        // if we couldn't send any work for this file, tell client to delete it
         //
-        if (wreq.work_needed(reply)) {
-            send_new_file_work(
-                sreq, reply, platform, wreq, ss
-            );
+        if (nsent == 0) {
+            reply.file_deletes.push_back(fi);
+            log_messages.printf(
+                SCHED_MSG_LOG::DEBUG,
+                "[HOST#%d]: delete file %s\n", reply.host.id, fi.name
+            ); 
         }
+    }
+
+    // send new files if needed
+    //
+    if (wreq.work_needed(reply)) {
+        send_new_file_work(sreq, reply, platform, wreq, ss);
     }
 }
 

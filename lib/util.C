@@ -475,7 +475,7 @@ double debug_total_exponential_backoff = 0;
 static int count_debug_fake_exponential_backoff = 0;
 static const int max_debug_fake_exponential_backoff = 1000; // safety limit
 
-// return a random integer in the range [MIN,min(e^n,MAX))
+// return a random double in the range [MIN,min(e^n,MAX))
 double calculate_exponential_backoff(
     const char* debug_descr, int n, double MIN, double MAX,
     double factor /* = 1.0 */

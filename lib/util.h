@@ -97,7 +97,7 @@ static inline double rand_range(double rmin, double rmax) {
     }
 }
 
-// return a random integer in the range [MIN,min(e^n,MAX))
+// return a random double in the range [MIN,min(e^n,MAX))
 //
 extern double calculate_exponential_backoff(
     const char* debug_descr, int n, double MIN, double MAX,
