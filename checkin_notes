@@ -16769,3 +16769,12 @@ Rom    30 Aug 2004
 
     lib/
         diagnostics.C
+
+Rom    31 Aug 2004
+     - Win98 has a memory leak condition in dealing with memory mapped files.
+       So lets go ahead and fix one possible way to slow down the leak, A better
+       fix is to recycle the shared memory segments.  Recycling of the shared
+       memory segments is forethcomming.
+
+    lib/
+        shmem.C
