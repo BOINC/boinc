@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# $Id$
+
 # The contents of this file are subject to the BOINC Public License
 # Version 1.0 (the "License"); you may not use this file except in
 # compliance with the License. You may obtain a copy of the License at
@@ -32,28 +34,17 @@
 # add app_version
 #      -app_name x -platform_name y -version a
 #      -download_dir d -download_url e
-#      -exec_dir b
-#      [ -exec_files file1 file2 ... ]
-#      [ -signed_exec_files file1 sign1 file2 sign2 ... ]
+#      -exec_file file1 [ -signature_file signature1 ]
+#      -exec_file file2 [ -signature_file signature2 ]
+#   file1 is the main programs.  signature files should be created on another
+#   machine but for testing purposes add.py will sign for you (for a real
+#   project you should never store the private key on the networked server)
 #      create DB record
 #      copy exec to data directory
 # add user -email_addr x -name y -authenticator a
 #      [ -global_prefs_file y ]
 
-# int version, retval, nexec_files;
-# double nbytes;
-# bool signed_exec_files;
-# char buf[256], md5_cksum[64];
-# char *db_name=0, *db_passwd=0, *app_name=0, *platform_name=0;
-# char *project_short_name=0, *project_long_name=0;
-# char* user_friendly_name=0;
-# char* exec_dir=0, *exec_files[10], *signature_files[10];
-# char *email_addr=0, *user_name=0, *authenticator=0;
-# char *global_prefs_file=0, *download_dir, *download_url;
-# char* code_sign_keyfile=0;
-# char *message=0, *message_priority=0;
-
-import sys, getopt
+import sys, getopt, md5
 sys.path.append('../py/')
 import database, db_mid
 from util import *
@@ -67,20 +58,23 @@ CREATE_TIME = ['?create_time', time.time()]
 #       [ 'arg', default_value ]
 list_objects_to_add = [
     [ database.Project,    'name', '?long_name' ],
-    [ database.App,        'name', 'min_version', CREATE_TIME],
-    [ XAppVersion, 'app', 'platform', 'version_num',
-      'signed_exec_file', 'exec_file', 'signature_file'
-
-      ],
     [ database.Platform,   'name', 'user_friendly_name', CREATE_TIME ],
+    [ XCoreVersion, 'platform', 'version_num', 'exec_file',
+      ['?message',''], ['?message_priority',''],
+    [ database.App,        'name', 'min_version', CREATE_TIME],
+    [ XAppVersion, 'app', 'platform', 'version_num', 'exec_file', '?signature_file'
+      ],
+      CREATE_TIME ],
     [ database.User,       'name', 'email_addr', 'authenticator',
       ['?country','United States'], ['?postal_code','94703'],
       '?global_prefs', '?global_prefs_file'
       CREATE_TIME ],
-    [ database.Workunit,   'zzzz' ],
+    # [ database.Workunit,   'zzzz' ],
     ]
 
-def translate_arg(arg, value,args_dict):
+most_recent_exec_file = None
+
+def translate_arg(object, arg, value, args_dict):
     '''Translate various arguments'''
     database_table = None
     try:
@@ -93,9 +87,17 @@ def translate_arg(arg, value,args_dict):
     if arg == 'global_prefs_file':
         return ('global_prefs', open(value).read())
 
-    if arg == 'exec_file' or arg == 'signed_exec_file' or arg == 'signature_file':
-        args_dict[arg].append(value)
-        return (None,None)
+    if object.DatabaseObject == XAppVersion:
+        # 'add app_version' accepts multiple '-exec_file's with
+        # '-signature_file' applying to the most recent exec_file
+        if arg == 'exec_file':
+            args_dict['exec_files'].append(value)
+            # since this is required, set it to None so that argument checker
+            # knows we got one; we'll delete it later.
+            return (arg,None)
+        if arg == 'signature_file':
+            args_dict['signature_files'][most_recent_exec_file] = value
+            return (None,None)
 
     return (arg,value)
 
@@ -115,48 +117,50 @@ def translate_database_arg(database_table, arg, value):
         raise SystemExit('Too many %s match "%s"'%(arg,value))
     return results[0]
 
+class XCoreVersion(database.CoreVersion):
+    def __init__(**kwargs):
+        exec_file = kwargs['exec_file']
+        del kwargs['exec_file']
+        kwargs['xml_doc'] = process_executable_file(exec_file)
+        apply(database.CoreVersion.__init__,[],kwargs)
+
 class XAppVersion(database.AppVersion):
     def __init__(**kwargs):
-        n_signed_file = 0
-        signed_exec_file = kwargs['signed_exec_files']
-        exec_file = kwargs['exec_files']
-        del kwargs['signed_exec_files']
+        signature_files = kwargs['signature_files']
+        exec_files = kwargs['exec_files']
+        if not exec_files:
+            raise Exception('internal error: no exec_files - should have caught this earlier')
+        del kwargs['signature_files']
         del kwargs['exec_files']
-        for file in signed_exec_files:
-            signature_text = signature_files[n_signed_file].read()
-            n_signed_file += 1
-            kwargs['xml_doc'] = process_executable_file(file, signature_text)
-            apply(database.AppVersion.__init__,[],kwargs)
-        for file in exec_files:
-            signature_text = sign_executable(file)
-            kwargs['xml_doc'] = process_executable_file(file, signature_text)
-            apply(database.AppVersion.__init__,[],kwargs)
+        del kwargs['exec_file']
+        xml_doc = ''
+        for exec_file in exec_files
+            signature_file = signature_files.get(exec_file)
+            if signature_file:
+                signature_text = open(signature_file).read()
+            else:
+                signature_text = sign_executable(exec_file)
+            xml_doc += process_executable_file(exec_file, signature_text)
 
-        self.xml_doc += '''<app_version>
-    <app_name>%s</app_name>
-    <version_num>%d</version_num>''' %(self.name, self.version_num)
+        xml_doc += ('<app_version>\n'+
+                         '    <app_name>%s</app_name>\n'+
+                         '    <version_num>%d</version_num>\n') %(
+            self.name, self.version_num)
 
         first = True
-        for file in exec_files+signed_exec_files:
+        for exec_file in exec_files:
+            xml_doc += ('    <file_ref>\n'+
+                             '         <file_name>%s</filename>\n') %(
+                os.path.basename(exec_file))
             if first:
-                m = '       <main_program/>\n'
-            self.xml_doc += '''
-    <file_ref>
-         <file_name>%s</filename>
-%s    </file_ref>'''%(os.path.basename(file), m)
+                xml_doc += '       <main_program/>\n'
+
+            xml_doc += '    </file_ref>\n'
             first = False
-#     for (i=0; i<nexec_files; i++) {
-#         sprintf(longbuf,
-#             "    <file_ref>\n"
-#             "        <file_name>%s</file_name>\n"
-#             "%s"
-#             "    </file_ref>\n",
-#             exec_files[i],
-#             i?"":"        <main_program/>\n"
-#         );
-#         strcat(app_version.xml_doc, longbuf);
-#     }
-#     strcat(app_version.xml_doc, "</app_version>\n");
+
+        xml_doc += '</app_version>\n'
+        kwargs['xml_doc'] = xml_doc
+        apply(database.AppVersion.__init__,[],kwargs)
 
 
 def ambiguous_lookup(string, dict):
@@ -207,67 +211,21 @@ def add_object(object, args):
         if not arg.startswith('--'):
             raise Exception('internal error: arg should start with "--"')
         arg = arg[2:]
-        (arg,value) = translate_arg(arg,value,args_dict)
+        (arg,value) = translate_arg(object,arg,value,args_dict)
         if not arg: continue
         args_dict[arg] = value
     for arg in object.args:
         if not arg in args_dict:
             help_object(object, 'required argument --%s not given'%arg)
 
-    print '### adding %s %s'%(object.name, args_dict)
     object = apply(object.DatabaseObject, [], args_dict)
     object.commit()
     print "Done"
 
 def code_sign_file(executable_path):
     '''Returns signed text for executable'''
-    return os.popen('code_sign_file '+executable_path).read()
-
-# void add_app_version() {
-#     char path[256];
-#     char longbuf[MAX_BLOB_SIZE];
-#     int i;
-
-#     strcpy(app_version.xml_doc, "");
-
-#     // copy executables to download directory and sign them
-#     //
-#     for (i=0; i<nexec_files; i++) {
-#         if (signed_exec_files) {
-#             read_filename(signature_files[i], signature_text);
-#         } else {
-#             sprintf(path, "%s/%s", exec_dir, exec_files[i]);
-#             sign_executable(path, signature_text);
-#         }
-#         retval = process_executable_file(
-#             exec_files[i], signature_text, app_version.xml_doc
-#         );
-#         if (retval) {
-#             fprintf(stderr, "process_executable_file(): %d\n", retval);
-#             exit(1);
-#         }
-#     }
-#     for (i=0; i<nexec_files; i++) {
-#         sprintf(longbuf,
-#             "    <file_ref>\n"
-#             "        <file_name>%s</file_name>\n"
-#             "%s"
-#             "    </file_ref>\n",
-#             exec_files[i],
-#             i?"":"        <main_program/>\n"
-#         );
-#         strcat(app_version.xml_doc, longbuf);
-#     }
-#     strcat(app_version.xml_doc, "</app_version>\n");
-
-#     app_version.create_time = time(0);
-#     retval = app_version.insert();
-#     if (retval) {
-#         boinc_db_print_error("app_version.insert()");
-#         return;
-#     }
-# }
-
+    print 'Signing', executable_path
+    return os.popen('sign_executable %s %s'%(executable_path,config.config.code_sign_key)).read()
 
 class Dict:
     pass
@@ -335,170 +293,41 @@ parse_global_options(args)
 add_object(possible_objects[0], args)
 
 
-# // copy executable file to the download dir, generate XML
-# //
-# static int process_executable_file(
-#     char* filename, char* signature_text, char* xml_doc
-# ) {
-#     char longbuf[MAX_BLOB_SIZE];
-#     char path[256];
+def md5_file(path):
+    """Return a 16-digit MD5 hex digest of a file's contents"""
+    return md5.new(open(path).read()).hexdigest()
 
-#     sprintf(path, "%s/%s", exec_dir, filename);
-#     sprintf(
-#         buf,
-#         "cp %s %s/%s",
-#         path, download_dir, filename
-#     );
-#     retval = system(buf);
-#     if (retval) {
-#         printf("failed: %s\n", buf);
-#         return retval;
-#     }
+def file_size(path):
+    """Return the size of a file"""
+    f = open(path)
+    f.seek(0,2)
+    return f.tell()
 
-#     retval = md5_file(path, md5_cksum, nbytes);
-#     if (retval) return retval;
+def process_executable_file(file, signature_text=None):
+    '''Handle a new executable file to be added to the database.
 
-#     // generate the XML doc directly.
-#     // TODO: use a template, as in create_work (??)
-#     //
-#     sprintf(longbuf,
-#         "<file_info>\n"
-#         "    <name>%s</name>\n"
-#         "    <url>%s/%s</url>\n"
-#         "    <executable/>\n",
-#         filename,
-#         download_url, filename
-#     );
-#     strcat(xml_doc, longbuf);
-#     if (signature_text) {
-#         sprintf(longbuf,
-#             "    <file_signature>\n%s"
-#             "    </file_signature>\n",
-#             signature_text
-#         );
-#     } else {
-#         sprintf(longbuf,
-#             "    <md5_cksum>%s</md5_cksum>\n",
-#             md5_cksum
-#         );
-#     }
-#     strcat(xml_doc, longbuf);
-#     sprintf(longbuf,
-#         "    <nbytes>%f</nbytes>\n"
-#         "</file_info>\n",
-#         nbytes
-#     );
-#     strcat(xml_doc, longbuf);
-#     return 0;
-# }
+    1. Copy file to download_dir if necessary.
+    2. Return <file_info> XML.
+        - if signature_text specified, include it; else generate md5sum.
+    '''
 
-# void add_core_version() {
-#     DB_CORE_VERSION core_version;
-#     DB_PLATFORM platform;
+    file_dir, file_base = os.path.split(file)
+    target_path = os.path.join(config.config.download_dir, file_base)
+    if file_dir != config.config.download_dir:
+        print "Copying %s to %s"%(file_base, config.config.download_dir)
+        shutil.copy(file, target_path)
 
-#     core_version.clear();
-#     sprintf(buf, "where name='%s'", platform_name);
-#     retval = platform.lookup(buf);
-#     if (retval) {
-#         fprintf(stderr, "add_core_version(): can't find platform %s\n", platform_name);
-#         boinc_db_print_error("platform.lookup()");
-#         return;
-#     }
-#     core_version.platformid = platform.id;
-#     core_version.version_num = version;
-#     if (message) strcpy(core_version.message, message);
-#     if (message_priority) strcpy(core_version.message, message_priority);
-#     if (nexec_files != 1) {
-#         fprintf(stderr, "add_core_version(): multiple files not allowed\n");
-#         return;
-#     }
-#     strcpy(core_version.xml_doc, "");
-#     process_executable_file(exec_files[0], NULL, core_version.xml_doc);
-#     core_version.create_time = time(0);
-#     retval = core_version.insert();
-#     if (retval) {
-#         boinc_db_print_error("core_version.insert()");
-#     }
-# }
+    xml = '''<file_info>
+    <name>%s</name>
+    <url>%s</url>
+    <executable/>
+''' %(file_base,
+      os.path.join(config.config.download_url, file_base))
 
-# void add_app_version() {
-#     char path[256];
-#     char longbuf[MAX_BLOB_SIZE];
-#     char signature_text[1024];
-#     int i;
-#     DB_APP app;
-#     DB_APP_VERSION app_version;
-#     DB_PLATFORM platform;
+    if signature_text:
+        xml += '    <file_signature>\n%s    </file_signature>\n'%signature_text
+    else:
+        xml += '    <md5_cksum>%s</md5_cksum>\n' % md5_file(target_path)
 
-#     app_version.clear();
-
-#     if (!app_name) {
-#         fprintf( stderr, "Application name not specified.\n" );
-#         exit(1);
-#     }
-#     sprintf(buf, "where name='%s'", app_name);
-#     retval = app.lookup(buf);
-#     if (retval) {
-#         fprintf(stderr, "add_app_version(): can't find app %s\n", app_name);
-#         boinc_db_print_error("app.lookup()");
-#         return;
-#     }
-#     app_version.appid = app.id;
-#     sprintf(buf, "where name='%s'", platform_name);
-#     retval = platform.lookup(buf);
-#     if (retval) {
-#         fprintf(stderr, "add_app_version(): can't find platform %s\n", platform_name);
-#         boinc_db_print_error("platform.lookup()");
-#         return;
-#     }
-#     app_version.platformid = platform.id;
-#     app_version.version_num = version;
-
-#     strcpy(app_version.xml_doc, "");
-
-#     // copy executables to download directory and sign them
-#     //
-#     for (i=0; i<nexec_files; i++) {
-#         if (signed_exec_files) {
-#             read_filename(signature_files[i], signature_text);
-#         } else {
-#             sprintf(path, "%s/%s", exec_dir, exec_files[i]);
-#             sign_executable(path, signature_text);
-#         }
-#         retval = process_executable_file(
-#             exec_files[i], signature_text, app_version.xml_doc
-#         );
-#         if (retval) {
-#             fprintf(stderr, "process_executable_file(): %d\n", retval);
-#             exit(1);
-#         }
-#     }
-
-#     sprintf(longbuf,
-#         "<app_version>\n"
-#         "    <app_name>%s</app_name>\n"
-#         "    <version_num>%d</version_num>\n",
-#         app_name,
-#         version
-#     );
-#     strcat(app_version.xml_doc, longbuf);
-#     for (i=0; i<nexec_files; i++) {
-#         sprintf(longbuf,
-#             "    <file_ref>\n"
-#             "        <file_name>%s</file_name>\n"
-#             "%s"
-#             "    </file_ref>\n",
-#             exec_files[i],
-#             i?"":"        <main_program/>\n"
-#         );
-#         strcat(app_version.xml_doc, longbuf);
-#     }
-#     strcat(app_version.xml_doc, "</app_version>\n");
-
-#     app_version.create_time = time(0);
-#     retval = app_version.insert();
-#     if (retval) {
-#         boinc_db_print_error("app_version.insert()");
-#         return;
-#     }
-# }
+    xml += '    <nbytes>%f</nbytes>\n</file_info>\n' % file_size(target_path)
+    return xml
