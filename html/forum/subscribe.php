@@ -20,6 +20,7 @@ if ($thread && $action) {
         exit();
     } else {
         show_result_page(null, false, $thread);
+        exit();
     }
 } else {
     show_result_page(null, false, NULL);
