@@ -14944,3 +14944,9 @@ Karl 2004-07-09
         boinc_db.C
         db_base.h
         db_base.C
+
+Karl 2004-07-09
+    - graphics API updates
+
+    api/
+        static_graphics.C

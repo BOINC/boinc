@@ -52,3 +52,6 @@ void boinc_app_mouse_move(int x, int y, bool left, bool middle, bool right) {
 void app_graphics_resize(int w, int h) {
     glViewport(0, 0, w, h);
 }
+
+void app_graphics_reread_prefs() {
+}
