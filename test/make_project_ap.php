@@ -16,12 +16,14 @@
     $app_version = new App_Version($app);
     $app_version->platform = $platform;
     $app_version->exec_dir = "../apps";
+    $app_version->version = 5;
     $app_version->exec_name = "ap_win_0.05.exe";
 
     $core_app = new App("core client");
     $core_app_version = new App_Version($core_app);
     $core_app_version->platform = $platform;
     $core_app_version->exec_dir = "../apps";
+    $core_app_version->version = 13;
     $core_app_version->exec_name = "BOINC_0.13a.exe";
 
     $project->add_app($app);
@@ -49,6 +51,5 @@
     array_push($work->input_files, "03au00ab_20575_00000.wu");
     $work->install($project);
 
-    $project->start_feeder();
-    $project->start_make_work($work);
+    $project->start_servers();
 ?>

@@ -14,6 +14,11 @@
     $project->add_user($user);
     $project->add_app($app);
     $project->add_app_version($app_version);
+    $project->start_feeder = true;
+    $project->start_make_work = true;
+    $project->start_validate = true;
+    $project->start_file_delete = true;
+    $project->start_assimilator = true;
     $project->install();      // must install projects before adding to hosts
 
     $host->log_flags = "log_flags.xml";
@@ -36,6 +41,7 @@
     $project->start_file_delete();
     $project->start_assimilator($app);
     $project->start_stripchart();
+    //$project->start_servers();
     $host->run();
     $project->stop();
 ?>

@@ -467,16 +467,12 @@ class Project {
         PassThru("cp $this->source_dir/sched/file_upload_handler $this->project_dir/cgi/file_upload_handler$handler_num");
     }
 
-    function start_server(){
-        PassThru("cd $this->project_dir/cgi; ./start_server >> start_server_out 2>&1");
+    function start_servers(){
+        PassThru("cd $this->project_dir/cgi; ./start_servers >> start_servers_out 2>&1");
     }
 
     function start_feeder(){
         PassThru("cd $this->project_dir/cgi; ./feeder -asynch >> feeder_out 2>&1");
-    }
-
-    function result_retry($app, $nerror = 5, $ndet = 5, $nredundancy = 5){
-        PassThru("cd $this->project_dir/cgi; ./result_retry -app $app->name -nerror $nerror -ndet $ndet -nredundancy $nredundancy  >> result_retry_out 2>&1");
     }
 
     function start_result_retry($app, $nerror = 5,$ndet = 5, $nredundancy = 5){
