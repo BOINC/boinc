@@ -5569,11 +5569,14 @@ Karl 2003/08/07
     - client: don't report a result until 6 hours before report_deadline (or
       other reason to contact scheduler)
     - scheduler: Send report deadline
+    - client GUI: added 'report deadline' column. Rewrote column-order
+      profile code.
 
     client/
         client_state.h
         cs_apps.C
         cs_scheduler.C
+        win/*
     
     sched/
         handle_request.C
