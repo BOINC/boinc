@@ -218,7 +218,124 @@ function link_results($n, $mq, $query, $clauses) {
         
     }
 }
-
+// Decode ErrorNumber into human readable, taken from lib/error_numbers.h keep this up to date
+// @return String A human readable error message
+// @param Integer $x An error number
+function result_error_mask_str($x){
+    switch($x){
+    case 0: return "";
+    case -100: return "ERR_SELECT";
+    case -101: return "ERR_MALOC";
+    case -102: return "ERR_READ";
+    case -103: return "ERR_WRITE";
+    case -104: return "ERR_FREAD";
+    case -105: return "ERR_FWRITE";
+    case -106: return "ERR_IO";
+    case -107: return "ERR_CONNECT";
+    case -108: return "ERR_FOPEN";
+    case -109: return "ERR_RENAME";
+    case -110: return "ERR_UNLINK";
+    case -111: return "ERR_OPENDIR";
+    case -112: return "ERR_XML_PARSE";
+    case -113: return "ERR_GETHOSTBYNAME";
+    case -113: return "ERR_GETHOSTBYNAME";
+    case -114: return "ERR_GIVEUP_DOWNLOAD";
+    case -115: return "ERR_GIVEUP_UPLOAD";
+    case -116: return "ERR_NULL";
+    case -117: return "ERR_NEG";
+    case -118: return "ERR_BUFFER_OVERFLOW";
+    case -119: return "ERR_MD5_FAILED";
+    case -120: return "ERR_RSA_FAILED";
+    case -121: return "ERR_OPEN";
+    case -122: return "ERR_DUP2";
+    case -123: return "ERR_NO_SIGNATURE";
+    case -124: return "ERR_THREAD";
+    case -125: return "ERR_SIGNAL_CATCH";
+    case -126: return "ERR_QUIT_REQUEST";
+    case -127: return "ERR_UPLOAD_TRANSIENT";
+    case -128: return "ERR_UPLOAD_PERMANENT";
+    case -129: return "ERR_IDLE_PERIOD";
+    case -130: return "ERR_ALREADY_ATTACHED";
+    case -131: return "ERR_FILE_TOO_BIG";
+    case -132: return "ERR_GETRUSAGE";
+    case -133: return "ERR_BENCHMARK_FAILED";
+    case -134: return "ERR_BAD_HEX_FORMAT";
+    case -135: return "ERR_USER_REJECTED";
+    case -136: return "ERR_DB_NOT_FOUND";
+    case -137: return "ERR_DB_NOT_UNIQUE";
+    case -138: return "ERR_DB_CANT_CONNECT";
+    case -139: return "ERR_GETS";
+    case -140: return "ERR_SCANF";
+    case -141: return "ERR_STRCHR";
+    case -142: return "ERR_STRSTR";
+    case -143: return "ERR_READDIR";
+    case -144: return "ERR_SHMGET";
+    case -145: return "ERR_SHMCTL";
+    case -146: return "ERR_SHMAT";
+    case -147: return "ERR_FORK";
+    case -148: return "ERR_EXEC";
+    case -149: return "ERR_NOT_EXITED";
+    case -150: return "ERR_NOT_IMPLEMENTED";
+    case -151: return "ERR_GETHOSTNAME";
+    case -152: return "ERR_NETOPEN";
+    case -153: return "ERR_SOCKET";
+    case -154: return "ERR_FCNTL";
+    case -155: return "ERR_AUTHENTICATOR";
+    case -156: return "ERR_SCHED_SHMEM";
+    case -157: return "ERR_ASYNCSELECT";
+    case -158: return "ERR_BAD_RESULT_STATE";
+    case -159: return "ERR_DB_CANT_INIT";
+    case -160: return "ERR_NOT_UNIQUE";
+    case -161: return "ERR_NOT_FOUND";
+    case -162: return "ERR_NO_EXIT_STATUS";
+    case -163: return "ERR_FILE_MISSING";
+    case -164: return "ERR_NESTED_UNHANDLED_EXCEPTION_DETECTED";
+    case -165: return "ERR_SEMGET";
+    case -166: return "ERR_SEMCTL";
+    case -167: return "ERR_SEMOP";
+    case -168: return "ERR_FTOK";
+    case -169: return "ERR_SOCKS_UNKNOWN_FAILURE";
+    case -170: return "ERR_SOCKS_REQUEST_FAILED";
+    case -171: return "ERR_SOCKS_BAD_USER_PASS";
+    case -172: return "ERR_SOCKS_UNKNOWN_SERVER_VERSION";
+    case -173: return "ERR_SOCKS_UNSUPPORTED";
+    case -174: return "ERR_SOCKS_CANT_REACH_HOST";
+    case -175: return "ERR_SOCKS_CONN_REFUSED";
+    case -176: return "ERR_TIMER_INIT";
+    case -177: return "ERR_RSC_LIMIT_EXCEEDED";
+    case -178: return "ERR_INVALID_PARAM";
+    case -179: return "ERR_SIGNAL_OP";
+    case -180: return "ERR_BIND";
+    case -181: return "ERR_LISTEN";
+    case -182: return "ERR_TIMEOUT";
+    case -183: return "ERR_PROJECT_DOWN";
+    case -184: return "ERR_HTTP_ERROR";
+    case -185: return "ERR_RESULT_START";
+    case -186: return "ERR_RESULT_DOWNLOAD";
+    case -187: return "ERR_RESULT_UPLOAD";
+    case -189: return "ERR_INVALID_URL";
+    case -190: return "ERR_MAJOR_VERSION";
+    case -191: return "ERR_NO_OPTION";
+    case -192: return "ERR_MKDIR";
+    case -193: return "ERR_INVALID_EVENT";
+    case -194: return "ERR_ALREADY_RUNNING";
+    default: return "Unknown error number please look at lib/error_numbers.h";
+    }
+}
+// Determines if in stderr_out is an error reported and prints as human readable String
+// @return String A human readable string if error otherwise FALSE
+// @param String $stderr_out the stderr_out value to parse
+function stderr_error_string($stderr_out){
+    $y = parse_element($stderr_out, "<error_code>");
+    if ($y) {
+        $x = (int)$y;
+    }
+    if (0<=$x && $x<=9) {
+        return FALSE;
+    } else {
+        return "$x ".result_error_mask_str($x);
+    }
+}
 //
 function exit_status_string($result) {
     $x = $result->exit_status;
@@ -229,9 +346,9 @@ function exit_status_string($result) {
         }
     }
     if (0<=$x && $x<=9) {
-        return "$x";
+        return "$x ".result_error_mask_str($x);
     } else {
-        return sprintf("%d (0x%x)", $x, $x);
+        return sprintf("%d (0x%x)", $x, $x). " ".result_error_mask_str($x);
     }
 }
 
@@ -864,28 +981,38 @@ function show_result($result) {
     row("Created", time_str($result->create_time));
     row("Sent", time_str($result->sent_time));
     row("Received", time_str($result->received_time));
+    row("Last time modified",mysqltime_str($result->mod_time));
     row("Name", $result->name);
-    row("Workunit", "<a href=db_action.php?table=workunit&id=$result->workunitid>" . wu_name_by_id($result->workunitid) . "</a>" );
-    row("Server state", server_state_string($result->server_state));
-    row("Outcome", outcome_string($result->outcome));
-    row("Client state", client_state_string($result->client_state));
+    row("Workunit", "<a href=\"db_action.php?table=workunit&id=$result->workunitid\">" . wu_name_by_id($result->workunitid) . "</a> [$result->workunitid]" );
+    row("Server state", server_state_string($result->server_state)." [$result->server_state]");
+    row("Outcome", outcome_string($result->outcome)." [$result->outcome]");
+    row("Client state", client_state_string($result->client_state)." [$result->client_state]");
     row("Exit status", exit_status_string($result));
-    row("Host ID", "<a href=db_action.php?table=host&id=$result->hostid>" . host_name_by_id($result->hostid) . "</a> [$result->hostid]");
-    row("User ID", "<a href=db_action.php?table=user&id=$result->userid>" . host_name_by_id($result->userid) . "</a> [$result->userid]");
+    row("Host ID", "<a href=\"db_action.php?table=host&id=$result->hostid\">" . host_name_by_id($result->hostid) . "</a> [$result->hostid]");
+    row("User ID", "<a href=\"db_action.php?table=user&id=$result->userid\">" . user_name_by_id($result->userid) . "</a> [$result->userid]");
     row("Report deadline", time_str($result->report_deadline));
     row("CPU time", $result->cpu_time);
     row("XML doc in", "<pre>".htmlspecialchars($result->xml_doc_in)."</pre>");
     row("XML doc out", "<pre>".htmlspecialchars($result->xml_doc_out)."</pre>");
     row("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");
+    if($error=stderr_error_string($result->stderr_out)) {
+        row("error in stderr out", $error);
+    }
     row("Batch", $result->batch);
-    row("File delete state", file_delete_state_str($result->file_delete_state));
-    row("Validate state", validate_state_str($result->validate_state));
+    row("File delete state", file_delete_state_str($result->file_delete_state)." [$result->file_delete_state]");
+    row("Validate state", validate_state_str($result->validate_state)." [$result->validate_state]");
     row("claimed credit", $result->claimed_credit);
     row("Granted credit", $result->granted_credit);
-    row("App version", $result->app_version_num);
+    row("Application", "<a href=\"db_action.php?table=app&id=$result->appid\">".app_name_by_id($result->appid)."</a>");
+    row("App version", "<a href=\"db_action.php?table=app_version&appid=$result->appid&clauses=version_num%3D$result->app_version_num\">".$result->app_version_num."</a>");
     row("Random",$result->random);
-    row("","<a href='show_log.php?s=$result->name'>Grep logs</a>");
+    row("Opaque",$result->opaque);
+    row("Teamid",$result->teamid);
+    row("Priority",$result->priority);
     end_table();
+    echo "<div align=\"center\">";
+    echo "<a href=\"show_log.php?s=$result->name\">GREP LOGS FOR THIS RESULT</a>";
+    echo "</div>";
     echo "<p>";
 }
 

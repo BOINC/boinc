@@ -204,15 +204,29 @@ function pretty_time_str($x) {
 // @return String A user readable DateTime-String in UTC
 // @param Integer $x The mysql-Timestamp to convert
 function mysqltime_str($x) {
-	// Syntax of supplied mysql-timestamp is YYYY-MM-DD HH:MM:SS
-	$year = substr($x,0,4);
-	$month = substr($x,5,2);
-	$day = substr($x,8,2);
-	$hour = substr($x,11,2);
-	$minute = substr($x,14,2);
-	$second = substr($x,17,2);
+	if(strpos($x,"-")==4)
+	{
+		// Syntax of supplied mysql-timestamp is YYYY-MM-DD HH:MM:SS
+		$year = substr($x,0,4);
+		$month = substr($x,5,2);
+		$day = substr($x,8,2);
+		$hour = substr($x,11,2);
+		$minute = substr($x,14,2);
+		$second = substr($x,17,2);
+	}
+    else
+    {
+    	// Syntax of supplied mysql-timestamp is YYYYMMDDHHMMSS
+		$year = substr($x,0,4);
+		$month = substr($x,4,2);
+		$day = substr($x,6,2);
+		$hour = substr($x,8,2);
+		$minute = substr($x,10,2);
+		$second = substr($x,12,2);
+	
+    }
 	//make a Unix-Timestamp
-        // echo "Time string is " . "$x";
+    // echo "Time string is " . "$x";
 	$time = mktime($hour,$minute,$second,$month,$day,$year);
 	return time_str($time);
 }
