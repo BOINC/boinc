@@ -17857,3 +17857,8 @@ Rom    28 Sep 2004 (boinc_public)
     - Tag for 4.11 release, all platforms
       boinc_core_release_4_11
 
+Jeff   28 Sep 2004
+    - reduced limit on feeder enumeration query from 10,000 to 1,000.
+
+    sched/
+	feeder.C
