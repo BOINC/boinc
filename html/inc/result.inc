@@ -121,7 +121,7 @@ function result_table_start($show_wu_link, $show_host_link, $show_result_link) {
         echo "<th>Work unit ID<br><font size=-2>click for details</font></th>\n";
     }
     if ($show_host_link) {
-        echo "<th>Host</th>\n";
+        echo "<th>Computer</th>\n";
     }
     echo "
         <th>Sent</th>
@@ -264,7 +264,7 @@ function show_result($result) {
     row2("Outcome", outcome_string($result->outcome));
     row2("Client state", client_state_string($result->client_state));
     row2("Exit status", exit_status_string($result));
-    row2("Host ID", host_link($result->hostid));
+    row2("Computer ID", host_link($result->hostid));
     row2("Report deadline", time_str($result->report_deadline));
     row2("CPU time", $result->cpu_time);
     row2("stderr out", "<pre>".htmlspecialchars($result->stderr_out)."</pre>");

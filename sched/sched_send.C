@@ -737,7 +737,8 @@ bool SCHEDULER_REPLY::work_needed() {
 }
 
 int add_result_to_reply(
-    DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform,
+    DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REQUEST& request,
+    SCHEDULER_REPLY& reply, PLATFORM& platform,
     APP* app, APP_VERSION* avp
 ) {
     int retval;
@@ -762,7 +763,9 @@ int add_result_to_reply(
     result.report_deadline = result.sent_time + wu.delay_bound;
     result.update_subset();
 
-    wu_seconds_filled = estimate_wallclock_duration(wu, reply.host);
+    wu_seconds_filled = estimate_wallclock_duration(
+        wu, reply.host, request.resource_share_fraction
+    );
     log_messages.printf(
         SCHED_MSG_LOG::NORMAL,
         "[HOST#%d] Sending [RESULT#%d %s] (fills %d seconds)\n",
@@ -963,7 +966,7 @@ static void scan_work_array(
         //
 
         retval = add_result_to_reply(
-            result, wu, reply, platform, app, avp
+            result, wu, sreq, reply, platform, app, avp
         );
         if (!retval) goto done;
 

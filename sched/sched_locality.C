@@ -114,7 +114,7 @@ static int possibly_send_result(
     );
     if (retval) return retval;
 
-    return add_result_to_reply(result, wu, reply, platform, app, avp);
+    return add_result_to_reply(result, wu, sreq, reply, platform, app, avp);
 }
 
 // returns true if the work generator can not make more work for this

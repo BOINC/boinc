@@ -24130,3 +24130,12 @@ Rom    6 Feb 2005
         <added a bunch of files>
     win_build/installer
         <removed a bunch of files>
+
+David  6 Feb 2005
+    - compile fixes
+
+    lib/
+        parse.C
+    sched/
+        sched_locality.C
+        sched_send.C,h

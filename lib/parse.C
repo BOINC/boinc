@@ -357,7 +357,7 @@ void xml_unescape(string& in, string& out) {
             char c = atoi(in.substr(i+2, 3).c_str());
             out += c;
             i = in.find(";", i);
-            if (i==std::string::npos) break;
+            if (i==(int)std::string::npos) break;
             i++;
         } else {
             out += in[i];
