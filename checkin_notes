@@ -20362,3 +20362,8 @@ Jeff  29 Nov 2004
     sched/
         assimilator.C
 
+Bruce 30 Nov 2004
+    - Show all possible validate states on ops result summary page
+    html/inc
+        db_ops.inc
+
