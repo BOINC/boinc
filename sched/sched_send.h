@@ -23,7 +23,7 @@ extern int send_work(
 
 extern int add_result_to_reply(
     DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM&,
-    WORK_REQ& wreq, APP* app, APP_VERSION* avp
+    APP* app, APP_VERSION* avp
 );
 
 extern bool anonymous(PLATFORM&);

@@ -23597,3 +23597,17 @@ David  31 Jan 2005
         handle_request.C
         sched_send.C
         server_types.C,h
+
+David  31 Jan 2005
+    - Made WORK_REQ into a member of SCHEDULER_REPLY.
+        This makes it available in handle_request()
+        in case you want to send user messages based on it.
+        Also reduces the number of structs that have to be
+        passed around everywhere.
+    - Fixed formatting in sched_locality.C.
+        Bruce: please use 4-space indentation, no tab chars
+
+    sched/
+        sched_locality.C,h
+        sched_send.C,h
+        server_types.C,y

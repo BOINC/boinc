@@ -27,7 +27,7 @@
 #include "result_state.h"
 #include "md5_file.h"
 
-// summary of a client's request for work
+// summary of a client's request for work, and our response to it
 //
 struct WORK_REQ {
     bool infeasible_only;
@@ -47,7 +47,6 @@ struct WORK_REQ {
     bool outdated_core;
     bool daily_result_quota_exceeded;
 
-    bool work_needed(struct SCHEDULER_REPLY&);
     void update_for_result(double seconds_filled);
 };
 
@@ -147,6 +146,7 @@ struct USER_MESSAGE {
 // you must do it in the constructor.  Nothing is zeroed by default.
 //
 struct SCHEDULER_REPLY {
+    WORK_REQ wreq;
     int request_delay;          // don't request again until this time elapses
     std::vector<USER_MESSAGE> messages;
     int hostid;
@@ -181,6 +181,7 @@ struct SCHEDULER_REPLY {
     void insert_workunit_unique(WORKUNIT&);
     void insert_result(RESULT&);
     void insert_message(USER_MESSAGE&);
+    bool work_needed();
 };
 
 #endif

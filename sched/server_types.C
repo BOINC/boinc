@@ -298,6 +298,7 @@ int MSG_FROM_HOST_DESC::parse(FILE* fin) {
 }
 
 SCHEDULER_REPLY::SCHEDULER_REPLY() {
+    memset(&wreq, 0, sizeof(wreq));
     request_delay = 0;
     hostid = 0;
     send_global_prefs = false;

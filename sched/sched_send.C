@@ -302,7 +302,7 @@ bool app_core_compatible(WORK_REQ& wreq, APP_VERSION& av) {
 //
 int add_wu_to_reply(
     WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    WORK_REQ& wreq, APP* app, APP_VERSION* avp
+    APP* app, APP_VERSION* avp
 ) {
     int retval;
     WORKUNIT wu2;
@@ -459,13 +459,13 @@ void unlock_sema() {
     unlock_semaphore(sema_key);
 }
 
-bool WORK_REQ::work_needed(SCHEDULER_REPLY& reply) {
-    if (seconds_to_fill <= 0) return false;
-    if (disk_available <= 0) return false;
-    if (nresults >= config.max_wus_to_send) return false;
+bool SCHEDULER_REPLY::work_needed() {
+    if (wreq.seconds_to_fill <= 0) return false;
+    if (wreq.disk_available <= 0) return false;
+    if (wreq.nresults >= config.max_wus_to_send) return false;
     if (config.daily_result_quota) {
-        if (reply.host.nresults_today >= config.daily_result_quota) {
-            daily_result_quota_exceeded = true;
+        if (host.nresults_today >= config.daily_result_quota) {
+            wreq.daily_result_quota_exceeded = true;
             return false;
         }
     }
@@ -474,15 +474,15 @@ bool WORK_REQ::work_needed(SCHEDULER_REPLY& reply) {
 
 int add_result_to_reply(
     DB_RESULT& result, WORKUNIT& wu, SCHEDULER_REPLY& reply, PLATFORM& platform,
-    WORK_REQ& wreq, APP* app, APP_VERSION* avp
+    APP* app, APP_VERSION* avp
 ) {
     int retval;
     double wu_seconds_filled;
 
-    retval = add_wu_to_reply(wu, reply, platform, wreq, app, avp);
+    retval = add_wu_to_reply(wu, reply, platform, app, avp);
     if (retval) return retval;
 
-    wreq.disk_available -= wu.rsc_disk_bound;
+    reply.wreq.disk_available -= wu.rsc_disk_bound;
 
     // update the result in DB
     //
@@ -525,8 +525,8 @@ int add_result_to_reply(
         );
     }
     reply.insert_result(result);
-    wreq.seconds_to_fill -= wu_seconds_filled;
-    wreq.nresults++;
+    reply.wreq.seconds_to_fill -= wu_seconds_filled;
+    reply.wreq.nresults++;
     reply.host.nresults_today++;
     return 0;
 }
@@ -536,7 +536,6 @@ int add_result_to_reply(
 // previously infeasible for some host
 //
 static void scan_work_array(
-    WORK_REQ& wreq,
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     SCHED_SHMEM& ss
 ) {
@@ -548,14 +547,14 @@ static void scan_work_array(
     APP_VERSION* avp;
     bool found;
 
-    if (wreq.disk_available < 0) wreq.insufficient_disk = true;
+    if (reply.wreq.disk_available < 0) reply.wreq.insufficient_disk = true;
 
     lock_sema();
     
     rnd_off = rand() % ss.nwu_results;
     for (j=0; j<ss.nwu_results; j++) {
         i = (j+rnd_off) % ss.nwu_results;
-        if (!wreq.work_needed(reply)) break;
+        if (!reply.work_needed()) break;
 
         WU_RESULT& wu_result = ss.wu_results[i];
 
@@ -567,12 +566,12 @@ static void scan_work_array(
             continue;
         }
 
-        if (wreq.infeasible_only && (wu_result.infeasible_count==0)) {
+        if (reply.wreq.infeasible_only && (wu_result.infeasible_count==0)) {
             continue;
         }
 
-        if (wu_result.workunit.rsc_disk_bound > wreq.disk_available) {
-            wreq.insufficient_disk = true;
+        if (wu_result.workunit.rsc_disk_bound > reply.wreq.disk_available) {
+            reply.wreq.insufficient_disk = true;
             wu_result.infeasible_count++;
             continue;
         }
@@ -589,7 +588,7 @@ static void scan_work_array(
         //
         wu = wu_result.workunit;
         if (!wu_is_feasible(
-            wu, reply.host, wreq, sreq.resource_share_fraction,
+            wu, reply.host, reply.wreq, sreq.resource_share_fraction,
             sreq.estimated_delay
         )) {
             log_messages.printf(
@@ -611,7 +610,7 @@ static void scan_work_array(
             }
             avp = NULL;
         } else {
-            found = find_app_version(wreq, wu, platform, ss, app, avp);
+            found = find_app_version(reply.wreq, wu, platform, ss, app, avp);
             if (!found) {
                 wu_result.infeasible_count++;
                 continue;
@@ -621,7 +620,7 @@ static void scan_work_array(
             // don't bump the infeasible count because this
             // isn't the result's fault
             //
-            if (!app_core_compatible(wreq, *avp)) {
+            if (!app_core_compatible(reply.wreq, *avp)) {
                 continue;
             }
         }
@@ -663,7 +662,7 @@ static void scan_work_array(
         //
         if (config.homogeneous_redundancy || app->homogeneous_redundancy) {
             if (already_sent_to_different_platform(
-                sreq, wu_result.workunit, wreq
+                sreq, wu_result.workunit, reply.wreq
             )) {
                 goto dont_send;
             }
@@ -706,7 +705,7 @@ static void scan_work_array(
         //
 
         retval = add_result_to_reply(
-            result, wu, reply, platform, wreq, app, avp
+            result, wu, reply, platform, app, avp
         );
         if (!retval) goto done;
 
@@ -725,55 +724,53 @@ int send_work(
     SCHEDULER_REQUEST& sreq, SCHEDULER_REPLY& reply, PLATFORM& platform,
     SCHED_SHMEM& ss
 ) {
-    WORK_REQ wreq;
-
-    memset(&wreq, 0, sizeof(wreq));
 // ROMW: Reverting back to older implementation until all clients are 4.x
 //       or higher.
 #if 1
-    wreq.disk_available = max_allowable_disk(sreq);
+    reply.wreq.disk_available = max_allowable_disk(sreq);
 #else
-    wreq.disk_available = sreq.project_disk_free;
+    reply.wreq.disk_available = sreq.project_disk_free;
 #endif
-    wreq.insufficient_disk = false;
-    wreq.insufficient_mem = false;
-    wreq.insufficient_speed = false;
-    wreq.no_app_version = false;
-    wreq.homogeneous_redundancy_reject = false;
-    wreq.daily_result_quota_exceeded = false;
-    wreq.core_client_version = sreq.core_client_major_version*100
+    reply.wreq.insufficient_disk = false;
+    reply.wreq.insufficient_mem = false;
+    reply.wreq.insufficient_speed = false;
+    reply.wreq.no_app_version = false;
+    reply.wreq.homogeneous_redundancy_reject = false;
+    reply.wreq.daily_result_quota_exceeded = false;
+    reply.wreq.core_client_version = sreq.core_client_major_version*100
         + sreq.core_client_minor_version;
-    wreq.nresults = 0;
+    reply.wreq.nresults = 0;
 
     log_messages.printf(
         SCHED_MSG_LOG::NORMAL,
         "[HOST#%d] got request for %f seconds of work; available disk %f GB\n",
-        reply.host.id, sreq.work_req_seconds, wreq.disk_available/1e9
+        reply.host.id, sreq.work_req_seconds, reply.wreq.disk_available/1e9
     );
 
     if (sreq.work_req_seconds <= 0) return 0;
 
-    wreq.seconds_to_fill = sreq.work_req_seconds;
-    if (wreq.seconds_to_fill > MAX_SECONDS_TO_SEND) {
-        wreq.seconds_to_fill = MAX_SECONDS_TO_SEND;
+    reply.wreq.seconds_to_fill = sreq.work_req_seconds;
+    if (reply.wreq.seconds_to_fill > MAX_SECONDS_TO_SEND) {
+        reply.wreq.seconds_to_fill = MAX_SECONDS_TO_SEND;
     }
-    if (wreq.seconds_to_fill < MIN_SECONDS_TO_SEND) {
-        wreq.seconds_to_fill = MIN_SECONDS_TO_SEND;
+    if (reply.wreq.seconds_to_fill < MIN_SECONDS_TO_SEND) {
+        reply.wreq.seconds_to_fill = MIN_SECONDS_TO_SEND;
     }
 
     if (config.locality_scheduling) {
-        wreq.infeasible_only = false;
-        send_work_locality(sreq, reply, platform, wreq, ss);
-	if (wreq.disk_available < 0)
-	  wreq.insufficient_disk = true;
+        reply.wreq.infeasible_only = false;
+        send_work_locality(sreq, reply, platform, ss);
+        if (reply.wreq.disk_available < 0) {
+            reply.wreq.insufficient_disk = true;
+        }
     } else {
         // give priority to results that were infeasible for some other host
         //
-        wreq.infeasible_only = true;
-        scan_work_array(wreq, sreq, reply, platform, ss);
+        reply.wreq.infeasible_only = true;
+        scan_work_array(sreq, reply, platform, ss);
 
-        wreq.infeasible_only = false;
-        scan_work_array(wreq, sreq, reply, platform, ss);
+        reply.wreq.infeasible_only = false;
+        scan_work_array(sreq, reply, platform, ss);
     }
 
 #if 0
@@ -790,47 +787,47 @@ int send_work(
 
     log_messages.printf(
         SCHED_MSG_LOG::NORMAL, "[HOST#%d] Sent %d results\n",
-        reply.host.id, wreq.nresults
+        reply.host.id, reply.wreq.nresults
     );
 
-    if (wreq.nresults == 0) {
+    if (reply.wreq.nresults == 0) {
         reply.request_delay = 3600;
         USER_MESSAGE um("No work available", "high");
         reply.insert_message(um);
-        if (wreq.no_app_version) {
+        if (reply.wreq.no_app_version) {
             USER_MESSAGE um("(there was work for other platforms)", "high");
             reply.insert_message(um);
             reply.request_delay = 3600*24;
         }
-        if (wreq.insufficient_disk) {
+        if (reply.wreq.insufficient_disk) {
             USER_MESSAGE um(
                 "(there was work but you don't have enough disk space allocated)",
                 "high"
             );
             reply.insert_message(um);
         }
-        if (wreq.insufficient_mem) {
+        if (reply.wreq.insufficient_mem) {
             USER_MESSAGE um(
                 "(there was work but your computer doesn't have enough memory)",
                 "high"
             );
             reply.insert_message(um);
         }
-        if (wreq.insufficient_speed) {
+        if (reply.wreq.insufficient_speed) {
             USER_MESSAGE um(
                 "(there was work but your computer would not finish it before it is due",
                 "high"
             );
             reply.insert_message(um);
         }
-        if (wreq.homogeneous_redundancy_reject) {
+        if (reply.wreq.homogeneous_redundancy_reject) {
             USER_MESSAGE um(
                 "(there was work but it was committed to other platforms",
                 "high"
             );
             reply.insert_message(um);
         }
-        if (wreq.outdated_core) {
+        if (reply.wreq.outdated_core) {
             USER_MESSAGE um(
                 " (your core client is out of date - please upgrade)",
                 "high"
@@ -842,7 +839,7 @@ int send_work(
                 "Not sending work because core client is outdated\n"
             );
         }
-        if (wreq.daily_result_quota_exceeded) {
+        if (reply.wreq.daily_result_quota_exceeded) {
             USER_MESSAGE um("(daily quota exceeded)", "high");
             reply.insert_message(um);
             log_messages.printf(
