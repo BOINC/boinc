@@ -390,6 +390,9 @@ int CLIENT_STATE::parse_state_file() {
     int retval=0;
     int failnum;
 
+	global_prefs.confirm_before_connecting = false;
+	global_prefs.hangup_if_dialed = false;
+
     if (!f) {
         if (log_flags.state_debug) {
             printf("No state file; will create one\n");
@@ -494,7 +497,11 @@ int CLIENT_STATE::parse_state_file() {
             // TODO: handle old client state file if different version
         } else if (match_tag(buf, "<core_client_minor_version>")) {
             // TODO: handle old client state file if different version
-        } else if (match_tag(buf, "<use_http_proxy>")) {
+        } else if (match_tag(buf, "<prefs_confirm/>")) {
+			global_prefs.confirm_before_connecting = true;
+        } else if (match_tag(buf, "<hangup_if_dialed/>")) {
+			global_prefs.hangup_if_dialed = true;
+        } else if (match_tag(buf, "<use_http_proxy/>")) {
 			use_proxy = true;
         } else if (parse_str(buf, "<http_proxy_server>", proxy_server_name, sizeof(proxy_server_name))) {
         } else if (parse_int(buf, "<http_proxy_port>", proxy_server_port)) {
@@ -560,9 +567,13 @@ int CLIENT_STATE::write_state_file() {
 	// save proxy info
     fprintf(f,
         "%s"
+        "%s"
+        "%s"
         "<http_proxy_server>%s</http_proxy_server>\n"
         "<http_proxy_port>%d</http_proxy_port>\n",
-        use_proxy?"<use_http_proxy>\n":"",
+        use_proxy?"<use_http_proxy/>\n":"",
+		global_prefs.confirm_before_connecting?"<prefs_confirm/>\n":"",
+        global_prefs.hangup_if_dialed?"<hangup_if_dialed/>\n":"",
         proxy_server_name,
         proxy_server_port
     );
