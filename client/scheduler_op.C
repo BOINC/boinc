@@ -391,7 +391,7 @@ bool SCHEDULER_OP::poll() {
             if (http_op.http_op_retval) {
                 if (log_flags.sched_ops) {
                     msg_printf(project, MSG_ERROR,
-                        "scheduler RPC to %s failed\n",
+                        "Scheduler RPC to %s failed\n",
                         project->scheduler_urls[url_index].text
                     );
                 }
@@ -418,7 +418,7 @@ bool SCHEDULER_OP::poll() {
                 if (log_flags.sched_ops) {
                     msg_printf(
                         project, MSG_INFO,
-                        "scheduler RPC to %s succeeded\n",
+                        "Scheduler RPC to %s succeeded\n",
                         project->scheduler_urls[url_index].text
                     );
                 }

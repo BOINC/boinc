@@ -279,7 +279,7 @@ void PERS_FILE_XFER::retry_or_backoff() {
         next_request_time = now + backoff;
     }
     scope_messages.printf(
-        "PERS_FILE_XFER::retry_or_backoff(): Backing off %d seconds on transfer of file %s",
+        "PERS_FILE_XFER::retry_or_backoff(): Backing off %d seconds on transfer of file %s\n",
         backoff, fip->name
     );
 }
