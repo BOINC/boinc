@@ -31,8 +31,10 @@
 #include "MainDocument.h"
 
 
+#ifdef __WXMSW__
 typedef BOOL (CALLBACK* IdleTrackerInit)();
 typedef void (CALLBACK* IdleTrackerTerm)();
+#endif
 
 
 IMPLEMENT_APP(CBOINCGUIApp)
